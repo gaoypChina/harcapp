@@ -1,0 +1,321 @@
+import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/sha_pref.dart';
+import 'package:harcapp/_new/api/sync_resp_body/spraw_resp.dart';
+import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/data/all_spraw_books.dart';
+import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/data/data_spraw_zhp_harc_old.dart';
+import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/data/data_spraw_zhp_wodne_old.dart';
+import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/data/data_spraw_zhr_harc_c.dart';
+import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/data/data_spraw_zhr_harc_d.dart';
+import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_book.dart';
+import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_family.dart';
+import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_group.dart';
+import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_task.dart';
+import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_folder_page/spraw_folder.dart';
+import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/rank_spraw_template.dart';
+import 'package:harcapp/_new/cat_page_home/providers.dart';
+import 'package:harcapp/sync/syncable.dart';
+import 'package:harcapp/sync/synchronizer_engine.dart';
+import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+
+class SprawData{
+
+  final String id;
+  final String title;
+  final String level;
+  final String comment;
+
+  final List<SprawTaskData> taskData;
+
+  SprawData({
+    @required this.id,
+    @required this.title,
+    @required this.level,
+    this.comment,
+    @required List<String> tasks,
+  }): this.taskData = tasks.map((task) => SprawTaskData(task)).toList();
+
+  Spraw build(SprawFamily group){
+
+    Spraw spraw = Spraw(this, group, null);
+
+    List<SprawTask> tasks = [];
+    for(int i=0; i<taskData.length; i++)
+      tasks.add(taskData[i].build(spraw, i));
+
+    spraw.tasks = tasks;
+
+    return spraw;
+  }
+
+}
+
+class Spraw extends RankSprawTemplate<SprawResp>{
+
+  static const String SEP_CHAR = '\$';
+
+  static List<Spraw> get all{
+
+    List<Spraw> spraws = [];
+    for(SprawBook sprawBook in allSprawBooks)
+      spraws.addAll(sprawBook.allSpraws);
+
+    return spraws;
+  }
+
+  static Map<String, Spraw> allMap = {for (Spraw spraw in all) spraw.uniqName: spraw};
+
+
+  static const String PARAM_COMPLETED = 'completed';
+  static const String PARAM_COMPLETION_DATE = 'completionDate';
+  static const String PARAM_IN_PROGRESS = 'inProgress';
+
+  String get uniqName =>
+      sprawBook.id + Spraw.SEP_CHAR +
+      group.id + Spraw.SEP_CHAR +
+      family.id + Spraw.SEP_CHAR +
+      id + Spraw.SEP_CHAR +
+      level;
+
+  SprawData data;
+
+  String get id => data.id;
+  String get title => data.title;
+  String get level => data.level;
+  String get comment => data.comment;
+
+  SprawBook get sprawBook => group.sprawBook;
+  SprawGroup get group => family.group;
+  SprawFamily family;
+
+  List<SprawTask> _tasks;
+  List<SprawTask> get tasks => _tasks;
+  set tasks(List<SprawTask> value){
+    _tasks = value;
+    _taskMap = {for (SprawTask task in _tasks??[]) task.uid: task};
+  }
+
+  Map<String, SprawTask> _taskMap;
+
+  Spraw(this.data, this.family, _tasks): _taskMap = {for (SprawTask task in _tasks??[]) task.uid: task};
+
+  String get iconPath => 'assets/spraw/${sprawBook.id}/${group.id}/${family.id}/${level}_$id.svg';
+
+  bool get savedInOmega => SprawFolder.omega.sprawUIDs.contains(uniqName);//shaPref.getBool(ShaPref.SHA_PREF_SPRAW_SAVED_(this), false);
+  set _savedInOmega(bool value) {
+    if (value)
+      SprawFolder.omega.add(uniqName);
+    else
+      SprawFolder.omega.remove(uniqName);
+  }
+
+  void changeSavedInOmega(BuildContext context, String folderName, {bool value}){
+    List<String> sprawUIDs = SprawFolder.getSprawUIDs(folderName);
+
+    if(value == null) value = !savedInOmega;
+
+    if (value) {
+      if (!sprawUIDs.contains(uniqName)) sprawUIDs.insert(0, uniqName);
+    } else
+      sprawUIDs.remove(uniqName);
+
+    _savedInOmega = value;
+
+    SprawFolder.setSprawUIDs(folderName, sprawUIDs);
+
+    Provider.of<SprawSavedListProv>(context, listen: false).notify();
+  }
+
+  Map<String, bool> get taskComplMap => shaPref.getMap<String, bool>(ShaPref.SHA_PREF_SPRAW_COMPLETED_REQ_MAP_(this), {});
+  static List<String> get inProgressList => shaPref.getStringList(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_LIST, []);
+  static List<String> get completedList => shaPref.getStringList(ShaPref.SHA_PREF_SPRAW_COMPLETED_LIST, []);
+
+  @override
+  bool get inProgress => shaPref.getBool(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_(this), false);
+  @override
+  @protected
+  set inProgress(bool value){
+    List<String> items = inProgressList;
+
+    if(value == null) value = !inProgress;
+
+    if (value) {
+      if (!items.contains(uniqName)) items.insert(0, uniqName);
+    } else
+      items.remove(uniqName);
+
+    shaPref.setBool(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_(this), value);
+    shaPref.setStringList(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_LIST, items);
+  }
+  @override
+  void changeInProgress(BuildContext context, {bool value, bool localOnly: false}){
+    inProgress = value;
+
+    setSyncState({PARAM_IN_PROGRESS: SyncableParamSingle.STATE_NOT_SYNCED});
+    if(!localOnly) synchronizer.post();
+
+    Provider.of<SprawInProgressListProv>(context, listen: false).notify();
+
+  }
+
+  @override
+  DateTime get completionDate => shaPref.getDateTime(ShaPref.SHA_PREF_SPRAW_COMPLETED_DATE_(this), null);
+  @override
+  @protected
+  set completionDate(DateTime value) => shaPref.setDateTime(ShaPref.SHA_PREF_SPRAW_COMPLETED_DATE_(this), value);
+  @override
+  void setCompletionDate(DateTime value, {localOnly: false}){
+    completionDate = value;
+    setSyncState({PARAM_COMPLETION_DATE: SyncableParamSingle.STATE_NOT_SYNCED});
+    if(!localOnly) synchronizer.post();
+  }
+
+  @override
+  bool get completed => shaPref.getBool(ShaPref.SHA_PREF_SPRAW_COMPLETED_(this), false);
+  @override
+  @protected
+  set completed(bool value){
+    List<String> items = completedList;
+
+    if(value == null) value = !completed;
+
+    if (value) {
+      if (!items.contains(uniqName)) items.insert(0, uniqName);
+    } else
+      items.remove(uniqName);
+
+    shaPref.setBool(ShaPref.SHA_PREF_SPRAW_COMPLETED_(this), value);
+    shaPref.setStringList(ShaPref.SHA_PREF_SPRAW_COMPLETED_LIST, items);
+  }
+  @override
+  void changeCompleted(BuildContext context, {bool value, localOnly: false}){
+    completed = value;
+
+    if(completed)
+      changeInProgress(context, value: false, localOnly: true);
+
+    setSyncState({PARAM_COMPLETED: SyncableParamSingle.STATE_NOT_SYNCED});
+    if(!localOnly) synchronizer.post();
+
+    Provider.of<SprawCompletedListProv>(context, listen: false).notify();
+
+  }
+
+  @override
+  bool get isReadyToComplete{
+    int reqLen = tasks.length;
+    int complReqLen = 0;
+    for(bool value in taskComplMap.values)
+      complReqLen += value?1:0;
+
+    return reqLen == complReqLen;
+  }
+
+  @override
+  int get completenessPercent{
+    int reqLen = tasks.length;
+    int complReqLen = 0;
+    for(bool value in taskComplMap.values)
+      complReqLen += value?1:0;
+
+    return completed?100:(100*complReqLen/reqLen).round();
+  }
+
+  static Spraw fromUID(String UID){
+
+    List<String> parts = UID.split(SprawTask.SEP_CHAR);
+    String sprawBookId = parts[0];
+    String sprawGroupId = parts[1];
+    String sprawFamilyId = parts[2];
+    String sprawId = parts[3];
+
+    SprawBook sprawBook;
+
+    switch(sprawBookId){
+      case SprawBookData.ZHP_HARC_OLD_ID:
+        sprawBook = sprawBookZHP;
+        break;
+      case SprawBookData.ZHP_HARC_OLD_WOD_ID:
+        sprawBook = sprawBookZHPWodneOld;
+        break;
+      case SprawBookData.ZHR_HARC_C:
+        sprawBook = sprawBookZHRC;
+        break;
+      case SprawBookData.ZHR_HARC_D:
+        sprawBook = sprawBookZHRD;
+        break;
+      default:
+        return null;
+    }
+
+    SprawGroup group;
+
+    for(SprawGroup _group in sprawBook.groups)
+      if(_group.id == sprawGroupId) {
+        group = _group;
+        break;
+      }
+
+    if(group == null)
+      return null;
+
+    for(SprawFamily family in group.families)
+      if(family.id == sprawFamilyId)
+        for(Spraw spraw in family.spraws)
+          if(spraw.id == sprawId)
+            return spraw;
+
+    return null;
+
+  }
+
+  static const String REQ_GROUP = 'spraw';
+
+  @override
+  String get classId => REQ_GROUP;
+
+  @override
+  String get objectId => uniqName;
+
+  @override
+  List<SyncableParam> get syncParams => [
+
+    SyncableParam.single(
+        this,
+        paramId: PARAM_IN_PROGRESS,
+        value: () async => await inProgress,
+        notNone: () => false
+    ),
+
+    SyncableParam.single(
+        this,
+        paramId: PARAM_COMPLETED,
+        value: () async => await completed,
+        notNone: () => false
+    ),
+
+    SyncableParam.single(
+      this,
+      paramId: PARAM_COMPLETION_DATE,
+      value: () async => await completionDate==null?null:DateFormat('yyyy-MM-dd').format(completionDate),
+      notNone: () => false
+    ),
+
+    SyncableParam.group<SprawTask>(
+        this,
+        items: tasks,
+    ),
+
+  ];
+
+  @override
+  void applySyncResp(SprawResp resp) {
+    inProgress = resp.inProgress;
+    completed = resp.completed;
+    completionDate = resp.completionDate;
+    for(String taskKey in resp.task.keys)
+      _taskMap[taskKey].applySyncResp(resp.task[taskKey]);
+
+  }
+
+}

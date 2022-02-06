@@ -1,0 +1,11 @@
+Drużynowy przygotowuje zestaw pytań dla harcerzy i dużą liczbę żetonów (np. zapałek). Każde pytanie musi mieć tę samą liczbę proponowanych odpowiedzi (np. 4). Dodatkowo drużynowy przygotowuje kartki z kolejnymi literami alfabetu (dokładnie tyle kartek ile odpowiedzi ma każde pytanie).
+
+Harcerze dzieleni są na grupy. Każda grupa otrzymuje pewną początkową liczbę żetonów (np. 10).
+
+Drużynowy kolejno zadaje pytania i odczytuje proponowane odpowiedzi, każdej nadając kolejną z liter na kartkach.
+
+Drużynom po każdym pytaniu przysługuje 1 minuta na naradę. Po tym czasie muszą na znak drużynowego jednocześnie obstawić żetonami odpowiedzi, które uznają za prawidłowe.
+
+Drużyny, które prawidłowo obstawią odpowiedzi otrzymują swoje żetony z powrotem z dodatkową nagrodą wynoszącą połowę obstawionych żetonów. Drużyny, które nieprawidłowo obstawią odpowiedź tracą obstawione żetony.
+
+Jeżeli drużyna straci wszystkie żetony otrzymuje 2 żetony.

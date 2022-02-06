@@ -1,0 +1,340 @@
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/auto_size_text.dart';
+import 'package:harcapp/_common_widgets/app_text.dart';
+import 'package:harcapp/_new/cat_page_harcthought/articles/providers.dart';
+import 'package:harcapp_core/dimen.dart';
+import 'package:harcapp_core/comm_classes/app_text_style.dart';
+import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:provider/provider.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+import 'article.dart';
+import 'article_core.dart';
+import 'article_text_style.dart';
+import 'article_viewer.dart';
+import 'common.dart';
+
+class ParagraphWidget extends StatelessWidget{
+
+  final Paragraph paragraph;
+
+  const ParagraphWidget(this.paragraph);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 12.0),
+      child: Consumer<ArticleThemeProvider>(
+        builder: (context, prov, child) => RText(
+          paragraph.text,
+          prov.paraFontFamily,
+          textAlign: TextAlign.justify,
+          size: FONT_SIZE_NORM,
+          height: 1.5,
+          //color: prov.colorOption.text,
+        ),
+      )
+    );
+  }
+
+}
+
+class HeaderWidget extends StatelessWidget{
+
+  final Header header;
+
+  const HeaderWidget(this.header);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 32.0),
+      child: Consumer<ArticleThemeProvider>(
+        builder: (context, prov, child) => Text(
+          header.text,
+          textAlign: TextAlign.start,
+          style: AppTextStyle(//HeaderTextStyle(
+            fontSize: 24.0,
+            fontWeight: weight.bold,
+            //color: prov.colorOption.text,
+          ),
+        ),
+      )
+    );
+  }
+}
+
+class QuoteWidget extends StatelessWidget{
+
+  final Quote quote;
+
+  const QuoteWidget(this.quote);
+
+  TextStyle style(ArticleThemeProvider prov) => HeaderTextStyle(
+    //paraFontFamily,
+      fontSize: 20.0,
+      fontWeight: weight.halfBold,
+      //color: prov.colorOption.hint,
+      fontStyle: FontStyle.italic
+  );
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Consumer<ArticleThemeProvider>(
+      builder: (context, prov, child){
+        var wordWrapText = TextPainter(text: TextSpan(style: style(prov), text: '„${quote.text}”'),
+          textDirection: TextDirection.ltr,
+        );
+        wordWrapText.layout(maxWidth: MediaQuery.of(context).size.width - 2*32.0 - 3 - Dimen.ICON_MARG);
+
+        double barHeight = wordWrapText.height;
+
+        return Row(
+          children: [
+
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(32.0),
+                child: Text(
+                    '„${quote.text}”',
+                    textAlign: TextAlign.end,
+                    style: style(prov)
+                ),
+              ),
+            ),
+
+            //Container(color: prov.colorOption.hint, width: 3, height: barHeight,),
+
+            SizedBox(width: Dimen.ICON_MARG,)
+
+          ],
+        );
+      },
+    );
+  }
+}
+
+class PictureWidget extends StatelessWidget{
+
+  final Picture picture;
+
+  const PictureWidget(this.picture);
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Consumer<ArticleThemeProvider>(
+      builder: (context, prov, child) => AppCard(
+          //color: prov.colorOption.background,
+          elevation: AppCard.bigElevation,
+          padding: EdgeInsets.zero,
+          margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Image(
+                image: NetworkImage(picture.link),
+                fit: BoxFit.cover,
+              ),
+              if(picture.desc != null && picture.desc.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.all(Dimen.DEF_MARG),
+                  child: Text(
+                    picture.desc,
+                    style: AppTextStyle(
+                        fontSize: Dimen.TEXT_SIZE_TINY,
+                        //color: prov.colorOption.hint,
+                        fontWeight: weight.halfBold
+                    ),
+                    textAlign: TextAlign.end
+                  ),
+                ),
+            ],
+          )
+      ),
+    );
+  }
+}
+
+class YoutubeWidget extends StatelessWidget{
+
+  final Youtube item;
+
+  const YoutubeWidget(this.item);
+
+  @override
+  Widget build(BuildContext context) {
+
+    YoutubePlayerController _controller = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(item.link),
+      flags: YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+      ),
+    );
+
+    return Consumer<ArticleThemeProvider>(
+      builder: (context, prov, child) => AppCard(
+        //color: prov.colorOption.background,
+        elevation: AppCard.bigElevation,
+        padding: EdgeInsets.zero,
+        margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+        child: YoutubePlayer(
+          controller: _controller,
+          showVideoProgressIndicator: true,
+          progressColors: ProgressBarColors(
+            playedColor: Colors.amber,
+            handleColor: Colors.amberAccent,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ArticleWidgetSmall extends StatelessWidget{
+
+  final Article article;
+  final PageController controller;
+
+  const ArticleWidgetSmall(this.article, this.controller);
+
+  @override
+  Widget build(BuildContext context) {
+
+    return AppCard(
+      onTap: () {
+        int index = Article.all.indexOf(article);
+        controller.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.easeInOutSine);
+
+        //Navigator.pop(context);
+/*
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ArticleViewer(parent.parent, article, index)),
+        );
+*/
+      },
+      radius: 20,
+      elevation: AppCard.bigElevation,
+      padding: EdgeInsets.zero,
+      color: Colors.white,
+      child:
+      article == null?
+      Container:
+      (Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AspectRatio(
+              aspectRatio: 1,
+              child: FutureBuilder<ImageProvider>(
+                future: article?.loadCover(), // async work
+                builder: (BuildContext context, AsyncSnapshot<ImageProvider> snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting: return Text('Loading....');
+                    default:
+                      if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+                      else return Image(image: snapshot.data, fit: BoxFit.cover);
+                  }
+                },
+              )
+          ),
+
+          Expanded(
+            child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Center(
+                  child: AutoSizeText(
+                      article?.title??'',
+                      textAlign: TextAlign.center,
+                      maxLines: 4,
+                      style: HeaderTextStyle(
+                          fontSize: 20.0,
+                          fontWeight: weight.bold
+                      )
+                  ),
+                )
+            ),
+          ),
+
+          Padding(
+            padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 3.0),
+            child: AutoSizeText(
+                article?.dateString??'',
+                textAlign: TextAlign.end,
+                maxLines: 1,
+                style: AppTextStyle(
+                  fontSize: Dimen.TEXT_SIZE_SMALL
+                )
+            ),
+          ),
+
+          Padding(
+            padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+            child: AutoSizeText(
+                'Autor tekstu',
+                textAlign: TextAlign.end,
+                maxLines: 1,
+                style: AppTextStyle(
+                    fontSize: Dimen.TEXT_SIZE_SMALL,
+                    fontWeight: weight.halfBold
+                )
+            ),
+          ),
+
+        ],
+      )
+      ),
+    );
+
+  }
+}
+
+/*
+class AuthorWidget extends StatelessWidget{
+
+  final Author author;
+  const AuthorWidget(this.author, {Key key}):super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AppCard(
+          elevation: 0,
+          padding: EdgeInsets.zero,
+          child: author.imageBytes==null?
+          SizedBox(height: 100, width: 100):
+          Image(image: MemoryImage(author.imageBytes), width: 100, height: 100,),
+        ),
+        //SizedBox(width: Dimen.margin_default),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: Dimen.DEF_MARG),
+              Text(author.name??'', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold)),
+              SizedBox(height: Dimen.DEF_MARG),
+              Text(
+                author.desc??'',
+                style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL,
+                fontStyle: FontStyle.italic),
+                textAlign: TextAlign.justify,
+              ),
+
+            ],
+          ),
+        ),
+        SizedBox(width: Dimen.DEF_MARG),
+      ],
+    );
+
+  }
+
+}
+ */

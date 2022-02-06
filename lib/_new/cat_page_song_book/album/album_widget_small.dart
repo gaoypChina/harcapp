@@ -1,0 +1,126 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:harcapp/_app_common/common_icon_data.dart';
+import 'package:harcapp/_app_common/common_color_data.dart';
+import 'package:harcapp/_new/cat_page_song_book/album/album_widget.dart';
+import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
+import 'package:harcapp_core/comm_classes/app_text_style.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
+import 'package:harcapp_core/dimen.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+class AlbumWidgetSmall extends StatelessWidget{
+
+  static const double ICON_SIZE = 36.0;
+
+  final Album album;
+  final bool selected;
+  final Widget trailing;
+  final bool showSongCount;
+  final Color iconColor;
+  final void Function() onTap;
+
+  AlbumWidgetSmall(this.album, {this.selected, this.trailing, this.showSongCount = true, this.iconColor, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+
+    bool selected = this.selected??Album.current == album;
+
+    CommonColorData albColor = CommonColorData.ALL[album.colorsKey];
+    IconData iconData = CommonIconData.ALL[album.iconKey];
+
+    Widget widget = Container(
+      decoration: BoxDecoration(
+          color: selected?backgroundIcon_(context):Colors.transparent,
+          borderRadius: BorderRadius.all(Radius.circular(AppCard.BIG_RADIUS))
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+
+          Hero(
+            tag: AlbumWidget.HERO_TAG_GRADIENT(album),
+            child: GradientWidget(
+                elevation: AppCard.bigElevation,
+                radius: AppCard.BIG_RADIUS,
+                colorStart: albColor.colorStart,
+                colorEnd: albColor.colorEnd,
+                child: Padding(
+                  padding: EdgeInsets.all(Dimen.ICON_MARG),
+                  child: Icon(iconData, color: iconColor??cardEnab_(context), size: ICON_SIZE),
+                )
+            ),
+          ),
+
+          SizedBox(width: Dimen.ICON_MARG),
+
+          Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Hero(
+                    tag: AlbumWidget.HERO_TAG_TITLE(album),
+                    child: Text(
+                        album.title,
+                        style: AppTextStyle(
+                          fontWeight: weight.halfBold,
+                          fontSize: Dimen.TEXT_SIZE_BIG,
+                          //color: selected?textEnab_(context):hintEnab_(context),
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis
+                    ),
+                  ),
+
+                  if(showSongCount)
+                    SizedBox(height: Dimen.DEF_MARG),
+
+                  if(showSongCount)
+                    Row(
+                      children: [
+
+                        Icon(MdiIcons.music, size: Dimen.TEXT_SIZE_NORMAL),
+                        SizedBox(width: Dimen.DEF_MARG),
+                        Hero(
+                          tag: AlbumWidget.HERO_TAG_SONG_CNT(album),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: Text(
+                                '${album.songs.length}',
+                                style: AppTextStyle(
+                                    fontSize: Dimen.TEXT_SIZE_NORMAL,
+                                    fontWeight: weight.halfBold,
+                                    color: iconEnab_(context)
+                                ),
+                                maxLines: 1
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+
+                ],
+              )
+          ),
+
+          if(trailing != null) trailing,
+
+          SizedBox(width: Dimen.ICON_MARG)
+
+        ],
+      ),
+    );
+
+    return InkWell(
+      borderRadius: BorderRadius.all(Radius.circular(AppCard.BIG_RADIUS)),
+      onTap: onTap,
+      child: widget,
+    );
+
+  }
+
+}

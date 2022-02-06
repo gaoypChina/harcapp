@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.2.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 87.87 87.87" style="enable-background:new 0 0 87.87 87.87;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#231F20;stroke-width:3.587;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st1{clip-path:url(#SVGID_2_);fill:#231F20;}
+	
+		.st2{clip-path:url(#SVGID_2_);fill:none;stroke:#231F20;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+</style>
+<polyline class="st0" points="36.96,42.45 39.8,52.49 30.29,54.92 "/>
+<polyline class="st0" points="48.8,36.11 54.03,42.45 61.88,39.64 "/>
+<polyline class="st0" points="45.74,33.79 39.8,30.17 32.41,31.98 "/>
+<polyline class="st0" points="33.67,42.85 32.41,51.26 22.8,58.19 "/>
+<g>
+	<defs>
+		<rect id="SVGID_1_" y="0" width="87.87" height="87.87"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<path class="st1" d="M32.35,41.63L46,31.6c0,0,1.99,1.19,3.56,2.37c0.6,0.45,2.24,2.82,2.24,2.82l-13.9,8.98L32.35,41.63z"/>
+	<path class="st1" d="M57.75,32.02c-1.02,2.06-3.52,2.89-5.57,1.87c-2.06-1.02-2.89-3.52-1.87-5.57c1.02-2.05,3.52-2.89,5.57-1.87
+		C57.93,27.47,58.77,29.97,57.75,32.02"/>
+	<line class="st2" x1="21.99" y1="61.79" x2="65.89" y2="61.79"/>
+	<polygon class="st1" points="33.67,42.85 33.67,52.72 38.24,42.1 	"/>
+	<polygon class="st1" points="32.66,45.59 39.25,52.95 35.57,41.99 	"/>
+	<path class="st1" d="M4.73,60.22c1.42,3.41,3.28,6.63,5.54,9.57l7.14-5.49c-1.78-2.32-3.25-4.85-4.37-7.54L4.73,60.22z"/>
+	<path class="st1" d="M18.09,77.6c2.94,2.26,6.16,4.12,9.57,5.54l3.45-8.31c-2.69-1.12-5.22-2.58-7.54-4.37L18.09,77.6z"/>
+	<path class="st1" d="M43.94,1.5C20.53,1.5,1.5,20.54,1.5,43.94c0,1.86,0.12,3.74,0.36,5.57l8.92-1.17
+		c-0.19-1.45-0.29-2.92-0.29-4.4c0-18.44,15-33.44,33.44-33.44c18.44,0,33.44,15,33.44,33.44c0,18.44-15,33.44-33.44,33.44
+		c-1.47,0-2.95-0.1-4.4-0.29l-1.17,8.92c1.83,0.24,3.71,0.36,5.57,0.36c23.4,0,42.44-19.04,42.44-42.44
+		C86.38,20.54,67.34,1.5,43.94,1.5"/>
+</g>
+</svg>

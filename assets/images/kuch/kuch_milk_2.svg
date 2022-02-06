@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<svg height="57" viewBox="0 0 57 57" width="57" xmlns="http://www.w3.org/2000/svg">
+  <path d="M26,57l-14,-6l0,-33l14,5z" fill="#C6C6C6"/>
+  <path d="M45,52l-19,5l0,-34l19,-5z" fill="#E6E6E6"/>
+  <path d="M38,4l-19,4l0,-4l19,-4z" fill="#E2E2E2"/>
+  <path d="M26,23l-14,-5l7,-10l0,0z" fill="#D1D1D1"/>
+  <path d="M45,18l-19,5l-7,-15l19,-4z" fill="#EAEAEA"/>
+  <path d="M45,37l-19,15l0,-15l19,-16z" fill="#efc83d"/>
+  <path d="M12,46l14,6l0,-15l-14,-6z" fill="#d9b537"/>
+  <path d="M34.215,16.875L34.215,16.875c-2.217,0.58 -2.956,-1.423 -3.305,-2.753l0,0c-0.348,-1.33 -0.684,-3.439 1.533,-4.019l0,0c2.217,-0.58 2.956,1.423 3.304,2.753v0C36.095,14.186 36.432,16.295 34.215,16.875z" fill="#FFFFFF"/>
+  <path d="M34,4.842l2,-0.421l0,-4l-2,0.421z" fill="#EDEDED"/>
+  <path d="M30,5.684l2,-0.421l0,-4l-2,0.421z" fill="#EDEDED"/>
+  <path d="M26,6.526l2,-0.421l0,-4l-2,0.421z" fill="#EDEDED"/>
+  <path d="M22,7.368l2,-0.421l0,-4l-2,0.421z" fill="#EDEDED"/>
+</svg>

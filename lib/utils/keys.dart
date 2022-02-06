@@ -1,0 +1,5 @@
+String YOUTUBE_API_KEY_ANDROID = 'AIzaSyDitbZA1_izk3Wlkn50O6TlX2EOeQpz_yY';
+String YOUTUBE_API_KEY_IOS = 'AIzaSyBd5_Ro6JB--5kEDDrs2uXO1a8F4cz5i5M';
+
+const String MS_ZHP_TENANT = 'e1368d1e-3975-4ce6-893d-fc351fd44dcd';
+const String MS_AZURE_HARCAPP_CLIENT_ID = 'cae34eaf-7971-48bb-9c65-81aaa28ac1f4';

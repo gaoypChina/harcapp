@@ -1,0 +1,44 @@
+{
+  "passwords_must_match": "Hasła muszą być jednakowe",
+  "password_too_short": "Hasło nie może być krótsze niż 8 znaków",
+  "invalid_password": "Nieprawidłowe hasło",
+
+  "successfuly_registered": "Zarejestrowano użytkownika",
+  "successfuly_authenticated": "Zalogowano",
+
+  "email_in_use": "Adres email jest już w użyciu",
+  "email_too_long": "Adres email za długi",
+
+  "name_too_long": "Imię i nazwisko za długie",
+
+  "invalid_credentails": "Nieprawidłowy login i/lub hasło",
+  "invalid_conf_key": "Nieprawidłowy token aktywacyjny",
+  "invalid_password_reset_token": "Nieprawidłowy token resetujący hasło",
+
+  "no_such_user": "Konto nie istnieje",
+
+  "success": "Sukces",
+
+  "password_required": "Hasło jest wymagane",
+  "email_required": "Adres email jest wymagany",
+  "token_password_reset_required": "Token resetujący hasło jest wymagany",
+
+  "field_may_not_be_blank": "To pole nie może być puste",
+
+  "account_not_activated": "This account has not been activated",
+
+  "policy_not_accepted": "Regulamin nie został zaakceptowany",
+
+  "gdpr_not_accepted": "Polityka prywatności nie została zaakceptowana",
+
+  "name_changed_too_soon": "Za często zmieniasz imię",
+  "nick_changed_too_soon": "Za często zmieniasz kod publiczny",
+
+  "registration_required": "Konto nie istnieje",
+
+  "login_with_microsoft": "Zaloguj się używając konta ZHP",
+  "login_without_microsoft": "Email nie jest powiązany z kontem HarcApp",
+
+  "cannot_reset_password_for_microsoft_account": "Email powiązany jest z kontem ZHP"
+
+}
