@@ -223,7 +223,7 @@ class Spraw extends RankSprawTemplate<SprawResp>{
 
   static Spraw fromUID(String UID){
 
-    List<String> parts = UID.split(SprawTask.SEP_CHAR);
+    List<String> parts = UID.split(Spraw.SEP_CHAR);
     String sprawBookId = parts[0];
     String sprawGroupId = parts[1];
     String sprawFamilyId = parts[2];
