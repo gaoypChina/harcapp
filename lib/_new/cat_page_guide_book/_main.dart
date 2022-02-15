@@ -350,7 +350,7 @@ class _SprawnosciWidget extends StatelessWidget{
         title: 'Sprawności',
         onOpen: (context) => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => SprawnosciPage())
+            MaterialPageRoute(builder: (context) => const SprawnosciPage())
         ),
       ),
 

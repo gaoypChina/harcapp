@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 class Statistics{
 
+  static const Duration syncInterval = Duration(hours: 1);
   static const Duration syncPeriod = Duration(days: 1);
 
   DateTime get lastSyncTime => shaPref.getDateTime(ShaPref.SHA_PREF_STATISTICS_LAST_SYNC_TIME, null);
@@ -13,7 +14,7 @@ class Statistics{
   static void registerStandardSongSearch(String songFileName){
     Map<String, Map<String, int>> _allStandardSongSearch = standardSongSearch;
 
-    String localDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    String localDate = DateFormat('yyyy-MM-ddTHH:00:00').format(DateTime.now());
 
     Map<String, int> _todaysStandardSongSearch = _allStandardSongSearch[localDate];
 
@@ -24,12 +25,6 @@ class Statistics{
 
     _allStandardSongSearch[localDate] = _todaysStandardSongSearch;
     standardSongSearch = _allStandardSongSearch;
-  }
-
-  Future<void> send() async {
-
-
-
   }
 
 }
