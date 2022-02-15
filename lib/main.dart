@@ -8,6 +8,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_cat.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_group.dart';
 import 'package:harcapp/account/login_provider.dart';
+import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
@@ -19,6 +20,7 @@ import '_common_classes/color_pack.dart';
 import '_common_classes/sha_pref.dart';
 import '_common_classes/storage.dart';
 import '_common_widgets/app_toast.dart';
+import '_new/api/statistics.dart';
 import '_new/app_bottom_navigator.dart';
 import '_new/cat_page_guide_book/_sprawnosci/providers.dart';
 import '_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
@@ -65,7 +67,7 @@ void main() async {
   else
     appMode = AppMode.APP_MODE_DEFAULT;
 
-  runApp(LocalizedApp(delegate, OKToast(child: App())));
+  runApp(LocalizedApp(delegate, const OKToast(child: App())));
 
 }
 
@@ -111,12 +113,12 @@ class AppState extends State<App> {
   void initState() {
 
     switch(appMode){
-      case AppMode.APP_MODE_DEFAULT: _slctColorPack = ColorPackStartDefault(); break;
-      case AppMode.APP_MODE_ADWENT: _slctColorPack = ColorPackStartAdwent(); break;
-      case AppMode.APP_MODE_CHRISTMAS: _slctColorPack = ColorPackStartChristmas(); break;
-      case AppMode.APP_MODE_ZMARTWYCHWSTANIE: _slctColorPack = ColorPackStartDefault(); break;
-      case AppMode.APP_MODE_POWST_WARSZ: _slctColorPack = ColorPackStartDefault(); break;
-      default: _slctColorPack = ColorPackStartDefault(); break;
+      case AppMode.APP_MODE_DEFAULT: _slctColorPack = const ColorPackStartDefault(); break;
+      case AppMode.APP_MODE_ADWENT: _slctColorPack = const ColorPackStartAdwent(); break;
+      case AppMode.APP_MODE_CHRISTMAS: _slctColorPack = const ColorPackStartChristmas(); break;
+      case AppMode.APP_MODE_ZMARTWYCHWSTANIE: _slctColorPack = const ColorPackStartDefault(); break;
+      case AppMode.APP_MODE_POWST_WARSZ: _slctColorPack = const ColorPackStartDefault(); break;
+      default: _slctColorPack = const ColorPackStartDefault(); break;
     }
 
     initShaPref().then((value) {
@@ -153,7 +155,18 @@ class AppState extends State<App> {
         }
 
       subscription = addConnectionListener((hasConnection) async {
-        if (hasConnection) await synchronizer.post();
+        if (!hasConnection) return;
+
+        if(!await synchronizer.isAllSynced())
+          await synchronizer.post();
+
+        ApiStatistics.postObservations(
+          onSuccess: (){
+            // TODO: Dodać jakąś formę sprawdzenia, czy staty już zostały wysłane.
+          },
+          onError: (){}
+        );
+
       });
     });
     AccSecData.init();
@@ -185,7 +198,7 @@ class AppState extends State<App> {
         ChangeNotifierProvider(create: (context) => ColorPackProvider(
             initColorPack: _slctColorPack,
             isDark: () => Settings.isDark,
-            colorPackDark: ColorPackBlack()
+            colorPackDark: const ColorPackBlack()
         )),
         ChangeNotifierProvider(create: (context) => MainProvider()),
 
@@ -237,9 +250,9 @@ class AppState extends State<App> {
                 builder: (context, themeProv, colorPackProv, child){
 
                   if(Settings.checkFullScreen)
-                    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+                    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
                   else
-                    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+                    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
 
                   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
                     statusBarColor: colorPackProv.colorPack.appBar, // status bar color
@@ -250,16 +263,16 @@ class AppState extends State<App> {
                       title: 'HarcApp',
                       theme: colorPackProv.colorPack.themeData,
 
-                      home: StartPage(),
-                      localizationsDelegates: [
+                      home: const StartPage(),
+                      localizationsDelegates: const [
                         GlobalMaterialLocalizations.delegate,
                         GlobalWidgetsLocalizations.delegate,
                         GlobalCupertinoLocalizations.delegate,
                       ],
-                      supportedLocales: [
-                        const Locale('pl'),
+                      supportedLocales: const [
+                        Locale('pl'),
                       ],
-                      locale: Locale('pl'),
+                      locale: const Locale('pl'),
                     ),
                   );
 
