@@ -463,8 +463,8 @@ class TabOfContItem extends StatelessWidget{
 
     return ListTile(
       //dense: true,
-      contentPadding: EdgeInsets.only(left: 10.0, top: 2.0, bottom: 2.0),
-      onTap: () => onTap==null?null:onTap(song),
+      contentPadding: const EdgeInsets.only(left: 10.0, top: 2.0, bottom: 2.0),
+      onTap: () => onTap?.call(song),
       leading: leading,
       trailing: trailing,
       title: Row(
@@ -474,7 +474,7 @@ class TabOfContItem extends StatelessWidget{
             Icon(MdiIcons.pencil, size: Dimen.TEXT_SIZE_NORMAL, color: hintEnab_(context)),
 
           if(!song.isOfficial)
-            SizedBox(width: Dimen.DEF_MARG,),
+            const SizedBox(width: Dimen.DEF_MARG,),
 
           Expanded(
             child: SingleChildScrollView(

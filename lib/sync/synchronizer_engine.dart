@@ -226,7 +226,7 @@ class SynchronizerEngine{
     }
 
     if(!AccSecData.loggedIn) {
-      logger.w('Sync post aborted - not logged in.');
+      logger.i('Sync post aborted - not logged in.');
       return false;
     }
 
@@ -267,7 +267,7 @@ class SynchronizerEngine{
     }
 
     if(!AccSecData.loggedIn) {
-      logger.w('Sync get aborted - not logged in.');
+      logger.i('Sync get aborted - not logged in.');
       return false;
     }
 

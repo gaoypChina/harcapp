@@ -71,6 +71,7 @@ dependencies:
   shared_preferences: ^2.0.13
   simple_shadow: ^0.3.0
   smooth_page_indicator: ^1.0.0+2
+  system_time_check: 1.0.0
   # soundpool: 2.1.0
   tab_indicator_styler: ^2.0.0
   torch_light: ^0.4.0

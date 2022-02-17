@@ -115,7 +115,7 @@ const List<Definition> allDefinitions = [
   Definition('Pokolenie boomerów', 'Osoby urodzone w powojennym wyżu demograficznym lat 40. 50. 60., ceniące niezależność, optymizm, lojalność, rzadko zmieniające stanowisko pracy.'),
 
   Definition('Pokora', 'Uznanie własnej ograniczoności i konieczności poszukiwania mądrości.'),
-  Definition('Poprawność polityczna', 'Zjawisko cenzury języka dotyczącego określonych ras, religii, płci, pochodzeń etnicznych lub skłonności seksualnych. Definiuje dopuszczalne zwroty dotyczące wymienionych grup i nie dopuszcza stawiania ich w negatywnym świetle, niekiedy nawet za cenę prawdy.'),
+  Definition('Poprawność polityczna', 'Zjawisko cenzury języka dotyczącego określonych ras, religii, płci, pochodzeń etnicznych lub skłonności seksualnych. Definiuje dopuszczalne zwroty dotyczące wymienionych grup i nie dopuszcza stawiania ich w negatywnym świetle, również kosztem prawdy.'),
   Definition('Polaryzacja społeczna', 'Proces różnicowania się postaw w społeczeństwie wobec pewnego typu problemów, prowadzący do rozłamu społeczności.'),
   Definition('Polonia', 'Ogół Polaków mieszkających poza granicami Polski lub w dalszych pokoleniach identyfikujących się ze sprawami polskimi.'),
   Definition('Postmodernizm (filozofia)', 'Filozofia negująca istnienie obiektywnej rzeczywistości, prawdy. Bazuje na konstruktywizmie, np. uznając płeć za warunkowaną środowiskowo lub kwestię opinii.'),

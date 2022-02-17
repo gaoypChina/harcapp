@@ -3,26 +3,40 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:harcapp/account/statistics.dart';
+import 'package:harcapp/logger.dart';
+import 'package:pretty_json/pretty_json.dart';
 
 import '_api.dart';
 
 class ApiStatistics{
 
   static Future<Response> postObservations({
-    Function() onSuccess,
+    Function(List<String> tooEarly, List<String> alreadyExisted, List<String> saved) onSuccess,
     Function() onError,
   }) async {
 
+    Map<String, Map<String, int>> standardSongSearch = Statistics.standardSongSearch;
+
     Map data = {};
-    for(String time in Statistics.standardSongSearch.keys){
+    for(String timeIntrvlStr in standardSongSearch.keys){
+
+      DateTime time = DateTime.tryParse(timeIntrvlStr.split(Statistics.syncPeriodSep)[0]);
+      if(time == null || time.difference(DateTime.now()).compareTo(Statistics.syncInterval) <= 0)
+        continue;
+
       Map intervalData = {};
-      for(String songLoclId in Statistics.standardSongSearch[time].keys)
-        intervalData[songLoclId] = {
-          "searchOpens": Statistics.standardSongSearch[time][songLoclId]
+
+      Map<String, int> songSearches = standardSongSearch[timeIntrvlStr];
+
+      for(String songLclId in songSearches.keys)
+        intervalData[songLclId] = {
+          "searchOpens": songSearches[songLclId]
         };
 
-      data['$time@1h'] = intervalData;
+      data[timeIntrvlStr] = intervalData;
     }
+
+    logger.i('Statistics post request:\n${prettyJson(data)}');
 
     return await API.sendRequest(
         withToken: true,
@@ -33,7 +47,25 @@ class ApiStatistics{
             }),
             data: jsonEncode(data)
         ),
-        onSuccess: (response) async => onSuccess==null?null:onSuccess()
+        onSuccess: (response) async {
+          if(onSuccess == null) return;
+
+          List<String> tooEarly = [];
+          List<String> alreadyExisted = [];
+          List<String> saved = [];
+
+          Map<String, String> respData = (response.data as Map).cast<String, String>();
+          for(String timeStr in respData.keys) {
+            String state = respData[timeStr];
+            if(state == 'too_early') tooEarly.add(timeStr);
+            else if (state == 'already_existed') alreadyExisted.add(timeStr);
+            else if (state == 'saved') saved.add(timeStr);
+          }
+
+          logger.i('Statistics post response:\n${prettyJson(respData)}');
+
+          onSuccess(tooEarly, alreadyExisted, saved);
+        }
     );
 
   }

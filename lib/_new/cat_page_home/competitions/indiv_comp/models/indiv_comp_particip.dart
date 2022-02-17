@@ -15,13 +15,13 @@ Map<bool, Sex> boolToSex = {
 };
 
 Map<Sex, String> sexToString = {
-  Sex.male: 'male',
-  Sex.female: 'female',
+  Sex.male: 'Male',
+  Sex.female: 'Female',
 };
 
 Map<String, Sex> strToSex = {
-  'male': Sex.male,
-  'female': Sex.female,
+  'Male': Sex.male,
+  'Female': Sex.female,
 };
 
 class IndivCompParticip{

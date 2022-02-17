@@ -39,6 +39,7 @@ import '_new/main_page_new.dart';
 import '_new/providers.dart';
 import '_new/start/_main.dart';
 import 'account/account.dart';
+import 'account/statistics.dart';
 import 'sync/synchronizer_engine.dart';
 
 AppMode appMode;
@@ -160,12 +161,7 @@ class AppState extends State<App> {
         if(!await synchronizer.isAllSynced())
           await synchronizer.post();
 
-        ApiStatistics.postObservations(
-          onSuccess: (){
-            // TODO: Dodać jakąś formę sprawdzenia, czy staty już zostały wysłane.
-          },
-          onError: (){}
-        );
+        await Statistics.commit();
 
       });
     });

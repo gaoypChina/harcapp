@@ -23,70 +23,66 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import 'common.dart';
 
-const account = false;
+const account = true;
 
 class AppDrawer extends StatelessWidget{
 
   final Widget body;
 
-  const AppDrawer({@required this.body});
+  const AppDrawer({@required this.body, Key key}):super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Drawer(
+      child: SafeArea(
+          child: Stack(
+            children: [
 
-    return Drawer(
-        child: SafeArea(
-            child: Stack(
-              children: [
+              Positioned(
+                  bottom: -60,
+                  right: -60,
+                  child: Hero(
+                    tag: harcAppBigRotatLogoHero,
+                    child: RotationTransition(
+                        turns: AlwaysStoppedAnimation(-45 / 360),
+                        child: SvgPicture.asset(
+                          'assets/images/harcapp_logo.svg',
+                          width: 360,
+                          height: 360,
+                          color: backgroundIcon_(context),
+                        )
+                    ),
+                  )
+              ),
 
-                Positioned(
-                    bottom: -60,
-                    right: -60,
-                    child: Hero(
-                      tag: harcAppBigRotatLogoHero,
-                      child: RotationTransition(
-                          turns: AlwaysStoppedAnimation(-45 / 360),
-                          child: SvgPicture.asset(
-                            'assets/images/harcapp_logo.svg',
-                            width: 360,
-                            height: 360,
-                            color: backgroundIcon_(context),
-                          )
-                      ),
-                    )
-                ),
+              Column(
+                children: [
 
-                Column(
-                  children: [
+                  AccountHeader(),
 
-                    AccountHeader(),
+                  Expanded(
+                    child: Consumer<DrawerProvider>(
+                      builder: (context, prov, child) => body,
+                    ),
+                  )
+                ],
+              )
 
-                    Expanded(
-                      child: Consumer<DrawerProvider>(
-                        builder: (context, prov, child) => body,
-                      ),
-                    )
-                  ],
-                )
-
-              ],
-            )
-        )
-    );
-
-  }
+            ],
+          )
+      )
+  );
 }
 
 class AccountHeaderIcon extends StatelessWidget{
+
+  const AccountHeaderIcon({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if(!account)
       return IconButton(
           icon: Icon(AppDetails.icon),
-          onPressed: (){
-            pushPage(context, builder: (context) => AppDetails());
-          }
+          onPressed: () => pushPage(context, builder: (context) => AppDetails())
       );
 
     return Consumer<LoginProvider>(

@@ -26,13 +26,14 @@ class ExtendedFloatingButton extends StatelessWidget{
         this.floatingButtonExpanded = true,
         this.onTap,
         this.duration,
-      });
+        Key key
+      }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     Widget child = Padding(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
           left: Dimen.FLOATING_BUTTON_MARG,
           top: Dimen.FLOATING_BUTTON_MARG,
           bottom: Dimen.FLOATING_BUTTON_MARG
@@ -43,7 +44,7 @@ class ExtendedFloatingButton extends StatelessWidget{
           Icon(icon, color: textColor??iconEnab_(context)),
 
           AnimatedSize(
-              duration: Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 300),
               curve: Curves.easeOutQuart,
               alignment: Alignment.centerLeft,
               child: _TextWidget(floatingButtonExpanded, text, textColor)
@@ -54,7 +55,7 @@ class ExtendedFloatingButton extends StatelessWidget{
     );
 
     return Hero(
-      tag: FloatingActionButton(onPressed: null).heroTag,
+      tag: const FloatingActionButton(onPressed: null).heroTag,
       child: SimpleButton(
           color: background??accent_(context),
           colorEnd: backgroundEnd??background??accent_(context),
@@ -91,7 +92,7 @@ class _TextWidget extends StatelessWidget{
 
     if(floatingButtonExpanded)
       children = [
-        SizedBox(width: Dimen.ICON_MARG),
+        const SizedBox(width: Dimen.ICON_MARG),
         Text(
           text,
           style: AppTextStyle(
@@ -101,10 +102,10 @@ class _TextWidget extends StatelessWidget{
           ),
           overflow: TextOverflow.ellipsis,
         ),
-        SizedBox(width: Dimen.FLOATING_BUTTON_MARG + 10.0)
+        const SizedBox(width: Dimen.FLOATING_BUTTON_MARG + 10.0)
       ];
     else
-      children = [SizedBox(width: Dimen.FLOATING_BUTTON_MARG)];
+      children = [const SizedBox(width: Dimen.FLOATING_BUTTON_MARG)];
 
     return Row(children: children);
   }

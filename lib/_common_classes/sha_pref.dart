@@ -19,7 +19,7 @@ class ShaPref{
     shaPref = _shaPref;
   }
 
-  String badTypeErrMess(String key, dynamic e) => 'Tried to read value from shaPref key ${key} as incorrect type: ${e.toString()}';
+  String badTypeErrMess(String key, dynamic e) => 'Tried to read value from shaPref key $key as incorrect type: ${e.toString()}';
 
   SharedPreferences _preferences;
   ShaPref(this._preferences);
@@ -312,7 +312,8 @@ class ShaPref{
     try {
       String code = _preferences.getString(key);
       if(code == null) return def;
-      else return (jsonDecode(code) as Map).cast<T_KEY, T_VAL>();
+      Map<T_KEY, T_VAL> map =  (jsonDecode(code) as Map).cast<T_KEY, T_VAL>();
+      return map;
     } catch (e){
       logger.w(badTypeErrMess(key, e));
       _preferences.remove(key);

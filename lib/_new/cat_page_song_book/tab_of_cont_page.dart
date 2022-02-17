@@ -230,9 +230,9 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
     ),
 
     itemTrailingBuilder: itemButtonsBuilder,
-    onItemTap: (song, position){
+    onItemTap: (song, position) async {
       page.selectSong(song);
-      Statistics.registerStandardSongSearch(song.fileName);
+      await Statistics.registerStandardSongSearch(song.fileName);
       CatPageSongBookState.tabOfContOpenOnBack = true;
       Navigator.pop(context);
     },
