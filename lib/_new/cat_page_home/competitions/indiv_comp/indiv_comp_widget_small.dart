@@ -25,7 +25,7 @@ class IndivCompWidgetSmall extends StatelessWidget{
   final IndivComp comp;
   final bool showPinned;
 
-  IndivCompWidgetSmall(this.comp, {this.leading, this.showPinned = false}):super(key: ValueKey(comp));
+  IndivCompWidgetSmall(this.comp, {this.leading, this.showPinned = false}): super(key: ValueKey(comp));
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class IndivCompWidgetSmall extends StatelessWidget{
     return Column(
       children: [
 
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
 
         Row(
           children: [
@@ -66,7 +66,7 @@ class IndivCompWidgetSmall extends StatelessWidget{
                   children: [
                     IndivCompThumbnailWidget(comp, heroTag: comp),
 
-                    SizedBox(width: Dimen.ICON_MARG),
+                    const SizedBox(width: Dimen.ICON_MARG),
 
                     Expanded(
                       child: Column(
@@ -96,7 +96,7 @@ class IndivCompWidgetSmall extends StatelessWidget{
                             ],
                           ),
 
-                          SizedBox(height: Dimen.DEF_MARG),
+                          const SizedBox(height: Dimen.DEF_MARG),
 
                           if(comp.profile.active)
                             Row(
@@ -112,7 +112,7 @@ class IndivCompWidgetSmall extends StatelessWidget{
                                 //Text('pkt', style: AppTextStyle(fontSize: textSizePkt)),
                                 Expanded(child: Container()),
                                 RankingWidget(comp, textColor: hintEnab_(context)),
-                                SizedBox(width: 10.0),
+                                const SizedBox(width: 10.0),
                                 rankToAwardWidget(comp.profile.showRank, size: RankingWidget.defTextSize)
                               ],
                             )
@@ -148,7 +148,15 @@ class RankingWidget extends StatelessWidget{
   final bool withHash;
   final bool clickable;
 
-  const RankingWidget(this.comp, {this.textColor, this.textSize, this.fontWeight=weight.halfBold, this.withHash=true, this.clickable=false});
+  const RankingWidget(
+      this.comp,
+      {this.textColor,
+        this.textSize,
+        this.fontWeight=weight.halfBold,
+        this.withHash=true,
+        this.clickable=false,
+        Key key
+      }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -166,9 +174,9 @@ class RankingWidget extends StatelessWidget{
           else if(rankPop == 1)
             text = 'Jeszcze 1 osoba ma ${comp.profile.points} punkt.';
           else if(rankPop >= 2 && rankPop <= 4)
-            text = 'Jeszcze ${rankPop} osoby mają ${comp.profile.points} punkty.';
+            text = 'Jeszcze $rankPop osoby mają ${comp.profile.points} punkty.';
           else if(rankPop >= 5)
-            text = 'Jeszcze ${rankPop} osób ma ${comp.profile.points} punktów.';
+            text = 'Jeszcze $rankPop osób ma ${comp.profile.points} punktów.';
 
           if(text == null)
             showAppToast(context, text: 'Na razie wszyscy mają 0 punktów.');

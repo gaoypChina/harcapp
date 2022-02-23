@@ -4,6 +4,7 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../main.dart';
 import 'app_drawer.dart';
 
 class AppBottomNavigatorProvider extends ChangeNotifier{
@@ -52,38 +53,38 @@ class AppBottomNavigator extends StatelessWidget{
   final Color unselectedItemColor;
   final double elevation;
 
-  const AppBottomNavigator({this.background, this.selectedItemColor, this.unselectedItemColor, this.elevation});
+  const AppBottomNavigator({this.background, this.selectedItemColor, this.unselectedItemColor, this.elevation, Key key}):super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Hero(
+    tag: heroTag,
+    child: PhysicalModel(
+      elevation: elevation??AppCard.BIG_RADIUS,
+      color: Colors.transparent,
+      child: Consumer<AppBottomNavigatorProvider>(
+          builder: (context, prov, child) => BottomNavigationBar(
+            backgroundColor: Colors.transparent,
+            selectedItemColor: selectedItemColor??iconEnab_(context),
+            selectedIconTheme: IconThemeData(color: selectedItemColor??iconEnab_(context)),
+            unselectedIconTheme: IconThemeData(color: unselectedItemColor??iconDisab_(context)),
+            showUnselectedLabels: false,
+            currentIndex: prov.selectedIndex,
+            onTap: (index){
+              prov.selectedIndex = index;
+              for(void Function(int) listener in prov._listeners)
+                listener(index);
 
-    return Hero(
-      tag: heroTag,
-      child: PhysicalModel(
-        elevation: elevation??AppCard.BIG_RADIUS,
-        color: Colors.transparent,
-        child: Consumer<AppBottomNavigatorProvider>(
-            builder: (context, prov, child) => BottomNavigationBar(
-              backgroundColor: Colors.transparent,
-              selectedItemColor: selectedItemColor??iconEnab_(context),
-              selectedIconTheme: IconThemeData(color: selectedItemColor??iconEnab_(context)),
-              unselectedIconTheme: IconThemeData(color: unselectedItemColor??iconDisab_(context)),
-              showUnselectedLabels: false,
-              currentIndex: prov.selectedIndex,
-              onTap: (index){
-                prov.selectedIndex = index;
-                for(void Function(int) listener in prov._listeners)
-                  listener(index);
-              },
-              items: [
+              appNavigatorObserver.callNavBarChanged();
+            },
+            items: [
 
-                if(account)
-                  BottomNavigationBarItem(
-                      backgroundColor: background??background_(context),
-                      icon: Icon(MdiIcons.accountCircleOutline),
-                      //activeIcon: Icon(MdiIcons.accountCircle),
-                      label: 'Skromny ja'
-                  ),
+              if(account)
+                BottomNavigationBarItem(
+                    backgroundColor: background??background_(context),
+                    icon: const Icon(MdiIcons.accountCircleOutline),
+                    //activeIcon: Icon(MdiIcons.accountCircle),
+                    label: 'Skromny ja'
+                ),
 /*
                 BottomNavigationBarItem(
                     backgroundColor: background??background_(context),
@@ -92,35 +93,34 @@ class AppBottomNavigator extends StatelessWidget{
                     label: 'Harc mapa'
                 ),
                  */
-                BottomNavigationBarItem(
-                    backgroundColor: background??background_(context),
-                    icon: Icon(MdiIcons.music),
-                    label: 'Śpiewnik'
-                ),
-                BottomNavigationBarItem(
-                    backgroundColor: background??background_(context),
-                    icon: Icon(MdiIcons.notebookOutline),
-                    //activeIcon: Icon(MdiIcons.notebook),
-                    label: 'Poradnik'
-                ),
-                BottomNavigationBarItem(
-                    backgroundColor: background??background_(context),
-                    icon: Icon(MdiIcons.lightbulbOutline),
-                    //activeIcon: Icon(MdiIcons.lightbulb),
-                    label: 'Harc myśl'
-                ),
-                BottomNavigationBarItem(
-                    backgroundColor: background??background_(context),
-                    icon: Icon(MdiIcons.dotsHorizontal),
-                    label: 'Inne'
-                )
-              ],
+              BottomNavigationBarItem(
+                  backgroundColor: background??background_(context),
+                  icon: const Icon(MdiIcons.music),
+                  label: 'Śpiewnik'
+              ),
+              BottomNavigationBarItem(
+                  backgroundColor: background??background_(context),
+                  icon: const Icon(MdiIcons.notebookOutline),
+                  //activeIcon: Icon(MdiIcons.notebook),
+                  label: 'Poradnik'
+              ),
+              BottomNavigationBarItem(
+                  backgroundColor: background??background_(context),
+                  icon: const Icon(MdiIcons.lightbulbOutline),
+                  //activeIcon: Icon(MdiIcons.lightbulb),
+                  label: 'Harc myśl'
+              ),
+              BottomNavigationBarItem(
+                  backgroundColor: background??background_(context),
+                  icon: const Icon(MdiIcons.dotsHorizontal),
+                  label: 'Inne'
+              )
+            ],
 
-            )
+          )
 
-        ),
       ),
-    );
-  }
+    ),
+  );
 
 }

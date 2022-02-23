@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
-import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_profile.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -21,9 +20,9 @@ class IndivCompThumbnailWidget extends StatelessWidget{
   final IndivComp comp;
   final double size;
   final void Function() onTap;
-  final heroTag;
+  final dynamic heroTag;
 
-  const IndivCompThumbnailWidget(this.comp, {this.size=defSize, this.onTap, this.heroTag});
+  const IndivCompThumbnailWidget(this.comp, {this.size=defSize, this.onTap, this.heroTag, Key key}): super(key: key);
 
   //static double height(double size) => size + 3*Dimen.ICON_MARG;
 

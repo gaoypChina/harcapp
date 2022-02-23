@@ -13,6 +13,7 @@ import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/extended_floating_button.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_loader.dart';
+import 'package:harcapp/_new/cat_page_song_book/songs_statistics_registrator.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
@@ -40,19 +41,23 @@ import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:wakelock/wakelock.dart';
 
+import '../../main.dart';
 import '../app_drawer.dart';
 import '../cat_page.dart';
 import 'album/album_drawer.dart';
 import 'album/album_page.dart';
 import 'album/new_album/new_album_page.dart';
-import 'common.dart';
 import 'loading_widget.dart';
 import 'own_song_page/init_widget.dart';
 import 'own_song_page/own_song_page.dart';
 
+SongsStatisticsRegistrator songsStatisticsRegistrator = SongsStatisticsRegistrator();
+
 class CatPageSongBook extends StatefulWidget{
 
   static const PAGE_VIEW_EXTENTS = 1;
+
+  const CatPageSongBook({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => CatPageSongBookState();
@@ -111,6 +116,15 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
     return false;
   }
 
+  void onNavigatorRouteChanged(){
+
+    if(!ModalRoute.of(context).isCurrent)
+      songsStatisticsRegistrator.pause = true;
+    else
+      songsStatisticsRegistrator.pause = false;
+
+  }
+
   GlobalKey<NestedScrollViewState> nestedScrollViewKey;
 
   SynchronizerListener syncListener;
@@ -153,6 +167,8 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
     
     BackButtonInterceptor.add(onBackPressed);
 
+    appNavigatorObserver.addChangedListener(onNavigatorRouteChanged);
+
     post(() => setSettings());
     nestedScrollViewKey = GlobalKey();
     super.initState();
@@ -165,20 +181,21 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
     songLoader.removeListener(loaderListener);
 
     BackButtonInterceptor.remove(onBackPressed);
+    appNavigatorObserver.removeChangedListener(onNavigatorRouteChanged);
 
     synchronizer.removeListener(syncListener);
 
     super.dispose();
   }
 
-  setSettings(){
+  void setSettings(){
     if(SongBookSettings.alwaysOnScreen) {
       Wakelock.enable();
       showAppToast(context, text: 'Zawieszono wygaszanie ekranu');
     }
   }
 
-  handleSwap(){
+  void handleSwap(){
     if(notifier.value.floor() == notifier.value) {
       floatingButtonExpanded = true;
       Provider.of<FloatingButtonProvider>(context, listen: false).notify();
@@ -187,7 +204,7 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
 
   SliverAppBar appBarBuilder(BuildContext context, {bool pinned=false}) => SliverAppBar(
     backgroundColor: background_(context),
-    title: Text('Śpiewnik'),
+    title: const Text('Śpiewnik'),
     automaticallyImplyLeading: Album.current!=null,
     centerTitle: true,
     floating: true,
@@ -195,12 +212,12 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
     actions: [
       AnimatedOpacity(
         opacity: Album.current==null?0:1,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         child: Row(
           children: [
 
             IconButton(
-              icon: Icon(MdiIcons.musicNotePlus),
+              icon: const Icon(MdiIcons.musicNotePlus),
               onPressed: Album.current==null?null:(){
 
                 showScrollBottomSheet(
@@ -219,40 +236,40 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
                               builder: (context) => Center(
                                 child: AppCard(
                                   radius: AppCard.ALERT_DIALOG_RADIUS,
-                                  padding: EdgeInsets.all(Dimen.SIDE_MARG),
-                                  margin: EdgeInsets.all(Dimen.SIDE_MARG),
+                                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                                  margin: const EdgeInsets.all(Dimen.SIDE_MARG),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.stretch,
                                     children: <Widget>[
 
-                                      TitleShortcutRowWidget(title: 'Udostępnij dodane piosenki!'),
+                                      const TitleShortcutRowWidget(title: 'Udostępnij dodane piosenki!'),
 
-                                      SizedBox(height: Dimen.SIDE_MARG),
+                                      const SizedBox(height: Dimen.SIDE_MARG),
                                       Text('Możesz to uczynić na dwa sposoby:', style: AppTextStyle(color: textEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG)),
-                                      SizedBox(height: 14.0),
+                                      const SizedBox(height: 14.0),
                                       Row(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Icon(SongWidgetTemplate.ICON_SHARE_SONG, size: Dimen.TEXT_SIZE_BIG+2, color: textEnab_(context)),
-                                            SizedBox(width: Dimen.ICON_MARG),
-                                            Expanded(
+                                            const SizedBox(width: Dimen.ICON_MARG),
+                                            const Expanded(
                                                 child: AppText('lokalnie za pomocą <b>kodu QR</b>,', size: Dimen.TEXT_SIZE_BIG)),
                                           ]
                                       ),
-                                      SizedBox(height: 14.0),
+                                      const SizedBox(height: 14.0),
                                       Row(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Icon(SongWidgetTemplate.ICON_SEND_SONG, size: Dimen.TEXT_SIZE_BIG+2, color: textEnab_(context)),
-                                            SizedBox(width: Dimen.ICON_MARG),
-                                            Expanded(
+                                            const SizedBox(width: Dimen.ICON_MARG),
+                                            const Expanded(
                                               child: AppText('znane piosenki, możesz zaproponować do <b>oficjalnego śpiewnika</b>.', size: Dimen.TEXT_SIZE_BIG),
                                             ),
                                           ]
                                       ),
-                                      SizedBox(height: 18.0),
+                                      const SizedBox(height: 18.0),
 
                                       Row(
                                         children: [
@@ -277,7 +294,7 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
                                         ],
                                       ),
 
-                                      SizedBox(height: 18.0),
+                                      const SizedBox(height: 18.0),
 
                                       Row(
                                         children: <Widget>[
@@ -287,7 +304,7 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
                                             onTap: () => Navigator.pop(context),
                                             child: Padding(
                                               child: Text('Wdechowo!', style: AppTextStyle(color: Album.current.avgColor, fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.end,),
-                                              padding: EdgeInsets.all(Dimen.DEF_MARG*2),
+                                              padding: const EdgeInsets.all(Dimen.DEF_MARG*2),
                                             ),
                                           )
                                         ],
@@ -306,7 +323,7 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
             ),
 
             IconButton(
-                icon: Icon(MdiIcons.cogOutline),
+                icon: const Icon(MdiIcons.cogOutline),
                 onPressed: Album.current==null?null:() => Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -354,13 +371,13 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
                           appBarBuilder(context),
                         ],
                         floatHeaderSlivers: true,
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         body: PreloadPageView.builder(
                           key: ValueKey(albProv.current),
                           //extents: CatPageSongBook.PAGE_VIEW_EXTENTS,
                           controller: controller,
                           itemCount: albProv.current.songs.length,
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, position) =>
                               SongWidget(
                                 this,
@@ -369,6 +386,11 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
                                 onScroll: (scrollInfo){
                                   int page = controller.page.round();
                                   if(page != position) return;
+
+                                  if(scrollInfo is ScrollEndNotification){
+                                    double scrollFraction = nestedScrollViewKey.currentState.innerController.offset/nestedScrollViewKey.currentState.innerController.position.maxScrollExtent;
+                                    songsStatisticsRegistrator.registerScroll(scrollFraction);
+                                  }
 
                                   bool scrollable = scrollInfo.metrics.maxScrollExtent > 0;
 
@@ -391,6 +413,7 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
 
                           onPageChanged: (index){
                             lastPage = index;
+                            songsStatisticsRegistrator.openSong(albProv.current.songs[index].fileName);
                           },
                         ),
                       ),
@@ -429,7 +452,7 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
               );
             else
               return CustomScrollView(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 slivers: [
                   appBarBuilder(context),
 
@@ -446,7 +469,7 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
                             icon: MdiIcons.notebookOutline,
                           ),
 
-                          SizedBox(height: 64),
+                          const SizedBox(height: 64),
 
                           SimpleButton.from(
                             context: context,
@@ -458,8 +481,13 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
                                 context,
                                 MaterialPageRoute(builder: (context) => AlbumPage(onAlbumSelected: (Album album) {
                                   if(album != Album.current) {
-                                    if(controller.hasClients)
+                                    if(controller.hasClients) {
                                       jumpToPage(0);
+                                      songsStatisticsRegistrator.openSong(
+                                          album.songs.isEmpty?null:
+                                          album.songs.first.fileName
+                                      );
+                                    }
                                   }
                                 }))
                             ),
@@ -491,7 +519,7 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
             
           }
       ),
-      bottomNavigationBar: AppBottomNavigator(),
+      bottomNavigationBar: const AppBottomNavigator(),
 
       drawer:
       Album.current == null?
@@ -499,11 +527,23 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
       AppDrawer(
         body: AlbumDrawer(
             onSelected: (Album album){
-              if(controller.hasClients) jumpToPage(0);
+              if(controller.hasClients){
+                jumpToPage(0);
+                songsStatisticsRegistrator.openSong(
+                    album.songs.isEmpty?null:
+                    album.songs.first.fileName
+                );
+              }
               notify();
             },
             onNewCreated: (Album album){
-              if(controller.hasClients) jumpToPage(0);
+              if(controller.hasClients){
+                jumpToPage(0);
+                songsStatisticsRegistrator.openSong(
+                    album.songs.isEmpty?null:
+                    album.songs.first.fileName
+                );
+              }
               notify();
             }
         )
@@ -538,7 +578,7 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
 
   }
 
-  void openTabOfCont({String initPhrase='', bool forgetScrollPosition=false}) => Navigator.of(context).push(
+  Future<void> openTabOfCont({String initPhrase='', bool forgetScrollPosition=false}) => Navigator.of(context).push(
       PageTransition(
           type: PageTransitionType.rippleRightUp,
           child: TabOfContPage(
@@ -546,15 +586,15 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
             forgetScrollPosition: forgetScrollPosition,
             onSongSelected: (Song song, int indexInAlbum){
               jumpToPage(indexInAlbum);
+              songsStatisticsRegistrator.openSong(song.fileName);
             },
             onConfAlbumEnabled: (){
               jumpToPage(0);
               notify();
-              showAppToast(context, text: 'Barbaro! Oto zostajesz songowym hakerem.\n<b>Miłego śpiewańska c:</b>', duration: Duration(seconds: 7));
+              showAppToast(context, text: 'Barbaro! Oto zostajesz songowym hakerem.\n<b>Miłego śpiewańska c:</b>', duration: const Duration(seconds: 7));
             },
             onNewSongAdded: (song) async{
 
-              //SynchronizerEngine.setAllSyncState(SyncableParam.STATE_NOT_SYNCED);
               synchronizer.post();
 
               int index = Album.current.songs.indexOf(song);
@@ -566,14 +606,14 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
                   builder: (context) => Center(
                     child: AppCard(
                         radius: AppCard.ALERT_DIALOG_RADIUS,
-                        padding: EdgeInsets.all(AppCard.ALERT_DIALOG_PADDING),
+                        padding: const EdgeInsets.all(AppCard.ALERT_DIALOG_PADDING),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
 
                             Row(
                               children: [
-                                Padding(
+                                const Padding(
                                   padding: EdgeInsets.all(Dimen.ICON_MARG),
                                   child: Icon(MdiIcons.informationOutline),
                                 ),
@@ -581,29 +621,29 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
                               ],
                             ),
 
-                            SizedBox(height: Dimen.ICON_MARG),
+                            const SizedBox(height: Dimen.ICON_MARG),
 
                             Text(
                               'Pozostało wysłanie piosenki mailem.\n\nPo zamknięciu tej wiadomości otworzy się Twoja poczta.',
                               style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
                             ),
 
-                            SizedBox(height: 2*Dimen.ICON_MARG),
+                            const SizedBox(height: 2*Dimen.ICON_MARG),
 
                             Row(
                               children: [
                                 Expanded(child: Container()),
                                 SimpleButton(
                                     radius: AppCard.BIG_RADIUS,
-                                    padding: EdgeInsets.all(Dimen.ICON_MARG),
+                                    padding: const EdgeInsets.all(Dimen.ICON_MARG),
                                     child: Row(
                                       children: [
                                         Text(
                                           'Jedziemy',
                                           style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, color: iconEnab_(context)),
                                         ),
-                                        SizedBox(width: Dimen.ICON_MARG),
-                                        Icon(SongWidgetTemplate.ICON_SEND_SONG)
+                                        const SizedBox(width: Dimen.ICON_MARG),
+                                        const Icon(SongWidgetTemplate.ICON_SEND_SONG)
                                       ],
                                     ),
                                     onTap: () => Navigator.pop(context)

@@ -52,7 +52,7 @@ class IndivCompPage extends StatefulWidget{
   final IndivComp comp;
   final void Function() onRemoved;
 
-  const IndivCompPage(this.comp, {this.onRemoved});
+  const IndivCompPage(this.comp, {this.onRemoved, Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => IndivCompPageState();
@@ -85,7 +85,7 @@ class IndivCompPageState extends State<IndivCompPage>{
 
             SmartRefresher(
                 enablePullDown: true,
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 header: MaterialClassicHeader(color: comp.colors.avgColor),
                 controller: refreshController,
                 onRefresh: () async {
@@ -113,7 +113,7 @@ class IndivCompPageState extends State<IndivCompPage>{
 
                 },
                 child: CustomScrollView(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   slivers: [
 
                     SliverAppBar(
@@ -123,7 +123,7 @@ class IndivCompPageState extends State<IndivCompPage>{
                       actions: [
                         if(comp.profile.role == CompRole.ADMIN)
                           IconButton(
-                            icon: Icon(MdiIcons.radar),
+                            icon: Icon(comp.shareCodeSearchable?MdiIcons.accessPoint:MdiIcons.accessPointOff),
                             onPressed: changeShareCodeProcessing?null:() async {
                               setState(() => changeShareCodeProcessing = true);
                               await ApiIndivComp.setShareCodeSearchable(
@@ -142,17 +142,18 @@ class IndivCompPageState extends State<IndivCompPage>{
                       if(comp.profile.role == CompRole.ADMIN)
                         AnimatedSize(
                           alignment: Alignment.bottomCenter,
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           curve: Curves.easeOutQuad,
-                          child: Container(
+                          clipBehavior: Clip.none,
+                          child: SizedBox(
                             height: comp.shareCodeSearchable?null:0,
                             child: Padding(
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                 top: Dimen.SIDE_MARG,
                                 left: Dimen.SIDE_MARG,
                                 right: Dimen.SIDE_MARG
                               ),
-                              child: ShareCodeWidget(comp),
+                              child: ShareCodeWidget(comp, enabled: !changeShareCodeProcessing),
                             ),
                           ),
                         ),
@@ -161,7 +162,7 @@ class IndivCompPageState extends State<IndivCompPage>{
                         children: [
 
                           Padding(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                                 top: Dimen.SIDE_MARG,
                                 left: Dimen.SIDE_MARG,
                                 right: Dimen.SIDE_MARG,
@@ -172,14 +173,14 @@ class IndivCompPageState extends State<IndivCompPage>{
                               colorStart: comp.colors.colorStart,
                               colorEnd: comp.colors.colorEnd,
                               child: Padding(
-                                padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                                 child: Column(
                                   children: [
 
                                     SimpleButton(
                                       margin: EdgeInsets.zero,
                                       radius: AppCard.BIG_RADIUS,
-                                      child:  Row(
+                                      child: Row(
                                         children: [
 
                                           Icon(
@@ -188,7 +189,7 @@ class IndivCompPageState extends State<IndivCompPage>{
                                             color: compIconColor,
                                           ),
 
-                                          SizedBox(width: Dimen.SIDE_MARG),
+                                          const SizedBox(width: Dimen.SIDE_MARG),
 
                                           if(comp.profile.active)
                                             Expanded(
@@ -203,7 +204,7 @@ class IndivCompPageState extends State<IndivCompPage>{
                                                         height: 42.0,
                                                         child: Center(child: Text('Rank. ', style: AppTextStyle(fontSize: IndivCompWidgetSmall.textSizePkt, color: compIconColor.withOpacity(.5)))),
                                                       ),
-                                                      SizedBox(height: Dimen.SIDE_MARG),
+                                                      const SizedBox(height: Dimen.SIDE_MARG),
                                                       SizedBox(
                                                         height: 42.0,
                                                         child: Center(child: Text('Punk. ', style: AppTextStyle(fontSize: IndivCompWidgetSmall.textSizePkt, color: compIconColor.withOpacity(.5)))),
@@ -228,7 +229,7 @@ class IndivCompPageState extends State<IndivCompPage>{
 
                                                           ],
                                                         ),
-                                                        SizedBox(height: Dimen.SIDE_MARG),
+                                                        const SizedBox(height: Dimen.SIDE_MARG),
                                                         Row(
                                                           children: [
                                                             Text('${comp.profile.points} ', style: AppTextStyle(fontSize: 42.0, fontWeight: weight.bold, color: compIconColor)),
@@ -253,7 +254,7 @@ class IndivCompPageState extends State<IndivCompPage>{
                                                 ),
                                               ),
                                             ),
-                                          SizedBox(width: Dimen.SIDE_MARG),
+                                          const SizedBox(width: Dimen.SIDE_MARG),
 
                                         ],
                                       ),
@@ -297,14 +298,14 @@ class IndivCompPageState extends State<IndivCompPage>{
                                       ),
                                     ),
 
-                                    SizedBox(height: Dimen.SIDE_MARG),
+                                    const SizedBox(height: Dimen.SIDE_MARG),
 
                                     Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                                      padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                                       child: DateWidget(comp.startTime, comp.endTime, compIconColor),
                                     ),
 
-                                    SizedBox(height: (AccountThumbnailWidget.defSize)/2),
+                                    const SizedBox(height: (AccountThumbnailWidget.defSize)/2),
 
                                   ],
                                 ),
@@ -317,7 +318,7 @@ class IndivCompPageState extends State<IndivCompPage>{
                             bottom: 0,
                             child: ParticipantsWidget(
                               comp,
-                              padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+                              padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
                             ),
                           ),
 
@@ -334,7 +335,7 @@ class IndivCompPageState extends State<IndivCompPage>{
                                     color: cardEnab_(context),
                                     elevation: AppCard.bigElevation,
                                     radius: AccountThumbnailWidget.defSize/2,
-                                    child: Icon(MdiIcons.accountPlusOutline),
+                                    child: const Icon(MdiIcons.accountPlusOutline),
                                     onTap: () => ParticipantsWidget.onTap(comp, context),
                                   ),
                                 )
@@ -343,14 +344,14 @@ class IndivCompPageState extends State<IndivCompPage>{
                         ],
                       ),
 
-                      SizedBox(height: Dimen.SIDE_MARG),
+                      const SizedBox(height: Dimen.SIDE_MARG),
 
                       CompletedTasksPreviewWidget(
                         comp,
-                        padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+                        padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
                       ),
 
-                      SizedBox(height: Dimen.SIDE_MARG),
+                      const SizedBox(height: Dimen.SIDE_MARG),
 
                       TasksWidget(
                         comp,
@@ -373,15 +374,15 @@ class IndivCompPageState extends State<IndivCompPage>{
                         },
                       ),
 
-                      SizedBox(height: Dimen.SIDE_MARG),
+                      const SizedBox(height: Dimen.SIDE_MARG),
 
                       if(comp.awards.isNotEmpty)
-                        AwardsWidget(comp, padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG)),
+                        AwardsWidget(comp, padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG)),
 
                       if(comp.profile.role == CompRole.ADMIN || comp.profile.role == CompRole.MODERATOR)
-                        SizedBox(height: Dimen.FLOATING_BUTTON_SIZE + 2*Dimen.FLOATING_BUTTON_MARG)
+                        const SizedBox(height: Dimen.FLOATING_BUTTON_SIZE + 2*Dimen.FLOATING_BUTTON_MARG)
                       else
-                        SizedBox(height: Dimen.SIDE_MARG),
+                        const SizedBox(height: Dimen.SIDE_MARG),
 
                     ]))
 
@@ -417,7 +418,7 @@ class DateWidget extends StatelessWidget{
   final DateTime endDate;
   final Color color;
 
-  const DateWidget(this.startDate, this.endDate, this.color);
+  const DateWidget(this.startDate, this.endDate, this.color, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -439,7 +440,7 @@ class DateWidget extends StatelessWidget{
               children: [
 
                 Icon(MdiIcons.calendarStart, color: color),
-                SizedBox(width: Dimen.ICON_MARG),
+                const SizedBox(width: Dimen.ICON_MARG),
 
                 Text(
                   dateToString(startDate, shortMonth: true),
@@ -448,14 +449,14 @@ class DateWidget extends StatelessWidget{
               ],
             ),
 
-            SizedBox(height: Dimen.SIDE_MARG),
+            const SizedBox(height: Dimen.SIDE_MARG),
 
             if(endDate != null)
               Row(
                 children: [
                   Icon(MdiIcons.calendarEnd, color: color),
 
-                  SizedBox(width: Dimen.ICON_MARG),
+                  const SizedBox(width: Dimen.ICON_MARG),
 
                   Text(
                     dateToString(endDate, shortMonth: true),
@@ -466,7 +467,7 @@ class DateWidget extends StatelessWidget{
               ),
 
             if(endDate != null)
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
             Stack(
               children: [
@@ -479,7 +480,7 @@ class DateWidget extends StatelessWidget{
                           width: double.infinity,
                           decoration: BoxDecoration(
                               color: color.withOpacity(.2),
-                              borderRadius: BorderRadius.all(Radius.circular(3.0))
+                              borderRadius: const BorderRadius.all(Radius.circular(3.0))
                           ),
                         )
                     )
@@ -501,11 +502,9 @@ class DateWidget extends StatelessWidget{
                       int weeksLeft = daysLeft ~/ 7;
 
                       if(weeksLeft > 0)
-                        showAppToast(context, text: 'Pozostało ${weeksLeft} tygodni.');
+                        showAppToast(context, text: 'Pozostało $weeksLeft tygodni.');
                       else
-                        showAppToast(context, text: 'Pozostało ${daysLeft} dni.');
-
-
+                        showAppToast(context, text: 'Pozostało $daysLeft dni.');
 
                     },
                   ),
@@ -528,7 +527,7 @@ class AwardsWidget extends StatelessWidget{
   final IndivComp comp;
   final EdgeInsets padding;
 
-  const AwardsWidget(this.comp, {this.padding});
+  const AwardsWidget(this.comp, {this.padding, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -563,7 +562,7 @@ class PendingWidget extends StatelessWidget{
   final void Function(IndivCompParticip, IndivCompTaskCompl) onAccepted;
   final void Function(IndivCompParticip, IndivCompTaskCompl) onRejected;
 
-  const PendingWidget(this.compId, this.comp, {this.onAccepted, this.onRejected});
+  const PendingWidget(this.compId, this.comp, {this.onAccepted, this.onRejected, Key key}): super(key: key);
 
   static double get height =>
       Dimen.ICON_FOOTPRINT +
@@ -601,13 +600,13 @@ class PendingWidget extends StatelessWidget{
             },
             child: TitleShortcutRowWidget(
               leading: Padding(
-                padding: EdgeInsets.all(Dimen.ICON_MARG + AppCard.DEF_PADDING_VAL),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.DEF_PADDING_VAL),
                 child: Icon(MdiIcons.cube, color: background_(context)),
               ),
-              title: (pendingTaskCount==0?'':'(${pendingTaskCount}) ') + 'Wnioski o uznanie',
+              title: (pendingTaskCount==0?'':'($pendingTaskCount) ') + 'Wnioski o uznanie',
               titleColor: background_(context),
               trailing: IconButton(
-                  padding: EdgeInsets.all(Dimen.ICON_MARG + AppCard.DEF_PADDING_VAL),
+                  padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.DEF_PADDING_VAL),
                   icon: Icon(MdiIcons.arrowRight, color: background_(context)),
                   onPressed: null
               ),
@@ -628,7 +627,7 @@ class TasksWidget extends StatelessWidget{
   final void Function(List<IndivCompTaskCompl>) onReqSent;
   final void Function(List<IndivCompTaskCompl>, Map<String, Tuple3<int, int, Tuple2<double, double>>>) onSelfGranted;
 
-  const TasksWidget(this.comp, {this.onReqSent, this.onSelfGranted});
+  const TasksWidget(this.comp, {this.onReqSent, this.onSelfGranted, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -725,11 +724,11 @@ class TasksWidget extends StatelessWidget{
       ));
 
       if(i < comp.tasks.length-1)
-        children.add(SizedBox(height: separatorHeight));
+        children.add(const SizedBox(height: separatorHeight));
     }
 
     return Padding(
-      padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+      padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
       child: Column(
         children: [
 
@@ -755,7 +754,7 @@ class CompletedTasksPreviewWidget extends StatelessWidget{
   final IndivComp comp;
   final EdgeInsets padding;
 
-  const CompletedTasksPreviewWidget(this.comp, {this.padding=EdgeInsets.zero});
+  const CompletedTasksPreviewWidget(this.comp, {this.padding=EdgeInsets.zero, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -779,13 +778,13 @@ class CompletedTasksPreviewWidget extends StatelessWidget{
         break;
 
       if(i < comp.profile.completedTasks.length-1)
-        tasksWidgets.add(SizedBox(height: TasksWidget.separatorHeight));
+        tasksWidgets.add(const SizedBox(height: TasksWidget.separatorHeight));
 
     }
 
     if(tasksWidgets.isEmpty)
       return Padding(
-          padding: EdgeInsets.symmetric(vertical: 24.0),
+          padding: const EdgeInsets.symmetric(vertical: 24.0),
           child: Column(
             children: [
 
@@ -828,7 +827,7 @@ class ParticipantsWidget extends StatelessWidget{
   final IndivComp comp;
   final EdgeInsets padding;
 
-  const ParticipantsWidget(this.comp, {this.padding=EdgeInsets.zero});
+  const ParticipantsWidget(this.comp, {this.padding=EdgeInsets.zero, Key key}): super(key: key);
 
   static void onTap(IndivComp comp, BuildContext context) => pushPage(
       context,
@@ -857,7 +856,7 @@ class CompleteTasksDialog extends StatefulWidget{
   final List<IndivCompTaskCompl> complTasks;
   final void Function(IndivCompTaskCompl) onRemoved;
 
-  const CompleteTasksDialog(this.comp, this.complTasks, {this.onRemoved});
+  const CompleteTasksDialog(this.comp, this.complTasks, {this.onRemoved, Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => CompleteTasksDialogState();
@@ -876,17 +875,17 @@ class CompleteTasksDialogState extends State<CompleteTasksDialog> {
   Widget build(BuildContext context) =>
       BottomNavScaffold(
         body: CustomScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
           slivers: [
-            SliverAppBar(
+            const SliverAppBar(
               floating: true,
               title: Text('Prośby o zaliczenie'),
               centerTitle: true,
             ),
 
             SliverPadding(
-              padding: EdgeInsets.all(Dimen.SIDE_MARG),
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               sliver: SliverList(
                 delegate: SliverChildSeparatedBuilderDelegate((context, index) =>
                     IndivCompTaskComplWidget(
@@ -902,7 +901,7 @@ class CompleteTasksDialogState extends State<CompleteTasksDialog> {
                           if (mounted) setState(() {});
                         }
                     ),
-                  separatorBuilder: (BuildContext context, int index) => SizedBox(height: Dimen.SIDE_MARG),
+                  separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Dimen.SIDE_MARG),
                   count: complTasks.length,
                 ),
               ),
@@ -915,7 +914,7 @@ class CompleteTasksDialogState extends State<CompleteTasksDialog> {
 class LeaveNotAdminDialog extends StatelessWidget{
 
   final IndivComp comp;
-  const LeaveNotAdminDialog(this.comp);
+  const LeaveNotAdminDialog(this.comp, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -938,8 +937,9 @@ class LeaveNotAdminDialog extends StatelessWidget{
 class ShareCodeWidget extends StatefulWidget{
 
   final IndivComp comp;
+  final bool enabled;
 
-  const ShareCodeWidget(this.comp);
+  const ShareCodeWidget(this.comp, {this.enabled, Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => ShareCodeWidgetState();
@@ -950,11 +950,12 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
 
   IndivComp get comp => widget.comp;
 
-  bool processing;
+  bool get processing => !widget.enabled??_processing;
+  bool _processing;
 
   @override
   void initState() {
-    processing = false;
+    _processing = false;
     super.initState();
   }
 
@@ -968,7 +969,7 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
         children: [
 
           Padding(
-              padding: EdgeInsets.all(Dimen.ICON_MARG),
+              padding: const EdgeInsets.all(Dimen.ICON_MARG),
               child: Stack(
                 children: [
 
@@ -977,7 +978,7 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
                   Row(
                     children: [
 
-                      SizedBox(width: Dimen.ICON_FOOTPRINT),
+                      const SizedBox(width: Dimen.ICON_FOOTPRINT),
 
                       Expanded(
                           child: SelectableText(
@@ -992,10 +993,10 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
                       ),
 
                       IconButton(
-                        icon: Icon(MdiIcons.refresh),
+                        icon: const Icon(MdiIcons.refresh),
                         onPressed: processing || !comp.shareCodeSearchable?null:() async {
 
-                          setState(() => processing = true);
+                          setState(() => _processing = true);
                           await ApiIndivComp.resetShareCode(
                               compKey: comp.key,
                               onSuccess: (shareCode){
@@ -1006,7 +1007,7 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
                                   showAppToast(context, text: 'Za często zmieniasz kod dostępu');
                               }
                           );
-                          setState(() => processing = false);
+                          setState(() => _processing = false);
 
                         },
                       ),

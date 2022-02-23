@@ -8,7 +8,6 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_cat.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_group.dart';
 import 'package:harcapp/account/login_provider.dart';
-import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
@@ -18,9 +17,7 @@ import 'package:provider/provider.dart';
 
 import '_common_classes/color_pack.dart';
 import '_common_classes/sha_pref.dart';
-import '_common_classes/storage.dart';
 import '_common_widgets/app_toast.dart';
-import '_new/api/statistics.dart';
 import '_new/app_bottom_navigator.dart';
 import '_new/cat_page_guide_book/_sprawnosci/providers.dart';
 import '_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
@@ -43,6 +40,14 @@ import 'account/statistics.dart';
 import 'sync/synchronizer_engine.dart';
 
 AppMode appMode;
+enum AppMode{
+  APP_MODE_DEFAULT,
+  APP_MODE_ADWENT,
+  APP_MODE_CHRISTMAS,
+  APP_MODE_ZMARTWYCHWSTANIE,
+  APP_MODE_POWST_WARSZ,
+  APP_MODE_NIEPODLEGLOSC
+}
 
 void main() async {
 
@@ -72,13 +77,64 @@ void main() async {
 
 }
 
-enum AppMode{
-  APP_MODE_DEFAULT,
-  APP_MODE_ADWENT,
-  APP_MODE_CHRISTMAS,
-  APP_MODE_ZMARTWYCHWSTANIE,
-  APP_MODE_POWST_WARSZ,
-  APP_MODE_NIEPODLEGLOSC
+AppNavigatorObserver appNavigatorObserver = AppNavigatorObserver();
+class AppNavigatorObserver extends NavigatorObserver{
+
+  final List<void Function()> _onChangedListener = [];
+
+  void addChangedListener(void Function() listener) =>
+    _onChangedListener.add(listener);
+
+  void removeChangedListener(void Function() listener) =>
+      _onChangedListener.remove(listener);
+
+  void callNavBarChanged(){
+
+    for(void Function() onChangedListener in _onChangedListener)
+      onChangedListener.call();
+
+  }
+
+  @protected
+  @override
+  void didPop(Route route, Route previousRoute) {
+
+    for(void Function() onChangedListener in _onChangedListener)
+      onChangedListener.call();
+
+    super.didPop(route, previousRoute);
+  }
+
+  @protected
+  @override
+  void didPush(Route route, Route previousRoute) {
+
+    for(void Function() onChangedListener in _onChangedListener)
+      onChangedListener.call();
+
+    super.didPush(route, previousRoute);
+  }
+
+  @protected
+  @override
+  void didReplace({Route newRoute, Route oldRoute}) {
+
+    for(void Function() onChangedListener in _onChangedListener)
+      onChangedListener.call();
+
+    super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
+  }
+
+  @protected
+  @override
+  void didRemove(Route route, Route previousRoute) {
+
+    for(void Function() onChangedListener in _onChangedListener)
+      onChangedListener.call();
+
+    super.didRemove(route, previousRoute);
+  }
+
 }
 
 class App extends StatefulWidget {
@@ -166,8 +222,6 @@ class AppState extends State<App> {
       });
     });
     AccSecData.init();
-
-
 
     super.initState();
   }
@@ -269,6 +323,7 @@ class AppState extends State<App> {
                         Locale('pl'),
                       ],
                       locale: const Locale('pl'),
+                      navigatorObservers: [appNavigatorObserver],
                     ),
                   );
 
@@ -290,7 +345,7 @@ class ThemeProvider extends ChangeNotifier{
 
   ThemeProvider(AppTheme theme, {void Function() onChangedListener}){
     setThemeMode(theme);
-    this._onChangedListener = onChangedListener;
+    _onChangedListener = onChangedListener;
   }
 
   @override

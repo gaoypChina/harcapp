@@ -13,6 +13,7 @@ class ApiStatistics{
   static Future<Response> postObservations({
     Function(List<String> tooEarly, List<String> alreadyExisted, List<String> saved) onSuccess,
     Function() onError,
+    bool abortIfNothingToSend = true
   }) async {
 
     Map<String, Map<String, int>> standardSongSearch = Statistics.standardSongSearch;
@@ -21,7 +22,8 @@ class ApiStatistics{
     for(String timeIntrvlStr in standardSongSearch.keys){
 
       DateTime time = DateTime.tryParse(timeIntrvlStr.split(Statistics.syncPeriodSep)[0]);
-      if(time == null || time.difference(DateTime.now()).compareTo(Statistics.syncInterval) <= 0)
+
+      if(time == null || time.difference(DateTime.now()).abs().compareTo(Statistics.syncInterval) <= 0)
         continue;
 
       Map intervalData = {};
@@ -36,6 +38,7 @@ class ApiStatistics{
       data[timeIntrvlStr] = intervalData;
     }
 
+    if(abortIfNothingToSend && data.isEmpty) return null;
     logger.i('Statistics post request:\n${prettyJson(data)}');
 
     return await API.sendRequest(

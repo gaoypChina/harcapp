@@ -8,7 +8,7 @@ class IndivCompTaskWidget extends StatelessWidget{
   final IndivCompTask task;
   final Widget bottom;
 
-  const IndivCompTaskWidget(this.task, {this.bottom});
+  const IndivCompTaskWidget(this.task, {this.bottom, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => IndivCompTaskSkeletonWidget(

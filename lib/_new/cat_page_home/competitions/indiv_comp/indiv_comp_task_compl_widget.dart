@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
@@ -7,13 +6,10 @@ import 'package:harcapp/_new/cat_page_home/competitions/loading_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'common/indiv_comp_task_skeleton_widget.dart';
-import 'indiv_comp_task_page/review_page/indiv_comp_task_compl_details_widget.dart';
 import 'models/indiv_comp.dart';
-import 'models/indiv_comp_profile.dart';
 import 'models/indiv_comp_task.dart';
 import 'models/indiv_comp_task_compl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -27,7 +23,15 @@ class IndivCompTaskComplWidget extends StatelessWidget{
   final void Function() onTap;
   final dynamic heroTag;
 
-  const IndivCompTaskComplWidget(this.comp, this.taskCompl, {this.preview = false, this.onRemoved, this.onTap, this.heroTag});
+  const IndivCompTaskComplWidget(
+      this.comp,
+      this.taskCompl,
+      {this.preview = false,
+        this.onRemoved,
+        this.onTap,
+        this.heroTag,
+        Key key
+      }): super(key: key);
 
   @override
   Widget build(BuildContext context){
@@ -44,11 +48,11 @@ class IndivCompTaskComplWidget extends StatelessWidget{
         children: [
 
           Padding(
-            padding: EdgeInsets.only(right: Dimen.ICON_MARG, bottom: Dimen.ICON_MARG),
+            padding: const EdgeInsets.only(right: Dimen.ICON_MARG, bottom: Dimen.ICON_MARG),
             child: Row(
               children: [
 
-                SizedBox(width: Dimen.SIDE_MARG),
+                const SizedBox(width: Dimen.SIDE_MARG),
                 Expanded(
                   child: Text(
                     dateToString(taskCompl.reqTime, withTime: true, shortMonth: true),

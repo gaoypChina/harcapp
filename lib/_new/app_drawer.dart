@@ -43,7 +43,7 @@ class AppDrawer extends StatelessWidget{
                   child: Hero(
                     tag: harcAppBigRotatLogoHero,
                     child: RotationTransition(
-                        turns: AlwaysStoppedAnimation(-45 / 360),
+                        turns: const AlwaysStoppedAnimation(-45 / 360),
                         child: SvgPicture.asset(
                           'assets/images/harcapp_logo.svg',
                           width: 360,
@@ -57,7 +57,7 @@ class AppDrawer extends StatelessWidget{
               Column(
                 children: [
 
-                  AccountHeader(),
+                  const AccountHeader(),
 
                   Expanded(
                     child: Consumer<DrawerProvider>(
@@ -81,8 +81,8 @@ class AccountHeaderIcon extends StatelessWidget{
   Widget build(BuildContext context) {
     if(!account)
       return IconButton(
-          icon: Icon(AppDetails.icon),
-          onPressed: () => pushPage(context, builder: (context) => AppDetails())
+          icon: const Icon(AppDetails.icon),
+          onPressed: () => pushPage(context, builder: (context) => const AppDetails())
       );
 
     return Consumer<LoginProvider>(
@@ -100,7 +100,7 @@ class AccountHeader extends StatelessWidget{
   static const double iconSize = 54.0;
 
   final Widget leading;
-  const AccountHeader({this.leading});
+  const AccountHeader({this.leading, Key key}): super(key: key);
 
   static const IconData icon = MdiIcons.accountCircleOutline;
 
@@ -112,11 +112,11 @@ class AccountHeader extends StatelessWidget{
           width: 305,
           child: AccountHeader(
             leading: IconButton(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 left: Dimen.ICON_MARG,
                 right: Dimen.ICON_MARG
               ),
-              icon: Icon(MdiIcons.arrowLeft),
+              icon: const Icon(MdiIcons.arrowLeft),
               onPressed: () => Navigator.pop(context),
             ),
           ),
@@ -137,26 +137,24 @@ class AccountHeader extends StatelessWidget{
           children: [
 
             if(leading == null)
-              SizedBox(width: Dimen.ICON_FOOTPRINT)
+              const SizedBox(width: Dimen.ICON_FOOTPRINT)
             else
               leading,
 
             Expanded(child: Container()),
-            HarcApp(size: Dimen.TEXT_SIZE_APPBAR),
+            const HarcApp(size: Dimen.TEXT_SIZE_APPBAR),
             Expanded(child: Container()),
 
             if(account)
               IconButton(
-                  icon: Icon(AppDetails.icon),
+                  icon: const Icon(AppDetails.icon),
                   onPressed: (){
                     Navigator.pop(context);
-                    pushPage(context, builder: (context) => AppDetails());
+                    pushPage(context, builder: (context) => const AppDetails());
                   }
               )
             else
-              SizedBox(width: Dimen.ICON_FOOTPRINT, height: Dimen.ICON_FOOTPRINT),
-
-
+              const SizedBox(width: Dimen.ICON_FOOTPRINT, height: Dimen.ICON_FOOTPRINT),
 
           ],
         ),
@@ -188,7 +186,7 @@ class AccountHeader extends StatelessWidget{
               child: Row(
                 children: [
 
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(Dimen.ICON_MARG),
                     child: account?Icon(MdiIcons.accountCircleOutline):Icon(AppDetails.icon),
                   ),
@@ -211,9 +209,9 @@ class AccountHeader extends StatelessWidget{
                     builder: (context, prov, child){
 
                       if(account && prov.loggedIn)
-                        return SyncWidget();
+                        return const SyncWidget();
 
-                      return SizedBox(width: Dimen.ICON_FOOTPRINT);
+                      return const SizedBox(width: Dimen.ICON_FOOTPRINT);
 
                     },
                   )
@@ -247,6 +245,8 @@ class AccountHeader extends StatelessWidget{
 }
 
 class SyncWidget extends StatefulWidget{
+
+  const SyncWidget({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => SyncWidgetState();

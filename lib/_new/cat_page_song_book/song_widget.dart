@@ -82,7 +82,7 @@ class SongWidget extends StatelessWidget{
 
   final CatPageSongBookState parent;
   final Song song;
-  final index;
+  final int index;
   final void Function(ScrollNotification) onScroll;
   final ScrollPhysics physics;
   final ScrollController controller;
@@ -120,7 +120,7 @@ class SongWidget extends StatelessWidget{
               builder: (BuildContext context) => BottomSheetDef(
                 title: 'Trudne słowa',
                 textColor: textEnab_(context),
-                childMargin: EdgeInsets.all(0),
+                childMargin: EdgeInsets.zero,
                 builder: (context) => BottomSheetWords(wordsCode, song.text, song.fileName),
               )
           );
