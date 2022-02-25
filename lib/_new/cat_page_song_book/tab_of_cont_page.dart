@@ -8,6 +8,7 @@ import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_app_common/patronite_support_widget.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/extended_floating_button.dart';
+import 'package:harcapp/_new/cat_page_song_book/songs_statistics_registrator.dart';
 import 'package:harcapp/account/statistics.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
@@ -31,7 +32,7 @@ class TabOfContPage extends StatefulWidget{
 
   static SongSearchOptions searchOptions = SongSearchOptions();
 
-  final void Function(Song, int) onSongSelected;
+  final void Function(Song, int, SongOpenType) onSongSelected;
   final void Function() onConfAlbumEnabled;
   final String initPhrase;
   final void Function(Song song) onNewSongAdded;
@@ -53,7 +54,7 @@ class TabOfContPage extends StatefulWidget{
 
 class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMixin{
 
-  void Function(Song, int) get onSongSelected => widget.onSongSelected;
+  void Function(Song, int, SongOpenType) get onSongSelected => widget.onSongSelected;
   void Function() get onConfAlbumEnabled => widget.onConfAlbumEnabled;
   TabController tabController;
 
@@ -123,7 +124,7 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
       )
   );
 
-  void selectSong(Song song){
+  void selectSong(Song song, SongOpenType songOpen){
 
     int indexInAlbum;
     if(Album.current.songs.contains(song))
@@ -133,7 +134,7 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
       Album.current = Album.omega;
       indexInAlbum = Album.current.songs.indexOf(song);
     }
-    onSongSelected(song, indexInAlbum);
+    onSongSelected(song, indexInAlbum, songOpen);
 
   }
 
@@ -222,7 +223,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
               int index = Random().nextInt(controller.currSongs.length);
               Song randomSong = controller.currSongs[index];
               int indexInAlbum = Album.current.songs.indexOf(randomSong);
-              page.onSongSelected(randomSong, indexInAlbum);
+              page.onSongSelected(randomSong, indexInAlbum, SongOpenType.random);
               Navigator.pop(context);
             }:null,
           );
@@ -231,7 +232,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
 
     itemTrailingBuilder: itemButtonsBuilder,
     onItemTap: (song, position) async {
-      page.selectSong(song);
+      page.selectSong(song, SongOpenType.search);
       await Statistics.registerStandardSongSearch(song.fileName);
       CatPageSongBookState.tabOfContOpenOnBack = true;
       Navigator.pop(context);
@@ -252,7 +253,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
           Navigator.pop(context);
         }
       }else if(text == '2137' || text == '21:37'){
-        page.selectSong(Song.allMap['o!_barka']);
+        page.selectSong(Song.allMap['o!_barka'], SongOpenType.search);
         Navigator.pop(context);
       }
 

@@ -3,8 +3,10 @@ import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:intl/intl.dart';
 import 'package:system_time_check/system_time_check.dart';
+import 'package:tuple/tuple.dart';
 
 import '../_new/api/statistics.dart';
+import '../_new/cat_page_song_book/songs_statistics_registrator.dart';
 import '../logger.dart';
 
 class Statistics{
@@ -29,7 +31,7 @@ class Statistics{
   }
   static set standardSongSearch(Map<String, Map<String, int>> value) => shaPref.setMap(ShaPref.SHA_PREF_STATISTICS_SONG_SIMPLE_SEARCH, value);
 
-  static Future<void> registerStandardSongSearch(String songFileName) async {
+  static Future<void> registerStandardSongSearch(String songFileName, SongOpenType songOpenType, Duration openDuration, List<Tuple2<Duration, double>> scrollEvents) async {
 
     bool isTimeAutomatic;
     try {isTimeAutomatic = await SystemTimeCheck.isSystemTimeAutomatic ?? false;}

@@ -1,13 +1,18 @@
+import 'package:harcapp/account/statistics.dart';
 import 'package:harcapp/logger.dart';
 import 'package:tuple/tuple.dart';
 
+enum SongOpenType{init, swipe, search, recommend, random}
 class SongsStatisticsRegistrator{
 
   DateTime _lastPausedTime;
   Duration _totalPausedDuration;
   String _songLclId;
+  SongOpenType _songOpenType;
   DateTime _songOpenTime;
-  List<Tuple2<DateTime, double>> _scrollRegisters;
+  List<Tuple2<Duration, double>> _scrollRegisters;
+
+  Duration get totalOpenDuration => DateTime.now().difference(_songOpenTime) - _totalPausedDuration;
 
   SongsStatisticsRegistrator(){
     _totalPausedDuration = Duration.zero;
@@ -21,29 +26,39 @@ class SongsStatisticsRegistrator{
     else{
       if(_lastPausedTime == null) _totalPausedDuration = Duration.zero;
       else _totalPausedDuration += DateTime.now().difference(_lastPausedTime);
+      _lastPausedTime = null;
     }
 
     logger.d('UsageStatisticsRegistrator ($_songLclId) paused: $value, total paused duration: $_totalPausedDuration');
   }
 
-  void openSong(String songLclId){
-    if(_songLclId != null) _save();
+  void clear(){
     _lastPausedTime = null;
     _totalPausedDuration = Duration.zero;
-    _songLclId = songLclId;
-    _songOpenTime = DateTime.now();
+    _songLclId = null;
     _scrollRegisters.clear();
+  }
+
+  void openSong(String songLclId, SongOpenType songOpenType){
+    if(_songLclId != null) commit();
+    clear();
+    _songLclId = songLclId;
+    _songOpenType = songOpenType;
+    _songOpenTime = DateTime.now();
     logger.d('UsageStatisticsRegistrator ($_songLclId) song opened.');
   }
 
   void registerScroll(scrollValue){
     if(_lastPausedTime != null) logger.e('UsageStatisticsRegistrator ($_songLclId) scrolled while paused!');
-    _scrollRegisters.add(Tuple2(DateTime.now().subtract(_totalPausedDuration), scrollValue));
-    logger.d('UsageStatisticsRegistrator ($_songLclId) scrolled to $scrollValue.');
-
+    _scrollRegisters.add(Tuple2(totalOpenDuration, scrollValue));
+    logger.d('UsageStatisticsRegistrator ($_songLclId) scrolled to $scrollValue after ${_scrollRegisters.last.item1}.');
   }
 
-  void _save(){
+  void commit(){
+    if(_songLclId == null) return;
+
+    Statistics.registerStandardSongSearch(songFileName);
+
     logger.d('UsageStatisticsRegistrator ($_songLclId) song stats saved.');
   }
 }

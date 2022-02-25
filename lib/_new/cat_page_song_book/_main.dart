@@ -168,6 +168,7 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
     BackButtonInterceptor.add(onBackPressed);
 
     appNavigatorObserver.addChangedListener(onNavigatorRouteChanged);
+    songsStatisticsRegistrator.openSong(Album.current.songs[lastPage].fileName, SongOpenType.init);
 
     post(() => setSettings());
     nestedScrollViewKey = GlobalKey();
@@ -181,7 +182,10 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
     songLoader.removeListener(loaderListener);
 
     BackButtonInterceptor.remove(onBackPressed);
+
     appNavigatorObserver.removeChangedListener(onNavigatorRouteChanged);
+    songsStatisticsRegistrator.commit();
+    songsStatisticsRegistrator.clear();
 
     synchronizer.removeListener(syncListener);
 
@@ -413,7 +417,7 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
 
                           onPageChanged: (index){
                             lastPage = index;
-                            songsStatisticsRegistrator.openSong(albProv.current.songs[index].fileName);
+                            songsStatisticsRegistrator.openSong(albProv.current.songs[index].fileName, SongOpenType.swipe);
                           },
                         ),
                       ),
@@ -483,9 +487,10 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
                                   if(album != Album.current) {
                                     if(controller.hasClients) {
                                       jumpToPage(0);
+                                      if(album.songs.isEmpty) return;
                                       songsStatisticsRegistrator.openSong(
-                                          album.songs.isEmpty?null:
-                                          album.songs.first.fileName
+                                          album.songs.first.fileName,
+                                          SongOpenType.init
                                       );
                                     }
                                   }
@@ -529,9 +534,10 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
             onSelected: (Album album){
               if(controller.hasClients){
                 jumpToPage(0);
+                if(album.songs.isEmpty) return;
                 songsStatisticsRegistrator.openSong(
-                    album.songs.isEmpty?null:
-                    album.songs.first.fileName
+                    album.songs.first.fileName,
+                    SongOpenType.init
                 );
               }
               notify();
@@ -539,9 +545,10 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
             onNewCreated: (Album album){
               if(controller.hasClients){
                 jumpToPage(0);
+                if(album.songs.isEmpty) return;
                 songsStatisticsRegistrator.openSong(
-                    album.songs.isEmpty?null:
-                    album.songs.first.fileName
+                    album.songs.first.fileName,
+                    SongOpenType.init
                 );
               }
               notify();

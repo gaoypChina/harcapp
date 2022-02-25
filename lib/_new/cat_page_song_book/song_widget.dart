@@ -323,33 +323,31 @@ class SongWidget extends StatelessWidget{
           prov.recalculate(MediaQuery.of(context).size.width, song);
         },
 
-        header: (BuildContext context, ScrollController controller){
-          return Column(
-            children: [
+        header: (BuildContext context, ScrollController controller) => Column(
+          children: [
 
-              if(appMode == AppMode.APP_MODE_CHRISTMAS)
-                ChristmasCard<Song>(
-                  onChristmasCardTap: ()async{
-                    SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
-                    TabOfContPage.searchOptions = SongSearchOptions(checkedTags: [Tag.TAG_KOLEDY]);
-                    await parent.openTabOfCont();
-                    TabOfContPage.searchOptions = oldSearchOptions;
-                  },
-                ),
+            if(appMode == AppMode.APP_MODE_CHRISTMAS)
+              ChristmasCard<Song>(
+                onChristmasCardTap: ()async{
+                  SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
+                  TabOfContPage.searchOptions = SongSearchOptions(checkedTags: [Tag.TAG_KOLEDY]);
+                  await parent.openTabOfCont();
+                  TabOfContPage.searchOptions = oldSearchOptions;
+                },
+              ),
 
-              if(appMode == AppMode.APP_MODE_POWST_WARSZ)
-                PowstWarszCard<Song>(
-                  onPowstanieCardTap: ()async{
-                    SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
-                    TabOfContPage.searchOptions = SongSearchOptions(checkedTags: [Tag.TAG_POWSTANCZE]);
-                    await parent.openTabOfCont();
-                    TabOfContPage.searchOptions = oldSearchOptions;
-                  },
-                ),
+            if(appMode == AppMode.APP_MODE_POWST_WARSZ)
+              PowstWarszCard<Song>(
+                onPowstanieCardTap: ()async{
+                  SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
+                  TabOfContPage.searchOptions = SongSearchOptions(checkedTags: [Tag.TAG_POWSTANCZE]);
+                  await parent.openTabOfCont();
+                  TabOfContPage.searchOptions = oldSearchOptions;
+                },
+              ),
 
-            ],
-          );
-        },
+          ],
+        ),
 
         footer: (BuildContext context, ScrollController controller){
           return MemoryListWidget(
