@@ -16,30 +16,10 @@ class ApiStatistics{
     bool abortIfNothingToSend = true
   }) async {
 
-    Map<String, Map<String, int>> standardSongSearch = Statistics.standardSongSearch;
+    Map<String, Map<String, dynamic>> songSearchRequests = Statistics.songSearchRequests;
 
-    Map data = {};
-    for(String timeIntrvlStr in standardSongSearch.keys){
-
-      DateTime time = DateTime.tryParse(timeIntrvlStr.split(Statistics.syncPeriodSep)[0]);
-
-      if(time == null || time.difference(DateTime.now()).abs().compareTo(Statistics.syncInterval) <= 0)
-        continue;
-
-      Map intervalData = {};
-
-      Map<String, int> songSearches = standardSongSearch[timeIntrvlStr];
-
-      for(String songLclId in songSearches.keys)
-        intervalData[songLclId] = {
-          "searchOpens": songSearches[songLclId]
-        };
-
-      data[timeIntrvlStr] = intervalData;
-    }
-
-    if(abortIfNothingToSend && data.isEmpty) return null;
-    logger.i('Statistics post request:\n${prettyJson(data)}');
+    if(abortIfNothingToSend && songSearchRequests.isEmpty) return null;
+    logger.i('Statistics post request:\n${prettyJson(songSearchRequests)}');
 
     return await API.sendRequest(
         withToken: true,
@@ -48,7 +28,7 @@ class ApiStatistics{
             options: Options(headers: {
               HttpHeaders.contentTypeHeader: 'application/json',
             }),
-            data: jsonEncode(data)
+            data: jsonEncode(songSearchRequests)
         ),
         onSuccess: (response) async {
           if(onSuccess == null) return;

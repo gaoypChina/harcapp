@@ -19,7 +19,7 @@ class AlbumPage extends StatefulWidget{
 
   final void Function(Album album) onAlbumSelected;
   final void Function(Album album) onNewCreated;
-  const AlbumPage({this.onAlbumSelected, this.onNewCreated});
+  const AlbumPage({this.onAlbumSelected, this.onNewCreated, Key key}): super(key: key);
 
   @override
   State<AlbumPage> createState() => AlbumPageState();
@@ -51,7 +51,7 @@ class AlbumPageState extends State<AlbumPage>{
     return AppScaffold(
       body: Consumer<AlbumProvider>(
         builder: (context, prov, child) => CustomScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           slivers: [
             SliverAppBar(
               backgroundColor: background_(context),
@@ -60,7 +60,7 @@ class AlbumPageState extends State<AlbumPage>{
               floating: true,
               actions: [
                 IconButton(
-                    icon: Icon(MdiIcons.bookmarkPlusOutline),
+                    icon: const Icon(MdiIcons.bookmarkPlusOutline),
                     onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -77,14 +77,14 @@ class AlbumPageState extends State<AlbumPage>{
             ),
 
             SliverPadding(
-              padding: EdgeInsets.all(Dimen.SIDE_MARG),
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               sliver: SliverList(
                 delegate: SliverChildSeparatedBuilderDelegate(
                       (context, index) =>  _AlbumItem(
                       prov.all[index],
                       onAlbumSelected: onAlbumSelected
                   ),
-                  separatorBuilder: (context, index) => SizedBox(height: Dimen.SIDE_MARG),
+                  separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
                   count: prov.all.length,
                 ),
               ),
@@ -93,7 +93,7 @@ class AlbumPageState extends State<AlbumPage>{
           ],
         ),
       ),
-      bottomNavigationBar: AppBottomNavigator(),
+      bottomNavigationBar: const AppBottomNavigator(),
     );
   }
 
@@ -129,11 +129,11 @@ class _AlbumItemState extends State<_AlbumItem>{
       },
       trailing: album.isOmega || album.isConfid()?
       Padding(
-        padding: EdgeInsets.only(right: Dimen.ICON_MARG),
+        padding: const EdgeInsets.only(right: Dimen.ICON_MARG),
         child: Icon(MdiIcons.lockOutline, size: AlbumWidget.ICON_SIZE, color: iconDisab_(context)),
       ):
       null,
-      bottom: album.isOmega || album.isConfid()?SizedBox(height: Dimen.ICON_FOOTPRINT):Row(
+      bottom: album.isOmega || album.isConfid()?const SizedBox(height: Dimen.ICON_FOOTPRINT):Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
 

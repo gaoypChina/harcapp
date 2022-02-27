@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 import '_common_classes/color_pack.dart';
 import '_common_classes/sha_pref.dart';
 import '_common_widgets/app_toast.dart';
+import '_new/api/statistics.dart';
 import '_new/app_bottom_navigator.dart';
 import '_new/cat_page_guide_book/_sprawnosci/providers.dart';
 import '_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
@@ -166,6 +167,9 @@ class AppState extends State<App> {
 
   ColorPack _slctColorPack;
 
+  LoginProvider loginProvider;
+  LoginProviderListener _loginListener;
+
   @override
   void initState() {
 
@@ -177,6 +181,16 @@ class AppState extends State<App> {
       case AppMode.APP_MODE_POWST_WARSZ: _slctColorPack = const ColorPackStartDefault(); break;
       default: _slctColorPack = const ColorPackStartDefault(); break;
     }
+
+    _loginListener = LoginProviderListener(
+        onLogin: (emailConf) async {
+          if(emailConf) await Statistics.commit();
+        },
+        onRegistered: () async => await Statistics.commit(),
+        onEmailConfirmChanged: (emailConf) async {
+          if(emailConf) await Statistics.commit();
+        }
+    );
 
     initShaPref().then((value) {
 
@@ -227,6 +241,12 @@ class AppState extends State<App> {
   }
 
   @override
+  void dispose() {
+    loginProvider.removeLoginListener( _loginListener);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     if(shaPref==null) return Container();
@@ -252,7 +272,11 @@ class AppState extends State<App> {
         )),
         ChangeNotifierProvider(create: (context) => MainProvider()),
 
-        ChangeNotifierProvider(create: (context) => LoginProvider()),
+        ChangeNotifierProvider(create: (context){
+          loginProvider = LoginProvider();
+          loginProvider.addLoginListener( _loginListener);
+          return loginProvider;
+        }),
 
         ChangeNotifierProvider(create: (context) => DrawerProvider()),
         ChangeNotifierProvider(create: (context) => FloatingButtonProvider()),

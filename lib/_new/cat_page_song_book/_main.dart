@@ -387,13 +387,13 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
                                 this,
                                 albProv.current.songs[position],
                                 position,
-                                onScroll: (scrollInfo){
+                                onScroll: (scrollInfo) async {
                                   int page = controller.page.round();
                                   if(page != position) return;
 
                                   if(scrollInfo is ScrollEndNotification){
                                     double scrollFraction = nestedScrollViewKey.currentState.innerController.offset/nestedScrollViewKey.currentState.innerController.position.maxScrollExtent;
-                                    songsStatisticsRegistrator.registerScroll(scrollFraction);
+                                    await songsStatisticsRegistrator.registerScroll(scrollFraction);
                                   }
 
                                   bool scrollable = scrollInfo.metrics.maxScrollExtent > 0;
@@ -415,9 +415,9 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
                                 controller: nestedScrollViewKey.currentState.innerController,
                               ),
 
-                          onPageChanged: (index){
+                          onPageChanged: (index) async {
                             lastPage = index;
-                            songsStatisticsRegistrator.openSong(albProv.current.songs[index].fileName, SongOpenType.swipe);
+                            await songsStatisticsRegistrator.openSong(albProv.current.songs[index].fileName, SongOpenType.swipe);
                           },
                         ),
                       ),
@@ -483,12 +483,12 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
                             text: Zmien_album_,
                             onTap: () => Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => AlbumPage(onAlbumSelected: (Album album) {
+                                MaterialPageRoute(builder: (context) => AlbumPage(onAlbumSelected: (Album album) async {
                                   if(album != Album.current) {
                                     if(controller.hasClients) {
                                       jumpToPage(0);
                                       if(album.songs.isEmpty) return;
-                                      songsStatisticsRegistrator.openSong(
+                                      await songsStatisticsRegistrator.openSong(
                                           album.songs.first.fileName,
                                           SongOpenType.init
                                       );
@@ -531,22 +531,22 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
       null:
       AppDrawer(
         body: AlbumDrawer(
-            onSelected: (Album album){
+            onSelected: (Album album) async {
               if(controller.hasClients){
                 jumpToPage(0);
                 if(album.songs.isEmpty) return;
-                songsStatisticsRegistrator.openSong(
+                await songsStatisticsRegistrator.openSong(
                     album.songs.first.fileName,
                     SongOpenType.init
                 );
               }
               notify();
             },
-            onNewCreated: (Album album){
+            onNewCreated: (Album album) async {
               if(controller.hasClients){
                 jumpToPage(0);
                 if(album.songs.isEmpty) return;
-                songsStatisticsRegistrator.openSong(
+                await songsStatisticsRegistrator.openSong(
                     album.songs.first.fileName,
                     SongOpenType.init
                 );
@@ -591,9 +591,9 @@ class CatPageSongBookState extends CatPageState<CatPageSongBook>{
           child: TabOfContPage(
             initPhrase: initPhrase,
             forgetScrollPosition: forgetScrollPosition,
-            onSongSelected: (Song song, int indexInAlbum){
+            onSongSelected: (Song song, int indexInAlbum, SongOpenType songOpenType) async {
               jumpToPage(indexInAlbum);
-              songsStatisticsRegistrator.openSong(song.fileName);
+              await songsStatisticsRegistrator.openSong(song.fileName, songOpenType);
             },
             onConfAlbumEnabled: (){
               jumpToPage(0);

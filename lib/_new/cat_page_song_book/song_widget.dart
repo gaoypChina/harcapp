@@ -97,287 +97,284 @@ class SongWidget extends StatelessWidget{
       }):super(key: ValueKey(song));
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => SongWidgetTemplate<Song>(
+    song,
+    SongBookBaseSetting(),
+    physics: physics,
+    scrollController: controller,
+    pageNotifier: parent?.notifier,
+    index: index,
 
-    return SongWidgetTemplate<Song>(
-        song,
-        SongBookBaseSetting(),
-        physics: physics,
-        scrollController: controller,
-        pageNotifier: parent?.notifier,
-        index: index,
+    topScreenPadding: 0,
 
-        topScreenPadding: 0,
+    initInstrumentType: SongBookSettings.chordsDrawType,
 
-        initInstrumentType: SongBookSettings.chordsDrawType,
+    onScroll: onScroll,//(scrollInfo) => determineFloatingButtonOpacity(context, scrollInfo),
 
-        onScroll: onScroll,//(scrollInfo) => determineFloatingButtonOpacity(context, scrollInfo),
+    onTitleTap: ()async{
+      String wordsCode = await readStringFromAssets('assets/song_words/${song.fileName}');
+      await showScrollBottomSheet(
+          context: context,
+          builder: (BuildContext context) => BottomSheetDef(
+            title: 'Trudne słowa',
+            textColor: textEnab_(context),
+            childMargin: EdgeInsets.zero,
+            builder: (context) => BottomSheetWords(wordsCode, song.text, song.fileName),
+          )
+      );
+    },
 
-        onTitleTap: ()async{
-          String wordsCode = await readStringFromAssets('assets/song_words/${song.fileName}');
-          await showScrollBottomSheet(
-              context: context,
-              builder: (BuildContext context) => BottomSheetDef(
-                title: 'Trudne słowa',
-                textColor: textEnab_(context),
-                childMargin: EdgeInsets.zero,
-                builder: (context) => BottomSheetWords(wordsCode, song.text, song.fileName),
-              )
+    onAuthorTap: (String author) async {
+      SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
+      TabOfContPage.searchOptions = SongSearchOptions();
+      await parent.openTabOfCont(initPhrase: author, forgetScrollPosition: true);
+      TabOfContPage.searchOptions = oldSearchOptions;
+    },
+
+    onComposerTap: (composer) async {
+      SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
+      TabOfContPage.searchOptions = SongSearchOptions();
+      await parent.openTabOfCont(initPhrase: composer, forgetScrollPosition: true);
+      TabOfContPage.searchOptions = oldSearchOptions;
+    },
+
+    onPerformerTap: (performer) async {
+      SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
+      TabOfContPage.searchOptions = SongSearchOptions();
+      await parent.openTabOfCont(initPhrase: performer, forgetScrollPosition: true);
+      TabOfContPage.searchOptions = oldSearchOptions;
+    },
+
+    onTagTap: (String tag) async{
+      SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
+      TabOfContPage.searchOptions = SongSearchOptions(checkedTags: [tag]);
+      await parent.openTabOfCont(forgetScrollPosition: true);
+      TabOfContPage.searchOptions = oldSearchOptions;
+    },
+
+    onYTLinkTap: (position) async {
+      if(!await isNetworkAvailable()) {
+        showAppToast(context, text: 'Brak połączenia z Internetem.');
+        return;
+      }
+
+      if(Platform.isAndroid && (await DeviceInfoPlugin().androidInfo).version.sdkInt < 20)
+        launchURL(song.youtubeLink);
+
+      double statusBarHeight = Provider.of<MainProvider>(context, listen: false).statusBarHeight;
+
+      await playYoutubeSong(
+          parent.context,
+          //dispSongsProv,
+          parent.controller,
+          song,
+          position - statusBarHeight
+      );
+    },
+
+    onYTLinkLongPress: ()async{
+      await Clipboard.setData(ClipboardData(text: song.youtubeLink));
+      showAppToast(context, text: 'Skopiowano link.');
+    },
+
+    onMinusTap: (BuildContext context, bool changedSize){
+      String tag = 'minus';
+      if(!changedSize && !isSnackBarActive(tag: tag)) showAppToast(context, text: 'Osiągnięto limit');
+    },
+
+    onPlusTap: (BuildContext context, bool changedSize){
+      String tag = 'plus';
+      if(!changedSize && !isSnackBarActive(tag: tag)){
+        if(SongBookSettings.showChords && song.hasChords)
+          AppScaffold.showMessage(
+              context,
+              'Aby powiększyć tekst, schowaj chwyty.',
+              tag: tag,
+              buttonText: 'Schowaj',
+              onButtonPressed: (_){
+                ShowChordsProvider prov = Provider.of<ShowChordsProvider>(context, listen: false);
+                prov.showChords = false;
+
+                TextSizeProvider textSizeProv = Provider.of<TextSizeProvider>(context, listen: false);
+                textSizeProv.recalculate(
+                    MediaQuery.of(context).size.width,
+                    song,
+                    fontSize: max(TextSizeProvider.defFontSize, textSizeProv.value)
+                );
+
+                //DisplayedSongsProvider provider = Provider.of<DisplayedSongsProvider>(context, listen: false);
+                //provider.notify();
+
+                Scaffold.of(context).hideCurrentSnackBar();
+              }
           );
-        },
+        else
+          showAppToast(context, text: 'Osiągnięto limit');
+      }
+    },
 
-        onAuthorTap: (String author) async {
-          SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
-          TabOfContPage.searchOptions = SongSearchOptions();
-          await parent.openTabOfCont(initPhrase: author, forgetScrollPosition: true);
-          TabOfContPage.searchOptions = oldSearchOptions;
-        },
+    onAlbumsTap: () async => await showScrollBottomSheet(
+      context: context,
+      builder: (context) => BottomSheetDef(
+        title: 'Dodaj do $albumu_',
+        textColor: textEnab_(context),
+        builder: (context) => AlbumChooser(song),
+      ),
+    ),
 
-        onComposerTap: (composer) async {
-          SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
-          TabOfContPage.searchOptions = SongSearchOptions();
-          await parent.openTabOfCont(initPhrase: composer, forgetScrollPosition: true);
-          TabOfContPage.searchOptions = oldSearchOptions;
-        },
-
-        onPerformerTap: (performer) async {
-          SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
-          TabOfContPage.searchOptions = SongSearchOptions();
-          await parent.openTabOfCont(initPhrase: performer, forgetScrollPosition: true);
-          TabOfContPage.searchOptions = oldSearchOptions;
-        },
-
-        onTagTap: (String tag) async{
-          SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
-          TabOfContPage.searchOptions = SongSearchOptions(checkedTags: [tag]);
-          await parent.openTabOfCont(forgetScrollPosition: true);
-          TabOfContPage.searchOptions = oldSearchOptions;
-        },
-
-        onYTLinkTap: (position) async {
-          if(!await isNetworkAvailable()) {
-            showAppToast(context, text: 'Brak połączenia z Internetem.');
-            return;
-          }
-
-          if(Platform.isAndroid && (await DeviceInfoPlugin().androidInfo).version.sdkInt < 20)
-            launchURL(song.youtubeLink);
+    onRateTap: (double position) => openDialog(
+        context: context,
+        builder: (context){
 
           double statusBarHeight = Provider.of<MainProvider>(context, listen: false).statusBarHeight;
 
-          await playYoutubeSong(
-              parent.context,
-              //dispSongsProv,
-              parent.controller,
-              song,
-              position - statusBarHeight
+          return Stack(
+            children: <Widget>[
+              Positioned(
+                child: RateCard<Song>(
+                    song,
+                    onTap: (rate, selected){
+                      song.setRate(selected?SongRate.RATE_NULL:rate);
+                      parent.notify();
+                      Navigator.pop(context);
+                    }
+                ),
+                top: position - statusBarHeight,
+                bottom: 0,
+                left: 0,
+                right: 0,
+              ),
+            ],
           );
-        },
+        }
+    ),
 
-        onYTLinkLongPress: ()async{
-          await Clipboard.setData(ClipboardData(text: song.youtubeLink));
-          showAppToast(context, text: 'Skopiowano link.');
-        },
+    onDeleteTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć'),
 
-        onMinusTap: (BuildContext context, bool changedSize){
-          String tag = 'minus';
-          if(!changedSize && !isSnackBarActive(tag: tag)) showAppToast(context, text: 'Osiągnięto limit');
-        },
+    onDeleteLongPress: () async {
+      if(await song.deleteSongFile()){
+        showAppToast(context, text: 'Usunięto piosenkę');
 
-        onPlusTap: (BuildContext context, bool changedSize){
-          String tag = 'plus';
-          if(!changedSize && !isSnackBarActive(tag: tag)){
-            if(SongBookSettings.showChords && song.hasChords)
-              AppScaffold.showMessage(
-                  context,
-                  'Aby powiększyć tekst, schowaj chwyty.',
-                  tag: tag,
-                  buttonText: 'Schowaj',
-                  onButtonPressed: (_){
-                    ShowChordsProvider prov = Provider.of<ShowChordsProvider>(context, listen: false);
-                    prov.showChords = false;
+        OwnSong.removeOwn(song);
+        parent.notify();
+        parent.lastPage = parent.controller.page.toInt();
+        for(Album album in Album.allOwn)
+          album.removeSong(song);
+      }else
+        showAppToast(context, text: 'Błąd. Nie usunięto piosenki');
+    },
 
-                    TextSizeProvider textSizeProv = Provider.of<TextSizeProvider>(context, listen: false);
-                    textSizeProv.recalculate(
-                        MediaQuery.of(context).size.width,
-                        song,
-                        fontSize: max(TextSizeProvider.defFontSize, textSizeProv.value)
-                    );
+    onReportTap: () => showScrollBottomSheet(
+        context: context,
+        builder: (BuildContext context) => BottomSheetDef(
+          title: 'Zgłoszenie',
+          textColor: textEnab_(context),
+          builder: (context) => BottomSheetReport(song),
+        )
+    ),
 
-                    //DisplayedSongsProvider provider = Provider.of<DisplayedSongsProvider>(context, listen: false);
-                    //provider.notify();
+    onEditTap: (prov) async{
+      Map map = await getSongMap(song.fileName);
+      SongRaw songRaw = SongRaw.fromMap(song.fileName, map);
 
-                    Scaffold.of(context).hideCurrentSnackBar();
-                  }
-              );
-            else
-              showAppToast(context, text: 'Osiągnięto limit');
-          }
-        },
+      openOwnSongPage(
+          context,
+          song: songRaw,
+          onSaved: (Song song, EditType editType) async {
 
-        onAlbumsTap: () async => await showScrollBottomSheet(
-          context: context,
-          builder: (context) => BottomSheetDef(
-            title: 'Dodaj do $albumu_',
-            textColor: textEnab_(context),
-            builder: (context) => AlbumChooser(song),
-          ),
-        ),
+            if(editType == EditType.EDIT_OWN)
+              prov.value = prov.calculate(MediaQuery.of(context).size.width, song);
 
-        onRateTap: (double position) => openDialog(
-            context: context,
-            builder: (context){
-
-              double statusBarHeight = Provider.of<MainProvider>(context, listen: false).statusBarHeight;
-
-              return Stack(
-                children: <Widget>[
-                  Positioned(
-                    child: RateCard<Song>(
-                        song,
-                        onTap: (rate, selected){
-                          song.setRate(selected?SongRate.RATE_NULL:rate);
-                          parent.notify();
-                          Navigator.pop(context);
-                        }
-                    ),
-                    top: position - statusBarHeight,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                  ),
-                ],
-              );
-            }
-        ),
-
-        onDeleteTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć'),
-
-        onDeleteLongPress: () async {
-          if(await song.deleteSongFile()){
-            showAppToast(context, text: 'Usunięto piosenkę');
-
-            OwnSong.removeOwn(song);
             parent.notify();
-            parent.lastPage = parent.controller.page.toInt();
-            for(Album album in Album.allOwn)
-              album.removeSong(song);
-          }else
-            showAppToast(context, text: 'Błąd. Nie usunięto piosenki');
-        },
+            int index = Album.current.songs.indexOf(song);
+            parent.controller.jumpToPage(index);
+          }
+      );
 
-        onReportTap: () => showScrollBottomSheet(
-            context: context,
-            builder: (BuildContext context) => BottomSheetDef(
-              title: 'Zgłoszenie',
-              textColor: textEnab_(context),
-              builder: (context) => BottomSheetReport(song),
-            )
-        ),
+    },
 
-        onEditTap: (prov) async{
-          Map map = await getSongMap(song.fileName);
-          SongRaw songRaw = SongRaw.fromMap(song.fileName, map);
+    onSendSongTap: () => sendSong(song),
 
-          openOwnSongPage(
-              context,
-              song: songRaw,
-              onSaved: (Song song, EditType editType) async {
+    onShareTap: () => shareSong(context, song),
 
-                if(editType == EditType.EDIT_OWN)
-                  prov.value = prov.calculate(MediaQuery.of(context).size.width, song);
-
-                parent.notify();
-                int index = Album.current.songs.indexOf(song);
-                parent.controller.jumpToPage(index);
-              }
-          );
-
-        },
-
-        onSendSongTap: () => sendSong(song),
-
-        onShareTap: () => shareSong(context, song),
-
-        onCopyTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CopyPage(
-                song,
-                onCopied: () => showAppToast(context, text: 'Skopiowano.')
-            ))
-        ),
-
-        onChordsTypeChanged: (type){
-          ChordsDrawTypeProvider prov = Provider.of<ChordsDrawTypeProvider>(context, listen: false);
-          prov.chordsDrawType = type;
-          SongBookSettings.chordsDrawType = type;
-        },
-
-        onChordsTap: (prov){
-          song.shiftChordsUp();
-          prov.recalculate(MediaQuery.of(context).size.width, song);
-        },
-
-        onChordsLongPress: (prov){
-          song.shiftChordsDown();
-          prov.recalculate(MediaQuery.of(context).size.width, song);
-        },
-
-        header: (BuildContext context, ScrollController controller) => Column(
-          children: [
-
-            if(appMode == AppMode.APP_MODE_CHRISTMAS)
-              ChristmasCard<Song>(
-                onChristmasCardTap: ()async{
-                  SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
-                  TabOfContPage.searchOptions = SongSearchOptions(checkedTags: [Tag.TAG_KOLEDY]);
-                  await parent.openTabOfCont();
-                  TabOfContPage.searchOptions = oldSearchOptions;
-                },
-              ),
-
-            if(appMode == AppMode.APP_MODE_POWST_WARSZ)
-              PowstWarszCard<Song>(
-                onPowstanieCardTap: ()async{
-                  SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
-                  TabOfContPage.searchOptions = SongSearchOptions(checkedTags: [Tag.TAG_POWSTANCZE]);
-                  await parent.openTabOfCont();
-                  TabOfContPage.searchOptions = oldSearchOptions;
-                },
-              ),
-
-          ],
-        ),
-
-        footer: (BuildContext context, ScrollController controller){
-          return MemoryListWidget(
+    onCopyTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => CopyPage(
             song,
-            controller,
+            onCopied: () => showAppToast(context, text: 'Skopiowano.')
+        ))
+    ),
 
-            onEditMemoryTap: () => showAppToast(context, text: 'Przytrzymaj dłużej.'),
+    onChordsTypeChanged: (type){
+      ChordsDrawTypeProvider prov = Provider.of<ChordsDrawTypeProvider>(context, listen: false);
+      prov.chordsDrawType = type;
+      SongBookSettings.chordsDrawType = type;
+    },
 
-            onEditMemoryLongPress: (Memory memory) async{
-              await openMemoryEditor(context, song, initMemory: memory);
-              parent.notify();
-              post(() async => await this.controller.animateTo(
-                this.controller.position.maxScrollExtent,
-                duration: Duration(milliseconds: 100),
-                curve: Curves.easeOutQuart
-              ));
+    onChordsTap: (prov){
+      song.shiftChordsUp();
+      prov.recalculate(MediaQuery.of(context).size.width, song);
+    },
+
+    onChordsLongPress: (prov){
+      song.shiftChordsDown();
+      prov.recalculate(MediaQuery.of(context).size.width, song);
+    },
+
+    header: (BuildContext context, ScrollController controller) => Column(
+      children: [
+
+        if(appMode == AppMode.APP_MODE_CHRISTMAS)
+          ChristmasCard<Song>(
+            onChristmasCardTap: ()async{
+              SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
+              TabOfContPage.searchOptions = SongSearchOptions(checkedTags: [Tag.TAG_KOLEDY]);
+              await parent.openTabOfCont();
+              TabOfContPage.searchOptions = oldSearchOptions;
             },
+          ),
 
-            onNewMemoryTap: (Song song) async{
-              await openMemoryEditor(context, song);
-              parent.notify();
-              post(() async => await this.controller.animateTo(
-                  this.controller.position.maxScrollExtent,
-                  duration: Duration(milliseconds: 100),
-                  curve: Curves.easeOutQuart
-              ));
-            }
-          );
-        },
-      accentColor: Album.current.avgColor,
-    );
-  }
+        if(appMode == AppMode.APP_MODE_POWST_WARSZ)
+          PowstWarszCard<Song>(
+            onPowstanieCardTap: ()async{
+              SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
+              TabOfContPage.searchOptions = SongSearchOptions(checkedTags: [Tag.TAG_POWSTANCZE]);
+              await parent.openTabOfCont();
+              TabOfContPage.searchOptions = oldSearchOptions;
+            },
+          ),
+
+      ],
+    ),
+
+    footer: (BuildContext context, ScrollController controller){
+      return MemoryListWidget(
+          song,
+          controller,
+
+          onEditMemoryTap: () => showAppToast(context, text: 'Przytrzymaj dłużej.'),
+
+          onEditMemoryLongPress: (Memory memory) async{
+            await openMemoryEditor(context, song, initMemory: memory);
+            parent.notify();
+            post(() async => await this.controller.animateTo(
+                this.controller.position.maxScrollExtent,
+                duration: const Duration(milliseconds: 100),
+                curve: Curves.easeOutQuart
+            ));
+          },
+
+          onNewMemoryTap: (Song song) async{
+            await openMemoryEditor(context, song);
+            parent.notify();
+            post(() async => await this.controller.animateTo(
+                this.controller.position.maxScrollExtent,
+                duration: const Duration(milliseconds: 100),
+                curve: Curves.easeOutQuart
+            ));
+          }
+      );
+    },
+    accentColor: Album.current.avgColor,
+  );
 }

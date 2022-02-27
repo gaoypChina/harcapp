@@ -37,21 +37,21 @@ class AccountPage extends StatefulWidget{
   static open(BuildContext context){
     if(AccSecData.loggedIn) {
       if(AccSecData.emailConf)
-        pushPage(context, builder: (context) => AccountPage());
+        pushPage(context, builder: (context) => const AccountPage());
       else
         pushPage(context, builder: (context) => ConfEmailPart(AccSecData.email));
     }else
       pushPage(context, builder: (context) => LoginPart(
         onLoggedIn: (emailConf) {
           if(AccSecData.emailConf)
-            pushReplacePage(context, builder: (context) => AccountPage());
+            pushReplacePage(context, builder: (context) => const AccountPage());
           else
             pushReplacePage(context, builder: (context) => ConfEmailPart(AccSecData.email));
         },
       ));
   }
 
-  const AccountPage();
+  const AccountPage({Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => AccountPageState();
@@ -121,9 +121,9 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
       ],
       appBarBottom: TabBar(
         indicator: AppTabBarIncdicator(context: context),
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         controller: controller,
-        tabs: [
+        tabs: const [
           Tab(icon: Icon(MdiIcons.accountCog)),
           Tab(icon: Icon(MdiIcons.broadcast))
         ],
@@ -132,7 +132,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
         children: [
 
           TabBarView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             controller: controller,
             children: [
 
@@ -144,13 +144,13 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
           ),
 
           Padding(
-            padding: EdgeInsets.all(Dimen.SIDE_MARG),
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             child: AppCard(
               radius: AppCard.BIG_RADIUS,
               margin: EdgeInsets.zero,
               color: Colors.red,
               elevation: AppCard.bigElevation,
-              padding: EdgeInsets.all(Dimen.ICON_MARG),
+              padding: const EdgeInsets.all(Dimen.ICON_MARG),
               child: AppText(
                 'Konta HarcApp i wszystko z nimi związane są obecnie w <b>fazie testu</b>. Do czasu wydania wersji stabilnej, konta w każdej chwili <b>mogą zostać skasowane</b>.',
                 textAlign: TextAlign.center,
@@ -161,10 +161,12 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
 
           if(AccSecData.convertableToMicrosoft)
             Padding(
-              padding: EdgeInsets.all(Dimen.SIDE_MARG),
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               child: MicrosoftLoginButton(
                   'Połącz z kontem ZHP',
-                  trailing: mergingMsAcc?SpinKitChasingDots(color: Colors.black, size: Dimen.ICON_SIZE):Icon(MdiIcons.loginVariant, color: Colors.black),
+                  trailing: mergingMsAcc?
+                  const SpinKitChasingDots(color: Colors.black, size: Dimen.ICON_SIZE):
+                  const Icon(MdiIcons.loginVariant, color: Colors.black),
                   onTap: () async {
 
                     showAlertDialog(
@@ -239,7 +241,7 @@ class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
         else
           colorIdx = 0;
       });
-      await Future.delayed(Duration(milliseconds: 800));
+      await Future.delayed(const Duration(milliseconds: 800));
     }
   }
 
