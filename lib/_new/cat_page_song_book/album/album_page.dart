@@ -80,7 +80,7 @@ class AlbumPageState extends State<AlbumPage>{
               padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               sliver: SliverList(
                 delegate: SliverChildSeparatedBuilderDelegate(
-                      (context, index) =>  _AlbumItem(
+                      (context, index) => _AlbumItem(
                       prov.all[index],
                       onAlbumSelected: onAlbumSelected
                   ),

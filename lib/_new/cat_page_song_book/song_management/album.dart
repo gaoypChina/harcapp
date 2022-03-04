@@ -167,9 +167,9 @@ class Album extends SyncableItem<AlbumResp>{
     Map<String, dynamic> map = json.decode(code);
 
     // OLD OLD OLD
-    String songs_file_names = map['songs_file_names'];
-    if(songs_file_names != null){
-      List<String> songFileNames = songs_file_names.split(' ');
+    String songsFileNames = map['songs_file_names'];
+    if(songsFileNames != null){
+      List<String> songFileNames = songsFileNames.split(' ');
       List<OffSong> offSongs = [];
       List<OwnSong> ownSongs = [];
       for(String songFileName in songFileNames)

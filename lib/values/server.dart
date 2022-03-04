@@ -5,7 +5,7 @@
 /* A to jeżeli zdecyzujesz się uruchomić serwer lokalnie. */
 
 const String SERVER_IP = 'http://0.0.0.0';
- const String SERVER_PORT = '8080';
+const String SERVER_PORT = '8080';
 
 /*
 !!! WAŻNE !!!

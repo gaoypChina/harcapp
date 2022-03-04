@@ -45,7 +45,9 @@ class SyncParamRequestBuilder{
       if(returnAllNotNone)
         include = item.notNone();
       else
-        include = state == SyncableParamSingle.STATE_NOT_SYNCED;;
+        include =
+            state == SyncableParamSingle.STATE_NOT_SYNCED ||
+            state == SyncableParamSingle.STATE_SYNC_IN_PROGRESS;
 
       if (include) {
         dynamic val = await item.value();
@@ -228,14 +230,14 @@ abstract class SyncableEntity{
   static List<SyncableEntity> get allSyncables {
 
     List<SyncableEntity> syncables = [];
-    syncables.addAll(OffSong.allOfficial);
-    syncables.addAll(OwnSong.allOwn);
+    //syncables.addAll(OffSong.allOfficial);
+    //syncables.addAll(OwnSong.allOwn);
     syncables.addAll(Album.allOwn);
     //syncables.addAll(Memory.all);
 
-    syncables.addAll(Spraw.all);
-    syncables.addAll(Rank.all);
-    syncables.addAll(RemoveSyncReq.all);
+    //syncables.addAll(Spraw.all);
+    //syncables.addAll(Rank.all);
+    //syncables.addAll(RemoveSyncReq.all);
 
     return syncables;
   }
@@ -354,7 +356,7 @@ abstract class SyncableItem<T extends SyncEntityResp> implements SyncableEntity{
   DateTime get lastSync => getLastSync_(classId, objectId);
 
   static void setLastSync_(String classId, String objectId, DateTime dateTime){
-    shaPref.setString(ShaPref.SHA_PREF_SYNC_ITEM_LAST_SYNC_(classId, objectId), dateTime==null?null:dateTime.toIso8601String());
+    shaPref.setString(ShaPref.SHA_PREF_SYNC_ITEM_LAST_SYNC_(classId, objectId), dateTime?.toIso8601String());
   }
 
   set lastSync(DateTime dateTime) => setLastSync_(classId, objectId, dateTime);

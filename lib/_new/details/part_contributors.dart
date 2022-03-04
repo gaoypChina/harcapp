@@ -92,6 +92,8 @@ class PartContributors extends StatelessWidget{
     FILIP_BERGIER,
     WOJCIECH_WOLNIK,
     KRZSZTOF_MALIKIEWICZ,
+    PAWEL_MARUD,
+    KAJETAN_WYGNANSKI,
 
   ];
 

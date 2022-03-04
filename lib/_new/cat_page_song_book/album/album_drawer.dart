@@ -26,7 +26,7 @@ class AlbumDrawer extends StatefulWidget{
   final void Function(Album album) onSelected;
   final void Function(Album album) onNewCreated;
 
-  const AlbumDrawer({this.onSelected, this.onNewCreated});
+  const AlbumDrawer({this.onSelected, this.onNewCreated, Key key}): super(key: key);
 
   @override
   State createState() => AlbumDrawerState();
@@ -46,12 +46,12 @@ class AlbumDrawerState extends State<AlbumDrawer>{
 
         Expanded(
             child: CustomScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               slivers: [
 
                 SliverList(delegate: SliverChildListDelegate([
 
-                  SizedBox(height: 6.0),
+                  const SizedBox(height: 6.0),
 
                   TitleShortcutRowWidget(
                     title: Albumy_,
@@ -69,13 +69,13 @@ class AlbumDrawerState extends State<AlbumDrawer>{
                     }
                   ),
 
-                  SizedBox(height: 6.0),
+                  const SizedBox(height: 6.0),
 
                 ])),
 
                 Consumer<AlbumProvider>(
                   builder: (context, prov, child) => SliverPadding(
-                    padding: EdgeInsets.all(Dimen.ICON_MARG),
+                    padding: const EdgeInsets.all(Dimen.ICON_MARG),
                     sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
                           (context, index) => AlbumWidgetSmall(
                           prov.all[index],
@@ -86,7 +86,7 @@ class AlbumDrawerState extends State<AlbumDrawer>{
                             Navigator.pop(context);
                           }
                       ),
-                      separatorBuilder: (BuildContext , int ) => SizedBox(height: Dimen.ICON_MARG),
+                      separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Dimen.ICON_MARG),
                       count: prov.all.length,
                     )),
                   ),
@@ -94,10 +94,10 @@ class AlbumDrawerState extends State<AlbumDrawer>{
 
                 SliverList(delegate: SliverChildListDelegate([
                   Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       top: 2*Dimen.ICON_MARG,
-                      left: Dimen.DEF_MARG,
-                      right: Dimen.DEF_MARG
+                      left: Dimen.ICON_MARG,
+                      right: Dimen.ICON_MARG
                     ),
                     child: NewAlbumButton(onNewCreated: onNewCreated),
                   )
@@ -111,92 +111,6 @@ class AlbumDrawerState extends State<AlbumDrawer>{
       ],
     );
 
-  }
-
-}
-
-class AlbumItem extends StatefulWidget{
-
-  final AlbumDrawerState page;
-  final Album album;
-
-  AlbumItem(this.page, this.album):super(key: ValueKey(album.fileName));
-
-  @override
-  State<StatefulWidget> createState() => AlbumItemState();
-
-}
-
-class AlbumItemState extends State<AlbumItem>{
-
-  static const double SHIFT = 4;
-  static const double ELEVATION = 4;
-
-  AlbumDrawerState get page => widget.page;
-  Album get album => widget.album;
-
-  @override
-  Widget build(BuildContext context) {
-
-    return AlbumWidget(
-      album,
-      onTap: (){
-        if(page.onSelected!=null) page.onSelected(album);
-        Provider.of<AlbumProvider>(context, listen: false).current = album;
-        Provider.of<FloatingButtonProvider>(context, listen: false).notify();
-        Navigator.pop(context);
-      },
-      bottom: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-
-          IconButton(
-            icon: Icon(MdiIcons.pencilOutline, color: album.isOmega || album.isConfid()?iconDisab_(context):iconEnab_(context)),
-            onPressed: album.isOmega || album.isConfid()?null:() => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => NewAlbumPage(
-                      initAlbum: album,
-                      onSaved: (album){
-
-                        AlbumProvider prov = Provider.of<AlbumProvider>(context, listen: false);
-                        if(prov.current.fileName == album.fileName)
-                          prov.current = album;
-                        },
-                    )
-                )
-            ),
-          ),
-
-          AppButton(
-            icon: Icon(MdiIcons.trashCanOutline, color: album.isOmega || album.isConfid()?iconDisab_(context):iconEnab_(context)),
-            onTap: album.isOmega || album.isConfid()?null:() => showAppToast(context, text: 'Przytrzymaj, by usunąć $album_'),
-            onLongPress: album.isOmega || album.isConfid()?null:(){
-              AlbumProvider prov = Provider.of<AlbumProvider>(context, listen: false);
-
-              album.delete();
-              int index = prov.allOwn.indexOf(album);
-              prov.removeFromAll(album);
-
-              if(prov.current == album)
-                prov.current = Album.omega;
-
-              AppScaffold.showMessage(
-                  context,
-                  'Usunięto.',
-                  buttonText: 'Cofnij',
-                  onButtonPressed: (context){
-                    album.save();
-                    prov.insertToAll(index, album);
-                  }
-              );
-            },
-          ),
-
-        ],
-      ),
-
-    );
   }
 
 }

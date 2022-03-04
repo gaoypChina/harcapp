@@ -25,7 +25,7 @@ class RankTileWidgetShare extends StatelessWidget {
 
   final SharedRankMetaData data;
 
-  const RankTileWidgetShare(this.data);
+  const RankTileWidgetShare(this.data, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,20 +48,20 @@ class RankTileWidgetShare extends StatelessWidget {
           titleBottom: data.userData.name,
           titleBottomColor: hintEnab_(context),
           titleBottomLeading: Padding(
-            padding: EdgeInsets.only(right: Dimen.DEF_MARG),
+            padding: const EdgeInsets.only(right: Dimen.DEF_MARG),
             child: Icon(MdiIcons.accountCircle, color: hintEnab_(context)),
           ),
 
           onTap: (context) => loadOpenRankDialog(context, RankData.colors[rank.data].avgColor(Settings.isDark), data),
-          trailing: RankProgressWidget(data.rankCompleted, data.rankInProgress, data.rankCompletedTasksCnt~/(rank.state as RankStateLocal).taskCount),
+          trailing: RankProgressWidget(data.rankCompleted, data.rankInProgress, 100*data.rankCompletedTasksCnt~/(rank.state as RankStateLocal).taskCount),
         ),
 
         Padding(
-          padding: EdgeInsets.all(Dimen.ICON_MARG),
+          padding: const EdgeInsets.all(Dimen.ICON_MARG),
           child: Row(
             children: [
               Icon(MdiIcons.update, size: Dimen.TEXT_SIZE_NORMAL + 2, color: hintEnab_(context)),
-              SizedBox(width: Dimen.DEF_MARG),
+              const SizedBox(width: Dimen.DEF_MARG),
               Text(dateToString(data.lastUpdateDate, shortMonth: true, withTime: true), style: AppTextStyle(color: hintEnab_(context), fontWeight: weight.halfBold))
             ],
           ),

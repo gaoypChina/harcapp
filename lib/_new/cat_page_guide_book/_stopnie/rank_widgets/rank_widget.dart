@@ -2,6 +2,7 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
@@ -12,6 +13,7 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_widgets/rank_cat_
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/claim_button.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/complete_button.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/rank_spraw_temp_widget.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/loading_widget.dart';
 import 'package:harcapp/_new/cat_page_home/providers.dart';
 import 'package:harcapp/_new/details/part_settings.dart';
 import 'package:harcapp/account/account.dart';
@@ -57,7 +59,8 @@ class RankWidget extends StatefulWidget{
     this.onReqCompletedChanged,
 
     this.previewOnly = false,
-  });
+    Key key
+  }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => RankWidgetState();
@@ -77,7 +80,7 @@ class RankWidgetState extends State<RankWidget>{
 
   @override
   void initState() {
-    confettiController = ConfettiController(duration: Duration(seconds: 1));
+    confettiController = ConfettiController(duration: const Duration(seconds: 1));
     notifier = ValueNotifier(.0);
 
     reachedBottom = false;
@@ -134,12 +137,12 @@ class RankWidgetState extends State<RankWidget>{
 
               rank.buildHeader(context),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
               Column(children: children),
 
               rank.buildFooter(context),
-              SizedBox(height: 2*Dimen.ICON_MARG)
+              const SizedBox(height: 2*Dimen.ICON_MARG)
 
             ],
           ),
@@ -154,7 +157,7 @@ class RankWidgetState extends State<RankWidget>{
 
                   AnimatedOpacity(
                     opacity: rank.inProgress && rank.isReadyToComplete && !rank.completed?1:0,
-                    duration: Duration(milliseconds: 300),
+                    duration: const Duration(milliseconds: 300),
                     child: IgnorePointer(
                       ignoring: !showComplete,
                       child: CompleteButton(
@@ -170,7 +173,7 @@ class RankWidgetState extends State<RankWidget>{
 
                   AnimatedOpacity(
                     opacity: rank.inProgress || rank.completed?0:1,
-                    duration: Duration(milliseconds: 300),
+                    duration: const Duration(milliseconds: 300),
                     child: IgnorePointer(
                       ignoring: !showClaim,
                       child: ClaimButton(
@@ -217,7 +220,7 @@ class StopField extends StatelessWidget{
 
   final String title;
   final String text;
-  const StopField({@required this.title, @required this.text});
+  const StopField({@required this.title, @required this.text, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -229,8 +232,8 @@ class StopField extends StatelessWidget{
             children: [
 
               //Icon(MdiIcons.lightbulbOutline, color: iconDisab_(context)),
-              SizedBox(width: Dimen.ICON_SIZE),
-              SizedBox(width: Dimen.ICON_MARG),
+              const SizedBox(width: Dimen.ICON_SIZE),
+              const SizedBox(width: Dimen.ICON_MARG),
 
               Text(
                 title,
@@ -243,7 +246,7 @@ class StopField extends StatelessWidget{
           ),
 
         if(text != null)
-          SizedBox(height: 2 * Dimen.ICON_MARG),
+          const SizedBox(height: 2 * Dimen.ICON_MARG),
 
         if(text != null)
           Text(
@@ -262,7 +265,7 @@ class RankOneLineField extends StatelessWidget{
 
   final String title;
   final String text;
-  const RankOneLineField({@required this.title, @required this.text});
+  const RankOneLineField({@required this.title, @required this.text, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -271,8 +274,8 @@ class RankOneLineField extends StatelessWidget{
       return Row(
         children: [
           //Icon(MdiIcons.clockOutline, color: iconDisab_(context)),
-          SizedBox(width: Dimen.ICON_SIZE),
-          SizedBox(width: Dimen.ICON_MARG),
+          const SizedBox(width: Dimen.ICON_SIZE),
+          const SizedBox(width: Dimen.ICON_MARG),
 
           Text(
             title,
@@ -301,13 +304,13 @@ class SharedUsersWidget extends StatefulWidget implements PreferredSizeWidget{
   
   final Rank rank;
 
-  const SharedUsersWidget(this.rank);
+  const SharedUsersWidget(this.rank, {Key key}): super(key: key);
   
   @override
   State<StatefulWidget> createState() => SharedUsersWidgetState();
 
   @override
-  Size get preferredSize => Size(
+  Size get preferredSize => const Size(
       0,
       AccountThumbnailRowWidget.defSize + 2*Dimen.DEF_MARG + 2*Dimen.ICON_MARG + Dimen.TEXT_SIZE_NORMAL
   );
@@ -399,137 +402,139 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Consumer<SharedUsersProvider>(
+      builder: (context, prov, child){
 
-    Widget child;
+        Widget child;
 
-    if(!AccSecData.loggedIn)
-      return SizedBox(
-        height: widget.preferredSize.height,
-        width: double.infinity,
-        child: SimpleButton(
-          padding: EdgeInsets.zero,
-          margin: EdgeInsets.zero,
-          onTap: () => AccountPage.open(context),
-          radius: AppCard.BIG_RADIUS,
+        if(!AccSecData.loggedIn)
+          return SizedBox(
+            height: widget.preferredSize.height,
+            width: double.infinity,
+            child: SimpleButton(
+              padding: EdgeInsets.zero,
+              margin: EdgeInsets.zero,
+              onTap: () => AccountPage.open(context),
+              radius: AppCard.BIG_RADIUS,
+              color: background_(context),
+              elevation: AppCard.bigElevation,
+              clipBehavior: Clip.hardEdge,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: Icon(
+                      MdiIcons.accountCircleOutline,
+                      color: backgroundIcon_(context),
+                      size: widget.preferredSize.height + 4,
+                    ),
+                  ),
+
+                  Text('Zaloguj się,\nby udostępnić stopień', style: AppTextStyle(
+                      fontWeight: weight.halfBold,
+                      fontSize: Dimen.TEXT_SIZE_APPBAR,
+                      color: hintEnab_(context)
+                  ), textAlign: TextAlign.center),
+                ],
+              ),
+            ),
+          );
+
+        else{
+          if(loading)
+            child = Row(
+              children: [
+                const SizedBox(width: Dimen.ICON_FOOTPRINT),
+                Expanded(child: Text('Ładowanie...', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR), textAlign: TextAlign.center)),
+                const SizedBox(width: Dimen.ICON_MARG),
+                SpinKitChasingDots(color: RankData.colors[rank.data].avgColor(Settings.isDark), size: Dimen.ICON_SIZE),
+                const SizedBox(width: Dimen.ICON_MARG),
+              ],
+            );
+
+          else if(success)
+            child = Row(
+              children: [
+
+                if(sharedUsersProv.users.isEmpty)
+                  const SizedBox(width: Dimen.ICON_FOOTPRINT),
+
+                if(sharedUsersProv.users.isEmpty)
+                  Expanded(
+                    child: Text(
+                      'Tylko Ty masz tu dostęp.',
+                      style: AppTextStyle(
+                          color: hintEnab_(context),
+                          fontSize: Dimen.TEXT_SIZE_APPBAR,
+                          fontWeight: weight.bold
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                else
+                  Expanded(
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: AccountThumbnailRowWidget(
+                          sharedUsersProv.users.map((user) => user.name).toList(),
+                          clipBehavior: Clip.hardEdge,
+                          //padding: EdgeInsets.all(Dimen.DEF_MARG),
+                          screenWidth: MediaQuery.of(context).size.width - 2*Dimen.DEF_MARG - Dimen.ICON_FOOTPRINT,
+                          elevated: false,
+                          heroBuilder: (index) => sharedUsersProv.users[index],
+                        ),
+                      )
+                  ),
+
+                IconButton(
+                    icon: const Icon(MdiIcons.share),
+                    onPressed: () => openShareDialog(context, rank, sharedUsersProv)
+                ),
+
+              ],
+            );
+
+          else
+            child = Row(
+              children: [
+                const SizedBox(width: Dimen.ICON_FOOTPRINT),
+                Expanded(child: Text('Problem z ładowaniem', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR), textAlign: TextAlign.center)),
+                IconButton(
+                  icon: const Icon(MdiIcons.refresh),
+                  onPressed: loadSharedUsers,
+                )
+              ],
+            );
+        }
+
+        return Material(
+          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
           color: background_(context),
           elevation: AppCard.bigElevation,
           clipBehavior: Clip.hardEdge,
-          child: Stack(
-            alignment: Alignment.center,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              Positioned(
-                top: 0,
-                right: 0,
-                bottom: 0,
-                child: Icon(
-                  MdiIcons.accountCircleOutline,
-                  color: backgroundIcon_(context),
-                  size: widget.preferredSize.height + 4,
-                ),
+              Padding(
+                padding: const EdgeInsets.only(top: Dimen.ICON_MARG, bottom: Dimen.ICON_MARG, left: Dimen.ICON_MARG),
+                child: Text('Osoby, którym udostępniono stopień:', style: AppTextStyle(
+                    fontWeight: weight.halfBold,
+                    fontSize: Dimen.TEXT_SIZE_NORMAL,
+                    color: hintEnab_(context)
+                )),
               ),
 
-              Text('Zaloguj się,\nby udostępnić stopień', style: AppTextStyle(
-                  fontWeight: weight.halfBold,
-                  fontSize: Dimen.TEXT_SIZE_APPBAR,
-                  color: hintEnab_(context)
-              ), textAlign: TextAlign.center),
+              Expanded(child: child)
             ],
           ),
-        ),
-      );
-
-    else{
-      if(loading)
-        child = Row(
-          children: [
-            SizedBox(width: Dimen.ICON_FOOTPRINT),
-            Expanded(child: Text('Ładowanie...', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR), textAlign: TextAlign.center)),
-            SizedBox(width: Dimen.ICON_MARG),
-            SpinKitChasingDots(color: RankData.colors[rank.data].avgColor(Settings.isDark), size: Dimen.ICON_SIZE),
-            SizedBox(width: Dimen.ICON_MARG),
-          ],
         );
-
-      else if(success)
-        child = Row(
-          children: [
-
-            if(sharedUsersProv.users.isEmpty)
-              SizedBox(width: Dimen.ICON_FOOTPRINT),
-
-            if(sharedUsersProv.users.isEmpty)
-              Expanded(
-                child: Text(
-                  'Tylko Ty masz tu dostęp.',
-                  style: AppTextStyle(
-                    color: hintEnab_(context),
-                    fontSize: Dimen.TEXT_SIZE_APPBAR,
-                    fontWeight: weight.bold
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              )
-            else
-              Expanded(
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: AccountThumbnailRowWidget(
-                    sharedUsersProv.users.map((user) => user.name).toList(),
-                    clipBehavior: Clip.hardEdge,
-                    //padding: EdgeInsets.all(Dimen.DEF_MARG),
-                    screenWidth: MediaQuery.of(context).size.width - 2*Dimen.DEF_MARG - Dimen.ICON_FOOTPRINT,
-                    elevated: false,
-                    heroBuilder: (index) => sharedUsersProv.users[index],
-                  ),
-                )
-              ),
-
-            IconButton(
-                icon: Icon(MdiIcons.share),
-                onPressed: () => openShareDialog(context, rank, sharedUsersProv)
-            )
-
-          ],
-        );
-
-      else
-        child = Row(
-          children: [
-            SizedBox(width: Dimen.ICON_FOOTPRINT),
-            Expanded(child: Text('Problem z ładowaniem', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR), textAlign: TextAlign.center)),
-            IconButton(
-              icon: Icon(MdiIcons.refresh),
-              onPressed: loadSharedUsers,
-            )
-          ],
-        );
-    }
-
-    return Material(
-      borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-      color: background_(context),
-      elevation: AppCard.bigElevation,
-      clipBehavior: Clip.hardEdge,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-
-          Padding(
-            padding: EdgeInsets.only(top: Dimen.ICON_MARG, bottom: Dimen.ICON_MARG, left: Dimen.ICON_MARG),
-            child: Text('Osoby, którym udostępniono stopień:', style: AppTextStyle(
-                fontWeight: weight.halfBold,
-                fontSize: Dimen.TEXT_SIZE_NORMAL,
-                color: hintEnab_(context)
-            )),
-          ),
-
-          Expanded(child: child)
-        ],
-      ),
-    );
-  }
+      }
+  );
   
 }
 
@@ -538,7 +543,7 @@ class ShareDialog extends StatefulWidget{
   final Rank rank;
   final SharedUsersProvider sharedUsersProv;
   
-  const ShareDialog(this.rank, this.sharedUsersProv);
+  const ShareDialog(this.rank, this.sharedUsersProv, {Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => ShareDialogState();
@@ -551,7 +556,7 @@ class ShareDialogState extends State<ShareDialog>{
   SharedUsersProvider get sharedUsersProv => widget.sharedUsersProv;
 
   List<UserDataNick> usersToAdd;
-  List<UserData> removedUsers;
+  List<UserData> usersToRemove;
 
   List<UserData> initUsers;
   List<UserData> get users{
@@ -563,10 +568,12 @@ class ShareDialogState extends State<ShareDialog>{
 
   bool processing;
 
+  bool get anythingChanged => usersToAdd.isNotEmpty || usersToRemove.isNotEmpty;
+
   @override
   void initState() {
     usersToAdd = [];
-    removedUsers = [];
+    usersToRemove = [];
     initUsers = sharedUsersProv.users;
 
     processing = false;
@@ -589,34 +596,36 @@ class ShareDialogState extends State<ShareDialog>{
   @override
   Widget build(BuildContext context) => Center(
     child: Padding(
-      padding: EdgeInsets.all(Dimen.SIDE_MARG),
+      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
       child: Material(
         borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
         clipBehavior: Clip.hardEdge,
         color: background_(context),
         child: AppScaffold(
           appBar: AppBar(
-            title: Text('Udostępnij'),
+            title: const Text('Udostępnij'),
             centerTitle: true,
             elevation: 0,
             actions: [
               IconButton(
-                icon: Icon(MdiIcons.check),
-                onPressed: () async {
+                icon: const Icon(MdiIcons.check),
+                onPressed: anythingChanged?() async {
                   setState(() => processing = true);
+                  showLoadingWidget(context, RankData.colors[rank.data].avgColor(Settings.isDark), 'Chwileczkę...');
                   await ApiRank.shareRank(
                       rank.uniqRankName,
                       addByNick: usersToAdd.map((user) => user.nick).toList(),
-                      removeByKey: removedUsers.map((user) => user.key).toList(),
+                      removeByKey: usersToRemove.map((user) => user.key).toList(),
                       onSuccess: (users){
                         sharedUsersProv.users = users;
                         Navigator.pop(context);
                       },
                       onError: () => mounted?showAppToast(context, text: 'Coś poszło nie tak...'):null,
                   );
+                  await popPage(context);
                   if(mounted) setState(() => processing = false);
 
-                }
+                }:null
               )
             ],
           ),
@@ -628,7 +637,7 @@ class ShareDialogState extends State<ShareDialog>{
                   child: SimpleButton(
                     radius: AppCard.BIG_RADIUS,
                     onTap: addNewUser,
-                    child: Padding(
+                    child: const Padding(
                       padding: EdgeInsets.all(Dimen.SIDE_MARG),
                       child: EmptyMessageWidget(
                         icon: MdiIcons.accountPlusOutline,
@@ -639,14 +648,14 @@ class ShareDialogState extends State<ShareDialog>{
                 );
 
               return ListView.builder(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   itemCount: users.length,
                   itemBuilder: (context, index){
 
-                    bool removed = removedUsers.contains(users[index]);
+                    bool removed = usersToRemove.contains(users[index]);
 
                     return ListTile(
-                      contentPadding: EdgeInsets.symmetric(vertical: Dimen.SIDE_MARG/2, horizontal: Dimen.SIDE_MARG),
+                      contentPadding: const EdgeInsets.symmetric(vertical: Dimen.SIDE_MARG/2, horizontal: Dimen.SIDE_MARG),
                       leading: Hero(
                           tag: users[index],
                           child: AccountThumbnailWidget(users[index].name, enabled: !removed, elevated: false)
@@ -661,15 +670,15 @@ class ShareDialogState extends State<ShareDialog>{
                       trailing:
                       removed?
                       IconButton(
-                        icon: Icon(MdiIcons.refresh),
-                        onPressed: () => setState(() => removedUsers.remove(users[index])),
+                        icon: const Icon(MdiIcons.refresh),
+                        onPressed: () => setState(() => usersToRemove.remove(users[index])),
                       ):
                       IconButton(
-                        icon: Icon(MdiIcons.close),
+                        icon: const Icon(MdiIcons.close),
                         onPressed: (){
                           UserData user = users[index];
                           if(!usersToAdd.remove(user))
-                            removedUsers.add(user);
+                            usersToRemove.add(user);
 
                           setState((){});
                         },

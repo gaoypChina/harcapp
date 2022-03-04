@@ -18,6 +18,8 @@ import 'package:provider/provider.dart';
 
 class SharedRanksPage extends StatefulWidget{
 
+  const SharedRanksPage({Key key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => SharedRanksPageState();
 
@@ -111,15 +113,15 @@ class SharedRanksPageState extends State<SharedRanksPage>{
     return BottomNavScaffold(
       body: SmartRefresher(
         enablePullDown: AccSecData.loggedIn,
-        physics: BouncingScrollPhysics(),
-        header: MaterialClassicHeader(),
+        physics: const BouncingScrollPhysics(),
+        header: const MaterialClassicHeader(),
         controller: refreshController,
         onRefresh: loadSharedRanks,
         child: CustomScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           slivers: [
 
-            SliverAppBar(
+            const SliverAppBar(
               floating: true,
               pinned: true,
               centerTitle: true,
@@ -131,9 +133,9 @@ class SharedRanksPageState extends State<SharedRanksPage>{
                 child: Center(
                   child: SimpleButton(
                     radius: AppCard.BIG_RADIUS,
-                    padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                     onTap: () => AccountPage.open(context),
-                    child: EmptyMessageWidget(
+                    child: const EmptyMessageWidget(
                       icon: MdiIcons.accountCircleOutline,
                       text: 'Zaloguj się,\nby przejrzeć\nudostępnione stopnie',
                     ),
@@ -141,7 +143,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
                 ),
               )
             else if(loading && selSharedRanks == null)
-              SliverFillRemaining(
+              const SliverFillRemaining(
                 child: Center(
                   child: EmptyMessageWidget(
                     icon: MdiIcons.refresh,
@@ -150,7 +152,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
                 ),
               )
             else if(!loading && selSharedRanks == null)
-              SliverFillRemaining(
+              const SliverFillRemaining(
                 child: Center(
                   child: EmptyMessageWidget(
                     icon: MdiIcons.alertCircleOutline,
@@ -159,7 +161,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
                 ),
               )
             else if(selSharedRanks.isEmpty)
-              SliverFillRemaining(
+              const SliverFillRemaining(
                 child: Center(
                   child: EmptyMessageWidget(
                     icon: MdiIcons.shareVariantOutline,
@@ -169,10 +171,10 @@ class SharedRanksPageState extends State<SharedRanksPage>{
               )
             else
               SliverPadding(
-                padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                 sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
                     (context, index) => RankTileWidgetShare(selSharedRanks[index]),
-                    separatorBuilder: (context, index) => SizedBox(height: Dimen.SIDE_MARG),
+                    separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
                     count: selSharedRanks.length
                 )),
               )

@@ -42,13 +42,13 @@ class SynchronizerEngine{
 
   final semaphore = LocalSemaphore(10000000);
 
-  static final Duration aggregateTextInputDuration = Duration(seconds: 7);
-  static final Duration aggregateChordChangeDuration = Duration(seconds: 5);
+  static const Duration aggregateTextInputDuration = Duration(seconds: 7);
+  static const Duration aggregateChordChangeDuration = Duration(seconds: 5);
 
   final aggregateDelaySemaphore = LocalSemaphore(10000000);
   static int currAggregateDelayIndex = 0;
 
-  List<SynchronizerListener> _listeners = [];
+  final List<SynchronizerListener> _listeners = [];
   SyncOper _runningOper;
   bool _runPostAfterFinish;
   bool _runGetAfterFinish;
@@ -57,9 +57,9 @@ class SynchronizerEngine{
   SyncOper get runningOper => _runningOper;
 
   SynchronizerEngine(){
-    this._runningOper = null;
-    this._runPostAfterFinish = false;
-    this._runGetAfterFinish = false;
+    _runningOper = null;
+    _runPostAfterFinish = false;
+    _runGetAfterFinish = false;
   }
 
   void addListener(SynchronizerListener listener) => _listeners.add(listener);
@@ -132,7 +132,7 @@ class SynchronizerEngine{
     await synchronizer.reloadSyncables();
     bool result;
     await ApiSync.postAndSave(
-      syncable: SyncableEntity.allSyncables,
+      syncables: SyncableEntity.allSyncables,
       dumpReplaceExisting: dumpReplaceExisting,
       onSuccess: () => result = true,
       onError: (response) => result = false

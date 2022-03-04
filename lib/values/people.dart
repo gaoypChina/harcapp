@@ -122,12 +122,19 @@ const Person KACPER_WIDZ = Person(
     druzyna: '8 Lubelska Drużyna Wędrownicza "Infiniti"',
 );
 
-const Person KAJETAN_WYGNANSKI = Person(
-  name: 'Kajetan Wygrański',
+const KAJETAN_RUSZKOWSKI = Person(
+  name: 'Kajetan Ruszkowski',
   druzyna: 'XV ŁDH ,,Zielony Płomień" im. Andrzeja Małkowskiego',
   hufiec: huf_zhr_lodz,
   stop_h: StopZHP.HOc,
   org: Org.zhr_o,
+);
+const Person KAJETAN_WYGNANSKI = Person(
+  name: 'Kajetan Wygrański',
+  druzyna: '62 MDSH "Krzemień"',
+  hufiec: huf_zhp_pruszkow,
+  stop_h: StopZHP.odk,
+  org: Org.zhp,
 );
 const Person KAROLINA_MARCINKOWSKA = Person(name: 'Karolina Marcinkowska');
 const Person KAMIL_ZAK = Person(name: 'Kamil Żak', stop_h: StopZHP.HOc);
@@ -206,6 +213,7 @@ const Person OLIWIA_STANCZYK = Person(
 const Person OSKAR_PARDYAK = Person(name: 'Oskar Pardyak', stop_i: 'pwd.', stop_h: StopZHP.HOc, org: Org.zhp);
 const Person PATRYCJA_SZCZESNA = Person(name: 'Patrycja Szczęsna', stop_i: 'pwd.', stop_h: StopZHP.HOd, hufiec: huf_zhp_warszawa_praga_pn, org: Org.zhp);
 const Person PAULINA_BURDZIK = Person(name: 'Paulina Burdzik', stop_i: 'pwd.', hufiec: huf_zhp_krakow_pdg, org: Org.zhp, comment: 'J. niemiecki',);
+const Person PAWEL_MARUD = Person(name: 'Piotr Marud');
 const Person PIOTR_SOSNOWSKI = Person(name: 'Piotr Sosnowski', stop_i: 'pwd.',
   druzyna: 'II SzDHiZ, 74 Poznańska Drużyna Wędrownicza "Lewe Skrzydło" im. Dywizjonu 303',
   hufiec: huf_zhp_poznan_wilda,

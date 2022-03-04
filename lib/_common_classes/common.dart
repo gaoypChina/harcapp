@@ -41,7 +41,7 @@ class PrimitiveWrapperListenable<T> {
 
   T get(){return _value;}
   set(T value){
-    this._value = value;
+    _value = value;
       for(Function listener in _listeners)
         listener(value);
   }
@@ -55,7 +55,7 @@ class PrimitiveWrapperListenable<T> {
 
 class ShadowDecoration extends BoxDecoration{
 
-  static BoxShadow boxShadowDef({Color shadowColor: Colors.black26, Offset offset: const Offset(0.0, 3)}){
+  static BoxShadow boxShadowDef({Color shadowColor = Colors.black26, Offset offset = const Offset(0.0, 3)}){
     return BoxShadow(
       color: shadowColor,
       blurRadius: 3.0,
@@ -63,7 +63,7 @@ class ShadowDecoration extends BoxDecoration{
     );
   }
 
-  ShadowDecoration({Color backgroundColor, Color shadowColor: Colors.black26, Offset offset: const Offset(0.0, 3)}):super(
+  ShadowDecoration({Color backgroundColor, Color shadowColor = Colors.black26, Offset offset = const Offset(0.0, 3)}):super(
     color: backgroundColor,
     boxShadow: [boxShadowDef(shadowColor: shadowColor, offset: offset)],
   );
@@ -73,7 +73,7 @@ void bottomSheet(BuildContext context, Widget bottomSheet){
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(6.0))),
+    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(6.0))),
     builder: (BuildContext context) {
       return Padding(
         padding: EdgeInsets.only(
@@ -99,17 +99,15 @@ class AlertDialogButton extends StatelessWidget{
   final bool enabled;
   final void Function() onTap;
 
-  const AlertDialogButton({@required this.text, this.textColor, this.enabled = true, @required this.onTap});
+  const AlertDialogButton({@required this.text, this.textColor, this.enabled = true, @required this.onTap, Key key}): super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return SimpleButton(
+  Widget build(BuildContext context) => SimpleButton(
       radius: AppCard.BIG_RADIUS,
-      padding: EdgeInsets.all(Dimen.ICON_MARG),
+      padding: const EdgeInsets.all(Dimen.ICON_MARG),
       child: Text(text, style: AppTextStyle(fontWeight: weight.halfBold, color: textColor??(enabled?textEnab_(context):textDisab_(context)), fontSize: Dimen.TEXT_SIZE_BIG)),
       onTap: enabled?onTap:null
-    );
-  }
+  );
 
 }
 
@@ -132,10 +130,10 @@ Future<void> showAlertDialog(
           ],
         ),
         actions: actionBuilder==null?null:actionBuilder(context),
-        actionsPadding: EdgeInsets.only(bottom: Dimen.ICON_MARG, right: Dimen.ICON_MARG),
+        actionsPadding: const EdgeInsets.only(bottom: Dimen.ICON_MARG, right: Dimen.ICON_MARG),
         backgroundColor: cardEnab_(context),
         contentTextStyle: TextStyle(color: textEnab_(context)),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppCard.ALERT_DIALOG_RADIUS))),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppCard.ALERT_DIALOG_RADIUS))),
       ),
     );
 
@@ -205,7 +203,7 @@ class DialogRoute extends PageRoute{
   Widget Function(BuildContext context) builder;
   bool dismissible;
 
-  DialogRoute({@required this.builder, this.dismissible: true});
+  DialogRoute({@required this.builder, this.dismissible = true});
 
   @override
   Color get barrierColor => AppColors.dialog_dim;
@@ -223,36 +221,34 @@ class DialogRoute extends PageRoute{
   Curve get barrierCurve => Curves.easeInOut;
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-
-    bool fullScreen = Settings.checkFullScreen;
-
-    return SafeArea(
-        top: !fullScreen,
-          child: builder(context)
-      );
-  }
+  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) => SafeArea(
+      top: !Settings.checkFullScreen,
+      child: builder(context)
+  );
 
   @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
-    return FadeTransition(
-      opacity: animation,
-      child: child,
-    );
-  }
+  Widget buildTransitions(
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child
+  ) => FadeTransition(
+    opacity: animation,
+    child: child,
+  );
 
   @override
   bool get maintainState => true;
 
   @override
-  Duration get transitionDuration => Duration(milliseconds: 230);
+  Duration get transitionDuration => const Duration(milliseconds: 230);
 
 }
 
 Future<void> openDialog({
   @required BuildContext context,
   @required Widget Function(BuildContext context) builder,
-  bool dismissible: true
+  bool dismissible = true
 }) => Navigator.push(
     context,
     DialogRoute(

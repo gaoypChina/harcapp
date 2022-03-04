@@ -15,53 +15,52 @@ import 'new_album_page.dart';
 class NewAlbumButton extends StatelessWidget{
 
   final void Function(Album album) onNewCreated;
-  const NewAlbumButton({this.onNewCreated});
+  const NewAlbumButton({this.onNewCreated, Key key}): super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return SimpleButton(
-        clipBehavior: Clip.none,
-        radius: AppCard.BIG_RADIUS,
-        padding: EdgeInsets.zero,
-        child: Row(
-          children: [
-            AppCard(
-              radius: AppCard.BIG_RADIUS,
-              elevation: AppCard.bigElevation,
-              padding: EdgeInsets.all(Dimen.ICON_MARG),
-              margin: EdgeInsets.zero,
-              child: Icon(
-                MdiIcons.bookmarkPlusOutline,
-                color: textEnab_(context),
-                size: AlbumWidgetSmall.ICON_SIZE,
-              ),
+  Widget build(BuildContext context) => SimpleButton(
+      clipBehavior: Clip.none,
+      radius: AppCard.BIG_RADIUS,
+      padding: EdgeInsets.zero,
+      margin: EdgeInsets.zero,
+      child: Row(
+        children: [
+          AppCard(
+            radius: AppCard.BIG_RADIUS,
+            elevation: AppCard.bigElevation,
+            padding: const EdgeInsets.all(Dimen.ICON_MARG),
+            margin: EdgeInsets.zero,
+            child: Icon(
+              MdiIcons.bookmarkPlusOutline,
+              color: textEnab_(context),
+              size: AlbumWidgetSmall.ICON_SIZE,
             ),
-            Expanded(
-                child: Text(
-                    '$Nowy_album_',
-                    style: AppTextStyle(
-                        fontSize: Dimen.TEXT_SIZE_BIG,
-                        fontWeight: weight.halfBold,
-                        color: textEnab_(context)
-                    ),
-                    textAlign: TextAlign.center
-                )
-            ),
-            SizedBox(width: AlbumWidgetSmall.ICON_SIZE + 2*Dimen.ICON_MARG),
-          ],
-        ),
-        onTap: (){
+          ),
+          Expanded(
+              child: Text(
+                  Nowy_album_,
+                  style: AppTextStyle(
+                      fontSize: Dimen.TEXT_SIZE_BIG,
+                      fontWeight: weight.halfBold,
+                      color: textEnab_(context)
+                  ),
+                  textAlign: TextAlign.center
+              )
+          ),
+          const SizedBox(width: AlbumWidgetSmall.ICON_SIZE + 2*Dimen.ICON_MARG),
+        ],
+      ),
+      onTap: (){
 
-          Navigator.push(context, MaterialPageRoute(builder: (context) => NewAlbumPage(
-            onSaved: (album){
-                Navigator.pop(context);
-                if(onNewCreated != null)
-                  onNewCreated(album);
-              },
-          )));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => NewAlbumPage(
+          onSaved: (album){
+            Navigator.pop(context);
+            if(onNewCreated != null)
+              onNewCreated(album);
+          },
+        )));
 
-        }
-    );
-  }
+      }
+  );
 
 }

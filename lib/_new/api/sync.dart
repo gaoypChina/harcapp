@@ -33,7 +33,15 @@ class ApiSync{
   static Future<Response> post(
       List<SyncableEntity> syncables,
       {bool dumpReplaceExisting,
-        void Function(Response response, Map<String, dynamic> offSongs, Map<String, dynamic> ownSongs, Map<String, dynamic> albums, Map<String, dynamic> spraws, Map<String, dynamic> rankDefs, Map<String, dynamic> rankZhpSim2022, DateTime syncedTime) onSuccess,
+        void Function(
+            Response response,
+            Map<String, dynamic> offSongs,
+            Map<String, dynamic> ownSongs,
+            Map<String, dynamic> albums,
+            Map<String, dynamic> spraws,
+            Map<String, dynamic> rankDefs,
+            Map<String, dynamic> rankZhpSim2022,
+            DateTime syncedTime) onSuccess,
         void Function(Response response) onError,
       }) async {
 
@@ -70,14 +78,14 @@ class ApiSync{
         logger.i('Sync post response:\n${prettyJson(response.data)}');
 
         onSuccess?.call(
-            response,
-            offSongs,
-            ownSongs,
-            albums,
-            spraws,
-            rankDefs,
-            rankZhpSim2022,
-            syncedTime
+          response,
+          offSongs,
+          ownSongs,
+          albums,
+          spraws,
+          rankDefs,
+          rankZhpSim2022,
+          syncedTime
         );
       },
       onError: (err) async => onError?.call(err.response)
@@ -85,12 +93,12 @@ class ApiSync{
   }
 
   static Future<Response> postAndSave({
-    @required List<SyncableEntity> syncable,
+    @required List<SyncableEntity> syncables,
     bool dumpReplaceExisting,
     void Function() onSuccess,
     void Function(Response response) onError,
   }) async => await post(
-      syncable,
+      syncables,
       dumpReplaceExisting: dumpReplaceExisting,
       onSuccess: (Response response, Map offSongs, Map ownSongs, Map albums, Map spraws, Map rankDefs, Map rankZhpSim2022, DateTime syncedTime) {
 

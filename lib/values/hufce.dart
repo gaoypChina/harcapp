@@ -100,6 +100,7 @@ const String huf_zhp_myslenice = 'Hufiec ZHP Myślenice';
 const String huf_zhp_opole = 'Hufiec ZHP Opole';
 const String huf_zhp_podkrakowski = 'Hufiec Podkrakowski ZHP';
 const String huf_zhp_poznan_wilda = 'Hufiec ZHP Poznań-Wilda';
+const String huf_zhp_pruszkow = 'Hufiec ZHP Pruszków';
 const String huf_zhp_pulawy = 'Hufiec ZHR Puławy';
 const String huf_zhp_rzeszow = 'Hufiec ZHP Rzeszów';
 const String huf_zhp_torun = 'Hufiec ZHP Toruń';
