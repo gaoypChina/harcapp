@@ -1,23 +1,29 @@
-
 import 'dart:math';
 
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/all_articles_page.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/bookmarked_articles_page.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/title_widget/article_card_widget.dart';
 import 'package:harcapp/_new/cat_page_harcthought/harc_forms/harc_form_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_harcthought/common/short_read.dart';
+import 'package:harcapp/_new/cat_page_harcthought/wiersze/data.dart';
+import 'package:harcapp/_new/cat_page_harcthought/wiersze/wiersz.dart';
+import 'package:harcapp/_new/module_statistics_registrator.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/providers.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/search_page.dart';
 import 'package:harcapp/_new/cat_page_harcthought/gawedy/data.dart';
+import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
@@ -25,30 +31,35 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../_common_classes/app_navigator.dart';
 import '../app_drawer.dart';
-import '../cat_page.dart';
 import 'articles/article_core.dart';
 import 'articles/article_list_widget.dart';
 import 'articles/article_loader.dart';
 import 'articles/article_text_style.dart';
 import 'articles/liked_articles_page.dart';
+import 'common/short_read_widget.dart';
 import 'common/short_reads_page.dart';
 import 'common/short_read_thumbnail_widget.dart';
+import 'gawedy/gaweda.dart';
 import 'harc_forms/data.dart';
 import 'harc_forms/harc_form.dart';
 import 'harc_forms/harc_forms_page.dart';
 
 class CatPageHarcThought extends StatefulWidget{
 
+  const CatPageHarcThought({Key key}) : super(key: key);
+
   @override
   State createState() => CatPageHarcThoughtState();
 
 }
 
-class CatPageHarcThoughtState extends CatPageState<CatPageHarcThought> with TickerProviderStateMixin{
+class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProviderStateMixin, AfterLayoutMixin{
 
   @override
-  ColorPack get colorPack => ColorPackHarcthought();
+  void afterFirstLayout(BuildContext context) =>
+    post(() => Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackHarcthought());
 
   ScrollController controller;
   TabController tabController;
@@ -56,7 +67,6 @@ class CatPageHarcThoughtState extends CatPageState<CatPageHarcThought> with Tick
 
   String paraFontFamily;
   bool loading;
-
 
   int selectedIndex;
 
@@ -76,145 +86,136 @@ class CatPageHarcThoughtState extends CatPageState<CatPageHarcThought> with Tick
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => AppScaffold(
+    body: CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
 
-    return AppScaffold(
-      body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
-        slivers: [
+        const SliverAppBar(
+          automaticallyImplyLeading: false,
+          leading: AccountHeaderIcon(),
+          title: Text('Myśl i inspiracje'),
+          centerTitle: true,
+          floating: true,
+        ),
 
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            leading: AccountHeaderIcon(),
-            title: Text('Myśl i inspiracje'),
-            centerTitle: true,
-            floating: true,
-          ),
+        SliverList(
+          delegate: SliverChildListDelegate([
 
-          SliverList(
-            delegate: SliverChildListDelegate([
+            _ArticleScrollView(),
 
-              _ArticleScrollView(),
+            const SizedBox(height: Dimen.SIDE_MARG),
 
-              SizedBox(height: Dimen.SIDE_MARG),
-
-              Padding(
-                padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
-                child: TitleShortcutRowWidget(
-                  icon: MdiIcons.campfire,
-                  iconColor: textEnab_(context),
-                  title: 'Gawędy',
-                  textAlign: TextAlign.start,
-                  onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => ShortReadsPage('Gawędy', allGawedy))),
-                ),
+            Padding(
+              padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+              child: TitleShortcutRowWidget(
+                icon: MdiIcons.campfire,
+                iconColor: textEnab_(context),
+                title: 'Gawędy',
+                textAlign: TextAlign.start,
+                onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => ShortReadsPage<Gaweda>(ModuleStatsMixin.myslHarcGawedy, 'Gawędy', allGawedy))),
               ),
+            ),
 
-              _ShortReadScrollView(allGawedy),
+            _ShortReadScrollView<Gaweda>(ModuleStatsMixin.myslHarcGawedy, allGawedy),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+            const SizedBox(height: Dimen.SIDE_MARG),
 
-              Padding(
-                padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
-                child: TitleShortcutRowWidget(
-                  icon: MdiIcons.scriptTextOutline,
-                  iconColor: textEnab_(context),
-                  title: 'Wiersze',
-                  textAlign: TextAlign.start,
-                  onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => ShortReadsPage('Wiersze', allWiersze))),
-                ),
+            Padding(
+              padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+              child: TitleShortcutRowWidget(
+                icon: MdiIcons.scriptTextOutline,
+                iconColor: textEnab_(context),
+                title: 'Wiersze',
+                textAlign: TextAlign.start,
+                onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => ShortReadsPage<Wiersz>(ModuleStatsMixin.myslHarcWiersze, 'Wiersze', allWiersze))),
               ),
+            ),
 
-              _ShortReadScrollView(allWiersze),
+            _ShortReadScrollView<Wiersz>(ModuleStatsMixin.myslHarcWiersze, allWiersze),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+            const SizedBox(height: Dimen.SIDE_MARG),
 
-              Padding(
-                padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
-                child: TitleShortcutRowWidget(
-                  icon: MdiIcons.packageVariantClosed,
-                  iconColor: textEnab_(context),
-                  title: 'Formy',
-                  textAlign: TextAlign.start,
-                  onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => HarcFormsPage(allForms))),
-                ),
+            Padding(
+              padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+              child: TitleShortcutRowWidget(
+                icon: MdiIcons.packageVariantClosed,
+                iconColor: textEnab_(context),
+                title: 'Formy',
+                textAlign: TextAlign.start,
+                onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => HarcFormsPage(allForms))),
               ),
+            ),
 
-              FormsScrollView(allForms),
+            FormsScrollView(allForms),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+            const SizedBox(height: Dimen.SIDE_MARG),
 
-            ]),
-          )
+          ]),
+        )
 
-        ],
-      ),
-      bottomNavigationBar: AppBottomNavigator(),
-    );
+      ],
+    ),
+    bottomNavigationBar: const AppBottomNavigator(),
+  );
 
-  }
-
-  @override
   Widget drawerBuilder(/*BuildContext context*/) => Column(
     children: [
 
       ListTile(
-        leading: Icon(MdiIcons.grid),
+        leading: const Icon(MdiIcons.grid),
         title: Text('Podgląd', style: AppTextStyle(fontWeight: weight.halfBold)),
       ),
 
-      SizedBox(height: Dimen.ICON_MARG),
+      const SizedBox(height: Dimen.ICON_MARG),
 
       ListTile(
-        leading: SizedBox(width: 0),
+        leading: const SizedBox(width: 0),
         title: Text('Artykuły', style: AppTextStyle(fontWeight: weight.bold, color: hintEnab_(context))),
       ),
 
       ListTile(
-        leading: Icon(MdiIcons.textBoxCheckOutline),
+        leading: const Icon(MdiIcons.textBoxCheckOutline),
         title: Text('Wszystkie', style: AppTextStyle(fontWeight: weight.halfBold)),
         trailing: Text('${Article.all?.length??'...'}', style: AppTextStyle(fontWeight: weight.bold)),
       ),
 
       ListTile(
-        leading: Icon(MdiIcons.bookmarkOutline),
+        leading: const Icon(MdiIcons.bookmarkOutline),
         title: Text('Zapisane', style: AppTextStyle(fontWeight: weight.halfBold)),
         trailing: Text('${Article.bookmarkedIds?.length??'...'}', style: AppTextStyle(fontWeight: weight.bold)),
       ),
 
       ListTile(
-        leading: Icon(MdiIcons.heartOutline),
+        leading: const Icon(MdiIcons.heartOutline),
         title: Text('Polubione', style: AppTextStyle(fontWeight: weight.halfBold)),
         trailing: Text('${Article.likedIds?.length??'...'}', style: AppTextStyle(fontWeight: weight.bold)),
       ),
 
-      SizedBox(height: Dimen.ICON_MARG),
+      const SizedBox(height: Dimen.ICON_MARG),
 
       ListTile(
-        leading: SizedBox(width: 0),
+        leading: const SizedBox(width: 0),
         title: Text('Gawędy', style: AppTextStyle(fontWeight: weight.bold, color: hintEnab_(context))),
       ),
 
       ListTile(
-        leading: Icon(MdiIcons.campfire),
+        leading: const Icon(MdiIcons.campfire),
         title: Text('Wszystkie', style: AppTextStyle(fontWeight: weight.halfBold)),
       ),
 
     ],
   );
 
-  @override
-  bool showDrawer() => false;
-
-  @override
   Widget buildFloatingButton(/*BuildContext context*/) => AnimatedBuilder(
       animation: tabNotifier,
       child: FloatingActionButton(
         onPressed: ()async{
 
           if(tabController.index != 0)
-            await tabController.animateTo(0);
+            tabController.animateTo(0);
           if(tabController.index != 0)
-            await Future.delayed(Duration(milliseconds: 200));
+            await Future.delayed(const Duration(milliseconds: 200));
 
           await Navigator.push(
               context,
@@ -225,16 +226,13 @@ class CatPageHarcThoughtState extends CatPageState<CatPageHarcThought> with Tick
               )
           );
         },
-        child: Icon(MdiIcons.magnify),
+        child: const Icon(MdiIcons.magnify),
       ),
       builder: (context, child) => Transform.translate(
         offset: Offset(cos(pi/2*(tabNotifier.value))*(50 + 2*Dimen.FLOATING_BUTTON_MARG), 0),
         child: child,
       )
   );
-
-  @override
-  bool showFloatingButton() => true;
 
   void notify() => setState((){});
 
@@ -307,7 +305,7 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
       children: [
 
         Padding(
-          padding: EdgeInsets.only(left: Dimen.SIDE_MARG),
+          padding: const EdgeInsets.only(left: Dimen.SIDE_MARG),
           child: TitleShortcutRowWidget(
             icon: MdiIcons.textBoxCheckOutline,
             iconColor: textEnab_(context),
@@ -322,10 +320,10 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
             ):
             (articleLoader.loadState == ArticleLoadState.NO_NET || articleLoader.loadState == ArticleLoadState.FAILED?
                 IconButton(
-                    icon: Icon(MdiIcons.refresh),
+                    icon: const Icon(MdiIcons.refresh),
                     onPressed: () => articleLoader.run()
                 ):
-                IconButton(icon: Icon(MdiIcons.progressDownload), onPressed: (){
+                IconButton(icon: const Icon(MdiIcons.progressDownload), onPressed: (){
 
                   showAlertDialog(
                     context,
@@ -392,7 +390,7 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
                   MdiIcons.bookOutline),
 
                   mode: ArticleListMode.PageView,
-                  itemPadding: EdgeInsets.only(bottom: 12.0)
+                  itemPadding: const EdgeInsets.only(bottom: 12.0)
               ),
             ),
 
@@ -400,7 +398,7 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
         ),
 
         Padding(
-          padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+          padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
           child: Row(
             children: [
 
@@ -437,29 +435,31 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
   }
 }
 
-class _ShortReadScrollView extends StatelessWidget{
+class _ShortReadScrollView<T extends ShortRead> extends StatelessWidget{
 
-  final List<ShortRead> allShortReads;
+  final String moduleId;
+  final List<T> allShortReads;
 
-  const _ShortReadScrollView(this.allShortReads);
+  const _ShortReadScrollView(this.moduleId, this.allShortReads);
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 200,
-      child: ListView.separated(
-        padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
-        physics: BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        itemCount: allShortReads.length,
-        itemBuilder: (context, index) => SizedBox(
-          child: ShortReadThumbnailWidget(allShortReads[index]),
-          width: 140,
+  Widget build(BuildContext context) => SizedBox(
+    height: 200,
+    child: ListView.separated(
+      padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+      physics: const BouncingScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      itemCount: allShortReads.length,
+      itemBuilder: (context, index) => SizedBox(
+        child: ShortReadThumbnailWidget(
+            allShortReads[index],
+            onTap: () => pushPage(context, builder: (context) => ShortReadWidget<T>(moduleId, allShortReads[index])),
         ),
-        separatorBuilder: (BuildContext context, int index) => SizedBox(width: Dimen.ICON_MARG),
+        width: 140,
       ),
-    );
-  }
+      separatorBuilder: (BuildContext context, int index) => const SizedBox(width: Dimen.ICON_MARG),
+    ),
+  );
 
 }
 
@@ -469,18 +469,18 @@ class FormsScrollView extends StatelessWidget{
 
   final List<HarcForm> forms;
 
-  const FormsScrollView(this.forms);
+  const FormsScrollView(this.forms, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => SizedBox(
     height: height,
     child: ListView.separated(
-      padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
-      physics: BouncingScrollPhysics(),
+      padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+      physics: const BouncingScrollPhysics(),
       scrollDirection: Axis.horizontal,
       itemCount: forms.length,
       itemBuilder: (context, index) => FormThumbnailWidget(forms[index]),
-      separatorBuilder: (BuildContext context, int index) => SizedBox(width: Dimen.ICON_MARG),
+      separatorBuilder: (BuildContext context, int index) => const SizedBox(width: Dimen.ICON_MARG),
     ),
   );
 

@@ -2,6 +2,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
@@ -36,6 +37,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tuple/tuple.dart';
 
+import '../../../module_statistics_registrator.dart';
 import 'indiv_comp_awards_page.dart';
 import 'indiv_comp_editor/common.dart';
 import 'indiv_comp_task_page/completed_tasks_page.dart';
@@ -59,7 +61,10 @@ class IndivCompPage extends StatefulWidget{
 
 }
 
-class IndivCompPageState extends State<IndivCompPage>{
+class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
+
+  @override
+  String get moduleId => throw ModuleStatsMixin.indivComp;
 
   IndivComp updatedComp;
   IndivComp get comp => updatedComp??widget.comp;
@@ -410,6 +415,7 @@ class IndivCompPageState extends State<IndivCompPage>{
           ],
         )),
   );
+
 }
 
 class DateWidget extends StatelessWidget{
@@ -981,14 +987,20 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
                       const SizedBox(width: Dimen.ICON_FOOTPRINT),
 
                       Expanded(
-                          child: SelectableText(
-                            comp.shareCode,
-                            style: AppTextStyle(
-                                fontSize: Dimen.ICON_SIZE,
-                                fontWeight: weight.bold,
-                                color: comp.shareCodeSearchable?iconEnab_(context):iconDisab_(context)
+                          child: GestureDetector(
+                            onLongPress: (){
+                              Clipboard.setData(ClipboardData(text: comp.shareCode));
+                              showAppToast(context, text: 'Skopiowano');
+                            },
+                            child: Text(
+                              comp.shareCode,
+                              style: AppTextStyle(
+                                  fontSize: Dimen.ICON_SIZE,
+                                  fontWeight: weight.bold,
+                                  color: comp.shareCodeSearchable?iconEnab_(context):iconDisab_(context)
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
                           )
                       ),
 

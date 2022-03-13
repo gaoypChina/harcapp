@@ -1,3 +1,4 @@
+import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/account/statistics.dart';
 import 'package:harcapp/logger.dart';
 import 'package:tuple/tuple.dart';
@@ -29,6 +30,8 @@ class SongsStatisticsRegistrator{
 
   bool get pause => _lastPausedTime != null;
   set pause(bool value){
+    if(_songLclId == null) return;
+
     if(value)
       _lastPausedTime = DateTime.now();
     else{
@@ -37,7 +40,7 @@ class SongsStatisticsRegistrator{
       _lastPausedTime = null;
     }
 
-    logger.d('UsageStatisticsRegistrator ($_songLclId) paused: $value, total paused duration: $_totalPausedDuration');
+    logger.d('SongsStatisticsRegistrator ($_songLclId) paused: $value, total paused duration: $_totalPausedDuration');
   }
 
   Future<void> clear() async {
@@ -48,30 +51,33 @@ class SongsStatisticsRegistrator{
     _scrollEvents.clear();
   }
 
-  Future<void> openSong(String songLclId, SongOpenType songOpenType) async {
+  Future<void> tryOpenSong(Song song, SongOpenType songOpenType) async {
     if(_songLclId != null) commit();
     if(!await TimeSettings.isTimeAutomatic) return;
 
     await clear();
-    _songLclId = songLclId;
+    if(!song.isOfficial) return;
+    _songLclId = song.fileName;
     _songOpenType = songOpenType;
     _songOpenTime = DateTime.now();
-    logger.d('UsageStatisticsRegistrator ($_songLclId) song opened.');
+    logger.d('SongsStatisticsRegistrator ($_songLclId) song opened.');
   }
 
   Future<void> registerScroll(double scrollValue) async {
     if(!await TimeSettings.isTimeAutomatic) return;
-    if(_lastPausedTime != null) logger.e('UsageStatisticsRegistrator ($_songLclId) scrolled while paused!');
+    if(_songLclId == null) return;
+
+    if(_lastPausedTime != null) logger.e('SongsStatisticsRegistrator ($_songLclId) scrolled while paused!');
     scrollValue = double.parse(scrollValue.toStringAsFixed(3));
     _scrollEvents.add(Tuple2(totalOpenDuration.inSeconds, scrollValue));
-    logger.d('UsageStatisticsRegistrator ($_songLclId) scrolled to $scrollValue after ${_scrollEvents.last.item1} seconds.');
+    logger.d('SongsStatisticsRegistrator ($_songLclId) scrolled to $scrollValue after ${_scrollEvents.last.item1} seconds.');
   }
 
   void commit(){
     if(_autoTimeChanged) return;
     if(_songLclId == null) return;
     
-    Duration totalOpenDuration = _songOpenTime.difference(DateTime.now()) - _totalPausedDuration;
+    Duration totalOpenDuration = DateTime.now().difference(_songOpenTime) - _totalPausedDuration;
 
     if(totalOpenDuration < const Duration(seconds: 10))
       return;
@@ -83,6 +89,6 @@ class SongsStatisticsRegistrator{
         _scrollEvents
     );
 
-    logger.d('UsageStatisticsRegistrator ($_songLclId) song stats saved.');
+    logger.d('SongsStatisticsRegistrator ($_songLclId) song stats saved.');
   }
 }

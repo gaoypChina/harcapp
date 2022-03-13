@@ -113,7 +113,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
 
         Consumer<ConnectivityProvider>(
             builder: (context, prov, child) => IconButton(
-                icon: Icon(MdiIcons.logout),
+                icon: const Icon(MdiIcons.logout),
                 onPressed: prov.connected?() => openLogoutDialog(context):null
             )
         )

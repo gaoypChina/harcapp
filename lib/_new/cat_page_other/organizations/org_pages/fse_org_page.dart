@@ -9,35 +9,46 @@ import 'package:harcapp_core/dimen.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../../module_statistics_registrator.dart';
 import 'common.dart';
 
-class FSEOrgPage extends StatelessWidget{
+class FSEOrgPage extends StatefulWidget{
+
+  const FSEOrgPage({Key key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => FSEOrgPageState();
+
+}
+
+class FSEOrgPageState extends State<FSEOrgPage> with ModuleStatsMixin{
+
+  @override
+  String get moduleId => ModuleStatsMixin.orgFSE;
 
   @override
   Widget build(BuildContext context) {
 
-    Color grayColor = Color.fromARGB(255, 75, 75, 75);
-    Color grayColorDark = Color.fromARGB(255, 55, 55, 55);
-
-    double logo_size = 100;
+    Color grayColor = const Color.fromARGB(255, 75, 75, 75);
+    Color grayColorDark = const Color.fromARGB(255, 55, 55, 55);
 
     return BottomNavScaffold(
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
 
-          SliverAppBar(
+          const SliverAppBar(
             title: Text('Federacja Skautingu Europejskiego'),
             centerTitle: true,
             floating: true,
           ),
 
           SliverPadding(
-            padding: EdgeInsets.all(Dimen.SIDE_MARG),
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
 
-                FSEOrgCardWidget(),
+                const FSEOrgCardWidget(),
 
                 const SizedBox(height: commonPadding),
 
@@ -45,13 +56,13 @@ class FSEOrgPage extends StatelessWidget{
                   children: <Widget>[
                     Expanded(
                         child: IconButton(
-                          icon: Icon(MdiIcons.facebook),
+                          icon: const Icon(MdiIcons.facebook),
                           onPressed: () => launchURL('facebook.com/skauci.europy'),
                         )
                     ),
                     Expanded(
                         child: IconButton(
-                          icon: Icon(MdiIcons.instagram),
+                          icon: const Icon(MdiIcons.instagram),
                           onPressed: () => launchURL('https://www.instagram.com/skaucieuropy_pl/'),
                         )
                     ),
@@ -59,14 +70,14 @@ class FSEOrgPage extends StatelessWidget{
                 ),
 
                 Padding(
-                  padding: EdgeInsets.all(commonPadding),
-                  child: AppText(
-                    '<b>Skauci Europy</b> to ruch wychowawczy dla dzieci i <b>młodzieży</b> w wieku od 8 do 18 lat, prowadzony przez kadrę wychowawczą, którą stanowią młodzi w wieku 18-26 lat i więcej wraz z udziałem dorosłych oraz rodziców, którzy pomagają młodym stworzyć wielki świat młodzieńczej <b>przygody</b>.',
-                    color: textEnab_(context),
-                    height: 1.2,
-                    textAlign: TextAlign.justify,
-                    size: Dimen.TEXT_SIZE_BIG,
-                  )
+                    padding: const EdgeInsets.all(commonPadding),
+                    child: AppText(
+                      '<b>Skauci Europy</b> to ruch wychowawczy dla dzieci i <b>młodzieży</b> w wieku od 8 do 18 lat, prowadzony przez kadrę wychowawczą, którą stanowią młodzi w wieku 18-26 lat i więcej wraz z udziałem dorosłych oraz rodziców, którzy pomagają młodym stworzyć wielki świat młodzieńczej <b>przygody</b>.',
+                      color: textEnab_(context),
+                      height: 1.2,
+                      textAlign: TextAlign.justify,
+                      size: Dimen.TEXT_SIZE_BIG,
+                    )
                 ),
 
 
@@ -84,7 +95,7 @@ class FSEOrgPage extends StatelessWidget{
                         titleColor: Colors.amber,
                         textColor: Colors.white,
                         cardColor: grayColor,
-                        titleLeading: Row(children: [Icon(MdiIcons.heart, color: Colors.amber), SizedBox(width: Dimen.ICON_MARG)]),
+                        titleLeading: Row(children: const [Icon(MdiIcons.heart, color: Colors.amber), SizedBox(width: Dimen.ICON_MARG)]),
                         inCard: false,
                       ),
 
@@ -94,7 +105,7 @@ class FSEOrgPage extends StatelessWidget{
                         titleColor: Colors.amber,
                         textColor: Colors.white,
                         cardColor: grayColor,
-                        titleLeading: Row(children: [Icon(MdiIcons.hammerScrewdriver, color: Colors.amber), SizedBox(width: Dimen.ICON_MARG)]),
+                        titleLeading: Row(children: const [Icon(MdiIcons.hammerScrewdriver, color: Colors.amber), SizedBox(width: Dimen.ICON_MARG)]),
                         inCard: false,
                       ),
 
@@ -104,7 +115,7 @@ class FSEOrgPage extends StatelessWidget{
                         titleColor: Colors.amber,
                         textColor: Colors.white,
                         cardColor: grayColor,
-                        titleLeading: Row(children: [Icon(MdiIcons.account, color: Colors.amber), SizedBox(width: Dimen.ICON_MARG)]),
+                        titleLeading: Row(children: const [Icon(MdiIcons.account, color: Colors.amber), SizedBox(width: Dimen.ICON_MARG)]),
                         inCard: false,
                       ),
 
@@ -114,7 +125,7 @@ class FSEOrgPage extends StatelessWidget{
                         titleColor: Colors.amber,
                         textColor: Colors.white,
                         cardColor: grayColor,
-                        titleLeading: Row(children: [Icon(MdiIcons.handshake, color: Colors.amber), SizedBox(width: Dimen.ICON_MARG)]),
+                        titleLeading: Row(children: const [Icon(MdiIcons.handshake, color: Colors.amber), SizedBox(width: Dimen.ICON_MARG)]),
                         inCard: false,
                       ),
 
@@ -124,7 +135,7 @@ class FSEOrgPage extends StatelessWidget{
                         titleColor: Colors.amber,
                         textColor: Colors.white,
                         cardColor: grayColor,
-                        titleLeading: Row(children: [Icon(MdiIcons.cross, color: Colors.amber), SizedBox(width: Dimen.ICON_MARG)]),
+                        titleLeading: Row(children: const [Icon(MdiIcons.cross, color: Colors.amber), SizedBox(width: Dimen.ICON_MARG)]),
                         inCard: false,
                       ),
 

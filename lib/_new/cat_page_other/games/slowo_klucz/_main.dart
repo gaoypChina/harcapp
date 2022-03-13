@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp/_common_classes/blur.dart';
-import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_other/games/slowo_klucz/word.dart';
@@ -9,18 +8,17 @@ import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
-import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qrcode_reader/qrcode_reader.dart';
 
+import '../../../module_statistics_registrator.dart';
 import '../_main_page.dart';
 import '../data.dart';
 import 'common.dart';
 import 'common/preview_cards_grid_widget.dart';
-import 'how_to_guide/_how_to_guide.dart';
 import 'main_game_page.dart';
 
 class SlowoKluczStartPage extends StatefulWidget{
@@ -31,12 +29,17 @@ class SlowoKluczStartPage extends StatefulWidget{
   static const leaderBoardColorStart = Colors.red;
   static const leaderBoardColorEnd = Colors.orange;
 
+  const SlowoKluczStartPage({Key key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => SlowoKluczStartPageState();
 
 }
 
-class SlowoKluczStartPageState extends State<SlowoKluczStartPage>{
+class SlowoKluczStartPageState extends State<SlowoKluczStartPage> with ModuleStatsMixin{
+
+  @override
+  String get moduleId => ModuleStatsMixin.graSlowoKlucz;
 
   @override
   void initState() {
@@ -65,38 +68,38 @@ class SlowoKluczStartPageState extends State<SlowoKluczStartPage>{
         AppScaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            title: Text('Słowo klucz', style: TextStyle(color: Colors.white)),
+            title: const Text('Słowo klucz', style: TextStyle(color: Colors.white)),
             centerTitle: true,
             backgroundColor: Colors.transparent,
             elevation: 0,
-            iconTheme: IconThemeData(color: Colors.white),
-            actionsIconTheme: IconThemeData(color: Colors.white),
+            iconTheme: const IconThemeData(color: Colors.white),
+            actionsIconTheme: const IconThemeData(color: Colors.white),
           ),
           body: Column(
             children: [
 
               Padding(
-                padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+                padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
                 child: InstructionRowWidget(gameDataSlowoKlucz),
               ),
 
               Expanded(child: AnimatedChildSlider(
                 direction: Axis.horizontal,
-                duration: Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 500),
                 switchInCurve: Curves.easeOutQuad,
                 switchOutCurve: Curves.easeOutQuad,
                 index: SlowoKluczMainGamePage.savedInstanceCode == null?1:0,
                 children: [
 
                   Padding(
-                    padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                     child: LoadGameWidget(
                       onSavedGameRemoved: () => setState(() {}),
                     ),
                   ),
 
                   Padding(
-                    padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                     child: Column(
                       children: [
 
@@ -122,7 +125,7 @@ class SlowoKluczStartPageState extends State<SlowoKluczStartPage>{
                             )
                         ),
 
-                        SizedBox(height: Dimen.SIDE_MARG),
+                        const SizedBox(height: Dimen.SIDE_MARG),
 
                         Expanded(
                             child: ButtonWidget(
@@ -169,7 +172,7 @@ class SlowoKluczStartPageState extends State<SlowoKluczStartPage>{
 
             ],
           ),
-          bottomNavigationBar: AppBottomNavigator(
+          bottomNavigationBar: const AppBottomNavigator(
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white,
             background: Colors.transparent,
@@ -187,7 +190,7 @@ class LoadGameWidget extends StatelessWidget{
 
   final void Function() onSavedGameRemoved;
 
-  const LoadGameWidget({this.onSavedGameRemoved});
+  const LoadGameWidget({this.onSavedGameRemoved, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -217,7 +220,7 @@ class LoadGameWidget extends StatelessWidget{
           ),
         ),
 
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
         TitleShortcutRowWidget(
           title: 'Nie, wolę zacząć nową grę',
@@ -252,8 +255,9 @@ class ButtonWidget extends StatelessWidget{
     @required this.colorStart,
     @required this.colorEnd,
     @required this.onTap,
-    this.withColors=true
-  });
+    this.withColors=true,
+    Key key
+  }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -283,13 +287,13 @@ class ButtonWidget extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
 
-              SizedBox(height: Dimen.ICON_MARG),
+              const SizedBox(height: Dimen.ICON_MARG),
 
               Padding(
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 child: AutoSizeText(
                     text,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontFamily: fontFamily,
                         color: Colors.white,
                         fontSize: 38.0
@@ -299,13 +303,13 @@ class ButtonWidget extends StatelessWidget{
               ),
 
               Padding(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   left: 2*Dimen.ICON_MARG,
                   right: 2*Dimen.ICON_MARG
                 ),
                 child: Text(
                     description,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'Hand15',
                       fontSize: 16.0,
                       color: Colors.white,

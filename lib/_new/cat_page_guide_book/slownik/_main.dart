@@ -15,17 +15,23 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../module_statistics_registrator.dart';
 import 'data.dart';
 import 'lang.dart';
 
 class SlownikFragment extends StatefulWidget {
+
+  const SlownikFragment({Key key}) : super(key: key);
 
   @override
   State createState() => SlownikFragmentState();
 
 }
 
-class SlownikFragmentState extends State<SlownikFragment>{
+class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
+
+  @override
+  String get moduleId => ModuleStatsMixin.slownik;
 
   static const double _iconSize = 30;
 
@@ -65,17 +71,17 @@ class SlownikFragmentState extends State<SlownikFragment>{
 
     return BottomNavScaffold(
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
             elevation: 0,
-            title: Text('Słownik harcerski'),
+            title: const Text('Słownik harcerski'),
             centerTitle: true,
             pinned: true,
             floating: true,
             actions: <Widget>[
               IconButton(
-                icon: Icon(Icons.spellcheck),
+                icon: const Icon(Icons.spellcheck),
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => WritingRulesPage())),
               ),
             ],
@@ -91,7 +97,7 @@ class SlownikFragmentState extends State<SlownikFragment>{
           ),
 
           SliverPadding(
-            padding: EdgeInsets.all(Dimen.SIDE_MARG),
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             sliver: SliverList(
               delegate: SliverChildSeparatedBuilderDelegate((BuildContext context, int index) {
 
@@ -102,7 +108,7 @@ class SlownikFragmentState extends State<SlownikFragment>{
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(Dimen.ICON_MARG),
+                      padding: const EdgeInsets.all(Dimen.ICON_MARG),
                       child: Icon(
                         _items[index].icon,
                         size: _iconSize,
@@ -110,25 +116,25 @@ class SlownikFragmentState extends State<SlownikFragment>{
                       ),
                     ),
 
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
 
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          SizedBox(height: Dimen.ICON_MARG + (_iconSize - WordWidget.textSize)/2),
+                          const SizedBox(height: Dimen.ICON_MARG + (_iconSize - WordWidget.textSize)/2),
 
                           Align(
                               alignment: Alignment.centerLeft,
                               child: WordWidget(langData1.word, weight.bold)
                           ),
-                          SizedBox(height: Dimen.ICON_MARG),
+                          const SizedBox(height: Dimen.ICON_MARG),
 
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Icon(MdiIcons.circleSmall, size: Dimen.TEXT_SIZE_BIG),
-                              SizedBox(width: Dimen.DEF_MARG),
+                              const Icon(MdiIcons.circleSmall, size: Dimen.TEXT_SIZE_BIG),
+                              const SizedBox(width: Dimen.DEF_MARG),
                               Expanded(child: WordWidget(langData2.word, weight.halfBold)),
                             ],
                           ),
@@ -137,8 +143,8 @@ class SlownikFragmentState extends State<SlownikFragment>{
                             children: langData2.alt.map((word) => Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Icon(MdiIcons.circleSmall, size: Dimen.TEXT_SIZE_BIG),
-                                SizedBox(width: Dimen.DEF_MARG),
+                                const Icon(MdiIcons.circleSmall, size: Dimen.TEXT_SIZE_BIG),
+                                const SizedBox(width: Dimen.DEF_MARG),
                                 Expanded(child: WordWidget(word, weight.halfBold)),
                               ],
                             )).toList(),
@@ -151,7 +157,7 @@ class SlownikFragmentState extends State<SlownikFragment>{
                 );
               },
                 count: _items.length,
-                separatorBuilder: (BuildContext context, int index) => SizedBox(height: Dimen.SIDE_MARG),
+                separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Dimen.SIDE_MARG),
               ),
             )
           )
@@ -159,7 +165,7 @@ class SlownikFragmentState extends State<SlownikFragment>{
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () => chooseLangs(),
-          icon: Icon(MdiIcons.translate),
+          icon: const Icon(MdiIcons.translate),
           label: Text('${langAbbr[lang1]} - ${langAbbr[lang2]}', style: AppTextStyle(fontWeight: weight.halfBold))
       )
     );
@@ -227,7 +233,7 @@ class WordWidget extends StatelessWidget{
 
   final TransWordData word;
   final weight w;
-  const WordWidget(this.word, this.w);
+  const WordWidget(this.word, this.w, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -237,7 +243,7 @@ class WordWidget extends StatelessWidget{
       children: [
         RichText(
           text: TextSpan(
-            style: TextStyle(fontSize: textSize),
+            style: const TextStyle(fontSize: textSize),
             children: <TextSpan>[
               if(word.prefix != null)
                 TextSpan(text: '${word.prefix} ', style: AppTextStyle(fontWeight: w, color: hintEnab_(context))),
@@ -268,13 +274,13 @@ class LangButton extends StatelessWidget{
   final Lang lang;
   final bool selected;
   final void Function() onTap;
-  const LangButton(this.lang, this.selected, {this.onTap});
+  const LangButton(this.lang, this.selected, {this.onTap, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     return SimpleButton(
-        padding: EdgeInsets.all(Dimen.ICON_MARG),
+        padding: const EdgeInsets.all(Dimen.ICON_MARG),
         child: Text(
             langName[lang],
             style: AppTextStyle(
@@ -296,7 +302,7 @@ class LangsPicker extends StatefulWidget{
 
   final void Function(Lang langFrom, Lang langTo) onChanged;
 
-  const LangsPicker(this.initLangFrom, this.initLangTo, {this.onChanged});
+  const LangsPicker(this.initLangFrom, this.initLangTo, {this.onChanged, Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => LangsPickerState();
@@ -337,7 +343,7 @@ class LangsPickerState extends State<LangsPicker>{
         ),
 
         IconButton(
-            icon: Icon(MdiIcons.swapHorizontal),
+            icon: const Icon(MdiIcons.swapHorizontal),
             onPressed: (){
               setState(() {
                 Lang langTmp = langFrom;

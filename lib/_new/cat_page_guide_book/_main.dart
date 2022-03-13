@@ -28,10 +28,8 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:tuple/tuple.dart';
 
 import '../app_drawer.dart';
-import '../cat_page.dart';
 import '_sprawnosci/_main.dart';
 import '_sprawnosci/models/spraw.dart';
 import '_sprawnosci/spraw_folder_page/spraw_folder.dart';
@@ -55,12 +53,14 @@ import 'okrzyki/_main.dart';
 
 class CatPageGuideBook extends StatefulWidget{
 
+  const CatPageGuideBook({Key key}) : super(key: key);
+
   @override
-  State<StatefulWidget> createState() => CatPageGuideBookState();
+  State createState() => CatPageGuideBookState();
 
 }
 
-class CatPageGuideBookState extends CatPageState<CatPageGuideBook>{
+class CatPageGuideBookState extends State<CatPageGuideBook>{
 
   static const double CAT_SEPARATOR = 28;
 

@@ -15,7 +15,7 @@ class Statistics{
 
   DateTime get lastSyncTime => shaPref.getDateTime(ShaPref.SHA_PREF_STATISTICS_LAST_SYNC_TIME, null);
 
-  static Map<String, Map<String, dynamic>> get songSearchRequests{
+  static Map<String, Map<String, dynamic>> get songs{
     Map<String, Map<String, dynamic>> map = shaPref.getMap(ShaPref.SHA_PREF_STATISTICS_SONG_SIMPLE_SEARCH, {});
     Map<String, Map<String, dynamic>> castMap = {};
     for(String key in map.keys){
@@ -25,7 +25,7 @@ class Statistics{
     return castMap;
   }
 
-  static set songSearchRequests(Map<String, Map<String, dynamic>> value) => shaPref.setMap(ShaPref.SHA_PREF_STATISTICS_SONG_SIMPLE_SEARCH, value);
+  static set songs(Map<String, Map<String, dynamic>> value) => shaPref.setMap(ShaPref.SHA_PREF_STATISTICS_SONG_SIMPLE_SEARCH, value);
 
   static Future<void> registerSongAction(String songFileName, SongOpenType songOpenType, Duration openDuration, List<Tuple2<int, double>> scrollEvents) async {
 
@@ -34,7 +34,7 @@ class Statistics{
       return;
     }
 
-    Map<String, Map<String, dynamic>> _allStandardSongSearch = songSearchRequests;
+    Map<String, Map<String, dynamic>> _allStandardSongSearch = songs;
 
     String localDate = DateFormat('yyyy-MM-ddTHH:mm:ss.mmm').format(DateTime.now());
 
@@ -50,7 +50,21 @@ class Statistics{
       ).toList()
     };
 
-    songSearchRequests = _allStandardSongSearch;
+    songs = _allStandardSongSearch;
+  }
+
+  static Map<String, List<Map<String, dynamic>>> get module{
+    Map<String, Map<String, dynamic>> map = shaPref.getMap(ShaPref.SHA_PREF_STATISTICS_SONG_SIMPLE_SEARCH, {});
+    Map<String, Map<String, dynamic>> castMap = {};
+    for(String key in map.keys){
+      Map<String, dynamic> innerMap = Map.from(map[key]);
+      castMap[key] = innerMap;
+    }
+    return null;
+  }
+
+  static Future<void> registerModuleAction(String moduleId, DateTime openTime, Duration openDuration) async {
+
   }
 
   static Future<void> commit() async {
@@ -64,12 +78,12 @@ class Statistics{
       return;
     }
 
-    if(Statistics.songSearchRequests.isEmpty)
+    if(Statistics.songs.isEmpty)
       return;
 
     await ApiStatistics.postObservations(
       onSuccess: (List<String> tooEarly, List<String> alreadyExisted, List<String> saved){
-        Map<String, Map<String, dynamic>> _allStandardSongSearch = songSearchRequests;
+        Map<String, Map<String, dynamic>> _allStandardSongSearch = songs;
         for(String timeStr in tooEarly)
           _allStandardSongSearch.remove(timeStr);
 
@@ -79,7 +93,7 @@ class Statistics{
         for(String timeStr in saved)
           _allStandardSongSearch.remove(timeStr);
 
-        songSearchRequests = _allStandardSongSearch;
+        songs = _allStandardSongSearch;
       },
       onError: (){}
     );

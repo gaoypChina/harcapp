@@ -6,6 +6,7 @@ import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 
+import '../../module_statistics_registrator.dart';
 import 'add_okrzyk_page.dart';
 import 'okrzyki_list_widget.dart';
 import 'common.dart';
@@ -14,12 +15,17 @@ import 'okrzyk.dart';
 
 class OkrzykiFragment extends StatefulWidget {
 
+  const OkrzykiFragment({Key key}) : super(key: key);
+
   @override
   State createState() => OkrzykiFragmentState();
 
 }
 
-class OkrzykiFragmentState extends State<OkrzykiFragment>{
+class OkrzykiFragmentState extends State<OkrzykiFragment> with ModuleStatsMixin{
+
+  @override
+  String get moduleId => ModuleStatsMixin.okrzyki;
 
   int loadingProgress;
 

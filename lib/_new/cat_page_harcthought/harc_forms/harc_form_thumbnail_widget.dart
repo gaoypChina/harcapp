@@ -72,7 +72,7 @@ class FormThumbnailWidget extends StatelessWidget{
                     MaterialPageRoute(builder: (context) => HarcFormWidget(form))
                 ),
                 child: Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -84,7 +84,7 @@ class FormThumbnailWidget extends StatelessWidget{
                         size: 64.0,
                       ),
 
-                      SizedBox(width: Dimen.ICON_MARG),
+                      const SizedBox(width: Dimen.ICON_MARG),
 
                       Expanded(
                         child: Column(
@@ -101,7 +101,7 @@ class FormThumbnailWidget extends StatelessWidget{
                               overflow: TextOverflow.ellipsis,
                             ),
 
-                            SizedBox(height: Dimen.ICON_MARG),
+                            const SizedBox(height: Dimen.ICON_MARG),
 
                             FormThumbnailTagsWidget(form),
 

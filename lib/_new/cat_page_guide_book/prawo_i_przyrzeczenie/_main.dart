@@ -7,6 +7,7 @@ import 'package:harcapp/_common_widgets/colored_tab.dart';
 import 'package:harcapp/_new/cat_page_guide_book/prawo_i_przyrzeczenie/provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../module_statistics_registrator.dart';
 import 'child_fse.dart';
 import 'child_zhp.dart';
 import 'child_zhr.dart';
@@ -15,12 +16,17 @@ enum Pion {zuch, harcerz, wedrownik}
 
 class PrawoPrzyrzeczenieFragment extends StatefulWidget {
 
+  const PrawoPrzyrzeczenieFragment({Key key}) : super(key: key);
+
   @override
   State createState() => PrawoPrzyrzeczenieFragmentState();
 
 }
 
-class PrawoPrzyrzeczenieFragmentState extends State<PrawoPrzyrzeczenieFragment> with TickerProviderStateMixin{
+class PrawoPrzyrzeczenieFragmentState extends State<PrawoPrzyrzeczenieFragment> with TickerProviderStateMixin, ModuleStatsMixin{
+
+  @override
+  String get moduleId => ModuleStatsMixin.prawoPrzyrzeczenie;
 
   static const List<Org> allowedOrgs = [
     Org.fse,
@@ -50,7 +56,7 @@ class PrawoPrzyrzeczenieFragmentState extends State<PrawoPrzyrzeczenieFragment> 
       builder: (context, child) => BottomNavScaffold(
         body: NestedScrollView(
           floatHeaderSlivers: true,
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
             buildAppBar(context)
           ],
@@ -71,7 +77,7 @@ class PrawoPrzyrzeczenieFragmentState extends State<PrawoPrzyrzeczenieFragment> 
     return SliverAppBar(
       pinned: true,
       floating: true,
-      title: Text('Prawo i Przyrzeczenie'),
+      title: const Text('Prawo i Przyrzeczenie'),
       centerTitle: true,
       backgroundColor: background_(context),
       actions: <Widget>[
@@ -85,7 +91,7 @@ class PrawoPrzyrzeczenieFragmentState extends State<PrawoPrzyrzeczenieFragment> 
         )
       ],
       bottom: PreferredSize(
-        preferredSize: TabBar(tabs: []).preferredSize,
+        preferredSize: const TabBar(tabs: []).preferredSize,
         child: Consumer<TabBarProvider>(
           builder: (context, prov, child) =>
               prov.tabBarBuilder==null?Container():prov.tabBarBuilder(context),

@@ -1,28 +1,29 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_common_widgets/sliding_card.dart';
-import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../module_statistics_registrator.dart';
 import 'all_signs_page.dart';
 import 'data.dart';
 
 class ZnakiPatroloweFragment extends StatefulWidget {
+
+  const ZnakiPatroloweFragment({Key key}) : super(key: key);
 
   @override
   State createState() => ZnakiPatroloweFragmentState();
   
 }
 
-class ZnakiPatroloweFragmentState extends State<ZnakiPatroloweFragment>{
+class ZnakiPatroloweFragmentState extends State<ZnakiPatroloweFragment> with ModuleStatsMixin{
 
+  @override
+  String get moduleId => ModuleStatsMixin.znakiPatrolowe;
 
   static ValueNotifier<double> notifier;
   PageController pageController;
@@ -48,19 +49,19 @@ class ZnakiPatroloweFragmentState extends State<ZnakiPatroloweFragment>{
 
     return BottomNavScaffold(
       appBar: AppBar(
-        title: Text('Znaki patrolowe'),
+        title: const Text('Znaki patrolowe'),
         elevation: 0,
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(MdiIcons.dotsGrid),
+            icon: const Icon(MdiIcons.dotsGrid),
             onPressed: () => Navigator.push(
                 context,
                 PageTransition(
                     type: PageTransitionType.rippleRightDown,
                     child: AllSignsPage(
                       onItemTap: (index){
-                        pageController.animateToPage(index, duration: Duration(milliseconds: 500), curve: Curves.easeOutQuint);
+                        pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.easeOutQuint);
                         Navigator.pop(context);
                       },
                     )
@@ -74,7 +75,7 @@ class ZnakiPatroloweFragmentState extends State<ZnakiPatroloweFragment>{
 
             Expanded(
               child: SlidingPageView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 controller: pageController,
                 itemCount: items.length,
                 notifier: notifier,
@@ -97,15 +98,15 @@ class Item extends StatelessWidget{
 
   final ItemData data;
   final ValueNotifier notifier;
-  final index;
+  final int index;
 
-  const Item(this.data, this.notifier, this.index);
+  const Item(this.data, this.notifier, this.index, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(child: Padding(
 
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -121,7 +122,7 @@ class Item extends StatelessWidget{
             aspectRatio: 96/50,
           )),
 
-          SizedBox(height: 42),
+          const SizedBox(height: 42),
 
           AnimatedBuilder(
             animation: notifier,

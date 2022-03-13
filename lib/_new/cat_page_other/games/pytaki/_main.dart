@@ -12,14 +12,21 @@ import 'package:harcapp_core/comm_classes/no_glow_behavior.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../../module_statistics_registrator.dart';
+
 class GamePytakiPage extends StatefulWidget{
+
+  const GamePytakiPage({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => GamePytakiPageState();
 
 }
 
-class GamePytakiPageState extends State<GamePytakiPage>{
+class GamePytakiPageState extends State<GamePytakiPage> with ModuleStatsMixin{
+
+  @override
+  String get moduleId => ModuleStatsMixin.graPytajki;
 
   List<CardItem> cards;
   List<CardItem> hardCards;
@@ -53,6 +60,7 @@ class GamePytakiPageState extends State<GamePytakiPage>{
       setState(() => showOk = value);
   }
 
+  @override
   void initState() {
 
     int index = 0;
@@ -257,10 +265,10 @@ class GamePytakiPageState extends State<GamePytakiPage>{
         body: ScrollConfiguration(
           behavior: NoGlowBehavior(),
           child: CustomScrollView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             slivers: [
 
-              SliverAppBar(
+              const SliverAppBar(
                 title: Text('Pytajki'),
                 centerTitle: true,
                 pinned: true,
@@ -275,9 +283,9 @@ class GamePytakiPageState extends State<GamePytakiPage>{
                       left: 6,
                       right: 6,
                       child: AnimatedOpacity(
-                        child: Icon(MdiIcons.clock, color: Colors.deepOrange, size: 32.0,),
+                        child: const Icon(MdiIcons.clock, color: Colors.deepOrange, size: 32.0,),
                         opacity: (cardsLeft()&&!showHardCards&&showClock)?1.0:0.0,
-                        duration: Duration(milliseconds: 700),
+                        duration: const Duration(milliseconds: 700),
                         curve: Curves.easeInOutQuad,
                       ),
                     ),
@@ -287,9 +295,9 @@ class GamePytakiPageState extends State<GamePytakiPage>{
                       left: 6,
                       right: 6,
                       child: AnimatedOpacity(
-                        child: Icon(MdiIcons.checkCircle, color: Colors.lightBlueAccent, size: 32.0,),
+                        child: const Icon(MdiIcons.checkCircle, color: Colors.lightBlueAccent, size: 32.0,),
                         opacity: (cardsLeft()&&!showHardCards&&showOk)?1.0:0.0,
-                        duration: Duration(milliseconds: 700),
+                        duration: const Duration(milliseconds: 700),
                         curve: Curves.easeInOutQuad,
                       ),
                     ),
@@ -304,14 +312,14 @@ class GamePytakiPageState extends State<GamePytakiPage>{
                           style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context)),
                           textAlign: TextAlign.center,),
                         opacity: showHardCardsButton?0.0:1.0,
-                        duration: Duration(milliseconds: 350),
+                        duration: const Duration(milliseconds: 350),
                       ),
                     ),
 
 
                     Positioned.fill(
                       child: Align(
-                        alignment: Alignment(0.0, (-0.5 / (STACK_NUM - 1)) * (STACK_NUM - 3)),
+                        alignment: const Alignment(0.0, (-0.5 / (STACK_NUM - 1)) * (STACK_NUM - 3)),
                         child: SizedBox(
                           child: CardItem(this, 'Koniec!\n\nJeżeli Ci się podobało, poleć grę znajomym!', emoIndex: 3, emoName: false),
                           height: cardSecHeight,
@@ -323,12 +331,12 @@ class GamePytakiPageState extends State<GamePytakiPage>{
 
                     if(!showHardCards && !showHardCardsButton)
                       Positioned.fill(
-                        child: _SwapCardLayout(this, cards, controller, ValueKey('_SwapCardLayout normal cards')),
+                        child: _SwapCardLayout(this, cards, controller, const ValueKey('_SwapCardLayout normal cards')),
                         top: 24.0,
                       )
                     else if(!showHardCardsButton)
                       Positioned.fill(
-                        child: _SwapCardLayout(this, hardCards, controller, ValueKey('_SwapCardLayout hard cards')),
+                        child: _SwapCardLayout(this, hardCards, controller, const ValueKey('_SwapCardLayout hard cards')),
                         top: 24.0,
                       )
 
@@ -353,15 +361,12 @@ class GamePytakiPageState extends State<GamePytakiPage>{
             label: Text('Pokaż odłożone karty', style: AppTextStyle(fontWeight: weight.halfBold),),
           ),
           opacity: showHardCardsButton?1.0:0,
-          duration: Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 200),
         )
     );
   }
 
   bool cardsLeft() => (!showHardCards && cards.length != currIndex) || (showHardCards && hardCards.length != currIndex);
-
-
-
 
 }
 
@@ -424,7 +429,7 @@ class _SwapCardLayout extends StatelessWidget{
           }
 
           if(orientation != CardSwipeOrientation.RECOVER)
-            await Future.delayed(Duration(milliseconds: 500));
+            await Future.delayed(const Duration(milliseconds: 500));
 
           gameState.setStateShowClock(false);
           gameState.setStateShowOk(false);
@@ -454,7 +459,7 @@ class CardItem extends StatefulWidget{
   int index;
 
 
-  CardItem(this.gameState, this.content, {this.emoIndex, this.emoName: true, this.isHard: false, this.index, Key key}):super(key: key);
+  CardItem(this.gameState, this.content, {this.emoIndex, this.emoName = true, this.isHard = false, this.index, Key key}):super(key: key);
 
   @override
   State<StatefulWidget> createState() => CardItemState();
@@ -484,14 +489,14 @@ class CardItemState extends State<CardItem>{
     Widget front = SlidingCard(
       //color: colorPack.mainColor,
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
               fit: BoxFit.fill,
               image: AssetImage('assets/images/games/bg_pytajki.webp')
           ),
         ),
         child: Center(
-          child: Text('?', style: AppTextStyle(color: Colors.black, fontSize: 220.0, fontWeight: weight.bold, shadow: true),),
+          child: Text('?', style: AppTextStyle(color: Colors.black, fontSize: 220.0, fontWeight: weight.bold, shadow: true)),
         ),
 
       ),
@@ -504,7 +509,7 @@ class CardItemState extends State<CardItem>{
 
     Widget back = SlidingCard(
       color: Colors.white,
-      padding: EdgeInsets.all(32),
+      padding: const EdgeInsets.all(32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.max,
@@ -515,7 +520,7 @@ class CardItemState extends State<CardItem>{
             Row(
               children: <Widget>[
                 Expanded(child: Container()),
-                Icon(MdiIcons.clock, color: Colors.deepOrange,)
+                const Icon(MdiIcons.clock, color: Colors.deepOrange,)
               ],
             ),
 
@@ -525,12 +530,12 @@ class CardItemState extends State<CardItem>{
                 if(widget.emoIndex!=null)
                   SvgPicture.asset('assets/images/emo/${CardItem.EMOTIONS.keys.toList()[widget.emoIndex]}', width: 48, height: 48),
                 if(widget.emoIndex!=null)
-                  SizedBox(height: 6.0),
+                  const SizedBox(height: 6.0),
 
                 if(widget.emoName && widget.emoIndex!=null)
-                  Text('${CardItem.EMOTIONS.values.toList()[widget.emoIndex]}', style: AppTextStyle(fontWeight: weight.halfBold, color: AppColors.text_def_enab),),
+                  Text(CardItem.EMOTIONS.values.toList()[widget.emoIndex], style: AppTextStyle(fontWeight: weight.halfBold, color: AppColors.text_def_enab),),
 
-                SizedBox(height: 24.0),
+                const SizedBox(height: 24.0),
 
                 AutoSizeText(
                   widget.content,

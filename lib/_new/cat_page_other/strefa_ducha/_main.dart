@@ -23,6 +23,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 
 import '../../app_bottom_navigator.dart';
+import '../../module_statistics_registrator.dart';
 import 'background_widget.dart';
 import 'child_fragment.dart';
 import 'child_fragment_template.dart';
@@ -32,14 +33,16 @@ import 'settings_page.dart';
 import 'source.dart';
 
 enum SourcesState{
-  LOADING,
-  SUCCESS,
-  FAILED,
+  loading,
+  success,
+  failed,
 }
 
 class SpiritPage extends StatefulWidget {
 
   static const int pageViewExtent = 1;
+
+  const SpiritPage({Key key}) : super(key: key);
 
   static String gitDuchoweImageUrl(String sourceCode, String fileName) => 'https://gitlab.com/n3o2k7i8ch5/harcapp_data/raw/master/duchowe/$sourceCode/$fileName';
 
@@ -48,7 +51,10 @@ class SpiritPage extends StatefulWidget {
 
 }
 
-class SpiritPageState extends State<SpiritPage> {
+class SpiritPageState extends State<SpiritPage> with ModuleStatsMixin{
+
+  @override
+  String get moduleId => ModuleStatsMixin.strefaDucha;
 
   SourcesState sourcesState;
 
@@ -80,28 +86,27 @@ class SpiritPageState extends State<SpiritPage> {
     subscription = addConnectionListener((hasConnection) async{
       if(hasConnection) {
         showAppToast(context, text: 'Połączono z internetem');
-        if(sourcesState == SourcesState.FAILED){
-          setState(() => sourcesState = SourcesState.LOADING);
+        if(sourcesState == SourcesState.failed){
+          setState(() => sourcesState = SourcesState.loading);
           runDownloader();
         }
       }else {
         showAppToast(context, text: 'Brak internetu');
-        if(sourcesState == SourcesState.LOADING) {
+        if(sourcesState == SourcesState.loading) {
           downloader.cancel();
-          setState(() => sourcesState = SourcesState.FAILED);
+          setState(() => sourcesState = SourcesState.failed);
           if(!itemsProv.offlineOnly) setOffline();
         }
       }
     });
 
     fadeImgProv = Provider.of<FadeImageProvider>(context, listen: false);
-    //dispItemsProv = Provider.of<DisplayedItemsProvider>(context, listen: false);
 
     if(_showInitMessage == null) {
       _showInitMessage = shaPref.getBool(ShaPref.SHA_PREF_DUCHOWE_INIT_MESSAGE, true);
 
       if (_showInitMessage) {
-        post(() => openDialog(context: context, builder: (context) => ShowInitMessageWidget()));
+        post(() => openDialog(context: context, builder: (context) => const ShowInitMessageWidget()));
         _showInitMessage = false;
       }
     }
@@ -118,7 +123,7 @@ class SpiritPageState extends State<SpiritPage> {
       ItemsProvider itemsProv = Provider.of<ItemsProvider>(context, listen: false);
       itemsProv.offlineOnly = true;
       showAppToast(context, text: 'Tryb offline.');
-      setState(() => sourcesState = SourcesState.FAILED);
+      setState(() => sourcesState = SourcesState.failed);
     };
 
     if (itemsProv.sources == null) {
@@ -128,7 +133,7 @@ class SpiritPageState extends State<SpiritPage> {
         setOffline();
     }else {
       if(await isNetworkAvailable())
-        setState(() => sourcesState = SourcesState.SUCCESS);
+        setState(() => sourcesState = SourcesState.success);
       else
         setOffline();
     }
@@ -170,19 +175,19 @@ class SpiritPageState extends State<SpiritPage> {
   bool isDownloaderRunning() => downloader != null && downloader.isRunning;
   Future<void> runDownloader()async{
     fadeImgProv.clear();
-    setState(() => sourcesState = SourcesState.LOADING);
+    setState(() => sourcesState = SourcesState.loading);
     if(downloader != null)
       downloader.cancel();
 
     downloader = Downloader(this);
     downloader.addCompleteListener((List<Source> sources) {
       if (sources == null){
-        setState(() => sourcesState = SourcesState.FAILED);
+        setState(() => sourcesState = SourcesState.failed);
       }else{
         ItemsProvider itemsProv = Provider.of<ItemsProvider>(context, listen: false);
         itemsProv.sources = sources;
 
-        setState(() => sourcesState = SourcesState.SUCCESS);
+        setState(() => sourcesState = SourcesState.success);
       }
 
     });
@@ -225,35 +230,35 @@ class SpiritPageState extends State<SpiritPage> {
 
                 switch(sourcesState){
 
-                  case SourcesState.LOADING:
+                  case SourcesState.loading:
                     return AnimatedOpacity(
                       opacity: itemsProv.items==null?1.0:0.0,
-                      duration: Duration(milliseconds: 300),
+                      duration: const Duration(milliseconds: 300),
                       child: SpinKitDoubleBounce(color: accent_(context)),
                     );
 
-                  case SourcesState.SUCCESS:
+                  case SourcesState.success:
                     return Consumer<LockProvider>(
                       builder: (context, lockProv, child) => SlidingPageView(
                         grow: true,
-                        physics: lockProv.locked?NeverScrollableScrollPhysics():BouncingScrollPhysics(),
+                        physics: lockProv.locked?const NeverScrollableScrollPhysics():const BouncingScrollPhysics(),
                         controller: pinController,
                         notifier: pinNotifier,
                         itemCount: 2,
                         itemBuilder: (context, index){
-                          if(index == 0) return PinnedItem();
+                          if(index == 0) return const PinnedItem();
                           else{
 
                             if(itemsProv.items.isEmpty){
 
                               if(itemsProv.favoriteOnly)
-                                return EmptyMessageWidget(
+                                return const EmptyMessageWidget(
                                   text: 'W ulubionych pusto...\n\nAby dodać refleksję do ulubionych, dwukrotnie ją kliknij.',
                                   icon: MdiIcons.gestureDoubleTap,
                                   color: Colors.white30,
                                 );
                               else
-                                return EmptyMessageWidget(
+                                return const EmptyMessageWidget(
                                   text: 'Pusto...',
                                   icon: MdiIcons.gaugeEmpty,
                                   color: Colors.white30,
@@ -268,7 +273,7 @@ class SpiritPageState extends State<SpiritPage> {
                       ),
                     );
 
-                  case SourcesState.FAILED:
+                  case SourcesState.failed:
                     return ImageCard(null, ValueNotifier(0), Image(image: ImageLoader.noInternetImage), null, 0);
 
                   default:
@@ -286,7 +291,7 @@ class SpiritPageState extends State<SpiritPage> {
             ),
           ),
 
-          Positioned(
+          const Positioned(
             left: 0,
             right: 0,
             bottom: 0,
@@ -313,7 +318,7 @@ class SpiritPageState extends State<SpiritPage> {
     ItemsProvider itemsProv = Provider.of<ItemsProvider>(context, listen: false);
 
     return AppBar(
-      iconTheme: IconThemeData(color: Colors.white),
+      iconTheme: const IconThemeData(color: Colors.white),
       backgroundColor: Colors.transparent,
       elevation: 0,
       title: Row(
@@ -324,7 +329,7 @@ class SpiritPageState extends State<SpiritPage> {
               builder: (context, child){
                 return Transform.translate(
                     offset: Offset(0, (pinNotifier.value)*AppBar().preferredSize.height),
-                    child: Container(
+                    child: SizedBox(
                       height: AppBar().preferredSize.height,
                       child: Consumer<PinProvider>(
                         builder: (context, prov, child){
@@ -333,7 +338,7 @@ class SpiritPageState extends State<SpiritPage> {
 
                           return Center(
                               child: Padding(
-                                  padding: EdgeInsets.only(left: 6),
+                                  padding: const EdgeInsets.only(left: 6),
                                   child: Icon(
                                     MdiIcons.pinOutline,
                                     size: 20,
@@ -357,7 +362,7 @@ class SpiritPageState extends State<SpiritPage> {
             builder: (context, child){
               return Transform.translate(
                 offset: Offset(0, 2*(pinNotifier.value-1)*Dimen.ICON_FOOTPRINT),
-                child: Container(
+                child: SizedBox(
                   height: AppBar().preferredSize.height,
                   child: IconButton(
                     icon: Consumer<ItemsProvider>(
@@ -381,7 +386,7 @@ class SpiritPageState extends State<SpiritPage> {
             builder: (context, child){
               return Transform.translate(
                 offset: Offset(0, (pinNotifier.value-1)*Dimen.ICON_FOOTPRINT),
-                child: Container(
+                child: SizedBox(
                   height: AppBar().preferredSize.height,
                   child: IconButton(
                     icon: Consumer<ItemsProvider>(
@@ -409,19 +414,19 @@ class SpiritPageState extends State<SpiritPage> {
 
         Center(child: AnimatedCrossFade(
           firstChild:  IconButton(
-            icon: Icon(Icons.refresh, color: Colors.white),
+            icon: const Icon(Icons.refresh, color: Colors.white),
             onPressed: ()async{
               if(await isNetworkAvailable()) await runDownloader();
               else showAppToast(context, text: 'Brak połączenia z internetem...');
             },
           ),
           secondChild: IconButton(
-            icon: Icon(MdiIcons.cogOutline, color: Colors.white),
+            icon: const Icon(MdiIcons.cogOutline, color: Colors.white),
             onPressed: () =>
               Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage(this))),
           ),
-          crossFadeState: sourcesState==SourcesState.SUCCESS?CrossFadeState.showSecond:CrossFadeState.showFirst,
-          duration: Duration(milliseconds: 500),
+          crossFadeState: sourcesState==SourcesState.success?CrossFadeState.showSecond:CrossFadeState.showFirst,
+          duration: const Duration(milliseconds: 500),
         ))
       ],
     );
@@ -443,7 +448,7 @@ class SpiritPageState extends State<SpiritPage> {
 
 class PinnedItem extends StatelessWidget{
 
-  const PinnedItem();
+  const PinnedItem({Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -462,7 +467,7 @@ class PinnedItem extends StatelessWidget{
             }
           );
         else
-          return EmptyMessageWidget(
+          return const EmptyMessageWidget(
             text: 'Brak\nprzypiętej\nrefleksji.',
             icon: MdiIcons.pinOffOutline,
             color: Colors.white30,
@@ -480,12 +485,12 @@ class ItemsPageView extends StatelessWidget{
   final LockProvider lockProv;
   final FadeImageProvider fadeImgProv;
 
-  const ItemsPageView(this.controller, this.itemsProv, this.lockProv, this.fadeImgProv);
+  const ItemsPageView(this.controller, this.itemsProv, this.lockProv, this.fadeImgProv, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SlidingPageView(
-      physics: lockProv.locked?NeverScrollableScrollPhysics():BouncingScrollPhysics(),
+      physics: lockProv.locked?const NeverScrollableScrollPhysics():const BouncingScrollPhysics(),
       notifier: itemsProv.notifier,
       extents: SpiritPage.pageViewExtent,
       itemCount: itemsProv.items.length,

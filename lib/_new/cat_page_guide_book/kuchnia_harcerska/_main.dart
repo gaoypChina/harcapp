@@ -3,6 +3,7 @@ import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_new/module_statistics_registrator.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_guide_book/kuchnia_harcerska/products_page.dart';
 import 'package:harcapp/_new/cat_page_guide_book/kuchnia_harcerska/providers.dart';
@@ -20,12 +21,17 @@ import 'meal_widget.dart';
 
 class KuchniaHarcerskaFragment extends StatefulWidget {
 
+  const KuchniaHarcerskaFragment({Key key}) : super(key: key);
+
   @override
   State createState() => KuchniaHarcerskaFragmentState();
 
 }
 
-class KuchniaHarcerskaFragmentState extends State<KuchniaHarcerskaFragment> with TickerProviderStateMixin{
+class KuchniaHarcerskaFragmentState extends State<KuchniaHarcerskaFragment> with TickerProviderStateMixin, ModuleStatsMixin{
+
+  @override
+  String get moduleId => ModuleStatsMixin.kuchniaHarcerska;
 
   TabController controller;
 
@@ -37,97 +43,94 @@ class KuchniaHarcerskaFragmentState extends State<KuchniaHarcerskaFragment> with
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+    create: (context) => SelectedMealsProvider(),
+    builder: (context, child) => BottomNavScaffold(
+      body: NestedScrollView(
+        floatHeaderSlivers: true,
+        physics: const BouncingScrollPhysics(),
+        headerSliverBuilder: (context, value) => [
+          SliverAppBar(
+              title: const Text('Kuchnia harcerska'),
+              centerTitle: true,
+              backgroundColor: background_(context),
+              actions: [
 
-    return ChangeNotifierProvider(
-      create: (context) => SelectedMealsProvider(),
-      builder: (context, child) => BottomNavScaffold(
-        body: NestedScrollView(
-          floatHeaderSlivers: true,
-          physics: BouncingScrollPhysics(),
-          headerSliverBuilder: (context, value) => [
-            SliverAppBar(
-                title: Text('Kuchnia harcerska'),
-                centerTitle: true,
-                backgroundColor: background_(context),
-                actions: [
-
-                  Consumer<SelectedMealsProvider>(
-                      builder: (context, prov, child) => AnimatedOpacity(
-                        duration: Duration(milliseconds: 300),
-                        opacity: prov.meals.isEmpty?0:1,
-                        child: IconButton(
-                          icon: Stack(
-                            children: [
-                              Icon(MdiIcons.cartOutline, color: appBarTextEnab_(context)),
-                              Positioned(
-                                  bottom: 0,
-                                  right: 0,
-                                  child: AppCard(
-                                    padding: EdgeInsets.all(1.5),
-                                    color: accent_(context),
-                                    child: Text(
-                                        '${prov.meals.length}',
-                                        textAlign: TextAlign.center,
-                                        style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL, color: accentIcon_(context), fontWeight: weight.bold)
-                                    ),
-                                  )
-                              ),
-                            ],
-                          ),
-                          onPressed: (){
-                            Navigator.of(context).push(PageTransition(type: PageTransitionType.rippleRightDown, child: MealListPage(this, prov.meals)));
-                          },
+                Consumer<SelectedMealsProvider>(
+                    builder: (context, prov, child) => AnimatedOpacity(
+                      duration: const Duration(milliseconds: 300),
+                      opacity: prov.meals.isEmpty?0:1,
+                      child: IconButton(
+                        icon: Stack(
+                          children: [
+                            Icon(MdiIcons.cartOutline, color: appBarTextEnab_(context)),
+                            Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: AppCard(
+                                  padding: const EdgeInsets.all(1.5),
+                                  color: accent_(context),
+                                  child: Text(
+                                      '${prov.meals.length}',
+                                      textAlign: TextAlign.center,
+                                      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL, color: accentIcon_(context), fontWeight: weight.bold)
+                                  ),
+                                )
+                            ),
+                          ],
                         ),
-                      )
-                  ),
+                        onPressed: (){
+                          Navigator.of(context).push(PageTransition(type: PageTransitionType.rippleRightDown, child: MealListPage(this, prov.meals)));
+                        },
+                      ),
+                    )
+                ),
 
-                  IconButton(
-                    icon: Icon(MdiIcons.magnify),
-                    onPressed: (){
+                IconButton(
+                  icon: const Icon(MdiIcons.magnify),
+                  onPressed: (){
 
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SearchPage(
-                                  (Meal meal){
-                                int page = Meal.all.indexOf(meal);
-                                controller.animateTo(page, duration: Duration(milliseconds: 600), curve: Curves.easeOutQuad);
-                                Navigator.pop(context);
-                              }
-                          ))
-                      );
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SearchPage(
+                                (Meal meal){
+                              int page = Meal.all.indexOf(meal);
+                              controller.animateTo(page, duration: const Duration(milliseconds: 600), curve: Curves.easeOutQuad);
+                              Navigator.pop(context);
+                            }
+                        ))
+                    );
 
-                    },
-                  ),
+                  },
+                ),
 
-                ],
-                pinned: true,
-                floating: true,
-                bottom: TabBar(
-                  controller: controller,
-                  physics: BouncingScrollPhysics(),
-                  isScrollable: true,
-                  tabs: Meal.all.map((meal) => Tab(text: meal.name)).toList(),
-                  indicator: AppTabBarIncdicator(context: context),
-                  //controller: _tabController,
-                )
-            ),
-          ],
-          body: TabBarView(
-            controller: controller,
-            physics: BouncingScrollPhysics(),
-            children: Meal.all.map((meal) => MealWidget(
-                meal,
-                onSelectedChanged: (meal, selected){}
-            )
-            ).toList(),
+              ],
+              pinned: true,
+              floating: true,
+              bottom: TabBar(
+                controller: controller,
+                physics: const BouncingScrollPhysics(),
+                isScrollable: true,
+                tabs: Meal.all.map((meal) => Tab(text: meal.name)).toList(),
+                indicator: AppTabBarIncdicator(context: context),
+                //controller: _tabController,
+              )
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-            child: Icon(MdiIcons.formatListBulleted),
-            onPressed: () => Navigator.of(context).push(PageTransition(type: PageTransitionType.rippleRightUp, child: ProductsPage()))
+        ],
+        body: TabBarView(
+          controller: controller,
+          physics: const BouncingScrollPhysics(),
+          children: Meal.all.map((meal) => MealWidget(
+              meal,
+              onSelectedChanged: (meal, selected){}
+          )
+          ).toList(),
         ),
       ),
-    );
-  }
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(MdiIcons.formatListBulleted),
+          onPressed: () => Navigator.of(context).push(PageTransition(type: PageTransitionType.rippleRightUp, child: ProductsPage()))
+      ),
+    ),
+  );
 }

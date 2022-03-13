@@ -11,10 +11,10 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/colored_tab.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../module_statistics_registrator.dart';
 import 'gaderypoluki/child_gaderypoluki.dart';
 import 'child_morse.dart';
 import '_description/desc_czekoladka.dart';
@@ -29,16 +29,21 @@ import '_description/desc_zmiana.dart';
 
 class SzyfryFragment extends StatefulWidget {
 
+  const SzyfryFragment({Key key}) : super(key: key);
+
   @override
   State createState() => SzyfryFragmentState();
 
 }
 
-class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderStateMixin{
+class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderStateMixin, ModuleStatsMixin{
+
+  @override
+  String get moduleId => ModuleStatsMixin.szyfry;
 
   List<_TabItem> tabs;
 
-  static const MORSE = "Morse\'a";
+  static const MORSE = "Morse'a";
 
   Widget appBarButton;
 
@@ -59,49 +64,49 @@ class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderState
       _TabItem(
           title: 'gaderypoluki',
           bottom: DescGaderypoluki(),
-          icon: Icon(MdiIcons.swapHorizontal),
+          icon: const Icon(MdiIcons.swapHorizontal),
           child: ChildGaderypoluki()
 
       ),
       _TabItem(
           title: MORSE,
           bottom: DescMorse(),
-          icon: Icon(MdiIcons.dotsHorizontal),
+          icon: const Icon(MdiIcons.dotsHorizontal),
           child: ChildMorse(commonVals)
       ),
-      _TabItem(
+      const _TabItem(
           title: 'czekoladka',
           icon: Icon(MdiIcons.apps),
           child: DescCzekoladka()
       ),
-      _TabItem(
+      const _TabItem(
           title: 'matematyczny',
           icon: Icon(MdiIcons.mathIntegral),
           child: DescMatematyczny()
       ),
       _TabItem(
           title: 'tabl. mnożenia',
-          icon: Icon(MdiIcons.close),
+          icon: const Icon(MdiIcons.close),
           child: DescTabliczkaMnozenia()
       ),
       _TabItem(
           title: 'ułamkowy',
-          icon: Icon(MdiIcons.division),
+          icon: const Icon(MdiIcons.division),
           child: DescUlamkowy()
       ),
       _TabItem(
           title: 'komórkowy',
-          icon: Icon(MdiIcons.cellphone),
+          icon: const Icon(MdiIcons.cellphone),
           child: DescKomorkowy()
       ),
       _TabItem(
           title: 'zamiana',
-          icon: Icon(MdiIcons.reload),
+          icon: const Icon(MdiIcons.reload),
           child: DescZamiana()
       ),
       _TabItem(
           title: 'karolinka',
-          icon: Icon(MdiIcons.emoticonHappyOutline),
+          icon: const Icon(MdiIcons.emoticonHappyOutline),
           child: DescKarolinka()
       )
     ];
@@ -132,7 +137,7 @@ class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderState
           elevation: 0,
           bottom: TabBar(
             isScrollable: true,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             controller: controller,
             tabs: tabs.map((tab) => Tab(
                 text: tab.title[0].toUpperCase() + tab.title.substring(1)
@@ -228,7 +233,7 @@ class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderState
           ),
         ),
         body: TabBarView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           children: tabs.map((tab) => tab.child).toList(),
           controller: controller,
         ),

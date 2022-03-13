@@ -10,7 +10,7 @@ class AllBioPage extends StatelessWidget{
 
   final void Function(int) onPicked;
 
-  const AllBioPage({this.onPicked});
+  const AllBioPage({this.onPicked, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,17 +38,17 @@ class AllBioPage extends StatelessWidget{
 
     return BottomNavScaffold(
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
 
-          SliverAppBar(
+          const SliverAppBar(
             title: Text('Biografie'),
             centerTitle: true,
             floating: true,
           ),
 
           SliverPadding(
-            padding: EdgeInsets.all(Dimen.SIDE_MARG),
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             sliver: SliverGrid.count(
               crossAxisCount: (orientation == Orientation.portrait) ? 3 : 5,
               mainAxisSpacing: Dimen.DEF_MARG,

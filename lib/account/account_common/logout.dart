@@ -21,7 +21,7 @@ class LogoutDialog extends StatefulWidget{
 
   final void Function() onLoggedOut;
 
-  const LogoutDialog({this.onLoggedOut});
+  const LogoutDialog({this.onLoggedOut, Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => LogoutDialogState();
@@ -84,41 +84,41 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
 
   @override
   Widget build(BuildContext context) => Center(
-      child: Container(
+      child: SizedBox(
         width: 286,
         child: AppCard(
             radius: AppCard.ALERT_DIALOG_RADIUS,
-            padding: EdgeInsets.all(AppCard.ALERT_DIALOG_PADDING),
+            padding: const EdgeInsets.all(AppCard.ALERT_DIALOG_PADDING),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
 
                 Padding(
-                    padding: EdgeInsets.all(14.0),
+                    padding: const EdgeInsets.all(14.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         Text(
                           'Cóż to?', style: AppTextStyle(fontSize: 20.0, color: textEnab_(context), fontWeight: weight.halfBold),
                         ),
-                        SizedBox(height: 20.0),
+                        const SizedBox(height: 20.0),
 
                         Text(
                           'Chcesz wylogować się z konta?', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL, color: textEnab_(context)),
                         ),
 
-                        SizedBox(height: 20.0),
+                        const SizedBox(height: 20.0),
 
                         if(state == _STATE_CHECKING)
                           Row(
                             children: <Widget>[
 
                               Padding(
-                                padding: EdgeInsets.all(2),
+                                padding: const EdgeInsets.all(2),
                                 child: SpinKitThreeBounce(color: accent_(context), size: Dimen.ICON_SIZE - 4),
                               ),
-                              SizedBox(width: Dimen.DEF_MARG),
+                              const SizedBox(width: Dimen.DEF_MARG),
                               Text('Sprawdzanie stanu...', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL, color: hintEnab_(context))),
                             ],
                           )
@@ -127,10 +127,10 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
                             children: <Widget>[
 
                               Padding(
-                                padding: EdgeInsets.all(2),
+                                padding: const EdgeInsets.all(2),
                                 child: SpinKitThreeBounce(color: accent_(context), size: Dimen.ICON_SIZE - 4),
                               ),
-                              SizedBox(width: Dimen.DEF_MARG),
+                              const SizedBox(width: Dimen.DEF_MARG),
                               Text('Trwa synchronizacja...', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL, color: hintEnab_(context))),
                             ],
                           )
@@ -138,18 +138,18 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
                             Row(
                               children: <Widget>[
 
-                                Icon(MdiIcons.alertCircleOutline, color: Colors.red),
-                                SizedBox(width: Dimen.DEF_MARG),
+                                const Icon(MdiIcons.alertCircleOutline, color: Colors.red),
+                                const SizedBox(width: Dimen.DEF_MARG),
                                 Text('Problem z synchronizacją', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL, color: Colors.red)),
                               ],
                             )
                         else
-                          SizedBox(height: Dimen.TEXT_SIZE_NORMAL),
+                          const SizedBox(height: Dimen.TEXT_SIZE_NORMAL),
                       ],
                     )
                 ),
 
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

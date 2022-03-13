@@ -159,9 +159,9 @@ class PartContributors extends StatelessWidget{
     //  precacheImage(Image.asset('assets/images/${res.path}').image, context);
 
     return PageView(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       controller: PageController(viewportFraction: Dimen.viewportFraction(context)),
-      children: [
+      children: const [
         ContribListCard(
           'Maestrowie hitów śpiewnika',
           MdiIcons.bookMusicOutline,
@@ -225,7 +225,7 @@ class GraphicalResourceCard extends StatelessWidget{
   Widget build(BuildContext context) {
     return AppCard(
       radius: AppCard.BIG_RADIUS,
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         left: Dimen.DEF_MARG,
         right: Dimen.DEF_MARG,
         top: Dimen.SIDE_MARG,
@@ -234,10 +234,10 @@ class GraphicalResourceCard extends StatelessWidget{
       padding: EdgeInsets.zero,
       color: background_(context),
       child: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
 
-          SliverAppBar(
+          const SliverAppBar(
             title: Text('Źródła graficzne'),
             centerTitle: true,
             floating: true,
@@ -245,37 +245,37 @@ class GraphicalResourceCard extends StatelessWidget{
 
           SliverList(delegate: SliverChildListDelegate([
 
-              SizedBox(height: Dimen.ICON_MARG),
+              const SizedBox(height: Dimen.ICON_MARG),
               ListTile(
-                leading: Icon(MdiIcons.circleSmall),
+                leading: const Icon(MdiIcons.circleSmall),
                 title: Text('Icomoon', style: AppTextStyle()),
               ),
               ListTile(
-                leading: Icon(MdiIcons.circleSmall),
+                leading: const Icon(MdiIcons.circleSmall),
                 title: Text('Smashicons (grafiki żywności)', style: AppTextStyle()),
               ),
               ListTile(
-                leading: Icon(MdiIcons.circleSmall),
+                leading: const Icon(MdiIcons.circleSmall),
                 title: Text('Nikita Golubev grafiki żywności - masło, kapusta pekińska, paluszki)', style: AppTextStyle()),
               ),
               ListTile(
-                leading: Icon(MdiIcons.circleSmall),
+                leading: const Icon(MdiIcons.circleSmall),
                 title: Text('Adib Sulthon (grafiki żywności - papryka, parówka, chleb)', style: AppTextStyle()),
               ),
               ListTile(
-                leading: Icon(MdiIcons.circleSmall),
+                leading: const Icon(MdiIcons.circleSmall),
                 title: Text('prettycons (grafiki żywności - bób)', style: AppTextStyle()),
               ),
 
-              SizedBox(height: SEPARATOR_BIG,),
+              const SizedBox(height: SEPARATOR_BIG,),
 
-              Container(
+              SizedBox(
                 child: SlidingPageView(
                   extents: 3,
                   itemCount: _graphicalResources.length,
                   itemBuilder: (context, index) => Column(
                     children: <Widget>[
-                      Container(
+                      SizedBox(
                         child: SlidingCard(
                             onTap: () => openDialog(context: context, builder: (context)
                             => Center(
@@ -289,7 +289,7 @@ class GraphicalResourceCard extends StatelessWidget{
                         height: 200 - 6.0 - Dimen.TEXT_SIZE_SMALL,
                         width: double.infinity,
                       ),
-                      SizedBox(height: 6.0),
+                      const SizedBox(height: 6.0),
                       Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
                         Text('Autor: ', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_SMALL)),
                         Text(_graphicalResources[index].author, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL)),
@@ -298,7 +298,7 @@ class GraphicalResourceCard extends StatelessWidget{
                   ),
                   grow: true,
                   controller: PageController(viewportFraction: 0.9),
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   notifier: ValueNotifier(0.0),
                 ),
                 height: 200,
@@ -327,7 +327,7 @@ class ContribListCard extends StatelessWidget{
 
     return AppCard(
       radius: AppCard.BIG_RADIUS,
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         left: Dimen.DEF_MARG,
         right: Dimen.DEF_MARG,
         top: Dimen.SIDE_MARG,
@@ -342,7 +342,7 @@ class ContribListCard extends StatelessWidget{
             right: 24,
             bottom: 0,
             child: RotationTransition(
-              turns: AlwaysStoppedAnimation(-15 / 360),
+              turns: const AlwaysStoppedAnimation(-15 / 360),
               child: Icon(
                 icon,
                 color: backgroundIcon_(context),
@@ -352,7 +352,7 @@ class ContribListCard extends StatelessWidget{
           ),
 
           CustomScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             slivers: [
 
               SliverAppBar(
@@ -362,7 +362,7 @@ class ContribListCard extends StatelessWidget{
               ),
 
               SliverPadding(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                     left: Dimen.SIDE_MARG,
                     right: Dimen.SIDE_MARG
                 ),

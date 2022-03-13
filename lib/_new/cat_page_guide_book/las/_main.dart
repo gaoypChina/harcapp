@@ -1,13 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/details/part_settings.dart';
+import 'package:harcapp/_new/module_statistics_registrator.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/cat_page_guide_book/las/search_page.dart';
@@ -24,12 +21,17 @@ import 'data.dart';
 
 class LasFragment extends StatefulWidget{
 
+  const LasFragment({Key key}) : super(key: key);
+
   @override
   State createState() => LasFragmentState();
 
 }
 
-class LasFragmentState extends State<LasFragment> with TickerProviderStateMixin{
+class LasFragmentState extends State<LasFragment> with TickerProviderStateMixin, ModuleStatsMixin{
+
+  @override
+  String get moduleId => ModuleStatsMixin.las;
 
   static int currentPage;
   static ValueNotifier<double> _notifier;
@@ -63,13 +65,13 @@ class LasFragmentState extends State<LasFragment> with TickerProviderStateMixin{
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
               SliverAppBar(
                 backgroundColor: background_(context),
-                title: Text('Las'),
+                title: const Text('Las'),
                 centerTitle: true,
                 floating: true,
                 pinned: true,
                 actions: <Widget>[
                   IconButton(
-                    icon: Icon(MdiIcons.magnify),
+                    icon: const Icon(MdiIcons.magnify),
                     onPressed: (){
                       Navigator.push(
                           context,
@@ -87,7 +89,7 @@ class LasFragmentState extends State<LasFragment> with TickerProviderStateMixin{
                   ),
                 ],
                 bottom: TabBar(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   controller: controller,
                   tabs: items.map((item) => Tab(text: item.name)).toList(),
                   isScrollable: true,
@@ -96,7 +98,7 @@ class LasFragmentState extends State<LasFragment> with TickerProviderStateMixin{
             ],
 
             body: TabBarView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               controller: controller,
               children: items.map((item) => Item(
                 items.indexOf(item),
@@ -120,16 +122,16 @@ class Item extends StatelessWidget{
   final ItemData data;
   final ValueNotifier<double> notifier;
 
-  Item(this.index, this.data, this.notifier);
+  const Item(this.index, this.data, this.notifier, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     return ListView(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       children: <Widget>[
 
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
         Text(
           data.name,
@@ -143,9 +145,9 @@ class Item extends StatelessWidget{
           onTap: data.background.author==null?null:() => showAppToast(context, text: data.background.author),
           radius: AppCard.BIG_RADIUS,
           padding: EdgeInsets.zero,
-          margin: EdgeInsets.all(Dimen.SIDE_MARG),
+          margin: const EdgeInsets.all(Dimen.SIDE_MARG),
           elevation: AppCard.bigElevation,
-          child: Container(
+          child: SizedBox(
             height: CARD_HEIGHT,
             child: AnimatedBuilder(
               animation: notifier,
@@ -173,13 +175,13 @@ class Item extends StatelessWidget{
             onTap: data.background_kora.author==null?null:() => showAppToast(context, text: data.background_kora.author),
             radius: AppCard.BIG_RADIUS,
             padding: EdgeInsets.zero,
-              margin: EdgeInsets.only(
+              margin: const EdgeInsets.only(
                 left: Dimen.SIDE_MARG,
                 right: Dimen.SIDE_MARG,
                 bottom: Dimen.SIDE_MARG
               ),
               elevation: AppCard.bigElevation,
-            child: Container(
+            child: SizedBox(
               height: CARD_HEIGHT,
               child: AnimatedBuilder(
                 animation: notifier,
@@ -206,7 +208,7 @@ class Item extends StatelessWidget{
         TagWidget(data),
 
         Padding(
-          padding: EdgeInsets.all(Dimen.SIDE_MARG),
+          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -218,26 +220,26 @@ class Item extends StatelessWidget{
                 FirePropertyWidget(data),
 
               if(data.hasParams)
-                SizedBox(height: Dimen.SIDE_MARG),
+                const SizedBox(height: Dimen.SIDE_MARG),
 
               TitleShortcutRowWidget(title: 'Opis', textAlign: TextAlign.start, titleColor: hintEnab_(context)),
 
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               Text(data.description, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.1), textAlign: TextAlign.justify,),
-              SizedBox(height: Dimen.DEF_MARG),
+              const SizedBox(height: Dimen.DEF_MARG),
               Text(data.desc_source!=null?'Źródło: ${data.desc_source}':'', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_TINY, color: AppColors.text_hint_enab), textAlign: TextAlign.end,),
 
-              Container(
+              SizedBox(
                 height: 84 + 2*Dimen.DEF_MARG,
                 child: ListView.separated(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, idx) => SimpleButton(
                     onTap: () => openDialog(
                             context: context,
                             builder: (context) => AppCard(
                                 padding: EdgeInsets.zero,
                                 margin: AppCard.normMargin,
-                                color: Settings.isDark?Color.fromARGB(255, 30, 30, 30):Colors.amber[50],
+                                color: Settings.isDark?const Color.fromARGB(255, 30, 30, 30):Colors.amber[50],
                                 child: Column(
                                   children: [
                                     AppBar(
@@ -293,7 +295,7 @@ class Item extends StatelessWidget{
                   scrollDirection: Axis.horizontal,
                   itemCount: data.graphics.length,
                   shrinkWrap: true,
-                  separatorBuilder: (context, idx) => SizedBox(width: 3*Dimen.DEF_MARG),
+                  separatorBuilder: (context, idx) => const SizedBox(width: 3*Dimen.DEF_MARG),
                 ),
               ),
 

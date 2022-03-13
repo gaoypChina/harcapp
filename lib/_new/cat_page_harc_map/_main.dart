@@ -1,18 +1,18 @@
-
-import 'package:flutter/cupertino.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
-import '../cat_page.dart';
+import 'package:provider/provider.dart';
 
 class CatPageHarcMap extends StatefulWidget{
 
@@ -21,11 +21,12 @@ class CatPageHarcMap extends StatefulWidget{
 
 }
 
-class CatPageHarcMapState extends CatPageState<CatPageHarcMap>{
+class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
   @override
-  ColorPack get colorPack => ColorPackHarcMap();
-
+  void afterFirstLayout(BuildContext context) {
+    post(() => Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackHarcMap());
+  }
 
   @override
   Widget build(BuildContext context) {

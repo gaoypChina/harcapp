@@ -14,17 +14,23 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../module_statistics_registrator.dart';
 import 'all_chords_widget.dart';
 import 'common.dart';
 
 class ChwytyFragment extends StatefulWidget {
 
+  const ChwytyFragment({Key key}) : super(key: key);
+
   @override
-  State createState() => TonacjaFragmentState();
+  State createState() => ChwytyFragmentState();
 
 }
 
-class TonacjaFragmentState extends State<ChwytyFragment> with TickerProviderStateMixin {
+class ChwytyFragmentState extends State<ChwytyFragment> with ModuleStatsMixin {
+
+  @override
+  String get moduleId => ModuleStatsMixin.chwyty;
 
   KeyboardVisibilityController keyboardVisibilityController;
 
@@ -51,15 +57,15 @@ class TonacjaFragmentState extends State<ChwytyFragment> with TickerProviderStat
               appBar: AppBar(
                 backgroundColor: background_(context),
                 elevation: 0,
-                title: Text('Chwyty'),
+                title: const Text('Chwyty'),
                 centerTitle: true,
                 actions: <Widget>[
 
                   SimpleButton(
                     padding: EdgeInsets.only(left: AppCard.defPadding.left, right: AppCard.defPadding.right),
                     child: Row(children: <Widget>[
-                      Icon(MdiIcons.guitarPickOutline,),
-                      SizedBox(width: Dimen.DEF_MARG),
+                      const Icon(MdiIcons.guitarPickOutline,),
+                      const SizedBox(width: Dimen.DEF_MARG),
                       SizedBox(
                         child: Consumer<FretboardProvider>(
                           builder: (context, prov, child) => AnimatedChildSlider(
@@ -78,8 +84,8 @@ class TonacjaFragmentState extends State<ChwytyFragment> with TickerProviderStat
                   ),
                 ],
                 bottom: TabBar(
-                  physics: BouncingScrollPhysics(),
-                  tabs: [
+                  physics: const BouncingScrollPhysics(),
+                  tabs: const [
                     Tab(text: 'Tonacja'),
                     Tab(text: 'Chwyty'),
                   ],
@@ -89,7 +95,7 @@ class TonacjaFragmentState extends State<ChwytyFragment> with TickerProviderStat
               body: Column(
                 children: [
 
-                  Expanded(
+                  const Expanded(
                     child: TabBarView(
                       physics: BouncingScrollPhysics(),
                       children: [
@@ -134,7 +140,6 @@ class TonacjaFragmentState extends State<ChwytyFragment> with TickerProviderStat
       ),
     );
   }
-
 
 }
 

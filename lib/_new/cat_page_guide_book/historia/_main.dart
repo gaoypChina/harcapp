@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_new/module_statistics_registrator.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/org.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 
 const List<Item> events_1 = [
   Item('Oblężenie <b>Mafekingu</b> podczas wojny <b>Anglików</b> z <b>Burami</b>. Robert Baden-Powell szkoli młodych chłopców na "<b>skautów</b>". Zajmują się wywiadem, łącznością, podchodzeniem, tropieniem, pierwszą pomocą.',
@@ -156,90 +156,99 @@ const List<Item> events_4 = [
 List<Item> list = events_1 + events_2 + events_3 + events_4;
 
 
-class HistoriaFragment extends StatelessWidget{
+class HistoriaFragment extends StatefulWidget{
+
+  const HistoriaFragment({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<StatefulWidget> createState() => HistoriaFragmentState();
 
-    return BottomNavScaffold(
-      body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
-        slivers: <Widget>[
+}
 
-          SliverAppBar(
-            title: Text('Historia'),
-            centerTitle: true,
-            backgroundColor: background_(context),
-            floating: true,
-          ),
+class HistoriaFragmentState extends State<HistoriaFragment> with ModuleStatsMixin{
 
-          SliverList(
-            delegate: SliverChildListDelegate([SizedBox(height: Dimen.ICON_MARG)]),
-          ),
+  @override
+  String get moduleId => ModuleStatsMixin.historia;
 
-          SliverList(
-            delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                if (index.isEven)
-                  return Padding(
-                    padding: EdgeInsets.only(left: Dimen.ICON_MARG),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        AppText(list[index].content, size: Dimen.TEXT_SIZE_BIG),
-                        SizedBox(height: Dimen.ICON_MARG),
-                        Row(
+  @override
+  Widget build(BuildContext context) => BottomNavScaffold(
+    body: CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: <Widget>[
+
+        SliverAppBar(
+          title: const Text('Historia'),
+          centerTitle: true,
+          backgroundColor: background_(context),
+          floating: true,
+        ),
+
+        SliverList(
+          delegate: SliverChildListDelegate([const SizedBox(height: Dimen.ICON_MARG)]),
+        ),
+
+        SliverList(
+          delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+            if (index.isEven)
+              return Padding(
+                padding: const EdgeInsets.only(left: Dimen.ICON_MARG),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    AppText(list[index].content, size: Dimen.TEXT_SIZE_BIG),
+                    const SizedBox(height: Dimen.ICON_MARG),
+                    Row(
+                      children: [
+
+                        Wrap(
+                          spacing: Dimen.ICON_MARG,
                           children: [
-
-                            Wrap(
-                              spacing: Dimen.ICON_MARG,
-                              children: [
-                                if(list[index].tags.contains(Item.TAG_FSE)) OrgIndicator(Org.fse),
-                                if(list[index].tags.contains(Item.TAG_ZHP)) OrgIndicator(Org.zhp),
-                                if(list[index].tags.contains(Item.TAG_ZHR)) OrgIndicator(Org.zhr_o)
-                              ],
-                            ),
-
-                            Expanded(child: Container()),
-
-                            Text(
-                              list[index].date,
-                              style: AppTextStyle(
-                                  fontSize: Dimen.TEXT_SIZE_NORMAL,
-                                  fontWeight: weight.halfBold,
-                                  color: hintEnab_(context)
-                              ),
-                              textAlign: TextAlign.end,
-                            ),
-
-                            SizedBox(width: Dimen.ICON_MARG)
-
+                            if(list[index].tags.contains(Item.TAG_FSE)) const OrgIndicator(Org.fse),
+                            if(list[index].tags.contains(Item.TAG_ZHP)) const OrgIndicator(Org.zhp),
+                            if(list[index].tags.contains(Item.TAG_ZHR)) const OrgIndicator(Org.zhr_o)
                           ],
-                        )
+                        ),
+
+                        Expanded(child: Container()),
+
+                        Text(
+                          list[index].date,
+                          style: AppTextStyle(
+                              fontSize: Dimen.TEXT_SIZE_NORMAL,
+                              fontWeight: weight.halfBold,
+                              color: hintEnab_(context)
+                          ),
+                          textAlign: TextAlign.end,
+                        ),
+
+                        const SizedBox(width: Dimen.ICON_MARG)
+
                       ],
-                    ),
-                  );
+                    )
+                  ],
+                ),
+              );
 
-                return SizedBox(height: 4*Dimen.ICON_MARG);
-              },
-              semanticIndexCallback: (Widget widget, int localIndex) {
-                if (localIndex.isEven) {
-                  return localIndex ~/ 2;
-                }
-                return null;
-              },
-              childCount: list.length,
-            ),
+            return const SizedBox(height: 4*Dimen.ICON_MARG);
+          },
+            semanticIndexCallback: (Widget widget, int localIndex) {
+              if (localIndex.isEven) {
+                return localIndex ~/ 2;
+              }
+              return null;
+            },
+            childCount: list.length,
           ),
+        ),
 
-          SliverList(
-            delegate: SliverChildListDelegate([SizedBox(height: Dimen.ICON_MARG)]),
-          )
+        SliverList(
+          delegate: SliverChildListDelegate([const SizedBox(height: Dimen.ICON_MARG)]),
+        )
 
-        ],
-      ),
-    );
+      ],
+    ),
+  );
 
-  }
 }
 
 class Item{
@@ -250,5 +259,5 @@ class Item{
 
   final String content, date;
   final List<String> tags;
-  const Item(this.content, this.date, {this.tags: const []});
+  const Item(this.content, this.date, {this.tags = const []});
 }

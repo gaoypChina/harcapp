@@ -1,6 +1,6 @@
 /* To Cię połączy z serwerem w internetach */
-//const String SERVER_IP = 'https://harcapp-api-harcapp-test-2-n3o2k7i8ch5.cloud.okteto.net';
-//const String SERVER_PORT = null;
+// const String SERVER_IP = 'https://harcapp-api-harcapp-test-2-n3o2k7i8ch5.cloud.okteto.net';
+// const String SERVER_PORT = null;
 
 /* A to jeżeli zdecyzujesz się uruchomić serwer lokalnie. */
 

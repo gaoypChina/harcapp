@@ -1,27 +1,27 @@
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
-import 'package:harcapp/_new/app_bottom_navigator.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp/_common_widgets/harc_app.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
-import 'package:harcapp_core/dimen.dart';
+import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
+import 'package:provider/provider.dart';
 
-import '../app_drawer.dart';
-import '../cat_page.dart';
-import 'competition_preview_widget.dart';
 import 'competitions/competition_page.dart';
 
 class CatPageHome extends StatefulWidget{
+
+  const CatPageHome({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => CatPageHomeState();
 
 }
 
-class CatPageHomeState extends CatPageState<CatPageHome>{
+class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
 
   @override
-  ColorPack get colorPack => ColorPackHome();
+  void afterFirstLayout(BuildContext context) {
+    post(() => Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackHome());
+  }
 
   @override
   Widget build(BuildContext context) => CompetitionsPage();

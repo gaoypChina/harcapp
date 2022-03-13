@@ -14,11 +14,11 @@ import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core_song_widget/providers.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
+import 'package:lifecycle/lifecycle.dart';
 
 import '_common_classes/color_pack.dart';
 import '_common_classes/sha_pref.dart';
 import '_common_widgets/app_toast.dart';
-import '_new/api/statistics.dart';
 import '_new/app_bottom_navigator.dart';
 import '_new/cat_page_guide_book/_sprawnosci/providers.dart';
 import '_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
@@ -87,7 +87,7 @@ class AppNavigatorObserver extends NavigatorObserver{
     _onChangedListener.add(listener);
 
   void removeChangedListener(void Function() listener) =>
-      _onChangedListener.remove(listener);
+    _onChangedListener.remove(listener);
 
   void callNavBarChanged(){
 
@@ -347,7 +347,10 @@ class AppState extends State<App> {
                         Locale('pl'),
                       ],
                       locale: const Locale('pl'),
-                      navigatorObservers: [appNavigatorObserver],
+                      navigatorObservers: [
+                        appNavigatorObserver,
+                        defaultLifecycleObserver
+                      ],
                     ),
                   );
 

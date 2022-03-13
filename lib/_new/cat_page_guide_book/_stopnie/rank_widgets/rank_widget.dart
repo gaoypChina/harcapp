@@ -32,6 +32,8 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../../module_statistics_registrator.dart';
+
 
 class RankFloatingButtonProvider extends ChangeNotifier{
 
@@ -67,7 +69,10 @@ class RankWidget extends StatefulWidget{
 
 }
 
-class RankWidgetState extends State<RankWidget>{
+class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
+
+  @override
+  String get moduleId => throw ModuleStatsMixin.stopnie;
 
   Rank get rank => widget.rank;
   bool get showBack => widget.showBack;

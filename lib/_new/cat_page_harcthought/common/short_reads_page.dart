@@ -3,36 +3,39 @@ import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_harcthought/common/short_read_thumbnail_widget.dart';
+import 'package:harcapp/_new/cat_page_harcthought/common/short_read_widget.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/dimen.dart';
 
+import '../../../_common_classes/app_navigator.dart';
 import 'short_read.dart';
 import '../gawedy/data.dart';
 import '../gawedy/gaweda.dart';
 
-class ShortReadsPage extends StatefulWidget{
+class ShortReadsPage<T extends ShortRead> extends StatefulWidget{
 
+  final String moduleId;
   final String title;
-  final List<ShortRead> allShortReads;
+  final List<T> allShortReads;
 
-  const ShortReadsPage(this.title, this.allShortReads);
+  const ShortReadsPage(this.moduleId, this.title, this.allShortReads, {Key key}): super(key: key);
   
   @override
-  State<StatefulWidget> createState() => ShortReadsPageState();
+  State<StatefulWidget> createState() => ShortReadsPageState<T>();
 
 }
 
-class ShortReadsPageState extends State<ShortReadsPage>{
+class ShortReadsPageState<T extends ShortRead> extends State<ShortReadsPage>{
 
-  List<ShortRead> get allShortReads => widget.allShortReads;
+  List<T> get allShortReads => widget.allShortReads;
   
-  List<ShortRead> searchedGawedy;
+  List<T> searchedShortReads;
 
   @override
   void initState() {
-    searchedGawedy = [];
-    searchedGawedy.addAll(allShortReads);
+    searchedShortReads = [];
+    searchedShortReads.addAll(allShortReads);
     super.initState();
   }
 
@@ -41,7 +44,7 @@ class ShortReadsPageState extends State<ShortReadsPage>{
 
     return BottomNavScaffold(
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
 
           SliverAppBar(
@@ -58,7 +61,7 @@ class ShortReadsPageState extends State<ShortReadsPage>{
               onChanged: (text){
 
                 if(text.isEmpty)
-                  setState(() => this.searchedGawedy = allGawedy);
+                  setState(() => searchedShortReads = allShortReads);
 
                 List<Gaweda> searchedGawedy = [];
 
@@ -68,7 +71,7 @@ class ShortReadsPageState extends State<ShortReadsPage>{
                     searchedGawedy.add(gaweda);
                 }
 
-                setState(() => this.searchedGawedy = searchedGawedy);
+                setState(() => searchedShortReads = allShortReads);
 
               },
             ),
@@ -76,11 +79,15 @@ class ShortReadsPageState extends State<ShortReadsPage>{
           ),
 
           SliverPadding(
-            padding: EdgeInsets.all(Dimen.ICON_MARG),
+            padding: const EdgeInsets.all(Dimen.ICON_MARG),
             sliver: SliverGrid.count(
               crossAxisCount: 2,
               crossAxisSpacing: Dimen.ICON_MARG,
-              children: searchedGawedy.map((item) => ShortReadThumbnailWidget(item)).toList(),
+              children: searchedShortReads.map((shortRead) => ShortReadThumbnailWidget(
+                shortRead,
+                  onTap: () => pushPage(context, builder: (context) => ShortReadWidget(widget.moduleId, shortRead)),
+              )
+              ).toList(),
               childAspectRatio: .8,
             ),
           ),

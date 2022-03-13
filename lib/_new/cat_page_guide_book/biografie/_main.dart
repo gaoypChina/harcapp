@@ -5,28 +5,34 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_guide_book/biografie/bio_item_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../module_statistics_registrator.dart';
 import 'all_bio_page.dart';
 import 'data.dart';
 
 class BiografieFragment extends StatefulWidget{
+  
+  const BiografieFragment({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => BiografieFragmentState();
 
 }
 
-class BiografieFragmentState extends State<BiografieFragment> with TickerProviderStateMixin{
+class BiografieFragmentState extends State<BiografieFragment> with ModuleStatsMixin{
 
-  TabController controller;
+  @override
+  String get moduleId => ModuleStatsMixin.biografie;
+
+  PageController controller;
   ValueNotifier<double> notifier;
 
   GlobalKey<NestedScrollViewState> nestedScrollViewKey;
 
   @override
   void initState() {
-    controller = TabController(length: DATA.length, vsync: this);
+    controller = PageController();
     notifier = ValueNotifier(.0);
-    controller.animation.addListener(() => notifier.value = controller.index + controller.offset);
+    controller.addListener(() => notifier.value = controller.page);
 
     nestedScrollViewKey = GlobalKey();
 
@@ -54,21 +60,21 @@ class BiografieFragmentState extends State<BiografieFragment> with TickerProvide
         floatHeaderSlivers: true,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
           SliverAppBar(
-            title: Text('Biografie'),
+            title: const Text('Biografie'),
             centerTitle: true,
             floating: true,
             backgroundColor: background_(context),
             actions: [
               IconButton(
-                icon: Icon(MdiIcons.dotsGrid),
+                icon: const Icon(MdiIcons.dotsGrid),
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AllBioPage(
-                  onPicked: (int index) => controller.animateTo(index, curve: Curves.easeOutQuart),
+                  onPicked: (int index) => controller.jumpToPage(index),
                 ))))
             ],
           ),
         ],
-        body: TabBarView(
-          physics: BouncingScrollPhysics(),
+        body: PageView(
+          physics: const BouncingScrollPhysics(),
           controller: controller,
           children: children,
         ),

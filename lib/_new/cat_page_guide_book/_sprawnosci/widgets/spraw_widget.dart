@@ -9,6 +9,7 @@ import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/widgets/spraw_task_
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/claim_button.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/complete_button.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/rank_spraw_temp_widget.dart';
+import 'package:harcapp/_new/module_statistics_registrator.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/providers.dart';
@@ -43,7 +44,10 @@ class SprawWidget extends StatefulWidget{
 
 }
 
-class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin{
+class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin, ModuleStatsMixin{
+
+  @override
+  String get moduleId => throw ModuleStatsMixin.sprawnosci;
 
   Spraw get spraw => widget.spraw;
   bool get showBack => widget.showBack;
@@ -60,7 +64,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin{
 
   @override
   void initState() {
-    confettiController = ConfettiController(duration: Duration(seconds: 1));
+    confettiController = ConfettiController(duration: const Duration(seconds: 1));
     super.initState();
   }
 

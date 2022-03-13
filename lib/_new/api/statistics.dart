@@ -16,10 +16,11 @@ class ApiStatistics{
     bool abortIfNothingToSend = true
   }) async {
 
-    Map<String, Map<String, dynamic>> songSearchRequests = Statistics.songSearchRequests;
+    Map<String, Map<String, dynamic>> songRequests = Statistics.songs;
+    Map<String, Map<String, dynamic>> moduleRequests = Statistics.songs;
 
-    if(abortIfNothingToSend && songSearchRequests.isEmpty) return null;
-    logger.i('Statistics post request:\n${prettyJson(songSearchRequests)}');
+    if(abortIfNothingToSend && songRequests.isEmpty) return null;
+    logger.i('Statistics post request:\n${prettyJson(songRequests)}');
 
     return await API.sendRequest(
         withToken: true,
@@ -28,7 +29,10 @@ class ApiStatistics{
             options: Options(headers: {
               HttpHeaders.contentTypeHeader: 'application/json',
             }),
-            data: jsonEncode(songSearchRequests)
+            data: jsonEncode({
+              'song': songRequests,
+              'module': moduleRequests,
+            })
         ),
         onSuccess: (response) async {
           if(onSuccess == null) return;

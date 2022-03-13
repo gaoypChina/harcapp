@@ -28,7 +28,14 @@ class PartChangelog extends StatelessWidget{
             sliver: SliverList(delegate: SliverChildListDelegate([
 
               const ListCard(
-                  '3.1.4',
+                  '3.1.6',
+                  [
+                    'Dodano nowe piosenki.',
+                  ]
+              ),
+
+              const ListCard(
+                  '3.1.5',
                   [
                     'Poprawiono błąd niewyświetlającego się modułu "Poradnik i rozwój".',
                   ]
@@ -673,7 +680,7 @@ class ListCard extends StatelessWidget{
 
     for(String item in changelog)
       children.add(Padding(
-        padding: EdgeInsets.only(top: 3.0, bottom: 3.0),
+        padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

@@ -1,19 +1,19 @@
-import 'package:flutter/cupertino.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_other/organizations/org_cards/org_card_widget_remplate.dart';
-import 'package:harcapp/_new/details/_main.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/harc_app.dart';
 import 'package:harcapp/_new/cat_page_other/strefa_ducha_button.dart';
+import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:provider/provider.dart';
 
 import '../app_drawer.dart';
-import '../cat_page.dart';
 import 'games/_main_page.dart';
 import 'games/_main_row.dart';
 import 'organizations/_main.dart';
@@ -21,15 +21,19 @@ import 'organizations/org_cards/all_data.dart';
 
 class CatPageOther extends StatefulWidget{
 
+  const CatPageOther({Key key}) : super(key: key);
+
   @override
-  State<StatefulWidget> createState() => CatPageOtherState();
+  State createState() => CatPageOtherState();
 
 }
 
-class CatPageOtherState extends CatPageState<CatPageOther>{
+class CatPageOtherState extends State<CatPageOther> with AfterLayoutMixin{
 
   @override
-  ColorPack get colorPack => ColorPackOther();
+  void afterFirstLayout(BuildContext context) {
+    post(() => Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackOther());
+  }
 
   PageController controller;
   ValueNotifier<double> notifier;
@@ -38,7 +42,6 @@ class CatPageOtherState extends CatPageState<CatPageOther>{
 
   @override
   Widget build(BuildContext context) {
-
 
     controller = PageController(viewportFraction: Dimen.viewportFraction(context));
     notifier = ValueNotifier(0);

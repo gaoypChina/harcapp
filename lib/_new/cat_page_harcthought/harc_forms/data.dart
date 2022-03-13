@@ -5,7 +5,7 @@ import 'harc_form.dart';
 
 List<HarcForm> allForms = [
 
-  HarcForm(
+  const HarcForm(
     filename: 'warcaby',
     title: 'Warcaby',
     icon: MdiIcons.chessPawn,
@@ -15,7 +15,7 @@ List<HarcForm> allForms = [
     colorEnd: Colors.purple
   ),
 
-  HarcForm(
+  const HarcForm(
     filename: 'bukmacher',
     title: 'Bukmacher',
     icon: MdiIcons.gold,
@@ -25,7 +25,7 @@ List<HarcForm> allForms = [
     colorEnd: Colors.deepOrange
   ),
 
-  HarcForm(
+  const HarcForm(
     filename: 'tak_nie',
     title: 'Tak-nie',
     icon: MdiIcons.circleHalfFull,

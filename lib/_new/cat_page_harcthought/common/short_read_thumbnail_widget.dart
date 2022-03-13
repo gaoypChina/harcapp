@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:harcapp/_new/cat_page_harcthought/common/short_read_widget.dart';
 import 'package:harcapp/_new/cat_page_harcthought/common/short_read.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -11,8 +10,9 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class ShortReadThumbnailWidget extends StatelessWidget{
 
   final ShortRead shortRead;
+  final void Function() onTap;
 
-  ShortReadThumbnailWidget(this.shortRead);
+  const ShortReadThumbnailWidget(this.shortRead, {@required this.onTap, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -24,7 +24,7 @@ class ShortReadThumbnailWidget extends StatelessWidget{
         child: Hero(
             tag: shortRead,
             child: AppCard(
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ShortReadWidget(shortRead))),
+                onTap: onTap,
                 color: background_(context),
                 radius: AppCard.BIG_RADIUS,
                 elevation: 0,//AppCard.bigElevation,
@@ -33,7 +33,7 @@ class ShortReadThumbnailWidget extends StatelessWidget{
                   children: [
 
                     Center(
-                      child: SpinKitChasingDots(size: Dimen.ICON_SIZE, color: accent_(context),),
+                      child: SpinKitChasingDots(size: Dimen.ICON_SIZE, color: accent_(context)),
                     ),
 
                     Positioned.fill(
@@ -44,7 +44,7 @@ class ShortReadThumbnailWidget extends StatelessWidget{
                     ),
 
                     if(shortRead.soundResource != null)
-                      Positioned(
+                      const Positioned(
                         bottom: 0,
                         right: 0,
                         child: AppCard(
@@ -65,10 +65,10 @@ class ShortReadThumbnailWidget extends StatelessWidget{
         ),
       ),
 
-      SizedBox(height: Dimen.ICON_MARG),
+      const SizedBox(height: Dimen.ICON_MARG),
 
       Padding(
-        padding: EdgeInsets.all(Dimen.DEF_MARG),
+        padding: const EdgeInsets.all(Dimen.DEF_MARG),
         child: Text(
           shortRead.title,
           style: AppTextStyle(
