@@ -47,7 +47,7 @@ class SprawWidget extends StatefulWidget{
 class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin, ModuleStatsMixin{
 
   @override
-  String get moduleId => throw ModuleStatsMixin.sprawnosci;
+  String get moduleId => ModuleStatsMixin.sprawnosci;
 
   Spraw get spraw => widget.spraw;
   bool get showBack => widget.showBack;
@@ -105,7 +105,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
             },
           ),
 
-          SizedBox(height: Dimen.SIDE_MARG),
+          const SizedBox(height: Dimen.SIDE_MARG),
 
           if(spraw.comment != null)
             Column(
@@ -114,7 +114,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
               children: [
 
                 Padding(
-                  padding: EdgeInsets.only(left: Dimen.ICON_MARG),
+                  padding: const EdgeInsets.only(left: Dimen.ICON_MARG),
                   child: Text(
                     'Komentarz',
                     style: AppTextStyle(
@@ -125,7 +125,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
                 ),
 
                 Padding(
-                  padding: EdgeInsets.all(Dimen.ICON_MARG),
+                  padding: const EdgeInsets.all(Dimen.ICON_MARG),
                   child: AppText(
                     spraw.comment,
                     size: Dimen.TEXT_SIZE_BIG,
@@ -180,7 +180,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
 
                 AnimatedOpacity(
                   opacity: showComplete?1:0,
-                  duration: Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 300),
                   child: IgnorePointer(
                     ignoring: !showComplete,
                     child: CompleteButton(
@@ -197,7 +197,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
 
                 AnimatedOpacity(
                   opacity: showClaim?1:0,
-                  duration: Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 300),
                   child: IgnorePointer(
                     ignoring: !showClaim,
                     child: ClaimButton(
@@ -214,7 +214,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
               ],
             ),
 
-            SizedBox(height: Dimen.FLOATING_BUTTON_MARG),
+            const SizedBox(height: Dimen.FLOATING_BUTTON_MARG),
 
             SaveFloatingButton(
               spraw,
@@ -255,7 +255,7 @@ class RequirementsWidget extends StatelessWidget{
       children.add(child);
 
       if(i != spraw.tasks.length-1)
-        children.add(SizedBox(height: 2*Dimen.ICON_MARG));
+        children.add(const SizedBox(height: 2*Dimen.ICON_MARG));
     }
 
     return Column(children: children);

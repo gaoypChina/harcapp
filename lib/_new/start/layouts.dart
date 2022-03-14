@@ -571,12 +571,12 @@ class DefaultLayout extends StatefulWidget{
   State<StatefulWidget> createState(){
 
     switch(appMode){
-      case AppMode.APP_MODE_DEFAULT: return DefaultLayoutState();
-      case AppMode.APP_MODE_ADWENT: return AdwentLayoutState();
-      case AppMode.APP_MODE_CHRISTMAS: return ChristmasLayoutState();
-      case AppMode.APP_MODE_ZMARTWYCHWSTANIE: return ZmartwychwstanieLayoutState();
-      case AppMode.APP_MODE_POWST_WARSZ: return PowstanieWarszawskieLayoutState();
-      case AppMode.APP_MODE_NIEPODLEGLOSC: return NiepodlegloscLayoutState();
+      case AppMode.appModeDefault: return DefaultLayoutState();
+      case AppMode.appModeAdwent: return AdwentLayoutState();
+      case AppMode.appModeChristmas: return ChristmasLayoutState();
+      case AppMode.appModeZmartwychwstanie: return ZmartwychwstanieLayoutState();
+      case AppMode.appModePowstWarsz: return PowstanieWarszawskieLayoutState();
+      case AppMode.appModeNiepodleglosc: return NiepodlegloscLayoutState();
       default: return DefaultLayoutState();
     }
   }

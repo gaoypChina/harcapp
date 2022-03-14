@@ -3,7 +3,6 @@ import 'package:harcapp/account/account.dart';
 import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
 
-import '../_common_classes/time_settings.dart';
 import '../_new/api/statistics.dart';
 import '../_new/cat_page_song_book/songs_statistics_registrator.dart';
 import '../logger.dart';
@@ -15,8 +14,8 @@ class Statistics{
 
   DateTime get lastSyncTime => shaPref.getDateTime(ShaPref.SHA_PREF_STATISTICS_LAST_SYNC_TIME, null);
 
-  static Map<String, Map<String, dynamic>> get songs{
-    Map<String, Map<String, dynamic>> map = shaPref.getMap(ShaPref.SHA_PREF_STATISTICS_SONG_SIMPLE_SEARCH, {});
+  static Map<String, Map<String, dynamic>> get songStats{
+    Map<String, Map<String, dynamic>> map = shaPref.getMap(ShaPref.SHA_PREF_STATISTICS_SONGS, {});
     Map<String, Map<String, dynamic>> castMap = {};
     for(String key in map.keys){
       Map<String, dynamic> innerMap = Map.from(map[key]);
@@ -25,22 +24,17 @@ class Statistics{
     return castMap;
   }
 
-  static set songs(Map<String, Map<String, dynamic>> value) => shaPref.setMap(ShaPref.SHA_PREF_STATISTICS_SONG_SIMPLE_SEARCH, value);
+  static set songStats(Map<String, Map<String, dynamic>> value) => shaPref.setMap(ShaPref.SHA_PREF_STATISTICS_SONGS, value);
 
-  static Future<void> registerSongAction(String songFileName, SongOpenType songOpenType, Duration openDuration, List<Tuple2<int, double>> scrollEvents) async {
+  static Future<void> registerSongAction(String songFileName, DateTime openTime, SongOpenType type, Duration openDuration, List<Tuple2<int, double>> scrollEvents) async {
 
-    if(!await TimeSettings.isTimeAutomatic) {
-      logger.w('System time not set to automatic.');
-      return;
-    }
+    Map<String, Map<String, dynamic>> _allStandardSongSearch = songStats;
 
-    Map<String, Map<String, dynamic>> _allStandardSongSearch = songs;
-
-    String localDate = DateFormat('yyyy-MM-ddTHH:mm:ss.mmm').format(DateTime.now());
+    String localDate = DateFormat('yyyy-MM-ddTHH:mm:ss.mmm').format(openTime);
 
     _allStandardSongSearch[localDate] = {
       "songLclId": songFileName,
-      "openType": songOpenType.name.toUpperCase(),
+      "openType": type.name.toUpperCase(),
       "openDuration": openDuration.inSeconds,
       "scrollEvents": scrollEvents.map(
         (scrollEvent) => {
@@ -50,11 +44,11 @@ class Statistics{
       ).toList()
     };
 
-    songs = _allStandardSongSearch;
+    songStats = _allStandardSongSearch;
   }
 
-  static Map<String, List<Map<String, dynamic>>> get module{
-    Map<String, Map<String, dynamic>> map = shaPref.getMap(ShaPref.SHA_PREF_STATISTICS_SONG_SIMPLE_SEARCH, {});
+  static Map<String, Map<String, dynamic>> get moduleStats{
+    Map<String, Map<String, dynamic>> map = shaPref.getMap(ShaPref.SHA_PREF_STATISTICS_MODULE, {});
     Map<String, Map<String, dynamic>> castMap = {};
     for(String key in map.keys){
       Map<String, dynamic> innerMap = Map.from(map[key]);
@@ -63,7 +57,16 @@ class Statistics{
     return null;
   }
 
+  static set moduleStats(Map<String, Map<String, dynamic>> value) => shaPref.setMap(ShaPref.SHA_PREF_STATISTICS_MODULE, value);
+
+
   static Future<void> registerModuleAction(String moduleId, DateTime openTime, Duration openDuration) async {
+
+    Map<String, Map<String, dynamic>> _allModuleStats = moduleStats;
+
+    _allModuleStats[moduleId][DateFormat('yyyy-MM-ddTHH:mm:ss.mmm').format(openTime)] = openDuration.inSeconds;
+
+    moduleStats = _allModuleStats;
 
   }
 
@@ -78,22 +81,29 @@ class Statistics{
       return;
     }
 
-    if(Statistics.songs.isEmpty)
+    if(Statistics.songStats.isEmpty)
       return;
 
     await ApiStatistics.postObservations(
-      onSuccess: (List<String> tooEarly, List<String> alreadyExisted, List<String> saved){
-        Map<String, Map<String, dynamic>> _allStandardSongSearch = songs;
-        for(String timeStr in tooEarly)
-          _allStandardSongSearch.remove(timeStr);
+      onSuccess: (List<String> modulesTooEarly, List<String> modulesAlreadyExisted, List<String> modulesSaved, List<String> songsTooEarly, List<String> songsAlreadyExisted, List<String> songsSaved){
+        Map<String, Map<String, dynamic>> _allModuleStats = moduleStats;
+        for(String timeStr in modulesTooEarly)
+          _allModuleStats.remove(timeStr);
+        for(String timeStr in modulesAlreadyExisted)
+          _allModuleStats.remove(timeStr);
+        for(String timeStr in modulesSaved)
+          _allModuleStats.remove(timeStr);
+        moduleStats = _allModuleStats;
 
-        for(String timeStr in alreadyExisted)
-          _allStandardSongSearch.remove(timeStr);
+        Map<String, Map<String, dynamic>> _allSongStats = songStats;
+        for(String timeStr in songsTooEarly)
+          _allSongStats.remove(timeStr);
+        for(String timeStr in songsAlreadyExisted)
+          _allSongStats.remove(timeStr);
+        for(String timeStr in songsSaved)
+          _allSongStats.remove(timeStr);
 
-        for(String timeStr in saved)
-          _allStandardSongSearch.remove(timeStr);
-
-        songs = _allStandardSongSearch;
+        songStats = _allSongStats;
       },
       onError: (){}
     );

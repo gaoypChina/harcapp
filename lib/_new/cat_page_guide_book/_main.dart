@@ -517,7 +517,7 @@ class LatestStopWidgetState extends State<LatestStopWidget>{
                 trailing: SizedBox(width: OrgSwitcher.width - Dimen.ICON_FOOTPRINT),
                 onOpen: (context) => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => StopniePage(org: OrgManager.current))
+                    MaterialPageRoute(builder: (context) => RankPage(org: OrgManager.current))
                 ),
               ),
             ),
@@ -631,7 +631,7 @@ class StopPrevItem extends StatelessWidget{
         ),
         onTap: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => StopniePage(org: org))
+            MaterialPageRoute(builder: (context) => RankPage(org: org))
         )
     );
 

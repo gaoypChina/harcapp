@@ -11,13 +11,16 @@ import '_api.dart';
 class ApiStatistics{
 
   static Future<Response> postObservations({
-    Function(List<String> tooEarly, List<String> alreadyExisted, List<String> saved) onSuccess,
+    Function(
+        List<String> modulesTooEarly, List<String> modulesAlreadyExisted, List<String> modulesSaved,
+        List<String> songsTooEarly, List<String> songsAlreadyExisted, List<String> songsSaved
+    ) onSuccess,
     Function() onError,
     bool abortIfNothingToSend = true
   }) async {
 
-    Map<String, Map<String, dynamic>> songRequests = Statistics.songs;
-    Map<String, Map<String, dynamic>> moduleRequests = Statistics.songs;
+    Map<String, Map<String, dynamic>> songRequests = Statistics.songStats;
+    Map<String, Map<String, dynamic>> moduleRequests = Statistics.moduleStats;
 
     if(abortIfNothingToSend && songRequests.isEmpty) return null;
     logger.i('Statistics post request:\n${prettyJson(songRequests)}');
@@ -37,21 +40,33 @@ class ApiStatistics{
         onSuccess: (response) async {
           if(onSuccess == null) return;
 
-          List<String> tooEarly = [];
-          List<String> alreadyExisted = [];
-          List<String> saved = [];
+          List<String> modulesTooEarly = [];
+          List<String> modulesAlreadyExisted = [];
+          List<String> modulesSaved = [];
 
-          Map<String, String> respData = (response.data as Map).cast<String, String>();
-          for(String timeStr in respData.keys) {
-            String state = respData[timeStr];
-            if(state == 'too_early') tooEarly.add(timeStr);
-            else if (state == 'already_existed') alreadyExisted.add(timeStr);
-            else if (state == 'saved') saved.add(timeStr);
+          List<String> songsTooEarly = [];
+          List<String> songsAlreadyExisted = [];
+          List<String> songsSaved = [];
+
+          Map<String, Map<String, String>> respData = (response.data as Map).cast<String, Map<String, String>>();
+
+          for(String timeStr in respData["modules"].keys) {
+            String state = respData["modules"][timeStr];
+            if(state == 'too_early') modulesTooEarly.add(timeStr);
+            else if (state == 'already_existed') modulesAlreadyExisted.add(timeStr);
+            else if (state == 'saved') modulesSaved.add(timeStr);
+          }
+
+          for(String timeStr in respData["songs"].keys) {
+            String state = respData["songs"][timeStr];
+            if(state == 'too_early') songsTooEarly.add(timeStr);
+            else if (state == 'already_existed') songsAlreadyExisted.add(timeStr);
+            else if (state == 'saved') songsSaved.add(timeStr);
           }
 
           logger.i('Statistics post response:\n${prettyJson(respData)}');
 
-          onSuccess(tooEarly, alreadyExisted, saved);
+          onSuccess(modulesTooEarly, modulesAlreadyExisted, modulesSaved, songsTooEarly, songsAlreadyExisted, songsSaved);
         }
     );
 

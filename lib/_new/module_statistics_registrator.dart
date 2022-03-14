@@ -55,7 +55,6 @@ mixin ModuleStatsMixin<T extends StatefulWidget> on State<T>{
   @override
   void initState() {
     () async {
-      await moduleStatisticsRegistrator.clear();
       await moduleStatisticsRegistrator.open(moduleId);
     }();
     super.initState();
@@ -77,20 +76,13 @@ class ModuleStatisticsRegistrator{
   String _moduleId;
   DateTime _openTime;
 
-  bool _autoTimeChanged;
-  Future<void> checkAutoTimeChanged() async {
-    if(!await TimeSettings.isTimeAutomatic)
-      _autoTimeChanged = true;
-  }
-
-  Future<void> clear() async {
-    _autoTimeChanged = !await TimeSettings.isTimeAutomatic;
-    _moduleId = null;
-    _openTime = null;
-  }
-
   Future<void> open(String moduleId) async {
-    if(!await TimeSettings.isTimeAutomatic) return;
+    if(!await TimeSettings.isTimeAutomatic){
+      _moduleId = null;
+      _openTime = null;
+      logger.d('ModuleStatisticsRegistrator ($_moduleId) stats aborted. Time not automatic.');
+      return;
+    }
     if(_moduleId != moduleId){
       _moduleId = moduleId;
       _openTime = DateTime.now();
@@ -102,7 +94,12 @@ class ModuleStatisticsRegistrator{
   }
 
   Future<void> commit() async {
-    if(_autoTimeChanged) return;
+    if(!await TimeSettings.isTimeAutomatic){
+      _moduleId = null;
+      _openTime = null;
+      logger.d('ModuleStatisticsRegistrator ($_moduleId) stats aborted. Time not automatic.');
+      return;
+    }
     if(_moduleId == null) return;
     if(depth > 0){
       depth--;
@@ -111,9 +108,10 @@ class ModuleStatisticsRegistrator{
 
     Duration totalOpenDuration = DateTime.now().difference(_openTime);
 
-    if(totalOpenDuration < const Duration(seconds: 3))
+    if(totalOpenDuration < const Duration(seconds: 3)) {
+      logger.d('ModuleStatisticsRegistrator ($_moduleId, $totalOpenDuration) stat aborted. Open time too short.');
       return;
-
+    }
     Statistics.registerModuleAction(
         _moduleId,
         _openTime,

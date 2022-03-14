@@ -21,18 +21,22 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../module_statistics_registrator.dart';
 import 'data/all_spraw_books.dart';
 
 class SprawnosciPage extends StatefulWidget{
 
-  const SprawnosciPage();
+  const SprawnosciPage({Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => SprawnosciPageState();
 
 }
 
-class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderStateMixin{
+class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderStateMixin, ModuleStatsMixin{
+
+  @override
+  String get moduleId => ModuleStatsMixin.sprawnosci;
 
   ValueNotifier tabNotifier;
   TabController tabController;
@@ -74,7 +78,7 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
       },
       builder: (context, child) => BottomNavScaffold(
           body: NestedScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               floatHeaderSlivers: true,
               headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
 
@@ -95,13 +99,13 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
                           tabScrollProvider.notify();
                           SprawBookData.lastViewedSprawBook = allSprawBooks[index];
                         },
-                        actions: [SizedBox(width: Dimen.APPBAR_LEADING_WIDTH)]
+                        actions: const [SizedBox(width: Dimen.APPBAR_LEADING_WIDTH)]
                     )
                 ),
               ],
               body: TabBarView(
                 controller: tabController,
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 children: allSprawBooks.map(
                     (sprawBook) => SprawBookPage(sprawBook)
                 ).toList(),
@@ -139,7 +143,7 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
           ),
           bottomNavigationBar:
           App.showPatroniteSeasonally?
-          PatroniteSupportWidget(
+          const PatroniteSupportWidget(
             margin: EdgeInsets.only(left: Dimen.DEF_MARG, right: Dimen.DEF_MARG, bottom: Dimen.DEF_MARG),
             stateTag: PatroniteSupportWidget.tagSprawnosci,
             title: 'Skąd tyle sprawności?!',
@@ -192,24 +196,23 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
 class TinySprawSetWidget extends StatelessWidget{
 
   final String mode;
-  final List<String> UIDs;
+  final List<String> uids;
   final String emptyMessage;
   final IconData icon;
   final bool showProgress;
   final void Function() onReqComplChanged;
 
-  const TinySprawSetWidget(this.mode, this.UIDs, {@required this.emptyMessage, @required this.icon, this.showProgress = false, this.onReqComplChanged});
+  const TinySprawSetWidget(this.mode, this.uids, {@required this.emptyMessage, @required this.icon, this.showProgress = false, this.onReqComplChanged, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     List<Widget> children = [];
 
-    for(String UID in UIDs){
+    for(String uid in uids){
 
-      Spraw spraw = Spraw.fromUID(UID);
+      Spraw spraw = Spraw.fromUID(uid);
 
-      print(UID);
       if(spraw == null) continue;
 
       children.add(SprawWidgetSmall(spraw, mode, showProgress: showProgress, onReqComplChanged: onReqComplChanged));
@@ -226,7 +229,7 @@ class TinySprawSetWidget extends StatelessWidget{
             child: Hero(
               tag: icon,
               child: RotationTransition(
-                turns: AlwaysStoppedAnimation(-15 / 360),
+                turns: const AlwaysStoppedAnimation(-15 / 360),
                 child: Icon(
                   icon,
                   color: backgroundIcon_(context),
@@ -253,7 +256,7 @@ class TinySprawSetWidget extends StatelessWidget{
             )
           else
             ListView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               children: children,
             ),

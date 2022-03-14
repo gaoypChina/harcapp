@@ -15,23 +15,27 @@ import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:provider/provider.dart';
 
+import '../../module_statistics_registrator.dart';
 import 'data/data_zhp.dart';
 import 'data/data_zhp_old.dart';
 import 'data/data_zhr_c.dart';
 import 'models_common/rank.dart';
 
-class StopniePage extends StatefulWidget {
+class RankPage extends StatefulWidget {
 
   final Org org;
 
-  const StopniePage({this.org});
+  const RankPage({this.org, Key key}): super(key: key);
 
   @override
-  State<StatefulWidget> createState() => StopniePageState();
+  State<StatefulWidget> createState() => RankPageState();
 
 }
 
-class StopniePageState extends State<StopniePage>{
+class RankPageState extends State<RankPage> with ModuleStatsMixin{
+
+  @override
+  String get moduleId => throw ModuleStatsMixin.stopnie;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +53,7 @@ class StopniePageState extends State<StopniePage>{
         length: 4,
         initialIndex: initIntex,
         child: NestedScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             floatHeaderSlivers: true,
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
 
@@ -58,9 +62,9 @@ class StopniePageState extends State<StopniePage>{
                 floating: true,
                 pinned: true,
                 centerTitle: true,
-                title: Text('Stopnie'),
+                title: const Text('Stopnie'),
                 bottom: TabBar(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   indicator: AppTabBarIncdicator(context: context),
                   tabs: [
                     Tab(child: Column(
@@ -98,14 +102,14 @@ class StopniePageState extends State<StopniePage>{
 
               FloatingContainer(
                 builder: (context, __, _) => Padding(
-                  padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                   child: Material(
                     clipBehavior: Clip.hardEdge,
                     elevation: AppCard.bigElevation,
                     borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
                     child: TitleShortcutRowWidget(
                       title: 'Udostępnione stopnie',
-                      onOpen: (context) => pushPage(context, builder: (context) => SharedRanksPage()),
+                      onOpen: (context) => pushPage(context, builder: (context) => const SharedRanksPage()),
                     )
                   ),
                 ),
@@ -114,17 +118,17 @@ class StopniePageState extends State<StopniePage>{
 
             ],
             body: TabBarView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               children: [
 
                 ListView(
-                  padding: EdgeInsets.all(Dimen.SIDE_MARG),
-                  physics: BouncingScrollPhysics(),
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  physics: const BouncingScrollPhysics(),
                   children: [
 
-                    SizedBox(height: Dimen.SIDE_MARG),
+                    const SizedBox(height: Dimen.SIDE_MARG),
                     Center(child: Text('Stopnie harcerskie ZHP', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.bold, color: hintEnab_(context)))),
-                    SizedBox(height: Dimen.SIDE_MARG),
+                    const SizedBox(height: Dimen.SIDE_MARG),
 
                     StopnieBookWidget(
                       org: Org.zhp,
@@ -147,13 +151,13 @@ class StopniePageState extends State<StopniePage>{
                 ),
 
                 ListView(
-                  padding: EdgeInsets.all(Dimen.SIDE_MARG),
-                  physics: BouncingScrollPhysics(),
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  physics: const BouncingScrollPhysics(),
                   children: [
 
-                    SizedBox(height: Dimen.SIDE_MARG),
+                    const SizedBox(height: Dimen.SIDE_MARG),
                     Center(child: Text('Stopnie zuchowe ZHP', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.bold, color: hintEnab_(context)))),
-                    SizedBox(height: Dimen.SIDE_MARG),
+                    const SizedBox(height: Dimen.SIDE_MARG),
 
                     StopnieBookWidget(
                       org: Org.zhp,
@@ -169,9 +173,9 @@ class StopniePageState extends State<StopniePage>{
                       onOpen: (context) => null,
                     ),
 
-                    SizedBox(height: 3*Dimen.SIDE_MARG),
+                    const SizedBox(height: 3*Dimen.SIDE_MARG),
                     Center(child: Text('Stopnie harcerskie ZHP', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.bold, color: hintEnab_(context)))),
-                    SizedBox(height: Dimen.SIDE_MARG),
+                    const SizedBox(height: Dimen.SIDE_MARG),
 
                     StopnieBookWidget(
                       org: Org.zhp,
@@ -195,13 +199,13 @@ class StopniePageState extends State<StopniePage>{
                 ),
 
                 ListView(
-                  padding: EdgeInsets.all(Dimen.SIDE_MARG),
-                  physics: BouncingScrollPhysics(),
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  physics: const BouncingScrollPhysics(),
                   children: [
 
-                    SizedBox(height: Dimen.SIDE_MARG),
+                    const SizedBox(height: Dimen.SIDE_MARG),
                     Center(child: Text('Stopnie zuchenek ZHR', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.bold, color: hintEnab_(context)))),
-                    SizedBox(height: Dimen.SIDE_MARG),
+                    const SizedBox(height: Dimen.SIDE_MARG),
 
                     StopnieBookWidget(
                       org: Org.zhr_d,
@@ -215,9 +219,9 @@ class StopniePageState extends State<StopniePage>{
                       onOpen: (context) => null,
                     ),
 
-                    SizedBox(height: 3*Dimen.SIDE_MARG),
+                    const SizedBox(height: 3*Dimen.SIDE_MARG),
                     Center(child: Text('Stopnie harcerek ZHR', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.bold, color: hintEnab_(context)))),
-                    SizedBox(height: Dimen.SIDE_MARG),
+                    const SizedBox(height: Dimen.SIDE_MARG),
 
                     StopnieBookWidget(
                       org: Org.zhr_d,
@@ -242,13 +246,13 @@ class StopniePageState extends State<StopniePage>{
                 ),
 
                 ListView(
-                  padding: EdgeInsets.all(Dimen.SIDE_MARG),
-                  physics: BouncingScrollPhysics(),
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  physics: const BouncingScrollPhysics(),
                   children: [
 
-                    SizedBox(height: Dimen.SIDE_MARG),
+                    const SizedBox(height: Dimen.SIDE_MARG),
                     Center(child: Text('Stopnie zuchów ZHR', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.bold, color: hintEnab_(context)))),
-                    SizedBox(height: Dimen.SIDE_MARG),
+                    const SizedBox(height: Dimen.SIDE_MARG),
 
                     StopnieBookWidget(
                       org: Org.zhr_c,
@@ -262,9 +266,9 @@ class StopniePageState extends State<StopniePage>{
                       onOpen: (context) => null,
                     ),
 
-                    SizedBox(height: 3*Dimen.SIDE_MARG),
+                    const SizedBox(height: 3*Dimen.SIDE_MARG),
                     Center(child: Text('Stopnie harcerzy ZHR', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.bold, color: hintEnab_(context)))),
-                    SizedBox(height: Dimen.SIDE_MARG),
+                    const SizedBox(height: Dimen.SIDE_MARG),
 
                     StopnieBookWidget(
                       org: Org.zhr_c,
@@ -313,7 +317,8 @@ class StopnieBookWidget extends StatelessWidget{
     @required this.rankList,
     @required this.onOpen,
     this.tabTitle,
-  });
+    Key key
+  }): super(key: key);
 
   @override
   Widget build(BuildContext context) => Consumer<RankProv>(
@@ -324,7 +329,7 @@ class StopnieBookWidget extends StatelessWidget{
         for(Rank rank in rankList) {
           stopNameWidgetList.add(
               Padding(
-                  padding: EdgeInsets.symmetric(vertical: Dimen.SIDE_MARG/2),
+                  padding: const EdgeInsets.symmetric(vertical: Dimen.SIDE_MARG/2),
                   child: RankTileWidget(rank: rank)
               )
           );
@@ -341,7 +346,7 @@ class StopnieBookWidget extends StatelessWidget{
 
 class _PositionMark extends StatefulWidget{
 
-  _PositionMark(Key key): super(key: key);
+  const _PositionMark(Key key): super(key: key);
 
   @override
   State<StatefulWidget> createState() => _PositionMarkState();

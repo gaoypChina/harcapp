@@ -42,12 +42,12 @@ import 'sync/synchronizer_engine.dart';
 
 AppMode appMode;
 enum AppMode{
-  APP_MODE_DEFAULT,
-  APP_MODE_ADWENT,
-  APP_MODE_CHRISTMAS,
-  APP_MODE_ZMARTWYCHWSTANIE,
-  APP_MODE_POWST_WARSZ,
-  APP_MODE_NIEPODLEGLOSC
+  appModeDefault,
+  appModeAdwent,
+  appModeChristmas,
+  appModeZmartwychwstanie,
+  appModePowstWarsz,
+  appModeNiepodleglosc
 }
 
 void main() async {
@@ -58,21 +58,21 @@ void main() async {
       supportedLocales: ['pl']);
 
   DateTime.now().isAfter(DateTime(2020, 4, 11, 8)) && DateTime.now().isBefore(DateTime(2020, 4, 20, 1))?
-  appMode = AppMode.APP_MODE_ZMARTWYCHWSTANIE:
-  appMode = AppMode.APP_MODE_DEFAULT;
+  appMode = AppMode.appModeZmartwychwstanie:
+  appMode = AppMode.appModeDefault;
 
   DateTime.now().isAfter(DateTime(2020, 8, 1, 17)) && DateTime.now().isBefore(DateTime(2020, 8, 8, 23))?
-  appMode = AppMode.APP_MODE_POWST_WARSZ:
-  appMode = AppMode.APP_MODE_DEFAULT;
+  appMode = AppMode.appModePowstWarsz:
+  appMode = AppMode.appModeDefault;
 
   if(DateTime.now().isAfter(DateTime(2021, 11, 29, 8)) && DateTime.now().isBefore(DateTime(2021, 12, 25, 1)))
-    appMode = AppMode.APP_MODE_ADWENT;
+    appMode = AppMode.appModeAdwent;
   else if(DateTime.now().isAfter(DateTime(2021, 12, 25, 1)) && DateTime.now().isBefore(DateTime(2022, 1, 4, 0)))
-    appMode = AppMode.APP_MODE_CHRISTMAS;
+    appMode = AppMode.appModeChristmas;
   else if(DateTime.now().isAfter(DateTime(2022, 11, 10, 0)) && DateTime.now().isBefore(DateTime(2022, 11, 17, 0)))
-    appMode = AppMode.APP_MODE_NIEPODLEGLOSC;
+    appMode = AppMode.appModeNiepodleglosc;
   else
-    appMode = AppMode.APP_MODE_DEFAULT;
+    appMode = AppMode.appModeDefault;
 
   runApp(LocalizedApp(delegate, const OKToast(child: App())));
 
@@ -174,11 +174,11 @@ class AppState extends State<App> {
   void initState() {
 
     switch(appMode){
-      case AppMode.APP_MODE_DEFAULT: _slctColorPack = const ColorPackStartDefault(); break;
-      case AppMode.APP_MODE_ADWENT: _slctColorPack = const ColorPackStartAdwent(); break;
-      case AppMode.APP_MODE_CHRISTMAS: _slctColorPack = const ColorPackStartChristmas(); break;
-      case AppMode.APP_MODE_ZMARTWYCHWSTANIE: _slctColorPack = const ColorPackStartDefault(); break;
-      case AppMode.APP_MODE_POWST_WARSZ: _slctColorPack = const ColorPackStartDefault(); break;
+      case AppMode.appModeDefault: _slctColorPack = const ColorPackStartDefault(); break;
+      case AppMode.appModeAdwent: _slctColorPack = const ColorPackStartAdwent(); break;
+      case AppMode.appModeChristmas: _slctColorPack = const ColorPackStartChristmas(); break;
+      case AppMode.appModeZmartwychwstanie: _slctColorPack = const ColorPackStartDefault(); break;
+      case AppMode.appModePowstWarsz: _slctColorPack = const ColorPackStartDefault(); break;
       default: _slctColorPack = const ColorPackStartDefault(); break;
     }
 

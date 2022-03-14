@@ -8,20 +8,15 @@ import '../../_common_classes/time_settings.dart';
 enum SongOpenType{init, swipe, search, recommend, random}
 class SongsStatisticsRegistrator{
 
-  bool _autoTimeChanged;
-  Future<void> checkAutoTimeChanged() async {
-    if(!await TimeSettings.isTimeAutomatic)
-      _autoTimeChanged = true;
-  }
+  String _songLclId;
+  DateTime _openTime;
 
   DateTime _lastPausedTime;
   Duration _totalPausedDuration;
-  String _songLclId;
   SongOpenType _songOpenType;
-  DateTime _songOpenTime;
   List<Tuple2<int, double>> _scrollEvents;
 
-  Duration get totalOpenDuration => DateTime.now().difference(_songOpenTime) - _totalPausedDuration;
+  Duration get totalOpenDuration => DateTime.now().difference(_openTime) - _totalPausedDuration;
 
   SongsStatisticsRegistrator(){
     _totalPausedDuration = Duration.zero;
@@ -43,8 +38,7 @@ class SongsStatisticsRegistrator{
     logger.d('SongsStatisticsRegistrator ($_songLclId) paused: $value, total paused duration: $_totalPausedDuration');
   }
 
-  Future<void> clear() async {
-    _autoTimeChanged = !await TimeSettings.isTimeAutomatic;
+  void clear() {
     _lastPausedTime = null;
     _totalPausedDuration = Duration.zero;
     _songLclId = null;
@@ -53,18 +47,24 @@ class SongsStatisticsRegistrator{
 
   Future<void> tryOpenSong(Song song, SongOpenType songOpenType) async {
     if(_songLclId != null) commit();
-    if(!await TimeSettings.isTimeAutomatic) return;
 
-    await clear();
+    clear();
+    if(!await TimeSettings.isTimeAutomatic)
+      return;
+
     if(!song.isOfficial) return;
     _songLclId = song.fileName;
     _songOpenType = songOpenType;
-    _songOpenTime = DateTime.now();
+    _openTime = DateTime.now();
     logger.d('SongsStatisticsRegistrator ($_songLclId) song opened.');
   }
 
   Future<void> registerScroll(double scrollValue) async {
-    if(!await TimeSettings.isTimeAutomatic) return;
+    if(!await TimeSettings.isTimeAutomatic){
+      clear();
+      return;
+    }
+
     if(_songLclId == null) return;
 
     if(_lastPausedTime != null) logger.e('SongsStatisticsRegistrator ($_songLclId) scrolled while paused!');
@@ -73,17 +73,24 @@ class SongsStatisticsRegistrator{
     logger.d('SongsStatisticsRegistrator ($_songLclId) scrolled to $scrollValue after ${_scrollEvents.last.item1} seconds.');
   }
 
-  void commit(){
-    if(_autoTimeChanged) return;
+  Future<void> commit() async {
+    if(!await TimeSettings.isTimeAutomatic){
+      clear();
+      return;
+    }
+
     if(_songLclId == null) return;
     
-    Duration totalOpenDuration = DateTime.now().difference(_songOpenTime) - _totalPausedDuration;
+    Duration totalOpenDuration = DateTime.now().difference(_openTime) - _totalPausedDuration;
 
-    if(totalOpenDuration < const Duration(seconds: 10))
+    if(totalOpenDuration < const Duration(seconds: 10)) {
+      logger.d('SongsStatisticsRegistrator ($_songLclId, $totalOpenDuration) stat aborted. Open time too short.');
       return;
+    }
 
     Statistics.registerSongAction(
         _songLclId,
+        _openTime,
         _songOpenType,
         totalOpenDuration,
         _scrollEvents

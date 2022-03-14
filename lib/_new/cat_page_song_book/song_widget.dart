@@ -324,7 +324,7 @@ class SongWidget extends StatelessWidget{
     header: (BuildContext context, ScrollController controller) => Column(
       children: [
 
-        if(appMode == AppMode.APP_MODE_CHRISTMAS)
+        if(appMode == AppMode.appModeChristmas)
           ChristmasCard<Song>(
             onChristmasCardTap: ()async{
               SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
@@ -334,7 +334,7 @@ class SongWidget extends StatelessWidget{
             },
           ),
 
-        if(appMode == AppMode.APP_MODE_POWST_WARSZ)
+        if(appMode == AppMode.appModePowstWarsz)
           PowstWarszCard<Song>(
             onPowstanieCardTap: ()async{
               SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
