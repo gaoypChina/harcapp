@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_common_classes/auto_size_text.dart';
-import 'package:harcapp/_common_classes/org.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp_core/colors.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';

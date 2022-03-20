@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/module_statistics_registrator.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp/_common_classes/org.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
+
+import '../../../_common_classes/org/org_indicator.dart';
 
 const List<Item> events_1 = [
   Item('Oblężenie <b>Mafekingu</b> podczas wojny <b>Anglików</b> z <b>Burami</b>. Robert Baden-Powell szkoli młodych chłopców na "<b>skautów</b>". Zajmują się wywiadem, łącznością, podchodzeniem, tropieniem, pierwszą pomocą.',

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
-import 'package:harcapp/_common_widgets/colored_tab.dart';
+import 'package:harcapp/_common_widgets/tab_item.dart';
 import 'package:harcapp/values/strings.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -9,7 +9,12 @@ import 'child_bezpieczenstwo.dart';
 import 'child_ogniska.dart';
 
 class OgienDrewnoFragment extends StatelessWidget {
-
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+/*
   static const List<TabItem> _tabs = [
 
     const TabItem(
@@ -50,5 +55,5 @@ class OgienDrewnoFragment extends StatelessWidget {
       ],
     );
   }
-
+*/
 }

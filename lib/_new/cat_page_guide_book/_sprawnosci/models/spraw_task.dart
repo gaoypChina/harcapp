@@ -8,6 +8,7 @@ import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_group.
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/task_data.dart';
 import 'package:harcapp/_new/cat_page_home/providers.dart';
 import 'package:harcapp/sync/syncable.dart';
+import 'package:harcapp/sync/syncable_new.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +24,7 @@ class SprawTaskData{
 
 }
 
-class SprawTask extends SyncableItem<SprawTaskResp> implements TaskData{
+class SprawTask extends SyncableParamGroup_ with SyncNode<SprawTaskResp> implements TaskData{
 
   static const String SEP_CHAR = '%';
 
@@ -59,7 +60,7 @@ class SprawTask extends SyncableItem<SprawTaskResp> implements TaskData{
   @override
   void setCompleted(BuildContext context, bool completed){
     _completed = completed;
-    setSyncState({PARAM_COMPLETED: SyncableParamSingle.STATE_NOT_SYNCED});
+    setSingleState(PARAM_COMPLETED, SyncableParamSingle_.STATE_NOT_SYNCED);
     synchronizer.post();
     Provider.of<SprawInProgressListProv>(context, listen: false).notify();
   }
@@ -79,7 +80,7 @@ class SprawTask extends SyncableItem<SprawTaskResp> implements TaskData{
   @override
   void setNote(BuildContext context, String note){
     _note = note;
-    setSyncState({PARAM_NOTE: SyncableParamSingle.STATE_NOT_SYNCED});
+    setSingleState(PARAM_NOTE, SyncableParamSingle_.STATE_NOT_SYNCED);
     synchronizer.post(aggregateDelay: SynchronizerEngine.aggregateTextInputDuration);
   }
 
@@ -87,35 +88,28 @@ class SprawTask extends SyncableItem<SprawTaskResp> implements TaskData{
       spraw.uniqName + SEP_CHAR +
       index.toString();
 
-  static const String REQ_GROUP = 'task';
+  @override
+  String get paramId => uid;
 
   @override
-  String get classId => REQ_GROUP;
+  List<SyncableParam> get childParams => [
 
-  @override
-  String get objectId => uid;
-
-  @override
-  List<SyncableParam> get syncParams => [
-
-    SyncableParam.single(
+    SyncableParamSingle(
         this,
         paramId: PARAM_COMPLETED,
-        value: () async => await completed,
-        notNone: () => false
+        value_: () => completed,
     ),
 
-    SyncableParam.single(
+    SyncableParamSingle(
       this,
       paramId: PARAM_NOTE,
-      value: () async => await note,
-      notNone: () => false
+      value_: () => note,
     ),
 
   ];
 
   @override
-  void applySyncResp(SprawTaskResp resp) {
+  void applySyncGetResp(SprawTaskResp resp) {
     _completed = resp.completed;
     _note = resp.note;
   }

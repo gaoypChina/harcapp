@@ -1,6 +1,6 @@
 
-abstract class SyncEntityResp{
+abstract class SyncGetResp{
 
-  const SyncEntityResp();
+  const SyncGetResp();
 
 }

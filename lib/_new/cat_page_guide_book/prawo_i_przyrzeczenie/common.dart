@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/org.dart';
+import 'package:provider/provider.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
-import 'package:harcapp/_common_widgets/colored_tab.dart';
+import 'package:harcapp/_common_widgets/tab_item.dart';
 import 'package:harcapp/_new/cat_page_guide_book/prawo_i_przyrzeczenie/strings.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -20,7 +21,7 @@ class PrawoItem extends StatelessWidget{
   final String content;
   final String comment;
 
-  const PrawoItem(this.number, this.icon, this.content, {this.comment});
+  const PrawoItem(this.number, this.icon, this.content, {this.comment, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class PrawoItem extends StatelessWidget{
           style: AppTextStyle(
               fontSize: Dimen.TEXT_SIZE_APPBAR,
               fontWeight: weight.halfBold,
-              color: orgColor[OrgManager.current]
+              color: orgColor[OrgProvider.of(context).current]
           ),
         ),
         title: Text(content, style: AppTextStyle(color: textEnab_(context), fontWeight: weight.halfBold, height: 1.2)),
@@ -47,9 +48,9 @@ class PrawoItem extends StatelessWidget{
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Text('$number. ' + content, style: AppTextStyle(fontStyle: FontStyle.italic, fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), textAlign: TextAlign.center,),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Text(comment, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2)),
-                SizedBox(height: Dimen.DEF_MARG),
+                const SizedBox(height: Dimen.DEF_MARG),
                 Text('- hm. Stefan Mirowski', style: AppTextStyle(fontStyle: FontStyle.italic, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.end,),
               ],
             ),
@@ -63,33 +64,31 @@ class PrawoItem extends StatelessWidget{
 class PrzyrzeczenieItem extends StatelessWidget{
 
   final String title, content;
-  const PrzyrzeczenieItem(this.title, this.content);
+  const PrzyrzeczenieItem(this.title, this.content, {Key key}): super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return  AppCard(
-      radius: AppCard.BIG_RADIUS,
-      elevation: AppCard.bigElevation,
-      padding: EdgeInsets.all(Dimen.CARD_BIG_PADD),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
+  Widget build(BuildContext context) => AppCard(
+    radius: AppCard.BIG_RADIUS,
+    elevation: AppCard.bigElevation,
+    padding: const EdgeInsets.all(Dimen.CARD_BIG_PADD),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
 
-          TitleShortcutRowWidget(
-            title: title,
+        TitleShortcutRowWidget(
+          title: title,
+        ),
+
+        Padding(
+          padding: const EdgeInsets.all(Dimen.DEF_MARG),
+          child: SelectableText(
+            content,
+            style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2),
           ),
-
-          Padding(
-            padding: EdgeInsets.all(Dimen.DEF_MARG),
-            child: SelectableText(
-              content,
-              style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2),
-            ),
-          )
-        ],
-      ),
+        )
+      ],
+    ),
   );
-  }
 
 }
 
@@ -97,29 +96,31 @@ class WedroTab extends TabItem{
 
   WedroTab():super(
       text: 'WĘDRO',
-      child: WedroTabChild()
+      child: const WedroTabChild()
   );
 
 }
 
 class WedroTabChild extends StatelessWidget{
 
+  const WedroTabChild({Key key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return ListView(
-      physics: BouncingScrollPhysics(),
+  Widget build(BuildContext context) => Consumer<OrgProvider>(
+    builder: (context, prov, child) => ListView(
+      physics: const BouncingScrollPhysics(),
       children: <Widget>[
-        Padding(
+        const Padding(
           padding: EdgeInsets.all(Dimen.SIDE_MARG),
           child: PrzyrzeczenieItem(wedro_dewiza_title, wedro_dewiza_content),
         ),
         Padding(
-          padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+          padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
 
-              TitleShortcutRowWidget(title: wedro_kodeks_title),
+              const TitleShortcutRowWidget(title: wedro_kodeks_title),
 
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +130,7 @@ class WedroTabChild extends StatelessWidget{
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[OrgManager.current]
+                          color: orgColor[prov.current]
                       )),
                       width: 20.0
                   ),
@@ -137,7 +138,7 @@ class WedroTabChild extends StatelessWidget{
                 ],
               ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -146,7 +147,7 @@ class WedroTabChild extends StatelessWidget{
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[OrgManager.current]
+                          color: orgColor[prov.current]
                       )),
                       width: 20.0
                   ),
@@ -154,7 +155,7 @@ class WedroTabChild extends StatelessWidget{
                 ],
               ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -163,7 +164,7 @@ class WedroTabChild extends StatelessWidget{
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[OrgManager.current]
+                          color: orgColor[prov.current]
                       )),
                       width: 20.0
                   ),
@@ -171,7 +172,7 @@ class WedroTabChild extends StatelessWidget{
                 ],
               ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -180,7 +181,7 @@ class WedroTabChild extends StatelessWidget{
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[OrgManager.current]
+                          color: orgColor[prov.current]
                       )),
                       width: 20.0
                   ),
@@ -188,7 +189,7 @@ class WedroTabChild extends StatelessWidget{
                 ],
               ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -197,7 +198,7 @@ class WedroTabChild extends StatelessWidget{
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[OrgManager.current]
+                          color: orgColor[prov.current]
                       )),
                       width: 20.0
                   ),
@@ -205,7 +206,7 @@ class WedroTabChild extends StatelessWidget{
                 ],
               ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -214,7 +215,7 @@ class WedroTabChild extends StatelessWidget{
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[OrgManager.current]
+                          color: orgColor[prov.current]
                       )),
                       width: 20.0
                   ),
@@ -222,13 +223,13 @@ class WedroTabChild extends StatelessWidget{
                 ],
               ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
             ],
           ),
         )
       ],
-    );
-  }
+    )
+  );
 
 }

@@ -6,7 +6,7 @@ import 'memory_resp.dart';
 
 class OwnSongResp extends SongResp{
 
-  static const String COLL_NAME = OwnSong.REQ_GROUP;
+  static const String collName = OwnSong.syncClassId;
 
   static const String PARAM_CODE = OwnSong.PARAM_CODE;
   final String code;

@@ -252,7 +252,7 @@ class SongWidget extends StatelessWidget{
     onDeleteTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć'),
 
     onDeleteLongPress: () async {
-      if(await song.deleteSongFile()){
+      if(song.deleteSongFile()){
         showAppToast(context, text: 'Usunięto piosenkę');
 
         OwnSong.removeOwn(song);
@@ -347,34 +347,32 @@ class SongWidget extends StatelessWidget{
       ],
     ),
 
-    footer: (BuildContext context, ScrollController controller){
-      return MemoryListWidget(
-          song,
-          controller,
+    footer: (BuildContext context, ScrollController controller) => MemoryListWidget(
+        song,
+        controller,
 
-          onEditMemoryTap: () => showAppToast(context, text: 'Przytrzymaj dłużej.'),
+        onEditMemoryTap: () => showAppToast(context, text: 'Przytrzymaj dłużej.'),
 
-          onEditMemoryLongPress: (Memory memory) async{
-            await openMemoryEditor(context, song, initMemory: memory);
-            parent.notify();
-            post(() async => await this.controller.animateTo(
-                this.controller.position.maxScrollExtent,
-                duration: const Duration(milliseconds: 100),
-                curve: Curves.easeOutQuart
-            ));
-          },
+        onEditMemoryLongPress: (Memory memory) async{
+          await openMemoryEditor(context, song, initMemory: memory);
+          parent.notify();
+          post(() async => await this.controller.animateTo(
+              this.controller.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 100),
+              curve: Curves.easeOutQuart
+          ));
+        },
 
-          onNewMemoryTap: (Song song) async{
-            await openMemoryEditor(context, song);
-            parent.notify();
-            post(() async => await this.controller.animateTo(
-                this.controller.position.maxScrollExtent,
-                duration: const Duration(milliseconds: 100),
-                curve: Curves.easeOutQuart
-            ));
-          }
-      );
-    },
+        onNewMemoryTap: (Song song) async{
+          await openMemoryEditor(context, song);
+          parent.notify();
+          post(() async => await this.controller.animateTo(
+              this.controller.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 100),
+              curve: Curves.easeOutQuart
+          ));
+        }
+    ),
     accentColor: Album.current.avgColor,
   );
 }

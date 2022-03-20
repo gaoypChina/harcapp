@@ -76,11 +76,15 @@ class ModuleStatisticsRegistrator{
   String _moduleId;
   DateTime _openTime;
 
+  void clear(){
+    _moduleId = null;
+    _openTime = null;
+  }
+
   Future<void> open(String moduleId) async {
     if(!await TimeSettings.isTimeAutomatic){
-      _moduleId = null;
-      _openTime = null;
       logger.d('ModuleStatisticsRegistrator ($_moduleId) stats aborted. Time not automatic.');
+      clear();
       return;
     }
     if(_moduleId != moduleId){
@@ -95,8 +99,7 @@ class ModuleStatisticsRegistrator{
 
   Future<void> commit() async {
     if(!await TimeSettings.isTimeAutomatic){
-      _moduleId = null;
-      _openTime = null;
+      clear();
       logger.d('ModuleStatisticsRegistrator ($_moduleId) stats aborted. Time not automatic.');
       return;
     }
@@ -110,6 +113,7 @@ class ModuleStatisticsRegistrator{
 
     if(totalOpenDuration < const Duration(seconds: 3)) {
       logger.d('ModuleStatisticsRegistrator ($_moduleId, $totalOpenDuration) stat aborted. Open time too short.');
+      clear();
       return;
     }
     Statistics.registerModuleAction(
@@ -119,6 +123,7 @@ class ModuleStatisticsRegistrator{
     );
 
     logger.d('ModuleStatisticsRegistrator ($_moduleId, $totalOpenDuration) stats saved.');
+    clear();
   }
 
 }

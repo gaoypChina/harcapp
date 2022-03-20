@@ -178,6 +178,10 @@ class ShaPref{
   static String SHA_PREF_SYNC_ITEM_PARAM_(String classGroupId, String objectId, String paramId)
   => _SHA_PREF_SYNC_ITEM_PARAM_ + '\$' + classGroupId + '\$' + objectId + '\$' + paramId;
 
+  static const String _SHA_PREF_SYNC_PARAM_ = '_SHA_PREF_SYNC_PARAM_';
+  static String SHA_PREF_SYNC_PARAM_(String uniqParamId)
+  => _SHA_PREF_SYNC_PARAM_ + '\$' + uniqParamId;
+
   static const String _SHA_PREF_SYNC_ITEM_LAST_SYNC_ = '_SHA_PREF_SYNC_ITEM_LAST_SYNC_';
   static String SHA_PREF_SYNC_ITEM_LAST_SYNC_(String classGroupId, String objectId)
   => _SHA_PREF_SYNC_ITEM_LAST_SYNC_ + '\$' + classGroupId + '\$' + objectId;
@@ -277,7 +281,7 @@ class ShaPref{
     }
   }
 
-  void setBool(String key, bool value) => _preferences.setBool(key, value);
+  Future<void> setBool(String key, bool value) => _preferences.setBool(key, value);
 
   String getString(String key, String def) {
     try {
@@ -291,7 +295,7 @@ class ShaPref{
     }
   }
 
-  void setString(String key, String value) => _preferences.setString(key, value);
+  Future<void> setString(String key, String value) => _preferences.setString(key, value);
 
   List<String> getStringList(String key, List<String> def) {
     try {
@@ -305,9 +309,9 @@ class ShaPref{
     }
   }
 
-  void setStringList(String key, List<String> value) => _preferences.setStringList(key, value);
+  Future<void> setStringList(String key, List<String> value) => _preferences.setStringList(key, value);
 
-  void setMap(String key, Map map) => _preferences.setString(key, jsonEncode(map));
+  Future<void> setMap(String key, Map map) => _preferences.setString(key, jsonEncode(map));
 
   Map<T_KEY, T_VAL> getMap<T_KEY, T_VAL>(String key, Map<T_KEY, T_VAL> def){
     try {
@@ -334,7 +338,7 @@ class ShaPref{
     }
   }
 
-  void setInt(String key, int value) => _preferences.setInt(key, value);
+  Future<void> setInt(String key, int value) => _preferences.setInt(key, value);
 
   double getDouble(String key, double def) {
     try {
@@ -348,7 +352,7 @@ class ShaPref{
     }
   }
 
-  void setDouble(String key, double value) => _preferences.setDouble(key, value);
+  Future<void> setDouble(String key, double value) => _preferences.setDouble(key, value);
 
   DateTime getDateTime(String key, DateTime def){
     try {
@@ -362,14 +366,14 @@ class ShaPref{
     }
   }
 
-  void setDateTime(String key, DateTime value){
-    if(value == null) remove(key);
-    else setString(key, value.toIso8601String());
+  Future<void> setDateTime(String key, DateTime value) async {
+    if(value == null) await remove(key);
+    else await setString(key, value.toIso8601String());
   }
 
   bool exists(String key) => _preferences.get(key) != null;
 
-  void remove(String key) => _preferences.remove(key);
+  Future<void> remove(String key) => _preferences.remove(key);
 
   void clear() => _preferences.clear();
 

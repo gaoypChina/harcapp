@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
-import 'package:harcapp/_common_classes/org.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_task_resp.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models/rank_def.dart';
@@ -16,14 +16,15 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_sta
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_task.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/rank_spraw_template.dart';
 import 'package:harcapp/_new/cat_page_home/providers.dart';
-import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../logger.dart';
+import '../../../../sync/syncable_new.dart';
 import '../data/data_zhp.dart';
 import '../data/data_zhp_old.dart';
 import '../data/data_zhr_c.dart';
@@ -208,57 +209,57 @@ abstract class RankData{
 
   static Map<RankData, Tuple2<List<IconData>, double>> iconSizeMap = {
 
-    rankZhpOldZuch1Data: Tuple2([MdiIcons.star], iconSizeSmall),
-    rankZhpOldZuch2Data: Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
-    rankZhpOldZuch3Data: Tuple2([MdiIcons.star, MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhpOldZuch1Data: const Tuple2([MdiIcons.star], iconSizeSmall),
+    rankZhpOldZuch2Data: const Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhpOldZuch3Data: const Tuple2([MdiIcons.star, MdiIcons.star, MdiIcons.star], iconSizeSmall),
 
-    rankZhpOld0Data: Tuple2([MdiIcons.crossBolnisi], 28.0),
-    rankZhp1Data: Tuple2([MdiIcons.minus], iconSizeBig),
-    rankZhpOld1Data: Tuple2([MdiIcons.minus], iconSizeBig),
-    rankZhp2Data: Tuple2([MdiIcons.equal], iconSizeBig),
-    rankZhpOld2Data: Tuple2([MdiIcons.equal], iconSizeBig),
-    rankZhp3Data: Tuple2([MdiIcons.chevronUp], iconSizeBig),
-    rankZhpOld3Data: Tuple2([MdiIcons.chevronUp], iconSizeBig),
-    rankZhp4Data: Tuple2([MdiIcons.chevronDoubleUp], iconSizeBig),
-    rankZhpOld4Data: Tuple2([MdiIcons.chevronDoubleUp], iconSizeBig),
-    rankZhp5Data: Tuple2([MdiIcons.star], iconSizeSmall),
-    rankZhpOld5Data: Tuple2([MdiIcons.star], iconSizeSmall),
-    rankZhp6Data: Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
-    rankZhpOld6Data: Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhpOld0Data: const Tuple2([MdiIcons.crossBolnisi], 28.0),
+    rankZhp1Data: const Tuple2([MdiIcons.minus], iconSizeBig),
+    rankZhpOld1Data: const Tuple2([MdiIcons.minus], iconSizeBig),
+    rankZhp2Data: const Tuple2([MdiIcons.equal], iconSizeBig),
+    rankZhpOld2Data: const Tuple2([MdiIcons.equal], iconSizeBig),
+    rankZhp3Data: const Tuple2([MdiIcons.chevronUp], iconSizeBig),
+    rankZhpOld3Data: const Tuple2([MdiIcons.chevronUp], iconSizeBig),
+    rankZhp4Data: const Tuple2([MdiIcons.chevronDoubleUp], iconSizeBig),
+    rankZhpOld4Data: const Tuple2([MdiIcons.chevronDoubleUp], iconSizeBig),
+    rankZhp5Data: const Tuple2([MdiIcons.star], iconSizeSmall),
+    rankZhpOld5Data: const Tuple2([MdiIcons.star], iconSizeSmall),
+    rankZhp6Data: const Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhpOld6Data: const Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
 
-    rankZhrZuchD1Data: Tuple2([MdiIcons.star], iconSizeSmall),
-    rankZhrZuchD2Data: Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
-    rankZhrZuchD3Data: Tuple2([MdiIcons.star, MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhrZuchD1Data: const Tuple2([MdiIcons.star], iconSizeSmall),
+    rankZhrZuchD2Data: const Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhrZuchD3Data: const Tuple2([MdiIcons.star, MdiIcons.star, MdiIcons.star], iconSizeSmall),
 
-    rankZhrHarcD0Data: Tuple2([MdiIcons.crossBolnisi], 28.0),
-    rankZhrHarcD0WData: Tuple2([MdiIcons.crossBolnisi], 28.0),
-    rankZhrHarcD0SData: Tuple2([MdiIcons.crossBolnisi], 28.0),
-    rankZhrHarcD1Data: Tuple2([MdiIcons.minus], iconSizeBig),
-    rankZhrHarcD2Data: Tuple2([MdiIcons.equal], iconSizeBig),
-    rankZhrHarcD2SData: Tuple2([MdiIcons.equal], iconSizeBig),
-    rankZhrHarcD3Data: Tuple2([MdiIcons.chevronUp], iconSizeBig),
-    rankZhrHarcD3SData: Tuple2([MdiIcons.chevronUp], iconSizeBig),
-    rankZhrHarcD4Data: Tuple2([MdiIcons.star], iconSizeSmall),
-    rankZhrHarcD4SData: Tuple2([MdiIcons.star], iconSizeSmall),
-    rankZhrHarcD5Data: Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhrHarcD0Data: const Tuple2([MdiIcons.crossBolnisi], 28.0),
+    rankZhrHarcD0WData: const Tuple2([MdiIcons.crossBolnisi], 28.0),
+    rankZhrHarcD0SData: const Tuple2([MdiIcons.crossBolnisi], 28.0),
+    rankZhrHarcD1Data: const Tuple2([MdiIcons.minus], iconSizeBig),
+    rankZhrHarcD2Data: const Tuple2([MdiIcons.equal], iconSizeBig),
+    rankZhrHarcD2SData: const Tuple2([MdiIcons.equal], iconSizeBig),
+    rankZhrHarcD3Data: const Tuple2([MdiIcons.chevronUp], iconSizeBig),
+    rankZhrHarcD3SData: const Tuple2([MdiIcons.chevronUp], iconSizeBig),
+    rankZhrHarcD4Data: const Tuple2([MdiIcons.star], iconSizeSmall),
+    rankZhrHarcD4SData: const Tuple2([MdiIcons.star], iconSizeSmall),
+    rankZhrHarcD5Data: const Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
 
-    rankZhrZuchC1Data: Tuple2([MdiIcons.star], iconSizeSmall),
-    rankZhrZuchC2Data: Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
-    rankZhrZuchC3Data: Tuple2([MdiIcons.star, MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhrZuchC1Data: const Tuple2([MdiIcons.star], iconSizeSmall),
+    rankZhrZuchC2Data: const Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhrZuchC3Data: const Tuple2([MdiIcons.star, MdiIcons.star, MdiIcons.star], iconSizeSmall),
 
-    rankZhrHarcC0Data: Tuple2([MdiIcons.crossBolnisi], 28.0),
-    rankZhrHarcC0SData: Tuple2([MdiIcons.crossBolnisi], 28.0),
-    rankZhrHarcC1Data: Tuple2([MdiIcons.minus], iconSizeBig),
-    rankZhrHarcC2Data: Tuple2([MdiIcons.equal], iconSizeBig),
-    rankZhrHarcC3Data: Tuple2([MdiIcons.chevronUp], iconSizeBig),
-    rankZhrHarcC4Data: Tuple2([MdiIcons.star], iconSizeSmall),
-    rankZhrHarcC5Data: Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
+    rankZhrHarcC0Data: const Tuple2([MdiIcons.crossBolnisi], 28.0),
+    rankZhrHarcC0SData: const Tuple2([MdiIcons.crossBolnisi], 28.0),
+    rankZhrHarcC1Data: const Tuple2([MdiIcons.minus], iconSizeBig),
+    rankZhrHarcC2Data: const Tuple2([MdiIcons.equal], iconSizeBig),
+    rankZhrHarcC3Data: const Tuple2([MdiIcons.chevronUp], iconSizeBig),
+    rankZhrHarcC4Data: const Tuple2([MdiIcons.star], iconSizeSmall),
+    rankZhrHarcC5Data: const Tuple2([MdiIcons.star, MdiIcons.star], iconSizeSmall),
 
   };
 
-  static const String UID_SEP = '\$';
+  static const String uidSep = '\$';
 
-  String get uniqRankName => version.toString() + UID_SEP + id + UID_SEP + org.name;
+  String get uniqRankName => version.toString() + uidSep + id + uidSep + org.name;
 
   final String titleMale;
   final String titleFemale;
@@ -287,14 +288,22 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
 
   static Map<Rank, List<UserData>> sharedUsers = {};
 
-  static List<Rank> get all{
+  static List<Rank> get allSyncClassIdDef{
     List<Rank> allRanks = [];
 
     allRanks.addAll(RankDef.all);
     allRanks.addAll(RankZHPOld.all);
-    allRanks.addAll(RankZHPSim2022.all);
     allRanks.addAll(RankZHRD.all);
     allRanks.addAll(RankZHRC.all);
+
+    return allRanks;
+  }
+
+  static List<Rank> get all{
+    List<Rank> allRanks = [];
+
+    allRanks.addAll(allSyncClassIdDef);
+    allRanks.addAll(RankZHPSim2022.all);
 
     return allRanks;
   }
@@ -430,10 +439,10 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
   @override
   void changeInProgress(BuildContext context, {bool value, bool localOnly = false}){
 
-    if(value == null) value = !inProgress;
+    value ??= !inProgress;
     inProgress = value;
 
-    setSyncState({PARAM_IN_PROGRESS: SyncableParamSingle.STATE_NOT_SYNCED});
+    setSingleState(PARAM_IN_PROGRESS, SyncableParamSingle_.STATE_NOT_SYNCED);
     if(!localOnly) synchronizer.post();
 
     Provider.of<RankProv>(context, listen: false).notify();
@@ -447,7 +456,7 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
   @override
   void setCompletionDate(DateTime value, {localOnly = false}){
     completionDate = value;
-    setSyncState({PARAM_COMPLETION_DATE: SyncableParamSingle.STATE_NOT_SYNCED});
+    setSingleState(PARAM_COMPLETION_DATE, SyncableParamSingle_.STATE_NOT_SYNCED);
     if(!localOnly) synchronizer.post();
   }
 
@@ -459,10 +468,10 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
   @override
   void changeCompleted(BuildContext context, {bool value, bool localOnly = false}){
 
-    if(value == null) value = !completed;
+    value ??= !completed;
     completed = value;
 
-    setSyncState({PARAM_COMPLETED: SyncableParamSingle.STATE_NOT_SYNCED});
+    setSingleState(PARAM_COMPLETED, SyncableParamSingle_.STATE_NOT_SYNCED);
     if(!localOnly) synchronizer.post();
 
     Provider.of<RankProv>(context, listen: false).notify();
@@ -502,10 +511,10 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
   static const String PARAM_COMPLETION_DATE = 'completionDate';
 
   @override
-  String get objectId => uniqRankName;
+  String get paramId => uniqRankName;
 
   @override
-  List<SyncableParam> get syncParams{
+  List<SyncableParam> get childParams{
 
     List<RankTask> rankTasks = [];
 
@@ -514,32 +523,30 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
         for(RankTask task in group.tasks)
           rankTasks.add(task);
 
-    SyncableParam rankTasksParam = SyncableParam.group<RankTask>(
+    SyncableParam rankTasksParam = SyncableParamGroup(
         this,
-        items: rankTasks
+        paramId: 'tasks',
+        childParams: rankTasks
     );
 
     return [
 
-      SyncableParam.single(
+      SyncableParamSingle(
         this,
         paramId: PARAM_IN_PROGRESS,
-        value: () async => await inProgress,
-        notNone: () => false
+        value_: () => inProgress,
       ),
 
-      SyncableParam.single(
+      SyncableParamSingle(
         this,
         paramId: PARAM_COMPLETED,
-        value: () async => await completed,
-        notNone: () => false
+        value_: () => completed,
       ),
 
-      SyncableParam.single(
+      SyncableParamSingle(
         this,
         paramId: PARAM_COMPLETION_DATE,
-        value: () async => await completionDate?.toIso8601String(),
-        notNone: () => false
+        value_: () => completionDate==null?null:DateFormat('yyyy-MM-dd').format(completionDate),
       ),
 
       rankTasksParam
@@ -548,8 +555,10 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
 
   }
 
+
+
   @override
-  void applySyncResp(TResp resp) {
+  void applySyncGetResp(TResp resp) {
     inProgress = resp.inProgress;
     completed = resp.completed;
     completionDate = resp.completionDate;
@@ -558,7 +567,7 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
       int catIndex = taskResp.catIndex;
       int groupIndex = taskResp.groupIndex;
       int taskIndex = taskResp.taskIndex;
-      _catsMap[catIndex].groupsMap[groupIndex].taskMap[taskIndex].applySyncResp(resp.tasks[taskKey]);
+      _catsMap[catIndex].groupsMap[groupIndex].taskMap[taskIndex].applySyncGetResp(resp.tasks[taskKey]);
     }
   }
 

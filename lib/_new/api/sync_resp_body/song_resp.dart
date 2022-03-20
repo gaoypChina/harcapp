@@ -3,7 +3,7 @@ import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
 
 import 'memory_resp.dart';
 
-class SongResp extends SyncEntityResp{
+class SongResp extends SyncGetResp{
 
   static const String PARAM_RATE = 'rate';
   final int rate;

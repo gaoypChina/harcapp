@@ -8,9 +8,9 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/sync_resp_body/album_resp.dart';
-import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
+import 'package:harcapp/sync/syncable_new.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:path/path.dart';
@@ -20,7 +20,7 @@ import 'package:provider/provider.dart';
 import 'off_song.dart';
 import 'own_song.dart';
 
-class Album extends SyncableItem<AlbumResp>{
+class Album extends SyncableParamGroup_ with SyncNode<AlbumResp>, RemoveSyncItem{
 
   static bool isConfidUnlocked = false;
 
@@ -125,21 +125,21 @@ class Album extends SyncableItem<AlbumResp>{
   bool get isOmega => fileName == OMEGA_FILE_NAME;
   bool isConfid() => fileName == CONFID_FILE_NAME;
 
-  Album(this.fileName, this.title, this.offSongs, this.ownSongs, this.colorsKey, /*this.colorStart, this.colorEnd,*/ this.iconKey);
+  Album(this.fileName, this.title, this.offSongs, this.ownSongs, this.colorsKey, this.iconKey);
 
   static Album read(String fileName, List<Song> allSongs){
     String content = readFileAsString(getAlbumFolderPath + fileName);
     return Album.decode(fileName, content, allSongs);
   }
 
-  static Album create(String title, List<OffSong> offSongs, List<OwnSong> ownSongs, String colorsKey, /*Color colorStart, Color colorEnd,*/ String iconKey, {bool localOnly: false, List<String> syncParams}) {
+  static Album create(String title, List<OffSong> offSongs, List<OwnSong> ownSongs, String colorsKey, String iconKey, {bool localOnly = false, List<String> syncParams}) {
 
     String code = Album.encode(title, offSongs, ownSongs, colorsKey, iconKey);
     File file = saveStringAsFileToFolder(getAlbumFolderLocalPath, code);
     Album album = Album(basename(file.path), title, offSongs, ownSongs, colorsKey, iconKey);
-    album.setAllSyncState(SyncableParamSingle.STATE_NOT_SYNCED);
+    album.setAllSyncState(SyncableParamSingle_.STATE_NOT_SYNCED);
     if(!localOnly)
-      album.syncPost(syncParams);
+      synchronizer.post();
     return album;
   }
 
@@ -243,7 +243,7 @@ class Album extends SyncableItem<AlbumResp>{
       ownSongs.remove(song);
   }
 
-  void save({localOnly: false, List<String> syncParams}) {
+  void save({localOnly = false, List<String> syncParams}) {
 
     saveStringAsFileToFolder(
         getAlbumFolderLocalPath,
@@ -251,11 +251,11 @@ class Album extends SyncableItem<AlbumResp>{
         fileName: fileName);
 
     if(!localOnly)
-      syncPost(syncParams);
+      synchronizer.post();
   }
 
-  Future<void> delete({bool localOnly: false})async{
-    await setSyncStateRemove();
+  void delete({bool localOnly = false}) {
+    markSyncAsRemoved();
     File(getAlbumFolderPath + fileName).deleteSync();
     if(!localOnly) synchronizer.post();
   }
@@ -318,8 +318,8 @@ class Album extends SyncableItem<AlbumResp>{
     @required List<OwnSong> ownSongs,
     @required String colorsKey,
     @required String iconKey,
-    localOnly: false})
-  {
+    localOnly = false
+  }) {
     if(title != null) this.title = title;
     if(offSongs != null) this.offSongs = offSongs;
     if(ownSongs != null) this.ownSongs = ownSongs;
@@ -329,7 +329,7 @@ class Album extends SyncableItem<AlbumResp>{
     save(localOnly: localOnly);
   }
 
-  void set(Album album, {bool localOnly: false}){
+  void set(Album album, {bool localOnly = false}){
     album.update(
       title: album.title,
       offSongs: album.offSongs,
@@ -340,56 +340,54 @@ class Album extends SyncableItem<AlbumResp>{
     );
   }
 
+  @override
   bool operator == (Object other)=> other is Album && fileName == other.fileName;
+
+  @override
   int get hashCode => fileName.hashCode;
 
-  static const String REQ_GROUP = 'album';
+  @override
+  String get paramId => fileName;
+
+  static const String syncClassId = 'album';
 
   @override
-  String get classId => REQ_GROUP;
+  SyncableParam get parentParam => const RootSyncable(syncClassId);
 
   @override
-  String get objectId => fileName;
+  List<SyncableParam> get childParams => [
 
-  @override
-  List<SyncableParam> get syncParams => [
-
-    SyncableParam.single(
+    SyncableParamSingle(
       this,
       paramId: _PARAM_TITLE,
-      value: () async => await title,
-      notNone: () => false,
+      value_: () => title,
     ),
 
-    SyncableParam.single(
+    SyncableParamSingle(
       this,
       paramId: PARAM_OFF_SONGS,
-      value: () async => await offSongs.map((song) => song.fileName).toList(growable: false),
-      notNone: () => false,
+      value_: () => offSongs.map((song) => song.fileName).toList(growable: false),
     ),
-    SyncableParam.single(
+    SyncableParamSingle(
       this,
       paramId: PARAM_OWN_SONGS,
-      value: () async => await ownSongs.map((song) => song.fileName).toList(growable: false),
-      notNone: () => false,
+      value_: () => ownSongs.map((song) => song.fileName).toList(growable: false),
     ),
-    SyncableParam.single(
+    SyncableParamSingle(
       this,
       paramId: PARAM_COLORS_KEY,
-      value: () async => await colorsKey,
-      notNone: () => false,
+      value_: () => colorsKey,
     ),
 
-    SyncableParam.single(
+    SyncableParamSingle(
       this,
       paramId: PARAM_ICON_KEY,
-      value: () async => await iconKey,
-      notNone: () => false,
+      value_: () => iconKey,
     ),
   ];
 
   @override
-  void applySyncResp(AlbumResp resp) {
+  void applySyncGetResp(AlbumResp resp) {
 
     if(resp.title != null)
       title = resp.title;

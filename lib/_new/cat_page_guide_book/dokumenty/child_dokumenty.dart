@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_classes/org.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -10,9 +9,12 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../../_common_classes/org/org_indicator.dart';
 import 'data_dokumenty.dart';
 
 class ChildDokumenty extends StatelessWidget {
+
+  const ChildDokumenty({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +23,15 @@ class ChildDokumenty extends StatelessWidget {
 
         Positioned.fill(
           child: ListView.separated(
-            physics: BouncingScrollPhysics(),
-            padding: EdgeInsets.only(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.only(
                 top: Dimen.SIDE_MARG,
                 bottom: Dimen.ICON_FOOTPRINT + 3*Dimen.SIDE_MARG,
                 left: Dimen.SIDE_MARG,
                 right: Dimen.SIDE_MARG
             ),
             itemBuilder: (context, index) => DocCard(ALL_DATA_DOKUMENTY[index]),
-            separatorBuilder: (context, index) => SizedBox(height: Dimen.SIDE_MARG),
+            separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
             itemCount: ALL_DATA_DOKUMENTY.length,
           ),
         ),
@@ -66,16 +68,16 @@ class DocCard extends StatelessWidget{
   Widget build(BuildContext context) {
     return SimpleButton(
       radius: AppCard.BIG_RADIUS,
-      padding: EdgeInsets.all(Dimen.ICON_MARG),
+      padding: const EdgeInsets.all(Dimen.ICON_MARG),
       margin: EdgeInsets.zero,
       onTap: () => openAsset(data.assetPath),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Text(data.titleShort, style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
-          SizedBox(height: Dimen.DEF_MARG),
+          const SizedBox(height: Dimen.DEF_MARG),
           Text(data.titleLong, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context))),
-          SizedBox(height: 2*Dimen.ICON_MARG),
+          const SizedBox(height: 2*Dimen.ICON_MARG),
           Row(
             children: [
               OrgIndicator(data.org),

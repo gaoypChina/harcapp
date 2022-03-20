@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/api/sync_resp_body/memory_resp.dart';
+import 'package:harcapp/sync/syncable_new.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/sync/syncable.dart';
@@ -52,9 +53,9 @@ class MemoryBuilder{
   );
 }
 
-class Memory with SyncableItem<MemoryResp>{
+class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncItem{
 
-  static const FONT_NAME_MAP = {
+  static const fontNameMap = {
     0: 'Annie',
     1: 'Dekko',
     2: 'Caveat',
@@ -73,7 +74,7 @@ class Memory with SyncableItem<MemoryResp>{
     15: 'Trypewriter',
   };
 
-  static const FONT_SIZE_RATIO_MAP = {
+  static const fontSizeRatioMap = {
     0: 1.2,
     1: 1.1,
     2: 1.3,
@@ -148,15 +149,15 @@ class Memory with SyncableItem<MemoryResp>{
     return Memory.decode(fileName, content);
   }
 
-  static Memory create(String songFileName, DateTime date, String place, String desc, int fontIndex, bool published, {bool localOnly=false, List<String> syncParams}){
+  static Memory create(String songFileName, DateTime date, String place, String desc, int fontIndex, bool published, {bool localOnly=false}){
 
     String code = Memory.encode(songFileName, date, place, desc, fontIndex, published);
     File file = saveStringAsFileToFolder(getSongMemoriesFolderLocalPath, code);
 
     Memory memory = Memory(path.basename(file.path), songFileName, date, place, desc, fontIndex, published);
-    memory.setAllSyncState(SyncableParamSingle.STATE_NOT_SYNCED);
+    memory.setAllSyncState(SyncableParamSingle_.STATE_NOT_SYNCED);
     if(!localOnly)
-      memory.syncPost(syncParams);
+      synchronizer.post();
     return memory;
   }
 
@@ -203,7 +204,7 @@ class Memory with SyncableItem<MemoryResp>{
 
   }
 
-  void save({localOnly=false, List<String> syncParams}) {
+  void save({localOnly=false}) {
 
     saveStringAsFileToFolder(
         getSongMemoriesFolderLocalPath,
@@ -212,11 +213,11 @@ class Memory with SyncableItem<MemoryResp>{
     );
 
     if(!localOnly)
-      syncPost(syncParams);
+      synchronizer.post();
   }
 
-  Future<void> delete({bool localOnly=false})async{
-    await setSyncStateRemove();
+  void delete({bool localOnly=false}){
+    markSyncAsRemoved();
     File(getSongMemoriesFolderPath + fileName).deleteSync();
     if(!localOnly) synchronizer.post();
   }
@@ -240,67 +241,49 @@ class Memory with SyncableItem<MemoryResp>{
     save(localOnly: localOnly);
   }
 
-  void set(Memory memory, {bool localOnly=false}){
-    update(
-        songFileName: memory.songFileName,
-        date: memory.date,
-        place: memory.place,
-        desc: memory.desc,
-        fontIndex: memory.fontIndex,
-        published: memory.published,
-        localOnly: localOnly
-    );
-  }
-
+  @override
   bool operator == (Object other) => other is Memory && fileName == other.fileName;
 
+  static const syncClassId = 'memory';
+
+  @override
   int get hashCode => fileName.hashCode;
 
-  static const String REQ_GROUP = 'memories';
+  @override
+  String get paramId => fileName;
 
   @override
-  String get classId => REQ_GROUP;
-
-  @override
-  String get objectId => fileName;
-
-  @override
-  List<SyncableParam> get syncParams => [
-    SyncableParam.single(
+  List<SyncableParam> get childParams => [
+    SyncableParamSingle(
       this,
       paramId: PARAM_DATE,
-      value: () async => await date==null?null:DateFormat('yyyy-MM-dd').format(date),
-      notNone: () => false,
+      value_: () => date==null?null:DateFormat('yyyy-MM-dd').format(date),
     ),
-    SyncableParam.single(
+    SyncableParamSingle(
       this,
       paramId: PARAM_PLACE,
-      value: () async => await place,
-      notNone: () => false,
+      value_: () => place,
     ),
-    SyncableParam.single(
+    SyncableParamSingle(
       this,
       paramId: PARAM_DESC,
-      value: () async => await desc,
-      notNone: () => false,
+      value_: () => desc,
     ),
-    SyncableParam.single(
+    SyncableParamSingle(
       this,
       paramId: PARAM_FONT_KEY,
-      value: () async => await fontIndex,
-      notNone: () => false,
+      value_: () => fontIndex,
     ),
 
-    SyncableParam.single(
+    SyncableParamSingle(
       this,
       paramId: PARAM_PUBLISHED,
-      value: () async => await published,
-      notNone: () => false,
+      value_: () => published,
     ),
   ];
 
   @override
-  void applySyncResp(MemoryResp resp) {
+  void applySyncGetResp(MemoryResp resp) {
     if(resp.date != null)
       date = resp.date;
     if(resp.place != null)
@@ -314,4 +297,5 @@ class Memory with SyncableItem<MemoryResp>{
 
     save(localOnly: true);
   }
+
 }

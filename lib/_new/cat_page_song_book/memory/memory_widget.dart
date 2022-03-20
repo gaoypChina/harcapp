@@ -11,18 +11,18 @@ import '../song_management/memory.dart';
 
 class MemoryWidget extends StatefulWidget {
 
-  static const String MEMORY_DATE_TAG = 'MEMORY_DATE_TAG';
-  static const String MEMORY_PLACE_TAG = 'MEMORY_PLACE_TAG';
-  static const String MEMORY_DESC_TAG = 'MEMORY_DESC_TAG';
+  static String memoryDateHeroTagFrom(String memoryFileName) => 'MEMORY_DATE_TAG\$$memoryFileName';
+  static String memoryPlaceHeroTagFrom(String memoryFileName) => 'MEMORY_PLACE_TAG\$$memoryFileName';
+  static String memoryDescHeroTagFrom(String memoryFileName) => 'MEMORY_DESC_TAG\$$memoryFileName';
 
   final Memory memory;
-  final fontIndex;
+  final int fontIndex;
   final bool showShare;
   final Function onTap;
   final Function onLongPress;
   final bool withHero;
 
-  const MemoryWidget(this.memory, {this.fontIndex, this.showShare=true, this.onTap, this.onLongPress, this.withHero=true});
+  const MemoryWidget(this.memory, {this.fontIndex, this.showShare=true, this.onTap, this.onLongPress, this.withHero=true, Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => MemoryWidgetState();
@@ -42,7 +42,7 @@ class MemoryWidgetState extends State<MemoryWidget> {
         style: TextStyle(
             color: iconEnab_(context),
             fontFamily: '${Memory.fontName}${fontIndex??memory.fontIndex}',
-            fontSize: Dimen.TEXT_SIZE_BIG*Memory.FONT_SIZE_RATIO_MAP[fontIndex??memory.fontIndex]
+            fontSize: Dimen.TEXT_SIZE_BIG*Memory.fontSizeRatioMap[fontIndex??memory.fontIndex]
         )
     );
 
@@ -51,7 +51,7 @@ class MemoryWidgetState extends State<MemoryWidget> {
         style: TextStyle(
             color: iconEnab_(context),
             fontFamily: '${Memory.fontName}${fontIndex??memory.fontIndex}',
-            fontSize: Dimen.TEXT_SIZE_BIG*Memory.FONT_SIZE_RATIO_MAP[fontIndex??memory.fontIndex]
+            fontSize: Dimen.TEXT_SIZE_BIG*Memory.fontSizeRatioMap[fontIndex??memory.fontIndex]
         )
     );
 
@@ -60,18 +60,18 @@ class MemoryWidgetState extends State<MemoryWidget> {
         style: TextStyle(
             color: iconEnab_(context),
             fontFamily: '${Memory.fontName}${fontIndex??memory.fontIndex}',
-            fontSize: Dimen.TEXT_SIZE_BIG*Memory.FONT_SIZE_RATIO_MAP[fontIndex??memory.fontIndex]
+            fontSize: Dimen.TEXT_SIZE_BIG*Memory.fontSizeRatioMap[fontIndex??memory.fontIndex]
         ),
         textAlign: TextAlign.end
     );
 
     return SimpleButton(
       radius: AppCard.BIG_RADIUS,
-      padding: EdgeInsets.all(Dimen.ICON_MARG),
+      padding: const EdgeInsets.all(Dimen.ICON_MARG),
       onTap: widget.onTap,
       onLongPress: widget.onLongPress,
       child: AnimatedSize(
-          duration: Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 200),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -85,7 +85,7 @@ class MemoryWidgetState extends State<MemoryWidget> {
 
                     widget.withHero?
                     Hero(
-                        tag: MemoryWidget.MEMORY_DATE_TAG,
+                        tag: MemoryWidget.memoryDateHeroTagFrom(memory.fileName),
                         child: Material(
                           color: Colors.transparent,
                           child: textDate,
@@ -94,7 +94,7 @@ class MemoryWidgetState extends State<MemoryWidget> {
 
                     if(memory.place.isNotEmpty)
                       widget.withHero?Hero(
-                          tag: MemoryWidget.MEMORY_PLACE_TAG,
+                          tag: MemoryWidget.memoryPlaceHeroTagFrom(memory.fileName),
                           child: Material(
                             color: Colors.transparent,
                             child: textPlace,
@@ -102,14 +102,14 @@ class MemoryWidgetState extends State<MemoryWidget> {
                       ):textPlace,
 
                     if(memory.desc.isNotEmpty)
-                      SizedBox(height: 10.0),
+                      const SizedBox(height: 10.0),
 
                     if(memory.desc.isNotEmpty)
                       Padding(
-                          padding: EdgeInsets.only(right: 10),
+                          padding: const EdgeInsets.only(right: 10),
                           child:
                           widget.withHero?Hero(
-                              tag: MemoryWidget.MEMORY_DESC_TAG,
+                              tag: MemoryWidget.memoryDescHeroTagFrom(memory.fileName),
                               child: Material(
                                 color: Colors.transparent,
                                 child: textDesc,

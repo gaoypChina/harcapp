@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/org.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models/rank_zhp_sim_2022.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_cat.dart';

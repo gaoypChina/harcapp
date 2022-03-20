@@ -1,13 +1,12 @@
+import 'dart:async';
+
+import 'package:connectivity/connectivity.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/auto_size_text.dart';
-import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/competition_page.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_editor/_main.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_page.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_prompt.dart';
 import 'package:harcapp/account/account.dart';
@@ -15,6 +14,7 @@ import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
@@ -22,6 +22,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../_common_widgets/app_toast.dart';
 import 'competitions/indiv_comp/indiv_comp_loader.dart';
 import 'competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'competitions/indiv_comp/models/indiv_comp.dart';
@@ -31,6 +32,8 @@ import 'competitions/start_widgets/indiv_comp_preview_grid.dart';
 import 'competitions/start_widgets/indiv_comp_prompt_login.dart';
 
 class CompetitionPreviewWidget extends StatefulWidget{
+
+  const CompetitionPreviewWidget({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CompetitionPreviewWidgetState();
@@ -43,6 +46,9 @@ class _CompetitionPreviewWidgetState extends State<CompetitionPreviewWidget>{
 
   LoginProvider loginProvider;
   LoginProviderListener loginListener;
+  StreamSubscription<ConnectivityResult> networkListener;
+
+  bool networkAvailable;
 
   @override
   void initState() {
@@ -72,6 +78,18 @@ class _CompetitionPreviewWidgetState extends State<CompetitionPreviewWidget>{
     if(IndivComp.all == null && AccSecData.loggedIn)
       indivCompLoader.run();
 
+    networkAvailable = true;
+        () async {
+      networkAvailable = await isNetworkAvailable();
+      if(mounted) setState((){});
+    };
+
+    networkListener = addConnectionListener((hasConnection) async{
+      setState(() => networkAvailable = hasConnection);
+      if(!hasConnection && mounted)
+        showAppToast(context, text: 'Brak internetu');
+    });
+
     super.initState();
   }
 
@@ -95,9 +113,7 @@ class _CompetitionPreviewWidgetState extends State<CompetitionPreviewWidget>{
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return Consumer2<LoginProvider, IndivCompListProvider>(
+  Widget build(BuildContext context) => Consumer2<LoginProvider, IndivCompListProvider>(
       builder: (context, loginProv, compProv, child){
 
         if(loginProv.loggedIn)
@@ -105,32 +121,38 @@ class _CompetitionPreviewWidgetState extends State<CompetitionPreviewWidget>{
             children: [
 
               Padding(
-                padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+                padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
                 child: TitleShortcutRowWidget(
-                  title: 'Współzawodnictwa',
-                  onOpen:
-                  IndivComp.all != null ? (context) => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CompetitionsPage())
-                  ):null,
-                  trailing: Builder(
-                    builder: (context){
+                    title: 'Współzawodnictwa',
+                    onOpen:
+                    IndivComp.all != null ? (context) => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const CompetitionsPage())
+                    ):null,
+                    trailing: Builder(
+                      builder: (context){
 
-                      if(IndivComp.all == null && !indivCompLoader.running)
-                        return IconButton(
-                          icon: Icon(MdiIcons.refresh),
-                          onPressed: () => indivCompLoader.run(),
-                        );
+                        if(IndivComp.all == null && !indivCompLoader.running)
+                          return IconButton(
+                            icon: const Icon(MdiIcons.refresh),
+                            onPressed: () => indivCompLoader.run(),
+                          );
 
-                      return Container();
+                        return Container();
 
-                    },
-                  )
+                      },
+                    )
                 ),
               ),
 
-              if(!AccSecData.emailConf)
-                Padding(
+              if(!networkAvailable)
+                IndivCompPrompt(
+                  child: IndivCompPreviewGrid(),
+                  text: 'Brak internetu',
+                  icon: MdiIcons.earthOff,
+                )
+              else if(!AccSecData.emailConf)
+                const Padding(
                   padding: EdgeInsets.all(Dimen.SIDE_MARG),
                   child: SizedBox(
                     width: double.infinity,
@@ -141,48 +163,44 @@ class _CompetitionPreviewWidgetState extends State<CompetitionPreviewWidget>{
                   ),
                 )
               else if(IndivComp.all == null && indivCompLoader.running)
-                IndivCompLoadingWidget()
-              else if(IndivComp.all == null && !indivCompLoader.running)
-                Padding(
-                  padding: EdgeInsets.all(Dimen.SIDE_MARG),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: EmptyMessageWidget(
-                        text: 'Upsis...',
-                        icon: MdiIcons.abacus
-                    ),
-                  ),
-                )
-              else if(IndivComp.all.isEmpty)
-                  Padding(
-                    padding: EdgeInsets.all(Dimen.SIDE_MARG),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: EmptyMessageWidget(
-                          text: 'Pusto...',
-                          icon: MdiIcons.abacus
+                  const IndivCompLoadingWidget()
+                else if(IndivComp.all == null && !indivCompLoader.running)
+                    const Padding(
+                      padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: EmptyMessageWidget(
+                            text: 'Upsis...',
+                            icon: MdiIcons.abacus
+                        ),
                       ),
-                    ),
-                  )
-                else
-                  Padding(
-                    padding: EdgeInsets.all(Dimen.SIDE_MARG),
-                    child: GridView.count(
-                        crossAxisSpacing: Dimen.SIDE_MARG,
-                        mainAxisSpacing: Dimen.SIDE_MARG,
-                        clipBehavior: Clip.none,
-                        physics: NeverScrollableScrollPhysics(),
-                        childAspectRatio: .5 * MediaQuery
-                            .of(context)
-                            .size
-                            .width /
-                            (IndivCompThumbnailWidget.defSize + 2 * Dimen
-                                .SIDE_MARG),
-                        crossAxisCount: 2,
-                        shrinkWrap: true,
-                        children: getCompWidgets()
-                    ),
-                  )
+                    )
+                  else if(IndivComp.all.isEmpty)
+                      const Padding(
+                        padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: EmptyMessageWidget(
+                              text: 'Pusto...',
+                              icon: MdiIcons.abacus
+                          ),
+                        ),
+                      )
+                    else
+                      Padding(
+                        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                        child: GridView.count(
+                            crossAxisSpacing: Dimen.SIDE_MARG,
+                            mainAxisSpacing: Dimen.SIDE_MARG,
+                            clipBehavior: Clip.none,
+                            physics: const NeverScrollableScrollPhysics(),
+                            childAspectRatio: .5 * MediaQuery.of(context).size.width /
+                                (IndivCompThumbnailWidget.defSize + 2 * Dimen.SIDE_MARG),
+                            crossAxisCount: 2,
+                            shrinkWrap: true,
+                            children: getCompWidgets()
+                        ),
+                      )
 
             ],
           );
@@ -202,7 +220,7 @@ class _CompetitionPreviewWidgetState extends State<CompetitionPreviewWidget>{
                     ),
                   ),
 
-                  IgnorePointer(child: IndivCompPromptLogin()),
+                  const IgnorePointer(child: IndivCompPromptLogin()),
 
                 ],
               ),
@@ -210,9 +228,7 @@ class _CompetitionPreviewWidgetState extends State<CompetitionPreviewWidget>{
             ],
           );
       }
-    );
-
-  }
+  );
 
 }
 
@@ -242,7 +258,7 @@ class IndivCompThumbnailAnimatedWidgetState extends State<IndivCompThumbnailAnim
       if(!mounted) return;
       controllerHorizontal.toggleCard();
       await Future.delayed(controllerHorizontal.state.controller.duration);
-      await Future.delayed(Duration(milliseconds: 1200));
+      await Future.delayed(const Duration(milliseconds: 1200));
     }
   }
 
@@ -274,6 +290,8 @@ class IndivCompThumbnailAnimatedWidgetState extends State<IndivCompThumbnailAnim
 
 class IndivCompLoadingWidget extends StatelessWidget{
 
+  const IndivCompLoadingWidget({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) => IndivCompPrompt(
       child: IndivCompPreviewGrid(),
@@ -289,7 +307,7 @@ class _IndivCompPreviewExtWidget extends StatelessWidget{
   const _IndivCompPreviewExtWidget(this.comp);
 
   static const String _textPkt = 'pkt.';
-  static TextStyle _textPktStyle = AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold);
+  static final TextStyle _textPktStyle = AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold);
 
   double calcTextWidth(String text, TextStyle style) {
     final TextPainter textPainter = TextPainter(
@@ -316,7 +334,7 @@ class _IndivCompPreviewExtWidget extends StatelessWidget{
           child: Row(
             children: [
               IndivCompThumbnailWidget(comp, heroTag: comp),
-              SizedBox(width: Dimen.SIDE_MARG),
+              const SizedBox(width: Dimen.SIDE_MARG),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -332,7 +350,7 @@ class _IndivCompPreviewExtWidget extends StatelessWidget{
                               if(constraints.maxWidth < 2.0 + calcTextWidth(_textPkt, _textPktStyle))
                                 return Container();
                               return Padding(
-                                padding: EdgeInsets.only(bottom: 6.0, left: 2.0),
+                                padding: const EdgeInsets.only(bottom: 6.0, left: 2.0),
                                 child: Text(_textPkt, style: _textPktStyle, maxLines: 1),
                               );
                             },

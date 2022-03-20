@@ -26,7 +26,7 @@ IndivCompLoader indivCompLoader = IndivCompLoader();
 class IndivCompLoader extends SingleComputer<String, IndivCompLoaderListener>{
 
   @override
-  String get computerName => 'IndivCompProfileLoader';
+  String get computerName => 'IndivCompLoader';
 
   IndivCompLoader();
 

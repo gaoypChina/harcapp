@@ -7,7 +7,7 @@ import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/sync_resp_body/memory_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/song_resp.dart';
-import 'package:harcapp/sync/syncable.dart';
+import 'package:harcapp/sync/syncable_new.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
 import 'package:harcapp_core/comm_widgets/chord_shifter.dart';
@@ -63,7 +63,7 @@ class SongDataEntity{
   );
 }
 
-abstract class Song<T extends SongResp> with SyncableItem<T>, SongCore{
+abstract class Song<T extends SongResp> extends SyncableParamGroup_ with SyncNode<T>, RemoveSyncItem, SongCore{
 
   static List<Song> recomended;
 
@@ -85,7 +85,7 @@ abstract class Song<T extends SongResp> with SyncableItem<T>, SongCore{
   static const String PARAM_LCL_ID = 'lcl_id';
   static const String PARAM_RATE = 'rate';
   static const String PARAM_CHORD_SHIFT = 'chord_shift';
-  static const String PARAM_MEMORY = Memory.REQ_GROUP;
+  static const String PARAM_MEMORIES = 'memories';
 
   static const String TAB_CHAR = '   ';
 
@@ -160,6 +160,7 @@ abstract class Song<T extends SongResp> with SyncableItem<T>, SongCore{
   @override
   String get youtubeLink => _youtubeLink;
 
+  @override
   bool get isOwn => !isOfficial && !isConfid;
 
   bool get isConfid => fileName.length >= 4 && fileName.substring(0, 4) == 'oc!_';
@@ -200,7 +201,7 @@ abstract class Song<T extends SongResp> with SyncableItem<T>, SongCore{
   String get tagsAsString{
     String text = '';
     for(String tag in tags)
-      text += '${tag }   ';
+      text += '$tag    ';
     if(text.isEmpty) return '#';
     return text;
   }
@@ -226,7 +227,7 @@ abstract class Song<T extends SongResp> with SyncableItem<T>, SongCore{
       this.ratePrimWrap,
       this.memoryList,
       this.memoryMap
-      );
+  );
 
   static SongDataEntity parse(String fileName, String code) {
 
@@ -345,13 +346,14 @@ abstract class Song<T extends SongResp> with SyncableItem<T>, SongCore{
 
   Future<String> get code async => jsonEncode(await getSongMap(fileName));
 
-  Future<String> toQRData() async => Base64Codec().encode(Utf8Encoder().convert(await code).toList());
+  Future<String> toQRData() async => const Base64Codec().encode(const Utf8Encoder().convert(await code).toList());
 
   static SongDataEntity from(String codeBase64){
-    String code = Utf8Decoder().convert(Base64Codec().decode(codeBase64).toList());
+    String code = const Utf8Decoder().convert(const Base64Codec().decode(codeBase64).toList());
     return Song.parse('_shared', code);
   }
 
+  @override
   String get chords => ChordShifter.run(baseChords, readChordShift(fileName));
 
   void shiftChordsUp() =>
@@ -362,22 +364,24 @@ abstract class Song<T extends SongResp> with SyncableItem<T>, SongCore{
 
   void initRate() => ratePrimWrap.set(readRate(fileName));
 
+  bool get hasRate => shaPref.exists(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName));
   static int readRate(String fileName) => shaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName), SongRate.RATE_NULL);
 
   @override
   int get rate => ratePrimWrap.get();
 
-  void setRate(int rate, {bool localOnly = false}) {
-    this.ratePrimWrap.set(rate);
+  void setRate(int rate, {bool localOnly = false}) async {
+    ratePrimWrap.set(rate);
     shaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName), rate);
-    setSyncState({PARAM_RATE: SyncableParamSingle.STATE_NOT_SYNCED});
+    setSingleState(PARAM_RATE, SyncableParamSingle_.STATE_NOT_SYNCED);
     if(!localOnly) synchronizer.post();
   }
 
+  bool get hasChordShift => shaPref.exists(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName));
   static int readChordShift(String fileName) => shaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName), 0);
   void setChordShift(int chordShift, {bool localOnly = false}) {
     shaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName), chordShift);
-    setSyncState({PARAM_CHORD_SHIFT: SyncableParamSingle.STATE_NOT_SYNCED});
+    setSingleState(PARAM_CHORD_SHIFT, SyncableParamSingle_.STATE_NOT_SYNCED);
     if(!localOnly) synchronizer.post(aggregateDelay: SynchronizerEngine.aggregateChordChangeDuration);
   }
 
@@ -386,27 +390,28 @@ abstract class Song<T extends SongResp> with SyncableItem<T>, SongCore{
     memoryMap[memory.fileName] = memory;
   }
 
-  Future<void> removeAllMemories({bool localOnly = false})async{
+  void removeAllMemories({bool localOnly = false}){
     for(Memory memory in memories) {
-      await memory.delete(localOnly: localOnly);
+      memory.delete(localOnly: localOnly);
     }
     memories.clear();
   }
 
-  Future<void> removeMemory(Memory memory, {bool localOnly = false})async{
-    await memory.delete(localOnly: localOnly);
+  void removeMemory(Memory memory, {bool localOnly = false}){
+    memory.delete(localOnly: localOnly);
     memories.remove(memory);
   }
 
-  Future<bool> deleteSongFile({bool localOnly = false}) async{
+  bool deleteSongFile({bool localOnly = false}) {
     if(isOwn) {
       Map ownSongs = jsonDecode(readFileAsString(getOwnSongFilePath));
       ownSongs.remove(fileName);
       saveStringAsFile(getOwnSongFilePath, jsonEncode(ownSongs));
 
       for(Memory memory in memories)
-        await memory.delete();
-      await setSyncStateRemove();
+        memory.delete();
+
+      markSyncAsRemoved();
       if(!localOnly) synchronizer.post();
       return true;
     } else
@@ -414,59 +419,65 @@ abstract class Song<T extends SongResp> with SyncableItem<T>, SongCore{
 
   }
 
+  @override
   bool operator == (Object other) =>
       other is Song &&
           isConfid == other.isConfid &&
           isOfficial == other.isOfficial &&
           fileName == other.fileName;
 
+  @override
   int get hashCode => isConfid.hashCode + isOfficial.hashCode + fileName.hashCode;
 
+  String get classId;
+
   @override
-  List<SyncableParam> get syncParams => [
+  SyncableParam get parentParam => RootSyncable(classId);
 
-    SyncableParam.single(
-      this,
-      paramId: PARAM_RATE,
-      value: () async => await rate,
-      notNone: () => rate != SongRate.RATE_NULL
-    ),
-    SyncableParam.single(
-      this,
-      paramId: PARAM_CHORD_SHIFT,
-      value: () async => await readChordShift(fileName),
-      notNone: () => readChordShift(fileName) != 0
-    ),
+  @override
+  String get paramId => fileName;
 
-    SyncableParam.group<Memory>(
+  @override
+  List<SyncableParam> get childParams => [
+
+    SyncableParamSingle(
         this,
-        items: memories
+        paramId: PARAM_RATE,
+        value_: () => rate,
+        isNotSet_: () => !hasRate
+    ),
+    SyncableParamSingle(
+        this,
+        paramId: PARAM_CHORD_SHIFT,
+        value_: () => readChordShift(fileName),
+        isNotSet_: () => !hasChordShift
+    ),
+    SyncableParamGroup(
+        this,
+        paramId: PARAM_MEMORIES,
+        childParams: memories
     )
 
   ];
 
+  /*
   @override
-  String get objectId => fileName;
-
-  @override
-  void saveSyncResult(Map<String, dynamic> resData, DateTime lastSync) {
+  void saveSyncResult(dynamic resData, DateTime lastSync) {
     if(resData.containsKey(PARAM_RATE))
-      setSyncState({PARAM_RATE: SyncableParamSingle.STATE_SYNCED});
+      setSingleState(PARAM_RATE, SyncableParamSingle_.STATE_SYNCED);
 
     if(resData.containsKey(PARAM_CHORD_SHIFT))
-      setSyncState({PARAM_CHORD_SHIFT: SyncableParamSingle.STATE_SYNCED});
+      setSingleState(PARAM_CHORD_SHIFT, SyncableParamSingle_.STATE_SYNCED);
 
-    if(resData.containsKey(PARAM_MEMORY))
-      for(String lclId in resData[PARAM_MEMORY].keys){
+    if(resData.containsKey(PARAM_MEMORIES))
+      for(String lclId in resData[PARAM_MEMORIES].keys){
         Memory memory = memoryMap[lclId];
-        memory.saveSyncResult(resData[PARAM_MEMORY][lclId], lastSync);
+        memory.saveSyncResult(resData[PARAM_MEMORIES][lclId], lastSync);
       }
-
-    this.lastSync = lastSync;
   }
-
+*/
   @override
-  void applySyncResp(T resp) {
+  void applySyncGetResp(T resp) {
     if(resp.rate != null)
       setRate(resp.rate, localOnly: true);
 
@@ -491,7 +502,7 @@ abstract class Song<T extends SongResp> with SyncableItem<T>, SongCore{
           Memory.addToAll(mem);
           addMemory(mem);
         }else
-          mem.applySyncResp(memResp);
+          mem.applySyncGetResp(memResp);
       }
   }
 }

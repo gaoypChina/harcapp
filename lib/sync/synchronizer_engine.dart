@@ -1,11 +1,10 @@
-
 import 'package:flutter/widgets.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
-import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/_new/api/sync.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_loader.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/account/account.dart';
+import 'package:harcapp/sync/syncable_new.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:semaphore/semaphore.dart';
 
@@ -13,7 +12,7 @@ import '../logger.dart';
 
 SynchronizerEngine synchronizer = SynchronizerEngine();
 
-enum SyncOper{GET, POST}
+enum SyncOper{get, post}
 
 class SynchronizerListener{
 
@@ -75,8 +74,8 @@ class SynchronizerEngine{
         '\t_runPostAfterFinish: $_runPostAfterFinish');
 
     if(isRunning){
-      if(oper == SyncOper.GET) _runGetAfterFinish = true;
-      else if(oper == SyncOper.POST) _runPostAfterFinish = true;
+      if(oper == SyncOper.get) _runGetAfterFinish = true;
+      else if(oper == SyncOper.post) _runPostAfterFinish = true;
       semaphore.release();
       return false;
     }else
@@ -126,24 +125,23 @@ class SynchronizerEngine{
 
   Future<bool> _post({bool dumpReplaceExisting}) async {
 
-    bool go = await _callStart(SyncOper.POST);
+    bool go = await _callStart(SyncOper.post);
     if(!go) return null;
 
     await synchronizer.reloadSyncables();
     bool result;
     await ApiSync.postAndSave(
-      syncables: SyncableEntity.allSyncables,
       dumpReplaceExisting: dumpReplaceExisting,
       onSuccess: () => result = true,
       onError: (response) => result = false
     );
 
-    await _callEnd(SyncOper.POST);
+    await _callEnd(SyncOper.post);
     return result;
   }
 
   Future<bool> _get() async {
-    bool go = await _callStart(SyncOper.GET);
+    bool go = await _callStart(SyncOper.get);
     if(!go) return null;
 
     await synchronizer.reloadSyncables();
@@ -154,53 +152,51 @@ class SynchronizerEngine{
       onError: () => result = false,
     );
 
-    await _callEnd(SyncOper.GET);
+    await _callEnd(SyncOper.get);
     return result;
   }
 
   Future<bool> isAllSynced() async {
     await synchronizer.reloadSyncables();
-    for(SyncableEntity syncable in SyncableEntity.allSyncables)
-      if(!syncable.isSynced)
-        return false;
+
+    for(List<SyncableParam> params in SyncNode.allBaseNodes.values)
+      for(SyncableParam param in params)
+        if(!param.isSynced) return false;
 
     return true;
   }
 
   Future<Map<String, dynamic>> allUnsynced() async {
+    await synchronizer.reloadSyncables();
 
     Map<String, dynamic> result = {};
 
-    for(SyncableEntity syncable in SyncableEntity.allSyncables)
-
-      if(!syncable.isSynced) {
-
-        if(!result.containsKey(syncable.classId)) result[syncable.classId] = {};
-        if(!result[syncable.classId].containsKey(syncable.objectId)) result[syncable.classId][syncable.objectId] = {};
-
-        if(syncable is RemoveSyncReq)
-          result[syncable.classId][syncable.objectId]['remove'] = true;
-        else if(syncable is SyncableItem) {
-          Map<String, dynamic> unsyncedMap = syncable.getUnsyncedMap();
-          if(unsyncedMap.isNotEmpty) result[syncable.classId][syncable.objectId] = unsyncedMap;
-        }
-
+    for(String classId in SyncNode.allBaseNodes.keys)
+      for(SyncableParam param in SyncNode.allBaseNodes[classId]) {
+        Map<String, dynamic> unsyncedMap = param.getUnsyncedMap();
+        if(unsyncedMap.isNotEmpty) result[classId] = unsyncedMap;
       }
+
     return result;
+
   }
 
-  static void setAllSyncState(int state){
-    synchronizer.reloadSyncables();
-    for(SyncableEntity syncable in SyncableEntity.allSyncables)
-      if(syncable is SyncableItem)
-        syncable.setAllSyncState(state);
+  static Future<void> setAllSyncState(int state) async {
+    await synchronizer.reloadSyncables();
+
+    for(List<SyncableParam> params in SyncNode.allBaseNodes.values)
+      for(SyncableParam param in params)
+        if(param is SyncableParamGroup_)
+          param.setAllSyncState(state);
+        else if(param is SyncableParamSingle_)
+          param.state = state;
   }
 
   static Future<void> changeSyncStateInAll(List<int> stateFrom, int stateTo) async {
     await synchronizer.reloadSyncables();
-    for(SyncableEntity syncable in SyncableEntity.allSyncables)
-      if(syncable is SyncableItem)
-        await syncable.changeSyncStateInAll(stateFrom, stateTo);
+    for(List<SyncableParam> params in SyncNode.allBaseNodes.values)
+      for(SyncableParam param in params)
+        param.changeSyncStateInAll(stateFrom, stateTo);
   }
 
   Future<bool> reloadSyncables() async {
@@ -210,8 +206,8 @@ class SynchronizerEngine{
       result = true;
     }
 
-    if(RemoveSyncReq.all == null){
-      RemoveSyncReq.readAll();
+    if(RemoveSyncItem.all == null){
+      RemoveSyncItem.readAll();
       result = true;
     }
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/org.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_def_resp.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/data/data_zhr_d.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/sector_sep_widget.dart';
@@ -15,6 +15,8 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_sta
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_task.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import '../../../../sync/syncable_new.dart';
 
 class RankZHRDData extends RankData{
 
@@ -48,14 +50,14 @@ class RankZHRDData extends RankData{
   @override
   RankZHRD build() {
     RankZHRD rank = RankZHRD(this, null);
-    rank.cats = [for (int i = 0; i < catData.length; i++) catData[i].build(rank, i)];;
+    rank.cats = [for (int i = 0; i < catData.length; i++) catData[i].build(rank, i)];
     return rank;
   }
 
   @override
   RankZHRDPreview buildPreview(RankStateShared state) {
     RankZHRDPreview rank = RankZHRDPreview(this, state, null);
-    rank.cats = [for (int i = 0; i < catData.length; i++) catData[i].build(rank, i)];;
+    rank.cats = [for (int i = 0; i < catData.length; i++) catData[i].build(rank, i)];
     return rank;
   }
 
@@ -155,20 +157,15 @@ abstract class RankZHRDTempl<T extends RankState> extends Rank<RankZHRDData, Ran
       SingleLineWidget(MdiIcons.cakeVariantOutline, data.minWiek),
       SingleLineWidget(MdiIcons.clockOutline, data.czasTrw),
 
-      if(data.sylwetka != null) SizedBox(height: 3*Dimen.SIDE_MARG),
+      if(data.sylwetka != null) const SizedBox(height: 3*Dimen.SIDE_MARG),
 
       if(data.sylwetka != null)
         SingleHeaderWidget('Sylwetka', data.sylwetka, icon: MdiIcons.faceWomanShimmerOutline),
 
-      SizedBox(height: 3*Dimen.SIDE_MARG),
-      SectorSepWidget('Zadania'),
+      const SizedBox(height: 3*Dimen.SIDE_MARG),
+      const SectorSepWidget('Zadania'),
     ],
   );
-
-  static const String REQ_GROUP = RankDefTempl.REQ_GROUP;
-
-  @override
-  String get classId => REQ_GROUP;
 
 }
 
@@ -195,16 +192,25 @@ class RankZHRD extends RankZHRDTempl<RankStateLocal>{
     List<RankCat> cats,
   ):super(data, cats);
 
+  @override
   RankStateLocal get state => RankStateLocal(this);
 
+  @override
   RankZHRDPreview preview(RankStateShared sharedState) => data.buildPreview(sharedState);
+
+  static const String syncClassId = RankDef.syncClassId;
+
+  @override
+  SyncableParam get parentParam => const RootSyncable(syncClassId);
 
 }
 
 class RankZHRDPreview extends RankZHRDTempl<RankStateShared>{
 
+  @override
   RankZHRDPreview preview(RankStateShared stateShared) => this;
 
+  @override
   RankStateShared state;
 
   RankZHRDPreview(RankZHRDData data, this.state, List<RankCat> cats) : super(data, cats);

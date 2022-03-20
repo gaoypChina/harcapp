@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_classes/org.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_common_widgets/sliding_card.dart';
 import 'package:harcapp/values/people.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';

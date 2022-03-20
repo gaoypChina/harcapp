@@ -41,6 +41,8 @@ import 'indiv_comp/models/indiv_comp.dart';
 
 class CompetitionsPage extends StatefulWidget{
 
+  const CompetitionsPage({Key key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => CompetitionsPageState();
 
@@ -52,6 +54,9 @@ class CompetitionsPageState extends State<CompetitionsPage>{
   LoginProviderListener loginListener;
 
   IndivCompLoaderListener _listener;
+
+  StreamSubscription<ConnectivityResult> networkListener;
+  bool networkAvailable;
 
   @override
   void initState() {
@@ -83,6 +88,18 @@ class CompetitionsPageState extends State<CompetitionsPage>{
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     loginProvider.addLoginListener(loginListener);
 
+    networkAvailable = true;
+    () async {
+      networkAvailable = await isNetworkAvailable();
+      if(mounted) setState((){});
+    }();
+
+    networkListener = addConnectionListener((hasConnection) async{
+      setState(() => networkAvailable = hasConnection);
+      if(!hasConnection && mounted)
+        showAppToast(context, text: 'Brak internetu');
+    });
+
     if(IndivComp.all == null && AccSecData.loggedIn)
       indivCompLoader.run();
 
@@ -98,44 +115,24 @@ class CompetitionsPageState extends State<CompetitionsPage>{
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => AppScaffold(
+    body: Consumer2<LoginProvider, IndivCompListProvider>(
+        builder: (context, loginProv, indivCompProv, child) {
 
-//return BottomNavScaffold(
-    return AppScaffold(
-      body: Consumer2<LoginProvider, IndivCompListProvider>(
-          builder: (context, loginProv, indivCompProv, child) {
+          List<Widget> slivers = [];
+          List<Widget> widgets = [];
 
-            List<Widget> slivers = [];
-            List<Widget> widgets = [];
+          slivers.add(sliverAppBar());
 
-            slivers.add(sliverAppBar());
+          if(!networkAvailable)
+            widgets.add(IndivCompPrompt(
+              child: IndivCompPreviewGrid(),
+              text: 'Brak internetu',
+              icon: MdiIcons.earthOff,
+            ));
+          else if(loginProvider.loggedIn){
 
-            if(loginProvider.loggedIn){
-
-              if(!AccSecData.emailConf)
-                widgets.add(Stack(
-                  children: [
-                    Positioned.fill(
-                      child: SimpleButton(
-                        margin: EdgeInsets.zero,
-                        radius: AppCard.BIG_RADIUS,
-                        onTap: () => AccountPage.open(context),
-                        child: Container(),
-                      ),
-                    ),
-                    IgnorePointer(child: IndivCompPrompt(
-                        child: IndivCompPreviewGrid(),
-                        icon: MdiIcons.accountReactivateOutline,
-                        text: 'Aktywuj konto, by współzawodniczyć'
-                    )),
-                  ],
-                ));
-              else if(indivCompLoader.running)
-                widgets.add(IndivCompLoadingWidget());
-              else
-                return _CompListWidget();
-
-            }else
+            if(!AccSecData.emailConf)
               widgets.add(Stack(
                 children: [
                   Positioned.fill(
@@ -146,27 +143,47 @@ class CompetitionsPageState extends State<CompetitionsPage>{
                       child: Container(),
                     ),
                   ),
-                  IgnorePointer(child: IndivCompPromptLogin()),
+                  IgnorePointer(child: IndivCompPrompt(
+                      child: IndivCompPreviewGrid(),
+                      icon: MdiIcons.accountReactivateOutline,
+                      text: 'Aktywuj konto, by współzawodniczyć'
+                  )),
                 ],
               ));
+            else if(indivCompLoader.running)
+              widgets.add(const IndivCompLoadingWidget());
+            else
+              return _CompListWidget();
 
-            slivers.add(
-                SliverList(delegate: SliverChildListDelegate(widgets))
-            );
+          }else
+            widgets.add(Stack(
+              children: [
+                Positioned.fill(
+                  child: SimpleButton(
+                    margin: EdgeInsets.zero,
+                    radius: AppCard.BIG_RADIUS,
+                    onTap: () => AccountPage.open(context),
+                    child: Container(),
+                  ),
+                ),
+                const IgnorePointer(child: IndivCompPromptLogin()),
+              ],
+            ));
 
-            return CustomScrollView(
-                physics: BouncingScrollPhysics(),
-                slivers: slivers
-            );
+          slivers.add(SliverList(delegate: SliverChildListDelegate(widgets)));
 
-          }
-      ),
-      bottomNavigationBar: AppBottomNavigator(),
-    );
-  }
+          return CustomScrollView(
+              physics: const BouncingScrollPhysics(),
+              slivers: slivers
+          );
+
+        }
+    ),
+    bottomNavigationBar: const AppBottomNavigator(),
+  );
 }
 
-SliverAppBar sliverAppBar() => SliverAppBar(
+SliverAppBar sliverAppBar() => const SliverAppBar(
   leading: AccountHeaderIcon(),
   title: Text('Współzawodnictwa'),
   centerTitle: true,
@@ -189,14 +206,6 @@ class _CompListWidgetState extends State<_CompListWidget>{
 
   IndivCompLoaderListener _listener;
 
-  StreamSubscription<ConnectivityResult> subscription;
-
-  bool networkAvailable;
-  void establishNetwork() async {
-    networkAvailable = await isNetworkAvailable();
-    if(mounted) setState((){});
-  }
-
   @override
   void initState() {
     searchedComps = IndivComp.all;
@@ -218,18 +227,6 @@ class _CompListWidgetState extends State<_CompListWidget>{
     );
 
     indivCompLoader.addListener(_listener);
-
-    networkAvailable = true;
-    establishNetwork();
-
-    subscription = addConnectionListener((hasConnection) async{
-      if(hasConnection) {
-        establishNetwork();
-      } else {
-        establishNetwork();
-        if(mounted) showAppToast(context, text: 'Brak internetu');
-      }
-    });
 
     super.initState();
   }
@@ -261,13 +258,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
 
         List<Widget> widgets = [];
 
-        if(!networkAvailable)
-          widgets.add(IndivCompPrompt(
-            child: IndivCompPreviewGrid(),
-            text: 'Brak internetu',
-            icon: MdiIcons.earthOff,
-          ));
-        else if(IndivComp.all == null)
+        if(IndivComp.all == null)
           widgets.add(IndivCompPrompt(
             child: IndivCompPreviewGrid(),
             text: 'Coś poszło nie tak',
@@ -284,14 +275,14 @@ class _CompListWidgetState extends State<_CompListWidget>{
           for (int i = 0; i < searchedComps.length; i++) {
             widgets.add(Slidable(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                  padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                   child: IndivCompWidgetSmall(
                     searchedComps[i],
                     showPinned: true,
                   ),
                 ),
                 startActionPane: ActionPane(
-                  motion: ScrollMotion(),
+                  motion: const ScrollMotion(),
                   children: [
 
                     SlidableAction(
@@ -320,15 +311,15 @@ class _CompListWidgetState extends State<_CompListWidget>{
                 )
             ));
 
-            widgets.add(SizedBox(height: Dimen.ICON_MARG));
+            widgets.add(const SizedBox(height: Dimen.ICON_MARG));
           }
           if (IndivComp.all.isEmpty)
             widgets.add(IndivCompPrompt(child: IndivCompPreviewGrid()));
           else
-            widgets.add(SizedBox(height: Dimen.SIDE_MARG));
+            widgets.add(const SizedBox(height: Dimen.SIDE_MARG));
 
           widgets.add(Padding(
-            padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+            padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
             child: SimpleButton(
                 radius: AppCard.BIG_RADIUS,
                 margin: EdgeInsets.zero,
@@ -344,7 +335,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
                           colorStart: hintEnab_(context),
                           colorEnd: textEnab_(context),
                           child: Padding(
-                            padding: EdgeInsets.all(4.0),
+                            padding: const EdgeInsets.all(4.0),
                             child: Material(
                                 borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS - 4.0),
                                 color: background_(context),
@@ -359,7 +350,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
                       ),
                     ),
 
-                    SizedBox(width: Dimen.SIDE_MARG),
+                    const SizedBox(width: Dimen.SIDE_MARG),
 
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -414,9 +405,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
                             onSaved: (comp) async {
                               IndivComp.addToAll(context, comp);
                               Navigator.pop(context);
-                              await Navigator.push(
-                                  context, MaterialPageRoute(builder: (context) =>
-                                  IndivCompPage(IndivComp.all.last)));
+                              await Navigator.push(context, MaterialPageRoute(builder: (context) => IndivCompPage(IndivComp.all.last)));
                               setState(() {});
                             },
                           ),
@@ -428,7 +417,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
 
         return SmartRefresher(
             enablePullDown: true,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             header: MaterialClassicHeader(backgroundColor: cardEnab_(context), color: accent_(context)),
             controller: refreshController,
             onRefresh: () async {
@@ -442,7 +431,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
               indivCompLoader.run();
             },
             child: CustomScrollView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 slivers: [
 
                   sliverAppBar(),
@@ -451,7 +440,6 @@ class _CompListWidgetState extends State<_CompListWidget>{
 
                 ]
             ));
-
 
       }
   );

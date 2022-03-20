@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:harcapp/_common_classes/org.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_task_resp.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_cat.dart';
@@ -11,6 +11,8 @@ import 'package:harcapp/_new/cat_page_home/providers.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../sync/syncable_new.dart';
 
 class RankTaskData{
 
@@ -27,7 +29,7 @@ class RankTaskData{
 
 }
 
-class RankTask extends SyncableItem<RankTaskResp> implements TaskData{
+class RankTask extends SyncableParamGroup_ with SyncNode<RankTaskResp> implements TaskData{
 
   static const String PARAM_COMPLETED = 'completed';
   static const String PARAM_NOTE = 'note';
@@ -40,7 +42,7 @@ class RankTask extends SyncableItem<RankTaskResp> implements TaskData{
   @override
   void setCompleted(BuildContext context, bool value){
     taskState.completed = value;
-    setSyncState({PARAM_COMPLETED: SyncableParamSingle.STATE_NOT_SYNCED});
+    setSingleState(PARAM_COMPLETED, SyncableParamSingle_.STATE_NOT_SYNCED);
     synchronizer.post();
     Provider.of<RankProv>(context, listen: false).notify();
   }
@@ -51,7 +53,7 @@ class RankTask extends SyncableItem<RankTaskResp> implements TaskData{
   @override
   void setNote(BuildContext context, String value){
     taskState.note = value;
-    setSyncState({PARAM_NOTE: SyncableParamSingle.STATE_NOT_SYNCED});
+    setSingleState(PARAM_NOTE, SyncableParamSingle_.STATE_NOT_SYNCED);
     synchronizer.post(aggregateDelay: SynchronizerEngine.aggregateTextInputDuration);
   }
 
@@ -80,41 +82,35 @@ class RankTask extends SyncableItem<RankTaskResp> implements TaskData{
 
 
   String get uid =>
-      rank.uniqRankName + UID_SEP +
-      catExt.index.toString() + UID_SEP +
-      group.index.toString() + UID_SEP +
+      rank.uniqRankName + uidSep +
+      catExt.index.toString() + uidSep +
+      group.index.toString() + uidSep +
       index.toString();
 
-  static const String UID_SEP = '%';
-  static const String REQ_GROUP = 'tasks';
+  static const String uidSep = '%';
 
   @override
-  String get classId => REQ_GROUP;
+  String get paramId => uid;
 
   @override
-  String get objectId => uid;
+  List<SyncableParam> get childParams => [
 
-  @override
-  List<SyncableParam> get syncParams => [
-
-    SyncableParam.single(
+    SyncableParamSingle(
       this,
       paramId: PARAM_COMPLETED,
-      value: () async => await completed,
-      notNone: () => false
+      value_: () => completed,
     ),
 
-    SyncableParam.single(
+    SyncableParamSingle(
         this,
         paramId: PARAM_NOTE,
-        value: () async => await note,
-        notNone: () => false
+        value_: () => note,
     ),
 
   ];
 
   @override
-  void applySyncResp(RankTaskResp resp) {
+  void applySyncGetResp(RankTaskResp resp) {
     taskState.completed = resp.completed;
     taskState.note = resp.note;
   }

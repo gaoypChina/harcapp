@@ -141,7 +141,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
     syncListener = SynchronizerListener(
         onEnd: (oper){
-          if(oper == SyncOper.GET)
+          if(oper == SyncOper.get)
             setState((){});
         }
     );
@@ -158,7 +158,9 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
       loaderListener = SingleComputerListener<String>(
           onError: (fileName) async => showAppToast(context, text: 'Błąd wczytywania piosenki $fileName'),
           onEnd: (String err, bool forceFinished) {
-            if(mounted) notify();
+            if(!mounted) return;
+            songsStatisticsRegistrator.openSong(Album.current.songs[lastPage], SongOpenType.init);
+            notify();
           }
       );
 
@@ -175,7 +177,6 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     BackButtonInterceptor.add(onBackPressed);
 
     appNavigatorObserver.addChangedListener(onNavigatorRouteChanged);
-    songsStatisticsRegistrator.tryOpenSong(Album.current.songs[lastPage], SongOpenType.init);
 
     post(() => setSettings());
     nestedScrollViewKey = GlobalKey();
@@ -192,7 +193,6 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
     appNavigatorObserver.removeChangedListener(onNavigatorRouteChanged);
     songsStatisticsRegistrator.commit();
-    songsStatisticsRegistrator.clear();
 
     synchronizer.removeListener(syncListener);
 
@@ -352,223 +352,224 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
   );
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => AppScaffold(
+    body: Consumer<AlbumProvider>(
+        builder: (context, albProv, child) {
 
-    return AppScaffold(
-      body: Consumer<AlbumProvider>(
-          builder: (context, albProv, child) {
+          if(albProv.current == null)
+            return LoadingWidget();
+          else if (albProv.current.songs.isNotEmpty)
+            return SongAutoScrollController(
+                SongBookBaseSetting(),
+                onAutoscrollStart: (context){
+                  isAutoScrolling = true;
+                  Provider.of<FloatingButtonProvider>(context, listen: false).notify();
+                },
 
-            if(albProv.current == null)
-              return LoadingWidget();
-            else if (albProv.current.songs.isNotEmpty)
-              return SongAutoScrollController(
-                  SongBookBaseSetting(),
-                  onAutoscrollStart: (context){
-                    isAutoScrolling = true;
-                    Provider.of<FloatingButtonProvider>(context, listen: false).notify();
-                  },
+                onAutoscrollEnd: (context){
+                  isAutoScrolling = false;
+                  Provider.of<FloatingButtonProvider>(context, listen: false).notify();
+                },
+                builder: (context) => Stack(
+                  children: [
 
-                  onAutoscrollEnd: (context){
-                    isAutoScrolling = false;
-                    Provider.of<FloatingButtonProvider>(context, listen: false).notify();
-                  },
-                  builder: (context) => Stack(
-                    children: [
-
-                      NestedScrollView(
-                        key: nestedScrollViewKey,
-                        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) =>
-                        [
-                          appBarBuilder(context),
-                        ],
-                        floatHeaderSlivers: true,
+                    NestedScrollView(
+                      key: nestedScrollViewKey,
+                      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) =>
+                      [
+                        appBarBuilder(context),
+                      ],
+                      floatHeaderSlivers: true,
+                      physics: const BouncingScrollPhysics(),
+                      body: PreloadPageView.builder(
+                        key: ValueKey(albProv.current),
+                        //extents: CatPageSongBook.PAGE_VIEW_EXTENTS,
+                        controller: controller,
+                        itemCount: albProv.current.songs.length,
                         physics: const BouncingScrollPhysics(),
-                        body: PreloadPageView.builder(
-                          key: ValueKey(albProv.current),
-                          //extents: CatPageSongBook.PAGE_VIEW_EXTENTS,
-                          controller: controller,
-                          itemCount: albProv.current.songs.length,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (context, position) =>
-                              SongWidget(
-                                this,
-                                albProv.current.songs[position],
-                                position,
-                                onScroll: (scrollInfo) async {
-                                  int page = controller.page.round();
-                                  if(page != position) return;
+                        itemBuilder: (context, position) =>
+                            SongWidget(
+                              this,
+                              albProv.current.songs[position],
+                              position,
+                              onScroll: (scrollInfo) async {
+                                int page = controller.page.round();
+                                if(page != position) return;
 
-                                  if(scrollInfo is ScrollEndNotification){
-                                    double scrollFraction = nestedScrollViewKey.currentState.innerController.offset/nestedScrollViewKey.currentState.innerController.position.maxScrollExtent;
-                                    await songsStatisticsRegistrator.registerScroll(scrollFraction);
+                                if(scrollInfo is ScrollEndNotification){
+                                  double scrollFraction = nestedScrollViewKey.currentState.innerController.offset/nestedScrollViewKey.currentState.innerController.position.maxScrollExtent;
+                                  scrollFraction = min(max(scrollFraction, 0), 1);
+                                  await songsStatisticsRegistrator.registerScroll(scrollFraction);
+                                }
+
+                                bool scrollable = scrollInfo.metrics.maxScrollExtent > 0;
+
+                                if(scrollable && scrollInfo.metrics.pixels <= 0){
+                                  if(!floatingButtonExpanded){
+                                    floatingButtonExpanded = true;
+                                    Provider.of<FloatingButtonProvider>(context, listen: false).notify();
                                   }
+                                }
 
-                                  bool scrollable = scrollInfo.metrics.maxScrollExtent > 0;
-
-                                  if(scrollable && scrollInfo.metrics.pixels <= 0){
-                                    if(!floatingButtonExpanded){
-                                      floatingButtonExpanded = true;
-                                      Provider.of<FloatingButtonProvider>(context, listen: false).notify();
-                                    }
+                                else{
+                                  if(floatingButtonExpanded){
+                                    floatingButtonExpanded = false;
+                                    Provider.of<FloatingButtonProvider>(context, listen: false).notify();
                                   }
-
-                                  else{
-                                    if(floatingButtonExpanded){
-                                      floatingButtonExpanded = false;
-                                      Provider.of<FloatingButtonProvider>(context, listen: false).notify();
-                                    }
-                                  }
-                                },
-                                controller: nestedScrollViewKey.currentState.innerController,
-                              ),
-
-                          onPageChanged: (index) async {
-                            lastPage = index;
-                            await songsStatisticsRegistrator.tryOpenSong(albProv.current.songs[index], SongOpenType.swipe);
-                          },
-                        ),
-                      ),
-
-                      Positioned(
-                        bottom: Dimen.ICON_MARG,
-                        left: Dimen.ICON_MARG,
-                        right: Dimen.ICON_MARG,
-                        child: AutoScrollSpeedWidget(
-                            accentColor: Album.current.avgColor,
-                            accentIconColor: Album.current.iconColor,
-                            scrollController: () => nestedScrollViewKey.currentState.innerController
-                        ),
-                      ),
-
-                      if(albProv.current.iconKey!=null && SongBookSettings.showAlbumIcon)
-                        IgnorePointer(child: AnimatedBuilder(
-                          animation: notifier,
-                          child: Center(
-                            child: Icon(
-                              CommonIconData.ALL[Album.current.iconKey],
-                              color: iconEnab_(context),
-                              size: 0.8*min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
+                                }
+                              },
+                              controller: nestedScrollViewKey.currentState.innerController,
                             ),
+
+                        onPageChanged: (index) async {
+                          lastPage = index;
+                          await songsStatisticsRegistrator.commit();
+                          await songsStatisticsRegistrator.openSong(albProv.current.songs[index], SongOpenType.swipe);
+                        },
+                      ),
+                    ),
+
+                    Positioned(
+                      bottom: Dimen.ICON_MARG,
+                      left: Dimen.ICON_MARG,
+                      right: Dimen.ICON_MARG,
+                      child: AutoScrollSpeedWidget(
+                          accentColor: Album.current.avgColor,
+                          accentIconColor: Album.current.iconColor,
+                          scrollController: () => nestedScrollViewKey.currentState.innerController
+                      ),
+                    ),
+
+                    if(albProv.current.iconKey!=null && SongBookSettings.showAlbumIcon)
+                      IgnorePointer(child: AnimatedBuilder(
+                        animation: notifier,
+                        child: Center(
+                          child: Icon(
+                            CommonIconData.ALL[Album.current.iconKey],
+                            color: iconEnab_(context),
+                            size: 0.8*min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
                           ),
-                          builder: (BuildContext context, child){
-                            return Opacity(
-                              child: child,
-                              opacity: 0.15*sin(pi* notifier.value).abs(),
-                            );
-                          },
-                        )),
+                        ),
+                        builder: (BuildContext context, child){
+                          return Opacity(
+                            child: child,
+                            opacity: 0.15*sin(pi* notifier.value).abs(),
+                          );
+                        },
+                      )),
 
-                    ],
-                  )
-              );
-            else
-              return CustomScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                slivers: [
-                  appBarBuilder(context),
+                  ],
+                )
+            );
+          else
+            return CustomScrollView(
+              physics: const NeverScrollableScrollPhysics(),
+              slivers: [
+                appBarBuilder(context),
 
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
 
-                          EmptyMessageWidget(
-                            text: 'W $tym_albumie_ pusto...',
-                            icon: MdiIcons.notebookOutline,
+                        EmptyMessageWidget(
+                          text: 'W $tym_albumie_ pusto...',
+                          icon: MdiIcons.notebookOutline,
+                        ),
+
+                        const SizedBox(height: 64),
+
+                        SimpleButton.from(
+                          context: context,
+                          elevation: AppCard.bigElevation,
+                          color: cardEnab_(context),
+                          icon: MdiIcons.reload,
+                          text: Zmien_album_,
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => AlbumPage(onAlbumSelected: (Album album) async {
+                                if(album != Album.current) {
+                                  if(controller.hasClients) {
+                                    jumpToPage(0);
+                                    if(album.songs.isEmpty) return;
+                                    await songsStatisticsRegistrator.commit();
+                                    await songsStatisticsRegistrator.openSong(
+                                        album.songs.first,
+                                        SongOpenType.init
+                                    );
+                                  }
+                                }
+                              }))
                           ),
+                        ),
 
-                          const SizedBox(height: 64),
-
+                        if(!albProv.current.isOmega)
                           SimpleButton.from(
-                            context: context,
-                            elevation: AppCard.bigElevation,
-                            color: cardEnab_(context),
-                            icon: MdiIcons.reload,
-                            text: Zmien_album_,
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => AlbumPage(onAlbumSelected: (Album album) async {
-                                  if(album != Album.current) {
-                                    if(controller.hasClients) {
-                                      jumpToPage(0);
-                                      if(album.songs.isEmpty) return;
-                                      await songsStatisticsRegistrator.tryOpenSong(
-                                          album.songs.first,
-                                          SongOpenType.init
-                                      );
-                                    }
-                                  }
-                                }))
-                            ),
+                              context: context,
+                              elevation: AppCard.bigElevation,
+                              color: cardEnab_(context),
+                              icon: MdiIcons.plus,
+                              text: 'Dodaj piosenki',
+                              onTap: () => openDialog(
+                                  context: context,
+                                  builder: (context) => NewAlbumPage(
+                                    initAlbum: albProv.current,
+                                    onSaved: (album){
+                                      Provider.of<FloatingButtonProvider>(context, listen: false).notify();
+                                      setState((){});
+                                    },
+                                  )
+                              )
                           ),
+                      ]),
+                )
 
-                          if(!albProv.current.isOmega)
-                            SimpleButton.from(
-                                context: context,
-                                elevation: AppCard.bigElevation,
-                                color: cardEnab_(context),
-                                icon: MdiIcons.plus,
-                                text: 'Dodaj piosenki',
-                                onTap: () => openDialog(
-                                    context: context,
-                                    builder: (context) => NewAlbumPage(
-                                      initAlbum: albProv.current,
-                                      onSaved: (album){
-                                        Provider.of<FloatingButtonProvider>(context, listen: false).notify();
-                                        setState((){});
-                                      },
-                                    )
-                                )
-                            ),
-                        ]),
-                  )
+              ],
+            );
 
-                ],
-              );
+        }
+    ),
+    bottomNavigationBar: const AppBottomNavigator(),
 
-          }
-      ),
-      bottomNavigationBar: const AppBottomNavigator(),
-
-      drawer:
-      Album.current == null?
-      null:
-      AppDrawer(
-          body: AlbumDrawer(
-              onSelected: (Album album) async {
-                if(controller.hasClients){
-                  jumpToPage(0);
-                  if(album.songs.isEmpty) return;
-                  await songsStatisticsRegistrator.tryOpenSong(
-                      album.songs.first,
-                      SongOpenType.init
-                  );
-                }
-                notify();
-              },
-              onNewCreated: (Album album) async {
-                if(controller.hasClients){
-                  jumpToPage(0);
-                  if(album.songs.isEmpty) return;
-                  await songsStatisticsRegistrator.tryOpenSong(
-                      album.songs.first,
-                      SongOpenType.init
-                  );
-                }
-                notify();
+    drawer:
+    Album.current == null?
+    null:
+    AppDrawer(
+        body: AlbumDrawer(
+            onSelected: (Album album) async {
+              if(controller.hasClients){
+                jumpToPage(0);
+                if(album.songs.isEmpty) return;
+                await songsStatisticsRegistrator.commit();
+                await songsStatisticsRegistrator.openSong(
+                    album.songs.first,
+                    SongOpenType.init
+                );
               }
-          )
-      ),
+              notify();
+            },
+            onNewCreated: (Album album) async {
+              if(controller.hasClients){
+                jumpToPage(0);
+                if(album.songs.isEmpty) return;
+                await songsStatisticsRegistrator.commit();
+                await songsStatisticsRegistrator.openSong(
+                    album.songs.first,
+                    SongOpenType.init
+                );
+              }
+              notify();
+            }
+        )
+    ),
 
-      floatingActionButton:
-      Album.current == null || Album.current.songs.isEmpty ? null:
-      buildFloatingButton(),
-    );
-
-  }
+    floatingActionButton:
+    Album.current == null || Album.current.songs.isEmpty ? null:
+    buildFloatingButton(),
+  );
 
   Widget buildFloatingButton() => Consumer2<FloatingButtonProvider, AlbumProvider>(
       builder: (context, floatingButtonProv, albumProv, child){
@@ -596,7 +597,8 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
             forgetScrollPosition: forgetScrollPosition,
             onSongSelected: (Song song, int indexInAlbum, SongOpenType songOpenType) async {
               jumpToPage(indexInAlbum);
-              await songsStatisticsRegistrator.tryOpenSong(song, songOpenType);
+              await songsStatisticsRegistrator.commit();
+              await songsStatisticsRegistrator.openSong(song, songOpenType);
             },
             onConfAlbumEnabled: (){
               jumpToPage(0);

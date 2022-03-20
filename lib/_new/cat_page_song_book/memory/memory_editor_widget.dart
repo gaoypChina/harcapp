@@ -34,7 +34,7 @@ class MemoryEditorWidget extends StatefulWidget{
   final Function onRemoved;
   final Memory initMemory;
 
-  const MemoryEditorWidget(this.song, {this.initMemory, this.onSaved, this.onBack, this.onRemoved});
+  const MemoryEditorWidget(this.song, {this.initMemory, this.onSaved, this.onBack, this.onRemoved, Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => MemoryEditorWidgetState();
@@ -42,8 +42,6 @@ class MemoryEditorWidget extends StatefulWidget{
 }
 
 class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProviderStateMixin{
-
-  static const Duration CHORD_WIDGET_GROW_DURATION = Duration(milliseconds: 300);
 
   Song get song => widget.song;
   Memory get initMemory => widget.initMemory;
@@ -61,98 +59,98 @@ class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProvi
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => BottomNavScaffold(
+    appBar: AppBar(
+      title: Text(widget.initMemory==null?'Dodaj wspomnienie':'Edytuj wspomnienie'),
+      centerTitle: true,
+      elevation: 0,
+    ),
+    body: Stack(
+      children: [
 
-    return BottomNavScaffold(
-      appBar: AppBar(
-        title: Text(widget.initMemory==null?'Dodaj wspomnienie':'Edytuj wspomnienie'),
-        centerTitle: true,
-        elevation: 0,
-      ),
-      body: Stack(
-        children: [
-
-          Positioned(
+        Positioned(
             bottom: -.15*MediaQuery.of(context).size.width,
             right: -.15*MediaQuery.of(context).size.width,
             child: RotationTransition(
-                turns: AlwaysStoppedAnimation(-15 / 360),
+                turns: const AlwaysStoppedAnimation(-15 / 360),
                 child: Icon(MdiIcons.imageOutline, color: backgroundIcon_(context), size: .8*MediaQuery.of(context).size.width)
             )
-          ),
+        ),
 
-          AnimatedChildSlider(
-            index: index,
-            direction: Axis.horizontal,
-            children: [
+        AnimatedChildSlider(
+          index: index,
+          direction: Axis.horizontal,
+          children: [
 
-              _PartOne(
+            _PartOne(
+              song: song,
+              initMemory: initMemory,
+              memoryBuilder: memoryBuilder,
+              creatingNew: initMemory==null,
+              onNext: (memoryBuilder){
+                this.memoryBuilder = memoryBuilder;
+                hideKeyboard(context);
+                setState(() => index = 1);
+              },
+              onRemoved: (){
+                song.removeMemory(initMemory);
+                if(widget.onRemoved != null) widget.onRemoved();
+              },
+            ),
+
+            _PartTwo(
                 song: song,
                 memoryBuilder: memoryBuilder,
-                creatingNew: initMemory==null,
-                onNext: (memoryBuilder){
-                  this.memoryBuilder = memoryBuilder;
-                  hideKeyboard(context);
-                  setState(() => index = 1);
-                },
-                onRemoved: (){
-                  song.removeMemory(initMemory);
-                  if(widget.onRemoved != null) widget.onRemoved();
-                },
-              ),
+                onBack: () => setState(() => index = 0),
+                onSaveTap: (MemoryBuilder memoryBuilder)async{
 
-              _PartTwo(
-                  song: song,
-                  memoryBuilder: memoryBuilder,
-                  onBack: () => setState(() => index = 0),
-                  onSaveTap: (MemoryBuilder memoryBuilder)async{
-
-                    if(initMemory == null) {
-                      Memory memory = await Memory.create(
-                        song.fileName,
-                        memoryBuilder.date,
-                        memoryBuilder.place,
-                        memoryBuilder.desc,
-                        memoryBuilder.fontIndex,
-                        memoryBuilder.published,
-                      );
-                      Memory.addToAll(memory);
-                      song.addMemory(memory);
-                    }
-                    else
-                      initMemory.update(
-                        songFileName: song.fileName,
-                        date: memoryBuilder.date,
-                        place: memoryBuilder.place,
-                        desc: memoryBuilder.desc,
-                        fontIndex: memoryBuilder.fontIndex,
-                        published: memoryBuilder.published,
-                      );
-
-                    widget.onSaved();
+                  if(initMemory == null) {
+                    Memory memory = Memory.create(
+                      song.fileName,
+                      memoryBuilder.date,
+                      memoryBuilder.place,
+                      memoryBuilder.desc,
+                      memoryBuilder.fontIndex,
+                      memoryBuilder.published,
+                    );
+                    Memory.addToAll(memory);
+                    song.addMemory(memory);
                   }
-              )
+                  else
+                    initMemory.update(
+                      songFileName: song.fileName,
+                      date: memoryBuilder.date,
+                      place: memoryBuilder.place,
+                      desc: memoryBuilder.desc,
+                      fontIndex: memoryBuilder.fontIndex,
+                      published: memoryBuilder.published,
+                    );
 
-            ],
-          ),
+                  widget.onSaved();
+                }
+            )
 
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+
+      ],
+    ),
+  );
 
 }
 
 class _PartOne extends StatefulWidget{
 
+  
   final Song song;
+  final Memory initMemory;
   final MemoryBuilder memoryBuilder;
   final bool creatingNew;
 
   final Function(MemoryBuilder memoryBuilder) onNext;
   final void Function() onRemoved;
 
-  const _PartOne({@required this.song, @required this.memoryBuilder, @required this.creatingNew, this.onNext, this.onRemoved});
+  const _PartOne({@required this.song, @required this.initMemory, @required this.memoryBuilder, @required this.creatingNew, this.onNext, this.onRemoved});
 
   @override
   State<StatefulWidget> createState() => _PartOneState();
@@ -162,6 +160,7 @@ class _PartOne extends StatefulWidget{
 class _PartOneState extends State<_PartOne>{
 
   Song get song => widget.song;
+  Memory get initMemory => widget.initMemory;
   MemoryBuilder get memoryBuilder => widget.memoryBuilder;
   bool get creatingNew => widget.creatingNew;
 
@@ -191,11 +190,11 @@ class _PartOneState extends State<_PartOne>{
       children: [
         Expanded(
           child: ListView(
-            physics: BouncingScrollPhysics(),
-            padding: EdgeInsets.all(Dimen.ICON_MARG),
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.all(Dimen.ICON_MARG),
             children: [
 
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
 
               Align(
                 alignment: Alignment.centerRight,
@@ -218,10 +217,10 @@ class _PartOneState extends State<_PartOne>{
                         ],
                       ),
 
-                      SizedBox(height: 6.0),
+                      const SizedBox(height: 6.0),
 
                       Hero(
-                        tag: MemoryWidget.MEMORY_DATE_TAG,
+                        tag: MemoryWidget.memoryDateHeroTagFrom(initMemory?.fileName),
                         child: Material(
                           color: Colors.transparent,
                           child: Text(
@@ -246,18 +245,18 @@ class _PartOneState extends State<_PartOne>{
                     );
 
                     if(_data != null)
-                      setState(() => this.data = _data);
+                      setState(() => data = _data);
 
                   },
                 ),
               ),
 
-              SizedBox(height: 30.0),
+              const SizedBox(height: 30.0),
 
               Row(
                 children: [
                   Icon(MdiIcons.mapMarkerOutline, color: hintEnab_(context)),
-                  SizedBox(width: Dimen.ICON_MARG),
+                  const SizedBox(width: Dimen.ICON_MARG),
                   Text(
                       'Miejsce:',
                       style: AppTextStyle(
@@ -270,9 +269,9 @@ class _PartOneState extends State<_PartOne>{
               ),
 
               Padding(
-                padding: EdgeInsets.only(left: Dimen.ICON_SIZE + Dimen.ICON_MARG),
+                padding: const EdgeInsets.only(left: Dimen.ICON_SIZE + Dimen.ICON_MARG),
                 child: Hero(
-                  tag: MemoryWidget.MEMORY_PLACE_TAG,
+                  tag: MemoryWidget.memoryPlaceHeroTagFrom(initMemory?.fileName),
                   child: Material(
                     color: Colors.transparent,
                     child: TextField(
@@ -291,12 +290,12 @@ class _PartOneState extends State<_PartOne>{
                 ),
               ),
 
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
 
               Row(
                 children: [
                   Icon(MdiIcons.treeOutline, color: hintEnab_(context)),
-                  SizedBox(width: Dimen.ICON_MARG),
+                  const SizedBox(width: Dimen.ICON_MARG),
                   Text(
                       'Opis:',
                       style: AppTextStyle(
@@ -309,9 +308,9 @@ class _PartOneState extends State<_PartOne>{
               ),
 
               Padding(
-                padding: EdgeInsets.only(left: Dimen.ICON_SIZE + Dimen.ICON_MARG),
+                padding: const EdgeInsets.only(left: Dimen.ICON_SIZE + Dimen.ICON_MARG),
                 child: Hero(
-                  tag: MemoryWidget.MEMORY_DESC_TAG,
+                  tag: MemoryWidget.memoryDescHeroTagFrom(initMemory?.fileName),
                   child: Material(
                     color: Colors.transparent,
                     child: TextField(
@@ -335,7 +334,7 @@ class _PartOneState extends State<_PartOne>{
         ),
 
         Padding(
-          padding: EdgeInsets.all(Dimen.ICON_MARG),
+          padding: const EdgeInsets.all(Dimen.ICON_MARG),
           child: Row(
             children: [
 
@@ -415,7 +414,7 @@ class _PartTwoState extends State<_PartTwo>{
 
         Expanded(
           child: ListView.builder(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemCount: 16,
             itemBuilder: (context, index) =>
                 _FontWidget(
@@ -428,7 +427,7 @@ class _PartTwoState extends State<_PartTwo>{
         ),
 
         Padding(
-          padding: EdgeInsets.only(
+          padding: const EdgeInsets.only(
               left: Dimen.ICON_MARG,
               right: Dimen.ICON_MARG,
               bottom: Dimen.ICON_MARG
@@ -442,7 +441,7 @@ class _PartTwoState extends State<_PartTwo>{
         ),
 
         Padding(
-          padding: EdgeInsets.all(Dimen.ICON_MARG),
+          padding: const EdgeInsets.all(Dimen.ICON_MARG),
           child: Row(
             children: [
 
@@ -501,7 +500,7 @@ class _FontWidget extends StatelessWidget{
         width: 32.0,
       ),
       title: Text(
-        Memory.FONT_NAME_MAP[fontIndex],
+        Memory.fontNameMap[fontIndex],
         style: AppTextStyle(
             fontSize: Dimen.TEXT_SIZE_BIG,
             color: selected?iconEnab_(context):textEnab_(context),
@@ -509,10 +508,10 @@ class _FontWidget extends StatelessWidget{
         ),
       ),
       subtitle: Text(
-        'Czcionka: ${text}',
+        'Czcionka: $text',
         style: TextStyle(
           fontFamily: '${Memory.fontName}$fontIndex',
-          fontSize: Dimen.TEXT_SIZE_BIG*Memory.FONT_SIZE_RATIO_MAP[fontIndex],
+          fontSize: Dimen.TEXT_SIZE_BIG*Memory.fontSizeRatioMap[fontIndex],
           color: selected?iconEnab_(context):textEnab_(context),
           shadows: selected?
           const [Shadow(

@@ -283,9 +283,9 @@ class SyncWidgetState extends State<SyncWidget>{
   Widget build(BuildContext context) {
 
     int index;
-    if(syncing == SyncOper.POST)
+    if(syncing == SyncOper.post)
       index = 0;
-    else if(syncing == SyncOper.GET)
+    else if(syncing == SyncOper.get)
       index = 1;
     else if(!SynchronizerEngine.syncOn)
       index = 2;

@@ -3,7 +3,7 @@ import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
 
 import '../_api.dart';
 
-class AlbumResp extends SyncEntityResp{
+class AlbumResp extends SyncGetResp{
 
   static const String COLL_NAME = 'album';
 

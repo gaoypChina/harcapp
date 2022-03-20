@@ -8,13 +8,30 @@ import 'package:pretty_json/pretty_json.dart';
 
 import '_api.dart';
 
+enum StatRespState{
+  tooEarly, alreadyExisted, saved
+}
+
+class StatRespItem{
+
+  static final Map<String, StatRespState> stateMap = {
+    'too_early': StatRespState.tooEarly,
+    'already_existed': StatRespState.alreadyExisted,
+    'saved': StatRespState.saved
+  };
+
+  final String uniqId;
+  final String time;
+  final StatRespState state;
+
+  StatRespItem(this.uniqId, this.time, String stateStr): state = StatRespItem.stateMap[stateStr];
+
+}
+
 class ApiStatistics{
 
   static Future<Response> postObservations({
-    Function(
-        List<String> modulesTooEarly, List<String> modulesAlreadyExisted, List<String> modulesSaved,
-        List<String> songsTooEarly, List<String> songsAlreadyExisted, List<String> songsSaved
-    ) onSuccess,
+    Function(List<StatRespItem> modules, List<StatRespItem> songs) onSuccess,
     Function() onError,
     bool abortIfNothingToSend = true
   }) async {
@@ -22,8 +39,17 @@ class ApiStatistics{
     Map<String, Map<String, dynamic>> songRequests = Statistics.songStats;
     Map<String, Map<String, dynamic>> moduleRequests = Statistics.moduleStats;
 
-    if(abortIfNothingToSend && songRequests.isEmpty) return null;
-    logger.i('Statistics post request:\n${prettyJson(songRequests)}');
+    if(abortIfNothingToSend && songRequests.isEmpty && moduleRequests.isEmpty) return null;
+
+    Map body = {};
+
+    if(songRequests.isNotEmpty)
+      body['song'] = songRequests;
+
+    if(moduleRequests.isNotEmpty)
+      body['module'] = moduleRequests;
+
+    logger.i('Statistics post request:\n${prettyJson(body)}');
 
     return await API.sendRequest(
         withToken: true,
@@ -32,41 +58,37 @@ class ApiStatistics{
             options: Options(headers: {
               HttpHeaders.contentTypeHeader: 'application/json',
             }),
-            data: jsonEncode({
-              'song': songRequests,
-              'module': moduleRequests,
-            })
+            data: jsonEncode(body)
         ),
         onSuccess: (response) async {
           if(onSuccess == null) return;
 
-          List<String> modulesTooEarly = [];
-          List<String> modulesAlreadyExisted = [];
-          List<String> modulesSaved = [];
+          Map/*<String, Map<String, Map<String, String>>>*/ respData = (response.data as Map);
 
-          List<String> songsTooEarly = [];
-          List<String> songsAlreadyExisted = [];
-          List<String> songsSaved = [];
+          Map/*<String, Map<String, String>>*/ modulesResp = respData['module'];
+          List<StatRespItem> modules = [];
 
-          Map<String, Map<String, String>> respData = (response.data as Map).cast<String, Map<String, String>>();
-
-          for(String timeStr in respData["modules"].keys) {
-            String state = respData["modules"][timeStr];
-            if(state == 'too_early') modulesTooEarly.add(timeStr);
-            else if (state == 'already_existed') modulesAlreadyExisted.add(timeStr);
-            else if (state == 'saved') modulesSaved.add(timeStr);
+          for(String moduleUniqId in modulesResp.keys) {
+            Map/*<String, String>*/ timesResp = modulesResp[moduleUniqId];
+            for(String timeStr in timesResp.keys){
+              StatRespItem respItem = StatRespItem(moduleUniqId, timeStr, timesResp[timeStr]);
+              modules.add(respItem);
+            }
           }
 
-          for(String timeStr in respData["songs"].keys) {
-            String state = respData["songs"][timeStr];
-            if(state == 'too_early') songsTooEarly.add(timeStr);
-            else if (state == 'already_existed') songsAlreadyExisted.add(timeStr);
-            else if (state == 'saved') songsSaved.add(timeStr);
+          Map/*<String, Map<String, String>>*/ songsResp = respData['song'];
+          List<StatRespItem> songs = [];
+          for(String songId in songsResp.keys) {
+            Map/*<String, String>*/ timesResp = songsResp[songId];
+            for(String timeStr in timesResp.keys){
+              StatRespItem respItem = StatRespItem(songId, timeStr, timesResp[timeStr]);
+              songs.add(respItem);
+            }
           }
 
           logger.i('Statistics post response:\n${prettyJson(respData)}');
 
-          onSuccess(modulesTooEarly, modulesAlreadyExisted, modulesSaved, songsTooEarly, songsAlreadyExisted, songsSaved);
+          onSuccess(modules, songs);
         }
     );
 

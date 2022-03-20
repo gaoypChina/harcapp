@@ -7,6 +7,7 @@ import 'package:harcapp/_new/api/sync_resp_body/own_song_resp.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
 
+import '../../../sync/syncable_new.dart';
 import 'memory.dart';
 import 'song.dart';
 
@@ -27,11 +28,11 @@ class OwnSong extends Song<OwnSongResp>{
   static SplayTreeMap<String, OwnSong> _allOwnMap;
   static SplayTreeMap<String, OwnSong> get allOwnMap => _allOwnMap;
   static set allOwnMap(Map<String, OwnSong> value) => _allOwnMap = value==null?null:SplayTreeMap.from(value);
-  static addOwn(Song song){
+  static void addOwn(Song song){
     allOwn.add(song);
     _allOwnMap[song.fileName] = song;
   }
-  static removeOwn(Song song){
+  static void removeOwn(Song song){
     allOwn.remove(song);
     _allOwnMap.remove(song.fileName);
   }
@@ -41,18 +42,18 @@ class OwnSong extends Song<OwnSongResp>{
   static const int CODE_MAX_LENGTH = 5000;
   static const String EMPTY_SONG_CODE = """
   {
-      \"title\": \"za_długa_piosenka\",
-      \"hid_titles\": [],
-      \"text_authors\": [],
-      \"composers\": [],
-      \"performers\": [],
-      \"release_date\": null,
-      \"show_rel_date_month\": false,
-      \"show_rel_date_day\": false,
-      \"yt_link\": null,
-      \"add_pers\": [],
-      \"tags\": [],
-      \"parts\": []
+      "title": "za_długa_piosenka",
+      "hid_titles": [],
+      "text_authors": [],
+      "composers": [],
+      "performers": [],
+      "release_date": null,
+      "show_rel_date_month": false,
+      "show_rel_date_day": false,
+      "yt_link": null,
+      "add_pers": [],
+      "tags": [],
+      "parts": []
   }
   """;
 
@@ -174,46 +175,47 @@ class OwnSong extends Song<OwnSongResp>{
     copyWith(song);
   }
 
-  static const String REQ_GROUP = 'own_song';
+  static const String syncClassId = 'own_song';
 
   @override
-  String get classId => REQ_GROUP;
+  String get classId => syncClassId;
 
   @override
-  List<SyncableParam> get syncParams{
+  List<SyncableParam> get childParams{
 
-    List<SyncableParam> syncParams = super.syncParams;
+    List<SyncableParam> _childParams = super.childParams;
 
-    syncParams.add(
-        SyncableParam.single(
+    _childParams.add(
+        SyncableParamSingle(
           this,
           paramId: PARAM_CODE,
-          value: () async => await code,
-          notNone: () => false,
+          value_: () => code,
+          isNotSet_: () => false,
         )
     );
 
-    return syncParams;
+    return _childParams;
   }
-
+/*
   @override
-  void saveSyncResult(Map<String, dynamic> resData, DateTime lastSync) {
+  void saveSyncResult(dynamic resData, DateTime lastSync) {
     super.saveSyncResult(resData, lastSync);
 
     if(resData.containsKey(PARAM_CODE)) {
       dynamic resp = resData[PARAM_CODE];
       if(resp == true)
-        setSyncState({PARAM_CODE: SyncableParamSingle.STATE_SYNCED});
+        setSingleState(PARAM_CODE, SyncableParamSingle_.STATE_SYNCED);
       else if(resData == SONG_TOO_LONG_RESP_CODE) {
-        setSyncState({PARAM_CODE: SyncableParamSingle.STATE_SYNCED});
+        setSingleState(PARAM_CODE, SyncableParamSingle_.STATE_SYNCED);
         recode(EMPTY_SONG_CODE);
       }
     }
   }
-  
+  */
+
   @override
-  void applySyncResp(OwnSongResp resp) {
-    super.applySyncResp(resp);
+  void applySyncGetResp(OwnSongResp resp) {
+    super.applySyncGetResp(resp);
     if(resp.code != null) {
       recode(resp.code);
       saveOwnSong(resp.code);

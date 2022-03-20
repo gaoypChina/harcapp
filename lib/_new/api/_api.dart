@@ -11,6 +11,8 @@ import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/server.dart';
 
+import '../../sync/syncable_new.dart';
+
 
 const int JWT_VALID_HTTP_STATUS = HttpStatus.unauthorized;
 const int _CONNECT_IIMEOUT = 18000;
@@ -81,10 +83,10 @@ class API{
       bool finish;
       if (e.response?.statusCode == JWT_VALID_HTTP_STATUS) {
         await SynchronizerEngine.changeSyncStateInAll([
-          SyncableParamSingle.STATE_SYNCED,
-          SyncableParamSingle.STATE_SYNC_IN_PROGRESS,
+          SyncableParamSingle_.STATE_SYNCED,
+          SyncableParamSingle_.STATE_SYNC_IN_PROGRESS,
         ],
-          SyncableParamSingle.STATE_NOT_SYNCED
+          SyncableParamSingle_.STATE_NOT_SYNCED
         );
         SynchronizerEngine.lastSyncTimeLocal = null;
         await AccSecData.forgetAccount();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_task_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
 
-class RankResp extends SyncEntityResp{
+class RankResp extends SyncGetResp{
 
   static const String COLL_NAME = 'rank_def';
 

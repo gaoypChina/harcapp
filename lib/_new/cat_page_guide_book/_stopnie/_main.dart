@@ -6,7 +6,7 @@ import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_tile_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/shared_ranks_page.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp/_common_classes/org.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/data/data_zhr_d.dart';
 import 'package:harcapp/_new/cat_page_home/providers.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -35,7 +35,7 @@ class RankPage extends StatefulWidget {
 class RankPageState extends State<RankPage> with ModuleStatsMixin{
 
   @override
-  String get moduleId => throw ModuleStatsMixin.stopnie;
+  String get moduleId => ModuleStatsMixin.stopnie;
 
   @override
   Widget build(BuildContext context) {

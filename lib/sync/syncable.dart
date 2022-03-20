@@ -4,58 +4,51 @@ import 'package:flutter/foundation.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
-import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
-import 'package:harcapp/_new/cat_page_song_book/song_management/own_song.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:path/path.dart';
 import 'package:pretty_json/pretty_json.dart';
-
+/*
 class SyncParamRequestBuilder{
 
-  static Future<Map<String, dynamic>> build(List<SyncableParam> params, bool returnAllNotNone, bool setSyncStateInProgress) async {
+  static Future<Map<String, dynamic>> build(SyncableParam param, bool returnAllNotNone, bool setSyncStateInProgress) async {
 
     Map<String, dynamic> map = {};
 
-    for(SyncableParam param in params) {
+    if(param.isGroup){
 
-      if(param.isGroup){
-
-        Map<String, dynamic> _map = {};
-        for(SyncableItem item in param.paramGroup.items) {
-          Map<String, dynamic> apiReq = await build(item.syncParams, returnAllNotNone, setSyncStateInProgress);
-          if(apiReq.isEmpty) continue;
-          _map[item.objectId] = apiReq;
-        }
-
-        if(_map.isNotEmpty)
-          map[param.paramGroup.groupClassId] = _map;
-
-        continue;
+      Map<String, dynamic> _map = {};
+      for(SyncableItem item in param.paramGroup.children) {
+        Map<String, dynamic> apiReq = await build(item, returnAllNotNone, setSyncStateInProgress);
+        if(apiReq.isEmpty) continue;
+        _map[item.objectId] = apiReq;
       }
 
-      SyncableParamSingle item = param.paramSingle;
+      if(_map.isNotEmpty)
+        map[param.paramGroup.groupClassId] = _map;
 
-      int state = item.state;
+      return map;
+    }
 
-      bool include;
-      if(returnAllNotNone)
-        include = item.notNone();
-      else
-        include =
-            state == SyncableParamSingle.STATE_NOT_SYNCED ||
-            state == SyncableParamSingle.STATE_SYNC_IN_PROGRESS;
+    SyncableParamSingle item = param.paramSingle;
 
-      if (include) {
-        dynamic val = await item.value();
-        if (!(val is List && val.isEmpty)) {
-          if(setSyncStateInProgress)
-            item.state = SyncableParamSingle.STATE_SYNC_IN_PROGRESS;
-          map[item.paramId] = val;
-        }
+    int state = item.state;
+
+    bool include;
+    if(returnAllNotNone)
+      include = item.notNone();
+    else
+      include =
+          state == SyncableParamSingle.STATE_NOT_SYNCED ||
+          state == SyncableParamSingle.STATE_SYNC_IN_PROGRESS;
+
+    if (include) {
+      dynamic val = await item.value();
+      if (!(val is List && val.isEmpty)) {
+        if(setSyncStateInProgress)
+          item.state = SyncableParamSingle.STATE_SYNC_IN_PROGRESS;
+        map[item.paramId] = val;
       }
     }
 
@@ -77,8 +70,8 @@ class SyncableParam{
       return paramSingle.state == SyncableParamSingle.STATE_SYNCED;
 
     if(isGroup) {
-      for (SyncableEntity item in paramGroup.items)
-        if(item is SyncableItem && !item.isSynced) return false;
+      for (SyncableParam param in paramGroup.children)
+        if(param is SyncableItem && !param.isSynced) return false;
       return true;
     }
 
@@ -91,8 +84,8 @@ class SyncableParam{
       paramSingle.state = state;
 
     if(isGroup)
-      for(SyncableEntity item in paramGroup.items)
-        if(item is SyncableItem) item.setAllSyncState(state);
+      for(SyncableParam param in paramGroup.children)
+        if(param is SyncableItem) param.setAllSyncState(state);
 
   }
 
@@ -102,8 +95,8 @@ class SyncableParam{
       paramSingle.state = stateTo;
 
     else if(isGroup)
-      for(SyncableEntity item in paramGroup.items)
-        if(item is SyncableItem) await item.changeSyncStateInAll(stateFrom, stateTo);
+      for(SyncableParam param in paramGroup.children)
+        if(param is SyncableItem) await param.changeSyncStateInAll(stateFrom, stateTo);
 
   }
 
@@ -113,9 +106,26 @@ class SyncableParam{
       paramSingle.removeShaPrefState();
 
     if(isGroup)
-      for(SyncableEntity item in paramGroup.items)
-        if(item is SyncableItem) item.clearAllSyncState();
+      for(SyncableParam param in paramGroup.children)
+        if(param is SyncableItem) param.clearAllSyncState();
 
+  }
+
+  Map<String, dynamic> getUnsyncedMap(){
+
+    Map<String, dynamic> result = {};
+
+    if(isGroup) {
+      Map<String, dynamic> _result = {};
+      for(SyncableParam item in paramGroup.children)
+        _result[item.objectId] = item.getUnsyncedMap();
+      if(_result.isNotEmpty) result[paramGroup.groupClassId] = _result;
+    } else {
+      if(paramSingle.state != SyncableParamSingle.STATE_SYNCED)
+        result[paramSingle.paramId] = SyncableParamSingle.stateToString[paramSingle.state];
+    }
+
+    return result;
   }
 
   bool get isSingle => paramSingle != null;
@@ -139,14 +149,16 @@ class SyncableParam{
     notNone: notNone,
   ));
 
-  static SyncableParam group<T extends SyncableEntity>(
-      SyncableItem parent,
+  static SyncableParam group<T extends SyncableParam>(
+      String classId,
+      String objectId,
       {@required List<T> items}
   ) => SyncableParam(
       paramGroup: SyncableParamGroup<T>(
-          parent.classId,
-          parent.objectId,
-          items: items)
+          classId,
+          objectId,
+          children: items
+      )
   );
 
 }
@@ -203,24 +215,27 @@ class SyncableParamSingle{
 
   bool get shaPrefExists => shaPref.exists(shaPrefSyncStateKey);
 
+  @override
   bool operator == (Object other) => other is SyncableParamSingle && shaPrefSyncStateKey == other.shaPrefSyncStateKey;
+
+  @override
   int get hashCode => shaPrefSyncStateKey.hashCode;
 
 }
 
-class SyncableParamGroup<T extends SyncableEntity>{
+class SyncableParamGroup<T extends SyncableParam>{
 
   final String classId;
   final String objectId;
-  final List<T> items;
+  final List<T> children;
 
-  String get groupClassId => items.isEmpty?null:items[0].classId;
+  //String get groupClassId => children.isEmpty?null:children[0].classId;
 
-  const SyncableParamGroup(this.classId, this.objectId, {@required this.items});
+  const SyncableParamGroup(this.classId, this.objectId, {@required this.children});
 
 }
 
-abstract class SyncableEntity{
+abstract class SyncableEntity {
 
   /*
   This cannot be merged with SyncableItem.
@@ -251,36 +266,10 @@ abstract class SyncableEntity{
 
 }
 
-abstract class SyncableItem<T extends SyncEntityResp> implements SyncableEntity{
+abstract class SyncableItem<T extends SyncEntityResp> extends SyncableParam implements SyncableEntity{
 
-  static const String PARAM_LAST_SYNC = 'last_sync';
-
-  List<SyncableParam> get syncParams;
-
-  @override
-  bool get isSynced{
-    for(SyncableParam syncParam in syncParams)
-      if (!syncParam.isSynced) return false;
-
-    return true;
-  }
-
-  Map<String, dynamic> getUnsyncedMap(){
-
-    Map<String, dynamic> result = {};
-
-    for(SyncableParam param in syncParams)
-      if(param.isGroup) {
-        Map<String, dynamic> _result = {};
-        for(SyncableItem item in param.paramGroup.items)
-          _result[item.objectId] = item.getUnsyncedMap();
-        if(_result.isNotEmpty) result[param.paramGroup.groupClassId] = _result;
-      }else {
-        if(param.paramSingle.state != SyncableParamSingle.STATE_SYNCED)
-          result[param.paramSingle.paramId] = SyncableParamSingle.stateToString[param.paramSingle.state];
-      }
-      return result;
-  }
+  static const String classDefault = 'general';
+  static const String paramLastSync = 'last_sync';
 
   void setSyncState(Map<String, int> data){
     SyncableParamSingle.logSyncStateChanges = false;
@@ -294,7 +283,7 @@ abstract class SyncableItem<T extends SyncEntityResp> implements SyncableEntity{
   @override
   Future<Map<String, dynamic>> getAPIReqItem({bool returnAllNotNone = false, bool setSyncStateInProgress = false}) async {
     if(setSyncStateInProgress) SyncableParamSingle.logSyncStateChanges = false;
-    Map apiReq = await SyncParamRequestBuilder.build(syncParams, returnAllNotNone, setSyncStateInProgress);
+    Map apiReq = await SyncParamRequestBuilder.build(this, returnAllNotNone, setSyncStateInProgress);
 
     if(setSyncStateInProgress && apiReq.isNotEmpty)
       logger.i('Sync state ${SyncableParamSingle.stateToString[SyncableParamSingle.STATE_SYNC_IN_PROGRESS]} '
@@ -314,21 +303,11 @@ abstract class SyncableItem<T extends SyncEntityResp> implements SyncableEntity{
     RemoveSyncReq.addToAll(removeSyncReq);
   }
 
-  void clearAllSyncState(){
-    for(SyncableParam syncParam in syncParams)
-      syncParam.clearAllSyncState();
-  }
-
-  Future<void> changeSyncStateInAll(List<int> stateFrom, int stateTo) async {
-    for(SyncableParam syncParam in syncParams)
-      await syncParam.changeSyncStateInAll(stateFrom, stateTo);
-  }
-
+  @override
   void setAllSyncState(int state){
     SyncableParamSingle.logSyncStateChanges = false;
     logger.i('Sync state change applied for all params in ($classId: $objectId) to ${SyncableParamSingle.stateToString[state]}.');
-    for(SyncableParam syncParam in syncParams)
-      syncParam.setAllSyncState(state);
+    super.setAllSyncState(state);
     SyncableParamSingle.logSyncStateChanges = true;
   }
 
@@ -368,7 +347,7 @@ abstract class SyncableItem<T extends SyncEntityResp> implements SyncableEntity{
 
 class RemoveSyncReq extends SyncableEntity{
 
-  static const String NAME_SEPARATPOR = '\$';
+  static const String nameSeparator = '\$';
 
   static List<RemoveSyncReq> all;
   static Map<String, RemoveSyncReq> _allMap;
@@ -384,10 +363,12 @@ class RemoveSyncReq extends SyncableEntity{
     _allMap.remove(removeSyncReq.fileName);
   }
 
-  String _classGroupId;
-  String _objectId;
+  final String _classGroupId;
+  final String _objectId;
 
+  @override
   String get classId => _classGroupId;
+  @override
   String get objectId => _objectId;
 
   RemoveSyncReq(this._classGroupId, this._objectId);
@@ -398,7 +379,7 @@ class RemoveSyncReq extends SyncableEntity{
     'remove': true
   };
 
-  static String getFileName(String classGroupId, String objectId) => classGroupId + NAME_SEPARATPOR + objectId;
+  static String getFileName(String classGroupId, String objectId) => classGroupId + nameSeparator + objectId;
   String get fileName => getFileName(classId, objectId);
 
   static String getPath(String classGroupId, String objectId) => getRemoveSyncReqFolderPath + getFileName(classGroupId, objectId);
@@ -428,7 +409,7 @@ class RemoveSyncReq extends SyncableEntity{
     for(FileSystemEntity entity in entities){
 
       String fileName = basename(entity.path);
-      List<String> elements = fileName.split(NAME_SEPARATPOR);
+      List<String> elements = fileName.split(nameSeparator);
 
       RemoveSyncReq removeSyncReq = RemoveSyncReq(elements[0], elements[1]);
 
@@ -443,3 +424,4 @@ class RemoveSyncReq extends SyncableEntity{
   @override
   bool get isSynced => false; // if exists, then it should be synced;
 }
+*/

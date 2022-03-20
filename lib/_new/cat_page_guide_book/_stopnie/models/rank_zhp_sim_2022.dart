@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/org.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_zhp_sim_2022_resp.dart';
@@ -18,6 +18,7 @@ import 'package:harcapp_core/dimen.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../../../sync/syncable_new.dart';
 import '../data/data_zhp.dart';
 
 class RankZHPSim2022Data extends RankData{
@@ -139,11 +140,11 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
 
       SingleLineWidget(MdiIcons.clockOutline, czasTrw),
 
-      SizedBox(height: 3*Dimen.SIDE_MARG),
+      const SizedBox(height: 3*Dimen.SIDE_MARG),
       SingleHeaderWidget('Idea stopnia', idea, icon: MdiIcons.lightbulbOutline),
 
-      SizedBox(height: 3*Dimen.SIDE_MARG),
-      SectorSepWidget('Zadania'),
+      const SizedBox(height: 3*Dimen.SIDE_MARG),
+      const SectorSepWidget('Zadania'),
     ],
   );
 
@@ -164,10 +165,10 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
 
         if(sprawCount != 0) Column(
           children: [
-            SizedBox(height: 3*Dimen.SIDE_MARG),
+            const SizedBox(height: 3*Dimen.SIDE_MARG),
 
-            SectorSepWidget('Sprawności'),
-            SizedBox(height: Dimen.SIDE_MARG),
+            const SectorSepWidget('Sprawności'),
+            const SizedBox(height: Dimen.SIDE_MARG),
 
             Material(
                 borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
@@ -201,10 +202,10 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
 
         if(tropCount != 0) Column(
           children: [
-            SizedBox(height: 3*Dimen.SIDE_MARG),
+            const SizedBox(height: 3*Dimen.SIDE_MARG),
 
-            SectorSepWidget('Tropy'),
-            SizedBox(height: Dimen.SIDE_MARG),
+            const SectorSepWidget('Tropy'),
+            const SizedBox(height: Dimen.SIDE_MARG),
 
             Material(
                 borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
@@ -238,10 +239,10 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
 
         if(wyzwCount != 0) Column(
           children: [
-            SizedBox(height: 3*Dimen.SIDE_MARG),
+            const SizedBox(height: 3*Dimen.SIDE_MARG),
 
-            SectorSepWidget('Wyzwania'),
-            SizedBox(height: Dimen.SIDE_MARG),
+            const SectorSepWidget('Wyzwania'),
+            const SizedBox(height: Dimen.SIDE_MARG),
 
             Material(
                 borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
@@ -279,11 +280,6 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
     );
   }
 
-  static const String REQ_GROUP = 'rank_zhp_sim_2022';
-
-  @override
-  String get classId => REQ_GROUP;
-
 }
 
 class RankZHPSim2022 extends RankZHPSim2022Templ<RankStateLocal>{
@@ -305,16 +301,25 @@ class RankZHPSim2022 extends RankZHPSim2022Templ<RankStateLocal>{
     List<RankCat> cats,
   ):super(data, cats);
 
+  @override
   RankStateLocal get state => RankStateLocal(this);
 
+  @override
   RankZHPSim2022Preview preview(RankStateShared sharedState) => data.buildPreview(sharedState);
+
+  static const String syncClassId = 'rank_zhp_sim_2022';
+
+  @override
+  SyncableParam get parentParam => const RootSyncable(syncClassId);
 
 }
 
 class RankZHPSim2022Preview extends RankZHPSim2022Templ<RankStateShared>{
 
+  @override
   RankStateShared state;
 
+  @override
   RankZHPSim2022Preview preview(RankStateShared stateShared) => this;
 
   RankZHPSim2022Preview(RankZHPSim2022Data data, this.state, List<RankCat> cats) : super(data, cats);

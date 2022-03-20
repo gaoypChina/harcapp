@@ -1,5 +1,5 @@
 
-import 'package:harcapp/_common_classes/org.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models/rank_def.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models/rank_zhr_d.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank.dart';

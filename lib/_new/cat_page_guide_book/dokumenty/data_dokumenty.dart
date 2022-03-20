@@ -1,4 +1,4 @@
-import 'package:harcapp/_common_classes/org.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 
 class DocumentData{
   final String titleShort;

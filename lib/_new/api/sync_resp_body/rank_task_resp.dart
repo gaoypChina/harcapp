@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
 
-class RankTaskResp extends SyncEntityResp{
+class RankTaskResp extends SyncGetResp{
 
   static const String COLL_NAME = 'task';
 

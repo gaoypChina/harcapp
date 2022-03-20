@@ -24,7 +24,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
   }
 
   @override
-  Widget build(BuildContext context) => CompetitionsPage();
+  Widget build(BuildContext context) => const CompetitionsPage();
 
   /*
   AppScaffold(

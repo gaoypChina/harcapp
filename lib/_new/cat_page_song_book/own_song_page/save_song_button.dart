@@ -5,7 +5,6 @@ import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/own_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
-import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core_own_song/providers.dart';
 import 'package:harcapp_core_own_song/song_raw.dart';
@@ -13,6 +12,7 @@ import 'package:harcapp_core_own_song/song_raw.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../../sync/syncable_new.dart';
 import 'own_song_page.dart';
 
 class SaveSongButton extends StatefulWidget{
@@ -22,7 +22,7 @@ class SaveSongButton extends StatefulWidget{
   final List<Album> albums;
   final Function(Song song, EditType editType) onSaved;
 
-  const SaveSongButton(this.editType, {this.albums, this.onSaved});
+  const SaveSongButton(this.editType, {this.albums, this.onSaved, Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => SaveSongButtonState();
@@ -47,7 +47,7 @@ class SaveSongButtonState extends State<SaveSongButton>{
   Widget build(BuildContext context) {
 
     return IconButton(
-      icon: Icon(MdiIcons.check),
+      icon: const Icon(MdiIcons.check),
       onPressed: isSaving?null:()async{
 
         if(Provider.of<TitleCtrlProvider>(context, listen: false).controller.text.isEmpty)
@@ -58,7 +58,7 @@ class SaveSongButtonState extends State<SaveSongButton>{
 
           setState(() => isSaving = true);
 
-          await Future.delayed(Duration(milliseconds: 300));
+          await Future.delayed(const Duration(milliseconds: 300));
 
           SongRaw songRaw = Provider.of<CurrentItemProvider>(context, listen: false).song;
 
@@ -88,7 +88,7 @@ class SaveSongButtonState extends State<SaveSongButton>{
           for (Album album in albums)
             album.addSong(song);
 
-          song.setAllSyncState(SyncableParamSingle.STATE_NOT_SYNCED);
+          song.setAllSyncState(SyncableParamSingle_.STATE_NOT_SYNCED);
           synchronizer.post();
 
           Navigator.pop(context);

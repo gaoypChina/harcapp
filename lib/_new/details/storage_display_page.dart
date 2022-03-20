@@ -19,88 +19,87 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class StorageDisplayPage extends StatelessWidget{
 
+  const StorageDisplayPage({Key key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return AppScaffold(
-      body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
-        slivers: [
-          SliverAppBar(
-            title: Text('Podgląd pamięci'),
-            centerTitle: true,
+  Widget build(BuildContext context) => AppScaffold(
+    body: CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
+        const SliverAppBar(
+          title: Text('Podgląd pamięci'),
+          centerTitle: true,
+        ),
+
+        SliverList(delegate: SliverChildListDelegate([
+
+          const Padding(
+            padding: EdgeInsets.only(left: Dimen.ICON_MARG),
+            child: TitleShortcutRowWidget(title: 'Śpiewnik', textAlign: TextAlign.start),
           ),
 
-          SliverList(delegate: SliverChildListDelegate([
+          _Item(
+            icon: MdiIcons.folderMusicOutline,
+            title: 'plik: <b>${basename(getAlbumFolderLocalPath)}</b>',
+            onOpen: () => openDialog(context: context, builder: (context) =>
+                JSONFolderDisplayer(getAlbumFolderPath)),
+          ),
 
+          _Item(
+            icon: MdiIcons.fileMusicOutline,
+            title: 'plik: <b>${basename(getOwnLastFileNameFileLocalPath)}</b>',
+            onOpen: () => openDialog(context: context, builder: (context) =>
+                JSONFileDisplayer(getOwnLastFileNameFilePath)),
+          ),
 
-            Padding(
-              padding: EdgeInsets.only(left: Dimen.ICON_MARG),
-              child: TitleShortcutRowWidget(title: 'Śpiewnik', textAlign: TextAlign.start),
-            ),
-
-            _Item(
-              icon: MdiIcons.folderMusicOutline,
-              title: 'plik: <b>${basename(getAlbumFolderLocalPath)}</b>',
-              onOpen: () => openDialog(context: context, builder: (context) =>
-                  JSONFolderDisplayer(getAlbumFolderPath)),
-            ),
-
-            _Item(
+          _Item(
               icon: MdiIcons.fileMusicOutline,
-              title: 'plik: <b>${basename(getOwnLastFileNameFileLocalPath)}</b>',
+              title: 'plik: <b>${basename(getOwnSongFileLocalPath)}</b>',
               onOpen: () => openDialog(context: context, builder: (context) =>
-                  JSONFileDisplayer(getOwnLastFileNameFilePath)),
-            ),
-
-            _Item(
-                icon: MdiIcons.fileMusicOutline,
-                title: 'plik: <b>${basename(getOwnSongFileLocalPath)}</b>',
-                onOpen: () => openDialog(context: context, builder: (context) =>
-                    JSONFileDisplayer(getOwnSongFilePath))
-            ),
+                  JSONFileDisplayer(getOwnSongFilePath))
+          ),
 
 
-            Padding(
-              padding: EdgeInsets.only(left: Dimen.ICON_MARG, top: Dimen.ICON_MARG),
-              child: TitleShortcutRowWidget(title: 'Artykuły', textAlign: TextAlign.start),
-            ),
+          const Padding(
+            padding: EdgeInsets.only(left: Dimen.ICON_MARG, top: Dimen.ICON_MARG),
+            child: TitleShortcutRowWidget(title: 'Artykuły', textAlign: TextAlign.start),
+          ),
 
-            _Item(
-                icon: MdiIcons.folderOutline,
-                title: 'plik: <b>${basename(getArticleCoresFolderPath)}</b>',
-                onOpen: () =>  openDialog(context: context, builder: (context) =>
-                    JSONFolderDisplayer(getArticleCoresFolderPath))
-            ),
-            _Item(
-                icon: MdiIcons.imageMultipleOutline,
-                title: 'plik: <b>${basename(getArticleCoverFolder)}</b>',
-                onOpen: () =>  openDialog(context: context, builder: (context) =>
-                    ImageFolderDisplayer(getArticleCoverFolder))
-            ),
+          _Item(
+              icon: MdiIcons.folderOutline,
+              title: 'plik: <b>${basename(getArticleCoresFolderPath)}</b>',
+              onOpen: () =>  openDialog(context: context, builder: (context) =>
+                  JSONFolderDisplayer(getArticleCoresFolderPath))
+          ),
+          _Item(
+              icon: MdiIcons.imageMultipleOutline,
+              title: 'plik: <b>${basename(getArticleCoverFolder)}</b>',
+              onOpen: () =>  openDialog(context: context, builder: (context) =>
+                  ImageFolderDisplayer(getArticleCoverFolder))
+          ),
 
-            Padding(
-              padding: EdgeInsets.only(left: Dimen.ICON_MARG, top: Dimen.ICON_MARG),
-              child: TitleShortcutRowWidget(title: 'Pamięć SP', textAlign: TextAlign.start),
-            ),
+          const Padding(
+            padding: EdgeInsets.only(left: Dimen.ICON_MARG, top: Dimen.ICON_MARG),
+            child: TitleShortcutRowWidget(title: 'Pamięć SP', textAlign: TextAlign.start),
+          ),
 
-            _Item(
-                icon: MdiIcons.imageMultipleOutline,
-                title: 'Synchronizacja',
-                onOpen: () async {
-                  await synchronizer.reloadSyncables();
-                  String unsynced = 'lastSyncTimeLocal: ${SynchronizerEngine.lastSyncTimeLocal}\n\n' + prettyJson(await synchronizer.allUnsynced());
-                  await openDialog(
-                      context: context,
-                      builder: (context) => TextDisplayer('Synchronizacja', unsynced)
-                  );
-                }
-            ),
+          _Item(
+              icon: MdiIcons.imageMultipleOutline,
+              title: 'Synchronizacja',
+              onOpen: () async {
+                await synchronizer.reloadSyncables();
+                Map allUnsynced = await synchronizer.allUnsynced();
+                await openDialog(
+                    context: context,
+                    builder: (context) => TextDisplayer('Synchronizacja', 'lastSyncTimeLocal: ${SynchronizerEngine.lastSyncTimeLocal}\n\n' + prettyJson(allUnsynced))
+                );
+              }
+          ),
 
-          ]))
-        ],
-      ),
-    );
-  }
+        ]))
+      ],
+    ),
+  );
 
 }
 
@@ -136,7 +135,7 @@ class JSONFileDisplayer extends StatelessWidget{
 
   final String filePath;
 
-  const JSONFileDisplayer(this.filePath);
+  const JSONFileDisplayer(this.filePath, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -173,8 +172,8 @@ class JSONFileDisplayer extends StatelessWidget{
 
           Expanded(
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(Dimen.ICON_MARG),
-              physics: BouncingScrollPhysics(),
+              padding: const EdgeInsets.all(Dimen.ICON_MARG),
+              physics: const BouncingScrollPhysics(),
               child: SelectableText('\n'+ content),
             ),
           )
@@ -190,7 +189,7 @@ class JSONFolderDisplayer extends StatelessWidget{
 
   final String folderPath;
 
-  const JSONFolderDisplayer(this.folderPath);
+  const JSONFolderDisplayer(this.folderPath, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -220,8 +219,8 @@ class JSONFolderDisplayer extends StatelessWidget{
           ),
           Expanded(
             child: ListView.builder(
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
-                physics: BouncingScrollPhysics(),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                physics: const BouncingScrollPhysics(),
                 itemCount: filePaths.length,
                 itemBuilder: (context, index){
 
@@ -263,7 +262,7 @@ class ImageFolderDisplayer extends StatelessWidget{
 
   final String folderPath;
 
-  const ImageFolderDisplayer(this.folderPath);
+  const ImageFolderDisplayer(this.folderPath, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -295,7 +294,7 @@ class ImageFolderDisplayer extends StatelessWidget{
             child:
             GridView.builder(
               itemCount: filePaths.length,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: (MediaQuery.of(context).orientation == Orientation.portrait) ? 2 : 3),
               itemBuilder: (BuildContext context, int index) => Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -366,7 +365,7 @@ class TextDisplayer extends StatelessWidget{
   final String title;
   final String text;
 
-  const TextDisplayer(this.title, this.text);
+  const TextDisplayer(this.title, this.text, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -389,8 +388,8 @@ class TextDisplayer extends StatelessWidget{
 
           Expanded(
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(Dimen.ICON_MARG),
-              physics: BouncingScrollPhysics(),
+              padding: const EdgeInsets.all(Dimen.ICON_MARG),
+              physics: const BouncingScrollPhysics(),
               child: SelectableText('\n'+ text),
             ),
           )

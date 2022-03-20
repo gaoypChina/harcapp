@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_cat.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_group.dart';
 import 'package:harcapp/account/login_provider.dart';
@@ -255,7 +256,7 @@ class AppState extends State<App> {
       providers: [
 
         ChangeNotifierProvider(create: (context) => ConnectivityProvider()),
-
+        ChangeNotifierProvider(create: (context) => OrgProvider()),
         ChangeNotifierProvider(create: (context){
           AppBottomNavigatorProvider prov = AppBottomNavigatorProvider();
           prov.init(prov);

@@ -12,14 +12,15 @@ import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models/rank_zhp_sim_2022.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
 import 'package:harcapp/logger.dart';
-import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/own_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
+import 'package:harcapp/sync/syncable_new.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:pretty_json/pretty_json.dart';
 
+import '../cat_page_guide_book/_stopnie/models/rank_def.dart';
 import '_api.dart';
 
 
@@ -28,11 +29,10 @@ import '_api.dart';
 
 class ApiSync{
 
-  static const String URL = 'api/sync/';
-
+  static const String url = 'api/sync/';
+  
   static Future<Response> post(
-      List<SyncableEntity> syncables,
-      {bool dumpReplaceExisting,
+        {bool dumpReplaceExisting,
         void Function(
             Response response,
             Map<String, dynamic> offSongs,
@@ -49,29 +49,37 @@ class ApiSync{
     if(dumpReplaceExisting??false)
       reqMap['dumpReplaceExisting'] = true;
 
-    for(SyncableEntity syncable in syncables){
+    for(String classId in SyncNode.allBaseNodes.keys){
 
-      Map reqItem = await syncable.getAPIReqItem(setSyncStateInProgress: true, returnAllNotNone: dumpReplaceExisting??false);
-      if(reqItem.isEmpty) continue;
+      List<SyncableParam> params = SyncNode.allBaseNodes[classId];
 
-      if(!reqMap.keys.contains(syncable.classId))
-        reqMap[syncable.classId] = {};
+      Map classReqMap = {};
+      for(SyncableParam param in params) {
+        try {
+          classReqMap[param.paramId] = await param.buildPostReq(
+              setSyncStateInProgress: true,
+              includeDefaults: dumpReplaceExisting ?? false);
+        } on NothingToSyncException{
+          continue;
+        }
+      }
+      if(classReqMap.isEmpty) continue;
 
-      reqMap[syncable.classId][syncable.objectId] = reqItem;
+      reqMap[classId] = classReqMap;
     }
 
     logger.i('Sync post request:\n${prettyJson(reqMap)}');
 
     return await API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) async => await dio.post(API.SERVER_URL + URL + 'post', data: reqMap),
+      sendRequest: (Dio dio) async => await dio.post(API.SERVER_URL + url + 'post', data: reqMap),
       onSuccess: (Response response) async {
-        Map<String, dynamic> offSongs = response.data['off_song'];
-        Map<String, dynamic> ownSongs = response.data['own_song'];
-        Map<String, dynamic> albums = response.data['album'];
-        Map<String, dynamic> spraws = response.data['spraw'];
-        Map<String, dynamic> rankDefs = response.data['rank_def'];
-        Map<String, dynamic> rankZhpSim2022 = response.data[RankZHPSim2022Templ.REQ_GROUP];
+        Map<String, dynamic> offSongs = response.data[OffSong.syncClassId];
+        Map<String, dynamic> ownSongs = response.data[OwnSong.syncClassId];
+        Map<String, dynamic> albums = response.data[Album.syncClassId];
+        Map<String, dynamic> spraws = response.data[Spraw.syncClassId];
+        Map<String, dynamic> rankDefs = response.data[RankDef.syncClassId];
+        Map<String, dynamic> rankZhpSim2022 = response.data[RankZHPSim2022.syncClassId];
 
         DateTime syncedTime = DateTime.tryParse(response.data['time']);
 
@@ -93,12 +101,10 @@ class ApiSync{
   }
 
   static Future<Response> postAndSave({
-    @required List<SyncableEntity> syncables,
     bool dumpReplaceExisting,
     void Function() onSuccess,
     void Function(Response response) onError,
   }) async => await post(
-      syncables,
       dumpReplaceExisting: dumpReplaceExisting,
       onSuccess: (Response response, Map offSongs, Map ownSongs, Map albums, Map spraws, Map rankDefs, Map rankZhpSim2022, DateTime syncedTime) {
 
@@ -106,13 +112,13 @@ class ApiSync{
 
         if(offSongs != null)
           for(String lclId in offSongs.keys){
-            Song song = OffSong.allOfficialMap[lclId];
+            OffSong song = OffSong.allOfficialMap[lclId];
             song.saveSyncResult(offSongs[lclId], syncedTime);
           }
 
         if(ownSongs != null)
           for(String lclId in ownSongs.keys){
-            Song song = OwnSong.allOwnMap[lclId];
+            OwnSong song = OwnSong.allOwnMap[lclId];
             song.saveSyncResult(ownSongs[lclId], syncedTime);
           }
 
@@ -156,10 +162,10 @@ class ApiSync{
     
     return await API.sendRequest(
         withToken: true,
-        sendRequest: (Dio dio) async => await dio.get(API.SERVER_URL + URL + 'get'),
+        sendRequest: (Dio dio) async => await dio.get(API.SERVER_URL + url + 'get'),
         onSuccess: (Response response) async {
           
-          Map<String, dynamic> offSongs = response.data[OffSongResp.COLL_NAME];
+          Map<String, dynamic> offSongs = response.data[OffSongResp.collName];
           Map<String, OffSongResp> offSongResps = {};
           if(offSongs != null)
             for(String lclId in offSongs.keys){
@@ -171,7 +177,7 @@ class ApiSync{
               }
             }
 
-          Map<String, dynamic> ownSongs = response.data[OwnSongResp.COLL_NAME];
+          Map<String, dynamic> ownSongs = response.data[OwnSongResp.collName];
           Map<String, OwnSongResp> ownSongResps = {};
           if(ownSongs != null)
             for(String lclId in ownSongs.keys){
@@ -278,7 +284,7 @@ class ApiSync{
           OffSong song = OffSong.allOfficialMap[lclId];
           if(song == null) continue;
           SongResp songResp = offSongs[lclId];
-          song.applySyncResp(songResp);
+          song.applySyncGetResp(songResp);
         }
 
         for(String lclId in ownSongs.keys){
@@ -289,7 +295,7 @@ class ApiSync{
             OwnSong.addOwn(song);
           }
 
-          song.applySyncResp(songResp);
+          song.applySyncGetResp(songResp);
         }
 
         for(String lclId in albums.keys){
@@ -319,25 +325,25 @@ class ApiSync{
             );
             Album.addToAll(album);
           }
-          album.applySyncResp(albumResp);
+          album.applySyncGetResp(albumResp);
         }
 
         for(String uniqSprawName in spraws.keys){
           Spraw spraw = Spraw.allMap[uniqSprawName];
           SprawResp sprawResp = spraws[uniqSprawName];
-          spraw.applySyncResp(sprawResp);
+          spraw.applySyncGetResp(sprawResp);
         }
 
         for(String uniqRankName in rankDefs.keys){
           Rank rank = Rank.allMap[uniqRankName];
           RankDefResp rankResp = rankDefs[uniqRankName];
-          rank.applySyncResp(rankResp);
+          rank.applySyncGetResp(rankResp);
         }
 
         for(String uniqRankName in rankZhpSim2022.keys){
           Rank rank = Rank.allMap[uniqRankName];
           RankZhpSim2022Resp rankResp = rankZhpSim2022[uniqRankName];
-          rank.applySyncResp(rankResp);
+          rank.applySyncGetResp(rankResp);
         }
 
         onSuccess?.call();
@@ -351,7 +357,7 @@ class ApiSync{
     void Function(Response) onError
   }) async => await API.sendRequest(
         withToken: true,
-        sendRequest: (Dio dio) async => await dio.get(API.SERVER_URL + URL + 'last_sync'),
+        sendRequest: (Dio dio) async => await dio.get(API.SERVER_URL + url + 'last_sync'),
         onSuccess: (Response response) async {
           DateTime lastSync;
           lastSync = DateTime.tryParse(response.data);

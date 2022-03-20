@@ -28,23 +28,21 @@ class Statistics{
 
   static Future<void> registerSongAction(String songFileName, DateTime openTime, SongOpenType type, Duration openDuration, List<Tuple2<int, double>> scrollEvents) async {
 
-    Map<String, Map<String, dynamic>> _allStandardSongSearch = songStats;
+    Map<String, Map<String, dynamic>> allStats = Statistics.songStats;
+    Map<String, dynamic> songStats = allStats[songFileName] ?? {};
 
-    String localDate = DateFormat('yyyy-MM-ddTHH:mm:ss.mmm').format(openTime);
-
-    _allStandardSongSearch[localDate] = {
-      "songLclId": songFileName,
+    String localDate = DateFormat('yyyy-MM-ddTHH:mm:ss').format(openTime);
+    songStats[localDate] = {
       "openType": type.name.toUpperCase(),
       "openDuration": openDuration.inSeconds,
-      "scrollEvents": scrollEvents.map(
-        (scrollEvent) => {
+      "scrollEvents": scrollEvents.map((scrollEvent) => {
           "time": scrollEvent.item1,
           "scrollVal": scrollEvent.item2,
-        }
-      ).toList()
+        }).toList()
     };
 
-    songStats = _allStandardSongSearch;
+    allStats[songFileName] = songStats;
+    Statistics.songStats = allStats;
   }
 
   static Map<String, Map<String, dynamic>> get moduleStats{
@@ -54,20 +52,23 @@ class Statistics{
       Map<String, dynamic> innerMap = Map.from(map[key]);
       castMap[key] = innerMap;
     }
-    return null;
+    return castMap;
   }
 
   static set moduleStats(Map<String, Map<String, dynamic>> value) => shaPref.setMap(ShaPref.SHA_PREF_STATISTICS_MODULE, value);
 
-
   static Future<void> registerModuleAction(String moduleId, DateTime openTime, Duration openDuration) async {
 
-    Map<String, Map<String, dynamic>> _allModuleStats = moduleStats;
+    Map<String, Map<String, dynamic>> allStats = Statistics.moduleStats;
+    Map<String, dynamic> moduleStats = allStats[moduleId]??{};
 
-    _allModuleStats[moduleId][DateFormat('yyyy-MM-ddTHH:mm:ss.mmm').format(openTime)] = openDuration.inSeconds;
+    String localDate = DateFormat('yyyy-MM-ddTHH:mm:ss').format(openTime);
+    moduleStats[localDate] = {
+      "openDuration": openDuration.inSeconds,
+    };
 
-    moduleStats = _allModuleStats;
-
+    allStats[moduleId] = moduleStats;
+    Statistics.moduleStats = allStats;
   }
 
   static Future<void> commit() async {
@@ -81,29 +82,34 @@ class Statistics{
       return;
     }
 
-    if(Statistics.songStats.isEmpty)
+    if(Statistics.songStats.isEmpty && Statistics.moduleStats.isEmpty)
       return;
 
     await ApiStatistics.postObservations(
-      onSuccess: (List<String> modulesTooEarly, List<String> modulesAlreadyExisted, List<String> modulesSaved, List<String> songsTooEarly, List<String> songsAlreadyExisted, List<String> songsSaved){
+      onSuccess: (List<StatRespItem> modules, List<StatRespItem> songs){
+
         Map<String, Map<String, dynamic>> _allModuleStats = moduleStats;
-        for(String timeStr in modulesTooEarly)
-          _allModuleStats.remove(timeStr);
-        for(String timeStr in modulesAlreadyExisted)
-          _allModuleStats.remove(timeStr);
-        for(String timeStr in modulesSaved)
-          _allModuleStats.remove(timeStr);
+        for(StatRespItem respItem in modules){
+          if(respItem.state == StatRespState.tooEarly || respItem.state == StatRespState.alreadyExisted)
+            _allModuleStats[respItem.uniqId].remove(respItem.time);
+          else if(respItem.state == StatRespState.saved)
+            _allModuleStats[respItem.uniqId].remove(respItem.time);
+
+          if(_allModuleStats[respItem.uniqId].isEmpty) _allModuleStats.remove(respItem.uniqId);
+        }
         moduleStats = _allModuleStats;
 
         Map<String, Map<String, dynamic>> _allSongStats = songStats;
-        for(String timeStr in songsTooEarly)
-          _allSongStats.remove(timeStr);
-        for(String timeStr in songsAlreadyExisted)
-          _allSongStats.remove(timeStr);
-        for(String timeStr in songsSaved)
-          _allSongStats.remove(timeStr);
+        for(StatRespItem respItem in songs){
+          if(respItem.state == StatRespState.tooEarly || respItem.state == StatRespState.alreadyExisted)
+            _allSongStats[respItem.uniqId].remove(respItem.time);
+          else if(respItem.state == StatRespState.saved)
+            _allSongStats[respItem.uniqId].remove(respItem.time);
 
+          if(_allSongStats[respItem.uniqId].isEmpty) _allSongStats.remove(respItem.uniqId);
+        }
         songStats = _allSongStats;
+
       },
       onError: (){}
     );

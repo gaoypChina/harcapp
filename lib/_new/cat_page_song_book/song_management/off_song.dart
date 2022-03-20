@@ -83,9 +83,9 @@ class OffSong extends Song<OffSongResp>{
     );
   }
 
-  static const String REQ_GROUP = 'off_song';
+  static const String syncClassId = 'off_song';
 
   @override
-  String get classId => REQ_GROUP;
+  String get classId => syncClassId;
 
 }

@@ -73,7 +73,7 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
 
         Expanded(
           child: ListView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             padding: widget.padding,
             children: [
 
@@ -86,25 +86,25 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
                 ),
               ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
               if(particip != null)
                 Row(
                   children: [
                     AccountThumbnailWidget(particip.name, elevated: false),
-                    SizedBox(width: Dimen.ICON_MARG),
+                    const SizedBox(width: Dimen.ICON_MARG),
                     Text(particip.name, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold))
                   ],
                 ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
               GradientWidget(
                 radius: AppCard.BIG_RADIUS,
                 colorStart: cardEnab_(context),
                 colorEnd: background_(context),
                 child: Padding(
-                  padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -112,13 +112,13 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
                       Row(
                         children: [
                           Icon(MdiIcons.messageArrowRightOutline, color: textEnab_(context)),
-                          SizedBox(width: Dimen.ICON_MARG),
+                          const SizedBox(width: Dimen.ICON_MARG),
                           Text('Wiadomość uczestnika', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold)),
                         ],
                       ),
 
                       Padding(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                           top: Dimen.ICON_MARG,
                           left: Dimen.ICON_SIZE + Dimen.ICON_MARG,
                           bottom: 2*Dimen.ICON_MARG
@@ -132,7 +132,7 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
                         textAlign: TextAlign.end
                       ),
 
-                      if(reviewMode || taskCompl.revTime != null) SizedBox(height: Dimen.SIDE_MARG),
+                      if(reviewMode || taskCompl.revTime != null) const SizedBox(height: Dimen.SIDE_MARG),
 
                       if(reviewMode || taskCompl.revTime != null)
                         Container(
@@ -142,20 +142,20 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
                         ),
 
                       if(reviewMode || taskCompl.revTime != null)
-                        SizedBox(height: Dimen.SIDE_MARG),
+                        const SizedBox(height: Dimen.SIDE_MARG),
 
                       if(reviewMode || taskCompl.revTime != null)
                         Row(
                           children: [
                             Icon(MdiIcons.messageArrowLeftOutline, color: textEnab_(context)),
-                            SizedBox(width: Dimen.ICON_MARG),
+                            const SizedBox(width: Dimen.ICON_MARG),
                             Text('Wiadomość zwrotna', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold)),
                           ],
                         ),
 
                       if(reviewMode)
                         Padding(
-                          padding: EdgeInsets.only(left: Dimen.ICON_SIZE + Dimen.ICON_MARG),
+                          padding: const EdgeInsets.only(left: Dimen.ICON_SIZE + Dimen.ICON_MARG),
                           child: AppTextFieldHint(
                             hintTop: '',
                             hint: 'Wiadomość zwrotna:',
@@ -166,7 +166,7 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
                         )
                       else if(taskCompl.revTime != null)
                         Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               top: Dimen.ICON_MARG,
                               left: Dimen.ICON_SIZE + Dimen.ICON_MARG,
                               bottom: 2*Dimen.ICON_MARG
@@ -193,7 +193,7 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
         ),
 
         Padding(
-          padding: EdgeInsets.only(
+          padding: const EdgeInsets.only(
             left: Dimen.DEF_MARG,
             right: Dimen.DEF_MARG,
             bottom: Dimen.DEF_MARG

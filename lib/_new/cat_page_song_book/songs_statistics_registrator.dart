@@ -45,14 +45,16 @@ class SongsStatisticsRegistrator{
     _scrollEvents.clear();
   }
 
-  Future<void> tryOpenSong(Song song, SongOpenType songOpenType) async {
-    if(_songLclId != null) commit();
-
-    clear();
-    if(!await TimeSettings.isTimeAutomatic)
-      return;
-
+  Future<void> openSong(Song song, SongOpenType songOpenType) async {
+    //if(_songLclId != null) commit();
     if(!song.isOfficial) return;
+
+    if(!await TimeSettings.isTimeAutomatic){
+      logger.d('ModuleStatisticsRegistrator ($_songLclId) stats aborted. Time not automatic.');
+      clear();
+      return;
+    }
+
     _songLclId = song.fileName;
     _songOpenType = songOpenType;
     _openTime = DateTime.now();
@@ -76,6 +78,7 @@ class SongsStatisticsRegistrator{
   Future<void> commit() async {
     if(!await TimeSettings.isTimeAutomatic){
       clear();
+      logger.d('SongsStatisticsRegistrator ($_songLclId) stats aborted. Time not automatic.');
       return;
     }
 
@@ -85,6 +88,7 @@ class SongsStatisticsRegistrator{
 
     if(totalOpenDuration < const Duration(seconds: 10)) {
       logger.d('SongsStatisticsRegistrator ($_songLclId, $totalOpenDuration) stat aborted. Open time too short.');
+      clear();
       return;
     }
 
@@ -97,5 +101,6 @@ class SongsStatisticsRegistrator{
     );
 
     logger.d('SongsStatisticsRegistrator ($_songLclId) song stats saved.');
+    clear();
   }
 }

@@ -72,7 +72,7 @@ class RankWidget extends StatefulWidget{
 class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
 
   @override
-  String get moduleId => throw ModuleStatsMixin.stopnie;
+  String get moduleId => ModuleStatsMixin.stopnie;
 
   Rank get rank => widget.rank;
   bool get showBack => widget.showBack;

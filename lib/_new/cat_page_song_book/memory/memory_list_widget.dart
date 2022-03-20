@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
@@ -30,7 +29,8 @@ class MemoryListWidget extends StatefulWidget{
         this.onEditMemoryTap,
         this.onEditMemoryLongPress,
         this.onNewMemoryTap,
-      });
+        Key key
+      }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => MemoryListWidgetState();
@@ -59,16 +59,16 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
   @override
   Widget build(BuildContext context) {
 
-    List<Widget> childred = [];
+    List<Widget> children = [];
 
     for(Memory memory in song.memories)
-      childred.add(
+      children.add(
           Padding(
-            padding: EdgeInsets.all(Dimen.DEF_MARG),
+            padding: const EdgeInsets.all(Dimen.DEF_MARG),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SizedBox(height: 32),
+                  const SizedBox(height: 32),
                   MemoryWidget(
                       memory,
                       onTap: onEditMemoryTap,
@@ -83,20 +83,20 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
     return Column(
       children: [
 
-        Column(children: childred),
+        Column(children: children),
 
         Stack(
           children: <Widget>[
 
             SimpleButton(
               radius: AppCard.BIG_RADIUS,
-              margin: EdgeInsets.all(Dimen.DEF_MARG),
+              margin: const EdgeInsets.all(Dimen.DEF_MARG),
               onTap: widget.onNewMemoryTap==null?null:() => widget.onNewMemoryTap(song),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(MdiIcons.plus),
-                  SizedBox(width: Dimen.ICON_MARG),
+                  const Icon(MdiIcons.plus),
+                  const SizedBox(width: Dimen.ICON_MARG),
                   Text(
                       'Wspomnienie',
                       style: AppTextStyle(
@@ -111,7 +111,7 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
                   ),
                 ],
               ),
-              padding: EdgeInsets.only(top: 24.0, bottom: 24.0),
+              padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
             ),
 
             if(song.isOfficial && false)
@@ -133,7 +133,6 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
                           builder: (BuildContext context, AsyncSnapshot<List<Memory>> snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.waiting:
-                              case ConnectionState.waiting:
                                 return Center(child: SpinKitThreeBounce(color: accent_(context), size: Dimen.ICON_SIZE));
                               default:
                                 if (snapshot.hasError)
@@ -153,7 +152,7 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
                                               showShare: false,
                                             ),
 
-                                            SizedBox(height: 32),
+                                            const SizedBox(height: 32),
 
                                           ],
                                         )

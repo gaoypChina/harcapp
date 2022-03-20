@@ -201,8 +201,7 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
       if(album.fileName == currAlbumFileName)
         currAlbum = album;
 
-    if(currAlbum == null)
-      currAlbum = Album.omega;
+    currAlbum ??= Album.omega;
 
     Album.current = currAlbum;
 

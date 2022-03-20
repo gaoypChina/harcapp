@@ -4,7 +4,7 @@ import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
 
 import '../_api.dart';
 
-class SprawResp extends SyncEntityResp{
+class SprawResp extends SyncGetResp{
 
   static const String COLL_NAME = 'spraw';
 

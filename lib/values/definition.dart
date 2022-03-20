@@ -119,7 +119,7 @@ const List<Definition> allDefinitions = [
   Definition('Polaryzacja społeczna', 'Proces różnicowania się postaw w społeczeństwie wobec pewnego typu problemów, prowadzący do rozłamu społeczności.'),
   Definition('Polonia', 'Ogół Polaków mieszkających poza granicami Polski lub w dalszych pokoleniach identyfikujących się ze sprawami polskimi.'),
   Definition('Postmodernizm (filozofia)', 'Filozofia negująca istnienie obiektywnej rzeczywistości, prawdy. Bazuje na konstruktywizmie, np. uznając płeć za warunkowaną środowiskowo lub kwestię opinii.'),
-  Definition('Prawda', 'Zgodność treści sądu z rzeczywistym stanem rzeczy, którego ten sąd dotyczy.'),
+  Definition('Prawda', 'Zgodność treści sądu z rzeczywistym stanem rzeczy, którego sąd dotyczy.'),
   Definition('Progresywizm', 'Doktryna postrzegająca rzeczywistość jako nieodwracalnie zmienną, wierząca w wartość ciągłego postępu dążącego do jakiegoś określonego celu.'),
   Definition('Przemoc ideologiczna', 'Zmuszanie jednostek lub społeczeństw do przyjęcia obcych im poglądów. Także: dyskryminacja ze względu na inne poglądy.'),
   Definition('Racja stanu', 'Nadrzędne dobro lub interes państwowy, wspólne dla społeczeństwa i przyszłości narodu.'),

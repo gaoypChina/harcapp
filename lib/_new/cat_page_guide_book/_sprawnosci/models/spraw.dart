@@ -13,10 +13,11 @@ import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_task.d
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_folder_page/spraw_folder.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/rank_spraw_template.dart';
 import 'package:harcapp/_new/cat_page_home/providers.dart';
-import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../sync/syncable_new.dart';
 
 class SprawData{
 
@@ -33,7 +34,7 @@ class SprawData{
     @required this.level,
     this.comment,
     @required List<String> tasks,
-  }): this.taskData = tasks.map((task) => SprawTaskData(task)).toList();
+  }): taskData = tasks.map((task) => SprawTaskData(task)).toList();
 
   Spraw build(SprawFamily group){
 
@@ -52,7 +53,7 @@ class SprawData{
 
 class Spraw extends RankSprawTemplate<SprawResp>{
 
-  static const String SEP_CHAR = '\$';
+  static const String sepChar = '\$';
 
   static List<Spraw> get all{
 
@@ -65,16 +66,16 @@ class Spraw extends RankSprawTemplate<SprawResp>{
 
   static Map<String, Spraw> allMap = {for (Spraw spraw in all) spraw.uniqName: spraw};
 
-
   static const String PARAM_COMPLETED = 'completed';
   static const String PARAM_COMPLETION_DATE = 'completionDate';
   static const String PARAM_IN_PROGRESS = 'inProgress';
+  static const String PARAM_TASKS = 'task';
 
   String get uniqName =>
-      sprawBook.id + Spraw.SEP_CHAR +
-      group.id + Spraw.SEP_CHAR +
-      family.id + Spraw.SEP_CHAR +
-      id + Spraw.SEP_CHAR +
+      sprawBook.id + Spraw.sepChar +
+      group.id + Spraw.sepChar +
+      family.id + Spraw.sepChar +
+      id + Spraw.sepChar +
       level;
 
   SprawData data;
@@ -101,7 +102,7 @@ class Spraw extends RankSprawTemplate<SprawResp>{
 
   String get iconPath => 'assets/spraw/${sprawBook.id}/${group.id}/${family.id}/${level}_$id.svg';
 
-  bool get savedInOmega => SprawFolder.omega.sprawUIDs.contains(uniqName);//shaPref.getBool(ShaPref.SHA_PREF_SPRAW_SAVED_(this), false);
+  bool get savedInOmega => SprawFolder.omega.sprawUIDs.contains(uniqName);
   set _savedInOmega(bool value) {
     if (value)
       SprawFolder.omega.add(uniqName);
@@ -112,7 +113,7 @@ class Spraw extends RankSprawTemplate<SprawResp>{
   void changeSavedInOmega(BuildContext context, String folderName, {bool value}){
     List<String> sprawUIDs = SprawFolder.getSprawUIDs(folderName);
 
-    if(value == null) value = !savedInOmega;
+    value ??= !savedInOmega;
 
     if (value) {
       if (!sprawUIDs.contains(uniqName)) sprawUIDs.insert(0, uniqName);
@@ -137,7 +138,7 @@ class Spraw extends RankSprawTemplate<SprawResp>{
   set inProgress(bool value){
     List<String> items = inProgressList;
 
-    if(value == null) value = !inProgress;
+    value ??= !inProgress;
 
     if (value) {
       if (!items.contains(uniqName)) items.insert(0, uniqName);
@@ -148,10 +149,10 @@ class Spraw extends RankSprawTemplate<SprawResp>{
     shaPref.setStringList(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_LIST, items);
   }
   @override
-  void changeInProgress(BuildContext context, {bool value, bool localOnly: false}){
+  void changeInProgress(BuildContext context, {bool value, bool localOnly = false}){
     inProgress = value;
 
-    setSyncState({PARAM_IN_PROGRESS: SyncableParamSingle.STATE_NOT_SYNCED});
+    setSingleState(PARAM_IN_PROGRESS, SyncableParamSingle_.STATE_NOT_SYNCED);
     if(!localOnly) synchronizer.post();
 
     Provider.of<SprawInProgressListProv>(context, listen: false).notify();
@@ -164,9 +165,9 @@ class Spraw extends RankSprawTemplate<SprawResp>{
   @protected
   set completionDate(DateTime value) => shaPref.setDateTime(ShaPref.SHA_PREF_SPRAW_COMPLETED_DATE_(this), value);
   @override
-  void setCompletionDate(DateTime value, {localOnly: false}){
+  void setCompletionDate(DateTime value, {localOnly = false}){
     completionDate = value;
-    setSyncState({PARAM_COMPLETION_DATE: SyncableParamSingle.STATE_NOT_SYNCED});
+    setSingleState(PARAM_COMPLETION_DATE, SyncableParamSingle_.STATE_NOT_SYNCED);
     if(!localOnly) synchronizer.post();
   }
 
@@ -177,7 +178,7 @@ class Spraw extends RankSprawTemplate<SprawResp>{
   set completed(bool value){
     List<String> items = completedList;
 
-    if(value == null) value = !completed;
+    value ??= !completed;
 
     if (value) {
       if (!items.contains(uniqName)) items.insert(0, uniqName);
@@ -188,13 +189,13 @@ class Spraw extends RankSprawTemplate<SprawResp>{
     shaPref.setStringList(ShaPref.SHA_PREF_SPRAW_COMPLETED_LIST, items);
   }
   @override
-  void changeCompleted(BuildContext context, {bool value, localOnly: false}){
+  void changeCompleted(BuildContext context, {bool value, localOnly = false}){
     completed = value;
 
     if(completed)
       changeInProgress(context, value: false, localOnly: true);
 
-    setSyncState({PARAM_COMPLETED: SyncableParamSingle.STATE_NOT_SYNCED});
+    setSingleState(PARAM_COMPLETED, SyncableParamSingle_.STATE_NOT_SYNCED);
     if(!localOnly) synchronizer.post();
 
     Provider.of<SprawCompletedListProv>(context, listen: false).notify();
@@ -223,7 +224,7 @@ class Spraw extends RankSprawTemplate<SprawResp>{
 
   static Spraw fromUID(String UID){
 
-    List<String> parts = UID.split(Spraw.SEP_CHAR);
+    List<String> parts = UID.split(Spraw.sepChar);
     String sprawBookId = parts[0];
     String sprawGroupId = parts[1];
     String sprawFamilyId = parts[2];
@@ -269,52 +270,50 @@ class Spraw extends RankSprawTemplate<SprawResp>{
 
   }
 
-  static const String REQ_GROUP = 'spraw';
+  static const String syncClassId = 'spraw';
 
   @override
-  String get classId => REQ_GROUP;
+  SyncableParam get parentParam => const RootSyncable(syncClassId);
 
   @override
-  String get objectId => uniqName;
+  String get paramId => uniqName;
 
   @override
-  List<SyncableParam> get syncParams => [
+  List<SyncableParam> get childParams => [
 
-    SyncableParam.single(
+    SyncableParamSingle(
         this,
         paramId: PARAM_IN_PROGRESS,
-        value: () async => await inProgress,
-        notNone: () => false
+        value_: () => inProgress,
     ),
 
-    SyncableParam.single(
+    SyncableParamSingle(
         this,
         paramId: PARAM_COMPLETED,
-        value: () async => await completed,
-        notNone: () => false
+        value_: () => completed,
     ),
 
-    SyncableParam.single(
+    SyncableParamSingle(
       this,
       paramId: PARAM_COMPLETION_DATE,
-      value: () async => await completionDate==null?null:DateFormat('yyyy-MM-dd').format(completionDate),
-      notNone: () => false
+      value_: () => completionDate==null?null:DateFormat('yyyy-MM-dd').format(completionDate),
     ),
 
-    SyncableParam.group<SprawTask>(
+    SyncableParamGroup(
         this,
-        items: tasks,
+        paramId: PARAM_TASKS,
+        childParams: tasks,
     ),
 
   ];
 
   @override
-  void applySyncResp(SprawResp resp) {
+  void applySyncGetResp(SprawResp resp) {
     inProgress = resp.inProgress;
     completed = resp.completed;
     completionDate = resp.completionDate;
     for(String taskKey in resp.task.keys)
-      _taskMap[taskKey].applySyncResp(resp.task[taskKey]);
+      _taskMap[taskKey].applySyncGetResp(resp.task[taskKey]);
 
   }
 
