@@ -81,8 +81,6 @@ void main() async {
   else if(DateTime.now().isAfter(DateTime(2022, 4, 17, 4)) && DateTime.now().isBefore(DateTime(2022, 4, 24, 0)))
     appMode = AppMode.appModeZmartwychwstanie;
 
-  appMode = AppMode.appModeWielkiPiatek;
-
   runApp(LocalizedApp(delegate, const OKToast(child: App())));
 
 }
