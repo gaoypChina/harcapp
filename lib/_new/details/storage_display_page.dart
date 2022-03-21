@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
+import 'package:harcapp/sync/syncable_new.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -84,7 +85,7 @@ class StorageDisplayPage extends StatelessWidget{
           ),
 
           _Item(
-              icon: MdiIcons.imageMultipleOutline,
+              icon: MdiIcons.memory,
               title: 'Synchronizacja',
               onOpen: () async {
                 await synchronizer.reloadSyncables();
@@ -92,6 +93,21 @@ class StorageDisplayPage extends StatelessWidget{
                 await openDialog(
                     context: context,
                     builder: (context) => TextDisplayer('Synchronizacja', 'lastSyncTimeLocal: ${SynchronizerEngine.lastSyncTimeLocal}\n\n' + prettyJson(allUnsynced))
+                );
+              }
+          ),
+
+          _Item(
+              icon: MdiIcons.memory,
+              title: 'Synchronizacja (removal mark)',
+              onOpen: () async {
+                List<FileSystemEntity> files = Directory(getRemoveSyncReqFolderPath).listSync();
+                String result = '';
+                for(FileSystemEntity file in files)
+                  result += file.path + '\n\n';
+                await openDialog(
+                    context: context,
+                    builder: (context) => TextDisplayer('Synchronizacja (removal mark)', result)
                 );
               }
           ),

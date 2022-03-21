@@ -19,6 +19,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:tuple/tuple.dart';
 
+import '../../details/app_settings.dart';
 import 'models_common/rank.dart';
 
 class RankTileWidgetShare extends StatelessWidget {
@@ -40,8 +41,8 @@ class RankTileWidgetShare extends StatelessWidget {
       children: [
 
         RankTileWidgetTemplate(
-          colorStart: colors.start(Settings.isDark),
-          colorEnd: colors.end(Settings.isDark),
+          colorStart: colors.start(AppSettings.isDark),
+          colorEnd: colors.end(AppSettings.isDark),
           icons: iconStuff.item1,
           iconSize: iconStuff.item2,
           titleTop: data.userData.isMale?rank.titleMale:rank.titleFemale,
@@ -52,7 +53,7 @@ class RankTileWidgetShare extends StatelessWidget {
             child: Icon(MdiIcons.accountCircle, color: hintEnab_(context)),
           ),
 
-          onTap: (context) => loadOpenRankDialog(context, RankData.colors[rank.data].avgColor(Settings.isDark), data),
+          onTap: (context) => loadOpenRankDialog(context, RankData.colors[rank.data].avgColor(AppSettings.isDark), data),
           trailing: RankProgressWidget(data.rankCompleted, data.rankInProgress, 100*data.rankCompletedTasksCnt~/(rank.state as RankStateLocal).taskCount),
         ),
 

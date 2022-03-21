@@ -3,7 +3,6 @@ import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp/_new/details/part_settings.dart';
 import 'package:harcapp/_new/module_statistics_registrator.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
@@ -16,6 +15,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../details/app_settings.dart';
 import 'common.dart';
 import 'data.dart';
 
@@ -239,7 +239,7 @@ class Item extends StatelessWidget{
                             builder: (context) => AppCard(
                                 padding: EdgeInsets.zero,
                                 margin: AppCard.normMargin,
-                                color: Settings.isDark?const Color.fromARGB(255, 30, 30, 30):Colors.amber[50],
+                                color: AppSettings.isDark?const Color.fromARGB(255, 30, 30, 30):Colors.amber[50],
                                 child: Column(
                                   children: [
                                     AppBar(

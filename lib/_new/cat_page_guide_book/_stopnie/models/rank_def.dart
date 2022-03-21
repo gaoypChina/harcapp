@@ -79,8 +79,8 @@ class RankDef extends RankDefTempl<RankStateLocal>{
 
   static const String syncClassId = 'rank_def';
 
-  @override
-  SyncableParam get parentParam => const RootSyncable(syncClassId);
+  //@override
+  //SyncableParam get parentParam => RootSyncable(syncClassId);
 
 }
 

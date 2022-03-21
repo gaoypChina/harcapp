@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/widgets.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/api/sync.dart';
@@ -8,6 +10,7 @@ import 'package:harcapp/sync/syncable_new.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:semaphore/semaphore.dart';
 
+import '../_common_classes/storage.dart';
 import '../logger.dart';
 
 SynchronizerEngine synchronizer = SynchronizerEngine();
@@ -159,11 +162,10 @@ class SynchronizerEngine{
   Future<bool> isAllSynced() async {
     await synchronizer.reloadSyncables();
 
-    for(List<SyncableParam> params in SyncNode.allBaseNodes.values)
-      for(SyncableParam param in params)
-        if(!param.isSynced) return false;
+    for(SyncableParam param in SyncNode.all)
+      if(!param.isSynced) return false;
 
-    return true;
+    return Directory(getRemoveSyncReqFolderPath).listSync().isEmpty;
   }
 
   Future<Map<String, dynamic>> allUnsynced() async {
@@ -171,12 +173,10 @@ class SynchronizerEngine{
 
     Map<String, dynamic> result = {};
 
-    for(String classId in SyncNode.allBaseNodes.keys)
-      for(SyncableParam param in SyncNode.allBaseNodes[classId]) {
-        Map<String, dynamic> unsyncedMap = param.getUnsyncedMap();
-        if(unsyncedMap.isNotEmpty) result[classId] = unsyncedMap;
-      }
-
+    for(SyncableParam param in SyncNode.all) {
+      Map<String, dynamic> unsyncedMap = param.getUnsyncedMap();
+      if (unsyncedMap.isNotEmpty) result[param.paramId] = unsyncedMap;
+    }
     return result;
 
   }
@@ -184,19 +184,17 @@ class SynchronizerEngine{
   static Future<void> setAllSyncState(int state) async {
     await synchronizer.reloadSyncables();
 
-    for(List<SyncableParam> params in SyncNode.allBaseNodes.values)
-      for(SyncableParam param in params)
-        if(param is SyncableParamGroup_)
-          param.setAllSyncState(state);
-        else if(param is SyncableParamSingle_)
-          param.state = state;
+    for(SyncableParam param in SyncNode.all)
+      if(param is SyncableParamGroup_)
+        param.setAllSyncState(state);
+      else if(param is SyncableParamSingle_)
+        param.state = state;
   }
 
   static Future<void> changeSyncStateInAll(List<int> stateFrom, int stateTo) async {
     await synchronizer.reloadSyncables();
-    for(List<SyncableParam> params in SyncNode.allBaseNodes.values)
-      for(SyncableParam param in params)
-        param.changeSyncStateInAll(stateFrom, stateTo);
+    for(SyncableParam param in SyncNode.all)
+      param.changeSyncStateInAll(stateFrom, stateTo);
   }
 
   Future<bool> reloadSyncables() async {

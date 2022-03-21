@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
@@ -12,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../../main.dart';
+import '../../../details/app_settings.dart';
 import '../article_widget.dart';
 import 'article_bookmark_icon.dart';
 import '../article_core.dart';
@@ -220,7 +220,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
                     case ConnectionState.waiting:
                       return Stack(
                         children: [
-                          if(App.devMode)
+                          if(AppSettings.devMode)
                             Positioned(
                               child: Text(article.id),
                               bottom: Dimen.ICON_MARG,

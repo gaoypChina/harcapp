@@ -34,6 +34,7 @@ import 'package:provider/provider.dart';
 
 import '../../_common_classes/org/org_switcher.dart';
 import '../app_drawer.dart';
+import '../details/app_settings.dart';
 import '_sprawnosci/_main.dart';
 import '_sprawnosci/models/spraw.dart';
 import '_sprawnosci/spraw_folder_page/spraw_folder.dart';
@@ -565,8 +566,6 @@ class LatestStopWidgetState extends State<LatestStopWidget>{
 
 class StopPrevItem extends StatelessWidget{
 
-  static const double height = 76.0;
-
   final Org org;
   final Rank rank;
 
@@ -575,12 +574,8 @@ class StopPrevItem extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    if(rank != null){
-      return SizedBox(
-        height: height,
-        child: RankTileWidget(rank: rank),
-      );
-    }
+    if(rank != null)
+      return RankTileWidget(rank: rank);
 
     RankColors colors;
     if(org == Org.zhp) colors = RankData.colorsZhp;
@@ -603,8 +598,8 @@ class StopPrevItem extends StatelessWidget{
                 child: GradientWidget(
                   radius: AppCard.BIG_RADIUS,
                   elevation: AppCard.bigElevation,
-                  colorStart: colors.start(Settings.isDark),
-                  colorEnd: colors.end(Settings.isDark),
+                  colorStart: colors.start(AppSettings.isDark),
+                  colorEnd: colors.end(AppSettings.isDark),
                   child: const Icon(
                       MdiIcons.bookOpenOutline,
                       size: RankTileWidgetTemplate.DEF_TILE_ICON_SIZE

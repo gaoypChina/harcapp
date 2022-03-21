@@ -184,42 +184,47 @@ class _PartOneState extends State<_PartOne>{
   }
 
   @override
-  Widget build(BuildContext context) {
+  void dispose() {
+    textPlaceController.dispose();
+    textDescController.dispose();
+    super.dispose();
+  }
 
-    return Column(
-      children: [
-        Expanded(
-          child: ListView(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.all(Dimen.ICON_MARG),
-            children: [
+  @override
+  Widget build(BuildContext context) => Column(
+    children: [
+      Expanded(
+        child: ListView(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.all(Dimen.ICON_MARG),
+          children: [
 
-              const SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
 
-              Align(
-                alignment: Alignment.centerRight,
-                child: GestureDetector(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: GestureDetector(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
 
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                              'Data:',
-                              style: AppTextStyle(
-                                  fontSize: Dimen.TEXT_SIZE_BIG,
-                                  color: hintEnab_(context),
-                                  fontWeight: weight.halfBold
-                              )
-                          )
-                        ],
-                      ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                            'Data:',
+                            style: AppTextStyle(
+                                fontSize: Dimen.TEXT_SIZE_BIG,
+                                color: hintEnab_(context),
+                                fontWeight: weight.halfBold
+                            )
+                        )
+                      ],
+                    ),
 
-                      const SizedBox(height: 6.0),
+                    const SizedBox(height: 6.0),
 
-                      Hero(
+                    Hero(
                         tag: MemoryWidget.memoryDateHeroTagFrom(initMemory?.fileName),
                         child: Material(
                           color: Colors.transparent,
@@ -231,46 +236,46 @@ class _PartOneState extends State<_PartOne>{
                                 color: textEnab_(context)),
                           ),
                         )
-                      )
+                    )
 
-                    ],
-                  ),
-                  onTap: () async {
-
-                    DateTime _data = await showDatePicker(
-                        context: context,
-                        initialDate: data,
-                        firstDate: DateTime(1989),
-                        lastDate: DateTime.now()
-                    );
-
-                    if(_data != null)
-                      setState(() => data = _data);
-
-                  },
+                  ],
                 ),
+                onTap: () async {
+
+                  DateTime _data = await showDatePicker(
+                      context: context,
+                      initialDate: data,
+                      firstDate: DateTime(1989),
+                      lastDate: DateTime.now()
+                  );
+
+                  if(_data != null)
+                    setState(() => data = _data);
+
+                },
               ),
+            ),
 
-              const SizedBox(height: 30.0),
+            const SizedBox(height: 30.0),
 
-              Row(
-                children: [
-                  Icon(MdiIcons.mapMarkerOutline, color: hintEnab_(context)),
-                  const SizedBox(width: Dimen.ICON_MARG),
-                  Text(
-                      'Miejsce:',
-                      style: AppTextStyle(
-                          fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: hintEnab_(context),
-                          fontWeight: weight.halfBold
-                      )
-                  )
-                ],
-              ),
+            Row(
+              children: [
+                Icon(MdiIcons.mapMarkerOutline, color: hintEnab_(context)),
+                const SizedBox(width: Dimen.ICON_MARG),
+                Text(
+                    'Miejsce:',
+                    style: AppTextStyle(
+                        fontSize: Dimen.TEXT_SIZE_BIG,
+                        color: hintEnab_(context),
+                        fontWeight: weight.halfBold
+                    )
+                )
+              ],
+            ),
 
-              Padding(
-                padding: const EdgeInsets.only(left: Dimen.ICON_SIZE + Dimen.ICON_MARG),
-                child: Hero(
+            Padding(
+              padding: const EdgeInsets.only(left: Dimen.ICON_SIZE + Dimen.ICON_MARG),
+              child: Hero(
                   tag: MemoryWidget.memoryPlaceHeroTagFrom(initMemory?.fileName),
                   child: Material(
                     color: Colors.transparent,
@@ -287,29 +292,29 @@ class _PartOneState extends State<_PartOne>{
                       maxLength: 80,
                     ),
                   )
-                ),
               ),
+            ),
 
-              const SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
 
-              Row(
-                children: [
-                  Icon(MdiIcons.treeOutline, color: hintEnab_(context)),
-                  const SizedBox(width: Dimen.ICON_MARG),
-                  Text(
-                      'Opis:',
-                      style: AppTextStyle(
-                          fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: hintEnab_(context),
-                          fontWeight: weight.halfBold
-                      )
-                  )
-                ],
-              ),
+            Row(
+              children: [
+                Icon(MdiIcons.treeOutline, color: hintEnab_(context)),
+                const SizedBox(width: Dimen.ICON_MARG),
+                Text(
+                    'Opis:',
+                    style: AppTextStyle(
+                        fontSize: Dimen.TEXT_SIZE_BIG,
+                        color: hintEnab_(context),
+                        fontWeight: weight.halfBold
+                    )
+                )
+              ],
+            ),
 
-              Padding(
-                padding: const EdgeInsets.only(left: Dimen.ICON_SIZE + Dimen.ICON_MARG),
-                child: Hero(
+            Padding(
+              padding: const EdgeInsets.only(left: Dimen.ICON_SIZE + Dimen.ICON_MARG),
+              child: Hero(
                   tag: MemoryWidget.memoryDescHeroTagFrom(initMemory?.fileName),
                   child: Material(
                     color: Colors.transparent,
@@ -326,41 +331,37 @@ class _PartOneState extends State<_PartOne>{
                       maxLength: 200,
                     ),
                   )
-                ),
               ),
+            ),
 
-            ],
-          ),
+          ],
         ),
+      ),
 
-        Padding(
-          padding: const EdgeInsets.all(Dimen.ICON_MARG),
-          child: Row(
-            children: [
+      Padding(
+        padding: const EdgeInsets.all(Dimen.ICON_MARG),
+        child: Row(
+          children: [
 
-              if(!creatingNew)
-                SimpleButton.from(icon: MdiIcons.trashCanOutline, text: 'Porzuć', textColor: Colors.red, onTap: widget.onRemoved),
+            if(!creatingNew)
+              SimpleButton.from(icon: MdiIcons.trashCanOutline, text: 'Porzuć', textColor: Colors.red, onTap: widget.onRemoved),
 
-              Expanded(child: Container()),
+            Expanded(child: Container()),
 
-              SimpleButton.from(
+            SimpleButton.from(
                 icon: MdiIcons.arrowRight,
                 text: 'Dalej',
                 textColor: blocked?iconDisab_(context):iconEnab_(context),
-                onTap: blocked?null:() async {
-                  widget.onNext(memoryBuilder);
-                },
+                onTap: blocked?null:() async =>
+                  widget.onNext(memoryBuilder),
                 iconLeading: false
-              ),
+            ),
 
-            ],
-          ),
-        )
-
-      ],
-    );
-
-  }
+          ],
+        ),
+      )
+    ],
+  );
 
 }
 

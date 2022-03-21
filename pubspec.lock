@@ -383,8 +383,8 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "05203e93fc26e62a1cdfdea88c54bdcd7da676de"
-      url: "git://github.com/n3o2k7i8ch5/harcapp_core.git"
+      resolved-ref: "7e795656cc49b7077b98eaab998b26231b44cbe3"
+      url: "https://github.com/n3o2k7i8ch5/harcapp_core"
     source: git
     version: "0.0.1"
   harcapp_core_own_song:
@@ -392,8 +392,8 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "653d7a19cf40f152905387f32d5af5259a39e6d2"
-      url: "git://github.com/n3o2k7i8ch5/harcapp_core_own_song.git"
+      resolved-ref: "1121b7a9f89b4ecd47c34d4c15c7d9eec0d882b0"
+      url: "https://github.com/n3o2k7i8ch5/harcapp_core_own_song"
     source: git
     version: "0.0.1"
   harcapp_core_song:
@@ -401,8 +401,8 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "141387ecd940138ac43e02d31b13cd63b1cf869c"
-      url: "git://github.com/n3o2k7i8ch5/harcapp_core_song.git"
+      resolved-ref: "72ffecb1516520e30bbc49604ee28d67dd85a62d"
+      url: "https://github.com/n3o2k7i8ch5/harcapp_core_song"
     source: git
     version: "0.0.1"
   harcapp_core_song_widget:
@@ -410,8 +410,8 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "8d44bfcb4ef6489feba6714f7bf6bc7be8bcd379"
-      url: "git://github.com/n3o2k7i8ch5/harcapp_core_song_widget.git"
+      resolved-ref: fd34c33a4dac8cebef53441ff97f3b92502ee914
+      url: "https://github.com/n3o2k7i8ch5/harcapp_core_song_widget"
     source: git
     version: "0.0.1"
   harcapp_core_tags:
@@ -419,8 +419,8 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "66825380d437f51edf51bb22b3459d79153bf55b"
-      url: "git://github.com/n3o2k7i8ch5/harcapp_core_tags.git"
+      resolved-ref: "89abd433157545290e8ad5aebb2dba66b4bbfe71"
+      url: "https://github.com/n3o2k7i8ch5/harcapp_core_tags"
     source: git
     version: "0.0.1"
   html_unescape:
@@ -812,11 +812,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "88d1b58efbf9856d1220025f78d475e41ef4ba22"
-      resolved-ref: "88d1b58efbf9856d1220025f78d475e41ef4ba22"
-      url: "git://github.com/bcko/flutter_qrcode_reader.git"
+      ref: HEAD
+      resolved-ref: "2cc736a5fbc24ba06a1b048473f456c3742da1f9"
+      url: "https://github.com/bcko/flutter_qrcode_reader"
     source: git
-    version: "0.4.4"
+    version: "0.5.0"
   quiver:
     dependency: transitive
     description:
@@ -1143,7 +1143,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.1"
+    version: "2.4.2"
   wkt_parser:
     dependency: transitive
     description:

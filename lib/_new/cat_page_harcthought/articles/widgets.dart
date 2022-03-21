@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
@@ -10,22 +9,19 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import 'article.dart';
 import 'article_core.dart';
 import 'article_text_style.dart';
-import 'article_viewer.dart';
 import 'common.dart';
 
 class ParagraphWidget extends StatelessWidget{
 
   final Paragraph paragraph;
 
-  const ParagraphWidget(this.paragraph);
+  const ParagraphWidget(this.paragraph, {Key key}): super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 12.0),
+  Widget build(BuildContext context) => Padding(
+      padding: const EdgeInsets.only(top: 12.0),
       child: Consumer<ArticleThemeProvider>(
         builder: (context, prov, child) => RText(
           paragraph.text,
@@ -36,8 +32,7 @@ class ParagraphWidget extends StatelessWidget{
           //color: prov.colorOption.text,
         ),
       )
-    );
-  }
+  );
 
 }
 
@@ -45,12 +40,11 @@ class HeaderWidget extends StatelessWidget{
 
   final Header header;
 
-  const HeaderWidget(this.header);
+  const HeaderWidget(this.header, {Key key}): super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 32.0),
+  Widget build(BuildContext context) => Padding(
+      padding: const EdgeInsets.only(top: 32.0),
       child: Consumer<ArticleThemeProvider>(
         builder: (context, prov, child) => Text(
           header.text,
@@ -62,15 +56,14 @@ class HeaderWidget extends StatelessWidget{
           ),
         ),
       )
-    );
-  }
+  );
 }
 
 class QuoteWidget extends StatelessWidget{
 
   final Quote quote;
 
-  const QuoteWidget(this.quote);
+  const QuoteWidget(this.quote, {Key key}): super(key: key);
 
   TextStyle style(ArticleThemeProvider prov) => HeaderTextStyle(
     //paraFontFamily,
@@ -90,14 +83,12 @@ class QuoteWidget extends StatelessWidget{
         );
         wordWrapText.layout(maxWidth: MediaQuery.of(context).size.width - 2*32.0 - 3 - Dimen.ICON_MARG);
 
-        double barHeight = wordWrapText.height;
-
         return Row(
           children: [
 
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(32.0),
+                padding: const EdgeInsets.all(32.0),
                 child: Text(
                     '„${quote.text}”',
                     textAlign: TextAlign.end,
@@ -108,7 +99,7 @@ class QuoteWidget extends StatelessWidget{
 
             //Container(color: prov.colorOption.hint, width: 3, height: barHeight,),
 
-            SizedBox(width: Dimen.ICON_MARG,)
+            const SizedBox(width: Dimen.ICON_MARG)
 
           ],
         );
@@ -121,7 +112,7 @@ class PictureWidget extends StatelessWidget{
 
   final Picture picture;
 
-  const PictureWidget(this.picture);
+  const PictureWidget(this.picture, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +122,7 @@ class PictureWidget extends StatelessWidget{
           //color: prov.colorOption.background,
           elevation: AppCard.bigElevation,
           padding: EdgeInsets.zero,
-          margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+          margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -141,7 +132,7 @@ class PictureWidget extends StatelessWidget{
               ),
               if(picture.desc != null && picture.desc.isNotEmpty)
                 Padding(
-                  padding: EdgeInsets.all(Dimen.DEF_MARG),
+                  padding: const EdgeInsets.all(Dimen.DEF_MARG),
                   child: Text(
                     picture.desc,
                     style: AppTextStyle(
@@ -163,14 +154,14 @@ class YoutubeWidget extends StatelessWidget{
 
   final Youtube item;
 
-  const YoutubeWidget(this.item);
+  const YoutubeWidget(this.item, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     YoutubePlayerController _controller = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(item.link),
-      flags: YoutubePlayerFlags(
+      flags: const YoutubePlayerFlags(
         autoPlay: false,
         mute: false,
       ),
@@ -181,11 +172,11 @@ class YoutubeWidget extends StatelessWidget{
         //color: prov.colorOption.background,
         elevation: AppCard.bigElevation,
         padding: EdgeInsets.zero,
-        margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+        margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
         child: YoutubePlayer(
           controller: _controller,
           showVideoProgressIndicator: true,
-          progressColors: ProgressBarColors(
+          progressColors: const ProgressBarColors(
             playedColor: Colors.amber,
             handleColor: Colors.amberAccent,
           ),
@@ -200,7 +191,7 @@ class ArticleWidgetSmall extends StatelessWidget{
   final Article article;
   final PageController controller;
 
-  const ArticleWidgetSmall(this.article, this.controller);
+  const ArticleWidgetSmall(this.article, this.controller, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +199,7 @@ class ArticleWidgetSmall extends StatelessWidget{
     return AppCard(
       onTap: () {
         int index = Article.all.indexOf(article);
-        controller.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.easeInOutSine);
+        controller.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOutSine);
 
         //Navigator.pop(context);
 /*
@@ -234,7 +225,7 @@ class ArticleWidgetSmall extends StatelessWidget{
                 future: article?.loadCover(), // async work
                 builder: (BuildContext context, AsyncSnapshot<ImageProvider> snapshot) {
                   switch (snapshot.connectionState) {
-                    case ConnectionState.waiting: return Text('Loading....');
+                    case ConnectionState.waiting: return const Text('Loading....');
                     default:
                       if (snapshot.hasError) return Text('Error: ${snapshot.error}');
                       else return Image(image: snapshot.data, fit: BoxFit.cover);
@@ -245,7 +236,7 @@ class ArticleWidgetSmall extends StatelessWidget{
 
           Expanded(
             child: Padding(
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Center(
                   child: AutoSizeText(
                       article?.title??'',
@@ -261,7 +252,7 @@ class ArticleWidgetSmall extends StatelessWidget{
           ),
 
           Padding(
-            padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 3.0),
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 3.0),
             child: AutoSizeText(
                 article?.dateString??'',
                 textAlign: TextAlign.end,
@@ -273,7 +264,7 @@ class ArticleWidgetSmall extends StatelessWidget{
           ),
 
           Padding(
-            padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
             child: AutoSizeText(
                 'Autor tekstu',
                 textAlign: TextAlign.end,

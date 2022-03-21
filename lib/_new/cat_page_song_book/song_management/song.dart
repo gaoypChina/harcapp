@@ -431,8 +431,8 @@ abstract class Song<T extends SongResp> extends SyncableParamGroup_ with SyncNod
 
   String get classId;
 
-  @override
-  SyncableParam get parentParam => RootSyncable(classId);
+  //@override
+  //SyncableParam get parentParam => RootSyncable(classId);
 
   @override
   String get paramId => fileName;

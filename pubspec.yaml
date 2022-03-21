@@ -81,8 +81,8 @@ dependencies:
 
   qrcode_reader:
     git:
-      url: git://github.com/bcko/flutter_qrcode_reader.git
-      ref: 88d1b58efbf9856d1220025f78d475e41ef4ba22
+      url: https://github.com/bcko/flutter_qrcode_reader
+      # ref: 88d1b58efbf9856d1220025f78d475e41ef4ba22
 
       #circular_check_box:
       #git:
@@ -94,23 +94,23 @@ dependencies:
 
   harcapp_core:
     git:
-      url: git://github.com/n3o2k7i8ch5/harcapp_core.git
+      url: https://github.com/n3o2k7i8ch5/harcapp_core
 
   harcapp_core_tags:
     git:
-      url: git://github.com/n3o2k7i8ch5/harcapp_core_tags.git
+      url: https://github.com/n3o2k7i8ch5/harcapp_core_tags
 
   harcapp_core_song:
     git:
-      url: git://github.com/n3o2k7i8ch5/harcapp_core_song.git
+      url: https://github.com/n3o2k7i8ch5/harcapp_core_song
 
   harcapp_core_song_widget:
     git:
-      url: git://github.com/n3o2k7i8ch5/harcapp_core_song_widget.git
+      url: https://github.com/n3o2k7i8ch5/harcapp_core_song_widget
 
   harcapp_core_own_song:
     git:
-      url: git://github.com/n3o2k7i8ch5/harcapp_core_own_song.git
+      url: https://github.com/n3o2k7i8ch5/harcapp_core_own_song
 
 
   flutter:

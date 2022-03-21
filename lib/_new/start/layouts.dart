@@ -9,7 +9,6 @@ import 'package:harcapp/_app_common/glow_widget.dart';
 import 'package:harcapp/values/definition.dart';
 import 'package:harcapp/values/fact.dart';
 import 'package:harcapp/values/holy_bible.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/gyroscope_widget.dart';
 import 'package:harcapp/_common_widgets/snow.dart';
 import 'package:harcapp/main.dart';
@@ -28,7 +27,7 @@ class _HarcApp extends StatefulWidget{
   final double size;
   final Color color;
   final bool shadow;
-  const _HarcApp({this.size: defFontSize, this.color: AppColors.text_def_enab, this.shadow: false});
+  const _HarcApp({this.size = defFontSize, this.color = AppColors.text_def_enab, this.shadow = false});
 
   @override
   State<StatefulWidget> createState() => _HarcAppState();
@@ -51,10 +50,10 @@ class _HarcAppState extends State<_HarcApp> with TickerProviderStateMixin{
   Animation<Offset> offsetA;
 
   startAnimation() async{
-    await Future.delayed(Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: 100));
     await contrH.forward();
     setState(() => showH = true);
-    await Future.delayed(Duration(milliseconds: 400));
+    await Future.delayed(const Duration(milliseconds: 400));
     contrA.forward();
     setState(() => showA = true);
   }
@@ -64,8 +63,8 @@ class _HarcAppState extends State<_HarcApp> with TickerProviderStateMixin{
     showH = false;
     showA = false;
 
-    contrH = AnimationController(vsync: this, duration: Duration(milliseconds: 1000));
-    contrA = AnimationController(vsync: this, duration: Duration(milliseconds: 1000));
+    contrH = AnimationController(vsync: this, duration: const Duration(milliseconds: 1000));
+    contrA = AnimationController(vsync: this, duration: const Duration(milliseconds: 1000));
 
     offsetH = Tween<Offset>(
         begin: Offset.zero, //Offset(0.0, 0.75),
@@ -100,7 +99,7 @@ class _HarcAppState extends State<_HarcApp> with TickerProviderStateMixin{
           child: AnimatedOpacity(
             child: Text('Harc', style: AppTextStyle(fontSize: size, fontWeight: weight.halfBold, color: color, shadow: shadow, height: 1.0)),
             opacity: showH?1:0,
-            duration: Duration(milliseconds: 1000),
+            duration: const Duration(milliseconds: 1000),
           ),
         ),
         SlideTransition(
@@ -108,7 +107,7 @@ class _HarcAppState extends State<_HarcApp> with TickerProviderStateMixin{
           child: AnimatedOpacity(
             child: Text('App', style: AppTextStyle(fontSize: size, fontWeight: weight.normal, color: color, shadow: shadow, height: 1.0)),
             opacity: showA?1:0,
-            duration: Duration(milliseconds: 1000),
+            duration: const Duration(milliseconds: 1000),
           ),
         ),
 
@@ -121,7 +120,7 @@ class _HarcAppState extends State<_HarcApp> with TickerProviderStateMixin{
 class HarcAppRotatedBackground extends StatefulWidget{
 
   final Color color;
-  const HarcAppRotatedBackground(this.color);
+  const HarcAppRotatedBackground(this.color, {Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => HarcAppRotatedBackgroundState();
@@ -130,12 +129,12 @@ class HarcAppRotatedBackground extends StatefulWidget{
 
 class HarcAppRotatedBackgroundState extends State<HarcAppRotatedBackground>{
 
-  static const String _ICON_PATH = 'assets/images/harcapp_logo.svg';
+  static const String _iconPath = 'assets/images/harcapp_logo.svg';
 
   bool loaded;
 
   load()async{
-    await precachePicture(ExactAssetPicture(SvgPicture.svgStringDecoderBuilder, _ICON_PATH), null);
+    await precachePicture(ExactAssetPicture(SvgPicture.svgStringDecoderBuilder, _iconPath), null);
     setState(() => loaded = true);
   }
 
@@ -157,14 +156,14 @@ class HarcAppRotatedBackgroundState extends State<HarcAppRotatedBackground>{
       child: RotationTransition(
         child: AnimatedOpacity(
           opacity: loaded?1:0,
-          duration: Duration(milliseconds: 2000),
+          duration: const Duration(milliseconds: 2000),
           child: SvgPicture.asset(
-              _ICON_PATH,
+              _iconPath,
               height: bgIconSize,
               width: bgIconSize,
               color: widget.color),
         ),
-        turns: AlwaysStoppedAnimation(45 / 360),
+        turns: const AlwaysStoppedAnimation(45 / 360),
       ),
     );
   }
@@ -172,19 +171,20 @@ class HarcAppRotatedBackgroundState extends State<HarcAppRotatedBackground>{
 }
 
 class HarcAppLogo extends StatelessWidget{
+
+  const HarcAppLogo({Key key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return Padding(padding: const EdgeInsets.all(Dimen.DEF_MARG),
-        child: SvgPicture.asset('assets/images/harcapp_logo.svg', width: 40, height: 40,)
-    );
-  }
+  Widget build(BuildContext context) => Padding(padding: const EdgeInsets.all(Dimen.DEF_MARG),
+      child: SvgPicture.asset('assets/images/harcapp_logo.svg', width: 40, height: 40)
+  );
 }
 
 class HolyBibleFragWidget extends StatefulWidget{
 
   final List<BibleFrag> allFrags;
 
-  const HolyBibleFragWidget(this.allFrags);
+  const HolyBibleFragWidget(this.allFrags, {Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => HolyBibleFragWidgetState();
@@ -204,49 +204,46 @@ class HolyBibleFragWidgetState extends State<HolyBibleFragWidget>{
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) =>  Column(
+    children: <Widget>[
 
-    return Column(
-      children: <Widget>[
+      const Align(
+        alignment: Alignment.centerLeft,
+        child: Icon(
+          MdiIcons.bookCross,
+          size: 64.0,
+          color: Colors.white,
+        ),
+      ),
 
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Icon(
-            MdiIcons.bookCross,
-            size: 64.0,
-            color: Colors.white,
+      const SizedBox(height: 18.0),
+
+      Text(
+          bibleFrag.text,
+          style: const TextStyle(
+              fontFamily: 'Merriweather',
+              //fontWeight: FontWeight.,
+              fontSize: CytatWidgetState.textSize,
+              color: Colors.white,
+              height: 1.3)
+      ),
+
+      const SizedBox(height: 32),
+      Align(
+        alignment: Alignment.bottomRight,
+        child: Text(
+          bibleFrag.source,
+          style: const TextStyle(
+              fontFamily: 'Merriweather',
+              color: Colors.white54,
+              fontSize: CytatWidgetState.textSize+2,
+              fontWeight: FontWeight.bold
           ),
+          textAlign: TextAlign.end,
         ),
-
-        SizedBox(height: 18.0),
-
-        Text(
-            bibleFrag.text,
-            style: TextStyle(
-                fontFamily: 'Merriweather',
-                //fontWeight: FontWeight.,
-                fontSize: CytatWidgetState.textSize,
-                color: Colors.white,
-                height: 1.3)
-        ),
-
-        SizedBox(height: 32),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Text(
-            bibleFrag.source,
-            style: TextStyle(
-                fontFamily: 'Merriweather',
-                color: Colors.white54,
-                fontSize: CytatWidgetState.textSize+2,
-                fontWeight: FontWeight.bold
-            ),
-            textAlign: TextAlign.end,
-          ),
-        ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
 
 }
 
@@ -254,7 +251,7 @@ class FactWidget extends StatefulWidget{
 
   final List<Fact> allFacts;
 
-  const FactWidget(this.allFacts);
+  const FactWidget(this.allFacts, {Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => FactWidgetState();
@@ -274,51 +271,48 @@ class FactWidgetState extends State<FactWidget>{
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-
-        Align(
-          alignment: Alignment.centerLeft,
-          child: SizedBox(
-            width: CytatWidgetState.iconSize,
-            height: CytatWidgetState.iconSize,
-            child: Center(
-              child: Icon(
-                MdiIcons.lightbulb,
-                size: 38.0,
-                color: Colors.white,
-              ),
+      const Align(
+        alignment: Alignment.centerLeft,
+        child: SizedBox(
+          width: CytatWidgetState.iconSize,
+          height: CytatWidgetState.iconSize,
+          child: Center(
+            child: Icon(
+              MdiIcons.lightbulb,
+              size: 38.0,
+              color: Colors.white,
             ),
           ),
         ),
+      ),
 
-        SizedBox(height: 18.0),
+      const SizedBox(height: 18.0),
 
-        Text(
-          'Czy wiesz, że...',
-          style: TextStyle(
+      const Text(
+        'Czy wiesz, że...',
+        style: TextStyle(
             fontFamily: 'Merriweather',
-              color: Colors.white,
-              fontSize: DefinitionWidgetState.textSize+6,
-              fontWeight: FontWeight.bold
-          ),
+            color: Colors.white,
+            fontSize: DefinitionWidgetState.textSize+6,
+            fontWeight: FontWeight.bold
         ),
+      ),
 
-        SizedBox(height: 18.0),
+      const SizedBox(height: 18.0),
 
-        Text(
-            fact.text,
-            style: AppTextStyle(
-                fontSize: DefinitionWidgetState.textSize, color: Colors.white, height: 1.3)
-        ),
+      Text(
+          fact.text,
+          style: AppTextStyle(
+              fontSize: DefinitionWidgetState.textSize, color: Colors.white, height: 1.3)
+      ),
 
 
-      ],
-    );
-  }
+    ],
+  );
 
 }
 
@@ -326,7 +320,7 @@ class DefinitionWidget extends StatefulWidget{
 
   final Definition definition;
 
-  const DefinitionWidget({this.definition});
+  const DefinitionWidget({this.definition, Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => DefinitionWidgetState();
@@ -355,7 +349,7 @@ class DefinitionWidgetState extends State<DefinitionWidget>{
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
 
-        Align(
+        const Align(
           alignment: Alignment.centerLeft,
           child: SizedBox(
             width: CytatWidgetState.iconSize,
@@ -370,11 +364,11 @@ class DefinitionWidgetState extends State<DefinitionWidget>{
           ),
         ),
 
-        SizedBox(height: 18.0),
+        const SizedBox(height: 18.0),
 
         Text(
           definition.word,
-          style: TextStyle(
+          style: const TextStyle(
               fontFamily: 'Merriweather',
               fontWeight: FontWeight.w700,
               color: Colors.white,
@@ -382,7 +376,7 @@ class DefinitionWidgetState extends State<DefinitionWidget>{
           ),
         ),
 
-        SizedBox(height: 18.0),
+        const SizedBox(height: 18.0),
 
         Text(
             definition.description,
@@ -407,7 +401,7 @@ class CytatWidget extends StatefulWidget{
   final Quote cytat;
   final List<Quote> cytaty;
 
-  const CytatWidget({this.cytat, this.cytaty});
+  const CytatWidget({this.cytat, this.cytaty, Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => CytatWidgetState();
@@ -427,7 +421,7 @@ class CytatWidgetState extends State<CytatWidget> with TickerProviderStateMixin{
   List<Quote> get cytaty => widget.cytaty;
 
   startAnimation() async{
-    await Future.delayed(Duration(milliseconds: 1000));
+    await Future.delayed(const Duration(milliseconds: 1000));
     setState(() => _showAuthor = true);
   }
 
@@ -451,7 +445,7 @@ class CytatWidgetState extends State<CytatWidget> with TickerProviderStateMixin{
     return Column(
       children: <Widget>[
 
-        Align(
+        const Align(
           alignment: Alignment.centerLeft,
           child: Icon(
             MdiIcons.formatQuoteClose,
@@ -460,11 +454,11 @@ class CytatWidgetState extends State<CytatWidget> with TickerProviderStateMixin{
           ),
         ),
 
-        SizedBox(height: 18.0),
+        const SizedBox(height: 18.0),
 
         Text(
             cytat.cytat,
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: 'Merriweather',
                 //fontWeight: weight.halfBold,
                 fontSize: textSize,
@@ -474,14 +468,14 @@ class CytatWidgetState extends State<CytatWidget> with TickerProviderStateMixin{
         ),
 
 
-        SizedBox(height: 32),
+        const SizedBox(height: 32),
         AnimatedOpacity(
           opacity: _showAuthor?1.0:0.0,
           child: Align(
               alignment: Alignment.bottomRight,
               child: Text(
                 '~ ${cytat.autor}',
-                style: TextStyle(
+                style: const TextStyle(
                     fontFamily: 'Merriweather',
                     color: Colors.white54,
                     fontSize: textSize+2,
@@ -489,7 +483,7 @@ class CytatWidgetState extends State<CytatWidget> with TickerProviderStateMixin{
                 ),
                 textAlign: TextAlign.end,
               ),
-          ), duration: Duration(seconds: 2),
+          ), duration: const Duration(seconds: 2),
         ),
       ],
     );
@@ -497,39 +491,11 @@ class CytatWidgetState extends State<CytatWidget> with TickerProviderStateMixin{
 
 }
 
-class CytatHintWidget extends StatefulWidget{
-  @override
-  State<StatefulWidget> createState() => CytatHintWidgetState();
-}
-
-class CytatHintWidgetState extends State<CytatHintWidget>{
-
-  bool _showClickHint;
-
-  @override
-  void initState() {
-    _showClickHint = false;
-    Timer(const Duration(seconds: 18), () => setState(() => _showClickHint = true));
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedOpacity(
-      opacity: _showClickHint?1.0:0.0,
-      child: Align(
-          alignment: Alignment.center,
-          child: Text('Kliknij cytat, aby kontynuować...', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_SMALL, color: hintEnab_(context)))
-      ), duration: Duration(seconds: 2),
-    );
-  }
-}
-
 class PatroniteSupport extends StatelessWidget{
 
   final Color textColor;
 
-  const PatroniteSupport({this.textColor: Colors.white});
+  const PatroniteSupport({this.textColor = Colors.white, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -549,9 +515,9 @@ class PatroniteSupport extends StatelessWidget{
 
           Text('HarcPatroni: ', style: AppTextStyle(color: textColor.withOpacity(0.5), fontWeight: weight.halfBold)),
           FadeAnimatedTextKit(
-              key: ValueKey('HarcPatroni'),
+              key: const ValueKey('HarcPatroni'),
               text: harcPatroni,
-              duration: Duration(seconds: 4),
+              duration: const Duration(seconds: 4),
               textStyle: AppTextStyle(fontWeight: weight.halfBold, color: textColor),
               textAlign: TextAlign.center,
               repeatForever: true,
@@ -565,15 +531,15 @@ class PatroniteSupport extends StatelessWidget{
 
 class DefaultLayout extends StatefulWidget{
 
-  const DefaultLayout();
+  const DefaultLayout({Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState(){
-
     switch(appMode){
       case AppMode.appModeDefault: return DefaultLayoutState();
       case AppMode.appModeAdwent: return AdwentLayoutState();
       case AppMode.appModeChristmas: return ChristmasLayoutState();
+      case AppMode.appModeWielkiPiatek: return WielkiPiatekLayoutState();
       case AppMode.appModeZmartwychwstanie: return ZmartwychwstanieLayoutState();
       case AppMode.appModePowstWarsz: return PowstanieWarszawskieLayoutState();
       case AppMode.appModeNiepodleglosc: return NiepodlegloscLayoutState();
@@ -593,9 +559,7 @@ class DefaultLayoutState extends State<DefaultLayout>{
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return GradientWidget(
+  Widget build(BuildContext context) => GradientWidget(
       radius: 0,
       colorStart: AppColors.start_background_default,
       colorEnd: Colors.teal,
@@ -609,24 +573,22 @@ class DefaultLayoutState extends State<DefaultLayout>{
               children:[
 
                 Padding(
-                  padding: EdgeInsets.all(32),
+                  padding: const EdgeInsets.all(32),
                   child: Column(
                     children: [
-                      SizedBox(height: 48.0),
+                      const SizedBox(height: 48.0),
 
                       _HarcApp(color: Colors.black.withOpacity(0.08)),
 
-                      SizedBox(height: 36.0),
+                      const SizedBox(height: 36.0),
 
                       if(chooseQuote)
-                        CytatWidget(cytaty: CYTATY_REGULAR)
+                        const CytatWidget(cytaty: CYTATY_REGULAR)
                       else
-                        DefinitionWidget()
+                        const DefinitionWidget()
                     ],
                   ),
                 ),
-
-
 
                 //CytatHintWidget(),
 
@@ -635,7 +597,7 @@ class DefaultLayoutState extends State<DefaultLayout>{
                 //HarcAppLogo(),
               ]
           ),
-          Positioned(
+          const Positioned(
             bottom: Dimen.DEF_MARG,
             right: Dimen.DEF_MARG,
             child: PatroniteSupport(),
@@ -643,8 +605,7 @@ class DefaultLayoutState extends State<DefaultLayout>{
 
         ],
       )
-    );
-  }
+  );
 }
 
 class AdwentLayoutState extends State<DefaultLayout>{
@@ -677,8 +638,8 @@ class AdwentLayoutState extends State<DefaultLayout>{
 
     return GradientWidget(
         radius: 0,
-        colorStart: Color.fromARGB(255, 14, 20, 54),
-        colorEnd: Color.fromARGB(255, 5, 5, 10),
+        colorStart: const Color.fromARGB(255, 14, 20, 54),
+        colorEnd: const Color.fromARGB(255, 5, 5, 10),
         child:
         backgroundPreloaded?
         Stack(
@@ -811,13 +772,13 @@ class AdwentLayoutState extends State<DefaultLayout>{
                 children:[
 
                   Padding(
-                    padding: EdgeInsets.all(32),
+                    padding: const EdgeInsets.all(32),
                     child: Column(
                       children: [
-                        SizedBox(height: 34.0),
+                        const SizedBox(height: 34.0),
 
                         //_HarcApp(color: Colors.white.withOpacity(0.08)),
-                        Text(
+                        const Text(
                           'Adwent',
                           style: TextStyle(
                               fontFamily: 'PlayfairDisplay',
@@ -827,22 +788,22 @@ class AdwentLayoutState extends State<DefaultLayout>{
                           ),
                         ),
 
-                        Text(
+                        const Text(
                           'radosny czas oczekiwania',
                           style: TextStyle(
                               fontFamily: 'PlayfairDisplay',
                               fontSize: 17.8,
                               color: Colors.white,
-                              shadows: [Shadow(color: Colors.black, blurRadius: 10)]
+                              shadows: [const Shadow(color: Colors.black, blurRadius: 10)]
                           ),
                         ),
 
-                        SizedBox(height: 36.0),
+                        const SizedBox(height: 36.0),
 
                         if(chooseFrag)
-                          HolyBibleFragWidget(adwentFrags)
+                          const HolyBibleFragWidget(adwentFrags)
                         else
-                          FactWidget(adwentFacts)
+                          const FactWidget(adwentFacts)
                       ],
                     ),
                   ),
@@ -856,7 +817,7 @@ class AdwentLayoutState extends State<DefaultLayout>{
                   //HarcAppLogo(),
                 ]
             ),
-            Positioned(
+            const Positioned(
               bottom: Dimen.DEF_MARG,
               right: Dimen.DEF_MARG,
               child: PatroniteSupport(),
@@ -880,7 +841,7 @@ class ChristmasLayoutState extends State<DefaultLayout>{
 
   Future<void> preload() async {
     await Future.delayed(Duration.zero);
-    await precacheImage(AssetImage(backgroundPath), context);
+    await precacheImage(const AssetImage(backgroundPath), context);
     setState(() => backgroundPreloaded = true);
   }
 
@@ -912,17 +873,17 @@ class ChristmasLayoutState extends State<DefaultLayout>{
                 children:[
 
                   Padding(
-                    padding: EdgeInsets.all(32),
+                    padding: const EdgeInsets.all(32),
                     child: Column(
                       children: [
-                        SizedBox(height: 48.0),
+                        const SizedBox(height: 48.0),
 
                         SizedBox(
                           height: 100,
                           child: Image.asset(backgroundPath),
                         ),
 
-                        SizedBox(height: 18.0),
+                        const SizedBox(height: 18.0),
 
                         Text(
                             'Bóg się rodzi!',
@@ -930,12 +891,12 @@ class ChristmasLayoutState extends State<DefaultLayout>{
                           textAlign: TextAlign.center,
                         ),
 
-                        SizedBox(height: 36.0),
+                        const SizedBox(height: 36.0),
 
                         if(chooseQuote)
-                          CytatWidget(cytaty: CYTATY_REGULAR)
+                          const CytatWidget(cytaty: CYTATY_REGULAR)
                         else
-                          DefinitionWidget()
+                          const DefinitionWidget()
                       ],
                     ),
                   ),
@@ -949,7 +910,7 @@ class ChristmasLayoutState extends State<DefaultLayout>{
                   //HarcAppLogo(),
                 ]
             ),
-            Positioned(
+            const Positioned(
               bottom: Dimen.DEF_MARG,
               right: Dimen.DEF_MARG,
               child: PatroniteSupport(),
@@ -964,10 +925,113 @@ class ChristmasLayoutState extends State<DefaultLayout>{
   }
 }
 
+class WielkiPiatekLayoutState extends State<DefaultLayout>{
+
+  static const backgroundPath = 'assets/images/start/start_good_friday.webp';
+
+  bool imageLoaded;
+
+  loadBackground() async {
+    await Future.delayed(Duration.zero);
+    await precacheImage(const AssetImage(backgroundPath), context);
+    setState(() => imageLoaded = true);
+  }
+
+  @override
+  void initState() {
+
+    imageLoaded = false;
+    loadBackground();
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) => Container(
+      color: Colors.black,
+      child: Column(
+        children: [
+
+          Stack(
+            children: [
+
+              AspectRatio(
+                  aspectRatio: 3/2,
+                  child: AnimatedOpacity(
+                    opacity: imageLoaded?1:0,
+                    duration: const Duration(seconds: 1),
+                    child: Image.asset(backgroundPath),
+                  ),
+              ),
+
+              Positioned.fill(
+                child: Container(
+                    decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            Colors.transparent,
+                            Colors.black,
+                          ],
+                        )
+                    )
+                ),
+              ),
+
+            ],
+          ),
+          
+          Expanded(child: Stack(
+            children: [
+
+              HarcAppRotatedBackground(Colors.white.withOpacity(0.08)),
+
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 64, right: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Eloi, lema sabachthani?',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyle(color: Colors.white, fontSize: 32.0),
+                      ),
+                      const SizedBox(height: Dimen.DEF_MARG),
+                      Text(
+                        'Wielki piątek.',
+                        textAlign: TextAlign.end,
+                        style: AppTextStyle(color: Colors.white, fontSize: 24.0, fontWeight: weight.bold),
+                      ),
+                    ],
+                  )
+                ),
+              ),
+
+              Positioned(
+                bottom: Dimen.DEF_MARG,
+                right: Dimen.DEF_MARG,
+                child: PatroniteSupport(textColor: Colors.white.withOpacity(.2)),
+              )
+
+            ],
+          ))
+          
+        ],
+      )
+  );
+
+}
+
 class ZmartwychwstanieLayoutState extends State<DefaultLayout>{
 
   bool glow;
-  static const glowDuration = const Duration(milliseconds: 1300);
+  static const glowDuration = Duration(milliseconds: 1300);
 
   ValueNotifier<List<double>> notifier;
 
@@ -987,96 +1051,108 @@ class ZmartwychwstanieLayoutState extends State<DefaultLayout>{
     super.initState();
   }
 
-
   @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: AppColors.app_yellow_main,
-        child: Stack(
-          children: [
+  Widget build(BuildContext context) => GradientWidget(
+      radius: 0,
+      colorStart: Colors.yellow,
+      colorEnd: Colors.orange,
+      child: Stack(
+        children: [
 
-            Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children:[
-                  Padding(
-                    padding: EdgeInsets.only(top: 38, bottom: 18.0),
-                    child: _HarcApp(size: 48.0, color: Colors.white,),
-                  ),
+          HarcAppRotatedBackground(Colors.black.withOpacity(0.08)),
 
-                  SizedBox(
-                    height: 100,
-                    child: Stack(
-                      children: <Widget>[
+          Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children:[
 
-                        Container(
-                          color: Colors.transparent,
-                          alignment: Alignment.center,
-                          child: Container(
-                            height: 60,
-                            width: 50,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: const Radius.circular(40.0),
-                                  topRight: const Radius.circular(40.0),
-                                  bottomLeft: const Radius.circular(4.0),
-                                  bottomRight: const Radius.circular(4.0),
-                                )
-                            ),
-                          ),
-                        ),
+                Padding(
+                  padding: const EdgeInsets.all(32),
+                  child: Column(
+                    children: [
 
-                        AnimatedOpacity(
-                          child: Container(
-                            color: Colors.transparent,
-                            alignment: Alignment.center,
-                            child: Container(
-                              height: 100,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(const Radius.circular(100.0))
+                      _HarcApp(color: Colors.white.withOpacity(0.2)),
+
+                      const SizedBox(height: 36.0),
+
+                      SizedBox(
+                        height: 100,
+                        child: Stack(
+                          children: <Widget>[
+
+                            Container(
+                              color: Colors.transparent,
+                              alignment: Alignment.center,
+                              child: Container(
+                                height: 60,
+                                width: 50,
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(40.0),
+                                      topRight: Radius.circular(40.0),
+                                      bottomLeft: Radius.circular(4.0),
+                                      bottomRight: Radius.circular(4.0),
+                                    )
+                                ),
                               ),
                             ),
-                          ),
-                          duration: glowDuration,
-                          opacity: glow?0.6:0.2,
+
+                            AnimatedOpacity(
+                              child: Container(
+                                color: Colors.transparent,
+                                alignment: Alignment.center,
+                                child: Container(
+                                  height: 100,
+                                  width: 100,
+                                  decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(Radius.circular(100.0))
+                                  ),
+                                ),
+                              ),
+                              duration: glowDuration,
+                              opacity: glow?0.6:0.2,
+                            ),
+
+                            GyroscopeWidget(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 85),
+                                child: SvgPicture.asset('assets/images/resur_rock.svg'),
+                              ),
+                              multipleY: 0,
+                              multipleX: 24,
+                            ),
+
+
+                          ],
                         ),
+                      ),
 
-                        GyroscopeWidget(
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 85),
-                            child: SvgPicture.asset('assets/images/resur_rock.svg'),
-                          ),
-                          multipleY: 0,
-                          multipleX: 24,
-                        ),
-
-
-                      ],
-                    ),
+                      const CytatWidget(cytat: tischnerZmartwychwstwanie)
+                    ],
                   ),
+                ),
 
-                  Padding(
-                    padding: EdgeInsets.only(right: 24, left: 24),
-                    child: CytatWidget(cytat: tischnerZmartwychwstwanie),
-                  ),
-                  CytatHintWidget(),
-                  HarcAppLogo(),
-                ]
-            ),
+                Container(),
+                Container(),
+                Container(),
+                Container()
 
-            Positioned(
-              bottom: Dimen.DEF_MARG,
-              right: Dimen.DEF_MARG,
-              child: PatroniteSupport(textColor: Colors.pink,),
-            )
+                //CytatHintWidget(),
+                //const HarcAppLogo(),
+              ]
+          ),
+
+          const Positioned(
+            bottom: Dimen.DEF_MARG,
+            right: Dimen.DEF_MARG,
+            child: PatroniteSupport(textColor: Colors.pink),
+          )
 
 
-          ],
-        )
-    );
-  }
+        ],
+      )
+  );
 
 }
 
@@ -1087,7 +1163,7 @@ class PowstanieWarszawskieLayoutState extends State<DefaultLayout>{
   bool imageLoaded;
 
   loadImage()async{
-    post(() async => await precacheImage(AssetImage(BG_IMG_PATH), context));
+    post(() async => await precacheImage(const AssetImage(BG_IMG_PATH), context));
     setState(() => imageLoaded = true);
   }
 
@@ -1107,7 +1183,7 @@ class PowstanieWarszawskieLayoutState extends State<DefaultLayout>{
       );
 
     return Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage(BG_IMG_PATH),
               fit: BoxFit.cover,
@@ -1120,9 +1196,9 @@ class PowstanieWarszawskieLayoutState extends State<DefaultLayout>{
             Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children:[
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(20),
-                    child: _HarcApp(size: 48.0, color: Colors.white,),
+                    child: const _HarcApp(size: 48.0, color: Colors.white,),
                   ),
 
                   SvgPicture.asset(
@@ -1131,15 +1207,15 @@ class PowstanieWarszawskieLayoutState extends State<DefaultLayout>{
                     height: 100,
                   ),
 
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(right: 24, left: 24),
-                    child: CytatWidget(cytaty: CYTATY_POWST_WARSZ),
+                    child: const CytatWidget(cytaty: CYTATY_POWST_WARSZ),
                   ),
 
-                  HarcAppLogo(),
+                  const HarcAppLogo(),
                 ]
             ),
-            Positioned(
+            const Positioned(
               bottom: Dimen.DEF_MARG,
               right: Dimen.DEF_MARG,
               child: PatroniteSupport(),
@@ -1174,33 +1250,31 @@ class WaveClipper extends CustomClipper<Path> {
 class NiepodlegloscLayoutState extends State<DefaultLayout>{
 
   @override
-  Widget build(BuildContext context) {
-
-    return GradientWidget(
+  Widget build(BuildContext context) => GradientWidget(
       radius: 0,
-        colorStart: Colors.red[900],
-        colorEnd: Colors.deepOrange,
-        child: Stack(
-          children: [
+      colorStart: Colors.red[900],
+      colorEnd: Colors.deepOrange,
+      child: Stack(
+        children: [
 
-            HarcAppRotatedBackground(Colors.white.withOpacity(0.14)),
+          HarcAppRotatedBackground(Colors.white.withOpacity(0.14)),
 
-            Column(
-                children:[
+          Column(
+              children:[
 
-                  ClipPath(
-                    clipper: WaveClipper(),
-                    child: PhysicalModel(
-                      color: Colors.black,
-                      child: GradientWidget(
+                ClipPath(
+                  clipper: WaveClipper(),
+                  child: PhysicalModel(
+                    color: Colors.black,
+                    child: GradientWidget(
                         radius: 0,
                         colorStart: Colors.white,
-                        colorEnd: Color.fromARGB(255, 210, 210, 210),
+                        colorEnd: const Color.fromARGB(255, 210, 210, 210),
                         height: MediaQuery.of(context).size.height/2.4,
                         child: Column(
                           children: [
 
-                            Expanded(
+                            const Expanded(
                               child: Padding(
                                 padding: EdgeInsets.all(20),
                                 child: _HarcApp(size: 48.0, color: Colors.black12),
@@ -1208,7 +1282,7 @@ class NiepodlegloscLayoutState extends State<DefaultLayout>{
                             ),
 
                             Padding(
-                              padding: EdgeInsets.only(left: 32, right: 32),
+                              padding: const EdgeInsets.only(left: 32, right: 32),
                               child: Text(
                                 'Niepodległość nie jest nam dana raz na zawsze.',
                                 style: GoogleFonts.cinzelDecorative(
@@ -1221,40 +1295,39 @@ class NiepodlegloscLayoutState extends State<DefaultLayout>{
                               ),
                             ),
 
-                            SizedBox(height: 36.0),
-                            SizedBox(height: 12.0),
+                            const SizedBox(height: 36.0),
+                            const SizedBox(height: 12.0),
 
                           ],
                         )
-                      ),
                     ),
                   ),
+                ),
 
-                  Padding(
-                    padding: EdgeInsets.only(top: 12.0, left: 32, right: 32),
-                    child: Text(
-                      'Wymaga od każdego pokolenia troski o ojczyznę.',
-                      style: GoogleFonts.cinzelDecorative(
-                          fontSize: CytatWidgetState.textSize,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                          height: 1.3
-                      ),
-                      textAlign: TextAlign.center,
+                Padding(
+                  padding: const EdgeInsets.only(top: 12.0, left: 32, right: 32),
+                  child: Text(
+                    'Wymaga od każdego pokolenia troski o ojczyznę.',
+                    style: GoogleFonts.cinzelDecorative(
+                        fontSize: CytatWidgetState.textSize,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        height: 1.3
                     ),
-                  )
+                    textAlign: TextAlign.center,
+                  ),
+                )
 
-                ]
-            ),
+              ]
+          ),
 
-            Positioned(
-              bottom: Dimen.DEF_MARG,
-              right: Dimen.DEF_MARG,
-              child: PatroniteSupport(),
-            )
+          const Positioned(
+            bottom: Dimen.DEF_MARG,
+            right: Dimen.DEF_MARG,
+            child: PatroniteSupport(),
+          )
 
-          ],
-        )
-    );
-  }
+        ],
+      )
+  );
 }

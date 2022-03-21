@@ -351,8 +351,8 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumResp>, RemoveSyncItem
 
   static const String syncClassId = 'album';
 
-  @override
-  SyncableParam get parentParam => const RootSyncable(syncClassId);
+  //@override
+  //SyncableParam get parentParam => RootSyncable(syncClassId);
 
   @override
   List<SyncableParam> get childParams => [
@@ -430,13 +430,9 @@ enum AlbumName{
   skladanka,
   didzejka
 }
-AlbumName albumName = AlbumName.album;
 
-AlbumName readAlbumName(ShaPref shaPref) => stringToAlbumName(shaPref.getString(ShaPref.SHA_PREF_SPIEWNIK_ALBUM_NAME, albumNameToString(AlbumName.album)));
-void setAlbumName(ShaPref shaPref, AlbumName name){
-  albumName = name;
-  shaPref.setString(ShaPref.SHA_PREF_SPIEWNIK_ALBUM_NAME, albumNameToString(name));
-}
+AlbumName get albumName => stringToAlbumName(shaPref.getString(ShaPref.SHA_PREF_SPIEWNIK_ALBUM_NAME, albumNameToString(AlbumName.album)));
+set albumName(AlbumName name) => shaPref.setString(ShaPref.SHA_PREF_SPIEWNIK_ALBUM_NAME, albumNameToString(name));
 
 String albumNameToString(AlbumName name){
   switch (name) {

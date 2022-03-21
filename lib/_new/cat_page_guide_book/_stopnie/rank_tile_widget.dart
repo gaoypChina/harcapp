@@ -12,6 +12,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:tuple/tuple.dart';
 
+import '../../details/app_settings.dart';
 import 'models_common/rank.dart';
 
 const String GROUP_TITLE_OGOLNE = 'Ogólne';
@@ -22,7 +23,7 @@ class RankTileWidget<T extends Rank> extends StatelessWidget {
 
   final T rank;
 
-  const RankTileWidget({@required this.rank});
+  const RankTileWidget({@required this.rank, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,82 +31,18 @@ class RankTileWidget<T extends Rank> extends StatelessWidget {
     Tuple2<List<IconData>, double> iconStuff = RankData.iconSizeMap[rank.data];
     RankColors colors = RankData.colors[rank.data];
 
-      return RankTileWidgetTemplate(
-        colorStart: colors.start(Settings.isDark),
-        colorEnd: colors.end(Settings.isDark),
-        icons: iconStuff.item1,
-        iconSize: iconStuff.item2,
-        titleTop: rank.titleMale,
-        titleBottom: rank.titleFemale,
+    return RankTileWidgetTemplate(
+      colorStart: colors.start(AppSettings.isDark),
+      colorEnd: colors.end(AppSettings.isDark),
+      icons: iconStuff.item1,
+      iconSize: iconStuff.item2,
+      titleTop: rank.titleMale,
+      titleBottom: rank.titleFemale,
 
-        trailing: RankProgressWidget(rank.completed, rank.inProgress, rank.completenessPercent),
-        onTap: (context) => openRankDialog(context, rank),
-      );
-}
-  /*
-      SimpleButton(
-    radius: AppCard.BIG_RADIUS,
-    padding: EdgeInsets.zero,
-    margin: EdgeInsets.zero,
-    clipBehavior: Clip.none,
-    onTap: () => onTap?.call(context),
-    child: Row(
-      children: [
-        SizedBox(
-          width: leadingWidth,
-          child: AspectRatio(
-            aspectRatio: leadingAspectRatio,
-            child: GradientWidget(
-              radius: AppCard.BIG_RADIUS,
-              colorStart: colorStart,
-              colorEnd: colorEnd,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: icons.map((icon) => Icon(icon, size: iconSize, color: textColor??iconEnab_(context))).toList(),
-              ),
-              elevation: AppCard.bigElevation,
-            ),
-          ),
-        ),
-
-        SizedBox(width: Dimen.SIDE_MARG),
-
-        Expanded(child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-
-            Text(
-              rank.titleMale,
-              style: AppTextStyle(
-                  fontSize: Dimen.TEXT_SIZE_BIG,
-                  fontWeight: weight.halfBold,
-                  color: textColor??iconEnab_(context)
-              ),
-            ),
-
-            if(rank.titleFemale != null)
-              Text(
-                rank.titleFemale,
-                style: AppTextStyle(
-                    fontSize: Dimen.TEXT_SIZE_BIG,
-                    fontWeight: weight.halfBold,
-                    color: textColor??textEnab_(context)
-                ),
-              )
-
-          ],
-        )),
-
-        SizedBox(width: Dimen.SIDE_MARG),
-
-        getTrailing(context)??Container()
-
-      ],
-    ),
-  );
-*/
+      trailing: RankProgressWidget(rank.completed, rank.inProgress, rank.completenessPercent),
+      onTap: (context) => openRankDialog(context, rank),
+    );
+  }
 
 }
 

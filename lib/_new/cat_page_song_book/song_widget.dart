@@ -5,6 +5,8 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:harcapp/_new/cat_page_song_book/settings/song_book_base_settings.dart';
+import 'package:harcapp/_new/cat_page_song_book/settings/song_book_settings.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/storage.dart';
@@ -40,7 +42,6 @@ import 'common_youtube.dart';
 import 'copy_page.dart';
 import 'own_song_page/init_widget.dart';
 import 'own_song_page/own_song_page.dart';
-import 'settings_page.dart';
 import 'song_management/song.dart';
 import 'tab_of_cont_page.dart';
 
@@ -107,7 +108,7 @@ class SongWidget extends StatelessWidget{
 
     topScreenPadding: 0,
 
-    initInstrumentType: SongBookSettings.chordsDrawType,
+    initInstrumentType: SongBookSettings.drawChordsType,
 
     onScroll: onScroll,//(scrollInfo) => determineFloatingButtonOpacity(context, scrollInfo),
 
@@ -308,7 +309,7 @@ class SongWidget extends StatelessWidget{
     onChordsTypeChanged: (type){
       ChordsDrawTypeProvider prov = Provider.of<ChordsDrawTypeProvider>(context, listen: false);
       prov.chordsDrawType = type;
-      SongBookSettings.chordsDrawType = type;
+      SongBookSettings.drawChordsType = type;
     },
 
     onChordsTap: (prov){

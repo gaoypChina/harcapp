@@ -45,7 +45,8 @@ class RankTileWidgetTemplate extends StatelessWidget{
     this.titleBottomColor,
     this.trailing,
     this.titleBottomLeading,
-  });
+    Key key
+  }): super(key: key);
 
   @override
   Widget build(BuildContext context) => SimpleButton(
@@ -75,48 +76,51 @@ class RankTileWidgetTemplate extends StatelessWidget{
           ),
         ),
 
-        SizedBox(width: Dimen.SIDE_MARG),
+        const SizedBox(width: Dimen.SIDE_MARG),
 
-        Expanded(child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
 
-            Text(
-              titleTop,
-              style: AppTextStyle(
-                  fontSize: Dimen.TEXT_SIZE_BIG,
-                  fontWeight: weight.halfBold,
-                  color: titleTopColor??iconEnab_(context)
+              Text(
+                titleTop,
+                style: AppTextStyle(
+                    fontSize: Dimen.TEXT_SIZE_BIG,
+                    fontWeight: weight.halfBold,
+                    color: titleTopColor??iconEnab_(context)
+                ),
               ),
-            ),
 
-            if(titleBottomLeading != null || titleBottom != null)
-              SizedBox(height: Dimen.DEF_MARG),
+              if(titleBottomLeading != null || titleBottom != null)
+                const SizedBox(height: Dimen.DEF_MARG),
 
-            Row(
-              children: [
+              Row(
+                children: [
 
-                if(titleBottomLeading != null)
-                  titleBottomLeading,
+                  if(titleBottomLeading != null)
+                    titleBottomLeading,
 
-                if(titleBottom != null)
-                  Text(
-                    titleBottom,
-                    style: AppTextStyle(
-                        fontSize: Dimen.TEXT_SIZE_BIG,
-                        fontWeight: weight.halfBold,
-                        color: titleBottomColor??textEnab_(context)
-                    ),
-                  )
+                  if(titleBottom != null)
+                    Text(
+                      titleBottom,
+                      style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_BIG,
+                          fontWeight: weight.halfBold,
+                          color: titleBottomColor??textEnab_(context)
+                      ),
+                    )
 
-              ],
-            )
+                ],
+              )
 
-          ],
-        )),
+            ],
+          ),
+        ),
 
-        SizedBox(width: Dimen.SIDE_MARG),
+        const SizedBox(width: Dimen.SIDE_MARG),
 
         if(trailing != null)
           trailing

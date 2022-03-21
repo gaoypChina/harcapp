@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:harcapp/_common_classes/org/org_handler.dart';
 import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models/rank_def.dart';
+import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:path/path.dart';
 
 import '../_common_classes/sha_pref.dart';
@@ -10,6 +12,7 @@ import '../_common_classes/storage.dart';
 import '../_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
 import '../_new/cat_page_guide_book/_stopnie/models/rank_zhp_sim_2022.dart';
 import '../_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
+import '../_new/cat_page_song_book/settings/song_book_settings.dart';
 import '../_new/cat_page_song_book/song_management/album.dart';
 import '../_new/cat_page_song_book/song_management/off_song.dart';
 import '../_new/cat_page_song_book/song_management/own_song.dart';
@@ -19,16 +22,56 @@ class NothingToSyncException implements Exception{}
 
 mixin SyncNode<T extends SyncGetResp> on SyncableParam{
 
-  static Map<String, List<SyncableParam>> get allBaseNodes => {
-    OffSong.syncClassId: OffSong.allOfficial,
-    OwnSong.syncClassId: OwnSong.allOwn,
-    Album.syncClassId: Album.allOwn,
+  static SyncableParam get offSongNodes => SyncableParamGroup(
+      null,
+      paramId: OffSong.syncClassId,
+      childParams: OffSong.allOfficial
+  );
 
-    RankDef.syncClassId: Rank.allSyncClassIdDef,
-    RankZHPSim2022.syncClassId: RankZHPSim2022.all,
+  static SyncableParam get ownSongNodes => SyncableParamGroup(
+      null,
+      paramId: OwnSong.syncClassId,
+      childParams: OwnSong.allOwn
+  );
 
-    Spraw.syncClassId: Spraw.all,
-  };
+  static SyncableParam get albumNodes => SyncableParamGroup(
+      null,
+      paramId: Album.syncClassId,
+      childParams: Album.allOwn
+  );
+
+  static SyncableParam get rankDefNodes => SyncableParamGroup(
+      null,
+      paramId: RankDef.syncClassId,
+      childParams: Rank.allSyncClassIdDef
+  );
+
+  static SyncableParam get rankZHPSim2022Nodes => SyncableParamGroup(
+      null,
+      paramId: RankZHPSim2022.syncClassId,
+      childParams: RankZHPSim2022.all
+  );
+
+  static SyncableParam get sprawNodes => SyncableParamGroup(
+      null,
+      paramId: Spraw.syncClassId,
+      childParams: Spraw.all
+  );
+
+  static List<SyncableParam> get all => [
+    OrgHandler(),
+    AppSettings(),
+    SongBookSettings(),
+
+    offSongNodes,
+    ownSongNodes,
+    albumNodes,
+
+    rankDefNodes,
+    rankZHPSim2022Nodes,
+
+    sprawNodes
+  ];
 
   void applySyncGetResp(T resp);
 
@@ -46,13 +89,13 @@ abstract class SyncableParam{
     return parentParams;
   }
 
-  SyncableParam get parentParam => null;
+  SyncableParam parentParam;
 
   String get paramId;
 
   bool get isSynced;
 
-  const SyncableParam();
+  SyncableParam();
 
   Map<String, dynamic> getUnsyncedMap();
 
@@ -70,33 +113,16 @@ abstract class SyncableParam{
     } else if (this is SyncableParamGroup_) {
       if(synced is! Map) logger.e('Sync problem! Group sync result: $synced');
       for (String paramId in synced.keys) {
-        (this as SyncableParamGroup_)
+
+        if(synced[paramId] == RemoveSyncItem.removedRespCode)
+          RemoveSyncItem.resolve((paramList + [paramId]).join(RemoveSyncItem.paramSep));
+        else
+          (this as SyncableParamGroup_)
             .childParams.firstWhere((param) => param.paramId == paramId)
             .saveSyncResult(synced[paramId], lastSync);
       }
     }
   }
-
-}
-
-class RootSyncable extends SyncableParam{
-
-  @override
-  void changeSyncStateInAll(List<int> stateFrom, int stateTo) {}
-
-  @override
-  Map<String, dynamic> getUnsyncedMap() => {};
-
-  @override
-  bool get isSynced => throw UnimplementedError();
-
-  @override
-  Future<dynamic> buildPostReq({bool includeDefaults = false, bool setSyncStateInProgress = false}) async => {};
-
-  @override
-  final String paramId;
-
-  const RootSyncable(this.paramId);
 
 }
 
@@ -184,8 +210,8 @@ abstract class SyncableParamSingle_ extends SyncableParam{
   @override
   Map<String, dynamic> getUnsyncedMap() {
     Map<String, dynamic> result = {};
-    if (state != STATE_SYNCED)
-      result[paramId] = stateToString[state];
+    if (!isNotSet && state != STATE_SYNCED)
+      result[paramId] = {"sync_state": stateToString[state], "isNotSet": isNotSet};
 
     return result;
   }
@@ -216,7 +242,7 @@ abstract class SyncableParamSingle_ extends SyncableParam{
 class SyncableParamGroup extends SyncableParamGroup_ {
 
   @override
-  final SyncableParam parentParam;
+  SyncableParam parentParam;
 
   @override
   final String paramId;
@@ -224,7 +250,10 @@ class SyncableParamGroup extends SyncableParamGroup_ {
   @override
   final List<SyncableParam> childParams;
 
-  SyncableParamGroup(this.parentParam, {@required this.paramId, @required this.childParams});
+  SyncableParamGroup(this.parentParam, {@required this.paramId, @required this.childParams}){
+    for(SyncableParam param in childParams)
+      param.parentParam = this;
+  }
 
 }
 
@@ -298,6 +327,7 @@ abstract class SyncableParamGroup_ extends SyncableParam{
 
 mixin RemoveSyncItem on SyncableParam{
 
+  static const String removedRespCode = 'removed';
   static const String paramSep = '@';
 
   static List<String> all;
@@ -324,16 +354,17 @@ mixin RemoveSyncItem on SyncableParam{
   static String getPath(List<String> paramList) => join(getRemoveSyncReqFolderPath, getFileName(paramList));
   String get path => join(getRemoveSyncReqFolderPath, _fileName);
 
-  /*
-  void deleteSyncRemoveMark(){
-    File file = File(path);
+  static void resolve(String fileName){
+    File file = File(join(getRemoveSyncReqFolderPath, fileName));
     file.deleteSync(recursive: true);
+    all.remove(fileName);
   }
-*/
+
   void markSyncAsRemoved(){
     File file = File(getPath(paramList));
     file.createSync(recursive: true);
     addToAll(paramList);
+    logger.d('Marked ${getFileName(paramList)} for removal.');
   }
 
   static void readAll(){

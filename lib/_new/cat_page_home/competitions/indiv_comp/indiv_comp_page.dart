@@ -1,4 +1,3 @@
-
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -19,7 +18,6 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_task_page/participant_list_page.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
-import 'package:harcapp/_new/details/part_settings.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
 import 'package:harcapp/account/account_thumbnail_widget.dart';
@@ -37,6 +35,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tuple/tuple.dart';
 
+import '../../../details/app_settings.dart';
 import '../../../module_statistics_registrator.dart';
 import 'indiv_comp_awards_page.dart';
 import 'indiv_comp_editor/common.dart';
@@ -69,7 +68,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
   IndivComp updatedComp;
   IndivComp get comp => updatedComp??widget.comp;
 
-  Color get compIconColor => !comp.colors.iconWhite&&!Settings.isDark?textEnab_(context):background_(context);//comp.colors.iconWhite?Colors.white:(Settings.isDark?background_(context):textEnab_(context));
+  Color get compIconColor => !comp.colors.iconWhite&&!AppSettings.isDark?textEnab_(context):background_(context);//comp.colors.iconWhite?Colors.white:(Settings.isDark?background_(context):textEnab_(context));
 
   RefreshController refreshController;
 

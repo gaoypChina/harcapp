@@ -7,11 +7,9 @@ import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/providers.dart';
 import 'package:harcapp/_new/cat_page_home/providers.dart';
 import 'package:harcapp/_new/cat_page_song_book/providers.dart';
-import 'package:harcapp/_new/cat_page_song_book/song_loader.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
-import 'package:harcapp/_new/details/part_settings.dart';
 import 'package:harcapp/values/colors.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
@@ -23,6 +21,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
 
+import '../_new/details/app_settings.dart';
 import 'sha_pref.dart';
 
 const Duration pageJumpDuration = Duration(milliseconds: 200);
@@ -222,7 +221,7 @@ class DialogRoute extends PageRoute{
 
   @override
   Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) => SafeArea(
-      top: !Settings.checkFullScreen,
+      top: !AppSettings.fullscreen,
       child: builder(context)
   );
 

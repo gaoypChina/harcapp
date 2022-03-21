@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
-import 'package:harcapp/_new/details/part_settings.dart';
 import 'package:harcapp/values/colors.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
+
+import '../../details/app_settings.dart';
 
 class ChildStopnie extends StatelessWidget{
 
@@ -24,8 +25,8 @@ class ChildStopnie extends StatelessWidget{
         context: context,
         builder: (context) => BottomSheetStopien(
           title: 'Przewodnik\nPrzewodniczka',
-          color: Settings.isDark?cardEnab_(context):AppColors.stop_pwd,
-          textColor: Settings.isDark?textEnab_(context):Colors.white,
+          color: AppSettings.isDark?cardEnab_(context):AppColors.stop_pwd,
+          textColor: AppSettings.isDark?textEnab_(context):Colors.white,
           idea: 'Swoją postawą propaguje harcerski system wartości wynikający z Przyrzeczenia i Prawa Harcerskiego. Poznaje siebie i motywy swojego postępowania. Pracuje nad własnymi słabościami i rozwija zdolności. Jest wzorem dla harcerzy. We współdziałaniu z dziećmi i młodzieżą znajduje radość, umie być starszym kolegą i przewodnikiem. Bierze aktywny udział w życiu drużyny, świadomie stosując metodę harcerską i wykorzystując przykład osobisty do realizacji celów wychowawczych. Ma poczucie odpowiedzialności za pracę i powierzoną grupę. Współtworzy hufcową wspólnotę. Ma świadomość wychowawczej roli służby w harcerstwie.',
           warOtw: const [
             'Złożenie Przyrzeczenia Harcerskiego.',
@@ -82,8 +83,8 @@ class ChildStopnie extends StatelessWidget{
           context: context,
           builder: (context) => BottomSheetStopien(
             title: 'Podharcmistrz\nPodharcmistrzyni',
-            color: Settings.isDark?cardEnab_(context):AppColors.stop_phm,
-            textColor: Settings.isDark?textEnab_(context):Colors.white,
+            color: AppSettings.isDark?cardEnab_(context):AppColors.stop_phm,
+            textColor: AppSettings.isDark?textEnab_(context):Colors.white,
             idea: 'Określa kierunki swojego rozwoju i je realizuje. Pracuje nad własnymi słabościami, przełamując je. Przykładem osobistym świadomie i pozytywnie oddziałuje na otoczenie. Rozumie ludzi i otaczającą go rzeczywistość – reaguje na ich potrzeby. Systematycznie stosuje służbę jako narzędzie harcerskiej pracy wychowawczej. Potrafi zauważyć sytuacje problemowe i je rozwiązywać. Umie spojrzeć na nie szerzej, niż tylko z perspektywy własnego środowiska. Buduje swój autorytet. Doskonali swą wiedzę i umiejętności wychowawcze. Dzieli się nimi z kadrą. Świadomie i konsekwentnie stosuje metodę harcerską. Pracuje w zespole instruktorskim. Ma własny pogląd na sprawy nurtujące jego środowisko harcerskie. Wzmacnia tożsamość harcerstwa.',
             warOtw: const [
               'Pozytywnie oceniona praca instruktorska przez co najmniej 12 miesięcy od przyznania stopnia przewodnika.',
@@ -134,8 +135,8 @@ class ChildStopnie extends StatelessWidget{
           context: context,
           builder: (context) => BottomSheetStopien(
             title: 'Harcmistrz\nHarcmistrzyni',
-            color: Settings.isDark?cardEnab_(context):AppColors.stop_hm,
-            textColor: Settings.isDark?textEnab_(context):Colors.white,
+            color: AppSettings.isDark?cardEnab_(context):AppColors.stop_hm,
+            textColor: AppSettings.isDark?textEnab_(context):Colors.white,
             idea: 'Dba o swój wszechstronny rozwój. Stara się dotrzeć do prawdy o sensie życia. Konsekwentnie realizuje swoje cele życiowe. Osiągnął założoną przez siebie dojrzałość w życiu rodzinnym, zawodowym i społecznym. Kreuje rzeczywistość. Jest znaczącą osobowością w zespole instruktorskim, z którym aktywnie pracuje w środowisku swojego działania. Dzieli się własnymi doświadczeniami życiowymi i wychowawczymi i przekłada je na trwały dorobek. Po mistrzowsku stosuje harcerski system wychowawczy. Ma dużą wiedzę i umiejętności w zakresie samodzielnego kierowania zespołem. Potrafi inspirować i organizować swoje środowisko do potrzebnego społecznie działania. Wpływa na oblicze harcerstwa, buduje jego tożsamość. Jest wzorem dla instruktorów.',
             warOtw: const [
               'Pozytywnie oceniona praca instruktorska przez co najmniej 12 miesięcy od przyznania stopnia podharcmistrza.',

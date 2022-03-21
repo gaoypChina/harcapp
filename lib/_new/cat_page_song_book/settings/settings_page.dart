@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_new/cat_page_song_book/settings/song_book_settings.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/values/consts.dart';
-import 'package:harcapp_core/comm_widgets/instrument_type.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core_song_widget/providers.dart';
-import 'package:harcapp_core_song_widget/settings.dart';
 import 'package:provider/provider.dart';
 
 
@@ -16,7 +14,7 @@ class SettingsPage extends StatefulWidget {
 
   final void Function(bool) onScreenAlwaysOnChanged;
 
-  const SettingsPage({this.onScreenAlwaysOnChanged});
+  const SettingsPage({this.onScreenAlwaysOnChanged, Key key}): super(key: key);
 
   @override
   State<SettingsPage> createState() => SettingsPageState();
@@ -127,7 +125,7 @@ class SettingsPageState extends State<SettingsPage> {
           dense: true,
           value: AlbumName.album,
           groupValue: albumName,
-          onChanged: (AlbumName value) => setState(() => setAlbumName(shaPref, AlbumName.album)),
+          onChanged: (AlbumName value) => setState(() => albumName = AlbumName.album),
           activeColor: Album.current.avgColorDarkSensitive(context),
         ),
         RadioListTile<AlbumName>(
@@ -138,7 +136,7 @@ class SettingsPageState extends State<SettingsPage> {
           dense: true,
           value: AlbumName.wolumin,
           groupValue: albumName,
-          onChanged: (AlbumName value) => setState(() => setAlbumName(shaPref, AlbumName.wolumin)),
+          onChanged: (AlbumName value) => setState(() => albumName = AlbumName.wolumin),
           activeColor: Album.current.avgColorDarkSensitive(context),
         ),
         RadioListTile<AlbumName>(
@@ -149,7 +147,7 @@ class SettingsPageState extends State<SettingsPage> {
           dense: true,
           value: AlbumName.grajdziupla,
           groupValue: albumName,
-          onChanged: (AlbumName value) => setState(() => setAlbumName(shaPref, AlbumName.grajdziupla)),
+          onChanged: (AlbumName value) => setState(() => albumName = AlbumName.grajdziupla),
           activeColor: Album.current.avgColorDarkSensitive(context),
         ),
         RadioListTile<AlbumName>(
@@ -160,7 +158,7 @@ class SettingsPageState extends State<SettingsPage> {
           dense: true,
           value: AlbumName.skladanka,
           groupValue: albumName,
-          onChanged: (AlbumName value) => setState(() => setAlbumName(shaPref, AlbumName.skladanka)),
+          onChanged: (AlbumName value) => setState(() => albumName = AlbumName.skladanka),
           activeColor: Album.current.avgColorDarkSensitive(context),
         ),
         RadioListTile<AlbumName>(
@@ -171,7 +169,7 @@ class SettingsPageState extends State<SettingsPage> {
           dense: true,
           value: AlbumName.didzejka,
           groupValue: albumName,
-          onChanged: (AlbumName value) => setState(() => setAlbumName(shaPref, AlbumName.didzejka)),
+          onChanged: (AlbumName value) => setState(() => albumName = AlbumName.didzejka),
           activeColor: Album.current.avgColorDarkSensitive(context),
         ),
       ],
@@ -179,12 +177,12 @@ class SettingsPageState extends State<SettingsPage> {
 
     return BottomNavScaffold(
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
 
           SliverAppBar(
             backgroundColor: background_(context),
-            title: Text('Ustawienia'),
+            title: const Text('Ustawienia'),
             centerTitle: true,
             floating: true,
           ),
@@ -192,15 +190,15 @@ class SettingsPageState extends State<SettingsPage> {
           SliverList(
             delegate: SliverChildListDelegate([
               alwaysOnScreen,
-              SizedBox(height: Dimen.SETTINGS_MARG),
+              const SizedBox(height: Dimen.SETTINGS_MARG),
               textScroll,
-              SizedBox(height: Dimen.SETTINGS_MARG),
+              const SizedBox(height: Dimen.SETTINGS_MARG),
               chords,
-              SizedBox(height: Dimen.SETTINGS_MARG),
+              const SizedBox(height: Dimen.SETTINGS_MARG),
               albumColor,
-              SizedBox(height: Dimen.SETTINGS_MARG),
+              const SizedBox(height: Dimen.SETTINGS_MARG),
               tabOfContOnStart,
-              SizedBox(height: Dimen.SETTINGS_MARG),
+              const SizedBox(height: Dimen.SETTINGS_MARG),
               albumNameCard,
             ]),
           )
@@ -208,66 +206,4 @@ class SettingsPageState extends State<SettingsPage> {
       ),
     );
   }
-}
-
-class SongBookBaseSetting extends SongBookSettTempl{
-
-  @override
-  bool get alwaysOnScreen => shaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_ALWAYS_ON_SCREEN, false);
-  @override
-  set alwaysOnScreen(bool value) => shaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_ALWAYS_ON_SCREEN, value);
-
-  @override
-  bool get scrollText => shaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SCROLL_TEXT, true);
-  @override
-  set scrollText(bool value) => shaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SCROLL_TEXT, value);
-
-  @override
-  double get autoscrollTextSpeed => shaPref.getDouble(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_AUTOSCROLL_TEXT_SPEED, 0.4);
-  @override
-  set autoscrollTextSpeed(double value) => shaPref.setDouble(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_AUTOSCROLL_TEXT_SPEED, value);
-
-  @override
-  bool get showChords => shaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_CHORDS, true);
-  @override
-  set showChords(bool value) => shaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_CHORDS, value);
-
-  @override
-  bool get chordsDrawShow => shaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_CHORDS_DRAW, true);
-  @override
-  set chordsDrawShow(bool value) => shaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_CHORDS_DRAW, value);
-
-  @override
-  InstrumentType get chordsDrawType => intToTstrumentType(shaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_CHORDS_DRAW_TYPE, 0));
-  @override
-  set chordsDrawType(InstrumentType value) => shaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_CHORDS_DRAW_TYPE, instrumentTypeToInt(value));
-
-}
-
-class SongBookSettings{
-
-  static bool get alwaysOnScreen => SongBookBaseSetting().alwaysOnScreen;
-  static set alwaysOnScreen(bool value) => SongBookBaseSetting().alwaysOnScreen = value;
-
-  static bool get scrollText => SongBookBaseSetting().scrollText;
-  static set scrollText(bool value) => SongBookBaseSetting().scrollText = value;
-
-  static double get autoscrollTextSpeed => SongBookBaseSetting().autoscrollTextSpeed;
-  static set autoscrollTextSpeed(double value) => SongBookBaseSetting().autoscrollTextSpeed = value;
-
-  static bool get showChords => SongBookBaseSetting().showChords;
-  static set showChords(bool value) => SongBookBaseSetting().showChords = value;
-
-  static bool get chordsDrawShow => SongBookBaseSetting().chordsDrawShow;
-  static set chordsDrawShow(bool value) => SongBookBaseSetting().chordsDrawShow = value;
-
-  static InstrumentType get chordsDrawType => SongBookBaseSetting().chordsDrawType;
-  static set chordsDrawType(InstrumentType value) => SongBookBaseSetting().chordsDrawType = value;
-
-  static bool get showAlbumIcon => shaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_ALBUM_ICON, true);
-  static set showAlbumIcon(bool value) => shaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_ALBUM_ICON, value);
-
-  static bool get showTabOfContOnStart => shaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_TAB_OF_CONT_ON_START, true);
-  static set showTabOfContOnStart(bool value) => shaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_TAB_OF_CONT_ON_START, value);
-
 }

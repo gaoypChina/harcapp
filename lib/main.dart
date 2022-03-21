@@ -32,8 +32,8 @@ import '_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particip
 import '_new/cat_page_home/providers.dart';
 import '_new/cat_page_other/strefa_ducha/providers.dart';
 import '_new/cat_page_song_book/providers.dart';
-import '_new/cat_page_song_book/settings_page.dart';
-import '_new/details/part_settings.dart';
+import '_new/cat_page_song_book/settings/song_book_base_settings.dart';
+import '_new/details/app_settings.dart';
 import '_new/main_page_new.dart';
 import '_new/providers.dart';
 import '_new/start/_main.dart';
@@ -46,6 +46,7 @@ enum AppMode{
   appModeDefault,
   appModeAdwent,
   appModeChristmas,
+  appModeWielkiPiatek,
   appModeZmartwychwstanie,
   appModePowstWarsz,
   appModeNiepodleglosc
@@ -74,6 +75,13 @@ void main() async {
     appMode = AppMode.appModeNiepodleglosc;
   else
     appMode = AppMode.appModeDefault;
+
+  if(DateTime.now().isAfter(DateTime(2022, 4, 15, 14)) && DateTime.now().isBefore(DateTime(2022, 4, 17, 4)))
+    appMode = AppMode.appModeWielkiPiatek;
+  else if(DateTime.now().isAfter(DateTime(2022, 4, 17, 4)) && DateTime.now().isBefore(DateTime(2022, 4, 24, 0)))
+    appMode = AppMode.appModeZmartwychwstanie;
+
+  appMode = AppMode.appModeWielkiPiatek;
 
   runApp(LocalizedApp(delegate, const OKToast(child: App())));
 
@@ -140,9 +148,6 @@ class AppNavigatorObserver extends NavigatorObserver{
 }
 
 class App extends StatefulWidget {
-
-  static bool get devMode => shaPref.getBool(ShaPref.SHA_PREF_SETTINGS_APP_DEV_MODE, false);
-  static set devMode(value) => shaPref.setBool(ShaPref.SHA_PREF_SETTINGS_APP_DEV_MODE, value);
 
   static bool get showPatroniteSeasonally{
 
@@ -263,12 +268,12 @@ class AppState extends State<App> {
           return prov;
         }),
 
-        ChangeNotifierProvider(create: (context) => ThemeProvider(Settings.theme, onChangedListener: () {
-          showAppToast(context, text: Settings.isDark?'Słońce już...\n...zeszło z gór...': 'Nowy dzień wstaje');
+        ChangeNotifierProvider(create: (context) => ThemeProvider(AppSettings.theme, onChangedListener: () {
+          showAppToast(context, text: AppSettings.isDark?'Słońce już...\n...zeszło z gór...': 'Nowy dzień wstaje');
         })),
         ChangeNotifierProvider(create: (context) => ColorPackProvider(
             initColorPack: _slctColorPack,
-            isDark: () => Settings.isDark,
+            isDark: () => AppSettings.isDark,
             colorPackDark: const ColorPackBlack()
         )),
         ChangeNotifierProvider(create: (context) => MainProvider()),
@@ -324,7 +329,7 @@ class AppState extends State<App> {
               Consumer2<ThemeProvider, ColorPackProvider>(
                 builder: (context, themeProv, colorPackProv, child){
 
-                  if(Settings.checkFullScreen)
+                  if(AppSettings.fullscreen)
                     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
                   else
                     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
@@ -383,7 +388,7 @@ class ThemeProvider extends ChangeNotifier{
   }
 
   void _startThemeTimer(){
-    int toChange = Settings.secsTillThemeChange;
+    int toChange = AppSettings.secsTillThemeChange;
     if(_themeTimer != null) _themeTimer.cancel();
 
     _themeTimer = Timer(Duration(seconds: toChange), (){

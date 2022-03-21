@@ -41,16 +41,15 @@ class PartInfoState extends State<PartInfo>{
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      child: Padding(
-        padding: EdgeInsets.only(top: part_margin, left: part_margin, right: part_margin),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
+  Widget build(BuildContext context) => SingleChildScrollView(
+    physics: const BouncingScrollPhysics(),
+    child: Padding(
+      padding: const EdgeInsets.only(top: part_margin, left: part_margin, right: part_margin),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
 
-            /*
+          /*
             SizedBox(height: SEPARATOR_BIG),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -101,61 +100,60 @@ class PartInfoState extends State<PartInfo>{
             SizedBox(height: SEPARATOR_BIG),
              */
 
-            TitleShortcutRowWidget(
-              title: 'Wersja $version',
-              leading: SizedBox(width: Dimen.ICON_MARG),
-              //icon: MdiIcons.accountReactivateOutline,
-              textAlign: TextAlign.start,
-              trailing: SizedBox(
-                width: Dimen.ICON_FOOTPRINT,
-                child: Icon(MdiIcons.chartLineVariant, color: hintEnab_(context)),
-              ),
-              iconColor: iconDisab_(context),
+          TitleShortcutRowWidget(
+            title: 'Wersja $version',
+            leading: const SizedBox(width: Dimen.ICON_MARG),
+            textAlign: TextAlign.start,
+            trailing: SizedBox(
+              width: Dimen.ICON_FOOTPRINT,
+              child: Icon(MdiIcons.chartLineVariant, color: hintEnab_(context)),
             ),
+            iconColor: iconDisab_(context),
+          ),
 
-            SimpleButton(
-              radius: AppCard.BIG_RADIUS,
-              onTap: () => openDialog(
-                  context: context,
-                  builder: (context) => AppCard(
-                    radius: AppCard.BIG_RADIUS,
-                    margin: AppCard.normMargin,
-                    padding: EdgeInsets.zero,
-                    child: PartChangelog(),
-                  )
-              ),
-              padding: EdgeInsets.zero,
-              margin: EdgeInsets.all(Dimen.DEF_MARG),
-              color: cardEnab_(context),
-              colorEnd: background_(context),
-              child: TitleShortcutRowWidget(
-                title: 'Co nowego?',
-              ),
+          SimpleButton(
+            radius: AppCard.BIG_RADIUS,
+            onTap: () => openDialog(
+                context: context,
+                builder: (context) => const AppCard(
+                  radius: AppCard.BIG_RADIUS,
+                  margin: AppCard.normMargin,
+                  padding: EdgeInsets.zero,
+                  child: PartChangelog(),
+                )
             ),
-
-            SizedBox(height: SEPARATOR_BIG),
-
-            TitleShortcutRowWidget(title: 'Zostań patronem!', textAlign: TextAlign.start),
-            PatroniteButton(),
-
-            SimpleButton(
-              radius: AppCard.BIG_RADIUS,
-              onTap: () => openDialog(
-                  context: context,
-                  builder: (context) => PartContributors()
-              ),
-              padding: EdgeInsets.zero,
-              margin: EdgeInsets.all(Dimen.DEF_MARG),
-              color: cardEnab_(context),
-              colorEnd: background_(context),
-              child: TitleShortcutRowWidget(
-                title: 'Osoby zasłużone',
-              ),
+            padding: EdgeInsets.zero,
+            margin: const EdgeInsets.all(Dimen.DEF_MARG),
+            color: cardEnab_(context),
+            colorEnd: background_(context),
+            child: const TitleShortcutRowWidget(
+              title: 'Co nowego?',
             ),
+          ),
 
-            SizedBox(height: SEPARATOR_BIG),
+          const SizedBox(height: SEPARATOR_BIG),
 
-            /*
+          const TitleShortcutRowWidget(title: 'Zostań patronem!', textAlign: TextAlign.start),
+          const PatroniteButton(),
+
+          SimpleButton(
+            radius: AppCard.BIG_RADIUS,
+            onTap: () => openDialog(
+                context: context,
+                builder: (context) => const PartContributors()
+            ),
+            padding: EdgeInsets.zero,
+            margin: const EdgeInsets.all(Dimen.DEF_MARG),
+            color: cardEnab_(context),
+            colorEnd: background_(context),
+            child: const TitleShortcutRowWidget(
+              title: 'Osoby zasłużone',
+            ),
+          ),
+
+          const SizedBox(height: SEPARATOR_BIG),
+
+          /*
             SimpleButton(
               onTap: () => launchURL('https://facebook.com/harcappka'),
               child: Row(children: <Widget>[
@@ -165,7 +163,7 @@ class PartInfoState extends State<PartInfo>{
               ],),
             ),
 */
-            /*
+          /*
                 SimpleButton(
                   onTap: () => launchURL('https://github.com/n3o2k7i8ch5/harcapp_flutter'),
                   child: Row(children: <Widget>[
@@ -176,81 +174,81 @@ class PartInfoState extends State<PartInfo>{
                 ),
                 */
 
-            //SizedBox(height: SEPARATOR_BIG),
+          //SizedBox(height: SEPARATOR_BIG),
 
 
-            TitleShortcutRowWidget(
-              title: 'Autor',
-              leading: SizedBox(width: Dimen.ICON_MARG),
-              //icon: MdiIcons.accountReactivateOutline,
-              textAlign: TextAlign.start,
-              trailing: SizedBox(
-                width: Dimen.ICON_FOOTPRINT,
-                child: Icon(MdiIcons.accountReactivateOutline, color: hintEnab_(context)),
-              ),
-              iconColor: iconDisab_(context),
+          TitleShortcutRowWidget(
+            title: 'Autor',
+            leading: const SizedBox(width: Dimen.ICON_MARG),
+            //icon: MdiIcons.accountReactivateOutline,
+            textAlign: TextAlign.start,
+            trailing: SizedBox(
+              width: Dimen.ICON_FOOTPRINT,
+              child: Icon(MdiIcons.accountReactivateOutline, color: hintEnab_(context)),
             ),
-            SizedBox(height: Dimen.ICON_MARG),
-            Padding(
-              padding: EdgeInsets.only(left: Dimen.ICON_MARG),
+            iconColor: iconDisab_(context),
+          ),
+          const SizedBox(height: Dimen.ICON_MARG),
+          Padding(
+              padding: const EdgeInsets.only(left: Dimen.ICON_MARG),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text('phm. Daniel Iwanicki HO', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold)),
-                  SizedBox(height: 2*Dimen.DEF_MARG),
+                  const SizedBox(height: 2*Dimen.DEF_MARG),
                   Text('WDHS "Uroczysko",\nWarszawa-Praga-Północ',
                       style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, color: hintEnab_(context))
                   ),
                 ],
               )
+          ),
+
+          const SizedBox(height: SEPARATOR_BIG),
+
+          TitleShortcutRowWidget(
+            title: 'Kontakt',
+            leading: const SizedBox(width: Dimen.ICON_MARG),
+            textAlign: TextAlign.start,
+            trailing: SizedBox(
+              width: Dimen.ICON_FOOTPRINT,
+              child: Icon(MdiIcons.emailOutline, color: hintEnab_(context)),
             ),
+            iconColor: iconDisab_(context),
+          ),
+          const SizedBox(height: Dimen.ICON_MARG),
+          Padding(
+            padding: const EdgeInsets.only(left: Dimen.ICON_MARG),
+            child: Text('harcapp@gmail.com',
+                style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, color: hintEnab_(context))),
+          ),
 
-            SizedBox(height: SEPARATOR_BIG),
+          const SizedBox(height: SEPARATOR_BIG),
 
-            TitleShortcutRowWidget(
-              title: 'Kontakt',
-              leading: SizedBox(width: Dimen.ICON_MARG),
-              textAlign: TextAlign.start,
-              trailing: SizedBox(
-                width: Dimen.ICON_FOOTPRINT,
-                child: Icon(MdiIcons.emailOutline, color: hintEnab_(context)),
-              ),
-              iconColor: iconDisab_(context),
+          TitleShortcutRowWidget(
+            title: 'Oto jak się zaczęło!',
+            leading: const SizedBox(width: Dimen.ICON_MARG),
+            textAlign: TextAlign.start,
+            trailing: SizedBox(
+              width: Dimen.ICON_FOOTPRINT,
+              child: Icon(MdiIcons.flagCheckered, color: hintEnab_(context)),
             ),
-            SizedBox(height: Dimen.ICON_MARG),
-            Padding(
-              padding: EdgeInsets.only(left: Dimen.ICON_MARG),
-              child: Text('harcapp@gmail.com',
-                  style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, color: hintEnab_(context))),
+            iconColor: iconDisab_(context),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(Dimen.ICON_MARG),
+            child: Text(
+              'Pierwszą wersję HarcAppki stworzyłem jako zadanie na próbę Harcerza Orlego, w drugiej klasie krakowskiego liceum.'
+                  '\n\nZaczynając realizację pomysłu nie miałem praktyki w tworzeniu aplikacji mobilnych, a projekt powstawał na styku doświadczeń prowadzenia drużyny harcerskiej, chęci stworzenia czegoś nowego i zainteresowania informatyką. Przed sobą masz efekt wielu godzin nauki, szukania, dyskusji, testowania i konsultacji. HarcAppka jest stale rozwijana i sukcesywnie (choć nieregularnie!) zyskuje nowe możliwości.'
+                  '\n\nW pracy nad aplikacją nieoceniona była pomoc wielu harcerzy z różnych organizacji - jednak projekt jest całkowicie oddolną i jednoosobową inicjatywą. Powstał po to, żeby pomóc Ci odkryć harcerstwo, ułatwić Twoją pracę instruktorską, zainspirować do nowych pomysłów i rozwoju.'
+                  '\n\nKorzystaj mądrze! :)',
+              style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2),
             ),
+          ),
 
-            SizedBox(height: SEPARATOR_BIG),
+          const SizedBox(height: SEPARATOR_BIG),
 
-            TitleShortcutRowWidget(
-              title: 'Oto jak się zaczęło!',
-              leading: SizedBox(width: Dimen.ICON_MARG),
-              textAlign: TextAlign.start,
-              trailing: SizedBox(
-                width: Dimen.ICON_FOOTPRINT,
-                child: Icon(MdiIcons.flagCheckered, color: hintEnab_(context)),
-              ),
-              iconColor: iconDisab_(context),
-            ),
-
-            Padding(
-              padding: EdgeInsets.all(Dimen.ICON_MARG),
-              child: Text(
-                'Pierwszą wersję HarcAppki stworzyłem jako zadanie na próbę Harcerza Orlego, w drugiej klasie krakowskiego liceum.'
-                    '\n\nZaczynając realizację pomysłu nie miałem praktyki w tworzeniu aplikacji mobilnych, a projekt powstawał na styku doświadczeń prowadzenia drużyny harcerskiej, chęci stworzenia czegoś nowego i zainteresowania informatyką. Przed sobą masz efekt wielu godzin nauki, szukania, dyskusji, testowania i konsultacji. HarcAppka jest stale rozwijana i sukcesywnie (choć nieregularnie!) zyskuje nowe możliwości.'
-                    '\n\nW pracy nad aplikacją nieoceniona była pomoc wielu harcerzy z różnych organizacji - jednak projekt jest całkowicie oddolną i jednoosobową inicjatywą. Powstał po to, żeby pomóc Ci odkryć harcerstwo, ułatwić Twoją pracę instruktorską, zainspirować do nowych pomysłów i rozwoju.'
-                    '\n\nKorzystaj mądrze! :)',
-                style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2),
-              ),
-            ),
-
-            SizedBox(height: SEPARATOR_BIG),
-
-            Center(
+          Center(
               child: SizedBox(
                 height: 64.0,
                 child: DefaultTextStyle(
@@ -265,24 +263,22 @@ class PartInfoState extends State<PartInfo>{
                     animatedTexts: [
                       FlickerAnimatedText('Czuwaj!'),
                     ],
-                    onTap: () {
-                      print("Tap Event");
-                    },
                   ),
                 ),
               )
-            ),
+          ),
 
-            SizedBox(height: SEPARATOR_BIG),
+          const SizedBox(height: SEPARATOR_BIG),
 
-          ],
-        ),
+        ],
       ),
-    );
-  }
+    ),
+  );
 }
 
 class PatroniteButton extends StatefulWidget{
+
+  const PatroniteButton({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => PatroniteButtonState();
@@ -292,126 +288,124 @@ class PatroniteButton extends StatefulWidget{
 class PatroniteButtonState extends State<PatroniteButton>{
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(
-            bottom: Dimen.DEF_MARG,
-            left: Dimen.DEF_MARG,
-            right: Dimen.DEF_MARG
-        ),
-        child: GradientWidget(
+  Widget build(BuildContext context) => Padding(
+      padding: const EdgeInsets.only(
+          bottom: Dimen.DEF_MARG,
+          left: Dimen.DEF_MARG,
+          right: Dimen.DEF_MARG
+      ),
+      child: GradientWidget(
           elevation: AppCard.bigElevation,
           radius: AppCard.BIG_RADIUS,
-            colorStart: Colors.amber,
-            colorEnd: Colors.deepOrange,
-            child: Padding(
-              padding: EdgeInsets.all(18),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+          colorStart: Colors.amber,
+          colorEnd: Colors.deepOrange,
+          child: Padding(
+            padding: const EdgeInsets.all(18),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
 
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
 
-                      SizedBox(
-                        height: 100,
-                        width: 100,
-                        child: Image.asset('assets/images/patronite_logo_full.png'),
-                      ),
+                    SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: Image.asset('assets/images/patronite_logo_full.png'),
+                    ),
 
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
 
-                            Padding(
-                                padding: EdgeInsets.only(left: TitleShortcutRowWidget.textStartPadding),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                                  children: [
+                          Padding(
+                              padding: const EdgeInsets.only(left: TitleShortcutRowWidget.textStartPadding),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
 
-                                    Column(
-                                      children: PatronListWidget.PLN50Patrons.map((p) => Padding(
-                                        padding: EdgeInsets.symmetric(vertical: 4.0),
-                                        child: PersonCardSimple(p, textColor: DefColorPack.ICON_ENABLED),
-                                      )).toList(),
-                                    ),
-                                    Column(
-                                      children: PatronListWidget.PLN20Patrons.map((p) => Padding(
-                                        padding: EdgeInsets.symmetric(vertical: 4.0),
-                                        child: PersonCardSimple(p, textColor: DefColorPack.ICON_ENABLED),
-                                      )).toList(),
-                                    ),
+                                  Column(
+                                    children: PatronListWidget.PLN50Patrons.map((p) => Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                      child: PersonCardSimple(p, textColor: DefColorPack.ICON_ENABLED),
+                                    )).toList(),
+                                  ),
+                                  Column(
+                                    children: PatronListWidget.PLN20Patrons.map((p) => Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                      child: PersonCardSimple(p, textColor: DefColorPack.ICON_ENABLED),
+                                    )).toList(),
+                                  ),
 
-                                    Text(
-                                        '...',
-                                        style: AppTextStyle(
-                                          fontSize: Dimen.TEXT_SIZE_APPBAR,
-                                          fontWeight: weight.bold,
-                                          color: DefColorPack.ICON_ENABLED,
-                                        )
-                                    ),
+                                  Text(
+                                      '...',
+                                      style: AppTextStyle(
+                                        fontSize: Dimen.TEXT_SIZE_APPBAR,
+                                        fontWeight: weight.bold,
+                                        color: DefColorPack.ICON_ENABLED,
+                                      )
+                                  ),
 
-                                    SizedBox(height: 10.0),
+                                  const SizedBox(height: 10.0),
 
-                                  ],
+                                ],
+                              )
+                          ),
+
+                          SimpleButton.from(
+                            color: backgroundIcon_(context),
+                            iconLeading: false,
+                            text: 'Pełna lista',
+                            textColor: DefColorPack.ICON_ENABLED,
+                            onTap: () => openDialog(
+                                context: context,
+                                builder: (context) => AppCard(
+                                  radius: AppCard.BIG_RADIUS,
+                                  padding: EdgeInsets.zero,
+                                  margin: const EdgeInsets.all(Dimen.SIDE_MARG),
+                                  child: PatronListWidget(),
                                 )
                             ),
+                            icon: MdiIcons.accountMultipleOutline,
+                            colorSplash: Colors.white24,
+                          ),
 
-                            SimpleButton.from(
-                                color: backgroundIcon_(context),
-                                iconLeading: false,
-                                text: 'Pełna lista',
-                                textColor: DefColorPack.ICON_ENABLED,
-                                onTap: () => openDialog(
-                                    context: context,
-                                    builder: (context) => AppCard(
-                                      radius: AppCard.BIG_RADIUS,
-                                      padding: EdgeInsets.zero,
-                                      margin: EdgeInsets.all(Dimen.SIDE_MARG),
-                                      child: PatronListWidget(),
-                                    )
-                                ),
-                                icon: MdiIcons.accountMultipleOutline,
-                                colorSplash: Colors.white24,
-                            ),
+                          const SizedBox(height: 10.0),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
 
-                            SizedBox(height: 10.0),
-                          ],
-                        ),
-                      )
-                    ],
+                const SizedBox(height: 10.0),
+
+                Text(
+                  'HarcAppka powstaje w wolnym czasie. Możesz pomóc zostając jej patronem!',
+                  style: AppTextStyle(
+                    color: DefColorPack.ICON_ENABLED,
+                    fontSize: Dimen.TEXT_SIZE_BIG,
                   ),
+                  textAlign: TextAlign.center,
+                ),
 
-                  SizedBox(height: 10.0),
+                const SizedBox(height: 10.0),
 
-                  Text(
-                    'HarcAppka powstaje w wolnym czasie. Możesz pomóc zostając jej patronem!',
-                    style: AppTextStyle(
-                      color: DefColorPack.ICON_ENABLED,
-                      fontSize: Dimen.TEXT_SIZE_BIG,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
+                SimpleButton.from(
+                    color: backgroundIcon_(context),
+                    iconLeading: false,
+                    text: 'Dołącz do grona patronów!',
+                    textColor: DefColorPack.ICON_ENABLED,
+                    fontWeight: weight.bold,
+                    onTap: () => launchURL('https://patronite.pl/harcapp'),
+                    icon: MdiIcons.handHeartOutline
+                )
 
-                  SizedBox(height: 10.0),
-
-                  SimpleButton.from(
-                      color: backgroundIcon_(context),
-                      iconLeading: false,
-                      text: 'Dołącz do grona patronów!',
-                      textColor: DefColorPack.ICON_ENABLED,
-                      fontWeight: weight.bold,
-                      onTap: () => launchURL('https://patronite.pl/harcapp'),
-                      icon: MdiIcons.handHeartOutline
-                  )
-
-                ],
-              ),
-            )
-        )
-    );
-  }
+              ],
+            ),
+          )
+      )
+  );
 
 }

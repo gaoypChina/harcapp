@@ -15,7 +15,6 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/comp
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/rank_spraw_temp_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/loading_widget.dart';
 import 'package:harcapp/_new/cat_page_home/providers.dart';
-import 'package:harcapp/_new/details/part_settings.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
@@ -32,6 +31,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../../details/app_settings.dart';
 import '../../../module_statistics_registrator.dart';
 
 
@@ -456,7 +456,7 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
                 const SizedBox(width: Dimen.ICON_FOOTPRINT),
                 Expanded(child: Text('Ładowanie...', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR), textAlign: TextAlign.center)),
                 const SizedBox(width: Dimen.ICON_MARG),
-                SpinKitChasingDots(color: RankData.colors[rank.data].avgColor(Settings.isDark), size: Dimen.ICON_SIZE),
+                SpinKitChasingDots(color: RankData.colors[rank.data].avgColor(AppSettings.isDark), size: Dimen.ICON_SIZE),
                 const SizedBox(width: Dimen.ICON_MARG),
               ],
             );
@@ -616,7 +616,7 @@ class ShareDialogState extends State<ShareDialog>{
                 icon: const Icon(MdiIcons.check),
                 onPressed: anythingChanged?() async {
                   setState(() => processing = true);
-                  showLoadingWidget(context, RankData.colors[rank.data].avgColor(Settings.isDark), 'Chwileczkę...');
+                  showLoadingWidget(context, RankData.colors[rank.data].avgColor(AppSettings.isDark), 'Chwileczkę...');
                   await ApiRank.shareRank(
                       rank.uniqRankName,
                       addByNick: usersToAdd.map((user) => user.nick).toList(),

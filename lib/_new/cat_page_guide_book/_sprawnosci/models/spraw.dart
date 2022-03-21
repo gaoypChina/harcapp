@@ -272,8 +272,8 @@ class Spraw extends RankSprawTemplate<SprawResp>{
 
   static const String syncClassId = 'spraw';
 
-  @override
-  SyncableParam get parentParam => const RootSyncable(syncClassId);
+  //@override
+  //SyncableParam get parentParam => RootSyncable(syncClassId);
 
   @override
   String get paramId => uniqName;

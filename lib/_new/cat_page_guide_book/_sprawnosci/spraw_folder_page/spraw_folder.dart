@@ -3,7 +3,8 @@ import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
-import 'package:harcapp/_new/details/part_settings.dart';
+
+import '../../../details/app_settings.dart';
 
 class SprawFolder{
   
@@ -14,7 +15,7 @@ class SprawFolder{
 
   static const String omegaFolderId = '__omega__';
   static const String omegaFolderName = 'Zapisane';
-  static String get omegaFolderColorKey => Settings.isDark?'white':'black';
+  static String get omegaFolderColorKey => AppSettings.isDark?'white':'black';
   static CommonColorData get omegaFolderColor => getColorData(omegaFolderColorKey);
   static const String omegaFolderIconKey = 'bookCheckOutline';
   static IconData get omegaFolderIcon => getIcon(omegaFolderId);
@@ -162,9 +163,11 @@ class SprawFolder{
     return success;
   }
 
+  @override
   bool operator == (Object other) =>
       other is SprawFolder && id == other.id;
 
+  @override
   int get hashCode => id.hashCode;
 
 

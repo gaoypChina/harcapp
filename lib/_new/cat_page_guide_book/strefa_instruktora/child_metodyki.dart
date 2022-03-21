@@ -1,18 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
-import 'package:harcapp/_new/details/part_settings.dart';
 import 'package:harcapp/values/colors.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_widgets/simple_button.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import '../../details/app_settings.dart';
 
 class ChildMetodyki extends StatelessWidget{
+
+  const ChildMetodyki({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
 
@@ -26,7 +27,7 @@ class ChildMetodyki extends StatelessWidget{
       onTap: () => showScrollBottomSheet(
         context: context,
         builder: (context) => BottomSheetMeto(
-          color: Settings.isDark?cardEnab_(context):AppColors.meto_z,
+          color: AppSettings.isDark?cardEnab_(context):AppColors.meto_z,
           textColor: textEnab_(context),
           title: 'Zuchy',
           zalozenia: 'Charakterystyczną formą aktywności zuchów jest zabawa w kogoś lub w coś – realizowana zespołowo przez zdobywanie sprawności oraz podczas zbiórek gromady. Animatorem zabawy jest wódz zuchowy – drużynowy.',
@@ -48,7 +49,7 @@ class ChildMetodyki extends StatelessWidget{
       onTap: () => showScrollBottomSheet(
         context: context,
         builder: (context) => BottomSheetMeto(
-          color: Settings.isDark?cardEnab_(context):AppColors.meto_h,
+          color: AppSettings.isDark?cardEnab_(context):AppColors.meto_h,
           textColor: textEnab_(context),
           title: 'Harcerze',
           zalozenia: 'Charakterystyczną formą aktywności w tej grupie metodycznej jest gra - przyswajanie technik harcerskich, nabywanie wiedzy i umiejętności, oraz towarzyszące temu współzawodnictwo.',
@@ -69,8 +70,8 @@ class ChildMetodyki extends StatelessWidget{
       onTap: () => showScrollBottomSheet(
         context: context,
         builder: (context) => BottomSheetMeto(
-          color: Settings.isDark?cardEnab_(context):AppColors.meto_hs,
-          textColor: Settings.isDark?textEnab_(context):Colors.white,
+          color: AppSettings.isDark?cardEnab_(context):AppColors.meto_hs,
+          textColor: AppSettings.isDark?textEnab_(context):Colors.white,
           title: 'Harcerze starsi',
           zalozenia: 'Charakterystyczną formą aktywności harcerek starszych i harcerzy starszych jest poszukiwanie, polegające na przewartościowywaniu dotychczasowego sposobu patrzenia na świat i autorytety. O programie i działaniach drużyny decyduje rada drużyny.',
           rola: 'Drużynowy jest przewodnikiem w poszukiwaniach, W istotny sposób wpływa na program drużyny i jej organizację. Świadomie część decyzji powierza radzie drużyny. Drużynowy dba o rozwój przybocznych i wychowuje następcę.',
@@ -90,7 +91,7 @@ class ChildMetodyki extends StatelessWidget{
       onTap: () => showScrollBottomSheet(
         context: context,
         builder: (context) => BottomSheetMeto(
-          color: Settings.isDark?cardEnab_(context):AppColors.meto_w,
+          color: AppSettings.isDark?cardEnab_(context):AppColors.meto_w,
           textColor: Colors.white,
           title: 'Wędrownicy',
           zalozenia: 'Charakterystyczną formą aktywności wędrowniczek i wędrowników  jest służba realizowana wewnątrz organizacji i poza nią. Zadania realizowane indywidualnie lub zespołowo mają charakter wyczynu. W działalności wędrowniczej ważne miejsce zajmują specjalności i specjalizacje, pozwalające na rozwijanie indywidualnych zainteresowań. O programie pracy drużyny i podejmowanych zadaniach decyduje cała drużyna.',
@@ -103,15 +104,15 @@ class ChildMetodyki extends StatelessWidget{
 
     return MediaQuery.of(context).orientation == Orientation.portrait?
     ListView(
-      physics: BouncingScrollPhysics(),
-      padding: EdgeInsets.all(Dimen.SIDE_MARG),
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
       children: <Widget>[
         cardMetoZ,
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
         cardMetoH,
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
         cardMetoHS,
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
         cardMetoW,
       ],):
     Column(
@@ -163,22 +164,22 @@ class BottomSheetMeto extends BottomSheetDef{
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Text('Założenia ogólne:', style: AppTextStyle(color: textColor??textEnab_(context), fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
-          SizedBox(height: Dimen.DEF_MARG),
+          const SizedBox(height: Dimen.DEF_MARG),
           Text(zalozenia, style: AppTextStyle(color: textColor??textEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG)),
 
-          SizedBox(height: 2*Dimen.ICON_MARG),
+          const SizedBox(height: 2*Dimen.ICON_MARG),
           Text('Rola drużynowego:', style: AppTextStyle(color: textColor??textEnab_(context), fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
-          SizedBox(height: Dimen.DEF_MARG),
+          const SizedBox(height: Dimen.DEF_MARG),
           Text(rola, style: AppTextStyle(color: textColor??textEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG)),
 
-          SizedBox(height: 2*Dimen.ICON_MARG),
+          const SizedBox(height: 2*Dimen.ICON_MARG),
           Text('Formy pracy:', style: AppTextStyle(color: textColor??textEnab_(context), fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
-          SizedBox(height: Dimen.DEF_MARG),
+          const SizedBox(height: Dimen.DEF_MARG),
           Text(formy, style: AppTextStyle(color: textColor??textEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG)),
 
-          SizedBox(height: 2*Dimen.ICON_MARG),
+          const SizedBox(height: 2*Dimen.ICON_MARG),
           Text('Instrumenty metodyczne:', style: AppTextStyle(color: textColor??textEnab_(context), fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
-          SizedBox(height: Dimen.DEF_MARG),
+          const SizedBox(height: Dimen.DEF_MARG),
           Text(instrumenty, style: AppTextStyle(color: textColor??textEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG))
         ],
       ),
@@ -233,7 +234,7 @@ class MetoButton extends StatelessWidget{
                 flex: 2
             ),
 
-            SizedBox(width: Dimen.SIDE_MARG),
+            const SizedBox(width: Dimen.SIDE_MARG),
 
             Expanded(
                 flex: 5,
@@ -249,7 +250,7 @@ class MetoButton extends StatelessWidget{
                         AppText('Wiek: <b>$age</b>', size: Dimen.TEXT_SIZE_BIG),
                       ],
                     ),
-                    SizedBox(height: Dimen.ICON_MARG),
+                    const SizedBox(height: Dimen.ICON_MARG),
                     Row(
                       children: [
                         //Icon(MdiIcons.accountStarOutline, color: hintEnab_(context)),
@@ -257,7 +258,7 @@ class MetoButton extends StatelessWidget{
                         AppText('Drużynowy: <b>$leader</b>', size: Dimen.TEXT_SIZE_BIG),
                       ],
                     ),
-                    SizedBox(height: Dimen.ICON_MARG),
+                    const SizedBox(height: Dimen.ICON_MARG),
                     Row(
                       children: [
                         //Icon(MdiIcons.toolboxOutline, color: hintEnab_(context)),

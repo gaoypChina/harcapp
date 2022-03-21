@@ -200,8 +200,8 @@ class RankZHRD extends RankZHRDTempl<RankStateLocal>{
 
   static const String syncClassId = RankDef.syncClassId;
 
-  @override
-  SyncableParam get parentParam => const RootSyncable(syncClassId);
+  //@override
+  //SyncableParam get parentParam => RootSyncable(syncClassId);
 
 }
 

@@ -13,6 +13,8 @@ import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/extended_floating_button.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
+import 'package:harcapp/_new/cat_page_song_book/settings/song_book_base_settings.dart';
+import 'package:harcapp/_new/cat_page_song_book/settings/song_book_settings.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_loader.dart';
 import 'package:harcapp/_new/cat_page_song_book/songs_statistics_registrator.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -21,7 +23,7 @@ import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_common_widgets/preload_page_view.dart';
 import 'package:harcapp/_new/cat_page_song_book/providers.dart';
-import 'package:harcapp/_new/cat_page_song_book/settings_page.dart';
+import 'package:harcapp/_new/cat_page_song_book/settings/settings_page.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
@@ -57,7 +59,7 @@ SongsStatisticsRegistrator songsStatisticsRegistrator = SongsStatisticsRegistrat
 
 class CatPageSongBook extends StatefulWidget{
 
-  static const PAGE_VIEW_EXTENTS = 1;
+  static const pageViewExtents = 1;
 
   const CatPageSongBook({Key key}) : super(key: key);
 
@@ -353,6 +355,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
   @override
   Widget build(BuildContext context) => AppScaffold(
+    extendBody: true,
     body: Consumer<AlbumProvider>(
         builder: (context, albProv, child) {
 
@@ -450,12 +453,10 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                             size: 0.8*min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
                           ),
                         ),
-                        builder: (BuildContext context, child){
-                          return Opacity(
-                            child: child,
-                            opacity: 0.15*sin(pi* notifier.value).abs(),
-                          );
-                        },
+                        builder: (BuildContext context, child) => Opacity(
+                          child: child,
+                          opacity: 0.15*sin(pi* notifier.value).abs(),
+                        )
                       )),
 
                   ],

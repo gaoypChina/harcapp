@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/title_widget/common.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
@@ -12,13 +11,13 @@ import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/drawer.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/providers.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/widgets.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../main.dart';
+import '../../details/app_settings.dart';
 import 'title_widget/article_bookmark_icon.dart';
 import 'article_core.dart';
 import 'common.dart';
@@ -196,14 +195,14 @@ class ArticleWidgetState extends State<ArticleWidget> {
     if(problem)
       return Container(
         color: Colors.transparent,
-        child: Center(child: Text('Ajajaj...')),
+        child: const Center(child: Text('Ajajaj...')),
       );
 
     return Consumer<ArticleThemeProvider>(
       builder: (context, prov, child) => BottomNavScaffold(
         body: CustomScrollView(
           controller: controller,
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           slivers: [
 
             SliverList(
@@ -242,7 +241,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
                                           child: Material(
                                               color: Colors.transparent,
                                               child: Padding(
-                                                  padding: EdgeInsets.all(CARD_PADDING_NORM - Dimen.ICON_MARG,),
+                                                  padding: const EdgeInsets.all(CARD_PADDING_NORM - Dimen.ICON_MARG,),
                                                   child: Column(
                                                     children: [
 
@@ -250,7 +249,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
                                                         children: [
 
                                                           IconButton(
-                                                            icon: Icon(MdiIcons.arrowLeft, color: Colors.white),
+                                                            icon: const Icon(MdiIcons.arrowLeft, color: Colors.white),
                                                             onPressed: () => Navigator.pop(context),
                                                           ),
 
@@ -263,7 +262,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
 
                                                           if(article.isSeen)
                                                             IconButton(
-                                                                icon: Icon(MdiIcons.eyeOutline, color: ColorPackBlack.ICON_DISABLED),
+                                                                icon: const Icon(MdiIcons.eyeOutline, color: ColorPackBlack.ICON_DISABLED),
                                                                 onPressed: () => showAppToast(context, text: 'Artykuł przeczytany')
                                                             ),
                                                         ],
@@ -280,7 +279,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
                                                             children: [
 
                                                               Padding(
-                                                                padding: EdgeInsets.only(
+                                                                padding: const EdgeInsets.only(
                                                                   left: CARD_PADDING_NORM - Dimen.ICON_MARG,
                                                                   bottom: CARD_PADDING_NORM - Dimen.ICON_MARG,
                                                                 ),
@@ -312,14 +311,14 @@ class ArticleWidgetState extends State<ArticleWidget> {
                                 ),
                               ),
 
-                              SizedBox(height: CARD_PADDING_NORM),
+                              const SizedBox(height: CARD_PADDING_NORM),
 
                               TagsWidget(article),
 
-                              SizedBox(height: CARD_PADDING_NORM),
+                              const SizedBox(height: CARD_PADDING_NORM),
 
                               Padding(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                     left: CARD_PADDING_NORM,
                                     right: CARD_PADDING_NORM
                                 ),
@@ -339,9 +338,9 @@ class ArticleWidgetState extends State<ArticleWidget> {
                 animation: appBarNotifier,
                 builder: (context, child) => AnimatedOpacity(
                   opacity: appBarNotifier.value==1?1:0,
-                  duration: Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 300),
                   child: IconButton(
-                    icon: Icon(MdiIcons.arrowLeft),
+                    icon: const Icon(MdiIcons.arrowLeft),
                     onPressed: () => Navigator.pop(context),
                   ),
                 ),
@@ -351,7 +350,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
                 animation: appBarNotifier,
                 builder: (context, child) => AnimatedOpacity(
                   opacity: appBarNotifier.value==1?1:0,
-                  duration: Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 300),
                   child: Text(
                     article.title,
                     style: AppTextStyle(
@@ -369,9 +368,9 @@ class ArticleWidgetState extends State<ArticleWidget> {
                   animation: appBarNotifier,
                   builder: (context, child) => AnimatedOpacity(
                     opacity: appBarNotifier.value==1?1:0,
-                    duration: Duration(milliseconds: 300),
+                    duration: const Duration(milliseconds: 300),
                     child: IconButton(
-                        icon: Icon(
+                        icon: const Icon(
                           MdiIcons.formatLetterCaseUpper,
                           //color: prov.colorOption.icon,
                         ),
@@ -391,14 +390,14 @@ class ArticleWidgetState extends State<ArticleWidget> {
               ],
 
               bottom: PreferredSize(
-                  preferredSize: Size(double.infinity, 3),
+                  preferredSize: const Size(double.infinity, 3),
                   child: Align(
                       alignment: Alignment.centerLeft,
                       child: AnimatedBuilder(
                         animation: appBarNotifier,
                         builder: (context, child) => AnimatedOpacity(
                           opacity: appBarNotifier.value==1?1:0,
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           child: AnimatedBuilder(
                             animation: articleNotifier,
                             builder: (context, _) => Container(
@@ -438,53 +437,16 @@ class ArticleWidgetState extends State<ArticleWidget> {
                   ),
                 ),
 
-                SizedBox(height: Dimen.ICON_FOOTPRINT),
-
-                //if(author != null)
-                //AuthorWidget(author, key: authorKey),
+                const SizedBox(height: Dimen.ICON_FOOTPRINT),
 
                 Padding(
-                    padding: EdgeInsets.all(Dimen.ICON_MARG),
+                    padding: const EdgeInsets.all(Dimen.ICON_MARG),
                     child: Icon(MdiIcons.circleMedium, color: textEnab_(context))
                 ),
 
-                /*
-              if(otherArts != null && otherArts.isNotEmpty)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-
-                    Padding(
-                      padding: EdgeInsets.all(Dimen.ICON_MARG),
-                      child: Text(
-                        'Przeczytaj także:',
-                        style: HeaderTextStyle(
-                            fontWeight: weight.bold,
-                            fontSize: 24.0,
-                            shadow: true
-                        ),
-                        textAlign: TextAlign.start,
-                      ),
-                    ),
-
-                    GridView.count(
-                      key: gridViewKey,
-                      padding: EdgeInsets.all(10.0),
-                      crossAxisCount: MediaQuery.of(context).orientation == Orientation.portrait?2:4,
-                      shrinkWrap: true,
-                      primary: true,
-                      childAspectRatio: 0.6,
-                      mainAxisSpacing: 10.0,
-                      crossAxisSpacing: 10.0,
-                      physics: NeverScrollableScrollPhysics(),
-                      //children: otherArts.map((ArticleCore article) => ArticleWidgetSmall(article, controller)).toList(),
-                    ),
-                  ],
-                ),
-*/
-                if(App.devMode)
+                if(AppSettings.devMode)
                   Padding(
-                    padding: EdgeInsets.all(Dimen.DEF_MARG),
+                    padding: const EdgeInsets.all(Dimen.DEF_MARG),
                     child: AppText(
                       'Kod artykułu: <b>${article.id}</b>',
                       size: Dimen.TEXT_SIZE_SMALL,
@@ -492,8 +454,8 @@ class ArticleWidgetState extends State<ArticleWidget> {
                     ),
                   ),
 
-                if(App.devMode && article.id == Article.lastSeenId)
-                  Padding(
+                if(AppSettings.devMode && article.id == Article.lastSeenId)
+                  const Padding(
                     padding: EdgeInsets.all(Dimen.DEF_MARG),
                     child: AppText(
                       'Artykuł zapisany jako ostatnio pobrany.',
@@ -508,7 +470,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
           ],
         ),
         floatingActionButton: AnimatedOpacity(
-          duration: Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 200),
           opacity: showRateButton?1:0,
           child: Consumer<LikedArticlesProvider>(
             builder: (context, prov, child){

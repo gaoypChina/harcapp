@@ -25,6 +25,7 @@ class PartContributors extends StatelessWidget{
     GraphicalResource('start/start_layout_pol_walcz_bg.webp', 'freepik.com (freepik)'),
     GraphicalResource('start/start_layout_adwent.webp', 'freepik.com (macrovector)'),
     GraphicalResource('start/merry_joseph_jesus.webp', 'freepik.com (freepik)'),
+    GraphicalResource('start/start_good_friday.webp', 'freepik.com (starline)'),
 
   ];
 
@@ -222,95 +223,93 @@ class GraphicalResourceCard extends StatelessWidget{
   const GraphicalResourceCard(this._graphicalResources);
 
   @override
-  Widget build(BuildContext context) {
-    return AppCard(
-      radius: AppCard.BIG_RADIUS,
-      margin: const EdgeInsets.only(
-        left: Dimen.DEF_MARG,
-        right: Dimen.DEF_MARG,
-        top: Dimen.SIDE_MARG,
-        bottom: Dimen.SIDE_MARG,
-      ),
-      padding: EdgeInsets.zero,
-      color: background_(context),
-      child: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
+  Widget build(BuildContext context) => AppCard(
+    radius: AppCard.BIG_RADIUS,
+    margin: const EdgeInsets.only(
+      left: Dimen.DEF_MARG,
+      right: Dimen.DEF_MARG,
+      top: Dimen.SIDE_MARG,
+      bottom: Dimen.SIDE_MARG,
+    ),
+    padding: EdgeInsets.zero,
+    color: background_(context),
+    child: CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
 
-          const SliverAppBar(
-            title: Text('Źródła graficzne'),
-            centerTitle: true,
-            floating: true,
+        const SliverAppBar(
+          title: Text('Źródła graficzne'),
+          centerTitle: true,
+          floating: true,
+        ),
+
+        SliverList(delegate: SliverChildListDelegate([
+
+          const SizedBox(height: Dimen.ICON_MARG),
+          ListTile(
+            leading: const Icon(MdiIcons.circleSmall),
+            title: Text('Icomoon', style: AppTextStyle()),
+          ),
+          ListTile(
+            leading: const Icon(MdiIcons.circleSmall),
+            title: Text('Smashicons (grafiki żywności)', style: AppTextStyle()),
+          ),
+          ListTile(
+            leading: const Icon(MdiIcons.circleSmall),
+            title: Text('Nikita Golubev grafiki żywności - masło, kapusta pekińska, paluszki)', style: AppTextStyle()),
+          ),
+          ListTile(
+            leading: const Icon(MdiIcons.circleSmall),
+            title: Text('Adib Sulthon (grafiki żywności - papryka, parówka, chleb)', style: AppTextStyle()),
+          ),
+          ListTile(
+            leading: const Icon(MdiIcons.circleSmall),
+            title: Text('prettycons (grafiki żywności - bób)', style: AppTextStyle()),
           ),
 
-          SliverList(delegate: SliverChildListDelegate([
+          const SizedBox(height: SEPARATOR_BIG,),
 
-              const SizedBox(height: Dimen.ICON_MARG),
-              ListTile(
-                leading: const Icon(MdiIcons.circleSmall),
-                title: Text('Icomoon', style: AppTextStyle()),
-              ),
-              ListTile(
-                leading: const Icon(MdiIcons.circleSmall),
-                title: Text('Smashicons (grafiki żywności)', style: AppTextStyle()),
-              ),
-              ListTile(
-                leading: const Icon(MdiIcons.circleSmall),
-                title: Text('Nikita Golubev grafiki żywności - masło, kapusta pekińska, paluszki)', style: AppTextStyle()),
-              ),
-              ListTile(
-                leading: const Icon(MdiIcons.circleSmall),
-                title: Text('Adib Sulthon (grafiki żywności - papryka, parówka, chleb)', style: AppTextStyle()),
-              ),
-              ListTile(
-                leading: const Icon(MdiIcons.circleSmall),
-                title: Text('prettycons (grafiki żywności - bób)', style: AppTextStyle()),
-              ),
-
-              const SizedBox(height: SEPARATOR_BIG,),
-
-              SizedBox(
-                child: SlidingPageView(
-                  extents: 3,
-                  itemCount: _graphicalResources.length,
-                  itemBuilder: (context, index) => Column(
-                    children: <Widget>[
-                      SizedBox(
-                        child: SlidingCard(
-                            onTap: () => openDialog(context: context, builder: (context)
-                            => Center(
-                                child: AppCard(
-                                    padding: EdgeInsets.zero,
-                                    child: Image.asset('assets/images/${_graphicalResources[index].path}', fit: BoxFit.contain))
-                            )),
-                            child: Image.asset('assets/images/${_graphicalResources[index].path}', fit: BoxFit.cover,),
-                            color: cardEnab_(context),
-                        ),
-                        height: 200 - 6.0 - Dimen.TEXT_SIZE_SMALL,
-                        width: double.infinity,
-                      ),
-                      const SizedBox(height: 6.0),
-                      Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-                        Text('Autor: ', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_SMALL)),
-                        Text(_graphicalResources[index].author, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL)),
-                      ],)
-                    ],
+          SizedBox(
+            child: SlidingPageView(
+              extents: 3,
+              itemCount: _graphicalResources.length,
+              itemBuilder: (context, index) => Column(
+                children: <Widget>[
+                  SizedBox(
+                    child: SlidingCard(
+                      onTap: () => openDialog(context: context, builder: (context)
+                      => Center(
+                          child: AppCard(
+                              padding: EdgeInsets.zero,
+                              child: Image.asset('assets/images/${_graphicalResources[index].path}', fit: BoxFit.contain))
+                      )),
+                      child: Image.asset('assets/images/${_graphicalResources[index].path}', fit: BoxFit.cover,),
+                      color: cardEnab_(context),
+                    ),
+                    height: 200 - 6.0 - Dimen.TEXT_SIZE_SMALL,
+                    width: double.infinity,
                   ),
-                  grow: true,
-                  controller: PageController(viewportFraction: 0.9),
-                  physics: const BouncingScrollPhysics(),
-                  notifier: ValueNotifier(0.0),
-                ),
-                height: 200,
+                  const SizedBox(height: 6.0),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                    Text('Autor: ', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_SMALL)),
+                    Text(_graphicalResources[index].author, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL)),
+                  ],)
+                ],
               ),
+              grow: true,
+              controller: PageController(viewportFraction: 0.9),
+              physics: const BouncingScrollPhysics(),
+              notifier: ValueNotifier(0.0),
+            ),
+            height: 200,
+          ),
 
 
-          ]))
+        ]))
 
-        ],
-      ),
-    );
-  }
+      ],
+    ),
+  );
 
 }
 
