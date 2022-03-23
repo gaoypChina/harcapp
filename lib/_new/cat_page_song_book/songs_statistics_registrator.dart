@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/account/statistics.dart';
 import 'package:harcapp/logger.dart';
@@ -14,7 +15,8 @@ class SongsStatisticsRegistrator{
   DateTime _lastPausedTime;
   Duration _totalPausedDuration;
   SongOpenType _songOpenType;
-  List<Tuple2<int, double>> _scrollEvents;
+  Orientation _orientation;
+  List<Tuple3<int, double, Orientation>> _scrollEvents;
 
   Duration get totalOpenDuration => DateTime.now().difference(_openTime) - _totalPausedDuration;
 
@@ -42,10 +44,11 @@ class SongsStatisticsRegistrator{
     _lastPausedTime = null;
     _totalPausedDuration = Duration.zero;
     _songLclId = null;
+    _orientation = null;
     _scrollEvents.clear();
   }
 
-  Future<void> openSong(Song song, SongOpenType songOpenType) async {
+  Future<void> openSong(Song song, SongOpenType songOpenType, Orientation orientation) async {
     //if(_songLclId != null) commit();
     if(!song.isOfficial) return;
 
@@ -58,10 +61,11 @@ class SongsStatisticsRegistrator{
     _songLclId = song.fileName;
     _songOpenType = songOpenType;
     _openTime = DateTime.now();
+    _orientation = orientation;
     logger.d('SongsStatisticsRegistrator ($_songLclId) song opened.');
   }
 
-  Future<void> registerScroll(double scrollValue) async {
+  Future<void> registerScroll(double scrollValue, Orientation orientation) async {
     if(!await TimeSettings.isTimeAutomatic){
       clear();
       return;
@@ -71,8 +75,10 @@ class SongsStatisticsRegistrator{
 
     if(_lastPausedTime != null) logger.e('SongsStatisticsRegistrator ($_songLclId) scrolled while paused!');
     scrollValue = double.parse(scrollValue.toStringAsFixed(3));
-    _scrollEvents.add(Tuple2(totalOpenDuration.inSeconds, scrollValue));
-    logger.d('SongsStatisticsRegistrator ($_songLclId) scrolled to $scrollValue after ${_scrollEvents.last.item1} seconds.');
+    _scrollEvents.add(Tuple3(totalOpenDuration.inSeconds, scrollValue, orientation));
+    logger.d('SongsStatisticsRegistrator ($_songLclId) '
+        'scrolled to $scrollValue (${orientation==Orientation.portrait?'portrait':'horizontal'}) '
+        'after ${_scrollEvents.last.item1} seconds.');
   }
 
   Future<void> commit() async {
@@ -97,7 +103,7 @@ class SongsStatisticsRegistrator{
         _openTime,
         _songOpenType,
         totalOpenDuration,
-        _scrollEvents
+        _scrollEvents,
     );
 
     logger.d('SongsStatisticsRegistrator ($_songLclId) song stats saved.');

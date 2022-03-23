@@ -12,6 +12,7 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   static const String PARAM_SCROLL_TEXT = 'scroll_text';
   static const String PARAM_AUTOSCROLL_TEXT_SPEED = 'autoscroll_text_speed';
   static const String PARAM_SHOW_CHORDS = 'show_chords';
+  static const String PARAM_CHORDS_TRAILING = 'chords_trailing';
   static const String PARAM_SHOW_DRAW_CHORDS = 'show_draw_chords';
   static const String PARAM_DRAW_CHORDS_TYPE = 'draw_chords_type';
   static const String PARAM_SHOW_ALBUM_ICON = 'show_album_icon';
@@ -51,6 +52,15 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
     SongBookBaseSetting().showChords = value;
     if(localOnly) return;
     SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_CHORDS, SyncableParamSingle_.STATE_NOT_SYNCED);
+    synchronizer.post();
+  }
+
+  static bool get chordsTrailing => SongBookBaseSetting().chordsTrailing;
+  static set chordsTrailing(bool value) => setChordsTrailing(value);
+  static setChordsTrailing(bool value, {bool localOnly = false}){
+    SongBookBaseSetting().chordsTrailing = value;
+    if(localOnly) return;
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_CHORDS_TRAILING, SyncableParamSingle_.STATE_NOT_SYNCED);
     synchronizer.post();
   }
 
@@ -123,6 +133,11 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
         this,
         paramId: PARAM_SHOW_CHORDS,
         value_: () => showChords
+    ),
+    SyncableParamSingle(
+        this,
+        paramId: PARAM_CHORDS_TRAILING,
+        value_: () => chordsTrailing
     ),
     SyncableParamSingle(
         this,

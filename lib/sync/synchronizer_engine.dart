@@ -165,7 +165,8 @@ class SynchronizerEngine{
     for(SyncableParam param in SyncNode.all)
       if(!param.isSynced) return false;
 
-    return Directory(getRemoveSyncReqFolderPath).listSync().isEmpty;
+    return !Directory(getRemoveSyncReqFolderPath).existsSync()
+        || Directory(getRemoveSyncReqFolderPath).listSync(recursive: true).isEmpty;
   }
 
   Future<Map<String, dynamic>> allUnsynced() async {

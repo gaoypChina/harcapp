@@ -9,6 +9,8 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core_song_widget/providers.dart';
 import 'package:provider/provider.dart';
 
+import '../_main.dart';
+
 
 class SettingsPage extends StatefulWidget {
 
@@ -68,11 +70,25 @@ class SettingsPageState extends State<SettingsPage> {
             ),
           ),
 
+          Consumer<ChordsTrailingProvider>(
+            builder: (context, prov, child) => SwitchListTile(
+              value: prov.chordsTrailing,
+              title: Text('Chwyty po lewej', style: textStyle),
+              onChanged: (bool value) => prov.chordsTrailing = value,
+              activeColor: Album.current.avgColorDarkSensitive(context),
+            ),
+          ),
+
           Consumer<ChordsDrawShowProvider>(
             builder: (context, prov, child) => SwitchListTile(
               value: prov.chordsDrawShow,
               title: Text('Pokaż obrazki do chwytów', style: textStyle),
-              onChanged: (bool value) => prov.chordsDrawShow = value,
+              onChanged: (bool value){
+                prov.chordsDrawShow = value;
+                Provider.of<TextSizeProvider>(context, listen: false).reinit(
+                    Album.current.songs[CatPageSongBookState.lastPage]
+                );
+              },
               activeColor: Album.current.avgColorDarkSensitive(context),
             ),
           ),

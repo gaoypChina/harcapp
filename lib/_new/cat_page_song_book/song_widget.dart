@@ -84,7 +84,7 @@ class SongWidget extends StatelessWidget{
   final CatPageSongBookState parent;
   final Song song;
   final int index;
-  final void Function(ScrollNotification) onScroll;
+  final void Function(ScrollNotification, double, double) onScroll;
   final ScrollPhysics physics;
   final ScrollController controller;
 
@@ -110,9 +110,9 @@ class SongWidget extends StatelessWidget{
 
     initInstrumentType: SongBookSettings.drawChordsType,
 
-    onScroll: onScroll,//(scrollInfo) => determineFloatingButtonOpacity(context, scrollInfo),
+    onScroll: onScroll, //(scrollInfo) => determineFloatingButtonOpacity(context, scrollInfo),
 
-    onTitleTap: ()async{
+    onTitleTap: () async {
       String wordsCode = await readStringFromAssets('assets/song_words/${song.fileName}');
       await showScrollBottomSheet(
           context: context,
@@ -166,7 +166,6 @@ class SongWidget extends StatelessWidget{
 
       await playYoutubeSong(
           parent.context,
-          //dispSongsProv,
           parent.controller,
           song,
           position - statusBarHeight
@@ -202,9 +201,6 @@ class SongWidget extends StatelessWidget{
                     song,
                     fontSize: max(TextSizeProvider.defFontSize, textSizeProv.value)
                 );
-
-                //DisplayedSongsProvider provider = Provider.of<DisplayedSongsProvider>(context, listen: false);
-                //provider.notify();
 
                 Scaffold.of(context).hideCurrentSnackBar();
               }
@@ -258,7 +254,7 @@ class SongWidget extends StatelessWidget{
 
         OwnSong.removeOwn(song);
         parent.notify();
-        parent.lastPage = parent.controller.page.toInt();
+        CatPageSongBookState.lastPage = parent.controller.page.toInt();
         for(Album album in Album.allOwn)
           album.removeSong(song);
       }else

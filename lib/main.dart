@@ -81,7 +81,7 @@ void main() async {
   else if(DateTime.now().isAfter(DateTime(2022, 4, 17, 4)) && DateTime.now().isBefore(DateTime(2022, 4, 24, 0)))
     appMode = AppMode.appModeZmartwychwstanie;
 
-  runApp(LocalizedApp(delegate, const OKToast(child: App())));
+  runApp(LocalizedApp(delegate, OKToast(child: HarcAppSongBook(const App(), SongBookBaseSetting()))));
 
 }
 
@@ -301,9 +301,9 @@ class AppState extends State<App> {
         ChangeNotifierProvider(create: (context) => CurrentSprawGroupProvider()),
 
         // SPIEWNIK,
-        ChangeNotifierProvider(create: (context) => ShowChordsProvider(SongBookBaseSetting())),
-        ChangeNotifierProvider(create: (context) => ChordsDrawTypeProvider(SongBookBaseSetting())),
-        ChangeNotifierProvider(create: (context) => ChordsDrawShowProvider(SongBookBaseSetting())),
+        // ChangeNotifierProvider(create: (context) => ShowChordsProvider(SongBookBaseSetting())),
+        // ChangeNotifierProvider(create: (context) => ChordsDrawTypeProvider(SongBookBaseSetting())),
+        // ChangeNotifierProvider(create: (context) => ChordsDrawShowProvider(SongBookBaseSetting())),
         ChangeNotifierProvider(create: (context) => AlbumProvider()),
 
         // SZYFRY

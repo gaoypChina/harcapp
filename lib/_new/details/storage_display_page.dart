@@ -101,7 +101,12 @@ class StorageDisplayPage extends StatelessWidget{
               icon: MdiIcons.memory,
               title: 'Synchronizacja (removal mark)',
               onOpen: () async {
-                List<FileSystemEntity> files = Directory(getRemoveSyncReqFolderPath).listSync();
+                List<FileSystemEntity> files;
+                if(Directory(getRemoveSyncReqFolderPath).existsSync())
+                  files = Directory(getRemoveSyncReqFolderPath).listSync(recursive: true);
+                else
+                  files = [];
+
                 String result = '';
                 for(FileSystemEntity file in files)
                   result += file.path + '\n\n';

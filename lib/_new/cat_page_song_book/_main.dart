@@ -45,6 +45,7 @@ import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:wakelock/wakelock.dart';
 
+import '../../_app_common/orientation_listener.dart';
 import '../../main.dart';
 import '../app_drawer.dart';
 import '../module_statistics_registrator.dart';
@@ -68,7 +69,7 @@ class CatPageSongBook extends StatefulWidget{
 
 }
 
-class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin, ModuleStatsMixin{
+class CatPageSongBookState extends OrientationState<CatPageSongBook> with AfterLayoutMixin, ModuleStatsMixin{
 
   @override
   String get moduleId => 'songbook';
@@ -78,8 +79,15 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     post(() => Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackSongBook());
   }
 
-  int get lastPage => shaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG, 0);
-  set lastPage(int value) => shaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG, value);
+  @override
+  void orientationChanged(Orientation orientation){
+    double scrollFraction = nestedScrollViewKey.currentState.innerController.offset/nestedScrollViewKey.currentState.innerController.position.maxScrollExtent;
+    scrollFraction = min(max(scrollFraction, 0), 1);
+    songsStatisticsRegistrator.registerScroll(scrollFraction, MediaQuery.of(context).orientation);
+  }
+
+  static int get lastPage => shaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG, 0);
+  static set lastPage(int value) => shaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG, value);
 
   void jumpToPage(int page){
     controller.jumpToPage(page);
@@ -161,15 +169,14 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
           onError: (fileName) async => showAppToast(context, text: 'Błąd wczytywania piosenki $fileName'),
           onEnd: (String err, bool forceFinished) {
             if(!mounted) return;
-            songsStatisticsRegistrator.openSong(Album.current.songs[lastPage], SongOpenType.init);
+            songsStatisticsRegistrator.openSong(Album.current.songs[lastPage], SongOpenType.init, MediaQuery.of(context).orientation);
             notify();
           }
       );
-
       songLoader.addListener(loaderListener);
-
       loadData();
-    }
+    } else
+      post(() => songsStatisticsRegistrator.openSong(Album.current.songs[lastPage], SongOpenType.init, MediaQuery.of(context).orientation));
 
     searchOptions = SongSearchOptions();
 
@@ -395,14 +402,21 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                               this,
                               albProv.current.songs[position],
                               position,
-                              onScroll: (scrollInfo) async {
+                              onScroll: (scrollInfo, top, height) async {
                                 int page = controller.page.round();
                                 if(page != position) return;
 
+                                print('top: $top');
+                                print('height: $height');
+
                                 if(scrollInfo is ScrollEndNotification){
+                                  print('extentBefore ${scrollInfo.metrics.extentBefore}');
+                                  print('extentAfter ${scrollInfo.metrics.extentAfter}');
+                                  print('extentInside ${scrollInfo.metrics.extentInside}');
+
                                   double scrollFraction = nestedScrollViewKey.currentState.innerController.offset/nestedScrollViewKey.currentState.innerController.position.maxScrollExtent;
                                   scrollFraction = min(max(scrollFraction, 0), 1);
-                                  await songsStatisticsRegistrator.registerScroll(scrollFraction);
+                                  await songsStatisticsRegistrator.registerScroll(scrollFraction, MediaQuery.of(context).orientation);
                                 }
 
                                 bool scrollable = scrollInfo.metrics.maxScrollExtent > 0;
@@ -427,7 +441,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                         onPageChanged: (index) async {
                           lastPage = index;
                           await songsStatisticsRegistrator.commit();
-                          await songsStatisticsRegistrator.openSong(albProv.current.songs[index], SongOpenType.swipe);
+                          await songsStatisticsRegistrator.openSong(albProv.current.songs[index], SongOpenType.swipe, MediaQuery.of(context).orientation);
                         },
                       ),
                     ),
@@ -499,7 +513,8 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                                     await songsStatisticsRegistrator.commit();
                                     await songsStatisticsRegistrator.openSong(
                                         album.songs.first,
-                                        SongOpenType.init
+                                        SongOpenType.init,
+                                        MediaQuery.of(context).orientation
                                     );
                                   }
                                 }
@@ -547,7 +562,8 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                 await songsStatisticsRegistrator.commit();
                 await songsStatisticsRegistrator.openSong(
                     album.songs.first,
-                    SongOpenType.init
+                    SongOpenType.init,
+                    MediaQuery.of(context).orientation
                 );
               }
               notify();
@@ -559,7 +575,8 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                 await songsStatisticsRegistrator.commit();
                 await songsStatisticsRegistrator.openSong(
                     album.songs.first,
-                    SongOpenType.init
+                    SongOpenType.init,
+                    MediaQuery.of(context).orientation
                 );
               }
               notify();
@@ -599,7 +616,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
             onSongSelected: (Song song, int indexInAlbum, SongOpenType songOpenType) async {
               jumpToPage(indexInAlbum);
               await songsStatisticsRegistrator.commit();
-              await songsStatisticsRegistrator.openSong(song, songOpenType);
+              await songsStatisticsRegistrator.openSong(song, songOpenType, MediaQuery.of(context).orientation);
             },
             onConfAlbumEnabled: (){
               jumpToPage(0);

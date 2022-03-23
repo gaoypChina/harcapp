@@ -12,6 +12,8 @@ import 'cat_page_song_book/_main.dart';
 
 class MainPage extends StatefulWidget{
 
+  const MainPage({Key key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => MainPageState();
 
@@ -25,7 +27,7 @@ class MainPageState extends State<MainPage>{
   @override
   void initState() {
     selectedIndex = 0;
-    page = CatPageHome();
+    page = const CatPageHome();
 
     //post(() => Provider.of<MainProvider>(context, listen: false).statusBarHeight = MediaQuery.of(context).padding.top);
 
@@ -63,15 +65,15 @@ class MainPageState extends State<MainPage>{
                       //case AppBottomNavigator.MAP:
                       //  return CatPageHarcMap();
                       case AppBottomNavigator.SONGBOOK:
-                        return CatPageSongBook();
+                        return const CatPageSongBook();
                       case AppBottomNavigator.GUIDEBOOK:
-                        return CatPageGuideBook();
+                        return const CatPageGuideBook();
                       case AppBottomNavigator.HARCTHOUGHT:
-                        return CatPageHarcThought();
+                        return const CatPageHarcThought();
                       case AppBottomNavigator.OTHER:
-                        return CatPageOther();
+                        return const CatPageOther();
                       default:
-                        return CatPageHome();
+                        return const CatPageHome();
                     }
                   }
               ),

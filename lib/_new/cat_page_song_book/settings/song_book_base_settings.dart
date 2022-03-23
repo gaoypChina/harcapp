@@ -27,6 +27,11 @@ class SongBookBaseSetting extends SongBookSettTempl{
   set showChords(bool value) => shaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_CHORDS, value);
 
   @override
+  bool get chordsTrailing => shaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_CHORDS_TRAILING, true);
+  @override
+  set chordsTrailing(bool value) => shaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_CHORDS_TRAILING, value);
+
+  @override
   bool get chordsDrawShow => shaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_CHORDS_DRAW, true);
   @override
   set chordsDrawShow(bool value) => shaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_CHORDS_DRAW, value);
@@ -35,5 +40,6 @@ class SongBookBaseSetting extends SongBookSettTempl{
   InstrumentType get chordsDrawType => intToTstrumentType(shaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_CHORDS_DRAW_TYPE, 0));
   @override
   set chordsDrawType(InstrumentType value) => shaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_CHORDS_DRAW_TYPE, instrumentTypeToInt(value));
+
 
 }

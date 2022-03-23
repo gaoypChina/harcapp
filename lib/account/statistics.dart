@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:intl/intl.dart';
@@ -26,7 +27,7 @@ class Statistics{
 
   static set songStats(Map<String, Map<String, dynamic>> value) => shaPref.setMap(ShaPref.SHA_PREF_STATISTICS_SONGS, value);
 
-  static Future<void> registerSongAction(String songFileName, DateTime openTime, SongOpenType type, Duration openDuration, List<Tuple2<int, double>> scrollEvents) async {
+  static Future<void> registerSongAction(String songFileName, DateTime openTime, SongOpenType type, Duration openDuration, List<Tuple3<int, double, Orientation>> scrollEvents) async {
 
     Map<String, Map<String, dynamic>> allStats = Statistics.songStats;
     Map<String, dynamic> songStats = allStats[songFileName] ?? {};

@@ -54,7 +54,7 @@ String get getAuthorsFolderLocalPath => '/author/';
 String get getAuthorsFolderPath => _localPath + getAuthorsFolderLocalPath;
 
 
-String getDuchoweSourceFolderLocalPath(String sourceCode) => "${getDuchoweFoldersLocalPath}$sourceCode/";
+String getDuchoweSourceFolderLocalPath(String sourceCode) => "$getDuchoweFoldersLocalPath$sourceCode/";
 String getDuchoweSourceFolderPath(String sourceCode) => _localPath + getDuchoweSourceFolderLocalPath(sourceCode);
 
 String localToAbsolutePath(String localPath) => _localPath + localPath;

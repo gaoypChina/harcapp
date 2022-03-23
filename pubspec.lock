@@ -410,7 +410,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: fd34c33a4dac8cebef53441ff97f3b92502ee914
+      resolved-ref: "20cd650ed9b951eeec982d42ef8e75175d421725"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_song_widget"
     source: git
     version: "0.0.1"
@@ -1143,7 +1143,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.2"
+    version: "2.4.3"
   wkt_parser:
     dependency: transitive
     description:
