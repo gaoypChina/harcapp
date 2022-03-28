@@ -15,7 +15,6 @@ class SongsStatisticsRegistrator{
   DateTime _lastPausedTime;
   Duration _totalPausedDuration;
   SongOpenType _songOpenType;
-  Orientation _orientation;
   List<Tuple4<int, int, int, Orientation>> _scrollEvents;
 
   Duration get totalOpenDuration => DateTime.now().difference(_openTime) - _totalPausedDuration;
@@ -44,11 +43,10 @@ class SongsStatisticsRegistrator{
     _lastPausedTime = null;
     _totalPausedDuration = Duration.zero;
     _songLclId = null;
-    _orientation = null;
     _scrollEvents.clear();
   }
 
-  Future<void> openSong(Song song, SongOpenType songOpenType, Orientation orientation) async {
+  Future<void> openSong(Song song, SongOpenType songOpenType) async {
     //if(_songLclId != null) commit();
     if(!song.isOfficial) return;
 
@@ -61,7 +59,6 @@ class SongsStatisticsRegistrator{
     _songLclId = song.fileName;
     _songOpenType = songOpenType;
     _openTime = DateTime.now();
-    _orientation = orientation;
     logger.d('SongsStatisticsRegistrator ($_songLclId) song opened.');
   }
 
@@ -81,6 +78,39 @@ class SongsStatisticsRegistrator{
         'after ${_scrollEvents.last.item1} seconds.');
   }
 
+  void _trimScrollEvents(){
+
+    List<Tuple4> toRemove = [];
+    for(int i=1; i<_scrollEvents.length; i++){
+      Tuple4 prevEvent = _scrollEvents[i-1];
+      Tuple4 event = _scrollEvents[i];
+
+      if(event.item2 == prevEvent.item2 && event.item3 == prevEvent.item3) {
+        toRemove.add(event);
+        continue;
+      }
+    }
+
+    for(Tuple4 event in toRemove)
+      _scrollEvents.remove(event);
+    toRemove.clear();
+
+    for(int i=_scrollEvents.length-2; i>=0; i--){
+      Tuple4 nextEvent = _scrollEvents[i+1];
+      Tuple4 event = _scrollEvents[i];
+
+      if(event.item1 == nextEvent.item1) {
+        toRemove.add(event);
+        continue;
+      }
+
+    }
+
+    for(Tuple4 event in toRemove)
+      _scrollEvents.remove(event);
+
+  }
+
   Future<void> commit() async {
     if(!await TimeSettings.isTimeAutomatic){
       clear();
@@ -92,11 +122,13 @@ class SongsStatisticsRegistrator{
     
     Duration totalOpenDuration = DateTime.now().difference(_openTime) - _totalPausedDuration;
 
-    if(totalOpenDuration < const Duration(seconds: 10)) {
+    if(totalOpenDuration < const Duration(seconds: 12)) {
       logger.d('SongsStatisticsRegistrator ($_songLclId, $totalOpenDuration) stat aborted. Open time too short.');
       clear();
       return;
     }
+
+    _trimScrollEvents();
 
     Statistics.registerSongAction(
         _songLclId,
@@ -106,7 +138,11 @@ class SongsStatisticsRegistrator{
         _scrollEvents,
     );
 
-    logger.d('SongsStatisticsRegistrator ($_songLclId) song stats saved.');
+    String events = '';
+    for(Tuple4 tuple in _scrollEvents)
+      events += '\n${tuple.item1} s.\t :: lines (${tuple.item2}:${tuple.item3})\t :: ${tuple.item4==Orientation.portrait?'vertical':'horizontal'}';
+
+    logger.d('SongsStatisticsRegistrator ($_songLclId) song stats saved:$events');
     clear();
   }
 }

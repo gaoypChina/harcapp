@@ -333,7 +333,7 @@ class SyncWidgetState extends State<SyncWidget>{
         ),
 
         IconButton(
-          icon: Icon(MdiIcons.cloudAlert, size: iconSize, color: iconDisab_(context)),
+          icon: Icon(MdiIcons.cloudQuestion, size: iconSize, color: iconDisab_(context)),
           onPressed: () => showAppToast(context, text: 'Brak synchronizacji'),
         ),
 

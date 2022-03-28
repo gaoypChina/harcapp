@@ -7,7 +7,6 @@ import 'package:harcapp/_new/cat_page_song_book/song_management/memory.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/account/account.dart';
-import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/server.dart';
 
@@ -134,7 +133,7 @@ class API{
     return result;
   }
 
-  static Future<List<Song>> getRecomendedSongs({
+  static Future<List<Song>> getRecommendedSongs({
     Function onSuccess,
     Function onError,
   }) async {

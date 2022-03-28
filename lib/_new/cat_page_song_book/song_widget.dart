@@ -85,6 +85,7 @@ class SongWidget extends StatelessWidget{
   final Song song;
   final int index;
   final void Function(ScrollNotification, double, double) onScroll;
+  final void Function() onTextSizeChanged;
   final ScrollPhysics physics;
   final ScrollController controller;
 
@@ -93,6 +94,7 @@ class SongWidget extends StatelessWidget{
       this.song,
       this.index,
       {this.onScroll,
+        this.onTextSizeChanged,
         this.physics,
         this.controller
       }):super(key: ValueKey(song));
@@ -166,7 +168,7 @@ class SongWidget extends StatelessWidget{
 
       await playYoutubeSong(
           parent.context,
-          parent.controller,
+          parent.pageController,
           song,
           position - statusBarHeight
       );
@@ -179,7 +181,10 @@ class SongWidget extends StatelessWidget{
 
     onMinusTap: (BuildContext context, bool changedSize){
       String tag = 'minus';
-      if(!changedSize && !isSnackBarActive(tag: tag)) showAppToast(context, text: 'Osiągnięto limit');
+      if(!changedSize && !isSnackBarActive(tag: tag))
+        showAppToast(context, text: 'Osiągnięto limit');
+      else
+        onTextSizeChanged?.call();
     },
 
     onPlusTap: (BuildContext context, bool changedSize){
@@ -201,13 +206,15 @@ class SongWidget extends StatelessWidget{
                     song,
                     fontSize: max(TextSizeProvider.defFontSize, textSizeProv.value)
                 );
+                onTextSizeChanged?.call();
 
                 Scaffold.of(context).hideCurrentSnackBar();
               }
           );
         else
           showAppToast(context, text: 'Osiągnięto limit');
-      }
+      }else
+        onTextSizeChanged?.call();
     },
 
     onAlbumsTap: () async => await showScrollBottomSheet(
@@ -254,7 +261,7 @@ class SongWidget extends StatelessWidget{
 
         OwnSong.removeOwn(song);
         parent.notify();
-        CatPageSongBookState.lastPage = parent.controller.page.toInt();
+        CatPageSongBookState.lastPage = parent.pageController.page.toInt();
         for(Album album in Album.allOwn)
           album.removeSong(song);
       }else
@@ -284,7 +291,7 @@ class SongWidget extends StatelessWidget{
 
             parent.notify();
             int index = Album.current.songs.indexOf(song);
-            parent.controller.jumpToPage(index);
+            parent.pageController.jumpToPage(index);
           }
       );
 

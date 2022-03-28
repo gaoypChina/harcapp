@@ -21,7 +21,6 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
-import 'package:harcapp/_common_widgets/preload_page_view.dart';
 import 'package:harcapp/_new/cat_page_song_book/providers.dart';
 import 'package:harcapp/_new/cat_page_song_book/settings/settings_page.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
@@ -49,6 +48,7 @@ import 'package:wakelock/wakelock.dart';
 
 import '../../main.dart';
 import '../app_drawer.dart';
+import '../main_page_new.dart';
 import '../module_statistics_registrator.dart';
 import 'album/album_drawer.dart';
 import 'album/album_page.dart';
@@ -80,26 +80,17 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     post(() => Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackSongBook());
   }
 
-  /*
-  @override
-  void orientationChanged(Orientation orientation){
-    double scrollFraction = nestedScrollViewKey.currentState.innerController.offset/nestedScrollViewKey.currentState.innerController.position.maxScrollExtent;
-    //scrollFraction = min(max(scrollFraction, 0), 1);
-    //songsStatisticsRegistrator.registerScroll(scrollFraction, MediaQuery.of(context).orientation);
-  }
-  */
-
   static int get lastPage => shaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG, 0);
   static set lastPage(int value) => shaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG, value);
 
   void jumpToPage(int page){
-    controller.jumpToPage(page);
+    pageController.jumpToPage(page);
     lastPage = page;
     notifier.value = page.toDouble();
   }
 
   static bool tabOfContOpenOnBack;
-  PageController controller;
+  PageController pageController;
   ValueNotifier<double> notifier;
   SingleComputerListener loaderListener;
   SongSearchOptions searchOptions;
@@ -146,11 +137,18 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
   }
 
   GlobalKey<NestedScrollViewState> nestedScrollViewKey;
+  ScrollController get innerController => nestedScrollViewKey.currentState.innerController;
+  ScrollController get outerController => nestedScrollViewKey.currentState.outerController;
+  void notifyInnerController() => outerController.animateTo(outerController.offset, duration: const Duration(microseconds: 1), curve: Curves.ease);
 
   SynchronizerListener syncListener;
 
+  void onOrientationChanged() => notifyInnerController();
+
   @override
   void initState() {
+
+    App.addOrientationChangeListener(onOrientationChanged);
 
     syncListener = SynchronizerListener(
         onEnd: (oper){
@@ -161,10 +159,10 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     synchronizer.addListener(syncListener);
 
     tabOfContOpenOnBack = false;
-    controller = PageController(initialPage: lastPage);
-    controller.addListener(() => notifier.value = controller.page);
+    pageController = PageController(initialPage: lastPage);
+    pageController.addListener(() => notifier.value = pageController.page);
 
-    notifier = ValueNotifier<double>(controller.initialPage.toDouble());
+    notifier = ValueNotifier<double>(pageController.initialPage.toDouble());
     notifier.addListener(handleSwap);
 
     if(OffSong.allOfficial == null) {
@@ -172,14 +170,18 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
           onError: (fileName) async => showAppToast(context, text: 'Błąd wczytywania piosenki $fileName'),
           onEnd: (String err, bool forceFinished) {
             if(!mounted) return;
-            songsStatisticsRegistrator.openSong(Album.current.songs[lastPage], SongOpenType.init, MediaQuery.of(context).orientation);
+            songsStatisticsRegistrator.openSong(Album.current.songs[lastPage], SongOpenType.init);
+            notifyInnerController();
             notify();
           }
       );
       songLoader.addListener(loaderListener);
       loadData();
     } else
-      post(() => songsStatisticsRegistrator.openSong(Album.current.songs[lastPage], SongOpenType.init, MediaQuery.of(context).orientation));
+      post((){
+        songsStatisticsRegistrator.openSong(Album.current.songs[lastPage], SongOpenType.init);
+        notifyInnerController();
+      });
 
     searchOptions = SongSearchOptions();
 
@@ -197,6 +199,9 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
   @override
   void dispose() {
+
+    App.removeOrientationChangeListener(onOrientationChanged);
+
     Wakelock.disable();
     notifier.dispose();
     songLoader.removeListener(loaderListener);
@@ -389,164 +394,167 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                     NestedScrollView(
                       key: nestedScrollViewKey,
                       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) =>
-                      [
-                        appBarBuilder(context),
-                      ],
+                      [appBarBuilder(context)],
                       floatHeaderSlivers: true,
                       physics: const BouncingScrollPhysics(),
-                      body: PreloadPageView.builder(
+                      body: PageView.builder(
                         key: ValueKey(albProv.current),
-                        //extents: CatPageSongBook.PAGE_VIEW_EXTENTS,
-                        controller: controller,
+                        controller: pageController,
                         itemCount: albProv.current.songs.length,
                         physics: const BouncingScrollPhysics(),
-                        itemBuilder: (context, position) =>
-                            SongWidget(
-                              this,
-                              albProv.current.songs[position],
-                              position,
-                              onScroll: (scrollInfo, textHeight, textTopPadding) async {
-                                int page = controller.page.round();
-                                if(page != position) return;
+                        itemBuilder: (context, position) => SongWidget(
+                          this,
+                          albProv.current.songs[position],
+                          position,
+                          onScroll: (scrollInfo, textHeight, textTopPadding) async {
+                            int page = pageController.page.round();
+                            if(page != position) return;
+                            if(textHeight == null || textTopPadding == null) return;
 
-                                if(scrollInfo is ScrollEndNotification){
+                            if(scrollInfo is ScrollEndNotification){
 
-                                  Song song = albProv.current.songs[position];
+                              Song song = albProv.current.songs[position];
 
-                                  double lineHeight = textHeight/song.lineNumList.length;
+                              double lineHeight = textHeight/song.lineNumList.length;
 
-                                  double appBarHeight = kToolbarHeight - nestedScrollViewKey.currentState.outerController.offset;
+                              double topPadding = Provider.of<MainProvider>(context, listen: false).statusBarHeight;
 
-                                  double chordBarHeight = 0;
-                                  if(SongBookSettings.isDrawChordsBarVisible)
-                                    chordBarHeight = ChordWidget.height(SongBookSettings.drawChordsType==InstrumentType.GUITAR?6:4);
+                              double appBarHeight = kToolbarHeight - outerController.offset;
 
-                                  // distance between the screen top and the screen bottom available for the song book module.
-                                  double songBookAvailHeight = MediaQuery.of(context).size.height - kBottomNavigationBarHeight;
+                              double chordBarHeight = 0;
+                              if(SongBookSettings.isDrawChordsBarVisible)
+                                chordBarHeight = ChordWidget.height(SongBookSettings.drawChordsType==InstrumentType.GUITAR?6:4);
 
-                                  // distance between the screen top and the top of the song text area.
-                                  double textTopY = textTopPadding - scrollInfo.metrics.extentBefore;
+                              // distance between the screen top and the screen bottom available for the song book module.
+                              double songBookAvailHeight = MediaQuery.of(context).size.height - kBottomNavigationBarHeight - topPadding;
 
-                                  double textHiddenHeight = min(textHeight, max(0, -textTopY + appBarHeight + chordBarHeight));
+                              // distance between the screen top and the top of the song text area.
+                              double textTopY = textTopPadding - scrollInfo.metrics.pixels - topPadding;
 
-                                  double textBottomVisY = min(songBookAvailHeight - textTopY, textHeight);
+                              double textHiddenHeight = min(textHeight, max(0, -textTopY + appBarHeight + chordBarHeight));
 
-                                  int topVisibleIdx = (textHiddenHeight/lineHeight).ceil();
-                                  int bottomVisibleIdx = (textBottomVisY/lineHeight).floor() - 1;
+                              double textBottomVisY = min(songBookAvailHeight - textTopY, textHeight);
 
-                                  int topVisibleLine = song.lineNumList[topVisibleIdx];
-                                  int bottomVisibleLine = song.lineNumList[bottomVisibleIdx];
+                              int bottomVisibleIdx = max(0, (textBottomVisY/lineHeight).floor() - 1);
+                              int topVisibleIdx = min(bottomVisibleIdx, (textHiddenHeight/lineHeight).ceil());
 
-                                  await songsStatisticsRegistrator.registerScroll(topVisibleLine, bottomVisibleLine, MediaQuery.of(context).orientation);
-                                  /*
-                                  openDialog(context: context, builder: (context) => Stack(children: [
+                              int topVisibleLine = song.lineNumList[topVisibleIdx];
+                              int bottomVisibleLine = song.lineNumList[bottomVisibleIdx];
 
-                                    Positioned(
-                                        bottom: kBottomNavigationBarHeight,
-                                        left: 0,
-                                        right: 0,
-                                        child: Opacity(
-                                          opacity: .5,
+                              await songsStatisticsRegistrator.registerScroll(topVisibleLine, bottomVisibleLine, MediaQuery.of(context).orientation);
+
+                              /*
+                              openDialog(context: context, builder: (context) => Stack(children: [
+
+                                Positioned(
+                                    bottom: kBottomNavigationBarHeight,
+                                    left: 0,
+                                    right: 0,
+                                    child: Opacity(
+                                      opacity: .5,
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: songBookAvailHeight,
+                                        color: Colors.red,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(6),
                                           child: Container(
                                             width: double.infinity,
                                             height: songBookAvailHeight,
-                                            color: Colors.red,
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(6),
-                                              child: Container(
-                                                width: double.infinity,
-                                                height: songBookAvailHeight,
-                                                color: Colors.green,
-                                              ),
-                                            ),
+                                            color: Colors.green,
                                           ),
-                                        )
-                                    ),
+                                        ),
+                                      ),
+                                    )
+                                ),
 
-                                    Positioned(
-                                        top: textTopY,
-                                        left: 0,
-                                        right: 0,
-                                        child: Container(
-                                          width: double.infinity,
-                                          height: 3,
-                                          color: Colors.amber,
-                                        )
-                                    ),
+                                Positioned(
+                                    top: textTopY,
+                                    left: 0,
+                                    right: 0,
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: 3,
+                                      color: Colors.amber,
+                                    )
+                                ),
 
-                                    Positioned(
-                                        top: textBottomVisY + textTopPadding - scrollInfo.metrics.pixels - 1,
-                                        left: 0,
-                                        right: 0,
-                                        child: Container(
-                                          width: double.infinity,
-                                          height: 1,
-                                          color: Colors.amber,
-                                        )
-                                    ),
+                                Positioned(
+                                    top: textBottomVisY + textTopPadding - topPadding - scrollInfo.metrics.pixels - 1,
+                                    left: 0,
+                                    right: 0,
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: 1,
+                                      color: Colors.amber,
+                                    )
+                                ),
 
-                                    Positioned(
-                                        top: textTopY,
-                                        left: 0,
-                                        right: 0,
-                                        child: Opacity(
-                                          opacity: .5,
-                                          child: Builder(
-                                            builder: (context){
+                                Positioned(
+                                    top: textTopY,
+                                    left: 0,
+                                    right: 0,
+                                    child: Opacity(
+                                      opacity: .5,
+                                      child: Builder(
+                                        builder: (context){
 
-                                              List<Widget> children = [];
+                                          List<Widget> children = [];
 
-                                              for(int i=0; i<song.lineNumList.length; i++)
-                                                children.add(Container(
+                                          for(int i=0; i<song.lineNumList.length; i++)
+                                            children.add(Container(
+                                              width: double.infinity,
+                                              height: lineHeight,
+                                              color: Colors.blue,
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(1),
+                                                child: Container(
+                                                  height: double.infinity,
                                                   width: double.infinity,
-                                                  height: lineHeight,
-                                                  color: Colors.blue,
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(1),
-                                                    child: Container(
-                                                      height: double.infinity,
-                                                      width: double.infinity,
-                                                      color: Colors.pink,
-                                                    ),
-                                                  ),
-                                                ));
+                                                  color: Colors.pink,
+                                                ),
+                                              ),
+                                            ));
 
-                                              return Column(children: children);
+                                          return Column(children: children);
 
-                                            },
-                                          ),
-                                        )
-                                    ),
+                                        },
+                                      ),
+                                    )
+                                ),
 
-                                  ]));
-                                   */
-                                }
+                              ]));
+                               */
+                            }
 
-                                bool scrollable = scrollInfo.metrics.maxScrollExtent > 0;
+                            bool scrollable = scrollInfo.metrics.maxScrollExtent > 0;
 
-                                if(scrollable && scrollInfo.metrics.pixels <= 0){
-                                  if(!floatingButtonExpanded){
-                                    floatingButtonExpanded = true;
-                                    Provider.of<FloatingButtonProvider>(context, listen: false).notify();
-                                  }
-                                }
+                            if(scrollable && scrollInfo.metrics.pixels <= 0){
+                              if(!floatingButtonExpanded){
+                                floatingButtonExpanded = true;
+                                Provider.of<FloatingButtonProvider>(context, listen: false).notify();
+                              }
+                            }
 
-                                else{
-                                  if(floatingButtonExpanded){
-                                    floatingButtonExpanded = false;
-                                    Provider.of<FloatingButtonProvider>(context, listen: false).notify();
-                                  }
-                                }
-                              },
-                              controller: nestedScrollViewKey.currentState.innerController,
-                            ),
+                            else{
+                              if(floatingButtonExpanded){
+                                floatingButtonExpanded = false;
+                                Provider.of<FloatingButtonProvider>(context, listen: false).notify();
+                              }
+                            }
+                          },
+                          onTextSizeChanged: () => post(() => notifyInnerController()),
+                          controller: innerController,
+                        ),
 
                         onPageChanged: (index) async {
+
                           lastPage = index;
                           await songsStatisticsRegistrator.commit();
-                          await songsStatisticsRegistrator.openSong(albProv.current.songs[index], SongOpenType.swipe, MediaQuery.of(context).orientation);
+                          await songsStatisticsRegistrator.openSong(albProv.current.songs[index], SongOpenType.swipe);
+                          notifyInnerController();
                         },
-                      ),
+                      )
                     ),
 
                     Positioned(
@@ -556,7 +564,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                       child: AutoScrollSpeedWidget(
                           accentColor: Album.current.avgColor,
                           accentIconColor: Album.current.iconColor,
-                          scrollController: () => nestedScrollViewKey.currentState.innerController
+                          scrollController: () => innerController
                       ),
                     ),
 
@@ -610,15 +618,15 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                               context,
                               MaterialPageRoute(builder: (context) => AlbumPage(onAlbumSelected: (Album album) async {
                                 if(album != Album.current) {
-                                  if(controller.hasClients) {
+                                  if(pageController.hasClients) {
                                     jumpToPage(0);
                                     if(album.songs.isEmpty) return;
                                     await songsStatisticsRegistrator.commit();
                                     await songsStatisticsRegistrator.openSong(
                                         album.songs.first,
                                         SongOpenType.init,
-                                        MediaQuery.of(context).orientation
                                     );
+                                    notifyInnerController();
                                   }
                                 }
                               }))
@@ -654,33 +662,32 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     bottomNavigationBar: const AppBottomNavigator(),
 
     drawer:
-    Album.current == null?
-    null:
+    Album.current == null ? null:
     AppDrawer(
         body: AlbumDrawer(
             onSelected: (Album album) async {
-              if(controller.hasClients){
+              if(pageController.hasClients){
                 jumpToPage(0);
                 if(album.songs.isEmpty) return;
                 await songsStatisticsRegistrator.commit();
                 await songsStatisticsRegistrator.openSong(
                     album.songs.first,
                     SongOpenType.init,
-                    MediaQuery.of(context).orientation
                 );
+                notifyInnerController();
               }
               notify();
             },
             onNewCreated: (Album album) async {
-              if(controller.hasClients){
+              if(pageController.hasClients){
                 jumpToPage(0);
                 if(album.songs.isEmpty) return;
                 await songsStatisticsRegistrator.commit();
                 await songsStatisticsRegistrator.openSong(
                     album.songs.first,
                     SongOpenType.init,
-                    MediaQuery.of(context).orientation
                 );
+                notifyInnerController();
               }
               notify();
             }
@@ -689,25 +696,23 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
     floatingActionButton:
     Album.current == null || Album.current.songs.isEmpty ? null:
-    buildFloatingButton(),
-  );
+    Consumer2<FloatingButtonProvider, AlbumProvider>(
+        builder: (context, floatingButtonProv, albumProv, child){
+          if(isAutoScrolling)
+            return Container();
 
-  Widget buildFloatingButton() => Consumer2<FloatingButtonProvider, AlbumProvider>(
-      builder: (context, floatingButtonProv, albumProv, child){
-        if(isAutoScrolling)
-          return Container();
-
-        CommonColorData colors = CommonColorData.ALL[Album.current.colorsKey];
-        return ExtendedFloatingButton(
-            MdiIcons.magnify,
-            'Spis treści',
-            textColor: colors.iconColor,
-            background: colors.colorStart,
-            backgroundEnd: colors.colorEnd,
-            floatingButtonExpanded: floatingButtonExpanded,
-            onTap: openTabOfCont
-        );
-      }
+          CommonColorData colors = CommonColorData.ALL[Album.current.colorsKey];
+          return ExtendedFloatingButton(
+              MdiIcons.magnify,
+              'Spis treści',
+              textColor: colors.iconColor,
+              background: colors.colorStart,
+              backgroundEnd: colors.colorEnd,
+              floatingButtonExpanded: floatingButtonExpanded,
+              onTap: openTabOfCont
+          );
+        }
+    ),
   );
 
   Future<void> openTabOfCont({String initPhrase='', bool forgetScrollPosition=false}) => Navigator.of(context).push(
@@ -718,8 +723,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
             forgetScrollPosition: forgetScrollPosition,
             onSongSelected: (Song song, int indexInAlbum, SongOpenType songOpenType) async {
               jumpToPage(indexInAlbum);
-              await songsStatisticsRegistrator.commit();
-              await songsStatisticsRegistrator.openSong(song, songOpenType, MediaQuery.of(context).orientation);
+              // songsStatisticsRegistrator stuff is handled by pageChange.
             },
             onConfAlbumEnabled: (){
               jumpToPage(0);

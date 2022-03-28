@@ -427,17 +427,21 @@ class _PartTwoState extends State<_PartTwo>{
           ),
         ),
 
-        Padding(
-          padding: const EdgeInsets.only(
-              left: Dimen.ICON_MARG,
-              right: Dimen.ICON_MARG,
-              bottom: Dimen.ICON_MARG
-          ),
+        SizedBox(
+          height: 200,
           child: AppCard(
             elevation: AppCard.bigElevation,
             radius: AppCard.BIG_RADIUS,
             margin: EdgeInsets.zero,
-            child: MemoryWidget(memoryBuilder.build(''), fontIndex: fontIndex),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.only(
+                  left: Dimen.ICON_MARG,
+                  right: Dimen.ICON_MARG,
+                  bottom: Dimen.ICON_MARG
+              ),
+              child: MemoryWidget(memoryBuilder.build(''), fontIndex: fontIndex),
+            ),
           ),
         ),
 

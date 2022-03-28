@@ -35,8 +35,7 @@ class PartInfoState extends State<PartInfo>{
   void initState() {
     version = '0.0.0';
     (() async => PackageInfo.fromPlatform().then(
-            (platform) =>  setState(
-                () => version = platform.version)))();
+            (platform) =>  setState(() => version = platform.version)))();
     super.initState();
   }
 

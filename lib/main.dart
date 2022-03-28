@@ -9,6 +9,7 @@ import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_cat.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_group.dart';
 import 'package:harcapp/account/login_provider.dart';
+import 'package:harcapp/logger.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
@@ -147,6 +148,15 @@ class AppNavigatorObserver extends NavigatorObserver{
 
 class App extends StatefulWidget {
 
+  static List<void Function()> _orientationChangedListeners;
+  static void addOrientationChangeListener(void Function() listener){
+    _orientationChangedListeners.add(listener);
+  }
+
+  static void removeOrientationChangeListener(void Function() listener){
+    _orientationChangedListeners.remove(listener);
+  }
+
   static bool get showPatroniteSeasonally{
 
     DateTime date = DateTime.now();
@@ -160,8 +170,10 @@ class App extends StatefulWidget {
 
 }
 
-class AppState extends State<App> {
 
+
+class AppState extends State<App> with WidgetsBindingObserver {
+  
   StreamSubscription<ConnectivityResult> subscription;
 
   Future<void> initShaPref() async {
@@ -177,6 +189,9 @@ class AppState extends State<App> {
   @override
   void initState() {
 
+    WidgetsBinding.instance.addObserver(this);
+    App._orientationChangedListeners = [];
+
     switch(appMode){
       case AppMode.appModeDefault: _slctColorPack = const ColorPackStartDefault(); break;
       case AppMode.appModeAdwent: _slctColorPack = const ColorPackStartAdwent(); break;
@@ -185,7 +200,7 @@ class AppState extends State<App> {
       case AppMode.appModePowstWarsz: _slctColorPack = const ColorPackStartDefault(); break;
       default: _slctColorPack = const ColorPackStartDefault(); break;
     }
-
+    
     _loginListener = LoginProviderListener(
         onLogin: (emailConf) async {
           if(emailConf) await Statistics.commit();
@@ -196,7 +211,7 @@ class AppState extends State<App> {
         }
     );
 
-    initShaPref().then((value) {
+    initShaPref().then((value) async {
 
       // Update rankTaskUids
       if(true)
@@ -229,6 +244,13 @@ class AppState extends State<App> {
 
         }
 
+      if(shaPref.getBool(ShaPref.SHA_PREF_RESET_STATS, true)){
+        Statistics.songStats = {};
+        Statistics.moduleStats = {};
+        shaPref.setBool(ShaPref.SHA_PREF_RESET_STATS, false);
+        logger.d('Stats reset.');
+      }
+
       subscription = addConnectionListener((hasConnection) async {
         if (!hasConnection) return;
 
@@ -246,10 +268,16 @@ class AppState extends State<App> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     loginProvider.removeLoginListener( _loginListener);
     super.dispose();
   }
 
+  @override void didChangeMetrics() {
+    for(void Function() listener in App._orientationChangedListeners)
+      listener.call();
+  }
+  
   @override
   Widget build(BuildContext context) {
 

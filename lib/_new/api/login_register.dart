@@ -6,7 +6,6 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/common.dart';
 import 'package:harcapp/sync/init_sync_analyser.dart';
-import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 
 import '../../logger.dart';
@@ -67,6 +66,10 @@ class ApiRegLog{
         break;
       case InitSyncOperation.error:
         logger.e('Login attempt with init sync result: error');
+        await AccSecData.saveLoginData(email, response);
+        loggedIn = true;
+        await synchronizer.reloadSyncables();
+        synchronizer.post(dumpReplaceExisting: true);
         break;
     }
 
