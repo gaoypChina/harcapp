@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -92,7 +89,8 @@ class TabOfCont extends StatefulWidget{
         this.pageStorageKey,
         this.showAddSongSuggestion=true,
         this.onNewSongAdded,
-      });
+        Key key
+      }): super(key: key);
 
   @override
   State createState() => TabOfContState();
@@ -103,7 +101,7 @@ class TabOfContState extends State<TabOfCont>{
 
   final PageStorageBucket pageStorageBucket = PageStorageBucket();
 
-  static const double TAG_BAR_HEIGHT = 2*Dimen.DEF_MARG + Dimen.TEXT_SIZE_NORMAL + 3;
+  static const double tagBarHeight = 2*Dimen.DEF_MARG + Dimen.TEXT_SIZE_NORMAL + 3;
 
   SearchParamsProvider searchParamsProvider;
   CurrentItemsProvider currItemsProv;
@@ -208,12 +206,12 @@ class TabOfContState extends State<TabOfCont>{
                     backgroundColor: Colors.transparent,
                     body: CustomScrollView(
                       controller: scrollController,
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       slivers: [
                         if(widget.appBar)
                           SliverAppBar(
                             backgroundColor: background_(context),
-                            title: Text('Spis treści'),
+                            title: const Text('Spis treści'),
                             centerTitle: true,
                             elevation: 0,
                             floating: true,
@@ -233,7 +231,7 @@ class TabOfContState extends State<TabOfCont>{
                         ),
 
                         SliverList(
-                          delegate: SliverChildListDelegate([SizedBox(height: 10.0)]),
+                          delegate: SliverChildListDelegate([const SizedBox(height: 10.0)]),
                         ),
 
                         if(prov.currSongs.isEmpty)
@@ -244,7 +242,7 @@ class TabOfContState extends State<TabOfCont>{
                         else
                           SliverList(
                             delegate: SliverChildBuilderDelegate((context, index) => Padding(
-                                padding: EdgeInsets.only(bottom: Dimen.DEF_MARG),
+                                padding: const EdgeInsets.only(bottom: Dimen.DEF_MARG),
                                 child: TabOfContItem(
                                   prov.currSongs[index],
                                   index,
@@ -300,7 +298,7 @@ class _NoSongWidget extends StatelessWidget{
           Column(
             children: [
 
-              SizedBox(height: 64),
+              const SizedBox(height: 64),
 
               SimpleButton.from(
                   context: context,
@@ -393,28 +391,28 @@ class _SearchTextFieldCard extends StatelessWidget{
       searchOptions.isEmpty?
       null:
       SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.only(bottom: 6, left: 6, right: 6),
-          child: Container(
+          padding: const EdgeInsets.only(bottom: 6, left: 6, right: 6),
+          child: SizedBox(
             height: 2*Dimen.DEF_MARG + Dimen.TEXT_SIZE_NORMAL + 3,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Row(
                     children: searchOptions.checkedRates.map((rate) => Padding(
-                      padding: EdgeInsets.only(left: Dimen.DEF_MARG, right: Dimen.DEF_MARG),
+                      padding: const EdgeInsets.only(left: Dimen.DEF_MARG, right: Dimen.DEF_MARG),
                       child: RateIcon.build(context, rate, size: 20.0),
                     )).toList(),
                   ),
-                  SizedBox(width: Dimen.DEF_MARG/2),
+                  const SizedBox(width: Dimen.DEF_MARG/2),
                   Row(
                     children: searchOptions.checkedTags.map((t) => Tag(
                       t,
                       inCard: false,
                       fontSize: Dimen.TEXT_SIZE_SMALL,
                       padding: EdgeInsets.zero,
-                      margin: EdgeInsets.only(left: Dimen.DEF_MARG, right: Dimen.DEF_MARG),
+                      margin: const EdgeInsets.only(left: Dimen.DEF_MARG, right: Dimen.DEF_MARG),
                       elevate: false,
                     )).toList(),
                   )
@@ -495,8 +493,8 @@ class TabOfContItem extends StatelessWidget{
 
                   if(song.performers.isNotEmpty)
                     Padding(
-                      padding: EdgeInsets.only(top: 6),
-                      child: Text(song.performersString,
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Text(song.performersStr,
                           style: AppTextStyle(
                               fontWeight: weight.halfBold,
                               fontSize: Dimen.TEXT_SIZE_TINY,
@@ -515,7 +513,7 @@ class TabOfContItem extends StatelessWidget{
         ],
       ),
       subtitle: Padding(
-        padding: EdgeInsets.only(top: 6),
+        padding: const EdgeInsets.only(top: 6),
         child: Text(song.tagsAsString,
             style: AppTextStyle(
                 fontSize: Dimen.TEXT_SIZE_TINY,
@@ -536,7 +534,7 @@ class BottomSheetOptions extends StatefulWidget{
   final SongSearcher searcher;
   final void Function() onChanged;
 
-  const BottomSheetOptions(this.searchOptions, this.searcher, {this.onChanged});
+  const BottomSheetOptions(this.searchOptions, this.searcher, {this.onChanged, Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => BottomSheetOptionsState();
@@ -551,6 +549,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
   bool checkRateDislike;
   bool checkRateLike1;
   bool checkRateLike2;
+
   bool checkRateLike3;
   bool checkRateLikeBookmarked;
 
@@ -569,13 +568,13 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
   @override
   Widget build(BuildContext context) {
     return BottomSheetDef(
-      childMargin: EdgeInsets.all(Dimen.DEF_MARG/2),
+      childMargin: const EdgeInsets.all(Dimen.DEF_MARG/2),
       title: 'Opcje wyszukiwania',
       builder: (context) =>
       Column(
         children: <Widget>[
 
-          SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
+          const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
 
           Row(
             children: <Widget>[
@@ -587,7 +586,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
             ],
           ),
 
-          SizedBox(height: 2*Dimen.BOTTOM_SHEET_MARG),
+          const SizedBox(height: 2*Dimen.BOTTOM_SHEET_MARG),
 
           TagLayout.wrap(
             allTags: Tag.ALL_TAG_NAMES,
@@ -600,7 +599,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
             checkedTags: searchOptions.checkedTags,
           ),
 
-          SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
+          const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
 
         ],
       ),
@@ -620,7 +619,11 @@ class RateCheckButton extends StatefulWidget{
       this.text,
       this.rate,
       this.searchOptions,
-      {this.onTap});
+      {this.onTap,
+       Key key
+      }): super(
+        key: key
+      );
 
   @override
   State<StatefulWidget> createState() => RateCheckButtonState();
@@ -731,7 +734,7 @@ void _showAddSongBottomSheet(BuildContext context, void Function(Song song) onNe
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
 
-          AppText(
+          const AppText(
               'Na swój użytek piosenkę do harcappki dodać może każdy.'
                   '\n'
                   '\nA co jeśli chcesz, by Twoja piosenka pojawiła się w oficjalnym spisie treści dostępnym <b>dla wszystkich</b>?'
@@ -742,17 +745,17 @@ void _showAddSongBottomSheet(BuildContext context, void Function(Song song) onNe
           Text('Przygotowanie piosenki jest banalne!', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold)),
           Text('Wystarczy skorzystać z jednego z dwóch narzędzi:', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
 
-          SizedBox(height: 20.0),
+          const SizedBox(height: 20.0),
 
           SimpleButton(
-              padding: EdgeInsets.all(Dimen.ICON_MARG),
+              padding: const EdgeInsets.all(Dimen.ICON_MARG),
               radius: AppCard.BIG_RADIUS,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Icon(MdiIcons.laptop, color: hintEnab_(context)),
-                  SizedBox(width: Dimen.ICON_MARG),
+                  const SizedBox(width: Dimen.ICON_MARG),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -773,22 +776,22 @@ void _showAddSongBottomSheet(BuildContext context, void Function(Song song) onNe
 
                   Expanded(child: Container()),
 
-                  IconButton(icon: Icon(MdiIcons.web), onPressed: null)
+                  const IconButton(icon: Icon(MdiIcons.web), onPressed: null)
                 ],
               ),
               onTap: null
           ),
-          SizedBox(height: Dimen.ICON_MARG),
+          const SizedBox(height: Dimen.ICON_MARG),
 
           SimpleButton(
-            padding: EdgeInsets.all(Dimen.ICON_MARG),
+            padding: const EdgeInsets.all(Dimen.ICON_MARG),
             radius: AppCard.BIG_RADIUS,
             child: Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Icon(MdiIcons.cellphone, color: hintEnab_(context)),
-                  SizedBox(width: Dimen.ICON_MARG),
+                  const SizedBox(width: Dimen.ICON_MARG),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -809,7 +812,7 @@ void _showAddSongBottomSheet(BuildContext context, void Function(Song song) onNe
 
                   Expanded(child: Container()),
 
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(Dimen.ICON_MARG),
                     child: Icon(MdiIcons.musicNotePlus)
                   )
@@ -824,11 +827,11 @@ void _showAddSongBottomSheet(BuildContext context, void Function(Song song) onNe
             },
           ),
 
-          SizedBox(height: 40.0),
+          const SizedBox(height: 40.0),
           Text('Zostań songowym bohaterem! c:', style: AppTextStyle(
               fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.bold, color: Colors.amber
           ), textAlign: TextAlign.center),
-          SizedBox(height: 20.0),
+          const SizedBox(height: 20.0),
 
         ],
       ),

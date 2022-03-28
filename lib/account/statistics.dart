@@ -27,18 +27,20 @@ class Statistics{
 
   static set songStats(Map<String, Map<String, dynamic>> value) => shaPref.setMap(ShaPref.SHA_PREF_STATISTICS_SONGS, value);
 
-  static Future<void> registerSongAction(String songFileName, DateTime openTime, SongOpenType type, Duration openDuration, List<Tuple3<int, double, Orientation>> scrollEvents) async {
+  static Future<void> registerSongAction(String songFileName, DateTime openTime, SongOpenType type, Duration openDuration, List<Tuple4<int, int, int, Orientation>> scrollEvents) async {
 
     Map<String, Map<String, dynamic>> allStats = Statistics.songStats;
     Map<String, dynamic> songStats = allStats[songFileName] ?? {};
 
     String localDate = DateFormat('yyyy-MM-ddTHH:mm:ss').format(openTime);
     songStats[localDate] = {
-      "openType": type.name.toUpperCase(),
-      "openDuration": openDuration.inSeconds,
-      "scrollEvents": scrollEvents.map((scrollEvent) => {
-          "time": scrollEvent.item1,
-          "scrollVal": scrollEvent.item2,
+      'openType': type.name.toUpperCase(),
+      'openDuration': openDuration.inSeconds,
+      'scrollEvents': scrollEvents.map((scrollEvent) => {
+          'time': scrollEvent.item1,
+          'topLine': scrollEvent.item2,
+          'bottomLine': scrollEvent.item3,
+          'orientation': scrollEvent.item4==Orientation.portrait?'vertical':'horizontal',
         }).toList()
     };
 

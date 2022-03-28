@@ -26,7 +26,7 @@ class WordCard extends StatefulWidget{
   final Word word;
   final GameMode mode;
 
-  const WordCard(this.parent, this.word, this.mode);
+  const WordCard(this.parent, this.word, this.mode, {Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => WordCardState();
@@ -52,11 +52,9 @@ class WordCardState extends State<WordCard>{
 
   @override
   void initState() {
-    //flipped = false;
     cardKey = GlobalKey<FlipCardState>();
     showLongPressMessage = false;
 
-    //dimm = false;
     super.initState();
   }
 
@@ -97,7 +95,7 @@ class WordCardState extends State<WordCard>{
                     style: AppTextStyle(
                       fontSize: Dimen.TEXT_SIZE_BIG,
                       color: (cardColor==CardColor.kill)?
-                      ColorPackBlack().hintEnabled:AppColors.text_hint_enab,
+                      const ColorPackBlack().hintEnabled:AppColors.text_hint_enab,
                     ),
                     textAlign: TextAlign.center,
                     group: group,
@@ -106,7 +104,7 @@ class WordCardState extends State<WordCard>{
                 ),
 
               if(widget.mode!=GameMode.LEADER)
-                SizedBox(height: Dimen.DEF_MARG),
+                const SizedBox(height: Dimen.DEF_MARG),
 
               AutoSizeText(
                 widget.mode==GameMode.NONE?'':
@@ -126,12 +124,9 @@ class WordCardState extends State<WordCard>{
         )
     );
 
-    if(widget.mode==GameMode.LEADER
-        ||
-        (widget.mode==GameMode.PLAYER && selected && (cardKey.currentState == null || cardKey.currentState.isFront)))
-      return Expanded(
-        child: back,
-      );
+    if(widget.mode==GameMode.LEADER ||
+      (widget.mode==GameMode.PLAYER && selected && (cardKey.currentState == null || cardKey.currentState.isFront)))
+      return Expanded(child: back);
 
     Widget front = AppCard(
         radius: AppCard.BIG_RADIUS,
@@ -141,7 +136,7 @@ class WordCardState extends State<WordCard>{
         showLongPressMessage?
         null: ()async{
           if(mounted) setState(() => showLongPressMessage = true);
-          await Future.delayed(Duration(seconds: 2));
+          await Future.delayed(const Duration(seconds: 2));
           if(mounted) setState(() => showLongPressMessage = false);
           saveInstance();
         },
@@ -164,7 +159,7 @@ class WordCardState extends State<WordCard>{
                         style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)), textAlign: TextAlign.center, group: group,),
                     ),
 
-                    SizedBox(height: Dimen.DEF_MARG),
+                    const SizedBox(height: Dimen.DEF_MARG),
 
                     AutoSizeText(
                         widget.mode==GameMode.NONE?'':
@@ -187,7 +182,7 @@ class WordCardState extends State<WordCard>{
                 children: [
 
                   Padding(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Icon(MdiIcons.gestureTapHold, color: hintEnab_(context)),
                   ),
 
@@ -205,71 +200,71 @@ class WordCardState extends State<WordCard>{
     );
 
     return Expanded(
-        child: FlipCard(
-          direction: FlipDirection.VERTICAL,
-          key: cardKey,
-          flipOnTouch: false,
-          onFlip: (){
-            setState(() => selected = !selected);
-            saveInstance();
-          },
-          front: front,
-          back: back,
-          onFlipDone: (bool _) async {
+      child: FlipCard(
+        direction: FlipDirection.VERTICAL,
+        key: cardKey,
+        flipOnTouch: false,
+        front: front,
+        back: back,
+        speed: 500,
+        onFlipDone: (bool _) async {
 
-            if(cardColor==CardColor.teamGreen) {
-              widget.parent.greenCardsLeft--;
-              if(widget.parent.greenCardsLeft == 0) {
-                await openDialog(
-                    context: context,
-                    builder: (context) =>
-                        Center(
-                          child: InfoWidget(
-                            color: GREEN_COLOR,
-                            textColor: AppColors.text_def_enab,
-                            text: 'Wygrana!',
-                          ),
-                        )
-                );
-                shaPref.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
-              }
-            }
+          setState(() => selected = !selected);
+          saveInstance();
 
-            else if(cardColor==CardColor.teamRed) {
-              widget.parent.redCardsLeft--;
-              if(widget.parent.redCardsLeft == 0) {
-                await openDialog(
-                    context: context,
-                    builder: (context) =>
-                        Center(
-                          child: InfoWidget(
-                            color: RED_COLOR,
-                            textColor: AppColors.text_def_enab,
-                            text: 'Wygrana!',
-                          ),
-                        )
-                );
-                shaPref.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
-              }
-            }
-
-            else if(cardColor==CardColor.kill) {
+          if(cardColor==CardColor.teamGreen) {
+            widget.parent.greenCardsLeft--;
+            if(widget.parent.greenCardsLeft == 0) {
               await openDialog(
                   context: context,
                   builder: (context) =>
-                      Center(
+                      const Center(
                         child: InfoWidget(
-                          color: Colors.black,
-                          textColor: Colors.white,
-                          text: 'Aj,\nTak wdepnąć...',
+                          color: GREEN_COLOR,
+                          textColor: AppColors.text_def_enab,
+                          text: 'Wygrana!',
                         ),
                       )
               );
               shaPref.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
-              Navigator.pop(context);
             }
-          },
-        )
+          }
+
+          else if(cardColor==CardColor.teamRed) {
+            widget.parent.redCardsLeft--;
+            if(widget.parent.redCardsLeft == 0) {
+              await openDialog(
+                  context: context,
+                  builder: (context) =>
+                      const Center(
+                        child: InfoWidget(
+                          color: RED_COLOR,
+                          textColor: AppColors.text_def_enab,
+                          text: 'Wygrana!',
+                        ),
+                      )
+              );
+              shaPref.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
+            }
+          }
+
+          else if(cardColor==CardColor.kill) {
+            await openDialog(
+                context: context,
+                builder: (context) =>
+                    const Center(
+                      child: InfoWidget(
+                        color: Colors.black,
+                        textColor: Colors.white,
+                        text: 'Aj,\nTak wdepnąć...',
+                      ),
+                    )
+            );
+            shaPref.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
+            Navigator.pop(context);
+          }
+        },
+      )
     );
   }
 

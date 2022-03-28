@@ -24,7 +24,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import 'common.dart';
 
-const String OLD_DATABASE = 'Baza słów jest nieaktualna. Zaktualizuj aplikację.';
+const String oldDatabaseMessage = 'Baza słów jest nieaktualna. Zaktualizuj aplikację.';
 
 class OldDataBaseError extends Error{}
 
@@ -35,7 +35,7 @@ class SlowoKluczMainGamePage extends StatefulWidget{
   final GameMode mode;
   final List<Word> words;
 
-  const SlowoKluczMainGamePage(this.mode, this.words);
+  const SlowoKluczMainGamePage(this.mode, this.words, {Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => SlowoKluczMainGamePageState();
@@ -117,7 +117,7 @@ class SlowoKluczMainGamePage extends StatefulWidget{
 
       int wordListVersion = map['word_list_version'];
       if (wordListVersion != WORD_LIST_VERISON) {
-        showAppToast(context, text: OLD_DATABASE);
+        showAppToast(context, text: oldDatabaseMessage);
         return null;
       }
       
@@ -215,7 +215,7 @@ class SlowoKluczMainGamePageState extends State<SlowoKluczMainGamePage>{
     if(countdown>0){
 
       post(()async{
-        await Future.delayed(Duration(seconds: 1));
+        await Future.delayed(const Duration(seconds: 1));
         setState(() => --countdown);
         if(countdown==0) {
           await openDialog(
@@ -242,10 +242,10 @@ class SlowoKluczMainGamePageState extends State<SlowoKluczMainGamePage>{
           body: ScrollConfiguration(
               behavior: NoGlowBehavior(),
               child: CustomScrollView(
-                physics: ClampingScrollPhysics(),
+                physics: const ClampingScrollPhysics(),
                 slivers: [
 
-                  SliverAppBar(
+                  const SliverAppBar(
                     title: Text('Słowo klucz'),
                     centerTitle: true,
                   ),
@@ -258,7 +258,7 @@ class SlowoKluczMainGamePageState extends State<SlowoKluczMainGamePage>{
                       children: [
                         Text('$countdown', style: AppTextStyle(fontSize: 64.0, color: Colors.white, fontWeight: weight.halfBold), textAlign: TextAlign.center,),
 
-                        SizedBox(height: 16.0),
+                        const SizedBox(height: 16.0),
 
                         Text('Ukryj telefon przed graczami.', style: AppTextStyle(color: Colors.white, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.center,),
 
@@ -277,16 +277,16 @@ class SlowoKluczMainGamePageState extends State<SlowoKluczMainGamePage>{
         body: ScrollConfiguration(
           behavior: NoGlowBehavior(),
           child: CustomScrollView(
-            physics: ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             slivers: [
 
               SliverAppBar(
-                title: Text('Słowo klucz'),
+                title: const Text('Słowo klucz'),
                 centerTitle: true,
                 actions: [
                   if(mode == GameMode.PLAYER)
                     IconButton(
-                      icon: Icon(MdiIcons.qrcode),
+                      icon: const Icon(MdiIcons.qrcode),
                       onPressed: () => openDialog(
                           context: context,
                           dismissible: false,
@@ -367,7 +367,7 @@ class QRCodeWidget extends StatelessWidget{
 
   final String encodedGameInstance;
 
-  const QRCodeWidget(this.encodedGameInstance);
+  const QRCodeWidget(this.encodedGameInstance, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -397,7 +397,7 @@ class QRCodeWidget extends StatelessWidget{
             children: [
 
               Padding(
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 child: Text(
                   'Zeskanuj kod telefonem, z którego korzystają wodzowie.',
                   style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL, fontWeight: weight.halfBold, color: ColorPack.DEF_ICON_ENAB),
@@ -409,7 +409,7 @@ class QRCodeWidget extends StatelessWidget{
                 color: ColorPack.DEF_CARD,
                 radius: AppCard.BIG_RADIUS,
                 elevation: AppCard.bigElevation,
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 onTap: () => Navigator.pop(context),
                 child: Text(
                   'PRZEJDŹ DO GRY',
@@ -437,7 +437,8 @@ class InfoWidget extends StatefulWidget{
     @required this.color,
     @required this.textColor,
     @required this.text,
-  });
+    Key key
+  }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => InfoWidgetState();
@@ -451,252 +452,93 @@ class InfoWidgetState extends State<InfoWidget>{
   String get text => widget.text;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width / 1.7,
-      height: MediaQuery
-          .of(context)
-          .size
-          .height / 1.7,
-      child: AppCard(
-        radius: AppCard.BIG_RADIUS,
-        color: color,
-        margin: AppCard.normMargin,
-        elevation: AppCard.bigElevation,
-        padding: EdgeInsets.all(24.0),
-        child: Center(
-            child: RotatedBox(
-              child: AutoSizeText(
-                text,
-                style: AppTextStyle(
-                  height: 1.4,
-                  fontSize: 48.0,
-                  fontWeight: weight.halfBold,
-                  color: textColor,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              quarterTurns: 1,
-            )
-        ),
-      ),
-    );
-  }
-
-}
-
-/*
-class InitWidget extends StatefulWidget{
-
-  final SlowoKluczMainGamePageState parent;
-
-  const InitWidget(this.parent);
-
-  @override
-  State<StatefulWidget> createState() => InitWidgetState();
-
-}
-
-class InitWidgetState extends State<InitWidget>{
-
-  bool modeSelected;
-
-  @override
-  void dispose() {
-
-    if(!modeSelected)
-      post(() => Navigator.pop(widget.parent.context));
-
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    modeSelected = false;
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    return AppCard(
+  Widget build(BuildContext context) => SizedBox(
+    width: MediaQuery
+        .of(context)
+        .size
+        .width / 1.7,
+    height: MediaQuery
+        .of(context)
+        .size
+        .height / 1.7,
+    child: AppCard(
       radius: AppCard.BIG_RADIUS,
-      color: Colors.transparent,
-      elevation: AppCard.bigElevation,
+      color: color,
       margin: AppCard.normMargin,
-      padding: EdgeInsets.zero,
-      child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/images/games/bg_slowo_klucz.webp'),
-                fit: BoxFit.cover,
-                alignment: Alignment.center
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: SimpleButton(
-                        radius: 0,
-                        onTap: (){
-                          modeSelected = true;
-                          post(() => widget.parent.setMode(GameMode.PLAYER));
-                          Navigator.pop(context);
-                        },
-                        child: AspectRatio(
-                            aspectRatio: 1,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.all(Dimen.ICON_MARG),
-                                  child: Icon(MdiIcons.accountMultiple, color: Colors.white, size: 36.0,),
-                                ),
-
-                                Text('PLANSZA\nGRACZY', style: AppTextStyle(fontSize: 24.0, fontWeight: weight.halfBold, color: Colors.white, shadow: true), textAlign: TextAlign.center),
-
-                                SizedBox(height: Dimen.ICON_FOOTPRINT,)
-
-                              ],
-                            )
-                        )
-                    ),
-                  ),
-                  Expanded(
-                    child: SimpleButton(
-                        radius: 0,
-                        onTap: () async {
-
-
-                        },
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(Dimen.ICON_MARG),
-                                child: Icon(MdiIcons.accountCowboyHat, color: Colors.white, size: 36.0,),
-                              ),
-
-                              Text('PLANSZA\nWODZÓW', style: AppTextStyle(fontSize: 24.0, fontWeight: weight.halfBold, color: Colors.white, shadow: true), textAlign: TextAlign.center),
-
-                              SizedBox(height: Dimen.ICON_FOOTPRINT,)
-
-                            ],
-                          ),
-                        )
-                    ),
-                  )
-                ],
+      elevation: AppCard.bigElevation,
+      padding: const EdgeInsets.all(24.0),
+      child: Center(
+          child: RotatedBox(
+            child: AutoSizeText(
+              text,
+              style: AppTextStyle(
+                height: 1.4,
+                fontSize: 48.0,
+                fontWeight: weight.halfBold,
+                color: textColor,
               ),
-
-              if(widget.parent.savedGameExists())
-                AppCard(
-                    radius: 0,
-                    elevation: AppCard.defElevation,
-                    margin: EdgeInsets.zero,
-                    padding: EdgeInsets.all(Dimen.ICON_MARG),
-                    color: Colors.white54,
-                    onTap: (){
-                      modeSelected = true;
-                      widget.parent.loadInstance();
-                      Navigator.pop(context);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-
-                        SizedBox(width: Dimen.ICON_MARG),
-                        Icon(MdiIcons.progressUpload, color: Colors.white,),
-                        SizedBox(width: Dimen.ICON_MARG),
-                        Text(
-                          'PRZYWRÓĆ POPRZEDNIĄ GRĘ',
-                          style: AppTextStyle(fontWeight: weight.halfBold, color: Colors.white),
-                        ),
-                        SizedBox(width: Dimen.ICON_FOOTPRINT),
-
-                      ],
-                    )
-                ),
-
-            ],
+              textAlign: TextAlign.center,
+            ),
+            quarterTurns: 1,
           )
       ),
-    );
-
-  }
+    ),
+  );
 
 }
-*/
-
-
 
 class GameRules extends StatelessWidget{
 
-  ColorPack colorPack;
+  final ColorPack colorPack;
 
-  GameRules(this.colorPack);
+  const GameRules(this.colorPack, {Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
 
-        AppText('<b>Liczba graczy:</b> od 2, najlepiej członkowie rodziny.'),
-        SizedBox(height: 18.0,),
-        AppText('<b>Wiek graczy:</b> od 5 lat.'),
-        SizedBox(height: 18.0,),
-        AppText('<b>Cel gry:</b>'),
-        SizedBox(height: 6.0,),
-        AppText(
-          '    • budowanie wzajemnych relacji w rodzinie,'
-              '\n    • integracja najbliższych,'
-              '\n    • sposób na spędzenie wolnego czasu,'
-              '\n    • rozmawianie o emocjach w przyjaznej atmosferze,'
-              '\n    • rozwijanie rozumienia i przeżywania emocji w rodzinie.',
-        ),
+      const AppText('<b>Liczba graczy:</b> od 2, najlepiej członkowie rodziny.'),
+      const SizedBox(height: 18.0,),
+      const AppText('<b>Wiek graczy:</b> od 5 lat.'),
+      const SizedBox(height: 18.0,),
+      const AppText('<b>Cel gry:</b>'),
+      const SizedBox(height: 6.0,),
+      const AppText(
+        '    • budowanie wzajemnych relacji w rodzinie,'
+            '\n    • integracja najbliższych,'
+            '\n    • sposób na spędzenie wolnego czasu,'
+            '\n    • rozmawianie o emocjach w przyjaznej atmosferze,'
+            '\n    • rozwijanie rozumienia i przeżywania emocji w rodzinie.',
+      ),
 
-        SizedBox(height: 18.0,),
-        AppText('<b>Przebieg gry:</b>'),
-        SizedBox(height: 6.0,),
-        AppText('Usiądźcie w kole, tak by każdy widział się nawzajem. Gracze po kolei obracają karty, by odczytać na głos pytanie (jeśli gracz nie umie jeszcze czytać, prosi kogoś o przeczytanie). Następnie gracz odpowiada na pytanie (lub wykonuje zaproponowaną w karcie czynność).'
-            '\n\nW wyjątkowych sytuacjach – kiedy gracz stwierdzi, że pytanie jest zbyt trudne, można odłożyć ja na bok (przesuwając kartę na lewo). Zaleca się wtedy, by wrócić do tego pytania po zakończeniu gry w mniejszym gronie (np. w rozmowie z siostrą, mamą, mężem, synem itp.).'
-          //'\n\nNiektóre karty zawierają polecenie <i>"Wylosuj minkę. Jakie to uczucie?"</i>. Wówczas należy wylosować minkę, nazwać uczucie, a następnie wykonać zadanie.'
-        ),
+      const SizedBox(height: 18.0,),
+      const AppText('<b>Przebieg gry:</b>'),
+      const SizedBox(height: 6.0,),
+      const AppText('Usiądźcie w kole, tak by każdy widział się nawzajem. Gracze po kolei obracają karty, by odczytać na głos pytanie (jeśli gracz nie umie jeszcze czytać, prosi kogoś o przeczytanie). Następnie gracz odpowiada na pytanie (lub wykonuje zaproponowaną w karcie czynność).'
+          '\n\nW wyjątkowych sytuacjach – kiedy gracz stwierdzi, że pytanie jest zbyt trudne, można odłożyć ja na bok (przesuwając kartę na lewo). Zaleca się wtedy, by wrócić do tego pytania po zakończeniu gry w mniejszym gronie (np. w rozmowie z siostrą, mamą, mężem, synem itp.).'
+        //'\n\nNiektóre karty zawierają polecenie <i>"Wylosuj minkę. Jakie to uczucie?"</i>. Wówczas należy wylosować minkę, nazwać uczucie, a następnie wykonać zadanie.'
+      ),
 
-        SizedBox(height: 18.0,),
-        AppText('<b>Mechanika gry:</b>'),
-        SizedBox(height: 6.0,),
-        AppText(
-            '    • dotknij kartę, by ją odwrócić,'
-                '\n    • przeciągnij kartę w lewo, by odłożyć ją na później,'
-                '\n    • przeciągnij kartę w prawo, by przejść do kolejnej.'
-        ),
-        SizedBox(height: 24.0,),
+      const SizedBox(height: 18.0,),
+      const AppText('<b>Mechanika gry:</b>'),
+      const SizedBox(height: 6.0,),
+      const AppText(
+          '    • dotknij kartę, by ją odwrócić,'
+              '\n    • przeciągnij kartę w lewo, by odłożyć ją na później,'
+              '\n    • przeciągnij kartę w prawo, by przejść do kolejnej.'
+      ),
+      const SizedBox(height: 24.0,),
 
-        AppText('<b>Miłej zabawy!</b>'),
+      const AppText('<b>Miłej zabawy!</b>'),
 
-        SizedBox(height: 18.0,),
-        Text('Grafika kart i emotikon: freepik.com', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_TINY, color: colorPack.hintEnabled),),
+      const SizedBox(height: 18.0,),
+      Text('Grafika kart i emotikon: freepik.com', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_TINY, color: colorPack.hintEnabled),),
 
-        SizedBox(height: 6.0,),
-        Text('Gra na podstawie gry "Pytaki" Aleksandry Sulej, wydawnictwa DOBRETO', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_TINY, color: colorPack.hintEnabled),),
+      const SizedBox(height: 6.0,),
+      Text('Gra na podstawie gry "Pytaki" Aleksandry Sulej, wydawnictwa DOBRETO', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_TINY, color: colorPack.hintEnabled),),
 
-      ],
-    );
-  }
+    ],
+  );
 
 }

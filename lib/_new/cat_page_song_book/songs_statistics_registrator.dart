@@ -16,7 +16,7 @@ class SongsStatisticsRegistrator{
   Duration _totalPausedDuration;
   SongOpenType _songOpenType;
   Orientation _orientation;
-  List<Tuple3<int, double, Orientation>> _scrollEvents;
+  List<Tuple4<int, int, int, Orientation>> _scrollEvents;
 
   Duration get totalOpenDuration => DateTime.now().difference(_openTime) - _totalPausedDuration;
 
@@ -65,7 +65,7 @@ class SongsStatisticsRegistrator{
     logger.d('SongsStatisticsRegistrator ($_songLclId) song opened.');
   }
 
-  Future<void> registerScroll(double scrollValue, Orientation orientation) async {
+  Future<void> registerScroll(int topVisibleLine, int bottomVisibleLine, Orientation orientation) async {
     if(!await TimeSettings.isTimeAutomatic){
       clear();
       return;
@@ -74,10 +74,10 @@ class SongsStatisticsRegistrator{
     if(_songLclId == null) return;
 
     if(_lastPausedTime != null) logger.e('SongsStatisticsRegistrator ($_songLclId) scrolled while paused!');
-    scrollValue = double.parse(scrollValue.toStringAsFixed(3));
-    _scrollEvents.add(Tuple3(totalOpenDuration.inSeconds, scrollValue, orientation));
+
+    _scrollEvents.add(Tuple4(totalOpenDuration.inSeconds, topVisibleLine, bottomVisibleLine, orientation));
     logger.d('SongsStatisticsRegistrator ($_songLclId) '
-        'scrolled to $scrollValue (${orientation==Orientation.portrait?'portrait':'horizontal'}) '
+        'scrolled to ($topVisibleLine:$bottomVisibleLine) (${orientation==Orientation.portrait?'portrait':'horizontal'}) '
         'after ${_scrollEvents.last.item1} seconds.');
   }
 

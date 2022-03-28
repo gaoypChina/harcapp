@@ -100,6 +100,8 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
     synchronizer.post();
   }
 
+  static bool get isDrawChordsBarVisible => SongBookBaseSetting().isDrawChordsBarVisible;
+
   @override
   void applySyncGetResp(SongBookSettingsResp resp) {
     if(resp.alwaysOnScreen != null) setAlwaysOnScreen(resp.alwaysOnScreen, localOnly: true);

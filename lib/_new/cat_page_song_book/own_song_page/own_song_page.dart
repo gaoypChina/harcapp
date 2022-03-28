@@ -88,6 +88,8 @@ class OwnSongPageState extends State<OwnSongPage> {
   CurrentItemProvider currItemProv;
   HidTitlesProvider hidTitleProv;
 
+  GlobalKey addButtonsKey;
+
   @override
   void initState() {
 
@@ -101,6 +103,8 @@ class OwnSongPageState extends State<OwnSongPage> {
             album.songs.map((song) => song.fileName).contains(song.fileName))
           albums.add(album);
       }
+
+    addButtonsKey = GlobalKey();
 
     super.initState();
   }
@@ -158,7 +162,7 @@ class OwnSongPageState extends State<OwnSongPage> {
 
           builder: (context, child) => BottomNavScaffold(
             body: CustomScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               controller: scrollController,
               slivers: [
 
@@ -166,7 +170,7 @@ class OwnSongPageState extends State<OwnSongPage> {
 
                 SliverList(delegate: SliverChildListDelegate([
                   SongPartsListWidget(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     onPartTap: (index) => openDialog(context: context, builder: (_) => SongPartEditor(
                       initText: currItemProv.song.songParts[index].getText(),
@@ -194,7 +198,7 @@ class OwnSongPageState extends State<OwnSongPage> {
 
                         SongWebEditorInfo(),
 
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.only(left: Dimen.ICON_MARG),
                           child: TitleShortcutRowWidget(title: 'Informacje ogólne', /*icon: MdiIcons.textBoxOutline*/ textAlign: TextAlign.start),
                         ),
@@ -208,19 +212,19 @@ class OwnSongPageState extends State<OwnSongPage> {
                           onChangedAddPers: (texts) => currItemProv.addPers = texts,
                         ),
 
-                        SizedBox(height: SEP),
+                        const SizedBox(height: SEP),
 
                         TagsWidget(
                           onChanged: (List<String> tags) => currItemProv.tags = tags,
                         ),
 
-                        SizedBox(height: SEP),
+                        const SizedBox(height: SEP),
 
                         if(Album.allOwn.isNotEmpty)
                           AlbumPart(this),
 
                         if(Album.allOwn.isNotEmpty)
-                          SizedBox(height: SEP),
+                          const SizedBox(height: SEP),
 
                         RefrenTemplate(
                             accentColor: Album.current.avgColorDarkSensitive(context),
@@ -251,16 +255,27 @@ class OwnSongPageState extends State<OwnSongPage> {
                             )
                         ),
 
-                        SizedBox(height: SEP),
+                        const SizedBox(height: SEP),
 
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.only(left: Dimen.ICON_MARG),
                           child: TitleShortcutRowWidget(title: 'Struktura piosenki', /*icon: MdiIcons.playlistMusic*/ textAlign: TextAlign.start),
                         ),
 
                       ],
                     ),
-                    footer: buildAddButtonsWidget(context),
+                    footer: AddButtonsWidget(
+                      key: addButtonsKey,
+                      accentColor: Album.current.avgColorDarkSensitive(context),
+                      onPressed: ()async{
+                        await Future.delayed(const Duration(milliseconds: 240));
+                        Scrollable.ensureVisible(
+                            addButtonsKey.currentContext,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeOutQuad
+                        );
+                      }// => scrollToBottom(scrollController),
+                    ),
                   )
                 ]))
 
@@ -272,13 +287,6 @@ class OwnSongPageState extends State<OwnSongPage> {
     );
   }
 
-  AddButtonsWidget buildAddButtonsWidget(BuildContext context) {
-    return AddButtonsWidget(
-                      accentColor: Album.current.avgColorDarkSensitive(context),
-                      onPressed: () => scrollToBottom(scrollController),
-                  );
-  }
-
   SliverAppBar appBar() => SliverAppBar(
     backgroundColor: background_(context),
     centerTitle: true,
@@ -287,7 +295,7 @@ class OwnSongPageState extends State<OwnSongPage> {
     actions: <Widget>[
 
       IconButton(
-          icon: Icon(MdiIcons.eyeOutline),
+          icon: const Icon(MdiIcons.eyeOutline),
           onPressed: () async {
 
             SongRaw songRaw = currItemProv.song;
@@ -296,10 +304,10 @@ class OwnSongPageState extends State<OwnSongPage> {
             await Navigator.push(context, MaterialPageRoute(
               builder: (context) => AppScaffold(
                 body: NestedScrollView(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   floatHeaderSlivers: true,
                   headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
-                    SliverAppBar(
+                    const SliverAppBar(
                       title: Text('Podgląd piosenki'),
                       centerTitle: true,
                       floating: true,
@@ -333,13 +341,13 @@ class SongWebEditorInfo extends StatelessWidget{
   Widget build(BuildContext context) {
     return AppCard(
         elevation: AppCard.bigElevation,
-        margin: EdgeInsets.all(Dimen.SIDE_MARG),
+        margin: const EdgeInsets.all(Dimen.SIDE_MARG),
         padding: EdgeInsets.zero,
         radius: AppCard.BIG_RADIUS,
         child: Stack(
           children: [
             Padding(
-              padding: EdgeInsets.all(Dimen.SIDE_MARG),
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -349,7 +357,7 @@ class SongWebEditorInfo extends StatelessWidget{
                     textAlign: TextAlign.center,
                   ),
 
-                  SizedBox(height: Dimen.ICON_MARG),
+                  const SizedBox(height: Dimen.ICON_MARG),
 
                   Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -376,11 +384,11 @@ class SongWebEditorInfo extends StatelessWidget{
             Positioned(
                 child: Row(
                   children: [
-                    SizedBox(width: Dimen.ICON_MARG),
+                    const SizedBox(width: Dimen.ICON_MARG),
                     Icon(MdiIcons.music, size: 84.0, color: backgroundIcon_(context)),
                     Expanded(child: Container()),
                     Icon(MdiIcons.laptop, size: 84.0, color: backgroundIcon_(context)),
-                    SizedBox(width: Dimen.ICON_MARG),
+                    const SizedBox(width: Dimen.ICON_MARG),
                   ],
                 )
             ),

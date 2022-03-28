@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
@@ -16,7 +15,7 @@ class CopyPage<T extends SongCore> extends StatefulWidget{
   final T song;
   final Function onCopied;
 
-  const CopyPage(this.song, {this.onCopied});
+  const CopyPage(this.song, {this.onCopied, Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => CopyPageState<T>();
@@ -36,9 +35,9 @@ class CopyPageState<T extends SongCore> extends State<CopyPage> with TickerProvi
     tabController = TabController(length: 3, vsync: this);
 
     String header = song.title +
-        '\nAutor słów: ' + song.authorsString +
-        '\nWykonawca: ' + song.performersString +
-        '\nKompozytor:' + song.composersString + '\n';
+        '\nAutor słów: ' + song.authorsStr +
+        '\nWykonawca: ' + song.performersStr +
+        '\nKompozytor:' + song.composersStr + '\n';
 
     List<String> words = song.text.split('\n');
     List<String> chords = song.chords.split('\n');
@@ -78,19 +77,19 @@ class CopyPageState<T extends SongCore> extends State<CopyPage> with TickerProvi
 
     return BottomNavScaffold(
         body: NestedScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           floatHeaderSlivers: true,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
             SliverAppBar(
-              title: Text('Kopiuj piosenkę'),
+              title: const Text('Kopiuj piosenkę'),
               centerTitle: true,
               floating: true,
               pinned: true,
               bottom: TabBar(
                 isScrollable: true,
                 controller: tabController,
-                physics: BouncingScrollPhysics(),
-                tabs: [
+                physics: const BouncingScrollPhysics(),
+                tabs: const [
                   Tab(text: 'Tylko słowa'),
                   Tab(text: 'Chwyty nad słowami'),
                   Tab(text: 'Chwyty przy słowach'),
@@ -100,7 +99,7 @@ class CopyPageState<T extends SongCore> extends State<CopyPage> with TickerProvi
           ],
           body: TabBarView(
             controller: tabController,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             children: [
 
               _ChildWidget(content[0]),
@@ -119,12 +118,12 @@ class CopyPageState<T extends SongCore> extends State<CopyPage> with TickerProvi
             margin: AppCard.normMargin,
             elevation: AppCard.bigElevation,
             radius: AppCard.BIG_RADIUS,
-            padding: EdgeInsets.all(Dimen.ICON_MARG),
+            padding: const EdgeInsets.all(Dimen.ICON_MARG),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(MdiIcons.contentCopy),
-                  SizedBox(width: Dimen.ICON_MARG),
+                  const Icon(MdiIcons.contentCopy),
+                  const SizedBox(width: Dimen.ICON_MARG),
                   Text('Kopiuj', style: AppTextStyle(fontWeight: weight.halfBold, color: iconEnab_(context)))
                 ]
             ),
@@ -145,8 +144,8 @@ class _ChildWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      padding: EdgeInsets.only(
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.only(
         top: Dimen.ICON_MARG,
         left: Dimen.ICON_MARG,
         right: Dimen.ICON_MARG

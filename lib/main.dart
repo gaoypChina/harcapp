@@ -255,7 +255,7 @@ class AppState extends State<App> {
 
     if(shaPref==null) return Container();
 
-    return  MultiProvider(
+    return MultiProvider(
       providers: [
 
         ChangeNotifierProvider(create: (context) => ConnectivityProvider()),
