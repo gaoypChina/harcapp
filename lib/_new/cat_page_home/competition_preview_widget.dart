@@ -146,7 +146,7 @@ class _CompetitionPreviewWidgetState extends State<CompetitionPreviewWidget>{
               ),
 
               if(!networkAvailable)
-                IndivCompPrompt(
+                const IndivCompPrompt(
                   child: IndivCompPreviewGrid(),
                   text: 'Brak internetu',
                   icon: MdiIcons.earthOff,
@@ -238,7 +238,12 @@ class IndivCompThumbnailAnimatedWidget extends StatefulWidget{
   final String colorsKey;
   final String iconKey;
 
-  const IndivCompThumbnailAnimatedWidget({@required this.delay, @required this.colorsKey, @required this.iconKey});
+  const IndivCompThumbnailAnimatedWidget({
+    @required this.delay,
+    @required this.colorsKey,
+    @required this.iconKey,
+    Key key
+  }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => IndivCompThumbnailAnimatedWidgetState();
@@ -277,7 +282,7 @@ class IndivCompThumbnailAnimatedWidgetState extends State<IndivCompThumbnailAnim
   @override
   Widget build(BuildContext context) {
 
-    Widget child = IndivCompThumbnailWidget.from(colorsKey: colorsKey, iconKey: iconKey);
+    Widget child = IndivCompThumbnailWidget(colorsKey: colorsKey, iconKey: iconKey);
 
     return FlipCard(
       front: child,
@@ -293,7 +298,7 @@ class IndivCompLoadingWidget extends StatelessWidget{
   const IndivCompLoadingWidget({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => IndivCompPrompt(
+  Widget build(BuildContext context) => const IndivCompPrompt(
       child: IndivCompPreviewGrid(),
       text: 'Ładowanie współzawodnictw...',
   );
@@ -333,7 +338,7 @@ class _IndivCompPreviewExtWidget extends StatelessWidget{
           ),
           child: Row(
             children: [
-              IndivCompThumbnailWidget(comp, heroTag: comp),
+              IndivCompThumbnailWidget.from(comp: comp, heroTag: comp),
               const SizedBox(width: Dimen.SIDE_MARG),
               Expanded(
                 child: Column(

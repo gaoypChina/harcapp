@@ -40,7 +40,7 @@ class ParticipantListAdminPage extends StatefulWidget{
 
   final IndivComp comp;
 
-  const ParticipantListAdminPage(this.comp);
+  const ParticipantListAdminPage(this.comp, {Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => ParticipantListAdminPageState();
@@ -104,7 +104,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
           comp: comp,
 
           adminsListHeaderTrailing: (participAdmins) => IconButton(
-            icon: Icon(MdiIcons.selectAll),
+            icon: const Icon(MdiIcons.selectAll),
             onPressed: (){
               for(IndivCompParticip particip in participAdmins)
                 if(!selectedParticips.contains(particip)) selectedParticips.add(particip);
@@ -113,7 +113,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
           ),
 
           modsListHeaderTrailing: (participMods) => IconButton(
-            icon: Icon(MdiIcons.selectAll),
+            icon: const Icon(MdiIcons.selectAll),
             onPressed: (){
               for(IndivCompParticip particip in participMods)
                 if(!selectedParticips.contains(particip)) selectedParticips.add(particip);
@@ -122,7 +122,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
           ),
 
           obsListHeaderTrailing: (participObs) => IconButton(
-            icon: Icon(MdiIcons.selectAll),
+            icon: const Icon(MdiIcons.selectAll),
             onPressed: (){
               for(IndivCompParticip particip in participObs)
                 if(!selectedParticips.contains(particip)) selectedParticips.add(particip);
@@ -133,14 +133,14 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
           customAppBar:
           selectedParticips.isEmpty?
           SliverAppBar(
-            title: Text('Lista uczestników'),
+            title: const Text('Lista uczestników'),
             centerTitle: true,
             floating: true,
             pinned: true,
             actions: [
               if(comp.profile.role == CompRole.ADMIN)
                 IconButton(
-                    icon: Icon(MdiIcons.plus),
+                    icon: const Icon(MdiIcons.plus),
                     onPressed: () async {
 
                       if(!await isNetworkAvailable()){
@@ -204,7 +204,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
 
           bottomNavigationBar: selectedParticips.isEmpty?null:
           SimpleButton(
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               left: SimpleButton.DEF_MARG,
               right: SimpleButton.DEF_MARG,
               bottom: SimpleButton.DEF_MARG
@@ -272,7 +272,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
                 elevation: AppCard.bigElevation,
                 color: cardEnab_(context),
                 child: Padding(
-                  padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                   child: Column(
                     children: [
 
@@ -281,9 +281,9 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Icon(MdiIcons.accountMultiple, size: 48.0, color: backgroundIcon_(context)),
-                          SizedBox(width: Dimen.DEF_MARG),
+                          const SizedBox(width: Dimen.DEF_MARG),
                           Icon(MdiIcons.accountPlus, size: 68.0, color: backgroundIcon_(context)),
-                          SizedBox(width: Dimen.DEF_MARG+8),
+                          const SizedBox(width: Dimen.DEF_MARG+8),
 
                           Transform(
                             alignment: Alignment.center,
@@ -316,16 +316,16 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
   SliverList getHeaderSliverList(String title, List<IndivCompParticip> particips, {void Function() onAllSelected}) => SliverList(delegate: SliverChildListDelegate([
     if(particips.isNotEmpty)
       Padding(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           top: 14.0,
         ),
         child: TitleShortcutRowWidget(
-            leading: SizedBox(width: 2*Dimen.LIST_TILE_LEADING_MARGIN_VAL + AccountThumbnailRowWidget.defSize),
+            leading: const SizedBox(width: 2*Dimen.LIST_TILE_LEADING_MARGIN_VAL + AccountThumbnailRowWidget.defSize),
             title: title,
             titleColor: hintEnab_(context),
             textAlign: TextAlign.start,
             trailing: IconButton(
-              icon: Icon(MdiIcons.selectAll),
+              icon: const Icon(MdiIcons.selectAll),
               onPressed: onAllSelected,
             ),
         ),
@@ -343,20 +343,20 @@ class SelectedAppBar extends SliverAppBar{
   final void Function() onSelectAll;
   final void Function() onUnselectAll;
 
-  SelectedAppBar(this.comp, this.selectedParticips, {this.onSelectAll, this.onUnselectAll}):super(
+  SelectedAppBar(this.comp, this.selectedParticips, {Key key, this.onSelectAll, this.onUnselectAll}):super(key: key,
     leadingWidth: Dimen.APPBAR_LEADING_WIDTH + Dimen.ICON_FOOTPRINT,
     leading: Row(
       children: [
         SizedBox(
           width: Dimen.APPBAR_LEADING_WIDTH,
           child: IconButton(
-              icon: Icon(MdiIcons.close),
+              icon: const Icon(MdiIcons.close),
               onPressed: onUnselectAll
           ),
         ),
 
         IconButton(
-            icon: Icon(MdiIcons.selectAll),
+            icon: const Icon(MdiIcons.selectAll),
             onPressed: onSelectAll
         ),
       ],
@@ -379,7 +379,7 @@ class ParticipViewWidget<T extends IndivCompParticip> extends StatefulWidget{
   final bool selected;
   final void Function() onSelectionTap;
   final void Function(List<IndivCompTaskCompl> taskComplList, Map<String, Tuple3<int, int, Tuple2<double, double>>> idRank) onPointsGranted;
-  final heroTag;
+  final dynamic heroTag;
 
   const ParticipViewWidget(this.comp, this.particip, {@required this.anythingSelected, this.selected=false, this.onSelectionTap, this.onPointsGranted, this.heroTag});
 
@@ -411,10 +411,10 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
 
             ParticipHeaderWidget(particip.name, particip.profile.role, heroTag: particip.key),
 
-            SizedBox(height: 2*24.0),
+            const SizedBox(height: 2*24.0),
 
             ListTile(
-              leading: Icon(MdiIcons.plusCircleMultipleOutline),
+              leading: const Icon(MdiIcons.plusCircleMultipleOutline),
               title: Text('Przyznaj punkty', style: AppTextStyle()),
               onTap:  () async {
                 if(!await isNetworkAvailable()){
@@ -434,10 +434,10 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
               },
             ),
 
-            SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
+            const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
 
             ListTile(
-              leading: SizedBox(width: Dimen.ICON_SIZE),
+              leading: const SizedBox(width: Dimen.ICON_SIZE),
               title: Text('Edytuj rolę uczestnika', style: AppTextStyle(color: hintEnab_(context)))
             ),
 
@@ -496,10 +496,10 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
               },
             ),
 
-            SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
+            const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
 
             ListTile(
-              leading: Icon(MdiIcons.logoutVariant, color: Colors.red),
+              leading: const Icon(MdiIcons.logoutVariant, color: Colors.red),
               title: Text('Wyproś uczestnika', style: AppTextStyle(color: Colors.red)),
               onTap: () => showRemoveDialog([particip], comp.particips)
             ),
@@ -647,7 +647,7 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
     profile.role == CompRole.ADMIN || profile.role == CompRole.MODERATOR?
     AnimatedOpacity(
       opacity: anythingSelected?0:1,
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -657,7 +657,7 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
             style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.halfBold),
           ),
 
-          SizedBox(width: Dimen.ICON_MARG),
+          const SizedBox(width: Dimen.ICON_MARG),
 
           rankToAwardWidget(particip.profile.showRank)
 
@@ -676,7 +676,7 @@ class AcceptTaskWidget extends StatefulWidget{
   final void Function(List<IndivCompTaskCompl>, Map<String, Tuple3<int, int, Tuple2<double, double>>>) onSuccess;
   final void Function() onError;
 
-  const AcceptTaskWidget(this.comp, this.selectedParticips, {this.onSuccess, this.onError});
+  const AcceptTaskWidget(this.comp, this.selectedParticips, {this.onSuccess, this.onError, Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => AcceptTaskWidgetState();
@@ -709,7 +709,7 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
             task,
             bottom: Center(
               child: IconButton(
-                icon: Icon(MdiIcons.check),
+                icon: const Icon(MdiIcons.check),
                 onPressed: () async {
 
                   showLoadingWidget(context, comp.colors.avgColor, 'Przesyłanie punktów...');
@@ -737,19 +737,19 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
           )
       );
       if(i<widget.comp.tasks.length-1)
-        children.add(SizedBox(height: Dimen.DEF_MARG));
+        children.add(const SizedBox(height: Dimen.DEF_MARG));
     }
 
     return CustomScrollView(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       slivers: [
-        SliverAppBar(
+        const SliverAppBar(
           title: Text('Zalicz zadanie'),
           centerTitle: true,
         ),
 
         SliverPadding(
-          padding: EdgeInsets.all(Dimen.SIDE_MARG),
+          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
           sliver: SliverList(delegate: SliverChildListDelegate([
 
             if(selectedParticips.length==1)
@@ -760,7 +760,7 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
               ),
 
             Padding(
-              padding: EdgeInsets.all(Dimen.SIDE_MARG),
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               child: AppTextFieldHint(
                 hint: 'Wiadomość:',
                 hintStyle: AppTextStyle(color: hintEnab_(context)),
@@ -792,7 +792,7 @@ void openAcceptTaskDialog(
     context: context,
     builder: (context) => Center(
       child: Padding(
-        padding: EdgeInsets.all(Dimen.SIDE_MARG),
+        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
         child: Material(
           clipBehavior: Clip.hardEdge,
           color: background_(context),

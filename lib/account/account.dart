@@ -39,7 +39,7 @@ class AccSecData {
   static bool get loggedIn => jwt != null;
 
   static Future<void> init() async {
-    FlutterSecureStorage storage = FlutterSecureStorage();
+    FlutterSecureStorage storage = const FlutterSecureStorage();
     _key = await storage.read(key: _KEY_KEY);
     _jwt = await storage.read(key: _KEY_JWT);
     _email = await storage.read(key: _KEY_EMAIL);
@@ -47,7 +47,7 @@ class AccSecData {
     _name = await storage.read(key: _KEY_NAME);
     _nick = await storage.read(key: _KEY_NICK);
     _nickSearchable = await storage.read(key: _KEY_NICK_SEARCHABLE);
-    _sex = await strToSex[await storage.read(key: _KEY_SEX)];
+    _sex = strToSex[await storage.read(key: _KEY_SEX)];
     _nameEditable = await storage.read(key: _KEY_NAME_EDITABLE);
     _nickEditable = await storage.read(key: _KEY_NICK_EDITABLE);
     _microsoftAcc = await storage.read(key: _KEY_MICROSOFT_ACC);
@@ -78,7 +78,7 @@ class AccSecData {
 
   static Future<void> removeKey() async {
     _key = null;
-    await FlutterSecureStorage().delete(key: _KEY_KEY);
+    await const FlutterSecureStorage().delete(key: _KEY_KEY);
   }
 
   static Future<void> writeKey(String value) async {
@@ -86,7 +86,7 @@ class AccSecData {
     if (value == null)
       return await removeKey();
     else
-      return await FlutterSecureStorage().write(key: _KEY_KEY, value: value);
+      return await const FlutterSecureStorage().write(key: _KEY_KEY, value: value);
   }
 
 
@@ -94,7 +94,7 @@ class AccSecData {
 
   static Future<void> removeJwt() async {
     _jwt = null;
-    await FlutterSecureStorage().delete(key: _KEY_JWT);
+    await const FlutterSecureStorage().delete(key: _KEY_JWT);
   }
 
   static Future<void> writeJwt(String value) async {
@@ -102,7 +102,7 @@ class AccSecData {
     if (value == null)
       return await removeJwt();
     else
-      return await FlutterSecureStorage().write(key: _KEY_JWT, value: value);
+      return await const FlutterSecureStorage().write(key: _KEY_JWT, value: value);
   }
 
 
@@ -110,7 +110,7 @@ class AccSecData {
 
   static Future<void> removeLastConfLoginEmail() async {
     _lastConfLoginEmail = null;
-    await FlutterSecureStorage().delete(key: _KEY_LAST_CONF_LOGIN_EMAIL);
+    await const FlutterSecureStorage().delete(key: _KEY_LAST_CONF_LOGIN_EMAIL);
   }
 
   static Future<void> writeLastConfLoginEmail(String value) async {
@@ -118,7 +118,7 @@ class AccSecData {
     if (value == null)
       return await removeLastConfLoginEmail();
     else
-      return await FlutterSecureStorage().write(
+      return await const FlutterSecureStorage().write(
           key: _KEY_LAST_CONF_LOGIN_EMAIL, value: value);
   }
 
@@ -127,7 +127,7 @@ class AccSecData {
 
   static Future<void> removeEmail() async {
     _email = null;
-    await FlutterSecureStorage().delete(key: _KEY_EMAIL);
+    await const FlutterSecureStorage().delete(key: _KEY_EMAIL);
   }
 
   static Future<void> writeEmail(String value) async {
@@ -135,7 +135,7 @@ class AccSecData {
     if (value == null)
       return await removeEmail();
     else
-      return await FlutterSecureStorage().write(key: _KEY_EMAIL, value: value);
+      return await const FlutterSecureStorage().write(key: _KEY_EMAIL, value: value);
   }
 
 
@@ -143,7 +143,7 @@ class AccSecData {
 
   static Future<void> removeEmailConf() async {
     _emailConf = null;
-    await FlutterSecureStorage().delete(key: _KEY_EMAIL_CONF);
+    await const FlutterSecureStorage().delete(key: _KEY_EMAIL_CONF);
   }
 
   static Future<void> writeEmailConf(bool value) async {
@@ -151,7 +151,7 @@ class AccSecData {
     if (value == null)
       return await removeEmailConf();
     else
-      return await FlutterSecureStorage().write(key: _KEY_EMAIL_CONF, value: value?'true':'false');
+      return await const FlutterSecureStorage().write(key: _KEY_EMAIL_CONF, value: value?'true':'false');
   }
 
 
@@ -159,7 +159,7 @@ class AccSecData {
 
   static Future<void> removeName() async {
     _name = null;
-    await FlutterSecureStorage().delete(key: _KEY_NAME);
+    await const FlutterSecureStorage().delete(key: _KEY_NAME);
   }
 
   static Future<void> writeName(String value) async {
@@ -167,7 +167,7 @@ class AccSecData {
     if (value == null)
       return await removeName();
     else
-      return await FlutterSecureStorage().write(key: _KEY_NAME, value: value);
+      return await const FlutterSecureStorage().write(key: _KEY_NAME, value: value);
   }
 
 
@@ -175,7 +175,7 @@ class AccSecData {
 
   static Future<void> removeNick() async {
     _nick = null;
-    await FlutterSecureStorage().delete(key: _KEY_NICK);
+    await const FlutterSecureStorage().delete(key: _KEY_NICK);
   }
 
   static Future<void> writeNick(String value) async {
@@ -183,7 +183,7 @@ class AccSecData {
     if (value == null)
       return await removeNick();
     else
-      return await FlutterSecureStorage().write(key: _KEY_NICK, value: value);
+      return await const FlutterSecureStorage().write(key: _KEY_NICK, value: value);
   }
 
 
@@ -191,7 +191,7 @@ class AccSecData {
 
   static Future<void> removeNickSearchable() async {
     _nickSearchable = null;
-    await FlutterSecureStorage().delete(key: _KEY_NICK_SEARCHABLE);
+    await const FlutterSecureStorage().delete(key: _KEY_NICK_SEARCHABLE);
   }
 
   static Future<void> writeNickSearchable(bool value) async {
@@ -199,7 +199,7 @@ class AccSecData {
     if (value == null)
       return await removeNickSearchable();
     else
-      return await FlutterSecureStorage().write(key: _KEY_NICK_SEARCHABLE, value: value?'true':'false');
+      return await const FlutterSecureStorage().write(key: _KEY_NICK_SEARCHABLE, value: value?'true':'false');
   }
 
 
@@ -207,7 +207,7 @@ class AccSecData {
 
   static Future<void> removeSex() async {
     _sex = null;
-    await FlutterSecureStorage().delete(key: _KEY_SEX);
+    await const FlutterSecureStorage().delete(key: _KEY_SEX);
   }
 
   static Future<void> writeSex(Sex value) async {
@@ -215,7 +215,7 @@ class AccSecData {
     if (value == null)
       return await removeSex();
     else
-      return await FlutterSecureStorage().write(key: _KEY_SEX, value: sexToString[value]);
+      return await const FlutterSecureStorage().write(key: _KEY_SEX, value: sexToString[value]);
   }
 
 
@@ -223,7 +223,7 @@ class AccSecData {
 
   static Future<void> removeNameEditable() async {
     _nameEditable = null;
-    await FlutterSecureStorage().delete(key: _KEY_NAME_EDITABLE);
+    await const FlutterSecureStorage().delete(key: _KEY_NAME_EDITABLE);
   }
 
   static Future<void> writeNameEditable(bool value) async {
@@ -231,7 +231,7 @@ class AccSecData {
     if (value == null)
       return await removeNameEditable();
     else
-      return await FlutterSecureStorage().write(key: _KEY_NAME_EDITABLE, value: value?'true':'false');
+      return await const FlutterSecureStorage().write(key: _KEY_NAME_EDITABLE, value: value?'true':'false');
   }
 
 
@@ -239,7 +239,7 @@ class AccSecData {
 
   static Future<void> removeNickEditable() async {
     _nickEditable = null;
-    await FlutterSecureStorage().delete(key: _KEY_NICK_EDITABLE);
+    await const FlutterSecureStorage().delete(key: _KEY_NICK_EDITABLE);
   }
 
   static Future<void> writeNickEditable(bool value) async {
@@ -247,7 +247,7 @@ class AccSecData {
     if (value == null)
       return await removeNickEditable();
     else
-      return await FlutterSecureStorage().write(key: _KEY_NICK_EDITABLE, value: value?'true':'false');
+      return await const FlutterSecureStorage().write(key: _KEY_NICK_EDITABLE, value: value?'true':'false');
   }
 
 
@@ -255,7 +255,7 @@ class AccSecData {
 
   static Future<void> removeMicrosoftAcc() async {
     _microsoftAcc = null;
-    await FlutterSecureStorage().delete(key: _KEY_MICROSOFT_ACC);
+    await const FlutterSecureStorage().delete(key: _KEY_MICROSOFT_ACC);
   }
 
   static Future<void> writeMicrosoftAcc(bool value) async {
@@ -263,7 +263,7 @@ class AccSecData {
     if (value == null)
       return await removeMicrosoftAcc();
     else
-      return await FlutterSecureStorage().write(key: _KEY_MICROSOFT_ACC, value: value?'true':'false');
+      return await const FlutterSecureStorage().write(key: _KEY_MICROSOFT_ACC, value: value?'true':'false');
   }
 
 
@@ -271,7 +271,7 @@ class AccSecData {
 
   static Future<void> removeRegularAcc() async {
     _regularAcc = null;
-    await FlutterSecureStorage().delete(key: _KEY_MICROSOFT_ACC);
+    await const FlutterSecureStorage().delete(key: _KEY_MICROSOFT_ACC);
   }
 
   static Future<void> writeRegularAcc(bool value) async {
@@ -279,7 +279,7 @@ class AccSecData {
     if (value == null)
       return await removeRegularAcc();
     else
-      return await FlutterSecureStorage().write(key: _KEY_REGULAR_ACC, value: value?'true':'false');
+      return await const FlutterSecureStorage().write(key: _KEY_REGULAR_ACC, value: value?'true':'false');
   }
 
 

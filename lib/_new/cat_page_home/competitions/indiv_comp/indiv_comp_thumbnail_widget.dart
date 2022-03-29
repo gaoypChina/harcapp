@@ -17,59 +17,37 @@ class IndivCompThumbnailWidget extends StatelessWidget{
   static const double defSize = 72.0;
   static const double iconSizeFactor = .6;
 
-  final IndivComp comp;
+  //final IndivComp comp;
+  final String iconKey;
+  final String colorsKey;
+  final CompRole role;
+
   final double size;
   final void Function() onTap;
   final dynamic heroTag;
 
-  const IndivCompThumbnailWidget(this.comp, {this.size=defSize, this.onTap, this.heroTag, Key key}): super(key: key);
+  const IndivCompThumbnailWidget({@required this.iconKey, @required this.colorsKey, this.role, this.size=defSize, this.onTap, this.heroTag, Key key}): super(key: key);
+  //const IndivCompThumbnailWidget(this.comp, {this.size=defSize, this.onTap, this.heroTag, Key key}): super(key: key);
 
   //static double height(double size) => size + 3*Dimen.ICON_MARG;
 
   static IndivCompThumbnailWidget random() => IndivCompThumbnailWidget(
-      IndivComp(
-        key: null,
-        iconKey: CommonIconData.randomKey,
-        colorsKey: CommonColorData.randomKey,
-        name: null,
-        startTime: null,
-        overviewMode: null,
-        profile: IndivCompProfile(
-          active: null,
-          role: null
-        ),
-        particips: [],
-        tasks: [],
-        awards: [],
-        shareCode: null,
-        shareCodeSearchable: null
-      )
+      iconKey: CommonIconData.randomKey,
+      colorsKey: CommonColorData.randomKey,
   );
 
-  static IndivCompThumbnailWidget from({@required String iconKey, @required String colorsKey}) => IndivCompThumbnailWidget(
-      IndivComp(
-        key: null,
-        iconKey: iconKey,
-        colorsKey: colorsKey,
-        name: null,
-        startTime: null,
-        overviewMode: null,
-        profile: IndivCompProfile(
-          active: null,
-          role: CompRole.OBSERVER
-        ),
-        particips: [],
-        tasks: [],
-        awards: [],
-        shareCode: null,
-        shareCodeSearchable: null
-      )
+  static IndivCompThumbnailWidget from({@required IndivComp comp, dynamic heroTag}) => IndivCompThumbnailWidget(
+    iconKey: comp.iconKey,
+    colorsKey: comp.colorsKey,
+    role: comp.profile.role,
+    heroTag: heroTag,
   );
 
   @override
   Widget build(BuildContext context) {
 
-    CommonColorData colorData = comp.colors;
+    CommonColorData colors = CommonColorData.ALL[colorsKey];
+    IconData icon = CommonIconData.ALL[iconKey];
 
     Widget widget = SizedBox(
       width: size,
@@ -84,14 +62,14 @@ class IndivCompThumbnailWidget extends StatelessWidget{
             children: [
 
               GradientWidget(
-                colorStart: colorData.colorStart,
-                colorEnd: colorData.colorEnd,
+                colorStart: colors.colorStart,
+                colorEnd: colors.colorEnd,
                 child: Center(
-                  child: Icon(comp.icon, color: comp.colors.iconWhite?Colors.white:cardEnab_(context), size: iconSizeFactor*size),
+                  child: Icon(icon, color: colors.iconWhite?Colors.white:cardEnab_(context), size: iconSizeFactor*size),
                 ),
               ),
 
-              if(comp.profile.role == CompRole.ADMIN || comp.profile.role == CompRole.MODERATOR)
+              if(role == CompRole.ADMIN || role == CompRole.MODERATOR)
                 Positioned(
                   bottom: 0,
                   right: 0,
@@ -109,10 +87,10 @@ class IndivCompThumbnailWidget extends StatelessWidget{
                     ),
                     margin: EdgeInsets.zero,
                     child: Icon(
-                      comp.profile.role == CompRole.ADMIN?
+                      role == CompRole.ADMIN?
                       MdiIcons.star:MdiIcons.pencil,
                       size: size/5,//16.0,
-                      color: comp.colors.colorEnd,
+                      color: colors.colorEnd,
                     ),
                   ),
                 )

@@ -32,8 +32,8 @@ class IndivCompAward{
 
   String get place{
     String _place;
-    if(rangeFrom == rangeTo) _place = '${rangeFrom}';
-    else _place = '${rangeFrom} - ${rangeTo}';
+    if(rangeFrom == rangeTo) _place = '$rangeFrom';
+    else _place = '$rangeFrom - $rangeTo';
 
     return _place;
   }
@@ -46,7 +46,7 @@ class IndivComp{
 
   static List<IndivCompTask> previewTasks = [
 
-    IndivCompTask(
+    const IndivCompTask(
         key: null,
         title: 'Obecność',
         description: 'Obecność na zbiórce lub wyjeździe.',
@@ -55,7 +55,7 @@ class IndivComp{
         state: TaskState.OPEN
     ),
 
-    IndivCompTask(
+    const IndivCompTask(
         key: null,
         title: 'Punktualność',
         description: 'Stawienie się na zbiórce na czas.',
@@ -64,7 +64,7 @@ class IndivComp{
         state: TaskState.OPEN
     ),
 
-    IndivCompTask(
+    const IndivCompTask(
         key: null,
         title: 'Umundurowanie',
         description: 'Obecność w pełnym umundurowaniu.',
@@ -73,7 +73,7 @@ class IndivComp{
         state: TaskState.OPEN
     ),
 
-    IndivCompTask(
+    const IndivCompTask(
         key: null,
         title: 'Sprawność',
         description: 'Zdobycie sprawności.',
@@ -82,7 +82,7 @@ class IndivComp{
         state: TaskState.OPEN
     ),
 
-    IndivCompTask(
+    const IndivCompTask(
         key: null,
         title: 'Stopień',
         description: 'Zdobycie stopnia.',
@@ -205,7 +205,7 @@ class IndivComp{
   String shareCode;
   bool shareCodeSearchable;
 
-  IndivCompProfile profile;
+  IndivCompProfile get profile => participMap[AccSecData.key].profile;
 
   final List<IndivCompParticip> particips;
   final Map<String, IndivCompParticip> participMap;
@@ -254,9 +254,9 @@ class IndivComp{
       participMap[particip.key] = particip;
     }
 
-    String thisParticipKey = AccSecData.key;
-    if(participMap.containsKey(thisParticipKey))
-      profile = participMap[thisParticipKey].profile;
+    // String thisParticipKey = AccSecData.key;
+    // if(participMap.containsKey(thisParticipKey))
+    //  profile = participMap[thisParticipKey].profile;
 
     Provider.of<IndivCompParticipsProvider>(context, listen: false).notify();
     Provider.of<IndivCompProvider>(context, listen: false).notify();
@@ -291,14 +291,16 @@ class IndivComp{
     Provider.of<ComplTasksProvider>(context, listen: false).notify();
   }
 
-  void addPoints(String id, int points) => setPoints(id, participMap[id].profile.points + points);
-  void setPoints(String id, int points){
-    if(id == AccSecData.key) this.profile.points = points;
-    else participMap[id].profile.points = points;
+  void addPoints(String key, int points) => setPoints(key, participMap[key].profile.points + points);
+  void setPoints(String key, int points){
+    participMap[key].profile.points = points;
+    // if(id == AccSecData.key) profile.points = points;
+    // else participMap[id].profile.points = points;
   }
-  void _setRank(String id, int rank){
-    if(id == AccSecData.key) this.profile.showRank = rank;
-    else participMap[id].profile.showRank = rank;
+  void _setRank(String key, int rank){
+    participMap[key].profile.showRank = rank;
+    // if(id == AccSecData.key) profile.showRank = rank;
+    // else participMap[id].profile.showRank = rank;
   }
 
   IndivComp({
@@ -310,7 +312,7 @@ class IndivComp{
     this.endTime,
     @required this.overviewMode,
 
-    @required this.profile,
+    // @required this.profile,
 
     @required this.particips,
 
@@ -364,7 +366,7 @@ class IndivComp{
         endTime: DateTime.tryParse(resp['endTime'] ?? ''),
         overviewMode: resp['overviewMode']??(throw InvalidResponseError('overviewMode')),
 
-        profile: IndivCompProfile.fromResponse(resp['profile']??(throw InvalidResponseError('profile'))),
+        //profile: IndivCompProfile.fromResponse(resp['profile']??(throw InvalidResponseError('profile'))),
 
         particips: particips,
 

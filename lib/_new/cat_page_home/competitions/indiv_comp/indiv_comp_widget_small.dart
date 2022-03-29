@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_awards_page.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_profile.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_page.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -64,7 +63,7 @@ class IndivCompWidgetSmall extends StatelessWidget{
                 ),
                 child: Row(
                   children: [
-                    IndivCompThumbnailWidget(comp, heroTag: comp),
+                    IndivCompThumbnailWidget.from(comp: comp, heroTag: comp),
 
                     const SizedBox(width: Dimen.ICON_MARG),
 

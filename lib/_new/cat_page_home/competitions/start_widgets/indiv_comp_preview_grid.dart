@@ -4,6 +4,8 @@ import 'package:harcapp_core/dimen.dart';
 
 class IndivCompPreviewGrid extends StatelessWidget{
 
+  const IndivCompPreviewGrid({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) => GridView.count(
     clipBehavior: Clip.none,
@@ -17,17 +19,16 @@ class IndivCompPreviewGrid extends StatelessWidget{
         bottom: 10.0),
     shrinkWrap: true,
     crossAxisCount: 4,
-    children: [
-      Center(child: IndivCompThumbnailWidget.from(colorsKey: 'rosegold', iconKey: 'map')),
-      Center(child: IndivCompThumbnailWidget.from(colorsKey: 'turquoise', iconKey: 'androidStudio')),
-      Center(child: IndivCompThumbnailWidget.from(colorsKey: 'deepblue', iconKey: 'jellyfish')),
-      Center(child: IndivCompThumbnailWidget.from(colorsKey: 'gold', iconKey: 'axe')),
+    children: const [
+      Center(child: IndivCompThumbnailWidget(colorsKey: 'rosegold', iconKey: 'map')),
+      Center(child: IndivCompThumbnailWidget(colorsKey: 'turquoise', iconKey: 'androidStudio')),
+      Center(child: IndivCompThumbnailWidget(colorsKey: 'deepblue', iconKey: 'jellyfish')),
+      Center(child: IndivCompThumbnailWidget(colorsKey: 'gold', iconKey: 'axe')),
 
-      Center(child: IndivCompThumbnailWidget.from(colorsKey: 'raspberry', iconKey: 'deathStarVariant')),
-      Center(child: IndivCompThumbnailWidget.from(colorsKey: 'green', iconKey: 'music')),
-      Center(child: IndivCompThumbnailWidget.from(colorsKey: 'turquoise', iconKey: 'pirate')),
-      Center(child: IndivCompThumbnailWidget.from(colorsKey: 'chocolate', iconKey: 'chessKing')),
-
+      Center(child: IndivCompThumbnailWidget(colorsKey: 'raspberry', iconKey: 'deathStarVariant')),
+      Center(child: IndivCompThumbnailWidget(colorsKey: 'green', iconKey: 'music')),
+      Center(child: IndivCompThumbnailWidget(colorsKey: 'turquoise', iconKey: 'pirate')),
+      Center(child: IndivCompThumbnailWidget(colorsKey: 'chocolate', iconKey: 'chessKing')),
     ],
   );
 
