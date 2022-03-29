@@ -15,7 +15,7 @@ class OrgHandler extends SyncableParamSingle_ with SyncNode<OrgEntityResp>{
   static set current(Org value){
     shaPref.setInt(ShaPref.SHA_PREF_ORG, orgToInt[value]);
     OrgHandler().state = SyncableParamSingle_.STATE_NOT_SYNCED;
-    synchronizer.post(aggregateDelay: const Duration(seconds: 1));
+    synchronizer.post(aggregateDelay: const Duration(seconds: 3));
   }
 
   static Org nextFrom(List<Org> allowedOrgs){

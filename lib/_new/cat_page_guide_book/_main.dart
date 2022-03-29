@@ -600,8 +600,9 @@ class StopPrevItem extends StatelessWidget{
                   elevation: AppCard.bigElevation,
                   colorStart: colors.start(AppSettings.isDark),
                   colorEnd: colors.end(AppSettings.isDark),
-                  child: const Icon(
-                      MdiIcons.bookOpenOutline,
+                  child: Icon(
+                      MdiIcons.bookOpenPageVariantOutline,
+                      color: iconEnab_(context).withOpacity(.4),
                       size: RankTileWidgetTemplate.DEF_TILE_ICON_SIZE
                   ),
                 ),

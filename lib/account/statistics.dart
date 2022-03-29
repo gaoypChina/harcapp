@@ -32,7 +32,7 @@ class Statistics{
     Map<String, Map<String, dynamic>> allStats = Statistics.songStats;
     Map<String, dynamic> songStats = allStats[songFileName] ?? {};
 
-    String localDate = DateFormat('yyyy-MM-ddTHH:mm:ss').format(openTime);
+    String localDate = DateFormat('yyyy-MM-ddTHH:mm:ss').format(openTime.toUtc());
     songStats[localDate] = {
       'openType': type.name.toUpperCase(),
       'openDuration': openDuration.inSeconds,
@@ -65,7 +65,7 @@ class Statistics{
     Map<String, Map<String, dynamic>> allStats = Statistics.moduleStats;
     Map<String, dynamic> moduleStats = allStats[moduleId]??{};
 
-    String localDate = DateFormat('yyyy-MM-ddTHH:mm:ss').format(openTime);
+    String localDate = DateFormat('yyyy-MM-ddTHH:mm:ss').format(openTime.toUtc());
     moduleStats[localDate] = {
       "openDuration": openDuration.inSeconds,
     };

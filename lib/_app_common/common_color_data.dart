@@ -14,33 +14,39 @@ class CommonColorData{
 
     Map<String, CommonColorData> all = {};
     all.addAll(ALL_PICKABLE);
-    all['white'] = CommonColorData(Colors.white, Colors.white, true);
-    all['black'] = CommonColorData(Color.fromARGB(255, 30, 30, 30), Color.fromARGB(255, 30, 30, 30), true);
+    all['white'] = const CommonColorData(Colors.white, Colors.white, true);
+    all['black'] = const CommonColorData(Color.fromARGB(255, 30, 30, 30), Color.fromARGB(255, 30, 30, 30), true);
 
     return all;
   }
 
   static Map<String, CommonColorData> ALL_PICKABLE = {
 
-    'chocolate': CommonColorData(Colors.red[600], Colors.brown, true),
+    'chocolate': CommonColorData(Colors.pink, Colors.brown[800], true),
     'raspberry': CommonColorData(Colors.red[800], Colors.deepPurple, true),
-    'rosegold': CommonColorData(Colors.amberAccent, Colors.pinkAccent, false),
-    'gold': CommonColorData(Colors.yellow, Colors.orange, false),
-    'dawn': CommonColorData(Colors.yellow, Colors.lightGreenAccent, false),
+    'dawn': const CommonColorData(Colors.orange, Colors.purple, false),
+    'rosegold': const CommonColorData(Colors.amberAccent, Colors.pinkAccent, false),
+    'gold': const CommonColorData(Colors.yellow, Colors.orange, false),
 
-    'mint': CommonColorData(Colors.lightGreenAccent, Colors.greenAccent, false),
-    'green': CommonColorData(Colors.lightGreenAccent, Colors.lightBlueAccent, false),
-    'turquoise': CommonColorData(Colors.greenAccent, Colors.blue, true),
-    'purplepink': CommonColorData(Colors.purpleAccent, Colors.deepPurple, true),
-    'deepblue': CommonColorData(Colors.blue, Colors.deepPurple, true),
+    'mint': const CommonColorData(Colors.yellow, Colors.greenAccent, false),
+    'green': const CommonColorData(Colors.lightGreenAccent, Colors.lightBlueAccent, false),
+    'turquoise': const CommonColorData(Colors.greenAccent, Colors.blue, true),
+    'blueberry': CommonColorData(Colors.cyan[800], Colors.purple[900], true),
+    'deepblue': const CommonColorData(Colors.blue, Colors.deepPurple, true),
 
-    'darkorange': CommonColorData(Colors.pinkAccent, Colors.blueGrey, false),
-    'darkgreen': CommonColorData(Colors.cyan, Colors.blueGrey, false),
-    'darkblue': CommonColorData(Colors.blueAccent, Colors.blueGrey, true),
-    'darkpurple': CommonColorData(Colors.deepPurple, Colors.blueGrey, true),
-    'darkbrown': CommonColorData(Colors.brown, Colors.blueGrey, true),
+    'darkorange': const CommonColorData(Colors.pinkAccent, Colors.blueGrey, false),
+    'darkgreen': CommonColorData(Colors.cyan[300], Colors.blueGrey, false),
+    'darkblue': const CommonColorData(Colors.blueAccent, Colors.blueGrey, true),
+    'darkpurple': const CommonColorData(Colors.deepPurple, Colors.blueGrey, true),
+    'darkbrown': const CommonColorData(Colors.brown, Colors.blueGrey, true),
 
-    'omegaalbum': CommonColorData(Colors.greenAccent, Colors.blue, false)
+    'blood': CommonColorData(Colors.red[900], Colors.black, false),
+    'deepforest': CommonColorData(Colors.green[900], Colors.black, false),
+    'navy': CommonColorData(Colors.blue[900], Colors.black, true),
+    'blackberry': CommonColorData(Colors.purple[900], Colors.black, true),
+    'blackwood': CommonColorData(Colors.brown[800], Colors.black, true),
+
+    'omegaalbum': const CommonColorData(Colors.greenAccent, Colors.blue, false)
   };
   
   final Color colorStart;

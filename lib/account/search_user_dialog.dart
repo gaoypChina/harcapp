@@ -17,8 +17,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qrcode_reader/qrcode_reader.dart';
 
-import 'account_thumbnail_widget.dart';
-
 enum _State{
   init,
   searching,
@@ -35,7 +33,7 @@ class SearchUserWidget extends StatefulWidget{
   final List<String> illegalUserKey;
   final String illegalAttemptMessage;
 
-  const SearchUserWidget({this.title, this.onUserSelected, this.illegalUserKey, this.illegalAttemptMessage});
+  const SearchUserWidget({this.title, this.onUserSelected, this.illegalUserKey, this.illegalAttemptMessage, Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => SearchUserWidgetState();
@@ -101,13 +99,13 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
   @override
   Widget build(BuildContext context) {
     return KeyboardAvoider(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.easeOutQuart,
       child: Center(
         child: SizedBox(
           height: 320,
           child: Padding(
-            padding: EdgeInsets.all(Dimen.SIDE_MARG),
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             child: Material(
               borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
               clipBehavior: Clip.hardEdge,
@@ -118,7 +116,7 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
                   children: [
 
                     Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                         top: Dimen.DEF_MARG,
                         left: Dimen.DEF_MARG,
                         right: Dimen.DEF_MARG,
@@ -130,14 +128,17 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
                         elevation: 0,
                         margin: EdgeInsets.zero,
                         leading: IconButton(
-                          icon: Icon(MdiIcons.arrowLeft),
+                          icon: const Icon(MdiIcons.arrowLeft),
                           onPressed: () => Navigator.of(context).pop(),
                         ),
                         trailing: IconButton(
-                          icon: Icon(MdiIcons.qrcodeScan),
+                          icon: const Icon(MdiIcons.qrcodeScan),
                           onPressed: () async {
                             if(await Permission.camera.request().isGranted) {
-                              String nick = await QRCodeReader().scan();
+                              String nick = await QRCodeReader()
+                                  .setAutoFocusIntervalInMs(200)
+                                  .setForceAutoFocus(true)
+                                  .scan();
                               controller.text = nick;
                               runSearch();
                             }
@@ -151,11 +152,11 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
 
-                          SizedBox(height: Dimen.SIDE_MARG),
+                          const SizedBox(height: Dimen.SIDE_MARG),
                           Icon(MdiIcons.radar, color: backgroundIcon_(context), size: Dimen.ICON_EMPTY_INFO_SIZE),
 
                           Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                               vertical: Dimen.SIDE_MARG,
                               horizontal: Dimen.SIDE_MARG,
                             ),
@@ -180,7 +181,7 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
                     if(_state == _State.found)
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                             top: Dimen.SIDE_MARG,
                             left: Dimen.SIDE_MARG,
                             right: Dimen.SIDE_MARG
@@ -220,7 +221,7 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
                       )),
 
                     if(_state == _State.error)
-                      Expanded(child: EmptyMessageWidget(
+                      const Expanded(child: EmptyMessageWidget(
                           text: 'Coś poszło nie tak...',
                           icon: MdiIcons.alertCircleOutline
                       )),

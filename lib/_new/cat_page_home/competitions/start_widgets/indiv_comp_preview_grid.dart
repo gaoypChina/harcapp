@@ -9,8 +9,8 @@ class IndivCompPreviewGrid extends StatelessWidget{
     clipBehavior: Clip.none,
     mainAxisSpacing: Dimen.SIDE_MARG,
     crossAxisSpacing: Dimen.SIDE_MARG,
-    physics: BouncingScrollPhysics(),
-    padding: EdgeInsets.only(
+    physics: const BouncingScrollPhysics(),
+    padding: const EdgeInsets.only(
         top: 5,
         left: Dimen.SIDE_MARG,
         right: Dimen.SIDE_MARG,

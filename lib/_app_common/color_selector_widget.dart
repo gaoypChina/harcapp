@@ -11,7 +11,7 @@ class ColorSelectorWidget extends StatefulWidget{
   final String initColorKey;
   final void Function(String colorKey) onSelected;
   
-  const ColorSelectorWidget({this.initColorKey, this.onSelected});
+  const ColorSelectorWidget({this.initColorKey, this.onSelected, Key key}): super(key: key);
   
   @override
   State<StatefulWidget> createState() => ColorSelectorWidgetState();
@@ -37,9 +37,9 @@ class ColorSelectorWidgetState extends State<ColorSelectorWidget>{
               children: <Widget>[
                 ColorDataWidget('chocolate', onTap: onSelected),
                 ColorDataWidget('raspberry', onTap: onSelected),
+                ColorDataWidget('dawn', onTap: onSelected),
                 ColorDataWidget('rosegold', onTap: onSelected),
                 ColorDataWidget('gold', onTap: onSelected),
-                ColorDataWidget('dawn', onTap: onSelected),
               ],
             ),
 
@@ -50,7 +50,7 @@ class ColorSelectorWidgetState extends State<ColorSelectorWidget>{
                 ColorDataWidget('green', onTap: onSelected),
                 ColorDataWidget('turquoise', onTap: onSelected),
                 ColorDataWidget('deepblue', onTap: onSelected),
-                ColorDataWidget('purplepink', onTap: onSelected),
+                ColorDataWidget('blueberry', onTap: onSelected),
               ],
             ),
 
@@ -62,6 +62,17 @@ class ColorSelectorWidgetState extends State<ColorSelectorWidget>{
                 ColorDataWidget('darkblue', onTap: onSelected),
                 ColorDataWidget('darkpurple', onTap: onSelected),
                 ColorDataWidget('darkbrown', onTap: onSelected),
+              ],
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                ColorDataWidget('blood', onTap: onSelected),
+                ColorDataWidget('deepforest', onTap: onSelected),
+                ColorDataWidget('navy', onTap: onSelected),
+                ColorDataWidget('blackberry', onTap: onSelected),
+                ColorDataWidget('blackwood', onTap: onSelected),
               ],
             ),
           ],
@@ -77,7 +88,7 @@ class ColorDataWidget extends StatelessWidget{
   final String colorsKey;
   final Function(String colorsKey) onTap;
 
-  const ColorDataWidget(this.colorsKey, {this.onTap});
+  const ColorDataWidget(this.colorsKey, {this.onTap, Key key}): super(key: key);
 
   static const double BUTTON_SIZE = 60.0;
   static const double _BUTTON_SIZE_SMALL = 48.0;
@@ -93,7 +104,7 @@ class ColorDataWidget extends StatelessWidget{
           bool selected = colorsKey == prov.selColorsKey;
 
           return Padding(
-            padding: EdgeInsets.only(bottom: _MARGIN),
+            padding: const EdgeInsets.only(bottom: _MARGIN),
             child: SizedBox(
               width: BUTTON_SIZE,
               height: BUTTON_SIZE,
@@ -110,11 +121,11 @@ class ColorDataWidget extends StatelessWidget{
                   child: Center(
                       child: GradientWidget(
                         shape: BoxShape.circle,
-                        colorStart: CommonColorData.ALL[colorsKey].colorStart.withOpacity(selected?1:.4),
-                        colorEnd: CommonColorData.ALL[colorsKey].colorEnd.withOpacity(selected?1:.4),
+                        colorStart: CommonColorData.ALL[colorsKey].colorStart.withOpacity(selected?1:.5),
+                        colorEnd: CommonColorData.ALL[colorsKey].colorEnd.withOpacity(selected?1:.5),
                         width: BUTTON_SIZE,//selected?_BUTTON_SIZE_SMALL:BUTTON_SIZE,
                         height: BUTTON_SIZE,//selected?_BUTTON_SIZE_SMALL:BUTTON_SIZE,
-                        duration: Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 300),
                         curve: Curves.easeOutQuart,
                       ))
               ),

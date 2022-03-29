@@ -15,7 +15,6 @@ class SongsStatisticsRegistrator{
   DateTime _lastPausedTime;
   Duration _totalPausedDuration;
   SongOpenType _songOpenType;
-  Orientation _orientation;
   List<Tuple4<int, int, int, Orientation>> _scrollEvents;
 
   Duration get totalOpenDuration => DateTime.now().difference(_openTime) - _totalPausedDuration;
@@ -44,7 +43,6 @@ class SongsStatisticsRegistrator{
     _lastPausedTime = null;
     _totalPausedDuration = Duration.zero;
     _songLclId = null;
-    _orientation = null;
     _scrollEvents.clear();
   }
 
@@ -61,7 +59,6 @@ class SongsStatisticsRegistrator{
     _songLclId = song.fileName;
     _songOpenType = songOpenType;
     _openTime = DateTime.now();
-    _orientation = orientation;
     logger.d('SongsStatisticsRegistrator ($_songLclId) song opened.');
   }
 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/_main.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
+import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_folder_page/spraw_folder.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_icon.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_icon_rotating.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/widgets/open_spraw_dialog.dart';
@@ -44,6 +45,9 @@ class SprawProgressWidgetState extends State<SprawProgressWidget>{
     hiddSpraws = [];
     displSpraws = [];
 
+    for(String uniqName in SprawFolder.omega.sprawUIDs)
+      allSpraws.add(Spraw.fromUID(uniqName));
+
     for(String uniqName in Spraw.inProgressList)
       allSpraws.add(Spraw.fromUID(uniqName));
 
@@ -78,7 +82,7 @@ class SprawProgressWidgetState extends State<SprawProgressWidget>{
     if(hiddSpraws.isEmpty)
       for(Spraw spraw in allSpraws) {
         children.add(Opacity(
-            opacity: spraw.inProgress ? 0.35 : 1,
+            opacity: spraw.completed ? 1 : (spraw.inProgress? .45 : .1),
             child: SprawIcon(
                 spraw,
                 onTap: () => openSprawDialog(context, spraw)
@@ -97,19 +101,19 @@ class SprawProgressWidgetState extends State<SprawProgressWidget>{
       children.isEmpty?
       SimpleButton(
         radius: AppCard.BIG_RADIUS,
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SprawnosciPage())),
-        child: EmptyMessageWidget(
+        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SprawnosciPage())),
+        child: const EmptyMessageWidget(
             text: 'Zdobywaj!',
             icon: MdiIcons.gamepadCircleUp
           ), 
       ):
       GridView.count(
         shrinkWrap: true,
-        padding: EdgeInsets.all(_paddingVal),
+        padding: const EdgeInsets.all(_paddingVal),
         crossAxisSpacing: Dimen.ICON_MARG,
         mainAxisSpacing: Dimen.ICON_MARG,
         crossAxisCount: 3,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         scrollDirection: Axis.horizontal,
         children: children,
         //clipBehavior: Clip.none,
