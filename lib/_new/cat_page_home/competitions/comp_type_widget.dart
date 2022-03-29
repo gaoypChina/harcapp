@@ -6,6 +6,7 @@ import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_page.dart';
+import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -65,8 +66,8 @@ class CompTypeWidget extends StatelessWidget{
                 icon: MdiIcons.applicationOutline,
                 backgroundIcon: MdiIcons.sproutOutline,
                 title: 'Utwórz puste',
-                colorStart: Colors.grey[300],
-                colorEnd: Colors.grey[600],
+                colorStart: Colors.grey[AppSettings.isDark?700:300],
+                colorEnd: Colors.grey[AppSettings.isDark?900:600],
                 textColor: Colors.blueGrey,
                 description: 'Zacznij od pustego szablonu.\n\nSkorzystaj, jeżeli wiesz jak działają współzawodnictwa.',
                 onTap: () => onSelected(NewCompType.empty),
@@ -78,9 +79,9 @@ class CompTypeWidget extends StatelessWidget{
                 icon: MdiIcons.applicationEditOutline,
                 backgroundIcon: MdiIcons.fruitPineapple,
                 title: 'Utwórz przykładowe',
-                colorStart: Colors.lightBlueAccent,
-                colorEnd: Colors.blueAccent,
-                textColor: Colors.indigo,
+                colorStart: Colors.lightBlue[AppSettings.isDark?800:500],
+                colorEnd: Colors.blue[AppSettings.isDark?900:500],
+                textColor: Colors.indigo[AppSettings.isDark?300:500],
                 description: 'Wybierz w pełni uzupełny przykład.\n\nSkorzystaj, jeżeli pierwszy raz tworzysz współzawodnictwo.',
                 onTap: () => onSelected(NewCompType.example),
               ),
@@ -234,9 +235,9 @@ class _JoinButtonState extends State<_JoinButton>{
       icon: MdiIcons.applicationImport,
       backgroundIcon: MdiIcons.palmTree,
       title: 'Dołącz do istniejącego',
-      colorStart: Colors.yellow,
-      colorEnd: Colors.orange,
-      textColor: Colors.deepOrange,
+      colorStart: Colors.yellow[AppSettings.isDark?800:500],
+      colorEnd: Colors.orange[AppSettings.isDark?900:500],
+      textColor: Colors.orange[AppSettings.isDark?300:700],
       description: 'Dołącz do współzawodnictwa utworzonego przez inną osobę.',
       onTap: null,
       bottom: Row(

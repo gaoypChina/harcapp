@@ -22,26 +22,26 @@ class CommonColorData{
 
   static Map<String, CommonColorData> ALL_PICKABLE = {
 
-    'chocolate': CommonColorData(Colors.pink, Colors.brown[800], true),
-    'raspberry': CommonColorData(Colors.red[800], Colors.deepPurple, true),
+    'chocolate': CommonColorData(Colors.pink, Colors.brown[900], false),
+    'raspberry': CommonColorData(Colors.red[800], Colors.deepPurple, false),
     'dawn': const CommonColorData(Colors.orange, Colors.purple, false),
     'rosegold': const CommonColorData(Colors.amberAccent, Colors.pinkAccent, false),
     'gold': const CommonColorData(Colors.yellow, Colors.orange, false),
 
     'mint': const CommonColorData(Colors.yellow, Colors.greenAccent, false),
     'green': const CommonColorData(Colors.lightGreenAccent, Colors.lightBlueAccent, false),
-    'turquoise': const CommonColorData(Colors.greenAccent, Colors.blue, true),
+    'turquoise': const CommonColorData(Colors.greenAccent, Colors.blue, false),
     'blueberry': CommonColorData(Colors.cyan[800], Colors.purple[900], true),
-    'deepblue': const CommonColorData(Colors.blue, Colors.deepPurple, true),
+    'deepblue': const CommonColorData(Colors.blue, Colors.deepPurple, false),
 
     'darkorange': const CommonColorData(Colors.pinkAccent, Colors.blueGrey, false),
     'darkgreen': CommonColorData(Colors.cyan[300], Colors.blueGrey, false),
-    'darkblue': const CommonColorData(Colors.blueAccent, Colors.blueGrey, true),
-    'darkpurple': const CommonColorData(Colors.deepPurple, Colors.blueGrey, true),
-    'darkbrown': const CommonColorData(Colors.brown, Colors.blueGrey, true),
+    'darkblue': const CommonColorData(Colors.blueAccent, Colors.blueGrey, false),
+    'darkpurple': const CommonColorData(Colors.deepPurple, Colors.blueGrey, false),
+    'darkbrown': const CommonColorData(Colors.brown, Colors.blueGrey, false),
 
-    'blood': CommonColorData(Colors.red[900], Colors.black, false),
-    'deepforest': CommonColorData(Colors.green[900], Colors.black, false),
+    'blood': CommonColorData(Colors.red[900], Colors.black, true),
+    'deepforest': CommonColorData(Colors.green[900], Colors.black, true),
     'navy': CommonColorData(Colors.blue[900], Colors.black, true),
     'blackberry': CommonColorData(Colors.purple[900], Colors.black, true),
     'blackwood': CommonColorData(Colors.brown[800], Colors.black, true),

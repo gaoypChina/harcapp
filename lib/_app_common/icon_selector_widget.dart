@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
-import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +26,7 @@ class _Title extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => Padding(
-      padding: EdgeInsets.all(Dimen.ICON_MARG),
+      padding: const EdgeInsets.all(Dimen.ICON_MARG),
       child: Text(title, style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG))
   );
 
@@ -52,52 +49,52 @@ class IconSelectorWidgetState extends State<IconSelectorWidget>{
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
 
-          _Title('Książki'),
+          const _Title('Książki'),
           _IconSetWidget(CommonIconData.BOOKS, onTap: onSelected),
 
-          _Title('Ogień'),
+          const _Title('Ogień'),
           _IconSetWidget(CommonIconData.FIRE, onTap: onSelected),
 
-          _Title('Pisanie'),
+          const _Title('Pisanie'),
           _IconSetWidget(CommonIconData.WRITING, onTap: onSelected),
 
-          _Title('Dom'),
+          const _Title('Dom'),
           _IconSetWidget(CommonIconData.HOME, onTap: onSelected),
 
-          _Title('Symbole'),
+          const _Title('Symbole'),
           _IconSetWidget(CommonIconData.SYMBOLS, onTap: onSelected),
 
-          _Title('Muzyka'),
+          const _Title('Muzyka'),
           _IconSetWidget(CommonIconData.MUSIC, onTap: onSelected),
 
-          _Title('Rośliny'),
+          const _Title('Rośliny'),
           _IconSetWidget(CommonIconData.PLANTS, onTap: onSelected),
 
-          _Title('Zwierzęta'),
+          const _Title('Zwierzęta'),
           _IconSetWidget(CommonIconData.ANIMALS, onTap: onSelected),
 
-          _Title('Sport'),
+          const _Title('Sport'),
           _IconSetWidget(CommonIconData.SPORT, onTap: onSelected),
 
-          _Title('Jedzenie'),
+          const _Title('Jedzenie'),
           _IconSetWidget(CommonIconData.FOOD, onTap: onSelected),
 
-          _Title('Maski'),
+          const _Title('Maski'),
           _IconSetWidget(CommonIconData.MASKS, onTap: onSelected),
 
-          _Title('Morze'),
+          const _Title('Morze'),
           _IconSetWidget(CommonIconData.SEA, onTap: onSelected),
 
-          _Title('Narzędzia'),
+          const _Title('Narzędzia'),
           _IconSetWidget(CommonIconData.TOOLS, onTap: onSelected),
 
-          _Title('Pojazdy'),
+          const _Title('Pojazdy'),
           _IconSetWidget(CommonIconData.CARS, onTap: onSelected),
 
-          _Title('Pogoda'),
+          const _Title('Pogoda'),
           _IconSetWidget(CommonIconData.WEATHER, onTap: onSelected),
 
-          _Title('Inne'),
+          const _Title('Inne'),
           _IconSetWidget(CommonIconData.OTHER, onTap: onSelected),
 
         ],
@@ -119,7 +116,7 @@ class _IconSetWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) => GridView.count(
       crossAxisCount: 5,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
       shrinkWrap: true,
       clipBehavior: Clip.none,
@@ -168,7 +165,7 @@ class _IconOption extends StatelessWidget{
                 radius: 100,
                 child: Center(
                     child: AnimatedContainer(
-                      duration: Duration(milliseconds: 300),
+                      duration: const Duration(milliseconds: 300),
                       curve: Curves.easeOutQuart,
                       child: Icon(CommonIconData.ALL[iconKey], size: _ICON_SIZE, color: iconEnab_(context).withOpacity(selected?1:.4)),
                       width: _BUTTON_SIZE,

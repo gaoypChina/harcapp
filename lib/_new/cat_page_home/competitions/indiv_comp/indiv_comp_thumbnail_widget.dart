@@ -87,7 +87,7 @@ class IndivCompThumbnailWidget extends StatelessWidget{
                 colorStart: colorData.colorStart,
                 colorEnd: colorData.colorEnd,
                 child: Center(
-                  child: Icon(comp.icon, color: cardEnab_(context), size: iconSizeFactor*size),
+                  child: Icon(comp.icon, color: comp.colors.iconWhite?Colors.white:cardEnab_(context), size: iconSizeFactor*size),
                 ),
               ),
 
