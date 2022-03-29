@@ -138,7 +138,10 @@ class SlowoKluczStartPageState extends State<SlowoKluczStartPage> with ModuleSta
 
                                 String code;
                                 if(await Permission.camera.request().isGranted)
-                                  code = await QRCodeReader().scan();
+                                  code = await QRCodeReader()
+                                      .setAutoFocusIntervalInMs(200)
+                                      .setForceAutoFocus(true)
+                                      .scan();
 
                                 if(code == null) return;
 

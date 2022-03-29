@@ -40,7 +40,7 @@ class InitWidget extends StatelessWidget{
         ),
 
         Padding(
-          padding: EdgeInsets.all(Dimen.ICON_MARG),
+          padding: const EdgeInsets.all(Dimen.ICON_MARG),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -56,14 +56,14 @@ class InitWidget extends StatelessWidget{
               ),
 
               Padding(
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 child: Text(
                   'Spisz piosenkę od zera - od tytułu, poprzez wykonawcę, po ostatni przecinek w tekście i chwyty!',
                   style: AppTextStyle(color: hintEnab_(context)),
                 ),
               ),
 
-              SizedBox(height: 42),
+              const SizedBox(height: 42),
 
               TitleShortcutRowWidget(
                 title: 'Skanuj kod piosenki',
@@ -72,7 +72,11 @@ class InitWidget extends StatelessWidget{
                   Navigator.pop(context);
 
                   if(await Permission.camera.request().isGranted) {
-                    String code = await QRCodeReader().scan();
+
+                    String code = await QRCodeReader()
+                        .setAutoFocusIntervalInMs(200)
+                        .setForceAutoFocus(true)
+                        .scan();
                     SongRaw song;
 
                     try {
@@ -89,14 +93,14 @@ class InitWidget extends StatelessWidget{
               ),
 
               Padding(
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 child: Text(
                   'Zeskanuj kod QR z dowolnej piosenki w innej harcappce!',
                   style: AppTextStyle(color: hintEnab_(context)),
                 ),
               ),
 
-              SizedBox(height: Dimen.ICON_MARG),
+              const SizedBox(height: Dimen.ICON_MARG),
 
             ],
           ),

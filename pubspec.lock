@@ -766,6 +766,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  pro_animated_blur:
+    dependency: "direct main"
+    description:
+      name: pro_animated_blur
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2+1"
   process:
     dependency: transitive
     description:

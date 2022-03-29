@@ -15,11 +15,13 @@ import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core_song_widget/providers.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:lifecycle/lifecycle.dart';
 
 import '_common_classes/color_pack.dart';
 import '_common_classes/sha_pref.dart';
+import '_common_classes/storage.dart';
 import '_common_widgets/app_toast.dart';
 import '_new/app_bottom_navigator.dart';
 import '_new/cat_page_guide_book/_sprawnosci/providers.dart';
@@ -54,6 +56,14 @@ enum AppMode{
 }
 
 void main() async {
+
+  FlutterError.onError = (FlutterErrorDetails details) async {
+    saveStringAsFileToFolder(
+        getErrorFolderLocalPath,
+        'app_version: ${(await PackageInfo.fromPlatform()).version}\n\n'
+        '${details.stack.toString()}',
+        fileName: DateTime.now().toIso8601String());
+  };
 
   var delegate = await LocalizationDelegate.create(
       fallbackLocale: 'pl',

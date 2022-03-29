@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -26,6 +27,7 @@ import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:pro_animated_blur/pro_animated_blur.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 
@@ -206,6 +208,8 @@ class _CompListWidgetState extends State<_CompListWidget>{
 
   IndivCompLoaderListener _listener;
 
+  bool blurBackground;
+
   @override
   void initState() {
     searchedComps = IndivComp.all;
@@ -227,6 +231,8 @@ class _CompListWidgetState extends State<_CompListWidget>{
     );
 
     indivCompLoader.addListener(_listener);
+
+    blurBackground = false;
 
     super.initState();
   }
@@ -253,195 +259,214 @@ class _CompListWidgetState extends State<_CompListWidget>{
   }
 
   @override
-  Widget build(BuildContext context) => Consumer<IndivCompListProvider>(
-      builder: (context, prov, child) {
+  Widget build(BuildContext context) => Stack(
+    children: [
 
-        List<Widget> widgets = [];
+      Consumer<IndivCompListProvider>(
+          builder: (context, prov, child) {
 
-        if(IndivComp.all == null)
-          widgets.add(IndivCompPrompt(
-            child: IndivCompPreviewGrid(),
-            text: 'Coś poszło nie tak',
-            icon: MdiIcons.closeOutline,
-          ));
-        else {
+            List<Widget> widgets = [];
 
-          if (IndivComp.all.length > 3)
-            widgets.add(SearchField(
-                hint: 'Szukaj współzawodnictw:',
-                onChanged: (text) => setState(() => selectIndivComps(text))
-            ));
+            if(IndivComp.all == null)
+              widgets.add(IndivCompPrompt(
+                child: IndivCompPreviewGrid(),
+                text: 'Coś poszło nie tak',
+                icon: MdiIcons.closeOutline,
+              ));
+            else {
 
-          for (int i = 0; i < searchedComps.length; i++) {
-            widgets.add(Slidable(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                  child: IndivCompWidgetSmall(
-                    searchedComps[i],
-                    showPinned: true,
-                  ),
-                ),
-                startActionPane: ActionPane(
-                  motion: const ScrollMotion(),
-                  children: [
+              if (IndivComp.all.length > 3)
+                widgets.add(SearchField(
+                    hint: 'Szukaj współzawodnictw:',
+                    onChanged: (text) => setState(() => selectIndivComps(text))
+                ));
 
-                    SlidableAction(
-                      onPressed: (context) => setState(() => searchedComps[i].reversePinned(context)),
-
-                      backgroundColor: background_(context),
-
-                      foregroundColor:
-                      searchedComps[i].pinned ?
-                      iconEnab_(context) :
-                      iconDisab_(context),
-
-                      icon:
-                      searchedComps[i].pinned ?
-                      MdiIcons.pinOutline :
-                      MdiIcons.pinOffOutline,
-
-                      //label: searchedComps[index].pinned?
-                      //'Przypięto':
-                      //'Nie przypięto',
-
-                      //label: 'Save',
-                    ),
-
-                  ],
-                )
-            ));
-
-            widgets.add(const SizedBox(height: Dimen.ICON_MARG));
-          }
-          if (IndivComp.all.isEmpty)
-            widgets.add(IndivCompPrompt(child: IndivCompPreviewGrid()));
-          else
-            widgets.add(const SizedBox(height: Dimen.SIDE_MARG));
-
-          widgets.add(Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-            child: SimpleButton(
-                radius: AppCard.BIG_RADIUS,
-                margin: EdgeInsets.zero,
-                padding: EdgeInsets.zero,
-                child: Row(
-                  children: [
-
-                    SizedBox(
-                      width: IndivCompThumbnailWidget.defSize,
-                      height: IndivCompThumbnailWidget.defSize,
-                      child: GradientWidget(
-                          radius: AppCard.BIG_RADIUS,
-                          colorStart: hintEnab_(context),
-                          colorEnd: textEnab_(context),
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Material(
-                                borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS - 4.0),
-                                color: background_(context),
-                                child: GradientIcon(
-                                  MdiIcons.plus,
-                                  size: IndivCompThumbnailWidget.defSize * IndivCompThumbnailWidget.iconSizeFactor,
-                                  colorStart: hintEnab_(context),
-                                  colorEnd: textEnab_(context),
-                                )
-                            ),
-                          )
+              for (int i = 0; i < searchedComps.length; i++) {
+                widgets.add(Slidable(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                      child: IndivCompWidgetSmall(
+                        searchedComps[i],
+                        showPinned: true,
                       ),
                     ),
-
-                    const SizedBox(width: Dimen.SIDE_MARG),
-
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    startActionPane: ActionPane(
+                      motion: const ScrollMotion(),
                       children: [
 
-                        Text('Nowe',
-                            style: AppTextStyle(
-                                fontSize: IndivCompWidgetSmall.textSizePkt,
-                                color: hintEnab_(context),
-                                fontWeight: weight.bold)),
+                        SlidableAction(
+                          onPressed: (context) => setState(() => searchedComps[i].reversePinned(context)),
 
-                        Text('współzawodnictwo',
-                            style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR,
-                                color: hintEnab_(context),
-                                fontWeight: weight.bold))
+                          backgroundColor: background_(context),
+
+                          foregroundColor:
+                          searchedComps[i].pinned ?
+                          iconEnab_(context) :
+                          iconDisab_(context),
+
+                          icon:
+                          searchedComps[i].pinned ?
+                          MdiIcons.pinOutline :
+                          MdiIcons.pinOffOutline,
+
+                          //label: searchedComps[index].pinned?
+                          //'Przypięto':
+                          //'Nie przypięto',
+
+                          //label: 'Save',
+                        ),
 
                       ],
                     )
+                ));
 
-                  ],
-                ),
-                onTap: () async {
-                  NewCompType type = await pickCompType(context);
-                  if (type == null) return;
-
-                  List<String> exampleNames = [
-                    'Śmietanka towarzystwa',
-                    'Liga nieprzeciętnych',
-                    'Kapitol szlachty',
-                    'Kto pierwszy ten lepszy',
-                    'Drużyna pierścienia',
-                    'Ekipa krecika',
-                    'Rybki z ferajny',
-                    'Zwierzogród',
-                    'Załoga G',
-                  ];
-
-                  if(type == NewCompType.join)
-                    return;
-                  else
-                    pushPage(
-                      context,
-                      builder: (context) =>
-                          IndivCompEditorPage(
-                            initTitle: type == NewCompType.empty ? null : exampleNames[Random().nextInt(
-                                exampleNames.length)],
-                            initTasks: type == NewCompType.empty ? null : List.of(
-                                IndivComp.previewTasks),
-                            initAwards: type == NewCompType.empty ? null : List.of(
-                                IndivComp.previewAwards),
-
-                            onSaved: (comp) async {
-                              IndivComp.addToAll(context, comp);
-                              Navigator.pop(context);
-                              await Navigator.push(context, MaterialPageRoute(builder: (context) => IndivCompPage(IndivComp.all.last)));
-                              setState(() {});
-                            },
-                          ),
-                    );
-                }
-            ),
-          ));
-        }
-
-        return SmartRefresher(
-            enablePullDown: true,
-            physics: const BouncingScrollPhysics(),
-            header: MaterialClassicHeader(backgroundColor: cardEnab_(context), color: accent_(context)),
-            controller: refreshController,
-            onRefresh: () async {
-
-              if(!await isNetworkAvailable()){
-                showAppToast(context, text: 'Brak dostępu do Internetu');
-                refreshController.refreshCompleted();
-                return;
+                widgets.add(const SizedBox(height: Dimen.ICON_MARG));
               }
+              if (IndivComp.all.isEmpty)
+                widgets.add(IndivCompPrompt(child: IndivCompPreviewGrid()));
+              else
+                widgets.add(const SizedBox(height: Dimen.SIDE_MARG));
 
-              indivCompLoader.run();
-            },
-            child: CustomScrollView(
+              widgets.add(Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                child: SimpleButton(
+                    radius: AppCard.BIG_RADIUS,
+                    margin: EdgeInsets.zero,
+                    padding: EdgeInsets.zero,
+                    child: Row(
+                      children: [
+
+                        SizedBox(
+                          width: IndivCompThumbnailWidget.defSize,
+                          height: IndivCompThumbnailWidget.defSize,
+                          child: GradientWidget(
+                              radius: AppCard.BIG_RADIUS,
+                              colorStart: hintEnab_(context),
+                              colorEnd: textEnab_(context),
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Material(
+                                    borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS - 4.0),
+                                    color: background_(context),
+                                    child: GradientIcon(
+                                      MdiIcons.plus,
+                                      size: IndivCompThumbnailWidget.defSize * IndivCompThumbnailWidget.iconSizeFactor,
+                                      colorStart: hintEnab_(context),
+                                      colorEnd: textEnab_(context),
+                                    )
+                                ),
+                              )
+                          ),
+                        ),
+
+                        const SizedBox(width: Dimen.SIDE_MARG),
+
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+                            Text('Nowe',
+                                style: AppTextStyle(
+                                    fontSize: IndivCompWidgetSmall.textSizePkt,
+                                    color: hintEnab_(context),
+                                    fontWeight: weight.bold)),
+
+                            Text('współzawodnictwo',
+                                style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR,
+                                    color: hintEnab_(context),
+                                    fontWeight: weight.bold))
+
+                          ],
+                        )
+
+                      ],
+                    ),
+                    onTap: () async {
+                      setState(() => blurBackground = true);
+                      NewCompType type = await pickCompType(context);
+                      setState(() => blurBackground = false);
+                      if (type == null) return;
+
+                      List<String> exampleNames = [
+                        'Śmietanka towarzystwa',
+                        'Liga nieprzeciętnych',
+                        'Kapitol szlachty',
+                        'Kto pierwszy ten lepszy',
+                        'Drużyna pierścienia',
+                        'Ekipa krecika',
+                        'Rybki z ferajny',
+                        'Zwierzogród',
+                        'Załoga G',
+                      ];
+
+                      if(type == NewCompType.join)
+                        return;
+                      else
+                        pushPage(
+                          context,
+                          builder: (context) =>
+                              IndivCompEditorPage(
+                                initTitle: type == NewCompType.empty ? null : exampleNames[Random().nextInt(
+                                    exampleNames.length)],
+                                initTasks: type == NewCompType.empty ? null : List.of(
+                                    IndivComp.previewTasks),
+                                initAwards: type == NewCompType.empty ? null : List.of(
+                                    IndivComp.previewAwards),
+
+                                onSaved: (comp) async {
+                                  IndivComp.addToAll(context, comp);
+                                  Navigator.pop(context);
+                                  await Navigator.push(context, MaterialPageRoute(builder: (context) => IndivCompPage(IndivComp.all.last)));
+                                  setState(() {});
+                                },
+                              ),
+                        );
+                    }
+                ),
+              ));
+            }
+
+            return SmartRefresher(
+                enablePullDown: true,
                 physics: const BouncingScrollPhysics(),
-                slivers: [
+                header: MaterialClassicHeader(backgroundColor: cardEnab_(context), color: accent_(context)),
+                controller: refreshController,
+                onRefresh: () async {
 
-                  sliverAppBar(),
+                  if(!await isNetworkAvailable()){
+                    showAppToast(context, text: 'Brak dostępu do Internetu');
+                    refreshController.refreshCompleted();
+                    return;
+                  }
 
-                  SliverList(delegate: SliverChildListDelegate(widgets))
+                  indivCompLoader.run();
+                },
+                child: CustomScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    slivers: [
 
-                ]
-            ));
+                      sliverAppBar(),
 
-      }
+                      SliverList(delegate: SliverChildListDelegate(widgets))
+
+                    ]
+                ));
+
+          }
+      ),
+
+      Positioned.fill(
+        child: IgnorePointer(
+          child: ProAnimatedBlur(
+            blur: blurBackground ? 0 : 0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOutQuad,
+            child: Container()
+          ),
+        )
+      )
+
+    ],
   );
 
 }

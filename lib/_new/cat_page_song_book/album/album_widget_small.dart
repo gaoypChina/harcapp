@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_new/cat_page_song_book/album/album_widget.dart';
@@ -22,7 +21,7 @@ class AlbumWidgetSmall extends StatelessWidget{
   final Color iconColor;
   final void Function() onTap;
 
-  AlbumWidgetSmall(this.album, {this.selected, this.trailing, this.showSongCount = true, this.iconColor, this.onTap});
+  const AlbumWidgetSmall(this.album, {this.selected, this.trailing, this.showSongCount = true, this.iconColor, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +34,7 @@ class AlbumWidgetSmall extends StatelessWidget{
     Widget widget = Container(
       decoration: BoxDecoration(
           color: selected?backgroundIcon_(context):Colors.transparent,
-          borderRadius: BorderRadius.all(Radius.circular(AppCard.BIG_RADIUS))
+          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS)
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,13 +48,13 @@ class AlbumWidgetSmall extends StatelessWidget{
                 colorStart: albColor.colorStart,
                 colorEnd: albColor.colorEnd,
                 child: Padding(
-                  padding: EdgeInsets.all(Dimen.ICON_MARG),
-                  child: Icon(iconData, color: iconColor??cardEnab_(context), size: ICON_SIZE),
+                  padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                  child: Icon(iconData, color: iconColor??(albColor.iconWhite?Colors.white:cardEnab_(context)), size: ICON_SIZE),
                 )
             ),
           ),
 
-          SizedBox(width: Dimen.ICON_MARG),
+          const SizedBox(width: Dimen.ICON_MARG),
 
           Expanded(
               child: Column(

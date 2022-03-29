@@ -63,7 +63,7 @@ class IndivCompPage extends StatefulWidget{
 class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
 
   @override
-  String get moduleId => throw ModuleStatsMixin.indivComp;
+  String get moduleId => ModuleStatsMixin.indivComp;
 
   IndivComp updatedComp;
   IndivComp get comp => updatedComp??widget.comp;

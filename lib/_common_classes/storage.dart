@@ -7,7 +7,12 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 String _localPath;
-Future<void> initPaths() async => _localPath = (await getApplicationDocumentsDirectory()).path;
+Future<void> initPaths() async{
+  _localPath = (await getApplicationDocumentsDirectory()).path;
+}
+
+String get getErrorFolderLocalPath => 'errors';
+String get getErrorFolderPath => join(_localPath, getErrorFolderLocalPath);
 
 String get getUsageStatsFolderLocalPath => '/usage_stats/';
 String get getUsageStatsFolderPath => _localPath + getUsageStatsFolderLocalPath;
@@ -44,7 +49,7 @@ String get getRemoveSyncReqFolderPath => _localPath + getRemoveSyncReqFolderLoca
 
 String get _getArticleBaseFolderLocalPath => '/articles/';
 String get _getArticleBaseFolderPath => _localPath + _getArticleBaseFolderLocalPath;
-String get getArticleCoresFolderPath => _localPath + _getArticleBaseFolderLocalPath + 'cores/';
+String get getArticleCoresFolderPath => _getArticleBaseFolderPath + 'cores/';
 
 String get getArticleCoverFolder => _getArticleBaseFolderPath + 'images/';
 String getArticleCoverPath(String id) => getArticleCoverFolder + id + '.jpg';
@@ -82,7 +87,7 @@ File saveStringAsFileToFolder(String localPath, String content, {String fileName
     fileName = i.toString();
   }
 
-  return saveStringAsFile('$path$fileName', content);
+  return saveStringAsFile(join(path, fileName), content);
 }
 
 String getUnusedFileName(String localPath, {String fileName}){

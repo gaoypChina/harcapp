@@ -7,7 +7,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 
 
-Future<void> showScrollBottomSheet({@required BuildContext context, @required WidgetBuilder builder, bool scrollable: true, GlobalKey<BottomSheetTemplateState> globalKey}) async {
+Future<void> showScrollBottomSheet({@required BuildContext context, @required WidgetBuilder builder, bool scrollable = true}) async {
 
   await showModalBottomSheet(
     context: context,
@@ -29,7 +29,8 @@ class BottomSheetTemplate extends StatefulWidget{
   const BottomSheetTemplate({
     @required this.builder,
     this.scrollable,
-  });
+    Key key
+  }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => BottomSheetTemplateState();
@@ -71,7 +72,7 @@ class BottomSheetTemplateState extends State<BottomSheetTemplate>{
                     ScrollConfiguration(
                       behavior: NoGlowBehavior(),
                       child: SingleChildScrollView(
-                          physics: AlwaysScrollableScrollPhysics(),
+                          physics: const AlwaysScrollableScrollPhysics(),
                           controller: scrollController,
                           child: Container(
                             key: contentKey,
@@ -108,7 +109,7 @@ class BottomSheetDef extends StatefulWidget{
     @required this.builder,
     this.textColor,
     this.color,
-    this.childMargin: const EdgeInsets.all(Dimen.BOTTOM_SHEET_MARG)
+    this.childMargin = const EdgeInsets.all(Dimen.BOTTOM_SHEET_MARG)
   });
 
   @override
@@ -125,16 +126,16 @@ class BottomSheetDefState extends State<BottomSheetDef>{
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         decoration: BoxDecoration(
             color: widget.color??background_(context),
-            borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(12.0),
-                topRight: const Radius.circular(12.0))),
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(12.0),
+                topRight: Radius.circular(12.0))),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             if(widget.title!=null)
               Padding(
-                  padding: EdgeInsets.all(Dimen.BOTTOM_SHEET_TITLE_MARG),
+                  padding: const EdgeInsets.all(Dimen.BOTTOM_SHEET_TITLE_MARG),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[

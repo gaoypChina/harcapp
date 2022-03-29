@@ -2,12 +2,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 
-class SprawIcon extends StatelessWidget{
+class SprawIcon extends StatefulWidget{
 
   static const double sizeBig = 48.0;
   static const double sizeSmall = 34.0;
@@ -16,12 +17,41 @@ class SprawIcon extends StatelessWidget{
   final double size;
   final void Function() onTap;
 
-  const SprawIcon(this.spraw, {this.size, this.onTap});
+  const SprawIcon(this.spraw, {this.size, this.onTap, Key key}): super(key: key);
 
   @override
+  State<StatefulWidget> createState() => SprawIconState();
+  
+}
+
+class SprawIconState extends State<SprawIcon>{
+
+  Spraw get spraw => widget.spraw;
+  double get size => widget.size;
+  void Function() get onTap => widget.onTap;
+
+  bool assetExists;
+
+  void checkAssetExistance() async {
+    try {
+      await rootBundle.loadString(widget.spraw.iconPath);
+      setState(() => assetExists = true);
+    } catch(_) {
+      setState(() => assetExists = false);
+    }
+  }
+  
+  @override
+  void initState() {
+    assetExists = false;
+    checkAssetExistance();
+    super.initState();
+  }
+  
+  @override
   Widget build(BuildContext context) => GestureDetector(
-      onTap: onTap,
-      child: SvgPicture.asset(
+      onTap: widget.onTap,
+      child: assetExists?SvgPicture.asset(
         spraw.iconPath,
         width: size,
         height: size,
@@ -30,9 +60,12 @@ class SprawIcon extends StatelessWidget{
           spraw,
           size: size,
         ),
-      )
+      ):SprawIconPlaceholder(
+        spraw,
+        size: size,
+      ),
   );
-
+  
 }
 
 class SprawIconPlaceholder extends StatelessWidget{
@@ -40,7 +73,7 @@ class SprawIconPlaceholder extends StatelessWidget{
   final Spraw spraw;
   final double size;
 
-  const SprawIconPlaceholder(this.spraw, {this.size});
+  const SprawIconPlaceholder(this.spraw, {this.size, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +90,7 @@ class SprawIconPlaceholder extends StatelessWidget{
         double spaceSize = min(size??double.infinity, constraints.maxHeight);
 
         return Center(
-          child: Container(
+          child: SizedBox(
             width: size,
             height: size,
             child: AspectRatio(

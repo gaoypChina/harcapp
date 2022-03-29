@@ -97,13 +97,17 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
         actions: <Widget>[
 
           IconButton(
-              icon: Icon(MdiIcons.qrcodeScan),
+              icon: const Icon(MdiIcons.qrcodeScan),
               onPressed: ()async{
 
                 if(await Permission.camera.request().isGranted){
 
                   //String code = "";
-                  String code = await QRCodeReader().scan();
+                  String code = await QRCodeReader()
+                      .setAutoFocusIntervalInMs(200)
+                      .setForceAutoFocus(true)
+                      .scan();
+
                   Okrzyk okrzyk;
 
                   try {okrzyk = Okrzyk.from(code);}
@@ -140,7 +144,7 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
         items: elements,
         //insertDuration: Duration,
         controller: scrollController,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         areItemsTheSame: (oldItem, newItem) => oldItem.hashCode == newItem.hashCode,
         onReorderFinished: (item, from, to, newItems) => setState(() => elements..clear()..addAll(newItems)),
         itemBuilder: (context, itemAnimation, item, index) {
@@ -152,7 +156,7 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
               });
         },
         header: Padding(
-          padding: EdgeInsets.all(Dimen.SIDE_MARG),
+          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
           child: Column(
             children: [
 
@@ -165,7 +169,7 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
                   elevation: AppCard.bigElevation
               ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
               AppTextFieldHint(
                 hint: 'Tytuł:',
@@ -184,7 +188,7 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
 
               AnimatedOpacity(
                 opacity: elements.isEmpty?0:1,
-                duration: Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 300),
                 child: TitleShortcutRowWidget(
                     title: 'Sylaby i tony',
                     iconColor: hintEnab_(context),
@@ -198,7 +202,7 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        child: Icon(MdiIcons.plus),
+        child: const Icon(MdiIcons.plus),
         onPressed: () => setState((){
           elements.add(ItemCard.from(this));
           scrollListView = true;
@@ -216,7 +220,7 @@ class ItemCard extends StatelessWidget{
 
   const ItemCard(this.parentState, this.ctrlTon, this.ctrlTimeFract, this.ctrlWords, this.ctrlSeparators);
 
-  static ItemCard from(AddOkrzykPageState parentState, {String initTon: '25', String initTimeFract: '4', String initWords:'', String initSeparators: ''}){
+  static ItemCard from(AddOkrzykPageState parentState, {String initTon = '25', String initTimeFract = '4', String initWords = '', String initSeparators = ''}){
     TextEditingController ctrlTon = TextEditingController(text: initTon);
     TextEditingController ctrlTimeFract = TextEditingController(text: initTimeFract);
     TextEditingController ctrlWords = TextEditingController(text: initWords);
@@ -240,15 +244,15 @@ class ItemCard extends StatelessWidget{
     Widget content = Row(
       children: <Widget>[
         Handle(child: Padding(
-          padding: EdgeInsets.all(Dimen.ICON_MARG),
+          padding: const EdgeInsets.all(Dimen.ICON_MARG),
           child: Icon(MdiIcons.swapVertical, color: iconEnab_(context)),
         )),
-        SizedBox(width: Dimen.DEF_MARG),
+        const SizedBox(width: Dimen.DEF_MARG),
         Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: EdgeInsets.all(Dimen.DEF_MARG/2),
+              padding: const EdgeInsets.all(Dimen.DEF_MARG/2),
               child: TextFieldFit(
                 style: AppTextStyle(color: textEnab_(context), fontWeight: weight.halfBold),
                 decoration: InputDecoration(
@@ -267,13 +271,13 @@ class ItemCard extends StatelessWidget{
           ],
         ),
 
-        SizedBox(width: Dimen.ICON_MARG),
+        const SizedBox(width: Dimen.ICON_MARG),
 
         Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(Dimen.DEF_MARG/2),
+              padding: const EdgeInsets.all(Dimen.DEF_MARG/2),
               child: TextFieldFit(
                 style: AppTextStyle(color: textEnab_(context), fontWeight: weight.halfBold),
                 decoration: InputDecoration(
@@ -292,13 +296,13 @@ class ItemCard extends StatelessWidget{
           ],
         ),
 
-        SizedBox(width: Dimen.ICON_MARG),
+        const SizedBox(width: Dimen.ICON_MARG),
 
         Expanded(child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(Dimen.DEF_MARG/2),
+              padding: const EdgeInsets.all(Dimen.DEF_MARG/2),
               child: TextField(
                 decoration: InputDecoration(
                   hintText: '...',
@@ -317,13 +321,13 @@ class ItemCard extends StatelessWidget{
           ],
         )),
 
-        SizedBox(width: Dimen.ICON_MARG),
+        const SizedBox(width: Dimen.ICON_MARG),
 
         Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(Dimen.DEF_MARG/2),
+              padding: const EdgeInsets.all(Dimen.DEF_MARG/2),
               child: TextFieldFit(
                 style: AppTextStyle(),
                 inputFormatters: [
@@ -343,11 +347,11 @@ class ItemCard extends StatelessWidget{
           ],
         ),
 
-        SizedBox(width: Dimen.ICON_MARG),
+        const SizedBox(width: Dimen.ICON_MARG),
 
         IconButton(
-          icon: Icon(MdiIcons.playOutline),
-          padding: EdgeInsets.only(
+          icon: const Icon(MdiIcons.playOutline),
+          padding: const EdgeInsets.only(
             left: Dimen.ICON_MARG,
             right: Dimen.ICON_MARG,
             top: Dimen.ICON_MARG,
@@ -356,11 +360,11 @@ class ItemCard extends StatelessWidget{
           onPressed: ()async{
             int ton;
             ton = int.tryParse(ctrlTon.text);
-            if(ton == null) ton = 0;
+            ton ??= 0;
 
             int time;
             time = int.parse(ctrlTimeFract.text);
-            if(time == null) time = 0;
+            time ??= 0;
 
             SoundElement element = SoundElement(ton, time);
             await element.play();
