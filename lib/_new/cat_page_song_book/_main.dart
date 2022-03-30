@@ -54,7 +54,7 @@ import 'album/album_drawer.dart';
 import 'album/album_page.dart';
 import 'album/new_album/new_album_page.dart';
 import 'loading_widget.dart';
-import 'own_song_page/init_widget.dart';
+import 'own_song_page/add_song_bottom_sheet.dart';
 import 'own_song_page/own_song_page.dart';
 
 SongsStatisticsRegistrator songsStatisticsRegistrator = SongsStatisticsRegistrator();
@@ -250,9 +250,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
                 showScrollBottomSheet(
                     context: context,
-                    builder: (context) => BottomSheetDef(
-                      title: 'Dodaj piosenkę',
-                      builder: (context) => InitWidget(
+                    builder: (context) => AddSongBottomSheet(
                         onSaved: (Song song, EditType editType) async {
 
                           setState(() {});
@@ -345,7 +343,6 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                           );
                         },
                       ),
-                    )
                 );
               },
             ),

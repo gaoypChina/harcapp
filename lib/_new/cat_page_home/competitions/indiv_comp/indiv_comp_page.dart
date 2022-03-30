@@ -15,7 +15,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_wi
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_task_compl_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_profile.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_task_page/participant_list_page.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_particip/participant_list_page.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
 import 'package:harcapp/account/account.dart';
@@ -40,7 +40,7 @@ import '../../../module_statistics_registrator.dart';
 import 'indiv_comp_awards_page.dart';
 import 'indiv_comp_editor/common.dart';
 import 'indiv_comp_task_page/completed_tasks_page.dart';
-import 'indiv_comp_task_page/participant_list_admin_page.dart';
+import 'indiv_comp_particip/participant_list_admin_page.dart';
 import 'indiv_comp_task_page/review_page/indiv_comp_review_page.dart';
 import 'indiv_comp_task_page/indiv_comp_task_compl_req_widget.dart';
 import 'indiv_comp_task_widget.dart';

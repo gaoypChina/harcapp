@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/particip_widget.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_task_page/participant_list_page_templ.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_particip/participant_list_page_templ.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 
 class ParticipantListPage extends StatelessWidget{

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -97,8 +96,10 @@ class CompetitionsPageState extends State<CompetitionsPage>{
     }();
 
     networkListener = addConnectionListener((hasConnection) async{
-      setState(() => networkAvailable = hasConnection);
-      if(!hasConnection && mounted)
+      networkAvailable = hasConnection;
+      if(!mounted) return;
+      setState((){});
+      if(!hasConnection)
         showAppToast(context, text: 'Brak internetu');
     });
 
@@ -127,7 +128,7 @@ class CompetitionsPageState extends State<CompetitionsPage>{
           slivers.add(sliverAppBar());
 
           if(!networkAvailable)
-            widgets.add(IndivCompPrompt(
+            widgets.add(const IndivCompPrompt(
               child: IndivCompPreviewGrid(),
               text: 'Brak internetu',
               icon: MdiIcons.earthOff,
@@ -145,7 +146,7 @@ class CompetitionsPageState extends State<CompetitionsPage>{
                       child: Container(),
                     ),
                   ),
-                  IgnorePointer(child: IndivCompPrompt(
+                  const IgnorePointer(child: IndivCompPrompt(
                       child: IndivCompPreviewGrid(),
                       icon: MdiIcons.accountReactivateOutline,
                       text: 'Aktywuj konto, by współzawodniczyć'
@@ -268,7 +269,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
             List<Widget> widgets = [];
 
             if(IndivComp.all == null)
-              widgets.add(IndivCompPrompt(
+              widgets.add(const IndivCompPrompt(
                 child: IndivCompPreviewGrid(),
                 text: 'Coś poszło nie tak',
                 icon: MdiIcons.closeOutline,
@@ -323,7 +324,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
                 widgets.add(const SizedBox(height: Dimen.ICON_MARG));
               }
               if (IndivComp.all.isEmpty)
-                widgets.add(IndivCompPrompt(child: IndivCompPreviewGrid()));
+                widgets.add(const IndivCompPrompt(child: IndivCompPreviewGrid()));
               else
                 widgets.add(const SizedBox(height: Dimen.SIDE_MARG));
 

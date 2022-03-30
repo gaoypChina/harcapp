@@ -7,7 +7,7 @@ import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
-import 'package:harcapp/_new/cat_page_song_book/own_song_page/init_widget.dart';
+import 'package:harcapp/_new/cat_page_song_book/own_song_page/add_song_bottom_sheet.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_searcher.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';

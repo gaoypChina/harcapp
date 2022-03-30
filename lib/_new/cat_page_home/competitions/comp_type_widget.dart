@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
@@ -10,12 +9,10 @@ import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../_common_widgets/bottom_sheet.dart';
@@ -237,7 +234,7 @@ class _JoinButtonState extends State<_JoinButton>{
       title: 'Dołącz do istniejącego',
       colorStart: Colors.yellow[AppSettings.isDark?800:500],
       colorEnd: Colors.orange[AppSettings.isDark?900:500],
-      textColor: Colors.orange[AppSettings.isDark?300:700],
+      textColor: Colors.brown[AppSettings.isDark?300:700],
       description: 'Dołącz do współzawodnictwa utworzonego przez inną osobę.',
       onTap: null,
       bottom: Row(

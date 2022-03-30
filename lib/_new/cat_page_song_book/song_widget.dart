@@ -40,7 +40,7 @@ import 'bottom_sheet_words.dart';
 import 'common.dart';
 import 'common_youtube.dart';
 import 'copy_page.dart';
-import 'own_song_page/init_widget.dart';
+import 'own_song_page/add_song_bottom_sheet.dart';
 import 'own_song_page/own_song_page.dart';
 import 'song_management/song.dart';
 import 'tab_of_cont_page.dart';
