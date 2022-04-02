@@ -7,7 +7,6 @@ import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_progress_widget.dart';
-import 'package:harcapp/_new/details/part_settings.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
@@ -137,12 +136,7 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
           sliver: SliverList(
             delegate: SliverChildListDelegate([
 
-              GradientWidget(
-                colorStart: cardEnab_(context),
-                colorEnd: background_(context),
-                radius: AppCard.BIG_RADIUS,
-                child: _SprawnosciWidget()
-              ),
+              _SprawnosciWidget(),
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
@@ -616,7 +610,7 @@ class StopPrevItem extends StatelessWidget{
                 'Przeglądaj stopnie',
                 style: AppTextStyle(
                     fontWeight: weight.bold,
-                    color: hintEnab_(context),
+                    color: colors.end(AppSettings.isDark).withOpacity(.5),//hintEnab_(context),
                     fontSize: Dimen.TEXT_SIZE_APPBAR
                 ),
               ),

@@ -18,7 +18,7 @@ class ApiRegLog{
     InitSyncOperation syncOpt = await InitSyncAnalyser.analyse(
         context: context,
         email: email,
-        lastConfEmail: AccSecData.lastConfLoginEmail,
+        lastConfEmail: AccountData.lastConfLoginEmail,
         lastSyncTimeServer: lastSyncTime,
         lastSyncTimeLocal: SynchronizerEngine.lastSyncTimeLocal,
         log: true
@@ -29,33 +29,33 @@ class ApiRegLog{
     switch(syncOpt){
       case InitSyncOperation.noAction:
         logger.i('Login attempt with init sync result: noAction');
-        await AccSecData.saveLoginData(email, response);
+        await AccountData.saveLoginData(email, response);
         loggedIn = true;
         break;
       case InitSyncOperation.post:
         logger.i('Login attempt with init sync result: post');
-        await AccSecData.saveLoginData(email, response);
+        await AccountData.saveLoginData(email, response);
         loggedIn = true;
         await synchronizer.reloadSyncables();
         synchronizer.post();
         break;
       case InitSyncOperation.postReplace:
         logger.i('Login attempt with init sync result: postReplace');
-        await AccSecData.saveLoginData(email, response);
+        await AccountData.saveLoginData(email, response);
         loggedIn = true;
         await synchronizer.reloadSyncables();
         synchronizer.post(dumpReplaceExisting: true);
         break;
       case InitSyncOperation.get:
         logger.i('Login attempt with init sync result: get');
-        await AccSecData.saveLoginData(email, response);
+        await AccountData.saveLoginData(email, response);
         loggedIn = true;
         await synchronizer.reloadSyncables();
         synchronizer.get();
         break;
       case InitSyncOperation.getReplace:
         logger.i('Login attempt with init sync result: getReplace');
-        await AccSecData.saveLoginData(email, response);
+        await AccountData.saveLoginData(email, response);
         loggedIn = true;
         await synchronizer.reloadSyncables();
         await factoryResetLocal(context);
@@ -66,7 +66,7 @@ class ApiRegLog{
         break;
       case InitSyncOperation.error:
         logger.e('Login attempt with init sync result: error');
-        await AccSecData.saveLoginData(email, response);
+        await AccountData.saveLoginData(email, response);
         loggedIn = true;
         await synchronizer.reloadSyncables();
         synchronizer.post(dumpReplaceExisting: true);
@@ -140,7 +140,7 @@ class ApiRegLog{
   ) async => await API.sendRequest(
       withToken: false,
       sendRequest: (Dio dio) => dio.post(
-          API.SERVER_URL + 'api/user/authenticate_microsoft',
+          API.SERVER_URL + 'api/user/authenticateMicrosoft',
           data: FormData.fromMap({'azureToken': azureToken})
       ),
       onSuccess: (Response response) async {
@@ -180,9 +180,9 @@ class ApiRegLog{
       onSuccess: (response, key, jwt, name, sex, nick, lastSyncTime, emailConf) async {
 
         if(!emailConf) {
-          await AccSecData.writeJwt(jwt);
-          await AccSecData.writeName(name);
-          await AccSecData.writeEmail(email);
+          await AccountData.writeJwt(jwt);
+          await AccountData.writeName(name);
+          await AccountData.writeEmail(email);
           await onSuccess?.call(response, emailConf, true);
           return;
         }
@@ -218,7 +218,7 @@ class ApiRegLog{
     withToken: true,
     sendRequest: (Dio dio) async => await dio.get(API.SERVER_URL + 'api/user/logout'),
     onSuccess: (Response response) async => await onSuccess?.call(),
-    onUnauthorized: () async {
+    onForbidden: () async {
       await onSuccess?.call();
       return true;
     },
@@ -306,7 +306,7 @@ class ApiRegLog{
           String nick = response.data['nick'];
           Sex sex = boolToSex[response.data['sex']];
 
-          await AccSecData.saveLoginData(email, response);
+          await AccountData.saveLoginData(email, response);
 
           onSuccess?.call(
             response,
@@ -362,7 +362,7 @@ class ApiRegLog{
 
     return await API.sendRequest(
         sendRequest: (Dio dio) => dio.post(
-            API.SERVER_URL + 'api/user/register_microsoft',
+            API.SERVER_URL + 'api/user/registerMicrosoft',
             data: FormData.fromMap({
               REGISTER_MICROSOFT_REQ_AZURE_TOKEN: azureToken,
               REGISTER_MICROSOFT_REQ_SEX: sexToBool[sex],
@@ -378,7 +378,7 @@ class ApiRegLog{
           String nick = response.data['nick'];
           Sex sex = boolToSex[response.data['sex']];
 
-          await AccSecData.saveLoginData(email, response);
+          await AccountData.saveLoginData(email, response);
 
           onSuccess?.call(
             response,
@@ -409,7 +409,7 @@ class ApiRegLog{
           }),
         ),
         onSuccess: (Response response) async {
-          await AccSecData.saveLoginData(AccSecData.email, response);
+          await AccountData.saveLoginData(AccountData.email, response);
           await onSuccess?.call(response);
         },
         onError: (err) async => await onError?.call(err.response)
@@ -437,7 +437,7 @@ class ApiRegLog{
 
     return await API.sendRequest(
         sendRequest: (Dio dio) async => dio.post(
-          API.SERVER_URL + 'api/user/send_pass_reset_key',
+          API.SERVER_URL + 'api/user/sendPassResetKey',
           data: FormData.fromMap({
             SEND_PASS_RESET_KEY_EMAIL: email,
           }),
@@ -488,7 +488,7 @@ class ApiRegLog{
 
     return await API.sendRequest(
       sendRequest: (Dio dio) async => await dio.post(
-          API.SERVER_URL + 'api/user/reset_pass',
+          API.SERVER_URL + 'api/user/resetPass',
           data: FormData.fromMap({
             RESET_PASSWORD_REQ_EMAIL:email,
             RESET_PASSWORD_REQ_PASS_RESET_KEY:resetPassKey,
@@ -556,7 +556,7 @@ class ApiRegLog{
     return await API.sendRequest(
         withToken: true,
         sendRequest: (Dio dio) async => dio.post(
-            API.SERVER_URL + 'api/user/confirm_email',
+            API.SERVER_URL + 'api/user/confEmail',
             data: FormData.fromMap({CONF_EMAIL_CONF_KEY: confKey})
         ),
         onSuccess: (Response response) async {
@@ -580,7 +580,7 @@ class ApiRegLog{
       await API.sendRequest(
           withToken: true,
           //token: token,
-          sendRequest: (Dio dio) async => await dio.get(API.SERVER_URL + 'api/user/is_email_confirmed'),
+          sendRequest: (Dio dio) async => await dio.get(API.SERVER_URL + 'api/user/confEmail'),
           onSuccess: (Response response) async => await onSuccess?.call(confirmed: response.data),
           onError: (err) async => await onError?.call()
       );

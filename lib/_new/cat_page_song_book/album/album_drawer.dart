@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
-import 'package:harcapp/_new/providers.dart';
-import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_song_book/providers.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:harcapp_core/comm_widgets/app_button.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'album_page.dart';
 import 'album_widget_small.dart';
-import 'album_widget.dart';
 import 'new_album/new_album_button.dart';
 import 'new_album/new_album_page.dart';
 
@@ -82,9 +74,24 @@ class AlbumDrawerState extends State<AlbumDrawer>{
                           iconColor: Theme.of(context).drawerTheme.backgroundColor,
                           onTap: () {
                             prov.current = prov.all[index];
-                            onSelected.call(prov.all[index]);
+                            onSelected?.call(prov.all[index]);
                             Navigator.pop(context);
-                          }
+                          },
+                          onLongPress: prov.all[index].isOmega?null:() => pushPage(
+                              context,
+                              builder: (context) => NewAlbumPage(
+                                initAlbum: prov.all[index],
+                                onSaved: (album){
+
+                                  AlbumProvider prov = Provider.of<AlbumProvider>(context, listen: false);
+                                  if(prov.current.fileName == album.fileName)
+                                    prov.current = album;
+
+                                  Navigator.pop(context);
+                                  setState(() {});
+                                },
+                              )
+                          ),
                       ),
                       separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Dimen.ICON_MARG),
                       count: prov.all.length,

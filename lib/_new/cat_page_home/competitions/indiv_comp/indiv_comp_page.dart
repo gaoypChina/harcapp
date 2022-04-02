@@ -794,7 +794,15 @@ class CompletedTasksPreviewWidget extends StatelessWidget{
             children: [
 
               Icon(MdiIcons.cubeOff, color: textEnab_(context)),
-              TitleShortcutRowWidget(title: 'Nie zrealizował${AccSecData.sex==Sex.male?'eś':'aś'}\nżadnych zadań.'),
+              const SizedBox(height: Dimen.ICON_MARG),
+              Text(
+                'Nie zrealizował${AccountData.sex==Sex.male?'eś':'aś'}\nżadnych zadań',
+                textAlign: TextAlign.center,
+                style: AppTextStyle(
+                  fontSize: Dimen.TEXT_SIZE_BIG,
+                  fontWeight: weight.halfBold
+                ),
+              ),
             ],
           )
       );

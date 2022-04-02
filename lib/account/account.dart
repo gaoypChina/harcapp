@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 
+import '../_app_common/accounts/user_data.dart';
+
 //bool isLoggedIn = null; //true - logged in. false - not logged in. null - logging in;
 
-class AccSecData {
+class AccountData {
+
+  static String _lastConfLoginEmail;
 
   static String _key;
   static String _jwt;
@@ -18,57 +24,70 @@ class AccSecData {
   static String _nickEditable;
   static String _microsoftAcc;
   static String _regularAcc;
+  static List<UserDataNick> _shadowUsers;
+  static Map<String, UserDataNick> _shadowUserMap;
 
-  static String _lastConfLoginEmail;
 
-  static String _KEY_LAST_CONF_LOGIN_EMAIL = 'acc_last_conf_login_email';
+  static const String _keyLastConfLoginEmail = 'acc_last_conf_login_email';
 
-  static String _KEY_KEY = 'acc_key';
-  static String _KEY_JWT = 'acc_jwt';
-  static String _KEY_EMAIL = 'acc_email';
-  static String _KEY_EMAIL_CONF = 'acc_email_conf';
-  static String _KEY_NAME = 'acc_name';
-  static String _KEY_NICK = 'acc_nick';
-  static String _KEY_NICK_SEARCHABLE = 'acc_nick_searchable';
-  static String _KEY_SEX = 'acc_sex';
-  static String _KEY_NAME_EDITABLE = 'acc_name_editable';
-  static String _KEY_NICK_EDITABLE = 'acc_nick_editable';
-  static String _KEY_MICROSOFT_ACC = 'acc_microsoft_acc';
-  static String _KEY_REGULAR_ACC = 'acc_regular_acc';
+  static const String _keyKey = 'acc_key';
+  static const String _keyJwt = 'acc_jwt';
+  static const String _keyEmail = 'acc_email';
+  static const String _keyEmailConf = 'acc_email_conf';
+  static const String _keyName = 'acc_name';
+  static const String _keyNick = 'acc_nick';
+  static const String _keyNickSearchable = 'acc_nick_searchable';
+  static const String _keySex = 'acc_sex';
+  static const String _keyNameEditable = 'acc_name_editable';
+  static const String _keyNickEditable = 'acc_nick_editable';
+  static const String _keyMicrosoftAcc = 'acc_microsoft_acc';
+  static const String _keyRegularAcc = 'acc_regular_acc';
+  static const String _keyShadowUsers = 'acc_shadow_users';
 
   static bool get loggedIn => jwt != null;
 
   static Future<void> init() async {
     FlutterSecureStorage storage = const FlutterSecureStorage();
-    _key = await storage.read(key: _KEY_KEY);
-    _jwt = await storage.read(key: _KEY_JWT);
-    _email = await storage.read(key: _KEY_EMAIL);
-    _emailConf = await storage.read(key: _KEY_EMAIL_CONF);
-    _name = await storage.read(key: _KEY_NAME);
-    _nick = await storage.read(key: _KEY_NICK);
-    _nickSearchable = await storage.read(key: _KEY_NICK_SEARCHABLE);
-    _sex = strToSex[await storage.read(key: _KEY_SEX)];
-    _nameEditable = await storage.read(key: _KEY_NAME_EDITABLE);
-    _nickEditable = await storage.read(key: _KEY_NICK_EDITABLE);
-    _microsoftAcc = await storage.read(key: _KEY_MICROSOFT_ACC);
-    _regularAcc = await storage.read(key: _KEY_REGULAR_ACC);
+    _key = await storage.read(key: _keyKey);
+    _jwt = await storage.read(key: _keyJwt);
+    _email = await storage.read(key: _keyEmail);
+    _emailConf = await storage.read(key: _keyEmailConf);
+    _name = await storage.read(key: _keyName);
+    _nick = await storage.read(key: _keyNick);
+    _nickSearchable = await storage.read(key: _keyNickSearchable);
+    _sex = strToSex[await storage.read(key: _keySex)];
+    _nameEditable = await storage.read(key: _keyNameEditable);
+    _nickEditable = await storage.read(key: _keyNickEditable);
+    _microsoftAcc = await storage.read(key: _keyMicrosoftAcc);
+    _regularAcc = await storage.read(key: _keyRegularAcc);
+
+
+    String shadowUserData = await storage.read(key: _keyShadowUsers);
+    if(shadowUserData != null)
+      initShadowUsers(
+          (jsonDecode(shadowUserData) as List).cast<Map<String, dynamic>>()
+      );
   }
 
   static Future<void> saveLoginData(String email, Response response) async {
-    await AccSecData.writeKey(response.data['key']);
-    await AccSecData.writeJwt(response.data['jwt']);
-    await AccSecData.writeEmail(email);
-    await AccSecData.writeLastConfLoginEmail(email);
-    await AccSecData.writeEmailConf(response.data['email_confirmed']);
-    await AccSecData.writeName(response.data['name']);
-    await AccSecData.writeNick(response.data['nick']);
-    await AccSecData.writeNickSearchable(response.data['nick_searchable']);
-    await AccSecData.writeSex(boolToSex[response.data['sex']]);
+    await AccountData.writeKey(response.data['key']);
+    await AccountData.writeJwt(response.data['jwt']);
+    await AccountData.writeEmail(email);
+    await AccountData.writeLastConfLoginEmail(email);
+    await AccountData.writeEmailConf(response.data['email_confirmed']);
+    await AccountData.writeName(response.data['name']);
+    await AccountData.writeNick(response.data['nick']);
+    await AccountData.writeNickSearchable(response.data['nick_searchable']);
+    await AccountData.writeSex(boolToSex[response.data['sex']]);
 
-    await AccSecData.writeNameEditable(response.data['name_editable']);
-    await AccSecData.writeNickEditable(response.data['nick_editable']);
-    await AccSecData.writeMicrosoftAcc(response.data['microsoft_login']);
-    await AccSecData.writeRegularAcc(response.data['regular_login']);
+    await AccountData.writeNameEditable(response.data['name_editable']);
+    await AccountData.writeNickEditable(response.data['nick_editable']);
+    await AccountData.writeMicrosoftAcc(response.data['microsoft_login']);
+    await AccountData.writeRegularAcc(response.data['regular_login']);
+
+    initShadowUsers(
+        (response.data['shadow_users'] as List).cast<Map<String, dynamic>>()
+    );
 
   }
 
@@ -78,7 +97,7 @@ class AccSecData {
 
   static Future<void> removeKey() async {
     _key = null;
-    await const FlutterSecureStorage().delete(key: _KEY_KEY);
+    await const FlutterSecureStorage().delete(key: _keyKey);
   }
 
   static Future<void> writeKey(String value) async {
@@ -86,7 +105,7 @@ class AccSecData {
     if (value == null)
       return await removeKey();
     else
-      return await const FlutterSecureStorage().write(key: _KEY_KEY, value: value);
+      return await const FlutterSecureStorage().write(key: _keyKey, value: value);
   }
 
 
@@ -94,7 +113,7 @@ class AccSecData {
 
   static Future<void> removeJwt() async {
     _jwt = null;
-    await const FlutterSecureStorage().delete(key: _KEY_JWT);
+    await const FlutterSecureStorage().delete(key: _keyJwt);
   }
 
   static Future<void> writeJwt(String value) async {
@@ -102,7 +121,7 @@ class AccSecData {
     if (value == null)
       return await removeJwt();
     else
-      return await const FlutterSecureStorage().write(key: _KEY_JWT, value: value);
+      return await const FlutterSecureStorage().write(key: _keyJwt, value: value);
   }
 
 
@@ -110,7 +129,7 @@ class AccSecData {
 
   static Future<void> removeLastConfLoginEmail() async {
     _lastConfLoginEmail = null;
-    await const FlutterSecureStorage().delete(key: _KEY_LAST_CONF_LOGIN_EMAIL);
+    await const FlutterSecureStorage().delete(key: _keyLastConfLoginEmail);
   }
 
   static Future<void> writeLastConfLoginEmail(String value) async {
@@ -119,7 +138,7 @@ class AccSecData {
       return await removeLastConfLoginEmail();
     else
       return await const FlutterSecureStorage().write(
-          key: _KEY_LAST_CONF_LOGIN_EMAIL, value: value);
+          key: _keyLastConfLoginEmail, value: value);
   }
 
 
@@ -127,7 +146,7 @@ class AccSecData {
 
   static Future<void> removeEmail() async {
     _email = null;
-    await const FlutterSecureStorage().delete(key: _KEY_EMAIL);
+    await const FlutterSecureStorage().delete(key: _keyEmail);
   }
 
   static Future<void> writeEmail(String value) async {
@@ -135,7 +154,7 @@ class AccSecData {
     if (value == null)
       return await removeEmail();
     else
-      return await const FlutterSecureStorage().write(key: _KEY_EMAIL, value: value);
+      return await const FlutterSecureStorage().write(key: _keyEmail, value: value);
   }
 
 
@@ -143,7 +162,7 @@ class AccSecData {
 
   static Future<void> removeEmailConf() async {
     _emailConf = null;
-    await const FlutterSecureStorage().delete(key: _KEY_EMAIL_CONF);
+    await const FlutterSecureStorage().delete(key: _keyEmailConf);
   }
 
   static Future<void> writeEmailConf(bool value) async {
@@ -151,7 +170,7 @@ class AccSecData {
     if (value == null)
       return await removeEmailConf();
     else
-      return await const FlutterSecureStorage().write(key: _KEY_EMAIL_CONF, value: value?'true':'false');
+      return await const FlutterSecureStorage().write(key: _keyEmailConf, value: value?'true':'false');
   }
 
 
@@ -159,7 +178,7 @@ class AccSecData {
 
   static Future<void> removeName() async {
     _name = null;
-    await const FlutterSecureStorage().delete(key: _KEY_NAME);
+    await const FlutterSecureStorage().delete(key: _keyName);
   }
 
   static Future<void> writeName(String value) async {
@@ -167,7 +186,7 @@ class AccSecData {
     if (value == null)
       return await removeName();
     else
-      return await const FlutterSecureStorage().write(key: _KEY_NAME, value: value);
+      return await const FlutterSecureStorage().write(key: _keyName, value: value);
   }
 
 
@@ -175,7 +194,7 @@ class AccSecData {
 
   static Future<void> removeNick() async {
     _nick = null;
-    await const FlutterSecureStorage().delete(key: _KEY_NICK);
+    await const FlutterSecureStorage().delete(key: _keyNick);
   }
 
   static Future<void> writeNick(String value) async {
@@ -183,7 +202,7 @@ class AccSecData {
     if (value == null)
       return await removeNick();
     else
-      return await const FlutterSecureStorage().write(key: _KEY_NICK, value: value);
+      return await const FlutterSecureStorage().write(key: _keyNick, value: value);
   }
 
 
@@ -191,7 +210,7 @@ class AccSecData {
 
   static Future<void> removeNickSearchable() async {
     _nickSearchable = null;
-    await const FlutterSecureStorage().delete(key: _KEY_NICK_SEARCHABLE);
+    await const FlutterSecureStorage().delete(key: _keyNickSearchable);
   }
 
   static Future<void> writeNickSearchable(bool value) async {
@@ -199,7 +218,7 @@ class AccSecData {
     if (value == null)
       return await removeNickSearchable();
     else
-      return await const FlutterSecureStorage().write(key: _KEY_NICK_SEARCHABLE, value: value?'true':'false');
+      return await const FlutterSecureStorage().write(key: _keyNickSearchable, value: value?'true':'false');
   }
 
 
@@ -207,7 +226,7 @@ class AccSecData {
 
   static Future<void> removeSex() async {
     _sex = null;
-    await const FlutterSecureStorage().delete(key: _KEY_SEX);
+    await const FlutterSecureStorage().delete(key: _keySex);
   }
 
   static Future<void> writeSex(Sex value) async {
@@ -215,7 +234,7 @@ class AccSecData {
     if (value == null)
       return await removeSex();
     else
-      return await const FlutterSecureStorage().write(key: _KEY_SEX, value: sexToString[value]);
+      return await const FlutterSecureStorage().write(key: _keySex, value: sexToString[value]);
   }
 
 
@@ -223,7 +242,7 @@ class AccSecData {
 
   static Future<void> removeNameEditable() async {
     _nameEditable = null;
-    await const FlutterSecureStorage().delete(key: _KEY_NAME_EDITABLE);
+    await const FlutterSecureStorage().delete(key: _keyNameEditable);
   }
 
   static Future<void> writeNameEditable(bool value) async {
@@ -231,7 +250,7 @@ class AccSecData {
     if (value == null)
       return await removeNameEditable();
     else
-      return await const FlutterSecureStorage().write(key: _KEY_NAME_EDITABLE, value: value?'true':'false');
+      return await const FlutterSecureStorage().write(key: _keyNameEditable, value: value?'true':'false');
   }
 
 
@@ -239,7 +258,7 @@ class AccSecData {
 
   static Future<void> removeNickEditable() async {
     _nickEditable = null;
-    await const FlutterSecureStorage().delete(key: _KEY_NICK_EDITABLE);
+    await const FlutterSecureStorage().delete(key: _keyNickEditable);
   }
 
   static Future<void> writeNickEditable(bool value) async {
@@ -247,7 +266,7 @@ class AccSecData {
     if (value == null)
       return await removeNickEditable();
     else
-      return await const FlutterSecureStorage().write(key: _KEY_NICK_EDITABLE, value: value?'true':'false');
+      return await const FlutterSecureStorage().write(key: _keyNickEditable, value: value?'true':'false');
   }
 
 
@@ -255,7 +274,7 @@ class AccSecData {
 
   static Future<void> removeMicrosoftAcc() async {
     _microsoftAcc = null;
-    await const FlutterSecureStorage().delete(key: _KEY_MICROSOFT_ACC);
+    await const FlutterSecureStorage().delete(key: _keyMicrosoftAcc);
   }
 
   static Future<void> writeMicrosoftAcc(bool value) async {
@@ -263,7 +282,7 @@ class AccSecData {
     if (value == null)
       return await removeMicrosoftAcc();
     else
-      return await const FlutterSecureStorage().write(key: _KEY_MICROSOFT_ACC, value: value?'true':'false');
+      return await const FlutterSecureStorage().write(key: _keyMicrosoftAcc, value: value?'true':'false');
   }
 
 
@@ -271,7 +290,7 @@ class AccSecData {
 
   static Future<void> removeRegularAcc() async {
     _regularAcc = null;
-    await const FlutterSecureStorage().delete(key: _KEY_MICROSOFT_ACC);
+    await const FlutterSecureStorage().delete(key: _keyMicrosoftAcc);
   }
 
   static Future<void> writeRegularAcc(bool value) async {
@@ -279,22 +298,82 @@ class AccSecData {
     if (value == null)
       return await removeRegularAcc();
     else
-      return await const FlutterSecureStorage().write(key: _KEY_REGULAR_ACC, value: value?'true':'false');
+      return await const FlutterSecureStorage().write(key: _keyRegularAcc, value: value?'true':'false');
   }
 
 
-  static Future<void> forgetAccount() async {
-    await AccSecData.removeKey();
-    await AccSecData.removeEmail();
-    await AccSecData.removeName();
-    await AccSecData.removeNick();
-    await AccSecData.removeJwt();
-    await AccSecData.removeSex();
-    await AccSecData.removeNameEditable();
-    await AccSecData.removeNickEditable();
-    await AccSecData.removeMicrosoftAcc();
-    await AccSecData.removeRegularAcc();
+  static List<UserDataNick> get shadowUsers => _shadowUsers;
+  static set shadowUsers(List<UserDataNick> value){
+    value.sort((user1, user2) => user1.name.toLowerCase().compareTo(user2.name.toLowerCase()));
+    _shadowUsers = value;
+    _shadowUserMap = {for(UserDataNick user in value) user.key: user};
+    writeShadowUsers(value);
+  }
 
+  static Map<String, UserDataNick> get shadowUserMap => _shadowUserMap;
+
+  static Future<void> removeShadowUsers() async {
+    _shadowUsers = null;
+    _shadowUserMap = null;
+    await const FlutterSecureStorage().delete(key: _keyShadowUsers);
+  }
+
+  static Future<void> writeShadowUsers(List<UserDataNick> value) async {
+
+    List<Map<String, dynamic>> shadowUser = [];
+    for(UserDataNick user in value)
+      shadowUser.add(user.toJsonMap());
+
+    if (value == null)
+      return await removeRegularAcc();
+    else
+      return await const FlutterSecureStorage().write(key: _keyShadowUsers, value: jsonEncode(shadowUser));
+  }
+
+  static Future<void> addShadowUser(UserDataNick value) async {
+    List<UserDataNick> shadowUsers = _shadowUsers;
+    shadowUsers.add(value);
+    _shadowUsers = shadowUsers;
+  }
+
+  static Future<void> updateShadowUser(UserDataNick value) async {
+    List<UserDataNick> shadowUsers = _shadowUsers;
+    UserDataNick oldUser = _shadowUserMap[value.key];
+    _shadowUserMap[value.key] = value;
+    shadowUsers.remove(oldUser);
+    shadowUsers.add(value);
+    _shadowUsers = shadowUsers;
+  }
+
+  static Future<void> removeShadowUser(UserDataNick value) async {
+    List<UserDataNick> shadowUsers = _shadowUsers;
+    shadowUsers.remove(value);
+    _shadowUsers = shadowUsers;
+  }
+
+  static void initShadowUsers(List<Map<String, dynamic>> shadowUserData){
+
+    List<UserDataNick> shadowUsers = [];
+
+    for(Map map in shadowUserData)
+      shadowUsers.add(UserDataNick.fromMap(map, map['nick']));
+
+    AccountData.shadowUsers = shadowUsers;
+    
+  }
+  
+  static Future<void> forgetAccount() async {
+    await AccountData.removeKey();
+    await AccountData.removeEmail();
+    await AccountData.removeName();
+    await AccountData.removeNick();
+    await AccountData.removeJwt();
+    await AccountData.removeSex();
+    await AccountData.removeNameEditable();
+    await AccountData.removeNickEditable();
+    await AccountData.removeMicrosoftAcc();
+    await AccountData.removeRegularAcc();
+    await AccountData.removeShadowUsers();
   }
 }
 

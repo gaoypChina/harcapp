@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/api/_api.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:tuple/tuple.dart';
 
@@ -29,7 +28,7 @@ class IndivCompProfile{
 
   void addCompletedTask(IndivCompTaskCompl taskCompl){
     // Tu kiedyś dodać opcję, by admini i moderatorzy mogli sobie podejrzeć jakie zadania i kiedy zrealizował kto.
-    if(taskCompl.participKey == AccSecData.key) completedTasks.add(taskCompl);
+    if(taskCompl.participKey == AccountData.key) completedTasks.add(taskCompl);
   }
 
   void removeCompletedTaskByKey(String taskComplKey){

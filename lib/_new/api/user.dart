@@ -17,9 +17,85 @@ class ApiUser{
   static const int PASS_MAX_LENGTH = 32;
   static const int NAME_MAX_LENGTH = 54;
 
+  static Future<Response> getAllShadows({
+    void Function(List<UserDataNick> users) onSuccess,
+    void Function() onError,
+  }) async => await API.sendRequest(
+      withToken: true,
+      sendRequest: (Dio dio) => dio.get(
+        API.SERVER_URL + 'api/user/shadow',
+      ),
+      onSuccess: (Response response) async {
+        List<UserDataNick> users = [];
+        for(Map data in response.data)
+          users.add(UserDataNick.fromMap(data, data['nick']));
+
+        await onSuccess?.call(users);
+      },
+      onError: (DioError error) async => await onError?.call()
+  );
+
+  static String CREATE_SHADOW_REQ_NAME = 'name';
+  static String CREATE_SHADOW_REQ_SEX = 'sex';
+  static Future<Response> createShadow(
+      String name,
+      Sex sex,
+      { void Function(UserDataNick user) onSuccess,
+        void Function() onError,
+      }) async => await API.sendRequest(
+      withToken: true,
+      sendRequest: (Dio dio) => dio.post(
+        API.SERVER_URL + 'api/user/shadow',
+        data: FormData.fromMap({
+          CREATE_SHADOW_REQ_NAME: name,
+          CREATE_SHADOW_REQ_SEX: sexToBool[sex]
+        })
+      ),
+      onSuccess: (Response response) async => await onSuccess?.call(UserDataNick.fromMap(response.data, response.data['nick'])),
+      onError: (DioError error) async => await onError?.call()
+  );
+
+  static String UPDATE_SHADOW_REQ_NAME = 'name';
+  static String UPDATE_SHADOW_REQ_SEX = 'sex';
+  static Future<Response> updateShadow(
+      UserDataNick user,
+      String name,
+      Sex sex,
+      { void Function(UserDataNick user) onSuccess,
+        void Function() onError,
+      }) async => await API.sendRequest(
+      withToken: true,
+      sendRequest: (Dio dio) => dio.put(
+          API.SERVER_URL + 'api/user/shadow/${user.key}',
+          data: FormData.fromMap({
+            UPDATE_SHADOW_REQ_NAME: name,
+            UPDATE_SHADOW_REQ_SEX: sexToBool[sex]
+          })
+      ),
+      onSuccess: (Response response) async => await onSuccess?.call(UserDataNick.fromMap(response.data, response.data['nick'])),
+      onError: (DioError error) async => await onError?.call()
+  );
+
+  static String DELETE_SHADOW_REQ_KEY = 'key';
+  static Future<Response> deleteShadow(
+      String key,
+      { void Function(bool deleted) onSuccess,
+        void Function() onError,
+      }) async => await API.sendRequest(
+      withToken: true,
+      sendRequest: (Dio dio) => dio.delete(
+          API.SERVER_URL + 'api/user/shadow',
+          data: FormData.fromMap({
+            DELETE_SHADOW_REQ_KEY: key,
+          })
+      ),
+      onSuccess: (Response response) async => await onSuccess?.call(response.data),
+      onError: (DioError error) async => await onError?.call()
+  );
+
   static Future<Response> searchByNick(
       String nick, 
-      {void Function({bool noSuchUser}) onError,
+      { void Function({bool noSuchUser}) onError,
         void Function(UserDataNick user) onSuccess,
       }) async => await API.sendRequest(
     withToken: true,
@@ -29,7 +105,7 @@ class ApiUser{
     onSuccess: (Response response) async => await onSuccess?.call(UserDataNick.fromMap(response.data, nick)),
     onError: (DioError error) async {
       bool noSuchUserStatus = error.response?.statusCode == HttpStatus.notFound;
-      bool noSuchUserBody =  DeepCollectionEquality().equals(error.response?.data, {'error': 'User not found'});
+      bool noSuchUserBody = const DeepCollectionEquality().equals(error.response?.data, {'error': 'User not found'});
 
       await onError?.call(noSuchUser: noSuchUserStatus && noSuchUserBody);
     }
@@ -106,11 +182,11 @@ class ApiUser{
     return await API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) async {
-        Map<String, dynamic> map = Map();
-        if(email != null && email.isNotEmpty && AccSecData.email != email) map[UPDATE_REQ_EMAIL] = email;
+        Map<String, dynamic> map = {};
+        if(email != null && email.isNotEmpty && AccountData.email != email) map[UPDATE_REQ_EMAIL] = email;
         if(password != null && password.isNotEmpty) map[UPDATE_REQ_PASSWORD] = password;
-        if(sex != null && AccSecData.sex != sex) map[UPDATE_REQ_SEX] = sex == Sex.male;
-        if(name != null && name.isNotEmpty && AccSecData.name != name) map[UPDATE_REQ_NAME] = name;
+        if(sex != null && AccountData.sex != sex) map[UPDATE_REQ_SEX] = sex == Sex.male;
+        if(name != null && name.isNotEmpty && AccountData.name != name) map[UPDATE_REQ_NAME] = name;
 
         if(validPass!=null) map[UPDATE_REQ_VALID_PASS] = validPass;
 

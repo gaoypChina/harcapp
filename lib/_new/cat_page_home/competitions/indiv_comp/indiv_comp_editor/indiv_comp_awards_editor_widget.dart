@@ -16,7 +16,7 @@ class IndivCompAwardsEditorWidget extends StatefulWidget{
 
   final IndivCompDetails initComp;
 
-  const IndivCompAwardsEditorWidget({this.initComp});
+  const IndivCompAwardsEditorWidget({this.initComp, Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => _IndivCompAwardsEditorWidgetState();
@@ -33,7 +33,7 @@ class _IndivCompAwardsEditorWidgetState extends State<IndivCompAwardsEditorWidge
     children: [
 
       CustomScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           slivers: [
 
             SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
@@ -46,7 +46,8 @@ class _IndivCompAwardsEditorWidgetState extends State<IndivCompAwardsEditorWidge
               builder: (context, prov, child){
 
                 if(prov.awards.isEmpty)
-                  return SliverFillRemaining(
+                  return const SliverFillRemaining(
+                    hasScrollBody: false,
                     child: Center(
                       child: EmptyMessageWidget(
                         icon: MdiIcons.trophyOutline,
@@ -56,7 +57,7 @@ class _IndivCompAwardsEditorWidgetState extends State<IndivCompAwardsEditorWidge
                   );
                 else
                   return SliverPadding(
-                    padding: EdgeInsets.only(top: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+                    padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
                     sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
                             (context, index) => AwardTileEditWidget(
                                 index+1,
@@ -65,7 +66,7 @@ class _IndivCompAwardsEditorWidgetState extends State<IndivCompAwardsEditorWidge
                                 onDuplicate: () => prov.insertAfter(index, null),
                                 onRemove: () => prov.removeAt(index),
                             ),
-                        separatorBuilder: (context, index) => SizedBox(height: Dimen.SIDE_MARG),
+                        separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
                         count: Provider.of<AwardsProvider>(context, listen: false).data.length
                     )),
                   );
@@ -74,7 +75,7 @@ class _IndivCompAwardsEditorWidgetState extends State<IndivCompAwardsEditorWidge
             ),
 
             SliverList(delegate: SliverChildListDelegate([
-              SizedBox(height: Dimen.ICON_FOOTPRINT + 3*Dimen.SIDE_MARG)
+              const SizedBox(height: Dimen.ICON_FOOTPRINT + 3*Dimen.SIDE_MARG)
             ]))
 
           ]

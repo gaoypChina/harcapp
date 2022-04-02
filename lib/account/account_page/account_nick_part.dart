@@ -6,10 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
-import 'package:harcapp/_new/api/login_register.dart';
 import 'package:harcapp/_new/api/user.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
-import 'package:harcapp/_new/cat_page_song_book/song_widget_parts/qr_widget.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_start/input_field_controller.dart';
 import 'package:harcapp/account/account_start/part_template.dart';
@@ -57,7 +54,7 @@ class AccountNickPartState extends State<AccountNickPart>{
 
     await ApiUser.resetNick(
         onSuccess: (String nick) async {
-          await AccSecData.writeNick(nick);
+          await AccountData.writeNick(nick);
           nickController.text = nick;
         },
         onError: (Response response){
@@ -88,9 +85,9 @@ class AccountNickPartState extends State<AccountNickPart>{
     setState(() => nickSearchableProcessing = true);
 
     await ApiUser.nickSearchable(
-        searchable: !AccSecData.nickSearchable,
+        searchable: !AccountData.nickSearchable,
         onSuccess: (bool nickSearchable) async {
-            await AccSecData.writeNickSearchable(nickSearchable);
+            await AccountData.writeNickSearchable(nickSearchable);
             setState((){});
         },
         onError: (Response response){
@@ -114,7 +111,7 @@ class AccountNickPartState extends State<AccountNickPart>{
 
   @override
   void initState() {
-    nickController = InputFieldController(text: AccSecData.nick);
+    nickController = InputFieldController(text: AccountData.nick);
     nickSearchableController = InputFieldController();
 
     nickProcessing = false;
@@ -158,7 +155,7 @@ class AccountNickPartState extends State<AccountNickPart>{
                 hintTextColor: textEnab_(context),
                 enabled: false,
                 leading: Icon(
-                    AccSecData.nickSearchable?
+                    AccountData.nickSearchable?
                     MdiIcons.broadcast:
                     MdiIcons.broadcastOff,
                     color: iconDisab_(context)
@@ -168,7 +165,7 @@ class AccountNickPartState extends State<AccountNickPart>{
                   opacity: nickSearchableProcessing?0.5:1.0,
                   child: Consumer<ConnectivityProvider>(
                     builder: (context, prov, child) => Switch(
-                      value: nickSearchableProcessing?!AccSecData.nickSearchable:AccSecData.nickSearchable,
+                      value: nickSearchableProcessing?!AccountData.nickSearchable:AccountData.nickSearchable,
                       onChanged: !prov.connected || nickSearchableProcessing?null:(value) => onNickSearchableChanged(),
                     ),
                   ),
@@ -180,7 +177,7 @@ class AccountNickPartState extends State<AccountNickPart>{
             InputField(
               hint: 'Kod publiczny:',
               controller: nickController,
-              textColor: nickProcessing || !AccSecData.nickSearchable?textDisab_(context):textEnab_(context),
+              textColor: nickProcessing || !AccountData.nickSearchable?textDisab_(context):textEnab_(context),
               enabled: false,
               leading: Icon(MdiIcons.podcast, color: iconDisab_(context)),
             ),
@@ -192,9 +189,9 @@ class AccountNickPartState extends State<AccountNickPart>{
                   child: SimpleButton.from(
                       context: context,
                       icon: MdiIcons.qrcode,
-                      textColor: nickProcessing || !AccSecData.nickSearchable?iconDisab_(context):iconEnab_(context),
+                      textColor: nickProcessing || !AccountData.nickSearchable?iconDisab_(context):iconEnab_(context),
                       text: 'Udostępnij',
-                      onTap: nickProcessing || !AccSecData.nickSearchable?null:() => openDialog(
+                      onTap: nickProcessing || !AccountData.nickSearchable?null:() => openDialog(
                           context: context,
                           builder: (context) => Center(
                             child: Padding(
@@ -212,7 +209,7 @@ class AccountNickPartState extends State<AccountNickPart>{
                                         elevation: 0,
                                       ),
                                       QrImage(
-                                        data: AccSecData.nick,
+                                        data: AccountData.nick,
                                         version: QrVersions.auto,
                                         foregroundColor: ColorPack.DEF_ICON_ENAB,
                                       ),
@@ -231,9 +228,9 @@ class AccountNickPartState extends State<AccountNickPart>{
                           context: context,
                           icon: nickProcessing?null:MdiIcons.refresh,
                           iconLeading: false,
-                          textColor: !prov.connected || nickProcessing || !AccSecData.nickSearchable?iconDisab_(context):iconEnab_(context),
+                          textColor: !prov.connected || nickProcessing || !AccountData.nickSearchable?iconDisab_(context):iconEnab_(context),
                           text: nickProcessing?'Generowanie...':'Nowy kod',
-                          onTap: !prov.connected || nickProcessing || !AccSecData.nickSearchable?null:() => onNickChanged()
+                          onTap: !prov.connected || nickProcessing || !AccountData.nickSearchable?null:() => onNickChanged()
                       )
                   ),
                 )

@@ -275,6 +275,7 @@ class GamePytakiPageState extends State<GamePytakiPage> with ModuleStatsMixin{
               ),
 
               SliverFillRemaining(
+                hasScrollBody: false,
                 child: Stack(
                   children: <Widget>[
 

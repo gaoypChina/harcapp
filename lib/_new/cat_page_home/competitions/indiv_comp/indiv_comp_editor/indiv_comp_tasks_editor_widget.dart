@@ -34,7 +34,7 @@ class _IndivCompTasksEditorWidgetState extends State<IndivCompTasksEditorWidget>
     children: [
 
       CustomScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           slivers: [
 
             SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
@@ -47,7 +47,8 @@ class _IndivCompTasksEditorWidgetState extends State<IndivCompTasksEditorWidget>
               builder: (context, prov, child){
 
                 if(prov.taskEditables.isEmpty)
-                  return SliverFillRemaining(
+                  return const SliverFillRemaining(
+                    hasScrollBody: false,
                     child: Center(
                       child: EmptyMessageWidget(
                         icon: MdiIcons.cubeOutline,
@@ -57,7 +58,7 @@ class _IndivCompTasksEditorWidgetState extends State<IndivCompTasksEditorWidget>
                   );
                 else
                   return SliverPadding(
-                    padding: EdgeInsets.only(top: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+                    padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
                     sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
                         (context, index) => IndivCompTaskEditWidget(
                           initTitle: prov.taskEditables[index].editedTitle,
@@ -90,7 +91,7 @@ class _IndivCompTasksEditorWidgetState extends State<IndivCompTasksEditorWidget>
                           },
 
                         ),
-                        separatorBuilder: (context, index) => SizedBox(height: Dimen.SIDE_MARG),
+                        separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
                         count: Provider.of<TaskBodiesProvider>(context, listen: false).taskEditables.length
                     )),
                   );
@@ -99,7 +100,7 @@ class _IndivCompTasksEditorWidgetState extends State<IndivCompTasksEditorWidget>
             ),
 
             SliverList(delegate: SliverChildListDelegate([
-              SizedBox(height: Dimen.ICON_FOOTPRINT + 3*Dimen.SIDE_MARG)
+              const SizedBox(height: Dimen.ICON_FOOTPRINT + 3*Dimen.SIDE_MARG)
             ]))
 
           ]

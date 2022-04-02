@@ -21,7 +21,7 @@ class LoginProvider extends ChangeNotifier{
     _listeners = [];
   }
 
-  bool get loggedIn => AccSecData.jwt!=null;
+  bool get loggedIn => AccountData.jwt!=null;
 
   void notify() => notifyListeners();
 

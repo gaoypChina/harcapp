@@ -75,12 +75,12 @@ class Statistics{
   }
 
   static Future<void> commit() async {
-    if(!AccSecData.loggedIn) {
+    if(!AccountData.loggedIn) {
       logger.i('Statistics post aborted - not logged in.');
       return;
     }
 
-    if(!AccSecData.emailConf) {
+    if(!AccountData.emailConf) {
       logger.i('Statistics post aborted - email not confirmed.');
       return;
     }

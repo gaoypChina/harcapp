@@ -103,7 +103,7 @@ class CompetitionsPageState extends State<CompetitionsPage>{
         showAppToast(context, text: 'Brak internetu');
     });
 
-    if(IndivComp.all == null && AccSecData.loggedIn)
+    if(IndivComp.all == null && AccountData.loggedIn)
       indivCompLoader.run();
 
     super.initState();
@@ -135,7 +135,7 @@ class CompetitionsPageState extends State<CompetitionsPage>{
             ));
           else if(loginProvider.loggedIn){
 
-            if(!AccSecData.emailConf)
+            if(!AccountData.emailConf)
               widgets.add(Stack(
                 children: [
                   Positioned.fill(

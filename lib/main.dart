@@ -63,6 +63,8 @@ void main() async {
         'app_version: ${(await PackageInfo.fromPlatform()).version}\n\n'
         '${details.stack.toString()}',
         fileName: DateTime.now().toIso8601String());
+
+    throw details.stack;
   };
 
   var delegate = await LocalizationDelegate.create(
@@ -271,7 +273,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
       });
     });
-    AccSecData.init();
+    AccountData.init();
 
     super.initState();
   }

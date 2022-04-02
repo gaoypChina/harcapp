@@ -6,6 +6,7 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank.dar
 import 'package:harcapp/_new/cat_page_other/strefa_ducha/source.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../_new/cat_page_song_book/song_management/album.dart';
 import '../logger.dart';
 
 ShaPref shaPref;
@@ -40,7 +41,9 @@ class ShaPref{
 
   static const String SHA_PREF_SETTINGS_BLACK_THEME = 'SHA_PREF_SETTINGS_BLACK_THEME';
 
-  static const String SHA_PREF_SPIEWNIK_LAST_OPEN_SONG = 'SHA_PREF_SPIEWNIK_LAST_OPEN_SONG';
+  static const String _SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_ = 'SHA_PREF_SPIEWNIK_LAST_OPEN_SONG';
+  static String SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(Album album) =>
+      _SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_ + album.fileName;
 
   static const String SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_H = 'SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_H';
   static const String SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_M = 'SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_M';

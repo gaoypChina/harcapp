@@ -251,6 +251,7 @@ class SlowoKluczMainGamePageState extends State<SlowoKluczMainGamePage>{
                   ),
 
                   SliverFillRemaining(
+                    hasScrollBody: false,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -297,6 +298,7 @@ class SlowoKluczMainGamePageState extends State<SlowoKluczMainGamePage>{
               ),
 
               SliverFillRemaining(
+                hasScrollBody: false,
                 child: Column(
                   children: [
                     Expanded(child: Row(

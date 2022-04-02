@@ -11,7 +11,6 @@ import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:tuple/tuple.dart';
 
@@ -56,11 +55,12 @@ class IndivTaskComplReqWidgetState extends State<IndivTaskComplReqWidget>{
   @override
   Widget build(BuildContext context) {
 
-    return KeyboardAvoider(
+    return Padding(
+      padding: MediaQuery.of(context).viewInsets,
       child: AppCard(
           color: background_(context),
           radius: AppCard.BIG_RADIUS,
-          margin: EdgeInsets.all(Dimen.SIDE_MARG),
+          margin: const EdgeInsets.all(Dimen.SIDE_MARG),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
@@ -68,19 +68,19 @@ class IndivTaskComplReqWidgetState extends State<IndivTaskComplReqWidget>{
 
               TitleShortcutRowWidget(
                 leading: IconButton(
-                  icon: Icon(MdiIcons.arrowLeft),
+                  icon: const Icon(MdiIcons.arrowLeft),
                   onPressed: () => Navigator.pop(context),
                 ),
-                trailing: SizedBox(width: Dimen.ICON_FOOTPRINT),
-                title: adminOrMod?'Zalicz sobie zadanie':'Prześlij prośbę o zaliczenie',
+                trailing: const SizedBox(width: Dimen.ICON_FOOTPRINT),
+                title: adminOrMod?'Zalicz zadanie':'Wniosek o zaliczenie',
               ),
 
-              SizedBox(height: Dimen.DEF_MARG),
+              const SizedBox(height: Dimen.DEF_MARG),
 
               IndivCompTaskWidget(task),
 
               Padding(
-                padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                 child: AppTextFieldHint(
                   hint: 'Wiadomość do admina',
                   hintStyle: AppTextStyle(color: hintEnab_(context)),

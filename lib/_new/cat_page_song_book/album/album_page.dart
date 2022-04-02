@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp/_new/cat_page_song_book/_main.dart';
 import 'package:harcapp/_new/providers.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_song_book/providers.dart';
@@ -139,22 +141,20 @@ class _AlbumItemState extends State<_AlbumItem>{
 
           IconButton(
             icon: Icon(MdiIcons.pencilOutline, color: iconEnab_(context)),
-            onPressed: () => Navigator.push(
+            onPressed: () => pushPage(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => NewAlbumPage(
-                      initAlbum: album,
-                      onSaved: (album){
+                builder: (context) => NewAlbumPage(
+                  initAlbum: album,
+                  onSaved: (album){
 
-                        AlbumProvider prov = Provider.of<AlbumProvider>(context, listen: false);
-                        if(prov.current.fileName == album.fileName)
-                          prov.current = album;
+                    AlbumProvider prov = Provider.of<AlbumProvider>(context, listen: false);
+                    if(prov.current.fileName == album.fileName)
+                      prov.current = album;
 
-                        setState(() {});
-                      },
-                    )
+                    setState(() {});
+                  },
                 )
-            ),
+            )
           ),
 
           AppButton(
@@ -162,6 +162,9 @@ class _AlbumItemState extends State<_AlbumItem>{
             onTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć $album_.'),
             onLongPress: (){
               AlbumProvider prov = Provider.of<AlbumProvider>(context, listen: false);
+
+              int lastPage = CatPageSongBookState.getLastPageForAlbum(album);
+              CatPageSongBookState.delLastPageForAlbum(album);
 
               album.delete();
               int index = prov.allOwn.indexOf(album);
@@ -179,6 +182,7 @@ class _AlbumItemState extends State<_AlbumItem>{
                   onButtonPressed: (context){
                     album.save();
                     prov.insertToAll(index, album);
+                    CatPageSongBookState.setLastPageForAlbum(album, lastPage);
                   }
               );
             },

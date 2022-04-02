@@ -5,8 +5,9 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import 'package:harcapp/account/account_thumbnail_widget.dart';
+import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
+import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:provider/provider.dart';
 
@@ -64,45 +65,63 @@ class ParticipantListPageTempl extends StatelessWidget{
             }
 
             return CustomScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               slivers: [
 
-                customAppBar??
-                    SliverAppBar(
-                      title: Text('Lista uczestników'),
-                      centerTitle: true,
-                      floating: true,
-                    ),
-
-                getHeaderSliverList(
-                  'Administratorzy',
-                  participAdmins,
-                  leading: adminsListHeaderTrailing?.call(participAdmins),
+                customAppBar?? const SliverAppBar(
+                  title: Text('Lista uczestników'),
+                  centerTitle: true,
+                  floating: true,
                 ),
-
-                getParticipSliverList(participAdmins),
-
-                getHeaderSliverList(
-                  'Moderatorzy',
-                  participMods,
-                  leading: modsListHeaderTrailing?.call(participMods),
-                ),
-
-                getParticipSliverList(participMods),
-
-                getHeaderSliverList(
-                  'Pozostali',
-                  participObs,
-                  leading: obsListHeaderTrailing?.call(participObs),
-                ),
-
-                getParticipSliverList(participObs),
 
                 SliverList(delegate: SliverChildListDelegate([
+
+                  // ADMINS
+                  if(participAdmins.isNotEmpty)
+                    _Border(
+                      header: _ParticipListHeader(
+                        compRole: CompRole.ADMIN,
+                        title: 'Administratorzy',
+                        trailing: adminsListHeaderTrailing?.call(participAdmins),
+                      ),
+                      body: _ParticipColumnWidget(
+                          particips: participAdmins,
+                          itemBuilder: itemBuilder
+                      ),
+                    ),
+
+                  // MODERATORS
+                  if(participMods.isNotEmpty)
+                    _Border(
+                      header: _ParticipListHeader(
+                        compRole: CompRole.MODERATOR,
+                        title: 'Moderatorzy',
+                        trailing: adminsListHeaderTrailing?.call(participMods),
+                      ),
+                      body: _ParticipColumnWidget(
+                          particips: participMods,
+                          itemBuilder: itemBuilder
+                      ),
+                    ),
+
+                  // OBSERVATORS
+                  if(participObs.isNotEmpty)
+
+                    _Border(
+                      header: _ParticipListHeader(
+                        compRole: CompRole.OBSERVER,
+                        title: 'Pozostali',
+                        trailing: adminsListHeaderTrailing?.call(participObs),
+                      ),
+                      body: _ParticipColumnWidget(
+                          particips: participObs,
+                          itemBuilder: itemBuilder
+                      ),
+                    ),
+
                   if(bottom != null)
                     bottom,
-                ]))
-
+                ])),
 
               ],
             );
@@ -112,49 +131,108 @@ class ParticipantListPageTempl extends StatelessWidget{
       floatingActionButton: floatingButton
   );
 
-  SliverList getHeaderSliverList(String title, List<IndivCompParticip> particips, {Widget leading}) => SliverList(delegate: SliverChildListDelegate([
-    if(particips.isNotEmpty)
-      ParticipListHeader(
-        title: title,
-        leading: leading,
-      ),
+}
 
-  ]));
+class _Border extends StatelessWidget{
 
-  SliverList getParticipSliverList(List<IndivCompParticip> particips) => SliverList(
-    delegate: SliverChildBuilderDelegate((context, index) =>
-        itemBuilder(context, particips[index]),
-        childCount: particips.length
-    ),
-  );
+  final Widget header;
+  final Widget body;
 
+  const _Border({
+    @required this.header,
+    @required this.body
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(Dimen.DEF_MARG),
+      child: Material(
+        color: backgroundIcon_(context),
+        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        child: Padding(
+          padding: const EdgeInsets.all(Dimen.DEF_MARG),
+          child: Material(
+            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS-4),
+            clipBehavior: Clip.hardEdge,
+            color: background_(context),
+            child: Column(
+              children: [
+                const SizedBox(height: Dimen.DEF_MARG),
+                header,
+                const SizedBox(height: Dimen.DEF_MARG),
+                body
+              ],
+            ),
+          )
+        ),
+      )
+    );
+  }
 
 }
 
-class ParticipListHeader extends StatelessWidget{
+class _ParticipListHeader extends StatelessWidget{
 
+  final CompRole compRole;
   final String title;
-  final Widget leading;
+  final Widget trailing;
 
-  const ParticipListHeader({this.title, this.leading});
+  const _ParticipListHeader({
+    @required this.compRole,
+    @required this.title,
+    @required this.trailing,
+    Key key
+  }): super(key: key);
 
   @override
-  Widget build(BuildContext context) => Padding(
-    padding: EdgeInsets.only(
-      top: 24.0,
-    ),
-    child: TitleShortcutRowWidget(
-      title: title,
-      titleColor: hintEnab_(context),
-      textAlign: TextAlign.center,
-      leading: SizedBox(
+  Widget build(BuildContext context) => Row(
+    children: [
+
+      SizedBox(
         width: AccountThumbnailWidget.defSize + 2*Dimen.SIDE_MARG,
         child: Center(
-          child: leading,
+          child: Icon(compRoleToIcon[compRole], color: hintEnab_(context)),
         ),
       ),
-      trailing: SizedBox(width: AccountThumbnailWidget.defSize + 2*Dimen.SIDE_MARG),
-    ),
+
+      Expanded(
+          child: Text(
+            title,
+            style: AppTextStyle(
+                fontWeight: weight.bold,
+                fontSize: Dimen.TEXT_SIZE_BIG,
+                color: hintEnab_(context)
+            ),
+          )
+      ),
+
+      trailing
+
+    ],
   );
+
+}
+
+class _ParticipColumnWidget extends StatelessWidget{
+
+  final List<IndivCompParticip> particips;
+  final Widget Function(BuildContext, IndivCompParticip) itemBuilder;
+
+  const _ParticipColumnWidget({
+    @required this.particips,
+    @required this.itemBuilder
+  });
+
+  @override
+  Widget build(BuildContext context) {
+
+    List<Widget> children = [];
+
+    for(IndivCompParticip particip in particips)
+      children.add(itemBuilder(context, particip));
+
+    return Column(children: children, mainAxisSize: MainAxisSize.min);
+  }
 
 }

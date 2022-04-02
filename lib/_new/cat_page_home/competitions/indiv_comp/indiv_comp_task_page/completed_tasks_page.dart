@@ -19,7 +19,7 @@ class CompletedTasksPage extends StatefulWidget{
   final IndivComp comp;
   final void Function(IndivCompTaskCompl taskCompl) onRemoved;
 
-  const CompletedTasksPage(this.comp, {this.onRemoved});
+  const CompletedTasksPage(this.comp, {this.onRemoved, Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => CompletedTasksPageState();
@@ -36,7 +36,7 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
   void openDetails(BuildContext context, taskCompl) => openDialog(
       context: context,
       builder: (context) => Padding(
-        padding: EdgeInsets.all(Dimen.SIDE_MARG),
+        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
         child: Material(
             borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
             clipBehavior: Clip.antiAlias,
@@ -92,15 +92,15 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
         );
 
       if(i<comp.profile.completedTasks.length-1)
-        children.add(SizedBox(height: Dimen.SIDE_MARG));
+        children.add(const SizedBox(height: Dimen.SIDE_MARG));
     }
     return BottomNavScaffold(
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
 
           SliverAppBar(
-            title: Text('Zrealizowane zadania'),
+            title: const Text('Zrealizowane zadania'),
             centerTitle: true,
             floating: true,
             actions: [
@@ -120,7 +120,8 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
           ),
 
           if(children.isEmpty)
-            SliverFillRemaining(
+            const SliverFillRemaining(
+              hasScrollBody: false,
               child: Center(
                 child: EmptyMessageWidget(
                   icon: MdiIcons.cubeOff,
@@ -130,7 +131,7 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
             )
           else
             SliverPadding(
-              padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+              padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
               sliver: SliverList(delegate: SliverChildListDelegate(children)),
             )
 

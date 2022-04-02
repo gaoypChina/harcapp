@@ -113,7 +113,7 @@ class ApiIndivComp{
   }) async => await API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) => dio.get(
-        API.SERVER_URL + 'api/indiv_comp',
+        API.SERVER_URL + 'api/indivComp',
     ),
     onSuccess: (Response response) async {
       List<IndivComp> compList = [];
@@ -132,7 +132,7 @@ class ApiIndivComp{
   }) async => await API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) => dio.get(
-        API.SERVER_URL + 'api/indiv_comp/$compKey',
+        API.SERVER_URL + 'api/indivComp/$compKey',
     ),
     onSuccess: (Response response) async {
       IndivComp comp = IndivComp.fromResponse(response.data);
@@ -172,7 +172,7 @@ class ApiIndivComp{
     return API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.put(
-          API.SERVER_URL + 'api/indiv_comp',
+          API.SERVER_URL + 'api/indivComp',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
           }),
@@ -193,7 +193,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.delete(
-        API.SERVER_URL + 'api/indiv_comp/$compKey',
+        API.SERVER_URL + 'api/indivComp/$compKey',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
         }),
@@ -209,7 +209,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.get(
-        API.SERVER_URL + 'api/indiv_comp/$compKey/shareCode',
+        API.SERVER_URL + 'api/indivComp/$compKey/shareCode',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
         }),
@@ -226,7 +226,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.post(
-        API.SERVER_URL + 'api/indiv_comp/$compKey/shareCodeSearchable',
+        API.SERVER_URL + 'api/indivComp/$compKey/shareCodeSearchable',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
         }),
@@ -243,7 +243,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.get(
-        API.SERVER_URL + 'api/indiv_comp/joinByShareCode/$searchCode',
+        API.SERVER_URL + 'api/indivComp/joinByShareCode/$searchCode',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
         }),
@@ -297,7 +297,7 @@ class ApiIndivComp{
     return API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.post(
-          API.SERVER_URL + 'api/indiv_comp/$key',
+          API.SERVER_URL + 'api/indivComp/$key',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
           }),
@@ -330,7 +330,7 @@ class ApiIndivComp{
     return API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.put(
-          API.SERVER_URL + 'api/indiv_comp/$id/user',
+          API.SERVER_URL + 'api/indivComp/$id/user',
           data: jsonEncode(body)
       ),
       onSuccess: (Response response) async {
@@ -366,7 +366,7 @@ class ApiIndivComp{
     return API.sendRequest(
         withToken: true,
         sendRequest: (Dio dio) => dio.post(
-            API.SERVER_URL + 'api/indiv_comp/$compId/user',
+            API.SERVER_URL + 'api/indivComp/$compId/user',
             data: jsonEncode(body)
         ),
         onSuccess: (Response response) async {
@@ -392,11 +392,11 @@ class ApiIndivComp{
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.delete(
-          API.SERVER_URL + 'api/indiv_comp/$compId/user',
+          API.SERVER_URL + 'api/indivComp/$compId/user',
           data: jsonEncode(userIds)
       ),
       onSuccess: (Response response) async {
-        onSuccess?.call(response.data as List);
+        onSuccess?.call((response.data as List).cast<String>());
       },
       onError: (err) async => await onError?.call()
   );
@@ -408,80 +408,13 @@ class ApiIndivComp{
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.delete(
-        API.SERVER_URL + 'api/indiv_comp/$compKey/leave',
+        API.SERVER_URL + 'api/indivComp/$compKey/leave',
       ),
       onSuccess: (Response response) async {
         onSuccess?.call();
       },
       onError: (err) async => await onError?.call()
   );
-
-  /*
-  static Future<Response> addTasks({
-    @required String compKey,
-    @required List<IndivTaskBody> tasks,
-
-    void Function(List<IndivCompTask> addedTasks) onSuccess,
-  }) => API.sendRequest(
-      withToken: true,
-      sendRequest: (Dio dio) => dio.put(
-          API.SERVER_URL + 'api/indiv_comp/$compKey/task/',
-          options: Options(headers: {
-            HttpHeaders.contentTypeHeader: 'application/json',
-          }),
-          data: jsonEncode(tasks.map((task) => task.toMap()).toList())
-      ),
-      onSuccess: (Response response) async {
-
-        List<IndivCompTask> tasks = [];
-        Map _tasksRespMap = response.data;
-        for(MapEntry taskEntry in _tasksRespMap.entries)
-          tasks.add(IndivCompTask.fromMap(taskEntry.key, taskEntry.value));
-
-        await onSuccess?.call(tasks);
-      }
-  );
-
-  static Future<Response> updateTasks({
-    @required List<IndivTaskBody> tasks,
-
-    void Function(List<IndivCompTask>) onSuccess,
-  }) => API.sendRequest(
-      withToken: true,
-      sendRequest: (Dio dio) => dio.post(
-          API.SERVER_URL + 'api/indiv_comp/task/',
-          options: Options(headers: {
-            HttpHeaders.contentTypeHeader: 'application/json',
-          }),
-          data: jsonEncode(tasks.map((task) => task.toMap()).toList())
-      ),
-      onSuccess: (Response response) async {
-
-        List<IndivCompTask> tasks = [];
-        Map _tasksRespMap = response.data;
-        for(MapEntry taskEntry in _tasksRespMap.entries)
-          tasks.add(IndivCompTask.fromMap(taskEntry.key, taskEntry.value));
-
-        await onSuccess?.call(tasks);
-      }
-  );
-
-  static Future<Response> removeTasks({
-    @required String compKey,
-    @required List<String> taskKeys,
-
-    void Function(List<String> remainingTaskIds) onSuccess,
-  }) => API.sendRequest(
-      withToken: true,
-      sendRequest: (Dio dio) => dio.delete(
-          API.SERVER_URL + 'api/indiv_comp/${compKey}/task/',
-          data: FormData.fromMap({
-            'taskKeys': taskKeys,
-          })
-      ),
-      onSuccess: (Response response) async => onSuccess?.call((response.data as List).cast<String>())
-  );
-  */
 
   static Future<Response> sendTaskComplReq({
     @required List<IndivCompTask> allTasks,
@@ -494,7 +427,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) => dio.post(
-        API.SERVER_URL + 'api/indiv_comp/task/request',
+        API.SERVER_URL + 'api/indivComp/task/request',
         data: userKeys == null?
         FormData.fromMap({
           'taskKey': taskKey,
@@ -542,7 +475,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) => dio.delete(
-        API.SERVER_URL + 'api/indiv_comp/task/request/${taskComplKey}'
+        API.SERVER_URL + 'api/indivComp/task/request/${taskComplKey}'
     ),
     onSuccess: (Response response) async => await onSuccess?.call(response.data)
   );
@@ -557,7 +490,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) => dio.get(
-        API.SERVER_URL + 'api/indiv_comp/get_all_pending_compl_indiv_task_reviews',
+        API.SERVER_URL + 'api/indivComp/task/request/pending',
         queryParameters: {
           'compKey': compKey,
         }
@@ -588,7 +521,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) => dio.post(
-        API.SERVER_URL + 'api/indiv_comp/task/review',
+        API.SERVER_URL + 'api/indivComp/task/review',
         data: FormData.fromMap({
           'taskReqKey': taskReqKey,
           'acceptState': acceptState.name,

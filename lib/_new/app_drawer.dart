@@ -195,7 +195,7 @@ class AccountHeader extends StatelessWidget{
 
                   Expanded(
                     child: Text(
-                      account?(AccSecData.name??'Zaloguj'):'Więcej',
+                      account?(AccountData.name??'Zaloguj'):'Więcej',
                       style: AppTextStyle(
                           fontSize: Dimen.TEXT_SIZE_BIG,
                           fontWeight: weight.halfBold,

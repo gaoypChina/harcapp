@@ -20,8 +20,17 @@ class AlbumWidgetSmall extends StatelessWidget{
   final bool showSongCount;
   final Color iconColor;
   final void Function() onTap;
+  final void Function() onLongPress;
 
-  const AlbumWidgetSmall(this.album, {this.selected, this.trailing, this.showSongCount = true, this.iconColor, this.onTap});
+  const AlbumWidgetSmall(
+      this.album,
+      { this.selected,
+        this.trailing,
+        this.showSongCount = true,
+        this.iconColor,
+        this.onTap,
+        this.onLongPress
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -76,14 +85,14 @@ class AlbumWidgetSmall extends StatelessWidget{
                   ),
 
                   if(showSongCount)
-                    SizedBox(height: Dimen.DEF_MARG),
+                    const SizedBox(height: Dimen.DEF_MARG),
 
                   if(showSongCount)
                     Row(
                       children: [
 
-                        Icon(MdiIcons.music, size: Dimen.TEXT_SIZE_NORMAL),
-                        SizedBox(width: Dimen.DEF_MARG),
+                        const Icon(MdiIcons.music, size: Dimen.TEXT_SIZE_NORMAL),
+                        const SizedBox(width: Dimen.DEF_MARG),
                         Hero(
                           tag: AlbumWidget.HERO_TAG_SONG_CNT(album),
                           child: Material(
@@ -108,15 +117,16 @@ class AlbumWidgetSmall extends StatelessWidget{
 
           if(trailing != null) trailing,
 
-          SizedBox(width: Dimen.ICON_MARG)
+          const SizedBox(width: Dimen.ICON_MARG)
 
         ],
       ),
     );
 
     return InkWell(
-      borderRadius: BorderRadius.all(Radius.circular(AppCard.BIG_RADIUS)),
+      borderRadius: const BorderRadius.all(Radius.circular(AppCard.BIG_RADIUS)),
       onTap: onTap,
+      onLongPress: onLongPress,
       child: widget,
     );
 

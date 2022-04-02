@@ -35,18 +35,18 @@ import '../account_common/logout.dart';
 class AccountPage extends StatefulWidget{
   
   static open(BuildContext context){
-    if(AccSecData.loggedIn) {
-      if(AccSecData.emailConf)
+    if(AccountData.loggedIn) {
+      if(AccountData.emailConf)
         pushPage(context, builder: (context) => const AccountPage());
       else
-        pushPage(context, builder: (context) => ConfEmailPart(AccSecData.email));
+        pushPage(context, builder: (context) => ConfEmailPart(AccountData.email));
     }else
       pushPage(context, builder: (context) => LoginPart(
         onLoggedIn: (emailConf) {
-          if(AccSecData.emailConf)
+          if(AccountData.emailConf)
             pushReplacePage(context, builder: (context) => const AccountPage());
           else
-            pushReplacePage(context, builder: (context) => ConfEmailPart(AccSecData.email));
+            pushReplacePage(context, builder: (context) => ConfEmailPart(AccountData.email));
         },
       ));
   }
@@ -82,16 +82,16 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
 
   @override
   void initState() {
-    emailController = InputFieldController(text: AccSecData.email);
-    nameController = InputFieldController(text: AccSecData.name);
+    emailController = InputFieldController(text: AccountData.email);
+    nameController = InputFieldController(text: AccountData.name);
     sexController = InputFieldController();
-    nickController = InputFieldController(text: AccSecData.nick);
+    nickController = InputFieldController(text: AccountData.nick);
     nickSearchableController = InputFieldController();
-    nickSearchable = AccSecData.nickSearchable;
+    nickSearchable = AccountData.nickSearchable;
 
     passwordController = InputFieldController();
 
-    sex = AccSecData.sex;
+    sex = AccountData.sex;
 
     editMode = false;
     processing = false;
@@ -136,9 +136,9 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
             controller: controller,
             children: [
 
-              AccountSettingsPart(padding: EdgeInsets.only(top: 88.0 + (AccSecData.convertableToMicrosoft?(MicrosoftLoginButton.height + Dimen.SIDE_MARG):0))),
+              AccountSettingsPart(padding: EdgeInsets.only(top: 88.0 + (AccountData.convertableToMicrosoft?(MicrosoftLoginButton.height + Dimen.SIDE_MARG):0))),
 
-              AccountNickPart(padding: EdgeInsets.only(top: 88.0 + (AccSecData.convertableToMicrosoft?(MicrosoftLoginButton.height + Dimen.SIDE_MARG):0)),),
+              AccountNickPart(padding: EdgeInsets.only(top: 88.0 + (AccountData.convertableToMicrosoft?(MicrosoftLoginButton.height + Dimen.SIDE_MARG):0)),),
 
             ],
           ),
@@ -159,7 +159,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
             )
           ),
 
-          if(AccSecData.convertableToMicrosoft)
+          if(AccountData.convertableToMicrosoft)
             Padding(
               padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               child: MicrosoftLoginButton(
@@ -187,7 +187,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
                             await showAlertDialog(
                                 context,
                                 title: 'To nie przejdzie...',
-                                content: 'Aby połączyć konta, zaloguj się kontem ZHP o tym samym adresie email co konto HarcApp: ${AccSecData.email}.',
+                                content: 'Aby połączyć konta, zaloguj się kontem ZHP o tym samym adresie email co konto HarcApp: ${AccountData.email}.',
                                 actionBuilder: (context) => [
                                   AlertDialogButton(text: 'No dobrze', onTap: () => Navigator.pop(context))
                                 ]

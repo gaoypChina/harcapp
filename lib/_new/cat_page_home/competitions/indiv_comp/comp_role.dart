@@ -22,5 +22,5 @@ Map<String, CompRole> strToCompRole = {
 Map<CompRole, IconData> compRoleToIcon = {
   CompRole.ADMIN: MdiIcons.shieldAccount,
   CompRole.MODERATOR: MdiIcons.shieldAccountOutline,
-  CompRole.OBSERVER: MdiIcons.accountOutline,
+  CompRole.OBSERVER: MdiIcons.accountCircleOutline,
 };

@@ -205,7 +205,7 @@ class IndivComp{
   String shareCode;
   bool shareCodeSearchable;
 
-  IndivCompProfile get profile => participMap[AccSecData.key].profile;
+  IndivCompProfile get profile => participMap[AccountData.key].profile;
 
   final List<IndivCompParticip> particips;
   final Map<String, IndivCompParticip> participMap;
@@ -237,7 +237,7 @@ class IndivComp{
     particips.sort((p1, p2) => p1.profile.showRank - p2.profile.showRank);
 
     if(!profile.active) return;
-    String thisParticipKey = AccSecData.key;
+    String thisParticipKey = AccountData.key;
     if(!ranks.containsKey(thisParticipKey)) return;
 
     profile.showRank = ranks[thisParticipKey].item1;
@@ -294,13 +294,9 @@ class IndivComp{
   void addPoints(String key, int points) => setPoints(key, participMap[key].profile.points + points);
   void setPoints(String key, int points){
     participMap[key].profile.points = points;
-    // if(id == AccSecData.key) profile.points = points;
-    // else participMap[id].profile.points = points;
   }
   void _setRank(String key, int rank){
     participMap[key].profile.showRank = rank;
-    // if(id == AccSecData.key) profile.showRank = rank;
-    // else participMap[id].profile.showRank = rank;
   }
 
   IndivComp({

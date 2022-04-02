@@ -12,7 +12,6 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qrcode_reader/qrcode_reader.dart';
@@ -97,41 +96,39 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
   }
 
   @override
-  Widget build(BuildContext context) {
-    return KeyboardAvoider(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeOutQuart,
-      child: Center(
-        child: SizedBox(
-          height: 320,
-          child: Padding(
-            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-            child: Material(
-              borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-              clipBehavior: Clip.hardEdge,
-              child: Scaffold(
-                resizeToAvoidBottomInset : false,
-                body: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
+  Widget build(BuildContext context) => Padding(
+    padding: MediaQuery.of(context).viewInsets,
+    child: Center(
+      child: SizedBox(
+        height: 360,
+        child: Padding(
+          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+          child: Material(
+            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+            clipBehavior: Clip.hardEdge,
+            child: Scaffold(
+              resizeToAvoidBottomInset : false,
+              body: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
 
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: Dimen.DEF_MARG,
-                        left: Dimen.DEF_MARG,
-                        right: Dimen.DEF_MARG,
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: Dimen.DEF_MARG,
+                      left: Dimen.DEF_MARG,
+                      right: Dimen.DEF_MARG,
+                    ),
+                    child:
+                    SearchField(
+                      controller: controller,
+                      hint: 'Szukaj po kodzie publicznym',
+                      elevation: 0,
+                      margin: EdgeInsets.zero,
+                      leading: IconButton(
+                        icon: const Icon(MdiIcons.arrowLeft),
+                        onPressed: () => Navigator.of(context).pop(),
                       ),
-                      child:
-                      SearchField(
-                        controller: controller,
-                        hint: 'Szukaj po kodzie publicznym',
-                        elevation: 0,
-                        margin: EdgeInsets.zero,
-                        leading: IconButton(
-                          icon: const Icon(MdiIcons.arrowLeft),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                        trailing: IconButton(
+                      trailing: IconButton(
                           icon: const Icon(MdiIcons.qrcodeScan),
                           onPressed: () async {
                             if(await Permission.camera.request().isGranted) {
@@ -143,52 +140,53 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
                               runSearch();
                             }
                           }
-                        ),
                       ),
                     ),
+                  ),
 
-                    if(_state == _State.init)
-                      Expanded(child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                  if(_state == _State.init)
+                    Expanded(child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
 
-                          const SizedBox(height: Dimen.SIDE_MARG),
-                          Icon(MdiIcons.radar, color: backgroundIcon_(context), size: Dimen.ICON_EMPTY_INFO_SIZE),
+                        const SizedBox(height: Dimen.SIDE_MARG),
+                        Icon(MdiIcons.radar, color: backgroundIcon_(context), size: Dimen.ICON_EMPTY_INFO_SIZE),
 
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: Dimen.SIDE_MARG,
-                              horizontal: Dimen.SIDE_MARG,
-                            ),
-                            child: AppText(
-                              'Gdzie znaleźć kod publiczny?\nUżytkownik, którego chcesz dodać ma go\nw <b>panelu konta HarcApp</b>,\nw zakładce <b>kod publiczny</b>.',
-                              textAlign: TextAlign.center,
-                              color: hintEnab_(context),
-                            ),
-                          )
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: Dimen.SIDE_MARG,
+                            horizontal: Dimen.SIDE_MARG,
+                          ),
+                          child: AppText(
+                            'Gdzie znaleźć kod publiczny?\nUżytkownik, którego szukasz ma go\nw <b>panelu konta HarcApp</b>,\nw zakładce <b>kod publiczny</b>.',
+                            textAlign: TextAlign.center,
+                            color: hintEnab_(context),
+                            size: Dimen.TEXT_SIZE_BIG,
+                          ),
+                        )
 
-                        ],
-                      )),
+                      ],
+                    )),
 
-                    if(_state == _State.searching)
-                      Expanded(child: Center(
-                        child: SpinKitChasingDots(
-                          color: accent_(context),
-                          size: Dimen.ICON_SIZE,
-                        ),
-                      )),
+                  if(_state == _State.searching)
+                    Expanded(child: Center(
+                      child: SpinKitChasingDots(
+                        color: accent_(context),
+                        size: Dimen.ICON_SIZE,
+                      ),
+                    )),
 
-                    if(_state == _State.found)
-                      Expanded(
-                        child: Padding(
+                  if(_state == _State.found)
+                    Expanded(
+                      child: Padding(
                           padding: const EdgeInsets.only(
-                            top: Dimen.SIDE_MARG,
-                            left: Dimen.SIDE_MARG,
-                            right: Dimen.SIDE_MARG
+                              top: Dimen.SIDE_MARG,
+                              left: Dimen.SIDE_MARG,
+                              right: Dimen.SIDE_MARG
                           ),
                           child: AccountHeaderWidget(userData.name)
 
-                          /*
+                        /*
                           Row(
                             mainAxisAlignment:MainAxisAlignment.center,
                             children: [
@@ -211,37 +209,37 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
                             ],
                           ),
                            */
-                        ),
                       ),
+                    ),
 
-                    if(_state == _State.noSuchUser)
-                      Expanded(child: EmptyMessageWidget(
-                          text: noSuchUser,
-                          icon: MdiIcons.accountOffOutline
-                      )),
+                  if(_state == _State.noSuchUser)
+                    Expanded(child: EmptyMessageWidget(
+                        text: noSuchUser,
+                        icon: MdiIcons.accountOffOutline
+                    )),
 
-                    if(_state == _State.error)
-                      const Expanded(child: EmptyMessageWidget(
-                          text: 'Coś poszło nie tak...',
-                          icon: MdiIcons.alertCircleOutline
-                      )),
+                  if(_state == _State.error)
+                    const Expanded(child: EmptyMessageWidget(
+                        text: 'Coś poszło nie tak...',
+                        icon: MdiIcons.alertCircleOutline
+                    )),
 
-                    Row(
-                      children: [
+                  Row(
+                    children: [
 
-                        Expanded(
-                          child: SimpleButton.from(
+                      Expanded(
+                        child: SimpleButton.from(
                             context: context,
                             margin: EdgeInsets.zero,
                             icon: MdiIcons.accountSearch,
                             text: 'Szukaj',
                             onTap: runSearch
-                          ),
                         ),
+                      ),
 
-                        if(userData != null)
-                          Expanded(
-                            child: SimpleButton.from(
+                      if(userData != null)
+                        Expanded(
+                          child: SimpleButton.from(
                               context: context,
                               margin: EdgeInsets.zero,
                               iconLeading: false,
@@ -258,21 +256,20 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
                                 onUserSelected?.call(userData);
                                 Navigator.pop(context);
                               }
-                            ),
-                          )
+                          ),
+                        )
 
-                      ],
-                    )
+                    ],
+                  )
 
-                  ],
-                ),
+                ],
               ),
             ),
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
 
 }
 

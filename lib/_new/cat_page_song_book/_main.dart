@@ -80,8 +80,12 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     post(() => Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackSongBook());
   }
 
-  static int get lastPage => shaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG, 0);
-  static set lastPage(int value) => shaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG, value);
+  static void delLastPageForAlbum(Album album) => shaPref.remove(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album));
+  static int getLastPageForAlbum(Album album) => shaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album), 0);
+  static void setLastPageForAlbum(Album album, int value) => shaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album), value);
+
+  static int get lastPage => getLastPageForAlbum(Album.current);
+  static set lastPage(int value) => setLastPageForAlbum(Album.current, value);
 
   void jumpToPage(int page){
     pageController.jumpToPage(page);
@@ -796,6 +800,9 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
       )
   );
 
-  void notify() => setState((){});
+  void notify(){
+    notifier.value = CatPageSongBookState.lastPage.toDouble();
+    setState(() {});
+  }
 
 }

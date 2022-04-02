@@ -74,7 +74,7 @@ class GroupItemWidet extends StatelessWidget{
                       child: Text(
                           group.title,
                           style: AppTextStyle(
-                              fontSize: Dimen.TEXT_SIZE_APPBAR,
+                              fontSize: Dimen.TEXT_SIZE_BIG,
                               fontWeight: weight.halfBold,
                               color: textEnab_(context)
                           )

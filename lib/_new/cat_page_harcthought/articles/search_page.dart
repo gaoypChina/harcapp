@@ -11,7 +11,6 @@ import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/article_widget.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -23,7 +22,6 @@ import 'package:provider/provider.dart';
 import 'article_core.dart';
 import 'article_searcher.dart';
 import 'title_widget/article_tag_widget.dart';
-import 'title_widget/article_card_widget.dart';
 
 class ArticleSearchPage extends StatefulWidget{
 
@@ -89,11 +87,11 @@ class ArticleSearchPageState extends State<ArticleSearchPage>{
         ],
         builder: (context, child) => BottomNavScaffold(
           body: CustomScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             slivers: [
               SliverAppBar(
                 backgroundColor: background_(context),
-                title: Text('Szukaj artykułów'),
+                title: const Text('Szukaj artykułów'),
                 centerTitle: true,
                 elevation: 0,
                 floating: true,
@@ -113,18 +111,24 @@ class ArticleSearchPageState extends State<ArticleSearchPage>{
                   )
               ),
 
-              SliverList(delegate: SliverChildListDelegate([SizedBox(height: 3.0)])),
+              SliverList(delegate: SliverChildListDelegate([const SizedBox(height: 3.0)])),
 
               Consumer<CurrentItemsProvider>(
                   builder: (context, prov, child){
 
                     if(prov.currArticles == null)
-                      return SliverFillRemaining(child: Center(child: CircularProgressIndicator()));
+                      return const SliverFillRemaining(
+                        hasScrollBody: false,
+                        child: Center(child: CircularProgressIndicator())
+                      );
                     else if(prov.currArticles.isEmpty)
-                      return SliverFillRemaining(child: Center(child: _NoArticlesWidget()));
+                      return SliverFillRemaining(
+                        hasScrollBody: false,
+                        child: Center(child: _NoArticlesWidget())
+                      );
                     else
                       return SliverGrid(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           childAspectRatio: ArticleCardWidgetSmall.aspectRatio,
                         ),
@@ -183,7 +187,7 @@ class _NoArticlesWidget extends StatelessWidget{
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Icon(MdiIcons.notebookRemoveOutline, color: textEnab_(context)),
-        SizedBox(height: 10,),
+        const SizedBox(height: 10),
         Text('Brak artykułów o zadanych kryteriach.', style: AppTextStyle(fontWeight: weight.halfBold), textAlign: TextAlign.center,)
       ],
     );
@@ -262,28 +266,28 @@ class _SearchTextFieldCard extends StatelessWidget{
       (searchOptions.isEmpty)?
       null:
       SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.only(left: Dimen.DEF_MARG, right: Dimen.DEF_MARG, bottom: Dimen.DEF_MARG),
+          padding: const EdgeInsets.only(left: Dimen.DEF_MARG, right: Dimen.DEF_MARG, bottom: Dimen.DEF_MARG),
           child: Container(
             height: 2*Dimen.DEF_MARG + Dimen.TEXT_SIZE_NORMAL + 3,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(width: Dimen.DEF_MARG),
+                  const SizedBox(width: Dimen.DEF_MARG),
                   if(fromDate != null || toDate != null)
                   Text(
                     '${fromDate==null?'...':dateToString(fromDate, shortMonth: true, yearAbbr: '')} - ${toDate==null?'...':dateToString(toDate, shortMonth: true, yearAbbr: 'A.D.')}',
                     style: AppTextStyle(fontWeight: weight.halfBold),
                   ),
-                  SizedBox(width: Dimen.DEF_MARG/2),
+                  const SizedBox(width: Dimen.DEF_MARG/2),
                   Row(
                     children: searchOptions.checkedTags.map((t) => Tag(
                       t,
                       inCard: false,
                       fontSize: Dimen.TEXT_SIZE_SMALL,
                       padding: EdgeInsets.zero,
-                      margin: EdgeInsets.only(left: Dimen.DEF_MARG, right: Dimen.DEF_MARG),
+                      margin: const EdgeInsets.only(left: Dimen.DEF_MARG, right: Dimen.DEF_MARG),
                       elevate: false,
                     )).toList(),
                   )
@@ -331,7 +335,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
     DateTime startDate = DateTime(2016, 1, 1);
 
     return BottomSheetDef(
-      childMargin: EdgeInsets.all(Dimen.DEF_MARG/2),
+      childMargin: const EdgeInsets.all(Dimen.DEF_MARG/2),
       title: 'Opcje wyszukiwania',
       builder: (context) =>
           Column(
@@ -343,12 +347,12 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
                   Expanded(
                     child: SimpleButton(
                         radius: AppCard.BIG_RADIUS,
-                        padding: EdgeInsets.all(Dimen.ICON_MARG),
+                        padding: const EdgeInsets.all(Dimen.ICON_MARG),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(MdiIcons.calendarArrowRight, color: iconDisab_(context)),
-                            SizedBox(width: Dimen.ICON_MARG),
+                            const SizedBox(width: Dimen.ICON_MARG),
                             AppText('Od: <b>${fromDate==null?'zawsze':dateToString(fromDate, shortMonth: true, yearAbbr: 'A.D.')}</b>')
                           ],
                         ),
@@ -367,12 +371,12 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
                   Expanded(
                     child: SimpleButton(
                         radius: AppCard.BIG_RADIUS,
-                        padding: EdgeInsets.all(Dimen.ICON_MARG),
+                        padding: const EdgeInsets.all(Dimen.ICON_MARG),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(MdiIcons.calendarArrowLeft, color: iconDisab_(context)),
-                            SizedBox(width: Dimen.ICON_MARG),
+                            const SizedBox(width: Dimen.ICON_MARG),
                             AppText('Do: <b>${toDate==null?'zawsze':dateToString(toDate, shortMonth: true,  yearAbbr: 'A.D.')}</b>')
                           ],
                         ),
@@ -391,7 +395,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
                 ],
               ),
 
-              SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
+              const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
 
               TagLayout.customWrap(
                 allTags: ArticleTagWidget.TAGS,
@@ -405,7 +409,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
                 checkedTags: checkedTags,
                 tagBuilder: (context, tag, checked) => SimpleButton(
                   radius: AppCard.BIG_RADIUS,
-                  padding: EdgeInsets.all(Dimen.ICON_MARG),
+                  padding: const EdgeInsets.all(Dimen.ICON_MARG),
                     child: Text(
                       tag,
                       style: AppTextStyle(
@@ -422,7 +426,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
                 )
               ),
 
-              SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
+              const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
 
             ],
           ),

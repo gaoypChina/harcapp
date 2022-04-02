@@ -79,16 +79,30 @@ class SprawProgressWidgetState extends State<SprawProgressWidget>{
   Widget build(BuildContext context) {
 
     List<Widget> children = [];
-    if(hiddSpraws.isEmpty)
-      for(Spraw spraw in allSpraws) {
+    if(hiddSpraws.isEmpty) {
+      for (Spraw spraw in allSpraws) {
         children.add(Opacity(
-            opacity: spraw.completed ? 1 : (spraw.inProgress? .45 : .1),
+            opacity: spraw.completed ? 1 : (spraw.inProgress ? .45 : .1),
             child: SprawIcon(
                 spraw,
                 onTap: () => openSprawDialog(context, spraw)
             )
         ));
-      }else
+      }
+
+      for (int i=0; i< SprawProgressWidget.maxDispCount - allSpraws.length; i++) {
+        children.add(
+            Opacity(
+                opacity: .1,
+                child: GestureDetector(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SprawnosciPage())),
+                  child: const Icon(MdiIcons.circleMedium),
+                )
+            )
+        );
+      }
+
+    } else
       for(int i=0; i<SprawProgressWidget.maxDispCount; i++)
         children.add(SprawIconRotating(
           onNewUIDRequested: onNewUIDRequested,

@@ -162,7 +162,7 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
                           await ZhpAccAuth.logout();
                           await ApiRegLog.logout(
                               onSuccess: () async {
-                                await AccSecData.forgetAccount();
+                                await AccountData.forgetAccount();
                                 if(mounted) showAppToast(context, text: 'Wylogowano');
                                 widget.onLoggedOut?.call();
                                 if(mounted) Navigator.pop(context);

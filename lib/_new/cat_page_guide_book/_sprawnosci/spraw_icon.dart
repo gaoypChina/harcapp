@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
-import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 
 class SprawIcon extends StatefulWidget{
@@ -103,7 +102,8 @@ class SprawIconPlaceholder extends StatelessWidget{
                       decoration: BoxDecoration(
                         border: Border.all(
                             color: iconEnab_(context),
-                            width: .09*spaceSize
+                            width: .098*spaceSize,
+                            style: BorderStyle.solid
                         ),
                         borderRadius: BorderRadius.circular(spaceSize),
                       ),
@@ -114,9 +114,10 @@ class SprawIconPlaceholder extends StatelessWidget{
                     child: Center(
                       child: Text(
                         placeholderText,
-                        style: AppTextStyle(
+                        style: TextStyle(
+                            fontFamily: 'Amarante',
                             fontSize: spaceSize*.45,
-                            fontWeight: weight.bold,
+                            fontWeight: FontWeight.bold,
                             color: iconEnab_(context)
                         ),
                       ),

@@ -24,7 +24,7 @@ import 'indiv_comp_tasks_editor_widget.dart';
 
 class IndivCompEditorPage extends StatefulWidget{
 
-  static double get toolbarBottomHeight => TabBar(tabs: []).preferredSize.height + IndivCompThumbnailWidget.defSize;
+  static double get toolbarBottomHeight => const TabBar(tabs: []).preferredSize.height + IndivCompThumbnailWidget.defSize;
 
   final IndivComp initComp;
 
@@ -36,7 +36,15 @@ class IndivCompEditorPage extends StatefulWidget{
   final void Function(IndivComp comp) onSaved;
   final void Function() onRemoved;
 
-  const IndivCompEditorPage({this.initComp, this.initTitle, this.initTasks, this.initAwards, this.onSaved, this.onRemoved});
+  const IndivCompEditorPage({
+    this.initComp,
+    this.initTitle,
+    this.initTasks,
+    this.initAwards,
+    this.onSaved,
+    this.onRemoved,
+    Key key
+  }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => IndivCompEditorPageState();
@@ -86,7 +94,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
         body: DefaultTabController(
           length: editMode?6:5,
           child: NestedScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
 
               SliverOverlapAbsorber(
@@ -98,7 +106,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                   pinned: true,
                   actions: [
                     IconButton(
-                        icon: Icon(MdiIcons.check),
+                        icon: const Icon(MdiIcons.check),
                         onPressed: ()async{
 
                           if(!await isNetworkAvailable()){
@@ -189,14 +197,14 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                           ),
 
                           TabBar(
-                            physics: BouncingScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             tabs: [
-                              Tab(icon: Icon(MdiIcons.eyeOutline)),
-                              Tab(icon: Icon(MdiIcons.paletteOutline)),
-                              Tab(icon: Icon(MdiIcons.flare)),
-                              Tab(icon: Icon(MdiIcons.cubeOutline)),
-                              Tab(icon: Icon(MdiIcons.trophyOutline)),
-                              if(editMode) Tab(icon: Icon(MdiIcons.alertCircleOutline, color: Colors.red)),
+                              const Tab(icon: Icon(MdiIcons.eyeOutline)),
+                              const Tab(icon: Icon(MdiIcons.paletteOutline)),
+                              const Tab(icon: Icon(MdiIcons.flare)),
+                              const Tab(icon: Icon(MdiIcons.cubeOutline)),
+                              const Tab(icon: Icon(MdiIcons.trophyOutline)),
+                              if(editMode) const Tab(icon: Icon(MdiIcons.alertCircleOutline, color: Colors.red)),
                             ],
                             indicator: AppTabBarIncdicator(context: context, color: colorKeyProv.avgColor),
                           ),
@@ -210,13 +218,13 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
 
             ],
             body: TabBarView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               children: [
-                IndivCompModeEditorWidget(),
-                IndivCompColorsEditorWidget(),
-                IndivCompIconEditorWidget(),
-                IndivCompTasksEditorWidget(),
-                IndivCompAwardsEditorWidget(),
+                const IndivCompModeEditorWidget(),
+                const IndivCompColorsEditorWidget(),
+                const IndivCompIconEditorWidget(),
+                const IndivCompTasksEditorWidget(),
+                const IndivCompAwardsEditorWidget(),
                 if(editMode) IndivCompDangerEditorWidget(widget.initComp, onRemoved: widget.onRemoved),
               ],
             ),

@@ -29,12 +29,14 @@ class IndivCompParticip{
   final String key;
   final String name;
   final Sex sex;
+  final bool shadow;
   final IndivCompProfile profile;
 
   IndivCompParticip({
     @required this.key,
     @required this.name,
     @required this.sex,
+    @required this.shadow,
     @required this.profile,
   });
 
@@ -42,6 +44,7 @@ class IndivCompParticip{
     key: key,
     name: map['name']??(throw InvalidResponseError('name')),
     sex: strToSex[map['sex']]??(throw InvalidResponseError('sex')),
+    shadow: map['shadow']??(throw InvalidResponseError('shadow')),
     profile: IndivCompProfile.fromResponse(map['profile']??(throw InvalidResponseError('profile'))),
   );
 

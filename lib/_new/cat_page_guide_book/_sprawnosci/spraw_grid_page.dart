@@ -86,6 +86,7 @@ class SprawGridPageState extends State<SprawGridPage>{
           ),
 
           SliverFillRemaining(
+            hasScrollBody: false,
             child: SprawGridView(
               title: title,
               mode: mode,

@@ -1,12 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/particip_header_widget.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/particip_widget.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/particip_tile.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_awards_page.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_particip/participant_list_page_templ.dart';
@@ -103,7 +104,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
           comp: comp,
 
           adminsListHeaderTrailing: (participAdmins) => IconButton(
-            icon: const Icon(MdiIcons.selectAll),
+            icon: const Icon(MdiIcons.selectMultiple),
             onPressed: (){
               for(IndivCompParticip particip in participAdmins)
                 if(!selectedParticips.contains(particip)) selectedParticips.add(particip);
@@ -112,7 +113,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
           ),
 
           modsListHeaderTrailing: (participMods) => IconButton(
-            icon: const Icon(MdiIcons.selectAll),
+            icon: const Icon(MdiIcons.selectMultiple),
             onPressed: (){
               for(IndivCompParticip particip in participMods)
                 if(!selectedParticips.contains(particip)) selectedParticips.add(particip);
@@ -121,7 +122,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
           ),
 
           obsListHeaderTrailing: (participObs) => IconButton(
-            icon: const Icon(MdiIcons.selectAll),
+            icon: const Icon(MdiIcons.selectMultiple),
             onPressed: (){
               for(IndivCompParticip particip in participObs)
                 if(!selectedParticips.contains(particip)) selectedParticips.add(particip);
@@ -329,17 +330,21 @@ class SelectedAppBar extends SliverAppBar{
           ),
         ),
 
-        IconButton(
-            icon: const Icon(MdiIcons.selectAll),
-            onPressed: onSelectAll
-        ),
       ],
     ),
     title:  Text('Zaznaczono: ${selectedParticips.length}'),
     centerTitle: true,
     floating: true,
     pinned: true,
-    actions: [],
+    actions: [
+      Padding(
+        padding: const EdgeInsets.only(right: 2*Dimen.DEF_MARG),
+        child: IconButton(
+            icon: const Icon(MdiIcons.selectMultiple),
+            onPressed: onSelectAll
+        ),
+      )
+    ],
   );
 
 
@@ -355,7 +360,16 @@ class ParticipViewWidget<T extends IndivCompParticip> extends StatefulWidget{
   final void Function(List<IndivCompTaskCompl> taskComplList, Map<String, Tuple3<int, int, Tuple2<double, double>>> idRank) onPointsGranted;
   final dynamic heroTag;
 
-  const ParticipViewWidget(this.comp, this.particip, {@required this.anythingSelected, this.selected=false, this.onSelectionTap, this.onPointsGranted, this.heroTag});
+  const ParticipViewWidget(
+      this.comp,
+      this.particip,
+      { @required this.anythingSelected,
+        this.selected=false,
+        this.onSelectionTap,
+        this.onPointsGranted,
+        this.heroTag,
+        Key key
+      }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => ParticipViewWidgetState<T>();
@@ -375,7 +389,7 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
 
   get heroTag => widget.heroTag;
 
-  double get actionExtentRation => (Dimen.ICON_FOOTPRINT + ParticipWidget.horizontalPadding)/MediaQuery.of(context).size.width;
+  double get actionExtentRation => (Dimen.ICON_FOOTPRINT + ParticipTile.horizontalPadding)/MediaQuery.of(context).size.width;
 
   void openParticipantDetails() => showScrollBottomSheet(
       context: context,
@@ -383,7 +397,7 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
         builder: (context) => Column(
           children: [
 
-            ParticipHeaderWidget(particip.name, particip.profile.role, heroTag: particip.key),
+            ParticipHeaderWidget(particip.name, particip.shadow, particip.profile.role, heroTag: particip.key),
 
             const SizedBox(height: 2*24.0),
 
@@ -417,14 +431,15 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
 
             if(particip.profile.role != CompRole.OBSERVER)
               ListTile(
+                enabled: !particip.shadow,
                 leading: Icon(compRoleToIcon[CompRole.OBSERVER]),
                 title: Text('Nadaj rolę uczestnika', style: AppTextStyle()),
-                onTap:  () async {
+                onTap: particip.shadow?null: () async {
                   await showUpdateDialog(
                     CompRole.OBSERVER,
                     particip.profile.active,
                     onSuccess: (){
-                      if(particip.key == AccSecData.key)
+                      if(particip.key == AccountData.key)
                         Navigator.pop(context);
                     }
                   );
@@ -436,14 +451,15 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
 
             if(particip.profile.role != CompRole.MODERATOR)
               ListTile(
+                enabled: !particip.shadow,
                 leading: Icon(compRoleToIcon[CompRole.MODERATOR]),
                 title: Text('Nadaj rolę moderatora', style: AppTextStyle()),
-                onTap:  () async {
+                onTap: particip.shadow?null: () async {
                   await showUpdateDialog(
                       CompRole.MODERATOR,
                       particip.profile.active,
                       onSuccess: (){
-                        if(particip.key == AccSecData.key)
+                        if(particip.key == AccountData.key)
                           Navigator.pop(context);
                       }
                   );
@@ -453,18 +469,20 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
 
             if(particip.profile.role != CompRole.ADMIN)
               ListTile(
+                enabled: !particip.shadow,
                 leading: Icon(compRoleToIcon[CompRole.ADMIN]),
                 title: Text('Nadaj rolę administratora', style: AppTextStyle()),
-                onTap:  () async {
+                onTap: particip.shadow?null: () async {
                   await showUpdateDialog(CompRole.ADMIN, particip.profile.active);
                   Navigator.pop(context);
                 },
               ),
 
             ListTile(
+              enabled: !particip.shadow,
               leading: Icon(particip.profile.active?MdiIcons.coffeeOutline:MdiIcons.run),
               title: Text(particip.profile.active?'Unieaktywnij uczestnika':'Włącz uczestnika', style: AppTextStyle()),
-              onTap:  () async {
+              onTap: particip.shadow?null: () async {
                 await showUpdateDialog(particip.profile.role, !particip.profile.active);
                 Navigator.pop(context);
               },
@@ -486,7 +504,7 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
   Future<void> showUpdateDialog(CompRole newRole, bool newActive, {void Function() onSuccess}) async {
     bool close = false;
 
-    if(particip.key == AccSecData.key && newRole != CompRole.ADMIN)
+    if(particip.key == AccountData.key && newRole != CompRole.ADMIN)
       await showAlertDialog(
         context,
         title: 'Chwileczkę!',
@@ -552,8 +570,6 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
       return;
     }
 
-    // REMOVE
-
     bool plural;
 
     String participsString = '';
@@ -581,21 +597,22 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
           AlertDialogButton(
               text: 'Tak',
               onTap: () async {
-                Navigator.pop(_context);
+                Navigator.pop(context);
+                Navigator.pop(context);
 
-                showLoadingWidget(_context, comp.colors.avgColor, 'Wypraszanie ${plural?'użytkowników':'użytkownika'}...');
+                showLoadingWidget(context, comp.colors.avgColor, 'Wypraszanie ${plural?'użytkowników':'użytkownika'}...');
                 await ApiIndivComp.removeUsers(
                     compId: comp.key,
                     userIds: participsToRemove.map((p) => p.key).toList(),
-                    onSuccess: (List<String> removedParticips){
+                    onSuccess: (List<String> removedParticips) async {
                       comp.removeParticipByKey(context, removedParticips);
 
-                      showAppToast(_context, text: 'Wyproszono');
-                      Navigator.pop(_context);
+                      showAppToast(context, text: 'Wyproszono');
+                      await popPage(context);
                     },
-                    onError: (){
-                      showAppToast(_context, text: 'Coś tu poszło nie tak...');
-                      Navigator.pop(_context);
+                    onError: () async {
+                      showAppToast(context, text: 'Coś tu poszło nie tak...');
+                      await popPage(context);
                     }
                 );
               }
@@ -606,9 +623,10 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
   }
 
   @override
-  Widget build(BuildContext context) => ParticipWidget(
+  Widget build(BuildContext context) => ParticipTile(
     userKey: particip.key,
     name: particip.name,
+    shadow: particip.shadow,
     active: particip.profile.active,
     role: particip.profile.role,
     anythingSelected: anythingSelected,
@@ -727,7 +745,11 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
           sliver: SliverList(delegate: SliverChildListDelegate([
 
             if(selectedParticips.length==1)
-              ParticipHeaderWidget(selectedParticips[0].name, selectedParticips[0].profile.role)
+              ParticipHeaderWidget(
+                  selectedParticips[0].name,
+                  selectedParticips[0].shadow,
+                  selectedParticips[0].profile.role
+              )
             else
               Consumer<IndivCompParticipsProvider>(
                   builder: (context, prov, child) => AccountThumbnailRowWidget(selectedParticips.map((particip) => particip.name).toList())

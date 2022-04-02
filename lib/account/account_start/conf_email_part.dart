@@ -55,7 +55,7 @@ class ConfEmailPartState extends State<ConfEmailPart>{
         context,
         confController.text,
         onSuccess: (loggedIn){
-          AccSecData.writeEmailConf(true);
+          AccountData.writeEmailConf(true);
 
           LoginProvider prov = Provider.of<LoginProvider>(context, listen: false);
           prov.callOnEmailConfirmChanged(loggedIn);

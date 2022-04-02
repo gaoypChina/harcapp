@@ -75,7 +75,7 @@ class _CompetitionPreviewWidgetState extends State<CompetitionPreviewWidget>{
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     loginProvider.addLoginListener(loginListener);
 
-    if(IndivComp.all == null && AccSecData.loggedIn)
+    if(IndivComp.all == null && AccountData.loggedIn)
       indivCompLoader.run();
 
     networkAvailable = true;
@@ -151,7 +151,7 @@ class _CompetitionPreviewWidgetState extends State<CompetitionPreviewWidget>{
                   text: 'Brak internetu',
                   icon: MdiIcons.earthOff,
                 )
-              else if(!AccSecData.emailConf)
+              else if(!AccountData.emailConf)
                 const Padding(
                   padding: EdgeInsets.all(Dimen.SIDE_MARG),
                   child: SizedBox(

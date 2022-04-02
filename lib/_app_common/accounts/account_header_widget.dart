@@ -5,11 +5,19 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 class AccountHeaderWidget extends StatelessWidget{
 
   final String name;
+  final bool shadow;
   final Widget leading;
   final Widget trailing;
-  final heroTag;
+  final dynamic heroTag;
 
-  const AccountHeaderWidget(this.name, {this.leading, this.trailing, this.heroTag});
+  const AccountHeaderWidget(
+      this.name,
+      { this.shadow = false,
+        this.leading,
+        this.trailing,
+        this.heroTag,
+        Key key
+      }): super(key: key);
 
   @override
   Widget build(BuildContext context){
@@ -17,9 +25,9 @@ class AccountHeaderWidget extends StatelessWidget{
     Widget child = Column(
       children: [
 
-        AccountThumbnailWidget(name, size: 84, elevated: false, onTap: null),
+        AccountThumbnailWidget(name, shadow: shadow, size: 84, elevated: false, onTap: null),
 
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
 
         IntrinsicWidth(
           child: Row(

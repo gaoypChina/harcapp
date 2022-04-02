@@ -220,7 +220,7 @@ class SynchronizerEngine{
       return false;
     }
 
-    if(!AccSecData.loggedIn) {
+    if(!AccountData.loggedIn) {
       logger.i('Sync post aborted - not logged in.');
       return false;
     }
@@ -230,7 +230,7 @@ class SynchronizerEngine{
       return false;
     }
 
-    if(!AccSecData.emailConf) {
+    if(!AccountData.emailConf) {
       logger.i('Sync post aborted - email not confirmed.');
       return false;
     }
@@ -261,7 +261,7 @@ class SynchronizerEngine{
       return false;
     }
 
-    if(!AccSecData.loggedIn) {
+    if(!AccountData.loggedIn) {
       logger.i('Sync get aborted - not logged in.');
       return false;
     }
@@ -271,7 +271,7 @@ class SynchronizerEngine{
       return false;
     }
 
-    if(!AccSecData.emailConf) {
+    if(!AccountData.emailConf) {
       logger.i('Sync get aborted - email not confirmed.');
       return false;
     }

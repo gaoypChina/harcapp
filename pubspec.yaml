@@ -313,6 +313,11 @@ flutter:
         - asset: fonts/museo900.ttf
           weight: 900
 
+    - family: Amarante
+      fonts:
+        - asset: fonts/Amarante-Regular.ttf
+          weight: 300
+
     - family: Roboto
       fonts:
         - asset: fonts/Roboto-Regular.ttf

@@ -13,7 +13,7 @@ import 'package:harcapp/values/server.dart';
 import '../../sync/syncable_new.dart';
 
 
-const int JWT_VALID_HTTP_STATUS = HttpStatus.unauthorized;
+const int jwtInvalidHttpStatus = HttpStatus.forbidden;
 const int _CONNECT_IIMEOUT = 18000;
 const int _RECEIVE_IIMEOUT = 40000;
 
@@ -50,7 +50,7 @@ class API{
     Future<Response> Function(Dio dio) sendRequest,
     Future<void> Function(Response) onSuccess,
     Future<bool> Function() onEmailNotConf,
-    Future<bool> Function() onUnauthorized,
+    Future<bool> Function() onForbidden,
     Future<void> Function(DioError) onError,
 
   }) async {
@@ -61,7 +61,7 @@ class API{
     //}
     Dio dio = Dio(BaseOptions(
       headers: {
-        if(withToken) 'Authorization': 'Bearer ${AccSecData.jwt}',
+        if(withToken) 'Authorization': 'Bearer ${AccountData.jwt}',
         //'Content-Type': 'multipart/form-data',
         //'Accept': '*/*',
       },
@@ -80,7 +80,7 @@ class API{
     } on DioError catch (e) {
       debugPrint('HarcApp API: ${e.requestOptions.method} ${e.requestOptions.path} :: error! :: ${e.message} :: ${e.response?.data?.toString()}');
       bool finish;
-      if (e.response?.statusCode == JWT_VALID_HTTP_STATUS) {
+      if (e.response?.statusCode == jwtInvalidHttpStatus) {
         await SynchronizerEngine.changeSyncStateInAll([
           SyncableParamSingle_.STATE_SYNCED,
           SyncableParamSingle_.STATE_SYNC_IN_PROGRESS,
@@ -88,10 +88,10 @@ class API{
           SyncableParamSingle_.STATE_NOT_SYNCED
         );
         SynchronizerEngine.lastSyncTimeLocal = null;
-        await AccSecData.forgetAccount();
+        await AccountData.forgetAccount();
 
-        finish = await onUnauthorized?.call();
-      } else if(e.response?.statusCode == HttpStatus.forbidden){
+        finish = await onForbidden?.call();
+      } else if(e.response?.statusCode == HttpStatus.unauthorized){
         finish = await onEmailNotConf?.call();
       }
 

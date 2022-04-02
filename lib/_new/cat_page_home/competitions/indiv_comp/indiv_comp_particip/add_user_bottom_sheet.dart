@@ -7,6 +7,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dar
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/loading_widget.dart';
 import 'package:harcapp/account/search_user_dialog.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -49,7 +50,7 @@ class AddUserBottomSheet extends StatelessWidget{
 
                 TitleShortcutRowWidget(
                   title: 'Dodaj uczestnika',
-                  icon: MdiIcons.account,
+                  icon: MdiIcons.accountOutline,
                   onOpen: (context) async {
                     Navigator.pop(context);
 
@@ -67,16 +68,7 @@ class AddUserBottomSheet extends StatelessWidget{
 
                     if(userData == null) return;
 
-                    await ApiIndivComp.addUsers(
-                        id: comp.key,
-                        users: [ParticipBodyNick(userData.key, CompRole.OBSERVER, true, userData.nick)],
-                        onSuccess: (List<IndivCompParticip> allParticips){
-                          comp.addParticips(context, allParticips);
-                          Navigator.pop(context);
-                          showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}.');
-                        },
-                        onError: () => showAppToast(context, text: 'Coś poszło nie tak...')
-                    );
+                    addUser(context, userData);
 
                   },
                 ),
@@ -93,13 +85,22 @@ class AddUserBottomSheet extends StatelessWidget{
 
                 TitleShortcutRowWidget(
                   title: 'Dodaj konto widmo',
-                  icon: MdiIcons.accountOutline,
+                  icon: MdiIcons.alienOutline,
                   onOpen: (context) async {
                     Navigator.pop(context);
 
                     pushPage(
                         context,
-                        builder: (context) => const ShadowUserManagerPage()
+                        builder: (context) => ShadowUserManagerPage(
+                          onTap: (UserDataNick shadowUser){
+                            if(comp.participMap[shadowUser.key] != null){
+                              showAppToast(context, text: '${shadowUser.name} już uczestniczy we współzawodnictwie!');
+                              return;
+                            }
+                            addUser(context, shadowUser);
+
+                          },
+                        )
                     );
 
                   },
@@ -108,8 +109,7 @@ class AddUserBottomSheet extends StatelessWidget{
                 Padding(
                   padding: const EdgeInsets.all(Dimen.ICON_MARG),
                   child: Text(
-                    'Jeżeli ktoś nie posiada konta HarcApp, dodaj na jego miejsce sztuczne konto widmo.'
-                        '\n\nKonto widmo można połączyć z dowolnym istniejącym kontem w dowolnym momencie.',
+                    ShadowUserManagerPage.shadowAccountExplanation,
                     style: AppTextStyle(color: hintEnab_(context)),
                   ),
                 ),
@@ -123,5 +123,26 @@ class AddUserBottomSheet extends StatelessWidget{
         ],
       )
   );
+
+  void addUser(BuildContext context, UserDataNick userData) async {
+
+    showLoadingWidget(context, comp.colors.avgColor, 'Dodawanie uczestnika');
+
+    await ApiIndivComp.addUsers(
+        id: comp.key,
+        users: [ParticipBodyNick(userData.key, CompRole.OBSERVER, true, userData.nick)],
+        onSuccess: (List<IndivCompParticip> allParticips){
+          comp.addParticips(context, allParticips);
+          Navigator.pop(context);
+          Navigator.pop(context);
+          showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}.');
+        },
+        onError: (){
+          Navigator.pop(context);
+          showAppToast(context, text: 'Coś poszło nie tak...');
+        }
+    );
+
+  }
 
 }

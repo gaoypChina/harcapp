@@ -112,7 +112,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
 
     return BottomNavScaffold(
       body: SmartRefresher(
-        enablePullDown: AccSecData.loggedIn,
+        enablePullDown: AccountData.loggedIn,
         physics: const BouncingScrollPhysics(),
         header: const MaterialClassicHeader(),
         controller: refreshController,
@@ -128,8 +128,9 @@ class SharedRanksPageState extends State<SharedRanksPage>{
               title: Text('Udostępnione mi stopnie'),
             ),
 
-            if(!AccSecData.loggedIn)
+            if(!AccountData.loggedIn)
               SliverFillRemaining(
+                hasScrollBody: false,
                 child: Center(
                   child: SimpleButton(
                     radius: AppCard.BIG_RADIUS,
@@ -144,6 +145,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
               )
             else if(loading && selSharedRanks == null)
               const SliverFillRemaining(
+                hasScrollBody: false,
                 child: Center(
                   child: EmptyMessageWidget(
                     icon: MdiIcons.refresh,
@@ -153,6 +155,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
               )
             else if(!loading && selSharedRanks == null)
               const SliverFillRemaining(
+                hasScrollBody: false,
                 child: Center(
                   child: EmptyMessageWidget(
                     icon: MdiIcons.alertCircleOutline,
@@ -162,6 +165,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
               )
             else if(selSharedRanks.isEmpty)
               const SliverFillRemaining(
+                hasScrollBody: false,
                 child: Center(
                   child: EmptyMessageWidget(
                     icon: MdiIcons.shareVariantOutline,

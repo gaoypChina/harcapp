@@ -396,7 +396,7 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
     loading = false;
     success = false;
 
-    if(AccSecData.loggedIn) loadSharedUsers();
+    if(AccountData.loggedIn) loadSharedUsers();
     super.initState();
   }
 
@@ -412,7 +412,7 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
 
         Widget child;
 
-        if(!AccSecData.loggedIn)
+        if(!AccountData.loggedIn)
           return SizedBox(
             height: widget.preferredSize.height,
             width: double.infinity,

@@ -147,10 +147,10 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
         sex: sex,
         validPass: validPasswordController.text,
         onSuccess: (String email, String jwt, String name, Sex sex) async {
-          if(email != null && email != AccSecData.email) {
-            await AccSecData.writeEmailConf(false);
-            await AccSecData.writeEmail(email);
-            await AccSecData.writeJwt(jwt);
+          if(email != null && email != AccountData.email) {
+            await AccountData.writeEmailConf(false);
+            await AccountData.writeEmail(email);
+            await AccountData.writeJwt(jwt);
 
             LoginProvider prov = Provider.of<LoginProvider>(context, listen: false);
             prov.callOnEmailConfirmChanged(false);
@@ -160,10 +160,10 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
           }
 
           if(name != null)
-            await AccSecData.writeName(name);
+            await AccountData.writeName(name);
 
           if(sex != null)
-            await AccSecData.writeSex(sex);
+            await AccountData.writeSex(sex);
 
           validPasswordController.text = '';
           onSuccess?.call();
@@ -198,15 +198,15 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
 
   @override
   void initState() {
-    emailController = InputFieldController(text: AccSecData.email);
+    emailController = InputFieldController(text: AccountData.email);
     passController = InputFieldController();
     passRepController = InputFieldController();
-    nameController = InputFieldController(text: AccSecData.name);
+    nameController = InputFieldController(text: AccountData.name);
     sexController = InputFieldController();
 
     validPasswordController = InputFieldController();
 
-    sex = AccSecData.sex;
+    sex = AccountData.sex;
 
     editMode = false;
     processing = false;
@@ -238,7 +238,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                   textAlign: TextAlign.start,
                   titleColor: hintEnab_(context),
                   trailing:
-                  AccSecData.microsoftAcc?
+                  AccountData.microsoftAcc?
                   IconButton(
                     onPressed: () => showAppToast(context, text: 'Konto powiązane z Microsoft ZHP'),
                     icon: Icon(MdiIcons.microsoft, color: iconEnab_(context)),
@@ -260,7 +260,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                 InputField(
                   hint: 'Email:',
                   controller: emailController,
-                  enabled: !AccSecData.microsoftAcc && editMode,
+                  enabled: !AccountData.microsoftAcc && editMode,
                   maxLength: ApiUser.EMAIL_MAX_LENGTH,
                   leading: Icon(MdiIcons.email, color: iconDisab_(context)),
                 ),
@@ -282,7 +282,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                   ),
                   child: Text(
                     'Imię i nazwisko wyświetlane jest innym uczestnikom. Płeć pozwala HarcAppce dobrze odmienić niektóre słowa.'
-                        '\n\n${AccSecData.microsoftAcc?'Imię i nazwisko jest takie, jak w koncie ZHP.':'Imię i nazwisko można zmienić raz na 60 dni.'}',
+                        '\n\n${AccountData.microsoftAcc?'Imię i nazwisko jest takie, jak w koncie ZHP.':'Imię i nazwisko można zmienić raz na 60 dni.'}',
                     style: AppTextStyle(color: hintEnab_(context)),
                   ),
                 ),
@@ -290,7 +290,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                 InputField(
                   hint: 'Imię i nazwisko:',
                   controller: nameController,
-                  enabled: !AccSecData.microsoftAcc && editMode,
+                  enabled: !AccountData.microsoftAcc && editMode,
                   maxLength: ApiUser.NAME_MAX_LENGTH,
                   leading: Icon(MdiIcons.accountEdit, color: iconDisab_(context)),
                 ),
@@ -304,10 +304,10 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                     onSexChanged: (sex) => setState(() => this.sex = sex)
                 ),
 
-                if(AccSecData.regularAcc)
+                if(AccountData.regularAcc)
                   SizedBox(height: Dimen.SIDE_MARG),
 
-                if(AccSecData.regularAcc)
+                if(AccountData.regularAcc)
                   TitleShortcutRowWidget(
                     title: 'Nowe hasło',
                     leading: SizedBox(width: Dimen.SIDE_MARG),
@@ -315,7 +315,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                     titleColor: hintEnab_(context)
                   ),
 
-                if(AccSecData.regularAcc)
+                if(AccountData.regularAcc)
                   InputFieldPassword(
                     hint: 'Hasło:',
                     controller: passController,
@@ -324,7 +324,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                     leading: Icon(MdiIcons.key, color: iconDisab_(context)),
                   ),
 
-                if(AccSecData.regularAcc)
+                if(AccountData.regularAcc)
                   InputFieldPassword(
                     hint: 'Powtórz hasło:',
                     controller: passRepController,
@@ -349,12 +349,12 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                             text: 'Jednak nie',
                             icon: MdiIcons.arrowLeft,
                             onTap: (){
-                              emailController.text = AccSecData.email;
+                              emailController.text = AccountData.email;
                               emailController.errorText = '';
                               passController.text = '';
-                              nameController.text = AccSecData.name;
+                              nameController.text = AccountData.name;
                               nameController.errorText = '';
-                              sex = AccSecData.sex;
+                              sex = AccountData.sex;
 
                               setState(() => editMode = false);
                             },
@@ -372,7 +372,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                         enabled: !editMode || savable(),
                         onTap: editMode?(){
                           hideKeyboard(context);
-                          if(AccSecData.microsoftAcc){
+                          if(AccountData.microsoftAcc){
                             sendChangeRequest(
                               onSuccess: (){
                                 if(mounted) showAppToast(context, text: 'Zapisano');
@@ -382,7 +382,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                             return;
                           }
 
-                          if(emailController.text==AccSecData.email)
+                          if(emailController.text==AccountData.email)
                             showPasswordDialog();
                           else
                             showEmailChangedDialog();
@@ -504,7 +504,7 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
                   ),
                 ),
 
-                if(AccSecData.regularAcc)
+                if(AccountData.regularAcc)
                   InputFieldPassword(
                     hint: 'Hasło',
                     controller: passwordController,
@@ -517,7 +517,7 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
                     controller: emailController,
                   ),
 
-                if(AccSecData.regularAcc)
+                if(AccountData.regularAcc)
                   SizedBox(height: Dimen.SIDE_MARG),
 
                 Hero(
@@ -535,17 +535,17 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
                             color: Colors.red,
                             onTap: processing?null:(){
 
-                              if(!AccSecData.regularAcc && emailController.text != AccSecData.email){
-                                emailController.errorText = 'Nie podał${AccSecData.sex == Sex.male?'eś':'aś'} poprawnego adresu email';
+                              if(!AccountData.regularAcc && emailController.text != AccountData.email){
+                                emailController.errorText = 'Nie podał${AccountData.sex == Sex.male?'eś':'aś'} poprawnego adresu email';
                                 return;
                               }
 
                               setState(() => processing = true);
                               ApiUser.delete(
-                                validPass: AccSecData.regularAcc?passwordController.text:null,
+                                validPass: AccountData.regularAcc?passwordController.text:null,
                                 onSuccess: () async {
-                                  String email = AccSecData.email;
-                                  await AccSecData.forgetAccount();
+                                  String email = AccountData.email;
+                                  await AccountData.forgetAccount();
                                   Provider.of<LoginProvider>(context, listen: false).notify();
                                   showAppToast(context, text: 'Konto HarcApp <b>$email</b> trwale usunięte.');
 

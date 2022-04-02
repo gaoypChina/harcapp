@@ -19,7 +19,17 @@ class AccountThumbnailRowWidget extends StatelessWidget{
   final dynamic Function(int) heroBuilder;
   final void Function() onTap;
 
-  const AccountThumbnailRowWidget(this.accounts, {this.padding=EdgeInsets.zero, this.size, this.elevated, this.clipBehavior, this.screenWidth, this.heroBuilder, this.onTap});
+  const AccountThumbnailRowWidget(
+      this.accounts,
+      { this.padding=EdgeInsets.zero,
+        this.size,
+        this.elevated,
+        this.clipBehavior,
+        this.screenWidth,
+        this.heroBuilder,
+        this.onTap,
+        Key key
+      }): super(key: key);
 
   double get circleHeight => size??defSize;
   double get circleDistBig => .2*circleHeight;
@@ -33,7 +43,7 @@ class AccountThumbnailRowWidget extends StatelessWidget{
     child: SingleChildScrollView(
       padding: padding,
       clipBehavior: clipBehavior??Clip.none,
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       scrollDirection: Axis.horizontal,
       child: Builder(
           builder: (context){
