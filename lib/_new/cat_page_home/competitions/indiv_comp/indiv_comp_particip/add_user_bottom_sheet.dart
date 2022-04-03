@@ -92,6 +92,15 @@ class AddUserBottomSheet extends StatelessWidget{
                     pushPage(
                         context,
                         builder: (context) => ShadowUserManagerPage(
+                          itemSubtitleBuilder: (UserDataNick shadowUser){
+                            if(comp.participMap.containsKey(shadowUser.key))
+                              return Text(
+                                'Już uczestniczy',
+                                style: AppTextStyle(color: hintEnab_(context)),
+                              );
+                            else
+                              return null;
+                          },
                           onTap: (UserDataNick shadowUser){
                             if(comp.participMap[shadowUser.key] != null){
                               showAppToast(context, text: '${shadowUser.name} już uczestniczy we współzawodnictwie!');

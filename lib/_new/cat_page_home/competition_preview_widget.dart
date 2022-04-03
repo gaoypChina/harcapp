@@ -27,7 +27,7 @@ import 'competitions/indiv_comp/indiv_comp_loader.dart';
 import 'competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'competitions/indiv_comp/models/indiv_comp.dart';
 import 'competitions/indiv_comp/models/indiv_comp_profile.dart';
-import 'competitions/indiv_comp/indiv_comp_widget_small.dart';
+import 'competitions/indiv_comp/indiv_comp_tile.dart';
 import 'competitions/start_widgets/indiv_comp_preview_grid.dart';
 import 'competitions/start_widgets/indiv_comp_prompt_login.dart';
 
@@ -348,7 +348,7 @@ class _IndivCompPreviewExtWidget extends StatelessWidget{
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        AutoSizeText(comp.profile.points.toString(), style: AppTextStyle(fontSize: IndivCompWidgetSmall.textSizeVal, fontWeight: weight.bold)),
+                        AutoSizeText(comp.profile.points.toString(), style: AppTextStyle(fontSize: IndivCompTile.textSizeVal, fontWeight: weight.bold)),
                         Expanded(
                           child: LayoutBuilder(
                             builder: (BuildContext context, BoxConstraints constraints) {

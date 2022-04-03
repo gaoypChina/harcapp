@@ -6,10 +6,11 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/indiv_comp_rank_icon.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/particip_header_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/particip_tile.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/points_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_awards_page.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_particip/participant_list_page_templ.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_task_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
@@ -240,73 +241,49 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
 
         if(comp.particips.length == 1 && selectedParticips.isEmpty)
           Positioned(
-            left: Dimen.SIDE_MARG,
-            right: Dimen.SIDE_MARG,
-            bottom: kBottomNavigationBarHeight + Dimen.SIDE_MARG,
+            left: 2*Dimen.SIDE_MARG,
+            right: 2*Dimen.SIDE_MARG,
+            bottom: kBottomNavigationBarHeight + 2*Dimen.SIDE_MARG,
             child: Material(
-                borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-                elevation: AppCard.bigElevation,
-                color: cardEnab_(context),
-                child: Padding(
-                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                  child: Column(
+              color: background_(context),
+              child: Column(
+                children: [
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+                      Icon(MdiIcons.accountMultiple, size: 48.0, color: backgroundIcon_(context)),
+                      const SizedBox(width: Dimen.DEF_MARG),
+                      Icon(MdiIcons.accountPlus, size: 68.0, color: backgroundIcon_(context)),
+                      const SizedBox(width: Dimen.DEF_MARG+8),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Icon(MdiIcons.accountMultiple, size: 48.0, color: backgroundIcon_(context)),
-                          const SizedBox(width: Dimen.DEF_MARG),
-                          Icon(MdiIcons.accountPlus, size: 68.0, color: backgroundIcon_(context)),
-                          const SizedBox(width: Dimen.DEF_MARG+8),
+                      Transform(
+                        alignment: Alignment.center,
+                        transform: Matrix4.rotationY(pi),
+                        child: Icon(MdiIcons.accountMultiple, size: 48.0, color: backgroundIcon_(context)),
+                      )
 
-                          Transform(
-                            alignment: Alignment.center,
-                            transform: Matrix4.rotationY(pi),
-                            child: Icon(MdiIcons.accountMultiple, size: 48.0, color: backgroundIcon_(context)),
-                          )
-
-                        ],
-                      ),
-
-                      //SizedBox(height: Dimen.SIDE_MARG),
-
-                      AppText(
-                        'Wybierz <b>+</b> w górnym prawym rogu, by <b>dodać uczestników</b> do współzawodnictwa',
-                        color: hintEnab_(context),
-                        size: Dimen.TEXT_SIZE_APPBAR,
-                        textAlign: TextAlign.center,
-                      ),
                     ],
                   ),
-                )
-            ),
+
+                  //SizedBox(height: Dimen.SIDE_MARG),
+
+                  AppText(
+                    'Wybierz <b>+</b> w górnym prawym rogu, by <b>dodać uczestników</b> do współzawodnictwa',
+                    color: hintEnab_(context),
+                    size: Dimen.TEXT_SIZE_APPBAR,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            )
           )
 
       ],
     );
 
   }
-
-  SliverList getHeaderSliverList(String title, List<IndivCompParticip> particips, {void Function() onAllSelected}) => SliverList(delegate: SliverChildListDelegate([
-    if(particips.isNotEmpty)
-      Padding(
-        padding: const EdgeInsets.only(
-          top: 14.0,
-        ),
-        child: TitleShortcutRowWidget(
-            leading: const SizedBox(width: 2*Dimen.LIST_TILE_LEADING_MARGIN_VAL + AccountThumbnailRowWidget.defSize),
-            title: title,
-            titleColor: hintEnab_(context),
-            textAlign: TextAlign.start,
-            trailing: IconButton(
-              icon: const Icon(MdiIcons.selectAll),
-              onPressed: onAllSelected,
-            ),
-        ),
-      )
-  ]));
 
 }
 
@@ -332,7 +309,7 @@ class SelectedAppBar extends SliverAppBar{
 
       ],
     ),
-    title:  Text('Zaznaczono: ${selectedParticips.length}'),
+    title: Text('Zaznaczono: ${selectedParticips.length}'),
     centerTitle: true,
     floating: true,
     pinned: true,
@@ -635,6 +612,7 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
     onLongPress: onSelectionTap,
     onTap: anythingSelected?onSelectionTap:(profile.role == CompRole.ADMIN || profile.role == CompRole.MODERATOR?openParticipantDetails:null),
     heroTag: heroTag,
+    subtitle: PointsWidget(points: particip.profile.points, size: 24),
     trailing:
     profile.role == CompRole.ADMIN || profile.role == CompRole.MODERATOR?
     AnimatedOpacity(
@@ -644,14 +622,10 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
         mainAxisSize: MainAxisSize.min,
         children: [
 
-          Text(
-            '${particip.profile.points} ',
-            style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.halfBold),
-          ),
+          if(particip.profile.active)
+            IndivCompRankIcon(particip.profile, colors: comp.colors, size: 42.0),
 
-          const SizedBox(width: Dimen.ICON_MARG),
-
-          rankToAwardWidget(particip.profile.showRank)
+          // rankToAwardWidget(particip.profile.showRank)
 
         ],
       ),
@@ -732,48 +706,52 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
         children.add(const SizedBox(height: Dimen.DEF_MARG));
     }
 
-    return CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
-        const SliverAppBar(
-          title: Text('Zalicz zadanie'),
-          centerTitle: true,
-        ),
+    return Padding(
+      padding: MediaQuery.of(context).viewInsets,
+      child: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        shrinkWrap: true,
+        slivers: [
+          const SliverAppBar(
+            title: Text('Zalicz zadanie'),
+            centerTitle: true,
+          ),
 
-        SliverPadding(
-          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-          sliver: SliverList(delegate: SliverChildListDelegate([
+          SliverPadding(
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+            sliver: SliverList(delegate: SliverChildListDelegate([
 
-            if(selectedParticips.length==1)
-              ParticipHeaderWidget(
-                  selectedParticips[0].name,
-                  selectedParticips[0].shadow,
-                  selectedParticips[0].profile.role
+              if(selectedParticips.length==1)
+                ParticipHeaderWidget(
+                    selectedParticips[0].name,
+                    selectedParticips[0].shadow,
+                    selectedParticips[0].profile.role
+                )
+              else
+                Consumer<IndivCompParticipsProvider>(
+                    builder: (context, prov, child) => AccountThumbnailRowWidget(selectedParticips.map((particip) => particip.name).toList())
+                ),
+
+              Padding(
+                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                child: AppTextFieldHint(
+                  hint: 'Wiadomość:',
+                  hintStyle: AppTextStyle(color: hintEnab_(context)),
+                  hintTop: 'Wiadomość',
+                  controller: controller,
+                  maxLines: null,
+                ),
+              ),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: children,
               )
-            else
-              Consumer<IndivCompParticipsProvider>(
-                  builder: (context, prov, child) => AccountThumbnailRowWidget(selectedParticips.map((particip) => particip.name).toList())
-              ),
 
-            Padding(
-              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-              child: AppTextFieldHint(
-                hint: 'Wiadomość:',
-                hintStyle: AppTextStyle(color: hintEnab_(context)),
-                hintTop: 'Wiadomość',
-                controller: controller,
-                maxLines: null,
-              ),
-            ),
-
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: children,
-            )
-
-          ])),
-        )
-      ],
+            ])),
+          )
+        ],
+      ),
     );
   }
 

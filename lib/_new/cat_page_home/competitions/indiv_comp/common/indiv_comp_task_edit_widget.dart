@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/points_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/no_glow_behavior.dart';
@@ -124,7 +125,7 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
             onPointsChanged?.call(currVal);
             setState(() => points = currVal);
           },
-          child: IndivTaskWidgetPointsWidget(points, textColor: !remove && state == TaskState.OPEN?textEnab_(context):textDisab_(context)),
+          child: PointsWidget(points: points),//, textColor: !remove && state == TaskState.OPEN?textEnab_(context):textDisab_(context)),
         ),
 
         title: AppTextFieldHint(

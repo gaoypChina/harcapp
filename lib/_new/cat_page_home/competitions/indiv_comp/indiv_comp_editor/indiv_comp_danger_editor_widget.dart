@@ -38,7 +38,7 @@ class _IndivCompDangerEditorWidgetState extends State<IndivCompDangerEditorWidge
         SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
 
         SliverPadding(
-          padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+          padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
           sliver: SliverList(delegate: SliverChildListDelegate([
 
             TitleShortcutRowWidget(
@@ -48,11 +48,13 @@ class _IndivCompDangerEditorWidgetState extends State<IndivCompDangerEditorWidge
 
             LeaveButton(comp),
 
-            SimpleButton(
-                radius: AppCard.BIG_RADIUS,
-                padding: EdgeInsets.all(Dimen.SIDE_MARG),
-                color: backgroundIcon_(context),
-                onTap: () => showAlertDialog(
+            ListTile(
+              leading: const Icon(MdiIcons.bomb),
+              title: Text(
+                'Rozwiąż współzawodnictwo',
+                style: AppTextStyle(),
+              ),
+              onTap: () => showAlertDialog(
                   context,
                   title: 'Zastanów się dobrze...',
                   content: 'Współzawodnictwo <b>przestanie istnieć</b>.\n\nNie będzie już powrotu.\n\nNa pewno chcesz je <b>rozwiazać</b>?',
@@ -83,38 +85,7 @@ class _IndivCompDangerEditorWidgetState extends State<IndivCompDangerEditorWidge
                         }
                     )
                   ]
-                ),
-
-                child: SizedBox(
-                  height: 100,
-                  child: Stack(
-                    children: [
-
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: Icon(
-                          MdiIcons.nuke,
-                          size: 60,
-                          color: backgroundIcon_(context),
-                        ),
-                      ),
-
-                      Positioned(
-                        bottom: 10,
-                        left: 10,
-                        child: Text(
-                          'Rozwiąż\nwspółzawodnictwo',
-                          style: AppTextStyle(
-                              fontSize: Dimen.TEXT_SIZE_APPBAR,
-                              fontWeight: weight.bold,
-                              color: iconEnab_(context)
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                )
+              ),
             ),
 
           ]))

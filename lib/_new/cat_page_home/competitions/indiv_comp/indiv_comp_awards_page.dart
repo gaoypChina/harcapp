@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -10,81 +11,26 @@ import 'award_widgets/award_tile_dense_widget.dart';
 import 'award_widgets/award_tile_widget.dart';
 import 'models/indiv_comp.dart';
 
-Widget rankToAwardWidget(int rank, {double size = Dimen.ICON_SIZE}){
-  if(rank == 1)
-    return AwardFirstWidget(size: size);
-  else if(rank == 2)
-    return AwardSecondWidget(size: size);
-  else if(rank == 3)
-    return AwardThirdWidget(size: size);
-  else
-    return AwardOtherWidget(size: size);
-}
-
-class AwardFirstWidget extends StatelessWidget{
-
-  final double size;
-
-  const AwardFirstWidget({this.size = Dimen.ICON_SIZE, Key key}): super(key: key);
-
-  @override
-  Widget build(BuildContext context) => GradientIcon(MdiIcons.trophy, colorStart: Colors.yellow, colorEnd: Colors.amber, size: size);
-
-}
-
-class AwardSecondWidget extends StatelessWidget{
-
-  final double size;
-
-  const AwardSecondWidget({this.size = Dimen.ICON_SIZE, Key key}): super(key: key);
-
-  @override
-  Widget build(BuildContext context) => GradientIcon(MdiIcons.trophyVariant, colorStart: Colors.grey[300], colorEnd: Colors.grey[600], size: size);
-
-}
-
-class AwardThirdWidget extends StatelessWidget{
-
-  final double size;
-
-  const AwardThirdWidget({this.size = Dimen.ICON_SIZE, Key key}): super(key: key);
-
-  @override
-  Widget build(BuildContext context) => GradientIcon(MdiIcons.trophyAward, colorStart: Colors.orange[500], colorEnd: Colors.brown[600], size: size);
-
-}
-
-class AwardOtherWidget extends StatelessWidget{
-
-  final double size;
-
-  const AwardOtherWidget({this.size = Dimen.ICON_SIZE, Key key}): super(key: key);
-
-  @override
-  Widget build(BuildContext context) => GradientIcon(MdiIcons.rhombusMediumOutline, colorStart: Colors.grey[200], colorEnd: Colors.grey[400], size: size);
-
-}
-
 class AwardPageViewWidget extends StatelessWidget{
 
-  final List<IndivCompAward> awards;
+  final IndivComp comp;
   final bool expanded;
   final EdgeInsets padding;
 
-  const AwardPageViewWidget(this.awards, {this.expanded = false, this.padding, Key key}): super(key: key);
+  const AwardPageViewWidget(this.comp, {this.expanded = false, this.padding, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     List<Widget> children = [];
 
-    for(int i=0; i<awards.length; i++)
+    for(int i=0; i<comp.awards.length; i++)
       children.add(
         Padding(
           padding: padding,
           child: expanded?
-          AwardTileWidget(i+1, awards[i]):
-          AwardTileDenseWidget(i+1, awards[i])),
+          AwardTileWidget(i+1, comp.colors, comp.awards[i]):
+          AwardTileDenseWidget(i+1, comp.colors, comp.awards[i])),
         );
 
     return SizedBox(
@@ -99,10 +45,11 @@ class AwardPageViewWidget extends StatelessWidget{
 class AwardListWidget extends StatelessWidget{
 
   final List<IndivCompAward> awards;
+  final CommonColorData colors;
   final int limit;
   final bool expanded;
 
-  const AwardListWidget(this.awards, {this.limit, this.expanded = false, Key key}): super(key: key);
+  const AwardListWidget(this.awards, this.colors, {this.limit, this.expanded = false, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +57,10 @@ class AwardListWidget extends StatelessWidget{
     List<Widget> children = [];
 
     for(int i=0; i<min(limit??awards.length, awards.length); i++) {
-      children.add(expanded ? AwardTileWidget(i + 1, awards[i]) : AwardTileDenseWidget(i + 1, awards[i]));
+      children.add(
+          expanded ?
+          AwardTileWidget(i + 1, colors, awards[i]) :
+          AwardTileDenseWidget(i + 1, colors, awards[i]));
       if(i<awards.length-1)
         children.add(const SizedBox(height: 18.0));
 
@@ -154,7 +104,7 @@ class IndivCompAwardsPageState extends State<IndivCompAwardsPage>{
               padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               sliver: SliverList(delegate: SliverChildListDelegate([
 
-                AwardListWidget(comp.awards, expanded: true)
+                AwardListWidget(comp.awards, comp.colors, expanded: true)
 
               ])),
           ),

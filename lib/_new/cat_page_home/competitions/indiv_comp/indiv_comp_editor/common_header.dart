@@ -36,7 +36,6 @@ class CommonHeader extends StatelessWidget{
          IndivCompThumbnailWidget(
            iconKey: iconKey,
            colorsKey: colorsKey,
-           role: CompRole.OBSERVER,
            heroTag: heroTag,
          ),
 

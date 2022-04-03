@@ -32,9 +32,9 @@ class ModeProvider extends ChangeNotifier{
   }
 
   ModeProvider({DateTime startDate, DateTime endDate, bool overviewMode}){
-    this._startDate = startDate??DateTime.now();
-    this._endDate = endDate??DateTime.now().add(Duration(days: 365));
-    this._overviewMode = overviewMode??true;
+    _startDate = startDate??DateTime.now();
+    _endDate = endDate??DateTime.now().add(const Duration(days: 365));
+    _overviewMode = overviewMode??true;
   }
 
 }
@@ -55,8 +55,9 @@ class ColorKeyProvider extends ChangeNotifier{
 
   Color get avgColor => CommonColorData.ALL[_colorsKey].avgColor;
 
-  Color get color1 => CommonColorData.ALL[_colorsKey].colorStart;
-  Color get color2 => CommonColorData.ALL[_colorsKey].colorEnd;
+  CommonColorData get colors => CommonColorData.ALL[_colorsKey];
+  Color get color1 => colors.colorStart;
+  Color get color2 => colors.colorEnd;
   Color get accIconColor => Colors.white;
 
 }
@@ -93,7 +94,7 @@ class TaskBodiesProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void update(int i, {String title, String desc, int points, int position, TaskState state, bool silent: false}){
+  void update(int i, {String title, String desc, int points, int position, TaskState state, bool silent = false}){
 
     if(title != null)
       _taskEditables[i].editedTitle = title;
@@ -114,7 +115,7 @@ class TaskBodiesProvider extends ChangeNotifier{
       notifyListeners();
   }
 
-  void remove(int i, bool value, {bool silent: false}){
+  void remove(int i, bool value, {bool silent = false}){
     _taskEditables[i].remove = value;
     if(!silent)
       notifyListeners();

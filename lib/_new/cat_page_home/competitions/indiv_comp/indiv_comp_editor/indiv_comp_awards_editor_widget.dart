@@ -42,10 +42,10 @@ class _IndivCompAwardsEditorWidgetState extends State<IndivCompAwardsEditorWidge
               TitleShortcutRowWidget(title: 'Nagrody', titleColor: hintEnab_(context)),
             ])),
 
-            Consumer<AwardsProvider>(
-              builder: (context, prov, child){
+            Consumer2<AwardsProvider, ColorKeyProvider>(
+              builder: (context, awardProv, colorProv, child){
 
-                if(prov.awards.isEmpty)
+                if(awardProv.awards.isEmpty)
                   return const SliverFillRemaining(
                     hasScrollBody: false,
                     child: Center(
@@ -60,11 +60,12 @@ class _IndivCompAwardsEditorWidgetState extends State<IndivCompAwardsEditorWidge
                     padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
                     sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
                             (context, index) => AwardTileEditWidget(
-                                index+1,
-                                prov.data[index],
-                                onChanged: (text) => prov.awards[index] = text,
-                                onDuplicate: () => prov.insertAfter(index, null),
-                                onRemove: () => prov.removeAt(index),
+                              index+1,
+                              colorProv.colors,
+                              awardProv.data[index],
+                                onChanged: (text) => awardProv.awards[index] = text,
+                                onDuplicate: () => awardProv.insertAfter(index, null),
+                                onRemove: () => awardProv.removeAt(index),
                             ),
                         separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
                         count: Provider.of<AwardsProvider>(context, listen: false).data.length

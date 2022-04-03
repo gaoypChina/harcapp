@@ -18,6 +18,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../_common_widgets/app_toast.dart';
+import '../_common_widgets/bottom_nav_scaffold.dart';
 import '../_common_widgets/empty_message_widget.dart';
 import '../_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'account.dart';
@@ -29,9 +30,10 @@ class ShadowUserManagerPage extends StatefulWidget{
       'Jeżeli ktoś nie posiada konta HarcApp, stwórz na jego miejsce konto widmo.'
       '\n\nKonto widmo można połączyć z dowolnym istniejącym kontem w dowolnym momencie.';
 
+  final Widget Function(UserDataNick) itemSubtitleBuilder;
   final void Function(UserDataNick) onTap;
 
-  const ShadowUserManagerPage({this.onTap, Key key}) : super(key: key);
+  const ShadowUserManagerPage({this.itemSubtitleBuilder, this.onTap, Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ShadowUserManagerPageState();
@@ -40,6 +42,7 @@ class ShadowUserManagerPage extends StatefulWidget{
 
 class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
 
+  Widget Function(UserDataNick) get itemSubtitleBuilder => widget.itemSubtitleBuilder;
   void Function(UserDataNick) get onTap => widget.onTap;
 
   RefreshController refreshController;
@@ -55,7 +58,7 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
   }
 
   @override
-  Widget build(BuildContext context) => AppScaffold(
+  Widget build(BuildContext context) => BottomNavScaffold(
       body: SmartRefresher(
         enablePullDown: true,
         physics: const BouncingScrollPhysics(),
@@ -134,7 +137,7 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
                           decoration: BoxDecoration(
                             border: Border.all(
                               color: backgroundIcon_(context),
-                              width: Dimen.DEF_MARG,
+                              width: 8,
                             ),
                             borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
                           ),
@@ -177,6 +180,7 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
                     shadowUsers[index],
                     onTap: onTap,
                     onRemoved: () => setState((){}),
+                    subtitle: itemSubtitleBuilder?.call(shadowUsers[index]),
                     key: ValueKey(shadowUsers[index]),
                   ),
                   childCount: shadowUsers.length,
@@ -194,10 +198,11 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
 class ShadowUserTile extends StatefulWidget{
 
   final UserDataNick shadowUser;
+  final Widget subtitle;
   final void Function(UserDataNick) onTap;
   final void Function() onRemoved;
 
-  const ShadowUserTile(this.shadowUser, {this.onTap, this.onRemoved, Key key}) : super(key: key);
+  const ShadowUserTile(this.shadowUser, {this.subtitle, this.onTap, this.onRemoved, Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ShadowUserTileState();
@@ -207,6 +212,7 @@ class ShadowUserTile extends StatefulWidget{
 class ShadowUserTileState extends State<ShadowUserTile>{
   
   UserDataNick get shadowUser => widget.shadowUser;
+  Widget get subtitle => widget.subtitle;
   void Function(UserDataNick) get onTap => widget.onTap;
   void Function() get onRemoved => widget.onRemoved;
 
@@ -225,6 +231,7 @@ class ShadowUserTileState extends State<ShadowUserTile>{
   @override
   Widget build(BuildContext context) => AccountTile(
     shadowUser.name,
+    subtitle: subtitle,
     shadow: true,
     onTap: () => onTap?.call(shadowUser),
     trailing: Row(

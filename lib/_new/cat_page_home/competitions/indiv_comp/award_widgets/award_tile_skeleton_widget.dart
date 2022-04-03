@@ -4,31 +4,41 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/dimen.dart';
 
+import '../../../../../_app_common/common_color_data.dart';
+import '../common/indiv_comp_rank_icon.dart';
 import '../indiv_comp_awards_page.dart';
 
 class AwardTileSkeletonWidget extends StatelessWidget{
 
   final int position;
+  final CommonColorData colors;
   final IndivCompAward award;
   final Widget text;
   final Widget titleTrailing;
 
-  const AwardTileSkeletonWidget(this.position, this.award, this.text, {this.titleTrailing});
+  const AwardTileSkeletonWidget(
+      this.position,
+      this.colors,
+      this.award,
+      this.text,
+      { this.titleTrailing,
+        Key key
+      }): super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
     children: [
 
       ListTile(
-          leading: rankToAwardWidget(position, size: 36.0),
+          leading: IndivCompRankIconTemplate(position, colors: colors),
           title: Row(
             children: [
               Expanded(
                 child: Text(
                     'Miejsce ${award.place}',
                     style: AppTextStyle(
-                        fontSize: Dimen.TEXT_SIZE_BIG + 2,
-                        fontWeight: weight.halfBold
+                        fontSize: Dimen.TEXT_SIZE_APPBAR,
+                        fontWeight: weight.bold
                     )
                 ),
               ),
@@ -40,7 +50,7 @@ class AwardTileSkeletonWidget extends StatelessWidget{
 
       Row(
         children: [
-          SizedBox(width: 72.0),
+          const SizedBox(width: 2*Dimen.LIST_TILE_LEADING_MARGIN_VAL + IndivCompRankIcon.defSize),
           Expanded(child: text),
         ],
       ),

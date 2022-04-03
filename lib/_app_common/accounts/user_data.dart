@@ -59,12 +59,14 @@ class UserDataNick extends UserData{
 
   static const String _paramKey = '_key';
   static const String _paramName = 'name';
+  static const String _paramShadow = 'shadow';
   static const String _paramSex = 'sex';
   static const String _paramNick = 'nick';
 
   Map<String, dynamic> toJsonMap() => {
     _paramKey: key,
     _paramName: name,
+    _paramShadow: shadow,
     _paramSex: sexToString[sex],
     _paramNick: nick
   };

@@ -2,20 +2,20 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_awards_page.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_page.dart';
+import 'package:harcapp/account/account_thumbnail_row_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'common/indiv_comp_task_skeleton_widget.dart';
+import 'common/points_widget.dart';
 import 'indiv_comp_thumbnail_widget.dart';
 import 'models/indiv_comp.dart';
 
-class IndivCompWidgetSmall extends StatelessWidget{
+class IndivCompTile extends StatelessWidget{
 
   static const double textSizeVal = 42.0;
   static const double textSizePkt = 32.0;
@@ -24,7 +24,12 @@ class IndivCompWidgetSmall extends StatelessWidget{
   final IndivComp comp;
   final bool showPinned;
 
-  IndivCompWidgetSmall(this.comp, {this.leading, this.showPinned = false}): super(key: ValueKey(comp));
+  IndivCompTile(this.comp, {this.leading, this.showPinned = false}): super(key: ValueKey(comp));
+
+  void openCompPage(BuildContext context) => Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => IndivCompPage(comp))
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +62,13 @@ class IndivCompWidgetSmall extends StatelessWidget{
                 radius: AppCard.BIG_RADIUS,
                 padding: EdgeInsets.zero,
                 margin: EdgeInsets.zero,
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => IndivCompPage(comp))
-                ),
+                onTap: () => openCompPage(context),
                 child: Row(
                   children: [
-                    IndivCompThumbnailWidget.from(comp: comp, heroTag: comp),
+                    IndivCompThumbnailWidget.from(
+                        comp: comp,
+                        heroTag: IndivCompThumbnailWidget.defHeroTag(comp)
+                    ),
 
                     const SizedBox(width: Dimen.ICON_MARG),
 
@@ -72,26 +77,32 @@ class IndivCompWidgetSmall extends StatelessWidget{
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
 
+                          const SizedBox(height: Dimen.DEF_MARG),
+
                           Row(
                             children: [
 
-                              Expanded(child: Text(
-                                comp.name,
-                                style: AppTextStyle(
-                                  fontSize: Dimen.TEXT_SIZE_APPBAR,
-                                  fontWeight: weight.bold,
-                                  color: hintEnab_(context),
-                                ),
-                                maxLines: 2,
-                              )),
-
-                              if(showPinned && comp.pinned)
-                                SizedBox(
-                                  width: RankingWidget.defTextSize,
-                                  child: Center(
-                                    child: Icon(MdiIcons.pin, color: backgroundIcon_(context), size: Dimen.TEXT_SIZE_APPBAR),
+                              Expanded(
+                                child: Text(
+                                  comp.name,
+                                  style: AppTextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: weight.bold,
+                                    color: comp.colors.colorEnd,
                                   ),
-                                )
+                                  maxLines: 2,
+                                ),
+                              ),
+
+                              const SizedBox(width: Dimen.ICON_MARG),
+
+                              Icon(
+                                compRoleToIcon[comp.profile.role],
+                                color: hintEnab_(context),
+                              ),
+
+                              const SizedBox(width: Dimen.ICON_MARG),
+
                             ],
                           ),
 
@@ -102,17 +113,23 @@ class IndivCompWidgetSmall extends StatelessWidget{
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
 
-                                Text('${comp.profile.points} ', style: AppTextStyle(fontSize: textSizeVal, fontWeight: weight.bold)),
-                                Icon(
-                                  IndivTaskWidgetPointsWidget.icon,
-                                  size: .9*textSizeVal,
-                                  color: textEnab_(context),
+                                //IndivCompRankIcon(comp.profile, colors: comp.colors, size: 32),
+
+                                Expanded(
+                                  child: AccountThumbnailRowWidget(
+                                    comp.particips.map((particip) => particip.name).toList(),
+                                    size: 24.0,
+                                    clipBehavior: Clip.hardEdge,
+                                    onTap: () => openCompPage(context),
+                                  )
                                 ),
-                                //Text('pkt', style: AppTextStyle(fontSize: textSizePkt)),
-                                Expanded(child: Container()),
-                                RankingWidget(comp, textColor: hintEnab_(context)),
-                                const SizedBox(width: 10.0),
-                                rankToAwardWidget(comp.profile.showRank, size: RankingWidget.defTextSize)
+
+                                //Expanded(child: Container()),
+
+                                PointsWidget(points: comp.profile.points, size: 32.0),
+
+                                const SizedBox(width: Dimen.DEF_MARG),
+
                               ],
                             )
                           else
@@ -138,7 +155,7 @@ class IndivCompWidgetSmall extends StatelessWidget{
 
 class RankingWidget extends StatelessWidget{
 
-  static const double defTextSize = IndivCompWidgetSmall.textSizePkt;
+  static const double defTextSize = IndivCompTile.textSizePkt;
 
   final IndivComp comp;
   final Color textColor;

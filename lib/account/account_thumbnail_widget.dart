@@ -34,6 +34,7 @@ class AccountThumbnailWidget extends StatelessWidget{
   final bool elevated;
   final double size;
   final bool enabled;
+  final IconData markIcon;
   final void Function() onTap;
 
   const AccountThumbnailWidget(
@@ -43,6 +44,7 @@ class AccountThumbnailWidget extends StatelessWidget{
 
         this.elevated=true,
         this.size,
+        this.markIcon,
         this.enabled = true,
         this.onTap,
         Key key
@@ -76,6 +78,7 @@ class AccountThumbnailWidget extends StatelessWidget{
       width: size,
       height: size,
       child: Stack(
+        clipBehavior: Clip.none,
         children: [
 
           SimpleButton(
@@ -95,7 +98,7 @@ class AccountThumbnailWidget extends StatelessWidget{
 
           if(shadow)
             Positioned(
-              bottom: -.04*size,
+              top: -.04*size,
               right: -.04*size,
               child: Material(
                 borderRadius: BorderRadius.circular(size),
@@ -106,7 +109,37 @@ class AccountThumbnailWidget extends StatelessWidget{
                   size: size/2.6,
                 ),
               )
-            )
+            ),
+
+          if(markIcon != null)
+            Positioned(
+              bottom: -.04*size,
+              right: -.04*size,
+              child: Material(
+                borderRadius: BorderRadius.circular(size),
+                color: background_(context),
+                child: Icon(
+                  markIcon,
+                  color: hintEnab_(context),
+                  size: size/2.6,
+                ),
+              )
+            ),
+
+          Positioned.fill(
+            child: IgnorePointer(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: backgroundIcon_(context).withOpacity(.02),
+                      width: .098*size,
+                      style: BorderStyle.solid
+                  ),
+                  borderRadius: BorderRadius.circular(size),
+                ),
+              ),
+            ),
+          ),
 
         ],
       )

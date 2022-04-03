@@ -21,7 +21,10 @@ class ParticipTile extends StatelessWidget{
   final Color selectedTextColor;
   final void Function() onTap;
   final void Function() onLongPress;
+  final Widget leading;
   final Widget trailing;
+  final Widget subtitle;
+  final IconData mardIcon;
   final dynamic heroTag;
 
   const ParticipTile({
@@ -35,7 +38,10 @@ class ParticipTile extends StatelessWidget{
         this.selected=false, this.selectedTextColor,
         this.onTap,
         this.onLongPress,
+        this.leading,
         this.trailing,
+        this.subtitle,
+        this.mardIcon,
         this.heroTag,
         Key key
       }): super(key: key);
@@ -67,7 +73,10 @@ class ParticipTile extends StatelessWidget{
     
     textColor: active?(selected?selectedTextColor:iconEnab_(context)):hintEnab_(context),
     backgroundColor: selected?cardEnab_(context):Colors.transparent,
+    leading: leading,
     trailing: trailing,
+    subtitle: subtitle,
+    mardIcon: mardIcon,
     thumbnailHeroTag: heroTag,
 
     onTap: onTap,

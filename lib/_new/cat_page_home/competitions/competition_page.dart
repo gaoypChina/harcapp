@@ -9,7 +9,7 @@ import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_profile.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_widget_small.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_tile.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_preview_grid.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_prompt.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_prompt_login.dart';
@@ -283,10 +283,20 @@ class _CompListWidgetState extends State<_CompListWidget>{
                 ));
 
               for (int i = 0; i < searchedComps.length; i++) {
+                widgets.add(
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                      child: IndivCompTile(
+                        searchedComps[i],
+                        showPinned: true,
+                      ),
+                    )
+                );
+                /*
                 widgets.add(Slidable(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                      child: IndivCompWidgetSmall(
+                      child: IndivCompTile(
                         searchedComps[i],
                         showPinned: true,
                       ),
@@ -320,7 +330,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
                       ],
                     )
                 ));
-
+*/
                 widgets.add(const SizedBox(height: Dimen.ICON_MARG));
               }
               if (IndivComp.all.isEmpty)
@@ -368,7 +378,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
 
                             Text('Nowe',
                                 style: AppTextStyle(
-                                    fontSize: IndivCompWidgetSmall.textSizePkt,
+                                    fontSize: IndivCompTile.textSizePkt,
                                     color: hintEnab_(context),
                                     fontWeight: weight.bold)),
 
@@ -389,15 +399,17 @@ class _CompListWidgetState extends State<_CompListWidget>{
                       if (type == null) return;
 
                       List<String> exampleNames = [
-                        'Śmietanka towarzystwa',
-                        'Liga nieprzeciętnych',
-                        'Kapitol szlachty',
-                        'Kto pierwszy ten lepszy',
+                        'Dolina muminków',
                         'Drużyna pierścienia',
                         'Ekipa krecika',
+                        'Kapitol szlachty',
+                        'Księga dżungli',
+                        'Kto pierwszy ten lepszy',
+                        'Liga nieprzeciętnych',
                         'Rybki z ferajny',
-                        'Zwierzogród',
+                        'Śmietanka towarzystwa',
                         'Załoga G',
+                        'Zwierzogród',
                       ];
 
                       if(type == NewCompType.join)

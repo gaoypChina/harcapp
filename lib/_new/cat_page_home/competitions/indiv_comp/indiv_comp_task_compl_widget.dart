@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/points_widget.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_task_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/loading_widget.dart';
@@ -26,7 +28,7 @@ class IndivCompTaskComplWidget extends StatelessWidget{
   const IndivCompTaskComplWidget(
       this.comp,
       this.taskCompl,
-      {this.preview = false,
+      { this.preview = false,
         this.onRemoved,
         this.onTap,
         this.heroTag,
@@ -41,7 +43,7 @@ class IndivCompTaskComplWidget extends StatelessWidget{
     Widget child = IndivCompTaskSkeletonWidget(
       title: Text(task.title, style: IndivCompTaskSkeletonWidget.titleTextStyle(context).copyWith(color: preview?hintEnab_(context):textEnab_(context))),
       description: preview?null:Text(task.description, style: IndivCompTaskSkeletonWidget.descriptionTextStyle(context)),
-      trailing: IndivTaskWidgetPointsWidget(task.points, textColor: preview?hintEnab_(context):textEnab_(context)),
+      trailing: PointsWidget(points: task.points),
       onTap: onTap,
       bottom: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -52,18 +54,17 @@ class IndivCompTaskComplWidget extends StatelessWidget{
             child: Row(
               children: [
 
-                const SizedBox(width: Dimen.SIDE_MARG),
+                const SizedBox(width: IndivCompTaskSkeletonWidget.padding),
                 Expanded(
                   child: Text(
                     dateToString(taskCompl.reqTime, withTime: true, shortMonth: true),
-                    style: AppTextStyle(color: backgroundIcon_(context), fontWeight: weight.halfBold),
+                    style: AppTextStyle(color: hintEnab_(context), fontWeight: weight.halfBold),
                   ),
                 ),
 
-
                 Text('${taskAcceptStateToName(taskCompl.acceptState)} ', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL, fontWeight: weight.halfBold, color: taskAcceptStateColor(taskCompl.acceptState))),
                 Icon(
-                  taskCompl.acceptState == TaskAcceptState.ACCEPTED?MdiIcons.check:MdiIcons.close,//taskAcceptStateIcon(taskCompl.acceptState),
+                  taskAcceptStateIcon(taskCompl.acceptState),
                   color: taskAcceptStateColor(taskCompl.acceptState),
                   size: 16,
                 ),

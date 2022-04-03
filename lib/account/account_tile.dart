@@ -7,26 +7,32 @@ import 'account_thumbnail_widget.dart';
 class AccountTile extends StatelessWidget{
 
   final String name;
+  final Widget subtitle;
   final bool shadow;
 
   final Color textColor;
   final Color backgroundColor;
 
+  final Widget leading;
   final Widget trailing;
   final dynamic thumbnailHeroTag;
   final void Function() onTap;
   final void Function() onLongPress;
+  final IconData mardIcon;
 
   const AccountTile(
       this.name,
-      { this.shadow = false,
+      { this.subtitle,
+        this.shadow = false,
         this.textColor,
         this.backgroundColor,
 
+        this.leading,
         this.trailing,
         this.thumbnailHeroTag,
         this.onTap,
         this.onLongPress,
+        this.mardIcon,
         Key key
       }) : super(key: key);
 
@@ -44,11 +50,21 @@ class AccountTile extends StatelessWidget{
             top: Dimen.ICON_MARG/2,
             bottom: Dimen.ICON_MARG/2
         ),
-        leading: thumbnailHeroTag == null?
-        AccountThumbnailWidget(name, shadow: shadow, elevated: false) :
-        Hero(
-          tag: thumbnailHeroTag,
-          child: AccountThumbnailWidget(name, shadow: shadow, elevated: false),
+        leading: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+
+            if(leading != null) leading,
+
+            if(thumbnailHeroTag == null)
+              AccountThumbnailWidget(name, shadow: shadow, elevated: false, markIcon: mardIcon)
+            else
+              Hero(
+                tag: thumbnailHeroTag,
+                child: AccountThumbnailWidget(name, shadow: shadow, elevated: false, markIcon: mardIcon),
+              ),
+
+          ],
         ),
         title: Text(
             name,
@@ -57,6 +73,7 @@ class AccountTile extends StatelessWidget{
                 color: textColor
             )
         ),
+        subtitle: subtitle,
         trailing: trailing,
     ),
   );

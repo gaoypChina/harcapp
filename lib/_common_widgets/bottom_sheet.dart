@@ -109,8 +109,9 @@ class BottomSheetDef extends StatefulWidget{
     @required this.builder,
     this.textColor,
     this.color,
-    this.childMargin = const EdgeInsets.all(Dimen.BOTTOM_SHEET_MARG)
-  });
+    this.childMargin = const EdgeInsets.all(Dimen.BOTTOM_SHEET_MARG),
+    Key key
+  }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => BottomSheetDefState();
@@ -122,34 +123,36 @@ class BottomSheetDefState extends State<BottomSheetDef>{
   @override
   Widget build(BuildContext context) {
 
-    return Container(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        decoration: BoxDecoration(
-            color: widget.color??background_(context),
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(12.0),
-                topRight: Radius.circular(12.0))),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            if(widget.title!=null)
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: Material(
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(12.0),
+              topRight: Radius.circular(12.0)
+          ),
+          color: widget.color??background_(context),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              if(widget.title!=null)
+                Padding(
+                    padding: const EdgeInsets.all(Dimen.BOTTOM_SHEET_TITLE_MARG),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Text(widget.title, style: AppTextStyle(fontWeight: weight.halfBold, color: widget.textColor, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.end,),
+                        if(widget.subTitle!=null) Text(widget.subTitle, style: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_NORMAL), textAlign: TextAlign.end,),
+                      ],
+                    )
+                ),
               Padding(
-                  padding: const EdgeInsets.all(Dimen.BOTTOM_SHEET_TITLE_MARG),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Text(widget.title, style: AppTextStyle(fontWeight: weight.halfBold, color: widget.textColor, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.end,),
-                      if(widget.subTitle!=null) Text(widget.subTitle, style: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_NORMAL), textAlign: TextAlign.end,),
-                    ],
-                  )
-              ),
-            Padding(
-              padding: widget.childMargin,
-              child: widget.builder(context),
-            )
-          ],
-        )
+                padding: widget.childMargin,
+                child: widget.builder(context),
+              )
+            ],
+          )
+      ),
     );
 
   }

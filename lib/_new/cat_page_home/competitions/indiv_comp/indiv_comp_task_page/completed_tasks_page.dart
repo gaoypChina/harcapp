@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_task_page/review_page/indiv_comp_task_compl_details_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
@@ -33,28 +34,13 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
 
   bool showAll;
 
-  void openDetails(BuildContext context, taskCompl) => openDialog(
+  void openDetails(BuildContext context, taskCompl) => showScrollBottomSheet(
       context: context,
-      builder: (context) => Padding(
-        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-        child: Material(
-            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-            clipBehavior: Clip.antiAlias,
-            color: background_(context),
-            child: Column(
-              children: [
-                AppBar(
-                  elevation: 0,
-                ),
-                Expanded(
-                  child: IndivCompTaskComplDetailsWidget(
-                      comp,
-                      taskCompl
-                  ),
-                )
-              ],
-            )
-        ),
+      builder: (context) => BottomSheetDef(
+          builder: (context) => IndivCompTaskComplDetailsWidget(
+              comp,
+              taskCompl
+          ),
       )
   );
 
@@ -77,12 +63,13 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
       reversedComplTasks.moveNext();
       IndivCompTaskCompl taskCompl = reversedComplTasks.current;
 
-      if ((!showAll && taskCompl.acceptState == TaskAcceptState.ACCEPTED) || (showAll && taskCompl.acceptState != TaskAcceptState.PENDING))
+      if ((!showAll && taskCompl.acceptState == TaskAcceptState.ACCEPTED) || (showAll && taskCompl.acceptState != TaskAcceptState.PENDING)) {
         children.add(
             IndivCompTaskComplWidget(
                 comp,
                 taskCompl,
                 heroTag: taskCompl,
+                preview: true,
                 onRemoved: (String removedId) {
                   comp.profile.completedTasks.remove(taskCompl);
                   onRemoved?.call(taskCompl);
@@ -91,8 +78,9 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
             )
         );
 
-      if(i<comp.profile.completedTasks.length-1)
-        children.add(const SizedBox(height: Dimen.SIDE_MARG));
+        if (i < comp.profile.completedTasks.length - 1)
+          children.add(const SizedBox(height: Dimen.SIDE_MARG));
+      }
     }
     return BottomNavScaffold(
       body: CustomScrollView(

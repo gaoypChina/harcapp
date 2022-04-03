@@ -26,9 +26,9 @@ String taskAcceptStateToName(TaskAcceptState state){
 }
 
 IconData taskAcceptStateIcon(TaskAcceptState state){
-  if(state == TaskAcceptState.ACCEPTED) return MdiIcons.checkCircleOutline;
-  else if(state == TaskAcceptState.PENDING) return MdiIcons.dotsHorizontalCircleOutline;
-  else if(state == TaskAcceptState.REJECTED) return MdiIcons.closeCircleOutline;
+  if(state == TaskAcceptState.ACCEPTED) return MdiIcons.check;
+  else if(state == TaskAcceptState.PENDING) return MdiIcons.clockOutline;
+  else if(state == TaskAcceptState.REJECTED) return MdiIcons.close;
   else return null;
 }
 

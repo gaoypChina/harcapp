@@ -144,31 +144,29 @@ class _Border extends StatelessWidget{
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
+  Widget build(BuildContext context) => Padding(
       padding: const EdgeInsets.all(Dimen.DEF_MARG),
       child: Material(
         color: backgroundIcon_(context),
         borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
         child: Padding(
-          padding: const EdgeInsets.all(Dimen.DEF_MARG),
-          child: Material(
-            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS-4),
-            clipBehavior: Clip.hardEdge,
-            color: background_(context),
-            child: Column(
-              children: [
-                const SizedBox(height: Dimen.DEF_MARG),
-                header,
-                const SizedBox(height: Dimen.DEF_MARG),
-                body
-              ],
-            ),
-          )
+            padding: const EdgeInsets.all(8),
+            child: Material(
+              borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS-4),
+              clipBehavior: Clip.hardEdge,
+              color: background_(context),
+              child: Column(
+                children: [
+                  const SizedBox(height: Dimen.DEF_MARG),
+                  header,
+                  const SizedBox(height: Dimen.DEF_MARG),
+                  body
+                ],
+              ),
+            )
         ),
       )
-    );
-  }
+  );
 
 }
 
@@ -207,7 +205,8 @@ class _ParticipListHeader extends StatelessWidget{
           )
       ),
 
-      trailing
+      if(trailing != null)
+        trailing
 
     ],
   );

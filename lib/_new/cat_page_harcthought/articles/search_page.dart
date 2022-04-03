@@ -27,7 +27,7 @@ class ArticleSearchPage extends StatefulWidget{
 
   final List<Article> allArticles;
 
-  const ArticleSearchPage(this.allArticles);
+  const ArticleSearchPage(this.allArticles, {Key key}): super(key: key);
 
   @override
   State createState() => ArticleSearchPageState();
@@ -269,7 +269,7 @@ class _SearchTextFieldCard extends StatelessWidget{
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.only(left: Dimen.DEF_MARG, right: Dimen.DEF_MARG, bottom: Dimen.DEF_MARG),
-          child: Container(
+          child: SizedBox(
             height: 2*Dimen.DEF_MARG + Dimen.TEXT_SIZE_NORMAL + 3,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -307,7 +307,12 @@ class BottomSheetOptions extends StatefulWidget{
   final ArticleSearcher searcher;
   final void Function() onChanged;
 
-  const BottomSheetOptions(this.searchOptions, this.searcher, {this.onChanged});
+  const BottomSheetOptions(
+      this.searchOptions,
+      this.searcher,
+      { this.onChanged,
+        Key key
+      }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => BottomSheetOptionsState();

@@ -1,16 +1,11 @@
-import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
-import 'package:harcapp/_new/api/indiv_comp.dart';
-import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:tuple/tuple.dart';
@@ -98,8 +93,7 @@ class IndivCompProfilePendingComplTasksPageState extends State<IndivCompProfileP
               IndivCompTaskComplDetailsWidget(
                   comp,
                   taskCompl,
-                  particip: particip,
-                  padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                  padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                   onAcceptStateChanged: (){
                       if(pendingComplTasks.length == 1)
                         Navigator.pop(context);
@@ -112,9 +106,10 @@ class IndivCompProfilePendingComplTasksPageState extends State<IndivCompProfileP
             body: DefaultTabController(
               length: pendingComplTasks.length,
               child: NestedScrollView(
+                  physics: const BouncingScrollPhysics(),
                   headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
                     SliverAppBar(
-                      title: Text('Prośby o zaliczenie zadań'),
+                      title: const Text('Wnioski o punkty'),
                       centerTitle: true,
                       floating: true,
                       pinned: pendingComplTasks.length > 1,
@@ -129,21 +124,21 @@ class IndivCompProfilePendingComplTasksPageState extends State<IndivCompProfileP
                       bottom:
                       pendingComplTasks.length == 1?null:TabBar(
                         isScrollable: pendingComplTasks.length > 3,
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         tabs: tabs,
                       ),
                     ),
                   ],
                   body: 
-                  pendingComplTasks.length == 0? 
-                      Padding(
+                  pendingComplTasks.isEmpty?
+                      const Padding(
                         padding: EdgeInsets.all(Dimen.SIDE_MARG),
                         child: Center(
-                          child: EmptyMessageWidget(text: 'Brak nierozpatrzonych zadań', icon: MdiIcons.cubeOffOutline),
+                          child: EmptyMessageWidget(text: 'Brak nierozpatrzonych wniosków', icon: MdiIcons.cubeOffOutline),
                         ),
                       ):
                   TabBarView(
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     children: children,
                   )
 
