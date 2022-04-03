@@ -14,6 +14,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_particip/participant_list_page.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
@@ -152,6 +153,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                               builder: (context) => IndivCompEditorPage(
                                 initComp: comp,
                                 onSaved: (IndivComp savedComp){
+
                                   comp.name = savedComp.name;
                                   comp.iconKey = savedComp.iconKey;
                                   comp.colorsKey = savedComp.colorsKey;
@@ -159,18 +161,16 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                                   comp.endTime = savedComp.endTime;
                                   comp.overviewMode = savedComp.overviewMode;
 
-                                  comp.profile.active = savedComp.profile.active;
-                                  comp.profile.showRank = savedComp.profile.showRank;
-                                  comp.profile.showRankRange = savedComp.profile.showRankRange;
-
-                                  for(IndivCompParticip particip in savedComp.particips)
-                                    comp.participMap[particip.key] = particip;
+                                  comp.updateParticips(context, savedComp.particips);
 
                                   comp.tasks = savedComp.tasks;
                                   comp.awards = savedComp.awards;
 
                                   Provider.of<IndivCompProvider>(context, listen: false).notify();
+                                  Provider.of<IndivCompParticipsProvider>(context, listen: false).notify();
                                   Provider.of<IndivCompListProvider>(context, listen: false).notify();
+
+                                  setState(() {});
 
                                   Navigator.pop(context);
                                 },
@@ -206,6 +206,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                             },
                           ),
                           height: PendingWidget.height,
+                          rebuild: true,
                         ),
                       ),
 
@@ -310,64 +311,77 @@ class CompHeaderWidget extends StatelessWidget{
 
         const SizedBox(width: Dimen.ICON_MARG),
 
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
+        if(comp.profile.active)
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
 
-              Padding(
-                padding: const EdgeInsets.all(Dimen.DEF_MARG),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Rank',
-                        style: AppTextStyle(
-                            fontSize: 42.0*PointsWidget.fontSizeCoeff,
-                            fontWeight: weight.bold,
-                            color: hintEnab_(context)
+                Padding(
+                  padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Rank',
+                          style: AppTextStyle(
+                              fontSize: 42.0*PointsWidget.fontSizeCoeff,
+                              fontWeight: weight.bold,
+                              color: hintEnab_(context)
+                          ),
                         ),
                       ),
-                    ),
-                    IndivCompRankIcon(
-                      comp.profile,
-                      colors: comp.colors,
-                      size: 42.0,
-                      showPopularityOnTap: true,
-                    ),
-                  ],
+                      IndivCompRankIcon(
+                        comp.profile,
+                        colors: comp.colors,
+                        size: 42.0,
+                        showPopularityOnTap: true,
+                      ),
+                    ],
+                  ),
                 ),
+
+                SimpleButton(
+                  radius: AppCard.BIG_RADIUS,
+                  padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                  margin: EdgeInsets.zero,
+                  onTap: () => comp.profile.completedTasks.isEmpty?
+                      showAppToast(context, text: 'Brak zrealizowanych zadań.'):
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => CompletedTasksPage(comp))),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Pkt',
+                          style: AppTextStyle(
+                              fontSize: 42.0*PointsWidget.fontSizeCoeff,
+                              fontWeight: weight.bold,
+                              color: hintEnab_(context)
+                          ),
+                        ),
+                      ),
+
+                      PointsWidget(points: comp.profile.points, size: 42.0),
+
+                    ],
+                  ),
+                )
+
+              ],
+            ),
+          )
+        else
+          Expanded(
+            child: Text(
+              'Jesteś tu tylko obserwatorem',
+              style: AppTextStyle(
+                  fontSize: 24.0,
+                  fontWeight: weight.bold,
+                  color: hintEnab_(context)
               ),
-
-              SimpleButton(
-                radius: AppCard.BIG_RADIUS,
-                padding: const EdgeInsets.all(Dimen.DEF_MARG),
-                margin: EdgeInsets.zero,
-                onTap: () => comp.profile.completedTasks.isEmpty?
-                    showAppToast(context, text: 'Brak zrealizowanych zadań.'):
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CompletedTasksPage(comp))),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Pkt',
-                        style: AppTextStyle(
-                            fontSize: 42.0*PointsWidget.fontSizeCoeff,
-                            fontWeight: weight.bold,
-                            color: hintEnab_(context)
-                        ),
-                      ),
-                    ),
-
-                    PointsWidget(points: comp.profile.points, size: 42.0),
-
-                  ],
-                ),
-              )
-
-            ],
-          ),
-        ),
+              textAlign: TextAlign.center,
+            )
+          )
 
       ],
     ),

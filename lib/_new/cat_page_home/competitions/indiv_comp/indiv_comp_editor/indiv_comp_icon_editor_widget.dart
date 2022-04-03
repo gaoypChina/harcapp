@@ -6,6 +6,8 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:provider/provider.dart';
 
+import 'common.dart';
+
 class IndivCompIconEditorWidget extends StatefulWidget{
 
   final IndivCompDetails initComp;
@@ -21,19 +23,23 @@ class _IndivCompIconEditorWidgetState extends State<IndivCompIconEditorWidget> w
 
   @override
   Widget build(BuildContext context) => CustomScrollView(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       slivers: [
 
         SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
 
         SliverList(delegate: SliverChildListDelegate([
 
-          TitleShortcutRowWidget(title: 'Ikona współzawodnictwa', titleColor: hintEnab_(context)),
+          const SettingsPartHeader('Ikona współzawodnictwa'),
 
-          IconSelectorWidget(
-            initIconKey: Provider.of<IconKeyProvider>(context, listen: false).iconKey,
-            onSelected: (iconKey) => Provider.of<IconKeyProvider>(context, listen: false).iconKey = iconKey,
+          Padding(
+            padding: const EdgeInsets.only(left: settingsPartPaddingVal, right: settingsPartPaddingVal),
+            child: IconSelectorWidget(
+              initIconKey: Provider.of<IconKeyProvider>(context, listen: false).iconKey,
+              onSelected: (iconKey) => Provider.of<IconKeyProvider>(context, listen: false).iconKey = iconKey,
+            ),
           )
+
         ]))
 
       ]

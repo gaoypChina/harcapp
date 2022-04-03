@@ -158,7 +158,7 @@ class IndivCompRankOtherIcon extends StatelessWidget{
   final IndivCompProfile profile;
   final CommonColorData colors;
   final double size;
-  const IndivCompRankOtherIcon(this.profile, {this.colors, this.size = 56, Key key}): super(key: key);
+  const IndivCompRankOtherIcon(this.profile, {@required this.colors, this.size = 56, Key key}): super(key: key);
 
   Color get borderColor => (AppSettings.isDark?Colors.white:Colors.black).withOpacity(.08);
 

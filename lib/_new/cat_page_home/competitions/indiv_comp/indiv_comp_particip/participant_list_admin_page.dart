@@ -379,9 +379,17 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
             const SizedBox(height: 2*24.0),
 
             ListTile(
-              leading: const Icon(MdiIcons.plusCircleMultipleOutline),
-              title: Text('Przyznaj punkty', style: AppTextStyle()),
-              onTap:  () async {
+              leading: Icon(
+                MdiIcons.plusCircleMultipleOutline,
+                color: particip.profile.active?textEnab_(context): hintEnab_(context),
+              ),
+              title: Text(
+                'Przyznaj punkty',
+                style: AppTextStyle(
+                  color: particip.profile.active?textEnab_(context): hintEnab_(context),
+                )
+              ),
+              onTap: particip.profile.active? () async {
                 if(!await isNetworkAvailable()){
                   showAppToast(context, text: 'Brak dostępu do Internetu');
                   return;
@@ -396,7 +404,7 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
                   onPointsGranted: onPointsGranted
                 );
 
-              },
+              }:null,
             ),
 
             const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
@@ -612,7 +620,11 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
     onLongPress: onSelectionTap,
     onTap: anythingSelected?onSelectionTap:(profile.role == CompRole.ADMIN || profile.role == CompRole.MODERATOR?openParticipantDetails:null),
     heroTag: heroTag,
-    subtitle: PointsWidget(points: particip.profile.points, size: 24),
+    subtitle:
+    particip.profile.active?
+    PointsWidget(points: particip.profile.points, size: 24):
+    Text('Obserwator', style: AppTextStyle(color: hintEnab_(context))),
+
     trailing:
     profile.role == CompRole.ADMIN || profile.role == CompRole.MODERATOR?
     AnimatedOpacity(

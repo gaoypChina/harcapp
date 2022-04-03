@@ -173,7 +173,7 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
             ],
           ),
 
-          const SizedBox(height: Dimen.SIDE_MARG),
+          const SizedBox(height: 2*Dimen.SIDE_MARG),
 
           if(reviewMode)
             ReviewButtons(

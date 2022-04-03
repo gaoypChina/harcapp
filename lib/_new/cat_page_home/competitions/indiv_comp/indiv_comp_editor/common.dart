@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
@@ -10,7 +9,6 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
-import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -30,7 +28,7 @@ class LeaveButton extends StatelessWidget{
   Widget build(BuildContext context) {
 
     return ListTile(
-      leading: const Icon(MdiIcons.logout),
+      leading: const Icon(MdiIcons.exitToApp),
       title: Text(
         'Opuść współzawodnictwo',
         style: AppTextStyle(),
@@ -119,15 +117,37 @@ class EditGradientButton extends StatelessWidget{
           colorEnd: Provider.of<ColorKeyProvider>(context, listen: false).color2,
           child: TitleShortcutRowWidget(
             leading: Padding(
-              padding: EdgeInsets.all(Dimen.ICON_MARG + AppCard.DEF_PADDING_VAL),
+              padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.DEF_PADDING_VAL),
               child: Icon(icon, color: background_(context)),
             ),
             title: text,
             titleColor: background_(context),
-            trailing: SizedBox(width: Dimen.ICON_FOOTPRINT),
+            trailing: const SizedBox(width: Dimen.ICON_FOOTPRINT),
           ),
         )
     );
   }
   
+}
+
+const double settingsPartPaddingVal = Dimen.SIDE_MARG;
+
+class SettingsPartHeader extends StatelessWidget{
+
+  final String title;
+
+  const SettingsPartHeader(this.title, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => ListTile(
+    title: Text(
+      title,
+      style: AppTextStyle(
+        fontSize: Dimen.TEXT_SIZE_APPBAR,
+        fontWeight: weight.bold,
+        color: backgroundIcon_(context).withOpacity(.1)
+      ),
+    ),
+  );
+
 }

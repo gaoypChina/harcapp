@@ -38,10 +38,6 @@ class _IndivCompAwardsEditorWidgetState extends State<IndivCompAwardsEditorWidge
 
             SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
 
-            SliverList(delegate: SliverChildListDelegate([
-              TitleShortcutRowWidget(title: 'Nagrody', titleColor: hintEnab_(context)),
-            ])),
-
             Consumer2<AwardsProvider, ColorKeyProvider>(
               builder: (context, awardProv, colorProv, child){
 
@@ -57,7 +53,7 @@ class _IndivCompAwardsEditorWidgetState extends State<IndivCompAwardsEditorWidge
                   );
                 else
                   return SliverPadding(
-                    padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+                    padding: const EdgeInsets.all(settingsPartPaddingVal),
                     sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
                             (context, index) => AwardTileEditWidget(
                               index+1,

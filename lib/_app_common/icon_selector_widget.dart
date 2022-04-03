@@ -12,7 +12,7 @@ class IconSelectorWidget extends StatefulWidget{
   final String initIconKey;
   final void Function(String iconKey) onSelected;
   
-  const IconSelectorWidget({this.initIconKey, this.onSelected});
+  const IconSelectorWidget({this.initIconKey, this.onSelected, Key key}): super(key: key);
   
   @override
   State<StatefulWidget> createState() => IconSelectorWidgetState();
@@ -26,7 +26,7 @@ class _Title extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => Padding(
-      padding: const EdgeInsets.all(Dimen.ICON_MARG),
+      padding: const EdgeInsets.only(top: Dimen.ICON_MARG, bottom: Dimen.ICON_MARG),
       child: Text(title, style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG))
   );
 

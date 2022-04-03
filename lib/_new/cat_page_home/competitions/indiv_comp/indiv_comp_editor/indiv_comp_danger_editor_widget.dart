@@ -32,64 +32,58 @@ class _IndivCompDangerEditorWidgetState extends State<IndivCompDangerEditorWidge
 
   @override
   Widget build(BuildContext context) => CustomScrollView(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       slivers: [
 
         SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
 
-        SliverPadding(
-          padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
-          sliver: SliverList(delegate: SliverChildListDelegate([
+        SliverList(delegate: SliverChildListDelegate([
 
-            TitleShortcutRowWidget(
-                title: 'Strefa zagrożenia!',
-                titleColor: hintEnab_(context),
+          const SettingsPartHeader('Strefa zagrożenia!'),
+
+          LeaveButton(comp),
+
+          ListTile(
+            leading: const Icon(MdiIcons.vanish),
+            title: Text(
+              'Rozwiąż współzawodnictwo',
+              style: AppTextStyle(),
             ),
+            onTap: () => showAlertDialog(
+                context,
+                title: 'Zastanów się dobrze...',
+                content: 'Współzawodnictwo <b>przestanie istnieć</b>.\n\nNie będzie już powrotu.\n\nNa pewno chcesz je <b>rozwiazać</b>?',
+                actionBuilder: (_) => [
 
-            LeaveButton(comp),
+                  AlertDialogButton(text: 'Jednak nie', onTap: () => Navigator.pop(context)),
 
-            ListTile(
-              leading: const Icon(MdiIcons.bomb),
-              title: Text(
-                'Rozwiąż współzawodnictwo',
-                style: AppTextStyle(),
-              ),
-              onTap: () => showAlertDialog(
-                  context,
-                  title: 'Zastanów się dobrze...',
-                  content: 'Współzawodnictwo <b>przestanie istnieć</b>.\n\nNie będzie już powrotu.\n\nNa pewno chcesz je <b>rozwiazać</b>?',
-                  actionBuilder: (_) => [
+                  AlertDialogButton(
+                      text: 'Tak',
+                      onTap: () async {
 
-                    AlertDialogButton(text: 'Jednak nie', onTap: () => Navigator.pop(context)),
+                        Navigator.pop(context);
 
-                    AlertDialogButton(
-                        text: 'Tak',
-                        onTap: () async {
+                        showLoadingWidget(context, comp.colors.avgColor, 'Zwijanie współzawodnictwa...');
 
-                          Navigator.pop(context);
+                        await ApiIndivComp.delete(
+                            compKey: comp.key,
+                            onSuccess: ()async{
+                              IndivComp.removeFromAll(context, comp);
+                              showAppToast(context, text: 'Poszło z dymem!');
+                              Navigator.pop(context);
+                            },
+                            onError: () => showAppToast(context, text: 'Coś poszło nie tak...')
+                        );
+                        Navigator.pop(context);
 
-                          showLoadingWidget(context, comp.colors.avgColor, 'Zwijanie współzawodnictwa...');
-
-                          await ApiIndivComp.delete(
-                              compKey: comp.key,
-                              onSuccess: ()async{
-                                IndivComp.removeFromAll(context, comp);
-                                showAppToast(context, text: 'Poszło z dymem!');
-                                Navigator.pop(context);
-                              },
-                              onError: () => showAppToast(context, text: 'Coś poszło nie tak...')
-                          );
-                          Navigator.pop(context);
-
-                          widget.onRemoved?.call();
-                        }
-                    )
-                  ]
-              ),
+                        widget.onRemoved?.call();
+                      }
+                  )
+                ]
             ),
+          ),
 
-          ]))
-        ),
+        ]))
 
       ]
   );

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/indiv_comp_rank_icon.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_editor/providers.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_details.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_profile.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -11,6 +13,9 @@ import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:tuple/tuple.dart';
+
+import 'common.dart';
 
 class IndivCompModeEditorWidget extends StatefulWidget{
 
@@ -23,7 +28,7 @@ class IndivCompModeEditorWidget extends StatefulWidget{
       showAppToast(
           context,
           text: '<b>Ostrożnie</b>! Współzawodnictwo <b>cofa się w czasie</b>.\nKończy się przed rozpoczęciem.',
-          duration: Duration(seconds: 5)
+          duration: const Duration(seconds: 5)
       );
 
     return isAllOk;
@@ -42,155 +47,130 @@ class _IndivCompModeEditorWidgetState extends State<IndivCompModeEditorWidget> w
 
   @override
   Widget build(BuildContext context) => CustomScrollView(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       slivers: [
 
         SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
 
         SliverPadding(
-          padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+          padding: EdgeInsets.zero, //.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
           sliver: SliverList(delegate: SliverChildListDelegate([
 
-            TitleShortcutRowWidget(
-                title: 'Czas trwania',
-                titleColor: hintEnab_(context),
+            Consumer<ModeProvider>(
+                builder: (context, prov, child) => ListTile(
+                    leading: const Icon(MdiIcons.calendarBlankOutline),
+                    title: Text('Czas rozpoczęcia', style: AppTextStyle()),
+                    subtitle: Text(dateToString(prov.startDate, shortMonth: true), style: AppTextStyle()),
+                    onTap: () async {
+                      DateTime dateTime = await showDatePicker(
+                          context: context,
+                          initialDate: prov.startDate,
+                          firstDate: DateTime(966),
+                          lastDate: DateTime(3000)
+                      );
+
+                      if(dateTime == null) return;
+                      prov.startDate = dateTime;
+                      IndivCompModeEditorWidget.verifyHandleDateOrder(context);
+                    }
+                )
             ),
 
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Consumer<ModeProvider>(
-                  builder: (context, prov, child) => SimpleButton.from(
-                      context: context,
-                      margin: EdgeInsets.zero,
-                      icon: MdiIcons.calendarStart,
-                      text: dateToString(prov.startDate, shortMonth: true),
-                      onTap: () async {
-                        DateTime dateTime = await showDatePicker(
-                            context: context,
-                            initialDate: prov.startDate,
-                            firstDate: DateTime(966),
-                            lastDate: DateTime(3000)
-                        );
+            Consumer<ModeProvider>(
+                builder: (context, prov, child) => ListTile(
+                    leading: const Icon(MdiIcons.calendarOutline),
+                    title: Text('Czas zakończenia', style: AppTextStyle()),
+                    subtitle: Text(dateToString(prov.endDate, shortMonth: true), style: AppTextStyle()),
+                    onTap: () async {
+                      DateTime dateTime = await showDatePicker(
+                          context: context,
+                          initialDate: prov.endDate,
+                          firstDate: DateTime(966),
+                          lastDate: DateTime(3000)
+                      );
 
-                        if(dateTime == null) return;
-                        prov.startDate = dateTime;
-                        IndivCompModeEditorWidget.verifyHandleDateOrder(context);
-                      }
-                  )
-              ),
+                      if(dateTime == null) return;
+                      prov.endDate = dateTime;
+                      IndivCompModeEditorWidget.verifyHandleDateOrder(context);
+                    }
+                )
             ),
 
-            Align(
-              alignment: Alignment.centerLeft,
-              child:
-              Consumer<ModeProvider>(
-                  builder: (context, prov, child) => SimpleButton.from(
-                      context: context,
-                      margin: EdgeInsets.zero,
-                      icon: MdiIcons.calendarEnd,
-                      text: dateToString(prov.endDate, shortMonth: true),
-                      onTap: () async {
-                        DateTime dateTime = await showDatePicker(
-                            context: context,
-                            initialDate: prov.endDate,
-                            firstDate: DateTime(966),
-                            lastDate: DateTime(3000)
-                        );
+            const SizedBox(height: Dimen.SIDE_MARG),
 
-                        if(dateTime == null) return;
-                        prov.endDate = dateTime;
-                        IndivCompModeEditorWidget.verifyHandleDateOrder(context);
-                      }
-                  )
-              ),
-            ),
+            const SettingsPartHeader('Widok rankingu'),
 
-            SizedBox(height: 2*Dimen.SIDE_MARG),
+            Consumer<ModeProvider>(
+                builder: (context, prov, child){
 
-            TitleShortcutRowWidget(
-                title: 'Widok',
-                titleColor: hintEnab_(context),
-            ),
+                  return Column(
+                    children: [
 
-            Padding(
-              padding: EdgeInsets.only(
-                  left: Dimen.DEF_MARG,
-                  right: Dimen.DEF_MARG
-              ),
-              child: Consumer<ModeProvider>(
-                  builder: (context, prov, child){
-
-                    return Column(
-                      children: [
-
-                        SimpleButton(
-                            onTap: () => prov.overviewMode = true,
-                            margin: EdgeInsets.zero,
-                            padding: EdgeInsets.all(Dimen.SIDE_MARG),
-                            radius: AppCard.BIG_RADIUS,
-                            child: Row(
-                              children: [
-                                
-                                Icon(
-                                  MdiIcons.weatherPartlyCloudy,
-                                  size: 48.0,
-                                  color: prov.overviewMode?iconEnab_(context):iconDisab_(context),
-                                ),
-
-                                SizedBox(width: Dimen.SIDE_MARG),
-
-                                Expanded(
-                                  child: Text(
-                                    'Uczestnicy najniżej w rangu widzą zakres swojej pozycji.',
-                                    style: AppTextStyle(
-                                      fontSize: Dimen.TEXT_SIZE_BIG,
-                                      color: prov.overviewMode?iconEnab_(context):iconDisab_(context),
-                                    ),
-                                  ),
-                                )
-
-                              ],
+                      ListTile(
+                        onTap: () => prov.overviewMode = true,
+                        trailing: Opacity(
+                          opacity: prov.overviewMode?1:.5,
+                          child: IndivCompRankOtherIcon(
+                            IndivCompProfile(
+                                role: null,
+                                active: null,
+                                showRankRange: const Tuple2(.5, .6)
                             ),
+                            colors: Provider.of<ColorKeyProvider>(context, listen: false).colors,
+                            size: 42.0,
+                          ),
                         ),
-
-
-                        SimpleButton(
-                            onTap: () => prov.overviewMode = false,
-                            margin: EdgeInsets.zero,
-                            padding: EdgeInsets.all(Dimen.SIDE_MARG),
-                            radius: AppCard.BIG_RADIUS,
-                            child: Row(
-                              children: [
-
-                                Icon(
-                                  MdiIcons.weatherSunny,
-                                  size: 48.0,
-                                  color: !prov.overviewMode?iconEnab_(context):iconDisab_(context),
-                                ),
-
-                                SizedBox(width: Dimen.SIDE_MARG),
-
-                                Expanded(
-                                  child: Text(
-                                    'Każdy widzi swoją dokładną pozycję w rankingu.',
-                                    style: AppTextStyle(
-                                      fontSize: Dimen.TEXT_SIZE_BIG,
-                                      color: !prov.overviewMode?iconEnab_(context):iconDisab_(context),
-                                    ),
-                                  ),
-                                )
-
-                              ],
+                        title: Text(
+                          'Zakresowy',
+                            style: AppTextStyle(
+                              fontWeight: weight.halfBold,
+                              color: prov.overviewMode?textEnab_(context): hintEnab_(context)
                             )
                         ),
+                        subtitle: Text(
+                          'Ci najniżej widzą zakres swojej pozycji.',
+                          style: AppTextStyle(
+                            color: prov.overviewMode?textEnab_(context): hintEnab_(context)
+                          ),
+                        ),
+                      ),
+
+
+                      ListTile(
+                          onTap: () => prov.overviewMode = false,
+                          trailing: Opacity(
+                            opacity: !prov.overviewMode?1:.5,
+                            child: IndivCompRankOtherIcon(
+                              IndivCompProfile(
+                                  role: null,
+                                  active: null,
+                                  showRank: 8
+                              ),
+                              colors: Provider.of<ColorKeyProvider>(context, listen: false).colors,
+                              size: 42.0,
+                            ),
+                          ),
+                          title: Text(
+                            'Dokładny',
+                            style: AppTextStyle(
+                              fontWeight: weight.halfBold,
+                              color: !prov.overviewMode?textEnab_(context): hintEnab_(context)
+                            )
+                          ),
+                          subtitle: Text(
+                            'Każdy widzi swoją dokładną pozycję.',
+                            style: AppTextStyle(
+                              color: !prov.overviewMode?textEnab_(context): hintEnab_(context)
+                            ),
+                          ),
+                      ),
 
 
 
 
-                      ],
-                    );
-                  }
-              ),
+                    ],
+                  );
+                }
             )
 
           ]))

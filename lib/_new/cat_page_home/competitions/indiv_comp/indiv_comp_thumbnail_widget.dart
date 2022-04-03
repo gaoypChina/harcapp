@@ -63,7 +63,6 @@ class IndivCompThumbnailWidget extends StatelessWidget{
           padding: EdgeInsets.zero,
           color: colors.colorStart,
           colorEnd: colors.colorEnd,
-          duration: Duration.zero,
           child: Padding(
             padding: EdgeInsets.all(borderSizeFactor*size),
             child: Material(

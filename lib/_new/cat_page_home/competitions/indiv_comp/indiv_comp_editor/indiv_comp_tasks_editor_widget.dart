@@ -39,10 +39,6 @@ class _IndivCompTasksEditorWidgetState extends State<IndivCompTasksEditorWidget>
 
             SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
 
-            SliverList(delegate: SliverChildListDelegate([
-              TitleShortcutRowWidget(title: 'Zadania', titleColor: hintEnab_(context)),
-            ])),
-
             Consumer<TaskBodiesProvider>(
               builder: (context, prov, child){
 

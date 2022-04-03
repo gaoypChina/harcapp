@@ -193,7 +193,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                             colorsKey: colorKeyProv.colorsKey,
                             controller: controller,
                             focusNode: focusNode,
-                            heroTag: widget.initComp,
+                            heroTag: widget.initComp==null?null:IndivCompThumbnailWidget.defHeroTag(widget.initComp),
                           ),
 
                           TabBar(
