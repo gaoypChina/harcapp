@@ -11,6 +11,7 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 
+import '../../../details/app_settings.dart';
 import 'common/points_widget.dart';
 import 'indiv_comp_thumbnail_widget.dart';
 import 'models/indiv_comp.dart';
@@ -88,7 +89,7 @@ class IndivCompTile extends StatelessWidget{
                                   style: AppTextStyle(
                                     fontSize: 18.0,
                                     fontWeight: weight.bold,
-                                    color: comp.colors.colorEnd,
+                                    color: AppSettings.isDark?comp.colors.colorStart:comp.colors.colorEnd,
                                   ),
                                   maxLines: 2,
                                 ),

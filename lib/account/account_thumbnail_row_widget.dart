@@ -59,7 +59,7 @@ class AccountThumbnailRowWidget extends StatelessWidget{
                   String acc = accounts[i];
 
                   Widget thumbnailWidget = AccountThumbnailWidget(
-                    acc,
+                    name: acc,
                     elevated: elevated??false,
                     size: circleHeight,
                     onTap: onTap,

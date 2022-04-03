@@ -610,7 +610,7 @@ class StopPrevItem extends StatelessWidget{
                 'Przeglądaj stopnie',
                 style: AppTextStyle(
                     fontWeight: weight.bold,
-                    color: colors.end(AppSettings.isDark).withOpacity(.5),//hintEnab_(context),
+                    color: colors.colorEndLight.withOpacity(.5),//hintEnab_(context),
                     fontSize: Dimen.TEXT_SIZE_APPBAR
                 ),
               ),

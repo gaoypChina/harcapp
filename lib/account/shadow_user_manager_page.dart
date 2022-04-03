@@ -180,8 +180,9 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
                     shadowUsers[index],
                     onTap: onTap,
                     onRemoved: () => setState((){}),
+                    onEdited: () => setState((){}),
                     subtitle: itemSubtitleBuilder?.call(shadowUsers[index]),
-                    key: ValueKey(shadowUsers[index]),
+                    key: ValueKey(shadowUsers[index].hashCode),
                   ),
                   childCount: shadowUsers.length,
                 ),
@@ -200,9 +201,10 @@ class ShadowUserTile extends StatefulWidget{
   final UserDataNick shadowUser;
   final Widget subtitle;
   final void Function(UserDataNick) onTap;
+  final void Function() onEdited;
   final void Function() onRemoved;
 
-  const ShadowUserTile(this.shadowUser, {this.subtitle, this.onTap, this.onRemoved, Key key}) : super(key: key);
+  const ShadowUserTile(this.shadowUser, {this.subtitle, this.onTap, this.onEdited, this.onRemoved, Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ShadowUserTileState();
@@ -214,6 +216,7 @@ class ShadowUserTileState extends State<ShadowUserTile>{
   UserDataNick get shadowUser => widget.shadowUser;
   Widget get subtitle => widget.subtitle;
   void Function(UserDataNick) get onTap => widget.onTap;
+  void Function() get onEdited => widget.onEdited;
   void Function() get onRemoved => widget.onRemoved;
 
   bool processingRemove;
@@ -242,15 +245,18 @@ class ShadowUserTileState extends State<ShadowUserTile>{
             icon:
             processingUpdate?
             SpinKitChasingDots(
-                size: Dimen.ICON_SIZE,
-                color: iconEnab_(context)
+              size: Dimen.ICON_SIZE,
+              color: iconEnab_(context)
             ):const Icon(MdiIcons.pencilOutline),
             onPressed: processing?null:(){
               openDialog(
                   context: context,
                   builder: (context) => AddShadowUserDialog(
                     user: shadowUser,
-                    onSuccess: (user) => setState((){}),
+                    onSuccess: (user){
+                      onEdited?.call();
+                      setState((){});
+                    },
                   )
               );
             }
@@ -395,10 +401,10 @@ class AddShadowUserDialogState extends State<AddShadowUserDialog>{
                                   margin: EdgeInsets.zero,
                                   iconLeading: false,
                                   text: user==null?'Stwórz':'Aktualizuj',
-                                  onTap: clickable || processing?null:(){
+                                  onTap: clickable || processing?null:() async {
                                     setState(() => processing = true);
                                     if(user == null)
-                                      ApiUser.createShadow(
+                                      await ApiUser.createShadow(
                                           name,
                                           sex,
                                           onSuccess: (UserDataNick user) async {
@@ -409,7 +415,7 @@ class AddShadowUserDialogState extends State<AddShadowUserDialog>{
                                           onError: () => showAppToast(context, text: 'Coś poszło nie tak...')
                                       );
                                     else
-                                      ApiUser.updateShadow(
+                                      await ApiUser.updateShadow(
                                           user,
                                           name,
                                           sex,
@@ -427,10 +433,13 @@ class AddShadowUserDialogState extends State<AddShadowUserDialog>{
                               Row(
                                 children: [
 
-                                  Text(user==null?'Tworzenie':'Aktualizacja'),
+                                  Text(
+                                    user==null?'Tworzenie':'Aktualizacja',
+                                    style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
+                                  ),
 
                                   Padding(
-                                    padding: const EdgeInsets.all(Dimen.ICON_SIZE),
+                                    padding: const EdgeInsets.all(Dimen.ICON_MARG),
                                     child: SpinKitChasingDots(size: Dimen.ICON_SIZE, color: iconEnab_(context)),
                                   ),
                                 ],

@@ -20,7 +20,12 @@ class IndivCompProfilePendingComplTasksPage extends StatefulWidget{
   final void Function(IndivCompParticip, IndivCompTaskCompl) onAccepted;
   final void Function(IndivCompParticip, IndivCompTaskCompl) onRejected;
 
-  const IndivCompProfilePendingComplTasksPage(this.comp, {this.onAccepted, this.onRejected});
+  const IndivCompProfilePendingComplTasksPage(
+      this.comp,
+      { this.onAccepted,
+        this.onRejected,
+        Key key
+      }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => IndivCompProfilePendingComplTasksPageState();
@@ -90,14 +95,17 @@ class IndivCompProfilePendingComplTasksPageState extends State<IndivCompProfileP
           ));
 
           children.add(
-              IndivCompTaskComplDetailsWidget(
+              SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: IndivCompTaskComplDetailsWidget(
                   comp,
                   taskCompl,
                   padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                   onAcceptStateChanged: (){
-                      if(pendingComplTasks.length == 1)
-                        Navigator.pop(context);
+                    if(pendingComplTasks.length == 1)
+                      Navigator.pop(context);
                   },
+                ),
               )
           );
         }

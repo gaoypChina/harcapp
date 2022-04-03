@@ -141,6 +141,8 @@ class AddUserBottomSheet extends StatelessWidget{
         id: comp.key,
         users: [ParticipBodyNick(userData.key, CompRole.OBSERVER, true, userData.nick)],
         onSuccess: (List<IndivCompParticip> allParticips){
+          comp.participMap.clear();
+          comp.particips.clear();
           comp.addParticips(context, allParticips);
           Navigator.pop(context);
           Navigator.pop(context);

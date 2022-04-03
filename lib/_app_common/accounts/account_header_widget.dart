@@ -25,7 +25,7 @@ class AccountHeaderWidget extends StatelessWidget{
     Widget child = Column(
       children: [
 
-        AccountThumbnailWidget(name, shadow: shadow, size: 84, elevated: false, onTap: null),
+        AccountThumbnailWidget(name: name, shadow: shadow, size: 84, elevated: false, onTap: null),
 
         const SizedBox(height: 24),
 

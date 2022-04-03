@@ -71,4 +71,10 @@ class UserDataNick extends UserData{
     _paramNick: nick
   };
 
+  @override
+  int get hashCode => key.hashCode + name.hashCode + shadow.hashCode + sex.hashCode + nick.hashCode;
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
 }

@@ -29,6 +29,8 @@ class AccountThumbnailWidget extends StatelessWidget{
   static const double textSizeRatio = 1/2.8;
 
   final String name;
+  final IconData icon;
+
   final bool shadow;
 
   final bool elevated;
@@ -38,9 +40,9 @@ class AccountThumbnailWidget extends StatelessWidget{
   final void Function() onTap;
 
   const AccountThumbnailWidget(
-      this.name,
-
-      { this.shadow=false,
+      { this.name,
+        this.icon,
+        this.shadow=false,
 
         this.elevated=true,
         this.size,
@@ -53,25 +55,28 @@ class AccountThumbnailWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
+    assert(name != null || icon != null);
+
     double size = this.size??defSize;
 
-    List<String> nameParts = name.split(' ');
     String abbr = '';
-    if(nameParts.length == 1) {
-      String part = nameParts[0];
-      if(part.length==1)
-        abbr = part[0].toUpperCase();
-      else if(part.length > 1)
-        abbr = part[0].toUpperCase() + part[1].toLowerCase();
-    }else{
-      String part1 = nameParts[0];
-      String part2 = nameParts[1];
-      if(part1.isNotEmpty)
-        abbr += part1[0].toUpperCase();
-      if(part2.isNotEmpty)
-        abbr += part2[0].toUpperCase();
+    if(name != null) {
+      List<String> nameParts = name.split(' ');
+      if (nameParts.length == 1) {
+        String part = nameParts[0];
+        if (part.length == 1)
+          abbr = part[0].toUpperCase();
+        else if (part.length > 1)
+          abbr = part[0].toUpperCase() + part[1].toLowerCase();
+      } else {
+        String part1 = nameParts[0];
+        String part2 = nameParts[1];
+        if (part1.isNotEmpty)
+          abbr += part1[0].toUpperCase();
+        if (part2.isNotEmpty)
+          abbr += part2[0].toUpperCase();
+      }
     }
-
     Tuple2<Color, Color> colors = backgroundColors[name.hashCode%backgroundColors.length];
 
     return SizedBox(
@@ -82,17 +87,20 @@ class AccountThumbnailWidget extends StatelessWidget{
         children: [
 
           SimpleButton(
-            onTap: onTap??() => showAppToast(context, text: '$name${shadow?' (konto widmo)':''}'),
+            onTap: onTap??(name==null?null:() => showAppToast(context, text: '$name${shadow?' (konto widmo)':''}')),
             padding: EdgeInsets.zero,
             margin: EdgeInsets.zero,
             elevation: elevated?AppCard.bigElevation:0,
             radius: size/2,
             color: cardEnab_(context),
             child: Center(
-              child: Text(
+              child:
+              icon == null?
+              Text(
                 abbr,
                 style: AppTextStyle(fontSize: size*textSizeRatio, fontWeight: weight.halfBold, color: enabled?textEnab_(context):hintEnab_(context)),
-              ),
+              ):
+              Icon(icon, color: textEnab_(context)),
             ),
           ),
 

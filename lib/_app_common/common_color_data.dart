@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../_new/details/app_settings.dart';
+
 class CommonColorData{
 
   static String get DEF_COLORS_KEY => 'gold';
@@ -53,6 +55,7 @@ class CommonColorData{
   final Color colorEnd;
   final bool iconWhite;
   Color get iconColor => iconWhite?Colors.white:Colors.black;
+  Color get moreVisible => AppSettings.isDark?colorStart:colorEnd;
 
   Color get avgColor{
     return Color.fromARGB(

@@ -15,8 +15,10 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_particip/participant_list_page.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
+import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
 import 'package:harcapp/account/account_thumbnail_widget.dart';
+import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
@@ -110,6 +112,10 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                       },
                       onError: (){
                         showAppToast(context, text: 'Wystąpił błąd.');
+
+                        if(!AccountData.loggedIn)
+                          Provider.of<LoginProvider>(context, listen: false).notify();
+                          Navigator.pop(context);
                       }
                   );
 
@@ -344,7 +350,7 @@ class CompHeaderWidget extends StatelessWidget{
                   children: [
                     Expanded(
                       child: Text(
-                        'Punk',
+                        'Pkt',
                         style: AppTextStyle(
                             fontSize: 42.0*PointsWidget.fontSizeCoeff,
                             fontWeight: weight.bold,
@@ -718,24 +724,11 @@ class ParticipantsWidget extends StatelessWidget{
           ),
 
           if(comp.particips.length == 1)
-            Icon(MdiIcons.arrowLeft, color: backgroundIcon_(context)),
-
-          if(comp.particips.length == 1)
             const SizedBox(width: Dimen.ICON_MARG),
 
           if(comp.particips.length == 1)
-            SizedBox(
-              width: AccountThumbnailWidget.defSize,
-              height: AccountThumbnailWidget.defSize,
-              child: SimpleButton(
-                  elevation: AppCard.bigElevation,
-                  radius: 100,
-                  margin: EdgeInsets.zero,
-                  child: Icon(MdiIcons.accountPlusOutline, color: textEnab_(context)),
-                  color: cardEnab_(context),
-                  onTap: () => onTap(comp, context)
-              ),
-            )
+            AccountThumbnailWidget(icon: MdiIcons.accountPlusOutline, onTap: () => onTap(comp, context))
+
         ],
       ),
     );

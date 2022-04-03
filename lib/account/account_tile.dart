@@ -57,11 +57,11 @@ class AccountTile extends StatelessWidget{
             if(leading != null) leading,
 
             if(thumbnailHeroTag == null)
-              AccountThumbnailWidget(name, shadow: shadow, elevated: false, markIcon: mardIcon)
+              AccountThumbnailWidget(name: name, shadow: shadow, elevated: false, markIcon: mardIcon)
             else
               Hero(
                 tag: thumbnailHeroTag,
-                child: AccountThumbnailWidget(name, shadow: shadow, elevated: false, markIcon: mardIcon),
+                child: AccountThumbnailWidget(name: name, shadow: shadow, elevated: false, markIcon: mardIcon),
               ),
 
           ],

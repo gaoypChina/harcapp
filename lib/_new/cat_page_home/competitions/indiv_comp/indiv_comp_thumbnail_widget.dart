@@ -14,6 +14,9 @@ class IndivCompThumbnailWidget extends StatelessWidget{
 
   static const double defSize = 72.0;
   static const double iconSizeFactor = .6;
+  static const double borderSizeFactor = .1;
+  static const double outerRadiusSizeFactor = .25;
+  static const double innerRadiusSizeFactor = .16;
 
   final String iconKey;
   final String colorsKey;
@@ -55,17 +58,17 @@ class IndivCompThumbnailWidget extends StatelessWidget{
       child: SimpleButton(
           onTap: onTap,
           elevation: 0,
-          radius: .25*size,
+          radius: outerRadiusSizeFactor*size,
           margin: EdgeInsets.zero,
           padding: EdgeInsets.zero,
           color: colors.colorStart,
           colorEnd: colors.colorEnd,
           duration: Duration.zero,
           child: Padding(
-            padding: EdgeInsets.all(.1*size),
+            padding: EdgeInsets.all(borderSizeFactor*size),
             child: Material(
               animationDuration: Duration.zero,
-              borderRadius: BorderRadius.circular(.16*size),
+              borderRadius: BorderRadius.circular(innerRadiusSizeFactor*size),
               clipBehavior: Clip.hardEdge,
               color: background_(context),
               child: GradientIcon(

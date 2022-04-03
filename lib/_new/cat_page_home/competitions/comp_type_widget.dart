@@ -5,6 +5,7 @@ import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_page.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -54,14 +55,13 @@ class CompTypeWidget extends StatelessWidget{
       padding: MediaQuery.of(context).viewInsets,
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.all(Dimen.DEF_MARG),
+        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
         child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
 
               _Button(
                 icon: MdiIcons.applicationOutline,
-                backgroundIcon: MdiIcons.sproutOutline,
                 title: 'Utwórz puste',
                 colorStart: Colors.grey[AppSettings.isDark?700:300],
                 colorEnd: Colors.grey[AppSettings.isDark?900:600],
@@ -70,11 +70,10 @@ class CompTypeWidget extends StatelessWidget{
                 onTap: () => onSelected(NewCompType.empty),
               ),
 
-              const SizedBox(height: Dimen.DEF_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
               _Button(
                 icon: MdiIcons.applicationEditOutline,
-                backgroundIcon: MdiIcons.fruitPineapple,
                 title: 'Utwórz przykładowe',
                 colorStart: Colors.lightBlue[AppSettings.isDark?700:300],
                 colorEnd: Colors.blue[AppSettings.isDark?900:700],
@@ -83,7 +82,7 @@ class CompTypeWidget extends StatelessWidget{
                 onTap: () => onSelected(NewCompType.example),
               ),
 
-              const SizedBox(height: Dimen.DEF_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
               _JoinButton(
                 onSuccess: (comp) async {
@@ -105,7 +104,6 @@ class CompTypeWidget extends StatelessWidget{
 class _Button extends StatelessWidget{
 
   final IconData icon;
-  final IconData backgroundIcon;
   final String title;
   final String description;
   final Widget bottom;
@@ -114,30 +112,20 @@ class _Button extends StatelessWidget{
   final Color textColor;
   final void Function() onTap;
 
-  const _Button({@required this.icon, @required this.backgroundIcon, @required this.title, @required this.description, this.bottom, @required this.colorStart, @required this.colorEnd, @required this.textColor, this.onTap});
+  const _Button({@required this.icon, @required this.title, @required this.description, this.bottom, @required this.colorStart, @required this.colorEnd, @required this.textColor, this.onTap});
 
   @override
   Widget build(BuildContext context) => GradientWidget(
-    radius: 22,
+    radius: IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.outerRadiusSizeFactor,
     colorStart: colorStart,
     colorEnd: colorEnd,
     child: SimpleButton(
         padding: EdgeInsets.zero,
-        margin: const EdgeInsets.all(Dimen.DEF_MARG),
-        radius: AppCard.BIG_RADIUS,
+        margin: const EdgeInsets.all(IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.borderSizeFactor),
+        radius: IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.innerRadiusSizeFactor,
         color: background_(context),
         child: Stack(
             children: [
-
-              Positioned(
-                bottom: -.1*MediaQuery.of(context).size.shortestSide,
-                right: -.1*MediaQuery.of(context).size.shortestSide,
-                child: Icon(
-                  backgroundIcon,
-                  color: backgroundIcon_(context),
-                  size: MediaQuery.of(context).size.shortestSide/2,
-                ),
-              ),
 
               Positioned.fill(
                 child: GradientWidget(
@@ -182,7 +170,7 @@ class _Button extends StatelessWidget{
                       child: Text(
                           description,
                           style: AppTextStyle(
-                            fontSize: Dimen.TEXT_SIZE_NORMAL,
+                            fontSize: Dimen.TEXT_SIZE_BIG,
                             color: textColor,
                           )),
                     ),
@@ -230,7 +218,6 @@ class _JoinButtonState extends State<_JoinButton>{
   Widget build(BuildContext context) {
     return _Button(
       icon: MdiIcons.applicationImport,
-      backgroundIcon: MdiIcons.palmTree,
       title: 'Dołącz do istniejącego',
       colorStart: Colors.yellow[AppSettings.isDark?800:500],
       colorEnd: Colors.orange[AppSettings.isDark?900:500],

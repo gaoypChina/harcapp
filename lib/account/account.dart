@@ -339,10 +339,9 @@ class AccountData {
   static Future<void> updateShadowUser(UserDataNick value) async {
     List<UserDataNick> shadowUsers = _shadowUsers;
     UserDataNick oldUser = _shadowUserMap[value.key];
-    _shadowUserMap[value.key] = value;
     shadowUsers.remove(oldUser);
     shadowUsers.add(value);
-    _shadowUsers = shadowUsers;
+    AccountData.shadowUsers = shadowUsers;
   }
 
   static Future<void> removeShadowUser(UserDataNick value) async {

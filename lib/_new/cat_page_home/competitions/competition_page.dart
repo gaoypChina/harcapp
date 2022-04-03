@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
@@ -335,9 +334,15 @@ class _CompListWidgetState extends State<_CompListWidget>{
               }
               if (IndivComp.all.isEmpty)
                 widgets.add(const IndivCompPrompt(child: IndivCompPreviewGrid()));
-              else
-                widgets.add(const SizedBox(height: Dimen.SIDE_MARG));
-
+              else {
+                widgets.add(Align(
+                  alignment: Alignment.centerLeft,
+                  child: SizedBox(width: 2*Dimen.SIDE_MARG + IndivCompThumbnailWidget.defSize, child: Center(
+                    child: Icon(MdiIcons.dotsHorizontal, color: hintEnab_(context)),
+                  )),
+                ));
+                widgets.add(const SizedBox(height: Dimen.ICON_MARG));
+              }
               widgets.add(Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                 child: SimpleButton(
@@ -351,13 +356,13 @@ class _CompListWidgetState extends State<_CompListWidget>{
                           width: IndivCompThumbnailWidget.defSize,
                           height: IndivCompThumbnailWidget.defSize,
                           child: GradientWidget(
-                              radius: AppCard.BIG_RADIUS,
+                              radius: IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.outerRadiusSizeFactor,
                               colorStart: hintEnab_(context),
                               colorEnd: textEnab_(context),
                               child: Padding(
-                                padding: const EdgeInsets.all(4.0),
+                                padding: const EdgeInsets.all(IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.borderSizeFactor),
                                 child: Material(
-                                    borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS - 4.0),
+                                    borderRadius: BorderRadius.circular(IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.innerRadiusSizeFactor,),
                                     color: background_(context),
                                     child: GradientIcon(
                                       MdiIcons.plus,

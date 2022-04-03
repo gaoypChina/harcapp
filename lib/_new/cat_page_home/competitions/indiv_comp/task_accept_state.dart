@@ -33,8 +33,15 @@ IconData taskAcceptStateIcon(TaskAcceptState state){
 }
 
 Color taskAcceptStateColor(TaskAcceptState state){
-  if(state == TaskAcceptState.ACCEPTED) return Colors.teal;
+  if(state == TaskAcceptState.ACCEPTED) return Colors.blue;
   else if(state == TaskAcceptState.PENDING) return Colors.orangeAccent;
   else if(state == TaskAcceptState.REJECTED) return Colors.red;
+  else return null;
+}
+
+Color taskAcceptStateColorStart(TaskAcceptState state){
+  if(state == TaskAcceptState.ACCEPTED) return Colors.lightBlueAccent;
+  else if(state == TaskAcceptState.PENDING) return Colors.yellow;
+  else if(state == TaskAcceptState.REJECTED) return Colors.orange;
   else return null;
 }

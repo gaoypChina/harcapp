@@ -15,6 +15,7 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
+import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import '../../comp_role.dart';
@@ -76,6 +77,7 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
     return Padding(
       padding: widget.padding??EdgeInsets.zero,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
 
           Padding(
@@ -89,12 +91,11 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
 
           const SizedBox(height: Dimen.SIDE_MARG),
 
-
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AccountThumbnailWidget(
-                particip.name,
+                name: particip.name,
                 elevated: false,
                 markIcon: MdiIcons.messageArrowRight,
               ),
@@ -108,29 +109,10 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
 
                       const SizedBox(height: AccountThumbnailWidget.defSize - 2*Dimen.TEXT_SIZE_BIG),
 
-                      Text(
-                          particip.name,
-                          style: AppTextStyle(
-                              fontSize: Dimen.TEXT_SIZE_BIG,
-                              fontWeight: weight.halfBold,
-                              color: textEnab_(context)
-                          )
-                      ),
-                      Text(
-                        dateToString(taskCompl.reqTime, withTime: true),
-                        style: AppTextStyle(
-                            fontSize: Dimen.TEXT_SIZE_BIG,
-                            fontWeight: weight.halfBold,
-                            color: hintEnab_(context)
-                        ),
-                      ),
+                      _NameWidget(particip.name),
+                      _DateWidget(taskCompl.reqTime),
 
-                      const SizedBox(height: Dimen.TEXT_SIZE_BIG),
-
-                      Text(
-                          taskCompl.reqComment == null || taskCompl.reqComment.isEmpty?
-                          '[brak wiadomości]':
-                          taskCompl.reqComment, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
+                      _MessageWidget(taskCompl.reqComment),
 
                     ],
                   )
@@ -139,56 +121,299 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
             ],
           ),
 
-          if(reviewMode || taskCompl.revTime != null)
-            const SizedBox(height: Dimen.SIDE_MARG),
+          // Response
 
-          if(reviewMode || taskCompl.revTime != null)
-            Row(
-              children: [
-                Icon(MdiIcons.messageArrowLeftOutline, color: textEnab_(context)),
-                const SizedBox(width: Dimen.ICON_MARG),
-                Text('Wiadomość zwrotna', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold)),
-              ],
-            ),
+          const SizedBox(height: 2*Dimen.SIDE_MARG),
 
-          if(reviewMode)
-            Padding(
-                padding: const EdgeInsets.only(left: Dimen.ICON_SIZE + Dimen.ICON_MARG),
-                child: AppTextFieldHint(
-                  hintTop: '',
-                  hint: 'Wiadomość zwrotna:',
-                  controller: textController,
-                  hintStyle: AppTextStyle(color: hintEnab_(context)),
-                  style: AppTextStyle(),
-                )
-            )
-          else if(taskCompl.revTime != null)
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: Dimen.ICON_MARG,
-                  left: Dimen.ICON_SIZE + Dimen.ICON_MARG,
-                  bottom: 2*Dimen.ICON_MARG
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AccountThumbnailWidget(
+                icon: compRoleToIcon[CompRole.ADMIN],
+                elevated: false,
+                markIcon: MdiIcons.messageArrowLeft,
               ),
-              child: Text(taskCompl.revComment == null || taskCompl.revComment.isEmpty?'-':taskCompl.revComment, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
-            ),
+
+              const SizedBox(width: Dimen.ICON_MARG),
+
+              Expanded(
+                  child:
+                  reviewMode || taskCompl.revTime != null?
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+
+                      const SizedBox(height: AccountThumbnailWidget.defSize - 2*Dimen.TEXT_SIZE_BIG),
+
+                      const _NameWidget('Rozpatrujący'),
+                      if(reviewMode)_TickingDate()
+                      else if(taskCompl.revTime != null) _DateWidget(taskCompl.revTime),
+
+                      if(reviewMode)
+                        AppTextFieldHint(
+                          hintTop: '',
+                          hint: 'Wiadomość zwrotna:',
+                          controller: textController,
+                          maxLines: null,
+                          maxLength: IndivCompTaskCompl.MAX_LEN_REV_COMMENT,
+                          hintStyle: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG),
+                          style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                        )
+                      else
+                        _MessageWidget(taskCompl.revComment),
+
+                    ],
+                  ):const Padding(
+                    padding: EdgeInsets.only(top: AccountThumbnailWidget.defSize - 2*Dimen.TEXT_SIZE_BIG),
+                    child: _NameWidget('Zatwierdzono automatycznie'),
+                  )
+
+              )
+
+            ],
+          ),
+
+          const SizedBox(height: Dimen.SIDE_MARG),
 
           if(reviewMode)
-            _TickingDate()
-          else if(taskCompl.revTime != null)
-            Text(
-                dateToString(taskCompl.revTime, withTime: true),
-                style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL, fontWeight: weight.halfBold, color: hintEnab_(context)),
-                textAlign: TextAlign.end
+            ReviewButtons(
+              comp,
+              particip,
+              taskCompl,
+              textController,
+              onAcceptStateChanged: widget.onAcceptStateChanged,
+            )
+          else
+            GradientWidget(
+              radius: AppCard.BIG_RADIUS,
+              colorStart: taskAcceptStateColorStart(taskCompl.acceptState),
+              colorEnd: taskAcceptStateColor(taskCompl.acceptState),
+              child: SizedBox(
+                height: Dimen.ICON_FOOTPRINT,
+                child: Center(
+                  child: Text(
+                    taskAcceptStateToName(taskCompl.acceptState),
+                    style: AppTextStyle(
+                        fontSize: Dimen.TEXT_SIZE_APPBAR,
+                        color: background_(context),
+                        fontWeight: weight.bold
+                    ),
+                  ),
+                )
+              )
             ),
-
-          const SizedBox(height: Dimen.SIDE_MARG)
-
         ],
       ),
     );
 
   }
 
+}
+
+class ReviewButtons extends StatefulWidget{
+
+  final IndivComp comp;
+  final IndivCompParticip particip;
+  final IndivCompTaskCompl taskCompl;
+  final TextEditingController textController;
+  final void Function() onAcceptStateChanged;
+
+  const ReviewButtons(
+      this.comp,
+      this.particip,
+      this.taskCompl,
+      this.textController,
+      { this.onAcceptStateChanged,
+        Key key
+      }) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => ReviewButtonsState();
+
+}
+
+class ReviewButtonsState extends State<ReviewButtons>{
+
+  IndivComp get comp => widget.comp;
+  IndivCompParticip get particip => widget.particip;
+  IndivCompTaskCompl get taskCompl => widget.taskCompl;
+  TextEditingController get textController => widget.textController;
+  void Function() get onAcceptStateChanged => widget.onAcceptStateChanged;
+
+  bool sending;
+
+  @override
+  void initState() {
+    sending = false;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: SimpleButton.from(
+              textColor: background_(context),
+              icon: taskAcceptStateIcon(TaskAcceptState.REJECTED),
+              color: taskAcceptStateColorStart(TaskAcceptState.REJECTED),
+              colorEnd: taskAcceptStateColor(TaskAcceptState.REJECTED),
+              text: 'Odrzuć',
+              onTap: () async {
+
+                if(!await isNetworkAvailable()){
+                  showAppToast(context, text: 'Brak połączenia.');
+                  return;
+                }
+
+                await showAlertDialog(
+                    context,
+                    title: 'Na pewno?',
+                    content: 'Odrzucić wniosek?',
+                    actionBuilder: (_) => [
+                      AlertDialogButton(text: 'Tak', onTap: () async {
+                        Navigator.pop(context);
+
+                        setState(() => sending = true);
+                        showLoadingWidget(context, comp.colors.avgColor, 'Ostatnia prosta');
+
+                        await ApiIndivComp.reviewCompletedTasks(
+                            taskReqKey: taskCompl.key,
+                            acceptState: TaskAcceptState.REJECTED,
+                            revComment: textController.text,
+                            onSuccess: (String complTaskKey){
+                              comp.removeComplTask(context, particip.key, complTaskKey);
+                              showAppToast(context, text: 'Odrzucono');
+                              onAcceptStateChanged?.call();
+                            },
+                            onError: (){
+                              showAppToast(context, text: 'Wystąpił problem');
+                            }
+                        );
+
+                        Navigator.pop(context);
+                        setState(() => sending = false);
+
+                      }),
+                      AlertDialogButton(text: 'Jednak nie', onTap: () => Navigator.pop(context)),
+                    ]
+                );
+              }
+          ),
+        ),
+
+        Expanded(
+          child: SimpleButton.from(
+              textColor: background_(context),
+              icon: taskAcceptStateIcon(TaskAcceptState.ACCEPTED),
+              color: taskAcceptStateColorStart(TaskAcceptState.ACCEPTED),
+              colorEnd: taskAcceptStateColor(TaskAcceptState.ACCEPTED),
+              text: 'Zaakceptuj',
+              onTap: () async {
+                if(!await isNetworkAvailable()){
+                  showAppToast(context, text: 'Brak połączenia.');
+                  return;
+                }
+
+                await showAlertDialog(
+                    context,
+                    title: 'Na pewno?',
+                    content: 'Zaakceptować wniosek?',
+                    actionBuilder: (_) => [
+                      AlertDialogButton(text: 'Tak', onTap: () async {
+                        Navigator.pop(context);
+
+                        setState(() => sending = true);
+                        showLoadingWidget(context, comp.colors.avgColor, 'Ostatnia prosta');
+
+                        await ApiIndivComp.reviewCompletedTasks(
+                            taskReqKey: taskCompl.key,
+                            acceptState: TaskAcceptState.ACCEPTED,
+                            revComment: textController.text,
+                            onSuccess: (String complTaskKey){
+                              comp.removeComplTask(context, particip.key, complTaskKey);
+                              showAppToast(context, text: 'Zaakceptowano');
+                              onAcceptStateChanged?.call();
+                            },
+                            onError: (){
+                              showAppToast(context, text: 'Wystąpił problem');
+                            }
+                        );
+
+                        Navigator.pop(context);
+                        setState(() => sending = false);
+
+                      }),
+                      AlertDialogButton(text: 'Jednak nie', onTap: () => Navigator.pop(context)),
+                    ]
+                );
+
+              }
+          ),
+        )
+
+      ],
+    );
+  }
+
+}
+
+class _NameWidget extends StatelessWidget{
+
+  final String name;
+
+  const _NameWidget(this.name);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+        name,
+        style: AppTextStyle(
+            fontSize: Dimen.TEXT_SIZE_BIG,
+            fontWeight: weight.halfBold,
+            color: textEnab_(context)
+        )
+    );
+  }
+
+}
+
+class _MessageWidget extends StatelessWidget{
+
+  final String message;
+  const _MessageWidget(this.message);
+
+  @override
+  Widget build(BuildContext context) => Padding(
+      padding: EdgeInsets.only(
+        top: const TextField().scrollPadding.top,
+      ),
+      child: Text(
+          message == null || message.isEmpty?
+          '[brak wiadomości]':
+          message, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)
+      )
+  );
+
+}
+
+class _DateWidget extends StatelessWidget{
+  
+  final DateTime time;
+  const _DateWidget(this.time);
+  
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      dateToString(time, withTime: true),
+      style: AppTextStyle(
+          fontSize: Dimen.TEXT_SIZE_BIG,
+          fontWeight: weight.halfBold,
+          color: hintEnab_(context)
+      ),
+    );
+  }
+  
 }
 
 class _TickingDate extends StatefulWidget{
@@ -215,10 +440,6 @@ class _TickingDateState extends State<_TickingDate>{
   }
 
   @override
-  Widget build(BuildContext context) => Text(
-      dateToString(DateTime.now(), withTime: true),
-      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL, fontWeight: weight.halfBold, color: hintEnab_(context)),
-      textAlign: TextAlign.end
-  );
+  Widget build(BuildContext context) => _DateWidget(DateTime.now());
 
 }

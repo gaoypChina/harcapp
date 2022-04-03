@@ -222,7 +222,7 @@ class IndivCompRankOtherIcon extends StatelessWidget{
                     child: Text('%', style: AppTextStyle(
                       fontSize: .3*size,
                       fontWeight: weight.bold,
-                      color: AppSettings.isDark?colors.colorStart:colors.colorEnd
+                      color: colors.moreVisible
                     )),
                   ),
 

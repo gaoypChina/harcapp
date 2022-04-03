@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
@@ -38,6 +39,9 @@ class SharedRanksPageState extends State<SharedRanksPage>{
   }
 
   void loadSharedRanks({bool resetState = true}) async {
+
+    if(!AccountData.loggedIn)
+      return;
 
     if(!await isNetworkAvailable()){
       showAppToast(context, text: 'Brak dostępu do Internetu');
