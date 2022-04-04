@@ -114,7 +114,7 @@ class _IndivCompModeEditorWidgetState extends State<IndivCompModeEditorWidget> w
                             child: IndivCompRankOtherIcon(
                               showRank: 8,
                               showRankRange: null,
-                              participCnt: null,
+                              activeParticipCnt: null,
                               colors: Provider.of<ColorKeyProvider>(context, listen: false).colors,
                               size: 48.0,
                             ),
@@ -141,7 +141,7 @@ class _IndivCompModeEditorWidgetState extends State<IndivCompModeEditorWidget> w
                           child: IndivCompRankOtherIcon(
                             showRank: null,
                             showRankRange: const Tuple2(.7, .9),
-                            participCnt: 20,
+                            activeParticipCnt: 20,
                             showPercent: false,
                             colors: Provider.of<ColorKeyProvider>(context, listen: false).colors,
                             size: 48.0,
@@ -169,7 +169,7 @@ class _IndivCompModeEditorWidgetState extends State<IndivCompModeEditorWidget> w
                           child: IndivCompRankOtherIcon(
                             showRank: null,
                             showRankRange: const Tuple2(.7, .9),
-                            participCnt: 20,
+                            activeParticipCnt: 20,
                             showPercent: true,
                             colors: Provider.of<ColorKeyProvider>(context, listen: false).colors,
                             size: 48.0,

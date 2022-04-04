@@ -10,7 +10,7 @@ import '../../../../../_common_widgets/app_toast.dart';
 import '../../../../../_common_widgets/gradient_icon.dart';
 import '../../../../details/app_settings.dart';
 
-void _showPopularity(BuildContext context, IndivCompProfile profile, bool showPercent, int participCnt){
+void _showPopularity(BuildContext context, IndivCompProfile profile, bool showPercent, int activeParticipCnt){
 
   String text;
 
@@ -19,7 +19,7 @@ void _showPopularity(BuildContext context, IndivCompProfile profile, bool showPe
     if(showPercent)
       text = 'Między <b>${(profile.showRankRange.item1 * 100).toInt()}%</b>, a <b>${(profile.showRankRange.item2 * 100).toInt()}%</b> uczestników ma wyższą pozycję w rankingu od Ciebie.';
     else
-      text = 'Twoje miejsce w rankingu jest między <b>${(profile.showRankRange.item1 * participCnt).toInt()}</b>, a <b>${(profile.showRankRange.item2 * participCnt).toInt()}</b>.';
+      text = 'Twoje miejsce w rankingu jest między <b>${(profile.showRankRange.item1 * activeParticipCnt).toInt()}</b>, a <b>${(profile.showRankRange.item2 * activeParticipCnt).toInt()}</b>.';
 
     showAppToast(context, text: text, duration: const Duration(seconds: 8));
     return;
@@ -160,7 +160,7 @@ class IndivCompRankOtherIcon extends StatelessWidget{
   //final IndivCompProfile profile;
   final int showRank;
   final Tuple2<double, double> showRankRange;
-  final int participCnt;
+  final int activeParticipCnt;
   final bool showPercent;
 
   final CommonColorData colors;
@@ -168,7 +168,7 @@ class IndivCompRankOtherIcon extends StatelessWidget{
   const IndivCompRankOtherIcon({
     @required this.showRank,
     @required this.showRankRange,
-    @required this.participCnt,
+    @required this.activeParticipCnt,
     this.showPercent = false,
 
     @required this.colors,
@@ -275,7 +275,7 @@ class IndivCompRankOtherIcon extends StatelessWidget{
                 else if(showRankRange != null)
                   Positioned.fill(
                       child: Center(
-                        child: _RangeAnimatorWidget(showRankRange, participCnt, showPercent, size),
+                        child: _RangeAnimatorWidget(showRankRange, activeParticipCnt, showPercent, size),
                       )
                   )
 
@@ -293,11 +293,11 @@ class IndivCompRankOtherIcon extends StatelessWidget{
 class _RangeAnimatorWidget extends StatefulWidget{
 
   final Tuple2<double, double> range;
-  final int participCnt;
+  final int activeParticipCnt;
   final bool showPercent;
   final double size;
 
-  const _RangeAnimatorWidget(this.range, this.participCnt, this.showPercent, this.size);
+  const _RangeAnimatorWidget(this.range, this.activeParticipCnt, this.showPercent, this.size);
 
   @override
   State<StatefulWidget> createState() => _RangeAnimatorWidgetState();
@@ -310,7 +310,7 @@ class _RangeAnimatorWidgetState extends State<_RangeAnimatorWidget>{
   static const Curve _animCurve = Curves.easeOutQuint;
 
   Tuple2<double, double> get range => widget.range;
-  int get participCnt => widget.participCnt;
+  int get activeParticipCnt => widget.activeParticipCnt;
   bool get showPercent => widget.showPercent;
   double get size => widget.size;
 
@@ -336,12 +336,12 @@ class _RangeAnimatorWidgetState extends State<_RangeAnimatorWidget>{
     page1Text =
     showPercent?
     '${(range.item1*100).toInt()}':
-    '${(range.item1*participCnt).toInt()}';
+    '${(range.item1*activeParticipCnt).toInt()}';
 
     page2Text =
     showPercent?
     '${(range.item2*100).toInt()}':
-    '${(range.item2*participCnt).toInt()}';
+    '${(range.item2*activeParticipCnt).toInt()}';
 
     controller = PageController();
     run();
@@ -397,14 +397,14 @@ class IndivCompRankIcon extends StatelessWidget{
   static const double defSize = 56;
 
   final IndivCompProfile profile;
-  final int participCnt;
+  final int activeParticipCnt;
   final bool showPercent;
   final CommonColorData colors;
   final double size;
   final bool showPopularityOnTap;
   const IndivCompRankIcon(
       this.profile,
-      { @required this.participCnt,
+      { @required this.activeParticipCnt,
         this.showPercent = false,
         @required this.colors,
         this.size = defSize,
@@ -426,14 +426,14 @@ class IndivCompRankIcon extends StatelessWidget{
           return IndivCompRankOtherIcon(
               showRank: profile.showRank,
               showRankRange: profile.showRankRange,
-              participCnt: participCnt,
+              activeParticipCnt: activeParticipCnt,
               showPercent: showPercent,
               colors: colors,
               size: size
           );
       },
     ),
-    onTap: showPopularityOnTap?() => _showPopularity(context, profile, showPercent, participCnt):null,
+    onTap: showPopularityOnTap?() => _showPopularity(context, profile, showPercent, activeParticipCnt):null,
   );
 
 }
@@ -462,7 +462,7 @@ class IndivCompRankIconTemplate extends StatelessWidget{
       return IndivCompRankOtherIcon(
         showRank: rank,
         showRankRange: null,
-        participCnt: null,
+        activeParticipCnt: null,
         showPercent: null,
         colors: colors,
         size: size

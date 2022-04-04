@@ -633,11 +633,11 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
       duration: const Duration(milliseconds: 300),
       child: IndivCompRankIcon(
         particip.profile,
-        participCnt: comp.particips.length,
+        activeParticipCnt: comp.activeParticipCnt,
         showPercent: comp.rankDispType == RankDispType.RANGE_PERC,
         colors: comp.colors,
         size: 42.0,
-        key: ValueKey(comp.rankDispType),
+        key: ValueKey(Tuple2(comp.rankDispType, comp.activeParticipCnt)),
       )
     ):null,
   );

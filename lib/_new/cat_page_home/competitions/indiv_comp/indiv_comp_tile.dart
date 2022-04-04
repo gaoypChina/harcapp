@@ -114,8 +114,6 @@ class IndivCompTile extends StatelessWidget{
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
 
-                                //IndivCompRankIcon(comp.profile, colors: comp.colors, size: 32),
-
                                 Expanded(
                                   child: AccountThumbnailRowWidget(
                                     comp.particips.map((particip) => particip.name).toList(),
@@ -124,8 +122,6 @@ class IndivCompTile extends StatelessWidget{
                                     onTap: () => openCompPage(context),
                                   )
                                 ),
-
-                                //Expanded(child: Container()),
 
                                 PointsWidget(points: comp.profile.points, size: 32.0),
 

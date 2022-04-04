@@ -211,6 +211,9 @@ class IndivComp{
   final List<IndivCompParticip> particips;
   final Map<String, IndivCompParticip> participMap;
 
+  int get activeParticipCnt =>
+    particips.where((particip) => particip.profile.active).length;
+
   List<IndivCompTask> tasks;
   Map<String, IndivCompTask> taskMap;
 
