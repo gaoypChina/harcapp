@@ -5,6 +5,7 @@ import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_disp_type.dart';
 
 import 'indiv_comp_task_editable.dart';
 
@@ -24,17 +25,17 @@ class ModeProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  bool _overviewMode;
-  bool get overviewMode => _overviewMode;
-  set overviewMode(bool value){
-    _overviewMode = value;
+  RankDispType _rankDispType;
+  RankDispType get rankDispType => _rankDispType;
+  set rankDispType(RankDispType value){
+    _rankDispType = value;
     notifyListeners();
   }
 
-  ModeProvider({DateTime startDate, DateTime endDate, bool overviewMode}){
+  ModeProvider({DateTime startDate, DateTime endDate, RankDispType rankDispType}){
     _startDate = startDate??DateTime.now();
     _endDate = endDate??DateTime.now().add(const Duration(days: 365));
-    _overviewMode = overviewMode??true;
+    _rankDispType = rankDispType??RankDispType.EXACT;
   }
 
 }

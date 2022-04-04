@@ -35,6 +35,7 @@ import 'package:provider/provider.dart';
 
 import '../../loading_widget.dart';
 import '../models/indiv_comp_profile.dart';
+import '../models/rank_disp_type.dart';
 import 'add_user_bottom_sheet.dart';
 
 class ParticipantListAdminPage extends StatefulWidget{
@@ -626,21 +627,18 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
     Text('Obserwator', style: AppTextStyle(color: hintEnab_(context))),
 
     trailing:
-    profile.role == CompRole.ADMIN || profile.role == CompRole.MODERATOR?
+    (profile.role == CompRole.ADMIN || profile.role == CompRole.MODERATOR) && particip.profile.active?
     AnimatedOpacity(
       opacity: anythingSelected?0:1,
       duration: const Duration(milliseconds: 300),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-
-          if(particip.profile.active)
-            IndivCompRankIcon(particip.profile, colors: comp.colors, size: 42.0),
-
-          // rankToAwardWidget(particip.profile.showRank)
-
-        ],
-      ),
+      child: IndivCompRankIcon(
+        particip.profile,
+        participCnt: comp.particips.length,
+        showPercent: comp.rankDispType == RankDispType.RANGE_PERC,
+        colors: comp.colors,
+        size: 42.0,
+        key: ValueKey(comp.rankDispType),
+      )
     ):null,
   );
 

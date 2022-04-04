@@ -4,6 +4,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/indiv_
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_editor/providers.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_details.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_profile.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_disp_type.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -107,65 +108,87 @@ class _IndivCompModeEditorWidgetState extends State<IndivCompModeEditorWidget> w
                     children: [
 
                       ListTile(
-                        onTap: () => prov.overviewMode = true,
-                        trailing: Opacity(
-                          opacity: prov.overviewMode?1:.5,
-                          child: IndivCompRankOtherIcon(
-                            IndivCompProfile(
-                                role: null,
-                                active: null,
-                                showRankRange: const Tuple2(.5, .6)
-                            ),
-                            colors: Provider.of<ColorKeyProvider>(context, listen: false).colors,
-                            size: 42.0,
-                          ),
-                        ),
-                        title: Text(
-                          'Zakresowy',
-                            style: AppTextStyle(
-                              fontWeight: weight.halfBold,
-                              color: prov.overviewMode?textEnab_(context): hintEnab_(context)
-                            )
-                        ),
-                        subtitle: Text(
-                          'Ci najniżej widzą zakres swojej pozycji.',
-                          style: AppTextStyle(
-                            color: prov.overviewMode?textEnab_(context): hintEnab_(context)
-                          ),
-                        ),
-                      ),
-
-
-                      ListTile(
-                          onTap: () => prov.overviewMode = false,
+                          onTap: () => prov.rankDispType = RankDispType.EXACT,
                           trailing: Opacity(
-                            opacity: !prov.overviewMode?1:.5,
+                            opacity: prov.rankDispType == RankDispType.EXACT?1:.5,
                             child: IndivCompRankOtherIcon(
-                              IndivCompProfile(
-                                  role: null,
-                                  active: null,
-                                  showRank: 8
-                              ),
+                              showRank: 8,
+                              showRankRange: null,
+                              participCnt: null,
                               colors: Provider.of<ColorKeyProvider>(context, listen: false).colors,
-                              size: 42.0,
+                              size: 48.0,
                             ),
                           ),
                           title: Text(
                             'Dokładny',
                             style: AppTextStyle(
                               fontWeight: weight.halfBold,
-                              color: !prov.overviewMode?textEnab_(context): hintEnab_(context)
+                              color: prov.rankDispType == RankDispType.EXACT?textEnab_(context): hintEnab_(context)
                             )
                           ),
                           subtitle: Text(
                             'Każdy widzi swoją dokładną pozycję.',
                             style: AppTextStyle(
-                              color: !prov.overviewMode?textEnab_(context): hintEnab_(context)
+                              color: prov.rankDispType == RankDispType.EXACT?textEnab_(context): hintEnab_(context)
                             ),
                           ),
                       ),
 
+                      ListTile(
+                        onTap: () => prov.rankDispType = RankDispType.RANGE,
+                        trailing: Opacity(
+                          opacity: prov.rankDispType == RankDispType.RANGE?1:.5,
+                          child: IndivCompRankOtherIcon(
+                            showRank: null,
+                            showRankRange: const Tuple2(.7, .9),
+                            participCnt: 20,
+                            showPercent: false,
+                            colors: Provider.of<ColorKeyProvider>(context, listen: false).colors,
+                            size: 48.0,
+                          ),
+                        ),
+                        title: Text(
+                            'Zakresowy',
+                            style: AppTextStyle(
+                                fontWeight: weight.halfBold,
+                                color: prov.rankDispType == RankDispType.RANGE?textEnab_(context): hintEnab_(context)
+                            )
+                        ),
+                        subtitle: Text(
+                          'Ci nisko widzą zakres swojej pozycji.',
+                          style: AppTextStyle(
+                              color: prov.rankDispType == RankDispType.RANGE?textEnab_(context): hintEnab_(context)
+                          ),
+                        ),
+                      ),
 
+                      ListTile(
+                        onTap: () => prov.rankDispType = RankDispType.RANGE_PERC,
+                        trailing: Opacity(
+                          opacity: prov.rankDispType == RankDispType.RANGE_PERC?1:.5,
+                          child: IndivCompRankOtherIcon(
+                            showRank: null,
+                            showRankRange: const Tuple2(.7, .9),
+                            participCnt: 20,
+                            showPercent: true,
+                            colors: Provider.of<ColorKeyProvider>(context, listen: false).colors,
+                            size: 48.0,
+                          ),
+                        ),
+                        title: Text(
+                            'Zakresowy procentowy',
+                            style: AppTextStyle(
+                                fontWeight: weight.halfBold,
+                                color: prov.rankDispType == RankDispType.RANGE_PERC?textEnab_(context): hintEnab_(context)
+                            )
+                        ),
+                        subtitle: Text(
+                          'Ci nisko widzą zakres procent. swojej pozycji.',
+                          style: AppTextStyle(
+                              color: prov.rankDispType == RankDispType.RANGE_PERC?textEnab_(context): hintEnab_(context)
+                          ),
+                        ),
+                      ),
 
 
                     ],

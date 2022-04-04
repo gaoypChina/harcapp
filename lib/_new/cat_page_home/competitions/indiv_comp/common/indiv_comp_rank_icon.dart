@@ -10,14 +10,16 @@ import '../../../../../_common_widgets/app_toast.dart';
 import '../../../../../_common_widgets/gradient_icon.dart';
 import '../../../../details/app_settings.dart';
 
-void _showPopularity(BuildContext context, IndivCompProfile profile){
+void _showPopularity(BuildContext context, IndivCompProfile profile, bool showPercent, int participCnt){
 
   String text;
 
   if(profile.showRank == null) {
-    text =
-    'Między <b>${(profile.showRankRange.item1 * 100).toInt()}%</b>, a <b>${(profile.showRankRange.item2 * 100)
-        .toInt()}%</b> uczestników ma wyższą pozycję w rankingu od Ciebie.';
+
+    if(showPercent)
+      text = 'Między <b>${(profile.showRankRange.item1 * 100).toInt()}%</b>, a <b>${(profile.showRankRange.item2 * 100).toInt()}%</b> uczestników ma wyższą pozycję w rankingu od Ciebie.';
+    else
+      text = 'Twoje miejsce w rankingu jest między <b>${(profile.showRankRange.item1 * participCnt).toInt()}</b>, a <b>${(profile.showRankRange.item2 * participCnt).toInt()}</b>.';
 
     showAppToast(context, text: text, duration: const Duration(seconds: 8));
     return;
@@ -155,10 +157,24 @@ class IndivCompRankOtherIcon extends StatelessWidget{
   To show a RankOtherIcon without a number, set arg. profile = null
   */
 
-  final IndivCompProfile profile;
+  //final IndivCompProfile profile;
+  final int showRank;
+  final Tuple2<double, double> showRankRange;
+  final int participCnt;
+  final bool showPercent;
+
   final CommonColorData colors;
   final double size;
-  const IndivCompRankOtherIcon(this.profile, {@required this.colors, this.size = 56, Key key}): super(key: key);
+  const IndivCompRankOtherIcon({
+    @required this.showRank,
+    @required this.showRankRange,
+    @required this.participCnt,
+    this.showPercent = false,
+
+    @required this.colors,
+    this.size = 56,
+    Key key
+  }): super(key: key);
 
   Color get borderColor => (AppSettings.isDark?Colors.white:Colors.black).withOpacity(.08);
 
@@ -215,7 +231,7 @@ class IndivCompRankOtherIcon extends StatelessWidget{
             child: Stack(
               children: [
 
-                if(profile != null && profile.showRank == null)
+                if(showRank == null && showRankRange != null && showPercent)
                   Positioned(
                     bottom: -.02*size,
                     right: -.02*size,
@@ -243,11 +259,11 @@ class IndivCompRankOtherIcon extends StatelessWidget{
                   ),
                 ),
 
-                if(profile != null && profile.showRank != null)
+                if(showRank != null)
                   Positioned.fill(
                       child: Center(
                         child: Text(
-                          '${profile.showRank==-1?'∞':profile.showRank}',
+                          '${showRank==-1?'∞':showRank}',
                           style: AppTextStyle(
                               color: background_(context),
                               fontSize: size/2.8,
@@ -256,10 +272,10 @@ class IndivCompRankOtherIcon extends StatelessWidget{
                         ),
                       )
                   )
-                else if(profile != null)
+                else if(showRankRange != null)
                   Positioned.fill(
                       child: Center(
-                        child: _RangeAnimatorWidget(profile.showRankRange, size),
+                        child: _RangeAnimatorWidget(showRankRange, participCnt, showPercent, size),
                       )
                   )
 
@@ -277,9 +293,11 @@ class IndivCompRankOtherIcon extends StatelessWidget{
 class _RangeAnimatorWidget extends StatefulWidget{
 
   final Tuple2<double, double> range;
+  final int participCnt;
+  final bool showPercent;
   final double size;
 
-  const _RangeAnimatorWidget(this.range, this.size);
+  const _RangeAnimatorWidget(this.range, this.participCnt, this.showPercent, this.size);
 
   @override
   State<StatefulWidget> createState() => _RangeAnimatorWidgetState();
@@ -292,9 +310,13 @@ class _RangeAnimatorWidgetState extends State<_RangeAnimatorWidget>{
   static const Curve _animCurve = Curves.easeOutQuint;
 
   Tuple2<double, double> get range => widget.range;
+  int get participCnt => widget.participCnt;
+  bool get showPercent => widget.showPercent;
   double get size => widget.size;
 
   PageController controller;
+  String page1Text;
+  String page2Text;
 
   void run() async{
     while(true){
@@ -310,6 +332,17 @@ class _RangeAnimatorWidgetState extends State<_RangeAnimatorWidget>{
 
   @override
   void initState() {
+
+    page1Text =
+    showPercent?
+    '${(range.item1*100).toInt()}':
+    '${(range.item1*participCnt).toInt()}';
+
+    page2Text =
+    showPercent?
+    '${(range.item2*100).toInt()}':
+    '${(range.item2*participCnt).toInt()}';
+
     controller = PageController();
     run();
     super.initState();
@@ -323,7 +356,7 @@ class _RangeAnimatorWidgetState extends State<_RangeAnimatorWidget>{
       children: [
         Center(
           child: Text(
-            '${(range.item1*100).toInt()}',
+            page1Text,
             style: AppTextStyle(
                 fontSize: size/3.1,
                 fontWeight: weight.halfBold,
@@ -343,7 +376,7 @@ class _RangeAnimatorWidgetState extends State<_RangeAnimatorWidget>{
         ),
         Center(
           child: Text(
-            '${(range.item2*100).toInt()}',
+            page2Text,
             style: AppTextStyle(
                 fontSize: size/3.1,
                 fontWeight: weight.halfBold,
@@ -364,10 +397,20 @@ class IndivCompRankIcon extends StatelessWidget{
   static const double defSize = 56;
 
   final IndivCompProfile profile;
+  final int participCnt;
+  final bool showPercent;
   final CommonColorData colors;
   final double size;
   final bool showPopularityOnTap;
-  const IndivCompRankIcon(this.profile, {@required this.colors, this.size = defSize, this.showPopularityOnTap = false, Key key}): super(key: key);
+  const IndivCompRankIcon(
+      this.profile,
+      { @required this.participCnt,
+        this.showPercent = false,
+        @required this.colors,
+        this.size = defSize,
+        this.showPopularityOnTap = false,
+        Key key
+      }): super(key: key);
 
   @override
   Widget build(BuildContext context) => GestureDetector(
@@ -379,13 +422,18 @@ class IndivCompRankIcon extends StatelessWidget{
           return IndivCompRankSecondIcon(size: size);
         else if(profile.showRank == 3)
           return IndivCompRankThirdIcon(size: size);
-        else if(profile.showRank != null)
-          return IndivCompRankOtherIcon(profile, colors: colors, size: size);
         else
-          return IndivCompRankOtherIcon(profile, colors: colors, size: size);
+          return IndivCompRankOtherIcon(
+              showRank: profile.showRank,
+              showRankRange: profile.showRankRange,
+              participCnt: participCnt,
+              showPercent: showPercent,
+              colors: colors,
+              size: size
+          );
       },
     ),
-    onTap: showPopularityOnTap?() => _showPopularity(context, profile):null,
+    onTap: showPopularityOnTap?() => _showPopularity(context, profile, showPercent, participCnt):null,
   );
 
 }
@@ -395,7 +443,12 @@ class IndivCompRankIconTemplate extends StatelessWidget{
   final int rank;
   final CommonColorData colors;
   final double size;
-  const IndivCompRankIconTemplate(this.rank, {@required this.colors, this.size = 56, Key key}): super(key: key);
+  const IndivCompRankIconTemplate(
+      this.rank,
+      { @required this.colors,
+        this.size = 56,
+        Key key
+      }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -406,7 +459,14 @@ class IndivCompRankIconTemplate extends StatelessWidget{
     else if(rank == 3)
       return IndivCompRankThirdIcon(size: size);
     else
-      return IndivCompRankOtherIcon(null, colors: colors, size: size);
+      return IndivCompRankOtherIcon(
+        showRank: rank,
+        showRankRange: null,
+        participCnt: null,
+        showPercent: null,
+        colors: colors,
+        size: size
+      );
   }
 
 }

@@ -82,7 +82,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
         ChangeNotifierProvider(create: (context) => ModeProvider(
             startDate: widget.initComp?.startTime,
             endDate: widget.initComp?.endTime,
-            overviewMode: widget.initComp?.overviewMode,
+            rankDispType: widget.initComp?.rankDispType,
         )),
         ChangeNotifierProvider(create: (context) => ColorKeyProvider(colorKey: widget.initComp?.colorsKey??CommonColorData.randomKey)),
         ChangeNotifierProvider(create: (context) => IconKeyProvider(iconKey: widget.initComp?.iconKey??CommonIconData.randomKey)),
@@ -153,9 +153,9 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                                   updateTasks: Provider.of<TaskBodiesProvider>(context, listen: false).updatedTasks(),
                                   removeTasks: Provider.of<TaskBodiesProvider>(context, listen: false).removedTasks(),
 
-                                  overviewMode:
-                                  widget.initComp.overviewMode != Provider.of<ModeProvider>(context, listen: false).overviewMode?
-                                  Provider.of<ModeProvider>(context, listen: false).overviewMode:
+                                  rankDispType:
+                                  widget.initComp.rankDispType != Provider.of<ModeProvider>(context, listen: false).rankDispType?
+                                  Provider.of<ModeProvider>(context, listen: false).rankDispType:
                                   null,
 
                                   awards:
@@ -172,7 +172,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                                   iconKey: Provider.of<IconKeyProvider>(context, listen: false).iconKey,
                                   startTime: Provider.of<ModeProvider>(context, listen: false).startDate,
                                   endTime: Provider.of<ModeProvider>(context, listen: false).endDate,
-                                  overviewMode: Provider.of<ModeProvider>(context, listen: false).overviewMode,
+                                  rankDispType: Provider.of<ModeProvider>(context, listen: false).rankDispType,
                                   tasks: Provider.of<TaskBodiesProvider>(context, listen: false).createdTasks(),
                                   awards: Provider.of<AwardsProvider>(context, listen: false).awards,
                                   onSuccess: widget.onSaved

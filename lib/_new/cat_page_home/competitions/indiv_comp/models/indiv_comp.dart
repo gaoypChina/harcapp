@@ -5,6 +5,7 @@ import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_disp_type.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
@@ -200,7 +201,7 @@ class IndivComp{
   DateTime startTime;
   DateTime endTime;
 
-  bool overviewMode;
+  RankDispType rankDispType;
 
   String shareCode;
   bool shareCodeSearchable;
@@ -306,7 +307,7 @@ class IndivComp{
     @required this.colorsKey,
     @required this.startTime,
     this.endTime,
-    @required this.overviewMode,
+    @required this.rankDispType,
 
     // @required this.profile,
 
@@ -360,7 +361,7 @@ class IndivComp{
         iconKey: resp['iconKey']??(throw InvalidResponseError('iconKey')),
         startTime: DateTime.tryParse(resp['startTime']??(throw InvalidResponseError('startTime'))),
         endTime: DateTime.tryParse(resp['endTime'] ?? ''),
-        overviewMode: resp['overviewMode']??(throw InvalidResponseError('overviewMode')),
+        rankDispType: strToRankDispType[resp['rankDispType']??(throw InvalidResponseError('rankDispType'))],
 
         //profile: IndivCompProfile.fromResponse(resp['profile']??(throw InvalidResponseError('profile'))),
 

@@ -8,6 +8,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task_compl.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_disp_type.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
 import 'package:tuple/tuple.dart';
 import 'package:intl/intl.dart';
@@ -148,7 +149,7 @@ class ApiIndivComp{
     @required DateTime startTime,
     DateTime endTime,
     @required List<IndivTaskBody> tasks,
-    @required bool overviewMode,
+    @required RankDispType rankDispType,
     @required List<String> awards,
 
     void Function(IndivComp comp) onSuccess,
@@ -166,7 +167,7 @@ class ApiIndivComp{
     if(endTime != null)
       reqMap['endTime'] = DateFormat('yyyy-MM-dd').format(endTime);
     reqMap['tasks'] = tasksReqData;
-    reqMap['overviewMode'] = overviewMode;
+    reqMap['rankDispType'] = rankDispTypeToStr[rankDispType];
     reqMap['awards'] = awards;
 
     return API.sendRequest(
@@ -265,7 +266,7 @@ class ApiIndivComp{
     @required List<IndivTaskBody> createTasks,
     @required List<IndivTaskBody> updateTasks,
     @required List<String> removeTasks,
-    bool overviewMode,
+    RankDispType rankDispType,
     List<String> awards,
     void Function(IndivComp comp) onSuccess,
   }) async{
@@ -291,7 +292,7 @@ class ApiIndivComp{
     if(removeTasks.isNotEmpty) tasks['remove'] = removeTasks;
 
     if(tasks.isNotEmpty) reqMap['tasks'] = tasks;
-    if(overviewMode != null) reqMap['overviewMode'] = overviewMode;
+    if(rankDispType != null) reqMap['rankDispType'] = rankDispTypeToStr[rankDispType];
     if(awards != null) reqMap['awards'] = awards;
 
     return API.sendRequest(

@@ -13,6 +13,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_th
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_profile.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_particip/participant_list_page.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_disp_type.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
@@ -159,7 +160,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                                   comp.colorsKey = savedComp.colorsKey;
                                   comp.startTime = savedComp.startTime;
                                   comp.endTime = savedComp.endTime;
-                                  comp.overviewMode = savedComp.overviewMode;
+                                  comp.rankDispType = savedComp.rankDispType;
 
                                   comp.updateParticips(context, savedComp.particips);
 
@@ -333,9 +334,12 @@ class CompHeaderWidget extends StatelessWidget{
                       ),
                       IndivCompRankIcon(
                         comp.profile,
+                        participCnt: comp.particips.length,
+                        showPercent: comp.rankDispType == RankDispType.RANGE_PERC,
                         colors: comp.colors,
                         size: 42.0,
                         showPopularityOnTap: true,
+                        key: ValueKey(comp.rankDispType),
                       ),
                     ],
                   ),
