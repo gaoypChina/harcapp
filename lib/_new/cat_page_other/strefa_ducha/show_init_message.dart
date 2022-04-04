@@ -64,8 +64,8 @@ class ShowInitMessageWidgetState extends State<ShowInitMessageWidget>{
                     Text('', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
                     Row(
                       children: [
-                        Icon(MdiIcons.pinOutline),
-                        SizedBox(width: 2*Dimen.DEF_MARG,),
+                        const Icon(MdiIcons.pinOutline),
+                        const SizedBox(width: 2*Dimen.DEF_MARG,),
                         Expanded(child: Text('Aby zachować grafikę na później, przytrzymaj ją i wybierz pineskę.', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)))
                       ],),
                     Text('\n\nCzuwaj!', textAlign: TextAlign.center, style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),

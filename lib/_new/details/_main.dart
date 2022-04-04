@@ -60,8 +60,8 @@ class AppDetailsState extends State<AppDetails> with TickerProviderStateMixin{
               bottom: TabBar(
                 physics: const BouncingScrollPhysics(),
                 tabs: const [
-                  Tab(icon: Icon(MdiIcons.informationOutline)),
-                  Tab(icon: Icon(MdiIcons.cogOutline))
+                  Tab(text: 'O aplikacji'),
+                  Tab(text: 'Ustawienia aplikacji')
                 ],
                 indicator: AppTabBarIncdicator(context: context),
               ),

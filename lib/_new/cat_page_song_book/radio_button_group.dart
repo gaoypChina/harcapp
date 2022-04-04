@@ -13,7 +13,14 @@ class RadioButtonGroup<T> extends StatefulWidget{
   final Axis orientation;
   final Function(T id) onChanged;
 
-  const RadioButtonGroup({@required this.buttonIDs, @required this.buttonNames, this.buttonIcons, this.initID, this.orientation = Axis.vertical, this.onChanged});
+  const RadioButtonGroup({
+    @required this.buttonIDs,
+    @required this.buttonNames,
+    this.buttonIcons,
+    this.initID,
+    this.orientation = Axis.vertical,
+    this.onChanged
+  });
 
   @override
   State<StatefulWidget> createState() => _RadioButtonGroupState<T>();

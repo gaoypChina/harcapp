@@ -123,6 +123,8 @@ class IndivCompTile extends StatelessWidget{
                                   )
                                 ),
 
+                                const SizedBox(width: Dimen.DEF_MARG),
+
                                 PointsWidget(points: comp.profile.points, size: 32.0),
 
                                 const SizedBox(width: Dimen.DEF_MARG),

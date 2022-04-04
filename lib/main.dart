@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -57,15 +58,16 @@ enum AppMode{
 
 void main() async {
 
-  FlutterError.onError = (FlutterErrorDetails details) async {
-    saveStringAsFileToFolder(
-        getErrorFolderLocalPath,
-        'app_version: ${(await PackageInfo.fromPlatform()).version}\n\n'
-        '${details.stack.toString()}',
-        fileName: DateTime.now().toIso8601String());
+  if(!kDebugMode)
+    FlutterError.onError = (FlutterErrorDetails details) async {
+      saveStringAsFileToFolder(
+          getErrorFolderLocalPath,
+          'app_version: ${(await PackageInfo.fromPlatform()).version}\n\n'
+          '${details.stack.toString()}',
+          fileName: DateTime.now().toIso8601String());
 
-    throw details.stack;
-  };
+      throw details.stack;
+    };
 
   var delegate = await LocalizationDelegate.create(
       fallbackLocale: 'pl',

@@ -42,237 +42,209 @@ class PartSettingsState extends State<PartSettings>{
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
     physics: const BouncingScrollPhysics(),
-    child: Padding(
-      padding: const EdgeInsets.only(left: part_margin, right: part_margin),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          const SizedBox(height: Dimen.ICON_MARG),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
 
-          TitleShortcutRowWidget(
-            title: 'Motyw aplikacji',
-            leading: const SizedBox(width: Dimen.ICON_MARG),
-            textAlign: TextAlign.start,
-            trailing: SizedBox(
-              width: Dimen.ICON_FOOTPRINT,
-              child: Icon(MdiIcons.paletteOutline, color: hintEnab_(context)),
-            ),
-            iconColor: iconDisab_(context),
+        ListTile(
+          title: Text('Motyw aplikacji', style: AppTextStyle()),
+        ),
+
+        ListTile(
+          title: Text(
+              'Jasny', 
+              style: AppTextStyle(
+                fontWeight: AppSettings.theme == AppTheme.light?weight.halfBold:weight.normal,
+                color: AppSettings.theme == AppTheme.light?textEnab_(context):hintEnab_(context)
+              )
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: Dimen.DEF_MARG, right: Dimen.DEF_MARG),
-            child:Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: RadioButtonGroup<AppTheme>(
-                    initID: AppSettings.theme,
-                    buttonIcons: const [
-                      MdiIcons.weatherSunny,
-                      MdiIcons.weatherNight,
-                      MdiIcons.themeLightDark
-                    ],
-                    buttonNames: const [
-                      'Jasny',
-                      'Ciemny',
-                      'Auto',
-                    ],
-                    buttonIDs: const [
-                      AppTheme.light,
-                      AppTheme.dark,
-                      AppTheme.auto,
-                    ],
-                    onChanged: (AppTheme value){
-                      AppSettings.theme = value;
-                      Provider.of<ThemeProvider>(context, listen: false).setThemeMode(value);
-                      Provider.of<ColorPackProvider>(context, listen: false).notify();
-                    },
-                  ),
-                ),
+          onTap: (){
+            AppSettings.theme = AppTheme.light;
+            Provider.of<ThemeProvider>(context, listen: false).setThemeMode(AppTheme.light);
+            Provider.of<ColorPackProvider>(context, listen: false).notify();
+          },
+        ),
 
-                AnimatedOpacity(
-                  opacity: AppSettings.theme == AppTheme.auto?1:0,
-                  duration: const Duration(milliseconds: 300),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      SimpleButton(
-                        padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                        onTap:
-                        AppSettings.theme == AppTheme.auto?
-                        () async {
-                          TimeOfDay time = await showTimePicker(
-                            helpText: 'WSCHÓD SŁOŃCA',
-                            initialTime: AppSettings.sunriseTime,
-                            context: context,
-                          );
-                          if(time!=null) setState(() => AppSettings.sunriseTime = time);
-                          Provider.of<ThemeProvider>(context, listen: false).setThemeMode(AppTheme.auto);
-                          Provider.of<ColorPackProvider>(context, listen: false).notify();
-                        }:null,
-                        child: Row(
-                          children: [
-                            Icon(MdiIcons.weatherSunsetUp, color: textEnab_(context)),
-                            const SizedBox(width: Dimen.ICON_MARG),
-                            Text(
-                              AppSettings.sunriseTime.format(context),
-                              style: AppTextStyle(color: textEnab_(context)),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      Theme(
-                        data: Theme.of(context),
-                        child: SimpleButton(
-                          padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                          onTap:
-                          AppSettings.theme == AppTheme.auto?
-                              ()async {
-                            TimeOfDay time = await showTimePicker(
-                              helpText: 'ZACHÓD SŁOŃCA',
-                              initialTime: AppSettings.sunsetTime,
-                              context: context,
-                            );
-                            if(time!=null) setState(() => AppSettings.sunsetTime = time);
-                            Provider.of<ThemeProvider>(context, listen: false).setThemeMode(AppTheme.auto);
-                            Provider.of<ColorPackProvider>(context, listen: false).notify();
-                          }:null,
-                          child: Row(
-                            children: [
-                              Icon(MdiIcons.weatherSunsetDown, color: textEnab_(context)),
-                              const SizedBox(width: Dimen.ICON_MARG),
-                              Text(
-                                AppSettings.sunsetTime.format(context),
-                                style: AppTextStyle(color: textEnab_(context)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
+        ListTile(
+          title: Text(
+              'Ciemny',
+              style: AppTextStyle(
+                  fontWeight: AppSettings.theme == AppTheme.dark?weight.halfBold:weight.normal,
+                  color: AppSettings.theme == AppTheme.dark?textEnab_(context):hintEnab_(context)
+              )
           ),
+          onTap: (){
+            AppSettings.theme = AppTheme.dark;
+            Provider.of<ThemeProvider>(context, listen: false).setThemeMode(AppTheme.dark);
+            Provider.of<ColorPackProvider>(context, listen: false).notify();
+          },
+        ),
 
-          if(AppSettings.theme == AppTheme.auto && AppSettings.devMode)
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.only(right: Dimen.SIDE_MARG),
-                child: _ThemeTimeCounter(),
-              ),
-            ),
-
-          const SizedBox(height: SEPARATOR_SMALL),
-
-          if(Platform.isAndroid)
-            Row(
+        ListTile(
+          title: Text(
+              'Auto',
+              style: AppTextStyle(
+                  fontWeight: AppSettings.theme == AppTheme.auto?weight.halfBold:weight.normal,
+                  color: AppSettings.theme == AppTheme.auto?textEnab_(context):hintEnab_(context)
+              )
+          ),
+          trailing: AnimatedOpacity(
+            opacity: AppSettings.theme == AppTheme.auto?1:0,
+            duration: const Duration(milliseconds: 300),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-
-                const Padding(
-                  padding: EdgeInsets.all(Dimen.ICON_MARG),
-                  child: Icon(MdiIcons.fullscreen),
-                ),
-                Expanded(child: Text('Tryb pełnoekranowy', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold))),
-                Switch(
-                  value: AppSettings.fullscreen,
-                  onChanged: (value) {
-                    AppSettings.fullscreen = value;
-                    setState(() {});
+                SimpleButton(
+                  padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                  onTap:
+                  AppSettings.theme == AppTheme.auto?
+                      () async {
+                    TimeOfDay time = await showTimePicker(
+                      helpText: 'WSCHÓD SŁOŃCA',
+                      initialTime: AppSettings.sunriseTime,
+                      context: context,
+                    );
+                    if(time!=null) setState(() => AppSettings.sunriseTime = time);
+                    Provider.of<ThemeProvider>(context, listen: false).setThemeMode(AppTheme.auto);
                     Provider.of<ColorPackProvider>(context, listen: false).notify();
-                    Provider.of<MainProvider>(context, listen: false).recalculate();
-                  },
+                  }:null,
+                  child: Row(
+                    children: [
+                      Icon(MdiIcons.weatherSunsetUp, color: textEnab_(context)),
+                      const SizedBox(width: Dimen.ICON_MARG),
+                      Text(
+                        AppSettings.sunriseTime.format(context),
+                        style: AppTextStyle(color: textEnab_(context)),
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
 
-          if(Platform.isAndroid)
-            const SizedBox(height: SEPARATOR_SMALL),
-
-          Row(
-            children: [
-
-              const Padding(
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
-                child: Icon(MdiIcons.toolboxOutline),
-              ),
-              Expanded(child: Text('Tryb super-użytkownika', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold))),
-              Switch(
-                  value: AppSettings.devMode,
-                  onChanged: (selected){
-                    AppSettings.devMode = selected;
-                    setState((){});
-                  }
-              ),
-            ],
-          ),
-
-          const SizedBox(height: SEPARATOR_SMALL),
-
-          if(AppSettings.devMode)
-            Row(
-              children: [
-
-                const Padding(
-                  padding: EdgeInsets.all(Dimen.ICON_MARG),
-                  child: Icon(MdiIcons.memory),
-                ),
-                Expanded(child: Text('Podgląd pamięci', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold))),
-                IconButton(
-                  icon: const Icon(MdiIcons.arrowRight),
-                  onPressed: () => pushPage(
-                      context,
-                      builder: (context) => const StorageDisplayPage()
+                Theme(
+                  data: Theme.of(context),
+                  child: SimpleButton(
+                    padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                    onTap:
+                    AppSettings.theme == AppTheme.auto?
+                        ()async {
+                      TimeOfDay time = await showTimePicker(
+                        helpText: 'ZACHÓD SŁOŃCA',
+                        initialTime: AppSettings.sunsetTime,
+                        context: context,
+                      );
+                      if(time!=null) setState(() => AppSettings.sunsetTime = time);
+                      Provider.of<ThemeProvider>(context, listen: false).setThemeMode(AppTheme.auto);
+                      Provider.of<ColorPackProvider>(context, listen: false).notify();
+                    }:null,
+                    child: Row(
+                      children: [
+                        Icon(MdiIcons.weatherSunsetDown, color: textEnab_(context)),
+                        const SizedBox(width: Dimen.ICON_MARG),
+                        Text(
+                          AppSettings.sunsetTime.format(context),
+                          style: AppTextStyle(color: textEnab_(context)),
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],
             ),
+          ),
+          onTap: (){
+            AppSettings.theme = AppTheme.auto;
+            Provider.of<ThemeProvider>(context, listen: false).setThemeMode(AppTheme.auto);
+            Provider.of<ColorPackProvider>(context, listen: false).notify();
+          },
+        ),
 
+        Stack(
+          children: [
 
-          if(AppSettings.devMode)
-            const SizedBox(height: SEPARATOR_SMALL),
+            const ListTile(),
 
-          SimpleButton.from(
-              textColor: background_(context),
-              color: Colors.red,
-              icon: MdiIcons.reloadAlert,
-              text: 'Przywróć ustawienia fabryczne',
-              onTap: ()async {
-                PrimitiveWrapperListenable<
-                    bool> yesPressed = PrimitiveWrapperListenable(false);
+            if(AppSettings.theme == AppTheme.auto && AppSettings.devMode)
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: Dimen.SIDE_MARG),
+                  child: _ThemeTimeCounter(),
+                ),
+              ),
 
-                await showAlertDialog(
-                    context,
-                    title: 'Ostrożnie...',
-                    content: 'Przywrócenie ustawień fabrycznych oznacza, że trwale usunięte zostaną:'
-                        '\n'
-                        '\n\t• Ulubione grafiki ze Strefy Ducha,'
-                        '\n'
-                        '\n\t• Piosenki własne,'
-                        '\n\t• Oceny piosenek,'
-                        '\n\t• Wspomnienia piosenek,'
-                        '\n\t• $Albumy_,'
-                        '\n\t• Wspomnienia związane z piosenkami,'
-                        '\n'
-                        '\n\t• Własne okrzyki,'
-                        '\n\t• Zaliczone wymagania na stopnie.'
-                        '\n'
-                        '\nTej operacji nie można cofnąć.'
-                        '\nCzy na pewno chcesz kontynuować?',
-                    actionBuilder: (context) =>
-                    [
-                      _ButtonFactoryResetYes(yesPressed),
-                      _ButtonFactoryResetNo(yesPressed),
-                    ]
-                );
-              }
+          ],
+        ),
+
+        if(Platform.isAndroid)
+          SwitchListTile(
+            title: Text('Tryb pełnoekranowy', style: AppTextStyle()),
+            value: AppSettings.fullscreen,
+            onChanged: (value) {
+              AppSettings.fullscreen = value;
+              setState(() {});
+              Provider.of<ColorPackProvider>(context, listen: false).notify();
+              Provider.of<MainProvider>(context, listen: false).recalculate();
+            },
           ),
 
-        ],
-      ),
+        SwitchListTile(
+            title: Text('Funkcje analityczne', style: AppTextStyle()),
+            value: AppSettings.devMode,
+            onChanged: (selected){
+              AppSettings.devMode = selected;
+              setState((){});
+            }
+        ),
+
+        if(AppSettings.devMode)
+          ListTile(
+              title: Text('Podgląd pamięci', style: AppTextStyle()),
+              trailing: const Icon(MdiIcons.arrowRight),
+              onTap: () => pushPage(
+                  context,
+                  builder: (context) => const StorageDisplayPage()
+              ),
+          ),
+
+        SimpleButton.from(
+            textColor: background_(context),
+            margin: const EdgeInsets.all(Dimen.LIST_TILE_LEADING_MARGIN_VAL),
+            color: Colors.red,
+            icon: MdiIcons.reloadAlert,
+            text: 'Przywróć ustawienia fabryczne',
+            onTap: ()async {
+              PrimitiveWrapperListenable<
+                  bool> yesPressed = PrimitiveWrapperListenable(false);
+
+              await showAlertDialog(
+                  context,
+                  title: 'Ostrożnie...',
+                  content: 'Przywrócenie ustawień fabrycznych oznacza, że trwale usunięte zostaną:'
+                      '\n'
+                      '\n\t• Ulubione grafiki ze Strefy Ducha,'
+                      '\n'
+                      '\n\t• Piosenki własne,'
+                      '\n\t• Oceny piosenek,'
+                      '\n\t• Wspomnienia piosenek,'
+                      '\n\t• $Albumy_,'
+                      '\n\t• Wspomnienia związane z piosenkami,'
+                      '\n'
+                      '\n\t• Własne okrzyki,'
+                      '\n\t• Zaliczone wymagania na stopnie.'
+                      '\n'
+                      '\nTej operacji nie można cofnąć.'
+                      '\nCzy na pewno chcesz kontynuować?',
+                  actionBuilder: (context) =>
+                  [
+                    _ButtonFactoryResetYes(yesPressed),
+                    _ButtonFactoryResetNo(yesPressed),
+                  ]
+              );
+            }
+        ),
+
+      ],
     ),
   );
 }

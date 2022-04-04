@@ -306,7 +306,7 @@ class _RangeAnimatorWidget extends StatefulWidget{
 
 class _RangeAnimatorWidgetState extends State<_RangeAnimatorWidget>{
 
-  static const Duration _animDuration = Duration(milliseconds: 500);
+  static const Duration _animDuration = Duration(milliseconds: 700);
   static const Curve _animCurve = Curves.easeOutQuint;
 
   Tuple2<double, double> get range => widget.range;
@@ -366,10 +366,10 @@ class _RangeAnimatorWidgetState extends State<_RangeAnimatorWidget>{
         ),
         Center(
           child: Text(
-            '-',
+            '–',
             style: AppTextStyle(
-                fontSize: size/2.8,
-                fontWeight: weight.halfBold,
+                fontSize: size/3.1,
+                fontWeight: weight.bold,
                 color: background_(context)
             ),
           ),

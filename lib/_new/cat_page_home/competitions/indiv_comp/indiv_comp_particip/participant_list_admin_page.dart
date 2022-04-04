@@ -138,7 +138,6 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
             title: const Text('Lista uczestników'),
             centerTitle: true,
             floating: true,
-            pinned: true,
             actions: [
               if(comp.profile.role == CompRole.ADMIN)
                 IconButton(
