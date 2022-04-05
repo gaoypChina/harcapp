@@ -164,8 +164,8 @@ class LoginPartState extends State<LoginPart>{
 
           SimpleButton(
             radius: AppCard.BIG_RADIUS,
-            padding: EdgeInsets.all(Dimen.ICON_MARG),
-            margin: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+            padding: const EdgeInsets.all(Dimen.ICON_MARG),
+            margin: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
             color: cardEnab_(context),
             child: SizedBox(
               height: Dimen.ICON_SIZE,
@@ -194,7 +194,7 @@ class LoginPartState extends State<LoginPart>{
                       ),
                     ),
 
-                    SizedBox(height: Dimen.SIDE_MARG),
+                    const SizedBox(height: Dimen.SIDE_MARG),
 
                     Hero(
                       tag: PartTemplate.passwordInputFieldHeroTag,
@@ -206,7 +206,7 @@ class LoginPartState extends State<LoginPart>{
                       ),
                     ),
 
-                    SizedBox(height: Dimen.SIDE_MARG),
+                    const SizedBox(height: Dimen.SIDE_MARG),
 
                     Align(
                       alignment: Alignment.centerRight,
@@ -223,7 +223,7 @@ class LoginPartState extends State<LoginPart>{
                       ),
                     ),
 
-                    SizedBox(height: 2*Dimen.SIDE_MARG),
+                    const SizedBox(height: 2*Dimen.SIDE_MARG),
 
                     Row(
                       children: [
@@ -248,7 +248,7 @@ class LoginPartState extends State<LoginPart>{
                             )
                         ),
 
-                        SizedBox(width: Dimen.SIDE_MARG),
+                        const SizedBox(width: Dimen.SIDE_MARG),
 
 
                         Expanded(
@@ -262,16 +262,16 @@ class LoginPartState extends State<LoginPart>{
                       ],
                     ),
 
-                    SizedBox(height: 1.5*Dimen.SIDE_MARG),
+                    const SizedBox(height: 1.5*Dimen.SIDE_MARG),
 
                     Material(
                         color: MainButton.borderColor(context),
                         borderRadius: BorderRadius.circular(MainButton.outerRadius),
                         child: Padding(
-                            padding: EdgeInsets.all(MainButton.borderSize),
+                            padding: const EdgeInsets.all(MainButton.borderSize),
                             child: MicrosoftLoginButton(
                                 'Kontynuuj kontem ZHP',
-                                trailing: Icon(MdiIcons.loginVariant, color: Colors.black),
+                                trailing: const Icon(MdiIcons.loginVariant, color: Colors.black),
                                 onTap: microsoftLoginClick
                             )
                         )
@@ -321,7 +321,7 @@ class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
         else
           colorIdx = 0;
       });
-      await Future.delayed(Duration(milliseconds: 800));
+      await Future.delayed(const Duration(milliseconds: 800));
     }
   }
 

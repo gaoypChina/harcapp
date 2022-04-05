@@ -47,7 +47,7 @@ class PartSettingsState extends State<PartSettings>{
       children: <Widget>[
 
         ListTile(
-          title: Text('Motyw aplikacji', style: AppTextStyle()),
+          title: Text('Motyw aplikacji', style: AppTextStyle(fontWeight: weight.halfBold)),
         ),
 
         ListTile(
@@ -178,7 +178,7 @@ class PartSettingsState extends State<PartSettings>{
 
         if(Platform.isAndroid)
           SwitchListTile(
-            title: Text('Tryb pełnoekranowy', style: AppTextStyle()),
+            title: Text('Tryb pełnoekranowy', style: AppTextStyle(fontWeight: weight.halfBold)),
             value: AppSettings.fullscreen,
             onChanged: (value) {
               AppSettings.fullscreen = value;
@@ -189,7 +189,9 @@ class PartSettingsState extends State<PartSettings>{
           ),
 
         SwitchListTile(
-            title: Text('Funkcje analityczne', style: AppTextStyle()),
+            isThreeLine: true,
+            title: Text('Funkcje analityczne', style: AppTextStyle(fontWeight: weight.halfBold)),
+            subtitle: Text('Pokaż dodatkowe informacje potrzebne przy rozwiązywaniu błędów.', style: AppTextStyle()),
             value: AppSettings.devMode,
             onChanged: (selected){
               AppSettings.devMode = selected;
@@ -199,7 +201,7 @@ class PartSettingsState extends State<PartSettings>{
 
         if(AppSettings.devMode)
           ListTile(
-              title: Text('Podgląd pamięci', style: AppTextStyle()),
+              title: Text('Podgląd pamięci', style: AppTextStyle(fontWeight: weight.halfBold)),
               trailing: const Icon(MdiIcons.arrowRight),
               onTap: () => pushPage(
                   context,

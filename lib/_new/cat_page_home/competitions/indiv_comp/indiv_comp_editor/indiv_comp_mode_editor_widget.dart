@@ -108,7 +108,8 @@ class _IndivCompModeEditorWidgetState extends State<IndivCompModeEditorWidget> w
                     children: [
 
                       ListTile(
-                          onTap: () => prov.rankDispType = RankDispType.EXACT,
+                        isThreeLine: true,
+                        onTap: () => prov.rankDispType = RankDispType.EXACT,
                           trailing: Opacity(
                             opacity: prov.rankDispType == RankDispType.EXACT?1:.5,
                             child: IndivCompRankOtherIcon(
@@ -127,7 +128,7 @@ class _IndivCompModeEditorWidgetState extends State<IndivCompModeEditorWidget> w
                             )
                           ),
                           subtitle: Text(
-                            'Każdy widzi swoją dokładną pozycję.',
+                            'Każdy uczestnik widzi swoją dokładną pozycję w rankingu.',
                             style: AppTextStyle(
                               color: prov.rankDispType == RankDispType.EXACT?textEnab_(context): hintEnab_(context)
                             ),
@@ -135,6 +136,7 @@ class _IndivCompModeEditorWidgetState extends State<IndivCompModeEditorWidget> w
                       ),
 
                       ListTile(
+                        isThreeLine: true,
                         onTap: () => prov.rankDispType = RankDispType.RANGE,
                         trailing: Opacity(
                           opacity: prov.rankDispType == RankDispType.RANGE?1:.5,
@@ -155,7 +157,7 @@ class _IndivCompModeEditorWidgetState extends State<IndivCompModeEditorWidget> w
                             )
                         ),
                         subtitle: Text(
-                          'Ci nisko widzą zakres swojej pozycji.',
+                          'Uczestnicy nisko w rankingu widzą zakres swojej pozycji.',
                           style: AppTextStyle(
                               color: prov.rankDispType == RankDispType.RANGE?textEnab_(context): hintEnab_(context)
                           ),
@@ -163,6 +165,7 @@ class _IndivCompModeEditorWidgetState extends State<IndivCompModeEditorWidget> w
                       ),
 
                       ListTile(
+                        isThreeLine: true,
                         onTap: () => prov.rankDispType = RankDispType.RANGE_PERC,
                         trailing: Opacity(
                           opacity: prov.rankDispType == RankDispType.RANGE_PERC?1:.5,
@@ -183,7 +186,7 @@ class _IndivCompModeEditorWidgetState extends State<IndivCompModeEditorWidget> w
                             )
                         ),
                         subtitle: Text(
-                          'Ci nisko widzą zakres procent. swojej pozycji.',
+                          'Uczestnicy nisko w rankingu widzą zakres procent. swojej pozycji.',
                           style: AppTextStyle(
                               color: prov.rankDispType == RankDispType.RANGE_PERC?textEnab_(context): hintEnab_(context)
                           ),
