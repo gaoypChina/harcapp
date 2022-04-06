@@ -136,6 +136,7 @@ flutter:
   assets:
     - assets/
     - assets/account/
+    - assets/apel_ewan/
     - assets/documents/
     - assets/forms/
     - assets/gawedy/

@@ -104,6 +104,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
 
         ParticipantListPageTempl(
           comp: comp,
+          sorftByPoints: true,
 
           adminsListHeaderTrailing: (participAdmins) => IconButton(
             icon: const Icon(MdiIcons.selectMultiple),

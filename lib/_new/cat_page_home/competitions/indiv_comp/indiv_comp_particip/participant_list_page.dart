@@ -11,21 +11,18 @@ class ParticipantListPage extends StatelessWidget{
   const ParticipantListPage(this.comp, {Key key}): super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-
-    return ParticipantListPageTempl(
-      comp: comp,
-      itemBuilder: (context, particip) => ParticipTile(
-          userKey: particip.key,
-          name: particip.name,
-          shadow: particip.shadow,
-          active: particip.profile.active,
-          role: particip.profile.role,
-          anythingSelected: false,
-          heroTag: particip
-      ),
-    );
-
-  }
+  Widget build(BuildContext context) => ParticipantListPageTempl(
+    comp: comp,
+    sorftByPoints: false,
+    itemBuilder: (context, particip) => ParticipTile(
+        userKey: particip.key,
+        name: particip.name,
+        shadow: particip.shadow,
+        active: particip.profile.active,
+        role: particip.profile.role,
+        anythingSelected: false,
+        heroTag: particip
+    ),
+  );
 
 }

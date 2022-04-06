@@ -34,7 +34,7 @@ class ArticleListWidget extends StatelessWidget{
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(emptyIcon, size: Dimen.ICON_EMPTY_INFO_SIZE, color: iconDisab_(context)),
-          SizedBox(height: Dimen.ICON_MARG),
+          const SizedBox(height: Dimen.ICON_MARG),
           Text(
             emptyText,
             style: AppTextStyle(
@@ -54,16 +54,16 @@ class ArticleListWidget extends StatelessWidget{
       post(() => notifier.value = controller.page);
       return PageView.builder(
         itemBuilder: (context, index) => builder(context, index, notifier),
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         controller: controller,
         itemCount: articles.length,
       );
     }else
       return ListView.separated(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.all(Dimen.SIDE_MARG),
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
         itemCount: articles.length,
-        separatorBuilder: (context, index) => SizedBox(height: Dimen.SIDE_MARG),
+        separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
         itemBuilder: (context, index) => builder(context, index, null),
       );
 

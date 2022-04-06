@@ -233,7 +233,7 @@ class ApiIndivComp{
         }),
         data: FormData.fromMap({'searchable': searchable}),
       ),
-      onSuccess: (Response response) async => await onSuccess?.call(response.data['share_code_searchable']),
+      onSuccess: (Response response) async => await onSuccess?.call(response.data['shareCodeSearchable']),
       onError: (DioError err) async => await onError?.call()
   );
 

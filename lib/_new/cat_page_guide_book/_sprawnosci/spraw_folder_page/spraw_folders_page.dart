@@ -100,7 +100,7 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
 
     for(SprawFolder folder in _folders){
 
-      tabs.add(Tab(/*text: '${folder.name} (${folder.spraws.length})'*/icon: Row(
+      tabs.add(Tab(/*Lk_9_28b-36$text: '${folder.name} (${folder.spraws.length})'*/icon: Row(
         children: [
           SizedBox(width: 24.0,),
           SprawFolderIcon(folder.iconKey, folder.colorKey),

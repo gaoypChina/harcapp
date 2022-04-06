@@ -7,8 +7,8 @@ import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
-import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
+import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/all_articles_page.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/bookmarked_articles_page.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/title_widget/article_card_widget.dart';
@@ -33,6 +33,7 @@ import 'package:provider/provider.dart';
 
 import '../../_common_classes/app_navigator.dart';
 import '../app_drawer.dart';
+import 'apel_ewan/apel_ewan_thumbnail_widget.dart';
 import 'articles/article_core.dart';
 import 'articles/article_list_widget.dart';
 import 'articles/article_loader.dart';
@@ -151,6 +152,23 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
 
             const SizedBox(height: Dimen.SIDE_MARG),
 
+            /*
+            Padding(
+              padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+              child: TitleShortcutRowWidget(
+                icon: MdiIcons.cross,
+                iconColor: textEnab_(context),
+                title: 'Apele ewangeliczne',
+                textAlign: TextAlign.start,
+                onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => ApelEwansPage(allApelEwans))),
+              ),
+            ),
+
+            _ApelEwanScrollView(allApelEwans),
+
+            const SizedBox(height: Dimen.SIDE_MARG),
+
+             */
           ]),
         )
 
@@ -480,6 +498,29 @@ class FormsScrollView extends StatelessWidget{
       scrollDirection: Axis.horizontal,
       itemCount: forms.length,
       itemBuilder: (context, index) => FormThumbnailWidget(forms[index]),
+      separatorBuilder: (BuildContext context, int index) => const SizedBox(width: Dimen.ICON_MARG),
+    ),
+  );
+
+}
+
+class _ApelEwanScrollView extends StatelessWidget{
+
+  static const double height = 140;
+
+  final List<ApelEwan> apelEwanList;
+
+  const _ApelEwanScrollView(this.apelEwanList, {Key key}): super(key: key);
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    height: height,
+    child: ListView.separated(
+      padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+      physics: const BouncingScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      itemCount: apelEwanList.length,
+      itemBuilder: (context, index) => ApelEwanThumbnailWidget(apelEwanList[index]),
       separatorBuilder: (BuildContext context, int index) => const SizedBox(width: Dimen.ICON_MARG),
     ),
   );

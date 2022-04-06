@@ -381,7 +381,7 @@ class _SearchTextFieldCard extends StatelessWidget{
           onPressed: () async {
 
             hideKeyboard(context);
-            await showOptionsBottomSheet(context);//, onChanged: () => onChanged(textController.text));
+            await showOptionsBottomSheet(context);//, onChanged: () => onChanged(textController.Lk_9_28b-36$text));
 
             await searcher.run(textController.text);
             //onSearchOptionChanged(searchOptions);

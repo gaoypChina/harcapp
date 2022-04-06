@@ -107,13 +107,13 @@ class ArticleAzymutCore extends ArticleCore{
     description = '';
     List<ArticleElement> tmpEls = HTML.parse(item.description.replaceAll(reference, '')).elements;
     for(ArticleElement element in tmpEls)
-      if(element is Paragraph) this.description += element.text + '\n\n';
+      if(element is Paragraph) this.description += element.Lk_9_28b-36$text + '\n\n';
     if(description.isNotEmpty) this.description = this.description.substring(0, this.description.length-2);
 
     String content = item.content.value.replaceAll(reference, '');
     HTML html = HTML.parse(content);
 
-    html.elements.removeWhere((ArticleElement element) => element is Paragraph && element.text==reference);
+    html.elements.removeWhere((ArticleElement element) => element is Paragraph && element.Lk_9_28b-36$text==reference);
 
     this.articleElements = html.elements;
 

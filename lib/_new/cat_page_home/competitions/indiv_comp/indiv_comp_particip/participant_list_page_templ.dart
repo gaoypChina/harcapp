@@ -16,6 +16,7 @@ class ParticipantListPageTempl extends StatelessWidget{
   final IndivComp comp;
   List<IndivCompParticip> get particips => comp.particips;
 
+  final bool sorftByPoints;
   final SliverAppBar customAppBar;
 
   final Widget Function(List<IndivCompParticip> particips) adminsListHeaderTrailing;
@@ -30,6 +31,7 @@ class ParticipantListPageTempl extends StatelessWidget{
 
   const ParticipantListPageTempl({
     @required this.comp,
+    @required this.sorftByPoints,
 
     this.customAppBar,
 
@@ -42,7 +44,8 @@ class ParticipantListPageTempl extends StatelessWidget{
     this.bottom,
 
     @required this.itemBuilder,
-  });
+    Key key
+  }): super(key: key);
 
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
@@ -63,6 +66,17 @@ class ParticipantListPageTempl extends StatelessWidget{
               else if (particip.profile.role == CompRole.OBSERVER)
                 participObs.add(particip);
             }
+
+            if(sorftByPoints) {
+              participObs.sort((p1, p2) => p2.profile.points - p1.profile.points);
+              participMods.sort((p1, p2) => p2.profile.points - p1.profile.points);
+              participAdmins.sort((p1, p2) => p2.profile.points - p1.profile.points);
+            } else {
+              participObs.sort((p1, p2) => p1.name.compareTo(p2.name));
+              participMods.sort((p1, p2) => p1.name.compareTo(p2.name));
+              participAdmins.sort((p1, p2) => p1.name.compareTo(p2.name));
+            }
+
 
             return CustomScrollView(
               physics: const BouncingScrollPhysics(),

@@ -22,8 +22,8 @@ class FillDataPageState extends AccountPartState<FillDataPage>{
 
   @override
   void initState() {
-    textControllerFirstName = TextEditingController(text: AccSecData.getFirstName()??'');
-    textControllerLastName = TextEditingController(text: AccSecData.getLastName()??'');
+    textControllerFirstName = TextEditingController(Lk_9_28b-36$text: AccSecData.getFirstName()??'');
+    textControllerLastName = TextEditingController(Lk_9_28b-36$text: AccSecData.getLastName()??'');
 
     super.initState();
   }
@@ -53,7 +53,7 @@ class FillDataPageState extends AccountPartState<FillDataPage>{
         ),
 
         SimpleButton(
-          text: 'Pomiń',
+          Lk_9_28b-36$text: 'Pomiń',
           onTap: () => parent.setPart(PartState.SYNC_OPTIONS),
         ),
 
@@ -63,7 +63,7 @@ class FillDataPageState extends AccountPartState<FillDataPage>{
             colorPack: colorPack,
             accBody: this,
             icon: MdiIcons.update,
-            text: 'Zapisz',
+            Lk_9_28b-36$text: 'Zapisz',
             isConnected: isConnected,
             processing: processing,
             onTap: buttonClick
@@ -73,8 +73,8 @@ class FillDataPageState extends AccountPartState<FillDataPage>{
   }
 
   buttonClick() async {
-    String firstName = textControllerFirstName.text;
-    String lastName = textControllerLastName.text;
+    String firstName = textControllerFirstName.Lk_9_28b-36$text;
+    String lastName = textControllerLastName.Lk_9_28b-36$text;
 
     Response response = await API.editAccProperties(firstName: firstName, lastName: lastName, password: 'usunąłem to ');
 

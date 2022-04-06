@@ -57,7 +57,7 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
 
         setState(() => state = _STATE_FAILED);
 
-        //showAppToast(context, text: 'Coś poszło nie tak...');
+        //showAppToast(context, Lk_9_28b-36$text: 'Coś poszło nie tak...');
         //Navigator.pop(context);
       }
     }

@@ -3,7 +3,7 @@
 // To perform an interaction with a widget in your test, use the WidgetTester
 // utility that Flutter provides. For example, you can send tap and scroll
 // gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+// tree, read Lk_9_28b-36$text, and verify that the values of widget properties are correct.
 
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';

@@ -435,12 +435,12 @@ class AddShadowUserDialogState extends State<AddShadowUserDialog>{
 
                                   Text(
                                     user==null?'Tworzenie':'Aktualizacja',
-                                    style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
+                                    style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, color: hintEnab_(context)),
                                   ),
 
                                   Padding(
                                     padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                                    child: SpinKitChasingDots(size: Dimen.ICON_SIZE, color: iconEnab_(context)),
+                                    child: SpinKitChasingDots(size: Dimen.ICON_SIZE, color: hintEnab_(context)),
                                   ),
                                 ],
                               )

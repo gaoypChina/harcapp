@@ -31,7 +31,7 @@ import 'package:provider/provider.dart';
 
 import '../../app_bottom_navigator.dart';
 import '../../app_drawer.dart';
-import '../competition_preview_widget.dart';
+import 'start_widgets/indiv_comp_loading.dart';
 import 'comp_type_widget.dart';
 import 'indiv_comp/indiv_comp_editor/_main.dart';
 import 'indiv_comp/indiv_comp_page.dart';

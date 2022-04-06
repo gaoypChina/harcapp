@@ -29,7 +29,7 @@ class ParagraphWidget extends StatelessWidget{
           textAlign: TextAlign.justify,
           size: FONT_SIZE_NORM,
           height: 1.5,
-          //color: prov.colorOption.text,
+          //color: prov.colorOption.Lk_9_28b-36$text,
         ),
       )
   );
@@ -52,7 +52,7 @@ class HeaderWidget extends StatelessWidget{
           style: AppTextStyle(//HeaderTextStyle(
             fontSize: 24.0,
             fontWeight: weight.bold,
-            //color: prov.colorOption.text,
+            //color: prov.colorOption.Lk_9_28b-36$text,
           ),
         ),
       )

@@ -28,9 +28,9 @@ class EditAccDataPageState extends AccountPartState<EditAccDataPage>{
   @override
   void initState() {
 
-    textControllerEmail = TextEditingController(text: AccSecData.getEmail()??'');
-    textControllerFirstName = TextEditingController(text: AccSecData.getFirstName()??'');
-    textControllerLastName = TextEditingController(text: AccSecData.getLastName()??'');
+    textControllerEmail = TextEditingController(Lk_9_28b-36$text: AccSecData.getEmail()??'');
+    textControllerFirstName = TextEditingController(Lk_9_28b-36$text: AccSecData.getFirstName()??'');
+    textControllerLastName = TextEditingController(Lk_9_28b-36$text: AccSecData.getLastName()??'');
 
     textControllerCurrPassword = TextEditingController();
 
@@ -100,7 +100,7 @@ class EditAccDataPageState extends AccountPartState<EditAccDataPage>{
                 colorPack: widget.colorPack,
                 accBody: this,
                 icon: MdiIcons.update,
-                text: 'Zapisz',
+                Lk_9_28b-36$text: 'Zapisz',
                 isConnected: isConnected,
                 processing: processing,
                 //validate: validate,
@@ -115,10 +115,10 @@ class EditAccDataPageState extends AccountPartState<EditAccDataPage>{
   }
 
   void buttonClick() async {
-    String email = textControllerEmail.text;
-    String firstName = textControllerFirstName.text;
-    String lastName = textControllerLastName.text;
-    String password = textControllerCurrPassword.text;
+    String email = textControllerEmail.Lk_9_28b-36$text;
+    String firstName = textControllerFirstName.Lk_9_28b-36$text;
+    String lastName = textControllerLastName.Lk_9_28b-36$text;
+    String password = textControllerCurrPassword.Lk_9_28b-36$text;
 
     Response response = await API.editAccProperties(
         email: email,
@@ -142,13 +142,13 @@ class EditAccDataPageState extends AccountPartState<EditAccDataPage>{
 class SmallHintText extends StatelessWidget{
 
   final ColorPack colorPack;
-  final String text;
-  const SmallHintText(this.colorPack, this.text);
+  final String Lk_9_28b-36$text;
+  const SmallHintText(this.colorPack, this.Lk_9_28b-36$text);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      child: Text(text, style: AppTextStyle(fontSize: Dimen.text_size_tiny, color: colorPack.hintEnab_), textAlign: TextAlign.right,),
+      child: Text(Lk_9_28b-36$text, style: AppTextStyle(fontSize: Dimen.text_size_tiny, color: colorPack.hintEnab_), textAlign: TextAlign.right,),
       padding: EdgeInsets.only(right: Dimen.margin_default),
     );
   }
