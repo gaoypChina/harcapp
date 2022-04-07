@@ -97,151 +97,190 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Stack(
+    children: [
 
-    return Stack(
-      children: [
+      ParticipantListPageTempl(
+        comp: comp,
+        sorftByPoints: true,
 
-        ParticipantListPageTempl(
-          comp: comp,
-          sorftByPoints: true,
+        adminsListHeaderTrailing: (participAdmins) => IconButton(
+          icon: const Icon(MdiIcons.selectMultiple),
+          onPressed: (){
 
-          adminsListHeaderTrailing: (participAdmins) => IconButton(
-            icon: const Icon(MdiIcons.selectMultiple),
-            onPressed: (){
+            bool allSelected = true;
+            for(IndivCompParticip particip in participAdmins)
+              if(!selectedParticips.contains(particip)){
+                allSelected = false;
+                break;
+              }
+
+            if(allSelected)
+              for(IndivCompParticip particip in participAdmins)
+                selectedParticips.remove(particip);
+            else
               for(IndivCompParticip particip in participAdmins)
                 if(!selectedParticips.contains(particip)) selectedParticips.add(particip);
-              setState(() {});
-            },
-          ),
 
-          modsListHeaderTrailing: (participMods) => IconButton(
-            icon: const Icon(MdiIcons.selectMultiple),
-            onPressed: (){
+            setState(() {});
+
+          },
+        ),
+
+        modsListHeaderTrailing: (participMods) => IconButton(
+          icon: const Icon(MdiIcons.selectMultiple),
+          onPressed: (){
+
+            bool allSelected = true;
+            for(IndivCompParticip particip in participMods)
+              if(!selectedParticips.contains(particip)){
+                allSelected = false;
+                break;
+              }
+
+            if(allSelected)
+              for(IndivCompParticip particip in participMods)
+                selectedParticips.remove(particip);
+            else
               for(IndivCompParticip particip in participMods)
                 if(!selectedParticips.contains(particip)) selectedParticips.add(particip);
-              setState(() {});
-            },
-          ),
 
-          obsListHeaderTrailing: (participObs) => IconButton(
-            icon: const Icon(MdiIcons.selectMultiple),
-            onPressed: (){
+            setState(() {});
+
+          },
+        ),
+
+        obsListHeaderTrailing: (participObs) => IconButton(
+          icon: const Icon(MdiIcons.selectMultiple),
+          onPressed: (){
+
+            bool allSelected = true;
+            for(IndivCompParticip particip in participObs)
+              if(!selectedParticips.contains(particip)){
+                allSelected = false;
+                break;
+              }
+
+            if(allSelected)
+              for(IndivCompParticip particip in participObs)
+                selectedParticips.remove(particip);
+            else
               for(IndivCompParticip particip in participObs)
                 if(!selectedParticips.contains(particip)) selectedParticips.add(particip);
-              setState(() {});
-            },
-          ),
 
-          customAppBar:
-          selectedParticips.isEmpty?
-          SliverAppBar(
-            title: const Text('Lista uczestników'),
-            centerTitle: true,
-            floating: true,
-            actions: [
-              if(comp.profile.role == CompRole.ADMIN)
-                IconButton(
-                    icon: const Icon(MdiIcons.plus),
-                    onPressed: () => showScrollBottomSheet(
-                        context: context,
-                        builder: (context) => AddUserBottomSheet(comp)
-                    )
-                )
-            ],
-          ):
-          SelectedAppBar(
-            comp,
-            selectedParticips,
-            onSelectAll: () => setState((){
-              selectedParticips.clear();
-              selectedParticips.addAll(comp.particips);
-            }),
-            onUnselectAll: () => setState(() => selectedParticips.clear()),
-          ),
+            setState(() {});
+          },
+        ),
 
-          itemBuilder: (context, particip) => ParticipViewWidget(
-            comp,
-            particip,
+        customAppBar:
+        selectedParticips.isEmpty?
+        SliverAppBar(
+          title: const Text('Lista uczestników'),
+          centerTitle: true,
+          floating: true,
+          actions: [
+            if(comp.profile.role == CompRole.ADMIN)
+              IconButton(
+                  icon: const Icon(MdiIcons.plus),
+                  onPressed: () => showScrollBottomSheet(
+                      context: context,
+                      builder: (context) => AddUserBottomSheet(comp)
+                  )
+              )
+          ],
+        ):
+        SelectedAppBar(
+          comp,
+          selectedParticips,
+          onSelectAll: () => setState((){
+            selectedParticips.clear();
+            selectedParticips.addAll(comp.particips);
+          }),
+          onUnselectAll: () => setState(() => selectedParticips.clear()),
+        ),
 
-            anythingSelected: selectedParticips.isNotEmpty,
-            selected: selectedParticips.contains(particip),
+        itemBuilder: (context, particip) => ParticipViewWidget(
+          comp,
+          particip,
 
-            onSelectionTap: (){
-              if(!particip.profile.active && !selectedParticips.contains(particip))
-                showAppToast(context, text: 'Pamiętaj, <b>${particip.name}</b> nie uczestniczy we współzawodnictwie. <b>Nie można mu przyznać punktów</b>.');
+          anythingSelected: selectedParticips.isNotEmpty,
+          selected: selectedParticips.contains(particip),
 
-              if(selectedParticips.contains(particip))
-                setState(() => selectedParticips.remove(particip));
-              else
-                setState(() => selectedParticips.add(particip));
-            },
-            onPointsGranted: onPointsGranted,
-            heroTag: particip,
-          ),
+          onSelectionTap: (){
+            if(!particip.profile.active && !selectedParticips.contains(particip))
+              showAppToast(context, text: 'Pamiętaj, <b>${particip.name}</b> nie uczestniczy we współzawodnictwie. <b>Nie można mu przyznać punktów</b>.');
 
-          bottomNavigationBar: selectedParticips.isEmpty?null:
-          SimpleButton(
-            margin: const EdgeInsets.only(
+            if(selectedParticips.contains(particip))
+              setState(() => selectedParticips.remove(particip));
+            else
+              setState(() => selectedParticips.add(particip));
+          },
+          onPointsGranted: onPointsGranted,
+          heroTag: particip,
+        ),
+
+        bottomNavigationBar: selectedParticips.isEmpty?null:
+        SimpleButton(
+          margin: const EdgeInsets.only(
               left: SimpleButton.DEF_MARG,
               right: SimpleButton.DEF_MARG,
               bottom: SimpleButton.DEF_MARG
-            ),
-            radius: AppCard.BIG_RADIUS,
-            onTap: (){
+          ),
+          radius: AppCard.BIG_RADIUS,
+          onTap: (){
 
-              List<IndivCompParticip> inactiveSelParticips = this.inactiveSelParticips();
-              
-              if(inactiveSelParticips.isEmpty)
-                openAcceptTaskDialog(
-                    context,
-                    comp,
-                    selectedParticips,
-                    onPointsGranted: onPointsGranted
-                );
-              else if(inactiveSelParticips.length == 1)
-                showAlertDialog(
-                    context,
-                    title: 'Nie wszyscy chcą punktów...',
-                    content: '<b>${inactiveSelParticips[0].name}</b> nie uczestniczy we współzawodnictwie i nie można przyznać ${inactiveSelParticips[0].isMale?'mu':'jej'} punktów.\n\nOdznacz ${inactiveSelParticips[0].isMale?'go':'ją'}, by kontynuować.',
-                    actionBuilder: (context) => [
+            List<IndivCompParticip> inactiveSelParticips = this.inactiveSelParticips();
 
-                      AlertDialogButton(
-                          text: 'No dobrze',
-                          onTap: () => Navigator.pop(context)
-                      )
+            if(inactiveSelParticips.isEmpty)
+              openAcceptTaskDialog(
+                  context,
+                  comp,
+                  selectedParticips,
+                  onPointsGranted: onPointsGranted
+              );
+            else if(inactiveSelParticips.length == 1)
+              showAlertDialog(
+                  context,
+                  title: 'Nie wszyscy chcą punktów...',
+                  content: '<b>${inactiveSelParticips[0].name}</b> nie uczestniczy we współzawodnictwie i nie można przyznać ${inactiveSelParticips[0].isMale?'mu':'jej'} punktów.\n\nOdznacz ${inactiveSelParticips[0].isMale?'go':'ją'}, by kontynuować.',
+                  actionBuilder: (context) => [
 
-                    ]
-                );
-              else
-                showAlertDialog(
+                    AlertDialogButton(
+                        text: 'No dobrze',
+                        onTap: () => Navigator.pop(context)
+                    )
+
+                  ]
+              );
+            else
+              showAlertDialog(
                   context,
                   title: 'Nie wszyscy chcą punktów...',
                   content: '<b>${inactiveSelParticips[0].name}</b> i <b>${inactiveSelParticips.length - 1} innych</b> nie uczestniczą we współzawodnictwie i nie można przyznać im punktów.\n\nOddzacz ich, by kontynuować.',
                   actionBuilder: (context) => [
                     SimpleButton(
-                      child: Text('No dobrze', style: AppTextStyle(fontWeight: weight.halfBold)),
-                      onTap: () => Navigator.pop(context)
+                        child: Text('No dobrze', style: AppTextStyle(fontWeight: weight.halfBold)),
+                        onTap: () => Navigator.pop(context)
                     )
                   ]
-                );
+              );
 
-            },
-            color: comp.colors.colorStart,
-            colorEnd: comp.colors.colorEnd,
-            child: TitleShortcutRowWidget(
-                icon: MdiIcons.plusCircleMultipleOutline,
-                titleColor: background_(context),
-                iconColor: background_(context),
-                title: 'Zalicz zadanie'
-            ),
-
+          },
+          color: comp.colors.colorStart,
+          colorEnd: comp.colors.colorEnd,
+          child: TitleShortcutRowWidget(
+              icon: MdiIcons.plusCircleMultipleOutline,
+              titleColor: background_(context),
+              iconColor: background_(context),
+              title: 'Zalicz zadanie'
           ),
 
         ),
 
-        if(comp.particips.length == 1 && selectedParticips.isEmpty)
-          Positioned(
+      ),
+
+      if(comp.particips.length == 1 && selectedParticips.isEmpty)
+        Positioned(
             left: 2*Dimen.SIDE_MARG,
             right: 2*Dimen.SIDE_MARG,
             bottom: kBottomNavigationBarHeight + 2*Dimen.SIDE_MARG,
@@ -279,12 +318,10 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
                 ],
               ),
             )
-          )
+        )
 
-      ],
-    );
-
-  }
+    ],
+  );
 
 }
 
@@ -406,6 +443,19 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
                 );
 
               }:null,
+            ),
+            ListTile(
+              leading: Icon(
+                MdiIcons.cubeOutline,
+                color: textEnab_(context),
+              ),
+              title: Text(
+                  'Zobacz zrealizowane zadania',
+                  style: AppTextStyle(
+                    color: particip.profile.active?textEnab_(context): hintEnab_(context),
+                  )
+              ),
+              onTap: () => pushPage(context, builder: builder)
             ),
 
             const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
