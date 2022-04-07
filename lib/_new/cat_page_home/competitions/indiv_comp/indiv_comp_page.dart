@@ -351,7 +351,13 @@ class CompHeaderWidget extends StatelessWidget{
                   margin: EdgeInsets.zero,
                   onTap: () => comp.profile.completedTasks.isEmpty?
                       showAppToast(context, text: 'Brak zrealizowanych zadań.'):
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => CompletedTasksPage(comp))),
+                      pushPage(context, builder: (context) => CompletedTasksPage(
+                        comp,
+                        comp.profile.completedTasks,
+                        comp.taskMap,
+                        comp.participMap,
+                        comp.colors
+                      )),
                   child: Row(
                     children: [
                       Expanded(

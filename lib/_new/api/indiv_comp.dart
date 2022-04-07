@@ -476,7 +476,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) => dio.delete(
-        API.SERVER_URL + 'api/indivComp/task/request/${taskComplKey}'
+        API.SERVER_URL + 'api/indivComp/task/request/$taskComplKey'
     ),
     onSuccess: (Response response) async => await onSuccess?.call(response.data)
   );

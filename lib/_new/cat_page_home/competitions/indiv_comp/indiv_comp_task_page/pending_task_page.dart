@@ -48,8 +48,9 @@ class PendingTasksPageState extends State<PendingTasksPage> {
               sliver: SliverList(
                 delegate: SliverChildSeparatedBuilderDelegate((context, index) =>
                     IndivCompTaskComplWidget(
-                        comp,
                         complTasks[index],
+                        comp.taskMap,
+                        comp.colors,
                         preview: true,
                         onRemoved: (text) {
                           IndivCompTaskCompl complTask = complTasks.removeAt(index);

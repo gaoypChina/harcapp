@@ -34,6 +34,7 @@ import 'package:tuple/tuple.dart';
 import 'package:provider/provider.dart';
 
 import '../../loading_widget.dart';
+import '../indiv_comp_task_page/completed_tasks_page.dart';
 import '../models/indiv_comp_profile.dart';
 import '../models/rank_disp_type.dart';
 import 'add_user_bottom_sheet.dart';
@@ -451,11 +452,23 @@ class ParticipViewWidgetState<T extends IndivCompParticip> extends State<Partici
               ),
               title: Text(
                   'Zobacz zrealizowane zadania',
-                  style: AppTextStyle(
-                    color: particip.profile.active?textEnab_(context): hintEnab_(context),
-                  )
+                  style: AppTextStyle(color: textEnab_(context))
               ),
-              onTap: () => pushPage(context, builder: builder)
+              trailing:  Text(
+                  '${particip.profile.completedTasks.length}',
+                  style: AppTextStyle(color: textEnab_(context))
+              ),
+              onTap: (){
+                Navigator.pop(context);
+                pushPage(context, builder: (context) => CompletedTasksPage(
+                    comp,
+                    particip.profile.completedTasks,
+                    comp.taskMap,
+                    comp.participMap,
+                    comp.colors,
+                    pageTitle: particip.name,
+                ));
+              }
             ),
 
             const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),

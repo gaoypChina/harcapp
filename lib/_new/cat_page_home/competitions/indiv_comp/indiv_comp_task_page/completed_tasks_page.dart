@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_task_page/review_page/indiv_comp_task_compl_details_widget.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../../../../_app_common/common_color_data.dart';
 import '../indiv_comp_task_compl_widget.dart';
+import '../models/indiv_comp.dart';
+import '../models/indiv_comp_task.dart';
 import '../models/indiv_comp_task_compl.dart';
 
 class CompletedTasksPage extends StatefulWidget{
 
   final IndivComp comp;
+  final List<IndivCompTaskCompl> completedTasks;
+  final Map<String, IndivCompTask> taskMap;
+  final Map<String, IndivCompParticip> participMap;
+  final CommonColorData colors;
+
+  final String pageTitle;
   final void Function(IndivCompTaskCompl taskCompl) onRemoved;
 
-  const CompletedTasksPage(this.comp, {this.onRemoved, Key key}): super(key: key);
+  const CompletedTasksPage(this.comp, this.completedTasks, this.taskMap, this.participMap, this.colors, {this.pageTitle, this.onRemoved, Key key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => CompletedTasksPageState();
@@ -30,16 +36,26 @@ class CompletedTasksPage extends StatefulWidget{
 class CompletedTasksPageState extends State<CompletedTasksPage>{
 
   IndivComp get comp => widget.comp;
+  List<IndivCompTaskCompl> get completedTasks => widget.completedTasks;
+  Map<String, IndivCompTask> get taskMap => widget.taskMap;
+  Map<String, IndivCompParticip> get participMap => widget.participMap;
+  CommonColorData get colors => widget.colors;
+  //List<IndivCompTaskCompl> get completedTasks => widget.comp.profile.completedTasks;
+
+  String get pageTitle => widget.pageTitle;
   void Function(IndivCompTaskCompl taskCompl) get onRemoved => widget.onRemoved;
 
   bool showAll;
 
-  void openDetails(BuildContext context, taskCompl) => showScrollBottomSheet(
+  void openDetails(BuildContext context, complTask) => showScrollBottomSheet(
       context: context,
       builder: (context) => BottomSheetDef(
           builder: (context) => IndivCompTaskComplDetailsWidget(
-              comp,
-              taskCompl
+            comp,
+            complTask,
+            taskMap,
+            participMap,
+            colors,
           ),
       )
   );
@@ -57,28 +73,29 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
 
     List<Widget> children = [];
 
-    Iterator<IndivCompTaskCompl> reversedComplTasks = comp.profile.completedTasks.reversed.iterator;
-    for(int i=0; i<comp.profile.completedTasks.length; i++) {
+    Iterator<IndivCompTaskCompl> reversedComplTasks = completedTasks.reversed.iterator;
+    for(int i=0; i<completedTasks.length; i++) {
 
       reversedComplTasks.moveNext();
-      IndivCompTaskCompl taskCompl = reversedComplTasks.current;
+      IndivCompTaskCompl complTask = reversedComplTasks.current;
 
-      if ((!showAll && taskCompl.acceptState == TaskAcceptState.ACCEPTED) || (showAll && taskCompl.acceptState != TaskAcceptState.PENDING)) {
+      if ((!showAll && complTask.acceptState == TaskAcceptState.ACCEPTED) || (showAll && complTask.acceptState != TaskAcceptState.PENDING)) {
         children.add(
             IndivCompTaskComplWidget(
-                comp,
-                taskCompl,
-                heroTag: taskCompl,
+                complTask,
+                taskMap,
+                colors,
+                heroTag: complTask,
                 preview: true,
                 onRemoved: (String removedId) {
-                  comp.profile.completedTasks.remove(taskCompl);
-                  onRemoved?.call(taskCompl);
+                  completedTasks.remove(complTask);
+                  onRemoved?.call(complTask);
                 },
-                onTap: () => openDetails(context, taskCompl)
+                onTap: () => openDetails(context, complTask)
             )
         );
 
-        if (i < comp.profile.completedTasks.length - 1)
+        if (i < completedTasks.length - 1)
           children.add(const SizedBox(height: Dimen.SIDE_MARG));
       }
     }
@@ -88,7 +105,7 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
         slivers: [
 
           SliverAppBar(
-            title: const Text('Zrealizowane zadania'),
+            title: Text(pageTitle??'Zrealizowane zadania'),
             centerTitle: true,
             floating: true,
             actions: [

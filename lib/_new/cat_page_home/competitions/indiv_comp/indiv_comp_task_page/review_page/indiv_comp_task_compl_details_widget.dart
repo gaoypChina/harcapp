@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
@@ -28,13 +29,20 @@ import '../../task_accept_state.dart';
 class IndivCompTaskComplDetailsWidget extends StatefulWidget{
 
   final IndivComp comp;
-  final IndivCompTaskCompl taskCompl;
+  final IndivCompTaskCompl complTask;
+  final Map<String, IndivCompTask> taskMap;
+  final Map<String, IndivCompParticip> participMap;
+  final CommonColorData colors;
+
   final EdgeInsets padding;
   final void Function() onAcceptStateChanged;
 
   const IndivCompTaskComplDetailsWidget(
       this.comp,
-      this.taskCompl,
+      this.complTask,
+      this.taskMap,
+      this.participMap,
+      this.colors,
       { this.padding,
         this.onAcceptStateChanged,
         Key key
@@ -48,8 +56,11 @@ class IndivCompTaskComplDetailsWidget extends StatefulWidget{
 class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetailsWidget>{
 
   IndivComp get comp => widget.comp;
-  IndivCompParticip get particip => comp.participMap[taskCompl.participKey];
-  IndivCompTaskCompl get taskCompl => widget.taskCompl;
+  IndivCompTaskCompl get complTask => widget.complTask;
+  Map<String, IndivCompTask> get taskMap => widget.taskMap;
+  CommonColorData get colors => widget.colors;
+
+  IndivCompParticip get particip => widget.participMap[complTask.participKey];
 
   TextEditingController textController;
   bool sending;
@@ -58,7 +69,7 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
 
   @override
   void initState() {
-    reviewMode = taskCompl.acceptState == TaskAcceptState.PENDING && (comp.profile.role == CompRole.ADMIN || comp.profile.role == CompRole.MODERATOR);
+    reviewMode = complTask.acceptState == TaskAcceptState.PENDING;// && (comp.profile.role == CompRole.ADMIN || comp.profile.role == CompRole.MODERATOR);
     textController = TextEditingController();
     sending = true;
     super.initState();
@@ -67,11 +78,12 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
   @override
   Widget build(BuildContext context) {
 
-    IndivCompTask task = comp.taskMap[taskCompl.taskKey];
+    IndivCompTask task = taskMap[complTask.taskKey];
 
     IndivCompTaskComplWidget(
-      comp,
-      taskCompl,
+      complTask,
+      taskMap,
+      colors
     );
 
     return Padding(
@@ -110,9 +122,9 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
                       const SizedBox(height: AccountThumbnailWidget.defSize - 2*Dimen.TEXT_SIZE_BIG),
 
                       _NameWidget(particip.name),
-                      _DateWidget(taskCompl.reqTime),
+                      _DateWidget(complTask.reqTime),
 
-                      _MessageWidget(taskCompl.reqComment),
+                      _MessageWidget(complTask.reqComment),
 
                     ],
                   )
@@ -138,7 +150,7 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
 
               Expanded(
                   child:
-                  reviewMode || taskCompl.revTime != null?
+                  reviewMode || complTask.revTime != null?
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -147,7 +159,7 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
 
                       const _NameWidget('Rozpatrujący'),
                       if(reviewMode)_TickingDate()
-                      else if(taskCompl.revTime != null) _DateWidget(taskCompl.revTime),
+                      else if(complTask.revTime != null) _DateWidget(complTask.revTime),
 
                       if(reviewMode)
                         AppTextFieldHint(
@@ -160,7 +172,7 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
                           style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
                         )
                       else
-                        _MessageWidget(taskCompl.revComment),
+                        _MessageWidget(complTask.revComment),
 
                     ],
                   ):const Padding(
@@ -179,20 +191,29 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
             ReviewButtons(
               comp,
               particip,
-              taskCompl,
+              complTask,
               textController,
-              onAcceptStateChanged: widget.onAcceptStateChanged,
+              onAcceptStateChanged: (String complTaskKey, TaskAcceptState acceptState){
+
+                comp.removeComplTask(context, particip.key, complTaskKey);
+                if(acceptState==TaskAcceptState.ACCEPTED)
+                  showAppToast(context, text: 'Zaakceptowano');
+                else if(acceptState==TaskAcceptState.REJECTED)
+                  showAppToast(context, text: 'Odrzucono');
+
+                widget.onAcceptStateChanged?.call();
+              },
             )
           else
             GradientWidget(
               radius: AppCard.BIG_RADIUS,
-              colorStart: taskAcceptStateColorStart(taskCompl.acceptState),
-              colorEnd: taskAcceptStateColor(taskCompl.acceptState),
+              colorStart: taskAcceptStateColorStart(complTask.acceptState),
+              colorEnd: taskAcceptStateColor(complTask.acceptState),
               child: SizedBox(
                 height: Dimen.ICON_FOOTPRINT,
                 child: Center(
                   child: Text(
-                    taskAcceptStateToName(taskCompl.acceptState),
+                    taskAcceptStateToName(complTask.acceptState),
                     style: AppTextStyle(
                         fontSize: Dimen.TEXT_SIZE_APPBAR,
                         color: background_(context),
@@ -216,7 +237,7 @@ class ReviewButtons extends StatefulWidget{
   final IndivCompParticip particip;
   final IndivCompTaskCompl taskCompl;
   final TextEditingController textController;
-  final void Function() onAcceptStateChanged;
+  final void Function(String, TaskAcceptState) onAcceptStateChanged;
 
   const ReviewButtons(
       this.comp,
@@ -238,7 +259,7 @@ class ReviewButtonsState extends State<ReviewButtons>{
   IndivCompParticip get particip => widget.particip;
   IndivCompTaskCompl get taskCompl => widget.taskCompl;
   TextEditingController get textController => widget.textController;
-  void Function() get onAcceptStateChanged => widget.onAcceptStateChanged;
+  void Function(String, TaskAcceptState) get onAcceptStateChanged => widget.onAcceptStateChanged;
 
   bool sending;
 
@@ -282,9 +303,7 @@ class ReviewButtonsState extends State<ReviewButtons>{
                             acceptState: TaskAcceptState.REJECTED,
                             revComment: textController.text,
                             onSuccess: (String complTaskKey){
-                              comp.removeComplTask(context, particip.key, complTaskKey);
-                              showAppToast(context, text: 'Odrzucono');
-                              onAcceptStateChanged?.call();
+                              onAcceptStateChanged?.call(complTaskKey, TaskAcceptState.REJECTED);
                             },
                             onError: (){
                               showAppToast(context, text: 'Wystąpił problem');
@@ -331,9 +350,7 @@ class ReviewButtonsState extends State<ReviewButtons>{
                             acceptState: TaskAcceptState.ACCEPTED,
                             revComment: textController.text,
                             onSuccess: (String complTaskKey){
-                              comp.removeComplTask(context, particip.key, complTaskKey);
-                              showAppToast(context, text: 'Zaakceptowano');
-                              onAcceptStateChanged?.call();
+                              onAcceptStateChanged?.call(complTaskKey, TaskAcceptState.ACCEPTED);
                             },
                             onError: (){
                               showAppToast(context, text: 'Wystąpił problem');

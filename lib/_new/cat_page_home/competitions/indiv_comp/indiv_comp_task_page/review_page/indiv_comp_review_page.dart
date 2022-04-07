@@ -88,18 +88,19 @@ class IndivCompProfilePendingComplTasksPageState extends State<IndivCompProfileP
         List<Widget> children = [];
         for(Tuple2<IndivCompParticip, IndivCompTaskCompl> pendingComplTask in pendingComplTasks){
           IndivCompParticip particip = pendingComplTask.item1;
-          IndivCompTaskCompl taskCompl = pendingComplTask.item2;
+          IndivCompTaskCompl complTask = pendingComplTask.item2;
 
-          tabs.add(Tab(
-            text: particip.name,
-          ));
+          tabs.add(Tab(text: particip.name));
 
           children.add(
               SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: IndivCompTaskComplDetailsWidget(
                   comp,
-                  taskCompl,
+                  complTask,
+                  comp.taskMap,
+                  comp.participMap,
+                  comp.colors,
                   padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                   onAcceptStateChanged: (){
                     if(pendingComplTasks.length == 1)
