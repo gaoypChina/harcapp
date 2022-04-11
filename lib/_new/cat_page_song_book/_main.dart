@@ -110,7 +110,6 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
           if(!SongBookSettings.showTabOfContOnStart) return;
           if(!showTabOfCont) return;
 
-          if(Album.current.songs.isNotEmpty) openTabOfCont();
           songLoader.removeListener(listener);
         }
     );
@@ -163,29 +162,36 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     synchronizer.addListener(syncListener);
 
     tabOfContOpenOnBack = false;
-    pageController = PageController(initialPage: lastPage);
-    pageController.addListener(() => notifier.value = pageController.page);
-
-    notifier = ValueNotifier<double>(pageController.initialPage.toDouble());
-    notifier.addListener(handleSwap);
 
     if(OffSong.allOfficial == null) {
       loaderListener = SingleComputerListener<String>(
           onError: (fileName) async => showAppToast(context, text: 'Błąd wczytywania piosenki $fileName'),
           onEnd: (String err, bool forceFinished) {
             if(!mounted) return;
+
+            if(Album.current.songs.isNotEmpty) openTabOfCont();
+
+            pageController = PageController(initialPage: lastPage);
+            pageController.addListener(() => notifier.value = pageController.page);
+            notifier = ValueNotifier<double>(pageController.initialPage.toDouble());
+            notifier.addListener(handleSwap);
+
             songsStatisticsRegistrator.openSong(Album.current.songs[lastPage], SongOpenType.init);
-            notifyInnerController();
-            notify();
+            setState(() {});
+            post(() => notifyInnerController()); // in order to register visible lines on open.
           }
       );
       songLoader.addListener(loaderListener);
       loadData();
-    } else
-      post((){
+    } else {
+        pageController = PageController(initialPage: lastPage);
+        pageController.addListener(() => notifier.value = pageController.page);
+        notifier = ValueNotifier<double>(pageController.initialPage.toDouble());
+        notifier.addListener(handleSwap);
+
         songsStatisticsRegistrator.openSong(Album.current.songs[lastPage], SongOpenType.init);
-        notifyInnerController();
-      });
+        post(() => notifyInnerController()); // in order to register visible lines on open.
+      }
 
     searchOptions = SongSearchOptions();
 
