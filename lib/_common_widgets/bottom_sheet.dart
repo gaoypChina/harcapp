@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/no_glow_behavior.dart';
+import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -101,6 +102,7 @@ class BottomSheetDef extends StatefulWidget{
   final Widget Function(BuildContext context) builder;
   final Color textColor;
   final Color color;
+  final Color colorEnd;
   final EdgeInsets childMargin;
 
   const BottomSheetDef({
@@ -109,6 +111,7 @@ class BottomSheetDef extends StatefulWidget{
     @required this.builder,
     this.textColor,
     this.color,
+    this.colorEnd,
     this.childMargin = const EdgeInsets.all(Dimen.BOTTOM_SHEET_MARG),
     Key key
   }): super(key: key);
@@ -125,12 +128,13 @@ class BottomSheetDefState extends State<BottomSheetDef>{
 
     return Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Material(
+      child: GradientWidget(
           borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(12.0),
               topRight: Radius.circular(12.0)
           ),
-          color: widget.color??background_(context),
+          colorStart: widget.color??background_(context),
+          colorEnd: widget.colorEnd??widget.color,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,

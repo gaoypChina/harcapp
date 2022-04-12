@@ -13,23 +13,27 @@ void showAppToast(
     @required String text,
     Color background,
     Color textColor,
-    Duration duration: const Duration(seconds: 3)
+    Duration duration = const Duration(seconds: 3)
 }) => showToastWidget(
     Padding(
-      padding: EdgeInsets.only(bottom: 46.0),
+      padding: const EdgeInsets.only(
+        right: 12.0,
+        left: 12.0,
+        bottom: 46.0,
+      ),
       child: AppCard(
           radius: 12.0,
           elevation: 20.0,
           color: background??cardEnab_(context),
           child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   if(header != null)
                     Padding(
-                      padding: EdgeInsets.only(bottom: 6.0),
+                      padding: const EdgeInsets.only(bottom: 6.0),
                       child: Text(
                         header,
                         style: AppTextStyle(color: textColor??textEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),

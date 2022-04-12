@@ -20,6 +20,8 @@ import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import 'fact_widget.dart';
+
 class _HarcApp extends StatefulWidget{
 
   static const double defFontSize = 56;
@@ -242,75 +244,6 @@ class HolyBibleFragWidgetState extends State<HolyBibleFragWidget>{
           textAlign: TextAlign.end,
         ),
       ),
-    ],
-  );
-
-}
-
-class FactWidget extends StatefulWidget{
-
-  final List<Fact> allFacts;
-
-  const FactWidget(this.allFacts, {Key key}): super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => FactWidgetState();
-
-}
-
-class FactWidgetState extends State<FactWidget>{
-
-  List<Fact> get allFacts => widget.allFacts;
-
-  Fact fact;
-
-  @override
-  void initState() {
-    fact = allFacts[Random().nextInt(allFacts.length)];
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: <Widget>[
-
-      const Align(
-        alignment: Alignment.centerLeft,
-        child: SizedBox(
-          width: CytatWidgetState.iconSize,
-          height: CytatWidgetState.iconSize,
-          child: Center(
-            child: Icon(
-              MdiIcons.lightbulb,
-              size: 38.0,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-
-      const SizedBox(height: 18.0),
-
-      const Text(
-        'Czy wiesz, że...',
-        style: TextStyle(
-            fontFamily: 'Merriweather',
-            color: Colors.white,
-            fontSize: DefinitionWidgetState.textSize+6,
-            fontWeight: FontWeight.bold
-        ),
-      ),
-
-      const SizedBox(height: 18.0),
-
-      Text(
-          fact.text,
-          style: AppTextStyle(
-              fontSize: DefinitionWidgetState.textSize, color: Colors.white, height: 1.3)
-      ),
-
-
     ],
   );
 
@@ -550,11 +483,18 @@ class DefaultLayout extends StatefulWidget{
 
 class DefaultLayoutState extends State<DefaultLayout>{
 
-  bool chooseQuote;
+  // 0 - quote
+  // 1 - definition
+  // 2 - fact
+  int messageType;
 
   @override
   void initState() {
-    chooseQuote = Random().nextInt(7) > 1;
+    int val = Random().nextInt(10);
+    if(val < 5) messageType = 0;
+    else if(val < 8) messageType = 1;
+    else if(val < 10) messageType = 2;
+
     super.initState();
   }
 
@@ -582,19 +522,23 @@ class DefaultLayoutState extends State<DefaultLayout>{
 
                       const SizedBox(height: 36.0),
 
-                      if(chooseQuote)
+                      if(messageType == 0)
                         const CytatWidget(cytaty: CYTATY_REGULAR)
-                      else
+                      else if(messageType == 1)
                         const DefinitionWidget()
+                      else if(messageType == 2)
+                        const FactWidget(
+                          ecoFacts,
+                          icon: MdiIcons.earth,
+                          subtext: 'Warto być <b>zawsze pogodnym</b>:\nna świecie żyje się coraz lepiej!'
+                        )
+
                     ],
                   ),
                 ),
 
-                //CytatHintWidget(),
-
                 Container(),
                 Container()
-                //HarcAppLogo(),
               ]
           ),
           const Positioned(
@@ -794,7 +738,7 @@ class AdwentLayoutState extends State<DefaultLayout>{
                               fontFamily: 'PlayfairDisplay',
                               fontSize: 17.8,
                               color: Colors.white,
-                              shadows: [const Shadow(color: Colors.black, blurRadius: 10)]
+                              shadows: [Shadow(color: Colors.black, blurRadius: 10)]
                           ),
                         ),
 
@@ -1198,7 +1142,7 @@ class PowstanieWarszawskieLayoutState extends State<DefaultLayout>{
                 children:[
                   const Padding(
                     padding: EdgeInsets.all(20),
-                    child: const _HarcApp(size: 48.0, color: Colors.white,),
+                    child: _HarcApp(size: 48.0, color: Colors.white,),
                   ),
 
                   SvgPicture.asset(
@@ -1209,7 +1153,7 @@ class PowstanieWarszawskieLayoutState extends State<DefaultLayout>{
 
                   const Padding(
                     padding: EdgeInsets.only(right: 24, left: 24),
-                    child: const CytatWidget(cytaty: CYTATY_POWST_WARSZ),
+                    child: CytatWidget(cytaty: CYTATY_POWST_WARSZ),
                   ),
 
                   const HarcAppLogo(),
