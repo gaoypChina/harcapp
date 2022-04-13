@@ -41,7 +41,7 @@ class Fretboard extends StatelessWidget{
     for(int i=0; i<stringCount; i++){
       children.add(
         Stack(children: <Widget>[
-          Container(
+          SizedBox(
             height: height/stringCount,
             width: double.infinity,
             child: Center(child: Container(
@@ -50,22 +50,22 @@ class Fretboard extends StatelessWidget{
                 height: (i+1).toDouble(),
                 color: Colors.amberAccent,
               ),
-              decoration: ShadowDecoration(shadowColor: Colors.black26, offset: Offset(0, 4)),
+              decoration: ShadowDecoration(shadowColor: Colors.black26, offset: const Offset(0, 4)),
             ),
           )),
           Row(
             children: <Widget>[
               Expanded(
-                child: chord.strings[stringCount-i-1]==1?RoundContainer(height/stringCount, color: ColorPackOrange().accentColor, text: '${0+nearestDotPosition}',):Container(),
+                child: chord.strings[stringCount-i-1]==1?RoundContainer(height/stringCount, color: const ColorPackOrange().accentColor, text: '${0+nearestDotPosition}',):Container(),
               ),
               Expanded(
-                child: chord.strings[stringCount-i-1]==2?RoundContainer(height/stringCount, color: ColorPackOrange().accentColor, text: '${1+nearestDotPosition}'):Container(),
+                child: chord.strings[stringCount-i-1]==2?RoundContainer(height/stringCount, color: const ColorPackOrange().accentColor, text: '${1+nearestDotPosition}'):Container(),
               ),
               Expanded(
-                child: chord.strings[stringCount-i-1]==3?RoundContainer(height/stringCount, color: ColorPackOrange().accentColor, text: '${2+nearestDotPosition}'):Container(),
+                child: chord.strings[stringCount-i-1]==3?RoundContainer(height/stringCount, color: const ColorPackOrange().accentColor, text: '${2+nearestDotPosition}'):Container(),
               ),
               Expanded(
-                child: chord.strings[stringCount-i-1]==4?RoundContainer(height/stringCount, color: ColorPackOrange().accentColor, text: '${3+nearestDotPosition}'):Container(),
+                child: chord.strings[stringCount-i-1]==4?RoundContainer(height/stringCount, color: const ColorPackOrange().accentColor, text: '${3+nearestDotPosition}'):Container(),
               )
             ],
           )
@@ -79,14 +79,14 @@ class Fretboard extends StatelessWidget{
         color: Colors.brown,
         onTap: onTap,
         elevation: AppCard.bigElevation,
-        margin: EdgeInsets.only(
+        margin: const EdgeInsets.only(
           left: AppCard.NORM_MARGIN_VAL,
           right: AppCard.NORM_MARGIN_VAL,
           bottom: AppCard.NORM_MARGIN_VAL,
         ),
         child: Stack(children: <Widget>[
 
-          Container(
+          SizedBox(
             height: height,
             child: Row(
               children: <Widget>[
@@ -148,15 +148,15 @@ class Fretboard extends StatelessWidget{
             children: children,
           ),
 
-          Container(
+          SizedBox(
             height: height,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                chord.bar==1?Expanded(child: RoundContainer(height, width: height/stringCount, color: ColorPackOrange().accentColor, text: '${0+nearestDotPosition}'),):Expanded(child: Container()),
-                chord.bar==2?Expanded(child: RoundContainer(height, width: height/stringCount, color: ColorPackOrange().accentColor, text: '${1+nearestDotPosition}'),):Expanded(child: Container()),
-                chord.bar==3?Expanded(child: RoundContainer(height, width: height/stringCount, color: ColorPackOrange().accentColor, text: '${2+nearestDotPosition}'),):Expanded(child: Container()),
-                chord.bar==4?Expanded(child: RoundContainer(height, width: height/stringCount, color: ColorPackOrange().accentColor, text: '${3+nearestDotPosition}'),):Expanded(child: Container()),
+                chord.bar==1?Expanded(child: RoundContainer(height, width: height/stringCount, color: const ColorPackOrange().accentColor, text: '${0+nearestDotPosition}'),):Expanded(child: Container()),
+                chord.bar==2?Expanded(child: RoundContainer(height, width: height/stringCount, color: const ColorPackOrange().accentColor, text: '${1+nearestDotPosition}'),):Expanded(child: Container()),
+                chord.bar==3?Expanded(child: RoundContainer(height, width: height/stringCount, color: const ColorPackOrange().accentColor, text: '${2+nearestDotPosition}'),):Expanded(child: Container()),
+                chord.bar==4?Expanded(child: RoundContainer(height, width: height/stringCount, color: const ColorPackOrange().accentColor, text: '${3+nearestDotPosition}'),):Expanded(child: Container()),
               ],
             ),
           )
@@ -171,21 +171,25 @@ class RoundContainer extends StatelessWidget{
   final double width;
   final Color color;
   final String text;
-  const RoundContainer(this.height, {this.width: -1, this.color:Colors.black, this.text});
+  const RoundContainer(
+      this.height,
+      { this.width = -1,
+        this.color = Colors.black,
+        this.text,
+        Key key
+      }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
         child: Container(
-          child: Container(
-            width: width==-1?height:width,
-            height: height,
-            child: text==null?Container():Center(child: Text(text, style: AppTextStyle(color: Colors.white, fontWeight: weight.halfBold))),
-            decoration: BoxDecoration(
-                color: color,
-                boxShadow: [ShadowDecoration.boxShadowDef(shadowColor: Colors.black26, offset: Offset(0, 4))],
-                borderRadius: BorderRadius.all(Radius.circular(height/2))),
-          ),
+          width: width==-1?height:width,
+          height: height,
+          child: text==null?Container():Center(child: Text(text, style: AppTextStyle(color: Colors.white, fontWeight: weight.halfBold))),
+          decoration: BoxDecoration(
+              color: color,
+              boxShadow: [ShadowDecoration.boxShadowDef(shadowColor: Colors.black26, offset: const Offset(0, 4))],
+              borderRadius: BorderRadius.circular(height/2)),
         )
     );
   }

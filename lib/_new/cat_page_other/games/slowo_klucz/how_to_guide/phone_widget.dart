@@ -16,7 +16,13 @@ class PhoneWidget extends StatelessWidget{
   final Duration duration;
   final bool bottomLineDark;
 
-  const PhoneWidget({@required this.builder, @required this.size, @required this.duration, this.bottomLineDark=true});
+  const PhoneWidget({
+    @required this.builder,
+    @required this.size,
+    @required this.duration,
+    this.bottomLineDark=true,
+    Key key
+  }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,25 +39,25 @@ class PhoneWidget extends StatelessWidget{
           double size = constraints.maxWidth;
           double radius = 0.14*size;
 
-          return Container(
+          return SizedBox(
             height: size,
             width: size/aspectRatio,
             child: Material(
               animationDuration: Duration.zero,
-              borderRadius: BorderRadius.all(Radius.circular(radius)),
+              borderRadius: BorderRadius.circular(radius),
               elevation: 3.0,
               color: Colors.white,
               child: Center(
                 child: Stack(
                   children: [
 
-                    Container(
+                    SizedBox(
                       height: .93*size*aspectRatio,
                       width: .88*size,
                       child: Material(
                         animationDuration: Duration.zero,
                         color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(.75*radius)),
+                        borderRadius: BorderRadius.circular(.75*radius),
                         clipBehavior: Clip.hardEdge,
                         child: builder(context, .88*size),
                       ),
@@ -65,7 +71,7 @@ class PhoneWidget extends StatelessWidget{
                         child: Container(
                           width: .25*size,
                           height: .03*size,
-                          decoration: BoxDecoration(color: bottomLineDark?Colors.black:Colors.white, borderRadius: BorderRadius.all(Radius.circular(100))),
+                          decoration: BoxDecoration(color: bottomLineDark?Colors.black:Colors.white, borderRadius: BorderRadius.circular(100)),
                         ),
                       ),
                     ),
@@ -92,7 +98,12 @@ class ScreenMainScreen extends StatelessWidget{
   final bool highlightButtonPlayers;
   final bool highlightButtonLeader;
 
-  const ScreenMainScreen({@required this.size, this.highlightButtonPlayers=false, this.highlightButtonLeader=false});
+  const ScreenMainScreen({
+    @required this.size,
+    this.highlightButtonPlayers=false,
+    this.highlightButtonLeader=false,
+    Key key
+  }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +118,7 @@ class ScreenMainScreen extends StatelessWidget{
       children: [
 
         Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage("assets/images/games/bg_slowo_klucz.webp"), fit: BoxFit.cover
               )
@@ -130,7 +141,7 @@ class ScreenMainScreen extends StatelessWidget{
               Expanded(
                 child: Material(
                   animationDuration: Duration.zero,
-                  borderRadius: BorderRadius.all(Radius.circular(radius)),
+                  borderRadius: BorderRadius.circular(radius),
                   elevation: 4,
                   clipBehavior: Clip.hardEdge,
                   color: Colors.transparent,
@@ -166,7 +177,7 @@ class ScreenMainScreen extends StatelessWidget{
               Expanded(
                 child: Material(
                   animationDuration: Duration.zero,
-                  borderRadius: BorderRadius.all(Radius.circular(radius)),
+                  borderRadius: BorderRadius.circular(radius),
                   elevation: 4,
                   clipBehavior: Clip.hardEdge,
                   color: Colors.transparent,
@@ -210,6 +221,8 @@ class ScreenMainScreen extends StatelessWidget{
 
 class ScreenQRCode extends StatelessWidget {
 
+  const ScreenQRCode({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (BuildContext context, BoxConstraints constraints) => Icon(MdiIcons.qrcode, size: constraints.maxWidth, color: Colors.black),
@@ -218,6 +231,8 @@ class ScreenQRCode extends StatelessWidget {
 }
 
 class ScreenCamera extends StatelessWidget {
+
+  const ScreenCamera({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -228,6 +243,8 @@ class ScreenCamera extends StatelessWidget {
 
 class ScreenScanning extends StatelessWidget {
 
+  const ScreenScanning({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (BuildContext context, BoxConstraints constraints) => Icon(MdiIcons.qrcodeScan, size: constraints.maxWidth, color: Colors.black),
@@ -236,6 +253,8 @@ class ScreenScanning extends StatelessWidget {
 }
 
 class ScreenCheck extends StatelessWidget {
+
+  const ScreenCheck({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -250,7 +269,12 @@ class ScreenGamePlay extends StatelessWidget {
   final bool withWords;
   final PreviewCardsGridController controller;
 
-  const ScreenGamePlay({this.withColors=false, this.withWords=false, this.controller});
+  const ScreenGamePlay({
+    this.withColors=false,
+    this.withWords=false,
+    this.controller,
+    Key key
+  }): super(key: key);
 
   @override
   Widget build(BuildContext context) => RotatedBox(

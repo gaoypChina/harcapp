@@ -38,17 +38,17 @@ class ArticleTagWidget extends StatelessWidget{
   final String tag;
   final bool dense;
 
-  const ArticleTagWidget(this.tag, {this.dense=false});
+  const ArticleTagWidget(this.tag, {this.dense=false, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    Tuple2 colors = ArticleTagWidget.colors[tag]??Tuple2(Colors.white, Colors.black);
+    Tuple2 colors = ArticleTagWidget.colors[tag]??const Tuple2(Colors.white, Colors.black);
 
     return Material(
       elevation: 4.0,
       color: colors.item1,
-      borderRadius: BorderRadius.all(Radius.circular(dense?3:6)),
+      borderRadius: BorderRadius.circular(dense?3:6),
       child: Padding(
         padding: EdgeInsets.all(dense?3.0:8.0),
         child: Text(

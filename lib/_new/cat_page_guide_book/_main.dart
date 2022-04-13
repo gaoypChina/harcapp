@@ -327,7 +327,7 @@ class _ItemWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => ListTile(
-    shape:  const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppCard.BIG_RADIUS))),
+    shape:  RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS)),
     leading: Icon(data.icon, color: accent_(context)),
     onTap: () => Navigator.push(context, MaterialPageRoute(builder: data.pageBuilder)),
     title: Text(

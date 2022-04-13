@@ -79,7 +79,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
       Positioned.fill(child: Hero(
         tag: articleCoverHero(article),
         child: Material(
-          borderRadius: BorderRadius.all(Radius.circular(AppCard.BIG_RADIUS)),
+          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
           color: Colors.transparent,
           clipBehavior: Clip.hardEdge,
           child: Image(image: image, fit: BoxFit.cover),

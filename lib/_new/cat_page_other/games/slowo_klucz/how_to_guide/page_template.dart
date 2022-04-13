@@ -1,11 +1,9 @@
 import 'dart:core';
-import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_other/games/slowo_klucz/how_to_guide/player_widget.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:tuple/tuple.dart';
 
 import '../common.dart';
 
@@ -90,12 +88,12 @@ abstract class PageTemplateInterface{
 
   Curve get curve => Curves.easeInOutQuart;
 
-  Duration get initWaitDuration => Duration(milliseconds: 1000);
-  Duration get animDuration => Duration(milliseconds: 1000);
+  Duration get initWaitDuration => const Duration(milliseconds: 1000);
+  Duration get animDuration => const Duration(milliseconds: 1000);
   static const Duration pauseDuration = Duration(milliseconds: 5000);
-  Duration convDuration = Duration(milliseconds: 2600);
+  Duration convDuration = const Duration(milliseconds: 2600);
   Duration get finishDuration => Duration(milliseconds: 5000);
-  Duration get reverseWaitDuration => Duration(milliseconds: 1500);
+  Duration get reverseWaitDuration => const Duration(milliseconds: 1500);
 
 }
 
@@ -117,7 +115,8 @@ class PageTemplate extends StatelessWidget{
     @required this.totalAnimDuration,
     @required this.totalFinishedDuration,
     @required this.totalReverseWaitDuration,
-  });
+    Key key
+  }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +131,7 @@ class PageTemplate extends StatelessWidget{
         _ProgressBar(totalInitWaitDuration, totalAnimDuration, totalFinishedDuration, totalReverseWaitDuration),
 
         Padding(
-          padding: EdgeInsets.only(
+          padding: const EdgeInsets.only(
             top: Dimen.SIDE_MARG,
             left: Dimen.SIDE_MARG,
             right: Dimen.SIDE_MARG,
@@ -202,7 +201,7 @@ class _ProgressBarState extends State<_ProgressBar>{
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+      padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
 
@@ -211,11 +210,11 @@ class _ProgressBarState extends State<_ProgressBar>{
             child: AnimatedContainer(
               decoration: BoxDecoration(
                   color: Colors.white60,
-                  borderRadius: BorderRadius.all(Radius.circular(20))
+                  borderRadius: BorderRadius.circular(20)
               ),
               height: 3.0,
               width: constraints.maxWidth*progress,
-              duration: progress == 1?animDuration:Duration(milliseconds: 300),
+              duration: progress == 1?animDuration:const Duration(milliseconds: 300),
               curve: Curves.linear,
             ),
           );

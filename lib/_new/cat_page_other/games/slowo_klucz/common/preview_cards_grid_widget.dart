@@ -32,7 +32,7 @@ class PreviewCardsGridWidget extends StatelessWidget{
   final bool withWords;
   final PreviewCardsGridController controller;
 
-  const PreviewCardsGridWidget({this.withColors=true, this.withWords=false, this.controller});
+  const PreviewCardsGridWidget({this.withColors=true, this.withWords=false, this.controller, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +110,7 @@ class _CardWidget extends StatelessWidget{
     return Padding(
       padding: AppCard.normMargin,
       child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(AppCard.DEF_RADIUS)),
+        borderRadius: BorderRadius.circular(AppCard.DEF_RADIUS),
         elevation: AppCard.bigElevation,
         color: color,
         child:

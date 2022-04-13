@@ -1051,9 +1051,9 @@ class ZmartwychwstanieLayoutState extends State<DefaultLayout>{
                                 child: Container(
                                   height: 100,
                                   width: 100,
-                                  decoration: const BoxDecoration(
+                                  decoration: BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: BorderRadius.all(Radius.circular(100.0))
+                                      borderRadius: BorderRadius.circular(100.0)
                                   ),
                                 ),
                               ),

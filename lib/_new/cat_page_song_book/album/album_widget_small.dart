@@ -124,7 +124,7 @@ class AlbumWidgetSmall extends StatelessWidget{
     );
 
     return InkWell(
-      borderRadius: const BorderRadius.all(Radius.circular(AppCard.BIG_RADIUS)),
+      borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
       onTap: onTap,
       onLongPress: onLongPress,
       child: widget,

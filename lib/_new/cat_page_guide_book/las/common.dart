@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -15,7 +14,7 @@ class TagWidget extends StatelessWidget{
 
   final ItemData data;
 
-  const TagWidget(this.data);
+  const TagWidget(this.data, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +27,12 @@ class TagWidget extends StatelessWidget{
       String tag = data.tags[i];
       children.add(Tag(tag, margin: EdgeInsets.zero));
       if(i < data.tags.length-1)
-        children.add(SizedBox(width: Dimen.SIDE_MARG/2));
+        children.add(const SizedBox(width: Dimen.SIDE_MARG/2));
     }
 
     return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      padding: EdgeInsets.only(left: Dimen.SIDE_MARG/2, right: Dimen.SIDE_MARG/2, bottom: Dimen.SIDE_MARG/2),
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.only(left: Dimen.SIDE_MARG/2, right: Dimen.SIDE_MARG/2, bottom: Dimen.SIDE_MARG/2),
       scrollDirection: Axis.horizontal,
       child: Row(
         children: children,
@@ -81,14 +80,14 @@ class FirePropertyWidget extends StatelessWidget{
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 6.0),
+          const SizedBox(height: 6.0),
           child,
           Container(
             width: val*MediaQuery.of(context).size.width / (2*MAX_PARAM_VAL),
             height: 6.0,
             decoration: BoxDecoration(
               color: Colors.orange,
-              borderRadius: BorderRadius.all(Radius.circular(100))
+              borderRadius: BorderRadius.circular(100)
             ),
           )
         ],
@@ -105,7 +104,7 @@ class FirePropertyWidget extends StatelessWidget{
             children: [
 
               Padding(
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 child: Icon(MdiIcons.thermometerLow, color: hintEnab_(context)),
               ),
 
@@ -118,7 +117,7 @@ class FirePropertyWidget extends StatelessWidget{
             children: [
 
               Padding(
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 child: Icon(MdiIcons.speedometer, color: hintEnab_(context)),
               ),
 
@@ -131,7 +130,7 @@ class FirePropertyWidget extends StatelessWidget{
             children: [
 
               Padding(
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 child: Icon(MdiIcons.fire, color: hintEnab_(context)),
               ),
 
@@ -144,7 +143,7 @@ class FirePropertyWidget extends StatelessWidget{
             children: [
 
               Padding(
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 child: Icon(MdiIcons.timerSand, color: hintEnab_(context)),
               ),
 
@@ -153,7 +152,7 @@ class FirePropertyWidget extends StatelessWidget{
             ],
           ),
       ],),
-      SizedBox(width: 12),
+      const SizedBox(width: 12),
       Column(crossAxisAlignment:CrossAxisAlignment.start, children: <Widget>[
         if(data.cieplo!=null)
           wrap(context, Text(mapNeut[data.cieplo], style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)), data.cieplo),

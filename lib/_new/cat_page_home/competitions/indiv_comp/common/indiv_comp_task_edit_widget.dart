@@ -47,8 +47,8 @@ class IndivCompTaskEditWidget extends StatefulWidget{
 
     @required this.accentColor,
 
-    this.showRemove: true,
-    this.showFreeze: true,
+    this.showRemove = true,
+    this.showFreeze = true,
 
     this.onTitleChanged,
     this.onDescChanged,
@@ -57,8 +57,8 @@ class IndivCompTaskEditWidget extends StatefulWidget{
     this.onRemoveTap,
     this.onRestoreTap,
 
-
-  });
+    Key key
+  }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => IndivCompTaskEditWidgetState();
@@ -104,7 +104,7 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
   Widget build(BuildContext context) {
     return Material(
       elevation: !remove && state == TaskState.OPEN?AppCard.bigElevation:0,
-      borderRadius: BorderRadius.all(Radius.circular(AppCard.BIG_RADIUS)),
+      borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
       child: IndivCompTaskSkeletonWidget(
         trailing: SimpleButton(
           radius: AppCard.BIG_RADIUS,
@@ -153,7 +153,7 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
 
         front: Center(
           child: AnimatedOpacity(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             opacity: state == TaskState.CLOSED_RETAINING?1:0,
             child: Icon(
               MdiIcons.snowflake,
@@ -176,7 +176,7 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
                     if(showFreeze)
                       Expanded(
                         child: IconButton(
-                          icon: Icon(MdiIcons.snowflake),
+                          icon: const Icon(MdiIcons.snowflake),
                           onPressed: (){
 
                             showAlertDialog(
@@ -207,7 +207,7 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
                     if(showRemove)
                       Expanded(
                         child: IconButton(
-                          icon: Icon(MdiIcons.trashCanOutline),
+                          icon: const Icon(MdiIcons.trashCanOutline),
                           onPressed: (){
 
                             showAlertDialog(
@@ -238,7 +238,7 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
               ),
 
               IconButton(
-                icon: Icon(MdiIcons.arrowLeft),
+                icon: const Icon(MdiIcons.arrowLeft),
                 onPressed: onRestoreTap,
               ),
 
@@ -286,8 +286,8 @@ class _PointsPickerDialogState extends State<_PointsPickerDialog>{
     return Center(
       child: AppCard(
         radius: AppCard.BIG_RADIUS,
-        margin: EdgeInsets.all(2*Dimen.SIDE_MARG),
-        padding: EdgeInsets.only(top: Dimen.SIDE_MARG, bottom: Dimen.SIDE_MARG),
+        margin: const EdgeInsets.all(2*Dimen.SIDE_MARG),
+        padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, bottom: Dimen.SIDE_MARG),
         child: ScrollConfiguration(
           behavior: NoGlowBehavior(),
           child: NumberPicker(
