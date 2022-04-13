@@ -26,14 +26,26 @@ const List<Fact> adwentFacts = [
   Fact('"Pod wieczór życia będziemy sądzeni z miłości" - św. Jana od Krzyża, czytania na czas Adwentu.')
 ];
 
+const ecoFactPopulation = Fact(
+    '10 mld osób w 2060 roku - taki będzie szczyt światowej populacji. Liczba ta w 2100 roku spadnie do 8.8 mld osób.',
+    source: 'Wolfgang Lutz et al., eds., "Demographic and Human Capital Scenarios for the 21st Century: 2018 Assessment for 201 Countries", European Commission Joint Research Centre, 2018, p. 8; UN Department of Economic and Social Affairs, World Population Prospects 2019: Highlights (New York: United Nations, 2019), p. 1.'
+);
+
+const ecoFactNatCatastr = Fact(
+    'Śmiertelność z powodu katastrof naturalnych (powodzi, trzęsień ziemi, huraganów, emidemii, susz, etc.) spadła w ostatnich 100 latach o 99%.',
+    source: 'Wolfgang Lutz et al., eds., "Demographic and Human Capital Scenarios for the 21st Century: 2018 Assessment for 201 Countries", European Commission Joint Research Centre, 2018, p. 8; UN Department of Economic and Social Affairs, World Population Prospects 2019: Highlights (New York: United Nations, 2019), p. 1.',
+    meaning: [
+      'Dzięki rosnącej zamożności społeczeństw, rozwojowi technologii i budowie wysokiej jakości domostw katastrowy naturalne coraz rzadziej powodują poważne konsekwencje.',
+      'Największa zmiana zaszła w społeczeństwach najuboższych. Życie na Ziemi jest najbezpieczniejsze w historii świata!',
+      'Stan na 2018 rok.',
+    ]
+);
+
 const List<Fact> ecoFacts = [
 
   // Populacja
 
-  Fact(
-      '10 mld osób w 2060 roku - taki będzie szczyt światowej populacji. Liczba ta w 2100 roku spadnie do 8.8 mld osób.',
-      source: 'Wolfgang Lutz et al., eds., "Demographic and Human Capital Scenarios for the 21st Century: 2018 Assessment for 201 Countries", European Commission Joint Research Centre, 2018, p. 8; UN Department of Economic and Social Affairs, World Population Prospects 2019: Highlights (New York: United Nations, 2019), p. 1.'
-  ),
+  ecoFactPopulation,
 
   // Zamożność
 
@@ -84,7 +96,7 @@ const List<Fact> ecoFacts = [
     'Od 1990 roku średnia kaloryczność posiłków w Afryce Subsaharyjskiej wzrosła o 35%.',
     source: 'FAOSTAT, Food Balance Sheets website, UN Food and Agriculture Organization, January 27, 2020.',
     meaning: [
-      'Średnia ilość kilokalorii spożywanych dziennie w krajach Afryki Subsaharyjskiej wzrosła w ciągu 25 lat z 1800 kcal do 2400 kcal.'
+      'Średnia ilość kilokalorii spożywanych dziennie w krajach Afryki Subsaharyjskiej wzrosła w ciągu 25 lat z 1800 kcal do 2400 kcal.',
       'Stan na 2015 rok.'
     ]
   ),
@@ -105,7 +117,7 @@ const List<Fact> ecoFacts = [
     'Ponad 2 240 000 km kwadratowych - o tyle zwiększła się powierzchnia terenów leśnych na świecie od 1982 roku.',
     source: 'Xiao-Peng Song et al., "Global Land Change from 1982 to 2016", Nature 560, no. 1 (2018): 639.',
     meaning: [
-      'Drzew na świecie przybywa! W ciągu 30 lat pojawiło ich ponad siedmiokrotnie więcej niż wynosi powierzchnia Polski!',
+      'Drzew na świecie przybywa! W ciągu 30 lat pojawiło ich ponad siedmiokrotnie więcej niż wynosi powierzchnia Polski.',
       'Stan na 2016 rok.'
     ]
   ),
@@ -139,15 +151,8 @@ const List<Fact> ecoFacts = [
 
   // Śmiertelność z przyczyn katastrof naturalnych.
 
-  Fact(
-    'Śmiertelność z powodu katastrof naturalnych (powodzi, trzęsień ziemi, huraganów, emidemii, susz, etc.) spadła w ostatnich 100 latach o 99%.',
-    source: 'Wolfgang Lutz et al., eds., "Demographic and Human Capital Scenarios for the 21st Century: 2018 Assessment for 201 Countries", European Commission Joint Research Centre, 2018, p. 8; UN Department of Economic and Social Affairs, World Population Prospects 2019: Highlights (New York: United Nations, 2019), p. 1.',
-    meaning: [
-      'Dzięki rosnącej zamożności społeczeństw, rozwojowi technologii i budowie wysokiej jakości domostw katastrowy naturalne coraz rzadziej powodują poważne konsekwencje.',
-      'Największa zmiana zaszła w społeczeństwach najuboższych. Życie na Ziemi jest najbezpieczniejsze w historii świata!',
-      'Stan na 2018 rok.',
-    ]
-  ),
+  ecoFactNatCatastr,
+  ecoFactNatCatastr,
 
   // Analfabetyzm
 
@@ -162,6 +167,8 @@ const List<Fact> ecoFacts = [
     'Śmiertelność z przyczyn nienaturalnych spadła od 1960 roku o ponad 40%.',
     source: 'World Bank, "Death Rate, Crude" chart.',
     meaning: [
+      'Współczynnik osób umierających z przyczyn innych niż ze starości spadła o 40%.',
+      'Oznacza to, że coraz mniej osób umiera w wypadkach, z przyczyn zdrowotnych, czy z powodu działania sił natury.',
       'Stan na 2017 rok.'
     ]
   ),
@@ -194,4 +201,23 @@ const List<Fact> ecoFacts = [
       'Stan na 2015 rok.'
     ]
   ),
+];
+
+const List<Fact> polishFacts = [
+  Fact('W XVII wieku język polski był językiem międzynarodowym, bardzo popularnym we wschodniej Europie.'),
+  Fact('Władysław Jagiełło wydał pierwsze na świecie prawo ochrony przyrody - było to prawo chroniące tura.'),
+
+  Fact('Polki jako pierwsze na świecie zdobyły wszystkie 14 ośmiotysięczniki.'),
+  Fact('Polacy jako pierwsi na świecie zdobyli zimą następujące ośmiotysięczniki: Mount Everest, Kanczendzoga, Lhotse, Czo Oju, Dhaulagiri, Manaslu, Annapurna, Gaszerbrum, Broad Peak i Sziszapangma.'),
+
+  Fact('80% światowych zasobów bursztynu pochodzi z Trójmiasta.'),
+  Fact('Polska jest największym producentem jabłek w Europie.'),
+  Fact('Polska jest największym w Europie producentem drewna.'),
+  Fact('Polska posiada największe w Europie złoża wody mineralnej.'),
+  Fact('Najwyższy budynek w Unii Europejskiej znajduje się w Polsce - jest nim warszawski Varso Tower.'),
+
+  Fact('Góry Świętokrzyskie są najstarszymi górami w Europie.'),
+  Fact('W Wilkowie Nowowiejskim wycięto deskę ze 130-letniej daglezji zielonej o długości 40,8 metra. Jest to najdłuższa deska na świecie.'),
+  Fact('Astrofizyk Aleksander Wolszczan (ur. 29.04.1946 roku) w 1990 odkrył pierwszą planetę spoza Układu Słonecznego.'),
+
 ];

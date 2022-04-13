@@ -102,22 +102,6 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
   bool isAutoScrolling;
 
-  Future<void> loadData({bool showTabOfCont=true}) async {
-    SingleComputerListener listener;
-    listener = SingleComputerListener<String>(
-        onEnd: (_, __){
-          if(!mounted) return;
-          if(!SongBookSettings.showTabOfContOnStart) return;
-          if(!showTabOfCont) return;
-
-          songLoader.removeListener(listener);
-        }
-    );
-
-    songLoader.addListener(listener);
-    await songLoader.run();
-  }
-
   bool onBackPressed(bool stopDefaultButtonEvent, RouteInfo info) {
     if(!ModalRoute.of(context).isCurrent)
       return false;
@@ -169,7 +153,8 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
           onEnd: (String err, bool forceFinished) {
             if(!mounted) return;
 
-            if(Album.current.songs.isNotEmpty) openTabOfCont();
+            if(SongBookSettings.showTabOfContOnStart && Album.current.songs.isNotEmpty)
+              openTabOfCont();
 
             pageController = PageController(initialPage: lastPage);
             pageController.addListener(() => notifier.value = pageController.page);
@@ -182,12 +167,15 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
           }
       );
       songLoader.addListener(loaderListener);
-      loadData();
+      songLoader.run();
     } else {
         pageController = PageController(initialPage: lastPage);
         pageController.addListener(() => notifier.value = pageController.page);
         notifier = ValueNotifier<double>(pageController.initialPage.toDouble());
         notifier.addListener(handleSwap);
+
+        if(SongBookSettings.showTabOfContOnStart && Album.current.songs.isNotEmpty)
+          post(() => openTabOfCont());
 
         songsStatisticsRegistrator.openSong(Album.current.songs[lastPage], SongOpenType.init);
         post(() => notifyInnerController()); // in order to register visible lines on open.

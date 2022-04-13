@@ -134,7 +134,7 @@ class BottomSheetDefState extends State<BottomSheetDef>{
               topRight: Radius.circular(12.0)
           ),
           colorStart: widget.color??background_(context),
-          colorEnd: widget.colorEnd??widget.color,
+          colorEnd: widget.colorEnd??widget.color??background_(context),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,

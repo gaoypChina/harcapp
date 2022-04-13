@@ -45,14 +45,18 @@ class SprawProgressWidgetState extends State<SprawProgressWidget>{
     hiddSpraws = [];
     displSpraws = [];
 
-    for(String uniqName in SprawFolder.omega.sprawUIDs)
-      allSpraws.add(Spraw.fromUID(uniqName));
-
-    for(String uniqName in Spraw.inProgressList)
-      allSpraws.add(Spraw.fromUID(uniqName));
-
     for(String uniqName in Spraw.completedList)
       allSpraws.add(Spraw.fromUID(uniqName));
+
+    for(String uniqName in Spraw.inProgressList) {
+      Spraw spraw = Spraw.fromUID(uniqName);
+      if(!allSpraws.contains(spraw)) allSpraws.add(spraw);
+    }
+
+    for(String uniqName in SprawFolder.omega.sprawUIDs) {
+      Spraw spraw = Spraw.fromUID(uniqName);
+      if(!allSpraws.contains(spraw)) allSpraws.add(spraw);
+    }
 
     allSpraws.shuffle();
 

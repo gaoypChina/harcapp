@@ -490,10 +490,10 @@ class DefaultLayoutState extends State<DefaultLayout>{
 
   @override
   void initState() {
-    int val = Random().nextInt(10);
-    if(val < 5) messageType = 0;
-    else if(val < 8) messageType = 1;
-    else if(val < 10) messageType = 2;
+    int val = Random().nextInt(8);
+    if(val < 4) messageType = 0;        // 0, 1, 2, 3
+    else if(val < 6) messageType = 1;   // 4, 5
+    else if(val < 8) messageType = 2;  // 6, 7
 
     super.initState();
   }
@@ -527,10 +527,13 @@ class DefaultLayoutState extends State<DefaultLayout>{
                       else if(messageType == 1)
                         const DefinitionWidget()
                       else if(messageType == 2)
-                        const FactWidget(
+                        FactWidget(
                           ecoFacts,
                           icon: MdiIcons.earth,
-                          subtext: 'Warto być <b>zawsze pogodnym</b>:\nna świecie żyje się coraz lepiej!'
+                          subtext: (fact){
+                            if(fact == ecoFactPopulation) return null;
+                            return 'Warto być <b>zawsze pogodnym</b>:\nna Ziemii żyje się coraz lepiej!';
+                          }
                         )
 
                     ],

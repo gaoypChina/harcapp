@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,6 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -40,12 +38,11 @@ class ChildFragmentTemplate extends StatefulWidget {
   final Function(bool locked) onLocked;
   final Function(bool onPin) onPin;
 
-  ChildFragmentTemplate(
+  const ChildFragmentTemplate(
       this.item,
       this.notifier,
       this.index,
-      {
-        this.lockable:true,
+      { this.lockable = true,
         this.onLoaded,
         this.onLocked,
         this.onPin,
@@ -97,23 +94,23 @@ class ChildFragmentTemplateState extends State<ChildFragmentTemplate> with Ticke
     super.dispose();
   }
 
-  Future<void> loadImage({bool resetState: true}) async{
+  Future<void> loadImage({bool resetState = true}) async{
 
     void Function(Function() func) set = resetState?(func) => setState(func):(func) => func();
 
     if(item == null) {
 
-      set(() => this.itemState = ItemState.FAILED);
+      set(() => itemState = ItemState.FAILED);
 
       if(widget.onLoaded!=null) widget.onLoaded(image?.image, null);
     }else {
-      set(() => this.itemState = ItemState.LOADING);
+      set(() => itemState = ItemState.LOADING);
       await ImageLoader.loadImage(
         item,
         onComplete: ({Image image, bool cached}) {
           if(image == null){
-            if(cached) set(() => this.itemState = ItemState.FAILED);
-            else setState(() => this.itemState = ItemState.FAILED);
+            if(cached) set(() => itemState = ItemState.FAILED);
+            else setState(() => itemState = ItemState.FAILED);
 
             if (widget.onLoaded != null) widget.onLoaded(image?.image, cached);
             return;
@@ -121,11 +118,11 @@ class ChildFragmentTemplateState extends State<ChildFragmentTemplate> with Ticke
 
           if(cached) {
             this.image = image;
-            this.itemState = ItemState.SUCCESS;
-          }else
+            itemState = ItemState.SUCCESS;
+          } else
             setState(() {
               this.image = image;
-              this.itemState = ItemState.SUCCESS;
+              itemState = ItemState.SUCCESS;
             });
           if (widget.onLoaded != null) widget.onLoaded(image?.image, cached);
         },
@@ -165,7 +162,7 @@ class ChildFragmentTemplateState extends State<ChildFragmentTemplate> with Ticke
                       SizedBox(height: AppBar().preferredSize.height),
                       AnimatedContainer(
                         curve: Curves.easeOutQuad,
-                        duration: Duration(milliseconds: 350),
+                        duration: const Duration(milliseconds: 350),
                         height: lockProv.locked ? 2 * Dimen.ICON_SIZE : 0,
                         child: lockProv.locked ?
                         TopButtons(item, widget.lockable, onPin: widget.onPin) :
@@ -174,7 +171,7 @@ class ChildFragmentTemplateState extends State<ChildFragmentTemplate> with Ticke
                       Expanded(child: Row(
                         children: [
                           AnimatedContainer(curve: Curves.easeOutQuad,
-                            duration: Duration(milliseconds: 350),
+                            duration: const Duration(milliseconds: 350),
                             width: lockProv.locked ? Dimen.ICON_SIZE : 0,
                           ),
                           Expanded(
@@ -195,9 +192,10 @@ class ChildFragmentTemplateState extends State<ChildFragmentTemplate> with Ticke
                                         child: Consumer2<FavoriteProvider, LockProvider>(
                                             builder: (context, favProv, lockProv, child){
                                               return AnimatedOpacity(
-                                                  opacity: lockProv!= null && !lockProv.locked && favProv.value?1:0,
-                                                  duration: Duration(milliseconds: 300),
-                                                  child: HeartWidget()
+                                                  opacity:
+                                                  lockProv != null && !lockProv.locked && favProv.value?1:0,
+                                                  duration: const Duration(milliseconds: 300),
+                                                  child: const HeartWidget()
                                               );
                                             }
                                         )
@@ -208,14 +206,14 @@ class ChildFragmentTemplateState extends State<ChildFragmentTemplate> with Ticke
                             )
                           ),
                           AnimatedContainer(curve: Curves.easeOutQuad,
-                            duration: Duration(milliseconds: 350),
+                            duration: const Duration(milliseconds: 350),
                             width: lockProv.locked ? Dimen.ICON_SIZE : 0,
                           ),
                         ],
                       )),
                       AnimatedContainer(
                         curve: Curves.easeOutQuad,
-                        duration: Duration(milliseconds: 350),
+                        duration: const Duration(milliseconds: 350),
                         height: lockProv.locked ? 2 * Dimen.ICON_SIZE : 0,
                         child: lockProv.locked ? BottomButtons(item) : Container(),
                       ),
@@ -263,17 +261,15 @@ class ImageCard extends StatelessWidget{
             onLongPress: (){
               if(lockProv == null) return;
               lockProv.locked = !lockProv.locked;
-              if(onLocked!=null) onLocked(lockProv.locked);
+              onLocked?.call(lockProv.locked);
             },
             child: AnimatedBuilder(
               animation: notifier,
               child: image,
-              builder: (BuildContext context, Widget child) {
-                return Transform.scale(
-                    scale: 1 + sin(notifier.value - index).abs()*0.4,//Offset(0, MediaQuery.of(context).size.height*(index - notifier.value)*0.2),
-                    child: image//GyroscopeWidget.fill(key: imageKey, child: image, scale: 1.04)
-                );
-              },
+              builder: (BuildContext context, Widget child) => Transform.scale(
+                  scale: 1 + sin(notifier.value - index).abs()*0.4,//Offset(0, MediaQuery.of(context).size.height*(index - notifier.value)*0.2),
+                  child: image//GyroscopeWidget.fill(key: imageKey, child: image, scale: 1.04)
+              ),
             ),
             color: Colors.transparent,
           )
@@ -293,7 +289,7 @@ class TopButtons extends StatelessWidget{
   final bool lockable;
   final Function(bool pinned) onPin;
 
-  const TopButtons(this.item, this.lockable, {this.onPin});
+  const TopButtons(this.item, this.lockable, {this.onPin, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -324,7 +320,7 @@ class BottomButtons extends StatelessWidget{
 
   final SourceItem item;
 
-  const BottomButtons(this.item);
+  const BottomButtons(this.item, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -333,7 +329,7 @@ class BottomButtons extends StatelessWidget{
       children: [
 
         IconButton(
-            icon: Icon(MdiIcons.shareVariant, color: Colors.white,),
+            icon: const Icon(MdiIcons.shareVariant, color: Colors.white),
             onPressed: ()async{
               File file = item.cachedFile;
               await Share.shareFiles([file.path], text: 'Udostępnij...');
@@ -341,12 +337,12 @@ class BottomButtons extends StatelessWidget{
         ),
 
         IconButton(
-          icon: Icon(MdiIcons.link, color: Colors.white),
+          icon: const Icon(MdiIcons.link, color: Colors.white),
           onPressed: () => launchURL(item.sourceUrl),
         ),
 
         IconButton(
-            icon: Icon(MdiIcons.fileDownloadOutline, color: Colors.white),
+            icon: const Icon(MdiIcons.fileDownloadOutline, color: Colors.white),
             onPressed: ()async{
               if(await Permission.storage.request().isGranted){
                 await GallerySaver.saveImage(item.cachedFile.path);
@@ -356,7 +352,7 @@ class BottomButtons extends StatelessWidget{
         ),
 
         IconButton(
-          icon: Icon(MdiIcons.informationOutline, color: Colors.white),
+          icon: const Icon(MdiIcons.informationOutline, color: Colors.white),
           onPressed: () => showAppToast(context, text: item.cachedFileName)
         )
       ],
@@ -366,6 +362,8 @@ class BottomButtons extends StatelessWidget{
 }
 
 class HeartWidget extends StatefulWidget{
+
+  const HeartWidget({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => HeartWidgetState();
@@ -379,7 +377,7 @@ class HeartWidgetState extends State<HeartWidget>{
 
   void pulse()async{
     if(!mounted) return;
-    setState(() => this.visible = !visible);
+    setState(() => visible = !visible);
     await Future.delayed(_duration);
     pulse();
   }

@@ -17,7 +17,7 @@ class FactWidget extends StatefulWidget{
 
   final List<Fact> allFacts;
   final IconData icon;
-  final String subtext;
+  final String Function(Fact) subtext;
 
   const FactWidget(this.allFacts, {this.icon, this.subtext, Key key}): super(key: key);
 
@@ -30,7 +30,7 @@ class FactWidgetState extends State<FactWidget>{
 
   List<Fact> get allFacts => widget.allFacts;
   IconData get icon => widget.icon;
-  String get subtext => widget.subtext;
+  String Function(Fact) get subtext => widget.subtext;
 
   Fact fact;
 
@@ -41,121 +41,127 @@ class FactWidgetState extends State<FactWidget>{
   }
 
   @override
-  Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: <Widget>[
+  Widget build(BuildContext context){
 
-      Align(
-        alignment: Alignment.centerLeft,
-        child: SizedBox(
-          width: CytatWidgetState.iconSize,
-          height: CytatWidgetState.iconSize,
-          child: Center(
-            child: Icon(
-              icon??MdiIcons.lightbulb,
-              size: 38.0,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
+    String subtext = this.subtext(fact);
 
-      const SizedBox(height: 18.0),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
 
-      Row(
-        children: [
-          const Expanded(
-            child: Text(
-              'Czy wiesz, że...',
-              style: TextStyle(
-                  fontFamily: 'Merriweather',
-                  color: Colors.white,
-                  fontSize: DefinitionWidgetState.textSize+6,
-                  fontWeight: FontWeight.bold
+        Align(
+          alignment: Alignment.centerLeft,
+          child: SizedBox(
+            width: CytatWidgetState.iconSize,
+            height: CytatWidgetState.iconSize,
+            child: Center(
+              child: Icon(
+                icon??MdiIcons.lightbulb,
+                size: 38.0,
+                color: Colors.white,
               ),
             ),
           ),
-
-          if(fact.source != null || fact.meaning != null)
-            IconButton(
-                icon: const Icon(MdiIcons.bookArrowUpOutline, color: Colors.white54),
-                onPressed: () => showScrollBottomSheet(
-                  context: context,
-                  builder: (context) => BottomSheetDef(
-                      color: AppColors.start_background_default,
-                      colorEnd: Colors.teal,
-                      childMargin: const EdgeInsets.all(32),
-                      builder: (context) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          if(fact.meaning != null)
-                            Text(
-                              'Co to oznacza?',
-                              style: AppTextStyle(
-                                fontSize: Dimen.TEXT_SIZE_APPBAR,
-                                fontWeight: weight.bold,
-                                color: Colors.white54
-                              )
-                            ),
-                          if(fact.meaning != null)
-                            const SizedBox(height: Dimen.DEF_MARG),
-                          if(fact.meaning != null)
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: fact.meaning.map((meaning) => Padding(
-                                padding: const EdgeInsets.symmetric(vertical: Dimen.DEF_MARG),
-                                child: Text(meaning, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: Colors.white54)),
-                              )).toList(),
-                            ),
-                          if(fact.meaning != null)
-                            const SizedBox(height: 32),
-
-                          Text(
-                            'Źródło',
-                            style: AppTextStyle(
-                              fontSize: Dimen.TEXT_SIZE_APPBAR,
-                              fontWeight: weight.bold,
-                              color: Colors.white54
-                            )
-                          ),
-                          const SizedBox(height: 2*Dimen.DEF_MARG),
-                          SelectableText(
-                            fact.source,
-                            style: AppTextStyle(
-                              fontSize: Dimen.TEXT_SIZE_SMALL,
-                              color: Colors.white54
-                            )
-                          )
-                        ],
-                      )
-                  ),
-                )
-            )
-        ],
-      ),
-
-      const SizedBox(height: 18.0),
-
-      Text(
-        fact.text,
-        style: AppTextStyle(
-          fontSize: DefinitionWidgetState.textSize, color: Colors.white, height: 1.3
-        )
-      ),
-
-      if(subtext != null)
-        const SizedBox(height: 2*Dimen.DEF_MARG),
-      if(subtext != null)
-        AppText(
-          subtext,
-          size: DefinitionWidgetState.textSize,
-          color: Colors.white54,
-          height: 1.3,
         ),
 
-      const SizedBox(height: Dimen.DEF_MARG),
+        const SizedBox(height: 18.0),
 
-    ],
-  );
+        Row(
+          children: [
+            const Expanded(
+              child: Text(
+                'Czy wiesz, że...',
+                style: TextStyle(
+                    fontFamily: 'Merriweather',
+                    color: Colors.white,
+                    fontSize: DefinitionWidgetState.textSize+6,
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+
+            if(fact.source != null || fact.meaning != null)
+              IconButton(
+                  icon: const Icon(MdiIcons.bookArrowUpOutline, color: Colors.white54),
+                  onPressed: () => showScrollBottomSheet(
+                    context: context,
+                    builder: (context) => BottomSheetDef(
+                        color: AppColors.start_background_default,
+                        colorEnd: Colors.teal,
+                        childMargin: const EdgeInsets.all(32),
+                        builder: (context) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            if(fact.meaning != null)
+                              Text(
+                                  'Co to oznacza?',
+                                  style: AppTextStyle(
+                                      fontSize: Dimen.TEXT_SIZE_APPBAR,
+                                      fontWeight: weight.bold,
+                                      color: Colors.white54
+                                  )
+                              ),
+                            if(fact.meaning != null)
+                              const SizedBox(height: Dimen.DEF_MARG),
+                            if(fact.meaning != null)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: fact.meaning.map((meaning) => Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: Dimen.DEF_MARG),
+                                  child: Text(meaning, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: Colors.white54)),
+                                )).toList(),
+                              ),
+                            if(fact.meaning != null)
+                              const SizedBox(height: 32),
+
+                            Text(
+                                'Źródło',
+                                style: AppTextStyle(
+                                    fontSize: Dimen.TEXT_SIZE_APPBAR,
+                                    fontWeight: weight.bold,
+                                    color: Colors.white54
+                                )
+                            ),
+                            const SizedBox(height: 2*Dimen.DEF_MARG),
+                            SelectableText(
+                                fact.source,
+                                style: AppTextStyle(
+                                    fontSize: Dimen.TEXT_SIZE_SMALL,
+                                    color: Colors.white54
+                                )
+                            )
+                          ],
+                        )
+                    ),
+                  )
+              )
+          ],
+        ),
+
+        const SizedBox(height: 18.0),
+
+        Text(
+            fact.text,
+            style: AppTextStyle(
+                fontSize: DefinitionWidgetState.textSize, color: Colors.white, height: 1.3
+            )
+        ),
+
+        if(subtext != null)
+          const SizedBox(height: 2*Dimen.DEF_MARG),
+        if(subtext != null)
+          AppText(
+            subtext,
+            size: DefinitionWidgetState.textSize,
+            color: Colors.white54,
+            height: 1.3,
+          ),
+
+        const SizedBox(height: Dimen.DEF_MARG),
+
+      ],
+    );
+
+  }
 
 }

@@ -353,10 +353,11 @@ class _SprawnosciWidget extends StatelessWidget{
         ),
       ),
 
-      Consumer2<SprawInProgressListProv, SprawCompletedListProv>(
-        builder: (context, inProgProv, complProv, child){
+      Consumer3<SprawSavedListProv, SprawInProgressListProv, SprawCompletedListProv>(
+        builder: (context, savedProv, inProgProv, complProv, child){
 
           String keyVal = '';
+          for(String uid in SprawFolder.omega.sprawUIDs) keyVal += uid;
           for(String uid in Spraw.inProgressList) keyVal += uid;
           for(String uid in Spraw.completedList) keyVal += uid;
 
