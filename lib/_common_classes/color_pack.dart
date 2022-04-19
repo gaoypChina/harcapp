@@ -93,7 +93,7 @@ class ColorPackGuideBook extends DefColorPack{
 
 }
 
-class ColorPackOther extends DefColorPack{
+class ColorPackStrefaDucha extends DefColorPack{
 
   static const ACCENT_COLOR = Colors.grey;
 

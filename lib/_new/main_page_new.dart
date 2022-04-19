@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 import 'cat_page_guide_book/_main.dart';
 import 'cat_page_harcthought/_main.dart';
 import 'cat_page_home/_main.dart';
-import 'cat_page_other/_main.dart';
 import 'cat_page_song_book/_main.dart';
+import 'cat_page_strefa_ducha/_main.dart';
 
 class MainPage extends StatefulWidget{
 
@@ -60,8 +60,8 @@ class MainPageState extends State<MainPage>{
               body: Consumer<AppBottomNavigatorProvider>(
                   builder: (context, prov, child) {
                     switch(prov.selectedIndex){
-                      //case AppBottomNavigator.HOME:
-                      //  return CatPageHome();
+                      case AppBottomNavigator.HOME:
+                        return const CatPageHome();
                       //case AppBottomNavigator.MAP:
                       //  return CatPageHarcMap();
                       case AppBottomNavigator.SONGBOOK:
@@ -70,10 +70,10 @@ class MainPageState extends State<MainPage>{
                         return const CatPageGuideBook();
                       case AppBottomNavigator.HARCTHOUGHT:
                         return const CatPageHarcThought();
-                      case AppBottomNavigator.OTHER:
-                        return const CatPageOther();
+                      case AppBottomNavigator.STREFA_DUCHA:
+                        return const CatPageStrefaDucha();
                       default:
-                        return const CatPageHome();
+                        return const CatPageGuideBook();
                     }
                   }
               ),

@@ -3,6 +3,7 @@ import 'package:harcapp/_new/cat_page_song_book/song_management/old/song_basic_d
 import 'package:harcapp/_new/cat_page_song_book/song_management/old/song_element_old.dart';
 import 'package:harcapp_core_own_song/common.dart';
 import 'package:harcapp_core_own_song/song_raw.dart';
+import 'package:harcapp_core_song/song_core.dart';
 import 'package:harcapp_core_song/song_element.dart';
 
 SongRaw parseOldCode(String fileName, String code, {bool official = true}){
@@ -67,7 +68,7 @@ SongRaw parseOldCode(String fileName, String code, {bool official = true}){
       authors: [basicData.author],
       composers: [],
       performers: [basicData.performer],
-      addPers: [basicData.moderator],
+      addPers: [AddPerson(name: basicData.moderator, emailRef: null, userKeyRef: null)],
       youtubeLink: basicData.youtubeLink,
 
       tags: basicData.tags,

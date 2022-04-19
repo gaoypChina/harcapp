@@ -1,8 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:harcapp/_new/cat_page_other/games/_main_page.dart';
-import 'package:harcapp/_new/cat_page_other/games/data.dart';
 
 class SliverChildSeparatedBuilderDelegate extends SliverChildBuilderDelegate{
 

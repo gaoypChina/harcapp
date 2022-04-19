@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
@@ -365,9 +366,10 @@ class ContribListCard extends StatelessWidget{
                     left: Dimen.SIDE_MARG,
                     right: Dimen.SIDE_MARG
                 ),
-                sliver: SliverList(delegate: SliverChildBuilderDelegate(
+                sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
                     (context, index) => PersonCard(personList[index]),
-                    childCount: personList.length
+                    count: personList.length,
+                    separatorBuilder: (context, index) => const SizedBox(height: 32.0)
                 )),
               )
 

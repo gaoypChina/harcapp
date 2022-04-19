@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harcapp/_app_common/glow_widget.dart';
-import 'package:harcapp/values/definition.dart';
 import 'package:harcapp/values/fact.dart';
 import 'package:harcapp/values/holy_bible.dart';
 import 'package:harcapp/_common_widgets/gyroscope_widget.dart';
@@ -20,6 +19,8 @@ import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import 'quote_widget.dart';
+import 'definition_widget.dart';
 import 'fact_widget.dart';
 
 class _HarcApp extends StatefulWidget{
@@ -150,7 +151,7 @@ class HarcAppRotatedBackgroundState extends State<HarcAppRotatedBackground>{
   @override
   Widget build(BuildContext context) {
 
-    double bgIconSize = MediaQuery.of(context).size.width*.9;
+    double bgIconSize = MediaQuery.of(context).size.width*.8;
 
     return Positioned(
       bottom: -1*bgIconSize*0.167,
@@ -224,8 +225,7 @@ class HolyBibleFragWidgetState extends State<HolyBibleFragWidget>{
           bibleFrag.text,
           style: const TextStyle(
               fontFamily: 'Merriweather',
-              //fontWeight: FontWeight.,
-              fontSize: CytatWidgetState.textSize,
+              fontSize: QuoteWidgetState.textSize,
               color: Colors.white,
               height: 1.3)
       ),
@@ -238,7 +238,7 @@ class HolyBibleFragWidgetState extends State<HolyBibleFragWidget>{
           style: const TextStyle(
               fontFamily: 'Merriweather',
               color: Colors.white54,
-              fontSize: CytatWidgetState.textSize+2,
+              fontSize: QuoteWidgetState.textSize+2,
               fontWeight: FontWeight.bold
           ),
           textAlign: TextAlign.end,
@@ -249,180 +249,7 @@ class HolyBibleFragWidgetState extends State<HolyBibleFragWidget>{
 
 }
 
-class DefinitionWidget extends StatefulWidget{
 
-  final Definition definition;
-
-  const DefinitionWidget({this.definition, Key key}): super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => DefinitionWidgetState();
-
-}
-
-class DefinitionWidgetState extends State<DefinitionWidget>{
-
-  static const double textSize = CytatWidgetState.textSize;
-  static const double iconSize = 42.0;
-
-  Definition _definition;
-  Definition get definition => widget.definition??_definition;
-
-  @override
-  void initState() {
-
-    if(widget.definition == null)
-      _definition = allDefinitions[Random().nextInt(allDefinitions.length)];
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-
-        const Align(
-          alignment: Alignment.centerLeft,
-          child: SizedBox(
-            width: CytatWidgetState.iconSize,
-            height: CytatWidgetState.iconSize,
-            child: Center(
-              child: Icon(
-                MdiIcons.bookOpenPageVariant,
-                size: 38.0,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-
-        const SizedBox(height: 18.0),
-
-        Text(
-          definition.word,
-          style: const TextStyle(
-              fontFamily: 'Merriweather',
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-              fontSize: textSize+6,
-          ),
-        ),
-
-        const SizedBox(height: 18.0),
-
-        Text(
-            definition.description,
-            style: AppTextStyle(
-                //fontFamily: 'Merriweather',
-                fontSize: textSize,
-                color: Colors.white,
-                //fontWeight: weight.halfBold,
-                height: 1.3
-            )
-        ),
-
-
-      ],
-    );
-  }
-
-}
-
-class CytatWidget extends StatefulWidget{
-
-  final Quote cytat;
-  final List<Quote> cytaty;
-
-  const CytatWidget({this.cytat, this.cytaty, Key key}): super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => CytatWidgetState();
-
-}
-
-class CytatWidgetState extends State<CytatWidget> with TickerProviderStateMixin{
-
-  static const double textSize = 18.0;
-  static const double iconSize = 64.0;
-
-  Quote cytat;
-  bool _showAuthor;
-
-  Animation<Offset> offsetQ;
-
-  List<Quote> get cytaty => widget.cytaty;
-
-  startAnimation() async{
-    await Future.delayed(const Duration(milliseconds: 1000));
-    setState(() => _showAuthor = true);
-  }
-
-  @override
-  void initState() {
-
-    _showAuthor = false;
-
-    if(widget.cytat == null)
-      cytat = cytaty[Random().nextInt(cytaty.length)];
-    else
-      cytat = widget.cytat;
-
-    startAnimation();
-
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-
-        const Align(
-          alignment: Alignment.centerLeft,
-          child: Icon(
-            MdiIcons.formatQuoteClose,
-            size: 64.0,
-            color: Colors.white,
-          ),
-        ),
-
-        const SizedBox(height: 18.0),
-
-        Text(
-            cytat.cytat,
-            style: const TextStyle(
-              fontFamily: 'Merriweather',
-                //fontWeight: weight.halfBold,
-                fontSize: textSize,
-                color: Colors.white,
-                height: 1.3
-            )
-        ),
-
-
-        const SizedBox(height: 32),
-        AnimatedOpacity(
-          opacity: _showAuthor?1.0:0.0,
-          child: Align(
-              alignment: Alignment.bottomRight,
-              child: Text(
-                '~ ${cytat.autor}',
-                style: const TextStyle(
-                    fontFamily: 'Merriweather',
-                    color: Colors.white54,
-                    fontSize: textSize+2,
-                    fontWeight: FontWeight.bold
-                ),
-                textAlign: TextAlign.end,
-              ),
-          ), duration: const Duration(seconds: 2),
-        ),
-      ],
-    );
-  }
-
-}
 
 class PatroniteSupport extends StatelessWidget{
 
@@ -495,6 +322,8 @@ class DefaultLayoutState extends State<DefaultLayout>{
     else if(val < 6) messageType = 1;   // 4, 5
     else if(val < 8) messageType = 2;  // 6, 7
 
+    messageType = 2;
+
     super.initState();
   }
 
@@ -523,7 +352,7 @@ class DefaultLayoutState extends State<DefaultLayout>{
                       const SizedBox(height: 36.0),
 
                       if(messageType == 0)
-                        const CytatWidget(cytaty: CYTATY_REGULAR)
+                        const QuoteWidget(quotes: CYTATY_REGULAR)
                       else if(messageType == 1)
                         const DefinitionWidget()
                       else if(messageType == 2)
@@ -841,7 +670,7 @@ class ChristmasLayoutState extends State<DefaultLayout>{
                         const SizedBox(height: 36.0),
 
                         if(chooseQuote)
-                          const CytatWidget(cytaty: CYTATY_REGULAR)
+                          const QuoteWidget(quotes: CYTATY_REGULAR)
                         else
                           const DefinitionWidget()
                       ],
@@ -989,7 +818,7 @@ class ZmartwychwstanieLayoutState extends State<DefaultLayout>{
     () async{
       while(true){
         await Future.delayed(glowDuration);
-        setState(() => glow = !glow);
+        if(mounted) setState(() => glow = !glow);
       }
     }();
 
@@ -1006,7 +835,7 @@ class ZmartwychwstanieLayoutState extends State<DefaultLayout>{
       child: Stack(
         children: [
 
-          HarcAppRotatedBackground(Colors.black.withOpacity(0.08)),
+          const HarcAppRotatedBackground(Colors.orange),
 
           Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -1075,7 +904,7 @@ class ZmartwychwstanieLayoutState extends State<DefaultLayout>{
                         ),
                       ),
 
-                      const CytatWidget(cytat: tischnerZmartwychwstwanie)
+                      const QuoteWidget(quote: tischnerZmartwychwstwanie)
                     ],
                   ),
                 ),
@@ -1095,7 +924,6 @@ class ZmartwychwstanieLayoutState extends State<DefaultLayout>{
             right: Dimen.DEF_MARG,
             child: PatroniteSupport(textColor: Colors.pink),
           )
-
 
         ],
       )
@@ -1156,7 +984,7 @@ class PowstanieWarszawskieLayoutState extends State<DefaultLayout>{
 
                   const Padding(
                     padding: EdgeInsets.only(right: 24, left: 24),
-                    child: CytatWidget(cytaty: CYTATY_POWST_WARSZ),
+                    child: QuoteWidget(quotes: CYTATY_POWST_WARSZ),
                   ),
 
                   const HarcAppLogo(),
@@ -1233,7 +1061,7 @@ class NiepodlegloscLayoutState extends State<DefaultLayout>{
                               child: Text(
                                 'Niepodległość nie jest nam dana raz na zawsze.',
                                 style: GoogleFonts.cinzelDecorative(
-                                    fontSize: CytatWidgetState.textSize,
+                                    fontSize: QuoteWidgetState.textSize,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.red[700],
                                     height: 1.3
@@ -1256,7 +1084,7 @@ class NiepodlegloscLayoutState extends State<DefaultLayout>{
                   child: Text(
                     'Wymaga od każdego pokolenia troski o ojczyznę.',
                     style: GoogleFonts.cinzelDecorative(
-                        fontSize: CytatWidgetState.textSize,
+                        fontSize: QuoteWidgetState.textSize,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
                         height: 1.3

@@ -77,7 +77,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
   @override
   void afterFirstLayout(BuildContext context) {
-    post(() => Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackSongBook());
+    Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackSongBook();
   }
 
   static void delLastPageForAlbum(Album album) => shaPref.remove(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album));

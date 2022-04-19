@@ -2,12 +2,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/account/account.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/cat_page_song_book/own_song_page/save_song_button.dart';
 import 'package:harcapp/_new/cat_page_song_book/own_song_page/song_part_editor.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
@@ -18,13 +17,12 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:harcapp_core_own_song/common.dart';
 import 'package:harcapp_core_own_song/page_widgets/add_buttons_widget.dart';
 import 'package:harcapp_core_own_song/page_widgets/refren_template.dart';
-import 'package:harcapp_core_own_song/page_widgets/scroll_to_bottom.dart';
 import 'package:harcapp_core_own_song/page_widgets/song_parts_list_widget.dart';
-import 'package:harcapp_core_own_song/page_widgets/tags_widget.dart';
 import 'package:harcapp_core_own_song/page_widgets/top_cards.dart';
+import 'package:harcapp_core_own_song/page_widgets/add_pers_list_widget.dart';
+import 'package:harcapp_core_own_song/page_widgets/tags_widget.dart';
 import 'package:harcapp_core_own_song/providers.dart';
 import 'package:harcapp_core_own_song/song_raw.dart';
 import 'package:harcapp_core_tags/tag_layout.dart';
@@ -37,8 +35,8 @@ import 'song_part_editor.dart';
 
 enum EditType{
   NEW,
-  EDIT_OWN,
-  EDIT_OFFICIAL,
+  editOwn,
+  editOfficial,
 }
 
 class OwnSongPage extends StatefulWidget {
@@ -47,7 +45,7 @@ class OwnSongPage extends StatefulWidget {
   final EditType editType;
   final Function(Song song, EditType editType) onSaved;
 
-  const OwnSongPage(this.song, this.editType, this.onSaved);
+  const OwnSongPage(this.song, this.editType, this.onSaved, {Key key}): super(key: key);
 
   static from({SongRaw song, Function(Song song, EditType editType) onSaved}){
 
@@ -56,9 +54,9 @@ class OwnSongPage extends StatefulWidget {
     if(song == null)
       editType = EditType.NEW;
     else if(song.isOwn)
-      editType = EditType.EDIT_OWN;
+      editType = EditType.editOwn;
     else
-      editType = EditType.EDIT_OFFICIAL;
+      editType = EditType.editOfficial;
 
     return OwnSongPage(
         song,
@@ -74,7 +72,7 @@ class OwnSongPage extends StatefulWidget {
 
 class OwnSongPageState extends State<OwnSongPage> {
 
-  static const double SEP = 10.0;
+  static const double sep = 10.0;
 
   void notify() => setState((){});
 
@@ -124,14 +122,26 @@ class OwnSongPageState extends State<OwnSongPage> {
           providers: [
             ChangeNotifierProvider(create: (context){
 
-              if(editType == EditType.EDIT_OWN)
+              if(editType == EditType.editOwn)
                 currItemProv = CurrentItemProvider(song: song);
 
               if(editType == EditType.NEW) {
-                currItemProv = CurrentItemProvider(song: SongRaw.empty(fileName: '${OwnSong.lastFileName + 1}'));
-                currItemProv.addPersController.texts = shaPref.getStringList(ShaPref.SHA_PREF_SPIEWNIK_OWN_SONG_ADD_PERS, <String>[]);
+
+                String initAddPersName;
+                String initAddPersEmail;
+                String initAddPersUserKey;
+                if(AccountData.loggedIn) {
+                  initAddPersEmail = AccountData.email;
+                  initAddPersUserKey = AccountData.key;
+                }
+                currItemProv = CurrentItemProvider(
+                    song: SongRaw.empty(fileName: '${OwnSong.lastFileName + 1}'),
+                    initAddPersName: initAddPersName,
+                    initAddPersEmail: initAddPersEmail,
+                    initAddPersUserKey: initAddPersUserKey,
+                );
               }
-              else if(editType == EditType.EDIT_OFFICIAL)
+              else if(editType == EditType.editOfficial)
                 currItemProv = CurrentItemProvider(song: song.copyWith(fileName: '${OwnSong.lastFileName + 1}'));
 
               return currItemProv;
@@ -146,18 +156,6 @@ class OwnSongPageState extends State<OwnSongPage> {
             ChangeNotifierProvider(create: (context) => TagsProvider(Tag.ALL_TAG_NAMES, song==null?[]:song.tags)),
 
             ChangeNotifierProvider(create: (context) => TitleCtrlProvider(text: song==null?'':song.title)),
-            //ChangeNotifierProvider(create: (context) => AuthorCtrlProvider(text: song==null?'':song.authors)),
-            //ChangeNotifierProvider(create: (context) => ComposerCtrlProvider(text: song==null?'':song.composers)),
-            //ChangeNotifierProvider(create: (context) => PerformerCtrlProvider(text: song==null?'':song.performers)),
-            //ChangeNotifierProvider(create: (context) => YTCtrlProvider(text: song==null?'':song.youtubeLink)),
-            /*
-            ChangeNotifierProvider(create: (context){
-              AddPersCtrlProvider prov = AddPersCtrlProvider(texts: song==null?shaPref.getStringList(ShaPref.SHA_PREF_SPIEWNIK_OWN_SONG_ADD_PERS, <String>[]):song.addPers);
-              if(song==null)
-                prov.controller.addListener(() => shaPref.setString(ShaPref.SHA_PREF_SPIEWNIK_OWN_SONG_ADD_PERS, prov.controller.text));
-              return prov;
-            }),
-             */
           ],
 
           builder: (context, child) => BottomNavScaffold(
@@ -196,7 +194,7 @@ class OwnSongPageState extends State<OwnSongPage> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
 
-                        SongWebEditorInfo(),
+                        const SongWebEditorInfo(),
 
                         const Padding(
                           padding: EdgeInsets.only(left: Dimen.ICON_MARG),
@@ -209,22 +207,25 @@ class OwnSongPageState extends State<OwnSongPage> {
                           onChangedPerformer: (texts) => currItemProv.performers = texts,
                           onChangedComposer: (texts) => currItemProv.composers = texts,
                           onChangedYT: (text) => currItemProv.youtubeLink = text,
-                          onChangedAddPers: (texts) => currItemProv.addPers = texts,
                         ),
 
-                        const SizedBox(height: SEP),
+                        const SizedBox(height: sep),
+
+                        const AddPersListWidget(),
+
+                        const SizedBox(height: sep),
 
                         TagsWidget(
                           onChanged: (List<String> tags) => currItemProv.tags = tags,
                         ),
 
-                        const SizedBox(height: SEP),
+                        const SizedBox(height: sep),
 
                         if(Album.allOwn.isNotEmpty)
                           AlbumPart(this),
 
                         if(Album.allOwn.isNotEmpty)
-                          const SizedBox(height: SEP),
+                          const SizedBox(height: sep),
 
                         RefrenTemplate(
                             accentColor: Album.current.avgColorDarkSensitive(context),
@@ -255,7 +256,7 @@ class OwnSongPageState extends State<OwnSongPage> {
                             )
                         ),
 
-                        const SizedBox(height: SEP),
+                        const SizedBox(height: sep),
 
                         const Padding(
                           padding: EdgeInsets.only(left: Dimen.ICON_MARG),
@@ -336,6 +337,8 @@ class OwnSongPageState extends State<OwnSongPage> {
 }
 
 class SongWebEditorInfo extends StatelessWidget{
+
+  const SongWebEditorInfo({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,3 @@
-
 import 'dart:collection';
 import 'dart:convert';
 
@@ -12,6 +11,7 @@ import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
 import 'package:harcapp_core/comm_widgets/chord_shifter.dart';
 import 'package:harcapp_core_song/song_core.dart';
+import 'package:harcapp_core_song_widget/add_pers_resolver.dart';
 import 'package:harcapp_core_song_widget/song_rate.dart';
 
 import '../common.dart';
@@ -31,7 +31,7 @@ class SongDataEntity{
   final DateTime releaseDate;
   final bool showRelDateMonth;
   final bool showRelDateDay;
-  final List<String> addPers;
+  final List<AddPerson> addPers;
   final String youtubeLink;
   final List<String> tags;
   final bool hasChords;
@@ -148,11 +148,11 @@ abstract class Song<T extends SongResp> extends SyncableParamGroup_ with SyncNod
   @override
   List<String> get performers => _performers;
 
-  List<String> _addPers;
+  List<AddPerson> _addPers;
   @protected
-  set addPers(List<String> value) => _addPers = value;
+  set addPers(List<AddPerson> value) => _addPers = value;
   @override
-  List<String> get addPers => _addPers;
+  List<AddPerson> get addPers => _addPers;
 
   String _youtubeLink;
   @protected
@@ -253,7 +253,7 @@ abstract class Song<T extends SongResp> extends SyncableParamGroup_ with SyncNod
     bool showRelDateMonth = map[SongCore.PARAM_SHOW_REL_DATE_MONTH]??true;
     bool showRelDateDay = map[SongCore.PARAM_SHOW_REL_DATE_DAY]??true;
     String ytLink = map[SongCore.PARAM_YT_LINK]??DEF_YOUTUBE_LINK;
-    List<String> addPers = ((map[SongCore.PARAM_ADD_PERS]??DEF_ADD_PERS) as List).cast<String>();
+    List<AddPerson> addPers = ((map[SongCore.PARAM_ADD_PERS]??[]) as List).map((_map) => AddPerson.fromMap(_map)).toList();
     List<String> tags = ((map[SongCore.PARAM_TAGS]??[]) as List).cast<String>();
     SongElementOld refren;
     if (map.containsKey(SongCore.PARAM_REFREN)) {

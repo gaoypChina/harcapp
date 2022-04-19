@@ -92,6 +92,7 @@ const String huf_zhp_czestochowa = 'Hufiec ZHP Częstochowa';
 const String huf_zhp_doliny_liwca = 'Hufiec ZHP Doliny Liwca im. Edmunda Zarzyckiego';
 const String huf_zhp_gdansk_srodmiesie = 'Hufiec ZHP Gdańsk-Śródmieście';
 const String huf_zhp_jarocin = 'Hufiec ZHP Jarocin';
+const String huf_zhp_kielce_poludnie = 'Hufiec ZHP Kielce-Południe';
 const String huf_zhp_konin = 'Hufiec ZHP Konin';
 const String huf_zhp_luban = 'Hufiec ZHP Lubań';
 const String huf_zhp_lublin = 'Hufiec ZHP Lublin';

@@ -4,6 +4,7 @@ import 'dart:collection';
 import 'package:harcapp/_new/api/sync.dart';
 import 'package:harcapp/_new/api/sync_resp_body/off_song_resp.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
+import 'package:harcapp_core_song/song_core.dart';
 
 import 'memory.dart';
 import 'song.dart';
@@ -30,7 +31,7 @@ class OffSong extends Song<OffSongResp>{
       DateTime releaseDate,
       bool showRelDateMonth,
       bool showRelDateDay,
-      List<String> addPers,
+      List<AddPerson> addPers,
       String youtubeLink,
       List<String> tags,
       bool hasChords,

@@ -37,35 +37,45 @@ class PatronListWidget extends StatelessWidget{
 
     return Scaffold(
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
 
-          SliverAppBar(
+          const SliverAppBar(
             title: Text('Lista Patronów'),
             centerTitle: true,
             floating: true,
           ),
 
           SliverPadding(
-            padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+            padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
 
-                Column(children: PLN50Patrons.map((p) => PersonCard(p)).toList()),
-                //SizedBox(height: 24.0),
+                Column(children: PLN50Patrons.map((p) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: PersonCard(p)
+                )).toList()),
 
-                //Text('Złoci Patroni:', style: AppTextStyle(fontWeight: weight.halfBold, color: widget.colorPack.hintDrawer),),
-                SizedBox(height: Dimen.DEF_MARG),
-                Column(children: PLN20Patrons.map((p) => PersonCard(p)).toList()),
+                const SizedBox(height: Dimen.DEF_MARG),
+                Column(children: PLN20Patrons.map((p) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: PersonCard(p)
+                )).toList()),
 
-                SizedBox(height: Dimen.DEF_MARG),
-                Column(children: PLN10Patrons.map((p) => PersonCard(p)).toList()),
-                //Text('Patroni:', style: AppTextStyle(fontWeight: weight.halfBold, color: widget.colorPack.hintDrawer),),
-                SizedBox(height: Dimen.DEF_MARG),
+                const SizedBox(height: Dimen.DEF_MARG),
+                Column(children: PLN10Patrons.map((p) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: PersonCard(p)
+                )).toList()),
+
+                const SizedBox(height: Dimen.DEF_MARG),
 
                 // ---
                 // PATRONI BEZ PROGU
-                Column(children: PLN5Patrons.map((p) => PersonCard(p)).toList()),
+                Column(children: PLN5Patrons.map((p) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: PersonCard(p)
+                )).toList()),
 
               ]),
             )

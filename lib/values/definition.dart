@@ -108,6 +108,7 @@ const List<Definition> allDefinitions = [
 
   Definition('Poczucie przynależności', 'Kluczowy element tożsamości wynikający z przynależności do grup społecznych takich jak rodzina, przyjaźnie, wspólnoty, środowiska, nadająca role, dająca poczucie bezpieczeństwa.'),
 
+  Definition('Pogoda ducha', 'Pozytywne nastawienie do otoczenia i optymizm pomimo napotykanych trudności.'),
   Definition('Pokolenie płatków śniegu', 'Osoby urodzone w latach 90. lub 2000., charakteryzujące się delikatnością, koncentracją na sobie, przekonaniem o swojej unikalności, niekiedy roszczeniowością.'),
   Definition('Pokolenie Z', 'Osoby urodzone w latach 90. jako pierwsi dorastający w scyfryzowanym świecie, charakteryzujące się otwartością, bezpośredniością, potrzebą budowania relacji społecznych, wielkimi planami na przyszłość.'),
   Definition('Pokolenie millenialsów', 'Osoby urodzone w latach 80. i 90., dorastający po epoce PRLu. Pokolenie to nauczyło się korzystać z mediów cyfrowych, jest pewne siebie, dobrze odnajduje się w realiach wolnego rynku.'),

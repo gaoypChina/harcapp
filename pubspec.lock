@@ -250,7 +250,7 @@ packages:
       name: flutter_inappwebview
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.3.2"
+    version: "5.4.0"
   flutter_keyboard_visibility:
     dependency: "direct main"
     description:
@@ -298,6 +298,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.6"
+  flutter_reorderable_list:
+    dependency: transitive
+    description:
+      name: flutter_reorderable_list
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.0"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -383,7 +390,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: eb837af4b7bdd97e32f845b64f8533ce3cc915eb
+      resolved-ref: "3454de2c1a979ead66533c71762e3fc7103bcc3f"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core"
     source: git
     version: "0.0.1"
@@ -392,7 +399,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "53f47ee97ab3fbe62731c230105a6f010864db65"
+      resolved-ref: "6a255763f70559680ff12063e78680252c10bdd5"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_own_song"
     source: git
     version: "0.0.1"
@@ -401,7 +408,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "490832713c176cc179152d93bac748afd25a939d"
+      resolved-ref: db67f34a8d5d6bac317cee08ea2e58d227d5f007
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_song"
     source: git
     version: "0.0.1"
@@ -410,7 +417,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "7cf459f872170b71f676c6450077519ea031555d"
+      resolved-ref: "4a6792d1ee922b5af36aac665d3960f33a98ac9e"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_song_widget"
     source: git
     version: "0.0.1"

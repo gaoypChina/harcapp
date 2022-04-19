@@ -34,7 +34,7 @@ import '_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_profile.dar
 import '_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
 import '_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import '_new/cat_page_home/providers.dart';
-import '_new/cat_page_other/strefa_ducha/providers.dart';
+import '_new/cat_page_strefa_ducha/providers.dart';
 import '_new/cat_page_song_book/providers.dart';
 import '_new/cat_page_song_book/settings/song_book_base_settings.dart';
 import '_new/details/app_settings.dart';
@@ -357,7 +357,6 @@ class AppState extends State<App> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (context) => LikedArticlesProvider()),
 
         // STREFA DUCHA
-        ChangeNotifierProvider(create: (context) => ItemsProvider()),
         ChangeNotifierProvider(create: (context) => FadeImageProvider()),
         ChangeNotifierProvider(create: (context) => LockProvider()),
         ChangeNotifierProvider(create: (context) => PinProvider()),

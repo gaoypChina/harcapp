@@ -11,6 +11,7 @@ import 'package:harcapp_core/dimen.dart';
 import '../../_common_widgets/app_text.dart';
 import '../../values/colors.dart';
 import '../../values/fact.dart';
+import 'quote_widget.dart';
 import 'layouts.dart';
 
 class FactWidget extends StatefulWidget{
@@ -52,8 +53,8 @@ class FactWidgetState extends State<FactWidget>{
         Align(
           alignment: Alignment.centerLeft,
           child: SizedBox(
-            width: CytatWidgetState.iconSize,
-            height: CytatWidgetState.iconSize,
+            width: QuoteWidgetState.iconSize,
+            height: QuoteWidgetState.iconSize,
             child: Center(
               child: Icon(
                 icon??MdiIcons.lightbulb,
@@ -74,7 +75,7 @@ class FactWidgetState extends State<FactWidget>{
                 style: TextStyle(
                     fontFamily: 'Merriweather',
                     color: Colors.white,
-                    fontSize: DefinitionWidgetState.textSize+6,
+                    fontSize: QuoteWidgetState.textSize+6,
                     fontWeight: FontWeight.bold
                 ),
               ),
@@ -143,7 +144,7 @@ class FactWidgetState extends State<FactWidget>{
         Text(
             fact.text,
             style: AppTextStyle(
-                fontSize: DefinitionWidgetState.textSize, color: Colors.white, height: 1.3
+                fontSize: QuoteWidgetState.textSize, color: Colors.white, height: 1.3
             )
         ),
 
@@ -152,7 +153,7 @@ class FactWidgetState extends State<FactWidget>{
         if(subtext != null)
           AppText(
             subtext,
-            size: DefinitionWidgetState.textSize,
+            size: QuoteWidgetState.textSize,
             color: Colors.white54,
             height: 1.3,
           ),

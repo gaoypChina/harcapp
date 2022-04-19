@@ -11,33 +11,29 @@ enum GyroscofeShift{
 }
 
 class GyroscopeWidget extends StatefulWidget {
-  final GlobalKey globalKey;
   final Widget child;
   final double multipleX;
   final double multipleY;
   final double scale;
   final GyroscofeShift shift;
 
-  GyroscopeWidget({
-    this.globalKey,
+  const GyroscopeWidget({
     this.child,
-    this.multipleX: 1,
-    this.multipleY: 1,
-    this.scale: 1,
-    this.shift: GyroscofeShift.ABSOLUITE
-  }):super(key: globalKey);
+    this.multipleX = 1,
+    this.multipleY = 1,
+    this.scale = 1,
+    this.shift = GyroscofeShift.ABSOLUITE,
+    Key key
+  }):super(key: key);
 
-  static GyroscopeWidget fill({GlobalKey key, @required Widget child, @required double scale}){
-    return GyroscopeWidget(
-      globalKey: key??GlobalKey(),
-      child: child,
-      scale: scale,
-      multipleX: (1 - scale)/2,
-      multipleY: (1 - scale)/2,
-      shift: GyroscofeShift.FACTOR,
-    );
-
-  }
+  static GyroscopeWidget fill({@required Widget child, @required double scale, Key key}) => GyroscopeWidget(
+    child: child,
+    scale: scale,
+    multipleX: (1 - scale)/2,
+    multipleY: (1 - scale)/2,
+    shift: GyroscofeShift.FACTOR,
+    key: key,
+  );
 
   @override
   _GyroscopeWidgetState createState() => _GyroscopeWidgetState();
@@ -51,6 +47,8 @@ class _GyroscopeWidgetState extends State<GyroscopeWidget>{
   double childWidth;
   double childHeight;
 
+  GlobalKey globalKey;
+
   @override
   void initState() {
     super.initState();
@@ -63,15 +61,17 @@ class _GyroscopeWidgetState extends State<GyroscopeWidget>{
 
     childWidth = 1;
     childHeight = 1;
+
+    globalKey = GlobalKey();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    if(widget.globalKey!=null)
+    if(childWidth == null || childHeight == null)
       post((){
-        childWidth = widget.globalKey.currentContext.size.width;
-        childHeight = widget.globalKey.currentContext.size.height;
+        childWidth = globalKey.currentContext.size.width;
+        childHeight = globalKey.currentContext.size.height;
       });
 
     return

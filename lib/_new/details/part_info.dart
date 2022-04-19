@@ -48,20 +48,12 @@ class PartInfoState extends State<PartInfo>{
             leading: const Icon(MdiIcons.emailOutline),
             title: Text('Kontakt', style: AppTextStyle()),
             subtitle: Text('harcapp@gmail.com\nWDHS "Uroczysko", Warszawa-Praga-Północ', style: AppTextStyle()),
-            onTap: () => openDialog(
-                context: context,
-                builder: (context) => const PartContributors()
-            )
         ),
 
         ListTile(
             leading: const SizedBox(),
             title: Text('Autor', style: AppTextStyle()),
             subtitle: Text('phm. Daniel Iwanicki HO', style: AppTextStyle()),
-            onTap: () => openDialog(
-                context: context,
-                builder: (context) => const PartContributors()
-            )
         ),
 
         ListTile(
@@ -124,10 +116,6 @@ class PartInfoState extends State<PartInfo>{
         ListTile(
             leading: const Icon(MdiIcons.flagCheckered),
             title: Text('Oto jak się zaczęło!', style: AppTextStyle()),
-            onTap: () => openDialog(
-                context: context,
-                builder: (context) => const PartContributors()
-            )
         ),
 
         Padding(

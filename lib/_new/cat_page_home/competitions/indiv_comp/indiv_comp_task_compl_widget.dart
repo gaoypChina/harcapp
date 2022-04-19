@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/points_widget.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_task_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/loading_widget.dart';
@@ -12,14 +11,12 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'common/indiv_comp_task_skeleton_widget.dart';
-import 'models/indiv_comp.dart';
 import 'models/indiv_comp_task.dart';
 import 'models/indiv_comp_task_compl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class IndivCompTaskComplWidget extends StatelessWidget{
 
-  // final IndivComp comp;
   final IndivCompTaskCompl complTask;
   final Map<String, IndivCompTask> taskMap;
   final CommonColorData colors;

@@ -6,6 +6,7 @@ import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/sync_resp_body/own_song_resp.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
+import 'package:harcapp_core_song/song_core.dart';
 
 import '../../../sync/syncable_new.dart';
 import 'memory.dart';
@@ -67,7 +68,7 @@ class OwnSong extends Song<OwnSongResp>{
       DateTime releaseDate,
       bool showRelDateMonth,
       bool showRelDateDay,
-      List<String> addPers,
+      List<AddPerson> addPers,
       String youtubeLink,
       List<String> tags,
       bool hasChords, String text,

@@ -79,7 +79,7 @@ class SaveSongButtonState extends State<SaveSongButton>{
             return;
           }
 
-          if(widget.editType == EditType.EDIT_OWN){
+          if(widget.editType == EditType.editOwn){
             Song remSong = OwnSong.allOwnMap[song.fileName];
             OwnSong.removeOwn(remSong);
           }

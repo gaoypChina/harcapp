@@ -49,11 +49,14 @@ import '_stopnie/rank_tile_widget_template.dart';
 import 'biografie/_main.dart';
 import 'chwyty/_main.dart';
 import 'dokumenty/_main.dart';
+import 'games/_main_page.dart';
+import 'games/game_tiles.dart';
 import 'historia/_main.dart';
 import 'kuchnia_harcerska/_main.dart';
 import 'las/_main.dart';
 import 'musztra/_main.dart';
 import 'okrzyki/_main.dart';
+import 'organizations/_main.dart';
 
 class CatPageGuideBook extends StatefulWidget{
 
@@ -287,6 +290,32 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
                   )
               ),
 
+              const SizedBox(height: CAT_SEPARATOR),
+
+              _ItemWidget(
+                  data: ItemData(
+                      MdiIcons.googleCirclesExtended,
+                      'Organizacje harc. i skaut.',
+                      color: Colors.deepPurpleAccent,
+                      pageBuilder: (context) => const OrganizationsPage()
+                  )
+              ),
+
+              const SizedBox(height: CAT_SEPARATOR),
+
+              _ItemWidget(
+                  data: ItemData(
+                      MdiIcons.dice6Outline,
+                      'Gierki',
+                      color: MUSIC_CAT_TECHNIKI,
+                      pageBuilder: (context) => const GamesPage()
+                  )
+              ),
+
+              const GameTiles(),
+
+              const SizedBox(height: Dimen.SIDE_MARG),
+
               const PatroniteSupportWidget(
                 stateTag: PatroniteSupportWidget.tagGuideBook,
                 title: 'Potrzeba wsparcia!',
@@ -327,7 +356,7 @@ class _ItemWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => ListTile(
-    shape:  RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS)),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS)),
     leading: Icon(data.icon, color: accent_(context)),
     onTap: () => Navigator.push(context, MaterialPageRoute(builder: data.pageBuilder)),
     title: Text(

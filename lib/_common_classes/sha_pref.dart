@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
-import 'package:harcapp/_new/cat_page_other/strefa_ducha/source.dart';
+import 'package:harcapp/_new/cat_page_strefa_ducha/source.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../_new/cat_page_song_book/song_management/album.dart';
@@ -83,6 +83,7 @@ class ShaPref{
   //tmp
   static const String SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW = 'SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW';
   static const String SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW_2 = 'SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW_2';
+  static const String SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW_3 = 'SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW_3';
   static const String SHA_PREF_RESET_STATS = 'SHA_PREF_RESET_STATS';
 
 
@@ -210,14 +211,14 @@ class ShaPref{
 
   //STREFA DUCHA
   //STREFA DUCHA
-  static const String _SHA_PREF_DUCHOWE_SOURCE_NAME_OF_CODE_ = 'SHA_PREF_DUCHOWE_SOURCE_NAME_OF_CODE_';
-  static String SHA_PREF_DUCHOWE_SOURCE_NAME_OF_CODE_(String sourceCode)
-  => _SHA_PREF_DUCHOWE_SOURCE_NAME_OF_CODE_ + sourceCode;
+  static const String _SHA_PREF_DUCHOWE_SOURCE_NAME_FROM_UNIQ_ID_ = 'SHA_PREF_DUCHOWE_SOURCE_NAME_FROM_UNIQ_ID_';
+  static String SHA_PREF_DUCHOWE_SOURCE_NAME_FROM_UNIQ_ID_(String sourceUniqId)
+  => _SHA_PREF_DUCHOWE_SOURCE_NAME_FROM_UNIQ_ID_ + sourceUniqId;
 
 
-  static const String _SHA_PREF_DUCHOWE_SOURCE_URL_OF_CODE_ = 'SHA_PREF_DUCHOWE_SOURCE_URL_OF_CODE_';
-  static String SHA_PREF_DUCHOWE_SOURCE_URL_OF_CODE_(String sourceCode)
-  => _SHA_PREF_DUCHOWE_SOURCE_URL_OF_CODE_ + sourceCode;
+  static const String _SHA_PREF_DUCHOWE_SOURCE_URL_FROM_UNIQ_ID_ = 'SHA_PREF_DUCHOWE_SOURCE_URL_FROM_UNIQ_ID_';
+  static String SHA_PREF_DUCHOWE_SOURCE_URL_FROM_UNIQ_ID_(String sourceUniqId)
+  => _SHA_PREF_DUCHOWE_SOURCE_URL_FROM_UNIQ_ID_ + sourceUniqId;
 
 
   static const String SHA_PREF_DUCHOWE_SAVE_LOCALLY = 'SHA_PREF_DUCHOWE_SAVE_LOCALLY';
@@ -225,10 +226,10 @@ class ShaPref{
 
   static const String _SHA_PREF_DUCHOWE_SOURCE_DISPLAY_ = 'SHA_PREF_DUCHOWE_SOURCE_DISPLAY_';
   static String SHA_PREF_DUCHOWE_SOURCE_DISPLAY_(Source source)
-  => _SHA_PREF_DUCHOWE_SOURCE_DISPLAY_ + source.code;
+  => _SHA_PREF_DUCHOWE_SOURCE_DISPLAY_ + source.uniqId;
 
 
-  static const String SHA_PREF_DUCHOWE_ITEM_LOCKED = 'SHA_PREF_DUCHOWE_ITEM_LOCKED';
+  static const String SHA_PREF_DUCHOWE_ITEM_PINNED = 'SHA_PREF_DUCHOWE_ITEM_PINNED';
   static const String SHA_PREF_DUCHOWE_INIT_MESSAGE = 'SHA_PREF_DUCHOWE_INIT_MESSAGE';
 
   //STOPNIE

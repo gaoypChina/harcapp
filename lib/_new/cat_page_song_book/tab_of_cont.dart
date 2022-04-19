@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_new/cat_page_song_book/song_contributors_page.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
@@ -215,6 +217,12 @@ class TabOfContState extends State<TabOfCont>{
                             centerTitle: true,
                             elevation: 0,
                             floating: true,
+                            actions: [
+                              IconButton(
+                                icon: const Icon(MdiIcons.trendingUp),
+                                onPressed: () => pushPage(context, builder: (context) => SongContributorsPage()),
+                              )
+                            ],
                           ),
 
                         Consumer<SearchParamsProvider>(

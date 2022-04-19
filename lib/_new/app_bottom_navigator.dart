@@ -44,7 +44,7 @@ class AppBottomNavigator extends StatelessWidget{
   static const int SONGBOOK = account?1:0;
   static const int GUIDEBOOK = account?2:1;
   static const int HARCTHOUGHT = account?3:2;
-  static const int OTHER = account?4:3;
+  static const int STREFA_DUCHA = account?4:3;
 
   static const heroTag = 'AppBottomNavigator';
 
@@ -59,11 +59,12 @@ class AppBottomNavigator extends StatelessWidget{
   Widget build(BuildContext context) => Hero(
     tag: heroTag,
     child: PhysicalModel(
-      elevation: elevation??AppCard.BIG_RADIUS,
+      elevation: elevation??AppCard.bigElevation,
       color: Colors.transparent,
       child: Consumer<AppBottomNavigatorProvider>(
           builder: (context, prov, child) => BottomNavigationBar(
             backgroundColor: Colors.transparent,
+            elevation: 0,
             selectedItemColor: selectedItemColor??iconEnab_(context),
             selectedIconTheme: IconThemeData(color: selectedItemColor??iconEnab_(context)),
             unselectedIconTheme: IconThemeData(color: unselectedItemColor??iconDisab_(context)),
@@ -112,8 +113,8 @@ class AppBottomNavigator extends StatelessWidget{
               ),
               BottomNavigationBarItem(
                   backgroundColor: background??background_(context),
-                  icon: const Icon(MdiIcons.dotsHorizontal),
-                  label: 'Inne'
+                  icon: const Icon(MdiIcons.candle),
+                  label: 'Strefa ducha'
               )
             ],
 

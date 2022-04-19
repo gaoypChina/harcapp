@@ -5,6 +5,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:harcapp/_new/cat_page_song_book/add_pers_email_resolver.dart';
 import 'package:harcapp/_new/cat_page_song_book/settings/song_book_base_settings.dart';
 import 'package:harcapp/_new/cat_page_song_book/settings/song_book_settings.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -26,6 +27,7 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core_own_song/song_raw.dart';
+import 'package:harcapp_core_song_widget/add_pers_resolver.dart';
 import 'package:harcapp_core_song_widget/providers.dart';
 import 'package:harcapp_core_song_widget/song_rate.dart';
 import 'package:harcapp_core_song_widget/song_widget_template.dart';
@@ -100,7 +102,7 @@ class SongWidget extends StatelessWidget{
       }):super(key: ValueKey(song));
 
   @override
-  Widget build(BuildContext context) => SongWidgetTemplate<Song>(
+  Widget build(BuildContext context) => SongWidgetTemplate<Song, AddPersEmailResolver>(
     song,
     SongBookBaseSetting(),
     physics: physics,
@@ -286,7 +288,7 @@ class SongWidget extends StatelessWidget{
           song: songRaw,
           onSaved: (Song song, EditType editType) async {
 
-            if(editType == EditType.EDIT_OWN)
+            if(editType == EditType.editOwn)
               prov.value = prov.calculate(MediaQuery.of(context).size.width, song);
 
             parent.notify();
@@ -378,5 +380,7 @@ class SongWidget extends StatelessWidget{
         }
     ),
     accentColor: Album.current.avgColor,
+
+    addPersResolver: AddPersEmailResolver(),
   );
 }

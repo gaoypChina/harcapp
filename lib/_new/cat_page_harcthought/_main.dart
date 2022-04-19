@@ -59,8 +59,10 @@ class CatPageHarcThought extends StatefulWidget{
 class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProviderStateMixin, AfterLayoutMixin{
 
   @override
-  void afterFirstLayout(BuildContext context) =>
-    post(() => Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackHarcthought());
+  void afterFirstLayout(BuildContext context){
+    if(!mounted) return;
+    Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackHarcthought();
+  }
 
   ScrollController controller;
   TabController tabController;

@@ -109,7 +109,8 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
   @override
   String get computerName => 'SongLoader';
 
-  Future<bool> perform() async {
+  @override
+  Future<void> perform() async {
 
     List<Album> allAlbums = [];
     Map<String, Album> allAlbumsMap = {};
@@ -122,7 +123,8 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
     String allSongsCode = await readStringFromAssets('assets/songs/all_songs.hrcpsng');
 
     convertSongToVer2();
-    await convertSong_2_8_2_to_3_0_0();
+    convertSong_2_8_2_to_3_0_0();
+    convertSong_3_1_8_to_3_1_9();
 
     String ownSongsCode;
     try {
@@ -204,8 +206,6 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
     currAlbum ??= Album.omega;
 
     Album.current = currAlbum;
-
-    return true;
   }
 
   void convertSongToVer2(){
@@ -266,6 +266,43 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
     saveStringAsFile(getOwnSongFilePath, ownSongString);
 
     shaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW_2, true);
+  }
+
+  void convertSong_3_1_8_to_3_1_9() async {
+
+    //if(shaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW_3, false))
+    //  return;
+
+    File ownSongFile = File(getOwnSongFilePath);
+
+    String ownSongString = ownSongFile.readAsStringSync();
+
+    Map ownSongData = jsonDecode(ownSongString);
+
+    for(String lclId in ownSongData.keys){
+
+      Map songData = ownSongData[lclId];
+      List<String> addPers = songData["add_pers"];
+
+      List<Map> addPersList = [];
+      if(addPers != null)
+        for(String name in addPers)
+          addPersList.add({
+            "name": name,
+            "email_ref": null,
+            "user_key_ref": null,
+          });
+
+      songData["add_pers"] = addPersList;
+      ownSongData[lclId] = songData;
+
+    }
+
+    ownSongString = jsonEncode(ownSongData);
+
+    saveStringAsFile(getOwnSongFilePath, ownSongString);
+
+    shaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW_3, true);
   }
 
 }

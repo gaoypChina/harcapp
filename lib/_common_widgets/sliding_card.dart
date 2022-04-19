@@ -23,9 +23,9 @@ class SlidingPageView extends StatelessWidget{
     @required this.itemCount,
     @required this.controller,
     @required this.notifier,
-    this.grow: false,
-    this.scrollDirection:Axis.horizontal,
-    this.extents: 1,
+    this.grow = false,
+    this.scrollDirection = Axis.horizontal,
+    this.extents = 1,
     this.onPageChanged,
     this.physics,
   }):super(key: key);
@@ -36,9 +36,9 @@ class SlidingPageView extends StatelessWidget{
     @required int itemCount,
     PageController controller,
     ValueNotifier<double> notifier,
-    bool grow: false,
-    Axis scrollDirection:Axis.horizontal,
-    int extents: 1,
+    bool grow = false,
+    Axis scrollDirection =Axis.horizontal,
+    int extents = 1,
     Function(int) onPageChanged,
     ScrollPhysics physics,
   }) => SlidingPageView(
@@ -80,31 +80,24 @@ class SlidingPageView extends StatelessWidget{
   }
 }
 
-class SlideElement{
-  final int index;
-  const SlideElement(this.index);
-}
-
 class SizeContainer extends StatelessWidget{
 
   final int index;
   final Widget child;
   final ValueNotifier notifier;
 
-  const SizeContainer({@required this.index, @required this.child, @required this.notifier});
+  const SizeContainer({@required this.index, @required this.child, @required this.notifier, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     return AnimatedBuilder(
       animation: notifier,
-      builder: (context, _) {
-        double offset = index - notifier.value;
-        return Transform.scale(
-          scale: cos(offset/2.0),
+      child: child,
+      builder: (context, child) => Transform.scale(
+          scale: cos((index - notifier.value)/1.8),
           child: child
-        );
-      },
+      )
     );
   }
 }
@@ -118,8 +111,8 @@ class SlidingCard extends StatelessWidget{
 
   const SlidingCard({
     this.child,
-    this.padding: const EdgeInsets.all(0),
-    this.color:Colors.transparent,
+    this.padding = const EdgeInsets.all(0),
+    this.color =Colors.transparent,
     this.onTap,
   });
 

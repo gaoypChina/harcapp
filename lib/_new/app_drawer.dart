@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_common_classes/blur.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/auto_rotate.dart';
@@ -28,48 +29,50 @@ const account = true;
 class AppDrawer extends StatelessWidget{
 
   final Widget body;
+  final Color backgroundColor;
 
-  const AppDrawer({@required this.body, Key key}):super(key: key);
+  const AppDrawer({@required this.body, this.backgroundColor, Key key}):super(key: key);
 
   @override
   Widget build(BuildContext context) => Drawer(
-      child: SafeArea(
-          child: Stack(
+    backgroundColor: backgroundColor??background_(context),
+    child: SafeArea(
+      child: Stack(
+        children: [
+
+          Positioned(
+              bottom: -60,
+              right: -60,
+              child: Hero(
+                tag: harcAppBigRotatLogoHero,
+                child: RotationTransition(
+                    turns: const AlwaysStoppedAnimation(-45 / 360),
+                    child: SvgPicture.asset(
+                      'assets/images/harcapp_logo.svg',
+                      width: 360,
+                      height: 360,
+                      color: backgroundIcon_(context),
+                    )
+                ),
+              )
+          ),
+
+          Column(
             children: [
 
-              Positioned(
-                  bottom: -60,
-                  right: -60,
-                  child: Hero(
-                    tag: harcAppBigRotatLogoHero,
-                    child: RotationTransition(
-                        turns: const AlwaysStoppedAnimation(-45 / 360),
-                        child: SvgPicture.asset(
-                          'assets/images/harcapp_logo.svg',
-                          width: 360,
-                          height: 360,
-                          color: backgroundIcon_(context),
-                        )
-                    ),
-                  )
-              ),
+              const AccountHeader(),
 
-              Column(
-                children: [
-
-                  const AccountHeader(),
-
-                  Expanded(
-                    child: Consumer<DrawerProvider>(
-                      builder: (context, prov, child) => body,
-                    ),
-                  )
-                ],
+              Expanded(
+                child: Consumer<DrawerProvider>(
+                  builder: (context, prov, child) => body,
+                ),
               )
-
             ],
           )
-      )
+
+        ],
+      ),
+    )
   );
 }
 

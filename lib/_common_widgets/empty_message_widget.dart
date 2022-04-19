@@ -8,31 +8,36 @@ class EmptyMessageWidget extends StatelessWidget{
   final String text;
   final IconData icon;
   final Color color;
+  final double size;
 
-  const EmptyMessageWidget({@required this.text, @required this.icon, this.color});
+  const EmptyMessageWidget({
+    @required this.text,
+    @required this.icon,
+    this.color,
+    this.size = Dimen.ICON_EMPTY_INFO_SIZE,
+    Key key
+  }): super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
+  Widget build(BuildContext context) => Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisSize: MainAxisSize.min,
+    children: [
 
-        Icon(icon, color: color??hintEnab_(context), size: Dimen.ICON_EMPTY_INFO_SIZE),
-        SizedBox(height: Dimen.ICON_MARG),
-        Text(
-          text,
-          style: AppTextStyle(
-              color: color??hintEnab_(context),
-              fontSize: Dimen.TEXT_SIZE_APPBAR,
-              fontWeight: weight.bold
-          ),
-          textAlign: TextAlign.center,
-          overflow: TextOverflow.ellipsis,
+      Icon(icon, color: color??hintEnab_(context), size: size),
+      SizedBox(height: .1*size),
+      Text(
+        text,
+        style: AppTextStyle(
+            color: color??hintEnab_(context),
+            fontSize: (Dimen.TEXT_SIZE_BIG/Dimen.ICON_EMPTY_INFO_SIZE)*size,
+            fontWeight: weight.bold
         ),
+        textAlign: TextAlign.center,
+        overflow: TextOverflow.ellipsis,
+      ),
 
-      ],
-    );
-  }
+    ],
+  );
 
 }

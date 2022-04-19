@@ -283,6 +283,12 @@ class ApiSync{
           }
 
           logger.i('Sync get response received:'
+              '\nOrgData:'
+              '\n${prettyJson(orgData)}'
+              '\nAppSettings:'
+              '\n${prettyJson(appSettingsData)}'
+              '\nSongBookSettings'
+              '\n${prettyJson(songBookSettingsData)}'
               '\nOffSongs:'
               '\n${prettyJson(offSongs)}'
               '\nOwnSongs:'
