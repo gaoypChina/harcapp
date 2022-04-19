@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/cat_page_strefa_ducha/source.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -11,12 +16,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import 'image_card.dart';
 import 'image_loader.dart';
-
-enum LoadingState{
-  loading,
-  success,
-  failed,
-}
 
 class ImageCardDownloadable extends StatefulWidget{
 
@@ -53,27 +52,54 @@ class ImageCardDownloadableState extends State<ImageCardDownloadable>{
   void Function() get onLike => widget.onLike;
   void Function() get onLongPress => widget.onLongPress;
 
-  LoadingState state;
   Image image;
-  bool error;
 
-  Future<void> loadImage() => ImageLoader.loadImage(
-      item,
-      onComplete: (Image image, bool cached){
-        if(mounted) setState(() => this.image = image);
-        onLoaded(image.image, index);
-      },
-      onError: (){
-        if(mounted) setState(() => error = true);
-        onLoaded(null, index);
-      }
-  );
+  StreamSubscription<ConnectivityResult> subscription;
+
+  bool error;
+  bool noNet;
+
+  Future<void> loadImage() async {
+    noNet = !await isNetworkAvailable();
+    if(noNet && !item.cachedFile.existsSync())
+      setState(() {});
+    else
+      ImageLoader.loadImage(
+          item,
+          onComplete: (Image image, bool cached){
+            if(mounted) setState(() => this.image = image);
+            onLoaded(image.image, index);
+          },
+          onError: () async {
+            if(await isNetworkAvailable())
+              if(mounted) setState(() => error = true);
+              else
+              if(mounted) setState(() => noNet = true);
+
+            onLoaded(null, index);
+          }
+      );
+  }
 
   @override
   void initState() {
     error = false;
+    noNet = false;
     loadImage();
+
+    subscription = addConnectionListener((hasConnection) async{
+      if(image != null) return;
+      if(hasConnection) loadImage();
+      else setState(() => noNet = true);
+    });
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -86,7 +112,22 @@ class ImageCardDownloadableState extends State<ImageCardDownloadable>{
           loadImage();
         },
       );
-    
+
+    if(noNet)
+      return ImageCard(
+        ImageLoader.noInternetImage,
+        pageViewNotifier: pageViewNotifier,
+        index: index,
+        onTap: ()async{
+          noNet = !await isNetworkAvailable();
+          if(noNet) showAppToast(context, text: 'Brak internetu');
+          else{
+            setState(() => noNet = false);
+            loadImage();
+          }
+        },
+      );
+
     if(image == null)
       return const _LoadingCard();
     

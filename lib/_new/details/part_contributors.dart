@@ -57,6 +57,9 @@ class PartContributors extends StatelessWidget{
     WANDA_MARCHEL,
     DOMINIKA_HOCHMANSKA,
     MALGORZATA_KLOC,
+    MARYSIA_SLUGAJ,
+    ANTONINA_SZTYGLIC,
+    ZUZANNA_KOLIS,
 
     PIOTR_ZIEMBIKIEWICZ,
     KRZYSZTOF_KRAWCZYK,
@@ -96,7 +99,9 @@ class PartContributors extends StatelessWidget{
     KRZSZTOF_MALIKIEWICZ,
     PAWEL_MARUD,
     KAJETAN_WYGNANSKI,
-
+    KACPER_TOMCZYK,
+    JAN_KUCZA,
+    KACPER_KOZLUK,
   ];
 
   static const List<Person> osWspierTest = [

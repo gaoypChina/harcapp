@@ -631,7 +631,8 @@ class _CardWidgetState extends State<_CardWidget>{
                           onLoaded: (ImageProvider image, int index){
                             if(!mounted) return;
                             image ??= ImageLoader.noInternetImage;
-                            post(() => Provider.of<FadeImageProvider>(context, listen: false).newImage(image, index, reload: true));
+                            FadeImageProvider fadeImgProv = Provider.of<FadeImageProvider>(context, listen: false);
+                            post(() => fadeImgProv.newImage(image, index, reload: true));
                           },
                           onLike: (){
                             if(sourceItem.isFavorite)
