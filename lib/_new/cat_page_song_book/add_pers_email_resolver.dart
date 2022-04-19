@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/logger.dart';
 import 'package:harcapp/values/people.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -14,15 +15,20 @@ class AddPersEmailResolver extends AddPersResolver{
 
   @override
   Widget build(BuildContext context, AddPerson data){
-    if(data.emailRef != null)
+    if(data.emailRef != null) {
+      if(allPeopleMap[data.emailRef] == null){
+        logger.e('No Person found for email "${data.emailRef}"');
+        return Container();
+      }
       return PersonCard(
           allPeopleMap[data.emailRef],
-          textSize: textSize??Dimen.TEXT_SIZE_NORMAL,
-          textColor: textColor??hintEnab_(context)
+          textSize: textSize ?? Dimen.TEXT_SIZE_NORMAL,
+          textColor: textColor ?? hintEnab_(context)
       );
-    else if(data.name != null)
+    }else if(data.name != null)
       return AddPersSimpleResolver(textSize: textSize, textColor: textColor).build(context, data);
 
+    logger.e('All null addPers found. Use null instead.');
     return Container();
   }
 

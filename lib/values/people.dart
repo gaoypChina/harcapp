@@ -42,6 +42,7 @@ List<Person> allPeople = [
   JAKUB_SKUCHA,
   JAKUB_STEFANSKI,
   JAKUB_ZDANOWICZ_ZASIDKO,
+  JAN_KUCZA,
   JAROSLAW_JAKUBIAK,
   JAROSLAW_ZASACKI,
   JOANNA_MICHALOWSKA,
@@ -371,7 +372,7 @@ const Person MARYSIA_SLUGAJ = Person(
   name: 'Marysia Ślugaj',
   stop_h: StopZHP.HOd,
   hufiec: huf_zhp_wrzesnia_wrzos,
-  druzyna: '77 Wrzesińska Drużyna Wędrownicza ,,Huragan"',
+  druzyna: '77 Wrzesińska Drużyna Wędrownicza "Huragan"',
   email: 'nutkiq@gmail.com'
 );
 const Person MATEUSZ_CIAGLO = Person(name: 'Mateusz Ciągło', stop_h: StopZHP.dhc);

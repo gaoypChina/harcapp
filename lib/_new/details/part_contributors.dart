@@ -98,7 +98,6 @@ class PartContributors extends StatelessWidget{
     WOJCIECH_WOLNIK,
     KRZSZTOF_MALIKIEWICZ,
     PAWEL_MARUD,
-    KAJETAN_WYGNANSKI,
     KACPER_TOMCZYK,
     JAN_KUCZA,
     KACPER_KOZLUK,

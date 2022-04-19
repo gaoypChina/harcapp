@@ -23,6 +23,9 @@ class SongContributorsPage extends StatelessWidget{
 
     Map<AddPerson, int> map = {};
     for(OffSong song in OffSong.allOfficial){
+      if(song.addPers == null)
+        continue;
+
       for(AddPerson addPers in song.addPers)
         if(map.containsKey(addPers))
           map[addPers] += 1;
@@ -39,7 +42,7 @@ class SongContributorsPage extends StatelessWidget{
         slivers: [
 
           const SliverAppBar(
-            title: Text('Ranking dodanych piosenek'),
+            title: Text('Ranking dodanych pieśni'),
             centerTitle: true,
             floating: true,
           ),
