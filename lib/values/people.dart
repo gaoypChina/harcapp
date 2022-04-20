@@ -30,6 +30,7 @@ List<Person> allPeople = [
   FILIP_KWIATKOWSKI,
   FILIP_SOCHAJ,
   FILIP_SWIDEREK,
+  FRANCISZEK_LINKE,
   FRANCISZEK_TOMASZCZYK,
   GRZEGORZ_BOROWIEC,
   GRZEGORZ_ZAWADZKI,
@@ -195,6 +196,12 @@ const Person FILIP_BERGIER = Person(
 const Person FILIP_KWIATKOWSKI = Person(name: 'Filip Kwiatkowski', stop_h: StopZHP.dhc, org: Org.zhp);
 const Person FILIP_SOCHAJ = Person(name: 'Filip Sochaj');
 const Person FILIP_SWIDEREK = Person(name: 'Filip Świderek');
+const Person FRANCISZEK_LINKE = Person(
+  name: 'pwd. Franciszek Linke',
+  stop_i: 'pwd.',
+  org: Org.zhp,
+  email: 'franciszek.linke@zhp.net.pl'
+);
 const Person FRANCISZEK_TOMASZCZYK = Person(
   name: 'Franciszek Tomaszczyk',
   stop_h: StopZHP.wyw, hufiec: huf_zhp_ziemi_cieszynskiej,

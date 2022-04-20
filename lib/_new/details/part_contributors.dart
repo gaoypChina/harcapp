@@ -142,7 +142,8 @@ class PartContributors extends StatelessWidget{
     MAXIMILIAN_STEINHOFF,
     ZUZANNA_JAWORSKA,
     Person(name: 'Josef Balvín', hufiec: 'Junák - český skaut',),
-    Person(name: 'Wiktoria Hernik', hufiec: 'Hufiec ZHP Kraków - Nowa Huta', stop_i: 'phm.', org: Org.zhp,)
+    Person(name: 'Wiktoria Hernik', hufiec: 'Hufiec ZHP Kraków - Nowa Huta', stop_i: 'phm.', org: Org.zhp),
+    FRANCISZEK_LINKE
   ];
 
   static const List<Person> osWspierKuch = [

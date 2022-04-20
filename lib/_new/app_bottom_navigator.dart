@@ -39,7 +39,7 @@ class AppBottomNavigatorProvider extends ChangeNotifier{
 
 class AppBottomNavigator extends StatelessWidget{
 
-  static const int HOME = 0;
+  static const int HOME = account?0:999;
   //static const int MAP = 1;
   static const int SONGBOOK = account?1:0;
   static const int GUIDEBOOK = account?2:1;

@@ -145,6 +145,6 @@ class Searcher<TInItem, TOutItem, TOpt extends SearchOptions>{
     outPort.send(Tuple2(currRunId, phrase));
   }
 
-  void dispose() => isolate.kill();//await task?.cancel();
+  void dispose() => isolate?.kill();//await task?.cancel();
 
 }
