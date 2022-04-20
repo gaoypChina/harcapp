@@ -52,7 +52,7 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
     lang1 = Lang.pol;
     lang2 = Lang.eng;
     controller = TextEditingController();
-    _items = sortFilterItems(ALL_WORDS_DATA);
+    _items = sortFilterItems(allWordsData);
 
     keyboardVisibilityController = KeyboardVisibilityController();
     keyboardVisibilityController.onChange.listen((bool visible){
@@ -194,7 +194,7 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
 
   List<TransData> getItems(){
 
-    List<TransData> allItems = sortFilterItems(ALL_WORDS_DATA);
+    List<TransData> allItems = sortFilterItems(allWordsData);
     if(controller.text.isEmpty) return allItems;
 
     List<TransData> resultItems = [];

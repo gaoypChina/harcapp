@@ -1,4 +1,4 @@
-enum Lang{pol, mug, eng, ger, esp, ita, cze, nor}
+enum Lang{pol, mug, eng, ger, esp, ita, cze, nor, ned}
 
 Map<Lang, String> langName = {
   Lang.pol:'Polski',
@@ -8,7 +8,8 @@ Map<Lang, String> langName = {
   Lang.esp:'Hiszpański',
   Lang.ita:'Włoski',
   Lang.cze:'Czeski',
-  Lang.nor:'Norweski'
+  Lang.nor:'Norweski',
+  Lang.ned:'Niderlandzki'
 };
 
 Map<Lang, String> langAbbr = {
@@ -19,5 +20,6 @@ Map<Lang, String> langAbbr = {
   Lang.esp:'ESP',
   Lang.ita:'ITA',
   Lang.cze:'CZE',
-  Lang.nor:'NOR'
+  Lang.nor:'NOR',
+  Lang.ned:'NED'
 };
