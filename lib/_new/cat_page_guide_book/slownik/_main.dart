@@ -338,6 +338,7 @@ class LangsPickerState extends State<LangsPicker>{
               LangButton(Lang.ita, langFrom == Lang.ita, onTap: (){setState(() => langFrom = Lang.ita); onChanged();}),
               LangButton(Lang.cze, langFrom == Lang.cze, onTap: (){setState(() => langFrom = Lang.cze); onChanged();}),
               LangButton(Lang.nor, langFrom == Lang.nor, onTap: (){setState(() => langFrom = Lang.nor); onChanged();}),
+              LangButton(Lang.ned, langFrom == Lang.ned, onTap: (){setState(() => langFrom = Lang.ned); onChanged();}),
             ],
           ),
         ),
@@ -364,6 +365,7 @@ class LangsPickerState extends State<LangsPicker>{
               LangButton(Lang.ita, langTo == Lang.ita, onTap: (){setState(() => langTo = Lang.ita); onChanged();}),
               LangButton(Lang.cze, langTo == Lang.cze, onTap: (){setState(() => langTo = Lang.cze); onChanged();}),
               LangButton(Lang.nor, langTo == Lang.nor, onTap: (){setState(() => langTo = Lang.nor); onChanged();}),
+              LangButton(Lang.ned, langTo == Lang.ned, onTap: (){setState(() => langTo = Lang.ned); onChanged();}),
             ],
           ),
         )
