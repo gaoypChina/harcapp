@@ -37,105 +37,90 @@ class SprawTileWidgetState extends State<SprawTileWidget>{
   String get level => spraw.level;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Stack(
+    children: [
 
-    return SimpleButton(
-      clipBehavior: Clip.hardEdge,
-      padding: EdgeInsets.zero,
-      radius: AppCard.BIG_RADIUS,
-      child: Stack(
-        children: [
-
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: Dimen.LIST_TILE_SEPARATOR + Dimen.ICON_FOOTPRINT),
-                child: LevelWidget(spraw, size: 16.0),
-              ),
-              ListTile(
-                title: Text(
-                    title,
-                    style: AppTextStyle(
-                        fontSize: Dimen.TEXT_SIZE_BIG,
-                        fontWeight: weight.halfBold,
-                        color: textEnab_(context)
-                    )
-                ),
-                leading: SizedBox(
-                  width: Dimen.ICON_FOOTPRINT,
-                  child: SprawIcon(
-                      spraw,
-                      size: SprawIcon.sizeSmall
-                  ),
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-
-                    Consumer<CurrentSprawGroupProvider>(
-                      builder: (context, prov, child){
-                        if(spraw.inProgress)
-                          return Text(
-                            '${spraw.completenessPercent}%',
-                            style: AppTextStyle(
-                                fontSize: Dimen.TEXT_SIZE_APPBAR,
-                                fontWeight: weight.halfBold,
-                                color: hintEnab_(context)
-                            ),
-                          );
-
-                        return Container();
-                      },
-                    ),
-
-                    SizedBox(width: 2*Dimen.ICON_MARG),
-
-                    Consumer<CurrentSprawGroupProvider>(
-                      builder: (context, prov, child) => SprawBookmarkWidget(
-                          spraw,
-                          onSavedChaned: (saved){
-                            setState((){});
-                          }
-                      ),
-                    ),
-
-                  ],
-                ),
-              )
-            ],
+      ListTile(
+        onTap: () => widget.onPicked(spraw),
+        title: Text(
+            title,
+            style: AppTextStyle(
+                fontSize: Dimen.TEXT_SIZE_BIG,
+                fontWeight: weight.halfBold,
+                color: textEnab_(context)
+            )
+        ),
+        subtitle: LevelWidget(spraw, size: 16.0),
+        leading: SizedBox(
+          width: Dimen.ICON_FOOTPRINT,
+          child: SprawIcon(
+              spraw,
+              size: SprawIcon.sizeSmall
           ),
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
 
-          Consumer<CurrentSprawGroupProvider>(
-              builder: (context, prov, child) {
+            Consumer<CurrentSprawGroupProvider>(
+              builder: (context, prov, child){
+                if(spraw.inProgress)
+                  return Text(
+                    '${spraw.completenessPercent}%',
+                    style: AppTextStyle(
+                        fontSize: Dimen.TEXT_SIZE_APPBAR,
+                        fontWeight: weight.halfBold,
+                        color: hintEnab_(context)
+                    ),
+                  );
 
-                if(spraw.completed)
-                  return Positioned(
-                    top: -16,
-                    right: 0,
+                return Container();
+              },
+            ),
+
+            const SizedBox(width: 2*Dimen.ICON_MARG),
+
+            Consumer<CurrentSprawGroupProvider>(
+              builder: (context, prov, child) => SprawBookmarkWidget(
+                  spraw,
+                  onSavedChaned: (saved){
+                    setState((){});
+                  }
+              ),
+            ),
+
+          ],
+        ),
+      ),
+
+      Consumer<CurrentSprawGroupProvider>(
+          builder: (context, prov, child) {
+
+            if(spraw.completed)
+              return Positioned(
+                  top: -16,
+                  right: 0,
+                  child: IgnorePointer(
                     child: RotationTransition(
-                      turns: AlwaysStoppedAnimation(15 / 360),
+                      turns: const AlwaysStoppedAnimation(15 / 360),
                       child: Icon(
                         completeIcon,
                         color: backgroundIcon_(context),
                         size: 100.0,
                       ),
                     ),
-                  );
+                  )
+              );
 
-                return Container();
+            return Container();
 
-              }
-          ),
-
-
-
-        ],
+          }
       ),
-      onTap: () => widget.onPicked(spraw),
-    );
 
-  }
+
+
+    ],
+  );
 
   IconData get completeIcon{
     switch(level){

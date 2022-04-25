@@ -51,8 +51,9 @@ class MemoryWidgetState extends State<MemoryWidget> {
         style: TextStyle(
             color: iconEnab_(context),
             fontFamily: '${Memory.fontName}${fontIndex??memory.fontIndex}',
-            fontSize: Dimen.TEXT_SIZE_BIG*Memory.fontSizeRatioMap[fontIndex??memory.fontIndex]
-        )
+            fontSize: Dimen.TEXT_SIZE_BIG*Memory.fontSizeRatioMap[fontIndex??memory.fontIndex],
+        ),
+        textAlign: TextAlign.end,
     );
 
     Widget textDesc = Text(
@@ -93,6 +94,9 @@ class MemoryWidgetState extends State<MemoryWidget> {
                     ):textDate,
 
                     if(memory.place.isNotEmpty)
+                      const SizedBox(height: 4.0),
+
+                    if(memory.place.isNotEmpty)
                       widget.withHero?Hero(
                           tag: MemoryWidget.memoryPlaceHeroTagFrom(memory.fileName),
                           child: Material(
@@ -102,7 +106,7 @@ class MemoryWidgetState extends State<MemoryWidget> {
                       ):textPlace,
 
                     if(memory.desc.isNotEmpty)
-                      const SizedBox(height: 10.0),
+                      const SizedBox(height: 4.0),
 
                     if(memory.desc.isNotEmpty)
                       Padding(

@@ -251,9 +251,8 @@ class TabOfContState extends State<TabOfCont>{
                           SliverList(
                             delegate: SliverChildBuilderDelegate((context, index) => Padding(
                                 padding: const EdgeInsets.only(bottom: Dimen.DEF_MARG),
-                                child: TabOfContItem(
+                                child: SongTile(
                                   prov.currSongs[index],
-                                  index,
                                   key: prov.globalKeys[index],
                                   onTap: onItemTap==null?null:(song) => onItemTap(song, index),
                                   leading: itemLeadingBuilder==null?null:itemLeadingBuilder(prov.currSongs[index], prov.globalKeys[index]),
@@ -454,86 +453,81 @@ class _SearchTextFieldCard extends StatelessWidget{
 }
 
 
-class TabOfContItem extends StatelessWidget{
+class SongTile extends StatelessWidget{
 
   final Song song;
-  final int position;
   final Widget leading;
   final Widget trailing;
   final Function(Song) onTap;
 
-  const TabOfContItem(this.song, this.position, {this.leading, this.trailing, this.onTap, Key key}): super(key: key);
+  const SongTile(this.song, {this.leading, this.trailing, this.onTap, Key key}): super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-
-    return ListTile(
-      //dense: true,
+  Widget build(BuildContext context) => ListTile(
       contentPadding: const EdgeInsets.only(left: 10.0, top: 2.0, bottom: 2.0),
-      onTap: () => onTap?.call(song),
+      onTap: onTap == null?null:() => onTap(song),
       leading: leading,
       trailing: trailing,
       title: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
 
           if(!song.isOfficial)
             Icon(MdiIcons.pencil, size: Dimen.TEXT_SIZE_NORMAL, color: hintEnab_(context)),
 
           if(!song.isOfficial)
-            const SizedBox(width: Dimen.DEF_MARG,),
+            const SizedBox(width: Dimen.DEF_MARG),
 
           Expanded(
             child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                scrollDirection: Axis.horizontal,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
 
-                  Text(
-                    '${song.title} ',
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTextStyle(
-                        fontWeight: weight.halfBold,
-                        color: textEnab_(context),
-                        fontSize: Dimen.TEXT_SIZE_NORMAL
-                    ),
-                  ),
-
-                  if(song.performers.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 6),
-                      child: Text(song.performersStr,
-                          style: AppTextStyle(
-                              fontWeight: weight.halfBold,
-                              fontSize: Dimen.TEXT_SIZE_TINY,
-                              color: hintEnab_(context)
-                          ),
-                          maxLines: 1
+                    Text(
+                      '${song.title} ',
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTextStyle(
+                          fontWeight: weight.halfBold,
+                          color: textEnab_(context),
+                          fontSize: Dimen.TEXT_SIZE_NORMAL
                       ),
-                    )
+                    ),
 
-                ],
-              ),
-            )
+                    if(song.performers.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 6),
+                        child: Text(song.performersStr,
+                            style: AppTextStyle(
+                                fontWeight: weight.halfBold,
+                                fontSize: Dimen.TEXT_SIZE_TINY,
+                                color: hintEnab_(context)
+                            ),
+                            maxLines: 1
+                        ),
+                      )
+
+                  ],
+                ),
+              )
           )
-
 
         ],
       ),
       subtitle: Padding(
         padding: const EdgeInsets.only(top: 6),
         child: Text(song.tagsAsString,
-            style: AppTextStyle(
-                fontSize: Dimen.TEXT_SIZE_TINY,
-                fontWeight: weight.halfBold,
-                color: hintEnab_(context)
-            ),
-            maxLines: 1
+          style: AppTextStyle(
+            fontSize: Dimen.TEXT_SIZE_TINY,
+            fontWeight: weight.halfBold,
+            color: hintEnab_(context)
+          ),
+          maxLines: 1
         ),
       )
-    );
-
-  }
+  );
 }
 
 class BottomSheetOptions extends StatefulWidget{
@@ -574,45 +568,43 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
   }
 
   @override
-  Widget build(BuildContext context) {
-    return BottomSheetDef(
-      childMargin: const EdgeInsets.all(Dimen.DEF_MARG/2),
-      title: 'Opcje wyszukiwania',
-      builder: (context) =>
-      Column(
-        children: <Widget>[
+  Widget build(BuildContext context) => BottomSheetDef(
+    childMargin: const EdgeInsets.all(Dimen.DEF_MARG/2),
+    title: 'Opcje wyszukiwania',
+    builder: (context) =>
+        Column(
+          children: <Widget>[
 
-          const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
+            const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
 
-          Row(
-            children: <Widget>[
-              Expanded(child: RateCheckButton(SongRate.TEXT_DISLIKE, SongRate.RATE_DISLIKE, searchOptions, onTap: (_, __) => onChanged())),
-              Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_1, SongRate.RATE_LIKE_1, searchOptions, onTap: (_, __) => onChanged())),
-              Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_2, SongRate.RATE_LIKE_2, searchOptions, onTap: (_, __) => onChanged())),
-              Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_3, SongRate.RATE_LIKE_3, searchOptions, onTap: (_, __) => onChanged())),
-              Expanded(child: RateCheckButton(SongRate.TEXT_BOOKMARK, SongRate.RATE_BOOKMARK, searchOptions, onTap: (_, __) => onChanged())),
-            ],
-          ),
+            Row(
+              children: <Widget>[
+                Expanded(child: RateCheckButton(SongRate.TEXT_DISLIKE, SongRate.RATE_DISLIKE, searchOptions, onTap: (_, __) => onChanged())),
+                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_1, SongRate.RATE_LIKE_1, searchOptions, onTap: (_, __) => onChanged())),
+                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_2, SongRate.RATE_LIKE_2, searchOptions, onTap: (_, __) => onChanged())),
+                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_3, SongRate.RATE_LIKE_3, searchOptions, onTap: (_, __) => onChanged())),
+                Expanded(child: RateCheckButton(SongRate.TEXT_BOOKMARK, SongRate.RATE_BOOKMARK, searchOptions, onTap: (_, __) => onChanged())),
+              ],
+            ),
 
-          const SizedBox(height: 2*Dimen.BOTTOM_SHEET_MARG),
+            const SizedBox(height: 2*Dimen.BOTTOM_SHEET_MARG),
 
-          TagLayout.wrap(
-            allTags: Tag.ALL_TAG_NAMES,
-            onTagTap: (String tag, bool checked){
-              if(checked) searchOptions.checkedTags.remove(tag);
-              else searchOptions.checkedTags.add(tag);
-              setState((){});
-              onChanged?.call();
-            },
-            checkedTags: searchOptions.checkedTags,
-          ),
+            TagLayout.wrap(
+              allTags: Tag.ALL_TAG_NAMES,
+              onTagTap: (String tag, bool checked){
+                if(checked) searchOptions.checkedTags.remove(tag);
+                else searchOptions.checkedTags.add(tag);
+                setState((){});
+                onChanged?.call();
+              },
+              checkedTags: searchOptions.checkedTags,
+            ),
 
-          const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
+            const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
 
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+  );
 
 }
 
@@ -646,19 +638,17 @@ class RateCheckButtonState extends State<RateCheckButton>{
   void Function(int rate, bool selected) get onTap => widget.onTap;
 
   @override
-  Widget build(BuildContext context) {
-    return RateButton(
-        text,
-        RateIcon.build(context, rate),
-        rate, searchOptions.checkedRates.contains(rate),
-        onTap: (rate, selected){
-          setState(() => selected?searchOptions.checkedRates.remove(rate):searchOptions.checkedRates.add(rate));
-          if(onTap != null) onTap(rate, selected);
-          //parentState.notify();
+  Widget build(BuildContext context) => RateButton(
+      text,
+      RateIcon.build(context, rate),
+      rate, searchOptions.checkedRates.contains(rate),
+      onTap: (rate, selected){
+        setState(() => selected?searchOptions.checkedRates.remove(rate):searchOptions.checkedRates.add(rate));
+        if(onTap != null) onTap(rate, selected);
+        //parentState.notify();
       },
       glow: false
-    );
-  }
+  );
 
 }
 

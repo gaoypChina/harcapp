@@ -139,7 +139,7 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
           sliver: SliverList(
             delegate: SliverChildListDelegate([
 
-              _SprawnosciWidget(),
+              _SprawnosciPreviewWidget(),
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
@@ -368,7 +368,7 @@ class _ItemWidget extends StatelessWidget{
 }
 
 
-class _SprawnosciWidget extends StatelessWidget{
+class _SprawnosciPreviewWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => Column(

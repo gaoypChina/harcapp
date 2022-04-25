@@ -61,25 +61,20 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
 
     List<Widget> children = [];
 
-    for(Memory memory in song.memories)
+    for(Memory memory in song.memories) {
       children.add(
           Padding(
             padding: const EdgeInsets.all(Dimen.DEF_MARG),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 32),
-                  MemoryWidget(
-                      memory,
-                      onTap: onEditMemoryTap,
-                      onLongPress: onEditMemoryLongPress==null ? null:
-                          () => onEditMemoryLongPress(memory)
-                  ),
-                ]
+            child: MemoryWidget(
+                memory,
+                onTap: onEditMemoryTap,
+                onLongPress: onEditMemoryLongPress == null ? null :
+                    () => onEditMemoryLongPress(memory)
             ),
           )
       );
-
+      //children.add(const SizedBox(height: 6));
+    }
     return Column(
       children: [
 
@@ -104,10 +99,6 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
                         fontSize: Dimen.TEXT_SIZE_BIG,
                         fontWeight: weight.halfBold
                       )
-
-                      /*Memory.get(context, fontIndex).copyWith(
-                        fontSize: Dimen.TEXT_SIZE_BIG*Memory.FONT_SIZE_RATIO_MAP[fontIndex],
-                      )*/
                   ),
                 ],
               ),

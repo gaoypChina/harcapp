@@ -102,6 +102,8 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumResp>, RemoveSyncItem
   );
 
   Color get avgColor => CommonColorData.ALL[colorsKey].avgColor;
+  Color get colorStart => CommonColorData.ALL[colorsKey].colorStart;
+  Color get colorEnd => CommonColorData.ALL[colorsKey].colorEnd;
   Color avgColorDarkSensitive(BuildContext context) => Provider.of<ColorPackProvider>(context, listen: false).isDark()?Colors.white:avgColor;
 
   Color get iconColor => CommonColorData.ALL[colorsKey].iconColor;

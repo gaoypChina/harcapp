@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_common_widgets/extended_floating_button.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../song_management/album.dart';
 import '../song_management/memory.dart';
 import 'memory_widget.dart';
 
@@ -43,28 +43,32 @@ class MemoryEditorWidget extends StatefulWidget{
 
 class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProviderStateMixin{
 
+  static const Duration _animDuration = Duration(milliseconds: 300);
+  static const Curve _animCurve = Curves.easeOutCubic;
+
   Song get song => widget.song;
   Memory get initMemory => widget.initMemory;
 
   MemoryBuilder memoryBuilder;
 
-  int index;
+  PageController controller;
 
   @override
   void initState() {
-    index = 0;
+    controller = PageController();
     if(initMemory == null) memoryBuilder = MemoryBuilder.empty(song);
     else memoryBuilder = MemoryBuilder.from(initMemory);
     super.initState();
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) => BottomNavScaffold(
-    appBar: AppBar(
-      title: Text(widget.initMemory==null?'Dodaj wspomnienie':'Edytuj wspomnienie'),
-      centerTitle: true,
-      elevation: 0,
-    ),
     body: Stack(
       children: [
 
@@ -77,61 +81,79 @@ class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProvi
             )
         ),
 
-        AnimatedChildSlider(
-          index: index,
-          direction: Axis.horizontal,
-          children: [
-
-            _PartOne(
-              song: song,
-              initMemory: initMemory,
-              memoryBuilder: memoryBuilder,
-              creatingNew: initMemory==null,
-              onNext: (memoryBuilder){
-                this.memoryBuilder = memoryBuilder;
-                hideKeyboard(context);
-                setState(() => index = 1);
-              },
-              onRemoved: (){
-                song.removeMemory(initMemory);
-                if(widget.onRemoved != null) widget.onRemoved();
-              },
+        NestedScrollView(
+          floatHeaderSlivers: true,
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
+            SliverAppBar(
+              title: Text(widget.initMemory==null?'Dodaj wspomnienie':'Edytuj wspomnienie'),
+              centerTitle: true,
+              floating: true,
+              pinned: true,
+              leading: IconButton(
+                icon: const Icon(MdiIcons.arrowLeft),
+                onPressed: (){
+                  if(controller.page == 0) Navigator.pop(context);
+                  else controller.animateToPage(0, duration: _animDuration, curve: _animCurve);
+                },
+              ),
             ),
-
-            _PartTwo(
-                song: song,
-                memoryBuilder: memoryBuilder,
-                onBack: () => setState(() => index = 0),
-                onSaveTap: (MemoryBuilder memoryBuilder)async{
-
-                  if(initMemory == null) {
-                    Memory memory = Memory.create(
-                      song.fileName,
-                      memoryBuilder.date,
-                      memoryBuilder.place,
-                      memoryBuilder.desc,
-                      memoryBuilder.fontIndex,
-                      memoryBuilder.published,
-                    );
-                    Memory.addToAll(memory);
-                    song.addMemory(memory);
-                  }
-                  else
-                    initMemory.update(
-                      songFileName: song.fileName,
-                      date: memoryBuilder.date,
-                      place: memoryBuilder.place,
-                      desc: memoryBuilder.desc,
-                      fontIndex: memoryBuilder.fontIndex,
-                      published: memoryBuilder.published,
-                    );
-
-                  widget.onSaved();
-                }
-            )
-
           ],
-        ),
+          body: PageView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: controller,
+              children: [
+
+                _PartOne(
+                  song: song,
+                  initMemory: initMemory,
+                  memoryBuilder: memoryBuilder,
+                  creatingNew: initMemory==null,
+                  onNext: (memoryBuilder){
+                    this.memoryBuilder = memoryBuilder;
+                    hideKeyboard(context);
+                    controller.animateToPage(1, duration: _animDuration, curve: _animCurve);
+                  },
+                  onRemoved: (){
+                    song.removeMemory(initMemory);
+                    if(widget.onRemoved != null) widget.onRemoved();
+                  },
+                ),
+
+                _PartTwo(
+                    song: song,
+                    memoryBuilder: memoryBuilder,
+                    onBack: () => controller.animateToPage(0, duration: _animDuration, curve: _animCurve),
+                    onSaveTap: (MemoryBuilder memoryBuilder) async {
+
+                      if(initMemory == null) {
+                        Memory memory = Memory.create(
+                          song.fileName,
+                          memoryBuilder.date,
+                          memoryBuilder.place,
+                          memoryBuilder.desc,
+                          memoryBuilder.fontIndex,
+                          memoryBuilder.published,
+                        );
+                        Memory.addToAll(memory);
+                        song.addMemory(memory);
+                      }
+                      else
+                        initMemory.update(
+                          songFileName: song.fileName,
+                          date: memoryBuilder.date,
+                          place: memoryBuilder.place,
+                          desc: memoryBuilder.desc,
+                          fontIndex: memoryBuilder.fontIndex,
+                          published: memoryBuilder.published,
+                        );
+
+                      widget.onSaved();
+                    }
+                )
+
+              ],
+            ),
+        )
 
       ],
     ),
@@ -408,70 +430,34 @@ class _PartTwoState extends State<_PartTwo>{
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Stack(
+    children: [
 
-    return Column(
-      children: [
-
-        Expanded(
-          child: ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            itemCount: 16,
-            itemBuilder: (context, index) =>
-                _FontWidget(
-                    index,
-                    fontIndex,
-                    description.isEmpty?place:description,
-                    onTap: (fontIndex) => setState(() => this.fontIndex = fontIndex)
-                ),
-          ),
-        ),
-
-        SizedBox(
-          height: 200,
-          child: AppCard(
-            elevation: AppCard.bigElevation,
-            radius: AppCard.BIG_RADIUS,
-            margin: EdgeInsets.zero,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(
-                  left: Dimen.ICON_MARG,
-                  right: Dimen.ICON_MARG,
-                  bottom: Dimen.ICON_MARG
-              ),
-              child: MemoryWidget(memoryBuilder.build(''), fontIndex: fontIndex),
+      ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        itemCount: 16,
+        itemBuilder: (context, index) =>
+            _FontWidget(
+                index,
+                fontIndex,
+                description.isEmpty?place:description,
+                onTap: (fontIndex) => setState(() => this.fontIndex = fontIndex)
             ),
-          ),
+      ),
+
+      Positioned(
+        bottom: Dimen.FLOATING_BUTTON_MARG,
+        right: Dimen.FLOATING_BUTTON_MARG,
+        child: ExtendedFloatingButton(
+          MdiIcons.check,
+          'Zapisz',
+          background: background_(context),
+          backgroundEnd: cardEnab_(context),
+          onTap: () => widget.onSaveTap?.call(memoryBuilder)
         ),
-
-        Padding(
-          padding: const EdgeInsets.all(Dimen.ICON_MARG),
-          child: Row(
-            children: [
-
-              SimpleButton.from(context: context, icon: MdiIcons.arrowLeft, text: 'Treść', onTap: widget.onBack),
-
-              Expanded(child: Container()),
-
-              SimpleButton.from(
-                context: context,
-                  icon: MdiIcons.check,
-                  text: 'Zapisz',
-                  iconLeading: false,
-                  onTap: () async {
-                    if(widget.onSaveTap != null)
-                      widget.onSaveTap(memoryBuilder);
-                  },
-              ),
-
-            ],
-          ),
-        )
-
-      ]
-    );
-  }
+      ),
+    ],
+  );
 
 }
 
@@ -490,6 +476,7 @@ class _FontWidget extends StatelessWidget{
     bool selected = pickedFont == fontIndex;
 
     return ListTile(
+      //tileColor: selected?cardEnab_(context):background_(context),
       leading: SizedBox(
           child: Align(
             alignment: Alignment.centerLeft,
@@ -497,35 +484,26 @@ class _FontWidget extends StatelessWidget{
               ' ${fontIndex + 1}',
               style: AppTextStyle(
                   fontSize: Dimen.TEXT_SIZE_APPBAR,
-                  fontWeight: weight.bold,
-                  color: selected?iconEnab_(context):hintEnab_(context),
+                  fontWeight: selected?weight.bold:weight.normal,
               ),
             ),
           ),
         width: 32.0,
       ),
       title: Text(
-        Memory.fontNameMap[fontIndex],
-        style: AppTextStyle(
-            fontSize: Dimen.TEXT_SIZE_BIG,
-            color: selected?iconEnab_(context):textEnab_(context),
-            shadow: selected
-        ),
-      ),
-      subtitle: Text(
         'Czcionka: $text',
         style: TextStyle(
           fontFamily: '${Memory.fontName}$fontIndex',
           fontSize: Dimen.TEXT_SIZE_BIG*Memory.fontSizeRatioMap[fontIndex],
-          color: selected?iconEnab_(context):textEnab_(context),
-          shadows: selected?
-          const [Shadow(
-            offset: Offset(1.0, 1.0),
-            blurRadius: 3.0,
-            color: Color.fromARGB(72, 0, 0, 0),
-          )]:null
+          fontWeight: selected?FontWeight.bold:FontWeight.normal,
         ),
         maxLines: 1,
+      ),
+      subtitle: Text(
+        Memory.fontNameMap[fontIndex],
+        style: AppTextStyle(
+          fontWeight: selected?weight.bold:weight.normal,
+        ),
       ),
       onTap: (){
         hideKeyboard(context);

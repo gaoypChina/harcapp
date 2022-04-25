@@ -34,16 +34,13 @@ class SprawBookmarkWidget extends StatelessWidget{
           onSavedChaned?.call(spraw.savedInOmega);
         },
         onTap: (){
-          String uid = spraw.uniqName;
+          spraw.changeSavedInOmega(context, SprawFolder.omegaFolderName);
 
-          SprawFolder omegaFolder = SprawFolder.omega;
-          if(omegaFolder.sprawUIDs.contains(uid)) {
-            omegaFolder.remove(uid);
-            showAppToast(context, text: 'Usunięto z zapisanych');
-          }else {
-            omegaFolder.add(uid);
+          if(spraw.savedInOmega)
             showAppToast(context, text: 'Dodano do zapisanych');
-          }
+          else
+            showAppToast(context, text: 'Usunięto z zapisanych');
+
           onSavedChaned?.call(spraw.savedInOmega);
         }
     );

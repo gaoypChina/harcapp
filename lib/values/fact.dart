@@ -107,7 +107,7 @@ const List<Fact> ecoFacts = [
   ),
 
   Fact(
-    '175 000 osób każdego dnia - tylu statystycznie ludzi jest nieprzerwanie wyciąganych ze skrajnego ubóstwa codziennie od ostatnie 30 lat.',
+    '175 000 osób każdego dnia - tylu statystycznie ludzi jest nieprzerwanie wyciąganych ze skrajnego ubóstwa codziennie od ostatnich 30 lat.',
     source: 'World Bank, "Poverty Headcount Ratio" chart; François Bourguignon and Christian Morrisson, "Inequality among World Citizens: 1820–1992," American Economic Review 92, no. 4 (2002): 727–744.'
   ),
 
@@ -192,7 +192,7 @@ const List<Fact> ecoFacts = [
   ),
 
   Fact(
-      'W ciągu ostatnich 100 lat wyeliminowano choroby takie jak: ospa, polio, frambezja, drakunkulioza, czy malaria',
+      'W ciągu ostatnich 100 lat wyeliminowano choroby takie jak: ospa, polio, frambezja, drakunkulioza, czy malaria.',
       source: 'Dowdle WR (1998). "The principles of disease elimination and eradication". Bulletin of the World Health Organization. 76 Suppl 2 (S2): 22–5.',
       meaning: [
         'Dzięki wynalezieniu szczepionek i ich rozsnącej dostępności coraz więcej chorób, w szczególności chorób zakaźnych, jest całkowicie eliminowanych.',
