@@ -30,6 +30,7 @@ import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
 import '../../../_common_classes/single_computer/single_computer_listener.dart';
+import '../../_common_widgets/drawer_tile.dart';
 import '../app_bottom_navigator.dart';
 import '../module_statistics_registrator.dart';
 import 'background_widget.dart';
@@ -329,7 +330,7 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
         drawer: AppDrawer(
             body: Column(
               children: [
-                DrawerTile(
+                _DrawerTile(
                   icon: MdiIcons.pinOutline,
                   title: 'Przypięta grafika',
                   source: SelectedItemsSource.pinned,
@@ -339,7 +340,7 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
 
                 const SizedBox(height: Dimen.SIDE_MARG),
 
-                DrawerTile(
+                _DrawerTile(
                     icon: MdiIcons.allInclusive,
                     title: 'Wszystkie',
                     source: SelectedItemsSource.all,
@@ -352,7 +353,7 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
                     }
                 ),
 
-                DrawerTile(
+                _DrawerTile(
                   icon: MdiIcons.heartOutline,
                   title: 'Polubione',
                   source: SelectedItemsSource.favorite,
@@ -373,7 +374,7 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
                       )
                   ),
                 ),
-                DrawerTile(
+                _DrawerTile(
                   icon: MdiIcons.trayArrowDown,
                   title: 'Zapisane',
                   source: SelectedItemsSource.cached,
@@ -458,7 +459,7 @@ class ImageCardPageView extends StatelessWidget{
 
 }
 
-class DrawerTile extends StatelessWidget{
+class _DrawerTile extends StatelessWidget{
 
   final IconData icon;
   final String title;
@@ -467,7 +468,7 @@ class DrawerTile extends StatelessWidget{
   final void Function(SelectedItemsSource) onSelect;
   final Widget trailing;
   
-  const DrawerTile({
+  const _DrawerTile({
     @required this.icon,
     @required this.title,
     @required this.source,
@@ -476,29 +477,22 @@ class DrawerTile extends StatelessWidget{
     this.trailing,
     Key key
   }) : super(key: key);
-  
+
   @override
-  Widget build(BuildContext context) => ListTile(
-      leading: Icon(
-        icon,
-        color: selectedSource == source?iconEnab_(context):textEnab_(context)
-      ),
-      title: Text(
-        title,
-        style: AppTextStyle(
-          fontWeight: selectedSource == source?weight.bold:weight.normal,
-          color: selectedSource == source?iconEnab_(context):textEnab_(context)
-        )
-      ),
-      trailing: trailing,
-      onTap: () {
-        LockProvider prov = Provider.of<LockProvider>(context, listen: false);
-        if(prov.locked)
-          prov.locked = false;
-        onSelect?.call(source);
-        //setState(() => selectedSource = SelectedItemsSource.cached);
-        Navigator.pop(context);
-      }
+  Widget build(BuildContext context) => DrawerTile<SelectedItemsSource>(
+    icon: icon,
+    title: title,
+    source: source,
+    selectedSource: selectedSource,
+    trailing: trailing,
+    onSelect: (source){
+      LockProvider prov = Provider.of<LockProvider>(context, listen: false);
+      if(prov.locked)
+        prov.locked = false;
+      onSelect?.call(source);
+      //setState(() => selectedSource = SelectedItemsSource.cached);
+      Navigator.pop(context);
+    },
   );
   
 }

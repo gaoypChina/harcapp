@@ -195,9 +195,6 @@ class ApiIndivComp{
       withToken: true,
       sendRequest: (Dio dio) => dio.delete(
         API.SERVER_URL + 'api/indivComp/$compKey',
-        options: Options(headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-        }),
       ),
       onSuccess: (Response response) async => await onSuccess?.call(),
       onError: (DioError err) async => await onError?.call()
@@ -211,9 +208,6 @@ class ApiIndivComp{
       withToken: true,
       sendRequest: (Dio dio) => dio.get(
         API.SERVER_URL + 'api/indivComp/$compKey/shareCode',
-        options: Options(headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-        }),
       ),
       onSuccess: (Response response) async => await onSuccess?.call(response.data),
       onError: (DioError err) async => await onError?.call(err.response.data)
@@ -228,9 +222,6 @@ class ApiIndivComp{
       withToken: true,
       sendRequest: (Dio dio) => dio.post(
         API.SERVER_URL + 'api/indivComp/$compKey/shareCodeSearchable',
-        options: Options(headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-        }),
         data: FormData.fromMap({'searchable': searchable}),
       ),
       onSuccess: (Response response) async => await onSuccess?.call(response.data['shareCodeSearchable']),

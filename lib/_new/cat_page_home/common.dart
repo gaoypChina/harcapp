@@ -7,7 +7,7 @@ class ConfettiLayer extends StatelessWidget{
 
   final ConfettiController confettiController;
 
-  const ConfettiLayer(this.confettiController);
+  const ConfettiLayer(this.confettiController, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class ConfettiLayer extends StatelessWidget{
         minBlastForce: 1,
         maxBlastForce: 25,
         blastDirection: pi,
-        colors: [
+        colors: const [
           Colors.red,
           Colors.orangeAccent,
           Colors.amberAccent,

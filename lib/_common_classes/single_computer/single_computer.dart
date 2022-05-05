@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
 import 'package:harcapp/logger.dart';
@@ -19,6 +21,7 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
 
   bool _runRequested;
   bool _running;
+  Completer completer;
   TErr _errorCalled;
 
   bool get running => _runRequested || _running;
@@ -44,17 +47,22 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
 
   /// Function returns TRUE if it wasn't already running;
   /// Function returns FALSE if it was already running (in which case it waits);
-  Future<bool> run() async {
+  Future<bool> run({bool awaitFinish = false}) async {
 
+    // This param is used to mark the single computer as running before checking
+    // if it was already running before using the `running` parameter.
     _runRequested = true;
 
+    // Exclude others from messing with the `running` param while checking and settings it's value.
     await checkRunningSemaphore.acquire();
 
     logger.i('Single computer $computerName called. ${_running?'Computer was already running - run merged.':'Computer was idle - run started.'}');
 
     _runRequested = false;
     if(running){
+      checkRunningSemaphore.release();
 
+      // This is here to wait until the computer finishes and call the onEnd listeners.
       await runningSemaphore.acquire();
 
       for(TListener listener in listeners)
@@ -66,9 +74,11 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
       _listenersToRemove.clear();
 
       runningSemaphore.release();
+      if(awaitFinish) await completer.future;
       return false;
     }
 
+    completer = Completer();
     _running = true;
 
     await runningSemaphore.acquire();
@@ -76,16 +86,28 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
     checkRunningSemaphore.release();
 
     for(TListener listener in listeners)
-      if (!_listenersToRemove.contains(listener) && listener.onStart != null) await listener.onStart();
+      if (!_listenersToRemove.contains(listener) && listener.onStart != null)
+        await listener.onStart();
 
     for(TListener listener in _listenersToRemove)
       listeners.remove(listener);
     _listenersToRemove.clear();
 
-    await perform();
+    if(awaitFinish) {
 
-    await _callFinish(forceFinished: false);
+      await perform();
+      await _callFinish(forceFinished: false);
+      completer.complete();
 
+    } else {
+
+      () async {
+        await perform();
+        await _callFinish(forceFinished: false);
+        completer.complete();
+      }();
+
+    }
     return true;
   }
   

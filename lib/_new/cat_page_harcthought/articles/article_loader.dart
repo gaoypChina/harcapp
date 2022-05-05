@@ -212,9 +212,9 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
   }
 
   @override
-  Future<bool> run({bool all=false}){
+  Future<bool> run({bool awaitFinish = false, bool all=false}){
     this.all = all;
-    return super.run();
+    return super.run(awaitFinish: awaitFinish);
   }
 
   @override

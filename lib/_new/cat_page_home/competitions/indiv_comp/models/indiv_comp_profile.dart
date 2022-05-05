@@ -6,14 +6,6 @@ import 'package:tuple/tuple.dart';
 import '../comp_role.dart';
 import 'indiv_comp_task_compl.dart';
 
-class IndivCompProvider extends ChangeNotifier{
-  void notify() => notifyListeners();
-}
-
-class IndivCompListProvider extends ChangeNotifier{
-  void notify() => notifyListeners();
-}
-
 class IndivCompProfile{
 
   bool active;

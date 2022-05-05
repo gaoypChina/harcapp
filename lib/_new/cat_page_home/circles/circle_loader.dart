@@ -1,18 +1,18 @@
 import 'package:harcapp/_common_classes/single_computer/single_computer.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
-import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 
-import 'models/indiv_comp.dart';
+import '../../api/circle.dart';
+import 'circle.dart';
 
-class IndivCompLoaderListener extends SingleComputerListener<String>{
+class CircleLoaderListener extends SingleComputerListener<String>{
 
-  final void Function(List<IndivComp>) onIndivCompsLoaded;
+  final void Function(List<Circle>) onCirclesLoaded;
 
-  const IndivCompLoaderListener({
+  const CircleLoaderListener({
     void Function() onStart,
     Future<void> Function(String) onError,
-    this.onIndivCompsLoaded,
+    this.onCirclesLoaded,
     void Function(String err, bool forceFinished) onEnd
   }):super(
       onStart: onStart,
@@ -22,26 +22,26 @@ class IndivCompLoaderListener extends SingleComputerListener<String>{
 
 }
 
-IndivCompLoader indivCompLoader = IndivCompLoader();
-class IndivCompLoader extends SingleComputer<String, IndivCompLoaderListener>{
+CircleLoader circleLoader = CircleLoader();
+class CircleLoader extends SingleComputer<String, CircleLoaderListener>{
 
   @override
-  String get computerName => 'IndivCompLoader';
+  String get computerName => 'CircleLoader';
 
-  IndivCompLoader();
+  CircleLoader();
 
   @override
   Future<bool> perform() async {
     if(!await isNetworkAvailable())
       return false;
 
-    await ApiIndivComp.getAll(
-        onSuccess: (List<IndivComp> comps){
+    await ApiCircle.getAll(
+        onSuccess: (List<Circle> comps){
 
-          IndivComp.silentInit(comps);
+          Circle.silentInit(comps);
 
-          for(IndivCompLoaderListener listener in listeners)
-            listener.onIndivCompsLoaded?.call(comps);
+          for(CircleLoaderListener listener in listeners)
+            listener.onCirclesLoaded?.call(comps);
         },
         notAuthorized: () async {
           await callError('not_authorized');

@@ -201,7 +201,7 @@ class SynchronizerEngine{
   Future<bool> reloadSyncables() async {
     bool result = false;
     if(OffSong.allOfficial == null) {
-      await songLoader.run();
+      await songLoader.run(awaitFinish: true);
       result = true;
     }
 

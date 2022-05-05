@@ -9,6 +9,8 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_cat.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_group.dart';
+import 'package:harcapp/_new/cat_page_home/circles/circle_loader.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_loader.dart';
 import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -30,10 +32,13 @@ import '_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
 import '_new/cat_page_guide_book/_stopnie/models_common/rank_task.dart';
 import '_new/cat_page_guide_book/szyfry/providers.dart';
 import '_new/cat_page_harcthought/articles/providers.dart';
+import '_new/cat_page_home/circles/circle.dart';
+import '_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import '_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_profile.dart';
 import '_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
 import '_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import '_new/cat_page_home/providers.dart';
+import '_new/cat_page_song_book/song_loader.dart';
 import '_new/cat_page_strefa_ducha/providers.dart';
 import '_new/cat_page_song_book/providers.dart';
 import '_new/cat_page_song_book/settings/song_book_base_settings.dart';
@@ -195,6 +200,14 @@ class AppState extends State<App> with WidgetsBindingObserver {
     setState((){});
   }
 
+  void tryLoadingStuff() async {
+    songLoader.run();
+    if(await isNetworkAvailable()) {
+      await indivCompLoader.run();
+      await circleLoader.run();
+    }
+  }
+
   ColorPack _slctColorPack;
 
   LoginProvider loginProvider;
@@ -217,11 +230,21 @@ class AppState extends State<App> with WidgetsBindingObserver {
     
     _loginListener = LoginProviderListener(
         onLogin: (emailConf) async {
-          if(emailConf) await Statistics.commit();
+          if(!emailConf) return;
+          await Statistics.commit();
+          await indivCompLoader.run();
+          await circleLoader.run();
         },
-        onRegistered: () async => await Statistics.commit(),
+        onRegistered: () async{
+          await Statistics.commit();
+          await indivCompLoader.run();
+          await circleLoader.run();
+        },
         onEmailConfirmChanged: (emailConf) async {
-          if(emailConf) await Statistics.commit();
+          if(!emailConf) return;
+          await Statistics.commit();
+          await indivCompLoader.run();
+          await circleLoader.run();
         }
     );
 
@@ -274,6 +297,9 @@ class AppState extends State<App> with WidgetsBindingObserver {
         await Statistics.commit();
 
       });
+
+      tryLoadingStuff();
+
     });
     AccountData.init();
 
@@ -326,6 +352,10 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
         ChangeNotifierProvider(create: (context) => DrawerProvider()),
         ChangeNotifierProvider(create: (context) => FloatingButtonProvider()),
+
+        //CIRCLES
+        ChangeNotifierProvider(create: (context) => CircleListProvider()),
+        ChangeNotifierProvider(create: (context) => CircleProvider()),
 
         //INDIVIDUAL COMPETITION
         ChangeNotifierProvider(create: (context) => IndivCompParticipsProvider()),

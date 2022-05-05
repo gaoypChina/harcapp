@@ -55,15 +55,9 @@ class API{
 
   }) async {
 
-    //if(withToken && (token??AccSecData.jwt) == null) {
-    //  AccSecData.forgetAccount();
-    //  return Response(statusCode: JWT_VALID_HTTP_STATUS, requestOptions: null);
-    //}
     Dio dio = Dio(BaseOptions(
       headers: {
         if(withToken) 'Authorization': 'Bearer ${AccountData.jwt}',
-        //'Content-Type': 'multipart/form-data',
-        //'Accept': '*/*',
       },
       connectTimeout: _CONNECT_IIMEOUT,
       receiveTimeout: _RECEIVE_IIMEOUT,
@@ -82,9 +76,9 @@ class API{
       bool finish;
       if (e.response?.statusCode == jwtInvalidHttpStatus) {
         await SynchronizerEngine.changeSyncStateInAll([
-          SyncableParamSingle_.STATE_SYNCED,
-          SyncableParamSingle_.STATE_SYNC_IN_PROGRESS,
-        ],
+            SyncableParamSingle_.STATE_SYNCED,
+            SyncableParamSingle_.STATE_SYNC_IN_PROGRESS,
+          ],
           SyncableParamSingle_.STATE_NOT_SYNCED
         );
         SynchronizerEngine.lastSyncTimeLocal = null;

@@ -26,6 +26,14 @@ import 'indiv_comp_task.dart';
     "overviewMode": false,
  */
 
+class IndivCompProvider extends ChangeNotifier{
+  void notify() => notifyListeners();
+}
+
+class IndivCompListProvider extends ChangeNotifier{
+  void notify() => notifyListeners();
+}
+
 class IndivCompAward{
   int rangeFrom;
   int rangeTo;
@@ -312,8 +320,6 @@ class IndivComp{
     this.endTime,
     @required this.rankDispType,
 
-    // @required this.profile,
-
     @required this.particips,
 
     @required this.tasks,
@@ -360,11 +366,11 @@ class IndivComp{
     return IndivComp(
         key: resp['_key']??(throw InvalidResponseError('_key')),
         name: resp['name']??(throw InvalidResponseError('name')),
-        colorsKey: resp['colorsKey']??(throw InvalidResponseError('colorsKey')),
-        iconKey: resp['iconKey']??(throw InvalidResponseError('iconKey')),
-        startTime: DateTime.tryParse(resp['startTime']??(throw InvalidResponseError('startTime'))),
-        endTime: DateTime.tryParse(resp['endTime'] ?? ''),
-        rankDispType: strToRankDispType[resp['rankDispType']??(throw InvalidResponseError('rankDispType'))],
+        colorsKey: resp['colors_key']??(throw InvalidResponseError('colors_key')),
+        iconKey: resp['icon_key']??(throw InvalidResponseError('icon_key')),
+        startTime: DateTime.tryParse(resp['start_time']??(throw InvalidResponseError('start_time'))),
+        endTime: DateTime.tryParse(resp['end_time'] ?? ''),
+        rankDispType: strToRankDispType[resp['rank_disp_type']??(throw InvalidResponseError('rank_disp_type'))],
 
         //profile: IndivCompProfile.fromResponse(resp['profile']??(throw InvalidResponseError('profile'))),
 
@@ -374,8 +380,8 @@ class IndivComp{
 
         awards: indivCompAward,
 
-        shareCode: resp["shareCode"],
-        shareCodeSearchable: resp["shareCodeSearchable"]
+        shareCode: resp["share_code"],
+        shareCodeSearchable: resp["share_code_searchable"]
     );
 
   }
