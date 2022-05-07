@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
 
 import 'account_thumbnail_widget.dart';
 
@@ -13,6 +14,7 @@ class AccountThumbnailRowWidget extends StatelessWidget{
   final List<String> accounts;
   final EdgeInsets padding;
   final double size;
+  final Color backgroundColor;
   final bool elevated;
   final Clip clipBehavior;
   final double screenWidth;
@@ -23,6 +25,7 @@ class AccountThumbnailRowWidget extends StatelessWidget{
       this.accounts,
       { this.padding=EdgeInsets.zero,
         this.size,
+        this.backgroundColor,
         this.elevated,
         this.clipBehavior,
         this.screenWidth,
@@ -47,49 +50,56 @@ class AccountThumbnailRowWidget extends StatelessWidget{
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           child: Builder(
-              builder: (BuildContext context){
+            builder: (BuildContext context){
 
-                double width = constraints.maxWidth;
+              double width = constraints.maxWidth;
 
-                bool big = scrollViewWidth(big: true) + padding.left + padding.right < width;
+              bool big = scrollViewWidth(big: true) + padding.left + padding.right < width;
 
-                List<Widget> children = [];
+              List<Widget> children = [];
 
-                for(int i=0; i<accounts.length; i++){
-                  String acc = accounts[i];
+              for(int i=0; i<accounts.length; i++){
+                String acc = accounts[i];
 
-                  Widget thumbnailWidget = AccountThumbnailWidget(
-                    name: acc,
-                    elevated: elevated??false,
-                    size: circleHeight,
-                    onTap: onTap,
-                  );
-
-                  children.add(
-                      Positioned(
-                          top: 0,
-                          bottom: 0,
-                          left: max(0, i*(circleHeight + (big?circleDistBig:circleDistSmall))),
-                          //right: (i+1)*50.0,
-                          child: heroBuilder == null?
-                          thumbnailWidget:
-                          Hero(
-                            tag: heroBuilder?.call(i),
-                            child: thumbnailWidget,
-                          )
-                      )
-                  );
-                }
-
-                return SizedBox(
-                    width: scrollViewWidth(big: big),
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: children,
-                    )
+                Widget thumbnailWidget = Material(
+                  borderRadius: BorderRadius.circular(circleHeight),
+                  color: backgroundColor??background_(context),
+                  child: Padding(
+                    padding: EdgeInsets.all(.05*circleHeight),
+                    child: AccountThumbnailWidget(
+                      name: acc,
+                      elevated: elevated??false,
+                      size: circleHeight,
+                      onTap: onTap,
+                    ),
+                  )
                 );
 
+                children.add(
+                  Positioned(
+                    top: 0,
+                    bottom: 0,
+                    left: max(0, i*(circleHeight + (big?circleDistBig:circleDistSmall))),
+                    //right: (i+1)*50.0,
+                    child: heroBuilder == null?
+                    thumbnailWidget:
+                    Hero(
+                      tag: heroBuilder?.call(i),
+                      child: thumbnailWidget,
+                    )
+                  )
+                );
               }
+
+              return SizedBox(
+                width: scrollViewWidth(big: big),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: children,
+                )
+              );
+
+            }
           ),
         )),
   );

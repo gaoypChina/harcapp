@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
-import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_common/gdpr_input_field.dart';
 import 'package:harcapp/account/account_common/regulamin_input_field.dart';
 import 'package:harcapp/account/account_start/page_template.dart';
@@ -18,6 +16,7 @@ import 'package:provider/provider.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../_app_common/accounts/user_data.dart';
 import 'input_field_controller.dart';
 import 'main_button.dart';
 
@@ -118,7 +117,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
               SexInputField(
                   sex,
@@ -126,16 +125,16 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
                   onSexChanged: (sex) => setState(() => this.sex = sex)
               ),
 
-              SizedBox(height: 3*Dimen.SIDE_MARG),
+              const SizedBox(height: 3*Dimen.SIDE_MARG),
 
               Row(
                 children: [
-                  SizedBox(width: Dimen.ICON_FOOTPRINT),
+                  const SizedBox(width: Dimen.ICON_FOOTPRINT),
                   Text('Akceptuję:', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context), fontWeight: weight.halfBold))
                 ],
               ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
               GDPRInputField(
                   gdprAccept,
@@ -143,7 +142,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
                   onAcceptChanged: (accept) => setState(() => this.gdprAccept = accept)
               ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
               RegulaminInputField(
                   regulaminAccept,
@@ -151,7 +150,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
                   onAcceptChanged: (accept) => setState(() => this.regulaminAccept = accept)
               ),
 
-              SizedBox(height: 3*Dimen.SIDE_MARG),
+              const SizedBox(height: 3*Dimen.SIDE_MARG),
 
               Row(
                 children: [
@@ -174,7 +173,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
                       )
                   ),
 
-                  SizedBox(width: Dimen.SIDE_MARG),
+                  const SizedBox(width: Dimen.SIDE_MARG),
 
                   Expanded(
                     child: MainButton(

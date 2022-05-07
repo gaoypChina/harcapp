@@ -11,7 +11,6 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/login_register.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_common/microsoft_login_button.dart';
 import 'package:harcapp/account/account_start/conf_email_part.dart';
@@ -24,6 +23,7 @@ import 'package:provider/provider.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../_app_common/accounts/user_data.dart';
 import 'account_nick_part.dart';
 import 'account_settings_part.dart';
 import '../account_start/input_field_controller.dart';

@@ -9,7 +9,6 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/user.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_start/conf_email_part.dart';
 import 'package:harcapp/account/account_start/input_field_controller.dart';
@@ -28,6 +27,7 @@ import 'package:provider/provider.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../_app_common/accounts/user_data.dart';
 import '../account_start/input_field_controller.dart';
 import '../login_provider.dart';
 
@@ -66,16 +66,16 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
         child: Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: EdgeInsets.all(Dimen.SIDE_MARG),
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             child: Material(
               borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
               child: Padding(
-                padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
 
-                    TitleShortcutRowWidget(title: 'Czy to na pewno Ty?'),
+                    const TitleShortcutRowWidget(title: 'Czy to na pewno Ty?'),
 
                     InputFieldPassword(
                       hint: 'Hasło:',
@@ -222,7 +222,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
 
     return ListView(
       padding: widget.padding,
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       children: [
 
         PartTemplate(
@@ -234,7 +234,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
 
                 TitleShortcutRowWidget(
                   title: 'Email',
-                  leading: SizedBox(width: Dimen.SIDE_MARG),
+                  leading: const SizedBox(width: Dimen.SIDE_MARG),
                   textAlign: TextAlign.start,
                   titleColor: hintEnab_(context),
                   trailing:
@@ -246,7 +246,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                 ),
 
                 Padding(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     left: Dimen.SIDE_MARG,
                     right: Dimen.SIDE_MARG,
                     bottom: Dimen.SIDE_MARG
@@ -265,17 +265,17 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                   leading: Icon(MdiIcons.email, color: iconDisab_(context)),
                 ),
 
-                SizedBox(height: Dimen.SIDE_MARG),
+                const SizedBox(height: Dimen.SIDE_MARG),
 
                 TitleShortcutRowWidget(
                     title: 'Ja u innych',
-                    leading: SizedBox(width: Dimen.SIDE_MARG),
+                    leading: const SizedBox(width: Dimen.SIDE_MARG),
                     textAlign: TextAlign.start,
                     titleColor: hintEnab_(context)
                 ),
 
                 Padding(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                       left: Dimen.SIDE_MARG,
                       right: Dimen.SIDE_MARG,
                       bottom: Dimen.SIDE_MARG
@@ -295,7 +295,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                   leading: Icon(MdiIcons.accountEdit, color: iconDisab_(context)),
                 ),
 
-                SizedBox(height: Dimen.SIDE_MARG),
+                const SizedBox(height: Dimen.SIDE_MARG),
 
                 SexInputField(
                     sex,
@@ -305,12 +305,12 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                 ),
 
                 if(AccountData.regularAcc)
-                  SizedBox(height: Dimen.SIDE_MARG),
+                  const SizedBox(height: Dimen.SIDE_MARG),
 
                 if(AccountData.regularAcc)
                   TitleShortcutRowWidget(
                     title: 'Nowe hasło',
-                    leading: SizedBox(width: Dimen.SIDE_MARG),
+                    leading: const SizedBox(width: Dimen.SIDE_MARG),
                     textAlign: TextAlign.start,
                     titleColor: hintEnab_(context)
                   ),
@@ -333,7 +333,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                     leading: Icon(MdiIcons.shieldKey, color: iconDisab_(context)),
                   ),
 
-                SizedBox(height: 2*Dimen.SIDE_MARG),
+                const SizedBox(height: 2*Dimen.SIDE_MARG),
 
                 Row(
                   children: [
@@ -362,7 +362,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                         ):Container()
                     ),
 
-                    SizedBox(width: Dimen.SIDE_MARG),
+                    const SizedBox(width: Dimen.SIDE_MARG),
 
                     Expanded(
                       child: MainButton(
@@ -406,13 +406,13 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
 
                 TitleShortcutRowWidget(
                     title: 'Usuń konto',
-                    leading: SizedBox(width: Dimen.SIDE_MARG),
+                    leading: const SizedBox(width: Dimen.SIDE_MARG),
                     textAlign: TextAlign.start,
                     titleColor: hintEnab_(context)
                 ),
 
                 Padding(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                       left: Dimen.SIDE_MARG,
                       right: Dimen.SIDE_MARG,
                       bottom: Dimen.SIDE_MARG
@@ -475,11 +475,11 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
 
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(Dimen.SIDE_MARG),
+        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
         child: Material(
           borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
           child: Padding(
-            padding: EdgeInsets.all(Dimen.SIDE_MARG),
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -487,13 +487,13 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
 
                 TitleShortcutRowWidget(
                     title: 'Ostrożnie!',
-                    leading: SizedBox(width: Dimen.SIDE_MARG),
+                    leading: const SizedBox(width: Dimen.SIDE_MARG),
                     textAlign: TextAlign.start,
                     titleColor: hintEnab_(context)
                 ),
 
                 Padding(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                       left: Dimen.SIDE_MARG,
                       right: Dimen.SIDE_MARG,
                       bottom: Dimen.SIDE_MARG
@@ -518,7 +518,7 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
                   ),
 
                 if(AccountData.regularAcc)
-                  SizedBox(height: Dimen.SIDE_MARG),
+                  const SizedBox(height: Dimen.SIDE_MARG),
 
                 Hero(
                   tag: DeleteAccountDialog.buttonHeroTag,
@@ -617,7 +617,7 @@ class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
         else
           colorIdx = 0;
       });
-      await Future.delayed(Duration(milliseconds: 800));
+      await Future.delayed(const Duration(milliseconds: 800));
     }
   }
 

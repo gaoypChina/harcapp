@@ -2,8 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
-import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_common/gdpr_input_field.dart';
 import 'package:harcapp/account/account_common/regulamin_input_field.dart';
 import 'package:harcapp/account/account_start/page_template.dart';
@@ -19,6 +17,7 @@ import 'package:provider/provider.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../_app_common/accounts/user_data.dart';
 import 'conf_email_part.dart';
 import 'input_field_controller.dart';
 import 'login_part.dart';
@@ -144,7 +143,7 @@ class RegisterPartState extends State<RegisterPart>{
                 ),
               ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
               InputField(
                 hint: 'Imię i nazwisko:',
@@ -153,7 +152,7 @@ class RegisterPartState extends State<RegisterPart>{
                 leading: Icon(MdiIcons.accountEdit, color: iconDisab_(context)),
               ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
               SexInputField(
                   sex,
@@ -161,7 +160,7 @@ class RegisterPartState extends State<RegisterPart>{
                   onSexChanged: (sex) => setState(() => this.sex = sex)
               ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
               Hero(
                 tag: PartTemplate.passwordInputFieldHeroTag,
@@ -173,7 +172,7 @@ class RegisterPartState extends State<RegisterPart>{
                 ),
               ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
               InputFieldPassword(
                 hint: 'Powtórz hasło:',
@@ -182,16 +181,16 @@ class RegisterPartState extends State<RegisterPart>{
                 enabled: !processing,
               ),
 
-              SizedBox(height: 3*Dimen.SIDE_MARG),
+              const SizedBox(height: 3*Dimen.SIDE_MARG),
 
               Row(
                 children: [
-                  SizedBox(width: Dimen.ICON_FOOTPRINT),
+                  const SizedBox(width: Dimen.ICON_FOOTPRINT),
                   Text('Akceptuję:', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context), fontWeight: weight.halfBold))
                 ],
               ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
               GDPRInputField(
                   gdprAccept,
@@ -199,7 +198,7 @@ class RegisterPartState extends State<RegisterPart>{
                   onAcceptChanged: (accept) => setState(() => this.gdprAccept = accept)
               ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
               RegulaminInputField(
                   regulaminAccept,
@@ -207,7 +206,7 @@ class RegisterPartState extends State<RegisterPart>{
                   onAcceptChanged: (accept) => setState(() => this.regulaminAccept = accept)
               ),
 
-              SizedBox(height: 3*Dimen.SIDE_MARG),
+              const SizedBox(height: 3*Dimen.SIDE_MARG),
 
               Row(
                 children: [
@@ -232,7 +231,7 @@ class RegisterPartState extends State<RegisterPart>{
                       )
                   ),
 
-                  SizedBox(width: Dimen.SIDE_MARG),
+                  const SizedBox(width: Dimen.SIDE_MARG),
 
                   Expanded(
                     child: MainButton(

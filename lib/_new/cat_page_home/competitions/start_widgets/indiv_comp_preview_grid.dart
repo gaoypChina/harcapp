@@ -4,7 +4,9 @@ import 'package:harcapp_core/dimen.dart';
 
 class IndivCompPreviewGrid extends StatelessWidget{
 
-  const IndivCompPreviewGrid({Key key}) : super(key: key);
+  final bool singleLine;
+
+  const IndivCompPreviewGrid({this.singleLine = false, Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => GridView.count(
@@ -19,16 +21,20 @@ class IndivCompPreviewGrid extends StatelessWidget{
         bottom: 10.0),
     shrinkWrap: true,
     crossAxisCount: 4,
-    children: const [
-      Center(child: IndivCompThumbnailWidget(colorsKey: 'rosegold', iconKey: 'map')),
-      Center(child: IndivCompThumbnailWidget(colorsKey: 'turquoise', iconKey: 'androidStudio')),
-      Center(child: IndivCompThumbnailWidget(colorsKey: 'deepblue', iconKey: 'jellyfish')),
-      Center(child: IndivCompThumbnailWidget(colorsKey: 'gold', iconKey: 'axe')),
+    children: [
+      const Center(child: IndivCompThumbnailWidget(colorsKey: 'rosegold', iconKey: 'map')),
+      const Center(child: IndivCompThumbnailWidget(colorsKey: 'turquoise', iconKey: 'androidStudio')),
+      const Center(child: IndivCompThumbnailWidget(colorsKey: 'deepblue', iconKey: 'jellyfish')),
+      const Center(child: IndivCompThumbnailWidget(colorsKey: 'gold', iconKey: 'axe')),
 
-      Center(child: IndivCompThumbnailWidget(colorsKey: 'raspberry', iconKey: 'deathStarVariant')),
-      Center(child: IndivCompThumbnailWidget(colorsKey: 'green', iconKey: 'music')),
-      Center(child: IndivCompThumbnailWidget(colorsKey: 'turquoise', iconKey: 'pirate')),
-      Center(child: IndivCompThumbnailWidget(colorsKey: 'chocolate', iconKey: 'chessKing')),
+      if(!singleLine)
+        const Center(child: IndivCompThumbnailWidget(colorsKey: 'raspberry', iconKey: 'deathStarVariant')),
+      if(!singleLine)
+        const Center(child: IndivCompThumbnailWidget(colorsKey: 'green', iconKey: 'music')),
+      if(!singleLine)
+        const Center(child: IndivCompThumbnailWidget(colorsKey: 'turquoise', iconKey: 'pirate')),
+      if(!singleLine)
+        const Center(child: IndivCompThumbnailWidget(colorsKey: 'chocolate', iconKey: 'chessKing')),
     ],
   );
 

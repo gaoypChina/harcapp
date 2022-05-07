@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 
-import '../cat_page_home/circles/circle.dart';
+import '../cat_page_home/circles/model/circle.dart';
 import '_api.dart';
 
 
@@ -52,7 +52,8 @@ class ApiCircle{
     @required String coverImageUrl,
     @required String colorsKey,
 
-    void Function(Circle comp) onSuccess,
+    void Function(Circle circle) onSuccess,
+    void Function() onError,
   }) async {
 
     Map<String, dynamic> reqMap = {};
@@ -71,9 +72,10 @@ class ApiCircle{
           data: jsonEncode(reqMap)
       ),
       onSuccess: (Response response) async{
-        Circle comp = Circle.fromResponse(response.data);
-        await onSuccess?.call(comp);
-      }
+        Circle circle = Circle.fromResponse(response.data);
+        await onSuccess?.call(circle);
+      },
+      onError: (_) async => await onError?.call()
     );
 
   }
@@ -139,31 +141,33 @@ class ApiCircle{
     @required String key,
     String name,
     String description,
-    String coverImgUrl,
+    String coverImageUrl,
     String colorsKey,
-    void Function(Circle comp) onSuccess,
+    void Function(Circle circle) onSuccess,
+    void Function() onError,
   }) async{
 
     Map<String, dynamic> reqMap = {};
     if(name != null) reqMap['name'] = name;
     if(description != null) reqMap['description'] = description;
-    if(coverImgUrl != null) reqMap['cover_image_url'] = description;
+    if(coverImageUrl != null) reqMap['cover_image_url'] = coverImageUrl;
     if(colorsKey != null) reqMap['colors_key'] = colorsKey;
 
     return API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.post(
-          API.SERVER_URL + 'api/circle/$key',
-          options: Options(headers: {
-            HttpHeaders.contentTypeHeader: 'application/json',
-          }),
-          data: jsonEncode(reqMap)
+      sendRequest: (Dio dio) => dio.put(
+        API.SERVER_URL + 'api/circle/$key',
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+        }),
+        data: jsonEncode(reqMap)
       ),
       onSuccess: (Response response) async {
         if(onSuccess==null) return;
         Circle circle = Circle.fromResponse(response.data);
         onSuccess(circle);
-      }
+      },
+      onError: (_) async => await onError?.call()
     );
 
   }

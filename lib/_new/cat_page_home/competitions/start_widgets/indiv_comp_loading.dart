@@ -6,11 +6,12 @@ import 'indiv_comp_prompt.dart';
 
 class IndivCompLoadingWidget extends StatelessWidget{
 
-  const IndivCompLoadingWidget({Key key}) : super(key: key);
+  final bool singleLine;
+  const IndivCompLoadingWidget({this.singleLine = false, Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => const IndivCompPrompt(
-      child: IndivCompPreviewGrid(),
+  Widget build(BuildContext context) => IndivCompPrompt(
+      child: IndivCompPreviewGrid(singleLine: singleLine),
       text: 'Ładowanie współzawodnictw...',
   );
 

@@ -3,7 +3,7 @@ import 'package:harcapp/_common_classes/single_computer/single_computer_listener
 import 'package:harcapp_core/comm_classes/network.dart';
 
 import '../../api/circle.dart';
-import 'circle.dart';
+import 'model/circle.dart';
 
 class CircleLoaderListener extends SingleComputerListener<String>{
 

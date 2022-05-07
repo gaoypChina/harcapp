@@ -11,6 +11,8 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../_app_common/accounts/user_data.dart';
+
 class SexInputField extends StatelessWidget{
 
   static const String male = 'Mężczyzna';
@@ -24,7 +26,7 @@ class SexInputField extends StatelessWidget{
   final InputFieldController controller;
   final void Function(Sex) onSexChanged;
 
-  const SexInputField(this.sex, {this.enabled = true, this.controller, this.onSexChanged});
+  const SexInputField(this.sex, {this.enabled = true, this.controller, this.onSexChanged, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

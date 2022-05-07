@@ -40,61 +40,58 @@ class ShortReadsPageState<T extends ShortRead> extends State<ShortReadsPage>{
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => BottomNavScaffold(
+    body: CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
 
-    return BottomNavScaffold(
-      body: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
+        SliverAppBar(
+          title: Text(widget.title),
+          centerTitle: true,
+          floating: true,
+          elevation: 0,
+        ),
 
-          SliverAppBar(
-            title: Text(widget.title),
-            centerTitle: true,
-            floating: true,
-            elevation: 0,
-          ),
+        FloatingContainer(
+          builder: (context, __, _) => SearchField(
+            background: background_(context),
+            hint: 'Szukaj...',
+            onChanged: (text){
 
-          FloatingContainer(
-            builder: (context, __, _) => SearchField(
-              background: background_(context),
-              hint: 'Szukaj...',
-              onChanged: (text){
-
-                if(text.isEmpty)
-                  setState(() => searchedShortReads = allShortReads);
-
-                List<Gaweda> searchedGawedy = [];
-
-                text = remPolChars(text);
-                for(Gaweda gaweda in allGawedy){
-                  if(remPolChars(gaweda.title).contains(text))
-                    searchedGawedy.add(gaweda);
-                }
-
+              if(text.isEmpty)
                 setState(() => searchedShortReads = allShortReads);
 
-              },
-            ),
-            height: SearchField.height,
-          ),
+              List<Gaweda> searchedGawedy = [];
 
-          SliverPadding(
-            padding: const EdgeInsets.all(Dimen.ICON_MARG),
-            sliver: SliverGrid.count(
-              crossAxisCount: 2,
-              crossAxisSpacing: Dimen.ICON_MARG,
-              children: searchedShortReads.map((shortRead) => ShortReadThumbnailWidget(
-                shortRead,
-                  onTap: () => pushPage(context, builder: (context) => ShortReadWidget(widget.moduleId, shortRead)),
-              )
-              ).toList(),
-              childAspectRatio: .8,
-            ),
-          ),
+              text = remPolChars(text);
+              for(Gaweda gaweda in allGawedy){
+                if(remPolChars(gaweda.title).contains(text))
+                  searchedGawedy.add(gaweda);
+              }
 
-        ],
-      ),
-    );
-  }
+              setState(() => searchedShortReads = allShortReads);
+
+            },
+          ),
+          height: SearchField.height,
+        ),
+
+        SliverPadding(
+          padding: const EdgeInsets.all(Dimen.ICON_MARG),
+          sliver: SliverGrid.count(
+            crossAxisCount: 2,
+            crossAxisSpacing: Dimen.ICON_MARG,
+            children: searchedShortReads.map((shortRead) => ShortReadThumbnailWidget(
+              shortRead,
+              onTap: () => pushPage(context, builder: (context) => ShortReadWidget(widget.moduleId, shortRead)),
+            )
+            ).toList(),
+            childAspectRatio: .8,
+          ),
+        ),
+
+      ],
+    ),
+  );
 
 }

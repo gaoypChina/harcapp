@@ -157,7 +157,7 @@ const List<Fact> ecoFacts = [
   // Analfabetyzm
 
   Fact(
-    'Analfabetyzm zmalał ośmiokrotnie od 1900 roku.',
+    'Analfabetyzm na świecie zmalał ośmiokrotnie od 1900 roku.',
     source: 'World Bank, "Literacy Rate, Adult Total" chart.',
   ),
 

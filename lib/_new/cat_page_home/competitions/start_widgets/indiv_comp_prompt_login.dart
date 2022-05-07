@@ -6,11 +6,12 @@ import 'indiv_comp_prompt.dart';
 
 class IndivCompPromptLogin extends StatelessWidget{
 
-  const IndivCompPromptLogin();
+  final bool singleLine;
+  const IndivCompPromptLogin({this.singleLine, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => IndivCompPrompt(
-    child: IndivCompPreviewGrid(),
+    child: IndivCompPreviewGrid(singleLine: singleLine),
     text: 'Zaloguj się, by współzawodniczyć',
     icon: MdiIcons.accountCircleOutline,
   );

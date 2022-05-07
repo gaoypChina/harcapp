@@ -1,49 +1,30 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
-import 'package:harcapp/_common_widgets/gradient_icon.dart';
-import 'package:harcapp/_common_widgets/search_field.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_profile.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_tile.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_preview_grid.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_prompt.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_prompt_login.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/login_provider.dart';
-import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
-import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
-import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:pro_animated_blur/pro_animated_blur.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 
-import '../../app_bottom_navigator.dart';
-import '../../app_drawer.dart';
 import 'start_widgets/indiv_comp_loading.dart';
-import 'comp_type_widget.dart';
-import 'indiv_comp/indiv_comp_editor/_main.dart';
-import 'indiv_comp/indiv_comp_page.dart';
 import 'indiv_comp/indiv_comp_loader.dart';
-import 'indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'indiv_comp/models/indiv_comp.dart';
 
 class CompetitionsWidget extends StatefulWidget{
 
+  final bool singleLine;
   final Widget Function(List<IndivComp>) competitionWidgetBuilder;
 
-  const CompetitionsWidget({@required this.competitionWidgetBuilder, Key key}) : super(key: key);
+  const CompetitionsWidget({this.singleLine = false, @required this.competitionWidgetBuilder, Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => CompetitionsWidgetState();
@@ -52,6 +33,7 @@ class CompetitionsWidget extends StatefulWidget{
 
 class CompetitionsWidgetState extends State<CompetitionsWidget>{
 
+  bool get singleLine => widget.singleLine;
   Widget Function(List<IndivComp>) get competitionWidgetBuilder => widget.competitionWidgetBuilder;
 
   LoginProvider loginProvider;
@@ -125,8 +107,8 @@ class CompetitionsWidgetState extends State<CompetitionsWidget>{
       builder: (context, loginProv, indivCompProv, child) {
 
         if(!networkAvailable)
-          return const IndivCompPrompt(
-            child: IndivCompPreviewGrid(),
+          return IndivCompPrompt(
+            child: IndivCompPreviewGrid(singleLine: singleLine),
             text: 'Brak internetu',
             icon: MdiIcons.earthOff,
           );
@@ -143,15 +125,21 @@ class CompetitionsWidgetState extends State<CompetitionsWidget>{
                     child: Container(),
                   ),
                 ),
-                const IgnorePointer(child: IndivCompPrompt(
-                    child: IndivCompPreviewGrid(),
+                IgnorePointer(child: IndivCompPrompt(
+                    child: IndivCompPreviewGrid(singleLine: singleLine),
                     icon: MdiIcons.accountReactivateOutline,
                     text: 'Aktywuj konto, by współzawodniczyć'
                 )),
               ],
             );
           else if(indivCompLoader.running)
-            return const IndivCompLoadingWidget();
+            return IndivCompLoadingWidget(singleLine: singleLine);
+          else if(IndivComp.all == null)
+            return IndivCompPrompt(
+              child: IndivCompPreviewGrid(singleLine: singleLine),
+              text: 'Mamy problem',
+              icon: MdiIcons.closeOutline,
+            );
           else
             return competitionWidgetBuilder(IndivComp.all);
 
@@ -166,7 +154,7 @@ class CompetitionsWidgetState extends State<CompetitionsWidget>{
                   child: Container(),
                 ),
               ),
-              const IgnorePointer(child: IndivCompPromptLogin()),
+              IgnorePointer(child: IndivCompPromptLogin(singleLine: singleLine)),
             ],
           );
 

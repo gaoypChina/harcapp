@@ -32,7 +32,7 @@ import '_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
 import '_new/cat_page_guide_book/_stopnie/models_common/rank_task.dart';
 import '_new/cat_page_guide_book/szyfry/providers.dart';
 import '_new/cat_page_harcthought/articles/providers.dart';
-import '_new/cat_page_home/circles/circle.dart';
+import '_new/cat_page_home/circles/model/circle.dart';
 import '_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import '_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_profile.dart';
 import '_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';

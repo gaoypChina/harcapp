@@ -2,6 +2,28 @@ import 'package:flutter/foundation.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 
+enum Sex{male, female}
+
+Map<Sex, bool> sexToBool = {
+  Sex.male: true,
+  Sex.female: false,
+};
+
+Map<bool, Sex> boolToSex = {
+  true: Sex.male,
+  false: Sex.female,
+};
+
+Map<Sex, String> sexToString = {
+  Sex.male: 'Male',
+  Sex.female: 'Female',
+};
+
+Map<String, Sex> strToSex = {
+  'Male': Sex.male,
+  'Female': Sex.female,
+};
+
 class UserData{
 
   final String key;
