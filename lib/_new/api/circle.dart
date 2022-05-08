@@ -64,7 +64,7 @@ class ApiCircle{
 
     return API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.put(
+      sendRequest: (Dio dio) => dio.post(
           API.SERVER_URL + 'api/circle',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',

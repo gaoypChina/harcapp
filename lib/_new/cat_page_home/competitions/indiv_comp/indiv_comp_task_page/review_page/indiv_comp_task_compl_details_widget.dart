@@ -8,7 +8,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/points
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/loading_widget.dart';
+import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';

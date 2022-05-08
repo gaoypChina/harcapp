@@ -37,12 +37,13 @@ class AccountThumbnailRowWidget extends StatelessWidget{
   double get circleHeight => size??defSize;
   double get circleDistBig => .2*circleHeight;
   double get circleDistSmall => -.2*circleHeight;
+  double get circleMargin => .05*circleHeight;
 
   double scrollViewWidth({@required bool big}) => max(0, (accounts.length-1)*(circleHeight + (big?circleDistBig:circleDistSmall)) + circleHeight);
 
   @override
   Widget build(BuildContext context) => SizedBox(
-    height: circleHeight + padding.top + padding.bottom,
+    height: circleHeight + padding.top + padding.bottom + 2*circleMargin,
     child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) => SingleChildScrollView(
           padding: padding,
@@ -65,7 +66,7 @@ class AccountThumbnailRowWidget extends StatelessWidget{
                   borderRadius: BorderRadius.circular(circleHeight),
                   color: backgroundColor??background_(context),
                   child: Padding(
-                    padding: EdgeInsets.all(.05*circleHeight),
+                    padding: EdgeInsets.all(circleMargin),
                     child: AccountThumbnailWidget(
                       name: acc,
                       elevated: elevated??false,

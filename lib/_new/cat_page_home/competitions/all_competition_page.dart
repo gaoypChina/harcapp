@@ -1,39 +1,27 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/competitions_widget.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_profile.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_tile.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_preview_grid.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_prompt.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_prompt_login.dart';
-import 'package:harcapp/account/account.dart';
-import 'package:harcapp/account/account_page/account_page.dart';
-import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:pro_animated_blur/pro_animated_blur.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 
-import '../../app_bottom_navigator.dart';
-import '../../app_drawer.dart';
-import 'start_widgets/indiv_comp_loading.dart';
-import 'comp_type_widget.dart';
+import 'new_comp_type.dart';
 import 'indiv_comp/indiv_comp_editor/_main.dart';
 import 'indiv_comp/indiv_comp_page.dart';
 import 'indiv_comp/indiv_comp_loader.dart';
@@ -128,19 +116,11 @@ class _CompListWidgetState extends State<_CompListWidget>{
   String searchPhrase;
   List<IndivComp> searchedComps;
 
-  IndivCompLoaderListener _listener;
-
   @override
   void initState() {
     searchedComps = IndivComp.all;
 
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    indivCompLoader.removeListener(_listener);
-    super.dispose();
   }
 
   void selectIndivComps(String text){
@@ -204,62 +184,9 @@ class _CompListWidgetState extends State<_CompListWidget>{
             widgets.add(const SizedBox(height: Dimen.ICON_MARG));
           }
 
-          widgets.add(Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-            child: SimpleButton(
-                radius: AppCard.BIG_RADIUS,
-                margin: EdgeInsets.zero,
-                padding: EdgeInsets.zero,
-                child: Row(
-                  children: [
-
-                    SizedBox(
-                      width: IndivCompThumbnailWidget.defSize,
-                      height: IndivCompThumbnailWidget.defSize,
-                      child: GradientWidget(
-                          radius: IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.outerRadiusSizeFactor,
-                          colorStart: hintEnab_(context),
-                          colorEnd: textEnab_(context),
-                          child: Padding(
-                            padding: const EdgeInsets.all(IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.borderSizeFactor),
-                            child: Material(
-                                borderRadius: BorderRadius.circular(IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.innerRadiusSizeFactor,),
-                                color: background_(context),
-                                child: GradientIcon(
-                                  MdiIcons.plus,
-                                  size: IndivCompThumbnailWidget.defSize * IndivCompThumbnailWidget.iconSizeFactor,
-                                  colorStart: hintEnab_(context),
-                                  colorEnd: textEnab_(context),
-                                )
-                            ),
-                          )
-                      ),
-                    ),
-
-                    const SizedBox(width: Dimen.SIDE_MARG),
-
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        Text('Nowe',
-                            style: AppTextStyle(
-                                fontSize: IndivCompTile.textSizePkt,
-                                color: hintEnab_(context),
-                                fontWeight: weight.bold)),
-
-                        Text('współzawodnictwo',
-                            style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR,
-                                color: hintEnab_(context),
-                                fontWeight: weight.bold))
-
-                      ],
-                    )
-
-                  ],
-                ),
-                onTap: createNewCompetition
-            ),
+          widgets.add(const Padding(
+            padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+            child: NewIndivCompButton(),
           ));
         }
 
@@ -268,46 +195,105 @@ class _CompListWidgetState extends State<_CompListWidget>{
       }
   );
 
-  void createNewCompetition() async {
-    NewCompType type = await pickCompType(context);
-    if (type == null) return;
+}
 
-    List<String> exampleNames = [
-      'Dolina muminków',
-      'Drużyna pierścienia',
-      'Ekipa krecika',
-      'Kapitol szlachty',
-      'Księga dżungli',
-      'Kto pierwszy ten lepszy',
-      'Liga nieprzeciętnych',
-      'Rybki z ferajny',
-      'Śmietanka towarzystwa',
-      'Załoga G',
-      'Zwierzogród',
-    ];
+class NewIndivCompButton extends StatelessWidget{
 
-    if(type == NewCompType.join)
-      return;
-    else
-      pushPage(
-        context,
-        builder: (context) =>
-            IndivCompEditorPage(
-              initTitle: type == NewCompType.empty ? null : exampleNames[Random().nextInt(
-                  exampleNames.length)],
-              initTasks: type == NewCompType.empty ? null : List.of(
-                  IndivComp.previewTasks),
-              initAwards: type == NewCompType.empty ? null : List.of(
-                  IndivComp.previewAwards),
+  const NewIndivCompButton({Key key}) : super(key: key);
 
-              onSaved: (comp) async {
-                IndivComp.addToAll(context, comp);
-                Navigator.pop(context);
-                await Navigator.push(context, MaterialPageRoute(builder: (context) => IndivCompPage(IndivComp.all.last)));
-                setState(() {});
-              },
+  @override
+  Widget build(BuildContext context) => SimpleButton(
+      radius: AppCard.BIG_RADIUS,
+      margin: EdgeInsets.zero,
+      padding: EdgeInsets.zero,
+      child: Row(
+        children: [
+
+          SizedBox(
+            width: IndivCompThumbnailWidget.defSize,
+            height: IndivCompThumbnailWidget.defSize,
+            child: GradientWidget(
+                radius: IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.outerRadiusSizeFactor,
+                colorStart: hintEnab_(context),
+                colorEnd: textEnab_(context),
+                child: Padding(
+                  padding: const EdgeInsets.all(IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.borderSizeFactor),
+                  child: Material(
+                      borderRadius: BorderRadius.circular(IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.innerRadiusSizeFactor,),
+                      color: background_(context),
+                      child: GradientIcon(
+                        MdiIcons.plus,
+                        size: IndivCompThumbnailWidget.defSize * IndivCompThumbnailWidget.iconSizeFactor,
+                        colorStart: hintEnab_(context),
+                        colorEnd: textEnab_(context),
+                      )
+                  ),
+                )
             ),
-      );
-  }
+          ),
+
+          const SizedBox(width: Dimen.SIDE_MARG),
+
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+
+              Text('Nowe',
+                  style: AppTextStyle(
+                      fontSize: IndivCompTile.textSizePkt,
+                      color: hintEnab_(context),
+                      fontWeight: weight.bold)),
+
+              Text('współzawodnictwo',
+                  style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR,
+                      color: hintEnab_(context),
+                      fontWeight: weight.bold))
+
+            ],
+          )
+
+        ],
+      ),
+      onTap: () async {
+        NewCompType type = await pickCompType(context);
+        if (type == null) return;
+
+        List<String> exampleNames = [
+          'Dolina muminków',
+          'Drużyna pierścienia',
+          'Ekipa krecika',
+          'Kapitol szlachty',
+          'Księga dżungli',
+          'Kto pierwszy ten lepszy',
+          'Liga nieprzeciętnych',
+          'Rybki z ferajny',
+          'Śmietanka towarzystwa',
+          'Załoga G',
+          'Zwierzogród',
+        ];
+
+        if(type == NewCompType.join)
+          return;
+        else
+          pushPage(
+            context,
+            builder: (context) =>
+                IndivCompEditorPage(
+                  initTitle: type == NewCompType.empty ? null : exampleNames[Random().nextInt(
+                      exampleNames.length)],
+                  initTasks: type == NewCompType.empty ? null : List.of(
+                      IndivComp.previewTasks),
+                  initAwards: type == NewCompType.empty ? null : List.of(
+                      IndivComp.previewAwards),
+
+                  onSaved: (comp) async {
+                    IndivComp.addToAll(context, comp);
+                    Navigator.pop(context);
+                    await Navigator.push(context, MaterialPageRoute(builder: (context) => IndivCompPage(IndivComp.all.last)));
+                  },
+                ),
+          );
+      }
+  );
 
 }

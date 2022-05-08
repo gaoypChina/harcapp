@@ -13,7 +13,7 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_widgets/rank_cat_
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/claim_button.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/complete_button.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/rank_spraw_temp_widget.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/loading_widget.dart';
+import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/cat_page_home/providers.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';

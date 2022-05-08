@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_preview_grid.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_prompt.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_prompt_login.dart';
+import 'package:harcapp/_new/cat_page_home/circles/start_widgets/circle_loading_widget.dart';
+import 'package:harcapp/_new/cat_page_home/circles/start_widgets/circle_preview_grid.dart';
+import 'package:harcapp/_new/cat_page_home/circles/start_widgets/circle_prompt.dart';
+import 'package:harcapp/_new/cat_page_home/circles/start_widgets/circle_prompt_login.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/login_provider.dart';
@@ -15,31 +16,30 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-import 'start_widgets/indiv_comp_loading_widget.dart';
-import 'indiv_comp/indiv_comp_loader.dart';
-import 'indiv_comp/models/indiv_comp.dart';
+import 'circle_loader.dart';
+import 'model/circle.dart';
 
-class CompetitionsWidget extends StatefulWidget{
+class CirclesWidget extends StatefulWidget{
 
   final bool singleLine;
-  final Widget Function(List<IndivComp>) competitionWidgetBuilder;
+  final Widget Function(List<Circle>) circleWidgetBuilder;
 
-  const CompetitionsWidget({this.singleLine = false, @required this.competitionWidgetBuilder, Key key}) : super(key: key);
+  const CirclesWidget({this.singleLine = false, @required this.circleWidgetBuilder, Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => CompetitionsWidgetState();
+  State<StatefulWidget> createState() => CirclesWidgetState();
 
 }
 
-class CompetitionsWidgetState extends State<CompetitionsWidget>{
+class CirclesWidgetState extends State<CirclesWidget>{
 
   bool get singleLine => widget.singleLine;
-  Widget Function(List<IndivComp>) get competitionWidgetBuilder => widget.competitionWidgetBuilder;
+  Widget Function(List<Circle>) get circleWidgetBuilder => widget.circleWidgetBuilder;
 
   LoginProvider loginProvider;
   LoginProviderListener loginListener;
 
-  IndivCompLoaderListener _listener;
+  CircleLoaderListener _listener;
 
   StreamSubscription<ConnectivityResult> networkListener;
   bool networkAvailable;
@@ -47,26 +47,26 @@ class CompetitionsWidgetState extends State<CompetitionsWidget>{
   @override
   void initState() {
 
-    _listener = IndivCompLoaderListener(
+    _listener = CircleLoaderListener(
       onError: (message) async {
         setState(() {});
       },
-      onIndivCompsLoaded: (List<IndivComp> comps){
+      onCirclesLoaded: (List<Circle> comps){
         setState(() {});
       },
     );
-    indivCompLoader.addListener(_listener);
+    circleLoader.addListener(_listener);
 
     loginListener = LoginProviderListener(
         onLogin: (emailConfirmed){
-          if(emailConfirmed) indivCompLoader.run();
+          if(emailConfirmed) circleLoader.run();
           else setState(() {});
         },
         onRegistered: (){
-          indivCompLoader.run();
+          circleLoader.run();
         },
         onEmailConfirmChanged: (emailConfirmed){
-          if(emailConfirmed) indivCompLoader.run();
+          if(emailConfirmed) circleLoader.run();
           else setState(() {});
         }
     );
@@ -88,8 +88,8 @@ class CompetitionsWidgetState extends State<CompetitionsWidget>{
         showAppToast(context, text: 'Brak internetu');
     });
 
-    if(IndivComp.all == null && AccountData.loggedIn)
-      indivCompLoader.run();
+    if(Circle.all == null && AccountData.loggedIn)
+      circleLoader.run();
 
     super.initState();
   }
@@ -97,18 +97,18 @@ class CompetitionsWidgetState extends State<CompetitionsWidget>{
   @override
   void dispose() {
     loginProvider.removeLoginListener(loginListener);
-    indivCompLoader.removeListener(_listener);
+    circleLoader.removeListener(_listener);
 
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) => Consumer2<LoginProvider, IndivCompListProvider>(
+  Widget build(BuildContext context) => Consumer2<LoginProvider, CircleListProvider>(
       builder: (context, loginProv, indivCompProv, child) {
 
         if(!networkAvailable)
-          return IndivCompPrompt(
-            child: IndivCompPreviewGrid(singleLine: singleLine),
+          return CirclePrompt(
+            child: CirclePreviewGrid(singleLine: singleLine),
             text: 'Brak internetu',
             icon: MdiIcons.earthOff,
           );
@@ -125,23 +125,23 @@ class CompetitionsWidgetState extends State<CompetitionsWidget>{
                     child: Container(),
                   ),
                 ),
-                IgnorePointer(child: IndivCompPrompt(
-                    child: IndivCompPreviewGrid(singleLine: singleLine),
+                IgnorePointer(child: CirclePrompt(
+                    child: CirclePreviewGrid(singleLine: singleLine),
                     icon: MdiIcons.accountReactivateOutline,
                     text: 'Aktywuj konto, by współzawodniczyć'
                 )),
               ],
             );
-          else if(indivCompLoader.running)
-            return IndivCompLoadingWidget(singleLine: singleLine);
-          else if(IndivComp.all == null)
-            return IndivCompPrompt(
-              child: IndivCompPreviewGrid(singleLine: singleLine),
+          else if(circleLoader.running)
+            return CircleLoadingWidget(singleLine: singleLine);
+          else if(Circle.all == null)
+            return CirclePrompt(
+              child: CirclePreviewGrid(singleLine: singleLine),
               text: 'Mamy problem',
               icon: MdiIcons.closeOutline,
             );
           else
-            return competitionWidgetBuilder(IndivComp.all);
+            return circleWidgetBuilder(Circle.all);
 
         }else
           return Stack(
@@ -154,7 +154,7 @@ class CompetitionsWidgetState extends State<CompetitionsWidget>{
                   child: Container(),
                 ),
               ),
-              IgnorePointer(child: IndivCompPromptLogin(singleLine: singleLine)),
+              IgnorePointer(child: CirclePromptLogin(singleLine: singleLine)),
             ],
           );
 

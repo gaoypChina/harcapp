@@ -7,7 +7,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dar
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/loading_widget.dart';
+import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/account/search_user_dialog.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';

@@ -9,7 +9,7 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_sta
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_progress_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_tile_widget_template.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_widgets/rank_widget.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/loading_widget.dart';
+import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/details/part_settings.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';

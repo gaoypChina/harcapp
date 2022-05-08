@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../circle_cover_image_data.dart';
@@ -7,7 +9,7 @@ class NameProvider extends ChangeNotifier{
 
   TextEditingController nameController;
 
-  NameProvider(Circle circle){
+  NameProvider({Circle circle}){
     nameController = TextEditingController(text: circle?.name??'');
   }
 
@@ -17,7 +19,7 @@ class DescriptionProvider extends ChangeNotifier{
 
   TextEditingController descriptionController;
 
-  DescriptionProvider(Circle circle){
+  DescriptionProvider({Circle circle}){
     descriptionController = TextEditingController(text: circle?.description??'');
   }
 
@@ -32,8 +34,8 @@ class CoverImageProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  CoverImageProvider(Circle circle){
-    _coverImage = circle.coverImage;
+  CoverImageProvider({Circle circle}){
+    _coverImage = circle?.coverImage??CircleCoverImageData.paths[Random().nextInt(CircleCoverImageData.paths.length)];
   }
 
 }
@@ -47,8 +49,8 @@ class ColorsKeyProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  ColorsKeyProvider(Circle circle){
-    _colorsKey = circle.colorsKey;
+  ColorsKeyProvider({Circle circle}){
+    _colorsKey = circle?.colorsKey??'auto';
   }
 
 }

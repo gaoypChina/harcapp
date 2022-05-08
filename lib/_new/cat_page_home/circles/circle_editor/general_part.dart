@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_new/cat_page_home/circles/circle_editor/providers.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:provider/provider.dart';
-import 'package:harcapp/_new/cat_page_home/circles/circle_edit_page/providers.dart';
 import 'package:harcapp_core/dimen.dart';
 
 class GeneralPart extends StatefulWidget{

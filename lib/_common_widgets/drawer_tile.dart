@@ -5,6 +5,7 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 class DrawerTile<T> extends StatelessWidget{
 
   final IconData icon;
+  final Widget leading;
   final String title;
   final T source;
   final T selectedSource;
@@ -13,6 +14,7 @@ class DrawerTile<T> extends StatelessWidget{
 
   const DrawerTile({
     this.icon,
+    this.leading,
     @required this.title,
     @required this.source,
     @required this.selectedSource,
@@ -23,10 +25,10 @@ class DrawerTile<T> extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => ListTile(
-      leading: icon == null? null: Icon(
+      leading: leading??(icon == null? null: Icon(
           icon,
           color: selectedSource == source?iconEnab_(context):textEnab_(context)
-      ),
+      )),
       title: Text(
           title,
           style: AppTextStyle(

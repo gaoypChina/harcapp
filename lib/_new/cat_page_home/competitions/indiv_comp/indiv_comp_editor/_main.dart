@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
-import '../../loading_widget.dart';
+import '../../../../../_common_widgets/loading_widget.dart';
 import 'common_header.dart';
 import 'indiv_comp_colors_editor_widget.dart';
 import 'indiv_comp_danger_editor_widget.dart';

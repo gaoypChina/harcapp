@@ -33,7 +33,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:tuple/tuple.dart';
 import 'package:provider/provider.dart';
 
-import '../../loading_widget.dart';
+import '../../../../../_common_widgets/loading_widget.dart';
 import '../indiv_comp_task_page/completed_tasks_page.dart';
 import '../models/indiv_comp_profile.dart';
 import '../models/rank_disp_type.dart';

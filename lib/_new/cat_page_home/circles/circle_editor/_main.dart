@@ -1,29 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/api/circle.dart';
-import 'package:harcapp/_new/cat_page_home/circles/circle_edit_page/providers.dart';
+import 'package:harcapp/_new/cat_page_home/circles/circle_editor/providers.dart';
 import 'package:provider/provider.dart';
-import 'package:harcapp/_new/cat_page_home/circles/circle_edit_page/general_part.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../model/circle.dart';
 import 'cover_image_part.dart';
+import 'general_part.dart';
 
-class CircleEditPage extends StatefulWidget{
+class CircleEditorPage extends StatefulWidget{
 
   final Circle initCircle;
 
   final void Function(Circle circle) onSaved;
   final void Function() onError;
 
-  const CircleEditPage({this.initCircle, this.onSaved, this.onError, Key key}) : super(key: key);
+  const CircleEditorPage({this.initCircle, this.onSaved, this.onError, Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => CircleEditPageState();
+  State<StatefulWidget> createState() => CircleEditorPageState();
 
 }
 
-class CircleEditPageState extends State<CircleEditPage>{
+class CircleEditorPageState extends State<CircleEditorPage>{
 
   Circle get initCircle => widget.initCircle;
 
@@ -33,13 +34,13 @@ class CircleEditPageState extends State<CircleEditPage>{
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
     body: DefaultTabController(
-      length: 2,
+      length: 3,
       child: MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (context) => NameProvider(initCircle)),
-          ChangeNotifierProvider(create: (context) => DescriptionProvider(initCircle)),
-          ChangeNotifierProvider(create: (context) => CoverImageProvider(initCircle)),
-          ChangeNotifierProvider(create: (context) => ColorsKeyProvider(initCircle))
+          ChangeNotifierProvider(create: (context) => NameProvider(circle: initCircle)),
+          ChangeNotifierProvider(create: (context) => DescriptionProvider(circle: initCircle)),
+          ChangeNotifierProvider(create: (context) => CoverImageProvider(circle: initCircle)),
+          ChangeNotifierProvider(create: (context) => ColorsKeyProvider(circle: initCircle))
         ],
         builder: (context, child) => NestedScrollView(
           floatHeaderSlivers: true,
@@ -54,12 +55,18 @@ class CircleEditPageState extends State<CircleEditPage>{
                 tabs: [
                   Tab(text: 'Informacje'),
                   Tab(text: 'Zdjęcie w tle'),
+                  Tab(text: 'Strefa zagrożenia'),
                 ],
               ),
               actions: [
                 IconButton(
                   icon: const Icon(MdiIcons.check),
                   onPressed: () async {
+
+                    if(Provider.of<NameProvider>(context, listen: false).nameController.text.isEmpty){
+                      showAppToast(context, text: 'Nazwa kręgu nie może być pusta');
+                      return;
+                    }
 
                     if(initCircle == null)
                       await ApiCircle.create(

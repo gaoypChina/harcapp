@@ -3,13 +3,13 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
 
-class IndivCompPrompt extends StatelessWidget{
+class CirclePrompt extends StatelessWidget{
 
   final Widget child;
   final String text;
   final IconData icon;
 
-  const IndivCompPrompt({@required this.child, this.text, this.icon, Key key}): super(key: key);
+  const CirclePrompt({@required this.child, this.text, this.icon, Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(

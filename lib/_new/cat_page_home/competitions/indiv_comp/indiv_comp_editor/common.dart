@@ -14,7 +14,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../../loading_widget.dart';
+import '../../../../../_common_widgets/loading_widget.dart';
 import '../comp_role.dart';
 import '../indiv_comp_loader.dart';
 
@@ -25,74 +25,68 @@ class LeaveButton extends StatelessWidget{
   const LeaveButton(this.comp);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => ListTile(
+    leading: const Icon(MdiIcons.exitToApp),
+    title: Text(
+      'Opuść współzawodnictwo',
+      style: AppTextStyle(),
+    ),
+    onTap: () {
 
-    return ListTile(
-      leading: const Icon(MdiIcons.exitToApp),
-      title: Text(
-        'Opuść współzawodnictwo',
-        style: AppTextStyle(),
-      ),
-      onTap: () {
+      int allAdminCount = 0;
+      for(IndivCompParticip particip in comp.particips) if(particip.profile.role == CompRole.ADMIN) allAdminCount++;
 
-        int allAdminCount = 0;
-        for(IndivCompParticip particip in comp.particips) if(particip.profile.role == CompRole.ADMIN) allAdminCount++;
+      if(allAdminCount == 1 && comp.profile.role == CompRole.ADMIN){
+        showAlertDialog(
+            context,
+            title: 'Hola, hola...',
+            content: 'Jesteś ostatnim administratorem współzawodnictwa i zamierzasz je opuścić!\n\nTak nie wolno.',
+            actionBuilder: (context) => [
+              AlertDialogButton(
+                  text: 'No dobrze',
+                  onTap: () => Navigator.pop(context)
+              )
+            ]
+        );
+        return;
+      }else
+        showAlertDialog(
+            context,
+            title: 'Zastanów się dobrze...',
+            content: 'Jesteś na ostatniej prostej, by <b>opuścić</b> współzawodnictwo. Twoje osiągnięcia zostaną utracone.\n\nNa pewno chcesz kontynuować?',
+            actionBuilder: (_) => [
 
-        if(allAdminCount == 1 && comp.profile.role == CompRole.ADMIN){
-          showAlertDialog(
-              context,
-              title: 'Hola, hola...',
-              content: 'Jesteś ostatnim administratorem współzawodnictwa i zamierzasz je opuścić!\n\nTak nie wolno.',
-              actionBuilder: (context) => [
-                AlertDialogButton(
-                    text: 'No dobrze',
-                    onTap: () => Navigator.pop(context)
-                )
-              ]
-          );
-          return;
-        }else
-          showAlertDialog(
-              context,
-              title: 'Zastanów się dobrze...',
-              content: 'Jesteś na ostatniej prostej, by <b>opuścić</b> współzawodnictwo. Twoje osiągnięcia zostaną utracone.\n\nNa pewno chcesz kontynuować?',
-              actionBuilder: (_) => [
+              AlertDialogButton(text: 'Jednak nie', onTap: () => Navigator.pop(context)),
 
-                AlertDialogButton(text: 'Jednak nie', onTap: () => Navigator.pop(context)),
+              AlertDialogButton(
+                  text: 'Tak',
+                  onTap: () async {
 
-                AlertDialogButton(
-                    text: 'Tak',
-                    onTap: () async {
+                    Navigator.pop(context);
 
-                      Navigator.pop(context);
+                    showLoadingWidget(context, comp.colors.avgColor, 'Opuszczanie lokalu...');
 
-                      showLoadingWidget(context, comp.colors.avgColor, 'Opuszczanie lokalu...');
+                    await ApiIndivComp.leave(
+                        compKey: comp.key,
+                        onSuccess: () async {
+                          await indivCompLoader.run();
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          showAppToast(context,
+                              text: 'Współzawodnictwo opuszczone');
+                        },
+                        onError: () =>
+                            showAppToast(
+                                context, text: 'Coś poszło nie tak...')
+                    );
+                    Navigator.pop(context);
+                  }
+              )
+            ]
+        );
 
-                      await ApiIndivComp.leave(
-                          compKey: comp.key,
-                          onSuccess: () async {
-                            await indivCompLoader.run();
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                            showAppToast(context,
-                                text: 'Współzawodnictwo opuszczone');
-                          },
-                          onError: () =>
-                              showAppToast(
-                                  context, text: 'Coś poszło nie tak...')
-                      );
-                      Navigator.pop(context);
-                    }
-                )
-              ]
-          );
-
-      },
-    );
-
-  }
-
-
+    },
+  );
 
 }
 

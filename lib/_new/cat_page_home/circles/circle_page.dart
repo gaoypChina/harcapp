@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/circles/announcement_widget.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
@@ -16,7 +19,7 @@ import 'package:palette_generator/palette_generator.dart';
 
 import '../../../_common_classes/sliver_child_builder_separated_delegate.dart';
 import '../../../_common_widgets/app_toast.dart';
-import 'circle_edit_page/circle_edit_page.dart';
+import 'circle_editor/_main.dart';
 import 'circle_palette_generator.dart';
 import 'circle_role.dart';
 import 'cover_image.dart';
@@ -26,11 +29,9 @@ class CirclePage extends StatefulWidget{
 
   static Color _lighten(Color color, [double amount = .1]) {
     if(color == null) return null;
-    
-    assert(amount >= -1 && amount <= 1);
 
     final hsl = HSLColor.fromColor(color);
-    final hslLight = hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
+    final hslLight = hsl.withLightness(amount);//hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
 
     return hslLight.toColor();
   }
@@ -39,18 +40,18 @@ class CirclePage extends StatefulWidget{
     if(palette == null) return background_(context);
 
     if(AppSettings.isDark)
-      return _lighten(palette.darkMutedColor?.color, -.1)??_lighten(palette.dominantColor.color, -.4);
+      return _lighten(palette.dominantColor.color, .1);
     else
-      return palette.lightMutedColor?.color??_lighten(palette.dominantColor.color, .4);
+      return _lighten(palette.dominantColor.color, .8);
   }
 
   static Color backgroundColor(BuildContext context, PaletteGenerator palette){
     if(palette == null) return background_(context);
 
     if(AppSettings.isDark)
-      return _lighten(palette.darkMutedColor.color, -.06)??_lighten(palette.dominantColor.color, -.7);
+      return _lighten(palette.dominantColor.color, .1);
     else
-      return _lighten(palette.lightMutedColor?.color, .25)??_lighten(palette.dominantColor.color, .7);
+      return _lighten(palette.dominantColor.color, .86);
 
   }
 
@@ -58,14 +59,14 @@ class CirclePage extends StatefulWidget{
     if(palette == null) return cardEnab_(context);
 
     if(AppSettings.isDark)
-      return palette.darkMutedColor?.color??_lighten(palette.dominantColor.color, -.4);
+      return _lighten(palette.dominantColor.color, .16);
     else
-      return _lighten(palette.lightMutedColor?.color, .16)??_lighten(palette.dominantColor.color, .6);
+      return _lighten(palette.dominantColor.color, .8);
 
   }
 
-  static Color strongColor(BuildContext context, PaletteGenerator paletteGenerator) =>
-      paletteGenerator == null?background_(context):((AppSettings.isDark?paletteGenerator.darkVibrantColor:paletteGenerator.lightVibrantColor).color);
+  static Color strongColor(BuildContext context, PaletteGenerator palette) =>
+      _lighten(palette?.dominantColor?.color, .5)??iconEnab_(context);
 
   final Circle circle;
   const CirclePage(this.circle, {Key key}) : super(key: key);
@@ -160,7 +161,7 @@ class CirclePageState extends State<CirclePage>{
                     icon: const Icon(MdiIcons.cogOutline),
                     onPressed: () => pushPage(
                       context,
-                      builder: (context) => CircleEditPage(
+                      builder: (context) => CircleEditorPage(
                         initCircle: circle,
                         onSaved: (updatedCircle) async {
 
@@ -209,6 +210,7 @@ class CirclePageState extends State<CirclePage>{
 
                 AccountThumbnailRowWidget(
                   circle.members.map((m) => m.name).toList(),
+                  elevated: true,
                   backgroundColor: backgroundColor,
                   padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                 ),
@@ -241,17 +243,31 @@ class CirclePageState extends State<CirclePage>{
 
               ])),
 
-              SliverPadding(
-                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-                      (context, index) => AnnouncementWidget(
-                      circle.announcements[index],
-                      paletteGenerator: paletteGenerator
+              if(circle.announcements.isEmpty)
+                SliverPadding(
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  sliver: SliverList(delegate: SliverChildListDelegate([
+                    const SizedBox(height: 2*Dimen.SIDE_MARG),
+                    EmptyMessageWidget(
+                      icon: MdiIcons.newspaperVariantOutline,
+                      text: 'Brak postów',
+                      color: cardColor,
                     ),
-                    separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-                    count: circle.announcements.length
-                )),
-              )
+                  ])),
+                )
+              else
+                SliverPadding(
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
+                      (context, index) => AnnouncementWidget(
+                        circle.announcements[index],
+                        paletteGenerator: paletteGenerator
+                      ),
+                      separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
+                      count: circle.announcements.length
+                  )),
+                )
+
 
             ]
         )

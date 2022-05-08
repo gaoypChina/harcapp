@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/account/account.dart';
 import 'package:provider/provider.dart';
 
 import '../../../api/_api.dart';
 import '../circle_cover_image_data.dart';
+import '../circle_role.dart';
 import 'announcement.dart';
 import 'member.dart';
 
@@ -100,8 +102,11 @@ class Circle{
   final bool shareCodeSearchable;
   String colorsKey;
 
-  final List<Member> members;
-  final List<Announcement> announcements;
+  List<Member> members;
+  Map<String, Member> membersMap;
+  List<Announcement> announcements;
+
+  CircleRole get myRole => membersMap[AccountData.key].role;
 
   Circle({
     this.key,
@@ -114,7 +119,7 @@ class Circle{
 
     this.members,
     this.announcements,
-  });
+  }): membersMap = {for (Member mem in members) mem.key: mem};
 
   static Circle fromResponse(Map resp){
 

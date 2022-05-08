@@ -10,14 +10,14 @@ class LoadingWidget extends StatelessWidget{
   final Color color;
   final String text;
 
-  const LoadingWidget(this.color, this.text);
+  const LoadingWidget(this.color, this.text, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppCard(
         radius: AppCard.BIG_RADIUS,
-        margin: EdgeInsets.all(Dimen.SIDE_MARG),
-        padding: EdgeInsets.all(Dimen.SIDE_MARG),
+        margin: const EdgeInsets.all(Dimen.SIDE_MARG),
+        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -30,7 +30,7 @@ class LoadingWidget extends StatelessWidget{
               ),
             ),
 
-            SizedBox(width: Dimen.SIDE_MARG),
+            const SizedBox(width: Dimen.SIDE_MARG),
 
             Text(text, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), overflow: TextOverflow.ellipsis),
 
