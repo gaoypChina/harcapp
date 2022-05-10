@@ -98,6 +98,7 @@ class Announcement{
   UserData author;
   CircleCoverImageData coverImage;
   String text;
+  bool pinned;
 
   final Circle circle;
 
@@ -109,6 +110,7 @@ class Announcement{
     @required this.author,
     this.coverImage,
     @required this.text,
+    @required this.pinned,
 
     this.circle,
   });
@@ -121,6 +123,7 @@ class Announcement{
     coverImage: resp['cover_image_url'] == null? null: CircleCoverImageData.from(resp['cover_image_url']),
     author: UserData.fromMap(resp['author']),
     text: resp['text'],
+    pinned: resp['pinned'],
   );
 
 }

@@ -67,11 +67,14 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
   TextEditingController titleController;
   TextEditingController textController;
 
+  bool pinned;
+
   @override
   void initState() {
     coverImage = initAnnouncement?.coverImage;
     titleController = TextEditingController(text: initAnnouncement?.title??'');
     textController = TextEditingController(text: initAnnouncement?.text??'');
+    pinned = false;
     super.initState();
   }
 
@@ -117,6 +120,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                     title: titleController.text,
                     coverImageUrl: coverImage?.code,
                     text: textController.text,
+                    pinned: pinned,
                     onSuccess: (announcement) async {
                       await popPage(context); // Close loading widget.
                       onSaved?.call(announcement);
@@ -132,6 +136,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                       title: titleController.text,
                       coverImageUrl: coverImage?.code,
                       text: textController.text,
+                      pinned: pinned,
                       onSuccess: (announcement) async {
                         await popPage(context); // Close loading widget.
                         onSaved?.call(announcement);
@@ -276,6 +281,19 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
 
+                      const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
+
+                      IconButton(
+                          icon: Icon(
+                            MdiIcons.pinOutline,
+                            color:
+                            pinned?
+                            iconEnab_(context):
+                            iconDisab_(context),
+                          ),
+                          onPressed: () => setState(() => pinned = !pinned)
+                      ),
+
                       Expanded(child: Container()),
 
                       Text(AccountData.name, style: AppTextStyle()),
@@ -285,7 +303,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                     ],
                   ),
 
-                  const SizedBox(height: Dimen.SIDE_MARG),
+                  const SizedBox(height: Dimen.SIDE_MARG - Dimen.ICON_MARG),
 
 
                 ],

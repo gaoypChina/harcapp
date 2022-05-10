@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
+import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_home/circles/announcement_widget.dart';
@@ -107,7 +108,10 @@ class CirclePageState extends State<CirclePage>{
   ScrollController scrollController;
 
   GlobalKey appBarKey;
+  GlobalKey tabBarKey;
+
   bool showTitleOnAppBar;
+  AppBarElevationProvider appBarElevationProv;
 
   void onBottomNavSelected(int page){
     if(page != AppBottomNavigator.HOME)
@@ -118,6 +122,8 @@ class CirclePageState extends State<CirclePage>{
   void initState() {
 
     appBarKey = GlobalKey();
+    tabBarKey = GlobalKey();
+
     showTitleOnAppBar = false;
 
     scrollController = ScrollController();
@@ -125,8 +131,13 @@ class CirclePageState extends State<CirclePage>{
       double topPadding = MediaQuery.of(context).padding.top;
       final appBarBox = appBarKey.currentContext?.findRenderObject() as RenderBox;
       double appBarPos = appBarBox==null? -double.infinity: appBarBox.localToGlobal(Offset(0, -topPadding)).dy;
-      if (appBarPos < kToolbarHeight && !showTitleOnAppBar) setState(() => showTitleOnAppBar = true);
-      else if(appBarPos >= kToolbarHeight && showTitleOnAppBar) setState(() => showTitleOnAppBar = false);
+      if (appBarPos < kToolbarHeight/2 && !showTitleOnAppBar) setState(() => showTitleOnAppBar = true);
+      else if(appBarPos >= kToolbarHeight/2 && showTitleOnAppBar) setState(() => showTitleOnAppBar = false);
+
+      final tabBarBox = tabBarKey.currentContext?.findRenderObject() as RenderBox;
+      double tabBarPos = tabBarBox==null? -double.infinity: tabBarBox.localToGlobal(Offset(0, -topPadding)).dy;
+      if (tabBarPos <= 96 && appBarElevationProv.elevated) appBarElevationProv.elevated = false;
+      else if(tabBarPos > 96 && !appBarElevationProv.elevated) appBarElevationProv.elevated = true;
     });
 
     refreshController = RefreshController();
@@ -141,6 +152,7 @@ class CirclePageState extends State<CirclePage>{
   @override
   void dispose(){
     AppBottomNavigatorProvider.removeOnSelectedListener(onBottomNavSelected);
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -157,209 +169,317 @@ class CirclePageState extends State<CirclePage>{
   Color get strongColor => CirclePage.strongColor(context, paletteGenerator);
 
   @override
-  Widget build(BuildContext context) => Material(
-    animationDuration: const Duration(milliseconds: 300),
-    color: backgroundColor,
-    child: SmartRefresher(
-        enablePullDown: true,
-        physics: const BouncingScrollPhysics(),
-        header: MaterialClassicHeader(backgroundColor: cardEnab_(context), color: strongColor),
-        controller: refreshController,
-        onRefresh: () async {
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+    create: (context){
+      appBarElevationProv = AppBarElevationProvider();
+      return appBarElevationProv;
+    },
+    builder: (context, child) => Material(
+      animationDuration: const Duration(milliseconds: 300),
+      color: backgroundColor,
+      child: SmartRefresher(
+          enablePullDown: true,
+          physics: const BouncingScrollPhysics(),
+          header: MaterialClassicHeader(backgroundColor: cardEnab_(context), color: strongColor),
+          controller: refreshController,
+          onRefresh: () async {
 
-          if(!await isNetworkAvailable()){
-            showAppToast(context, text: 'Brak dostępu do Internetu');
+            if(!await isNetworkAvailable()){
+              showAppToast(context, text: 'Brak dostępu do Internetu');
+              refreshController.refreshCompleted();
+              return;
+            }
+
+            await ApiCircle.get(
+                circleKey: circle.key,
+                onSuccess: (updatedCircle) async {
+                  circle.name = updatedCircle.name;
+                  circle.description = updatedCircle.description;
+                  circle.coverImage = updatedCircle.coverImage;
+                  circle.colorsKey = updatedCircle.colorsKey;
+
+                  await initPaletteGenerator(refresh: false);
+
+                  setState(() {});
+                },
+                onError: () => null
+            );
             refreshController.refreshCompleted();
-            return;
-          }
 
-          await ApiCircle.get(
-            circleKey: circle.key,
-            onSuccess: (updatedCircle) async {
-              circle.name = updatedCircle.name;
-              circle.description = updatedCircle.description;
-              circle.coverImage = updatedCircle.coverImage;
-              circle.colorsKey = updatedCircle.colorsKey;
+          },
+          child: CustomScrollView(
+              controller: scrollController,
+              physics: const BouncingScrollPhysics(),
+              slivers: [
 
-              await initPaletteGenerator(refresh: false);
+                Consumer<AppBarElevationProvider>(
+                  builder: (context, prov, child) => SliverAppBar(
+                    centerTitle: true,
+                    pinned: true,
+                    excludeHeaderSemantics: true,
+                    //stretch: true,
+                    elevation: prov.elevated?AppCard.bigElevation:0,
+                    backgroundColor: backgroundColor,
+                    expandedHeight: 600/MediaQuery.of(context).devicePixelRatio + kToolbarHeight,
+                    actions: [
+                      IconButton(
+                        icon: const Icon(MdiIcons.cogOutline),
+                        onPressed: () => pushPage(
+                            context,
+                            builder: (context) => CircleEditorPage(
+                              initCircle: circle,
+                              palette: paletteGenerator,
+                              onSaved: (updatedCircle) async {
 
-              setState(() {});
-            },
-            onError: () => null
-          );
-          refreshController.refreshCompleted();
+                                circle.name = updatedCircle.name;
+                                circle.description = updatedCircle.description;
+                                circle.coverImage = updatedCircle.coverImage;
+                                circle.colorsKey = updatedCircle.colorsKey;
+                                circle.setAllAnnouncement(updatedCircle.announcements);
+                                circle.setAllMembers(updatedCircle.members);
 
-        },
-        child: CustomScrollView(
-            controller: scrollController,
-            physics: const BouncingScrollPhysics(),
-            slivers: [
+                                await initPaletteGenerator(refresh: false);
 
-              SliverAppBar(
-                centerTitle: true,
-                pinned: true,
-                stretch: true,
-                backgroundColor: appBarColor,
-                expandedHeight: 600/MediaQuery.of(context).devicePixelRatio + kToolbarHeight,
-                actions: [
-                  IconButton(
-                    icon: const Icon(MdiIcons.cogOutline),
-                    onPressed: () => pushPage(
-                      context,
-                      builder: (context) => CircleEditorPage(
-                        initCircle: circle,
-                        palette: paletteGenerator,
-                        onSaved: (updatedCircle) async {
-
-                          circle.name = updatedCircle.name;
-                          circle.description = updatedCircle.description;
-                          circle.coverImage = updatedCircle.coverImage;
-                          circle.colorsKey = updatedCircle.colorsKey;
-                          circle.setAllAnnouncement(updatedCircle.announcements);
-                          circle.setAllMembers(updatedCircle.members);
-
-                          await initPaletteGenerator(refresh: false);
-
-                          setState(() {});
-                        },
-                        onDeleted: onDeleted,
-                        onLeft: onLeft,
-                      )
-                    ),
-                  ),
-                ],
-                flexibleSpace: FlexibleSpaceBar(
-                  title: AnimatedOpacity(
-                    opacity: showTitleOnAppBar?1:0,
-                    duration: const Duration(milliseconds: 200),
-                    child: Text(
-                      circle.name,
-                      style: AppTextStyle(
-                          color: iconEnab_(context)
-                      ),
-                      maxLines: 1,
-                    ),
-                  ),
-                  centerTitle: true,
-                  background: CoverImage(circle.coverImage),
-                ),
-              ),
-
-              SliverList(delegate: SliverChildListDelegate([
-                
-                Padding(
-                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                  child: Center(
-                    child: Text(
-                      circle.name,
-                      style: AppTextStyle(
-                        fontSize: 28.0,
-                        fontWeight: weight.halfBold
-                      ),
-                      textAlign: TextAlign.center,
-                      key: appBarKey,
-                    ),
-                  ),
-                ),
-                
-                AccountThumbnailRowWidget(
-                  circle.members.map((m) => m.name).toList(),
-                  elevated: true,
-                  backgroundColor: backgroundColor,
-                  padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                ),
-
-                if(circle.members.firstWhere((mem) => mem.key == AccountData.key).role != CircleRole.OBSERVER)
-                  Padding(
-                    padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG),
-                    child: SimpleButton(
-                      margin: EdgeInsets.zero,
-                      padding: EdgeInsets.zero,
-                      onTap: () => pushPage(
-                          context,
-                          builder: (context) => AnnouncementEditorPage(
-                            circle: circle,
-                            palette: paletteGenerator,
-                            onSaved: (announcement){
-                              circle.addAnnouncement(announcement);
-                              setState(() {});
-                            },
-                          )
-                      ),
-                      color: cardColor,
-                      clipBehavior: Clip.antiAlias,
-                      radius: AppCard.BIG_RADIUS,
-                      elevation: AppCard.bigElevation,
-                      child: Padding(
-                        padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                        child: Row(
-                          children: [
-                            Icon(MdiIcons.draw, color: hintEnab_(context)),
-                            const SizedBox(width: Dimen.SIDE_MARG),
-                            Text(
-                                'Dodaj ogłoszenie...',
-                                style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, color: hintEnab_(context))
+                                setState(() {});
+                              },
+                              onDeleted: onDeleted,
+                              onLeft: onLeft,
                             )
+                        ),
+                      ),
+                    ],
+                    flexibleSpace: FlexibleSpaceBar(
+                      title: AnimatedOpacity(
+                        opacity: showTitleOnAppBar?1:0,
+                        duration: const Duration(milliseconds: 200),
+                        child: Text(
+                          circle.name,
+                          style: AppTextStyle(
+                              color: iconEnab_(context)
+                          ),
+                          maxLines: 1,
+                        ),
+                      ),
+                      centerTitle: true,
+                      background: CoverImage(circle.coverImage),
+                    ),
+                  ),
+                ),
+
+                SliverList(delegate: SliverChildListDelegate([
+
+                  Padding(
+                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                    child: Center(
+                      child: Text(
+                        circle.name,
+                        style: AppTextStyle(
+                            fontSize: 28.0,
+                            fontWeight: weight.halfBold
+                        ),
+                        textAlign: TextAlign.center,
+                        key: appBarKey,
+                      ),
+                    ),
+                  ),
+
+                  AccountThumbnailRowWidget(
+                    circle.members.map((m) => m.name).toList(),
+                    elevated: true,
+                    backgroundColor: backgroundColor,
+                    padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                  ),
+
+                  if(circle.members.firstWhere((mem) => mem.key == AccountData.key).role != CircleRole.OBSERVER)
+                    Padding(
+                      padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG),
+                      child: SimpleButton(
+                        margin: EdgeInsets.zero,
+                        padding: EdgeInsets.zero,
+                        onTap: () => pushPage(
+                            context,
+                            builder: (context) => AnnouncementEditorPage(
+                              circle: circle,
+                              palette: paletteGenerator,
+                              onSaved: (announcement){
+                                circle.addAnnouncement(announcement);
+                                setState(() {});
+                              },
+                            )
+                        ),
+                        color: cardColor,
+                        clipBehavior: Clip.antiAlias,
+                        radius: AppCard.BIG_RADIUS,
+                        elevation: AppCard.bigElevation,
+                        child: Padding(
+                          padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                          child: Row(
+                            children: [
+                              Icon(MdiIcons.draw, color: hintEnab_(context)),
+                              const SizedBox(width: Dimen.SIDE_MARG),
+                              Text(
+                                  'Dodaj ogłoszenie...',
+                                  style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, color: hintEnab_(context))
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  else
+                    const SizedBox(height: Dimen.SIDE_MARG),
+
+                  const SizedBox(height: Dimen.SIDE_MARG),
+
+                ])),
+
+                FloatingContainer(
+                  builder: (context, double shrinkOffset, bool overlapsContent){
+                    bool overlaps = shrinkOffset!=0 || overlapsContent;
+                    return Material(
+                      key: tabBarKey,
+                      color: CirclePage.backgroundColor(context, paletteGenerator),
+                      elevation: overlaps?AppCard.bigElevation:0,
+
+                      child: SizedBox(
+                        height: Dimen.ICON_FOOTPRINT,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+
+                            SimpleButton(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: Dimen.ICON_MARG,
+                                vertical: Dimen.ICON_MARG,
+                              ),
+                              margin: EdgeInsets.zero,
+                              child: Text(
+                                  'Wszystkie',
+                                  style: AppTextStyle(
+                                    fontSize: Dimen.TEXT_SIZE_BIG,
+                                    fontWeight: weight.halfBold
+                                  )
+                              ),
+                              onTap: (){}
+                            ),
+
+                            SimpleButton(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: Dimen.ICON_MARG,
+                                  vertical: Dimen.ICON_MARG,
+                                ),
+                                margin: EdgeInsets.zero,
+                                child: Text(
+                                    'Przypięte',
+                                    style: AppTextStyle(
+                                        fontSize: Dimen.TEXT_SIZE_BIG,
+                                        fontWeight: weight.halfBold
+                                    )
+                                ),
+                                onTap: (){}
+                            ),
+
+                            const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG + 2),
+
                           ],
                         ),
                       ),
-                    ),
+                    );
+                  },
+                  height: Dimen.ICON_FOOTPRINT,
+                  rebuild: true,
+                ),
+
+                if(circle.announcements.isEmpty)
+                  SliverPadding(
+                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                    sliver: SliverList(delegate: SliverChildListDelegate([
+                      const SizedBox(height: 2*Dimen.SIDE_MARG),
+                      EmptyMessageWidget(
+                        icon: MdiIcons.newspaperVariantOutline,
+                        text: 'Brak postów',
+                        color: cardColor,
+                      ),
+                    ])),
                   )
                 else
-                  const SizedBox(height: Dimen.SIDE_MARG),
+                  SliverPadding(
+                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                    sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
+                            (context, index) => AnnouncementWidget(
+                          circle.announcements.reversed.toList()[index],
+                          paletteGenerator: paletteGenerator,
+                          onUpdateTap: (){
 
-              ])),
+                            Announcement announcement  = circle.announcements.reversed.toList()[index];
 
-              if(circle.announcements.isEmpty)
-                SliverPadding(
-                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                  sliver: SliverList(delegate: SliverChildListDelegate([
-                    const SizedBox(height: 2*Dimen.SIDE_MARG),
-                    EmptyMessageWidget(
-                      icon: MdiIcons.newspaperVariantOutline,
-                      text: 'Brak postów',
-                      color: cardColor,
-                    ),
-                  ])),
-                )
-              else
-                SliverPadding(
-                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                  sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-                      (context, index) => AnnouncementWidget(
-                        circle.announcements.reversed.toList()[index],
-                        paletteGenerator: paletteGenerator,
-                        onUpdateTap: (){
+                            pushPage(
+                                context,
+                                builder: (context) => AnnouncementEditorPage(
+                                  initAnnouncement: announcement,
+                                  palette: paletteGenerator,
+                                  onSaved: (updatedAnnouncement){
+                                    circle.updateAnnouncement(updatedAnnouncement);
+                                    setState(() {});
+                                  },
+                                  onRemoved: (){
+                                    circle.removeAnnouncement(announcement);
+                                    setState(() {});
+                                  },
+                                )
+                            );
 
-                          Announcement announcement  = circle.announcements.reversed.toList()[index];
+                          },
+                          onPinTap: () async {
 
-                          pushPage(
-                              context,
-                              builder: (context) => AnnouncementEditorPage(
-                                initAnnouncement: announcement,
-                                palette: paletteGenerator,
-                                onSaved: (updatedAnnouncement){
-                                  circle.updateAnnouncement(updatedAnnouncement);
+                            Announcement announcement = circle.announcements.reversed.toList()[index];
+
+                            await ApiCircle.updateAnnouncement(
+                                annKey: announcement.key,
+                                pinned: !announcement.pinned,
+                                onSuccess: (updatedAnnouncement) async {
+
+                                  circle.announcements.reversed.toList()[index].pinned = updatedAnnouncement.pinned;
+
+                                  if(updatedAnnouncement.pinned)
+                                    showAppToast(context, text: 'Przypięto post');
+                                  else
+                                    showAppToast(context, text: 'Odpięto post');
                                   setState(() {});
                                 },
-                                onRemoved: (){
-                                  circle.removeAnnouncement(announcement);
-                                  setState(() {});
-                                },
-                              )
-                          );
-                          
-                        },
-                      ),
-                      separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-                      count: circle.announcements.length
-                  )),
-                )
+                                onError: () async {
+
+                                }
+                            );
+
+                          },
+                        ),
+                        separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
+                        count: circle.announcements.length
+                    )),
+                  )
 
 
-            ]
-        )
+              ]
+          )
+
+      ),
     ),
   );
+
+}
+
+class AppBarElevationProvider extends ChangeNotifier{
+
+  bool _elevated;
+  bool get elevated => _elevated;
+  set elevated(bool value){
+    _elevated = value;
+    notifyListeners();
+  }
+
+  AppBarElevationProvider(){
+    _elevated = true;
+  }
 
 }

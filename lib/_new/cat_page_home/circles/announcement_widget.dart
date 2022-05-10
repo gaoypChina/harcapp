@@ -80,14 +80,20 @@ class AnnouncementWidget extends StatelessWidget{
 
             if(AccountData.key == announcement.author.key)
               IconButton(
-                icon: const Icon(MdiIcons.pencilOutline),
-                onPressed: onUpdateTap
+                  icon: Icon(
+                    MdiIcons.pinOutline,
+                    color:
+                    announcement.pinned?
+                    iconEnab_(context):
+                    iconDisab_(context),
+                  ),
+                  onPressed: onPinTap
               ),
 
             if(AccountData.key == announcement.author.key)
               IconButton(
-                  icon: const Icon(MdiIcons.pinOutline),
-                  onPressed: onPinTap
+                icon: const Icon(MdiIcons.pencilOutline),
+                onPressed: onUpdateTap
               ),
 
             Expanded(child: Container()),

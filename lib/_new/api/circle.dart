@@ -281,6 +281,7 @@ class ApiCircle{
     @required String title,
     String coverImageUrl,
     @required String text,
+    bool pinned,
     void Function(Announcement) onSuccess,
     void Function() onError,
   }) => API.sendRequest(
@@ -290,7 +291,8 @@ class ApiCircle{
         data: FormData.fromMap({
           'title': title,
           'cover_image_url': coverImageUrl,
-          'text': text
+          'text': text,
+          'pinned': pinned,
         }),
       ),
       onSuccess: (Response response) async =>
@@ -300,9 +302,10 @@ class ApiCircle{
 
   static Future<Response> updateAnnouncement({
     @required String annKey,
-    @required String title,
+    String title,
     String coverImageUrl,
-    @required String text,
+    String text,
+    bool pinned,
     void Function(Announcement) onSuccess,
     void Function() onError,
   }) => API.sendRequest(
@@ -312,7 +315,8 @@ class ApiCircle{
         data: FormData.fromMap({
           'title': title,
           'cover_image_url': coverImageUrl,
-          'text': text
+          'text': text,
+          'pinned': pinned,
         }),
       ),
       onSuccess: (Response response) async =>

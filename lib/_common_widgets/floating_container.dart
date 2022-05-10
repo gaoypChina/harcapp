@@ -7,14 +7,16 @@ class FloatingContainer extends SliverPersistentHeader{
   FloatingContainer({
     Widget Function(BuildContext context, double shrinkOffset, bool overlapsContent) builder,
     double height,
-    bool rebuild = false
+    bool rebuild = false,
+    Key key,
   }):super(
     pinned: true,
     delegate: _Delegate(
         builder,
         height,
         rebuild
-    )
+    ),
+    key: key
   );
 
   static FloatingContainer child({
