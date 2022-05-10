@@ -41,7 +41,7 @@ class _IndivCompDangerEditorWidgetState extends State<IndivCompDangerEditorWidge
 
           const SettingsPartHeader('Strefa zagrożenia!'),
 
-          LeaveButton(comp),
+          LeaveCompButton(comp),
 
           ListTile(
             leading: const Icon(MdiIcons.vanish),

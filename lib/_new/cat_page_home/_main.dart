@@ -5,7 +5,6 @@ import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_new/app_drawer.dart';
 import 'package:harcapp/_new/cat_page_home/circles/cover_image.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
-import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -67,9 +66,16 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
       if(selectedDrawerPage == drawerPageCompetitions)
         return const CompetitionsPage();
       else if(selectedDrawerPage.contains('circle_'))
-        return CirclePage(Circle.allMap[selectedDrawerPage.replaceAll('circle_', '')]);
+        return CirclePage(
+          Circle.allMap[selectedDrawerPage.replaceAll('circle_', '')],
+          onLeft: () => setState(() => selectedDrawerPage = drawerPageCircles),
+          onDeleted: () => setState(() => selectedDrawerPage = drawerPageCircles),
+          key: ValueKey(selectedDrawerPage),
+        );
       else if(selectedDrawerPage == drawerPageCircles)
-        return const AllCirclesPage();
+        return AllCirclesPage(
+          onCircleTap: (circle) => setState(() => selectedDrawerPage = CatPageHomeState.drawerPageCircle(circle)),
+        );
 
       return CustomScrollView(
         physics: const BouncingScrollPhysics(),
@@ -84,7 +90,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
           SliverPadding(
             padding: const EdgeInsets.only(top: Dimen.SIDE_MARG),
             sliver: SliverList(delegate: SliverChildListDelegate([
-              const CompetitionPreviewWidget()
+              const CirclePreviewWidget()
             ])),
           )
 
@@ -101,6 +107,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
               selectedSource: selectedDrawerPage,
               onSelect: (source){
                 setState(() => selectedDrawerPage = source);
+                AppBottomNavigatorProvider.of(context).background = null;
                 Navigator.pop(context);
               },
             ),
@@ -112,6 +119,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
               selectedSource: selectedDrawerPage,
               onSelect: (source){
                 setState(() => selectedDrawerPage = source);
+                AppBottomNavigatorProvider.of(context).background = null;
                 Navigator.pop(context);
               },
             ),
@@ -124,6 +132,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
               selectedSource: selectedDrawerPage,
               onSelect: (source){
                 setState(() => selectedDrawerPage = source);
+                AppBottomNavigatorProvider.of(context).background = null;
                 Navigator.pop(context);
               },
             ),
@@ -149,6 +158,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
                       selectedSource: selectedDrawerPage,
                       onSelect: (source){
                         setState(() => selectedDrawerPage = source);
+                        AppBottomNavigatorProvider.of(context).background = null;
                         Navigator.pop(context);
                       },
                     ),
@@ -168,9 +178,9 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
 
 }
 
-class CompetitionPreviewWidget extends StatelessWidget{
+class CirclePreviewWidget extends StatelessWidget{
 
-  const CompetitionPreviewWidget({Key key}) : super(key: key);
+  const CirclePreviewWidget({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => CompetitionsWidget(

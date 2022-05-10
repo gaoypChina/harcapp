@@ -73,7 +73,7 @@ class Announcement{
     Provider.of<AnnouncementListProvider>(context, listen: false).notify();
   }
 
-  static removeFromAll(BuildContext context, Announcement ann){
+  static void removeFromAll(BuildContext context, Announcement ann){
     if(_all == null)
       return;
 
@@ -92,21 +92,23 @@ class Announcement{
   }
 
   final String key;
-  final String title;
-  final DateTime postTime;
-  final UserData author;
-  final CircleCoverImageData coverImage;
-  final String text;
+  String title;
+  DateTime postTime;
+  DateTime lastUpdateTime;
+  UserData author;
+  CircleCoverImageData coverImage;
+  String text;
 
   final Circle circle;
 
-  const Announcement({
+  Announcement({
     this.key,
-    this.title,
-    this.postTime,
-    this.author,
+    @required this.title,
+    @required this.postTime,
+    this.lastUpdateTime,
+    @required this.author,
     this.coverImage,
-    this.text,
+    @required this.text,
 
     this.circle,
   });
@@ -115,6 +117,7 @@ class Announcement{
     key: key??resp['_key']??(throw InvalidResponseError('_key')),
     title: resp['title']??(throw InvalidResponseError('title')),
     postTime: DateTime.tryParse(resp['post_time_str']??(throw InvalidResponseError('post_time_str'))),
+    lastUpdateTime: resp['last_update_time_str'] == null? null: DateTime.tryParse(resp['last_update_time_str']),
     coverImage: resp['cover_image_url'] == null? null: CircleCoverImageData.from(resp['cover_image_url']),
     author: UserData.fromMap(resp['author']),
     text: resp['text'],

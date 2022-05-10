@@ -76,7 +76,7 @@ class Circle{
     Provider.of<CircleListProvider>(context, listen: false).notify();
   }
 
-  static removeFromAll(BuildContext context, Circle circle){
+  static void removeFromAll(BuildContext context, Circle circle){
     if(_all == null)
       return;
 
@@ -102,11 +102,62 @@ class Circle{
   final bool shareCodeSearchable;
   String colorsKey;
 
-  List<Member> members;
-  Map<String, Member> membersMap;
-  List<Announcement> announcements;
+  List<Member> _members;
+  Map<String, Member> _membersMap;
+  List<Member> get members => _members;
+  Map<String, Member> get membersMap => _membersMap;
 
-  CircleRole get myRole => membersMap[AccountData.key].role;
+  void addMember(Member member){
+    _members.add(member);
+    _membersMap[member.key] = member;
+  }
+
+  void removeMember(Member member){
+    _members.remove(member);
+    _membersMap.remove(member.key);
+  }
+
+  void setAllMembers(List<Member> allMembers){
+    _members.clear();
+    _membersMap.clear();
+    _members.addAll(allMembers);
+    _members.sort((mem1, mem2) => mem1.name.compareTo(mem2.name));
+    _membersMap = {for (Member mem in allMembers) mem.key: mem};
+  }
+  
+  List<Announcement> _announcements;
+  Map<String, Announcement> _announcementsMap;
+  List<Announcement> get announcements => _announcements;
+  Map<String, Announcement> get announcementsMap => _announcementsMap;
+
+  void addAnnouncement(Announcement announcement){
+    _announcements.add(announcement);
+    _announcements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
+    _announcementsMap[announcement.key] = announcement;
+  }
+
+  void removeAnnouncement(Announcement announcement){
+    _announcements.remove(announcement);
+    _announcementsMap.remove(announcement.key);
+  }
+
+  void updateAnnouncement(Announcement announcement){
+    int index = _announcements.indexWhere((ann) => ann.key == announcement.key);
+    _announcements.removeAt(index);
+    _announcements.insert(index, announcement);
+    _announcements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
+    _announcementsMap[announcement.key] = announcement;
+  }
+  
+  void setAllAnnouncement(List<Announcement> allAnnouncement){
+    _announcements.clear();
+    _announcementsMap.clear();
+    _announcements.addAll(allAnnouncement);
+    _announcements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
+    _announcementsMap = {for (Announcement ann in allAnnouncement) ann.key: ann};
+  }
+  
+  CircleRole get myRole => _membersMap[AccountData.key].role;
 
   Circle({
     this.key,
@@ -117,9 +168,17 @@ class Circle{
     this.shareCodeSearchable,
     this.colorsKey,
 
-    this.members,
-    this.announcements,
-  }): membersMap = {for (Member mem in members) mem.key: mem};
+    List<Member> members,
+    List<Announcement> announcements,
+  }){
+    _members = members;
+    _members.sort((mem1, mem2) => mem1.name.compareTo(mem2.name));
+    _membersMap = {for (Member mem in members) mem.key: mem};
+    
+    _announcements = announcements;
+    _announcements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
+    _announcementsMap = {for (Announcement ann in announcements) ann.key: ann};
+  }
 
   static Circle fromResponse(Map resp){
 

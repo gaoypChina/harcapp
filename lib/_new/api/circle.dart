@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 
+import '../cat_page_home/circles/model/announcement.dart';
 import '../cat_page_home/circles/model/circle.dart';
 import '_api.dart';
 
@@ -57,8 +58,8 @@ class ApiCircle{
   }) async {
 
     Map<String, dynamic> reqMap = {};
-    reqMap['name'] = name;
-    reqMap['description'] = description;
+    reqMap['name'] = name.trim();
+    reqMap['description'] = description.trim();
     reqMap['cover_image_url'] = coverImageUrl;
     reqMap['colors_key'] = colorsKey;
 
@@ -148,8 +149,8 @@ class ApiCircle{
   }) async{
 
     Map<String, dynamic> reqMap = {};
-    if(name != null) reqMap['name'] = name;
-    if(description != null) reqMap['description'] = description;
+    if(name != null) reqMap['name'] = name.trim();
+    if(description != null) reqMap['description'] = description.trim();
     if(coverImageUrl != null) reqMap['cover_image_url'] = coverImageUrl;
     if(colorsKey != null) reqMap['colors_key'] = colorsKey;
 
@@ -261,20 +262,75 @@ class ApiCircle{
       },
       onError: (err) async => await onError?.call()
   );
-
+*/
   static Future<Response> leave({
-    @required String compKey,
+    @required String circleKey,
     void Function() onSuccess,
     void Function() onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.delete(
-        API.SERVER_URL + 'api/circle/$compKey/leave',
+        API.SERVER_URL + 'api/circle/$circleKey/leave',
       ),
-      onSuccess: (Response response) async {
-        onSuccess?.call();
-      },
+      onSuccess: (Response response) async => onSuccess?.call(),
       onError: (err) async => await onError?.call()
   );
-*/
+
+  static Future<Response> postAnnouncement({
+    @required String circleKey,
+    @required String title,
+    String coverImageUrl,
+    @required String text,
+    void Function(Announcement) onSuccess,
+    void Function() onError,
+  }) => API.sendRequest(
+      withToken: true,
+      sendRequest: (Dio dio) => dio.post(
+        API.SERVER_URL + 'api/circle/$circleKey/announcement',
+        data: FormData.fromMap({
+          'title': title,
+          'cover_image_url': coverImageUrl,
+          'text': text
+        }),
+      ),
+      onSuccess: (Response response) async =>
+          onSuccess?.call(Announcement.fromMap(response.data)),
+      onError: (err) async => await onError?.call()
+  );
+
+  static Future<Response> updateAnnouncement({
+    @required String annKey,
+    @required String title,
+    String coverImageUrl,
+    @required String text,
+    void Function(Announcement) onSuccess,
+    void Function() onError,
+  }) => API.sendRequest(
+      withToken: true,
+      sendRequest: (Dio dio) => dio.put(
+        API.SERVER_URL + 'api/announcement/$annKey',
+        data: FormData.fromMap({
+          'title': title,
+          'cover_image_url': coverImageUrl,
+          'text': text
+        }),
+      ),
+      onSuccess: (Response response) async =>
+          onSuccess?.call(Announcement.fromMap(response.data)),
+      onError: (err) async => await onError?.call()
+  );
+
+  static Future<Response> deleteAnnouncement({
+    @required String annKey,
+    void Function() onSuccess,
+    void Function() onError,
+  }) => API.sendRequest(
+      withToken: true,
+      sendRequest: (Dio dio) => dio.delete(
+        API.SERVER_URL + 'api/announcement/$annKey',
+      ),
+      onSuccess: (Response response) async =>
+          onSuccess?.call(),
+      onError: (err) async => await onError?.call()
+  );
 }

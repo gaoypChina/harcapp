@@ -148,7 +148,7 @@ class CircleCoverImageData{
     imgUrlOrCode = imgUrlOrCode.replaceAll(localPrefix, '');
     String author = 'freepik.com (${imgUrlOrCode.split(':')[0]})';
 
-    if(!imgUrlOrCode.contains('#'))
+    if(!imgUrlOrCode.endsWith('#'))
       return CircleCoverImageData(true, [GraphicalResource('$imgUrlOrCode.webp', author)]);
 
     return CircleCoverImageData(true, [

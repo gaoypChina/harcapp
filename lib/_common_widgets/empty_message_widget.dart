@@ -14,7 +14,7 @@ class EmptyMessageWidget extends StatelessWidget{
     @required this.text,
     @required this.icon,
     this.color,
-    this.size = 92,//Dimen.ICON_EMPTY_INFO_SIZE,
+    this.size = 92, //Dimen.ICON_EMPTY_INFO_SIZE,
     Key key
   }): super(key: key);
 

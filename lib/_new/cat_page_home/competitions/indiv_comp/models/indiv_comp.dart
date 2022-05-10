@@ -179,7 +179,7 @@ class IndivComp{
     Provider.of<IndivCompListProvider>(context, listen: false).notify();
   }
 
-  static removeFromAll(BuildContext context, IndivComp comp){
+  static void removeFromAll(BuildContext context, IndivComp comp){
     if(_all == null)
       return;
 

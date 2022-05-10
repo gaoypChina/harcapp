@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_editor/providers.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
+import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 import 'package:harcapp_core/dimen.dart';
 
+import '../circle_page.dart';
+
 class GeneralPart extends StatefulWidget{
 
-  const GeneralPart({Key key}) : super(key: key);
+  final PaletteGenerator palette;
+
+  const GeneralPart({this.palette, Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => GeneralPartState();
@@ -15,6 +20,8 @@ class GeneralPart extends StatefulWidget{
 }
 
 class GeneralPartState extends State<GeneralPart>{
+
+  PaletteGenerator get palette => widget.palette;
 
   @override
   Widget build(BuildContext context) => ListView(
@@ -44,6 +51,7 @@ class GeneralPartState extends State<GeneralPart>{
 
       Consumer<ColorsKeyProvider>(
         builder: (context, prov, child) => SwitchListTile(
+          activeColor: CirclePage.strongColor(context, palette),
           contentPadding: const EdgeInsets.symmetric(horizontal: 3.0),
           title: Text('Tło kolorystyczne', style: AppTextStyle()),
           value: prov.colorsKey == 'auto',

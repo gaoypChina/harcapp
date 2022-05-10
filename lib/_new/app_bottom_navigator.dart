@@ -13,6 +13,9 @@ class AppBottomNavigatorProvider extends ChangeNotifier{
 
   static AppBottomNavigatorProvider _prov;
 
+  static AppBottomNavigatorProvider of(BuildContext context) =>
+      Provider.of<AppBottomNavigatorProvider>(context, listen: false);
+
   List<void Function(int)> _listeners;
 
   int _selectedIndex;
@@ -22,9 +25,17 @@ class AppBottomNavigatorProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  Color _background;
+  Color get background => _background;
+  set background(value){
+    _background = value;
+    notifyListeners();
+  }
+
   AppBottomNavigatorProvider(){
     _listeners = [];
     _selectedIndex = initIndex;
+    _background = null;
   }
 
   void init(AppBottomNavigatorProvider prov) => _prov = prov;
@@ -81,7 +92,7 @@ class AppBottomNavigator extends StatelessWidget{
 
               if(account)
                 BottomNavigationBarItem(
-                    backgroundColor: background??background_(context),
+                    backgroundColor: prov.background??background??background_(context),
                     icon: const Icon(MdiIcons.accountCircleOutline),
                     //activeIcon: Icon(MdiIcons.accountCircle),
                     label: 'Skromny ja'
@@ -95,24 +106,24 @@ class AppBottomNavigator extends StatelessWidget{
                 ),
                  */
               BottomNavigationBarItem(
-                  backgroundColor: background??background_(context),
+                  backgroundColor: prov.background??background??background_(context),
                   icon: const Icon(MdiIcons.music),
                   label: 'Śpiewnik'
               ),
               BottomNavigationBarItem(
-                  backgroundColor: background??background_(context),
+                  backgroundColor: prov.background??background??background_(context),
                   icon: const Icon(MdiIcons.notebookOutline),
                   //activeIcon: Icon(MdiIcons.notebook),
                   label: 'Poradnik'
               ),
               BottomNavigationBarItem(
-                  backgroundColor: background??background_(context),
+                  backgroundColor: prov.background??background??background_(context),
                   icon: const Icon(MdiIcons.lightbulbOutline),
                   //activeIcon: Icon(MdiIcons.lightbulb),
                   label: 'Harc myśl'
               ),
               BottomNavigationBarItem(
-                  backgroundColor: background??background_(context),
+                  backgroundColor: prov.background??background??background_(context),
                   icon: const Icon(MdiIcons.candle),
                   label: 'Strefa ducha'
               )

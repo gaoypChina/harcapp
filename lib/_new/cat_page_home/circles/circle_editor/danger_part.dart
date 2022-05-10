@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
-import 'package:harcapp/_new/cat_page_home/circles/circle_role.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/member.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../circle_loader.dart';
 import '../model/circle.dart';
+import 'common.dart';
 
 class DangerPart extends StatefulWidget{
 
   final Circle circle;
-  const DangerPart(this.circle, {Key key}) : super(key: key);
+  final void Function() onDeleted;
+  final void Function() onLeft;
+  final void Function() onError;
+
+  const DangerPart(this.circle, {this.onDeleted, this.onLeft, this.onError, Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => DangerPartState();
@@ -26,6 +29,7 @@ class DangerPart extends StatefulWidget{
 class DangerPartState extends State<DangerPart>{
 
   Circle get circle => widget.circle;
+  void Function() get onLeft => widget.onLeft;
 
   @override
   Widget build(BuildContext context) => ListView(
@@ -33,68 +37,51 @@ class DangerPartState extends State<DangerPart>{
     padding: const EdgeInsets.all(Dimen.SIDE_MARG),
     children: [
 
+      LeaveCircleButton(circle, onLeft: onLeft),
+
       ListTile(
-        leading: const Icon(MdiIcons.exitToApp),
+        leading: const Icon(MdiIcons.vanish),
         title: Text(
-          'Opuść krąg',
+          'Rozwiąż krąg',
           style: AppTextStyle(),
         ),
-        onTap: () {
+        onTap: () => showAlertDialog(
+            context,
+            title: 'Zastanów się dobrze...',
+            content: 'Krąg <b>przestanie istnieć</b>.\n\nNie będzie już powrotu.\n\nNa pewno chcesz je <b>rozwiazać</b>?',
+            actionBuilder: (_) => [
 
-          int allAdminCount = 0;
-          for(Member mem in circle.members) if(mem.role == CircleRole.ADMIN) allAdminCount++;
+              AlertDialogButton(text: 'Jednak nie', onTap: () => Navigator.pop(context)),
 
-          if(allAdminCount == 1 && circle.myRole == CircleRole.ADMIN){
-            showAlertDialog(
-                context,
-                title: 'Hola, hola...',
-                content: 'Jesteś ostatnim administratorem kręgu i zamierzasz je opuścić!\n\nTak nie wolno.',
-                actionBuilder: (context) => [
-                  AlertDialogButton(
-                      text: 'No dobrze',
-                      onTap: () => Navigator.pop(context)
-                  )
-                ]
-            );
-            return;
-          }else
-            showAlertDialog(
-                context,
-                title: 'Zastanów się dobrze...',
-                content: 'Jesteś na ostatniej prostej, by <b>opuścić</b> krąg.\n\nNa pewno chcesz kontynuować?',
-                actionBuilder: (_) => [
+              AlertDialogButton(
+                  text: 'Tak',
+                  onTap: () async {
 
-                  AlertDialogButton(text: 'Jednak nie', onTap: () => Navigator.pop(context)),
+                    Navigator.pop(context); // Close alert dialog.
 
-                  AlertDialogButton(
-                      text: 'Tak',
-                      onTap: () async {
+                    showLoadingWidget(context, iconEnab_(context), 'Zwijanie kręgu...');
 
-                        Navigator.pop(context);
+                    await ApiCircle.delete(
+                      circleKey: circle.key,
+                      onSuccess: () async {
+                        Circle.removeFromAll(context, circle);
+                        showAppToast(context, text: 'Poszło z dymem!');
+                        await popPage(context); // Close loading widget.
 
-                        showLoadingWidget(context, iconEnab_(context), 'Opuszczanie lokalu...');
+                        widget.onDeleted?.call();
+                      },
+                      onError: () async {
+                        showAppToast(context, text: 'Coś poszło nie tak...');
+                        await popPage(context); // Close loading widget.
 
-                        await ApiCircle.leave(
-                            compKey: circle.key,
-                            onSuccess: () async {
-                              await circleLoader.run();
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                              showAppToast(context,
-                                  text: 'Krąg opuszczony');
-                            },
-                            onError: () =>
-                                showAppToast(
-                                    context, text: 'Coś poszło nie tak...')
-                        );
-                        Navigator.pop(context);
+                        widget.onError?.call();
                       }
-                  )
-                ]
-            );
-
-        },
-      )
+                    );
+                  }
+              )
+            ]
+        ),
+      ),
 
     ],
   );

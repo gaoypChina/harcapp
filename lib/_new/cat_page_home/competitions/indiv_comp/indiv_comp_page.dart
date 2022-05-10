@@ -10,7 +10,6 @@ import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_profile.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_particip/participant_list_page.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_disp_type.dart';
@@ -775,7 +774,7 @@ class LeaveNotAdminDialog extends StatelessWidget{
           titleColor: hintEnab_(context),
         ),
 
-        LeaveButton(comp)
+        LeaveCompButton(comp)
 
       ],
     );

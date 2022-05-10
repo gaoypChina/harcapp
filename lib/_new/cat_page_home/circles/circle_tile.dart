@@ -11,7 +11,8 @@ import 'model/circle.dart';
 class CircleTile extends StatelessWidget{
   
   final Circle circle;
-  const CircleTile(this.circle, {Key key}) : super(key: key);
+  final void Function() onTap;
+  const CircleTile(this.circle, {this.onTap, Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context){
@@ -24,10 +25,13 @@ class CircleTile extends StatelessWidget{
           fit: StackFit.expand,
           children: [
 
-            Material(
-              clipBehavior: Clip.hardEdge,
-              borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-              child: CoverImage(circle.coverImage),
+            InkWell(
+              onTap: onTap,
+              child: Material(
+                clipBehavior: Clip.hardEdge,
+                borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                child: CoverImage(circle.coverImage),
+              ),
             ),
 
             Positioned(

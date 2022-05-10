@@ -15,6 +15,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 
+import '../_main.dart';
 import 'circle_editor/_main.dart';
 import 'circle_loader.dart';
 import 'circle_page.dart';
@@ -25,7 +26,9 @@ import 'new_circle_type.dart';
 
 class AllCirclesPage extends StatefulWidget{
 
-  const AllCirclesPage({Key key}) : super(key: key);
+  final void Function(Circle) onCircleTap;
+
+  const AllCirclesPage({this.onCircleTap, Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => AllCirclesPageState();
@@ -33,6 +36,8 @@ class AllCirclesPage extends StatefulWidget{
 }
 
 class AllCirclesPageState extends State<AllCirclesPage>{
+
+  void Function(Circle) get onCircleTap => widget.onCircleTap;
 
   RefreshController refreshController;
 
@@ -45,6 +50,7 @@ class AllCirclesPageState extends State<AllCirclesPage>{
     _listener = CircleLoaderListener(
       onError: (message) async {
         refreshController.refreshCompleted();
+        showAppToast(context, text: 'Coś poszło nie tak...');
         if(mounted) setState(() {});
       },
       onCirclesLoaded: (List<Circle> comps){
@@ -93,7 +99,9 @@ class AllCirclesPageState extends State<AllCirclesPage>{
               floating: true,
             ),
             SliverList(delegate: SliverChildListDelegate([
-              CirclesWidget(circleWidgetBuilder: (_) => _CompListWidget())
+              CirclesWidget(circleWidgetBuilder: (_) => _CompListWidget(
+                onCircleTap: onCircleTap,
+              ))
             ]))
           ]
       ));
@@ -101,12 +109,18 @@ class AllCirclesPageState extends State<AllCirclesPage>{
 
 class _CompListWidget extends StatefulWidget{
 
+  final void Function(Circle) onCircleTap;
+
+  const _CompListWidget({this.onCircleTap, Key key}): super(key: key);
+
   @override
   State<StatefulWidget> createState() => _CompListWidgetState();
 
 }
 
 class _CompListWidgetState extends State<_CompListWidget>{
+
+  void Function(Circle) get onCircleTap => widget.onCircleTap;
 
   String searchPhrase;
   List<Circle> searchedCircles;
@@ -160,6 +174,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
                   padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                   child: CircleTile(
                     searchedCircles[i],
+                    onTap: () => onCircleTap?.call(searchedCircles[i])
                   ),
                 )
             );

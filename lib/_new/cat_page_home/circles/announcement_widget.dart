@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_new/cat_page_home/circles/circle_cover_image_data.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_page.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -18,8 +17,16 @@ class AnnouncementWidget extends StatelessWidget{
 
   final Announcement announcement;
   final PaletteGenerator paletteGenerator;
+  final void Function() onUpdateTap;
+  final void Function() onPinTap;
 
-  const AnnouncementWidget(this.announcement, {this.paletteGenerator, Key key}) : super(key: key);
+  const AnnouncementWidget(
+      this.announcement,
+      { this.paletteGenerator,
+        this.onUpdateTap,
+        this.onPinTap,
+        Key key
+      }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Material(
@@ -74,9 +81,13 @@ class AnnouncementWidget extends StatelessWidget{
             if(AccountData.key == announcement.author.key)
               IconButton(
                 icon: const Icon(MdiIcons.pencilOutline),
-                onPressed: (){
+                onPressed: onUpdateTap
+              ),
 
-                },
+            if(AccountData.key == announcement.author.key)
+              IconButton(
+                  icon: const Icon(MdiIcons.pinOutline),
+                  onPressed: onPinTap
               ),
 
             Expanded(child: Container()),
@@ -89,8 +100,7 @@ class AnnouncementWidget extends StatelessWidget{
         ),
 
         const SizedBox(height: Dimen.SIDE_MARG - Dimen.ICON_MARG),
-
-
+        
       ],
     ),
   );

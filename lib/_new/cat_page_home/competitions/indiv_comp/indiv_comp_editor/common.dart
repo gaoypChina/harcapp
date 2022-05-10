@@ -18,11 +18,11 @@ import '../../../../../_common_widgets/loading_widget.dart';
 import '../comp_role.dart';
 import '../indiv_comp_loader.dart';
 
-class LeaveButton extends StatelessWidget{
+class LeaveCompButton extends StatelessWidget{
 
   final IndivComp comp;
 
-  const LeaveButton(this.comp);
+  const LeaveCompButton(this.comp);
 
   @override
   Widget build(BuildContext context) => ListTile(
@@ -69,7 +69,7 @@ class LeaveButton extends StatelessWidget{
                     await ApiIndivComp.leave(
                         compKey: comp.key,
                         onSuccess: () async {
-                          await indivCompLoader.run();
+                          IndivComp.removeFromAll(context, comp);
                           Navigator.pop(context);
                           Navigator.pop(context);
                           showAppToast(context,
@@ -96,31 +96,29 @@ class EditGradientButton extends StatelessWidget{
   final String text;
   final void Function() onTap;
 
-  const EditGradientButton(this.icon, this.text, {this.onTap});
+  const EditGradientButton(this.icon, this.text, {this.onTap, Key key}): super(key: key);
   
   @override
-  Widget build(BuildContext context) {
-    return AppCard(
-        radius: AppCard.BIG_RADIUS,
-        elevation: AppCard.bigElevation,
-        margin: AppCard.normMargin,
-        padding: EdgeInsets.zero,
-        onTap: onTap,
-        child: GradientWidget(
-          colorStart: Provider.of<ColorKeyProvider>(context, listen: false).color1,
-          colorEnd: Provider.of<ColorKeyProvider>(context, listen: false).color2,
-          child: TitleShortcutRowWidget(
-            leading: Padding(
-              padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.DEF_PADDING_VAL),
-              child: Icon(icon, color: background_(context)),
-            ),
-            title: text,
-            titleColor: background_(context),
-            trailing: const SizedBox(width: Dimen.ICON_FOOTPRINT),
+  Widget build(BuildContext context) => AppCard(
+      radius: AppCard.BIG_RADIUS,
+      elevation: AppCard.bigElevation,
+      margin: AppCard.normMargin,
+      padding: EdgeInsets.zero,
+      onTap: onTap,
+      child: GradientWidget(
+        colorStart: Provider.of<ColorKeyProvider>(context, listen: false).color1,
+        colorEnd: Provider.of<ColorKeyProvider>(context, listen: false).color2,
+        child: TitleShortcutRowWidget(
+          leading: Padding(
+            padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.DEF_PADDING_VAL),
+            child: Icon(icon, color: background_(context)),
           ),
-        )
-    );
-  }
+          title: text,
+          titleColor: background_(context),
+          trailing: const SizedBox(width: Dimen.ICON_FOOTPRINT),
+        ),
+      )
+  );
   
 }
 
