@@ -67,8 +67,8 @@ class AutoSizeText extends StatefulWidget {
   /// If the [style] argument is null, the Lk_9_28b-36$text will use the style from the
   /// closest enclosing [DefaultTextStyle].
   const AutoSizeText(
-      this.data, {
-        Key key,
+      String this.data, {
+        Key? key,
         this.textKey,
         this.style,
         this.strutStyle,
@@ -94,8 +94,8 @@ class AutoSizeText extends StatefulWidget {
 
   /// Creates a [AutoSizeText] widget with a [TextSpan].
   const AutoSizeText.rich(
-      this.textSpan, {
-        Key key,
+      TextSpan this.textSpan, {
+        Key? key,
         this.textKey,
         this.style,
         this.strutStyle,
@@ -122,24 +122,24 @@ class AutoSizeText extends StatefulWidget {
   /// Sets the key for the resulting [Text] widget.
   ///
   /// This allows you to find the actual `Text` widget built by `AutoSizeText`.
-  final Key textKey;
+  final Key? textKey;
 
   /// The Lk_9_28b-36$text to display.
   ///
   /// This will be null if a [textSpan] is provided instead.
-  final String data;
+  final String? data;
 
   /// The Lk_9_28b-36$text to display as a [TextSpan].
   ///
   /// This will be null if [data] is provided instead.
-  final TextSpan textSpan;
+  final TextSpan? textSpan;
 
   /// If non-null, the style to use for this Lk_9_28b-36$text.
   ///
   /// If the style's 'inherit' property is true, the style will be merged with
   /// the closest enclosing [DefaultTextStyle]. Otherwise, the style will
   /// replace the closest enclosing [DefaultTextStyle].
-  final TextStyle style;
+  final TextStyle? style;
 
   // The default font size if none is specified.
   static const double _defaultFontSize = 14.0;
@@ -154,7 +154,7 @@ class AutoSizeText extends StatefulWidget {
   /// font size.
   ///
   /// See [StrutStyle] for details.
-  final StrutStyle strutStyle;
+  final StrutStyle? strutStyle;
 
   /// The minimum Lk_9_28b-36$text size constraint to be used when auto-sizing Lk_9_28b-36$text.
   ///
@@ -180,17 +180,17 @@ class AutoSizeText extends StatefulWidget {
   /// Predefines all the possible font sizes.
   ///
   /// **Important:** PresetFontSizes have to be in descending order.
-  final List<double> presetFontSizes;
+  final List<double>? presetFontSizes;
 
   /// Synchronizes the size of multiple [AutoSizeText]s.
   ///
   /// If you want multiple [AutoSizeText]s to have the same Lk_9_28b-36$text size, give all
   /// of them the same [AutoSizeGroup] instance. All of them will have the
   /// size of the smallest [AutoSizeText]
-  final AutoSizeGroup group;
+  final AutoSizeGroup? group;
 
   /// How the Lk_9_28b-36$text should be aligned horizontally.
-  final TextAlign textAlign;
+  final TextAlign? textAlign;
 
   /// The directionality of the Lk_9_28b-36$text.
   ///
@@ -205,20 +205,20 @@ class AutoSizeText extends StatefulWidget {
   /// its left.
   ///
   /// Defaults to the ambient [Directionality], if any.
-  final TextDirection textDirection;
+  final TextDirection? textDirection;
 
   /// Used to select a font when the same Unicode character can
   /// be rendered differently, depending on the locale.
   ///
   /// It's rarely necessary to set this property. By default its value
   /// is inherited from the enclosing app with `Localizations.localeOf(context)`.
-  final Locale locale;
+  final Locale? locale;
 
   /// Whether the Lk_9_28b-36$text should break at soft line breaks.
   ///
   /// If false, the glyphs in the Lk_9_28b-36$text will be positioned as if there was
   /// unlimited horizontal space.
-  final bool softWrap;
+  final bool? softWrap;
 
   /// Whether words which don't fit in one line should be wrapped.
   ///
@@ -227,11 +227,11 @@ class AutoSizeText extends StatefulWidget {
   final bool wrapWords;
 
   /// How visual overflow should be handled.
-  final TextOverflow overflow;
+  final TextOverflow? overflow;
 
   /// If the Lk_9_28b-36$text is overflowing and does not fit its bounds, this widget is
   /// displayed instead.
-  final Widget overflowReplacement;
+  final Widget? overflowReplacement;
 
   /// The number of font pixels for each logical pixel.
   ///
@@ -243,7 +243,7 @@ class AutoSizeText extends StatefulWidget {
   /// The value given to the constructor as textScaleFactor. If null, will
   /// use the [MediaQueryData.textScaleFactor] obtained from the ambient
   /// [MediaQuery], or 1.0 if there is no [MediaQuery] in scope.
-  final double textScaleFactor;
+  final double? textScaleFactor;
 
   /// An optional maximum number of lines for the Lk_9_28b-36$text to span, wrapping if necessary.
   /// If the Lk_9_28b-36$text exceeds the given number of lines, it will be resized according
@@ -256,7 +256,7 @@ class AutoSizeText extends StatefulWidget {
   /// an explicit number for its [DefaultTextStyle.maxLines], then the
   /// [DefaultTextStyle] value will take precedence. You can use a [RichText]
   /// widget directly to entirely override the [DefaultTextStyle].
-  final int maxLines;
+  final int? maxLines;
 
   /// An alternative semantics label for this Lk_9_28b-36$text.
   ///
@@ -270,7 +270,7 @@ class AutoSizeText extends StatefulWidget {
   /// ```dart
   /// Text(r'$$', semanticsLabel: 'Double dollars')
   /// ```
-  final String semanticsLabel;
+  final String? semanticsLabel;
 
   @override
   _AutoSizeTextState createState() => _AutoSizeTextState();
@@ -282,7 +282,7 @@ class _AutoSizeTextState extends State<AutoSizeText> {
     super.initState();
 
     if (widget.group != null) {
-      widget.group._register(this);
+      widget.group!._register(this);
     }
   }
 
@@ -304,10 +304,10 @@ class _AutoSizeTextState extends State<AutoSizeText> {
       var defaultTextStyle = DefaultTextStyle.of(context);
 
       var style = widget.style;
-      if (widget.style == null || widget.style.inherit) {
+      if (widget.style == null || widget.style!.inherit) {
         style = defaultTextStyle.style.merge(widget.style);
       }
-      if (style.fontSize == null) {
+      if (style!.fontSize == null) {
         style = style.copyWith(fontSize: AutoSizeText._defaultFontSize);
       }
 
@@ -323,9 +323,9 @@ class _AutoSizeTextState extends State<AutoSizeText> {
 
       if (widget.group != null) {
 
-        tmpHistory.add(widget.group.fontSize);
+        tmpHistory.add(widget.group!.fontSize);
 
-        if(tmpHistory.length > widget.group._listeners.length)
+        if(tmpHistory.length > widget.group!._listeners.length)
           tmpHistory.removeAt(0);
 
         double smallestRepeatingVal = -1;
@@ -343,25 +343,25 @@ class _AutoSizeTextState extends State<AutoSizeText> {
 
         if(smallestRepeated){
           fontSize = smallestRepeatingVal;
-          widget.group.fontSize = smallestRepeatingVal;
+          widget.group!.fontSize = smallestRepeatingVal;
           tmpHistory.clear();
         }
 
-        widget.group._updateFontSize(this, fontSize);
-        text = _buildText(widget.group.fontSize, style, maxLines);
+        widget.group!._updateFontSize(this, fontSize);
+        text = _buildText(widget.group!.fontSize, style, maxLines);
       } else {
         text = _buildText(fontSize, style, maxLines);
       }
 
       if (widget.overflowReplacement != null && !textFits) {
-        return widget.overflowReplacement;
+        return widget.overflowReplacement!;
       } else {
         return text;
       }
     });
   }
 
-  void _sanityCheck(TextStyle style, int maxLines) {
+  void _sanityCheck(TextStyle? style, int? maxLines) {
     assert(widget.overflow == null || widget.overflowReplacement == null,
     'Either overflow or overflowReplacement have to be null.');
     assert(maxLines == null || maxLines > 0,
@@ -384,12 +384,12 @@ class _AutoSizeTextState extends State<AutoSizeText> {
         'MaxFontSize has to be multiples of stepGranularity.');
       }
     } else {
-      assert(widget.presetFontSizes.isNotEmpty,
+      assert(widget.presetFontSizes!.isNotEmpty,
       'PresetFontSizes has to be nonempty.');
     }
   }
 
-  List _calculateFontSize(BoxConstraints size, TextStyle style, int maxLines) {
+  List _calculateFontSize(BoxConstraints size, TextStyle? style, int? maxLines) {
     var span = TextSpan(
       style: widget.textSpan?.style ?? style,
       text: widget.textSpan?.text ?? widget.data,
@@ -405,9 +405,9 @@ class _AutoSizeTextState extends State<AutoSizeText> {
 
     var presetFontSizes = widget.presetFontSizes?.reversed?.toList();
     if (presetFontSizes == null) {
-      var defaultFontSize =
-      style.fontSize.clamp(widget.minFontSize, widget.maxFontSize);
-      var defaultScale = defaultFontSize * userScale / style.fontSize;
+      num defaultFontSize =
+      style!.fontSize!.clamp(widget.minFontSize, widget.maxFontSize);
+      var defaultScale = defaultFontSize * userScale / style.fontSize!;
       if (_checkTextFits(span, defaultScale, maxLines, size)) {
         return [defaultFontSize * userScale, true];
       }
@@ -424,9 +424,9 @@ class _AutoSizeTextState extends State<AutoSizeText> {
       var mid = (left + (right - left) / 2).toInt();
       double scale;
       if (presetFontSizes == null) {
-        scale = mid * userScale * widget.stepGranularity / style.fontSize;
+        scale = mid * userScale * widget.stepGranularity / style!.fontSize!;
       } else {
-        scale = presetFontSizes[mid] * userScale / style.fontSize;
+        scale = presetFontSizes[mid] * userScale / style!.fontSize!;
       }
       if (_checkTextFits(span, scale, maxLines, size)) {
         left = mid + 1;
@@ -451,7 +451,7 @@ class _AutoSizeTextState extends State<AutoSizeText> {
   }
 
   bool _checkTextFits(
-      TextSpan text, double scale, int maxLines, BoxConstraints constraints) {
+      TextSpan text, double scale, int? maxLines, BoxConstraints constraints) {
     if (!widget.wrapWords) {
       var words = text.toPlainText().split(RegExp('\\s+'));
 
@@ -493,12 +493,12 @@ class _AutoSizeTextState extends State<AutoSizeText> {
         tp.width > constraints.maxWidth);
   }
 
-  Widget _buildText(double fontSize, TextStyle style, int maxLines) {
+  Widget _buildText(double fontSize, TextStyle? style, int? maxLines) {
     if (widget.data != null) {
       return Text(
-        widget.data,
+        widget.data!,
         key: widget.textKey,
-        style: style.copyWith(fontSize: fontSize),
+        style: style!.copyWith(fontSize: fontSize),
         strutStyle: widget.strutStyle,
         textAlign: widget.textAlign,
         textDirection: widget.textDirection,
@@ -511,7 +511,7 @@ class _AutoSizeTextState extends State<AutoSizeText> {
       );
     } else {
       return Text.rich(
-        widget.textSpan,
+        widget.textSpan!,
         key: widget.textKey,
         style: style,
         strutStyle: widget.strutStyle,
@@ -520,7 +520,7 @@ class _AutoSizeTextState extends State<AutoSizeText> {
         locale: widget.locale,
         softWrap: widget.softWrap,
         overflow: widget.overflow,
-        textScaleFactor: fontSize / style.fontSize,
+        textScaleFactor: fontSize / style!.fontSize!,
         maxLines: maxLines,
         semanticsLabel: widget.semanticsLabel,
       );
@@ -534,7 +534,7 @@ class _AutoSizeTextState extends State<AutoSizeText> {
   @override
   void dispose() {
     if (widget.group != null) {
-      widget.group._remove(this);
+      widget.group!._remove(this);
     }
     super.dispose();
   }

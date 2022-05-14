@@ -6,8 +6,8 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_sta
 
 class RankTaskStateShared extends RankTaskState {
 
-  bool completed;
-  String note;
+  bool? completed;
+  String? note;
 
   RankTaskStateShared(this.completed, this.note);
 
@@ -23,9 +23,9 @@ class RankStateShared extends RankState<RankTaskStateShared>{
   String key;
   DateTime lastUpdateTime;
 
-  bool inProgress;
-  DateTime completionDate;
-  bool completed;
+  bool? inProgress;
+  DateTime? completionDate;
+  bool? completed;
 
   @protected
   final Map<String, RankTaskStateShared> tasks;
@@ -37,7 +37,7 @@ class RankStateShared extends RankState<RankTaskStateShared>{
   static RankStateShared from(String key, DateTime lastUpdateTime, Map<String, dynamic> map){
 
     Map<String, RankTaskStateShared> tasks = {};
-    Map<String, dynamic> taskRespMap = map['tasks'] as Map;
+    Map<String, dynamic> taskRespMap = (map['tasks'] as Map) as Map<String, dynamic>;
 
     for(String taskMapKey in taskRespMap.keys)
       tasks[taskMapKey] = RankTaskStateShared.from(taskRespMap[taskMapKey]);
@@ -66,14 +66,14 @@ class RankStateShared extends RankState<RankTaskStateShared>{
 
   static String _shaPrefSharedRankKey(String key) => ShaPref.SHA_PREF_SHARE_RANK_DUMP_(key);
 
-  void dump() => shaPref.setString(_shaPrefSharedRankKey(key), serialize());
-  static bool dumpExists(String key) => shaPref.exists(_shaPrefSharedRankKey(key));
+  void dump() => shaPref!.setString(_shaPrefSharedRankKey(key), serialize());
+  static bool dumpExists(String key) => shaPref!.exists(_shaPrefSharedRankKey(key));
 
-  static RankStateShared fromDump(String key){
-    String serialized = shaPref.getString(_shaPrefSharedRankKey(key), null);
+  static RankStateShared? fromDump(String key){
+    String? serialized = shaPref!.getString(_shaPrefSharedRankKey(key), null);
     if(serialized == null) return null;
     Map map = jsonDecode(serialized);
-    DateTime dateTime = DateTime.tryParse(map['lastUpdateTime']);
+    DateTime? dateTime = DateTime.tryParse(map['lastUpdateTime']);
     if(dateTime == null) return null;
     return RankStateShared.from(key, dateTime, jsonDecode(serialized));
   }

@@ -17,8 +17,8 @@ class ArticleViewer extends StatefulWidget{
 
 class ArticleViewerState extends State<ArticleViewer>{
 
-  ValueNotifier notifier;
-  PageController controller;
+  ValueNotifier? notifier;
+  PageController? controller;
 
   @override
   void initState() {

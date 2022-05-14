@@ -7,7 +7,7 @@ import 'common.dart';
 
 class PartChangelog extends StatelessWidget{
 
-  const PartChangelog({GlobalKey globalKey}):super(key: globalKey);
+  const PartChangelog({GlobalKey? globalKey}):super(key: globalKey);
 
   @override
   Widget build(BuildContext context) {
@@ -704,7 +704,7 @@ class ListCard extends StatelessWidget{
   final String version;
   final List<String> changelog;
 
-  const ListCard(this.version, this.changelog, {Key key}): super(key: key);
+  const ListCard(this.version, this.changelog, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

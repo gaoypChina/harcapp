@@ -47,11 +47,11 @@ class PreloadPageView extends StatefulWidget {
   /// child that could possibly be displayed in the page view, instead of just
   /// those children that are actually visible.
   PreloadPageView({
-    Key key,
+    Key? key,
     this.scrollDirection = Axis.horizontal,
     this.reverse = false,
     this.extents = 1,
-    PageController controller,
+    PageController? controller,
     this.physics,
     this.pageSnapping = true,
     this.onPageChanged,
@@ -78,15 +78,15 @@ class PreloadPageView extends StatefulWidget {
   /// you are planning to change child order at a later time, consider using
   /// [PageView] or [PageView.custom].
   PreloadPageView.builder({
-    Key key,
+    Key? key,
     this.scrollDirection = Axis.horizontal,
     this.reverse = false,
-    PageController controller,
+    PageController? controller,
     this.physics,
     this.pageSnapping = true,
     this.onPageChanged,
-    @required IndexedWidgetBuilder itemBuilder,
-    int itemCount,
+    required IndexedWidgetBuilder itemBuilder,
+    int? itemCount,
     this.dragStartBehavior = DragStartBehavior.start,
   })  : controller = controller ?? _defaultPageController,
         childrenDelegate = SliverChildBuilderDelegate(itemBuilder, childCount: itemCount),
@@ -94,16 +94,16 @@ class PreloadPageView extends StatefulWidget {
         super(key: key);
 
   PreloadPageView.extents({
-    Key key,
+    Key? key,
     this.extents = 1,
     this.scrollDirection = Axis.horizontal,
     this.reverse = false,
-    PageController controller,
+    PageController? controller,
     this.physics,
     this.pageSnapping = true,
     this.onPageChanged,
-    @required IndexedWidgetBuilder itemBuilder,
-    int itemCount,
+    required IndexedWidgetBuilder itemBuilder,
+    int? itemCount,
     this.dragStartBehavior = DragStartBehavior.start,
   })  : controller = controller ?? _defaultPageController,
         childrenDelegate = SliverChildBuilderDelegate(
@@ -195,14 +195,14 @@ class PreloadPageView extends StatefulWidget {
   /// ```
   /// {@end-tool}
   PreloadPageView.custom({
-    Key key,
+    Key? key,
     this.scrollDirection = Axis.horizontal,
     this.reverse = false,
-    PageController controller,
+    PageController? controller,
     this.physics,
     this.pageSnapping = true,
     this.onPageChanged,
-    @required this.childrenDelegate,
+    required this.childrenDelegate,
     this.dragStartBehavior = DragStartBehavior.start,
   })  : assert(childrenDelegate != null),
         extents = 0,
@@ -250,13 +250,13 @@ class PreloadPageView extends StatefulWidget {
   /// [PageScrollPhysics] prior to being used.
   ///
   /// Defaults to matching platform conventions.
-  final ScrollPhysics physics;
+  final ScrollPhysics? physics;
 
   /// Set to false to disable page snapping, useful for custom scroll behavior.
   final bool pageSnapping;
 
   /// Called whenever the page in the center of the viewport changes.
-  final ValueChanged<int> onPageChanged;
+  final ValueChanged<int>? onPageChanged;
 
   /// A delegate that provides the children for the [PageView].
   ///
@@ -282,7 +282,7 @@ class _PageViewState extends State<PreloadPageView> {
     _lastReportedPage = widget.controller.initialPage;
   }
 
-  AxisDirection _getDirection(BuildContext context) {
+  AxisDirection? _getDirection(BuildContext context) {
     switch (widget.scrollDirection) {
       case Axis.horizontal:
         assert(debugCheckHasDirectionality(context));
@@ -297,17 +297,17 @@ class _PageViewState extends State<PreloadPageView> {
 
   @override
   Widget build(BuildContext context) {
-    final AxisDirection axisDirection = _getDirection(context);
-    final ScrollPhysics physics = widget.pageSnapping ? _kPagePhysics.applyTo(widget.physics) : widget.physics;
+    final AxisDirection axisDirection = _getDirection(context)!;
+    final ScrollPhysics? physics = widget.pageSnapping ? _kPagePhysics.applyTo(widget.physics) : widget.physics;
 
     return NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification notification) {
         if (notification.depth == 0 && widget.onPageChanged != null && notification is ScrollUpdateNotification) {
-          final PageMetrics metrics = notification.metrics;
-          final int currentPage = metrics.page.round();
+          final PageMetrics metrics = notification.metrics as PageMetrics;
+          final int currentPage = metrics.page!.round();
           if (currentPage != _lastReportedPage) {
             _lastReportedPage = currentPage;
-            widget.onPageChanged(currentPage);
+            widget.onPageChanged!(currentPage);
           }
         }
         return false;

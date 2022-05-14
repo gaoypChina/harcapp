@@ -11,18 +11,18 @@ import '../song_management/memory.dart';
 
 class MemoryWidget extends StatefulWidget {
 
-  static String memoryDateHeroTagFrom(String memoryFileName) => 'MEMORY_DATE_TAG\$$memoryFileName';
-  static String memoryPlaceHeroTagFrom(String memoryFileName) => 'MEMORY_PLACE_TAG\$$memoryFileName';
-  static String memoryDescHeroTagFrom(String memoryFileName) => 'MEMORY_DESC_TAG\$$memoryFileName';
+  static String memoryDateHeroTagFrom(String? memoryFileName) => 'MEMORY_DATE_TAG\$$memoryFileName';
+  static String memoryPlaceHeroTagFrom(String? memoryFileName) => 'MEMORY_PLACE_TAG\$$memoryFileName';
+  static String memoryDescHeroTagFrom(String? memoryFileName) => 'MEMORY_DESC_TAG\$$memoryFileName';
 
   final Memory memory;
-  final int fontIndex;
+  final int? fontIndex;
   final bool showShare;
-  final Function onTap;
-  final Function onLongPress;
+  final Function? onTap;
+  final Function? onLongPress;
   final bool withHero;
 
-  const MemoryWidget(this.memory, {this.fontIndex, this.showShare=true, this.onTap, this.onLongPress, this.withHero=true, Key key}): super(key: key);
+  const MemoryWidget(this.memory, {this.fontIndex, this.showShare=true, this.onTap, this.onLongPress, this.withHero=true, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => MemoryWidgetState();
@@ -32,36 +32,36 @@ class MemoryWidget extends StatefulWidget {
 class MemoryWidgetState extends State<MemoryWidget> {
 
   Memory get memory => widget.memory;
-  int get fontIndex => widget.fontIndex;
+  int? get fontIndex => widget.fontIndex;
 
   @override
   Widget build(BuildContext context) {
 
     Widget textDate = Text(
-        dateToString(memory.date),
+        dateToString(memory.date!),
         style: TextStyle(
             color: iconEnab_(context),
             fontFamily: '${Memory.fontName}${fontIndex??memory.fontIndex}',
-            fontSize: Dimen.TEXT_SIZE_BIG*Memory.fontSizeRatioMap[fontIndex??memory.fontIndex]
+            fontSize: Dimen.TEXT_SIZE_BIG*Memory.fontSizeRatioMap[fontIndex??memory.fontIndex]!
         )
     );
 
     Widget textPlace = Text(
-        '${memory.place}${memory.desc.isNotEmpty?',':''}',
+        '${memory.place}${memory.desc!.isNotEmpty?',':''}',
         style: TextStyle(
             color: iconEnab_(context),
             fontFamily: '${Memory.fontName}${fontIndex??memory.fontIndex}',
-            fontSize: Dimen.TEXT_SIZE_BIG*Memory.fontSizeRatioMap[fontIndex??memory.fontIndex],
+            fontSize: Dimen.TEXT_SIZE_BIG*Memory.fontSizeRatioMap[fontIndex??memory.fontIndex]!,
         ),
         textAlign: TextAlign.end,
     );
 
     Widget textDesc = Text(
-        memory.desc,
+        memory.desc!,
         style: TextStyle(
             color: iconEnab_(context),
             fontFamily: '${Memory.fontName}${fontIndex??memory.fontIndex}',
-            fontSize: Dimen.TEXT_SIZE_BIG*Memory.fontSizeRatioMap[fontIndex??memory.fontIndex]
+            fontSize: Dimen.TEXT_SIZE_BIG*Memory.fontSizeRatioMap[fontIndex??memory.fontIndex]!
         ),
         textAlign: TextAlign.end
     );
@@ -69,8 +69,8 @@ class MemoryWidgetState extends State<MemoryWidget> {
     return SimpleButton(
       radius: AppCard.BIG_RADIUS,
       padding: const EdgeInsets.all(Dimen.ICON_MARG),
-      onTap: widget.onTap,
-      onLongPress: widget.onLongPress,
+      onTap: widget.onTap as void Function()?,
+      onLongPress: widget.onLongPress as void Function()?,
       child: AnimatedSize(
           duration: const Duration(milliseconds: 200),
           child: Row(
@@ -93,10 +93,10 @@ class MemoryWidgetState extends State<MemoryWidget> {
                         )
                     ):textDate,
 
-                    if(memory.place.isNotEmpty)
+                    if(memory.place!.isNotEmpty)
                       const SizedBox(height: 4.0),
 
-                    if(memory.place.isNotEmpty)
+                    if(memory.place!.isNotEmpty)
                       widget.withHero?Hero(
                           tag: MemoryWidget.memoryPlaceHeroTagFrom(memory.fileName),
                           child: Material(
@@ -105,10 +105,10 @@ class MemoryWidgetState extends State<MemoryWidget> {
                           )
                       ):textPlace,
 
-                    if(memory.desc.isNotEmpty)
+                    if(memory.desc!.isNotEmpty)
                       const SizedBox(height: 4.0),
 
-                    if(memory.desc.isNotEmpty)
+                    if(memory.desc!.isNotEmpty)
                       Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child:

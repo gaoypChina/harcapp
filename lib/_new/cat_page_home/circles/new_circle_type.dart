@@ -15,9 +15,9 @@ import '../../api/circle.dart';
 import 'circle_page.dart';
 import 'model/circle.dart';
 
-Future<NewCircleType> pickNewCircleType(BuildContext context)async {
+Future<NewCircleType?> pickNewCircleType(BuildContext context)async {
 
-  NewCircleType result;
+  NewCircleType? result;
   await showScrollBottomSheet(
       context: context,
       builder: (context) => BottomSheetDef(
@@ -42,9 +42,9 @@ enum NewCircleType{
 
 class CircleTypeWidget extends StatelessWidget{
 
-  final void Function(NewCircleType type) onSelected;
+  final void Function(NewCircleType type)? onSelected;
 
-  const CircleTypeWidget({this.onSelected, Key key}): super(key: key);
+  const CircleTypeWidget({this.onSelected, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -55,14 +55,14 @@ class CircleTypeWidget extends StatelessWidget{
           icon: MdiIcons.applicationOutline,
           title: 'Utwórz puste',
           description: 'Zacznij od pustego szablonu.\n\nSkorzystaj, jeżeli wiesz jak działają współzawodnictwa.',
-          onTap: () => onSelected(NewCircleType.empty),
+          onTap: () => onSelected!(NewCircleType.empty),
         ),
 
         const SizedBox(height: Dimen.SIDE_MARG),
 
         _JoinButton(
           onSuccess: (comp) async {
-            onSelected(NewCircleType.join);
+            onSelected!(NewCircleType.join);
             Circle.addToAll(context, comp);
             pushReplacePage(context, builder: (context) => CirclePage(comp));
           },
@@ -78,10 +78,10 @@ class _Button extends StatelessWidget{
   final IconData icon;
   final String title;
   final String description;
-  final Widget bottom;
-  final void Function() onTap;
+  final Widget? bottom;
+  final void Function()? onTap;
 
-  const _Button({@required this.icon, @required this.title, @required this.description, this.bottom, this.onTap});
+  const _Button({required this.icon, required this.title, required this.description, this.bottom, this.onTap});
 
   @override
   Widget build(BuildContext context) => SimpleButton(
@@ -115,7 +115,7 @@ class _Button extends StatelessWidget{
             ),
 
             if(bottom != null)
-              bottom,
+              bottom!,
 
           ],
         ),
@@ -129,7 +129,7 @@ class _JoinButton extends StatefulWidget{
 
   final void Function(Circle) onSuccess;
 
-  const _JoinButton({@required this.onSuccess});
+  const _JoinButton({required this.onSuccess});
 
   @override
   State<StatefulWidget> createState() => _JoinButtonState();
@@ -138,9 +138,9 @@ class _JoinButton extends StatefulWidget{
 
 class _JoinButtonState extends State<_JoinButton>{
 
-  TextEditingController controller;
+  TextEditingController? controller;
 
-  bool processing;
+  late bool processing;
 
   @override
   void initState() {
@@ -177,7 +177,7 @@ class _JoinButtonState extends State<_JoinButton>{
             onPressed: () async {
               setState(() => processing = true);
               await ApiCircle.joinByShareCode(
-                  searchCode: controller.text,
+                  searchCode: controller!.text,
                   onSuccess: (circle){
                     if(!mounted) return;
                     widget.onSuccess.call(circle);

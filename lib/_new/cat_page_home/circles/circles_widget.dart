@@ -22,9 +22,9 @@ import 'model/circle.dart';
 class CirclesWidget extends StatefulWidget{
 
   final bool singleLine;
-  final Widget Function(List<Circle>) circleWidgetBuilder;
+  final Widget Function(List<Circle>?) circleWidgetBuilder;
 
-  const CirclesWidget({this.singleLine = false, @required this.circleWidgetBuilder, Key key}) : super(key: key);
+  const CirclesWidget({this.singleLine = false, required this.circleWidgetBuilder, Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => CirclesWidgetState();
@@ -34,15 +34,15 @@ class CirclesWidget extends StatefulWidget{
 class CirclesWidgetState extends State<CirclesWidget>{
 
   bool get singleLine => widget.singleLine;
-  Widget Function(List<Circle>) get circleWidgetBuilder => widget.circleWidgetBuilder;
+  Widget Function(List<Circle>?) get circleWidgetBuilder => widget.circleWidgetBuilder;
 
-  LoginProvider loginProvider;
-  LoginProviderListener loginListener;
+  late LoginProvider loginProvider;
+  late LoginProviderListener loginListener;
 
-  CircleLoaderListener _listener;
+  late CircleLoaderListener _listener;
 
-  StreamSubscription<ConnectivityResult> networkListener;
-  bool networkAvailable;
+  StreamSubscription<ConnectivityResult>? networkListener;
+  late bool networkAvailable;
 
   @override
   void initState() {
@@ -108,9 +108,9 @@ class CirclesWidgetState extends State<CirclesWidget>{
 
         if(!networkAvailable)
           return CirclePrompt(
-            child: CirclePreviewGrid(singleLine: singleLine),
             text: 'Brak internetu',
             icon: MdiIcons.earthOff,
+            child: CirclePreviewGrid(singleLine: singleLine),
           );
         else if(loginProvider.loggedIn){
 
@@ -126,9 +126,9 @@ class CirclesWidgetState extends State<CirclesWidget>{
                   ),
                 ),
                 IgnorePointer(child: CirclePrompt(
-                    child: CirclePreviewGrid(singleLine: singleLine),
                     icon: MdiIcons.accountReactivateOutline,
-                    text: 'Aktywuj konto, by współzawodniczyć'
+                    text: 'Aktywuj konto, by współzawodniczyć',
+                    child: CirclePreviewGrid(singleLine: singleLine)
                 )),
               ],
             );
@@ -136,9 +136,9 @@ class CirclesWidgetState extends State<CirclesWidget>{
             return CircleLoadingWidget(singleLine: singleLine);
           else if(Circle.all == null)
             return CirclePrompt(
-              child: CirclePreviewGrid(singleLine: singleLine),
               text: 'Mamy problem',
               icon: MdiIcons.closeOutline,
+              child: CirclePreviewGrid(singleLine: singleLine),
             );
           else
             return circleWidgetBuilder(Circle.all);

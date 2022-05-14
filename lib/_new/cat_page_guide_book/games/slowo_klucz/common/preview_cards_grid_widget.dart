@@ -10,7 +10,7 @@ import '../common.dart';
 class PreviewCardsGridController{
 
   //List<GlobalKey<FlipCardState>> _globalKeys;
-  List<FlipCardController> _controllers;
+  late List<FlipCardController> _controllers;
 
   PreviewCardsGridController({List<int> initFlippedCards=const[]}){
     _controllers = [];
@@ -30,9 +30,9 @@ class PreviewCardsGridWidget extends StatelessWidget{
 
   final bool withColors;
   final bool withWords;
-  final PreviewCardsGridController controller;
+  final PreviewCardsGridController? controller;
 
-  const PreviewCardsGridWidget({this.withColors=true, this.withWords=false, this.controller, Key key}): super(key: key);
+  const PreviewCardsGridWidget({this.withColors=true, this.withWords=false, this.controller, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,18 +50,18 @@ class PreviewCardsGridWidget extends StatelessWidget{
           crossAxisCount: 4,
           childAspectRatio: childAspectRatio,
           children: <Widget>[
-            _FlipCardWidget(withColors, RED_COLOR, text: withWords?'Kot':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller[0]),
-            _FlipCardWidget(withColors, GREEN_COLOR, text: withWords?'Żuk':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller[1]),
-            _FlipCardWidget(withColors, NEUTRAL_COLOR, text: withWords?'Tort':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller[2]),
-            _FlipCardWidget(withColors, RED_COLOR, text: withWords?'Pies':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller[3]),
-            _FlipCardWidget(withColors, NEUTRAL_COLOR, text: withWords?'Bieg':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller[4]),
-            _FlipCardWidget(withColors, BLACK_COLOR, text: withWords?'Piec':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller[5]),
-            _FlipCardWidget(withColors, RED_COLOR, text: withWords?'Krąg':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller[6]),
-            _FlipCardWidget(withColors, NEUTRAL_COLOR, text: withWords?'Czas':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller[7]),
-            _FlipCardWidget(withColors, GREEN_COLOR, text: withWords?'Lód':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller[8]),
-            _FlipCardWidget(withColors, RED_COLOR, text: withWords?'Kubek':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller[9]),
-            _FlipCardWidget(withColors, NEUTRAL_COLOR, text: withWords?'Igła':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller[10]),
-            _FlipCardWidget(withColors, GREEN_COLOR, text: withWords?'Śnieg':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller[11]),
+            _FlipCardWidget(withColors, RED_COLOR, text: withWords?'Kot':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller![0]),
+            _FlipCardWidget(withColors, GREEN_COLOR, text: withWords?'Żuk':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller![1]),
+            _FlipCardWidget(withColors, NEUTRAL_COLOR, text: withWords?'Tort':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller![2]),
+            _FlipCardWidget(withColors, RED_COLOR, text: withWords?'Pies':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller![3]),
+            _FlipCardWidget(withColors, NEUTRAL_COLOR, text: withWords?'Bieg':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller![4]),
+            _FlipCardWidget(withColors, BLACK_COLOR, text: withWords?'Piec':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller![5]),
+            _FlipCardWidget(withColors, RED_COLOR, text: withWords?'Krąg':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller![6]),
+            _FlipCardWidget(withColors, NEUTRAL_COLOR, text: withWords?'Czas':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller![7]),
+            _FlipCardWidget(withColors, GREEN_COLOR, text: withWords?'Lód':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller![8]),
+            _FlipCardWidget(withColors, RED_COLOR, text: withWords?'Kubek':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller![9]),
+            _FlipCardWidget(withColors, NEUTRAL_COLOR, text: withWords?'Igła':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller![10]),
+            _FlipCardWidget(withColors, GREEN_COLOR, text: withWords?'Śnieg':(withColors?null:'?'), textSize: textSize, controller:  controller==null?null:controller![11]),
           ],
         );
       },
@@ -74,11 +74,11 @@ class PreviewCardsGridWidget extends StatelessWidget{
 class _FlipCardWidget extends StatelessWidget{
 
   final bool withColors;
-  final Color color;
-  final String text;
-  final double textSize;
+  final Color? color;
+  final String? text;
+  final double? textSize;
   //final GlobalKey<FlipCardState> flipCardKey;
-  final FlipCardController controller;
+  final FlipCardController? controller;
 
   const _FlipCardWidget(this.withColors, this.color, {this.text, this.textSize, this.controller});
 
@@ -100,9 +100,9 @@ class _FlipCardWidget extends StatelessWidget{
 
 class _CardWidget extends StatelessWidget{
 
-  final Color color;
-  final String text;
-  final double textSize;
+  final Color? color;
+  final String? text;
+  final double? textSize;
   const _CardWidget(this.color, {this.text, this.textSize});
 
   @override
@@ -116,7 +116,7 @@ class _CardWidget extends StatelessWidget{
         child:
         text == null?null:
         Center(
-          child: Text(text, style: AppTextStyle(
+          child: Text(text!, style: AppTextStyle(
               fontWeight: weight.halfBold,
               color: color==BLACK_COLOR?Colors.white:Colors.black,
               fontSize: textSize)

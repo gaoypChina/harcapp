@@ -13,7 +13,7 @@ import 'add_okrzyk_page.dart';
 import 'common.dart';
 import 'okrzyk.dart';
 
-OkrzykWidgetState currPlayingSoundCard;
+OkrzykWidgetState? currPlayingSoundCard;
 
 class OkrzykWidget extends StatefulWidget{
 
@@ -30,8 +30,8 @@ class OkrzykWidget extends StatefulWidget{
 
 class OkrzykWidgetState extends State<OkrzykWidget>{
 
-  int currentlyPlayingIndex;
-  bool isMusic;
+  int? currentlyPlayingIndex;
+  late bool isMusic;
 
   @override
   void dispose() {
@@ -56,7 +56,7 @@ class OkrzykWidgetState extends State<OkrzykWidget>{
     if(!isMusic) showAppToast(context, text: 'Okrzyk nie ma melodii.');
 
     setState(() => currentlyPlayingIndex = 0);
-    if(currPlayingSoundCard != null) await currPlayingSoundCard.stop();
+    if(currPlayingSoundCard != null) await currPlayingSoundCard!.stop();
     currPlayingSoundCard = this;
 
     for(int i=0; i<widget.okrzyk.soundElements.length; i++) {
@@ -70,7 +70,7 @@ class OkrzykWidgetState extends State<OkrzykWidget>{
   }
 
   stop() async {
-    widget.okrzyk.soundElements[currentlyPlayingIndex].stop();
+    widget.okrzyk.soundElements[currentlyPlayingIndex!].stop();
     setState(() => currentlyPlayingIndex = -1);
     currPlayingSoundCard = null;
   }

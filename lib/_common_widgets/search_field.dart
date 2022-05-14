@@ -23,16 +23,16 @@ class SearchField extends StatelessWidget{
       padding: EdgeInsets.all(Dimen.ICON_MARG),
     );
 
-    final String hint;
-    final double elevation;
-    final Function(String text) onChanged;
-    final TextEditingController controller;
+    final String? hint;
+    final double? elevation;
+    final Function(String text)? onChanged;
+    final TextEditingController? controller;
     final EdgeInsets margin;
-    final Widget leading;
-    final Widget trailing;
-    final Widget bottom;
+    final Widget? leading;
+    final Widget? trailing;
+    final Widget? bottom;
     final Color background;
-    final FocusNode focusNode;
+    final FocusNode? focusNode;
     final bool enabled;
 
     static double height = Dimen.ICON_FOOTPRINT + normMargin.top;
@@ -90,11 +90,11 @@ class SearchField extends StatelessWidget{
                         )
                       ),
                       SizedBox(width: Dimen.DEF_MARG),
-                      if(trailing!=null) trailing
+                      if(trailing!=null) trailing!
                     ],
                   ),
 
-                  if(bottom!=null) bottom
+                  if(bottom!=null) bottom!
                 ],
               )
           )

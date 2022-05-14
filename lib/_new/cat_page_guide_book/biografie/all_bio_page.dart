@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -8,9 +7,9 @@ import 'data.dart';
 
 class AllBioPage extends StatelessWidget{
 
-  final void Function(int) onPicked;
+  final void Function(int)? onPicked;
 
-  const AllBioPage({this.onPicked, Key key}): super(key: key);
+  const AllBioPage({this.onPicked, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class AllBioPage extends StatelessWidget{
             tag: data,
             child: AppCard(
                 onTap: ()async{
-                  await onPicked(DATA.indexOf(data));
+                  onPicked!(DATA.indexOf(data));
                   Navigator.pop(context);
                 },
                 elevation: AppCard.bigElevation,

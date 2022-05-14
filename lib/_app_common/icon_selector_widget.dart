@@ -9,10 +9,10 @@ import 'common_icon_data.dart';
 
 class IconSelectorWidget extends StatefulWidget{
 
-  final String initIconKey;
-  final void Function(String iconKey) onSelected;
+  final String? initIconKey;
+  final void Function(String iconKey)? onSelected;
   
-  const IconSelectorWidget({this.initIconKey, this.onSelected, Key key}): super(key: key);
+  const IconSelectorWidget({this.initIconKey, this.onSelected, Key? key}): super(key: key);
   
   @override
   State<StatefulWidget> createState() => IconSelectorWidgetState();
@@ -34,7 +34,7 @@ class _Title extends StatelessWidget{
 
 class IconSelectorWidgetState extends State<IconSelectorWidget>{
 
-  void Function(String iconKey) get onSelected => widget.onSelected;
+  void Function(String iconKey)? get onSelected => widget.onSelected;
   
   @override
   void initState() {
@@ -109,7 +109,7 @@ class _IconSetWidget extends StatelessWidget{
 
   final Map<String, IconData> icons;
 
-  final void Function(String) onTap;
+  final void Function(String)? onTap;
 
   const _IconSetWidget(this.icons, {this.onTap});
 
@@ -138,7 +138,7 @@ class _IconOption extends StatelessWidget{
   final String iconKey;
   final Function(String mapKey) onTap;
 
-  const _IconOption(this.iconKey, {@required this.onTap});
+  const _IconOption(this.iconKey, {required this.onTap});
 
   static const double _ICON_SIZE = 32.0;
 

@@ -30,25 +30,25 @@ class RankZHPSim2022Data extends RankData{
   final int sprawCount;
   final int tropCount;
   final int wyzwCount;
-  final int wyzwCountReq;
+  final int? wyzwCountReq;
 
   RankZHPSim2022Data({
-    @required String titleMale,
-    @required String titleFemale,
-    @required this.minWiek,
-    @required this.czasTrw,
-    @required int version,
+    required String titleMale,
+    required String titleFemale,
+    required this.minWiek,
+    required this.czasTrw,
+    required int version,
 
-    @required this.sprawCount,
-    @required this.tropCount,
-    @required this.wyzwCount,
+    required this.sprawCount,
+    required this.tropCount,
+    required this.wyzwCount,
     this.wyzwCountReq,
 
-    @required Org org,
-    @required String id,
-    @required this.idea,
+    required Org org,
+    required String id,
+    required this.idea,
 
-    @required List<RankCatData> catData,
+    required List<RankCatData> catData,
   }):super(
     titleMale: titleMale,
     titleFemale: titleFemale,
@@ -62,29 +62,29 @@ class RankZHPSim2022Data extends RankData{
   RankZHPSim2022 build() {
     Rank rank = RankZHPSim2022(this, null);
     rank.cats = [for (int i = 0; i < catData.length; i++) catData[i].build(rank, i)];
-    return rank;
+    return rank as RankZHPSim2022;
   }
 
   @override
   RankZHPSim2022Preview buildPreview(RankStateShared state) {
     Rank rank = RankZHPSim2022Preview(this, state, null);
     rank.cats = [for (int i = 0; i < catData.length; i++) catData[i].build(rank, i)];
-    return rank;
+    return rank as RankZHPSim2022Preview;
   }
 
 }
 
-abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2022Data, RankZhpSim2022Resp, T>{
+abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2022Data, RankZhpSim2022Resp?, T>{
 
   static const EXT_SPRAW_CODE = 'spraw';
   static const EXT_TROP_CODE = 'trop';
   static const EXT_WYZW_CODE = 'wyzw';
 
-  static String getExtTextKey(String stopId, String code, int position) => shaPref.getString(ShaPref.SHA_PREF_STOP_ZHP_EXT_TEXT_(stopId, code, position), '');
-  static void setExtTextKey(String stopId, String code, int position, String value) => shaPref.setString(ShaPref.SHA_PREF_STOP_ZHP_EXT_TEXT_(stopId, code, position), value);
+  static String? getExtTextKey(String stopId, String code, int position) => shaPref!.getString(ShaPref.SHA_PREF_STOP_ZHP_EXT_TEXT_(stopId, code, position), '');
+  static void setExtTextKey(String stopId, String code, int position, String value) => shaPref!.setString(ShaPref.SHA_PREF_STOP_ZHP_EXT_TEXT_(stopId, code, position), value);
 
-  static bool getExtCheckedKey(String stopId, String code, int position) => shaPref.getBool(ShaPref.SHA_PREF_STOP_ZHP_EXT_COMPLETED_(stopId, code, position), false);
-  static void setExtCheckedKey(String stopId, String code, int position, bool checked) => shaPref.setBool(ShaPref.SHA_PREF_STOP_ZHP_EXT_COMPLETED_(stopId, code, position), checked);
+  static bool getExtCheckedKey(String stopId, String code, int position) => shaPref!.getBool(ShaPref.SHA_PREF_STOP_ZHP_EXT_COMPLETED_(stopId, code, position), false);
+  static void setExtCheckedKey(String stopId, String code, int position, bool checked) => shaPref!.setBool(ShaPref.SHA_PREF_STOP_ZHP_EXT_COMPLETED_(stopId, code, position), checked);
 
   String get minWiek => data.minWiek;
   String get czasTrw => data.czasTrw;
@@ -93,7 +93,7 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
   int get sprawCount => data.sprawCount;
   int get tropCount => data.tropCount;
   int get wyzwCount => data.wyzwCount;
-  int get wyzwCountReq => data.wyzwCountReq;
+  int? get wyzwCountReq => data.wyzwCountReq;
 
   @override
   bool get isReadyToComplete{
@@ -114,22 +114,22 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
 
   @override
   @protected
-  set completed(bool value) {
+  set completed(bool? value) {
     for(int i=0; i<sprawCount; i++)
-      setExtCheckedKey(id, EXT_SPRAW_CODE, i, value);
+      setExtCheckedKey(id, EXT_SPRAW_CODE, i, value!);
 
     for(int i=0; i<tropCount; i++)
-      setExtCheckedKey(id, EXT_TROP_CODE, i, value);
+      setExtCheckedKey(id, EXT_TROP_CODE, i, value!);
 
     for(int i=0; i<wyzwCount; i++)
-      setExtCheckedKey(id, EXT_WYZW_CODE, i, value);
+      setExtCheckedKey(id, EXT_WYZW_CODE, i, value!);
 
     super.completed = value;
   }
 
   RankZHPSim2022Templ(
     RankZHPSim2022Data data,
-    List<RankCat> cats,
+    List<RankCat>? cats,
   ):super(data, cats);
 
   @override
@@ -151,7 +151,7 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
   @override
   Widget buildFooter(BuildContext context){
 
-    String metoAbbr;
+    late String metoAbbr;
 
     if(data == rankZhp1Data || data == rankZhp2Data)
       metoAbbr = 'h';
@@ -189,8 +189,8 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
                         'Sprawność',
                         count: sprawCount,
                         backgroundColor: Colors.transparent,
-                        stopColor: inProgress?RankData.colors[data].avgColor(false):iconDisab_(context),
-                        checkVisible: inProgress || completed,
+                        stopColor: inProgress!?RankData.colors[data]!.avgColor(false):iconDisab_(context),
+                        checkVisible: inProgress! || completed!,
                         checkable: inProgress
                     ),
 
@@ -226,8 +226,8 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
                         'Trop',
                         count: tropCount,
                         backgroundColor: Colors.transparent,
-                        stopColor: inProgress?RankData.colors[data].avgColor(false):iconDisab_(context),
-                        checkVisible: inProgress || completed,
+                        stopColor: inProgress!?RankData.colors[data]!.avgColor(false):iconDisab_(context),
+                        checkVisible: inProgress! || completed!,
                         checkable: inProgress
                     ),
 
@@ -264,8 +264,8 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
                         count: wyzwCount,
                         reqCount: wyzwCountReq,
                         backgroundColor: Colors.transparent,
-                        stopColor: inProgress?RankData.colors[data].avgColor(false):iconDisab_(context),
-                        checkVisible: inProgress || completed,
+                        stopColor: inProgress!?RankData.colors[data]!.avgColor(false):iconDisab_(context),
+                        checkVisible: inProgress! || completed!,
                         checkable: inProgress
                     ),
 
@@ -298,7 +298,7 @@ class RankZHPSim2022 extends RankZHPSim2022Templ<RankStateLocal>{
 
   RankZHPSim2022(
     RankZHPSim2022Data data,
-    List<RankCat> cats,
+    List<RankCat>? cats,
   ):super(data, cats);
 
   @override
@@ -322,6 +322,6 @@ class RankZHPSim2022Preview extends RankZHPSim2022Templ<RankStateShared>{
   @override
   RankZHPSim2022Preview preview(RankStateShared stateShared) => this;
 
-  RankZHPSim2022Preview(RankZHPSim2022Data data, this.state, List<RankCat> cats) : super(data, cats);
+  RankZHPSim2022Preview(RankZHPSim2022Data data, this.state, List<RankCat>? cats) : super(data, cats);
 
 }

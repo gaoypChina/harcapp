@@ -31,24 +31,24 @@ class ApiSync{
 
   static const String url = 'api/sync/';
   
-  static Future<Response> post(
-        {bool dumpReplaceExisting,
+  static Future<Response?> post(
+        {bool? dumpReplaceExisting,
         void Function(
             Response response,
-            bool orgHandler,
-            Map<String, dynamic> appSettings,
-            Map<String, dynamic> songBookSettings,
-            Map<String, dynamic> offSongs,
-            Map<String, dynamic> ownSongs,
-            Map<String, dynamic> albums,
-            Map<String, dynamic> spraws,
-            Map<String, dynamic> rankDefs,
-            Map<String, dynamic> rankZhpSim2022,
-            DateTime syncedTime) onSuccess,
-        void Function(Response response) onError,
+            bool? orgHandler,
+            Map<String, dynamic>? appSettings,
+            Map<String, dynamic>? songBookSettings,
+            Map<String, dynamic>? offSongs,
+            Map<String, dynamic>? ownSongs,
+            Map<String, dynamic>? albums,
+            Map<String, dynamic>? spraws,
+            Map<String, dynamic>? rankDefs,
+            Map<String, dynamic>? rankZhpSim2022,
+            DateTime? syncedTime)? onSuccess,
+        void Function(Response? response)? onError,
       }) async {
 
-    Map<String, dynamic> reqMap = {};
+    Map<String?, dynamic> reqMap = {};
     if(dumpReplaceExisting??false)
       reqMap['dumpReplaceExisting'] = true;
 
@@ -62,22 +62,22 @@ class ApiSync{
       }
     }
 
-    for(String removeSyncItemName in RemoveSyncItem.all){
+    for(String removeSyncItemName in RemoveSyncItem.all!){
 
       List<String> paramIds = removeSyncItemName.split(RemoveSyncItem.paramSep);
       String currParam;
-      Map currReqMap = reqMap;
+      Map? currReqMap = reqMap;
       while(paramIds.isNotEmpty){
         currParam = paramIds.first;
         paramIds.removeAt(0);
 
-        if(currReqMap[currParam] == null)
+        if(currReqMap![currParam] == null)
           currReqMap[currParam] = {};
 
         currReqMap = currReqMap[currParam];
       }
 
-      currReqMap['remove'] = true;
+      currReqMap!['remove'] = true;
 
     }
 
@@ -88,16 +88,16 @@ class ApiSync{
       sendRequest: (Dio dio) async => await dio.post(API.SERVER_URL + url, data: reqMap),
       onSuccess: (Response response) async {
         dynamic orgHandler = response.data[OrgHandler.syncClassId];
-        Map<String, dynamic> appSettings = response.data[AppSettings.syncClassId];
-        Map<String, dynamic> songBookSettings = response.data[SongBookSettings.syncClassId];
-        Map<String, dynamic> offSongs = response.data[OffSong.syncClassId];
-        Map<String, dynamic> ownSongs = response.data[OwnSong.syncClassId];
-        Map<String, dynamic> albums = response.data[Album.syncClassId];
-        Map<String, dynamic> spraws = response.data[Spraw.syncClassId];
-        Map<String, dynamic> rankDefs = response.data[RankDef.syncClassId];
-        Map<String, dynamic> rankZhpSim2022 = response.data[RankZHPSim2022.syncClassId];
+        Map<String, dynamic>? appSettings = response.data[AppSettings.syncClassId];
+        Map<String, dynamic>? songBookSettings = response.data[SongBookSettings.syncClassId];
+        Map<String, dynamic>? offSongs = response.data[OffSong.syncClassId];
+        Map<String, dynamic>? ownSongs = response.data[OwnSong.syncClassId];
+        Map<String, dynamic>? albums = response.data[Album.syncClassId];
+        Map<String, dynamic>? spraws = response.data[Spraw.syncClassId];
+        Map<String, dynamic>? rankDefs = response.data[RankDef.syncClassId];
+        Map<String, dynamic>? rankZhpSim2022 = response.data[RankZHPSim2022.syncClassId];
 
-        DateTime syncedTime = DateTime.tryParse(response.data['time']);
+        DateTime? syncedTime = DateTime.tryParse(response.data['time']);
 
         logger.i('Sync post response:\n${prettyJson(response.data)}');
 
@@ -119,15 +119,15 @@ class ApiSync{
     );
   }
 
-  static Future<Response> postAndSave({
-    bool dumpReplaceExisting,
-    void Function() onSuccess,
-    void Function(Response response) onError,
+  static Future<Response?> postAndSave({
+    bool? dumpReplaceExisting,
+    void Function()? onSuccess,
+    void Function(Response? response)? onError,
   }) async => await post(
       dumpReplaceExisting: dumpReplaceExisting,
-      onSuccess: (Response response, dynamic orgHandler, Map appSettings, Map songBookSettings, Map offSongs, Map ownSongs, Map albums, Map spraws, Map rankDefs, Map rankZhpSim2022, DateTime syncedTime) {
+      onSuccess: (Response response, dynamic orgHandler, Map? appSettings, Map? songBookSettings, Map? offSongs, Map? ownSongs, Map? albums, Map? spraws, Map? rankDefs, Map? rankZhpSim2022, DateTime? syncedTime) {
 
-        DateTime syncedTime = DateTime.tryParse(response.data['time']);
+        DateTime? syncedTime = DateTime.tryParse(response.data['time']);
 
         if(orgHandler != null)
           OrgHandler().saveSyncResult(orgHandler, syncedTime);
@@ -139,35 +139,35 @@ class ApiSync{
           SongBookSettings().saveSyncResult(songBookSettings, syncedTime);
 
         if(offSongs != null)
-          for(String lclId in offSongs.keys){
-            OffSong.allOfficialMap[lclId].saveSyncResult(offSongs[lclId], syncedTime);
+          for(String lclId in offSongs.keys as Iterable<String>){
+            OffSong.allOfficialMap![lclId]!.saveSyncResult(offSongs[lclId], syncedTime);
           }
 
         if(ownSongs != null)
-          for(String lclId in ownSongs.keys){
+          for(String lclId in ownSongs.keys as Iterable<String>){
             if(ownSongs[lclId] == RemoveSyncItem.removedRespCode) RemoveSyncItem.resolve('${OwnSong.syncClassId}${RemoveSyncItem.paramSep}$lclId');
-            else OwnSong.allOwnMap[lclId].saveSyncResult(ownSongs[lclId], syncedTime);
+            else OwnSong.allOwnMap![lclId]!.saveSyncResult(ownSongs[lclId], syncedTime);
           }
 
         if(albums != null)
-          for(String lclId in albums.keys){
+          for(String lclId in albums.keys as Iterable<String>){
             if(albums[lclId] == RemoveSyncItem.removedRespCode) RemoveSyncItem.resolve('${Album.syncClassId}${RemoveSyncItem.paramSep}$lclId');
-            else Album.allMap[lclId].saveSyncResult(albums[lclId], syncedTime);
+            else Album.allMap![lclId]!.saveSyncResult(albums[lclId], syncedTime);
           }
 
         if(spraws != null)
-          for(String uniqName in spraws.keys){
-            Spraw.allMap[uniqName].saveSyncResult(spraws[uniqName], syncedTime);
+          for(String uniqName in spraws.keys as Iterable<String>){
+            Spraw.allMap[uniqName]!.saveSyncResult(spraws[uniqName], syncedTime);
           }
 
         if(rankDefs != null)
-          for(String uniqName in rankDefs.keys){
-            Rank.allMap[uniqName].saveSyncResult(rankDefs[uniqName], syncedTime);
+          for(String uniqName in rankDefs.keys as Iterable<String>){
+            Rank.allMap[uniqName]!.saveSyncResult(rankDefs[uniqName], syncedTime);
           }
 
         if(rankZhpSim2022 != null)
-          for(String uniqName in rankZhpSim2022.keys){
-            Rank.allMap[uniqName].saveSyncResult(rankZhpSim2022[uniqName], syncedTime);
+          for(String uniqName in rankZhpSim2022.keys as Iterable<String>){
+            Rank.allMap[uniqName]!.saveSyncResult(rankZhpSim2022[uniqName], syncedTime);
           }
         
         SynchronizerEngine.lastSyncTimeLocal = syncedTime;
@@ -177,9 +177,9 @@ class ApiSync{
       onError: onError
   );
   
-  static Future<Response> get({
-    void Function(Response response, OrgEntityResp orgResp, AppSettingsResp appSettingsResp, SongBookSettingsResp songBookSettingsResp, Map<String, OffSongResp> offSongs, Map<String, OwnSongResp> ownSongs, Map<String, AlbumResp> albums, Map<String, SprawResp> spraws, Map<String, RankDefResp> rankDefs,  Map<String, RankZhpSim2022Resp> rankZhpSim2022, DateTime syncedTime) onSuccess,
-    void Function(Response) onError,
+  static Future<Response?> get({
+    void Function(Response response, OrgEntityResp? orgResp, AppSettingsResp? appSettingsResp, SongBookSettingsResp? songBookSettingsResp, Map<String, OffSongResp> offSongs, Map<String, OwnSongResp> ownSongs, Map<String, AlbumResp> albums, Map<String, SprawResp> spraws, Map<String, RankDefResp> rankDefs,  Map<String, RankZhpSim2022Resp> rankZhpSim2022, DateTime? syncedTime)? onSuccess,
+    void Function(Response?)? onError,
   }) async {
     
     logger.i('Sync get request sent.');
@@ -190,21 +190,21 @@ class ApiSync{
         onSuccess: (Response response) async {
 
           dynamic orgData = response.data[OrgEntityResp.collName];
-          OrgEntityResp orgResp;
+          OrgEntityResp? orgResp;
           if(orgData != null)
             orgResp = OrgEntityResp.from(orgData);
 
           dynamic appSettingsData = response.data[AppSettingsResp.collName];
-          AppSettingsResp appSettingsResp;
+          AppSettingsResp? appSettingsResp;
           if(appSettingsData != null)
             appSettingsResp = AppSettingsResp.from(appSettingsData);
 
           dynamic songBookSettingsData = response.data[SongBookSettingsResp.collName];
-          SongBookSettingsResp songBookSettingsResp;
+          SongBookSettingsResp? songBookSettingsResp;
           if(songBookSettingsData != null)
             songBookSettingsResp = SongBookSettingsResp.from(songBookSettingsData);
 
-          Map<String, dynamic> offSongs = response.data[OffSongResp.collName];
+          Map<String, dynamic>? offSongs = response.data[OffSongResp.collName];
           Map<String, OffSongResp> offSongResps = {};
           if(offSongs != null)
             for(String lclId in offSongs.keys){
@@ -216,7 +216,7 @@ class ApiSync{
               }
             }
 
-          Map<String, dynamic> ownSongs = response.data[OwnSongResp.collName];
+          Map<String, dynamic>? ownSongs = response.data[OwnSongResp.collName];
           Map<String, OwnSongResp> ownSongResps = {};
           if(ownSongs != null)
             for(String lclId in ownSongs.keys){
@@ -228,7 +228,7 @@ class ApiSync{
               }
             }
 
-          Map<String, dynamic> albums = response.data[AlbumResp.COLL_NAME];
+          Map<String, dynamic>? albums = response.data[AlbumResp.COLL_NAME];
           Map<String, AlbumResp> albumResps = {};
           if(albums != null)
             for(String lclId in albums.keys){
@@ -240,7 +240,7 @@ class ApiSync{
               }
             }
 
-          Map<String, dynamic> spraws = response.data[SprawResp.COLL_NAME];
+          Map<String, dynamic>? spraws = response.data[SprawResp.COLL_NAME];
           Map<String, SprawResp> sprawResps = {};
           if(spraws != null)
             for(String uniqName in spraws.keys){
@@ -252,7 +252,7 @@ class ApiSync{
               }
             }
 
-          Map<String, dynamic> rankDefs = response.data[RankDefResp.COLL_NAME];
+          Map<String, dynamic>? rankDefs = response.data[RankDefResp.COLL_NAME];
           Map<String, RankDefResp> rankDefResps = {};
           if(rankDefs != null)
             for(String uniqName in rankDefs.keys){
@@ -264,7 +264,7 @@ class ApiSync{
               }
             }
 
-          Map<String, dynamic> rankZhpSim2022 = response.data[RankZhpSim2022Resp.COLL_NAME];
+          Map<String, dynamic>? rankZhpSim2022 = response.data[RankZhpSim2022Resp.COLL_NAME];
           Map<String, RankZhpSim2022Resp> rankZhpSim2022Resps = {};
           if(rankZhpSim2022 != null)
             for(String uniqName in rankZhpSim2022.keys){
@@ -276,7 +276,7 @@ class ApiSync{
               }
             }
 
-          DateTime syncedTime;
+          DateTime? syncedTime;
           if(response.data['time'] != null) {
             syncedTime = DateTime.tryParse(response.data['time']);
             SynchronizerEngine.lastSyncTimeLocal = syncedTime;
@@ -318,15 +318,15 @@ class ApiSync{
               syncedTime
           );
         },
-        onError: (err) async => await onError?.call(err.response)
+        onError: (err) async => onError?.call(err.response)
     );
   }
 
-  static Future<Response> getAndSave({
-    void Function() onSuccess,
-    void Function() onError,
+  static Future<Response?> getAndSave({
+    void Function()? onSuccess,
+    void Function()? onError,
   }) async => await get(
-      onSuccess: (Response response, OrgEntityResp orgResp, AppSettingsResp appSettingsResp, SongBookSettingsResp songBookSettingsResp, Map<String, OffSongResp> offSongs, Map<String, OwnSongResp> ownSongs, Map<String, AlbumResp> albums, Map<String, SprawResp> spraws, Map<String, RankDefResp> rankDefs, Map<String, RankZhpSim2022Resp> rankZhpSim2022, DateTime syncedTime){
+      onSuccess: (Response response, OrgEntityResp? orgResp, AppSettingsResp? appSettingsResp, SongBookSettingsResp? songBookSettingsResp, Map<String, OffSongResp> offSongs, Map<String, OwnSongResp> ownSongs, Map<String, AlbumResp> albums, Map<String, SprawResp> spraws, Map<String, RankDefResp> rankDefs, Map<String, RankZhpSim2022Resp> rankZhpSim2022, DateTime? syncedTime){
 
         if(orgResp != null)
           OrgHandler().applySyncGetResp(orgResp);
@@ -338,17 +338,17 @@ class ApiSync{
           SongBookSettings().applySyncGetResp(songBookSettingsResp);
 
         for(String lclId in offSongs.keys){
-          OffSong song = OffSong.allOfficialMap[lclId];
+          OffSong? song = OffSong.allOfficialMap![lclId];
           if(song == null) continue;
-          SongResp songResp = offSongs[lclId];
-          song.applySyncGetResp(songResp);
+          SongResp? songResp = offSongs[lclId];
+          song.applySyncGetResp(songResp as OffSongResp);
         }
 
         for(String lclId in ownSongs.keys){
-          OwnSong song = OwnSong.allOwnMap[lclId];
-          OwnSongResp songResp = ownSongs[lclId];
+          OwnSong? song = OwnSong.allOwnMap![lclId];
+          OwnSongResp songResp = ownSongs[lclId]!;
           if(song == null) {
-            song = OwnSong.saveOwnSong(songResp.code, lclId: lclId);
+            song = OwnSong.saveOwnSong(songResp.code!, lclId: lclId);
             OwnSong.addOwn(song);
           }
 
@@ -356,19 +356,19 @@ class ApiSync{
         }
 
         for(String lclId in albums.keys){
-          Album album = Album.allMap[lclId];
-          AlbumResp albumResp = albums[lclId];
+          Album? album = Album.allMap![lclId];
+          AlbumResp albumResp = albums[lclId]!;
           if(album == null) {
 
             List<OffSong> offSongs = [];
             for(String lclId in albumResp.offSongs){
-              OffSong song = OffSong.allOfficialMap[lclId];
+              OffSong? song = OffSong.allOfficialMap![lclId];
               if(song != null) offSongs.add(song);
             }
 
             List<OwnSong> ownSongs = [];
             for(String lclId in albumResp.offSongs){
-              OwnSong song = OwnSong.allOwnMap[lclId];
+              OwnSong? song = OwnSong.allOwnMap![lclId];
               if(song != null) ownSongs.add(song);
             }
 
@@ -386,20 +386,20 @@ class ApiSync{
         }
 
         for(String uniqSprawName in spraws.keys){
-          Spraw spraw = Spraw.allMap[uniqSprawName];
-          SprawResp sprawResp = spraws[uniqSprawName];
+          Spraw spraw = Spraw.allMap[uniqSprawName]!;
+          SprawResp sprawResp = spraws[uniqSprawName]!;
           spraw.applySyncGetResp(sprawResp);
         }
 
         for(String uniqRankName in rankDefs.keys){
-          Rank rank = Rank.allMap[uniqRankName];
-          RankDefResp rankResp = rankDefs[uniqRankName];
+          Rank rank = Rank.allMap[uniqRankName]!;
+          RankDefResp? rankResp = rankDefs[uniqRankName];
           rank.applySyncGetResp(rankResp);
         }
 
         for(String uniqRankName in rankZhpSim2022.keys){
-          Rank rank = Rank.allMap[uniqRankName];
-          RankZhpSim2022Resp rankResp = rankZhpSim2022[uniqRankName];
+          Rank rank = Rank.allMap[uniqRankName]!;
+          RankZhpSim2022Resp? rankResp = rankZhpSim2022[uniqRankName];
           rank.applySyncGetResp(rankResp);
         }
 
@@ -409,18 +409,18 @@ class ApiSync{
       onError: (err) => onError?.call()
   );
 
-  static Future<Response> lastSync({
-    void Function(DateTime) onSuccess,
-    void Function(Response) onError
+  static Future<Response?> lastSync({
+    void Function(DateTime?)? onSuccess,
+    void Function(Response?)? onError
   }) async => await API.sendRequest(
         withToken: true,
-        sendRequest: (Dio dio) async => await dio.get(API.SERVER_URL + url + 'last_sync'),
+        sendRequest: (Dio dio) async => await dio.get('${API.SERVER_URL}${url}last_sync'),
         onSuccess: (Response response) async {
-          DateTime lastSync;
+          DateTime? lastSync;
           lastSync = DateTime.tryParse(response.data);
           onSuccess?.call(lastSync);
         },
-        onError: (err) async => await onError?.call(err.response)
+        onError: (err) async => onError?.call(err.response)
     );
 
 }

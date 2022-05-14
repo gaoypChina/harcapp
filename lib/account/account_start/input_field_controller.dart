@@ -9,9 +9,9 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class InputFieldController extends TextEditingController{
 
-  String _errorText = '';
-  String get errorText => _errorText;
-  set errorText(String value){
+  String? _errorText = '';
+  String? get errorText => _errorText;
+  set errorText(String? value){
     _errorText = value;
     _errorDimed = false;
 
@@ -20,7 +20,7 @@ class InputFieldController extends TextEditingController{
   }
 
   bool _errorDimed = false;
-  get errorDimed => _errorDimed;
+  bool get errorDimed => _errorDimed;
   set errorDimed(bool value){
     _errorDimed = value;
 
@@ -28,9 +28,9 @@ class InputFieldController extends TextEditingController{
       listener.call();
   }
 
-  List<void Function()> errorTextListeners;
+  late List<void Function()> errorTextListeners;
 
-  InputFieldController({String text}):super(text: text??''){
+  InputFieldController({String? text}):super(text: text??''){
     errorTextListeners = [];
   }
 
@@ -49,23 +49,23 @@ class InputField extends StatefulWidget{
 
   static const double height = 2*Dimen.TEXT_FIELD_PADD + Dimen.TEXT_SIZE_BIG;
 
-  final String hintTop;
+  final String? hintTop;
   final String hint;
-  final InputFieldController controller;
-  final Widget leading;
-  final Widget trailing;
-  final Color hintTextColor;
-  final Color textColor;
-  final bool isPassword;
+  final InputFieldController? controller;
+  final Widget? leading;
+  final Widget? trailing;
+  final Color? hintTextColor;
+  final Color? textColor;
+  final bool? isPassword;
   final bool noUnderline;
-  final int maxLength;
-  final List<TextInputFormatter> inputFormatters;
+  final int? maxLength;
+  final List<TextInputFormatter>? inputFormatters;
 
-  final bool enabled;
+  final bool? enabled;
 
   const InputField({
     this.hintTop,
-    @required this.hint,
+    required this.hint,
     this.controller,
     this.leading,
     this.trailing,
@@ -75,8 +75,9 @@ class InputField extends StatefulWidget{
     this.isPassword = false,
     this.noUnderline = true,
     this.maxLength,
-    this.inputFormatters
-  });
+    this.inputFormatters,
+    Key? key
+  }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => InputFieldState();
@@ -84,11 +85,11 @@ class InputField extends StatefulWidget{
 
 class InputFieldState extends State<InputField>{
 
-  String oldError;
+  String? oldError;
 
-  InputFieldController _controller;
+  InputFieldController? _controller;
 
-  InputFieldController get controller => widget.controller??_controller;
+  InputFieldController? get controller => widget.controller??_controller;
 
   void onErrorChanged(){
     setState((){});
@@ -99,14 +100,14 @@ class InputFieldState extends State<InputField>{
     if(widget.controller == null)
       _controller = InputFieldController();
 
-    controller._addErrorListener(onErrorChanged);
+    controller!._addErrorListener(onErrorChanged);
 
     super.initState();
   }
 
   @override
   void dispose() {
-    controller._removeErrorListener(onErrorChanged);
+    controller!._removeErrorListener(onErrorChanged);
     _controller?.dispose();
     super.dispose();
   }
@@ -119,43 +120,43 @@ class InputFieldState extends State<InputField>{
 
         Row(
           children: <Widget>[
-            SizedBox(width: Dimen.ICON_MARG),
+            const SizedBox(width: Dimen.ICON_MARG),
             if(widget.leading != null)
-              widget.leading,
+              widget.leading!,
             if(widget.leading != null)
-              SizedBox(width: Dimen.ICON_MARG),
+              const SizedBox(width: Dimen.ICON_MARG),
             Expanded(
               child: AppTextFieldHint(
                 hintTop: widget.hintTop,
                 hint: widget.hint,
                 controller: widget.controller,
                 enabled: widget.enabled,
-                style: AppTextStyle(color: widget.textColor??(widget.enabled?textEnab_(context):textDisab_(context)), fontSize: Dimen.TEXT_SIZE_BIG),
+                style: AppTextStyle(color: widget.textColor??(widget.enabled!?textEnab_(context):textDisab_(context)), fontSize: Dimen.TEXT_SIZE_BIG),
                 hintStyle: AppTextStyle(color: widget.hintTextColor??hintEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG),
                 showUnderline: !widget.noUnderline,
-                onAnyChanged: (text) => setState(() => controller.errorDimed = true),
+                onAnyChanged: (text) => setState(() => controller!.errorDimed = true),
                 inputFormatters: widget.inputFormatters,
-                obscureText: widget.isPassword,
+                obscureText: widget.isPassword!,
               )
             ),
             if(widget.trailing != null)
-              widget.trailing
+              widget.trailing!
           ],
         ),
 
         Padding(
+          padding: const EdgeInsets.only(top: 1),
           child: Align(
+            alignment: Alignment.topRight,
             child: AnimatedOpacity(
+              opacity: controller!.errorText!=null?(controller!.errorDimed?0.3:1):0,
+              duration: const Duration(milliseconds: 350),
               child: Text(
-                translate(controller.errorText??''),
+                translate(controller!.errorText??''),
                 style: AppTextStyle(color: Colors.red, fontSize: Dimen.TEXT_SIZE_TINY),
               ),
-              opacity: controller.errorText!=null?(controller.errorDimed?0.3:1):0,
-              duration: Duration(milliseconds: 350),
             ),
-            alignment: Alignment.topRight,
           ),
-          padding: EdgeInsets.only(top: 1),
         )
       ],
     );
@@ -164,20 +165,20 @@ class InputFieldState extends State<InputField>{
 
 class InputFieldPassword extends StatefulWidget{
 
-  final String hintTop;
+  final String? hintTop;
   final String hint;
-  final InputFieldController controller;
-  final Widget leading;
-  final Color hintTextColor;
-  final Color textColor;
+  final InputFieldController? controller;
+  final Widget? leading;
+  final Color? hintTextColor;
+  final Color? textColor;
   final bool noUnderline;
-  final int maxLength;
+  final int? maxLength;
 
-  final bool enabled;
+  final bool? enabled;
 
   const InputFieldPassword({
     this.hintTop,
-    @required this.hint,
+    required this.hint,
     this.controller,
     this.leading,
     this.hintTextColor,
@@ -186,7 +187,8 @@ class InputFieldPassword extends StatefulWidget{
     this.maxLength,
 
     this.enabled = true,
-  });
+    Key? key
+  }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => InputFieldPasswordState();
@@ -195,7 +197,7 @@ class InputFieldPassword extends StatefulWidget{
 
 class InputFieldPasswordState extends State<InputFieldPassword>{
 
-  bool hidePass;
+  bool? hidePass;
 
   @override
   void initState() {
@@ -219,8 +221,8 @@ class InputFieldPasswordState extends State<InputFieldPassword>{
         LengthLimitingTextInputFormatter(widget.maxLength),
       ],
       trailing: IconButton(
-        icon: Icon(hidePass?MdiIcons.eyeOutline:MdiIcons.eyeOffOutline),
-        onPressed: widget.enabled?() => setState(() => hidePass = !hidePass):null,
+        icon: Icon(hidePass!?MdiIcons.eyeOutline:MdiIcons.eyeOffOutline),
+        onPressed: widget.enabled!?() => setState(() => hidePass = !hidePass!):null,
       ),
     );
   }

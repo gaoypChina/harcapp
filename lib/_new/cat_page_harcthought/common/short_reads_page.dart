@@ -19,7 +19,7 @@ class ShortReadsPage<T extends ShortRead> extends StatefulWidget{
   final String title;
   final List<T> allShortReads;
 
-  const ShortReadsPage(this.moduleId, this.title, this.allShortReads, {Key key}): super(key: key);
+  const ShortReadsPage(this.moduleId, this.title, this.allShortReads, {Key? key}): super(key: key);
   
   @override
   State<StatefulWidget> createState() => ShortReadsPageState<T>();
@@ -28,9 +28,9 @@ class ShortReadsPage<T extends ShortRead> extends StatefulWidget{
 
 class ShortReadsPageState<T extends ShortRead> extends State<ShortReadsPage>{
 
-  List<T> get allShortReads => widget.allShortReads;
+  List<T> get allShortReads => widget.allShortReads as List<T>;
   
-  List<T> searchedShortReads;
+  late List<T> searchedShortReads;
 
   @override
   void initState() {

@@ -13,7 +13,7 @@ class PointsIcon extends StatefulWidget{
 
   final double size;
 
-  const PointsIcon({this.size = defSize, Key key}) : super(key: key);
+  const PointsIcon({this.size = defSize, Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => PointsIconState();
@@ -23,7 +23,7 @@ class PointsIcon extends StatefulWidget{
 class PointsIconState extends State<PointsIcon>{
 
   final int refreshPerSec = 60;
-  final List<Color> _colors = [
+  final List<Color?> _colors = [
     //Colors.yellowAccent,
     Colors.yellow,
     Colors.amberAccent,
@@ -32,14 +32,14 @@ class PointsIconState extends State<PointsIcon>{
     Colors.orangeAccent,
   ];
 
-  Color colorStart;
-  Color colorEnd;
+  Color? colorStart;
+  Color? colorEnd;
 
-  Color oldColorStart;
-  Color oldColorEnd;
+  Color? oldColorStart;
+  Color? oldColorEnd;
 
-  int index;
-  double transformation;
+  late int index;
+  late double transformation;
 
   void run() async {
     while(true){
@@ -104,7 +104,7 @@ class PointsIconState extends State<PointsIcon>{
     ],
   );
 
-  Color _colorTween(Color begin, Color end) {
+  Color? _colorTween(Color? begin, Color? end) {
     return ColorTween(begin: begin, end: end).transform(transformation);
   }
 

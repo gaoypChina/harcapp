@@ -27,21 +27,21 @@ Map<String, AppTheme> appThemeFromStr = {
 
 class AppSettings extends SyncableParamGroup_ with SyncNode<AppSettingsResp>{
 
-  static bool get fullscreen => shaPref.getBool(ShaPref.SHA_PREF_SETTINGS_APP_FULLSCREEN, false);
+  static bool get fullscreen => shaPref!.getBool(ShaPref.SHA_PREF_SETTINGS_APP_FULLSCREEN, false);
   static set fullscreen(bool value) => setFullscreen(value);
-  static void setFullscreen(bool value, {bool localOnly = false}){
-    if(value == null) shaPref.remove(ShaPref.SHA_PREF_SETTINGS_APP_FULLSCREEN);
-    else shaPref.setBool(ShaPref.SHA_PREF_SETTINGS_APP_FULLSCREEN, value);
+  static void setFullscreen(bool? value, {bool localOnly = false}){
+    if(value == null) shaPref!.remove(ShaPref.SHA_PREF_SETTINGS_APP_FULLSCREEN);
+    else shaPref!.setBool(ShaPref.SHA_PREF_SETTINGS_APP_FULLSCREEN, value);
     if(localOnly) return;
     AppSettings().setSingleState(AppSettings.PARAM_FULLSCREEN, SyncableParamSingle_.STATE_NOT_SYNCED);
     synchronizer.post();
   }
 
-  static bool get devMode => shaPref.getBool(ShaPref.SHA_PREF_SETTINGS_APP_DEV_MODE, false);
+  static bool get devMode => shaPref!.getBool(ShaPref.SHA_PREF_SETTINGS_APP_DEV_MODE, false);
   static set devMode(bool value) => setDevMode(value);
-  static void setDevMode(bool value, {bool localOnly = false}){
-    if(value == null) shaPref.remove(ShaPref.SHA_PREF_SETTINGS_APP_FULLSCREEN);
-    else shaPref.setBool(ShaPref.SHA_PREF_SETTINGS_APP_DEV_MODE, value);
+  static void setDevMode(bool? value, {bool localOnly = false}){
+    if(value == null) shaPref!.remove(ShaPref.SHA_PREF_SETTINGS_APP_FULLSCREEN);
+    else shaPref!.setBool(ShaPref.SHA_PREF_SETTINGS_APP_DEV_MODE, value);
     if(localOnly) return;
     AppSettings().setSingleState(AppSettings.PARAM_DEV_MODE, SyncableParamSingle_.STATE_NOT_SYNCED);
     synchronizer.post();
@@ -50,7 +50,7 @@ class AppSettings extends SyncableParamGroup_ with SyncNode<AppSettingsResp>{
   static TimeOfDay defSunriseTime = const TimeOfDay(hour: 5, minute: 0);
   static TimeOfDay defSunsetTime = const TimeOfDay(hour: 20, minute: 00);
 
-  static TimeOfDay toDfromInt(int seconds){
+  static TimeOfDay? toDfromInt(int? seconds){
     if(seconds == null) return null;
     int minutes = (seconds~/60) % 60;
     int hours = (seconds~/(60*60));
@@ -79,18 +79,18 @@ class AppSettings extends SyncableParamGroup_ with SyncNode<AppSettingsResp>{
   }
 
   static TimeOfDay get sunriseTime{
-    int hour = shaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_H, defSunriseTime.hour);
-    int minute = shaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_M, defSunriseTime.minute);
+    int hour = shaPref!.getInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_H, defSunriseTime.hour)!;
+    int minute = shaPref!.getInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_M, defSunriseTime.minute)!;
     return TimeOfDay(hour: hour, minute: minute);
   }
   static set sunriseTime(TimeOfDay value) => setSunriseTime(value);
-  static setSunriseTime(TimeOfDay value, {bool localOnly = false}){
+  static setSunriseTime(TimeOfDay? value, {bool localOnly = false}){
     if(value == null) {
-      shaPref.remove(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_H);
-      shaPref.remove(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_M);
+      shaPref!.remove(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_H);
+      shaPref!.remove(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_M);
     } else {
-      shaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_H, value.hour);
-      shaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_M, value.minute);
+      shaPref!.setInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_H, value.hour);
+      shaPref!.setInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_M, value.minute);
     }
     if(localOnly) return;
     AppSettings().setSingleState(AppSettings.PARAM_THEME_SUNRISE_TIME, SyncableParamSingle_.STATE_NOT_SYNCED);
@@ -98,18 +98,18 @@ class AppSettings extends SyncableParamGroup_ with SyncNode<AppSettingsResp>{
   }
 
   static TimeOfDay get sunsetTime{
-    int hour = shaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNSET_TIME_H, defSunsetTime.hour);
-    int minute = shaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNSET_TIME_M, defSunsetTime.minute);
+    int hour = shaPref!.getInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNSET_TIME_H, defSunsetTime.hour)!;
+    int minute = shaPref!.getInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNSET_TIME_M, defSunsetTime.minute)!;
     return TimeOfDay(hour: hour, minute: minute);
   }
   static set sunsetTime(TimeOfDay value) => setSunsetTime(value);
-  static setSunsetTime(TimeOfDay value, {bool localOnly = false}){
+  static setSunsetTime(TimeOfDay? value, {bool localOnly = false}){
     if(value == null) {
-      shaPref.remove(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNSET_TIME_H);
-      shaPref.remove(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNSET_TIME_M);
+      shaPref!.remove(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNSET_TIME_H);
+      shaPref!.remove(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNSET_TIME_M);
     } else {
-      shaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNSET_TIME_H, value.hour);
-      shaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNSET_TIME_M, value.minute);
+      shaPref!.setInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNSET_TIME_H, value.hour);
+      shaPref!.setInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNSET_TIME_M, value.minute);
     }
     if(localOnly) return;
     AppSettings().setSingleState(AppSettings.PARAM_THEME_SUNSET_TIME, SyncableParamSingle_.STATE_NOT_SYNCED);
@@ -136,7 +136,7 @@ class AppSettings extends SyncableParamGroup_ with SyncNode<AppSettingsResp>{
 
 
   static AppTheme get theme{
-    String themeCode = shaPref.getString(ShaPref.SHA_PREF_SETTINGS_BLACK_THEME, _themeCodeAuto);
+    String? themeCode = shaPref!.getString(ShaPref.SHA_PREF_SETTINGS_BLACK_THEME, _themeCodeAuto);
     switch(themeCode){
       case _themeCodeLight: return AppTheme.light;
       case _themeCodeDark: return AppTheme.dark;
@@ -146,13 +146,13 @@ class AppSettings extends SyncableParamGroup_ with SyncNode<AppSettingsResp>{
   }
 
   static set theme(AppTheme value) => setTheme(value);
-  static setTheme(AppTheme value, {bool localOnly = false}){
-    if(value == null) shaPref.remove(ShaPref.SHA_PREF_SETTINGS_BLACK_THEME);
+  static setTheme(AppTheme? value, {bool localOnly = false}){
+    if(value == null) shaPref!.remove(ShaPref.SHA_PREF_SETTINGS_BLACK_THEME);
     switch(value){
-      case AppTheme.light: shaPref.setString(ShaPref.SHA_PREF_SETTINGS_BLACK_THEME, _themeCodeLight); break;
-      case AppTheme.dark: shaPref.setString(ShaPref.SHA_PREF_SETTINGS_BLACK_THEME, _themeCodeDark); break;
-      case AppTheme.auto: shaPref.setString(ShaPref.SHA_PREF_SETTINGS_BLACK_THEME, _themeCodeAuto); break;
-      default: shaPref.setString(ShaPref.SHA_PREF_SETTINGS_BLACK_THEME, _themeCodeAuto);
+      case AppTheme.light: shaPref!.setString(ShaPref.SHA_PREF_SETTINGS_BLACK_THEME, _themeCodeLight); break;
+      case AppTheme.dark: shaPref!.setString(ShaPref.SHA_PREF_SETTINGS_BLACK_THEME, _themeCodeDark); break;
+      case AppTheme.auto: shaPref!.setString(ShaPref.SHA_PREF_SETTINGS_BLACK_THEME, _themeCodeAuto); break;
+      default: shaPref!.setString(ShaPref.SHA_PREF_SETTINGS_BLACK_THEME, _themeCodeAuto);
     }
     if(localOnly) return;
     AppSettings().setSingleState(AppSettings.PARAM_THEME, SyncableParamSingle_.STATE_NOT_SYNCED);

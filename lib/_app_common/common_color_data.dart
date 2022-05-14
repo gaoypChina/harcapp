@@ -51,18 +51,18 @@ class CommonColorData{
     'omegaalbum': const CommonColorData(Colors.greenAccent, Colors.blue, false)
   };
   
-  final Color colorStart;
-  final Color colorEnd;
+  final Color? colorStart;
+  final Color? colorEnd;
   final bool iconWhite;
   Color get iconColor => iconWhite?Colors.white:Colors.black;
-  Color get moreVisible => AppSettings.isDark?colorStart:colorEnd;
+  Color? get moreVisible => AppSettings.isDark?colorStart:colorEnd;
 
   Color get avgColor{
     return Color.fromARGB(
         255,
-        (colorStart.red + colorEnd.red)~/2,
-        (colorStart.green + colorEnd.green)~/2,
-        (colorStart.blue + colorEnd.blue)~/2
+        (colorStart!.red + colorEnd!.red)~/2,
+        (colorStart!.green + colorEnd!.green)~/2,
+        (colorStart!.blue + colorEnd!.blue)~/2
     );
   }
 

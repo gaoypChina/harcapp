@@ -12,13 +12,13 @@ class ImageLoader{
   static ImageProvider get noInternetImage => Image.asset('assets/images/stref_duch/bg_no_internet.webp').image;
   static ImageProvider get emptyImage => Image.asset('assets/images/stref_duch/bg_empty.webp').image;
 
-  static Future<Image> loadImage(
+  static Future<Image?> loadImage(
       SourceItem item,
-      { Function(Image image, bool cached) onComplete,
-        Function() onError,
+      { Function(Image? image, bool cached)? onComplete,
+        Function()? onError,
       }) async {
 
-    Image image;
+    Image? image;
     File cached = item.cachedFile;
     if(cached.existsSync()) {
       try {
@@ -29,7 +29,7 @@ class ImageLoader{
       }
       onComplete?.call(image, true);
     }else {
-      image = await downloadImage(item, shaPref.getBool(ShaPref.SHA_PREF_DUCHOWE_SAVE_LOCALLY, true));
+      image = await downloadImage(item, shaPref!.getBool(ShaPref.SHA_PREF_DUCHOWE_SAVE_LOCALLY, true));
       if(image == null) onError?.call();
       else onComplete?.call(image, false);
     }
@@ -38,7 +38,7 @@ class ImageLoader{
 
   }
 
-  static Future<Image> downloadImage(SourceItem item, bool cache) async {
+  static Future<Image?> downloadImage(SourceItem item, bool cache) async {
 
     if(cache) {
       File cachedFile = item.cachedFile;

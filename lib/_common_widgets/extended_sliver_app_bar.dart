@@ -11,21 +11,21 @@ import 'package:provider/provider.dart';
 
 class ExtendedSliverAppBar extends StatefulWidget{
 
-  final int initIndex;
-  final TextTheme textTheme;
+  final int? initIndex;
+  final TextTheme? textTheme;
 
-  final Color backgroundColor;
-  final bool pinned;
+  final Color? backgroundColor;
+  final bool? pinned;
 
   final Color titleColor;
   final List<String> titles;
 
-  final TabController tabController;
-  final List<Tab> tabs;
+  final TabController? tabController;
+  final List<Tab>? tabs;
 
-  final void Function(int index, double offset) onChanged;
+  final void Function(int index, double offset)? onChanged;
 
-  final List<Widget> actions;
+  final List<Widget>? actions;
 
   const ExtendedSliverAppBar({
     this.initIndex=0,
@@ -34,8 +34,8 @@ class ExtendedSliverAppBar extends StatefulWidget{
     this.backgroundColor,
     this.pinned,
 
-    @required this.titleColor,
-    @required this.titles,
+    required this.titleColor,
+    required this.titles,
 
     this.tabController,
     this.tabs,
@@ -55,31 +55,31 @@ class ExtendedSliverAppBarState extends State<ExtendedSliverAppBar> with TickerP
   static double _appBarHeight = AppBar().preferredSize.height;
   static double _tabBarHeight = TabBar(tabs: []).preferredSize.height;
 
-  TextTheme get textTheme => widget.textTheme;
+  TextTheme? get textTheme => widget.textTheme;
 
-  Color get backgroundColor => widget.backgroundColor;
-  bool get pinned => widget.pinned;
+  Color? get backgroundColor => widget.backgroundColor;
+  bool? get pinned => widget.pinned;
 
   Color get titleColor => widget.titleColor;
   List<String> get titles => widget.titles;
 
-  List<Tab> get tabs => widget.tabs;
+  List<Tab>? get tabs => widget.tabs;
 
-  void Function(int index, double offset) get onChanged => widget.onChanged;
+  void Function(int index, double offset)? get onChanged => widget.onChanged;
 
-  TabController _tabController;
-  TabController get tabController => widget.tabController??_tabController;
-  PageController pageControllerTitle;
+  TabController? _tabController;
+  TabController? get tabController => widget.tabController??_tabController;
+  PageController? pageControllerTitle;
 
   @override
   void initState() {
-    _tabController = TabController(length: tabs.length, vsync: this);
-    pageControllerTitle = PageController(initialPage: widget.initIndex);
+    _tabController = TabController(length: tabs!.length, vsync: this);
+    pageControllerTitle = PageController(initialPage: widget.initIndex!);
 
     if(onChanged != null)
-      tabController.animation.addListener(() => onChanged(tabController.index, tabController.offset));
+      tabController!.animation!.addListener(() => onChanged!(tabController!.index, tabController!.offset));
     //tabController.animation.addListener(() => pageController.jumpTo(MediaQuery.of(context).size.width * (tabController.index + tabController.offset)));
-    tabController.animation.addListener(() => pageControllerTitle.jumpTo(_appBarHeight * (tabController.index + tabController.offset)));
+    tabController!.animation!.addListener(() => pageControllerTitle!.jumpTo(_appBarHeight * (tabController!.index + tabController!.offset)));
 
     super.initState();
   }
@@ -93,7 +93,7 @@ class ExtendedSliverAppBarState extends State<ExtendedSliverAppBar> with TickerP
         textTheme: textTheme,
         //backgroundColor: backgroundColor,
         floating: true,
-        pinned: pinned,
+        pinned: pinned!,
 
         title: Consumer<_StretchProvider>(
           builder: (context, prov, child) => SizedBox(
@@ -107,7 +107,7 @@ class ExtendedSliverAppBarState extends State<ExtendedSliverAppBar> with TickerP
               children: titles.map((title) => _TitleText(
                   title: title,
                   titleColor: iconEnab_(context),
-                  animation: tabController.animation,
+                  animation: tabController!.animation,
                   index: titles.indexOf(title))).toList(),
             ),
           )
@@ -118,7 +118,7 @@ class ExtendedSliverAppBarState extends State<ExtendedSliverAppBar> with TickerP
         bottom: TabBar(
           controller: tabController,
           physics: BouncingScrollPhysics(),
-          tabs: tabs,
+          tabs: tabs!,
           labelColor: backgroundColor,
           unselectedLabelColor: iconDisab_(context),
           indicator: AppTabBarIncdicator(color: backgroundColor)
@@ -132,10 +132,10 @@ class ExtendedSliverAppBarState extends State<ExtendedSliverAppBar> with TickerP
 
 class _TitleText extends StatelessWidget{
 
-  final String title;
-  final Color titleColor;
-  final Animation<double> animation;
-  final int index;
+  final String? title;
+  final Color? titleColor;
+  final Animation<double>? animation;
+  final int? index;
   
   const _TitleText({this.title, this.titleColor, this.animation, this.index});
   
@@ -143,13 +143,13 @@ class _TitleText extends StatelessWidget{
   Widget build(BuildContext context) {
 
     return AnimatedBuilder(
-      animation: animation,
+      animation: animation!,
       child: Center(
-        child: Text(title, style: AppTextStyle(color: titleColor), textAlign: TextAlign.center),
+        child: Text(title!, style: AppTextStyle(color: titleColor), textAlign: TextAlign.center),
       ),
       builder: (context, child){
 
-        double dist = (animation.value - index).abs()*2;
+        double dist = (animation!.value - index!).abs()*2;
         return Opacity(
             opacity: 1-cos(pi/2 * (1 - min(1, dist))),
             child: child
@@ -163,7 +163,7 @@ class _TitleText extends StatelessWidget{
 class _StretchProvider extends ChangeNotifier{
 
   double _minSize;
-  bool _isMinSize;
+  bool? _isMinSize;
 
   _StretchProvider(this._minSize){
     _isMinSize = false;

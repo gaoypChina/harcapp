@@ -7,9 +7,9 @@ import '../model/circle.dart';
 
 class NameProvider extends ChangeNotifier{
 
-  TextEditingController nameController;
+  TextEditingController? nameController;
 
-  NameProvider({Circle circle}){
+  NameProvider({Circle? circle}){
     nameController = TextEditingController(text: circle?.name??'');
   }
 
@@ -17,9 +17,9 @@ class NameProvider extends ChangeNotifier{
 
 class DescriptionProvider extends ChangeNotifier{
 
-  TextEditingController descriptionController;
+  TextEditingController? descriptionController;
 
-  DescriptionProvider({Circle circle}){
+  DescriptionProvider({Circle? circle}){
     descriptionController = TextEditingController(text: circle?.description??'');
   }
 
@@ -27,14 +27,14 @@ class DescriptionProvider extends ChangeNotifier{
 
 class CoverImageProvider extends ChangeNotifier{
 
-  CircleCoverImageData _coverImage;
-  CircleCoverImageData get coverImage => _coverImage;
-  set coverImage(CircleCoverImageData value){
+  CircleCoverImageData? _coverImage;
+  CircleCoverImageData? get coverImage => _coverImage;
+  set coverImage(CircleCoverImageData? value){
     _coverImage = value;
     notifyListeners();
   }
 
-  CoverImageProvider({Circle circle}){
+  CoverImageProvider({Circle? circle}){
     _coverImage = circle?.coverImage??CircleCoverImageData.paths[Random().nextInt(CircleCoverImageData.paths.length)];
   }
 
@@ -42,14 +42,14 @@ class CoverImageProvider extends ChangeNotifier{
 
 class ColorsKeyProvider extends ChangeNotifier{
 
-  String _colorsKey;
-  String get colorsKey => _colorsKey;
-  set colorsKey(String value){
+  String? _colorsKey;
+  String? get colorsKey => _colorsKey;
+  set colorsKey(String? value){
     _colorsKey = value;
     notifyListeners();
   }
 
-  ColorsKeyProvider({Circle circle}){
+  ColorsKeyProvider({Circle? circle}){
     _colorsKey = circle?.colorsKey??'auto';
   }
 

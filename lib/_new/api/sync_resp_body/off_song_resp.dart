@@ -9,9 +9,9 @@ class OffSongResp extends SongResp{
   static const String collName = OffSong.syncClassId;
 
   const OffSongResp({
-    @required int rate,
-    @required int chordShift,
-    @required Map<String, MemoryResp> memories,
+    required int? rate,
+    required int? chordShift,
+    required Map<String, MemoryResp>? memories,
   }):super(rate: rate, chordShift: chordShift, memories: memories);
 
   static OffSongResp from(Map respData) => OffSongResp(

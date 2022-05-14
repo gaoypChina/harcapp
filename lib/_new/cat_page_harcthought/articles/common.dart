@@ -17,18 +17,18 @@ class Author{
       desc == null;
 
   final String authCode;
-  final Uint8List imageBytes;
-  final String name;
-  final String desc;
+  final Uint8List? imageBytes;
+  final String? name;
+  final String? desc;
 
   const Author(this.authCode, this.imageBytes, this.name, this.desc);
 
   Object toJsonMap() {
 
-    String imageCode = imageBytes==null?
-    null: base64Encode(imageBytes.toList());
+    String? imageCode = imageBytes==null?
+    null: base64Encode(imageBytes!.toList());
 
-    Map<String, Object> map = {
+    Map<String, Object?> map = {
       'image': imageCode,
       'name': name,
       'desc': desc,
@@ -41,9 +41,9 @@ class Author{
 
     Map<String, Object> map = jsonDecode(code);
 
-    final Uint8List imageBytes = map['image']==null?null:base64Decode(map['image']);
-    final String name = map['name'];
-    final String desc = map['desc'];
+    final Uint8List? imageBytes = map['image']==null?null:base64Decode(map['image'] as String);
+    final String? name = map['name'] as String?;
+    final String? desc = map['desc'] as String?;
 
     return Author(authCode, imageBytes, name, desc);
 
@@ -56,7 +56,7 @@ class Author{
 abstract class ArticleElement{
   static int ID = 0;
 
-  int _id;
+  int? _id;
 
   ArticleElement(){
     _id = ID++;
@@ -70,7 +70,7 @@ abstract class ArticleElement{
   @override
   bool operator == (other) => other is ArticleElement && other._id == _id;
 
-  static ArticleElement decode(Object object){
+  static ArticleElement? decode(Object object){
     List<String> parts = (object as List<dynamic>).cast<String>().toList();
     if(parts[0]==Paragraph.JSON_NAME)
       return Paragraph(text: parts[1]);
@@ -156,8 +156,8 @@ class Quote extends ArticleElement{
 
 class Picture extends ArticleElement{
 
-  String link;
-  String desc;
+  String? link;
+  String? desc;
 
   Picture({this.link:'', this.desc: ''}):super();
 
@@ -173,13 +173,13 @@ class Picture extends ArticleElement{
   }
 
   @override
-  bool hasMatch(String phrase) => remPolChars(desc).contains(phrase);
+  bool hasMatch(String phrase) => remPolChars(desc!).contains(phrase);
 
 }
 
 class Youtube extends ArticleElement{
 
-  String link;
+  String? link;
   String desc;
 
   Youtube({this.link:'', this.desc: ''}):super();

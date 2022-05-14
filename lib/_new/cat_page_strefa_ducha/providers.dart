@@ -5,31 +5,31 @@ import '_main.dart';
 
 class FadeImageProvider extends ChangeNotifier{
 
-  ImageProvider _prevImage, _currImage, _nextImage;
-  ImageProvider _prevImageOld, _currImageOld, _nextImageOld;
+  ImageProvider? _prevImage, _currImage, _nextImage;
+  ImageProvider? _prevImageOld, _currImageOld, _nextImageOld;
 
-  ImageProvider _newNext, _newPrev;
+  ImageProvider? _newNext, _newPrev;
 
-  int _currIdx;
+  int? _currIdx;
 
   FadeImageProvider(){
     _currIdx = 0;
   }
 
-  ImageProvider get prevImage => _prevImage??_prevImageOld;
-  set prevImage(ImageProvider value){
+  ImageProvider? get prevImage => _prevImage??_prevImageOld;
+  set prevImage(ImageProvider? value){
     _prevImage = value;
     notifyListeners();
   }
 
-  ImageProvider get currImage => _currImage??_currImageOld;
-  set currImage(ImageProvider value){
+  ImageProvider? get currImage => _currImage??_currImageOld;
+  set currImage(ImageProvider? value){
     _currImage = value;
     notifyListeners();
   }
 
-  ImageProvider get nextImage => _nextImage??_nextImageOld;
-  set nextImage(ImageProvider value){
+  ImageProvider? get nextImage => _nextImage??_nextImageOld;
+  set nextImage(ImageProvider? value){
     _nextImage = value;
     notifyListeners();
   }
@@ -38,7 +38,7 @@ class FadeImageProvider extends ChangeNotifier{
 
     //print('newImage $idx start');
     //debug();
-    if((reload || _prevImage == null) && idx==currIdx-CatPageStrefaDucha.pageViewExtent) {
+    if((reload || _prevImage == null) && idx==currIdx!-CatPageStrefaDucha.pageViewExtent) {
       //print('prev !!!');
       _prevImage = image;
       _prevImageOld = image;
@@ -48,22 +48,22 @@ class FadeImageProvider extends ChangeNotifier{
       _currImage = image;
       _currImageOld = image;
       if(notify) notifyListeners();
-    }else if((reload || _nextImage == null) && idx==currIdx+CatPageStrefaDucha.pageViewExtent){
+    }else if((reload || _nextImage == null) && idx==currIdx!+CatPageStrefaDucha.pageViewExtent){
       //print('next !!!');
       _nextImage = image;
       _nextImageOld = image;
       if(notify) notifyListeners();
-    }else if(idx > _currIdx){
+    }else if(idx > _currIdx!){
       _newNext = image;
-    }else if(idx < _currIdx){
+    }else if(idx < _currIdx!){
       _newPrev = image;
     }
     //debug();
     //print('newImage end\n\n');
   }
 
-  int get currIdx => _currIdx;
-  set currIdx(int idx){
+  int? get currIdx => _currIdx;
+  set currIdx(int? idx){
     _currIdx = idx;
     notifyListeners();
   }
@@ -136,10 +136,10 @@ class FadeImageProvider extends ChangeNotifier{
 
 class LockProvider extends ChangeNotifier{
 
-  bool _locked;
+  bool? _locked;
 
-  bool get locked => _locked;
-  set locked(bool value){
+  bool? get locked => _locked;
+  set locked(bool? value){
     _locked = value;
     notifyListeners();
   }
@@ -157,9 +157,9 @@ class FavoriteListProvider extends ChangeNotifier{
 
 class PinProvider extends ChangeNotifier{
   
-  SourceItem get item => SourceItem.pinned;
+  SourceItem? get item => SourceItem.pinned;
 
-  set item(SourceItem value){
+  set item(SourceItem? value){
     SourceItem.pinned = value;
     notifyListeners();
   }

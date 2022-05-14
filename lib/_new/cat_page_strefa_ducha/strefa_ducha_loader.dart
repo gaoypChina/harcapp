@@ -6,7 +6,7 @@ import 'package:harcapp/_new/cat_page_strefa_ducha/source.dart';
 
 
 StrefaDuchaLoader strefaDuchaLoader = StrefaDuchaLoader();
-class StrefaDuchaLoader extends SingleComputer<String, SingleComputerListener<String>>{
+class StrefaDuchaLoader extends SingleComputer<String?, SingleComputerListener<String>?>{
 
   static const String sourceListUrl = 'https://gitlab.com/n3o2k7i8ch5/harcapp_data/raw/master/duchowe/.index';
 
@@ -21,16 +21,16 @@ class StrefaDuchaLoader extends SingleComputer<String, SingleComputerListener<St
       receiveTimeout: 40000,
     ));
 
-    String data;
+    String? data;
     try{
       Response response = await dio.get(sourceListUrl);
-      data = response.data as String;
+      data = response.data as String?;
     }catch (e){
       callError(null);
       return;
     }
 
-    List<String> sourceParts = data.replaceAll('#\n', '#').split('##');
+    List<String> sourceParts = data!.replaceAll('#\n', '#').split('##');
 
     // DOWNLOAD SOURCES
 

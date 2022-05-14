@@ -31,7 +31,7 @@ const int MAX_INT = 9223372036854775807;
 
 class PrimitiveWrapperListenable<T> {
 
-  List<Function(T)> _listeners;
+  late List<Function(T)> _listeners;
 
   T _value;
   PrimitiveWrapperListenable(this._value){
@@ -46,7 +46,7 @@ class PrimitiveWrapperListenable<T> {
   }
 
   addListener(Function listener){
-      _listeners.add(listener);
+      _listeners.add(listener as dynamic Function(T));
   }
 }
 
@@ -62,7 +62,7 @@ class ShadowDecoration extends BoxDecoration{
     );
   }
 
-  ShadowDecoration({Color backgroundColor, Color shadowColor = Colors.black26, Offset offset = const Offset(0.0, 3)}):super(
+  ShadowDecoration({Color? backgroundColor, Color shadowColor = Colors.black26, Offset offset = const Offset(0.0, 3)}):super(
     color: backgroundColor,
     boxShadow: [boxShadowDef(shadowColor: shadowColor, offset: offset)],
   );
@@ -94,34 +94,34 @@ const double alertDialogMarginVal = 24.0;
 class AlertDialogButton extends StatelessWidget{
 
   final String text;
-  final Color textColor;
+  final Color? textColor;
   final bool enabled;
   final void Function() onTap;
 
-  const AlertDialogButton({@required this.text, this.textColor, this.enabled = true, @required this.onTap, Key key}): super(key: key);
+  const AlertDialogButton({required this.text, this.textColor, this.enabled = true, required this.onTap, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => SimpleButton(
       radius: AppCard.BIG_RADIUS,
       padding: const EdgeInsets.all(Dimen.ICON_MARG),
-      child: Text(text, style: AppTextStyle(fontWeight: weight.halfBold, color: textColor??(enabled?textEnab_(context):textDisab_(context)), fontSize: Dimen.TEXT_SIZE_BIG)),
-      onTap: enabled?onTap:null
+      onTap: enabled?onTap:null,
+      child: Text(text, style: AppTextStyle(fontWeight: weight.halfBold, color: textColor??(enabled?textEnab_(context):textDisab_(context)), fontSize: Dimen.TEXT_SIZE_BIG))
   );
 
 }
 
 Future<void> showAlertDialog(
     BuildContext context,
-    {String title,
-      String content,
-      Widget leading,
-      List<Widget> Function(BuildContext context) actionBuilder,
+    {String? title,
+      String? content,
+      Widget? leading,
+      List<Widget> Function(BuildContext context)? actionBuilder,
       bool dismissible = true,
     }) => openDialog(
       context: context,
       dismissible: dismissible,
       builder: (BuildContext context) => AlertDialog(
-        title: Text(title, style: AppTextStyle(fontWeight: weight.halfBold)),
+        title: Text(title!, style: AppTextStyle(fontWeight: weight.halfBold)),
         content: Row(
           children: [
             if(leading != null) leading,
@@ -143,13 +143,10 @@ Future hideKeyboard(BuildContext context) async {
 
 class UpperCaseTextFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue,
-      TextEditingValue newValue) {
-    return TextEditingValue(
-        text: newValue.text?.toUpperCase(),
-        selection: newValue.selection,
-    );
-  }
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) => TextEditingValue(
+    text: newValue.text.toUpperCase()??'',
+    selection: newValue.selection,
+  );
 }
 
 
@@ -158,10 +155,10 @@ class NestedPageViewPhysics extends ScrollPhysics{
   final PrimitiveWrapper<PageController> _pageController;
   PageController controller() => _pageController.get();
 
-  const NestedPageViewPhysics(this._pageController, {ScrollPhysics parent}) : super(parent: parent);
+  const NestedPageViewPhysics(this._pageController, {ScrollPhysics? parent}) : super(parent: parent);
 
   @override
-  NestedPageViewPhysics applyTo(ScrollPhysics ancestor) =>
+  NestedPageViewPhysics applyTo(ScrollPhysics? ancestor) =>
       NestedPageViewPhysics(_pageController, parent: buildParent(ancestor));
 
   @override
@@ -202,13 +199,13 @@ class DialogRoute extends PageRoute{
   Widget Function(BuildContext context) builder;
   bool dismissible;
 
-  DialogRoute({@required this.builder, this.dismissible = true});
+  DialogRoute({required this.builder, this.dismissible = true});
 
   @override
   Color get barrierColor => AppColors.dialog_dim;
 
   @override
-  String get barrierLabel => null;
+  String? get barrierLabel => null;
 
   @override
   bool get opaque => false;
@@ -245,8 +242,8 @@ class DialogRoute extends PageRoute{
 }
 
 Future<void> openDialog({
-  @required BuildContext context,
-  @required Widget Function(BuildContext context) builder,
+  required BuildContext context,
+  required Widget Function(BuildContext context) builder,
   bool dismissible = true
 }) => Navigator.push(
     context,
@@ -260,7 +257,7 @@ Future<void> factoryResetLocal(BuildContext context) async {
 
   await synchronizer.reloadSyncables();
 
-  shaPref.clear();
+  shaPref!.clear();
   for(FileSystemEntity file in (await getApplicationDocumentsDirectory()).listSync())
     file.deleteSync(recursive: true);
 
@@ -363,8 +360,8 @@ class PolishLettersComparator {
     "Ź": 67,
     "ź": 68,
   };
-  int charAint;
-  int charBint;
+  late int charAint;
+  late int charBint;
   int compare(String a, String b) {
     int min = a.length;
     if (b.length < a.length) min = b.length;

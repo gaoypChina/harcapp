@@ -8,8 +8,8 @@ import 'package:harcapp_core_song_widget/add_pers_resolver.dart';
 
 class AddPersEmailResolver extends AddPersResolver{
 
-  final double textSize;
-  final Color textColor;
+  final double? textSize;
+  final Color? textColor;
 
   const AddPersEmailResolver({this.textSize, this.textColor});
 

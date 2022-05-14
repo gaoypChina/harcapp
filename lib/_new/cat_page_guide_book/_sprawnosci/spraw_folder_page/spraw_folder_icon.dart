@@ -7,33 +7,33 @@ class SprawFolderIcon extends StatelessWidget{
 
   static const double defSize = 36.0;
 
-  final String iconKey;
-  final String colorKey;
-  final double size;
+  final String? iconKey;
+  final String? colorKey;
+  final double? size;
 
   const SprawFolderIcon(this.iconKey, this.colorKey, {this.size = defSize});
 
-  static SprawFolderIcon from(SprawFolder folder, {double size}){
+  static SprawFolderIcon from(SprawFolder folder, {double? size}){
     return SprawFolderIcon(folder.iconKey, folder.colorKey, size: size);
   }
 
   @override
   Widget build(BuildContext context) {
 
-    CommonColorData commonColorData = CommonColorData.ALL[colorKey];
+    CommonColorData? commonColorData = CommonColorData.ALL[colorKey!];
 
     return ShaderMask(
         child: Icon(
-          CommonIconData.ALL[iconKey],
+          CommonIconData.ALL[iconKey!],
           size: size,
           color: Colors.white,
         ),
         shaderCallback: (Rect bounds){
-          final Rect rect = Rect.fromLTRB(0, 0, size, size);
+          final Rect rect = Rect.fromLTRB(0, 0, size!, size!);
           final Gradient gradient = LinearGradient(
             colors: [
-              commonColorData.colorStart,
-              commonColorData.colorEnd
+              commonColorData!.colorStart!,
+              commonColorData.colorEnd!
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight

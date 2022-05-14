@@ -10,25 +10,25 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core_song/song_core.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class CopyPage<T extends SongCore> extends StatefulWidget{
+class CopyPage<T extends SongCore?> extends StatefulWidget{
 
   final T song;
-  final Function onCopied;
+  final Function? onCopied;
 
-  const CopyPage(this.song, {this.onCopied, Key key}): super(key: key);
+  const CopyPage(this.song, {this.onCopied, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => CopyPageState<T>();
 
 }
 
-class CopyPageState<T extends SongCore> extends State<CopyPage> with TickerProviderStateMixin{
+class CopyPageState<T extends SongCore?> extends State<CopyPage> with TickerProviderStateMixin{
 
-  T get song => widget.song;
-  Function get onCopied => widget.onCopied;
+  T get song => widget.song as T;
+  Function? get onCopied => widget.onCopied;
 
-  TabController tabController;
-  List<String> content;
+  TabController? tabController;
+  late List<String> content;
 
   @override
   void initState() {
@@ -110,8 +110,8 @@ class CopyPageState<T extends SongCore> extends State<CopyPage> with TickerProvi
         ),
         bottomNavigationBar: InkWell(
           onTap: (){
-            Clipboard.setData(ClipboardData(text: content[tabController.index]));
-            if(onCopied!=null) onCopied();
+            Clipboard.setData(ClipboardData(text: content[tabController!.index]));
+            if(onCopied!=null) onCopied!();
             Navigator.pop(context);
           },
           child: AppCard(

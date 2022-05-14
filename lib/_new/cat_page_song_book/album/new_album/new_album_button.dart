@@ -14,8 +14,8 @@ import 'new_album_page.dart';
 
 class NewAlbumButton extends StatelessWidget{
 
-  final void Function(Album album) onNewCreated;
-  const NewAlbumButton({this.onNewCreated, Key key}): super(key: key);
+  final void Function(Album album)? onNewCreated;
+  const NewAlbumButton({this.onNewCreated, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => SimpleButton(
@@ -56,7 +56,7 @@ class NewAlbumButton extends StatelessWidget{
           onSaved: (album){
             Navigator.pop(context);
             if(onNewCreated != null)
-              onNewCreated(album);
+              onNewCreated!(album);
           },
         )));
 

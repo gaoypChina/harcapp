@@ -13,23 +13,23 @@ class Statistics{
   static const Duration syncInterval = Duration(hours: 1);
   static const Duration syncPeriod = Duration(days: 1);
 
-  DateTime get lastSyncTime => shaPref.getDateTime(ShaPref.SHA_PREF_STATISTICS_LAST_SYNC_TIME, null);
+  DateTime? get lastSyncTime => shaPref!.getDateTime(ShaPref.SHA_PREF_STATISTICS_LAST_SYNC_TIME, null);
 
-  static Map<String, Map<String, dynamic>> get songStats{
-    Map<String, Map<String, dynamic>> map = shaPref.getMap(ShaPref.SHA_PREF_STATISTICS_SONGS, {});
-    Map<String, Map<String, dynamic>> castMap = {};
+  static Map<String?, Map<String, dynamic>> get songStats{
+    Map<String, Map<String, dynamic>> map = shaPref!.getMap(ShaPref.SHA_PREF_STATISTICS_SONGS, {});
+    Map<String?, Map<String, dynamic>> castMap = {};
     for(String key in map.keys){
-      Map<String, dynamic> innerMap = Map.from(map[key]);
+      Map<String, dynamic> innerMap = Map.from(map[key]!);
       castMap[key] = innerMap;
     }
     return castMap;
   }
 
-  static set songStats(Map<String, Map<String, dynamic>> value) => shaPref.setMap(ShaPref.SHA_PREF_STATISTICS_SONGS, value);
+  static set songStats(Map<String?, Map<String, dynamic>> value) => shaPref!.setMap(ShaPref.SHA_PREF_STATISTICS_SONGS, value);
 
-  static Future<void> registerSongAction(String songFileName, DateTime openTime, SongOpenType type, Duration openDuration, List<Tuple4<int, int, int, Orientation>> scrollEvents) async {
+  static Future<void> registerSongAction(String? songFileName, DateTime openTime, SongOpenType type, Duration openDuration, List<Tuple4<int, int, int, Orientation>> scrollEvents) async {
 
-    Map<String, Map<String, dynamic>> allStats = Statistics.songStats;
+    Map<String?, Map<String, dynamic>> allStats = Statistics.songStats;
     Map<String, dynamic> songStats = allStats[songFileName] ?? {};
 
     String localDate = DateFormat('yyyy-MM-ddTHH:mm:ss').format(openTime.toUtc());
@@ -48,21 +48,21 @@ class Statistics{
     Statistics.songStats = allStats;
   }
 
-  static Map<String, Map<String, dynamic>> get moduleStats{
-    Map<String, Map<String, dynamic>> map = shaPref.getMap(ShaPref.SHA_PREF_STATISTICS_MODULE, {});
-    Map<String, Map<String, dynamic>> castMap = {};
+  static Map<String?, Map<String, dynamic>> get moduleStats{
+    Map<String, Map<String, dynamic>> map = shaPref!.getMap(ShaPref.SHA_PREF_STATISTICS_MODULE, {});
+    Map<String?, Map<String, dynamic>> castMap = {};
     for(String key in map.keys){
-      Map<String, dynamic> innerMap = Map.from(map[key]);
+      Map<String, dynamic> innerMap = Map.from(map[key]!);
       castMap[key] = innerMap;
     }
     return castMap;
   }
 
-  static set moduleStats(Map<String, Map<String, dynamic>> value) => shaPref.setMap(ShaPref.SHA_PREF_STATISTICS_MODULE, value);
+  static set moduleStats(Map<String?, Map<String, dynamic>> value) => shaPref!.setMap(ShaPref.SHA_PREF_STATISTICS_MODULE, value);
 
-  static Future<void> registerModuleAction(String moduleId, DateTime openTime, Duration openDuration) async {
+  static Future<void> registerModuleAction(String? moduleId, DateTime openTime, Duration openDuration) async {
 
-    Map<String, Map<String, dynamic>> allStats = Statistics.moduleStats;
+    Map<String?, Map<String, dynamic>> allStats = Statistics.moduleStats;
     Map<String, dynamic> moduleStats = allStats[moduleId]??{};
 
     String localDate = DateFormat('yyyy-MM-ddTHH:mm:ss').format(openTime.toUtc());
@@ -91,25 +91,25 @@ class Statistics{
     await ApiStatistics.postObservations(
       onSuccess: (List<StatRespItem> modules, List<StatRespItem> songs){
 
-        Map<String, Map<String, dynamic>> _allModuleStats = moduleStats;
+        Map<String?, Map<String, dynamic>> _allModuleStats = moduleStats;
         for(StatRespItem respItem in modules){
           if(respItem.state == StatRespState.tooEarly || respItem.state == StatRespState.alreadyExisted)
-            _allModuleStats[respItem.uniqId].remove(respItem.time);
+            _allModuleStats[respItem.uniqId]!.remove(respItem.time);
           else if(respItem.state == StatRespState.saved)
-            _allModuleStats[respItem.uniqId].remove(respItem.time);
+            _allModuleStats[respItem.uniqId]!.remove(respItem.time);
 
-          if(_allModuleStats[respItem.uniqId].isEmpty) _allModuleStats.remove(respItem.uniqId);
+          if(_allModuleStats[respItem.uniqId]!.isEmpty) _allModuleStats.remove(respItem.uniqId);
         }
         moduleStats = _allModuleStats;
 
-        Map<String, Map<String, dynamic>> _allSongStats = songStats;
+        Map<String?, Map<String, dynamic>> _allSongStats = songStats;
         for(StatRespItem respItem in songs){
           if(respItem.state == StatRespState.tooEarly || respItem.state == StatRespState.alreadyExisted)
-            _allSongStats[respItem.uniqId].remove(respItem.time);
+            _allSongStats[respItem.uniqId]!.remove(respItem.time);
           else if(respItem.state == StatRespState.saved)
-            _allSongStats[respItem.uniqId].remove(respItem.time);
+            _allSongStats[respItem.uniqId]!.remove(respItem.time);
 
-          if(_allSongStats[respItem.uniqId].isEmpty) _allSongStats.remove(respItem.uniqId);
+          if(_allSongStats[respItem.uniqId]!.isEmpty) _allSongStats.remove(respItem.uniqId);
         }
         songStats = _allSongStats;
 

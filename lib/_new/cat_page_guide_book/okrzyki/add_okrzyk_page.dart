@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/scan_qr_code.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -16,7 +17,6 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:qrcode_reader/qrcode_reader.dart';
 
 import 'common.dart';
 import 'okrzyk.dart';
@@ -27,10 +27,10 @@ class AddOkrzykPage extends StatefulWidget {
   static const int TYPE_OGOLNE = 1;
   static const int TYPE_POSILKOWE = 2;
 
-  Okrzyk okrzyk;
-  final void Function() onSaved;
+  Okrzyk? okrzyk;
+  final void Function()? onSaved;
 
-  AddOkrzykPage({this.okrzyk, this.onSaved});
+  AddOkrzykPage({this.okrzyk, this.onSaved, Key? key}): super(key: key);
 
   @override
   State<AddOkrzykPage> createState() => AddOkrzykPageState();
@@ -40,14 +40,14 @@ class AddOkrzykPage extends StatefulWidget {
 class AddOkrzykPageState extends State<AddOkrzykPage> {
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool scrollListView;
+  late bool scrollListView;
 
-  int okrzykType;
+  int? okrzykType;
 
   final List<ItemCard> elements = [];
 
-  TextEditingController titleController;
-  ScrollController scrollController;
+  TextEditingController? titleController;
+  ScrollController? scrollController;
 
   @override
   void initState() {
@@ -62,8 +62,8 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
     scrollController = ScrollController();
 
     if(widget.okrzyk != null){
-      titleController.text = widget.okrzyk.title;
-      for(SoundElement element in widget.okrzyk.soundElements)
+      titleController!.text = widget.okrzyk!.title;
+      for(SoundElement element in widget.okrzyk!.soundElements)
         elements.add(ItemCard.from(
           this,
           initTon: element.tone.toString(),
@@ -82,8 +82,8 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
 
     if(scrollListView) {
       post(() =>
-          scrollController.animateTo(
-              scrollController.position.maxScrollExtent,
+          scrollController!.animateTo(
+              scrollController!.position.maxScrollExtent,
               duration: const Duration(milliseconds: 200),
               curve: Curves.easeOut));
 
@@ -103,10 +103,8 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
                 if(await Permission.camera.request().isGranted){
 
                   //String code = "";
-                  String code = await QRCodeReader()
-                      .setAutoFocusIntervalInMs(200)
-                      .setForceAutoFocus(true)
-                      .scan();
+                  String? code = await scanQrCode();
+                  if(code == null) return;
 
                   Okrzyk okrzyk;
 
@@ -130,11 +128,11 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
             text: 'Zapisz',
             onTap: () async{
               String path = getOkrzykiFolderLocalPath;
-              saveStringAsFileToFolder(path, Okrzyk(titleController.text, elements.map((element) => element.toSoundElement()).toList(), official: false).toString());
+              saveStringAsFileToFolder(path, Okrzyk(titleController!.text, elements.map((element) => element.toSoundElement()).toList(), official: false).toString());
               Navigator.pop(context);
 
               if(widget.onSaved != null)
-                widget.onSaved();
+                widget.onSaved!();
               },
           ),
         ],
@@ -162,7 +160,7 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
 
               OkrzykWidget(
                   Okrzyk(
-                      titleController.text,
+                      titleController!.text,
                       elements.map((element) => element.toSoundElement()).toList()
                   ),
                   editable: false,
@@ -358,7 +356,7 @@ class ItemCard extends StatelessWidget{
             bottom: Dimen.ICON_MARG + Dimen.TEXT_SIZE_SMALL,
           ),
           onPressed: ()async{
-            int ton;
+            int? ton;
             ton = int.tryParse(ctrlTon.text);
             ton ??= 0;
 

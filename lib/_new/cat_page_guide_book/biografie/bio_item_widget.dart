@@ -42,10 +42,10 @@ class BioItemWidget extends StatelessWidget{
 
   final ItemData data;
   final int index;
-  final ValueNotifier notifier;
+  final ValueNotifier? notifier;
   final ScrollController Function() controller;
 
-  const BioItemWidget({@required this.data, @required this.index, @required this.notifier, @required this.controller});
+  const BioItemWidget({required this.data, required this.index, required this.notifier, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -97,13 +97,13 @@ class BioItemWidget extends StatelessWidget{
               elevation: AppCard.bigElevation,
               radius: AppCard.BIG_RADIUS,
               child: AnimatedBuilder(
-                animation: notifier,
+                animation: notifier!,
                 builder: (context, _){
 
                   // NIE DZIAŁA SPLASH: ( Flutter bug)
                   // https://github.com/flutter/flutter/issues/30193
                   return Transform.scale(
-                    scale: 1 + sin(notifier.value - index).abs()*0.25,//Offset(0, MediaQuery.of(context).size.height*(index - notifier.value)*0.2),
+                    scale: 1 + sin(notifier!.value - index).abs()*0.25,//Offset(0, MediaQuery.of(context).size.height*(index - notifier.value)*0.2),
                     child: Image.asset('assets/images/bio/${data.imgSrc[0].item1}.webp', fit: BoxFit.cover, width: double.infinity, height: double.infinity,),
                   );
                 },

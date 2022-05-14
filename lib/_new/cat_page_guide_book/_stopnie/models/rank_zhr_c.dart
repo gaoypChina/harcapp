@@ -22,19 +22,19 @@ class RankZHRCData extends RankData{
 
   final String minWiek;
   final String czasTrw;
-  final String idea;
-  final List<RankGroupData> koment;
+  final String? idea;
+  final List<RankGroupData>? koment;
 
   RankZHRCData({
-    @required String title,
-    @required int version,
-    @required Org org,
-    @required String id,
-    @required this.minWiek,
-    @required this.czasTrw,
-    @required this.idea,
-    @required this.koment,
-    @required List<RankCatData> catData,
+    required String title,
+    required int version,
+    required Org org,
+    required String id,
+    required this.minWiek,
+    required this.czasTrw,
+    required this.idea,
+    required this.koment,
+    required List<RankCatData> catData,
   }):super(
     titleMale: title,
     version: version,
@@ -58,15 +58,15 @@ class RankZHRCData extends RankData{
   }
 
   static RankZHRCData from({
-    @required String title,
-    @required int version,
-    @required Org org,
-    @required String id,
-    @required String minWiek,
-    @required String czasTrw,
-    @required String idea,
-    @required List<RankGroupData> koment,
-    @required List<RankCatData> cats,
+    required String title,
+    required int version,
+    required Org org,
+    required String id,
+    required String minWiek,
+    required String czasTrw,
+    required String? idea,
+    required List<RankGroupData>? koment,
+    required List<RankCatData> cats,
   }){
 
     List<RankCatData> allCats = [];
@@ -92,16 +92,16 @@ class RankZHRCData extends RankData{
 
 }
 
-abstract class RankZHRCTempl<T extends RankState> extends Rank<RankZHRCData, RankDefResp, T>{
+abstract class RankZHRCTempl<T extends RankState> extends Rank<RankZHRCData, RankDefResp?, T>{
 
   String get minWiek => data.minWiek;
   String get czasTrw => data.czasTrw;
-  String get idea => data.idea;
-  List<RankGroupData> get koment => data.koment;
+  String? get idea => data.idea;
+  List<RankGroupData>? get koment => data.koment;
 
   RankZHRCTempl(
     RankZHRCData data,
-    List<RankCat> cats,
+    List<RankCat>? cats,
   ):super(data, cats);
 
   @override
@@ -144,7 +144,7 @@ class RankZHRC<T extends RankState> extends RankZHRCTempl<RankStateLocal>{
 
   RankZHRC(
     RankZHRCData data,
-    List<RankCat> cats,
+    List<RankCat>? cats,
   ):super(data, cats);
 
   @override
@@ -168,6 +168,6 @@ class RankZHRCPreview extends RankZHRCTempl<RankStateShared>{
   @override
   RankStateShared state;
 
-  RankZHRCPreview(RankZHRCData data, this.state, List<RankCat> cats) : super(data, cats);
+  RankZHRCPreview(RankZHRCData data, this.state, List<RankCat>? cats) : super(data, cats);
 
 }

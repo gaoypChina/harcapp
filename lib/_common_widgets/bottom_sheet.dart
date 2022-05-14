@@ -8,7 +8,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 
 
-Future<void> showScrollBottomSheet({@required BuildContext context, @required WidgetBuilder builder, bool scrollable = true}) async {
+Future<void> showScrollBottomSheet({required BuildContext context, required WidgetBuilder builder, bool scrollable = true}) async {
 
   await showModalBottomSheet(
     context: context,
@@ -25,12 +25,12 @@ Future<void> showScrollBottomSheet({@required BuildContext context, @required Wi
 class BottomSheetTemplate extends StatefulWidget{
 
   final WidgetBuilder builder;
-  final bool scrollable;
+  final bool? scrollable;
 
   const BottomSheetTemplate({
-    @required this.builder,
+    required this.builder,
     this.scrollable,
-    Key key
+    Key? key
   }): super(key: key);
 
   @override
@@ -39,11 +39,11 @@ class BottomSheetTemplate extends StatefulWidget{
 
 class BottomSheetTemplateState extends State<BottomSheetTemplate>{
 
-  GlobalKey contentKey;
+  GlobalKey? contentKey;
 
   void notify() => setState((){});
 
-  bool exceedsHeight;
+  bool? exceedsHeight;
 
   @override
   void initState() {
@@ -53,7 +53,7 @@ class BottomSheetTemplateState extends State<BottomSheetTemplate>{
   }
 
   handleSizeConf(){
-    bool _exceedsHeight = contentKey.currentContext.size.height > MediaQuery.of(context).size.height;
+    bool _exceedsHeight = contentKey!.currentContext!.size!.height > MediaQuery.of(context).size.height;
     if(_exceedsHeight != exceedsHeight)
       setState(() => exceedsHeight = _exceedsHeight);
   }
@@ -66,7 +66,7 @@ class BottomSheetTemplateState extends State<BottomSheetTemplate>{
 
           post(() => handleSizeConf());
 
-          if(exceedsHeight)
+          if(exceedsHeight!)
             return DraggableScrollableSheet(
                 expand: false,
                 builder: (context, scrollController) =>
@@ -97,23 +97,23 @@ class BottomSheetTemplateState extends State<BottomSheetTemplate>{
 
 class BottomSheetDef extends StatefulWidget{
 
-  final String title;
-  final String subTitle;
-  final Widget Function(BuildContext context) builder;
-  final Color textColor;
-  final Color color;
-  final Color colorEnd;
+  final String? title;
+  final String? subTitle;
+  final Widget? Function(BuildContext context) builder;
+  final Color? textColor;
+  final Color? color;
+  final Color? colorEnd;
   final EdgeInsets childMargin;
 
   const BottomSheetDef({
     this.title,
     this.subTitle,
-    @required this.builder,
+    required this.builder,
     this.textColor,
     this.color,
     this.colorEnd,
     this.childMargin = const EdgeInsets.all(Dimen.BOTTOM_SHEET_MARG),
-    Key key
+    Key? key
   }): super(key: key);
 
   @override
@@ -145,8 +145,8 @@ class BottomSheetDefState extends State<BottomSheetDef>{
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Text(widget.title, style: AppTextStyle(fontWeight: weight.halfBold, color: widget.textColor, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.end,),
-                        if(widget.subTitle!=null) Text(widget.subTitle, style: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_NORMAL), textAlign: TextAlign.end,),
+                        Text(widget.title!, style: AppTextStyle(fontWeight: weight.halfBold, color: widget.textColor, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.end,),
+                        if(widget.subTitle!=null) Text(widget.subTitle!, style: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_NORMAL), textAlign: TextAlign.end,),
                       ],
                     )
                 ),

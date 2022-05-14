@@ -32,7 +32,7 @@ enum DrawerPage{
 
 class CatPageHome extends StatefulWidget{
 
-  const CatPageHome({Key key}) : super(key: key);
+  const CatPageHome({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => CatPageHomeState();
@@ -46,7 +46,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
   static const drawerPageCircles = 'circles';
   static String drawerPageCircle(Circle circle) => 'circle_${circle.key}';
 
-  static String selectedDrawerPage;
+  static String? selectedDrawerPage;
 
   @override
   void afterFirstLayout(BuildContext context) {
@@ -65,9 +65,9 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
     body: Builder(builder: (context){
       if(selectedDrawerPage == drawerPageCompetitions)
         return const CompetitionsPage();
-      else if(selectedDrawerPage.contains('circle_'))
+      else if(selectedDrawerPage!.contains('circle_'))
         return CirclePage(
-          Circle.allMap[selectedDrawerPage.replaceAll('circle_', '')],
+          Circle.allMap![selectedDrawerPage!.replaceAll('circle_', '')],
           onLeft: () => setState(() => selectedDrawerPage = drawerPageCircles),
           onDeleted: () => setState(() => selectedDrawerPage = drawerPageCircles),
           key: ValueKey(selectedDrawerPage),
@@ -100,7 +100,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
     drawer: AppDrawer(
         body: Column(
           children: [
-            DrawerTile<String>(
+            DrawerTile<String?>(
               icon: MdiIcons.squareRoundedOutline,
               title: 'Podgląd',
               source: drawerPageOverview,
@@ -117,7 +117,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
               title: 'Współzawodnictwa',
               source: drawerPageCompetitions,
               selectedSource: selectedDrawerPage,
-              onSelect: (source){
+              onSelect: (dynamic source){
                 setState(() => selectedDrawerPage = source);
                 AppBottomNavigatorProvider.of(context).background = null;
                 Navigator.pop(context);
@@ -130,7 +130,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
               title: 'Kręgi',
               source: drawerPageCircles,
               selectedSource: selectedDrawerPage,
-              onSelect: (source){
+              onSelect: (dynamic source){
                 setState(() => selectedDrawerPage = source);
                 AppBottomNavigatorProvider.of(context).background = null;
                 Navigator.pop(context);
@@ -150,19 +150,19 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
                         child: Material(
                           clipBehavior: Clip.hardEdge,
                           borderRadius: BorderRadius.circular(6.0),
-                          child: CoverImage(Circle.all[index].coverImage),
+                          child: CoverImage(Circle.all![index].coverImage),
                         ),
                       ),
-                      title: Circle.all[index].name,
-                      source: drawerPageCircle(Circle.all[index]),
+                      title: Circle.all![index].name,
+                      source: drawerPageCircle(Circle.all![index]),
                       selectedSource: selectedDrawerPage,
-                      onSelect: (source){
+                      onSelect: (dynamic source){
                         setState(() => selectedDrawerPage = source);
                         AppBottomNavigatorProvider.of(context).background = null;
                         Navigator.pop(context);
                       },
                     ),
-                    itemCount: Circle.all.length,
+                    itemCount: Circle.all!.length,
                     shrinkWrap: true,
                   );
 
@@ -180,7 +180,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
 
 class CirclePreviewWidget extends StatelessWidget{
 
-  const CirclePreviewWidget({Key key}) : super(key: key);
+  const CirclePreviewWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => CompetitionsWidget(

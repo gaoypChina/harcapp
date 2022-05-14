@@ -17,7 +17,7 @@ class AppDetails extends StatefulWidget{
   static open(BuildContext context) => Navigator.push(context, MaterialPageRoute(builder: (context) => const AppDetails()));
 
   final int initPage;
-  const AppDetails({this.initPage = 0, Key key}): super(key: key);
+  const AppDetails({this.initPage = 0, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => AppDetailsState();
@@ -26,10 +26,10 @@ class AppDetails extends StatefulWidget{
 
 class AppDetailsState extends State<AppDetails> with TickerProviderStateMixin{
 
-  TabController _tabController;
-  String title;
+  late TabController _tabController;
+  String? title;
 
-  GlobalKey<ScaffoldState> scaffoldKey;
+  GlobalKey<ScaffoldState>? scaffoldKey;
 
   @override
   void initState() {

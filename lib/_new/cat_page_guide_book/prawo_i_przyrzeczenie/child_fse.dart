@@ -14,7 +14,7 @@ import 'strings.dart';
 
 class ChildFSE extends StatelessWidget{
 
-  final TabController controller;
+  final TabController? controller;
   const ChildFSE(this.controller);
 
   @override

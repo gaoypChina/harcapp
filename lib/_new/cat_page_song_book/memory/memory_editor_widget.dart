@@ -10,12 +10,11 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../song_management/album.dart';
 import '../song_management/memory.dart';
 import 'memory_widget.dart';
 
 
-Future<void> openMemoryEditor(BuildContext context, Song song, {Memory initMemory}) =>
+Future<void> openMemoryEditor(BuildContext context, Song? song, {Memory? initMemory}) =>
     Navigator.push(context, MaterialPageRoute(
         builder: (context) => MemoryEditorWidget(
           song,
@@ -28,13 +27,13 @@ Future<void> openMemoryEditor(BuildContext context, Song song, {Memory initMemor
 
 class MemoryEditorWidget extends StatefulWidget{
 
-  final Song song;
-  final Function onSaved;
-  final Function onBack;
-  final Function onRemoved;
-  final Memory initMemory;
+  final Song? song;
+  final Function? onSaved;
+  final Function? onBack;
+  final Function? onRemoved;
+  final Memory? initMemory;
 
-  const MemoryEditorWidget(this.song, {this.initMemory, this.onSaved, this.onBack, this.onRemoved, Key key}): super(key: key);
+  const MemoryEditorWidget(this.song, {this.initMemory, this.onSaved, this.onBack, this.onRemoved, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => MemoryEditorWidgetState();
@@ -46,24 +45,24 @@ class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProvi
   static const Duration _animDuration = Duration(milliseconds: 300);
   static const Curve _animCurve = Curves.easeOutCubic;
 
-  Song get song => widget.song;
-  Memory get initMemory => widget.initMemory;
+  Song? get song => widget.song;
+  Memory? get initMemory => widget.initMemory;
 
-  MemoryBuilder memoryBuilder;
+  MemoryBuilder? memoryBuilder;
 
-  PageController controller;
+  PageController? controller;
 
   @override
   void initState() {
     controller = PageController();
-    if(initMemory == null) memoryBuilder = MemoryBuilder.empty(song);
-    else memoryBuilder = MemoryBuilder.from(initMemory);
+    if(initMemory == null) memoryBuilder = MemoryBuilder.empty(song!);
+    else memoryBuilder = MemoryBuilder.from(initMemory!);
     super.initState();
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    controller!.dispose();
     super.dispose();
   }
 
@@ -92,8 +91,8 @@ class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProvi
               leading: IconButton(
                 icon: const Icon(MdiIcons.arrowLeft),
                 onPressed: (){
-                  if(controller.page == 0) Navigator.pop(context);
-                  else controller.animateToPage(0, duration: _animDuration, curve: _animCurve);
+                  if(controller!.page == 0) Navigator.pop(context);
+                  else controller!.animateToPage(0, duration: _animDuration, curve: _animCurve);
                 },
               ),
             ),
@@ -111,35 +110,35 @@ class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProvi
                   onNext: (memoryBuilder){
                     this.memoryBuilder = memoryBuilder;
                     hideKeyboard(context);
-                    controller.animateToPage(1, duration: _animDuration, curve: _animCurve);
+                    controller!.animateToPage(1, duration: _animDuration, curve: _animCurve);
                   },
                   onRemoved: (){
-                    song.removeMemory(initMemory);
-                    if(widget.onRemoved != null) widget.onRemoved();
+                    song!.removeMemory(initMemory!);
+                    if(widget.onRemoved != null) widget.onRemoved!();
                   },
                 ),
 
                 _PartTwo(
                     song: song,
                     memoryBuilder: memoryBuilder,
-                    onBack: () => controller.animateToPage(0, duration: _animDuration, curve: _animCurve),
-                    onSaveTap: (MemoryBuilder memoryBuilder) async {
+                    onBack: () => controller!.animateToPage(0, duration: _animDuration, curve: _animCurve),
+                    onSaveTap: (MemoryBuilder? memoryBuilder) async {
 
                       if(initMemory == null) {
                         Memory memory = Memory.create(
-                          song.fileName,
-                          memoryBuilder.date,
+                          song!.fileName,
+                          memoryBuilder.date!,
                           memoryBuilder.place,
                           memoryBuilder.desc,
                           memoryBuilder.fontIndex,
                           memoryBuilder.published,
                         );
                         Memory.addToAll(memory);
-                        song.addMemory(memory);
+                        song!.addMemory(memory);
                       }
                       else
-                        initMemory.update(
-                          songFileName: song.fileName,
+                        initMemory!.update(
+                          songFileName: song!.fileName,
                           date: memoryBuilder.date,
                           place: memoryBuilder.place,
                           desc: memoryBuilder.desc,
@@ -147,7 +146,7 @@ class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProvi
                           published: memoryBuilder.published,
                         );
 
-                      widget.onSaved();
+                      widget.onSaved!();
                     }
                 )
 
@@ -164,15 +163,15 @@ class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProvi
 class _PartOne extends StatefulWidget{
 
   
-  final Song song;
-  final Memory initMemory;
-  final MemoryBuilder memoryBuilder;
+  final Song? song;
+  final Memory? initMemory;
+  final MemoryBuilder? memoryBuilder;
   final bool creatingNew;
 
-  final Function(MemoryBuilder memoryBuilder) onNext;
-  final void Function() onRemoved;
+  final Function(MemoryBuilder? memoryBuilder)? onNext;
+  final void Function()? onRemoved;
 
-  const _PartOne({@required this.song, @required this.initMemory, @required this.memoryBuilder, @required this.creatingNew, this.onNext, this.onRemoved});
+  const _PartOne({required this.song, required this.initMemory, required this.memoryBuilder, required this.creatingNew, this.onNext, this.onRemoved});
 
   @override
   State<StatefulWidget> createState() => _PartOneState();
@@ -181,34 +180,34 @@ class _PartOne extends StatefulWidget{
 
 class _PartOneState extends State<_PartOne>{
 
-  Song get song => widget.song;
-  Memory get initMemory => widget.initMemory;
-  MemoryBuilder get memoryBuilder => widget.memoryBuilder;
+  Song? get song => widget.song;
+  Memory? get initMemory => widget.initMemory;
+  MemoryBuilder? get memoryBuilder => widget.memoryBuilder;
   bool get creatingNew => widget.creatingNew;
 
-  TextEditingController textPlaceController;
-  TextEditingController textDescController;
+  TextEditingController? textPlaceController;
+  TextEditingController? textDescController;
 
-  DateTime data;
+  DateTime? data;
 
-  bool get blocked => textPlaceController.text.isEmpty && textDescController.text.isEmpty;
+  bool get blocked => textPlaceController!.text.isEmpty && textDescController!.text.isEmpty;
 
   @override
   void initState() {
-    textPlaceController = TextEditingController(text: memoryBuilder==null?'':memoryBuilder.place);
-    textPlaceController.addListener(() => memoryBuilder.place = textPlaceController.text);
-    textDescController = TextEditingController(text: memoryBuilder==null?'':memoryBuilder.desc);
-    textDescController.addListener(() => memoryBuilder.desc = textDescController.text);
+    textPlaceController = TextEditingController(text: memoryBuilder==null?'':memoryBuilder!.place);
+    textPlaceController!.addListener(() => memoryBuilder!.place = textPlaceController!.text);
+    textDescController = TextEditingController(text: memoryBuilder==null?'':memoryBuilder!.desc);
+    textDescController!.addListener(() => memoryBuilder!.desc = textDescController!.text);
 
-    data = memoryBuilder==null?DateTime.now():memoryBuilder.date;
+    data = memoryBuilder==null?DateTime.now():memoryBuilder!.date;
 
     super.initState();
   }
 
   @override
   void dispose() {
-    textPlaceController.dispose();
-    textDescController.dispose();
+    textPlaceController!.dispose();
+    textDescController!.dispose();
     super.dispose();
   }
 
@@ -251,7 +250,7 @@ class _PartOneState extends State<_PartOne>{
                         child: Material(
                           color: Colors.transparent,
                           child: Text(
-                            dateToString(data, yearAbbr: 'A.D.'),
+                            dateToString(data!, yearAbbr: 'A.D.'),
                             style: AppTextStyle(
                               //fontFamily: '${Memory.fontName}$pickedFont',
                                 fontSize: Dimen.TEXT_SIZE_BIG,
@@ -264,9 +263,9 @@ class _PartOneState extends State<_PartOne>{
                 ),
                 onTap: () async {
 
-                  DateTime _data = await showDatePicker(
+                  DateTime? _data = await showDatePicker(
                       context: context,
-                      initialDate: data,
+                      initialDate: data!,
                       firstDate: DateTime(1989),
                       lastDate: DateTime.now()
                   );
@@ -375,7 +374,7 @@ class _PartOneState extends State<_PartOne>{
                 text: 'Dalej',
                 textColor: blocked?iconDisab_(context):iconEnab_(context),
                 onTap: blocked?null:() async =>
-                  widget.onNext(memoryBuilder),
+                  widget.onNext!(memoryBuilder),
                 iconLeading: false
             ),
 
@@ -389,17 +388,17 @@ class _PartOneState extends State<_PartOne>{
 
 class _PartTwo extends StatefulWidget{
 
-  final Song song;
-  final MemoryBuilder memoryBuilder;
+  final Song? song;
+  final MemoryBuilder? memoryBuilder;
 
   final void Function() onBack;
-  final void Function(MemoryBuilder memoryBuilder) onSaveTap;
+  final void Function(MemoryBuilder? memoryBuilder) onSaveTap;
 
   const _PartTwo({
-    @required this.song,
-    @required this.memoryBuilder,
-    @required this.onBack,
-    @required this.onSaveTap
+    required this.song,
+    required this.memoryBuilder,
+    required this.onBack,
+    required this.onSaveTap
   });
 
   @override
@@ -409,18 +408,18 @@ class _PartTwo extends StatefulWidget{
 
 class _PartTwoState extends State<_PartTwo>{
 
-  Song get song => widget.song;
-  MemoryBuilder get memoryBuilder => widget.memoryBuilder;
+  Song? get song => widget.song;
+  MemoryBuilder? get memoryBuilder => widget.memoryBuilder;
 
-  DateTime get date => memoryBuilder.date;
-  String get place => memoryBuilder.place;
-  String get description => memoryBuilder.desc;
+  DateTime? get date => memoryBuilder!.date;
+  String? get place => memoryBuilder!.place;
+  String? get description => memoryBuilder!.desc;
 
-  bool get published => memoryBuilder.published;
-  int get fontIndex => memoryBuilder.fontIndex;
-  set fontIndex(int value) => memoryBuilder.fontIndex = value;
+  bool get published => memoryBuilder!.published;
+  int get fontIndex => memoryBuilder!.fontIndex;
+  set fontIndex(int value) => memoryBuilder!.fontIndex = value;
 
-  bool processing;
+  bool? processing;
 
   @override
   void initState() {
@@ -440,7 +439,7 @@ class _PartTwoState extends State<_PartTwo>{
             _FontWidget(
                 index,
                 fontIndex,
-                description.isEmpty?place:description,
+                description!.isEmpty?place:description,
                 onTap: (fontIndex) => setState(() => this.fontIndex = fontIndex)
             ),
       ),
@@ -465,8 +464,8 @@ class _FontWidget extends StatelessWidget{
 
   final int fontIndex;
   final int pickedFont;
-  final String text;
-  final void Function(int fontIndex) onTap;
+  final String? text;
+  final void Function(int fontIndex)? onTap;
 
   const _FontWidget(this.fontIndex, this.pickedFont, this.text, {this.onTap});
 
@@ -494,20 +493,20 @@ class _FontWidget extends StatelessWidget{
         'Czcionka: $text',
         style: TextStyle(
           fontFamily: '${Memory.fontName}$fontIndex',
-          fontSize: Dimen.TEXT_SIZE_BIG*Memory.fontSizeRatioMap[fontIndex],
+          fontSize: Dimen.TEXT_SIZE_BIG*Memory.fontSizeRatioMap[fontIndex]!,
           fontWeight: selected?FontWeight.bold:FontWeight.normal,
         ),
         maxLines: 1,
       ),
       subtitle: Text(
-        Memory.fontNameMap[fontIndex],
+        Memory.fontNameMap[fontIndex]!,
         style: AppTextStyle(
           fontWeight: selected?weight.bold:weight.normal,
         ),
       ),
       onTap: (){
         hideKeyboard(context);
-        onTap(fontIndex);
+        onTap!(fontIndex);
       }
     );
 

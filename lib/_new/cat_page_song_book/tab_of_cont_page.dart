@@ -32,19 +32,19 @@ class TabOfContPage extends StatefulWidget{
 
   static SongSearchOptions searchOptions = SongSearchOptions();
 
-  final void Function(Song, int, SongOpenType) onSongSelected;
+  final void Function(Song?, int, SongOpenType) onSongSelected;
   final void Function() onConfAlbumEnabled;
   final String initPhrase;
-  final void Function(Song song) onNewSongAdded;
+  final void Function(Song song)? onNewSongAdded;
   final bool forgetScrollPosition;
 
   const TabOfContPage({
-    @required this.onSongSelected,
-    @required this.onConfAlbumEnabled,
+    required this.onSongSelected,
+    required this.onConfAlbumEnabled,
     this.initPhrase = '',
     this.onNewSongAdded,
     this.forgetScrollPosition = false,
-    Key key
+    Key? key
   }): super(key: key);
 
   @override
@@ -54,13 +54,13 @@ class TabOfContPage extends StatefulWidget{
 
 class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMixin{
 
-  void Function(Song, int, SongOpenType) get onSongSelected => widget.onSongSelected;
+  void Function(Song?, int, SongOpenType) get onSongSelected => widget.onSongSelected;
   void Function() get onConfAlbumEnabled => widget.onConfAlbumEnabled;
-  TabController tabController;
+  TabController? tabController;
 
-  TabOfContController controller;
+  TabOfContController? controller;
 
-  _NoSongsFoundProvider noSongProv;
+  _NoSongsFoundProvider? noSongProv;
 
   @override
   void initState() {
@@ -98,7 +98,7 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
               prov.songsFound?
               Positioned.fill(
                 child: Icon(
-                  CommonIconData.ALL[Album.current.iconKey],
+                  CommonIconData.ALL[Album.current.iconKey!],
                   color: backgroundIcon_(context),
                   size: 0.8*min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
                 ),
@@ -124,7 +124,7 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
       )
   );
 
-  void selectSong(Song song, SongOpenType songOpen){
+  void selectSong(Song? song, SongOpenType songOpen){
 
     int indexInAlbum;
     if(Album.current.songs.contains(song))
@@ -145,10 +145,10 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
 class _AllSongsPart extends StatefulWidget{
 
   final TabOfContPageState page;
-  final TabOfContController controller;
-  final void Function() onConfAlbumEnabled;
+  final TabOfContController? controller;
+  final void Function()? onConfAlbumEnabled;
 
-  const _AllSongsPart(this.page, {@required this.controller, this.onConfAlbumEnabled});
+  const _AllSongsPart(this.page, {required this.controller, this.onConfAlbumEnabled});
 
   @override
   State<StatefulWidget> createState() => _AllSongsPartState();
@@ -163,20 +163,20 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
   static double _scrollOffset = 0;
 
   TabOfContPageState get page => widget.page;
-  TabOfContController get controller => widget.controller;
-  void Function() get onConfAlbumEnabled => widget.onConfAlbumEnabled;
+  TabOfContController? get controller => widget.controller;
+  void Function()? get onConfAlbumEnabled => widget.onConfAlbumEnabled;
 
   SongSearchOptions get searchOptions => TabOfContPage.searchOptions;
 
-  ScrollController scrollController;
-  double paddingBottom;
+  ScrollController? scrollController;
+  double? paddingBottom;
 
   @override
   void initState() {
 
     if(widget.page.widget.forgetScrollPosition) _scrollOffset = 0;
     scrollController = ScrollController(initialScrollOffset: _scrollOffset);
-    scrollController.addListener(() => _scrollOffset = scrollController.offset);
+    scrollController!.addListener(() => _scrollOffset = scrollController!.offset);
 
     if (!Album.current.isOmega)
       post(() => showAppToast(context, text: '$Album_: <b>${Album.current.title}</b>'));
@@ -186,7 +186,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
 
   @override
   void dispose() {
-    scrollController.dispose();
+    scrollController!.dispose();
     super.dispose();
   }
 
@@ -205,7 +205,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
           if(!prov.songsFound)
             return Container();
 
-          CommonColorData colors = CommonColorData.ALL[Album.current.colorsKey];
+          CommonColorData colors = CommonColorData.ALL[Album.current.colorsKey!]!;
 
           return ExtendedFloatingButton(
             MdiIcons.shuffle,
@@ -220,8 +220,8 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
                 return;
               }
 
-              int index = Random().nextInt(controller.currSongs.length);
-              Song randomSong = controller.currSongs[index];
+              int index = Random().nextInt(controller!.currSongs!.length);
+              Song randomSong = controller!.currSongs![index];
               int indexInAlbum = Album.current.songs.indexOf(randomSong);
               page.onSongSelected(randomSong, indexInAlbum, SongOpenType.random);
               Navigator.pop(context);
@@ -247,7 +247,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
           Album.isConfidUnlocked = true;
           hideKeyboard(context);
           Album.current = Album.confid;
-          controller.phrase = '';
+          controller!.phrase = '';
           onConfAlbumEnabled?.call();
           Navigator.pop(context);
         }
@@ -264,9 +264,9 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
 
       prov.songsFound = songs.isNotEmpty;
 
-      if(scrollController.hasClients) {
+      if(scrollController!.hasClients) {
         _scrollOffset = 0;
-        scrollController.jumpTo(_scrollOffset);
+        scrollController!.jumpTo(_scrollOffset);
       }
     },
     onNewSongAdded: page.widget.onNewSongAdded,
@@ -279,7 +279,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
 
         onPressed: () async {
 
-          final RenderBox renderBox = globalKey.currentContext.findRenderObject();
+          final RenderBox renderBox = globalKey.currentContext!.findRenderObject() as RenderBox;
           final position = renderBox.localToGlobal(Offset.zero);
 
           double statusBarHeight = Provider.of<MainProvider>(context, listen: false).statusBarHeight;
@@ -335,8 +335,8 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
 
   }
 
-  Future<void> scrollBy(double value) async => await scrollController.animateTo(
-      scrollController.offset + value,
+  Future<void> scrollBy(double value) async => await scrollController!.animateTo(
+      scrollController!.offset + value,
       duration: const Duration(milliseconds: 200),
       curve: Curves.ease
   );

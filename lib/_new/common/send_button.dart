@@ -10,7 +10,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class SendButton extends StatelessWidget{
 
   bool enabled;
-  void Function() onTap;
+  void Function()? onTap;
   SendButton(this.enabled, {this.onTap});
 
   @override

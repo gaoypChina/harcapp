@@ -15,12 +15,12 @@ class AlbumWidgetSmall extends StatelessWidget{
   static const double ICON_SIZE = 36.0;
 
   final Album album;
-  final bool selected;
-  final Widget trailing;
+  final bool? selected;
+  final Widget? trailing;
   final bool showSongCount;
-  final Color iconColor;
-  final void Function() onTap;
-  final void Function() onLongPress;
+  final Color? iconColor;
+  final void Function()? onTap;
+  final void Function()? onLongPress;
 
   const AlbumWidgetSmall(
       this.album,
@@ -37,8 +37,8 @@ class AlbumWidgetSmall extends StatelessWidget{
 
     bool selected = this.selected??Album.current == album;
 
-    CommonColorData albColor = CommonColorData.ALL[album.colorsKey];
-    IconData iconData = CommonIconData.ALL[album.iconKey];
+    CommonColorData albColor = CommonColorData.ALL[album.colorsKey!]!;
+    IconData? iconData = CommonIconData.ALL[album.iconKey!];
 
     Widget widget = Container(
       decoration: BoxDecoration(
@@ -54,8 +54,8 @@ class AlbumWidgetSmall extends StatelessWidget{
             child: GradientWidget(
                 elevation: AppCard.bigElevation,
                 radius: AppCard.BIG_RADIUS,
-                colorStart: albColor.colorStart,
-                colorEnd: albColor.colorEnd,
+                colorStart: albColor.colorStart!,
+                colorEnd: albColor.colorEnd!,
                 child: Padding(
                   padding: const EdgeInsets.all(Dimen.ICON_MARG),
                   child: Icon(iconData, color: iconColor??(albColor.iconWhite?Colors.white:cardEnab_(context)), size: ICON_SIZE),
@@ -73,7 +73,7 @@ class AlbumWidgetSmall extends StatelessWidget{
                   Hero(
                     tag: AlbumWidget.HERO_TAG_TITLE(album),
                     child: Text(
-                        album.title,
+                        album.title!,
                         style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
@@ -115,7 +115,7 @@ class AlbumWidgetSmall extends StatelessWidget{
               )
           ),
 
-          if(trailing != null) trailing,
+          if(trailing != null) trailing!,
 
           const SizedBox(width: Dimen.ICON_MARG)
 

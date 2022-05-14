@@ -15,20 +15,20 @@ class StartStopButton extends StatelessWidget{
   final bool Function() inProgress;
   final int Function() completenessPercent;
 
-  final void Function(bool inProgress) onPressed;
+  final void Function(bool inProgress)? onPressed;
 
-  const StartStopButton({@required this.color, @required this.inProgress, @required this.completenessPercent, this.onPressed});
+  const StartStopButton({required this.color, required this.inProgress, required this.completenessPercent, this.onPressed, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppCard(
         onTap: inProgress()?null:(){
-          if(onPressed != null) onPressed(inProgress());
+          if(onPressed != null) onPressed!(inProgress());
         },
         elevation: AppCard.bigElevation,
         radius: AppCard.BIG_RADIUS,
-        padding: EdgeInsets.only(left: Dimen.ICON_MARG, right: Dimen.ICON_MARG),
-        margin: EdgeInsets.only(
+        padding: const EdgeInsets.only(left: Dimen.ICON_MARG, right: Dimen.ICON_MARG),
+        margin: const EdgeInsets.only(
           right: AppCard.NORM_MARGIN_VAL,
           left: AppCard.NORM_MARGIN_VAL,
           bottom: AppCard.NORM_MARGIN_VAL
@@ -43,7 +43,7 @@ class StartStopButton extends StatelessWidget{
                 child: IconButton(
                   icon: Icon(MdiIcons.close, color: color),
                   onPressed: (){
-                    if(onPressed != null) onPressed(inProgress());
+                    if(onPressed != null) onPressed!(inProgress());
                   },
                 ),
               ),

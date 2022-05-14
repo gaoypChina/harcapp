@@ -4,9 +4,9 @@ import 'package:harcapp_core/dimen.dart';
 
 class IndivCompPreviewGrid extends StatelessWidget{
 
-  final bool singleLine;
+  final bool? singleLine;
 
-  const IndivCompPreviewGrid({this.singleLine = false, Key key}) : super(key: key);
+  const IndivCompPreviewGrid({this.singleLine = false, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => GridView.count(
@@ -27,13 +27,13 @@ class IndivCompPreviewGrid extends StatelessWidget{
       const Center(child: IndivCompThumbnailWidget(colorsKey: 'deepblue', iconKey: 'jellyfish')),
       const Center(child: IndivCompThumbnailWidget(colorsKey: 'gold', iconKey: 'axe')),
 
-      if(!singleLine)
+      if(!singleLine!)
         const Center(child: IndivCompThumbnailWidget(colorsKey: 'raspberry', iconKey: 'deathStarVariant')),
-      if(!singleLine)
+      if(!singleLine!)
         const Center(child: IndivCompThumbnailWidget(colorsKey: 'green', iconKey: 'music')),
-      if(!singleLine)
+      if(!singleLine!)
         const Center(child: IndivCompThumbnailWidget(colorsKey: 'turquoise', iconKey: 'pirate')),
-      if(!singleLine)
+      if(!singleLine!)
         const Center(child: IndivCompThumbnailWidget(colorsKey: 'chocolate', iconKey: 'chessKing')),
     ],
   );

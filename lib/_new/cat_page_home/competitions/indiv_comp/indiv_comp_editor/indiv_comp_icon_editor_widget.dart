@@ -10,7 +10,7 @@ import 'common.dart';
 
 class IndivCompIconEditorWidget extends StatefulWidget{
 
-  final IndivCompDetails initComp;
+  final IndivCompDetails? initComp;
 
   const IndivCompIconEditorWidget({this.initComp});
 

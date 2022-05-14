@@ -26,16 +26,16 @@ import '../models/spraw_task.dart';
 
 class SprawWidget extends StatefulWidget{
   
-  final Spraw spraw;
+  final Spraw? spraw;
   final bool showBack;
   final bool iconHeroTag;
 
-  final void Function() onClaimed;
-  final void Function() onSaveChanged;
-  final void Function() onReqComplChanged;
-  final void Function() onCompleted;
-  final void Function() onAbandoned;
-  final void Function(bool) onStartStop;
+  final void Function()? onClaimed;
+  final void Function()? onSaveChanged;
+  final void Function()? onReqComplChanged;
+  final void Function()? onCompleted;
+  final void Function()? onAbandoned;
+  final void Function(bool)? onStartStop;
 
   const SprawWidget(this.spraw, {this.showBack = true, this.iconHeroTag = false, this.onClaimed, this.onSaveChanged, this.onReqComplChanged, this.onCompleted, this.onAbandoned, this.onStartStop});
 
@@ -49,18 +49,18 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
   @override
   String get moduleId => ModuleStatsMixin.sprawnosci;
 
-  Spraw get spraw => widget.spraw;
+  Spraw? get spraw => widget.spraw;
   bool get showBack => widget.showBack;
 
-  void Function() get onClaimed => widget.onClaimed;
-  void Function() get onSaveChanged => widget.onSaveChanged;
-  void Function() get onReqComplChanged => widget.onReqComplChanged;
+  void Function()? get onClaimed => widget.onClaimed;
+  void Function()? get onSaveChanged => widget.onSaveChanged;
+  void Function()? get onReqComplChanged => widget.onReqComplChanged;
 
-  void Function() get onCompleted => widget.onCompleted;
-  void Function() get onAbandoned => widget.onAbandoned;
-  void Function(bool) get onStartStop => widget.onStartStop;
+  void Function()? get onCompleted => widget.onCompleted;
+  void Function()? get onAbandoned => widget.onAbandoned;
+  void Function(bool)? get onStartStop => widget.onStartStop;
 
-  ConfettiController confettiController;
+  ConfettiController? confettiController;
 
   @override
   void initState() {
@@ -70,7 +70,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
 
   @override
   void dispose() {
-    confettiController.dispose();
+    confettiController!.dispose();
     super.dispose();
   }
 
@@ -78,15 +78,15 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
   Widget build(BuildContext context) {
 
     return RankSprawTempWidget(
-      title: spraw.title,
-      color: SprawBookData.mapIdColorMap[spraw.sprawBook.id].avgColor(false),
+      title: spraw!.title,
+      color: SprawBookData.mapIdColorMap[spraw!.sprawBook.id]!.avgColor(false),
 
       completedText: 'Sprawność zdobyta!',
 
       titleTrailing:
       widget.iconHeroTag?
       Hero(
-        tag: spraw.iconPath,
+        tag: spraw!.iconPath,
         child: TrailingWidget(spraw),
       ):
       TrailingWidget(spraw),
@@ -101,13 +101,13 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
             onChanged: (){
               Provider.of<SprawInProgressListProv>(context, listen: false).notify();
               setState(() {});
-              if(widget.onReqComplChanged != null) widget.onReqComplChanged();
+              if(widget.onReqComplChanged != null) widget.onReqComplChanged!();
             },
           ),
 
           const SizedBox(height: Dimen.SIDE_MARG),
 
-          if(spraw.comment != null)
+          if(spraw!.comment != null)
             Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -127,7 +127,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
                 Padding(
                   padding: const EdgeInsets.all(Dimen.ICON_MARG),
                   child: AppText(
-                    spraw.comment,
+                    spraw!.comment,
                     size: Dimen.TEXT_SIZE_BIG,
                   ),
                 )
@@ -138,22 +138,22 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
         ],
       ),
       floatingButton: buildFloatingButton(),
-      backgroundIcon: SprawBookData.mapIdIconMap[spraw.sprawBook.id],
+      backgroundIcon: SprawBookData.mapIdIconMap[spraw!.sprawBook.id],
       backgroundIconComplete: MdiIcons.trophyVariant,
 
-      inProgress: spraw.inProgress,
-      completenessPercent: spraw.completenessPercent,
-      isReadyToComplete: spraw.isReadyToComplete,
-      completed: spraw.completed,
-      completedDate: spraw.completionDate,
-      onCompleteDateChanged: (DateTime dateTime) => setState(() => spraw.setCompletionDate(dateTime)),
+      inProgress: spraw!.inProgress,
+      completenessPercent: spraw!.completenessPercent,
+      isReadyToComplete: spraw!.isReadyToComplete,
+      completed: spraw!.completed,
+      completedDate: spraw!.completionDate,
+      onCompleteDateChanged: (DateTime dateTime) => setState(() => spraw!.setCompletionDate(dateTime)),
 
       onStartStopTap: (bool inProgress){
-          setState(() => spraw.changeInProgress(context, value: !inProgress));
+          setState(() => spraw!.changeInProgress(context, value: !inProgress));
           onStartStop?.call(inProgress);
       },
       onAbandonTap: (){
-        spraw.changeCompleted(context);
+        spraw!.changeCompleted(context);
         //spraw.changeInProgress(context);
         onAbandoned?.call();
         setState(() {});
@@ -166,8 +166,8 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
 
   Widget buildFloatingButton(){
 
-    bool showComplete = spraw.isReadyToComplete && !spraw.completed && spraw.inProgress;
-    bool showClaim = !spraw.inProgress && !spraw.completed;
+    bool showComplete = spraw!.isReadyToComplete && !spraw!.completed && spraw!.inProgress;
+    bool showClaim = !spraw!.inProgress && !spraw!.completed;
 
     return Stack(
       children: [
@@ -186,7 +186,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
                     child: CompleteButton(
                       spraw,
                       confettiController,
-                      color: SprawBookData.mapIdColorMap[spraw.sprawBook.id].avgColor(false),
+                      color: SprawBookData.mapIdColorMap[spraw!.sprawBook.id]!.avgColor(false),
                       onPressed: (){
                         onCompleted?.call();
                         setState((){});
@@ -202,7 +202,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
                     ignoring: !showClaim,
                     child: ClaimButton(
                       spraw,
-                      color: SprawBookData.mapIdColorMap[spraw.sprawBook.id].avgColor(false),
+                      color: SprawBookData.mapIdColorMap[spraw!.sprawBook.id]!.avgColor(false),
                       confettiController: confettiController,
                       onClaimed: (){
                         setState(() {});
@@ -218,7 +218,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
 
             SaveFloatingButton(
               spraw,
-              SprawBookData.mapIdColorMap[spraw.sprawBook.id].avgColor(false),
+              SprawBookData.mapIdColorMap[spraw!.sprawBook.id]!.avgColor(false),
               onTap: () => onSaveChanged?.call(),
             ),
 
@@ -236,8 +236,8 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
 
 class RequirementsWidget extends StatelessWidget{
 
-  final Spraw spraw;
-  final void Function() onChanged;
+  final Spraw? spraw;
+  final void Function()? onChanged;
 
   const RequirementsWidget(this.spraw, {this.onChanged});
 
@@ -246,15 +246,15 @@ class RequirementsWidget extends StatelessWidget{
 
     List<Widget> children = [];
 
-    for(int i=0; i<spraw.tasks.length; i++){
+    for(int i=0; i<spraw!.tasks!.length; i++){
       Widget child = SprawTaskWidget(
-        spraw.tasks[i],
+        spraw!.tasks![i],
         onCompletedChanged: (SprawTask _task, bool selected) => onChanged?.call()
       );
 
       children.add(child);
 
-      if(i != spraw.tasks.length-1)
+      if(i != spraw!.tasks!.length-1)
         children.add(const SizedBox(height: 2*Dimen.ICON_MARG));
     }
 
@@ -266,9 +266,9 @@ class RequirementsWidget extends StatelessWidget{
 
 class SaveFloatingButton extends StatefulWidget{
 
-  final Spraw spraw;
+  final Spraw? spraw;
   final Color color;
-  final void Function() onTap;
+  final void Function()? onTap;
 
   const SaveFloatingButton(this.spraw, this.color, {this.onTap});
 
@@ -279,9 +279,9 @@ class SaveFloatingButton extends StatefulWidget{
 
 class SaveFloatingButtonState extends State<SaveFloatingButton>{
 
-  Spraw get spraw => widget.spraw;
+  Spraw? get spraw => widget.spraw;
   Color get color => widget.color;
-  void Function() get onTap => widget.onTap;
+  void Function()? get onTap => widget.onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -305,7 +305,7 @@ class SaveFloatingButtonState extends State<SaveFloatingButton>{
 
 class TrailingWidget extends StatelessWidget{
 
-  final Spraw spraw;
+  final Spraw? spraw;
 
   const TrailingWidget(this.spraw);
 
@@ -319,16 +319,16 @@ class TrailingWidget extends StatelessWidget{
           onTap: ()async{
 
             try {
-              await rootBundle.loadString(spraw.iconPath);
+              await rootBundle.loadString(spraw!.iconPath);
               await openDialog(
                   context: context,
                   builder: (context) => AppScaffold(
-                      appBar: AppBar(elevation: 0, title: Text(spraw.title), centerTitle: true,),
+                      appBar: AppBar(elevation: 0, title: Text(spraw!.title), centerTitle: true,),
                       body: Center(
                         child: Material(
                           color: Colors.transparent,
                           child: Hero(
-                              tag: spraw.iconPath,
+                              tag: spraw!.iconPath,
                               child: SprawIcon(
                                 spraw,
                                 size: MediaQuery.of(context).size.shortestSide,

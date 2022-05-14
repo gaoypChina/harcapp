@@ -18,34 +18,34 @@ import 'indiv_comp_task_skeleton_widget.dart';
 
 class IndivCompTaskEditWidget extends StatefulWidget{
 
-  final String initTitle;
-  final String initDesc;
-  final int initPoints;
-  final TaskState state;
-  final bool remove;
+  final String? initTitle;
+  final String? initDesc;
+  final int? initPoints;
+  final TaskState? state;
+  final bool? remove;
 
   final Color accentColor;
 
   final bool showRemove;
   final bool showFreeze;
 
-  final void Function(String) onTitleChanged;
-  final void Function(String) onDescChanged;
-  final void Function(int) onPointsChanged;
-  final void Function(TaskState) onFreezeTap;
-  final void Function(bool) onRemoveTap;
-  final void Function() onRestoreTap;
+  final void Function(String)? onTitleChanged;
+  final void Function(String)? onDescChanged;
+  final void Function(int?)? onPointsChanged;
+  final void Function(TaskState)? onFreezeTap;
+  final void Function(bool)? onRemoveTap;
+  final void Function()? onRestoreTap;
 
 
   const IndivCompTaskEditWidget({
-    @required this.initTitle,
-    @required this.initDesc,
-    @required this.initPoints,
+    required this.initTitle,
+    required this.initDesc,
+    required this.initPoints,
 
-    @required this.state,
-    @required this.remove,
+    required this.state,
+    required this.remove,
 
-    @required this.accentColor,
+    required this.accentColor,
 
     this.showRemove = true,
     this.showFreeze = true,
@@ -57,7 +57,7 @@ class IndivCompTaskEditWidget extends StatefulWidget{
     this.onRemoveTap,
     this.onRestoreTap,
 
-    Key key
+    Key? key
   }): super(key: key);
 
   @override
@@ -67,34 +67,34 @@ class IndivCompTaskEditWidget extends StatefulWidget{
 
 class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
 
-  void Function(String) get onTitleChanged => widget.onTitleChanged;
-  void Function(String) get onDescChanged => widget.onDescChanged;
-  void Function(int) get onPointsChanged => widget.onPointsChanged;
-  void Function(TaskState) get onFreezeTap => widget.onFreezeTap;
-  void Function(bool) get onRemoveTap => widget.onRemoveTap;
-  void Function() get onRestoreTap => widget.onRestoreTap;
+  void Function(String)? get onTitleChanged => widget.onTitleChanged;
+  void Function(String)? get onDescChanged => widget.onDescChanged;
+  void Function(int?)? get onPointsChanged => widget.onPointsChanged;
+  void Function(TaskState)? get onFreezeTap => widget.onFreezeTap;
+  void Function(bool)? get onRemoveTap => widget.onRemoveTap;
+  void Function()? get onRestoreTap => widget.onRestoreTap;
 
   bool get showRemove => widget.showRemove;
   bool get showFreeze => widget.showFreeze;
 
 
-  int points;
+  int? points;
 
-  TaskState get state => widget.state;
-  bool get remove => widget.remove;
+  TaskState? get state => widget.state;
+  bool? get remove => widget.remove;
 
-  TextEditingController titleController;
-  TextEditingController descController;
+  TextEditingController? titleController;
+  TextEditingController? descController;
 
   @override
   void initState() {
     points = widget.initPoints??1;
 
     titleController = TextEditingController(text: widget.initTitle);
-    titleController.addListener(() => onTitleChanged(titleController.text));
+    titleController!.addListener(() => onTitleChanged!(titleController!.text));
 
     descController = TextEditingController(text: widget.initDesc);
-    descController.addListener(() => onDescChanged(descController.text));
+    descController!.addListener(() => onDescChanged!(descController!.text));
 
 
     super.initState();
@@ -103,7 +103,7 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: !remove && state == TaskState.OPEN?AppCard.bigElevation:0,
+      elevation: !remove! && state == TaskState.OPEN?AppCard.bigElevation:0,
       borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
       child: IndivCompTaskSkeletonWidget(
         trailing: SimpleButton(
@@ -112,7 +112,7 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
           padding: EdgeInsets.zero,
           onTap: () async {
 
-            int currVal = points;
+            int? currVal = points;
             await openDialog(
                 context: context,
                 builder: (context) => _PointsPickerDialog(
@@ -129,9 +129,9 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
         ),
 
         title: AppTextFieldHint(
-          style: IndivCompTaskSkeletonWidget.titleTextStyle(context, enabled: !remove && state == TaskState.OPEN, crossOut: remove),
+          style: IndivCompTaskSkeletonWidget.titleTextStyle(context, enabled: !remove! && state == TaskState.OPEN, crossOut: remove!),
           hint: 'Nazwa zadania',
-          hintStyle: IndivCompTaskSkeletonWidget.titleTextStyle(context, enabled: !remove && state == TaskState.OPEN, crossOut: remove).copyWith(color: hintEnab_(context)),
+          hintStyle: IndivCompTaskSkeletonWidget.titleTextStyle(context, enabled: !remove! && state == TaskState.OPEN, crossOut: remove!).copyWith(color: hintEnab_(context)),
           enabled: state == TaskState.OPEN,
           controller: titleController,
           inputFormatters: [
@@ -140,9 +140,9 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
         ),
 
         description: AppTextFieldHint(
-          style: IndivCompTaskSkeletonWidget.descriptionTextStyle(context, enabled: !remove && state == TaskState.OPEN, crossOut: remove),
+          style: IndivCompTaskSkeletonWidget.descriptionTextStyle(context, enabled: !remove! && state == TaskState.OPEN, crossOut: remove!),
           hint: 'Opis zadania',
-          hintStyle: IndivCompTaskSkeletonWidget.descriptionTextStyle(context, enabled: !remove && state == TaskState.OPEN, crossOut: remove).copyWith(color: hintEnab_(context)),
+          hintStyle: IndivCompTaskSkeletonWidget.descriptionTextStyle(context, enabled: !remove! && state == TaskState.OPEN, crossOut: remove!).copyWith(color: hintEnab_(context)),
           enabled: state == TaskState.OPEN,
           controller: descController,
           maxLines: null,
@@ -166,7 +166,7 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
         bottom: AnimatedChildSlider(
             switchInCurve: Curves.easeOutQuad,
             switchOutCurve: Curves.easeOutQuad,
-            index: !remove && state == TaskState.OPEN?0:1,
+            index: !remove! && state == TaskState.OPEN?0:1,
             direction: Axis.horizontal,
             withOpacity: true,
             children: [
@@ -224,7 +224,7 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
                                   AlertDialogButton(
                                       text: 'Usuń',
                                       onTap: (){
-                                        onRemoveTap?.call(!remove);
+                                        onRemoveTap?.call(!remove!);
                                         Navigator.pop(context);
                                       }
                                   ),
@@ -257,9 +257,9 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
 
 class _PointsPickerDialog extends StatefulWidget{
 
-  final int initVal;
+  final int? initVal;
   final Color accentColor;
-  final void Function(int) onChanged;
+  final void Function(int)? onChanged;
 
   const _PointsPickerDialog(this.initVal, this.accentColor, {this.onChanged});
 
@@ -270,7 +270,7 @@ class _PointsPickerDialog extends StatefulWidget{
 
 class _PointsPickerDialogState extends State<_PointsPickerDialog>{
 
-  int val;
+  int? val;
 
   @override
   void initState() {
@@ -294,7 +294,7 @@ class _PointsPickerDialogState extends State<_PointsPickerDialog>{
             itemCount: 5,
             itemWidth: width/5,
             axis: Axis.horizontal,
-            value: val,
+            value: val!,
             minValue: 0,
             maxValue: 30,
             selectedTextStyle: IndivCompTaskSkeletonWidget.pointsTextStyle(context).copyWith(color: widget.accentColor),

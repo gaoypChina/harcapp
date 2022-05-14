@@ -52,7 +52,7 @@ class SprawGroupPageState extends State<SprawGroupPage> {
                 child: Material(
                   color: Colors.transparent,
                   child: Text(
-                    widget.group.title,
+                    widget.group.title!,
                     style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, color: appBarTextEnab_(context)),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -65,9 +65,9 @@ class SprawGroupPageState extends State<SprawGroupPage> {
           SliverList(
             delegate: SliverChildBuilderDelegate((context, index){
               return Padding(
-                padding: EdgeInsets.only(bottom: index < widget.group.families.length - 1?2*Dimen.ICON_MARG:0),
+                padding: EdgeInsets.only(bottom: index < widget.group.families!.length - 1?2*Dimen.ICON_MARG:0),
                 child: FamilyWidget(
-                    widget.group.families[index],
+                    widget.group.families![index],
                     groupName: widget.group.title,
                     onPicked: (data){
                       Navigator.push(
@@ -92,7 +92,7 @@ class SprawGroupPageState extends State<SprawGroupPage> {
                 ),
               );
             },
-                childCount: widget.group.families.length
+                childCount: widget.group.families!.length
             ),
           ),
 

@@ -19,10 +19,10 @@ class SaveSongButton extends StatefulWidget{
 
   final EditType editType;
 
-  final List<Album> albums;
-  final Function(Song song, EditType editType) onSaved;
+  final List<Album>? albums;
+  final Function(Song song, EditType editType)? onSaved;
 
-  const SaveSongButton(this.editType, {this.albums, this.onSaved, Key key}): super(key: key);
+  const SaveSongButton(this.editType, {this.albums, this.onSaved, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => SaveSongButtonState();
@@ -31,11 +31,11 @@ class SaveSongButton extends StatefulWidget{
 
 class SaveSongButtonState extends State<SaveSongButton>{
 
-  List<Album> get albums => widget.albums;
+  List<Album>? get albums => widget.albums;
   EditType get editType => widget.editType;
-  Function(Song song, EditType editType) get onSaved => widget.onSaved;
+  Function(Song song, EditType editType)? get onSaved => widget.onSaved;
 
-  bool isSaving;
+  late bool isSaving;
 
   @override
   void initState() {
@@ -50,7 +50,7 @@ class SaveSongButtonState extends State<SaveSongButton>{
       icon: const Icon(MdiIcons.check),
       onPressed: isSaving?null:()async{
 
-        if(Provider.of<TitleCtrlProvider>(context, listen: false).controller.text.isEmpty)
+        if(Provider.of<TitleCtrlProvider>(context, listen: false).controller!.text.isEmpty)
           showAppToast(context, text: 'Podaj tytuł piosenki.');
         else{
 
@@ -80,12 +80,12 @@ class SaveSongButtonState extends State<SaveSongButton>{
           }
 
           if(widget.editType == EditType.editOwn){
-            Song remSong = OwnSong.allOwnMap[song.fileName];
+            Song remSong = OwnSong.allOwnMap![song.fileName]!;
             OwnSong.removeOwn(remSong);
           }
 
           OwnSong.addOwn(song);
-          for (Album album in albums)
+          for (Album album in albums!)
             album.addSong(song);
 
           song.setAllSyncState(SyncableParamSingle_.STATE_NOT_SYNCED);

@@ -7,7 +7,7 @@ class GlowWidget extends StatefulWidget{
   static const double defSize = 36.0;
 
   final double size;
-  final IconData icon;
+  final IconData? icon;
   const GlowWidget({this.size: defSize, this.icon});
 
   @override
@@ -18,15 +18,15 @@ class GlowWidget extends StatefulWidget{
 class _GlowWidgetState extends State<GlowWidget>{
 
   double get size => widget.size;
-  IconData get icon => widget.icon;
+  IconData? get icon => widget.icon;
 
   static const glowDuration1 = Duration(seconds: 1);
   static const glowDuration2 = Duration(milliseconds: 1800);
   static const glowDuration3 = Duration(milliseconds: 450);
 
-  bool glow1;
-  bool glow2;
-  bool glow3;
+  bool? glow1;
+  bool? glow2;
+  bool? glow3;
 
   void run1() async {
 
@@ -109,7 +109,7 @@ class _Circle extends StatelessWidget{
   final double size;
   final Color colorStart;
   final Color colorEnd;
-  final bool glow;
+  final bool? glow;
   final Duration glowDuration;
   final bool reverseGradient;
 
@@ -123,8 +123,8 @@ class _Circle extends StatelessWidget{
           begin: reverseGradient?Alignment.topLeft:Alignment.topRight,
           end: reverseGradient?Alignment.bottomRight:Alignment.bottomLeft,
           colors: [
-            colorStart.withOpacity(glow?0.12:0.01),
-            colorEnd.withOpacity(!glow?0.12:0.01),
+            colorStart.withOpacity(glow!?0.12:0.01),
+            colorEnd.withOpacity(!glow!?0.12:0.01),
           ],
         )
     ),
@@ -140,9 +140,9 @@ class _Circle extends StatelessWidget{
 class _Icon extends StatelessWidget{
 
   final double size;
-  final IconData icon;
+  final IconData? icon;
   final Color color;
-  final bool glow;
+  final bool? glow;
   final Duration glowDuration;
 
   const _Icon(this.size, this.icon, this.color, this.glow, this.glowDuration);
@@ -150,7 +150,7 @@ class _Icon extends StatelessWidget{
   @override
   Widget build(BuildContext context) => AnimatedOpacity(
     duration: glowDuration,
-    opacity: glow?0.12:0.01,
+    opacity: glow!?0.12:0.01,
     child: Icon(icon, color: color, size: size),
   );
 

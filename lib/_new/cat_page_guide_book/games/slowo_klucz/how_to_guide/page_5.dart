@@ -21,37 +21,37 @@ class Page5State extends State<Page5> with PageTemplateInterface{
   static const Duration _shortPauseDuration = Duration(milliseconds: 800);
   static const Duration _showMessDuration = Duration(milliseconds: 300);
 
-  bool textOpaque() => animStage >= 6 && animStage <= 10;
+  bool textOpaque() => animStage! >= 6 && animStage! <= 10;
 
-  bool upperPhoneRotate() => animStage >= 3;
+  bool upperPhoneRotate() => animStage! >= 3;
 
   double bottomPhoneWidth(double width){
-    if(animStage < 3) return 2/PhoneWidget.aspectRatio*initGridSize(width);
+    if(animStage! < 3) return 2/PhoneWidget.aspectRatio*initGridSize(width);
     return 3/PhoneWidget.aspectRatio*initGridSize(width);
   }
 
   double upperPhoneWidth(double width){
-    if(animStage < 3) return 2/PhoneWidget.aspectRatio*initGridSize(width);
+    if(animStage! < 3) return 2/PhoneWidget.aspectRatio*initGridSize(width);
     return 3/PhoneWidget.aspectRatio*initGridSize(width);
   }
 
   double bottomPhoneX(double width){
-    if(animStage < 3) return width/2 - bottomPhoneWidth(width)/2;
+    if(animStage! < 3) return width/2 - bottomPhoneWidth(width)/2;
     return initGridSize(width) + initGridSize(width)*(PhoneWidget.aspectRatio-1);
   }
 
   double bottomPhoneY(double width, double height){
-    if(animStage < 3) return height - bottomPhoneWidth(width)*PhoneWidget.aspectRatio - initPlayerOffset(width);
+    if(animStage! < 3) return height - bottomPhoneWidth(width)*PhoneWidget.aspectRatio - initPlayerOffset(width);
     return 3*initGridSize(width) - (PhoneWidget.aspectRatio - 1)*bottomPhoneWidth(width)/2;
   }
 
   double upperPhoneX(double width){
-    if(animStage < 3) return 2*initGridSize(width);
+    if(animStage! < 3) return 2*initGridSize(width);
     return initGridSize(width) + initGridSize(width)*(PhoneWidget.aspectRatio-1);
   }
 
   double upperPhoneY(double width, double height){
-    if(animStage >= 3) return -upperPhoneWidth(width)*(PhoneWidget.aspectRatio-1)/2;
+    if(animStage! >= 3) return -upperPhoneWidth(width)*(PhoneWidget.aspectRatio-1)/2;
     return 0;
   }
 
@@ -75,23 +75,23 @@ class Page5State extends State<Page5> with PageTemplateInterface{
 
 
   double multiPlayerRedX(double width, double height){
-    if(animStage < 3) return initPlayerOffset(width) + 2*initPlayerOffset(width);
+    if(animStage! < 3) return initPlayerOffset(width) + 2*initPlayerOffset(width);
     return initPlayerOffset(width);
   }
 
   double multiPlayerRedY(double width, double height){
-    if(animStage < 3) return height - 3*(initGridSize(width) - initPlayerOffset(width));
-    else if (animStage >= 7 && animStage <= 10) return 3*initGridSize(width) - initPlayerOffset(width);
+    if(animStage! < 3) return height - 3*(initGridSize(width) - initPlayerOffset(width));
+    else if (animStage! >= 7 && animStage! <= 10) return 3*initGridSize(width) - initPlayerOffset(width);
     return 3*initGridSize(width) + initPlayerOffset(width);
   }
 
   double multiPlayerGreenX(double width){
-    if(animStage < 3) return width-initGridSize(width)+initPlayerOffset(width) - 2*initPlayerOffset(width);
+    if(animStage! < 3) return width-initGridSize(width)+initPlayerOffset(width) - 2*initPlayerOffset(width);
     return initPlayerOffset(width);
   }
 
   double multiPlayerGreenY(double width, double height){
-    if(animStage < 3) return height - 3*(initGridSize(width) - initPlayerOffset(width));
+    if(animStage! < 3) return height - 3*(initGridSize(width) - initPlayerOffset(width));
     else return 4*initGridSize(width) + initPlayerOffset(width);
   }
 
@@ -99,30 +99,30 @@ class Page5State extends State<Page5> with PageTemplateInterface{
 
 
   double leaderRedX(double width, double height){
-    if(animStage < 3) return initGridSize(width)+2*initPlayerOffset(width);
+    if(animStage! < 3) return initGridSize(width)+2*initPlayerOffset(width);
     return initPlayerOffset(width);
   }
 
   double leaderRedY(double width, double height){
-    if(animStage < 6) return initGridSize(width) + initPlayerOffset(width);
+    if(animStage! < 6) return initGridSize(width) + initPlayerOffset(width);
     else if(animStage == 6) return initGridSize(width) + 3*initPlayerOffset(width);
     return initGridSize(width) + initPlayerOffset(width);
   }
 
   double leaderGreenX(double width){
-    if(animStage < 3) return initGridSize(width)+2*initPlayerOffset(width);
+    if(animStage! < 3) return initGridSize(width)+2*initPlayerOffset(width);
     return initPlayerOffset(width);
   }
 
   double leaderGreenY(double width, double height) => initPlayerOffset(width);
 
-  AnimStageManager animStageManager;
+  late AnimStageManager animStageManager;
 
-  int animStage;
+  int? animStage;
 
-  Color convColor;
-  String convAuth;
-  String convText;
+  Color? convColor;
+  String? convAuth;
+  late String convText;
 
   @override
   void initState() {
@@ -358,7 +358,7 @@ class Page5State extends State<Page5> with PageTemplateInterface{
               child: AnimatedOpacity(
                 duration: animDuration,
                 curve: curve,
-                opacity: animStage > 3?PREV_INACTIVE_SIDE_OPACITY:1,
+                opacity: animStage! > 3?PREV_INACTIVE_SIDE_OPACITY:1,
                 child: PlayerWidget(color: GREEN_COLOR,  type: PlayerType.LEADER),
               ),
               duration: animDuration,
@@ -410,7 +410,7 @@ class Page5State extends State<Page5> with PageTemplateInterface{
               child: AnimatedOpacity(
                 duration: animDuration,
                 curve: curve,
-                opacity: animStage == 0?0:(animStage > 3?PREV_INACTIVE_SIDE_OPACITY:1),
+                opacity: animStage == 0?0:(animStage! > 3?PREV_INACTIVE_SIDE_OPACITY:1),
                 child: PlayerWidget(color: GREEN_COLOR, type: PlayerType.MULTI),
               ),
               duration: animDuration,

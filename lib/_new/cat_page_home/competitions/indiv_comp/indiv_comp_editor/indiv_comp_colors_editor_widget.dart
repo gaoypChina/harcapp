@@ -10,7 +10,7 @@ import 'common.dart';
 
 class IndivCompColorsEditorWidget extends StatefulWidget{
 
-  final IndivCompDetails initComp;
+  final IndivCompDetails? initComp;
 
   const IndivCompColorsEditorWidget({this.initComp});
 

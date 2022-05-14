@@ -33,8 +33,8 @@ import '_new/cat_page_guide_book/_stopnie/models_common/rank_task.dart';
 import '_new/cat_page_guide_book/szyfry/providers.dart';
 import '_new/cat_page_harcthought/articles/providers.dart';
 import '_new/cat_page_home/circles/model/circle.dart';
+import '_new/cat_page_home/circles/model/member.dart';
 import '_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
-import '_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_profile.dart';
 import '_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
 import '_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import '_new/cat_page_home/providers.dart';
@@ -50,7 +50,7 @@ import 'account/account.dart';
 import 'account/statistics.dart';
 import 'sync/synchronizer_engine.dart';
 
-AppMode appMode;
+AppMode? appMode;
 enum AppMode{
   appModeDefault,
   appModeAdwent,
@@ -71,7 +71,7 @@ void main() async {
           '${details.stack.toString()}',
           fileName: DateTime.now().toIso8601String());
 
-      throw details.stack;
+      throw details.stack!;
     };
 
   var delegate = await LocalizationDelegate.create(
@@ -125,7 +125,7 @@ class AppNavigatorObserver extends NavigatorObserver{
 
   @protected
   @override
-  void didPop(Route route, Route previousRoute) {
+  void didPop(Route route, Route? previousRoute) {
 
     for(void Function() onChangedListener in _onChangedListener)
       onChangedListener.call();
@@ -135,7 +135,7 @@ class AppNavigatorObserver extends NavigatorObserver{
 
   @protected
   @override
-  void didPush(Route route, Route previousRoute) {
+  void didPush(Route route, Route? previousRoute) {
 
     for(void Function() onChangedListener in _onChangedListener)
       onChangedListener.call();
@@ -145,7 +145,7 @@ class AppNavigatorObserver extends NavigatorObserver{
 
   @protected
   @override
-  void didReplace({Route newRoute, Route oldRoute}) {
+  void didReplace({Route? newRoute, Route? oldRoute}) {
 
     for(void Function() onChangedListener in _onChangedListener)
       onChangedListener.call();
@@ -155,7 +155,7 @@ class AppNavigatorObserver extends NavigatorObserver{
 
   @protected
   @override
-  void didRemove(Route route, Route previousRoute) {
+  void didRemove(Route route, Route? previousRoute) {
 
     for(void Function() onChangedListener in _onChangedListener)
       onChangedListener.call();
@@ -167,7 +167,7 @@ class AppNavigatorObserver extends NavigatorObserver{
 
 class App extends StatefulWidget {
 
-  static List<void Function()> _orientationChangedListeners;
+  static late List<void Function()> _orientationChangedListeners;
   static void addOrientationChangeListener(void Function() listener){
     _orientationChangedListeners.add(listener);
   }
@@ -182,7 +182,7 @@ class App extends StatefulWidget {
     return date.day > 5 && date.day < 12;
   }
 
-  const App({Key key}): super(key: key);
+  const App({Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => AppState();
@@ -193,7 +193,7 @@ class App extends StatefulWidget {
 
 class AppState extends State<App> with WidgetsBindingObserver {
   
-  StreamSubscription<ConnectivityResult> subscription;
+  StreamSubscription<ConnectivityResult>? subscription;
 
   Future<void> initShaPref() async {
     await ShaPref.init();
@@ -208,10 +208,10 @@ class AppState extends State<App> with WidgetsBindingObserver {
     }
   }
 
-  ColorPack _slctColorPack;
+  late ColorPack _slctColorPack;
 
-  LoginProvider loginProvider;
-  LoginProviderListener _loginListener;
+  LoginProvider? loginProvider;
+  LoginProviderListener? _loginListener;
 
   @override
   void initState() {
@@ -254,15 +254,15 @@ class AppState extends State<App> with WidgetsBindingObserver {
       if(true)
         for(Rank rank in Rank.all){
 
-          Map<String, bool> taskComplMap = shaPref.getMap<String, bool>(ShaPref.SHA_PREF_RANK_COMPLETED_REQ_MAP_(rank), {});
-          Map<String, String> taskNoteMap = shaPref.getMap<String, String>(ShaPref.SHA_PREF_RANK_REQ_NOTES_MAP_(rank), {});
+          Map<String, bool> taskComplMap = shaPref!.getMap<String, bool>(ShaPref.SHA_PREF_RANK_COMPLETED_REQ_MAP_(rank), {});
+          Map<String, String> taskNoteMap = shaPref!.getMap<String, String>(ShaPref.SHA_PREF_RANK_REQ_NOTES_MAP_(rank), {});
 
-          Map<String, bool> newTaskComplMap = {};
-          Map<String, String> newTaskNoteMap = {};
+          Map<String, bool?> newTaskComplMap = {};
+          Map<String, String?> newTaskNoteMap = {};
 
-          for(RankCat cat in rank.cats)
-            for(RankGroup group in cat.groups)
-              for(RankTask task in group.tasks){
+          for(RankCat cat in rank.cats!)
+            for(RankGroup group in cat.groups!)
+              for(RankTask task in group.tasks!){
 
                 if(taskComplMap.containsKey(task.old_uid))
                   newTaskComplMap[task.uid] = taskComplMap[task.old_uid];
@@ -276,15 +276,15 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
               }
 
-          shaPref.setMap(ShaPref.SHA_PREF_RANK_COMPLETED_REQ_MAP_(rank), newTaskComplMap);
-          shaPref.setMap(ShaPref.SHA_PREF_RANK_REQ_NOTES_MAP_(rank), newTaskNoteMap);
+          shaPref!.setMap(ShaPref.SHA_PREF_RANK_COMPLETED_REQ_MAP_(rank), newTaskComplMap);
+          shaPref!.setMap(ShaPref.SHA_PREF_RANK_REQ_NOTES_MAP_(rank), newTaskNoteMap);
 
         }
 
-      if(shaPref.getBool(ShaPref.SHA_PREF_RESET_STATS, true)){
+      if(shaPref!.getBool(ShaPref.SHA_PREF_RESET_STATS, true)){
         Statistics.songStats = {};
         Statistics.moduleStats = {};
-        shaPref.setBool(ShaPref.SHA_PREF_RESET_STATS, false);
+        shaPref!.setBool(ShaPref.SHA_PREF_RESET_STATS, false);
         logger.d('Stats reset.');
       }
 
@@ -309,7 +309,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    loginProvider.removeLoginListener( _loginListener);
+    loginProvider!.removeLoginListener( _loginListener);
     super.dispose();
   }
 
@@ -346,7 +346,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
         ChangeNotifierProvider(create: (context){
           loginProvider = LoginProvider();
-          loginProvider.addLoginListener( _loginListener);
+          loginProvider!.addLoginListener( _loginListener);
           return loginProvider;
         }),
 
@@ -354,8 +354,9 @@ class AppState extends State<App> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (context) => FloatingButtonProvider()),
 
         //CIRCLES
-        ChangeNotifierProvider(create: (context) => CircleListProvider()),
+        ChangeNotifierProvider(create: (context) => CircleMembersProvider()),
         ChangeNotifierProvider(create: (context) => CircleProvider()),
+        ChangeNotifierProvider(create: (context) => CircleListProvider()),
 
         //INDIVIDUAL COMPETITION
         ChangeNotifierProvider(create: (context) => IndivCompParticipsProvider()),
@@ -404,13 +405,13 @@ class AppState extends State<App> with WidgetsBindingObserver {
                     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
 
                   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-                    statusBarColor: colorPackProv.colorPack.appBar, // status bar color
+                    statusBarColor: colorPackProv.colorPack!.appBar, // status bar color
                   ));
 
                   return Material(
                     child: MaterialApp(
                       title: 'HarcApp',
-                      theme: colorPackProv.colorPack.themeData,
+                      theme: colorPackProv.colorPack!.themeData,
 
                       home: const StartPage(),
                       localizationsDelegates: const [
@@ -441,11 +442,11 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
 class ThemeProvider extends ChangeNotifier{
 
-  Timer _themeTimer;
+  Timer? _themeTimer;
 
-  void Function() _onChangedListener;
+  void Function()? _onChangedListener;
 
-  ThemeProvider(AppTheme theme, {void Function() onChangedListener}){
+  ThemeProvider(AppTheme theme, {void Function()? onChangedListener}){
     setThemeMode(theme);
     _onChangedListener = onChangedListener;
   }
@@ -458,7 +459,7 @@ class ThemeProvider extends ChangeNotifier{
 
   void _startThemeTimer(){
     int toChange = AppSettings.secsTillThemeChange;
-    if(_themeTimer != null) _themeTimer.cancel();
+    if(_themeTimer != null) _themeTimer!.cancel();
 
     _themeTimer = Timer(Duration(seconds: toChange), (){
       notifyListeners();

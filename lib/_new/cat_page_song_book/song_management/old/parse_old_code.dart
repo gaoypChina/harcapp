@@ -9,10 +9,10 @@ import 'package:harcapp_core_song/song_element.dart';
 SongRaw parseOldCode(String fileName, String code, {bool official = true}){
   bool hasRefren;
   SongElementOld refrenElementOld;
-  SongElement refrenElement;
+  SongElement? refrenElement;
   bool hasChords = false;
-  List<SongElementOld> songElementOldList = [];
-  List<SongElement> songElements = [];
+  List<SongElementOld?> songElementOldList = [];
+  List<SongElement?> songElements = [];
 
   try {
 
@@ -24,15 +24,15 @@ SongRaw parseOldCode(String fileName, String code, {bool official = true}){
     if(parts[1].isNotEmpty) {
       hasRefren = true;
       refrenElementOld = SongElementOld.decodeOld(parts[1]);
-      if(refrenElementOld.getChords().isNotEmpty) hasChords = true;
+      if(refrenElementOld.getChords()!.isNotEmpty) hasChords = true;
 
-      refrenElement = SongElement.from(refrenElementOld.getText(), refrenElementOld.getChords(), true);
+      refrenElement = SongElement.from(refrenElementOld.getText()!, refrenElementOld.getChords()!, true);
 
     }else
       hasRefren = false;
 
 //ZWROTKI
-    String firstElementChords;
+    String? firstElementChords;
     for(int i=2; i<parts.length; i++)
     {
       if (parts[i].isEmpty) {
@@ -55,7 +55,7 @@ SongRaw parseOldCode(String fileName, String code, {bool official = true}){
 
       SongElementOld songElementOld = SongElementOld.decodeOld(parts[i], firstElementChords: firstElementChords);
       songElementOldList.add(songElementOld);
-      songElements.add(SongElement.from(songElementOld.getText(), songElementOld.getChords(), false));
+      songElements.add(SongElement.from(songElementOld.getText()!, songElementOld.getChords()!, false));
 
     }
 
@@ -80,7 +80,7 @@ SongRaw parseOldCode(String fileName, String code, {bool official = true}){
       hasRefren: hasRefren,
       refrenPart: refrenElement == null? SongPart.empty():SongPart.from(refrenElement),
 
-      songParts: songElements.map((e) => SongPart.from(e)).toList(),
+      songParts: songElements.map((e) => SongPart.from(e!)).toList(),
 
     );
 

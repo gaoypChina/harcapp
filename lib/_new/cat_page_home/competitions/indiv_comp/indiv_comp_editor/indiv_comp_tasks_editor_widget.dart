@@ -15,7 +15,7 @@ import 'common.dart';
 
 class IndivCompTasksEditorWidget extends StatefulWidget{
 
-  final IndivCompDetails initComp;
+  final IndivCompDetails? initComp;
 
   const IndivCompTasksEditorWidget({this.initComp});
 
@@ -42,7 +42,7 @@ class _IndivCompTasksEditorWidgetState extends State<IndivCompTasksEditorWidget>
             Consumer<TaskBodiesProvider>(
               builder: (context, prov, child){
 
-                if(prov.taskEditables.isEmpty)
+                if(prov.taskEditables!.isEmpty)
                   return const SliverFillRemaining(
                     hasScrollBody: false,
                     child: Center(
@@ -57,25 +57,25 @@ class _IndivCompTasksEditorWidgetState extends State<IndivCompTasksEditorWidget>
                     padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
                     sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
                         (context, index) => IndivCompTaskEditWidget(
-                          initTitle: prov.taskEditables[index].editedTitle,
-                          initDesc: prov.taskEditables[index].editedDescription,
-                          initPoints: prov.taskEditables[index].editedPoints,
+                          initTitle: prov.taskEditables![index].editedTitle,
+                          initDesc: prov.taskEditables![index].editedDescription,
+                          initPoints: prov.taskEditables![index].editedPoints,
 
-                          state: prov.taskEditables[index].editedState,
-                          remove: prov.taskEditables[index].remove,
+                          state: prov.taskEditables![index].editedState,
+                          remove: prov.taskEditables![index].remove,
 
                           accentColor: Provider.of<ColorKeyProvider>(context, listen: false).avgColor,
 
-                          showFreeze: prov.taskEditables[index].created,
+                          showFreeze: prov.taskEditables![index].created,
 
                           onTitleChanged: (text) => prov.update(index, title: text, silent: true),
                           onDescChanged: (text) => prov.update(index, desc: text, silent: true),
                           onPointsChanged: (points) => prov.update(index, points: points, silent: true),
                           onRemoveTap: (remove){
-                            if(prov.taskEditables[index].created)
+                            if(prov.taskEditables![index].created)
                               prov.remove(index, remove);
                             else {
-                              prov.taskEditables.removeAt(index);
+                              prov.taskEditables!.removeAt(index);
                               prov.notify();
                             }
                           },
@@ -88,7 +88,7 @@ class _IndivCompTasksEditorWidgetState extends State<IndivCompTasksEditorWidget>
 
                         ),
                         separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-                        count: Provider.of<TaskBodiesProvider>(context, listen: false).taskEditables.length
+                        count: Provider.of<TaskBodiesProvider>(context, listen: false).taskEditables!.length
                     )),
                   );
 
@@ -119,7 +119,7 @@ class _IndivCompTasksEditorWidgetState extends State<IndivCompTasksEditorWidget>
         child: EditGradientButton(
             MdiIcons.cube,
             'Dodaj zadanie',
-            onTap: () async => setState(() => Provider.of<TaskBodiesProvider>(context, listen: false).create(Provider.of<TaskBodiesProvider>(context, listen: false).taskEditables.length))
+            onTap: () async => setState(() => Provider.of<TaskBodiesProvider>(context, listen: false).create(Provider.of<TaskBodiesProvider>(context, listen: false).taskEditables!.length))
         ),
       ),
     ],

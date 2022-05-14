@@ -12,13 +12,13 @@ class SprawTaskResp extends SyncGetResp{
   final bool completed;
 
   static SprawTaskResp from(Map respData) => SprawTaskResp(
-      note: respData[PARAM_NOTE]??false,
+      note: respData[PARAM_NOTE]??false as String,
       completed: respData[PARAM_COMPLETED]??false,
   );
 
   const SprawTaskResp({
-    @required this.note,
-    @required this.completed,
+    required this.note,
+    required this.completed,
   });
 
 }

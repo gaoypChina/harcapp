@@ -1,7 +1,7 @@
 class ApelEwan{
 
-  final String dirName;
-  final String siglum;
+  final String? dirName;
+  final String? siglum;
 
   const ApelEwan({this.dirName, this.siglum});
 

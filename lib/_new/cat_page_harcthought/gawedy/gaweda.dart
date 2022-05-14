@@ -6,10 +6,10 @@ import '../common/short_read.dart';
 class Gaweda extends ShortRead{
 
   const Gaweda({
-    @required String title,
-    @required Color Function(BuildContext) titleColor,
-    @required String fileName,
-    @required GraphicalResource graphicalResource,
+    required String title,
+    required Color Function(BuildContext) titleColor,
+    required String fileName,
+    required GraphicalResource graphicalResource,
     dynamic soundResource}):super(
       title: title,
       titleColor: titleColor,

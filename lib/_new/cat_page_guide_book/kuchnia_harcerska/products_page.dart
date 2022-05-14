@@ -22,7 +22,7 @@ class ProductsPage extends StatefulWidget{
 
 class ProductsPageState extends State<ProductsPage>{
 
-  List<Product> items;
+  late List<Product> items;
 
   @override
   void initState() {

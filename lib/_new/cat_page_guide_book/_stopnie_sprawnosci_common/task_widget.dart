@@ -8,34 +8,29 @@ import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/comm_widgets/circular_check_box.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 abstract class TaskWidget<T_TASK extends TaskData> extends StatefulWidget{
 
   T_TASK get task;
   Color get color;
-  int get dispIndex;
+  int? get dispIndex;
   String get text;
-  String get description;
-  String get example;
+  String? get description;
+  String? get example;
 
-  String get initNote;
+  String? get initNote;
 
-  bool get inProgress;
-  bool get completed;
+  bool? get inProgress;
+  bool? get completed;
   bool get isReadyToComplete;
   bool get hideIndex;
 
   bool get editable;
 
-  //bool isCompleted(T_UID uid);
-  //void setNote(T_UID uid, String note);
-  //void setCompleted(BuildContext context, T_UID uid, bool completed);
+  void Function(T_TASK item, bool? completed)? get onCompletedChanged;
 
-  void Function(T_TASK item, bool completed) get onCompletedChanged;
-
-  void _onCompletedChanged(bool completed) => onCompletedChanged?.call(task, completed);
+  void _onCompletedChanged(bool? completed) => onCompletedChanged?.call(task, completed);
 
   const TaskWidget();
 
@@ -46,16 +41,16 @@ abstract class TaskWidget<T_TASK extends TaskData> extends StatefulWidget{
 
 class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
 
-  T_TASK get task => widget.task;
-  int get dispIndex => widget.dispIndex;
+  T_TASK get task => widget.task as T_TASK;
+  int? get dispIndex => widget.dispIndex;
   String get text => widget.text;
-  String get description => widget.description;
-  String get example => widget.example;
+  String? get description => widget.description;
+  String? get example => widget.example;
 
-  String get initNote => widget.initNote;
+  String? get initNote => widget.initNote;
 
-  bool get inProgress => widget.inProgress;
-  bool get completed => widget.completed;
+  bool? get inProgress => widget.inProgress;
+  bool? get completed => widget.completed;
   bool get isReadyToComplete => widget.isReadyToComplete;
   bool get hideIndex => widget.hideIndex;
 
@@ -65,7 +60,7 @@ class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
   //void setNote(T_UID uid, String note) => widget.setNote(uid, note);
   //void setReqComplete(BuildContext context, T_UID uid, bool completed) => widget.setCompleted(context, uid, completed);
 
-  TextEditingController textController;
+  TextEditingController? textController;
 
   @override
   void initState() {
@@ -76,7 +71,7 @@ class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+        padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -96,12 +91,12 @@ class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
 
                     Expanded(child: Container()),
 
-                    if (dispIndex != null && (inProgress || completed))
+                    if (dispIndex != null && (inProgress! || completed!))
                       Row(
                         children: [
                           GestureDetector(
                             onTap: () {
-                              bool newValue = !task.completed;
+                              bool newValue = !task.completed!;
                               setState(() => task.setCompleted(context, newValue));
                               widget._onCompletedChanged(newValue);
                             },
@@ -110,16 +105,16 @@ class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
                               style: AppTextStyle(
                                   fontSize: Dimen.TEXT_SIZE_APPBAR,
                                   fontWeight: weight.halfBold,
-                                  color: widget.completed || !task.completed?hintEnab_(context):widget.color
+                                  color: widget.completed! || !task.completed!?hintEnab_(context):widget.color
                               ),
                             ),
                           ),
 
                           IgnorePointer(
-                            ignoring: completed || !editable,
+                            ignoring: completed! || !editable,
                             child: CircularCheckbox(
                               checkColor: background_(context),
-                              activeColor: widget.completed || !task.completed?hintEnab_(context):widget.color,
+                              activeColor: widget.completed! || !task.completed!?hintEnab_(context):widget.color,
                               onChanged: (selected){
                                 setState(() => task.setCompleted(context, selected));
                                 widget._onCompletedChanged(selected);
@@ -134,7 +129,7 @@ class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
                 )
               ),
 
-            if(dispIndex != null) SizedBox(height: Dimen.DEF_MARG),
+            if(dispIndex != null) const SizedBox(height: Dimen.DEF_MARG),
 
             Text(
               text,
@@ -176,27 +171,25 @@ class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
 
             AnimatedSize(
               curve: Curves.easeOutQuart,
-              duration: Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
               child:
-              inProgress || completed?
-              KeyboardAvoider(
-                child: Padding(
-                  padding: EdgeInsets.only(left: Dimen.ICON_MARG, top: 10, bottom: 10),
-                  child: AppTextFieldHint(
-                    enabled: !completed && editable,
-                    controller: textController,
-                    hintTop: 'Notatki',
-                    hint: completed?'Brak notatek do wymagania.':'Notatki do wymagania',
-                    hintStyle: AppTextStyle(
-                        color: hintEnab_(context)
-                    ),
-                    style: AppTextStyle(
-                        color: textEnab_(context),
-                        fontStyle: FontStyle.italic
-                    ),
-                    maxLines: null,
-                    onAnyChanged: (texts) => task.setNote(context, texts[0]),
+              inProgress! || completed!?
+              Padding(
+                padding: MediaQuery.of(context).viewInsets.add(const EdgeInsets.only(left: Dimen.ICON_MARG, top: 10, bottom: 10)),
+                child: AppTextFieldHint(
+                  enabled: !completed! && editable,
+                  controller: textController,
+                  hintTop: 'Notatki',
+                  hint: completed!?'Brak notatek do wymagania.':'Notatki do wymagania',
+                  hintStyle: AppTextStyle(
+                      color: hintEnab_(context)
                   ),
+                  style: AppTextStyle(
+                      color: textEnab_(context),
+                      fontStyle: FontStyle.italic
+                  ),
+                  maxLines: null,
+                  onAnyChanged: (texts) => task.setNote(context, texts[0]),
                 ),
               ):
               Container(),
@@ -212,7 +205,7 @@ class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
 class _Dialog extends StatelessWidget{
 
   final String title;
-  final String text;
+  final String? text;
 
   const _Dialog(this.title, this.text);
 
@@ -234,10 +227,10 @@ class _Dialog extends StatelessWidget{
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                   child: SelectableText(
-                    text,
+                    text!,
                     style: AppTextStyle(
                         fontSize: Dimen.TEXT_SIZE_BIG
                     ),

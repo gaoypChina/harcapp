@@ -18,36 +18,36 @@ class RankTaskStateLocal extends RankTaskState{
   String get taskComplMapKey => ShaPref.SHA_PREF_RANK_COMPLETED_REQ_MAP_(rankState.rank);
   String get taskNoteMapKey => ShaPref.SHA_PREF_RANK_REQ_NOTES_MAP_(rankState.rank);
 
-  Map<String, bool> get taskComplMap => shaPref.getMap<String, bool>(taskComplMapKey, {});
-  Map<String, String> get taskNoteMap => shaPref.getMap<String, String>(taskNoteMapKey, {});
+  Map<String, bool?> get taskComplMap => shaPref!.getMap<String, bool?>(taskComplMapKey, {});
+  Map<String, String?> get taskNoteMap => shaPref!.getMap<String, String?>(taskNoteMapKey, {});
 
   bool get completed{
     if(rankState.completed) return true;
-    Map<String, bool> reqComplMap = taskComplMap;
+    Map<String, bool?> reqComplMap = taskComplMap;
     return reqComplMap[uid]??false;
   }
 
-  set completed(bool value){
-    Map<String, bool> reqComplMap = taskComplMap;
+  set completed(bool? value){
+    Map<String, bool?> reqComplMap = taskComplMap;
     reqComplMap[uid] = value;
-    shaPref.setMap(taskComplMapKey, reqComplMap);
+    shaPref!.setMap(taskComplMapKey, reqComplMap);
   }
 
   String get note{
-    Map<String, String> reqNoteMap = taskNoteMap;
+    Map<String, String?> reqNoteMap = taskNoteMap;
     return reqNoteMap[uid]??'';
   }
 
   @override
-  set note(String value) {
-    Map<String, String> reqNoteMap = taskNoteMap;
+  set note(String? value) {
+    Map<String, String?> reqNoteMap = taskNoteMap;
     reqNoteMap[uid] = value;
-    shaPref.setMap(taskNoteMapKey, reqNoteMap);
+    shaPref!.setMap(taskNoteMapKey, reqNoteMap);
   }
 
 }
 
-class RankStateLocal extends RankState<RankTaskStateLocal>{
+class RankStateLocal extends RankState<RankTaskStateLocal?>{
 
   final Rank rank;
 
@@ -55,29 +55,29 @@ class RankStateLocal extends RankState<RankTaskStateLocal>{
 
     Map<String, RankTaskStateLocal> _tasks = {};
 
-    for(RankCat cat in rank.cats)
-      for(RankGroup group in cat.groups)
-        for(RankTask task in group.tasks)
+    for(RankCat cat in rank.cats!)
+      for(RankGroup group in cat.groups!)
+        for(RankTask task in group.tasks!)
           _tasks[task.uid] = RankTaskStateLocal(this, task.uid);
 
     tasks = _tasks;
 
   }
 
-  bool get inProgress => shaPref.getBool(ShaPref.SHA_PREF_RANK_IN_PROGRESS_(rank), false);
-  set inProgress(bool value) => shaPref.setBool(ShaPref.SHA_PREF_RANK_IN_PROGRESS_(rank), value);
+  bool get inProgress => shaPref!.getBool(ShaPref.SHA_PREF_RANK_IN_PROGRESS_(rank), false);
+  set inProgress(bool? value) => shaPref!.setBool(ShaPref.SHA_PREF_RANK_IN_PROGRESS_(rank), value!);
 
-  DateTime get completionDate => shaPref.getDateTime(ShaPref.SHA_PREF_RANK_COMPLETED_DATE_(rank), null);
-  set completionDate(DateTime value) => shaPref.setDateTime(ShaPref.SHA_PREF_RANK_COMPLETED_DATE_(rank), value);
+  DateTime? get completionDate => shaPref!.getDateTime(ShaPref.SHA_PREF_RANK_COMPLETED_DATE_(rank), null);
+  set completionDate(DateTime? value) => shaPref!.setDateTime(ShaPref.SHA_PREF_RANK_COMPLETED_DATE_(rank), value);
 
-  bool get completed => shaPref.getBool(ShaPref.SHA_PREF_RANK_COMPLETED_(rank), false);
-  set completed(bool value) => shaPref.setBool(ShaPref.SHA_PREF_RANK_COMPLETED_(rank), value);
+  bool get completed => shaPref!.getBool(ShaPref.SHA_PREF_RANK_COMPLETED_(rank), false);
+  set completed(bool? value) => shaPref!.setBool(ShaPref.SHA_PREF_RANK_COMPLETED_(rank), value!);
 
   @protected
-  Map<String, RankTaskStateLocal> tasks;
+  Map<String, RankTaskStateLocal>? tasks;
 
-  int get taskCount => tasks.length;
+  int get taskCount => tasks!.length;
 
-  RankTaskStateLocal task(String uid) => tasks[uid];
+  RankTaskStateLocal? task(String uid) => tasks![uid];
 
 }

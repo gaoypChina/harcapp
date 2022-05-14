@@ -11,22 +11,22 @@ class AppBottomNavigatorProvider extends ChangeNotifier{
 
   static const initIndex = account?2:1;
 
-  static AppBottomNavigatorProvider _prov;
+  static late AppBottomNavigatorProvider _prov;
 
   static AppBottomNavigatorProvider of(BuildContext context) =>
       Provider.of<AppBottomNavigatorProvider>(context, listen: false);
 
-  List<void Function(int)> _listeners;
+  late List<void Function(int)> _listeners;
 
-  int _selectedIndex;
-  int get selectedIndex => _selectedIndex;
+  int? _selectedIndex;
+  int? get selectedIndex => _selectedIndex;
   set selectedIndex(value){
     _selectedIndex = value;
     notifyListeners();
   }
 
-  Color _background;
-  Color get background => _background;
+  Color? _background;
+  Color? get background => _background;
   set background(value){
     _background = value;
     notifyListeners();
@@ -46,6 +46,8 @@ class AppBottomNavigatorProvider extends ChangeNotifier{
   static void removeOnSelectedListener(void Function(int) listener) =>
       _prov._listeners.remove(listener);
 
+  void notify() => notifyListeners();
+
 }
 
 class AppBottomNavigator extends StatelessWidget{
@@ -59,12 +61,12 @@ class AppBottomNavigator extends StatelessWidget{
 
   static const heroTag = 'AppBottomNavigator';
 
-  final Color background;
-  final Color selectedItemColor;
-  final Color unselectedItemColor;
-  final double elevation;
+  final Color? background;
+  final Color? selectedItemColor;
+  final Color? unselectedItemColor;
+  final double? elevation;
 
-  const AppBottomNavigator({this.background, this.selectedItemColor, this.unselectedItemColor, this.elevation, Key key}):super(key: key);
+  const AppBottomNavigator({this.background, this.selectedItemColor, this.unselectedItemColor, this.elevation, Key? key}):super(key: key);
 
   @override
   Widget build(BuildContext context) => Hero(
@@ -80,7 +82,7 @@ class AppBottomNavigator extends StatelessWidget{
             selectedIconTheme: IconThemeData(color: selectedItemColor??iconEnab_(context)),
             unselectedIconTheme: IconThemeData(color: unselectedItemColor??iconDisab_(context)),
             showUnselectedLabels: false,
-            currentIndex: prov.selectedIndex,
+            currentIndex: prov.selectedIndex!,
             onTap: (index){
               prov.selectedIndex = index;
               for(void Function(int) listener in prov._listeners)

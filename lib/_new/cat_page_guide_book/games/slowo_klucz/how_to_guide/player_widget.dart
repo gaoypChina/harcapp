@@ -13,7 +13,7 @@ class PlayerWidget extends StatelessWidget{
   static const double size = 42.0;
   static const Color _color = Colors.black;
 
-  final Color color;
+  final Color? color;
   final bool showColor;
   final PlayerType type;
 
@@ -22,7 +22,7 @@ class PlayerWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    IconData icon;
+    IconData? icon;
     if(type == PlayerType.PLAYER) icon = MdiIcons.accountOutline;
     else if(type == PlayerType.LEADER) icon = MdiIcons.accountCowboyHat;
     else if(type == PlayerType.MULTI)  icon = MdiIcons.accountMultipleOutline;

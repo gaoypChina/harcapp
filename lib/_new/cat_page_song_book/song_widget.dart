@@ -83,13 +83,13 @@ class SongWidget extends StatelessWidget{
     );
   }
 
-  final CatPageSongBookState parent;
-  final Song song;
+  final CatPageSongBookState? parent;
+  final Song? song;
   final int index;
-  final void Function(ScrollNotification, double, double) onScroll;
-  final void Function() onTextSizeChanged;
-  final ScrollPhysics physics;
-  final ScrollController controller;
+  final void Function(ScrollNotification, double?, double?)? onScroll;
+  final void Function()? onTextSizeChanged;
+  final ScrollPhysics? physics;
+  final ScrollController? controller;
 
   SongWidget(
       this.parent,
@@ -103,7 +103,7 @@ class SongWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => SongWidgetTemplate<Song, AddPersEmailResolver>(
-    song,
+    song!,
     SongBookBaseSetting(),
     physics: physics,
     scrollController: controller,
@@ -117,14 +117,14 @@ class SongWidget extends StatelessWidget{
     onScroll: onScroll, //(scrollInfo) => determineFloatingButtonOpacity(context, scrollInfo),
 
     onTitleTap: () async {
-      String wordsCode = await readStringFromAssets('assets/song_words/${song.fileName}');
+      String? wordsCode = await readStringFromAssets('assets/song_words/${song!.fileName}');
       await showScrollBottomSheet(
           context: context,
           builder: (BuildContext context) => BottomSheetDef(
             title: 'Trudne słowa',
             textColor: textEnab_(context),
             childMargin: EdgeInsets.zero,
-            builder: (context) => BottomSheetWords(wordsCode, song.text, song.fileName),
+            builder: (context) => BottomSheetWords(wordsCode, song!.text, song!.fileName),
           )
       );
     },
@@ -132,28 +132,28 @@ class SongWidget extends StatelessWidget{
     onAuthorTap: (String author) async {
       SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
       TabOfContPage.searchOptions = SongSearchOptions();
-      await parent.openTabOfCont(initPhrase: author, forgetScrollPosition: true);
+      await parent!.openTabOfCont(initPhrase: author, forgetScrollPosition: true);
       TabOfContPage.searchOptions = oldSearchOptions;
     },
 
     onComposerTap: (composer) async {
       SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
       TabOfContPage.searchOptions = SongSearchOptions();
-      await parent.openTabOfCont(initPhrase: composer, forgetScrollPosition: true);
+      await parent!.openTabOfCont(initPhrase: composer, forgetScrollPosition: true);
       TabOfContPage.searchOptions = oldSearchOptions;
     },
 
     onPerformerTap: (performer) async {
       SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
       TabOfContPage.searchOptions = SongSearchOptions();
-      await parent.openTabOfCont(initPhrase: performer, forgetScrollPosition: true);
+      await parent!.openTabOfCont(initPhrase: performer, forgetScrollPosition: true);
       TabOfContPage.searchOptions = oldSearchOptions;
     },
 
     onTagTap: (String tag) async{
       SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
       TabOfContPage.searchOptions = SongSearchOptions(checkedTags: [tag]);
-      await parent.openTabOfCont(forgetScrollPosition: true);
+      await parent!.openTabOfCont(forgetScrollPosition: true);
       TabOfContPage.searchOptions = oldSearchOptions;
     },
 
@@ -163,21 +163,21 @@ class SongWidget extends StatelessWidget{
         return;
       }
 
-      if(Platform.isAndroid && (await DeviceInfoPlugin().androidInfo).version.sdkInt < 20)
-        launchURL(song.youtubeLink);
+      if(Platform.isAndroid && (await DeviceInfoPlugin().androidInfo).version.sdkInt! < 20)
+        launchURL(song!.youtubeLink);
 
       double statusBarHeight = Provider.of<MainProvider>(context, listen: false).statusBarHeight;
 
       await playYoutubeSong(
-          parent.context,
-          parent.pageController,
+          parent!.context,
+          parent!.pageController,
           song,
           position - statusBarHeight
       );
     },
 
     onYTLinkLongPress: ()async{
-      await Clipboard.setData(ClipboardData(text: song.youtubeLink));
+      await Clipboard.setData(ClipboardData(text: song!.youtubeLink));
       showAppToast(context, text: 'Skopiowano link.');
     },
 
@@ -192,7 +192,7 @@ class SongWidget extends StatelessWidget{
     onPlusTap: (BuildContext context, bool changedSize){
       String tag = 'plus';
       if(!changedSize && !isSnackBarActive(tag: tag)){
-        if(SongBookSettings.showChords && song.hasChords)
+        if(SongBookSettings.showChords && song!.hasChords)
           AppScaffold.showMessage(
               context,
               'Aby powiększyć tekst, schowaj chwyty.',
@@ -205,7 +205,7 @@ class SongWidget extends StatelessWidget{
                 TextSizeProvider textSizeProv = Provider.of<TextSizeProvider>(context, listen: false);
                 textSizeProv.recalculate(
                     MediaQuery.of(context).size.width,
-                    song,
+                    song!,
                     fontSize: max(TextSizeProvider.defFontSize, textSizeProv.value)
                 );
                 onTextSizeChanged?.call();
@@ -238,10 +238,10 @@ class SongWidget extends StatelessWidget{
             children: <Widget>[
               Positioned(
                 child: RateCard<Song>(
-                    song,
+                    song!,
                     onTap: (rate, selected){
-                      song.setRate(selected?SongRate.RATE_NULL:rate);
-                      parent.notify();
+                      song!.setRate(selected?SongRate.RATE_NULL:rate);
+                      parent!.notify();
                       Navigator.pop(context);
                     }
                 ),
@@ -258,13 +258,13 @@ class SongWidget extends StatelessWidget{
     onDeleteTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć'),
 
     onDeleteLongPress: () async {
-      if(song.deleteSongFile()){
+      if(song!.deleteSongFile()){
         showAppToast(context, text: 'Usunięto piosenkę');
 
-        OwnSong.removeOwn(song);
-        parent.notify();
-        CatPageSongBookState.lastPage = parent.pageController.page.toInt();
-        for(Album album in Album.allOwn)
+        OwnSong.removeOwn(song!);
+        parent!.notify();
+        CatPageSongBookState.lastPage = parent!.pageController!.page!.toInt();
+        for(Album album in Album.allOwn!)
           album.removeSong(song);
       }else
         showAppToast(context, text: 'Błąd. Nie usunięto piosenki');
@@ -280,8 +280,8 @@ class SongWidget extends StatelessWidget{
     ),
 
     onEditTap: (prov) async{
-      Map map = await getSongMap(song.fileName);
-      SongRaw songRaw = SongRaw.fromMap(song.fileName, map);
+      Map map = await (getSongMap(song!.fileName) as FutureOr<Map<dynamic, dynamic>>);
+      SongRaw songRaw = SongRaw.fromMap(song!.fileName, map);
 
       openOwnSongPage(
           context,
@@ -291,17 +291,17 @@ class SongWidget extends StatelessWidget{
             if(editType == EditType.editOwn)
               prov.value = prov.calculate(MediaQuery.of(context).size.width, song);
 
-            parent.notify();
+            parent!.notify();
             int index = Album.current.songs.indexOf(song);
-            parent.pageController.jumpToPage(index);
+            parent!.pageController!.jumpToPage(index);
           }
       );
 
     },
 
-    onSendSongTap: () => sendSong(song),
+    onSendSongTap: () => sendSong(song!),
 
-    onShareTap: () => shareSong(context, song),
+    onShareTap: () => shareSong(context, song!),
 
     onCopyTap: () => Navigator.push(
         context,
@@ -318,16 +318,16 @@ class SongWidget extends StatelessWidget{
     },
 
     onChordsTap: (prov){
-      song.shiftChordsUp();
-      prov.recalculate(MediaQuery.of(context).size.width, song);
+      song!.shiftChordsUp();
+      prov.recalculate(MediaQuery.of(context).size.width, song!);
     },
 
     onChordsLongPress: (prov){
-      song.shiftChordsDown();
-      prov.recalculate(MediaQuery.of(context).size.width, song);
+      song!.shiftChordsDown();
+      prov.recalculate(MediaQuery.of(context).size.width, song!);
     },
 
-    header: (BuildContext context, ScrollController controller) => Column(
+    header: (BuildContext context, ScrollController? controller) => Column(
       children: [
 
         if(appMode == AppMode.appModeChristmas)
@@ -335,7 +335,7 @@ class SongWidget extends StatelessWidget{
             onChristmasCardTap: ()async{
               SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
               TabOfContPage.searchOptions = SongSearchOptions(checkedTags: [Tag.TAG_KOLEDY]);
-              await parent.openTabOfCont();
+              await parent!.openTabOfCont();
               TabOfContPage.searchOptions = oldSearchOptions;
             },
           ),
@@ -345,7 +345,7 @@ class SongWidget extends StatelessWidget{
             onPowstanieCardTap: ()async{
               SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
               TabOfContPage.searchOptions = SongSearchOptions(checkedTags: [Tag.TAG_POWSTANCZE]);
-              await parent.openTabOfCont();
+              await parent!.openTabOfCont();
               TabOfContPage.searchOptions = oldSearchOptions;
             },
           ),
@@ -353,7 +353,7 @@ class SongWidget extends StatelessWidget{
       ],
     ),
 
-    footer: (BuildContext context, ScrollController controller) => MemoryListWidget(
+    footer: (BuildContext context, ScrollController? controller) => MemoryListWidget(
         song,
         controller,
 
@@ -361,9 +361,9 @@ class SongWidget extends StatelessWidget{
 
         onEditMemoryLongPress: (Memory memory) async{
           await openMemoryEditor(context, song, initMemory: memory);
-          parent.notify();
-          post(() async => await this.controller.animateTo(
-              this.controller.position.maxScrollExtent,
+          parent!.notify();
+          post(() async => await this.controller!.animateTo(
+              this.controller!.position.maxScrollExtent,
               duration: const Duration(milliseconds: 100),
               curve: Curves.easeOutQuart
           ));
@@ -371,9 +371,9 @@ class SongWidget extends StatelessWidget{
 
         onNewMemoryTap: (Song song) async{
           await openMemoryEditor(context, song);
-          parent.notify();
-          post(() async => await this.controller.animateTo(
-              this.controller.position.maxScrollExtent,
+          parent!.notify();
+          post(() async => await this.controller!.animateTo(
+              this.controller!.position.maxScrollExtent,
               duration: const Duration(milliseconds: 100),
               curve: Curves.easeOutQuart
           ));

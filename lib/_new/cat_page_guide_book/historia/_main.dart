@@ -160,7 +160,7 @@ List<Item> list = events_1 + events_2 + events_3 + events_4;
 
 class HistoriaFragment extends StatefulWidget{
 
-  const HistoriaFragment({Key key}) : super(key: key);
+  const HistoriaFragment({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => HistoriaFragmentState();

@@ -63,7 +63,7 @@ String stopFullName(StopZHP stop){
     }
 }
 
-String stopShortName(StopZHP stop){
+String stopShortName(StopZHP? stop){
   switch(stop){
     case StopZHP.dhd: return stop_h_dh_d_sh;
     case StopZHP.dhc: return stop_h_dh_c_sh;

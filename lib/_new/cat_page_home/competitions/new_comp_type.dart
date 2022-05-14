@@ -19,9 +19,9 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../../../_common_widgets/bottom_sheet.dart';
 import 'indiv_comp/models/indiv_comp.dart';
 
-Future<NewCompType> pickCompType(BuildContext context)async {
+Future<NewCompType?> pickCompType(BuildContext context)async {
 
-  NewCompType result;
+  NewCompType? result;
   await showScrollBottomSheet(
       context: context,
       builder: (context) => CompTypeWidget(
@@ -44,9 +44,9 @@ enum NewCompType{
 
 class CompTypeWidget extends StatelessWidget{
 
-  final void Function(NewCompType type) onSelected;
+  final void Function(NewCompType type)? onSelected;
 
-  const CompTypeWidget({this.onSelected, Key key}): super(key: key);
+  const CompTypeWidget({this.onSelected, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class CompTypeWidget extends StatelessWidget{
                 colorEnd: Colors.grey[AppSettings.isDark?900:600],
                 textColor: Colors.blueGrey,
                 description: 'Zacznij od pustego szablonu.\n\nSkorzystaj, jeżeli wiesz jak działają współzawodnictwa.',
-                onTap: () => onSelected(NewCompType.empty),
+                onTap: () => onSelected!(NewCompType.empty),
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
@@ -79,14 +79,14 @@ class CompTypeWidget extends StatelessWidget{
                 colorEnd: Colors.blue[AppSettings.isDark?900:700],
                 textColor: Colors.indigo[AppSettings.isDark?300:500],
                 description: 'Wybierz w pełni uzupełny przykład.\n\nSkorzystaj, jeżeli pierwszy raz tworzysz współzawodnictwo.',
-                onTap: () => onSelected(NewCompType.example),
+                onTap: () => onSelected!(NewCompType.example),
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
               _JoinButton(
                 onSuccess: (comp) async {
-                  onSelected(NewCompType.join);
+                  onSelected!(NewCompType.join);
                   IndivComp.addToAll(context, comp);
                   pushReplacePage(context, builder: (context) => IndivCompPage(comp));
                 },
@@ -106,19 +106,19 @@ class _Button extends StatelessWidget{
   final IconData icon;
   final String title;
   final String description;
-  final Widget bottom;
-  final Color colorStart;
-  final Color colorEnd;
-  final Color textColor;
-  final void Function() onTap;
+  final Widget? bottom;
+  final Color? colorStart;
+  final Color? colorEnd;
+  final Color? textColor;
+  final void Function()? onTap;
 
-  const _Button({@required this.icon, @required this.title, @required this.description, this.bottom, @required this.colorStart, @required this.colorEnd, @required this.textColor, this.onTap});
+  const _Button({required this.icon, required this.title, required this.description, this.bottom, required this.colorStart, required this.colorEnd, required this.textColor, this.onTap});
 
   @override
   Widget build(BuildContext context) => GradientWidget(
     radius: IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.outerRadiusSizeFactor,
-    colorStart: colorStart,
-    colorEnd: colorEnd,
+    colorStart: colorStart!,
+    colorEnd: colorEnd!,
     child: SimpleButton(
         padding: EdgeInsets.zero,
         margin: const EdgeInsets.all(IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.borderSizeFactor),
@@ -129,8 +129,8 @@ class _Button extends StatelessWidget{
 
               Positioned.fill(
                 child: GradientWidget(
-                  colorStart: colorEnd.withOpacity(.2),
-                  colorEnd: colorStart.withOpacity(.2),
+                  colorStart: colorEnd!.withOpacity(.2),
+                  colorEnd: colorStart!.withOpacity(.2),
                 ),
               ),
 
@@ -176,7 +176,7 @@ class _Button extends StatelessWidget{
                     ),
 
                     if(bottom != null)
-                      bottom,
+                      bottom!,
 
                   ],
                 ),
@@ -194,7 +194,7 @@ class _JoinButton extends StatefulWidget{
 
   final void Function(IndivComp) onSuccess;
 
-  const _JoinButton({@required this.onSuccess});
+  const _JoinButton({required this.onSuccess});
 
   @override
   State<StatefulWidget> createState() => _JoinButtonState();
@@ -203,9 +203,9 @@ class _JoinButton extends StatefulWidget{
 
 class _JoinButtonState extends State<_JoinButton>{
 
-  TextEditingController controller;
+  TextEditingController? controller;
 
-  bool processing;
+  late bool processing;
 
   @override
   void initState() {
@@ -245,7 +245,7 @@ class _JoinButtonState extends State<_JoinButton>{
             onPressed: () async {
               setState(() => processing = true);
               await ApiIndivComp.joinByShareCode(
-                  searchCode: controller.text,
+                  searchCode: controller!.text,
                   onSuccess: (comp){
                     if(!mounted) return;
                     widget.onSuccess.call(comp);

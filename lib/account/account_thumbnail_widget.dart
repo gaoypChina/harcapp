@@ -28,16 +28,16 @@ class AccountThumbnailWidget extends StatelessWidget{
   static const double defTextSize = 50*textSizeRatio;
   static const double textSizeRatio = 1/2.8;
 
-  final String name;
-  final IconData icon;
+  final String? name;
+  final IconData? icon;
 
   final bool shadow;
 
   final bool elevated;
-  final double size;
+  final double? size;
   final bool enabled;
-  final IconData markIcon;
-  final void Function() onTap;
+  final IconData? markIcon;
+  final void Function()? onTap;
 
   const AccountThumbnailWidget(
       { this.name,
@@ -49,7 +49,7 @@ class AccountThumbnailWidget extends StatelessWidget{
         this.markIcon,
         this.enabled = true,
         this.onTap,
-        Key key
+        Key? key
       }): super(key: key);
 
   @override
@@ -61,7 +61,7 @@ class AccountThumbnailWidget extends StatelessWidget{
 
     String abbr = '';
     if(name != null) {
-      List<String> nameParts = name.split(' ');
+      List<String> nameParts = name!.split(' ');
       if (nameParts.length == 1) {
         String part = nameParts[0];
         if (part.length == 1)

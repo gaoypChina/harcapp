@@ -22,23 +22,23 @@ class RankZHRDData extends RankData{
 
   final String minWiek;
   final String czasTrw;
-  final String zalozenia;
-  final String punktWyjsc;
-  final String wskazowki;
-  final String sylwetka;
+  final String? zalozenia;
+  final String? punktWyjsc;
+  final String? wskazowki;
+  final String? sylwetka;
 
   RankZHRDData({
-    @required String title,
-    @required int version,
-    @required Org org,
-    @required String id,
-    @required this.minWiek,
-    @required this.czasTrw,
-    @required this.zalozenia,
-    @required this.punktWyjsc,
-    @required this.wskazowki,
-    @required this.sylwetka,
-    @required List<RankCatData> catData,
+    required String title,
+    required int version,
+    required Org org,
+    required String id,
+    required this.minWiek,
+    required this.czasTrw,
+    required this.zalozenia,
+    required this.punktWyjsc,
+    required this.wskazowki,
+    required this.sylwetka,
+    required List<RankCatData> catData,
   }):super(
     titleMale: title,
     version: version,
@@ -62,27 +62,27 @@ class RankZHRDData extends RankData{
   }
 
   static RankZHRDData from({
-    @required String title,
-    @required int version,
-    @required Org org,
-    @required String id,
-    @required String minWiek,
-    @required String czasTrw,
-    @required String zalozenia,
-    @required String punktWyjsc,
-    @required String wskazowki,
-    @required String sylwetka,
+    required String title,
+    required int version,
+    required Org org,
+    required String id,
+    required String minWiek,
+    required String czasTrw,
+    required String? zalozenia,
+    required String? punktWyjsc,
+    required String? wskazowki,
+    required String? sylwetka,
 
-    List<RankGroupData> postawa,
-    List<RankTaskData> postawaItems,
-    List<RankGroupData> wiedzaHarc,
-    List<RankTaskData> wiedzaHarcItems,
-    List<RankGroupData> umiejetnosci,
-    List<RankTaskData> umiejetnosciItems,
-    List<RankGroupData> doswiadczenie,
-    List<RankTaskData> doswiadczenieItems,
+    List<RankGroupData>? postawa,
+    List<RankTaskData>? postawaItems,
+    List<RankGroupData>? wiedzaHarc,
+    List<RankTaskData>? wiedzaHarcItems,
+    List<RankGroupData>? umiejetnosci,
+    List<RankTaskData>? umiejetnosciItems,
+    List<RankGroupData>? doswiadczenie,
+    List<RankTaskData>? doswiadczenieItems,
 
-    @required List<RankCatData> catData,
+    required List<RankCatData>? catData,
   }){
 
     assert(!(postawa != null && postawaItems != null));
@@ -90,25 +90,25 @@ class RankZHRDData extends RankData{
     assert(!(umiejetnosci != null && umiejetnosciItems != null));
     assert(!(doswiadczenie != null && doswiadczenieItems != null));
 
-    RankCatData postawaCat;
+    RankCatData? postawaCat;
     if(postawa != null)
       postawaCat = RankCatData(title: 'Postawa', icon: MdiIcons.faceWomanShimmerOutline, groupData: postawa);
     else if(postawaItems != null)
       postawaCat = RankCatData.fromItems('Postawa', MdiIcons.faceWomanShimmerOutline, postawaItems);
 
-    RankCatData wiedzaHarcCat;
+    RankCatData? wiedzaHarcCat;
     if(wiedzaHarc != null)
       wiedzaHarcCat = RankCatData(title: 'Wiedza harcerska', icon: MdiIcons.bookEducationOutline, groupData: wiedzaHarc);
     else if(wiedzaHarcItems != null)
       wiedzaHarcCat = RankCatData.fromItems('Wiedza harcerska', MdiIcons.bookEducationOutline, wiedzaHarcItems);
 
-    RankCatData umiejetnosciCat;
+    RankCatData? umiejetnosciCat;
     if(umiejetnosci != null)
       umiejetnosciCat = RankCatData(title: 'Umiejętności', icon: MdiIcons.hammerScrewdriver, groupData: umiejetnosci);
     else if(umiejetnosciItems != null)
       umiejetnosciCat = RankCatData.fromItems('Umiejętności', MdiIcons.hammerScrewdriver, umiejetnosciItems);
 
-    RankCatData doswiadczenieCat;
+    RankCatData? doswiadczenieCat;
     if(doswiadczenie != null)
       doswiadczenieCat = RankCatData(title: 'Doświadczenie', icon: MdiIcons.timerSand, groupData: doswiadczenie);
     else if(doswiadczenieItems != null)
@@ -144,11 +144,11 @@ class RankZHRDData extends RankData{
 
 }
 
-abstract class RankZHRDTempl<T extends RankState> extends Rank<RankZHRDData, RankDefResp, T>{
+abstract class RankZHRDTempl<T extends RankState> extends Rank<RankZHRDData, RankDefResp?, T>{
 
   RankZHRDTempl(
     RankZHRDData data,
-    List<RankCat> cats,
+    List<RankCat>? cats,
   ):super(data, cats);
 
   @override
@@ -189,7 +189,7 @@ class RankZHRD extends RankZHRDTempl<RankStateLocal>{
 
   RankZHRD(
     RankZHRDData data,
-    List<RankCat> cats,
+    List<RankCat>? cats,
   ):super(data, cats);
 
   @override
@@ -213,6 +213,6 @@ class RankZHRDPreview extends RankZHRDTempl<RankStateShared>{
   @override
   RankStateShared state;
 
-  RankZHRDPreview(RankZHRDData data, this.state, List<RankCat> cats) : super(data, cats);
+  RankZHRDPreview(RankZHRDData data, this.state, List<RankCat>? cats) : super(data, cats);
 
 }

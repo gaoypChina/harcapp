@@ -24,12 +24,12 @@ class InitSyncAnalyser{
       '\n\nKtóre dane chcesz zachować, a które trwale usunać?';
 
 
-  static Future<InitSyncOperation> analyse({
-    @required BuildContext context,
-    @required String email,
-    @required String lastConfEmail,
-    @required DateTime lastSyncTimeServer,
-    @required DateTime lastSyncTimeLocal,
+  static Future<InitSyncOperation?> analyse({
+    required BuildContext context,
+    required String? email,
+    required String? lastConfEmail,
+    required DateTime? lastSyncTimeServer,
+    required DateTime? lastSyncTimeLocal,
     bool log = false
   }) async {
 
@@ -74,7 +74,7 @@ class InitSyncAnalyser{
             return InitSyncOperation.noAction;
 
         } else {
-          if(lastSyncTimeLocal == null || lastSyncTimeLocal.isAtSameMomentAs(lastSyncTimeServer))
+          if(lastSyncTimeLocal == null || lastSyncTimeLocal.isAtSameMomentAs(lastSyncTimeServer!))
             // Na urządzeniu nowości, na serwerze po staremu.
             return InitSyncOperation.post;
           else
@@ -88,9 +88,9 @@ class InitSyncAnalyser{
     }
   }
 
-  static Future<InitSyncOperation> resolveSyncConflict(BuildContext context, String message) async {
+  static Future<InitSyncOperation?> resolveSyncConflict(BuildContext context, String message) async {
 
-    InitSyncOperation result;
+    InitSyncOperation? result;
 
     await showAlertDialog(
         context,

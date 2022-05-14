@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
-import 'package:flutter_page_transition/page_transition_type.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/module_statistics_registrator.dart';
@@ -21,7 +20,7 @@ import 'meal_widget.dart';
 
 class KuchniaHarcerskaFragment extends StatefulWidget {
 
-  const KuchniaHarcerskaFragment({Key key}) : super(key: key);
+  const KuchniaHarcerskaFragment({Key? key}) : super(key: key);
 
   @override
   State createState() => KuchniaHarcerskaFragmentState();
@@ -33,7 +32,7 @@ class KuchniaHarcerskaFragmentState extends State<KuchniaHarcerskaFragment> with
   @override
   String get moduleId => ModuleStatsMixin.kuchniaHarcerska;
 
-  TabController controller;
+  TabController? controller;
 
   @override
   void initState() {
@@ -59,7 +58,7 @@ class KuchniaHarcerskaFragmentState extends State<KuchniaHarcerskaFragment> with
                 Consumer<SelectedMealsProvider>(
                     builder: (context, prov, child) => AnimatedOpacity(
                       duration: const Duration(milliseconds: 300),
-                      opacity: prov.meals.isEmpty?0:1,
+                      opacity: prov.meals!.isEmpty?0:1,
                       child: IconButton(
                         icon: Stack(
                           children: [
@@ -71,7 +70,7 @@ class KuchniaHarcerskaFragmentState extends State<KuchniaHarcerskaFragment> with
                                   padding: const EdgeInsets.all(1.5),
                                   color: accent_(context),
                                   child: Text(
-                                      '${prov.meals.length}',
+                                      '${prov.meals!.length}',
                                       textAlign: TextAlign.center,
                                       style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL, color: accentIcon_(context), fontWeight: weight.bold)
                                   ),
@@ -79,9 +78,7 @@ class KuchniaHarcerskaFragmentState extends State<KuchniaHarcerskaFragment> with
                             ),
                           ],
                         ),
-                        onPressed: (){
-                          Navigator.of(context).push(PageTransition(type: PageTransitionType.rippleRightDown, child: MealListPage(this, prov.meals)));
-                        },
+                        onPressed: () => pushPage(context, builder: (context) => MealListPage(this, prov.meals)),
                       ),
                     )
                 ),
@@ -95,7 +92,7 @@ class KuchniaHarcerskaFragmentState extends State<KuchniaHarcerskaFragment> with
                         MaterialPageRoute(builder: (context) => SearchPage(
                                 (Meal meal){
                               int page = Meal.all.indexOf(meal);
-                              controller.animateTo(page, duration: const Duration(milliseconds: 600), curve: Curves.easeOutQuad);
+                              controller!.animateTo(page, duration: const Duration(milliseconds: 600), curve: Curves.easeOutQuad);
                               Navigator.pop(context);
                             }
                         ))
@@ -129,7 +126,7 @@ class KuchniaHarcerskaFragmentState extends State<KuchniaHarcerskaFragment> with
       ),
       floatingActionButton: FloatingActionButton(
           child: const Icon(MdiIcons.formatListBulleted),
-          onPressed: () => Navigator.of(context).push(PageTransition(type: PageTransitionType.rippleRightUp, child: ProductsPage()))
+          onPressed: () => pushPage(context, builder: (context) => ProductsPage())
       ),
     ),
   );

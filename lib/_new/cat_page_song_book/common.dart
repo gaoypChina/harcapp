@@ -8,9 +8,9 @@ import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 
 class SongLoaderListener{
 
-  final Function() onStart;
-  final Function(String fileName) onSongLoadError;
-  final Function() onEnd;
+  final Function()? onStart;
+  final Function(String fileName)? onSongLoadError;
+  final Function()? onEnd;
 
   const SongLoaderListener({this.onStart, this.onSongLoadError, this.onEnd});
 
@@ -56,17 +56,19 @@ class SongLoaderOutput{
 
 }
 
-Map decodeJson(String code){
+Map? decodeJson(String code){
   return jsonDecode(code);
 }
 
-Future<Map> getSongMap(String fileName) async{
+Future<Map?> getSongMap(String fileName) async{
 
   if(fileName.length>3 && fileName.substring(0, 3) == 'o!_') {
-    Map allSongsMap = jsonDecode(await readStringFromAssets('assets/songs/all_songs.hrcpsng'));
+    String? jsonCode = await readStringFromAssets('assets/songs/all_songs.hrcpsng');
+    Map allSongsMap = jsonDecode(jsonCode!);
     return allSongsMap['official'][fileName]['song'];
   }else if(fileName.length > 4 && fileName.substring(0, 4) == 'oc!_') {
-    Map allSongsMap = jsonDecode(await readStringFromAssets('assets/songs/all_songs.hrcpsng'));
+    String? jsonCode = await readStringFromAssets('assets/songs/all_songs.hrcpsng');
+    Map allSongsMap = jsonDecode(jsonCode!);
     return allSongsMap['conf'][fileName]['song'];
   }else {
     Map ownSongsMap = jsonDecode(readFileAsString(getOwnSongFilePath));

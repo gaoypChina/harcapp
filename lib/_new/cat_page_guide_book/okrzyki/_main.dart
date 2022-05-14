@@ -15,7 +15,7 @@ import 'okrzyk.dart';
 
 class OkrzykiFragment extends StatefulWidget {
 
-  const OkrzykiFragment({Key key}) : super(key: key);
+  const OkrzykiFragment({Key? key}) : super(key: key);
 
   @override
   State createState() => OkrzykiFragmentState();
@@ -27,7 +27,7 @@ class OkrzykiFragmentState extends State<OkrzykiFragment> with ModuleStatsMixin{
   @override
   String get moduleId => ModuleStatsMixin.okrzyki;
 
-  int loadingProgress;
+  int? loadingProgress;
 
   List<Sound> sounds = [];
   List<Okrzyk> unofficialOkrzyki = [];
@@ -72,7 +72,7 @@ class OkrzykiFragmentState extends State<OkrzykiFragment> with ModuleStatsMixin{
         Column(
           children: <Widget>[
             LinearProgressIndicator(
-              value: loadingProgress/Sound.ITEM_COUNT,
+              value: loadingProgress!/Sound.ITEM_COUNT,
             ),
             Expanded(
               child: Center(child: CircularProgressIndicator()),

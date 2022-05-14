@@ -10,10 +10,10 @@ class ShortRead{
   final dynamic soundResource;
 
   const ShortRead({
-    @required this.title,
-    @required this.titleColor,
-    @required this.fileName,
-    @required this.graphicalResource,
+    required this.title,
+    required this.titleColor,
+    required this.fileName,
+    required this.graphicalResource,
     this.soundResource});
 
 }

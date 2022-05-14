@@ -25,11 +25,11 @@ class PartTemplate extends StatelessWidget {
   static Color accentColor(BuildContext context) => Provider.of<ColorPackProvider>(context, listen: false).isDark()?Colors.white:Colors.black;
 
   final String title;
-  final String errorMessage;
-  final Widget child;
+  final String? errorMessage;
+  final Widget? child;
   final heroTag;
 
-  const PartTemplate({@required this.title, this.errorMessage, this.child, this.heroTag: defHeroTag});
+  const PartTemplate({required this.title, this.errorMessage, this.child, this.heroTag: defHeroTag});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class PartTemplate extends StatelessWidget {
     Widget backgroundWidget = Padding(
       padding: EdgeInsets.all(Dimen.SIDE_MARG),
       child: GradientWidget(
-          colorStart: cardEnab_(context),
+          colorStart: cardEnab_(context)!,
           colorEnd: background_(context).withAlpha(0),
           radius: AppCard.BIG_RADIUS,
           child: SizedBox(
@@ -104,7 +104,7 @@ class PartTemplate extends StatelessWidget {
 
                       SizedBox(height: Dimen.SIDE_MARG),
 
-                      child
+                      child!
 
                     ],
                   )

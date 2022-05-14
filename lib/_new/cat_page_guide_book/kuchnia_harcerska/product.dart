@@ -217,13 +217,13 @@ class UnitManager{
   final Unit defUnit;
 
   final double waterExpandFactor;
-  final double gInMl;
-  final double gInItem;
-  final double gInSlice;
-  final double gInBreadSlice;
-  final double mlInSpoonS;
-  final double mlInSpoonB;
-  final double gInClove;
+  final double? gInMl;
+  final double? gInItem;
+  final double? gInSlice;
+  final double? gInBreadSlice;
+  final double? mlInSpoonS;
+  final double? mlInSpoonB;
+  final double? gInClove;
 
   int get unitCount{
     int count = 0;
@@ -250,7 +250,7 @@ class UnitManager{
     this.gInClove
   });
 
-  double getGIn(Unit unit){
+  double? getGIn(Unit unit){
     switch (unit){
       case Unit.g: return 1;
       case Unit.ml: return gInMl;
@@ -265,24 +265,24 @@ class UnitManager{
   }
 
   double getG(final Unit unit, double amount){
-    return getGIn(unit)*amount;
+    return getGIn(unit)!*amount;
   }
 
-  double convert(Unit from, Unit to, double amount){
+  double convert(Unit from, Unit? to, double? amount){
     switch (to){
-      case Unit.g: return getG(from, amount);
-      case Unit.ml: return getG(from, amount)/gInMl;
-      case Unit.item: return getG(from, amount)/gInItem;
-      case Unit.spoonS: return convert(Unit.g, Unit.ml, getG(from, amount))/mlInSpoonS;
-      case Unit.spoonB: return convert(Unit.g, Unit.ml, getG(from, amount))/mlInSpoonB;
-      case Unit.breadSlice: return getG(from, amount)/gInBreadSlice;
-      case Unit.slice: return getG(from, amount)/gInSlice;
-      case Unit.clove: return getG(from, amount)/gInClove;
+      case Unit.g: return getG(from, amount!);
+      case Unit.ml: return getG(from, amount!)/gInMl!;
+      case Unit.item: return getG(from, amount!)/gInItem!;
+      case Unit.spoonS: return convert(Unit.g, Unit.ml, getG(from, amount!))/mlInSpoonS!;
+      case Unit.spoonB: return convert(Unit.g, Unit.ml, getG(from, amount!))/mlInSpoonB!;
+      case Unit.breadSlice: return getG(from, amount!)/gInBreadSlice!;
+      case Unit.slice: return getG(from, amount!)/gInSlice!;
+      case Unit.clove: return getG(from, amount!)/gInClove!;
       default: return -1;
     }
   }
 
-  static String unitName(Unit unit){
+  static String unitName(Unit? unit){
     switch (unit){
       case Unit.g:
         return "g";

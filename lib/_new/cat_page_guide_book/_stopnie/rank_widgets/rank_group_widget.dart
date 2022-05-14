@@ -14,7 +14,7 @@ import 'package:harcapp_core/dimen.dart';
 class RankGroupWidget extends StatelessWidget{
 
   final RankGroup group;
-  final void Function(RankTask item, bool completed) onReqComplChanged;
+  final void Function(RankTask item, bool completed)? onReqComplChanged;
 
   const RankGroupWidget(this.group, {this.onReqComplChanged});
 
@@ -25,20 +25,20 @@ class RankGroupWidget extends StatelessWidget{
 
     int checkableItemsCount = 1;
     List<Widget> children = [];
-    for(int i=0; i<group.tasks.length; i++){
+    for(int i=0; i<group.tasks!.length; i++){
 
-      RankTask item = group.tasks[i];
+      RankTask item = group.tasks![i];
       children.add(RankTaskWidget(
           item,
-          group.tasks[i].checkable?checkableItemsCount:null,
-          hideIndex: group.tasks.length==1,
+          group.tasks![i].checkable?checkableItemsCount:null,
+          hideIndex: group.tasks!.length==1,
           onCompletedChanged: onReqComplChanged
       ));
 
-      if(i != group.tasks.length-1)
+      if(i != group.tasks!.length-1)
         children.add(RankTaskWidget.separator(context, i));
 
-      if(group.tasks[i].checkable) checkableItemsCount++;
+      if(group.tasks![i].checkable) checkableItemsCount++;
 
     }
 
@@ -46,7 +46,7 @@ class RankGroupWidget extends StatelessWidget{
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
 
-        if(group.cat.icon != null)
+        if(group.cat!.icon != null)
           SizedBox(height: Dimen.ICON_MARG),
 
         SizedBox(height: Dimen.SIDE_MARG),
@@ -66,7 +66,7 @@ class RankGroupWidget extends StatelessWidget{
                       children: [
 
                         Text(
-                          group.title,
+                          group.title!,
                           style: AppTextStyle(
                             fontSize: Dimen.TEXT_SIZE_APPBAR,
                             fontWeight: weight.bold,
@@ -75,9 +75,9 @@ class RankGroupWidget extends StatelessWidget{
                           ),
                         ),
 
-                        if(group.title != null && group.cat.title != null)
+                        if(group.title != null && group.cat!.title != null)
                           Text(
-                            'Kat.: ${group.cat.title}',
+                            'Kat.: ${group.cat!.title}',
                             style: AppTextStyle(
                               fontSize: Dimen.TEXT_SIZE_NORMAL,
                               fontWeight: weight.halfBold,
@@ -94,8 +94,8 @@ class RankGroupWidget extends StatelessWidget{
                     child: GradientIcon(
                         group.icon,
                         size: 42.0,
-                        colorStart: RankData.colors[group.cat.rank.data].start(false),
-                        colorEnd: RankData.colors[group.cat.rank.data].end(false)
+                        colorStart: RankData.colors[group.cat!.rank!.data]!.start(false),
+                        colorEnd: RankData.colors[group.cat!.rank!.data]!.end(false)
                     ),
                   ),
 
@@ -121,7 +121,7 @@ class RankGroupWidget extends StatelessWidget{
         Padding(
           padding: EdgeInsets.only(
             top:
-            group.cat.icon == null?
+            group.cat!.icon == null?
             0:Dimen.ICON_MARG + Dimen.ICON_FOOTPRINT/2
           ),
           child: Material(
@@ -131,14 +131,14 @@ class RankGroupWidget extends StatelessWidget{
           ),
         ),
 
-        if(group.cat.icon != null)
+        if(group.cat!.icon != null)
           Center(
             child: SimpleButton(
                 padding: EdgeInsets.zero,
                 onTap:
-                  group.cat.title == null?
+                  group.cat!.title == null?
                   null:
-                  () => showAppToast(context, text: 'Kategoria: ${group.cat.title}'),
+                  () => showAppToast(context, text: 'Kategoria: ${group.cat!.title}'),
                 radius: 100,
                 color: cardEnab_(context),
                 child: Padding(
@@ -148,7 +148,7 @@ class RankGroupWidget extends StatelessWidget{
                     color: background_(context),
                     child: Padding(
                       padding: EdgeInsets.all(Dimen.ICON_MARG),
-                      child: Icon(group.cat.icon),
+                      child: Icon(group.cat!.icon),
                     ),
                   ),
                 )

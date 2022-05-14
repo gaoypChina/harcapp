@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
-import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +11,7 @@ import 'layouts.dart';
 
 class StartPage extends StatefulWidget {
 
-  const StartPage();
+  const StartPage({Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => StartPageState();
@@ -25,17 +22,10 @@ class StartPageState extends State<StartPage> {
 
   StartPageState();
 
-  void initTrans()async{
-    Map<String, dynamic> mapEn = await jsonDecode(await readStringFromAssets('assets/locale/en.json'));
-    Map<String, dynamic> mapPl = await jsonDecode(await readStringFromAssets('assets/locale/pl.json'));
-
-    print(mapEn);
-  }
-
-  bool tapable;
+  late bool tapable;
 
   void wait() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     setState(() => tapable = true);
   }
 
@@ -69,14 +59,13 @@ class StartPageState extends State<StartPage> {
 
             Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackSongBook();
 
-            Navigator.push(context, PageTransition(
-                type: PageTransitionType.rippleMiddle,
-                duration: Duration(milliseconds: 500),
-                child: MainPage()
-            ));
+            pushPage(
+              context,
+              builder: (context) => const MainPage()
+            );
 
           }:null,
-          child: DefaultLayout()
+          child: const DefaultLayout()
       )
 
     );

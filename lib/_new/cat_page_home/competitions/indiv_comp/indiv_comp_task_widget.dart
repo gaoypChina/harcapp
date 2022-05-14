@@ -8,16 +8,16 @@ import 'models/indiv_comp_task.dart';
 class IndivCompTaskWidget extends StatelessWidget{
 
   final IndivCompTask task;
-  final Widget bottom;
+  final Widget? bottom;
 
-  const IndivCompTaskWidget(this.task, {this.bottom, Key key}): super(key: key);
+  const IndivCompTaskWidget(this.task, {this.bottom, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => IndivCompTaskSkeletonWidget(
     elevation: AppCard.bigElevation,
     trailing: PointsWidget(points: task.points, prefix: '+',),
     title: Text(task.title, style: IndivCompTaskSkeletonWidget.titleTextStyle(context)),
-    description: Text(task.description, style: IndivCompTaskSkeletonWidget.descriptionTextStyle(context)),
+    description: Text(task.description!, style: IndivCompTaskSkeletonWidget.descriptionTextStyle(context)),
     bottom: bottom,
   );
 

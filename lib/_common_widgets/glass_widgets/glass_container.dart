@@ -7,19 +7,19 @@ class GlassContainer extends StatelessWidget {
     this.width,
     this.height,
     this.radius = 16,
-    BorderRadius borderRadius,
+    BorderRadius? borderRadius,
     this.blur = 20,
     this.child,
   }) {
     this.borderRadius = borderRadius ?? BorderRadius.circular(radius);
   }
 
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
   final double radius;
-  BorderRadius borderRadius;
+  BorderRadius? borderRadius;
   final double blur;
-  final Widget child;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {

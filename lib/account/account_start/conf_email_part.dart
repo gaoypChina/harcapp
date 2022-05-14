@@ -27,9 +27,9 @@ import 'main_button.dart';
 
 class ConfEmailPart extends StatefulWidget{
 
-  final String email;
+  final String? email;
 
-  const ConfEmailPart(this.email);
+  const ConfEmailPart(this.email, {Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => ConfEmailPartState();
@@ -38,22 +38,22 @@ class ConfEmailPart extends StatefulWidget{
 
 class ConfEmailPartState extends State<ConfEmailPart>{
 
-  InputFieldController confController;
+  InputFieldController? confController;
 
-  bool processing;
-  bool processingResend;
+  bool? processing;
+  late bool processingResend;
 
-  String generalError;
+  String? generalError;
 
   void confEmailClick() async {
 
-    confController.errorText = '';
+    confController!.errorText = '';
 
     setState(() => processing = true);
 
     await ApiRegLog.carefullyConfEmail(
         context,
-        confController.text,
+        confController!.text,
         onSuccess: (loggedIn){
           AccountData.writeEmailConf(true);
 
@@ -63,14 +63,14 @@ class ConfEmailPartState extends State<ConfEmailPart>{
 
           pushReplacePage(
               context,
-              builder: (context) => AccountPage()
+              builder: (context) => const AccountPage()
           );
         },
-        onError: (Response response){
+        onError: (Response? response){
 
-          Map errorFieldMap = response.data['errors'];
+          Map? errorFieldMap = response!.data['errors'];
           if(errorFieldMap != null) {
-            confController.errorText = errorFieldMap[ApiRegLog.CONF_EMAIL_CONF_KEY] ?? '';
+            confController!.errorText = errorFieldMap[ApiRegLog.CONF_EMAIL_CONF_KEY] ?? '';
           }
 
           generalError = response.data['error'];
@@ -97,7 +97,7 @@ class ConfEmailPartState extends State<ConfEmailPart>{
     return PageTemplate(
       actions: [
         IconButton(
-            icon: Icon(MdiIcons.logout),
+            icon: const Icon(MdiIcons.logout),
             onPressed: () => openLogoutDialog(context)
         )
       ],
@@ -113,12 +113,12 @@ class ConfEmailPartState extends State<ConfEmailPart>{
                 size: Dimen.TEXT_SIZE_BIG,
               ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
               InputField(
                 hint: 'Kod aktywacji:',
                 controller: confController,
-                enabled: !processing,
+                enabled: !processing!,
                 leading: Icon(MdiIcons.accountReactivate, color: iconDisab_(context)),
               ),
 
@@ -140,7 +140,7 @@ class ConfEmailPartState extends State<ConfEmailPart>{
                 ),
               ),
 
-              SizedBox(height: 2*Dimen.SIDE_MARG),
+              const SizedBox(height: 2*Dimen.SIDE_MARG),
 
               Row(
                 children: [
@@ -152,22 +152,22 @@ class ConfEmailPartState extends State<ConfEmailPart>{
                             context: context,
                             margin: EdgeInsets.zero,
                             fontWeight: weight.normal,
-                            textColor: processing?iconDisab_(context):iconEnab_(context),
+                            textColor: processing!?iconDisab_(context):iconEnab_(context),
                             text: 'Rezygnuję',
                             icon: MdiIcons.close,
-                            onTap: processing?null:() => Navigator.pop(context)
+                            onTap: processing!?null:() => Navigator.pop(context)
                         ),
                       )
                   ),
 
-                  SizedBox(width: Dimen.SIDE_MARG),
+                  const SizedBox(width: Dimen.SIDE_MARG),
 
                   Expanded(
                     child: MainButton(
                       processing: processing,
                       text: 'Dalej',
                       icon: MdiIcons.arrowRight,
-                      onTap: processingResend||processing?null:confEmailClick,
+                      onTap: processingResend||processing!?null:confEmailClick,
                     ),
                   )
                 ],
@@ -189,9 +189,9 @@ class RotatingHarcAppLogo extends StatefulWidget{
   static const defSize = 48.0;
 
   final double size;
-  final Color color;
+  final Color? color;
 
-  const RotatingHarcAppLogo({this.size = defSize, this.color});
+  const RotatingHarcAppLogo({this.size = defSize, this.color, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => RotatingHarcAppLogoState();
@@ -202,24 +202,24 @@ class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
 
   static const List<Color> colors = [Colors.red, Colors.orange, Colors.amber, Colors.teal, Colors.green, Colors.blue, Colors.deepPurple];
 
-  FlipCardController controller;
+  FlipCardController? controller;
 
   void flip()async{
     while(true){
       if(!mounted)
         return;
-      controller.toggleCard();
+      controller!.toggleCard();
       setState((){
         if(colorIdx < colors.length - 2)
           colorIdx++;
         else
           colorIdx = 0;
       });
-      await Future.delayed(Duration(milliseconds: 800));
+      await Future.delayed(const Duration(milliseconds: 800));
     }
   }
 
-  int colorIdx;
+  late int colorIdx;
 
   @override
   void initState() {
@@ -230,23 +230,12 @@ class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    Widget harcAppLogo = SvgPicture.asset(
-      'assets/images/harcapp_logo.svg',
-      width: widget.size,
-      height: widget.size,
-      color: widget.color??iconEnab_(context),
-    );
-
-    return FlipCard(
-      front: HarcAppWidget(color: colors[colorIdx + 1 - (colorIdx % 2)]),
-      back: HarcAppWidget(color: colors[colorIdx - (colorIdx % 2)]),
-      controller: controller,
-      flipOnTouch: false,
-    );
-
-  }
+  Widget build(BuildContext context) => FlipCard(
+    front: HarcAppWidget(color: colors[colorIdx + 1 - (colorIdx % 2)]),
+    back: HarcAppWidget(color: colors[colorIdx - (colorIdx % 2)]),
+    controller: controller,
+    flipOnTouch: false,
+  );
 
 }
 
@@ -255,9 +244,9 @@ class HarcAppWidget extends StatelessWidget{
   static const defSize = 48.0;
 
   final double size;
-  final Color color;
+  final Color? color;
 
-  const HarcAppWidget({this.size = defSize, this.color});
+  const HarcAppWidget({this.size = defSize, this.color, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

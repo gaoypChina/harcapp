@@ -4,7 +4,7 @@ import './glass_container.dart';
 
 class GlassListTile extends StatelessWidget {
   const GlassListTile({
-    Key key,
+    Key? key,
     this.borderRadius = 16,
     this.leading,
     this.title,
@@ -14,11 +14,11 @@ class GlassListTile extends StatelessWidget {
   }) : super(key: key);
 
   final double borderRadius;
-  final Widget leading;
-  final Widget title;
-  final Widget subtitle;
-  final Widget trailing;
-  final void Function() onTap;
+  final Widget? leading;
+  final Widget? title;
+  final Widget? subtitle;
+  final Widget? trailing;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {

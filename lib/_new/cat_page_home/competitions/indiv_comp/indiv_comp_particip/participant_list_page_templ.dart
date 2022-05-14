@@ -14,24 +14,25 @@ import 'package:provider/provider.dart';
 class ParticipantListPageTempl extends StatelessWidget{
 
   final IndivComp comp;
-  List<IndivCompParticip> get particips => comp.particips;
 
-  final bool sorftByPoints;
-  final SliverAppBar customAppBar;
+  List<IndivCompParticip?> get particips => comp.particips;
 
-  final Widget Function(List<IndivCompParticip> particips) adminsListHeaderTrailing;
-  final Widget Function(List<IndivCompParticip> particips) modsListHeaderTrailing;
-  final Widget Function(List<IndivCompParticip> particips) obsListHeaderTrailing;
+  final bool sortByPoints;
+  final SliverAppBar? customAppBar;
 
-  final Widget floatingButton;
-  final Widget bottomNavigationBar;
-  final Widget bottom;
+  final Widget Function(List<IndivCompParticip?> particips)? adminsListHeaderTrailing;
+  final Widget Function(List<IndivCompParticip> particips)? modsListHeaderTrailing;
+  final Widget Function(List<IndivCompParticip> particips)? obsListHeaderTrailing;
+
+  final Widget? floatingButton;
+  final Widget? bottomNavigationBar;
+  final Widget? bottom;
 
   final Widget Function(BuildContext context, IndivCompParticip particip) itemBuilder;
 
   const ParticipantListPageTempl({
-    @required this.comp,
-    @required this.sorftByPoints,
+    required this.comp,
+    required this.sortByPoints,
 
     this.customAppBar,
 
@@ -43,8 +44,8 @@ class ParticipantListPageTempl extends StatelessWidget{
     this.bottomNavigationBar,
     this.bottom,
 
-    @required this.itemBuilder,
-    Key key
+    required this.itemBuilder,
+    Key? key
   }): super(key: key);
 
   @override
@@ -52,12 +53,12 @@ class ParticipantListPageTempl extends StatelessWidget{
       body: Consumer<IndivCompParticipsProvider>(
           builder: (context, prov, child){
 
-            List<IndivCompParticip> participAdmins = [];
-            List<IndivCompParticip> participMods = [];
-            List<IndivCompParticip> participObs = [];
+            List<IndivCompParticip?> participAdmins = [];
+            List<IndivCompParticip?> participMods = [];
+            List<IndivCompParticip?> participObs = [];
 
-            for(IndivCompParticip particip in particips) {
-              if (particip.profile.role == CompRole.ADMIN)
+            for(IndivCompParticip? particip in particips) {
+              if (particip!.profile.role == CompRole.ADMIN)
                 participAdmins.add(particip);
 
               else if (particip.profile.role == CompRole.MODERATOR)
@@ -67,14 +68,14 @@ class ParticipantListPageTempl extends StatelessWidget{
                 participObs.add(particip);
             }
 
-            if(sorftByPoints) {
-              participObs.sort((p1, p2) => p2.profile.points - p1.profile.points);
-              participMods.sort((p1, p2) => p2.profile.points - p1.profile.points);
-              participAdmins.sort((p1, p2) => p2.profile.points - p1.profile.points);
+            if(sortByPoints) {
+              participObs.sort((p1, p2) => p2!.profile.points! - p1!.profile.points!);
+              participMods.sort((p1, p2) => p2!.profile.points! - p1!.profile.points!);
+              participAdmins.sort((p1, p2) => p2!.profile.points! - p1!.profile.points!);
             } else {
-              participObs.sort((p1, p2) => p1.name.compareTo(p2.name));
-              participMods.sort((p1, p2) => p1.name.compareTo(p2.name));
-              participAdmins.sort((p1, p2) => p1.name.compareTo(p2.name));
+              participObs.sort((p1, p2) => p1!.name.compareTo(p2!.name));
+              participMods.sort((p1, p2) => p1!.name.compareTo(p2!.name));
+              participAdmins.sort((p1, p2) => p1!.name.compareTo(p2!.name));
             }
 
 
@@ -134,7 +135,7 @@ class ParticipantListPageTempl extends StatelessWidget{
                     ),
 
                   if(bottom != null)
-                    bottom,
+                    bottom!,
                 ])),
 
               ],
@@ -153,8 +154,8 @@ class _Border extends StatelessWidget{
   final Widget body;
 
   const _Border({
-    @required this.header,
-    @required this.body
+    required this.header,
+    required this.body
   });
 
   @override
@@ -188,13 +189,13 @@ class _ParticipListHeader extends StatelessWidget{
 
   final CompRole compRole;
   final String title;
-  final Widget trailing;
+  final Widget? trailing;
 
   const _ParticipListHeader({
-    @required this.compRole,
-    @required this.title,
-    @required this.trailing,
-    Key key
+    required this.compRole,
+    required this.title,
+    required this.trailing,
+    Key? key
   }): super(key: key);
 
   @override
@@ -220,7 +221,7 @@ class _ParticipListHeader extends StatelessWidget{
       ),
 
       if(trailing != null)
-        trailing
+        trailing!
 
     ],
   );
@@ -229,12 +230,12 @@ class _ParticipListHeader extends StatelessWidget{
 
 class _ParticipColumnWidget extends StatelessWidget{
 
-  final List<IndivCompParticip> particips;
-  final Widget Function(BuildContext, IndivCompParticip) itemBuilder;
+  final List<IndivCompParticip?> particips;
+  final Widget Function(BuildContext, IndivCompParticip?) itemBuilder;
 
   const _ParticipColumnWidget({
-    @required this.particips,
-    @required this.itemBuilder
+    required this.particips,
+    required this.itemBuilder
   });
 
   @override
@@ -242,7 +243,7 @@ class _ParticipColumnWidget extends StatelessWidget{
 
     List<Widget> children = [];
 
-    for(IndivCompParticip particip in particips)
+    for(IndivCompParticip? particip in particips)
       children.add(itemBuilder(context, particip));
 
     return Column(children: children, mainAxisSize: MainAxisSize.min);

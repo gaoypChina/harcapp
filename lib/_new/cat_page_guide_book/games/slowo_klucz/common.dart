@@ -5,7 +5,7 @@ const String fontFamily = 'Hand15';
 
 const Color RED_COLOR = Colors.pink;
 const Color GREEN_COLOR = Colors.teal;
-Color NEUTRAL_COLOR = Colors.amber[100];
+Color? NEUTRAL_COLOR = Colors.amber[100];
 const Color BLACK_COLOR = Colors.black;
 
 enum Team{GREEN, RED, NONE, KILLER}

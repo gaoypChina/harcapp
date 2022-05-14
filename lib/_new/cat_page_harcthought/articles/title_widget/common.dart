@@ -29,7 +29,7 @@ String articleTagHero(Article article) => 'TAG&' + article.id;
 
 class TagsWidget extends StatelessWidget{
 
-  final Article article;
+  final Article? article;
   final bool dense;
 
   const TagsWidget(this.article, {this.dense: false});
@@ -38,9 +38,9 @@ class TagsWidget extends StatelessWidget{
   Widget build(BuildContext context) {
 
     List<Widget> tags = [];
-    for(int i=0; i<article.tags.length; i++){
-      tags.add(ArticleTagWidget(article.tags[i], dense: dense));
-      if(i < article.tags.length-1) tags.add(SizedBox(width: dense?Dimen.DEF_MARG:Dimen.ICON_MARG));
+    for(int i=0; i<article!.tags!.length; i++){
+      tags.add(ArticleTagWidget(article!.tags![i], dense: dense));
+      if(i < article!.tags!.length-1) tags.add(SizedBox(width: dense?Dimen.DEF_MARG:Dimen.ICON_MARG));
     }
 
     return SingleChildScrollView(
@@ -65,17 +65,17 @@ class TagsWidget extends StatelessWidget{
 
 class TitleWidget extends StatelessWidget{
 
-  final Article article;
+  final Article? article;
   final bool dense;
-  final Color textColor;
-  final bool shadow;
+  final Color? textColor;
+  final bool? shadow;
 
   const TitleWidget(this.article, {this.dense=false, this.textColor, this.shadow});
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: articleTitleHero(article),
+      tag: articleTitleHero(article!),
       child: Material(
         color: Colors.transparent,
         child: AutoSizeText(
@@ -101,7 +101,7 @@ class TitleWidget extends StatelessWidget{
 
 class DateWidget extends StatelessWidget{
 
-  final Article article;
+  final Article? article;
   final bool dense;
 
   const DateWidget(this.article, {this.dense: false});
@@ -109,7 +109,7 @@ class DateWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: articleDateHero(article),
+      tag: articleDateHero(article!),
       child: Material(
         color: Colors.transparent,
         child: Row(
@@ -143,9 +143,9 @@ class DateWidget extends StatelessWidget{
 
 class AuthorWidget extends StatelessWidget{
 
-  final Article article;
+  final Article? article;
   final bool dense;
-  final void Function() onTap;
+  final void Function()? onTap;
 
   const AuthorWidget(this.article, {this.dense=false, this.onTap});
 
@@ -159,7 +159,7 @@ class AuthorWidget extends StatelessWidget{
           Icon(MdiIcons.accountEdit, color: Colors.white, size: dense?16.0:Dimen.ICON_SIZE),
           SizedBox(width: dense?8.0:Dimen.ICON_MARG),
           Text(
-            article.author,
+            article!.author!,
             style: AppTextStyle(
               fontWeight: weight.bold,
               color: Colors.white,
@@ -175,7 +175,7 @@ class AuthorWidget extends StatelessWidget{
     );
 
     return Hero(
-      tag: articleAuthorHero(article),
+      tag: articleAuthorHero(article!),
       child:
       onTap==null?
       child:

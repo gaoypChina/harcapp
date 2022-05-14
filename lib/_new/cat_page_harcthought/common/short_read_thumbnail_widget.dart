@@ -12,7 +12,7 @@ class ShortReadThumbnailWidget extends StatelessWidget{
   final ShortRead shortRead;
   final void Function() onTap;
 
-  const ShortReadThumbnailWidget(this.shortRead, {@required this.onTap, Key key}): super(key: key);
+  const ShortReadThumbnailWidget(this.shortRead, {required this.onTap, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(

@@ -19,7 +19,7 @@ import 'package:provider/provider.dart';
 
 class SharedRanksPage extends StatefulWidget{
 
-  const SharedRanksPage({Key key}) : super(key: key);
+  const SharedRanksPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => SharedRanksPageState();
@@ -28,14 +28,14 @@ class SharedRanksPage extends StatefulWidget{
 
 class SharedRanksPageState extends State<SharedRanksPage>{
 
-  static List<SharedRankMetaData> allSharedRanks;
-  List<SharedRankMetaData> selSharedRanks;
+  static List<SharedRankMetaData>? allSharedRanks;
+  List<SharedRankMetaData>? selSharedRanks;
 
-  RefreshController refreshController;
-  bool loading;
+  late RefreshController refreshController;
+  late bool loading;
 
-  List<SharedRankMetaData> selectSharedRanks(){
-    return allSharedRanks == null?null:List.of(allSharedRanks);
+  List<SharedRankMetaData>? selectSharedRanks(){
+    return allSharedRanks == null?null:List.of(allSharedRanks!);
   }
 
   void loadSharedRanks({bool resetState = true}) async {
@@ -68,8 +68,8 @@ class SharedRanksPageState extends State<SharedRanksPage>{
     setState(() => loading = false);
   }
 
-  LoginProvider loginProv;
-  LoginProviderListener loginListener;
+  late LoginProvider loginProv;
+  LoginProviderListener? loginListener;
 
   @override
   void initState() {
@@ -167,7 +167,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
                   ),
                 ),
               )
-            else if(selSharedRanks.isEmpty)
+            else if(selSharedRanks!.isEmpty)
               const SliverFillRemaining(
                 hasScrollBody: false,
                 child: Center(
@@ -181,9 +181,9 @@ class SharedRanksPageState extends State<SharedRanksPage>{
               SliverPadding(
                 padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                 sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-                    (context, index) => RankTileWidgetShare(selSharedRanks[index]),
+                    (context, index) => RankTileWidgetShare(selSharedRanks![index]),
                     separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-                    count: selSharedRanks.length
+                    count: selSharedRanks!.length
                 )),
               )
 

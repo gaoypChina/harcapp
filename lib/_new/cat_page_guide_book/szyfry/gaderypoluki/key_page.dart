@@ -3,14 +3,12 @@ import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/cat_page_guide_book/szyfry/providers.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp/_new/cat_page_guide_book/szyfry/gaderypoluki/child_gaderypoluki.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -20,8 +18,8 @@ import 'keys.dart';
 
 class KeyPage extends StatefulWidget{
 
-  final Function(String key, bool isValid) onKeyTap;
-  final Function(String key, bool isValid) onKeyChanged;
+  final Function(String key, bool isValid)? onKeyTap;
+  final Function(String key, bool isValid)? onKeyChanged;
 
   const KeyPage({this.onKeyTap, this.onKeyChanged});
 
@@ -32,15 +30,15 @@ class KeyPage extends StatefulWidget{
 
 class KeyPageState extends State<KeyPage>{
 
-  Function(String key, bool isValid) get onKeyTap => widget.onKeyTap;
-  Function(String key, bool isValid) get onKeyChanged => widget.onKeyChanged;
+  Function(String key, bool isValid)? get onKeyTap => widget.onKeyTap;
+  Function(String key, bool isValid)? get onKeyChanged => widget.onKeyChanged;
 
-  FocusNode focusNode;
+  FocusNode? focusNode;
 
   @override
   void initState() {
     focusNode = FocusNode();
-    post(() => focusNode.requestFocus());
+    post(() => focusNode!.requestFocus());
     super.initState();
   }
 
@@ -57,11 +55,11 @@ class KeyPageState extends State<KeyPage>{
               focusNode: focusNode,
               onChanged: (String key, bool isValid){
                 Provider.of<GaderypolukiProvider>(context, listen: false).key = key;
-                if(onKeyChanged != null) onKeyChanged(key, isValid);
+                if(onKeyChanged != null) onKeyChanged!(key, isValid);
               },
               trailing: Consumer<GaderypolukiProvider>(
                 builder: (context, prov, child){
-                  if(!prov.isValid)
+                  if(!prov.isValid!)
                     return IconButton(
                         icon: Icon(MdiIcons.alertCircleOutline),
                         onPressed: () => showAppToast(context, text: 'Znaki klucza nie mogą się powtarzać.')
@@ -83,12 +81,12 @@ class KeyPageState extends State<KeyPage>{
 
                       Consumer<GaderypolukiProvider>(
                           builder: (context, prov, child) =>
-                          prov.input.isEmpty?
+                          prov.input!.isEmpty?
                           Container():
                           SuggCard(
-                            prov.isValid?prov.key:'Błąd w kluczu...',
+                            prov.isValid!?prov.key:'Błąd w kluczu...',
                             onTap: (String key){
-                              onKeyTap(key, GaderypolukiProvider.checkKeyValidity(key));
+                              onKeyTap!(key, GaderypolukiProvider.checkKeyValidity(key));
                               Navigator.pop(context);
                             },
                           )
@@ -102,7 +100,7 @@ class KeyPageState extends State<KeyPage>{
                       delegate: SliverChildBuilderDelegate((context, index) => SuggCard(
                             KEYS[index],
                             onTap: (String key){
-                              onKeyTap(key, GaderypolukiProvider.checkKeyValidity(key));
+                              onKeyTap!(key, GaderypolukiProvider.checkKeyValidity(key));
                               Navigator.pop(context);
                             },
                           ),
@@ -123,7 +121,7 @@ class KeyPageState extends State<KeyPage>{
 class SuggCard extends StatelessWidget{
 
   final String _key;
-  final void Function(String key) onTap;
+  final void Function(String key)? onTap;
 
   const SuggCard(this._key, {this.onTap});
 
@@ -146,7 +144,7 @@ class SuggCard extends StatelessWidget{
           ),
         ),
       ),
-      onTap: () => onTap(_key),
+      onTap: () => onTap!(_key),
     );
   }
 

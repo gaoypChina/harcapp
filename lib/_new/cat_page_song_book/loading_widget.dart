@@ -64,20 +64,20 @@ class SlidingMusicIconState extends State<SlidingMusicIcon>{
     MdiIcons.pauseCircleOutline
   ];
 
-  int _millis;
-  IconData icon;
-  bool visible;
+  late int _millis;
+  IconData? icon;
+  bool? visible;
 
-  void run(bool visibleFirst) async {
+  void run(bool? visibleFirst) async {
 
     if(mounted) setState((){
-      if(!visibleFirst) icon = icons[Random().nextInt(icons.length)];
+      if(!visibleFirst!) icon = icons[Random().nextInt(icons.length)];
       visible = !visibleFirst;
     });
     await Future.delayed(Duration(milliseconds:_millis));
 
     if(mounted) setState((){
-      if(visibleFirst) icon = icons[Random().nextInt(icons.length)];
+      if(visibleFirst!) icon = icons[Random().nextInt(icons.length)];
       visible = visibleFirst;
     });
     await Future.delayed(Duration(milliseconds: _millis));
@@ -97,7 +97,7 @@ class SlidingMusicIconState extends State<SlidingMusicIcon>{
   @override
   Widget build(BuildContext context) {
     return AnimatedOpacity(
-        opacity: visible?1:0,
+        opacity: visible!?1:0,
         duration: Duration(milliseconds: _millis),
         child: Icon(icon, color: hintEnab_(context), size: 28.0,),
     );

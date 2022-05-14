@@ -13,15 +13,15 @@ class PointsWidget extends StatelessWidget{
 
   static const double fontSizeCoeff = .8;
 
-  final int points;
+  final int? points;
   final String prefix;
   final double size;
 
   const PointsWidget({
-    @required this.points,
+    required this.points,
     this.prefix = '',
     this.size = PointsIcon.defSize,
-    Key key
+    Key? key
   }) : super(key: key);
 
   @override

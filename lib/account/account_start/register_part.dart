@@ -27,7 +27,7 @@ class RegisterPart extends StatefulWidget{
 
   final initEmail;
   final initPassword;
-  final void Function(bool accActivated) onLoggedIn;
+  final void Function(bool accActivated)? onLoggedIn;
 
   const RegisterPart({this.initEmail, this.initPassword, this.onLoggedIn});
 
@@ -38,43 +38,43 @@ class RegisterPart extends StatefulWidget{
 
 class RegisterPartState extends State<RegisterPart>{
 
-  InputFieldController emailController;
-  InputFieldController passwordController;
-  InputFieldController passwordRepController;
-  InputFieldController nameController;
-  InputFieldController sexController;
-  InputFieldController gdprController;
-  InputFieldController regulaminController;
+  InputFieldController? emailController;
+  InputFieldController? passwordController;
+  InputFieldController? passwordRepController;
+  InputFieldController? nameController;
+  InputFieldController? sexController;
+  InputFieldController? gdprController;
+  InputFieldController? regulaminController;
 
-  Sex sex;
-  bool gdprAccept;
-  bool regulaminAccept;
+  Sex? sex;
+  bool? gdprAccept;
+  bool? regulaminAccept;
 
-  bool processing;
+  bool? processing;
 
-  String generalError;
+  String? generalError;
 
   void registerClick() async {
 
-    emailController.errorText = '';
-    passwordController.errorText = '';
-    passwordRepController.errorText = '';
-    nameController.errorText = '';
-    sexController.errorText = '';
-    regulaminController.errorText = '';
-    gdprController.errorText = '';
+    emailController!.errorText = '';
+    passwordController!.errorText = '';
+    passwordRepController!.errorText = '';
+    nameController!.errorText = '';
+    sexController!.errorText = '';
+    regulaminController!.errorText = '';
+    gdprController!.errorText = '';
 
     setState(() => processing = true);
 
     await ApiRegLog.register(
-        emailController.text,
-        nameController.text,
+        emailController!.text,
+        nameController!.text,
         sex,
         regulaminAccept,
         gdprAccept,
-        passwordController.text,
-        passwordRepController.text,
-        onSuccess: (Response response, String key, String jwt, String email, String name, String nick, Sex sex) async {
+        passwordController!.text,
+        passwordRepController!.text,
+        onSuccess: (Response response, String? key, String? jwt, String? email, String? name, String? nick, Sex? sex) async {
 
           LoginProvider prov = Provider.of<LoginProvider>(context, listen: false);
           prov.callOnRegister();
@@ -85,18 +85,18 @@ class RegisterPartState extends State<RegisterPart>{
               builder: (context) => ConfEmailPart(email)
           );
         },
-        onError: (Response response){
+        onError: (Response? response){
           try {
 
-            Map errorFieldMap = response.data['errors'];
+            Map? errorFieldMap = response!.data['errors'];
             if(errorFieldMap != null) {
-              emailController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_EMAIL] ?? '';
-              nameController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_NAME] ?? '';
-              sexController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_SEX] ?? '';
-              passwordController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_PASSWORD] ?? '';
-              passwordRepController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_PASSWORD_REP] ?? '';
-              regulaminController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_POLICY] ?? '';
-              gdprController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_GDPR] ?? '';
+              emailController!.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_EMAIL] ?? '';
+              nameController!.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_NAME] ?? '';
+              sexController!.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_SEX] ?? '';
+              passwordController!.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_PASSWORD] ?? '';
+              passwordRepController!.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_PASSWORD_REP] ?? '';
+              regulaminController!.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_POLICY] ?? '';
+              gdprController!.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_GDPR] ?? '';
             }
 
             generalError = response.data['error'];
@@ -138,7 +138,7 @@ class RegisterPartState extends State<RegisterPart>{
                 child: InputField(
                   hint: 'E-mail:',
                   controller: emailController,
-                  enabled: !processing,
+                  enabled: !processing!,
                   leading: Icon(MdiIcons.account, color: iconDisab_(context)),
                 ),
               ),
@@ -148,7 +148,7 @@ class RegisterPartState extends State<RegisterPart>{
               InputField(
                 hint: 'Imię i nazwisko:',
                 controller: nameController,
-                enabled: !processing,
+                enabled: !processing!,
                 leading: Icon(MdiIcons.accountEdit, color: iconDisab_(context)),
               ),
 
@@ -168,7 +168,7 @@ class RegisterPartState extends State<RegisterPart>{
                   hint: 'Hasło:',
                   controller: passwordController,
                   leading: Icon(MdiIcons.key, color: iconDisab_(context)),
-                  enabled: !processing,
+                  enabled: !processing!,
                 ),
               ),
 
@@ -178,7 +178,7 @@ class RegisterPartState extends State<RegisterPart>{
                 hint: 'Powtórz hasło:',
                 controller: passwordRepController,
                 leading: Icon(MdiIcons.shieldKey, color: iconDisab_(context)),
-                enabled: !processing,
+                enabled: !processing!,
               ),
 
               const SizedBox(height: 3*Dimen.SIDE_MARG),
@@ -217,14 +217,14 @@ class RegisterPartState extends State<RegisterPart>{
                         child: SimpleButton.from(
                           context: context,
                           fontWeight: weight.normal,
-                          textColor: processing?iconDisab_(context):iconEnab_(context),
+                          textColor: processing!?iconDisab_(context):iconEnab_(context),
                           text: 'Loguj',
                           icon: MdiIcons.login,
-                          onTap: processing?null:() => pushReplacePage(
+                          onTap: processing!?null:() => pushReplacePage(
                               context,
                               builder: (context) => LoginPart(
-                                initEmail: emailController.text,
-                                initPassword: passwordController.text,
+                                initEmail: emailController!.text,
+                                initPassword: passwordController!.text,
                               )
                           ),
                         ),
@@ -238,7 +238,7 @@ class RegisterPartState extends State<RegisterPart>{
                         processing: processing,
                         text: 'Dołącz',
                         icon: MdiIcons.accountPlusOutline,
-                        onTap: processing?null:registerClick
+                        onTap: processing!?null:registerClick
                     ),
                   )
                 ],

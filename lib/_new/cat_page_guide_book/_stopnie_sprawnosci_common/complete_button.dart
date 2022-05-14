@@ -6,12 +6,12 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class CompleteButton extends StatelessWidget{
 
-  final RankSprawTemplate data;
-  final ConfettiController confettiController;
+  final RankSprawTemplate? data;
+  final ConfettiController? confettiController;
   final Color color;
-  final void Function() onPressed;
+  final void Function()? onPressed;
 
-  const CompleteButton(this.data, this.confettiController, {Key key, @required this.color, this.onPressed}): super(key: key);
+  const CompleteButton(this.data, this.confettiController, {Key? key, required this.color, this.onPressed}): super(key: key);
 
   @override
   Widget build(BuildContext context) => FloatingActionButton(
@@ -19,9 +19,9 @@ class CompleteButton extends StatelessWidget{
     backgroundColor: color,
     child: Icon(MdiIcons.check, color: cardEnab_(context)),
     onPressed: (){
-      data.setCompletionDate(DateTime.now(), localOnly: true);
-      data.changeCompleted(context, value: true);
-      confettiController.play();
+      data!.setCompletionDate(DateTime.now(), localOnly: true);
+      data!.changeCompleted(context, value: true);
+      confettiController!.play();
       onPressed?.call();
     },
   );

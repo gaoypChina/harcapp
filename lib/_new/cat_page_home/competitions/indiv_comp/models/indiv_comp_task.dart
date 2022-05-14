@@ -7,20 +7,20 @@ class IndivCompTask{
   static const int MAX_LEN_TITLE = 64;
   static const int MAX_LEN_DESC = 240;
 
-  final String key;
+  final String? key;
   final String title;
-  final String description;
+  final String? description;
   final int points;
   final int position;
   final TaskState state;
 
   const IndivCompTask({
-    @required this.key,
-    @required this.title,
+    required this.key,
+    required this.title,
     this.description,
-    @required this.points,
-    @required this.position,
-    @required this.state,
+    required this.points,
+    required this.position,
+    required this.state,
   });
 
   static IndivCompTask fromMap(String key, Map map) => IndivCompTask(

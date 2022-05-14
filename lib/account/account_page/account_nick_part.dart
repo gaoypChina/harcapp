@@ -26,7 +26,7 @@ import '../account_start/input_field_controller.dart';
 
 class AccountNickPart extends StatefulWidget{
 
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
 
   const AccountNickPart({this.padding});
 
@@ -37,34 +37,34 @@ class AccountNickPart extends StatefulWidget{
 
 class AccountNickPartState extends State<AccountNickPart>{
 
-  InputFieldController nickController;
-  InputFieldController nickSearchableController;
+  InputFieldController? nickController;
+  late InputFieldController nickSearchableController;
 
-  bool nickProcessing;
-  bool nickSearchableProcessing;
+  late bool nickProcessing;
+  late bool nickSearchableProcessing;
 
-  String errMessage;
+  String? errMessage;
 
   void onNickChanged() async {
 
-    nickController.errorText = '';
+    nickController!.errorText = '';
     nickSearchableController.errorText = '';
 
     setState(() => nickProcessing = true);
 
     await ApiUser.resetNick(
-        onSuccess: (String nick) async {
+        onSuccess: (String? nick) async {
           await AccountData.writeNick(nick);
-          nickController.text = nick;
+          nickController!.text = nick!;
         },
-        onError: (Response response){
+        onError: (Response? response){
           try{
 
-            Map errMap = response.data['errors'];
+            Map? errMap = response!.data['errors'];
 
             if(errMap != null) {
               nickSearchableController.errorText = errMap[ApiUser.UPDATE_REQ_NICK_SEARCHABLE] ?? '';
-              nickController.errorText = errMap['nick'] ?? '';
+              nickController!.errorText = errMap['nick'] ?? '';
             }
 
             errMessage = response.data['error'];
@@ -86,17 +86,17 @@ class AccountNickPartState extends State<AccountNickPart>{
 
     await ApiUser.nickSearchable(
         searchable: !AccountData.nickSearchable,
-        onSuccess: (bool nickSearchable) async {
-            await AccountData.writeNickSearchable(nickSearchable);
+        onSuccess: (bool? nickSearchable) async {
+            await AccountData.writeNickSearchable(nickSearchable!);
             setState((){});
         },
-        onError: (Response response){
+        onError: (Response? response){
           try{
 
-            Map errMap = response.data['errors'];
+            Map? errMap = response!.data['errors'];
             if(errMap != null) {
               nickSearchableController.text = errMap[ApiUser.UPDATE_REQ_NICK_SEARCHABLE] ?? '';
-              nickController.errorText = errMap['nick'] ?? '';
+              nickController!.errorText = errMap['nick'] ?? '';
             }
             errMessage = response.data['error'];
 
@@ -122,7 +122,7 @@ class AccountNickPartState extends State<AccountNickPart>{
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: widget.padding,
+    padding: widget.padding!,
     child: PartTemplate(
         title: 'Kod publiczny',
         heroTag: null,
@@ -209,7 +209,7 @@ class AccountNickPartState extends State<AccountNickPart>{
                                         elevation: 0,
                                       ),
                                       QrImage(
-                                        data: AccountData.nick,
+                                        data: AccountData.nick!,
                                         version: QrVersions.auto,
                                         foregroundColor: ColorPack.DEF_ICON_ENAB,
                                       ),
@@ -252,7 +252,7 @@ class RotatingHarcAppLogo extends StatefulWidget{
   static const defSize = 48.0;
 
   final double size;
-  final Color color;
+  final Color? color;
 
   const RotatingHarcAppLogo({this.size = defSize, this.color});
 
@@ -265,13 +265,13 @@ class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
 
   static const List<Color> colors = [Colors.red, Colors.orange, Colors.amber, Colors.teal, Colors.green, Colors.blue, Colors.deepPurple];
 
-  FlipCardController controller;
+  FlipCardController? controller;
 
   void flip()async{
     while(true){
       if(!mounted)
         return;
-      controller.toggleCard();
+      controller!.toggleCard();
       setState((){
         if(colorIdx < colors.length - 2)
           colorIdx++;
@@ -282,7 +282,7 @@ class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
     }
   }
 
-  int colorIdx;
+  late int colorIdx;
 
   @override
   void initState() {
@@ -318,7 +318,7 @@ class HarcAppWidget extends StatelessWidget{
   static const defSize = 48.0;
 
   final double size;
-  final Color color;
+  final Color? color;
 
   const HarcAppWidget({this.size = defSize, this.color});
 

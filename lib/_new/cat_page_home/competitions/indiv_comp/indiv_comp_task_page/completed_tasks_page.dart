@@ -18,15 +18,15 @@ import '../models/indiv_comp_task_compl.dart';
 class CompletedTasksPage extends StatefulWidget{
 
   final IndivComp comp;
-  final List<IndivCompTaskCompl> completedTasks;
-  final Map<String, IndivCompTask> taskMap;
-  final Map<String, IndivCompParticip> participMap;
-  final CommonColorData colors;
+  final List<IndivCompTaskCompl>? completedTasks;
+  final Map<String?, IndivCompTask> taskMap;
+  final Map<String, IndivCompParticip?> participMap;
+  final CommonColorData? colors;
 
-  final String pageTitle;
-  final void Function(IndivCompTaskCompl taskCompl) onRemoved;
+  final String? pageTitle;
+  final void Function(IndivCompTaskCompl taskCompl)? onRemoved;
 
-  const CompletedTasksPage(this.comp, this.completedTasks, this.taskMap, this.participMap, this.colors, {this.pageTitle, this.onRemoved, Key key}): super(key: key);
+  const CompletedTasksPage(this.comp, this.completedTasks, this.taskMap, this.participMap, this.colors, {this.pageTitle, this.onRemoved, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => CompletedTasksPageState();
@@ -36,16 +36,16 @@ class CompletedTasksPage extends StatefulWidget{
 class CompletedTasksPageState extends State<CompletedTasksPage>{
 
   IndivComp get comp => widget.comp;
-  List<IndivCompTaskCompl> get completedTasks => widget.completedTasks;
-  Map<String, IndivCompTask> get taskMap => widget.taskMap;
-  Map<String, IndivCompParticip> get participMap => widget.participMap;
-  CommonColorData get colors => widget.colors;
+  List<IndivCompTaskCompl>? get completedTasks => widget.completedTasks;
+  Map<String?, IndivCompTask> get taskMap => widget.taskMap;
+  Map<String, IndivCompParticip?> get participMap => widget.participMap;
+  CommonColorData? get colors => widget.colors;
   //List<IndivCompTaskCompl> get completedTasks => widget.comp.profile.completedTasks;
 
-  String get pageTitle => widget.pageTitle;
-  void Function(IndivCompTaskCompl taskCompl) get onRemoved => widget.onRemoved;
+  String? get pageTitle => widget.pageTitle;
+  void Function(IndivCompTaskCompl taskCompl)? get onRemoved => widget.onRemoved;
 
-  bool showAll;
+  late bool showAll;
 
   void openDetails(BuildContext context, complTask) => showScrollBottomSheet(
       context: context,
@@ -73,8 +73,8 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
 
     List<Widget> children = [];
 
-    Iterator<IndivCompTaskCompl> reversedComplTasks = completedTasks.reversed.iterator;
-    for(int i=0; i<completedTasks.length; i++) {
+    Iterator<IndivCompTaskCompl> reversedComplTasks = completedTasks!.reversed.iterator;
+    for(int i=0; i<completedTasks!.length; i++) {
 
       reversedComplTasks.moveNext();
       IndivCompTaskCompl complTask = reversedComplTasks.current;
@@ -88,14 +88,14 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
                 heroTag: complTask,
                 preview: true,
                 onRemoved: (String removedId) {
-                  completedTasks.remove(complTask);
+                  completedTasks!.remove(complTask);
                   onRemoved?.call(complTask);
                 },
                 onTap: () => openDetails(context, complTask)
             )
         );
 
-        if (i < completedTasks.length - 1)
+        if (i < completedTasks!.length - 1)
           children.add(const SizedBox(height: Dimen.SIDE_MARG));
       }
     }

@@ -153,7 +153,7 @@ class RotateText extends StatelessWidget{
 class RoundContainer extends StatelessWidget{
 
   final double radius;
-  final Color color;
+  final Color? color;
   final Widget child;
   const RoundContainer(this.radius, this.color, this.child);
 

@@ -16,7 +16,7 @@ enum Pion {zuch, harcerz, wedrownik}
 
 class PrawoPrzyrzeczenieFragment extends StatefulWidget {
 
-  const PrawoPrzyrzeczenieFragment({Key key}) : super(key: key);
+  const PrawoPrzyrzeczenieFragment({Key? key}) : super(key: key);
 
   @override
   State createState() => PrawoPrzyrzeczenieFragmentState();
@@ -34,7 +34,7 @@ class PrawoPrzyrzeczenieFragmentState extends State<PrawoPrzyrzeczenieFragment> 
     Org.zhr_o,
   ];
 
-  TabController controller;
+  TabController? controller;
 
   @override
   void initState() {
@@ -69,7 +69,7 @@ class PrawoPrzyrzeczenieFragmentState extends State<PrawoPrzyrzeczenieFragment> 
                 preferredSize: const TabBar(tabs: []).preferredSize,
                 child: Consumer<TabBarProvider>(
                   builder: (context, prov, child) =>
-                  prov.tabBarBuilder==null?Container():prov.tabBarBuilder(context),
+                  prov.tabBarBuilder==null?Container():prov.tabBarBuilder!(context),
                 ),
               ),
             )

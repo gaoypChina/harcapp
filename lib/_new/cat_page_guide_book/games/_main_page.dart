@@ -14,7 +14,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class GamesPage extends StatefulWidget {
 
-  const GamesPage({Key key}) : super(key: key);
+  const GamesPage({Key? key}) : super(key: key);
 
   @override
   State createState() => GamesPageState();
@@ -65,8 +65,8 @@ class GameItem extends StatelessWidget{
   final GameData data;
 
   const GameItem({
-    @required this.data,
-    Key key
+    required this.data,
+    Key? key
   }): super(key: key);
 
   @override
@@ -148,7 +148,7 @@ class GameItem extends StatelessWidget{
 class InstructionRowWidget extends StatelessWidget{
 
   final GameData data;
-  const InstructionRowWidget(this.data, {Key key}): super(key: key);
+  const InstructionRowWidget(this.data, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -184,7 +184,7 @@ class InstructionRowWidget extends StatelessWidget{
             elevation: AppCard.bigElevation,
             onTap: () => openDialog(
               context: context,
-              builder: (context) => data.builderHowToGuide(context),
+              builder: (context) => data.builderHowToGuide!(context),
             ),
           )),
 

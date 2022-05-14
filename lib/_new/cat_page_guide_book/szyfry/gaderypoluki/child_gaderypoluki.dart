@@ -94,18 +94,18 @@ class ChildGaderypolukiState extends State<ChildGaderypoluki> with AutomaticKeep
                   child: Consumer<GaderypolukiProvider>(
                     builder: (context, prov, child){
 
-                      if(prov.isValid)
+                      if(prov.isValid!)
                         return SelectableText(
 
-                            prov.output.isEmpty?
+                            prov.output!.isEmpty?
                             'Zaszyfrowana wiadomość':
-                            prov.output,
+                            prov.output!,
 
                             style: AppTextStyle(
                                 fontSize: Dimen.TEXT_SIZE_BIG,
 
                                 color:
-                                prov.isValid&&prov.output.isNotEmpty?
+                                prov.isValid!&&prov.output!.isNotEmpty?
                                 textEnab_(context):
                                 hintEnab_(context)
                             )
@@ -131,7 +131,7 @@ class ChildGaderypolukiState extends State<ChildGaderypoluki> with AutomaticKeep
 
     GaderypolukiProvider prov = Provider.of<GaderypolukiProvider>(context, listen: false);
 
-    if(prov.input.isEmpty) showAppToast(context, text: 'Wpisz zaszyfrowaną wiadomość.');
+    if(prov.input!.isEmpty) showAppToast(context, text: 'Wpisz zaszyfrowaną wiadomość.');
     else
       showScrollBottomSheet(
         context: context,
@@ -157,8 +157,8 @@ class ChildGaderypolukiState extends State<ChildGaderypoluki> with AutomaticKeep
 class KeyCard extends StatelessWidget{
 
   final String _key;
-  final String _input;
-  final void Function(String key) onTap;
+  final String? _input;
+  final void Function(String key)? onTap;
 
   const KeyCard(this._key, this._input, {this.onTap});
 
@@ -166,7 +166,7 @@ class KeyCard extends StatelessWidget{
   Widget build(BuildContext context) {
     return SimpleButton(
         radius: AppCard.BIG_RADIUS,
-        onTap: () => onTap == null?null:onTap(_key),
+        onTap: () => onTap == null?null:onTap!(_key),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[

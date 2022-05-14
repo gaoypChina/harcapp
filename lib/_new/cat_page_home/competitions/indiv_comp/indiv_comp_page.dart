@@ -54,9 +54,9 @@ import 'models/indiv_comp_task_compl.dart';
 class IndivCompPage extends StatefulWidget{
 
   final IndivComp comp;
-  final void Function() onRemoved;
+  final void Function()? onRemoved;
 
-  const IndivCompPage(this.comp, {this.onRemoved, Key key}): super(key: key);
+  const IndivCompPage(this.comp, {this.onRemoved, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => IndivCompPageState();
@@ -68,14 +68,14 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
   @override
   String get moduleId => ModuleStatsMixin.indivComp;
 
-  IndivComp updatedComp;
+  IndivComp? updatedComp;
   IndivComp get comp => updatedComp??widget.comp;
 
-  Color get compIconColor => !comp.colors.iconWhite&&!AppSettings.isDark?textEnab_(context):background_(context);//comp.colors.iconWhite?Colors.white:(Settings.isDark?background_(context):textEnab_(context));
+  Color? get compIconColor => !comp.colors!.iconWhite&&!AppSettings.isDark?textEnab_(context):background_(context);//comp.colors.iconWhite?Colors.white:(Settings.isDark?background_(context):textEnab_(context));
 
-  RefreshController refreshController;
+  late RefreshController refreshController;
 
-  bool changeShareCodeProcessing;
+  late bool changeShareCodeProcessing;
   
   @override
   void initState() {
@@ -93,7 +93,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
             SmartRefresher(
                 enablePullDown: true,
                 physics: const BouncingScrollPhysics(),
-                header: MaterialClassicHeader(color: comp.colors.avgColor),
+                header: MaterialClassicHeader(color: comp.colors!.avgColor),
                 controller: refreshController,
                 onRefresh: () async {
 
@@ -134,12 +134,12 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                       actions: [
                         if(comp.profile.role == CompRole.ADMIN)
                           IconButton(
-                            icon: Icon(comp.shareCodeSearchable?MdiIcons.accessPoint:MdiIcons.accessPointOff),
+                            icon: Icon(comp.shareCodeSearchable!?MdiIcons.accessPoint:MdiIcons.accessPointOff),
                             onPressed: changeShareCodeProcessing?null:() async {
                               setState(() => changeShareCodeProcessing = true);
                               await ApiIndivComp.setShareCodeSearchable(
                                   compKey: comp.key,
-                                  searchable: !comp.shareCodeSearchable,
+                                  searchable: !comp.shareCodeSearchable!,
                                   onSuccess: (searchable) => setState(() => comp.shareCodeSearchable = searchable)
                               );
                               setState(() => changeShareCodeProcessing = false);
@@ -197,11 +197,11 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                           builder: (context, _, __) => PendingWidget(
                             comp,
                             onAccepted: (IndivCompParticip particip, IndivCompTaskCompl complTask){
-                              comp.participMap[particip.key].profile.completedTaskMap[complTask.key].acceptState = TaskAcceptState.ACCEPTED;
+                              comp.participMap[particip.key]!.profile.completedTaskMap[complTask.key]!.acceptState = TaskAcceptState.ACCEPTED;
                               setState(() {});
                             },
                             onRejected: (IndivCompParticip particip, IndivCompTaskCompl complTask){
-                              comp.participMap[particip.key].profile.completedTaskMap[complTask.key].acceptState = TaskAcceptState.REJECTED;
+                              comp.participMap[particip.key]!.profile.completedTaskMap[complTask.key]!.acceptState = TaskAcceptState.REJECTED;
                               setState(() {});
                             },
                           ),
@@ -219,7 +219,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                           curve: Curves.easeOutQuad,
                           clipBehavior: Clip.none,
                           child: SizedBox(
-                            height: comp.shareCodeSearchable?null:0,
+                            height: comp.shareCodeSearchable!?null:0,
                             child: Padding(
                               padding: const EdgeInsets.only(
                                 top: Dimen.SIDE_MARG,
@@ -256,14 +256,14 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                         comp,
                         onReqSent: (List<IndivCompTaskCompl> taskComplList){
                           IndivCompTaskCompl taskCompl = taskComplList[0];
-                          comp.profile.completedTasks.add(taskCompl);
+                          comp.profile.completedTasks!.add(taskCompl);
                           Provider.of<IndivCompProvider>(context, listen: false).notify();
                           setState(() {});
                         },
                         onSelfGranted: (List<IndivCompTaskCompl> taskComplList, Map<String, Tuple3<int, int, Tuple2<double, double>>> idRank){
                           //String myId = idRank.keys[0];
                           for(IndivCompTaskCompl taskCompl in taskComplList) {
-                            comp.profile.completedTasks.add(taskCompl);
+                            comp.profile.completedTasks!.add(taskCompl);
                             comp.addPoints(taskCompl.participKey, taskCompl.points(comp));
                           }
 
@@ -295,7 +295,7 @@ class CompHeaderWidget extends StatelessWidget{
 
   final IndivComp comp;
 
-  const CompHeaderWidget(this.comp, {Key key}): super(key: key);
+  const CompHeaderWidget(this.comp, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => SizedBox(
@@ -311,7 +311,7 @@ class CompHeaderWidget extends StatelessWidget{
 
         const SizedBox(width: Dimen.ICON_MARG),
 
-        if(comp.profile.active)
+        if(comp.profile.active!)
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -348,7 +348,7 @@ class CompHeaderWidget extends StatelessWidget{
                   radius: AppCard.BIG_RADIUS,
                   padding: const EdgeInsets.all(Dimen.DEF_MARG),
                   margin: EdgeInsets.zero,
-                  onTap: () => comp.profile.completedTasks.isEmpty?
+                  onTap: () => comp.profile.completedTasks!.isEmpty?
                       showAppToast(context, text: 'Brak zrealizowanych zadań.'):
                       pushPage(context, builder: (context) => CompletedTasksPage(
                         comp,
@@ -402,17 +402,17 @@ class DateWidget extends StatelessWidget{
 
   final IndivComp comp;
 
-  DateTime get startDate => comp.startTime;
-  DateTime get endDate => comp.endTime;
-  Color get color => comp.colors.avgColor;
+  DateTime? get startDate => comp.startTime;
+  DateTime? get endDate => comp.endTime;
+  Color get color => comp.colors!.avgColor;
 
-  const DateWidget(this.comp, {Key key}): super(key: key);
+  const DateWidget(this.comp, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    int span = (endDate??DateTime(2966)).millisecondsSinceEpoch - startDate.millisecondsSinceEpoch;
-    int today = DateTime.now().millisecondsSinceEpoch - startDate.millisecondsSinceEpoch;
+    int span = (endDate??DateTime(2966)).millisecondsSinceEpoch - startDate!.millisecondsSinceEpoch;
+    int today = DateTime.now().millisecondsSinceEpoch - startDate!.millisecondsSinceEpoch;
 
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints){
@@ -429,14 +429,14 @@ class DateWidget extends StatelessWidget{
             GestureDetector(
               child: Icon(
                   nextColored == colored?MdiIcons.circleMedium:MdiIcons.clockTimeEight,
-                  color: colored?comp.colors.avgColor:iconDisab_(context)
+                  color: colored?comp.colors!.avgColor:iconDisab_(context)
               ),
               onTap: (){
 
-                String message;
+                String? message;
                 if(endDate != null){
                   int daysLeft = Duration(
-                      milliseconds: endDate.millisecondsSinceEpoch -
+                      milliseconds: endDate!.millisecondsSinceEpoch -
                           DateTime.now().millisecondsSinceEpoch).inDays;
                   if (daysLeft < 0) daysLeft = 0;
                   int weeksLeft = daysLeft ~/ 7;
@@ -470,9 +470,9 @@ class DateWidget extends StatelessWidget{
 class AwardsWidget extends StatelessWidget{
 
   final IndivComp comp;
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
 
-  const AwardsWidget(this.comp, {this.padding, Key key}): super(key: key);
+  const AwardsWidget(this.comp, {this.padding, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -480,7 +480,7 @@ class AwardsWidget extends StatelessWidget{
     children: [
 
       Padding(
-        padding: padding,
+        padding: padding!,
         child: TitleShortcutRowWidget(
           title: 'Nagrody',
           textAlign: TextAlign.start,
@@ -499,10 +499,10 @@ class AwardsWidget extends StatelessWidget{
 class PendingWidget extends StatelessWidget{
 
   final IndivComp comp;
-  final void Function(IndivCompParticip, IndivCompTaskCompl) onAccepted;
-  final void Function(IndivCompParticip, IndivCompTaskCompl) onRejected;
+  final void Function(IndivCompParticip, IndivCompTaskCompl)? onAccepted;
+  final void Function(IndivCompParticip, IndivCompTaskCompl)? onRejected;
 
-  const PendingWidget(this.comp, {this.onAccepted, this.onRejected, Key key}): super(key: key);
+  const PendingWidget(this.comp, {this.onAccepted, this.onRejected, Key? key}): super(key: key);
 
   static double get height =>
       Dimen.ICON_FOOTPRINT +
@@ -513,16 +513,16 @@ class PendingWidget extends StatelessWidget{
       builder: (context, prov, child){
 
         int pendingTaskCount = 0;
-        for(IndivCompParticip particip in comp.particips)
-          for(IndivCompTaskCompl task in particip.profile.completedTasks)
+        for(IndivCompParticip? particip in comp.particips)
+          for(IndivCompTaskCompl task in particip!.profile.completedTasks!)
             if(task.acceptState == TaskAcceptState.PENDING)
               pendingTaskCount++;
 
         return GradientWidget(
           elevation: AppCard.bigElevation,
           radius: AppCard.BIG_RADIUS,
-          colorStart: comp.colors.colorStart,
-          colorEnd: comp.colors.colorEnd,
+          colorStart: comp.colors!.colorStart!,
+          colorEnd: comp.colors!.colorEnd!,
           child: InkWell(
             onTap: () async {
 
@@ -562,9 +562,9 @@ class TaskWidget extends StatelessWidget{
 
   final IndivComp comp;
   final IndivCompTask task;
-  final List<IndivCompTaskCompl> pendingTasks;
-  final void Function(List<IndivCompTaskCompl>) onReqSent;
-  final void Function(List<IndivCompTaskCompl>, Map<String, Tuple3<int, int, Tuple2<double, double>>>) onSelfGranted;
+  final List<IndivCompTaskCompl>? pendingTasks;
+  final void Function(List<IndivCompTaskCompl>)? onReqSent;
+  final void Function(List<IndivCompTaskCompl>, Map<String, Tuple3<int, int, Tuple2<double, double>>>)? onSelfGranted;
 
   const TaskWidget(
       this.comp,
@@ -572,21 +572,21 @@ class TaskWidget extends StatelessWidget{
       this.pendingTasks,
       { this.onReqSent,
         this.onSelfGranted,
-        Key key
+        Key? key
       }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => IndivCompTaskWidget(
     task,
     bottom:
-    comp.profile.active?
+    comp.profile.active!?
     Row(
       children: [
 
         Expanded(
           child: SimpleButton.from(
               textColor:
-              pendingTasks == null || pendingTasks.isEmpty?
+              pendingTasks == null || pendingTasks!.isEmpty?
               iconDisab_(context):
               iconEnab_(context),
 
@@ -594,19 +594,19 @@ class TaskWidget extends StatelessWidget{
               icon: MdiIcons.clockOutline,
 
               text:
-              pendingTasks == null || pendingTasks.isNotEmpty?
+              pendingTasks == null || pendingTasks!.isNotEmpty?
               '${pendingTasks?.length??0}':
               null,
 
               onTap:
-              pendingTasks == null || pendingTasks.isEmpty?
+              pendingTasks == null || pendingTasks!.isEmpty?
               null: () => openDialog(
                   context: context,
                   builder: (context) => PendingTasksPage(
                     comp,
                     pendingTasks,
                     onRemoved: (complTask){
-                      comp.profile.completedTasks.remove(complTask);
+                      comp.profile.completedTasks!.remove(complTask);
                       Provider.of<IndivCompProvider>(context, listen: false).notify();
                     },
                   )
@@ -660,14 +660,14 @@ class TaskListWidget extends StatelessWidget{
   static const double separatorHeight = 12.0;
 
   final IndivComp comp;
-  final void Function(List<IndivCompTaskCompl>) onReqSent;
-  final void Function(List<IndivCompTaskCompl>, Map<String, Tuple3<int, int, Tuple2<double, double>>>) onSelfGranted;
+  final void Function(List<IndivCompTaskCompl>)? onReqSent;
+  final void Function(List<IndivCompTaskCompl>, Map<String, Tuple3<int, int, Tuple2<double, double>>>)? onSelfGranted;
 
   const TaskListWidget(
       this.comp,
       { this.onReqSent,
         this.onSelfGranted,
-        Key key
+        Key? key
       }): super(key: key);
 
   @override
@@ -676,12 +676,12 @@ class TaskListWidget extends StatelessWidget{
     List<Widget> children = [];
 
     Map<String, List<IndivCompTaskCompl>> pendingComplTasksMap = {};
-    for(IndivCompTaskCompl complTask in comp.profile.completedTasks){
+    for(IndivCompTaskCompl complTask in comp.profile.completedTasks!){
       if(pendingComplTasksMap[complTask.taskKey] == null)
         pendingComplTasksMap[complTask.taskKey] = [];
 
       if(complTask.acceptState == TaskAcceptState.PENDING)
-        pendingComplTasksMap[complTask.taskKey].add(complTask);
+        pendingComplTasksMap[complTask.taskKey]!.add(complTask);
     }
 
 
@@ -695,7 +695,7 @@ class TaskListWidget extends StatelessWidget{
           TaskWidget(
               comp,
               task,
-              pendingComplTasksMap[task.key],
+              pendingComplTasksMap[task.key!],
               onReqSent: onReqSent,
               onSelfGranted: onSelfGranted,
           )
@@ -720,7 +720,7 @@ class ParticipantsWidget extends StatelessWidget{
   final IndivComp comp;
   final EdgeInsets padding;
 
-  const ParticipantsWidget(this.comp, {this.padding=EdgeInsets.zero, Key key}): super(key: key);
+  const ParticipantsWidget(this.comp, {this.padding=EdgeInsets.zero, Key? key}): super(key: key);
 
   static void onTap(IndivComp comp, BuildContext context) => pushPage(
       context,
@@ -731,38 +731,35 @@ class ParticipantsWidget extends StatelessWidget{
   );
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Padding(
+    padding: padding,
+    child: Row(
+      children: [
 
-    return Padding(
-      padding: padding,
-      child: Row(
-        children: [
-
-          Expanded(
-            child: AccountThumbnailRowWidget(
-                comp.particips.map((particip) => particip.name).toList(),
-                heroBuilder: (index) => comp.particips[index],
-                onTap: () => onTap(comp, context)
-            ),
+        Expanded(
+          child: AccountThumbnailRowWidget(
+              comp.particips.map((particip) => particip!.name).toList(),
+              heroBuilder: (index) => comp.particips[index],
+              onTap: () => onTap(comp, context)
           ),
+        ),
 
-          if(comp.particips.length == 1)
-            const SizedBox(width: Dimen.ICON_MARG),
+        if(comp.particips.length == 1)
+          const SizedBox(width: Dimen.ICON_MARG),
 
-          if(comp.particips.length == 1)
-            AccountThumbnailWidget(icon: MdiIcons.accountPlusOutline, onTap: () => onTap(comp, context))
+        if(comp.particips.length == 1)
+          AccountThumbnailWidget(icon: MdiIcons.accountPlusOutline, onTap: () => onTap(comp, context))
 
-        ],
-      ),
-    );
-  }
+      ],
+    ),
+  );
 
 }
 
 class LeaveNotAdminDialog extends StatelessWidget{
 
   final IndivComp comp;
-  const LeaveNotAdminDialog(this.comp, {Key key}): super(key: key);
+  const LeaveNotAdminDialog(this.comp, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -785,9 +782,9 @@ class LeaveNotAdminDialog extends StatelessWidget{
 class ShareCodeWidget extends StatefulWidget{
 
   final IndivComp comp;
-  final bool enabled;
+  final bool? enabled;
 
-  const ShareCodeWidget(this.comp, {this.enabled, Key key}): super(key: key);
+  const ShareCodeWidget(this.comp, {this.enabled, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => ShareCodeWidgetState();
@@ -798,8 +795,8 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
 
   IndivComp get comp => widget.comp;
 
-  bool get processing => !widget.enabled??_processing;
-  bool _processing;
+  bool get processing => !widget.enabled!??_processing!;
+  bool? _processing;
 
   @override
   void initState() {
@@ -839,11 +836,11 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
                                   showAppToast(context, text: 'Skopiowano');
                                 },
                                 child: Text(
-                                  comp.shareCode,
+                                  comp.shareCode!,
                                   style: AppTextStyle(
                                       fontSize: Dimen.ICON_SIZE,
                                       fontWeight: weight.bold,
-                                      color: comp.shareCodeSearchable?iconEnab_(context):iconDisab_(context)
+                                      color: comp.shareCodeSearchable!?iconEnab_(context):iconDisab_(context)
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -852,7 +849,7 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
 
                           IconButton(
                             icon: const Icon(MdiIcons.refresh),
-                            onPressed: processing || !comp.shareCodeSearchable?null:() async {
+                            onPressed: processing || !comp.shareCodeSearchable!?null:() async {
 
                               setState(() => _processing = true);
                               await ApiIndivComp.resetShareCode(
@@ -860,8 +857,8 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
                                   onSuccess: (shareCode){
                                     setState(() => comp.shareCode = shareCode);
                                   },
-                                  onError: (Map errData){
-                                    if(errData['errors'] != null && errData['errors']['share_code'] == 'share_code_changed_too_soon')
+                                  onError: (Map? errData){
+                                    if(errData!['errors'] != null && errData['errors']['share_code'] == 'share_code_changed_too_soon')
                                       showAppToast(context, text: 'Za często zmieniasz kod dostępu');
                                   }
                               );

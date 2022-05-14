@@ -7,6 +7,7 @@ import 'package:harcapp/_new/cat_page_song_book/song_management/memory.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/account/account.dart';
+import 'package:harcapp/logger.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/server.dart';
 
@@ -32,26 +33,22 @@ class API{
 
   static const String SERVER_URL = '$SERVER_IP${SERVER_PORT==null?'':':$SERVER_PORT'}/';
 
-  static Response createFakeErrResponse({String error, Map<String, dynamic> errMap}){
+  static Response createFakeErrResponse({String? error, Map<String, dynamic>? errMap}) => Response(
+    statusCode: HttpStatus.badRequest,
+    requestOptions: RequestOptions(path: ''), // is it okay to have empty path?
+    data: {
+      'error': error??'',
+      'errors': errMap,
+    },
+  );
 
-    return Response(
-      statusCode: HttpStatus.badRequest,
-      requestOptions: null,
-      data: {
-        'error': error??'',
-        'errors': errMap,
-      },
-    );
-
-  }
-
-  static Future<Response> sendRequest ({
+  static Future<Response?> sendRequest ({
     bool withToken = false,
-    Future<Response> Function(Dio dio) sendRequest,
-    Future<void> Function(Response) onSuccess,
-    Future<bool> Function() onEmailNotConf,
-    Future<bool> Function() onForbidden,
-    Future<void> Function(DioError) onError,
+    required Future<Response> Function(Dio dio) sendRequest,
+    Future<void> Function(Response)? onSuccess,
+    Future<bool> Function()? onEmailNotConf,
+    Future<bool> Function()? onForbidden,
+    Future<void> Function(DioError)? onError,
 
   }) async {
 
@@ -73,7 +70,7 @@ class API{
       return response;
     } on DioError catch (e) {
       debugPrint('HarcApp API: ${e.requestOptions.method} ${e.requestOptions.path} :: error! :: ${e.message} :: ${e.response?.data?.toString()}');
-      bool finish;
+      bool? finish;
       if (e.response?.statusCode == jwtInvalidHttpStatus) {
         await SynchronizerEngine.changeSyncStateInAll([
             SyncableParamSingle_.STATE_SYNCED,
@@ -110,7 +107,7 @@ class API{
     await sendRequest(
         withToken: false,
         sendRequest: (Dio dio) async => await dio.post(
-            SERVER_URL + 'api/song/get_memories',
+            '${SERVER_URL}api/song/get_memories',
             data: {'song_file_name': songFileName}
         ),
         onSuccess: (Response response)async{
@@ -120,36 +117,36 @@ class API{
 
         },
       onError: (DioError error)async{
-          print(error.response?.data);
+        logger.d(error.response?.data);
       }
     );
 
     return result;
   }
 
-  static Future<List<Song>> getRecommendedSongs({
-    Function onSuccess,
-    Function onError,
+  static Future<List<Song?>?> getRecommendedSongs({
+    Function? onSuccess,
+    Function? onError,
   }) async {
 
-    List<Song> result = [];
+    List<Song?>? result = [];
 
     await sendRequest(
         withToken: true,
         sendRequest: (Dio dio) async => await dio.get(
-            SERVER_URL + 'api/song/recomended',
+            '${SERVER_URL}api/song/recomended',
         ),
         onSuccess: (Response response)async{
 
           for(Map map in response.data)
-            result.add(OffSong.allOfficialMap[map['file_name']]);
+            result!.add(OffSong.allOfficialMap![map['file_name']]);
 
           if(onSuccess != null) await onSuccess();
 
         },
         onError: (DioError error)async{
           result = null;
-          print(error.response?.data);
+          logger.d(error.response?.data);
           if(onError != null) await onError();
         }
     );

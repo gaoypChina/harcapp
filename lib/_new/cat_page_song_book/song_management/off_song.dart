@@ -9,17 +9,17 @@ import 'package:harcapp_core_song/song_core.dart';
 import 'memory.dart';
 import 'song.dart';
 
-class OffSong extends Song<OffSongResp>{
+class OffSong extends Song<OffSongResp?>{
 
-  static List<OffSong> allOfficial;
-  static SplayTreeMap<String, OffSong> _allOfficialMap;
-  static SplayTreeMap<String, OffSong> get allOfficialMap => _allOfficialMap;
-  static set allOfficialMap(Map<String, OffSong> value) => _allOfficialMap = value==null?null:SplayTreeMap.from(value);
+  static List<OffSong>? allOfficial;
+  static SplayTreeMap<String, OffSong>? _allOfficialMap;
+  static SplayTreeMap<String, OffSong>? get allOfficialMap => _allOfficialMap;
+  static set allOfficialMap(Map<String, OffSong>? value) => _allOfficialMap = value==null?null:SplayTreeMap.from(value);
 
-  static List<OffSong> allConfid;
-  static SplayTreeMap<String, OffSong> _allConfidMap;
-  static SplayTreeMap<String, OffSong> get allConfidMap => _allConfidMap;
-  static set allConfidMap(Map<String, OffSong> value) => _allConfidMap = value==null?null:SplayTreeMap.from(value);
+  static List<OffSong>? allConfid;
+  static SplayTreeMap<String, OffSong>? _allConfidMap;
+  static SplayTreeMap<String, OffSong>? get allConfidMap => _allConfidMap;
+  static set allConfidMap(Map<String, OffSong>? value) => _allConfidMap = value==null?null:SplayTreeMap.from(value);
 
   OffSong(
       String fileName,
@@ -28,7 +28,7 @@ class OffSong extends Song<OffSongResp>{
       List<String> authors,
       List<String> composers,
       List<String> performers,
-      DateTime releaseDate,
+      DateTime? releaseDate,
       bool showRelDateMonth,
       bool showRelDateDay,
       List<AddPerson> addPers,
@@ -37,7 +37,7 @@ class OffSong extends Song<OffSongResp>{
       bool hasChords,
       String text,
       String baseChords,
-      PrimitiveWrapper<int> rate,
+      PrimitiveWrapper<int?> rate,
       List<Memory> memoryList,
       Map<String, Memory> memoryMap
   ) : super(fileName,

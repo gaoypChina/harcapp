@@ -6,10 +6,10 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class ClaimButton extends StatelessWidget{
 
-  final RankSprawTemplate spraw;
-  final Color color;
-  final ConfettiController confettiController;
-  final void Function() onClaimed;
+  final RankSprawTemplate? spraw;
+  final Color? color;
+  final ConfettiController? confettiController;
+  final void Function()? onClaimed;
 
   const ClaimButton(this.spraw, {this.color, this.confettiController, this.onClaimed});
 
@@ -23,9 +23,9 @@ class ClaimButton extends StatelessWidget{
           MdiIcons.checkCircleOutline
       ),
       onPressed: (){
-        spraw.setCompletionDate(DateTime.now(), localOnly: true);
-        spraw.changeCompleted(context, value: true);
-        confettiController.play();
+        spraw!.setCompletionDate(DateTime.now(), localOnly: true);
+        spraw!.changeCompleted(context, value: true);
+        confettiController!.play();
         onClaimed?.call();
 
       },

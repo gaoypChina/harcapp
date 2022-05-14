@@ -27,14 +27,14 @@ class ArticleWidget extends StatefulWidget{
   static String bookMarkHeroTag(articleHeroTag) => 'BOOKMARK $articleHeroTag';
 
   final Article article;
-  final ImageProvider cover;
+  final ImageProvider? cover;
   final ArticleNotifierProvider articleNotifProv;
 
   const ArticleWidget(
       this.article,
       {this.cover,
-        @required this.articleNotifProv,
-      Key key})
+        required this.articleNotifProv,
+      Key? key})
       :super(key: key);
 
   @override
@@ -48,11 +48,11 @@ class ArticleWidgetState extends State<ArticleWidget> {
 
   Article get article => widget.article;
 
-  Author author;
-  Color dominantColor;
-  Color antiDominantColor;
+  Author? author;
+  Color? dominantColor;
+  Color? antiDominantColor;
 
-  bool problem;
+  late bool problem;
 
 /*  List<ArticleCore> otherArts;
 
@@ -99,17 +99,17 @@ class ArticleWidgetState extends State<ArticleWidget> {
   }
    */
 
-  ValueNotifier<double> headerNotifier;
-  ValueNotifier<double> appBarNotifier;
-  ValueNotifier<double> articleNotifier;
+  late ValueNotifier<double> headerNotifier;
+  late ValueNotifier<double> appBarNotifier;
+  late ValueNotifier<double> articleNotifier;
   //ValueNotifier<double> notifier;
-  ScrollController controller;
-  bool showRateButton;
+  ScrollController? controller;
+  late bool showRateButton;
 
-  GlobalKey appBarKey;
-  GlobalKey articleKey;
-  GlobalKey gridViewKey;
-  GlobalKey authorKey;
+  GlobalKey? appBarKey;
+  GlobalKey? articleKey;
+  late GlobalKey gridViewKey;
+  late GlobalKey authorKey;
 
   @override
   void initState() {
@@ -126,8 +126,8 @@ class ArticleWidgetState extends State<ArticleWidget> {
 
     controller = ScrollController();
 
-    controller.addListener((){
-      double headerScroll = controller.offset / MediaQuery.of(context).size.width;
+    controller!.addListener((){
+      double headerScroll = controller!.offset / MediaQuery.of(context).size.width;
 
       if(headerScroll > 1) headerScroll = 1;
       else if (headerScroll < 0) headerScroll = 0;
@@ -138,17 +138,17 @@ class ArticleWidgetState extends State<ArticleWidget> {
       double topPadding = MediaQuery.of(context).padding.top;
       double screenHeight = MediaQuery.of(context).size.height;
 
-      final appBarBox = appBarKey.currentContext.findRenderObject() as RenderBox;
+      final appBarBox = appBarKey!.currentContext!.findRenderObject() as RenderBox;
       double appBarPos = appBarBox.localToGlobal(Offset(0, -topPadding)).dy;
       if(appBarPos == 0) appBarPos = 1;
       else appBarPos = 0;
       if(appBarNotifier.value != appBarPos)
         appBarNotifier.value = appBarPos;
 
-      double gridViewHeight = gridViewKey.currentContext==null?0:gridViewKey.currentContext.size.height;
-      double authorHeight = authorKey.currentContext==null?0:authorKey.currentContext.size.height;
+      double gridViewHeight = gridViewKey.currentContext==null?0:gridViewKey.currentContext!.size!.height;
+      double authorHeight = authorKey.currentContext==null?0:authorKey.currentContext!.size!.height;
 
-      final articleBox = articleKey.currentContext.findRenderObject() as RenderBox;
+      final articleBox = articleKey!.currentContext!.findRenderObject() as RenderBox;
       double articlePos = articleBox.localToGlobal(Offset(0, -kToolbarHeight-topPadding)).dy;
       double articleHeight = articleBox.size.height;
 
@@ -225,8 +225,8 @@ class ArticleWidgetState extends State<ArticleWidget> {
                                             tag: articleCoverHero(article),
                                             child: AnimatedBuilder(
                                                 animation: headerNotifier,
-                                                child: Image(image: widget.cover, fit: BoxFit.cover),
-                                                builder: (BuildContext context, Widget child) => Transform.translate(
+                                                child: Image(image: widget.cover!, fit: BoxFit.cover),
+                                                builder: (BuildContext context, Widget? child) => Transform.translate(
                                                     offset: Offset(
                                                       0,
                                                       headerNotifier.value*MediaQuery.of(context).size.width*0.5,
@@ -352,7 +352,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
                   opacity: appBarNotifier.value==1?1:0,
                   duration: const Duration(milliseconds: 300),
                   child: Text(
-                    article.title,
+                    article.title!,
                     style: AppTextStyle(
                       //color: prov.colorOption.text
                     ),

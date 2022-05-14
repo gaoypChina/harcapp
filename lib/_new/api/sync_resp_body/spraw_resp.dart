@@ -15,21 +15,21 @@ class SprawResp extends SyncGetResp{
   final bool completed;
 
   static const String PARAM_COMPLETION_DATE = 'completionDate';
-  final DateTime completionDate;
+  final DateTime? completionDate;
 
   static const String PARAM_TASK = 'task';
   final Map<String, SprawTaskResp> task;
 
   const SprawResp({
-    @required this.inProgress,
-    @required this.completed,
-    @required this.completionDate,
-    @required this.task,
+    required this.inProgress,
+    required this.completed,
+    required this.completionDate,
+    required this.task,
   });
 
   static SprawResp from(Map respData){
 
-    Map<String, dynamic> sprawTasks = respData[PARAM_TASK];
+    Map<String, dynamic>? sprawTasks = respData[PARAM_TASK];
     Map<String, SprawTaskResp> tasks = {};
     if(sprawTasks != null)
       for(String uniqTaskSprawName in sprawTasks.keys)

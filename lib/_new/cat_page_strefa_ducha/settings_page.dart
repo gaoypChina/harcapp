@@ -17,8 +17,8 @@ import 'source.dart';
 
 class SettingsPage extends StatefulWidget {
 
-  final void Function() sourceChanged;
-  const SettingsPage({this.sourceChanged, Key key}) : super(key: key);
+  final void Function()? sourceChanged;
+  const SettingsPage({this.sourceChanged, Key? key}) : super(key: key);
 
   @override
   State<SettingsPage> createState() => SettingsPageState();
@@ -44,7 +44,7 @@ class SettingsPageState extends State<SettingsPage> {
     'duchowe_theofeel_inne': 'thumb_theofeel_inne_12.webp'
   };
 
-  void Function() get sourceChanged => widget.sourceChanged;
+  void Function()? get sourceChanged => widget.sourceChanged;
 
   Map<String, int> savedLocally = {};
   Map<String, double> savedLocallySize = {};
@@ -57,7 +57,7 @@ class SettingsPageState extends State<SettingsPage> {
     Map<String, int> savedLocally = {};
     Map<String, double> savedLocallySize = {};
 
-    for(Source source in Source.all) {
+    for(Source source in Source.all!) {
       int count = (ImageLoader.getCachedItems(source)).length;
       savedLocally[source.uniqId] = count;
       double size = (ImageLoader.getSavedSourceSize(source))/(1024*1024);
@@ -112,13 +112,13 @@ class SettingsPageState extends State<SettingsPage> {
         SliverList(delegate: SliverChildBuilderDelegate(
                 (context, index) => ItemWidget(
                 this,
-                Source.all[index],
-                savedLocally[Source.all[index].uniqId],
-                savedLocallySize[Source.all[index].uniqId],
+                Source.all![index],
+                savedLocally[Source.all![index].uniqId],
+                savedLocallySize[Source.all![index].uniqId],
                 onTap: sourceChanged,
                 onRemoved: () => setState((){}),
             ),
-            childCount: Source.all.length
+            childCount: Source.all!.length
         ))
       ],
     ),
@@ -129,12 +129,12 @@ class ItemWidget extends StatefulWidget{
 
   final SettingsPageState parent;
   final Source source;
-  final int savedLocally;
-  final double savedLocallySize;
-  final void Function() onTap;
-  final void Function() onRemoved;
+  final int? savedLocally;
+  final double? savedLocallySize;
+  final void Function()? onTap;
+  final void Function()? onRemoved;
 
-  const ItemWidget(this.parent, this.source, this.savedLocally, this.savedLocallySize, {this.onTap, this.onRemoved, Key key}): super(key: key);
+  const ItemWidget(this.parent, this.source, this.savedLocally, this.savedLocallySize, {this.onTap, this.onRemoved, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => ItemWidgetState();
@@ -147,11 +147,11 @@ class ItemWidgetState extends State<ItemWidget>{
   
   SettingsPageState get parent => widget.parent;
   Source get source => widget.source;
-  void Function() get onTap => widget.onTap;
-  void Function() get onRemoved => widget.onRemoved;
+  void Function()? get onTap => widget.onTap;
+  void Function()? get onRemoved => widget.onRemoved;
 
-  bool downloading;
-  double progress;
+  bool? downloading;
+  late double progress;
 
   @override
   void initState() {
@@ -182,7 +182,7 @@ class ItemWidgetState extends State<ItemWidget>{
             children: [
 
               Positioned.fill(
-                child: Image.asset('assets/images/stref_duch/' + SettingsPageState.thumbnails[source.uniqId], fit: BoxFit.cover),
+                child: Image.asset('assets/images/stref_duch/' + SettingsPageState.thumbnails[source.uniqId]!, fit: BoxFit.cover),
               ),
 
               AnimatedContainer(
@@ -205,8 +205,8 @@ class ItemWidgetState extends State<ItemWidget>{
         child: Column(
           children: [
             ListTile(
-              title: Text(source.name, style: textStyle.copyWith(color: source.display?textEnab_(context):hintEnab_(context))),
-              subtitle: Text('Zapisane lokalnie: ${widget.savedLocally ?? '...'}/${source.items.length}\t\t(${widget.savedLocallySize==null?'...':widget.savedLocallySize.toStringAsFixed(1)} MB)', style: hintStyle),
+              title: Text(source.name!, style: textStyle.copyWith(color: source.display?textEnab_(context):hintEnab_(context))),
+              subtitle: Text('Zapisane lokalnie: ${widget.savedLocally ?? '...'}/${source.items.length}\t\t(${widget.savedLocallySize==null?'...':widget.savedLocallySize!.toStringAsFixed(1)} MB)', style: hintStyle),
             ),
             Row(
               children: [
@@ -240,7 +240,7 @@ class ItemWidgetState extends State<ItemWidget>{
 
                       ],
                     ),
-                    crossFadeState: downloading?CrossFadeState.showSecond:CrossFadeState.showFirst,
+                    crossFadeState: downloading!?CrossFadeState.showSecond:CrossFadeState.showFirst,
                     duration: const Duration(milliseconds: 100),
                   ),
 
@@ -276,10 +276,10 @@ class ItemWidgetState extends State<ItemWidget>{
 
 class Settings{
 
-  static bool get showInitMessage => shaPref.getBool(ShaPref.SHA_PREF_DUCHOWE_INIT_MESSAGE, true);
-  static set showInitMessage(bool value) => shaPref.setBool(ShaPref.SHA_PREF_DUCHOWE_INIT_MESSAGE, value);
+  static bool get showInitMessage => shaPref!.getBool(ShaPref.SHA_PREF_DUCHOWE_INIT_MESSAGE, true);
+  static set showInitMessage(bool value) => shaPref!.setBool(ShaPref.SHA_PREF_DUCHOWE_INIT_MESSAGE, value);
 
-  static bool get saveLocally => shaPref.getBool(ShaPref.SHA_PREF_DUCHOWE_SAVE_LOCALLY, true);
-  static set saveLocally(bool value) => shaPref.setBool(ShaPref.SHA_PREF_DUCHOWE_SAVE_LOCALLY, value);
+  static bool get saveLocally => shaPref!.getBool(ShaPref.SHA_PREF_DUCHOWE_SAVE_LOCALLY, true);
+  static set saveLocally(bool value) => shaPref!.setBool(ShaPref.SHA_PREF_DUCHOWE_SAVE_LOCALLY, value);
 
 }

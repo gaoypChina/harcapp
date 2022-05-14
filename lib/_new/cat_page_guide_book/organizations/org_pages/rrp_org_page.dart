@@ -11,7 +11,7 @@ import 'common.dart';
 
 class RRPOrgPage extends StatefulWidget{
 
-  const RRPOrgPage({Key key}) : super(key: key);
+  const RRPOrgPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => RRPOrgPageState();

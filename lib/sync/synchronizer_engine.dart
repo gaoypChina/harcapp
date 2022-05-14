@@ -19,8 +19,8 @@ enum SyncOper{get, post}
 
 class SynchronizerListener{
 
-  final void Function(SyncOper) onStart;
-  final void Function(SyncOper) onEnd;
+  final void Function(SyncOper)? onStart;
+  final void Function(SyncOper)? onEnd;
 
   const SynchronizerListener({this.onStart, this.onEnd});
 
@@ -30,15 +30,15 @@ class SynchronizerListener{
 
 class SynchronizerEngine{
 
-  static bool get syncOn => shaPref.getBool(ShaPref.SHA_PREF_SYNC_ON, true);
-  static set syncOn(bool value) => shaPref.setBool(ShaPref.SHA_PREF_SYNC_ON, value);
+  static bool get syncOn => shaPref!.getBool(ShaPref.SHA_PREF_SYNC_ON, true);
+  static set syncOn(bool value) => shaPref!.setBool(ShaPref.SHA_PREF_SYNC_ON, value);
 
-  static set lastSyncTimeLocal(DateTime dateTime){
-    if(dateTime == null) shaPref.remove(ShaPref.SHA_PREF_SYNC_LAST_SYNC);
-    else shaPref.setString(ShaPref.SHA_PREF_SYNC_LAST_SYNC, dateTime.toIso8601String());
+  static set lastSyncTimeLocal(DateTime? dateTime){
+    if(dateTime == null) shaPref!.remove(ShaPref.SHA_PREF_SYNC_LAST_SYNC);
+    else shaPref!.setString(ShaPref.SHA_PREF_SYNC_LAST_SYNC, dateTime.toIso8601String());
   }
-  static DateTime get lastSyncTimeLocal{
-    String code = shaPref.getString(ShaPref.SHA_PREF_SYNC_LAST_SYNC, null);
+  static DateTime? get lastSyncTimeLocal{
+    String? code = shaPref!.getString(ShaPref.SHA_PREF_SYNC_LAST_SYNC, null);
     return code==null?null:DateTime.parse(code);
   }
 
@@ -50,13 +50,13 @@ class SynchronizerEngine{
   final aggregateDelaySemaphore = LocalSemaphore(10000000);
   static int currAggregateDelayIndex = 0;
 
-  final List<SynchronizerListener> _listeners = [];
-  SyncOper _runningOper;
-  bool _runPostAfterFinish;
-  bool _runGetAfterFinish;
+  final List<SynchronizerListener?> _listeners = [];
+  SyncOper? _runningOper;
+  late bool _runPostAfterFinish;
+  late bool _runGetAfterFinish;
 
   bool get isRunning => _runningOper != null;
-  SyncOper get runningOper => _runningOper;
+  SyncOper? get runningOper => _runningOper;
 
   SynchronizerEngine(){
     _runningOper = null;
@@ -64,8 +64,8 @@ class SynchronizerEngine{
     _runGetAfterFinish = false;
   }
 
-  void addListener(SynchronizerListener listener) => _listeners.add(listener);
-  void removeListener(SynchronizerListener listener) => _listeners.remove(listener);
+  void addListener(SynchronizerListener? listener) => _listeners.add(listener);
+  void removeListener(SynchronizerListener? listener) => _listeners.remove(listener);
 
   Future<bool> _callStart(SyncOper oper)async{
 
@@ -86,8 +86,8 @@ class SynchronizerEngine{
 
     semaphore.release();
 
-    for(SynchronizerListener listener in _listeners)
-      if(listener.onStart != null) listener.onStart(oper);
+    for(SynchronizerListener? listener in _listeners)
+      if(listener!.onStart != null) listener.onStart!(oper);
 
     return true;
   }
@@ -122,17 +122,17 @@ class SynchronizerEngine{
     _runningOper = null;
     semaphore.release();
 
-    for(SynchronizerListener listener in _listeners)
-      listener.onEnd?.call(oper);
+    for(SynchronizerListener? listener in _listeners)
+      listener!.onEnd?.call(oper);
   }
 
-  Future<bool> _post({bool dumpReplaceExisting}) async {
+  Future<bool?> _post({bool? dumpReplaceExisting}) async {
 
     bool go = await _callStart(SyncOper.post);
     if(!go) return null;
 
     await synchronizer.reloadSyncables();
-    bool result;
+    bool? result;
     await ApiSync.postAndSave(
       dumpReplaceExisting: dumpReplaceExisting,
       onSuccess: () => result = true,
@@ -143,12 +143,12 @@ class SynchronizerEngine{
     return result;
   }
 
-  Future<bool> _get() async {
+  Future<bool?> _get() async {
     bool go = await _callStart(SyncOper.get);
     if(!go) return null;
 
     await synchronizer.reloadSyncables();
-    bool result;
+    bool? result;
 
     await ApiSync.getAndSave(
       onSuccess: () => result = true,
@@ -169,13 +169,13 @@ class SynchronizerEngine{
         || Directory(getRemoveSyncReqFolderPath).listSync(recursive: true).isEmpty;
   }
 
-  Future<Map<String, dynamic>> allUnsynced() async {
+  Future<Map<String?, dynamic>> allUnsynced() async {
     await synchronizer.reloadSyncables();
 
-    Map<String, dynamic> result = {};
+    Map<String?, dynamic> result = {};
 
     for(SyncableParam param in SyncNode.all) {
-      Map<String, dynamic> unsyncedMap = param.getUnsyncedMap();
+      Map<String?, dynamic> unsyncedMap = param.getUnsyncedMap();
       if (unsyncedMap.isNotEmpty) result[param.paramId] = unsyncedMap;
     }
     return result;
@@ -213,7 +213,7 @@ class SynchronizerEngine{
     return result;
   }
 
-  Future<bool> post({bool forceSync = false, bool dumpReplaceExisting, Duration aggregateDelay}) async {
+  Future<bool?> post({bool forceSync = false, bool? dumpReplaceExisting, Duration? aggregateDelay}) async {
 
     if(!await isNetworkAvailable()) {
       logger.i('Sync post aborted - no network available.');
@@ -236,7 +236,7 @@ class SynchronizerEngine{
     }
 
     await aggregateDelaySemaphore.acquire();
-    int thisAggregateDelayIndex;
+    int? thisAggregateDelayIndex;
     if(aggregateDelay != null)
       thisAggregateDelayIndex = ++currAggregateDelayIndex;
     aggregateDelaySemaphore.release();
@@ -254,7 +254,7 @@ class SynchronizerEngine{
     return await _post(dumpReplaceExisting: dumpReplaceExisting);
   }
 
-  Future<bool> get({bool forceSync = false}) async {
+  Future<bool?> get({bool forceSync = false}) async {
 
     if(!await isNetworkAvailable()) {
       logger.i('Sync get aborted - no network available.');

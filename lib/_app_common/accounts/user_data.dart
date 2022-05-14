@@ -34,13 +34,13 @@ class UserData{
   bool get isMale => sex == Sex.male;
 
   const UserData({
-    @required this.key,
-    @required this.name,
-    @required this.shadow,
-    @required this.sex,
+    required this.key,
+    required this.name,
+    required this.shadow,
+    required this.sex,
   });
 
-  static UserData fromMap(Map map, {String key}) => UserData(
+  static UserData fromMap(Map map, {String? key}) => UserData(
     key: key??map['_key']??(throw InvalidResponseError('_key')),
     name: map['name']??(throw InvalidResponseError('name')),
     shadow: map['shadow']??(throw InvalidResponseError('shadow')),
@@ -52,14 +52,14 @@ class UserData{
 
 class UserDataNick extends UserData{
 
-  final String nick;
+  final String? nick;
 
   const UserDataNick({
-    @required String key,
-    @required String name,
-    @required bool shadow,
-    @required Sex sex,
-    @required this.nick,
+    required String key,
+    required String name,
+    required bool shadow,
+    required Sex sex,
+    required this.nick,
   }):super(
     key: key,
     name: name,
@@ -67,7 +67,7 @@ class UserDataNick extends UserData{
     sex: sex,
   );
 
-  static UserDataNick fromMap(Map map, String nick, {String key}){
+  static UserDataNick fromMap(Map map, String? nick, {String? key}){
     UserData userData = UserData.fromMap(map, key: key);
     return UserDataNick(
         key: userData.key,

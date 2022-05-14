@@ -107,7 +107,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
   }
 
   @override
-  Widget drawerBuilder(/*BuildContext context*/) => null;
+  Widget? drawerBuilder(/*BuildContext context*/) => null;
 
   @override
   bool showDrawer() => false;

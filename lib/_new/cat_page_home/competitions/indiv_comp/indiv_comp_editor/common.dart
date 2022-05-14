@@ -20,7 +20,7 @@ import '../indiv_comp_loader.dart';
 
 class LeaveCompButton extends StatelessWidget{
 
-  final IndivComp comp;
+  final IndivComp? comp;
 
   const LeaveCompButton(this.comp);
 
@@ -34,9 +34,9 @@ class LeaveCompButton extends StatelessWidget{
     onTap: () {
 
       int allAdminCount = 0;
-      for(IndivCompParticip particip in comp.particips) if(particip.profile.role == CompRole.ADMIN) allAdminCount++;
+      for(IndivCompParticip? particip in comp!.particips) if(particip!.profile.role == CompRole.ADMIN) allAdminCount++;
 
-      if(allAdminCount == 1 && comp.profile.role == CompRole.ADMIN){
+      if(allAdminCount == 1 && comp!.profile.role == CompRole.ADMIN){
         showAlertDialog(
             context,
             title: 'Hola, hola...',
@@ -64,10 +64,10 @@ class LeaveCompButton extends StatelessWidget{
 
                     Navigator.pop(context);
 
-                    showLoadingWidget(context, comp.colors.avgColor, 'Opuszczanie lokalu...');
+                    showLoadingWidget(context, comp!.colors!.avgColor, 'Opuszczanie lokalu...');
 
                     await ApiIndivComp.leave(
-                        compKey: comp.key,
+                        compKey: comp!.key,
                         onSuccess: () async {
                           IndivComp.removeFromAll(context, comp);
                           Navigator.pop(context);
@@ -94,9 +94,9 @@ class EditGradientButton extends StatelessWidget{
   
   final IconData icon;
   final String text;
-  final void Function() onTap;
+  final void Function()? onTap;
 
-  const EditGradientButton(this.icon, this.text, {this.onTap, Key key}): super(key: key);
+  const EditGradientButton(this.icon, this.text, {this.onTap, Key? key}): super(key: key);
   
   @override
   Widget build(BuildContext context) => AppCard(
@@ -106,8 +106,8 @@ class EditGradientButton extends StatelessWidget{
       padding: EdgeInsets.zero,
       onTap: onTap,
       child: GradientWidget(
-        colorStart: Provider.of<ColorKeyProvider>(context, listen: false).color1,
-        colorEnd: Provider.of<ColorKeyProvider>(context, listen: false).color2,
+        colorStart: Provider.of<ColorKeyProvider>(context, listen: false).color1!,
+        colorEnd: Provider.of<ColorKeyProvider>(context, listen: false).color2!,
         child: TitleShortcutRowWidget(
           leading: Padding(
             padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.DEF_PADDING_VAL),
@@ -128,7 +128,7 @@ class SettingsPartHeader extends StatelessWidget{
 
   final String title;
 
-  const SettingsPartHeader(this.title, {Key key}) : super(key: key);
+  const SettingsPartHeader(this.title, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => ListTile(

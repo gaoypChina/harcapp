@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 class AutoRotate extends StatefulWidget{
 
   int speed;
-  Widget child;
+  Widget? child;
 
-  AutoRotate({@required this.speed, this.child});
+  AutoRotate({required this.speed, this.child});
 
   @override
   State<StatefulWidget> createState() => AutoRotateState();
@@ -14,7 +14,7 @@ class AutoRotate extends StatefulWidget{
 
 class AutoRotateState extends State<AutoRotate>{
 
-  ValueNotifier<double> notifier;
+  late ValueNotifier<double> notifier;
 
   @override
   void initState() {
@@ -36,7 +36,7 @@ class AutoRotateState extends State<AutoRotate>{
     return AnimatedBuilder(
       child: widget.child,
       animation: notifier,
-      builder: (BuildContext context, Widget child)
+      builder: (BuildContext context, Widget? child)
         => Transform.rotate(
           angle: notifier.value,
           child: child,

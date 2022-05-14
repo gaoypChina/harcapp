@@ -15,10 +15,10 @@ import 'new_album/new_album_page.dart';
 
 class AlbumDrawer extends StatefulWidget{
 
-  final void Function(Album album) onSelected;
-  final void Function(Album album) onNewCreated;
+  final void Function(Album album)? onSelected;
+  final void Function(Album album)? onNewCreated;
 
-  const AlbumDrawer({this.onSelected, this.onNewCreated, Key key}): super(key: key);
+  const AlbumDrawer({this.onSelected, this.onNewCreated, Key? key}): super(key: key);
 
   @override
   State createState() => AlbumDrawerState();
@@ -27,8 +27,8 @@ class AlbumDrawer extends StatefulWidget{
 
 class AlbumDrawerState extends State<AlbumDrawer>{
 
-  void Function(Album album) get onSelected => widget.onSelected;
-  void Function(Album album) get onNewCreated => widget.onNewCreated;
+  void Function(Album album)? get onSelected => widget.onSelected;
+  void Function(Album album)? get onNewCreated => widget.onNewCreated;
 
   @override
   Widget build(BuildContext context) {

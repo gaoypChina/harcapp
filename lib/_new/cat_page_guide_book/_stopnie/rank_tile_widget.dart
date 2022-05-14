@@ -19,17 +19,17 @@ const String GROUP_TITLE_OGOLNE = 'Ogólne';
 const String GROUP_TITLE_POZOSTALE = 'Pozostałe';
 
 
-class RankTileWidget<T extends Rank> extends StatelessWidget {
+class RankTileWidget<T extends Rank?> extends StatelessWidget {
 
   final T rank;
 
-  const RankTileWidget({@required this.rank, Key key}): super(key: key);
+  const RankTileWidget({required this.rank, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    Tuple2<List<IconData>, double> iconStuff = RankData.iconSizeMap[rank.data];
-    RankColors colors = RankData.colors[rank.data];
+    Tuple2<List<IconData>, double> iconStuff = RankData.iconSizeMap[rank.data]!;
+    RankColors colors = RankData.colors[rank.data]!;
 
     return RankTileWidgetTemplate(
       colorStart: colors.start(AppSettings.isDark),
@@ -46,7 +46,7 @@ class RankTileWidget<T extends Rank> extends StatelessWidget {
 
 }
 
-Future<void> openRankDialog(BuildContext context, Rank rank) => openDialog(
+Future<void> openRankDialog(BuildContext context, Rank? rank) => openDialog(
     context: context,
     builder: (context) => Padding(
       padding: AppCard.normMargin,
@@ -56,7 +56,7 @@ Future<void> openRankDialog(BuildContext context, Rank rank) => openDialog(
         color: background_(context),
         child: RankWidget(
           rank: rank,
-          icons: RankData.iconSizeMap[rank.data].item1,
+          icons: RankData.iconSizeMap[rank!.data]!.item1,
           showBack: true,
         ),
       ),

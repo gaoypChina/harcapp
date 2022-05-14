@@ -16,13 +16,13 @@ class Fretboard extends StatelessWidget{
   final int stringCount;
   final Chord chord;
 
-  final Function onTap;
+  final Function? onTap;
 
   final int nearestDotPosition;
 
   const Fretboard(this.height, this.stringCount, this.onTap, this.chord, this.nearestDotPosition);
 
-  static Fretboard from({@required double height, @required int stringCount, Function onTap, Chord chord}){
+  static Fretboard from({required double height, required int stringCount, Function? onTap, Chord? chord}){
     int nearestDotPosition = 0;
 
     if(chord!=null) {
@@ -77,7 +77,7 @@ class Fretboard extends StatelessWidget{
       radius: AppCard.BIG_RADIUS,
         padding: EdgeInsets.all(Dimen.DEF_MARG/2),
         color: Colors.brown,
-        onTap: onTap,
+        onTap: onTap as void Function()?,
         elevation: AppCard.bigElevation,
         margin: const EdgeInsets.only(
           left: AppCard.NORM_MARGIN_VAL,
@@ -170,13 +170,13 @@ class RoundContainer extends StatelessWidget{
   final double height;
   final double width;
   final Color color;
-  final String text;
+  final String? text;
   const RoundContainer(
       this.height,
       { this.width = -1,
         this.color = Colors.black,
         this.text,
-        Key key
+        Key? key
       }): super(key: key);
 
   @override
@@ -185,7 +185,7 @@ class RoundContainer extends StatelessWidget{
         child: Container(
           width: width==-1?height:width,
           height: height,
-          child: text==null?Container():Center(child: Text(text, style: AppTextStyle(color: Colors.white, fontWeight: weight.halfBold))),
+          child: text==null?Container():Center(child: Text(text!, style: AppTextStyle(color: Colors.white, fontWeight: weight.halfBold))),
           decoration: BoxDecoration(
               color: color,
               boxShadow: [ShadowDecoration.boxShadowDef(shadowColor: Colors.black26, offset: const Offset(0, 4))],

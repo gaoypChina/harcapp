@@ -26,7 +26,7 @@ class SearchPage extends StatefulWidget{
 
 class SearchPageState extends State<SearchPage>{
 
-  List<Meal> currMeals;
+  late List<Meal> currMeals;
 
   @override
   void initState() {
@@ -102,7 +102,7 @@ class SearchItem extends StatelessWidget{
   final Meal meal;
   final Function onTap;
 
-  const SearchItem(this.meal, {@required this.onTap});
+  const SearchItem(this.meal, {required this.onTap});
 
   @override
   Widget build(BuildContext context) => SimpleButton(
@@ -139,6 +139,6 @@ class SearchItem extends StatelessWidget{
 
         ],
       ),
-      onTap: onTap
+      onTap: onTap as void Function()?
   );
 }

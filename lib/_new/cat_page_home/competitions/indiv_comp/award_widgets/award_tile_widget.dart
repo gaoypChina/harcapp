@@ -10,21 +10,21 @@ import 'award_tile_skeleton_widget.dart';
 class AwardTileWidget extends StatelessWidget{
 
   final int position;
-  final CommonColorData colors;
+  final CommonColorData? colors;
   final IndivCompAward award;
 
   const AwardTileWidget(
       this.position,
       this.colors,
       this.award,
-      { Key key}): super(key: key);
+      { Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => AwardTileSkeletonWidget(
       position,
       colors,
       award,
-      Text(award.award, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))
+      Text(award.award!, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))
   );
 
 }

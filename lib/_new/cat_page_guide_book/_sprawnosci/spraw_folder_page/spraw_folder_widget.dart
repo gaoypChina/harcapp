@@ -10,8 +10,8 @@ class SprawFolderWidget extends StatelessWidget{
 
   static const double defSize = 46.0;
 
-  final String iconKey;
-  final String colorKey;
+  final String? iconKey;
+  final String? colorKey;
   final double size;
 
   const SprawFolderWidget(this.iconKey, this.colorKey, {this.size = defSize});
@@ -27,7 +27,7 @@ class SprawFolderWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    Color color = cardEnab_(context);
+    Color color = cardEnab_(context)!;
     Color darkColor = Color.fromARGB(255, color.red-10, color.green-10, color.blue-10);
 
     double radius = size>84?AppCard.BIG_RADIUS:AppCard.DEF_RADIUS;

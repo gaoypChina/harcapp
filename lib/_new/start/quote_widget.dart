@@ -7,10 +7,10 @@ import '../../values/quote.dart';
 
 class QuoteWidget extends StatefulWidget{
 
-  final Quote quote;
-  final List<Quote> quotes;
+  final Quote? quote;
+  final List<Quote>? quotes;
 
-  const QuoteWidget({this.quote, this.quotes, Key key}): super(key: key);
+  const QuoteWidget({this.quote, this.quotes, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => QuoteWidgetState();
@@ -22,12 +22,12 @@ class QuoteWidgetState extends State<QuoteWidget>{
   static const double textSize = 18.0;
   static const double iconSize = 64.0;
 
-  Quote cytat;
-  bool _showAuthor;
+  Quote? cytat;
+  late bool _showAuthor;
 
-  Animation<Offset> offsetQ;
+  Animation<Offset>? offsetQ;
 
-  List<Quote> get cytaty => widget.quotes;
+  List<Quote>? get cytaty => widget.quotes;
 
   startAnimation() async{
     await Future.delayed(const Duration(milliseconds: 1000));
@@ -40,7 +40,7 @@ class QuoteWidgetState extends State<QuoteWidget>{
     _showAuthor = false;
 
     if(widget.quote == null)
-      cytat = cytaty[Random().nextInt(cytaty.length)];
+      cytat = cytaty![Random().nextInt(cytaty!.length)];
     else
       cytat = widget.quote;
 
@@ -65,7 +65,7 @@ class QuoteWidgetState extends State<QuoteWidget>{
       const SizedBox(height: 18.0),
 
       Text(
-          cytat.cytat,
+          cytat!.cytat,
           style: const TextStyle(
               fontFamily: 'Merriweather',
               fontSize: textSize,
@@ -80,7 +80,7 @@ class QuoteWidgetState extends State<QuoteWidget>{
         child: Align(
           alignment: Alignment.bottomRight,
           child: Text(
-            cytat.autor==quoteAuthorNieznany?'':'~ ${cytat.autor}',
+            cytat!.autor==quoteAuthorNieznany?'':'~ ${cytat!.autor}',
             style: const TextStyle(
                 fontFamily: 'Merriweather',
                 color: Colors.white54,

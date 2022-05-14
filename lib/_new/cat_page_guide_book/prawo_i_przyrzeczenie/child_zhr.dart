@@ -15,8 +15,8 @@ import 'strings.dart';
 
 class ChildZHR extends StatelessWidget{
 
-  final TabController controller;
-  const ChildZHR(this.controller, {Key key}): super(key: key);
+  final TabController? controller;
+  const ChildZHR(this.controller, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

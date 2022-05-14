@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/chord.dart';
 import 'package:harcapp_core/comm_widgets/chord_draw_bar.dart';
 import 'package:harcapp_core/comm_widgets/chord_shifter.dart';
 import 'package:harcapp_core/comm_widgets/instrument_type.dart';
@@ -16,7 +17,7 @@ import '_main.dart';
 
 class TranspositionPart extends StatefulWidget{
 
-  final bool typeGuitar;
+  final bool? typeGuitar;
 
   const TranspositionPart({this.typeGuitar});
 
@@ -30,8 +31,8 @@ class TranspositionPartState extends State<TranspositionPart> with AutomaticKeep
   @override
   bool get wantKeepAlive => true;
 
-  String chords;
-  int shift;
+  late String chords;
+  int? shift;
 
   bool get noText => chords.replaceAll('\n', '').isEmpty;
 
@@ -58,7 +59,7 @@ class TranspositionPartState extends State<TranspositionPart> with AutomaticKeep
 
                 Expanded(
                   child: Padding(
-                      padding: EdgeInsets.all(2*AppCard.NORM_MARGIN_VAL),
+                      padding: const EdgeInsets.all(2*AppCard.NORM_MARGIN_VAL),
                       child: TextFieldChords(
                         textStyle: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
                         maxLines: null, // needed to wrap text, else it's one line.
@@ -84,9 +85,9 @@ class TranspositionPartState extends State<TranspositionPart> with AutomaticKeep
                         children: [
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(top: 8.0),
+                              padding: const EdgeInsets.only(top: 8.0),
                               child: SelectableText(
-                                noText?'Po transpozycji:':ChordShifter(chords, shift).getText(true),
+                                noText?'Po transpozycji:':ChordShifter(chords, shift!).getText(true),
                                 style: AppTextStyle(
                                   color: noText?hintEnab_(context):textEnab_(context),
                                   fontSize: Dimen.TEXT_SIZE_BIG,
@@ -101,13 +102,13 @@ class TranspositionPartState extends State<TranspositionPart> with AutomaticKeep
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 IconButton(
-                                  icon: Icon(MdiIcons.chevronDoubleDown),
-                                  onPressed: () => setState(() => shift = ChordShifter.shiftToneDown(shift)),
+                                  icon: const Icon(MdiIcons.chevronDoubleDown),
+                                  onPressed: () => setState(() => shift = ChordShifter.shiftToneDown(shift!)),
                                 ),
                                 Text(shift.toString(), style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold)),
                                 IconButton(
-                                  icon: Icon(MdiIcons.chevronDoubleUp),
-                                  onPressed: () => setState(() => shift = ChordShifter.shiftToneUp(shift)),
+                                  icon: const Icon(MdiIcons.chevronDoubleUp),
+                                  onPressed: () => setState(() => shift = ChordShifter.shiftToneUp(shift!)),
                                 )
                               ]
                           ),
@@ -123,19 +124,19 @@ class TranspositionPartState extends State<TranspositionPart> with AutomaticKeep
 
         Consumer<FretboardProvider>(
           builder: (context, prov, child) => ChordDrawBar(
-            ChordShifter(chords, shift).getText(true),
-            initType: prov.type,
+            ChordShifter(chords, shift!).getText(true),
+            initType: prov.type!,
             changeTypeOnTap: false,
             elevation: 0,
             background: Colors.transparent,
             showLabel: false,
             onTap: (chord, type){
               if(type == InstrumentType.GUITAR)
-                prov.guitChord = chord;
+                prov.guitChord = chord as GChord;
               else if(type == InstrumentType.UKULELE)
-                prov.ukulChord = chord;
+                prov.ukulChord = chord as UChord?;
               else if(type == InstrumentType.MANDOLIN)
-                prov.mandChord = chord;
+                prov.mandChord = chord as MChord?;
 
             },
             key: ValueKey(Tuple2(prov.type, shift)),

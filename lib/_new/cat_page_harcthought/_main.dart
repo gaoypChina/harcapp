@@ -49,7 +49,7 @@ import 'harc_forms/harc_forms_page.dart';
 
 class CatPageHarcThought extends StatefulWidget{
 
-  const CatPageHarcThought({Key key}) : super(key: key);
+  const CatPageHarcThought({Key? key}) : super(key: key);
 
   @override
   State createState() => CatPageHarcThoughtState();
@@ -64,21 +64,21 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
     Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackHarcthought();
   }
 
-  ScrollController controller;
-  TabController tabController;
-  ValueNotifier tabNotifier;
+  ScrollController? controller;
+  late TabController tabController;
+  late ValueNotifier tabNotifier;
 
-  String paraFontFamily;
-  bool loading;
+  String? paraFontFamily;
+  bool? loading;
 
-  int selectedIndex;
+  int? selectedIndex;
 
   @override
   void initState() {
 
     tabController = TabController(vsync: this, length: 2);
     tabNotifier = ValueNotifier<double>(0);
-    tabController.animation.addListener(() => tabNotifier.value = tabController.animation.value);
+    tabController.animation!.addListener(() => tabNotifier.value = tabController.animation!.value);
     paraFontFamily = Parag2TextStyle.FAMILY;
 
     controller = ScrollController();
@@ -267,7 +267,7 @@ class _ArticleScrollView extends StatefulWidget{
 
 class _ArticleScrollViewState extends State<_ArticleScrollView>{
 
-  SingleComputerListener loaderListener;
+  SingleComputerListener? loaderListener;
 
   @override
   void initState() {
@@ -303,7 +303,7 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
 
         }
     );
-    articleLoader.addListener(loaderListener);
+    articleLoader.addListener(loaderListener as ArticleLoaderListener);
 
     if (articleLoader.loadState == null || articleLoader.loadState == ArticleLoadState.NO_NET){
       articleLoader.run();
@@ -314,7 +314,7 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
 
   @override
   void dispose() {
-    articleLoader.removeListener(loaderListener);
+    articleLoader.removeListener(loaderListener as ArticleLoaderListener);
     super.dispose();
   }
 
@@ -489,7 +489,7 @@ class FormsScrollView extends StatelessWidget{
 
   final List<HarcForm> forms;
 
-  const FormsScrollView(this.forms, {Key key}): super(key: key);
+  const FormsScrollView(this.forms, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => SizedBox(
@@ -512,7 +512,7 @@ class _ApelEwanScrollView extends StatelessWidget{
 
   final List<ApelEwan> apelEwanList;
 
-  const _ApelEwanScrollView(this.apelEwanList, {Key key}): super(key: key);
+  const _ApelEwanScrollView(this.apelEwanList, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => SizedBox(

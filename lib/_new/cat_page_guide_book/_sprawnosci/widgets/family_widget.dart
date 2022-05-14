@@ -12,8 +12,8 @@ import 'spraw_tile_widget.dart';
 class FamilyWidget extends StatelessWidget{
 
   final SprawFamily sprawFamily;
-  final String groupName;
-  final void Function(Spraw spraw) onPicked;
+  final String? groupName;
+  final void Function(Spraw spraw)? onPicked;
 
   const FamilyWidget(this.sprawFamily, {this.groupName, this.onPicked});
 
@@ -35,7 +35,7 @@ class FamilyWidget extends StatelessWidget{
 
                 Expanded(
                   child: Text(
-                    sprawFamily.title.toUpperCase(),
+                    sprawFamily.title!.toUpperCase(),
                     style: AppTextStyle(
                       fontWeight: weight.bold,
                       fontSize: Dimen.TEXT_SIZE_BIG,
@@ -55,7 +55,7 @@ class FamilyWidget extends StatelessWidget{
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   Text(
-                                      sprawFamily.fragment,
+                                      sprawFamily.fragment!,
                                       style: AppTextStyle(
                                           fontSize: Dimen.TEXT_SIZE_BIG,
                                           fontStyle: FontStyle.italic,
@@ -93,12 +93,12 @@ class FamilyWidget extends StatelessWidget{
               alignment: WrapAlignment.center,
               spacing: 14.0,
               runSpacing: 14.0,
-              children: sprawFamily.tags.map((tag) => Text(tag, style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context)))).toList(),
+              children: sprawFamily.tags!.map((tag) => Text(tag, style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context)))).toList(),
             ),
           ),
 
         Column(
-          children: sprawFamily.spraws.map((spraw) => SprawTileWidget(
+          children: sprawFamily.spraws!.map((spraw) => SprawTileWidget(
               groupName: groupName,
               spraw: spraw,
               onPicked: onPicked

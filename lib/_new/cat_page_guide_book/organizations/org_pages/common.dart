@@ -9,14 +9,14 @@ const double commonPadding = 20.0;
 class Item extends StatelessWidget{
 
   final String title;
-  final Color titleColor;
-  final Color textColor;
-  final Color cardColor;
+  final Color? titleColor;
+  final Color? textColor;
+  final Color? cardColor;
   final String content;
   final bool inCard;
   final double titleSize;
-  final Widget titleTrailing;
-  final Widget titleLeading;
+  final Widget? titleTrailing;
+  final Widget? titleLeading;
 
   const Item(
       this.title,
@@ -39,14 +39,14 @@ class Item extends StatelessWidget{
         Row(
           children: [
             if(titleLeading!=null)
-              titleLeading,
+              titleLeading!,
             Text(title, style: AppTextStyle(
                 fontSize: titleSize,
                 color: titleColor,
                 fontWeight: weight.halfBold)),
             Expanded(child: Container()),
             if(titleTrailing!=null)
-              titleTrailing
+              titleTrailing!
           ],
         ),
         SizedBox(height: commonPadding),

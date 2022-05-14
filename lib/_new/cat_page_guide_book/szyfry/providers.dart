@@ -19,7 +19,7 @@ class GaderypolukiProvider extends ChangeNotifier{
     return true;
   }
 
-  static String createOutput(String key, String input){
+  static String createOutput(String key, String? input){
 
     Map<String, String> map = {};
 
@@ -34,19 +34,19 @@ class GaderypolukiProvider extends ChangeNotifier{
 
     String output = '';
 
-    for(int i=0; i<input.length; i++){
+    for(int i=0; i<input!.length; i++){
       String letter = input.substring(i, i+1);
       bool isUpperCase = letter == letter.toUpperCase();
       if(isUpperCase)
-        output += map.containsKey(letter.toLowerCase())?map[letter.toLowerCase()].toUpperCase():letter;
+        output += map.containsKey(letter.toLowerCase())?map[letter.toLowerCase()]!.toUpperCase():letter;
       else
-        output += map.containsKey(letter)?map[letter]:letter;
+        output += map.containsKey(letter)?map[letter]!:letter;
     }
 
     return output;
   }
 
-  bool _isValid;
+  late bool _isValid;
   bool get isValid => _isValid;
 
   TextEditingController _keyController = TextEditingController();
@@ -58,17 +58,17 @@ class GaderypolukiProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  String _input;
-  String get input => _input;
-  set input(String value){
+  String? _input;
+  String? get input => _input;
+  set input(String? value){
     _input = value;
     _output = createOutput(key, _input);
 
     notifyListeners();
   }
 
-  String _output;
-  String get output => _output;
+  String? _output;
+  String? get output => _output;
 
   GaderypolukiProvider(){
     _isValid = true;

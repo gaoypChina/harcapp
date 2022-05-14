@@ -142,7 +142,7 @@ class PartContributors extends StatelessWidget{
     MAXIMILIAN_STEINHOFF,
     ZUZANNA_JAWORSKA,
     Person(name: 'Josef Balvín', hufiec: 'Junák - český skaut',),
-    Person(name: 'Wiktoria Hernik', hufiec: 'Hufiec ZHP Kraków - Nowa Huta', stop_i: 'phm.', org: Org.zhp),
+    Person(name: 'Wiktoria Hernik', hufiec: 'Hufiec ZHP Kraków - Nowa Huta', stopI: 'phm.', org: Org.zhp),
     FRANCISZEK_LINKE
   ];
 
@@ -215,8 +215,8 @@ class PartContributors extends StatelessWidget{
 
 class GraphicalResource{
 
-  final String path;
-  final String author;
+  final String? path;
+  final String? author;
 
   const GraphicalResource(this.path, this.author);
 
@@ -298,7 +298,7 @@ class GraphicalResourceCard extends StatelessWidget{
                   const SizedBox(height: 6.0),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
                     Text('Autor: ', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_SMALL)),
-                    Text(_graphicalResources[index].author, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL)),
+                    Text(_graphicalResources[index].author!, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL)),
                   ],)
                 ],
               ),

@@ -6,7 +6,7 @@ abstract class ErrorResponseHandler{
   const ErrorResponseHandler();
 
   Future<bool> apply({
-    Response response,
-    @required Function onError});
+    Response? response,
+    required Function onError});
 
 }

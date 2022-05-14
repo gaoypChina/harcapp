@@ -1,0 +1,30 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:palette_generator/palette_generator.dart';
+
+import '../common/member_tile.dart';
+import '../model/circle.dart';
+import 'members_page_templ.dart';
+
+class MembersPage extends StatelessWidget{
+
+  final Circle circle;
+  final PaletteGenerator? palette;
+
+  const MembersPage(this.circle, this.palette, {Key? key}): super(key: key);
+
+  @override
+  Widget build(BuildContext context) => MembersPageTempl(
+    circle: circle,
+    palette: palette,
+    itemBuilder: (context, member) => MemberTile(
+        userKey: member.key,
+        name: member.name,
+        shadow: member.shadow,
+        role: member.role,
+        anythingSelected: false,
+        heroTag: member
+    ),
+  );
+
+}

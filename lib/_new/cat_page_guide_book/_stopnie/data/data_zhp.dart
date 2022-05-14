@@ -23,24 +23,24 @@ class SprawNamesWidget extends StatefulWidget{
   final String code;
   final String name;
   final int count;
-  final int reqCount;
-  final Color backgroundColor;
-  final Color stopColor;
-  final void Function(bool) onCheckChanged;
+  final int? reqCount;
+  final Color? backgroundColor;
+  final Color? stopColor;
+  final void Function(bool?)? onCheckChanged;
   final bool checkVisible;
-  final bool checkable;
+  final bool? checkable;
 
   const SprawNamesWidget(
       this.stopId,
       this.code,
       this.name,
-      {@required this.count,
+      {required this.count,
         this.reqCount,
         this.backgroundColor,
         this.stopColor,
         this.onCheckChanged,
-        @required this.checkVisible,
-        @required this.checkable,
+        required this.checkVisible,
+        required this.checkable,
       });
 
   @override
@@ -54,12 +54,12 @@ class SprawNamesWidgetState extends State<SprawNamesWidget>{
   String get name => widget.name;
   String get code => widget.code;
   int get count => widget.count;
-  int get reqCount => widget.reqCount;
-  Color get backgroundColor => widget.backgroundColor;
-  Color get stopColor => widget.stopColor;
-  void Function(bool) get onCheckChanged => widget.onCheckChanged;
+  int? get reqCount => widget.reqCount;
+  Color? get backgroundColor => widget.backgroundColor;
+  Color? get stopColor => widget.stopColor;
+  void Function(bool?)? get onCheckChanged => widget.onCheckChanged;
   bool get checkVisible => widget.checkVisible;
-  bool get checkable => widget.checkable;
+  bool? get checkable => widget.checkable;
 
   @override
   Widget build(BuildContext context) {
@@ -82,11 +82,11 @@ class SprawNamesWidgetState extends State<SprawNamesWidget>{
               ),
               if(checkVisible)
                 IgnorePointer(
-                  ignoring: checkable,
+                  ignoring: checkable!,
                   child: CircularCheckbox(
                     value: RankZHPSim2022Templ.getExtCheckedKey(stopId, code, i),
                     onChanged: (value) async {
-                      await RankZHPSim2022Templ.setExtCheckedKey(stopId, code, i, value);
+                      await RankZHPSim2022Templ.setExtCheckedKey(stopId, code, i, value!);
                       setState((){});
                       Provider.of<RankFloatingButtonProvider>(context, listen: false).notify();
                       onCheckChanged?.call(value);

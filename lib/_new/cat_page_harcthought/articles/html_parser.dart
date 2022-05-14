@@ -67,7 +67,7 @@ class HTML{
 
     Iterable<String> codes = regExp.allMatches(text).map((m){
 
-      text = m.group(0)
+      text = m.group(0)!
           .replaceAll(RegExp(r'<' + blockCodeRegEx + r'[^>]*>'), '')
           .replaceAll(RegExp(endTag), '');
 
@@ -94,7 +94,7 @@ class HTML{
 
     Iterable<String> codes = pitcureRegEx.allMatches(text).map((m){
 
-      text = m.group(0).replaceAll('<img src="', '');
+      text = m.group(0)!.replaceAll('<img src="', '');
       int index = m.start;
       String encoded = jsonEncode([index, text]);
       return encoded;
@@ -117,7 +117,7 @@ class HTML{
 
     Iterable<String> codes = pitcureRegEx.allMatches(text).map((m){
 
-      text = m.group(0).replaceAll('<iframe src="', '');
+      text = m.group(0)!.replaceAll('<iframe src="', '');
       int index = m.start;
       String encoded = jsonEncode([index, text]);
       return encoded;
@@ -146,7 +146,7 @@ class HTML{
     text = text.replaceAllMapped(
         matchBlock('a'),
             (match){
-              return match.group(0)
+              return match.group(0)!
                   .replaceAll(RegExp(r'<a[^>]*>'), '')
                   .replaceAll(RegExp(r'<\/a>'), '');
             }
@@ -170,7 +170,7 @@ class HTML{
     text = text.replaceAllMapped(
         matchBlock('blockquote'),
             (match){
-            return match.group(0)
+            return match.group(0)!
               .replaceAll(RegExp(r'<p[^>]*>[\s\n]*'), '')
               .replaceAll(RegExp(r'[\s\n]*<\/p>'), '');
         }
@@ -202,71 +202,71 @@ class HTML{
         (iter_yt < youtube.length)
     ){
 
-      int idx_h = MAX_INT;
-      String val_h;
+      int? idx_h = MAX_INT;
+      String? val_h;
       if(iter_h < headers.length) {
         idx_h = headers[iter_h][0];
         val_h = headers[iter_h][1];
       }
 
-      int idx_bp = MAX_INT;
-      String val_bp;
+      int? idx_bp = MAX_INT;
+      String? val_bp;
       if(iter_bp < bold_parags.length) {
         idx_bp = bold_parags[iter_bp][0];
         val_bp = bold_parags[iter_bp][1];
       }
 
-      int idx_p = MAX_INT;
-      String val_p;
+      int? idx_p = MAX_INT;
+      String? val_p;
       if(iter_p < paragraphs.length) {
         idx_p = paragraphs[iter_p][0];
         val_p = paragraphs[iter_p][1];
       }
 
-      int idx_q = MAX_INT;
-      String val_q;
+      int? idx_q = MAX_INT;
+      String? val_q;
       if(iter_q < quotes.length) {
         idx_q = quotes[iter_q][0];
         val_q = quotes[iter_q][1];
       }
 
-      int idx_fig = MAX_INT;
-      String val_fig;
+      int? idx_fig = MAX_INT;
+      String? val_fig;
       if(iter_fig < figures.length) {
         idx_fig = figures[iter_fig][0];
         val_fig = figures[iter_fig][1];
       }
 
-      int idx_img = MAX_INT;
-      String val_img;
+      int? idx_img = MAX_INT;
+      String? val_img;
       if(iter_img < images.length) {
         idx_img = images[iter_img][0];
         val_img = images[iter_img][1];
       }
 
-      int idx_yt = MAX_INT;
-      String val_yt;
+      int? idx_yt = MAX_INT;
+      String? val_yt;
       if(iter_yt < youtube.length) {
         idx_yt = youtube[iter_yt][0];
         val_yt = youtube[iter_yt][1];
       }
 
-      List<int> idxs = [idx_h, idx_bp, idx_p, idx_q, idx_fig, idx_img, idx_yt];
-      int min_idx = idxs.reduce(min);
+      List<int?> idxs = [idx_h, idx_bp, idx_p, idx_q, idx_fig, idx_img, idx_yt];
+      int? min_idx = idxs.reduce(min);
 
       if(min_idx == idx_h) {
-        val_h = val_h.replaceAll('<i>', '');
+        val_h = val_h!.replaceAll('<i>', '');
         val_h = val_h.replaceAll('</i>', '');
         elements.add(Header(text: val_h));
         iter_h++;
       }else if(min_idx == idx_bp) {
-        val_bp = val_bp.replaceAll('<b>', '');
+        val_bp = val_bp!.replaceAll('<b>', '');
         val_bp = val_bp.replaceAll('</b>', '');
         elements.add(Paragraph(text: '<b>$val_bp</b>'));
         iter_bp++;
       }else if(min_idx == idx_p) {
 
-        val_p = val_p.replaceAll(RegExp(r'<iframe[^>]*>[^<]*</iframe>'), '');
+        val_p = val_p!.replaceAll(RegExp(r'<iframe[^>]*>[^<]*</iframe>'), '');
         val_p = val_p.replaceAll(RegExp(r'<iframe[^>]*>'), '');
         val_p = val_p.replaceAll(RegExp(r'<img[^>]*>[^<]*</img>'), '');
         val_p = val_p.replaceAll(RegExp(r'<img[^>]*>'), '');
@@ -274,7 +274,7 @@ class HTML{
         elements.add(Paragraph(text: val_p));
         iter_p++;
       }else if(min_idx == idx_q) {
-        val_q = val_q.replaceAll('<i>', '');
+        val_q = val_q!.replaceAll('<i>', '');
         val_q = val_q.replaceAll('</i>', '');
         elements.add(Quote(text: val_q));
         iter_q++;
@@ -285,12 +285,12 @@ class HTML{
           multiLine: true, dotAll: true,
         );
 
-        Iterable<String> pictureLinks = pitcureRegEx.allMatches(val_fig).map((m) =>
-          m.group(0).replaceAll('<img src="', ''));
+        Iterable<String> pictureLinks = pitcureRegEx.allMatches(val_fig!).map((m) =>
+          m.group(0)!.replaceAll('<img src="', ''));
 
         RegExp figCaptionRegExp = HTML.matchBlock('figcaption');
         List<String> descriptions = figCaptionRegExp.allMatches(val_fig).map((m) =>
-            m.group(0).replaceAll('<figcaption>', '').replaceAll('</figcaption>', '')).toList();
+            m.group(0)!.replaceAll('<figcaption>', '').replaceAll('</figcaption>', '')).toList();
 
         for(int i=0; i<descriptions.length; i++)
           descriptions[i] = descriptions[i].replaceAll('<i>', '').replaceAll('</i>', '');

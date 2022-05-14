@@ -55,19 +55,19 @@ class OrgProvider extends ChangeNotifier{
 
   static OrgProvider of(BuildContext context) => Provider.of<OrgProvider>(context, listen: false);
 
-  Org get current => OrgHandler.current;
+  Org? get current => OrgHandler.current;
 
-  set current(Org value){
+  set current(Org? value){
     OrgHandler.current = value;
     notifyListeners();
   }
 
-  Org nextFrom(List<Org> allowedOrgs){
-    Org nextOrg = OrgHandler.nextFrom(allowedOrgs);
+  Org? nextFrom(List<Org?> allowedOrgs){
+    Org? nextOrg = OrgHandler.nextFrom(allowedOrgs);
     notifyListeners();
     return nextOrg;
   }
 
-  Org currentFrom(List<Org> allowedOrgs) => OrgHandler.currentFrom(allowedOrgs);
+  Org? currentFrom(List<Org> allowedOrgs) => OrgHandler.currentFrom(allowedOrgs);
 
 }

@@ -14,13 +14,13 @@ class PageTemplate extends StatelessWidget {
 
   static const Color accentColor = Colors.black;
 
-  final String title;
+  final String? title;
   final Widget child;
-  final double appBarElevation;
-  final PreferredSizeWidget appBarBottom;
-  final List<Widget> actions;
+  final double? appBarElevation;
+  final PreferredSizeWidget? appBarBottom;
+  final List<Widget>? actions;
 
-  const PageTemplate({this.title, @required this.child, this.appBarElevation, this.appBarBottom, this.actions});
+  const PageTemplate({this.title, required this.child, this.appBarElevation, this.appBarBottom, this.actions});
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +81,8 @@ class PageTemplate extends StatelessWidget {
 
                     return GradientWidget(
                         radius: 0,
-                        colorStart: Colors.red[900],
-                        colorEnd: Colors.deepOrange[700],
+                        colorStart: Colors.red[900]!,
+                        colorEnd: Colors.deepOrange[700]!,
                         height: Dimen.ICON_SIZE + 2*Dimen.DEF_MARG,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

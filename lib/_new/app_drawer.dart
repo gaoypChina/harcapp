@@ -29,9 +29,9 @@ const account = true;
 class AppDrawer extends StatelessWidget{
 
   final Widget body;
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
-  const AppDrawer({@required this.body, this.backgroundColor, Key key}):super(key: key);
+  const AppDrawer({required this.body, this.backgroundColor, Key? key}):super(key: key);
 
   @override
   Widget build(BuildContext context) => Drawer(
@@ -78,7 +78,7 @@ class AppDrawer extends StatelessWidget{
 
 class AccountHeaderIcon extends StatelessWidget{
 
-  const AccountHeaderIcon({Key key}) : super(key: key);
+  const AccountHeaderIcon({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -102,8 +102,8 @@ class AccountHeader extends StatelessWidget{
 
   static const double iconSize = 54.0;
 
-  final Widget leading;
-  const AccountHeader({this.leading, Key key}): super(key: key);
+  final Widget? leading;
+  const AccountHeader({this.leading, Key? key}): super(key: key);
 
   static const IconData icon = MdiIcons.accountCircleOutline;
 
@@ -142,7 +142,7 @@ class AccountHeader extends StatelessWidget{
             if(leading == null)
               const SizedBox(width: Dimen.ICON_FOOTPRINT)
             else
-              leading,
+              leading!,
 
             Expanded(child: Container()),
             const HarcApp(size: Dimen.TEXT_SIZE_APPBAR),
@@ -249,7 +249,7 @@ class AccountHeader extends StatelessWidget{
 
 class SyncWidget extends StatefulWidget{
 
-  const SyncWidget({Key key}) : super(key: key);
+  const SyncWidget({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => SyncWidgetState();
@@ -260,8 +260,8 @@ class SyncWidgetState extends State<SyncWidget>{
 
   static const double iconSize = Dimen.ICON_SIZE;
 
-  SynchronizerListener listener;
-  SyncOper syncing;
+  SynchronizerListener? listener;
+  SyncOper? syncing;
 
   @override
   void initState() {
@@ -342,7 +342,7 @@ class SyncWidgetState extends State<SyncWidget>{
 
         IconButton(
           icon: Icon(MdiIcons.cloudCheck, size: iconSize, color: iconDisab_(context)),
-          onPressed: () => showAppToast(context, text: 'Ostatnia synchronizacja: <b>${dateToString(SynchronizerEngine.lastSyncTimeLocal, shortMonth: true, yearAbbr: 'A.D.')}</b>'),
+          onPressed: () => showAppToast(context, text: 'Ostatnia synchronizacja: <b>${dateToString(SynchronizerEngine.lastSyncTimeLocal!, shortMonth: true, yearAbbr: 'A.D.')}</b>'),
         )
       ],
     );

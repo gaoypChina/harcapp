@@ -14,12 +14,12 @@ import 'common.dart';
 
 class DangerPart extends StatefulWidget{
 
-  final Circle circle;
-  final void Function() onDeleted;
-  final void Function() onLeft;
-  final void Function() onError;
+  final Circle? circle;
+  final void Function()? onDeleted;
+  final void Function()? onLeft;
+  final void Function()? onError;
 
-  const DangerPart(this.circle, {this.onDeleted, this.onLeft, this.onError, Key key}) : super(key: key);
+  const DangerPart(this.circle, {this.onDeleted, this.onLeft, this.onError, Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => DangerPartState();
@@ -28,8 +28,8 @@ class DangerPart extends StatefulWidget{
 
 class DangerPartState extends State<DangerPart>{
 
-  Circle get circle => widget.circle;
-  void Function() get onLeft => widget.onLeft;
+  Circle? get circle => widget.circle;
+  void Function()? get onLeft => widget.onLeft;
 
   @override
   Widget build(BuildContext context) => ListView(
@@ -62,7 +62,7 @@ class DangerPartState extends State<DangerPart>{
                     showLoadingWidget(context, iconEnab_(context), 'Zwijanie kręgu...');
 
                     await ApiCircle.delete(
-                      circleKey: circle.key,
+                      circleKey: circle!.key,
                       onSuccess: () async {
                         Circle.removeFromAll(context, circle);
                         showAppToast(context, text: 'Poszło z dymem!');

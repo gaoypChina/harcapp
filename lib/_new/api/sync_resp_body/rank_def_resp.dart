@@ -6,10 +6,10 @@ class RankDefResp extends RankResp{
   static const String COLL_NAME = 'rank_def';
 
   const RankDefResp({
-    bool inProgress,
-    bool completed,
-    DateTime completionDate,
-    Map<String, RankTaskResp> tasks,
+    bool? inProgress,
+    bool? completed,
+    DateTime? completionDate,
+    Map<String, RankTaskResp>? tasks,
   }):super(
     inProgress: inProgress,
     completed: completed,

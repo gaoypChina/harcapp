@@ -60,20 +60,22 @@ Map<String, String> lettersMap = {
   '?':'? /'
 };
 
-Map<String, String> reverseLettersMap;
+late Map<String, String> reverseLettersMap;
 
 class ChildMorseCommonValues{
 
-  String input;
-  ChildMorseCommonValues();
+  late String input;
+  ChildMorseCommonValues(){
+    input = '';
+  }
 
 }
 
 class ChildMorse extends StatefulWidget{
 
-  final ChildMorseCommonValues commonVals;
+  final ChildMorseCommonValues? commonVals;
 
-  const ChildMorse(this.commonVals);
+  const ChildMorse(this.commonVals, {Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => ChildMorseState();
@@ -85,12 +87,12 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
   @override
   bool get wantKeepAlive => true;
 
-  String get _input => widget.commonVals.input;
-  set _input(String value) => widget.commonVals.input = value;
+  String get _input => widget.commonVals!.input;
+  set _input(String value) => widget.commonVals!.input = value;
 
-  String _additionalMorseLetter;
+  late String _additionalMorseLetter;
 
-  TextEditingController controller;
+  TextEditingController? controller;
 
   @override
   void initState() {
@@ -98,7 +100,7 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
     _additionalMorseLetter = '';
     reverseLettersMap = {};
     for(String key in lettersMap.keys)
-      reverseLettersMap[lettersMap[key].replaceAll(' ', '')] = key;
+      reverseLettersMap[lettersMap[key]!.replaceAll(' ', '')] = key;
 
     controller = TextEditingController();
 
@@ -107,7 +109,7 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
 
   @override
   void dispose() {
-    controller.dispose();
+    controller!.dispose();
     super.dispose();
   }
 
@@ -122,7 +124,7 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
           child: AppCard(
             radius: AppCard.BIG_RADIUS,
             elevation: AppCard.bigElevation,
-            margin: EdgeInsets.all(Dimen.DEF_MARG),
+            margin: const EdgeInsets.all(Dimen.DEF_MARG),
             child: TextField(
               controller: controller,
               textCapitalization: TextCapitalization.characters,
@@ -149,17 +151,17 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
             ),
           ),
         ),
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
         Expanded(
           child: Padding(
             padding: AppCard.defPadding,
-            child: SelectableText(generateOutput(_input, additionalMorseLetter: _additionalMorseLetter), style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
+            child: SelectableText(generateOutput(_input!, additionalMorseLetter: _additionalMorseLetter), style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
           ),
         ),
         AppCard(
           radius: AppCard.BIG_RADIUS,
           elevation: AppCard.bigElevation,
-          margin: EdgeInsets.all(Dimen.DEF_MARG),
+          margin: const EdgeInsets.all(Dimen.DEF_MARG),
           child: Row(
             children: [
               Expanded(
@@ -167,10 +169,9 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
                 child: SimpleButton(
                     onTap: () => setState((){
                       hideKeyboard(context);
-
                       _additionalMorseLetter += MORSE_LINE;
                     }),
-                    child: Icon(MdiIcons.minus)
+                    child: const Icon(MdiIcons.minus)
                 ),
               ),
               Expanded(
@@ -181,10 +182,10 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
 
                       String latinLetter = decodeAdditionalMorse(_additionalMorseLetter);
                       _input += latinLetter;
-                      controller.text += latinLetter;
+                      controller!.text += latinLetter;
                       _additionalMorseLetter = '';
                     }),
-                    child: Icon(MdiIcons.slashForward)
+                    child: const Icon(MdiIcons.slashForward)
                 ),
               ),
               Expanded(
@@ -194,7 +195,7 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
                       hideKeyboard(context);
                       _additionalMorseLetter += MORSE_DOT;
                     }),
-                    child: Icon(MdiIcons.circleMedium)
+                    child: const Icon(MdiIcons.circleMedium)
                 ),
               )
             ],
@@ -204,12 +205,12 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
     );
   }
 
-  static String generateOutput(String input, {String additionalMorseLetter}){
+  static String generateOutput(String input, {String? additionalMorseLetter}){
     input = remPolChars(input).toUpperCase();
     String output = '';
     for(int i=0; i<input.length; i++){
       String letter = input.substring(i, i+1);
-      output += lettersMap[letter] + ' ';
+      output += lettersMap[letter]! + ' ';
     }
     if(additionalMorseLetter!=null)
       output += additionalMorseLetter;
@@ -222,7 +223,7 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
   static String decodeAdditionalMorse(String additionalMorseLetter){
     additionalMorseLetter += '/';
     additionalMorseLetter = additionalMorseLetter.replaceAll(' ', '');
-    String latinLetter = reverseLettersMap[additionalMorseLetter];
+    String? latinLetter = reverseLettersMap[additionalMorseLetter];
 
     if(latinLetter == null)
       latinLetter = letterUnknown;
@@ -233,7 +234,7 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
 
 class MorseFlash extends StatefulWidget{
 
-  final ChildMorseCommonValues commonVals;
+  final ChildMorseCommonValues? commonVals;
 
   const MorseFlash(this.commonVals);
 
@@ -246,22 +247,22 @@ class MorseFlashState extends State<MorseFlash>{
 
   bool _hasFlashlight = false;
 
-  String code;
-  int signIdx;
+  late String code;
+  int? signIdx;
 
 
   // false = off
   // true = morse
   // null = call
-  bool signalising;
+  bool? signalising;
 
-  double get speed => shaPref.getDouble(ShaPref.SHA_PREF_SZYFR_MORSE_SIGNAL_SPEED, 0.6);
-  set speed(double value) => shaPref.setDouble(ShaPref.SHA_PREF_SZYFR_MORSE_SIGNAL_SPEED, value);
+  double get speed => shaPref!.getDouble(ShaPref.SHA_PREF_SZYFR_MORSE_SIGNAL_SPEED, 0.6);
+  set speed(double value) => shaPref!.setDouble(ShaPref.SHA_PREF_SZYFR_MORSE_SIGNAL_SPEED, value);
 
   @override
   void initState() {
     initFlashlight();
-    code = ChildMorseState.generateOutput(widget.commonVals.input);
+    code = ChildMorseState.generateOutput(widget.commonVals!.input!);
     signalising = false;
     super.initState();
   }
@@ -328,21 +329,21 @@ class MorseFlashState extends State<MorseFlash>{
       children: [
 
         if(_hasFlashlight == null)
-          AppCard(
+          const AppCard(
             radius: AppCard.BIG_RADIUS,
-            padding: EdgeInsets.all(Dimen.ICON_MARG),
+            padding: const EdgeInsets.all(Dimen.ICON_MARG),
             margin: AppCard.normMargin,
-            child: EmptyMessageWidget(
+            child: const EmptyMessageWidget(
               text: 'Ładowanie...',
               icon: MdiIcons.loading,
             ),
           )
         else if(!_hasFlashlight)
-          AppCard(
+          const AppCard(
             radius: AppCard.BIG_RADIUS,
             padding: EdgeInsets.all(Dimen.ICON_MARG),
             margin: AppCard.normMargin,
-            child: EmptyMessageWidget(
+            child: const EmptyMessageWidget(
               text: 'Brak latartki!',
               icon: MdiIcons.flashlightOff,
             ),
@@ -356,7 +357,7 @@ class MorseFlashState extends State<MorseFlash>{
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
-                  padding: EdgeInsets.all(2*Dimen.DEF_MARG),
+                  padding: const EdgeInsets.all(2*Dimen.DEF_MARG),
                   child: signIdx==null?
                   Text(code, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, color: signalising==null?hintEnab_(context):textEnab_(context)),)
                       :
@@ -368,11 +369,11 @@ class MorseFlashState extends State<MorseFlash>{
                           style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context), fontWeight: weight.halfBold),
                         ),
                         TextSpan(
-                          text: code[signIdx],
+                          text: code[signIdx!],
                           style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: textEnab_(context), fontWeight: weight.halfBold),
                         ),
                         TextSpan(
-                          text: code.substring(signIdx+1),
+                          text: code.substring(signIdx!+1),
                           style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG,  color: hintEnab_(context), fontWeight: weight.halfBold),
                         )
                       ],
@@ -398,7 +399,7 @@ class MorseFlashState extends State<MorseFlash>{
                         padding: EdgeInsets.zero,
                         onTap: signalising==null?null:()async{
 
-                          if(signalising){
+                          if(signalising!){
                             setState((){
                               signalising = false;
                               signIdx = null;
@@ -409,10 +410,10 @@ class MorseFlashState extends State<MorseFlash>{
 
                         },
                         child: AnimatedChildSlider(
-                          index: signalising==null?0:(signalising?1:0),
+                          index: signalising==null?0:(signalising!?1:0),
                           children: [
                             Padding(
-                              padding: EdgeInsets.all(Dimen.ICON_MARG),
+                              padding: const EdgeInsets.all(Dimen.ICON_MARG),
                               child: Text('SYGNALIZUJ',
                                   style: AppTextStyle(
                                       fontSize: Dimen.TEXT_SIZE_BIG,
@@ -423,7 +424,7 @@ class MorseFlashState extends State<MorseFlash>{
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(Dimen.ICON_MARG),
+                              padding: const EdgeInsets.all(Dimen.ICON_MARG),
                               child: Text('PRZERWIJ',
                                   style: AppTextStyle(
                                       fontSize: Dimen.TEXT_SIZE_BIG,
@@ -454,7 +455,7 @@ class MorseFlashState extends State<MorseFlash>{
                         direction: Axis.horizontal,
                         children: [
                           Padding(
-                              padding: EdgeInsets.all(Dimen.ICON_MARG),
+                              padding: const EdgeInsets.all(Dimen.ICON_MARG),
                               child: Container(
                                 child: Text('WYWOŁUJ',
                                     style: AppTextStyle(
@@ -468,7 +469,7 @@ class MorseFlashState extends State<MorseFlash>{
                               )
                           ),
                           Padding(
-                            padding: EdgeInsets.all(Dimen.ICON_MARG),
+                            padding: const EdgeInsets.all(Dimen.ICON_MARG),
                             child: Container(
                               width: 82,
                               child: Text('PRZERWIJ',

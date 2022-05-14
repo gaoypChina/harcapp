@@ -7,7 +7,6 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 
 import '_main.dart';
 import 'common.dart';
@@ -18,7 +17,7 @@ import 'meal.dart';
 class MealListPage extends StatefulWidget{
 
   final KuchniaHarcerskaFragmentState parent;
-  final List<Meal> meals;
+  final List<Meal>? meals;
 
   const MealListPage(this.parent, this.meals);
 
@@ -31,15 +30,15 @@ class MealListPageState extends State<MealListPage>{
 
   KuchniaHarcerskaFragmentState get parent => widget.parent;
 
-  Map<Meal, PrimitiveWrapper<int>> portionsCount;
-  Map<Product, double> productsCount;
-  Map<Equipment, int> equipmentCount;
+  late Map<Meal, PrimitiveWrapper<int>> portionsCount;
+  late Map<Product, double> productsCount;
+  Map<Equipment, int?>? equipmentCount;
 
   @override
   void initState() {
 
     portionsCount = {};
-    for(Meal meal in widget.meals)
+    for(Meal meal in widget.meals!)
       portionsCount[meal] = PrimitiveWrapper(1);
 
     productsCount = _countProducts();
@@ -50,22 +49,22 @@ class MealListPageState extends State<MealListPage>{
 
   Map<Product, double> _countProducts(){
     Map<Product, double> productsCount = {};
-    for(Meal meal in widget.meals)
+    for(Meal meal in widget.meals!)
       for(Ingredient ingredient in meal.ingredients)
         if(productsCount.containsKey(ingredient.product))
-          productsCount[ingredient.product] += (ingredient.getAmountInUnit(Unit.g) * portionsCount[meal].get());
+          productsCount[ingredient.product] = productsCount[ingredient.product]! + (ingredient.getAmountInUnit(Unit.g) * portionsCount[meal]!.get());
         else
-          productsCount[ingredient.product] = (ingredient.getAmountInUnit(Unit.g) * portionsCount[meal].get());
+          productsCount[ingredient.product] = (ingredient.getAmountInUnit(Unit.g) * portionsCount[meal]!.get());
 
     return productsCount;
   }
 
-  Map<Equipment, int> _countEquipment(){
-    Map<Equipment, int> equipmentCount = {};
-    for(Meal meal in widget.meals)
+  Map<Equipment, int?> _countEquipment(){
+    Map<Equipment, int?> equipmentCount = {};
+    for(Meal meal in widget.meals!)
       for(Equipment eq in meal.equipment.keys.toList())
         if(equipmentCount.containsKey(eq)) {
-          if(meal.equipment[eq] > equipmentCount[eq])
+          if(meal.equipment[eq]! > equipmentCount[eq]!)
             equipmentCount[eq] = meal.equipment[eq];
         }else
           equipmentCount[eq] = meal.equipment[eq];
@@ -81,7 +80,7 @@ class MealListPageState extends State<MealListPage>{
 
     return BottomNavScaffold(
       body: CustomScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           slivers: [
             SliverAppBar(
               backgroundColor: background_(context),
@@ -98,12 +97,12 @@ class MealListPageState extends State<MealListPage>{
 
             SliverList(
               delegate: SliverChildListDelegate([
-                Column(children: widget.meals.map<Widget>((meal) => MealItem(this, meal, portionsCount[meal])).toList()),
-                SizedBox(height: 20.0),
-                KuchSectionHeader(text: 'Wszystkie produkty'),
+                Column(children: widget.meals!.map<Widget>((meal) => MealItem(this, meal, portionsCount[meal])).toList()),
+                const SizedBox(height: 20.0),
+                const KuchSectionHeader(text: 'Wszystkie produkty'),
                 Column(children: productsCount.keys.toList().map<Widget>((product) =>
                     IngredientWidgetConv(Ingredient(product, product.unitManager.convert(Unit.g, product.unitManager.defUnit, productsCount[product]), product.unitManager.defUnit), 1)).toList()),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 EquipmentListWidget(equipmentCount),
               ]),
             )
@@ -120,7 +119,7 @@ class MealItem extends StatefulWidget{
   final MealListPageState parent;
 
   final Meal meal;
-  final PrimitiveWrapper<int> portions;
+  final PrimitiveWrapper<int>? portions;
   const MealItem(this.parent, this.meal, this.portions);
 
   @override
@@ -141,9 +140,9 @@ class MealItemState extends State<MealItem>{
           (Widget buttons, Widget textField) {
         return Row(
           children: <Widget>[
-            SizedBox(width: Dimen.DEF_MARG),
-            Container(child: textField, width: 50),
-            SizedBox(width: Dimen.DEF_MARG),
+            const SizedBox(width: Dimen.DEF_MARG),
+            SizedBox(width: 50, child: textField),
+            const SizedBox(width: Dimen.DEF_MARG),
             Text('x ', style: AppTextStyle(fontWeight: weight.halfBold)),
             Text(widget.meal.name, style: AppTextStyle(fontWeight: weight.halfBold)),
             Expanded(child: Container()),

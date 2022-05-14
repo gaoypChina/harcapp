@@ -23,7 +23,7 @@ class IndivCompModeEditorWidget extends StatefulWidget{
   static bool verifyHandleDateOrder(BuildContext context){
     ModeProvider prov = Provider.of<ModeProvider>(context, listen: false);
 
-    bool isAllOk = prov.startDate.isBefore(prov.endDate);
+    bool isAllOk = prov.startDate!.isBefore(prov.endDate!);
 
     if(!isAllOk)
       showAppToast(
@@ -35,7 +35,7 @@ class IndivCompModeEditorWidget extends StatefulWidget{
     return isAllOk;
   }
 
-  final IndivCompDetails initComp;
+  final IndivCompDetails? initComp;
 
   const IndivCompModeEditorWidget({this.initComp});
 
@@ -61,11 +61,11 @@ class _IndivCompModeEditorWidgetState extends State<IndivCompModeEditorWidget> w
                 builder: (context, prov, child) => ListTile(
                     leading: const Icon(MdiIcons.calendarBlankOutline),
                     title: Text('Czas rozpoczęcia', style: AppTextStyle()),
-                    subtitle: Text(dateToString(prov.startDate, shortMonth: true), style: AppTextStyle()),
+                    subtitle: Text(dateToString(prov.startDate!, shortMonth: true), style: AppTextStyle()),
                     onTap: () async {
-                      DateTime dateTime = await showDatePicker(
+                      DateTime? dateTime = await showDatePicker(
                           context: context,
-                          initialDate: prov.startDate,
+                          initialDate: prov.startDate!,
                           firstDate: DateTime(966),
                           lastDate: DateTime(3000)
                       );
@@ -81,11 +81,11 @@ class _IndivCompModeEditorWidgetState extends State<IndivCompModeEditorWidget> w
                 builder: (context, prov, child) => ListTile(
                     leading: const Icon(MdiIcons.calendarOutline),
                     title: Text('Czas zakończenia', style: AppTextStyle()),
-                    subtitle: Text(dateToString(prov.endDate, shortMonth: true), style: AppTextStyle()),
+                    subtitle: Text(dateToString(prov.endDate!, shortMonth: true), style: AppTextStyle()),
                     onTap: () async {
-                      DateTime dateTime = await showDatePicker(
+                      DateTime? dateTime = await showDatePicker(
                           context: context,
-                          initialDate: prov.endDate,
+                          initialDate: prov.endDate!,
                           firstDate: DateTime(966),
                           lastDate: DateTime(3000)
                       );

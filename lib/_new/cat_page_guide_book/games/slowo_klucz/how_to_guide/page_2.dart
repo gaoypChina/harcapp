@@ -17,9 +17,9 @@ class Page2State extends State<Page2> with PageTemplateInterface{
 
   static const Duration _pauseDuration = Duration(milliseconds: 2000);
 
-  int animStage;
+  int? animStage;
 
-  double phoneWidth(double width){
+  double? phoneWidth(double width){
     if(animStage == 0 || animStage == 1)
       return initGridSize(width)/PhoneWidget.aspectRatio;
 
@@ -29,31 +29,31 @@ class Page2State extends State<Page2> with PageTemplateInterface{
     return null;
   }
 
-  double leftPhoneX(double width){
+  double? leftPhoneX(double width){
     if(animStage == 0) return -2*initGridSize(width);
-    if(animStage == 1) return (initGridSize(width) - phoneWidth(width))/2;
-    if(animStage == 2 || animStage == 3) return width/2 - phoneWidth(width)/2;
+    if(animStage == 1) return (initGridSize(width) - phoneWidth(width)!)/2;
+    if(animStage == 2 || animStage == 3) return width/2 - phoneWidth(width)!/2;
 
     return null;
   }
 
-  double leftPhoneY(double width, double hight){
+  double? leftPhoneY(double width, double hight){
     if(animStage == 0) return initGridSize(width);
     if(animStage == 1) return initGridSize(width);
-    if(animStage == 2 || animStage == 3) return hight - phoneWidth(width)*PhoneWidget.aspectRatio - initPlayerOffset(width);
+    if(animStage == 2 || animStage == 3) return hight - phoneWidth(width)!*PhoneWidget.aspectRatio - initPlayerOffset(width);
 
     return null;
   }
 
-  double rightPhoneX(double width){
+  double? rightPhoneX(double width){
     if(animStage == 0) return width + 2*initGridSize(width);
-    if(animStage == 1) return 3*initGridSize(width) + (initGridSize(width) - phoneWidth(width))/2;
+    if(animStage == 1) return 3*initGridSize(width) + (initGridSize(width) - phoneWidth(width)!)/2;
     if(animStage == 2 || animStage == 3) return 2*initGridSize(width);
 
     return null;
   }
 
-  double rightPhoneY(double width, double height){
+  double? rightPhoneY(double width, double height){
     if(animStage == 0) return initGridSize(width);
     if(animStage == 1) return initGridSize(width);
     if(animStage == 2 || animStage == 3) return 0;
@@ -61,7 +61,7 @@ class Page2State extends State<Page2> with PageTemplateInterface{
     return null;
   }
 
-  double playerRedX(double width, double height, int playerIndex){
+  double? playerRedX(double width, double height, int playerIndex){
     if(animStage == 0) return initPlayerOffset(width);
     if(animStage == 1) return initPlayerOffset(width);
     if(animStage == 2) return initPlayerOffset(width);
@@ -70,7 +70,7 @@ class Page2State extends State<Page2> with PageTemplateInterface{
     return null;
   }
 
-  double playerRedY(double width, double height, int playerIndex){
+  double? playerRedY(double width, double height, int playerIndex){
     if(animStage == 0) return height - (4-playerIndex)*initGridSize(width);
     if(animStage == 1) return height - (4-playerIndex)*initGridSize(width);
     if(animStage == 2 || animStage == 3) return height - (4-playerIndex)*(initGridSize(width) - initPlayerOffset(width));
@@ -78,7 +78,7 @@ class Page2State extends State<Page2> with PageTemplateInterface{
     return null;
   }
 
-  double playerGreenX(double width, int playerIndex){
+  double? playerGreenX(double width, int playerIndex){
     if(animStage == 0) return 3*initGridSize(width)+initPlayerOffset(width);
     if(animStage == 1) return 3*initGridSize(width)+initPlayerOffset(width);
     if(animStage == 2) return width-initGridSize(width)+initPlayerOffset(width);
@@ -87,7 +87,7 @@ class Page2State extends State<Page2> with PageTemplateInterface{
     return null;
   }
 
-  double playerGreenY(double width, double height, int playerIndex){
+  double? playerGreenY(double width, double height, int playerIndex){
     if(animStage == 0 || animStage == 1) return height - (4-playerIndex)*initGridSize(width);
     if(animStage == 2 || animStage == 3) return height - (4-playerIndex)*(initGridSize(width) - initPlayerOffset(width));
 
@@ -96,7 +96,7 @@ class Page2State extends State<Page2> with PageTemplateInterface{
 
   // LEADER
 
-  double leaderRedX(double width, double height){
+  double? leaderRedX(double width, double height){
     if(animStage == 0) return initGridSize(width)+initPlayerOffset(width);
     if(animStage == 1) return initGridSize(width)+initPlayerOffset(width);
     if(animStage == 2) return initGridSize(width)+initPlayerOffset(width);
@@ -105,7 +105,7 @@ class Page2State extends State<Page2> with PageTemplateInterface{
     return null;
   }
 
-  double leaderRedY(double width, double height){
+  double? leaderRedY(double width, double height){
     if(animStage == 0) return 0;
     if(animStage == 1) return 0;
     if(animStage == 2) return initGridSize(width) + initPlayerOffset(width);
@@ -114,7 +114,7 @@ class Page2State extends State<Page2> with PageTemplateInterface{
     return null;
   }
 
-  double leaderGreenX(double width){
+  double? leaderGreenX(double width){
     if(animStage == 0) return 2*initGridSize(width)+initPlayerOffset(width);
     if(animStage == 1) return 2*initGridSize(width)+initPlayerOffset(width);
     if(animStage == 2) return initGridSize(width)+initPlayerOffset(width);
@@ -123,7 +123,7 @@ class Page2State extends State<Page2> with PageTemplateInterface{
     return null;
   }
 
-  double leaderGreenY(double width, double height){
+  double? leaderGreenY(double width, double height){
     if(animStage == 0) return 0;
     if(animStage == 1) return 0;
     if(animStage == 2) return initPlayerOffset(width);
@@ -132,7 +132,7 @@ class Page2State extends State<Page2> with PageTemplateInterface{
     return null;
   }
 
-  AnimStageManager animStageManager;
+  late AnimStageManager animStageManager;
 
   @override
   void initState() {

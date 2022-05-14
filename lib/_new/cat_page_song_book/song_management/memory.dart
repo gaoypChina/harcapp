@@ -15,10 +15,10 @@ import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 
 class MemoryBuilder{
-  String songFileName;
-  DateTime date;
-  String place;
-  String desc;
+  String? songFileName;
+  DateTime? date;
+  String? place;
+  String? desc;
   int fontIndex;
   bool published;
 
@@ -104,8 +104,8 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncIt
   static String get fontName => 'Hand';
   static int get fontLength => 16;
 
-  static List<Memory> all;
-  static Map<String, Memory> allMap;
+  static late List<Memory> all;
+  static late Map<String?, Memory> allMap;
 
   static void addToAll(Memory memory){
     all.add(memory);
@@ -120,11 +120,11 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncIt
           color: textEnab_(context)
       );
 
-  final String fileName;
-  String songFileName;
-  DateTime date;
-  String place;
-  String desc;
+  final String? fileName;
+  String? songFileName;
+  DateTime? date;
+  String? place;
+  String? desc;
   int fontIndex;
   bool published;
 
@@ -132,7 +132,7 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncIt
 
   static Memory fromResponseData(Map responseData){
 
-    String fileName = responseData[PARAM_ID];
+    String? fileName = responseData[PARAM_ID];
     String songFileName = responseData[PARAM_SONG_FILE_NAME]??'!';
     DateTime date = DateTime.parse(responseData[Memory.PARAM_DATE]);
     String place = responseData[PARAM_PLACE]??'';
@@ -149,7 +149,7 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncIt
     return Memory.decode(fileName, content);
   }
 
-  static Memory create(String songFileName, DateTime date, String place, String desc, int fontIndex, bool published, {bool localOnly=false}){
+  static Memory create(String songFileName, DateTime date, String? place, String? desc, int fontIndex, bool published, {bool localOnly=false}){
 
     String code = Memory.encode(songFileName, date, place, desc, fontIndex, published);
     File file = saveStringAsFileToFolder(getSongMemoriesFolderLocalPath, code);
@@ -161,7 +161,7 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncIt
     return memory;
   }
 
-  static String encode(String songFileName, DateTime date, String place, String desc, int fontIndex, bool published){
+  static String encode(String? songFileName, DateTime date, String? place, String? desc, int fontIndex, bool published){
 
     Map<String, dynamic> map = {
       PARAM_SONG_FILE_NAME: songFileName,
@@ -180,8 +180,8 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncIt
 
     Map<String, dynamic> map = json.decode(code);
 
-    String songFileName = map[PARAM_SONG_FILE_NAME];
-    DateTime date;
+    String? songFileName = map[PARAM_SONG_FILE_NAME];
+    DateTime? date;
     try{
       date = DateTime.tryParse(map[PARAM_DATE]);
     } catch(error) {
@@ -208,7 +208,7 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncIt
 
     saveStringAsFileToFolder(
         getSongMemoriesFolderLocalPath,
-        encode(songFileName, date, place, desc, fontIndex, published),
+        encode(songFileName, date!, place, desc, fontIndex, published),
         fileName: fileName
     );
 
@@ -218,17 +218,17 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncIt
 
   void delete({bool localOnly=false}){
     markSyncAsRemoved();
-    File(getSongMemoriesFolderPath + fileName).deleteSync();
+    File(getSongMemoriesFolderPath + fileName!).deleteSync();
     if(!localOnly) synchronizer.post();
   }
 
   void update({
-    @required String songFileName,
-    @required DateTime date,
-    @required String place,
-    @required String desc,
-    @required int fontIndex,
-    @required bool published,
+    required String songFileName,
+    required DateTime? date,
+    required String? place,
+    required String? desc,
+    required int fontIndex,
+    required bool published,
     bool localOnly=false})
   {
     if(songFileName != null) this.songFileName = songFileName;
@@ -250,14 +250,14 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncIt
   int get hashCode => fileName.hashCode;
 
   @override
-  String get paramId => fileName;
+  String? get paramId => fileName;
 
   @override
   List<SyncableParam> get childParams => [
     SyncableParamSingle(
       this,
       paramId: PARAM_DATE,
-      value_: () => date==null?null:DateFormat('yyyy-MM-dd').format(date),
+      value_: () => date==null?null:DateFormat('yyyy-MM-dd').format(date!),
     ),
     SyncableParamSingle(
       this,

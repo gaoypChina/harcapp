@@ -14,7 +14,7 @@ import 'common.dart';
 
 class FSEOrgWidget extends StatefulWidget{
 
-  const FSEOrgWidget({Key key}) : super(key: key);
+  const FSEOrgWidget({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => FSEOrgWidgetState();

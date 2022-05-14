@@ -33,17 +33,17 @@ import '../rank_tile_widget_template.dart';
 
 class RankColors{
 
-  final Color colorStartLight;
-  final Color colorEndLight;
-  final Color colorStartDark;
-  final Color colorEndDark;
+  final Color? colorStartLight;
+  final Color? colorEndLight;
+  final Color? colorStartDark;
+  final Color? colorEndDark;
 
   const RankColors(this.colorStartLight, this.colorEndLight, this.colorStartDark, this.colorEndDark);
 
   Color avgColor(bool isDark){
 
-    Color colorStart = start(isDark);
-    Color colorEnd = end(isDark);
+    Color colorStart = start(isDark)!;
+    Color colorEnd = end(isDark)!;
 
     return Color.fromARGB(
         255,
@@ -53,8 +53,8 @@ class RankColors{
     );
   }
 
-  Color start(bool isDark) => isDark?colorStartDark:colorStartLight;
-  Color end(bool isDark) => isDark?colorEndDark:colorEndLight;
+  Color? start(bool isDark) => isDark?colorStartDark:colorStartLight;
+  Color? end(bool isDark) => isDark?colorEndDark:colorEndLight;
 }
 
 abstract class RankData{
@@ -262,7 +262,7 @@ abstract class RankData{
   String get uniqRankName => version.toString() + uidSep + id + uidSep + org.name;
 
   final String titleMale;
-  final String titleFemale;
+  final String? titleFemale;
 
   final int version;
   final Org org;
@@ -271,12 +271,12 @@ abstract class RankData{
   final List<RankCatData> catData;
 
   RankData({
-    @required this.titleMale,
+    required this.titleMale,
     this.titleFemale,
-    @required this.version,
-    @required this.org,
-    @required this.id,
-    @required this.catData,
+    required this.version,
+    required this.org,
+    required this.id,
+    required this.catData,
   });
 
   Rank build();
@@ -284,9 +284,9 @@ abstract class RankData{
 
 }
 
-abstract class Rank<TData extends RankData, TResp extends RankResp, TState extends RankState> extends RankSprawTemplate<TResp>{
+abstract class Rank<TData extends RankData, TResp extends RankResp?, TState extends RankState> extends RankSprawTemplate<TResp>{
 
-  static Map<Rank, List<UserData>> sharedUsers = {};
+  static Map<Rank?, List<UserData>?> sharedUsers = {};
 
   static List<Rank> get allSyncClassIdDef{
     List<Rank> allRanks = [];
@@ -310,19 +310,19 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
 
   static Map<String, Rank> allMap = {for(Rank rank in all) rank.uniqRankName: rank};
 
-  static Rank last(Org org, {bool zuch = false, bool newSim = true}){
+  static Rank? last(Org org, {bool zuch = false, bool newSim = true}){
 
     switch(org){
       case Org.zhp:
         if(newSim)
           if(!zuch) {
-            if (rankZhp6.inProgress || rankZhp6.completed) return rankZhp6;
-            if (rankZhp5.inProgress || rankZhp5.completed) return rankZhp5;
-            if (rankZhp4.inProgress || rankZhp4.completed) return rankZhp4;
-            if (rankZhp3.inProgress || rankZhp3.completed) return rankZhp3;
-            if (rankZhp2.inProgress || rankZhp2.completed) return rankZhp2;
-            if (rankZhp1.inProgress || rankZhp1.completed) return rankZhp1;
-            if (rankZhp0.inProgress || rankZhp0.completed) return rankZhp0;
+            if (rankZhp6.inProgress! || rankZhp6.completed!) return rankZhp6;
+            if (rankZhp5.inProgress! || rankZhp5.completed!) return rankZhp5;
+            if (rankZhp4.inProgress! || rankZhp4.completed!) return rankZhp4;
+            if (rankZhp3.inProgress! || rankZhp3.completed!) return rankZhp3;
+            if (rankZhp2.inProgress! || rankZhp2.completed!) return rankZhp2;
+            if (rankZhp1.inProgress! || rankZhp1.completed!) return rankZhp1;
+            if (rankZhp0.inProgress! || rankZhp0.completed!) return rankZhp0;
           } else {
             //if (STOP_ZHP_OLD_ZUCH_3.inProgress || STOP_ZHP_OLD_ZUCH_3.completed)
             //  return STOP_ZHP_OLD_ZUCH_3;
@@ -333,77 +333,77 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
           }
         else
         if(!zuch) {
-          if (rankZhpOld6.inProgress || rankZhpOld6.completed) return rankZhpOld6;
-          if (rankZhpOld5.inProgress || rankZhpOld5.completed) return rankZhpOld5;
-          if (rankZhpOld4.inProgress || rankZhpOld4.completed) return rankZhpOld4;
-          if (rankZhpOld3.inProgress || rankZhpOld3.completed) return rankZhpOld3;
-          if (rankZhpOld2.inProgress || rankZhpOld2.completed) return rankZhpOld2;
-          if (rankZhpOld1.inProgress || rankZhpOld1.completed) return rankZhpOld1;
-          if (rankZhpOld0.inProgress || rankZhpOld0.completed) return rankZhpOld0;
+          if (rankZhpOld6.inProgress! || rankZhpOld6.completed!) return rankZhpOld6;
+          if (rankZhpOld5.inProgress! || rankZhpOld5.completed!) return rankZhpOld5;
+          if (rankZhpOld4.inProgress! || rankZhpOld4.completed!) return rankZhpOld4;
+          if (rankZhpOld3.inProgress! || rankZhpOld3.completed!) return rankZhpOld3;
+          if (rankZhpOld2.inProgress! || rankZhpOld2.completed!) return rankZhpOld2;
+          if (rankZhpOld1.inProgress! || rankZhpOld1.completed!) return rankZhpOld1;
+          if (rankZhpOld0.inProgress! || rankZhpOld0.completed!) return rankZhpOld0;
         }else {
-          if (rankZhpOldZuch3.inProgress || rankZhpOldZuch3.completed)
+          if (rankZhpOldZuch3.inProgress! || rankZhpOldZuch3.completed!)
             return rankZhpOldZuch3;
-          if (rankZhpOldZuch2.inProgress || rankZhpOldZuch2.completed)
+          if (rankZhpOldZuch2.inProgress! || rankZhpOldZuch2.completed!)
             return rankZhpOldZuch2;
-          if (rankZhpOldZuch1.inProgress || rankZhpOldZuch1.completed)
+          if (rankZhpOldZuch1.inProgress! || rankZhpOldZuch1.completed!)
             return rankZhpOldZuch1;
         }
         break;
       case Org.zhr_c:
         if(!zuch) {
-          if (rankZhrHarcC5.inProgress || rankZhrHarcC5.completed)
+          if (rankZhrHarcC5.inProgress! || rankZhrHarcC5.completed!)
             return rankZhrHarcC5;
-          if (rankZhrHarcC4.inProgress || rankZhrHarcC4.completed)
+          if (rankZhrHarcC4.inProgress! || rankZhrHarcC4.completed!)
             return rankZhrHarcC4;
-          if (rankZhrHarcC3.inProgress || rankZhrHarcC3.completed)
+          if (rankZhrHarcC3.inProgress! || rankZhrHarcC3.completed!)
             return rankZhrHarcC3;
-          if (rankZhrHarcC2.inProgress || rankZhrHarcC2.completed)
+          if (rankZhrHarcC2.inProgress! || rankZhrHarcC2.completed!)
             return rankZhrHarcC2;
-          if (rankZhrHarcC1.inProgress || rankZhrHarcC1.completed)
+          if (rankZhrHarcC1.inProgress! || rankZhrHarcC1.completed!)
             return rankZhrHarcC1;
-          if (rankZhrHarcC0S.inProgress || rankZhrHarcC0S.completed)
+          if (rankZhrHarcC0S.inProgress! || rankZhrHarcC0S.completed!)
             return rankZhrHarcC0S;
-          if (rankZhrHarcC0.inProgress || rankZhrHarcC0.completed)
+          if (rankZhrHarcC0.inProgress! || rankZhrHarcC0.completed!)
             return rankZhrHarcC0;
         }else {
-          if (rankZhrZuchC3.inProgress || rankZhrZuchC3.completed)
+          if (rankZhrZuchC3.inProgress! || rankZhrZuchC3.completed!)
             return rankZhrZuchC3;
-          if (rankZhrZuchC2.inProgress || rankZhrZuchC2.completed)
+          if (rankZhrZuchC2.inProgress! || rankZhrZuchC2.completed!)
             return rankZhrZuchC2;
-          if (rankZhrZuchC1.inProgress || rankZhrZuchC1.completed)
+          if (rankZhrZuchC1.inProgress! || rankZhrZuchC1.completed!)
             return rankZhrZuchC1;
         }
         break;
       case Org.zhr_d:
         if(!zuch) {
-          if (rankZhrHarcD5.inProgress || rankZhrHarcD5.completed)
+          if (rankZhrHarcD5.inProgress! || rankZhrHarcD5.completed!)
             return rankZhrHarcD5;
-          if (rankZhrHarcD4S.inProgress || rankZhrHarcD4S.completed)
+          if (rankZhrHarcD4S.inProgress! || rankZhrHarcD4S.completed!)
             return rankZhrHarcD4S;
-          if (rankZhrHarcD4.inProgress || rankZhrHarcD4.completed)
+          if (rankZhrHarcD4.inProgress! || rankZhrHarcD4.completed!)
             return rankZhrHarcD4;
-          if (rankZhrHarcD3S.inProgress || rankZhrHarcD3S.completed)
+          if (rankZhrHarcD3S.inProgress! || rankZhrHarcD3S.completed!)
             return rankZhrHarcD3S;
-          if (rankZhrHarcD3.inProgress || rankZhrHarcD3.completed)
+          if (rankZhrHarcD3.inProgress! || rankZhrHarcD3.completed!)
             return rankZhrHarcD3;
-          if (rankZhrHarcD2S.inProgress || rankZhrHarcD2S.completed)
+          if (rankZhrHarcD2S.inProgress! || rankZhrHarcD2S.completed!)
             return rankZhrHarcD2S;
-          if (rankZhrHarcD2.inProgress || rankZhrHarcD2.completed)
+          if (rankZhrHarcD2.inProgress! || rankZhrHarcD2.completed!)
             return rankZhrHarcD2;
-          if (rankZhrHarcD1.inProgress || rankZhrHarcD1.completed)
+          if (rankZhrHarcD1.inProgress! || rankZhrHarcD1.completed!)
             return rankZhrHarcD1;
-          if (rankZhrHarcD0S.inProgress || rankZhrHarcD0S.completed)
+          if (rankZhrHarcD0S.inProgress! || rankZhrHarcD0S.completed!)
             return rankZhrHarcD0S;
-          if (rankZhrHarcD0W.inProgress || rankZhrHarcD0W.completed)
+          if (rankZhrHarcD0W.inProgress! || rankZhrHarcD0W.completed!)
             return rankZhrHarcD0W;
-          if (rankZhrHarcD0.inProgress || rankZhrHarcD0.completed)
+          if (rankZhrHarcD0.inProgress! || rankZhrHarcD0.completed!)
             return rankZhrHarcD0;
         }else {
-          if (rankZhrZuchD3.inProgress || rankZhrZuchD3.completed)
+          if (rankZhrZuchD3.inProgress! || rankZhrZuchD3.completed!)
             return rankZhrZuchD3;
-          if (rankZhrZuchD2.inProgress || rankZhrZuchD2.completed)
+          if (rankZhrZuchD2.inProgress! || rankZhrZuchD2.completed!)
             return rankZhrZuchD2;
-          if (rankZhrZuchD1.inProgress || rankZhrZuchD1.completed)
+          if (rankZhrZuchD1.inProgress! || rankZhrZuchD1.completed!)
             return rankZhrZuchD1;
         }
         break;
@@ -413,11 +413,11 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
     return null;
   }
 
-  static Rank fromStateShared(String uniqRankName, RankStateShared stateShared){
+  static Rank? fromStateShared(String? uniqRankName, RankStateShared stateShared){
 
     stateShared.dump();
 
-    Rank preview = Rank.allMap[uniqRankName]?.preview(stateShared);
+    Rank? preview = Rank.allMap[uniqRankName!]?.preview(stateShared);
     if(preview == null){
       logger.w('Cannot find uniqRankName: $uniqRankName');
       return null;
@@ -432,14 +432,14 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
   String get uniqRankName => data.uniqRankName;
 
   @override
-  bool get inProgress => state.inProgress;
+  bool? get inProgress => state.inProgress;
   @override
   @protected
-  set inProgress(bool value) => state.inProgress = value;
+  set inProgress(bool? value) => state.inProgress = value;
   @override
-  void changeInProgress(BuildContext context, {bool value, bool localOnly = false}){
+  void changeInProgress(BuildContext context, {bool? value, bool localOnly = false}){
 
-    value ??= !inProgress;
+    value ??= !inProgress!;
     inProgress = value;
 
     setSingleState(PARAM_IN_PROGRESS, SyncableParamSingle_.STATE_NOT_SYNCED);
@@ -449,10 +449,10 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
   }
 
   @override
-  DateTime get completionDate => state.completionDate;
+  DateTime? get completionDate => state.completionDate;
   @override
   @protected
-  set completionDate(DateTime value) => state.completionDate = value;
+  set completionDate(DateTime? value) => state.completionDate = value;
   @override
   void setCompletionDate(DateTime value, {localOnly = false}){
     completionDate = value;
@@ -461,14 +461,14 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
   }
 
   @override
-  bool get completed => state.completed;
+  bool? get completed => state.completed;
   @override
   @protected
-  set completed(bool value) => state.completed = value;
+  set completed(bool? value) => state.completed = value;
   @override
-  void changeCompleted(BuildContext context, {bool value, bool localOnly = false}){
+  void changeCompleted(BuildContext context, {bool? value, bool localOnly = false}){
 
-    value ??= !completed;
+    value ??= !completed!;
     completed = value;
 
     setSingleState(PARAM_COMPLETED, SyncableParamSingle_.STATE_NOT_SYNCED);
@@ -481,19 +481,19 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
   TState get state;
 
   String get titleMale => data.titleMale;
-  String get titleFemale => data.titleFemale;
+  String? get titleFemale => data.titleFemale;
 
   int get version => data.version;
   Org get org => data.org;
   String get id => data.id;
 
-  List<RankCat> _cats;
-  List<RankCat> get cats => _cats;
-  set cats(List<RankCat> value){
+  List<RankCat>? _cats;
+  List<RankCat>? get cats => _cats;
+  set cats(List<RankCat>? value){
     _cats = value;
     _catsMap = {for (RankCat cat in _cats??[]) cat.index: cat};
   }
-  Map<int, RankCat> _catsMap;
+  Map<int?, RankCat> _catsMap;
 
   Rank(this.data, this._cats):_catsMap = {for (RankCat cat in _cats??[]) cat.index: cat};
 
@@ -518,9 +518,9 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
 
     List<RankTask> rankTasks = [];
 
-    for(RankCat cat in _cats)
-      for(RankGroup group in cat.groups)
-        for(RankTask task in group.tasks)
+    for(RankCat cat in _cats!)
+      for(RankGroup group in cat.groups!)
+        for(RankTask task in group.tasks!)
           rankTasks.add(task);
 
     SyncableParam rankTasksParam = SyncableParamGroup(
@@ -546,7 +546,7 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
       SyncableParamSingle(
         this,
         paramId: PARAM_COMPLETION_DATE,
-        value_: () => completionDate==null?null:DateFormat('yyyy-MM-dd').format(completionDate),
+        value_: () => completionDate==null?null:DateFormat('yyyy-MM-dd').format(completionDate!),
       ),
 
       rankTasksParam
@@ -562,12 +562,12 @@ abstract class Rank<TData extends RankData, TResp extends RankResp, TState exten
     inProgress = resp.inProgress;
     completed = resp.completed;
     completionDate = resp.completionDate;
-    for(String taskKey in resp.tasks.keys){
-      RankTaskResp taskResp = resp.tasks[taskKey];
-      int catIndex = taskResp.catIndex;
-      int groupIndex = taskResp.groupIndex;
-      int taskIndex = taskResp.taskIndex;
-      _catsMap[catIndex].groupsMap[groupIndex].taskMap[taskIndex].applySyncGetResp(resp.tasks[taskKey]);
+    for(String taskKey in resp.tasks!.keys){
+      RankTaskResp taskResp = resp.tasks![taskKey]!;
+      int? catIndex = taskResp.catIndex;
+      int? groupIndex = taskResp.groupIndex;
+      int? taskIndex = taskResp.taskIndex;
+      _catsMap[catIndex]!.groupsMap[groupIndex]!.taskMap[taskIndex]!.applySyncGetResp(resp.tasks![taskKey]!);
     }
   }
 

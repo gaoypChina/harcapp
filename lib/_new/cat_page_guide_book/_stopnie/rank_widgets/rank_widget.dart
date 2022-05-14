@@ -43,25 +43,25 @@ class RankFloatingButtonProvider extends ChangeNotifier{
 
 class RankWidget extends StatefulWidget{
 
-  final Rank rank;
+  final Rank? rank;
   final List<IconData> icons;
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   final bool showBack;
 
-  final void Function(RankTask item, bool completed) onReqCompletedChanged;
+  final void Function(RankTask item, bool completed)? onReqCompletedChanged;
 
   final bool previewOnly;
 
   const RankWidget({
-    @required this.rank,
-    @required this.icons,
+    required this.rank,
+    required this.icons,
     this.lastUpdateTime,
     this.showBack = false,
     this.onReqCompletedChanged,
 
     this.previewOnly = false,
-    Key key
+    Key? key
   }): super(key: key);
 
   @override
@@ -74,14 +74,14 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
   @override
   String get moduleId => ModuleStatsMixin.stopnie;
 
-  Rank get rank => widget.rank;
+  Rank? get rank => widget.rank;
   bool get showBack => widget.showBack;
-  void Function(RankTask item, bool completed) get onReqCompletedChanged => widget.onReqCompletedChanged;
+  void Function(RankTask item, bool completed)? get onReqCompletedChanged => widget.onReqCompletedChanged;
 
-  ConfettiController confettiController;
-  ValueNotifier<double> notifier;
+  ConfettiController? confettiController;
+  ValueNotifier<double>? notifier;
 
-  bool reachedBottom;
+  bool? reachedBottom;
 
   @override
   void initState() {
@@ -96,10 +96,10 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
   Widget build(BuildContext context) {
 
     List<Widget> children = [];
-    for(int i=0; i<rank.cats.length; i++){
+    for(int i=0; i<rank!.cats!.length; i++){
       children.add(
         RankCatWidget(
-            rank.cats[i],
+            rank!.cats![i],
             onReqComplChanged: (RankTask item, bool completed){
               setState(() {});
               onReqCompletedChanged?.call(item, completed);
@@ -107,7 +107,7 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
         )
       );
 
-      if(i != rank.cats.length-1)
+      if(i != rank!.cats!.length-1)
         children.add(RankCatWidget.separator(context, i));
     }
 
@@ -117,14 +117,14 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
         ChangeNotifierProvider(create: (BuildContext context) => SharedUsersProvider(rank, [])),
       ],
       builder: (context, child) => RankSprawTempWidget(
-          title: '${rank.titleMale}${rank.titleFemale==null?'':'\n${rank.titleFemale}'}',
-          color: RankData.colors[rank.data].avgColor(false),
+          title: '${rank!.titleMale}${rank!.titleFemale==null?'':'\n${rank!.titleFemale}'}',
+          color: RankData.colors[rank!.data]!.avgColor(false),
           completedText: 'Stopień zdobyty!',
           completedTextColor: background_(context),
           appBarBottom:
           SharedUsersWidget(rank),
           underTitleLeading: Row(
-            children: widget.icons.map((icon) => Icon(icon, size: RankData.iconSizeMap[rank.data].item2,)).toList(),
+            children: widget.icons.map((icon) => Icon(icon, size: RankData.iconSizeMap[rank!.data]!.item2,)).toList(),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,19 +134,19 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
                 SimpleButton.from(
                   textColor: textEnab_(context),
                   icon: MdiIcons.update,
-                  text: dateToString(widget.lastUpdateTime, shortMonth: true, withTime: true),
+                  text: dateToString(widget.lastUpdateTime!, shortMonth: true, withTime: true),
                   textSize: Dimen.TEXT_SIZE_BIG,
                   margin: EdgeInsets.zero,
-                  onTap: () => showAppToast(context, text: 'Ostatnia aktualizacja stopnia:\n<b>${dateToString(widget.lastUpdateTime, shortMonth: true, withTime: true)}</b>')
+                  onTap: () => showAppToast(context, text: 'Ostatnia aktualizacja stopnia:\n<b>${dateToString(widget.lastUpdateTime!, shortMonth: true, withTime: true)}</b>')
                 ),
 
-              rank.buildHeader(context),
+              rank!.buildHeader(context),
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
               Column(children: children),
 
-              rank.buildFooter(context),
+              rank!.buildFooter(context),
               const SizedBox(height: 2*Dimen.ICON_MARG)
 
             ],
@@ -154,21 +154,21 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
           floatingButton: Consumer<RankFloatingButtonProvider>(
             builder: (context, prov, child){
 
-              bool showComplete = rank.isReadyToComplete && !rank.completed && rank.inProgress;
-              bool showClaim = !rank.inProgress && !rank.completed;
+              bool showComplete = rank!.isReadyToComplete && !rank!.completed! && rank!.inProgress!;
+              bool showClaim = !rank!.inProgress! && !rank!.completed!;
 
               return Stack(
                 children: [
 
                   AnimatedOpacity(
-                    opacity: rank.inProgress && rank.isReadyToComplete && !rank.completed?1:0,
+                    opacity: rank!.inProgress! && rank!.isReadyToComplete && !rank!.completed!?1:0,
                     duration: const Duration(milliseconds: 300),
                     child: IgnorePointer(
                       ignoring: !showComplete,
                       child: CompleteButton(
                         rank,
                         confettiController,
-                        color: RankData.colors[rank.data].avgColor(false),
+                        color: RankData.colors[rank!.data]!.avgColor(false),
                         onPressed: (){
                           setState((){});
                         },
@@ -177,13 +177,13 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
                   ),
 
                   AnimatedOpacity(
-                    opacity: rank.inProgress || rank.completed?0:1,
+                    opacity: rank!.inProgress! || rank!.completed!?0:1,
                     duration: const Duration(milliseconds: 300),
                     child: IgnorePointer(
                       ignoring: !showClaim,
                       child: ClaimButton(
                         rank,
-                        color: RankData.colors[rank.data].avgColor(false),
+                        color: RankData.colors[rank!.data]!.avgColor(false),
                         confettiController: confettiController,
                         onClaimed: () => setState(() => Provider.of<RankProv>(context, listen: false).notify()),
                       ),
@@ -196,16 +196,16 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
           ),
           backgroundIconComplete: MdiIcons.trophyAward,
 
-          completenessPercent: rank.completenessPercent,
-          inProgress: rank.inProgress,
-          isReadyToComplete: rank.isReadyToComplete,
-          completed: rank.completed,
-          completedDate: rank.completionDate,
-          onCompleteDateChanged: (DateTime dateTime) => setState(() => rank.setCompletionDate(dateTime)),
-          onStartStopTap: (bool inProgress) => setState(() => rank.changeInProgress(context)),
+          completenessPercent: rank!.completenessPercent,
+          inProgress: rank!.inProgress,
+          isReadyToComplete: rank!.isReadyToComplete,
+          completed: rank!.completed,
+          completedDate: rank!.completionDate,
+          onCompleteDateChanged: (DateTime dateTime) => setState(() => rank!.setCompletionDate(dateTime)),
+          onStartStopTap: (bool inProgress) => setState(() => rank!.changeInProgress(context)),
           onAbandonTap: (){
-            rank.changeCompleted(context, value: false, localOnly: true);
-            rank.changeInProgress(context, value: false);
+            rank!.changeCompleted(context, value: false, localOnly: true);
+            rank!.changeInProgress(context, value: false);
             Provider.of<RankProv>(context, listen: false).notify();
             setState(() {});
           },
@@ -225,7 +225,7 @@ class StopField extends StatelessWidget{
 
   final String title;
   final String text;
-  const StopField({@required this.title, @required this.text, Key key}): super(key: key);
+  const StopField({required this.title, required this.text, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -270,7 +270,7 @@ class RankOneLineField extends StatelessWidget{
 
   final String title;
   final String text;
-  const RankOneLineField({@required this.title, @required this.text, Key key}): super(key: key);
+  const RankOneLineField({required this.title, required this.text, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -307,9 +307,9 @@ class RankOneLineField extends StatelessWidget{
 
 class SharedUsersWidget extends StatefulWidget implements PreferredSizeWidget{
   
-  final Rank rank;
+  final Rank? rank;
 
-  const SharedUsersWidget(this.rank, {Key key}): super(key: key);
+  const SharedUsersWidget(this.rank, {Key? key}): super(key: key);
   
   @override
   State<StatefulWidget> createState() => SharedUsersWidgetState();
@@ -324,16 +324,16 @@ class SharedUsersWidget extends StatefulWidget implements PreferredSizeWidget{
 
 class SharedUsersWidgetState extends State<SharedUsersWidget>{
 
-  Rank get rank => widget.rank;
+  Rank? get rank => widget.rank;
 
-  SharedUsersProvider sharedUsersProv;
-  bool loading;
-  bool success;
+  SharedUsersProvider? sharedUsersProv;
+  late bool loading;
+  late bool success;
 
   void loadSharedUsers({bool resetState = false}){
 
     if(Rank.sharedUsers.containsKey(rank)) {
-      sharedUsersProv._users = Rank.sharedUsers[rank];
+      sharedUsersProv!._users = Rank.sharedUsers[rank];
       success = true;
       return;
     }
@@ -343,9 +343,9 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
     if(resetState) setState(() {});
 
     ApiRank.getAllShareUsers(
-        rank.uniqRankName,
+        rank!.uniqRankName,
         onSuccess: (sharedUsers){
-          sharedUsersProv.users = sharedUsers;
+          sharedUsersProv!.users = sharedUsers;
           /*
           [
             UserData(key: '1', name: 'Ktośtam Nowak', sex: Sex.male),
@@ -369,8 +369,8 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
 
   }
 
-  LoginProvider loginProvider;
-  LoginProviderListener loginListener;
+  late LoginProvider loginProvider;
+  LoginProviderListener? loginListener;
 
   @override
   void initState() {
@@ -456,7 +456,7 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
                 const SizedBox(width: Dimen.ICON_FOOTPRINT),
                 Expanded(child: Text('Ładowanie...', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR), textAlign: TextAlign.center)),
                 const SizedBox(width: Dimen.ICON_MARG),
-                SpinKitChasingDots(color: RankData.colors[rank.data].avgColor(AppSettings.isDark), size: Dimen.ICON_SIZE),
+                SpinKitChasingDots(color: RankData.colors[rank!.data]!.avgColor(AppSettings.isDark), size: Dimen.ICON_SIZE),
                 const SizedBox(width: Dimen.ICON_MARG),
               ],
             );
@@ -465,10 +465,10 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
             child = Row(
               children: [
 
-                if(sharedUsersProv.users.isEmpty)
+                if(sharedUsersProv!.users!.isEmpty)
                   const SizedBox(width: Dimen.ICON_FOOTPRINT),
 
-                if(sharedUsersProv.users.isEmpty)
+                if(sharedUsersProv!.users!.isEmpty)
                   Expanded(
                     child: Text(
                       'Tylko Ty masz tu dostęp.',
@@ -485,12 +485,12 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: AccountThumbnailRowWidget(
-                          sharedUsersProv.users.map((user) => user.name).toList(),
+                          sharedUsersProv!.users!.map((user) => user.name).toList(),
                           clipBehavior: Clip.hardEdge,
                           //padding: EdgeInsets.all(Dimen.DEF_MARG),
                           screenWidth: MediaQuery.of(context).size.width - 2*Dimen.DEF_MARG - Dimen.ICON_FOOTPRINT,
                           elevated: false,
-                          heroBuilder: (index) => sharedUsersProv.users[index],
+                          heroBuilder: (index) => sharedUsersProv!.users![index],
                         ),
                       )
                   ),
@@ -545,10 +545,10 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
 
 class ShareDialog extends StatefulWidget{
 
-  final Rank rank;
-  final SharedUsersProvider sharedUsersProv;
+  final Rank? rank;
+  final SharedUsersProvider? sharedUsersProv;
   
-  const ShareDialog(this.rank, this.sharedUsersProv, {Key key}): super(key: key);
+  const ShareDialog(this.rank, this.sharedUsersProv, {Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => ShareDialogState();
@@ -557,21 +557,21 @@ class ShareDialog extends StatefulWidget{
 
 class ShareDialogState extends State<ShareDialog>{
 
-  Rank get rank => widget.rank;
-  SharedUsersProvider get sharedUsersProv => widget.sharedUsersProv;
+  Rank? get rank => widget.rank;
+  SharedUsersProvider? get sharedUsersProv => widget.sharedUsersProv;
 
-  List<UserDataNick> usersToAdd;
-  List<UserData> usersToRemove;
+  late List<UserDataNick> usersToAdd;
+  late List<UserData> usersToRemove;
 
-  List<UserData> initUsers;
+  List<UserData>? initUsers;
   List<UserData> get users{
     List<UserData> _users = [];
-    _users.addAll(initUsers);
+    _users.addAll(initUsers!);
     _users.addAll(usersToAdd);
     return _users;
   }
 
-  bool processing;
+  bool? processing;
 
   bool get anythingChanged => usersToAdd.isNotEmpty || usersToRemove.isNotEmpty;
 
@@ -579,7 +579,7 @@ class ShareDialogState extends State<ShareDialog>{
   void initState() {
     usersToAdd = [];
     usersToRemove = [];
-    initUsers = sharedUsersProv.users;
+    initUsers = sharedUsersProv!.users;
 
     processing = false;
 
@@ -587,15 +587,15 @@ class ShareDialogState extends State<ShareDialog>{
   }
 
   void addNewUser() async {
-    UserData user = await openSearchUserDialog(
+    UserData? user = await openSearchUserDialog(
         context,
-        illegalUserKeys: initUsers.map((user) => user.key).toList(),
+        illegalUserKeys: initUsers!.map((user) => user.key).toList(),
         illegalAttemptMessage: 'Użytkownik ma już dostęp do stopnia.'
     );
 
     if(user == null) return;
 
-    setState(() => usersToAdd.add(user));
+    setState(() => usersToAdd.add(user as UserDataNick));
   }
 
   @override
@@ -616,13 +616,13 @@ class ShareDialogState extends State<ShareDialog>{
                 icon: const Icon(MdiIcons.check),
                 onPressed: anythingChanged?() async {
                   setState(() => processing = true);
-                  showLoadingWidget(context, RankData.colors[rank.data].avgColor(AppSettings.isDark), 'Chwileczkę...');
+                  showLoadingWidget(context, RankData.colors[rank!.data]!.avgColor(AppSettings.isDark), 'Chwileczkę...');
                   await ApiRank.shareRank(
-                      rank.uniqRankName,
+                      rank!.uniqRankName,
                       addByNick: usersToAdd.map((user) => user.nick).toList(),
                       removeByKey: usersToRemove.map((user) => user.key).toList(),
                       onSuccess: (users){
-                        sharedUsersProv.users = users;
+                        sharedUsersProv!.users = users;
                         Navigator.pop(context);
                       },
                       onError: () => mounted?showAppToast(context, text: 'Coś poszło nie tak...'):null,
@@ -711,22 +711,22 @@ class ShareDialogState extends State<ShareDialog>{
 
 }
 
-Future<void> openShareDialog(BuildContext context, Rank rank, SharedUsersProvider sharedUsersProv) => openDialog(context: context, builder: (context) => ShareDialog(rank, sharedUsersProv));
+Future<void> openShareDialog(BuildContext context, Rank? rank, SharedUsersProvider? sharedUsersProv) => openDialog(context: context, builder: (context) => ShareDialog(rank, sharedUsersProv));
 
 class SharedUsersProvider extends ChangeNotifier{
 
-  Rank rank;
-  List<UserData> _users;
-  List<UserData> get users => _users;
-  set users(List<UserData> value){
+  Rank? rank;
+  List<UserData>? _users;
+  List<UserData>? get users => _users;
+  set users(List<UserData>? value){
     _users = value;
-    _users.sort((user1, user2) => user1.name.compareTo(user2.name));
+    _users!.sort((user1, user2) => user1.name.compareTo(user2.name));
     Rank.sharedUsers[rank] = value;
     notifyListeners();
   }
 
-  SharedUsersProvider(this.rank, this._users){
-    _users.sort((user1, user2) => user1.name.compareTo(user2.name));
+  SharedUsersProvider(this.rank, List<UserData> this._users){
+    _users!.sort((user1, user2) => user1.name.compareTo(user2.name));
   }
 
 }

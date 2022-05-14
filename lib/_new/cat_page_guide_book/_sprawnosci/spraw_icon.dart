@@ -12,11 +12,11 @@ class SprawIcon extends StatefulWidget{
   static const double sizeBig = 48.0;
   static const double sizeSmall = 34.0;
 
-  final Spraw spraw;
-  final double size;
-  final void Function() onTap;
+  final Spraw? spraw;
+  final double? size;
+  final void Function()? onTap;
 
-  const SprawIcon(this.spraw, {this.size, this.onTap, Key key}): super(key: key);
+  const SprawIcon(this.spraw, {this.size, this.onTap, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => SprawIconState();
@@ -25,15 +25,15 @@ class SprawIcon extends StatefulWidget{
 
 class SprawIconState extends State<SprawIcon>{
 
-  Spraw get spraw => widget.spraw;
-  double get size => widget.size;
-  void Function() get onTap => widget.onTap;
+  Spraw? get spraw => widget.spraw;
+  double? get size => widget.size;
+  void Function()? get onTap => widget.onTap;
 
-  bool assetExists;
+  late bool assetExists;
 
   void checkAssetExistance() async {
     try {
-      await rootBundle.loadString(widget.spraw.iconPath);
+      await rootBundle.loadString(widget.spraw!.iconPath);
       setState(() => assetExists = true);
     } catch(_) {
       setState(() => assetExists = false);
@@ -51,7 +51,7 @@ class SprawIconState extends State<SprawIcon>{
   Widget build(BuildContext context) => GestureDetector(
       onTap: widget.onTap,
       child: assetExists?SvgPicture.asset(
-        spraw.iconPath,
+        spraw!.iconPath,
         width: size,
         height: size,
         color: iconEnab_(context),
@@ -69,19 +69,19 @@ class SprawIconState extends State<SprawIcon>{
 
 class SprawIconPlaceholder extends StatelessWidget{
 
-  final Spraw spraw;
-  final double size;
+  final Spraw? spraw;
+  final double? size;
 
-  const SprawIconPlaceholder(this.spraw, {this.size, Key key}): super(key: key);
+  const SprawIconPlaceholder(this.spraw, {this.size, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     String placeholderText = '';
-    if(spraw.title.length > 1)
-      placeholderText = spraw.title[0].toUpperCase() + spraw.title[1].toLowerCase();
-    else if (spraw.title.isNotEmpty)
-      placeholderText = spraw.title[0].toUpperCase();
+    if(spraw!.title.length > 1)
+      placeholderText = spraw!.title[0].toUpperCase() + spraw!.title[1].toLowerCase();
+    else if (spraw!.title.isNotEmpty)
+      placeholderText = spraw!.title[0].toUpperCase();
 
     return LayoutBuilder(
       builder: (context, constraints){

@@ -18,11 +18,11 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class IndivCompTaskComplWidget extends StatelessWidget{
 
   final IndivCompTaskCompl complTask;
-  final Map<String, IndivCompTask> taskMap;
-  final CommonColorData colors;
+  final Map<String?, IndivCompTask> taskMap;
+  final CommonColorData? colors;
   final bool preview;
-  final void Function(String removedId) onRemoved;
-  final void Function() onTap;
+  final void Function(String? removedId)? onRemoved;
+  final void Function()? onTap;
   final dynamic heroTag;
 
   const IndivCompTaskComplWidget(
@@ -33,17 +33,17 @@ class IndivCompTaskComplWidget extends StatelessWidget{
         this.onRemoved,
         this.onTap,
         this.heroTag,
-        Key key
+        Key? key
       }): super(key: key);
 
   @override
   Widget build(BuildContext context){
 
-    IndivCompTask task = taskMap[complTask.taskKey];
+    IndivCompTask task = taskMap[complTask.taskKey]!;
 
     Widget child = IndivCompTaskSkeletonWidget(
       title: Text(task.title, style: IndivCompTaskSkeletonWidget.titleTextStyle(context).copyWith(color: preview?hintEnab_(context):textEnab_(context))),
-      description: preview?null:Text(task.description, style: IndivCompTaskSkeletonWidget.descriptionTextStyle(context)),
+      description: preview?null:Text(task.description!, style: IndivCompTaskSkeletonWidget.descriptionTextStyle(context)),
       trailing: PointsWidget(points: task.points),
       onTap: onTap,
       bottom: Column(
@@ -58,7 +58,7 @@ class IndivCompTaskComplWidget extends StatelessWidget{
                 const SizedBox(width: IndivCompTaskSkeletonWidget.padding),
                 Expanded(
                   child: Text(
-                    dateToString(complTask.reqTime, withTime: true, shortMonth: true),
+                    dateToString(complTask.reqTime!, withTime: true, shortMonth: true),
                     style: AppTextStyle(color: hintEnab_(context), fontWeight: weight.halfBold),
                   ),
                 ),
@@ -82,7 +82,7 @@ class IndivCompTaskComplWidget extends StatelessWidget{
               onTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć.'),
               onLongPress: () async {
 
-                showLoadingWidget(context, colors.avgColor, 'Wycofywanie...');
+                showLoadingWidget(context, colors!.avgColor, 'Wycofywanie...');
                 await ApiIndivComp.removeTaskComplReq(
                     taskComplKey: complTask.key,
                     onSuccess: onRemoved

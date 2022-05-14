@@ -21,7 +21,7 @@ import 'lang.dart';
 
 class SlownikFragment extends StatefulWidget {
 
-  const SlownikFragment({Key key}) : super(key: key);
+  const SlownikFragment({Key? key}) : super(key: key);
 
   @override
   State createState() => SlownikFragmentState();
@@ -35,15 +35,16 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
 
   static const double _iconSize = 30;
 
-  Lang lang1, lang2;
+  late Lang lang1;
+  late Lang lang2;
 
   final GlobalKey keyPDF = GlobalKey();
 
-  TextEditingController controller;
+  TextEditingController? controller;
 
-  List<TransData> _items;
+  late List<TransData> _items;
 
-  KeyboardVisibilityController keyboardVisibilityController;
+  late KeyboardVisibilityController keyboardVisibilityController;
 
   @override
   void initState() {
@@ -63,8 +64,8 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
   @override
   Widget build(BuildContext context) {
 
-    Lang _lang1 = lang1;
-    Lang _lang2 = lang2;
+    Lang? _lang1 = lang1;
+    Lang? _lang2 = lang2;
 
     if(lang1 == lang2 && lang2 == Lang.pol)
       _lang2 = Lang.mug;
@@ -101,8 +102,8 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
             sliver: SliverList(
               delegate: SliverChildSeparatedBuilderDelegate((BuildContext context, int index) {
 
-                TransLangData langData1 = _items[index].get(_lang1);
-                TransLangData langData2 = _items[index].get(_lang2);
+                TransLangData langData1 = _items[index].get(_lang1)!;
+                TransLangData langData2 = _items[index].get(_lang2)!;
 
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,7 +167,7 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () => chooseLangs(),
           icon: const Icon(MdiIcons.translate),
-          label: Text('${langAbbr[lang1]} - ${langAbbr[lang2]}', style: AppTextStyle(fontWeight: weight.halfBold))
+          label: Text('${langAbbr[lang1!]} - ${langAbbr[lang2!]}', style: AppTextStyle(fontWeight: weight.halfBold))
       )
     );
 
@@ -178,11 +179,11 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
     _items.removeWhere((element) => element.get(lang1) == null || element.get(lang2) == null);
 
     _items.sort((TransData a, TransData b){
-      String strA = a.get(lang1).word.word.toLowerCase()
+      String strA = a.get(lang1)!.word.word.toLowerCase()
           .replaceAll('(', '')
           .replaceAll(')', '');
 
-      String strB = b.get(lang1).word.word.toLowerCase()
+      String strB = b.get(lang1)!.word.word.toLowerCase()
           .replaceAll('(', '')
           .replaceAll(')', '');
 
@@ -195,12 +196,12 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
   List<TransData> getItems(){
 
     List<TransData> allItems = sortFilterItems(allWordsData);
-    if(controller.text.isEmpty) return allItems;
+    if(controller!.text.isEmpty) return allItems;
 
     List<TransData> resultItems = [];
     for(TransData item in allItems)
-      if(remPolChars(remSpecChars(item.get(lang1).word.word)).contains(remPolChars(remSpecChars(controller.text))) ||
-          remPolChars(remSpecChars(item.get(lang2).word.word)).contains(remPolChars(remSpecChars(controller.text))))
+      if(remPolChars(remSpecChars(item.get(lang1)!.word.word)).contains(remPolChars(remSpecChars(controller!.text))) ||
+          remPolChars(remSpecChars(item.get(lang2)!.word.word)).contains(remPolChars(remSpecChars(controller!.text))))
         resultItems.add(item);
 
     return resultItems;
@@ -233,7 +234,7 @@ class WordWidget extends StatelessWidget{
 
   final TransWordData word;
   final weight w;
-  const WordWidget(this.word, this.w, {Key key}): super(key: key);
+  const WordWidget(this.word, this.w, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -273,23 +274,23 @@ class LangButton extends StatelessWidget{
 
   final Lang lang;
   final bool selected;
-  final void Function() onTap;
-  const LangButton(this.lang, this.selected, {this.onTap, Key key}): super(key: key);
+  final void Function()? onTap;
+  const LangButton(this.lang, this.selected, {this.onTap, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     return SimpleButton(
         padding: const EdgeInsets.all(Dimen.ICON_MARG),
+        onTap: onTap,
         child: Text(
-            langName[lang],
+            langName[lang]!,
             style: AppTextStyle(
               color: selected?accent_(context):hintEnab_(context),
               fontSize: Dimen.TEXT_SIZE_BIG,
               fontWeight: selected?weight.bold:weight.halfBold
             )
-        ),
-        onTap: onTap
+        )
     );
   }
 
@@ -300,9 +301,9 @@ class LangsPicker extends StatefulWidget{
   final Lang initLangFrom;
   final Lang initLangTo;
 
-  final void Function(Lang langFrom, Lang langTo) onChanged;
+  final void Function(Lang langFrom, Lang langTo)? onChanged;
 
-  const LangsPicker(this.initLangFrom, this.initLangTo, {this.onChanged, Key key}): super(key: key);
+  const LangsPicker(this.initLangFrom, this.initLangTo, {this.onChanged, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => LangsPickerState();
@@ -311,10 +312,10 @@ class LangsPicker extends StatefulWidget{
 
 class LangsPickerState extends State<LangsPicker>{
 
-  Lang langFrom;
-  Lang langTo;
+  late Lang langFrom;
+  late Lang langTo;
 
-  void onChanged() => widget.onChanged(langFrom, langTo);
+  void onChanged() => widget.onChanged?.call(langFrom, langTo);
 
   @override
   void initState() {
@@ -347,7 +348,7 @@ class LangsPickerState extends State<LangsPicker>{
             icon: const Icon(MdiIcons.swapHorizontal),
             onPressed: (){
               setState(() {
-                Lang langTmp = langFrom;
+                Lang? langTmp = langFrom;
                 langFrom = langTo;
                 langTo = langTmp;
               });

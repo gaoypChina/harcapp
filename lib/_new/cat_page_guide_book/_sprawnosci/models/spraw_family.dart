@@ -5,20 +5,20 @@ import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_group.
 class SprawFamilyData{
 
   final String id;
-  final String title;
-  final List<String> tags;
-  final String fragment;
-  final String fragmentAuthor;
+  final String? title;
+  final List<String>? tags;
+  final String? fragment;
+  final String? fragmentAuthor;
 
   final List<SprawData> sprawData;
 
   const SprawFamilyData({
-    @required this.id,
+    required this.id,
     this.title,
     this.tags,
     this.fragment,
     this.fragmentAuthor,
-    @required this.sprawData
+    required this.sprawData
   });
 
   SprawFamily build(SprawGroup group){
@@ -41,13 +41,13 @@ class SprawFamily{
   SprawFamilyData data;
 
   String get id => data.id;
-  String get title => data.title;
-  List<String> get tags => data.tags;
-  String get fragment => data.fragment;
-  String get fragmentAuthor => data.fragmentAuthor;
+  String? get title => data.title;
+  List<String>? get tags => data.tags;
+  String? get fragment => data.fragment;
+  String? get fragmentAuthor => data.fragmentAuthor;
 
   SprawGroup group;
-  List<Spraw> spraws;
+  List<Spraw>? spraws;
 
   SprawFamily(this.data, this.group, this.spraws);
 

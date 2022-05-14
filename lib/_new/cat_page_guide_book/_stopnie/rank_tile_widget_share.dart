@@ -26,15 +26,15 @@ class RankTileWidgetShare extends StatelessWidget {
 
   final SharedRankMetaData data;
 
-  const RankTileWidgetShare(this.data, {Key key}): super(key: key);
+  const RankTileWidgetShare(this.data, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    Rank rank = Rank.allMap[data.rankUniqName];
+    Rank rank = Rank.allMap[data.rankUniqName]!;
 
-    Tuple2<List<IconData>, double> iconStuff = RankData.iconSizeMap[rank.data];
-    RankColors colors = RankData.colors[rank.data];
+    Tuple2<List<IconData>, double> iconStuff = RankData.iconSizeMap[rank.data]!;
+    RankColors colors = RankData.colors[rank.data]!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -53,7 +53,7 @@ class RankTileWidgetShare extends StatelessWidget {
             child: Icon(MdiIcons.accountCircle, color: hintEnab_(context)),
           ),
 
-          onTap: (context) => loadOpenRankDialog(context, RankData.colors[rank.data].avgColor(AppSettings.isDark), data),
+          onTap: (context) => loadOpenRankDialog(context, RankData.colors[rank.data]!.avgColor(AppSettings.isDark), data),
           trailing: RankProgressWidget(data.rankCompleted, data.rankInProgress, 100*data.rankCompletedTasksCnt~/(rank.state as RankStateLocal).taskCount),
         ),
 
@@ -73,7 +73,7 @@ class RankTileWidgetShare extends StatelessWidget {
   }
 }
 
-Future<void> _openRankDialog(BuildContext context, Rank sharedRank, DateTime lastUpdateDate) => openDialog(
+Future<void> _openRankDialog(BuildContext context, Rank? sharedRank, DateTime lastUpdateDate) => openDialog(
     context: context,
     builder: (context) => Padding(
       padding: AppCard.normMargin,
@@ -83,7 +83,7 @@ Future<void> _openRankDialog(BuildContext context, Rank sharedRank, DateTime las
         color: background_(context),
         child: RankWidget(
           rank: sharedRank,
-          icons: RankData.iconSizeMap[sharedRank.data].item1,
+          icons: RankData.iconSizeMap[sharedRank!.data]!.item1,
           lastUpdateTime: lastUpdateDate,
           showBack: true,
           previewOnly: true,
@@ -94,9 +94,9 @@ Future<void> _openRankDialog(BuildContext context, Rank sharedRank, DateTime las
 
 Future<void> loadOpenRankDialog(BuildContext context, Color color, SharedRankMetaData data) async {
 
-  Rank loadedSharedRank;
+  Rank? loadedSharedRank;
   if(RankStateShared.dumpExists(data.sharedRankKey)) {
-    RankStateShared stateShared = RankStateShared.fromDump(data.sharedRankKey);
+    RankStateShared stateShared = RankStateShared.fromDump(data.sharedRankKey)!;
     if(data.lastUpdateDate == stateShared.lastUpdateTime)
       loadedSharedRank = Rank.fromStateShared(data.rankUniqName, stateShared);
   }
@@ -108,7 +108,7 @@ Future<void> loadOpenRankDialog(BuildContext context, Color color, SharedRankMet
     await ApiRank.getShared(
         key: data.sharedRankKey,
         lastUpdateTime: data.lastUpdateDate,
-        onSuccess: (Rank sharedRank) async {
+        onSuccess: (Rank? sharedRank) async {
           await popPage(context);
           _openRankDialog(context, sharedRank, data.lastUpdateDate);
         },

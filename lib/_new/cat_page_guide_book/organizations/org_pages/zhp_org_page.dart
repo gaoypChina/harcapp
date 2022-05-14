@@ -15,7 +15,7 @@ import 'common.dart';
 
 class ZHPOrgPage extends StatefulWidget {
 
-  const ZHPOrgPage({Key key}) : super(key: key);
+  const ZHPOrgPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ZHPOrgPageState();

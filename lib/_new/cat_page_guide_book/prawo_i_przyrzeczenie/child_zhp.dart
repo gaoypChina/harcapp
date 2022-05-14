@@ -14,8 +14,8 @@ import 'common.dart';
 
 class ChildZHP extends StatelessWidget{
 
-  final TabController controller;
-  const ChildZHP(this.controller, {Key key}): super(key: key);
+  final TabController? controller;
+  const ChildZHP(this.controller, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

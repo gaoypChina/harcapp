@@ -23,9 +23,9 @@ class SprawFolderEditPage extends StatefulWidget{
 
   static const int maxNameLenght = 52;
 
-  final SprawFolder initFolder;
-  final void Function(String name, String selColorKey, String selIconKey) onSave;
-  final void Function(SprawFolder) onDeleteTap;
+  final SprawFolder? initFolder;
+  final void Function(String name, String selColorKey, String? selIconKey)? onSave;
+  final void Function(SprawFolder?)? onDeleteTap;
 
   const SprawFolderEditPage({this.initFolder, this.onSave, this.onDeleteTap});
 
@@ -36,14 +36,14 @@ class SprawFolderEditPage extends StatefulWidget{
 
 class SprawFolderEditPageState extends State<SprawFolderEditPage>{
 
-  SprawFolder get initFolder => widget.initFolder;
-  void Function(String name, String selColorKey, String selIconKey) get onSave => widget.onSave;
-  void Function(SprawFolder) get onDeleteTap => widget.onDeleteTap;
+  SprawFolder? get initFolder => widget.initFolder;
+  void Function(String name, String selColorKey, String? selIconKey)? get onSave => widget.onSave;
+  void Function(SprawFolder?)? get onDeleteTap => widget.onDeleteTap;
 
-  String selIconKey;
+  String? selIconKey;
 
-  TextEditingController controller;
-  FocusNode focusNode;
+  TextEditingController? controller;
+  FocusNode? focusNode;
 
   @override
   void initState() {
@@ -57,7 +57,7 @@ class SprawFolderEditPageState extends State<SprawFolderEditPage>{
 
   @override
   void dispose() {
-    controller.dispose();
+    controller!.dispose();
     super.dispose();
   }
 
@@ -88,18 +88,18 @@ class SprawFolderEditPageState extends State<SprawFolderEditPage>{
           actions: [
             IconButton(
                 onPressed: (){
-                  if(initFolder == null && SprawFolder.exists(controller.text)){
+                  if(initFolder == null && SprawFolder.exists(controller!.text)){
                     showAppToast(context, text: 'Folder o podanej nazwie już istnieje');
                     return;
                   }
 
-                  if(controller.text.isEmpty){
+                  if(controller!.text.isEmpty){
                     showAppToast(context, text: 'Weź, nazwij jakoś ten folder');
-                    focusNode.requestFocus();
+                    focusNode!.requestFocus();
                     return;
                   }
 
-                  onSave?.call(controller.text, Provider.of<_ColorProvider>(context, listen: false).selColorKey, selIconKey);
+                  onSave?.call(controller!.text, Provider.of<_ColorProvider>(context, listen: false).selColorKey, selIconKey);
                   Navigator.pop(context);
                 },
                 icon: Icon(MdiIcons.check)
@@ -120,7 +120,7 @@ class SprawFolderEditPageState extends State<SprawFolderEditPage>{
 
             SimpleButton.from(
               context: context,
-              icon: CommonIconData.ALL[selIconKey],
+              icon: CommonIconData.ALL[selIconKey!],
               text: 'Zmień ikonę',
               onTap: openIconPicker,
             ),
@@ -234,8 +234,8 @@ class _ColorProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Color get colorStart => CommonColorData.ALL[_selColorKey].colorStart;
-  Color get colorEnd => CommonColorData.ALL[_selColorKey].colorEnd;
-  Color get avgColor => CommonColorData.ALL[_selColorKey].avgColor;
+  Color? get colorStart => CommonColorData.ALL[_selColorKey]!.colorStart;
+  Color? get colorEnd => CommonColorData.ALL[_selColorKey]!.colorEnd;
+  Color get avgColor => CommonColorData.ALL[_selColorKey]!.avgColor;
 
 }

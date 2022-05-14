@@ -20,7 +20,7 @@ class MealWidget extends StatefulWidget{
 
   final Meal meal;
   final void Function(Meal meal, bool selected) onSelectedChanged;
-  const MealWidget(this.meal, {@required this.onSelectedChanged});
+  const MealWidget(this.meal, {required this.onSelectedChanged});
 
   @override
   State<StatefulWidget> createState() => MealWidgetState();
@@ -29,8 +29,8 @@ class MealWidget extends StatefulWidget{
 
 class MealWidgetState extends State<MealWidget>{
 
-  TextEditingController textController;
-  PrimitiveWrapper<int> portions;
+  TextEditingController? textController;
+  PrimitiveWrapper<int>? portions;
 
   Meal get meal => widget.meal;
 
@@ -74,7 +74,7 @@ class MealWidgetState extends State<MealWidget>{
             ],
           );
         },
-            onChanged: (portions) => setState(() => this.portions.set(portions)),
+            onChanged: (portions) => setState(() => this.portions!.set(portions)),
             portions: portions
         ),
 
@@ -133,7 +133,7 @@ class MealWidgetState extends State<MealWidget>{
         ),
 
         Column(children: meal.ingredients.map(
-                (ingredient) => IngredientWidgetConv(ingredient, portions.get())).toList()),
+                (ingredient) => IngredientWidgetConv(ingredient, portions!.get())).toList()),
 
         SizedBox(height: 28),
 

@@ -25,9 +25,9 @@ import 'title_widget/article_tag_widget.dart';
 
 class ArticleSearchPage extends StatefulWidget{
 
-  final List<Article> allArticles;
+  final List<Article?>? allArticles;
 
-  const ArticleSearchPage(this.allArticles, {Key key}): super(key: key);
+  const ArticleSearchPage(this.allArticles, {Key? key}): super(key: key);
 
   @override
   State createState() => ArticleSearchPageState();
@@ -36,38 +36,38 @@ class ArticleSearchPage extends StatefulWidget{
 
 class ArticleSearchPageState extends State<ArticleSearchPage>{
 
-  List<Article> get allArticles => widget.allArticles;
+  List<Article?>? get allArticles => widget.allArticles;
 
   //List<ArticleCore> searchedArticles;
 
-  TextEditingController textController;
+  TextEditingController? textController;
 
-  ArticleSearchOptions options;
-  ArticleSearcher searcher;
+  ArticleSearchOptions? options;
+  ArticleSearcher? searcher;
 
-  CurrentItemsProvider currentItemsProvider;
-  SearchParamsProvider searchParamsProvider;
+  CurrentItemsProvider? currentItemsProvider;
+  SearchParamsProvider? searchParamsProvider;
 
   void initSearcher() async{
     textController = TextEditingController();
-    await searcher.init(allArticles, options);
-    searcher.run('');
+    await searcher!.init(allArticles, options);
+    searcher!.run('');
   }
 
   @override
   void initState() {
     options = ArticleSearchOptions();
     searcher = ArticleSearcher();
-    searcher.addOnCompleteListener(
+    searcher!.addOnCompleteListener(
             (List<Article> articles, bool Function() stillValid)
-        => currentItemsProvider.currArticles = articles);
+        => currentItemsProvider!.currArticles = articles);
     initSearcher();
     super.initState();
   }
 
   @override
   void dispose() {
-    searcher.dispose();
+    searcher!.dispose();
     super.dispose();
   }
 
@@ -99,7 +99,7 @@ class ArticleSearchPageState extends State<ArticleSearchPage>{
 
               Consumer<SearchParamsProvider>(
                   builder: (context, prov, child) => FloatingContainer.child(
-                    height: SearchField.height + (prov.options.isEmpty?0:35.0),
+                    height: SearchField.height + (prov.options!.isEmpty?0:35.0),
                     child: _SearchTextFieldCard(
                       searcher: searcher,
                       searchOptions: prov.options,
@@ -121,7 +121,7 @@ class ArticleSearchPageState extends State<ArticleSearchPage>{
                         hasScrollBody: false,
                         child: Center(child: CircularProgressIndicator())
                       );
-                    else if(prov.currArticles.isEmpty)
+                    else if(prov.currArticles!.isEmpty)
                       return SliverFillRemaining(
                         hasScrollBody: false,
                         child: Center(child: _NoArticlesWidget())
@@ -134,7 +134,7 @@ class ArticleSearchPageState extends State<ArticleSearchPage>{
                         ),
                         delegate: SliverChildBuilderDelegate((BuildContext context, int index) =>
                             ArticleCardWidgetSmall(
-                              prov.currArticles[index],
+                              prov.currArticles![index],
                               onTap: (context, article, background, articleSeenProv){
                                 Navigator.pop(context);
                                 Navigator.push(
@@ -148,9 +148,9 @@ class ArticleSearchPageState extends State<ArticleSearchPage>{
                                     )
                                 );
                               },
-                              key: ValueKey(prov.currArticles[index]),
+                              key: ValueKey(prov.currArticles![index]),
                             ),
-                            childCount: prov.currArticles.length
+                            childCount: prov.currArticles!.length
                         ),
                       );
                   }
@@ -168,11 +168,11 @@ class ArticleSearchPageState extends State<ArticleSearchPage>{
 
 }
 
-Future<void> _showOptionsBottomSheet(BuildContext context, ArticleSearchOptions options, ArticleSearcher searcher, TextEditingController controller, {void Function() onChanged}) => showScrollBottomSheet(
+Future<void> _showOptionsBottomSheet(BuildContext context, ArticleSearchOptions? options, ArticleSearcher? searcher, TextEditingController? controller, {void Function()? onChanged}) => showScrollBottomSheet(
     context: context,
     builder: (context) => BottomSheetOptions(options, searcher, onChanged: () async{
-      await searcher.init(Article.all, options);
-      searcher.run(controller.text);
+      await searcher!.init(Article.all, options);
+      searcher.run(controller!.text);
       if(onChanged != null) onChanged();
     })
 );
@@ -197,20 +197,20 @@ class _NoArticlesWidget extends StatelessWidget{
 
 class _SearchTextFieldCard extends StatelessWidget{
 
-  final void Function(String) onChanged;
-  final void Function() onCleared;
+  final void Function(String)? onChanged;
+  final void Function()? onCleared;
 
-  final ArticleSearcher searcher;
-  final ArticleSearchOptions searchOptions;
-  DateTime get fromDate => searchOptions.fromDate;
-  DateTime get toDate => searchOptions.toDate;
+  final ArticleSearcher? searcher;
+  final ArticleSearchOptions? searchOptions;
+  DateTime? get fromDate => searchOptions!.fromDate;
+  DateTime? get toDate => searchOptions!.toDate;
 
-  final TextEditingController textController;
+  final TextEditingController? textController;
 
   const _SearchTextFieldCard(
-      { @required this.searcher,
-        @required this.searchOptions,
-        @required this.textController,
+      { required this.searcher,
+        required this.searchOptions,
+        required this.textController,
         this.onChanged,
         this.onCleared,
       });
@@ -225,27 +225,27 @@ class _SearchTextFieldCard extends StatelessWidget{
         if(text == '#') {
           hideKeyboard(context);
           await _showOptionsBottomSheet(context, searchOptions, searcher, textController);
-          textController.clear();
+          textController!.clear();
         } else {
-          searcher.run(text);
-          if(onChanged != null) onChanged(text);
+          searcher!.run(text);
+          if(onChanged != null) onChanged!(text);
         }
       },
 
       leading: AnimatedChildSlider(
-        index: searchOptions.isEmpty?0:1,
+        index: searchOptions!.isEmpty?0:1,
         children: [
           SearchField.defLeadWidget(context),
           IconButton(
             icon: Icon(MdiIcons.close, color: iconEnab_(context)),
             onPressed: () async{
 
-              textController.clear();
-              searchOptions.clear();
-              if(onCleared!=null) onCleared();
-              if(onChanged != null) onChanged('');
+              textController!.clear();
+              searchOptions!.clear();
+              if(onCleared!=null) onCleared!();
+              if(onChanged != null) onChanged!('');
 
-              await searcher.run('');
+              await searcher!.run('');
 
             },
           )
@@ -257,13 +257,13 @@ class _SearchTextFieldCard extends StatelessWidget{
 
             hideKeyboard(context);
             await _showOptionsBottomSheet(context, searchOptions, searcher, textController,
-                onChanged: () => onChanged==null?null:onChanged(textController.text));
+                onChanged: () => onChanged==null?null:onChanged!(textController!.text));
 
-            await searcher.run(textController.text);
+            await searcher!.run(textController!.text);
 
           }),
       bottom:
-      (searchOptions.isEmpty)?
+      (searchOptions!.isEmpty)?
       null:
       SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -277,12 +277,12 @@ class _SearchTextFieldCard extends StatelessWidget{
                   const SizedBox(width: Dimen.DEF_MARG),
                   if(fromDate != null || toDate != null)
                   Text(
-                    '${fromDate==null?'...':dateToString(fromDate, shortMonth: true, yearAbbr: '')} - ${toDate==null?'...':dateToString(toDate, shortMonth: true, yearAbbr: 'A.D.')}',
+                    '${fromDate==null?'...':dateToString(fromDate!, shortMonth: true, yearAbbr: '')} - ${toDate==null?'...':dateToString(toDate!, shortMonth: true, yearAbbr: 'A.D.')}',
                     style: AppTextStyle(fontWeight: weight.halfBold),
                   ),
                   const SizedBox(width: Dimen.DEF_MARG/2),
                   Row(
-                    children: searchOptions.checkedTags.map((t) => Tag(
+                    children: searchOptions!.checkedTags!.map((t) => Tag(
                       t,
                       inCard: false,
                       fontSize: Dimen.TEXT_SIZE_SMALL,
@@ -303,15 +303,15 @@ class _SearchTextFieldCard extends StatelessWidget{
 
 class BottomSheetOptions extends StatefulWidget{
 
-  final ArticleSearchOptions searchOptions;
-  final ArticleSearcher searcher;
-  final void Function() onChanged;
+  final ArticleSearchOptions? searchOptions;
+  final ArticleSearcher? searcher;
+  final void Function()? onChanged;
 
   const BottomSheetOptions(
       this.searchOptions,
       this.searcher,
       { this.onChanged,
-        Key key
+        Key? key
       }): super(key: key);
 
   @override
@@ -320,18 +320,18 @@ class BottomSheetOptions extends StatefulWidget{
 
 class BottomSheetOptionsState extends State<BottomSheetOptions>{
 
-  ArticleSearchOptions get searchOptions => widget.searchOptions;
-  ArticleSearcher get searcher => widget.searcher;
-  void Function() get onChanged => widget.onChanged;
+  ArticleSearchOptions? get searchOptions => widget.searchOptions;
+  ArticleSearcher? get searcher => widget.searcher;
+  void Function()? get onChanged => widget.onChanged;
 
-  DateTime get fromDate => widget.searchOptions.fromDate;
-  set fromDate(DateTime value) => widget.searchOptions.fromDate = value;
+  DateTime? get fromDate => widget.searchOptions!.fromDate;
+  set fromDate(DateTime? value) => widget.searchOptions!.fromDate = value;
 
-  DateTime get toDate => widget.searchOptions.toDate;
-  set toDate(DateTime value) => widget.searchOptions.toDate = value;
+  DateTime? get toDate => widget.searchOptions!.toDate;
+  set toDate(DateTime? value) => widget.searchOptions!.toDate = value;
 
-  List<String> get checkedTags => searchOptions.checkedTags;
-  set checkedTags(List<String> value) => searchOptions.checkedTags = value;
+  List<String>? get checkedTags => searchOptions!.checkedTags;
+  set checkedTags(List<String>? value) => searchOptions!.checkedTags = value;
 
 
   @override
@@ -358,7 +358,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
                           children: [
                             Icon(MdiIcons.calendarArrowRight, color: iconDisab_(context)),
                             const SizedBox(width: Dimen.ICON_MARG),
-                            AppText('Od: <b>${fromDate==null?'zawsze':dateToString(fromDate, shortMonth: true, yearAbbr: 'A.D.')}</b>')
+                            AppText('Od: <b>${fromDate==null?'zawsze':dateToString(fromDate!, shortMonth: true, yearAbbr: 'A.D.')}</b>')
                           ],
                         ),
                         onTap: () async{
@@ -368,7 +368,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
                               firstDate: startDate,
                               lastDate: toDate??DateTime.now()
                           );
-                          if(onChanged != null) onChanged();
+                          if(onChanged != null) onChanged!();
                           setState(() {});
                         }
                     ),
@@ -382,7 +382,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
                           children: [
                             Icon(MdiIcons.calendarArrowLeft, color: iconDisab_(context)),
                             const SizedBox(width: Dimen.ICON_MARG),
-                            AppText('Do: <b>${toDate==null?'zawsze':dateToString(toDate, shortMonth: true,  yearAbbr: 'A.D.')}</b>')
+                            AppText('Do: <b>${toDate==null?'zawsze':dateToString(toDate!, shortMonth: true,  yearAbbr: 'A.D.')}</b>')
                           ],
                         ),
                         onTap: () async{
@@ -392,7 +392,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
                             firstDate: fromDate??startDate,
                             lastDate: DateTime.now()
                           );
-                          if(onChanged != null) onChanged();
+                          if(onChanged != null) onChanged!();
                           setState(() {});
                         }
                     ),
@@ -406,10 +406,10 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
                 allTags: ArticleTagWidget.TAGS,
                 onTagTap: (String tag, bool checked){
                   checked = !checked;
-                  if(checked) checkedTags.remove(tag);
-                  else checkedTags.add(tag);
+                  if(checked) checkedTags!.remove(tag);
+                  else checkedTags!.add(tag);
                   setState((){});
-                  if(onChanged != null) onChanged();
+                  if(onChanged != null) onChanged!();
                 },
                 checkedTags: checkedTags,
                 tagBuilder: (context, tag, checked) => SimpleButton(
@@ -419,14 +419,14 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
                       tag,
                       style: AppTextStyle(
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: checked?ArticleTagWidget.colors[tag].item1:hintEnab_(context),
+                          color: checked?ArticleTagWidget.colors[tag]!.item1:hintEnab_(context),
                           fontWeight: weight.bold,
                         shadow: checked
                       ),
                     ),
                     onTap: (){
-                      setState(() => checked?checkedTags.remove(tag):checkedTags.add(tag));
-                      if(onChanged != null) onChanged();
+                      setState(() => checked?checkedTags!.remove(tag):checkedTags!.add(tag));
+                      if(onChanged != null) onChanged!();
                     }
                 )
               ),
@@ -442,9 +442,9 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
 
 class CurrentItemsProvider extends ChangeNotifier{
 
-  List<Article> _currArticles;
-  List<Article> get currArticles => _currArticles;
-  set currArticles(List<Article> value){
+  List<Article>? _currArticles;
+  List<Article>? get currArticles => _currArticles;
+  set currArticles(List<Article>? value){
     _currArticles = value;
     notifyListeners();
   }
@@ -459,31 +459,31 @@ class CurrentItemsProvider extends ChangeNotifier{
 
 class SearchParamsProvider extends ChangeNotifier {
 
-  ArticleSearchOptions _searchOptions;
-  TextEditingController _controller;
+  ArticleSearchOptions? _searchOptions;
+  TextEditingController? _controller;
 
-  ArticleSearchOptions get options => _searchOptions;
-  TextEditingController get textController => _controller;
+  ArticleSearchOptions? get options => _searchOptions;
+  TextEditingController? get textController => _controller;
 
-  SearchParamsProvider({ArticleSearchOptions searchOptions, String initPhrase=''}){
+  SearchParamsProvider({ArticleSearchOptions? searchOptions, String initPhrase=''}){
     _searchOptions = searchOptions??ArticleSearchOptions();
     _controller = TextEditingController(text: initPhrase);
   }
 
   clear(){
-    _searchOptions.clear();
-    _controller.clear();
+    _searchOptions!.clear();
+    _controller!.clear();
     notifyListeners();
   }
 
   set phrase(String value){
-    _controller.text = value;
+    _controller!.text = value;
     notifyListeners();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 

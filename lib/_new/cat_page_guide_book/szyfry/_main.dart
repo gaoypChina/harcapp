@@ -29,7 +29,7 @@ import '_description/desc_zmiana.dart';
 
 class SzyfryFragment extends StatefulWidget {
 
-  const SzyfryFragment({Key key}) : super(key: key);
+  const SzyfryFragment({Key? key}) : super(key: key);
 
   @override
   State createState() => SzyfryFragmentState();
@@ -41,19 +41,19 @@ class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderState
   @override
   String get moduleId => ModuleStatsMixin.szyfry;
 
-  List<_TabItem> tabs;
+  late List<_TabItem> tabs;
 
   static const MORSE = "Morse'a";
 
-  Widget appBarButton;
+  Widget? appBarButton;
 
-  ValueNotifier notifier;
+  late ValueNotifier notifier;
 
-  TabController controller;
+  TabController? controller;
 
-  ChildMorseCommonValues commonVals;
+  ChildMorseCommonValues? commonVals;
 
-  AppBarProvider appBarProv;
+  AppBarProvider? appBarProv;
 
   @override
   void initState() {
@@ -115,8 +115,8 @@ class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderState
 
     notifier = ValueNotifier<double>(0);
 
-    controller.animation.addListener(() => notifier.value = controller.index + controller.offset);
-    controller.addListener(() => appBarProv.notify());
+    controller!.animation!.addListener(() => notifier.value = controller!.index + controller!.offset);
+    controller!.addListener(() => appBarProv!.notify());
 
     super.initState();
   }
@@ -140,7 +140,7 @@ class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderState
             physics: const BouncingScrollPhysics(),
             controller: controller,
             tabs: tabs.map((tab) => Tab(
-                text: tab.title[0].toUpperCase() + tab.title.substring(1)
+                text: tab.title![0].toUpperCase() + tab.title!.substring(1)
             )).toList(),
             indicator: AppTabBarIncdicator(context: context),
           ),
@@ -155,7 +155,7 @@ class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderState
 
                       hideKeyboard(context);
 
-                      if(commonVals.input.isEmpty) {
+                      if(commonVals!.input!.isEmpty) {
                         showAppToast(context, text: 'Wpisz wiadomość');
                         return;
                       }
@@ -186,7 +186,7 @@ class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderState
                       builder: (BuildContext context) =>
                           BottomSheetDef(
                             title: 'Działanie szyfru',
-                            builder: (context) => tabs[controller.index].bottom,
+                            builder: (context) => tabs[controller!.index].bottom,
                           ),
                     );
                   }:null,
@@ -204,13 +204,13 @@ class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderState
               ),
 
               AnimatedBuilder(
-                builder: (BuildContext context, Widget child){
+                builder: (BuildContext context, Widget? child){
                   return Transform.translate(
-                    offset: Offset(0, -controller.animation.value*AppBar().preferredSize.height),
+                    offset: Offset(0, -controller!.animation!.value*AppBar().preferredSize.height),
                     child: child,
                   );
                 },
-                animation: controller.animation,
+                animation: controller!.animation!,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -222,7 +222,7 @@ class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderState
                             height: AppBar().preferredSize.height,
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              tab.title,
+                              tab.title!,
                               style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, color: appBarTextEnab_(context), fontWeight: weight.halfBold),
                             ),
                           )
@@ -234,15 +234,15 @@ class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderState
         ),
         body: TabBarView(
           physics: const BouncingScrollPhysics(),
-          children: tabs.map((tab) => tab.child).toList(),
+          children: tabs.map((tab) => tab.child).toList() as List<Widget>,
           controller: controller,
         ),
       ),
     );
   }
 
-  bool get isBottomSheet => tabs[controller.index].bottom!=null;
-  bool get isMorse => tabs[controller.index].title == MORSE;
+  bool get isBottomSheet => tabs[controller!.index].bottom!=null;
+  bool get isMorse => tabs[controller!.index].title == MORSE;
 
 }
 
@@ -252,10 +252,10 @@ _fadePoint(double notifier, int point){
 
 class _TabItem extends TabItem{
 
-  final String title;
-  final Widget bottom;
-  final Widget appBarButton;
+  final String? title;
+  final Widget? bottom;
+  final Widget? appBarButton;
 
-  const _TabItem({this.title, this.bottom, Widget icon, Widget child, this.appBarButton})
-      :super(icon: icon, child: child);
+  const _TabItem({this.title, this.bottom, Widget? icon, Widget? child, this.appBarButton})
+      :super(icon: icon as Icon?, child: child);
 }

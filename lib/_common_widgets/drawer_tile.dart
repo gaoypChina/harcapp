@@ -4,23 +4,23 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 
 class DrawerTile<T> extends StatelessWidget{
 
-  final IconData icon;
-  final Widget leading;
-  final String title;
+  final IconData? icon;
+  final Widget? leading;
+  final String? title;
   final T source;
   final T selectedSource;
   final void Function(T) onSelect;
-  final Widget trailing;
+  final Widget? trailing;
 
   const DrawerTile({
     this.icon,
     this.leading,
-    @required this.title,
-    @required this.source,
-    @required this.selectedSource,
-    @required this.onSelect,
+    required this.title,
+    required this.source,
+    required this.selectedSource,
+    required this.onSelect,
     this.trailing,
-    Key key
+    Key? key
   }) : super(key: key);
 
   @override
@@ -30,7 +30,7 @@ class DrawerTile<T> extends StatelessWidget{
           color: selectedSource == source?iconEnab_(context):textEnab_(context)
       )),
       title: Text(
-          title,
+          title!,
           style: AppTextStyle(
               fontWeight: selectedSource == source?weight.bold:weight.normal,
               color: selectedSource == source?iconEnab_(context):textEnab_(context)

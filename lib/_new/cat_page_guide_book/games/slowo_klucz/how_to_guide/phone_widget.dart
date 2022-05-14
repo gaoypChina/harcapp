@@ -12,16 +12,16 @@ class PhoneWidget extends StatelessWidget{
   static const Curve _curve = Curves.easeInOutQuart;
 
   final Widget Function(BuildContext, double) builder;
-  final double size;
+  final double? size;
   final Duration duration;
-  final bool bottomLineDark;
+  final bool? bottomLineDark;
 
   const PhoneWidget({
-    @required this.builder,
-    @required this.size,
-    @required this.duration,
+    required this.builder,
+    required this.size,
+    required this.duration,
     this.bottomLineDark=true,
-    Key key
+    Key? key
   }): super(key: key);
 
   @override
@@ -31,7 +31,7 @@ class PhoneWidget extends StatelessWidget{
     return AnimatedContainer(
       duration: duration,
       curve: _curve,
-      height: size*aspectRatio,
+      height: size!*aspectRatio,
       width: size,
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints){
@@ -71,7 +71,7 @@ class PhoneWidget extends StatelessWidget{
                         child: Container(
                           width: .25*size,
                           height: .03*size,
-                          decoration: BoxDecoration(color: bottomLineDark?Colors.black:Colors.white, borderRadius: BorderRadius.circular(100)),
+                          decoration: BoxDecoration(color: bottomLineDark!?Colors.black:Colors.white, borderRadius: BorderRadius.circular(100)),
                         ),
                       ),
                     ),
@@ -99,10 +99,10 @@ class ScreenMainScreen extends StatelessWidget{
   final bool highlightButtonLeader;
 
   const ScreenMainScreen({
-    @required this.size,
+    required this.size,
     this.highlightButtonPlayers=false,
     this.highlightButtonLeader=false,
-    Key key
+    Key? key
   }): super(key: key);
 
   @override
@@ -221,7 +221,7 @@ class ScreenMainScreen extends StatelessWidget{
 
 class ScreenQRCode extends StatelessWidget {
 
-  const ScreenQRCode({Key key}) : super(key: key);
+  const ScreenQRCode({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -232,7 +232,7 @@ class ScreenQRCode extends StatelessWidget {
 
 class ScreenCamera extends StatelessWidget {
 
-  const ScreenCamera({Key key}) : super(key: key);
+  const ScreenCamera({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -243,7 +243,7 @@ class ScreenCamera extends StatelessWidget {
 
 class ScreenScanning extends StatelessWidget {
 
-  const ScreenScanning({Key key}) : super(key: key);
+  const ScreenScanning({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -254,7 +254,7 @@ class ScreenScanning extends StatelessWidget {
 
 class ScreenCheck extends StatelessWidget {
 
-  const ScreenCheck({Key key}) : super(key: key);
+  const ScreenCheck({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -267,13 +267,13 @@ class ScreenGamePlay extends StatelessWidget {
 
   final bool withColors;
   final bool withWords;
-  final PreviewCardsGridController controller;
+  final PreviewCardsGridController? controller;
 
   const ScreenGamePlay({
     this.withColors=false,
     this.withWords=false,
     this.controller,
-    Key key
+    Key? key
   }): super(key: key);
 
   @override

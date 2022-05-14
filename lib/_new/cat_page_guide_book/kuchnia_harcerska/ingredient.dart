@@ -15,7 +15,7 @@ class Ingredient{
 
   const Ingredient(this.product, this.amount, this.defUnit);
 
-  double getAmountInUnit(Unit unit){
+  double getAmountInUnit(Unit? unit){
     return product.unitManager.convert(defUnit, unit, amount);
   }
 }
@@ -23,7 +23,7 @@ class Ingredient{
 class IngredientWidget extends StatelessWidget{
 
   final Ingredient ingredient;
-  final Unit showUnit;
+  final Unit? showUnit;
   final int portions;
 
   const IngredientWidget(this.ingredient, this.showUnit, this.portions);
@@ -72,7 +72,7 @@ class IngredientWidgetConvState extends State<IngredientWidgetConv>{
 
   UnitManager get unitManager => widget.ingredient.product.unitManager;
 
-  Unit unit;
+  Unit? unit;
 
   @override
   void initState() {
@@ -89,7 +89,7 @@ class IngredientWidgetConvState extends State<IngredientWidgetConv>{
           IconButton(
             icon: Icon(MdiIcons.refresh, color: hintEnab_(context)),
             onPressed: (){
-              int unitIndex = Unit.values.indexOf(this.unit);
+              int unitIndex = Unit.values.indexOf(this.unit!);
               Unit unit = Unit.values[(++unitIndex)%Unit.values.length];
               while(unitManager.getGIn(unit) == null)
                 unit = Unit.values[(++unitIndex)%Unit.values.length];

@@ -9,7 +9,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class PowstWarszCard<T extends SongCore> extends StatelessWidget{
 
-  final void Function() onPowstanieCardTap;
+  final void Function()? onPowstanieCardTap;
   const PowstWarszCard({this.onPowstanieCardTap});
 
   @override

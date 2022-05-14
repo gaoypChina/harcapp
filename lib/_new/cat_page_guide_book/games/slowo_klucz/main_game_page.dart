@@ -35,7 +35,7 @@ class SlowoKluczMainGamePage extends StatefulWidget{
   final GameMode mode;
   final List<Word> words;
 
-  const SlowoKluczMainGamePage(this.mode, this.words, {Key key}): super(key: key);
+  const SlowoKluczMainGamePage(this.mode, this.words, {Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => SlowoKluczMainGamePageState();
@@ -106,16 +106,16 @@ class SlowoKluczMainGamePage extends StatefulWidget{
 
   }
 
-  static String get savedInstanceCode => shaPref.getString(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME, null);
-  static set savedInstanceCode(String value) => shaPref.setString(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME, value);
-  static void removeSavedInstanceCode() => shaPref.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
+  static String get savedInstanceCode => shaPref!.getString(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME, null)!;
+  static set savedInstanceCode(String value) => shaPref!.setString(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME, value);
+  static void removeSavedInstanceCode() => shaPref!.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
 
-  static SlowoKluczMainGamePage loadInstance(BuildContext context, String code){
+  static SlowoKluczMainGamePage? loadInstance(BuildContext context, String code){
     try {
 
       Map map = jsonDecode(code);
 
-      int wordListVersion = map['word_list_version'];
+      int? wordListVersion = map['word_list_version'];
       if (wordListVersion != WORD_LIST_VERISON) {
         showAppToast(context, text: oldDatabaseMessage);
         return null;
@@ -123,8 +123,8 @@ class SlowoKluczMainGamePage extends StatefulWidget{
       
       GameMode mode = map['mode'] == 1 ? GameMode.LEADER : GameMode.PLAYER;
 
-      List<dynamic> _wordMaps = map['words'];
-      List<Word> words = _wordMaps.map((wordMap) => Word.fromInstanceMap(wordMap)).toList();
+      List<dynamic> wordMaps = map['words'];
+      List<Word> words = wordMaps.map((wordMap) => Word.fromInstanceMap(wordMap)).toList();
       
       return SlowoKluczMainGamePage(mode, words);
 
@@ -138,13 +138,13 @@ class SlowoKluczMainGamePage extends StatefulWidget{
 
 class SlowoKluczMainGamePageState extends State<SlowoKluczMainGamePage>{
 
-  int greenCardsLeft;
-  int redCardsLeft;
+  late int greenCardsLeft;
+  late int redCardsLeft;
 
   GameMode get mode => widget.mode;
   List<Word> get words => widget.words;
 
-  int countdown;
+  late int countdown;
 
   saveInstance(){
 
@@ -175,7 +175,7 @@ class SlowoKluczMainGamePageState extends State<SlowoKluczMainGamePage>{
 
     if(mode == GameMode.PLAYER)
       countdown = 0;
-    else if(mode == GameMode.LEADER)
+    else
       countdown = 5;
 
     saveInstance();
@@ -223,12 +223,10 @@ class SlowoKluczMainGamePageState extends State<SlowoKluczMainGamePage>{
               builder: (_) =>
                   Center(
                     child: InfoWidget(
-                      color: greenCardsLeft > redCardsLeft
-                          ? GREEN_COLOR
+                      color: greenCardsLeft> redCardsLeft? GREEN_COLOR
                           : RED_COLOR,
                       textColor: textEnab_(context),
-                      text: 'Zaczynają ${greenCardsLeft > redCardsLeft
-                          ? 'niebiescy'
+                      text: 'Zaczynają ${greenCardsLeft> redCardsLeft? 'niebiescy'
                           : 'czerwoni'}',
                     ),
                   )
@@ -368,7 +366,7 @@ class QRCodeWidget extends StatelessWidget{
 
   final String encodedGameInstance;
 
-  const QRCodeWidget(this.encodedGameInstance, {Key key}): super(key: key);
+  const QRCodeWidget(this.encodedGameInstance, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -431,14 +429,14 @@ class QRCodeWidget extends StatelessWidget{
 class InfoWidget extends StatefulWidget{
 
   final Color color;
-  final Color textColor;
+  final Color? textColor;
   final String text;
 
   const InfoWidget({
-    @required this.color,
-    @required this.textColor,
-    @required this.text,
-    Key key
+    required this.color,
+    required this.textColor,
+    required this.text,
+    Key? key
   }): super(key: key);
 
   @override
@@ -449,7 +447,7 @@ class InfoWidget extends StatefulWidget{
 class InfoWidgetState extends State<InfoWidget>{
 
   Color get color => widget.color;
-  Color get textColor => widget.textColor;
+  Color? get textColor => widget.textColor;
   String get text => widget.text;
 
   @override
@@ -470,6 +468,7 @@ class InfoWidgetState extends State<InfoWidget>{
       padding: const EdgeInsets.all(24.0),
       child: Center(
           child: RotatedBox(
+            quarterTurns: 1,
             child: AutoSizeText(
               text,
               style: AppTextStyle(
@@ -480,7 +479,6 @@ class InfoWidgetState extends State<InfoWidget>{
               ),
               textAlign: TextAlign.center,
             ),
-            quarterTurns: 1,
           )
       ),
     ),
@@ -492,7 +490,7 @@ class GameRules extends StatelessWidget{
 
   final ColorPack colorPack;
 
-  const GameRules(this.colorPack, {Key key}) : super(key: key);
+  const GameRules(this.colorPack, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(

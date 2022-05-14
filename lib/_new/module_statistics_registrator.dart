@@ -73,8 +73,8 @@ ModuleStatisticsRegistrator moduleStatisticsRegistrator = ModuleStatisticsRegist
 class ModuleStatisticsRegistrator{
 
   int depth = 0;
-  String _moduleId;
-  DateTime _openTime;
+  String? _moduleId;
+  DateTime? _openTime;
 
   void clear(){
     _moduleId = null;
@@ -109,7 +109,7 @@ class ModuleStatisticsRegistrator{
       return;
     }
 
-    Duration totalOpenDuration = DateTime.now().difference(_openTime);
+    Duration totalOpenDuration = DateTime.now().difference(_openTime!);
 
     if(totalOpenDuration < const Duration(seconds: 3)) {
       logger.d('ModuleStatisticsRegistrator ($_moduleId, $totalOpenDuration) stat aborted. Open time too short.');
@@ -118,7 +118,7 @@ class ModuleStatisticsRegistrator{
     }
     Statistics.registerModuleAction(
         _moduleId,
-        _openTime,
+        _openTime!,
         totalOpenDuration,
     );
 

@@ -17,9 +17,9 @@ enum ArticleListMode{
 
 class ArticleListWidget extends StatelessWidget{
 
-  final List<Article> articles;
-  final String emptyText;
-  final IconData emptyIcon;
+  final List<Article?>? articles;
+  final String? emptyText;
+  final IconData? emptyIcon;
   final ArticleListMode mode;
   final EdgeInsets itemPadding;
 
@@ -28,7 +28,7 @@ class ArticleListWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    if(articles.isEmpty)
+    if(articles!.isEmpty)
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +36,7 @@ class ArticleListWidget extends StatelessWidget{
           Icon(emptyIcon, size: Dimen.ICON_EMPTY_INFO_SIZE, color: iconDisab_(context)),
           const SizedBox(height: Dimen.ICON_MARG),
           Text(
-            emptyText,
+            emptyText!,
             style: AppTextStyle(
                 fontSize: Dimen.TEXT_SIZE_APPBAR,
                 fontWeight: weight.bold,
@@ -49,30 +49,30 @@ class ArticleListWidget extends StatelessWidget{
 
     if(mode == ArticleListMode.PageView) {
       PageController controller = PageController(viewportFraction: Dimen.viewportFraction(context));
-      ValueNotifier<double> notifier = ValueNotifier(0);
+      ValueNotifier<double?> notifier = ValueNotifier(0);
       controller.addListener(() => notifier.value = controller.page);
       post(() => notifier.value = controller.page);
       return PageView.builder(
         itemBuilder: (context, index) => builder(context, index, notifier),
         physics: const BouncingScrollPhysics(),
         controller: controller,
-        itemCount: articles.length,
+        itemCount: articles!.length,
       );
     }else
       return ListView.separated(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-        itemCount: articles.length,
+        itemCount: articles!.length,
         separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
         itemBuilder: (context, index) => builder(context, index, null),
       );
 
   }
 
-  Widget builder(BuildContext context, int index, ValueNotifier notifier){
+  Widget builder(BuildContext context, int index, ValueNotifier? notifier){
 
     Widget child = ArticleCardWidget(
-      articles[index],
+      articles![index],
       radius: AppCard.BIG_RADIUS,
       onTap: (context, article, background, articleSeenProv) =>
       background == null?
@@ -85,7 +85,7 @@ class ArticleListWidget extends StatelessWidget{
           cover: background,
         )),
       ),
-      key: ValueKey(articles[index]),
+      key: ValueKey(articles![index]),
     );
 
     if(notifier == null)

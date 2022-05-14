@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class Blur extends StatelessWidget{
 
-  final Widget child;
+  final Widget? child;
   final double sigma;
   final TileMode mode;
   const Blur({this.child, this.sigma=8.0, this.mode = TileMode.repeated});

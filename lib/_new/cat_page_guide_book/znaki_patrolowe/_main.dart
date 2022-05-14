@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -13,7 +13,7 @@ import 'data.dart';
 
 class ZnakiPatroloweFragment extends StatefulWidget {
 
-  const ZnakiPatroloweFragment({Key key}) : super(key: key);
+  const ZnakiPatroloweFragment({Key? key}) : super(key: key);
 
   @override
   State createState() => ZnakiPatroloweFragmentState();
@@ -25,8 +25,8 @@ class ZnakiPatroloweFragmentState extends State<ZnakiPatroloweFragment> with Mod
   @override
   String get moduleId => ModuleStatsMixin.znakiPatrolowe;
 
-  static ValueNotifier<double> notifier;
-  PageController pageController;
+  static ValueNotifier<double>? notifier;
+  PageController? pageController;
 
   @override
   void initState() {
@@ -39,8 +39,8 @@ class ZnakiPatroloweFragmentState extends State<ZnakiPatroloweFragment> with Mod
 
   @override
   void dispose() {
-    notifier.dispose();
-    pageController.dispose();
+    notifier!.dispose();
+    pageController!.dispose();
     super.dispose();
   }
 
@@ -55,18 +55,15 @@ class ZnakiPatroloweFragmentState extends State<ZnakiPatroloweFragment> with Mod
         actions: [
           IconButton(
             icon: const Icon(MdiIcons.dotsGrid),
-            onPressed: () => Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rippleRightDown,
-                    child: AllSignsPage(
-                      onItemTap: (index){
-                        pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.easeOutQuint);
-                        Navigator.pop(context);
-                      },
-                    )
-                )
-            ),
+            onPressed: () => pushPage(
+              context,
+              builder: (context) => AllSignsPage(
+                onItemTap: (index){
+                  pageController!.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.easeOutQuint);
+                  Navigator.pop(context);
+                },
+              )
+            )
           )
         ],
       ),
@@ -97,10 +94,10 @@ class ZnakiPatroloweFragmentState extends State<ZnakiPatroloweFragment> with Mod
 class Item extends StatelessWidget{
 
   final ItemData data;
-  final ValueNotifier notifier;
+  final ValueNotifier? notifier;
   final int index;
 
-  const Item(this.data, this.notifier, this.index, {Key key}): super(key: key);
+  const Item(this.data, this.notifier, this.index, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -125,10 +122,10 @@ class Item extends StatelessWidget{
           const SizedBox(height: 42),
 
           AnimatedBuilder(
-            animation: notifier,
+            animation: notifier!,
             builder: (context, _) => Transform.translate(
                 offset: Offset(
-                    -.4*MediaQuery.of(context).size.height* (notifier.value - index),
+                    -.4*MediaQuery.of(context).size.height* (notifier!.value - index),
                     0
                 ),
                 child: Container(

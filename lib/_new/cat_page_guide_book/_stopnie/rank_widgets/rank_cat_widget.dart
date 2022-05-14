@@ -11,7 +11,7 @@ import 'package:harcapp_core/dimen.dart';
 class RankCatWidget extends StatelessWidget{
 
   final RankCat cat;
-  final void Function(RankTask item, bool completed) onReqComplChanged;
+  final void Function(RankTask item, bool completed)? onReqComplChanged;
 
   const RankCatWidget(this.cat, {this.onReqComplChanged});
 
@@ -35,7 +35,7 @@ class RankCatWidget extends StatelessWidget{
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Kategoria zadań', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context))),
-                    Text(cat.title, style: AppTextStyle(
+                    Text(cat.title!, style: AppTextStyle(
                         fontSize: Dimen.TEXT_SIZE_APPBAR,
                         color: hintEnab_(context),
                         fontWeight: weight.bold
@@ -49,11 +49,11 @@ class RankCatWidget extends StatelessWidget{
       );
       children.add(SizedBox(height: Dimen.SIDE_MARG));
     }
-    for(int i=0; i<cat.groups.length; i++){
-      RankGroup group = cat.groups[i];
+    for(int i=0; i<cat.groups!.length; i++){
+      RankGroup group = cat.groups![i];
       children.add(RankGroupWidget(group, onReqComplChanged: onReqComplChanged));
 
-      if(i != cat.groups.length-1)
+      if(i != cat.groups!.length-1)
         children.add(RankGroupWidget.separator(context, i));
     }
 

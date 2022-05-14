@@ -6,14 +6,14 @@ class GlassButton extends StatelessWidget {
   const GlassButton({
     this.radius = 16,
     this.child,
-    @required this.onPressed,
+    required this.onPressed,
     this.onLongPressed,
   });
 
   final double radius;
-  final Widget child;
+  final Widget? child;
   final void Function() onPressed;
-  final void Function() onLongPressed;
+  final void Function()? onLongPressed;
 
   @override
   Widget build(BuildContext context) {

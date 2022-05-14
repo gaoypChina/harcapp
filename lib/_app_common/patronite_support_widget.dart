@@ -21,12 +21,12 @@ class PatroniteSupportWidget extends StatefulWidget{
   final String title;
   final String description;
   final bool expandable;
-  final EdgeInsets margin;
+  final EdgeInsets? margin;
 
   const PatroniteSupportWidget({
-    @required this.stateTag,
-    @required this.title,
-    @required this.description,
+    required this.stateTag,
+    required this.title,
+    required this.description,
     this.expandable = true,
     this.margin,
   });
@@ -44,14 +44,14 @@ class PatroniteSupportWidgetState extends State<PatroniteSupportWidget>{
 
   static Map<String, bool> expandedMap = {};
 
-  bool get expanded => !expandable || expandedMap[stateTag];
+  bool get expanded => !expandable || expandedMap[stateTag]!;
   set expanded(bool value) => expandedMap[stateTag] = value;
 
   String get stateTag => widget.stateTag;
   String get title => widget.title;
   String get description => widget.description;
   bool get expandable => widget.expandable;
-  EdgeInsets get margin => widget.margin;
+  EdgeInsets? get margin => widget.margin;
 
   @override
   void initState() {

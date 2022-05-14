@@ -22,7 +22,6 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:provider/provider.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -34,7 +33,7 @@ import '../login_provider.dart';
 
 class AccountSettingsPart extends StatefulWidget{
 
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
 
   const AccountSettingsPart({this.padding});
 
@@ -45,61 +44,59 @@ class AccountSettingsPart extends StatefulWidget{
 
 class AccountSettingsPartState extends State<AccountSettingsPart>{
 
-  InputFieldController emailController;
-  InputFieldController passController;
-  InputFieldController passRepController;
-  InputFieldController nameController;
-  InputFieldController sexController;
+  InputFieldController? emailController;
+  InputFieldController? passController;
+  InputFieldController? passRepController;
+  InputFieldController? nameController;
+  InputFieldController? sexController;
 
-  Sex sex;
+  Sex? sex;
 
-  InputFieldController validPasswordController;
+  InputFieldController? validPasswordController;
 
-  bool editMode;
-  bool processing;
+  bool? editMode;
+  bool? processing;
 
-  String errMessage;
+  String? errMessage;
 
   void showPasswordDialog() => openDialog(
       context: context,
-      builder: (_) => KeyboardAvoider(
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-            child: Material(
-              borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-              child: Padding(
-                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
+      builder: (_) => Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: MediaQuery.of(context).viewInsets.add(const EdgeInsets.all(Dimen.SIDE_MARG)),
+          child: Material(
+            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+            child: Padding(
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
 
-                    const TitleShortcutRowWidget(title: 'Czy to na pewno Ty?'),
+                  const TitleShortcutRowWidget(title: 'Czy to na pewno Ty?'),
 
-                    InputFieldPassword(
-                      hint: 'Hasło:',
-                      controller: validPasswordController,
-                    ),
+                  InputFieldPassword(
+                    hint: 'Hasło:',
+                    controller: validPasswordController,
+                  ),
 
-                    MainButton(
-                        icon: MdiIcons.check,
-                        text: 'Zapisz',
-                        processing: processing,
-                        onTap: () async {
-                          Navigator.pop(context);
-                          await hideKeyboard(context);
-                          sendChangeRequest(
+                  MainButton(
+                      icon: MdiIcons.check,
+                      text: 'Zapisz',
+                      processing: processing,
+                      onTap: () async {
+                        Navigator.pop(context);
+                        await hideKeyboard(context);
+                        sendChangeRequest(
                             onSuccess: (){
                               if(mounted) showAppToast(context, text: 'Zapisano');
                               if(mounted) setState(() => editMode = false);
                             }
-                          );
-                        }
-                    ),
+                        );
+                      }
+                  ),
 
-                  ],
-                ),
+                ],
               ),
             ),
           ),
@@ -126,27 +123,27 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
   );
 
   void sendChangeRequest({
-      void Function() onSuccess,
-      void Function() onError,
+      void Function()? onSuccess,
+      void Function()? onError,
     }) async {
 
-    emailController.errorText = '';
-    passController.errorText = '';
-    passRepController.errorText = '';
-    nameController.errorText = '';
-    sexController.errorText = '';
-    validPasswordController.errorText = '';
+    emailController!.errorText = '';
+    passController!.errorText = '';
+    passRepController!.errorText = '';
+    nameController!.errorText = '';
+    sexController!.errorText = '';
+    validPasswordController!.errorText = '';
 
     setState(() => processing = true);
 
     await ApiUser.update(
-        email: emailController.text,
-        password: passController.text,
-        passwordRep: passRepController.text,
-        name: nameController.text,
+        email: emailController!.text,
+        password: passController!.text,
+        passwordRep: passRepController!.text,
+        name: nameController!.text,
         sex: sex,
-        validPass: validPasswordController.text,
-        onSuccess: (String email, String jwt, String name, Sex sex) async {
+        validPass: validPasswordController!.text,
+        onSuccess: (String? email, String? jwt, String? name, Sex? sex) async {
           if(email != null && email != AccountData.email) {
             await AccountData.writeEmailConf(false);
             await AccountData.writeEmail(email);
@@ -165,28 +162,28 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
           if(sex != null)
             await AccountData.writeSex(sex);
 
-          validPasswordController.text = '';
+          validPasswordController!.text = '';
           onSuccess?.call();
         },
-        onError: (Response response){
+        onError: (Response? response){
           try{
 
-            Map errMap = response.data['errors'];
+            Map? errMap = response!.data['errors'];
 
             if(errMap != null) {
-              emailController.errorText = errMap[ApiUser.UPDATE_REQ_EMAIL] ?? '';
-              passController.errorText = errMap[ApiUser.UPDATE_REQ_PASSWORD] ?? '';
-              passRepController.errorText = errMap[ApiUser.UPDATE_REQ_PASSWORD_REP] ?? '';
-              nameController.errorText = errMap[ApiUser.UPDATE_REQ_NAME] ?? '';
-              sexController.errorText = errMap[ApiUser.UPDATE_REQ_SEX] ?? '';
-              validPasswordController.errorText = errMap[ApiUser.UPDATE_REQ_VALID_PASS] ?? '';
+              emailController!.errorText = errMap[ApiUser.UPDATE_REQ_EMAIL] ?? '';
+              passController!.errorText = errMap[ApiUser.UPDATE_REQ_PASSWORD] ?? '';
+              passRepController!.errorText = errMap[ApiUser.UPDATE_REQ_PASSWORD_REP] ?? '';
+              nameController!.errorText = errMap[ApiUser.UPDATE_REQ_NAME] ?? '';
+              sexController!.errorText = errMap[ApiUser.UPDATE_REQ_SEX] ?? '';
+              validPasswordController!.errorText = errMap[ApiUser.UPDATE_REQ_VALID_PASS] ?? '';
             }
 
             errMessage = response.data['error'];
 
           }catch (e){ showAppToast(context, text: 'Coś nie siadło.'); }
 
-          validPasswordController.text = '';
+          validPasswordController!.text = '';
           onError?.call();
         }
     );
@@ -215,7 +212,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
   }
 
   bool savable() =>
-    emailController.text.isNotEmpty && nameController.text.isNotEmpty && sex != null;
+    emailController!.text.isNotEmpty && nameController!.text.isNotEmpty && sex != null;
 
   @override
   Widget build(BuildContext context) {
@@ -260,7 +257,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                 InputField(
                   hint: 'Email:',
                   controller: emailController,
-                  enabled: !AccountData.microsoftAcc && editMode,
+                  enabled: !AccountData.microsoftAcc && editMode!,
                   maxLength: ApiUser.EMAIL_MAX_LENGTH,
                   leading: Icon(MdiIcons.email, color: iconDisab_(context)),
                 ),
@@ -290,7 +287,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                 InputField(
                   hint: 'Imię i nazwisko:',
                   controller: nameController,
-                  enabled: !AccountData.microsoftAcc && editMode,
+                  enabled: !AccountData.microsoftAcc && editMode!,
                   maxLength: ApiUser.NAME_MAX_LENGTH,
                   leading: Icon(MdiIcons.accountEdit, color: iconDisab_(context)),
                 ),
@@ -339,21 +336,21 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                   children: [
 
                     Expanded(
-                        child: editMode?Hero(
+                        child: editMode!?Hero(
                           tag: PartTemplate.secondaryButtonHeroTag,
                           child: SimpleButton.from(
                             context: context,
                             margin: EdgeInsets.zero,
                             fontWeight: weight.normal,
-                            textColor: processing?iconDisab_(context):iconEnab_(context),
+                            textColor: processing!?iconDisab_(context):iconEnab_(context),
                             text: 'Jednak nie',
                             icon: MdiIcons.arrowLeft,
                             onTap: (){
-                              emailController.text = AccountData.email;
-                              emailController.errorText = '';
-                              passController.text = '';
-                              nameController.text = AccountData.name;
-                              nameController.errorText = '';
+                              emailController!.text = AccountData.email!;
+                              emailController!.errorText = '';
+                              passController!.text = '';
+                              nameController!.text = AccountData.name!;
+                              nameController!.errorText = '';
                               sex = AccountData.sex;
 
                               setState(() => editMode = false);
@@ -367,10 +364,10 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                     Expanded(
                       child: MainButton(
                         processing: processing,
-                        text: editMode?'Zapisz':'Edytuj',
-                        icon: editMode?MdiIcons.check:MdiIcons.pencilOutline,
-                        enabled: !editMode || savable(),
-                        onTap: editMode?(){
+                        text: editMode!?'Zapisz':'Edytuj',
+                        icon: editMode!?MdiIcons.check:MdiIcons.pencilOutline,
+                        enabled: !editMode! || savable(),
+                        onTap: editMode!?(){
                           hideKeyboard(context);
                           if(AccountData.microsoftAcc){
                             sendChangeRequest(
@@ -382,12 +379,12 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                             return;
                           }
 
-                          if(emailController.text==AccountData.email)
+                          if(emailController!.text==AccountData.email)
                             showPasswordDialog();
                           else
                             showEmailChangedDialog();
                         }:
-                        (processing?null:() => setState(() => editMode = true)),
+                        (processing!?null:() => setState(() => editMode = true)),
                       ),
                     )
                   ],
@@ -458,9 +455,9 @@ class DeleteAccountDialog extends StatefulWidget{
 
 class DeleteAccountDialogState extends State<DeleteAccountDialog>{
 
-  InputFieldController passwordController;
-  InputFieldController emailController;
-  bool processing;
+  InputFieldController? passwordController;
+  InputFieldController? emailController;
+  late bool processing;
 
   @override
   void initState() {
@@ -535,16 +532,16 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
                             color: Colors.red,
                             onTap: processing?null:(){
 
-                              if(!AccountData.regularAcc && emailController.text != AccountData.email){
-                                emailController.errorText = 'Nie podał${AccountData.sex == Sex.male?'eś':'aś'} poprawnego adresu email';
+                              if(!AccountData.regularAcc && emailController!.text != AccountData.email){
+                                emailController!.errorText = 'Nie podał${AccountData.sex == Sex.male?'eś':'aś'} poprawnego adresu email';
                                 return;
                               }
 
                               setState(() => processing = true);
                               ApiUser.delete(
-                                validPass: AccountData.regularAcc?passwordController.text:null,
+                                validPass: AccountData.regularAcc?passwordController!.text:null,
                                 onSuccess: () async {
-                                  String email = AccountData.email;
+                                  String? email = AccountData.email;
                                   await AccountData.forgetAccount();
                                   Provider.of<LoginProvider>(context, listen: false).notify();
                                   showAppToast(context, text: 'Konto HarcApp <b>$email</b> trwale usunięte.');
@@ -556,7 +553,7 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
                                 },
                                 onError: (message){
                                   if(mounted) showAppToast(context, text: 'Coś nie tak...');
-                                  if(mounted) passwordController.errorText = message;
+                                  if(mounted) passwordController!.errorText = message;
                                   if(mounted) setState(() => processing = false);
                                 },
                               );
@@ -591,9 +588,9 @@ class RotatingHarcAppLogo extends StatefulWidget{
   static const defSize = 48.0;
 
   final double size;
-  final Color color;
+  final Color? color;
 
-  const RotatingHarcAppLogo({this.size = defSize, this.color});
+  const RotatingHarcAppLogo({this.size = defSize, this.color, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => RotatingHarcAppLogoState();
@@ -604,13 +601,13 @@ class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
 
   static const List<Color> colors = [Colors.red, Colors.orange, Colors.amber, Colors.teal, Colors.green, Colors.blue, Colors.deepPurple];
 
-  FlipCardController controller;
+  FlipCardController? controller;
 
   void flip()async{
     while(true){
       if(!mounted)
         return;
-      controller.toggleCard();
+      controller!.toggleCard();
       setState((){
         if(colorIdx < colors.length - 2)
           colorIdx++;
@@ -621,7 +618,7 @@ class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
     }
   }
 
-  int colorIdx;
+  late int colorIdx;
 
   @override
   void initState() {
@@ -646,7 +643,7 @@ class HarcAppWidget extends StatelessWidget{
   static const defSize = 48.0;
 
   final double size;
-  final Color color;
+  final Color? color;
 
   const HarcAppWidget({this.size = defSize, this.color});
 

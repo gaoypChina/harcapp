@@ -19,10 +19,10 @@ class SprawTileWidget extends StatefulWidget{
   static const IconData ICON_COMPLETED = MdiIcons.trophyOutline;
 
   final Spraw spraw;
-  final String groupName;
-  final Function(Spraw spraw) onPicked;
+  final String? groupName;
+  final Function(Spraw spraw)? onPicked;
 
-  const SprawTileWidget({@required this.spraw, this.groupName, this.onPicked});
+  const SprawTileWidget({required this.spraw, this.groupName, this.onPicked});
 
   @override
   State<StatefulWidget> createState() => SprawTileWidgetState();
@@ -31,7 +31,7 @@ class SprawTileWidget extends StatefulWidget{
 class SprawTileWidgetState extends State<SprawTileWidget>{
 
   Spraw get spraw => widget.spraw;
-  String get groupName => widget.groupName;
+  String? get groupName => widget.groupName;
 
   String get title => spraw.title;
   String get level => spraw.level;
@@ -41,7 +41,7 @@ class SprawTileWidgetState extends State<SprawTileWidget>{
     children: [
 
       ListTile(
-        onTap: () => widget.onPicked(spraw),
+        onTap: () => widget.onPicked!(spraw),
         title: Text(
             title,
             style: AppTextStyle(

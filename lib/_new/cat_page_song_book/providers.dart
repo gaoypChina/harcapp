@@ -47,7 +47,7 @@ class AlbumProvider extends ChangeNotifier{
   }
 
   List<Album> get all => Album.all;
-  List<Album> get allOwn => Album.allOwn;
+  List<Album>? get allOwn => Album.allOwn;
 
   add(Album album){
     Album.addToAll(album);

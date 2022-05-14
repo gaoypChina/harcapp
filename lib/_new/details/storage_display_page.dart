@@ -23,7 +23,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class StorageDisplayPage extends StatefulWidget{
 
-  const StorageDisplayPage({Key key}) : super(key: key);
+  const StorageDisplayPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => StorageDisplayPageState();
@@ -178,12 +178,12 @@ class _Item extends StatelessWidget{
 
   final IconData icon;
   final String title;
-  final Widget trailing;
-  final void Function() onOpen;
+  final Widget? trailing;
+  final void Function()? onOpen;
 
   const _Item({
-    @required this.icon,
-    @required this.title,
+    required this.icon,
+    required this.title,
     this.trailing,
     this.onOpen
   });
@@ -207,7 +207,7 @@ class JSONFileDisplayer extends StatelessWidget{
 
   final String filePath;
 
-  const JSONFileDisplayer(this.filePath, {Key key}): super(key: key);
+  const JSONFileDisplayer(this.filePath, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -260,13 +260,13 @@ class JSONFileDisplayer extends StatelessWidget{
 class FolderDisplayer extends StatefulWidget{
 
   final String folderPath;
-  final String Function(String) displayFileName;
-  final String Function(String) displayText;
-  final String emptyText;
+  final String Function(String)? displayFileName;
+  final String Function(String?)? displayText;
+  final String? emptyText;
   final bool removable;
-  final void Function() onRemoved;
+  final void Function()? onRemoved;
 
-  const FolderDisplayer(this.folderPath, {this.displayFileName, this.displayText, this.emptyText, this.removable = false, this.onRemoved, Key key}): super(key: key);
+  const FolderDisplayer(this.folderPath, {this.displayFileName, this.displayText, this.emptyText, this.removable = false, this.onRemoved, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => FolderDisplayerState();
@@ -276,13 +276,13 @@ class FolderDisplayer extends StatefulWidget{
 class FolderDisplayerState extends State<FolderDisplayer>{
 
   String get folderPath => widget.folderPath;
-  String Function(String) get displayFileName => widget.displayFileName;
-  String Function(String) get displayText => widget.displayText;
-  String get emptyText => widget.emptyText;
+  String Function(String)? get displayFileName => widget.displayFileName;
+  String Function(String?)? get displayText => widget.displayText;
+  String? get emptyText => widget.emptyText;
   bool get removable => widget.removable;
-  void Function() get onRemoved => widget.onRemoved;
+  void Function()? get onRemoved => widget.onRemoved;
 
-  List<String> filePaths;
+  late List<String> filePaths;
 
   @override
   void initState() {
@@ -323,7 +323,7 @@ class FolderDisplayerState extends State<FolderDisplayer>{
               itemCount: filePaths.length,
               itemBuilder: (context, index){
 
-                String text;
+                String? text;
                 try {
                   text = readFileAsString(filePaths[index]);
                 } on FileNotFoundError{
@@ -349,7 +349,7 @@ class FolderDisplayerState extends State<FolderDisplayer>{
                     ),
                     expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      SelectableText(displayText?.call(text)??text)
+                      SelectableText(displayText?.call(text)??text!)
                     ]
                 );
 
@@ -381,9 +381,9 @@ class FolderDisplayerState extends State<FolderDisplayer>{
 class JSONFolderDisplayer extends StatelessWidget{
 
   final String folderPath;
-  final String Function(String) displayFileName;
+  final String Function(String)? displayFileName;
 
-  const JSONFolderDisplayer(this.folderPath, {this.displayFileName, Key key}): super(key: key);
+  const JSONFolderDisplayer(this.folderPath, {this.displayFileName, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -403,7 +403,7 @@ class ImageFolderDisplayer extends StatelessWidget{
 
   final String folderPath;
 
-  const ImageFolderDisplayer(this.folderPath, {Key key}): super(key: key);
+  const ImageFolderDisplayer(this.folderPath, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -506,7 +506,7 @@ class TextDisplayer extends StatelessWidget{
   final String title;
   final String text;
 
-  const TextDisplayer(this.title, this.text, {Key key}): super(key: key);
+  const TextDisplayer(this.title, this.text, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

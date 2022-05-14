@@ -44,7 +44,7 @@ class Page3State extends State<Page3> with PageTemplateInterface{
 
   }
 
-  double rightPhoneX(double width){
+  double? rightPhoneX(double width){
     if(animStage == 0) return 2*initGridSize(width);
     if(animStage == 1 || animStage == 2) return width + initPlayerOffset(width);
     if(animStage == 3 || animStage == 4) return initPlayerOffset(width);
@@ -92,12 +92,12 @@ class Page3State extends State<Page3> with PageTemplateInterface{
     return initPlayerOffset(width);
   }
 
-  AnimStageManager animStageManager;
+  late AnimStageManager animStageManager;
 
-  int animStage;
+  int? animStage;
 
-  bool showQRCode;
-  bool showCamera;
+  bool? showQRCode;
+  bool? showCamera;
 
   @override
   void initState() {
@@ -250,7 +250,7 @@ class Page3State extends State<Page3> with PageTemplateInterface{
                     duration: _transitDuration,
                     switchInCurve: curve,
                     switchOutCurve: curve,
-                    index: showQRCode?1:0,
+                    index: showQRCode!?1:0,
                     children: [
                       ScreenMainScreen(size: width, highlightButtonPlayers: animStage == 2),
                       ScreenQRCode(),
@@ -273,7 +273,7 @@ class Page3State extends State<Page3> with PageTemplateInterface{
                     duration: _transitDuration,
                     switchInCurve: curve,
                     switchOutCurve: curve,
-                    index: showCamera?1:0,
+                    index: showCamera!?1:0,
                     children: [
                       ScreenMainScreen(size: width, highlightButtonLeader: animStage == 4),
                       ScreenCamera(),

@@ -19,33 +19,33 @@ class RankTileWidgetTemplate extends StatelessWidget{
   static const double leadingWidth = RankData.iconSizeSmall*3 + 2*Dimen.SIDE_MARG;
   static const double leadingAspectRatio = 1.8;
 
-  final Color colorStart;
-  final Color colorEnd;
+  final Color? colorStart;
+  final Color? colorEnd;
   final List<IconData> icons;
   final double iconSize;
   final bool iconsTrailing;
-  final void Function(BuildContext context) onTap;
-  final String titleTop;
-  final String titleBottom;
-  final Color titleTopColor;
-  final Color titleBottomColor;
-  final Widget trailing;
-  final Widget titleBottomLeading;
+  final void Function(BuildContext context)? onTap;
+  final String? titleTop;
+  final String? titleBottom;
+  final Color? titleTopColor;
+  final Color? titleBottomColor;
+  final Widget? trailing;
+  final Widget? titleBottomLeading;
 
   const RankTileWidgetTemplate({
-    @required this.colorStart,
-    @required this.colorEnd,
-    @required this.icons,
+    required this.colorStart,
+    required this.colorEnd,
+    required this.icons,
     this.iconSize=32.0,
     this.iconsTrailing=false,
     this.onTap,
-    @required this.titleTop,
+    required this.titleTop,
     this.titleBottom,
     this.titleTopColor,
     this.titleBottomColor,
     this.trailing,
     this.titleBottomLeading,
-    Key key
+    Key? key
   }): super(key: key);
 
   @override
@@ -63,8 +63,8 @@ class RankTileWidgetTemplate extends StatelessWidget{
             aspectRatio: leadingAspectRatio,
             child: GradientWidget(
               radius: AppCard.BIG_RADIUS,
-              colorStart: colorStart,
-              colorEnd: colorEnd,
+              colorStart: colorStart!,
+              colorEnd: colorEnd!,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -86,7 +86,7 @@ class RankTileWidgetTemplate extends StatelessWidget{
             children: [
 
               Text(
-                titleTop,
+                titleTop!,
                 style: AppTextStyle(
                     fontSize: Dimen.TEXT_SIZE_BIG,
                     fontWeight: weight.halfBold,
@@ -101,11 +101,11 @@ class RankTileWidgetTemplate extends StatelessWidget{
                 children: [
 
                   if(titleBottomLeading != null)
-                    titleBottomLeading,
+                    titleBottomLeading!,
 
                   if(titleBottom != null)
                     Text(
-                      titleBottom,
+                      titleBottom!,
                       style: AppTextStyle(
                           fontSize: Dimen.TEXT_SIZE_BIG,
                           fontWeight: weight.halfBold,
@@ -123,7 +123,7 @@ class RankTileWidgetTemplate extends StatelessWidget{
         const SizedBox(width: Dimen.SIDE_MARG),
 
         if(trailing != null)
-          trailing
+          trailing!
 
       ],
     ),

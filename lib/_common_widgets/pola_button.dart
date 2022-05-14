@@ -14,7 +14,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class PolaIcon extends StatelessWidget{
 
-  final Color color;
+  final Color? color;
 
   const PolaIcon({this.color});
 
@@ -27,7 +27,7 @@ class PolaIcon extends StatelessWidget{
 
 Function polaTap = (BuildContext context) {
 
-  IconData iconDownload;
+  IconData? iconDownload;
 
   if (Platform.isAndroid) iconDownload = MdiIcons.googlePlay;
   else if (Platform.isIOS) iconDownload = MdiIcons.cloudDownloadOutline;

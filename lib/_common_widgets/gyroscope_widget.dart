@@ -11,7 +11,7 @@ enum GyroscofeShift{
 }
 
 class GyroscopeWidget extends StatefulWidget {
-  final Widget child;
+  final Widget? child;
   final double multipleX;
   final double multipleY;
   final double scale;
@@ -23,10 +23,10 @@ class GyroscopeWidget extends StatefulWidget {
     this.multipleY = 1,
     this.scale = 1,
     this.shift = GyroscofeShift.ABSOLUITE,
-    Key key
+    Key? key
   }):super(key: key);
 
-  static GyroscopeWidget fill({@required Widget child, @required double scale, Key key}) => GyroscopeWidget(
+  static GyroscopeWidget fill({required Widget child, required double scale, Key? key}) => GyroscopeWidget(
     child: child,
     scale: scale,
     multipleX: (1 - scale)/2,
@@ -41,13 +41,13 @@ class GyroscopeWidget extends StatefulWidget {
 
 class _GyroscopeWidgetState extends State<GyroscopeWidget>{
 
-  ValueNotifier<List<double>> notifier;
+  late ValueNotifier<List<double>> notifier;
   static const double _max = 9.81;
 
-  double childWidth;
-  double childHeight;
+  double? childWidth;
+  double? childHeight;
 
-  GlobalKey globalKey;
+  late GlobalKey globalKey;
 
   @override
   void initState() {
@@ -70,8 +70,8 @@ class _GyroscopeWidgetState extends State<GyroscopeWidget>{
 
     if(childWidth == null || childHeight == null)
       post((){
-        childWidth = globalKey.currentContext.size.width;
-        childHeight = globalKey.currentContext.size.height;
+        childWidth = globalKey.currentContext!.size!.width;
+        childHeight = globalKey.currentContext!.size!.height;
       });
 
     return
@@ -97,8 +97,8 @@ class _GyroscopeWidgetState extends State<GyroscopeWidget>{
 
         return Transform.translate(
             offset: Offset(
-                -notifier.value[0]*childWidth,
-                -notifier.value[1]*childHeight
+                -notifier.value[0]*childWidth!,
+                -notifier.value[1]*childHeight!
             ),
             child: Transform.scale(scale: widget.scale, child: child)
         );

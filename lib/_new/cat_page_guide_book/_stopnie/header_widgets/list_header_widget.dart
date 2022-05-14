@@ -13,7 +13,7 @@ class ListHeaderWidget extends StatelessWidget{
 
   final String title;
   final List<String> text;
-  final IconData icon;
+  final IconData? icon;
 
   const ListHeaderWidget(this.title, this.text, {this.icon});
 

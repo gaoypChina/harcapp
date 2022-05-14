@@ -8,7 +8,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 class HarcApp extends StatelessWidget{
 
   final double size;
-  final Color color;
+  final Color? color;
   final bool shadow;
   const HarcApp({this.size: Dimen.TEXT_SIZE_BIG, this.color, this.shadow=false});
 

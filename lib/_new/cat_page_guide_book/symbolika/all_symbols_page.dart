@@ -9,7 +9,7 @@ import 'data.dart';
 class AllSymbolsPage extends StatefulWidget {
 
   final void Function(int) onItemTap;
-  const AllSymbolsPage({@required this.onItemTap});
+  const AllSymbolsPage({required this.onItemTap});
 
   @override
   State<AllSymbolsPage> createState() => AllSymbolsPageState();

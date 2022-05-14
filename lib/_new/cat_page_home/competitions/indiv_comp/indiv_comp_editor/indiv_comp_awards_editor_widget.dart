@@ -14,9 +14,9 @@ import 'common.dart';
 
 class IndivCompAwardsEditorWidget extends StatefulWidget{
 
-  final IndivCompDetails initComp;
+  final IndivCompDetails? initComp;
 
-  const IndivCompAwardsEditorWidget({this.initComp, Key key}): super(key: key);
+  const IndivCompAwardsEditorWidget({this.initComp, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => _IndivCompAwardsEditorWidgetState();
@@ -41,7 +41,7 @@ class _IndivCompAwardsEditorWidgetState extends State<IndivCompAwardsEditorWidge
             Consumer2<AwardsProvider, ColorKeyProvider>(
               builder: (context, awardProv, colorProv, child){
 
-                if(awardProv.awards.isEmpty)
+                if(awardProv.awards!.isEmpty)
                   return const SliverFillRemaining(
                     hasScrollBody: false,
                     child: Center(
@@ -58,13 +58,13 @@ class _IndivCompAwardsEditorWidgetState extends State<IndivCompAwardsEditorWidge
                             (context, index) => AwardTileEditWidget(
                               index+1,
                               colorProv.colors,
-                              awardProv.data[index],
-                                onChanged: (text) => awardProv.awards[index] = text,
+                              awardProv.data![index],
+                                onChanged: (text) => awardProv.awards![index] = text,
                                 onDuplicate: () => awardProv.insertAfter(index, null),
                                 onRemove: () => awardProv.removeAt(index),
                             ),
                         separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-                        count: Provider.of<AwardsProvider>(context, listen: false).data.length
+                        count: Provider.of<AwardsProvider>(context, listen: false).data!.length
                     )),
                   );
 

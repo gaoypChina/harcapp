@@ -11,8 +11,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class CoverImageSelectorWidget extends StatefulWidget{
 
-  final CircleCoverImageData selected;
-  final void Function(CircleCoverImageData) onSelected;
+  final CircleCoverImageData? selected;
+  final void Function(CircleCoverImageData)? onSelected;
   final bool separateAdaptiveCoverImages;
   final bool canChooseNull;
 
@@ -21,7 +21,7 @@ class CoverImageSelectorWidget extends StatefulWidget{
     this.onSelected,
     this.separateAdaptiveCoverImages = false,
     this.canChooseNull = false,
-    Key key
+    Key? key
   }) : super(key: key);
 
   @override
@@ -31,15 +31,15 @@ class CoverImageSelectorWidget extends StatefulWidget{
 
 class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
 
-  CircleCoverImageData get initiallySelected => widget.selected;
-  void Function(CircleCoverImageData) get onSelected => widget.onSelected;
+  CircleCoverImageData? get initiallySelected => widget.selected;
+  void Function(CircleCoverImageData)? get onSelected => widget.onSelected;
   bool get separateAdaptiveCoverImages => widget.separateAdaptiveCoverImages;
   bool get canChooseNull => widget.canChooseNull;
 
-  List<CircleCoverImageData> adaptiveImages;
-  List<CircleCoverImageData> standardImages;
+  late List<CircleCoverImageData> adaptiveImages;
+  late List<CircleCoverImageData> standardImages;
 
-  CircleCoverImageData selected;
+  CircleCoverImageData? selected;
 
   @override
   void initState() {
@@ -181,11 +181,11 @@ class CoverImageWidget extends StatefulWidget{
 
   static double height = 200.0;
 
-  final CircleCoverImageData coverImage;
-  final bool selected;
-  final void Function() onTap;
+  final CircleCoverImageData? coverImage;
+  final bool? selected;
+  final void Function()? onTap;
 
-  const CoverImageWidget(this.coverImage, {this.selected, this.onTap, Key key}) : super(key: key);
+  const CoverImageWidget(this.coverImage, {this.selected, this.onTap, Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => CoverImageWidgetState();
@@ -194,11 +194,11 @@ class CoverImageWidget extends StatefulWidget{
 
 class CoverImageWidgetState extends State<CoverImageWidget>{
 
-  CircleCoverImageData get coverImage => widget.coverImage;
-  bool get selected => widget.selected;
-  void Function() get onTap => widget.onTap;
+  CircleCoverImageData? get coverImage => widget.coverImage;
+  bool? get selected => widget.selected;
+  void Function()? get onTap => widget.onTap;
 
-  bool showNight;
+  late bool showNight;
 
   void animate() async {
     while(true){
@@ -211,7 +211,7 @@ class CoverImageWidgetState extends State<CoverImageWidget>{
   @override
   void initState() {
     showNight = false;
-    if(coverImage.isAdaptive) animate();
+    if(coverImage!.isAdaptive) animate();
 
     super.initState();
   }
@@ -229,16 +229,16 @@ class CoverImageWidgetState extends State<CoverImageWidget>{
               fit: StackFit.expand,
               children: [
                 Image(
-                  image: AssetImage('assets/images/circle/cover_images/${coverImage.firstFileName}'),
+                  image: AssetImage('assets/images/circle/cover_images/${coverImage!.firstFileName}'),
                   fit: BoxFit.cover,
                 ),
 
-                if(coverImage.isAdaptive)
+                if(coverImage!.isAdaptive)
                   AnimatedOpacity(
                     opacity: showNight?1:0,
                     duration: const Duration(milliseconds: 300),
                     child: Image(
-                        image: AssetImage('assets/images/circle/cover_images/${coverImage.secondFileName}'),
+                        image: AssetImage('assets/images/circle/cover_images/${coverImage!.secondFileName}'),
                         fit: BoxFit.cover
                     ),
                   ),
@@ -246,7 +246,7 @@ class CoverImageWidgetState extends State<CoverImageWidget>{
                 Positioned.fill(
                     child: IgnorePointer(
                       child: AnimatedOpacity(
-                        opacity: selected?0.8:0,
+                        opacity: selected!?0.8:0,
                         duration: const Duration(milliseconds: 300),
                         child: const Icon(MdiIcons.checkOutline, size: 80.0, color: Colors.white),
                       ),
@@ -257,7 +257,7 @@ class CoverImageWidgetState extends State<CoverImageWidget>{
                   bottom: Dimen.ICON_MARG,
                   right: Dimen.ICON_MARG,
                   child: Text(
-                      coverImage.firstAuthor,
+                      coverImage!.firstAuthor!,
                       style: AppTextStyle(
                           color: Colors.white,
                           shadow: true,
@@ -268,7 +268,7 @@ class CoverImageWidgetState extends State<CoverImageWidget>{
                 Positioned.fill(
                     child: IgnorePointer(
                       child: AnimatedOpacity(
-                        opacity: selected?0:0.5,
+                        opacity: selected!?0:0.5,
                         duration: const Duration(milliseconds: 300),
                         child: Container(color: background_(context)),
                       ),

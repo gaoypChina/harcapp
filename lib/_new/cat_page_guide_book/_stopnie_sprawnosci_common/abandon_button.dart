@@ -9,7 +9,7 @@ class AbandonButton extends StatelessWidget{
 
   //final TickerProviderStateMixin tickerProviderStateMixin;
   //final bool show;
-  final void Function() onTap;
+  final void Function()? onTap;
 
   const AbandonButton({this.onTap});
 

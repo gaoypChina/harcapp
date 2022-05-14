@@ -21,7 +21,7 @@ class IndivCompTile extends StatelessWidget{
   static const double textSizeVal = 42.0;
   static const double textSizePkt = 32.0;
 
-  final Widget leading;
+  final Widget? leading;
   final IndivComp comp;
   final bool showPinned;
 
@@ -38,7 +38,7 @@ class IndivCompTile extends StatelessWidget{
     List<Widget> othParticipWidgets = [];
 
     for(int i=0; i<comp.particips.length; i++){
-      String othParticip = comp.particips[i].name;
+      String othParticip = comp.particips[i]!.name;
       othParticipWidgets.add(
           Text(
               '$othParticip${i==comp.particips.length-1?'':', '}',
@@ -55,7 +55,7 @@ class IndivCompTile extends StatelessWidget{
           children: [
 
             if(leading != null)
-              leading,
+              leading!,
 
             Expanded(
               child: SimpleButton(
@@ -89,7 +89,7 @@ class IndivCompTile extends StatelessWidget{
                                   style: AppTextStyle(
                                     fontSize: 18.0,
                                     fontWeight: weight.bold,
-                                    color: AppSettings.isDark?comp.colors.colorStart:comp.colors.colorEnd,
+                                    color: AppSettings.isDark?comp.colors!.colorStart:comp.colors!.colorEnd,
                                   ),
                                   maxLines: 2,
                                 ),
@@ -98,7 +98,7 @@ class IndivCompTile extends StatelessWidget{
                               const SizedBox(width: Dimen.ICON_MARG),
 
                               Icon(
-                                compRoleToIcon[comp.profile.role],
+                                compRoleToIcon[comp.profile.role!],
                                 color: hintEnab_(context),
                               ),
 
@@ -109,14 +109,14 @@ class IndivCompTile extends StatelessWidget{
 
                           const SizedBox(height: Dimen.DEF_MARG),
 
-                          if(comp.profile.active)
+                          if(comp.profile.active!)
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
 
                                 Expanded(
                                   child: AccountThumbnailRowWidget(
-                                    comp.particips.map((particip) => particip.name).toList(),
+                                    comp.particips.map((particip) => particip!.name).toList(),
                                     size: 24.0,
                                     clipBehavior: Clip.hardEdge,
                                     onTap: () => openCompPage(context),

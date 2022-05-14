@@ -22,22 +22,22 @@ class StatRespItem{
 
   final String uniqId;
   final String time;
-  final StatRespState state;
+  final StatRespState? state;
 
-  StatRespItem(this.uniqId, this.time, String stateStr): state = StatRespItem.stateMap[stateStr];
+  StatRespItem(this.uniqId, this.time, String? stateStr): state = StatRespItem.stateMap[stateStr!];
 
 }
 
 class ApiStatistics{
 
-  static Future<Response> postObservations({
-    Function(List<StatRespItem> modules, List<StatRespItem> songs) onSuccess,
-    Function() onError,
+  static Future<Response?> postObservations({
+    Function(List<StatRespItem> modules, List<StatRespItem> songs)? onSuccess,
+    Function()? onError,
     bool abortIfNothingToSend = true
   }) async {
 
-    Map<String, Map<String, dynamic>> songRequests = Statistics.songStats;
-    Map<String, Map<String, dynamic>> moduleRequests = Statistics.moduleStats;
+    Map<String?, Map<String, dynamic>> songRequests = Statistics.songStats;
+    Map<String?, Map<String, dynamic>> moduleRequests = Statistics.moduleStats;
 
     if(abortIfNothingToSend && songRequests.isEmpty && moduleRequests.isEmpty) return null;
 
@@ -68,9 +68,9 @@ class ApiStatistics{
           Map/*<String, Map<String, String>>*/ modulesResp = respData['module'];
           List<StatRespItem> modules = [];
 
-          for(String moduleUniqId in modulesResp.keys) {
+          for(String moduleUniqId in modulesResp.keys as Iterable<String>) {
             Map/*<String, String>*/ timesResp = modulesResp[moduleUniqId];
-            for(String timeStr in timesResp.keys){
+            for(String timeStr in timesResp.keys as Iterable<String>){
               StatRespItem respItem = StatRespItem(moduleUniqId, timeStr, timesResp[timeStr]);
               modules.add(respItem);
             }
@@ -78,9 +78,9 @@ class ApiStatistics{
 
           Map/*<String, Map<String, String>>*/ songsResp = respData['song'];
           List<StatRespItem> songs = [];
-          for(String songId in songsResp.keys) {
+          for(String songId in songsResp.keys as Iterable<String>) {
             Map/*<String, String>*/ timesResp = songsResp[songId];
-            for(String timeStr in timesResp.keys){
+            for(String timeStr in timesResp.keys as Iterable<String>){
               StatRespItem respItem = StatRespItem(songId, timeStr, timesResp[timeStr]);
               songs.add(respItem);
             }

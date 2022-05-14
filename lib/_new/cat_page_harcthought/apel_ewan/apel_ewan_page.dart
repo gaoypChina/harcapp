@@ -14,7 +14,7 @@ class ApelEwansPage extends StatefulWidget{
 
   final List<ApelEwan> allApelEwans;
 
-  const ApelEwansPage(this.allApelEwans, {Key key}): super(key: key);
+  const ApelEwansPage(this.allApelEwans, {Key? key}): super(key: key);
   
   @override
   State<StatefulWidget> createState() => ApelEwansPageState();
@@ -25,7 +25,7 @@ class ApelEwansPageState extends State<ApelEwansPage>{
 
   List<ApelEwan> get allApelEwans => widget.allApelEwans;
   
-  List<ApelEwan> searchedApelEwans;
+  late List<ApelEwan> searchedApelEwans;
 
   @override
   void initState() {

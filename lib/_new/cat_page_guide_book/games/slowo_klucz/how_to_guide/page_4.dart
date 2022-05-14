@@ -89,8 +89,8 @@ class Page4State extends State<Page4> with PageTemplateInterface{
     return initPlayerOffset(width);
   }
 
-  AnimStageManager animStageManager;
-  int animStage;
+  late AnimStageManager animStageManager;
+  int? animStage;
 
   @override
   void initState() {

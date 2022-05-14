@@ -11,10 +11,10 @@ import '../indiv_comp_thumbnail_widget.dart';
 
 class CommonHeader extends StatelessWidget{
 
-  final String iconKey;
-  final String colorsKey;
-  final TextEditingController controller;
-  final FocusNode focusNode;
+  final String? iconKey;
+  final String? colorsKey;
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
   final dynamic heroTag;
 
   const CommonHeader({
@@ -23,7 +23,7 @@ class CommonHeader extends StatelessWidget{
     this.controller,
     this.focusNode,
     this.heroTag,
-    Key key
+    Key? key
   }): super(key: key);
 
   @override

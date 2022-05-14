@@ -14,7 +14,7 @@ import 'data.dart';
 
 class SymbolikaFragment extends StatefulWidget {
 
-  const SymbolikaFragment({Key key}) : super(key: key);
+  const SymbolikaFragment({Key? key}) : super(key: key);
 
   @override
   State createState() => SymbolikaFragmentState();
@@ -25,16 +25,16 @@ class SymbolikaFragmentState extends State<SymbolikaFragment> with TickerProvide
   @override
   String get moduleId => ModuleStatsMixin.symbolika;
 
-  ValueNotifier<double> _notifier;
-  TabController controller;
-  int initPage;
+  ValueNotifier<double>? _notifier;
+  TabController? controller;
+  int? initPage;
 
   @override
   void initState() {
 
     _notifier = ValueNotifier(0);
     controller = TabController(length: items.length, vsync: this);
-    controller.animation.addListener(() => _notifier.value = controller.animation.value);
+    controller!.animation!.addListener(() => _notifier!.value = controller!.animation!.value);
     initPage = 0;
 
     super.initState();
@@ -61,7 +61,7 @@ class SymbolikaFragmentState extends State<SymbolikaFragment> with TickerProvide
                     MaterialPageRoute(
                         builder: (context) => AllSymbolsPage(
                           onItemTap: (index){
-                            controller.animateTo(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInQuart);
+                            controller!.animateTo(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInQuart);
                             Navigator.pop(context);
                           },
                         )
@@ -89,11 +89,11 @@ class SymbolikaFragmentState extends State<SymbolikaFragment> with TickerProvide
 }
 
 class Item extends StatelessWidget{
-  final ValueNotifier<double> _notifier;
+  final ValueNotifier<double>? _notifier;
   final int index;
   final ItemData data;
 
-  const Item(this._notifier, this.index, this.data, {Key key}): super(key: key);
+  const Item(this._notifier, this.index, this.data, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => ListView(
@@ -101,7 +101,7 @@ class Item extends StatelessWidget{
     children: <Widget>[
 
       AnimatedBuilder(
-        animation: _notifier,
+        animation: _notifier!,
         child: Padding(
             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             child: Hero(
@@ -110,7 +110,7 @@ class Item extends StatelessWidget{
             )
         ),
         builder: (context, child) => Transform.translate(
-          offset: Offset(-0.7*(_notifier.value-index)* MediaQuery.of(context).size.width, 0),
+          offset: Offset(-0.7*(_notifier!.value-index)* MediaQuery.of(context).size.width, 0),
           child: child,
         ),
       ),

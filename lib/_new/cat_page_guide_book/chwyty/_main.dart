@@ -20,7 +20,7 @@ import 'common.dart';
 
 class ChwytyFragment extends StatefulWidget {
 
-  const ChwytyFragment({Key key}) : super(key: key);
+  const ChwytyFragment({Key? key}) : super(key: key);
 
   @override
   State createState() => ChwytyFragmentState();
@@ -32,7 +32,7 @@ class ChwytyFragmentState extends State<ChwytyFragment> with ModuleStatsMixin {
   @override
   String get moduleId => ModuleStatsMixin.chwyty;
 
-  KeyboardVisibilityController keyboardVisibilityController;
+  late KeyboardVisibilityController keyboardVisibilityController;
 
   @override
   void initState() {
@@ -145,23 +145,23 @@ class ChwytyFragmentState extends State<ChwytyFragment> with ModuleStatsMixin {
 
 class FretboardProvider extends ChangeNotifier{
 
-  InstrumentType _type;
-  InstrumentType get type => _type;
+  InstrumentType? _type;
+  InstrumentType? get type => _type;
 
   void changeGuitType(){
-    _type = nextInstrumentType(_type);
+    _type = nextInstrumentType(_type!);
     notifyListeners();
   }
 
-  List<GChord> _guitChords;
-  List<GChord> get guitChords => _guitChords;
+  List<GChord>? _guitChords;
+  List<GChord>? get guitChords => _guitChords;
 
-  int chordDispIdx;
+  late int chordDispIdx;
 
   GChord get guitChord =>
-      guitChords.isEmpty?
-      GChord.empty:
-      _guitChords[chordDispIdx];
+      guitChords!.isEmpty?
+      GChord.empty!:
+      _guitChords![chordDispIdx];
 
   set guitChord(GChord value){
     _guitChords = GChord.chordDrawableMap[value.name];
@@ -169,20 +169,20 @@ class FretboardProvider extends ChangeNotifier{
   }
 
   void nextChordVariant(){
-    chordDispIdx = guitChords.isEmpty?0:(chordDispIdx + 1)%guitChords.length;
+    chordDispIdx = guitChords!.isEmpty?0:(chordDispIdx + 1)%guitChords!.length;
     notifyListeners();
   }
 
-  UChord _ukulChord;
-  UChord get ukulChord => _ukulChord;
-  set ukulChord(UChord value){
+  UChord? _ukulChord;
+  UChord? get ukulChord => _ukulChord;
+  set ukulChord(UChord? value){
     _ukulChord = value;
     notifyListeners();
   }
 
-  MChord _mandChord;
-  MChord get mandChord => _mandChord;
-  set mandChord(MChord value){
+  MChord? _mandChord;
+  MChord? get mandChord => _mandChord;
+  set mandChord(MChord? value){
     _mandChord = value;
     notifyListeners();
   }

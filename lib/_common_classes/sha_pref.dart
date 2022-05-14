@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../_new/cat_page_song_book/song_management/album.dart';
 import '../logger.dart';
 
-ShaPref shaPref;
+ShaPref? shaPref;
 
 class ShaPref{
   //static const String SHA_PREF_INIT_SONGS_COPIED = 'SHA_PREF_INIT_SONGS_COPIED';
@@ -43,7 +43,7 @@ class ShaPref{
 
   static const String _SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_ = 'SHA_PREF_SPIEWNIK_LAST_OPEN_SONG';
   static String SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(Album album) =>
-      _SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_ + album.fileName;
+      _SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_ + album.fileName!;
 
   static const String SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_H = 'SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_H';
   static const String SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_M = 'SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_M';
@@ -277,7 +277,7 @@ class ShaPref{
   //GET SET
   bool getBool(String key, bool def) {
     try {
-      bool value = _preferences.getBool(key);
+      bool? value = _preferences.getBool(key);
       if(value == null) return def;
       else return value;
     } catch (e){
@@ -289,9 +289,9 @@ class ShaPref{
 
   Future<void> setBool(String key, bool value) => _preferences.setBool(key, value);
 
-  String getString(String key, String def) {
+  String? getString(String key, String? def) {
     try {
-      String value = _preferences.getString(key);
+      String? value = _preferences.getString(key);
       if(value == null) return def;
       else return value;
     } catch (e){
@@ -305,7 +305,7 @@ class ShaPref{
 
   List<String> getStringList(String key, List<String> def) {
     try {
-      List<String> value = _preferences.getStringList(key);
+      List<String>? value = _preferences.getStringList(key);
       if(value == null) return def;
       else return value;
     } catch (e){
@@ -321,7 +321,7 @@ class ShaPref{
 
   Map<T_KEY, T_VAL> getMap<T_KEY, T_VAL>(String key, Map<T_KEY, T_VAL> def){
     try {
-      String code = _preferences.getString(key);
+      String? code = _preferences.getString(key);
       if(code == null) return def;
       Map<T_KEY, T_VAL> map =  (jsonDecode(code) as Map).cast<T_KEY, T_VAL>();
       return map;
@@ -332,9 +332,9 @@ class ShaPref{
     }
   }
 
-  int getInt(String key, int def) {
+  int? getInt(String key, int? def) {
     try {
-      int value = _preferences.getInt(key);
+      int? value = _preferences.getInt(key);
       if(value == null) return def;
       else return value;
     } catch (e){
@@ -348,7 +348,7 @@ class ShaPref{
 
   double getDouble(String key, double def) {
     try {
-      double value = _preferences.getDouble(key);
+      double? value = _preferences.getDouble(key);
       if(value == null) return def;
       else return value;
     } catch (e){
@@ -360,11 +360,11 @@ class ShaPref{
 
   Future<void> setDouble(String key, double value) => _preferences.setDouble(key, value);
 
-  DateTime getDateTime(String key, DateTime def){
+  DateTime? getDateTime(String key, DateTime? def){
     try {
-      String dateTimeStr = getString(key, 'nic');
+      String? dateTimeStr = getString(key, 'nic');
       if(dateTimeStr == 'nic') return def;
-      return DateTime.tryParse(dateTimeStr)??def;
+      return DateTime.tryParse(dateTimeStr!)??def;
     } on Exception catch (e){
       logger.w(badTypeErrMess(key, e));
       _preferences.remove(key);
@@ -372,7 +372,7 @@ class ShaPref{
     }
   }
 
-  Future<void> setDateTime(String key, DateTime value) async {
+  Future<void> setDateTime(String key, DateTime? value) async {
     if(value == null) await remove(key);
     else await setString(key, value.toIso8601String());
   }

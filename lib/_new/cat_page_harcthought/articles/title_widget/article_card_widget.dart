@@ -21,8 +21,8 @@ class ArticleCardWidget extends StatefulWidget{
 
   static const double height = 326;
 
-  final Article article;
-  final void Function(BuildContext context, Article article, ImageProvider background, ArticleNotifierProvider articleSeenProv) onTap;
+  final Article? article;
+  final void Function(BuildContext context, Article? article, ImageProvider? background, ArticleNotifierProvider? articleSeenProv)? onTap;
   final double radius;
   final double aspectRatio;
   final EdgeInsets margin;
@@ -38,7 +38,7 @@ class ArticleCardWidget extends StatefulWidget{
         this.margin=EdgeInsets.zero,
         this.disableHeroTag=false,
         this.elevation=0,//AppCard.bigElevation,
-        Key key
+        Key? key
       }):super(key: key);
 
   @override
@@ -48,15 +48,15 @@ class ArticleCardWidget extends StatefulWidget{
 
 class ArticleCardWidgetState extends State<ArticleCardWidget>{
 
-  Article get article => widget.article;
-  void Function(BuildContext context, Article article, ImageProvider background, ArticleNotifierProvider articleSeenProv) get onTap => widget.onTap;
+  Article? get article => widget.article;
+  void Function(BuildContext context, Article? article, ImageProvider? background, ArticleNotifierProvider? articleSeenProv)? get onTap => widget.onTap;
   //ImageProvider get background => widget.background??_background;
   bool get disableHeroTag => widget.disableHeroTag;
   double get elevation => widget.elevation;
 
-  ImageProvider _background;
+  ImageProvider? _background;
 
-  ArticleNotifierProvider provider;
+  ArticleNotifierProvider? provider;
 
   @override
   void initState() {
@@ -77,7 +77,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
     children: [
 
       Positioned.fill(child: Hero(
-        tag: articleCoverHero(article),
+        tag: articleCoverHero(article!),
         child: Material(
           borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
           color: Colors.transparent,
@@ -106,7 +106,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
                       children: [
                         Consumer<ArticleNotifierProvider>(
                           builder: (context, prov, child) =>
-                          article.isLiked?
+                          article!.isLiked?
                           IconButton(
                               icon: Icon(MdiIcons.heartOutline, color: ColorPackBlack.ICON_DISABLED),
                               onPressed: () => showAppToast(context, text: 'Artykuł polubiony')
@@ -114,7 +114,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
                         ),
                         Consumer<ArticleNotifierProvider>(
                           builder: (context, prov, child) =>
-                          article.isSeen?
+                          article!.isSeen?
                           IconButton(
                               icon: Icon(MdiIcons.eyeOutline, color: ColorPackBlack.ICON_DISABLED),
                               onPressed: () => showAppToast(context, text: 'Artykuł przeczytany')
@@ -150,7 +150,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
                             child: DateWidget(article),
                           ),
 
-                          if(article.author != null)
+                          if(article!.author != null)
                             Row(
                               children: [
                                 Padding(
@@ -177,7 +177,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
                       child: ArticleBookmarkWidget(
                           article,
                           color: Colors.white,
-                          heroTag: ArticleWidget.bookMarkHeroTag(articleTagHero(article))
+                          heroTag: ArticleWidget.bookMarkHeroTag(articleTagHero(article!))
                       ),
                     ),
 
@@ -205,16 +205,16 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
           aspectRatio: cardWidth/ArticleCardWidget.height,
           child: AppCard(
               padding: EdgeInsets.zero,
-              onTap: onTap==null?null:() => onTap(context, article, _background, provider),
+              onTap: onTap==null?null:() => onTap!(context, article, _background, provider),
               radius: AppCard.BIG_RADIUS,
               elevation: elevation,
               margin: widget.margin,
               child:
               _background != null?
-              childWidget(_background):
-              FutureBuilder<ImageProvider>(
-                future: article.loadCover(), // async work
-                builder: (BuildContext context, AsyncSnapshot<ImageProvider> snapshot) {
+              childWidget(_background!):
+              FutureBuilder<ImageProvider?>(
+                future: article!.loadCover(), // async work
+                builder: (BuildContext context, AsyncSnapshot<ImageProvider?> snapshot) {
 
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
@@ -222,7 +222,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
                         children: [
                           if(AppSettings.devMode)
                             Positioned(
-                              child: Text(article.id),
+                              child: Text(article!.id),
                               bottom: Dimen.ICON_MARG,
                               right: Dimen.ICON_MARG,
                             ),
@@ -241,7 +241,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
                       else{
                         _background = snapshot.data;
                         if(_background == null) return CoverProblemWidget();
-                        return childWidget(snapshot.data);
+                        return childWidget(snapshot.data!);
                       }
                   }
 

@@ -9,17 +9,17 @@ class IndivCompTaskSkeletonWidget extends StatelessWidget{
 
   static const double padding = 12.0;
 
-  final Widget leading;
-  final Widget title;
-  final Widget titleBottom;
-  final Widget description;
+  final Widget? leading;
+  final Widget? title;
+  final Widget? titleBottom;
+  final Widget? description;
 
   final double elevation;
-  final Widget trailing;
-  final Widget bottom;
+  final Widget? trailing;
+  final Widget? bottom;
 
-  final Widget front;
-  final void Function() onTap;
+  final Widget? front;
+  final void Function()? onTap;
 
   static TextStyle pointsTextStyle(BuildContext context, {bool enabled = true, bool crossOut = false}) => AppTextStyle(
       fontWeight: weight.halfBold, fontSize: 32.0, color: enabled?textEnab_(context):textDisab_(context), decoration: crossOut?TextDecoration.lineThrough:null);
@@ -40,7 +40,7 @@ class IndivCompTaskSkeletonWidget extends StatelessWidget{
     this.bottom,
     this.front,
     this.onTap,
-    Key key
+    Key? key
   }): super(key: key);
 
   @override
@@ -88,7 +88,7 @@ class IndivCompTaskSkeletonWidget extends StatelessWidget{
                               const SizedBox(width: 12.0),
 
                             if(trailing != null)
-                              trailing,
+                              trailing!,
 
                             const SizedBox(width: IndivCompTaskSkeletonWidget.padding),
 
@@ -96,7 +96,7 @@ class IndivCompTaskSkeletonWidget extends StatelessWidget{
                         ),
 
                         if(titleBottom != null)
-                          titleBottom,
+                          titleBottom!,
 
                         if(description != null)
                           Padding(
@@ -111,7 +111,7 @@ class IndivCompTaskSkeletonWidget extends StatelessWidget{
                     ),
 
                     if(front != null)
-                      front
+                      front!
 
                   ],
                 ),
@@ -119,7 +119,7 @@ class IndivCompTaskSkeletonWidget extends StatelessWidget{
                 const SizedBox(height: IndivCompTaskSkeletonWidget.padding),
 
                 if(bottom != null)
-                  bottom,
+                  bottom!,
 
               ],
             ),

@@ -7,8 +7,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class RankProgressWidget extends StatelessWidget{
 
-  final bool completed;
-  final bool inProgress;
+  final bool? completed;
+  final bool? inProgress;
   final int completenessPercent;
 
   const RankProgressWidget(this.completed, this.inProgress, this.completenessPercent);
@@ -16,14 +16,14 @@ class RankProgressWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    if(completed)
+    if(completed!)
       return Icon(
         MdiIcons.trophyAward,
         color: Colors.amber,
         size: RankTileWidgetTemplate.DEF_TILE_ICON_SIZE,
       );
 
-    if(inProgress)
+    if(inProgress!)
       return Text(
         '${completenessPercent}%',
         style: AppTextStyle(

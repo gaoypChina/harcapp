@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:harcapp/_app_common/patronite_support_widget.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/extended_floating_button.dart';
@@ -26,7 +26,7 @@ import 'data/all_spraw_books.dart';
 
 class SprawnosciPage extends StatefulWidget{
 
-  const SprawnosciPage({Key key}): super(key: key);
+  const SprawnosciPage({Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => SprawnosciPageState();
@@ -38,15 +38,15 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
   @override
   String get moduleId => ModuleStatsMixin.sprawnosci;
 
-  ValueNotifier tabNotifier;
-  TabController tabController;
+  late ValueNotifier tabNotifier;
+  TabController? tabController;
 
-  _TabScrollProvider tabScrollProvider;
+  _TabScrollProvider? tabScrollProvider;
 
-  List<Color> colorsStart;
-  List<Color> colorsEnd;
+  late List<Color?> colorsStart;
+  late List<Color?> colorsEnd;
 
-  int initIndex;
+  int? initIndex;
 
   @override
   void initState() {
@@ -58,11 +58,11 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
 
     initIndex = allSprawBooks.indexOf(lastViewed);
 
-    tabNotifier = ValueNotifier(initIndex.toDouble());
+    tabNotifier = ValueNotifier(initIndex!.toDouble());
     tabController = TabController(
         length: allSprawBooks.length,
         vsync: this,
-        initialIndex: initIndex
+        initialIndex: initIndex!
     );
 
     super.initState();
@@ -71,7 +71,7 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
   @override
   Widget build(BuildContext context) {
 
-    return ChangeNotifierProvider<_TabScrollProvider>(
+    return ChangeNotifierProvider<_TabScrollProvider?>(
       create: (context){
         tabScrollProvider = _TabScrollProvider();
         return tabScrollProvider;
@@ -96,7 +96,7 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
 
                         onChanged: (int index, double offset){
                           tabNotifier.value = index + offset;
-                          tabScrollProvider.notify();
+                          tabScrollProvider!.notify();
                           SprawBookData.lastViewedSprawBook = allSprawBooks[index];
                         },
                         actions: const [SizedBox(width: Dimen.APPBAR_LEADING_WIDTH)]
@@ -119,25 +119,16 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
               background: averageColorStart,
               backgroundEnd: averageColorEnd,
               duration: Duration.zero,
-              onTap: () {
-
-                SprawBook sprawBook = allSprawBooks[tabController.index];
-
-                Navigator.push(context, PageTransition(
-                    type: PageTransitionType.fadeIn,
-                    child: SearchPage(
-                      allSprawBooks[tabController.index],
-                      sprawBook.groups,
-                      onPicked: (Spraw spraw) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => AppScaffold(body: SprawWidget(spraw)))
-                        );
-                      },
-                    ),
-                ));
-
-              },
+              onTap: () => pushPage(context, builder: (context) => SearchPage(
+                allSprawBooks[tabController!.index],
+                allSprawBooks[tabController!.index].groups,
+                onPicked: (Spraw spraw) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AppScaffold(body: SprawWidget(spraw)))
+                  );
+                },
+              )),
 
             ),
           ),
@@ -160,12 +151,12 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
     int blue = 0;
 
     for(int i=0; i<colorsStart.length; i++){
-      Color color = colorsStart[i];
+      Color? color = colorsStart[i];
       double dist = (tabNotifier.value - i).abs();
       dist = min(max(dist, 0), 1);
       if(dist == 1) continue;
 
-      red += (color.red * (1 - dist)).floor();
+      red += (color!.red * (1 - dist)).floor();
       green += (color.green * (1 - dist)).floor();
       blue += (color.blue * (1 - dist)).floor();
     }
@@ -178,12 +169,12 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
     int blue = 0;
 
     for(int i=0; i<colorsEnd.length; i++){
-      Color color = colorsEnd[i];
+      Color? color = colorsEnd[i];
       double dist = (tabNotifier.value - i).abs();
       dist = min(max(dist, 0), 1);
       if(dist == 1) continue;
 
-      red += (color.red * (1 - dist)).floor();
+      red += (color!.red * (1 - dist)).floor();
       green += (color.green * (1 - dist)).floor();
       blue += (color.blue * (1 - dist)).floor();
     }
@@ -200,9 +191,9 @@ class TinySprawSetWidget extends StatelessWidget{
   final String emptyMessage;
   final IconData icon;
   final bool showProgress;
-  final void Function() onReqComplChanged;
+  final void Function()? onReqComplChanged;
 
-  const TinySprawSetWidget(this.mode, this.uids, {@required this.emptyMessage, @required this.icon, this.showProgress = false, this.onReqComplChanged, Key key}): super(key: key);
+  const TinySprawSetWidget(this.mode, this.uids, {required this.emptyMessage, required this.icon, this.showProgress = false, this.onReqComplChanged, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -211,7 +202,7 @@ class TinySprawSetWidget extends StatelessWidget{
 
     for(String uid in uids){
 
-      Spraw spraw = Spraw.fromUID(uid);
+      Spraw? spraw = Spraw.fromUID(uid);
 
       if(spraw == null) continue;
 

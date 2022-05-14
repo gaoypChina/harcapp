@@ -6,7 +6,7 @@ class OrgEntityResp extends SyncGetResp{
 
   static const String collName = OrgHandler.syncClassId;
 
-  final Org org;
+  final Org? org;
 
   const OrgEntityResp({this.org});
 

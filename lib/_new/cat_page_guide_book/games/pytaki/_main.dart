@@ -16,7 +16,7 @@ import '../../../module_statistics_registrator.dart';
 
 class GamePytakiPage extends StatefulWidget{
 
-  const GamePytakiPage({Key key}) : super(key: key);
+  const GamePytakiPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => GamePytakiPageState();
@@ -28,33 +28,33 @@ class GamePytakiPageState extends State<GamePytakiPage> with ModuleStatsMixin{
   @override
   String get moduleId => ModuleStatsMixin.graPytajki;
 
-  List<CardItem> cards;
-  List<CardItem> hardCards;
+  List<CardItem>? cards;
+  List<CardItem>? hardCards;
 
-  bool showHardCardsButton;
-  bool showHardCards;
+  late bool showHardCardsButton;
+  late bool showHardCards;
 
-  CardController controller;
+  CardController? controller;
 
-  SwapCardLayout swapCardLayout;
+  SwapCardLayout? swapCardLayout;
 
-  GlobalKey<ScaffoldState> scaffoldKey;
+  GlobalKey<ScaffoldState>? scaffoldKey;
 
-  int _currIndex;
-  int get currIndex => _currIndex;
-  set currIndex(int value){
+  int? _currIndex;
+  int? get currIndex => _currIndex;
+  set currIndex(int? value){
       setState(() => _currIndex = value);
   }
 
-  ValueNotifier<double> notifier;
+  late ValueNotifier<double> notifier;
 
-  bool showClock;
+  bool? showClock;
   void setStateShowClock(bool value){
     if(showClock != value)
       setState(() => showClock = value);
   }
 
-  bool showOk;
+  bool? showOk;
   void setStateShowOk(bool value){
     if(showOk != value)
       setState(() => showOk = value);
@@ -158,62 +158,62 @@ class GamePytakiPageState extends State<GamePytakiPage> with ModuleStatsMixin{
 
 
     for(int i=0; i<CardItem.EMOTIONS.length; i++){
-      cards.add(
+      cards!.add(
           CardItem(
               this, 'Czy często towarzyszy Ci to uczucie? W jakich sytuacjach?',
               emoIndex: i,
               key: ValueKey(index++)));
-      cards.add(CardItem(this,
+      cards!.add(CardItem(this,
           'Czy w Waszej rodzinie obecne jest to uczucie? Chciałbyś to zmienić?',
           emoIndex: i,
           key: ValueKey(index++)));
-      cards.add(
+      cards!.add(
           CardItem(this,
               'Jak się zachowujesz gdy widzisz takie uczucie u innej osoby?',
               emoIndex: i,
               key: ValueKey(index++)));
-      cards.add(
+      cards!.add(
           CardItem(this,
               'Czy potrafisz opowiedzieć komuś kiedy przeżywasz taką emocję?',
               emoIndex: i,
               key: ValueKey(index++)));
-      cards.add(
+      cards!.add(
           CardItem(
               this, 'Kto z rodziny rozumie Ciebie gdy przeżywasz taką emocję?',
               emoIndex: i,
               key: ValueKey(index++)));
-      cards.add(
+      cards!.add(
           CardItem(this, 'Z kim lubisz o nim rozmawiać?',
               emoIndex: i,
               key: ValueKey(index++)));
-      cards.add(
+      cards!.add(
           CardItem(
               this, 'Spróbuj zrobić taką samą minę.',
               emoIndex: i,
               key: ValueKey(index++)));
-      cards.add(
+      cards!.add(
           CardItem(this, 'Czy często robisz taką minę? Dlaczego?',
               emoIndex: i,
               key: ValueKey(index++)));
-      cards.add(
+      cards!.add(
           CardItem(this,
               'Poproś wybraną osobę, żeby opowiedziała kiedy doświadcza takiego uczucia?',
               emoIndex: i,
               key: ValueKey(index++)));
-      cards.add(
+      cards!.add(
           CardItem(this, 'Opowiedz sytuację, w której tak się czułeś/czułaś.',
               emoIndex: i,
               key: ValueKey(index++)));
-      cards.add(
+      cards!.add(
           CardItem(this,
               'Co chciałbyś, żeby zrobili gracze gdy przeżywasz taką emocję?',
               emoIndex: i,
               key: ValueKey(index++)));
     }
 
-    cards.shuffle();
+    cards!.shuffle();
     index = 0;
-    for(CardItem card in cards)
+    for(CardItem card in cards!)
       card.setIndex(index++);
     
     scaffoldKey = GlobalKey();
@@ -285,7 +285,7 @@ class GamePytakiPageState extends State<GamePytakiPage> with ModuleStatsMixin{
                       right: 6,
                       child: AnimatedOpacity(
                         child: const Icon(MdiIcons.clock, color: Colors.deepOrange, size: 32.0,),
-                        opacity: (cardsLeft()&&!showHardCards&&showClock)?1.0:0.0,
+                        opacity: (cardsLeft()&&!showHardCards&&showClock!)?1.0:0.0,
                         duration: const Duration(milliseconds: 700),
                         curve: Curves.easeInOutQuad,
                       ),
@@ -297,7 +297,7 @@ class GamePytakiPageState extends State<GamePytakiPage> with ModuleStatsMixin{
                       right: 6,
                       child: AnimatedOpacity(
                         child: const Icon(MdiIcons.checkCircle, color: Colors.lightBlueAccent, size: 32.0,),
-                        opacity: (cardsLeft()&&!showHardCards&&showOk)?1.0:0.0,
+                        opacity: (cardsLeft()&&!showHardCards&&showOk!)?1.0:0.0,
                         duration: const Duration(milliseconds: 700),
                         curve: Curves.easeInOutQuad,
                       ),
@@ -309,7 +309,7 @@ class GamePytakiPageState extends State<GamePytakiPage> with ModuleStatsMixin{
                       right: 6,
                       child: AnimatedOpacity(
                         child: Text(
-                          'Pozostało kart: ${((showHardCards)?hardCards.length:cards.length) - currIndex}',
+                          'Pozostało kart: ${((showHardCards)?hardCards!.length:cards!.length) - currIndex!}',
                           style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context)),
                           textAlign: TextAlign.center,),
                         opacity: showHardCardsButton?0.0:1.0,
@@ -367,15 +367,15 @@ class GamePytakiPageState extends State<GamePytakiPage> with ModuleStatsMixin{
     );
   }
 
-  bool cardsLeft() => (!showHardCards && cards.length != currIndex) || (showHardCards && hardCards.length != currIndex);
+  bool cardsLeft() => (!showHardCards && cards!.length != currIndex) || (showHardCards && hardCards!.length != currIndex);
 
 }
 
 class _SwapCardLayout extends StatelessWidget{
 
   final GamePytakiPageState gameState;
-  final List<CardItem> cards;
-  final CardController controller;
+  final List<CardItem>? cards;
+  final CardController? controller;
   final Key _key;
   const _SwapCardLayout(this.gameState, this.cards, this.controller, this._key);
 
@@ -384,7 +384,7 @@ class _SwapCardLayout extends StatelessWidget{
     return SwapCardLayout(
         key: _key,
         orientation: AmassOrientation.TOP,
-        totalNum: cards.length,
+        totalNum: cards!.length,
         stackNum: 5,
         swipeEdge: 4.0,
         maxWidth: MediaQuery.of(context).size.width * GamePytakiPageState.ITEM_WIDTH_FACTOR*(1+GamePytakiPageState.GROW_FACTOR),
@@ -392,17 +392,17 @@ class _SwapCardLayout extends StatelessWidget{
         minWidth: MediaQuery.of(context).size.width * GamePytakiPageState.ITEM_WIDTH_FACTOR,
         minHeight: MediaQuery.of(context).size.height * GamePytakiPageState.ITEM_HEIGHT_FACTOR,
         animDuration: 350,
-        cardBuilder: (context, index) => cards[index],
+        cardBuilder: (context, index) => cards![index],
         cardController: controller,
         swipeUpdateCallback: (DragUpdateDetails details, Alignment align) {
 
           gameState.notifier.value = 20*align.x/MediaQuery.of(context).size.width; // 20 jest użyte w swap_card_layoutcie
 
-          if (align.x < 0 && controller.swipable) {
+          if (align.x < 0 && controller!.swipable) {
             //Card is LEFT swiping
             gameState.setStateShowClock(true);
             gameState.setStateShowOk(false);
-          } else if (align.x > 0 && controller.swipable) {
+          } else if (align.x > 0 && controller!.swipable) {
             //Card is RIGHT swiping
             gameState.setStateShowClock(false);
             gameState.setStateShowOk(true);
@@ -412,20 +412,20 @@ class _SwapCardLayout extends StatelessWidget{
         swipeCompleteCallback: (CardSwipeOrientation orientation, int index) async {
 
           if(!gameState.showHardCards && orientation == CardSwipeOrientation.LEFT){
-            gameState.hardCards.add(
+            gameState.hardCards!.add(
                 CardItem(
                   gameState,
-                  cards[index].content,
+                  cards![index].content,
                   isHard: true,
-                  emoIndex: cards[index].emoIndex,
-                  index: gameState.hardCards.length,
-                  key: ValueKey(gameState.cards.length + gameState.hardCards.length + 1),
+                  emoIndex: cards![index].emoIndex,
+                  index: gameState.hardCards!.length,
+                  key: ValueKey(gameState.cards!.length + gameState.hardCards!.length + 1),
                 )
             );
           }
 
           if(orientation != CardSwipeOrientation.RECOVER) {
-            controller.swipable = false;
+            controller!.swipable = false;
             gameState.currIndex = index + 1;
           }
 
@@ -454,13 +454,13 @@ class CardItem extends StatefulWidget{
   
   final GamePytakiPageState gameState;
   final String content;
-  final int emoIndex;
+  final int? emoIndex;
   final bool emoName;
   final bool isHard;
-  int index;
+  int? index;
 
 
-  CardItem(this.gameState, this.content, {this.emoIndex, this.emoName = true, this.isHard = false, this.index, Key key}):super(key: key);
+  CardItem(this.gameState, this.content, {this.emoIndex, this.emoName = true, this.isHard = false, this.index, Key? key}):super(key: key);
 
   @override
   State<StatefulWidget> createState() => CardItemState();
@@ -473,7 +473,7 @@ class CardItem extends StatefulWidget{
 class CardItemState extends State<CardItem>{
 
 
-  bool flipped;
+  late bool flipped;
 
   GamePytakiPageState get gameState => widget.gameState;
 
@@ -529,12 +529,12 @@ class CardItemState extends State<CardItem>{
             child: Column(
               children: <Widget>[
                 if(widget.emoIndex!=null)
-                  SvgPicture.asset('assets/images/emo/${CardItem.EMOTIONS.keys.toList()[widget.emoIndex]}', width: 48, height: 48),
+                  SvgPicture.asset('assets/images/emo/${CardItem.EMOTIONS.keys.toList()[widget.emoIndex!]}', width: 48, height: 48),
                 if(widget.emoIndex!=null)
                   const SizedBox(height: 6.0),
 
                 if(widget.emoName && widget.emoIndex!=null)
-                  Text(CardItem.EMOTIONS.values.toList()[widget.emoIndex], style: AppTextStyle(fontWeight: weight.halfBold, color: AppColors.text_def_enab),),
+                  Text(CardItem.EMOTIONS.values.toList()[widget.emoIndex!], style: AppTextStyle(fontWeight: weight.halfBold, color: AppColors.text_def_enab),),
 
                 const SizedBox(height: 24.0),
 
@@ -557,10 +557,10 @@ class CardItemState extends State<CardItem>{
       back: back,
       onFlipDone: (_) {
 
-        if(!gameState.cardsLeft() && !gameState.showHardCards && gameState.hardCards.isNotEmpty)
+        if(!gameState.cardsLeft() && !gameState.showHardCards && gameState.hardCards!.isNotEmpty)
           gameState.setState(() => gameState.showHardCardsButton = true);
 
-        gameState.controller.swipable = true;
+        gameState.controller!.swipable = true;
       },
       onFlip: () => setState(() => flipped = true),
       flipOnTouch: !flipped && flipOnTouch,

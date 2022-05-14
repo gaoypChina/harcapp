@@ -9,8 +9,8 @@ import 'package:harcapp_core/dimen.dart';
 class SingleHeaderWidget extends StatelessWidget{
 
   final String title;
-  final String text;
-  final IconData icon;
+  final String? text;
+  final IconData? icon;
 
   const SingleHeaderWidget(this.title, this.text, {this.icon});
 
@@ -31,7 +31,7 @@ class SingleHeaderWidget extends StatelessWidget{
           borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
           child: Padding(
             padding: EdgeInsets.all(Dimen.SIDE_MARG),
-            child: SelectableText(text, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
+            child: SelectableText(text!, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
           ),
         )
 

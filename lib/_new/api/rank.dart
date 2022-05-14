@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state_shared.dart';
@@ -23,16 +22,16 @@ class SharedRankMetaData{
   final DateTime lastUpdateDate;
 
   const SharedRankMetaData({
-    @required this.userData,
-    @required this.rankType,
-    @required this.sharedRankKey,
-    @required this.rankUniqName,
+    required this.userData,
+    required this.rankType,
+    required this.sharedRankKey,
+    required this.rankUniqName,
 
-    @required this.rankCompleted,
-    @required this.rankInProgress,
-    @required this.rankCompletedTasksCnt,
+    required this.rankCompleted,
+    required this.rankInProgress,
+    required this.rankCompletedTasksCnt,
 
-    @required this.lastUpdateDate,
+    required this.lastUpdateDate,
   });
 
   static SharedRankMetaData fromMap(Map map){
@@ -57,16 +56,16 @@ class SharedRankMetaData{
 
 class ApiRank{
 
-  static Future<Response> shareRank(
+  static Future<Response?> shareRank(
       String uniqName,
-      { @required List<String> addByNick,
-        @required List<String> removeByKey,
-        void Function() onError,
-        void Function(List<UserData> sharedUsers) onSuccess,
+      { required List<String?> addByNick,
+        required List<String> removeByKey,
+        void Function()? onError,
+        void Function(List<UserData> sharedUsers)? onSuccess,
       }) async => await API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) => dio.post(
-      API.SERVER_URL + 'api/rank/share/$uniqName',
+      '${API.SERVER_URL}api/rank/share/$uniqName',
       options: Options(headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
       }),
@@ -83,19 +82,19 @@ class ApiRank{
       for(String key in rawData.keys)
         userRespBodies.add(UserData.fromMap(rawData[key], key: key));
 
-      await onSuccess?.call(userRespBodies);
+      onSuccess?.call(userRespBodies);
     },
-    onError: (DioError error) async => await onError?.call()
+    onError: (DioError error) async => onError?.call()
   );
 
-  static Future<Response> getAllShareUsers(
+  static Future<Response?> getAllShareUsers(
       String uniqName,
-      { void Function() onError,
-        void Function(List<UserData> sharedUsers) onSuccess,
+      { void Function()? onError,
+        void Function(List<UserData> sharedUsers)? onSuccess,
       }) async => await API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.get(
-        API.SERVER_URL + 'api/rank/share/$uniqName',
+        '${API.SERVER_URL}api/rank/share/$uniqName',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
         }),
@@ -108,18 +107,18 @@ class ApiRank{
         for(String key in rawData.keys)
           userRespBodies.add(UserData.fromMap(rawData[key], key: key));
 
-        await onSuccess?.call(userRespBodies);
+        onSuccess?.call(userRespBodies);
       },
-      onError: (DioError error) async => await onError?.call()
+      onError: (DioError error) async => onError?.call()
   );
 
-  static Future<Response> getAllShared(
-      { void Function() onError,
-        void Function(List<SharedRankMetaData>) onSuccess,
+  static Future<Response?> getAllShared(
+      { void Function()? onError,
+        void Function(List<SharedRankMetaData>)? onSuccess,
       }) async => await API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.get(
-          API.SERVER_URL + 'api/rank/shared',
+          '${API.SERVER_URL}api/rank/shared',
       ),
       onSuccess: (Response response) async {
 
@@ -129,35 +128,35 @@ class ApiRank{
         for(dynamic rawDataItem in rawData)
           sharedRankMetaDataList.add(SharedRankMetaData.fromMap(rawDataItem));
 
-        await onSuccess?.call(sharedRankMetaDataList);
+        onSuccess?.call(sharedRankMetaDataList);
       },
-      onError: (DioError error) async => await onError?.call()
+      onError: (DioError error) async => onError?.call()
   );
 
-  static Future<Response> getShared({
-    @required String key,
-    @required DateTime lastUpdateTime,
-    void Function(Rank rank) onSuccess,
-    void Function(Response response) onError,
+  static Future<Response?> getShared({
+    required String key,
+    required DateTime lastUpdateTime,
+    void Function(Rank? rank)? onSuccess,
+    void Function(Response? response)? onError,
   }) async => await API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) async => await dio.get(
-      API.SERVER_URL + 'api/rank/shared/$key',
+      '${API.SERVER_URL}api/rank/shared/$key',
     ),
     onSuccess: (Response response) async {
 
       Map<String, dynamic> rankSyncData = response.data;
-      String uniqRankName = rankSyncData['uniqName'];
+      String? uniqRankName = rankSyncData['uniqName'];
 
       RankStateShared stateShared = RankStateShared.from(key, lastUpdateTime, rankSyncData);
       stateShared.dump();
 
-      Rank preview = Rank.fromStateShared(uniqRankName, stateShared);
+      Rank? preview = Rank.fromStateShared(uniqRankName, stateShared);
 
       onSuccess?.call(preview);
 
     },
-    onError: (err) async => await onError?.call(err.response),
+    onError: (err) async => onError?.call(err.response),
   );
 
 

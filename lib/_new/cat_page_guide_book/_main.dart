@@ -60,7 +60,7 @@ import 'organizations/_main.dart';
 
 class CatPageGuideBook extends StatefulWidget{
 
-  const CatPageGuideBook({Key key}) : super(key: key);
+  const CatPageGuideBook({Key? key}) : super(key: key);
 
   @override
   State createState() => CatPageGuideBookState();
@@ -81,7 +81,7 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
   static const Color MUSIC_CAT_HISTORIA = Colors.amber;
   static const Color MUSIC_CAT_TECHNIKI = Colors.teal;
 
-  SynchronizerListener syncListener;
+  SynchronizerListener? syncListener;
 
   @override
   void initState() {
@@ -344,7 +344,7 @@ class ItemData{
   final Color color;
   final Widget Function(BuildContext context) pageBuilder;
 
-  const ItemData(this.icon, this.title, {@required this.color, @required this.pageBuilder});
+  const ItemData(this.icon, this.title, {required this.color, required this.pageBuilder});
 
 }
 
@@ -352,7 +352,7 @@ class _ItemWidget extends StatelessWidget{
 
   final ItemData data;
 
-  const _ItemWidget({@required this.data});
+  const _ItemWidget({required this.data});
 
   @override
   Widget build(BuildContext context) => ListTile(
@@ -463,7 +463,7 @@ class LatestStopWidget extends StatefulWidget{
 
   final EdgeInsets padding;
 
-  const LatestStopWidget({this.padding = EdgeInsets.zero, Key key}): super(key: key);
+  const LatestStopWidget({this.padding = EdgeInsets.zero, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => LatestStopWidgetState();
@@ -472,7 +472,7 @@ class LatestStopWidget extends StatefulWidget{
 
 class LatestStopWidgetState extends State<LatestStopWidget>{
 
-  SynchronizerListener _listener;
+  SynchronizerListener? _listener;
 
   @override
   void initState() {
@@ -496,12 +496,12 @@ class LatestStopWidgetState extends State<LatestStopWidget>{
   Widget build(BuildContext context) => Consumer2<RankProv, OrgProvider>(
       builder: (context, rankProv, orgProv, child){
 
-        Rank lastStopZHP;
-        Rank lastStopZHRC;
-        Rank lastStopZHRD;
+        Rank? lastStopZHP;
+        Rank? lastStopZHRC;
+        Rank? lastStopZHRD;
 
-        Org org = orgProv.current;
-        int index;
+        Org? org = orgProv.current;
+        int? index;
 
         if(org == Org.zhp)
           index = 0;
@@ -591,9 +591,9 @@ class LatestStopWidgetState extends State<LatestStopWidget>{
 class StopPrevItem extends StatelessWidget{
 
   final Org org;
-  final Rank rank;
+  final Rank? rank;
 
-  const StopPrevItem(this.org, this.rank, {Key key}): super(key: key);
+  const StopPrevItem(this.org, this.rank, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -622,8 +622,8 @@ class StopPrevItem extends StatelessWidget{
                 child: GradientWidget(
                   radius: AppCard.BIG_RADIUS,
                   elevation: AppCard.bigElevation,
-                  colorStart: colors.start(AppSettings.isDark),
-                  colorEnd: colors.end(AppSettings.isDark),
+                  colorStart: colors.start(AppSettings.isDark)!,
+                  colorEnd: colors.end(AppSettings.isDark)!,
                   child: Icon(
                       MdiIcons.bookOpenPageVariantOutline,
                       color: iconEnab_(context).withOpacity(.4),
@@ -640,7 +640,7 @@ class StopPrevItem extends StatelessWidget{
                 'Przeglądaj stopnie',
                 style: AppTextStyle(
                     fontWeight: weight.bold,
-                    color: colors.colorEndLight.withOpacity(.5),//hintEnab_(context),
+                    color: colors.colorEndLight!.withOpacity(.5),//hintEnab_(context),
                     fontSize: Dimen.TEXT_SIZE_APPBAR
                 ),
               ),
@@ -666,21 +666,21 @@ class SprawModeButton<T extends ChangeNotifier> extends StatelessWidget{
   final List<String> Function() getUIDs;
   final bool showIcons;
   final IconData icon;
-  final int detailsIndex;
+  final int? detailsIndex;
   final bool clickable;
-  final void Function() onTap;
+  final void Function()? onTap;
 
   const SprawModeButton({
-    @required this.title,
-    @required this.emptyMessage,
-    @required this.mode,
-    @required this.getUIDs,
+    required this.title,
+    required this.emptyMessage,
+    required this.mode,
+    required this.getUIDs,
     this.showIcons = true,
-    @required this.icon,
+    required this.icon,
     this.detailsIndex,
     this.clickable=true,
     this.onTap,
-    Key key
+    Key? key
   }): super(key: key);
 
   @override

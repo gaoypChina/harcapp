@@ -17,7 +17,7 @@ class SearchPage extends StatefulWidget {
 
   final void Function(int) onItemTap;
 
-  const SearchPage({@required this.onItemTap});
+  const SearchPage({required this.onItemTap});
 
   @override
   State<SearchPage> createState() => SearchPageState();
@@ -26,7 +26,7 @@ class SearchPage extends StatefulWidget {
 
 class SearchPageState extends State<SearchPage> {
 
-  List<ItemData> data;
+  late List<ItemData> data;
 
   @override
   void initState() {
@@ -95,7 +95,7 @@ class SearchPageState extends State<SearchPage> {
 class Item extends StatelessWidget{
 
   final ItemData data;
-  final Function onTap;
+  final Function? onTap;
 
   const Item(this.data, {this.onTap});
 
@@ -104,7 +104,7 @@ class Item extends StatelessWidget{
     return AppCard(
         radius: AppCard.BIG_RADIUS,
         padding: EdgeInsets.zero,
-        onTap: onTap,
+        onTap: onTap as void Function()?,
         child: Container(
           height: CARD_HEIGHT,
           decoration: BoxDecoration(

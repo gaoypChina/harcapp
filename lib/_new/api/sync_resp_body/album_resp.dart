@@ -23,11 +23,11 @@ class AlbumResp extends SyncGetResp{
   final String iconKey;
 
   const AlbumResp({
-    @required this.title,
-    @required this.offSongs,
-    @required this.ownSongs,
-    @required this.colorsKey,
-    @required this.iconKey
+    required this.title,
+    required this.offSongs,
+    required this.ownSongs,
+    required this.colorsKey,
+    required this.iconKey
   });
 
   static AlbumResp from(Map respData) => AlbumResp(

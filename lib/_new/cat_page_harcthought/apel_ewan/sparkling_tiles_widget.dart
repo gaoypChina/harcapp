@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 
 class SparklingTilesWidget extends StatefulWidget{
 
-  final List<Color> colors;
+  final List<Color?> colors;
   final int count;
 
   const SparklingTilesWidget({
-    @required this.colors,
-    @required this.count,
-    Key key
+    required this.colors,
+    required this.count,
+    Key? key
   }): super(key: key);
 
 
@@ -22,10 +22,10 @@ class SparklingTilesWidget extends StatefulWidget{
 
 class SparklingTilesWidgetState extends State<SparklingTilesWidget>{
 
-  List<Color> get colors => widget.colors;
+  List<Color?> get colors => widget.colors;
   int get count => widget.count;
 
-  List<Color> currentColors;
+  late List<Color?> currentColors;
 
   run() async {
     while(true){

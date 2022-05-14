@@ -13,7 +13,7 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
 
   final ApelEwan apelEwan;
 
-  const ApelEwanThumbnailWidget(this.apelEwan, {Key key}): super(key: key);
+  const ApelEwanThumbnailWidget(this.apelEwan, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => Hero(
@@ -45,7 +45,7 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
                   children: [
 
                     Text(
-                      apelEwan.siglum.split(', ')[0],
+                      apelEwan.siglum!.split(', ')[0],
                       style: AppTextStyle(
                           fontSize: Dimen.TEXT_SIZE_APPBAR,
                           fontWeight: weight.bold,
@@ -55,7 +55,7 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
                     ),
 
                     Text(
-                      apelEwan.siglum.split(', ')[1],
+                      apelEwan.siglum!.split(', ')[1],
                       style: AppTextStyle(
                           fontSize: Dimen.TEXT_SIZE_APPBAR,
                           fontWeight: weight.normal,

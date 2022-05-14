@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class Background extends StatelessWidget{
 
   final ValueNotifier notifier;
-  const Background(this.notifier, {Key key}): super(key: key);
+  const Background(this.notifier, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => Consumer<FadeImageProvider>(
@@ -22,7 +22,7 @@ class Background extends StatelessWidget{
           AnimatedBuilder(
             animation: notifier,
             builder: (context, child) => Opacity(
-              opacity: max(0, min(1, prov.currIdx - notifier.value)),
+              opacity: max(0, min(1, prov.currIdx! - notifier.value as double)),
               child: BackgroundImage(prov.prevImage),
             ),
           ),
@@ -51,7 +51,7 @@ class Background extends StatelessWidget{
 
 class BackgroundBlur extends StatelessWidget{
 
-  const BackgroundBlur({Key key}) : super(key: key);
+  const BackgroundBlur({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Consumer<LockProvider>(
@@ -61,7 +61,7 @@ class BackgroundBlur extends StatelessWidget{
           duration: const Duration(milliseconds: 300),
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          color: Colors.black.withOpacity(prov.locked?0.5:0.15),
+          color: Colors.black.withOpacity(prov.locked!?0.5:0.15),
         )
     ),
   );
@@ -70,16 +70,16 @@ class BackgroundBlur extends StatelessWidget{
 
 class BackgroundImage extends StatelessWidget{
 
-  final ImageProvider image;
+  final ImageProvider? image;
 
-  const BackgroundImage(this.image, {Key key}) : super(key: key);
+  const BackgroundImage(this.image, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Container(
     decoration: BoxDecoration(
       image: DecorationImage(
         fit: BoxFit.fill,
-        image: image,
+        image: image!,
       ),
     ),
   );

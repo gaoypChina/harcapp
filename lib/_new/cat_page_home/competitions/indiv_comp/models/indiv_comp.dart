@@ -37,7 +37,7 @@ class IndivCompListProvider extends ChangeNotifier{
 class IndivCompAward{
   int rangeFrom;
   int rangeTo;
-  String award;
+  String? award;
 
   String get place{
     String _place;
@@ -101,7 +101,7 @@ class IndivComp{
     ),
   ];
 
-  static List<String> previewAwards = [
+  static List<String?> previewAwards = [
     'Nóż',
     'Hamak',
     'Menażka',
@@ -115,14 +115,14 @@ class IndivComp{
   static const int MAX_LEN_ICONS_KEY = 42;
   static const int MAX_LEN_AWARD = 64;
 
-  static List<IndivComp> _all;
-  static Map<String, IndivComp> _allMap;
+  static List<IndivComp>? _all;
+  static late Map<String, IndivComp> _allMap;
 
-  static List<IndivComp> get all => _all;
+  static List<IndivComp>? get all => _all;
 
   static List<IndivComp> get allPinned{
     List<IndivComp> comps = [];
-    for(IndivComp comp in _all)
+    for(IndivComp comp in _all!)
       if(comp.pinned)
         comps.add(comp);
 
@@ -135,10 +135,10 @@ class IndivComp{
       _allMap = {};
     }
 
-    _all.clear();
+    _all!.clear();
     _allMap.clear();
 
-    _all.addAll(comps);
+    _all!.addAll(comps);
     _allMap = {for (IndivComp comp in comps) comp.key: comp};
 
   }
@@ -156,7 +156,7 @@ class IndivComp{
       _all = [];
       _allMap = {};
     }
-    _all.add(comp);
+    _all!.add(comp);
     _allMap[comp.key] = comp;
 
     Provider.of<IndivCompProvider>(context, listen: false).notify();
@@ -164,27 +164,27 @@ class IndivComp{
   }
 
   static updateInAll(BuildContext context, IndivComp comp){
-    IndivComp oldComp = _allMap[comp.key];
+    IndivComp? oldComp = _allMap[comp.key];
     if(oldComp == null){
       addToAll(context, comp);
       return;
     }
 
-    int index = _all.indexOf(oldComp);
-    _all.removeAt(index);
-    _all.insert(index, comp);
+    int index = _all!.indexOf(oldComp);
+    _all!.removeAt(index);
+    _all!.insert(index, comp);
     _allMap[comp.key] = comp;
 
     Provider.of<IndivCompProvider>(context, listen: false).notify();
     Provider.of<IndivCompListProvider>(context, listen: false).notify();
   }
 
-  static void removeFromAll(BuildContext context, IndivComp comp){
+  static void removeFromAll(BuildContext context, IndivComp? comp){
     if(_all == null)
       return;
 
-    _all.remove(comp);
-    _allMap.remove(comp.key);
+    _all!.remove(comp);
+    _allMap.remove(comp!.key);
 
     Provider.of<IndivCompProvider>(context, listen: false).notify();
     Provider.of<IndivCompListProvider>(context, listen: false).notify();
@@ -193,91 +193,73 @@ class IndivComp{
   static clear(){
     if(_all == null)
       return;
-    _all.clear();
+    _all!.clear();
     _allMap.clear();
   }
 
   String key;
   String name;
 
-  IconData get icon => CommonIconData.ALL[iconKey];
+  IconData? get icon => CommonIconData.ALL[iconKey];
   String iconKey;
 
-  CommonColorData get colors => CommonColorData.ALL[colorsKey];
+  CommonColorData? get colors => CommonColorData.ALL[colorsKey];
   String colorsKey;
 
-  DateTime startTime;
-  DateTime endTime;
+  DateTime? startTime;
+  DateTime? endTime;
 
-  RankDispType rankDispType;
+  RankDispType? rankDispType;
 
-  String shareCode;
-  bool shareCodeSearchable;
+  String? shareCode;
+  bool? shareCodeSearchable;
 
-  IndivCompProfile get profile => participMap[AccountData.key].profile;
+  IndivCompProfile get profile => participMap[AccountData.key!]!.profile;
 
-  final List<IndivCompParticip> particips;
-  final Map<String, IndivCompParticip> participMap;
+  final List<IndivCompParticip?> particips;
+  final Map<String, IndivCompParticip?> participMap;
 
   int get activeParticipCnt =>
-    particips.where((particip) => particip.profile.active).length;
+    particips.where((particip) => particip!.profile.active!).length;
 
   List<IndivCompTask> tasks;
-  Map<String, IndivCompTask> taskMap;
+  Map<String?, IndivCompTask> taskMap;
 
   List<IndivCompAward> awards;
 
-  bool get pinned => shaPref.getBool(ShaPref.SHA_PREF_INDIV_COMP_PINNED_(key), true);
+  bool get pinned => shaPref!.getBool(ShaPref.SHA_PREF_INDIV_COMP_PINNED_(key), true);
   void setPinned(BuildContext context, bool value){
-    shaPref.setBool(ShaPref.SHA_PREF_INDIV_COMP_PINNED_(key), value);
+    shaPref!.setBool(ShaPref.SHA_PREF_INDIV_COMP_PINNED_(key), value);
     Provider.of<IndivCompListProvider>(context).notify();
   }
 
   void reversePinned(BuildContext context){
-    shaPref.setBool(ShaPref.SHA_PREF_INDIV_COMP_PINNED_(key), !pinned);
+    shaPref!.setBool(ShaPref.SHA_PREF_INDIV_COMP_PINNED_(key), !pinned);
     Provider.of<IndivCompListProvider>(context, listen: false).notify();
   }
 
   void handleRanks(Map<String, Tuple3<int, int, Tuple2<double, double>>> ranks){
 
     for(String participKey in ranks.keys) {
-      participMap[participKey].profile.showRank = ranks[participKey].item1;
-      participMap[participKey].profile.rankPopularity = ranks[participKey].item2;
-      participMap[participKey].profile.showRankRange = ranks[participKey].item3;
+      participMap[participKey]!.profile.showRank = ranks[participKey]!.item1;
+      participMap[participKey]!.profile.rankPopularity = ranks[participKey]!.item2;
+      participMap[participKey]!.profile.showRankRange = ranks[participKey]!.item3;
     }
 
-    particips.sort((p1, p2) => p1.profile.showRank - p2.profile.showRank);
+    particips.sort((p1, p2) => p1!.profile.showRank! - p2!.profile.showRank!);
 
-    if(!profile.active) return;
-    String thisParticipKey = AccountData.key;
+    if(!profile.active!) return;
+    String? thisParticipKey = AccountData.key;
     if(!ranks.containsKey(thisParticipKey)) return;
 
-    profile.showRank = ranks[thisParticipKey].item1;
-    profile.rankPopularity = ranks[thisParticipKey].item2;
-    profile.showRankRange = ranks[thisParticipKey].item3;
+    profile.showRank = ranks[thisParticipKey!]!.item1;
+    profile.rankPopularity = ranks[thisParticipKey]!.item2;
+    profile.showRankRange = ranks[thisParticipKey]!.item3;
   }
 
-  void updateParticips(BuildContext context, List<IndivCompParticip> allParticips){
+  void addParticips(BuildContext context, List<IndivCompParticip> newParticips){
 
-    for(IndivCompParticip particip in allParticips) {
-      int index = particips.indexOf(participMap[particip.key]);
-      particips.removeAt(index);
-      particips.insert(index, particip);
-      participMap[particip.key] = particip;
-    }
-
-    // String thisParticipKey = AccSecData.key;
-    // if(participMap.containsKey(thisParticipKey))
-    //  profile = participMap[thisParticipKey].profile;
-
-    Provider.of<IndivCompParticipsProvider>(context, listen: false).notify();
-    Provider.of<IndivCompProvider>(context, listen: false).notify();
-    Provider.of<IndivCompListProvider>(context, listen: false).notify();
-  }
-
-  void addParticips(BuildContext context, List<IndivCompParticip> allParticips){
-
-    for(IndivCompParticip particip in allParticips) {
+    for(IndivCompParticip particip in newParticips) {
       particips.add(particip);
       participMap[particip.key] = particip;
     }
@@ -287,9 +269,35 @@ class IndivComp{
     Provider.of<IndivCompListProvider>(context, listen: false).notify();
   }
 
-  void removeParticipByKey(BuildContext context, List<String> participKeys){
+  void setAllParticips(BuildContext context, List<IndivCompParticip> allParticips){
+    particips.clear();
+    participMap.clear();
+    particips.addAll(allParticips);
+    particips.sort((mem1, mem2) => mem1!.name.compareTo(mem2!.name));
+    participMap.addAll({for (IndivCompParticip mem in allParticips) mem.key: mem});
 
-    particips.removeWhere((particip) => participKeys.contains(particip.key));
+    Provider.of<IndivCompParticipsProvider>(context, listen: false).notify();
+    Provider.of<IndivCompProvider>(context, listen: false).notify();
+    Provider.of<IndivCompListProvider>(context, listen: false).notify();
+  }
+
+  void updateParticips(BuildContext context, List<IndivCompParticip?> newParticips){
+
+    for(IndivCompParticip? particip in newParticips) {
+      int index = particips.indexOf(participMap[particip!.key]);
+      particips.removeAt(index);
+      particips.insert(index, particip);
+      participMap[particip.key] = particip;
+    }
+
+    Provider.of<IndivCompParticipsProvider>(context, listen: false).notify();
+    Provider.of<IndivCompProvider>(context, listen: false).notify();
+    Provider.of<IndivCompListProvider>(context, listen: false).notify();
+  }
+
+  void removeParticipsByKey(BuildContext context, List<String> participKeys){
+
+    particips.removeWhere((particip) => participKeys.contains(particip!.key));
     for(String participKey in participKeys) participMap.remove(participKey);
 
     Provider.of<IndivCompParticipsProvider>(context, listen: false).notify();
@@ -298,40 +306,40 @@ class IndivComp{
   }
 
   void removeComplTask(BuildContext context, String participKey, String complTaskKey){
-    participMap[participKey].profile.removeCompletedTaskByKey(complTaskKey);
+    participMap[participKey]!.profile.removeCompletedTaskByKey(complTaskKey);
 
     Provider.of<ComplTasksProvider>(context, listen: false).notify();
   }
 
-  void addPoints(String key, int points) => setPoints(key, participMap[key].profile.points + points);
+  void addPoints(String key, int points) => setPoints(key, participMap[key]!.profile.points! + points);
   void setPoints(String key, int points){
-    participMap[key].profile.points = points;
+    participMap[key]!.profile.points = points;
   }
   void _setRank(String key, int rank){
-    participMap[key].profile.showRank = rank;
+    participMap[key]!.profile.showRank = rank;
   }
 
   IndivComp({
-    @required this.key,
-    @required this.name,
-    @required this.iconKey,
-    @required this.colorsKey,
-    @required this.startTime,
+    required this.key,
+    required this.name,
+    required this.iconKey,
+    required this.colorsKey,
+    required this.startTime,
     this.endTime,
-    @required this.rankDispType,
+    required this.rankDispType,
 
-    @required this.particips,
+    required this.particips,
 
-    @required this.tasks,
-    @required this.awards,
+    required this.tasks,
+    required this.awards,
 
-    @required this.shareCode,
-    @required this.shareCodeSearchable,
+    required this.shareCode,
+    required this.shareCodeSearchable,
 
   }): taskMap = {for (var task in tasks) task.key: task},
-        participMap = {for (var particip in particips) particip.key: particip};
+        participMap = {for (var particip in particips) particip!.key: particip};
 
-  static List<IndivCompAward> awardListFromRaw(List<String> awards){
+  static List<IndivCompAward> awardListFromRaw(List<String?> awards){
 
     List<IndivCompAward> indivCompAward = [];
 
@@ -347,10 +355,10 @@ class IndivComp{
 
     List<IndivCompTask> tasks = [];
     Map _tasksRespMap = resp['tasks']??(throw InvalidResponseError('tasks'));
-    for (String taskKey in _tasksRespMap.keys)
+    for (String taskKey in _tasksRespMap.keys as Iterable<String>)
       tasks.add(IndivCompTask.fromMap(taskKey, _tasksRespMap[taskKey]));
 
-    tasks.sort((task1, task2) => task1.key.compareTo(task2.key));
+    tasks.sort((task1, task2) => task1.key!.compareTo(task2.key!));
 
     List<IndivCompParticip> particips = [];
     Map _participsRespMap = resp['participants']??(throw InvalidResponseError('participants'));
@@ -371,8 +379,6 @@ class IndivComp{
         startTime: DateTime.tryParse(resp['start_time']??(throw InvalidResponseError('start_time'))),
         endTime: DateTime.tryParse(resp['end_time'] ?? ''),
         rankDispType: strToRankDispType[resp['rank_disp_type']??(throw InvalidResponseError('rank_disp_type'))],
-
-        //profile: IndivCompProfile.fromResponse(resp['profile']??(throw InvalidResponseError('profile'))),
 
         particips: particips,
 

@@ -8,9 +8,9 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class CompletedWidget extends StatelessWidget{
 
   final String text;
-  final Color colorText;
+  final Color? colorText;
   final Color color;
-  final void Function() onPressed;
+  final void Function()? onPressed;
 
   const CompletedWidget(this.text, this.color, {this.colorText, this.onPressed});
 

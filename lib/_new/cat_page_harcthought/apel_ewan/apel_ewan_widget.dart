@@ -11,7 +11,7 @@ class ApelEwanWidget extends StatefulWidget{
 
   final ApelEwan apelEwan;
 
-  const ApelEwanWidget(this.apelEwan, {Key key}): super(key: key);
+  const ApelEwanWidget(this.apelEwan, {Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => ApelEwanWidgetState();
@@ -25,20 +25,20 @@ class ApelEwanWidgetState extends State<ApelEwanWidget> with ModuleStatsMixin{
 
   ApelEwan get apelEwan => widget.apelEwan;
 
-  String author;
-  String text;
-  List<String> questions;
+  String? author;
+  String? text;
+  List<String>? questions;
 
   void run() async {
     text = await readStringFromAssets(apelEwan.textFileName);
-    questions = (await readStringFromAssets(apelEwan.questionsFileName)).split('\n');
+    questions = (await readStringFromAssets(apelEwan.questionsFileName))!.split('\n');
 
     setState((){});
   }
 
   @override
   void initState() {
-    switch(apelEwan.siglum.split(' ')[0]){
+    switch(apelEwan.siglum!.split(' ')[0]){
       case 'Mt':
         author = 'Mateusza';
         break;
@@ -64,7 +64,7 @@ class ApelEwanWidgetState extends State<ApelEwanWidget> with ModuleStatsMixin{
           slivers: [
 
             SliverAppBar(
-              title: Text(apelEwan.siglum),
+              title: Text(apelEwan.siglum!),
               centerTitle: true,
               floating: true,
             ),
@@ -85,7 +85,7 @@ class ApelEwanWidgetState extends State<ApelEwanWidget> with ModuleStatsMixin{
                   const SizedBox(height: Dimen.SIDE_MARG),
 
                   Text(
-                    text,
+                    text!,
                     style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
                     textAlign: TextAlign.justify,
                   ),
@@ -132,13 +132,13 @@ class ApelEwanWidgetState extends State<ApelEwanWidget> with ModuleStatsMixin{
                         ),
                         Expanded(
                           child: Text(
-                              questions[index],
+                              questions![index],
                               style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)
                           ),
                         )
                       ]),
                 ),
-                childCount: questions.length
+                childCount: questions!.length
                 )),
               )
 

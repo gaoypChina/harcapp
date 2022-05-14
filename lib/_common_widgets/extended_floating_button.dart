@@ -8,14 +8,14 @@ class ExtendedFloatingButton extends StatelessWidget{
 
   final IconData icon;
   final String text;
-  final Color textColor;
+  final Color? textColor;
 
-  final Color background;
-  final Color backgroundEnd;
-  final bool floatingButtonExpanded;
+  final Color? background;
+  final Color? backgroundEnd;
+  final bool? floatingButtonExpanded;
 
-  final void Function() onTap;
-  final Duration duration;
+  final void Function()? onTap;
+  final Duration? duration;
 
   const ExtendedFloatingButton(
       this.icon,
@@ -26,7 +26,7 @@ class ExtendedFloatingButton extends StatelessWidget{
         this.floatingButtonExpanded = true,
         this.onTap,
         this.duration,
-        Key key
+        Key? key
       }): super(key: key);
 
   @override
@@ -55,7 +55,7 @@ class ExtendedFloatingButton extends StatelessWidget{
     );
 
     return Hero(
-      tag: const FloatingActionButton(onPressed: null).heroTag,
+      tag: const FloatingActionButton(onPressed: null).heroTag!,
       child: SimpleButton(
           color: background??accent_(context),
           colorEnd: backgroundEnd??background??accent_(context),
@@ -75,9 +75,9 @@ class ExtendedFloatingButton extends StatelessWidget{
 
 class _TextWidget extends StatelessWidget{
 
-  final bool floatingButtonExpanded;
+  final bool? floatingButtonExpanded;
   final String text;
-  final Color textColor;
+  final Color? textColor;
 
   const _TextWidget(
       this.floatingButtonExpanded,
@@ -90,7 +90,7 @@ class _TextWidget extends StatelessWidget{
 
     List<Widget> children;
 
-    if(floatingButtonExpanded)
+    if(floatingButtonExpanded!)
       children = [
         const SizedBox(width: Dimen.ICON_MARG),
         Text(

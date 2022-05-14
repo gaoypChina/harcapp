@@ -11,14 +11,14 @@ class AwardTileDenseWidget extends StatelessWidget{
   static const double height = 72;
 
   final int position;
-  final CommonColorData colors;
+  final CommonColorData? colors;
   final IndivCompAward award;
 
   const AwardTileDenseWidget(
       this.position,
       this.colors,
       this.award,
-      {Key key}): super(key: key);
+      {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => ListTile(
@@ -30,7 +30,7 @@ class AwardTileDenseWidget extends StatelessWidget{
             fontWeight: weight.halfBold
         )
     ),
-    subtitle: Text(award.award, style: AppTextStyle(), maxLines: 1, overflow: TextOverflow.ellipsis),
+    subtitle: Text(award.award!, style: AppTextStyle(), maxLines: 1, overflow: TextOverflow.ellipsis),
   );
 
 }

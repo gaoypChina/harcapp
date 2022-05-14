@@ -15,68 +15,68 @@ class ArticleNotifierProvider extends ChangeNotifier{
 
 class BookmarkedArticlesProvider extends ChangeNotifier{
 
-  List<Article> _articles;
+  List<Article?>? _articles;
 
-  List<Article> get articles => _articles;
+  List<Article?>? get articles => _articles;
 
-  init(List<Article> allArticles){
-    List<String> articleIds = shaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED, []);
+  init(List<Article?>? allArticles){
+    List<String> articleIds = shaPref!.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED, []);
     _articles = [];
     for(String id in articleIds)
-      _articles.add(Article.allMap[id]);
+      _articles!.add(Article.allMap![id]);
   }
 
-  bool contains(Article article) => _articles.contains(article);
+  bool contains(Article? article) => _articles!.contains(article);
 
   void add(Article article){
-    _articles.add(article);
+    _articles!.add(article);
     article.isBookmarked = true;
     notifyListeners();
   }
 
   void remove(Article article){
-    _articles.remove(article);
+    _articles!.remove(article);
     article.isBookmarked = false;
     notifyListeners();
   }
 
   void clear(){
     if(_articles == null) return;
-    _articles.clear();
+    _articles!.clear();
     notifyListeners();
   }
 }
 
 class LikedArticlesProvider extends ChangeNotifier{
 
-  List<Article> _articles;
+  List<Article?>? _articles;
 
-  List<Article> get articles => _articles;
+  List<Article?>? get articles => _articles;
 
-  init(List<Article> allArticles){
-    List<String> articleIds = shaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED, []);
+  init(List<Article?>? allArticles){
+    List<String> articleIds = shaPref!.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED, []);
     _articles = [];
     for(String id in articleIds)
-      _articles.add(Article.allMap[id]);
+      _articles!.add(Article.allMap![id]);
   }
 
-  bool contains(Article article) => _articles.contains(article);
+  bool contains(Article article) => _articles!.contains(article);
 
   void add(Article article){
-    _articles.add(article);
+    _articles!.add(article);
     article.isLiked = true;
     notifyListeners();
   }
 
   void remove(Article article){
-    _articles.remove(article);
+    _articles!.remove(article);
     article.isLiked = false;
     notifyListeners();
   }
 
   void clear(){
     if(_articles == null) return;
-    _articles.clear();
+    _articles!.clear();
     notifyListeners();
   }
 
@@ -85,7 +85,7 @@ class LikedArticlesProvider extends ChangeNotifier{
 class ArticleThemeProvider extends ChangeNotifier{
 
   //ArticleThemeColorOption _colorOption;
-  String _paraFontFamily;
+  String? _paraFontFamily;
 
   /*
   ArticleThemeColorOption get colorOption => _colorOption;
@@ -95,8 +95,8 @@ class ArticleThemeProvider extends ChangeNotifier{
   }
    */
 
-  String get paraFontFamily => _paraFontFamily;
-  set paraFontFamily(String value){
+  String? get paraFontFamily => _paraFontFamily;
+  set paraFontFamily(String? value){
     _paraFontFamily = value;
     notifyListeners();
   }

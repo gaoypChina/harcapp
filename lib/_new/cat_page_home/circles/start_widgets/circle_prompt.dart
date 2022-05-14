@@ -6,10 +6,10 @@ import 'package:harcapp_core/dimen.dart';
 class CirclePrompt extends StatelessWidget{
 
   final Widget child;
-  final String text;
-  final IconData icon;
+  final String? text;
+  final IconData? icon;
 
-  const CirclePrompt({@required this.child, this.text, this.icon, Key key}): super(key: key);
+  const CirclePrompt({required this.child, this.text, this.icon, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -54,7 +54,7 @@ class CirclePrompt extends StatelessWidget{
 
             if(text != null)
               Text(
-                text,
+                text!,
                 style: AppTextStyle(
                     fontSize: Dimen.TEXT_SIZE_APPBAR,
                     fontWeight: weight.bold

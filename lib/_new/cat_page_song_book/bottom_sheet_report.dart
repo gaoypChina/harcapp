@@ -23,7 +23,7 @@ class BottomSheetReport extends StatefulWidget{
   static const String SPIEWNIK_REPORT_TEXT_TYPE = 'Text';
   static const String SPIEWNIK_REPORT_WORD_TYPE = 'Word';
 
-  final Song song;
+  final Song? song;
   const BottomSheetReport(this.song);
 
   @override
@@ -33,10 +33,10 @@ class BottomSheetReport extends StatefulWidget{
 
 class BottomSheetReportState extends State<BottomSheetReport>{
 
-  int errorType;
-  String _text;
+  int? errorType;
+  String? _text;
 
-  TextSelection _selection;
+  TextSelection? _selection;
 
   @override
   void initState() {
@@ -50,7 +50,7 @@ class BottomSheetReportState extends State<BottomSheetReport>{
   Widget build(BuildContext context) {
 
     TextEditingController controller = TextEditingController(text: _text);
-    controller.selection = _selection;
+    controller.selection = _selection!;
     controller.addListener((){
       setState(() => _text = controller.text);
       _selection = controller.selection;
@@ -84,7 +84,7 @@ class BottomSheetReportState extends State<BottomSheetReport>{
           ),
           value: BottomSheetReport.SPIEWNIK_REPORT_TEXT,
           groupValue: errorType,
-          onChanged: (int value) {
+          onChanged: (int? value) {
             setState(() => errorType = value);
           },
         ),
@@ -98,7 +98,7 @@ class BottomSheetReportState extends State<BottomSheetReport>{
             ),
             value: BottomSheetReport.SPIEWNIK_REPORT_WORD,
             groupValue: errorType,
-            onChanged: (int value) {
+            onChanged: (int? value) {
               setState(() {
                 errorType = value;
               });
@@ -107,14 +107,14 @@ class BottomSheetReportState extends State<BottomSheetReport>{
         Row(
           children: <Widget>[
             Expanded(child: Container()),
-            SpiewnikReportSendButton(widget.song.fileName, () => _text, getErrorType(), _text.isNotEmpty),
+            SpiewnikReportSendButton(widget.song!.fileName, () => _text, getErrorType(), _text!.isNotEmpty),
           ],
         )
 
     ],));
   }
 
-  String getErrorType(){
+  String? getErrorType(){
     switch(errorType){
       case BottomSheetReport.SPIEWNIK_REPORT_TEXT: return BottomSheetReport.SPIEWNIK_REPORT_TEXT_TYPE;
       case BottomSheetReport.SPIEWNIK_REPORT_WORD: return BottomSheetReport.SPIEWNIK_REPORT_WORD_TYPE;
@@ -127,10 +127,10 @@ class SpiewnikReportSendButton extends StatefulWidget{
 
 
   final String fileName;
-  final String Function() content;
-  final String errorType;
+  final String? Function() content;
+  final String? errorType;
   final bool enabled;
-  final Color background;
+  final Color? background;
 
   const SpiewnikReportSendButton(this.fileName, this.content, this.errorType, this.enabled, {this.background});
 
@@ -142,8 +142,8 @@ class SpiewnikReportSendButton extends StatefulWidget{
 
 class SpiewnikReportSendButtonState extends State<SpiewnikReportSendButton>{
 
-  bool _isSendButtonActive;
-  String _buttonSendText;
+  late bool _isSendButtonActive;
+  late String _buttonSendText;
 
   @override
   void initState() {

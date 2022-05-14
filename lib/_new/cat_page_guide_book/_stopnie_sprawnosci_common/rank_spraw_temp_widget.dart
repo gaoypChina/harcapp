@@ -22,63 +22,63 @@ class RankSprawTempWidget extends StatelessWidget{
   static const double trailingSize = 64.0;
 
   final String title;
-  final String titleAppBar;
+  final String? titleAppBar;
   final Color color;
 
   final String completedText;
-  final Color completedTextColor;
+  final Color? completedTextColor;
 
-  final Widget titleTrailing;
+  final Widget? titleTrailing;
 
-  final Widget underTitleLeading;
+  final Widget? underTitleLeading;
   final Widget child;
-  final Widget floatingButton;
-  final IconData backgroundIcon;
-  final IconData backgroundIconComplete;
+  final Widget? floatingButton;
+  final IconData? backgroundIcon;
+  final IconData? backgroundIconComplete;
 
   final bool inProgress;
   final int completenessPercent;
   final bool isReadyToComplete;
-  final bool completed;
-  final DateTime completedDate;
+  final bool? completed;
+  final DateTime? completedDate;
   final void Function(DateTime) onCompleteDateChanged;
 
   final void Function(bool inProgress) onStartStopTap;
   final void Function() onAbandonTap;
 
   final bool showAppBar;
-  final ConfettiController confettiController;
-  final List<Widget> actions;
-  final PreferredSizeWidget appBarBottom;
+  final ConfettiController? confettiController;
+  final List<Widget>? actions;
+  final PreferredSizeWidget? appBarBottom;
 
   final bool previewOnly;
 
   const RankSprawTempWidget({
-    @required this.title,
+    required this.title,
     this.titleAppBar,
-    @required this.color,
-    @required this.completedText,
+    required this.color,
+    required this.completedText,
     this.completedTextColor,
     this.titleTrailing,
     this.underTitleLeading,
-    @required this.child,
+    required this.child,
     this.floatingButton,
 
     this.backgroundIcon,
     this.backgroundIconComplete,
 
-    @required this.completenessPercent,
-    @required this.inProgress,
-    @required this.isReadyToComplete,
-    @required this.completed,
-    @required this.completedDate,
-    @required this.onCompleteDateChanged,
+    required this.completenessPercent,
+    required this.inProgress,
+    required this.isReadyToComplete,
+    required this.completed,
+    required this.completedDate,
+    required this.onCompleteDateChanged,
 
-    @required this.onStartStopTap,
-    @required this.onAbandonTap,
+    required this.onStartStopTap,
+    required this.onAbandonTap,
 
     this.showAppBar = false,
-    @required this.confettiController,
+    required this.confettiController,
     this.actions,
     this.appBarBottom,
 
@@ -103,9 +103,9 @@ class RankSprawTempWidget extends StatelessWidget{
               bottom: -0.1*screenWidth,
               right: -0.15*screenWidth,
               child: AnimatedOpacity(
-                opacity: completed?0:1,
+                opacity: completed!?0:1,
                 curve: Curves.easeOutQuart,
-                duration: Duration(milliseconds: 1000),
+                duration: const Duration(milliseconds: 1000),
                 child: Icon(
                   backgroundIcon,
                   color: backgroundIcon_(context),
@@ -119,9 +119,9 @@ class RankSprawTempWidget extends StatelessWidget{
               bottom: -0.1*screenWidth,
               right: -0.15*screenWidth,
               child: AnimatedOpacity(
-                opacity: completed?1:0,
+                opacity: completed!?1:0,
                 curve: Curves.easeOutQuart,
-                duration: Duration(milliseconds: 1000),
+                duration: const Duration(milliseconds: 1000),
                 child: Icon(
                   backgroundIconComplete,
                   color: backgroundIcon_(context),
@@ -132,14 +132,14 @@ class RankSprawTempWidget extends StatelessWidget{
 
           NotificationListener<ScrollNotification>(
             child: CustomScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               slivers: [
                 if(showAppBar)
                   SliverAppBar(
                     title: Consumer<_ReachedTopProvider>(
                       builder: (context, prov, child) => AnimatedOpacity(
-                        duration: Duration(milliseconds: 300),
-                        opacity: prov.reachedTop?0:1,
+                        duration: const Duration(milliseconds: 300),
+                        opacity: prov.reachedTop!?0:1,
                         child: Text(titleAppBar??title, textAlign: TextAlign.center),
                       ),
                     ),
@@ -153,7 +153,7 @@ class RankSprawTempWidget extends StatelessWidget{
                 if(!previewOnly)
                   FloatingContainer(
                     builder: (context, __, _) => Padding(
-                      padding: EdgeInsets.all(Dimen.DEF_MARG),
+                      padding: const EdgeInsets.all(Dimen.DEF_MARG),
                       child: appBarBottom,
                     ),
                     height: (appBarBottom?.preferredSize?.height??0) + 2*Dimen.DEF_MARG,
@@ -168,15 +168,15 @@ class RankSprawTempWidget extends StatelessWidget{
                   ),
                   sliver: SliverList(delegate: SliverChildListDelegate([
 
-                    SizedBox(height: Dimen.SIDE_MARG),
+                    const SizedBox(height: Dimen.SIDE_MARG),
 
                     Row(
                       children: [
 
                         if(titleTrailing != null)
-                          SizedBox(width: trailingSize),
+                          const SizedBox(width: trailingSize),
 
-                        SizedBox(width: 6.0, height: trailingSize),
+                        const SizedBox(width: 6.0, height: trailingSize),
 
                         Expanded(
                           child: AutoSizeText(title,
@@ -185,7 +185,7 @@ class RankSprawTempWidget extends StatelessWidget{
                           ),
                         ),
 
-                        SizedBox(width: 6.0),
+                        const SizedBox(width: 6.0),
 
                         if(titleTrailing != null)
                           SizedBox(
@@ -196,25 +196,25 @@ class RankSprawTempWidget extends StatelessWidget{
                       ],
                     ),
 
-                    SizedBox(height: Dimen.SIDE_MARG),
+                    const SizedBox(height: Dimen.SIDE_MARG),
 
                     Row(
                       children: [
-                        SizedBox(height: Dimen.ICON_FOOTPRINT + 2*SimpleButton.DEF_MARG),
+                        const SizedBox(height: Dimen.ICON_FOOTPRINT + 2*SimpleButton.DEF_MARG),
                         Padding(
-                          padding: EdgeInsets.only(left: Dimen.ICON_FOOTPRINT),
+                          padding: const EdgeInsets.only(left: Dimen.ICON_FOOTPRINT),
                           child: underTitleLeading,
                         ),
 
                         Expanded(child: Container()),
 
-                        if(completed)
+                        if(completed!)
                           SimpleButton.from(
                               context: context,
                               icon: MdiIcons.calendarCheckOutline,
-                              text: dateToString(completedDate, shortMonth: true),
+                              text: dateToString(completedDate!, shortMonth: true),
                               onTap: () async {
-                                DateTime dateTime = await showDatePicker(
+                                DateTime? dateTime = await showDatePicker(
                                     context: context,
                                     helpText: 'Data zdobycia sprawności',
                                     initialDate: completedDate??DateTime(966),
@@ -228,7 +228,7 @@ class RankSprawTempWidget extends StatelessWidget{
                       ],
                     ),
 
-                    SizedBox(height: Dimen.SIDE_MARG),
+                    const SizedBox(height: Dimen.SIDE_MARG),
 
                     child,
 
@@ -243,15 +243,15 @@ class RankSprawTempWidget extends StatelessWidget{
               _ReachedBottomProvider provBottom = Provider.of<_ReachedBottomProvider>(context, listen: false);
 
               if(scrollInfo.metrics.pixels <= kToolbarHeight) {
-                if (!provTop.reachedTop) provTop.reachedTop = true;
+                if (!provTop.reachedTop!) provTop.reachedTop = true;
               }else {
-                if (provTop.reachedTop) provTop.reachedTop = false;
+                if (provTop.reachedTop!) provTop.reachedTop = false;
               }
 
               if(scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent-1) {
-                if (!provBottom.reachedBottom) provBottom.reachedBottom = true;
+                if (!provBottom.reachedBottom!) provBottom.reachedBottom = true;
               }else {
-                if (provBottom.reachedBottom) provBottom.reachedBottom = false;
+                if (provBottom.reachedBottom!) provBottom.reachedBottom = false;
               }
 
               return false;
@@ -262,7 +262,7 @@ class RankSprawTempWidget extends StatelessWidget{
             Positioned(
                 bottom: kToolbarHeight + Dimen.FLOATING_BUTTON_MARG,
                 right: Dimen.FLOATING_BUTTON_MARG,
-                child: floatingButton
+                child: floatingButton!
             ),
 
           if(!previewOnly)
@@ -272,20 +272,20 @@ class RankSprawTempWidget extends StatelessWidget{
             right: 0,
             child: SizedBox(
               height: AppBar().preferredSize.height,
-              child: completed?
+              child: completed!?
               Consumer<_ReachedBottomProvider>(
                 builder: (context, prov, child) => AnimatedChildSlider(
-                  duration: Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 500),
                   switchInCurve: Curves.easeOutExpo,
                   switchOutCurve: Curves.easeOutExpo,
-                  index: prov.reachedBottom?1:0,
+                  index: prov.reachedBottom!?1:0,
                   direction: Axis.horizontal,
                   children: [
                     CompletedWidget(
                       completedText,
                       color,
                       colorText: completedTextColor??background_(context),
-                      onPressed: () => confettiController.play(),
+                      onPressed: () => confettiController!.play(),
                     ),
 
                     AbandonButton(
@@ -323,9 +323,9 @@ class RankSprawTempWidget extends StatelessWidget{
 
 class _ReachedTopProvider extends ChangeNotifier{
 
-  bool _reachedTop;
-  bool get reachedTop => _reachedTop;
-  set reachedTop(bool value){
+  bool? _reachedTop;
+  bool? get reachedTop => _reachedTop;
+  set reachedTop(bool? value){
     _reachedTop = value;
     notifyListeners();
   }
@@ -338,9 +338,9 @@ class _ReachedTopProvider extends ChangeNotifier{
 
 class _ReachedBottomProvider extends ChangeNotifier{
 
-  bool _reachedBottom;
-  bool get reachedBottom => _reachedBottom;
-  set reachedBottom(bool value){
+  bool? _reachedBottom;
+  bool? get reachedBottom => _reachedBottom;
+  set reachedBottom(bool? value){
     _reachedBottom = value;
     notifyListeners();
   }

@@ -8,7 +8,7 @@ import 'org_card_widget_remplate.dart';
 
 class ZHPOrgCardWidget extends StatelessWidget{
 
-  final void Function(BuildContext) onTap;
+  final void Function(BuildContext)? onTap;
 
   const ZHPOrgCardWidget({this.onTap});
 

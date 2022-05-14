@@ -78,15 +78,15 @@ class Page7State extends State<Page7> with PageTemplateInterface{
     return initPlayerOffset(width);
   }
 
-  AnimStageManager animStageManager;
+  late AnimStageManager animStageManager;
 
 
-  int animStage;
-  PreviewCardsGridController controller;
+  int? animStage;
+  PreviewCardsGridController? controller;
 
-  Color convColor;
-  String convAuth;
-  String convText;
+  Color? convColor;
+  String? convAuth;
+  late String convText;
 
   @override
   void initState() {
@@ -118,7 +118,7 @@ class Page7State extends State<Page7> with PageTemplateInterface{
               after: animDuration),
 
           AnimStage(
-              function: () => controller[1].toggleCard(),
+              function: () => controller![1].toggleCard(),
               after: animDuration),
 
           AnimStage(
@@ -143,7 +143,7 @@ class Page7State extends State<Page7> with PageTemplateInterface{
 
         ],
         cleanUp: (){
-          controller[1].toggleCard();
+          controller![1].toggleCard();
 
           setState(() => animStage = 0);
         },

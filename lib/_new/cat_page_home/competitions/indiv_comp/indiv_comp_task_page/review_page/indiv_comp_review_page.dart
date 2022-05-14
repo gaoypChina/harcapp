@@ -17,14 +17,14 @@ import '../../models/indiv_comp_task_compl.dart';
 class IndivCompProfilePendingComplTasksPage extends StatefulWidget{
 
   final IndivComp comp;
-  final void Function(IndivCompParticip, IndivCompTaskCompl) onAccepted;
-  final void Function(IndivCompParticip, IndivCompTaskCompl) onRejected;
+  final void Function(IndivCompParticip, IndivCompTaskCompl)? onAccepted;
+  final void Function(IndivCompParticip, IndivCompTaskCompl)? onRejected;
 
   const IndivCompProfilePendingComplTasksPage(
       this.comp,
       { this.onAccepted,
         this.onRejected,
-        Key key
+        Key? key
       }): super(key: key);
 
   @override
@@ -36,20 +36,20 @@ class IndivCompProfilePendingComplTasksPageState extends State<IndivCompProfileP
 
   IndivComp get comp => widget.comp;
 
-  List<Tuple2<IndivCompParticip, IndivCompTaskCompl>> pendingComplTasks;
+  List<Tuple2<IndivCompParticip?, IndivCompTaskCompl>>? pendingComplTasks;
 
-  bool showPendingOnly;
+  late bool showPendingOnly;
 
-  bool sending;
+  bool? sending;
 
-  List<Tuple2<IndivCompParticip, IndivCompTaskCompl>> complTasksToList({
-    @required Map<IndivCompParticip, List<IndivCompTaskCompl>> complTaskMap,
+  List<Tuple2<IndivCompParticip?, IndivCompTaskCompl>>? complTasksToList({
+    required Map<IndivCompParticip?, List<IndivCompTaskCompl>> complTaskMap,
   }){
     pendingComplTasks = [];
 
-    for(IndivCompParticip particip in complTaskMap.keys)
-      for(IndivCompTaskCompl task in complTaskMap[particip])
-        pendingComplTasks.add(Tuple2(particip, task));
+    for(IndivCompParticip? particip in complTaskMap.keys)
+      for(IndivCompTaskCompl task in complTaskMap[particip]!)
+        pendingComplTasks!.add(Tuple2(particip, task));
 
     return pendingComplTasks;
   }
@@ -69,25 +69,25 @@ class IndivCompProfilePendingComplTasksPageState extends State<IndivCompProfileP
     return Consumer<ComplTasksProvider>(
       builder: (context, prov, child){
 
-        Map<IndivCompParticip, List<IndivCompTaskCompl>> complTaskMap = {};
+        Map<IndivCompParticip?, List<IndivCompTaskCompl>> complTaskMap = {};
 
-        for(IndivCompParticip particip in comp.particips) {
+        for(IndivCompParticip? particip in comp.particips) {
           if(!complTaskMap.containsKey(particip))
             complTaskMap[particip] = [];
 
-          for(IndivCompTaskCompl complTask in particip.profile.completedTasks)
-            complTaskMap[particip].add(complTask);
+          for(IndivCompTaskCompl complTask in particip!.profile.completedTasks!)
+            complTaskMap[particip]!.add(complTask);
         }
 
         pendingComplTasks = complTasksToList(complTaskMap: complTaskMap);
 
         if(showPendingOnly)
-          pendingComplTasks.removeWhere((tuple) => tuple.item2.acceptState != TaskAcceptState.PENDING);
+          pendingComplTasks!.removeWhere((tuple) => tuple.item2.acceptState != TaskAcceptState.PENDING);
 
         List<Tab> tabs = [];
         List<Widget> children = [];
-        for(Tuple2<IndivCompParticip, IndivCompTaskCompl> pendingComplTask in pendingComplTasks){
-          IndivCompParticip particip = pendingComplTask.item1;
+        for(Tuple2<IndivCompParticip?, IndivCompTaskCompl> pendingComplTask in pendingComplTasks!){
+          IndivCompParticip particip = pendingComplTask.item1!;
           IndivCompTaskCompl complTask = pendingComplTask.item2;
 
           tabs.add(Tab(text: particip.name));
@@ -103,7 +103,7 @@ class IndivCompProfilePendingComplTasksPageState extends State<IndivCompProfileP
                   comp.colors,
                   padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                   onAcceptStateChanged: (){
-                    if(pendingComplTasks.length == 1)
+                    if(pendingComplTasks!.length == 1)
                       Navigator.pop(context);
                   },
                 ),
@@ -113,7 +113,7 @@ class IndivCompProfilePendingComplTasksPageState extends State<IndivCompProfileP
 
         return BottomNavScaffold(
             body: DefaultTabController(
-              length: pendingComplTasks.length,
+              length: pendingComplTasks!.length,
               child: NestedScrollView(
                   physics: const BouncingScrollPhysics(),
                   headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
@@ -121,7 +121,7 @@ class IndivCompProfilePendingComplTasksPageState extends State<IndivCompProfileP
                       title: const Text('Wnioski o punkty'),
                       centerTitle: true,
                       floating: true,
-                      pinned: pendingComplTasks.length > 1,
+                      pinned: pendingComplTasks!.length > 1,
                       actions: [
 
                         IconButton(
@@ -131,15 +131,15 @@ class IndivCompProfilePendingComplTasksPageState extends State<IndivCompProfileP
 
                       ],
                       bottom:
-                      pendingComplTasks.length == 1?null:TabBar(
-                        isScrollable: pendingComplTasks.length > 3,
+                      pendingComplTasks!.length == 1?null:TabBar(
+                        isScrollable: pendingComplTasks!.length > 3,
                         physics: const BouncingScrollPhysics(),
                         tabs: tabs,
                       ),
                     ),
                   ],
                   body: 
-                  pendingComplTasks.isEmpty?
+                  pendingComplTasks!.isEmpty?
                       const Padding(
                         padding: EdgeInsets.all(Dimen.SIDE_MARG),
                         child: Center(

@@ -26,7 +26,7 @@ class WordCard extends StatefulWidget{
   final Word word;
   final GameMode mode;
 
-  const WordCard(this.parent, this.word, this.mode, {Key key}): super(key: key);
+  const WordCard(this.parent, this.word, this.mode, {Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => WordCardState();
@@ -36,19 +36,19 @@ class WordCardState extends State<WordCard>{
 
   SlowoKluczMainGamePageState get parent => widget.parent;
   Word get word => widget.word;
-  CardColor get cardColor => word.cardColor;
-  Color get color => word.color;
+  CardColor? get cardColor => word.cardColor;
+  Color? get color => word.color;
 
-  GlobalKey<FlipCardState> cardKey;
+  GlobalKey<FlipCardState>? cardKey;
 
-  bool showLongPressMessage;
+  late bool showLongPressMessage;
   
-  bool get selected => word.checked;
+  bool? get selected => word.checked;
   set selected(value) => word.checked = value;
 
   Function get saveInstance => parent.saveInstance;
 
-  bool get dimm => selected && widget.mode==GameMode.LEADER;
+  bool get dimm => selected! && widget.mode==GameMode.LEADER;
 
   @override
   void initState() {
@@ -75,9 +75,9 @@ class WordCardState extends State<WordCard>{
     Widget back = AppCard(
         radius: AppCard.BIG_RADIUS,
         margin: AppCard.normMargin,
-        elevation: (!selected && widget.mode==GameMode.LEADER)?AppCard.bigElevation:AppCard.defElevation,
+        elevation: (!selected! && widget.mode==GameMode.LEADER)?AppCard.bigElevation:AppCard.defElevation,
         onTap: widget.mode==GameMode.LEADER && word.cardColor!=CardColor.kill?(){
-          setState(() => word.checked = !word.checked);
+          setState(() => word.checked = !word.checked!);
           saveInstance();
         }:null,
         color: dimm?Colors.grey[100]:color,
@@ -125,7 +125,7 @@ class WordCardState extends State<WordCard>{
     );
 
     if(widget.mode==GameMode.LEADER ||
-      (widget.mode==GameMode.PLAYER && selected && (cardKey.currentState == null || cardKey.currentState.isFront)))
+      (widget.mode==GameMode.PLAYER && selected! && (cardKey!.currentState == null || cardKey!.currentState!.isFront)))
       return Expanded(child: back);
 
     Widget front = AppCard(
@@ -140,7 +140,7 @@ class WordCardState extends State<WordCard>{
           if(mounted) setState(() => showLongPressMessage = false);
           saveInstance();
         },
-        onLongPress: () => cardKey.currentState.toggleCard(),
+        onLongPress: () => cardKey!.currentState!.toggleCard(),
         child: RotatedBox(
           child: AnimatedChildSlider(
             index: showLongPressMessage?1:0,
@@ -209,7 +209,7 @@ class WordCardState extends State<WordCard>{
         speed: 500,
         onFlipDone: (bool _) async {
 
-          setState(() => selected = !selected);
+          setState(() => selected = !selected!);
           saveInstance();
 
           if(cardColor==CardColor.teamGreen) {
@@ -226,7 +226,7 @@ class WordCardState extends State<WordCard>{
                         ),
                       )
               );
-              shaPref.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
+              shaPref!.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
             }
           }
 
@@ -244,7 +244,7 @@ class WordCardState extends State<WordCard>{
                         ),
                       )
               );
-              shaPref.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
+              shaPref!.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
             }
           }
 
@@ -260,7 +260,7 @@ class WordCardState extends State<WordCard>{
                       ),
                     )
             );
-            shaPref.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
+            shaPref!.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
             Navigator.pop(context);
           }
         },

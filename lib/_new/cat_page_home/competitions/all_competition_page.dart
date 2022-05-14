@@ -30,7 +30,7 @@ import 'indiv_comp/models/indiv_comp.dart';
 
 class CompetitionsPage extends StatefulWidget{
 
-  const CompetitionsPage({Key key}) : super(key: key);
+  const CompetitionsPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => CompetitionsPageState();
@@ -39,9 +39,9 @@ class CompetitionsPage extends StatefulWidget{
 
 class CompetitionsPageState extends State<CompetitionsPage>{
 
-  RefreshController refreshController;
+  late RefreshController refreshController;
 
-  IndivCompLoaderListener _listener;
+  IndivCompLoaderListener? _listener;
 
   @override
   void initState() {
@@ -113,8 +113,8 @@ class _CompListWidget extends StatefulWidget{
 
 class _CompListWidgetState extends State<_CompListWidget>{
 
-  String searchPhrase;
-  List<IndivComp> searchedComps;
+  String? searchPhrase;
+  List<IndivComp>? searchedComps;
 
   @override
   void initState() {
@@ -131,7 +131,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
     }
 
     List<IndivComp> comps = [];
-    for(IndivComp comp in IndivComp.all)
+    for(IndivComp comp in IndivComp.all!)
       if(remPolChars(comp.name).contains(remPolChars(text)))
         comps.add(comp);
 
@@ -153,18 +153,18 @@ class _CompListWidgetState extends State<_CompListWidget>{
 
         else {
 
-          if (IndivComp.all.length > 3)
+          if (IndivComp.all!.length > 3)
             widgets.add(SearchField(
                 hint: 'Szukaj współzawodnictw:',
                 onChanged: (text) => setState(() => selectIndivComps(text))
             ));
 
-          for (int i = 0; i < searchedComps.length; i++) {
+          for (int i = 0; i < searchedComps!.length; i++) {
             widgets.add(
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                   child: IndivCompTile(
-                    searchedComps[i],
+                    searchedComps![i],
                     showPinned: true,
                   ),
                 )
@@ -172,7 +172,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
 
             widgets.add(const SizedBox(height: Dimen.ICON_MARG));
           }
-          if (IndivComp.all.isEmpty)
+          if (IndivComp.all!.isEmpty)
             widgets.add(const IndivCompPrompt(child: IndivCompPreviewGrid()));
           else {
             widgets.add(Align(
@@ -199,7 +199,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
 
 class NewIndivCompButton extends StatelessWidget{
 
-  const NewIndivCompButton({Key key}) : super(key: key);
+  const NewIndivCompButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => SimpleButton(
@@ -215,7 +215,7 @@ class NewIndivCompButton extends StatelessWidget{
             child: GradientWidget(
                 radius: IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.outerRadiusSizeFactor,
                 colorStart: hintEnab_(context),
-                colorEnd: textEnab_(context),
+                colorEnd: textEnab_(context)!,
                 child: Padding(
                   padding: const EdgeInsets.all(IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.borderSizeFactor),
                   child: Material(
@@ -255,7 +255,7 @@ class NewIndivCompButton extends StatelessWidget{
         ],
       ),
       onTap: () async {
-        NewCompType type = await pickCompType(context);
+        NewCompType? type = await pickCompType(context);
         if (type == null) return;
 
         List<String> exampleNames = [
@@ -289,7 +289,7 @@ class NewIndivCompButton extends StatelessWidget{
                   onSaved: (comp) async {
                     IndivComp.addToAll(context, comp);
                     Navigator.pop(context);
-                    await Navigator.push(context, MaterialPageRoute(builder: (context) => IndivCompPage(IndivComp.all.last)));
+                    await Navigator.push(context, MaterialPageRoute(builder: (context) => IndivCompPage(IndivComp.all!.last)));
                   },
                 ),
           );

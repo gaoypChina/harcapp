@@ -27,9 +27,9 @@ class SprawWidgetSmall extends StatelessWidget{
   final bool showProgress;
   final bool clickable;
   final EdgeInsets margin;
-  final Color backgroundColor;
-  final void Function() onReqComplChanged;
-  final void Function() onLongPress;
+  final Color? backgroundColor;
+  final void Function()? onReqComplChanged;
+  final void Function()? onLongPress;
 
   const SprawWidgetSmall(this.spraw, this.mode, {this.showProgress = false, this.clickable = true, this.margin = const EdgeInsets.all(marginVal), this.backgroundColor, this.onReqComplChanged, this.onLongPress});
 
@@ -66,7 +66,7 @@ class SprawWidgetSmall extends StatelessWidget{
                       child: Container(
                         width: 80,
                         height: 80,
-                        color: SprawBookData.mapIdColorMap[spraw.sprawBook.id].avgColor(false),
+                        color: SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.avgColor(false),
                       )
                   ),
                 ),

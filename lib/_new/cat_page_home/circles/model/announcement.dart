@@ -16,11 +16,11 @@ class AnnouncementListProvider extends ChangeNotifier{
 
 class Announcement{
 
-  static List<Announcement> _all;
-  static Map<String, Announcement> _allMap;
+  static List<Announcement>? _all;
+  static Map<String?, Announcement>? _allMap;
 
-  static List<Announcement> get all => _all;
-  static Map<String, Announcement> get allMap => _allMap;
+  static List<Announcement>? get all => _all;
+  static Map<String?, Announcement>? get allMap => _allMap;
 
   static silentInit(List<Announcement> announcements){
     if(_all == null){
@@ -28,10 +28,10 @@ class Announcement{
       _allMap = {};
     }
 
-    _all.clear();
-    _allMap.clear();
+    _all!.clear();
+    _allMap!.clear();
 
-    _all.addAll(announcements);
+    _all!.addAll(announcements);
     _allMap = {for (Announcement ann in announcements) ann.key: ann};
 
   }
@@ -50,24 +50,24 @@ class Announcement{
       _all = [];
       _allMap = {};
     }
-    _all.add(ann);
-    _allMap[ann.key] = ann;
+    _all!.add(ann);
+    _allMap![ann.key] = ann;
 
     Provider.of<AnnouncementProvider>(context, listen: false).notify();
     Provider.of<AnnouncementListProvider>(context, listen: false).notify();
   }
 
   static updateInAll(BuildContext context, Announcement ann){
-    Announcement oldAnn = _allMap[ann.key];
+    Announcement? oldAnn = _allMap![ann.key];
     if(oldAnn == null){
       addToAll(context, ann);
       return;
     }
 
-    int index = _all.indexOf(oldAnn);
-    _all.removeAt(index);
-    _all.insert(index, ann);
-    _allMap[ann.key] = ann;
+    int index = _all!.indexOf(oldAnn);
+    _all!.removeAt(index);
+    _all!.insert(index, ann);
+    _allMap![ann.key] = ann;
 
     Provider.of<AnnouncementProvider>(context, listen: false).notify();
     Provider.of<AnnouncementListProvider>(context, listen: false).notify();
@@ -77,8 +77,8 @@ class Announcement{
     if(_all == null)
       return;
 
-    _all.remove(ann);
-    _allMap.remove(ann.key);
+    _all!.remove(ann);
+    _allMap!.remove(ann.key);
 
     Provider.of<AnnouncementProvider>(context, listen: false).notify();
     Provider.of<AnnouncementListProvider>(context, listen: false).notify();
@@ -87,35 +87,35 @@ class Announcement{
   static clear(){
     if(_all == null)
       return;
-    _all.clear();
-    _allMap.clear();
+    _all!.clear();
+    _allMap!.clear();
   }
 
-  final String key;
+  final String? key;
   String title;
-  DateTime postTime;
-  DateTime lastUpdateTime;
+  DateTime? postTime;
+  DateTime? lastUpdateTime;
   UserData author;
-  CircleCoverImageData coverImage;
-  String text;
-  bool pinned;
+  CircleCoverImageData? coverImage;
+  String? text;
+  bool? pinned;
 
-  final Circle circle;
+  final Circle? circle;
 
   Announcement({
     this.key,
-    @required this.title,
-    @required this.postTime,
+    required this.title,
+    required this.postTime,
     this.lastUpdateTime,
-    @required this.author,
+    required this.author,
     this.coverImage,
-    @required this.text,
-    @required this.pinned,
+    required this.text,
+    required this.pinned,
 
     this.circle,
   });
 
-  static Announcement fromMap(Map resp, {String key}) => Announcement(
+  static Announcement fromMap(Map resp, {String? key}) => Announcement(
     key: key??resp['_key']??(throw InvalidResponseError('_key')),
     title: resp['title']??(throw InvalidResponseError('title')),
     postTime: DateTime.tryParse(resp['post_time_str']??(throw InvalidResponseError('post_time_str'))),

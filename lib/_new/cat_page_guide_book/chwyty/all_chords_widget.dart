@@ -49,7 +49,7 @@ class AllChordsWidgetState extends State<AllChordsWidget> with AutomaticKeepAliv
 
 class AllGuitarChordsWidget extends StatelessWidget{
 
-  final void Function(GChord chord) onTap;
+  final void Function(GChord chord)? onTap;
 
   const AllGuitarChordsWidget({this.onTap});
 
@@ -85,7 +85,7 @@ class AllGuitarChordsWidget extends StatelessWidget{
 
     return chordSet.map((List<GChord> chords) => ChordWidget.fromGChord(
       chords[0],
-      onTap: () => onTap==null?null:onTap(chords[0]),
+      onTap: () => onTap==null?null:onTap!(chords[0]),
       color: textEnab_(context),
     )).toList();
 
@@ -95,7 +95,7 @@ class AllGuitarChordsWidget extends StatelessWidget{
 
 class AllUkuleleChordsWidget extends StatelessWidget{
 
-  final void Function(UChord chord) onTap;
+  final void Function(UChord chord)? onTap;
 
   const AllUkuleleChordsWidget({this.onTap});
 
@@ -143,7 +143,7 @@ class AllUkuleleChordsWidget extends StatelessWidget{
 
     return ChordWidget.fromUChord(
       chord,
-      onTap: () => onTap==null?null:onTap(chord),
+      onTap: () => onTap==null?null:onTap!(chord),
       color: textEnab_(context),
     );
 
@@ -153,7 +153,7 @@ class AllUkuleleChordsWidget extends StatelessWidget{
 
 class AllMandolinChordsWidget extends StatelessWidget{
 
-  final void Function(MChord chord) onTap;
+  final void Function(MChord chord)? onTap;
 
   const AllMandolinChordsWidget({this.onTap});
 
@@ -272,7 +272,7 @@ class AllMandolinChordsWidget extends StatelessWidget{
 
     return ChordWidget.fromMChord(
       chord,
-      onTap: () => onTap==null?null:onTap(chord),
+      onTap: () => onTap==null?null:onTap!(chord),
       color: textEnab_(context),
     );
 
@@ -283,7 +283,7 @@ class AllMandolinChordsWidget extends StatelessWidget{
 class UChordWidget extends StatelessWidget{
 
   final UChord chord;
-  final void Function(bool typeGuitar, UChord chord) onTap;
+  final void Function(bool typeGuitar, UChord chord)? onTap;
 
   UChordWidget(this.chord, {this.onTap});
 
@@ -291,7 +291,7 @@ class UChordWidget extends StatelessWidget{
   Widget build(BuildContext context) {
     return ChordWidget.fromUChord(
         chord,
-        onTap: () => onTap==null?null:onTap(false, chord),
+        onTap: () => onTap==null?null:onTap!(false, chord),
     );
   }
 
@@ -300,7 +300,7 @@ class UChordWidget extends StatelessWidget{
 class GChordSetWidget extends StatelessWidget{
 
   final List<List<GChord>> chordSet;
-  final void Function(bool typeGuitar, List<GChord> chords, int chordsDispIdx) onTap;
+  final void Function(bool typeGuitar, List<GChord> chords, int chordsDispIdx)? onTap;
 
   GChordSetWidget(this.chordSet, {this.onTap});
 
@@ -314,7 +314,7 @@ class GChordSetWidget extends StatelessWidget{
               (List<GChord> chords) =>
               ChordWidget.fromGChord(
                 chords[0],
-                onTap: () => onTap==null?null:onTap(true, chords, 0),
+                onTap: () => onTap==null?null:onTap!(true, chords, 0),
                 color: textEnab_(context),
               )
       ).toList(),

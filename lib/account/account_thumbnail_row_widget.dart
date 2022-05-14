@@ -13,13 +13,13 @@ class AccountThumbnailRowWidget extends StatelessWidget{
 
   final List<String> accounts;
   final EdgeInsets padding;
-  final double size;
-  final Color backgroundColor;
-  final bool elevated;
-  final Clip clipBehavior;
-  final double screenWidth;
-  final dynamic Function(int) heroBuilder;
-  final void Function() onTap;
+  final double? size;
+  final Color? backgroundColor;
+  final bool? elevated;
+  final Clip? clipBehavior;
+  final double? screenWidth;
+  final dynamic Function(int)? heroBuilder;
+  final void Function()? onTap;
 
   const AccountThumbnailRowWidget(
       this.accounts,
@@ -31,7 +31,7 @@ class AccountThumbnailRowWidget extends StatelessWidget{
         this.screenWidth,
         this.heroBuilder,
         this.onTap,
-        Key key
+        Key? key
       }): super(key: key);
 
   double get circleHeight => size??defSize;
@@ -39,7 +39,7 @@ class AccountThumbnailRowWidget extends StatelessWidget{
   double get circleDistSmall => -.2*circleHeight;
   double get circleMargin => .05*circleHeight;
 
-  double scrollViewWidth({@required bool big}) => max(0, (accounts.length-1)*(circleHeight + (big?circleDistBig:circleDistSmall)) + circleHeight);
+  double scrollViewWidth({required bool big}) => max(0, (accounts.length-1)*(circleHeight + (big?circleDistBig:circleDistSmall)) + circleHeight);
 
   @override
   Widget build(BuildContext context) => SizedBox(

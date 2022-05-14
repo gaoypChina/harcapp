@@ -18,8 +18,8 @@ import 'widgets/common.dart';
 class SearchPage extends StatefulWidget{
 
   final SprawBook sprawBook;
-  final List<SprawGroup> sprawGroupList;
-  final Function(Spraw spraw) onPicked;
+  final List<SprawGroup>? sprawGroupList;
+  final Function(Spraw spraw)? onPicked;
 
   const SearchPage(this.sprawBook, this.sprawGroupList, {this.onPicked});
 
@@ -30,10 +30,10 @@ class SearchPage extends StatefulWidget{
 
 class SearchPageState extends State<SearchPage>{
 
-  List<Spraw> allSpraws;
-  List<Spraw> currSpraws;
+  List<Spraw>? allSpraws;
+  List<Spraw>? currSpraws;
 
-  Map<Spraw, String> groupNameMap;
+  late Map<Spraw, String?> groupNameMap;
 
   @override
   void initState() {
@@ -41,12 +41,12 @@ class SearchPageState extends State<SearchPage>{
     allSpraws = [];
     groupNameMap = {};
 
-    for(SprawGroup group in widget.sprawGroupList) {
+    for(SprawGroup group in widget.sprawGroupList!) {
 
-      allSpraws.addAll(group.allSpraws);
+      allSpraws!.addAll(group.allSpraws);
 
-      for(SprawFamily family in group.families)
-        for(Spraw spraw in family.spraws)
+      for(SprawFamily family in group.families!)
+        for(Spraw spraw in family.spraws!)
           groupNameMap[spraw] = group.title;
 
     }
@@ -60,14 +60,14 @@ class SearchPageState extends State<SearchPage>{
     text = remPolChars(text);
     List<Spraw> spraws = [];
 
-    for(Spraw spraw in allSpraws) {
+    for(Spraw spraw in allSpraws!) {
       if (remPolChars(spraw.title).contains(text)) {
         spraws.add(spraw);
         continue;
       }
 
       // TODO: Make sure that you can put a .map without .toList() into a function expecting a list.
-      List<String> requirements = remPolCharsList(spraw.tasks.map((task) => task.text));
+      List<String> requirements = remPolCharsList(spraw.tasks!.map((task) => task.text) as List<String>);
       for(String req in requirements)
         if(req.contains(text))
           spraws.add(spraw);
@@ -126,11 +126,11 @@ class SearchPageState extends State<SearchPage>{
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                     (context, index) => SprawTileWidget(
-                        groupName: groupNameMap[currSpraws[index]],
-                        spraw: currSpraws[index],
+                        groupName: groupNameMap[currSpraws![index]],
+                        spraw: currSpraws![index],
                         onPicked: widget.onPicked
                     ),
-                    childCount: currSpraws.length
+                    childCount: currSpraws!.length
                 ),
 
               )

@@ -19,7 +19,7 @@ import 'main_button.dart';
 
 class RemindPasswordPart extends StatefulWidget{
 
-  final String email;
+  final String? email;
 
   const RemindPasswordPart({this.email});
 
@@ -30,29 +30,29 @@ class RemindPasswordPart extends StatefulWidget{
 
 class RemindPasswordPartState extends State<RemindPasswordPart>{
 
-  InputFieldController emailController;
+  InputFieldController? emailController;
 
-  bool processing;
-  String generalError;
+  bool? processing;
+  String? generalError;
 
   void remindPasswordClick() async {
 
-    emailController.errorText = '';
+    emailController!.errorText = '';
 
     setState(() => processing = true);
 
     await ApiRegLog.sendResetPassReq(
-        emailController.text,
+        emailController!.text,
         onSuccess: () async => pushReplacePage(
             context,
-            builder: (context) => RemindPasswordCodePart(emailController.text)
+            builder: (context) => RemindPasswordCodePart(emailController!.text)
         ),
-        onError: (Response response){
+        onError: (Response? response){
           try {
 
-            Map errorFieldMap = response.data['errors'];
+            Map? errorFieldMap = response!.data['errors'];
             if(errorFieldMap != null) {
-              emailController.errorText = errorFieldMap[ApiRegLog.RESET_PASSWORD_REQ_EMAIL] ?? '';
+              emailController!.errorText = errorFieldMap[ApiRegLog.RESET_PASSWORD_REQ_EMAIL] ?? '';
             }
 
             generalError = response.data['error'];
@@ -88,7 +88,7 @@ class RemindPasswordPartState extends State<RemindPasswordPart>{
               child: InputField(
                 hint: 'E-mail:',
                 controller: emailController,
-                enabled: !processing,
+                enabled: !processing!,
                 leading: Icon(MdiIcons.account, color: iconDisab_(context)),
               ),
             ),
@@ -107,9 +107,9 @@ class RemindPasswordPartState extends State<RemindPasswordPart>{
                         fontWeight: weight.normal,
                         text: 'Wróć',
                         icon: MdiIcons.arrowLeft,
-                        onTap: processing?null:() => pushReplacePage(
+                        onTap: processing!?null:() => pushReplacePage(
                             context,
-                            builder: (context) => LoginPart(initEmail: emailController.text)
+                            builder: (context) => LoginPart(initEmail: emailController!.text)
                         ),
                       ),
                     )
@@ -122,7 +122,7 @@ class RemindPasswordPartState extends State<RemindPasswordPart>{
                       processing: processing,
                       text: 'Wyślij',
                       icon: MdiIcons.emailOutline,
-                      onTap: processing?null:remindPasswordClick
+                      onTap: processing!?null:remindPasswordClick
                   ),
                 )
               ],

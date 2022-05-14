@@ -12,7 +12,7 @@ import '../../module_statistics_registrator.dart';
 
 class StrukturaFunkcjeFragment extends StatefulWidget {
 
-  const StrukturaFunkcjeFragment({Key key}) : super(key: key);
+  const StrukturaFunkcjeFragment({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => StrukturaFunkcjeFragmentState();
@@ -272,7 +272,7 @@ class Line extends StatelessWidget{
 
 class LineHor extends StatelessWidget{
 
-  const LineHor({Key key}) : super(key: key);
+  const LineHor({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Container(color: textDisab_(context), height: 3, width: double.infinity);
@@ -282,10 +282,10 @@ class StructCard extends StatelessWidget{
 
   final String title;
   final bool enabled;
-  final BuildContext context;
-  final String description;
-  final String auth;
-  final List<Funkcja> funkcje;
+  final BuildContext? context;
+  final String? description;
+  final String? auth;
+  final List<Funkcja>? funkcje;
 
   const StructCard(this.title, {this.enabled:true, this.context, this.description, this.auth, this.funkcje});
 
@@ -299,7 +299,7 @@ class StructCard extends StatelessWidget{
             context: context,
             builder: (context) => BottomSheetDef(
               title: title,
-              builder: (context) => ColumnDet(description: description, auth: auth, funkcje: funkcje,),
+              builder: (context) => ColumnDet(description: description!, auth: auth!, funkcje: funkcje!,),
             )
         ):null,
         margin: EdgeInsets.only(top: 0, bottom: 0, left: Dimen.DEF_MARG/2, right: Dimen.DEF_MARG/2),
@@ -322,7 +322,7 @@ class ColumnDet extends Column{
 
   static const double div = 24;
 
-  ColumnDet({Key key, @required String description, @required String auth, @required List<Funkcja> funkcje}):super(key: key,
+  ColumnDet({Key? key, required String description, required String auth, required List<Funkcja> funkcje}):super(key: key,
     crossAxisAlignment: CrossAxisAlignment.stretch,
     mainAxisSize: MainAxisSize.min,
     children: [
@@ -350,20 +350,20 @@ class Funkcja extends StatelessWidget{
   final String name;
   final String description;
 
-  final Color sznur;
-  final Color sznur_cross;
-  final Color suwak1, suwak1_cross, suwak2, suwak2_cross, suwak3, suwak3_cross;
+  final Color? sznur;
+  final Color? sznur_cross;
+  final Color? suwak1, suwak1_cross, suwak2, suwak2_cross, suwak3, suwak3_cross;
 
   const Funkcja({
-    @required this.name,
-    @required this.description,
-    @required this.sznur,
+    required this.name,
+    required this.description,
+    required this.sznur,
     this.sznur_cross,
-    @required this.suwak1,
+    required this.suwak1,
     this.suwak1_cross,
-    @required this.suwak2,
+    required this.suwak2,
     this.suwak2_cross,
-    @required this.suwak3,
+    required this.suwak3,
     this.suwak3_cross
   });
 

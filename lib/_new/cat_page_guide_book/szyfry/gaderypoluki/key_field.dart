@@ -8,10 +8,10 @@ import '../providers.dart';
 class KeyField extends StatefulWidget{
 
   final bool backButton;
-  final FocusNode focusNode;
-  final void Function(String key, bool isKeyValid) onChanged;
-  final Widget trailing;
-  final enabled;
+  final FocusNode? focusNode;
+  final void Function(String key, bool isKeyValid)? onChanged;
+  final Widget? trailing;
+  final bool enabled;
 
   const KeyField({
     this.backButton = false,
@@ -19,7 +19,8 @@ class KeyField extends StatefulWidget{
     this.onChanged,
     this.trailing,
     this.enabled = true,
-  });
+    Key? key
+  }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => KeyFieldState();
@@ -28,7 +29,7 @@ class KeyField extends StatefulWidget{
 
 class KeyFieldState extends State<KeyField>{
 
-  void Function(String key, bool isKeyValid) get onChanged => widget.onChanged;
+  void Function(String key, bool isKeyValid)? get onChanged => widget.onChanged;
 
   @override
   void initState() {
@@ -44,7 +45,7 @@ class KeyFieldState extends State<KeyField>{
         prov.input = text;
 
         if(onChanged != null)
-          onChanged(text, prov.isValid);
+          onChanged!(text, prov.isValid);
       },
       focusNode: widget.focusNode,
       controller: Provider.of<GaderypolukiProvider>(context, listen: false).keyController,

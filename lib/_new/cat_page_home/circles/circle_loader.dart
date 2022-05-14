@@ -7,13 +7,13 @@ import 'model/circle.dart';
 
 class CircleLoaderListener extends SingleComputerListener<String>{
 
-  final void Function(List<Circle>) onCirclesLoaded;
+  final void Function(List<Circle>)? onCirclesLoaded;
 
   const CircleLoaderListener({
-    void Function() onStart,
-    Future<void> Function(String) onError,
+    void Function()? onStart,
+    Future<void> Function(String)? onError,
     this.onCirclesLoaded,
-    void Function(String err, bool forceFinished) onEnd
+    void Function(String err, bool forceFinished)? onEnd
   }):super(
       onStart: onStart,
       onError: onError,
@@ -23,7 +23,7 @@ class CircleLoaderListener extends SingleComputerListener<String>{
 }
 
 CircleLoader circleLoader = CircleLoader();
-class CircleLoader extends SingleComputer<String, CircleLoaderListener>{
+class CircleLoader extends SingleComputer<String?, CircleLoaderListener>{
 
   @override
   String get computerName => 'CircleLoader';
@@ -40,8 +40,8 @@ class CircleLoader extends SingleComputer<String, CircleLoaderListener>{
 
           Circle.silentInit(comps);
 
-          for(CircleLoaderListener listener in listeners)
-            listener.onCirclesLoaded?.call(comps);
+          for(CircleLoaderListener? listener in listeners)
+            listener!.onCirclesLoaded?.call(comps);
         },
         notAuthorized: () async {
           await callError('not_authorized');

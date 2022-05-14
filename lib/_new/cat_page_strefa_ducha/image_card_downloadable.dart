@@ -19,13 +19,13 @@ import 'image_loader.dart';
 
 class ImageCardDownloadable extends StatefulWidget{
 
-  final SourceItem item;
-  final ValueNotifier pageViewNotifier;
-  final int index;
-  final void Function(ImageProvider, int) onLoaded;
+  final SourceItem? item;
+  final ValueNotifier? pageViewNotifier;
+  final int? index;
+  final void Function(ImageProvider?, int?)? onLoaded;
 
-  final void Function() onLike;
-  final void Function() onLongPress;
+  final void Function()? onLike;
+  final void Function()? onLongPress;
 
   const ImageCardDownloadable(
       this.item,
@@ -34,7 +34,7 @@ class ImageCardDownloadable extends StatefulWidget{
         this.onLoaded,
         this.onLike,
         this.onLongPress,
-        Key key
+        Key? key
       }) : super(key: key);
 
   @override
@@ -44,31 +44,31 @@ class ImageCardDownloadable extends StatefulWidget{
 
 class ImageCardDownloadableState extends State<ImageCardDownloadable>{
 
-  SourceItem get item => widget.item;
-  ValueNotifier get pageViewNotifier => widget.pageViewNotifier;
-  int get index => widget.index;
-  void Function(ImageProvider, int) get onLoaded => widget.onLoaded;
+  SourceItem? get item => widget.item;
+  ValueNotifier? get pageViewNotifier => widget.pageViewNotifier;
+  int? get index => widget.index;
+  void Function(ImageProvider?, int?)? get onLoaded => widget.onLoaded;
 
-  void Function() get onLike => widget.onLike;
-  void Function() get onLongPress => widget.onLongPress;
+  void Function()? get onLike => widget.onLike;
+  void Function()? get onLongPress => widget.onLongPress;
 
-  Image image;
+  Image? image;
 
-  StreamSubscription<ConnectivityResult> subscription;
+  StreamSubscription<ConnectivityResult>? subscription;
 
-  bool error;
-  bool noNet;
+  late bool error;
+  late bool noNet;
 
   Future<void> loadImage() async {
     noNet = !await isNetworkAvailable();
-    if(noNet && !item.cachedFile.existsSync())
+    if(noNet && !item!.cachedFile.existsSync())
       setState(() {});
     else
       ImageLoader.loadImage(
-          item,
-          onComplete: (Image image, bool cached){
+          item!,
+          onComplete: (Image? image, bool cached){
             if(mounted) setState(() => this.image = image);
-            onLoaded(image.image, index);
+            onLoaded!(image!.image, index);
           },
           onError: () async {
             if(await isNetworkAvailable())
@@ -76,7 +76,7 @@ class ImageCardDownloadableState extends State<ImageCardDownloadable>{
               else
               if(mounted) setState(() => noNet = true);
 
-            onLoaded(null, index);
+            onLoaded!(null, index);
           }
       );
   }
@@ -98,7 +98,7 @@ class ImageCardDownloadableState extends State<ImageCardDownloadable>{
 
   @override
   void dispose() {
-    subscription.cancel();
+    subscription!.cancel();
     super.dispose();
   }
 
@@ -132,7 +132,7 @@ class ImageCardDownloadableState extends State<ImageCardDownloadable>{
       return const _LoadingCard();
     
     return ImageCard(
-        image.image,
+        image!.image,
         pageViewNotifier: pageViewNotifier,
         index: index,
         onLike: onLike,
@@ -145,7 +145,7 @@ class ImageCardDownloadableState extends State<ImageCardDownloadable>{
 
 class _ErrorCard extends StatelessWidget{
   
-  final void Function() onReload;
+  final void Function()? onReload;
   
   const _ErrorCard({this.onReload});
   

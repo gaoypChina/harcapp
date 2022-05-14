@@ -21,12 +21,12 @@ class SexInputField extends StatelessWidget{
   static const IconData maleIcon = MdiIcons.faceMan;
   static const IconData femaleIcon = MdiIcons.faceWoman;
 
-  final Sex sex;
-  final bool enabled;
-  final InputFieldController controller;
-  final void Function(Sex) onSexChanged;
+  final Sex? sex;
+  final bool? enabled;
+  final InputFieldController? controller;
+  final void Function(Sex)? onSexChanged;
 
-  const SexInputField(this.sex, {this.enabled = true, this.controller, this.onSexChanged, Key key}): super(key: key);
+  const SexInputField(this.sex, {this.enabled = true, this.controller, this.onSexChanged, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +37,10 @@ class SexInputField extends StatelessWidget{
 
     void Function() onTap = () async {
 
-      final RenderBox renderBoxRed = _widgetKey.currentContext.findRenderObject();
+      final RenderBox renderBoxRed = _widgetKey.currentContext!.findRenderObject() as RenderBox;
       final position = renderBoxRed.localToGlobal(Offset.zero);
 
-      Sex selSex = await showChooseSexDialog(
+      Sex? selSex = await showChooseSexDialog(
           context,
           position.dy - Provider.of<MainProvider>(context, listen: false).statusBarHeight,
           sex
@@ -57,11 +57,11 @@ class SexInputField extends StatelessWidget{
       children: [
 
         GestureDetector(
-          onTap: enabled?onTap:null,
+          onTap: enabled!?onTap:null,
           child: InputField(
             hint: 'Płeć:',
             controller: _controller,
-            hintTextColor: enabled && sex != null?textEnab_(context):textDisab_(context),
+            hintTextColor: enabled! && sex != null?textEnab_(context):textDisab_(context),
             enabled: false,
             leading: Icon(MdiIcons.genderMaleFemale, color: iconDisab_(context)),
           ),
@@ -72,11 +72,11 @@ class SexInputField extends StatelessWidget{
           child: SimpleButton.from(
               context: context,
               margin: EdgeInsets.zero,
-              textColor: enabled?iconEnab_(context):iconDisab_(context),
+              textColor: enabled!?iconEnab_(context):iconDisab_(context),
               icon: sex==null?MdiIcons.circleOutline:(sex==Sex.male?maleIcon:femaleIcon),
               text: sex==null?'Wybierz':(sex==Sex.male?male:female),
               iconLeading: false,
-              onTap: enabled?onTap:null
+              onTap: enabled!?onTap:null
           ),
         )
 
@@ -88,9 +88,9 @@ class SexInputField extends StatelessWidget{
 
 class ChooseSexDialog extends StatelessWidget{
 
-  final Sex sex;
+  final Sex? sex;
   final double top;
-  final void Function(Sex) onSelected;
+  final void Function(Sex)? onSelected;
 
   const ChooseSexDialog(this.sex, this.top, {this.onSelected});
 
@@ -149,9 +149,9 @@ class ChooseSexDialog extends StatelessWidget{
 
 }
 
-Future<Sex> showChooseSexDialog(BuildContext context, double top, Sex sex) async {
+Future<Sex?> showChooseSexDialog(BuildContext context, double top, Sex? sex) async {
 
-  Sex _selSex;
+  Sex? _selSex;
 
   await openDialog(
       context: context,

@@ -19,9 +19,9 @@ import '../ms_oauth.dart';
 
 class LogoutDialog extends StatefulWidget{
 
-  final void Function() onLoggedOut;
+  final void Function()? onLoggedOut;
 
-  const LogoutDialog({this.onLoggedOut, Key key}): super(key: key);
+  const LogoutDialog({this.onLoggedOut, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => LogoutDialogState();
@@ -35,9 +35,9 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
   static const int _STATE_OK = 2;
   static const int _STATE_FAILED = 3;
 
-  int state;
+  int? state;
 
-  SynchronizerListener listener;
+  SynchronizerListener? listener;
 
   Future<void> setSyncState() async {
     bool allSynced = await synchronizer.isAllSynced();

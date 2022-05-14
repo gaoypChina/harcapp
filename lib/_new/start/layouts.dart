@@ -43,14 +43,14 @@ class _HarcAppState extends State<_HarcApp> with TickerProviderStateMixin{
   Color get color => widget.color;
   bool get shadow => widget.shadow;
 
-  bool showH;
-  bool showA;
+  late bool showH;
+  late bool showA;
 
-  AnimationController contrH;
-  Animation<Offset> offsetH;
+  late AnimationController contrH;
+  late Animation<Offset> offsetH;
 
-  AnimationController contrA;
-  Animation<Offset> offsetA;
+  late AnimationController contrA;
+  late Animation<Offset> offsetA;
 
   startAnimation() async{
     await Future.delayed(const Duration(milliseconds: 100));
@@ -123,7 +123,7 @@ class _HarcAppState extends State<_HarcApp> with TickerProviderStateMixin{
 class HarcAppRotatedBackground extends StatefulWidget{
 
   final Color color;
-  const HarcAppRotatedBackground(this.color, {Key key}): super(key: key);
+  const HarcAppRotatedBackground(this.color, {Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => HarcAppRotatedBackgroundState();
@@ -134,7 +134,7 @@ class HarcAppRotatedBackgroundState extends State<HarcAppRotatedBackground>{
 
   static const String _iconPath = 'assets/images/harcapp_logo.svg';
 
-  bool loaded;
+  late bool loaded;
 
   load()async{
     await precachePicture(ExactAssetPicture(SvgPicture.svgStringDecoderBuilder, _iconPath), null);
@@ -175,7 +175,7 @@ class HarcAppRotatedBackgroundState extends State<HarcAppRotatedBackground>{
 
 class HarcAppLogo extends StatelessWidget{
 
-  const HarcAppLogo({Key key}) : super(key: key);
+  const HarcAppLogo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Padding(padding: const EdgeInsets.all(Dimen.DEF_MARG),
@@ -187,7 +187,7 @@ class HolyBibleFragWidget extends StatefulWidget{
 
   final List<BibleFrag> allFrags;
 
-  const HolyBibleFragWidget(this.allFrags, {Key key}): super(key: key);
+  const HolyBibleFragWidget(this.allFrags, {Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => HolyBibleFragWidgetState();
@@ -198,7 +198,7 @@ class HolyBibleFragWidgetState extends State<HolyBibleFragWidget>{
 
   List<BibleFrag> get allFrags => widget.allFrags;
 
-  BibleFrag bibleFrag;
+  late BibleFrag bibleFrag;
 
   @override
   void initState() {
@@ -255,7 +255,7 @@ class PatroniteSupport extends StatelessWidget{
 
   final Color textColor;
 
-  const PatroniteSupport({this.textColor = Colors.white, Key key}): super(key: key);
+  const PatroniteSupport({this.textColor = Colors.white, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -291,7 +291,7 @@ class PatroniteSupport extends StatelessWidget{
 
 class DefaultLayout extends StatefulWidget{
 
-  const DefaultLayout({Key key}): super(key: key);
+  const DefaultLayout({Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState(){
@@ -313,7 +313,7 @@ class DefaultLayoutState extends State<DefaultLayout>{
   // 0 - quote
   // 1 - definition
   // 2 - fact
-  int messageType;
+  int? messageType;
 
   @override
   void initState() {
@@ -388,9 +388,9 @@ class AdwentLayoutState extends State<DefaultLayout>{
 
   String backgroundPath = 'assets/images/start/start_layout_adwent.webp';
 
-  bool chooseFrag;
+  late bool chooseFrag;
 
-  bool backgroundPreloaded;
+  late bool backgroundPreloaded;
 
   Future<void> preload() async {
     await Future.delayed(Duration.zero);
@@ -611,9 +611,9 @@ class ChristmasLayoutState extends State<DefaultLayout>{
   static const String backgroundPath = 'assets/images/start/merry_joseph_jesus.webp';
 
   bool _isRunning = true;
-  bool chooseQuote;
+  late bool chooseQuote;
 
-  bool backgroundPreloaded;
+  late bool backgroundPreloaded;
 
   Future<void> preload() async {
     await Future.delayed(Duration.zero);
@@ -636,7 +636,7 @@ class ChristmasLayoutState extends State<DefaultLayout>{
     return GradientWidget(
         radius: 0,
         colorStart: Colors.lightBlueAccent,//Colors.amber,//Color.fromARGB(255, 220, 20, 20),
-        colorEnd: Colors.indigo[900],//Colors.red[900],//Color.fromARGB(255, 110, 0, 0),
+        colorEnd: Colors.indigo[900]!,//Colors.red[900],//Color.fromARGB(255, 110, 0, 0),
         child:
         backgroundPreloaded?
         Stack(
@@ -705,7 +705,7 @@ class WielkiPiatekLayoutState extends State<DefaultLayout>{
 
   static const backgroundPath = 'assets/images/start/start_good_friday.webp';
 
-  bool imageLoaded;
+  late bool imageLoaded;
 
   loadBackground() async {
     await Future.delayed(Duration.zero);
@@ -806,10 +806,10 @@ class WielkiPiatekLayoutState extends State<DefaultLayout>{
 
 class ZmartwychwstanieLayoutState extends State<DefaultLayout>{
 
-  bool glow;
+  late bool glow;
   static const glowDuration = Duration(milliseconds: 1300);
 
-  ValueNotifier<List<double>> notifier;
+  ValueNotifier<List<double>>? notifier;
 
   @override
   void initState() {
@@ -935,7 +935,7 @@ class PowstanieWarszawskieLayoutState extends State<DefaultLayout>{
 
   static const String BG_IMG_PATH = 'assets/images/start/start_layout_pol_walcz_bg.webp';
 
-  bool imageLoaded;
+  late bool imageLoaded;
 
   loadImage()async{
     post(() async => await precacheImage(const AssetImage(BG_IMG_PATH), context));
@@ -1027,7 +1027,7 @@ class NiepodlegloscLayoutState extends State<DefaultLayout>{
   @override
   Widget build(BuildContext context) => GradientWidget(
       radius: 0,
-      colorStart: Colors.red[900],
+      colorStart: Colors.red[900]!,
       colorEnd: Colors.deepOrange,
       child: Stack(
         children: [

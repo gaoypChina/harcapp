@@ -30,12 +30,12 @@ class IndivCompTaskComplDetailsWidget extends StatefulWidget{
 
   final IndivComp comp;
   final IndivCompTaskCompl complTask;
-  final Map<String, IndivCompTask> taskMap;
-  final Map<String, IndivCompParticip> participMap;
-  final CommonColorData colors;
+  final Map<String?, IndivCompTask> taskMap;
+  final Map<String, IndivCompParticip?> participMap;
+  final CommonColorData? colors;
 
-  final EdgeInsets padding;
-  final void Function() onAcceptStateChanged;
+  final EdgeInsets? padding;
+  final void Function()? onAcceptStateChanged;
 
   const IndivCompTaskComplDetailsWidget(
       this.comp,
@@ -45,7 +45,7 @@ class IndivCompTaskComplDetailsWidget extends StatefulWidget{
       this.colors,
       { this.padding,
         this.onAcceptStateChanged,
-        Key key
+        Key? key
       }): super(key: key);
 
   @override
@@ -57,15 +57,15 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
 
   IndivComp get comp => widget.comp;
   IndivCompTaskCompl get complTask => widget.complTask;
-  Map<String, IndivCompTask> get taskMap => widget.taskMap;
-  CommonColorData get colors => widget.colors;
+  Map<String?, IndivCompTask> get taskMap => widget.taskMap;
+  CommonColorData? get colors => widget.colors;
 
-  IndivCompParticip get particip => widget.participMap[complTask.participKey];
+  IndivCompParticip? get particip => widget.participMap[complTask.participKey];
 
-  TextEditingController textController;
-  bool sending;
+  TextEditingController? textController;
+  bool? sending;
 
-  bool reviewMode;
+  late bool reviewMode;
 
   @override
   void initState() {
@@ -78,7 +78,7 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
   @override
   Widget build(BuildContext context) {
 
-    IndivCompTask task = taskMap[complTask.taskKey];
+    IndivCompTask task = taskMap[complTask.taskKey]!;
 
     IndivCompTaskComplWidget(
       complTask,
@@ -97,7 +97,7 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
             child: IndivCompTaskSkeletonWidget(
               trailing: PointsWidget(points: task.points),
               title: Text(task.title, style: IndivCompTaskSkeletonWidget.titleTextStyle(context)),
-              description: Text(task.description, style: IndivCompTaskSkeletonWidget.descriptionTextStyle(context)),
+              description: Text(task.description!, style: IndivCompTaskSkeletonWidget.descriptionTextStyle(context)),
             ),
           ),
 
@@ -107,7 +107,7 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AccountThumbnailWidget(
-                name: particip.name,
+                name: particip!.name,
                 elevated: false,
                 markIcon: MdiIcons.messageArrowRight,
               ),
@@ -121,7 +121,7 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
 
                       const SizedBox(height: AccountThumbnailWidget.defSize - 2*Dimen.TEXT_SIZE_BIG),
 
-                      _NameWidget(particip.name),
+                      _NameWidget(particip!.name),
                       _DateWidget(complTask.reqTime),
 
                       _MessageWidget(complTask.reqComment),
@@ -195,7 +195,7 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
               textController,
               onAcceptStateChanged: (String complTaskKey, TaskAcceptState acceptState){
 
-                comp.removeComplTask(context, particip.key, complTaskKey);
+                comp.removeComplTask(context, particip!.key, complTaskKey);
                 if(acceptState==TaskAcceptState.ACCEPTED)
                   showAppToast(context, text: 'Zaakceptowano');
                 else if(acceptState==TaskAcceptState.REJECTED)
@@ -207,13 +207,13 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
           else
             GradientWidget(
               radius: AppCard.BIG_RADIUS,
-              colorStart: taskAcceptStateColorStart(complTask.acceptState),
-              colorEnd: taskAcceptStateColor(complTask.acceptState),
+              colorStart: taskAcceptStateColorStart(complTask.acceptState)!,
+              colorEnd: taskAcceptStateColor(complTask.acceptState)!,
               child: SizedBox(
                 height: Dimen.ICON_FOOTPRINT,
                 child: Center(
                   child: Text(
-                    taskAcceptStateToName(complTask.acceptState),
+                    taskAcceptStateToName(complTask.acceptState)!,
                     style: AppTextStyle(
                         fontSize: Dimen.TEXT_SIZE_APPBAR,
                         color: background_(context),
@@ -234,10 +234,10 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
 class ReviewButtons extends StatefulWidget{
 
   final IndivComp comp;
-  final IndivCompParticip particip;
+  final IndivCompParticip? particip;
   final IndivCompTaskCompl taskCompl;
-  final TextEditingController textController;
-  final void Function(String, TaskAcceptState) onAcceptStateChanged;
+  final TextEditingController? textController;
+  final void Function(String?, TaskAcceptState)? onAcceptStateChanged;
 
   const ReviewButtons(
       this.comp,
@@ -245,7 +245,7 @@ class ReviewButtons extends StatefulWidget{
       this.taskCompl,
       this.textController,
       { this.onAcceptStateChanged,
-        Key key
+        Key? key
       }) : super(key: key);
 
   @override
@@ -256,12 +256,12 @@ class ReviewButtons extends StatefulWidget{
 class ReviewButtonsState extends State<ReviewButtons>{
 
   IndivComp get comp => widget.comp;
-  IndivCompParticip get particip => widget.particip;
+  IndivCompParticip? get particip => widget.particip;
   IndivCompTaskCompl get taskCompl => widget.taskCompl;
-  TextEditingController get textController => widget.textController;
-  void Function(String, TaskAcceptState) get onAcceptStateChanged => widget.onAcceptStateChanged;
+  TextEditingController? get textController => widget.textController;
+  void Function(String?, TaskAcceptState)? get onAcceptStateChanged => widget.onAcceptStateChanged;
 
-  bool sending;
+  bool? sending;
 
   @override
   void initState() {
@@ -296,13 +296,13 @@ class ReviewButtonsState extends State<ReviewButtons>{
                         Navigator.pop(context);
 
                         setState(() => sending = true);
-                        showLoadingWidget(context, comp.colors.avgColor, 'Ostatnia prosta');
+                        showLoadingWidget(context, comp.colors!.avgColor, 'Ostatnia prosta');
 
                         await ApiIndivComp.reviewCompletedTasks(
                             taskReqKey: taskCompl.key,
                             acceptState: TaskAcceptState.REJECTED,
-                            revComment: textController.text,
-                            onSuccess: (String complTaskKey){
+                            revComment: textController!.text,
+                            onSuccess: (String? complTaskKey){
                               onAcceptStateChanged?.call(complTaskKey, TaskAcceptState.REJECTED);
                             },
                             onError: (){
@@ -343,13 +343,13 @@ class ReviewButtonsState extends State<ReviewButtons>{
                         Navigator.pop(context);
 
                         setState(() => sending = true);
-                        showLoadingWidget(context, comp.colors.avgColor, 'Ostatnia prosta');
+                        showLoadingWidget(context, comp.colors!.avgColor, 'Ostatnia prosta');
 
                         await ApiIndivComp.reviewCompletedTasks(
                             taskReqKey: taskCompl.key,
                             acceptState: TaskAcceptState.ACCEPTED,
-                            revComment: textController.text,
-                            onSuccess: (String complTaskKey){
+                            revComment: textController!.text,
+                            onSuccess: (String? complTaskKey){
                               onAcceptStateChanged?.call(complTaskKey, TaskAcceptState.ACCEPTED);
                             },
                             onError: (){
@@ -397,7 +397,7 @@ class _NameWidget extends StatelessWidget{
 
 class _MessageWidget extends StatelessWidget{
 
-  final String message;
+  final String? message;
   const _MessageWidget(this.message);
 
   @override
@@ -406,9 +406,9 @@ class _MessageWidget extends StatelessWidget{
         top: const TextField().scrollPadding.top,
       ),
       child: Text(
-          message == null || message.isEmpty?
+          message == null || message!.isEmpty?
           '[brak wiadomości]':
-          message, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)
+          message!, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)
       )
   );
 
@@ -416,13 +416,13 @@ class _MessageWidget extends StatelessWidget{
 
 class _DateWidget extends StatelessWidget{
   
-  final DateTime time;
+  final DateTime? time;
   const _DateWidget(this.time);
   
   @override
   Widget build(BuildContext context) {
     return Text(
-      dateToString(time, withTime: true),
+      dateToString(time!, withTime: true),
       style: AppTextStyle(
           fontSize: Dimen.TEXT_SIZE_BIG,
           fontWeight: weight.halfBold,

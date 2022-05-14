@@ -10,16 +10,16 @@ import '../../../../../_common_widgets/app_toast.dart';
 import '../../../../../_common_widgets/gradient_icon.dart';
 import '../../../../details/app_settings.dart';
 
-void _showPopularity(BuildContext context, IndivCompProfile profile, bool showPercent, int activeParticipCnt){
+void _showPopularity(BuildContext context, IndivCompProfile profile, bool showPercent, int? activeParticipCnt){
 
   String text;
 
   if(profile.showRank == null) {
 
     if(showPercent)
-      text = 'Między <b>${(profile.showRankRange.item1 * 100).toInt()}%</b>, a <b>${(profile.showRankRange.item2 * 100).toInt()}%</b> uczestników ma wyższą pozycję w rankingu od Ciebie.';
+      text = 'Między <b>${(profile.showRankRange!.item1 * 100).toInt()}%</b>, a <b>${(profile.showRankRange!.item2 * 100).toInt()}%</b> uczestników ma wyższą pozycję w rankingu od Ciebie.';
     else
-      text = 'Twoje miejsce w rankingu jest między <b>${(profile.showRankRange.item1 * activeParticipCnt).toInt()}</b>, a <b>${(profile.showRankRange.item2 * activeParticipCnt).toInt()}</b>.';
+      text = 'Twoje miejsce w rankingu jest między <b>${(profile.showRankRange!.item1 * activeParticipCnt!).toInt()}</b>, a <b>${(profile.showRankRange!.item2 * activeParticipCnt).toInt()}</b>.';
 
     showAppToast(context, text: text, duration: const Duration(seconds: 8));
     return;
@@ -32,12 +32,12 @@ void _showPopularity(BuildContext context, IndivCompProfile profile, bool showPe
   String pointsWord;
   if(profile.points == 1)
     pointsWord = '${profile.points} punkt';
-  else if(profile.points >= 2 && profile.points <= 4)
+  else if(profile.points! >= 2 && profile.points! <= 4)
     pointsWord = '${profile.points} punkty';
   else
     pointsWord = '${profile.points} punktów';
 
-  int rankPop = profile.rankPopularity - 1;
+  int rankPop = profile.rankPopularity! - 1;
   if(rankPop == 0)
     text += 'Tylko Ty masz $pointsWord.';
   else if(rankPop == 1)
@@ -54,16 +54,16 @@ void _showPopularity(BuildContext context, IndivCompProfile profile, bool showPe
 class IndivCompRankTopIcon extends StatelessWidget{
 
   final int rank;
-  final Color colorStart;
-  final Color colorEnd;
+  final Color? colorStart;
+  final Color? colorEnd;
   final double size;
 
   const IndivCompRankTopIcon(
       { this.size = 56,
-        @required this.rank,
-        @required this.colorStart,
-        @required this.colorEnd,
-        Key key
+        required this.rank,
+        required this.colorStart,
+        required this.colorEnd,
+        Key? key
       }): super(key: key);
 
   Color get borderColor => (AppSettings.isDark?Colors.white:Colors.black).withOpacity(.04);
@@ -108,7 +108,7 @@ class IndivCompRankTopIcon extends StatelessWidget{
 class IndivCompRankFirstIcon extends StatelessWidget{
 
   final double size;
-  const IndivCompRankFirstIcon({this.size = 56, Key key}): super(key: key);
+  const IndivCompRankFirstIcon({this.size = 56, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => IndivCompRankTopIcon(
@@ -123,7 +123,7 @@ class IndivCompRankFirstIcon extends StatelessWidget{
 class IndivCompRankSecondIcon extends StatelessWidget{
 
   final double size;
-  const IndivCompRankSecondIcon({this.size = 56, Key key}): super(key: key);
+  const IndivCompRankSecondIcon({this.size = 56, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => IndivCompRankTopIcon(
@@ -138,7 +138,7 @@ class IndivCompRankSecondIcon extends StatelessWidget{
 class IndivCompRankThirdIcon extends StatelessWidget{
 
   final double size;
-  const IndivCompRankThirdIcon({this.size = 56, Key key}): super(key: key);
+  const IndivCompRankThirdIcon({this.size = 56, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => IndivCompRankTopIcon(
@@ -158,22 +158,22 @@ class IndivCompRankOtherIcon extends StatelessWidget{
   */
 
   //final IndivCompProfile profile;
-  final int showRank;
-  final Tuple2<double, double> showRankRange;
-  final int activeParticipCnt;
-  final bool showPercent;
+  final int? showRank;
+  final Tuple2<double, double>? showRankRange;
+  final int? activeParticipCnt;
+  final bool? showPercent;
 
-  final CommonColorData colors;
+  final CommonColorData? colors;
   final double size;
   const IndivCompRankOtherIcon({
-    @required this.showRank,
-    @required this.showRankRange,
-    @required this.activeParticipCnt,
+    required this.showRank,
+    required this.showRankRange,
+    required this.activeParticipCnt,
     this.showPercent = false,
 
-    @required this.colors,
+    required this.colors,
     this.size = 56,
-    Key key
+    Key? key
   }): super(key: key);
 
   Color get borderColor => (AppSettings.isDark?Colors.white:Colors.black).withOpacity(.08);
@@ -195,8 +195,8 @@ class IndivCompRankOtherIcon extends StatelessWidget{
             child: Center(
               child: GradientIcon(
                 MdiIcons.bookmark,
-                colorStart: colors.colorEnd,
-                colorEnd: colors.colorStart,
+                colorStart: colors!.colorEnd,
+                colorEnd: colors!.colorStart,
                 size: .6*scaledSize,
               )
             )
@@ -231,22 +231,22 @@ class IndivCompRankOtherIcon extends StatelessWidget{
             child: Stack(
               children: [
 
-                if(showRank == null && showRankRange != null && showPercent)
+                if(showRank == null && showRankRange != null && showPercent!)
                   Positioned(
                     bottom: -.02*size,
                     right: -.02*size,
                     child: Text('%', style: AppTextStyle(
                       fontSize: .3*size,
                       fontWeight: weight.bold,
-                      color: colors.moreVisible
+                      color: colors!.moreVisible
                     )),
                   ),
 
                 Center(
                   child: GradientIcon(
                     MdiIcons.octagram,
-                    colorStart: colors.colorStart,
-                    colorEnd: colors.colorEnd,
+                    colorStart: colors!.colorStart,
+                    colorEnd: colors!.colorEnd,
                     size: scaledSize,
                   ),
                 ),
@@ -292,9 +292,9 @@ class IndivCompRankOtherIcon extends StatelessWidget{
 
 class _RangeAnimatorWidget extends StatefulWidget{
 
-  final Tuple2<double, double> range;
-  final int activeParticipCnt;
-  final bool showPercent;
+  final Tuple2<double, double>? range;
+  final int? activeParticipCnt;
+  final bool? showPercent;
   final double size;
 
   const _RangeAnimatorWidget(this.range, this.activeParticipCnt, this.showPercent, this.size);
@@ -309,21 +309,21 @@ class _RangeAnimatorWidgetState extends State<_RangeAnimatorWidget>{
   static const Duration _animDuration = Duration(milliseconds: 700);
   static const Curve _animCurve = Curves.easeOutQuint;
 
-  Tuple2<double, double> get range => widget.range;
-  int get activeParticipCnt => widget.activeParticipCnt;
-  bool get showPercent => widget.showPercent;
+  Tuple2<double, double>? get range => widget.range;
+  int? get activeParticipCnt => widget.activeParticipCnt;
+  bool? get showPercent => widget.showPercent;
   double get size => widget.size;
 
-  PageController controller;
-  String page1Text;
-  String page2Text;
+  PageController? controller;
+  late String page1Text;
+  late String page2Text;
 
   void run() async{
     while(true){
       await Future.delayed(const Duration(milliseconds: 2200));
       if(!mounted) return;
-      controller.animateToPage(
-          controller.page==0?2:0,
+      controller!.animateToPage(
+          controller!.page==0?2:0,
           duration: _animDuration,
           curve: _animCurve
       );
@@ -334,14 +334,14 @@ class _RangeAnimatorWidgetState extends State<_RangeAnimatorWidget>{
   void initState() {
 
     page1Text =
-    showPercent?
-    '${(range.item1*100).toInt()}':
-    '${(range.item1*activeParticipCnt).toInt()}';
+    showPercent!?
+    '${(range!.item1*100).toInt()}':
+    '${(range!.item1*activeParticipCnt!).toInt()}';
 
     page2Text =
-    showPercent?
-    '${(range.item2*100).toInt()}':
-    '${(range.item2*activeParticipCnt).toInt()}';
+    showPercent!?
+    '${(range!.item2*100).toInt()}':
+    '${(range!.item2*activeParticipCnt!).toInt()}';
 
     controller = PageController();
     run();
@@ -397,19 +397,19 @@ class IndivCompRankIcon extends StatelessWidget{
   static const double defSize = 56;
 
   final IndivCompProfile profile;
-  final int activeParticipCnt;
+  final int? activeParticipCnt;
   final bool showPercent;
-  final CommonColorData colors;
+  final CommonColorData? colors;
   final double size;
   final bool showPopularityOnTap;
   const IndivCompRankIcon(
       this.profile,
-      { @required this.activeParticipCnt,
+      { required this.activeParticipCnt,
         this.showPercent = false,
-        @required this.colors,
+        required this.colors,
         this.size = defSize,
         this.showPopularityOnTap = false,
-        Key key
+        Key? key
       }): super(key: key);
 
   @override
@@ -440,14 +440,14 @@ class IndivCompRankIcon extends StatelessWidget{
 
 class IndivCompRankIconTemplate extends StatelessWidget{
 
-  final int rank;
-  final CommonColorData colors;
+  final int? rank;
+  final CommonColorData? colors;
   final double size;
   const IndivCompRankIconTemplate(
       this.rank,
-      { @required this.colors,
+      { required this.colors,
         this.size = 56,
-        Key key
+        Key? key
       }): super(key: key);
 
   @override

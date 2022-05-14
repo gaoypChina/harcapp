@@ -6,7 +6,7 @@ import 'package:open_file/open_file.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
-String _localPath;
+late String _localPath;
 Future<void> initPaths() async{
   _localPath = (await getApplicationDocumentsDirectory()).path;
 }
@@ -74,7 +74,7 @@ File saveStringAsFile(String path, String content) {
   return file;
 }
 
-File saveStringAsFileToFolder(String localPath, String content, {String fileName}) {
+File saveStringAsFileToFolder(String localPath, String content, {String? fileName}) {
   if(localPath.isNotEmpty && localPath[0]=='/')
     localPath = localPath.substring(1);
   String path = join(_localPath, localPath);//'${_localPath}/$localPath';
@@ -90,7 +90,7 @@ File saveStringAsFileToFolder(String localPath, String content, {String fileName
   return saveStringAsFile(join(path, fileName), content);
 }
 
-String getUnusedFileName(String localPath, {String fileName}){
+String getUnusedFileName(String localPath, {String? fileName}){
   String path = '$_localPath/$localPath';
 
   Directory(path).createSync(recursive: true);
@@ -104,9 +104,9 @@ String getUnusedFileName(String localPath, {String fileName}){
   return fileName;
 }
 
-Future<String> readStringFromAssets(String path) async {
+Future<String?> readStringFromAssets(String path) async {
 
-  String result;
+  String? result;
   result = await rootBundle.loadString(path).catchError((err)
   {result = null;});
   return result;

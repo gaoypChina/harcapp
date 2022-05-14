@@ -11,7 +11,7 @@ class HarcFormsPage extends StatefulWidget{
 
   final List<HarcForm> allHarcForms;
 
-  const HarcFormsPage(this.allHarcForms, {Key key}): super(key: key);
+  const HarcFormsPage(this.allHarcForms, {Key? key}): super(key: key);
   
   @override
   State<StatefulWidget> createState() => HarcFormsPageState();
@@ -22,7 +22,7 @@ class HarcFormsPageState extends State<HarcFormsPage>{
 
   List<HarcForm> get allHarcForms => widget.allHarcForms;
   
-  List<HarcForm> searchedForms;
+  late List<HarcForm> searchedForms;
 
   @override
   void initState() {

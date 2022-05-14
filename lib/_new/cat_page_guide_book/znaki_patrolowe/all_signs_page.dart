@@ -16,7 +16,7 @@ class AllSignsPage extends StatefulWidget {
 
   final void Function(int) onItemTap;
 
-  const AllSignsPage({@required this.onItemTap});
+  const AllSignsPage({required this.onItemTap});
 
   @override
   State<AllSignsPage> createState() => AllSignsPageState();
@@ -25,8 +25,8 @@ class AllSignsPage extends StatefulWidget {
 
 class AllSignsPageState extends State<AllSignsPage> {
 
-  List<ItemData> _items;
-  TextEditingController textController;
+  late List<ItemData> _items;
+  TextEditingController? textController;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class AllSignsPageState extends State<AllSignsPage> {
 
   @override
   void dispose() {
-    textController.dispose();
+    textController!.dispose();
     super.dispose();
   }
 

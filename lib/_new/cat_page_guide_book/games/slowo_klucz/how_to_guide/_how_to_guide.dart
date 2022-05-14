@@ -38,10 +38,10 @@ class SlowoKluczHowToGuideState extends State<SlowoKluczHowToGuide>{
     HowToGuideItem(colorStart: Colors.lightBlueAccent, colorEnd: Colors.brown, buildPage: (context) => Page10()),
   ];
 
-  Color currColorStart;
-  Color currColorEnd;
+  late Color currColorStart;
+  late Color currColorEnd;
 
-  PageController controller;
+  PageController? controller;
 
   @override
   void initState() {
@@ -90,7 +90,7 @@ class SlowoKluczHowToGuideState extends State<SlowoKluczHowToGuide>{
                 ),
 
                 SmoothPageIndicator(
-                    controller: controller,  // PageController
+                    controller: controller!,  // PageController
                     count: items.length,
                     effect: WormEffect(
                       dotColor: Colors.black54,
@@ -120,9 +120,9 @@ class HowToGuideItem{
   final Widget Function(BuildContext) buildPage;
 
   const HowToGuideItem({
-      @required this.colorStart,
-      @required this.colorEnd,
-      @required this.buildPage
+      required this.colorStart,
+      required this.colorEnd,
+      required this.buildPage
   });
 
 }

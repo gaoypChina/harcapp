@@ -18,28 +18,28 @@ Map<TaskAcceptState, String> taskAcceptStateToStr = {
   TaskAcceptState.REJECTED: 'REJECTED',
 };
 
-String taskAcceptStateToName(TaskAcceptState state){
+String? taskAcceptStateToName(TaskAcceptState? state){
   if(state == TaskAcceptState.ACCEPTED) return 'Zatwierdzone';
   else if(state == TaskAcceptState.PENDING) return 'Oczekiwanie';
   else if(state == TaskAcceptState.REJECTED) return 'Odrzucone';
   else return null;
 }
 
-IconData taskAcceptStateIcon(TaskAcceptState state){
+IconData? taskAcceptStateIcon(TaskAcceptState? state){
   if(state == TaskAcceptState.ACCEPTED) return MdiIcons.check;
   else if(state == TaskAcceptState.PENDING) return MdiIcons.clockOutline;
   else if(state == TaskAcceptState.REJECTED) return MdiIcons.close;
   else return null;
 }
 
-Color taskAcceptStateColor(TaskAcceptState state){
+Color? taskAcceptStateColor(TaskAcceptState? state){
   if(state == TaskAcceptState.ACCEPTED) return Colors.blue;
   else if(state == TaskAcceptState.PENDING) return Colors.orangeAccent;
   else if(state == TaskAcceptState.REJECTED) return Colors.red;
   else return null;
 }
 
-Color taskAcceptStateColorStart(TaskAcceptState state){
+Color? taskAcceptStateColorStart(TaskAcceptState? state){
   if(state == TaskAcceptState.ACCEPTED) return Colors.lightBlueAccent;
   else if(state == TaskAcceptState.PENDING) return Colors.yellow;
   else if(state == TaskAcceptState.REJECTED) return Colors.orange;

@@ -24,7 +24,7 @@ class SprawBookPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     List<Widget> children = [];
-    for(SprawGroup group in sprawBook.groups)
+    for(SprawGroup group in sprawBook.groups!)
       children.add(GroupItemWidet(group));
 
     children.add(
@@ -72,7 +72,7 @@ class GroupItemWidet extends StatelessWidget{
                     child: Material(
                       color: Colors.transparent,
                       child: Text(
-                          group.title,
+                          group.title!,
                           style: AppTextStyle(
                               fontSize: Dimen.TEXT_SIZE_BIG,
                               fontWeight: weight.halfBold,
@@ -102,15 +102,15 @@ class SearchCard extends StatefulWidget{
 
 class SearchCardState extends State<SearchCard>{
 
-  List<Spraw> allSpraws;
-  List<Spraw> currSpraws;
+  List<Spraw>? allSpraws;
+  List<Spraw>? currSpraws;
 
   @override
   void initState() {
 
     allSpraws = [];
     for(SprawGroup groupItem in widget.sprawGroupList)
-      allSpraws.addAll(groupItem.allSpraws);
+      allSpraws!.addAll(groupItem.allSpraws);
 
     currSpraws = allSpraws;
     super.initState();
@@ -120,13 +120,13 @@ class SearchCardState extends State<SearchCard>{
 
     List<Spraw> items = [];
 
-    for(Spraw spraw in allSpraws){
+    for(Spraw spraw in allSpraws!){
       if(remPolChars(spraw.title).contains(remPolChars(text))) {
         items.add(spraw);
         continue;
       }
 
-      for(SprawTask task in spraw.tasks)
+      for(SprawTask task in spraw.tasks!)
         if(remPolChars(task.text).contains(remPolChars(text)))
           items.add(spraw);
     }
@@ -148,8 +148,8 @@ class SearchCardState extends State<SearchCard>{
 
           Expanded(
             child: ListView.builder(
-              itemBuilder: (BuildContext context, int index) => SprawTileWidget(spraw: currSpraws[index]),
-              itemCount: currSpraws.length,
+              itemBuilder: (BuildContext context, int index) => SprawTileWidget(spraw: currSpraws![index]),
+              itemCount: currSpraws!.length,
             ),
           )
         ],

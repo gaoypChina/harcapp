@@ -20,11 +20,11 @@ class Sound{
     return sound;
   }
 
-  static Future<void> initAll({void Function(int) onProgress}) async{
+  static Future<void> initAll({void Function(int)? onProgress}) async{
 
     all.clear();
     for(int i=0; i<ITEM_COUNT; i++){
-      onProgress(i);
+      onProgress!(i);
       all.add(await Sound.fromAsset(i));
     }
   }

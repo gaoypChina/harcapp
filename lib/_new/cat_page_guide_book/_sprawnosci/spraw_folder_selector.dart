@@ -39,7 +39,7 @@ class SprawFolderSelectorState extends State<SprawFolderSelector>{
 
   String get sprawUID => widget.sprawUID;
 
-  List<SprawFolder> folders;
+  late List<SprawFolder> folders;
 
   @override
   void initState() {
@@ -131,10 +131,10 @@ class _SprawFolderSelectItemState extends State<_SprawFolderSelectItem>{
           child: Text(folder.name, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold)),
         ),
         CircularCheckbox(
-            activeColor: folder.colorData.avgColor,
+            activeColor: folder.colorData!.avgColor,
             value: folder.sprawUIDs.contains(sprawUID),
             onChanged: (selected){
-              if(selected) folder.add(sprawUID);
+              if(selected!) folder.add(sprawUID);
               else folder.remove(sprawUID);
               setState(() {});
             }

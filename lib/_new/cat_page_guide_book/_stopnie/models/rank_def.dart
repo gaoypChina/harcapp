@@ -14,12 +14,12 @@ import 'package:harcapp/sync/syncable_new.dart';
 class RankDefData extends RankData{
 
   RankDefData({
-    @required String titleMale,
-    String titleFemale,
-    @required int version,
-    @required Org org,
-    @required String id,
-    @required List<RankCatData> catData,
+    required String titleMale,
+    String? titleFemale,
+    required int version,
+    required Org org,
+    required String id,
+    required List<RankCatData> catData,
   }):super(
     titleMale: titleMale,
     titleFemale: titleFemale,
@@ -45,9 +45,9 @@ class RankDefData extends RankData{
 
 }
 
-abstract class RankDefTempl<T extends RankState> extends Rank<RankDefData, RankDefResp, T> {
+abstract class RankDefTempl<T extends RankState> extends Rank<RankDefData, RankDefResp?, T> {
 
-  RankDefTempl(RankDefData data, List<RankCat> cats) : super(data, cats);
+  RankDefTempl(RankDefData data, List<RankCat>? cats) : super(data, cats);
 
 }
 
@@ -75,7 +75,7 @@ class RankDef extends RankDefTempl<RankStateLocal>{
   @override
   RankDefPreview preview(RankStateShared sharedState) => data.buildPreview(sharedState);
 
-  RankDef(RankDefData data, List<RankCat> cats) : super(data, cats);
+  RankDef(RankDefData data, List<RankCat>? cats) : super(data, cats);
 
   static const String syncClassId = 'rank_def';
 
@@ -92,6 +92,6 @@ class RankDefPreview extends RankDefTempl<RankStateShared>{
   @override
   RankStateShared state;
 
-  RankDefPreview(RankDefData data, this.state, List<RankCat> cats) : super(data, cats);
+  RankDefPreview(RankDefData data, this.state, List<RankCat>? cats) : super(data, cats);
 
 }

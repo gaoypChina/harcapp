@@ -11,8 +11,8 @@ import 'model/circle.dart';
 class CircleTile extends StatelessWidget{
   
   final Circle circle;
-  final void Function() onTap;
-  const CircleTile(this.circle, {this.onTap, Key key}) : super(key: key);
+  final void Function()? onTap;
+  const CircleTile(this.circle, {this.onTap, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context){
@@ -21,71 +21,73 @@ class CircleTile extends StatelessWidget{
 
     return SizedBox(
         height: height,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
+        child: Material(
+            clipBehavior: Clip.hardEdge,
+            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
 
-            InkWell(
-              onTap: onTap,
-              child: Material(
-                clipBehavior: Clip.hardEdge,
-                borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-                child: CoverImage(circle.coverImage),
-              ),
-            ),
-
-            Positioned(
-              top: -1.8*height,
-              left: -.8*height,
-              height: 2.3*height,
-              width: 2.3*height,
-              child: Material(
-                borderRadius: BorderRadius.circular(2*height),
-                color: background_(context)
-              ),
-            ),
-
-            Positioned(
-              top: Dimen.SIDE_MARG,
-              left: Dimen.SIDE_MARG,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  Text(
-                      circle.name,
-                      style: AppTextStyle(
-                        fontSize: Dimen.TEXT_SIZE_APPBAR,
-                        fontWeight: weight.bold,
-                      )
+                InkWell(
+                  onTap: onTap,
+                  child: Material(
+                    child: CoverImage(circle.coverImage),
                   ),
+                ),
 
-                  const SizedBox(height: Dimen.ICON_MARG),
+                Positioned(
+                  top: -1.8*height,
+                  left: -.8*height,
+                  height: 2.3*height,
+                  width: 2.3*height,
+                  child: Material(
+                      borderRadius: BorderRadius.circular(2*height),
+                      color: background_(context)
+                  ),
+                ),
 
-                  Row(
-                    children: [
+                Positioned(
+                    top: Dimen.SIDE_MARG,
+                    left: Dimen.SIDE_MARG,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
 
-                      Text(
-                          '${circle.members.length}',
-                          style: AppTextStyle(
-                            fontSize: Dimen.TEXT_SIZE_BIG,
-                            fontWeight: weight.bold,
-                            color: hintEnab_(context)
-                          )
-                      ),
+                        Text(
+                            circle.name!,
+                            style: AppTextStyle(
+                              fontSize: Dimen.TEXT_SIZE_APPBAR,
+                              fontWeight: weight.bold,
+                            )
+                        ),
 
-                      const SizedBox(width: 3.0),
+                        const SizedBox(height: Dimen.ICON_MARG),
 
-                      Icon(MdiIcons.accountMultiple, size: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)),
+                        Row(
+                          children: [
 
-                    ],
-                  )
+                            Text(
+                                '${circle.members.length}',
+                                style: AppTextStyle(
+                                    fontSize: Dimen.TEXT_SIZE_BIG,
+                                    fontWeight: weight.bold,
+                                    color: hintEnab_(context)
+                                )
+                            ),
 
-                ],
-              )
+                            const SizedBox(width: 3.0),
+
+                            Icon(MdiIcons.accountMultiple, size: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)),
+
+                          ],
+                        )
+
+                      ],
+                    )
+                )
+
+              ],
             )
-
-          ],
         )
     );
   }

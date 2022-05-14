@@ -11,7 +11,7 @@ import 'data.dart';
 
 class BiografieFragment extends StatefulWidget{
   
-  const BiografieFragment({Key key}) : super(key: key);
+  const BiografieFragment({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => BiografieFragmentState();
@@ -23,16 +23,16 @@ class BiografieFragmentState extends State<BiografieFragment> with ModuleStatsMi
   @override
   String get moduleId => ModuleStatsMixin.biografie;
 
-  PageController controller;
-  ValueNotifier<double> notifier;
+  PageController? controller;
+  ValueNotifier<double?>? notifier;
 
-  GlobalKey<NestedScrollViewState> nestedScrollViewKey;
+  GlobalKey<NestedScrollViewState>? nestedScrollViewKey;
 
   @override
   void initState() {
     controller = PageController();
     notifier = ValueNotifier(.0);
-    controller.addListener(() => notifier.value = controller.page);
+    controller!.addListener(() => notifier!.value = controller!.page);
 
     nestedScrollViewKey = GlobalKey();
 
@@ -50,7 +50,7 @@ class BiografieFragmentState extends State<BiografieFragment> with ModuleStatsMi
         data: data,
         index: i,
         notifier: notifier,
-       controller: () => nestedScrollViewKey.currentState.innerController
+       controller: () => nestedScrollViewKey!.currentState!.innerController
       ));
     }
 
@@ -68,7 +68,7 @@ class BiografieFragmentState extends State<BiografieFragment> with ModuleStatsMi
               IconButton(
                 icon: const Icon(MdiIcons.dotsGrid),
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AllBioPage(
-                  onPicked: (int index) => controller.jumpToPage(index),
+                  onPicked: (int index) => controller!.jumpToPage(index),
                 ))))
             ],
           ),

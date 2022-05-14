@@ -6,16 +6,16 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:tuple/tuple.dart';
 
 class SongSearchOptions extends SearchOptions{
-  List<String> checkedTags;
-  List<int> checkedRates;
+  List<String>? checkedTags;
+  late List<int> checkedRates;
 
-  SongSearchOptions({List<String> checkedTags, List<int> checkedRates}){
+  SongSearchOptions({List<String>? checkedTags, List<int>? checkedRates}){
     this.checkedTags = checkedTags??[];
     this.checkedRates = checkedRates??[];
   }
 
   @override
-  bool get isEmpty => checkedTags.isEmpty &&
+  bool get isEmpty => checkedTags!.isEmpty &&
         checkedRates.isEmpty;
 
   @override
@@ -26,18 +26,18 @@ class SongSearchOptions extends SearchOptions{
 
 }
 
-class SongSearcher extends Searcher<Song, int, SongSearchOptions>{
+class SongSearcher extends Searcher<Song?, int, SongSearchOptions?>{
 
-  void Function(List<Song>, bool Function() stillValid) onCompleteListener;
+  void Function(List<Song?>, bool Function() stillValid) onCompleteListener;
 
   SongSearcher(this.onCompleteListener) : super(_selectSongs){
 
     super.addOnCompleteListener((List<int> result, bool Function() stillValid) {
 
-      List<Song> songs = [];
+      List<Song?> songs = [];
       for(int pos in result) {
         if(!stillValid()) return;
-        songs.add(allItems[pos]);
+        songs.add(allItems![pos]);
       }
 
       onCompleteListener(songs, stillValid);
@@ -48,24 +48,24 @@ class SongSearcher extends Searcher<Song, int, SongSearchOptions>{
 
 }
 
-bool _tagMatch(SongSearchOptions options, Song song){
-  final List<String> checkedTags = options.checkedTags;
+bool _tagMatch(SongSearchOptions options, Song? song){
+  final List<String> checkedTags = options.checkedTags!;
   if(checkedTags.isEmpty) return true;
 
-  for (String tag in song.tags)
+  for (String tag in song!.tags)
     if(checkedTags.contains(tag))
       return true;
 
   return false;
 }
 
-bool _rateMatch(SongSearchOptions options, Song song){
+bool _rateMatch(SongSearchOptions options, Song? song){
   final List<int> checkedRates = options.checkedRates;
-  return checkedRates.isEmpty || checkedRates.contains(song.rate);
+  return checkedRates.isEmpty || checkedRates.contains(song!.rate);
 }
 
-void _selectSongs(Tuple3<List<Song>, SongSearchOptions, SendPort> args) =>
-    selectTemplate<Song, int, SongSearchOptions>(args, (String phrase, List<Song> allItems, SongSearchOptions options, bool Function() stillValid){
+void _selectSongs(Tuple3<List<Song?>, SongSearchOptions?, SendPort> args) =>
+    selectTemplate<Song?, int, SongSearchOptions?>(args, (String phrase, List<Song?> allItems, SongSearchOptions? options, bool Function() stillValid){
 
   String text = remPolChars(phrase);
 
@@ -76,11 +76,11 @@ void _selectSongs(Tuple3<List<Song>, SongSearchOptions, SendPort> args) =>
 
     if(!stillValid()) return null;
 
-    Song song = allItems[i];
-    if (!_tagMatch(options, song) || !_rateMatch(options, song))
+    Song? song = allItems[i];
+    if (!_tagMatch(options!, song) || !_rateMatch(options, song))
       continue;
 
-    bool titleMatch = remPolChars(song.title).contains(text);
+    bool titleMatch = remPolChars(song!.title).contains(text);
     bool authorMatch = false;
     for(String author in remPolCharsList(song.authors))
       if(author.contains(text)){

@@ -8,9 +8,9 @@ class GlassAppBar extends StatelessWidget with PreferredSizeWidget {
     this.centerTitle,
   }) : preferredSize = Size.fromHeight(kToolbarHeight);
 
-  final Widget leading;
-  final Widget title;
-  final bool centerTitle;
+  final Widget? leading;
+  final Widget? title;
+  final bool? centerTitle;
 
   @override
   final Size preferredSize;

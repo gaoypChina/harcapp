@@ -10,9 +10,9 @@ import 'layouts.dart';
 
 class DefinitionWidget extends StatefulWidget{
 
-  final Definition definition;
+  final Definition? definition;
 
-  const DefinitionWidget({this.definition, Key key}): super(key: key);
+  const DefinitionWidget({this.definition, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => DefinitionWidgetState();
@@ -24,8 +24,8 @@ class DefinitionWidgetState extends State<DefinitionWidget>{
   static const double textSize = QuoteWidgetState.textSize;
   static const double iconSize = 42.0;
 
-  Definition _definition;
-  Definition get definition => widget.definition??_definition;
+  Definition? _definition;
+  Definition? get definition => widget.definition??_definition;
 
   @override
   void initState() {
@@ -58,7 +58,7 @@ class DefinitionWidgetState extends State<DefinitionWidget>{
       const SizedBox(height: 18.0),
 
       Text(
-        definition.word,
+        definition!.word,
         style: const TextStyle(
           fontFamily: 'Merriweather',
           fontWeight: FontWeight.w700,
@@ -79,7 +79,7 @@ class DefinitionWidgetState extends State<DefinitionWidget>{
       const SizedBox(height: 18.0),
 
       Text(
-        definition.description,
+        definition!.description,
         style: AppTextStyle(
           fontSize: textSize,
           color: Colors.white,

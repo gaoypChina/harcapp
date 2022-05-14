@@ -28,46 +28,46 @@ import 'song_management/song.dart';
 
 class TabOfContController{
 
-  Function(SongSearchOptions searchOptions) onSearchOptionsChanged;
+  Function(SongSearchOptions? searchOptions)? onSearchOptionsChanged;
   TabOfContController({this.onSearchOptionsChanged});
 
-  BuildContext context;
+  late BuildContext context;
 
-  TabOfContState tabOfCont;
+  late TabOfContState tabOfCont;
 
-  String get phrase => tabOfCont.textController.text;
-  set phrase(String value) => tabOfCont.textController.text = value;
+  String get phrase => tabOfCont.textController!.text;
+  set phrase(String value) => tabOfCont.textController!.text = value;
 
-  List<Song> get currSongs => Provider.of<CurrentItemsProvider>(context, listen: false).currSongs;
+  List<Song>? get currSongs => Provider.of<CurrentItemsProvider>(context, listen: false).currSongs;
 
 }
 
 class TabOfCont extends StatefulWidget{
 
-  final List<Song> allSongs;
+  final List<Song?> allSongs;
   final String initPhrase;
-  final SongSearchOptions searchOptions;
+  final SongSearchOptions? searchOptions;
   final bool appBar;
-  final Widget floatingButton;
-  final Color background;
-  final Color accentColor;
-  final Widget titleLeading;
-  final Widget titleTrailing;
-  final Widget Function(Song, GlobalKey) itemLeadingBuilder;
-  final Widget Function(Song, GlobalKey) itemTrailingBuilder;
-  final Function(Song, int) onItemTap;
-  final TabOfContController controller;
+  final Widget? floatingButton;
+  final Color? background;
+  final Color? accentColor;
+  final Widget? titleLeading;
+  final Widget? titleTrailing;
+  final Widget Function(Song, GlobalKey)? itemLeadingBuilder;
+  final Widget Function(Song, GlobalKey)? itemTrailingBuilder;
+  final Function(Song, int)? onItemTap;
+  final TabOfContController? controller;
 
-  final ScrollController scrollController;
+  final ScrollController? scrollController;
 
-  final double paddingBottom;
+  final double? paddingBottom;
 
-  final Function(String) onChanged;
+  final Function(String)? onChanged;
 
-  final Function(List<Song> songs, List<GlobalKey> globalKeys, bool Function() stillValid) onSearchComplete;
-  final PageStorageKey pageStorageKey;
+  final Function(List<Song> songs, List<GlobalKey> globalKeys, bool Function() stillValid)? onSearchComplete;
+  final PageStorageKey? pageStorageKey;
   final bool showAddSongSuggestion;
-  final void Function(Song song) onNewSongAdded;
+  final void Function(Song song)? onNewSongAdded;
 
   const TabOfCont(
       this.allSongs,
@@ -91,7 +91,7 @@ class TabOfCont extends StatefulWidget{
         this.pageStorageKey,
         this.showAddSongSuggestion=true,
         this.onNewSongAdded,
-        Key key
+        Key? key
       }): super(key: key);
 
   @override
@@ -105,39 +105,39 @@ class TabOfContState extends State<TabOfCont>{
 
   static const double tagBarHeight = 2*Dimen.DEF_MARG + Dimen.TEXT_SIZE_NORMAL + 3;
 
-  SearchParamsProvider searchParamsProvider;
-  CurrentItemsProvider currItemsProv;
+  SearchParamsProvider? searchParamsProvider;
+  CurrentItemsProvider? currItemsProv;
 
-  SongSearcher searcher;
-  List<Song> get allSongs => widget.allSongs;
+  SongSearcher? searcher;
+  List<Song?> get allSongs => widget.allSongs;
 
-  TabOfContController _controller;
-  TabOfContController get controller => widget.controller??_controller;
+  TabOfContController? _controller;
+  TabOfContController? get controller => widget.controller??_controller;
 
-  TextEditingController get textController => searchParamsProvider.textController;
+  TextEditingController? get textController => searchParamsProvider!.textController;
 
-  double topPadding;
+  double? topPadding;
 
-  ScrollController _scrollController;
+  ScrollController? _scrollController;
 
-  Widget get titleLeading => widget.titleLeading;
-  Widget get titleTrailing => widget.titleTrailing;
-  Widget Function(Song, GlobalKey) get itemLeadingBuilder => widget.itemLeadingBuilder;
-  Widget Function(Song, GlobalKey) get itemTrailingBuilder => widget.itemTrailingBuilder;
-  Function(Song, int) get onItemTap => widget.onItemTap;
+  Widget? get titleLeading => widget.titleLeading;
+  Widget? get titleTrailing => widget.titleTrailing;
+  Widget Function(Song, GlobalKey)? get itemLeadingBuilder => widget.itemLeadingBuilder;
+  Widget Function(Song, GlobalKey)? get itemTrailingBuilder => widget.itemTrailingBuilder;
+  Function(Song, int)? get onItemTap => widget.onItemTap;
 
-  ScrollController get scrollController => widget.scrollController??_scrollController;
+  ScrollController? get scrollController => widget.scrollController??_scrollController;
 
-  double get paddingBottom => widget.paddingBottom;
+  double? get paddingBottom => widget.paddingBottom;
 
-  Function(List<Song> songs, List<GlobalKey> globalKeys, bool Function() stillValid) get onSearchComplete => widget.onSearchComplete;
+  Function(List<Song> songs, List<GlobalKey> globalKeys, bool Function() stillValid)? get onSearchComplete => widget.onSearchComplete;
 
-  SongSearchOptions _searchOptions;
-  SongSearchOptions get searchOptions => widget.searchOptions??_searchOptions;
+  SongSearchOptions? _searchOptions;
+  SongSearchOptions? get searchOptions => widget.searchOptions??_searchOptions;
 
   void initSearcher() async {
-    await searcher.init(widget.allSongs, searchOptions);
-    await searcher.run(widget.initPhrase);
+    await searcher!.init(widget.allSongs, searchOptions);
+    await searcher!.run(widget.initPhrase);
   }
 
   @override
@@ -148,21 +148,21 @@ class TabOfContState extends State<TabOfCont>{
 
     _controller = TabOfContController();
     if(controller != null)
-      controller.tabOfCont = this;
+      controller!.tabOfCont = this;
 
     searcher = SongSearcher((List<Song> songs, bool Function() stillValid) {
       List<GlobalKey> globalKeys = List.generate(songs.length, (index) => GlobalKey());
 
       if(onSearchComplete != null)
-        onSearchComplete(songs, globalKeys, stillValid);
+        onSearchComplete!(songs, globalKeys, stillValid);
 
-      currItemsProv.set(songs, globalKeys, searcherRunning: true);
+      currItemsProv!.set(songs, globalKeys, searcherRunning: true);
 
     });
 
-    searcher.addOnStartListener((phrase) {
-      currItemsProv.searcherRunning = true;
-      if(widget.onChanged != null) widget.onChanged(phrase);
+    searcher!.addOnStartListener((phrase) {
+      currItemsProv!.searcherRunning = true;
+      if(widget.onChanged != null) widget.onChanged!(phrase);
       //currItemsProv.clear();
     });
 
@@ -176,7 +176,7 @@ class TabOfContState extends State<TabOfCont>{
 
   @override
   void dispose() {
-    searcher.dispose();
+    searcher!.dispose();
     super.dispose();
   }
 
@@ -197,7 +197,7 @@ class TabOfContState extends State<TabOfCont>{
         builder: (context, child){
 
           if(widget.controller != null)
-            controller.context = context;
+            controller!.context = context;
 
           return Consumer<CurrentItemsProvider>(
               builder: (context, prov, child){
@@ -233,7 +233,7 @@ class TabOfContState extends State<TabOfCont>{
                               tabOfContController: controller,
                               textController: prov.textController,
                             ),
-                            height: SearchField.height + (prov.options.isEmpty?0:35.0),
+                            height: SearchField.height + (prov.options!.isEmpty?0:35.0),
                             rebuild: true
                           )
                         ),
@@ -242,7 +242,7 @@ class TabOfContState extends State<TabOfCont>{
                           delegate: SliverChildListDelegate([const SizedBox(height: 10.0)]),
                         ),
 
-                        if(prov.currSongs.isEmpty)
+                        if(prov.currSongs!.isEmpty)
                           SliverFillRemaining(
                             hasScrollBody: false,
                             child: Center(child: _NoSongWidget(widget.showAddSongSuggestion, widget.onNewSongAdded))
@@ -252,14 +252,14 @@ class TabOfContState extends State<TabOfCont>{
                             delegate: SliverChildBuilderDelegate((context, index) => Padding(
                                 padding: const EdgeInsets.only(bottom: Dimen.DEF_MARG),
                                 child: SongTile(
-                                  prov.currSongs[index],
-                                  key: prov.globalKeys[index],
-                                  onTap: onItemTap==null?null:(song) => onItemTap(song, index),
-                                  leading: itemLeadingBuilder==null?null:itemLeadingBuilder(prov.currSongs[index], prov.globalKeys[index]),
-                                  trailing: itemTrailingBuilder==null?null:itemTrailingBuilder(prov.currSongs[index], prov.globalKeys[index]),
+                                  prov.currSongs![index],
+                                  key: prov.globalKeys![index],
+                                  onTap: onItemTap==null?null:(song) => onItemTap!(song, index),
+                                  leading: itemLeadingBuilder==null?null:itemLeadingBuilder!(prov.currSongs![index], prov.globalKeys![index]),
+                                  trailing: itemTrailingBuilder==null?null:itemTrailingBuilder!(prov.currSongs![index], prov.globalKeys![index]),
                                 )
                             ),
-                                childCount: prov.currSongs.length
+                                childCount: prov.currSongs!.length
                             ),
                           ),
 
@@ -285,7 +285,7 @@ class TabOfContState extends State<TabOfCont>{
 class _NoSongWidget extends StatelessWidget{
 
   final bool showAddSongSuggestion;
-  final void Function(Song song) onNewSongAdded;
+  final void Function(Song song)? onNewSongAdded;
 
   const _NoSongWidget(this.showAddSongSuggestion, this.onNewSongAdded);
 
@@ -326,20 +326,20 @@ class _NoSongWidget extends StatelessWidget{
 
 class _SearchTextFieldCard extends StatelessWidget{
 
-  final void Function() onCleared;
+  final void Function()? onCleared;
 
-  final SongSearcher searcher;
-  final SongSearchOptions searchOptions;
-  final TabOfContController tabOfContController;
-  final TextEditingController textController;
+  final SongSearcher? searcher;
+  final SongSearchOptions? searchOptions;
+  final TabOfContController? tabOfContController;
+  final TextEditingController? textController;
 
   const _SearchTextFieldCard(
-      { @required this.searcher,
-        @required this.searchOptions,
-        @required this.tabOfContController,
-        @required this.textController,
+      { required this.searcher,
+        required this.searchOptions,
+        required this.tabOfContController,
+        required this.textController,
         this.onCleared,
-        Key key
+        Key? key
       }):super(key: key);
 
 
@@ -357,10 +357,10 @@ class _SearchTextFieldCard extends StatelessWidget{
 
         if(text == '#') {
           // HAS TO IN POST - ITS A WORKAROUND FOR A BUG. OTHERWISE THE onChanged METHOD IS CALLED TWICE AFTER ENTERING "#".
-          post(() => textController.text = '');
+          post(() => textController!.text = '');
           showOptionsBottomSheet(context);
         }else
-          searcher.run(text);
+          searcher!.run(text);
 
       },
 
@@ -373,10 +373,10 @@ class _SearchTextFieldCard extends StatelessWidget{
             onPressed: () async{
 
               Provider.of<SearchParamsProvider>(context, listen: false).clear();
-              await searcher.init(searcher.allItems, searchOptions);
-              await searcher.run('');
+              await searcher!.init(searcher!.allItems, searchOptions);
+              await searcher!.run('');
 
-              if(onCleared!=null) onCleared();
+              if(onCleared!=null) onCleared!();
               onSearchOptionChanged(searchOptions);
 
             },
@@ -390,12 +390,12 @@ class _SearchTextFieldCard extends StatelessWidget{
             hideKeyboard(context);
             await showOptionsBottomSheet(context);//, onChanged: () => onChanged(textController.Lk_9_28b-36$text));
 
-            await searcher.run(textController.text);
+            await searcher!.run(textController!.text);
             //onSearchOptionChanged(searchOptions);
 
           }),
       bottom:
-      searchOptions.isEmpty?
+      searchOptions!.isEmpty?
       null:
       SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -407,14 +407,14 @@ class _SearchTextFieldCard extends StatelessWidget{
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Row(
-                    children: searchOptions.checkedRates.map((rate) => Padding(
+                    children: searchOptions!.checkedRates.map((rate) => Padding(
                       padding: const EdgeInsets.only(left: Dimen.DEF_MARG, right: Dimen.DEF_MARG),
                       child: RateIcon.build(context, rate, size: 20.0),
                     )).toList(),
                   ),
                   const SizedBox(width: Dimen.DEF_MARG/2),
                   Row(
-                    children: searchOptions.checkedTags.map((t) => Tag(
+                    children: searchOptions!.checkedTags!.map((t) => Tag(
                       t,
                       inCard: false,
                       fontSize: Dimen.TEXT_SIZE_SMALL,
@@ -431,19 +431,19 @@ class _SearchTextFieldCard extends StatelessWidget{
     );
   }
 
-  onSearchOptionChanged(SongSearchOptions searchOptions){
-    if(tabOfContController!=null && tabOfContController.onSearchOptionsChanged != null)
-      tabOfContController.onSearchOptionsChanged(searchOptions);
+  onSearchOptionChanged(SongSearchOptions? searchOptions){
+    if(tabOfContController!=null && tabOfContController!.onSearchOptionsChanged != null)
+      tabOfContController!.onSearchOptionsChanged!(searchOptions);
   }
 
-  Future<void> showOptionsBottomSheet(BuildContext context, {void Function() onChanged}) => showScrollBottomSheet(
+  Future<void> showOptionsBottomSheet(BuildContext context, {void Function()? onChanged}) => showScrollBottomSheet(
       context: context,
       builder: (_) => BottomSheetOptions(
           searchOptions,
           searcher,
           onChanged: ()async{
-            await searcher.init(searcher.allItems, searchOptions);
-            await searcher.run(textController.text);
+            await searcher!.init(searcher!.allItems, searchOptions);
+            await searcher!.run(textController!.text);
             if(onChanged != null) onChanged();
             Provider.of<SearchParamsProvider>(context, listen: false).notify();
           }
@@ -456,16 +456,16 @@ class _SearchTextFieldCard extends StatelessWidget{
 class SongTile extends StatelessWidget{
 
   final Song song;
-  final Widget leading;
-  final Widget trailing;
-  final Function(Song) onTap;
+  final Widget? leading;
+  final Widget? trailing;
+  final Function(Song)? onTap;
 
-  const SongTile(this.song, {this.leading, this.trailing, this.onTap, Key key}): super(key: key);
+  const SongTile(this.song, {this.leading, this.trailing, this.onTap, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => ListTile(
       contentPadding: const EdgeInsets.only(left: 10.0, top: 2.0, bottom: 2.0),
-      onTap: onTap == null?null:() => onTap(song),
+      onTap: onTap == null?null:() => onTap!(song),
       leading: leading,
       trailing: trailing,
       title: Row(
@@ -532,11 +532,11 @@ class SongTile extends StatelessWidget{
 
 class BottomSheetOptions extends StatefulWidget{
 
-  final SongSearchOptions searchOptions;
-  final SongSearcher searcher;
-  final void Function() onChanged;
+  final SongSearchOptions? searchOptions;
+  final SongSearcher? searcher;
+  final void Function()? onChanged;
 
-  const BottomSheetOptions(this.searchOptions, this.searcher, {this.onChanged, Key key}): super(key: key);
+  const BottomSheetOptions(this.searchOptions, this.searcher, {this.onChanged, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => BottomSheetOptionsState();
@@ -544,16 +544,16 @@ class BottomSheetOptions extends StatefulWidget{
 
 class BottomSheetOptionsState extends State<BottomSheetOptions>{
 
-  SongSearchOptions get searchOptions => widget.searchOptions;
-  SongSearcher get searcher => widget.searcher;
-  void Function() get onChanged => widget.onChanged;
+  SongSearchOptions? get searchOptions => widget.searchOptions;
+  SongSearcher? get searcher => widget.searcher;
+  void Function()? get onChanged => widget.onChanged;
 
-  bool checkRateDislike;
-  bool checkRateLike1;
-  bool checkRateLike2;
+  bool? checkRateDislike;
+  bool? checkRateLike1;
+  bool? checkRateLike2;
 
-  bool checkRateLike3;
-  bool checkRateLikeBookmarked;
+  bool? checkRateLike3;
+  bool? checkRateLikeBookmarked;
 
   @override
   void initState() {
@@ -579,11 +579,11 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
 
             Row(
               children: <Widget>[
-                Expanded(child: RateCheckButton(SongRate.TEXT_DISLIKE, SongRate.RATE_DISLIKE, searchOptions, onTap: (_, __) => onChanged())),
-                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_1, SongRate.RATE_LIKE_1, searchOptions, onTap: (_, __) => onChanged())),
-                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_2, SongRate.RATE_LIKE_2, searchOptions, onTap: (_, __) => onChanged())),
-                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_3, SongRate.RATE_LIKE_3, searchOptions, onTap: (_, __) => onChanged())),
-                Expanded(child: RateCheckButton(SongRate.TEXT_BOOKMARK, SongRate.RATE_BOOKMARK, searchOptions, onTap: (_, __) => onChanged())),
+                Expanded(child: RateCheckButton(SongRate.TEXT_DISLIKE, SongRate.RATE_DISLIKE, searchOptions, onTap: (_, __) => onChanged!())),
+                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_1, SongRate.RATE_LIKE_1, searchOptions, onTap: (_, __) => onChanged!())),
+                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_2, SongRate.RATE_LIKE_2, searchOptions, onTap: (_, __) => onChanged!())),
+                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_3, SongRate.RATE_LIKE_3, searchOptions, onTap: (_, __) => onChanged!())),
+                Expanded(child: RateCheckButton(SongRate.TEXT_BOOKMARK, SongRate.RATE_BOOKMARK, searchOptions, onTap: (_, __) => onChanged!())),
               ],
             ),
 
@@ -592,12 +592,12 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
             TagLayout.wrap(
               allTags: Tag.ALL_TAG_NAMES,
               onTagTap: (String tag, bool checked){
-                if(checked) searchOptions.checkedTags.remove(tag);
-                else searchOptions.checkedTags.add(tag);
+                if(checked) searchOptions!.checkedTags!.remove(tag);
+                else searchOptions!.checkedTags!.add(tag);
                 setState((){});
                 onChanged?.call();
               },
-              checkedTags: searchOptions.checkedTags,
+              checkedTags: searchOptions!.checkedTags,
             ),
 
             const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
@@ -612,15 +612,15 @@ class RateCheckButton extends StatefulWidget{
 
   final String text;
   final int rate;
-  final SongSearchOptions searchOptions;
-  final void Function(int rate, bool selected) onTap;
+  final SongSearchOptions? searchOptions;
+  final void Function(int rate, bool selected)? onTap;
 
   const RateCheckButton(
       this.text,
       this.rate,
       this.searchOptions,
       {this.onTap,
-       Key key
+       Key? key
       }): super(
         key: key
       );
@@ -634,17 +634,17 @@ class RateCheckButtonState extends State<RateCheckButton>{
 
   String get text => widget.text;
   int get rate => widget.rate;
-  SongSearchOptions get searchOptions => widget.searchOptions;
-  void Function(int rate, bool selected) get onTap => widget.onTap;
+  SongSearchOptions? get searchOptions => widget.searchOptions;
+  void Function(int rate, bool selected)? get onTap => widget.onTap;
 
   @override
   Widget build(BuildContext context) => RateButton(
       text,
       RateIcon.build(context, rate),
-      rate, searchOptions.checkedRates.contains(rate),
+      rate, searchOptions!.checkedRates.contains(rate),
       onTap: (rate, selected){
-        setState(() => selected?searchOptions.checkedRates.remove(rate):searchOptions.checkedRates.add(rate));
-        if(onTap != null) onTap(rate, selected);
+        setState(() => selected?searchOptions!.checkedRates.remove(rate):searchOptions!.checkedRates.add(rate));
+        if(onTap != null) onTap!(rate, selected);
         //parentState.notify();
       },
       glow: false
@@ -654,15 +654,15 @@ class RateCheckButtonState extends State<RateCheckButton>{
 
 class CurrentItemsProvider extends ChangeNotifier{
 
-  List<Song> _currSongs;
-  List<Song> get currSongs => _currSongs;
+  List<Song>? _currSongs;
+  List<Song>? get currSongs => _currSongs;
 
-  List<GlobalKey> _globalKeys;
-  List<GlobalKey> get globalKeys => _globalKeys;
+  List<GlobalKey>? _globalKeys;
+  List<GlobalKey>? get globalKeys => _globalKeys;
 
-  bool _searcherRunning;
-  bool get searcherRunning => _searcherRunning;
-  set searcherRunning(bool value){
+  bool? _searcherRunning;
+  bool? get searcherRunning => _searcherRunning;
+  set searcherRunning(bool? value){
     _searcherRunning = value;
     notifyListeners();
   }
@@ -671,7 +671,7 @@ class CurrentItemsProvider extends ChangeNotifier{
     _searcherRunning = true;
   }
 
-  void set(List<Song> currSongs, List<GlobalKey> globalKeys, {bool searcherRunning}){
+  void set(List<Song> currSongs, List<GlobalKey> globalKeys, {bool? searcherRunning}){
     _currSongs = currSongs;
     _globalKeys = globalKeys;
     if(searcherRunning != null)
@@ -690,33 +690,33 @@ class CurrentItemsProvider extends ChangeNotifier{
 
 class SearchParamsProvider extends ChangeNotifier {
 
-  SongSearchOptions _searchOptions;
-  TextEditingController _controller;
+  SongSearchOptions? _searchOptions;
+  TextEditingController? _controller;
 
-  SongSearchOptions get options => _searchOptions;
-  TextEditingController get textController => _controller;
+  SongSearchOptions? get options => _searchOptions;
+  TextEditingController? get textController => _controller;
 
-  SearchParamsProvider({SongSearchOptions searchOptions, String initPhrase=''}){
+  SearchParamsProvider({SongSearchOptions? searchOptions, String initPhrase=''}){
     _searchOptions = searchOptions??SongSearchOptions();
     _controller = TextEditingController(text: initPhrase);
   }
 
   clear(){
-    _searchOptions.clear();
-    _controller.clear();
+    _searchOptions!.clear();
+    _controller!.clear();
     notifyListeners();
   }
 
   set phrase(String value){
-    _controller.text = value;
+    _controller!.text = value;
     notifyListeners();
   }
 
-  bool get isEmpty => _controller.text.isEmpty && _searchOptions.isEmpty;
+  bool get isEmpty => _controller!.text.isEmpty && _searchOptions!.isEmpty;
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 
@@ -724,7 +724,7 @@ class SearchParamsProvider extends ChangeNotifier {
 
 }
 
-void _showAddSongBottomSheet(BuildContext context, void Function(Song song) onNewSongAdded) => showScrollBottomSheet(
+void _showAddSongBottomSheet(BuildContext context, void Function(Song song)? onNewSongAdded) => showScrollBottomSheet(
     context: context,
     builder: (context) => BottomSheetDef(
       title: 'Jak dodać oficjalną piosenkę?',

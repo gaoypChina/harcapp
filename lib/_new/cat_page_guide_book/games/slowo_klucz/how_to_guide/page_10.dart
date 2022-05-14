@@ -77,17 +77,17 @@ class Page10State extends State<Page10> with PageTemplateInterface{
     return initPlayerOffset(width);
   }
 
-  AnimStageManager animStageManager;
+  late AnimStageManager animStageManager;
 
-  int animStage;
-  PreviewCardsGridController controller;
+  int? animStage;
+  PreviewCardsGridController? controller;
 
-  Color messColor;
-  String messText;
+  Color? messColor;
+  late String messText;
 
-  Color convColor;
-  String convAuth;
-  String convText;
+  Color? convColor;
+  String? convAuth;
+  late String convText;
 
   @override
   void initState() {
@@ -110,10 +110,10 @@ class Page10State extends State<Page10> with PageTemplateInterface{
           AnimStage(
               function: (){
                 setState(() => animStage = 0);
-                controller[3].toggleCard();
-                controller[4].toggleCard();
-                controller[8].toggleCard();
-                controller[11].toggleCard();
+                controller![3].toggleCard();
+                controller![4].toggleCard();
+                controller![8].toggleCard();
+                controller![11].toggleCard();
               },
               after: animDuration),
 
@@ -163,7 +163,7 @@ class Page10State extends State<Page10> with PageTemplateInterface{
               after: animDuration),
 
           AnimStage(
-              function: () => controller[9].toggleCard(),
+              function: () => controller![9].toggleCard(),
               after: animDuration),
 
           AnimStage(
@@ -197,7 +197,7 @@ class Page10State extends State<Page10> with PageTemplateInterface{
               after: animDuration),
 
           AnimStage(
-              function: () => controller[0].toggleCard(),
+              function: () => controller![0].toggleCard(),
               after: animDuration),
 
           AnimStage(
@@ -212,12 +212,12 @@ class Page10State extends State<Page10> with PageTemplateInterface{
     ],
         cleanUp: (){
 
-          controller[0].toggleCard();
-          controller[3].toggleCard();
-          controller[4].toggleCard();
-          controller[8].toggleCard();
-          controller[9].toggleCard();
-          controller[11].toggleCard();
+          controller![0].toggleCard();
+          controller![3].toggleCard();
+          controller![4].toggleCard();
+          controller![8].toggleCard();
+          controller![9].toggleCard();
+          controller![11].toggleCard();
 
           setState(() => animStage = 0);
         },

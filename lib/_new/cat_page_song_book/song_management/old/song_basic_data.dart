@@ -8,7 +8,7 @@ class SongBasicData1{
   final String author;
   final String performer;
   final String moderator;
-  final String youtubeLink;
+  final String? youtubeLink;
   final int version;
 
   final List<String> tags;
@@ -57,7 +57,7 @@ class SongBasicData1{
 
     String moderator = lines[4];
 
-    String youtubeLink = null;
+    String? youtubeLink = null;
     if (lines[5].length != 0)
       youtubeLink = lines[5];
 

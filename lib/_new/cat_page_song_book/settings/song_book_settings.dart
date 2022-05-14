@@ -82,19 +82,19 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
     synchronizer.post();
   }
 
-  static bool get showAlbumIcon => shaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_ALBUM_ICON, true);
+  static bool get showAlbumIcon => shaPref!.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_ALBUM_ICON, true);
   static set showAlbumIcon(bool value) => setShowAlbumIcon(value);
   static setShowAlbumIcon(bool value, {bool localOnly = false}){
-    shaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_ALBUM_ICON, value);
+    shaPref!.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_ALBUM_ICON, value);
     if(localOnly) return;
     SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_ALBUM_ICON, SyncableParamSingle_.STATE_NOT_SYNCED);
     synchronizer.post();
   }
 
-  static bool get showTabOfContOnStart => shaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_TAB_OF_CONT_ON_START, true);
+  static bool get showTabOfContOnStart => shaPref!.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_TAB_OF_CONT_ON_START, true);
   static set showTabOfContOnStart(bool value) => setShowTabOfContOnStart(value);
   static setShowTabOfContOnStart(bool value, {bool localOnly = false}){
-    shaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_TAB_OF_CONT_ON_START, value);
+    shaPref!.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_TAB_OF_CONT_ON_START, value);
     if(localOnly) return;
     SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_TAB_OF_CONT_ON_START, SyncableParamSingle_.STATE_NOT_SYNCED);
     synchronizer.post();
@@ -104,14 +104,14 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
 
   @override
   void applySyncGetResp(SongBookSettingsResp resp) {
-    if(resp.alwaysOnScreen != null) setAlwaysOnScreen(resp.alwaysOnScreen, localOnly: true);
-    if(resp.scrollText != null) setScrollText(resp.scrollText, localOnly: true);
-    if(resp.autoscrollTextSpeed != null) setAutoscrollTextSpeed(resp.autoscrollTextSpeed, localOnly: true);
-    if(resp.showChords != null) setShowChords(resp.showChords, localOnly: true);
-    if(resp.showDrawChords != null) setShowDrawChords(resp.showDrawChords, localOnly: true);
-    if(resp.drawChordsType != null) setDrawChordsType(resp.drawChordsType, localOnly: true);
-    if(resp.showAlbumIcon != null) setShowAlbumIcon(resp.showAlbumIcon, localOnly: true);
-    if(resp.showTabOfContOnStart != null) setShowTabOfContOnStart(resp.showTabOfContOnStart, localOnly: true);
+    if(resp.alwaysOnScreen != null) setAlwaysOnScreen(resp.alwaysOnScreen!, localOnly: true);
+    if(resp.scrollText != null) setScrollText(resp.scrollText!, localOnly: true);
+    if(resp.autoscrollTextSpeed != null) setAutoscrollTextSpeed(resp.autoscrollTextSpeed!, localOnly: true);
+    if(resp.showChords != null) setShowChords(resp.showChords!, localOnly: true);
+    if(resp.showDrawChords != null) setShowDrawChords(resp.showDrawChords!, localOnly: true);
+    if(resp.drawChordsType != null) setDrawChordsType(resp.drawChordsType!, localOnly: true);
+    if(resp.showAlbumIcon != null) setShowAlbumIcon(resp.showAlbumIcon!, localOnly: true);
+    if(resp.showTabOfContOnStart != null) setShowTabOfContOnStart(resp.showTabOfContOnStart!, localOnly: true);
   }
 
   @override

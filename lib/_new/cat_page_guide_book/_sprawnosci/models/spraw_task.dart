@@ -47,18 +47,18 @@ class SprawTask extends SyncableParamGroup_ with SyncNode<SprawTaskResp> impleme
   @override
   bool get completed{
     if(spraw.completed) return true;
-    Map<String, bool> taskComplMap = spraw.taskComplMap;
+    Map<String, bool?> taskComplMap = spraw.taskComplMap;
     return taskComplMap[index.toString()]??false;
   }
 
-  set _completed(bool value){
-    Map<String, bool> reqComplMap = spraw.taskComplMap;
+  set _completed(bool? value){
+    Map<String, bool?> reqComplMap = spraw.taskComplMap;
     reqComplMap[index.toString()] = value;
-    shaPref.setMap(ShaPref.SHA_PREF_SPRAW_COMPLETED_REQ_MAP_(spraw), reqComplMap);
+    shaPref!.setMap(ShaPref.SHA_PREF_SPRAW_COMPLETED_REQ_MAP_(spraw), reqComplMap);
   }
   
   @override
-  void setCompleted(BuildContext context, bool completed){
+  void setCompleted(BuildContext context, bool? completed){
     _completed = completed;
     setSingleState(PARAM_COMPLETED, SyncableParamSingle_.STATE_NOT_SYNCED);
     synchronizer.post();
@@ -67,14 +67,14 @@ class SprawTask extends SyncableParamGroup_ with SyncNode<SprawTaskResp> impleme
 
   @override
   String get note{
-    Map<String, String> reqNoteMap = shaPref.getMap<String, String>(ShaPref.SHA_PREF_SPRAW_REQ_NOTES_MAP_(spraw), {});
+    Map<String, String> reqNoteMap = shaPref!.getMap<String, String>(ShaPref.SHA_PREF_SPRAW_REQ_NOTES_MAP_(spraw), {});
     return reqNoteMap[index.toString()]??'';
   }
 
   set _note(String note){
-    Map<String, String> reqNoteMap = shaPref.getMap<String, String>(ShaPref.SHA_PREF_SPRAW_REQ_NOTES_MAP_(spraw), {});
+    Map<String, String> reqNoteMap = shaPref!.getMap<String, String>(ShaPref.SHA_PREF_SPRAW_REQ_NOTES_MAP_(spraw), {});
     reqNoteMap[index.toString()] = note;
-    shaPref.setMap(ShaPref.SHA_PREF_SPRAW_REQ_NOTES_MAP_(spraw), reqNoteMap);
+    shaPref!.setMap(ShaPref.SHA_PREF_SPRAW_REQ_NOTES_MAP_(spraw), reqNoteMap);
   }
 
   @override

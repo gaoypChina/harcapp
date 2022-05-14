@@ -15,12 +15,12 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class MemoryListWidget extends StatefulWidget{
 
-  final Song song;
-  final ScrollController controller;
+  final Song? song;
+  final ScrollController? controller;
 
-  final Function() onEditMemoryTap;
-  final Function(Memory memory) onEditMemoryLongPress;
-  final Function(Song song) onNewMemoryTap;
+  final Function()? onEditMemoryTap;
+  final Function(Memory memory)? onEditMemoryLongPress;
+  final Function(Song? song)? onNewMemoryTap;
 
   const MemoryListWidget(
       this.song,
@@ -29,7 +29,7 @@ class MemoryListWidget extends StatefulWidget{
         this.onEditMemoryTap,
         this.onEditMemoryLongPress,
         this.onNewMemoryTap,
-        Key key
+        Key? key
       }): super(key: key);
 
   @override
@@ -39,15 +39,15 @@ class MemoryListWidget extends StatefulWidget{
 
 class MemoryListWidgetState extends State<MemoryListWidget>{
 
-  Song get song => widget.song;
-  ScrollController get controller => widget.controller;
+  Song? get song => widget.song;
+  ScrollController? get controller => widget.controller;
 
-  void Function() get onEditMemoryTap => widget.onEditMemoryTap;
-  void Function(Memory memory) get onEditMemoryLongPress => widget.onEditMemoryLongPress;
+  void Function()? get onEditMemoryTap => widget.onEditMemoryTap;
+  void Function(Memory memory)? get onEditMemoryLongPress => widget.onEditMemoryLongPress;
 
-  int fontIndex;
+  int? fontIndex;
 
-  bool hideMemories;
+  bool? hideMemories;
 
   @override
   void initState() {
@@ -61,7 +61,7 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
 
     List<Widget> children = [];
 
-    for(Memory memory in song.memories) {
+    for(Memory memory in song!.memories) {
       children.add(
           Padding(
             padding: const EdgeInsets.all(Dimen.DEF_MARG),
@@ -69,7 +69,7 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
                 memory,
                 onTap: onEditMemoryTap,
                 onLongPress: onEditMemoryLongPress == null ? null :
-                    () => onEditMemoryLongPress(memory)
+                    () => onEditMemoryLongPress!(memory)
             ),
           )
       );
@@ -86,7 +86,7 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
             SimpleButton(
               radius: AppCard.BIG_RADIUS,
               margin: const EdgeInsets.all(Dimen.DEF_MARG),
-              onTap: widget.onNewMemoryTap==null?null:() => widget.onNewMemoryTap(song),
+              onTap: widget.onNewMemoryTap==null?null:() => widget.onNewMemoryTap!(song),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -105,7 +105,7 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
               padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
             ),
 
-            if(song.isOfficial && false)
+            if(song!.isOfficial && false)
               Positioned(
                 top: 0,
                 bottom: 0,
@@ -120,7 +120,7 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
                       builder: (context) => BottomSheetDef(
                         title: 'Wspomnienia innych osób',
                         builder: (context) => FutureBuilder<List<Memory>>(
-                          future: API.getPublishedMemories(song.fileName), // async work
+                          future: API.getPublishedMemories(song!.fileName), // async work
                           builder: (BuildContext context, AsyncSnapshot<List<Memory>> snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.waiting:
@@ -130,7 +130,7 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
                                   return Text('Wystąpił błąd: ${snapshot.error}', style: AppTextStyle());
                                 else {
 
-                                  List<Memory> memories = snapshot.data;
+                                  List<Memory> memories = snapshot.data!;
                                   memories.shuffle();
 
                                   return Column(

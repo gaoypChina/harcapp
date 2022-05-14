@@ -16,22 +16,22 @@ const int PLAY_CONTINUE = 2;
 _jumpPlayRandSong(
   BuildContext context,
   //DisplayedSongsProvider prov,
-  PageController controller,
+  PageController? controller,
   double top
 )async{
-  List<Song> albSongs = List.of(Album.current.songs);
+  List<Song?> albSongs = List.of(Album.current.songs);
   albSongs.shuffle();
 
-  Song song;
-  int page;
-  for(Song _s in albSongs)
-    if(_s.youtubeLink!=null) {
+  Song? song;
+  late int page;
+  for(Song? _s in albSongs)
+    if(_s!.youtubeLink!=null) {
       song = _s;
       page = Album.current.songs.indexOf(song);
       break;
     }
 
-  controller.jumpToPage(page);
+  controller!.jumpToPage(page);
 
   await Future.delayed(Duration(milliseconds: 300));
 
@@ -47,13 +47,13 @@ Future<void> _jumpPlayNextSong(
   PageController controller,
   double top,
 )async{
-  Song song;
-  if(controller.page.round() < Album.current.songs.length){
+  Song? song;
+  if(controller.page!.round() < Album.current.songs.length){
 
-    int page = controller.page.round() + 1;
+    int page = controller.page!.round() + 1;
     song = Album.current.songs[page];
 
-    while(song.youtubeLink==null && page<Album.current.songs.length-1){
+    while(song!.youtubeLink==null && page<Album.current.songs.length-1){
       page++;
       song = Album.current.songs[page];
     }
@@ -76,8 +76,8 @@ Future<void> _jumpPlayNextSong(
 Future<void> playYoutubeSong(
   BuildContext context,
   //DisplayedSongsProvider prov,
-  PageController controller,
-  Song song,
+  PageController? controller,
+  Song? song,
   double top
 ) async => openDialog(
     context: context,
@@ -93,7 +93,7 @@ Future<void> playYoutubeSong(
 
                   if(autoplay == PLAY_CONTINUE) {
                     if(random) _jumpPlayRandSong(context, controller, top); // post, żeby wcześniej załadował się fragmentState, z którego playNext korzysta.
-                    else _jumpPlayNextSong(context, controller, top);
+                    else _jumpPlayNextSong(context, controller!, top);
                   }else if(autoplay == PLAY_REPEAT)
                     playYoutubeSong(context, controller, song, top);
 
@@ -103,7 +103,7 @@ Future<void> playYoutubeSong(
 
                 if(autoplay == PLAY_CONTINUE) {
                   if(random) _jumpPlayRandSong(context, controller, top); // post, żeby wcześniej załadował się fragmentState, z którego playNext korzysta.
-                  else _jumpPlayNextSong(context, controller, top);
+                  else _jumpPlayNextSong(context, controller!, top);
                 }else if(autoplay == PLAY_REPEAT)
                   playYoutubeSong(context, controller, song, top);
               },

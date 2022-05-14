@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/account_header_widget.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_common_classes/scan_qr_code.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
@@ -14,7 +15,6 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:qrcode_reader/qrcode_reader.dart';
 
 enum _State{
   init,
@@ -26,13 +26,13 @@ enum _State{
 
 class SearchUserWidget extends StatefulWidget{
 
-  final String title;
-  final void Function(UserDataNick) onUserSelected;
+  final String? title;
+  final void Function(UserDataNick)? onUserSelected;
 
-  final List<String> illegalUserKey;
-  final String illegalAttemptMessage;
+  final List<String>? illegalUserKey;
+  final String? illegalAttemptMessage;
 
-  const SearchUserWidget({this.title, this.onUserSelected, this.illegalUserKey, this.illegalAttemptMessage, Key key}): super(key: key);
+  const SearchUserWidget({this.title, this.onUserSelected, this.illegalUserKey, this.illegalAttemptMessage, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => SearchUserWidgetState();
@@ -41,21 +41,21 @@ class SearchUserWidget extends StatefulWidget{
 
 class SearchUserWidgetState extends State<SearchUserWidget>{
 
-  String get title => widget.title;
-  void Function(UserDataNick) get onUserSelected => widget.onUserSelected;
+  String? get title => widget.title;
+  void Function(UserDataNick)? get onUserSelected => widget.onUserSelected;
   List<String> get illegalUserKey => widget.illegalUserKey??[];
-  String get illegalAttemptMessage => widget.illegalAttemptMessage;
+  String? get illegalAttemptMessage => widget.illegalAttemptMessage;
 
-  TextEditingController controller;
+  TextEditingController? controller;
 
-  UserDataNick userData;
-  bool illegalUserSelected;
+  UserDataNick? userData;
+  late bool illegalUserSelected;
 
-  String noSuchUser;
-  _State _state;
+  String? noSuchUser;
+  _State? _state;
 
   void runSearch(){
-    if(controller.text.isEmpty){
+    if(controller!.text.isEmpty){
       showAppToast(context, text: 'Szukasz <b>nikogo</b>?');
       return;
     }
@@ -66,7 +66,7 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
     });
 
     ApiUser.searchByNick(
-      controller.text,
+      controller!.text,
       onSuccess: (UserDataNick userData){
         this.userData = userData;
         setState(() {
@@ -74,9 +74,9 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
           _state = _State.found;
         });
       },
-      onError: ({bool noSuchUser}) => setState((){
-        if(noSuchUser) {
-          this.noSuchUser = controller.text;
+      onError: ({bool? noSuchUser}) => setState((){
+        if(noSuchUser!) {
+          this.noSuchUser = controller!.text;
           _state = _State.noSuchUser;
         }else{
           _state = _State.error;
@@ -132,11 +132,9 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
                           icon: const Icon(MdiIcons.qrcodeScan),
                           onPressed: () async {
                             if(await Permission.camera.request().isGranted) {
-                              String nick = await QRCodeReader()
-                                  .setAutoFocusIntervalInMs(200)
-                                  .setForceAutoFocus(true)
-                                  .scan();
-                              controller.text = nick;
+                              String? nick = await scanQrCode();
+                              if(nick == null) return;
+                              controller!.text = nick;
                               runSearch();
                             }
                           }
@@ -184,7 +182,7 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
                               left: Dimen.SIDE_MARG,
                               right: Dimen.SIDE_MARG
                           ),
-                          child: AccountHeaderWidget(userData.name)
+                          child: AccountHeaderWidget(userData!.name)
 
                         /*
                           Row(
@@ -253,7 +251,7 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
                                   return;
                                 }
 
-                                onUserSelected?.call(userData);
+                                onUserSelected?.call(userData!);
                                 Navigator.pop(context);
                               }
                           ),
@@ -274,9 +272,9 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
 }
 
 
-Future<UserDataNick> openSearchUserDialog(BuildContext context, {String title, List<String> illegalUserKeys, String illegalAttemptMessage}) async {
+Future<UserDataNick?> openSearchUserDialog(BuildContext context, {String? title, List<String>? illegalUserKeys, String? illegalAttemptMessage}) async {
 
-  UserDataNick userData;
+  UserDataNick? userData;
 
   await openDialog(
     context: context,

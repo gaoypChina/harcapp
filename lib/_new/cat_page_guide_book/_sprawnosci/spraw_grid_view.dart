@@ -11,28 +11,28 @@ class SprawGridView extends StatelessWidget{
 
   final String title;
   final String mode;
-  final List<String> UIDs;
-  final IconData icon;
-  final Color sprawCardBackgroundColor;
-  final Widget emptyWidget;
+  final List<String>? UIDs;
+  final IconData? icon;
+  final Color? sprawCardBackgroundColor;
+  final Widget? emptyWidget;
   final String emptyMessage;
   final bool showProgress;
-  final void Function(Spraw spraw) onSprawLongPress;
+  final void Function(Spraw spraw)? onSprawLongPress;
 
-  SprawGridView({@required this.title, @required this.mode, @required this.UIDs, @required this.icon, this.sprawCardBackgroundColor, this.emptyWidget, this.emptyMessage = 'Pusto', this.showProgress = false, this.onSprawLongPress});
+  SprawGridView({required this.title, required this.mode, required this.UIDs, required this.icon, this.sprawCardBackgroundColor, this.emptyWidget, this.emptyMessage = 'Pusto', this.showProgress = false, this.onSprawLongPress});
 
   @override
   Widget build(BuildContext context) {
 
     List<Widget> children = [];
 
-    for(String UID in UIDs){
+    for(String UID in UIDs!){
 
-      Spraw spraw = Spraw.fromUID(UID);
+      Spraw? spraw = Spraw.fromUID(UID);
 
       if(spraw == null){
         if(true)
-          children.add(AppCard(child: Text(spraw.uniqName)));
+          children.add(AppCard(child: Text(spraw!.uniqName)));
         continue;
       }
 
@@ -57,7 +57,7 @@ class SprawGridView extends StatelessWidget{
             right: -0.1*MediaQuery.of(context).size.width,
             bottom: -0.1*MediaQuery.of(context).size.width,
             child: Hero(
-              tag: icon,
+              tag: icon!,
               child: RotationTransition(
                 turns: AlwaysStoppedAnimation(-15 / 360),
                 child: Icon(
@@ -69,7 +69,7 @@ class SprawGridView extends StatelessWidget{
             )
         ),
 
-        if(UIDs.isEmpty)
+        if(UIDs!.isEmpty)
           emptyWidget??
           Positioned.fill(
             child: Center(

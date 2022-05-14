@@ -9,10 +9,10 @@ class ParticipHeaderWidget extends StatelessWidget{
 
   final String name;
   final bool shadow;
-  final CompRole role;
+  final CompRole? role;
   final dynamic heroTag;
 
-  const ParticipHeaderWidget(this.name, this.shadow, this.role, {this.heroTag, Key key}): super(key: key);
+  const ParticipHeaderWidget(this.name, this.shadow, this.role, {this.heroTag, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => AccountHeaderWidget(
@@ -22,7 +22,7 @@ class ParticipHeaderWidget extends StatelessWidget{
     trailing: Row(
       children: [
         const SizedBox(width: Dimen.ICON_MARG),
-        Icon(compRoleToIcon[role], color: iconDisab_(context))
+        Icon(compRoleToIcon[role!], color: iconDisab_(context))
       ],
     ),
   );

@@ -30,7 +30,7 @@ class Equipment{
 class EquipmentWidget extends StatelessWidget{
 
   final Equipment equipment;
-  final int amount;
+  final int? amount;
   const EquipmentWidget(this.equipment, this.amount);
 
   @override

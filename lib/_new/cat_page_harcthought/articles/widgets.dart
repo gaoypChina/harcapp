@@ -17,7 +17,7 @@ class ParagraphWidget extends StatelessWidget{
 
   final Paragraph paragraph;
 
-  const ParagraphWidget(this.paragraph, {Key key}): super(key: key);
+  const ParagraphWidget(this.paragraph, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -40,7 +40,7 @@ class HeaderWidget extends StatelessWidget{
 
   final Header header;
 
-  const HeaderWidget(this.header, {Key key}): super(key: key);
+  const HeaderWidget(this.header, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -63,7 +63,7 @@ class QuoteWidget extends StatelessWidget{
 
   final Quote quote;
 
-  const QuoteWidget(this.quote, {Key key}): super(key: key);
+  const QuoteWidget(this.quote, {Key? key}): super(key: key);
 
   TextStyle style(ArticleThemeProvider prov) => HeaderTextStyle(
     //paraFontFamily,
@@ -112,7 +112,7 @@ class PictureWidget extends StatelessWidget{
 
   final Picture picture;
 
-  const PictureWidget(this.picture, {Key key}): super(key: key);
+  const PictureWidget(this.picture, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -127,14 +127,14 @@ class PictureWidget extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Image(
-                image: NetworkImage(picture.link),
+                image: NetworkImage(picture.link!),
                 fit: BoxFit.cover,
               ),
-              if(picture.desc != null && picture.desc.isNotEmpty)
+              if(picture.desc != null && picture.desc!.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.all(Dimen.DEF_MARG),
                   child: Text(
-                    picture.desc,
+                    picture.desc!,
                     style: AppTextStyle(
                         fontSize: Dimen.TEXT_SIZE_TINY,
                         //color: prov.colorOption.hint,
@@ -154,13 +154,13 @@ class YoutubeWidget extends StatelessWidget{
 
   final Youtube item;
 
-  const YoutubeWidget(this.item, {Key key}): super(key: key);
+  const YoutubeWidget(this.item, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     YoutubePlayerController _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(item.link),
+      initialVideoId: YoutubePlayer.convertUrlToId(item.link!)!,
       flags: const YoutubePlayerFlags(
         autoPlay: false,
         mute: false,
@@ -191,14 +191,14 @@ class ArticleWidgetSmall extends StatelessWidget{
   final Article article;
   final PageController controller;
 
-  const ArticleWidgetSmall(this.article, this.controller, {Key key}): super(key: key);
+  const ArticleWidgetSmall(this.article, this.controller, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     return AppCard(
       onTap: () {
-        int index = Article.all.indexOf(article);
+        int index = Article.all!.indexOf(article);
         controller.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOutSine);
 
         //Navigator.pop(context);
@@ -221,14 +221,14 @@ class ArticleWidgetSmall extends StatelessWidget{
         children: [
           AspectRatio(
               aspectRatio: 1,
-              child: FutureBuilder<ImageProvider>(
+              child: FutureBuilder<ImageProvider?>(
                 future: article?.loadCover(), // async work
-                builder: (BuildContext context, AsyncSnapshot<ImageProvider> snapshot) {
+                builder: (BuildContext context, AsyncSnapshot<ImageProvider?> snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting: return const Text('Loading....');
                     default:
                       if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-                      else return Image(image: snapshot.data, fit: BoxFit.cover);
+                      else return Image(image: snapshot.data!, fit: BoxFit.cover);
                   }
                 },
               )

@@ -3,18 +3,18 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 
 class IndivCompTaskEditable{
 
-  String editedTitle;
-  String editedDescription;
-  int editedPoints;
-  int editedPosition;
-  TaskState editedState;
+  String? editedTitle;
+  String? editedDescription;
+  int? editedPoints;
+  int? editedPosition;
+  TaskState? editedState;
 
   IndivCompTask task;
 
   bool get created => task.key != null;
   bool get frozen => task.state == TaskState.CLOSED_RETAINING;
 
-  bool remove;
+  bool? remove;
 
   IndivCompTaskEditable(this.task){
     editedTitle = task.title;

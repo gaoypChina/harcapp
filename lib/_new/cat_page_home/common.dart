@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 
 class ConfettiLayer extends StatelessWidget{
 
-  final ConfettiController confettiController;
+  final ConfettiController? confettiController;
 
-  const ConfettiLayer(this.confettiController, {Key key}): super(key: key);
+  const ConfettiLayer(this.confettiController, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.topCenter,
       child: ConfettiWidget(
-        confettiController: confettiController,
+        confettiController: confettiController!,
         emissionFrequency: 0,
         numberOfParticles: 200,
         blastDirectionality: BlastDirectionality.explosive,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
@@ -21,7 +21,7 @@ import 'data.dart';
 
 class LasFragment extends StatefulWidget{
 
-  const LasFragment({Key key}) : super(key: key);
+  const LasFragment({Key? key}) : super(key: key);
 
   @override
   State createState() => LasFragmentState();
@@ -33,24 +33,24 @@ class LasFragmentState extends State<LasFragment> with TickerProviderStateMixin,
   @override
   String get moduleId => ModuleStatsMixin.las;
 
-  static int currentPage;
-  static ValueNotifier<double> _notifier;
+  static int? currentPage;
+  static ValueNotifier<double>? _notifier;
 
-  TabController controller;
+  TabController? controller;
 
   @override
   void initState() {
     _notifier = ValueNotifier(0);
 
     controller = TabController(vsync: this, length: items.length);
-    controller.animation.addListener(() => _notifier.value = controller.index + controller.offset);
+    controller!.animation!.addListener(() => _notifier!.value = controller!.index + controller!.offset);
 
     super.initState();
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    controller!.dispose();
     super.dispose();
   }
 
@@ -72,20 +72,15 @@ class LasFragmentState extends State<LasFragment> with TickerProviderStateMixin,
                 actions: <Widget>[
                   IconButton(
                     icon: const Icon(MdiIcons.magnify),
-                    onPressed: (){
-                      Navigator.push(
-                          context,
-                          PageTransition(
-                              type: PageTransitionType.rippleRightDown,
-                              child: SearchPage(
-                                onItemTap: (index){
-                                  controller.animateTo(index);
-                                  Navigator.pop(context);
-                                },
-                              )
-                          )
-                      );
-                    },
+                    onPressed: () => pushPage(
+                      context,
+                      builder: (context) => SearchPage(
+                        onItemTap: (index){
+                          controller!.animateTo(index);
+                          Navigator.pop(context);
+                        },
+                      )
+                    ),
                   ),
                 ],
                 bottom: TabBar(
@@ -120,9 +115,9 @@ class Item extends StatelessWidget{
 
   final int index;
   final ItemData data;
-  final ValueNotifier<double> notifier;
+  final ValueNotifier<double>? notifier;
 
-  const Item(this.index, this.data, this.notifier, {Key key}): super(key: key);
+  const Item(this.index, this.data, this.notifier, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -150,12 +145,12 @@ class Item extends StatelessWidget{
           child: SizedBox(
             height: CARD_HEIGHT,
             child: AnimatedBuilder(
-              animation: notifier,
+              animation: notifier!,
               builder: (context, child) =>
                   OverflowBox(
                       alignment: Alignment.center,
                       child: Transform.translate(
-                          offset: Offset(MediaQuery.of(context).size.width*(notifier.value - index)/6, 0),
+                          offset: Offset(MediaQuery.of(context).size.width*(notifier!.value - index)/6, 0),
                           child: Container(
                             decoration: BoxDecoration(
                               image: DecorationImage(
@@ -172,7 +167,7 @@ class Item extends StatelessWidget{
 
         if(data.background_kora!=null)
           AppCard(
-            onTap: data.background_kora.author==null?null:() => showAppToast(context, text: data.background_kora.author),
+            onTap: data.background_kora!.author==null?null:() => showAppToast(context, text: data.background_kora!.author),
             radius: AppCard.BIG_RADIUS,
             padding: EdgeInsets.zero,
               margin: const EdgeInsets.only(
@@ -184,17 +179,17 @@ class Item extends StatelessWidget{
             child: SizedBox(
               height: CARD_HEIGHT,
               child: AnimatedBuilder(
-                animation: notifier,
+                animation: notifier!,
                 builder: (context, child) =>
                     OverflowBox(
                         maxWidth: MediaQuery.of(context).size.width*1.2,
                         alignment: Alignment.center,
                         child: Transform.translate(
-                            offset: Offset(MediaQuery.of(context).size.width*(notifier.value - index)/6, 0),
+                            offset: Offset(MediaQuery.of(context).size.width*(notifier!.value - index)/6, 0),
                             child: Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: AssetImage('assets/images/leaf_kora/${data.background_kora.path}.webp'),
+                                  image: AssetImage('assets/images/leaf_kora/${data.background_kora!.path}.webp'),
                                   fit: BoxFit.cover,
                                 ),
                               ),

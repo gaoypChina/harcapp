@@ -16,8 +16,8 @@ import 'common.dart';
 
 class IndivCompDangerEditorWidget extends StatefulWidget{
 
-  final IndivComp comp;
-  final void Function() onRemoved;
+  final IndivComp? comp;
+  final void Function()? onRemoved;
 
   const IndivCompDangerEditorWidget(this.comp, {this.onRemoved});
 
@@ -28,7 +28,7 @@ class IndivCompDangerEditorWidget extends StatefulWidget{
 
 class _IndivCompDangerEditorWidgetState extends State<IndivCompDangerEditorWidget> with AutomaticKeepAliveClientMixin{
 
-  IndivComp get comp => widget.comp;
+  IndivComp? get comp => widget.comp;
 
   @override
   Widget build(BuildContext context) => CustomScrollView(
@@ -63,10 +63,10 @@ class _IndivCompDangerEditorWidgetState extends State<IndivCompDangerEditorWidge
 
                         Navigator.pop(context);
 
-                        showLoadingWidget(context, comp.colors.avgColor, 'Zwijanie współzawodnictwa...');
+                        showLoadingWidget(context, comp!.colors!.avgColor, 'Zwijanie współzawodnictwa...');
 
                         await ApiIndivComp.delete(
-                            compKey: comp.key,
+                            compKey: comp!.key,
                             onSuccess: ()async{
                               IndivComp.removeFromAll(context, comp);
                               showAppToast(context, text: 'Poszło z dymem!');

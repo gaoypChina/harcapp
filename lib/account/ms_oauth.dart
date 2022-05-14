@@ -22,6 +22,6 @@ class ZhpAccAuth{
 
   static Future<void> logout() => msOauth.logout();
 
-  static Future<String> get azureToken => msOauth.getIdToken();
+  static Future<String?> get azureToken => msOauth.getIdToken();
 
 }

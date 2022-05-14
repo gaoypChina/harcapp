@@ -12,7 +12,7 @@ import '../../details/app_settings.dart';
 
 class ChildStopnie extends StatelessWidget{
 
-  const ChildStopnie({Key key}) : super(key: key);
+  const ChildStopnie({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -218,8 +218,8 @@ class ChildStopnie extends StatelessWidget{
 class BottomSheetStopien extends StatelessWidget{
 
   final String title;
-  final Color color;
-  final Color textColor;
+  final Color? color;
+  final Color? textColor;
   final String idea;
   final List<String> warOtw;
   final List<String> zadania;
@@ -227,15 +227,15 @@ class BottomSheetStopien extends StatelessWidget{
   final String oznaczenie;
 
   const BottomSheetStopien({
-      @required this.title,
-      @required this.color,
-      @required this.textColor,
-      @required this.idea,
-      @required this.warOtw,
-      @required this.zadania,
-      @required this.warZamk,
-      @required this.oznaczenie,
-      Key key,
+      required this.title,
+      required this.color,
+      required this.textColor,
+      required this.idea,
+      required this.warOtw,
+      required this.zadania,
+      required this.warZamk,
+      required this.oznaczenie,
+      Key? key,
   }): super(key: key);
 
   Widget getListWidget(List<String> elements){

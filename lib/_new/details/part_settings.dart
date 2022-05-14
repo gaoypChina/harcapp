@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
+import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_loader.dart';
 import 'package:harcapp/_new/details/storage_display_page.dart';
 import 'package:harcapp/account/account.dart';
@@ -30,7 +31,7 @@ import 'common.dart';
 
 class PartSettings extends StatefulWidget{
 
-  const PartSettings({Key key}): super(key: key);
+  const PartSettings({Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => PartSettingsState();
@@ -99,8 +100,8 @@ class PartSettingsState extends State<PartSettings>{
                   padding: const EdgeInsets.all(Dimen.ICON_MARG),
                   onTap:
                   AppSettings.theme == AppTheme.auto?
-                      () async {
-                    TimeOfDay time = await showTimePicker(
+                  () async {
+                    TimeOfDay? time = await showTimePicker(
                       helpText: 'WSCHÓD SŁOŃCA',
                       initialTime: AppSettings.sunriseTime,
                       context: context,
@@ -128,7 +129,7 @@ class PartSettingsState extends State<PartSettings>{
                     onTap:
                     AppSettings.theme == AppTheme.auto?
                         ()async {
-                      TimeOfDay time = await showTimePicker(
+                      TimeOfDay? time = await showTimePicker(
                         helpText: 'ZACHÓD SŁOŃCA',
                         initialTime: AppSettings.sunsetTime,
                         context: context,
@@ -263,7 +264,7 @@ class _ButtonFactoryResetYes extends StatefulWidget{
 
 class _ButtonFactoryResetYesState extends State<_ButtonFactoryResetYes>{
 
-  SingleComputerListener songLoaderListener;
+  SingleComputerListener? songLoaderListener;
 
   @override
   void initState() {
@@ -271,7 +272,7 @@ class _ButtonFactoryResetYesState extends State<_ButtonFactoryResetYes>{
     songLoaderListener = SingleComputerListener<String>(
         onEnd: (String err, bool forceFinished)async{
 
-          songLoader.removeListener(songLoaderListener);
+          songLoader.removeListener(songLoaderListener as SingleComputerListener<String>);
           await factoryResetLocal(context);
           await AccountData.forgetAccount();
           Provider.of<LoginProvider>(context, listen: false).notify();
@@ -288,7 +289,7 @@ class _ButtonFactoryResetYesState extends State<_ButtonFactoryResetYes>{
   @override
   void dispose() {
 
-    songLoader.removeListener(songLoaderListener);
+    songLoader.removeListener(songLoaderListener as SingleComputerListener<String>);
 
     super.dispose();
   }
@@ -308,7 +309,7 @@ class _ButtonFactoryResetYesState extends State<_ButtonFactoryResetYes>{
 
         setState(() => widget.yesPressed.set(true));
 
-        songLoader.addListener(songLoaderListener);
+        songLoader.addListener(songLoaderListener as SingleComputerListener<String>);
 
         await songLoader.run();
       },

@@ -16,7 +16,7 @@ class HarcFormWidget extends StatefulWidget{
 
   final HarcForm form;
 
-  const HarcFormWidget(this.form, {Key key}): super(key: key);
+  const HarcFormWidget(this.form, {Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => HarcFormWidgetState();
@@ -30,7 +30,7 @@ class HarcFormWidgetState extends State<HarcFormWidget> with ModuleStatsMixin{
 
   HarcForm get form => widget.form;
 
-  String text;
+  String? text;
 
   void run() async {
     text = await readStringFromAssets('assets/forms/${form.filename}');
@@ -80,7 +80,7 @@ class HarcFormWidgetState extends State<HarcFormWidget> with ModuleStatsMixin{
 
             if(text != null)
               Text(
-                text,
+                text!,
                 style: AppTextStyle(
                   fontSize: Dimen.TEXT_SIZE_BIG,
                 ),
@@ -233,7 +233,7 @@ class _MetoTile extends StatelessWidget{
 class MetoGridWidget extends StatelessWidget{
 
   final HarcForm form;
-  const MetoGridWidget(this.form, {Key key}): super(key: key);
+  const MetoGridWidget(this.form, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(

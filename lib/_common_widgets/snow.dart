@@ -3,20 +3,21 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class SnowWidget extends StatefulWidget {
-  final int totalSnow;
-  final double speed;
-  final bool isRunning;
+  final int? totalSnow;
+  final double? speed;
+  final bool? isRunning;
 
-  SnowWidget({Key key, this.totalSnow, this.speed, this.isRunning}) : super(key: key);
+  const SnowWidget({Key? key, this.totalSnow, this.speed, this.isRunning}) : super(key: key);
 
-  _SnowWidgetState createState() => _SnowWidgetState();
+  @override
+  SnowWidgetState createState() => SnowWidgetState();
 }
 
-class _SnowWidgetState extends State<SnowWidget> with SingleTickerProviderStateMixin {
-  Random _rnd;
-  AnimationController controller;
-  Animation animation;
-  List<Snow> _snows;
+class SnowWidgetState extends State<SnowWidget> with SingleTickerProviderStateMixin {
+  late Random _rnd;
+  AnimationController? controller;
+  Animation? animation;
+  List<Snow>? _snows;
   double angle = 0;
   double W = 0;
   double H = 0;
@@ -27,14 +28,14 @@ class _SnowWidgetState extends State<SnowWidget> with SingleTickerProviderStateM
   }
 
   init() {
-    _rnd = new Random();
+    _rnd = Random();
     if (controller == null) {
-      controller = new AnimationController(
+      controller = AnimationController(
           lowerBound: 0,
           upperBound: 1,
           vsync: this,
           duration: const Duration(milliseconds: 20000));
-      controller.addListener(() {
+      controller!.addListener(() {
         if (mounted) {
           setState(() {
             update();
@@ -42,57 +43,57 @@ class _SnowWidgetState extends State<SnowWidget> with SingleTickerProviderStateM
         }
       });
     }
-    if (!widget.isRunning) {
-      controller.stop();
+    if (!widget.isRunning!) {
+      controller!.stop();
     } else {
-      controller.repeat();
+      controller!.repeat();
     }
   }
 
   @override
   dispose() {
-    controller.dispose();
+    controller!.dispose();
     super.dispose();
   }
 
   _createSnow() {
-    _snows = new List();
-    for (var i = 0; i < widget.totalSnow; i++) {
-      _snows.add(new Snow(
+    _snows = [];
+    for (var i = 0; i < widget.totalSnow!; i++) {
+      _snows!.add(Snow(
           x: _rnd.nextDouble() * W,
           y: _rnd.nextDouble() * H,
           r: _rnd.nextDouble() * 4 + 1,
-          d: _rnd.nextDouble() * widget.speed));
+          d: _rnd.nextDouble() * widget.speed!));
     }
   }
 
   update() {
     //print(" update" + widget.isRunning.toString());
     angle += 0.001;
-    if (_snows == null || widget.totalSnow != _snows.length) {
+    if (_snows == null || widget.totalSnow != _snows!.length) {
       _createSnow();
     }
-    for (var i = 0; i < widget.totalSnow; i++) {
-      var snow = _snows[i];
+    for (var i = 0; i < widget.totalSnow!; i++) {
+      var snow = _snows![i];
       //We will add 1 to the cos function to prevent negative values which will lead flakes to move upwards
       //Every particle has its own density which can be used to make the downward movement different for each flake
       //Lets make it more random by adding in the radius
-      snow.y += (cos(angle + snow.d) + 1 + snow.r / 2) * widget.speed;
-      snow.x += sin(angle) * 2 * widget.speed;
-      if (snow.x > W + 5 || snow.x < -5 || snow.y > H) {
+      snow.y += (cos(angle + snow.d) + 1 + snow.r/ 2) * widget.speed!;
+      snow.x += sin(angle) * 2 * widget.speed!;
+      if (snow.x> W + 5 || snow.x< -5 || snow.y> H) {
         if (i % 3 > 0) {
           //66.67% of the flakes
-          _snows[i] =
-          new Snow(x: _rnd.nextDouble() * W, y: -10, r: snow.r, d: snow.d);
+          _snows![i] =
+          Snow(x: _rnd.nextDouble() * W, y: -10, r: snow.r, d: snow.d);
         } else {
           //If the flake is exitting from the right
           if (sin(angle) > 0) {
             //Enter from the left
-            _snows[i] =
-            new Snow(x: -5, y: _rnd.nextDouble() * H, r: snow.r, d: snow.d);
+            _snows![i] =
+            Snow(x: -5, y: _rnd.nextDouble() * H, r: snow.r, d: snow.d);
           } else {
             //Enter from the right
-            _snows[i] = new Snow(
+            _snows![i] = Snow(
                 x: W + 5, y: _rnd.nextDouble() * H, r: snow.r, d: snow.d);
           }
         }
@@ -102,10 +103,10 @@ class _SnowWidgetState extends State<SnowWidget> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    if (widget.isRunning && !controller.isAnimating) {
-      controller.repeat();
-    } else if (!widget.isRunning && controller.isAnimating) {
-      controller.stop();
+    if (widget.isRunning! && !controller!.isAnimating) {
+      controller!.repeat();
+    } else if (!widget.isRunning! && controller!.isAnimating) {
+      controller!.stop();
     }
 
     return LayoutBuilder(
@@ -115,7 +116,7 @@ class _SnowWidgetState extends State<SnowWidget> with SingleTickerProviderStateM
           H = constraints.maxHeight;
         }
         return CustomPaint(
-          willChange: widget.isRunning,
+          willChange: widget.isRunning!,
           painter: SnowPainter(
             // progress: controller.value,
               isRunning: widget.isRunning,
@@ -132,31 +133,36 @@ class Snow {
   double y;
   double r; //radius
   double d; //density
-  Snow({this.x, this.y, this.r, this.d});
+
+  Snow({
+    required this.x,
+    required this.y,
+    required this.r,
+    required this.d
+  });
 }
 
 class SnowPainter extends CustomPainter {
-  List<Snow> snows;
-  bool isRunning;
+  List<Snow>? snows;
+  bool? isRunning;
 
   SnowPainter({this.isRunning, this.snows});
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (snows == null || !isRunning) return;
+    if (snows == null || !isRunning!) return;
+
     //draw circle
-    final Paint paint = new Paint()
+    final Paint paint = Paint()
       ..color = Colors.white
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 10.0;
-    for (var i = 0; i < snows.length; i++) {
-      var snow = snows[i];
-      if (snow != null) {
-        canvas.drawCircle(Offset(snow.x, snow.y), snow.r, paint);
-      }
+    for (var i = 0; i < snows!.length; i++) {
+      var snow = snows![i];
+      canvas.drawCircle(Offset(snow.x, snow.y), snow.r, paint);
     }
   }
 
   @override
-  bool shouldRepaint(SnowPainter oldDelegate) => isRunning;
+  bool shouldRepaint(SnowPainter oldDelegate) => isRunning!;
 }

@@ -10,8 +10,8 @@ class MicrosoftLoginButton extends StatelessWidget{
   static const double height = MainButton.height + 2*SimpleButton.DEF_PADDING;
 
   final String text;
-  final Widget trailing;
-  final void Function() onTap;
+  final Widget? trailing;
+  final void Function()? onTap;
 
   const MicrosoftLoginButton(this.text, {this.trailing, this.onTap});
 
@@ -36,7 +36,7 @@ class MicrosoftLoginButton extends StatelessWidget{
           ),
 
           SizedBox(width: Dimen.ICON_MARG),
-          if(trailing != null) trailing,
+          if(trailing != null) trailing!,
           SizedBox(width: 2*Dimen.ICON_MARG - 4.0),
 
           // SizedBox(width: Dimen.ICON_SIZE + Dimen.ICON_MARG),

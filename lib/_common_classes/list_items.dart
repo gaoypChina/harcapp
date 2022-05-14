@@ -28,7 +28,7 @@ class OrderedItem implements ListItem {
   final String description;
   final int index;
   final imagePath;
-  final Widget onClickWidget;
+  final Widget? onClickWidget;
 
   const OrderedItem(this.description, this.imagePath, this.index, [this.onClickWidget]);
 }

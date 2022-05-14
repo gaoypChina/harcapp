@@ -12,11 +12,11 @@ import '../common_youtube.dart';
 
 class YoutubeCard extends StatefulWidget{
 
-  Song song;
+  Song? song;
   Function(int autoplay, bool random) onSkipped;
-  Function(int autoplay, bool random) onEnded;
+  Function(int autoplay, bool random)? onEnded;
 
-  YoutubeCard(this.song, {@required this.onSkipped, this.onEnded});
+  YoutubeCard(this.song, {required this.onSkipped, this.onEnded});
 
   @override
   State<StatefulWidget> createState() => YoutubeCardState();
@@ -24,21 +24,21 @@ class YoutubeCard extends StatefulWidget{
 
 class YoutubeCardState extends State<YoutubeCard>{
 
-  Song get song => widget.song;
+  Song? get song => widget.song;
 
-  YoutubePlayerController _controller;
+  late YoutubePlayerController _controller;
 
-  bool get random => shaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_YT_RANDOM, false);
-  set random(bool value) => shaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_YT_RANDOM, value);
+  bool get random => shaPref!.getBool(ShaPref.SHA_PREF_SPIEWNIK_YT_RANDOM, false);
+  set random(bool value) => shaPref!.setBool(ShaPref.SHA_PREF_SPIEWNIK_YT_RANDOM, value);
 
-  int get autoplay => shaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_YT_AUTOPLAY, 0);
-  set autoplay(int value) => shaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_YT_AUTOPLAY, value);
+  int get autoplay => shaPref!.getInt(ShaPref.SHA_PREF_SPIEWNIK_YT_AUTOPLAY, 0)!;
+  set autoplay(int value) => shaPref!.setInt(ShaPref.SHA_PREF_SPIEWNIK_YT_AUTOPLAY, value);
 
   @override
   void initState() {
 
     _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(song.youtubeLink),
+      initialVideoId: YoutubePlayer.convertUrlToId(song!.youtubeLink)!,
       flags: YoutubePlayerFlags(enableCaption: false),
     );
 
@@ -60,7 +60,7 @@ class YoutubeCardState extends State<YoutubeCard>{
               YoutubePlayer(
                   controller: _controller,
                   showVideoProgressIndicator: true,
-                  onEnded: (_) => widget.onEnded==null?null:widget.onEnded(autoplay, random)
+                  onEnded: (_) => widget.onEnded==null?null:widget.onEnded!(autoplay, random)
               ),
 
               Row(

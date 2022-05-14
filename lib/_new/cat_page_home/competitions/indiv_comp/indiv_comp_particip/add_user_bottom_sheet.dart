@@ -22,7 +22,7 @@ class AddUserBottomSheet extends StatelessWidget{
 
   final IndivComp comp;
 
-  const AddUserBottomSheet(this.comp, {Key key}) : super(key: key);
+  const AddUserBottomSheet(this.comp, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => BottomSheetDef(
@@ -59,10 +59,10 @@ class AddUserBottomSheet extends StatelessWidget{
                       return;
                     }
 
-                    UserDataNick userData = await openSearchUserDialog(
+                    UserDataNick? userData = await openSearchUserDialog(
                         context,
                         title: 'Dodaj uczestnika',
-                        illegalUserKeys: comp.particips.map((p) => p.key).toList(),
+                        illegalUserKeys: comp.particips.map((p) => p!.key).toList(),
                         illegalAttemptMessage: 'Że niby chcesz dodać kogoś po raz drugi?'
                     );
 
@@ -135,10 +135,10 @@ class AddUserBottomSheet extends StatelessWidget{
 
   void addUser(BuildContext context, UserDataNick userData) async {
 
-    showLoadingWidget(context, comp.colors.avgColor, 'Dodawanie uczestnika');
+    showLoadingWidget(context, comp.colors!.avgColor, 'Dodawanie uczestnika');
 
     await ApiIndivComp.addUsers(
-        id: comp.key,
+        compKey: comp.key,
         users: [ParticipBodyNick(userData.key, CompRole.OBSERVER, true, userData.nick)],
         onSuccess: (List<IndivCompParticip> allParticips){
           comp.participMap.clear();

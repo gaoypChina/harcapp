@@ -6,11 +6,11 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_tas
 
 class RankGroupData{
 
-  final String title;
-  final IconData icon;
+  final String? title;
+  final IconData? icon;
   final List<RankTaskData> taskData;
 
-  const RankGroupData({this.title, this.icon, @required this.taskData});
+  const RankGroupData({this.title, this.icon, required this.taskData});
 
   RankGroup build(RankCat cat, int index){
 
@@ -40,19 +40,19 @@ class RankGroup{
 
   RankGroupData data;
 
-  String get title => data.title;
-  IconData get icon => data.icon;
+  String? get title => data.title;
+  IconData? get icon => data.icon;
 
-  RankCat cat;
-  List<RankTask> _tasks;
-  List<RankTask> get tasks => _tasks;
-  set tasks(List<RankTask> value){
+  RankCat? cat;
+  List<RankTask>? _tasks;
+  List<RankTask>? get tasks => _tasks;
+  set tasks(List<RankTask>? value){
     _tasks = value;
     _taskMap = {for (RankTask task in _tasks??[]) task.index: task};
   }
-  Map<int, RankTask> get taskMap => _taskMap;
-  Map<int, RankTask> _taskMap;
-  int index;
+  Map<int?, RankTask> get taskMap => _taskMap;
+  Map<int?, RankTask> _taskMap;
+  int? index;
 
   RankGroup(this.data, this.cat, this._tasks, this.index)
       :_taskMap = {for (RankTask task in _tasks??[]) task.index: task};

@@ -1,8 +1,8 @@
 class Fact{
   
   final String text;
-  final String source;
-  final List<String> meaning;
+  final String? source;
+  final List<String>? meaning;
   const Fact(this.text, {this.source, this.meaning});
   
 }

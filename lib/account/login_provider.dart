@@ -5,9 +5,9 @@ import 'account.dart';
 
 class LoginProviderListener{
 
-  final void Function(bool) onLogin;
-  final void Function() onRegistered;
-  final void Function(bool) onEmailConfirmChanged;
+  final void Function(bool)? onLogin;
+  final void Function()? onRegistered;
+  final void Function(bool)? onEmailConfirmChanged;
 
   const LoginProviderListener({this.onLogin, this.onRegistered, this.onEmailConfirmChanged});
 
@@ -15,7 +15,7 @@ class LoginProviderListener{
 
 class LoginProvider extends ChangeNotifier{
 
-  List<LoginProviderListener> _listeners;
+  late List<LoginProviderListener?> _listeners;
 
   LoginProvider(){
     _listeners = [];
@@ -25,22 +25,22 @@ class LoginProvider extends ChangeNotifier{
 
   void notify() => notifyListeners();
 
-  void addLoginListener(LoginProviderListener listener) => _listeners.add(listener);
-  void removeLoginListener(LoginProviderListener listener) => _listeners.remove(listener);
+  void addLoginListener(LoginProviderListener? listener) => _listeners.add(listener);
+  void removeLoginListener(LoginProviderListener? listener) => _listeners.remove(listener);
 
   void callOnLogin(bool emailConfirmed){
-    for(LoginProviderListener listener in _listeners)
-      listener.onLogin?.call(emailConfirmed);
+    for(LoginProviderListener? listener in _listeners)
+      listener!.onLogin?.call(emailConfirmed);
   }
 
   void callOnRegister(){
-    for(LoginProviderListener listener in _listeners)
-      listener.onRegistered?.call();
+    for(LoginProviderListener? listener in _listeners)
+      listener!.onRegistered?.call();
   }
 
   void callOnEmailConfirmChanged(bool emailConfirmed){
-    for(LoginProviderListener listener in _listeners)
-      listener.onEmailConfirmChanged?.call(emailConfirmed);
+    for(LoginProviderListener? listener in _listeners)
+      listener!.onEmailConfirmChanged?.call(emailConfirmed);
   }
 
   static void addOnLoginListener(BuildContext context, LoginProviderListener listener) => Provider.of<LoginProvider>(context, listen: false).addLoginListener(listener);

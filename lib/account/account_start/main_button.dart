@@ -17,11 +17,11 @@ class MainButton extends StatelessWidget{
   static const double innerRadius = AppCard.BIG_RADIUS - 3.0;
   static const double height = Dimen.ICON_FOOTPRINT + borderSize;
 
-  final IconData icon;
-  final String text;
-  final bool processing;
+  final IconData? icon;
+  final String? text;
+  final bool? processing;
   final bool enabled;
-  final void Function() onTap;
+  final void Function()? onTap;
 
   const MainButton({
     this.icon,
@@ -47,13 +47,13 @@ class MainButton extends StatelessWidget{
                   color: cardEnab_(context),
                   child: Consumer<ConnectivityProvider>(
                       builder: (context, prov, child) => InkWell(
-                        onTap: !prov.connected || processing || !enabled?null:onTap,
+                        onTap: !prov.connected || processing! || !enabled?null:onTap,
                         child: SizedBox(
                           height: Dimen.ICON_FOOTPRINT,
                           width: double.infinity,
                           child: AnimatedChildSlider(
                             isCenter: false,
-                            index: processing?1:0,
+                            index: processing!?1:0,
                             withOpacity: true,
                             direction: Axis.horizontal,
                             children: [

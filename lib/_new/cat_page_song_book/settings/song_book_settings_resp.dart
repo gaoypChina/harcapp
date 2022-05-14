@@ -8,24 +8,24 @@ class SongBookSettingsResp extends SyncGetResp{
 
   static const collName = SongBookSettings.syncClassId;
 
-  bool alwaysOnScreen;
-  bool scrollText;
-  double autoscrollTextSpeed;
-  bool showChords;
-  bool showDrawChords;
-  InstrumentType drawChordsType;
-  bool showAlbumIcon;
-  bool showTabOfContOnStart;
+  bool? alwaysOnScreen;
+  bool? scrollText;
+  double? autoscrollTextSpeed;
+  bool? showChords;
+  bool? showDrawChords;
+  InstrumentType? drawChordsType;
+  bool? showAlbumIcon;
+  bool? showTabOfContOnStart;
 
   SongBookSettingsResp({
-    @required this.alwaysOnScreen,
-    @required this.scrollText,
-    @required this.autoscrollTextSpeed,
-    @required this.showChords,
-    @required this.showDrawChords,
-    @required this.drawChordsType,
-    @required this.showAlbumIcon,
-    @required this.showTabOfContOnStart
+    required this.alwaysOnScreen,
+    required this.scrollText,
+    required this.autoscrollTextSpeed,
+    required this.showChords,
+    required this.showDrawChords,
+    required this.drawChordsType,
+    required this.showAlbumIcon,
+    required this.showTabOfContOnStart
   });
 
   static SongBookSettingsResp from(Map respData) => SongBookSettingsResp(

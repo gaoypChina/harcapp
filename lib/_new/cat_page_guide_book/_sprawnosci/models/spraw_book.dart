@@ -43,7 +43,7 @@ class SprawBookData{
   };
 
   static SprawBook get lastViewedSprawBook{
-    String lastViewedSprawBook = shaPref.getString(ShaPref.SHA_PREF_LAST_VIEWED_SPRAWBOOK, ZHP_HARC_OLD_ID);
+    String? lastViewedSprawBook = shaPref!.getString(ShaPref.SHA_PREF_LAST_VIEWED_SPRAWBOOK, ZHP_HARC_OLD_ID);
     if(lastViewedSprawBook == ZHP_HARC_OLD_ID)
       return sprawBookZHP;
     else if(lastViewedSprawBook == ZHP_HARC_OLD_WOD_ID)
@@ -55,7 +55,7 @@ class SprawBookData{
 
     return null;
   }
-  static set lastViewedSprawBook(SprawBook sprawBook) => shaPref.setString(ShaPref.SHA_PREF_LAST_VIEWED_SPRAWBOOK, sprawBook.id);
+  static set lastViewedSprawBook(SprawBook sprawBook) => shaPref!.setString(ShaPref.SHA_PREF_LAST_VIEWED_SPRAWBOOK, sprawBook.id);
 
   final String id;
   final String title;
@@ -68,15 +68,15 @@ class SprawBookData{
   final List<SprawGroupData> groupData;
 
   const SprawBookData({
-    @required this.id,
-    @required this.title,
-    @required this.source,
-    @required this.color,
-    @required this.icon,
+    required this.id,
+    required this.title,
+    required this.source,
+    required this.color,
+    required this.icon,
     this.male = false,
     this.female = false,
 
-    @required this.groupData,
+    required this.groupData,
   });
 
   SprawBook build(){
@@ -107,11 +107,11 @@ class SprawBook{
   bool get male => data.male;
   bool get female => data.female;
 
-  List<SprawGroup> groups;
+  List<SprawGroup>? groups;
 
   List<Spraw> get allSpraws{
     List<Spraw> result = [];
-    for(SprawGroup group in groups)
+    for(SprawGroup group in groups!)
       result.addAll(group.allSpraws);
     return result;
   }

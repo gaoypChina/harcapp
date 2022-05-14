@@ -7,27 +7,27 @@ import 'org.dart';
 
 class OrgHandler extends SyncableParamSingle_ with SyncNode<OrgEntityResp>{
 
-  static Org get current{
-    int orgInt = shaPref.getInt(ShaPref.SHA_PREF_ORG, orgToInt[Org.zhp]);
-    return orgFromInt[orgInt];
+  static Org? get current{
+    int? orgInt = shaPref!.getInt(ShaPref.SHA_PREF_ORG, orgToInt[Org.zhp]);
+    return orgFromInt[orgInt!];
   }
 
-  static set current(Org value){
-    shaPref.setInt(ShaPref.SHA_PREF_ORG, orgToInt[value]);
+  static set current(Org? value){
+    shaPref!.setInt(ShaPref.SHA_PREF_ORG, orgToInt[value!]!);
     OrgHandler().state = SyncableParamSingle_.STATE_NOT_SYNCED;
     synchronizer.post(aggregateDelay: const Duration(seconds: 3));
   }
 
-  static Org nextFrom(List<Org> allowedOrgs){
+  static Org? nextFrom(List<Org?> allowedOrgs){
     int currIndex = allowedOrgs.indexOf(current);
-    Org nextOrg = allowedOrgs[(currIndex + 1) % allowedOrgs.length];
+    Org? nextOrg = allowedOrgs[(currIndex + 1) % allowedOrgs.length];
     current = nextOrg;
     return nextOrg;
   }
 
-  static Org currentFrom(List<Org> allowedOrgs){
+  static Org? currentFrom(List<Org> allowedOrgs){
 
-    Org org = current;
+    Org? org = current;
     if(allowedOrgs.contains(org)) return org;
 
     if(org == Org.zhr_c || org == Org.zhr_d)
@@ -55,6 +55,6 @@ class OrgHandler extends SyncableParamSingle_ with SyncNode<OrgEntityResp>{
   String get paramId => syncClassId;
 
   @override
-  get value => orgToInt[current];
+  get value => orgToInt[current!];
 
 }

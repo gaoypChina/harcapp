@@ -13,28 +13,28 @@ class ParticipTile extends StatelessWidget{
   final String userKey;
   final String name;
   final bool shadow;
-  final bool active;
-  final CompRole role;
+  final bool? active;
+  final CompRole? role;
 
   final bool anythingSelected;
   final bool selected;
-  final Color selectedTextColor;
-  final void Function() onTap;
-  final void Function() onLongPress;
-  final Widget leading;
-  final Widget trailing;
-  final Widget subtitle;
-  final IconData mardIcon;
+  final Color? selectedTextColor;
+  final void Function()? onTap;
+  final void Function()? onLongPress;
+  final Widget? leading;
+  final Widget? trailing;
+  final Widget? subtitle;
+  final IconData? mardIcon;
   final dynamic heroTag;
 
   const ParticipTile({
-        @required this.userKey,
-        @required this.name,
-        @required this.shadow,
+        required this.userKey,
+        required this.name,
+        required this.shadow,
         this.active = true,
         this.role,
 
-        @required this.anythingSelected,
+        required this.anythingSelected,
         this.selected=false, this.selectedTextColor,
         this.onTap,
         this.onLongPress,
@@ -43,7 +43,7 @@ class ParticipTile extends StatelessWidget{
         this.subtitle,
         this.mardIcon,
         this.heroTag,
-        Key key
+        Key? key
       }): super(key: key);
 
   static ParticipTile fromUserData(UserData userData, {heroTag}) =>
@@ -71,7 +71,7 @@ class ParticipTile extends StatelessWidget{
     name,
     shadow: shadow,
     
-    textColor: active?(selected?selectedTextColor:iconEnab_(context)):hintEnab_(context),
+    textColor: active!?(selected?selectedTextColor:iconEnab_(context)):hintEnab_(context),
     backgroundColor: selected?cardEnab_(context):Colors.transparent,
     leading: leading,
     trailing: trailing,

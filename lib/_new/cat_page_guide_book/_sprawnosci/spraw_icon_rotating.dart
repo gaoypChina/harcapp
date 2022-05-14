@@ -7,11 +7,11 @@ import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_icon.dart';
 
 class SprawIconRotating extends StatefulWidget{
 
-  final double size;
-  final Spraw Function(Spraw) onNewUIDRequested;
-  final void Function(Spraw) onTap;
+  final double? size;
+  final Spraw? Function(Spraw?) onNewUIDRequested;
+  final void Function(Spraw?)? onTap;
 
-  const SprawIconRotating({@required this.onNewUIDRequested, this.size, this.onTap});
+  const SprawIconRotating({required this.onNewUIDRequested, this.size, this.onTap});
 
   @override
   State<StatefulWidget> createState() => SprawIconRotatingState();
@@ -21,14 +21,14 @@ class SprawIconRotatingState extends State<SprawIconRotating>{
 
   static const int rotateDuration = 500;
 
-  double get size => widget.size;
-  Spraw Function(Spraw) get onNewUIDRequested => widget.onNewUIDRequested;
-  void Function(Spraw) get onTap => widget.onTap;
+  double? get size => widget.size;
+  Spraw? Function(Spraw?) get onNewUIDRequested => widget.onNewUIDRequested;
+  void Function(Spraw?)? get onTap => widget.onTap;
 
-  GlobalKey<FlipCardState> stateKey;
+  GlobalKey<FlipCardState>? stateKey;
 
-  Spraw sprawFront;
-  Spraw sprawBack;
+  Spraw? sprawFront;
+  Spraw? sprawBack;
 
   @override
   void initState() {
@@ -48,14 +48,14 @@ class SprawIconRotatingState extends State<SprawIconRotating>{
         return;
 
       setState(() => sprawBack = onNewUIDRequested(sprawFront));
-      stateKey.currentState.toggleCard();
+      stateKey!.currentState!.toggleCard();
       await Future.delayed(Duration(milliseconds: 8000 + Random().nextInt(12000)));
 
       if(!mounted)
         return;
 
       setState(() => sprawFront = onNewUIDRequested(sprawBack));
-      stateKey.currentState.toggleCard();
+      stateKey!.currentState!.toggleCard();
       await Future.delayed(Duration(milliseconds: 8000 + Random().nextInt(12000)));
     }
   }
@@ -71,7 +71,7 @@ class SprawIconRotatingState extends State<SprawIconRotating>{
         sprawFront == null?
         Container(height: 30, width: 30, color: Colors.red):
         Opacity(
-          opacity: sprawFront.inProgress?0.35:1.0,
+          opacity: sprawFront!.inProgress?0.35:1.0,
           child: SprawIcon(
             sprawFront,
             size: size,
@@ -83,7 +83,7 @@ class SprawIconRotatingState extends State<SprawIconRotating>{
         sprawBack==null?
         Container(height: 30, width: 30, color: Colors.blue):
         Opacity(
-          opacity: sprawBack.inProgress?0.35:1.0,
+          opacity: sprawBack!.inProgress?0.35:1.0,
           child: SprawIcon(
             sprawBack,
             size: size,

@@ -9,11 +9,11 @@ import 'package:harcapp_core/comm_widgets/chord.dart';
 
 class SprawGroupData{
 
-  final String id;
-  final String title;
-  final String description;
+  final String? id;
+  final String? title;
+  final String? description;
 
-  final List<SprawFamilyData> familyData;
+  final List<SprawFamilyData>? familyData;
 
   SprawGroupData({this.id, this.title, this.description, this.familyData});
 
@@ -22,8 +22,8 @@ class SprawGroupData{
     SprawGroup group = SprawGroup(this, sprawBook, null);
 
     List<SprawFamily> families = [];
-    for(int i=0; i<familyData.length; i++)
-      families.add(familyData[i].build(group));
+    for(int i=0; i<familyData!.length; i++)
+      families.add(familyData![i].build(group));
 
     group.families = families;
 
@@ -36,17 +36,17 @@ class SprawGroup{
 
   SprawGroupData data;
 
-  String get id => data.id;
-  String get title => data.title;
-  String get description => data.description;
+  String? get id => data.id;
+  String? get title => data.title;
+  String? get description => data.description;
 
   SprawBook sprawBook;
-  List<SprawFamily> families;
+  List<SprawFamily>? families;
 
   List<Spraw> get allSpraws{
     List<Spraw> result = [];
-    for(SprawFamily family in families)
-      result.addAll(family.spraws);
+    for(SprawFamily family in families!)
+      result.addAll(family.spraws!);
     return result;
   }
 

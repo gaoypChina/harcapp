@@ -17,9 +17,9 @@ import 'new_album/new_album_page.dart';
 
 class AlbumChooser extends StatefulWidget{
 
-  final Song song;
-  final Function(Album album) onSelectionChanged;
-  final Function(Album album) onNewAlbumCreated;
+  final Song? song;
+  final Function(Album album)? onSelectionChanged;
+  final Function(Album album)? onNewAlbumCreated;
 
   const AlbumChooser(this.song, {this.onSelectionChanged, this.onNewAlbumCreated});
 
@@ -30,18 +30,18 @@ class AlbumChooser extends StatefulWidget{
 
 class AlbumChooserState extends State<AlbumChooser>{
 
-  Song get song => widget.song;
-  Function(Album album) get onSelectionChanged => widget.onSelectionChanged;
-  Function(Album album) get onNewAlbumCreated => widget.onNewAlbumCreated;
+  Song? get song => widget.song;
+  Function(Album album)? get onSelectionChanged => widget.onSelectionChanged;
+  Function(Album album)? get onNewAlbumCreated => widget.onNewAlbumCreated;
 
   @override
   Widget build(BuildContext context) {
 
     List<Widget> children = [];
 
-    for(int i=0; i<Album.allOwn.length; i++){
+    for(int i=0; i<Album.allOwn!.length; i++){
 
-      Album album = Album.allOwn[i];
+      Album album = Album.allOwn![i];
       children.add(
           AlbumWidgetSmall(
             album,
@@ -53,17 +53,17 @@ class AlbumChooserState extends State<AlbumChooser>{
                 checkColor: background_(context),
                 onChanged: (value){
                   setState(() {
-                    if(value) album.addSong(song);
+                    if(value!) album.addSong(song);
                     else album.removeSong(song);
                   });
                   album.save(syncParams: [Album.PARAM_OFF_SONGS, Album.PARAM_OWN_SONGS]);
                   if(onSelectionChanged!=null)
-                    onSelectionChanged(album);
+                    onSelectionChanged!(album);
                 }
             ),
           )
       );
-      if(i < Album.allOwn.length - 1)
+      if(i < Album.allOwn!.length - 1)
         children.add(SizedBox(height: Dimen.ICON_MARG));
 
     }
@@ -74,7 +74,7 @@ class AlbumChooserState extends State<AlbumChooser>{
 
         Column(children: children),
 
-        if(Album.allOwn.isEmpty)
+        if(Album.allOwn!.isEmpty)
           _NoAlbumsWidget(),
 
         Padding(

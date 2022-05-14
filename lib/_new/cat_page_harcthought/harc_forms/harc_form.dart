@@ -39,13 +39,13 @@ class HarcForm{
   final Color colorEnd;
 
   const HarcForm({
-    @required this.filename,
-    @required this.title,
-    @required this.icon,
-    @required this.meto,
-    @required this.tags,
-    @required this.colorStart,
-    @required this.colorEnd
+    required this.filename,
+    required this.title,
+    required this.icon,
+    required this.meto,
+    required this.tags,
+    required this.colorStart,
+    required this.colorEnd
   });
 
 }

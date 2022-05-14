@@ -118,24 +118,24 @@ class CircleCoverImageData{
 
   bool get isAdaptive => sources.length != 1;
 
-  String get firstFileName => sources[0].path;
-  String get secondFileName => isAdaptive?sources[1].path:null;
+  String? get firstFileName => sources[0].path;
+  String? get secondFileName => isAdaptive?sources[1].path:null;
 
-  String get themedFileName{
+  String? get themedFileName{
     if(secondFileName == null) return firstFileName;
     return AppSettings.isDark?secondFileName:firstFileName;
   }
 
-  String get firstAuthor => sources[0].author;
-  String get secondAuthor => isAdaptive?sources[1].author:null;
+  String? get firstAuthor => sources[0].author;
+  String? get secondAuthor => isAdaptive?sources[1].author:null;
 
-  String get code{
+  String? get code{
     if(!local) return firstFileName;
 
     if(isAdaptive)
-      return CircleCoverImageData.localPrefix + firstFileName.split('#')[0] + '#';
+      return CircleCoverImageData.localPrefix + firstFileName!.split('#')[0] + '#';
 
-    return CircleCoverImageData.localPrefix + firstFileName.split('.')[0];
+    return CircleCoverImageData.localPrefix + firstFileName!.split('.')[0];
   }
 
   const CircleCoverImageData(this.local, this.sources);

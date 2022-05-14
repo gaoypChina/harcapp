@@ -9,9 +9,9 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class SprawBookmarkWidget extends StatelessWidget{
 
-  final Spraw spraw;
-  final Color color;
-  final void Function(bool saved) onSavedChaned;
+  final Spraw? spraw;
+  final Color? color;
+  final void Function(bool saved)? onSavedChaned;
 
   const SprawBookmarkWidget(this.spraw, {this.color, this.onSavedChaned});
 
@@ -20,28 +20,28 @@ class SprawBookmarkWidget extends StatelessWidget{
 
     return AppButton(
         icon: Icon(
-          spraw.savedInOmega?
+          spraw!.savedInOmega?
           MdiIcons.bookmark:
           MdiIcons.bookmarkOutline,
           color:
           color??
-              (spraw.savedInOmega?
+              (spraw!.savedInOmega?
               iconEnab_(context):
               iconDisab_(context)),
         ),
         onLongPress: ()async{
-          await openSprawFolderSelector(context, spraw.uniqName);
-          onSavedChaned?.call(spraw.savedInOmega);
+          await openSprawFolderSelector(context, spraw!.uniqName);
+          onSavedChaned?.call(spraw!.savedInOmega);
         },
         onTap: (){
-          spraw.changeSavedInOmega(context, SprawFolder.omegaFolderName);
+          spraw!.changeSavedInOmega(context, SprawFolder.omegaFolderName);
 
-          if(spraw.savedInOmega)
+          if(spraw!.savedInOmega)
             showAppToast(context, text: 'Dodano do zapisanych');
           else
             showAppToast(context, text: 'Usunięto z zapisanych');
 
-          onSavedChaned?.call(spraw.savedInOmega);
+          onSavedChaned?.call(spraw!.savedInOmega);
         }
     );
 
@@ -51,7 +51,7 @@ class SprawBookmarkWidget extends StatelessWidget{
 
 class LevelWidget extends StatelessWidget{
 
-  final Spraw spraw;
+  final Spraw? spraw;
   final double size;
   const LevelWidget(this.spraw, {this.size: _STAR_SIZE});
 
@@ -60,12 +60,12 @@ class LevelWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    if(spraw.level=='1')
+    if(spraw!.level=='1')
       return Row(
           mainAxisSize: MainAxisSize.min,
           children: [Icon(MdiIcons.star, size: size, color: Colors.yellow)]
       );
-    if(spraw.level=='2')
+    if(spraw!.level=='2')
       return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -73,7 +73,7 @@ class LevelWidget extends StatelessWidget{
             Icon(MdiIcons.star, size: size, color: Colors.amberAccent),
           ]
       );
-    if(spraw.level=='3')
+    if(spraw!.level=='3')
       return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -82,7 +82,7 @@ class LevelWidget extends StatelessWidget{
             Icon(MdiIcons.star, size: size, color: Colors.amber),
           ]
       );
-    if(spraw.level=='4')
+    if(spraw!.level=='4')
       return Row(
           mainAxisSize: MainAxisSize.min,
           children: [

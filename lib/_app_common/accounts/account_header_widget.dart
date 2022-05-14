@@ -6,8 +6,8 @@ class AccountHeaderWidget extends StatelessWidget{
 
   final String name;
   final bool shadow;
-  final Widget leading;
-  final Widget trailing;
+  final Widget? leading;
+  final Widget? trailing;
   final dynamic heroTag;
 
   const AccountHeaderWidget(
@@ -16,7 +16,7 @@ class AccountHeaderWidget extends StatelessWidget{
         this.leading,
         this.trailing,
         this.heroTag,
-        Key key
+        Key? key
       }): super(key: key);
 
   @override
@@ -33,11 +33,11 @@ class AccountHeaderWidget extends StatelessWidget{
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if(leading != null) leading,
+              if(leading != null) leading!,
               Expanded(
                 child: Text(name, style: AppTextStyle(fontSize: 24.0, fontWeight: weight.bold)),
               ),
-              if(trailing != null) trailing,
+              if(trailing != null) trailing!,
             ],
           ),
         ),

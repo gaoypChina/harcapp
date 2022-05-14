@@ -18,22 +18,22 @@ class GameData{
   final Alignment bgAlignment;
   final Widget Function(BuildContext context) builder;
   final Widget Function(BuildContext context) builderHowToDescription;
-  final Widget Function(BuildContext context) builderHowToGuide;
+  final Widget Function(BuildContext context)? builderHowToGuide;
 
   final int minPlayerCount;
   final int maxPlayerCount;
 
   const GameData({
-    @required this.colorPack,
-    @required this.name,
-    @required this.description,
-    @required this.coverImg,
+    required this.colorPack,
+    required this.name,
+    required this.description,
+    required this.coverImg,
     this.bgAlignment = Alignment.topCenter,
-    @required this.builder,
+    required this.builder,
     this.builderHowToGuide,
-    @required this.builderHowToDescription,
-    @required this.minPlayerCount,
-    @required this.maxPlayerCount,
+    required this.builderHowToDescription,
+    required this.minPlayerCount,
+    required this.maxPlayerCount,
   });
 
 }

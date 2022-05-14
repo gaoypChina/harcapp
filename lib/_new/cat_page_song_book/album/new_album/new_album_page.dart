@@ -25,8 +25,8 @@ import 'album_song_selector.dart';
 
 class NewAlbumPage extends StatefulWidget{
 
-  final Album initAlbum;
-  final Function(Album) onSaved;
+  final Album? initAlbum;
+  final Function(Album?)? onSaved;
 
   const NewAlbumPage({this.initAlbum, this.onSaved});
 
@@ -37,49 +37,49 @@ class NewAlbumPage extends StatefulWidget{
 
 class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixin{
 
-  Album get initAlbum => widget.initAlbum;
+  Album? get initAlbum => widget.initAlbum;
 
-  Function(bool) onChanged;
+  Function(bool)? onChanged;
 
-  TextEditingController textEditingController;
-  TabController tabController;
-  FocusNode focusNode;
+  TextEditingController? textEditingController;
+  TabController? tabController;
+  FocusNode? focusNode;
 
-  String iconKey;
+  String? iconKey;
 
-  List<OffSong> offSongs;
-  List<OwnSong> ownSongs;
+  List<OffSong>? offSongs;
+  List<OwnSong>? ownSongs;
 
-  _AppBarProvider appBarProv;
+  _AppBarProvider? appBarProv;
 
   List<Song> get songs{
     List<Song> songs = [];
-    songs.addAll(offSongs);
-    songs.addAll(ownSongs);
+    songs.addAll(offSongs!);
+    songs.addAll(ownSongs!);
     return songs;
   }
 
-  void onTabBarSwipe() => appBarProv.elevation = tabController.animation.value<.9?0:Dimen.APPBAR_ELEVATION*tabController.animation.value;
+  void onTabBarSwipe() => appBarProv!.elevation = tabController!.animation!.value<.9?0:Dimen.APPBAR_ELEVATION*tabController!.animation!.value;
 
   @override
   void initState() {
 
     tabController = TabController(length: 2, vsync: this);
-    tabController.animation.addListener(onTabBarSwipe);
+    tabController!.animation!.addListener(onTabBarSwipe);
 
     if(initAlbum==null) {
       textEditingController = TextEditingController();
       offSongs = [];
       ownSongs = [];
     }else {
-      textEditingController = TextEditingController(text: initAlbum.title);
-      offSongs = List.of(initAlbum.offSongs);
-      ownSongs = List.of(initAlbum.ownSongs);
+      textEditingController = TextEditingController(text: initAlbum!.title);
+      offSongs = List.of(initAlbum!.offSongs!);
+      ownSongs = List.of(initAlbum!.ownSongs!);
     }
 
     iconKey = initAlbum==null?
     CommonIconData.ALL.keys.toList()[Random().nextInt(CommonIconData.ALL.length)]:
-    initAlbum.iconKey;
+    initAlbum!.iconKey;
 
     focusNode = FocusNode();
 
@@ -88,9 +88,9 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
 
   @override
   void dispose() {
-    focusNode.dispose();
-    textEditingController.dispose();
-    tabController.dispose();
+    focusNode!.dispose();
+    textEditingController!.dispose();
+    tabController!.dispose();
     //appBarProv.dispose(); THIS IS DISPOSED WHEN WIDGET IS AUTOMATICALLY DISPOSED
     super.dispose();
   }
@@ -144,25 +144,25 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
                 IconButton(
                   icon: Icon(MdiIcons.check),
                   onPressed: (){
-                    if(textEditingController.text.isEmpty){
+                    if(textEditingController!.text.isEmpty){
                       showAppToast(context, text: 'Podaj nazwę $albumu_');
-                      focusNode.requestFocus();
+                      focusNode!.requestFocus();
                       return;
                     }
 
                     if(initAlbum == null) {
                       Album album = Album.create(
-                        textEditingController.text,
-                        offSongs,
-                        ownSongs,
+                        textEditingController!.text,
+                        offSongs!,
+                        ownSongs!,
                         Provider.of<AccentColorProvider>(context, listen: false).colorsKey,
                         iconKey,
                       );
                       Album.addToAll(album);
                       widget.onSaved?.call(album);
                     }else{
-                      initAlbum.update(
-                          title: textEditingController.text,
+                      initAlbum!.update(
+                          title: textEditingController!.text,
                           offSongs: offSongs,
                           ownSongs: ownSongs,
                           colorsKey: Provider.of<AccentColorProvider>(context, listen: false).colorsKey,
@@ -200,13 +200,13 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
             AlbumSongSelector(
               initAlbum?.songs??[],
               onChanged: (List<Song> checkedSongs){
-                offSongs.clear();
-                ownSongs.clear();
+                offSongs!.clear();
+                ownSongs!.clear();
                 for (Song song in checkedSongs)
                   if (song is OffSong)
-                    offSongs.add(song);
+                    offSongs!.add(song);
                   else if (song is OwnSong)
-                    ownSongs.add(song);
+                    ownSongs!.add(song);
               },
             ),
 
@@ -223,7 +223,7 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
 
 class _TabPageColorPicker extends StatefulWidget{
 
-  final Album initAlbum;
+  final Album? initAlbum;
 
   const _TabPageColorPicker(this.initAlbum);
 
@@ -233,7 +233,7 @@ class _TabPageColorPicker extends StatefulWidget{
 }
 class _TabPageColorPickerState extends State<_TabPageColorPicker> with AutomaticKeepAliveClientMixin{
 
-  Album get initAlbum => widget.initAlbum;
+  Album? get initAlbum => widget.initAlbum;
 
   @override
   Widget build(BuildContext context){
@@ -270,10 +270,10 @@ class _TabPageColorPickerState extends State<_TabPageColorPicker> with Automatic
 
 class _AppBarProvider extends ChangeNotifier{
 
-  double _elevation;
+  double? _elevation;
 
-  double get elevation => _elevation;
-  set elevation(double value){
+  double? get elevation => _elevation;
+  set elevation(double? value){
     _elevation = value;
     notifyListeners();
   }

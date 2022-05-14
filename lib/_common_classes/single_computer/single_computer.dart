@@ -6,7 +6,7 @@ import 'package:harcapp/_common_classes/single_computer/single_computer_listener
 import 'package:harcapp/logger.dart';
 import 'package:semaphore/semaphore.dart';
 
-abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TErr>>{
+abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TErr?>>{
 
   final checkRunningSemaphore = LocalSemaphore(100000000);
   final runningSemaphore = LocalSemaphore(100000000);
@@ -15,14 +15,14 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
   String get computerName;
 
   @protected
-  List<TListener> listeners;
+  late List<TListener> listeners;
 
-  List<TListener> _listenersToRemove;
+  late List<TListener> _listenersToRemove;
 
-  bool _runRequested;
-  bool _running;
-  Completer completer;
-  TErr _errorCalled;
+  late bool _runRequested;
+  late bool _running;
+  late Completer completer;
+  TErr? _errorCalled;
 
   bool get running => _runRequested || _running;
 
@@ -67,7 +67,7 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
 
       for(TListener listener in listeners)
         if(!_listenersToRemove.contains(listener))
-          await listener.onEnd?.call(null, false);
+          listener.onEnd?.call(null, false);
 
       for(TListener listener in _listenersToRemove)
         listeners.remove(listener);
@@ -86,8 +86,8 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
     checkRunningSemaphore.release();
 
     for(TListener listener in listeners)
-      if (!_listenersToRemove.contains(listener) && listener.onStart != null)
-        await listener.onStart();
+      if (!_listenersToRemove.contains(listener))
+        listener.onStart?.call();
 
     for(TListener listener in _listenersToRemove)
       listeners.remove(listener);
@@ -128,7 +128,7 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
     checkRunningSemaphore.release();
 
     for(TListener listener in listeners)
-      await listener.onEnd?.call(_errorCalled, forceFinished);
+      listener.onEnd?.call(_errorCalled, forceFinished);
 
     _errorCalled = null;
 

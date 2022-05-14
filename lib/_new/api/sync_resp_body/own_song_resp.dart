@@ -9,13 +9,13 @@ class OwnSongResp extends SongResp{
   static const String collName = OwnSong.syncClassId;
 
   static const String PARAM_CODE = OwnSong.PARAM_CODE;
-  final String code;
+  final String? code;
 
   const OwnSongResp({
-    @required int rate,
-    @required int chordShift,
-    @required Map<String, MemoryResp> memories,
-    @required this.code,
+    required int? rate,
+    required int? chordShift,
+    required Map<String, MemoryResp>? memories,
+    required this.code,
   }):super(rate: rate, chordShift: chordShift, memories: memories);
 
   static OwnSongResp from(Map respData) => OwnSongResp(

@@ -8,11 +8,11 @@ import '../article_core.dart';
 
 class ArticleBookmarkWidget extends StatelessWidget{
 
-  final Article article;
+  final Article? article;
   final heroTag;
-  final Color color;
+  final Color? color;
 
-  const ArticleBookmarkWidget(this.article, {@required this.heroTag, this.color});
+  const ArticleBookmarkWidget(this.article, {required this.heroTag, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +31,12 @@ class ArticleBookmarkWidget extends StatelessWidget{
                 ),
                 onPressed: (){
                   if(bookmarked){
-                    prov.remove(article);
+                    prov.remove(article!);
                     showAppToast(context, text: 'Usunięto z zapisanych');
                   }
                   else
                   {
-                    prov.add(article);
+                    prov.add(article!);
                     showAppToast(context, text: 'Dodano do zapisanych');
                   }
                 }

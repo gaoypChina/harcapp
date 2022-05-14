@@ -19,9 +19,9 @@ class PrawoItem extends StatelessWidget{
   final int number;
   final IconData icon;
   final String content;
-  final String comment;
+  final String? comment;
 
-  const PrawoItem(this.number, this.icon, this.content, {this.comment, Key key}): super(key: key);
+  const PrawoItem(this.number, this.icon, this.content, {this.comment, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class PrawoItem extends StatelessWidget{
           style: AppTextStyle(
               fontSize: Dimen.TEXT_SIZE_APPBAR,
               fontWeight: weight.halfBold,
-              color: orgColor[OrgProvider.of(context).current]
+              color: orgColor[OrgProvider.of(context).current!]
           ),
         ),
         title: Text(content, style: AppTextStyle(color: textEnab_(context), fontWeight: weight.halfBold, height: 1.2)),
@@ -49,7 +49,7 @@ class PrawoItem extends StatelessWidget{
               children: <Widget>[
                 Text('$number. ' + content, style: AppTextStyle(fontStyle: FontStyle.italic, fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), textAlign: TextAlign.center,),
                 const SizedBox(height: 12),
-                Text(comment, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2)),
+                Text(comment!, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2)),
                 const SizedBox(height: Dimen.DEF_MARG),
                 Text('- hm. Stefan Mirowski', style: AppTextStyle(fontStyle: FontStyle.italic, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.end,),
               ],
@@ -64,7 +64,7 @@ class PrawoItem extends StatelessWidget{
 class PrzyrzeczenieItem extends StatelessWidget{
 
   final String title, content;
-  const PrzyrzeczenieItem(this.title, this.content, {Key key}): super(key: key);
+  const PrzyrzeczenieItem(this.title, this.content, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => AppCard(
@@ -103,7 +103,7 @@ class WedroTab extends TabItem{
 
 class WedroTabChild extends StatelessWidget{
 
-  const WedroTabChild({Key key}) : super(key: key);
+  const WedroTabChild({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Consumer<OrgProvider>(
@@ -130,7 +130,7 @@ class WedroTabChild extends StatelessWidget{
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[prov.current]
+                          color: orgColor[prov.current!]
                       )),
                       width: 20.0
                   ),
@@ -147,7 +147,7 @@ class WedroTabChild extends StatelessWidget{
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[prov.current]
+                          color: orgColor[prov.current!]
                       )),
                       width: 20.0
                   ),
@@ -164,7 +164,7 @@ class WedroTabChild extends StatelessWidget{
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[prov.current]
+                          color: orgColor[prov.current!]
                       )),
                       width: 20.0
                   ),
@@ -181,7 +181,7 @@ class WedroTabChild extends StatelessWidget{
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[prov.current]
+                          color: orgColor[prov.current!]
                       )),
                       width: 20.0
                   ),
@@ -198,7 +198,7 @@ class WedroTabChild extends StatelessWidget{
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[prov.current]
+                          color: orgColor[prov.current!]
                       )),
                       width: 20.0
                   ),
@@ -215,7 +215,7 @@ class WedroTabChild extends StatelessWidget{
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[prov.current]
+                          color: orgColor[prov.current!]
                       )),
                       width: 20.0
                   ),

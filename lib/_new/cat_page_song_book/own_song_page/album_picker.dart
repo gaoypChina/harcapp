@@ -21,7 +21,7 @@ import 'own_song_page.dart';
 class AlbumPart extends StatefulWidget{
 
   final OwnSongPageState parent;
-  List<Album> get albums => parent.albums;
+  List<Album>? get albums => parent.albums;
 
   const AlbumPart(this.parent);
 
@@ -32,15 +32,15 @@ class AlbumPart extends StatefulWidget{
 
 class AlbumPartState extends State<AlbumPart>{
 
-  List<Album> get albums => widget.albums;
+  List<Album>? get albums => widget.albums;
 
   @override
   Widget build(BuildContext context) {
 
     List<Widget> children = [];
 
-    for(int i=0; i<Album.allOwn.length; i++){
-      Album album = Album.allOwn[i];
+    for(int i=0; i<Album.allOwn!.length; i++){
+      Album album = Album.allOwn![i];
 
       children.add(
           AlbumWidgetSmall(
@@ -48,16 +48,16 @@ class AlbumPartState extends State<AlbumPart>{
             showSongCount: false,
             selected: false,
             trailing: CircularCheckbox(
-                value: albums.contains(album),
+                value: albums!.contains(album),
                 materialTapTargetSize: MaterialTapTargetSize.padded,
                 activeColor: textEnab_(context),
                 checkColor: background_(context),
-                onChanged: (bool value) => setState(() => value? albums.add(album) : albums.remove(album))
+                onChanged: (bool? value) => setState(() => value!? albums!.add(album) : albums!.remove(album))
             ),
           )
       );
 
-      if(i < Album.allOwn.length-1)
+      if(i < Album.allOwn!.length-1)
         children.add(SizedBox(height: Dimen.ICON_MARG));
 
     }
@@ -75,7 +75,7 @@ class AlbumPartState extends State<AlbumPart>{
               height: Dimen.ICON_FOOTPRINT,
               child: Center(
                 child: Text(
-                  '(${albums.length})',
+                  '(${albums!.length})',
                   style: AppTextStyle(
                     fontSize: Dimen.TEXT_SIZE_APPBAR,
                     fontWeight: weight.bold
@@ -104,7 +104,7 @@ class AlbumPartState extends State<AlbumPart>{
 
 class AlbumPicker extends StatefulWidget{
 
-  final void Function() onChanged;
+  final void Function()? onChanged;
 
   const AlbumPicker({this.onChanged});
 
@@ -115,9 +115,9 @@ class AlbumPicker extends StatefulWidget{
 
 class AlbumPickerState extends State<AlbumPicker>{
 
-  List<Album> ownAlbums;
+  late List<Album> ownAlbums;
 
-  List<Album> albums;
+  late List<Album> albums;
 
   @override
   void initState() {

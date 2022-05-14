@@ -18,20 +18,20 @@ class IndivCompThumbnailWidget extends StatelessWidget{
   static const double outerRadiusSizeFactor = .25;
   static const double innerRadiusSizeFactor = .16;
 
-  final String iconKey;
-  final String colorsKey;
+  final String? iconKey;
+  final String? colorsKey;
 
   final double size;
-  final void Function() onTap;
+  final void Function()? onTap;
   final dynamic heroTag;
 
   const IndivCompThumbnailWidget({
-    @required this.iconKey,
-    @required this.colorsKey,
+    required this.iconKey,
+    required this.colorsKey,
     this.size=defSize,
     this.onTap,
     this.heroTag,
-    Key key
+    Key? key
   }): super(key: key);
 
   static IndivCompThumbnailWidget random() => IndivCompThumbnailWidget(
@@ -39,7 +39,7 @@ class IndivCompThumbnailWidget extends StatelessWidget{
       colorsKey: CommonColorData.randomKey,
   );
 
-  static IndivCompThumbnailWidget from({@required IndivComp comp, double size, dynamic heroTag}) => IndivCompThumbnailWidget(
+  static IndivCompThumbnailWidget from({required IndivComp comp, double? size, dynamic heroTag}) => IndivCompThumbnailWidget(
     iconKey: comp.iconKey,
     colorsKey: comp.colorsKey,
     size: size??defSize,
@@ -49,8 +49,8 @@ class IndivCompThumbnailWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    CommonColorData colors = CommonColorData.ALL[colorsKey];
-    IconData icon = CommonIconData.ALL[iconKey];
+    CommonColorData colors = CommonColorData.ALL[colorsKey!]!;
+    IconData? icon = CommonIconData.ALL[iconKey!];
 
     Widget widget = SizedBox(
       width: size,

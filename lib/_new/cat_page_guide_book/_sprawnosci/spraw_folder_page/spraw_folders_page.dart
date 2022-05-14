@@ -41,20 +41,20 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
     return _folders;
   }
 
-  List<SprawFolder> _folders;
+  late List<SprawFolder> _folders;
 
-  TabController tabController;
-  ValueNotifier<double> notifier;
+  TabController? tabController;
+  ValueNotifier<double>? notifier;
 
   void initTabViewStuff(){
     _folders = folders;
     tabController = TabController(
         length: _folders.length,
         vsync: this,
-        initialIndex: tabController==null?0:tabController.index
+        initialIndex: tabController==null?0:tabController!.index
     );
-    notifier = ValueNotifier<double>(tabController.index.toDouble());
-    tabController.animation.addListener(() => notifier.value = tabController.animation.value);
+    notifier = ValueNotifier<double>(tabController!.index.toDouble());
+    tabController!.animation!.addListener(() => notifier!.value = tabController!.animation!.value);
   }
 
   @override
@@ -66,11 +66,11 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
 
   @override
   void dispose() {
-    tabController.dispose();
+    tabController!.dispose();
     super.dispose();
   }
 
-  int get currFolderIndex => (.5 + notifier.value).toInt();
+  int get currFolderIndex => (.5 + notifier!.value).toInt();
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +89,7 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
             folder.iconKey = iconKey;
 
             setState(() => initTabViewStuff());
-            post(() => tabController.animateTo(_folders.indexOf(folder)));
+            post(() => tabController!.animateTo(_folders.indexOf(folder)));
           }
         ));
       },
@@ -213,7 +213,7 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
                   height: 48.0,
                   topRightRadius: AppCard.BIG_RADIUS,
                   topLeftRadius: AppCard.BIG_RADIUS,
-                  color: cardEnab_(context)
+                  color: cardEnab_(context)!
               ),//AppTabBarIncdicator(context: context),
             ),
           ),
@@ -265,9 +265,9 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
         notifier: notifier,
         mode: SprawWidgetSmall.MODE_SAVED,
         onSaved: (String name, String colorKey, String iconKey) => setState((){
-          folders[tabController.index].name = name;
-          folders[tabController.index].colorKey = colorKey;
-          folders[tabController.index].iconKey = iconKey;
+          folders[tabController!.index].name = name;
+          folders[tabController!.index].colorKey = colorKey;
+          folders[tabController!.index].iconKey = iconKey;
         }),
         onDeleted: (folder){
           showAppToast(context, text: 'Usunięto folder <b>${folder.name}</b>');
@@ -297,32 +297,32 @@ class _FloatingButton extends StatelessWidget{
 
   final List<SprawFolder> folders;
   final String mode;
-  final ValueNotifier notifier;
-  final void Function(String, String, String) onSaved;
-  final void Function(SprawFolder) onDeleted;
+  final ValueNotifier? notifier;
+  final void Function(String, String, String)? onSaved;
+  final void Function(SprawFolder)? onDeleted;
 
-  const _FloatingButton({@required this.folders, @required this.mode, @required this.notifier, this.onSaved, this.onDeleted});
+  const _FloatingButton({required this.folders, required this.mode, required this.notifier, this.onSaved, this.onDeleted});
 
   @override
   Widget build(BuildContext context) {
 
     return AnimatedBuilder(
-        animation: notifier,
+        animation: notifier!,
         builder: (context, child) => Transform.translate(
-          offset: Offset(0, Dimen.FLOATING_BUTTON_MARG*(1-cos(2*pi*notifier.value))),
+          offset: Offset(0, Dimen.FLOATING_BUTTON_MARG*(1-cos(2*pi*notifier!.value))),
           child: Opacity(
-            opacity: (.5 + notifier.value).toInt() == 0?0:max(0, cos(2*pi*notifier.value)),
+            opacity: (.5 + notifier!.value).toInt() == 0?0:max(0, cos(2*pi*notifier!.value)),
             child: FloatingActionButton(
-              backgroundColor: folders[(.5 + notifier.value).toInt()].colorData.avgColor,
+              backgroundColor: folders[(.5 + notifier!.value).toInt()].colorData!.avgColor,
               child: Icon(MdiIcons.pencil),
-              onPressed: (.5 + notifier.value).toInt() == 0?null: () => Navigator.push(
+              onPressed: (.5 + notifier!.value).toInt() == 0?null: () => Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => SprawFolderEditPage(
-                        initFolder: folders[(.5 + notifier.value).toInt()],
+                        initFolder: folders[(.5 + notifier!.value).toInt()],
                         onSave: onSaved,
                         onDeleteTap: (folder){
-                          SprawFolder folder = folders[(.5 + notifier.value).toInt()];
+                          SprawFolder folder = folders[(.5 + notifier!.value).toInt()];
                           folder.delete();
                           onDeleted?.call(folder);
                         },

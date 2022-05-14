@@ -15,7 +15,7 @@ const double MAX_PARAM_VAL = 4;
 
 class Graphics{
   final String path;
-  final String author;
+  final String? author;
 
   const Graphics(this.path, this.author);
 }
@@ -27,16 +27,16 @@ class ItemData{
   final String name;
   final String description;
   final List<String> tags;
-  final int cieplo;
-  final int zar;
-  final int plomien;
-  final int czas;
+  final int? cieplo;
+  final int? zar;
+  final int? plomien;
+  final int? czas;
   final String desc_source;
-  final Graphics background_kora;
+  final Graphics? background_kora;
 
   bool get hasParams => cieplo!=null && zar!=null && plomien!=null && czas!=null;
 
-  ItemData(this.graphics, this.background, this.name, this.description, this.tags, {@required this.cieplo, @required this.zar, @required this.plomien, @required this.czas, this.desc_source: 'drzewapolski.pl', this.background_kora});
+  ItemData(this.graphics, this.background, this.name, this.description, this.tags, {required this.cieplo, required this.zar, required this.plomien, required this.czas, this.desc_source: 'drzewapolski.pl', this.background_kora});
 }
 
 List<ItemData> items = [

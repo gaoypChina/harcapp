@@ -12,7 +12,7 @@ import 'cat_page_strefa_ducha/_main.dart';
 
 class MainPage extends StatefulWidget{
 
-  const MainPage({Key key}) : super(key: key);
+  const MainPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => MainPageState();
@@ -21,8 +21,8 @@ class MainPage extends StatefulWidget{
 
 class MainPageState extends State<MainPage>{
 
-  int selectedIndex;
-  Widget page;
+  int? selectedIndex;
+  Widget? page;
 
   @override
   void initState() {
@@ -109,7 +109,7 @@ class AppFloatingButton extends StatelessWidget{
 
 class MainProvider extends ChangeNotifier{
 
-  double statusBarHeight;
+  late double statusBarHeight;
 
   void recalculate() => notifyListeners();
 

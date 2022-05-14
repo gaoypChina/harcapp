@@ -22,8 +22,8 @@ import 'main_button.dart';
 
 class RegisterMicrosoftAddDataPart extends StatefulWidget{
 
-  final String azureToken;
-  final void Function() onAbandon;
+  final String? azureToken;
+  final void Function()? onAbandon;
 
   const RegisterMicrosoftAddDataPart(this.azureToken, {this.onAbandon});
 
@@ -34,24 +34,24 @@ class RegisterMicrosoftAddDataPart extends StatefulWidget{
 
 class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataPart>{
 
-  InputFieldController sexController;
-  InputFieldController gdprController;
-  InputFieldController regulaminController;
+  InputFieldController? sexController;
+  InputFieldController? gdprController;
+  InputFieldController? regulaminController;
 
-  Sex sex;
-  bool gdprAccept;
-  bool regulaminAccept;
+  Sex? sex;
+  bool? gdprAccept;
+  bool? regulaminAccept;
 
-  bool processing;
-  bool registered;
+  bool? processing;
+  late bool registered;
 
-  String generalError;
+  String? generalError;
 
   void registerClick() async {
 
-    sexController.errorText = '';
-    regulaminController.errorText = '';
-    gdprController.errorText = '';
+    sexController!.errorText = '';
+    regulaminController!.errorText = '';
+    gdprController!.errorText = '';
 
     setState(() => processing = true);
 
@@ -60,7 +60,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
         sex,
         regulaminAccept,
         gdprAccept,
-        onSuccess: (Response response, String key, String jwt, String email, String name, String nick, Sex sex) async {
+        onSuccess: (Response response, String? key, String? jwt, String? email, String? name, String? nick, Sex? sex) async {
 
           LoginProvider prov = Provider.of<LoginProvider>(context, listen: false);
           prov.callOnRegister();
@@ -70,14 +70,14 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
 
           Navigator.pop(context);
         },
-        onError: (Response response){
+        onError: (Response? response){
           try {
 
-            Map errorFieldMap = response.data['errors'];
+            Map? errorFieldMap = response!.data['errors'];
             if(errorFieldMap != null) {
-              sexController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_SEX] ?? '';
-              regulaminController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_POLICY] ?? '';
-              gdprController.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_GDPR] ?? '';
+              sexController!.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_SEX] ?? '';
+              regulaminController!.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_POLICY] ?? '';
+              gdprController!.errorText = errorFieldMap[ApiRegLog.REGISTER_REQ_GDPR] ?? '';
             }
 
             generalError = response.data['error'];
@@ -162,10 +162,10 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
                           context: context,
                           margin: EdgeInsets.zero,
                           fontWeight: weight.normal,
-                          textColor: processing?iconDisab_(context):iconEnab_(context),
+                          textColor: processing!?iconDisab_(context):iconEnab_(context),
                           text: 'Rezygnuję',
                           icon: MdiIcons.close,
-                          onTap: processing?null:(){
+                          onTap: processing!?null:(){
                             Navigator.pop(context);
                             widget.onAbandon?.call();
                           },
@@ -180,7 +180,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
                         processing: processing,
                         text: 'Dołącz',
                         icon: MdiIcons.accountPlusOutline,
-                        onTap: processing?null:registerClick
+                        onTap: processing!?null:registerClick
                     ),
                   )
                 ],

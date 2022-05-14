@@ -9,13 +9,13 @@ import '../../_common_classes/time_settings.dart';
 enum SongOpenType{init, swipe, search, recommend, random}
 class SongsStatisticsRegistrator{
 
-  String _songLclId;
-  DateTime _openTime;
+  String? _songLclId;
+  late DateTime _openTime;
 
-  DateTime _lastPausedTime;
-  Duration _totalPausedDuration;
-  SongOpenType _songOpenType;
-  List<Tuple4<int, int, int, Orientation>> _scrollEvents;
+  DateTime? _lastPausedTime;
+  late Duration _totalPausedDuration;
+  late SongOpenType _songOpenType;
+  late List<Tuple4<int, int, int, Orientation>> _scrollEvents;
 
   Duration get totalOpenDuration => DateTime.now().difference(_openTime) - _totalPausedDuration;
 
@@ -32,7 +32,7 @@ class SongsStatisticsRegistrator{
       _lastPausedTime = DateTime.now();
     else{
       if(_lastPausedTime == null) _totalPausedDuration = Duration.zero;
-      else _totalPausedDuration += DateTime.now().difference(_lastPausedTime);
+      else _totalPausedDuration += DateTime.now().difference(_lastPausedTime!);
       _lastPausedTime = null;
     }
 

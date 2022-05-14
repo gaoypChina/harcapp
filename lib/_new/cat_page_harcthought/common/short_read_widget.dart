@@ -13,7 +13,7 @@ class ShortReadWidget<T extends ShortRead> extends StatefulWidget{
   final String moduleId;
   final T shortRead;
 
-  const ShortReadWidget(this.moduleId, this.shortRead, {Key key}): super(key: key);
+  const ShortReadWidget(this.moduleId, this.shortRead, {Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => ShortReadWidgetState();
@@ -27,9 +27,9 @@ class ShortReadWidgetState extends State<ShortReadWidget> with ModuleStatsMixin{
 
   ShortRead get shortRead => widget.shortRead;
 
-  bool playing;
+  bool? playing;
 
-  String text;
+  String? text;
 
   @override
   void initState() {
@@ -106,7 +106,7 @@ class ShortReadWidgetState extends State<ShortReadWidget> with ModuleStatsMixin{
               Padding(
                 padding: const EdgeInsets.all(Dimen.ICON_SIZE),
                 child: Text(
-                  text,
+                  text!,
                   style: AppTextStyle(
                     fontSize: Dimen.TEXT_SIZE_BIG,
                   ),

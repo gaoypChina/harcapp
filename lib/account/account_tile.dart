@@ -7,18 +7,18 @@ import 'account_thumbnail_widget.dart';
 class AccountTile extends StatelessWidget{
 
   final String name;
-  final Widget subtitle;
+  final Widget? subtitle;
   final bool shadow;
 
-  final Color textColor;
-  final Color backgroundColor;
+  final Color? textColor;
+  final Color? backgroundColor;
 
-  final Widget leading;
-  final Widget trailing;
+  final Widget? leading;
+  final Widget? trailing;
   final dynamic thumbnailHeroTag;
-  final void Function() onTap;
-  final void Function() onLongPress;
-  final IconData mardIcon;
+  final void Function()? onTap;
+  final void Function()? onLongPress;
+  final IconData? mardIcon;
 
   const AccountTile(
       this.name,
@@ -33,7 +33,7 @@ class AccountTile extends StatelessWidget{
         this.onTap,
         this.onLongPress,
         this.mardIcon,
-        Key key
+        Key? key
       }) : super(key: key);
 
   @override
@@ -54,7 +54,7 @@ class AccountTile extends StatelessWidget{
           mainAxisSize: MainAxisSize.min,
           children: [
 
-            if(leading != null) leading,
+            if(leading != null) leading!,
 
             if(thumbnailHeroTag == null)
               AccountThumbnailWidget(name: name, shadow: shadow, elevated: false, markIcon: mardIcon)

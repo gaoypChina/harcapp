@@ -8,12 +8,12 @@ class ParticipantListPage extends StatelessWidget{
 
   final IndivComp comp;
 
-  const ParticipantListPage(this.comp, {Key key}): super(key: key);
+  const ParticipantListPage(this.comp, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => ParticipantListPageTempl(
     comp: comp,
-    sorftByPoints: false,
+    sortByPoints: false,
     itemBuilder: (context, particip) => ParticipTile(
         userKey: particip.key,
         name: particip.name,

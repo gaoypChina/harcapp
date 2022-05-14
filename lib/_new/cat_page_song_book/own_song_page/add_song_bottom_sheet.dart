@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/scan_qr_code.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/own_song.dart';
@@ -10,16 +11,15 @@ import 'package:harcapp_core/dimen.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:qrcode_reader/qrcode_reader.dart';
 
 import '../../../_common_widgets/bottom_sheet.dart';
 import 'own_song_page.dart';
 
 class AddSongBottomSheet extends StatelessWidget{
 
-  final void Function(Song song, EditType editType) onSaved;
+  final void Function(Song song, EditType editType)? onSaved;
 
-  const AddSongBottomSheet({this.onSaved, Key key}): super(key: key);
+  const AddSongBottomSheet({this.onSaved, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => BottomSheetDef(
@@ -72,10 +72,8 @@ class AddSongBottomSheet extends StatelessWidget{
 
                     if(await Permission.camera.request().isGranted) {
 
-                      String code = await QRCodeReader()
-                          .setAutoFocusIntervalInMs(200)
-                          .setForceAutoFocus(true)
-                          .scan();
+                      String? code = await scanQrCode();
+                      if(code == null) return;
                       SongRaw song;
 
                       try {
@@ -111,7 +109,7 @@ class AddSongBottomSheet extends StatelessWidget{
 
 }
 
-void openOwnSongPage(BuildContext context, {SongRaw song, Function(Song song, EditType editType) onSaved}) =>
+void openOwnSongPage(BuildContext context, {SongRaw? song, Function(Song song, EditType editType)? onSaved}) =>
     Navigator.push(context, MaterialPageRoute(builder: (context) => OwnSongPage.from(
         song: song,
         onSaved: onSaved

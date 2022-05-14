@@ -14,7 +14,7 @@ import 'common.dart';
 
 class ZHROrgPage extends StatefulWidget{
 
-  const ZHROrgPage({Key key}) : super(key: key);
+  const ZHROrgPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ZHROrgPageState();

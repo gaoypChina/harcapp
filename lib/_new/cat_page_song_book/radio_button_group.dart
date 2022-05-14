@@ -8,14 +8,14 @@ class RadioButtonGroup<T> extends StatefulWidget{
 
   final List<T> buttonIDs;
   final List<String> buttonNames;
-  final List<IconData> buttonIcons;
-  final T initID;
+  final List<IconData>? buttonIcons;
+  final T? initID;
   final Axis orientation;
-  final Function(T id) onChanged;
+  final Function(T id)? onChanged;
 
   const RadioButtonGroup({
-    @required this.buttonIDs,
-    @required this.buttonNames,
+    required this.buttonIDs,
+    required this.buttonNames,
     this.buttonIcons,
     this.initID,
     this.orientation = Axis.vertical,
@@ -27,9 +27,9 @@ class RadioButtonGroup<T> extends StatefulWidget{
 
 }
 
-class _RadioButtonGroupState<T> extends State<RadioButtonGroup<T>>{
+class _RadioButtonGroupState<T> extends State<RadioButtonGroup<T?>>{
 
-  T currID;
+  T? currID;
 
   @override
   void initState() {
@@ -44,16 +44,16 @@ class _RadioButtonGroupState<T> extends State<RadioButtonGroup<T>>{
 
     for(int i=0; i<widget.buttonIDs.length; i++){
       buttons.add(
-          _RadioButton<T>(
+          _RadioButton<T?>(
               key: ValueKey(widget.buttonIDs[i]),
               buttonID: widget.buttonIDs[i],
               buttonName: widget.buttonNames[i],
-              icon: widget.buttonIcons==null?null:widget.buttonIcons[i],
+              icon: widget.buttonIcons==null?null:widget.buttonIcons![i],
               currID: currID,
-              onTap: (T id){
+              onTap: (T? id){
                 setState(() => currID = id);
                 if(widget.onChanged != null)
-                  widget.onChanged(id);
+                  widget.onChanged!(id);
               }
           )
       );
@@ -74,18 +74,18 @@ class _RadioButtonGroupState<T> extends State<RadioButtonGroup<T>>{
 class _RadioButton<T> extends StatelessWidget{
 
   T buttonID;
-  IconData icon;
+  IconData? icon;
   String buttonName;
   T currID;
   Function(T currID) onTap;
 
   _RadioButton({
-    @required this.buttonID,
+    required this.buttonID,
     this.icon,
-    @required this.buttonName,
-    @required this.currID,
-    @required this.onTap,
-    Key key,
+    required this.buttonName,
+    required this.currID,
+    required this.onTap,
+    Key? key,
   }):super(key: key);
 
   @override

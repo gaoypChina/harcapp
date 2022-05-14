@@ -36,7 +36,7 @@ Map<String, String> lettersMap = {
   'Y': '999',
   'Z': '9999'
 };
-Map<String, String> reversedLettersMap;
+Map<String?, String>? reversedLettersMap;
 
 class ChildKomorkowy extends StatefulWidget {
 
@@ -53,10 +53,10 @@ class ChildKomorkowyState extends State<ChildKomorkowy>
   @override
   bool get wantKeepAlive => true;
   
-  String output;
+  late String output;
 
-  TextInputType typKlawiatury;
-  TextInputFormatter dozwoloneZnaki;
+  TextInputType? typKlawiatury;
+  late TextInputFormatter dozwoloneZnaki;
 
   @override
   void initState() {
@@ -66,7 +66,7 @@ class ChildKomorkowyState extends State<ChildKomorkowy>
     dozwoloneZnaki =  RegExInputFormatter.withRegex(r'[AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpQqRrSsŚśTtUuVvWwXxYyZzŹźŻż 0-9]*');
 
     for(String key in lettersMap.keys){
-      reversedLettersMap[lettersMap[key]] = key;
+      reversedLettersMap![lettersMap[key]] = key;
     }
 
     print(reversedLettersMap);
@@ -138,7 +138,7 @@ class ChildKomorkowyState extends State<ChildKomorkowy>
     input = input.toUpperCase();
     for (int i = 0; i < input.length; i++) {
       String letter = input.substring(i, i + 1);
-      output += lettersMap[letter] + ' ';
+      output += lettersMap[letter]! + ' ';
     }
 
     return output;
@@ -149,7 +149,7 @@ class ChildKomorkowyState extends State<ChildKomorkowy>
     RegExp regExp = RegExp(r'\w+');
     final matches = regExp.allMatches(input);
     for (Match match in matches) {
-      String letter = reversedLettersMap[match.group(0)];
+      String? letter = reversedLettersMap![match.group(0)];
       output += letter!=null ? letter : '?';
     }
 

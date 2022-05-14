@@ -19,9 +19,9 @@ import 'new_album/new_album_page.dart';
 
 class AlbumPage extends StatefulWidget{
 
-  final void Function(Album album) onAlbumSelected;
-  final void Function(Album album) onNewCreated;
-  const AlbumPage({this.onAlbumSelected, this.onNewCreated, Key key}): super(key: key);
+  final void Function(Album album)? onAlbumSelected;
+  final void Function(Album album)? onNewCreated;
+  const AlbumPage({this.onAlbumSelected, this.onNewCreated, Key? key}): super(key: key);
 
   @override
   State<AlbumPage> createState() => AlbumPageState();
@@ -30,8 +30,8 @@ class AlbumPage extends StatefulWidget{
 
 class AlbumPageState extends State<AlbumPage>{
 
-  void Function(Album album) get onAlbumSelected => widget.onAlbumSelected;
-  void Function(Album album) get onNewCreated => widget.onNewCreated;
+  void Function(Album album)? get onAlbumSelected => widget.onAlbumSelected;
+  void Function(Album album)? get onNewCreated => widget.onNewCreated;
 
   @override
   void initState() {
@@ -104,7 +104,7 @@ class AlbumPageState extends State<AlbumPage>{
 class _AlbumItem extends StatefulWidget{
 
   final Album album;
-  final void Function(Album album) onAlbumSelected;
+  final void Function(Album album)? onAlbumSelected;
 
   _AlbumItem(this.album, {this.onAlbumSelected}):super(key: ValueKey(album.fileName));
 
@@ -116,7 +116,7 @@ class _AlbumItem extends StatefulWidget{
 class _AlbumItemState extends State<_AlbumItem>{
 
   Album get album => widget.album;
-  void Function(Album album) get onAlbumSelected => widget.onAlbumSelected;
+  void Function(Album album)? get onAlbumSelected => widget.onAlbumSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -163,11 +163,11 @@ class _AlbumItemState extends State<_AlbumItem>{
             onLongPress: (){
               AlbumProvider prov = Provider.of<AlbumProvider>(context, listen: false);
 
-              int lastPage = CatPageSongBookState.getLastPageForAlbum(album);
+              int? lastPage = CatPageSongBookState.getLastPageForAlbum(album);
               CatPageSongBookState.delLastPageForAlbum(album);
 
               album.delete();
-              int index = prov.allOwn.indexOf(album);
+              int index = prov.allOwn!.indexOf(album);
               prov.removeFromAll(album);
 
               if(prov.current == album)
@@ -182,7 +182,7 @@ class _AlbumItemState extends State<_AlbumItem>{
                   onButtonPressed: (context){
                     album.save();
                     prov.insertToAll(index, album);
-                    CatPageSongBookState.setLastPageForAlbum(album, lastPage);
+                    CatPageSongBookState.setLastPageForAlbum(album, lastPage!);
                   }
               );
             },

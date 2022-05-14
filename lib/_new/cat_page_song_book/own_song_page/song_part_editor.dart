@@ -6,14 +6,14 @@ import 'package:harcapp_core_own_song/page_widgets/song_part_editor_template/son
 
 class SongPartEditor extends StatefulWidget{
 
-  final String initText;
-  final String initChords;
-  final bool initShifted;
+  final String? initText;
+  final String? initChords;
+  final bool? initShifted;
 
   final bool isRefren;
-  final Function(String, int) onTextChanged;
-  final Function(String, int) onChordsChanged;
-  final Function(bool) onShiftedChanged;
+  final Function(String, int)? onTextChanged;
+  final Function(String, int)? onChordsChanged;
+  final Function(bool)? onShiftedChanged;
 
   const SongPartEditor({this.initText, this.initChords, this.initShifted, this.isRefren = false, this.onTextChanged, this.onChordsChanged, this.onShiftedChanged});
 
@@ -24,15 +24,15 @@ class SongPartEditor extends StatefulWidget{
 
 class SongPartEditorState extends State<SongPartEditor>{
 
-  String get initText => widget.initText;
-  String get initChord => widget.initChords;
-  bool get initShifted => widget.initShifted;
+  String? get initText => widget.initText;
+  String? get initChord => widget.initChords;
+  bool? get initShifted => widget.initShifted;
   bool get isRefren => widget.isRefren;
-  Function(String, int) get onTextChanged => widget.onTextChanged;
-  Function(String, int) get onChordsChanged => widget.onChordsChanged;
-  Function(bool) get onShiftedChanged => widget.onShiftedChanged;
+  Function(String, int)? get onTextChanged => widget.onTextChanged;
+  Function(String, int)? get onChordsChanged => widget.onChordsChanged;
+  Function(bool)? get onShiftedChanged => widget.onShiftedChanged;
 
-  bool showErrBar;
+  bool? showErrBar;
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class SongPartEditorState extends State<SongPartEditor>{
           ButtonsWidget(
             isRefren: isRefren,
             onCheckPressed: () => Navigator.pop(context),
-            onAlertTap: () => setState(() => showErrBar = !showErrBar),
+            onAlertTap: () => setState(() => showErrBar = !showErrBar!),
             onChordsChanged: onChordsChanged,
           ),
           ErrorListWidget(showErrBar),

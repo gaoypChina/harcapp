@@ -10,7 +10,7 @@ import 'org_pages/zhr_org_page.dart';
 
 class OrganizationsPage extends StatefulWidget {
 
-  const OrganizationsPage({Key key}) : super(key: key);
+  const OrganizationsPage({Key? key}) : super(key: key);
 
   @override
   State createState() => OrganizationsPageState();

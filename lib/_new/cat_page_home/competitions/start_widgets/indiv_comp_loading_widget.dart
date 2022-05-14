@@ -7,7 +7,7 @@ import 'indiv_comp_prompt.dart';
 class IndivCompLoadingWidget extends StatelessWidget{
 
   final bool singleLine;
-  const IndivCompLoadingWidget({this.singleLine = false, Key key}) : super(key: key);
+  const IndivCompLoadingWidget({this.singleLine = false, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => IndivCompPrompt(

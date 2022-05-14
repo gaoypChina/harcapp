@@ -15,9 +15,9 @@ class AwardPageViewWidget extends StatelessWidget{
 
   final IndivComp comp;
   final bool expanded;
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
 
-  const AwardPageViewWidget(this.comp, {this.expanded = false, this.padding, Key key}): super(key: key);
+  const AwardPageViewWidget(this.comp, {this.expanded = false, this.padding, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class AwardPageViewWidget extends StatelessWidget{
     for(int i=0; i<comp.awards.length; i++)
       children.add(
         Padding(
-          padding: padding,
+          padding: padding!,
           child: expanded?
           AwardTileWidget(i+1, comp.colors, comp.awards[i]):
           AwardTileDenseWidget(i+1, comp.colors, comp.awards[i])),
@@ -45,11 +45,11 @@ class AwardPageViewWidget extends StatelessWidget{
 class AwardListWidget extends StatelessWidget{
 
   final List<IndivCompAward> awards;
-  final CommonColorData colors;
-  final int limit;
+  final CommonColorData? colors;
+  final int? limit;
   final bool expanded;
 
-  const AwardListWidget(this.awards, this.colors, {this.limit, this.expanded = false, Key key}): super(key: key);
+  const AwardListWidget(this.awards, this.colors, {this.limit, this.expanded = false, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class IndivCompAwardsPage extends StatefulWidget{
 
   final IndivComp comp;
 
-  const IndivCompAwardsPage(this.comp, {Key key}): super(key: key);
+  const IndivCompAwardsPage(this.comp, {Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => IndivCompAwardsPageState();

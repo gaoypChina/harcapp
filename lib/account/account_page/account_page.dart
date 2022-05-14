@@ -51,7 +51,7 @@ class AccountPage extends StatefulWidget{
       ));
   }
 
-  const AccountPage({Key key}): super(key: key);
+  const AccountPage({Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => AccountPageState();
@@ -60,25 +60,25 @@ class AccountPage extends StatefulWidget{
 
 class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
 
-  InputFieldController emailController;
-  InputFieldController nameController;
-  InputFieldController sexController;
-  InputFieldController nickController;
-  InputFieldController nickSearchableController;
+  InputFieldController? emailController;
+  InputFieldController? nameController;
+  InputFieldController? sexController;
+  InputFieldController? nickController;
+  InputFieldController? nickSearchableController;
 
-  bool nickSearchable;
-  Sex sex;
+  bool? nickSearchable;
+  Sex? sex;
 
-  InputFieldController passwordController;
+  InputFieldController? passwordController;
 
-  bool editMode;
-  bool processing;
+  bool? editMode;
+  bool? processing;
 
-  String errMessage;
+  String? errMessage;
 
-  TabController controller;
+  TabController? controller;
 
-  bool mergingMsAcc;
+  late bool mergingMsAcc;
 
   @override
   void initState() {
@@ -177,13 +177,13 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
                     );
 
                     await ZhpAccAuth.login(context);
-                    String azureToken = await ZhpAccAuth.azureToken;
+                    String? azureToken = await ZhpAccAuth.azureToken;
                     await ApiRegLog.mergeMicrosoft(
                         azureToken,
                         onError: (err) async {
                           Navigator.pop(context);
                           await ZhpAccAuth.logout();
-                          if(err.data['error'] == 'microsoft_merge_email_mismatch')
+                          if(err!.data['error'] == 'microsoft_merge_email_mismatch')
                             await showAlertDialog(
                                 context,
                                 title: 'To nie przejdzie...',
@@ -215,9 +215,9 @@ class RotatingHarcAppLogo extends StatefulWidget{
   static const defSize = 48.0;
 
   final double size;
-  final Color color;
+  final Color? color;
 
-  const RotatingHarcAppLogo({this.size = defSize, this.color});
+  const RotatingHarcAppLogo({this.size = defSize, this.color, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => RotatingHarcAppLogoState();
@@ -228,13 +228,13 @@ class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
 
   static const List<Color> colors = [Colors.red, Colors.orange, Colors.amber, Colors.teal, Colors.green, Colors.blue, Colors.deepPurple];
 
-  FlipCardController controller;
+  FlipCardController? controller;
 
   void flip()async{
     while(true){
       if(!mounted)
         return;
-      controller.toggleCard();
+      controller!.toggleCard();
       setState((){
         if(colorIdx < colors.length - 2)
           colorIdx++;
@@ -245,7 +245,7 @@ class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
     }
   }
 
-  int colorIdx;
+  late int colorIdx;
 
   @override
   void initState() {
@@ -256,23 +256,12 @@ class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    Widget harcAppLogo = SvgPicture.asset(
-      'assets/images/harcapp_logo.svg',
-      width: widget.size,
-      height: widget.size,
-      color: widget.color??iconEnab_(context),
-    );
-
-    return FlipCard(
-      front: HarcAppWidget(color: colors[colorIdx + 1 - (colorIdx % 2)]),
-      back: HarcAppWidget(color: colors[colorIdx - (colorIdx % 2)]),
-      controller: controller,
-      flipOnTouch: false,
-    );
-
-  }
+  Widget build(BuildContext context) => FlipCard(
+    front: HarcAppWidget(color: colors[colorIdx + 1 - (colorIdx % 2)]),
+    back: HarcAppWidget(color: colors[colorIdx - (colorIdx % 2)]),
+    controller: controller,
+    flipOnTouch: false,
+  );
 
 }
 
@@ -281,7 +270,7 @@ class HarcAppWidget extends StatelessWidget{
   static const defSize = 48.0;
 
   final double size;
-  final Color color;
+  final Color? color;
 
   const HarcAppWidget({this.size = defSize, this.color});
 

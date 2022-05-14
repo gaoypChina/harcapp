@@ -14,11 +14,11 @@ class SprawGridPage extends StatefulWidget{
   final String title;
   final List<String> UIDs;
   final String mode;
-  final IconData icon;
-  final Widget emptyWidget;
-  final List<Widget> actions;
+  final IconData? icon;
+  final Widget? emptyWidget;
+  final List<Widget>? actions;
 
-  const SprawGridPage({@required this.title, @required this.UIDs, @required this.mode, @required this.icon, this.emptyWidget, this.actions, Key key}): super(key: key);
+  const SprawGridPage({required this.title, required this.UIDs, required this.mode, required this.icon, this.emptyWidget, this.actions, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => SprawGridPageState();
@@ -30,10 +30,10 @@ class SprawGridPageState extends State<SprawGridPage>{
   String get title => widget.title;
   List<String> get UIDs => widget.UIDs;
   String get mode => widget.mode;
-  IconData get icon => widget.icon;
-  List<Widget> get actions => widget.actions;
+  IconData? get icon => widget.icon;
+  List<Widget>? get actions => widget.actions;
 
-  List<String> selUIDs;
+  List<String>? selUIDs;
 
   @override
   void initState() {
@@ -72,7 +72,7 @@ class SprawGridPageState extends State<SprawGridPage>{
                 List<String> selUIDs = [];
 
                 for(String uid in UIDs){
-                  Spraw spraw = Spraw.fromUID(uid);
+                  Spraw spraw = Spraw.fromUID(uid)!;
                   if(remPolChars(spraw.title).contains(text))
                     selUIDs.add(uid);
                 }

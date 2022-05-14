@@ -34,7 +34,7 @@ Map<String, String> lettersMap = {
   'Z': '5x3',
   ' ':'-'
 };
-Map<String, String> reversedLettersMap;
+Map<String?, String>? reversedLettersMap;
 
 class ChildTabliczkaMnozenia extends StatefulWidget {
 
@@ -53,9 +53,9 @@ class ChildTabliczkaMnozeniaState extends State<ChildTabliczkaMnozenia>
 
   static final GlobalKey _keyFindCode = GlobalKey();
   
-  String output;
+  late String output;
 
-  TextInputFormatter dozwoloneZnaki;
+  late TextInputFormatter dozwoloneZnaki;
 
   @override
   void initState() {
@@ -64,7 +64,7 @@ class ChildTabliczkaMnozeniaState extends State<ChildTabliczkaMnozenia>
     dozwoloneZnaki =  RegExInputFormatter.withRegex(r'[AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpQqRrSsŚśTtUuVvWwXxYyZzŹźŻż 0-9]*');
 
     for(String key in lettersMap.keys){
-      reversedLettersMap[lettersMap[key]] = key;
+      reversedLettersMap![lettersMap[key]] = key;
     }
 
     print(reversedLettersMap);
@@ -133,7 +133,7 @@ class ChildTabliczkaMnozeniaState extends State<ChildTabliczkaMnozenia>
     input = remPolChars(input).toUpperCase();
     for (int i = 0; i < input.length; i++) {
       String letter = input.substring(i, i + 1);
-      String match = lettersMap[letter];
+      String? match = lettersMap[letter];
       output += (match!=null ? match : '?') + ' ';
     }
 
@@ -146,7 +146,7 @@ class ChildTabliczkaMnozeniaState extends State<ChildTabliczkaMnozenia>
     RegExp regExp = RegExp(r'[\w-]+');
     final matches = regExp.allMatches(input);
     for (Match match in matches) {
-      String letter = reversedLettersMap[match.group(0)];
+      String? letter = reversedLettersMap![match.group(0)];
       output += letter!=null ? letter : '?';
     }
 

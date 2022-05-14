@@ -24,10 +24,10 @@ class RegulaminInputField extends StatelessWidget{
   static const IconData acceptedIcon = MdiIcons.checkboxMarkedCircleOutline;
   static const IconData notAcceptedIcon = MdiIcons.closeCircleOutline;
 
-  final bool gdprAccepted;
+  final bool? gdprAccepted;
   final bool enabled;
-  final InputFieldController controller;
-  final void Function(bool) onAcceptChanged;
+  final InputFieldController? controller;
+  final void Function(bool)? onAcceptChanged;
 
   const RegulaminInputField(this.gdprAccepted, {this.enabled = true, this.controller, this.onAcceptChanged});
 
@@ -40,10 +40,10 @@ class RegulaminInputField extends StatelessWidget{
 
     void Function() onTap = () async {
 
-      final RenderBox renderBoxRed = _widgetKey.currentContext.findRenderObject();
+      final RenderBox renderBoxRed = _widgetKey.currentContext!.findRenderObject() as RenderBox;
       final position = renderBoxRed.localToGlobal(Offset.zero);
 
-      bool selGdprAccepted = await showChooseGdprAcceptDialog(
+      bool? selGdprAccepted = await showChooseGdprAcceptDialog(
           context,
           position.dy - Provider.of<MainProvider>(context, listen: false).statusBarHeight,
           gdprAccepted
@@ -74,7 +74,7 @@ class RegulaminInputField extends StatelessWidget{
             Expanded(child: Container()),
             IconButton(
                 key: _widgetKey,
-                icon: Icon(gdprAccepted==null?MdiIcons.circleOutline:(gdprAccepted?acceptedIcon:notAcceptedIcon)),
+                icon: Icon(gdprAccepted==null?MdiIcons.circleOutline:(gdprAccepted!?acceptedIcon:notAcceptedIcon)),
                 onPressed: enabled?onTap:null
             )
           ],
@@ -88,9 +88,9 @@ class RegulaminInputField extends StatelessWidget{
 
 class ChooseGdprAcceptDialog extends StatelessWidget{
 
-  final bool gdprAccept;
+  final bool? gdprAccept;
   final double top;
-  final void Function(bool) onSelected;
+  final void Function(bool)? onSelected;
 
   const ChooseGdprAcceptDialog(this.gdprAccept, this.top, {this.onSelected});
 
@@ -149,9 +149,9 @@ class ChooseGdprAcceptDialog extends StatelessWidget{
 
 }
 
-Future<bool> showChooseGdprAcceptDialog(BuildContext context, double top, bool gdprAccept) async {
+Future<bool?> showChooseGdprAcceptDialog(BuildContext context, double top, bool? gdprAccept) async {
 
-  bool _gdprAccept;
+  bool? _gdprAccept;
 
   await openDialog(
       context: context,
@@ -173,7 +173,7 @@ Future<bool> showChooseGdprAcceptDialog(BuildContext context, double top, bool g
 
 Future<void> showContent(BuildContext context) async {
 
-  String content = await readStringFromAssets('assets/account/policy_v1');
+  String? content = await readStringFromAssets('assets/account/policy_v1');
 
   await openDialog(
       context: context,
@@ -195,7 +195,7 @@ Future<void> showContent(BuildContext context) async {
                 SliverPadding(
                     padding: EdgeInsets.all(Dimen.SIDE_MARG),
                     sliver: SliverList(delegate: SliverChildListDelegate([
-                      Text(content, style: AppTextStyle())
+                      Text(content!, style: AppTextStyle())
                     ]))
                 )
               ],

@@ -31,11 +31,11 @@ import 'main_button.dart';
 
 class LoginPart extends StatefulWidget{
 
-  final String initEmail;
-  final String initPassword;
-  final void Function(bool accActivated) onLoggedIn;
+  final String? initEmail;
+  final String? initPassword;
+  final void Function(bool? accActivated)? onLoggedIn;
 
-  const LoginPart({this.initEmail, this.initPassword, this.onLoggedIn});
+  const LoginPart({this.initEmail, this.initPassword, this.onLoggedIn, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => LoginPartState();
@@ -44,22 +44,22 @@ class LoginPart extends StatefulWidget{
 
 class LoginPartState extends State<LoginPart>{
 
-  InputFieldController emailController;
-  InputFieldController passwordController;
+  InputFieldController? emailController;
+  InputFieldController? passwordController;
 
-  bool processing;
+  bool? processing;
 
-  String errMessage;
+  String? errMessage;
 
   void loginClick() async {
 
-    emailController.errorText = '';
-    passwordController.errorText = '';
+    emailController!.errorText = '';
+    passwordController!.errorText = '';
 
     setState(() => processing = true);
 
-    String email = emailController.text;
-    String password = passwordController.text;
+    String email = emailController!.text;
+    String password = passwordController!.text;
 
     await ApiRegLog.carefullyLogin(
         context: context,
@@ -76,14 +76,14 @@ class LoginPartState extends State<LoginPart>{
             widget.onLoggedIn?.call(emailConf);
 
         },
-        onError: (Response response){
+        onError: (Response? response){
           try{
 
-            Map errMap = response.data['errors'];
+            Map? errMap = response!.data['errors'];
 
             if(errMap != null) {
-              emailController.errorText = errMap[ApiRegLog.LOGIN_REQ_EMAIL] ?? '';
-              passwordController.errorText = errMap[ApiRegLog.LOGIN_REQ_PASSWORD] ?? '';
+              emailController!.errorText = errMap[ApiRegLog.LOGIN_REQ_EMAIL] ?? '';
+              passwordController!.errorText = errMap[ApiRegLog.LOGIN_REQ_PASSWORD] ?? '';
             }
 
             errMessage = response.data['error'];
@@ -112,7 +112,7 @@ class LoginPartState extends State<LoginPart>{
       );
 
       await ZhpAccAuth.login(context);
-      String azureToken = await ZhpAccAuth.azureToken;
+      String? azureToken = await ZhpAccAuth.azureToken;
       await ApiRegLog.carefullyMicrosoftLogin(
           context: context,
           azureToken: azureToken,
@@ -128,9 +128,9 @@ class LoginPartState extends State<LoginPart>{
               widget.onLoggedIn?.call(emailConf);
 
           },
-          onError: (Response response) async {
+          onError: (Response? response) async {
             await popPage(context); // close login alert dialog
-            String respData = (response.data as Map)['error'];
+            String? respData = (response!.data as Map)['error'];
 
             if(respData == 'registration_required')
               pushReplacePage(context, builder: (context) => RegisterMicrosoftAddDataPart(
@@ -189,7 +189,7 @@ class LoginPartState extends State<LoginPart>{
                       child: InputField(
                         hint: 'E-mail:',
                         controller: emailController,
-                        enabled: !processing,
+                        enabled: !processing!,
                         leading: Icon(MdiIcons.account, color: iconDisab_(context)),
                       ),
                     ),
@@ -202,7 +202,7 @@ class LoginPartState extends State<LoginPart>{
                         hint: 'Hasło:',
                         controller: passwordController,
                         leading: Icon(MdiIcons.key, color: iconDisab_(context)),
-                        enabled: !processing,
+                        enabled: !processing!,
                       ),
                     ),
 
@@ -213,12 +213,12 @@ class LoginPartState extends State<LoginPart>{
                       child: SimpleButton.from(
                         context: context,
                         fontWeight: weight.normal,
-                        textColor: processing?iconDisab_(context):iconEnab_(context),
+                        textColor: processing!?iconDisab_(context):iconEnab_(context),
                         text: 'Przypomnij hasło',
-                        onTap: processing?null:() =>
+                        onTap: processing!?null:() =>
                             pushReplacePage(
                                 context,
-                                builder: (context) => RemindPasswordPart(email: emailController.text)
+                                builder: (context) => RemindPasswordPart(email: emailController!.text)
                             ),
                       ),
                     ),
@@ -234,14 +234,14 @@ class LoginPartState extends State<LoginPart>{
                               child: SimpleButton.from(
                                 context: context,
                                 fontWeight: weight.normal,
-                                textColor: processing?iconDisab_(context):iconEnab_(context),
+                                textColor: processing!?iconDisab_(context):iconEnab_(context),
                                 text: 'Dołącz',
                                 icon: MdiIcons.accountPlusOutline,
-                                onTap: processing?null:() => pushReplacePage(
+                                onTap: processing!?null:() => pushReplacePage(
                                     context,
                                     builder: (context) => RegisterPart(
-                                      initEmail: emailController.text,
-                                      initPassword: passwordController.text,
+                                      initEmail: emailController!.text,
+                                      initPassword: passwordController!.text,
                                     )
                                 ),
                               ),
@@ -256,7 +256,7 @@ class LoginPartState extends State<LoginPart>{
                             icon: MdiIcons.loginVariant,
                             text: 'Zaloguj',
                             processing: processing,
-                            onTap: processing?null:loginClick,
+                            onTap: processing!?null:loginClick,
                           ),
                         )
                       ],
@@ -295,9 +295,9 @@ class RotatingHarcAppLogo extends StatefulWidget{
   static const defSize = 48.0;
 
   final double size;
-  final Color color;
+  final Color? color;
 
-  const RotatingHarcAppLogo({this.size = defSize, this.color});
+  const RotatingHarcAppLogo({this.size = defSize, this.color, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => RotatingHarcAppLogoState();
@@ -308,13 +308,13 @@ class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
 
   static const List<Color> colors = [Colors.red, Colors.orange, Colors.amber, Colors.teal, Colors.green, Colors.blue, Colors.deepPurple];
 
-  FlipCardController controller;
+  FlipCardController? controller;
 
   void flip()async{
     while(true){
       if(!mounted)
         return;
-      controller.toggleCard();
+      controller!.toggleCard();
       setState((){
         if(colorIdx < colors.length - 2)
           colorIdx++;
@@ -325,7 +325,7 @@ class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
     }
   }
 
-  int colorIdx;
+  late int colorIdx;
 
   @override
   void initState() {
@@ -350,9 +350,9 @@ class HarcAppWidget extends StatelessWidget{
   static const defSize = 48.0;
 
   final double size;
-  final Color color;
+  final Color? color;
 
-  const HarcAppWidget({this.size = defSize, this.color});
+  const HarcAppWidget({this.size = defSize, this.color, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => SvgPicture.asset(

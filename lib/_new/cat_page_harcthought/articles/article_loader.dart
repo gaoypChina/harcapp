@@ -33,30 +33,30 @@ class ArticleDownloadError extends ArticleLoaderError{}
 
 class ArticleLoaderListener extends SingleComputerListener<ArticleLoaderError>{
 
-  final void Function(ArticleLoadState loadState) onStateChanged;
+  final void Function(ArticleLoadState? loadState)? onStateChanged;
 
   ArticleLoaderListener({
-      void Function() onStart,
-      void Function(ArticleLoaderError) onError,
-      void Function(ArticleLoaderError err, bool forceFinished) onEnd,
+      void Function()? onStart,
+      void Function(ArticleLoaderError)? onError,
+      void Function(ArticleLoaderError err, bool forceFinished)? onEnd,
       this.onStateChanged,
-  }):super(onStart: onStart, onError: onError, onEnd: onEnd);
+  }):super(onStart: onStart, onError: onError as Future<void> Function(ArticleLoaderError)?, onEnd: onEnd);
 }
 
-class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderListener>{
+class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderListener?>{
 
   @override
   String get computerName => 'ArticleLoader';
 
-  ArticleLoadState _loadState;
-  ArticleLoadState get loadState => _loadState;
-  set loadState(ArticleLoadState value){
+  ArticleLoadState? _loadState;
+  ArticleLoadState? get loadState => _loadState;
+  set loadState(ArticleLoadState? value){
     _loadState = value;
-    for(ArticleLoaderListener listener in listeners)
-      listener.onStateChanged(_loadState);
+    for(ArticleLoaderListener? listener in listeners)
+      listener!.onStateChanged!(_loadState);
   }
 
-  bool all;
+  late bool all;
 
   static List<Article> _responseToAzymutFeed(Response response){
     AtomFeed atomFeed;
@@ -67,7 +67,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
     }
 
     List<Article> articles = [];
-    for(AtomItem item in atomFeed.items)
+    for(AtomItem item in atomFeed.items!)
       try {
         ArticleAzymut article = ArticleAzymut.from(item);
         articles.add(article);
@@ -80,7 +80,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
 
   static String _azymutFeedPageUrl(int page) => 'https://azymut.zhr.pl/feed/atom/?paged=${page}';
 
-  static Future<List<Article>> _getAzymutFromPage({int page = 0}) async {
+  static Future<List<Article>?> _getAzymutFromPage({int page = 0}) async {
 
     Dio dio = Dio(BaseOptions(
       connectTimeout: 5000,
@@ -98,18 +98,18 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
     } on DioError catch(e){
       if(e.response == null)
         return null;
-      return _responseToAzymutFeed(e.response);
+      return _responseToAzymutFeed(e.response!);
     }
 
   }
 
-  static Future<List<Article>> downloadAllArticles({String lastSeenId}) async {
+  static Future<List<Article>?> downloadAllArticles({String? lastSeenId}) async {
 
     List<Article> allArticles = [];
 
     int page = 0;
     while(true) {
-      List<Article> articles = await _getAzymutFromPage(page: page);
+      List<Article>? articles = await _getAzymutFromPage(page: page);
       if (articles == null)
         return null;
 
@@ -132,7 +132,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
       page++;
     }
 
-    Tuple2<List<String>, List<String>> result = await ArticleHarcApp.downloadIDsAndBlackList();
+    Tuple2<List<String>, List<String>>? result = await ArticleHarcApp.downloadIDsAndBlackList();
 
     if(result == null) {
       debugPrint('Problem downloading downloadIDsAndBlackList.');
@@ -146,7 +146,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
       artHarcAppIDs.removeWhere((id) => id == blackListID);
 
     for(String id in artHarcAppIDs) {
-      Article article = await ArticleHarcApp.downloadArticle(id);
+      Article? article = await ArticleHarcApp.downloadArticle(id);
       if(article == null) continue;
       allArticles.add(article);
     }
@@ -154,7 +154,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
     return allArticles;
   }
 
-  static Future<Map<String, Tuple2<String, int>>> downloadAltCoverUrls() async {
+  static Future<Map<String, Tuple2<String, int>>?> downloadAltCoverUrls() async {
 
     Dio dio = Dio(BaseOptions(
       connectTimeout: 5000,
@@ -198,11 +198,11 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
 
   }
 
-  static Future<Tuple2<List<Article>, Map<String, Tuple2<String, int>>>> _run(String lastSeenId) async {
+  static Future<Tuple2<List<Article>, Map<String, Tuple2<String, int>>>?> _run(String? lastSeenId) async {
 
-    Future<List<Article>> articles = downloadAllArticles(lastSeenId: lastSeenId);
+    Future<List<Article>?> articles = downloadAllArticles(lastSeenId: lastSeenId);
 
-    Future<Map<String, Tuple2<String, int>>> altCovers = downloadAltCoverUrls();
+    Future<Map<String, Tuple2<String, int>>?> altCovers = downloadAltCoverUrls();
 
     List result = await Future.wait([articles, altCovers]);
 
@@ -230,7 +230,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
 
     loadState = ArticleLoadState.LOADING;
 
-    Tuple2<List<Article>, Map<String, Tuple2<String, int>>> result = await compute(_run, all?null:Article.lastSeenId);
+    Tuple2<List<Article>, Map<String, Tuple2<String, int>>>? result = await compute(_run, all?null:Article.lastSeenId);
 
     if(result == null){
       await callError(ArticleDownloadError());
@@ -250,7 +250,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
     if(articles != null)
       Article.addAllToStart(articles);
     Article.altCoverUrls = altCoverUrls;
-    await ArticleLoader.downloadMissingAltCovers(Article.altCoverUrls);
+    await ArticleLoader.downloadMissingAltCovers(Article.altCoverUrls!);
 
     loadState = ArticleLoadState.LOADED;
   }
@@ -261,25 +261,25 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
       if(!File(getArticleCoverPath(id)).existsSync())
         continue;
 
-      int version = Article.coverVersion(id);
-      if(version < allAltCovers[id].item2)
+      int version = Article.coverVersion(id)!;
+      if(version < allAltCovers[id]!.item2)
         await Article.downloadSaveCover(
             id: id,
-            url: allAltCovers[id].item1,
-            version: allAltCovers[id].item2
+            url: allAltCovers[id]!.item1,
+            version: allAltCovers[id]!.item2
         );
     }
   }
 
 }
 
-List<Article> get storedArticles{
+List<Article?> get storedArticles{
   
   Directory dir = Directory(getArticleCoresFolderPath);
   dir.createSync(recursive: true);
   List<FileSystemEntity> fileEntities = dir.listSync();
   
-  List<Article> articles = [];
+  List<Article?> articles = [];
   for(FileSystemEntity fileEntity in fileEntities)
     try {
       articles.add(Article.readFromPath(fileEntity.path));
@@ -287,7 +287,7 @@ List<Article> get storedArticles{
       continue;
     }
 
-  articles.sort((art1, art2) => art1.date.isBefore(art2.date)?1:-1);
+  articles.sort((art1, art2) => art1!.date!.isBefore(art2!.date!)?1:-1);
 
   return articles;
 
@@ -309,7 +309,7 @@ Author readAuthor(String authCode){
 
 }
 
-Future<Author> loadAuthor(String authCode, {Function onError}) async{
+Future<Author> loadAuthor(String authCode, {Function? onError}) async{
 
   if(authorDownloaded(authCode))
     return readAuthor(authCode);
@@ -318,7 +318,7 @@ Future<Author> loadAuthor(String authCode, {Function onError}) async{
 
 }
 
-Future<Author> downloadAuthor(String authCode, {Function onError}) async {
+Future<Author> downloadAuthor(String authCode, {Function? onError}) async {
 
   Dio dio = Dio(BaseOptions(
     connectTimeout: 5000,

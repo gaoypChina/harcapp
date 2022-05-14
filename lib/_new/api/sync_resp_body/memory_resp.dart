@@ -9,13 +9,13 @@ class MemoryResp extends SyncGetResp{
   static const String COLL_NAME = Memory.syncClassId;
 
   static const String PARAM_DESC = Memory.PARAM_DESC;
-  final String desc;
+  final String? desc;
 
   static const String PARAM_DATE = Memory.PARAM_DATE;
-  final DateTime date;
+  final DateTime? date;
 
   static const String PARAM_PLACE = Memory.PARAM_PLACE;
-  final String place;
+  final String? place;
 
   static const String PARAM_FONT_KEY = Memory.PARAM_FONT_KEY;
   final int fontKey;
@@ -24,11 +24,11 @@ class MemoryResp extends SyncGetResp{
   final bool published;
 
   const MemoryResp({
-    @required this.desc,
-    @required this.date,
-    @required this.place,
-    @required this.fontKey,
-    @required this.published
+    required this.desc,
+    required this.date,
+    required this.place,
+    required this.fontKey,
+    required this.published
   });
 
   static MemoryResp from(Map respData) => MemoryResp(

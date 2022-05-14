@@ -10,7 +10,7 @@ class SuggestTextField extends StatelessWidget{
 
   final bool showSuggestion;
 
-  const SuggestTextField({@required this.textField, @required this.childBelow, @required this.suggestionElemets, @required this.showSuggestion});
+  const SuggestTextField({required this.textField, required this.childBelow, required this.suggestionElemets, required this.showSuggestion});
 
   @override
   Widget build(BuildContext context) {

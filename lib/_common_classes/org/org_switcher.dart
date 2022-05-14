@@ -19,11 +19,11 @@ class OrgSwitcher extends StatelessWidget{
 
   static const double width = _width + 2*margin;
 
-  final List<Org> allowedOrgs;
+  final List<Org?> allowedOrgs;
   final bool longPressable;
-  final Function(Org currentState) onTap;
+  final Function(Org? currentState)? onTap;
 
-  const OrgSwitcher({this.allowedOrgs=Org.values, this.longPressable = true, this.onTap, Key key}): super(key: key);
+  const OrgSwitcher({this.allowedOrgs=Org.values, this.longPressable = true, this.onTap, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => Consumer<OrgProvider>(
@@ -36,7 +36,7 @@ class OrgSwitcher extends StatelessWidget{
         bottom: 5.0,
       ),
       onTap: (){
-        Org org = prov.nextFrom(allowedOrgs);
+        Org? org = prov.nextFrom(allowedOrgs);
         onTap?.call(org);
       },
       onLongPress: longPressable?() => openDialog(
@@ -71,11 +71,11 @@ class OrgSwitcher extends StatelessWidget{
 
                 Text('', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL)),
                 Text(
-                    orgName[prov.current],
+                    orgName[prov.current!]!,
                     style: AppTextStyle(
                         fontSize: Dimen.TEXT_SIZE_BIG,
                         fontWeight: weight.bold,
-                        color: orgColor[prov.current]
+                        color: orgColor[prov.current!]
                     )
                 ),
                 Text(
@@ -84,7 +84,7 @@ class OrgSwitcher extends StatelessWidget{
                     style: AppTextStyle(
                         fontSize: Dimen.TEXT_SIZE_SMALL,
                         fontWeight: weight.bold,
-                        color: orgColor[prov.current]
+                        color: orgColor[prov.current!]
                     )
                 )
               ],
@@ -98,9 +98,9 @@ class OrgSwitcher extends StatelessWidget{
 
 class _OrgSwitcherExtendedButton extends StatelessWidget{
 
-  final List<Org> allowedOrgs;
+  final List<Org?> allowedOrgs;
   final Org org;
-  final void Function(Org) onTap;
+  final void Function(Org?)? onTap;
 
   const _OrgSwitcherExtendedButton(this.allowedOrgs, this.org, {this.onTap});
 
@@ -130,7 +130,7 @@ class _OrgSwitcherExtendedButton extends StatelessWidget{
           ],
         ),
         onTap: (){
-          Org org = OrgProvider.of(context).nextFrom(allowedOrgs);
+          Org? org = OrgProvider.of(context).nextFrom(allowedOrgs);
           onTap?.call(org);
           Navigator.pop(context);
         }

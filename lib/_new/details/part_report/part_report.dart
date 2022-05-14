@@ -30,18 +30,18 @@ class PartReport extends StatefulWidget{
 
 class PartReportState extends State<PartReport> with TickerProviderStateMixin{
 
-  String _buttonSendText;
-  bool _isSendButtonActive;
+  String? _buttonSendText;
+  late bool _isSendButtonActive;
 
-  TextEditingController controllerReport;
-  TextEditingController controllerEmail;
+  TextEditingController? controllerReport;
+  TextEditingController? controllerEmail;
 
-  bool bottomVisible;
+  late bool bottomVisible;
 
-  AnimationController _controller;
-  Animation<Offset> _offsetFloat;
+  late AnimationController _controller;
+  Animation<Offset>? _offsetFloat;
 
-  KeyboardVisibilityController keyboardVisibilityController;
+  late KeyboardVisibilityController keyboardVisibilityController;
 
   @override
   void initState() {
@@ -76,7 +76,7 @@ class PartReportState extends State<PartReport> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
 
-    bool enabled = controllerReport.text.isNotEmpty;
+    bool enabled = controllerReport!.text.isNotEmpty;
 
     AppTextFieldHint textReport = AppTextFieldHint(
       hint: 'Opisz napotkany błąd:',
@@ -161,8 +161,8 @@ class PartReportState extends State<PartReport> with TickerProviderStateMixin{
                           else platform = 'Other';
 
                           sender.addTextResponse('entry.869670923', widget._title);
-                          sender.addTextResponse('entry.779437691', textReport.controller.text);
-                          sender.addTextResponse('entry.1446732755', textEmail.controller.text);
+                          sender.addTextResponse('entry.779437691', textReport.controller!.text);
+                          sender.addTextResponse('entry.1446732755', textEmail.controller!.text);
                           sender.addTextResponse('entry.29092162', platform);
                           sender.addTextResponse('entry.384882387', (await PackageInfo.fromPlatform()).version);
 

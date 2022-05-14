@@ -27,15 +27,15 @@ class RankZHPOldData extends RankData{
   final List<String> warOtw;
 
   RankZHPOldData({
-    @required String titleMale,
-    @required String titleFemale,
-    @required this.czasTrw,
-    @required int version,
-    @required Org org,
-    @required String id,
-    @required this.idea,
-    @required this.warOtw,
-    @required List<RankCatData> catData,
+    required String titleMale,
+    required String titleFemale,
+    required this.czasTrw,
+    required int version,
+    required Org org,
+    required String id,
+    required this.idea,
+    required this.warOtw,
+    required List<RankCatData> catData,
   }):super(
     titleMale: titleMale,
     titleFemale: titleFemale,
@@ -61,11 +61,11 @@ class RankZHPOldData extends RankData{
 
 }
 
-abstract class RankZHPOldTempl<T extends RankState> extends Rank<RankZHPOldData, RankDefResp, T>{
+abstract class RankZHPOldTempl<T extends RankState> extends Rank<RankZHPOldData, RankDefResp?, T>{
 
   RankZHPOldTempl(
     RankZHPOldData data,
-    List<RankCat> cats,
+    List<RankCat>? cats,
   ):super(data, cats);
 
   @override
@@ -110,7 +110,7 @@ class RankZHPOld extends RankZHPOldTempl<RankStateLocal>{
 
   RankZHPOld(
     RankZHPOldData data,
-    List<RankCat> cats,
+    List<RankCat>? cats,
   ):super(data, cats);
 
   static const String syncClassId = RankDef.syncClassId;
@@ -128,6 +128,6 @@ class RankZHPOldPreview extends RankZHPOldTempl<RankStateShared>{
   @override
   RankStateShared state;
 
-  RankZHPOldPreview(RankZHPOldData data, this.state, List<RankCat> cats) : super(data, cats);
+  RankZHPOldPreview(RankZHPOldData data, this.state, List<RankCat>? cats) : super(data, cats);
 
 }

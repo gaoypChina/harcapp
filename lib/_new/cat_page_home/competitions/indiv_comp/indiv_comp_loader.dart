@@ -7,13 +7,13 @@ import 'models/indiv_comp.dart';
 
 class IndivCompLoaderListener extends SingleComputerListener<String>{
 
-  final void Function(List<IndivComp>) onIndivCompsLoaded;
+  final void Function(List<IndivComp>)? onIndivCompsLoaded;
 
   const IndivCompLoaderListener({
-    void Function() onStart,
-    Future<void> Function(String) onError,
+    void Function()? onStart,
+    Future<void> Function(String)? onError,
     this.onIndivCompsLoaded,
-    void Function(String err, bool forceFinished) onEnd
+    void Function(String err, bool forceFinished)? onEnd
   }):super(
       onStart: onStart,
       onError: onError,
@@ -23,7 +23,7 @@ class IndivCompLoaderListener extends SingleComputerListener<String>{
 }
 
 IndivCompLoader indivCompLoader = IndivCompLoader();
-class IndivCompLoader extends SingleComputer<String, IndivCompLoaderListener>{
+class IndivCompLoader extends SingleComputer<String?, IndivCompLoaderListener?>{
 
   @override
   String get computerName => 'IndivCompLoader';
@@ -40,8 +40,8 @@ class IndivCompLoader extends SingleComputer<String, IndivCompLoaderListener>{
 
           IndivComp.silentInit(comps);
 
-          for(IndivCompLoaderListener listener in listeners)
-            listener.onIndivCompsLoaded?.call(comps);
+          for(IndivCompLoaderListener? listener in listeners)
+            listener!.onIndivCompsLoaded?.call(comps);
         },
         notAuthorized: () async {
           await callError('not_authorized');

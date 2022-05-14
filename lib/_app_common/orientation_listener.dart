@@ -3,7 +3,7 @@ import 'package:harcapp_core/comm_classes/common.dart';
 
 abstract class OrientationState<T extends StatefulWidget> extends State<T> with WidgetsBindingObserver{
 
-  Orientation _currentOrientation;
+  Orientation? _currentOrientation;
 
   @override
   void initState() {
@@ -30,6 +30,6 @@ abstract class OrientationState<T extends StatefulWidget> extends State<T> with 
 
   }
 
-  void orientationChanged(Orientation orientation);
+  void orientationChanged(Orientation? orientation);
 
 }

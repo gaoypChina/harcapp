@@ -12,12 +12,12 @@ import 'award_tile_skeleton_widget.dart';
 
 class AwardTileEditWidget extends StatelessWidget{
 
-  final int position;
-  final CommonColorData colors;
+  final int? position;
+  final CommonColorData? colors;
   final IndivCompAward award;
-  final void Function(String) onChanged;
-  final void Function() onDuplicate;
-  final void Function() onRemove;
+  final void Function(String)? onChanged;
+  final void Function()? onDuplicate;
+  final void Function()? onRemove;
 
   const AwardTileEditWidget(
       this.position,
@@ -26,7 +26,7 @@ class AwardTileEditWidget extends StatelessWidget{
       { this.onChanged,
         this.onDuplicate,
         this.onRemove,
-        Key key
+        Key? key
       }): super(key: key);
 
   @override

@@ -12,10 +12,10 @@ import '../models/indiv_comp_task_compl.dart';
 class PendingTasksPage extends StatefulWidget{
 
   final IndivComp comp;
-  final List<IndivCompTaskCompl> complTasks;
-  final void Function(IndivCompTaskCompl) onRemoved;
+  final List<IndivCompTaskCompl>? complTasks;
+  final void Function(IndivCompTaskCompl)? onRemoved;
 
-  const PendingTasksPage(this.comp, this.complTasks, {this.onRemoved, Key key}): super(key: key);
+  const PendingTasksPage(this.comp, this.complTasks, {this.onRemoved, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => PendingTasksPageState();
@@ -26,9 +26,9 @@ class PendingTasksPageState extends State<PendingTasksPage> {
 
   IndivComp get comp => widget.comp;
 
-  List<IndivCompTaskCompl> get complTasks => widget.complTasks;
+  List<IndivCompTaskCompl>? get complTasks => widget.complTasks;
 
-  void Function(IndivCompTaskCompl) get onRemoved => widget.onRemoved;
+  void Function(IndivCompTaskCompl)? get onRemoved => widget.onRemoved;
 
   @override
   Widget build(BuildContext context) =>
@@ -48,14 +48,14 @@ class PendingTasksPageState extends State<PendingTasksPage> {
               sliver: SliverList(
                 delegate: SliverChildSeparatedBuilderDelegate((context, index) =>
                     IndivCompTaskComplWidget(
-                        complTasks[index],
+                        complTasks![index],
                         comp.taskMap,
                         comp.colors,
                         preview: true,
                         onRemoved: (text) {
-                          IndivCompTaskCompl complTask = complTasks.removeAt(index);
+                          IndivCompTaskCompl complTask = complTasks!.removeAt(index);
                           onRemoved?.call(complTask);
-                          if (complTasks.isEmpty) {
+                          if (complTasks!.isEmpty) {
                             Navigator.pop(context);
                             return;
                           }
@@ -63,7 +63,7 @@ class PendingTasksPageState extends State<PendingTasksPage> {
                         }
                     ),
                   separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Dimen.SIDE_MARG),
-                  count: complTasks.length,
+                  count: complTasks!.length,
                 ),
               ),
             )

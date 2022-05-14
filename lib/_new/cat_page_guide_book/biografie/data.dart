@@ -325,7 +325,7 @@ const List<ItemData> DATA = [
 class ItemData{
 
   final String name;
-  final String fullName;
+  final String? fullName;
   final List<String> tag;
   final List<Tuple2<String, String>> imgSrc;
   final String dateBirth;
@@ -335,14 +335,14 @@ class ItemData{
   final String source;
 
   const ItemData({
-    @required this.name,
+    required this.name,
     this.fullName,
     this.tag: const [],
-    @required this.imgSrc,
-    @required this.dateBirth,
-    @required this.dateDeath,
-    @required this.shortDesc,
-    @required this.longDesc,
-    @required this.source});
+    required this.imgSrc,
+    required this.dateBirth,
+    required this.dateDeath,
+    required this.shortDesc,
+    required this.longDesc,
+    required this.source});
 
 }

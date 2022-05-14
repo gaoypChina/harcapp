@@ -28,7 +28,7 @@ class SongDataEntity{
   final List<String> authors;
   final List<String> composers;
   final List<String> performers;
-  final DateTime releaseDate;
+  final DateTime? releaseDate;
   final bool showRelDateMonth;
   final bool showRelDateDay;
   final List<AddPerson> addPers;
@@ -37,7 +37,7 @@ class SongDataEntity{
   final bool hasChords;
   final String text;
   final String baseChords;
-  final PrimitiveWrapper<int> ratePrimWrap;
+  final PrimitiveWrapper<int?> ratePrimWrap;
   final List<Memory> memoryList;
   final Map<String, Memory> memoryMap;
 
@@ -63,22 +63,22 @@ class SongDataEntity{
   );
 }
 
-abstract class Song<T extends SongResp> extends SyncableParamGroup_ with SyncNode<T>, RemoveSyncItem, SongCore{
+abstract class Song<T extends SongResp?> extends SyncableParamGroup_ with SyncNode<T>, RemoveSyncItem, SongCore{
 
-  static List<Song> recomended;
+  static List<Song>? recomended;
 
   static bool get songsLoaded => OffSong.allOfficial != null;
 
   static List<Song> get all{
     List<Song> songs = [];
-    songs.addAll(OwnSong.allOwn);
-    songs.addAll(OffSong.allOfficial);
+    songs.addAll(OwnSong.allOwn!);
+    songs.addAll(OffSong.allOfficial!);
     return songs;
   }
   static SplayTreeMap<String, Song> get allMap{
     SplayTreeMap<String, Song> map = SplayTreeMap<String, Song>();
-    map.addAll(OwnSong.allOwnMap);
-    map.addAll(OffSong.allOfficialMap);
+    map.addAll(OwnSong.allOwnMap!);
+    map.addAll(OffSong.allOfficialMap!);
     return map;
   }
 
@@ -124,11 +124,11 @@ abstract class Song<T extends SongResp> extends SyncableParamGroup_ with SyncNod
   @override
   List<String> get composers => _composers;
 
-  DateTime _releaseDate;
+  DateTime? _releaseDate;
   @protected
-  set releaseDate(DateTime value) => _releaseDate = value;
+  set releaseDate(DateTime? value) => _releaseDate = value;
   @override
-  DateTime get releaseDate => _releaseDate;
+  DateTime? get releaseDate => _releaseDate;
 
   bool _showRelDateMonth;
   @protected
@@ -188,13 +188,13 @@ abstract class Song<T extends SongResp> extends SyncableParamGroup_ with SyncNod
   String baseChords;
 
   @protected
-  PrimitiveWrapper<int> ratePrimWrap;
+  PrimitiveWrapper<int?> ratePrimWrap;
 
   @protected
   List<Memory> memoryList;
 
   @protected
-  Map<String, Memory> memoryMap;
+  Map<String?, Memory> memoryMap;
 
   List<Memory> get memories => memoryList;
 
@@ -249,13 +249,13 @@ abstract class Song<T extends SongResp> extends SyncableParamGroup_ with SyncNod
     List<String> authors = ((map[SongCore.PARAM_TEXT_AUTHORS]??DEF_AUTHORS) as List).cast<String>();
     List<String> performers = ((map[SongCore.PARAM_PERFORMERS]??DEF_PERFORMERS) as List).cast<String>();
     List<String> composers = ((map[SongCore.PARAM_COMPOSERS]??DEF_COMPOSERS) as List).cast<String>();
-    DateTime releaseDate = DateTime.tryParse(map[SongCore.PARAM_REL_DATE]??'');
+    DateTime? releaseDate = DateTime.tryParse(map[SongCore.PARAM_REL_DATE]??'');
     bool showRelDateMonth = map[SongCore.PARAM_SHOW_REL_DATE_MONTH]??true;
     bool showRelDateDay = map[SongCore.PARAM_SHOW_REL_DATE_DAY]??true;
     String ytLink = map[SongCore.PARAM_YT_LINK]??DEF_YOUTUBE_LINK;
     List<AddPerson> addPers = ((map[SongCore.PARAM_ADD_PERS]??[]) as List).map((_map) => AddPerson.fromMap(_map)).toList();
     List<String> tags = ((map[SongCore.PARAM_TAGS]??[]) as List).cast<String>();
-    SongElementOld refren;
+    late SongElementOld refren;
     if (map.containsKey(SongCore.PARAM_REFREN)) {
       Map refrenMap = map[SongCore.PARAM_REFREN];
       refren = SongElementOld.from(refrenMap['text'], refrenMap['chords']);
@@ -267,14 +267,14 @@ abstract class Song<T extends SongResp> extends SyncableParamGroup_ with SyncNod
     String songText = '';
 
     List<dynamic> partsList = map[SongCore.PARAM_PARTS]??[];
-    for (Map partMap in partsList) {
+    for (Map partMap in partsList as Iterable<Map<dynamic, dynamic>>) {
       if (partMap.containsKey('refren'))
         for (int i = 0; i < partMap['refren']; i++) {
-          songText += refren.getText(withTabs: true);
-          songChords += refren.getChords();
+          songText += refren.getText(withTabs: true)!;
+          songChords += refren.getChords()!;
 
-          int textLines =  refren.getText(withTabs: true).split("\n").length;
-          int chodsLines = refren.getChords().split("\n").length;
+          int textLines =  refren.getText(withTabs: true)!.split("\n").length;
+          int chodsLines = refren.getChords()!.split("\n").length;
           for(int j=0; j<chodsLines-textLines; j++)
             songText += '\n';
           for(int j=0; j<textLines-chodsLines; j++)
@@ -288,11 +288,11 @@ abstract class Song<T extends SongResp> extends SyncableParamGroup_ with SyncNod
         }
       else {
 
-        String text = partMap['text'];
+        String? text = partMap['text'];
         if(partMap['shift'])
-          text = TAB_CHAR + text.replaceAll('\n', '\n$TAB_CHAR');
+          text = TAB_CHAR + text!.replaceAll('\n', '\n$TAB_CHAR');
 
-        songText += text;
+        songText += text!;
         songChords += partMap['chords'];
 
         int textLines = songText.split('\n').length;
@@ -354,33 +354,33 @@ abstract class Song<T extends SongResp> extends SyncableParamGroup_ with SyncNod
   }
 
   @override
-  String get chords => ChordShifter.run(baseChords, readChordShift(fileName));
+  String get chords => ChordShifter.run(baseChords, readChordShift(fileName)!);
 
   void shiftChordsUp() =>
-    setChordShift(ChordShifter.shiftToneUp(readChordShift(fileName)));
+    setChordShift(ChordShifter.shiftToneUp(readChordShift(fileName)!));
 
   void shiftChordsDown() =>
-    setChordShift(ChordShifter.shiftToneDown(readChordShift(fileName)));
+    setChordShift(ChordShifter.shiftToneDown(readChordShift(fileName)!));
 
   void initRate() => ratePrimWrap.set(readRate(fileName));
 
-  bool get hasRate => shaPref.exists(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName));
-  static int readRate(String fileName) => shaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName), SongRate.RATE_NULL);
+  bool get hasRate => shaPref!.exists(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName));
+  static int? readRate(String fileName) => shaPref!.getInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName), SongRate.RATE_NULL);
 
   @override
-  int get rate => ratePrimWrap.get();
+  int get rate => ratePrimWrap.get()!;
 
   void setRate(int rate, {bool localOnly = false}) async {
     ratePrimWrap.set(rate);
-    shaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName), rate);
+    shaPref!.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName), rate);
     setSingleState(PARAM_RATE, SyncableParamSingle_.STATE_NOT_SYNCED);
     if(!localOnly) synchronizer.post();
   }
 
-  bool get hasChordShift => shaPref.exists(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName));
-  static int readChordShift(String fileName) => shaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName), 0);
+  bool get hasChordShift => shaPref!.exists(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName));
+  static int? readChordShift(String fileName) => shaPref!.getInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName), 0);
   void setChordShift(int chordShift, {bool localOnly = false}) {
-    shaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName), chordShift);
+    shaPref!.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName), chordShift);
     setSingleState(PARAM_CHORD_SHIFT, SyncableParamSingle_.STATE_NOT_SYNCED);
     if(!localOnly) synchronizer.post(aggregateDelay: SynchronizerEngine.aggregateChordChangeDuration);
   }
@@ -479,19 +479,19 @@ abstract class Song<T extends SongResp> extends SyncableParamGroup_ with SyncNod
   @override
   void applySyncGetResp(T resp) {
     if(resp.rate != null)
-      setRate(resp.rate, localOnly: true);
+      setRate(resp.rate!, localOnly: true);
 
     if(resp.chordShift != null)
-      setChordShift(resp.chordShift, localOnly: true);
+      setChordShift(resp.chordShift!, localOnly: true);
 
     if(resp.memories != null)
-      for (String memLclId in resp.memories.keys) {
-        MemoryResp memResp = resp.memories[memLclId];
-        Memory mem = memoryMap[memLclId];
+      for (String memLclId in resp.memories!.keys) {
+        MemoryResp? memResp = resp.memories![memLclId];
+        Memory? mem = memoryMap[memLclId];
         if(mem == null) {
           mem = Memory.create(
               fileName,
-              memResp.date,
+              memResp!.date!,
               memResp.place,
               memResp.desc,
               memResp.fontKey,
@@ -502,7 +502,7 @@ abstract class Song<T extends SongResp> extends SyncableParamGroup_ with SyncNod
           Memory.addToAll(mem);
           addMemory(mem);
         }else
-          mem.applySyncGetResp(memResp);
+          mem.applySyncGetResp(memResp!);
       }
   }
 }

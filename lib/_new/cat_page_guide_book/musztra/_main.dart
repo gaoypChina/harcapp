@@ -12,7 +12,7 @@ import '../../module_statistics_registrator.dart';
 
 class MusztraFragment extends StatefulWidget {
 
-  const MusztraFragment({Key key}) : super(key: key);
+  const MusztraFragment({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => MusztraFragmentState();
@@ -440,9 +440,9 @@ class MusztraFragmentState extends State<MusztraFragment> with ModuleStatsMixin{
 
 class Item extends StatelessWidget{
 
-  final String title, description, error;
+  final String? title, description, error;
 
-  const Item(this.title, this.description, {this.error, Key key}): super(key: key);
+  const Item(this.title, this.description, {this.error, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

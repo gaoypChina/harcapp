@@ -35,14 +35,14 @@ class Word{
   static const String exteralCodeSeparator = ';';
   
   final WordData data;
-  final CardColor cardColor;
-  bool checked;
+  final CardColor? cardColor;
+  bool? checked;
   
   Word(this.data, this.cardColor, {this.checked = false});
   
   String toCode(){
     String wordCode = WordData.all.indexOf(data).toString();
-    String colorCode = _colorToCodeMap[cardColor];
+    String? colorCode = _colorToCodeMap[cardColor!];
     return '$wordCode$interalCodeSeparator$colorCode';
   }
 
@@ -51,7 +51,7 @@ class Word{
     List<String> elements = code.split(interalCodeSeparator);
 
     WordData data = WordData.all[int.parse(elements[0])];
-    CardColor cardColor = _codeToColorMap[elements[1]];
+    CardColor? cardColor = _codeToColorMap[elements[1]];
     return Word(data, cardColor);
   }
 
@@ -59,7 +59,7 @@ class Word{
 
     return {
       'wordData': WordData.all.indexOf(data),
-      'color': _colorToCodeMap[cardColor],
+      'color': _colorToCodeMap[cardColor!],
       'state': checked
     };
     
@@ -68,14 +68,14 @@ class Word{
   static Word fromInstanceMap(Map map){
 
     WordData data = WordData.all[map['wordData']];
-    CardColor cardColor = _codeToColorMap[map['color']];
-    bool state = map['state'];
+    CardColor? cardColor = _codeToColorMap[map['color']];
+    bool? state = map['state'];
     
     return Word(data, cardColor, checked: state);
     
   }
   
-  Color get color{
+  Color? get color{
     switch(cardColor){
       case CardColor.teamGreen:
         return GREEN_COLOR;

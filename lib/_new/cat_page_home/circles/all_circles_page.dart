@@ -26,9 +26,9 @@ import 'new_circle_type.dart';
 
 class AllCirclesPage extends StatefulWidget{
 
-  final void Function(Circle) onCircleTap;
+  final void Function(Circle)? onCircleTap;
 
-  const AllCirclesPage({this.onCircleTap, Key key}) : super(key: key);
+  const AllCirclesPage({this.onCircleTap, Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => AllCirclesPageState();
@@ -37,11 +37,11 @@ class AllCirclesPage extends StatefulWidget{
 
 class AllCirclesPageState extends State<AllCirclesPage>{
 
-  void Function(Circle) get onCircleTap => widget.onCircleTap;
+  void Function(Circle)? get onCircleTap => widget.onCircleTap;
 
-  RefreshController refreshController;
+  late RefreshController refreshController;
 
-  CircleLoaderListener _listener;
+  late CircleLoaderListener _listener;
 
   @override
   void initState() {
@@ -109,9 +109,9 @@ class AllCirclesPageState extends State<AllCirclesPage>{
 
 class _CompListWidget extends StatefulWidget{
 
-  final void Function(Circle) onCircleTap;
+  final void Function(Circle)? onCircleTap;
 
-  const _CompListWidget({this.onCircleTap, Key key}): super(key: key);
+  const _CompListWidget({this.onCircleTap, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CompListWidgetState();
@@ -120,10 +120,10 @@ class _CompListWidget extends StatefulWidget{
 
 class _CompListWidgetState extends State<_CompListWidget>{
 
-  void Function(Circle) get onCircleTap => widget.onCircleTap;
+  void Function(Circle)? get onCircleTap => widget.onCircleTap;
 
-  String searchPhrase;
-  List<Circle> searchedCircles;
+  String? searchPhrase;
+  List<Circle>? searchedCircles;
 
   @override
   void initState() {
@@ -134,14 +134,14 @@ class _CompListWidgetState extends State<_CompListWidget>{
 
   void selectCircles(String text){
 
-    if(text == null || text.isEmpty) {
+    if(text.isEmpty) {
       searchedCircles = Circle.all;
       return;
     }
 
     List<Circle> circles = [];
-    for(Circle circle in Circle.all)
-      if(remPolChars(circle.name).contains(remPolChars(text)))
+    for(Circle circle in Circle.all!)
+      if(remPolChars(circle.name!).contains(remPolChars(text)))
         circles.add(circle);
 
     searchedCircles = circles;
@@ -155,33 +155,33 @@ class _CompListWidgetState extends State<_CompListWidget>{
 
         if(Circle.all == null)
           return const CirclePrompt(
-            child: CirclePreviewGrid(),
             text: 'Coś poszło nie tak',
             icon: MdiIcons.closeOutline,
+            child: CirclePreviewGrid(),
           );
 
         else {
 
-          if (Circle.all.length > 3)
+          if (Circle.all!.length > 3)
             widgets.add(SearchField(
                 hint: 'Szukaj kręgów:',
                 onChanged: (text) => setState(() => selectCircles(text))
             ));
 
-          for (int i = 0; i < searchedCircles.length; i++) {
+          for (int i = 0; i < searchedCircles!.length; i++) {
             widgets.add(
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                   child: CircleTile(
-                    searchedCircles[i],
-                    onTap: () => onCircleTap?.call(searchedCircles[i])
+                    searchedCircles![i],
+                    onTap: () => onCircleTap?.call(searchedCircles![i])
                   ),
                 )
             );
 
             widgets.add(const SizedBox(height: Dimen.ICON_MARG));
           }
-          if (Circle.all.isEmpty)
+          if (Circle.all!.isEmpty)
             widgets.add(const CirclePrompt(child: CirclePreviewGrid()));
           else {
             widgets.add(const SizedBox(height: Dimen.ICON_MARG));
@@ -202,7 +202,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
 
 class NewCircleButton extends StatelessWidget{
 
-  const NewCircleButton({Key key}) : super(key: key);
+  const NewCircleButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => SimpleButton(
@@ -268,7 +268,7 @@ class NewCircleButton extends StatelessWidget{
         },
       ),
       onTap: () async {
-        NewCircleType type = await pickNewCircleType(context);
+        NewCircleType? type = await pickNewCircleType(context);
         if (type == null) return;
 
         if(type == NewCircleType.join)
@@ -281,7 +281,7 @@ class NewCircleButton extends StatelessWidget{
                   onSaved: (comp) async {
                     Circle.addToAll(context, comp);
                     Navigator.pop(context);
-                    await Navigator.push(context, MaterialPageRoute(builder: (context) => CirclePage(Circle.all.last)));
+                    await Navigator.push(context, MaterialPageRoute(builder: (context) => CirclePage(Circle.all!.last)));
                   },
                 ),
           );

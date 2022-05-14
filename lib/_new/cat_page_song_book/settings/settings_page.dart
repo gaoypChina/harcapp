@@ -14,9 +14,9 @@ import '../_main.dart';
 
 class SettingsPage extends StatefulWidget {
 
-  final void Function(bool) onScreenAlwaysOnChanged;
+  final void Function(bool)? onScreenAlwaysOnChanged;
 
-  const SettingsPage({this.onScreenAlwaysOnChanged, Key key}): super(key: key);
+  const SettingsPage({this.onScreenAlwaysOnChanged, Key? key}): super(key: key);
 
   @override
   State<SettingsPage> createState() => SettingsPageState();
@@ -37,7 +37,7 @@ class SettingsPageState extends State<SettingsPage> {
       subtitle: Text('W śpiewniku ekran zawsze będzie włączony.', style: hintStyle),
       onChanged: (bool value){
         setState(() => SongBookSettings.alwaysOnScreen = value);
-        if(widget.onScreenAlwaysOnChanged!=null) widget.onScreenAlwaysOnChanged(value);
+        if(widget.onScreenAlwaysOnChanged!=null) widget.onScreenAlwaysOnChanged!(value);
       },
       activeColor: Album.current.avgColorDarkSensitive(context),
     );
@@ -86,7 +86,7 @@ class SettingsPageState extends State<SettingsPage> {
               onChanged: (bool value){
                 prov.chordsDrawShow = value;
                 Provider.of<TextSizeProvider>(context, listen: false).reinit(
-                    Album.current.songs[CatPageSongBookState.lastPage]
+                    Album.current.songs[CatPageSongBookState.lastPage]!
                 );
               },
               activeColor: Album.current.avgColorDarkSensitive(context),
@@ -141,7 +141,7 @@ class SettingsPageState extends State<SettingsPage> {
           dense: true,
           value: AlbumName.album,
           groupValue: albumName,
-          onChanged: (AlbumName value) => setState(() => albumName = AlbumName.album),
+          onChanged: (AlbumName? value) => setState(() => albumName = AlbumName.album),
           activeColor: Album.current.avgColorDarkSensitive(context),
         ),
         RadioListTile<AlbumName>(
@@ -152,7 +152,7 @@ class SettingsPageState extends State<SettingsPage> {
           dense: true,
           value: AlbumName.wolumin,
           groupValue: albumName,
-          onChanged: (AlbumName value) => setState(() => albumName = AlbumName.wolumin),
+          onChanged: (AlbumName? value) => setState(() => albumName = AlbumName.wolumin),
           activeColor: Album.current.avgColorDarkSensitive(context),
         ),
         RadioListTile<AlbumName>(
@@ -163,7 +163,7 @@ class SettingsPageState extends State<SettingsPage> {
           dense: true,
           value: AlbumName.grajdziupla,
           groupValue: albumName,
-          onChanged: (AlbumName value) => setState(() => albumName = AlbumName.grajdziupla),
+          onChanged: (AlbumName? value) => setState(() => albumName = AlbumName.grajdziupla),
           activeColor: Album.current.avgColorDarkSensitive(context),
         ),
         RadioListTile<AlbumName>(
@@ -174,7 +174,7 @@ class SettingsPageState extends State<SettingsPage> {
           dense: true,
           value: AlbumName.skladanka,
           groupValue: albumName,
-          onChanged: (AlbumName value) => setState(() => albumName = AlbumName.skladanka),
+          onChanged: (AlbumName? value) => setState(() => albumName = AlbumName.skladanka),
           activeColor: Album.current.avgColorDarkSensitive(context),
         ),
         RadioListTile<AlbumName>(
@@ -185,7 +185,7 @@ class SettingsPageState extends State<SettingsPage> {
           dense: true,
           value: AlbumName.didzejka,
           groupValue: albumName,
-          onChanged: (AlbumName value) => setState(() => albumName = AlbumName.didzejka),
+          onChanged: (AlbumName? value) => setState(() => albumName = AlbumName.didzejka),
           activeColor: Album.current.avgColorDarkSensitive(context),
         ),
       ],

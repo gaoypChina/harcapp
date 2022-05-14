@@ -10,7 +10,7 @@ import 'package:harcapp_core_song/song_core.dart';
 
 class ChristmasCard<T extends SongCore> extends StatelessWidget{
 
-  final void Function() onChristmasCardTap;
+  final void Function()? onChristmasCardTap;
   const ChristmasCard({this.onChristmasCardTap});
 
   @override

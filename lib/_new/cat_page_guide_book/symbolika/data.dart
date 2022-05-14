@@ -182,8 +182,8 @@ List<ItemData> items = [
 
 class ItemData{
 
-  final Color colorStart;
-  final Color colorEnd;
+  final Color? colorStart;
+  final Color? colorEnd;
   final Color textColor;
   final String fileName;
 
@@ -193,7 +193,7 @@ class ItemData{
 
   final bool padding;
 
-  final Widget Function(BuildContext context) childBuilder;
+  final Widget Function(BuildContext context)? childBuilder;
   final bool sharpBackgroundEdge;
 
   const ItemData(
@@ -204,8 +204,8 @@ class ItemData{
       this.content2,
       {
         this.padding: true,
-        @required this.colorStart,
-        @required this.colorEnd,
+        required this.colorStart,
+        required this.colorEnd,
         this.childBuilder,
         this.sharpBackgroundEdge: false,
       });

@@ -5,12 +5,12 @@ import '../_common_classes/color_pack.dart';
 
 class CheckBox extends StatelessWidget{
 
-  final bool value;
-  final Function onChanged;
+  final bool? value;
+  final Function? onChanged;
 
-  final Color checkColor;
-  final Color activeColor;
-  final Color unselectedWidgetColor;
+  final Color? checkColor;
+  final Color? activeColor;
+  final Color? unselectedWidgetColor;
 
   final bool enabled;
   final bool tristate;
@@ -27,10 +27,10 @@ class CheckBox extends StatelessWidget{
         accent_(context)
       ),
       child: Checkbox(
-        checkColor: checkColor??cardEnab_(context).withAlpha(enabled?255:127),
-        activeColor: activeColor!=null?activeColor.withAlpha(enabled?255:127):null,
+        checkColor: checkColor??cardEnab_(context)!.withAlpha(enabled?255:127),
+        activeColor: activeColor!=null?activeColor!.withAlpha(enabled?255:127):null,
         value: value,
-        onChanged: enabled?onChanged:null,
+        onChanged: enabled?onChanged as void Function(bool?)?:null,
         tristate: tristate,
       ),
     );

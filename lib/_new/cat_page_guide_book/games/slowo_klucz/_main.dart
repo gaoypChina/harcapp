@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp/_common_classes/blur.dart';
+import 'package:harcapp/_common_classes/scan_qr_code.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_guide_book/games/slowo_klucz/word.dart';
@@ -12,7 +13,6 @@ import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:qrcode_reader/qrcode_reader.dart';
 
 import '../../../module_statistics_registrator.dart';
 import '../_main_page.dart';
@@ -29,7 +29,7 @@ class SlowoKluczStartPage extends StatefulWidget{
   static const leaderBoardColorStart = Colors.red;
   static const leaderBoardColorEnd = Colors.orange;
 
-  const SlowoKluczStartPage({Key key}) : super(key: key);
+  const SlowoKluczStartPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => SlowoKluczStartPageState();
@@ -136,12 +136,9 @@ class SlowoKluczStartPageState extends State<SlowoKluczStartPage> with ModuleSta
                               colorEnd: SlowoKluczStartPage.leaderBoardColorEnd,
                               onTap: () async {
 
-                                String code;
+                                String? code;
                                 if(await Permission.camera.request().isGranted)
-                                  code = await QRCodeReader()
-                                      .setAutoFocusIntervalInMs(200)
-                                      .setForceAutoFocus(true)
-                                      .scan();
+                                  code = await scanQrCode();
 
                                 if(code == null) return;
 
@@ -191,9 +188,9 @@ class SlowoKluczStartPageState extends State<SlowoKluczStartPage> with ModuleSta
 
 class LoadGameWidget extends StatelessWidget{
 
-  final void Function() onSavedGameRemoved;
+  final void Function()? onSavedGameRemoved;
 
-  const LoadGameWidget({this.onSavedGameRemoved, Key key}): super(key: key);
+  const LoadGameWidget({this.onSavedGameRemoved, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -216,7 +213,7 @@ class LoadGameWidget extends StatelessWidget{
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => SlowoKluczMainGamePage.loadInstance(context, SlowoKluczMainGamePage.savedInstanceCode)
+                      builder: (context) => SlowoKluczMainGamePage.loadInstance(context, SlowoKluczMainGamePage.savedInstanceCode)!
                   )
               );
             },
@@ -252,14 +249,14 @@ class ButtonWidget extends StatelessWidget{
   final bool withColors;
 
   const ButtonWidget({
-    @required this.icon,
-    @required this.text,
-    @required this.description,
-    @required this.colorStart,
-    @required this.colorEnd,
-    @required this.onTap,
+    required this.icon,
+    required this.text,
+    required this.description,
+    required this.colorStart,
+    required this.colorEnd,
+    required this.onTap,
     this.withColors=true,
-    Key key
+    Key? key
   }): super(key: key);
 
   @override

@@ -14,7 +14,7 @@ class AnimStage{
 
   const AnimStage({
     this.before = Duration.zero,
-    @required this.function,
+    required this.function,
     this.after = Duration.zero,
   });
 }
@@ -30,11 +30,11 @@ class AnimStageManager{
 
   const AnimStageManager({
     this.initWaitDuration = Duration.zero,
-    @required this.stages,
-    @required this.cleanUp,
+    required this.stages,
+    required this.cleanUp,
     this.finishedDuration = Duration.zero,
     this.reverseWaitDuration = Duration.zero,
-    @required this.isMounted,
+    required this.isMounted,
   });
 
   Future<bool> wait(Duration duration) async{
@@ -108,14 +108,14 @@ class PageTemplate extends StatelessWidget{
   final Duration totalReverseWaitDuration;
 
   const PageTemplate({
-    @required this.builder,
-    @required this.text,
-    @required this.textColor,
-    @required this.totalInitWaitDuration,
-    @required this.totalAnimDuration,
-    @required this.totalFinishedDuration,
-    @required this.totalReverseWaitDuration,
-    Key key
+    required this.builder,
+    required this.text,
+    required this.textColor,
+    required this.totalInitWaitDuration,
+    required this.totalAnimDuration,
+    required this.totalFinishedDuration,
+    required this.totalReverseWaitDuration,
+    Key? key
   }): super(key: key);
 
   @override
@@ -172,7 +172,7 @@ class _ProgressBarState extends State<_ProgressBar>{
   Duration get finishDuration => widget.finishDuration;
   Duration get reverseWaitDuration => widget.reverseWaitDuration;
 
-  double progress;
+  double? progress;
 
   void runProgress() async{
     await Future.delayed(initWaitDuration);
@@ -213,7 +213,7 @@ class _ProgressBarState extends State<_ProgressBar>{
                   borderRadius: BorderRadius.circular(20)
               ),
               height: 3.0,
-              width: constraints.maxWidth*progress,
+              width: constraints.maxWidth*progress!,
               duration: progress == 1?animDuration:const Duration(milliseconds: 300),
               curve: Curves.linear,
             ),

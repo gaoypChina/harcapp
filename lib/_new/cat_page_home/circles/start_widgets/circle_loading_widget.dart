@@ -7,7 +7,7 @@ import 'circle_prompt.dart';
 class CircleLoadingWidget extends StatelessWidget{
 
   final bool singleLine;
-  const CircleLoadingWidget({this.singleLine = false, Key key}) : super(key: key);
+  const CircleLoadingWidget({this.singleLine = false, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => CirclePrompt(

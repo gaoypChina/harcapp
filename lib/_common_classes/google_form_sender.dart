@@ -16,28 +16,28 @@ class GoogleFormSender{
   static const String SEPARATOR = '~';
 
   String url;
-  Function beforeSubmit;
-  Function(Response) afterSubmit;
+  Function? beforeSubmit;
+  Function(Response)? afterSubmit;
 
-  Map<String, String> body;
+  Map<String, String?>? body;
 
   GoogleFormSender(this.url, {this.beforeSubmit, this.afterSubmit, this.body}){
     if(body == null) body = {};
   }
 
-  addTextResponse(String entryId, String text){
-    body[entryId] = text;
+  addTextResponse(String entryId, String? text){
+    body![entryId] = text;
   }
 
   Future<void> submit({saveLocalPath}) async {
-    if(beforeSubmit!=null) beforeSubmit();
+    if(beforeSubmit!=null) beforeSubmit!();
 
     if(!(await isNetworkAvailable()) && saveLocalPath!=null) {
       saveToFile(localPath: saveLocalPath);
       return;
     }
 
-    FormData formData = FormData.fromMap(body);
+    FormData formData = FormData.fromMap(body!);
     Response response = await Dio().post(
       url,
       data: formData,
@@ -46,21 +46,21 @@ class GoogleFormSender{
     if(response.statusCode != 200 && saveLocalPath!=null)
       saveToFile(localPath: saveLocalPath);
 
-    if(afterSubmit!=null) afterSubmit(response);
+    if(afterSubmit!=null) afterSubmit!(response);
   }
 
-  void saveToFile({@required String localPath}) async {
+  void saveToFile({required String localPath}) async {
     String result = '';
     result += url + SEPARATOR;
-    for(String key in body.keys.toList())
-      result += key + SEPARATOR + body[key] + SEPARATOR;
+    for(String key in body!.keys.toList())
+      result += key + SEPARATOR + body![key]! + SEPARATOR;
 
     result = result.substring(0, result.length-1);
 
     await saveStringAsFileToFolder(localPath, result);
   }
 
-  static resend({@required String folderLocalPath}) async{
+  static resend({required String folderLocalPath}) async{
 
     String folderPath = await localToAbsolutePath(folderLocalPath);
     if(!Directory(folderPath).existsSync()) return;

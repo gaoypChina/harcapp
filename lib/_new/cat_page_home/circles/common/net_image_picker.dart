@@ -6,9 +6,9 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class NetImagePickerWidget extends StatefulWidget{
 
-  final TextEditingController controller;
+  final TextEditingController? controller;
 
-  const NetImagePickerWidget({this.controller, Key key}) : super(key: key);
+  const NetImagePickerWidget({this.controller, Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => NetImagePickerWidgetState();
@@ -17,9 +17,9 @@ class NetImagePickerWidget extends StatefulWidget{
 
 class NetImagePickerWidgetState extends State<NetImagePickerWidget>{
 
-  TextEditingController _controller;
+  TextEditingController? _controller;
 
-  TextEditingController get controller => widget.controller??_controller;
+  TextEditingController? get controller => widget.controller??_controller;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class NetImagePickerWidgetState extends State<NetImagePickerWidget>{
     children: [
 
       Image.network(
-        controller.text,
+        controller!.text,
         fit: BoxFit.cover,
         height: 200,
         errorBuilder: (context, __, _) => SizedBox(

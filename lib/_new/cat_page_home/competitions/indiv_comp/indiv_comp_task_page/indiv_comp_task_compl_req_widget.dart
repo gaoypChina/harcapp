@@ -21,13 +21,13 @@ class IndivTaskComplReqWidget extends StatefulWidget{
   final List<IndivCompTask> allTasks;
   final IndivCompTask task;
   final bool adminOrMod;
-  final void Function(List<IndivCompTaskCompl>, Map<String, Tuple3<int, int, Tuple2<double, double>>>) onSuccess;
+  final void Function(List<IndivCompTaskCompl>, Map<String, Tuple3<int?, int?, Tuple2<double, double>?>>)? onSuccess;
 
   const IndivTaskComplReqWidget(
       this.allTasks,
       this.task,
       {
-        @required this.adminOrMod,
+        required this.adminOrMod,
         this.onSuccess
       });
 
@@ -42,8 +42,8 @@ class IndivTaskComplReqWidgetState extends State<IndivTaskComplReqWidget>{
   IndivCompTask get task => widget.task;
   bool get adminOrMod => widget.adminOrMod;
 
-  TextEditingController controller;
-  bool sending;
+  TextEditingController? controller;
+  late bool sending;
 
   @override
   void initState() {
@@ -109,8 +109,8 @@ class IndivTaskComplReqWidgetState extends State<IndivTaskComplReqWidget>{
                     await ApiIndivComp.sendTaskComplReq(
                         allTasks: allTasks,
                         taskKey: task.key,
-                        comment: controller.text,
-                        onSuccess: (List<IndivCompTaskCompl> taskComplRespMap, Map<String, Tuple3<int, int, Tuple2<double, double>>> idRank){
+                        comment: controller!.text,
+                        onSuccess: (List<IndivCompTaskCompl> taskComplRespMap, Map<String, Tuple3<int?, int?, Tuple2<double, double>?>> idRank){
                           if(mounted) showAppToast(context, text: adminOrMod?'Zaliczono':'Przesłano. Wniosek oczekuje na rozpatrzenie.');
                           if(mounted) Navigator.pop(context);
                           widget.onSuccess?.call(taskComplRespMap, idRank);

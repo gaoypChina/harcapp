@@ -21,10 +21,10 @@ class Page1State extends State<Page1> with PageTemplateInterface{
 
   static const Curve _curve = Curves.easeInOutQuart;
 
-  GlobalKey<FlipCardState> redKey, greenKey;
-  int animStage;
-  bool showSwipeHint;
-  AnimStageManager animStageManager;
+  GlobalKey<FlipCardState>? redKey, greenKey;
+  int? animStage;
+  late bool showSwipeHint;
+  late AnimStageManager animStageManager;
 
   @override
   void initState() {
@@ -40,14 +40,14 @@ class Page1State extends State<Page1> with PageTemplateInterface{
               after: animDuration),
           AnimStage(
               function: (){
-                redKey.currentState.toggleCard();
-                greenKey.currentState.toggleCard();
+                redKey!.currentState!.toggleCard();
+                greenKey!.currentState!.toggleCard();
               },
               after: animDuration),
         ],
         cleanUp: (){
-          redKey.currentState.toggleCard();
-          greenKey.currentState.toggleCard();
+          redKey!.currentState!.toggleCard();
+          greenKey!.currentState!.toggleCard();
           showSwipeHint = true;
           animStage = 0;
           setState((){});
@@ -69,26 +69,26 @@ class Page1State extends State<Page1> with PageTemplateInterface{
   }
 
 
-  double leaderRedX(width){
+  double? leaderRedX(width){
     if (animStage == 0) return 0;
     else if (animStage == 1) return initGridSize(width);
     else if (animStage == 2) return 0;
     return null;
   }
 
-  double leaderRedY(width){
+  double? leaderRedY(width){
     if (animStage == 0 || animStage == 1) return initPlayerOffset(width);
     else if (animStage == 2) return initGridSize(width)+initPlayerOffset(width);
     return null;
   }
 
-  double player1RedX(double width){
+  double? player1RedX(double width){
     if (animStage == 0) return 2*initGridSize(width) + initPlayerOffset(width);
     else if (animStage == 1 || animStage == 2) return initPlayerOffset(width);
     return null;
   }
 
-  double player1RedY(double width, double height){
+  double? player1RedY(double width, double height){
     if (animStage == 0) return 0;
     else if (animStage == 1) return 3*initGridSize(width);
     else if(animStage == 2) return height - 2*initGridSize(width);
@@ -99,7 +99,7 @@ class Page1State extends State<Page1> with PageTemplateInterface{
     return initPlayerOffset(width);
   }
 
-  double player2RedY(double width, double height){
+  double? player2RedY(double width, double height){
     if (animStage == 0) return initGridSize(width);
     else if (animStage == 1) return 2*initGridSize(width);
     else if (animStage == 2) return height - 3*initGridSize(width);
@@ -118,14 +118,14 @@ class Page1State extends State<Page1> with PageTemplateInterface{
     return null;
   }
 
-  double leaderGreenX(double width){
+  double? leaderGreenX(double width){
     if (animStage == 0) return initGridSize(width) + initPlayerOffset(width);
     else if(animStage == 1) return width-initGridSize(width)+initPlayerOffset(width);
     else if(animStage == 2) return width-2*initGridSize(width)+initPlayerOffset(width);
     return null;
   }
 
-  double leaderGreenY(double width){
+  double? leaderGreenY(double width){
     if (animStage == 0) return 0;
     else if (animStage == 1) return initGridSize(width);
     else if (animStage == 2) return 0;
@@ -136,7 +136,7 @@ class Page1State extends State<Page1> with PageTemplateInterface{
     return width - initGridSize(width) + initPlayerOffset(width);
   }
 
-  double player1GreenY(double width, double height){
+  double? player1GreenY(double width, double height){
     if (animStage == 0) return 0;
     else if(animStage == 1) return width-initGridSize(width);
     else if(animStage == 2) return height - 2*initGridSize(width);
@@ -148,7 +148,7 @@ class Page1State extends State<Page1> with PageTemplateInterface{
     else if(animStage == 1 || animStage == 2) return width-initGridSize(width)+initPlayerOffset(width);
   }
 
-  double player2GreenY(double width, double height){
+  double? player2GreenY(double width, double height){
     if(animStage == 0) return initGridSize(width);
     else if (animStage == 1) return 2*initGridSize(width);
     else if (animStage == 2) return height - 3*initGridSize(width);
@@ -159,7 +159,7 @@ class Page1State extends State<Page1> with PageTemplateInterface{
     return width-initGridSize(width)+initPlayerOffset(width);
   }
 
-  double player3GreenY(double width, double height){
+  double? player3GreenY(double width, double height){
     if(animStage == 0) return initGridSize(width);
     else if(animStage == 1) return 4*initGridSize(width);
     else if(animStage == 2) return height - 1*initGridSize(width);

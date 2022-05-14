@@ -5,17 +5,17 @@ import 'package:harcapp_core/dimen.dart';
 
 class EmptyMessageWidget extends StatelessWidget{
 
-  final String text;
+  final String? text;
   final IconData icon;
-  final Color color;
+  final Color? color;
   final double size;
 
   const EmptyMessageWidget({
-    @required this.text,
-    @required this.icon,
+    required this.text,
+    required this.icon,
     this.color,
     this.size = 92, //Dimen.ICON_EMPTY_INFO_SIZE,
-    Key key
+    Key? key
   }): super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class EmptyMessageWidget extends StatelessWidget{
       Icon(icon, color: color??hintEnab_(context), size: size),
       SizedBox(height: .1*size),
       Text(
-        text,
+        text!,
         style: AppTextStyle(
             color: color??hintEnab_(context),
             fontSize: (Dimen.TEXT_SIZE_BIG/Dimen.ICON_EMPTY_INFO_SIZE)*size,

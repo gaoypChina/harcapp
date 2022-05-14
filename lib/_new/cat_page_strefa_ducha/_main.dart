@@ -51,7 +51,7 @@ class CatPageStrefaDucha extends StatefulWidget {
 
   static const int pageViewExtent = 1;
 
-  const CatPageStrefaDucha({Key key}) : super(key: key);
+  const CatPageStrefaDucha({Key? key}) : super(key: key);
 
   static String gitDuchoweImageUrl(String sourceCode, String fileName) => 'https://gitlab.com/n3o2k7i8ch5/harcapp_data/raw/master/duchowe/$sourceCode/$fileName';
 
@@ -65,31 +65,31 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
   @override
   String get moduleId => ModuleStatsMixin.strefaDucha;
 
-  SingleComputerListener<String> loaderListener;
+  SingleComputerListener<String>? loaderListener;
 
-  bool networkAvailable;
-  StreamSubscription<ConnectivityResult> subscription;
+  bool? networkAvailable;
+  StreamSubscription<ConnectivityResult>? subscription;
 
-  static SelectedItemsSource selectedItemsSrc;
-  static int lastAllPage;
-  static int lastFavoritePage;
-  static int lastCachedPage;
+  static SelectedItemsSource? selectedItemsSrc;
+  static int? lastAllPage;
+  static int? lastFavoritePage;
+  static int? lastCachedPage;
 
-  int get lastPage {
+  int? get lastPage {
     if(selectedItemsSrc == SelectedItemsSource.all) return lastAllPage;
     if(selectedItemsSrc == SelectedItemsSource.favorite) return lastFavoritePage;
     if(selectedItemsSrc == SelectedItemsSource.cached) return lastCachedPage;
     return 0;
   }
 
-  set lastPage(int value) {
+  set lastPage(int? value) {
     if(selectedItemsSrc == SelectedItemsSource.all) lastAllPage = value;
     if(selectedItemsSrc == SelectedItemsSource.favorite) lastFavoritePage = value;
     if(selectedItemsSrc == SelectedItemsSource.cached) lastCachedPage = value;
   }
 
-  static bool openedFirstTime;
-  static bool loadedFirstTime;
+  static bool? openedFirstTime;
+  static bool? loadedFirstTime;
 
   static tryReloadItems(BuildContext context) async {
     if(await isNetworkAvailable())
@@ -102,14 +102,14 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
   void afterFirstLayout(BuildContext context) async {
     Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackStrefaDucha();
     networkAvailable = await isNetworkAvailable();
-    if(!networkAvailable && Source.all == null) {
+    if(!networkAvailable! && Source.all == null) {
       Source.aggrAllDisplayableItems(cachedOnly: true);
-      if(Source.allItems.isNotEmpty) {
+      if(Source.allItems!.isNotEmpty) {
         selectedItemsSrc = SelectedItemsSource.cached;
         showAppToast(context, text: 'Tryb offline');
       }
     }
-    if(openedFirstTime && Settings.showInitMessage)
+    if(openedFirstTime! && Settings.showInitMessage)
       openDialog(context: context, builder: (context) => const ShowInitMessageWidget());
 
     openedFirstTime = false;
@@ -130,7 +130,7 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
         },
         onEnd: (error, __){
           if(error != null) return;
-          if(loadedFirstTime && selectedItemsSrc == SelectedItemsSource.cached)
+          if(loadedFirstTime! && selectedItemsSrc == SelectedItemsSource.cached)
             selectedItemsSrc ??= SelectedItemsSource.all;
           loadedFirstTime = false;
           if(mounted) setState((){});
@@ -168,7 +168,7 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
   dispose() {
     strefaDuchaLoader.removeListener(loaderListener);
 
-    subscription.cancel();
+    subscription!.cancel();
 
     BackButtonInterceptor.remove(onBackPressed);
     super.dispose();
@@ -176,7 +176,7 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
 
   bool onBackPressed(bool stopDefaultButtonEvent, RouteInfo info) {
     LockProvider prov = Provider.of<LockProvider>(context, listen: false);
-    if(prov.locked){
+    if(prov.locked!){
       prov.locked = false;
       return true;
     }
@@ -197,10 +197,10 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
               Stack(
                 children: [
 
-                  if(SourceItem.pinned == null || !SourceItem.pinned.cachedFile.existsSync())
+                  if(SourceItem.pinned == null || !SourceItem.pinned!.cachedFile.existsSync())
                     BackgroundImage(ImageLoader.emptyImage)
                   else
-                    BackgroundImage(Image.file(SourceItem.pinned.cachedFile).image),
+                    BackgroundImage(Image.file(SourceItem.pinned!.cachedFile).image),
 
                   const BackgroundBlur(),
 
@@ -226,7 +226,7 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
 
                 ],
               )
-            else if(selectedItemsSrc == SelectedItemsSource.favorite && Source.allItems.isEmpty)
+            else if(selectedItemsSrc == SelectedItemsSource.favorite && Source.allItems!.isEmpty)
               Stack(
                 children: [
 
@@ -245,7 +245,7 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
 
                 ],
               )
-            else if(selectedItemsSrc == SelectedItemsSource.cached && Source.allItems.isEmpty)
+            else if(selectedItemsSrc == SelectedItemsSource.cached && Source.allItems!.isEmpty)
                 Stack(
                   children: [
 
@@ -348,7 +348,7 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
                     onSelect: (source){
                       Source.aggrAllDisplayableItems();
                       setState(() => selectedItemsSrc = source);
-                      if(Source.allItems != null && Source.allItems.isNotEmpty)
+                      if(Source.allItems != null && Source.allItems!.isNotEmpty)
                         post(() => Provider.of<FadeImageProvider>(context, listen: false).clear(currIdx: lastAllPage));
                     }
                 ),
@@ -361,7 +361,7 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
                   onSelect: (source){
                     Source.aggrAllDisplayableItems(favoriteOnly: true);
                     setState(() => selectedItemsSrc = source);
-                    if(Source.allItems != null && Source.allItems.isNotEmpty)
+                    if(Source.allItems != null && Source.allItems!.isNotEmpty)
                       post(() => Provider.of<FadeImageProvider>(context, listen: false).clear(currIdx: lastFavoritePage));
                   },
                   trailing: Consumer<FavoriteListProvider>(
@@ -382,7 +382,7 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
                   onSelect: (source){
                     Source.aggrAllDisplayableItems(cachedOnly: true);
                     setState(() => selectedItemsSrc = source);
-                    if(Source.allItems != null && Source.allItems.isNotEmpty)
+                    if(Source.allItems != null && Source.allItems!.isNotEmpty)
                       post(() => Provider.of<FadeImageProvider>(context, listen: false).clear(currIdx: lastCachedPage));
                   },
                 ),
@@ -398,21 +398,21 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
 class ImageCardPageView extends StatelessWidget{
 
   final bool ignoreNoSources;
-  final bool networkAvailable;
-  final int initialPage;
-  final void Function(int) onPageChanged;
+  final bool? networkAvailable;
+  final int? initialPage;
+  final void Function(int)? onPageChanged;
 
   const ImageCardPageView(
       { this.ignoreNoSources = false,
         this.networkAvailable,
         this.initialPage,
         this.onPageChanged,
-        Key key
+        Key? key
       }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if(Source.all == null && !ignoreNoSources && !networkAvailable)
+    if(Source.all == null && !ignoreNoSources && !networkAvailable!)
       return _NoNetWidget();
     else if(strefaDuchaLoader.running)
       return _LoadingWidget();
@@ -433,20 +433,20 @@ class ImageCardPageView extends StatelessWidget{
             builder: (context, fadeImgProv, child) => PreloadPageView.extents(
               scrollDirection: Axis.vertical,
               controller: pageController,
-              itemCount: Source.allItems.length,
-              physics: lockProv.locked?const NeverScrollableScrollPhysics():const BouncingScrollPhysics(),
+              itemCount: Source.allItems!.length,
+              physics: lockProv.locked!?const NeverScrollableScrollPhysics():const BouncingScrollPhysics(),
               itemBuilder: (context, index) => Center(
                 child: _CardWidget(
-                  sourceItem: Source.allItems[index],
+                  sourceItem: Source.allItems![index],
                   pageViewNotifier: pageViewNotifier,
                   index: index,
                 ),
               ),
               onPageChanged: (index) {
                 onPageChanged?.call(index);
-                if(index>fadeImgProv.currIdx)
+                if(index>fadeImgProv.currIdx!)
                   fadeImgProv.moveOneForw();
-                else if(index<fadeImgProv.currIdx)
+                else if(index<fadeImgProv.currIdx!)
                   fadeImgProv.moveOneBack();
               },
             ),
@@ -464,22 +464,22 @@ class _DrawerTile extends StatelessWidget{
   final IconData icon;
   final String title;
   final SelectedItemsSource source;
-  final SelectedItemsSource selectedSource;
-  final void Function(SelectedItemsSource) onSelect;
-  final Widget trailing;
+  final SelectedItemsSource? selectedSource;
+  final void Function(SelectedItemsSource?) onSelect;
+  final Widget? trailing;
   
   const _DrawerTile({
-    @required this.icon,
-    @required this.title,
-    @required this.source,
-    @required this.selectedSource,
-    @required this.onSelect,
+    required this.icon,
+    required this.title,
+    required this.source,
+    required this.selectedSource,
+    required this.onSelect,
     this.trailing,
-    Key key
+    Key? key
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => DrawerTile<SelectedItemsSource>(
+  Widget build(BuildContext context) => DrawerTile<SelectedItemsSource?>(
     icon: icon,
     title: title,
     source: source,
@@ -487,7 +487,7 @@ class _DrawerTile extends StatelessWidget{
     trailing: trailing,
     onSelect: (source){
       LockProvider prov = Provider.of<LockProvider>(context, listen: false);
-      if(prov.locked)
+      if(prov.locked!)
         prov.locked = false;
       onSelect?.call(source);
       //setState(() => selectedSource = SelectedItemsSource.cached);
@@ -499,7 +499,7 @@ class _DrawerTile extends StatelessWidget{
 
 class _HeartWidget extends StatefulWidget{
 
-  const _HeartWidget({Key key}) : super(key: key);
+  const _HeartWidget({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _HeartWidgetState();
@@ -508,7 +508,7 @@ class _HeartWidget extends StatefulWidget{
 
 class _HeartWidgetState extends State<_HeartWidget>{
 
-  bool visible;
+  late bool visible;
   static const Duration _duration = Duration(milliseconds: 1400);
 
   void pulse()async{
@@ -560,16 +560,16 @@ class _HeartWidgetState extends State<_HeartWidget>{
 
 class _CardWidget extends StatefulWidget{
 
-  final SourceItem sourceItem;
+  final SourceItem? sourceItem;
   final int index;
   final ValueNotifier pageViewNotifier;
   final bool pinable;
-  final void Function() onLikeChanged;
+  final void Function()? onLikeChanged;
 
   const _CardWidget({
-    @required this.sourceItem,
-    @required this.index,
-    @required this.pageViewNotifier,
+    required this.sourceItem,
+    required this.index,
+    required this.pageViewNotifier,
     this.pinable = true,
 
     this.onLikeChanged,
@@ -586,15 +586,15 @@ class _CardWidgetState extends State<_CardWidget>{
   static const Duration animDuration = Duration(milliseconds: 500);
   static const Curve animCurve = Curves.easeInOutCubic;
 
-  SourceItem get sourceItem => widget.sourceItem;
+  SourceItem? get sourceItem => widget.sourceItem;
   int get index => widget.index;
   ValueNotifier get pageViewNotifier => widget.pageViewNotifier;
   bool get pinable => widget.pinable;
-  void Function() get onLikeChanged => widget.onLikeChanged;
+  void Function()? get onLikeChanged => widget.onLikeChanged;
 
 
-  bool get optionsOn => Provider.of<LockProvider>(context, listen: false).locked;
-  set optionsOn(bool value) =>
+  bool? get optionsOn => Provider.of<LockProvider>(context, listen: false).locked;
+  set optionsOn(bool? value) =>
     Provider.of<LockProvider>(context, listen: false).locked = value;
 
   @override
@@ -629,21 +629,21 @@ class _CardWidgetState extends State<_CardWidget>{
                             post(() => fadeImgProv.newImage(image, index, reload: true));
                           },
                           onLike: (){
-                            if(sourceItem.isFavorite)
-                              sourceItem.removeFromFavorite();
+                            if(sourceItem!.isFavorite)
+                              sourceItem!.removeFromFavorite();
                             else
-                              sourceItem.addToFavorite();
+                              sourceItem!.addToFavorite();
 
                             Provider.of<FavoriteListProvider>(context, listen: false).notify();
 
                             setState(() {});
                           },
-                          onLongPress: () => setState(() => optionsOn = !optionsOn),
+                          onLongPress: () => setState(() => optionsOn = !optionsOn!),
                         ),
 
                         IgnorePointer(
                           child: AnimatedOpacity(
-                            opacity: !Provider.of<LockProvider>(context, listen: false).locked && sourceItem.isFavorite?1:0,
+                            opacity: !Provider.of<LockProvider>(context, listen: false).locked! && sourceItem!.isFavorite?1:0,
                             duration: const Duration(milliseconds: 500),
                             child: const _HeartWidget(),
                           ),
@@ -660,7 +660,7 @@ class _CardWidgetState extends State<_CardWidget>{
               ),
 
               AnimatedContainer(
-                  height: optionsOn?5*Dimen.ICON_FOOTPRINT:0,
+                  height: optionsOn!?5*Dimen.ICON_FOOTPRINT:0,
                   duration: animDuration,
                   curve: animCurve,
                   child: Column(
@@ -670,19 +670,19 @@ class _CardWidgetState extends State<_CardWidget>{
                       ListTile(
                           leading: const Icon(MdiIcons.shareVariant, color: Colors.white),
                           title: Text('Udostępnij', style: AppTextStyle(color: Colors.white)),
-                          onTap: () => Share.shareFiles([sourceItem.cachedFile.path], text: 'Udostępnij...')
+                          onTap: () => Share.shareFiles([sourceItem!.cachedFile.path], text: 'Udostępnij...')
                       ),
                       ListTile(
                         leading: const Icon(MdiIcons.link, color: Colors.white),
                         title: Text('Źródło', style: AppTextStyle(color: Colors.white)),
-                        onTap: () => launchURL(sourceItem.sourceUrl),
+                        onTap: () => launchURL(sourceItem!.sourceUrl!),
                       ),
                       ListTile(
                         leading: const Icon(MdiIcons.trayArrowDown, color: Colors.white),
                         title: Text('Pobierz', style: AppTextStyle(color: Colors.white)),
                         onTap: () async {
                           if(await Permission.storage.request().isGranted){
-                            await GallerySaver.saveImage(sourceItem.cachedFile.path);
+                            await GallerySaver.saveImage(sourceItem!.cachedFile.path);
                             showAppToast(context, text: 'Zapisano w galerii.');
                           }
                         },
@@ -690,7 +690,7 @@ class _CardWidgetState extends State<_CardWidget>{
                       ListTile(
                           leading: const Icon(MdiIcons.informationOutline, color: Colors.white),
                           title: Text('Informacje', style: AppTextStyle(color: Colors.white)),
-                          onTap: () => showAppToast(context, text: sourceItem.cachedFileName)
+                          onTap: () => showAppToast(context, text: sourceItem!.cachedFileName)
                       ),
                     ],
                   )
@@ -709,7 +709,7 @@ class _CardWidgetState extends State<_CardWidget>{
 
               bottom: kBottomNavigationBarHeight + Dimen.FLOATING_BUTTON_MARG,
 
-              right: optionsOn?
+              right: optionsOn!?
               Dimen.FLOATING_BUTTON_MARG:
               -(Dimen.FLOATING_BUTTON_SIZE + Dimen.FLOATING_BUTTON_MARG),
 

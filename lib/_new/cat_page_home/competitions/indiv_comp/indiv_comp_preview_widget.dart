@@ -42,7 +42,7 @@ class IndivCompPreviewWidget extends StatelessWidget{
             heroTag: IndivCompThumbnailWidget.defHeroTag(comp)
         ),
 
-        if(comp.profile.active)
+        if(comp.profile.active!)
           Positioned(
             bottom: -.1*IndivCompThumbnailWidget.defSize,
             right: -.1*IndivCompThumbnailWidget.defSize,

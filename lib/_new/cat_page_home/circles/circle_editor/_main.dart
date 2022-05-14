@@ -13,19 +13,18 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../circle_page.dart';
 import '../circle_palette_generator.dart';
 import '../model/circle.dart';
-import 'cover_image_part.dart';
 import 'danger_part.dart';
 import 'general_part.dart';
 
 class CircleEditorPage extends StatefulWidget{
 
-  final Circle initCircle;
-  final PaletteGenerator palette;
+  final Circle? initCircle;
+  final PaletteGenerator? palette;
 
-  final void Function(Circle circle) onSaved;
-  final void Function() onDeleted;
-  final void Function() onLeft;
-  final void Function() onError;
+  final void Function(Circle circle)? onSaved;
+  final void Function()? onDeleted;
+  final void Function()? onLeft;
+  final void Function()? onError;
 
   const CircleEditorPage({
     this.initCircle,
@@ -34,7 +33,7 @@ class CircleEditorPage extends StatefulWidget{
     this.onDeleted,
     this.onLeft,
     this.onError,
-    Key key
+    Key? key
   }) : super(key: key);
 
   @override
@@ -44,27 +43,27 @@ class CircleEditorPage extends StatefulWidget{
 
 class CircleEditorPageState extends State<CircleEditorPage>{
 
-  Circle get initCircle => widget.initCircle;
-  PaletteGenerator get palette => _palette??widget.palette;
+  Circle? get initCircle => widget.initCircle;
+  PaletteGenerator? get palette => _palette??widget.palette;
 
-  PaletteGenerator _palette;
+  PaletteGenerator? _palette;
 
-  void Function(Circle circle) get onSaved => widget.onSaved;
-  void Function() get onDeleted => widget.onDeleted;
-  void Function() get onLeft => widget.onLeft;
-  void Function() get onError => widget.onError;
+  void Function(Circle circle)? get onSaved => widget.onSaved;
+  void Function()? get onDeleted => widget.onDeleted;
+  void Function()? get onLeft => widget.onLeft;
+  void Function()? get onError => widget.onError;
 
   void calcLocalBackgronudColor() async {
     _palette = await getPaletteGenerator(
-        initCircle.coverImage.local,
-        initCircle.coverImage.firstFileName
+        initCircle!.coverImage!.local,
+        initCircle!.coverImage!.firstFileName
     );
     setState(() {});
   }
 
   @override
   void initState() {
-    if(initCircle != null && initCircle.colorsKey == 'auto' && palette == null)
+    if(initCircle != null && initCircle!.colorsKey == 'auto' && palette == null)
       calcLocalBackgronudColor();
     super.initState();
   }
@@ -73,7 +72,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
   Widget build(BuildContext context) => BottomNavScaffold(
       backgroundColor: CirclePage.backgroundColor(context, palette),
       body: DefaultTabController(
-        length: initCircle == null?2:3,
+        length: initCircle == null?1:2,
         child: MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (context) => NameProvider(circle: initCircle)),
@@ -90,11 +89,10 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                 floating: true,
                 pinned: true,
                 backgroundColor: CirclePage.backgroundColor(context, palette),
-                bottom: TabBar(
+                bottom: widget.initCircle==null?null:TabBar(
                   physics: const BouncingScrollPhysics(),
                   tabs: [
                     const Tab(text: 'Informacje'),
-                    const Tab(text: 'Zdjęcie w tle'),
                     if(initCircle != null)
                       const Tab(text: 'Strefa zagrożenia'),
                   ],
@@ -107,7 +105,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                     icon: const Icon(MdiIcons.check),
                     onPressed: () async {
 
-                      if(Provider.of<NameProvider>(context, listen: false).nameController.text.trim().isEmpty){
+                      if(Provider.of<NameProvider>(context, listen: false).nameController!.text.trim().isEmpty){
                         showAppToast(context, text: 'Nazwa kręgu nie może być pusta');
                         return;
                       }
@@ -120,9 +118,9 @@ class CircleEditorPageState extends State<CircleEditorPage>{
 
                       if(initCircle == null)
                         await ApiCircle.create(
-                            name: Provider.of<NameProvider>(context, listen: false).nameController.text,
-                            description: Provider.of<DescriptionProvider>(context, listen: false).descriptionController.text,
-                            coverImageUrl: Provider.of<CoverImageProvider>(context, listen: false).coverImage.code,
+                            name: Provider.of<NameProvider>(context, listen: false).nameController!.text,
+                            description: Provider.of<DescriptionProvider>(context, listen: false).descriptionController!.text,
+                            coverImageUrl: Provider.of<CoverImageProvider>(context, listen: false).coverImage!.code,
                             colorsKey: Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey,
                             onSuccess: (circle){
                               popPage(context); // Close loading widget.
@@ -133,10 +131,10 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                         );
                       else
                         await ApiCircle.update(
-                            key: initCircle.key,
-                            name: Provider.of<NameProvider>(context, listen: false).nameController.text,
-                            description: Provider.of<DescriptionProvider>(context, listen: false).descriptionController.text,
-                            coverImageUrl: Provider.of<CoverImageProvider>(context, listen: false).coverImage.code,
+                            key: initCircle!.key,
+                            name: Provider.of<NameProvider>(context, listen: false).nameController!.text,
+                            description: Provider.of<DescriptionProvider>(context, listen: false).descriptionController!.text,
+                            coverImageUrl: Provider.of<CoverImageProvider>(context, listen: false).coverImage!.code,
                             colorsKey: Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey,
                             onSuccess: (circle){
                               popPage(context); // Close loading widget.
@@ -155,7 +153,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
               physics: const BouncingScrollPhysics(),
               children: [
                 GeneralPart(palette: palette),
-                const CoverImagePart(),
+
                 if(initCircle != null)
                   DangerPart(
                     initCircle,

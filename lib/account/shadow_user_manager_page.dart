@@ -30,10 +30,10 @@ class ShadowUserManagerPage extends StatefulWidget{
       'Jeżeli ktoś nie posiada konta HarcApp, stwórz na jego miejsce konto widmo.'
       '\n\nKonto widmo można połączyć z dowolnym istniejącym kontem w dowolnym momencie.';
 
-  final Widget Function(UserDataNick) itemSubtitleBuilder;
-  final void Function(UserDataNick) onTap;
+  final Widget? Function(UserDataNick)? itemSubtitleBuilder;
+  final void Function(UserDataNick)? onTap;
 
-  const ShadowUserManagerPage({this.itemSubtitleBuilder, this.onTap, Key key}) : super(key: key);
+  const ShadowUserManagerPage({this.itemSubtitleBuilder, this.onTap, Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ShadowUserManagerPageState();
@@ -42,10 +42,10 @@ class ShadowUserManagerPage extends StatefulWidget{
 
 class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
 
-  Widget Function(UserDataNick) get itemSubtitleBuilder => widget.itemSubtitleBuilder;
-  void Function(UserDataNick) get onTap => widget.onTap;
+  Widget? Function(UserDataNick)? get itemSubtitleBuilder => widget.itemSubtitleBuilder;
+  void Function(UserDataNick)? get onTap => widget.onTap;
 
-  RefreshController refreshController;
+  late RefreshController refreshController;
 
   List<UserDataNick> get shadowUsers => AccountData.shadowUsers;
 
@@ -199,12 +199,12 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
 class ShadowUserTile extends StatefulWidget{
 
   final UserDataNick shadowUser;
-  final Widget subtitle;
-  final void Function(UserDataNick) onTap;
-  final void Function() onEdited;
-  final void Function() onRemoved;
+  final Widget? subtitle;
+  final void Function(UserDataNick)? onTap;
+  final void Function()? onEdited;
+  final void Function()? onRemoved;
 
-  const ShadowUserTile(this.shadowUser, {this.subtitle, this.onTap, this.onEdited, this.onRemoved, Key key}) : super(key: key);
+  const ShadowUserTile(this.shadowUser, {this.subtitle, this.onTap, this.onEdited, this.onRemoved, Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ShadowUserTileState();
@@ -214,13 +214,13 @@ class ShadowUserTile extends StatefulWidget{
 class ShadowUserTileState extends State<ShadowUserTile>{
   
   UserDataNick get shadowUser => widget.shadowUser;
-  Widget get subtitle => widget.subtitle;
-  void Function(UserDataNick) get onTap => widget.onTap;
-  void Function() get onEdited => widget.onEdited;
-  void Function() get onRemoved => widget.onRemoved;
+  Widget? get subtitle => widget.subtitle;
+  void Function(UserDataNick)? get onTap => widget.onTap;
+  void Function()? get onEdited => widget.onEdited;
+  void Function()? get onRemoved => widget.onRemoved;
 
-  bool processingRemove;
-  bool processingUpdate;
+  late bool processingRemove;
+  late bool processingUpdate;
 
   bool get processing => processingRemove || processingUpdate; 
   
@@ -274,7 +274,7 @@ class ShadowUserTileState extends State<ShadowUserTile>{
             setState(() => processingRemove = true);
             ApiUser.deleteShadow(
                 shadowUser.key,
-                onSuccess: (bool removed){
+                onSuccess: (bool? removed){
                   AccountData.removeShadowUser(shadowUser);
                   setState(() {});
                   onRemoved?.call();
@@ -296,10 +296,10 @@ class ShadowUserTileState extends State<ShadowUserTile>{
 
 class AddShadowUserDialog extends StatefulWidget{
 
-  final UserDataNick user;
+  final UserDataNick? user;
   final void Function(UserDataNick user) onSuccess;
 
-  const AddShadowUserDialog({this.user, @required this.onSuccess, Key key}) : super(key: key);
+  const AddShadowUserDialog({this.user, required this.onSuccess, Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => AddShadowUserDialogState();
@@ -308,23 +308,23 @@ class AddShadowUserDialog extends StatefulWidget{
 
 class AddShadowUserDialogState extends State<AddShadowUserDialog>{
 
-  UserDataNick get user => widget.user;
+  UserDataNick? get user => widget.user;
   void Function(UserDataNick user) get onSuccess => widget.onSuccess;
 
-  String name;
-  Sex sex;
+  String? name;
+  Sex? sex;
 
-  TextEditingController nameController;
+  TextEditingController? nameController;
 
-  bool processing;
+  late bool processing;
   bool get clickable => name==null || sex==null;
 
   @override
   void initState() {
     if(user != null){
-      name = user.name;
+      name = user!.name;
       nameController = TextEditingController(text: name);
-      sex = user.sex;
+      sex = user!.sex;
     }else{
       nameController = TextEditingController();
     }

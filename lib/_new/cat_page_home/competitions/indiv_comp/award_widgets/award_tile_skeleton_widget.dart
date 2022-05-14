@@ -10,11 +10,11 @@ import '../indiv_comp_awards_page.dart';
 
 class AwardTileSkeletonWidget extends StatelessWidget{
 
-  final int position;
-  final CommonColorData colors;
+  final int? position;
+  final CommonColorData? colors;
   final IndivCompAward award;
   final Widget text;
-  final Widget titleTrailing;
+  final Widget? titleTrailing;
 
   const AwardTileSkeletonWidget(
       this.position,
@@ -22,7 +22,7 @@ class AwardTileSkeletonWidget extends StatelessWidget{
       this.award,
       this.text,
       { this.titleTrailing,
-        Key key
+        Key? key
       }): super(key: key);
 
   @override
@@ -43,7 +43,7 @@ class AwardTileSkeletonWidget extends StatelessWidget{
                 ),
               ),
 
-              if(titleTrailing != null) titleTrailing
+              if(titleTrailing != null) titleTrailing!
             ],
           )
       ),

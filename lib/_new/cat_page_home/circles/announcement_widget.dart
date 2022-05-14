@@ -16,16 +16,16 @@ import 'cover_image.dart';
 class AnnouncementWidget extends StatelessWidget{
 
   final Announcement announcement;
-  final PaletteGenerator paletteGenerator;
-  final void Function() onUpdateTap;
-  final void Function() onPinTap;
+  final PaletteGenerator? paletteGenerator;
+  final void Function()? onUpdateTap;
+  final void Function()? onPinTap;
 
   const AnnouncementWidget(
       this.announcement,
       { this.paletteGenerator,
         this.onUpdateTap,
         this.onPinTap,
-        Key key
+        Key? key
       }) : super(key: key);
 
   @override
@@ -47,7 +47,7 @@ class AnnouncementWidget extends StatelessWidget{
             children: [
 
               Text(
-                dateToString(announcement.postTime),
+                dateToString(announcement.postTime!),
                 style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)),
               ),
 
@@ -63,7 +63,7 @@ class AnnouncementWidget extends StatelessWidget{
               const SizedBox(height: Dimen.SIDE_MARG),
 
               Text(
-                announcement.text,
+                announcement.text!,
                 style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
                 maxLines: 5,
                 overflow: TextOverflow.ellipsis,
@@ -83,7 +83,7 @@ class AnnouncementWidget extends StatelessWidget{
                   icon: Icon(
                     MdiIcons.pinOutline,
                     color:
-                    announcement.pinned?
+                    announcement.pinned!?
                     iconEnab_(context):
                     iconDisab_(context),
                   ),

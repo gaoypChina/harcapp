@@ -17,10 +17,10 @@ import 'layouts.dart';
 class FactWidget extends StatefulWidget{
 
   final List<Fact> allFacts;
-  final IconData icon;
-  final String Function(Fact) subtext;
+  final IconData? icon;
+  final String? Function(Fact?)? subtext;
 
-  const FactWidget(this.allFacts, {this.icon, this.subtext, Key key}): super(key: key);
+  const FactWidget(this.allFacts, {this.icon, this.subtext, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => FactWidgetState();
@@ -30,10 +30,10 @@ class FactWidget extends StatefulWidget{
 class FactWidgetState extends State<FactWidget>{
 
   List<Fact> get allFacts => widget.allFacts;
-  IconData get icon => widget.icon;
-  String Function(Fact) get subtext => widget.subtext;
+  IconData? get icon => widget.icon;
+  String? Function(Fact?)? get subtext => widget.subtext;
 
-  Fact fact;
+  Fact? fact;
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class FactWidgetState extends State<FactWidget>{
   @override
   Widget build(BuildContext context){
 
-    String subtext = this.subtext(fact);
+    String? subtext = this.subtext!(fact);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -81,7 +81,7 @@ class FactWidgetState extends State<FactWidget>{
               ),
             ),
 
-            if(fact.source != null || fact.meaning != null)
+            if(fact!.source != null || fact!.meaning != null)
               IconButton(
                   icon: const Icon(MdiIcons.bookArrowUpOutline, color: Colors.white54),
                   onPressed: () => showScrollBottomSheet(
@@ -93,7 +93,7 @@ class FactWidgetState extends State<FactWidget>{
                         builder: (context) => Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            if(fact.meaning != null)
+                            if(fact!.meaning != null)
                               Text(
                                   'Co to oznacza?',
                                   style: AppTextStyle(
@@ -102,17 +102,17 @@ class FactWidgetState extends State<FactWidget>{
                                       color: Colors.white54
                                   )
                               ),
-                            if(fact.meaning != null)
+                            if(fact!.meaning != null)
                               const SizedBox(height: Dimen.DEF_MARG),
-                            if(fact.meaning != null)
+                            if(fact!.meaning != null)
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: fact.meaning.map((meaning) => Padding(
+                                children: fact!.meaning!.map((meaning) => Padding(
                                   padding: const EdgeInsets.symmetric(vertical: Dimen.DEF_MARG),
                                   child: Text(meaning, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: Colors.white54)),
                                 )).toList(),
                               ),
-                            if(fact.meaning != null)
+                            if(fact!.meaning != null)
                               const SizedBox(height: 32),
 
                             Text(
@@ -125,7 +125,7 @@ class FactWidgetState extends State<FactWidget>{
                             ),
                             const SizedBox(height: 2*Dimen.DEF_MARG),
                             SelectableText(
-                                fact.source,
+                                fact!.source!,
                                 style: AppTextStyle(
                                     fontSize: Dimen.TEXT_SIZE_SMALL,
                                     color: Colors.white54
@@ -142,7 +142,7 @@ class FactWidgetState extends State<FactWidget>{
         const SizedBox(height: 18.0),
 
         Text(
-            fact.text,
+            fact!.text,
             style: AppTextStyle(
                 fontSize: QuoteWidgetState.textSize, color: Colors.white, height: 1.3
             )

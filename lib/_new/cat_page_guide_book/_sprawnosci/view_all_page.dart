@@ -13,14 +13,14 @@ class ViewAllSprawPage extends StatefulWidget{
 
   final List<SprawGroup> sprawGroupList;
   final int initIndex;
-  final String heroTagId;
+  final String? heroTagId;
 
-  final void Function(Spraw) onClaimed;
-  final void Function(Spraw) onSaveChanged;
-  final void Function(Spraw) onReqComplChanged;
-  final void Function(Spraw) onCompleted;
-  final void Function(Spraw) onAbandoned;
-  final void Function(Spraw, bool) onStartStop;
+  final void Function(Spraw)? onClaimed;
+  final void Function(Spraw)? onSaveChanged;
+  final void Function(Spraw)? onReqComplChanged;
+  final void Function(Spraw)? onCompleted;
+  final void Function(Spraw)? onAbandoned;
+  final void Function(Spraw, bool)? onStartStop;
 
   const ViewAllSprawPage(
       this.sprawGroupList,
@@ -45,16 +45,16 @@ class ViewAllSprawPageState extends State<ViewAllSprawPage>{
 
   List<SprawGroup> get sprawGroupList => widget.sprawGroupList;
 
-  void Function(Spraw) get onClaimed => widget.onClaimed;
-  void Function(Spraw) get onSaveChanged => widget.onSaveChanged;
-  void Function(Spraw) get onReqComplChanged => widget.onReqComplChanged;
-  void Function(Spraw) get onCompleted => widget.onCompleted;
-  void Function(Spraw) get onAbandoned => widget.onAbandoned;
-  void Function(Spraw, bool) get onStartStop => widget.onStartStop;
+  void Function(Spraw)? get onClaimed => widget.onClaimed;
+  void Function(Spraw)? get onSaveChanged => widget.onSaveChanged;
+  void Function(Spraw)? get onReqComplChanged => widget.onReqComplChanged;
+  void Function(Spraw)? get onCompleted => widget.onCompleted;
+  void Function(Spraw)? get onAbandoned => widget.onAbandoned;
+  void Function(Spraw, bool)? get onStartStop => widget.onStartStop;
 
-  List<Spraw> allItems;
+  late List<Spraw> allItems;
 
-  PageController controller;
+  PageController? controller;
 
   @override
   void initState() {
@@ -73,7 +73,7 @@ class ViewAllSprawPageState extends State<ViewAllSprawPage>{
   Widget build(BuildContext context) {
 
     Widget title = Text(
-      sprawGroupList.isNotEmpty?sprawGroupList[0].title:'Przeglądaj sprawności',
+      sprawGroupList.isNotEmpty?sprawGroupList[0].title!:'Przeglądaj sprawności',
       style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, color: appBarTextEnab_(context)),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -122,12 +122,12 @@ class ViewAllSprawPageState extends State<ViewAllSprawPage>{
             showBack: false,
             iconHeroTag: true,
 
-            onClaimed: () => onClaimed(allItems[index]),
-            onSaveChanged: () => onSaveChanged(allItems[index]),
-            onReqComplChanged: () => onReqComplChanged(allItems[index]),
-            onCompleted: () => onCompleted(allItems[index]),
-            onAbandoned: () => onAbandoned(allItems[index]),
-            onStartStop: (inProgress) => onStartStop(allItems[index], inProgress),
+            onClaimed: () => onClaimed!(allItems[index]),
+            onSaveChanged: () => onSaveChanged!(allItems[index]),
+            onReqComplChanged: () => onReqComplChanged!(allItems[index]),
+            onCompleted: () => onCompleted!(allItems[index]),
+            onAbandoned: () => onAbandoned!(allItems[index]),
+            onStartStop: (inProgress) => onStartStop!(allItems[index], inProgress),
           ),
         ),
       )

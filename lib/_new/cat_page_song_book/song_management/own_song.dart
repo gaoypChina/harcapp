@@ -21,21 +21,21 @@ class OwnSong extends Song<OwnSongResp>{
 
       return int.parse(content);
     }on Error{
-      return allOwn.isEmpty?0:int.tryParse(allOwn.last.fileName)??-1;
+      return allOwn!.isEmpty?0:int.tryParse(allOwn!.last.fileName)??-1;
     }
   }
 
-  static List<OwnSong> allOwn;
-  static SplayTreeMap<String, OwnSong> _allOwnMap;
-  static SplayTreeMap<String, OwnSong> get allOwnMap => _allOwnMap;
-  static set allOwnMap(Map<String, OwnSong> value) => _allOwnMap = value==null?null:SplayTreeMap.from(value);
+  static List<OwnSong>? allOwn;
+  static SplayTreeMap<String, OwnSong>? _allOwnMap;
+  static SplayTreeMap<String, OwnSong>? get allOwnMap => _allOwnMap;
+  static set allOwnMap(Map<String, OwnSong>? value) => _allOwnMap = value==null?null:SplayTreeMap.from(value);
   static void addOwn(Song song){
-    allOwn.add(song);
-    _allOwnMap[song.fileName] = song;
+    allOwn!.add(song as OwnSong);
+    _allOwnMap![song.fileName] = song;
   }
   static void removeOwn(Song song){
-    allOwn.remove(song);
-    _allOwnMap.remove(song.fileName);
+    allOwn!.remove(song);
+    _allOwnMap!.remove(song.fileName);
   }
 
   static const String PARAM_CODE = 'code';
@@ -65,7 +65,7 @@ class OwnSong extends Song<OwnSongResp>{
       List<String> authors,
       List<String> composers,
       List<String> performers,
-      DateTime releaseDate,
+      DateTime? releaseDate,
       bool showRelDateMonth,
       bool showRelDateDay,
       List<AddPerson> addPers,
@@ -73,7 +73,7 @@ class OwnSong extends Song<OwnSongResp>{
       List<String> tags,
       bool hasChords, String text,
       String baseChords,
-      PrimitiveWrapper<int> rate,
+      PrimitiveWrapper<int?> rate,
       List<Memory> memoryList,
       Map<String, Memory> memoryMap
   ) : super(fileName,
@@ -138,22 +138,22 @@ class OwnSong extends Song<OwnSongResp>{
 
   }
 
-  static OwnSong saveOwnSong(String code, {String lclId}) {
+  static OwnSong saveOwnSong(String code, {String? lclId}) {
 
     if(lclId == null)
       lclId = '${OwnSong.lastFileName + 1}';
     else{
-      int testVal = int.tryParse(lclId);
+      int? testVal = int.tryParse(lclId);
       if(testVal == null)
         throw Exception();
     }
 
-    String allOwnSngsJsonStr;
+    String? allOwnSngsJsonStr;
     try{
       allOwnSngsJsonStr = readFileAsString(getOwnSongFilePath);
     } on Error{}
 
-    Map allOwnSongsMap;
+    Map? allOwnSongsMap;
     if(allOwnSngsJsonStr != null)
       allOwnSongsMap = jsonDecode(allOwnSngsJsonStr);
     else
@@ -161,7 +161,7 @@ class OwnSong extends Song<OwnSongResp>{
 
     Map jsonMap = jsonDecode(code);
 
-    allOwnSongsMap[lclId] = jsonMap;
+    allOwnSongsMap![lclId] = jsonMap;
     allOwnSngsJsonStr = jsonEncode(allOwnSongsMap);
     saveStringAsFile(getOwnSongFilePath, allOwnSngsJsonStr);
     saveStringAsFile(getOwnLastFileNameFilePath, lclId);
@@ -218,8 +218,8 @@ class OwnSong extends Song<OwnSongResp>{
   void applySyncGetResp(OwnSongResp resp) {
     super.applySyncGetResp(resp);
     if(resp.code != null) {
-      recode(resp.code);
-      saveOwnSong(resp.code);
+      recode(resp.code!);
+      saveOwnSong(resp.code!);
     }
   }
 

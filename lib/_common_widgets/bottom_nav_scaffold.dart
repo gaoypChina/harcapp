@@ -6,12 +6,12 @@ import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 
 class BottomNavScaffold extends StatefulWidget{
 
-  final PreferredSizeWidget appBar;
-  final Widget body;
-  final Color backgroundColor;
-  final Widget floatingActionButton;
-  final Widget bottomNavigationBar;
-  final Color statusBarColor;
+  final PreferredSizeWidget? appBar;
+  final Widget? body;
+  final Color? backgroundColor;
+  final Widget? floatingActionButton;
+  final Widget? bottomNavigationBar;
+  final Color? statusBarColor;
 
   const BottomNavScaffold({
     this.appBar,
@@ -59,7 +59,7 @@ class BottomNavScaffoldState extends State<BottomNavScaffold>{
         mainAxisSize: MainAxisSize.min,
         children: [
           if(widget.bottomNavigationBar != null)
-            widget.bottomNavigationBar,
+            widget.bottomNavigationBar!,
 
           const AppBottomNavigator(),
         ],

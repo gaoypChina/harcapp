@@ -8,18 +8,18 @@ class AppSettingsResp extends SyncGetResp{
 
   static const String collName = AppSettings.syncClassId;
 
-  final AppTheme theme;
-  final bool fullscreen;
-  final bool devMode;
-  final TimeOfDay defSunriseTime;
-  final TimeOfDay defSunsetTime;
+  final AppTheme? theme;
+  final bool? fullscreen;
+  final bool? devMode;
+  final TimeOfDay? defSunriseTime;
+  final TimeOfDay? defSunsetTime;
 
   const AppSettingsResp({
-    @required this.theme,
-    @required this.fullscreen,
-    @required this.devMode,
-    @required this.defSunriseTime,
-    @required this.defSunsetTime,
+    required this.theme,
+    required this.fullscreen,
+    required this.devMode,
+    required this.defSunriseTime,
+    required this.defSunsetTime,
   });
 
   static AppSettingsResp from(Map respData) => AppSettingsResp(

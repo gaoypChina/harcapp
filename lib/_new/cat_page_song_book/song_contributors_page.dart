@@ -20,24 +20,24 @@ import 'song_management/off_song.dart';
 
 class SongContributorsPage extends StatelessWidget{
 
-  const SongContributorsPage({Key key}) : super(key: key);
+  const SongContributorsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context){
 
     Map<AddPerson, List<Song>> map = {};
-    for(OffSong song in OffSong.allOfficial){
+    for(OffSong song in OffSong.allOfficial!){
       if(song.addPers == null)
         continue;
 
       for(AddPerson addPers in song.addPers)
         if(map.containsKey(addPers))
-          map[addPers].add(song);
+          map[addPers]!.add(song);
         else
           map[addPers] = [song];
     }
 
-    var sortedKeys = map.keys.toList(growable:false)..sort((k1, k2) => map[k2].length.compareTo(map[k1].length));
+    var sortedKeys = map.keys.toList(growable:false)..sort((k1, k2) => map[k2]!.length.compareTo(map[k1]!.length));
     LinkedHashMap sortedMap = LinkedHashMap.fromIterable(sortedKeys, key: (k) => k, value: (k) => map[k]);
 
     return BottomNavScaffold(
@@ -108,7 +108,7 @@ class SongContributorsPage extends StatelessWidget{
 
 class _SongListDialog extends StatelessWidget{
 
-  final List<Song> songs;
+  final List<Song>? songs;
 
   const _SongListDialog(this.songs);
 
@@ -132,8 +132,8 @@ class _SongListDialog extends StatelessWidget{
 
             SliverList(
               delegate: SliverChildBuilderDelegate(
-                  (context, index) => SongTile(songs[index]),
-                  childCount: songs.length
+                  (context, index) => SongTile(songs![index]),
+                  childCount: songs!.length
               ),
             )
 

@@ -8,11 +8,11 @@ class Wiersz extends ShortRead{
   final String author;
 
   const Wiersz({
-    @required String title,
-    @required this.author,
-    @required Color Function(BuildContext) titleColor,
-    @required String fileName,
-    @required GraphicalResource graphicalResource,
+    required String title,
+    required this.author,
+    required Color Function(BuildContext) titleColor,
+    required String fileName,
+    required GraphicalResource graphicalResource,
     dynamic soundResource
   }):super(
       title: title,

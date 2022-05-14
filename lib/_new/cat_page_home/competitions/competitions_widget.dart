@@ -24,7 +24,7 @@ class CompetitionsWidget extends StatefulWidget{
   final bool singleLine;
   final Widget Function(List<IndivComp>) competitionWidgetBuilder;
 
-  const CompetitionsWidget({this.singleLine = false, @required this.competitionWidgetBuilder, Key key}) : super(key: key);
+  const CompetitionsWidget({this.singleLine = false, required this.competitionWidgetBuilder, Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => CompetitionsWidgetState();
@@ -36,13 +36,13 @@ class CompetitionsWidgetState extends State<CompetitionsWidget>{
   bool get singleLine => widget.singleLine;
   Widget Function(List<IndivComp>) get competitionWidgetBuilder => widget.competitionWidgetBuilder;
 
-  LoginProvider loginProvider;
-  LoginProviderListener loginListener;
+  late LoginProvider loginProvider;
+  LoginProviderListener? loginListener;
 
-  IndivCompLoaderListener _listener;
+  IndivCompLoaderListener? _listener;
 
-  StreamSubscription<ConnectivityResult> networkListener;
-  bool networkAvailable;
+  StreamSubscription<ConnectivityResult>? networkListener;
+  late bool networkAvailable;
 
   @override
   void initState() {
@@ -108,9 +108,9 @@ class CompetitionsWidgetState extends State<CompetitionsWidget>{
 
         if(!networkAvailable)
           return IndivCompPrompt(
-            child: IndivCompPreviewGrid(singleLine: singleLine),
             text: 'Brak internetu',
             icon: MdiIcons.earthOff,
+            child: IndivCompPreviewGrid(singleLine: singleLine),
           );
         else if(loginProvider.loggedIn){
 
@@ -126,9 +126,9 @@ class CompetitionsWidgetState extends State<CompetitionsWidget>{
                   ),
                 ),
                 IgnorePointer(child: IndivCompPrompt(
-                    child: IndivCompPreviewGrid(singleLine: singleLine),
                     icon: MdiIcons.accountReactivateOutline,
-                    text: 'Aktywuj konto, by współzawodniczyć'
+                    text: 'Aktywuj konto, by współzawodniczyć',
+                    child: IndivCompPreviewGrid(singleLine: singleLine)
                 )),
               ],
             );
@@ -136,12 +136,12 @@ class CompetitionsWidgetState extends State<CompetitionsWidget>{
             return IndivCompLoadingWidget(singleLine: singleLine);
           else if(IndivComp.all == null)
             return IndivCompPrompt(
-              child: IndivCompPreviewGrid(singleLine: singleLine),
               text: 'Mamy problem',
               icon: MdiIcons.closeOutline,
+              child: IndivCompPreviewGrid(singleLine: singleLine),
             );
           else
-            return competitionWidgetBuilder(IndivComp.all);
+            return competitionWidgetBuilder(IndivComp.all!);
 
         }else
           return Stack(

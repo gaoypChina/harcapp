@@ -8,10 +8,10 @@ import 'common_color_data.dart';
 
 class ColorSelectorWidget extends StatefulWidget{
 
-  final String initColorKey;
-  final void Function(String colorKey) onSelected;
+  final String? initColorKey;
+  final void Function(String colorKey)? onSelected;
   
-  const ColorSelectorWidget({this.initColorKey, this.onSelected, Key key}): super(key: key);
+  const ColorSelectorWidget({this.initColorKey, this.onSelected, Key? key}): super(key: key);
   
   @override
   State<StatefulWidget> createState() => ColorSelectorWidgetState();
@@ -20,7 +20,7 @@ class ColorSelectorWidget extends StatefulWidget{
 
 class ColorSelectorWidgetState extends State<ColorSelectorWidget>{
 
-  void Function(String iconKey) get onSelected => widget.onSelected;
+  void Function(String iconKey)? get onSelected => widget.onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -86,9 +86,9 @@ class ColorSelectorWidgetState extends State<ColorSelectorWidget>{
 class ColorDataWidget extends StatelessWidget{
 
   final String colorsKey;
-  final Function(String colorsKey) onTap;
+  final Function(String colorsKey)? onTap;
 
-  const ColorDataWidget(this.colorsKey, {this.onTap, Key key}): super(key: key);
+  const ColorDataWidget(this.colorsKey, {this.onTap, Key? key}): super(key: key);
 
   static const double BUTTON_SIZE = 60.0;
   static const double _BUTTON_SIZE_SMALL = 48.0;
@@ -121,8 +121,8 @@ class ColorDataWidget extends StatelessWidget{
                   child: Center(
                       child: GradientWidget(
                         shape: BoxShape.circle,
-                        colorStart: CommonColorData.ALL[colorsKey].colorStart.withOpacity(selected?1:.35),
-                        colorEnd: CommonColorData.ALL[colorsKey].colorEnd.withOpacity(selected?1:.35),
+                        colorStart: CommonColorData.ALL[colorsKey]!.colorStart!.withOpacity(selected?1:.35),
+                        colorEnd: CommonColorData.ALL[colorsKey]!.colorEnd!.withOpacity(selected?1:.35),
                         width: BUTTON_SIZE,//selected?_BUTTON_SIZE_SMALL:BUTTON_SIZE,
                         height: BUTTON_SIZE,//selected?_BUTTON_SIZE_SMALL:BUTTON_SIZE,
                         duration: const Duration(milliseconds: 300),

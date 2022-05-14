@@ -2,16 +2,16 @@ import 'package:flutter/cupertino.dart';
 
 class DrawerProvider extends ChangeNotifier{
 
-  Widget Function(/*BuildContext*/) _builder;
+  Widget Function(/*BuildContext*/)? _builder;
 
-  Widget Function(/*BuildContext*/) get builder => _builder;
+  Widget Function(/*BuildContext*/)? get builder => _builder;
 
-  set builder(Widget Function(/*BuildContext*/) value){
+  set builder(Widget Function(/*BuildContext*/)? value){
     _builder = value;
     notifyListeners();
   }
 
-  bool Function() _show;
+  late bool Function() _show;
   bool get show => _show();
 
   void set(bool Function() show, Widget Function(/*BuildContext*/) builder){
@@ -31,16 +31,16 @@ class DrawerProvider extends ChangeNotifier{
 
 class FloatingButtonProvider extends ChangeNotifier{
 
-  Widget Function(/*BuildContext*/) _builder;
+  Widget Function(/*BuildContext*/)? _builder;
 
-  Widget Function(/*BuildContext*/) get builder => _builder;
+  Widget Function(/*BuildContext*/)? get builder => _builder;
 
-  set builder(Widget Function(/*BuildContext*/) value){
+  set builder(Widget Function(/*BuildContext*/)? value){
     _builder = value;
     notifyListeners();
   }
 
-  bool Function() _show;
+  late bool Function() _show;
   bool get show => _show();
 
   void set(bool Function() show, Widget Function(/*BuildContext*/) builder){

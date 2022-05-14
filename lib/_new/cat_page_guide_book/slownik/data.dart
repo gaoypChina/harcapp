@@ -1077,10 +1077,10 @@ const List<TransData> allWordsData = [
 
 class TransData{
   final IconData icon;
-  final TransLangData pol, mug, eng, ger, esp, ita, cze, nor, ned;
-  const TransData(this.icon, this.pol, {@required this.mug, @required this.eng, @required this.ger, @required this.esp, @required this.ita, @required this.cze, @required this.nor, @required this.ned});
+  final TransLangData? pol, mug, eng, ger, esp, ita, cze, nor, ned;
+  const TransData(this.icon, this.pol, {required this.mug, required this.eng, required this.ger, required this.esp, required this.ita, required this.cze, required this.nor, required this.ned});
 
-  TransLangData get(Lang lang){
+  TransLangData? get(Lang? lang){
     switch(lang){
       case Lang.pol: return pol;
       case Lang.mug: return mug;
@@ -1109,11 +1109,11 @@ class TransWordData{
 
   final String word;
 
-  final String prefix;
-  final String suff;
-  final String example;
-  final String explain;
-  final String literalTrans;
+  final String? prefix;
+  final String? suff;
+  final String? example;
+  final String? explain;
+  final String? literalTrans;
 
   const TransWordData(this.word, {this.prefix, this.suff, this.example, this.explain, this.literalTrans});
 

@@ -21,9 +21,9 @@ class SprawProgressWidget extends StatefulWidget{
   final bool backgroundIcon;
 
   final bool showIcons;
-  final void Function(BuildContext) onOpen;
+  final void Function(BuildContext)? onOpen;
 
-  const SprawProgressWidget({this.backgroundIcon=false, this.showIcons=true, this.onOpen, Key key}): super(key: key);
+  const SprawProgressWidget({this.backgroundIcon=false, this.showIcons=true, this.onOpen, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => SprawProgressWidgetState();
@@ -34,9 +34,9 @@ class SprawProgressWidgetState extends State<SprawProgressWidget>{
 
   static const double _paddingVal = Dimen.SIDE_MARG;
 
-  List<Spraw> allSpraws;
-  List<Spraw> hiddSpraws;
-  List<Spraw> displSpraws;
+  List<Spraw?>? allSpraws;
+  List<Spraw?>? hiddSpraws;
+  List<Spraw?>? displSpraws;
 
   @override
   void initState() {
@@ -46,21 +46,21 @@ class SprawProgressWidgetState extends State<SprawProgressWidget>{
     displSpraws = [];
 
     for(String uniqName in Spraw.completedList)
-      allSpraws.add(Spraw.fromUID(uniqName));
+      allSpraws!.add(Spraw.fromUID(uniqName));
 
     for(String uniqName in Spraw.inProgressList) {
-      Spraw spraw = Spraw.fromUID(uniqName);
-      if(!allSpraws.contains(spraw)) allSpraws.add(spraw);
+      Spraw? spraw = Spraw.fromUID(uniqName);
+      if(!allSpraws!.contains(spraw)) allSpraws!.add(spraw);
     }
 
     for(String uniqName in SprawFolder.omega.sprawUIDs) {
-      Spraw spraw = Spraw.fromUID(uniqName);
-      if(!allSpraws.contains(spraw)) allSpraws.add(spraw);
+      Spraw? spraw = Spraw.fromUID(uniqName);
+      if(!allSpraws!.contains(spraw)) allSpraws!.add(spraw);
     }
 
-    allSpraws.shuffle();
+    allSpraws!.shuffle();
 
-    if(allSpraws.length>SprawProgressWidget.maxDispCount) {
+    if(allSpraws!.length>SprawProgressWidget.maxDispCount) {
       hiddSpraws = allSpraws;
     }else{
       displSpraws = allSpraws;
@@ -69,13 +69,13 @@ class SprawProgressWidgetState extends State<SprawProgressWidget>{
     super.initState();
   }
 
-  Spraw onNewUIDRequested(Spraw oldSpraw){
-    int index = Random().nextInt(hiddSpraws.length);
-    Spraw spraw = hiddSpraws[index];
-    hiddSpraws.remove(spraw);
+  Spraw? onNewUIDRequested(Spraw oldSpraw){
+    int index = Random().nextInt(hiddSpraws!.length);
+    Spraw? spraw = hiddSpraws![index];
+    hiddSpraws!.remove(spraw);
     if(oldSpraw != null)
-      hiddSpraws.add(oldSpraw);
-    displSpraws.add(spraw);
+      hiddSpraws!.add(oldSpraw);
+    displSpraws!.add(spraw);
     return spraw;
   }
 
@@ -83,10 +83,10 @@ class SprawProgressWidgetState extends State<SprawProgressWidget>{
   Widget build(BuildContext context) {
 
     List<Widget> children = [];
-    if(hiddSpraws.isEmpty) {
-      for (Spraw spraw in allSpraws) {
+    if(hiddSpraws!.isEmpty) {
+      for (Spraw? spraw in allSpraws!) {
         children.add(Opacity(
-            opacity: spraw.completed ? 1 : (spraw.inProgress ? .45 : .1),
+            opacity: spraw!.completed ? 1 : (spraw.inProgress ? .45 : .1),
             child: SprawIcon(
                 spraw,
                 onTap: () => openSprawDialog(context, spraw)
@@ -94,7 +94,7 @@ class SprawProgressWidgetState extends State<SprawProgressWidget>{
         ));
       }
 
-      for (int i=0; i< SprawProgressWidget.maxDispCount - allSpraws.length; i++) {
+      for (int i=0; i< SprawProgressWidget.maxDispCount - allSpraws!.length; i++) {
         children.add(
             Opacity(
                 opacity: .1,

@@ -30,46 +30,46 @@ class RemindPasswordCodePart extends StatefulWidget{
 
 class RemindPasswordCodePartState extends State<RemindPasswordCodePart>{
 
-  InputFieldController emailController;
-  InputFieldController resetKeyController;
-  InputFieldController passwordController;
-  InputFieldController passwordRepController;
+  InputFieldController? emailController;
+  InputFieldController? resetKeyController;
+  InputFieldController? passwordController;
+  InputFieldController? passwordRepController;
 
-  bool showPassword;
-  bool showPasswordRep;
+  late bool showPassword;
+  late bool showPasswordRep;
 
-  bool processing;
-  String generalError;
+  bool? processing;
+  String? generalError;
 
   void remindPasswordClick() async {
 
-    resetKeyController.errorText = '';
-    passwordController.errorText = '';
-    passwordRepController.errorText = '';
+    resetKeyController!.errorText = '';
+    passwordController!.errorText = '';
+    passwordRepController!.errorText = '';
 
 
     setState(() => processing = true);
 
     await ApiRegLog.resetPass(
-        email: emailController.text,
-        resetPassKey: resetKeyController.text,
-        newPass: passwordController.text,
-        newPassRep: passwordRepController.text,
+        email: emailController!.text,
+        resetPassKey: resetKeyController!.text,
+        newPass: passwordController!.text,
+        newPassRep: passwordRepController!.text,
         onSuccess: () async {
           showAppToast(context, text: 'Ustawiono nowe hasło');
           pushReplacePage(
               context,
-              builder: (context) => LoginPart(initEmail: emailController.text)
+              builder: (context) => LoginPart(initEmail: emailController!.text)
           );
         },
-        onError: (Response response){
+        onError: (Response? response){
           try {
 
-            Map errorFieldMap = response.data['errors'];
+            Map? errorFieldMap = response!.data['errors'];
             if(errorFieldMap != null) {
-              resetKeyController.errorText = errorFieldMap[ApiRegLog.RESET_PASSWORD_REQ_PASS_RESET_KEY] ?? '';
-              passwordController.errorText = errorFieldMap[ApiRegLog.RESET_PASSWORD_REQ_NEW_PASS] ?? '';
-              passwordRepController.errorText = errorFieldMap[ApiRegLog.RESET_PASSWORD_REQ_NEW_PASS_REP] ?? '';
+              resetKeyController!.errorText = errorFieldMap[ApiRegLog.RESET_PASSWORD_REQ_PASS_RESET_KEY] ?? '';
+              passwordController!.errorText = errorFieldMap[ApiRegLog.RESET_PASSWORD_REQ_NEW_PASS] ?? '';
+              passwordRepController!.errorText = errorFieldMap[ApiRegLog.RESET_PASSWORD_REQ_NEW_PASS_REP] ?? '';
             }
 
             generalError = response.data['error'];
@@ -122,7 +122,7 @@ class RemindPasswordCodePartState extends State<RemindPasswordCodePart>{
               InputField(
                 hint: 'Kod resetu hasła:',
                 controller: resetKeyController,
-                enabled: !processing,
+                enabled: !processing!,
                 leading: Icon(MdiIcons.account, color: iconDisab_(context)),
               ),
 
@@ -133,10 +133,10 @@ class RemindPasswordCodePartState extends State<RemindPasswordCodePart>{
                 controller: passwordController,
                 trailing: IconButton(
                   icon: Icon(showPassword?MdiIcons.eyeOffOutline:MdiIcons.eyeOutline),
-                  onPressed: processing?null:() => setState(() => showPassword = !showPassword),
+                  onPressed: processing!?null:() => setState(() => showPassword = !showPassword),
                 ),
                 isPassword: !showPassword,
-                enabled: !processing,
+                enabled: !processing!,
                 leading: Icon(MdiIcons.key, color: iconDisab_(context)),
               ),
 
@@ -147,10 +147,10 @@ class RemindPasswordCodePartState extends State<RemindPasswordCodePart>{
                 controller: passwordRepController,
                 trailing: IconButton(
                   icon: Icon(showPasswordRep?MdiIcons.eyeOffOutline:MdiIcons.eyeOutline),
-                  onPressed: processing?null:() => setState(() => showPasswordRep = !showPasswordRep),
+                  onPressed: processing!?null:() => setState(() => showPasswordRep = !showPasswordRep),
                 ),
                 isPassword: !showPasswordRep,
-                enabled: !processing,
+                enabled: !processing!,
                 leading: Icon(MdiIcons.shieldKey, color: iconDisab_(context)),
               ),
 
@@ -167,9 +167,9 @@ class RemindPasswordCodePartState extends State<RemindPasswordCodePart>{
                           fontWeight: weight.normal,
                           text: 'Wróć',
                           icon: MdiIcons.arrowLeft,
-                          onTap: processing?null:() => pushReplacePage(
+                          onTap: processing!?null:() => pushReplacePage(
                               context,
-                              builder: (context) => RemindPasswordPart(email: emailController.text)
+                              builder: (context) => RemindPasswordPart(email: emailController!.text)
                           ),
                         ),
                       )
@@ -182,7 +182,7 @@ class RemindPasswordCodePartState extends State<RemindPasswordCodePart>{
                         processing: processing,
                         text: 'Weryfikuj',
                         icon: MdiIcons.shieldAccountOutline,
-                        onTap: processing?null:remindPasswordClick
+                        onTap: processing!?null:remindPasswordClick
                     ),
                   )
                 ],

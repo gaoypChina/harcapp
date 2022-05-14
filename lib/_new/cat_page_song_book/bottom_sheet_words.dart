@@ -15,7 +15,7 @@ import 'bottom_sheet_report.dart';
 
 class BottomSheetWords extends StatefulWidget{
 
-  final String wordsCode;
+  final String? wordsCode;
   final String songText;
   final String fileName;
 
@@ -29,8 +29,8 @@ class BottomSheetWords extends StatefulWidget{
 
 class BottomSheetWordsState extends State<BottomSheetWords>{
 
-  bool reportClicked;
-  String _text;
+  late bool reportClicked;
+  String? _text;
 
   @override
   void initState() {
@@ -93,7 +93,7 @@ class BottomSheetWordsState extends State<BottomSheetWords>{
                 widget.fileName,
                     () => _text,
                 BottomSheetReport.SPIEWNIK_REPORT_WORD_TYPE,
-                _text.isNotEmpty,
+                _text!.isNotEmpty,
                 background: cardEnab_(context),
               )
             ],
@@ -118,7 +118,7 @@ class BottomSheetWordsState extends State<BottomSheetWords>{
         ],
       );
 
-    List<String> parts = widget.wordsCode.split('<');
+    List<String> parts = widget.wordsCode!.split('<');
     List<String> elements = parts[0].split('>');
 
     Widget hardWords = Column(children: elements.map<Widget>((element) => HardWordWidget(element)).toList());

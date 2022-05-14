@@ -14,7 +14,7 @@ class TagWidget extends StatelessWidget{
 
   final ItemData data;
 
-  const TagWidget(this.data, {Key key}): super(key: key);
+  const TagWidget(this.data, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -155,13 +155,13 @@ class FirePropertyWidget extends StatelessWidget{
       const SizedBox(width: 12),
       Column(crossAxisAlignment:CrossAxisAlignment.start, children: <Widget>[
         if(data.cieplo!=null)
-          wrap(context, Text(mapNeut[data.cieplo], style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)), data.cieplo),
+          wrap(context, Text(mapNeut[data.cieplo!]!, style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)), data.cieplo!),
         if(data.zar!=null)
-          wrap(context, Text(mapFem[data.zar], style: AppTextStyle(fontWeight: weight.halfBold, fontSize:Dimen.TEXT_SIZE_BIG)), data.zar),
+          wrap(context, Text(mapFem[data.zar!]!, style: AppTextStyle(fontWeight: weight.halfBold, fontSize:Dimen.TEXT_SIZE_BIG)), data.zar!),
         if(data.plomien!=null)
-          wrap(context, Text(mapMask[data.plomien], style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)), data.plomien),
+          wrap(context, Text(mapMask[data.plomien!]!, style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)), data.plomien!),
         if(data.czas!=null)
-          wrap(context, Text(mapMask[data.czas], style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)), data.czas)
+          wrap(context, Text(mapMask[data.czas!]!, style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)), data.czas!)
       ],)
     ],);
   }

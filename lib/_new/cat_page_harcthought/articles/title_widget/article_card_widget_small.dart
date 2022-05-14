@@ -14,12 +14,12 @@ class ArticleCardWidgetSmall extends StatefulWidget{
   static const aspectRatio = 1.4;
 
   final Article article;
-  final void Function(BuildContext context, Article article, ImageProvider background, ArticleNotifierProvider articleSeenProv) onTap;
-  final ImageProvider background;
+  final void Function(BuildContext context, Article article, ImageProvider? background, ArticleNotifierProvider? articleSeenProv)? onTap;
+  final ImageProvider? background;
   final bool dense;
   final EdgeInsets margin;
   final double elevation;
-  final Widget bottom;
+  final Widget? bottom;
 
   const ArticleCardWidgetSmall(
       this.article,
@@ -30,7 +30,7 @@ class ArticleCardWidgetSmall extends StatefulWidget{
         this.margin=EdgeInsets.zero,
         this.elevation=AppCard.bigElevation,
         this.bottom,
-        Key key
+        Key? key
       }):super(key: key);
 
   @override
@@ -41,13 +41,13 @@ class ArticleCardWidgetSmall extends StatefulWidget{
 class ArticleCardWidgetState extends State<ArticleCardWidgetSmall>{
 
   Article get article => widget.article;
-  void Function(BuildContext context, Article article, ImageProvider background, ArticleNotifierProvider articleSeenProv) get onTap => widget.onTap;
-  ImageProvider get background => widget.background??_background;
+  void Function(BuildContext context, Article article, ImageProvider? background, ArticleNotifierProvider? articleSeenProv)? get onTap => widget.onTap;
+  ImageProvider? get background => widget.background??_background;
   double get elevation => widget.elevation;
 
-  ImageProvider _background;
+  ImageProvider? _background;
 
-  ArticleNotifierProvider provider;
+  ArticleNotifierProvider? provider;
 
   @override
   void initState() {
@@ -109,7 +109,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidgetSmall>{
     Widget widget = AppCard(
         padding: EdgeInsets.zero,
         margin: AppCard.normMargin,
-        onTap: onTap==null?null:() => onTap(context, article, background, provider),
+        onTap: onTap==null?null:() => onTap!(context, article, background, provider),
         elevation: elevation,
         child: AnimatedOpacity(
             duration: Duration(milliseconds: 1500),
@@ -117,9 +117,9 @@ class ArticleCardWidgetState extends State<ArticleCardWidgetSmall>{
             child:
             background == null?
 
-            FutureBuilder<ImageProvider>(
+            FutureBuilder<ImageProvider?>(
               future: article.loadCover(), // async work
-              builder: (BuildContext context, AsyncSnapshot<ImageProvider> snapshot) {
+              builder: (BuildContext context, AsyncSnapshot<ImageProvider?> snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting: return Container();
                   default:
@@ -127,7 +127,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidgetSmall>{
                     else return Stack(
                       children: [
 
-                        Positioned.fill(child: Image(image: snapshot.data, fit: BoxFit.cover)),
+                        Positioned.fill(child: Image(image: snapshot.data!, fit: BoxFit.cover)),
 
                         Positioned.fill(child: child)
 
@@ -139,7 +139,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidgetSmall>{
 
             Container(
               decoration: BoxDecoration(
-                image: DecorationImage(image: background, fit: BoxFit.cover),
+                image: DecorationImage(image: background!, fit: BoxFit.cover),
               ),
               child: child,
             )

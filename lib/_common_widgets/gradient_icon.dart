@@ -3,15 +3,15 @@ import 'package:harcapp_core/dimen.dart';
 
 class GradientIcon extends StatelessWidget {
 
-  final IconData icon;
-  final Color colorStart;
-  final Color colorEnd;
+  final IconData? icon;
+  final Color? colorStart;
+  final Color? colorEnd;
   final double size;
 
   const GradientIcon(
       this.icon,
-      {@required this.colorStart,
-        @required this.colorEnd,
+      {required this.colorStart,
+        required this.colorEnd,
         this.size = Dimen.ICON_SIZE
       });
 
@@ -20,8 +20,8 @@ class GradientIcon extends StatelessWidget {
 
     Gradient gradient = LinearGradient(
       colors: <Color>[
-        colorStart,
-        colorEnd,
+        colorStart!,
+        colorEnd!,
       ],
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,

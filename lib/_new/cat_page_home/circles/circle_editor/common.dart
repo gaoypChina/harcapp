@@ -14,11 +14,11 @@ import '../model/member.dart';
 
 class LeaveCircleButton extends StatelessWidget{
 
-  final Circle circle;
-  final void Function() onLeft;
-  final void Function() onError;
+  final Circle? circle;
+  final void Function()? onLeft;
+  final void Function()? onError;
 
-  const LeaveCircleButton(this.circle, {this.onLeft, this.onError, Key key}): super(key: key);
+  const LeaveCircleButton(this.circle, {this.onLeft, this.onError, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => ListTile(
@@ -30,9 +30,9 @@ class LeaveCircleButton extends StatelessWidget{
     onTap: () {
 
       int allAdminCount = 0;
-      for(Member mem in circle.members) if(mem.role == CircleRole.ADMIN) allAdminCount++;
+      for(Member? mem in circle!.members) if(mem!.role == CircleRole.ADMIN) allAdminCount++;
 
-      if(allAdminCount == 1 && circle.myRole == CircleRole.ADMIN){
+      if(allAdminCount == 1 && circle!.myRole == CircleRole.ADMIN){
         showAlertDialog(
             context,
             title: 'Hola, hola...',
@@ -63,7 +63,7 @@ class LeaveCircleButton extends StatelessWidget{
                     showLoadingWidget(context, iconEnab_(context), 'Opuszczanie lokalu...');
 
                     await ApiCircle.leave(
-                        circleKey: circle.key,
+                        circleKey: circle!.key,
                         onSuccess: () async {
                           Circle.removeFromAll(context, circle);
                           showAppToast(context, text: 'Krąg opuszczony');

@@ -23,9 +23,9 @@ import 'models_common/rank.dart';
 
 class RankPage extends StatefulWidget {
 
-  final Org org;
+  final Org? org;
 
-  const RankPage({this.org, Key key}): super(key: key);
+  const RankPage({this.org, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => RankPageState();
@@ -40,7 +40,7 @@ class RankPageState extends State<RankPage> with ModuleStatsMixin{
   @override
   Widget build(BuildContext context) {
 
-    int initIntex;
+    late int initIntex;
     if(widget.org == Org.zhp)
       initIntex = 0;
     if(widget.org == Org.zhr_d)
@@ -306,18 +306,18 @@ class StopnieBookWidget extends StatelessWidget{
   final bool newSim;
   final List<Rank> rankList;
   final void Function(BuildContext) onOpen;
-  final String Function(List<String>) tabTitle;
+  final String Function(List<String>)? tabTitle;
 
   const StopnieBookWidget({
-    @required this.org,
+    required this.org,
     this.male = false,
     this.female = false,
     this.zuch = false,
     this.newSim = false,
-    @required this.rankList,
-    @required this.onOpen,
+    required this.rankList,
+    required this.onOpen,
     this.tabTitle,
-    Key key
+    Key? key
   }): super(key: key);
 
   @override

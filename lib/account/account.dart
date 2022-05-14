@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 
 import '../_app_common/accounts/user_data.dart';
 
@@ -10,22 +9,22 @@ import '../_app_common/accounts/user_data.dart';
 
 class AccountData {
 
-  static String _lastConfLoginEmail;
+  static String? _lastConfLoginEmail;
 
-  static String _key;
-  static String _jwt;
-  static String _email;
-  static String _emailConf;
-  static String _name;
-  static String _nick;
-  static String _nickSearchable;
-  static Sex _sex;
-  static String _nameEditable;
-  static String _nickEditable;
-  static String _microsoftAcc;
-  static String _regularAcc;
-  static List<UserDataNick> _shadowUsers;
-  static Map<String, UserDataNick> _shadowUserMap;
+  static String? _key;
+  static String? _jwt;
+  static String? _email;
+  static String? _emailConf;
+  static String? _name;
+  static String? _nick;
+  static String? _nickSearchable;
+  static Sex? _sex;
+  static String? _nameEditable;
+  static String? _nickEditable;
+  static String? _microsoftAcc;
+  static String? _regularAcc;
+  static List<UserDataNick>? _shadowUsers;
+  static Map<String, UserDataNick>? _shadowUserMap;
 
 
   static const String _keyLastConfLoginEmail = 'acc_last_conf_login_email';
@@ -55,21 +54,21 @@ class AccountData {
     _name = await storage.read(key: _keyName);
     _nick = await storage.read(key: _keyNick);
     _nickSearchable = await storage.read(key: _keyNickSearchable);
-    _sex = strToSex[await storage.read(key: _keySex)];
+    _sex = strToSex[await (storage.read(key: _keySex))];
     _nameEditable = await storage.read(key: _keyNameEditable);
     _nickEditable = await storage.read(key: _keyNickEditable);
     _microsoftAcc = await storage.read(key: _keyMicrosoftAcc);
     _regularAcc = await storage.read(key: _keyRegularAcc);
 
 
-    String shadowUserData = await storage.read(key: _keyShadowUsers);
+    String? shadowUserData = await storage.read(key: _keyShadowUsers);
     if(shadowUserData != null)
       initShadowUsers(
           (jsonDecode(shadowUserData) as List).cast<Map<String, dynamic>>()
       );
   }
 
-  static Future<void> saveLoginData(String email, Response response) async {
+  static Future<void> saveLoginData(String? email, Response response) async {
     await AccountData.writeKey(response.data['key']);
     await AccountData.writeJwt(response.data['jwt']);
     await AccountData.writeEmail(email);
@@ -91,16 +90,16 @@ class AccountData {
 
   }
 
-  static bool get convertableToMicrosoft => !microsoftAcc && (email != null && (email.split('@')[1] == 'zhp.net.pl' || email.split('@')[1] == 'zhp.pl'));
+  static bool get convertableToMicrosoft => !microsoftAcc && (email != null && (email!.split('@')[1] == 'zhp.net.pl' || email!.split('@')[1] == 'zhp.pl'));
 
-  static String get key => _key;
+  static String? get key => _key;
 
   static Future<void> removeKey() async {
     _key = null;
     await const FlutterSecureStorage().delete(key: _keyKey);
   }
 
-  static Future<void> writeKey(String value) async {
+  static Future<void> writeKey(String? value) async {
     _key = value;
     if (value == null)
       return await removeKey();
@@ -109,14 +108,14 @@ class AccountData {
   }
 
 
-  static String get jwt => _jwt;
+  static String? get jwt => _jwt;
 
   static Future<void> removeJwt() async {
     _jwt = null;
     await const FlutterSecureStorage().delete(key: _keyJwt);
   }
 
-  static Future<void> writeJwt(String value) async {
+  static Future<void> writeJwt(String? value) async {
     _jwt = value;
     if (value == null)
       return await removeJwt();
@@ -125,14 +124,14 @@ class AccountData {
   }
 
 
-  static String get lastConfLoginEmail => _lastConfLoginEmail;
+  static String? get lastConfLoginEmail => _lastConfLoginEmail;
 
   static Future<void> removeLastConfLoginEmail() async {
     _lastConfLoginEmail = null;
     await const FlutterSecureStorage().delete(key: _keyLastConfLoginEmail);
   }
 
-  static Future<void> writeLastConfLoginEmail(String value) async {
+  static Future<void> writeLastConfLoginEmail(String? value) async {
     _lastConfLoginEmail = value;
     if (value == null)
       return await removeLastConfLoginEmail();
@@ -142,14 +141,14 @@ class AccountData {
   }
 
 
-  static String get email => _email;
+  static String? get email => _email;
 
   static Future<void> removeEmail() async {
     _email = null;
     await const FlutterSecureStorage().delete(key: _keyEmail);
   }
 
-  static Future<void> writeEmail(String value) async {
+  static Future<void> writeEmail(String? value) async {
     _email = value;
     if (value == null)
       return await removeEmail();
@@ -174,14 +173,14 @@ class AccountData {
   }
 
 
-  static String get name => _name;
+  static String? get name => _name;
 
   static Future<void> removeName() async {
     _name = null;
     await const FlutterSecureStorage().delete(key: _keyName);
   }
 
-  static Future<void> writeName(String value) async {
+  static Future<void> writeName(String? value) async {
     _name = value;
     if (value == null)
       return await removeName();
@@ -190,14 +189,14 @@ class AccountData {
   }
 
 
-  static String get nick => _nick;
+  static String? get nick => _nick;
 
   static Future<void> removeNick() async {
     _nick = null;
     await const FlutterSecureStorage().delete(key: _keyNick);
   }
 
-  static Future<void> writeNick(String value) async {
+  static Future<void> writeNick(String? value) async {
     _nick = value;
     if (value == null)
       return await removeNick();
@@ -222,14 +221,14 @@ class AccountData {
   }
 
 
-  static Sex get sex => _sex;
+  static Sex? get sex => _sex;
 
   static Future<void> removeSex() async {
     _sex = null;
     await const FlutterSecureStorage().delete(key: _keySex);
   }
 
-  static Future<void> writeSex(Sex value) async {
+  static Future<void> writeSex(Sex? value) async {
     _sex = value;
     if (value == null)
       return await removeSex();
@@ -302,7 +301,7 @@ class AccountData {
   }
 
 
-  static List<UserDataNick> get shadowUsers => _shadowUsers;
+  static List<UserDataNick> get shadowUsers => _shadowUsers!;
   static set shadowUsers(List<UserDataNick> value){
     value.sort((user1, user2) => user1.name.toLowerCase().compareTo(user2.name.toLowerCase()));
     _shadowUsers = value;
@@ -310,7 +309,7 @@ class AccountData {
     writeShadowUsers(value);
   }
 
-  static Map<String, UserDataNick> get shadowUserMap => _shadowUserMap;
+  static Map<String, UserDataNick>? get shadowUserMap => _shadowUserMap;
 
   static Future<void> removeShadowUsers() async {
     _shadowUsers = null;
@@ -331,21 +330,21 @@ class AccountData {
   }
 
   static Future<void> addShadowUser(UserDataNick value) async {
-    List<UserDataNick> shadowUsers = _shadowUsers;
+    List<UserDataNick> shadowUsers = _shadowUsers!;
     shadowUsers.add(value);
     _shadowUsers = shadowUsers;
   }
 
   static Future<void> updateShadowUser(UserDataNick value) async {
-    List<UserDataNick> shadowUsers = _shadowUsers;
-    UserDataNick oldUser = _shadowUserMap[value.key];
+    List<UserDataNick> shadowUsers = _shadowUsers!;
+    UserDataNick? oldUser = _shadowUserMap![value.key];
     shadowUsers.remove(oldUser);
     shadowUsers.add(value);
     AccountData.shadowUsers = shadowUsers;
   }
 
   static Future<void> removeShadowUser(UserDataNick value) async {
-    List<UserDataNick> shadowUsers = _shadowUsers;
+    List<UserDataNick> shadowUsers = _shadowUsers!;
     shadowUsers.remove(value);
     _shadowUsers = shadowUsers;
   }

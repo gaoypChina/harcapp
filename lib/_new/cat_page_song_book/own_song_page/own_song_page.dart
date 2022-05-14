@@ -41,13 +41,13 @@ enum EditType{
 
 class OwnSongPage extends StatefulWidget {
 
-  final SongRaw song;
+  final SongRaw? song;
   final EditType editType;
-  final Function(Song song, EditType editType) onSaved;
+  final Function(Song song, EditType editType)? onSaved;
 
-  const OwnSongPage(this.song, this.editType, this.onSaved, {Key key}): super(key: key);
+  const OwnSongPage(this.song, this.editType, this.onSaved, {Key? key}): super(key: key);
 
-  static from({SongRaw song, Function(Song song, EditType editType) onSaved}){
+  static from({SongRaw? song, Function(Song song, EditType editType)? onSaved}){
 
     EditType editType;
 
@@ -76,17 +76,17 @@ class OwnSongPageState extends State<OwnSongPage> {
 
   void notify() => setState((){});
 
-  SongRaw get song => widget.song;
+  SongRaw? get song => widget.song;
   EditType get editType => widget.editType;
 
-  ScrollController scrollController;
+  ScrollController? scrollController;
 
-  List<Album> albums;
+  List<Album>? albums;
 
-  CurrentItemProvider currItemProv;
-  HidTitlesProvider hidTitleProv;
+  CurrentItemProvider? currItemProv;
+  HidTitlesProvider? hidTitleProv;
 
-  GlobalKey addButtonsKey;
+  GlobalKey? addButtonsKey;
 
   @override
   void initState() {
@@ -96,10 +96,10 @@ class OwnSongPageState extends State<OwnSongPage> {
     albums = [];
 
     if(song != null)
-      for(Album album in Album.allOwn) {
+      for(Album album in Album.allOwn!) {
         if (album != Album.omega &&
-            album.songs.map((song) => song.fileName).contains(song.fileName))
-          albums.add(album);
+            album.songs.map((song) => song!.fileName).contains(song!.fileName))
+          albums!.add(album);
       }
 
     addButtonsKey = GlobalKey();
@@ -123,13 +123,13 @@ class OwnSongPageState extends State<OwnSongPage> {
             ChangeNotifierProvider(create: (context){
 
               if(editType == EditType.editOwn)
-                currItemProv = CurrentItemProvider(song: song);
+                currItemProv = CurrentItemProvider(song: song!);
 
               if(editType == EditType.NEW) {
 
-                String initAddPersName;
-                String initAddPersEmail;
-                String initAddPersUserKey;
+                String? initAddPersName;
+                String? initAddPersEmail;
+                String? initAddPersUserKey;
                 if(AccountData.loggedIn) {
                   initAddPersEmail = AccountData.email;
                   initAddPersUserKey = AccountData.key;
@@ -142,20 +142,20 @@ class OwnSongPageState extends State<OwnSongPage> {
                 );
               }
               else if(editType == EditType.editOfficial)
-                currItemProv = CurrentItemProvider(song: song.copyWith(fileName: '${OwnSong.lastFileName + 1}'));
+                currItemProv = CurrentItemProvider(song: song!.copyWith(fileName: '${OwnSong.lastFileName + 1}'));
 
               return currItemProv;
 
             }),
             ChangeNotifierProvider(create: (context) {
-              hidTitleProv = HidTitlesProvider(hidTitles: song==null?[]:song.hidTitles);
+              hidTitleProv = HidTitlesProvider(hidTitles: song==null?[]:song!.hidTitles);
               return hidTitleProv;
             }),
-            ChangeNotifierProvider(create: (context) => RefrenEnabProvider(song==null?true:song.hasRefren)),
+            ChangeNotifierProvider(create: (context) => RefrenEnabProvider(song==null?true:song!.hasRefren)),
             ChangeNotifierProvider(create: (context) => RefrenPartProvider()),
-            ChangeNotifierProvider(create: (context) => TagsProvider(Tag.ALL_TAG_NAMES, song==null?[]:song.tags)),
+            ChangeNotifierProvider(create: (context) => TagsProvider(Tag.ALL_TAG_NAMES, song==null?[]:song!.tags)),
 
-            ChangeNotifierProvider(create: (context) => TitleCtrlProvider(text: song==null?'':song.title)),
+            ChangeNotifierProvider(create: (context) => TitleCtrlProvider(text: song==null?'':song!.title)),
           ],
 
           builder: (context, child) => BottomNavScaffold(
@@ -171,23 +171,23 @@ class OwnSongPageState extends State<OwnSongPage> {
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     onPartTap: (index) => openDialog(context: context, builder: (_) => SongPartEditor(
-                      initText: currItemProv.song.songParts[index].getText(),
-                      initChords: currItemProv.song.songParts[index].chords,
-                      initShifted: currItemProv.song.songParts[index].shift,
-                      isRefren: currItemProv.song.songParts[index].isRefren(context),
+                      initText: currItemProv!.song.songParts[index].getText(),
+                      initChords: currItemProv!.song.songParts[index].chords,
+                      initShifted: currItemProv!.song.songParts[index].shift,
+                      isRefren: currItemProv!.song.songParts[index].isRefren(context),
                       onTextChanged: (text, errCount){
-                        currItemProv.song.songParts[index].setText(text);
-                        currItemProv.song.songParts[index].isError = errCount != 0;
-                        currItemProv.notify();
+                        currItemProv!.song.songParts[index].setText(text);
+                        currItemProv!.song.songParts[index].isError = errCount != 0;
+                        currItemProv!.notify();
                       },
                       onChordsChanged: (text, errCount){
-                        currItemProv.song.songParts[index].chords = text;
-                        currItemProv.song.songParts[index].isError = errCount != 0;
-                        currItemProv.notify();
+                        currItemProv!.song.songParts[index].chords = text;
+                        currItemProv!.song.songParts[index].isError = errCount != 0;
+                        currItemProv!.notify();
                       },
                       onShiftedChanged: (shifted){
-                        currItemProv.song.songParts[index].shift = shifted;
-                        currItemProv.notify();
+                        currItemProv!.song.songParts[index].shift = shifted;
+                        currItemProv!.notify();
                       },
                     )),
                     header: Column(
@@ -202,11 +202,11 @@ class OwnSongPageState extends State<OwnSongPage> {
                         ),
                         TopCards(
                           accentColor: Album.current.avgColorDarkSensitive(context),
-                          onChangedTitle: (text) => currItemProv.title = text,
-                          onChangedAuthor: (texts) => currItemProv.authors = texts,
-                          onChangedPerformer: (texts) => currItemProv.performers = texts,
-                          onChangedComposer: (texts) => currItemProv.composers = texts,
-                          onChangedYT: (text) => currItemProv.youtubeLink = text,
+                          onChangedTitle: (text) => currItemProv!.title = text,
+                          onChangedAuthor: (texts) => currItemProv!.authors = texts,
+                          onChangedPerformer: (texts) => currItemProv!.performers = texts,
+                          onChangedComposer: (texts) => currItemProv!.composers = texts,
+                          onChangedYT: (text) => currItemProv!.youtubeLink = text,
                         ),
 
                         const SizedBox(height: sep),
@@ -216,40 +216,40 @@ class OwnSongPageState extends State<OwnSongPage> {
                         const SizedBox(height: sep),
 
                         TagsWidget(
-                          onChanged: (List<String> tags) => currItemProv.tags = tags,
+                          onChanged: (List<String>? tags) => currItemProv!.tags = tags!,
                         ),
 
                         const SizedBox(height: sep),
 
-                        if(Album.allOwn.isNotEmpty)
+                        if(Album.allOwn!.isNotEmpty)
                           AlbumPart(this),
 
-                        if(Album.allOwn.isNotEmpty)
+                        if(Album.allOwn!.isNotEmpty)
                           const SizedBox(height: sep),
 
                         RefrenTemplate(
                             accentColor: Album.current.avgColorDarkSensitive(context),
                             onPartTap: () => openDialog(context: context, builder: (_) =>
                                 SongPartEditor(
-                                  initText: currItemProv.song.refrenPart.getText(),
-                                  initChords: currItemProv.song.refrenPart.chords,
-                                  initShifted: currItemProv.song.refrenPart.shift,
-                                  isRefren: currItemProv.song.refrenPart.isRefren(context),
+                                  initText: currItemProv!.song.refrenPart.getText(),
+                                  initChords: currItemProv!.song.refrenPart.chords,
+                                  initShifted: currItemProv!.song.refrenPart.shift,
+                                  isRefren: currItemProv!.song.refrenPart.isRefren(context),
                                   onTextChanged: (text, errCount){
-                                    currItemProv.song.refrenPart.setText(text);
-                                    currItemProv.song.refrenPart.isError = errCount != 0;
-                                    currItemProv.notify();
+                                    currItemProv!.song.refrenPart.setText(text);
+                                    currItemProv!.song.refrenPart.isError = errCount != 0;
+                                    currItemProv!.notify();
                                     Provider.of<RefrenPartProvider>(context, listen: false).notify();
                                   },
                                   onChordsChanged: (text, errCount){
-                                    currItemProv.song.refrenPart.chords = text;
-                                    currItemProv.song.refrenPart.isError = errCount != 0;
-                                    currItemProv.notify();
+                                    currItemProv!.song.refrenPart.chords = text;
+                                    currItemProv!.song.refrenPart.isError = errCount != 0;
+                                    currItemProv!.notify();
                                     Provider.of<RefrenPartProvider>(context, listen: false).notify();
                                   },
                                   onShiftedChanged: (shifted){
-                                    currItemProv.song.refrenPart.shift = shifted;
-                                    currItemProv.notify();
+                                    currItemProv!.song.refrenPart.shift = shifted;
+                                    currItemProv!.notify();
                                     Provider.of<RefrenPartProvider>(context, listen: false).notify();
                                   },
                                 ),
@@ -271,7 +271,7 @@ class OwnSongPageState extends State<OwnSongPage> {
                       onPressed: ()async{
                         await Future.delayed(const Duration(milliseconds: 240));
                         Scrollable.ensureVisible(
-                            addButtonsKey.currentContext,
+                            addButtonsKey!.currentContext!,
                             duration: const Duration(milliseconds: 300),
                             curve: Curves.easeOutQuad
                         );
@@ -299,7 +299,7 @@ class OwnSongPageState extends State<OwnSongPage> {
           icon: const Icon(MdiIcons.eyeOutline),
           onPressed: () async {
 
-            SongRaw songRaw = currItemProv.song;
+            SongRaw songRaw = currItemProv!.song;
             Song song = OffSong.fromMap('', jsonDecode(songRaw.toCode(withFileName: false)));
 
             await Navigator.push(context, MaterialPageRoute(
@@ -338,7 +338,7 @@ class OwnSongPageState extends State<OwnSongPage> {
 
 class SongWebEditorInfo extends StatelessWidget{
 
-  const SongWebEditorInfo({Key key}) : super(key: key);
+  const SongWebEditorInfo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

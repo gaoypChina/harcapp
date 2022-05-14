@@ -26,15 +26,15 @@ class IndivCompEditorPage extends StatefulWidget{
 
   static double get toolbarBottomHeight => const TabBar(tabs: []).preferredSize.height + IndivCompThumbnailWidget.defSize;
 
-  final IndivComp initComp;
+  final IndivComp? initComp;
 
-  final String initTitle;
-  final List<IndivCompTask> initTasks;
-  final List<String> initAwards;
+  final String? initTitle;
+  final List<IndivCompTask>? initTasks;
+  final List<String?>? initAwards;
 
 
-  final void Function(IndivComp comp) onSaved;
-  final void Function() onRemoved;
+  final void Function(IndivComp comp)? onSaved;
+  final void Function()? onRemoved;
 
   const IndivCompEditorPage({
     this.initComp,
@@ -43,7 +43,7 @@ class IndivCompEditorPage extends StatefulWidget{
     this.initAwards,
     this.onSaved,
     this.onRemoved,
-    Key key
+    Key? key
   }): super(key: key);
 
   @override
@@ -53,8 +53,8 @@ class IndivCompEditorPage extends StatefulWidget{
 
 class IndivCompEditorPageState extends State<IndivCompEditorPage>{
 
-  TextEditingController controller;
-  FocusNode focusNode;
+  TextEditingController? controller;
+  FocusNode? focusNode;
 
   @override
   void initState() {
@@ -69,8 +69,8 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
 
   @override
   void dispose() {
-    focusNode.dispose();
-    controller.dispose();
+    focusNode!.dispose();
+    controller!.dispose();
     super.dispose();
   }
 
@@ -86,8 +86,8 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
         )),
         ChangeNotifierProvider(create: (context) => ColorKeyProvider(colorKey: widget.initComp?.colorsKey??CommonColorData.randomKey)),
         ChangeNotifierProvider(create: (context) => IconKeyProvider(iconKey: widget.initComp?.iconKey??CommonIconData.randomKey)),
-        ChangeNotifierProvider(create: (context) => TaskBodiesProvider(tasks: widget.initComp == null?widget.initTasks:widget.initComp.tasks)),
-        ChangeNotifierProvider(create: (context) => widget.initComp == null?AwardsProvider(awards: widget.initAwards):AwardsProvider.fromIndivCompAwards(widget.initComp.awards)),
+        ChangeNotifierProvider(create: (context) => TaskBodiesProvider(tasks: widget.initComp == null?widget.initTasks:widget.initComp!.tasks)),
+        ChangeNotifierProvider(create: (context) => widget.initComp == null?AwardsProvider(awards: widget.initAwards):AwardsProvider.fromIndivCompAwards(widget.initComp!.awards)),
       ],
       builder: (context, child) => Scaffold(
         resizeToAvoidBottomInset: false,
@@ -114,9 +114,9 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                             return;
                           }
 
-                          if(controller.text.isEmpty){
+                          if(controller!.text.isEmpty){
                             showAppToast(context, text: 'Podaj nazwę współzawodnictwa');
-                            focusNode.requestFocus();
+                            focusNode!.requestFocus();
                             return;
                           }
 
@@ -126,26 +126,26 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
 
                             if(editMode)
                               await ApiIndivComp.update(
-                                  key: widget.initComp.key,
-                                  name: controller.text,
+                                  key: widget.initComp!.key,
+                                  name: controller!.text,
 
                                   colorsKey:
-                                  widget.initComp.colorsKey != Provider.of<ColorKeyProvider>(context, listen: false).colorsKey?
+                                  widget.initComp!.colorsKey != Provider.of<ColorKeyProvider>(context, listen: false).colorsKey?
                                   Provider.of<ColorKeyProvider>(context, listen: false).colorsKey:
                                   null,
 
                                   iconKey:
-                                  widget.initComp.iconKey != Provider.of<IconKeyProvider>(context, listen: false).iconKey?
+                                  widget.initComp!.iconKey != Provider.of<IconKeyProvider>(context, listen: false).iconKey?
                                   Provider.of<IconKeyProvider>(context, listen: false).iconKey:
                                   null,
 
                                   startTime:
-                                  widget.initComp.startTime != Provider.of<ModeProvider>(context, listen: false).startDate?
+                                  widget.initComp!.startTime != Provider.of<ModeProvider>(context, listen: false).startDate?
                                   Provider.of<ModeProvider>(context, listen: false).startDate:
                                   null,
 
                                   endTime:
-                                  widget.initComp.endTime != Provider.of<ModeProvider>(context, listen: false).endDate?
+                                  widget.initComp!.endTime != Provider.of<ModeProvider>(context, listen: false).endDate?
                                   Provider.of<ModeProvider>(context, listen: false).endDate:
                                   null,
 
@@ -154,12 +154,12 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                                   removeTasks: Provider.of<TaskBodiesProvider>(context, listen: false).removedTasks(),
 
                                   rankDispType:
-                                  widget.initComp.rankDispType != Provider.of<ModeProvider>(context, listen: false).rankDispType?
+                                  widget.initComp!.rankDispType != Provider.of<ModeProvider>(context, listen: false).rankDispType?
                                   Provider.of<ModeProvider>(context, listen: false).rankDispType:
                                   null,
 
                                   awards:
-                                  widget.initComp.awards != Provider.of<AwardsProvider>(context, listen: false).awards?
+                                  widget.initComp!.awards != Provider.of<AwardsProvider>(context, listen: false).awards?
                                   Provider.of<AwardsProvider>(context, listen: false).awards:
                                   null,
 
@@ -167,10 +167,10 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                               );
                             else
                               await ApiIndivComp.create(
-                                  name: controller.text,
+                                  name: controller!.text,
                                   colorsKey: Provider.of<ColorKeyProvider>(context, listen: false).colorsKey,
                                   iconKey: Provider.of<IconKeyProvider>(context, listen: false).iconKey,
-                                  startTime: Provider.of<ModeProvider>(context, listen: false).startDate,
+                                  startTime: Provider.of<ModeProvider>(context, listen: false).startDate!,
                                   endTime: Provider.of<ModeProvider>(context, listen: false).endDate,
                                   rankDispType: Provider.of<ModeProvider>(context, listen: false).rankDispType,
                                   tasks: Provider.of<TaskBodiesProvider>(context, listen: false).createdTasks(),
@@ -193,7 +193,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                             colorsKey: colorKeyProv.colorsKey,
                             controller: controller,
                             focusNode: focusNode,
-                            heroTag: widget.initComp==null?null:IndivCompThumbnailWidget.defHeroTag(widget.initComp),
+                            heroTag: widget.initComp==null?null:IndivCompThumbnailWidget.defHeroTag(widget.initComp!),
                           ),
 
                           TabBar(

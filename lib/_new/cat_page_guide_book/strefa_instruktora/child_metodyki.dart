@@ -12,7 +12,7 @@ import '../../details/app_settings.dart';
 
 class ChildMetodyki extends StatelessWidget{
 
-  const ChildMetodyki({Key key}) : super(key: key);
+  const ChildMetodyki({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -150,13 +150,13 @@ class ChildMetodyki extends StatelessWidget{
 
 class BottomSheetMeto extends BottomSheetDef{
   BottomSheetMeto({
-    @required Color color,
-    @required String title,
-    @required String zalozenia,
-    @required String rola,
-    @required String formy,
-    @required String instrumenty,
-    Color textColor
+    required Color? color,
+    required String title,
+    required String zalozenia,
+    required String rola,
+    required String formy,
+    required String instrumenty,
+    Color? textColor
   }) : super(
       title: title,
       color: color,
@@ -200,13 +200,13 @@ class MetoButton extends StatelessWidget{
   final void Function() onTap;
 
   const MetoButton({
-    @required this.name,
-    @required this.imagePath,
-    @required this.age,
-    @required this.leader,
-    @required this.method,
-    @required this.color,
-    @required this.onTap
+    required this.name,
+    required this.imagePath,
+    required this.age,
+    required this.leader,
+    required this.method,
+    required this.color,
+    required this.onTap
   });
 
   @override

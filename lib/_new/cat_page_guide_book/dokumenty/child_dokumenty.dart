@@ -14,7 +14,7 @@ import 'data_dokumenty.dart';
 
 class ChildDokumenty extends StatelessWidget {
 
-  const ChildDokumenty({Key key}) : super(key: key);
+  const ChildDokumenty({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

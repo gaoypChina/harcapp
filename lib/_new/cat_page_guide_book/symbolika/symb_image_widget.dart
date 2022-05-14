@@ -9,7 +9,7 @@ class SymbImageWidget extends StatelessWidget{
 
   final ItemData data;
   final bool dense;
-  final void Function() onItemTap;
+  final void Function()? onItemTap;
 
   const SymbImageWidget(this.data, {this.dense=false, this.onItemTap});
 
@@ -36,11 +36,11 @@ class SymbImageWidget extends StatelessWidget{
                   ],
                 )
               else
-                GradientWidget(colorStart: data.colorStart, colorEnd: data.colorEnd),
+                GradientWidget(colorStart: data.colorStart!, colorEnd: data.colorEnd!),
 
               Padding(
                 padding: EdgeInsets.all(data.padding?(dense?10:20):0),
-                child: data.childBuilder!=null?data.childBuilder(context):Center(child: image),
+                child: data.childBuilder!=null?data.childBuilder!(context):Center(child: image),
               )
 
             ],

@@ -38,7 +38,7 @@ class ArticleTagWidget extends StatelessWidget{
   final String tag;
   final bool dense;
 
-  const ArticleTagWidget(this.tag, {this.dense=false, Key key}): super(key: key);
+  const ArticleTagWidget(this.tag, {this.dense=false, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
