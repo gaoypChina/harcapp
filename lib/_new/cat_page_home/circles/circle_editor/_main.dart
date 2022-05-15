@@ -131,7 +131,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                         );
                       else
                         await ApiCircle.update(
-                            key: initCircle!.key,
+                            circleKey: initCircle!.key,
                             name: Provider.of<NameProvider>(context, listen: false).nameController!.text,
                             description: Provider.of<DescriptionProvider>(context, listen: false).descriptionController!.text,
                             coverImageUrl: Provider.of<CoverImageProvider>(context, listen: false).coverImage!.code,

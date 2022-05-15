@@ -95,7 +95,7 @@ class IndivCompTile extends StatelessWidget{
                               const SizedBox(width: Dimen.ICON_MARG),
 
                               Icon(
-                                compRoleToIcon[comp.profile.role!],
+                                compRoleToIcon[comp.profile.role],
                                 color: hintEnab_(context),
                               ),
 
@@ -106,7 +106,7 @@ class IndivCompTile extends StatelessWidget{
 
                           const SizedBox(height: Dimen.DEF_MARG),
 
-                          if(comp.profile.active!)
+                          if(comp.profile.active)
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

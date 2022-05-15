@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:harcapp/_new/api/_api.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 
 enum Sex{male, female}
 
@@ -52,7 +50,7 @@ class UserData{
 
 class UserDataNick extends UserData{
 
-  final String? nick;
+  final String nick;
 
   const UserDataNick({
     required String key,
@@ -67,7 +65,7 @@ class UserDataNick extends UserData{
     sex: sex,
   );
 
-  static UserDataNick fromMap(Map map, String? nick, {String? key}){
+  static UserDataNick fromMap(Map map, String nick, {String? key}){
     UserData userData = UserData.fromMap(map, key: key);
     return UserDataNick(
         key: userData.key,

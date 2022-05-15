@@ -24,7 +24,7 @@ import '../model/circle.dart';
 
 class AnnouncementEditorPage extends StatefulWidget{
 
-  final Circle? circle;
+  final Circle circle;
   final PaletteGenerator? palette;
   final Announcement? initAnnouncement;
 
@@ -33,8 +33,8 @@ class AnnouncementEditorPage extends StatefulWidget{
   final void Function()? onError;
 
   const AnnouncementEditorPage(
-      { this.circle,
-        this.palette,
+      { required this.circle,
+        required this.palette,
         this.initAnnouncement,
         this.onSaved,
         this.onRemoved,
@@ -50,7 +50,7 @@ class AnnouncementEditorPage extends StatefulWidget{
 
 class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
-  Circle? get circle => widget.circle;
+  Circle get circle => widget.circle;
   PaletteGenerator? get palette => widget.palette;
   Announcement? get initAnnouncement => widget.initAnnouncement;
 
@@ -112,7 +112,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
                 if(initAnnouncement == null)
                   await ApiCircle.postAnnouncement(
-                    circleKey: circle!.key,
+                    circleKey: circle.key,
                     title: titleController!.text,
                     coverImageUrl: coverImage?.code,
                     text: textController!.text,

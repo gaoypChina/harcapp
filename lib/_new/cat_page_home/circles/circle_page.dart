@@ -244,7 +244,7 @@ class CirclePageState extends State<CirclePage>{
                                 circle.description = updatedCircle.description;
                                 circle.coverImage = updatedCircle.coverImage;
                                 circle.colorsKey = updatedCircle.colorsKey;
-                                circle.setAllAnnouncement(updatedCircle.announcements!);
+                                circle.setAllAnnouncement(updatedCircle.announcements);
                                 circle.setAllMembers(context, updatedCircle.members);
 
                                 await initPaletteGenerator(refresh: false);
@@ -262,7 +262,7 @@ class CirclePageState extends State<CirclePage>{
                         opacity: showTitleOnAppBar?1:0,
                         duration: const Duration(milliseconds: 200),
                         child: Text(
-                          circle.name!,
+                          circle.name,
                           style: AppTextStyle(
                               color: iconEnab_(context)
                           ),
@@ -281,7 +281,7 @@ class CirclePageState extends State<CirclePage>{
                     padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                     child: Center(
                       child: Text(
-                        circle.name!,
+                        circle.name,
                         style: AppTextStyle(
                             fontSize: 28.0,
                             fontWeight: weight.halfBold
@@ -373,7 +373,7 @@ class CirclePageState extends State<CirclePage>{
                                 ),
                                 margin: EdgeInsets.zero,
                                 child: Text(
-                                    'Przypięte (${circle.announcements!.where((ann) => ann.pinned!).length})',
+                                    'Przypięte (${circle.announcements.where((ann) => ann.pinned).length})',
                                     style: AppTextStyle(
                                         fontSize: Dimen.TEXT_SIZE_BIG,
                                         fontWeight: currTab == pinnedAnnsTab?weight.halfBold:weight.normal,
@@ -440,7 +440,7 @@ class CirclePageState extends State<CirclePage>{
 
   Widget getAllAnnouncements(){
 
-    if(circle.announcements!.isEmpty)
+    if(circle.announcements.isEmpty)
       return SliverPadding(
         padding: const EdgeInsets.only(
           top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
@@ -467,15 +467,16 @@ class CirclePageState extends State<CirclePage>{
         ),
         sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
                 (context, index) => AnnouncementWidget(
-              circle.announcements!.reversed.toList()[index],
+              circle.announcements.reversed.toList()[index],
               paletteGenerator: paletteGenerator,
               onUpdateTap: (){
 
-                Announcement announcement  = circle.announcements!.reversed.toList()[index];
+                Announcement announcement  = circle.announcements.reversed.toList()[index];
 
                 pushPage(
                     context,
                     builder: (context) => AnnouncementEditorPage(
+                      circle: circle,
                       initAnnouncement: announcement,
                       palette: paletteGenerator,
                       onSaved: (updatedAnnouncement){
@@ -492,16 +493,16 @@ class CirclePageState extends State<CirclePage>{
               },
               onPinTap: () async {
 
-                Announcement announcement = circle.announcements!.reversed.toList()[index];
+                Announcement announcement = circle.announcements.reversed.toList()[index];
 
                 await ApiCircle.updateAnnouncement(
                     annKey: announcement.key,
-                    pinned: !announcement.pinned!,
+                    pinned: !announcement.pinned,
                     onSuccess: (updatedAnnouncement) async {
 
-                      circle.announcements!.reversed.toList()[index].pinned = updatedAnnouncement.pinned;
+                      circle.announcements.reversed.toList()[index].pinned = updatedAnnouncement.pinned;
 
-                      if(updatedAnnouncement.pinned!)
+                      if(updatedAnnouncement.pinned)
                         showAppToast(context, text: 'Przypięto post');
                       else
                         showAppToast(context, text: 'Odpięto post');
@@ -515,7 +516,7 @@ class CirclePageState extends State<CirclePage>{
               },
             ),
             separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-            count: circle.announcements!.length
+            count: circle.announcements.length
         )),
       );
 
@@ -523,7 +524,7 @@ class CirclePageState extends State<CirclePage>{
 
   Widget getPinnedAnnouncements(){
 
-    List<Announcement> pinnedAnns = circle.announcements!.where((ann) => ann.pinned!).toList();
+    List<Announcement> pinnedAnns = circle.announcements.where((ann) => ann.pinned).toList();
 
     if(pinnedAnns.isEmpty)
       return SliverPadding(
@@ -561,6 +562,7 @@ class CirclePageState extends State<CirclePage>{
                 pushPage(
                     context,
                     builder: (context) => AnnouncementEditorPage(
+                      circle: circle,
                       initAnnouncement: announcement,
                       palette: paletteGenerator,
                       onSaved: (updatedAnnouncement){
@@ -581,12 +583,12 @@ class CirclePageState extends State<CirclePage>{
 
                 await ApiCircle.updateAnnouncement(
                     annKey: announcement.key,
-                    pinned: !announcement.pinned!,
+                    pinned: !announcement.pinned,
                     onSuccess: (updatedAnnouncement) async {
 
                       pinnedAnns.reversed.toList()[index].pinned = updatedAnnouncement.pinned;
 
-                      if(updatedAnnouncement.pinned!)
+                      if(updatedAnnouncement.pinned)
                         showAppToast(context, text: 'Przypięto post');
                       else
                         showAppToast(context, text: 'Odpięto post');

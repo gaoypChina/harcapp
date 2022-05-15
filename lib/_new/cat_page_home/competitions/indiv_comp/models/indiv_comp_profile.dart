@@ -7,8 +7,8 @@ import 'indiv_comp_task_compl.dart';
 
 class IndivCompProfile{
 
-  bool? active;
-  CompRole? role;
+  bool active;
+  CompRole role;
   int? points;
   ShowRankData? rank;
   // int? showRank;
@@ -56,7 +56,7 @@ class IndivCompProfile{
 
     IndivCompProfile profile = IndivCompProfile(
       active: resp['active']??(throw InvalidResponseError('active')),
-      role: strToCompRole[resp['role']??(throw InvalidResponseError('role'))],
+      role: strToCompRole[resp['role']??(throw InvalidResponseError('role'))]??(throw InvalidResponseError('role')),
 
       points: resp['points'],
       rank: resp['active']==true?ShowRankData.from(resp):null,

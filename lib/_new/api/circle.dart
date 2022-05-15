@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-
+import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendace.dart';
 
 import '../cat_page_home/circles/circle_role.dart';
 import '../cat_page_home/circles/model/announcement.dart';
@@ -21,7 +21,7 @@ class MemberBody{
 
 class MemberBodyNick extends MemberBody{
 
-  final String? nick;
+  final String nick;
 
   const MemberBodyNick(String key, CircleRole role, this.nick): super(
       key, role
@@ -51,7 +51,7 @@ class ApiCircle{
   );
 
   static Future<Response?> get({
-    required String? circleKey,
+    required String circleKey,
     void Function(Circle circle)? onSuccess,
     void Function()? onError,
   }) async => await API.sendRequest(
@@ -101,7 +101,7 @@ class ApiCircle{
   }
 
   static Future<Response?> delete({
-    required String? circleKey,
+    required String circleKey,
     void Function()? onSuccess,
     void Function()? onError,
   }) => API.sendRequest(
@@ -115,7 +115,7 @@ class ApiCircle{
 
   static Future<Response?> resetShareCode({
     required String compKey,
-    void Function(String?)? onSuccess,
+    void Function(String)? onSuccess,
     void Function(Map?)? onError,
   }) => API.sendRequest(
       withToken: true,
@@ -129,7 +129,7 @@ class ApiCircle{
   static Future<Response?> setShareCodeSearchable({
     required String compKey,
     required bool searchable,
-    void Function(bool?)? onSuccess,
+    void Function(bool)? onSuccess,
     void Function()? onError,
   }) => API.sendRequest(
       withToken: true,
@@ -158,7 +158,7 @@ class ApiCircle{
   );
 
   static Future<Response?> update({
-    required String? key,
+    required String circleKey,
     String? name,
     String? description,
     String? coverImageUrl,
@@ -176,7 +176,7 @@ class ApiCircle{
     return API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.put(
-        '${API.SERVER_URL}api/circle/$key',
+        '${API.SERVER_URL}api/circle/$circleKey',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
         }),
@@ -193,7 +193,7 @@ class ApiCircle{
   }
   
   static Future<Response?> addUsers({
-    required String? circleKey,
+    required String circleKey,
     required List<MemberBodyNick> users,
     void Function(List<Member>)? onSuccess,
     void Function()? onError,
@@ -216,8 +216,8 @@ class ApiCircle{
         if(onSuccess == null) return;
 
         List<Member> members = [];
-        Map _membersRespMap = response.data;
-        for(MapEntry memEntry in _membersRespMap.entries)
+        Map membersRespMap = response.data;
+        for(MapEntry memEntry in membersRespMap.entries)
           members.add(Member.fromMap(memEntry.value, key: memEntry.key));
 
         onSuccess(members);
@@ -228,7 +228,7 @@ class ApiCircle{
   }
 
   static Future<Response?> updateUsers({
-    required String? circleKey,
+    required String circleKey,
     required List<MemberBody> users,
     void Function(List<Member>)? onSuccess,
     void Function()? onError,
@@ -251,8 +251,8 @@ class ApiCircle{
           if(onSuccess == null) return;
 
           List<Member> particips = [];
-          Map _participsRespMap = response.data;
-          for(MapEntry participEntry in _participsRespMap.entries)
+          Map participsRespMap = response.data;
+          for(MapEntry participEntry in participsRespMap.entries)
             particips.add(Member.fromMap(participEntry.value, key: participEntry.key));
 
           onSuccess(particips);
@@ -263,7 +263,7 @@ class ApiCircle{
   }
 
   static Future<Response?> removeUsers({
-    required String? circleKey,
+    required String circleKey,
     required List<String> userKeys,
     void Function(List<String> removedKeys)? onSuccess,
     void Function()? onError,
@@ -280,7 +280,7 @@ class ApiCircle{
   );
 
   static Future<Response?> leave({
-    required String? circleKey,
+    required String circleKey,
     void Function()? onSuccess,
     void Function()? onError,
   }) => API.sendRequest(
@@ -293,7 +293,7 @@ class ApiCircle{
   );
 
   static Future<Response?> postAnnouncement({
-    required String? circleKey,
+    required String circleKey,
     required String title,
     String? coverImageUrl,
     required String text,
@@ -317,7 +317,7 @@ class ApiCircle{
   );
 
   static Future<Response?> updateAnnouncement({
-    required String? annKey,
+    required String annKey,
     String? title,
     String? coverImageUrl,
     String? text,
@@ -341,7 +341,7 @@ class ApiCircle{
   );
 
   static Future<Response?> deleteAnnouncement({
-    required String? annKey,
+    required String annKey,
     void Function()? onSuccess,
     void Function()? onError,
   }) => API.sendRequest(
@@ -353,4 +353,27 @@ class ApiCircle{
           onSuccess?.call(),
       onError: (err) async => onError?.call()
   );
+
+  static Future<Response?> updateAnnouncementAttendanceResponse({
+    required String annKey,
+    required AnnouncementAttendance response,
+    String? rejectionReason,
+    DateTime? postponeResponseTime,
+    void Function()? onSuccess,
+    void Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      sendRequest: (Dio dio) => dio.put(
+        '${API.SERVER_URL}api/announcement/$annKey/response',
+        data: FormData.fromMap({
+          'response': announcementAttendanceToStr[response],
+          'rejection_reason': rejectionReason,
+          'postpone_response_time': postponeResponseTime?.toIso8601String(),
+        }),
+      ),
+      onSuccess: (Response response) async =>
+          onSuccess?.call(),
+      onError: (err) async => onError?.call()
+  );
+  
 }

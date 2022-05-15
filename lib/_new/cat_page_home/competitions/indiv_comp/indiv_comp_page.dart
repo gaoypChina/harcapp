@@ -312,7 +312,7 @@ class CompHeaderWidget extends StatelessWidget{
 
         const SizedBox(width: Dimen.ICON_MARG),
 
-        if(comp.profile.active!)
+        if(comp.profile.active)
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -580,7 +580,7 @@ class TaskWidget extends StatelessWidget{
   Widget build(BuildContext context) => IndivCompTaskWidget(
     task,
     bottom:
-    comp.profile.active!?
+    comp.profile.active?
     Row(
       children: [
 

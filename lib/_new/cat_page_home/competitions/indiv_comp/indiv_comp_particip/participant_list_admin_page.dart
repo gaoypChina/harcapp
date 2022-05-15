@@ -77,7 +77,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
   List<IndivCompParticip> inactiveSelParticips(){
     List<IndivCompParticip> result = [];
     for(IndivCompParticip particip in selectedParticips)
-      if(!particip.profile.active!) result.add(particip);
+      if(!particip.profile.active) result.add(particip);
 
     return result;
   }
@@ -209,7 +209,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
           selected: selectedParticips.contains(particip),
 
           onSelectionTap: (){
-            if(!particip.profile.active! && !selectedParticips.contains(particip))
+            if(!particip.profile.active&& !selectedParticips.contains(particip))
               showAppToast(context, text: 'Pamiętaj, <b>${particip.name}</b> nie uczestniczy we współzawodnictwie. <b>Nie można mu przyznać punktów</b>.');
 
             if(selectedParticips.contains(particip))
@@ -421,15 +421,15 @@ class _ParticipTileState extends State<_ParticipTile>{
             ListTile(
               leading: Icon(
                 MdiIcons.plusCircleMultipleOutline,
-                color: particip.profile.active!?textEnab_(context): hintEnab_(context),
+                color: particip.profile.active?textEnab_(context): hintEnab_(context),
               ),
               title: Text(
                 'Przyznaj punkty',
                 style: AppTextStyle(
-                  color: particip.profile.active!?textEnab_(context): hintEnab_(context),
+                  color: particip.profile.active?textEnab_(context): hintEnab_(context),
                 )
               ),
-              onTap: particip.profile.active!? () async {
+              onTap: particip.profile.active? () async {
                 if(!await isNetworkAvailable()){
                   showAppToast(context, text: 'Brak dostępu do Internetu');
                   return;
@@ -530,10 +530,10 @@ class _ParticipTileState extends State<_ParticipTile>{
 
             ListTile(
               enabled: !particip.shadow,
-              leading: Icon(particip.profile.active!?MdiIcons.coffeeOutline:MdiIcons.run),
-              title: Text(particip.profile.active!?'Unieaktywnij uczestnika':'Włącz uczestnika', style: AppTextStyle()),
+              leading: Icon(particip.profile.active?MdiIcons.coffeeOutline:MdiIcons.run),
+              title: Text(particip.profile.active?'Unieaktywnij uczestnika':'Włącz uczestnika', style: AppTextStyle()),
               onTap: particip.shadow?null: () async {
-                await showUpdateDialog(particip.profile.role, !particip.profile.active!);
+                await showUpdateDialog(particip.profile.role, !particip.profile.active);
                 Navigator.pop(context);
               },
             ),
@@ -551,7 +551,7 @@ class _ParticipTileState extends State<_ParticipTile>{
       )
   );
 
-  Future<void> showUpdateDialog(CompRole? newRole, bool? newActive, {void Function()? onSuccess}) async {
+  Future<void> showUpdateDialog(CompRole newRole, bool newActive, {void Function()? onSuccess}) async {
     bool close = false;
 
     if(particip.key == AccountData.key && newRole != CompRole.ADMIN)
@@ -686,12 +686,12 @@ class _ParticipTileState extends State<_ParticipTile>{
     onTap: anythingSelected?onSelectionTap:(profile.role == CompRole.ADMIN || profile.role == CompRole.MODERATOR?openParticipantDetails:null),
     heroTag: heroTag,
     subtitle:
-    particip.profile.active!?
+    particip.profile.active?
     PointsWidget(points: particip.profile.points, size: 24):
     Text('Obserwator', style: AppTextStyle(color: hintEnab_(context))),
 
     trailing:
-    (profile.role == CompRole.ADMIN || profile.role == CompRole.MODERATOR) && particip.profile.active!?
+    (profile.role == CompRole.ADMIN || profile.role == CompRole.MODERATOR) && particip.profile.active?
     AnimatedOpacity(
       opacity: anythingSelected?0:1,
       duration: const Duration(milliseconds: 300),

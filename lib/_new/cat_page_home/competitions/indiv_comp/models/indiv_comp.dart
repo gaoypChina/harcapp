@@ -220,7 +220,7 @@ class IndivComp{
   final Map<String, IndivCompParticip> participMap;
 
   int get activeParticipCnt =>
-    particips.where((particip) => particip.profile.active!).length;
+    particips.where((particip) => particip.profile.active).length;
 
   List<IndivCompTask> tasks;
   Map<String, IndivCompTask> taskMap;
@@ -253,7 +253,7 @@ class IndivComp{
 
     particips.sort((p1, p2) => (p1.profile.rank?.sortIndex??0).toInt() - (p2.profile.rank?.sortIndex??0).toInt());
 
-    if(!profile.active!) return;
+    if(!profile.active) return;
     String? thisParticipKey = AccountData.key;
     if(!ranks.containsKey(thisParticipKey)) return;
 

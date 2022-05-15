@@ -18,8 +18,8 @@ import '_api.dart';
 class ParticipBody{
 
   final String key;
-  final CompRole? role;
-  final bool? active;
+  final CompRole role;
+  final bool active;
 
   const ParticipBody(this.key, this.role, this.active);
 
@@ -313,7 +313,7 @@ class ApiIndivComp{
     for(ParticipBodyNick user in users)
       body.add({
         'userNick': user.nick,
-        'role': compRoleToStr[user.role!],
+        'role': compRoleToStr[user.role],
         'active': user.active
       });
 
@@ -349,7 +349,7 @@ class ApiIndivComp{
     for(ParticipBody user in users)
       body.add({
         'userKey': user.key,
-        'role': compRoleToStr[user.role!],
+        'role': compRoleToStr[user.role],
         'active': user.active
       });
 

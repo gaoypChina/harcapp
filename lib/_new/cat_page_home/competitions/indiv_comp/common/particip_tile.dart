@@ -13,8 +13,8 @@ class ParticipTile extends StatelessWidget{
   final String userKey;
   final String name;
   final bool shadow;
-  final bool? active;
-  final CompRole? role;
+  final bool active;
+  final CompRole role;
 
   final bool anythingSelected;
   final bool selected;
@@ -31,8 +31,8 @@ class ParticipTile extends StatelessWidget{
         required this.userKey,
         required this.name,
         required this.shadow,
-        this.active = true,
-        this.role,
+        required this.active,
+        required this.role,
 
         required this.anythingSelected,
         this.selected=false, this.selectedTextColor,
@@ -46,11 +46,13 @@ class ParticipTile extends StatelessWidget{
         Key? key
       }): super(key: key);
 
-  static ParticipTile fromUserData(UserData userData, {heroTag}) =>
+  static ParticipTile fromUserData(UserData userData, {bool active = true, CompRole role = CompRole.OBSERVER, heroTag}) =>
       ParticipTile(
           userKey: userData.key,
           shadow: userData.shadow,
           name: userData.name,
+          active: active,
+          role: role,
           anythingSelected: false,
           heroTag: heroTag
       );
@@ -71,7 +73,7 @@ class ParticipTile extends StatelessWidget{
     name,
     shadow: shadow,
     
-    textColor: active!?(selected?selectedTextColor:iconEnab_(context)):hintEnab_(context),
+    textColor: active?(selected?selectedTextColor:iconEnab_(context)):hintEnab_(context),
     backgroundColor: selected?cardEnab_(context):Colors.transparent,
     leading: leading,
     trailing: trailing,
