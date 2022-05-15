@@ -10,7 +10,6 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../../../main.dart';
 import '../../../details/app_settings.dart';
 import '../article_widget.dart';
 import 'article_bookmark_icon.dart';
@@ -21,8 +20,12 @@ class ArticleCardWidget extends StatefulWidget{
 
   static const double height = 326;
 
-  final Article? article;
-  final void Function(BuildContext context, Article? article, ImageProvider? background, ArticleNotifierProvider? articleSeenProv)? onTap;
+  final Article article;
+  final void Function(
+      BuildContext context,
+      Article article,
+      ImageProvider? background,
+      ArticleNotifierProvider articleSeenProv)? onTap;
   final double radius;
   final double aspectRatio;
   final EdgeInsets margin;
@@ -48,26 +51,14 @@ class ArticleCardWidget extends StatefulWidget{
 
 class ArticleCardWidgetState extends State<ArticleCardWidget>{
 
-  Article? get article => widget.article;
-  void Function(BuildContext context, Article? article, ImageProvider? background, ArticleNotifierProvider? articleSeenProv)? get onTap => widget.onTap;
-  //ImageProvider get background => widget.background??_background;
+  Article get article => widget.article;
+  void Function(BuildContext context, Article article, ImageProvider? background, ArticleNotifierProvider articleSeenProv)? get onTap => widget.onTap;
   bool get disableHeroTag => widget.disableHeroTag;
   double get elevation => widget.elevation;
 
   ImageProvider? _background;
 
-  ArticleNotifierProvider? provider;
-
-  @override
-  void initState() {
-    /*
-    ()async{
-      _background = await article.loadCover();
-      if(mounted) setState((){});
-    }();
-     */
-    super.initState();
-  }
+  late ArticleNotifierProvider provider;
 
   bool get loaded => _background != null;
 
@@ -77,7 +68,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
     children: [
 
       Positioned.fill(child: Hero(
-        tag: articleCoverHero(article!),
+        tag: articleCoverHero(article),
         child: Material(
           borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
           color: Colors.transparent,
@@ -106,17 +97,17 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
                       children: [
                         Consumer<ArticleNotifierProvider>(
                           builder: (context, prov, child) =>
-                          article!.isLiked?
+                          article.isLiked?
                           IconButton(
-                              icon: Icon(MdiIcons.heartOutline, color: ColorPackBlack.ICON_DISABLED),
+                              icon: const Icon(MdiIcons.heartOutline, color: ColorPackBlack.ICON_DISABLED),
                               onPressed: () => showAppToast(context, text: 'Artykuł polubiony')
                           ): Container(),
                         ),
                         Consumer<ArticleNotifierProvider>(
                           builder: (context, prov, child) =>
-                          article!.isSeen?
+                          article.isSeen?
                           IconButton(
-                              icon: Icon(MdiIcons.eyeOutline, color: ColorPackBlack.ICON_DISABLED),
+                              icon: const Icon(MdiIcons.eyeOutline, color: ColorPackBlack.ICON_DISABLED),
                               onPressed: () => showAppToast(context, text: 'Artykuł przeczytany')
                           ): Container(),
                         ),
@@ -150,7 +141,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
                             child: DateWidget(article),
                           ),
 
-                          if(article!.author != null)
+                          if(article.author != null)
                             Row(
                               children: [
                                 Padding(
@@ -177,7 +168,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
                       child: ArticleBookmarkWidget(
                           article,
                           color: Colors.white,
-                          heroTag: ArticleWidget.bookMarkHeroTag(articleTagHero(article!))
+                          heroTag: ArticleWidget.bookMarkHeroTag(articleTagHero(article))
                       ),
                     ),
 
@@ -213,7 +204,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
               _background != null?
               childWidget(_background!):
               FutureBuilder<ImageProvider?>(
-                future: article!.loadCover(), // async work
+                future: article.loadCover(), // async work
                 builder: (BuildContext context, AsyncSnapshot<ImageProvider?> snapshot) {
 
                   switch (snapshot.connectionState) {
@@ -222,9 +213,9 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
                         children: [
                           if(AppSettings.devMode)
                             Positioned(
-                              child: Text(article!.id),
                               bottom: Dimen.ICON_MARG,
                               right: Dimen.ICON_MARG,
+                              child: Text(article.id),
                             ),
                           
                           Center(
@@ -237,10 +228,10 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
                         ],
                       );
                     default:
-                      if (snapshot.hasError) return CoverProblemWidget();
+                      if (snapshot.hasError) return const CoverProblemWidget();
                       else{
                         _background = snapshot.data;
-                        if(_background == null) return CoverProblemWidget();
+                        if(_background == null) return const CoverProblemWidget();
                         return childWidget(snapshot.data!);
                       }
                   }
@@ -255,6 +246,8 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
 }
 
 class CoverProblemWidget extends StatelessWidget{
+
+  const CoverProblemWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -73,10 +73,10 @@ class API{
       bool? finish;
       if (e.response?.statusCode == jwtInvalidHttpStatus) {
         await SynchronizerEngine.changeSyncStateInAll([
-            SyncableParamSingle_.STATE_SYNCED,
-            SyncableParamSingle_.STATE_SYNC_IN_PROGRESS,
+            SyncableParamSingle_.stateSynced,
+            SyncableParamSingle_.stateSyncInProgress,
           ],
-          SyncableParamSingle_.STATE_NOT_SYNCED
+          SyncableParamSingle_.stateNotSynced
         );
         SynchronizerEngine.lastSyncTimeLocal = null;
         await AccountData.forgetAccount();
@@ -139,9 +139,9 @@ class API{
         onSuccess: (Response response)async{
 
           for(Map map in response.data)
-            result!.add(OffSong.allOfficialMap![map['file_name']]);
+            result!.add(OffSong.allOfficialMap[map['file_name']]);
 
-          if(onSuccess != null) await onSuccess();
+          await onSuccess?.call();
 
         },
         onError: (DioError error)async{

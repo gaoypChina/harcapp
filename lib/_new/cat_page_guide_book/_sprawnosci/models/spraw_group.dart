@@ -1,11 +1,6 @@
-import 'package:harcapp/_common_classes/sha_pref.dart';
-import 'package:harcapp/_new/api/sync_resp_body/spraw_resp.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_book.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_family.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_task.dart';
-import 'package:harcapp/sync/syncable.dart';
-import 'package:harcapp_core/comm_widgets/chord.dart';
 
 class SprawGroupData{
 

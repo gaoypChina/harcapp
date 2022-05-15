@@ -12,7 +12,7 @@ import 'award_tile_skeleton_widget.dart';
 
 class AwardTileEditWidget extends StatelessWidget{
 
-  final int? position;
+  final int position;
   final CommonColorData? colors;
   final IndivCompAward award;
   final void Function(String)? onChanged;
@@ -42,7 +42,7 @@ class AwardTileEditWidget extends StatelessWidget{
         controller: TextEditingController(text: award.award),
         maxLength: null,
         inputFormatters: [
-          LengthLimitingTextInputFormatter(IndivComp.MAX_LEN_AWARD)
+          LengthLimitingTextInputFormatter(IndivComp.maxLenAward)
         ],
         onChanged: (_, text) => onChanged?.call(text),
       ),

@@ -12,7 +12,7 @@ RankDefData rankZhrZuchC1Data = RankDefData(
     org: Org.zhr_c,
     id: 'ZUCH_C_1',
     catData: [
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_1,
           groupData: [
             RankGroupData(
@@ -26,7 +26,7 @@ RankDefData rankZhrZuchC1Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_2,
           groupData: [
             RankGroupData(
@@ -39,7 +39,7 @@ RankDefData rankZhrZuchC1Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_3,
           groupData: [
             RankGroupData(
@@ -51,7 +51,7 @@ RankDefData rankZhrZuchC1Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_4,
           groupData: [
             RankGroupData(
@@ -66,7 +66,7 @@ RankDefData rankZhrZuchC1Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_5,
           groupData: [
             RankGroupData(
@@ -81,7 +81,7 @@ RankDefData rankZhrZuchC1Data = RankDefData(
       )
     ]
 );
-Rank rankZhrZuchC1 = rankZhrZuchC1Data.build();
+RankDef rankZhrZuchC1 = rankZhrZuchC1Data.build();
 
 RankDefData rankZhrZuchC2Data = RankDefData(
     titleMale: 'Zuch drugiej gwiazdki',
@@ -89,7 +89,7 @@ RankDefData rankZhrZuchC2Data = RankDefData(
     org: Org.zhr_c,
     id: 'ZUCH_C_2',
     catData: [
-      RankCatData(
+      const RankCatData(
         title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_1,
           groupData: [
             RankGroupData(
@@ -104,7 +104,7 @@ RankDefData rankZhrZuchC2Data = RankDefData(
           ]
       ),
 
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_2,
           groupData: [
             RankGroupData(
@@ -117,7 +117,7 @@ RankDefData rankZhrZuchC2Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_3,
           groupData: [
             RankGroupData(
@@ -130,7 +130,7 @@ RankDefData rankZhrZuchC2Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_4,
           groupData: [
             RankGroupData(
@@ -146,7 +146,7 @@ RankDefData rankZhrZuchC2Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_5,
           groupData: [
             RankGroupData(
@@ -163,7 +163,7 @@ RankDefData rankZhrZuchC2Data = RankDefData(
       )
     ]
 );
-Rank rankZhrZuchC2 = rankZhrZuchC2Data.build();
+RankDef rankZhrZuchC2 = rankZhrZuchC2Data.build();
 
 RankDefData rankZhrZuchC3Data = RankDefData(
     titleMale: 'Zuch trzeciej gwiazdki',
@@ -171,7 +171,7 @@ RankDefData rankZhrZuchC3Data = RankDefData(
     org: Org.zhr_c,
     id: 'ZUCH_C_3',
     catData: [
-      RankCatData(
+      const RankCatData(
         title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_1,
           groupData: [
             RankGroupData(
@@ -187,7 +187,7 @@ RankDefData rankZhrZuchC3Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_2,
           groupData: [
             RankGroupData(
@@ -200,7 +200,7 @@ RankDefData rankZhrZuchC3Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_3,
           groupData: [
             RankGroupData(
@@ -212,7 +212,7 @@ RankDefData rankZhrZuchC3Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_4,
           groupData: [
             RankGroupData(
@@ -228,7 +228,7 @@ RankDefData rankZhrZuchC3Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_5,
           groupData: [
             RankGroupData(
@@ -243,7 +243,7 @@ RankDefData rankZhrZuchC3Data = RankDefData(
       )
     ]
 );
-Rank rankZhrZuchC3 = rankZhrZuchC3Data.build();
+RankDef rankZhrZuchC3 = rankZhrZuchC3Data.build();
 
 
 RankZHRCData rankZhrHarcC0Data = RankZHRCData.from(
@@ -255,19 +255,19 @@ RankZHRCData rankZhrHarcC0Data = RankZHRCData.from(
     czasTrw: 'do 3 miesięcy',
     idea: null,
     koment: [
-      RankGroupData(
+      const RankGroupData(
           title: 'Dla harcerza',
           taskData: [
             RankTaskData(text: 'Przyszedłem na pierwszą zbiórkę i poznaję czym jest harcerstwo. Chcę zostać harcerzem i rozumiem z czym się to wiąże. Poznaję moją drużynę i zastęp, kompletuję mundur i chcę szybko rozpocząć zdobywanie pierwszego stopnia harcerskiego.', checkable: false),
           ]),
-      RankGroupData(
+      const RankGroupData(
           title: 'Dla drużynowego',
           taskData: [
             RankTaskData(text: 'Próba harcerza nie jest stopniem. Rozpoczyna się w momencie przyjścia chłopca na pierwszą zbiórkę. Jej czas nie może przekraczać 3 miesięcy. Zakończenie próby harcerza jest równoznaczne z przyjęciem druha do drużyny i otwarciem stopnia młodzika bądź innego – adekwatnego do wieku. Celem próby jest wdrożenie chłopca w życie harcerskie, umożliwienie mu poznania drużyny – dlatego przeprowadza się ją w oparciu o jej tradycję.', checkable: false),
           ]),
     ],
     cats: [
-      RankCatData(
+      const RankCatData(
         title: 'Przykładowa próba',
         groupData: [
           RankGroupData(
@@ -280,7 +280,7 @@ RankZHRCData rankZhrHarcC0Data = RankZHRCData.from(
                       '\n\n• Zna numer, kolor chusty, symbole, nazwę i patrona drużyny.'
                       '\n\n• Zna imię i nazwisko drużynowego oraz zastępowego i potrafi się z nimi skontaktować (wie gdzie mieszkają, zna ich numery telefonów i adresy e-mail), zna sieć alarmową zastępu.'
                       '\n\n• Umie przywitać się i zameldować po harcersku.'
-                      '\n\n• Zna symbolikę lilijki harcerskiej. Wie, co oznacza pozdrowienie \"Czuwaj\", rozszyfruje skrót ZHR i wie, po czym poznać przynależność do tej Organizacji.'
+                      '\n\n• Zna symbolikę lilijki harcerskiej. Wie, co oznacza pozdrowienie "Czuwaj", rozszyfruje skrót ZHR i wie, po czym poznać przynależność do tej Organizacji.'
                       '\n\n• Systematycznie i punktualnie uczestniczy w zbiórkach zastępu i drużyny.'
                       '\n\n• Skompletował i szanuje mundur (bluza, spodenki, pas, getry, nakrycie głowy).'
                       '\n\n• Zna trzy pieśni harcerskie – np. Hymn, Modlitwę i Bratnie Słowo.',
@@ -303,14 +303,14 @@ RankZHRCData rankZhrHarcC0SData = RankZHRCData.from(
   czasTrw: '3 – 6 miesięcy',
   idea: 'Rozumiem, czym jest harcerstwo, poznaję harcerskie ideały, założenia organizacyjne oraz program Organizacji. Przyjmuję za swój system wartości oparty na służbie Bogu, Polsce i bliźnim. Zdobyłem podstawową wiedzę i umiejętności harcerskie, doskonalę je i poszerzam. Potrafię budować braterskie więzi z innymi harcerzami. Jestem / staję się abstynentem, w swoim środowisku świadczę o swoim harcerstwie. Przynależę do określonego środowiska harcerskiego i rozumiem jego tradycje i zwyczaje. Dbam o swoje zdrowie i pracuję nad sprawnością fizyczną. Mam swój mundur i pełne wyposażenie harcerskie.',
   koment: [
-    RankGroupData(
+    const RankGroupData(
       taskData: [
         RankTaskData(text: 'Próba nie jest stopniem, tylko - podobnie jak w przypadku chłopca przychodzącego do drużyny w wieku szkolnym - sposobem na świadomy akces do ruchu harcerskiego. Celem próby jest zdobycie podstawowego wyrobienia harcerskiego umożliwiającego dalszy rozwój.', checkable: false)
       ],
     )
   ],
   cats: [
-    RankCatData(
+    const RankCatData(
       title: 'Przykładowa próba',
       groupData: [
         RankGroupData(
@@ -352,7 +352,7 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
   idea: 'Wiem, co to znaczy być harcerzem. Znam Prawo Harcerskie. Jestem gotowy złożyć Przyrzeczenie Harcerskie. Jestem samodzielny i gotowy do służby. Pomagam innym. Odróżniam dobro i zło. Postępuję zgodnie ze wskazaniami wiary chrześcijańskiej. Poprzez dobre uczynki staję się coraz lepszy. Jestem dobrym synem, kolegą i uczniem.',
   koment: null,
   cats: [
-    RankCatData(
+    const RankCatData(
       title: 'Praca nad charakterem',
       icon: RankData.iconCatCharakter,
       groupData: [
@@ -387,7 +387,7 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
       ],
     ),
 
-    RankCatData(
+    const RankCatData(
       title: 'Harcerskie wtajemniczenie',
       icon: RankData.iconCatHarcWtajem,
       groupData: [
@@ -402,7 +402,7 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
         RankGroupData(
             title: 'Wiedza harcerska',
             taskData: [
-              RankTaskData(text: 'Zna symbolikę lilijki, Krzyża Harcerskiego i znaczenie zawołania \"Czuwaj!\".'),
+              RankTaskData(text: 'Zna symbolikę lilijki, Krzyża Harcerskiego i znaczenie zawołania "Czuwaj!".'),
               RankTaskData(text: 'Zna oznakowanie stopni harcerskich i instruktorskich.'),
               RankTaskData(text: 'Zna oznakowanie funkcji w drużynie, w szczepie i hufcu.'),
               RankTaskData(text: 'Zna zwyczaje zastępu i tradycje drużyny.'),
@@ -463,7 +463,7 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
       ],
     ),
 
-    RankCatData(
+    const RankCatData(
         title: 'Służba',
         icon: RankData.iconCatSluzba,
         groupData: [
@@ -484,7 +484,7 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
         ]
     ),
 
-    RankCatData(
+    const RankCatData(
       title: 'Sylwetka',
       icon: RankData.iconCatSylwetka,
       groupData: [
@@ -511,7 +511,7 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
         RankGroupData(
           title: 'Wiedza i umiejętności',
           taskData: [
-            RankTaskData(text: 'Posiadł podstawową wiedzę i umiejętności, które umożliwiają mu pełne uczestnictwo w życiu zastępu i drużyny. Da sobie radę i nie wymaga opieki ani na zbiórce,ani na obozie ani w domu. Szczegóły w sekcji \"Wymagania na stopień\".',
+            RankTaskData(text: 'Posiadł podstawową wiedzę i umiejętności, które umożliwiają mu pełne uczestnictwo w życiu zastępu i drużyny. Da sobie radę i nie wymaga opieki ani na zbiórce,ani na obozie ani w domu. Szczegóły w sekcji "Wymagania na stopień".',
               checkable: false,),
           ],
         ),
@@ -525,7 +525,7 @@ RankZHRCData rankZhrHarcC1Data = RankZHRCData.from(
         RankGroupData(
           title: 'Doświadczenie harcerskie',
           taskData: [
-            RankTaskData(text: 'Poznał smak harcerstwa. Rozumie co to znaczy być harcerzem i jest gotów nim zostać. Szczegóły w sekcji \"Wymagania na stopień\".',
+            RankTaskData(text: 'Poznał smak harcerstwa. Rozumie co to znaczy być harcerzem i jest gotów nim zostać. Szczegóły w sekcji "Wymagania na stopień".',
               checkable: false,),
           ],
         )
@@ -546,7 +546,7 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
   koment: null,
   cats: [
 
-    RankCatData(
+    const RankCatData(
       title: 'Praca nad charakterem',
       icon: RankData.iconCatCharakter,
       groupData: [
@@ -583,7 +583,7 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
       ],
     ),
 
-    RankCatData(
+    const RankCatData(
       title: 'Harcerskie wtajemniczenie',
       icon: RankData.iconCatHarcWtajem,
       groupData: [
@@ -605,7 +605,7 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
               RankTaskData(text: 'Zna Strukturę ZHR i nazwiska swoich przełożonych do poziomu hufcowego'),
               RankTaskData(text: 'Zna najważniejsze fakty z historii drużyny i historii harcerstwa.'),
               RankTaskData(text: 'Zna życiorysy i opowie o A. Małkowskim, R. Baden-Powellu i bł. ks. phm. S.W.Frelichowskim.'),
-              RankTaskData(text: 'Przeczytał min. dwie książki harcerskie (np. \"Wilk, który nie śpi\", \"Kamienie na szaniec\")'),
+              RankTaskData(text: 'Przeczytał min. dwie książki harcerskie (np. "Wilk, który nie śpi", "Kamienie na szaniec")'),
               RankTaskData(text: 'Znaz wyczaje i obrzędy swojej drużyny. Rozpoznaje drużyny należące do jego hufca.'),
 
             ]
@@ -645,7 +645,7 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
             title: 'Terenoznawstwo i krajoznawstwo',
             taskData: [
               RankTaskData(text: 'Umie narysować szkic terenu.'),
-              RankTaskData(text: 'Umie ocenić odległość \"na oko\"'),
+              RankTaskData(text: 'Umie ocenić odległość "na oko"'),
               RankTaskData(text: 'Umie wykonywać precyzyjne pomiary terenowe, tj. wysokość drzewa, szerokość rzeki.'),
               RankTaskData(text: 'Umie odnaleźć się na mapie w nieznanym terenie i dotrzeć do wyznaczonego celu.'),
               RankTaskData(text: 'Umie trafić do celu na azymut, przy pomocy GPS i nawigacji samochodowej.'),
@@ -667,7 +667,7 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
       ],
     ),
 
-    RankCatData(
+    const RankCatData(
         title: 'Służba',
         icon: RankData.iconCatSluzba,
         groupData: [
@@ -687,7 +687,7 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
         ]
     ),
 
-    RankCatData(
+    const RankCatData(
       title: 'Sylwetka',
       icon: RankData.iconCatSylwetka,
       groupData: [
@@ -714,21 +714,21 @@ RankZHRCData rankZhrHarcC2Data = RankZHRCData.from(
         RankGroupData(
           title: 'Wiedza i umiejętności',
           taskData: [
-            RankTaskData(text: 'Jest znawcą technik harcerskich. Posiadł wiedzę i umiejętności, które pozwalają mu swobodnie poruszać się w normalnych warunkach polowych i organizować zbiórki zastępu Szczegóły w sekcji \"Wymagania na stopień\".',
+            RankTaskData(text: 'Jest znawcą technik harcerskich. Posiadł wiedzę i umiejętności, które pozwalają mu swobodnie poruszać się w normalnych warunkach polowych i organizować zbiórki zastępu Szczegóły w sekcji "Wymagania na stopień".',
               checkable: false,),
           ],
         ),
         RankGroupData(
           title: 'Rozwój duchowy',
           taskData: [
-            RankTaskData(text: 'Jest znawcą technik harcerskich. Posiadł wiedzę i umiejętności, które pozwalają mu swobodnie poruszać się w normalnych warunkach polowych i organizować zbiórki zastępu Szczegóły w sekcji \"Wymagania na stopień\".',
+            RankTaskData(text: 'Jest znawcą technik harcerskich. Posiadł wiedzę i umiejętności, które pozwalają mu swobodnie poruszać się w normalnych warunkach polowych i organizować zbiórki zastępu Szczegóły w sekcji "Wymagania na stopień".',
               checkable: false,),
           ],
         ),
         RankGroupData(
           title: 'Doświadczenie harcerskie',
           taskData: [
-            RankTaskData(text: 'Bierze aktywny udział w życiu zastępu i drużyny. Okazał się samodzielny i odpowiedzialny za innych. Jest przygotowany do objęcia zastępu lub innej samodzielnej funkcji w drużynie. Szczegóły w sekcji \"Wymagania na stopień\".',
+            RankTaskData(text: 'Bierze aktywny udział w życiu zastępu i drużyny. Okazał się samodzielny i odpowiedzialny za innych. Jest przygotowany do objęcia zastępu lub innej samodzielnej funkcji w drużynie. Szczegóły w sekcji "Wymagania na stopień".',
               checkable: false,),
           ],
         )
@@ -749,7 +749,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
   koment: null,
   cats: [
 
-    RankCatData(
+    const RankCatData(
       title: 'Praca nad charakterem',
       icon: RankData.iconCatCharakter,
       groupData: [
@@ -772,7 +772,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
         RankGroupData(
             title: 'Rozwój intelektualny',
             taskData: [
-              RankTaskData(text: 'Potrafi uzasadnić na czym opiera swoje wybory moralne (na ognisku, kominku, wieczornicy). Poprowadził dyskusję na temat wolności i jej granic lub \"osobistego Westerplatte\" - wg słów Jana Pawła II; wygłosił gawędę, jak rozumieć słowa Honorowego Przewodniczącego ZHR śp. hm. T. Strzembosza "Harcerstwo jest rycerską postacią współczesnego chrześcijaństwa", przybliżającą wartości Prawa Harcerskiego).'),
+              RankTaskData(text: 'Potrafi uzasadnić na czym opiera swoje wybory moralne (na ognisku, kominku, wieczornicy). Poprowadził dyskusję na temat wolności i jej granic lub "osobistego Westerplatte" - wg słów Jana Pawła II; wygłosił gawędę, jak rozumieć słowa Honorowego Przewodniczącego ZHR śp. hm. T. Strzembosza "Harcerstwo jest rycerską postacią współczesnego chrześcijaństwa", przybliżającą wartości Prawa Harcerskiego).'),
               RankTaskData(text: 'Zna podstawowe zasady savoir-vivre.'),
               RankTaskData(text: 'Umie zatańczyć trzy tańce towarzyskie z partnerką.'),
               RankTaskData(text: 'Umie w obcym języku załatwić sprawę w urzędzie, banku, na poczcie, zapłacić rachunek.'),
@@ -791,7 +791,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
       ],
     ),
 
-    RankCatData(
+    const RankCatData(
       title: 'Harcerskie wtajemniczenie',
       icon: RankData.iconCatHarcWtajem,
       groupData: [
@@ -870,7 +870,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
       ],
     ),
 
-    RankCatData(
+    const RankCatData(
         title: 'Służba',
         icon: RankData.iconCatSluzba,
         groupData: [
@@ -895,7 +895,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
         ]
     ),
 
-    RankCatData(
+    const RankCatData(
         title: 'Sylwetka',
         icon: RankData.iconCatSylwetka,
         groupData: [
@@ -946,7 +946,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
             title: 'Wiedza i umiejętności',
             taskData: [
               RankTaskData(text:
-                'Ma wiedzę i umiejętności, które pozwalają mu być zaradnym w każdej sytuacji –w ekstremalnych warunkach polowych i w tzw. „dorosłych” sytuacjach życiowych. Potrafi zorganizować zajęcia drużyny i przygotować biwak. Udziela pomocy innym i przekazując im swoją wiedzę i doświadczenie.Szczegóły w sekcji \"Wymagania na stopień\".',
+                'Ma wiedzę i umiejętności, które pozwalają mu być zaradnym w każdej sytuacji –w ekstremalnych warunkach polowych i w tzw. „dorosłych” sytuacjach życiowych. Potrafi zorganizować zajęcia drużyny i przygotować biwak. Udziela pomocy innym i przekazując im swoją wiedzę i doświadczenie.Szczegóły w sekcji "Wymagania na stopień".',
               ),
             ],
           ),
@@ -962,7 +962,7 @@ RankZHRCData rankZhrHarcC3Data = RankZHRCData.from(
             title: 'Doświadczenie harcerskie',
             taskData: [
               RankTaskData(text:
-                'Doświadczył większości najważniejszych form życia harcerskiego. Był na wielu wycieczkach, biwakach, obozach stałych i wędrownych oraz na zlocie. Wykazał się samodzielnością, zaradnością i odpowiedzialnością za innych. Rzetelnie wywiązuje się z powierzonych mu funkcji i zadań. Dzieli się swoją wiedzą i doświadczeniem z innymi, jest autorytetem dla młodszych harcerzy. Można mu powierzyć funkcję przybocznego.Szczegóły w sekcji \"Wymagania na stopień\".',
+                'Doświadczył większości najważniejszych form życia harcerskiego. Był na wielu wycieczkach, biwakach, obozach stałych i wędrownych oraz na zlocie. Wykazał się samodzielnością, zaradnością i odpowiedzialnością za innych. Rzetelnie wywiązuje się z powierzonych mu funkcji i zadań. Dzieli się swoją wiedzą i doświadczeniem z innymi, jest autorytetem dla młodszych harcerzy. Można mu powierzyć funkcję przybocznego.Szczegóły w sekcji "Wymagania na stopień".',
               ),
             ],
           )
@@ -981,7 +981,7 @@ RankZHRCData rankZhrHarcC4Data = RankZHRCData.from(
   czasTrw: '-',
   idea: 'Wkraczam w dorosłe życie, samodzielnie określam i kształtuję swój światopogląd. Odczytuję swoje powołanie, świadomie określam swoją drogę życiową. Jestem odpowiedzialny, można na mnie polegać. Pogłębiając wiarę zaczynam świadczyć o niej poza harcerstwem. Moje życie budowane jest na chrześcijańskim fundamencie. Jestem oparciem dla swojego rodzeństwa, rodziców, staram się być przykładem dla moich rówieśników. Angażuję się w życie społeczne. Wkraczam na drogę rozwoju wędrowniczego, instruktorskiego, bądź harcerstwa starszego. Systematycznie pełnię służbę bliźniemu. Świadomie kształtuję swoje relacje z otoczeniem, pełen pogody ducha rozwiązuję pojawiające się problemy.',
   koment: [
-    RankGroupData(
+    const RankGroupData(
       taskData: [
         RankTaskData(text:
           'Próba polega na ułożeniu od 6 do 10 zadań, których zrealizowanie pozwoli na osiągnięcie ideału opisanego w stopniu, zdobycia niezbędnej wiedzy i umiejętności, oraz wypełnienia służby potrzebującym. Przynajmniej trzy zadania winny zakończyć się trwałym śladem. Próbę układa harcerz wraz z opiekunem na podstawie poniższych punktów i zatwierdza ją przed odpowiednią Kapitułą, która może wnieść korekty.',
@@ -992,7 +992,7 @@ RankZHRCData rankZhrHarcC4Data = RankZHRCData.from(
   ],
   cats: [
 
-    RankCatData(
+    const RankCatData(
       title: 'Praca nad sobą, wiedza, umiejętności',
       icon: RankData.iconCatCharakter,
       groupData: [
@@ -1063,7 +1063,7 @@ RankZHRCData rankZhrHarcC4Data = RankZHRCData.from(
             RankTaskData(text:
               'Rozumie istotę rodziny i sakramentalną wartość małżeństwa, przygotowuje się do roli męża i ojca (bądź kapłana), przejmuje część odpowiedzialności za swoją rodzinę.',
               example: '• Odkrywa swoje powołania życiowe - w służbie Bogu, w rodzinie; w pracy społecznej, zawodowej i naukowej (przedstawił swoje zamierzenia w tym zakresie; zorganizował na poziomie obwodu/okręgu konferencję o rodzinie).'
-                  '\n\n• Jest odpowiedzialny i opiekuńczy wobec dziewcząt. Uzasadni wartość czystości przedmałżeńskiej i obrony życia poczętego (przeczytał książkę nt. rodziny /np. J. Pulikowskiego \"Warto być ojcem\", ks. Malińskiego \"Zanim powiesz kocham\" lub równorzędną.; przeprowadził w gronie mieszanym rozmowę o ideale żony i męża) .'
+                  '\n\n• Jest odpowiedzialny i opiekuńczy wobec dziewcząt. Uzasadni wartość czystości przedmałżeńskiej i obrony życia poczętego (przeczytał książkę nt. rodziny /np. J. Pulikowskiego "Warto być ojcem", ks. Malińskiego "Zanim powiesz kocham" lub równorzędną.; przeprowadził w gronie mieszanym rozmowę o ideale żony i męża) .'
                   '\n\n• Poczuwa się do odpowiedzialności za swoją rodzinę (regularnie stara się odciążyć rodziców w ich obowiązkach).',
             )
           ],
@@ -1083,7 +1083,7 @@ RankZHRCData rankZhrHarcC4Data = RankZHRCData.from(
       ],
     ),
 
-    RankCatData(
+    const RankCatData(
       title: 'Służba',
       icon: RankData.iconCatSluzba,
       groupData: [
@@ -1138,7 +1138,7 @@ RankZHRCData rankZhrHarcC4Data = RankZHRCData.from(
       ],
     ),
 
-    RankCatData(
+    const RankCatData(
       title: 'Próba końcowa',
       icon: RankData.iconCatProbaKoncowa,
       groupData: [
@@ -1171,7 +1171,7 @@ RankZHRCData rankZhrHarcC5Data = RankZHRCData.from(
   czasTrw: '-',
   idea: 'Wkraczam w dorosłe życie, samodzielnie określam i kształtuję swój światopogląd. Odczytuję swoje powołanie, świadomie określam swoją drogę życiową. Jestem odpowiedzialny, można na mnie polegać. Pogłębiając wiarę zaczynam świadczyć o niej poza harcerstwem. Moje życie budowane jest na chrześcijańskim fundamencie. Jestem oparciem dla swojego rodzeństwa, rodziców, staram się być przykładem dla moich rówieśników. Angażuję się w życie społeczne. Wkraczam na drogę rozwoju wędrowniczego, instruktorskiego, bądź harcerstwa starszego. Systematycznie pełnię służbę bliźniemu. Świadomie kształtuję swoje relacje z otoczeniem, pełen pogody ducha rozwiązuję pojawiające się problemy.',
   koment: [
-    RankGroupData(
+    const RankGroupData(
       taskData: [
         RankTaskData(text:
             'Próba polega na ułożeniu od 6 do 10 zadań, których zrealizowanie pozwoli na osiągnięcie ideału opisanego w Sylwetce Harcerza Rzeczypospolitej, zdobycie niezbędnej wiedzy i umiejętności, oraz pełnienie służby potrzebującym. Przynajmniej trzy zadania winny zakończyć się trwałym śladem. Próbę układa harcerz wraz z opiekunem i zatwierdza ją przed odpowiednią Kapitułą, która może wnieść korekty.',
@@ -1182,7 +1182,7 @@ RankZHRCData rankZhrHarcC5Data = RankZHRCData.from(
   ],
   cats: [
 
-    RankCatData(
+    const RankCatData(
       title: 'Praca nad sobą, wiedza, umiejętności',
       icon: RankData.iconCatCharakter,
       groupData: [
@@ -1277,7 +1277,7 @@ RankZHRCData rankZhrHarcC5Data = RankZHRCData.from(
       ],
     ),
 
-    RankCatData(
+    const RankCatData(
       title: 'Służba',
       icon: RankData.iconCatSluzba,
       groupData: [
@@ -1331,7 +1331,7 @@ RankZHRCData rankZhrHarcC5Data = RankZHRCData.from(
       ],
     ),
 
-    RankCatData(
+    const RankCatData(
       title: 'Sylwetka',
       icon: RankData.iconCatSylwetka,
       groupData: [

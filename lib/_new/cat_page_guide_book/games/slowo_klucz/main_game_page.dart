@@ -106,9 +106,12 @@ class SlowoKluczMainGamePage extends StatefulWidget{
 
   }
 
-  static String get savedInstanceCode => shaPref!.getString(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME, null)!;
-  static set savedInstanceCode(String value) => shaPref!.setString(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME, value);
-  static void removeSavedInstanceCode() => shaPref!.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
+  static String? get savedInstanceCode => ShaPref.getStringOrNull(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
+  static set savedInstanceCode(String? value){
+    if(value == null) ShaPref.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
+    else ShaPref.setString(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME, value);
+  }
+  static void removeSavedInstanceCode() => ShaPref.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
 
   static SlowoKluczMainGamePage? loadInstance(BuildContext context, String code){
     try {

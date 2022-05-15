@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:harcapp/_common_classes/org/org_handler.dart';
 import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models/rank_def.dart';
@@ -25,20 +24,17 @@ mixin SyncNode<T extends SyncGetResp?> on SyncableParam{
   static SyncableParam get offSongNodes => SyncableParamGroup(
       null,
       paramId: OffSong.syncClassId,
-      childParams: OffSong.allOfficial!
-  );
+      childParams: OffSong.allOfficial);
 
   static SyncableParam get ownSongNodes => SyncableParamGroup(
       null,
       paramId: OwnSong.syncClassId,
-      childParams: OwnSong.allOwn!
-  );
+      childParams: OwnSong.allOwn);
 
   static SyncableParam get albumNodes => SyncableParamGroup(
       null,
       paramId: Album.syncClassId,
-      childParams: Album.allOwn!
-  );
+      childParams: Album.allOwn);
 
   static SyncableParam get rankDefNodes => SyncableParamGroup(
       null,
@@ -79,8 +75,8 @@ mixin SyncNode<T extends SyncGetResp?> on SyncableParam{
 
 abstract class SyncableParam{
 
-  List<String?> get paramList{
-    List<String?> parentParams = [paramId];
+  List<String> get paramList{
+    List<String> parentParams = [paramId];
     SyncableParam? _parentParam = parentParam;
     while(_parentParam != null){
       parentParams.insert(0, _parentParam.paramId);
@@ -91,13 +87,13 @@ abstract class SyncableParam{
 
   SyncableParam? parentParam;
 
-  String? get paramId;
+  String get paramId;
 
   bool get isSynced;
 
   SyncableParam();
 
-  Map<String?, dynamic> getUnsyncedMap();
+  Map<String, dynamic> getUnsyncedMap();
 
   void changeSyncStateInAll(List<int> stateFrom, int stateTo);
 
@@ -109,7 +105,7 @@ abstract class SyncableParam{
   void saveSyncResult(dynamic synced, DateTime? lastSync){
     if(this is SyncableParamSingle_) {
       if(synced is! bool) logger.e('Sync problem! Single sync result: $synced');
-      SyncableParamSingle_.setState(paramList, synced == true ? SyncableParamSingle_.STATE_SYNCED : SyncableParamSingle_.STATE_ERROR);
+      SyncableParamSingle_.setState(paramList, synced == true ? SyncableParamSingle_.stateSynced : SyncableParamSingle_.stateError);
     } else if (this is SyncableParamGroup_) {
       if(synced is! Map) logger.e('Sync problem! Group sync result: $synced');
       for (String paramId in synced.keys) {
@@ -154,22 +150,22 @@ abstract class SyncableParamSingle_ extends SyncableParam{
 
   static const String paramSepChar = '@';
 
-  static const int STATE_WAITING_DOWNLOAD = 0;
-  static const int STATE_NOT_SYNCED = 1;
-  static const int STATE_SYNCED = 2;
-  static const int STATE_SYNC_IN_PROGRESS = 3;
-  static const int STATE_ERROR = 4;
+  static const int stateWaitingDownload = 0;
+  static const int stateNotSynced = 1;
+  static const int stateSynced = 2;
+  static const int stateSyncInProgress = 3;
+  static const int stateError = 4;
 
   static const Map<int, String> stateToString = {
-    STATE_WAITING_DOWNLOAD: 'STATE_WAITING_DOWNLOAD',
-    STATE_NOT_SYNCED: 'STATE_NOT_SYNCED',
-    STATE_SYNCED: 'STATE_SYNCED',
-    STATE_SYNC_IN_PROGRESS: 'STATE_SYNC_IN_PROGRESS',
-    STATE_ERROR: 'STATE_ERROR',
+    stateWaitingDownload: 'STATE_WAITING_DOWNLOAD',
+    stateNotSynced: 'STATE_NOT_SYNCED',
+    stateSynced: 'STATE_SYNCED',
+    stateSyncInProgress: 'STATE_SYNC_IN_PROGRESS',
+    stateError: 'STATE_ERROR',
   };
 
   @override
-  bool get isSynced => state == STATE_SYNCED;
+  bool get isSynced => state == stateSynced;
 
   dynamic get value;
 
@@ -179,27 +175,27 @@ abstract class SyncableParamSingle_ extends SyncableParam{
 
   static String getShaPrefKey(List<String?> paramList) => ShaPref.SHA_PREF_SYNC_PARAM_(paramList.join(paramSepChar));
   
-  bool get hasState => shaPref!.exists(shaPrefKey);
+  bool get hasState => ShaPref.exists(shaPrefKey);
 
-  int get state => shaPref!.getInt(shaPrefKey, STATE_SYNCED)!;
+  int get state => ShaPref.getInt(shaPrefKey, stateSynced);
 
-  static int? getState(List<String> paramList) => shaPref!.getInt(getShaPrefKey(paramList), STATE_SYNCED);
+  static int getState(List<String> paramList) => ShaPref.getInt(getShaPrefKey(paramList), stateSynced);
 
   set state(int value) => setState(paramList, value);
 
   static void setState(List<String?> paramList, int state){
     if(logSyncStateChanges)
       logger.i('Sync state change applied: ${paramList.join(', ')}: ${stateToString[state]}.');
-    shaPref!.setInt(getShaPrefKey(paramList), state);
+    ShaPref.setInt(getShaPrefKey(paramList), state);
   }
 
   void removeShaPrefState(){
     if(logSyncStateChanges)
       logger.i('Sync state change removed: ${paramList.join(', ')}.');
-    shaPref!.remove(shaPrefKey);
+    ShaPref.remove(shaPrefKey);
   }
 
-  bool get shaPrefExists => shaPref!.exists(shaPrefKey);
+  bool get shaPrefExists => ShaPref.exists(shaPrefKey);
 
   @override
   bool operator == (Object other) => other is SyncableParamSingle && shaPrefKey == other.shaPrefKey;
@@ -208,9 +204,9 @@ abstract class SyncableParamSingle_ extends SyncableParam{
   int get hashCode => shaPrefKey.hashCode;
 
   @override
-  Map<String?, dynamic> getUnsyncedMap() {
-    Map<String?, dynamic> result = {};
-    if (!isNotSet && state != STATE_SYNCED)
+  Map<String, dynamic> getUnsyncedMap() {
+    Map<String, dynamic> result = {};
+    if (!isNotSet && state != stateSynced)
       result[paramId] = {"sync_state": stateToString[state], "isNotSet": isNotSet};
 
     return result;
@@ -227,12 +223,12 @@ abstract class SyncableParamSingle_ extends SyncableParam{
 
     int _state = state;
 
-    if(isNotSet || (_state == SyncableParamSingle_.STATE_SYNCED || _state == SyncableParamSingle_.STATE_WAITING_DOWNLOAD))
+    if(isNotSet || (_state == SyncableParamSingle_.stateSynced || _state == SyncableParamSingle_.stateWaitingDownload))
       throw NothingToSyncException();
 
     dynamic val = await value;
     if(setSyncStateInProgress)
-      state = SyncableParamSingle_.STATE_SYNC_IN_PROGRESS;
+      state = SyncableParamSingle_.stateSyncInProgress;
 
     return val;
   }
@@ -291,9 +287,9 @@ abstract class SyncableParamGroup_ extends SyncableParam{
   }
 
   @override
-  Map<String?, dynamic> getUnsyncedMap(){
+  Map<String, dynamic> getUnsyncedMap(){
 
-    Map<String?, dynamic> result = {};
+    Map<String, dynamic> result = {};
 
     for(SyncableParam param in childParams){
       Map _result = param.getUnsyncedMap();
@@ -304,9 +300,9 @@ abstract class SyncableParamGroup_ extends SyncableParam{
   }
 
   @override
-  Future<Map<String?, dynamic>> buildPostReq({bool includeDefaults = false, bool setSyncStateInProgress = false}) async {
+  Future<Map<String, dynamic>> buildPostReq({bool includeDefaults = false, bool setSyncStateInProgress = false}) async {
 
-    Map<String?, dynamic> map = {};
+    Map<String, dynamic> map = {};
 
     for(SyncableParam childParam in childParams) {
       try {

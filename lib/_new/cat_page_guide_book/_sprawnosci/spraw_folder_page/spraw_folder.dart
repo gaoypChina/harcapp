@@ -22,7 +22,7 @@ class SprawFolder{
 
   static SprawFolder get omega => SprawFolder.from(omegaFolderId);
 
-  static List<String> get ownFolderIds => shaPref!.getStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_NAMES, []);
+  static List<String> get ownFolderIds => ShaPref.getStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_NAMES, []);
   static List<String> get allFolderIds{
     List<String> folderNames = ownFolderIds;
     folderNames.insert(0, omegaFolderId);
@@ -37,30 +37,30 @@ class SprawFolder{
     return folders;
   }
 
-  static set ownFolderIds(List<String> value) => shaPref!.setStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_NAMES, value);
+  static set ownFolderIds(List<String> value) => ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_NAMES, value);
 
   static String? getName(String id) =>
       id == omegaFolderId?omegaFolderName:
-      shaPref!.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id), '');
+      ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id), '');
 
-  static void setName(String id, String value) => shaPref!.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id), value);
+  static void setName(String id, String value) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id), value);
 
   String get name => getName(id)!;
   set name(String value) => setName(id, value);
 
-  static List<String> getSprawUIDs(String id) => shaPref!.getStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id), []);
-  static void setSprawUIDs(String id, List<String> value) => shaPref!.setStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id), value);
+  static List<String> getSprawUIDs(String id) => ShaPref.getStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id), []);
+  static void setSprawUIDs(String id, List<String> value) => ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id), value);
 
   List<String> get sprawUIDs => getSprawUIDs(id);
   set sprawUIDs(List<String> value) => setSprawUIDs(id, value);
 
   static String? getColorKey(String id) =>
       id == omegaFolderId? omegaFolderColorKey:
-      shaPref!.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id), CommonColorData.DEF_COLORS_KEY);
+      ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id), CommonColorData.DEF_COLORS_KEY);
 
   String get colorKey => getColorKey(id)!;
 
-  static void setColorKey(String id, String colorKey) => shaPref!.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id), colorKey);
+  static void setColorKey(String id, String colorKey) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id), colorKey);
   set colorKey(String value) => setColorKey(id, value);
 
   static CommonColorData? getColorData(String id) => CommonColorData.ALL[getColorKey(id)!];
@@ -69,10 +69,10 @@ class SprawFolder{
   static String? getIconKey(String id) =>
       id == omegaFolderId?
       omegaFolderIconKey:
-      shaPref!.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), CommonIconData.DEF_ICON_KEY);
+      ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), CommonIconData.DEF_ICON_KEY);
   String get iconKey => getIconKey(id)!;
 
-  static void setIconKey(String id, String iconKey) => shaPref!.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), iconKey);
+  static void setIconKey(String id, String iconKey) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), iconKey);
   set iconKey(String value) => setIconKey(id, value);
 
   static IconData? getIcon(String id) => CommonIconData.ALL[getIconKey(id)!];
@@ -90,7 +90,7 @@ class SprawFolder{
 
     String iconKey = iconKeys[i];
 
-    shaPref!.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), iconKey);
+    ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), iconKey);
   }
   set icon(IconData? value) => setIcon(id, value);
 
@@ -107,9 +107,9 @@ class SprawFolder{
 
   static SprawFolder create(){
 
-    int lastUsedId = shaPref!.getInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, 0)!;
+    int lastUsedId = ShaPref.getInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, 0);
     int _id = lastUsedId + 1;
-    shaPref!.setInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, _id);
+    ShaPref.setInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, _id);
 
     String id = _id.toString();
 
@@ -119,7 +119,7 @@ class SprawFolder{
 
     ownFolderIds = all;
 
-    shaPref!.setStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id), []);
+    ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id), []);
 
     return SprawFolder(id: id, spraws: []);
   }
@@ -131,7 +131,7 @@ class SprawFolder{
     all.remove(id);
     ownFolderIds = all;
 
-    shaPref!.remove(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id));
+    ShaPref.remove(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id));
 
     return true;
   }

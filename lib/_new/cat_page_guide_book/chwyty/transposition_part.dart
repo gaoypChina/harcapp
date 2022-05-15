@@ -125,7 +125,7 @@ class TranspositionPartState extends State<TranspositionPart> with AutomaticKeep
         Consumer<FretboardProvider>(
           builder: (context, prov, child) => ChordDrawBar(
             ChordShifter(chords, shift!).getText(true),
-            initType: prov.type!,
+            initType: prov.type,
             changeTypeOnTap: false,
             elevation: 0,
             background: Colors.transparent,

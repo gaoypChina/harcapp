@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
-import 'package:harcapp/_new/api/sync_resp_body/rank_def_resp.dart';
+import 'package:harcapp/_new/api/sync_resp_body/rank_def_get_resp.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/data/data_zhr_d.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/sector_sep_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/single_header_widget.dart';
@@ -15,8 +15,6 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_sta
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_task.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
-import '../../../../sync/syncable_new.dart';
 
 class RankZHRDData extends RankData{
 
@@ -144,7 +142,7 @@ class RankZHRDData extends RankData{
 
 }
 
-abstract class RankZHRDTempl<T extends RankState> extends Rank<RankZHRDData, RankDefResp?, T>{
+abstract class RankZHRDTempl<T extends RankState> extends Rank<RankZHRDData, RankDefGetResp, T>{
 
   RankZHRDTempl(
     RankZHRDData data,

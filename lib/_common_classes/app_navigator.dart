@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-Duration pageTransDuration = MaterialPageRoute<Scaffold>(builder: ((context) => null) as Widget Function(BuildContext)).transitionDuration;
+Duration pageTransDuration = MaterialPageRoute<Scaffold>(
+    builder: (context) => Container()
+).transitionDuration;
 
 Future<void> popPage(BuildContext context) async {
   Navigator.pop(context);

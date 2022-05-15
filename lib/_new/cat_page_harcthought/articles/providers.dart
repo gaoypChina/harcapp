@@ -1,13 +1,13 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
-import 'package:harcapp/_new/cat_page_harcthought/articles/theme.dart';
+import 'package:provider/provider.dart';
 
 import 'article_core.dart';
 import 'article_text_style.dart';
 
 class ArticleNotifierProvider extends ChangeNotifier{
+
+  static ArticleNotifierProvider of(BuildContext context) => Provider.of<ArticleNotifierProvider>(context, listen: false);
 
   void notify() => notifyListeners();
 
@@ -15,12 +15,14 @@ class ArticleNotifierProvider extends ChangeNotifier{
 
 class BookmarkedArticlesProvider extends ChangeNotifier{
 
+  static BookmarkedArticlesProvider of(BuildContext context) => Provider.of<BookmarkedArticlesProvider>(context, listen: false);
+
   List<Article?>? _articles;
 
   List<Article?>? get articles => _articles;
 
   init(List<Article?>? allArticles){
-    List<String> articleIds = shaPref!.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED, []);
+    List<String> articleIds = ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED, []);
     _articles = [];
     for(String id in articleIds)
       _articles!.add(Article.allMap![id]);
@@ -49,12 +51,14 @@ class BookmarkedArticlesProvider extends ChangeNotifier{
 
 class LikedArticlesProvider extends ChangeNotifier{
 
+  static LikedArticlesProvider of(BuildContext context) => Provider.of<LikedArticlesProvider>(context, listen: false);
+
   List<Article?>? _articles;
 
   List<Article?>? get articles => _articles;
 
   init(List<Article?>? allArticles){
-    List<String> articleIds = shaPref!.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED, []);
+    List<String> articleIds = ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED, []);
     _articles = [];
     for(String id in articleIds)
       _articles!.add(Article.allMap![id]);
@@ -83,6 +87,8 @@ class LikedArticlesProvider extends ChangeNotifier{
 }
 
 class ArticleThemeProvider extends ChangeNotifier{
+
+  static ArticleThemeProvider of(BuildContext context) => Provider.of<ArticleThemeProvider>(context, listen: false);
 
   //ArticleThemeColorOption _colorOption;
   String? _paraFontFamily;

@@ -14,7 +14,7 @@ RankDefData rankZhpOldZuch1Data = RankDefData(
   org: Org.zhp,
   id: 'ZUCH_1',
   catData: [
-    RankCatData(
+    const RankCatData(
       groupData: [
         RankGroupData(
           taskData: [
@@ -28,7 +28,7 @@ RankDefData rankZhpOldZuch1Data = RankDefData(
     )
   ]
 );
-Rank rankZhpOldZuch1 = rankZhpOldZuch1Data.build();
+RankDef rankZhpOldZuch1 = rankZhpOldZuch1Data.build();
 
 RankDefData rankZhpOldZuch2Data = RankDefData(
     titleMale: 'Zuch sprawny',
@@ -36,7 +36,7 @@ RankDefData rankZhpOldZuch2Data = RankDefData(
     org: Org.zhp,
     id: 'ZUCH_2',
     catData: [
-      RankCatData(
+      const RankCatData(
           groupData: [
             RankGroupData(
                 taskData: [
@@ -50,7 +50,7 @@ RankDefData rankZhpOldZuch2Data = RankDefData(
       )
     ]
 );
-Rank rankZhpOldZuch2 = rankZhpOldZuch2Data.build();
+RankDef rankZhpOldZuch2 = rankZhpOldZuch2Data.build();
 
 RankDefData rankZhpOldZuch3Data = RankDefData(
     titleMale: 'Zuch gospodarny',
@@ -58,7 +58,7 @@ RankDefData rankZhpOldZuch3Data = RankDefData(
     org: Org.zhp,
     id: 'ZUCH_3',
     catData: [
-      RankCatData(
+      const RankCatData(
           groupData: [
             RankGroupData(
                 taskData: [
@@ -72,7 +72,7 @@ RankDefData rankZhpOldZuch3Data = RankDefData(
       )
     ]
 );
-Rank rankZhpOldZuch3 = rankZhpOldZuch3Data.build();
+RankDef rankZhpOldZuch3 = rankZhpOldZuch3Data.build();
 
 
 RankZHPOldData rankZhpOld0Data = RankZHPOldData(
@@ -86,13 +86,13 @@ RankZHPOldData rankZhpOld0Data = RankZHPOldData(
   warOtw: ['Chęć :)'],
   catData: [
 
-    RankCatData(
+    const RankCatData(
       groupData: [
         RankGroupData(
           taskData: [
             RankTaskData(text: 'Znam i rozumiem treść Przyrzeczenia Harcerskiego.'),
             RankTaskData(text: 'Znam i rozumiem Prawo Harcerskie.'),
-            RankTaskData(text: 'Znam i rozumiem symbolikę krzyża harcerskiego, lilijki i koniczynki. Potrafię wyjaśnić, do czego zobowiązuje harcerskie pozdrowienie \"Czuwaj\".'),
+            RankTaskData(text: 'Znam i rozumiem symbolikę krzyża harcerskiego, lilijki i koniczynki. Potrafię wyjaśnić, do czego zobowiązuje harcerskie pozdrowienie "Czuwaj".'),
             RankTaskData(text: 'Znam hymn harcerski i umiem go zaśpiewać.'),
             RankTaskData(text: 'Kompletuję swój mundur harcerski.'),
             RankTaskData(text: 'Systematycznie uczestniczę w zbiórkach zastępu i drużyny.'),
@@ -120,7 +120,7 @@ RankZHPOldData rankZhpOld1Data = RankZHPOldData(
   ],
   catData: [
     
-    RankCatData(
+    const RankCatData(
       groupData: [
         RankGroupData(
             taskData: [
@@ -206,7 +206,7 @@ RankZHPOldData rankZhpOld2Data = RankZHPOldData(
     'Aktywnie uczestniczy w życiu zastępu i drużyny.'
   ],
   catData: [
-    RankCatData(
+    const RankCatData(
       groupData: [
         RankGroupData(
           title: 'Praca nad sobą',
@@ -257,7 +257,7 @@ RankZHPOldData rankZhpOld2Data = RankZHPOldData(
           icon: RankData.iconTechHarc,
           taskData: [
             RankTaskData(text: 'Znam skład apteczki drużyny i wiem, jak stosować znajdujące się w niej środki. Potrafię udzielić pierwszej pomocy w przypadku krwotoku, stłuczenia, oparzenia, odmrożenia, skręcenia stawu, złamania kończyny, wystąpienia ciała obcego w oku, omdlenia, udaru słonecznego. Pełniłem(-am) służbę samarytańską, np. na wycieczce, biwaku, festynie.'),
-            RankTaskData(text: 'Wyznaczyłem(-am) azymuty w terenie. Wykonałem(-am) szkic drogi, zaznaczając azymuty, charakterystyczne obiekty i odległości. Posługując się busolą i mapą dotarłem(-am) do wyznaczonego miejsca. Wyznaczyłem(-am) w nocy kierunek północny. Prawidłowo oceniłem(-am) \"na oko\" odległość w terenie, długość przebytej drogi oraz czas marszu. W pomiarach wykorzystałem wymiary swojego ciała, np. wzrost, rozpiętość ramion i długość stopy.'),
+            RankTaskData(text: 'Wyznaczyłem(-am) azymuty w terenie. Wykonałem(-am) szkic drogi, zaznaczając azymuty, charakterystyczne obiekty i odległości. Posługując się busolą i mapą dotarłem(-am) do wyznaczonego miejsca. Wyznaczyłem(-am) w nocy kierunek północny. Prawidłowo oceniłem(-am) "na oko" odległość w terenie, długość przebytej drogi oraz czas marszu. W pomiarach wykorzystałem wymiary swojego ciała, np. wzrost, rozpiętość ramion i długość stopy.'),
             RankTaskData(text: 'Znam oznakowanie szlaków turystycznych oraz zasady poruszania się po nich. Przeszedłem(-przeszłam) oznaczonym szlakiem.'),
             RankTaskData(text: 'Uczestniczyłem(-am) w rozstawianiu obozu. Zbudowałem(-am) proste urządzenie obozowe lub wykonałem(-am) element zdobnictwa obozowego. Znam osiem węzłów, wykorzystałem(-am) je w praktyce (np. przy budowie urządzeń, w zdobnictwie obozowym lub podczas wędrówki). Przygotowałem(-am) posiłek dla zastępu na kuchni polowej lub kuchence turystycznej.'),
             RankTaskData(text: 'Kompletuję ekwipunek turystyczny odpowiedni na różne pory roku.'),
@@ -305,7 +305,7 @@ RankZHPOldData rankZhpOld3Data = RankZHPOldData(
     'Aktywnie uczestniczy w życiu zastępu i drużyny.'
   ],
   catData: [
-    RankCatData(
+    const RankCatData(
       groupData: [
         RankGroupData(
           title: 'Praca nad sobą',
@@ -377,7 +377,7 @@ RankZHPOldData rankZhpOld4Data = RankZHPOldData(
     'Aktywnie uczestniczy w życiu zastępu i drużyny.'
   ],
   catData: [
-    RankCatData(
+    const RankCatData(
       groupData: [
         RankGroupData(
           title: 'Praca nad sobą',
@@ -413,7 +413,7 @@ RankZHPOldData rankZhpOld4Data = RankZHPOldData(
           icon: RankData.iconSluzba,
           taskData: [
             RankTaskData(text: 'Jestem wrażliwa/wy na potrzeby drugiego człowieka – świadomie i odpowiedzialnie podejmuje stałą służbę.'),
-            RankTaskData(text: 'Sporządziłem(-am) \"mapę potrzeb\" występujących w najbliższej okolicy i uczestniczyłem(-am) w projekcie (zadaniu) odpowiadającym na którąś ze wskazanych potrzeb.'),
+            RankTaskData(text: 'Sporządziłem(-am) "mapę potrzeb" występujących w najbliższej okolicy i uczestniczyłem(-am) w projekcie (zadaniu) odpowiadającym na którąś ze wskazanych potrzeb.'),
             RankTaskData(text: 'Orientuję się w bieżących wydarzeniach politycznych, gospodarczych i kulturalnych kraju.'),
             RankTaskData(text: 'Znam najważniejsze prawa i obowiązki obywateli RP.'),
             RankTaskData(text: 'Przeprowadziłaem(-am) zwiad tematyczny (np. poznając przyrodę, kulturę, historię, współczesne życie społeczne i gospodarcze, poznając ciekawe osoby, mało znane miejsca, zapomniane pamiątki historyczne). Sporządziłem(-am) dokumentację zwiadu (zawierającą np. opisy, wywiady, pamiątki, fotografie, spis lektur na wybrany temat). W interesujący sposób przedstawiłem(-am) ją w drużynie.'),
@@ -447,7 +447,7 @@ RankZHPOldData rankZhpOld5Data = RankZHPOldData(
     'Wspólnie z opiekunem przygotował(-a) indywidualny program próby.'
   ],
   catData: [
-    RankCatData(
+    const RankCatData(
       groupData: [
         RankGroupData(
           title: 'Siła ciała',
@@ -500,7 +500,7 @@ RankZHPOldData rankZhpOld6Data = RankZHPOldData(
     'Wspólnie z opiekunem przygotował(-a) indywidualny program swojej próby.'
   ],
   catData: [
-    RankCatData(
+    const RankCatData(
       groupData: [
         RankGroupData(
           taskData: [

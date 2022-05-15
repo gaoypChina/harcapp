@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
@@ -86,7 +87,7 @@ class TaskBodiesProvider extends ChangeNotifier{
   List<IndivCompTaskEditable>? _taskEditables;
 
   TaskBodiesProvider({List<IndivCompTask>? tasks}){
-    _taskEditables = tasks?.map((task) => IndivCompTaskEditable(task))?.toList()??[];
+    _taskEditables = tasks?.map((task) => IndivCompTaskEditable(task)).toList()??[];
   }
 
   List<IndivCompTaskEditable>? get taskEditables => _taskEditables;
@@ -157,6 +158,8 @@ class TaskBodiesProvider extends ChangeNotifier{
 }
 
 class AwardsProvider extends ChangeNotifier{
+
+  static AwardsProvider of(BuildContext context) => Provider.of<AwardsProvider>(context, listen: false);
 
   List<String?>? _awards;
 

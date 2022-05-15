@@ -8,7 +8,6 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_gro
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/task_data.dart';
 import 'package:harcapp/_new/cat_page_home/providers.dart';
-import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:provider/provider.dart';
 
@@ -37,12 +36,12 @@ class RankTask extends SyncableParamGroup_ with SyncNode<RankTaskResp> implement
   RankTaskState? get taskState => rank!.state.task(uid);
 
   @override
-  bool? get completed => taskState!.completed;
+  bool get completed => taskState!.completed;
 
   @override
-  void setCompleted(BuildContext context, bool? value){
+  void setCompleted(BuildContext context, bool value){
     taskState!.completed = value;
-    setSingleState(PARAM_COMPLETED, SyncableParamSingle_.STATE_NOT_SYNCED);
+    setSingleState(PARAM_COMPLETED, SyncableParamSingle_.stateNotSynced);
     synchronizer.post();
     Provider.of<RankProv>(context, listen: false).notify();
   }
@@ -53,7 +52,7 @@ class RankTask extends SyncableParamGroup_ with SyncNode<RankTaskResp> implement
   @override
   void setNote(BuildContext context, String value){
     taskState!.note = value;
-    setSingleState(PARAM_NOTE, SyncableParamSingle_.STATE_NOT_SYNCED);
+    setSingleState(PARAM_NOTE, SyncableParamSingle_.stateNotSynced);
     synchronizer.post(aggregateDelay: SynchronizerEngine.aggregateTextInputDuration);
   }
 

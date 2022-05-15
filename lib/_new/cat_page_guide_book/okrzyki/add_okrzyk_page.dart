@@ -39,7 +39,6 @@ class AddOkrzykPage extends StatefulWidget {
 
 class AddOkrzykPageState extends State<AddOkrzykPage> {
 
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
   late bool scrollListView;
 
   int? okrzykType;
@@ -356,13 +355,9 @@ class ItemCard extends StatelessWidget{
             bottom: Dimen.ICON_MARG + Dimen.TEXT_SIZE_SMALL,
           ),
           onPressed: ()async{
-            int? ton;
-            ton = int.tryParse(ctrlTon.text);
-            ton ??= 0;
+            int ton = int.tryParse(ctrlTon.text)??0;
 
-            int time;
-            time = int.parse(ctrlTimeFract.text);
-            time ??= 0;
+            int time = int.tryParse(ctrlTimeFract.text)??0;
 
             SoundElement element = SoundElement(ton, time);
             await element.play();

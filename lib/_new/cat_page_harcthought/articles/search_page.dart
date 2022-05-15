@@ -25,7 +25,7 @@ import 'title_widget/article_tag_widget.dart';
 
 class ArticleSearchPage extends StatefulWidget{
 
-  final List<Article?>? allArticles;
+  final List<Article> allArticles;
 
   const ArticleSearchPage(this.allArticles, {Key? key}): super(key: key);
 
@@ -36,7 +36,7 @@ class ArticleSearchPage extends StatefulWidget{
 
 class ArticleSearchPageState extends State<ArticleSearchPage>{
 
-  List<Article?>? get allArticles => widget.allArticles;
+  List<Article> get allArticles => widget.allArticles;
 
   //List<ArticleCore> searchedArticles;
 
@@ -171,7 +171,7 @@ class ArticleSearchPageState extends State<ArticleSearchPage>{
 Future<void> _showOptionsBottomSheet(BuildContext context, ArticleSearchOptions? options, ArticleSearcher? searcher, TextEditingController? controller, {void Function()? onChanged}) => showScrollBottomSheet(
     context: context,
     builder: (context) => BottomSheetOptions(options, searcher, onChanged: () async{
-      await searcher!.init(Article.all, options);
+      await searcher!.init(Article.all??[], options);
       searcher.run(controller!.text);
       if(onChanged != null) onChanged();
     })

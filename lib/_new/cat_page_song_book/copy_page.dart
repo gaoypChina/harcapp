@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core_song/song_core.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class CopyPage<T extends SongCore?> extends StatefulWidget{
+class CopyPage<T extends SongCore> extends StatefulWidget{
 
   final T song;
   final Function? onCopied;
@@ -22,12 +23,12 @@ class CopyPage<T extends SongCore?> extends StatefulWidget{
 
 }
 
-class CopyPageState<T extends SongCore?> extends State<CopyPage> with TickerProviderStateMixin{
+class CopyPageState<T extends SongCore> extends State<CopyPage> with TickerProviderStateMixin{
 
   T get song => widget.song as T;
   Function? get onCopied => widget.onCopied;
 
-  TabController? tabController;
+  late TabController tabController;
   late List<String> content;
 
   @override
@@ -42,9 +43,9 @@ class CopyPageState<T extends SongCore?> extends State<CopyPage> with TickerProv
     List<String> words = song.text.split('\n');
     List<String> chords = song.chords.split('\n');
 
-    String content1 = header + '\n' + song.text;
+    String content1 = '$header\n${song.text}';
 
-    String content2 = header + '\n';
+    String content2 = '$header\n';
     for(int i=0; i<max(words.length, chords.length); i++){
       content2 += (
           (i>chords.length || chords[i].isEmpty?'':('[' + chords[i] + ']'))
@@ -54,7 +55,7 @@ class CopyPageState<T extends SongCore?> extends State<CopyPage> with TickerProv
 
     if(content2.isNotEmpty) content2 = content2.substring(0, content2.length-1);
 
-    String content3 = header + '\n';
+    String content3 = '$header\n';
     for(int i=0; i<max(words.length, chords.length); i++){
       content3 += (
           (i>words.length?'':words[i]) + ' ' +
@@ -108,26 +109,25 @@ class CopyPageState<T extends SongCore?> extends State<CopyPage> with TickerProv
             ]
           ),
         ),
-        bottomNavigationBar: InkWell(
+        bottomNavigationBar: SimpleButton(
           onTap: (){
-            Clipboard.setData(ClipboardData(text: content[tabController!.index]));
-            if(onCopied!=null) onCopied!();
+            Clipboard.setData(ClipboardData(text: content[tabController.index]));
+            onCopied?.call();
             Navigator.pop(context);
           },
-          child: AppCard(
-            margin: AppCard.normMargin,
-            elevation: AppCard.bigElevation,
-            radius: AppCard.BIG_RADIUS,
-            padding: const EdgeInsets.all(Dimen.ICON_MARG),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(MdiIcons.contentCopy),
-                  const SizedBox(width: Dimen.ICON_MARG),
-                  Text('Kopiuj', style: AppTextStyle(fontWeight: weight.halfBold, color: iconEnab_(context)))
-                ]
-            ),
-          )
+          color: cardEnab_(context),
+          margin: AppCard.normMargin.copyWith(top: 0),
+          elevation: AppCard.bigElevation,
+          radius: AppCard.BIG_RADIUS,
+          padding: const EdgeInsets.all(Dimen.ICON_MARG),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(MdiIcons.contentCopy),
+                const SizedBox(width: Dimen.ICON_MARG),
+                Text('Kopiuj', style: AppTextStyle(fontWeight: weight.halfBold, color: iconEnab_(context)))
+              ]
+          ),
         )
     );
 

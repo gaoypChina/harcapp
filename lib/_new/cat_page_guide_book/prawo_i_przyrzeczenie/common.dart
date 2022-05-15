@@ -27,18 +27,6 @@ class PrawoItem extends StatelessWidget{
   Widget build(BuildContext context) {
 
     return SimpleButton(
-      child: ListTile(
-        leading: Text(
-          number.toString(),
-          style: AppTextStyle(
-              fontSize: Dimen.TEXT_SIZE_APPBAR,
-              fontWeight: weight.halfBold,
-              color: orgColor[OrgProvider.of(context).current!]
-          ),
-        ),
-        title: Text(content, style: AppTextStyle(color: textEnab_(context), fontWeight: weight.halfBold, height: 1.2)),
-        trailing: Icon(icon),
-      ),
       onTap: comment==null?null:
           () => showScrollBottomSheet(
           context: context,
@@ -55,6 +43,18 @@ class PrawoItem extends StatelessWidget{
               ],
             ),
           )
+      ),
+      child: ListTile(
+        leading: Text(
+          number.toString(),
+          style: AppTextStyle(
+              fontSize: Dimen.TEXT_SIZE_APPBAR,
+              fontWeight: weight.halfBold,
+              color: orgColor[OrgProvider.of(context).current]
+          ),
+        ),
+        title: Text(content, style: AppTextStyle(color: textEnab_(context), fontWeight: weight.halfBold, height: 1.2)),
+        trailing: Icon(icon),
       ),
     );
   }
@@ -125,14 +125,13 @@ class WedroTabChild extends StatelessWidget{
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(child: Text(
+                  SizedBox(width: 20.0, child: Text(
                       '1.',
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[prov.current!]
-                      )),
-                      width: 20.0
+                          color: orgColor[prov.current]
+                      ))
                   ),
                   Expanded(child: Text(wedro_kodeks_content_1, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)))
                 ],
@@ -142,14 +141,13 @@ class WedroTabChild extends StatelessWidget{
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(child: Text(
+                  SizedBox(width: 20.0, child: Text(
                       '2.',
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[prov.current!]
-                      )),
-                      width: 20.0
+                          color: orgColor[prov.current]
+                      ))
                   ),
                   Expanded(child: Text(wedro_kodeks_content_2, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)))
                 ],
@@ -159,14 +157,13 @@ class WedroTabChild extends StatelessWidget{
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(child: Text(
+                  SizedBox(width: 20.0, child: Text(
                       '3.',
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[prov.current!]
-                      )),
-                      width: 20.0
+                          color: orgColor[prov.current]
+                      ))
                   ),
                   Expanded(child: Text(wedro_kodeks_content_3, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)))
                 ],
@@ -176,14 +173,13 @@ class WedroTabChild extends StatelessWidget{
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(child: Text(
+                  SizedBox(width: 20.0, child: Text(
                       '4.',
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[prov.current!]
-                      )),
-                      width: 20.0
+                          color: orgColor[prov.current]
+                      ))
                   ),
                   Expanded(child: Text(wedro_kodeks_content_4, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)))
                 ],
@@ -193,14 +189,13 @@ class WedroTabChild extends StatelessWidget{
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(child: Text(
+                  SizedBox(width: 20.0, child: Text(
                       '5.',
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[prov.current!]
-                      )),
-                      width: 20.0
+                          color: orgColor[prov.current]
+                      ))
                   ),
                   Expanded(child: Text(wedro_kodeks_content_5, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)))
                 ],
@@ -210,14 +205,13 @@ class WedroTabChild extends StatelessWidget{
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(child: Text(
+                  SizedBox(width: 20.0, child: Text(
                       '6.',
                       style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: orgColor[prov.current!]
-                      )),
-                      width: 20.0
+                          color: orgColor[prov.current]
+                      ))
                   ),
                   Expanded(child: Text(wedro_kodeks_content_6, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)))
                 ],

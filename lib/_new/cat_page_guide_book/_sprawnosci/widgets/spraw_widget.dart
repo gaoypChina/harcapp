@@ -37,7 +37,18 @@ class SprawWidget extends StatefulWidget{
   final void Function()? onAbandoned;
   final void Function(bool)? onStartStop;
 
-  const SprawWidget(this.spraw, {this.showBack = true, this.iconHeroTag = false, this.onClaimed, this.onSaveChanged, this.onReqComplChanged, this.onCompleted, this.onAbandoned, this.onStartStop});
+  const SprawWidget(
+      this.spraw,
+      { this.showBack = true,
+        this.iconHeroTag = false,
+        this.onClaimed,
+        this.onSaveChanged,
+        this.onReqComplChanged,
+        this.onCompleted,
+        this.onAbandoned,
+        this.onStartStop,
+        Key? key
+      }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => SprawWidgetState();
@@ -60,7 +71,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
   void Function()? get onAbandoned => widget.onAbandoned;
   void Function(bool)? get onStartStop => widget.onStartStop;
 
-  ConfettiController? confettiController;
+  late ConfettiController confettiController;
 
   @override
   void initState() {
@@ -70,99 +81,96 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
 
   @override
   void dispose() {
-    confettiController!.dispose();
+    confettiController.dispose();
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => RankSprawTempWidget(
+    title: spraw!.title,
+    color: SprawBookData.mapIdColorMap[spraw!.sprawBook.id]!.avgColor(false),
 
-    return RankSprawTempWidget(
-      title: spraw!.title,
-      color: SprawBookData.mapIdColorMap[spraw!.sprawBook.id]!.avgColor(false),
+    completedText: 'Sprawność zdobyta!',
 
-      completedText: 'Sprawność zdobyta!',
+    titleTrailing:
+    widget.iconHeroTag?
+    Hero(
+      tag: spraw!.iconPath,
+      child: TrailingWidget(spraw),
+    ):
+    TrailingWidget(spraw),
 
-      titleTrailing:
-      widget.iconHeroTag?
-      Hero(
-        tag: spraw!.iconPath,
-        child: TrailingWidget(spraw),
-      ):
-      TrailingWidget(spraw),
+    underTitleLeading: LevelWidget(spraw),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
 
-      underTitleLeading: LevelWidget(spraw),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
+        RequirementsWidget(
+          spraw,
+          onChanged: (){
+            Provider.of<SprawInProgressListProv>(context, listen: false).notify();
+            setState(() {});
+            if(widget.onReqComplChanged != null) widget.onReqComplChanged!();
+          },
+        ),
 
-          RequirementsWidget(
-            spraw,
-            onChanged: (){
-              Provider.of<SprawInProgressListProv>(context, listen: false).notify();
-              setState(() {});
-              if(widget.onReqComplChanged != null) widget.onReqComplChanged!();
-            },
-          ),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
-          const SizedBox(height: Dimen.SIDE_MARG),
+        if(spraw!.comment != null)
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
 
-          if(spraw!.comment != null)
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-
-                Padding(
-                  padding: const EdgeInsets.only(left: Dimen.ICON_MARG),
-                  child: Text(
-                    'Komentarz',
-                    style: AppTextStyle(
-                        fontSize: Dimen.TEXT_SIZE_APPBAR,
-                        fontWeight: weight.halfBold
-                    ),
+              Padding(
+                padding: const EdgeInsets.only(left: Dimen.ICON_MARG),
+                child: Text(
+                  'Komentarz',
+                  style: AppTextStyle(
+                      fontSize: Dimen.TEXT_SIZE_APPBAR,
+                      fontWeight: weight.halfBold
                   ),
                 ),
+              ),
 
-                Padding(
-                  padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                  child: AppText(
-                    spraw!.comment,
-                    size: Dimen.TEXT_SIZE_BIG,
-                  ),
-                )
+              Padding(
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                child: AppText(
+                  spraw!.comment,
+                  size: Dimen.TEXT_SIZE_BIG,
+                ),
+              )
 
-              ],
-            ),
+            ],
+          ),
 
-        ],
-      ),
-      floatingButton: buildFloatingButton(),
-      backgroundIcon: SprawBookData.mapIdIconMap[spraw!.sprawBook.id],
-      backgroundIconComplete: MdiIcons.trophyVariant,
+      ],
+    ),
+    floatingButton: buildFloatingButton(),
+    backgroundIcon: SprawBookData.mapIdIconMap[spraw!.sprawBook.id],
+    backgroundIconComplete: MdiIcons.trophyVariant,
 
-      inProgress: spraw!.inProgress,
-      completenessPercent: spraw!.completenessPercent,
-      isReadyToComplete: spraw!.isReadyToComplete,
-      completed: spraw!.completed,
-      completedDate: spraw!.completionDate,
-      onCompleteDateChanged: (DateTime dateTime) => setState(() => spraw!.setCompletionDate(dateTime)),
+    inProgress: spraw!.inProgress,
+    completenessPercent: spraw!.completenessPercent,
+    isReadyToComplete: spraw!.isReadyToComplete,
+    completed: spraw!.completed,
+    completedDate: spraw!.completionDate,
+    onCompleteDateChanged: (DateTime dateTime) => setState(() => spraw!.setCompletionDate(dateTime)),
 
-      onStartStopTap: (bool inProgress){
-          setState(() => spraw!.changeInProgress(context, value: !inProgress));
-          onStartStop?.call(inProgress);
-      },
-      onAbandonTap: (){
-        spraw!.changeCompleted(context);
-        //spraw.changeInProgress(context);
-        onAbandoned?.call();
-        setState(() {});
-      },
+    onStartStopTap: (bool inProgress){
+      setState(() => spraw!.changeInProgress(context, value: !inProgress));
+      onStartStop?.call(inProgress);
+    },
+    onAbandonTap: (){
+      spraw!.changeCompleted(context);
+      //spraw.changeInProgress(context);
+      onAbandoned?.call();
+      setState(() {});
+    },
 
-      showAppBar: showBack,
-      confettiController: confettiController,
-    );
-  }
+    showAppBar: showBack,
+    confettiController: confettiController,
+  );
 
   Widget buildFloatingButton(){
 

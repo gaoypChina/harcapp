@@ -43,7 +43,7 @@ class ChildGaderypolukiState extends State<ChildGaderypoluki> with AutomaticKeep
               child: KeyField(
                   enabled: false,
                   trailing: IconButton(
-                    icon: Icon(MdiIcons.textBoxSearchOutline),
+                    icon: const Icon(MdiIcons.textBoxSearchOutline),
                     onPressed: showKeyPage,
                   )
               )
@@ -89,12 +89,12 @@ class ChildGaderypolukiState extends State<ChildGaderypoluki> with AutomaticKeep
               return Expanded(child: AppCard(
                   radius: AppCard.BIG_RADIUS,
                   elevation: AppCard.bigElevation,
-                  padding: EdgeInsets.only(top: Dimen.TEXT_FIELD_PADD, left: AppCard.DEF_PADDING_VAL, right: AppCard.DEF_PADDING_VAL, bottom: AppCard.DEF_PADDING_VAL),
-                  margin: EdgeInsets.all(Dimen.DEF_MARG),
+                  padding: const EdgeInsets.only(top: Dimen.TEXT_FIELD_PADD, left: AppCard.DEF_PADDING_VAL, right: AppCard.DEF_PADDING_VAL, bottom: AppCard.DEF_PADDING_VAL),
+                  margin: const EdgeInsets.all(Dimen.DEF_MARG),
                   child: Consumer<GaderypolukiProvider>(
                     builder: (context, prov, child){
 
-                      if(prov.isValid!)
+                      if(prov.isValid)
                         return SelectableText(
 
                             prov.output!.isEmpty?
@@ -105,13 +105,13 @@ class ChildGaderypolukiState extends State<ChildGaderypoluki> with AutomaticKeep
                                 fontSize: Dimen.TEXT_SIZE_BIG,
 
                                 color:
-                                prov.isValid!&&prov.output!.isNotEmpty?
+                                prov.isValid&&prov.output!.isNotEmpty?
                                 textEnab_(context):
                                 hintEnab_(context)
                             )
                         );
 
-                      return EmptyMessageWidget(
+                      return const EmptyMessageWidget(
                           text: 'Błąd w kluczu',
                           icon: MdiIcons.alertCircleOutline
                       );
@@ -160,7 +160,7 @@ class KeyCard extends StatelessWidget{
   final String? _input;
   final void Function(String key)? onTap;
 
-  const KeyCard(this._key, this._input, {this.onTap});
+  const KeyCard(this._key, this._input, {this.onTap, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -170,14 +170,14 @@ class KeyCard extends StatelessWidget{
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(height: 1.5*Dimen.ICON_MARG),
+            const SizedBox(height: 1.5*Dimen.ICON_MARG),
 
             Row(
               children: [
 
-                SizedBox(width: Dimen.ICON_MARG),
+                const SizedBox(width: Dimen.ICON_MARG),
                 Icon(MdiIcons.keyOutline, color: hintEnab_(context)),
-                SizedBox(width: Dimen.ICON_MARG),
+                const SizedBox(width: Dimen.ICON_MARG),
 
                 Text(
                   splitStringIntoPairs(_key),
@@ -190,14 +190,14 @@ class KeyCard extends StatelessWidget{
               ],
             ),
 
-            SizedBox(height: Dimen.ICON_MARG),
+            const SizedBox(height: Dimen.ICON_MARG),
 
             Row(
               children: [
 
-                SizedBox(width: Dimen.ICON_MARG),
+                const SizedBox(width: Dimen.ICON_MARG),
                 Icon(MdiIcons.textBoxOutline, color: hintEnab_(context)),
-                SizedBox(width: Dimen.ICON_MARG),
+                const SizedBox(width: Dimen.ICON_MARG),
 
                 Text(
                     GaderypolukiProvider.createOutput(_key, _input),
@@ -209,7 +209,7 @@ class KeyCard extends StatelessWidget{
               ],
             ),
 
-            SizedBox(height: 1.5*Dimen.ICON_MARG),
+            const SizedBox(height: 1.5*Dimen.ICON_MARG),
 
           ],
         )

@@ -33,7 +33,6 @@ import '_new/cat_page_guide_book/_stopnie/models_common/rank_task.dart';
 import '_new/cat_page_guide_book/szyfry/providers.dart';
 import '_new/cat_page_harcthought/articles/providers.dart';
 import '_new/cat_page_home/circles/model/circle.dart';
-import '_new/cat_page_home/circles/model/member.dart';
 import '_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import '_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
 import '_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
@@ -193,25 +192,81 @@ class App extends StatefulWidget {
 
 class AppState extends State<App> with WidgetsBindingObserver {
   
-  StreamSubscription<ConnectivityResult>? subscription;
+  late StreamSubscription<ConnectivityResult> subscription;
 
-  Future<void> initShaPref() async {
-    await ShaPref.init();
-    setState((){});
+  late bool initialized;
+
+  void convertOldData(){
+
+    if(true)
+
+      // Update Rank task uids
+      for(Rank rank in Rank.all){
+
+        Map<String, bool> taskComplMap = ShaPref.getMap<String, bool>(ShaPref.SHA_PREF_RANK_COMPLETED_REQ_MAP_(rank), {});
+        Map<String, String> taskNoteMap = ShaPref.getMap<String, String>(ShaPref.SHA_PREF_RANK_REQ_NOTES_MAP_(rank), {});
+
+        Map<String, bool?> newTaskComplMap = {};
+        Map<String, String?> newTaskNoteMap = {};
+
+        for(RankCat cat in rank.cats!)
+          for(RankGroup group in cat.groups!)
+            for(RankTask task in group.tasks!){
+
+              if(taskComplMap.containsKey(task.old_uid))
+                newTaskComplMap[task.uid] = taskComplMap[task.old_uid];
+              else if(taskComplMap.containsKey(task.uid))
+                newTaskComplMap[task.uid] = taskComplMap[task.uid];
+
+              if(taskNoteMap.containsKey(task.old_uid))
+                newTaskNoteMap[task.uid] = taskNoteMap[task.old_uid];
+              else if(taskNoteMap.containsKey(task.uid))
+                newTaskNoteMap[task.uid] = taskNoteMap[task.uid];
+
+            }
+
+        ShaPref.setMap(ShaPref.SHA_PREF_RANK_COMPLETED_REQ_MAP_(rank), newTaskComplMap);
+        ShaPref.setMap(ShaPref.SHA_PREF_RANK_REQ_NOTES_MAP_(rank), newTaskNoteMap);
+      }
+
+    if(ShaPref.getBool(ShaPref.SHA_PREF_RESET_STATS, true)){
+      Statistics.songStats = {};
+      Statistics.moduleStats = {};
+      ShaPref.setBool(ShaPref.SHA_PREF_RESET_STATS, false);
+      logger.d('Stats reset.');
+    }
+
   }
 
-  void tryLoadingStuff() async {
+  void initAsync() async {
+    await Future.wait([
+      ShaPref.init(),
+      initPaths(),
+      AccountData.init()
+    ]);
+
+    subscription = addConnectionListener((hasConnection) async {
+      if (!hasConnection) return;
+
+      if(!await synchronizer.isAllSynced())
+        await synchronizer.post();
+
+      await Statistics.commit();
+    });
+
+    // Run loaders
     songLoader.run();
     if(await isNetworkAvailable()) {
-      await indivCompLoader.run();
-      await circleLoader.run();
+      indivCompLoader.run();
+      circleLoader.run();
     }
+    setState(() => initialized = true);
   }
 
-  late ColorPack _slctColorPack;
+  late ColorPack _selColorPack;
 
-  LoginProvider? loginProvider;
-  LoginProviderListener? _loginListener;
+  late LoginProvider loginProvider;
+  late LoginProviderListener _loginListener;
 
   @override
   void initState() {
@@ -220,12 +275,12 @@ class AppState extends State<App> with WidgetsBindingObserver {
     App._orientationChangedListeners = [];
 
     switch(appMode){
-      case AppMode.appModeDefault: _slctColorPack = const ColorPackStartDefault(); break;
-      case AppMode.appModeAdwent: _slctColorPack = const ColorPackStartAdwent(); break;
-      case AppMode.appModeChristmas: _slctColorPack = const ColorPackStartChristmas(); break;
-      case AppMode.appModeZmartwychwstanie: _slctColorPack = const ColorPackStartDefault(); break;
-      case AppMode.appModePowstWarsz: _slctColorPack = const ColorPackStartDefault(); break;
-      default: _slctColorPack = const ColorPackStartDefault(); break;
+      case AppMode.appModeDefault: _selColorPack = const ColorPackStartDefault(); break;
+      case AppMode.appModeAdwent: _selColorPack = const ColorPackStartAdwent(); break;
+      case AppMode.appModeChristmas: _selColorPack = const ColorPackStartChristmas(); break;
+      case AppMode.appModeZmartwychwstanie: _selColorPack = const ColorPackStartDefault(); break;
+      case AppMode.appModePowstWarsz: _selColorPack = const ColorPackStartDefault(); break;
+      default: _selColorPack = const ColorPackStartDefault(); break;
     }
     
     _loginListener = LoginProviderListener(
@@ -248,60 +303,8 @@ class AppState extends State<App> with WidgetsBindingObserver {
         }
     );
 
-    initShaPref().then((value) async {
-
-      // Update rankTaskUids
-      if(true)
-        for(Rank rank in Rank.all){
-
-          Map<String, bool> taskComplMap = shaPref!.getMap<String, bool>(ShaPref.SHA_PREF_RANK_COMPLETED_REQ_MAP_(rank), {});
-          Map<String, String> taskNoteMap = shaPref!.getMap<String, String>(ShaPref.SHA_PREF_RANK_REQ_NOTES_MAP_(rank), {});
-
-          Map<String, bool?> newTaskComplMap = {};
-          Map<String, String?> newTaskNoteMap = {};
-
-          for(RankCat cat in rank.cats!)
-            for(RankGroup group in cat.groups!)
-              for(RankTask task in group.tasks!){
-
-                if(taskComplMap.containsKey(task.old_uid))
-                  newTaskComplMap[task.uid] = taskComplMap[task.old_uid];
-                else if(taskComplMap.containsKey(task.uid))
-                  newTaskComplMap[task.uid] = taskComplMap[task.uid];
-
-                if(taskNoteMap.containsKey(task.old_uid))
-                  newTaskNoteMap[task.uid] = taskNoteMap[task.old_uid];
-                else if(taskNoteMap.containsKey(task.uid))
-                  newTaskNoteMap[task.uid] = taskNoteMap[task.uid];
-
-              }
-
-          shaPref!.setMap(ShaPref.SHA_PREF_RANK_COMPLETED_REQ_MAP_(rank), newTaskComplMap);
-          shaPref!.setMap(ShaPref.SHA_PREF_RANK_REQ_NOTES_MAP_(rank), newTaskNoteMap);
-
-        }
-
-      if(shaPref!.getBool(ShaPref.SHA_PREF_RESET_STATS, true)){
-        Statistics.songStats = {};
-        Statistics.moduleStats = {};
-        shaPref!.setBool(ShaPref.SHA_PREF_RESET_STATS, false);
-        logger.d('Stats reset.');
-      }
-
-      subscription = addConnectionListener((hasConnection) async {
-        if (!hasConnection) return;
-
-        if(!await synchronizer.isAllSynced())
-          await synchronizer.post();
-
-        await Statistics.commit();
-
-      });
-
-      tryLoadingStuff();
-
-    });
-    AccountData.init();
+    initialized = false;
+    initAsync();
 
     super.initState();
   }
@@ -309,7 +312,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    loginProvider!.removeLoginListener( _loginListener);
+    loginProvider.removeLoginListener( _loginListener);
     super.dispose();
   }
 
@@ -321,7 +324,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
 
-    if(shaPref==null) return Container();
+    if(!initialized) return Container();
 
     return MultiProvider(
       providers: [
@@ -338,7 +341,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
           showAppToast(context, text: AppSettings.isDark?'Słońce już...\n...zeszło z gór...': 'Nowy dzień wstaje');
         })),
         ChangeNotifierProvider(create: (context) => ColorPackProvider(
-            initColorPack: _slctColorPack,
+            initColorPack: _selColorPack,
             isDark: () => AppSettings.isDark,
             colorPackDark: const ColorPackBlack()
         )),
@@ -346,7 +349,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
         ChangeNotifierProvider(create: (context){
           loginProvider = LoginProvider();
-          loginProvider!.addLoginListener( _loginListener);
+          loginProvider.addLoginListener( _loginListener);
           return loginProvider;
         }),
 

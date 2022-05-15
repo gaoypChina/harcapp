@@ -9,7 +9,6 @@ import 'package:harcapp/_app_common/patronite_support_widget.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/extended_floating_button.dart';
 import 'package:harcapp/_new/cat_page_song_book/songs_statistics_registrator.dart';
-import 'package:harcapp/account/statistics.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
@@ -32,7 +31,7 @@ class TabOfContPage extends StatefulWidget{
 
   static SongSearchOptions searchOptions = SongSearchOptions();
 
-  final void Function(Song?, int, SongOpenType) onSongSelected;
+  final void Function(Song, int, SongOpenType) onSongSelected;
   final void Function() onConfAlbumEnabled;
   final String initPhrase;
   final void Function(Song song)? onNewSongAdded;
@@ -54,11 +53,11 @@ class TabOfContPage extends StatefulWidget{
 
 class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMixin{
 
-  void Function(Song?, int, SongOpenType) get onSongSelected => widget.onSongSelected;
+  void Function(Song, int, SongOpenType) get onSongSelected => widget.onSongSelected;
   void Function() get onConfAlbumEnabled => widget.onConfAlbumEnabled;
-  TabController? tabController;
 
-  TabOfContController? controller;
+  late TabController tabController;
+  late TabOfContController controller;
 
   _NoSongsFoundProvider? noSongProv;
 
@@ -98,7 +97,7 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
               prov.songsFound?
               Positioned.fill(
                 child: Icon(
-                  CommonIconData.ALL[Album.current.iconKey!],
+                  CommonIconData.ALL[Album.current.iconKey],
                   color: backgroundIcon_(context),
                   size: 0.8*min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
                 ),
@@ -124,13 +123,13 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
       )
   );
 
-  void selectSong(Song? song, SongOpenType songOpen){
+  void selectSong(Song song, SongOpenType songOpen){
 
     int indexInAlbum;
     if(Album.current.songs.contains(song))
       indexInAlbum = Album.current.songs.indexOf(song);
     else{
-      showAppToast(context, text: 'Zmieniono $album_ na "${Album.OMEGA_TITLE}".');
+      showAppToast(context, text: 'Zmieniono $album_ na "${Album.omegaTitle}".');
       Album.current = Album.omega;
       indexInAlbum = Album.current.songs.indexOf(song);
     }
@@ -197,7 +196,6 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
     controller: controller,
     initPhrase: page.widget.initPhrase,
     searchOptions: searchOptions,
-    //pageStorageKey: PageStorageKey<String>('TAB_OF_CONT_PAGE'),
 
     floatingButton: Consumer<_NoSongsFoundProvider>(
         builder: (context, prov, child){
@@ -205,7 +203,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
           if(!prov.songsFound)
             return Container();
 
-          CommonColorData colors = CommonColorData.ALL[Album.current.colorsKey!]!;
+          CommonColorData colors = CommonColorData.ALL[Album.current.colorsKey]!;
 
           return ExtendedFloatingButton(
             MdiIcons.shuffle,
@@ -252,7 +250,9 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
           Navigator.pop(context);
         }
       }else if(text == '2137' || text == '21:37'){
-        page.selectSong(Song.allMap['o!_barka'], SongOpenType.search);
+        Song? song = Song.allMap['o!_barka'];
+        if(song == null) return;
+        page.selectSong(song, SongOpenType.search);
         Navigator.pop(context);
       }
 
@@ -306,6 +306,10 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
                   children: <Widget>[
 
                     Positioned(
+                      top: cardTop - scrollVal,
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
                       child: RateCard(
                           song,
                           onTap: (int rate, bool selected) async {
@@ -314,10 +318,6 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
                             Navigator.pop(context);
                           }
                       ),
-                      top: cardTop - scrollVal,
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
                     ),
 
                   ],

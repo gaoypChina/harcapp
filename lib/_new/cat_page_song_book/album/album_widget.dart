@@ -13,17 +13,17 @@ class AlbumWidget extends StatelessWidget{
 
   static const double ICON_SIZE = 52.0;
 
-  static HERO_TAG_TITLE(Album album) => album.fileName! + '\$TITLE';
-  static HERO_TAG_SONG_CNT(Album album) => album.fileName! + '\$SONG_CNT';
-  static HERO_TAG_ICON(Album album) => album.fileName! + '\$ICON';
-  static HERO_TAG_GRADIENT(Album album) => album.fileName! + '\$GRADIENT';
+  static heroTagTitle(Album album) => '${album.fileName}\$TITLE';
+  static heroTagSongCnt(Album album) => '${album.fileName}\$SONG_CNT';
+  static heroTagIcon(Album album) => '${album.fileName}\$ICON';
+  static heroTagGradient(Album album) => '${album.fileName}\$GRADIENT';
 
   final Album album;
   final Function? onTap;
   final Widget? bottom;
   final Widget? trailing;
 
-  AlbumWidget(this.album, {this.onTap, this.bottom, this.trailing});
+  const AlbumWidget(this.album, {this.onTap, this.bottom, this.trailing, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +34,12 @@ class AlbumWidget extends StatelessWidget{
       children: <Widget>[
 
         Hero(
-          tag: HERO_TAG_GRADIENT(album),
+          tag: heroTagGradient(album),
           child: GradientWidget(
               elevation: AppCard.bigElevation,
               radius: AppCard.BIG_RADIUS,
-              colorStart: CommonColorData.ALL[album.colorsKey!]!.colorStart!,
-              colorEnd: CommonColorData.ALL[album.colorsKey!]!.colorEnd!,
+              colorStart: CommonColorData.ALL[album.colorsKey]!.colorStart!,
+              colorEnd: CommonColorData.ALL[album.colorsKey]!.colorEnd!,
               height: 100,
               width: 100,
               child: Column(
@@ -48,7 +48,7 @@ class AlbumWidget extends StatelessWidget{
                   Expanded(
                     child: album.iconKey!=null?Center(
                       child: Icon(
-                        CommonIconData.ALL[album.iconKey!],
+                        CommonIconData.ALL[album.iconKey],
                         color: background_(context),
                         size: ICON_SIZE,
                       ),
@@ -56,22 +56,22 @@ class AlbumWidget extends StatelessWidget{
                   ),
 
                   Padding(
-                    padding: EdgeInsets.only(bottom: Dimen.ICON_MARG),
+                    padding: const EdgeInsets.only(bottom: Dimen.ICON_MARG),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
                             MdiIcons.music,
                             size: 14,
-                            color: CommonColorData.ALL[album.colorsKey!]!.iconColor.withOpacity(.4)
+                            color: CommonColorData.ALL[album.colorsKey]!.iconColor.withOpacity(.4)
                         ),
-                        SizedBox(width: Dimen.DEF_MARG),
+                        const SizedBox(width: Dimen.DEF_MARG),
                         Text(
                             '${album.songs.length}',
                             style: AppTextStyle(
                                 fontSize: 14.0,
                                 fontWeight: weight.halfBold,
-                                color: CommonColorData.ALL[album.colorsKey!]!.iconColor.withOpacity(.4)
+                                color: CommonColorData.ALL[album.colorsKey]!.iconColor.withOpacity(.4)
                             )
                         )
 
@@ -93,9 +93,9 @@ class AlbumWidget extends StatelessWidget{
                     children: <Widget>[
 
                       Padding(
-                          padding: EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.all(16.0),
                           child: Hero(
-                              tag: HERO_TAG_TITLE(album),
+                              tag: heroTagTitle(album),
                               child: Material(
                                 color: Colors.transparent,
                                 child: Text(album.title!,
@@ -131,7 +131,7 @@ class AlbumWidget extends StatelessWidget{
       );
     else
       return InkWell(
-        borderRadius: BorderRadius.all(Radius.circular(AppCard.BIG_RADIUS)),
+        borderRadius: const BorderRadius.all(Radius.circular(AppCard.BIG_RADIUS)),
         onTap: onTap as void Function()?,
         child: widget,
       );

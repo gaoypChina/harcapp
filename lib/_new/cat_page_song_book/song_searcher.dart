@@ -26,18 +26,18 @@ class SongSearchOptions extends SearchOptions{
 
 }
 
-class SongSearcher extends Searcher<Song?, int, SongSearchOptions?>{
+class SongSearcher extends Searcher<Song, int, SongSearchOptions?>{
 
-  void Function(List<Song?>, bool Function() stillValid) onCompleteListener;
+  void Function(List<Song>, bool Function() stillValid) onCompleteListener;
 
   SongSearcher(this.onCompleteListener) : super(_selectSongs){
 
     super.addOnCompleteListener((List<int> result, bool Function() stillValid) {
 
-      List<Song?> songs = [];
+      List<Song> songs = [];
       for(int pos in result) {
         if(!stillValid()) return;
-        songs.add(allItems![pos]);
+        songs.add(allItems[pos]);
       }
 
       onCompleteListener(songs, stillValid);

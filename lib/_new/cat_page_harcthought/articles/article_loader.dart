@@ -33,24 +33,24 @@ class ArticleDownloadError extends ArticleLoaderError{}
 
 class ArticleLoaderListener extends SingleComputerListener<ArticleLoaderError>{
 
-  final void Function(ArticleLoadState? loadState)? onStateChanged;
+  final void Function(ArticleLoadState loadState)? onStateChanged;
 
   ArticleLoaderListener({
       void Function()? onStart,
-      void Function(ArticleLoaderError)? onError,
-      void Function(ArticleLoaderError err, bool forceFinished)? onEnd,
+      Future<void> Function(ArticleLoaderError?)? onError,
+      void Function(ArticleLoaderError? err, bool forceFinished)? onEnd,
       this.onStateChanged,
-  }):super(onStart: onStart, onError: onError as Future<void> Function(ArticleLoaderError)?, onEnd: onEnd);
+  }):super(onStart: onStart, onError: onError, onEnd: onEnd);
 }
 
-class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderListener?>{
+class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderListener>{
 
   @override
   String get computerName => 'ArticleLoader';
 
-  ArticleLoadState? _loadState;
-  ArticleLoadState? get loadState => _loadState;
-  set loadState(ArticleLoadState? value){
+  ArticleLoadState _loadState = ArticleLoadState.CHECKING_NET;
+  ArticleLoadState get loadState => _loadState;
+  set loadState(ArticleLoadState value){
     _loadState = value;
     for(ArticleLoaderListener? listener in listeners)
       listener!.onStateChanged!(_loadState);
@@ -78,7 +78,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
     return articles;
   }
 
-  static String _azymutFeedPageUrl(int page) => 'https://azymut.zhr.pl/feed/atom/?paged=${page}';
+  static String _azymutFeedPageUrl(int page) => 'https://azymut.zhr.pl/feed/atom/?paged=$page';
 
   static Future<List<Article>?> _getAzymutFromPage({int page = 0}) async {
 
@@ -113,7 +113,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
       if (articles == null)
         return null;
 
-      debugPrint('Downloaded page ${page}: ${articles.length} articles.');
+      debugPrint('Downloaded page $page: ${articles.length} articles.');
       if (articles.isEmpty)
         break;
 
@@ -192,7 +192,7 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
 
       return null;
 
-    } on DioError catch(e){
+    } on DioError {
       return null;
     }
 
@@ -273,21 +273,22 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
 
 }
 
-List<Article?> get storedArticles{
+List<Article> get storedArticles{
   
   Directory dir = Directory(getArticleCoresFolderPath);
   dir.createSync(recursive: true);
   List<FileSystemEntity> fileEntities = dir.listSync();
   
-  List<Article?> articles = [];
+  List<Article> articles = [];
   for(FileSystemEntity fileEntity in fileEntities)
     try {
-      articles.add(Article.readFromPath(fileEntity.path));
+      Article? article = Article.readFromPath(fileEntity.path);
+      if(article != null) articles.add(article);
     } on FileNotFoundError{
       continue;
     }
 
-  articles.sort((art1, art2) => art1!.date!.isBefore(art2!.date!)?1:-1);
+  articles.sort((art1, art2) => art1.date!.isBefore(art2.date!)?1:-1);
 
   return articles;
 
@@ -338,7 +339,7 @@ Future<Author> downloadAuthor(String authCode, {Function? onError}) async {
       return Author.fromJson(authCode, code);
     }
     return Author.PROBLEM(authCode);
-  } on DioError catch (e) {
+  } on DioError {
     if (onError != null)
       onError();
 

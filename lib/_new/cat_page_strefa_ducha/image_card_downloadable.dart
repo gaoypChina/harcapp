@@ -21,8 +21,8 @@ class ImageCardDownloadable extends StatefulWidget{
 
   final SourceItem? item;
   final ValueNotifier? pageViewNotifier;
-  final int? index;
-  final void Function(ImageProvider?, int?)? onLoaded;
+  final int index;
+  final void Function(ImageProvider?, int)? onLoaded;
 
   final void Function()? onLike;
   final void Function()? onLongPress;
@@ -30,7 +30,7 @@ class ImageCardDownloadable extends StatefulWidget{
   const ImageCardDownloadable(
       this.item,
       { this.pageViewNotifier,
-        this.index,
+        this.index = 0,
         this.onLoaded,
         this.onLike,
         this.onLongPress,
@@ -46,8 +46,8 @@ class ImageCardDownloadableState extends State<ImageCardDownloadable>{
 
   SourceItem? get item => widget.item;
   ValueNotifier? get pageViewNotifier => widget.pageViewNotifier;
-  int? get index => widget.index;
-  void Function(ImageProvider?, int?)? get onLoaded => widget.onLoaded;
+  int get index => widget.index;
+  void Function(ImageProvider?, int)? get onLoaded => widget.onLoaded;
 
   void Function()? get onLike => widget.onLike;
   void Function()? get onLongPress => widget.onLongPress;

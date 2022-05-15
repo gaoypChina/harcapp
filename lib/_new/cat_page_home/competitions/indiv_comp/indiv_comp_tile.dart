@@ -1,7 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/auto_size_text.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_page.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
@@ -38,7 +35,7 @@ class IndivCompTile extends StatelessWidget{
     List<Widget> othParticipWidgets = [];
 
     for(int i=0; i<comp.particips.length; i++){
-      String othParticip = comp.particips[i]!.name;
+      String othParticip = comp.particips[i].name;
       othParticipWidgets.add(
           Text(
               '$othParticip${i==comp.particips.length-1?'':', '}',
@@ -89,7 +86,7 @@ class IndivCompTile extends StatelessWidget{
                                   style: AppTextStyle(
                                     fontSize: 18.0,
                                     fontWeight: weight.bold,
-                                    color: AppSettings.isDark?comp.colors!.colorStart:comp.colors!.colorEnd,
+                                    color: AppSettings.isDark?comp.colors.colorStart:comp.colors.colorEnd,
                                   ),
                                   maxLines: 2,
                                 ),
@@ -116,7 +113,7 @@ class IndivCompTile extends StatelessWidget{
 
                                 Expanded(
                                   child: AccountThumbnailRowWidget(
-                                    comp.particips.map((particip) => particip!.name).toList(),
+                                    comp.particips.map((particip) => particip.name).toList(),
                                     size: 24.0,
                                     clipBehavior: Clip.hardEdge,
                                     onTap: () => openCompPage(context),

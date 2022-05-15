@@ -29,10 +29,10 @@ class RankTaskWidget extends TaskWidget<RankTask>{
   String? get description => task.description;
 
   @override
-  bool? get inProgress => rank!.inProgress;
+  bool get inProgress => rank!.inProgress;
 
   @override
-  bool? get completed => rank!.completed;
+  bool get completed => rank!.completed;
 
   @override
   bool get isReadyToComplete => rank!.isReadyToComplete;
@@ -48,7 +48,7 @@ class RankTaskWidget extends TaskWidget<RankTask>{
   final bool hideIndex;
 
   @override
-  final void Function(RankTask task, bool? selected)? onCompletedChanged;
+  final void Function(RankTask task, bool selected)? onCompletedChanged;
 
   const RankTaskWidget(this.task, this.dispIndex, {this.hideIndex=false, required this.onCompletedChanged});
 

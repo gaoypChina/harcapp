@@ -30,15 +30,15 @@ class SynchronizerListener{
 
 class SynchronizerEngine{
 
-  static bool get syncOn => shaPref!.getBool(ShaPref.SHA_PREF_SYNC_ON, true);
-  static set syncOn(bool value) => shaPref!.setBool(ShaPref.SHA_PREF_SYNC_ON, value);
+  static bool get syncOn => ShaPref.getBool(ShaPref.SHA_PREF_SYNC_ON, true);
+  static set syncOn(bool value) => ShaPref.setBool(ShaPref.SHA_PREF_SYNC_ON, value);
 
   static set lastSyncTimeLocal(DateTime? dateTime){
-    if(dateTime == null) shaPref!.remove(ShaPref.SHA_PREF_SYNC_LAST_SYNC);
-    else shaPref!.setString(ShaPref.SHA_PREF_SYNC_LAST_SYNC, dateTime.toIso8601String());
+    if(dateTime == null) ShaPref.remove(ShaPref.SHA_PREF_SYNC_LAST_SYNC);
+    else ShaPref.setString(ShaPref.SHA_PREF_SYNC_LAST_SYNC, dateTime.toIso8601String());
   }
   static DateTime? get lastSyncTimeLocal{
-    String? code = shaPref!.getString(ShaPref.SHA_PREF_SYNC_LAST_SYNC, null);
+    String? code = ShaPref.getStringOrNull(ShaPref.SHA_PREF_SYNC_LAST_SYNC);
     return code==null?null:DateTime.parse(code);
   }
 
@@ -200,7 +200,7 @@ class SynchronizerEngine{
 
   Future<bool> reloadSyncables() async {
     bool result = false;
-    if(OffSong.allOfficial == null) {
+    if(!OffSong.initialized) {
       await songLoader.run(awaitFinish: true);
       result = true;
     }

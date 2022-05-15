@@ -159,8 +159,8 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                                   null,
 
                                   awards:
-                                  widget.initComp!.awards != Provider.of<AwardsProvider>(context, listen: false).awards?
-                                  Provider.of<AwardsProvider>(context, listen: false).awards:
+                                  widget.initComp!.awardsEncoded != AwardsProvider.of(context).awards?
+                                  AwardsProvider.of(context).awards:
                                   null,
 
                                   onSuccess: widget.onSaved
@@ -225,7 +225,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                 const IndivCompIconEditorWidget(),
                 const IndivCompTasksEditorWidget(),
                 const IndivCompAwardsEditorWidget(),
-                if(editMode) IndivCompDangerEditorWidget(widget.initComp, onRemoved: widget.onRemoved),
+                if(editMode) IndivCompDangerEditorWidget(widget.initComp!, onRemoved: widget.onRemoved),
               ],
             ),
 

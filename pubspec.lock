@@ -378,7 +378,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "3454de2c1a979ead66533c71762e3fc7103bcc3f"
+      resolved-ref: "2c5c756e9bcc8bc4e8f9dcf3b88570ef5afb1659"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core"
     source: git
     version: "0.0.1"
@@ -1136,7 +1136,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.5.2"
+    version: "2.6.0"
   wkt_parser:
     dependency: transitive
     description:

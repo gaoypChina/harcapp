@@ -6,12 +6,12 @@ class OrgEntityResp extends SyncGetResp{
 
   static const String collName = OrgHandler.syncClassId;
 
-  final Org? org;
+  final Org org;
 
-  const OrgEntityResp({this.org});
+  const OrgEntityResp({required this.org});
 
   static OrgEntityResp from(dynamic respData) => OrgEntityResp(
-      org: orgFromInt[respData]
+      org: orgFromInt[respData]??Org.zhp
   );
 
 }

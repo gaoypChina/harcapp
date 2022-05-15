@@ -136,9 +136,9 @@ class _IconSetWidget extends StatelessWidget{
 class _IconOption extends StatelessWidget{
 
   final String iconKey;
-  final Function(String mapKey) onTap;
+  final Function(String mapKey)? onTap;
 
-  const _IconOption(this.iconKey, {required this.onTap});
+  const _IconOption(this.iconKey, {this.onTap});
 
   static const double _ICON_SIZE = 32.0;
 
@@ -167,13 +167,13 @@ class _IconOption extends StatelessWidget{
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeOutQuart,
-                      child: Icon(CommonIconData.ALL[iconKey], size: _ICON_SIZE, color: iconEnab_(context).withOpacity(selected?1:.4)),
                       width: _BUTTON_SIZE,
                       height: _BUTTON_SIZE,
                       decoration: BoxDecoration(
                           color: background_(context),
                           shape: BoxShape.circle
                       ),
+                      child: Icon(CommonIconData.ALL[iconKey], size: _ICON_SIZE, color: iconEnab_(context).withOpacity(selected?1:.4)),
                     )
                 )
             ),

@@ -24,7 +24,6 @@ import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/cat_page_song_book/providers.dart';
 import 'package:harcapp/_new/cat_page_song_book/settings/settings_page.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
-import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_searcher.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_widget.dart';
@@ -80,25 +79,25 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackSongBook();
   }
 
-  static void delLastPageForAlbum(Album album) => shaPref!.remove(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album));
-  static int? getLastPageForAlbum(Album album) => shaPref!.getInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album), 0);
-  static void setLastPageForAlbum(Album album, int value) => shaPref!.setInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album), value);
+  static void delLastPageForAlbum(Album album) => ShaPref.remove(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album));
+  static int? getLastPageForAlbum(Album album) => ShaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album), 0);
+  static void setLastPageForAlbum(Album album, int value) => ShaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album), value);
 
   static int get lastPage => getLastPageForAlbum(Album.current)!;
   static set lastPage(int value) => setLastPageForAlbum(Album.current, value);
 
   void jumpToPage(int page){
-    pageController!.jumpToPage(page);
+    pageController.jumpToPage(page);
     lastPage = page;
-    notifier!.value = page.toDouble();
+    notifier.value = page.toDouble();
   }
 
   static late bool tabOfContOpenOnBack;
-  PageController? pageController;
-  ValueNotifier<double?>? notifier;
-  SingleComputerListener? loaderListener;
-  SongSearchOptions? searchOptions;
-  bool? floatingButtonExpanded;
+  late PageController pageController;
+  late ValueNotifier<double> notifier;
+  SingleComputerListener<String>? loaderListener;
+  late SongSearchOptions searchOptions;
+  late bool floatingButtonExpanded;
 
   late bool isAutoScrolling;
 
@@ -123,12 +122,12 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
   }
 
-  GlobalKey<NestedScrollViewState>? nestedScrollViewKey;
-  ScrollController get innerController => nestedScrollViewKey!.currentState!.innerController;
-  ScrollController get outerController => nestedScrollViewKey!.currentState!.outerController;
+  late GlobalKey<NestedScrollViewState> nestedScrollViewKey;
+  ScrollController get innerController => nestedScrollViewKey.currentState!.innerController;
+  ScrollController get outerController => nestedScrollViewKey.currentState!.outerController;
   void notifyInnerController() => outerController.animateTo(outerController.offset, duration: const Duration(microseconds: 1), curve: Curves.ease);
 
-  SynchronizerListener? syncListener;
+  late SynchronizerListener syncListener;
 
   void onOrientationChanged() => notifyInnerController();
 
@@ -147,39 +146,51 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
     tabOfContOpenOnBack = false;
 
-    if(OffSong.allOfficial == null) {
+    if(!Album.initialized) {
       loaderListener = SingleComputerListener<String>(
           onError: (fileName) async => showAppToast(context, text: 'Błąd wczytywania piosenki $fileName'),
-          onEnd: (String err, bool forceFinished) {
+          onEnd: (String? err, bool forceFinished) {
             if(!mounted) return;
 
             if(SongBookSettings.showTabOfContOnStart && Album.current.songs.isNotEmpty)
               openTabOfCont();
 
-            pageController = PageController(initialPage: lastPage);
-            pageController!.addListener(() => notifier!.value = pageController!.page);
-            notifier = ValueNotifier<double?>(pageController!.initialPage.toDouble());
-            notifier!.addListener(handleSwap);
+            if(Album.current.songs.length <= lastPage)
+              lastPage = 0;
 
-            songsStatisticsRegistrator.openSong(Album.current.songs[lastPage]!, SongOpenType.init);
+            pageController = PageController(initialPage: lastPage);
+            pageController.addListener(() => notifier.value = pageController.page??0);
+            notifier = ValueNotifier<double>(pageController.initialPage.toDouble());
+            notifier.addListener(handleSwap);
+
+            if(Album.current.songs.isNotEmpty) {
+              songsStatisticsRegistrator.openSong(Album.current.songs[lastPage], SongOpenType.init);
+              post(() => notifyInnerController()); // in order to register visible lines on open.
+            }
+
             setState(() {});
-            post(() => notifyInnerController()); // in order to register visible lines on open.
           }
       );
-      songLoader.addListener(loaderListener as SingleComputerListener<String>);
+      songLoader.addListener(loaderListener!);
       songLoader.run();
     } else {
-        pageController = PageController(initialPage: lastPage);
-        pageController!.addListener(() => notifier!.value = pageController!.page);
-        notifier = ValueNotifier<double?>(pageController!.initialPage.toDouble());
-        notifier!.addListener(handleSwap);
 
-        if(SongBookSettings.showTabOfContOnStart && Album.current.songs.isNotEmpty)
-          post(() => openTabOfCont());
+      if(Album.current.songs.length <= lastPage)
+        lastPage = 0;
 
-        songsStatisticsRegistrator.openSong(Album.current.songs[lastPage]!, SongOpenType.init);
+      pageController = PageController(initialPage: lastPage);
+      pageController.addListener(() => notifier.value = pageController.page??0);
+      notifier = ValueNotifier<double>(pageController.initialPage.toDouble());
+      notifier.addListener(handleSwap);
+
+      if(SongBookSettings.showTabOfContOnStart && Album.current.songs.isNotEmpty)
+        post(() => openTabOfCont());
+
+      if(Album.current.songs.isNotEmpty) {
+        songsStatisticsRegistrator.openSong(Album.current.songs[lastPage], SongOpenType.init);
         post(() => notifyInnerController()); // in order to register visible lines on open.
       }
+    }
 
     searchOptions = SongSearchOptions();
 
@@ -191,7 +202,8 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     appNavigatorObserver.addChangedListener(onNavigatorRouteChanged);
 
     post(() => setSettings());
-    nestedScrollViewKey = GlobalKey();
+    nestedScrollViewKey = GlobalKey<NestedScrollViewState>();
+
     super.initState();
   }
 
@@ -201,8 +213,9 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     App.removeOrientationChangeListener(onOrientationChanged);
 
     Wakelock.disable();
-    notifier!.dispose();
-    songLoader.removeListener(loaderListener as SingleComputerListener<String>);
+    notifier.dispose();
+    if(loaderListener != null)
+      songLoader.removeListener(loaderListener!);
 
     BackButtonInterceptor.remove(onBackPressed);
 
@@ -222,7 +235,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
   }
 
   void handleSwap(){
-    if(notifier!.value!.floor() == notifier!.value) {
+    if(notifier.value.floor() == notifier.value) {
       floatingButtonExpanded = true;
       Provider.of<FloatingButtonProvider>(context, listen: false).notify();
     }
@@ -231,20 +244,20 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
   SliverAppBar appBarBuilder(BuildContext context, {bool pinned=false}) => SliverAppBar(
     backgroundColor: background_(context),
     title: const Text('Śpiewnik'),
-    automaticallyImplyLeading: Album.current!=null,
+    automaticallyImplyLeading: Album.initialized,
     centerTitle: true,
     floating: true,
     pinned: pinned,
     actions: [
       AnimatedOpacity(
-        opacity: Album.current==null?0:1,
+        opacity: Album.initialized?1:0,
         duration: const Duration(milliseconds: 300),
         child: Row(
           children: [
 
             IconButton(
               icon: const Icon(MdiIcons.musicNotePlus),
-              onPressed: Album.current==null?null:(){
+              onPressed: !Album.initialized?null:(){
 
                 showScrollBottomSheet(
                     context: context,
@@ -327,8 +340,8 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                                             borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
                                             onTap: () => Navigator.pop(context),
                                             child: Padding(
-                                              child: Text('Wdechowo!', style: AppTextStyle(color: Album.current.avgColor, fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.end,),
                                               padding: const EdgeInsets.all(Dimen.DEF_MARG*2),
+                                              child: Text('Wdechowo!', style: AppTextStyle(color: Album.current.avgColor, fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.end,),
                                             ),
                                           )
                                         ],
@@ -347,7 +360,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
             IconButton(
                 icon: const Icon(MdiIcons.cogOutline),
-                onPressed: Album.current==null?null:() => Navigator.push(
+                onPressed: !Album.initialized?null:() => Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => SettingsPage(
@@ -369,7 +382,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     body: Consumer<AlbumProvider>(
         builder: (context, albProv, child) {
 
-          if(albProv.current == null)
+          if(!Album.initialized)
             return LoadingWidget();
           else if (albProv.current.songs.isNotEmpty)
             return SongAutoScrollController(
@@ -402,13 +415,16 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                           albProv.current.songs[position],
                           position,
                           onScroll: (scrollInfo, textHeight, textTopPadding) async {
-                            int page = pageController!.page!.round();
+
+                            FloatingButtonProvider floatingButtonProv = Provider.of<FloatingButtonProvider>(context, listen: false);
+
+                            int page = pageController.page!.round();
                             if(page != position) return;
                             if(textHeight == null || textTopPadding == null) return;
 
                             if(scrollInfo is ScrollEndNotification){
 
-                              Song song = albProv.current.songs[position]!;
+                              Song song = albProv.current.songs[position];
 
                               double lineHeight = textHeight/song.lineNumList.length;
 
@@ -525,16 +541,16 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                             bool scrollable = scrollInfo.metrics.maxScrollExtent > 0;
 
                             if(scrollable && scrollInfo.metrics.pixels <= 0){
-                              if(!floatingButtonExpanded!){
+                              if(!floatingButtonExpanded){
                                 floatingButtonExpanded = true;
-                                Provider.of<FloatingButtonProvider>(context, listen: false).notify();
+                                floatingButtonProv.notify();
                               }
                             }
 
                             else{
-                              if(floatingButtonExpanded!){
+                              if(floatingButtonExpanded){
                                 floatingButtonExpanded = false;
-                                Provider.of<FloatingButtonProvider>(context, listen: false).notify();
+                                floatingButtonProv.notify();
                               }
                             }
                           },
@@ -546,7 +562,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
                           lastPage = index;
                           await songsStatisticsRegistrator.commit();
-                          await songsStatisticsRegistrator.openSong(albProv.current.songs[index]!, SongOpenType.swipe);
+                          await songsStatisticsRegistrator.openSong(albProv.current.songs[index], SongOpenType.swipe);
                           notifyInnerController();
                         },
                       )
@@ -563,19 +579,19 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                       ),
                     ),
 
-                    if(albProv.current.iconKey!=null && SongBookSettings.showAlbumIcon)
+                    if(SongBookSettings.showAlbumIcon)
                       IgnorePointer(child: AnimatedBuilder(
-                        animation: notifier!,
+                        animation: notifier,
                         child: Center(
                           child: Icon(
-                            CommonIconData.ALL[Album.current.iconKey!],
+                            CommonIconData.ALL[Album.current.iconKey],
                             color: iconEnab_(context),
                             size: 0.8*min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
                           ),
                         ),
                         builder: (BuildContext context, child) => Opacity(
+                          opacity: 0.15*sin(pi* notifier.value).abs(),
                           child: child,
-                          opacity: 0.15*sin(pi* notifier!.value!).abs(),
                         )
                       )),
 
@@ -613,12 +629,12 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                               context,
                               MaterialPageRoute(builder: (context) => AlbumPage(onAlbumSelected: (Album album) async {
                                 if(album != Album.current) {
-                                  if(pageController!.hasClients) {
+                                  if(pageController.hasClients) {
                                     jumpToPage(0);
                                     if(album.songs.isEmpty) return;
                                     await songsStatisticsRegistrator.commit();
                                     await songsStatisticsRegistrator.openSong(
-                                        album.songs.first!,
+                                        album.songs.first,
                                         SongOpenType.init,
                                     );
                                     notifyInnerController();
@@ -657,16 +673,16 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     bottomNavigationBar: const AppBottomNavigator(),
 
     drawer:
-    Album.current == null ? null:
+    !Album.initialized ? null:
     AppDrawer(
         body: AlbumDrawer(
             onSelected: (Album album) async {
-              if(pageController!.hasClients){
+              if(pageController.hasClients){
                 jumpToPage(0);
                 if(album.songs.isEmpty) return;
                 await songsStatisticsRegistrator.commit();
                 await songsStatisticsRegistrator.openSong(
-                    album.songs.first!,
+                    album.songs.first,
                     SongOpenType.init,
                 );
                 notifyInnerController();
@@ -674,12 +690,12 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
               notify();
             },
             onNewCreated: (Album album) async {
-              if(pageController!.hasClients){
+              if(pageController.hasClients){
                 jumpToPage(0);
                 if(album.songs.isEmpty) return;
                 await songsStatisticsRegistrator.commit();
                 await songsStatisticsRegistrator.openSong(
-                    album.songs.first!,
+                    album.songs.first,
                     SongOpenType.init,
                 );
                 notifyInnerController();
@@ -690,13 +706,13 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     ),
 
     floatingActionButton:
-    Album.current == null || Album.current.songs.isEmpty ? null:
+    !Album.initialized || Album.current.songs.isEmpty ? null:
     Consumer2<FloatingButtonProvider, AlbumProvider>(
         builder: (context, floatingButtonProv, albumProv, child){
           if(isAutoScrolling)
             return Container();
 
-          CommonColorData colors = CommonColorData.ALL[Album.current.colorsKey!]!;
+          CommonColorData colors = CommonColorData.ALL[Album.current.colorsKey]!;
           return ExtendedFloatingButton(
               MdiIcons.magnify,
               'Spis treści',
@@ -793,7 +809,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
   );
 
   void notify(){
-    notifier!.value = CatPageSongBookState.lastPage.toDouble();
+    notifier.value = CatPageSongBookState.lastPage.toDouble();
     setState(() {});
   }
 

@@ -17,18 +17,25 @@ enum ArticleListMode{
 
 class ArticleListWidget extends StatelessWidget{
 
-  final List<Article?>? articles;
+  final List<Article> articles;
   final String? emptyText;
   final IconData? emptyIcon;
   final ArticleListMode mode;
   final EdgeInsets itemPadding;
 
-  const ArticleListWidget(this.articles, {this.emptyText, this.emptyIcon, this.mode=ArticleListMode.ListView, this.itemPadding=EdgeInsets.zero});
+  const ArticleListWidget(
+      this.articles,
+      { this.emptyText,
+        this.emptyIcon,
+        this.mode=ArticleListMode.ListView,
+        this.itemPadding=EdgeInsets.zero,
+        Key? key
+      }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    if(articles!.isEmpty)
+    if(articles.isEmpty)
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -56,13 +63,13 @@ class ArticleListWidget extends StatelessWidget{
         itemBuilder: (context, index) => builder(context, index, notifier),
         physics: const BouncingScrollPhysics(),
         controller: controller,
-        itemCount: articles!.length,
+        itemCount: articles.length,
       );
     }else
       return ListView.separated(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-        itemCount: articles!.length,
+        itemCount: articles.length,
         separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
         itemBuilder: (context, index) => builder(context, index, null),
       );
@@ -72,7 +79,7 @@ class ArticleListWidget extends StatelessWidget{
   Widget builder(BuildContext context, int index, ValueNotifier? notifier){
 
     Widget child = ArticleCardWidget(
-      articles![index],
+      articles[index],
       radius: AppCard.BIG_RADIUS,
       onTap: (context, article, background, articleSeenProv) =>
       background == null?
@@ -85,7 +92,7 @@ class ArticleListWidget extends StatelessWidget{
           cover: background,
         )),
       ),
-      key: ValueKey(articles![index]),
+      key: ValueKey(articles[index]),
     );
 
     if(notifier == null)

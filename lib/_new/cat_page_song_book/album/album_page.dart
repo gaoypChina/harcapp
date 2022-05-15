@@ -129,13 +129,13 @@ class _AlbumItemState extends State<_AlbumItem>{
         onAlbumSelected?.call(album);
         Navigator.pop(context);
       },
-      trailing: album.isOmega || album.isConfid()?
+      trailing: album.isOmega || album.isConfid?
       Padding(
         padding: const EdgeInsets.only(right: Dimen.ICON_MARG),
         child: Icon(MdiIcons.lockOutline, size: AlbumWidget.ICON_SIZE, color: iconDisab_(context)),
       ):
       null,
-      bottom: album.isOmega || album.isConfid()?const SizedBox(height: Dimen.ICON_FOOTPRINT):Row(
+      bottom: album.isOmega || album.isConfid?const SizedBox(height: Dimen.ICON_FOOTPRINT):Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
 

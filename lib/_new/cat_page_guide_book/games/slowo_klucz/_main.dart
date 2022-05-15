@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp/_common_classes/blur.dart';
 import 'package:harcapp/_common_classes/scan_qr_code.dart';
@@ -143,16 +144,8 @@ class SlowoKluczStartPageState extends State<SlowoKluczStartPage> with ModuleSta
                                 if(code == null) return;
 
                                 try {
-                                  List<Word> words = SlowoKluczMainGamePage
-                                      .decodeWordsFromQRCode(code);
-
-                                  Navigator.pop(context);
-                                  await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => SlowoKluczMainGamePage.newLeaderInstance(context, words)
-                                      )
-                                  );
+                                  List<Word> words = SlowoKluczMainGamePage.decodeWordsFromQRCode(code);
+                                  pushReplacePage(context, builder: (context) => SlowoKluczMainGamePage.newLeaderInstance(context, words));
 
                                 }catch(e){
                                   showAppToast(context, text: 'Coś nie tak z tym QR-kodem...');
@@ -193,48 +186,46 @@ class LoadGameWidget extends StatelessWidget{
   const LoadGameWidget({this.onSavedGameRemoved, Key? key}): super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Expanded(
-          child: ButtonWidget(
-            text: 'Przywróć grę',
-            description: 'Wygląda na to, że ostatnia rozgrywka "Słowa klucz" nie została zakończona.'
-                '\n'
-                '\nNa szczęście, jest bezpiecznie zapisana w tej karcie! Szkoda byłoby ją utracić.',
-            colorStart: Colors.deepPurple,
-            colorEnd: Colors.blue,
-            icon: MdiIcons.contentSave,
-            onTap: (){
-
-              Navigator.pop(context);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SlowoKluczMainGamePage.loadInstance(context, SlowoKluczMainGamePage.savedInstanceCode)!
-                  )
-              );
-            },
-          ),
-        ),
-
-        const SizedBox(height: Dimen.SIDE_MARG),
-
-        TitleShortcutRowWidget(
-          title: 'Nie, wolę zacząć nową grę',
-          titleColor: Colors.red,
-          onOpenIconColor: Colors.red,
-          onOpen: (context){
-            SlowoKluczMainGamePage.removeSavedInstanceCode();
-            onSavedGameRemoved?.call();
+  Widget build(BuildContext context) => Column(
+    mainAxisSize: MainAxisSize.max,
+    children: [
+      Expanded(
+        child: ButtonWidget(
+          text: 'Przywróć grę',
+          description: 'Wygląda na to, że ostatnia rozgrywka "Słowa klucz" nie została zakończona.'
+              '\n'
+              '\nNa szczęście, jest bezpiecznie zapisana w tej karcie! Szkoda byłoby ją utracić.',
+          colorStart: Colors.deepPurple,
+          colorEnd: Colors.blue,
+          icon: MdiIcons.contentSave,
+          onTap: (){
+            if(SlowoKluczMainGamePage.savedInstanceCode == null)
+              showAppToast(context, text: 'Brak zapisanej gry');
+            else {
+              SlowoKluczMainGamePage? page = SlowoKluczMainGamePage.loadInstance(context, SlowoKluczMainGamePage.savedInstanceCode!);
+              if(page == null) {
+                showAppToast(context, text: 'Gra została błędnie zapisana');
+                SlowoKluczMainGamePage.removeSavedInstanceCode();
+              } else
+                pushReplacePage(context, builder: (context) => page);
+            }
           },
-        )
-      ],
-    );
+        ),
+      ),
 
-  }
+      const SizedBox(height: Dimen.SIDE_MARG),
+
+      TitleShortcutRowWidget(
+        title: 'Nie, wolę zacząć nową grę',
+        titleColor: Colors.red,
+        onOpenIconColor: Colors.red,
+        onOpen: (context){
+          SlowoKluczMainGamePage.removeSavedInstanceCode();
+          onSavedGameRemoved?.call();
+        },
+      )
+    ],
+  );
 
 }
 

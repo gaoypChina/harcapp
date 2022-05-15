@@ -49,7 +49,7 @@ class CirclePage extends StatefulWidget{
     if(AppSettings.isDark)
       return _lighten(palette.dominantColor!.color, .1);
     else
-      return _lighten(palette.dominantColor!.color, .8);
+      return _lighten(palette.dominantColor!.color, .86);
   }
 
   static Color? backgroundColor(BuildContext context, PaletteGenerator? palette){

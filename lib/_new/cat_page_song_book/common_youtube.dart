@@ -1,12 +1,9 @@
-
 import 'package:flutter/animation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_widget_parts/youtube_card.dart';
-
-import 'providers.dart';
 
 
 const int PLAY_ONE = 0;
@@ -33,9 +30,7 @@ _jumpPlayRandSong(
 
   controller!.jumpToPage(page);
 
-  await Future.delayed(Duration(milliseconds: 300));
-
-  //SongWidgetState _songWidget = prov.map[page];
+  await Future.delayed(const Duration(milliseconds: 300));
 
   if(song!=null)
     playYoutubeSong(context, controller, song, top);
@@ -43,7 +38,6 @@ _jumpPlayRandSong(
 
 Future<void> _jumpPlayNextSong(
   BuildContext context,
-  //DisplayedSongsProvider prov,
   PageController controller,
   double top,
 )async{
@@ -58,11 +52,9 @@ Future<void> _jumpPlayNextSong(
       song = Album.current.songs[page];
     }
 
-    if(song == null) return;
-
     await controller.animateToPage(
         page,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeOutQuad
     );
 
@@ -77,7 +69,7 @@ Future<void> playYoutubeSong(
   BuildContext context,
   //DisplayedSongsProvider prov,
   PageController? controller,
-  Song? song,
+  Song song,
   double top
 ) async => openDialog(
     context: context,
@@ -86,6 +78,10 @@ Future<void> playYoutubeSong(
       return Stack(
         children: <Widget>[
           Positioned(
+            top: isPortrait?top:0,
+            left: 0,
+            right: 0,
+            bottom: isPortrait?null:0,
             child: YoutubeCard(
                 song,
                 onEnded: (autoplay, random) {
@@ -108,10 +104,6 @@ Future<void> playYoutubeSong(
                   playYoutubeSong(context, controller, song, top);
               },
             ),
-            top: isPortrait?top:0,
-            left: 0,
-            right: 0,
-            bottom: isPortrait?null:0,
           ),
         ],
       );

@@ -3,14 +3,12 @@ import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
-import 'package:harcapp/_new/cat_page_strefa_ducha/providers.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:provider/provider.dart';
 
 import 'image_loader.dart';
 import 'source.dart';
@@ -276,10 +274,10 @@ class ItemWidgetState extends State<ItemWidget>{
 
 class Settings{
 
-  static bool get showInitMessage => shaPref!.getBool(ShaPref.SHA_PREF_DUCHOWE_INIT_MESSAGE, true);
-  static set showInitMessage(bool value) => shaPref!.setBool(ShaPref.SHA_PREF_DUCHOWE_INIT_MESSAGE, value);
+  static bool get showInitMessage => ShaPref.getBool(ShaPref.SHA_PREF_DUCHOWE_INIT_MESSAGE, true);
+  static set showInitMessage(bool value) => ShaPref.setBool(ShaPref.SHA_PREF_DUCHOWE_INIT_MESSAGE, value);
 
-  static bool get saveLocally => shaPref!.getBool(ShaPref.SHA_PREF_DUCHOWE_SAVE_LOCALLY, true);
-  static set saveLocally(bool value) => shaPref!.setBool(ShaPref.SHA_PREF_DUCHOWE_SAVE_LOCALLY, value);
+  static bool get saveLocally => ShaPref.getBool(ShaPref.SHA_PREF_DUCHOWE_SAVE_LOCALLY, true);
+  static set saveLocally(bool value) => ShaPref.setBool(ShaPref.SHA_PREF_DUCHOWE_SAVE_LOCALLY, value);
 
 }

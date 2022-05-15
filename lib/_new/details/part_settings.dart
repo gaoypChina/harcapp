@@ -5,21 +5,18 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_loader.dart';
 import 'package:harcapp/_new/details/storage_display_page.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_new/cat_page_song_book/radio_button_group.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/main_page_new.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
-import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -27,7 +24,6 @@ import 'package:provider/provider.dart';
 
 import '../../main.dart';
 import 'app_settings.dart';
-import 'common.dart';
 
 class PartSettings extends StatefulWidget{
 
@@ -270,7 +266,7 @@ class _ButtonFactoryResetYesState extends State<_ButtonFactoryResetYes>{
   void initState() {
 
     songLoaderListener = SingleComputerListener<String>(
-        onEnd: (String err, bool forceFinished)async{
+        onEnd: (String? err, bool forceFinished)async{
 
           songLoader.removeListener(songLoaderListener as SingleComputerListener<String>);
           await factoryResetLocal(context);

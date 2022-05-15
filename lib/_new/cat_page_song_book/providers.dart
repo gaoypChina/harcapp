@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:harcapp/_new/cat_page_song_book/song_widget.dart';
+import 'package:provider/provider.dart';
 
 import 'song_management/album.dart';
 
@@ -39,6 +39,8 @@ class DisplayedSongsProvider extends ChangeNotifier{
 */
 
 class AlbumProvider extends ChangeNotifier{
+
+  static AlbumProvider of(BuildContext context) => Provider.of<AlbumProvider>(context, listen: false);
 
   Album get current => Album.current;
   set current(Album album){

@@ -56,13 +56,13 @@ class Author{
 abstract class ArticleElement{
   static int ID = 0;
 
-  int? _id;
+  late int _id;
 
   ArticleElement(){
     _id = ID++;
   }
 
-  Object toJsonObject();
+  dynamic toJsonObject();
 
   @override
   int get hashCode => _id.hashCode;
@@ -70,20 +70,29 @@ abstract class ArticleElement{
   @override
   bool operator == (other) => other is ArticleElement && other._id == _id;
 
-  static ArticleElement? decode(Object object){
-    List<String> parts = (object as List<dynamic>).cast<String>().toList();
-    if(parts[0]==Paragraph.JSON_NAME)
-      return Paragraph(text: parts[1]);
-    else if(parts[0]==Header.JSON_NAME)
-      return Header(text: parts[1]);
-    else if(parts[0]==Quote.JSON_NAME)
-      return Quote(text: parts[1]);
-    else if(parts[0]==Picture.JSON_NAME)
-      return Picture(link: parts[1], desc: parts[2]);
-    else if(parts[0]==Picture.JSON_NAME)
-      return Youtube(link: parts[1], desc: parts[2]);
-    else
+  static ArticleElement? decode(dynamic object){
+    try{
+
+      if(object == null)
+        return null;
+
+      List<String?> parts = (object as List<dynamic>).cast<String?>();
+      if(parts[0]==Paragraph.jsonName)
+        return Paragraph(text: parts[1]??(throw Exception()));
+      else if(parts[0]==Header.jsonName)
+        return Header(text: parts[1]??(throw Exception()));
+      else if(parts[0]==Quote.jsonName)
+        return Quote(text: parts[1]??(throw Exception()));
+      else if(parts[0]==Picture.jsonName)
+        return Picture(link: parts[1]??(throw Exception()), desc: parts[2]);
+      else if(parts[0]==Picture.jsonName)
+        return Youtube(link: parts[1]??(throw Exception()), desc: parts[2]);
+      else
+        return null;
+
+    } on Exception{
       return null;
+    }
   }
 
   bool hasMatch(String phrase);
@@ -94,17 +103,15 @@ class Header extends ArticleElement{
 
   String text;
 
-  Header({this.text =''}):super();
+  Header({required this.text}):super();
 
-  static const String JSON_NAME = 'head';
+  static const String jsonName = 'head';
 
   @override
-  Object toJsonObject(){
-    return [
-      JSON_NAME,
-      text
-    ];
-  }
+  Object toJsonObject() => [
+    jsonName,
+    text
+  ];
 
   @override
   bool hasMatch(String phrase) => remPolChars(text).contains(phrase);
@@ -116,17 +123,15 @@ class Paragraph extends ArticleElement{
 
   String text;
 
-  Paragraph({this.text =''}):super();
+  Paragraph({required this.text}):super();
 
-  static const String JSON_NAME = 'para';
+  static const String jsonName = 'para';
 
   @override
-  Object toJsonObject(){
-    return [
-      JSON_NAME,
-      text
-    ];
-  }
+  Object toJsonObject() => [
+    jsonName,
+    text
+  ];
 
   @override
   bool hasMatch(String phrase) => remPolChars(text).contains(phrase);
@@ -137,17 +142,15 @@ class Quote extends ArticleElement{
 
   String text;
 
-  Quote({this.text =''}):super();
+  Quote({required this.text}):super();
 
-  static const String JSON_NAME = 'quote';
+  static const String jsonName = 'quote';
 
   @override
-  Object toJsonObject(){
-    return [
-      JSON_NAME,
-      text
-    ];
-  }
+  Object toJsonObject() => [
+    jsonName,
+    text
+  ];
 
   @override
   bool hasMatch(String phrase) => remPolChars(text).contains(phrase);
@@ -156,52 +159,48 @@ class Quote extends ArticleElement{
 
 class Picture extends ArticleElement{
 
-  String? link;
+  String link;
   String? desc;
 
-  Picture({this.link:'', this.desc: ''}):super();
+  Picture({required this.link, this.desc}):super();
 
-  static const String JSON_NAME = 'image';
-
-  @override
-  Object toJsonObject(){
-    return [
-      JSON_NAME,
-      link,
-      desc
-    ];
-  }
+  static const String jsonName = 'image';
 
   @override
-  bool hasMatch(String phrase) => remPolChars(desc!).contains(phrase);
+  Object toJsonObject() => [
+    jsonName,
+    link,
+    desc
+  ];
+
+  @override
+  bool hasMatch(String phrase) => remPolChars(desc??'').contains(phrase);
 
 }
 
 class Youtube extends ArticleElement{
 
-  String? link;
-  String desc;
+  String link;
+  String? desc;
 
-  Youtube({this.link:'', this.desc: ''}):super();
+  Youtube({required this.link, this.desc}):super();
 
-  static const String JSON_NAME = 'youtube';
-
-  @override
-  Object toJsonObject(){
-    return [
-      JSON_NAME,
-      link,
-      desc
-    ];
-  }
+  static const String jsonName = 'youtube';
 
   @override
-  bool hasMatch(String phrase) => remPolChars(desc).contains(phrase);
+  Object toJsonObject() => [
+    jsonName,
+    link,
+    desc
+  ];
+
+  @override
+  bool hasMatch(String phrase) => remPolChars(desc??'').contains(phrase);
 
 }
 
-String IMAGE_HERO_TAG(String artName) => artName==null?null:(artName + '~' + 'IMAGE');
-String TITLE_HERO_TAG(String artName) => artName==null?null:(artName + '~' + 'TITLE');
-String DATE_HERO_TAG(String artName) => artName==null?null:(artName + '~' + 'DATE');
+String? IMAGE_HERO_TAG(String? artName) => artName==null?null:'$artName~IMAGE';
+String? TITLE_HERO_TAG(String? artName) => artName==null?null:'$artName~TITLE';
+String? DATE_HERO_TAG(String? artName) => artName==null?null:'$artName~DATE';
 
-String FAB_HERO_TAG(String artName) => artName + '~' + 'FAB';
+String? FAB_HERO_TAG(String? artName) => artName==null?null:'$artName~FAB';

@@ -43,7 +43,7 @@ Future<Tuple7<
   // OFFICIAL SONGS
   Map? offSongsMap = {};
   if(allSongsJSONMap != null) offSongsMap = allSongsJSONMap['official'];
-  List<OffSong?> allOffSongs = List.filled(offSongsMap!.length, null);
+  List<OffSong?> allOffSongs = List.filled(offSongsMap!.length, null, growable: true);
   Map<String, OffSong> allOffSongsMap = {};
   for(String fileName in offSongsMap.keys as Iterable<String>) {
     try {
@@ -53,15 +53,17 @@ Future<Tuple7<
       OffSong song = OffSong.fromMap(fileName, songMap);
       allOffSongs[index] = song;
       allOffSongsMap[song.fileName] = song;
-    } on Error catch(e){
+    } on Error {
       allErrors.add(fileName);
     }
   }
+  allOffSongs.removeWhere((song) => song == null);
+  allOffSongs = allOffSongs.cast<OffSong>();
 
   // CONFIDENTIAL SONGS
-  Map? confSongsMap = {};
+  Map confSongsMap = {};
   if(allSongsJSONMap != null) confSongsMap = allSongsJSONMap['conf'];
-  List<OffSong?> allConfidSongs = List.filled(confSongsMap!.length, null);
+  List<OffSong?> allConfidSongs = List.filled(confSongsMap.length, null, growable: true);
   Map<String, OffSong> allConfidSongsMap = {};
   for(String fileName in confSongsMap.keys as Iterable<String>) {
     try {
@@ -71,11 +73,14 @@ Future<Tuple7<
       OffSong song = OffSong.fromMap(fileName, songMap);
       allConfidSongs[index] = song;
       allConfidSongsMap[song.fileName] = song;
-    } on Error catch (e){
+    } on Error {
       allErrors.add(fileName);
     }
   }
+  allConfidSongs.removeWhere((song) => song == null);
+  allConfidSongs = allConfidSongs.cast<OffSong>();
 
+  // OWN SONGS
   Map? ownSongsMap = {};
   if(ownSongsCode != null) ownSongsMap = jsonDecode(ownSongsCode);
 
@@ -104,21 +109,18 @@ Future<Tuple7<
 }
 
 SongLoader songLoader = SongLoader();
-class SongLoader extends SingleComputer<String, SingleComputerListener<String>?>{
+class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
 
   @override
   String get computerName => 'SongLoader';
 
   @override
   Future<void> perform() async {
-
     List<Album> allAlbums = [];
-    Map<String?, Album> allAlbumsMap = {};
+    Map<String, Album> allAlbumsMap = {};
 
     List<Memory> allMemories = [];
-    Map<String?, Memory> allMemoriesMap = {};
-
-    Album? currAlbum;
+    Map<String, Memory> allMemoriesMap = {};
 
     String? allSongsCode = await readStringFromAssets('assets/songs/all_songs.hrcpsng');
 
@@ -129,7 +131,7 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>?>
     String? ownSongsCode;
     try {
       ownSongsCode = readFileAsString(getOwnSongFilePath);
-    } catch(e){
+    } catch (e) {
       logger.e(e);
     }
 
@@ -142,75 +144,88 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>?>
     OwnSong.allOwn = result.item5;
     OwnSong.allOwnMap = result.item6;
 
-    for(OffSong song in OffSong.allOfficial!)
+    for (OffSong song in OffSong.allOfficial)
       song.initRate();
 
-    for(OffSong song in OffSong.allConfid!)
+    for (OffSong song in OffSong.allConfid)
       song.initRate();
 
-    for(OwnSong song in OwnSong.allOwn!)
+    for (OwnSong song in OwnSong.allOwn)
       song.initRate();
 
-    for(String fileName in result.item7)
+    for (String fileName in result.item7)
       await callError(fileName);
+
+    OffSong.initialized = true;
+    OwnSong.initialized = true;
 
     // LOAD MEMORIES
     // LOAD MEMORIES
     Directory memoryDir = Directory(getSongMemoriesFolderPath);
     await memoryDir.create();
 
-    for(FileSystemEntity file in memoryDir.listSync(recursive: false)){
+    for (FileSystemEntity file in memoryDir.listSync(recursive: false)) {
       try {
         Memory memory = Memory.read(basename(file.path));
 
-        Song? song = OffSong.allOfficialMap![memory.songFileName!];
+        Song? song = OffSong.allOfficialMap[memory.songFileName];
         if (song == null) continue;
         song.addMemory(memory);
         allMemories.add(memory);
         allMemoriesMap[memory.fileName] = memory;
-      } catch (e){
+      } catch (e) {
         logger.e(e);
       }
     }
+
+    Memory.initialized = true;
 
     // LOAD ALBUMS
     // LOAD ALBUMS
     Directory albumDir = Directory(getAlbumFolderPath);
     await albumDir.create();
 
-    for(FileSystemEntity file in albumDir.listSync(recursive: false)){
-      try{
+    for (FileSystemEntity file in albumDir.listSync(recursive: false)) {
+      try {
         Album album = Album.read(basename(file.path), Song.all);
 
         allAlbums.add(album);
         allAlbumsMap[album.fileName] = album;
-      } catch (e){
+      } catch (e) {
         logger.e(e);
       }
     }
 
     Album.allOwn = allAlbums;
     Album.allMap = allAlbumsMap;
+
     Memory.all = allMemories;
     Memory.allMap = allMemoriesMap;
 
     // LOAD CURRENT ALBUM
     // LOAD CURRENT ALBUM
 
-    String? currAlbumFileName = shaPref!.getString(ShaPref.SHA_PREF_SPIEWNIK_CURR_ALBUM, Album.omega.fileName);
+    String? currAlbumFileName = ShaPref.getString(
+        ShaPref.SHA_PREF_SPIEWNIK_CURR_ALBUM, Album.omega.fileName);
 
-    for(Album album in allAlbums)
-      if(album.fileName == currAlbumFileName)
-        currAlbum = album;
+    bool currAlbumSet = false;
+    for (Album album in allAlbums)
+      if (album.fileName == currAlbumFileName) {
+        Album.initCurrent(album);
+        currAlbumSet = true;
+        break;
+      }
 
-    currAlbum ??= Album.omega;
+    if (!currAlbumSet)
+      Album.initCurrent(Album.omega);
 
-    Album.current = currAlbum;
+    Memory.initialized = true;
+    Album.initialized = true;
   }
 
   void convertSongToVer2(){
 
-    if(shaPref!.getBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW, false))
+    if(ShaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW, false))
       return;
 
     Directory songDir = Directory(getSongFolderPath);
@@ -236,12 +251,12 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>?>
     saveStringAsFile(getOwnSongFilePath, code);
     saveStringAsFile(getOwnLastFileNameFilePath, '${unOffFiles.length-1}');
 
-    shaPref!.setBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW, true);
+    ShaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW, true);
   }
 
   void convertSong_2_8_2_to_3_0_0() async {
 
-    if(shaPref!.getBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW_2, false))
+    if(ShaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW_2, false))
       return;
 
     File ownSongFile = File(getOwnSongFilePath);
@@ -265,7 +280,7 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>?>
 
     saveStringAsFile(getOwnSongFilePath, ownSongString);
 
-    shaPref!.setBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW_2, true);
+    ShaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW_2, true);
   }
 
   void convertSong_3_1_8_to_3_1_9() async {
@@ -302,7 +317,7 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>?>
 
     saveStringAsFile(getOwnSongFilePath, ownSongString);
 
-    shaPref!.setBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW_3, true);
+    ShaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW_3, true);
   }
 
 }

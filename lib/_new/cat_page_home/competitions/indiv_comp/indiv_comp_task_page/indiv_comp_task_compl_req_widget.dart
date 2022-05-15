@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/ShowRankData.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task_compl.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
@@ -12,7 +13,6 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:tuple/tuple.dart';
 
 import '../indiv_comp_task_widget.dart';
 
@@ -21,15 +21,16 @@ class IndivTaskComplReqWidget extends StatefulWidget{
   final List<IndivCompTask> allTasks;
   final IndivCompTask task;
   final bool adminOrMod;
-  final void Function(List<IndivCompTaskCompl>, Map<String, Tuple3<int?, int?, Tuple2<double, double>?>>)? onSuccess;
+  final void Function(List<IndivCompTaskCompl>, Map<String, ShowRankData>)? onSuccess;
 
   const IndivTaskComplReqWidget(
       this.allTasks,
       this.task,
       {
         required this.adminOrMod,
-        this.onSuccess
-      });
+        this.onSuccess,
+        Key? key
+      }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => IndivTaskComplReqWidgetState();
@@ -42,7 +43,7 @@ class IndivTaskComplReqWidgetState extends State<IndivTaskComplReqWidget>{
   IndivCompTask get task => widget.task;
   bool get adminOrMod => widget.adminOrMod;
 
-  TextEditingController? controller;
+  late TextEditingController controller;
   late bool sending;
 
   @override
@@ -109,8 +110,8 @@ class IndivTaskComplReqWidgetState extends State<IndivTaskComplReqWidget>{
                     await ApiIndivComp.sendTaskComplReq(
                         allTasks: allTasks,
                         taskKey: task.key,
-                        comment: controller!.text,
-                        onSuccess: (List<IndivCompTaskCompl> taskComplRespMap, Map<String, Tuple3<int?, int?, Tuple2<double, double>?>> idRank){
+                        comment: controller.text,
+                        onSuccess: (List<IndivCompTaskCompl> taskComplRespMap, Map<String, ShowRankData> idRank){
                           if(mounted) showAppToast(context, text: adminOrMod?'Zaliczono':'Przesłano. Wniosek oczekuje na rozpatrzenie.');
                           if(mounted) Navigator.pop(context);
                           widget.onSuccess?.call(taskComplRespMap, idRank);

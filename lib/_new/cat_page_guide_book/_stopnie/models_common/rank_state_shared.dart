@@ -6,7 +6,9 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_sta
 
 class RankTaskStateShared extends RankTaskState {
 
-  bool? completed;
+  @override
+  bool completed;
+  @override
   String? note;
 
   RankTaskStateShared(this.completed, this.note);
@@ -23,13 +25,18 @@ class RankStateShared extends RankState<RankTaskStateShared>{
   String key;
   DateTime lastUpdateTime;
 
-  bool? inProgress;
+  @override
+  bool inProgress;
+  @override
   DateTime? completionDate;
-  bool? completed;
+  @override
+  bool completed;
 
+  @override
   @protected
   final Map<String, RankTaskStateShared> tasks;
 
+  @override
   RankTaskStateShared task(String uid) => tasks[uid]??RankTaskStateShared(false, '');
 
   RankStateShared(this.key, this.lastUpdateTime, this.inProgress, this.completionDate, this.completed, this.tasks);
@@ -66,11 +73,11 @@ class RankStateShared extends RankState<RankTaskStateShared>{
 
   static String _shaPrefSharedRankKey(String key) => ShaPref.SHA_PREF_SHARE_RANK_DUMP_(key);
 
-  void dump() => shaPref!.setString(_shaPrefSharedRankKey(key), serialize());
-  static bool dumpExists(String key) => shaPref!.exists(_shaPrefSharedRankKey(key));
+  void dump() => ShaPref.setString(_shaPrefSharedRankKey(key), serialize());
+  static bool dumpExists(String key) => ShaPref.exists(_shaPrefSharedRankKey(key));
 
   static RankStateShared? fromDump(String key){
-    String? serialized = shaPref!.getString(_shaPrefSharedRankKey(key), null);
+    String? serialized = ShaPref.getStringOrNull(_shaPrefSharedRankKey(key));
     if(serialized == null) return null;
     Map map = jsonDecode(serialized);
     DateTime? dateTime = DateTime.tryParse(map['lastUpdateTime']);

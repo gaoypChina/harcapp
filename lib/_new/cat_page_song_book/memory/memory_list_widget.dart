@@ -15,12 +15,12 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class MemoryListWidget extends StatefulWidget{
 
-  final Song? song;
+  final Song song;
   final ScrollController? controller;
 
   final Function()? onEditMemoryTap;
   final Function(Memory memory)? onEditMemoryLongPress;
-  final Function(Song? song)? onNewMemoryTap;
+  final Function(Song song)? onNewMemoryTap;
 
   const MemoryListWidget(
       this.song,
@@ -39,11 +39,12 @@ class MemoryListWidget extends StatefulWidget{
 
 class MemoryListWidgetState extends State<MemoryListWidget>{
 
-  Song? get song => widget.song;
+  Song get song => widget.song;
   ScrollController? get controller => widget.controller;
 
   void Function()? get onEditMemoryTap => widget.onEditMemoryTap;
   void Function(Memory memory)? get onEditMemoryLongPress => widget.onEditMemoryLongPress;
+  void Function(Song song)? get onNewMemoryTap => widget.onNewMemoryTap;
 
   int? fontIndex;
 
@@ -61,7 +62,7 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
 
     List<Widget> children = [];
 
-    for(Memory memory in song!.memories) {
+    for(Memory memory in song.memories) {
       children.add(
           Padding(
             padding: const EdgeInsets.all(Dimen.DEF_MARG),
@@ -86,7 +87,8 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
             SimpleButton(
               radius: AppCard.BIG_RADIUS,
               margin: const EdgeInsets.all(Dimen.DEF_MARG),
-              onTap: widget.onNewMemoryTap==null?null:() => widget.onNewMemoryTap!(song),
+              onTap: () => onNewMemoryTap?.call(song),
+              padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -102,10 +104,9 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
                   ),
                 ],
               ),
-              padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
             ),
 
-            if(song!.isOfficial && false)
+            if(song.isOfficial && false)
               Positioned(
                 top: 0,
                 bottom: 0,
@@ -120,7 +121,7 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
                       builder: (context) => BottomSheetDef(
                         title: 'Wspomnienia innych osób',
                         builder: (context) => FutureBuilder<List<Memory>>(
-                          future: API.getPublishedMemories(song!.fileName), // async work
+                          future: API.getPublishedMemories(song.fileName), // async work
                           builder: (BuildContext context, AsyncSnapshot<List<Memory>> snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.waiting:

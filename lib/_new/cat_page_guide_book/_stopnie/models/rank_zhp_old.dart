@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
-import 'package:harcapp/_new/api/sync_resp_body/rank_def_resp.dart';
+import 'package:harcapp/_new/api/sync_resp_body/rank_def_get_resp.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/data/data_zhp_old.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/list_header_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/sector_sep_widget.dart';
@@ -16,7 +16,6 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_sta
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../../../sync/syncable_new.dart';
 import 'rank_def.dart';
 
 
@@ -61,7 +60,7 @@ class RankZHPOldData extends RankData{
 
 }
 
-abstract class RankZHPOldTempl<T extends RankState> extends Rank<RankZHPOldData, RankDefResp?, T>{
+abstract class RankZHPOldTempl<T extends RankState> extends Rank<RankZHPOldData, RankDefGetResp, T>{
 
   RankZHPOldTempl(
     RankZHPOldData data,

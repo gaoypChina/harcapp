@@ -1,43 +1,42 @@
-import 'package:flutter/material.dart';
-import 'package:harcapp/_new/api/sync_resp_body/rank_task_resp.dart';
+import 'package:harcapp/_new/api/sync_resp_body/spraw_task_get_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
 
-class RankResp extends SyncGetResp{
+class SprawGetResp extends SyncGetResp{
 
-  static const String COLL_NAME = 'rank_def';
+  static const String COLL_NAME = 'spraw';
 
   static const String PARAM_IN_PROGRESS = 'inProgress';
-  final bool? inProgress;
+  final bool inProgress;
 
   static const String PARAM_COMPLETED = 'completed';
-  final bool? completed;
+  final bool completed;
 
   static const String PARAM_COMPLETION_DATE = 'completionDate';
   final DateTime? completionDate;
 
-  static const String PARAM_TASK = 'tasks';
-  final Map<String, RankTaskResp>? tasks;
+  static const String PARAM_TASK = 'task';
+  final Map<String, SprawTaskGetResp> task;
 
-  const RankResp({
+  const SprawGetResp({
     required this.inProgress,
     required this.completed,
     required this.completionDate,
-    required this.tasks,
+    required this.task,
   });
 
-  static RankResp from(Map respData){
+  static SprawGetResp from(Map respData){
 
     Map<String, dynamic>? sprawTasks = respData[PARAM_TASK];
-    Map<String, RankTaskResp> tasks = {};
+    Map<String, SprawTaskGetResp> tasks = {};
     if(sprawTasks != null)
-      for(String uniqTaskRankName in sprawTasks.keys)
-        tasks[uniqTaskRankName] = RankTaskResp.from(sprawTasks[uniqTaskRankName]);
+      for(String uniqTaskSprawName in sprawTasks.keys)
+        tasks[uniqTaskSprawName] = SprawTaskGetResp.from(sprawTasks[uniqTaskSprawName]);
 
-    return RankResp(
+    return SprawGetResp(
         inProgress: respData[PARAM_IN_PROGRESS]??false,
         completionDate: respData[PARAM_COMPLETION_DATE]==null?null:DateTime.tryParse(respData[PARAM_COMPLETION_DATE]),
         completed: respData[PARAM_COMPLETED]??false,
-        tasks: tasks
+        task: tasks
     );
   }
 

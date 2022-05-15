@@ -24,7 +24,7 @@ RankDefData rankZhrZuchD1Data = RankDefData(
     org: Org.zhr_d,
     id: 'ZUCH_D_1',
     catData: [
-      RankCatData(
+      const RankCatData(
         title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_1,
           groupData: [
             RankGroupData(
@@ -38,7 +38,7 @@ RankDefData rankZhrZuchD1Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_2,
           groupData: [
             RankGroupData(
@@ -51,7 +51,7 @@ RankDefData rankZhrZuchD1Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_3,
           groupData: [
             RankGroupData(
@@ -64,7 +64,7 @@ RankDefData rankZhrZuchD1Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_4,
           groupData: [
             RankGroupData(
@@ -76,7 +76,7 @@ RankDefData rankZhrZuchD1Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_5,
           groupData: [
             RankGroupData(
@@ -92,7 +92,7 @@ RankDefData rankZhrZuchD1Data = RankDefData(
       )
     ]
 );
-Rank rankZhrZuchD1 = rankZhrZuchD1Data.build();
+RankDef rankZhrZuchD1 = rankZhrZuchD1Data.build();
 
 RankDefData rankZhrZuchD2Data = RankDefData(
     titleMale: 'Zuch zaradny',
@@ -100,7 +100,7 @@ RankDefData rankZhrZuchD2Data = RankDefData(
     org: Org.zhr_d,
     id: 'ZUCH_D_2',
     catData: [
-      RankCatData(
+      const RankCatData(
         title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_1,
           groupData: [
             RankGroupData(
@@ -113,7 +113,7 @@ RankDefData rankZhrZuchD2Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_2,
           groupData: [
             RankGroupData(
@@ -127,7 +127,7 @@ RankDefData rankZhrZuchD2Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_3,
           groupData: [
             RankGroupData(
@@ -141,7 +141,7 @@ RankDefData rankZhrZuchD2Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_4,
           groupData: [
             RankGroupData(
@@ -154,7 +154,7 @@ RankDefData rankZhrZuchD2Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_5,
           groupData: [
             RankGroupData(
@@ -170,7 +170,7 @@ RankDefData rankZhrZuchD2Data = RankDefData(
       )
     ]
 );
-Rank rankZhrZuchD2 = rankZhrZuchD2Data.build();
+RankDef rankZhrZuchD2 = rankZhrZuchD2Data.build();
 
 RankDefData rankZhrZuchD3Data = RankDefData(
     titleMale: 'Zuch opiekuńczy',
@@ -178,7 +178,7 @@ RankDefData rankZhrZuchD3Data = RankDefData(
     org: Org.zhr_d,
     id: 'ZUCH_D_3',
     catData: [
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_1,
           groupData: [
             RankGroupData(
@@ -191,7 +191,7 @@ RankDefData rankZhrZuchD3Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_2,
           groupData: [
             RankGroupData(
@@ -205,7 +205,7 @@ RankDefData rankZhrZuchD3Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_3,
           groupData: [
             RankGroupData(
@@ -218,7 +218,7 @@ RankDefData rankZhrZuchD3Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_4,
           groupData: [
             RankGroupData(
@@ -231,7 +231,7 @@ RankDefData rankZhrZuchD3Data = RankDefData(
             ),
           ]
       ),
-      RankCatData(
+      const RankCatData(
           title: RankData.ZUCH_RANK_ZHR_STREF_COLOR_5,
           groupData: [
             RankGroupData(
@@ -248,7 +248,7 @@ RankDefData rankZhrZuchD3Data = RankDefData(
       )
     ]
 );
-Rank rankZhrZuchD3 = rankZhrZuchD3Data.build();
+RankDef rankZhrZuchD3 = rankZhrZuchD3Data.build();
 
 
 RankZHRDData rankZhrHarcD0Data = RankZHRDData.from(
@@ -264,8 +264,8 @@ RankZHRDData rankZhrHarcD0Data = RankZHRDData.from(
     sylwetka: null,
 
     postawaItems: [
-      RankTaskData(text: 'Wie, że chce zostać harcerką, akceptuje zasady życia panujące w drużynie.'),
-      RankTaskData(text: 'Jest przygotowana na to, co może ją spotkać, zawsze ma przy sobie:'
+      const RankTaskData(text: 'Wie, że chce zostać harcerką, akceptuje zasady życia panujące w drużynie.'),
+      const RankTaskData(text: 'Jest przygotowana na to, co może ją spotkać, zawsze ma przy sobie:'
           '\n- legitymację szkolną,'
           '\n- bilety komunikacji miejscowej,'
           '\n- długopis lub ołówek i kartkę papieru do pisania,'
@@ -276,16 +276,16 @@ RankZHRDData rankZhrHarcD0Data = RankZHRDData.from(
       )
     ],
     wiedzaHarcItems: [
-      RankTaskData(text: 'Zna pełną nazwę drużyny, jej podstawowe zwyczaje i obrzędy.'),
-      RankTaskData(text: 'Wie, co oznaczał w tradycji harcerskiej węzełek lub suwak na chuście i stara się w swoim życiu postępować zgodnie z tą ideą.'),
-      RankTaskData(text: 'Zna imię i nazwisko drużynowej i zastępowej, potrafi skontaktować się z nimi (zna ich numery telefonów/adresy domowe/adresy mailowe). Zna sieć alarmową zastępu.'),
-      RankTaskData(text: 'Umie przywitać się i zameldować po harcersku.'),
-      RankTaskData(text: 'Skompletowała mundur harcerski i utrzymuje go w stałej gotowości.'),
-      RankTaskData(text: 'Założyła dzienniczek/notatnik i śpiewniczek harcerski.'),
+      const RankTaskData(text: 'Zna pełną nazwę drużyny, jej podstawowe zwyczaje i obrzędy.'),
+      const RankTaskData(text: 'Wie, co oznaczał w tradycji harcerskiej węzełek lub suwak na chuście i stara się w swoim życiu postępować zgodnie z tą ideą.'),
+      const RankTaskData(text: 'Zna imię i nazwisko drużynowej i zastępowej, potrafi skontaktować się z nimi (zna ich numery telefonów/adresy domowe/adresy mailowe). Zna sieć alarmową zastępu.'),
+      const RankTaskData(text: 'Umie przywitać się i zameldować po harcersku.'),
+      const RankTaskData(text: 'Skompletowała mundur harcerski i utrzymuje go w stałej gotowości.'),
+      const RankTaskData(text: 'Założyła dzienniczek/notatnik i śpiewniczek harcerski.'),
     ],
     umiejetnosci: null,
     doswiadczenieItems: [
-      RankTaskData(text: 'Systematycznie uczestniczy w pracy zastępu i drużyny.'),
+      const RankTaskData(text: 'Systematycznie uczestniczy w pracy zastępu i drużyny.'),
     ],
     catData: null
 );
@@ -303,9 +303,9 @@ RankZHRDData rankZhrHarcD0WData = RankZHRDData.from(
     wskazowki: null,
     sylwetka: null,
     postawaItems: [
-      RankTaskData(text: 'Rozumie Przyrzeczenie i Prawo Harcerskie, dobrze je interpretuje i posiada odwagę realizowania ich w każdym środowisku.'),
-      RankTaskData(text: 'Rozpoczęła zdobywanie naramiennika wędrowniczego.'),
-      RankTaskData(text:
+      const RankTaskData(text: 'Rozumie Przyrzeczenie i Prawo Harcerskie, dobrze je interpretuje i posiada odwagę realizowania ich w każdym środowisku.'),
+      const RankTaskData(text: 'Rozpoczęła zdobywanie naramiennika wędrowniczego.'),
+      const RankTaskData(text:
       'Jest przygotowana na to, co może ją spotkać, zawsze ma przy sobie:'
           '\n- długopis lub ołówek i kartkę papieru do pisania,'
           '\n- zapałki,'
@@ -315,14 +315,14 @@ RankZHRDData rankZhrHarcD0WData = RankZHRDData.from(
       ),
     ],
     wiedzaHarcItems: [
-      RankTaskData(text: 'Zna Prawo i Przyrzeczenie Harcerskie, zapoznała się z dokumentem \"Podstawowe zasady wychowania harcerskiego w ZHR\".'),
-      RankTaskData(text: 'Zna hymn harcerski i modlitwę harcerską.'),
-      RankTaskData(text: 'Umie przywitać się i zameldować po harcersku.'),
-      RankTaskData(text: 'Skompletowała mundur harcerski i traktuje go z szacunkiem.'),
+      const RankTaskData(text: 'Zna Prawo i Przyrzeczenie Harcerskie, zapoznała się z dokumentem "Podstawowe zasady wychowania harcerskiego w ZHR".'),
+      const RankTaskData(text: 'Zna hymn harcerski i modlitwę harcerską.'),
+      const RankTaskData(text: 'Umie przywitać się i zameldować po harcersku.'),
+      const RankTaskData(text: 'Skompletowała mundur harcerski i traktuje go z szacunkiem.'),
     ],
     umiejetnosci: null,
     doswiadczenieItems: [
-      RankTaskData(text: 'Systematycznie uczestniczy w pracy drużyny.')
+      const RankTaskData(text: 'Systematycznie uczestniczy w pracy drużyny.')
     ],
     catData: null
 );
@@ -340,10 +340,10 @@ RankZHRDData rankZhrHarcD0SData = RankZHRDData.from(
     wskazowki: null,
     sylwetka: null,
     postawaItems: [
-      RankTaskData(text: 'Rozumie Przyrzeczenie i Prawo Harcerskie, dobrze je interpretuje i posiada odwagę realizowania ich w każdym środowisku.'),
-      RankTaskData(text: 'Realizuje przynajmniej jedno zobowiązanie starszoharcerskie.'),
-      RankTaskData(text: 'Pełni służbę.'),
-      RankTaskData(text:
+      const RankTaskData(text: 'Rozumie Przyrzeczenie i Prawo Harcerskie, dobrze je interpretuje i posiada odwagę realizowania ich w każdym środowisku.'),
+      const RankTaskData(text: 'Realizuje przynajmniej jedno zobowiązanie starszoharcerskie.'),
+      const RankTaskData(text: 'Pełni służbę.'),
+      const RankTaskData(text:
       'Jest przygotowana na to, co może ją spotkać, zawsze ma przy sobie:'
           '\n- długopis lub ołówek i kartkę papieru do pisania,'
           '\n- zapałki,'
@@ -353,16 +353,16 @@ RankZHRDData rankZhrHarcD0SData = RankZHRDData.from(
       )
     ],
     wiedzaHarcItems: [
-      RankTaskData(text: 'Zna Prawo i Przyrzeczenie Harcerskie, zapoznała się z dokumentem \"Podstawowe zasady wychowania harcerskiego w ZHR\".'),
-      RankTaskData(text: 'Zna hymn harcerski i modlitwę harcerską.'),
-      RankTaskData(text: 'Zna i rozumie strukturę organizacyjną ZHR, utrzymuje kontakt z bezpośrednią przełożoną.'),
-      RankTaskData(text: 'Skompletowała mundur harcerski i traktuje go z szacunkiem.'),
+      const RankTaskData(text: 'Zna Prawo i Przyrzeczenie Harcerskie, zapoznała się z dokumentem "Podstawowe zasady wychowania harcerskiego w ZHR".'),
+      const RankTaskData(text: 'Zna hymn harcerski i modlitwę harcerską.'),
+      const RankTaskData(text: 'Zna i rozumie strukturę organizacyjną ZHR, utrzymuje kontakt z bezpośrednią przełożoną.'),
+      const RankTaskData(text: 'Skompletowała mundur harcerski i traktuje go z szacunkiem.'),
     ],
     umiejetnosci: null,
     doswiadczenieItems: [
-      RankTaskData(text: 'Systematycznie uczestniczy w pracy środowiska harcerskiego.'),
-      RankTaskData(text: 'Współpracuje ze środowiskiem starszoharcerskim lub instruktorskim.'),
-      RankTaskData(text: 'Wzięła udział w przedsięwzięciu harcerskim typu rajd, zlot itp.'),
+      const RankTaskData(text: 'Systematycznie uczestniczy w pracy środowiska harcerskiego.'),
+      const RankTaskData(text: 'Współpracuje ze środowiskiem starszoharcerskim lub instruktorskim.'),
+      const RankTaskData(text: 'Wzięła udział w przedsięwzięciu harcerskim typu rajd, zlot itp.'),
     ],
     catData: null
 );
@@ -383,7 +383,7 @@ RankZHRDData rankZhrHarcD1Data = RankZHRDData.from(
         '\n\nOchotniczka po ukończeniu próby na stopień posiada podstawową wiedzę z technik harcerskich. Zna i rozumie Prawo Harcerskie. Systematycznie uczestniczy w praktykach religijnych Kościoła. Zna i czuje ideę harcerstwa. Rozumie, czym jest patriotyzm. Podjęła z zastępem służbę. Cechuje ją dobra pamięć i wyostrzone zmysły. Znalazła już swoje zainteresowania. Jest aktywną harcerką – uczestniczy w zbiórkach drużyny, biwakach, obozie. Bierze udział w uroczystościach patriotycznych i kościelnych.',
     postawa: [
 
-          RankGroupData(
+          const RankGroupData(
               title: GROUP_TITLE_OGOLNE,
               taskData: [
                     RankTaskData(text:
@@ -395,7 +395,7 @@ RankZHRDData rankZhrHarcD1Data = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: 'Praca nad sobą',
               taskData: [
                     RankTaskData(text:
@@ -428,7 +428,7 @@ RankZHRDData rankZhrHarcD1Data = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: 'Dom',
               taskData: [
                     RankTaskData(text:
@@ -443,7 +443,7 @@ RankZHRDData rankZhrHarcD1Data = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: 'Drużyna, zastęp',
               taskData: [
                     RankTaskData(text:
@@ -458,7 +458,7 @@ RankZHRDData rankZhrHarcD1Data = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: 'Posłuszeństwo',
               taskData: [
                     RankTaskData(text:
@@ -470,7 +470,7 @@ RankZHRDData rankZhrHarcD1Data = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: 'Szkoła',
               taskData: [
                     RankTaskData(text:
@@ -482,7 +482,7 @@ RankZHRDData rankZhrHarcD1Data = RankZHRDData.from(
               ]
           ),
 
-          RankGroupData(
+          const RankGroupData(
               title: 'Praca',
               taskData: [
                     RankTaskData(text:
@@ -498,7 +498,7 @@ RankZHRDData rankZhrHarcD1Data = RankZHRDData.from(
           )
     ],
     wiedzaHarc: [
-      RankGroupData(
+      const RankGroupData(
         title: _GROUP_TITLE_WIEDZA_HARCERSKA,
         taskData: [
           RankTaskData(text: 'Zna symbolikę Krzyża Harcerskiego, lilijki, koniczynki, hasła "Czuwaj".'),
@@ -510,7 +510,7 @@ RankZHRDData rankZhrHarcD1Data = RankZHRDData.from(
         ],
       ),
 
-      RankGroupData(
+      const RankGroupData(
         title: _GROUP_TITLE_WIEDZA_O_POLSCE,
         taskData: [
           RankTaskData(text: 'Zna i śpiewa hymn narodowy, wie, jak się zachować przy jego śpiewaniu.'),
@@ -520,14 +520,14 @@ RankZHRDData rankZhrHarcD1Data = RankZHRDData.from(
       )
     ],
     umiejetnosci: [
-          RankGroupData(
+          const RankGroupData(
                 title: 'Musztra',
                 taskData: [
                       RankTaskData(text: 'Zna zasady musztry indywidualnej. Wie, jak zachować się podczas apelu.'),
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: 'Umiejętności obozowe',
                 taskData: [
                       RankTaskData(text: 'Potrafi samodzielnie, w dobrym tempie rozwinąć i zwinąć namiot 2-osobowy.'),
@@ -537,7 +537,7 @@ RankZHRDData rankZhrHarcD1Data = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: 'Umiejętności przyrodnicze',
                 taskData: [
                       RankTaskData(text: 'Potrafi wymienić, opisać i rozpoznać 10 ssaków, 10 ptaków i 10 gatunków drzew.'),
@@ -545,7 +545,7 @@ RankZHRDData rankZhrHarcD1Data = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: 'Umiejętności komunikacyjne',
                 taskData: [
                       RankTaskData(text: 'Potrafi znaleźć potrzebną informację oraz przekazać ją dalej (e-mail, sms). Wie, jak bezpiecznie i kulturalnie korzystać z możliwości Internetu.'),
@@ -558,7 +558,7 @@ RankZHRDData rankZhrHarcD1Data = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: 'Umiejętności terenowe',
                 taskData: [
                       RankTaskData(text: 'Umie wyznaczać strony świata wg busoli, Słońca i znaków terenowych.'),
@@ -566,7 +566,7 @@ RankZHRDData rankZhrHarcD1Data = RankZHRDData.from(
                       RankTaskData(text: 'Podczas wycieczki poprowadzi grupę na krótkim odcinku drogi według mapy, umie pokazać na mapie przebytą trasę i aktualne miejsce postoju.'),
                 ],
           ),
-          RankGroupData(
+          const RankGroupData(
                 title: 'Umiejętności samarytańskie',
                 taskData: [
                       RankTaskData(text: 'Dowie się, co powinna zawierać, apteczka osobista i ją skompletuje. Będzie umiała z niej skorzystać i zaradzić w przypadku drobnych urazów.'),
@@ -575,13 +575,13 @@ RankZHRDData rankZhrHarcD1Data = RankZHRDData.from(
           )
     ],
     doswiadczenieItems: [
-      RankTaskData(text: 'Bierze czynny udział w pracy zastępu i drużyny.'),
-      RankTaskData(text: 'Weźmie udział w wycieczce.'),
-      RankTaskData(text: 'Weźmie udział w biwaku.'),
-      RankTaskData(text: 'Weźmie udział w obozie lub zimowisku.'),
-      RankTaskData(text: 'Weźmie udział w służbie społecznej z zastępem dla innych.'),
-      RankTaskData(text: 'Weźmie udział w obchodach Święta Narodowego.'),
-      RankTaskData(text: 'W czasie realizacji próby na stopień zdobyła przynajmniej 5 sprawności z różnych dziedzin.'),
+      const RankTaskData(text: 'Bierze czynny udział w pracy zastępu i drużyny.'),
+      const RankTaskData(text: 'Weźmie udział w wycieczce.'),
+      const RankTaskData(text: 'Weźmie udział w biwaku.'),
+      const RankTaskData(text: 'Weźmie udział w obozie lub zimowisku.'),
+      const RankTaskData(text: 'Weźmie udział w służbie społecznej z zastępem dla innych.'),
+      const RankTaskData(text: 'Weźmie udział w obchodach Święta Narodowego.'),
+      const RankTaskData(text: 'W czasie realizacji próby na stopień zdobyła przynajmniej 5 sprawności z różnych dziedzin.'),
     ],
     catData: null
 );
@@ -604,24 +604,24 @@ RankZHRDData rankZhrHarcD2Data = RankZHRDData.from(
         '\n\nPodobnie jak w przypadku stopnia ochotniczki, zdobywanie tropicielki powinno być ściśle związane z aktywnym uczestnictwem harcerki w pracy drużyny.',
     sylwetka: 'Tropicielka to druhna, która powoli staje się wzorem do naśladowania dla młodszych harcerek, i stara się być im pomocna. Posiada wiedzę z każdej dziedziny życia harcerskiego. Wykazała się odpowiedzialnością za siebie i za powierzone jej zadania w drużynie, które mają przygotować ją do podjęcia odpowiedzialności za zespół. Poznała i przyjęła Prawo Harcerskie. Stara się zgodnie z nim postępować. Dostrzega związek między Dekalogiem a Prawem Harcerskim. Odkrywa znaczenie praktyk religijnych, szuka odpowiedniej dla niej metody modlitwy osobistej, która będzie rozmową z Bogiem – Przyjacielem. W otaczającym świecie, w przyrodzie odkrywa Boga jako Stwórcę. Poznaje swoją kobiecość, dba o swój wygląd. Szuka autorytetów wśród świętych. Doświadczyła obozowego życia i posiada wiedzę i umiejętności z dziedziny technik harcerskich. Potrafi pogodzić działalność w drużynie z codziennymi obowiązkami w domu i szkole. Realizuje swoje pasje. Stara się nazywać swoje emocje i szuka sposobów radzenia sobie z nimi. Rozumie potrzebę aktywności fizycznej.',
     postawaItems: [
-      RankTaskData(text: 'Potrafi odnieść sytuacje życiowe do Prawa Harcerskiego.'),
-      RankTaskData(text: 'Obserwuje swoje nastroje i uczucia (radość, gniew, smutek, żal, zazdrość, duma, osamotnienie, bezradność, oczarowanie, zakochanie, bunt, lęk itp.). Analizuje ich wpływ na własne życie, potrafi je nazwać.'),
-      RankTaskData(text: 'Odkrywa w swoim życiu działanie Boga.'),
-      RankTaskData(text: 'Rozwija swoją wiedzę religijną, szuka odpowiedzi na nurtujące ją pytania.'),
-      RankTaskData(text: 'Poznała przemiany, jakie następują u nastolatki i nastolatka w sferze fizycznej i uczuciowo-emocjonalnej (miesięczny cykl biologiczny, nastroje, samopoczucie, możliwości i potrzeby organizmu) na podstawie rzetelnych źródeł.'),
-      RankTaskData(text: 'Dba o siebie, stosuje zasady profilaktyki zdrowotnej'),
-      RankTaskData(text: 'Czyta książki, zachęci inną osobę do przeczytania jednej z nich i uzasadni swój wybór.'),
-      RankTaskData(text: 'Mądrze korzysta z czasopism, telewizji i Internetu, dokonując wyboru artykułów, audycji i pożytecznych stron WWW (ciekawych, kształcących, odprężających).'),
-      RankTaskData(text: 'Utrzymuje porządek w swoich rzeczach, umie zagospodarować swoją przestrzeń.'),
-      RankTaskData(text: 'Regularnie poświęca czas obowiązkom, stara się nie wykonywać zadań na ostatnią chwilę.'),
-      RankTaskData(text: 'Planuje swój czas, tak by jego część poświęcić na stałe obowiązki domowe.'),
-      RankTaskData(text: 'Nawiązuje więzi przyjaźni i podtrzymuje je.'),
-      RankTaskData(text: 'Umie wytropić dobro w każdej osobie, często obdarowuje innych pochwałą i przyjacielskim gestem.'),
-      RankTaskData(text: 'Szanuje innych ludzi, pomaga im, kiedy tego potrzebują.'),
-      RankTaskData(text: 'Jest pogodna w czasie trudów, zaraża innych swoją postawą.'),
+      const RankTaskData(text: 'Potrafi odnieść sytuacje życiowe do Prawa Harcerskiego.'),
+      const RankTaskData(text: 'Obserwuje swoje nastroje i uczucia (radość, gniew, smutek, żal, zazdrość, duma, osamotnienie, bezradność, oczarowanie, zakochanie, bunt, lęk itp.). Analizuje ich wpływ na własne życie, potrafi je nazwać.'),
+      const RankTaskData(text: 'Odkrywa w swoim życiu działanie Boga.'),
+      const RankTaskData(text: 'Rozwija swoją wiedzę religijną, szuka odpowiedzi na nurtujące ją pytania.'),
+      const RankTaskData(text: 'Poznała przemiany, jakie następują u nastolatki i nastolatka w sferze fizycznej i uczuciowo-emocjonalnej (miesięczny cykl biologiczny, nastroje, samopoczucie, możliwości i potrzeby organizmu) na podstawie rzetelnych źródeł.'),
+      const RankTaskData(text: 'Dba o siebie, stosuje zasady profilaktyki zdrowotnej'),
+      const RankTaskData(text: 'Czyta książki, zachęci inną osobę do przeczytania jednej z nich i uzasadni swój wybór.'),
+      const RankTaskData(text: 'Mądrze korzysta z czasopism, telewizji i Internetu, dokonując wyboru artykułów, audycji i pożytecznych stron WWW (ciekawych, kształcących, odprężających).'),
+      const RankTaskData(text: 'Utrzymuje porządek w swoich rzeczach, umie zagospodarować swoją przestrzeń.'),
+      const RankTaskData(text: 'Regularnie poświęca czas obowiązkom, stara się nie wykonywać zadań na ostatnią chwilę.'),
+      const RankTaskData(text: 'Planuje swój czas, tak by jego część poświęcić na stałe obowiązki domowe.'),
+      const RankTaskData(text: 'Nawiązuje więzi przyjaźni i podtrzymuje je.'),
+      const RankTaskData(text: 'Umie wytropić dobro w każdej osobie, często obdarowuje innych pochwałą i przyjacielskim gestem.'),
+      const RankTaskData(text: 'Szanuje innych ludzi, pomaga im, kiedy tego potrzebują.'),
+      const RankTaskData(text: 'Jest pogodna w czasie trudów, zaraża innych swoją postawą.'),
     ],
     wiedzaHarc: [
-          RankGroupData(
+          const RankGroupData(
                 title: _GROUP_TITLE_ZNAJOMOSC_MALEJ_OJCZYZNY,
                 taskData: [
                       RankTaskData(text: 'Wie, jakie rośliny i zwierzęta można spotkać w pobliskim lesie, rozpoznała i udokumentowała znaleziony trop zwierzęcy, umie znaleźć kilka gatunków roślin leczniczych i wie, jakie mają zastosowanie.'),
@@ -630,7 +630,7 @@ RankZHRDData rankZhrHarcD2Data = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: _GROUP_TITLE_WIEDZA_HARCERSKA,
                 taskData: [
                       RankTaskData(text: 'Zna historię walk harcerek i harcerzy o niepodległość.'),
@@ -645,7 +645,7 @@ RankZHRDData rankZhrHarcD2Data = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: _GROUP_TITLE_WIEDZA_O_POLSCE,
                 taskData: [
                       RankTaskData(text: 'Odwiedzi kilka obiektów historycznych związanych z różnymi okresami historii Polski.'),
@@ -654,7 +654,7 @@ RankZHRDData rankZhrHarcD2Data = RankZHRDData.from(
           )
     ],
     umiejetnosci: [
-          RankGroupData(
+          const RankGroupData(
                 title: 'Sprawność fizyczna, hart.',
                 taskData: [
                       RankTaskData(text: 'Weźmie udział w zawodach sportowych.'),
@@ -665,7 +665,7 @@ RankZHRDData rankZhrHarcD2Data = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: 'Dom',
                 taskData: [
                       RankTaskData(text: 'Wykona proste elementy ubrania lub wyposażenia domu.'),
@@ -675,7 +675,7 @@ RankZHRDData rankZhrHarcD2Data = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: 'Drużyna',
                 taskData: [
                       RankTaskData(text: 'Umie poprowadzić zastęp w terenie, posługiwać się mapą i kompasem.'),
@@ -688,7 +688,7 @@ RankZHRDData rankZhrHarcD2Data = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: 'Zdobywanie informacji',
                 taskData: [
                       RankTaskData(text: 'Przeprowadzi minimum 2 zwiady tematyczne, zbierze i przedstawi zdobyte informacje.'),
@@ -696,9 +696,9 @@ RankZHRDData rankZhrHarcD2Data = RankZHRDData.from(
           ),
     ],
     doswiadczenieItems: [
-      RankTaskData(text: 'Weźmie udział w kolejnym obozie/zimowisku.'),
-      RankTaskData(text: 'Weźmie udział w zbiórce/zlocie hufca lub chorągwi.'),
-      RankTaskData(text: 'Będzie pełnić służbę wraz z zastępem lub drużyną.'),
+      const RankTaskData(text: 'Weźmie udział w kolejnym obozie/zimowisku.'),
+      const RankTaskData(text: 'Weźmie udział w zbiórce/zlocie hufca lub chorągwi.'),
+      const RankTaskData(text: 'Będzie pełnić służbę wraz z zastępem lub drużyną.'),
     ],
     catData: null
 );
@@ -717,7 +717,7 @@ RankZHRDData rankZhrHarcD2SData = RankZHRDData.from(
     sylwetka: 'Starsza tropicielka to harcerka, która po zdobyciu tego stopnia powinna osiągnąć poziom zastępowej. Wykazała się odpowiedzialnością za siebie i powierzone zadania w drużynie, które mają przygotować ją do podjęcia w przyszłości odpowiedzialności za zespół. Poznała i przyjęła Prawo Harcerskie. Stara się postępować zgodnie z nim. Doświadczyła obozowego życia i posiada wiedzę i umiejętności z technik harcerskich. Potrafi pogodzić działalność w drużynie z codziennymi obowiązkami w domu i w szkole. Realizuje swoje pasje. Stara się nazywać swoje emocje i szuka sposobów radzenia sobie z nimi. Jest aktywna i rozumie potrzebę aktywności fizycznej.'
         '\n\nPo zrealizowaniu próby na stopień starszej tropicielki harcerka powinna posiadać już stosunkowo duże umiejętności harcerskie. Życie polowe, obozownictwo, techniki harcerskie, puszczaństwo nie mają przed nią tajemnic, bo to ona – jako starsza koleżanka z zastępu – będzie przede wszystkim służyć radą młodszym druhnom.',
     postawa: [
-          RankGroupData(
+          const RankGroupData(
             title: GROUP_TITLE_OGOLNE,
               taskData: [
                     RankTaskData(text: 'Rozumie, do czego zobowiązuje ją Prawo Harcerskie w codziennym życiu. Potrafi oprzeć się tym, którzy namawiają ją do złego.'),
@@ -732,7 +732,7 @@ RankZHRDData rankZhrHarcD2SData = RankZHRDData.from(
                     RankTaskData(text: 'Jest punktualna.'),
               ]
           ),
-          RankGroupData(
+          const RankGroupData(
               title: 'Dom',
               taskData: [
                     RankTaskData(text: 'Utrzymuje porządek w swoich rzeczach, umie zagospodarować swoją przestrzeń.'),
@@ -741,7 +741,7 @@ RankZHRDData rankZhrHarcD2SData = RankZHRDData.from(
                     RankTaskData(text: 'Pomaga w organizowaniu uroczystości i spotkań rodzinnych.'),
               ]
           ),
-          RankGroupData(
+          const RankGroupData(
               title: 'Drużyna, zastęp',
               taskData: [
                     RankTaskData(text: 'Nie stroni od pracy, gdy inni w zastępie pracują; jeśli nie umie czegoś wykonać, stara się tego nauczyć.'),
@@ -749,7 +749,7 @@ RankZHRDData rankZhrHarcD2SData = RankZHRDData.from(
                     RankTaskData(text: 'Rzetelnie wywiązuje się z obowiązków podczas pełnienia wraz z drużyną i zastępem służb wartowniczych lub kuchennych. Otacza opieką młodsze harcerki.'),
               ]
           ),
-          RankGroupData(
+          const RankGroupData(
               title: 'Szkoła',
               taskData: [
                     RankTaskData(text: 'Poważnie traktuje swoje obowiązki szkolne.'),
@@ -758,10 +758,10 @@ RankZHRDData rankZhrHarcD2SData = RankZHRDData.from(
           ),
     ],
     wiedzaHarc: [
-          RankGroupData(
+          const RankGroupData(
             title: _GROUP_TITLE_WIEDZA_HARCERSKA,
                 taskData: [
-                      RankTaskData(text: 'Zna symbolikę Krzyża Harcerskiego, lilijki, koniczynki, hasła \"Czuwaj\".'),
+                      RankTaskData(text: 'Zna symbolikę Krzyża Harcerskiego, lilijki, koniczynki, hasła "Czuwaj".'),
                       RankTaskData(text: 'Wie, jakie są stopnie harcerskie, instruktorskie, funkcje oraz jakie są ich oznaczenia.'),
                       RankTaskData(text: 'Wykaże się znajomością początków ruchu skautowego i postaci jego założyciela.'),
                       RankTaskData(text: 'Zna historię powstania harcerstwa, tradycje, na których się ono opiera, postać założycielki i założyciela.'),
@@ -772,7 +772,7 @@ RankZHRDData rankZhrHarcD2SData = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: _GROUP_TITLE_WIEDZA_O_POLSCE,
                 taskData: [
                       RankTaskData(text: 'Zna i śpiewa hymn narodowy, wie, jak się zachować przy jego śpiewaniu.'),
@@ -782,7 +782,7 @@ RankZHRDData rankZhrHarcD2SData = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: _GROUP_TITLE_ZNAJOMOSC_MALEJ_OJCZYZNY,
                 taskData: [
                       RankTaskData(text: 'Wie, jakie rośliny i zwierzęta można spotkać w pobliskim lesie, rozpozna i udokumentuje znaleziony trop zwierzęcy (zdjęcie, odlew).'),
@@ -792,7 +792,7 @@ RankZHRDData rankZhrHarcD2SData = RankZHRDData.from(
           )
     ],
     umiejetnosci: [
-          RankGroupData(
+          const RankGroupData(
                 title: 'Umiejętności obozowe',
                 taskData: [
                       RankTaskData(text: 'Potrafi samodzielnie w dobrym tempie rozłożyć i złożyć namiot 2-osobowy.'),
@@ -803,7 +803,7 @@ RankZHRDData rankZhrHarcD2SData = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: 'Umiejętności przyrodnicze',
                 taskData: [
                       RankTaskData(text: 'Umiejętności przyrodnicze'),
@@ -813,7 +813,7 @@ RankZHRDData rankZhrHarcD2SData = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: 'Umiejętności komunikacyjne',
                 taskData: [
                       RankTaskData(text: 'Zna proste szyfry i umie je stosować.'),
@@ -821,7 +821,7 @@ RankZHRDData rankZhrHarcD2SData = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: 'Umiejętności samarytańskie',
                 taskData: [
                       RankTaskData(text: 'Wie, co powinna zawierać apteczka zastępu, i umie jej używać.'),
@@ -829,7 +829,7 @@ RankZHRDData rankZhrHarcD2SData = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: 'Sprawność fizyczna',
                 taskData: [
                       RankTaskData(text: 'Sprawnie przebyła tor przeszkód terenowych'),
@@ -839,9 +839,9 @@ RankZHRDData rankZhrHarcD2SData = RankZHRDData.from(
           ),
     ],
     doswiadczenieItems: [
-      RankTaskData(text: 'Weźmie udział w kolejnym obozie/zimowisku.'),
-      RankTaskData(text: 'Weźmie udział w zbiórce/zlocie hufca lub chorągwi.'),
-      RankTaskData(text: 'Będzie pełnić służbę wraz z zastępem lub drużyną.'),
+      const RankTaskData(text: 'Weźmie udział w kolejnym obozie/zimowisku.'),
+      const RankTaskData(text: 'Weźmie udział w zbiórce/zlocie hufca lub chorągwi.'),
+      const RankTaskData(text: 'Będzie pełnić służbę wraz z zastępem lub drużyną.'),
     ],
     catData: null
 );
@@ -861,7 +861,7 @@ RankZHRDData rankZhrHarcD3Data = RankZHRDData.from(
     sylwetka: 'Samarytanka osiągnęła mistrzostwo w technikach harcerskich. Harcerka zdobywająca ten stopień pełni funkcje na poziomie drużyny. Podejmuje odpowiedzialność za grupę. Wychodzi z własną inicjatywą (dom, szkoła, drużyna). Sumiennie wywiązuje się ze swoich obowiązków. Stylem życia świadczy o wyznawanych przez siebie ideałach, promuje je w swoim otoczeniu, wszyscy wiedzą, że można na nią liczyć, równocześnie ma odwagę prosić o pomoc w razie trudności i wie, do kogo może się o nią zwrócić. Posiada zdolność do wyznaczania i realizacji indywidualnych celów.'
         '\n\nSamarytanka coraz lepiej rozumie Prawo Harcerskie, rozumie harcerską ideę służby (szuka pól do jej realizacji i wypełnia ją). Wykazuje się dojrzałością w pojmowaniu współczesnego patriotyzmu. Świadomie kształtuje swój styl, potrafi efektywnie połączyć obowiązki rodzinne, szkolne i harcerskie z czasem na odpoczynek i hobby (które posiada lub stara się odnaleźć). Wykazuje się hartem ducha i ciała. W kontaktach z innymi stara się być empatyczna, nie zapominając jednocześnie o sobie.',
     postawa: [
-          RankGroupData(
+          const RankGroupData(
             title: GROUP_TITLE_OGOLNE,
             taskData: [
                   RankTaskData(text: 'Postępuje zawsze tak, że nie wstydzi się własnych czynów (tzn. zgodnie z zasadami wyznaczonymi przez Prawo Harcerskie, Dekalog).'),
@@ -872,7 +872,7 @@ RankZHRDData rankZhrHarcD3Data = RankZHRDData.from(
                   RankTaskData(text: 'Uczestniczy w katechezie szkolnej.'),
             ]
           ),
-          RankGroupData(
+          const RankGroupData(
               title: 'Praca nad sobą',
               taskData: [
                     RankTaskData(text: 'Bierze czynny udział w lekcjach WF-u. Znajdzie takie formy aktywności ruchowej, które są dla niej odpowiednie – długoterminowo i systematycznie będzie dzięki nim dbać o swoje zdrowie i poprawiać kondycję.'),
@@ -886,14 +886,14 @@ RankZHRDData rankZhrHarcD3Data = RankZHRDData.from(
                     RankTaskData(text: 'Jest gospodarna, potrafi oszczędzać.'),
               ]
           ),
-          RankGroupData(
+          const RankGroupData(
               title: 'Dom',
               taskData: [
                     RankTaskData(text: 'Jest współodpowiedzialna za gospodarstwo domowe.'),
                     RankTaskData(text: 'Rozwija się kulinarnie.'),
               ]
           ),
-          RankGroupData(
+          const RankGroupData(
               title: 'Służba',
               taskData: [
                     RankTaskData(text: 'Pełni służbę w społeczeństwie.'),
@@ -901,7 +901,7 @@ RankZHRDData rankZhrHarcD3Data = RankZHRDData.from(
           ),
     ],
     wiedzaHarc: [
-          RankGroupData(
+          const RankGroupData(
             title: _GROUP_TITLE_WIEDZA_HARCERSKA,
                 taskData: [
                       RankTaskData(text: 'Zna podstawowe różnice między największymi organizacjami harcerskimi w Polsce.'),
@@ -911,7 +911,7 @@ RankZHRDData rankZhrHarcD3Data = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: _GROUP_TITLE_WIEDZA_O_POLSCE,
                 taskData: [
                       RankTaskData(text: 'Śledzi bieżące wydarzenia polityczne i społeczne.'),
@@ -921,7 +921,7 @@ RankZHRDData rankZhrHarcD3Data = RankZHRDData.from(
     ],
     umiejetnosci: [
 
-          RankGroupData(
+          const RankGroupData(
             title: GROUP_TITLE_OGOLNE,
                 taskData: [
                       RankTaskData(text: 'Jej pionierka obozowa jest estetyczna, stabilna i prosta. Starsza samarytanka rozwija swoje umiejętności w tej dziedzinie.'),
@@ -935,7 +935,7 @@ RankZHRDData rankZhrHarcD3Data = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: 'Umiejętności organizacyjne',
                 taskData: [
                       RankTaskData(text: 'Załatwi powierzone sprawy poza środowiskiem harcerskim (np. w urzędzie, w firmie).'),
@@ -947,13 +947,13 @@ RankZHRDData rankZhrHarcD3Data = RankZHRDData.from(
 
     ],
     doswiadczenieItems: [
-      RankTaskData(text: 'Bierze udział w życiu kulturalnym (teatr, wystawy itp.).'),
-      RankTaskData(text: 'Bierze udział w imprezach chorągwi, ZHR.'),
-      RankTaskData(text: 'Czynnie uczestniczy w:'
+      const RankTaskData(text: 'Bierze udział w życiu kulturalnym (teatr, wystawy itp.).'),
+      const RankTaskData(text: 'Bierze udział w imprezach chorągwi, ZHR.'),
+      const RankTaskData(text: 'Czynnie uczestniczy w:'
           '\n- życiu drużyny'
           '\n- imprezach hufca'),
-      RankTaskData(text: 'Pomoże w organizacji akcji zarobkowej zastępu lub drużyny lub akcji charytatywnej.'),
-      RankTaskData(text: 'Zdobędzie 5 sprawności adekwatnych do swojego poziomu w danej dziedzinie.'),
+      const RankTaskData(text: 'Pomoże w organizacji akcji zarobkowej zastępu lub drużyny lub akcji charytatywnej.'),
+      const RankTaskData(text: 'Zdobędzie 5 sprawności adekwatnych do swojego poziomu w danej dziedzinie.'),
     ],
     catData: null
 );
@@ -976,7 +976,7 @@ RankZHRDData rankZhrHarcD3SData = RankZHRDData.from(
     sylwetka: 'Starsza samarytanka wybrała jedną z technik harcerskich, w której dąży do mistrzostwa, pozostałe opanowała przynajmniej w stopniu podstawowym. Harcerka zdobywająca ten stopień podejmuje zadania na poziomie drużyny (harcerskiej bądź wędrowniczej). Wychodzi z własną inicjatywą (dom, szkoła, środowisko lokalne, drużyna). Sumiennie wywiązuje się ze swoich obowiązków. Stylem życia świadczy o wyznawanych przez siebie ideałach, promuje je w swoim otoczeniu. Posiada zdolność do wyznaczania sobie i realizacji indywidualnych celów.'
         '\n\nRozumie Prawo Harcerskie i harcerską ideę służby (szuka pól do jej realizacji), wykazuje się dojrzałością w pojmowaniu współczesnego patriotyzmu. Świadomie kształtuje swój styl, potrafi efektywnie połączyć obowiązki rodzinne, szkolne i harcerskie z czasem na odpoczynek i hobby (które stara się przekazywać innym). Wykazuje się hartem ducha i ciała. W kontaktach z innymi stara się być empatyczna, nie zapominając o sobie.',
     postawa: [
-          RankGroupData(
+          const RankGroupData(
               title: 'Idea',
               taskData: [
                     RankTaskData(text: 'Stylem życia świadczy o wyznawanych wartościach (zgodnych z Prawem Harcerskim, Dekalogiem).'),
@@ -985,7 +985,7 @@ RankZHRDData rankZhrHarcD3SData = RankZHRDData.from(
                     RankTaskData(text: 'Pozna swoją kobiecość we wszystkich wymiarach (biologicznym, duchowym, psychicznym). Nabędzie umiejętność krytycznego spojrzenia na popularne wzorce kobiecości.'),
               ]
           ),
-          RankGroupData(
+          const RankGroupData(
               title: 'Praca nad sobą',
               taskData: [
                     RankTaskData(text: 'Bierze czynny udział w lekcjach/zajęciach WF-u. Znajdzie takie formy aktywności ruchowej, które są dla niej odpowiednie – długoterminowo i systematycznie będzie dzięki nim dbać o swoje zdrowie i poprawiać kondycję.'),
@@ -996,13 +996,13 @@ RankZHRDData rankZhrHarcD3SData = RankZHRDData.from(
                     RankTaskData(text: 'Wierzy we własne siły i potrafi je ocenić, bierze odpowiedzialność nie tylko za siebie, lecz także za innych i podejmuje próby przewodzenia grupie.'),
               ]
           ),
-          RankGroupData(
+          const RankGroupData(
               title: 'Dom',
               taskData: [
                     RankTaskData(text: 'Jest współodpowiedzialna za gospodarstwo domowe – regularnie wywiązuje się ze stałych obowiązków domowych. Bierze czynny udział w rozwiązywaniu problemów rodzinnych.'),
               ]
           ),
-          RankGroupData(
+          const RankGroupData(
               title: 'Służba',
               taskData: [
                     RankTaskData(text: 'Pełni służbę w społeczeństwie.'),
@@ -1010,7 +1010,7 @@ RankZHRDData rankZhrHarcD3SData = RankZHRDData.from(
           ),
     ],
     wiedzaHarc: [
-          RankGroupData(
+          const RankGroupData(
             title: _GROUP_TITLE_WIEDZA_HARCERSKA,
                 taskData: [
                       RankTaskData(text: 'Zna symbolikę Krzyża Harcerskiego, lilijki, koniczynki, hasła "Czuwaj".'),
@@ -1023,7 +1023,7 @@ RankZHRDData rankZhrHarcD3SData = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: _GROUP_TITLE_WIEDZA_O_POLSCE,
                 taskData: [
                       RankTaskData(text: 'Śledzi bieżące wydarzenia polityczne i społeczne.'),
@@ -1033,7 +1033,7 @@ RankZHRDData rankZhrHarcD3SData = RankZHRDData.from(
     ],
     umiejetnosci: [
 
-          RankGroupData(
+          const RankGroupData(
             title: GROUP_TITLE_OGOLNE,
                 taskData: [
                       RankTaskData(text: 'Jej pionierka obozowa jest estetyczna, stabilna i prosta. Rozwija się w tej dziedzinie.'),
@@ -1044,7 +1044,7 @@ RankZHRDData rankZhrHarcD3SData = RankZHRDData.from(
                 ],
           ),
 
-          RankGroupData(
+          const RankGroupData(
                 title: 'Umiejętności organizacyjne',
                 taskData: [
                       RankTaskData(text: 'Zgodnie z obowiązującymi przepisami zorganizuje wycieczkę z noclegiem dla drużyny.'),
@@ -1054,12 +1054,12 @@ RankZHRDData rankZhrHarcD3SData = RankZHRDData.from(
 
     ],
     doswiadczenieItems: [
-      RankTaskData(text: 'Bierze udział w imprezach chorągwi, ZHR.'),
-      RankTaskData(text: 'Weźmie udział w obozie letnim lub zimowisku drużyny.'),
-      RankTaskData(text: 'Podejmuje funkcje w drużynie wędrowniczej lub harcerskiej.'),
-      RankTaskData(text: 'Podejmie się indywidualnego zadania na poziomie szerszym niż jej drużyna (kilka drużyn, hufiec, szczep).'),
-      RankTaskData(text: 'Zorganizuje akcję zarobkową drużyny lub akcję charytatywną.'),
-      RankTaskData(text: 'Zdobędzie 5 sprawności adekwatnych do swojego poziomu w danej dziedzinie.'),
+      const RankTaskData(text: 'Bierze udział w imprezach chorągwi, ZHR.'),
+      const RankTaskData(text: 'Weźmie udział w obozie letnim lub zimowisku drużyny.'),
+      const RankTaskData(text: 'Podejmuje funkcje w drużynie wędrowniczej lub harcerskiej.'),
+      const RankTaskData(text: 'Podejmie się indywidualnego zadania na poziomie szerszym niż jej drużyna (kilka drużyn, hufiec, szczep).'),
+      const RankTaskData(text: 'Zorganizuje akcję zarobkową drużyny lub akcję charytatywną.'),
+      const RankTaskData(text: 'Zdobędzie 5 sprawności adekwatnych do swojego poziomu w danej dziedzinie.'),
     ],
     catData: null
 );
@@ -1097,7 +1097,7 @@ RankZHRDData rankZhrHarcD4Data = RankZHRDData.from(
     umiejetnosci: null,
     doswiadczenie: null,
     catData: [
-          RankCatData(
+          const RankCatData(
                 title: 'Rozwój',
                 icon: RankData.iconCatRozwoj,
                 groupData: [
@@ -1241,7 +1241,7 @@ RankZHRDData rankZhrHarcD4SData = RankZHRDData.from(
     umiejetnosci: null,
     doswiadczenie: null,
     catData: [
-          RankCatData(
+          const RankCatData(
                 title: 'Rozwój',
                 icon: RankData.iconCatRozwoj,
                 groupData: [
@@ -1456,7 +1456,7 @@ RankZHRDData rankZhrHarcD5Data = RankZHRDData.from(
     umiejetnosci: null,
     doswiadczenie: null,
     catData: [
-          RankCatData(
+          const RankCatData(
                 title: 'Rozwój',
                 icon: RankData.iconCatRozwoj,
                 groupData: [

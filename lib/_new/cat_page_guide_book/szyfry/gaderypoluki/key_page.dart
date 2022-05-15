@@ -21,7 +21,7 @@ class KeyPage extends StatefulWidget{
   final Function(String key, bool isValid)? onKeyTap;
   final Function(String key, bool isValid)? onKeyChanged;
 
-  const KeyPage({this.onKeyTap, this.onKeyChanged});
+  const KeyPage({this.onKeyTap, this.onKeyChanged, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => KeyPageState();
@@ -55,13 +55,13 @@ class KeyPageState extends State<KeyPage>{
               focusNode: focusNode,
               onChanged: (String key, bool isValid){
                 Provider.of<GaderypolukiProvider>(context, listen: false).key = key;
-                if(onKeyChanged != null) onKeyChanged!(key, isValid);
+                onKeyChanged?.call(key, isValid);
               },
               trailing: Consumer<GaderypolukiProvider>(
                 builder: (context, prov, child){
-                  if(!prov.isValid!)
+                  if(!prov.isValid)
                     return IconButton(
-                        icon: Icon(MdiIcons.alertCircleOutline),
+                        icon: const Icon(MdiIcons.alertCircleOutline),
                         onPressed: () => showAppToast(context, text: 'Znaki klucza nie mogą się powtarzać.')
                     );
 
@@ -73,7 +73,7 @@ class KeyPageState extends State<KeyPage>{
 
           Expanded(
               child: CustomScrollView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 slivers: [
 
                   SliverList(
@@ -84,7 +84,7 @@ class KeyPageState extends State<KeyPage>{
                           prov.input!.isEmpty?
                           Container():
                           SuggCard(
-                            prov.isValid!?prov.key:'Błąd w kluczu...',
+                            prov.isValid?prov.key:'Błąd w kluczu...',
                             onTap: (String key){
                               onKeyTap!(key, GaderypolukiProvider.checkKeyValidity(key));
                               Navigator.pop(context);
@@ -123,13 +123,13 @@ class SuggCard extends StatelessWidget{
   final String _key;
   final void Function(String key)? onTap;
 
-  const SuggCard(this._key, {this.onTap});
+  const SuggCard(this._key, {this.onTap, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SimpleButton(
       radius: AppCard.BIG_RADIUS,
-      padding: EdgeInsets.all(Dimen.ICON_MARG),
+      padding: const EdgeInsets.all(Dimen.ICON_MARG),
       child: SizedBox(
         height: Dimen.ICON_SIZE,
         child: Align(

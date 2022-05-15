@@ -10,7 +10,6 @@ import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
 import 'package:harcapp_core/comm_widgets/app_button.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -20,7 +19,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../_common_widgets/app_toast.dart';
 import '../_common_widgets/bottom_nav_scaffold.dart';
 import '../_common_widgets/empty_message_widget.dart';
-import '../_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'account.dart';
 import 'account_tile.dart';
 
@@ -297,9 +295,9 @@ class ShadowUserTileState extends State<ShadowUserTile>{
 class AddShadowUserDialog extends StatefulWidget{
 
   final UserDataNick? user;
-  final void Function(UserDataNick user) onSuccess;
+  final void Function(UserDataNick user)? onSuccess;
 
-  const AddShadowUserDialog({this.user, required this.onSuccess, Key? key}) : super(key: key);
+  const AddShadowUserDialog({this.user, this.onSuccess, Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => AddShadowUserDialogState();
@@ -309,7 +307,7 @@ class AddShadowUserDialog extends StatefulWidget{
 class AddShadowUserDialogState extends State<AddShadowUserDialog>{
 
   UserDataNick? get user => widget.user;
-  void Function(UserDataNick user) get onSuccess => widget.onSuccess;
+  void Function(UserDataNick user)? get onSuccess => widget.onSuccess;
 
   String? name;
   Sex? sex;

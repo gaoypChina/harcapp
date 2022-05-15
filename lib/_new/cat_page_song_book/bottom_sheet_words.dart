@@ -164,7 +164,7 @@ class InterpWidget extends StatelessWidget{
   Widget build(BuildContext context) {
 
     songText = songText.replaceAll('\n\n', '\n');
-    songText = songText.replaceAll(Song.TAB_CHAR, '');
+    songText = songText.replaceAll(Song.tabChar, '');
 
     List<Widget> children = [];
     

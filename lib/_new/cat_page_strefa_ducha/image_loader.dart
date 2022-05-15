@@ -29,7 +29,7 @@ class ImageLoader{
       }
       onComplete?.call(image, true);
     }else {
-      image = await downloadImage(item, shaPref!.getBool(ShaPref.SHA_PREF_DUCHOWE_SAVE_LOCALLY, true));
+      image = await downloadImage(item, ShaPref.getBool(ShaPref.SHA_PREF_DUCHOWE_SAVE_LOCALLY, true));
       if(image == null) onError?.call();
       else onComplete?.call(image, false);
     }

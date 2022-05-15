@@ -7,7 +7,6 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -15,7 +14,6 @@ import 'package:path/path.dart';
 import 'package:semaphore/semaphore.dart';
 import 'package:tuple/tuple.dart';
 import 'package:webfeed/domain/atom_item.dart';
-import 'package:webfeed/domain/rss_item.dart';
 import 'package:xml/xml.dart';
 import 'package:http/http.dart' show get;
 import 'package:image/image.dart' as img;
@@ -26,11 +24,11 @@ abstract class Article{
 
   static Map<String, Tuple2<String, int>>? altCoverUrls;
 
-  static List<Article?>? all;
-  static SplayTreeMap<String, Article?>? allMap;
+  static List<Article>? all;
+  static SplayTreeMap<String, Article>? allMap;
   static bool add(Article article){
-    if(all == null) all = [];
-    if(allMap == null) allMap = SplayTreeMap.of({});
+    all ??= [];
+    allMap ??= SplayTreeMap.of({});
 
     if(allMap![article.id] != null) return false;
     all!.add(article);
@@ -43,9 +41,9 @@ abstract class Article{
     allMap!.clear();
   }
 
-  static addAll(List<Article?> articleCores){
-    if(all == null) all = [];
-    if(allMap == null) allMap = SplayTreeMap.of({});
+  static addAll(List<Article> articleCores){
+    all ??= [];
+    allMap ??= SplayTreeMap.of({});
 
     all!.addAll(articleCores);
     for(Article? article in articleCores)
@@ -53,8 +51,8 @@ abstract class Article{
   }
 
   static addAllToStart(List<Article> articleCores){
-    if(all == null) all = [];
-    if(allMap == null) allMap = SplayTreeMap.of({});
+    all ??= [];
+    allMap ??= SplayTreeMap.of({});
 
     for(Article article in articleCores.reversed) {
       all!.insert(0, article);
@@ -62,22 +60,22 @@ abstract class Article{
     }
   }
 
-  static const String ID_SEP = '@';
+  static const String idSep = '@';
 
-  static const String PARAM_TITLE = 'title';
-  static const String PARAM_TAGS = 'tags';
-  static const String PARAM_AUTHOR = 'author';
-  static const String PARAM_DATE = 'date';
-  static const String PARAM_LINK = 'link';
+  static const String paramTitle = 'title';
+  static const String paramTags = 'tags';
+  static const String paramAuthor = 'author';
+  static const String paramDate = 'date';
+  static const String paramLink = 'link';
 
-  static const String PARAM_IMAGE = 'image';
-  static const String PARAM_IMAGE_SOURCE = 'image_source';
-  static const String PARAM_AUTH_CODE = 'auth_code';
+  static const String paramImage = 'image';
+  static const String paramImageSource = 'image_source';
+  static const String paramAuthCode = 'auth_code';
 
-  static const String PARAM_ARTCL_ITMES = 'items';
-  static const String PARAM_OTHER_ART_CORES = 'other_art_cores';
+  static const String paramArtclItems = 'items';
+  static const String paramOtherArtCores = 'other_art_cores';
 
-  String get id => _typeCode + ID_SEP + _localId;
+  String get id => _typeCode + idSep + _localId;
   String get _typeCode;
   final String _localId;
 
@@ -109,11 +107,11 @@ abstract class Article{
     File file = File(getArticleCoverPath(id));
     await file.create(recursive: true);
     await file.writeAsBytes(Uint8List.fromList(img.encodeJpg(image, quality: 70)));
-    shaPref!.setInt(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_COVER_VERSION_(id), version);
+    ShaPref.setInt(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_COVER_VERSION_(id), version);
     return file;
   }
 
-  static int? coverVersion(String id) => shaPref!.getInt(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_COVER_VERSION_(id), 0);
+  static int? coverVersion(String id) => ShaPref.getInt(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_COVER_VERSION_(id), 0);
 
   const Article(
       this._localId,
@@ -128,8 +126,13 @@ abstract class Article{
   bool get downloaded => File(getArticleCorePath(id)).existsSync();
   String get imagePath => getArticleCoverPath(id);
 
-  static String get lastSeenId => shaPref!.getString(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LAST_SEEN_ID, null)!;
-  static set lastSeenId(String value) => shaPref!.setString(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LAST_SEEN_ID, value);
+  static String? get lastSeenId => ShaPref.getStringOrNull(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LAST_SEEN_ID);
+  static set lastSeenId(String? value){
+    if(value == null)
+      ShaPref.remove(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LAST_SEEN_ID);
+    else
+      ShaPref.setString(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LAST_SEEN_ID, value);
+  }
 
   static Article? readFromPath(String path){
     String code = readFileAsString(path);
@@ -149,63 +152,77 @@ abstract class Article{
 
     Map map = {};
 
-    map[Article.PARAM_TITLE] = title;
-    map[Article.PARAM_TAGS] = tags;
-    map[Article.PARAM_AUTHOR] = author;
-    map[Article.PARAM_DATE] = date!.toIso8601String();
-    map[Article.PARAM_LINK] = link;
+    map[Article.paramTitle] = title;
+    map[Article.paramTags] = tags;
+    map[Article.paramAuthor] = author;
+    map[Article.paramDate] = date!.toIso8601String();
+    map[Article.paramLink] = link;
     //map[ArticleCore.PARAM_IMAGE] = base64Decode(map[ArticleCore.PARAM_IMAGE]);
     //map[ArticleCore.PARAM_IMAGE_SOURCE] = imageSource;
-    map[Article.PARAM_ARTCL_ITMES] = articleElements!.map((item) => item!.toJsonObject()).toList();
+    map[Article.paramArtclItems] = articleElements!.map((item) => item!.toJsonObject()).toList();
     //map[ArticleCore.PARAM_OTHER_ART_CORES] = otherCores;
 
     saveStringAsFile(getArticleCorePath(id), jsonEncode(map));
   }
 
-  static List<String> get bookmarkedIds => shaPref!.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED, []);
+  static List<String> get bookmarkedIds => ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED, []);
 
-  static List<Article?> get bookmarked => bookmarkedIds.map<Article?>((id) => Article.allMap![id]).toList();
+  static List<Article> get bookmarked{
+    List<Article> result = [];
+    for(String id in bookmarkedIds) {
+      Article? article = Article.allMap![id];
+      if (article != null) result.add(article);
+    }
+    return result;
+  }
 
-  bool get isBookmarked => shaPref!.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED, []).contains(id);
+  bool get isBookmarked => ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED, []).contains(id);
   set isBookmarked(bool value){
-    List<String> ids = shaPref!.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED, []);
+    List<String> ids = ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED, []);
     if(value) {
       if (ids.contains(id)) return;
       ids.add(id);
     }else{
       ids.remove(id);
     }
-    shaPref!.setStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED, ids);
+    ShaPref.setStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED, ids);
   }
 
-  static List<String> get seen => shaPref!.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_SEEN, []);
+  static List<String> get seen => ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_SEEN, []);
 
-  bool get isSeen => shaPref!.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_SEEN, []).contains(id);
+  bool get isSeen => ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_SEEN, []).contains(id);
   set isSeen(bool value){
-    List<String> ids = shaPref!.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_SEEN, []);
+    List<String> ids = ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_SEEN, []);
     if(value) {
       if (ids.contains(id)) return;
       ids.add(id);
     }else{
       ids.remove(id);
     }
-    shaPref!.setStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_SEEN, ids);
+    ShaPref.setStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_SEEN, ids);
   }
 
-  static List<String> get likedIds => shaPref!.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED, []);
+  static List<String> get likedIds => ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED, []);
 
-  static List<Article?> get liked => likedIds.map<Article?>((id) => Article.allMap![id]).toList();
+  static List<Article> get liked{
+    List<Article> result = [];
+    for(String id in likedIds) {
+      Article? article = Article.allMap![id];
+      if (article != null) result.add(article);
+    }
+    return result;
+  }
 
-  bool get isLiked => shaPref!.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED, []).contains(id);
+  bool get isLiked => ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED, []).contains(id);
   set isLiked(bool value){
-    List<String> ids = shaPref!.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED, []);
+    List<String> ids = ShaPref.getStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED, []);
     if(value) {
       if (ids.contains(id)) return;
       ids.add(id);
     }else{
       ids.remove(id);
     }
-    shaPref!.setStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED, ids);
+    ShaPref.setStringList(ShaPref.SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED, ids);
   }
 
   @protected
@@ -256,7 +273,7 @@ class ArticleAzymut extends Article{
   String get _typeCode => typeCode;
 
   ArticleAzymut(
-    String _localId,
+    String localId,
     {required String? title,
       required List<String> tags,
       required DateTime? date,
@@ -264,7 +281,7 @@ class ArticleAzymut extends Article{
       required String? link,
       required List<ArticleElement?> articleElements
   }):super(
-      _localId,
+      localId,
       title: title,
       tags: tags,
       date: date,
@@ -320,7 +337,8 @@ class ArticleAzymut extends Article{
                 if (element.name.local == 'img') imageLink = getAttrValue(element, 'src');
                 if (element.name.local == 'figcaption') desc = element.children[0].text;
               }
-              artElements.add(Picture(link: imageLink, desc: desc));
+              if(imageLink != null)
+                artElements.add(Picture(link: imageLink, desc: desc));
               break;
             }
           }
@@ -335,7 +353,8 @@ class ArticleAzymut extends Article{
                 if (element.name.local == 'img') imageLink = getAttrValue(element, 'src');
                 if (element.name.local == 'figcaption') desc = element.children[0].text;
               }
-              artElements.add(Picture(link: imageLink, desc: desc));
+              if(imageLink != null)
+                artElements.add(Picture(link: imageLink, desc: desc));
               break;
             }
           }
@@ -345,13 +364,13 @@ class ArticleAzymut extends Article{
       }
     }
 
-    String _localId = item.id!
+    String localId = item.id!
         .replaceAll('http://', '')
         .replaceAll('https://', '')
         .replaceAll('azymut.zhr.pl/?p=', '');
 
     ArticleAzymut core = ArticleAzymut(
-        _localId,
+        localId,
         title: item.title,
         tags: tags,
         author: item.authors![0].name,
@@ -365,19 +384,18 @@ class ArticleAzymut extends Article{
 
   static ArticleAzymut fromJson(String id, String code) {
 
-    Map<String, Object> map = jsonDecode(code);
+    Map<String, dynamic> map = jsonDecode(code);
 
-    final String? title = map[Article.PARAM_TITLE] as String?;
-    final List<String> tags = ((map[Article.PARAM_TAGS]??[]) as List).cast<String>();
-    final String? author = map[Article.PARAM_AUTHOR] as String?;
-    final DateTime date = DateTime.parse(map[Article.PARAM_DATE] as String);
-    final String? link = map[Article.PARAM_LINK] as String?;
+    final String? title = map[Article.paramTitle] as String?;
+    final List<String> tags = ((map[Article.paramTags]??[]) as List).cast<String>();
+    final String? author = map[Article.paramAuthor] as String?;
+    final DateTime date = DateTime.parse(map[Article.paramDate] as String);
+    final String? link = map[Article.paramLink] as String?;
 
-    final Uint8List? imageBytes = map[Article.PARAM_IMAGE]==null?null:base64Decode(map[Article.PARAM_IMAGE] as String);
-    final String? imageSource = map[Article.PARAM_IMAGE_SOURCE] as String?;
-    //final String authCode = map[PARAM_AUTH_CODE];
-    final List<dynamic> items = map[Article.PARAM_ARTCL_ITMES] as List<dynamic>???[];
-    final List<dynamic> _othCores = map[Article.PARAM_OTHER_ART_CORES] as List<dynamic>???[];
+    final Uint8List? imageBytes = map[Article.paramImage]==null?null:base64Decode(map[Article.paramImage] as String);
+    final String? imageSource = map[Article.paramImageSource] as String?;
+    final List<dynamic> items = map[Article.paramArtclItems] as List<dynamic>;
+    final List<dynamic>? othCores = map[Article.paramOtherArtCores] as List<dynamic>?;
 
     //List<ArticleCore> othCores = _othCores.map((dynamic item) => ArticleCore.decode(item)).toList();
 
@@ -387,7 +405,7 @@ class ArticleAzymut extends Article{
       articleElements.removeAt(articleElements.length-1);
 
     return ArticleAzymut(
-      id.split(Article.ID_SEP)[1],
+      id.split(Article.idSep)[1],
       title: title,
       tags: tags,
       date: date,
@@ -440,7 +458,7 @@ class ArticleHarcApp extends Article{
   String get _typeCode => typeCode;
 
   ArticleHarcApp(
-    String _localId,
+    String localId,
     {String? title,
     List<String>? tags,
     DateTime? date,
@@ -448,7 +466,7 @@ class ArticleHarcApp extends Article{
     String? link,
     List<ArticleElement?>? articleElements
   }):super(
-      _localId,
+      localId,
       title: title,
       tags: tags,
       date: date,
@@ -498,24 +516,24 @@ class ArticleHarcApp extends Article{
 
     Map<String, Object> map = jsonDecode(code);
 
-    final String? title = map[Article.PARAM_TITLE] as String?;
-    final List<String> tags = map[Article.PARAM_TAGS] as List<String>???[];
-    final String? author = map[Article.PARAM_AUTHOR] as String?;
-    final DateTime date = DateTime.parse(map[Article.PARAM_DATE] as String);
-    final String? link = map[Article.PARAM_LINK] as String?;
+    final String? title = map[Article.paramTitle] as String?;
+    final List<String> tags = map[Article.paramTags] as List<String>;
+    final String? author = map[Article.paramAuthor] as String?;
+    final DateTime date = DateTime.parse(map[Article.paramDate] as String);
+    final String? link = map[Article.paramLink] as String?;
 
-    final Uint8List? imageBytes = map[Article.PARAM_IMAGE]==null?null:base64Decode(map[Article.PARAM_IMAGE] as String);
-    final String? imageSource = map[Article.PARAM_IMAGE_SOURCE] as String?;
+    final Uint8List? imageBytes = map[Article.paramImage]==null?null:base64Decode(map[Article.paramImage] as String);
+    final String? imageSource = map[Article.paramImageSource] as String?;
     //final String authCode = map[PARAM_AUTH_CODE];
-    final List<dynamic> items = map[Article.PARAM_ARTCL_ITMES] as List<dynamic>???[];
-    final List<dynamic> _othCores = map[Article.PARAM_OTHER_ART_CORES] as List<dynamic>???[];
+    final List<dynamic> items = map[Article.paramArtclItems] as List<dynamic>;
+    final List<dynamic> othCores = map[Article.paramOtherArtCores] as List<dynamic>;
 
     //List<ArticleCore> othCores = _othCores.map((dynamic item) => ArticleCore.decode(item)).toList();
 
     List<ArticleElement?> articleElements = items.map((dynamic item) => ArticleElement.decode(item)).toList();
 
     return ArticleHarcApp(
-      id.split(Article.ID_SEP)[1],
+      id.split(Article.idSep)[1],
       title: title,
       tags: tags,
       date: date,

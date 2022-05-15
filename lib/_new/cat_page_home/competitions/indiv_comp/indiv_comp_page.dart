@@ -47,6 +47,7 @@ import 'indiv_comp_task_page/pending_task_page.dart';
 import 'indiv_comp_task_page/review_page/indiv_comp_review_page.dart';
 import 'indiv_comp_task_page/indiv_comp_task_compl_req_widget.dart';
 import 'indiv_comp_task_widget.dart';
+import 'models/ShowRankData.dart';
 import 'models/indiv_comp.dart';
 import 'models/indiv_comp_particip.dart';
 import 'models/indiv_comp_task_compl.dart';
@@ -71,7 +72,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
   IndivComp? updatedComp;
   IndivComp get comp => updatedComp??widget.comp;
 
-  Color? get compIconColor => !comp.colors!.iconWhite&&!AppSettings.isDark?textEnab_(context):background_(context);//comp.colors.iconWhite?Colors.white:(Settings.isDark?background_(context):textEnab_(context));
+  Color? get compIconColor => !comp.colors.iconWhite&&!AppSettings.isDark?textEnab_(context):background_(context);//comp.colors.iconWhite?Colors.white:(Settings.isDark?background_(context):textEnab_(context));
 
   late RefreshController refreshController;
 
@@ -93,7 +94,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
             SmartRefresher(
                 enablePullDown: true,
                 physics: const BouncingScrollPhysics(),
-                header: MaterialClassicHeader(color: comp.colors!.avgColor),
+                header: MaterialClassicHeader(color: comp.colors.avgColor),
                 controller: refreshController,
                 onRefresh: () async {
 
@@ -260,8 +261,8 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                           Provider.of<IndivCompProvider>(context, listen: false).notify();
                           setState(() {});
                         },
-                        onSelfGranted: (List<IndivCompTaskCompl> taskComplList, Map<String, Tuple3<int, int, Tuple2<double, double>>> idRank){
-                          //String myId = idRank.keys[0];
+                        onSelfGranted: (List<IndivCompTaskCompl> taskComplList, Map<String, ShowRankData> idRank){
+
                           for(IndivCompTaskCompl taskCompl in taskComplList) {
                             comp.profile.completedTasks!.add(taskCompl);
                             comp.addPoints(taskCompl.participKey, taskCompl.points(comp));
@@ -404,7 +405,7 @@ class DateWidget extends StatelessWidget{
 
   DateTime? get startDate => comp.startTime;
   DateTime? get endDate => comp.endTime;
-  Color get color => comp.colors!.avgColor;
+  Color get color => comp.colors.avgColor;
 
   const DateWidget(this.comp, {Key? key}): super(key: key);
 
@@ -429,7 +430,7 @@ class DateWidget extends StatelessWidget{
             GestureDetector(
               child: Icon(
                   nextColored == colored?MdiIcons.circleMedium:MdiIcons.clockTimeEight,
-                  color: colored?comp.colors!.avgColor:iconDisab_(context)
+                  color: colored?comp.colors.avgColor:iconDisab_(context)
               ),
               onTap: (){
 
@@ -521,8 +522,8 @@ class PendingWidget extends StatelessWidget{
         return GradientWidget(
           elevation: AppCard.bigElevation,
           radius: AppCard.BIG_RADIUS,
-          colorStart: comp.colors!.colorStart!,
-          colorEnd: comp.colors!.colorEnd!,
+          colorStart: comp.colors.colorStart!,
+          colorEnd: comp.colors.colorEnd!,
           child: InkWell(
             onTap: () async {
 
@@ -542,7 +543,7 @@ class PendingWidget extends StatelessWidget{
                 padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.DEF_PADDING_VAL),
                 child: Icon(MdiIcons.cube, color: background_(context)),
               ),
-              title: (pendingTaskCount==0?'':'($pendingTaskCount) ') + 'Wnioski o punkty',
+              title: '${pendingTaskCount==0?'':'($pendingTaskCount) '}Wnioski o punkty',
               titleColor: background_(context),
               trailing: IconButton(
                   padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.DEF_PADDING_VAL),
@@ -564,7 +565,7 @@ class TaskWidget extends StatelessWidget{
   final IndivCompTask task;
   final List<IndivCompTaskCompl>? pendingTasks;
   final void Function(List<IndivCompTaskCompl>)? onReqSent;
-  final void Function(List<IndivCompTaskCompl>, Map<String, Tuple3<int, int, Tuple2<double, double>>>)? onSelfGranted;
+  final void Function(List<IndivCompTaskCompl>, Map<String, ShowRankData>)? onSelfGranted;
 
   const TaskWidget(
       this.comp,
@@ -640,7 +641,8 @@ class TaskWidget extends StatelessWidget{
 
                             onSuccess:
                             adminOrMod?
-                            onSelfGranted: (complTaskList, _) => onReqSent?.call(complTaskList),
+                            onSelfGranted:
+                            (complTaskList, _) => onReqSent?.call(complTaskList),
                           ),
                         )
                 );
@@ -661,7 +663,7 @@ class TaskListWidget extends StatelessWidget{
 
   final IndivComp comp;
   final void Function(List<IndivCompTaskCompl>)? onReqSent;
-  final void Function(List<IndivCompTaskCompl>, Map<String, Tuple3<int, int, Tuple2<double, double>>>)? onSelfGranted;
+  final void Function(List<IndivCompTaskCompl>, Map<String, ShowRankData>)? onSelfGranted;
 
   const TaskListWidget(
       this.comp,
@@ -738,7 +740,7 @@ class ParticipantsWidget extends StatelessWidget{
 
         Expanded(
           child: AccountThumbnailRowWidget(
-              comp.particips.map((particip) => particip!.name).toList(),
+              comp.particips.map((particip) => particip.name).toList(),
               heroBuilder: (index) => comp.particips[index],
               onTap: () => onTap(comp, context)
           ),
@@ -782,9 +784,9 @@ class LeaveNotAdminDialog extends StatelessWidget{
 class ShareCodeWidget extends StatefulWidget{
 
   final IndivComp comp;
-  final bool? enabled;
+  final bool enabled;
 
-  const ShareCodeWidget(this.comp, {this.enabled, Key? key}): super(key: key);
+  const ShareCodeWidget(this.comp, {this.enabled = true, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => ShareCodeWidgetState();
@@ -795,8 +797,8 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
 
   IndivComp get comp => widget.comp;
 
-  bool get processing => !widget.enabled!??_processing!;
-  bool? _processing;
+  bool get processing => !widget.enabled || _processing;
+  late bool _processing;
 
   @override
   void initState() {

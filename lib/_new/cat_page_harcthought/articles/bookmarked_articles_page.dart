@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp/_new/cat_page_harcthought/articles/search_page.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'article_core.dart';
@@ -8,14 +7,16 @@ import 'article_list_widget.dart';
 
 class BookmarkedArticlesPage extends StatelessWidget{
 
+  const BookmarkedArticlesPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BottomNavScaffold(
       body: NestedScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         floatHeaderSlivers: true,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
-          SliverAppBar(
+          const SliverAppBar(
             title: Text('Zapisane artykuły'),
             centerTitle: true,
             floating: true,

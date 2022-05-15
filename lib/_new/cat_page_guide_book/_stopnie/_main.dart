@@ -23,9 +23,9 @@ import 'models_common/rank.dart';
 
 class RankPage extends StatefulWidget {
 
-  final Org? org;
+  final Org org;
 
-  const RankPage({this.org, Key? key}): super(key: key);
+  const RankPage({required this.org, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => RankPageState();
@@ -47,6 +47,8 @@ class RankPageState extends State<RankPage> with ModuleStatsMixin{
       initIntex = 2;
     if(widget.org == Org.zhr_c)
       initIntex = 3;
+    else
+      initIntex = 0;
 
     return BottomNavScaffold(
       body: DefaultTabController(

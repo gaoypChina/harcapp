@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/blur.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/providers.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -14,7 +12,7 @@ class ArticleCardWidgetSmall extends StatefulWidget{
   static const aspectRatio = 1.4;
 
   final Article article;
-  final void Function(BuildContext context, Article article, ImageProvider? background, ArticleNotifierProvider? articleSeenProv)? onTap;
+  final void Function(BuildContext context, Article article, ImageProvider? background, ArticleNotifierProvider articleSeenProv)? onTap;
   final ImageProvider? background;
   final bool dense;
   final EdgeInsets margin;
@@ -41,13 +39,13 @@ class ArticleCardWidgetSmall extends StatefulWidget{
 class ArticleCardWidgetState extends State<ArticleCardWidgetSmall>{
 
   Article get article => widget.article;
-  void Function(BuildContext context, Article article, ImageProvider? background, ArticleNotifierProvider? articleSeenProv)? get onTap => widget.onTap;
+  void Function(BuildContext context, Article article, ImageProvider? background, ArticleNotifierProvider articleSeenProv)? get onTap => widget.onTap;
   ImageProvider? get background => widget.background??_background;
   double get elevation => widget.elevation;
 
   ImageProvider? _background;
 
-  ArticleNotifierProvider? provider;
+  late ArticleNotifierProvider provider;
 
   @override
   void initState() {
@@ -82,7 +80,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidgetSmall>{
             children: [
               DateWidget(article, dense: true),
 
-              SizedBox(height: Dimen.ICON_MARG),
+              const SizedBox(height: Dimen.ICON_MARG),
 
               TitleWidget(article, dense: true, textColor: Colors.white),
 
@@ -112,7 +110,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidgetSmall>{
         onTap: onTap==null?null:() => onTap!(context, article, background, provider),
         elevation: elevation,
         child: AnimatedOpacity(
-            duration: Duration(milliseconds: 1500),
+            duration: const Duration(milliseconds: 1500),
             opacity: background==null?0:1,
             child:
             background == null?

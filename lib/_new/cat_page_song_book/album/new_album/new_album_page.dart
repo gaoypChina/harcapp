@@ -26,9 +26,9 @@ import 'album_song_selector.dart';
 class NewAlbumPage extends StatefulWidget{
 
   final Album? initAlbum;
-  final Function(Album?)? onSaved;
+  final Function(Album)? onSaved;
 
-  const NewAlbumPage({this.initAlbum, this.onSaved});
+  const NewAlbumPage({this.initAlbum, this.onSaved, Key? key}): super(key: key);
 
   @override
   State createState() => NewAlbumPageState();
@@ -41,31 +41,31 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
 
   Function(bool)? onChanged;
 
-  TextEditingController? textEditingController;
-  TabController? tabController;
-  FocusNode? focusNode;
+  late TextEditingController textEditingController;
+  late TabController tabController;
+  late FocusNode focusNode;
 
-  String? iconKey;
+  late String iconKey;
 
-  List<OffSong>? offSongs;
-  List<OwnSong>? ownSongs;
+  late List<OffSong> offSongs;
+  late List<OwnSong> ownSongs;
 
-  _AppBarProvider? appBarProv;
+  late _AppBarProvider appBarProv;
 
   List<Song> get songs{
     List<Song> songs = [];
-    songs.addAll(offSongs!);
-    songs.addAll(ownSongs!);
+    songs.addAll(offSongs);
+    songs.addAll(ownSongs);
     return songs;
   }
 
-  void onTabBarSwipe() => appBarProv!.elevation = tabController!.animation!.value<.9?0:Dimen.APPBAR_ELEVATION*tabController!.animation!.value;
+  void onTabBarSwipe() => appBarProv.elevation = tabController.animation!.value<.9?0:Dimen.APPBAR_ELEVATION*tabController.animation!.value;
 
   @override
   void initState() {
 
     tabController = TabController(length: 2, vsync: this);
-    tabController!.animation!.addListener(onTabBarSwipe);
+    tabController.animation!.addListener(onTabBarSwipe);
 
     if(initAlbum==null) {
       textEditingController = TextEditingController();
@@ -73,13 +73,12 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
       ownSongs = [];
     }else {
       textEditingController = TextEditingController(text: initAlbum!.title);
-      offSongs = List.of(initAlbum!.offSongs!);
-      ownSongs = List.of(initAlbum!.ownSongs!);
+      offSongs = List.of(initAlbum!.offSongs);
+      ownSongs = List.of(initAlbum!.ownSongs);
     }
 
-    iconKey = initAlbum==null?
-    CommonIconData.ALL.keys.toList()[Random().nextInt(CommonIconData.ALL.length)]:
-    initAlbum!.iconKey;
+    iconKey = initAlbum?.iconKey??
+    CommonIconData.ALL.keys.toList()[Random().nextInt(CommonIconData.ALL.length)];
 
     focusNode = FocusNode();
 
@@ -88,9 +87,9 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
 
   @override
   void dispose() {
-    focusNode!.dispose();
-    textEditingController!.dispose();
-    tabController!.dispose();
+    focusNode.dispose();
+    textEditingController.dispose();
+    tabController.dispose();
     //appBarProv.dispose(); THIS IS DISPOSED WHEN WIDGET IS AUTOMATICALLY DISPOSED
     super.dispose();
   }
@@ -117,7 +116,7 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
         appBar: PreferredSize(
           preferredSize: Size(
             double.infinity,
-            AppBar().preferredSize.height + TabBar(tabs: []).preferredSize.height
+            AppBar().preferredSize.height + const TabBar(tabs: []).preferredSize.height
           ),
           child: Consumer<_AppBarProvider>(
             builder: (context, prov, child) => AppBar(
@@ -136,25 +135,25 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
                 textCapitalization: TextCapitalization.sentences,
                 style: AppTextStyle(color: textEnab_(context), fontSize: Dimen.TEXT_SIZE_APPBAR),
                 inputFormatters:[
-                  LengthLimitingTextInputFormatter(Album.MAX_LEN_TITLE),
+                  LengthLimitingTextInputFormatter(Album.maxLenTitle),
                 ],
                 textAlign: TextAlign.center,
               ),
               actions: <Widget>[
                 IconButton(
-                  icon: Icon(MdiIcons.check),
+                  icon: const Icon(MdiIcons.check),
                   onPressed: (){
-                    if(textEditingController!.text.isEmpty){
+                    if(textEditingController.text.isEmpty){
                       showAppToast(context, text: 'Podaj nazwę $albumu_');
-                      focusNode!.requestFocus();
+                      focusNode.requestFocus();
                       return;
                     }
 
                     if(initAlbum == null) {
                       Album album = Album.create(
-                        textEditingController!.text,
-                        offSongs!,
-                        ownSongs!,
+                        textEditingController.text,
+                        offSongs,
+                        ownSongs,
                         Provider.of<AccentColorProvider>(context, listen: false).colorsKey,
                         iconKey,
                       );
@@ -162,13 +161,13 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
                       widget.onSaved?.call(album);
                     }else{
                       initAlbum!.update(
-                          title: textEditingController!.text,
+                          title: textEditingController.text,
                           offSongs: offSongs,
                           ownSongs: ownSongs,
                           colorsKey: Provider.of<AccentColorProvider>(context, listen: false).colorsKey,
                           iconKey: iconKey
                       );
-                      widget.onSaved?.call(initAlbum);
+                      widget.onSaved?.call(initAlbum!);
                     }
 
                     Navigator.pop(context);
@@ -176,13 +175,13 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
                 ),
               ],
               bottom: PreferredSize(
-                  preferredSize: TabBar(tabs: []).preferredSize,
+                  preferredSize: const TabBar(tabs: []).preferredSize,
                   child: Consumer<AccentColorProvider>(
                     builder: (context, prov, child) => TabBar(
                       controller: tabController,
                       indicatorColor: prov.avgColor,
-                      physics: BouncingScrollPhysics(),
-                      tabs: [
+                      physics: const BouncingScrollPhysics(),
+                      tabs: const [
                         Tab(icon: Icon(MdiIcons.musicBoxMultipleOutline)),
                         Tab(icon: Icon(MdiIcons.paletteOutline)),
                       ],
@@ -194,19 +193,19 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
         ),
         body: TabBarView(
           controller: tabController,
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           children: [
 
             AlbumSongSelector(
               initAlbum?.songs??[],
               onChanged: (List<Song> checkedSongs){
-                offSongs!.clear();
-                ownSongs!.clear();
+                offSongs.clear();
+                ownSongs.clear();
                 for (Song song in checkedSongs)
                   if (song is OffSong)
-                    offSongs!.add(song);
+                    offSongs.add(song);
                   else if (song is OwnSong)
-                    ownSongs!.add(song);
+                    ownSongs.add(song);
               },
             ),
 
@@ -240,19 +239,19 @@ class _TabPageColorPickerState extends State<_TabPageColorPicker> with Automatic
     super.build(context);
 
     return ListView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         children: [
 
-          TitleShortcutRowWidget(title: 'Kolor', textAlign: TextAlign.start),
+          const TitleShortcutRowWidget(title: 'Kolor', textAlign: TextAlign.start),
 
           ColorSelectorWidget(
             initColorKey: initAlbum?.colorsKey??Provider.of<AccentColorProvider>(context, listen: false).colorsKey,
             onSelected: (colorsKey) => Provider.of<AccentColorProvider>(context, listen: false).colorsKey = colorsKey,
           ),
 
-          SizedBox(height: Dimen.SIDE_MARG),
+          const SizedBox(height: Dimen.SIDE_MARG),
 
-          TitleShortcutRowWidget(title: 'Ikona', textAlign: TextAlign.start),
+          const TitleShortcutRowWidget(title: 'Ikona', textAlign: TextAlign.start),
 
           IconSelectorWidget(
             initIconKey: initAlbum?.iconKey??CommonIconData.randomKey,

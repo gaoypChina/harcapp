@@ -18,10 +18,10 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class IndivCompTaskComplWidget extends StatelessWidget{
 
   final IndivCompTaskCompl complTask;
-  final Map<String?, IndivCompTask> taskMap;
+  final Map<String, IndivCompTask> taskMap;
   final CommonColorData? colors;
   final bool preview;
-  final void Function(String? removedId)? onRemoved;
+  final void Function(String removedId)? onRemoved;
   final void Function()? onTap;
   final dynamic heroTag;
 

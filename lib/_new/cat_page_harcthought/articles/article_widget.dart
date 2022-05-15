@@ -16,7 +16,6 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../../../main.dart';
 import '../../details/app_settings.dart';
 import 'title_widget/article_bookmark_icon.dart';
 import 'article_core.dart';
@@ -379,7 +378,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
                             builder: (context) => Consumer<ArticleThemeProvider>(
                               builder: (context, prov, child) => BottomSheetDef(
                                 //color: prov.colorOption.background,
-                                builder: (context) => ArticleDrawer(),
+                                builder: (context) => const ArticleDrawer(),
                               ),
                             )
                         )
@@ -422,7 +421,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
                     key: articleKey,
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: (article?.articleElements??[]).map((item){
+                    children: (article.articleElements??[]).map((item){
                       if (item is Header)
                         return HeaderWidget(item);
                       else if(item is Paragraph)
@@ -433,6 +432,8 @@ class ArticleWidgetState extends State<ArticleWidget> {
                         return PictureWidget(item);
                       else if(item is Youtube)
                         return YoutubeWidget(item);
+                      else
+                        return Container();
                     }).toList(),
                   ),
                 ),

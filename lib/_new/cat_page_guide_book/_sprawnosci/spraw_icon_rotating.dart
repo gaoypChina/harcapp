@@ -8,10 +8,15 @@ import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_icon.dart';
 class SprawIconRotating extends StatefulWidget{
 
   final double? size;
-  final Spraw? Function(Spraw?) onNewUIDRequested;
-  final void Function(Spraw?)? onTap;
+  final Spraw Function(Spraw?) onNewUIDRequested;
+  final void Function(Spraw)? onTap;
 
-  const SprawIconRotating({required this.onNewUIDRequested, this.size, this.onTap});
+  const SprawIconRotating({
+    required this.onNewUIDRequested,
+    this.size,
+    this.onTap,
+    Key? key
+  }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => SprawIconRotatingState();
@@ -22,17 +27,18 @@ class SprawIconRotatingState extends State<SprawIconRotating>{
   static const int rotateDuration = 500;
 
   double? get size => widget.size;
-  Spraw? Function(Spraw?) get onNewUIDRequested => widget.onNewUIDRequested;
-  void Function(Spraw?)? get onTap => widget.onTap;
+  Spraw Function(Spraw?) get onNewUIDRequested => widget.onNewUIDRequested;
+  void Function(Spraw)? get onTap => widget.onTap;
 
   GlobalKey<FlipCardState>? stateKey;
 
-  Spraw? sprawFront;
-  Spraw? sprawBack;
+  late Spraw sprawFront;
+  late Spraw sprawBack;
 
   @override
   void initState() {
-    sprawFront = onNewUIDRequested(sprawFront);
+    sprawFront = onNewUIDRequested(null);
+    sprawBack = onNewUIDRequested(sprawFront);
     stateKey = GlobalKey<FlipCardState>();
     keepRotating();
     super.initState();
@@ -67,11 +73,8 @@ class SprawIconRotatingState extends State<SprawIconRotating>{
         key: stateKey,
         speed: rotateDuration,
 
-        front:
-        sprawFront == null?
-        Container(height: 30, width: 30, color: Colors.red):
-        Opacity(
-          opacity: sprawFront!.inProgress?0.35:1.0,
+        front: Opacity(
+          opacity: sprawFront.inProgress?0.35:1.0,
           child: SprawIcon(
             sprawFront,
             size: size,
@@ -79,11 +82,8 @@ class SprawIconRotatingState extends State<SprawIconRotating>{
           ),
         ),
 
-        back:
-        sprawBack==null?
-        Container(height: 30, width: 30, color: Colors.blue):
-        Opacity(
-          opacity: sprawBack!.inProgress?0.35:1.0,
+        back: Opacity(
+          opacity: sprawBack.inProgress?0.35:1.0,
           child: SprawIcon(
             sprawBack,
             size: size,

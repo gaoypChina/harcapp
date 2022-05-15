@@ -27,7 +27,6 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core_own_song/song_raw.dart';
-import 'package:harcapp_core_song_widget/add_pers_resolver.dart';
 import 'package:harcapp_core_song_widget/providers.dart';
 import 'package:harcapp_core_song_widget/song_rate.dart';
 import 'package:harcapp_core_song_widget/song_widget_template.dart';
@@ -84,7 +83,7 @@ class SongWidget extends StatelessWidget{
   }
 
   final CatPageSongBookState? parent;
-  final Song? song;
+  final Song song;
   final int index;
   final void Function(ScrollNotification, double?, double?)? onScroll;
   final void Function()? onTextSizeChanged;
@@ -103,7 +102,7 @@ class SongWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => SongWidgetTemplate<Song, AddPersEmailResolver>(
-    song!,
+    song,
     SongBookBaseSetting(),
     physics: physics,
     scrollController: controller,
@@ -117,14 +116,14 @@ class SongWidget extends StatelessWidget{
     onScroll: onScroll, //(scrollInfo) => determineFloatingButtonOpacity(context, scrollInfo),
 
     onTitleTap: () async {
-      String? wordsCode = await readStringFromAssets('assets/song_words/${song!.fileName}');
+      String? wordsCode = await readStringFromAssets('assets/song_words/${song.fileName}');
       await showScrollBottomSheet(
           context: context,
           builder: (BuildContext context) => BottomSheetDef(
             title: 'Trudne słowa',
             textColor: textEnab_(context),
             childMargin: EdgeInsets.zero,
-            builder: (context) => BottomSheetWords(wordsCode, song!.text, song!.fileName),
+            builder: (context) => BottomSheetWords(wordsCode, song.text, song.fileName),
           )
       );
     },
@@ -158,15 +157,18 @@ class SongWidget extends StatelessWidget{
     },
 
     onYTLinkTap: (position) async {
+
+      MainProvider mainProvider = MainProvider.of(context);
+
       if(!await isNetworkAvailable()) {
         showAppToast(context, text: 'Brak połączenia z Internetem.');
         return;
       }
 
-      if(Platform.isAndroid && (await DeviceInfoPlugin().androidInfo).version.sdkInt! < 20)
-        launchURL(song!.youtubeLink);
+      if(Platform.isAndroid && (await DeviceInfoPlugin().androidInfo).version.sdkInt! < 20 && song.youtubeLink != null)
+        launchURL(song.youtubeLink!);
 
-      double statusBarHeight = Provider.of<MainProvider>(context, listen: false).statusBarHeight;
+      double statusBarHeight = mainProvider.statusBarHeight;
 
       await playYoutubeSong(
           parent!.context,
@@ -177,7 +179,7 @@ class SongWidget extends StatelessWidget{
     },
 
     onYTLinkLongPress: ()async{
-      await Clipboard.setData(ClipboardData(text: song!.youtubeLink));
+      await Clipboard.setData(ClipboardData(text: song.youtubeLink));
       showAppToast(context, text: 'Skopiowano link.');
     },
 
@@ -192,7 +194,7 @@ class SongWidget extends StatelessWidget{
     onPlusTap: (BuildContext context, bool changedSize){
       String tag = 'plus';
       if(!changedSize && !isSnackBarActive(tag: tag)){
-        if(SongBookSettings.showChords && song!.hasChords)
+        if(SongBookSettings.showChords && song.hasChords)
           AppScaffold.showMessage(
               context,
               'Aby powiększyć tekst, schowaj chwyty.',
@@ -205,7 +207,7 @@ class SongWidget extends StatelessWidget{
                 TextSizeProvider textSizeProv = Provider.of<TextSizeProvider>(context, listen: false);
                 textSizeProv.recalculate(
                     MediaQuery.of(context).size.width,
-                    song!,
+                    song,
                     fontSize: max(TextSizeProvider.defFontSize, textSizeProv.value)
                 );
                 onTextSizeChanged?.call();
@@ -237,18 +239,18 @@ class SongWidget extends StatelessWidget{
           return Stack(
             children: <Widget>[
               Positioned(
-                child: RateCard<Song>(
-                    song!,
-                    onTap: (rate, selected){
-                      song!.setRate(selected?SongRate.RATE_NULL:rate);
-                      parent!.notify();
-                      Navigator.pop(context);
-                    }
-                ),
                 top: position - statusBarHeight,
                 bottom: 0,
                 left: 0,
                 right: 0,
+                child: RateCard<Song>(
+                    song,
+                    onTap: (rate, selected){
+                      song.setRate(selected?SongRate.RATE_NULL:rate);
+                      parent!.notify();
+                      Navigator.pop(context);
+                    }
+                ),
               ),
             ],
           );
@@ -258,13 +260,13 @@ class SongWidget extends StatelessWidget{
     onDeleteTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć'),
 
     onDeleteLongPress: () async {
-      if(song!.deleteSongFile()){
+      if(song.deleteSongFile()){
         showAppToast(context, text: 'Usunięto piosenkę');
 
-        OwnSong.removeOwn(song!);
+        OwnSong.removeOwn(song as OwnSong);
         parent!.notify();
-        CatPageSongBookState.lastPage = parent!.pageController!.page!.toInt();
-        for(Album album in Album.allOwn!)
+        CatPageSongBookState.lastPage = parent!.pageController.page!.toInt();
+        for(Album album in Album.allOwn)
           album.removeSong(song);
       }else
         showAppToast(context, text: 'Błąd. Nie usunięto piosenki');
@@ -280,8 +282,8 @@ class SongWidget extends StatelessWidget{
     ),
 
     onEditTap: (prov) async{
-      Map map = await (getSongMap(song!.fileName) as FutureOr<Map<dynamic, dynamic>>);
-      SongRaw songRaw = SongRaw.fromMap(song!.fileName, map);
+      Map map = await getSongMap(song.fileName);
+      SongRaw songRaw = SongRaw.fromMap(song.fileName, map);
 
       openOwnSongPage(
           context,
@@ -293,15 +295,15 @@ class SongWidget extends StatelessWidget{
 
             parent!.notify();
             int index = Album.current.songs.indexOf(song);
-            parent!.pageController!.jumpToPage(index);
+            parent!.pageController.jumpToPage(index);
           }
       );
 
     },
 
-    onSendSongTap: () => sendSong(song!),
+    onSendSongTap: () => sendSong(song),
 
-    onShareTap: () => shareSong(context, song!),
+    onShareTap: () => shareSong(context, song),
 
     onCopyTap: () => Navigator.push(
         context,
@@ -318,13 +320,13 @@ class SongWidget extends StatelessWidget{
     },
 
     onChordsTap: (prov){
-      song!.shiftChordsUp();
-      prov.recalculate(MediaQuery.of(context).size.width, song!);
+      song.shiftChordsUp();
+      prov.recalculate(MediaQuery.of(context).size.width, song);
     },
 
     onChordsLongPress: (prov){
-      song!.shiftChordsDown();
-      prov.recalculate(MediaQuery.of(context).size.width, song!);
+      song.shiftChordsDown();
+      prov.recalculate(MediaQuery.of(context).size.width, song);
     },
 
     header: (BuildContext context, ScrollController? controller) => Column(
@@ -381,6 +383,6 @@ class SongWidget extends StatelessWidget{
     ),
     accentColor: Album.current.avgColor,
 
-    addPersResolver: AddPersEmailResolver(),
+    addPersResolver: const AddPersEmailResolver(),
   );
 }

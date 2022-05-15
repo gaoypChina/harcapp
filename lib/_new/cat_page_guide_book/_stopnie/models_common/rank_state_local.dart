@@ -18,21 +18,24 @@ class RankTaskStateLocal extends RankTaskState{
   String get taskComplMapKey => ShaPref.SHA_PREF_RANK_COMPLETED_REQ_MAP_(rankState.rank);
   String get taskNoteMapKey => ShaPref.SHA_PREF_RANK_REQ_NOTES_MAP_(rankState.rank);
 
-  Map<String, bool?> get taskComplMap => shaPref!.getMap<String, bool?>(taskComplMapKey, {});
-  Map<String, String?> get taskNoteMap => shaPref!.getMap<String, String?>(taskNoteMapKey, {});
+  Map<String, bool?> get taskComplMap => ShaPref.getMap<String, bool?>(taskComplMapKey, {});
+  Map<String, String?> get taskNoteMap => ShaPref.getMap<String, String?>(taskNoteMapKey, {});
 
+  @override
   bool get completed{
     if(rankState.completed) return true;
     Map<String, bool?> reqComplMap = taskComplMap;
     return reqComplMap[uid]??false;
   }
 
+  @override
   set completed(bool? value){
     Map<String, bool?> reqComplMap = taskComplMap;
     reqComplMap[uid] = value;
-    shaPref!.setMap(taskComplMapKey, reqComplMap);
+    ShaPref.setMap(taskComplMapKey, reqComplMap);
   }
 
+  @override
   String get note{
     Map<String, String?> reqNoteMap = taskNoteMap;
     return reqNoteMap[uid]??'';
@@ -42,12 +45,12 @@ class RankTaskStateLocal extends RankTaskState{
   set note(String? value) {
     Map<String, String?> reqNoteMap = taskNoteMap;
     reqNoteMap[uid] = value;
-    shaPref!.setMap(taskNoteMapKey, reqNoteMap);
+    ShaPref.setMap(taskNoteMapKey, reqNoteMap);
   }
 
 }
 
-class RankStateLocal extends RankState<RankTaskStateLocal?>{
+class RankStateLocal extends RankState<RankTaskStateLocal>{
 
   final Rank rank;
 
@@ -64,20 +67,28 @@ class RankStateLocal extends RankState<RankTaskStateLocal?>{
 
   }
 
-  bool get inProgress => shaPref!.getBool(ShaPref.SHA_PREF_RANK_IN_PROGRESS_(rank), false);
-  set inProgress(bool? value) => shaPref!.setBool(ShaPref.SHA_PREF_RANK_IN_PROGRESS_(rank), value!);
+  @override
+  bool get inProgress => ShaPref.getBool(ShaPref.SHA_PREF_RANK_IN_PROGRESS_(rank), false);
+  @override
+  set inProgress(bool value) => ShaPref.setBool(ShaPref.SHA_PREF_RANK_IN_PROGRESS_(rank), value);
 
-  DateTime? get completionDate => shaPref!.getDateTime(ShaPref.SHA_PREF_RANK_COMPLETED_DATE_(rank), null);
-  set completionDate(DateTime? value) => shaPref!.setDateTime(ShaPref.SHA_PREF_RANK_COMPLETED_DATE_(rank), value);
+  @override
+  DateTime? get completionDate => ShaPref.getDateTime(ShaPref.SHA_PREF_RANK_COMPLETED_DATE_(rank), null);
+  @override
+  set completionDate(DateTime? value) => ShaPref.setDateTime(ShaPref.SHA_PREF_RANK_COMPLETED_DATE_(rank), value);
 
-  bool get completed => shaPref!.getBool(ShaPref.SHA_PREF_RANK_COMPLETED_(rank), false);
-  set completed(bool? value) => shaPref!.setBool(ShaPref.SHA_PREF_RANK_COMPLETED_(rank), value!);
+  @override
+  bool get completed => ShaPref.getBool(ShaPref.SHA_PREF_RANK_COMPLETED_(rank), false);
+  @override
+  set completed(bool value) => ShaPref.setBool(ShaPref.SHA_PREF_RANK_COMPLETED_(rank), value);
 
+  @override
   @protected
-  Map<String, RankTaskStateLocal>? tasks;
+  late Map<String, RankTaskStateLocal> tasks;
 
-  int get taskCount => tasks!.length;
+  int get taskCount => tasks.length;
 
-  RankTaskStateLocal? task(String uid) => tasks![uid];
+  @override
+  RankTaskStateLocal? task(String uid) => tasks[uid];
 
 }

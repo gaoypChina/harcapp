@@ -22,7 +22,7 @@ class Background extends StatelessWidget{
           AnimatedBuilder(
             animation: notifier,
             builder: (context, child) => Opacity(
-              opacity: max(0, min(1, prov.currIdx! - notifier.value as double)),
+              opacity: max(0, min(1, prov.currIdx - notifier.value as double)),
               child: BackgroundImage(prov.prevImage),
             ),
           ),

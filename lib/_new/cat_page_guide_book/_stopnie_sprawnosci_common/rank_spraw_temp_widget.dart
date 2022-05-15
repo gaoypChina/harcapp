@@ -41,10 +41,10 @@ class RankSprawTempWidget extends StatelessWidget{
   final bool isReadyToComplete;
   final bool? completed;
   final DateTime? completedDate;
-  final void Function(DateTime) onCompleteDateChanged;
+  final void Function(DateTime)? onCompleteDateChanged;
 
-  final void Function(bool inProgress) onStartStopTap;
-  final void Function() onAbandonTap;
+  final void Function(bool inProgress)? onStartStopTap;
+  final void Function()? onAbandonTap;
 
   final bool showAppBar;
   final ConfettiController? confettiController;
@@ -83,7 +83,8 @@ class RankSprawTempWidget extends StatelessWidget{
     this.appBarBottom,
 
     this.previewOnly = false,
-  });
+    Key? key
+  }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +157,7 @@ class RankSprawTempWidget extends StatelessWidget{
                       padding: const EdgeInsets.all(Dimen.DEF_MARG),
                       child: appBarBottom,
                     ),
-                    height: (appBarBottom?.preferredSize?.height??0) + 2*Dimen.DEF_MARG,
+                    height: (appBarBottom?.preferredSize.height??0) + 2*Dimen.DEF_MARG,
                     rebuild: true,
                   ),
 
@@ -299,7 +300,7 @@ class RankSprawTempWidget extends StatelessWidget{
                 inProgress: () => inProgress,
                 completenessPercent: () => completenessPercent,
                 onPressed: (bool inProgress){
-                  if(onStartStopTap != null) onStartStopTap(inProgress);
+                  onStartStopTap?.call(inProgress);
                   if(!inProgress) // if start
                     Provider.of<_ReachedBottomProvider>(context, listen: false).reachedBottom = false;
                 },

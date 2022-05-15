@@ -1,25 +1,24 @@
-
-import 'dart:collection';
-
-import 'package:harcapp/_new/api/sync.dart';
-import 'package:harcapp/_new/api/sync_resp_body/off_song_resp.dart';
+import 'package:harcapp/_new/api/sync_resp_body/off_song_get_resp.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
 import 'package:harcapp_core_song/song_core.dart';
 
 import 'memory.dart';
 import 'song.dart';
 
-class OffSong extends Song<OffSongResp?>{
+class OffSong extends Song<OffSongGetResp>{
 
-  static List<OffSong>? allOfficial;
-  static SplayTreeMap<String, OffSong>? _allOfficialMap;
-  static SplayTreeMap<String, OffSong>? get allOfficialMap => _allOfficialMap;
-  static set allOfficialMap(Map<String, OffSong>? value) => _allOfficialMap = value==null?null:SplayTreeMap.from(value);
+  // Whether the all, allMap, etc. are initialized.
+  static bool initialized = false;
 
-  static List<OffSong>? allConfid;
-  static SplayTreeMap<String, OffSong>? _allConfidMap;
-  static SplayTreeMap<String, OffSong>? get allConfidMap => _allConfidMap;
-  static set allConfidMap(Map<String, OffSong>? value) => _allConfidMap = value==null?null:SplayTreeMap.from(value);
+  static late List<OffSong> allOfficial;
+  static late Map<String, OffSong> _allOfficialMap;
+  static Map<String, OffSong> get allOfficialMap => _allOfficialMap;
+  static set allOfficialMap(Map<String, OffSong> value) => _allOfficialMap = Map.from(value);
+
+  static late List<OffSong> allConfid;
+  static late Map<String, OffSong> _allConfidMap;
+  static Map<String, OffSong> get allConfidMap => _allConfidMap;
+  static set allConfidMap(Map<String, OffSong> value) => _allConfidMap = Map.from(value);
 
   OffSong(
       String fileName,
@@ -37,7 +36,7 @@ class OffSong extends Song<OffSongResp?>{
       bool hasChords,
       String text,
       String baseChords,
-      PrimitiveWrapper<int?> rate,
+      PrimitiveWrapper<int> rate,
       List<Memory> memoryList,
       Map<String, Memory> memoryMap
   ) : super(fileName,

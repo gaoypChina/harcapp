@@ -11,9 +11,9 @@ class IndivCompLoaderListener extends SingleComputerListener<String>{
 
   const IndivCompLoaderListener({
     void Function()? onStart,
-    Future<void> Function(String)? onError,
+    Future<void> Function(String?)? onError,
     this.onIndivCompsLoaded,
-    void Function(String err, bool forceFinished)? onEnd
+    void Function(String? err, bool forceFinished)? onEnd
   }):super(
       onStart: onStart,
       onError: onError,
@@ -23,7 +23,7 @@ class IndivCompLoaderListener extends SingleComputerListener<String>{
 }
 
 IndivCompLoader indivCompLoader = IndivCompLoader();
-class IndivCompLoader extends SingleComputer<String?, IndivCompLoaderListener?>{
+class IndivCompLoader extends SingleComputer<String?, IndivCompLoaderListener>{
 
   @override
   String get computerName => 'IndivCompLoader';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/storage.dart';
-import 'package:harcapp/_new/api/sync_resp_body/rank_zhp_sim_2022_resp.dart';
+import 'package:harcapp/_new/api/sync_resp_body/rank_zhp_sim_2022_get_resp.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/sector_sep_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/single_header_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/single_line_widget.dart';
@@ -18,7 +18,6 @@ import 'package:harcapp_core/dimen.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../../../sync/syncable_new.dart';
 import '../data/data_zhp.dart';
 
 class RankZHPSim2022Data extends RankData{
@@ -74,17 +73,17 @@ class RankZHPSim2022Data extends RankData{
 
 }
 
-abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2022Data, RankZhpSim2022Resp?, T>{
+abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2022Data, RankZhpSim2022GetResp, T>{
 
   static const EXT_SPRAW_CODE = 'spraw';
   static const EXT_TROP_CODE = 'trop';
   static const EXT_WYZW_CODE = 'wyzw';
 
-  static String? getExtTextKey(String stopId, String code, int position) => shaPref!.getString(ShaPref.SHA_PREF_STOP_ZHP_EXT_TEXT_(stopId, code, position), '');
-  static void setExtTextKey(String stopId, String code, int position, String value) => shaPref!.setString(ShaPref.SHA_PREF_STOP_ZHP_EXT_TEXT_(stopId, code, position), value);
+  static String? getExtTextKey(String stopId, String code, int position) => ShaPref.getString(ShaPref.SHA_PREF_STOP_ZHP_EXT_TEXT_(stopId, code, position), '');
+  static void setExtTextKey(String stopId, String code, int position, String value) => ShaPref.setString(ShaPref.SHA_PREF_STOP_ZHP_EXT_TEXT_(stopId, code, position), value);
 
-  static bool getExtCheckedKey(String stopId, String code, int position) => shaPref!.getBool(ShaPref.SHA_PREF_STOP_ZHP_EXT_COMPLETED_(stopId, code, position), false);
-  static void setExtCheckedKey(String stopId, String code, int position, bool checked) => shaPref!.setBool(ShaPref.SHA_PREF_STOP_ZHP_EXT_COMPLETED_(stopId, code, position), checked);
+  static bool getExtCheckedKey(String stopId, String code, int position) => ShaPref.getBool(ShaPref.SHA_PREF_STOP_ZHP_EXT_COMPLETED_(stopId, code, position), false);
+  static void setExtCheckedKey(String stopId, String code, int position, bool checked) => ShaPref.setBool(ShaPref.SHA_PREF_STOP_ZHP_EXT_COMPLETED_(stopId, code, position), checked);
 
   String get minWiek => data.minWiek;
   String get czasTrw => data.czasTrw;
@@ -114,15 +113,15 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
 
   @override
   @protected
-  set completed(bool? value) {
+  set completed(bool value) {
     for(int i=0; i<sprawCount; i++)
-      setExtCheckedKey(id, EXT_SPRAW_CODE, i, value!);
+      setExtCheckedKey(id, EXT_SPRAW_CODE, i, value);
 
     for(int i=0; i<tropCount; i++)
-      setExtCheckedKey(id, EXT_TROP_CODE, i, value!);
+      setExtCheckedKey(id, EXT_TROP_CODE, i, value);
 
     for(int i=0; i<wyzwCount; i++)
-      setExtCheckedKey(id, EXT_WYZW_CODE, i, value!);
+      setExtCheckedKey(id, EXT_WYZW_CODE, i, value);
 
     super.completed = value;
   }
@@ -189,8 +188,8 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
                         'Sprawność',
                         count: sprawCount,
                         backgroundColor: Colors.transparent,
-                        stopColor: inProgress!?RankData.colors[data]!.avgColor(false):iconDisab_(context),
-                        checkVisible: inProgress! || completed!,
+                        stopColor: inProgress?RankData.colors[data]!.avgColor(false):iconDisab_(context),
+                        checkVisible: inProgress|| completed,
                         checkable: inProgress
                     ),
 
@@ -226,8 +225,8 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
                         'Trop',
                         count: tropCount,
                         backgroundColor: Colors.transparent,
-                        stopColor: inProgress!?RankData.colors[data]!.avgColor(false):iconDisab_(context),
-                        checkVisible: inProgress! || completed!,
+                        stopColor: inProgress?RankData.colors[data]!.avgColor(false):iconDisab_(context),
+                        checkVisible: inProgress|| completed,
                         checkable: inProgress
                     ),
 
@@ -264,8 +263,8 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
                         count: wyzwCount,
                         reqCount: wyzwCountReq,
                         backgroundColor: Colors.transparent,
-                        stopColor: inProgress!?RankData.colors[data]!.avgColor(false):iconDisab_(context),
-                        checkVisible: inProgress! || completed!,
+                        stopColor: inProgress?RankData.colors[data]!.avgColor(false):iconDisab_(context),
+                        checkVisible: inProgress|| completed,
                         checkable: inProgress
                     ),
 

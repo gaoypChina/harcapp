@@ -73,13 +73,13 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
   void afterFirstLayout(BuildContext context) =>
       post(() => Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackGuideBook());
 
-  static const double CAT_SEPARATOR = 28;
+  static const double catSeparator = 28;
 
-  static const Color MUSIC_CAT_COLOR = Colors.orange;
-  static const Color MUSIC_CAT_INSTR = Colors.lightBlueAccent;
-  static const Color MUSIC_CAT_WIEDZA = Colors.pink;
-  static const Color MUSIC_CAT_HISTORIA = Colors.amber;
-  static const Color MUSIC_CAT_TECHNIKI = Colors.teal;
+  static const Color musicCatColor = Colors.orange;
+  static const Color musicCatIntr = Colors.lightBlueAccent;
+  static const Color musicCatWiedza = Colors.pink;
+  static const Color musicCatHistoria = Colors.amber;
+  static const Color musicCatTechniki = Colors.teal;
 
   SynchronizerListener? syncListener;
 
@@ -154,13 +154,13 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
                   )
               ),
 
-              const SizedBox(height: CAT_SEPARATOR),
+              const SizedBox(height: catSeparator),
 
               _ItemWidget(
                   data: ItemData(
                       MdiIcons.guitarPickOutline,
                       'Chwyty',
-                      color: MUSIC_CAT_COLOR,
+                      color: musicCatColor,
                       pageBuilder: (context) => const ChwytyFragment()
                   )
               ),
@@ -169,18 +169,18 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
                   data: ItemData(
                       MdiIcons.microphoneOutline,
                       'Okrzyki',
-                      color: MUSIC_CAT_COLOR,
+                      color: musicCatColor,
                       pageBuilder: (context) => const OkrzykiFragment()
                   )
               ),
 
-              const SizedBox(height: CAT_SEPARATOR),
+              const SizedBox(height: catSeparator),
 
               _ItemWidget(
                   data: ItemData(
                       MdiIcons.flagOutline,
                       'Strefa instruktora',
-                      color: MUSIC_CAT_INSTR,
+                      color: musicCatIntr,
                       pageBuilder: (context) => const StrefaInstruktoraFragment()
                   )
               ),
@@ -189,18 +189,18 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
                   data: ItemData(
                       MdiIcons.textBoxCheckOutline,
                       'Dokumenty',
-                      color: MUSIC_CAT_INSTR,
+                      color: musicCatIntr,
                       pageBuilder: (context) => const DokumentyFragment()
                   )
               ),
 
-              const SizedBox(height: CAT_SEPARATOR),
+              const SizedBox(height: catSeparator),
 
               _ItemWidget(
                   data: ItemData(
                       MdiIcons.compassOutline,
                       'Prawo i Przyrzeczenie',
-                      color: MUSIC_CAT_WIEDZA,
+                      color: musicCatWiedza,
                       pageBuilder: (context) => const PrawoPrzyrzeczenieFragment()
                   )
               ),
@@ -209,7 +209,7 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
                   data: ItemData(
                       MdiIcons.transitConnection,
                       'Struktura i funkcje',
-                      color: MUSIC_CAT_WIEDZA,
+                      color: musicCatWiedza,
                       pageBuilder: (context) => const StrukturaFunkcjeFragment()
                   )
               ),
@@ -218,7 +218,7 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
                   data: ItemData(
                       MdiIcons.starOutline,
                       'Symbolika',
-                      color: MUSIC_CAT_WIEDZA,
+                      color: musicCatWiedza,
                       pageBuilder: (context) => const SymbolikaFragment()
                   )
               ),
@@ -227,7 +227,7 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
                   data: ItemData(
                       MdiIcons.flagTriangle,
                       'Musztra',
-                      color: MUSIC_CAT_WIEDZA,
+                      color: musicCatWiedza,
                       pageBuilder: (context) => const MusztraFragment()
                   )
               ),
@@ -236,7 +236,7 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
                   data: ItemData(
                       MdiIcons.lockOutline,
                       'Szyfry',
-                      color: MUSIC_CAT_WIEDZA,
+                      color: musicCatWiedza,
                       pageBuilder: (context) => const SzyfryFragment()
                   )
               ),
@@ -245,18 +245,18 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
                   data: ItemData(
                       MdiIcons.mapMarkerPath,
                       'Znaki patrolowe',
-                      color: MUSIC_CAT_WIEDZA,
+                      color: musicCatWiedza,
                       pageBuilder: (context) => const ZnakiPatroloweFragment()
                   )
               ),
 
-              const SizedBox(height: CAT_SEPARATOR),
+              const SizedBox(height: catSeparator),
 
               _ItemWidget(
                   data: ItemData(
                       MdiIcons.timerSand,
                       'Historia',
-                      color: MUSIC_CAT_HISTORIA,
+                      color: musicCatHistoria,
                       pageBuilder: (context) => const HistoriaFragment()
                   )
               ),
@@ -265,18 +265,18 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
                   data: ItemData(
                       MdiIcons.accountBoxOutline,
                       'Biografie',
-                      color: MUSIC_CAT_HISTORIA,
+                      color: musicCatHistoria,
                       pageBuilder: (context) => const BiografieFragment()
                   )
               ),
 
-              const SizedBox(height: CAT_SEPARATOR),
+              const SizedBox(height: catSeparator),
 
               _ItemWidget(
                   data: ItemData(
                       MdiIcons.treeOutline,
                       'Las',
-                      color: MUSIC_CAT_TECHNIKI,
+                      color: musicCatTechniki,
                       pageBuilder: (context) => const LasFragment()
                   )
               ),
@@ -285,12 +285,12 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
                   data: ItemData(
                       Icons.restaurant_menu,
                       'Kuchnia harcerska',
-                      color: MUSIC_CAT_TECHNIKI,
+                      color: musicCatTechniki,
                       pageBuilder: (context) => const KuchniaHarcerskaFragment()
                   )
               ),
 
-              const SizedBox(height: CAT_SEPARATOR),
+              const SizedBox(height: catSeparator),
 
               _ItemWidget(
                   data: ItemData(
@@ -301,13 +301,13 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
                   )
               ),
 
-              const SizedBox(height: CAT_SEPARATOR),
+              const SizedBox(height: catSeparator),
 
               _ItemWidget(
                   data: ItemData(
                       MdiIcons.dice6Outline,
                       'Gierki',
-                      color: MUSIC_CAT_TECHNIKI,
+                      color: musicCatTechniki,
                       pageBuilder: (context) => const GamesPage()
                   )
               ),
@@ -500,8 +500,8 @@ class LatestStopWidgetState extends State<LatestStopWidget>{
         Rank? lastStopZHRC;
         Rank? lastStopZHRD;
 
-        Org? org = orgProv.current;
-        int? index;
+        Org org = orgProv.current;
+        int index;
 
         if(org == Org.zhp)
           index = 0;
@@ -509,6 +509,8 @@ class LatestStopWidgetState extends State<LatestStopWidget>{
           index = 1;
         else if (org == Org.zhr_d)
           index = 2;
+        else
+          index = 0;
 
         lastStopZHP =
             Rank.last(Org.zhp, zuch: false, newSim: true)??
@@ -599,7 +601,7 @@ class StopPrevItem extends StatelessWidget{
   Widget build(BuildContext context) {
 
     if(rank != null)
-      return RankTileWidget(rank: rank);
+      return RankTileWidget<Rank>(rank: rank!);
 
     RankColors colors;
     if(org == Org.zhp) colors = RankData.colorsZhp;
@@ -640,7 +642,7 @@ class StopPrevItem extends StatelessWidget{
                 'Przeglądaj stopnie',
                 style: AppTextStyle(
                     fontWeight: weight.bold,
-                    color: colors.colorEndLight!.withOpacity(.5),//hintEnab_(context),
+                    color: colors.colorEndLight.withOpacity(.5),//hintEnab_(context),
                     fontSize: Dimen.TEXT_SIZE_APPBAR
                 ),
               ),
@@ -681,71 +683,67 @@ class SprawModeButton<T extends ChangeNotifier> extends StatelessWidget{
     this.clickable=true,
     this.onTap,
     Key? key
-  }): super(key: key);
+  }): assert(!clickable || detailsIndex != null),
+        super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Hero(
+    tag: icon,
+    child: Consumer<T>(
+        builder: (context, prov, child){
 
-    assert(!clickable || detailsIndex != null);
+          List<String> UIDs = getUIDs();
 
-    return Hero(
-      tag: icon,
-      child: Consumer<T>(
-          builder: (context, prov, child){
+          List<Widget> children = [];
+          for(int i=0; i<UIDs.length; i++)
+            children.add(Center(
+              child: SprawIcon(Spraw.fromUID(UIDs[i])),
+            ));
 
-            List<String> UIDs = getUIDs();
+          return Stack(
+            clipBehavior: Clip.none,
+            children: [
 
-            List<Widget> children = [];
-            for(int i=0; i<UIDs.length; i++)
-              children.add(Center(
-                child: SprawIcon(Spraw.fromUID(UIDs[i])),
-              ));
+              Center(
+                child: Icon(icon, color: backgroundIcon_(context), size: MediaQuery.of(context).size.shortestSide/3),
+              ),
 
-            return Stack(
-              clipBehavior: Clip.none,
-              children: [
-
-                Center(
-                  child: Icon(icon, color: backgroundIcon_(context), size: MediaQuery.of(context).size.shortestSide/3),
+              if(showIcons)
+                SizedBox(
+                  height: 2*Dimen.ICON_MARG + 3*SprawIcon.sizeSmall,
+                  child:
+                  children.isEmpty?
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(
+                      child: AutoSizeText(
+                        'Pusto',
+                        style: AppTextStyle(
+                            fontSize: 32.0,
+                            fontWeight: weight.halfBold,
+                            color: hintEnab_(context)
+                        ),
+                        maxLines: 1,
+                      ),
+                    ),
+                  ):
+                  GridView.count(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                    crossAxisSpacing: Dimen.ICON_MARG,
+                    mainAxisSpacing: Dimen.ICON_MARG,
+                    crossAxisCount: children.length>6?3:2,
+                    physics: const NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    children: children,
+                    //clipBehavior: Clip.none,
+                  ),
                 ),
 
-                if(showIcons)
-                  SizedBox(
-                    height: 2*Dimen.ICON_MARG + 3*SprawIcon.sizeSmall,
-                    child:
-                    children.isEmpty?
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Center(
-                        child: AutoSizeText(
-                          'Pusto',
-                          style: AppTextStyle(
-                              fontSize: 32.0,
-                              fontWeight: weight.halfBold,
-                              color: hintEnab_(context)
-                          ),
-                          maxLines: 1,
-                        ),
-                      ),
-                    ):
-                    GridView.count(
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                      crossAxisSpacing: Dimen.ICON_MARG,
-                      mainAxisSpacing: Dimen.ICON_MARG,
-                      crossAxisCount: children.length>6?3:2,
-                      physics: const NeverScrollableScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      children: children,
-                      //clipBehavior: Clip.none,
-                    ),
-                  ),
-
-              ],
-            );
-          }
-      ),
-    );
-  }
+            ],
+          );
+        }
+    ),
+  );
 
 }

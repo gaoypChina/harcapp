@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/org/org_handler.dart';
-import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:provider/provider.dart';
-
-import '../../sync/syncable.dart';
 
 enum Org{zhp, zhr_o, zhr_c, zhr_d, fse}
 
@@ -55,19 +52,19 @@ class OrgProvider extends ChangeNotifier{
 
   static OrgProvider of(BuildContext context) => Provider.of<OrgProvider>(context, listen: false);
 
-  Org? get current => OrgHandler.current;
+  Org get current => OrgHandler.current;
 
-  set current(Org? value){
+  set current(Org value){
     OrgHandler.current = value;
     notifyListeners();
   }
 
-  Org? nextFrom(List<Org?> allowedOrgs){
-    Org? nextOrg = OrgHandler.nextFrom(allowedOrgs);
+  Org nextFrom(List<Org> allowedOrgs){
+    Org nextOrg = OrgHandler.nextFrom(allowedOrgs);
     notifyListeners();
     return nextOrg;
   }
 
-  Org? currentFrom(List<Org> allowedOrgs) => OrgHandler.currentFrom(allowedOrgs);
+  Org currentFrom(List<Org> allowedOrgs) => OrgHandler.currentFrom(allowedOrgs);
 
 }

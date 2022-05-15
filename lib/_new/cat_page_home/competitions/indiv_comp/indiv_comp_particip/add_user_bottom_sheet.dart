@@ -62,7 +62,7 @@ class AddUserBottomSheet extends StatelessWidget{
                     UserDataNick? userData = await openSearchUserDialog(
                         context,
                         title: 'Dodaj uczestnika',
-                        illegalUserKeys: comp.particips.map((p) => p!.key).toList(),
+                        illegalUserKeys: comp.particips.map((p) => p.key).toList(),
                         illegalAttemptMessage: 'Że niby chcesz dodać kogoś po raz drugi?'
                     );
 
@@ -135,7 +135,7 @@ class AddUserBottomSheet extends StatelessWidget{
 
   void addUser(BuildContext context, UserDataNick userData) async {
 
-    showLoadingWidget(context, comp.colors!.avgColor, 'Dodawanie uczestnika');
+    showLoadingWidget(context, comp.colors.avgColor, 'Dodawanie uczestnika');
 
     await ApiIndivComp.addUsers(
         compKey: comp.key,

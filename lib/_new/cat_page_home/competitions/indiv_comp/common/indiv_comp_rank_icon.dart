@@ -9,22 +9,31 @@ import 'package:tuple/tuple.dart';
 import '../../../../../_common_widgets/app_toast.dart';
 import '../../../../../_common_widgets/gradient_icon.dart';
 import '../../../../details/app_settings.dart';
+import '../models/ShowRankData.dart';
 
 void _showPopularity(BuildContext context, IndivCompProfile profile, bool showPercent, int? activeParticipCnt){
 
   String text;
 
-  if(profile.showRank == null) {
+  if(profile.rank == null){
+    showAppToast(context, text: 'Nie bierzesz udziału we współzawodnictwie', duration: const Duration(seconds: 8));
+    return;
+  }
+  
+  if(profile.rank!.rangeData != null) {
+
+    double rangeTop = profile.rank?.rangeData?.rangeTop??0;
+    double rangeBottom = profile.rank?.rangeData?.rangeBottom??0;
 
     if(showPercent)
-      text = 'Między <b>${(profile.showRankRange!.item1 * 100).toInt()}%</b>, a <b>${(profile.showRankRange!.item2 * 100).toInt()}%</b> uczestników ma wyższą pozycję w rankingu od Ciebie.';
+      text = 'Między <b>${(rangeTop * 100).toInt()}%</b>, a <b>${(rangeBottom * 100).toInt()}%</b> uczestników ma wyższą pozycję w rankingu od Ciebie';
     else
-      text = 'Twoje miejsce w rankingu jest między <b>${(profile.showRankRange!.item1 * activeParticipCnt!).toInt()}</b>, a <b>${(profile.showRankRange!.item2 * activeParticipCnt).toInt()}</b>.';
+      text = 'Twoje miejsce w rankingu jest między <b>${(rangeTop * activeParticipCnt!).toInt()}</b>, a <b>${(rangeBottom * activeParticipCnt).toInt()}</b>';
 
     showAppToast(context, text: text, duration: const Duration(seconds: 8));
     return;
   }else
-    text = 'Jesteś na <b>${profile.showRank} miejscu</b> w rankingu uczestników.';
+    text = 'Jesteś na <b>${profile.rank?.specificData?.showRank} miejscu</b> w rankingu uczestników';
 
   text += '\n\n';
 
@@ -37,15 +46,15 @@ void _showPopularity(BuildContext context, IndivCompProfile profile, bool showPe
   else
     pointsWord = '${profile.points} punktów';
 
-  int rankPop = profile.rankPopularity! - 1;
+  int rankPop = profile.rank?.specificData?.popularity??0 - 1;
   if(rankPop == 0)
-    text += 'Tylko Ty masz $pointsWord.';
+    text += 'Tylko Ty masz $pointsWord';
   else if(rankPop == 1)
-    text += 'Jeszcze 1 osoba ma $pointsWord.';
+    text += 'Jeszcze 1 osoba ma $pointsWord';
   else if(rankPop >= 2 && rankPop <= 4)
-    text += 'Jeszcze $rankPop osoby mają $pointsWord.';
+    text += 'Jeszcze $rankPop osoby mają $pointsWord';
   else
-    text += 'Jeszcze $rankPop osób ma $pointsWord.';
+    text += 'Jeszcze $rankPop osób ma $pointsWord';
 
   showAppToast(context, text: text, duration: const Duration(seconds: 8));
 
@@ -158,16 +167,20 @@ class IndivCompRankOtherIcon extends StatelessWidget{
   */
 
   //final IndivCompProfile profile;
-  final int? showRank;
-  final Tuple2<double, double>? showRankRange;
+  //final int? showRank;
+  //final Tuple2<double, double>? showRankRange;
+
+  final ShowRankData rank;
+
   final int? activeParticipCnt;
   final bool? showPercent;
 
   final CommonColorData? colors;
   final double size;
   const IndivCompRankOtherIcon({
-    required this.showRank,
-    required this.showRankRange,
+    //required this.showRank,
+    //required this.showRankRange,
+    required this.rank,
     required this.activeParticipCnt,
     this.showPercent = false,
 
@@ -231,7 +244,7 @@ class IndivCompRankOtherIcon extends StatelessWidget{
             child: Stack(
               children: [
 
-                if(showRank == null && showRankRange != null && showPercent!)
+                if(rank.specificData == null && rank.rangeData != null && showPercent!)
                   Positioned(
                     bottom: -.02*size,
                     right: -.02*size,
@@ -259,11 +272,11 @@ class IndivCompRankOtherIcon extends StatelessWidget{
                   ),
                 ),
 
-                if(showRank != null)
+                if(rank.specificData != null)
                   Positioned.fill(
                       child: Center(
                         child: Text(
-                          '${showRank==-1?'∞':showRank}',
+                          '${rank.specificData?.showRank==-1?'∞':rank.specificData?.showRank}',
                           style: AppTextStyle(
                               color: background_(context),
                               fontSize: size/2.8,
@@ -272,10 +285,15 @@ class IndivCompRankOtherIcon extends StatelessWidget{
                         ),
                       )
                   )
-                else if(showRankRange != null)
+                else if(rank.rangeData != null)
                   Positioned.fill(
                       child: Center(
-                        child: _RangeAnimatorWidget(showRankRange, activeParticipCnt, showPercent, size),
+                        child: _RangeAnimatorWidget(
+                            Tuple2(rank.rangeData?.rangeTop??0, rank.rangeData?.rangeBottom??0),
+                            activeParticipCnt,
+                            showPercent,
+                            size
+                        ),
                       )
                   )
 
@@ -353,6 +371,8 @@ class _RangeAnimatorWidgetState extends State<_RangeAnimatorWidget>{
     height: .3*size,
     width: .6*size,
     child: PageView(
+      controller: controller,
+      physics: const NeverScrollableScrollPhysics(),
       children: [
         Center(
           child: Text(
@@ -385,8 +405,6 @@ class _RangeAnimatorWidgetState extends State<_RangeAnimatorWidget>{
           ),
         ),
       ],
-      controller: controller,
-      physics: const NeverScrollableScrollPhysics(),
     ),
   );
 
@@ -414,33 +432,34 @@ class IndivCompRankIcon extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => GestureDetector(
+    onTap: showPopularityOnTap?() => _showPopularity(context, profile, showPercent, activeParticipCnt):null,
     child: Builder(
       builder: (context){
-        if(profile.showRank == 1)
+        if(profile.rank?.specificData?.showRank == 1)
           return IndivCompRankFirstIcon(size: size);
-        else if(profile.showRank == 2)
+        else if(profile.rank?.specificData?.showRank == 2)
           return IndivCompRankSecondIcon(size: size);
-        else if(profile.showRank == 3)
+        else if(profile.rank?.specificData?.showRank == 3)
           return IndivCompRankThirdIcon(size: size);
-        else
+        else if(profile.rank != null)
           return IndivCompRankOtherIcon(
-              showRank: profile.showRank,
-              showRankRange: profile.showRankRange,
-              activeParticipCnt: activeParticipCnt,
-              showPercent: showPercent,
-              colors: colors,
-              size: size
+            rank: profile.rank!,
+            activeParticipCnt: activeParticipCnt,
+            showPercent: showPercent,
+            colors: colors,
+            size: size
           );
+        else
+          return Container();
       },
     ),
-    onTap: showPopularityOnTap?() => _showPopularity(context, profile, showPercent, activeParticipCnt):null,
   );
 
 }
 
 class IndivCompRankIconTemplate extends StatelessWidget{
 
-  final int? rank;
+  final int rank;
   final CommonColorData? colors;
   final double size;
   const IndivCompRankIconTemplate(
@@ -460,8 +479,7 @@ class IndivCompRankIconTemplate extends StatelessWidget{
       return IndivCompRankThirdIcon(size: size);
     else
       return IndivCompRankOtherIcon(
-        showRank: rank,
-        showRankRange: null,
+        rank: ShowRankData.fromShowRank(rank),
         activeParticipCnt: null,
         showPercent: null,
         colors: colors,

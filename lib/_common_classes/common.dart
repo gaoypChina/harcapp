@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/providers.dart';
@@ -18,11 +19,9 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../_new/details/app_settings.dart';
-import 'sha_pref.dart';
 
 const Duration pageJumpDuration = Duration(milliseconds: 200);
 const Curve pageJumpCurve = Curves.easeOutQuint;
@@ -73,17 +72,17 @@ void bottomSheet(BuildContext context, Widget bottomSheet){
     context: context,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(6.0))),
-    builder: (BuildContext context) {
-      return Padding(
+    builder: (BuildContext context) => Padding(
         padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: bottomSheet);
-  });
+            bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: bottomSheet
+    )
+  );
 }
 
 launchURL(String url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
+  if (await canLaunchUrlString(url)) {
+    await launchUrlString(url);
   } else {
     throw 'Could not launch $url';
   }
@@ -137,14 +136,15 @@ Future<void> showAlertDialog(
     );
 
 Future hideKeyboard(BuildContext context) async {
+  FocusScopeNode focusScope = FocusScope.of(context);
   await SystemChannels.textInput.invokeMethod('TextInput.hide');
-  FocusScope.of(context).unfocus();
+  focusScope.unfocus();
 }
 
 class UpperCaseTextFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) => TextEditingValue(
-    text: newValue.text.toUpperCase()??'',
+    text: newValue.text.toUpperCase(),
     selection: newValue.selection,
   );
 }
@@ -164,7 +164,8 @@ class NestedPageViewPhysics extends ScrollPhysics{
   @override
   double applyBoundaryConditions(ScrollMetrics position, double value) {
 
-    if (value < position.pixels && position.pixels <= position.minScrollExtent){ // underscroll
+    // underscroll
+    if (value < position.pixels && position.pixels <= position.minScrollExtent){
       if(0 >= controller().position.pixels)
         return value - position.minScrollExtent;
 
@@ -173,7 +174,8 @@ class NestedPageViewPhysics extends ScrollPhysics{
       return value - position.minScrollExtent;
     }
 
-    if (position.maxScrollExtent <= position.pixels && position.pixels < value) { // overscroll
+    // overscroll
+    if (position.maxScrollExtent <= position.pixels && position.pixels < value) {
       if(controller().position.maxScrollExtent <= controller().position.pixels)
         return value - position.maxScrollExtent;
 
@@ -182,7 +184,8 @@ class NestedPageViewPhysics extends ScrollPhysics{
       return value - position.maxScrollExtent;
     }
 
-    if (value < position.minScrollExtent && position.minScrollExtent < position.pixels) { // hit top edge
+    // hit top edge
+    if (value < position.minScrollExtent && position.minScrollExtent < position.pixels) {
       return value - position.minScrollExtent;
     }
 
@@ -255,27 +258,38 @@ Future<void> openDialog({
 
 Future<void> factoryResetLocal(BuildContext context) async {
 
+  AlbumProvider albumProvider = AlbumProvider.of(context);
+
+  SprawSavedListProv sprawSavedListProv = SprawSavedListProv.of(context);
+  SprawInProgressListProv sprawInProgressListProv = SprawInProgressListProv.of(context);
+  SprawCompletedListProv sprawCompletedListProv = SprawCompletedListProv.of(context);
+
+  RankProv rankProv = RankProv.of(context);
+
+  BookmarkedArticlesProvider bookmarkedArticlesProvider = BookmarkedArticlesProvider.of(context);
+  LikedArticlesProvider likedArticlesProvider = LikedArticlesProvider.of(context);
+  AppBottomNavigatorProvider appBottomNavigatorProvider = AppBottomNavigatorProvider.of(context);
+  ColorPackProvider colorPackProvider = ColorPackProvider.of(context);
+
   await synchronizer.reloadSyncables();
 
-  shaPref!.clear();
+  ShaPref.clear();
   for(FileSystemEntity file in (await getApplicationDocumentsDirectory()).listSync())
     file.deleteSync(recursive: true);
 
-  //if(songsLoaded) await songLoader.perform();
+  albumProvider.current = Album.omega;
 
-  Provider.of<AlbumProvider>(context, listen: false).current = Album.omega;
+  sprawSavedListProv.notify();
+  sprawInProgressListProv.notify();
+  sprawCompletedListProv.notify();
 
-  Provider.of<SprawSavedListProv>(context, listen: false).notify();
-  Provider.of<SprawInProgressListProv>(context, listen: false).notify();
-  Provider.of<SprawCompletedListProv>(context, listen: false).notify();
+  rankProv.notify();
 
-  Provider.of<RankProv>(context, listen: false).notify();
+  bookmarkedArticlesProvider.clear();
+  likedArticlesProvider.clear();
 
-  Provider.of<BookmarkedArticlesProvider>(context, listen: false).clear();
-  Provider.of<LikedArticlesProvider>(context, listen: false).clear();
-
-  Provider.of<AppBottomNavigatorProvider>(context, listen: false).selectedIndex = AppBottomNavigatorProvider.initIndex;
-  Provider.of<ColorPackProvider>(context, listen: false).notify();
+  appBottomNavigatorProvider.selectedIndex = AppBottomNavigatorProvider.initIndex;
+  colorPackProvider.notify();
 
 }
 

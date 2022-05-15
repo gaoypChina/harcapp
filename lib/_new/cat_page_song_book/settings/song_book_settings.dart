@@ -24,7 +24,7 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   static setAlwaysOnScreen(bool value, {bool localOnly = false}){
     SongBookBaseSetting().alwaysOnScreen = value;
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_ALWAYS_ON_SCREEN, SyncableParamSingle_.STATE_NOT_SYNCED);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_ALWAYS_ON_SCREEN, SyncableParamSingle_.stateNotSynced);
     synchronizer.post();
   }
 
@@ -33,7 +33,7 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   static setScrollText(bool value, {bool localOnly = false}){
     SongBookBaseSetting().scrollText = value;
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_SCROLL_TEXT, SyncableParamSingle_.STATE_NOT_SYNCED);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_SCROLL_TEXT, SyncableParamSingle_.stateNotSynced);
     synchronizer.post();
   }
 
@@ -42,7 +42,7 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   static setAutoscrollTextSpeed(double value, {bool localOnly = false}){
     SongBookBaseSetting().autoscrollTextSpeed = value;
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_AUTOSCROLL_TEXT_SPEED, SyncableParamSingle_.STATE_NOT_SYNCED);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_AUTOSCROLL_TEXT_SPEED, SyncableParamSingle_.stateNotSynced);
     synchronizer.post();
   }
 
@@ -51,7 +51,7 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   static setShowChords(bool value, {bool localOnly = false}){
     SongBookBaseSetting().showChords = value;
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_CHORDS, SyncableParamSingle_.STATE_NOT_SYNCED);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_CHORDS, SyncableParamSingle_.stateNotSynced);
     synchronizer.post();
   }
 
@@ -60,7 +60,7 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   static setChordsTrailing(bool value, {bool localOnly = false}){
     SongBookBaseSetting().chordsTrailing = value;
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_CHORDS_TRAILING, SyncableParamSingle_.STATE_NOT_SYNCED);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_CHORDS_TRAILING, SyncableParamSingle_.stateNotSynced);
     synchronizer.post();
   }
 
@@ -69,7 +69,7 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   static setShowDrawChords(bool value, {bool localOnly = false}){
     SongBookBaseSetting().chordsDrawShow = value;
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_DRAW_CHORDS, SyncableParamSingle_.STATE_NOT_SYNCED);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_DRAW_CHORDS, SyncableParamSingle_.stateNotSynced);
     synchronizer.post();
   }
 
@@ -78,25 +78,25 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   static setDrawChordsType(InstrumentType value, {bool localOnly = false}){
     SongBookBaseSetting().chordsDrawType = value;
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_DRAW_CHORDS_TYPE, SyncableParamSingle_.STATE_NOT_SYNCED);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_DRAW_CHORDS_TYPE, SyncableParamSingle_.stateNotSynced);
     synchronizer.post();
   }
 
-  static bool get showAlbumIcon => shaPref!.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_ALBUM_ICON, true);
+  static bool get showAlbumIcon => ShaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_ALBUM_ICON, true);
   static set showAlbumIcon(bool value) => setShowAlbumIcon(value);
   static setShowAlbumIcon(bool value, {bool localOnly = false}){
-    shaPref!.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_ALBUM_ICON, value);
+    ShaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_ALBUM_ICON, value);
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_ALBUM_ICON, SyncableParamSingle_.STATE_NOT_SYNCED);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_ALBUM_ICON, SyncableParamSingle_.stateNotSynced);
     synchronizer.post();
   }
 
-  static bool get showTabOfContOnStart => shaPref!.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_TAB_OF_CONT_ON_START, true);
+  static bool get showTabOfContOnStart => ShaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_TAB_OF_CONT_ON_START, true);
   static set showTabOfContOnStart(bool value) => setShowTabOfContOnStart(value);
   static setShowTabOfContOnStart(bool value, {bool localOnly = false}){
-    shaPref!.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_TAB_OF_CONT_ON_START, value);
+    ShaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_TAB_OF_CONT_ON_START, value);
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_TAB_OF_CONT_ON_START, SyncableParamSingle_.STATE_NOT_SYNCED);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_TAB_OF_CONT_ON_START, SyncableParamSingle_.stateNotSynced);
     synchronizer.post();
   }
 

@@ -3,13 +3,13 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/ShowRankData.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task_compl.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_disp_type.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
-import 'package:tuple/tuple.dart';
 import 'package:intl/intl.dart';
 
 
@@ -327,8 +327,8 @@ class ApiIndivComp{
         if(onSuccess == null) return;
 
         List<IndivCompParticip> particips = [];
-        Map _participsRespMap = response.data;
-        for(MapEntry participEntry in _participsRespMap.entries)
+        Map participsRespMap = response.data;
+        for(MapEntry participEntry in participsRespMap.entries)
           particips.add(IndivCompParticip.fromMap(participEntry.key, participEntry.value));
 
         onSuccess(particips);
@@ -363,8 +363,8 @@ class ApiIndivComp{
           if(onSuccess == null) return;
 
           List<IndivCompParticip> particips = [];
-          Map _participsRespMap = response.data;
-          for(MapEntry participEntry in _participsRespMap.entries)
+          Map participsRespMap = response.data;
+          for(MapEntry participEntry in participsRespMap.entries)
             particips.add(IndivCompParticip.fromMap(participEntry.key, participEntry.value));
 
           onSuccess(particips);
@@ -412,7 +412,7 @@ class ApiIndivComp{
     String? comment,
     List<String>? userKeys,
 
-    void Function(List<IndivCompTaskCompl>, Map<String, Tuple3<int?, int?, Tuple2<double, double>?>>)? onSuccess,
+    void Function(List<IndivCompTaskCompl>, Map<String, ShowRankData>)? onSuccess,
     void Function()? onError,
   }) => API.sendRequest(
     withToken: true,
@@ -432,23 +432,15 @@ class ApiIndivComp{
     onSuccess: (Response response) async {
 
       List<IndivCompTaskCompl> complTasks = [];
-      Map _complTasksRespMap = response.data['compl_tasks'];
-      for(MapEntry complTaskEntry in _complTasksRespMap.entries)
+      Map complTasksRespMap = response.data['compl_tasks'];
+      for(MapEntry complTaskEntry in complTasksRespMap.entries)
         complTasks.add(IndivCompTaskCompl.fromMap(complTaskEntry.key, complTaskEntry.value));
 
-      Map<String, Tuple3<int?, int?, Tuple2<double, double>?>> idRankMap = {};
+      Map<String, ShowRankData> idRankMap = {};
 
       Map rankResMap = response.data['ranks'];
-      for(String userKey in rankResMap.keys as Iterable<String>){
-        int? rank = rankResMap[userKey]['rank'];
-        int? rankPopularity = rankResMap[userKey]['rank_popularity'];
-        Tuple2<double, double>? rankRange =
-          rankResMap[userKey]['rank_range'] == null?
-          null:
-          Tuple2.fromList(rankResMap[userKey]['rank_range']);
-
-        idRankMap[userKey] = Tuple3(rank, rankPopularity, rankRange);
-      }
+      for(String userKey in rankResMap.keys as Iterable<String>)
+        idRankMap[userKey] = ShowRankData.from(rankResMap);
 
       onSuccess?.call(
           complTasks,
@@ -461,7 +453,7 @@ class ApiIndivComp{
   static Future<Response?> removeTaskComplReq({
     required String taskComplKey,
 
-    void Function(String? removedId)? onSuccess,
+    void Function(String removedId)? onSuccess,
   }) => API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) => dio.delete(
@@ -493,7 +485,7 @@ class ApiIndivComp{
         for (MapEntry complTaskEntry in (response.data[userKey] as Map).entries)
           indivCompTaskComplList.add(IndivCompTaskCompl.fromMap(complTaskEntry.key, complTaskEntry.value));
 
-        IndivCompParticip particip = allParticipants.firstWhere((_particip) => _particip.key == userKey);
+        IndivCompParticip particip = allParticipants.firstWhere((participIter) => participIter.key == userKey);
         pendingComplTasks[particip] = indivCompTaskComplList;
       }
 
@@ -502,10 +494,10 @@ class ApiIndivComp{
   );
 
   static Future<Response?> reviewCompletedTasks({
-    String? taskReqKey,
-    TaskAcceptState? acceptState,
-    String? revComment,
-    void Function(String? complTaskKey)? onSuccess,
+    required String taskReqKey,
+    required TaskAcceptState acceptState,
+    required String revComment,
+    void Function(String complTaskKey)? onSuccess,
     void Function()? onError,
 
   }) => API.sendRequest(
@@ -514,7 +506,7 @@ class ApiIndivComp{
         '${API.SERVER_URL}api/indivComp/task/review',
         data: FormData.fromMap({
           'taskReqKey': taskReqKey,
-          'acceptState': acceptState!.name,
+          'acceptState': acceptState.name,
           'revComment': revComment
         }),
     ),

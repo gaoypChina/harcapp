@@ -39,14 +39,14 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
   String get moduleId => ModuleStatsMixin.sprawnosci;
 
   late ValueNotifier tabNotifier;
-  TabController? tabController;
+  late TabController tabController;
 
-  _TabScrollProvider? tabScrollProvider;
+  late _TabScrollProvider tabScrollProvider;
 
-  late List<Color?> colorsStart;
-  late List<Color?> colorsEnd;
+  late List<Color> colorsStart;
+  late List<Color> colorsEnd;
 
-  int? initIndex;
+  late int initIndex;
 
   @override
   void initState() {
@@ -54,16 +54,15 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
     colorsStart = List.generate(allSprawBooks.length, (index) => allSprawBooks[index].color.colorStartLight);
     colorsEnd = List.generate(allSprawBooks.length, (index) => allSprawBooks[index].color.colorEndLight);
 
-    SprawBook lastViewed = SprawBookData.lastViewedSprawBook;
+    SprawBook? lastViewed = SprawBookData.lastViewedSprawBook;
 
-    initIndex = allSprawBooks.indexOf(lastViewed);
+    initIndex = lastViewed == null?0:allSprawBooks.indexOf(lastViewed);
 
-    tabNotifier = ValueNotifier(initIndex!.toDouble());
+    tabNotifier = ValueNotifier(initIndex.toDouble());
     tabController = TabController(
         length: allSprawBooks.length,
         vsync: this,
-        initialIndex: initIndex!
-    );
+        initialIndex: initIndex);
 
     super.initState();
   }
@@ -96,7 +95,7 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
 
                         onChanged: (int index, double offset){
                           tabNotifier.value = index + offset;
-                          tabScrollProvider!.notify();
+                          tabScrollProvider.notify();
                           SprawBookData.lastViewedSprawBook = allSprawBooks[index];
                         },
                         actions: const [SizedBox(width: Dimen.APPBAR_LEADING_WIDTH)]
@@ -120,8 +119,8 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
               backgroundEnd: averageColorEnd,
               duration: Duration.zero,
               onTap: () => pushPage(context, builder: (context) => SearchPage(
-                allSprawBooks[tabController!.index],
-                allSprawBooks[tabController!.index].groups,
+                allSprawBooks[tabController.index],
+                allSprawBooks[tabController.index].groups,
                 onPicked: (Spraw spraw) {
                   Navigator.push(
                       context,
@@ -156,7 +155,7 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
       dist = min(max(dist, 0), 1);
       if(dist == 1) continue;
 
-      red += (color!.red * (1 - dist)).floor();
+      red += (color.red * (1 - dist)).floor();
       green += (color.green * (1 - dist)).floor();
       blue += (color.blue * (1 - dist)).floor();
     }
@@ -174,7 +173,7 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
       dist = min(max(dist, 0), 1);
       if(dist == 1) continue;
 
-      red += (color!.red * (1 - dist)).floor();
+      red += (color.red * (1 - dist)).floor();
       green += (color.green * (1 - dist)).floor();
       blue += (color.blue * (1 - dist)).floor();
     }

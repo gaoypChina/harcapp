@@ -16,6 +16,7 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core_song/song_core.dart';
 
+import '../cat_page_home/competitions/indiv_comp/models/ShowRankData.dart';
 import 'song_management/off_song.dart';
 
 class SongContributorsPage extends StatelessWidget{
@@ -26,16 +27,12 @@ class SongContributorsPage extends StatelessWidget{
   Widget build(BuildContext context){
 
     Map<AddPerson, List<Song>> map = {};
-    for(OffSong song in OffSong.allOfficial!){
-      if(song.addPers == null)
-        continue;
-
+    for(OffSong song in OffSong.allOfficial)
       for(AddPerson addPers in song.addPers)
         if(map.containsKey(addPers))
           map[addPers]!.add(song);
         else
           map[addPers] = [song];
-    }
 
     var sortedKeys = map.keys.toList(growable:false)..sort((k1, k2) => map[k2]!.length.compareTo(map[k1]!.length));
     LinkedHashMap sortedMap = LinkedHashMap.fromIterable(sortedKeys, key: (k) => k, value: (k) => map[k]);
@@ -72,7 +69,7 @@ class SongContributorsPage extends StatelessWidget{
                             active: null,
                             role: null,
                             points: null,
-                            showRank: index + 1
+                            rank: ShowRankData.fromShowRank(index + 1)
                         ),
                         activeParticipCnt: null,
                         colors: CommonColorData.ALL[CommonColorData.OMEGA_COLORS_KEY],

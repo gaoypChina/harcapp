@@ -226,7 +226,7 @@ class WordCardState extends State<WordCard>{
                         ),
                       )
               );
-              shaPref!.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
+              ShaPref.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
             }
           }
 
@@ -244,7 +244,7 @@ class WordCardState extends State<WordCard>{
                         ),
                       )
               );
-              shaPref!.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
+              ShaPref.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
             }
           }
 
@@ -260,7 +260,7 @@ class WordCardState extends State<WordCard>{
                       ),
                     )
             );
-            shaPref!.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
+            ShaPref.remove(ShaPref.SHA_PREF_GRY_SLOWO_KLUCZ_SAVED_GAME);
             Navigator.pop(context);
           }
         },

@@ -65,31 +65,31 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
   @override
   String get moduleId => ModuleStatsMixin.strefaDucha;
 
-  SingleComputerListener<String>? loaderListener;
+  late SingleComputerListener<String> loaderListener;
 
   bool? networkAvailable;
   StreamSubscription<ConnectivityResult>? subscription;
 
-  static SelectedItemsSource? selectedItemsSrc;
-  static int? lastAllPage;
-  static int? lastFavoritePage;
-  static int? lastCachedPage;
+  static SelectedItemsSource selectedItemsSrc = SelectedItemsSource.all;
+  static int lastAllPage = 0;
+  static int lastFavoritePage = 0;
+  static int lastCachedPage = 0;
 
-  int? get lastPage {
+  int get lastPage {
     if(selectedItemsSrc == SelectedItemsSource.all) return lastAllPage;
     if(selectedItemsSrc == SelectedItemsSource.favorite) return lastFavoritePage;
     if(selectedItemsSrc == SelectedItemsSource.cached) return lastCachedPage;
     return 0;
   }
 
-  set lastPage(int? value) {
+  set lastPage(int value) {
     if(selectedItemsSrc == SelectedItemsSource.all) lastAllPage = value;
     if(selectedItemsSrc == SelectedItemsSource.favorite) lastFavoritePage = value;
     if(selectedItemsSrc == SelectedItemsSource.cached) lastCachedPage = value;
   }
 
-  static bool? openedFirstTime;
-  static bool? loadedFirstTime;
+  static bool openedFirstTime = true;
+  static bool loadedFirstTime = true;
 
   static tryReloadItems(BuildContext context) async {
     if(await isNetworkAvailable())
@@ -109,7 +109,7 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
         showAppToast(context, text: 'Tryb offline');
       }
     }
-    if(openedFirstTime! && Settings.showInitMessage)
+    if(openedFirstTime&& Settings.showInitMessage)
       openDialog(context: context, builder: (context) => const ShowInitMessageWidget());
 
     openedFirstTime = false;
@@ -119,8 +119,6 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
 
   @override
   void initState() {
-    openedFirstTime ??= true;
-    loadedFirstTime ??= true;
     loaderListener = SingleComputerListener(
         onStart: (){
           if(mounted) setState((){});
@@ -130,8 +128,6 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
         },
         onEnd: (error, __){
           if(error != null) return;
-          if(loadedFirstTime! && selectedItemsSrc == SelectedItemsSource.cached)
-            selectedItemsSrc ??= SelectedItemsSource.all;
           loadedFirstTime = false;
           if(mounted) setState((){});
         }
@@ -153,11 +149,6 @@ class CatPageStrefaDuchaState extends State<CatPageStrefaDucha> with AfterLayout
       setState(() => networkAvailable = hasConnection);
     });
 
-    selectedItemsSrc ??= SelectedItemsSource.all;
-    
-    lastAllPage ??= 0;
-    lastFavoritePage ??= 0;
-    lastCachedPage ??= 0;
 
     BackButtonInterceptor.add(onBackPressed);
 
@@ -444,9 +435,9 @@ class ImageCardPageView extends StatelessWidget{
               ),
               onPageChanged: (index) {
                 onPageChanged?.call(index);
-                if(index>fadeImgProv.currIdx!)
+                if(index>fadeImgProv.currIdx)
                   fadeImgProv.moveOneForw();
-                else if(index<fadeImgProv.currIdx!)
+                else if(index<fadeImgProv.currIdx)
                   fadeImgProv.moveOneBack();
               },
             ),
@@ -464,8 +455,8 @@ class _DrawerTile extends StatelessWidget{
   final IconData icon;
   final String title;
   final SelectedItemsSource source;
-  final SelectedItemsSource? selectedSource;
-  final void Function(SelectedItemsSource?) onSelect;
+  final SelectedItemsSource selectedSource;
+  final void Function(SelectedItemsSource)? onSelect;
   final Widget? trailing;
   
   const _DrawerTile({
@@ -479,7 +470,7 @@ class _DrawerTile extends StatelessWidget{
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => DrawerTile<SelectedItemsSource?>(
+  Widget build(BuildContext context) => DrawerTile<SelectedItemsSource>(
     icon: icon,
     title: title,
     source: source,
@@ -542,12 +533,12 @@ class _HeartWidgetState extends State<_HeartWidget>{
             ),
 
             Blur(
+              sigma: 8,
               child: Icon(
                 MdiIcons.heartOutline,
                 color: Colors.white,
                 size: size,
               ),
-              sigma: 8,
             ),
 
           ],
@@ -622,11 +613,10 @@ class _CardWidgetState extends State<_CardWidget>{
                           sourceItem,
                           pageViewNotifier: pageViewNotifier,
                           index: index,
-                          onLoaded: (ImageProvider image, int index){
+                          onLoaded: (ImageProvider? image, int index){
                             if(!mounted) return;
-                            image ??= ImageLoader.noInternetImage;
                             FadeImageProvider fadeImgProv = Provider.of<FadeImageProvider>(context, listen: false);
-                            post(() => fadeImgProv.newImage(image, index, reload: true));
+                            post(() => fadeImgProv.newImage(image??ImageLoader.noInternetImage, index, reload: true));
                           },
                           onLike: (){
                             if(sourceItem!.isFavorite)

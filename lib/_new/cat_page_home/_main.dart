@@ -1,4 +1,3 @@
-
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
@@ -65,14 +64,17 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
     body: Builder(builder: (context){
       if(selectedDrawerPage == drawerPageCompetitions)
         return const CompetitionsPage();
-      else if(selectedDrawerPage!.contains('circle_'))
+      else if(selectedDrawerPage!.contains('circle_')) {
+        Circle? circle = Circle.allMap![selectedDrawerPage!.replaceAll('circle_', '')];
+        if(circle == null) return Container();
         return CirclePage(
-          Circle.allMap![selectedDrawerPage!.replaceAll('circle_', '')],
+          circle,
           onLeft: () => setState(() => selectedDrawerPage = drawerPageCircles),
-          onDeleted: () => setState(() => selectedDrawerPage = drawerPageCircles),
+          onDeleted: () =>
+              setState(() => selectedDrawerPage = drawerPageCircles),
           key: ValueKey(selectedDrawerPage),
         );
-      else if(selectedDrawerPage == drawerPageCircles)
+      }else if(selectedDrawerPage == drawerPageCircles)
         return AllCirclesPage(
           onCircleTap: (circle) => setState(() => selectedDrawerPage = CatPageHomeState.drawerPageCircle(circle)),
         );

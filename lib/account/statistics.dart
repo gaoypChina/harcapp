@@ -13,10 +13,10 @@ class Statistics{
   static const Duration syncInterval = Duration(hours: 1);
   static const Duration syncPeriod = Duration(days: 1);
 
-  DateTime? get lastSyncTime => shaPref!.getDateTime(ShaPref.SHA_PREF_STATISTICS_LAST_SYNC_TIME, null);
+  DateTime? get lastSyncTime => ShaPref.getDateTime(ShaPref.SHA_PREF_STATISTICS_LAST_SYNC_TIME, null);
 
   static Map<String?, Map<String, dynamic>> get songStats{
-    Map<String, Map<String, dynamic>> map = shaPref!.getMap(ShaPref.SHA_PREF_STATISTICS_SONGS, {});
+    Map<String, Map<String, dynamic>> map = ShaPref.getMap(ShaPref.SHA_PREF_STATISTICS_SONGS, {});
     Map<String?, Map<String, dynamic>> castMap = {};
     for(String key in map.keys){
       Map<String, dynamic> innerMap = Map.from(map[key]!);
@@ -25,7 +25,7 @@ class Statistics{
     return castMap;
   }
 
-  static set songStats(Map<String?, Map<String, dynamic>> value) => shaPref!.setMap(ShaPref.SHA_PREF_STATISTICS_SONGS, value);
+  static set songStats(Map<String?, Map<String, dynamic>> value) => ShaPref.setMap(ShaPref.SHA_PREF_STATISTICS_SONGS, value);
 
   static Future<void> registerSongAction(String? songFileName, DateTime openTime, SongOpenType type, Duration openDuration, List<Tuple4<int, int, int, Orientation>> scrollEvents) async {
 
@@ -49,7 +49,7 @@ class Statistics{
   }
 
   static Map<String?, Map<String, dynamic>> get moduleStats{
-    Map<String, Map<String, dynamic>> map = shaPref!.getMap(ShaPref.SHA_PREF_STATISTICS_MODULE, {});
+    Map<String, Map<String, dynamic>> map = ShaPref.getMap(ShaPref.SHA_PREF_STATISTICS_MODULE, {});
     Map<String?, Map<String, dynamic>> castMap = {};
     for(String key in map.keys){
       Map<String, dynamic> innerMap = Map.from(map[key]!);
@@ -58,7 +58,7 @@ class Statistics{
     return castMap;
   }
 
-  static set moduleStats(Map<String?, Map<String, dynamic>> value) => shaPref!.setMap(ShaPref.SHA_PREF_STATISTICS_MODULE, value);
+  static set moduleStats(Map<String?, Map<String, dynamic>> value) => ShaPref.setMap(ShaPref.SHA_PREF_STATISTICS_MODULE, value);
 
   static Future<void> registerModuleAction(String? moduleId, DateTime openTime, Duration openDuration) async {
 

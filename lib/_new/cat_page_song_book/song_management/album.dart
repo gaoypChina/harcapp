@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
@@ -7,6 +6,7 @@ import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/storage.dart';
+import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/api/sync_resp_body/album_resp.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
@@ -20,112 +20,114 @@ import 'package:provider/provider.dart';
 import 'off_song.dart';
 import 'own_song.dart';
 
-class Album extends SyncableParamGroup_ with SyncNode<AlbumResp>, RemoveSyncItem{
+class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncItem{
 
   static bool isConfidUnlocked = false;
 
   static const String PARAM_ID = 'file_name';
   static const String _PARAM_TITLE = 'title';
-  static const String PARAM_OFF_SONGS = 'off_songs';
-  static const String PARAM_OWN_SONGS = 'own_songs';
-  static const String PARAM_COLORS_KEY = 'colors_key';
+  static const String paramOffSongs = 'off_songs';
+  static const String paramOwnSongs = 'own_songs';
+  static const String paramColorsKey = 'colors_key';
+  static const String paramIconKey = 'icon_key';
 
-  static const String PARAM_ICON_KEY = 'icon_key';
+  static const String omegaFileName = 'o!_omega';
+  static const String confidFileName = 'o!_confid';
 
-  static const String OMEGA_FILE_NAME = 'o!_omega';
-  static const String CONFID_FILE_NAME = 'o!_confid';
+  static const String omegaTitle = 'Wszystkie';
+  static const String confidTitle = 'Tajne piosenki Basi';
 
-  static const String OMEGA_TITLE = 'Wszystkie';
-  static const String CONFID_TITLE = 'Tajne piosenki Basi';
+  static const String defTitle = '_#NO_TITLE';
 
-  static const String DEF_TITLE = '_#NO_TITLE';
+  static const int maxLenTitle = 64;
+  static const int maxLenColorsKey = 42;
+  static const int maxLenIconsKey = 42;
 
-  static const int MAX_LEN_TITLE = 64;
-  static const int MAX_LEN_COLORS_KEY = 42;
-  static const int MAX_LEN_ICONS_KEY = 42;
+  // Whether the all, allMap, etc. are initialized.
+  static bool initialized = false;
 
-  static List<Album>? allOwn;
+  static late List<Album> allOwn;
   static List<Album> get all{
     List<Album> albums = [];
     albums.add(omega);
     if(isConfidUnlocked) albums.add(Album.confid);
-    albums.addAll(allOwn!);
+    albums.addAll(allOwn);
     return albums;
   }
-  static SplayTreeMap<String?, Album>? _allOwnMap;
+  static late Map<String, Album> _allOwnMap;
 
-  static SplayTreeMap<String?, Album>? get allMap => _allOwnMap;
-  static set allMap(Map<String?, Album>? value){
-    _allOwnMap = value==null?null:SplayTreeMap.from(value);
+  static Map<String, Album> get allMap => _allOwnMap;
+  static set allMap(Map<String, Album> value){
+    _allOwnMap = Map.from(value);
   }
 
   static void addToAll(Album album){
-    allOwn!.add(album);
-    allMap![album.fileName] = album;
+    allOwn.add(album);
+    allMap[album.fileName] = album;
   }
 
   static void removeFromAll(Album album){
-    allOwn!.remove(album);
-    allMap!.remove(album.fileName);
+    allOwn.remove(album);
+    allMap.remove(album.fileName);
   }
 
   static void insertToAll(int index, Album album){
-    allOwn!.insert(index, album);
-    allMap![album.fileName] = album;
+    allOwn.insert(index, album);
+    allMap[album.fileName] = album;
   }
 
-  static Album? _current;
+  static Album get omega => Album(omegaFileName, omegaTitle, OffSong.allOfficial, OwnSong.allOwn, CommonColorData.OMEGA_COLORS_KEY, 'null');
 
-  static Album get omega => Album(OMEGA_FILE_NAME, OMEGA_TITLE, OffSong.allOfficial, OwnSong.allOwn, CommonColorData.OMEGA_COLORS_KEY, null);
+  static late Album _current;
+
+  static initCurrent(Album value) => _current = value;
 
   static Album get current{
-    if(_current == null)
-      return null;
-    else if(_current!.isOmega)
+    if(_current.isOmega)
       return omega;
 
-    return _current!;
+    return _current;
   }
   static set current(Album value){
     _current = value;
-    shaPref!.setString(ShaPref.SHA_PREF_SPIEWNIK_CURR_ALBUM, value.fileName!);
+    ShaPref.setString(ShaPref.SHA_PREF_SPIEWNIK_CURR_ALBUM, value.fileName);
   }
 
 
   static Album get confid => Album(
-      CONFID_FILE_NAME,
-      CONFID_TITLE,
+      confidFileName,
+      confidTitle,
       OffSong.allConfid,
       [],
       CommonColorData.CONF_COLORS_KEY,
       'fruitPineapple'
   );
 
-  Color get avgColor => CommonColorData.ALL[colorsKey!]!.avgColor;
-  Color? get colorStart => CommonColorData.ALL[colorsKey!]!.colorStart;
-  Color? get colorEnd => CommonColorData.ALL[colorsKey!]!.colorEnd;
+  Color get avgColor => CommonColorData.ALL[colorsKey]!.avgColor;
+  Color? get colorStart => CommonColorData.ALL[colorsKey]!.colorStart;
+  Color? get colorEnd => CommonColorData.ALL[colorsKey]!.colorEnd;
   Color avgColorDarkSensitive(BuildContext context) => Provider.of<ColorPackProvider>(context, listen: false).isDark()?Colors.white:avgColor;
 
-  Color get iconColor => CommonColorData.ALL[colorsKey!]!.iconColor;
+  Color get iconColor => CommonColorData.ALL[colorsKey]!.iconColor;
 
-  final String? fileName;
+  final String fileName;
   String? title;
 
-  List<OffSong>? offSongs;
-  List<OwnSong>? ownSongs;
+  List<OffSong> offSongs;
+  List<OwnSong> ownSongs;
 
-  List<Song?> get songs{
-    List<Song?> songs = [];
-    songs.addAll(ownSongs!);
-    songs.addAll(offSongs!);
+  List<Song> get songs{
+    List<Song> songs = [];
+    songs.addAll(ownSongs);
+    songs.addAll(offSongs);
     return songs;
   }
 
-  String? colorsKey;
-  String? iconKey;
+  String colorsKey;
+  String iconKey;
 
-  bool get isOmega => fileName == OMEGA_FILE_NAME;
-  bool isConfid() => fileName == CONFID_FILE_NAME;
+  bool get isOmega => fileName == omegaFileName;
+  bool get isConfid => fileName == confidFileName;
 
   Album(this.fileName, this.title, this.offSongs, this.ownSongs, this.colorsKey, this.iconKey);
 
@@ -134,12 +136,12 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumResp>, RemoveSyncItem
     return Album.decode(fileName, content, allSongs);
   }
 
-  static Album create(String title, List<OffSong> offSongs, List<OwnSong> ownSongs, String? colorsKey, String? iconKey, {bool localOnly = false, List<String>? syncParams}) {
+  static Album create(String title, List<OffSong> offSongs, List<OwnSong> ownSongs, String colorsKey, String iconKey, {bool localOnly = false, List<String>? syncParams}) {
 
     String code = Album.encode(title, offSongs, ownSongs, colorsKey, iconKey);
     File file = saveStringAsFileToFolder(getAlbumFolderLocalPath, code);
     Album album = Album(basename(file.path), title, offSongs, ownSongs, colorsKey, iconKey);
-    album.setAllSyncState(SyncableParamSingle_.STATE_NOT_SYNCED);
+    album.setAllSyncState(SyncableParamSingle_.stateNotSynced);
     if(!localOnly)
       synchronizer.post();
     return album;
@@ -154,10 +156,10 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumResp>, RemoveSyncItem
 
     Map<String, dynamic> map = {
       _PARAM_TITLE: title,
-      PARAM_OFF_SONGS: offSongs.map((song) => song.fileName).toList(growable: false),
-      PARAM_OWN_SONGS: ownSongs.map((song) => song.fileName).toList(growable: false),
-      PARAM_COLORS_KEY: colorsKey,
-      PARAM_ICON_KEY: iconKey,
+      paramOffSongs: offSongs.map((song) => song.fileName).toList(growable: false),
+      paramOwnSongs: ownSongs.map((song) => song.fileName).toList(growable: false),
+      paramColorsKey: colorsKey,
+      paramIconKey: iconKey,
     };
 
     return json.encode(map);
@@ -176,21 +178,21 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumResp>, RemoveSyncItem
       List<OwnSong> ownSongs = [];
       for(String songFileName in songFileNames)
         if(songFileName.substring(0, 3) == 'o!_') {
-          OffSong? song = OffSong.allOfficialMap![songFileName];
+          OffSong? song = OffSong.allOfficialMap[songFileName];
           if(song != null) offSongs.add(song);
         }else {
-          OwnSong? song = OwnSong.allOwnMap![songFileName];
+          OwnSong? song = OwnSong.allOwnMap[songFileName];
           if(song != null) ownSongs.add(song);
         }
 
 
       Album album = Album(
         fileName,
-        map[_PARAM_TITLE]??DEF_TITLE,
+        map[_PARAM_TITLE]??defTitle,
         offSongs,
         ownSongs,
-        map[PARAM_COLORS_KEY],
-        map[PARAM_ICON_KEY]??CommonIconData.DEF_ICON_KEY,
+        map[paramColorsKey],
+        map[paramIconKey]??CommonIconData.DEF_ICON_KEY,
       );
 
       album.save(localOnly: true);
@@ -198,18 +200,18 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumResp>, RemoveSyncItem
     }
 
     Tuple2<List<OffSong>, List<OwnSong>> songTuple = getSongsFromAlbum(
-        (map[PARAM_OFF_SONGS] as List).cast<String>(),
-        (map[PARAM_OWN_SONGS] as List).cast<String>(),
-        OffSong.allOfficial!,
+        (map[paramOffSongs] as List).cast<String>(),
+        (map[paramOwnSongs] as List).cast<String>(),
+        OffSong.allOfficial,
         OwnSong.allOwn);
 
     return Album(
       fileName,
-      map[_PARAM_TITLE]??DEF_TITLE,
+      map[_PARAM_TITLE]??defTitle,
       songTuple.item1,
       songTuple.item2,
-      map[PARAM_COLORS_KEY],
-      map[PARAM_ICON_KEY]??CommonIconData.DEF_ICON_KEY,
+      map[paramColorsKey],
+      map[paramIconKey]??CommonIconData.DEF_ICON_KEY,
     );
   }
 
@@ -217,39 +219,39 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumResp>, RemoveSyncItem
     if(!songs.contains(song)) {
 
       if(song is OffSong) {
-        for (int i = 0; i < offSongs!.length; i++) {
-          if (song.title.compareTo(songs[i]!.title) < 0) {
-            offSongs!.insert(i, song);
+        for (int i = 0; i < offSongs.length; i++) {
+          if (song.title.compareTo(songs[i].title) < 0) {
+            offSongs.insert(i, song);
             return;
           }
         }
-        offSongs!.add(song);
+        offSongs.add(song);
       }
 
       else if(song is OwnSong) {
-        for (int i = 0; i < ownSongs!.length; i++) {
-          if (song.title.compareTo(songs[i]!.title) < 0) {
-            ownSongs!.insert(i, song);
+        for (int i = 0; i < ownSongs.length; i++) {
+          if (song.title.compareTo(songs[i].title) < 0) {
+            ownSongs.insert(i, song);
             return;
           }
         }
-        ownSongs!.add(song);
+        ownSongs.add(song);
       }
     }
   }
 
   void removeSong(Song? song){
     if(song is OffSong)
-      offSongs!.remove(song);
+      offSongs.remove(song);
     else if(song is OwnSong)
-      ownSongs!.remove(song);
+      ownSongs.remove(song);
   }
 
   void save({localOnly = false, List<String>? syncParams}) {
 
     saveStringAsFileToFolder(
         getAlbumFolderLocalPath,
-        encode(title, offSongs!, ownSongs!, colorsKey, iconKey),
+        encode(title, offSongs, ownSongs, colorsKey, iconKey),
         fileName: fileName);
 
     if(!localOnly)
@@ -258,7 +260,7 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumResp>, RemoveSyncItem
 
   void delete({bool localOnly = false}) {
     markSyncAsRemoved();
-    File(getAlbumFolderPath + fileName!).deleteSync();
+    File(getAlbumFolderPath + fileName).deleteSync();
     if(!localOnly) synchronizer.post();
   }
 
@@ -286,23 +288,23 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumResp>, RemoveSyncItem
 
   static Album fromResponseData(Map responseData) {
 
-    String? fileName = responseData[PARAM_ID];
-    String? title = responseData[_PARAM_TITLE];
-    List<String> offSongsLclIds = responseData[PARAM_OFF_SONGS]??[];
-    List<String> ownSongsLclIds = responseData[PARAM_OWN_SONGS]??[];
-    String iconKey = responseData[PARAM_ICON_KEY]??CommonIconData.DEF_ICON_KEY;
-    String colorsKey = responseData[PARAM_COLORS_KEY]??CommonColorData.DEF_COLORS_KEY;
+    String fileName = responseData[PARAM_ID]??(throw InvalidResponseError(PARAM_ID));
+    String title = responseData[_PARAM_TITLE]??(throw InvalidResponseError(_PARAM_TITLE));
+    List<String> offSongsLclIds = responseData[paramOffSongs]??[];
+    List<String> ownSongsLclIds = responseData[paramOwnSongs]??[];
+    String iconKey = responseData[paramIconKey]??CommonIconData.DEF_ICON_KEY;
+    String colorsKey = responseData[paramColorsKey]??CommonColorData.DEF_COLORS_KEY;
 
     List<OffSong> offSongs = [];
     for (String lclId in offSongsLclIds) {
-      OffSong? song = OffSong.allOfficialMap![lclId];
+      OffSong? song = OffSong.allOfficialMap[lclId];
       if (song != null)
         offSongs.add(song);
     }
 
     List<OwnSong> ownSongs = [];
     for (String lclId in ownSongsLclIds) {
-      OwnSong? song = OwnSong.allOwnMap![lclId];
+      OwnSong? song = OwnSong.allOwnMap[lclId];
       if (song != null)
         ownSongs.add(song);
     }
@@ -349,7 +351,7 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumResp>, RemoveSyncItem
   int get hashCode => fileName.hashCode;
 
   @override
-  String? get paramId => fileName;
+  String get paramId => fileName;
 
   static const String syncClassId = 'album';
 
@@ -367,58 +369,51 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumResp>, RemoveSyncItem
 
     SyncableParamSingle(
       this,
-      paramId: PARAM_OFF_SONGS,
-      value_: () => offSongs!.map((song) => song.fileName).toList(growable: false),
+      paramId: paramOffSongs,
+      value_: () => offSongs.map((song) => song.fileName).toList(growable: false),
     ),
     SyncableParamSingle(
       this,
-      paramId: PARAM_OWN_SONGS,
-      value_: () => ownSongs!.map((song) => song.fileName).toList(growable: false),
+      paramId: paramOwnSongs,
+      value_: () => ownSongs.map((song) => song.fileName).toList(growable: false),
     ),
     SyncableParamSingle(
       this,
-      paramId: PARAM_COLORS_KEY,
+      paramId: paramColorsKey,
       value_: () => colorsKey,
     ),
 
     SyncableParamSingle(
       this,
-      paramId: PARAM_ICON_KEY,
+      paramId: paramIconKey,
       value_: () => iconKey,
     ),
   ];
 
   @override
-  void applySyncGetResp(AlbumResp resp) {
+  void applySyncGetResp(AlbumGetResp resp) {
 
-    if(resp.title != null)
-      title = resp.title;
+    title = resp.title;
 
-    if(resp.offSongs != null) {
-      List<OffSong> _offSongs = [];
-      for (String sngLclId in resp.offSongs) {
-        OffSong? song = OffSong.allOfficialMap![sngLclId];
-        if (song != null)
-          _offSongs.add(song);
-      }
-      offSongs = _offSongs;
+    List<OffSong> offSongs = [];
+    for (String sngLclId in resp.offSongs) {
+      OffSong? song = OffSong.allOfficialMap[sngLclId];
+      if (song != null)
+        offSongs.add(song);
     }
+    offSongs = offSongs;
 
-    if(resp.ownSongs != null) {
-      List<OwnSong> _ownSongs = [];
-      for (String sngLclId in resp.ownSongs) {
-        OwnSong? song = OwnSong.allOwnMap![sngLclId];
-        if (song != null)
-          _ownSongs.add(song);
-      }
-      ownSongs = _ownSongs;
+    List<OwnSong> ownSongs = [];
+    for (String sngLclId in resp.ownSongs) {
+      OwnSong? song = OwnSong.allOwnMap[sngLclId];
+      if (song != null)
+        ownSongs.add(song);
     }
+    ownSongs = ownSongs;
 
-    if(resp.colorsKey != null)
-      colorsKey = resp.colorsKey;
+    colorsKey = resp.colorsKey;
 
-    if(resp.iconKey != null)
-      iconKey = resp.iconKey;
+    iconKey = resp.iconKey;
 
     save(localOnly: true);
   }
@@ -433,8 +428,8 @@ enum AlbumName{
   didzejka
 }
 
-AlbumName? get albumName => stringToAlbumName(shaPref!.getString(ShaPref.SHA_PREF_SPIEWNIK_ALBUM_NAME, albumNameToString(AlbumName.album)));
-set albumName(AlbumName? name) => shaPref!.setString(ShaPref.SHA_PREF_SPIEWNIK_ALBUM_NAME, albumNameToString(name));
+AlbumName? get albumName => stringToAlbumName(ShaPref.getString(ShaPref.SHA_PREF_SPIEWNIK_ALBUM_NAME, albumNameToString(AlbumName.album)));
+set albumName(AlbumName? name) => ShaPref.setString(ShaPref.SHA_PREF_SPIEWNIK_ALBUM_NAME, albumNameToString(name));
 
 String albumNameToString(AlbumName? name){
   switch (name) {

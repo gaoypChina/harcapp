@@ -155,7 +155,7 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
         Expanded(
           child: Padding(
             padding: AppCard.defPadding,
-            child: SelectableText(generateOutput(_input!, additionalMorseLetter: _additionalMorseLetter), style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
+            child: SelectableText(generateOutput(_input, additionalMorseLetter: _additionalMorseLetter), style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
           ),
         ),
         AppCard(
@@ -256,13 +256,13 @@ class MorseFlashState extends State<MorseFlash>{
   // null = call
   bool? signalising;
 
-  double get speed => shaPref!.getDouble(ShaPref.SHA_PREF_SZYFR_MORSE_SIGNAL_SPEED, 0.6);
-  set speed(double value) => shaPref!.setDouble(ShaPref.SHA_PREF_SZYFR_MORSE_SIGNAL_SPEED, value);
+  double get speed => ShaPref.getDouble(ShaPref.SHA_PREF_SZYFR_MORSE_SIGNAL_SPEED, 0.6);
+  set speed(double value) => ShaPref.setDouble(ShaPref.SHA_PREF_SZYFR_MORSE_SIGNAL_SPEED, value);
 
   @override
   void initState() {
     initFlashlight();
-    code = ChildMorseState.generateOutput(widget.commonVals!.input!);
+    code = ChildMorseState.generateOutput(widget.commonVals!.input);
     signalising = false;
     super.initState();
   }

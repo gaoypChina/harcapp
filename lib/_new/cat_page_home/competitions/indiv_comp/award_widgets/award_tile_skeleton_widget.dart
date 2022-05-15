@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -6,11 +5,10 @@ import 'package:harcapp_core/dimen.dart';
 
 import '../../../../../_app_common/common_color_data.dart';
 import '../common/indiv_comp_rank_icon.dart';
-import '../indiv_comp_awards_page.dart';
 
 class AwardTileSkeletonWidget extends StatelessWidget{
 
-  final int? position;
+  final int position;
   final CommonColorData? colors;
   final IndivCompAward award;
   final Widget text;

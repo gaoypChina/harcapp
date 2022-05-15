@@ -10,7 +10,6 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
-import 'package:harcapp_core/comm_widgets/circular_check_box.dart';
 import 'package:harcapp_core/dimen.dart';
 
 import 'package:provider/provider.dart';
@@ -41,7 +40,8 @@ class SprawNamesWidget extends StatefulWidget{
         this.onCheckChanged,
         required this.checkVisible,
         required this.checkable,
-      });
+        Key? key
+      }): super(key: key);
 
   @override
   State<StatefulWidget> createState() => SprawNamesWidgetState();
@@ -83,10 +83,11 @@ class SprawNamesWidgetState extends State<SprawNamesWidget>{
               if(checkVisible)
                 IgnorePointer(
                   ignoring: checkable!,
-                  child: CircularCheckbox(
+                  child: Checkbox(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
                     value: RankZHPSim2022Templ.getExtCheckedKey(stopId, code, i),
                     onChanged: (value) async {
-                      await RankZHPSim2022Templ.setExtCheckedKey(stopId, code, i, value!);
+                      RankZHPSim2022Templ.setExtCheckedKey(stopId, code, i, value!);
                       setState((){});
                       Provider.of<RankFloatingButtonProvider>(context, listen: false).notify();
                       onCheckChanged?.call(value);
@@ -102,7 +103,7 @@ class SprawNamesWidgetState extends State<SprawNamesWidget>{
         borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
         color: backgroundColor??cardEnab_(context),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG, vertical: Dimen.DEF_MARG),
+          padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG, vertical: Dimen.DEF_MARG),
           child: Column(children: children),
         )
     );
@@ -127,7 +128,7 @@ RankZHPSim2022Data rankZhp0Data = RankZHPSim2022Data(
   idea: 'Stara się zasłużyć na miano harcerki lub harcerza. Chce poznać harcerstwo i dostosować się do jego wymagań, określonych w prawie i Przyrzeczeniu Harcerskim. Chce uczestniczyć w życiu zastępu (patrolu) i drużyny.',
   catData: [
 
-    RankCatData(
+    const RankCatData(
       groupData: [
         RankGroupData(
           taskData: [
@@ -170,7 +171,7 @@ RankZHPSim2022Data rankZhp1Data = RankZHPSim2022Data(
       '\n$_tab Najpierw myśli, potem mówi, nie życzy innym źle, nie obgaduje, nie używa wulgaryzmów.',
   catData: [
     
-    RankCatData(
+    const RankCatData(
       icon: RankData.iconCatStopZadania,
       groupData: [
         RankGroupData(
@@ -272,7 +273,7 @@ RankZHPSim2022Data rankZhp2Data = RankZHPSim2022Data(
       '\n$_tab Nie unika odpowiedzialności za własne postępowanie (w tym popełnione błędy, których skutki stara się naprawić). Wie, do kogo zwrócić się o pomoc oraz gdzie zdobyć potrzebną wiedzę, jeśli tego potrzebuje.'
       '\n$_tab Nie marnuje czasu, rozsądnie planuje swój dzień. Dba o siebie, m.in. ogranicza niezdrowe rzeczy, regularnie uprawia aktywność fizyczną. Wie, jakie zmiany zajdą w jego organizmie w okresie dojrzewania.',
   catData: [
-    RankCatData(
+    const RankCatData(
       icon: RankData.iconCatStopZadania,
       groupData: [
         RankGroupData(
@@ -386,7 +387,7 @@ RankZHPSim2022Data rankZhp3Data = RankZHPSim2022Data(
       '\n$_tab Rozumie zmiany zachodzące w organizmie związane z okresem dojrzewania. Nie korzysta z alkoholu, tytoniu ani środków odurzających.'
       '\n$_tab Odkrywca dba o hart ducha – poszukuje wartości, według których chce żyć oraz wzorców postępowania, które chce kultywować. Poddaje refleksji wartości i postawy wynikające z Prawa i Przyrzeczenia Harcerskiego, odnosi do nich swoje postępowanie. Najpierw myśli, potem mówi.',
   catData: [
-    RankCatData(
+    const RankCatData(
       icon: RankData.iconCatStopZadania,
       groupData: [
         RankGroupData(
@@ -486,7 +487,7 @@ RankZHPSim2022Data rankZhp4Data = RankZHPSim2022Data(
       '\n$_tab Ćwik poznaje granice swoich możliwości w działaniu na podstawie swojej wiedzy, umiejętności i wrodzonych predyspozycji. Postępuje racjonalnie, zgodnie z potrzebami swojego ciała (odżywianie, higiena osobista, odpowiednia ilość snu, uprawianie sportu). Umie radzić sobie z kwestiami wynikającymi z procesu dojrzewania organizmu.'
       '\n$_tab Postępuje zgodnie z wyznawanymi przez siebie zasadami, nawet jeśli jest poddawany presji otoczenia czy okoliczności. Umie zachować się kulturalnie w sytuacjach konfliktowych. Nie doprowadza do tego, by cokolwiek wpłynęło na jego zdolność do podejmowania decyzji, nie korzysta z alkoholu, tytoniu ani środków odurzających.',
   catData: [
-    RankCatData(
+    const RankCatData(
       icon: RankData.iconCatStopZadania,
       groupData: [
         RankGroupData(
@@ -598,7 +599,7 @@ RankZHPSim2022Data rankZhp5Data = RankZHPSim2022Data(
   id: 'HARC_5_SIM_2022',
   idea: 'Harcerz Orli, czyli wyróżniający się spośród innych, wymagający od siebie więcej, nawet wtedy, kiedy inni od niego nie wymagają. Inspirując się symboliką płomieni wędrowniczej watry pracuje nad swoim ciałem, rozumem i duchem.',
   catData: [
-    RankCatData(
+    const RankCatData(
       title: 'Idea',
       icon: RankData.iconCatIdea,
       groupData: [
@@ -640,7 +641,7 @@ RankZHPSim2022Data rankZhp5Data = RankZHPSim2022Data(
         ),
       ]
     ),
-    RankCatData(
+    const RankCatData(
       title: 'Zadania',
       icon: RankData.iconCatStopZadania,
         groupData: [
@@ -722,7 +723,7 @@ RankZHPSim2022Data rankZhp6Data = RankZHPSim2022Data(
   id: 'HARC_6_SIM_2022',
   idea: 'Harcerz Rzeczypospolitej, czyli dojrzały człowiek i świadomy obywatel, ten, który dba o siebie i innych. Inspirując się symboliką wędrowniczej watry szuka swojego miejsca w społeczeństwie, wychodzi w świat i szuka miejsca, w którym może pomóc innym - podejmuje się służby, a także pracuje nad sobą - swoim duchem, ciałem oraz umysłem.',
   catData: [
-    RankCatData(
+    const RankCatData(
         title: 'Idea',
         icon: RankData.iconCatIdea,
         groupData: [
@@ -763,7 +764,7 @@ RankZHPSim2022Data rankZhp6Data = RankZHPSim2022Data(
               ]
           ),
         ]),
-    RankCatData(
+    const RankCatData(
       title: 'Zadania',
       icon: RankData.iconCatStopZadania,
       groupData: [

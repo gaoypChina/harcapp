@@ -403,7 +403,7 @@ class _AutoSizeTextState extends State<AutoSizeText> {
     int left;
     int right;
 
-    var presetFontSizes = widget.presetFontSizes?.reversed?.toList();
+    var presetFontSizes = widget.presetFontSizes?.reversed.toList();
     if (presetFontSizes == null) {
       num defaultFontSize =
       style!.fontSize!.clamp(widget.minFontSize, widget.maxFontSize);
@@ -462,7 +462,7 @@ class _AutoSizeTextState extends State<AutoSizeText> {
         ),
         textAlign: widget.textAlign ?? TextAlign.left,
         textDirection: widget.textDirection ?? TextDirection.ltr,
-        textScaleFactor: scale ?? 1,
+        textScaleFactor: scale,
         maxLines: words.length,
         locale: widget.locale,
         strutStyle: widget.strutStyle,
@@ -480,7 +480,7 @@ class _AutoSizeTextState extends State<AutoSizeText> {
       text: text,
       textAlign: widget.textAlign ?? TextAlign.left,
       textDirection: widget.textDirection ?? TextDirection.ltr,
-      textScaleFactor: scale ?? 1,
+      textScaleFactor: scale,
       maxLines: maxLines,
       locale: widget.locale,
       strutStyle: widget.strutStyle,

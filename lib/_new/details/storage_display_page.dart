@@ -7,7 +7,6 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
-import 'package:harcapp/sync/syncable_new.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -104,7 +103,7 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
                 Map allUnsynced = await synchronizer.allUnsynced();
                 await openDialog(
                     context: context,
-                    builder: (context) => TextDisplayer('Synchronizacja', 'lastSyncTimeLocal: ${SynchronizerEngine.lastSyncTimeLocal}\n\n' + prettyJson(allUnsynced))
+                    builder: (context) => TextDisplayer('Synchronizacja', 'lastSyncTimeLocal: ${SynchronizerEngine.lastSyncTimeLocal}\n\n${prettyJson(allUnsynced)}')
                 );
               }
           ),
@@ -121,7 +120,7 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
 
                 String result = '';
                 for(FileSystemEntity file in files)
-                  result += file.path + '\n\n';
+                  result += '${file.path}\n\n';
                 await openDialog(
                     context: context,
                     builder: (context) => TextDisplayer('Synchronizacja (removal mark)', result)
@@ -246,7 +245,7 @@ class JSONFileDisplayer extends StatelessWidget{
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(Dimen.ICON_MARG),
               physics: const BouncingScrollPhysics(),
-              child: SelectableText('\n'+ content),
+              child: SelectableText('\n$content'),
             ),
           )
         ],
@@ -261,12 +260,12 @@ class FolderDisplayer extends StatefulWidget{
 
   final String folderPath;
   final String Function(String)? displayFileName;
-  final String Function(String?)? displayText;
-  final String? emptyText;
+  final String Function(String)? displayText;
+  final String emptyText;
   final bool removable;
   final void Function()? onRemoved;
 
-  const FolderDisplayer(this.folderPath, {this.displayFileName, this.displayText, this.emptyText, this.removable = false, this.onRemoved, Key? key}): super(key: key);
+  const FolderDisplayer(this.folderPath, {this.displayFileName, this.displayText, this.emptyText = '', this.removable = false, this.onRemoved, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => FolderDisplayerState();
@@ -277,8 +276,8 @@ class FolderDisplayerState extends State<FolderDisplayer>{
 
   String get folderPath => widget.folderPath;
   String Function(String)? get displayFileName => widget.displayFileName;
-  String Function(String?)? get displayText => widget.displayText;
-  String? get emptyText => widget.emptyText;
+  String Function(String)? get displayText => widget.displayText;
+  String get emptyText => widget.emptyText;
   bool get removable => widget.removable;
   void Function()? get onRemoved => widget.onRemoved;
 
@@ -323,7 +322,7 @@ class FolderDisplayerState extends State<FolderDisplayer>{
               itemCount: filePaths.length,
               itemBuilder: (context, index){
 
-                String? text;
+                String text;
                 try {
                   text = readFileAsString(filePaths[index]);
                 } on FileNotFoundError{
@@ -349,7 +348,7 @@ class FolderDisplayerState extends State<FolderDisplayer>{
                     ),
                     expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      SelectableText(displayText?.call(text)??text!)
+                      SelectableText(displayText?.call(text)??text)
                     ]
                 );
 
@@ -531,7 +530,7 @@ class TextDisplayer extends StatelessWidget{
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(Dimen.ICON_MARG),
               physics: const BouncingScrollPhysics(),
-              child: SelectableText('\n'+ text),
+              child: SelectableText('\n$text'),
             ),
           )
         ],

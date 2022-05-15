@@ -18,7 +18,7 @@ class SprawBookData{
 
   static RankColors SPRAW_BOOK_ZHP_ZUCH_OLD_COLOR = RankData.colorsZhpOldZuch;
   static RankColors SPRAW_BOOK_ZHP_HARC_OLD_COLOR = RankData.colorsZhp;
-  static RankColors SPRAW_BOOK_ZHP_WODNE_OLD_COLOR = RankColors(Colors.lightBlueAccent, Colors.blue[700], Colors.lightBlueAccent, Colors.blue[700]);
+  static RankColors SPRAW_BOOK_ZHP_WODNE_OLD_COLOR = RankColors(Colors.lightBlueAccent, Colors.blue[700]!, Colors.lightBlueAccent, Colors.blue[700]!);
   static RankColors SPRAW_BOOK_ZHR_H_RZE_COLOR = RankData.colorsZhrC;
   static RankColors SPRAW_BOOK_ZHR_H_RKI_COLOR = RankData.colorsZhrD;
 
@@ -42,8 +42,8 @@ class SprawBookData{
     SprawBookData.ZHR_HARC_D: SPRAW_BOOK_ZHR_H_RKI_ICON,
   };
 
-  static SprawBook get lastViewedSprawBook{
-    String? lastViewedSprawBook = shaPref!.getString(ShaPref.SHA_PREF_LAST_VIEWED_SPRAWBOOK, ZHP_HARC_OLD_ID);
+  static SprawBook? get lastViewedSprawBook{
+    String? lastViewedSprawBook = ShaPref.getString(ShaPref.SHA_PREF_LAST_VIEWED_SPRAWBOOK, ZHP_HARC_OLD_ID);
     if(lastViewedSprawBook == ZHP_HARC_OLD_ID)
       return sprawBookZHP;
     else if(lastViewedSprawBook == ZHP_HARC_OLD_WOD_ID)
@@ -55,7 +55,10 @@ class SprawBookData{
 
     return null;
   }
-  static set lastViewedSprawBook(SprawBook sprawBook) => shaPref!.setString(ShaPref.SHA_PREF_LAST_VIEWED_SPRAWBOOK, sprawBook.id);
+  static set lastViewedSprawBook(SprawBook? sprawBook){
+    if(sprawBook == null) ShaPref.remove(ShaPref.SHA_PREF_LAST_VIEWED_SPRAWBOOK);
+    else ShaPref.setString(ShaPref.SHA_PREF_LAST_VIEWED_SPRAWBOOK, sprawBook.id);
+  }
 
   final String id;
   final String title;

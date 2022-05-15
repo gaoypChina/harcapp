@@ -25,8 +25,7 @@ class SongLoaderInput{
   const SongLoaderInput(
       this.shaPref,
       this.allSongsCode,
-      this.ownSongsCode,
-
+      this.ownSongsCode
     );
 
 }
@@ -40,7 +39,6 @@ class SongLoaderOutput{
 
   final List<Song> allOwnSongs;
   final Map<String, Song> allOwnSongsMap;
-
 
   const SongLoaderOutput(
 
@@ -60,7 +58,7 @@ Map? decodeJson(String code){
   return jsonDecode(code);
 }
 
-Future<Map?> getSongMap(String fileName) async{
+Future<Map> getSongMap(String fileName) async{
 
   if(fileName.length>3 && fileName.substring(0, 3) == 'o!_') {
     String? jsonCode = await readStringFromAssets('assets/songs/all_songs.hrcpsng');

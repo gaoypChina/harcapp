@@ -1,10 +1,7 @@
-
-import 'dart:collection';
 import 'dart:convert';
 
 import 'package:harcapp/_common_classes/storage.dart';
-import 'package:harcapp/_new/api/sync_resp_body/own_song_resp.dart';
-import 'package:harcapp/sync/syncable.dart';
+import 'package:harcapp/_new/api/sync_resp_body/own_song_get_resp.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
 import 'package:harcapp_core_song/song_core.dart';
 
@@ -12,36 +9,38 @@ import '../../../sync/syncable_new.dart';
 import 'memory.dart';
 import 'song.dart';
 
-class OwnSong extends Song<OwnSongResp>{
+class OwnSong extends Song<OwnSongGetResp>{
 
   static int get lastFileName{
     try {
       String content = readFileAsString(getOwnLastFileNameFilePath);
       if(content.isEmpty) return 0;
-
       return int.parse(content);
     }on Error{
-      return allOwn!.isEmpty?0:int.tryParse(allOwn!.last.fileName)??-1;
+      return allOwn.isEmpty?0:int.tryParse(allOwn.last.fileName)??-1;
     }
   }
 
-  static List<OwnSong>? allOwn;
-  static SplayTreeMap<String, OwnSong>? _allOwnMap;
-  static SplayTreeMap<String, OwnSong>? get allOwnMap => _allOwnMap;
-  static set allOwnMap(Map<String, OwnSong>? value) => _allOwnMap = value==null?null:SplayTreeMap.from(value);
-  static void addOwn(Song song){
-    allOwn!.add(song as OwnSong);
-    _allOwnMap![song.fileName] = song;
+  // Whether the all, allMap, etc. are initialized.
+  static bool initialized = false;
+
+  static late List<OwnSong> allOwn;
+  static late Map<String, OwnSong> _allOwnMap;
+  static Map<String, OwnSong> get allOwnMap => _allOwnMap;
+  static set allOwnMap(Map<String, OwnSong> value) => _allOwnMap = Map.from(value);
+  static void addOwn(OwnSong song){
+    allOwn.add(song);
+    _allOwnMap[song.fileName] = song;
   }
-  static void removeOwn(Song song){
-    allOwn!.remove(song);
-    _allOwnMap!.remove(song.fileName);
+  static void removeOwn(OwnSong song){
+    allOwn.remove(song);
+    _allOwnMap.remove(song.fileName);
   }
 
-  static const String PARAM_CODE = 'code';
-  static const String SONG_TOO_LONG_RESP_CODE = 'songTooLong';
-  static const int CODE_MAX_LENGTH = 5000;
-  static const String EMPTY_SONG_CODE = """
+  static const String paramCode = 'code';
+  static const String songTooLongRespCode = 'songTooLong';
+  static const int codeMaxLength = 5000;
+  static const String emptySongCode = """
   {
       "title": "za_długa_piosenka",
       "hid_titles": [],
@@ -73,7 +72,7 @@ class OwnSong extends Song<OwnSongResp>{
       List<String> tags,
       bool hasChords, String text,
       String baseChords,
-      PrimitiveWrapper<int?> rate,
+      PrimitiveWrapper<int> rate,
       List<Memory> memoryList,
       Map<String, Memory> memoryMap
   ) : super(fileName,
@@ -184,38 +183,22 @@ class OwnSong extends Song<OwnSongResp>{
   @override
   List<SyncableParam> get childParams{
 
-    List<SyncableParam> _childParams = super.childParams;
+    List<SyncableParam> childParams = super.childParams;
 
-    _childParams.add(
+    childParams.add(
         SyncableParamSingle(
           this,
-          paramId: PARAM_CODE,
+          paramId: paramCode,
           value_: () => code,
           isNotSet_: () => false,
         )
     );
 
-    return _childParams;
+    return childParams;
   }
-/*
-  @override
-  void saveSyncResult(dynamic resData, DateTime lastSync) {
-    super.saveSyncResult(resData, lastSync);
-
-    if(resData.containsKey(PARAM_CODE)) {
-      dynamic resp = resData[PARAM_CODE];
-      if(resp == true)
-        setSingleState(PARAM_CODE, SyncableParamSingle_.STATE_SYNCED);
-      else if(resData == SONG_TOO_LONG_RESP_CODE) {
-        setSingleState(PARAM_CODE, SyncableParamSingle_.STATE_SYNCED);
-        recode(EMPTY_SONG_CODE);
-      }
-    }
-  }
-  */
 
   @override
-  void applySyncGetResp(OwnSongResp resp) {
+  void applySyncGetResp(OwnSongGetResp resp) {
     super.applySyncGetResp(resp);
     if(resp.code != null) {
       recode(resp.code!);

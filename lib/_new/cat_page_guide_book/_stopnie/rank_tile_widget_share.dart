@@ -10,7 +10,6 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_progress_widget.d
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_tile_widget_template.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_widgets/rank_widget.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
-import 'package:harcapp/_new/details/part_settings.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -73,7 +72,7 @@ class RankTileWidgetShare extends StatelessWidget {
   }
 }
 
-Future<void> _openRankDialog(BuildContext context, Rank? sharedRank, DateTime lastUpdateDate) => openDialog(
+Future<void> _openRankDialog(BuildContext context, Rank sharedRank, DateTime lastUpdateDate) => openDialog(
     context: context,
     builder: (context) => Padding(
       padding: AppCard.normMargin,
@@ -83,7 +82,7 @@ Future<void> _openRankDialog(BuildContext context, Rank? sharedRank, DateTime la
         color: background_(context),
         child: RankWidget(
           rank: sharedRank,
-          icons: RankData.iconSizeMap[sharedRank!.data]!.item1,
+          icons: RankData.iconSizeMap[sharedRank.data]!.item1,
           lastUpdateTime: lastUpdateDate,
           showBack: true,
           previewOnly: true,
@@ -108,7 +107,7 @@ Future<void> loadOpenRankDialog(BuildContext context, Color color, SharedRankMet
     await ApiRank.getShared(
         key: data.sharedRankKey,
         lastUpdateTime: data.lastUpdateDate,
-        onSuccess: (Rank? sharedRank) async {
+        onSuccess: (Rank sharedRank) async {
           await popPage(context);
           _openRankDialog(context, sharedRank, data.lastUpdateDate);
         },

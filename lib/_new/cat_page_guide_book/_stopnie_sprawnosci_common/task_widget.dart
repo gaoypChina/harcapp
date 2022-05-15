@@ -5,7 +5,6 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
-import 'package:harcapp_core/comm_widgets/circular_check_box.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -21,18 +20,18 @@ abstract class TaskWidget<T_TASK extends TaskData> extends StatefulWidget{
 
   String? get initNote;
 
-  bool? get inProgress;
-  bool? get completed;
+  bool get inProgress;
+  bool get completed;
   bool get isReadyToComplete;
   bool get hideIndex;
 
   bool get editable;
 
-  void Function(T_TASK item, bool? completed)? get onCompletedChanged;
+  void Function(T_TASK item, bool completed)? get onCompletedChanged;
 
-  void _onCompletedChanged(bool? completed) => onCompletedChanged?.call(task, completed);
+  void _onCompletedChanged(bool completed) => onCompletedChanged?.call(task, completed);
 
-  const TaskWidget();
+  const TaskWidget({Key? key}): super(key: key);
 
   @override
   TaskWidgetState<T_TASK> createState() => TaskWidgetState<T_TASK>();
@@ -96,7 +95,7 @@ class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
                         children: [
                           GestureDetector(
                             onTap: () {
-                              bool newValue = !task.completed!;
+                              bool newValue = !task.completed;
                               setState(() => task.setCompleted(context, newValue));
                               widget._onCompletedChanged(newValue);
                             },
@@ -105,17 +104,19 @@ class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
                               style: AppTextStyle(
                                   fontSize: Dimen.TEXT_SIZE_APPBAR,
                                   fontWeight: weight.halfBold,
-                                  color: widget.completed! || !task.completed!?hintEnab_(context):widget.color
+                                  color: widget.completed|| !task.completed?hintEnab_(context):widget.color
                               ),
                             ),
                           ),
 
                           IgnorePointer(
                             ignoring: completed! || !editable,
-                            child: CircularCheckbox(
+                            child: Checkbox(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
                               checkColor: background_(context),
-                              activeColor: widget.completed! || !task.completed!?hintEnab_(context):widget.color,
+                              activeColor: widget.completed|| !task.completed?hintEnab_(context):widget.color,
                               onChanged: (selected){
+                                if(selected == null) return;
                                 setState(() => task.setCompleted(context, selected));
                                 widget._onCompletedChanged(selected);
                               },

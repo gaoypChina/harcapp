@@ -51,8 +51,8 @@ class Source{
     String sourceUrl = elements[2];
 
     if(elements.length<3) throw Exception();
-    shaPref!.setString(ShaPref.SHA_PREF_DUCHOWE_SOURCE_URL_FROM_UNIQ_ID_(sourceUniqId), sourceUrl);
-    shaPref!.setString(ShaPref.SHA_PREF_DUCHOWE_SOURCE_NAME_FROM_UNIQ_ID_(sourceUniqId), sourceName);
+    ShaPref.setString(ShaPref.SHA_PREF_DUCHOWE_SOURCE_URL_FROM_UNIQ_ID_(sourceUniqId), sourceUrl);
+    ShaPref.setString(ShaPref.SHA_PREF_DUCHOWE_SOURCE_NAME_FROM_UNIQ_ID_(sourceUniqId), sourceName);
 
     List<SourceItem> sourceItems = [];
     for(int i=1; i<lines.length; i++) {
@@ -64,15 +64,15 @@ class Source{
 
   static Source fromFolderName(String folderPath) {
     String folderName = folderPath.split('/').last;
-    String? sourceUrl = shaPref!.getString(ShaPref.SHA_PREF_DUCHOWE_SOURCE_URL_FROM_UNIQ_ID_(folderName), '');
-    String? sourceName = shaPref!.getString(ShaPref.SHA_PREF_DUCHOWE_SOURCE_NAME_FROM_UNIQ_ID_(folderName), '');
+    String? sourceUrl = ShaPref.getString(ShaPref.SHA_PREF_DUCHOWE_SOURCE_URL_FROM_UNIQ_ID_(folderName), '');
+    String? sourceName = ShaPref.getString(ShaPref.SHA_PREF_DUCHOWE_SOURCE_NAME_FROM_UNIQ_ID_(folderName), '');
     return Source(folderName, sourceName, sourceUrl, []);
   }
 
   void addAll(List<SourceItem> items) => this.items.addAll(items);
 
-  bool get display => shaPref!.getBool(ShaPref.SHA_PREF_DUCHOWE_SOURCE_DISPLAY_(this), true);
-  set display(bool value) => shaPref!.setBool(ShaPref.SHA_PREF_DUCHOWE_SOURCE_DISPLAY_(this), value);
+  bool get display => ShaPref.getBool(ShaPref.SHA_PREF_DUCHOWE_SOURCE_DISPLAY_(this), true);
+  set display(bool value) => ShaPref.setBool(ShaPref.SHA_PREF_DUCHOWE_SOURCE_DISPLAY_(this), value);
 
   void removeItemsSavedLocally(){
     Directory dir = Directory(getDuchoweSourceFolderPath(uniqId));
@@ -94,18 +94,18 @@ class SourceItem{
   const SourceItem(this.sourceUniqId, this.sourceName, this.sourceUrl, this.fileName);
 
   static SourceItem? get pinned {
-    String? stringCode = shaPref!.getString(ShaPref.SHA_PREF_DUCHOWE_ITEM_PINNED, null);
+    String? stringCode = ShaPref.getStringOrNull(ShaPref.SHA_PREF_DUCHOWE_ITEM_PINNED);
     if(stringCode == null) return null;
     else return SourceItem.decode(stringCode);
   }
 
   static set pinned(SourceItem? value) {
-    if(value == null) shaPref!.remove(ShaPref.SHA_PREF_DUCHOWE_ITEM_PINNED);
-    else shaPref!.setString(ShaPref.SHA_PREF_DUCHOWE_ITEM_PINNED, value.toString());
+    if(value == null) ShaPref.remove(ShaPref.SHA_PREF_DUCHOWE_ITEM_PINNED);
+    else ShaPref.setString(ShaPref.SHA_PREF_DUCHOWE_ITEM_PINNED, value.toString());
   }
 
   static List<SourceItem> favoriteItems({bool displayableOnly = false}){
-    List<String> itemCodes = shaPref!.getStringList(ShaPref.SHA_PREF_DUCHOWE_FAVORITE_ITEMS, []);
+    List<String> itemCodes = ShaPref.getStringList(ShaPref.SHA_PREF_DUCHOWE_FAVORITE_ITEMS, []);
 
     List<SourceItem> result = [];
 
@@ -138,8 +138,8 @@ class SourceItem{
 
     String sourceUniqId = elements[0];
     String fileName = elements[1];
-    String? sourceUrl = shaPref!.getString(ShaPref.SHA_PREF_DUCHOWE_SOURCE_URL_FROM_UNIQ_ID_(sourceUniqId), '');
-    String? sourceName = shaPref!.getString(ShaPref.SHA_PREF_DUCHOWE_SOURCE_NAME_FROM_UNIQ_ID_(sourceUniqId), '');
+    String? sourceUrl = ShaPref.getString(ShaPref.SHA_PREF_DUCHOWE_SOURCE_URL_FROM_UNIQ_ID_(sourceUniqId), '');
+    String? sourceName = ShaPref.getString(ShaPref.SHA_PREF_DUCHOWE_SOURCE_NAME_FROM_UNIQ_ID_(sourceUniqId), '');
 
     return SourceItem(sourceUniqId, sourceName, sourceUrl, fileName);
   }
@@ -158,21 +158,21 @@ class SourceItem{
   String get downloadUrl => CatPageStrefaDucha.gitDuchoweImageUrl(sourceUniqId, fileName);
 
   bool get isFavorite {
-    List<String> encodedItems = shaPref!.getStringList(ShaPref.SHA_PREF_DUCHOWE_FAVORITE_ITEMS, []);
+    List<String> encodedItems = ShaPref.getStringList(ShaPref.SHA_PREF_DUCHOWE_FAVORITE_ITEMS, []);
     return encodedItems.contains(toString());
   }
 
   void addToFavorite() {
-    List<String> encodedItems = shaPref!.getStringList(ShaPref.SHA_PREF_DUCHOWE_FAVORITE_ITEMS, []);
+    List<String> encodedItems = ShaPref.getStringList(ShaPref.SHA_PREF_DUCHOWE_FAVORITE_ITEMS, []);
     if(encodedItems.contains(toString())) return;
     encodedItems.add(toString());
-    shaPref!.setStringList(ShaPref.SHA_PREF_DUCHOWE_FAVORITE_ITEMS, encodedItems);
+    ShaPref.setStringList(ShaPref.SHA_PREF_DUCHOWE_FAVORITE_ITEMS, encodedItems);
   }
 
   void removeFromFavorite() {
-    List<String> encodedItems = shaPref!.getStringList(ShaPref.SHA_PREF_DUCHOWE_FAVORITE_ITEMS, []);
+    List<String> encodedItems = ShaPref.getStringList(ShaPref.SHA_PREF_DUCHOWE_FAVORITE_ITEMS, []);
     encodedItems.remove(toString());
-    shaPref!.setStringList(ShaPref.SHA_PREF_DUCHOWE_FAVORITE_ITEMS, encodedItems);
+    ShaPref.setStringList(ShaPref.SHA_PREF_DUCHOWE_FAVORITE_ITEMS, encodedItems);
   }
 
   @override

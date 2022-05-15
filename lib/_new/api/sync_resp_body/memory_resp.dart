@@ -1,29 +1,28 @@
-import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/memory.dart';
 import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
 
 import '../_api.dart';
 
-class MemoryResp extends SyncGetResp{
+class MemoryGetResp extends SyncGetResp{
 
-  static const String COLL_NAME = Memory.syncClassId;
+  static const String collName = Memory.syncClassId;
 
-  static const String PARAM_DESC = Memory.PARAM_DESC;
+  static const String paramDesc = Memory.paramDesc;
   final String? desc;
 
-  static const String PARAM_DATE = Memory.PARAM_DATE;
+  static const String paramDate = Memory.paramDate;
   final DateTime? date;
 
-  static const String PARAM_PLACE = Memory.PARAM_PLACE;
+  static const String paramPlace = Memory.paramPlace;
   final String? place;
 
-  static const String PARAM_FONT_KEY = Memory.PARAM_FONT_KEY;
+  static const String paramFontKey = Memory.paramFontKey;
   final int fontKey;
 
-  static const String PARAM_PUBLISHED = Memory.PARAM_PUBLISHED;
+  static const String paramPublished = Memory.paramPublished;
   final bool published;
 
-  const MemoryResp({
+  const MemoryGetResp({
     required this.desc,
     required this.date,
     required this.place,
@@ -31,11 +30,11 @@ class MemoryResp extends SyncGetResp{
     required this.published
   });
 
-  static MemoryResp from(Map respData) => MemoryResp(
-      desc: respData[PARAM_DESC],
-      date: DateTime.tryParse(respData[PARAM_DATE]??(throw InvalidResponseError(PARAM_DATE))),
-      place: respData[PARAM_PLACE],
-      fontKey: respData[PARAM_FONT_KEY]??(throw InvalidResponseError(PARAM_FONT_KEY)),
-      published: respData[PARAM_PUBLISHED]??(throw InvalidResponseError(PARAM_PUBLISHED)));
+  static MemoryGetResp from(Map respData) => MemoryGetResp(
+      desc: respData[paramDesc],
+      date: DateTime.tryParse(respData[paramDate]??(throw InvalidResponseError(paramDate))),
+      place: respData[paramPlace],
+      fontKey: respData[paramFontKey]??(throw InvalidResponseError(paramFontKey)),
+      published: respData[paramPublished]??(throw InvalidResponseError(paramPublished)));
 
 }

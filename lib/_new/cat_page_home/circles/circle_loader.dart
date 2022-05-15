@@ -11,9 +11,9 @@ class CircleLoaderListener extends SingleComputerListener<String>{
 
   const CircleLoaderListener({
     void Function()? onStart,
-    Future<void> Function(String)? onError,
+    Future<void> Function(String?)? onError,
     this.onCirclesLoaded,
-    void Function(String err, bool forceFinished)? onEnd
+    void Function(String? err, bool forceFinished)? onEnd
   }):super(
       onStart: onStart,
       onError: onError,

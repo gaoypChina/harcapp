@@ -11,8 +11,8 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/com
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:provider/provider.dart';
-import 'package:tuple/tuple.dart';
 
+import 'ShowRankData.dart';
 import 'indiv_comp_profile.dart';
 import 'indiv_comp_task.dart';
 
@@ -110,10 +110,10 @@ class IndivComp{
     null
   ];
 
-  static const int MAX_LEN_TITLE = 64;
-  static const int MAX_LEN_COLORS_KEY = 42;
-  static const int MAX_LEN_ICONS_KEY = 42;
-  static const int MAX_LEN_AWARD = 64;
+  static const int maxLenTitle = 64;
+  static const int maxLenColorsKey = 42;
+  static const int maxLenIconsKey = 42;
+  static const int maxLenAward = 64;
 
   static List<IndivComp>? _all;
   static late Map<String, IndivComp> _allMap;
@@ -203,7 +203,7 @@ class IndivComp{
   IconData? get icon => CommonIconData.ALL[iconKey];
   String iconKey;
 
-  CommonColorData? get colors => CommonColorData.ALL[colorsKey];
+  CommonColorData get colors => CommonColorData.ALL[colorsKey]??CommonColorData.ALL[CommonColorData.DEF_COLORS_KEY]!;
   String colorsKey;
 
   DateTime? startTime;
@@ -216,45 +216,47 @@ class IndivComp{
 
   IndivCompProfile get profile => participMap[AccountData.key!]!.profile;
 
-  final List<IndivCompParticip?> particips;
-  final Map<String, IndivCompParticip?> participMap;
+  final List<IndivCompParticip> particips;
+  final Map<String, IndivCompParticip> participMap;
 
   int get activeParticipCnt =>
-    particips.where((particip) => particip!.profile.active!).length;
+    particips.where((particip) => particip.profile.active!).length;
 
   List<IndivCompTask> tasks;
-  Map<String?, IndivCompTask> taskMap;
+  Map<String, IndivCompTask> taskMap;
 
   List<IndivCompAward> awards;
+  List<String?> get awardsEncoded{
+    List<String?> result = [];
+    for(IndivCompAward award in awards)
+      for(int i=0; i<award.rangeTo - award.rangeFrom + 1; i++)
+        result.add(award.award);
 
-  bool get pinned => shaPref!.getBool(ShaPref.SHA_PREF_INDIV_COMP_PINNED_(key), true);
+    return result;
+  }
+
+  bool get pinned => ShaPref.getBool(ShaPref.SHA_PREF_INDIV_COMP_PINNED_(key), true);
   void setPinned(BuildContext context, bool value){
-    shaPref!.setBool(ShaPref.SHA_PREF_INDIV_COMP_PINNED_(key), value);
+    ShaPref.setBool(ShaPref.SHA_PREF_INDIV_COMP_PINNED_(key), value);
     Provider.of<IndivCompListProvider>(context).notify();
   }
 
   void reversePinned(BuildContext context){
-    shaPref!.setBool(ShaPref.SHA_PREF_INDIV_COMP_PINNED_(key), !pinned);
+    ShaPref.setBool(ShaPref.SHA_PREF_INDIV_COMP_PINNED_(key), !pinned);
     Provider.of<IndivCompListProvider>(context, listen: false).notify();
   }
 
-  void handleRanks(Map<String, Tuple3<int, int, Tuple2<double, double>>> ranks){
+  void handleRanks(Map<String, ShowRankData> ranks){
 
-    for(String participKey in ranks.keys) {
-      participMap[participKey]!.profile.showRank = ranks[participKey]!.item1;
-      participMap[participKey]!.profile.rankPopularity = ranks[participKey]!.item2;
-      participMap[participKey]!.profile.showRankRange = ranks[participKey]!.item3;
-    }
+    for(String participKey in ranks.keys)
+      participMap[participKey]!.profile.rank = ranks[participKey];
 
-    particips.sort((p1, p2) => p1!.profile.showRank! - p2!.profile.showRank!);
+    particips.sort((p1, p2) => (p1.profile.rank?.sortIndex??0).toInt() - (p2.profile.rank?.sortIndex??0).toInt());
 
     if(!profile.active!) return;
     String? thisParticipKey = AccountData.key;
     if(!ranks.containsKey(thisParticipKey)) return;
 
-    profile.showRank = ranks[thisParticipKey!]!.item1;
-    profile.rankPopularity = ranks[thisParticipKey]!.item2;
-    profile.showRankRange = ranks[thisParticipKey]!.item3;
   }
 
   void addParticips(BuildContext context, List<IndivCompParticip> newParticips){
@@ -273,7 +275,7 @@ class IndivComp{
     particips.clear();
     participMap.clear();
     particips.addAll(allParticips);
-    particips.sort((mem1, mem2) => mem1!.name.compareTo(mem2!.name));
+    particips.sort((mem1, mem2) => mem1.name.compareTo(mem2.name));
     participMap.addAll({for (IndivCompParticip mem in allParticips) mem.key: mem});
 
     Provider.of<IndivCompParticipsProvider>(context, listen: false).notify();
@@ -281,10 +283,10 @@ class IndivComp{
     Provider.of<IndivCompListProvider>(context, listen: false).notify();
   }
 
-  void updateParticips(BuildContext context, List<IndivCompParticip?> newParticips){
+  void updateParticips(BuildContext context, List<IndivCompParticip> newParticips){
 
-    for(IndivCompParticip? particip in newParticips) {
-      int index = particips.indexOf(participMap[particip!.key]);
+    for(IndivCompParticip particip in newParticips) {
+      int index = particips.indexWhere((participIter) => participIter.key == particip.key);
       particips.removeAt(index);
       particips.insert(index, particip);
       participMap[particip.key] = particip;
@@ -297,7 +299,7 @@ class IndivComp{
 
   void removeParticipsByKey(BuildContext context, List<String> participKeys){
 
-    particips.removeWhere((particip) => participKeys.contains(particip!.key));
+    particips.removeWhere((particip) => participKeys.contains(particip.key));
     for(String participKey in participKeys) participMap.remove(participKey);
 
     Provider.of<IndivCompParticipsProvider>(context, listen: false).notify();
@@ -314,9 +316,6 @@ class IndivComp{
   void addPoints(String key, int points) => setPoints(key, participMap[key]!.profile.points! + points);
   void setPoints(String key, int points){
     participMap[key]!.profile.points = points;
-  }
-  void _setRank(String key, int rank){
-    participMap[key]!.profile.showRank = rank;
   }
 
   IndivComp({
@@ -336,8 +335,8 @@ class IndivComp{
     required this.shareCode,
     required this.shareCodeSearchable,
 
-  }): taskMap = {for (var task in tasks) task.key: task},
-        participMap = {for (var particip in particips) particip!.key: particip};
+  }): taskMap = {for (var task in tasks) task.key!: task},
+        participMap = {for (var particip in particips) particip.key: particip};
 
   static List<IndivCompAward> awardListFromRaw(List<String?> awards){
 
@@ -354,20 +353,20 @@ class IndivComp{
   static IndivComp fromResponse(Map resp){
 
     List<IndivCompTask> tasks = [];
-    Map _tasksRespMap = resp['tasks']??(throw InvalidResponseError('tasks'));
-    for (String taskKey in _tasksRespMap.keys as Iterable<String>)
-      tasks.add(IndivCompTask.fromMap(taskKey, _tasksRespMap[taskKey]));
+    Map tasksRespMap = resp['tasks']??(throw InvalidResponseError('tasks'));
+    for (String taskKey in tasksRespMap.keys as Iterable<String>)
+      tasks.add(IndivCompTask.fromMap(taskKey, tasksRespMap[taskKey]));
 
     tasks.sort((task1, task2) => task1.key!.compareTo(task2.key!));
 
     List<IndivCompParticip> particips = [];
-    Map _participsRespMap = resp['participants']??(throw InvalidResponseError('participants'));
-    for (MapEntry participEntry in _participsRespMap.entries)
+    Map participsRespMap = resp['participants']??(throw InvalidResponseError('participants'));
+    for (MapEntry participEntry in participsRespMap.entries)
       particips.add(IndivCompParticip.fromMap(participEntry.key, participEntry.value));
 
-    particips.sort((p1, p2) => (p1.profile.showRank??0) - (p2.profile.showRank??0));
+    particips.sort((p1, p2) => (p1.profile.rank?.sortIndex??0).toInt() - (p2.profile.rank?.sortIndex??0).toInt());
 
-    List<String> awards = (resp['awards'] as List).cast<String>()??(throw InvalidResponseError('awards'));
+    List<String?> awards = ((resp['awards']??(throw InvalidResponseError('awards'))) as List).cast<String?>();
 
     List<IndivCompAward> indivCompAward = awardListFromRaw(awards);
 

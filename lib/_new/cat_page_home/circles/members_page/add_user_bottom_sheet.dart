@@ -65,7 +65,7 @@ class AddUserBottomSheet extends StatelessWidget{
                     UserDataNick? userData = await openSearchUserDialog(
                         context,
                         title: 'Dodaj uczestnika',
-                        illegalUserKeys: circle!.members.map((p) => p!.key).toList(),
+                        illegalUserKeys: circle!.members.map((m) => m.key).toList(),
                         illegalAttemptMessage: 'Że niby chcesz dodać kogoś po raz drugi?'
                     );
 

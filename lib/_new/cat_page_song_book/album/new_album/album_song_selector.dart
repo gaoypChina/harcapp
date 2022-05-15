@@ -12,8 +12,8 @@ import 'package:provider/provider.dart';
 
 class AlbumSongSelector extends StatefulWidget{
 
-  final List<Song?> initSongs;
-  final Function(List<Song?>? checkedSongs)? onChanged;
+  final List<Song> initSongs;
+  final Function(List<Song> checkedSongs)? onChanged;
 
   const AlbumSongSelector(this.initSongs, {this.onChanged, Key? key}):super(key:key);
 
@@ -27,11 +27,11 @@ class AlbumSongSelectorState extends State<AlbumSongSelector> with AutomaticKeep
   @override
   bool get wantKeepAlive => true;
 
-  List<Song?> get initSongs => widget.initSongs;
-  Function(List<Song?>? checkedSongs)? get onChanged => widget.onChanged;
+  List<Song> get initSongs => widget.initSongs;
+  Function(List<Song> checkedSongs)? get onChanged => widget.onChanged;
 
-  List<Song?>? checkedAllSongs;
-  late List<Song?> checkedDisplSongs;
+  late List<Song> checkedAllSongs;
+  late List<Song> checkedDisplSongs;
 
   bool? allChecked;
 
@@ -49,10 +49,10 @@ class AlbumSongSelectorState extends State<AlbumSongSelector> with AutomaticKeep
 
   void onItemSelectionChanged(bool value, Song song){
     if(value){
-      checkedAllSongs!.add(song);
+      checkedAllSongs.add(song);
       checkedDisplSongs.add(song);
     }else{
-      checkedAllSongs!.remove(song);
+      checkedAllSongs.remove(song);
       checkedDisplSongs.remove(song);
     }
 
@@ -63,7 +63,7 @@ class AlbumSongSelectorState extends State<AlbumSongSelector> with AutomaticKeep
 
   void onTap(Song song){
 
-    bool wasChecked = checkedAllSongs!.contains(song);
+    bool wasChecked = checkedAllSongs.contains(song);
 
     onItemSelectionChanged(!wasChecked, song);
     onChanged?.call(checkedAllSongs);
@@ -84,11 +84,11 @@ class AlbumSongSelectorState extends State<AlbumSongSelector> with AutomaticKeep
           onItemTap: (Song song, int index) => onTap(song),
           onSearchComplete: (List<Song> songs, List<GlobalKey> globalKeys, bool Function() stillValid){
 
-            this.displayedSongs = songs;
+            displayedSongs = songs;
 
             checkedDisplSongs.clear();
             for(Song song in songs)
-              if(checkedAllSongs!.contains(song))
+              if(checkedAllSongs.contains(song))
                 checkedDisplSongs.add(song);
 
             if(displayedSongs.length == checkedDisplSongs.length)
@@ -106,6 +106,7 @@ class AlbumSongSelectorState extends State<AlbumSongSelector> with AutomaticKeep
       ),
       floatingActionButton: Consumer<AccentColorProvider>(
         builder: (context, prov, child) => FloatingActionButton(
+          onPressed: null,
           child: GradientWidget(
             shape: BoxShape.circle,
             colorStart: prov.color1!,
@@ -127,19 +128,18 @@ class AlbumSongSelectorState extends State<AlbumSongSelector> with AutomaticKeep
 
                     if(allChecked!)
                       for(Song song in displayedSongs) {
-                        if (!checkedAllSongs!.contains(song)) checkedAllSongs!.add(song);
+                        if (!checkedAllSongs.contains(song)) checkedAllSongs.add(song);
                         if (!checkedDisplSongs.contains(song)) checkedDisplSongs.add(song);
                       }
                     else
                       for(Song song in displayedSongs) {
-                        checkedAllSongs!.remove(song);
+                        checkedAllSongs.remove(song);
                         checkedDisplSongs.remove(song);
                       }
-                    if(onChanged != null) this.onChanged!(checkedAllSongs);
+                    onChanged?.call(checkedAllSongs);
                   },
                 )),
           ),
-          onPressed: null,
         ),
       )
     );

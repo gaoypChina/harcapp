@@ -34,7 +34,7 @@ import 'album_picker.dart';
 import 'song_part_editor.dart';
 
 enum EditType{
-  NEW,
+  newOwn,
   editOwn,
   editOfficial,
 }
@@ -52,7 +52,7 @@ class OwnSongPage extends StatefulWidget {
     EditType editType;
 
     if(song == null)
-      editType = EditType.NEW;
+      editType = EditType.newOwn;
     else if(song.isOwn)
       editType = EditType.editOwn;
     else
@@ -96,9 +96,9 @@ class OwnSongPageState extends State<OwnSongPage> {
     albums = [];
 
     if(song != null)
-      for(Album album in Album.allOwn!) {
+      for(Album album in Album.allOwn) {
         if (album != Album.omega &&
-            album.songs.map((song) => song!.fileName).contains(song!.fileName))
+            album.songs.map((song) => song.fileName).contains(song!.fileName))
           albums!.add(album);
       }
 
@@ -112,11 +112,12 @@ class OwnSongPageState extends State<OwnSongPage> {
 
     return Theme(
         data: Theme.of(context).copyWith(
-          accentColor: Album.current.avgColor,
+          // This is the accent color
+          colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Album.current.avgColor),
           textSelectionTheme: TextSelectionThemeData(
             cursorColor: Album.current.avgColor,
             selectionHandleColor: Album.current.avgColor,
-          ),
+          ), 
         ),
         child: MultiProvider(
           providers: [
@@ -125,7 +126,7 @@ class OwnSongPageState extends State<OwnSongPage> {
               if(editType == EditType.editOwn)
                 currItemProv = CurrentItemProvider(song: song!);
 
-              if(editType == EditType.NEW) {
+              if(editType == EditType.newOwn) {
 
                 String? initAddPersName;
                 String? initAddPersEmail;
@@ -221,10 +222,10 @@ class OwnSongPageState extends State<OwnSongPage> {
 
                         const SizedBox(height: sep),
 
-                        if(Album.allOwn!.isNotEmpty)
+                        if(Album.allOwn.isNotEmpty)
                           AlbumPart(this),
 
-                        if(Album.allOwn!.isNotEmpty)
+                        if(Album.allOwn.isNotEmpty)
                           const SizedBox(height: sep),
 
                         RefrenTemplate(

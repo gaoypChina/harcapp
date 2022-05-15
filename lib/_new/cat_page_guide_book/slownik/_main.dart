@@ -10,7 +10,6 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -167,7 +166,7 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () => chooseLangs(),
           icon: const Icon(MdiIcons.translate),
-          label: Text('${langAbbr[lang1!]} - ${langAbbr[lang2!]}', style: AppTextStyle(fontWeight: weight.halfBold))
+          label: Text('${langAbbr[lang1]} - ${langAbbr[lang2]}', style: AppTextStyle(fontWeight: weight.halfBold))
       )
     );
 

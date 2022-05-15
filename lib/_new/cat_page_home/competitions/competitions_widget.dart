@@ -37,9 +37,9 @@ class CompetitionsWidgetState extends State<CompetitionsWidget>{
   Widget Function(List<IndivComp>) get competitionWidgetBuilder => widget.competitionWidgetBuilder;
 
   late LoginProvider loginProvider;
-  LoginProviderListener? loginListener;
+  late LoginProviderListener loginListener;
 
-  IndivCompLoaderListener? _listener;
+  late IndivCompLoaderListener _listener;
 
   StreamSubscription<ConnectivityResult>? networkListener;
   late bool networkAvailable;

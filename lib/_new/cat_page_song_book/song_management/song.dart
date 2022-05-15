@@ -5,13 +5,12 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/sync_resp_body/memory_resp.dart';
-import 'package:harcapp/_new/api/sync_resp_body/song_resp.dart';
+import 'package:harcapp/_new/api/sync_resp_body/song_get_resp.dart';
 import 'package:harcapp/sync/syncable_new.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
 import 'package:harcapp_core/comm_widgets/chord_shifter.dart';
 import 'package:harcapp_core_song/song_core.dart';
-import 'package:harcapp_core_song_widget/add_pers_resolver.dart';
 import 'package:harcapp_core_song_widget/song_rate.dart';
 
 import '../common.dart';
@@ -37,7 +36,7 @@ class SongDataEntity{
   final bool hasChords;
   final String text;
   final String baseChords;
-  final PrimitiveWrapper<int?> ratePrimWrap;
+  final PrimitiveWrapper<int> ratePrimWrap;
   final List<Memory> memoryList;
   final Map<String, Memory> memoryMap;
 
@@ -63,38 +62,39 @@ class SongDataEntity{
   );
 }
 
-abstract class Song<T extends SongResp?> extends SyncableParamGroup_ with SyncNode<T>, RemoveSyncItem, SongCore{
-
-  static List<Song>? recomended;
-
-  static bool get songsLoaded => OffSong.allOfficial != null;
+abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with SyncNode<T>, RemoveSyncItem, SongCore{
+  
+  // Whether the all, allMap, etc. are initialized.
+  static bool initialized = false;
+  
+  static List<Song> recomended = [];
 
   static List<Song> get all{
     List<Song> songs = [];
-    songs.addAll(OwnSong.allOwn!);
-    songs.addAll(OffSong.allOfficial!);
+    songs.addAll(OwnSong.allOwn);
+    songs.addAll(OffSong.allOfficial);
     return songs;
   }
   static SplayTreeMap<String, Song> get allMap{
     SplayTreeMap<String, Song> map = SplayTreeMap<String, Song>();
-    map.addAll(OwnSong.allOwnMap!);
-    map.addAll(OffSong.allOfficialMap!);
+    map.addAll(OwnSong.allOwnMap);
+    map.addAll(OffSong.allOfficialMap);
     return map;
   }
 
-  static const String PARAM_LCL_ID = 'lcl_id';
-  static const String PARAM_RATE = 'rate';
-  static const String PARAM_CHORD_SHIFT = 'chord_shift';
-  static const String PARAM_MEMORIES = 'memories';
+  static const String paramLclId = 'lcl_id';
+  static const String paramRate = 'rate';
+  static const String paramChordShift = 'chord_shift';
+  static const String paramMemories = 'memories';
 
-  static const String TAB_CHAR = '   ';
+  static const String tabChar = '   ';
 
-  static const String DEF_TITLE = '_#NO_TITLE';
-  static const List<String> DEF_AUTHORS = [];
-  static const List<String> DEF_COMPOSERS = [];
-  static const List<String> DEF_PERFORMERS = [];
-  static const String DEF_YOUTUBE_LINK = '';
-  static const List<String> DEF_ADD_PERS = [];
+  static const String defTitle = '_#NO_TITLE';
+  static const List<String> defAuthors = [];
+  static const List<String> defComposers = [];
+  static const List<String> defPerformers = [];
+  static const String? defYoutubeLink = null;
+  static const List<String> defAddPers = [];
 
 
   @override
@@ -154,11 +154,11 @@ abstract class Song<T extends SongResp?> extends SyncableParamGroup_ with SyncNo
   @override
   List<AddPerson> get addPers => _addPers;
 
-  String _youtubeLink;
+  String? _youtubeLink;
   @protected
-  set youtubeLink(String value) => _youtubeLink = value;
+  set youtubeLink(String? value) => _youtubeLink = value;
   @override
-  String get youtubeLink => _youtubeLink;
+  String? get youtubeLink => _youtubeLink;
 
   @override
   bool get isOwn => !isOfficial && !isConfid;
@@ -188,13 +188,13 @@ abstract class Song<T extends SongResp?> extends SyncableParamGroup_ with SyncNo
   String baseChords;
 
   @protected
-  PrimitiveWrapper<int?> ratePrimWrap;
+  PrimitiveWrapper<int> ratePrimWrap;
 
   @protected
   List<Memory> memoryList;
 
   @protected
-  Map<String?, Memory> memoryMap;
+  Map<String, Memory> memoryMap;
 
   List<Memory> get memories => memoryList;
 
@@ -244,16 +244,16 @@ abstract class Song<T extends SongResp?> extends SyncableParamGroup_ with SyncNo
     Map<String, Memory> memoryMap = {};
     bool hasChords = false;
 
-    String title = map[SongCore.PARAM_TITLE]??DEF_TITLE;
+    String title = map[SongCore.PARAM_TITLE]??defTitle;
     List<String> addTitles = ((map[SongCore.PARAM_HID_TITLES]??[]) as List).cast<String>();
-    List<String> authors = ((map[SongCore.PARAM_TEXT_AUTHORS]??DEF_AUTHORS) as List).cast<String>();
-    List<String> performers = ((map[SongCore.PARAM_PERFORMERS]??DEF_PERFORMERS) as List).cast<String>();
-    List<String> composers = ((map[SongCore.PARAM_COMPOSERS]??DEF_COMPOSERS) as List).cast<String>();
+    List<String> authors = ((map[SongCore.PARAM_TEXT_AUTHORS]??defAuthors) as List).cast<String>();
+    List<String> performers = ((map[SongCore.PARAM_PERFORMERS]??defPerformers) as List).cast<String>();
+    List<String> composers = ((map[SongCore.PARAM_COMPOSERS]??defComposers) as List).cast<String>();
     DateTime? releaseDate = DateTime.tryParse(map[SongCore.PARAM_REL_DATE]??'');
     bool showRelDateMonth = map[SongCore.PARAM_SHOW_REL_DATE_MONTH]??true;
     bool showRelDateDay = map[SongCore.PARAM_SHOW_REL_DATE_DAY]??true;
-    String ytLink = map[SongCore.PARAM_YT_LINK]??DEF_YOUTUBE_LINK;
-    List<AddPerson> addPers = ((map[SongCore.PARAM_ADD_PERS]??[]) as List).map((_map) => AddPerson.fromMap(_map)).toList();
+    String ytLink = map[SongCore.PARAM_YT_LINK]??defYoutubeLink;
+    List<AddPerson> addPers = ((map[SongCore.PARAM_ADD_PERS]??[]) as List).map((addPersMap) => AddPerson.fromMap(addPersMap)).toList();
     List<String> tags = ((map[SongCore.PARAM_TAGS]??[]) as List).cast<String>();
     late SongElementOld refren;
     if (map.containsKey(SongCore.PARAM_REFREN)) {
@@ -267,7 +267,7 @@ abstract class Song<T extends SongResp?> extends SyncableParamGroup_ with SyncNo
     String songText = '';
 
     List<dynamic> partsList = map[SongCore.PARAM_PARTS]??[];
-    for (Map partMap in partsList as Iterable<Map<dynamic, dynamic>>) {
+    for (Map partMap in partsList) {
       if (partMap.containsKey('refren'))
         for (int i = 0; i < partMap['refren']; i++) {
           songText += refren.getText(withTabs: true)!;
@@ -290,7 +290,7 @@ abstract class Song<T extends SongResp?> extends SyncableParamGroup_ with SyncNo
 
         String? text = partMap['text'];
         if(partMap['shift'])
-          text = TAB_CHAR + text!.replaceAll('\n', '\n$TAB_CHAR');
+          text = tabChar + text!.replaceAll('\n', '\n$tabChar');
 
         songText += text!;
         songChords += partMap['chords'];
@@ -312,7 +312,7 @@ abstract class Song<T extends SongResp?> extends SyncableParamGroup_ with SyncNo
 
     //remove last '\n'
     if(songText.isNotEmpty)
-      songText = songText.substring(0, songText.length - 2).replaceAll('\t', TAB_CHAR);
+      songText = songText.substring(0, songText.length - 2).replaceAll('\t', tabChar);
 
     if(songChords.isNotEmpty)
       songChords = songChords.substring(0, songChords.length - 2);
@@ -338,7 +338,7 @@ abstract class Song<T extends SongResp?> extends SyncableParamGroup_ with SyncNo
       hasChords,
       songText,
       songChords,
-      PrimitiveWrapper(null),//rate,
+      PrimitiveWrapper(SongRate.RATE_NULL), //rate,
       memoryList,
       memoryMap
     );
@@ -354,34 +354,34 @@ abstract class Song<T extends SongResp?> extends SyncableParamGroup_ with SyncNo
   }
 
   @override
-  String get chords => ChordShifter.run(baseChords, readChordShift(fileName)!);
+  String get chords => ChordShifter.run(baseChords, readChordShift(fileName));
 
   void shiftChordsUp() =>
-    setChordShift(ChordShifter.shiftToneUp(readChordShift(fileName)!));
+    setChordShift(ChordShifter.shiftToneUp(readChordShift(fileName)));
 
   void shiftChordsDown() =>
-    setChordShift(ChordShifter.shiftToneDown(readChordShift(fileName)!));
+    setChordShift(ChordShifter.shiftToneDown(readChordShift(fileName)));
 
   void initRate() => ratePrimWrap.set(readRate(fileName));
 
-  bool get hasRate => shaPref!.exists(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName));
-  static int? readRate(String fileName) => shaPref!.getInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName), SongRate.RATE_NULL);
+  bool get hasRate => ShaPref.exists(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName));
+  static int readRate(String fileName) => ShaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName), SongRate.RATE_NULL);
 
   @override
-  int get rate => ratePrimWrap.get()!;
+  int get rate => ratePrimWrap.get();
 
   void setRate(int rate, {bool localOnly = false}) async {
     ratePrimWrap.set(rate);
-    shaPref!.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName), rate);
-    setSingleState(PARAM_RATE, SyncableParamSingle_.STATE_NOT_SYNCED);
+    ShaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName), rate);
+    setSingleState(paramRate, SyncableParamSingle_.stateNotSynced);
     if(!localOnly) synchronizer.post();
   }
 
-  bool get hasChordShift => shaPref!.exists(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName));
-  static int? readChordShift(String fileName) => shaPref!.getInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName), 0);
+  bool get hasChordShift => ShaPref.exists(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName));
+  static int readChordShift(String fileName) => ShaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName), 0);
   void setChordShift(int chordShift, {bool localOnly = false}) {
-    shaPref!.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName), chordShift);
-    setSingleState(PARAM_CHORD_SHIFT, SyncableParamSingle_.STATE_NOT_SYNCED);
+    ShaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName), chordShift);
+    setSingleState(paramChordShift, SyncableParamSingle_.stateNotSynced);
     if(!localOnly) synchronizer.post(aggregateDelay: SynchronizerEngine.aggregateChordChangeDuration);
   }
 
@@ -442,40 +442,24 @@ abstract class Song<T extends SongResp?> extends SyncableParamGroup_ with SyncNo
 
     SyncableParamSingle(
         this,
-        paramId: PARAM_RATE,
+        paramId: paramRate,
         value_: () => rate,
         isNotSet_: () => !hasRate
     ),
     SyncableParamSingle(
         this,
-        paramId: PARAM_CHORD_SHIFT,
+        paramId: paramChordShift,
         value_: () => readChordShift(fileName),
         isNotSet_: () => !hasChordShift
     ),
     SyncableParamGroup(
         this,
-        paramId: PARAM_MEMORIES,
+        paramId: paramMemories,
         childParams: memories
     )
 
   ];
 
-  /*
-  @override
-  void saveSyncResult(dynamic resData, DateTime lastSync) {
-    if(resData.containsKey(PARAM_RATE))
-      setSingleState(PARAM_RATE, SyncableParamSingle_.STATE_SYNCED);
-
-    if(resData.containsKey(PARAM_CHORD_SHIFT))
-      setSingleState(PARAM_CHORD_SHIFT, SyncableParamSingle_.STATE_SYNCED);
-
-    if(resData.containsKey(PARAM_MEMORIES))
-      for(String lclId in resData[PARAM_MEMORIES].keys){
-        Memory memory = memoryMap[lclId];
-        memory.saveSyncResult(resData[PARAM_MEMORIES][lclId], lastSync);
-      }
-  }
-*/
   @override
   void applySyncGetResp(T resp) {
     if(resp.rate != null)
@@ -486,7 +470,7 @@ abstract class Song<T extends SongResp?> extends SyncableParamGroup_ with SyncNo
 
     if(resp.memories != null)
       for (String memLclId in resp.memories!.keys) {
-        MemoryResp? memResp = resp.memories![memLclId];
+        MemoryGetResp? memResp = resp.memories![memLclId];
         Memory? mem = memoryMap[memLclId];
         if(mem == null) {
           mem = Memory.create(

@@ -127,7 +127,7 @@ class PictureWidget extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Image(
-                image: NetworkImage(picture.link!),
+                image: NetworkImage(picture.link),
                 fit: BoxFit.cover,
               ),
               if(picture.desc != null && picture.desc!.isNotEmpty)
@@ -160,7 +160,7 @@ class YoutubeWidget extends StatelessWidget{
   Widget build(BuildContext context) {
 
     YoutubePlayerController _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(item.link!)!,
+      initialVideoId: YoutubePlayer.convertUrlToId(item.link)!,
       flags: const YoutubePlayerFlags(
         autoPlay: false,
         mute: false,
@@ -194,94 +194,78 @@ class ArticleWidgetSmall extends StatelessWidget{
   const ArticleWidgetSmall(this.article, this.controller, {Key? key}): super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => AppCard(
+    onTap: () {
+      int index = Article.all!.indexOf(article);
+      controller.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOutSine);
+    },
+    radius: 20,
+    elevation: AppCard.bigElevation,
+    padding: EdgeInsets.zero,
+    color: Colors.white,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        AspectRatio(
+            aspectRatio: 1,
+            child: FutureBuilder<ImageProvider?>(
+              future: article.loadCover(), // async work
+              builder: (BuildContext context, AsyncSnapshot<ImageProvider?> snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting: return const Text('Loading....');
+                  default:
+                    if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+                    else return Image(image: snapshot.data!, fit: BoxFit.cover);
+                }
+              },
+            )
+        ),
 
-    return AppCard(
-      onTap: () {
-        int index = Article.all!.indexOf(article);
-        controller.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOutSine);
-
-        //Navigator.pop(context);
-/*
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ArticleViewer(parent.parent, article, index)),
-        );
-*/
-      },
-      radius: 20,
-      elevation: AppCard.bigElevation,
-      padding: EdgeInsets.zero,
-      color: Colors.white,
-      child:
-      article == null?
-      Container:
-      (Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          AspectRatio(
-              aspectRatio: 1,
-              child: FutureBuilder<ImageProvider?>(
-                future: article?.loadCover(), // async work
-                builder: (BuildContext context, AsyncSnapshot<ImageProvider?> snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting: return const Text('Loading....');
-                    default:
-                      if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-                      else return Image(image: snapshot.data!, fit: BoxFit.cover);
-                  }
-                },
+        Expanded(
+          child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Center(
+                child: AutoSizeText(
+                    article.title??'',
+                    textAlign: TextAlign.center,
+                    maxLines: 4,
+                    style: HeaderTextStyle(
+                        fontSize: 20.0,
+                        fontWeight: weight.bold
+                    )
+                ),
               )
           ),
+        ),
 
-          Expanded(
-            child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Center(
-                  child: AutoSizeText(
-                      article?.title??'',
-                      textAlign: TextAlign.center,
-                      maxLines: 4,
-                      style: HeaderTextStyle(
-                          fontSize: 20.0,
-                          fontWeight: weight.bold
-                      )
-                  ),
-                )
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 3.0),
-            child: AutoSizeText(
-                article?.dateString??'',
-                textAlign: TextAlign.end,
-                maxLines: 1,
-                style: AppTextStyle(
+        Padding(
+          padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 3.0),
+          child: AutoSizeText(
+              article.dateString,
+              textAlign: TextAlign.end,
+              maxLines: 1,
+              style: AppTextStyle(
                   fontSize: Dimen.TEXT_SIZE_SMALL
-                )
-            ),
+              )
           ),
+        ),
 
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
-            child: AutoSizeText(
-                'Autor tekstu',
-                textAlign: TextAlign.end,
-                maxLines: 1,
-                style: AppTextStyle(
-                    fontSize: Dimen.TEXT_SIZE_SMALL,
-                    fontWeight: weight.halfBold
-                )
-            ),
+        Padding(
+          padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+          child: AutoSizeText(
+              'Autor tekstu',
+              textAlign: TextAlign.end,
+              maxLines: 1,
+              style: AppTextStyle(
+                  fontSize: Dimen.TEXT_SIZE_SMALL,
+                  fontWeight: weight.halfBold
+              )
           ),
+        ),
 
-        ],
-      )
-      ),
-    );
-
-  }
+      ],
+    ),
+  );
 }
 
 /*

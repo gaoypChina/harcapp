@@ -37,8 +37,8 @@ class AlbumWidgetSmall extends StatelessWidget{
 
     bool selected = this.selected??Album.current == album;
 
-    CommonColorData albColor = CommonColorData.ALL[album.colorsKey!]!;
-    IconData? iconData = CommonIconData.ALL[album.iconKey!];
+    CommonColorData albColor = CommonColorData.ALL[album.colorsKey]!;
+    IconData? iconData = CommonIconData.ALL[album.iconKey];
 
     Widget widget = Container(
       decoration: BoxDecoration(
@@ -50,7 +50,7 @@ class AlbumWidgetSmall extends StatelessWidget{
         children: [
 
           Hero(
-            tag: AlbumWidget.HERO_TAG_GRADIENT(album),
+            tag: AlbumWidget.heroTagGradient(album),
             child: GradientWidget(
                 elevation: AppCard.bigElevation,
                 radius: AppCard.BIG_RADIUS,
@@ -71,7 +71,7 @@ class AlbumWidgetSmall extends StatelessWidget{
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Hero(
-                    tag: AlbumWidget.HERO_TAG_TITLE(album),
+                    tag: AlbumWidget.heroTagTitle(album),
                     child: Text(
                         album.title!,
                         style: AppTextStyle(
@@ -94,7 +94,7 @@ class AlbumWidgetSmall extends StatelessWidget{
                         const Icon(MdiIcons.music, size: Dimen.TEXT_SIZE_NORMAL),
                         const SizedBox(width: Dimen.DEF_MARG),
                         Hero(
-                          tag: AlbumWidget.HERO_TAG_SONG_CNT(album),
+                          tag: AlbumWidget.heroTagSongCnt(album),
                           child: Material(
                             color: Colors.transparent,
                             child: Text(

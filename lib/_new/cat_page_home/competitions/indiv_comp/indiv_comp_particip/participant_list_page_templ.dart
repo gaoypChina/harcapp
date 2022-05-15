@@ -15,12 +15,12 @@ class ParticipantListPageTempl extends StatelessWidget{
 
   final IndivComp comp;
 
-  List<IndivCompParticip?> get particips => comp.particips;
+  List<IndivCompParticip> get particips => comp.particips;
 
   final bool sortByPoints;
   final SliverAppBar? customAppBar;
 
-  final Widget Function(List<IndivCompParticip?> particips)? adminsListHeaderTrailing;
+  final Widget Function(List<IndivCompParticip> particips)? adminsListHeaderTrailing;
   final Widget Function(List<IndivCompParticip> particips)? modsListHeaderTrailing;
   final Widget Function(List<IndivCompParticip> particips)? obsListHeaderTrailing;
 
@@ -53,12 +53,12 @@ class ParticipantListPageTempl extends StatelessWidget{
       body: Consumer<IndivCompParticipsProvider>(
           builder: (context, prov, child){
 
-            List<IndivCompParticip?> participAdmins = [];
-            List<IndivCompParticip?> participMods = [];
-            List<IndivCompParticip?> participObs = [];
+            List<IndivCompParticip> participAdmins = [];
+            List<IndivCompParticip> participMods = [];
+            List<IndivCompParticip> participObs = [];
 
-            for(IndivCompParticip? particip in particips) {
-              if (particip!.profile.role == CompRole.ADMIN)
+            for(IndivCompParticip particip in particips) {
+              if (particip.profile.role == CompRole.ADMIN)
                 participAdmins.add(particip);
 
               else if (particip.profile.role == CompRole.MODERATOR)
@@ -69,13 +69,13 @@ class ParticipantListPageTempl extends StatelessWidget{
             }
 
             if(sortByPoints) {
-              participObs.sort((p1, p2) => p2!.profile.points! - p1!.profile.points!);
-              participMods.sort((p1, p2) => p2!.profile.points! - p1!.profile.points!);
-              participAdmins.sort((p1, p2) => p2!.profile.points! - p1!.profile.points!);
+              participObs.sort((p1, p2) => p2.profile.points! - p1.profile.points!);
+              participMods.sort((p1, p2) => p2.profile.points! - p1.profile.points!);
+              participAdmins.sort((p1, p2) => p2.profile.points! - p1.profile.points!);
             } else {
-              participObs.sort((p1, p2) => p1!.name.compareTo(p2!.name));
-              participMods.sort((p1, p2) => p1!.name.compareTo(p2!.name));
-              participAdmins.sort((p1, p2) => p1!.name.compareTo(p2!.name));
+              participObs.sort((p1, p2) => p1.name.compareTo(p2.name));
+              participMods.sort((p1, p2) => p1.name.compareTo(p2.name));
+              participAdmins.sort((p1, p2) => p1.name.compareTo(p2.name));
             }
 
 
@@ -230,8 +230,8 @@ class _ParticipListHeader extends StatelessWidget{
 
 class _ParticipColumnWidget extends StatelessWidget{
 
-  final List<IndivCompParticip?> particips;
-  final Widget Function(BuildContext, IndivCompParticip?) itemBuilder;
+  final List<IndivCompParticip> particips;
+  final Widget Function(BuildContext, IndivCompParticip) itemBuilder;
 
   const _ParticipColumnWidget({
     required this.particips,
@@ -243,7 +243,7 @@ class _ParticipColumnWidget extends StatelessWidget{
 
     List<Widget> children = [];
 
-    for(IndivCompParticip? particip in particips)
+    for(IndivCompParticip particip in particips)
       children.add(itemBuilder(context, particip));
 
     return Column(children: children, mainAxisSize: MainAxisSize.min);

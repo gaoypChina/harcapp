@@ -16,13 +16,12 @@ import 'package:provider/provider.dart';
 
 import '../../../../../_common_widgets/loading_widget.dart';
 import '../comp_role.dart';
-import '../indiv_comp_loader.dart';
 
 class LeaveCompButton extends StatelessWidget{
 
-  final IndivComp? comp;
+  final IndivComp comp;
 
-  const LeaveCompButton(this.comp);
+  const LeaveCompButton(this.comp, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) => ListTile(
@@ -34,9 +33,9 @@ class LeaveCompButton extends StatelessWidget{
     onTap: () {
 
       int allAdminCount = 0;
-      for(IndivCompParticip? particip in comp!.particips) if(particip!.profile.role == CompRole.ADMIN) allAdminCount++;
+      for(IndivCompParticip? particip in comp.particips) if(particip!.profile.role == CompRole.ADMIN) allAdminCount++;
 
-      if(allAdminCount == 1 && comp!.profile.role == CompRole.ADMIN){
+      if(allAdminCount == 1 && comp.profile.role == CompRole.ADMIN){
         showAlertDialog(
             context,
             title: 'Hola, hola...',
@@ -64,10 +63,10 @@ class LeaveCompButton extends StatelessWidget{
 
                     Navigator.pop(context);
 
-                    showLoadingWidget(context, comp!.colors!.avgColor, 'Opuszczanie lokalu...');
+                    showLoadingWidget(context, comp.colors.avgColor, 'Opuszczanie lokalu...');
 
                     await ApiIndivComp.leave(
-                        compKey: comp!.key,
+                        compKey: comp.key,
                         onSuccess: () async {
                           IndivComp.removeFromAll(context, comp);
                           Navigator.pop(context);

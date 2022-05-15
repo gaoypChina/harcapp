@@ -10,11 +10,9 @@ class FadeImageProvider extends ChangeNotifier{
 
   ImageProvider? _newNext, _newPrev;
 
-  int? _currIdx;
+  int _currIdx;
 
-  FadeImageProvider(){
-    _currIdx = 0;
-  }
+  FadeImageProvider(): _currIdx = 0;
 
   ImageProvider? get prevImage => _prevImage??_prevImageOld;
   set prevImage(ImageProvider? value){
@@ -38,7 +36,7 @@ class FadeImageProvider extends ChangeNotifier{
 
     //print('newImage $idx start');
     //debug();
-    if((reload || _prevImage == null) && idx==currIdx!-CatPageStrefaDucha.pageViewExtent) {
+    if((reload || _prevImage == null) && idx==currIdx-CatPageStrefaDucha.pageViewExtent) {
       //print('prev !!!');
       _prevImage = image;
       _prevImageOld = image;
@@ -48,22 +46,22 @@ class FadeImageProvider extends ChangeNotifier{
       _currImage = image;
       _currImageOld = image;
       if(notify) notifyListeners();
-    }else if((reload || _nextImage == null) && idx==currIdx!+CatPageStrefaDucha.pageViewExtent){
+    }else if((reload || _nextImage == null) && idx==currIdx+CatPageStrefaDucha.pageViewExtent){
       //print('next !!!');
       _nextImage = image;
       _nextImageOld = image;
       if(notify) notifyListeners();
-    }else if(idx > _currIdx!){
+    }else if(idx > _currIdx){
       _newNext = image;
-    }else if(idx < _currIdx!){
+    }else if(idx < _currIdx){
       _newPrev = image;
     }
     //debug();
     //print('newImage end\n\n');
   }
 
-  int? get currIdx => _currIdx;
-  set currIdx(int? idx){
+  int get currIdx => _currIdx;
+  set currIdx(int idx){
     _currIdx = idx;
     notifyListeners();
   }

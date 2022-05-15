@@ -31,7 +31,7 @@ class SwapCardLayout extends StatefulWidget {
   /// it is the value of alignment, 0.0 means middle, so it need bigger than zero.
   /// , and size control params;
   SwapCardLayout(
-      {required CardBuilder cardBuilder,
+      { required CardBuilder cardBuilder,
         required int totalNum,
         AmassOrientation orientation = AmassOrientation.BOTTOM,
         int stackNum = 3,
@@ -46,10 +46,6 @@ class SwapCardLayout extends StatefulWidget {
         this.swipeCompleteCallback,
         this.swipeUpdateCallback,
         Key? key}):super(key: key)
-//        this._maxWidth = maxWidth,
-//        this._minWidth = minWidth,
-//        this._maxHeight = maxHeight,
-//        this._minHeight = minHeight
   {
 
     this._cardBuilder = cardBuilder;
@@ -94,9 +90,8 @@ class SwapCardLayout extends StatefulWidget {
   }
 }
 
-class _SwapCardLayoutState extends State<SwapCardLayout>
-    with SingleTickerProviderStateMixin {
-  Alignment? frontCardAlign;
+class _SwapCardLayoutState extends State<SwapCardLayout> with SingleTickerProviderStateMixin {
+  late Alignment frontCardAlign;
   late AnimationController _animationController;
   late int _currentFront;
   static int? _trigger; // 0: no trigger; -1: trigger left; 1: trigger right
@@ -104,9 +99,9 @@ class _SwapCardLayoutState extends State<SwapCardLayout>
   double? get _swipeEdge => widget.cardController==null || widget.cardController!.swipable?widget._swipeEdge:double.infinity;
 
   Widget _buildCard(BuildContext context, int realIndex) {
-    if (realIndex < 0) {
+    if (realIndex < 0)
       return Container();
-    }
+
     int index = realIndex - _currentFront;
 
     if (index == widget._stackNum - 1) {
@@ -118,14 +113,14 @@ class _SwapCardLayoutState extends State<SwapCardLayout>
             _cardAligns[widget._stackNum - 1],
             _swipeEdge)
             .value
-            : frontCardAlign!,
+            : frontCardAlign,
         child: Transform.rotate(
             angle: (pi / 180.0) *
                 (_animationController.status == AnimationStatus.forward
                     ? CardAnimation.frontCardRota(
-                    _animationController, frontCardAlign!.x)
+                    _animationController, frontCardAlign.x)
                     .value
-                    : frontCardAlign!.x),
+                    : frontCardAlign.x),
             child: SizedBox.fromSize(
               size: _cardSizes[index],
               child: widget._cardBuilder(
@@ -136,14 +131,14 @@ class _SwapCardLayoutState extends State<SwapCardLayout>
 
     return Align(
       alignment: _animationController.status == AnimationStatus.forward &&
-          (frontCardAlign!.x > 3.0 || frontCardAlign!.x < -3.0)
+          (frontCardAlign.x > 3.0 || frontCardAlign.x < -3.0)
           ? CardAnimation.backCardAlign(_animationController,
           _cardAligns[index], _cardAligns[index + 1])
           .value
           : _cardAligns[index],
       child: SizedBox.fromSize(
         size: _animationController.status == AnimationStatus.forward &&
-            (frontCardAlign!.x > 3.0 || frontCardAlign!.x < -3.0)
+            (frontCardAlign.x > 3.0 || frontCardAlign.x < -3.0)
             ? CardAnimation.backCardSize(_animationController,
             _cardSizes[index], _cardSizes[index + 1])
             .value
@@ -165,21 +160,19 @@ class _SwapCardLayoutState extends State<SwapCardLayout>
           setState(() {
             if (widget._allowVerticalMovement == true) {
               frontCardAlign = Alignment(
-                  frontCardAlign!.x +
+                  frontCardAlign.x +
                       details.delta.dx * 20 / MediaQuery.of(context).size.width,
-                  frontCardAlign!.y +
+                  frontCardAlign.y +
                       details.delta.dy *
                           30 /
                           MediaQuery.of(context).size.height);
             } else {
               frontCardAlign = Alignment(
-                  frontCardAlign!.x +
+                  frontCardAlign.x +
                       details.delta.dx * 20 / MediaQuery.of(context).size.width,
                   0);
 
-              if (widget.swipeUpdateCallback != null) {
-                widget.swipeUpdateCallback!(details, frontCardAlign);
-              }
+              widget.swipeUpdateCallback?.call(details, frontCardAlign);
             }
 
             if (widget.swipeUpdateCallback != null) {
@@ -223,8 +216,8 @@ class _SwapCardLayoutState extends State<SwapCardLayout>
       int index = widget._totalNum - widget._stackNum - _currentFront;
 
       if (status == AnimationStatus.completed) {
-        if (frontCardAlign!.x < _swipeEdge! &&
-            frontCardAlign!.x > -_swipeEdge!) {
+        if (frontCardAlign.x < _swipeEdge! &&
+            frontCardAlign.x > -_swipeEdge!) {
           frontCardAlign = _cardAligns[widget._stackNum - 1];
 
           if (widget.swipeCompleteCallback != null) {
@@ -233,7 +226,7 @@ class _SwapCardLayoutState extends State<SwapCardLayout>
         } else {
           if (widget.swipeCompleteCallback != null) {
             widget.swipeCompleteCallback!(
-                frontCardAlign!.x < 0
+                frontCardAlign.x < 0
                     ? CardSwipeOrientation.LEFT
                     : CardSwipeOrientation.RIGHT,
                 index);
@@ -275,7 +268,7 @@ typedef CardSwipeCompleteCallback = void Function(
 
 /// [DragUpdateDetails] of swiping card.
 typedef CardDragUpdateCallback = void Function(
-    DragUpdateDetails details, Alignment? align);
+    DragUpdateDetails details, Alignment align);
 
 enum AmassOrientation { TOP, BOTTOM, LEFT, RIGHT }
 

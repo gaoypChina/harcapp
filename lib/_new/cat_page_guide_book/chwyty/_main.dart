@@ -67,6 +67,7 @@ class ChwytyFragmentState extends State<ChwytyFragment> with ModuleStatsMixin {
                       const Icon(MdiIcons.guitarPickOutline,),
                       const SizedBox(width: Dimen.DEF_MARG),
                       SizedBox(
+                        width: 52,
                         child: Consumer<FretboardProvider>(
                           builder: (context, prov, child) => AnimatedChildSlider(
                             index: prov.type==InstrumentType.GUITAR?0:(prov.type==InstrumentType.UKULELE?1:2),
@@ -77,7 +78,6 @@ class ChwytyFragmentState extends State<ChwytyFragment> with ModuleStatsMixin {
                             ],
                           ),
                         ),
-                        width: 52,
                       )
                     ],),
                     onTap: () => Provider.of<FretboardProvider>(context, listen: false).changeGuitType(),
@@ -145,31 +145,31 @@ class ChwytyFragmentState extends State<ChwytyFragment> with ModuleStatsMixin {
 
 class FretboardProvider extends ChangeNotifier{
 
-  InstrumentType? _type;
-  InstrumentType? get type => _type;
+  InstrumentType _type;
+  InstrumentType get type => _type;
 
   void changeGuitType(){
-    _type = nextInstrumentType(_type!);
+    _type = nextInstrumentType(_type);
     notifyListeners();
   }
 
-  List<GChord>? _guitChords;
-  List<GChord>? get guitChords => _guitChords;
+  List<GChord> _guitChords;
+  List<GChord> get guitChords => _guitChords;
 
-  late int chordDispIdx;
+  int chordDispIdx;
 
-  GChord get guitChord =>
-      guitChords!.isEmpty?
-      GChord.empty!:
-      _guitChords![chordDispIdx];
+  GChord? get guitChord =>
+      _guitChords.isEmpty?
+      GChord.empty:
+      _guitChords[chordDispIdx];
 
-  set guitChord(GChord value){
-    _guitChords = GChord.chordDrawableMap[value.name];
+  set guitChord(GChord? value){
+    _guitChords = value == null?[]:GChord.chordDrawableMap[value.name]!;
     notifyListeners();
   }
 
   void nextChordVariant(){
-    chordDispIdx = guitChords!.isEmpty?0:(chordDispIdx + 1)%guitChords!.length;
+    chordDispIdx = guitChords.isEmpty?0:(chordDispIdx + 1)%guitChords.length;
     notifyListeners();
   }
 
@@ -187,14 +187,12 @@ class FretboardProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  FretboardProvider(){
-    _type = InstrumentType.GUITAR;
+  FretboardProvider():
+    _type = InstrumentType.GUITAR,
+    _guitChords = [],
+    chordDispIdx = 0,
 
-    _guitChords = [];
-    chordDispIdx = 0;
-
-    _ukulChord = UChord.empty;
+    _ukulChord = UChord.empty,
     _mandChord = MChord.empty;
-  }
 
 }

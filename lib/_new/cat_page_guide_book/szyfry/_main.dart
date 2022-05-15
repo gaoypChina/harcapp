@@ -45,15 +45,13 @@ class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderState
 
   static const MORSE = "Morse'a";
 
-  Widget? appBarButton;
-
   late ValueNotifier notifier;
 
-  TabController? controller;
+  late TabController controller;
 
-  ChildMorseCommonValues? commonVals;
+  late ChildMorseCommonValues commonVals;
 
-  AppBarProvider? appBarProv;
+  late AppBarProvider appBarProv;
 
   @override
   void initState() {
@@ -115,134 +113,131 @@ class SzyfryFragmentState extends State<SzyfryFragment> with TickerProviderState
 
     notifier = ValueNotifier<double>(0);
 
-    controller!.animation!.addListener(() => notifier.value = controller!.index + controller!.offset);
-    controller!.addListener(() => appBarProv!.notify());
+    controller.animation!.addListener(() => notifier.value = controller.index + controller.offset);
+    controller.addListener(() => appBarProv.notify());
 
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context){
+        appBarProv = AppBarProvider();
+        return appBarProv;
+      }),
+    ],
+    builder: (context, child) => BottomNavScaffold(
+      appBar: AppBar(
+        backgroundColor: background_(context),
+        elevation: 0,
+        bottom: TabBar(
+          isScrollable: true,
+          physics: const BouncingScrollPhysics(),
+          controller: controller,
+          tabs: tabs.map((tab) => Tab(
+              text: tab.title![0].toUpperCase() + tab.title!.substring(1)
+          )).toList(),
+          indicator: AppTabBarIncdicator(context: context),
+        ),
+        actions: <Widget>[
 
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context){
-          appBarProv = AppBarProvider();
-          return appBarProv;
-        }),
-      ],
-      builder: (context, child) => BottomNavScaffold(
-        appBar: AppBar(
-          backgroundColor: background_(context),
-          elevation: 0,
-          bottom: TabBar(
-            isScrollable: true,
-            physics: const BouncingScrollPhysics(),
-            controller: controller,
-            tabs: tabs.map((tab) => Tab(
-                text: tab.title![0].toUpperCase() + tab.title!.substring(1)
-            )).toList(),
-            indicator: AppTabBarIncdicator(context: context),
+          AnimatedBuilder(
+            animation: notifier,
+            child: Consumer<AppBarProvider>(
+                builder: (context, prov, child) => IconButton(
+                  icon: Icon(MdiIcons.lighthouseOn, color: appBarTextEnab_(context)),
+                  onPressed: isMorse?() {
+
+                    hideKeyboard(context);
+
+                    if(commonVals.input.isEmpty) {
+                      showAppToast(context, text: 'Wpisz wiadomość');
+                      return;
+                    }
+                    openDialog(
+                        context: context,
+                        builder: (context) => Center(
+                          child: MorseFlash(commonVals),
+                        )
+                    );
+
+                  }:null,
+                )
+            ),
+            builder: (context, child) => Opacity(
+              opacity: _fadePoint(notifier.value, 1),
+              child: child,
+            ),
           ),
-          actions: <Widget>[
 
-            AnimatedBuilder(
-              animation: notifier,
-              child: Consumer<AppBarProvider>(
-                  builder: (context, prov, child) => IconButton(
-                    icon: Icon(MdiIcons.lighthouseOn, color: appBarTextEnab_(context)),
-                    onPressed: isMorse?() {
-
-                      hideKeyboard(context);
-
-                      if(commonVals!.input!.isEmpty) {
-                        showAppToast(context, text: 'Wpisz wiadomość');
-                        return;
-                      }
-                      openDialog(
-                          context: context,
-                          builder: (context) => Center(
-                            child: MorseFlash(commonVals),
-                          )
-                      );
-
-                    }:null,
-                  )
-              ),
-              builder: (context, child) => Opacity(
-                child: child,
-                opacity: _fadePoint(notifier.value, 1),
+          AnimatedBuilder(
+            animation: notifier,
+            builder: (context, child) => Opacity(
+              opacity: max(min(-notifier.value + 2, 1), 0),
+              child: IconButton(
+                icon: Icon(MdiIcons.progressQuestion, color: appBarTextEnab_(context)),
+                onPressed: isBottomSheet?() {
+                  showScrollBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        BottomSheetDef(
+                          title: 'Działanie szyfru',
+                          builder: (context) => tabs[controller.index].bottom,
+                        ),
+                  );
+                }:null,
               ),
             ),
 
-            AnimatedBuilder(
-              animation: notifier,
-              builder: (context, child) => Opacity(
-                child: IconButton(
-                  icon: Icon(MdiIcons.progressQuestion, color: appBarTextEnab_(context)),
-                  onPressed: isBottomSheet?() {
-                    showScrollBottomSheet(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          BottomSheetDef(
-                            title: 'Działanie szyfru',
-                            builder: (context) => tabs[controller!.index].bottom,
-                          ),
-                    );
-                  }:null,
-                ),
-                opacity: max(min(-notifier.value + 2, 1), 0),
-              ),
+          )
+        ],
+        title: Row(
+          children: <Widget>[
+            Text(
+              'Szyfr ',
+              style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, color: appBarTextEnab_(context)),
+            ),
 
+            AnimatedBuilder(
+              builder: (BuildContext context, Widget? child){
+                return Transform.translate(
+                  offset: Offset(0, -controller.animation!.value*AppBar().preferredSize.height),
+                  child: child,
+                );
+              },
+              animation: controller.animation!,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children:
+                tabs.sublist(1).map((_TabItem tab) =>
+                    Container(height: AppBar().preferredSize.height)).toList() +
+                    tabs.map((_TabItem tab) =>
+                        Container(
+                          height: AppBar().preferredSize.height,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            tab.title!,
+                            style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, color: appBarTextEnab_(context), fontWeight: weight.halfBold),
+                          ),
+                        )
+                    ).toList(),
+              ),
             )
           ],
-          title: Row(
-            children: <Widget>[
-              Text(
-                'Szyfr ',
-                style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, color: appBarTextEnab_(context)),
-              ),
-
-              AnimatedBuilder(
-                builder: (BuildContext context, Widget? child){
-                  return Transform.translate(
-                    offset: Offset(0, -controller!.animation!.value*AppBar().preferredSize.height),
-                    child: child,
-                  );
-                },
-                animation: controller!.animation!,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children:
-                  tabs.sublist(1).map((_TabItem tab) =>
-                      Container(height: AppBar().preferredSize.height)).toList() +
-                      tabs.map((_TabItem tab) =>
-                          Container(
-                            height: AppBar().preferredSize.height,
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              tab.title!,
-                              style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, color: appBarTextEnab_(context), fontWeight: weight.halfBold),
-                            ),
-                          )
-                      ).toList(),
-                ),
-              )
-            ],
-          ),
-        ),
-        body: TabBarView(
-          physics: const BouncingScrollPhysics(),
-          children: tabs.map((tab) => tab.child).toList() as List<Widget>,
-          controller: controller,
         ),
       ),
-    );
-  }
+      body: TabBarView(
+        physics: const BouncingScrollPhysics(),
+        controller: controller,
+        children: tabs.map((tab) => tab.child).toList().cast<Widget>(),
+      ),
+    ),
+  );
 
-  bool get isBottomSheet => tabs[controller!.index].bottom!=null;
-  bool get isMorse => tabs[controller!.index].title == MORSE;
+  bool get isBottomSheet => tabs[controller.index].bottom!=null;
+  bool get isMorse => tabs[controller.index].title == MORSE;
 
 }
 
@@ -254,8 +249,7 @@ class _TabItem extends TabItem{
 
   final String? title;
   final Widget? bottom;
-  final Widget? appBarButton;
 
-  const _TabItem({this.title, this.bottom, Widget? icon, Widget? child, this.appBarButton})
+  const _TabItem({this.title, this.bottom, Widget? icon, required Widget child})
       :super(icon: icon as Icon?, child: child);
 }

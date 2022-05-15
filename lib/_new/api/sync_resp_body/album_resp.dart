@@ -1,28 +1,27 @@
-import 'package:flutter/material.dart';
 import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
 
 import '../_api.dart';
 
-class AlbumResp extends SyncGetResp{
+class AlbumGetResp extends SyncGetResp{
 
-  static const String COLL_NAME = 'album';
+  static const String collName = 'album';
 
-  static const String PARAM_TITLE = 'title';
+  static const String paramTitle = 'title';
   final String title;
 
-  static const String PARAM_OFF_SONGS = 'off_song';
+  static const String paramOffSongs = 'off_song';
   final List<String> offSongs;
 
-  static const String PARAM_OWN_SONGS = 'own_song';
+  static const String paramOwnSongs = 'own_song';
   final List<String> ownSongs;
 
-  static const String PARAM_COLORS_KEY = 'colors_key';
+  static const String paramColorsKey = 'colors_key';
   final String colorsKey;
 
-  static const String PARAM_ICON_KEY = 'icon_key';
+  static const String paramIconKey = 'icon_key';
   final String iconKey;
 
-  const AlbumResp({
+  const AlbumGetResp({
     required this.title,
     required this.offSongs,
     required this.ownSongs,
@@ -30,11 +29,11 @@ class AlbumResp extends SyncGetResp{
     required this.iconKey
   });
 
-  static AlbumResp from(Map respData) => AlbumResp(
-    title: respData[AlbumResp.PARAM_TITLE]??(throw InvalidResponseError(AlbumResp.PARAM_TITLE)),
-    offSongs: (respData[AlbumResp.PARAM_OFF_SONGS] as List).cast<String>(),
-    ownSongs: (respData[AlbumResp.PARAM_OWN_SONGS] as List).cast<String>(),
-    colorsKey: respData[AlbumResp.PARAM_COLORS_KEY]??(throw InvalidResponseError(AlbumResp.PARAM_COLORS_KEY)),
-    iconKey: respData[AlbumResp.PARAM_ICON_KEY]??(throw InvalidResponseError(AlbumResp.PARAM_ICON_KEY)),
+  static AlbumGetResp from(Map respData) => AlbumGetResp(
+    title: respData[AlbumGetResp.paramTitle]??(throw InvalidResponseError(AlbumGetResp.paramTitle)),
+    offSongs: ((respData[AlbumGetResp.paramOffSongs]??[]) as List).cast<String>(),
+    ownSongs: ((respData[AlbumGetResp.paramOwnSongs]??[]) as List).cast<String>(),
+    colorsKey: respData[AlbumGetResp.paramColorsKey]??(throw InvalidResponseError(AlbumGetResp.paramColorsKey)),
+    iconKey: respData[AlbumGetResp.paramIconKey]??(throw InvalidResponseError(AlbumGetResp.paramIconKey)),
   );
 }

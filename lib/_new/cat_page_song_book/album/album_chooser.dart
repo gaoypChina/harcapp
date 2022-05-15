@@ -1,19 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/circular_check_box.dart';
-import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'album_widget_small.dart';
 import 'new_album/new_album_button.dart';
-import 'new_album/new_album_page.dart';
 
 class AlbumChooser extends StatefulWidget{
 
@@ -21,7 +16,7 @@ class AlbumChooser extends StatefulWidget{
   final Function(Album album)? onSelectionChanged;
   final Function(Album album)? onNewAlbumCreated;
 
-  const AlbumChooser(this.song, {this.onSelectionChanged, this.onNewAlbumCreated});
+  const AlbumChooser(this.song, {this.onSelectionChanged, this.onNewAlbumCreated, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => AlbumChooserState();
@@ -39,15 +34,16 @@ class AlbumChooserState extends State<AlbumChooser>{
 
     List<Widget> children = [];
 
-    for(int i=0; i<Album.allOwn!.length; i++){
+    for(int i=0; i<Album.allOwn.length; i++){
 
-      Album album = Album.allOwn![i];
+      Album album = Album.allOwn[i];
       children.add(
           AlbumWidgetSmall(
             album,
             //selected: false,
-            trailing: CircularCheckbox(
+            trailing: Checkbox(
                 value: album.songs.contains(song),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
                 materialTapTargetSize: MaterialTapTargetSize.padded,
                 activeColor: textEnab_(context),
                 checkColor: background_(context),
@@ -56,15 +52,15 @@ class AlbumChooserState extends State<AlbumChooser>{
                     if(value!) album.addSong(song);
                     else album.removeSong(song);
                   });
-                  album.save(syncParams: [Album.PARAM_OFF_SONGS, Album.PARAM_OWN_SONGS]);
+                  album.save(syncParams: [Album.paramOffSongs, Album.paramOwnSongs]);
                   if(onSelectionChanged!=null)
                     onSelectionChanged!(album);
                 }
             ),
           )
       );
-      if(i < Album.allOwn!.length - 1)
-        children.add(SizedBox(height: Dimen.ICON_MARG));
+      if(i < Album.allOwn.length - 1)
+        children.add(const SizedBox(height: Dimen.ICON_MARG));
 
     }
 
@@ -74,11 +70,11 @@ class AlbumChooserState extends State<AlbumChooser>{
 
         Column(children: children),
 
-        if(Album.allOwn!.isEmpty)
+        if(Album.allOwn.isEmpty)
           _NoAlbumsWidget(),
 
         Padding(
-          padding: EdgeInsets.only(top: 2*Dimen.ICON_MARG),
+          padding: const EdgeInsets.only(top: 2*Dimen.ICON_MARG),
           child: NewAlbumButton(onNewCreated: onNewAlbumCreated),
         )
 
@@ -95,13 +91,13 @@ class _NoAlbumsWidget extends StatelessWidget{
   Widget build(BuildContext context) {
 
     return Padding(
-        padding: EdgeInsets.all(Dimen.ICON_MARG),
+        padding: const EdgeInsets.all(Dimen.ICON_MARG),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            SizedBox(width: 2*AppCard.NORM_MARGIN_VAL),
+            const SizedBox(width: 2*AppCard.NORM_MARGIN_VAL),
             Icon(MdiIcons.bookmarkOffOutline, color: hintEnab_(context)),
-            SizedBox(width: Dimen.ICON_MARG),
+            const SizedBox(width: Dimen.ICON_MARG),
             Text('Brak $albumow_.', style: AppTextStyle(color: hintEnab_(context), fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
           ],
         )

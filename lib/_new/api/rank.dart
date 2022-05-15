@@ -136,7 +136,7 @@ class ApiRank{
   static Future<Response?> getShared({
     required String key,
     required DateTime lastUpdateTime,
-    void Function(Rank? rank)? onSuccess,
+    void Function(Rank rank)? onSuccess,
     void Function(Response? response)? onError,
   }) async => await API.sendRequest(
     withToken: true,
@@ -153,7 +153,8 @@ class ApiRank{
 
       Rank? preview = Rank.fromStateShared(uniqRankName, stateShared);
 
-      onSuccess?.call(preview);
+      if(preview == null) onError?.call(null);
+      else onSuccess?.call(preview);
 
     },
     onError: (err) async => onError?.call(err.response),

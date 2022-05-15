@@ -64,13 +64,13 @@ class SaveSongButtonState extends State<SaveSongButton>{
 
           String code = jsonEncode(songRaw.toMap(withFileName: false));
 
-          if(code.length > OwnSong.CODE_MAX_LENGTH){
+          if(code.length > OwnSong.codeMaxLength){
             setState(() => isSaving = false);
             showAppToast(context, text: 'Piosenka za długa.');
             return;
           }
 
-          Song song;
+          OwnSong song;
           try{
             song = OwnSong.saveOwnSong(code, lclId: songRaw.fileName);
           }catch(e){
@@ -80,7 +80,7 @@ class SaveSongButtonState extends State<SaveSongButton>{
           }
 
           if(widget.editType == EditType.editOwn){
-            Song remSong = OwnSong.allOwnMap![song.fileName]!;
+            OwnSong remSong = OwnSong.allOwnMap[song.fileName]!;
             OwnSong.removeOwn(remSong);
           }
 
@@ -88,7 +88,7 @@ class SaveSongButtonState extends State<SaveSongButton>{
           for (Album album in albums!)
             album.addSong(song);
 
-          song.setAllSyncState(SyncableParamSingle_.STATE_NOT_SYNCED);
+          song.setAllSyncState(SyncableParamSingle_.stateNotSynced);
           synchronizer.post();
 
           Navigator.pop(context);

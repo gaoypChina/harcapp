@@ -29,8 +29,6 @@ class MainPageState extends State<MainPage>{
     selectedIndex = 0;
     page = const CatPageHome();
 
-    //post(() => Provider.of<MainProvider>(context, listen: false).statusBarHeight = MediaQuery.of(context).padding.top);
-
     super.initState();
   }
 
@@ -54,9 +52,6 @@ class MainPageState extends State<MainPage>{
               return false;
             },
             child: Scaffold(
-
-              //floatingActionButton: AppFloatingButton(),
-
               body: Consumer<AppBottomNavigatorProvider>(
                   builder: (context, prov, child) {
                     switch(prov.selectedIndex){
@@ -108,6 +103,8 @@ class AppFloatingButton extends StatelessWidget{
 */
 
 class MainProvider extends ChangeNotifier{
+
+  static MainProvider of(BuildContext context) => Provider.of<MainProvider>(context, listen: false);
 
   late double statusBarHeight;
 

@@ -1,48 +1,98 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
-import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp/_common_classes/org/org_switcher.dart';
+import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp/account/account.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 
+import '../../../_common_widgets/bottom_nav_scaffold.dart';
+import '_main.dart';
 import 'common.dart';
-import 'provider.dart';
 import 'strings.dart';
 
-class ChildFSE extends StatelessWidget{
+class ChildFSE extends StatefulWidget{
 
-  final TabController? controller;
-  const ChildFSE(this.controller);
+  final Pion initPion;
+  final List<Org> allowedOrgs;
+  final void Function(Pion)? onTabChanged;
+
+  const ChildFSE({required this.initPion, required this.allowedOrgs, this.onTabChanged, Key? key}): super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<StatefulWidget> createState() => ChildFSEState();
 
-    post(() => setTabBar(context));
+}
 
-    return Stack(
-      children: [
+class ChildFSEState extends State<ChildFSE> with TickerProviderStateMixin{
 
-        Positioned(
-          bottom: 0,
-          right: 0,
-          child: Text(
-            'FSE',
-            style: AppTextStyle(
-                color: backgroundIcon_(context),
-                fontSize: backgroundTextSize(context),
-                fontWeight: weight.bold
+  static Map<int, Pion> indexToPion = {
+    0: Pion.zuch,
+    1: Pion.harcerz,
+    2: Pion.harcerz,
+  };
+
+  static Map<Pion, int> pionToIndex = {
+    Pion.zuch: 0,
+    Pion.harcerz: 1,
+  };
+
+  Pion get initPion => widget.initPion;
+  List<Org> get allowedOrgs => widget.allowedOrgs;
+  void Function(Pion)? get onTabChanged => widget.onTabChanged;
+
+  late TabController controller;
+
+  @override
+  void initState(){
+    controller = TabController(
+        vsync: this,
+        length: 3,
+        initialIndex: initPion==Pion.zuch?0:(AccountData.loggedIn && AccountData.sex==Sex.female?2:1)
+    );
+    controller.addListener(() => onTabChanged?.call(indexToPion[controller.index]??Pion.harcerz));
+    super.initState();
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    controller.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => BottomNavScaffold(
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
+          SliverAppBar(
+            title: const Text('Prawo i Przyrzeczenie'),
+            centerTitle: true,
+            bottom: TabBar(
+              physics: const BouncingScrollPhysics(),
+              controller: controller,
+              tabs: const [
+                Tab(text: 'WILCZKI'),
+                Tab(text: 'H-RZE'),
+                Tab(text: 'H-RKI'),
+              ],
+              indicator: AppTabBarIncdicator(color: orgColor[Org.fse]),
             ),
-          ),
-        ),
-
-        TabBarView(
+            actions: [
+              OrgSwitcher(
+                  allowedOrgs: allowedOrgs,
+                  onTap: (currentOrg){
+                    showAppToast(context, text: orgFullName[currentOrg]);
+                  }
+              )
+            ],
+          )
+        ],
+        body: TabBarView(
             physics: const BouncingScrollPhysics(),
             controller: controller,
             children: [
-
               ListView(
                 physics: const BouncingScrollPhysics(),
                 children: const <Widget>[
@@ -107,22 +157,8 @@ class ChildFSE extends StatelessWidget{
               )
 
             ]
-        )
-
-      ],
-    );
-
-  }
-
-  void setTabBar(BuildContext context) => Provider.of<TabBarProvider>(context, listen: false).tabBarBuilder = (context) => TabBar(
-    controller: controller,
-    physics: const BouncingScrollPhysics(),
-    tabs: const [
-      Tab(text: 'WILCZKI'),
-      Tab(text: 'H-RZE'),
-      Tab(text: 'H-RKI'),
-    ],
-    indicator: AppTabBarIncdicator(color: orgColor[Org.fse]),
+        ),
+      )
   );
 
 }

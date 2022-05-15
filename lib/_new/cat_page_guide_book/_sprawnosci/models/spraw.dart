@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
-import 'package:harcapp/_new/api/sync_resp_body/spraw_resp.dart';
+import 'package:harcapp/_new/api/sync_resp_body/spraw_get_resp.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/data/all_spraw_books.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/data/data_spraw_zhp_harc_old.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/data/data_spraw_zhp_wodne_old.dart';
@@ -51,7 +51,7 @@ class SprawData{
 
 }
 
-class Spraw extends RankSprawTemplate<SprawResp>{
+class Spraw extends RankSprawTemplate<SprawGetResp>{
 
   static const String sepChar = '\$';
 
@@ -127,12 +127,12 @@ class Spraw extends RankSprawTemplate<SprawResp>{
     Provider.of<SprawSavedListProv>(context, listen: false).notify();
   }
 
-  Map<String, bool?> get taskComplMap => shaPref!.getMap<String, bool?>(ShaPref.SHA_PREF_SPRAW_COMPLETED_REQ_MAP_(this), {});
-  static List<String> get inProgressList => shaPref!.getStringList(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_LIST, []);
-  static List<String> get completedList => shaPref!.getStringList(ShaPref.SHA_PREF_SPRAW_COMPLETED_LIST, []);
+  Map<String, bool?> get taskComplMap => ShaPref.getMap<String, bool?>(ShaPref.SHA_PREF_SPRAW_COMPLETED_REQ_MAP_(this), {});
+  static List<String> get inProgressList => ShaPref.getStringList(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_LIST, []);
+  static List<String> get completedList => ShaPref.getStringList(ShaPref.SHA_PREF_SPRAW_COMPLETED_LIST, []);
 
   @override
-  bool get inProgress => shaPref!.getBool(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_(this), false);
+  bool get inProgress => ShaPref.getBool(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_(this), false);
   @override
   @protected
   set inProgress(bool? value){
@@ -145,14 +145,14 @@ class Spraw extends RankSprawTemplate<SprawResp>{
     } else
       items.remove(uniqName);
 
-    shaPref!.setBool(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_(this), value);
-    shaPref!.setStringList(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_LIST, items);
+    ShaPref.setBool(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_(this), value);
+    ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_LIST, items);
   }
   @override
   void changeInProgress(BuildContext context, {bool? value, bool localOnly = false}){
     inProgress = value;
 
-    setSingleState(PARAM_IN_PROGRESS, SyncableParamSingle_.STATE_NOT_SYNCED);
+    setSingleState(PARAM_IN_PROGRESS, SyncableParamSingle_.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
     Provider.of<SprawInProgressListProv>(context, listen: false).notify();
@@ -160,19 +160,19 @@ class Spraw extends RankSprawTemplate<SprawResp>{
   }
 
   @override
-  DateTime? get completionDate => shaPref!.getDateTime(ShaPref.SHA_PREF_SPRAW_COMPLETED_DATE_(this), null);
+  DateTime? get completionDate => ShaPref.getDateTime(ShaPref.SHA_PREF_SPRAW_COMPLETED_DATE_(this), null);
   @override
   @protected
-  set completionDate(DateTime? value) => shaPref!.setDateTime(ShaPref.SHA_PREF_SPRAW_COMPLETED_DATE_(this), value);
+  set completionDate(DateTime? value) => ShaPref.setDateTime(ShaPref.SHA_PREF_SPRAW_COMPLETED_DATE_(this), value);
   @override
   void setCompletionDate(DateTime value, {localOnly = false}){
     completionDate = value;
-    setSingleState(PARAM_COMPLETION_DATE, SyncableParamSingle_.STATE_NOT_SYNCED);
+    setSingleState(PARAM_COMPLETION_DATE, SyncableParamSingle_.stateNotSynced);
     if(!localOnly) synchronizer.post();
   }
 
   @override
-  bool get completed => shaPref!.getBool(ShaPref.SHA_PREF_SPRAW_COMPLETED_(this), false);
+  bool get completed => ShaPref.getBool(ShaPref.SHA_PREF_SPRAW_COMPLETED_(this), false);
   @override
   @protected
   set completed(bool? value){
@@ -185,8 +185,8 @@ class Spraw extends RankSprawTemplate<SprawResp>{
     } else
       items.remove(uniqName);
 
-    shaPref!.setBool(ShaPref.SHA_PREF_SPRAW_COMPLETED_(this), value);
-    shaPref!.setStringList(ShaPref.SHA_PREF_SPRAW_COMPLETED_LIST, items);
+    ShaPref.setBool(ShaPref.SHA_PREF_SPRAW_COMPLETED_(this), value);
+    ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_COMPLETED_LIST, items);
   }
   @override
   void changeCompleted(BuildContext context, {bool? value, localOnly = false}){
@@ -195,7 +195,7 @@ class Spraw extends RankSprawTemplate<SprawResp>{
     if(completed)
       changeInProgress(context, value: false, localOnly: true);
 
-    setSingleState(PARAM_COMPLETED, SyncableParamSingle_.STATE_NOT_SYNCED);
+    setSingleState(PARAM_COMPLETED, SyncableParamSingle_.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
     Provider.of<SprawCompletedListProv>(context, listen: false).notify();
@@ -308,7 +308,7 @@ class Spraw extends RankSprawTemplate<SprawResp>{
   ];
 
   @override
-  void applySyncGetResp(SprawResp resp) {
+  void applySyncGetResp(SprawGetResp resp) {
     inProgress = resp.inProgress;
     completed = resp.completed;
     completionDate = resp.completionDate;

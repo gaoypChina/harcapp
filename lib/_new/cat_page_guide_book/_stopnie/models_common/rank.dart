@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
-import 'package:harcapp/_new/api/sync_resp_body/rank_resp.dart';
+import 'package:harcapp/_new/api/sync_resp_body/rank_get_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_task_resp.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models/rank_def.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models/rank_zhp_old.dart';
@@ -33,10 +33,10 @@ import '../rank_tile_widget_template.dart';
 
 class RankColors{
 
-  final Color? colorStartLight;
-  final Color? colorEndLight;
-  final Color? colorStartDark;
-  final Color? colorEndDark;
+  final Color colorStartLight;
+  final Color colorEndLight;
+  final Color colorStartDark;
+  final Color colorEndDark;
 
   const RankColors(this.colorStartLight, this.colorEndLight, this.colorStartDark, this.colorEndDark);
 
@@ -109,51 +109,51 @@ abstract class RankData{
 
   static RankColors colorsZhp = RankColors(
     Colors.lightGreenAccent,
-    Colors.teal[600],
-    Colors.lightGreen[800],
-    Colors.teal[900],
+    Colors.teal[600]!,
+    Colors.lightGreen[800]!,
+    Colors.teal[900]!,
   );
 
   static RankColors colorsZhpOldZuch = RankColors(
-    Colors.grey[400],
+    Colors.grey[400]!,
     ColorPack.DEF_CARD,
-    Colors.grey[900],
+    Colors.grey[900]!,
     ColorPackBlack.CARD_ENAB,
   );
 
   static RankColors colorsZhpOld = RankColors(
     ColorPack.DEF_CARD,
-    Colors.grey[400],
+    Colors.grey[400]!,
     ColorPackBlack.CARD_ENAB,
-    Colors.grey[900],
+    Colors.grey[900]!,
   );
 
   static RankColors colorsZhrDZuch = RankColors(
-    Colors.purple[500],
-    Colors.pink[500],
-    Colors.purple[900],
-    Colors.pink[900],
+    Colors.purple[500]!,
+    Colors.pink[500]!,
+    Colors.purple[900]!,
+    Colors.pink[900]!,
   );
 
   static RankColors colorsZhrD = RankColors(
-    Colors.pink[500],
-    Colors.purple[500],
-    Colors.pink[900],
-    Colors.purple[900],
+    Colors.pink[500]!,
+    Colors.purple[500]!,
+    Colors.pink[900]!,
+    Colors.purple[900]!,
   );
 
   static RankColors colorsZhrCZuch = RankColors(
-    Colors.red[500],
-    Colors.orange[500],
-    Colors.red[900],
-    Colors.orange[900],
+    Colors.red[500]!,
+    Colors.orange[500]!,
+    Colors.red[900]!,
+    Colors.orange[900]!,
   );
 
   static RankColors colorsZhrC = RankColors(
-    Colors.orange[500],
-    Colors.red[500],
-    Colors.orange[900],
-    Colors.red[900],
+    Colors.orange[500]!,
+    Colors.red[500]!,
+    Colors.orange[900]!,
+    Colors.red[900]!,
   );
 
   static Map<RankData, RankColors> colors = {
@@ -284,9 +284,9 @@ abstract class RankData{
 
 }
 
-abstract class Rank<TData extends RankData, TResp extends RankResp?, TState extends RankState> extends RankSprawTemplate<TResp>{
+abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState extends RankState> extends RankSprawTemplate<TResp>{
 
-  static Map<Rank?, List<UserData>?> sharedUsers = {};
+  static Map<Rank, List<UserData>> sharedUsers = {};
 
   static List<Rank> get allSyncClassIdDef{
     List<Rank> allRanks = [];
@@ -316,13 +316,13 @@ abstract class Rank<TData extends RankData, TResp extends RankResp?, TState exte
       case Org.zhp:
         if(newSim)
           if(!zuch) {
-            if (rankZhp6.inProgress! || rankZhp6.completed!) return rankZhp6;
-            if (rankZhp5.inProgress! || rankZhp5.completed!) return rankZhp5;
-            if (rankZhp4.inProgress! || rankZhp4.completed!) return rankZhp4;
-            if (rankZhp3.inProgress! || rankZhp3.completed!) return rankZhp3;
-            if (rankZhp2.inProgress! || rankZhp2.completed!) return rankZhp2;
-            if (rankZhp1.inProgress! || rankZhp1.completed!) return rankZhp1;
-            if (rankZhp0.inProgress! || rankZhp0.completed!) return rankZhp0;
+            if (rankZhp6.inProgress|| rankZhp6.completed) return rankZhp6;
+            if (rankZhp5.inProgress|| rankZhp5.completed) return rankZhp5;
+            if (rankZhp4.inProgress|| rankZhp4.completed) return rankZhp4;
+            if (rankZhp3.inProgress|| rankZhp3.completed) return rankZhp3;
+            if (rankZhp2.inProgress|| rankZhp2.completed) return rankZhp2;
+            if (rankZhp1.inProgress|| rankZhp1.completed) return rankZhp1;
+            if (rankZhp0.inProgress|| rankZhp0.completed) return rankZhp0;
           } else {
             //if (STOP_ZHP_OLD_ZUCH_3.inProgress || STOP_ZHP_OLD_ZUCH_3.completed)
             //  return STOP_ZHP_OLD_ZUCH_3;
@@ -333,77 +333,77 @@ abstract class Rank<TData extends RankData, TResp extends RankResp?, TState exte
           }
         else
         if(!zuch) {
-          if (rankZhpOld6.inProgress! || rankZhpOld6.completed!) return rankZhpOld6;
-          if (rankZhpOld5.inProgress! || rankZhpOld5.completed!) return rankZhpOld5;
-          if (rankZhpOld4.inProgress! || rankZhpOld4.completed!) return rankZhpOld4;
-          if (rankZhpOld3.inProgress! || rankZhpOld3.completed!) return rankZhpOld3;
-          if (rankZhpOld2.inProgress! || rankZhpOld2.completed!) return rankZhpOld2;
-          if (rankZhpOld1.inProgress! || rankZhpOld1.completed!) return rankZhpOld1;
-          if (rankZhpOld0.inProgress! || rankZhpOld0.completed!) return rankZhpOld0;
+          if (rankZhpOld6.inProgress|| rankZhpOld6.completed) return rankZhpOld6;
+          if (rankZhpOld5.inProgress|| rankZhpOld5.completed) return rankZhpOld5;
+          if (rankZhpOld4.inProgress|| rankZhpOld4.completed) return rankZhpOld4;
+          if (rankZhpOld3.inProgress|| rankZhpOld3.completed) return rankZhpOld3;
+          if (rankZhpOld2.inProgress|| rankZhpOld2.completed) return rankZhpOld2;
+          if (rankZhpOld1.inProgress|| rankZhpOld1.completed) return rankZhpOld1;
+          if (rankZhpOld0.inProgress|| rankZhpOld0.completed) return rankZhpOld0;
         }else {
-          if (rankZhpOldZuch3.inProgress! || rankZhpOldZuch3.completed!)
+          if (rankZhpOldZuch3.inProgress|| rankZhpOldZuch3.completed)
             return rankZhpOldZuch3;
-          if (rankZhpOldZuch2.inProgress! || rankZhpOldZuch2.completed!)
+          if (rankZhpOldZuch2.inProgress|| rankZhpOldZuch2.completed)
             return rankZhpOldZuch2;
-          if (rankZhpOldZuch1.inProgress! || rankZhpOldZuch1.completed!)
+          if (rankZhpOldZuch1.inProgress|| rankZhpOldZuch1.completed)
             return rankZhpOldZuch1;
         }
         break;
       case Org.zhr_c:
         if(!zuch) {
-          if (rankZhrHarcC5.inProgress! || rankZhrHarcC5.completed!)
+          if (rankZhrHarcC5.inProgress|| rankZhrHarcC5.completed)
             return rankZhrHarcC5;
-          if (rankZhrHarcC4.inProgress! || rankZhrHarcC4.completed!)
+          if (rankZhrHarcC4.inProgress|| rankZhrHarcC4.completed)
             return rankZhrHarcC4;
-          if (rankZhrHarcC3.inProgress! || rankZhrHarcC3.completed!)
+          if (rankZhrHarcC3.inProgress|| rankZhrHarcC3.completed)
             return rankZhrHarcC3;
-          if (rankZhrHarcC2.inProgress! || rankZhrHarcC2.completed!)
+          if (rankZhrHarcC2.inProgress|| rankZhrHarcC2.completed)
             return rankZhrHarcC2;
-          if (rankZhrHarcC1.inProgress! || rankZhrHarcC1.completed!)
+          if (rankZhrHarcC1.inProgress|| rankZhrHarcC1.completed)
             return rankZhrHarcC1;
-          if (rankZhrHarcC0S.inProgress! || rankZhrHarcC0S.completed!)
+          if (rankZhrHarcC0S.inProgress|| rankZhrHarcC0S.completed)
             return rankZhrHarcC0S;
-          if (rankZhrHarcC0.inProgress! || rankZhrHarcC0.completed!)
+          if (rankZhrHarcC0.inProgress|| rankZhrHarcC0.completed)
             return rankZhrHarcC0;
         }else {
-          if (rankZhrZuchC3.inProgress! || rankZhrZuchC3.completed!)
+          if (rankZhrZuchC3.inProgress|| rankZhrZuchC3.completed)
             return rankZhrZuchC3;
-          if (rankZhrZuchC2.inProgress! || rankZhrZuchC2.completed!)
+          if (rankZhrZuchC2.inProgress|| rankZhrZuchC2.completed)
             return rankZhrZuchC2;
-          if (rankZhrZuchC1.inProgress! || rankZhrZuchC1.completed!)
+          if (rankZhrZuchC1.inProgress|| rankZhrZuchC1.completed)
             return rankZhrZuchC1;
         }
         break;
       case Org.zhr_d:
         if(!zuch) {
-          if (rankZhrHarcD5.inProgress! || rankZhrHarcD5.completed!)
+          if (rankZhrHarcD5.inProgress|| rankZhrHarcD5.completed)
             return rankZhrHarcD5;
-          if (rankZhrHarcD4S.inProgress! || rankZhrHarcD4S.completed!)
+          if (rankZhrHarcD4S.inProgress|| rankZhrHarcD4S.completed)
             return rankZhrHarcD4S;
-          if (rankZhrHarcD4.inProgress! || rankZhrHarcD4.completed!)
+          if (rankZhrHarcD4.inProgress|| rankZhrHarcD4.completed)
             return rankZhrHarcD4;
-          if (rankZhrHarcD3S.inProgress! || rankZhrHarcD3S.completed!)
+          if (rankZhrHarcD3S.inProgress|| rankZhrHarcD3S.completed)
             return rankZhrHarcD3S;
-          if (rankZhrHarcD3.inProgress! || rankZhrHarcD3.completed!)
+          if (rankZhrHarcD3.inProgress|| rankZhrHarcD3.completed)
             return rankZhrHarcD3;
-          if (rankZhrHarcD2S.inProgress! || rankZhrHarcD2S.completed!)
+          if (rankZhrHarcD2S.inProgress|| rankZhrHarcD2S.completed)
             return rankZhrHarcD2S;
-          if (rankZhrHarcD2.inProgress! || rankZhrHarcD2.completed!)
+          if (rankZhrHarcD2.inProgress|| rankZhrHarcD2.completed)
             return rankZhrHarcD2;
-          if (rankZhrHarcD1.inProgress! || rankZhrHarcD1.completed!)
+          if (rankZhrHarcD1.inProgress|| rankZhrHarcD1.completed)
             return rankZhrHarcD1;
-          if (rankZhrHarcD0S.inProgress! || rankZhrHarcD0S.completed!)
+          if (rankZhrHarcD0S.inProgress|| rankZhrHarcD0S.completed)
             return rankZhrHarcD0S;
-          if (rankZhrHarcD0W.inProgress! || rankZhrHarcD0W.completed!)
+          if (rankZhrHarcD0W.inProgress|| rankZhrHarcD0W.completed)
             return rankZhrHarcD0W;
-          if (rankZhrHarcD0.inProgress! || rankZhrHarcD0.completed!)
+          if (rankZhrHarcD0.inProgress|| rankZhrHarcD0.completed)
             return rankZhrHarcD0;
         }else {
-          if (rankZhrZuchD3.inProgress! || rankZhrZuchD3.completed!)
+          if (rankZhrZuchD3.inProgress|| rankZhrZuchD3.completed)
             return rankZhrZuchD3;
-          if (rankZhrZuchD2.inProgress! || rankZhrZuchD2.completed!)
+          if (rankZhrZuchD2.inProgress|| rankZhrZuchD2.completed)
             return rankZhrZuchD2;
-          if (rankZhrZuchD1.inProgress! || rankZhrZuchD1.completed!)
+          if (rankZhrZuchD1.inProgress|| rankZhrZuchD1.completed)
             return rankZhrZuchD1;
         }
         break;
@@ -432,17 +432,17 @@ abstract class Rank<TData extends RankData, TResp extends RankResp?, TState exte
   String get uniqRankName => data.uniqRankName;
 
   @override
-  bool? get inProgress => state.inProgress;
+  bool get inProgress => state.inProgress;
   @override
   @protected
-  set inProgress(bool? value) => state.inProgress = value;
+  set inProgress(bool value) => state.inProgress = value;
   @override
   void changeInProgress(BuildContext context, {bool? value, bool localOnly = false}){
 
-    value ??= !inProgress!;
+    value ??= !inProgress;
     inProgress = value;
 
-    setSingleState(PARAM_IN_PROGRESS, SyncableParamSingle_.STATE_NOT_SYNCED);
+    setSingleState(paramInProgress, SyncableParamSingle_.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
     Provider.of<RankProv>(context, listen: false).notify();
@@ -456,22 +456,22 @@ abstract class Rank<TData extends RankData, TResp extends RankResp?, TState exte
   @override
   void setCompletionDate(DateTime value, {localOnly = false}){
     completionDate = value;
-    setSingleState(PARAM_COMPLETION_DATE, SyncableParamSingle_.STATE_NOT_SYNCED);
+    setSingleState(paramCompletionDate, SyncableParamSingle_.stateNotSynced);
     if(!localOnly) synchronizer.post();
   }
 
   @override
-  bool? get completed => state.completed;
+  bool get completed => state.completed;
   @override
   @protected
-  set completed(bool? value) => state.completed = value;
+  set completed(bool value) => state.completed = value;
   @override
   void changeCompleted(BuildContext context, {bool? value, bool localOnly = false}){
 
-    value ??= !completed!;
+    value ??= !completed;
     completed = value;
 
-    setSingleState(PARAM_COMPLETED, SyncableParamSingle_.STATE_NOT_SYNCED);
+    setSingleState(paramCompleted, SyncableParamSingle_.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
     Provider.of<RankProv>(context, listen: false).notify();
@@ -506,9 +506,9 @@ abstract class Rank<TData extends RankData, TResp extends RankResp?, TState exte
   @override
   int get completenessPercent => state.completenessPercent;
 
-  static const String PARAM_IN_PROGRESS = 'inProgress';
-  static const String PARAM_COMPLETED = 'completed';
-  static const String PARAM_COMPLETION_DATE = 'completionDate';
+  static const String paramInProgress = 'inProgress';
+  static const String paramCompleted = 'completed';
+  static const String paramCompletionDate = 'completionDate';
 
   @override
   String get paramId => uniqRankName;
@@ -533,19 +533,19 @@ abstract class Rank<TData extends RankData, TResp extends RankResp?, TState exte
 
       SyncableParamSingle(
         this,
-        paramId: PARAM_IN_PROGRESS,
+        paramId: paramInProgress,
         value_: () => inProgress,
       ),
 
       SyncableParamSingle(
         this,
-        paramId: PARAM_COMPLETED,
+        paramId: paramCompleted,
         value_: () => completed,
       ),
 
       SyncableParamSingle(
         this,
-        paramId: PARAM_COMPLETION_DATE,
+        paramId: paramCompletionDate,
         value_: () => completionDate==null?null:DateFormat('yyyy-MM-dd').format(completionDate!),
       ),
 

@@ -51,8 +51,8 @@ GameData gameDataPytajki = GameData(
 
 GameData gameDataSlowoKlucz = GameData(
   colorPack: ColorPackGamePytaki(),
-  builder: (context) => SlowoKluczStartPage(),
-  builderHowToDescription: (context) => HowToSlowoKlucz(),
+  builder: (context) => const SlowoKluczStartPage(),
+  builderHowToDescription: (context) => const HowToSlowoKlucz(),
   builderHowToGuide: (context) => SlowoKluczHowToGuide(),
   coverImg: 'bg_slowo_klucz',
   name: 'Słowo klucz',

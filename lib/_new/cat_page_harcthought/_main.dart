@@ -23,7 +23,6 @@ import 'package:harcapp/_new/cat_page_harcthought/articles/providers.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/search_page.dart';
 import 'package:harcapp/_new/cat_page_harcthought/gawedy/data.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
-import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
@@ -197,19 +196,19 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
       ListTile(
         leading: const Icon(MdiIcons.textBoxCheckOutline),
         title: Text('Wszystkie', style: AppTextStyle(fontWeight: weight.halfBold)),
-        trailing: Text('${Article.all?.length??'...'}', style: AppTextStyle(fontWeight: weight.bold)),
+        trailing: Text('${Article.all?.length}', style: AppTextStyle(fontWeight: weight.bold)),
       ),
 
       ListTile(
         leading: const Icon(MdiIcons.bookmarkOutline),
         title: Text('Zapisane', style: AppTextStyle(fontWeight: weight.halfBold)),
-        trailing: Text('${Article.bookmarkedIds?.length??'...'}', style: AppTextStyle(fontWeight: weight.bold)),
+        trailing: Text('${Article.bookmarkedIds.length}', style: AppTextStyle(fontWeight: weight.bold)),
       ),
 
       ListTile(
         leading: const Icon(MdiIcons.heartOutline),
         title: Text('Polubione', style: AppTextStyle(fontWeight: weight.halfBold)),
-        trailing: Text('${Article.likedIds?.length??'...'}', style: AppTextStyle(fontWeight: weight.bold)),
+        trailing: Text('${Article.likedIds.length}', style: AppTextStyle(fontWeight: weight.bold)),
       ),
 
       const SizedBox(height: Dimen.ICON_MARG),
@@ -237,14 +236,9 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
           if(tabController.index != 0)
             await Future.delayed(const Duration(milliseconds: 200));
 
-          await Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ArticleSearchPage(
-                    Article.all,
-                  )
-              )
-          );
+          await pushPage(context, builder: (context) => ArticleSearchPage(
+            Article.all??[],
+          ));
         },
         child: const Icon(MdiIcons.magnify),
       ),
@@ -279,7 +273,7 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
     }
 
     loaderListener = ArticleLoaderListener(
-        onEnd: (ArticleLoaderError err, bool forceFinished) async {
+        onEnd: (ArticleLoaderError? err, bool forceFinished) async {
 
           if(forceFinished) return;
 
@@ -305,7 +299,7 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
     );
     articleLoader.addListener(loaderListener as ArticleLoaderListener);
 
-    if (articleLoader.loadState == null || articleLoader.loadState == ArticleLoadState.NO_NET){
+    if (articleLoader.loadState == ArticleLoadState.NO_NET){
       articleLoader.run();
     }
 
@@ -379,7 +373,7 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
                 (context) => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => AllArticlesPage()
+                    builder: (context) => const AllArticlesPage()
                 )
             ):null,
           ),
@@ -391,8 +385,7 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
             SizedBox(
               height: ArticleCardWidget.height,
               child: ArticleListWidget(
-                  Article.all,
-                  //tabNotifier, 0,
+                  Article.all??[],
                   emptyText:
                   articleLoader.loadState == ArticleLoadState.LOADED?
                   'Pusto...':
@@ -429,7 +422,7 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
                     text: 'Zapisane (${Article.bookmarkedIds.length})',
                     onTap: () => Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => BookmarkedArticlesPage())
+                        MaterialPageRoute(builder: (context) => const BookmarkedArticlesPage())
                     )
                 )
               ),
@@ -471,11 +464,11 @@ class _ShortReadScrollView<T extends ShortRead> extends StatelessWidget{
       scrollDirection: Axis.horizontal,
       itemCount: allShortReads.length,
       itemBuilder: (context, index) => SizedBox(
+        width: 140,
         child: ShortReadThumbnailWidget(
             allShortReads[index],
             onTap: () => pushPage(context, builder: (context) => ShortReadWidget<T>(moduleId, allShortReads[index])),
         ),
-        width: 140,
       ),
       separatorBuilder: (BuildContext context, int index) => const SizedBox(width: Dimen.ICON_MARG),
     ),

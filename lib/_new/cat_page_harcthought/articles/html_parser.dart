@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:xml/xml.dart';
 
 import 'common.dart';
 
@@ -177,119 +176,119 @@ class HTML{
     );
 
     List headers = getBlocks(r'h[12]', text);
-    List bold_parags = getBlocks(r'h[3456789]', text);
+    List boldParags = getBlocks(r'h[3456789]', text);
     List paragraphs = getBlocks(r'p', text);
     List quotes = getBlocks(r'blockquote', text);
     List figures = getBlocks(r'figure', text);
     List images = getImg(text);
     List youtube = getYoutube(text);
 
-    int iter_h = 0;
-    int iter_bp = 0;
-    int iter_p = 0;
-    int iter_q = 0;
-    int iter_fig = 0;
-    int iter_img = 0;
-    int iter_yt = 0;
+    int iterH = 0;
+    int iterBp = 0;
+    int iterP = 0;
+    int iterQ = 0;
+    int iterFig = 0;
+    int iterImg = 0;
+    int iterYt = 0;
 
     while(
-        (iter_h < headers.length) ||
-        (iter_bp < bold_parags.length) ||
-        (iter_p < paragraphs.length) ||
-        (iter_q < quotes.length) ||
-        (iter_fig < figures.length) ||
-        (iter_img < images.length) ||
-        (iter_yt < youtube.length)
+        (iterH < headers.length) ||
+        (iterBp < boldParags.length) ||
+        (iterP < paragraphs.length) ||
+        (iterQ < quotes.length) ||
+        (iterFig < figures.length) ||
+        (iterImg < images.length) ||
+        (iterYt < youtube.length)
     ){
 
-      int? idx_h = MAX_INT;
-      String? val_h;
-      if(iter_h < headers.length) {
-        idx_h = headers[iter_h][0];
-        val_h = headers[iter_h][1];
+      int? idxH = MAX_INT;
+      String? valH;
+      if(iterH < headers.length) {
+        idxH = headers[iterH][0];
+        valH = headers[iterH][1];
       }
 
-      int? idx_bp = MAX_INT;
-      String? val_bp;
-      if(iter_bp < bold_parags.length) {
-        idx_bp = bold_parags[iter_bp][0];
-        val_bp = bold_parags[iter_bp][1];
+      int? idxBp = MAX_INT;
+      String? valBp;
+      if(iterBp < boldParags.length) {
+        idxBp = boldParags[iterBp][0];
+        valBp = boldParags[iterBp][1];
       }
 
-      int? idx_p = MAX_INT;
-      String? val_p;
-      if(iter_p < paragraphs.length) {
-        idx_p = paragraphs[iter_p][0];
-        val_p = paragraphs[iter_p][1];
+      int? idxP = MAX_INT;
+      String? valP;
+      if(iterP < paragraphs.length) {
+        idxP = paragraphs[iterP][0];
+        valP = paragraphs[iterP][1];
       }
 
-      int? idx_q = MAX_INT;
-      String? val_q;
-      if(iter_q < quotes.length) {
-        idx_q = quotes[iter_q][0];
-        val_q = quotes[iter_q][1];
+      int? idxQ = MAX_INT;
+      String? valQ;
+      if(iterQ < quotes.length) {
+        idxQ = quotes[iterQ][0];
+        valQ = quotes[iterQ][1];
       }
 
-      int? idx_fig = MAX_INT;
-      String? val_fig;
-      if(iter_fig < figures.length) {
-        idx_fig = figures[iter_fig][0];
-        val_fig = figures[iter_fig][1];
+      int? idxFig = MAX_INT;
+      String? valFig;
+      if(iterFig < figures.length) {
+        idxFig = figures[iterFig][0];
+        valFig = figures[iterFig][1];
       }
 
-      int? idx_img = MAX_INT;
-      String? val_img;
-      if(iter_img < images.length) {
-        idx_img = images[iter_img][0];
-        val_img = images[iter_img][1];
+      int? idxImg = MAX_INT;
+      String? valImg;
+      if(iterImg < images.length) {
+        idxImg = images[iterImg][0];
+        valImg = images[iterImg][1];
       }
 
-      int? idx_yt = MAX_INT;
-      String? val_yt;
-      if(iter_yt < youtube.length) {
-        idx_yt = youtube[iter_yt][0];
-        val_yt = youtube[iter_yt][1];
+      int? idxYt = MAX_INT;
+      String? valYt;
+      if(iterYt < youtube.length) {
+        idxYt = youtube[iterYt][0];
+        valYt = youtube[iterYt][1];
       }
 
-      List<int?> idxs = [idx_h, idx_bp, idx_p, idx_q, idx_fig, idx_img, idx_yt];
-      int? min_idx = idxs.reduce(min);
+      List<int?> idxs = [idxH, idxBp, idxP, idxQ, idxFig, idxImg, idxYt];
+      int? minIdx = idxs.reduce((int? num1, int? num2) => num1==null || num2==null?null:min(num1, num2));
 
-      if(min_idx == idx_h) {
-        val_h = val_h!.replaceAll('<i>', '');
-        val_h = val_h.replaceAll('</i>', '');
-        elements.add(Header(text: val_h));
-        iter_h++;
-      }else if(min_idx == idx_bp) {
-        val_bp = val_bp!.replaceAll('<b>', '');
-        val_bp = val_bp.replaceAll('</b>', '');
-        elements.add(Paragraph(text: '<b>$val_bp</b>'));
-        iter_bp++;
-      }else if(min_idx == idx_p) {
+      if(minIdx == idxH) {
+        valH = valH!.replaceAll('<i>', '');
+        valH = valH.replaceAll('</i>', '');
+        elements.add(Header(text: valH));
+        iterH++;
+      }else if(minIdx == idxBp) {
+        valBp = valBp!.replaceAll('<b>', '');
+        valBp = valBp.replaceAll('</b>', '');
+        elements.add(Paragraph(text: '<b>$valBp</b>'));
+        iterBp++;
+      }else if(minIdx == idxP) {
 
-        val_p = val_p!.replaceAll(RegExp(r'<iframe[^>]*>[^<]*</iframe>'), '');
-        val_p = val_p.replaceAll(RegExp(r'<iframe[^>]*>'), '');
-        val_p = val_p.replaceAll(RegExp(r'<img[^>]*>[^<]*</img>'), '');
-        val_p = val_p.replaceAll(RegExp(r'<img[^>]*>'), '');
+        valP = valP!.replaceAll(RegExp(r'<iframe[^>]*>[^<]*</iframe>'), '');
+        valP = valP.replaceAll(RegExp(r'<iframe[^>]*>'), '');
+        valP = valP.replaceAll(RegExp(r'<img[^>]*>[^<]*</img>'), '');
+        valP = valP.replaceAll(RegExp(r'<img[^>]*>'), '');
 
-        elements.add(Paragraph(text: val_p));
-        iter_p++;
-      }else if(min_idx == idx_q) {
-        val_q = val_q!.replaceAll('<i>', '');
-        val_q = val_q.replaceAll('</i>', '');
-        elements.add(Quote(text: val_q));
-        iter_q++;
-      }else if(min_idx == idx_fig) {
+        elements.add(Paragraph(text: valP));
+        iterP++;
+      }else if(minIdx == idxQ) {
+        valQ = valQ!.replaceAll('<i>', '');
+        valQ = valQ.replaceAll('</i>', '');
+        elements.add(Quote(text: valQ));
+        iterQ++;
+      }else if(minIdx == idxFig) {
 
         RegExp pitcureRegEx = RegExp(
           r'<img src="[^"]*',
           multiLine: true, dotAll: true,
         );
 
-        Iterable<String> pictureLinks = pitcureRegEx.allMatches(val_fig!).map((m) =>
+        Iterable<String> pictureLinks = pitcureRegEx.allMatches(valFig!).map((m) =>
           m.group(0)!.replaceAll('<img src="', ''));
 
         RegExp figCaptionRegExp = HTML.matchBlock('figcaption');
-        List<String> descriptions = figCaptionRegExp.allMatches(val_fig).map((m) =>
+        List<String> descriptions = figCaptionRegExp.allMatches(valFig).map((m) =>
             m.group(0)!.replaceAll('<figcaption>', '').replaceAll('</figcaption>', '')).toList();
 
         for(int i=0; i<descriptions.length; i++)
@@ -298,14 +297,16 @@ class HTML{
         if(pictureLinks.isNotEmpty)
           elements.add(Picture(link: pictureLinks.toList()[0], desc: descriptions.isNotEmpty?descriptions[0]:''));
 
-        iter_fig++;
-      }else if(min_idx == idx_img){
-        elements.add(Picture(link: val_img));
-        iter_img++;
+        iterFig++;
+      }else if(minIdx == idxImg){
+        if(valImg != null)
+          elements.add(Picture(link: valImg));
+        iterImg++;
       }
-      else if(min_idx == idx_yt){
-        elements.add(Youtube(link: val_yt));
-        iter_yt++;
+      else if(minIdx == idxYt){
+        if(valYt != null)
+          elements.add(Youtube(link: valYt));
+        iterYt++;
       }
     }
 

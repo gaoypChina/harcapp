@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/account/account.dart';
-import 'package:tuple/tuple.dart';
 
 import '../comp_role.dart';
+import 'ShowRankData.dart';
 import 'indiv_comp_task_compl.dart';
 
 class IndivCompProfile{
@@ -11,9 +10,10 @@ class IndivCompProfile{
   bool? active;
   CompRole? role;
   int? points;
-  int? showRank;
-  int? rankPopularity;
-  Tuple2<double, double>? showRankRange;
+  ShowRankData? rank;
+  // int? showRank;
+  // int? rankPopularity;
+  // Tuple2<double, double>? showRankRange;
 
   final List<IndivCompTaskCompl>? completedTasks;
   final Map<String?, IndivCompTaskCompl> completedTaskMap;
@@ -36,9 +36,10 @@ class IndivCompProfile{
     required this.active,
     required this.role,
     this.points,
-    this.showRank,
-    this.rankPopularity,
-    this.showRankRange,
+    this.rank,
+    // this.showRank,
+    // this.rankPopularity,
+    // this.showRankRange,
     this.completedTasks,
   }): completedTaskMap = {for (var complTask in completedTasks??[]) complTask.key: complTask};
 
@@ -58,13 +59,7 @@ class IndivCompProfile{
       role: strToCompRole[resp['role']??(throw InvalidResponseError('role'))],
 
       points: resp['points'],
-      showRank: resp['rank'],
-      rankPopularity: resp['rank_popularity'],
-
-      showRankRange:
-      resp['rank_range']==null?
-      null:
-      Tuple2<double, double>.fromList(resp['rank_range']),
+      rank: resp['active']==true?ShowRankData.from(resp):null,
 
       completedTasks: completedTasks,
     );

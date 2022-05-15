@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
 
-class SprawTaskResp extends SyncGetResp{
+class SprawTaskGetResp extends SyncGetResp{
 
   static const String COLL_NAME = 'task';
 
@@ -11,12 +10,12 @@ class SprawTaskResp extends SyncGetResp{
   static const String PARAM_COMPLETED = 'completed';
   final bool completed;
 
-  static SprawTaskResp from(Map respData) => SprawTaskResp(
+  static SprawTaskGetResp from(Map respData) => SprawTaskGetResp(
       note: respData[PARAM_NOTE]??false as String,
       completed: respData[PARAM_COMPLETED]??false,
   );
 
-  const SprawTaskResp({
+  const SprawTaskGetResp({
     required this.note,
     required this.completed,
   });

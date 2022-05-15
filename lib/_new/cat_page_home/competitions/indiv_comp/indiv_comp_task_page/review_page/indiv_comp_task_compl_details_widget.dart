@@ -30,9 +30,9 @@ class IndivCompTaskComplDetailsWidget extends StatefulWidget{
 
   final IndivComp comp;
   final IndivCompTaskCompl complTask;
-  final Map<String?, IndivCompTask> taskMap;
-  final Map<String, IndivCompParticip?> participMap;
-  final CommonColorData? colors;
+  final Map<String, IndivCompTask> taskMap;
+  final Map<String, IndivCompParticip> participMap;
+  final CommonColorData colors;
 
   final EdgeInsets? padding;
   final void Function()? onAcceptStateChanged;
@@ -57,8 +57,8 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
 
   IndivComp get comp => widget.comp;
   IndivCompTaskCompl get complTask => widget.complTask;
-  Map<String?, IndivCompTask> get taskMap => widget.taskMap;
-  CommonColorData? get colors => widget.colors;
+  Map<String, IndivCompTask> get taskMap => widget.taskMap;
+  CommonColorData get colors => widget.colors;
 
   IndivCompParticip? get particip => widget.participMap[complTask.participKey];
 
@@ -237,7 +237,7 @@ class ReviewButtons extends StatefulWidget{
   final IndivCompParticip? particip;
   final IndivCompTaskCompl taskCompl;
   final TextEditingController? textController;
-  final void Function(String?, TaskAcceptState)? onAcceptStateChanged;
+  final void Function(String, TaskAcceptState)? onAcceptStateChanged;
 
   const ReviewButtons(
       this.comp,
@@ -259,7 +259,7 @@ class ReviewButtonsState extends State<ReviewButtons>{
   IndivCompParticip? get particip => widget.particip;
   IndivCompTaskCompl get taskCompl => widget.taskCompl;
   TextEditingController? get textController => widget.textController;
-  void Function(String?, TaskAcceptState)? get onAcceptStateChanged => widget.onAcceptStateChanged;
+  void Function(String, TaskAcceptState)? get onAcceptStateChanged => widget.onAcceptStateChanged;
 
   bool? sending;
 
@@ -296,13 +296,13 @@ class ReviewButtonsState extends State<ReviewButtons>{
                         Navigator.pop(context);
 
                         setState(() => sending = true);
-                        showLoadingWidget(context, comp.colors!.avgColor, 'Ostatnia prosta');
+                        showLoadingWidget(context, comp.colors.avgColor, 'Ostatnia prosta');
 
                         await ApiIndivComp.reviewCompletedTasks(
                             taskReqKey: taskCompl.key,
                             acceptState: TaskAcceptState.REJECTED,
                             revComment: textController!.text,
-                            onSuccess: (String? complTaskKey){
+                            onSuccess: (String complTaskKey){
                               onAcceptStateChanged?.call(complTaskKey, TaskAcceptState.REJECTED);
                             },
                             onError: (){
@@ -343,13 +343,13 @@ class ReviewButtonsState extends State<ReviewButtons>{
                         Navigator.pop(context);
 
                         setState(() => sending = true);
-                        showLoadingWidget(context, comp.colors!.avgColor, 'Ostatnia prosta');
+                        showLoadingWidget(context, comp.colors.avgColor, 'Ostatnia prosta');
 
                         await ApiIndivComp.reviewCompletedTasks(
                             taskReqKey: taskCompl.key,
                             acceptState: TaskAcceptState.ACCEPTED,
                             revComment: textController!.text,
-                            onSuccess: (String? complTaskKey){
+                            onSuccess: (String complTaskKey){
                               onAcceptStateChanged?.call(complTaskKey, TaskAcceptState.ACCEPTED);
                             },
                             onError: (){

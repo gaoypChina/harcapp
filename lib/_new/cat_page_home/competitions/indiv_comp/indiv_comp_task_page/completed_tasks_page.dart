@@ -19,9 +19,9 @@ class CompletedTasksPage extends StatefulWidget{
 
   final IndivComp comp;
   final List<IndivCompTaskCompl>? completedTasks;
-  final Map<String?, IndivCompTask> taskMap;
-  final Map<String, IndivCompParticip?> participMap;
-  final CommonColorData? colors;
+  final Map<String, IndivCompTask> taskMap;
+  final Map<String, IndivCompParticip> participMap;
+  final CommonColorData colors;
 
   final String? pageTitle;
   final void Function(IndivCompTaskCompl taskCompl)? onRemoved;
@@ -37,9 +37,9 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
 
   IndivComp get comp => widget.comp;
   List<IndivCompTaskCompl>? get completedTasks => widget.completedTasks;
-  Map<String?, IndivCompTask> get taskMap => widget.taskMap;
-  Map<String, IndivCompParticip?> get participMap => widget.participMap;
-  CommonColorData? get colors => widget.colors;
+  Map<String, IndivCompTask> get taskMap => widget.taskMap;
+  Map<String, IndivCompParticip> get participMap => widget.participMap;
+  CommonColorData get colors => widget.colors;
   //List<IndivCompTaskCompl> get completedTasks => widget.comp.profile.completedTasks;
 
   String? get pageTitle => widget.pageTitle;

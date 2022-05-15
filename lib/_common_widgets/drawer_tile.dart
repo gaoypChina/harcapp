@@ -9,7 +9,7 @@ class DrawerTile<T> extends StatelessWidget{
   final String? title;
   final T source;
   final T selectedSource;
-  final void Function(T) onSelect;
+  final void Function(T)? onSelect;
   final Widget? trailing;
 
   const DrawerTile({
@@ -18,7 +18,7 @@ class DrawerTile<T> extends StatelessWidget{
     required this.title,
     required this.source,
     required this.selectedSource,
-    required this.onSelect,
+    this.onSelect,
     this.trailing,
     Key? key
   }) : super(key: key);

@@ -35,6 +35,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../_common_widgets/loading_widget.dart';
 import '../indiv_comp_task_page/completed_tasks_page.dart';
+import '../models/ShowRankData.dart';
 import '../models/indiv_comp_profile.dart';
 import '../models/rank_disp_type.dart';
 import 'add_user_bottom_sheet.dart';
@@ -54,7 +55,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
 
   IndivComp get comp => widget.comp;
 
-  List<IndivCompParticip?>? selectedParticips;
+  late List<IndivCompParticip> selectedParticips;
 
   void onParticipProviderNotified() => setState((){});
 
@@ -73,16 +74,16 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
     super.dispose();
   }
 
-  List<IndivCompParticip?> inactiveSelParticips(){
-    List<IndivCompParticip?> result = [];
-    for(IndivCompParticip? particip in selectedParticips!)
-      if(!particip!.profile.active!) result.add(particip);
+  List<IndivCompParticip> inactiveSelParticips(){
+    List<IndivCompParticip> result = [];
+    for(IndivCompParticip particip in selectedParticips)
+      if(!particip.profile.active!) result.add(particip);
 
     return result;
   }
 
-  void onPointsGranted(List<IndivCompTaskCompl> taskComplList, Map<String, Tuple3<int, int, Tuple2<double, double>>> idRank){
-    selectedParticips!.clear();
+  void onPointsGranted(List<IndivCompTaskCompl> taskComplList, Map<String, ShowRankData> idRank){
+    selectedParticips.clear();
 
     comp.handleRanks(idRank);
 
@@ -111,17 +112,17 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
 
             bool allSelected = true;
             for(IndivCompParticip particip in participAdmins)
-              if(!selectedParticips!.contains(particip)){
+              if(!selectedParticips.contains(particip)){
                 allSelected = false;
                 break;
               }
 
             if(allSelected)
               for(IndivCompParticip particip in participAdmins)
-                selectedParticips!.remove(particip);
+                selectedParticips.remove(particip);
             else
               for(IndivCompParticip particip in participAdmins)
-                if(!selectedParticips!.contains(particip)) selectedParticips!.add(particip);
+                if(!selectedParticips.contains(particip)) selectedParticips.add(particip);
 
             setState(() {});
 
@@ -134,17 +135,17 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
 
             bool allSelected = true;
             for(IndivCompParticip particip in participMods)
-              if(!selectedParticips!.contains(particip)){
+              if(!selectedParticips.contains(particip)){
                 allSelected = false;
                 break;
               }
 
             if(allSelected)
               for(IndivCompParticip particip in participMods)
-                selectedParticips!.remove(particip);
+                selectedParticips.remove(particip);
             else
               for(IndivCompParticip particip in participMods)
-                if(!selectedParticips!.contains(particip)) selectedParticips!.add(particip);
+                if(!selectedParticips.contains(particip)) selectedParticips.add(particip);
 
             setState(() {});
 
@@ -157,24 +158,24 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
 
             bool allSelected = true;
             for(IndivCompParticip particip in participObs)
-              if(!selectedParticips!.contains(particip)){
+              if(!selectedParticips.contains(particip)){
                 allSelected = false;
                 break;
               }
 
             if(allSelected)
               for(IndivCompParticip particip in participObs)
-                selectedParticips!.remove(particip);
+                selectedParticips.remove(particip);
             else
               for(IndivCompParticip particip in participObs)
-                if(!selectedParticips!.contains(particip)) selectedParticips!.add(particip);
+                if(!selectedParticips.contains(particip)) selectedParticips.add(particip);
 
             setState(() {});
           },
         ),
 
         customAppBar:
-        selectedParticips!.isEmpty?
+        selectedParticips.isEmpty?
         SliverAppBar(
           title: const Text('Lista uczestników'),
           centerTitle: true,
@@ -192,35 +193,35 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
         ):
         SelectedAppBar(
           comp,
-          selectedParticips!,
+          selectedParticips,
           onSelectAll: () => setState((){
-            selectedParticips!.clear();
-            selectedParticips!.addAll(comp.particips);
+            selectedParticips.clear();
+            selectedParticips.addAll(comp.particips);
           }),
-          onUnselectAll: () => setState(() => selectedParticips!.clear()),
+          onUnselectAll: () => setState(() => selectedParticips.clear()),
         ),
 
         itemBuilder: (context, particip) => _ParticipTile(
           comp,
           particip,
 
-          anythingSelected: selectedParticips!.isNotEmpty,
-          selected: selectedParticips!.contains(particip),
+          anythingSelected: selectedParticips.isNotEmpty,
+          selected: selectedParticips.contains(particip),
 
           onSelectionTap: (){
-            if(!particip.profile.active! && !selectedParticips!.contains(particip))
+            if(!particip.profile.active! && !selectedParticips.contains(particip))
               showAppToast(context, text: 'Pamiętaj, <b>${particip.name}</b> nie uczestniczy we współzawodnictwie. <b>Nie można mu przyznać punktów</b>.');
 
-            if(selectedParticips!.contains(particip))
-              setState(() => selectedParticips!.remove(particip));
+            if(selectedParticips.contains(particip))
+              setState(() => selectedParticips.remove(particip));
             else
-              setState(() => selectedParticips!.add(particip));
+              setState(() => selectedParticips.add(particip));
           },
           onPointsGranted: onPointsGranted,
           heroTag: particip,
         ),
 
-        bottomNavigationBar: selectedParticips!.isEmpty?null:
+        bottomNavigationBar: selectedParticips.isEmpty?null:
         SimpleButton(
           margin: const EdgeInsets.only(
               left: SimpleButton.DEF_MARG,
@@ -230,7 +231,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
           radius: AppCard.BIG_RADIUS,
           onTap: (){
 
-            List<IndivCompParticip?> inactiveSelParticips = this.inactiveSelParticips();
+            List<IndivCompParticip> inactiveSelParticips = this.inactiveSelParticips();
 
             if(inactiveSelParticips.isEmpty)
               openAcceptTaskDialog(
@@ -243,7 +244,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
               showAlertDialog(
                   context,
                   title: 'Nie wszyscy chcą punktów...',
-                  content: '<b>${inactiveSelParticips[0]!.name}</b> nie uczestniczy we współzawodnictwie i nie można przyznać ${inactiveSelParticips[0]!.isMale?'mu':'jej'} punktów.\n\nOdznacz ${inactiveSelParticips[0]!.isMale?'go':'ją'}, by kontynuować.',
+                  content: '<b>${inactiveSelParticips[0].name}</b> nie uczestniczy we współzawodnictwie i nie można przyznać ${inactiveSelParticips[0].isMale?'mu':'jej'} punktów.\n\nOdznacz ${inactiveSelParticips[0].isMale?'go':'ją'}, by kontynuować.',
                   actionBuilder: (context) => [
 
                     AlertDialogButton(
@@ -257,7 +258,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
               showAlertDialog(
                   context,
                   title: 'Nie wszyscy chcą punktów...',
-                  content: '<b>${inactiveSelParticips[0]!.name}</b> i <b>${inactiveSelParticips.length - 1} innych</b> nie uczestniczą we współzawodnictwie i nie można przyznać im punktów.\n\nOddzacz ich, by kontynuować.',
+                  content: '<b>${inactiveSelParticips[0].name}</b> i <b>${inactiveSelParticips.length - 1} innych</b> nie uczestniczą we współzawodnictwie i nie można przyznać im punktów.\n\nOddzacz ich, by kontynuować.',
                   actionBuilder: (context) => [
                     SimpleButton(
                         child: Text('No dobrze', style: AppTextStyle(fontWeight: weight.halfBold)),
@@ -267,8 +268,8 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
               );
 
           },
-          color: comp.colors!.colorStart,
-          colorEnd: comp.colors!.colorEnd,
+          color: comp.colors.colorStart,
+          colorEnd: comp.colors.colorEnd,
           child: TitleShortcutRowWidget(
               icon: MdiIcons.plusCircleMultipleOutline,
               titleColor: background_(context),
@@ -280,7 +281,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
 
       ),
 
-      if(comp.particips.length == 1 && selectedParticips!.isEmpty)
+      if(comp.particips.length == 1 && selectedParticips.isEmpty)
         Positioned(
             left: 2*Dimen.SIDE_MARG,
             right: 2*Dimen.SIDE_MARG,
@@ -373,7 +374,7 @@ class _ParticipTile extends StatefulWidget{
   final bool anythingSelected;
   final bool selected;
   final void Function()? onSelectionTap;
-  final void Function(List<IndivCompTaskCompl> taskComplList, Map<String, Tuple3<int, int, Tuple2<double, double>>> idRank)? onPointsGranted;
+  final void Function(List<IndivCompTaskCompl> taskComplList, Map<String, ShowRankData> idRank)? onPointsGranted;
   final dynamic heroTag;
 
   const _ParticipTile(
@@ -401,7 +402,7 @@ class _ParticipTileState extends State<_ParticipTile>{
   bool get anythingSelected => widget.anythingSelected;
   bool get selected => widget.selected;
   void Function()? get onSelectionTap => widget.onSelectionTap;
-  void Function(List<IndivCompTaskCompl> taskComplList, Map<String, Tuple3<int, int, Tuple2<double, double>>> idRank)? get onPointsGranted => widget.onPointsGranted;
+  void Function(List<IndivCompTaskCompl> taskComplList, Map<String, ShowRankData> idRank)? get onPointsGranted => widget.onPointsGranted;
 
   get heroTag => widget.heroTag;
 
@@ -649,7 +650,7 @@ class _ParticipTileState extends State<_ParticipTile>{
                 Navigator.pop(context);
                 Navigator.pop(context);
 
-                showLoadingWidget(context, comp.colors!.avgColor, 'Wypraszanie ${plural?'użytkowników':'użytkownika'}...');
+                showLoadingWidget(context, comp.colors.avgColor, 'Wypraszanie ${plural?'użytkowników':'użytkownika'}...');
                 await ApiIndivComp.removeUsers(
                     compKey: comp.key,
                     userIds: participsToRemove.map((p) => p.key).toList(),
@@ -680,7 +681,7 @@ class _ParticipTileState extends State<_ParticipTile>{
     role: particip.profile.role,
     anythingSelected: anythingSelected,
     selected: selected,
-    selectedTextColor: comp.colors!.avgColor,
+    selectedTextColor: comp.colors.avgColor,
     onLongPress: onSelectionTap,
     onTap: anythingSelected?onSelectionTap:(profile.role == CompRole.ADMIN || profile.role == CompRole.MODERATOR?openParticipantDetails:null),
     heroTag: heroTag,
@@ -710,9 +711,9 @@ class _ParticipTileState extends State<_ParticipTile>{
 class AcceptTaskWidget extends StatefulWidget{
 
   final IndivComp comp;
-  final List<IndivCompParticip?>? selectedParticips;
+  final List<IndivCompParticip> selectedParticips;
 
-  final void Function(List<IndivCompTaskCompl>, Map<String, Tuple3<int?, int?, Tuple2<double, double>?>>)? onSuccess;
+  final void Function(List<IndivCompTaskCompl>, Map<String, ShowRankData>)? onSuccess;
   final void Function()? onError;
 
   const AcceptTaskWidget(this.comp, this.selectedParticips, {this.onSuccess, this.onError, Key? key}): super(key: key);
@@ -725,9 +726,9 @@ class AcceptTaskWidget extends StatefulWidget{
 class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
 
   IndivComp get comp => widget.comp;
-  List<IndivCompParticip?>? get selectedParticips => widget.selectedParticips;
+  List<IndivCompParticip> get selectedParticips => widget.selectedParticips;
 
-  void Function(List<IndivCompTaskCompl>, Map<String, Tuple3<int?, int?, Tuple2<double, double>?>>)? get onSuccess => widget.onSuccess;
+  void Function(List<IndivCompTaskCompl>, Map<String, ShowRankData>)? get onSuccess => widget.onSuccess;
 
   TextEditingController? controller;
 
@@ -751,14 +752,14 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
                 icon: const Icon(MdiIcons.check),
                 onPressed: () async {
 
-                  showLoadingWidget(context, comp.colors!.avgColor, 'Przesyłanie punktów...');
+                  showLoadingWidget(context, comp.colors.avgColor, 'Przesyłanie punktów...');
 
                   await ApiIndivComp.sendTaskComplReq(
                       allTasks: comp.tasks,
                       taskKey: task.key,
                       comment: controller!.text,
-                      userKeys: selectedParticips!.map((particips) => particips!.key).toList(),
-                      onSuccess: (List<IndivCompTaskCompl> taskComplList, Map<String, Tuple3<int?, int?, Tuple2<double, double>?>> idRank){
+                      userKeys: selectedParticips.map((particips) => particips.key).toList(),
+                      onSuccess: (List<IndivCompTaskCompl> taskComplList, Map<String, ShowRankData> idRank){
                         showAppToast(context, text: 'Zaliczono');
                         onSuccess?.call(taskComplList, idRank);
                       },
@@ -794,15 +795,15 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             sliver: SliverList(delegate: SliverChildListDelegate([
 
-              if(selectedParticips!.length==1)
+              if(selectedParticips.length==1)
                 ParticipHeaderWidget(
-                    selectedParticips![0]!.name,
-                    selectedParticips![0]!.shadow,
-                    selectedParticips![0]!.profile.role
+                    selectedParticips[0].name,
+                    selectedParticips[0].shadow,
+                    selectedParticips[0].profile.role
                 )
               else
                 Consumer<IndivCompParticipsProvider>(
-                    builder: (context, prov, child) => AccountThumbnailRowWidget(selectedParticips!.map((particip) => particip!.name).toList())
+                    builder: (context, prov, child) => AccountThumbnailRowWidget(selectedParticips.map((particip) => particip.name).toList())
                 ),
 
               Padding(
@@ -833,8 +834,8 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
 void openAcceptTaskDialog(
     BuildContext context,
     IndivComp comp,
-    List<IndivCompParticip?>? particips,
-    {void Function(List<IndivCompTaskCompl> taskComplList, Map<String, Tuple3<int, int, Tuple2<double, double>>> idRank)? onPointsGranted}
+    List<IndivCompParticip> particips,
+    {void Function(List<IndivCompTaskCompl> taskComplList, Map<String, ShowRankData> idRank)? onPointsGranted}
 ) async => await openDialog(
     context: context,
     builder: (context) => Center(
@@ -847,7 +848,10 @@ void openAcceptTaskDialog(
           child: AcceptTaskWidget(
             comp,
             particips,
-            onSuccess: (List<IndivCompTaskCompl> taskComplList, Map<String, Tuple3<int, int, Tuple2<double, double>>> idRank){
+            onSuccess: (
+                List<IndivCompTaskCompl> taskComplList,
+                Map<String, ShowRankData> idRank
+            ){
               onPointsGranted?.call(taskComplList, idRank);
               Navigator.pop(context);
             },

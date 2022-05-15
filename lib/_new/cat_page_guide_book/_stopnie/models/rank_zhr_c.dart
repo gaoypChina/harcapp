@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
-import 'package:harcapp/_new/api/sync_resp_body/rank_def_resp.dart';
+import 'package:harcapp/_new/api/sync_resp_body/rank_def_get_resp.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/data/data_zhr_c.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/sector_sep_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/single_header_widget.dart';
@@ -15,8 +15,6 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_sta
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_widgets/rank_cat_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
-import '../../../../sync/syncable_new.dart';
 
 class RankZHRCData extends RankData{
 
@@ -92,7 +90,7 @@ class RankZHRCData extends RankData{
 
 }
 
-abstract class RankZHRCTempl<T extends RankState> extends Rank<RankZHRCData, RankDefResp?, T>{
+abstract class RankZHRCTempl<T extends RankState> extends Rank<RankZHRCData, RankDefGetResp, T>{
 
   String get minWiek => data.minWiek;
   String get czasTrw => data.czasTrw;
@@ -154,9 +152,6 @@ class RankZHRC<T extends RankState> extends RankZHRCTempl<RankStateLocal>{
   RankZHRCPreview preview(RankStateShared sharedState) => data.buildPreview(sharedState);
 
   static const String syncClassId = RankDef.syncClassId;
-
-  //@override
-  //SyncableParam get parentParam => RootSyncable(syncClassId);
 
 }
 

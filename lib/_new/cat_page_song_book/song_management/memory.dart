@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/missing_decode_param_error.dart';
 import 'package:harcapp/_new/api/sync_resp_body/memory_resp.dart';
 import 'package:harcapp/sync/syncable_new.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/storage.dart';
-import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -15,7 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 
 class MemoryBuilder{
-  String? songFileName;
+  String songFileName;
   DateTime? date;
   String? place;
   String? desc;
@@ -53,7 +53,7 @@ class MemoryBuilder{
   );
 }
 
-class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncItem{
+class Memory extends SyncableParamGroup_ with SyncNode<MemoryGetResp>, RemoveSyncItem{
 
   static const fontNameMap = {
     0: 'Annie',
@@ -94,15 +94,18 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncIt
   };
 
   static const String PARAM_ID = 'file_name';
-  static const String PARAM_SONG_FILE_NAME = 'song_file_name';
-  static const String PARAM_DATE = 'date';
-  static const String PARAM_PLACE = 'place';
-  static const String PARAM_DESC = 'desc';
-  static const String PARAM_FONT_KEY = 'font_key';
-  static const String PARAM_PUBLISHED = 'published';
+  static const String paramSongFileName = 'song_file_name';
+  static const String paramDate = 'date';
+  static const String paramPlace = 'place';
+  static const String paramDesc = 'desc';
+  static const String paramFontKey = 'font_key';
+  static const String paramPublished = 'published';
 
   static String get fontName => 'Hand';
   static int get fontLength => 16;
+
+  // Whether the all, allMap, etc. are initialized.
+  static bool initialized = false;
 
   static late List<Memory> all;
   static late Map<String?, Memory> allMap;
@@ -120,8 +123,8 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncIt
           color: textEnab_(context)
       );
 
-  final String? fileName;
-  String? songFileName;
+  final String fileName;
+  String songFileName;
   DateTime? date;
   String? place;
   String? desc;
@@ -132,13 +135,13 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncIt
 
   static Memory fromResponseData(Map responseData){
 
-    String? fileName = responseData[PARAM_ID];
-    String songFileName = responseData[PARAM_SONG_FILE_NAME]??'!';
-    DateTime date = DateTime.parse(responseData[Memory.PARAM_DATE]);
-    String place = responseData[PARAM_PLACE]??'';
-    String desc = responseData[PARAM_DESC]??'';
-    int fontIndex = responseData[PARAM_FONT_KEY]??0;
-    bool published = responseData[PARAM_PUBLISHED]??false;
+    String fileName = responseData[PARAM_ID];
+    String songFileName = responseData[paramSongFileName]??'!';
+    DateTime date = DateTime.parse(responseData[Memory.paramDate]);
+    String place = responseData[paramPlace]??'';
+    String desc = responseData[paramDesc]??'';
+    int fontIndex = responseData[paramFontKey]??0;
+    bool published = responseData[paramPublished]??false;
 
     return Memory(fileName, songFileName, date, place, desc, fontIndex, published);
 
@@ -155,7 +158,7 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncIt
     File file = saveStringAsFileToFolder(getSongMemoriesFolderLocalPath, code);
 
     Memory memory = Memory(path.basename(file.path), songFileName, date, place, desc, fontIndex, published);
-    memory.setAllSyncState(SyncableParamSingle_.STATE_NOT_SYNCED);
+    memory.setAllSyncState(SyncableParamSingle_.stateNotSynced);
     if(!localOnly)
       synchronizer.post();
     return memory;
@@ -164,12 +167,12 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncIt
   static String encode(String? songFileName, DateTime date, String? place, String? desc, int fontIndex, bool published){
 
     Map<String, dynamic> map = {
-      PARAM_SONG_FILE_NAME: songFileName,
-      PARAM_DATE: date.toIso8601String(),
-      PARAM_PLACE: place,
-      PARAM_DESC: desc,
-      PARAM_FONT_KEY: fontIndex,
-      PARAM_PUBLISHED: published,
+      paramSongFileName: songFileName,
+      paramDate: date.toIso8601String(),
+      paramPlace: place,
+      paramDesc: desc,
+      paramFontKey: fontIndex,
+      paramPublished: published,
     };
 
     return json.encode(map);
@@ -180,17 +183,17 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncIt
 
     Map<String, dynamic> map = json.decode(code);
 
-    String? songFileName = map[PARAM_SONG_FILE_NAME];
+    String songFileName = map[paramSongFileName];
     DateTime? date;
     try{
-      date = DateTime.tryParse(map[PARAM_DATE]);
+      date = DateTime.tryParse(map[paramDate]);
     } catch(error) {
       date = null;
     }
-    String place = map[PARAM_PLACE]??'';
-    String desc = map[PARAM_DESC]??'';
-    int fontIndex = map[PARAM_FONT_KEY]??0;
-    bool published = map[PARAM_PUBLISHED]??false;
+    String place = map[paramPlace]??(throw MissingDecodeParamError(paramPlace));
+    String desc = map[paramDesc]??(throw MissingDecodeParamError(paramDesc));
+    int fontIndex = map[paramFontKey]??(throw MissingDecodeParamError(paramFontKey));
+    bool published = map[paramPublished]??(throw MissingDecodeParamError(paramPublished));
 
     return Memory(
         fileName,
@@ -218,17 +221,17 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncIt
 
   void delete({bool localOnly=false}){
     markSyncAsRemoved();
-    File(getSongMemoriesFolderPath + fileName!).deleteSync();
+    File(getSongMemoriesFolderPath + fileName).deleteSync();
     if(!localOnly) synchronizer.post();
   }
 
   void update({
-    required String songFileName,
+    required String? songFileName,
     required DateTime? date,
     required String? place,
     required String? desc,
-    required int fontIndex,
-    required bool published,
+    required int? fontIndex,
+    required bool? published,
     bool localOnly=false})
   {
     if(songFileName != null) this.songFileName = songFileName;
@@ -250,40 +253,40 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryResp>, RemoveSyncIt
   int get hashCode => fileName.hashCode;
 
   @override
-  String? get paramId => fileName;
+  String get paramId => fileName;
 
   @override
   List<SyncableParam> get childParams => [
     SyncableParamSingle(
       this,
-      paramId: PARAM_DATE,
+      paramId: paramDate,
       value_: () => date==null?null:DateFormat('yyyy-MM-dd').format(date!),
     ),
     SyncableParamSingle(
       this,
-      paramId: PARAM_PLACE,
+      paramId: paramPlace,
       value_: () => place,
     ),
     SyncableParamSingle(
       this,
-      paramId: PARAM_DESC,
+      paramId: paramDesc,
       value_: () => desc,
     ),
     SyncableParamSingle(
       this,
-      paramId: PARAM_FONT_KEY,
+      paramId: paramFontKey,
       value_: () => fontIndex,
     ),
 
     SyncableParamSingle(
       this,
-      paramId: PARAM_PUBLISHED,
+      paramId: paramPublished,
       value_: () => published,
     ),
   ];
 
   @override
-  void applySyncGetResp(MemoryResp resp) {
+  void applySyncGetResp(MemoryGetResp resp) {
     if(resp.date != null)
       date = resp.date;
     if(resp.place != null)

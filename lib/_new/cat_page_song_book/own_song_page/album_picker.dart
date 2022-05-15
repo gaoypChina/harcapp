@@ -1,21 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/cat_page_song_book/album/album_widget_small.dart';
-import 'package:harcapp/_new/cat_page_song_book/album/new_album/new_album_page.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/circular_check_box.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:harcapp_core_own_song/common.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:tuple/tuple.dart';
 
-import '../album/new_album/album_song_selector.dart';
 import 'own_song_page.dart';
 
 class AlbumPart extends StatefulWidget{
@@ -23,7 +13,7 @@ class AlbumPart extends StatefulWidget{
   final OwnSongPageState parent;
   List<Album>? get albums => parent.albums;
 
-  const AlbumPart(this.parent);
+  const AlbumPart(this.parent, {Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => AlbumPartState();
@@ -39,15 +29,16 @@ class AlbumPartState extends State<AlbumPart>{
 
     List<Widget> children = [];
 
-    for(int i=0; i<Album.allOwn!.length; i++){
-      Album album = Album.allOwn![i];
+    for(int i=0; i<Album.allOwn.length; i++){
+      Album album = Album.allOwn[i];
 
       children.add(
           AlbumWidgetSmall(
             album,
             showSongCount: false,
             selected: false,
-            trailing: CircularCheckbox(
+            trailing: Checkbox(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
                 value: albums!.contains(album),
                 materialTapTargetSize: MaterialTapTargetSize.padded,
                 activeColor: textEnab_(context),
@@ -57,15 +48,15 @@ class AlbumPartState extends State<AlbumPart>{
           )
       );
 
-      if(i < Album.allOwn!.length-1)
-        children.add(SizedBox(height: Dimen.ICON_MARG));
+      if(i < Album.allOwn.length-1)
+        children.add(const SizedBox(height: Dimen.ICON_MARG));
 
     }
 
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.only(left: Dimen.ICON_MARG),
+          padding: const EdgeInsets.only(left: Dimen.ICON_MARG),
           child: TitleShortcutRowWidget(
             title: Albumy_,
             //icon: MdiIcons.bookmarkPlusOutline,
@@ -87,7 +78,7 @@ class AlbumPartState extends State<AlbumPart>{
         ),
 
         Padding(
-          padding: EdgeInsets.all(Dimen.ICON_MARG),
+          padding: const EdgeInsets.all(Dimen.ICON_MARG),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: children
@@ -106,7 +97,7 @@ class AlbumPicker extends StatefulWidget{
 
   final void Function()? onChanged;
 
-  const AlbumPicker({this.onChanged});
+  const AlbumPicker({this.onChanged, Key? key}): super(key: key);
 
   @override
   State<StatefulWidget> createState() => AlbumPickerState();

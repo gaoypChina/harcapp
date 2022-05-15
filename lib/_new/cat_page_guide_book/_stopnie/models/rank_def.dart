@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
-import 'package:harcapp/_new/api/sync_resp_body/rank_def_resp.dart';
+import 'package:harcapp/_new/api/sync_resp_body/rank_def_get_resp.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/data/data_zhp_old.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/data/data_zhr_c.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/data/data_zhr_d.dart';
@@ -9,7 +8,6 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_cat
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state_local.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state_shared.dart';
-import 'package:harcapp/sync/syncable_new.dart';
 
 class RankDefData extends RankData{
 
@@ -45,7 +43,7 @@ class RankDefData extends RankData{
 
 }
 
-abstract class RankDefTempl<T extends RankState> extends Rank<RankDefData, RankDefResp?, T> {
+abstract class RankDefTempl<T extends RankState> extends Rank<RankDefData, RankDefGetResp, T> {
 
   RankDefTempl(RankDefData data, List<RankCat>? cats) : super(data, cats);
 
@@ -75,7 +73,7 @@ class RankDef extends RankDefTempl<RankStateLocal>{
   @override
   RankDefPreview preview(RankStateShared sharedState) => data.buildPreview(sharedState);
 
-  RankDef(RankDefData data, List<RankCat>? cats) : super(data, cats);
+  RankDef(RankDefData data, List<RankCat>? cats) :  super(data, cats);
 
   static const String syncClassId = 'rank_def';
 

@@ -45,14 +45,14 @@ void selectTemplate<TInItem, TOutItem, TOpt extends SearchOptions?>(
 
   outPort.send(inPort.sendPort);
 
-  await Future.delayed(Duration(days: 365*1000000));
+  await Future.delayed(const Duration(days: 365*1000000));
 
 }
 
 enum SearcherMessages{BREAK}
 class Searcher<TInItem, TOutItem, TOpt extends SearchOptions?>{
 
-  List<TInItem>? allItems;
+  late List<TInItem> allItems;
 
   Isolate? isolate;
 
@@ -62,40 +62,39 @@ class Searcher<TInItem, TOutItem, TOpt extends SearchOptions?>{
   late List<void Function(String)> _onStartListeners;
   late List<void Function(List<TOutItem>, bool Function())> _onCompleteListeners;
 
-  final void Function(Tuple3<List<TInItem>?, TOpt, SendPort>) loopFunction;
+  final void Function(Tuple3<List<TInItem>, TOpt, SendPort>) loopFunction;
 
-  int? lastCompleteId;
-  int? lastRunId;
+  int lastCompleteId;
+  int lastRunId;
 
   late LocalSemaphore semaphore;
 
-  Searcher(this.loopFunction){
-    this._onStartListeners = [];
-    this._onCompleteListeners = [];
-    lastCompleteId = 0;
-    lastRunId = 0;
+  Searcher(this.loopFunction):
+        lastCompleteId = 0,
+        lastRunId = 0
+  {
+    allItems = [];
+    _onStartListeners = [];
+    _onCompleteListeners = [];
     semaphore = LocalSemaphore(1);
   }
 
   void addOnStartListener(void Function(String) listener) => _onStartListeners.add(listener);
   void addOnCompleteListener(void Function(List<TOutItem>, bool Function()) listener) => _onCompleteListeners.add(listener);
 
-  Future<void> init(
-      List<TInItem>? allItems,
-      TOpt options,
-      ) async {
+  Future<void> init(List<TInItem> allItems, TOpt options) async {
 
     this.allItems = allItems;
 
     ReceivePort inPort = ReceivePort();
 
-    Tuple3<List<TInItem>?, TOpt, SendPort> args = Tuple3(
+    Tuple3<List<TInItem>, TOpt, SendPort> args = Tuple3(
         allItems, // !!! jeśli ma być zrealizowane podpowiadanie piosenek z innych śpiewników, trzeba to zmienić.
         options,
         inPort.sendPort,
     );
 
-    Isolate isolate = await Isolate.spawn<Tuple3<List<TInItem>?, TOpt, SendPort>>(
+    Isolate isolate = await Isolate.spawn<Tuple3<List<TInItem>, TOpt, SendPort>>(
         loopFunction,
         args
     );
@@ -123,7 +122,7 @@ class Searcher<TInItem, TOutItem, TOpt extends SearchOptions?>{
       else if(message is List<TOutItem>) {
         int thisCompleteId = ++lastCompleteId;
         for (void Function(List<TOutItem>, bool Function()) listener in _onCompleteListeners)
-          await listener(message, () => thisCompleteId == lastCompleteId);
+          listener(message, () => thisCompleteId == lastCompleteId);
         semaphore.release();
       }
     });
@@ -141,7 +140,7 @@ class Searcher<TInItem, TOutItem, TOpt extends SearchOptions?>{
     }
 
     for(void Function(String) listener in _onStartListeners)
-      await listener(phrase);
+      listener(phrase);
     outPort.send(Tuple2(currRunId, phrase));
   }
 

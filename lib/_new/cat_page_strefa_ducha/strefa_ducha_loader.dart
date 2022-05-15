@@ -6,7 +6,7 @@ import 'package:harcapp/_new/cat_page_strefa_ducha/source.dart';
 
 
 StrefaDuchaLoader strefaDuchaLoader = StrefaDuchaLoader();
-class StrefaDuchaLoader extends SingleComputer<String?, SingleComputerListener<String>?>{
+class StrefaDuchaLoader extends SingleComputer<String?, SingleComputerListener<String>>{
 
   static const String sourceListUrl = 'https://gitlab.com/n3o2k7i8ch5/harcapp_data/raw/master/duchowe/.index';
 

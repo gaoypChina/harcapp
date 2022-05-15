@@ -41,7 +41,7 @@ class CompetitionsPageState extends State<CompetitionsPage>{
 
   late RefreshController refreshController;
 
-  IndivCompLoaderListener? _listener;
+  late IndivCompLoaderListener _listener;
 
   @override
   void initState() {
@@ -125,7 +125,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
 
   void selectIndivComps(String text){
 
-    if(text == null || text.isEmpty) {
+    if(text.isEmpty) {
       searchedComps = IndivComp.all;
       return;
     }
@@ -146,9 +146,9 @@ class _CompListWidgetState extends State<_CompListWidget>{
 
         if(IndivComp.all == null)
           return const IndivCompPrompt(
-            child: IndivCompPreviewGrid(),
             text: 'Coś poszło nie tak',
             icon: MdiIcons.closeOutline,
+            child: IndivCompPreviewGrid(),
           );
 
         else {

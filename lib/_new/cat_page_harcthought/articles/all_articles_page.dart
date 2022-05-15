@@ -8,15 +8,17 @@ import 'article_list_widget.dart';
 
 class AllArticlesPage extends StatelessWidget{
 
+  const AllArticlesPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BottomNavScaffold(
       body: NestedScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         floatHeaderSlivers: true,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
           SliverAppBar(
-            title: Text('Wszystkie artykuły'),
+            title: const Text('Wszystkie artykuły'),
             centerTitle: true,
             floating: true,
             actions: [
@@ -25,17 +27,17 @@ class AllArticlesPage extends StatelessWidget{
                       context,
                       MaterialPageRoute(
                           builder: (context) => ArticleSearchPage(
-                            Article.all,
+                            Article.all??[],
                           )
                       )
                   ),
-                  icon: Icon(MdiIcons.magnify)
+                  icon: const Icon(MdiIcons.magnify)
               )
             ],
           )
         ],
         body: ArticleListWidget(
-            Article.all
+            Article.all??[]
         ),
       ),
     );

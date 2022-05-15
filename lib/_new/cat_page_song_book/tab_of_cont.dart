@@ -44,7 +44,7 @@ class TabOfContController{
 
 class TabOfCont extends StatefulWidget{
 
-  final List<Song?> allSongs;
+  final List<Song> allSongs;
   final String initPhrase;
   final SongSearchOptions? searchOptions;
   final bool appBar;
@@ -109,7 +109,7 @@ class TabOfContState extends State<TabOfCont>{
   CurrentItemsProvider? currItemsProv;
 
   SongSearcher? searcher;
-  List<Song?> get allSongs => widget.allSongs;
+  List<Song> get allSongs => widget.allSongs;
 
   TabOfContController? _controller;
   TabOfContController? get controller => widget.controller??_controller;
@@ -163,7 +163,6 @@ class TabOfContState extends State<TabOfCont>{
     searcher!.addOnStartListener((phrase) {
       currItemsProv!.searcherRunning = true;
       if(widget.onChanged != null) widget.onChanged!(phrase);
-      //currItemsProv.clear();
     });
 
     post(initSearcher);
@@ -220,7 +219,7 @@ class TabOfContState extends State<TabOfCont>{
                             actions: [
                               IconButton(
                                 icon: const Icon(MdiIcons.trendingUp),
-                                onPressed: () => pushPage(context, builder: (context) => SongContributorsPage()),
+                                onPressed: () => pushPage(context, builder: (context) => const SongContributorsPage()),
                               )
                             ],
                           ),
@@ -326,12 +325,12 @@ class _NoSongWidget extends StatelessWidget{
 
 class _SearchTextFieldCard extends StatelessWidget{
 
-  final void Function()? onCleared;
-
   final SongSearcher? searcher;
   final SongSearchOptions? searchOptions;
   final TabOfContController? tabOfContController;
   final TextEditingController? textController;
+
+  final void Function()? onCleared;
 
   const _SearchTextFieldCard(
       { required this.searcher,
@@ -376,7 +375,7 @@ class _SearchTextFieldCard extends StatelessWidget{
               await searcher!.init(searcher!.allItems, searchOptions);
               await searcher!.run('');
 
-              if(onCleared!=null) onCleared!();
+              onCleared?.call();
               onSearchOptionChanged(searchOptions);
 
             },
@@ -748,6 +747,7 @@ void _showAddSongBottomSheet(BuildContext context, void Function(Song song)? onN
           SimpleButton(
               padding: const EdgeInsets.all(Dimen.ICON_MARG),
               radius: AppCard.BIG_RADIUS,
+              onTap: null,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -776,8 +776,7 @@ void _showAddSongBottomSheet(BuildContext context, void Function(Song song)? onN
 
                   const IconButton(icon: Icon(MdiIcons.web), onPressed: null)
                 ],
-              ),
-              onTap: null
+              )
           ),
           const SizedBox(height: Dimen.ICON_MARG),
 
