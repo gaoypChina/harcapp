@@ -13,7 +13,7 @@ class PointsIcon extends StatefulWidget{
 
   final double size;
 
-  const PointsIcon({this.size = defSize, Key? key}) : super(key: key);
+  const PointsIcon({this.size = defSize, super.key});
 
   @override
   State<StatefulWidget> createState() => PointsIconState();

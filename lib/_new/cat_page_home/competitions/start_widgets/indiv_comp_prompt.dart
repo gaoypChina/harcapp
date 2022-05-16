@@ -9,7 +9,7 @@ class IndivCompPrompt extends StatelessWidget{
   final String? text;
   final IconData? icon;
 
-  const IndivCompPrompt({required this.child, this.text, this.icon, Key? key}): super(key: key);
+  const IndivCompPrompt({required this.child, this.text, this.icon, super.key});
 
   @override
   Widget build(BuildContext context) => Column(

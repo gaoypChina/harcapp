@@ -11,7 +11,7 @@ import 'data.dart';
 
 class BiografieFragment extends StatefulWidget{
   
-  const BiografieFragment({Key? key}) : super(key: key);
+  const BiografieFragment({super.key});
 
   @override
   State<StatefulWidget> createState() => BiografieFragmentState();

@@ -19,7 +19,7 @@ class ChildFSE extends StatefulWidget{
   final List<Org> allowedOrgs;
   final void Function(Pion)? onTabChanged;
 
-  const ChildFSE({required this.initPion, required this.allowedOrgs, this.onTabChanged, Key? key}): super(key: key);
+  const ChildFSE({required this.initPion, required this.allowedOrgs, this.onTabChanged, super.key});
 
   @override
   State<StatefulWidget> createState() => ChildFSEState();

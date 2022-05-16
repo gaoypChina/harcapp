@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan.dart';
-import 'package:harcapp/_new/cat_page_harcthought/harc_forms/harc_form.dart';
-import 'package:harcapp/_new/cat_page_harcthought/harc_forms/harc_form_thumbnail_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 
-import '../../../_common_classes/app_navigator.dart';
-import '../_main.dart';
 import 'apel_ewan_thumbnail_widget.dart';
 
 class ApelEwansPage extends StatefulWidget{
 
   final List<ApelEwan> allApelEwans;
 
-  const ApelEwansPage(this.allApelEwans, {Key? key}): super(key: key);
+  const ApelEwansPage(this.allApelEwans, {super.key});
   
   @override
   State<StatefulWidget> createState() => ApelEwansPageState();

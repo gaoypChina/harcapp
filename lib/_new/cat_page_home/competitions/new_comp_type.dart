@@ -9,7 +9,6 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_th
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
@@ -46,7 +45,7 @@ class CompTypeWidget extends StatelessWidget{
 
   final void Function(NewCompType type)? onSelected;
 
-  const CompTypeWidget({this.onSelected, Key? key}): super(key: key);
+  const CompTypeWidget({this.onSelected, super.key});
 
   @override
   Widget build(BuildContext context) {

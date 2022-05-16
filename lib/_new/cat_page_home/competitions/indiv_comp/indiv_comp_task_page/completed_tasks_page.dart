@@ -26,7 +26,7 @@ class CompletedTasksPage extends StatefulWidget{
   final String? pageTitle;
   final void Function(IndivCompTaskCompl taskCompl)? onRemoved;
 
-  const CompletedTasksPage(this.comp, this.completedTasks, this.taskMap, this.participMap, this.colors, {this.pageTitle, this.onRemoved, Key? key}): super(key: key);
+  const CompletedTasksPage(this.comp, this.completedTasks, this.taskMap, this.participMap, this.colors, {this.pageTitle, this.onRemoved, super.key});
 
   @override
   State<StatefulWidget> createState() => CompletedTasksPageState();

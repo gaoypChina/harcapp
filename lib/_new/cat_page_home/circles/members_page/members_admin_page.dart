@@ -30,7 +30,7 @@ class MembersAdminPage extends StatefulWidget{
   final Circle circle;
   final PaletteGenerator? palette;
 
-  const MembersAdminPage(this.circle, this.palette, {Key? key}): super(key: key);
+  const MembersAdminPage(this.circle, this.palette, {super.key});
 
   @override
   State<StatefulWidget> createState() => MembersAdminPageState();
@@ -292,8 +292,8 @@ class _MemberTile extends StatefulWidget{
         this.selected=false,
         this.onSelectionTap,
         this.heroTag,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   State<StatefulWidget> createState() => _MemberTileState();

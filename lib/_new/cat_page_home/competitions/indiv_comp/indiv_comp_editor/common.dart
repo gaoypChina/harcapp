@@ -21,7 +21,7 @@ class LeaveCompButton extends StatelessWidget{
 
   final IndivComp comp;
 
-  const LeaveCompButton(this.comp, {Key? key}): super(key: key);
+  const LeaveCompButton(this.comp, {super.key});
 
   @override
   Widget build(BuildContext context) => ListTile(
@@ -95,7 +95,7 @@ class EditGradientButton extends StatelessWidget{
   final String text;
   final void Function()? onTap;
 
-  const EditGradientButton(this.icon, this.text, {this.onTap, Key? key}): super(key: key);
+  const EditGradientButton(this.icon, this.text, {this.onTap, super.key});
   
   @override
   Widget build(BuildContext context) => AppCard(
@@ -127,7 +127,7 @@ class SettingsPartHeader extends StatelessWidget{
 
   final String title;
 
-  const SettingsPartHeader(this.title, {Key? key}) : super(key: key);
+  const SettingsPartHeader(this.title, {super.key});
 
   @override
   Widget build(BuildContext context) => ListTile(

@@ -29,8 +29,8 @@ class MemoryListWidget extends StatefulWidget{
         this.onEditMemoryTap,
         this.onEditMemoryLongPress,
         this.onNewMemoryTap,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   State<StatefulWidget> createState() => MemoryListWidgetState();

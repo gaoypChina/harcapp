@@ -30,8 +30,7 @@ class BottomSheetTemplate extends StatefulWidget{
   const BottomSheetTemplate({
     required this.builder,
     this.scrollable,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   State<StatefulWidget> createState() => BottomSheetTemplateState();
@@ -113,8 +112,7 @@ class BottomSheetDef extends StatefulWidget{
     this.color,
     this.colorEnd,
     this.childMargin = const EdgeInsets.all(Dimen.BOTTOM_SHEET_MARG),
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   State<StatefulWidget> createState() => BottomSheetDefState();

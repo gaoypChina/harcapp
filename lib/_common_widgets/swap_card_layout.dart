@@ -45,7 +45,8 @@ class SwapCardLayout extends StatefulWidget {
         this.cardController,
         this.swipeCompleteCallback,
         this.swipeUpdateCallback,
-        Key? key}):super(key: key)
+        super.key
+      })
   {
 
     this._cardBuilder = cardBuilder;

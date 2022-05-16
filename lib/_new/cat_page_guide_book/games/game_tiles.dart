@@ -7,7 +7,7 @@ import 'package:harcapp_core/dimen.dart';
 
 class GameTiles extends StatefulWidget {
 
-  const GameTiles({Key? key}) : super(key: key);
+  const GameTiles({super.key});
 
   @override
   State createState() => GameTilesState();
@@ -31,7 +31,7 @@ class GameTile extends StatelessWidget{
 
   final GameData data;
 
-  const GameTile({required this.data, Key? key}): super(key: key);
+  const GameTile({required this.data, super.key});
 
   @override
   Widget build(BuildContext context) => ListTile(

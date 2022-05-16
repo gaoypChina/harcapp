@@ -8,7 +8,7 @@ import 'article_list_widget.dart';
 
 class AllArticlesPage extends StatelessWidget{
 
-  const AllArticlesPage({Key? key}) : super(key: key);
+  const AllArticlesPage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -24,8 +24,8 @@ class IndivCompProfilePendingComplTasksPage extends StatefulWidget{
       this.comp,
       { this.onAccepted,
         this.onRejected,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   State<StatefulWidget> createState() => IndivCompProfilePendingComplTasksPageState();

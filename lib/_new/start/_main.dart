@@ -11,7 +11,7 @@ import 'layouts.dart';
 
 class StartPage extends StatefulWidget {
 
-  const StartPage({Key? key}): super(key: key);
+  const StartPage({super.key});
 
   @override
   State<StatefulWidget> createState() => StartPageState();

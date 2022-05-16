@@ -22,7 +22,7 @@ import 'song_management/off_song.dart';
 
 class SongContributorsPage extends StatelessWidget{
 
-  const SongContributorsPage({Key? key}) : super(key: key);
+  const SongContributorsPage({super.key});
 
   @override
   Widget build(BuildContext context){

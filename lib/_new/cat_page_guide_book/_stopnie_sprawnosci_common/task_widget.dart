@@ -31,7 +31,7 @@ abstract class TaskWidget<T_TASK extends TaskData> extends StatefulWidget{
 
   void _onCompletedChanged(bool completed) => onCompletedChanged?.call(task, completed);
 
-  const TaskWidget({Key? key}): super(key: key);
+  const TaskWidget({super.key});
 
   @override
   TaskWidgetState<T_TASK> createState() => TaskWidgetState<T_TASK>();

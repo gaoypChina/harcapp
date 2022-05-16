@@ -7,7 +7,7 @@ class ConfettiLayer extends StatelessWidget{
 
   final ConfettiController? confettiController;
 
-  const ConfettiLayer(this.confettiController, {Key? key}): super(key: key);
+  const ConfettiLayer(this.confettiController, {super.key});
 
   @override
   Widget build(BuildContext context) {

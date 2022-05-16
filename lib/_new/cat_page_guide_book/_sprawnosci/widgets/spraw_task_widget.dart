@@ -45,6 +45,6 @@ class SprawTaskWidget extends TaskWidget<SprawTask>{
   @override
   final void Function(SprawTask task, bool completed)? onCompletedChanged;
 
-  const SprawTaskWidget(this.task, {this.onCompletedChanged, Key? key}): super(key: key);
+  const SprawTaskWidget(this.task, {this.onCompletedChanged, super.key});
 
 }

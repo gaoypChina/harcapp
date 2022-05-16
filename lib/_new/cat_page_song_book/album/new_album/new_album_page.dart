@@ -28,7 +28,7 @@ class NewAlbumPage extends StatefulWidget{
   final Album? initAlbum;
   final Function(Album)? onSaved;
 
-  const NewAlbumPage({this.initAlbum, this.onSaved, Key? key}): super(key: key);
+  const NewAlbumPage({this.initAlbum, this.onSaved, super.key});
 
   @override
   State createState() => NewAlbumPageState();

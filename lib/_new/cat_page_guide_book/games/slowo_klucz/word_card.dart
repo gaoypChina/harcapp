@@ -26,7 +26,7 @@ class WordCard extends StatefulWidget{
   final Word word;
   final GameMode mode;
 
-  const WordCard(this.parent, this.word, this.mode, {Key? key}): super(key: key);
+  const WordCard(this.parent, this.word, this.mode, {super.key});
 
   @override
   State<StatefulWidget> createState() => WordCardState();

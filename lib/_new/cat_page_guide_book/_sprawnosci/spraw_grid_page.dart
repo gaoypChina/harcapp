@@ -18,7 +18,7 @@ class SprawGridPage extends StatefulWidget{
   final Widget? emptyWidget;
   final List<Widget>? actions;
 
-  const SprawGridPage({required this.title, required this.UIDs, required this.mode, required this.icon, this.emptyWidget, this.actions, Key? key}): super(key: key);
+  const SprawGridPage({required this.title, required this.UIDs, required this.mode, required this.icon, this.emptyWidget, this.actions, super.key});
 
   @override
   State<StatefulWidget> createState() => SprawGridPageState();

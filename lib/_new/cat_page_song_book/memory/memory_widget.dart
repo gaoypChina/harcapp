@@ -22,7 +22,7 @@ class MemoryWidget extends StatefulWidget {
   final Function? onLongPress;
   final bool withHero;
 
-  const MemoryWidget(this.memory, {this.fontIndex, this.showShare=true, this.onTap, this.onLongPress, this.withHero=true, Key? key}): super(key: key);
+  const MemoryWidget(this.memory, {this.fontIndex, this.showShare=true, this.onTap, this.onLongPress, this.withHero=true, super.key});
 
   @override
   State<StatefulWidget> createState() => MemoryWidgetState();

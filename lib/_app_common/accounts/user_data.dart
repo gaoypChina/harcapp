@@ -1,6 +1,8 @@
 import 'package:harcapp/_new/api/_api.dart';
 
-enum Sex{male, female}
+enum Sex{
+  male, female,
+}
 
 Map<Sex, bool> sexToBool = {
   Sex.male: true,
@@ -53,17 +55,12 @@ class UserDataNick extends UserData{
   final String nick;
 
   const UserDataNick({
-    required String key,
-    required String name,
-    required bool shadow,
-    required Sex sex,
+    required super.key,
+    required super.name,
+    required super.shadow,
+    required super.sex,
     required this.nick,
-  }):super(
-    key: key,
-    name: name,
-    shadow: shadow,
-    sex: sex,
-  );
+  });
 
   static UserDataNick fromMap(Map map, String nick, {String? key}){
     UserData userData = UserData.fromMap(map, key: key);

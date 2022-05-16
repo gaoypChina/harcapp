@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class Background extends StatelessWidget{
 
   final ValueNotifier notifier;
-  const Background(this.notifier, {Key? key}): super(key: key);
+  const Background(this.notifier, {super.key});
 
   @override
   Widget build(BuildContext context) => Consumer<FadeImageProvider>(
@@ -51,7 +51,7 @@ class Background extends StatelessWidget{
 
 class BackgroundBlur extends StatelessWidget{
 
-  const BackgroundBlur({Key? key}) : super(key: key);
+  const BackgroundBlur({super.key});
 
   @override
   Widget build(BuildContext context) => Consumer<LockProvider>(
@@ -72,7 +72,7 @@ class BackgroundImage extends StatelessWidget{
 
   final ImageProvider? image;
 
-  const BackgroundImage(this.image, {Key? key}) : super(key: key);
+  const BackgroundImage(this.image, {super.key});
 
   @override
   Widget build(BuildContext context) => Container(

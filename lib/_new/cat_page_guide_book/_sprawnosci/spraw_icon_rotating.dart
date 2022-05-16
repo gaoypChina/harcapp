@@ -15,8 +15,8 @@ class SprawIconRotating extends StatefulWidget{
     required this.onNewUIDRequested,
     this.size,
     this.onTap,
-    Key? key
-  }): super(key: key);
+    super.key
+  });
 
   @override
   State<StatefulWidget> createState() => SprawIconRotatingState();

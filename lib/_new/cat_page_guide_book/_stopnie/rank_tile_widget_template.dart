@@ -1,14 +1,11 @@
 
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_widgets/rank_widget.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'models_common/rank.dart';
 
@@ -45,8 +42,7 @@ class RankTileWidgetTemplate extends StatelessWidget{
     this.titleBottomColor,
     this.trailing,
     this.titleBottomLeading,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   Widget build(BuildContext context) => SimpleButton(

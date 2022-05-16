@@ -43,8 +43,7 @@ class IndivCompEditorPage extends StatefulWidget{
     this.initAwards,
     this.onSaved,
     this.onRemoved,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   State<StatefulWidget> createState() => IndivCompEditorPageState();

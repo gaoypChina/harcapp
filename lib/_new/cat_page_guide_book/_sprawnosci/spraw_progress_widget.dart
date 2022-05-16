@@ -23,7 +23,7 @@ class SprawProgressWidget extends StatefulWidget{
   final bool showIcons;
   final void Function(BuildContext)? onOpen;
 
-  const SprawProgressWidget({this.backgroundIcon=false, this.showIcons=true, this.onOpen, Key? key}): super(key: key);
+  const SprawProgressWidget({this.backgroundIcon=false, this.showIcons=true, this.onOpen, super.key});
 
   @override
   State<StatefulWidget> createState() => SprawProgressWidgetState();

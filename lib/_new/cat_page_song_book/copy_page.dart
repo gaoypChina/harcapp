@@ -16,7 +16,7 @@ class CopyPage<T extends SongCore> extends StatefulWidget{
   final T song;
   final Function? onCopied;
 
-  const CopyPage(this.song, {this.onCopied, Key? key}): super(key: key);
+  const CopyPage(this.song, {this.onCopied, super.key});
 
   @override
   State<StatefulWidget> createState() => CopyPageState<T>();

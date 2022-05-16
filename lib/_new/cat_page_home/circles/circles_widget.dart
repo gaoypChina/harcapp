@@ -24,7 +24,7 @@ class CirclesWidget extends StatefulWidget{
   final bool singleLine;
   final Widget Function(List<Circle>?) circleWidgetBuilder;
 
-  const CirclesWidget({this.singleLine = false, required this.circleWidgetBuilder, Key? key}) : super(key: key);
+  const CirclesWidget({this.singleLine = false, required this.circleWidgetBuilder, super.key});
 
   @override
   State<StatefulWidget> createState() => CirclesWidgetState();

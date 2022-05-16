@@ -9,7 +9,7 @@ class AllBioPage extends StatelessWidget{
 
   final void Function(int)? onPicked;
 
-  const AllBioPage({this.onPicked, Key? key}): super(key: key);
+  const AllBioPage({this.onPicked, super.key});
 
   @override
   Widget build(BuildContext context) {

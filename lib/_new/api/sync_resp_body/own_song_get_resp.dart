@@ -1,8 +1,6 @@
 import 'package:harcapp/_new/api/sync_resp_body/song_get_resp.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/own_song.dart';
 
-import 'memory_resp.dart';
-
 class OwnSongGetResp extends SongGetResp{
 
   static const String collName = OwnSong.syncClassId;
@@ -11,11 +9,11 @@ class OwnSongGetResp extends SongGetResp{
   final String? code;
 
   const OwnSongGetResp({
-    required int? rate,
-    required int? chordShift,
-    required Map<String, MemoryGetResp>? memories,
+    required super.rate,
+    required super.chordShift,
+    required super.memories,
     required this.code,
-  }):super(rate: rate, chordShift: chordShift, memories: memories);
+  });
 
   static OwnSongGetResp from(Map respData) => OwnSongGetResp(
     rate: respData[SongGetResp.paramRate],

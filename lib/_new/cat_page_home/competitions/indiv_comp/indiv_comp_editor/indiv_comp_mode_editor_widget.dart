@@ -33,7 +33,7 @@ class IndivCompModeEditorWidget extends StatefulWidget{
 
   final IndivCompDetails? initComp;
 
-  const IndivCompModeEditorWidget({this.initComp, Key? key}): super(key: key);
+  const IndivCompModeEditorWidget({this.initComp, super.key});
 
   @override
   State<StatefulWidget> createState() => _IndivCompModeEditorWidgetState();

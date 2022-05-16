@@ -60,7 +60,7 @@ import 'organizations/_main.dart';
 
 class CatPageGuideBook extends StatefulWidget{
 
-  const CatPageGuideBook({Key? key}) : super(key: key);
+  const CatPageGuideBook({super.key});
 
   @override
   State createState() => CatPageGuideBookState();
@@ -463,7 +463,7 @@ class LatestStopWidget extends StatefulWidget{
 
   final EdgeInsets padding;
 
-  const LatestStopWidget({this.padding = EdgeInsets.zero, Key? key}): super(key: key);
+  const LatestStopWidget({this.padding = EdgeInsets.zero, super.key});
 
   @override
   State<StatefulWidget> createState() => LatestStopWidgetState();
@@ -595,7 +595,7 @@ class StopPrevItem extends StatelessWidget{
   final Org org;
   final Rank? rank;
 
-  const StopPrevItem(this.org, this.rank, {Key? key}): super(key: key);
+  const StopPrevItem(this.org, this.rank, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -682,9 +682,8 @@ class SprawModeButton<T extends ChangeNotifier> extends StatelessWidget{
     this.detailsIndex,
     this.clickable=true,
     this.onTap,
-    Key? key
-  }): assert(!clickable || detailsIndex != null),
-        super(key: key);
+    super.key
+  }): assert(!clickable || detailsIndex != null);
 
   @override
   Widget build(BuildContext context) => Hero(

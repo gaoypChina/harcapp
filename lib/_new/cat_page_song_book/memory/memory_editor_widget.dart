@@ -33,7 +33,7 @@ class MemoryEditorWidget extends StatefulWidget{
   final Function? onRemoved;
   final Memory? initMemory;
 
-  const MemoryEditorWidget(this.song, {this.initMemory, this.onSaved, this.onBack, this.onRemoved, Key? key}): super(key: key);
+  const MemoryEditorWidget(this.song, {this.initMemory, this.onSaved, this.onBack, this.onRemoved, super.key});
 
   @override
   State<StatefulWidget> createState() => MemoryEditorWidgetState();

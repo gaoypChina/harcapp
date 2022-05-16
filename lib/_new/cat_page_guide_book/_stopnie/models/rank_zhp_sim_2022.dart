@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_zhp_sim_2022_get_resp.dart';
@@ -7,7 +6,6 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/sector_
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/single_header_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/single_line_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_cat.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state_local.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state_shared.dart';
@@ -32,30 +30,23 @@ class RankZHPSim2022Data extends RankData{
   final int? wyzwCountReq;
 
   RankZHPSim2022Data({
-    required String titleMale,
-    required String titleFemale,
+    required super.titleMale,
+    required super.titleFemale,
     required this.minWiek,
     required this.czasTrw,
-    required int version,
+    required super.version,
 
     required this.sprawCount,
     required this.tropCount,
     required this.wyzwCount,
     this.wyzwCountReq,
 
-    required Org org,
-    required String id,
+    required super.org,
+    required super.id,
     required this.idea,
 
-    required List<RankCatData> catData,
-  }):super(
-    titleMale: titleMale,
-    titleFemale: titleFemale,
-    version: version,
-    org: org,
-    id: id,
-    catData: catData,
-  );
+    required super.catData,
+  });
 
   @override
   RankZHPSim2022 build() {
@@ -75,9 +66,9 @@ class RankZHPSim2022Data extends RankData{
 
 abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2022Data, RankZhpSim2022GetResp, T>{
 
-  static const EXT_SPRAW_CODE = 'spraw';
-  static const EXT_TROP_CODE = 'trop';
-  static const EXT_WYZW_CODE = 'wyzw';
+  static const extSprawCode = 'spraw';
+  static const extTropCode = 'trop';
+  static const extWyzwCode = 'wyzw';
 
   static String? getExtTextKey(String stopId, String code, int position) => ShaPref.getString(ShaPref.SHA_PREF_STOP_ZHP_EXT_TEXT_(stopId, code, position), '');
   static void setExtTextKey(String stopId, String code, int position, String value) => ShaPref.setString(ShaPref.SHA_PREF_STOP_ZHP_EXT_TEXT_(stopId, code, position), value);
@@ -97,15 +88,15 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
   @override
   bool get isReadyToComplete{
     for(int i=0; i<sprawCount; i++)
-      if(!getExtCheckedKey(id, EXT_SPRAW_CODE, i))
+      if(!getExtCheckedKey(id, extSprawCode, i))
         return false;
 
     for(int i=0; i<tropCount; i++)
-      if(!getExtCheckedKey(id, EXT_TROP_CODE, i))
+      if(!getExtCheckedKey(id, extTropCode, i))
         return false;
 
     for(int i=0; i<wyzwCount; i++)
-      if(!getExtCheckedKey(id, EXT_WYZW_CODE, i))
+      if(!getExtCheckedKey(id, extWyzwCode, i))
         return false;
 
     return super.isReadyToComplete;
@@ -115,21 +106,18 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
   @protected
   set completed(bool value) {
     for(int i=0; i<sprawCount; i++)
-      setExtCheckedKey(id, EXT_SPRAW_CODE, i, value);
+      setExtCheckedKey(id, extSprawCode, i, value);
 
     for(int i=0; i<tropCount; i++)
-      setExtCheckedKey(id, EXT_TROP_CODE, i, value);
+      setExtCheckedKey(id, extTropCode, i, value);
 
     for(int i=0; i<wyzwCount; i++)
-      setExtCheckedKey(id, EXT_WYZW_CODE, i, value);
+      setExtCheckedKey(id, extWyzwCode, i, value);
 
     super.completed = value;
   }
 
-  RankZHPSim2022Templ(
-    RankZHPSim2022Data data,
-    List<RankCat>? cats,
-  ):super(data, cats);
+  RankZHPSim2022Templ(super.data, super.cats);
 
   @override
   buildHeader(BuildContext context) => Column(
@@ -184,7 +172,7 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
 
                     SprawNamesWidget(
                         id,
-                        EXT_SPRAW_CODE,
+                        extSprawCode,
                         'Sprawność',
                         count: sprawCount,
                         backgroundColor: Colors.transparent,
@@ -221,7 +209,7 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
 
                     SprawNamesWidget(
                         id,
-                        EXT_TROP_CODE,
+                        extTropCode,
                         'Trop',
                         count: tropCount,
                         backgroundColor: Colors.transparent,
@@ -258,7 +246,7 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
 
                     SprawNamesWidget(
                         id,
-                        EXT_WYZW_CODE,
+                        extWyzwCode,
                         'Wyzwanie',
                         count: wyzwCount,
                         reqCount: wyzwCountReq,
@@ -295,10 +283,7 @@ class RankZHPSim2022 extends RankZHPSim2022Templ<RankStateLocal>{
 
   static Map<String, Rank> allMap = {for (Rank rank in all) rank.uniqRankName: rank};
 
-  RankZHPSim2022(
-    RankZHPSim2022Data data,
-    List<RankCat>? cats,
-  ):super(data, cats);
+  RankZHPSim2022(super.data, super.cats);
 
   @override
   RankStateLocal get state => RankStateLocal(this);
@@ -307,9 +292,6 @@ class RankZHPSim2022 extends RankZHPSim2022Templ<RankStateLocal>{
   RankZHPSim2022Preview preview(RankStateShared sharedState) => data.buildPreview(sharedState);
 
   static const String syncClassId = 'rank_zhp_sim_2022';
-
-  //@override
-  //SyncableParam get parentParam => RootSyncable(syncClassId);
 
 }
 
@@ -321,6 +303,6 @@ class RankZHPSim2022Preview extends RankZHPSim2022Templ<RankStateShared>{
   @override
   RankZHPSim2022Preview preview(RankStateShared stateShared) => this;
 
-  RankZHPSim2022Preview(RankZHPSim2022Data data, this.state, List<RankCat>? cats) : super(data, cats);
+  RankZHPSim2022Preview(super.data, this.state, super.cats);
 
 }

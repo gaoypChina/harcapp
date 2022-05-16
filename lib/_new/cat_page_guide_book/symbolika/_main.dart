@@ -14,7 +14,7 @@ import 'data.dart';
 
 class SymbolikaFragment extends StatefulWidget {
 
-  const SymbolikaFragment({Key? key}) : super(key: key);
+  const SymbolikaFragment({super.key});
 
   @override
   State createState() => SymbolikaFragmentState();
@@ -93,7 +93,7 @@ class Item extends StatelessWidget{
   final int index;
   final ItemData data;
 
-  const Item(this._notifier, this.index, this.data, {Key? key}): super(key: key);
+  const Item(this._notifier, this.index, this.data, {super.key});
 
   @override
   Widget build(BuildContext context) => ListView(

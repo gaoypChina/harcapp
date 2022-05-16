@@ -16,7 +16,7 @@ class RankGroupWidget extends StatelessWidget{
   final RankGroup group;
   final void Function(RankTask item, bool completed)? onReqComplChanged;
 
-  const RankGroupWidget(this.group, {this.onReqComplChanged, Key? key}): super(key: key);
+  const RankGroupWidget(this.group, {this.onReqComplChanged, super.key});
 
   static Widget separator(BuildContext context, int index) => const SizedBox(height: 2*Dimen.ICON_MARG);
 

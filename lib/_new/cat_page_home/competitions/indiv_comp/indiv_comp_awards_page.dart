@@ -3,9 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'award_widgets/award_tile_dense_widget.dart';
 import 'award_widgets/award_tile_widget.dart';
@@ -17,7 +15,7 @@ class AwardPageViewWidget extends StatelessWidget{
   final bool expanded;
   final EdgeInsets? padding;
 
-  const AwardPageViewWidget(this.comp, {this.expanded = false, this.padding, Key? key}): super(key: key);
+  const AwardPageViewWidget(this.comp, {this.expanded = false, this.padding, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +47,7 @@ class AwardListWidget extends StatelessWidget{
   final int? limit;
   final bool expanded;
 
-  const AwardListWidget(this.awards, this.colors, {this.limit, this.expanded = false, Key? key}): super(key: key);
+  const AwardListWidget(this.awards, this.colors, {this.limit, this.expanded = false, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +73,7 @@ class IndivCompAwardsPage extends StatefulWidget{
 
   final IndivComp comp;
 
-  const IndivCompAwardsPage(this.comp, {Key? key}): super(key: key);
+  const IndivCompAwardsPage(this.comp, {super.key});
 
   @override
   State<StatefulWidget> createState() => IndivCompAwardsPageState();

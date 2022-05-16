@@ -103,7 +103,7 @@ class Header extends ArticleElement{
 
   String text;
 
-  Header({required this.text}):super();
+  Header({required this.text});
 
   static const String jsonName = 'head';
 
@@ -183,7 +183,7 @@ class Youtube extends ArticleElement{
   String link;
   String? desc;
 
-  Youtube({required this.link, this.desc}):super();
+  Youtube({required this.link, this.desc});
 
   static const String jsonName = 'youtube';
 

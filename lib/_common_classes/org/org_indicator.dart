@@ -10,7 +10,7 @@ class OrgIndicator extends StatelessWidget{
   final Org org;
   final double fontSize;
 
-  const OrgIndicator(this.org, {this.fontSize = Dimen.TEXT_SIZE_NORMAL, Key? key}): super(key: key);
+  const OrgIndicator(this.org, {this.fontSize = Dimen.TEXT_SIZE_NORMAL, super.key});
 
   @override
   Widget build(BuildContext context) => Text(

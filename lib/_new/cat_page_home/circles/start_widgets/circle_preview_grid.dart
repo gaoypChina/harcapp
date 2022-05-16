@@ -6,7 +6,7 @@ class CirclePreviewGrid extends StatelessWidget{
 
   final bool? singleLine;
 
-  const CirclePreviewGrid({this.singleLine = false, Key? key}) : super(key: key);
+  const CirclePreviewGrid({this.singleLine = false, super.key});
 
   @override
   Widget build(BuildContext context) => GridView.count(

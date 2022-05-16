@@ -17,7 +17,7 @@ class ParagraphWidget extends StatelessWidget{
 
   final Paragraph paragraph;
 
-  const ParagraphWidget(this.paragraph, {Key? key}): super(key: key);
+  const ParagraphWidget(this.paragraph, {super.key});
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -40,7 +40,7 @@ class HeaderWidget extends StatelessWidget{
 
   final Header header;
 
-  const HeaderWidget(this.header, {Key? key}): super(key: key);
+  const HeaderWidget(this.header, {super.key});
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -63,7 +63,7 @@ class QuoteWidget extends StatelessWidget{
 
   final Quote quote;
 
-  const QuoteWidget(this.quote, {Key? key}): super(key: key);
+  const QuoteWidget(this.quote, {super.key});
 
   TextStyle style(ArticleThemeProvider prov) => HeaderTextStyle(
     //paraFontFamily,
@@ -112,7 +112,7 @@ class PictureWidget extends StatelessWidget{
 
   final Picture picture;
 
-  const PictureWidget(this.picture, {Key? key}): super(key: key);
+  const PictureWidget(this.picture, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +154,7 @@ class YoutubeWidget extends StatelessWidget{
 
   final Youtube item;
 
-  const YoutubeWidget(this.item, {Key? key}): super(key: key);
+  const YoutubeWidget(this.item, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +191,7 @@ class ArticleWidgetSmall extends StatelessWidget{
   final Article article;
   final PageController controller;
 
-  const ArticleWidgetSmall(this.article, this.controller, {Key? key}): super(key: key);
+  const ArticleWidgetSmall(this.article, this.controller, {super.key});
 
   @override
   Widget build(BuildContext context) => AppCard(

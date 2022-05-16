@@ -30,7 +30,7 @@ class AddOkrzykPage extends StatefulWidget {
   Okrzyk? okrzyk;
   final void Function()? onSaved;
 
-  AddOkrzykPage({this.okrzyk, this.onSaved, Key? key}): super(key: key);
+  AddOkrzykPage({this.okrzyk, this.onSaved, super.key});
 
   @override
   State<AddOkrzykPage> createState() => AddOkrzykPageState();

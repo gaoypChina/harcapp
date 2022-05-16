@@ -26,8 +26,8 @@ class ExtendedFloatingButton extends StatelessWidget{
         this.floatingButtonExpanded = true,
         this.onTap,
         this.duration,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   Widget build(BuildContext context) {

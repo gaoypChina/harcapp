@@ -13,7 +13,7 @@ class ShortReadWidget<T extends ShortRead> extends StatefulWidget{
   final String moduleId;
   final T shortRead;
 
-  const ShortReadWidget(this.moduleId, this.shortRead, {Key? key}): super(key: key);
+  const ShortReadWidget(this.moduleId, this.shortRead, {super.key});
 
   @override
   State<StatefulWidget> createState() => ShortReadWidgetState();

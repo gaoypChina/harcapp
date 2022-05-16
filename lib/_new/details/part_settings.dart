@@ -27,7 +27,7 @@ import 'app_settings.dart';
 
 class PartSettings extends StatefulWidget{
 
-  const PartSettings({Key? key}): super(key: key);
+  const PartSettings({super.key});
 
   @override
   State<StatefulWidget> createState() => PartSettingsState();

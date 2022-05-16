@@ -2,17 +2,14 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 
 import '../../_common_widgets/app_text.dart';
 import '../../values/colors.dart';
 import '../../values/fact.dart';
 import 'quote_widget.dart';
-import 'layouts.dart';
 
 class FactWidget extends StatefulWidget{
 
@@ -20,7 +17,7 @@ class FactWidget extends StatefulWidget{
   final IconData? icon;
   final String? Function(Fact?)? subtext;
 
-  const FactWidget(this.allFacts, {this.icon, this.subtext, Key? key}): super(key: key);
+  const FactWidget(this.allFacts, {this.icon, this.subtext, super.key});
 
   @override
   State<StatefulWidget> createState() => FactWidgetState();

@@ -12,7 +12,7 @@ class ParticipHeaderWidget extends StatelessWidget{
   final CompRole? role;
   final dynamic heroTag;
 
-  const ParticipHeaderWidget(this.name, this.shadow, this.role, {this.heroTag, Key? key}): super(key: key);
+  const ParticipHeaderWidget(this.name, this.shadow, this.role, {this.heroTag, super.key});
 
   @override
   Widget build(BuildContext context) => AccountHeaderWidget(

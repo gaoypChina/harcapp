@@ -22,7 +22,7 @@ class SaveSongButton extends StatefulWidget{
   final List<Album>? albums;
   final Function(Song song, EditType editType)? onSaved;
 
-  const SaveSongButton(this.editType, {this.albums, this.onSaved, Key? key}): super(key: key);
+  const SaveSongButton(this.editType, {this.albums, this.onSaved, super.key});
 
   @override
   State<StatefulWidget> createState() => SaveSongButtonState();

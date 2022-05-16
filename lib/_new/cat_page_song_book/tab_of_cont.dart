@@ -91,8 +91,8 @@ class TabOfCont extends StatefulWidget{
         this.pageStorageKey,
         this.showAddSongSuggestion=true,
         this.onNewSongAdded,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   State createState() => TabOfContState();
@@ -459,7 +459,7 @@ class SongTile extends StatelessWidget{
   final Widget? trailing;
   final Function(Song)? onTap;
 
-  const SongTile(this.song, {this.leading, this.trailing, this.onTap, Key? key}): super(key: key);
+  const SongTile(this.song, {this.leading, this.trailing, this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) => ListTile(
@@ -535,7 +535,7 @@ class BottomSheetOptions extends StatefulWidget{
   final SongSearcher? searcher;
   final void Function()? onChanged;
 
-  const BottomSheetOptions(this.searchOptions, this.searcher, {this.onChanged, Key? key}): super(key: key);
+  const BottomSheetOptions(this.searchOptions, this.searcher, {this.onChanged, super.key});
 
   @override
   State<StatefulWidget> createState() => BottomSheetOptionsState();

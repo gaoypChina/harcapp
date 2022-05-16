@@ -76,8 +76,7 @@ class InputField extends StatefulWidget{
     this.noUnderline = true,
     this.maxLength,
     this.inputFormatters,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   State<StatefulWidget> createState() => InputFieldState();
@@ -187,8 +186,7 @@ class InputFieldPassword extends StatefulWidget{
     this.maxLength,
 
     this.enabled = true,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   State<StatefulWidget> createState() => InputFieldPasswordState();

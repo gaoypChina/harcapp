@@ -11,7 +11,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class ShowInitMessageWidget extends StatefulWidget{
 
-  const ShowInitMessageWidget({Key? key}) : super(key: key);
+  const ShowInitMessageWidget({super.key});
 
   @override
   State<StatefulWidget> createState() => ShowInitMessageWidgetState();

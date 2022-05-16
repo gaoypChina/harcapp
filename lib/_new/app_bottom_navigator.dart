@@ -66,7 +66,7 @@ class AppBottomNavigator extends StatelessWidget{
   final Color? unselectedItemColor;
   final double? elevation;
 
-  const AppBottomNavigator({this.background, this.selectedItemColor, this.unselectedItemColor, this.elevation, Key? key}):super(key: key);
+  const AppBottomNavigator({this.background, this.selectedItemColor, this.unselectedItemColor, this.elevation, super.key});
 
   @override
   Widget build(BuildContext context) => Hero(

@@ -12,8 +12,7 @@ class SparklingTilesWidget extends StatefulWidget{
   const SparklingTilesWidget({
     required this.colors,
     required this.count,
-    Key? key
-  }): super(key: key);
+    super.key});
 
 
   @override

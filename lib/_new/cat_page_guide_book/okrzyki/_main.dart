@@ -15,7 +15,7 @@ import 'okrzyk.dart';
 
 class OkrzykiFragment extends StatefulWidget {
 
-  const OkrzykiFragment({Key? key}) : super(key: key);
+  const OkrzykiFragment({super.key});
 
   @override
   State createState() => OkrzykiFragmentState();

@@ -43,8 +43,7 @@ class TabOfContPage extends StatefulWidget{
     this.initPhrase = '',
     this.onNewSongAdded,
     this.forgetScrollPosition = false,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   State createState() => TabOfContPageState();

@@ -86,7 +86,7 @@ class SizeContainer extends StatelessWidget{
   final Widget child;
   final ValueNotifier? notifier;
 
-  const SizeContainer({required this.index, required this.child, required this.notifier, Key? key}): super(key: key);
+  const SizeContainer({required this.index, required this.child, required this.notifier, super.key});
 
   @override
   Widget build(BuildContext context) {

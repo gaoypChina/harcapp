@@ -12,7 +12,7 @@ import 'article_text_style.dart';
 
 class ArticleDrawer extends StatelessWidget{
 
-  const ArticleDrawer({Key? key}) : super(key: key);
+  const ArticleDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class FontCard extends StatelessWidget{
 
   final String fontFamily;
 
-  const FontCard(this.fontFamily, {Key? key}): super(key: key);
+  const FontCard(this.fontFamily, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +102,7 @@ class ColorCard extends StatelessWidget{
 
   final ArticleThemeColorOption colorOption;
 
-  const ColorCard(this.colorOption, {Key? key}): super(key: key);
+  const ColorCard(this.colorOption, {super.key});
 
   @override
   Widget build(BuildContext context) => Consumer<ArticleThemeProvider>(

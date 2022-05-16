@@ -20,8 +20,8 @@ class DrawerTile<T> extends StatelessWidget{
     required this.selectedSource,
     this.onSelect,
     this.trailing,
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) => ListTile(

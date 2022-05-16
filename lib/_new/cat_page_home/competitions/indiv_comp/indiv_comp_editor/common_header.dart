@@ -22,8 +22,8 @@ class CommonHeader extends StatelessWidget{
     this.controller,
     this.focusNode,
     this.heroTag,
-    Key? key
-  }): super(key: key);
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) {

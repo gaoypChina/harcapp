@@ -8,7 +8,7 @@ class GawedaWidget extends StatelessWidget{
 
   final Gaweda gaweda;
 
-  const GawedaWidget(this.gaweda, {Key? key}) : super(key: key);
+  const GawedaWidget(this.gaweda, {super.key});
 
   @override
   Widget build(BuildContext context) => ShortReadWidget<Gaweda>(ModuleStatsMixin.myslHarcGawedy, gaweda);

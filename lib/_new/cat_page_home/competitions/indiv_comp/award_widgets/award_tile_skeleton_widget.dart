@@ -20,8 +20,8 @@ class AwardTileSkeletonWidget extends StatelessWidget{
       this.award,
       this.text,
       { this.titleTrailing,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   Widget build(BuildContext context) => Column(

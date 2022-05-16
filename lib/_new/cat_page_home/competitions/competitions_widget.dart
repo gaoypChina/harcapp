@@ -24,7 +24,7 @@ class CompetitionsWidget extends StatefulWidget{
   final bool singleLine;
   final Widget Function(List<IndivComp>) competitionWidgetBuilder;
 
-  const CompetitionsWidget({this.singleLine = false, required this.competitionWidgetBuilder, Key? key}) : super(key: key);
+  const CompetitionsWidget({this.singleLine = false, required this.competitionWidgetBuilder, super.key});
 
   @override
   State<StatefulWidget> createState() => CompetitionsWidgetState();

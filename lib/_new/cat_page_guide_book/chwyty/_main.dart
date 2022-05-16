@@ -20,7 +20,7 @@ import 'common.dart';
 
 class ChwytyFragment extends StatefulWidget {
 
-  const ChwytyFragment({Key? key}) : super(key: key);
+  const ChwytyFragment({super.key});
 
   @override
   State createState() => ChwytyFragmentState();

@@ -16,7 +16,7 @@ class YoutubeCard extends StatefulWidget{
   final Function(int autoplay, bool random)? onSkipped;
   final Function(int autoplay, bool random)? onEnded;
 
-  const YoutubeCard(this.song, {required this.onSkipped, this.onEnded, Key? key}) : super(key: key);
+  const YoutubeCard(this.song, {required this.onSkipped, this.onEnded, super.key});
 
   @override
   State<StatefulWidget> createState() => YoutubeCardState();

@@ -123,7 +123,7 @@ class _HarcAppState extends State<_HarcApp> with TickerProviderStateMixin{
 class HarcAppRotatedBackground extends StatefulWidget{
 
   final Color color;
-  const HarcAppRotatedBackground(this.color, {Key? key}): super(key: key);
+  const HarcAppRotatedBackground(this.color, {super.key});
 
   @override
   State<StatefulWidget> createState() => HarcAppRotatedBackgroundState();
@@ -175,7 +175,7 @@ class HarcAppRotatedBackgroundState extends State<HarcAppRotatedBackground>{
 
 class HarcAppLogo extends StatelessWidget{
 
-  const HarcAppLogo({Key? key}) : super(key: key);
+  const HarcAppLogo({super.key});
 
   @override
   Widget build(BuildContext context) => Padding(padding: const EdgeInsets.all(Dimen.DEF_MARG),
@@ -187,7 +187,7 @@ class HolyBibleFragWidget extends StatefulWidget{
 
   final List<BibleFrag> allFrags;
 
-  const HolyBibleFragWidget(this.allFrags, {Key? key}): super(key: key);
+  const HolyBibleFragWidget(this.allFrags, {super.key});
 
   @override
   State<StatefulWidget> createState() => HolyBibleFragWidgetState();
@@ -255,7 +255,7 @@ class PatroniteSupport extends StatelessWidget{
 
   final Color textColor;
 
-  const PatroniteSupport({this.textColor = Colors.white, Key? key}): super(key: key);
+  const PatroniteSupport({this.textColor = Colors.white, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -291,7 +291,7 @@ class PatroniteSupport extends StatelessWidget{
 
 class DefaultLayout extends StatefulWidget{
 
-  const DefaultLayout({Key? key}): super(key: key);
+  const DefaultLayout({super.key});
 
   @override
   State<StatefulWidget> createState(){

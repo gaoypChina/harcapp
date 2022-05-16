@@ -5,7 +5,6 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/award_widgets
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_editor/providers.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_details.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +15,7 @@ class IndivCompAwardsEditorWidget extends StatefulWidget{
 
   final IndivCompDetails? initComp;
 
-  const IndivCompAwardsEditorWidget({this.initComp, Key? key}): super(key: key);
+  const IndivCompAwardsEditorWidget({this.initComp, super.key});
 
   @override
   State<StatefulWidget> createState() => _IndivCompAwardsEditorWidgetState();

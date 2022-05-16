@@ -44,7 +44,7 @@ class CircleTypeWidget extends StatelessWidget{
 
   final void Function(NewCircleType type)? onSelected;
 
-  const CircleTypeWidget({this.onSelected, Key? key}): super(key: key);
+  const CircleTypeWidget({this.onSelected, super.key});
 
   @override
   Widget build(BuildContext context) => Column(

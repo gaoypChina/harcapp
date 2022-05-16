@@ -29,8 +29,8 @@ class IndivTaskComplReqWidget extends StatefulWidget{
       {
         required this.adminOrMod,
         this.onSuccess,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   State<StatefulWidget> createState() => IndivTaskComplReqWidgetState();

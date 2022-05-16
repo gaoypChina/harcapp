@@ -12,7 +12,7 @@ import 'cat_page_strefa_ducha/_main.dart';
 
 class MainPage extends StatefulWidget{
 
-  const MainPage({Key? key}) : super(key: key);
+  const MainPage({super.key});
 
   @override
   State<StatefulWidget> createState() => MainPageState();

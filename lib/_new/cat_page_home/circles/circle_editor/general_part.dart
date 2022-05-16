@@ -14,7 +14,7 @@ class GeneralPart extends StatefulWidget{
 
   final PaletteGenerator? palette;
 
-  const GeneralPart({this.palette, Key? key}) : super(key: key);
+  const GeneralPart({this.palette, super.key});
 
   @override
   State<StatefulWidget> createState() => GeneralPartState();

@@ -46,8 +46,7 @@ class MembersPageTempl extends StatelessWidget{
     this.bottom,
 
     required this.itemBuilder,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
@@ -196,8 +195,7 @@ class _ParticipListHeader extends StatelessWidget{
     required this.circleRole,
     required this.title,
     required this.trailing,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   Widget build(BuildContext context) => Row(

@@ -11,7 +11,7 @@ enum Pion {zuch, harcerz, wedrownik}
 
 class PrawoPrzyrzeczenieFragment extends StatefulWidget {
 
-  const PrawoPrzyrzeczenieFragment({Key? key}) : super(key: key);
+  const PrawoPrzyrzeczenieFragment({super.key});
 
   @override
   State createState() => PrawoPrzyrzeczenieFragmentState();

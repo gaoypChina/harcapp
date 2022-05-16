@@ -97,7 +97,7 @@ class AlertDialogButton extends StatelessWidget{
   final bool enabled;
   final void Function() onTap;
 
-  const AlertDialogButton({required this.text, this.textColor, this.enabled = true, required this.onTap, Key? key}): super(key: key);
+  const AlertDialogButton({required this.text, this.textColor, this.enabled = true, required this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) => SimpleButton(
@@ -155,7 +155,7 @@ class NestedPageViewPhysics extends ScrollPhysics{
   final PrimitiveWrapper<PageController> _pageController;
   PageController controller() => _pageController.get();
 
-  const NestedPageViewPhysics(this._pageController, {ScrollPhysics? parent}) : super(parent: parent);
+  const NestedPageViewPhysics(this._pageController, {super.parent});
 
   @override
   NestedPageViewPhysics applyTo(ScrollPhysics? ancestor) =>

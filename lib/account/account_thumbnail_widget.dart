@@ -49,8 +49,8 @@ class AccountThumbnailWidget extends StatelessWidget{
         this.markIcon,
         this.enabled = true,
         this.onTap,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   Widget build(BuildContext context) {

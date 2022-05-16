@@ -12,7 +12,7 @@ class CircleTile extends StatelessWidget{
   
   final Circle circle;
   final void Function()? onTap;
-  const CircleTile(this.circle, {this.onTap, Key? key}) : super(key: key);
+  const CircleTile(this.circle, {this.onTap, super.key});
 
   @override
   Widget build(BuildContext context){
@@ -54,7 +54,7 @@ class CircleTile extends StatelessWidget{
                       children: [
 
                         Text(
-                            circle.name!,
+                            circle.name,
                             style: AppTextStyle(
                               fontSize: Dimen.TEXT_SIZE_APPBAR,
                               fontWeight: weight.bold,

@@ -1,10 +1,8 @@
-import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_def_get_resp.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/data/data_zhp_old.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/data/data_zhr_c.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/data/data_zhr_d.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_cat.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state_local.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state_shared.dart';
@@ -12,20 +10,13 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_sta
 class RankDefData extends RankData{
 
   RankDefData({
-    required String titleMale,
-    String? titleFemale,
-    required int version,
-    required Org org,
-    required String id,
-    required List<RankCatData> catData,
-  }):super(
-    titleMale: titleMale,
-    titleFemale: titleFemale,
-    version: version,
-    org: org,
-    id: id,
-    catData: catData,
-  );
+    required super.titleMale,
+    super.titleFemale,
+    required super.version,
+    required super.org,
+    required super.id,
+    required super.catData,
+  });
 
   @override
   RankDef build() {
@@ -45,7 +36,7 @@ class RankDefData extends RankData{
 
 abstract class RankDefTempl<T extends RankState> extends Rank<RankDefData, RankDefGetResp, T> {
 
-  RankDefTempl(RankDefData data, List<RankCat>? cats) : super(data, cats);
+  RankDefTempl(super.data, super.cats);
 
 }
 
@@ -73,7 +64,7 @@ class RankDef extends RankDefTempl<RankStateLocal>{
   @override
   RankDefPreview preview(RankStateShared sharedState) => data.buildPreview(sharedState);
 
-  RankDef(RankDefData data, List<RankCat>? cats) :  super(data, cats);
+  RankDef(super.data, super.cats);
 
   static const String syncClassId = 'rank_def';
 
@@ -90,6 +81,6 @@ class RankDefPreview extends RankDefTempl<RankStateShared>{
   @override
   RankStateShared state;
 
-  RankDefPreview(RankDefData data, this.state, List<RankCat>? cats) : super(data, cats);
+  RankDefPreview(super.data, this.state, super.cats);
 
 }

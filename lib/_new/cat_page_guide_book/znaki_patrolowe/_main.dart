@@ -13,7 +13,7 @@ import 'data.dart';
 
 class ZnakiPatroloweFragment extends StatefulWidget {
 
-  const ZnakiPatroloweFragment({Key? key}) : super(key: key);
+  const ZnakiPatroloweFragment({super.key});
 
   @override
   State createState() => ZnakiPatroloweFragmentState();
@@ -97,7 +97,7 @@ class Item extends StatelessWidget{
   final ValueNotifier? notifier;
   final int index;
 
-  const Item(this.data, this.notifier, this.index, {Key? key}): super(key: key);
+  const Item(this.data, this.notifier, this.index, {super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -7,7 +7,7 @@ import 'circle_prompt.dart';
 class CirclePromptLogin extends StatelessWidget{
 
   final bool? singleLine;
-  const CirclePromptLogin({this.singleLine, Key? key}): super(key: key);
+  const CirclePromptLogin({this.singleLine, super.key});
 
   @override
   Widget build(BuildContext context) => CirclePrompt(

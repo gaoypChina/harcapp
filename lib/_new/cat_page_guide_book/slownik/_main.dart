@@ -20,7 +20,7 @@ import 'lang.dart';
 
 class SlownikFragment extends StatefulWidget {
 
-  const SlownikFragment({Key? key}) : super(key: key);
+  const SlownikFragment({super.key});
 
   @override
   State createState() => SlownikFragmentState();
@@ -233,7 +233,7 @@ class WordWidget extends StatelessWidget{
 
   final TransWordData word;
   final weight w;
-  const WordWidget(this.word, this.w, {Key? key}): super(key: key);
+  const WordWidget(this.word, this.w, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -274,7 +274,7 @@ class LangButton extends StatelessWidget{
   final Lang lang;
   final bool selected;
   final void Function()? onTap;
-  const LangButton(this.lang, this.selected, {this.onTap, Key? key}): super(key: key);
+  const LangButton(this.lang, this.selected, {this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -302,7 +302,7 @@ class LangsPicker extends StatefulWidget{
 
   final void Function(Lang langFrom, Lang langTo)? onChanged;
 
-  const LangsPicker(this.initLangFrom, this.initLangTo, {this.onChanged, Key? key}): super(key: key);
+  const LangsPicker(this.initLangFrom, this.initLangTo, {this.onChanged, super.key});
 
   @override
   State<StatefulWidget> createState() => LangsPickerState();

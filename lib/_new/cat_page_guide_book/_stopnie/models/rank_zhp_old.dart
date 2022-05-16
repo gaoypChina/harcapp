@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_def_get_resp.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/data/data_zhp_old.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/list_header_widget.dart';
@@ -9,7 +8,6 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/sector_
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/single_header_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/single_line_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_cat.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state_local.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state_shared.dart';
@@ -26,23 +24,16 @@ class RankZHPOldData extends RankData{
   final List<String> warOtw;
 
   RankZHPOldData({
-    required String titleMale,
-    required String titleFemale,
+    required super.titleMale,
+    required super.titleFemale,
     required this.czasTrw,
-    required int version,
-    required Org org,
-    required String id,
+    required super.version,
+    required super.org,
+    required super.id,
     required this.idea,
     required this.warOtw,
-    required List<RankCatData> catData,
-  }):super(
-    titleMale: titleMale,
-    titleFemale: titleFemale,
-    version: version,
-    org: org,
-    id: id,
-    catData: catData,
-  );
+    required super.catData,
+  });
 
   @override
   RankZHPOld build() {
@@ -62,10 +53,7 @@ class RankZHPOldData extends RankData{
 
 abstract class RankZHPOldTempl<T extends RankState> extends Rank<RankZHPOldData, RankDefGetResp, T>{
 
-  RankZHPOldTempl(
-    RankZHPOldData data,
-    List<RankCat>? cats,
-  ):super(data, cats);
+  RankZHPOldTempl(super.data, super.cats);
 
   @override
   buildHeader(BuildContext context) => Column(
@@ -107,15 +95,9 @@ class RankZHPOld extends RankZHPOldTempl<RankStateLocal>{
   @override
   RankZHPOldPreview preview(RankStateShared sharedState) => data.buildPreview(sharedState);
 
-  RankZHPOld(
-    RankZHPOldData data,
-    List<RankCat>? cats,
-  ):super(data, cats);
+  RankZHPOld(super.data, super.cats);
 
   static const String syncClassId = RankDef.syncClassId;
-
-  //@override
-  //SyncableParam get parentParam => RootSyncable(syncClassId);
 
 }
 
@@ -127,6 +109,6 @@ class RankZHPOldPreview extends RankZHPOldTempl<RankStateShared>{
   @override
   RankStateShared state;
 
-  RankZHPOldPreview(RankZHPOldData data, this.state, List<RankCat>? cats) : super(data, cats);
+  RankZHPOldPreview(super.data, this.state, super.cats);
 
 }

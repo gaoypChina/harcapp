@@ -19,7 +19,7 @@ class DangerPart extends StatefulWidget{
   final void Function()? onLeft;
   final void Function()? onError;
 
-  const DangerPart(this.circle, {this.onDeleted, this.onLeft, this.onError, Key? key}) : super(key: key);
+  const DangerPart(this.circle, {this.onDeleted, this.onLeft, this.onError, super.key});
 
   @override
   State<StatefulWidget> createState() => DangerPartState();

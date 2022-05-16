@@ -57,7 +57,7 @@ class IndivCompPage extends StatefulWidget{
   final IndivComp comp;
   final void Function()? onRemoved;
 
-  const IndivCompPage(this.comp, {this.onRemoved, Key? key}): super(key: key);
+  const IndivCompPage(this.comp, {this.onRemoved, super.key});
 
   @override
   State<StatefulWidget> createState() => IndivCompPageState();
@@ -296,7 +296,7 @@ class CompHeaderWidget extends StatelessWidget{
 
   final IndivComp comp;
 
-  const CompHeaderWidget(this.comp, {Key? key}): super(key: key);
+  const CompHeaderWidget(this.comp, {super.key});
 
   @override
   Widget build(BuildContext context) => SizedBox(
@@ -407,7 +407,7 @@ class DateWidget extends StatelessWidget{
   DateTime? get endDate => comp.endTime;
   Color get color => comp.colors.avgColor;
 
-  const DateWidget(this.comp, {Key? key}): super(key: key);
+  const DateWidget(this.comp, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -473,7 +473,7 @@ class AwardsWidget extends StatelessWidget{
   final IndivComp comp;
   final EdgeInsets? padding;
 
-  const AwardsWidget(this.comp, {this.padding, Key? key}): super(key: key);
+  const AwardsWidget(this.comp, {this.padding, super.key});
 
   @override
   Widget build(BuildContext context) => Column(
@@ -503,7 +503,7 @@ class PendingWidget extends StatelessWidget{
   final void Function(IndivCompParticip, IndivCompTaskCompl)? onAccepted;
   final void Function(IndivCompParticip, IndivCompTaskCompl)? onRejected;
 
-  const PendingWidget(this.comp, {this.onAccepted, this.onRejected, Key? key}): super(key: key);
+  const PendingWidget(this.comp, {this.onAccepted, this.onRejected, super.key});
 
   static double get height =>
       Dimen.ICON_FOOTPRINT +
@@ -669,8 +669,8 @@ class TaskListWidget extends StatelessWidget{
       this.comp,
       { this.onReqSent,
         this.onSelfGranted,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -722,7 +722,7 @@ class ParticipantsWidget extends StatelessWidget{
   final IndivComp comp;
   final EdgeInsets padding;
 
-  const ParticipantsWidget(this.comp, {this.padding=EdgeInsets.zero, Key? key}): super(key: key);
+  const ParticipantsWidget(this.comp, {this.padding=EdgeInsets.zero, super.key});
 
   static void onTap(IndivComp comp, BuildContext context) => pushPage(
       context,
@@ -761,7 +761,7 @@ class ParticipantsWidget extends StatelessWidget{
 class LeaveNotAdminDialog extends StatelessWidget{
 
   final IndivComp comp;
-  const LeaveNotAdminDialog(this.comp, {Key? key}): super(key: key);
+  const LeaveNotAdminDialog(this.comp, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -786,7 +786,7 @@ class ShareCodeWidget extends StatefulWidget{
   final IndivComp comp;
   final bool enabled;
 
-  const ShareCodeWidget(this.comp, {this.enabled = true, Key? key}): super(key: key);
+  const ShareCodeWidget(this.comp, {this.enabled = true, super.key});
 
   @override
   State<StatefulWidget> createState() => ShareCodeWidgetState();

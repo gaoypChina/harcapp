@@ -27,22 +27,18 @@ class RankZHRDData extends RankData{
 
   RankZHRDData({
     required String title,
-    required int version,
-    required Org org,
-    required String id,
+    required super.version,
+    required super.org,
+    required super.id,
     required this.minWiek,
     required this.czasTrw,
     required this.zalozenia,
     required this.punktWyjsc,
     required this.wskazowki,
     required this.sylwetka,
-    required List<RankCatData> catData,
+    required super.catData,
   }):super(
-    titleMale: title,
-    version: version,
-    org: org,
-    id: id,
-    catData: catData,
+    titleMale: title
   );
 
   @override
@@ -144,10 +140,7 @@ class RankZHRDData extends RankData{
 
 abstract class RankZHRDTempl<T extends RankState> extends Rank<RankZHRDData, RankDefGetResp, T>{
 
-  RankZHRDTempl(
-    RankZHRDData data,
-    List<RankCat>? cats,
-  ):super(data, cats);
+  RankZHRDTempl(super.data, super.cats);
 
   @override
   buildHeader(BuildContext context) => Column(
@@ -185,10 +178,7 @@ class RankZHRD extends RankZHRDTempl<RankStateLocal>{
 
   static Map<String, Rank> allMap = {for (Rank rank in all) rank.uniqRankName: rank};
 
-  RankZHRD(
-    RankZHRDData data,
-    List<RankCat>? cats,
-  ):super(data, cats);
+  RankZHRD(super.data, super.cats);
 
   @override
   RankStateLocal get state => RankStateLocal(this);

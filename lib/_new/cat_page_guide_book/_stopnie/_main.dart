@@ -25,7 +25,7 @@ class RankPage extends StatefulWidget {
 
   final Org org;
 
-  const RankPage({required this.org, Key? key}): super(key: key);
+  const RankPage({required this.org, super.key});
 
   @override
   State<StatefulWidget> createState() => RankPageState();
@@ -319,8 +319,7 @@ class StopnieBookWidget extends StatelessWidget{
     required this.rankList,
     required this.onOpen,
     this.tabTitle,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   Widget build(BuildContext context) => Consumer<RankProv>(

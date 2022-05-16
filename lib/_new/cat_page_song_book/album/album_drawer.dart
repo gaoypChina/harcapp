@@ -18,7 +18,7 @@ class AlbumDrawer extends StatefulWidget{
   final void Function(Album album)? onSelected;
   final void Function(Album album)? onNewCreated;
 
-  const AlbumDrawer({this.onSelected, this.onNewCreated, Key? key}): super(key: key);
+  const AlbumDrawer({this.onSelected, this.onNewCreated, super.key});
 
   @override
   State createState() => AlbumDrawerState();

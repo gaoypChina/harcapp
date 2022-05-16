@@ -30,7 +30,7 @@ class SlowoKluczStartPage extends StatefulWidget{
   static const leaderBoardColorStart = Colors.red;
   static const leaderBoardColorEnd = Colors.orange;
 
-  const SlowoKluczStartPage({Key? key}) : super(key: key);
+  const SlowoKluczStartPage({super.key});
 
   @override
   State<StatefulWidget> createState() => SlowoKluczStartPageState();
@@ -183,7 +183,7 @@ class LoadGameWidget extends StatelessWidget{
 
   final void Function()? onSavedGameRemoved;
 
-  const LoadGameWidget({this.onSavedGameRemoved, Key? key}): super(key: key);
+  const LoadGameWidget({this.onSavedGameRemoved, super.key});
 
   @override
   Widget build(BuildContext context) => Column(
@@ -247,8 +247,8 @@ class ButtonWidget extends StatelessWidget{
     required this.colorEnd,
     required this.onTap,
     this.withColors=true,
-    Key? key
-  }): super(key: key);
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) {

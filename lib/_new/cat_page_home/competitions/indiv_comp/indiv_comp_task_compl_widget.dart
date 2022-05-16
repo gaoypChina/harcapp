@@ -33,8 +33,8 @@ class IndivCompTaskComplWidget extends StatelessWidget{
         this.onRemoved,
         this.onTap,
         this.heroTag,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   Widget build(BuildContext context){

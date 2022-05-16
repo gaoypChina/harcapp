@@ -26,7 +26,7 @@ import 'data/all_spraw_books.dart';
 
 class SprawnosciPage extends StatefulWidget{
 
-  const SprawnosciPage({Key? key}): super(key: key);
+  const SprawnosciPage({super.key});
 
   @override
   State<StatefulWidget> createState() => SprawnosciPageState();
@@ -192,7 +192,7 @@ class TinySprawSetWidget extends StatelessWidget{
   final bool showProgress;
   final void Function()? onReqComplChanged;
 
-  const TinySprawSetWidget(this.mode, this.uids, {required this.emptyMessage, required this.icon, this.showProgress = false, this.onReqComplChanged, Key? key}): super(key: key);
+  const TinySprawSetWidget(this.mode, this.uids, {required this.emptyMessage, required this.icon, this.showProgress = false, this.onReqComplChanged, super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -22,7 +22,7 @@ class AddUserBottomSheet extends StatelessWidget{
 
   final IndivComp comp;
 
-  const AddUserBottomSheet(this.comp, {Key? key}) : super(key: key);
+  const AddUserBottomSheet(this.comp, {super.key});
 
   @override
   Widget build(BuildContext context) => BottomSheetDef(

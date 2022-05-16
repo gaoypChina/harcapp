@@ -160,7 +160,7 @@ class KeyCard extends StatelessWidget{
   final String? _input;
   final void Function(String key)? onTap;
 
-  const KeyCard(this._key, this._input, {this.onTap, Key? key}): super(key: key);
+  const KeyCard(this._key, this._input, {this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {

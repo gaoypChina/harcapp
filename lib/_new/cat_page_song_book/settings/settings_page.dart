@@ -16,7 +16,7 @@ class SettingsPage extends StatefulWidget {
 
   final void Function(bool)? onScreenAlwaysOnChanged;
 
-  const SettingsPage({this.onScreenAlwaysOnChanged, Key? key}): super(key: key);
+  const SettingsPage({this.onScreenAlwaysOnChanged, super.key});
 
   @override
   State<SettingsPage> createState() => SettingsPageState();

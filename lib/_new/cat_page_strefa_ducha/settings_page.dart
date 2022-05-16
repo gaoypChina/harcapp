@@ -16,7 +16,7 @@ import 'source.dart';
 class SettingsPage extends StatefulWidget {
 
   final void Function()? sourceChanged;
-  const SettingsPage({this.sourceChanged, Key? key}) : super(key: key);
+  const SettingsPage({this.sourceChanged, super.key});
 
   @override
   State<SettingsPage> createState() => SettingsPageState();
@@ -132,7 +132,7 @@ class ItemWidget extends StatefulWidget{
   final void Function()? onTap;
   final void Function()? onRemoved;
 
-  const ItemWidget(this.parent, this.source, this.savedLocally, this.savedLocallySize, {this.onTap, this.onRemoved, Key? key}): super(key: key);
+  const ItemWidget(this.parent, this.source, this.savedLocally, this.savedLocallySize, {this.onTap, this.onRemoved, super.key});
 
   @override
   State<StatefulWidget> createState() => ItemWidgetState();

@@ -13,7 +13,7 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
 
   final ApelEwan apelEwan;
 
-  const ApelEwanThumbnailWidget(this.apelEwan, {Key? key}): super(key: key);
+  const ApelEwanThumbnailWidget(this.apelEwan, {super.key});
 
   @override
   Widget build(BuildContext context) => Hero(

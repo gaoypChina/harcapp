@@ -12,7 +12,7 @@ import '../../details/app_settings.dart';
 
 class ChildStopnie extends StatelessWidget{
 
-  const ChildStopnie({Key? key}) : super(key: key);
+  const ChildStopnie({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -11,7 +11,7 @@ class MembersPage extends StatelessWidget{
   final Circle circle;
   final PaletteGenerator? palette;
 
-  const MembersPage(this.circle, this.palette, {Key? key}): super(key: key);
+  const MembersPage(this.circle, this.palette, {super.key});
 
   @override
   Widget build(BuildContext context) => MembersPageTempl(

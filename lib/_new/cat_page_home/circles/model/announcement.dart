@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/account/account.dart';
 import 'package:provider/provider.dart';
 
 import '../../../api/_api.dart';
 import '../circle_cover_image_data.dart';
-import 'announcement_attendace.dart';
+import 'announcement_attendance_resp.dart';
 import 'announcement_attendance_resp_mode.dart';
 import 'circle.dart';
 
@@ -45,7 +46,6 @@ class Announcement{
     Provider.of<AnnouncementProvider>(context, listen: false).notify();
     Provider.of<AnnouncementListProvider>(context, listen: false).notify();
   }
-
 
   static addToAll(BuildContext context, Announcement ann){
     if(_all == null){
@@ -97,20 +97,27 @@ class Announcement{
   String title;
   DateTime postTime;
   DateTime? lastUpdateTime;
+  DateTime? eventTime;
   UserData author;
   CircleCoverImageData? coverImage;
   String text;
   bool pinned;
   AnnouncementAttendanceRespMode respMode;
-  Map<String, AnnouncementAttendance>? attendance;
+  Map<String, AnnouncementAttendanceResp> attendance;
 
   final Circle? circle;
+
+  AnnouncementAttendanceResp? get myAttendance{
+    if(AccountData.key == null) return null;
+    return attendance[AccountData.key];
+  }
 
   Announcement({
     required this.key,
     required this.title,
     required this.postTime,
     this.lastUpdateTime,
+    required this.eventTime,
     required this.author,
     this.coverImage,
     required this.text,
@@ -118,20 +125,21 @@ class Announcement{
 
     this.circle,
     required this.respMode,
-    this.attendance,
+    required this.attendance,
   });
 
   static Announcement fromMap(Map resp, {String? key}) => Announcement(
     key: key??resp['_key']??(throw InvalidResponseError('_key')),
     title: resp['title']??(throw InvalidResponseError('title')),
     postTime: DateTime.tryParse(resp['post_time_str']??(throw InvalidResponseError('post_time_str')))??(throw InvalidResponseError('post_time_str')),
+    eventTime: resp['event_time'] == null? null: DateTime.tryParse(resp['event_time']),
     lastUpdateTime: resp['last_update_time_str'] == null? null: DateTime.tryParse(resp['last_update_time_str']),
     coverImage: resp['cover_image_url'] == null? null: CircleCoverImageData.from(resp['cover_image_url']),
     author: UserData.fromMap(resp['author']),
     text: resp['text'],
     pinned: resp['pinned'],
-    respMode: resp['attendance_resp_mode']??(throw InvalidResponseError('attendance_resp_mode')),
-    attendance: (resp['attendance_responses'] as Map<String, String>).map((key, value) => MapEntry(key, strToAnnouncementAttendance[value]!))
+    respMode: strToAnnouncementAttendanceRespMode[resp['attendance_resp_mode']]??(throw InvalidResponseError('attendance_resp_mode')),
+    attendance: ((resp['attendance_responses']??{}) as Map).map((key, value) => MapEntry(key, AnnouncementAttendanceResp.fromResponse(value)))
   );
 
 }

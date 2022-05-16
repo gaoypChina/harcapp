@@ -29,7 +29,7 @@ import '_description/desc_zmiana.dart';
 
 class SzyfryFragment extends StatefulWidget {
 
-  const SzyfryFragment({Key? key}) : super(key: key);
+  const SzyfryFragment({super.key});
 
   @override
   State createState() => SzyfryFragmentState();

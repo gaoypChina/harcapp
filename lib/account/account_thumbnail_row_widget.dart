@@ -31,8 +31,8 @@ class AccountThumbnailRowWidget extends StatelessWidget{
         this.screenWidth,
         this.heroBuilder,
         this.onTap,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   double get circleHeight => size??defSize;
   double get circleDistBig => .2*circleHeight;

@@ -51,7 +51,7 @@ class CatPageStrefaDucha extends StatefulWidget {
 
   static const int pageViewExtent = 1;
 
-  const CatPageStrefaDucha({Key? key}) : super(key: key);
+  const CatPageStrefaDucha({super.key});
 
   static String gitDuchoweImageUrl(String sourceCode, String fileName) => 'https://gitlab.com/n3o2k7i8ch5/harcapp_data/raw/master/duchowe/$sourceCode/$fileName';
 
@@ -490,7 +490,7 @@ class _DrawerTile extends StatelessWidget{
 
 class _HeartWidget extends StatefulWidget{
 
-  const _HeartWidget({Key? key}) : super(key: key);
+  const _HeartWidget({super.key});
 
   @override
   State<StatefulWidget> createState() => _HeartWidgetState();

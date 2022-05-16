@@ -12,7 +12,7 @@ class MemberHeaderWidget extends StatelessWidget{
   final CircleRole role;
   final dynamic heroTag;
 
-  const MemberHeaderWidget(this.name, this.shadow, this.role, {this.heroTag, Key? key}): super(key: key);
+  const MemberHeaderWidget(this.name, this.shadow, this.role, {this.heroTag, super.key});
 
   @override
   Widget build(BuildContext context) => AccountHeaderWidget(

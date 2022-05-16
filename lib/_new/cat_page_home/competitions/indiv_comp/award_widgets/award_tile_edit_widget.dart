@@ -26,8 +26,8 @@ class AwardTileEditWidget extends StatelessWidget{
       { this.onChanged,
         this.onDuplicate,
         this.onRemove,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   Widget build(BuildContext context) => AwardTileSkeletonWidget(

@@ -45,7 +45,7 @@ class OwnSongPage extends StatefulWidget {
   final EditType editType;
   final Function(Song song, EditType editType)? onSaved;
 
-  const OwnSongPage(this.song, this.editType, this.onSaved, {Key? key}): super(key: key);
+  const OwnSongPage(this.song, this.editType, this.onSaved, {super.key});
 
   static from({SongRaw? song, Function(Song song, EditType editType)? onSaved}){
 
@@ -339,7 +339,7 @@ class OwnSongPageState extends State<OwnSongPage> {
 
 class SongWebEditorInfo extends StatelessWidget{
 
-  const SongWebEditorInfo({Key? key}) : super(key: key);
+  const SongWebEditorInfo({super.key});
 
   @override
   Widget build(BuildContext context) {

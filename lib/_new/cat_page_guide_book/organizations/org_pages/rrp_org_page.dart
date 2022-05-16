@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/cat_page_guide_book/organizations/org_cards/rrp_org_card_widget.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -11,7 +10,7 @@ import 'common.dart';
 
 class RRPOrgPage extends StatefulWidget{
 
-  const RRPOrgPage({Key? key}) : super(key: key);
+  const RRPOrgPage({super.key});
 
   @override
   State<StatefulWidget> createState() => RRPOrgPageState();

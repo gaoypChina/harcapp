@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
@@ -19,7 +18,7 @@ import 'package:provider/provider.dart';
 
 class SharedRanksPage extends StatefulWidget{
 
-  const SharedRanksPage({Key? key}) : super(key: key);
+  const SharedRanksPage({super.key});
 
   @override
   State<StatefulWidget> createState() => SharedRanksPageState();

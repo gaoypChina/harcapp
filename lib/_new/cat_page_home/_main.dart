@@ -31,7 +31,7 @@ enum DrawerPage{
 
 class CatPageHome extends StatefulWidget{
 
-  const CatPageHome({Key? key}) : super(key: key);
+  const CatPageHome({super.key});
 
   @override
   State<StatefulWidget> createState() => CatPageHomeState();
@@ -182,7 +182,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
 
 class CirclePreviewWidget extends StatelessWidget{
 
-  const CirclePreviewWidget({Key? key}) : super(key: key);
+  const CirclePreviewWidget({super.key});
 
   @override
   Widget build(BuildContext context) => CompetitionsWidget(

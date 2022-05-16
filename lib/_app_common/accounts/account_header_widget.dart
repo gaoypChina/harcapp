@@ -16,8 +16,8 @@ class AccountHeaderWidget extends StatelessWidget{
         this.leading,
         this.trailing,
         this.heroTag,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   Widget build(BuildContext context){

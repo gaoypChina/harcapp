@@ -21,7 +21,7 @@ class LogoutDialog extends StatefulWidget{
 
   final void Function()? onLoggedOut;
 
-  const LogoutDialog({this.onLoggedOut, Key? key}): super(key: key);
+  const LogoutDialog({this.onLoggedOut, super.key});
 
   @override
   State<StatefulWidget> createState() => LogoutDialogState();

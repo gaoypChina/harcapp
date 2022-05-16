@@ -13,7 +13,7 @@ class AlbumPart extends StatefulWidget{
   final OwnSongPageState parent;
   List<Album>? get albums => parent.albums;
 
-  const AlbumPart(this.parent, {Key? key}): super(key: key);
+  const AlbumPart(this.parent, {super.key});
 
   @override
   State<StatefulWidget> createState() => AlbumPartState();
@@ -97,7 +97,7 @@ class AlbumPicker extends StatefulWidget{
 
   final void Function()? onChanged;
 
-  const AlbumPicker({this.onChanged, Key? key}): super(key: key);
+  const AlbumPicker({this.onChanged, super.key});
 
   @override
   State<StatefulWidget> createState() => AlbumPickerState();

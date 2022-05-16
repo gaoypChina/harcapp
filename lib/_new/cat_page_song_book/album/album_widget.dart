@@ -23,7 +23,7 @@ class AlbumWidget extends StatelessWidget{
   final Widget? bottom;
   final Widget? trailing;
 
-  const AlbumWidget(this.album, {this.onTap, this.bottom, this.trailing, Key? key}): super(key: key);
+  const AlbumWidget(this.album, {this.onTap, this.bottom, this.trailing, super.key});
 
   @override
   Widget build(BuildContext context) {

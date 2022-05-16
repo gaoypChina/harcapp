@@ -16,7 +16,7 @@ class SprawIcon extends StatefulWidget{
   final double? size;
   final void Function()? onTap;
 
-  const SprawIcon(this.spraw, {this.size, this.onTap, Key? key}): super(key: key);
+  const SprawIcon(this.spraw, {this.size, this.onTap, super.key});
 
   @override
   State<StatefulWidget> createState() => SprawIconState();
@@ -72,7 +72,7 @@ class SprawIconPlaceholder extends StatelessWidget{
   final Spraw? spraw;
   final double? size;
 
-  const SprawIconPlaceholder(this.spraw, {this.size, Key? key}): super(key: key);
+  const SprawIconPlaceholder(this.spraw, {this.size, super.key});
 
   @override
   Widget build(BuildContext context) {

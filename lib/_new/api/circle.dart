@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendace.dart';
+import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendance_resp.dart';
 
 import '../cat_page_home/circles/circle_role.dart';
 import '../cat_page_home/circles/model/announcement.dart';
@@ -23,9 +24,7 @@ class MemberBodyNick extends MemberBody{
 
   final String nick;
 
-  const MemberBodyNick(String key, CircleRole role, this.nick): super(
-      key, role
-  );
+  const MemberBodyNick(super.key, super.role, this.nick);
 
 }
 
@@ -359,7 +358,7 @@ class ApiCircle{
     required AnnouncementAttendance response,
     String? rejectionReason,
     DateTime? postponeResponseTime,
-    void Function()? onSuccess,
+    void Function(AnnouncementAttendanceResp)? onSuccess,
     void Function()? onError,
   }) => API.sendRequest(
       withToken: true,
@@ -372,7 +371,7 @@ class ApiCircle{
         }),
       ),
       onSuccess: (Response response) async =>
-          onSuccess?.call(),
+          onSuccess?.call(AnnouncementAttendanceResp.fromResponse(response.data)),
       onError: (err) async => onError?.call()
   );
   

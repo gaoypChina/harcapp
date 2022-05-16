@@ -25,20 +25,16 @@ class RankZHRCData extends RankData{
 
   RankZHRCData({
     required String title,
-    required int version,
-    required Org org,
-    required String id,
+    required super.version,
+    required super.org,
+    required super.id,
     required this.minWiek,
     required this.czasTrw,
     required this.idea,
     required this.koment,
-    required List<RankCatData> catData,
+    required super.catData,
   }):super(
-    titleMale: title,
-    version: version,
-    org: org,
-    id: id,
-    catData: catData,
+    titleMale: title
   );
 
   @override
@@ -97,10 +93,7 @@ abstract class RankZHRCTempl<T extends RankState> extends Rank<RankZHRCData, Ran
   String? get idea => data.idea;
   List<RankGroupData>? get koment => data.koment;
 
-  RankZHRCTempl(
-    RankZHRCData data,
-    List<RankCat>? cats,
-  ):super(data, cats);
+  RankZHRCTempl(super.data, super.cats);
 
   @override
   buildHeader(BuildContext context) => Column(
@@ -140,10 +133,7 @@ class RankZHRC<T extends RankState> extends RankZHRCTempl<RankStateLocal>{
 
   static Map<String, Rank> allMap = {for (Rank rank in all) rank.uniqRankName: rank};
 
-  RankZHRC(
-    RankZHRCData data,
-    List<RankCat>? cats,
-  ):super(data, cats);
+  RankZHRC(super.data, super.cats);
 
   @override
   RankStateLocal get state => RankStateLocal(this);
@@ -163,6 +153,6 @@ class RankZHRCPreview extends RankZHRCTempl<RankStateShared>{
   @override
   RankStateShared state;
 
-  RankZHRCPreview(RankZHRCData data, this.state, List<RankCat>? cats) : super(data, cats);
+  RankZHRCPreview(super.data, this.state, super.cats);
 
 }

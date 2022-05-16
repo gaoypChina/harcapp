@@ -15,7 +15,7 @@ class PendingTasksPage extends StatefulWidget{
   final List<IndivCompTaskCompl>? complTasks;
   final void Function(IndivCompTaskCompl)? onRemoved;
 
-  const PendingTasksPage(this.comp, this.complTasks, {this.onRemoved, Key? key}): super(key: key);
+  const PendingTasksPage(this.comp, this.complTasks, {this.onRemoved, super.key});
 
   @override
   State<StatefulWidget> createState() => PendingTasksPageState();

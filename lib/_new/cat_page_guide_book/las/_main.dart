@@ -21,7 +21,7 @@ import 'data.dart';
 
 class LasFragment extends StatefulWidget{
 
-  const LasFragment({Key? key}) : super(key: key);
+  const LasFragment({super.key});
 
   @override
   State createState() => LasFragmentState();
@@ -117,7 +117,7 @@ class Item extends StatelessWidget{
   final ItemData data;
   final ValueNotifier<double>? notifier;
 
-  const Item(this.index, this.data, this.notifier, {Key? key}): super(key: key);
+  const Item(this.index, this.data, this.notifier, {super.key});
 
   @override
   Widget build(BuildContext context) {

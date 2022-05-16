@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_common_classes/blur.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/auto_rotate.dart';
@@ -31,7 +30,7 @@ class AppDrawer extends StatelessWidget{
   final Widget body;
   final Color? backgroundColor;
 
-  const AppDrawer({required this.body, this.backgroundColor, Key? key}):super(key: key);
+  const AppDrawer({required this.body, this.backgroundColor, super.key});
 
   @override
   Widget build(BuildContext context) => Drawer(
@@ -78,7 +77,7 @@ class AppDrawer extends StatelessWidget{
 
 class AccountHeaderIcon extends StatelessWidget{
 
-  const AccountHeaderIcon({Key? key}) : super(key: key);
+  const AccountHeaderIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +102,7 @@ class AccountHeader extends StatelessWidget{
   static const double iconSize = 54.0;
 
   final Widget? leading;
-  const AccountHeader({this.leading, Key? key}): super(key: key);
+  const AccountHeader({this.leading, super.key});
 
   static const IconData icon = MdiIcons.accountCircleOutline;
 
@@ -249,7 +248,7 @@ class AccountHeader extends StatelessWidget{
 
 class SyncWidget extends StatefulWidget{
 
-  const SyncWidget({Key? key}) : super(key: key);
+  const SyncWidget({super.key});
 
   @override
   State<StatefulWidget> createState() => SyncWidgetState();

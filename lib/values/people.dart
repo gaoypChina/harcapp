@@ -603,7 +603,7 @@ class PersonCardSimple extends StatelessWidget{
   final Person person;
   final Color? textColor;
 
-  const PersonCardSimple(this.person, {this.textColor, Key? key}): super(key: key);
+  const PersonCardSimple(this.person, {this.textColor, super.key});
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
@@ -644,7 +644,7 @@ class PersonCard extends StatelessWidget{
   final double textSize;
   final Color? textColor;
   
-  const PersonCard(this.person, {this.textSize = Dimen.TEXT_SIZE_BIG, this.textColor, Key? key}): super(key: key);
+  const PersonCard(this.person, {this.textSize = Dimen.TEXT_SIZE_BIG, this.textColor, super.key});
 
   @override
   Widget build(BuildContext context) => Column(

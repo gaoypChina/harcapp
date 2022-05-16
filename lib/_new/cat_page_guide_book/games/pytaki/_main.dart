@@ -16,7 +16,7 @@ import '../../../module_statistics_registrator.dart';
 
 class GamePytakiPage extends StatefulWidget{
 
-  const GamePytakiPage({Key? key}) : super(key: key);
+  const GamePytakiPage({super.key});
 
   @override
   State<StatefulWidget> createState() => GamePytakiPageState();

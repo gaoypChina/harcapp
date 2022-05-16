@@ -5,7 +5,6 @@ import 'package:harcapp/_new/details/part_contributors.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -185,7 +184,7 @@ class CoverImageWidget extends StatefulWidget{
   final bool? selected;
   final void Function()? onTap;
 
-  const CoverImageWidget(this.coverImage, {this.selected, this.onTap, Key? key}) : super(key: key);
+  const CoverImageWidget(this.coverImage, {this.selected, this.onTap, super.key});
 
   @override
   State<StatefulWidget> createState() => CoverImageWidgetState();

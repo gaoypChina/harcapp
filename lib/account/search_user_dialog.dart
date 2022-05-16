@@ -32,7 +32,7 @@ class SearchUserWidget extends StatefulWidget{
   final List<String>? illegalUserKey;
   final String? illegalAttemptMessage;
 
-  const SearchUserWidget({this.title, this.onUserSelected, this.illegalUserKey, this.illegalAttemptMessage, Key? key}): super(key: key);
+  const SearchUserWidget({this.title, this.onUserSelected, this.illegalUserKey, this.illegalAttemptMessage, super.key});
 
   @override
   State<StatefulWidget> createState() => SearchUserWidgetState();

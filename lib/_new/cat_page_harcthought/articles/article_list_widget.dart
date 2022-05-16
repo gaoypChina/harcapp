@@ -29,8 +29,8 @@ class ArticleListWidget extends StatelessWidget{
         this.emptyIcon,
         this.mode=ArticleListMode.ListView,
         this.itemPadding=EdgeInsets.zero,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   Widget build(BuildContext context) {

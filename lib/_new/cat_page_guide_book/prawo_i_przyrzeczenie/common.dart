@@ -21,7 +21,7 @@ class PrawoItem extends StatelessWidget{
   final String content;
   final String? comment;
 
-  const PrawoItem(this.number, this.icon, this.content, {this.comment, Key? key}): super(key: key);
+  const PrawoItem(this.number, this.icon, this.content, {this.comment, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class PrawoItem extends StatelessWidget{
 class PrzyrzeczenieItem extends StatelessWidget{
 
   final String title, content;
-  const PrzyrzeczenieItem(this.title, this.content, {Key? key}): super(key: key);
+  const PrzyrzeczenieItem(this.title, this.content, {super.key});
 
   @override
   Widget build(BuildContext context) => AppCard(
@@ -103,7 +103,7 @@ class WedroTab extends TabItem{
 
 class WedroTabChild extends StatelessWidget{
 
-  const WedroTabChild({Key? key}) : super(key: key);
+  const WedroTabChild({super.key});
 
   @override
   Widget build(BuildContext context) => Consumer<OrgProvider>(

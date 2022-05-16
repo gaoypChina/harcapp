@@ -6,6 +6,7 @@ import '../../../api/_api.dart';
 import '../circle_cover_image_data.dart';
 import '../circle_role.dart';
 import 'announcement.dart';
+import 'announcement_attendance_resp_mode.dart';
 import 'member.dart';
 
 class CircleProvider extends ChangeNotifier{
@@ -184,6 +185,14 @@ class Circle{
   Map<String, Announcement> _announcementsMap;
   List<Announcement> get announcements => _announcements;
   Map<String, Announcement>? get announcementsMap => _announcementsMap;
+
+  List<Announcement> get pinnedAnnouncements => _announcements.where((ann) => ann.pinned).toList();
+
+  List<Announcement> get awaitingAnnouncements => announcements.where(
+          (ann) =>
+      ann.respMode == AnnouncementAttendanceRespMode.OBLIGATORY &&
+          ann.myAttendance == null
+  ).toList();
 
   void addAnnouncement(Announcement announcement){
     _announcements.add(announcement);

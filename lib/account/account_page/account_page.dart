@@ -51,7 +51,7 @@ class AccountPage extends StatefulWidget{
       ));
   }
 
-  const AccountPage({Key? key}): super(key: key);
+  const AccountPage({super.key});
 
   @override
   State<StatefulWidget> createState() => AccountPageState();
@@ -217,7 +217,7 @@ class RotatingHarcAppLogo extends StatefulWidget{
   final double size;
   final Color? color;
 
-  const RotatingHarcAppLogo({this.size = defSize, this.color, Key? key}): super(key: key);
+  const RotatingHarcAppLogo({this.size = defSize, this.color, super.key});
 
   @override
   State<StatefulWidget> createState() => RotatingHarcAppLogoState();

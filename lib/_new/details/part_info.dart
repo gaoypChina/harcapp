@@ -12,7 +12,7 @@ import 'changelog_widget.dart';
 
 class PartInfo extends StatefulWidget{
 
-  const PartInfo({Key? key}) : super(key: key);
+  const PartInfo({super.key});
 
   @override
   State<StatefulWidget> createState() => PartInfoState();

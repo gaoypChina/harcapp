@@ -181,7 +181,7 @@ class App extends StatefulWidget {
     return date.day > 5 && date.day < 12;
   }
 
-  const App({Key? key}): super(key: key);
+  const App({super.key});
 
   @override
   State<StatefulWidget> createState() => AppState();

@@ -6,13 +6,12 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import '../../values/definition.dart';
 import 'quote_widget.dart';
-import 'layouts.dart';
 
 class DefinitionWidget extends StatefulWidget{
 
   final Definition? definition;
 
-  const DefinitionWidget({this.definition, Key? key}): super(key: key);
+  const DefinitionWidget({this.definition, super.key});
 
   @override
   State<StatefulWidget> createState() => DefinitionWidgetState();

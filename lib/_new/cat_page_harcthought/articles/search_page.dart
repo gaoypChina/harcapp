@@ -27,7 +27,7 @@ class ArticleSearchPage extends StatefulWidget{
 
   final List<Article> allArticles;
 
-  const ArticleSearchPage(this.allArticles, {Key? key}): super(key: key);
+  const ArticleSearchPage(this.allArticles, {super.key});
 
   @override
   State createState() => ArticleSearchPageState();
@@ -311,8 +311,8 @@ class BottomSheetOptions extends StatefulWidget{
       this.searchOptions,
       this.searcher,
       { this.onChanged,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   State<StatefulWidget> createState() => BottomSheetOptionsState();

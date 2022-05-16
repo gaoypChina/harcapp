@@ -265,7 +265,7 @@ class KuchSectionHeader extends StatelessWidget{
   final Color? color;
   final double paddingLeft;
 
-  const KuchSectionHeader({required this.text, this.color, this.paddingLeft = Dimen.ICON_FOOTPRINT, Key? key}): super(key: key);
+  const KuchSectionHeader({required this.text, this.color, this.paddingLeft = Dimen.ICON_FOOTPRINT, super.key});
 
   @override
   Widget build(BuildContext context) => Padding(

@@ -6,7 +6,7 @@ class IndivCompPreviewGrid extends StatelessWidget{
 
   final bool? singleLine;
 
-  const IndivCompPreviewGrid({this.singleLine = false, Key? key}) : super(key: key);
+  const IndivCompPreviewGrid({this.singleLine = false, super.key});
 
   @override
   Widget build(BuildContext context) => GridView.count(

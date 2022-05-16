@@ -32,7 +32,9 @@ import 'package:provider/provider.dart';
 
 import '../../_common_classes/app_navigator.dart';
 import '../app_drawer.dart';
+import 'apel_ewan/apel_ewan_page.dart';
 import 'apel_ewan/apel_ewan_thumbnail_widget.dart';
+import 'apel_ewan/data.dart';
 import 'articles/article_core.dart';
 import 'articles/article_list_widget.dart';
 import 'articles/article_loader.dart';
@@ -48,7 +50,7 @@ import 'harc_forms/harc_forms_page.dart';
 
 class CatPageHarcThought extends StatefulWidget{
 
-  const CatPageHarcThought({Key? key}) : super(key: key);
+  const CatPageHarcThought({super.key});
 
   @override
   State createState() => CatPageHarcThoughtState();
@@ -153,7 +155,6 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
 
             const SizedBox(height: Dimen.SIDE_MARG),
 
-            /*
             Padding(
               padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
               child: TitleShortcutRowWidget(
@@ -169,7 +170,6 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
 
             const SizedBox(height: Dimen.SIDE_MARG),
 
-             */
           ]),
         )
 
@@ -482,7 +482,7 @@ class FormsScrollView extends StatelessWidget{
 
   final List<HarcForm> forms;
 
-  const FormsScrollView(this.forms, {Key? key}): super(key: key);
+  const FormsScrollView(this.forms, {super.key});
 
   @override
   Widget build(BuildContext context) => SizedBox(
@@ -505,7 +505,7 @@ class _ApelEwanScrollView extends StatelessWidget{
 
   final List<ApelEwan> apelEwanList;
 
-  const _ApelEwanScrollView(this.apelEwanList, {Key? key}): super(key: key);
+  const _ApelEwanScrollView(this.apelEwanList, {super.key});
 
   @override
   Widget build(BuildContext context) => SizedBox(

@@ -25,7 +25,7 @@ class AddUserBottomSheet extends StatelessWidget{
   final Circle? circle;
   final PaletteGenerator? palette;
 
-  const AddUserBottomSheet(this.circle, this.palette, {Key? key}) : super(key: key);
+  const AddUserBottomSheet(this.circle, this.palette, {super.key});
 
   @override
   Widget build(BuildContext context) => BottomSheetDef(

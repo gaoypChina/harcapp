@@ -18,7 +18,7 @@ class ChildZHR extends StatefulWidget{
   final List<Org> allowedOrgs;
   final void Function(Pion)? onTabChanged;
 
-  const ChildZHR({required this.initPion, required this.allowedOrgs, this.onTabChanged, Key? key}): super(key: key);
+  const ChildZHR({required this.initPion, required this.allowedOrgs, this.onTabChanged, super.key});
 
   @override
   State<StatefulWidget> createState() => ChildZHRState();

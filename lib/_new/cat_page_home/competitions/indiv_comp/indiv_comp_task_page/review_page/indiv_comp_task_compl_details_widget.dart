@@ -45,8 +45,8 @@ class IndivCompTaskComplDetailsWidget extends StatefulWidget{
       this.colors,
       { this.padding,
         this.onAcceptStateChanged,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   State<StatefulWidget> createState() => IndivCompTaskComplDetailsWidgetState();

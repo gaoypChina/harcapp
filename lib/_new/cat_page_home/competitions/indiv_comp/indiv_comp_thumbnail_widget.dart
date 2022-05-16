@@ -31,8 +31,7 @@ class IndivCompThumbnailWidget extends StatelessWidget{
     this.size=defSize,
     this.onTap,
     this.heroTag,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   static IndivCompThumbnailWidget random() => IndivCompThumbnailWidget(
       iconKey: CommonIconData.randomKey,

@@ -11,7 +11,7 @@ class ColorSelectorWidget extends StatefulWidget{
   final String? initColorKey;
   final void Function(String colorKey)? onSelected;
   
-  const ColorSelectorWidget({this.initColorKey, this.onSelected, Key? key}): super(key: key);
+  const ColorSelectorWidget({this.initColorKey, this.onSelected, super.key});
   
   @override
   State<StatefulWidget> createState() => ColorSelectorWidgetState();
@@ -88,7 +88,7 @@ class ColorDataWidget extends StatelessWidget{
   final String colorsKey;
   final Function(String colorsKey)? onTap;
 
-  const ColorDataWidget(this.colorsKey, {this.onTap, Key? key}): super(key: key);
+  const ColorDataWidget(this.colorsKey, {this.onTap, super.key});
 
   static const double BUTTON_SIZE = 60.0;
   static const double _BUTTON_SIZE_SMALL = 48.0;

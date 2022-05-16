@@ -75,7 +75,7 @@ class ChildMorse extends StatefulWidget{
 
   final ChildMorseCommonValues? commonVals;
 
-  const ChildMorse(this.commonVals, {Key? key}): super(key: key);
+  const ChildMorse(this.commonVals, {super.key});
 
   @override
   State<StatefulWidget> createState() => ChildMorseState();

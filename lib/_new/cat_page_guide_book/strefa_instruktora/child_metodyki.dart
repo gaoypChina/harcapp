@@ -12,7 +12,7 @@ import '../../details/app_settings.dart';
 
 class ChildMetodyki extends StatelessWidget{
 
-  const ChildMetodyki({Key? key}) : super(key: key);
+  const ChildMetodyki({super.key});
 
   @override
   Widget build(BuildContext context) {

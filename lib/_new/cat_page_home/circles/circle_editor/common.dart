@@ -18,7 +18,7 @@ class LeaveCircleButton extends StatelessWidget{
   final void Function()? onLeft;
   final void Function()? onError;
 
-  const LeaveCircleButton(this.circle, {this.onLeft, this.onError, Key? key}): super(key: key);
+  const LeaveCircleButton(this.circle, {this.onLeft, this.onError, super.key});
 
   @override
   Widget build(BuildContext context) => ListTile(

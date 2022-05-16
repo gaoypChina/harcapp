@@ -7,7 +7,7 @@ import 'article_list_widget.dart';
 
 class BookmarkedArticlesPage extends StatelessWidget{
 
-  const BookmarkedArticlesPage({Key? key}) : super(key: key);
+  const BookmarkedArticlesPage({super.key});
 
   @override
   Widget build(BuildContext context) {

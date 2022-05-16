@@ -40,8 +40,8 @@ class SprawNamesWidget extends StatefulWidget{
         this.onCheckChanged,
         required this.checkVisible,
         required this.checkable,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   State<StatefulWidget> createState() => SprawNamesWidgetState();

@@ -12,7 +12,7 @@ import '../../module_statistics_registrator.dart';
 
 class StrukturaFunkcjeFragment extends StatefulWidget {
 
-  const StrukturaFunkcjeFragment({Key? key}) : super(key: key);
+  const StrukturaFunkcjeFragment({super.key});
 
   @override
   State<StatefulWidget> createState() => StrukturaFunkcjeFragmentState();
@@ -272,7 +272,7 @@ class Line extends StatelessWidget{
 
 class LineHor extends StatelessWidget{
 
-  const LineHor({Key? key}) : super(key: key);
+  const LineHor({super.key});
 
   @override
   Widget build(BuildContext context) => Container(color: textDisab_(context), height: 3, width: double.infinity);

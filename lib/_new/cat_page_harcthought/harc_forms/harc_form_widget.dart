@@ -16,7 +16,7 @@ class HarcFormWidget extends StatefulWidget{
 
   final HarcForm form;
 
-  const HarcFormWidget(this.form, {Key? key}): super(key: key);
+  const HarcFormWidget(this.form, {super.key});
 
   @override
   State<StatefulWidget> createState() => HarcFormWidgetState();
@@ -233,7 +233,7 @@ class _MetoTile extends StatelessWidget{
 class MetoGridWidget extends StatelessWidget{
 
   final HarcForm form;
-  const MetoGridWidget(this.form, {Key? key}): super(key: key);
+  const MetoGridWidget(this.form, {super.key});
 
   @override
   Widget build(BuildContext context) => Column(

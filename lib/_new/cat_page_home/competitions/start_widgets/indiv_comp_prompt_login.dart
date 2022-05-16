@@ -7,7 +7,7 @@ import 'indiv_comp_prompt.dart';
 class IndivCompPromptLogin extends StatelessWidget{
 
   final bool? singleLine;
-  const IndivCompPromptLogin({this.singleLine, Key? key}): super(key: key);
+  const IndivCompPromptLogin({this.singleLine, super.key});
 
   @override
   Widget build(BuildContext context) => IndivCompPrompt(

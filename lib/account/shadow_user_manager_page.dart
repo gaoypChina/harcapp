@@ -31,7 +31,7 @@ class ShadowUserManagerPage extends StatefulWidget{
   final Widget? Function(UserDataNick)? itemSubtitleBuilder;
   final void Function(UserDataNick)? onTap;
 
-  const ShadowUserManagerPage({this.itemSubtitleBuilder, this.onTap, Key? key}) : super(key: key);
+  const ShadowUserManagerPage({this.itemSubtitleBuilder, this.onTap, super.key});
 
   @override
   State<StatefulWidget> createState() => ShadowUserManagerPageState();
@@ -202,7 +202,7 @@ class ShadowUserTile extends StatefulWidget{
   final void Function()? onEdited;
   final void Function()? onRemoved;
 
-  const ShadowUserTile(this.shadowUser, {this.subtitle, this.onTap, this.onEdited, this.onRemoved, Key? key}) : super(key: key);
+  const ShadowUserTile(this.shadowUser, {this.subtitle, this.onTap, this.onEdited, this.onRemoved, super.key});
 
   @override
   State<StatefulWidget> createState() => ShadowUserTileState();
@@ -297,7 +297,7 @@ class AddShadowUserDialog extends StatefulWidget{
   final UserDataNick? user;
   final void Function(UserDataNick user)? onSuccess;
 
-  const AddShadowUserDialog({this.user, this.onSuccess, Key? key}) : super(key: key);
+  const AddShadowUserDialog({this.user, this.onSuccess, super.key});
 
   @override
   State<StatefulWidget> createState() => AddShadowUserDialogState();

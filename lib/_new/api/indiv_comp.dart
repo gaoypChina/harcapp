@@ -29,9 +29,7 @@ class ParticipBodyNick extends ParticipBody{
 
   final String? nick;
 
-  const ParticipBodyNick(String key, CompRole role, bool active, this.nick): super(
-    key, role, active
-  );
+  const ParticipBodyNick(super.key, super.role, super.active, this.nick);
 
 }
 

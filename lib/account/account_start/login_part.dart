@@ -35,7 +35,7 @@ class LoginPart extends StatefulWidget{
   final String? initPassword;
   final void Function(bool? accActivated)? onLoggedIn;
 
-  const LoginPart({this.initEmail, this.initPassword, this.onLoggedIn, Key? key}): super(key: key);
+  const LoginPart({this.initEmail, this.initPassword, this.onLoggedIn, super.key});
 
   @override
   State<StatefulWidget> createState() => LoginPartState();
@@ -297,7 +297,7 @@ class RotatingHarcAppLogo extends StatefulWidget{
   final double size;
   final Color? color;
 
-  const RotatingHarcAppLogo({this.size = defSize, this.color, Key? key}): super(key: key);
+  const RotatingHarcAppLogo({this.size = defSize, this.color, super.key});
 
   @override
   State<StatefulWidget> createState() => RotatingHarcAppLogoState();
@@ -352,7 +352,7 @@ class HarcAppWidget extends StatelessWidget{
   final double size;
   final Color? color;
 
-  const HarcAppWidget({this.size = defSize, this.color, Key? key}): super(key: key);
+  const HarcAppWidget({this.size = defSize, this.color, super.key});
 
   @override
   Widget build(BuildContext context) => SvgPicture.asset(

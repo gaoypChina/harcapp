@@ -14,7 +14,7 @@ class IndivCompDangerEditorWidget extends StatefulWidget{
   final IndivComp comp;
   final void Function()? onRemoved;
 
-  const IndivCompDangerEditorWidget(this.comp, {this.onRemoved, Key? key}): super(key: key);
+  const IndivCompDangerEditorWidget(this.comp, {this.onRemoved, super.key});
 
   @override
   State<StatefulWidget> createState() => _IndivCompDangerEditorWidgetState();

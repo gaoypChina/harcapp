@@ -35,7 +35,7 @@ class SlowoKluczMainGamePage extends StatefulWidget{
   final GameMode mode;
   final List<Word> words;
 
-  const SlowoKluczMainGamePage(this.mode, this.words, {Key? key}): super(key: key);
+  const SlowoKluczMainGamePage(this.mode, this.words, {super.key});
 
   @override
   State<StatefulWidget> createState() => SlowoKluczMainGamePageState();
@@ -369,7 +369,7 @@ class QRCodeWidget extends StatelessWidget{
 
   final String encodedGameInstance;
 
-  const QRCodeWidget(this.encodedGameInstance, {Key? key}): super(key: key);
+  const QRCodeWidget(this.encodedGameInstance, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -439,8 +439,7 @@ class InfoWidget extends StatefulWidget{
     required this.color,
     required this.textColor,
     required this.text,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   State<StatefulWidget> createState() => InfoWidgetState();
@@ -493,7 +492,7 @@ class GameRules extends StatelessWidget{
 
   final ColorPack colorPack;
 
-  const GameRules(this.colorPack, {Key? key}) : super(key: key);
+  const GameRules(this.colorPack, {super.key});
 
   @override
   Widget build(BuildContext context) => Column(

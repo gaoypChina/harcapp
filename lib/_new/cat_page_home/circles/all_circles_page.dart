@@ -15,7 +15,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 
-import '../_main.dart';
 import 'circle_editor/_main.dart';
 import 'circle_loader.dart';
 import 'circle_page.dart';
@@ -28,7 +27,7 @@ class AllCirclesPage extends StatefulWidget{
 
   final void Function(Circle)? onCircleTap;
 
-  const AllCirclesPage({this.onCircleTap, Key? key}) : super(key: key);
+  const AllCirclesPage({this.onCircleTap, super.key});
 
   @override
   State<StatefulWidget> createState() => AllCirclesPageState();
@@ -111,7 +110,7 @@ class _CompListWidget extends StatefulWidget{
 
   final void Function(Circle)? onCircleTap;
 
-  const _CompListWidget({this.onCircleTap, Key? key}): super(key: key);
+  const _CompListWidget({this.onCircleTap, super.key});
 
   @override
   State<StatefulWidget> createState() => _CompListWidgetState();
@@ -141,7 +140,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
 
     List<Circle> circles = [];
     for(Circle circle in Circle.all!)
-      if(remPolChars(circle.name!).contains(remPolChars(text)))
+      if(remPolChars(circle.name).contains(remPolChars(text)))
         circles.add(circle);
 
     searchedCircles = circles;
@@ -202,7 +201,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
 
 class NewCircleButton extends StatelessWidget{
 
-  const NewCircleButton({Key? key}) : super(key: key);
+  const NewCircleButton({super.key});
 
   @override
   Widget build(BuildContext context) => SimpleButton(

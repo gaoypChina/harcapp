@@ -72,8 +72,8 @@ class IndivCompRankTopIcon extends StatelessWidget{
         required this.rank,
         required this.colorStart,
         required this.colorEnd,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   Color get borderColor => (AppSettings.isDark?Colors.white:Colors.black).withOpacity(.04);
 
@@ -117,7 +117,7 @@ class IndivCompRankTopIcon extends StatelessWidget{
 class IndivCompRankFirstIcon extends StatelessWidget{
 
   final double size;
-  const IndivCompRankFirstIcon({this.size = 56, Key? key}): super(key: key);
+  const IndivCompRankFirstIcon({this.size = 56, super.key});
 
   @override
   Widget build(BuildContext context) => IndivCompRankTopIcon(
@@ -132,7 +132,7 @@ class IndivCompRankFirstIcon extends StatelessWidget{
 class IndivCompRankSecondIcon extends StatelessWidget{
 
   final double size;
-  const IndivCompRankSecondIcon({this.size = 56, Key? key}): super(key: key);
+  const IndivCompRankSecondIcon({this.size = 56, super.key});
 
   @override
   Widget build(BuildContext context) => IndivCompRankTopIcon(
@@ -147,7 +147,7 @@ class IndivCompRankSecondIcon extends StatelessWidget{
 class IndivCompRankThirdIcon extends StatelessWidget{
 
   final double size;
-  const IndivCompRankThirdIcon({this.size = 56, Key? key}): super(key: key);
+  const IndivCompRankThirdIcon({this.size = 56, super.key});
 
   @override
   Widget build(BuildContext context) => IndivCompRankTopIcon(
@@ -186,8 +186,7 @@ class IndivCompRankOtherIcon extends StatelessWidget{
 
     required this.colors,
     this.size = 56,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   Color get borderColor => (AppSettings.isDark?Colors.white:Colors.black).withOpacity(.08);
 
@@ -427,8 +426,8 @@ class IndivCompRankIcon extends StatelessWidget{
         required this.colors,
         this.size = defSize,
         this.showPopularityOnTap = false,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   Widget build(BuildContext context) => GestureDetector(
@@ -466,8 +465,8 @@ class IndivCompRankIconTemplate extends StatelessWidget{
       this.rank,
       { required this.colors,
         this.size = 56,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   Widget build(BuildContext context) {

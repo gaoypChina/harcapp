@@ -14,7 +14,7 @@ class TagWidget extends StatelessWidget{
 
   final ItemData data;
 
-  const TagWidget(this.data, {Key? key}): super(key: key);
+  const TagWidget(this.data, {super.key});
 
   @override
   Widget build(BuildContext context) {

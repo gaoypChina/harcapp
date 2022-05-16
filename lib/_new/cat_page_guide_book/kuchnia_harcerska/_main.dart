@@ -20,7 +20,7 @@ import 'meal_widget.dart';
 
 class KuchniaHarcerskaFragment extends StatefulWidget {
 
-  const KuchniaHarcerskaFragment({Key? key}) : super(key: key);
+  const KuchniaHarcerskaFragment({super.key});
 
   @override
   State createState() => KuchniaHarcerskaFragmentState();

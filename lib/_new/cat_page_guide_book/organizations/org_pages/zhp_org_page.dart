@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/cat_page_guide_book/organizations/org_cards/zhp_org_card_widget.dart';
 import 'package:harcapp/values/colors.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -15,7 +14,7 @@ import 'common.dart';
 
 class ZHPOrgPage extends StatefulWidget {
 
-  const ZHPOrgPage({Key? key}) : super(key: key);
+  const ZHPOrgPage({super.key});
 
   @override
   State<StatefulWidget> createState() => ZHPOrgPageState();

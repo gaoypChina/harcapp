@@ -115,8 +115,7 @@ class PageTemplate extends StatelessWidget{
     required this.totalAnimDuration,
     required this.totalFinishedDuration,
     required this.totalReverseWaitDuration,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   Widget build(BuildContext context) {

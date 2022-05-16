@@ -11,7 +11,7 @@ class HarcFormsPage extends StatefulWidget{
 
   final List<HarcForm> allHarcForms;
 
-  const HarcFormsPage(this.allHarcForms, {Key? key}): super(key: key);
+  const HarcFormsPage(this.allHarcForms, {super.key});
   
   @override
   State<StatefulWidget> createState() => HarcFormsPageState();

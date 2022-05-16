@@ -62,7 +62,7 @@ class CatPageSongBook extends StatefulWidget{
 
   static const pageViewExtents = 1;
 
-  const CatPageSongBook({Key? key}) : super(key: key);
+  const CatPageSongBook({super.key});
 
   @override
   State createState() => CatPageSongBookState();

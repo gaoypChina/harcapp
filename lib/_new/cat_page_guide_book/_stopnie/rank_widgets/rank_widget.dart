@@ -61,8 +61,7 @@ class RankWidget extends StatefulWidget{
     this.onReqCompletedChanged,
 
     this.previewOnly = false,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   State<StatefulWidget> createState() => RankWidgetState();
@@ -225,7 +224,7 @@ class StopField extends StatelessWidget{
 
   final String title;
   final String text;
-  const StopField({required this.title, required this.text, Key? key}): super(key: key);
+  const StopField({required this.title, required this.text, super.key});
 
   @override
   Widget build(BuildContext context) => Column(
@@ -265,7 +264,7 @@ class RankOneLineField extends StatelessWidget{
 
   final String title;
   final String text;
-  const RankOneLineField({required this.title, required this.text, Key? key}): super(key: key);
+  const RankOneLineField({required this.title, required this.text, super.key});
 
   @override
   Widget build(BuildContext context) => Row(
@@ -297,7 +296,7 @@ class SharedUsersWidget extends StatefulWidget implements PreferredSizeWidget{
   
   final Rank? rank;
 
-  const SharedUsersWidget(this.rank, {Key? key}): super(key: key);
+  const SharedUsersWidget(this.rank, {super.key});
   
   @override
   State<StatefulWidget> createState() => SharedUsersWidgetState();
@@ -536,7 +535,7 @@ class ShareDialog extends StatefulWidget{
   final Rank? rank;
   final SharedUsersProvider? sharedUsersProv;
   
-  const ShareDialog(this.rank, this.sharedUsersProv, {Key? key}): super(key: key);
+  const ShareDialog(this.rank, this.sharedUsersProv, {super.key});
 
   @override
   State<StatefulWidget> createState() => ShareDialogState();

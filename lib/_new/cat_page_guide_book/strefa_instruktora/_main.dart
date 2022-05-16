@@ -14,7 +14,7 @@ import 'child_stopnie.dart';
 
 class StrefaInstruktoraFragment extends StatefulWidget {
 
-  const StrefaInstruktoraFragment({Key? key}) : super(key: key);
+  const StrefaInstruktoraFragment({super.key});
 
   @override
   State<StatefulWidget> createState() => StrefaInstruktoraFragmentState();

@@ -18,7 +18,7 @@ class RankTileWidget<T extends Rank> extends StatelessWidget {
 
   final T rank;
 
-  const RankTileWidget({required this.rank, Key? key}): super(key: key);
+  const RankTileWidget({required this.rank, super.key});
 
   @override
   Widget build(BuildContext context) {

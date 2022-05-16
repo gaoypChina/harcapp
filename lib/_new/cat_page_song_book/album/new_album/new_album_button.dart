@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -15,7 +14,7 @@ import 'new_album_page.dart';
 class NewAlbumButton extends StatelessWidget{
 
   final void Function(Album album)? onNewCreated;
-  const NewAlbumButton({this.onNewCreated, Key? key}): super(key: key);
+  const NewAlbumButton({this.onNewCreated, super.key});
 
   @override
   Widget build(BuildContext context) => SimpleButton(

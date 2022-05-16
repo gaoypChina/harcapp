@@ -44,7 +44,7 @@ class ParticipantListAdminPage extends StatefulWidget{
 
   final IndivComp comp;
 
-  const ParticipantListAdminPage(this.comp, {Key? key}): super(key: key);
+  const ParticipantListAdminPage(this.comp, {super.key});
 
   @override
   State<StatefulWidget> createState() => ParticipantListAdminPageState();
@@ -385,8 +385,8 @@ class _ParticipTile extends StatefulWidget{
         this.onSelectionTap,
         this.onPointsGranted,
         this.heroTag,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   State<StatefulWidget> createState() => _ParticipTileState();
@@ -716,7 +716,7 @@ class AcceptTaskWidget extends StatefulWidget{
   final void Function(List<IndivCompTaskCompl>, Map<String, ShowRankData>)? onSuccess;
   final void Function()? onError;
 
-  const AcceptTaskWidget(this.comp, this.selectedParticips, {this.onSuccess, this.onError, Key? key}): super(key: key);
+  const AcceptTaskWidget(this.comp, this.selectedParticips, {this.onSuccess, this.onError, super.key});
 
   @override
   State<StatefulWidget> createState() => AcceptTaskWidgetState();

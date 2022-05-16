@@ -17,7 +17,7 @@ class AwardTileWidget extends StatelessWidget{
       this.position,
       this.colors,
       this.award,
-      { Key? key}): super(key: key);
+      { super.key});
 
   @override
   Widget build(BuildContext context) => AwardTileSkeletonWidget(

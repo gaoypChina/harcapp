@@ -7,7 +7,7 @@ class CoverImage extends StatelessWidget{
 
   final CircleCoverImageData? coverImage;
 
-  const CoverImage(this.coverImage, {Key? key}) : super(key: key);
+  const CoverImage(this.coverImage, {super.key});
 
   @override
   Widget build(BuildContext context) => Image(

@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/main_page_new.dart';
 import 'package:harcapp/account/account_start/input_field_controller.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -26,7 +25,7 @@ class SexInputField extends StatelessWidget{
   final InputFieldController? controller;
   final void Function(Sex)? onSexChanged;
 
-  const SexInputField(this.sex, {this.enabled = true, this.controller, this.onSexChanged, Key? key}): super(key: key);
+  const SexInputField(this.sex, {this.enabled = true, this.controller, this.onSexChanged, super.key});
 
   @override
   Widget build(BuildContext context) {

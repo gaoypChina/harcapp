@@ -704,7 +704,7 @@ class ListCard extends StatelessWidget{
   final String version;
   final List<String> changelog;
 
-  const ListCard(this.version, this.changelog, {Key? key}): super(key: key);
+  const ListCard(this.version, this.changelog, {super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -11,7 +11,7 @@ class ApelEwanWidget extends StatefulWidget{
 
   final ApelEwan apelEwan;
 
-  const ApelEwanWidget(this.apelEwan, {Key? key}): super(key: key);
+  const ApelEwanWidget(this.apelEwan, {super.key});
 
   @override
   State<StatefulWidget> createState() => ApelEwanWidgetState();

@@ -47,8 +47,8 @@ class SprawWidget extends StatefulWidget{
         this.onCompleted,
         this.onAbandoned,
         this.onStartStop,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   State<StatefulWidget> createState() => SprawWidgetState();

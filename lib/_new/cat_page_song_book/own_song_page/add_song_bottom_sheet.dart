@@ -19,7 +19,7 @@ class AddSongBottomSheet extends StatelessWidget{
 
   final void Function(Song song, EditType editType)? onSaved;
 
-  const AddSongBottomSheet({this.onSaved, Key? key}): super(key: key);
+  const AddSongBottomSheet({this.onSaved, super.key});
 
   @override
   Widget build(BuildContext context) => BottomSheetDef(

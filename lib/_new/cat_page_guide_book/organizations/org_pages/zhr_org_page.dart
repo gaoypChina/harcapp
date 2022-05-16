@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/cat_page_guide_book/organizations/org_cards/zhr_org_card_widget.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
@@ -14,7 +13,7 @@ import 'common.dart';
 
 class ZHROrgPage extends StatefulWidget{
 
-  const ZHROrgPage({Key? key}) : super(key: key);
+  const ZHROrgPage({super.key});
 
   @override
   State<StatefulWidget> createState() => ZHROrgPageState();

@@ -17,7 +17,7 @@ class StartStopButton extends StatelessWidget{
 
   final void Function(bool inProgress)? onPressed;
 
-  const StartStopButton({required this.color, required this.inProgress, required this.completenessPercent, this.onPressed, Key? key}): super(key: key);
+  const StartStopButton({required this.color, required this.inProgress, required this.completenessPercent, this.onPressed, super.key});
 
   @override
   Widget build(BuildContext context) {

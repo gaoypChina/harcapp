@@ -22,7 +22,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class StorageDisplayPage extends StatefulWidget{
 
-  const StorageDisplayPage({Key? key}) : super(key: key);
+  const StorageDisplayPage({super.key});
 
   @override
   State<StatefulWidget> createState() => StorageDisplayPageState();
@@ -206,7 +206,7 @@ class JSONFileDisplayer extends StatelessWidget{
 
   final String filePath;
 
-  const JSONFileDisplayer(this.filePath, {Key? key}): super(key: key);
+  const JSONFileDisplayer(this.filePath, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -265,7 +265,7 @@ class FolderDisplayer extends StatefulWidget{
   final bool removable;
   final void Function()? onRemoved;
 
-  const FolderDisplayer(this.folderPath, {this.displayFileName, this.displayText, this.emptyText = '', this.removable = false, this.onRemoved, Key? key}): super(key: key);
+  const FolderDisplayer(this.folderPath, {this.displayFileName, this.displayText, this.emptyText = '', this.removable = false, this.onRemoved, super.key});
 
   @override
   State<StatefulWidget> createState() => FolderDisplayerState();
@@ -382,7 +382,7 @@ class JSONFolderDisplayer extends StatelessWidget{
   final String folderPath;
   final String Function(String)? displayFileName;
 
-  const JSONFolderDisplayer(this.folderPath, {this.displayFileName, Key? key}): super(key: key);
+  const JSONFolderDisplayer(this.folderPath, {this.displayFileName, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -402,7 +402,7 @@ class ImageFolderDisplayer extends StatelessWidget{
 
   final String folderPath;
 
-  const ImageFolderDisplayer(this.folderPath, {Key? key}): super(key: key);
+  const ImageFolderDisplayer(this.folderPath, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -505,7 +505,7 @@ class TextDisplayer extends StatelessWidget{
   final String title;
   final String text;
 
-  const TextDisplayer(this.title, this.text, {Key? key}): super(key: key);
+  const TextDisplayer(this.title, this.text, {super.key});
 
   @override
   Widget build(BuildContext context) {

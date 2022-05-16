@@ -21,7 +21,7 @@ class KeyPage extends StatefulWidget{
   final Function(String key, bool isValid)? onKeyTap;
   final Function(String key, bool isValid)? onKeyChanged;
 
-  const KeyPage({this.onKeyTap, this.onKeyChanged, Key? key}): super(key: key);
+  const KeyPage({this.onKeyTap, this.onKeyChanged, super.key});
 
   @override
   State<StatefulWidget> createState() => KeyPageState();
@@ -123,7 +123,7 @@ class SuggCard extends StatelessWidget{
   final String _key;
   final void Function(String key)? onTap;
 
-  const SuggCard(this._key, {this.onTap, Key? key}): super(key: key);
+  const SuggCard(this._key, {this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -15,8 +15,7 @@ class EmptyMessageWidget extends StatelessWidget{
     required this.icon,
     this.color,
     this.size = 92, //Dimen.ICON_EMPTY_INFO_SIZE,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   Widget build(BuildContext context) => Column(

@@ -17,7 +17,7 @@ class AppDetails extends StatefulWidget{
   static open(BuildContext context) => Navigator.push(context, MaterialPageRoute(builder: (context) => const AppDetails()));
 
   final int initPage;
-  const AppDetails({this.initPage = 0, Key? key}): super(key: key);
+  const AppDetails({this.initPage = 0, super.key});
 
   @override
   State<StatefulWidget> createState() => AppDetailsState();

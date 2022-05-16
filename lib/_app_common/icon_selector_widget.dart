@@ -12,7 +12,7 @@ class IconSelectorWidget extends StatefulWidget{
   final String? initIconKey;
   final void Function(String iconKey)? onSelected;
   
-  const IconSelectorWidget({this.initIconKey, this.onSelected, Key? key}): super(key: key);
+  const IconSelectorWidget({this.initIconKey, this.onSelected, super.key});
   
   @override
   State<StatefulWidget> createState() => IconSelectorWidgetState();

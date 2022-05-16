@@ -8,7 +8,7 @@ class NetImagePickerWidget extends StatefulWidget{
 
   final TextEditingController? controller;
 
-  const NetImagePickerWidget({this.controller, Key? key}) : super(key: key);
+  const NetImagePickerWidget({this.controller, super.key});
 
   @override
   State<StatefulWidget> createState() => NetImagePickerWidgetState();

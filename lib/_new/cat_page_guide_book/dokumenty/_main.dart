@@ -10,7 +10,7 @@ import 'child_faktury.dart';
 
 class DokumentyFragment extends StatefulWidget {
 
-  const DokumentyFragment({Key? key}) : super(key: key);
+  const DokumentyFragment({super.key});
 
   @override
   State<StatefulWidget> createState() => DokumentyFragmentState();

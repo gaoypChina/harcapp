@@ -247,7 +247,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
 
 class CoverProblemWidget extends StatelessWidget{
 
-  const CoverProblemWidget({Key? key}) : super(key: key);
+  const CoverProblemWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

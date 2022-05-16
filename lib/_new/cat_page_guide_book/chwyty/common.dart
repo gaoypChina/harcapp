@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -176,8 +175,8 @@ class RoundContainer extends StatelessWidget{
       { this.width = -1,
         this.color = Colors.black,
         this.text,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   @override
   Widget build(BuildContext context) {

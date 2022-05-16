@@ -32,7 +32,7 @@ class PreviewCardsGridWidget extends StatelessWidget{
   final bool withWords;
   final PreviewCardsGridController? controller;
 
-  const PreviewCardsGridWidget({this.withColors=true, this.withWords=false, this.controller, Key? key}): super(key: key);
+  const PreviewCardsGridWidget({this.withColors=true, this.withWords=false, this.controller, super.key});
 
   @override
   Widget build(BuildContext context) {

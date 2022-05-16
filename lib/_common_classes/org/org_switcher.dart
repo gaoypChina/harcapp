@@ -23,7 +23,7 @@ class OrgSwitcher extends StatelessWidget{
   final bool longPressable;
   final Function(Org currentState)? onTap;
 
-  const OrgSwitcher({this.allowedOrgs=Org.values, this.longPressable = true, this.onTap, Key? key}): super(key: key);
+  const OrgSwitcher({this.allowedOrgs=Org.values, this.longPressable = true, this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) => Consumer<OrgProvider>(

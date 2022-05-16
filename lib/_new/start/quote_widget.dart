@@ -10,7 +10,7 @@ class QuoteWidget extends StatefulWidget{
   final Quote? quote;
   final List<Quote>? quotes;
 
-  const QuoteWidget({this.quote, this.quotes, Key? key}): super(key: key);
+  const QuoteWidget({this.quote, this.quotes, super.key});
 
   @override
   State<StatefulWidget> createState() => QuoteWidgetState();

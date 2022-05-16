@@ -21,8 +21,7 @@ class PhoneWidget extends StatelessWidget{
     required this.size,
     required this.duration,
     this.bottomLineDark=true,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -102,8 +101,7 @@ class ScreenMainScreen extends StatelessWidget{
     required this.size,
     this.highlightButtonPlayers=false,
     this.highlightButtonLeader=false,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -221,7 +219,7 @@ class ScreenMainScreen extends StatelessWidget{
 
 class ScreenQRCode extends StatelessWidget {
 
-  const ScreenQRCode({Key? key}) : super(key: key);
+  const ScreenQRCode({super.key});
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -232,7 +230,7 @@ class ScreenQRCode extends StatelessWidget {
 
 class ScreenCamera extends StatelessWidget {
 
-  const ScreenCamera({Key? key}) : super(key: key);
+  const ScreenCamera({super.key});
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -243,7 +241,7 @@ class ScreenCamera extends StatelessWidget {
 
 class ScreenScanning extends StatelessWidget {
 
-  const ScreenScanning({Key? key}) : super(key: key);
+  const ScreenScanning({super.key});
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -254,7 +252,7 @@ class ScreenScanning extends StatelessWidget {
 
 class ScreenCheck extends StatelessWidget {
 
-  const ScreenCheck({Key? key}) : super(key: key);
+  const ScreenCheck({super.key});
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -273,8 +271,7 @@ class ScreenGamePlay extends StatelessWidget {
     this.withColors=false,
     this.withWords=false,
     this.controller,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   Widget build(BuildContext context) => RotatedBox(

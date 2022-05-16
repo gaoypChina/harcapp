@@ -43,8 +43,8 @@ class ParticipTile extends StatelessWidget{
         this.subtitle,
         this.mardIcon,
         this.heroTag,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   static ParticipTile fromUserData(UserData userData, {bool active = true, CompRole role = CompRole.OBSERVER, heroTag}) =>
       ParticipTile(

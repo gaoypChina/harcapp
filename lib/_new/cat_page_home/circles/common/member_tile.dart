@@ -44,8 +44,8 @@ class MemberTile extends StatelessWidget{
         this.subtitle,
         this.mardIcon,
         this.heroTag,
-        Key? key
-      }): super(key: key);
+        super.key
+      });
 
   static MemberTile fromUserData(UserData userData, {heroTag}) =>
       MemberTile(

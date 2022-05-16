@@ -16,7 +16,7 @@ class AlbumChooser extends StatefulWidget{
   final Function(Album album)? onSelectionChanged;
   final Function(Album album)? onNewAlbumCreated;
 
-  const AlbumChooser(this.song, {this.onSelectionChanged, this.onNewAlbumCreated, Key? key}): super(key: key);
+  const AlbumChooser(this.song, {this.onSelectionChanged, this.onNewAlbumCreated, super.key});
 
   @override
   State<StatefulWidget> createState() => AlbumChooserState();

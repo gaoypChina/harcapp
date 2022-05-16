@@ -26,7 +26,7 @@ class SprawFolderSelector extends StatefulWidget{
 
   final String sprawUID;
 
-  const SprawFolderSelector(this.sprawUID, {Key? key}): super(key: key);
+  const SprawFolderSelector(this.sprawUID, {super.key});
 
   @override
   State<StatefulWidget> createState() => SprawFolderSelectorState();

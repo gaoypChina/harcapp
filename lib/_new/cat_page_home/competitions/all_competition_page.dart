@@ -30,7 +30,7 @@ import 'indiv_comp/models/indiv_comp.dart';
 
 class CompetitionsPage extends StatefulWidget{
 
-  const CompetitionsPage({Key? key}) : super(key: key);
+  const CompetitionsPage({super.key});
 
   @override
   State<StatefulWidget> createState() => CompetitionsPageState();
@@ -199,7 +199,7 @@ class _CompListWidgetState extends State<_CompListWidget>{
 
 class NewIndivCompButton extends StatelessWidget{
 
-  const NewIndivCompButton({Key? key}) : super(key: key);
+  const NewIndivCompButton({super.key});
 
   @override
   Widget build(BuildContext context) => SimpleButton(

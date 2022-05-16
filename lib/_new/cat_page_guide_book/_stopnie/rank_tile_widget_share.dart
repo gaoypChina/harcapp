@@ -25,7 +25,7 @@ class RankTileWidgetShare extends StatelessWidget {
 
   final SharedRankMetaData data;
 
-  const RankTileWidgetShare(this.data, {Key? key}): super(key: key);
+  const RankTileWidgetShare(this.data, {super.key});
 
   @override
   Widget build(BuildContext context) {

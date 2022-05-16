@@ -40,8 +40,7 @@ class IndivCompTaskSkeletonWidget extends StatelessWidget{
     this.bottom,
     this.front,
     this.onTap,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   Widget build(BuildContext context) {

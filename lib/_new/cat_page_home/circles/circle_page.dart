@@ -78,7 +78,7 @@ class CirclePage extends StatefulWidget{
   final Circle circle;
   final void Function()? onLeft;
   final void Function()? onDeleted;
-  const CirclePage(this.circle, {this.onLeft, this.onDeleted, Key? key}) : super(key: key);
+  const CirclePage(this.circle, {this.onLeft, this.onDeleted, super.key});
 
   @override
   State<StatefulWidget> createState() => CirclePageState();
@@ -313,15 +313,15 @@ class CirclePageState extends State<CirclePage>{
                         margin: EdgeInsets.zero,
                         padding: EdgeInsets.zero,
                         onTap: () => pushPage(
-                            context,
-                            builder: (context) => AnnouncementEditorPage(
-                              circle: circle,
-                              palette: paletteGenerator,
-                              onSaved: (announcement){
-                                circle.addAnnouncement(announcement);
-                                setState(() {});
-                              },
-                            )
+                          context,
+                          builder: (context) => AnnouncementEditorPage(
+                            circle: circle,
+                            palette: paletteGenerator,
+                            onSaved: (announcement){
+                              circle.addAnnouncement(announcement);
+                              setState(() {});
+                            },
+                          )
                         ),
                         color: cardColor,
                         clipBehavior: Clip.antiAlias,
@@ -373,12 +373,14 @@ class CirclePageState extends State<CirclePage>{
                                 ),
                                 margin: EdgeInsets.zero,
                                 child: Text(
-                                    'Przypięte (${circle.announcements.where((ann) => ann.pinned).length})',
-                                    style: AppTextStyle(
-                                        fontSize: Dimen.TEXT_SIZE_BIG,
-                                        fontWeight: currTab == pinnedAnnsTab?weight.halfBold:weight.normal,
-                                        color: currTab == pinnedAnnsTab?iconEnab_(context):iconDisab_(context)
-                                    )
+                                  circle.pinnedAnnouncements.isEmpty?
+                                  'Przypięte':
+                                  'Przypięte (${circle.pinnedAnnouncements.length})',
+                                  style: AppTextStyle(
+                                      fontSize: Dimen.TEXT_SIZE_BIG,
+                                      fontWeight: currTab == pinnedAnnsTab?weight.halfBold:weight.normal,
+                                      color: currTab == pinnedAnnsTab?iconEnab_(context):iconDisab_(context)
+                                  )
                                 ),
                                 onTap: () => setState(() => currTab = pinnedAnnsTab)
                             ),
@@ -407,12 +409,14 @@ class CirclePageState extends State<CirclePage>{
                                 ),
                                 margin: EdgeInsets.zero,
                                 child: Text(
-                                    'Oczekujące',
-                                    style: AppTextStyle(
-                                        fontSize: Dimen.TEXT_SIZE_BIG,
-                                        fontWeight: currTab == awaitingAnnsTab?weight.halfBold:weight.normal,
-                                        color: currTab == awaitingAnnsTab?iconEnab_(context):iconDisab_(context)
-                                    )
+                                  circle.awaitingAnnouncements.isEmpty?
+                                  'Oczekujące':
+                                  'Oczekujące (${circle.awaitingAnnouncements.length})',
+                                  style: AppTextStyle(
+                                      fontSize: Dimen.TEXT_SIZE_BIG,
+                                      fontWeight: currTab == awaitingAnnsTab?weight.halfBold:weight.normal,
+                                      color: currTab == awaitingAnnsTab?iconEnab_(context):iconDisab_(context)
+                                  )
                                 ),
                                 onTap: () => setState(() => currTab = awaitingAnnsTab)
                             ),
@@ -428,9 +432,10 @@ class CirclePageState extends State<CirclePage>{
 
                 if(currTab == allAnnsTab)
                   getAllAnnouncements()
-                else
+                else if(currTab == pinnedAnnsTab)
                   getPinnedAnnouncements()
-
+                else if(currTab == awaitingAnnsTab)
+                  getAwaitingAnnouncements()
               ]
           )
 
@@ -466,7 +471,7 @@ class CirclePageState extends State<CirclePage>{
           bottom: Dimen.SIDE_MARG,
         ),
         sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-                (context, index) => AnnouncementWidget(
+            (context, index) => AnnouncementWidget(
               circle.announcements.reversed.toList()[index],
               paletteGenerator: paletteGenerator,
               onUpdateTap: (){
@@ -514,6 +519,7 @@ class CirclePageState extends State<CirclePage>{
                 );
 
               },
+              onAttendanceChanged: (_) => setState((){}),
             ),
             separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
             count: circle.announcements.length
@@ -524,9 +530,7 @@ class CirclePageState extends State<CirclePage>{
 
   Widget getPinnedAnnouncements(){
 
-    List<Announcement> pinnedAnns = circle.announcements.where((ann) => ann.pinned).toList();
-
-    if(pinnedAnns.isEmpty)
+    if(circle.pinnedAnnouncements.isEmpty)
       return SliverPadding(
         padding: const EdgeInsets.only(
           top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
@@ -553,11 +557,11 @@ class CirclePageState extends State<CirclePage>{
         ),
         sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
             (context, index) => AnnouncementWidget(
-              pinnedAnns.reversed.toList()[index],
+              circle.pinnedAnnouncements.reversed.toList()[index],
               paletteGenerator: paletteGenerator,
               onUpdateTap: (){
 
-                Announcement announcement  = pinnedAnns.reversed.toList()[index];
+                Announcement announcement  = circle.pinnedAnnouncements.reversed.toList()[index];
 
                 pushPage(
                     context,
@@ -579,14 +583,14 @@ class CirclePageState extends State<CirclePage>{
               },
               onPinTap: () async {
 
-                Announcement announcement = pinnedAnns.reversed.toList()[index];
+                Announcement announcement = circle.pinnedAnnouncements.reversed.toList()[index];
 
                 await ApiCircle.updateAnnouncement(
                     annKey: announcement.key,
                     pinned: !announcement.pinned,
                     onSuccess: (updatedAnnouncement) async {
 
-                      pinnedAnns.reversed.toList()[index].pinned = updatedAnnouncement.pinned;
+                      circle.pinnedAnnouncements.reversed.toList()[index].pinned = updatedAnnouncement.pinned;
 
                       if(updatedAnnouncement.pinned)
                         showAppToast(context, text: 'Przypięto post');
@@ -600,9 +604,95 @@ class CirclePageState extends State<CirclePage>{
                 );
 
               },
+              onAttendanceChanged: (_) => setState((){}),
             ),
             separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-            count: pinnedAnns.length
+            count: circle.pinnedAnnouncements.length
+        )),
+      );
+
+  }
+
+  Widget getAwaitingAnnouncements(){
+
+    if(circle.awaitingAnnouncements.isEmpty)
+      return SliverPadding(
+        padding: const EdgeInsets.only(
+          top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+          right: Dimen.SIDE_MARG,
+          left: Dimen.SIDE_MARG,
+          bottom: Dimen.SIDE_MARG,
+        ),
+        sliver: SliverList(delegate: SliverChildListDelegate([
+          const SizedBox(height: 2*Dimen.SIDE_MARG),
+          EmptyMessageWidget(
+            icon: MdiIcons.newspaperVariantOutline,
+            text: 'Brak oczekujących postów',
+            color: cardColor,
+          ),
+        ])),
+      );
+    else
+      return SliverPadding(
+        padding: const EdgeInsets.only(
+          top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+          right: Dimen.SIDE_MARG,
+          left: Dimen.SIDE_MARG,
+          bottom: Dimen.SIDE_MARG,
+        ),
+        sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
+          (context, index) => AnnouncementWidget(
+            circle.awaitingAnnouncements.reversed.toList()[index],
+              paletteGenerator: paletteGenerator,
+              onUpdateTap: (){
+
+                Announcement announcement = circle.awaitingAnnouncements.reversed.toList()[index];
+
+                pushPage(
+                    context,
+                    builder: (context) => AnnouncementEditorPage(
+                      circle: circle,
+                      initAnnouncement: announcement,
+                      palette: paletteGenerator,
+                      onSaved: (updatedAnnouncement){
+                        circle.updateAnnouncement(updatedAnnouncement);
+                        setState(() {});
+                      },
+                      onRemoved: (){
+                        circle.removeAnnouncement(announcement);
+                        setState(() {});
+                      },
+                    )
+                );
+
+              },
+              onPinTap: () async {
+
+                Announcement announcement = circle.awaitingAnnouncements.reversed.toList()[index];
+
+                await ApiCircle.updateAnnouncement(
+                    annKey: announcement.key,
+                    pinned: !announcement.pinned,
+                    onSuccess: (updatedAnnouncement) async {
+
+                      circle.awaitingAnnouncements.reversed.toList()[index].pinned = updatedAnnouncement.pinned;
+
+                      if(updatedAnnouncement.pinned)
+                        showAppToast(context, text: 'Przypięto post');
+                      else
+                        showAppToast(context, text: 'Odpięto post');
+                      setState(() {});
+                    },
+                    onError: () async {
+
+                    }
+                );
+
+              },
+              onAttendanceChanged: (_) => setState((){}),
+          ),
+            separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
+            count: circle.awaitingAnnouncements.length
         )),
       );
 

@@ -83,8 +83,7 @@ class RankSprawTempWidget extends StatelessWidget{
     this.appBarBottom,
 
     this.previewOnly = false,
-    Key? key
-  }): super(key: key);
+    super.key});
 
   @override
   Widget build(BuildContext context) {
