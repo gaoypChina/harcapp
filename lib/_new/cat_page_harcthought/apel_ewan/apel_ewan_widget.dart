@@ -38,7 +38,7 @@ class ApelEwanWidgetState extends State<ApelEwanWidget> with ModuleStatsMixin{
 
   @override
   void initState() {
-    switch(apelEwan.siglum!.split(' ')[0]){
+    switch(apelEwan.siglum.split(' ')[0]){
       case 'Mt':
         author = 'Mateusza';
         break;
@@ -64,7 +64,7 @@ class ApelEwanWidgetState extends State<ApelEwanWidget> with ModuleStatsMixin{
           slivers: [
 
             SliverAppBar(
-              title: Text(apelEwan.siglum!),
+              title: Text(apelEwan.siglum),
               centerTitle: true,
               floating: true,
             ),
@@ -73,6 +73,14 @@ class ApelEwanWidgetState extends State<ApelEwanWidget> with ModuleStatsMixin{
               SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                 sliver: SliverList(delegate: SliverChildListDelegate([
+
+                  const SizedBox(height: Dimen.SIDE_MARG),
+
+                  Text(
+                    apelEwan.title,
+                    style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.halfBold),
+                    textAlign: TextAlign.justify,
+                  ),
 
                   const SizedBox(height: Dimen.SIDE_MARG),
 

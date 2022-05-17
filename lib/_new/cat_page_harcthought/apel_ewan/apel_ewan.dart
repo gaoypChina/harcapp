@@ -1,9 +1,10 @@
 class ApelEwan{
 
-  final String? dirName;
-  final String? siglum;
+  final String dirName;
+  final String siglum;
+  final String title;
 
-  const ApelEwan({this.dirName, this.siglum});
+  const ApelEwan({required this.dirName, required this.siglum, required this.title});
 
   String get textFileName => 'assets/apel_ewan/$dirName\$text';
   String get questionsFileName => 'assets/apel_ewan/$dirName\$questions';

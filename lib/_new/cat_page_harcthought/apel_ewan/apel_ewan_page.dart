@@ -45,10 +45,11 @@ class ApelEwansPageState extends State<ApelEwansPage>{
         SliverPadding(
           padding: const EdgeInsets.all(Dimen.ICON_MARG),
           sliver: SliverGrid.count(
-            crossAxisCount: 2,
+            crossAxisCount: 3,
             crossAxisSpacing: Dimen.ICON_MARG,
-            children: allApelEwans.map((apelEwans) => ApelEwanThumbnailWidget(apelEwans)).toList(),
+            mainAxisSpacing: Dimen.ICON_MARG,
             childAspectRatio: 1,
+            children: allApelEwans.map((apelEwans) => ApelEwanThumbnailWidget(apelEwans)).toList(),
           ),
         ),
 
