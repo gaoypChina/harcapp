@@ -27,11 +27,14 @@ class ApelEwanWidgetState extends State<ApelEwanWidget> with ModuleStatsMixin{
 
   String? author;
   String? text;
+  String? comment;
   List<String>? questions;
 
   void run() async {
     text = await readStringFromAssets(apelEwan.textFileName);
     questions = (await readStringFromAssets(apelEwan.questionsFileName))!.split('\n');
+    if(apelEwan.comment)
+      comment = await readStringFromAssets(apelEwan.commentFileName);
 
     setState((){});
   }
@@ -102,6 +105,25 @@ class ApelEwanWidgetState extends State<ApelEwanWidget> with ModuleStatsMixin{
 
                   Text(
                     'Oto Słowo Boże.',
+                    style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                    textAlign: TextAlign.justify,
+                  ),
+
+                  if(apelEwan.comment)
+                    const SizedBox(height: 2*Dimen.SIDE_MARG),
+
+                  if(apelEwan.comment)
+                    Text(
+                      'Garść komentarzy',
+                      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
+                      textAlign: TextAlign.justify,
+                    ),
+
+
+                  const SizedBox(height: Dimen.SIDE_MARG),
+
+                  Text(
+                    comment!,
                     style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
                     textAlign: TextAlign.justify,
                   ),

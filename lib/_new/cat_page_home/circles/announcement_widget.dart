@@ -518,11 +518,16 @@ class PostponeRespDialogState extends State<PostponeRespDialog>{
                 ),
               ),
 
+              const SizedBox(height: Dimen.SIDE_MARG),
+
               DatePicker(
                 DateTime.now(),
                 initialSelectedDate: postponeDate,
                 selectionColor: CirclePage.strongColor(context, palette),
-                selectedTextColor: Colors.white,
+                selectedTextColor: background_(context),
+                monthTextStyle: AppTextStyle(),
+                dateTextStyle: AppTextStyle(),
+                dayTextStyle: AppTextStyle(),
                 locale: 'pl_PL',
                 daysCount: announcement.eventTime?.difference(DateTime.now()).abs().inDays??365,
                 onDateChange: (date) {

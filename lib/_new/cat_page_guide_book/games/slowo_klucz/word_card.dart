@@ -82,6 +82,7 @@ class WordCardState extends State<WordCard>{
         }:null,
         color: dimm?Colors.grey[100]:color,
         child: RotatedBox(
+          quarterTurns: 1,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -120,7 +121,6 @@ class WordCardState extends State<WordCard>{
               ),
             ],
           ),
-          quarterTurns: 1,
         )
     );
 

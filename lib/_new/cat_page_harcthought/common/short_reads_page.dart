@@ -81,12 +81,12 @@ class ShortReadsPageState<T extends ShortRead> extends State<ShortReadsPage>{
           sliver: SliverGrid.count(
             crossAxisCount: 2,
             crossAxisSpacing: Dimen.ICON_MARG,
+            childAspectRatio: .8,
             children: searchedShortReads.map((shortRead) => ShortReadThumbnailWidget(
               shortRead,
               onTap: () => pushPage(context, builder: (context) => ShortReadWidget(widget.moduleId, shortRead)),
             )
             ).toList(),
-            childAspectRatio: .8,
           ),
         ),
 

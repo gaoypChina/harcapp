@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_common_widgets/floating_container.dart';
+import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/dimen.dart';
 
 import 'apel_ewan_thumbnail_widget.dart';
@@ -42,6 +46,30 @@ class ApelEwansPageState extends State<ApelEwansPage>{
           elevation: 0,
         ),
 
+        FloatingContainer(
+          builder: (context, __, _) => SearchField(
+            background: background_(context),
+            hint: 'Szukaj...',
+            onChanged: (text){
+
+              if(text.isEmpty)
+                setState(() => this.searchedApelEwans = allApelEwans);
+
+              List<ApelEwan> searchedApelEwans = [];
+
+              text = remPolChars(text);
+              for(ApelEwan apelEwan in allApelEwans){
+                if(remPolChars(apelEwan.title).contains(text))
+                  searchedApelEwans.add(apelEwan);
+              }
+
+              setState(() => this.searchedApelEwans = searchedApelEwans);
+
+            },
+          ),
+          height: SearchField.height,
+        ),
+
         SliverPadding(
           padding: const EdgeInsets.all(Dimen.ICON_MARG),
           sliver: SliverGrid.count(
@@ -49,7 +77,7 @@ class ApelEwansPageState extends State<ApelEwansPage>{
             crossAxisSpacing: Dimen.ICON_MARG,
             mainAxisSpacing: Dimen.ICON_MARG,
             childAspectRatio: 1,
-            children: allApelEwans.map((apelEwans) => ApelEwanThumbnailWidget(apelEwans)).toList(),
+            children: searchedApelEwans.map((apelEwans) => ApelEwanThumbnailWidget(apelEwans)).toList(),
           ),
         ),
 
