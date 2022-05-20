@@ -15,7 +15,9 @@ class ExtendedSliverAppBar extends StatefulWidget{
   final TextTheme? textTheme;
 
   final Color? backgroundColor;
-  final bool? pinned;
+  final bool floating;
+  final bool pinned;
+  final bool forceElevated;
 
   final Color titleColor;
   final List<String> titles;
@@ -32,7 +34,9 @@ class ExtendedSliverAppBar extends StatefulWidget{
     this.textTheme,
 
     this.backgroundColor,
-    this.pinned,
+    this.floating = false,
+    this.pinned = false,
+    this.forceElevated = false,
 
     required this.titleColor,
     required this.titles,
@@ -43,6 +47,7 @@ class ExtendedSliverAppBar extends StatefulWidget{
     this.onChanged,
 
     this.actions,
+    super.key
   });
 
   @override
@@ -52,13 +57,15 @@ class ExtendedSliverAppBar extends StatefulWidget{
 
 class ExtendedSliverAppBarState extends State<ExtendedSliverAppBar> with TickerProviderStateMixin{
 
-  static double _appBarHeight = AppBar().preferredSize.height;
-  static double _tabBarHeight = TabBar(tabs: []).preferredSize.height;
+  static final double _appBarHeight = AppBar().preferredSize.height;
+  static final double _tabBarHeight = TabBar(tabs: []).preferredSize.height;
 
   TextTheme? get textTheme => widget.textTheme;
 
   Color? get backgroundColor => widget.backgroundColor;
-  bool? get pinned => widget.pinned;
+  bool get floating => widget.floating;
+  bool get pinned => widget.pinned;
+  bool get forceElevated => widget.forceElevated;
 
   Color get titleColor => widget.titleColor;
   List<String> get titles => widget.titles;
@@ -91,16 +98,16 @@ class ExtendedSliverAppBarState extends State<ExtendedSliverAppBar> with TickerP
       create: (context) => _StretchProvider(_appBarHeight + _tabBarHeight),
       child: SliverAppBar(
         textTheme: textTheme,
-        //backgroundColor: backgroundColor,
-        floating: true,
-        pinned: pinned!,
+        floating: floating,
+        pinned: pinned,
+        forceElevated: forceElevated,
 
         title: Consumer<_StretchProvider>(
           builder: (context, prov, child) => SizedBox(
             height: _appBarHeight,
             width: double.infinity,
             child: PageView(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               controller: pageControllerTitle,
               scrollDirection: Axis.vertical,
               pageSnapping: false,

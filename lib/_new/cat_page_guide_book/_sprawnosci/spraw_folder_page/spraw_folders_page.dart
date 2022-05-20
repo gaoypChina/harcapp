@@ -6,9 +6,10 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_common_widgets/folder_widget/folder_edit_page.dart';
+import 'package:harcapp/_common_widgets/folder_widget/folder_tab.dart';
+import 'package:harcapp/_common_widgets/folder_widget/folder_tab_indicator.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_folder_page/spraw_folder.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_folder_page/spraw_folder_edit_page.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_folder_page/spraw_folder_icon.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_grid_page.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_widget_small.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -19,10 +20,11 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 
 class SprawFoldersPage extends StatefulWidget{
+
+  const SprawFoldersPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => SprawFoldersPageState();
@@ -34,7 +36,7 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
   List<SprawFolder> get folders{
     List<String> folderNames = SprawFolder.allFolderIds;
 
-    List<SprawFolder>_folders = [];
+    List<SprawFolder> _folders = [];
     for(String folderName in folderNames)
       _folders.add(SprawFolder.from(folderName));
 
@@ -43,7 +45,7 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
 
   late List<SprawFolder> _folders;
 
-  TabController? tabController;
+  late TabController tabController;
   ValueNotifier<double>? notifier;
 
   void initTabViewStuff(){
@@ -51,10 +53,10 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
     tabController = TabController(
         length: _folders.length,
         vsync: this,
-        initialIndex: tabController==null?0:tabController!.index
+        initialIndex: notifier?.value.toInt()??0
     );
-    notifier = ValueNotifier<double>(tabController!.index.toDouble());
-    tabController!.animation!.addListener(() => notifier!.value = tabController!.animation!.value);
+    notifier = ValueNotifier<double>(tabController.index.toDouble());
+    tabController.animation!.addListener(() => notifier!.value = tabController.animation!.value);
   }
 
   @override
@@ -66,7 +68,7 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
 
   @override
   void dispose() {
-    tabController!.dispose();
+    tabController.dispose();
     super.dispose();
   }
 
@@ -81,50 +83,37 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
       text: _folders.length==1?null:'Nowy',
       iconLeading: false,
       onTap: (){
-        pushPage(context, builder: (context) => SprawFolderEditPage(
-          onSave: (String name, String colorKey, String iconKey){
+        pushPage(context, builder: (context) => FolderEditPage(
+          onSave: (String name, String iconKey, String colorKey){
             SprawFolder folder = SprawFolder.create();
             folder.name = name;
-            folder.colorKey = colorKey;
             folder.iconKey = iconKey;
+            folder.colorsKey = colorKey;
 
             setState(() => initTabViewStuff());
-            post(() => tabController!.animateTo(_folders.indexOf(folder)));
+            post(() => tabController.animateTo(_folders.indexOf(folder)));
           }
         ));
       },
     );
 
-    List<Tab> tabs = [];
+    List<FolderTab> tabs = [];
     List<Widget> children = [];
 
     for(SprawFolder folder in _folders){
 
-      tabs.add(Tab(/*Lk_9_28b-36$text: '${folder.name} (${folder.spraws.length})'*/icon: Row(
-        children: [
-          SizedBox(width: 24.0,),
-          SprawFolderIcon(folder.iconKey, folder.colorKey),
-          //Icon(folder.icon, color: folder.colorData.avgColor),
-          SizedBox(width: 32.0,),
-          Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(folder.name, style: AppTextStyle(fontWeight: weight.halfBold)),
-                Text('Liczba sprawności: ${folder.sprawUIDs.length}', style: AppTextStyle()),
-              ]
-          ),
-          //SizedBox(width: 24.0,),
-          //Text('${folder.sprawUIDs.length}', style: AppTextStyle(fontWeight: weight.bold)),
-          SizedBox(width: 32.0,),
-        ],
-      )));
+      tabs.add(FolderTab(
+        iconKey: folder.iconKey,
+        colorsKey: folder.colorsKey,
+        folderName: folder.name,
+        countText: 'Liczba sprawności: ${folder.spraws.length}',
+      ));
 
       children.add(SprawGridView(
           title: folder.name,
           mode: SprawWidgetSmall.MODE_SAVED,
           UIDs: folder.sprawUIDs,
-          emptyWidget: EmptyMessage(),
+          emptyWidget: const EmptyMessage(),
           icon: folder.icon,
           sprawCardBackgroundColor: background_(context),
           onSprawLongPress: (spraw) => showAlertDialog(
@@ -134,7 +123,7 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
                   spraw,
                   SprawWidgetSmall.MODE_SAVED,
                   clickable: false,
-                  margin: EdgeInsets.only(right: alertDialogMarginVal)
+                  margin: const EdgeInsets.only(right: alertDialogMarginVal)
               ),
               content: 'Czy usunąć sprawność:\n<b>${spraw.title}</b>\n\nz folderu:\n<b>${folder.name}</b>?',
               actionBuilder: (context) => [
@@ -155,18 +144,6 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
               ]
           )
 
-        /*
-            openDialog(
-          context: context,
-          builder: (context) => Center(
-            child:  _DeleteSprawDialog(
-              spraw: spraw,
-              folder: folder,
-              mode: SprawWidgetSmall.MODE_SAVED,
-            ),
-          )
-        )
-          */
       ));
     }
 
@@ -181,82 +158,33 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
 
     return BottomNavScaffold(
       body: NestedScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
           SliverAppBar(
             floating: true,
             pinned: true,
-            title: Text('Moje foldery'),
+            title: const Text('Moje foldery'),
             centerTitle: true,
             actions: [addFolderButton],
             bottom: TabBar(
+              splashBorderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(AppCard.BIG_RADIUS),
+                  topRight: Radius.circular(AppCard.BIG_RADIUS)
+              ),
               controller: tabController,
               isScrollable: true,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               tabs: tabs,
-              /*[
-                    Consumer<SprawSavedListProv>(
-                      builder: (context, prov, child) =>
-                          Tab(text: 'Zapisane ${Spraw.getSavedOnlyUIDList.length}'),
-                    ),
-                    Consumer<SprawInProgressListProv>(
-                      builder: (context, prov, child) =>
-                          Tab(text: 'Realizowane ${Spraw.getInProgressUIDList.length}'),
-                    ),
-                    Consumer<SprawCompletedListProv>(
-                      builder: (context, prov, child) =>
-                          Tab(text: 'Zdobyte ${Spraw.getCompletedUIDList.length}'),
-                    ),
-                  ]*/
-              indicator: MaterialIndicator(
-                  horizontalPadding: 12.0,
-                  height: 48.0,
-                  topRightRadius: AppCard.BIG_RADIUS,
-                  topLeftRadius: AppCard.BIG_RADIUS,
-                  color: cardEnab_(context)!
-              ),//AppTabBarIncdicator(context: context),
+              indicator: FolderTabIndicator(context),
             ),
           ),
         ],
         body: Container(
-          color: cardEnab_(context),
+          color: backgroundIcon_(context),
           child: TabBarView(
             controller: tabController,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             children: children,
-            /*[
-
-                Consumer<SprawSavedListProv>(
-                  builder: (context, prov, child) => SprawGridView(
-                    title: 'Zapisane sprawności',
-                    mode: SprawWidgetSmall.MODE_SAVED,
-                    UIDs: Spraw.getSavedOnlyUIDList,
-                    emptyMessage: 'Nic',
-                    icon: ItemWidget.ICON_SAVED,
-                  ),
-                ),
-
-                Consumer<SprawInProgressListProv>(
-                    builder: (context, prov, child) => SprawGridView(
-                      title: 'Realizowane sprawności',
-                      mode: SprawWidgetSmall.MODE_IN_PROGRESS,
-                      UIDs: Spraw.getInProgressUIDList,
-                      icon: ItemWidget.ICON_IN_PROGRESS,
-                      emptyMessage: 'Pusto',
-                      showProgress: true,
-                    )
-                ),
-
-                Consumer<SprawCompletedListProv>(
-                    builder: (context, prov, child) => SprawGridView(
-                      title: 'Zdobyte sprawności',
-                      mode: SprawWidgetSmall.MODE_COMPLETE,
-                      UIDs: Spraw.getCompletedUIDList,
-                      emptyMessage: 'Brak',
-                      icon: ItemWidget.ICON_COMPLETED,
-                    )
-                )
-              ], */
           ),
         ),
       ),
@@ -264,29 +192,16 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
         folders: folders,
         notifier: notifier,
         mode: SprawWidgetSmall.MODE_SAVED,
-        onSaved: (String name, String colorKey, String iconKey) => setState((){
-          folders[tabController!.index].name = name;
-          folders[tabController!.index].colorKey = colorKey;
-          folders[tabController!.index].iconKey = iconKey;
+        onSaved: (String name, String iconKey, String colorKey) => setState((){
+          folders[tabController.index].name = name;
+          folders[tabController.index].iconKey = iconKey;
+          folders[tabController.index].colorsKey = colorKey;
         }),
         onDeleted: (folder){
           showAppToast(context, text: 'Usunięto folder <b>${folder.name}</b>');
           setState(() => initTabViewStuff());
         },
       ),
-      /*
-      bottomNavigationBar:
-      showAll?
-      AppCard(
-        margin: EdgeInsets.only(bottom: Dimen.DEF_MARG, left: Dimen.DEF_MARG, right: Dimen.DEF_MARG),
-        elevation: AppCard.bigElevation,
-        radius: AppCard.BIG_RADIUS,
-        child: TitleShortcutRowWidget(
-          title: 'Przeglądaj wszystkie',
-          onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => SprawnosciPage(showProgress: !showAll))),
-        ),
-      ):null,
-       */
     );
 
   }
@@ -314,21 +229,25 @@ class _FloatingButton extends StatelessWidget{
             opacity: (.5 + notifier!.value).toInt() == 0?0:max(0, cos(2*pi*notifier!.value)),
             child: FloatingActionButton(
               backgroundColor: folders[(.5 + notifier!.value).toInt()].colorData!.avgColor,
-              child: Icon(MdiIcons.pencil),
-              onPressed: (.5 + notifier!.value).toInt() == 0?null: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SprawFolderEditPage(
-                        initFolder: folders[(.5 + notifier!.value).toInt()],
-                        onSave: onSaved,
-                        onDeleteTap: (folder){
-                          SprawFolder folder = folders[(.5 + notifier!.value).toInt()];
-                          folder.delete();
-                          onDeleted?.call(folder);
-                        },
-                      )
-                  )
-              ),
+              onPressed: (.5 + notifier!.value).toInt() == 0?null: (){
+                SprawFolder folder = folders[(.5 + notifier!.value).toInt()];
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => FolderEditPage(
+                          initName: folder.name,
+                          initIconKey: folder.iconKey,
+                          initColorsKey: folder.colorsKey,
+                          onSave: onSaved,
+                          onDeleteTap: (){
+                            folder.delete();
+                            onDeleted?.call(folder);
+                          },
+                        )
+                    )
+                );
+              },
+              child: const Icon(MdiIcons.pencil),
             ),
           ),
         )
@@ -342,34 +261,34 @@ class _FloatingButton extends StatelessWidget{
 
 class EmptyMessage extends StatelessWidget{
 
+  const EmptyMessage({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(Dimen.SIDE_MARG),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
 
-          Text(
-            'W tym folderze pusto!',
-            style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.bold),
-          ),
+        Text(
+          'W tym folderze pusto!',
+          style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.bold),
+        ),
 
-          SizedBox(height: 2*Dimen.SIDE_MARG),
+        const SizedBox(height: 2*Dimen.SIDE_MARG),
 
-          AppText(
-            'Aby dodać sprawności do folderu, <b>wybierz sprawność</b> i <b>przytrzymaj</b> przycisk:',
-            size: Dimen.TEXT_SIZE_BIG,
-            textAlign: TextAlign.center,
-          ),
+        const AppText(
+          'Aby dodać sprawności do folderu, <b>wybierz sprawność</b> i <b>przytrzymaj</b> przycisk:',
+          size: Dimen.TEXT_SIZE_BIG,
+          textAlign: TextAlign.center,
+        ),
 
-          SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
-          Icon(MdiIcons.bookmarkOutline, size: 32.0)
-        ],
-      ),
-    );
-  }
+        const Icon(MdiIcons.bookmarkOutline, size: 32.0)
+      ],
+    ),
+  );
 
 
 

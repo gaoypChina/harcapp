@@ -7,7 +7,7 @@ import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_page.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendance_resp_mode.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_classes/common.dart';
+import 'package:harcapp_core/comm_classes/date_to_str.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -25,14 +25,14 @@ import 'model/announcement_attendace.dart';
 class AnnouncementWidget extends StatelessWidget{
 
   final Announcement announcement;
-  final PaletteGenerator? paletteGenerator;
+  final PaletteGenerator? palette;
   final void Function()? onUpdateTap;
   final void Function()? onPinTap;
   final void Function(AnnouncementAttendance)? onAttendanceChanged;
 
   const AnnouncementWidget(
       this.announcement,
-      { this.paletteGenerator,
+      { this.palette,
         this.onUpdateTap,
         this.onPinTap,
         this.onAttendanceChanged,
@@ -41,7 +41,7 @@ class AnnouncementWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => Material(
-    color: CirclePage.cardColor(context, paletteGenerator),
+    color: CirclePage.cardColor(context, palette),
     clipBehavior: Clip.antiAlias,
     borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
     elevation: AppCard.bigElevation,
@@ -101,6 +101,78 @@ class AnnouncementWidget extends StatelessWidget{
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
+              if(announcement.startTime != null && announcement.endTime != null)
+                Row(
+                  children: [
+
+                    Icon(MdiIcons.calendarOutline, color: hintEnab_(context)),
+
+                    const SizedBox(width: 6.0),
+
+                    Text(
+                      dateRangeToString(
+                          announcement.startTime!,
+                          announcement.endTime!,
+                          shortMonth: true,
+                          showYear: announcement.startTime!.year != DateTime.now().year,
+                          withTime: true,
+                          dateTimeSep: ' '
+                      ),
+                      style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_BIG,
+                          fontWeight: weight.halfBold,
+                          color: hintEnab_(context)
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  ],
+                )
+              else if(announcement.startTime != null)
+                Text(
+                  dateToString(
+                      announcement.startTime,
+                      shortMonth: true,
+                      showYear: announcement.startTime!.year != DateTime.now().year,
+                      withTime: true,
+                      dateTimeSep: ' '
+                  ),
+                  style: AppTextStyle(
+                      fontSize: Dimen.TEXT_SIZE_BIG,
+                      fontWeight: weight.halfBold,
+                      color: hintEnab_(context)
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+
+              if(announcement.startTime != null || announcement.endTime != null)
+                const SizedBox(height: Dimen.ICON_MARG),
+
+              if(announcement.place != null)
+                Row(
+                  children: [
+
+                    Icon(MdiIcons.mapMarkerOutline, color: hintEnab_(context)),
+
+                    const SizedBox(width: 6.0),
+
+                    Text(
+                      announcement.place!,
+                      style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_BIG,
+                          fontWeight: weight.halfBold,
+                          color: hintEnab_(context)
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  ],
+                ),
+
+              if(announcement.place != null)
+                const SizedBox(height: 2*Dimen.SIDE_MARG),
+
               Text(
                 announcement.text,
                 style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
@@ -129,7 +201,7 @@ class AnnouncementWidget extends StatelessWidget{
 
         const SizedBox(height: Dimen.SIDE_MARG),
 
-        if(announcement.respMode != AnnouncementAttendanceRespMode.NONE)
+        if(announcement.respMode != AnnouncementAttendanceRespMode.NONE && announcement.startTime != null && announcement.startTime!.isAfter(DateTime.now()))
           Builder(builder: (context){
 
             AnnouncementAttendance? myAtt = announcement.myAttendance?.response;
@@ -139,9 +211,15 @@ class AnnouncementWidget extends StatelessWidget{
 
                 Expanded(
                   child: SimpleButton.from(
+                    margin: EdgeInsets.zero,
+
+                    elevation: myAtt == AnnouncementAttendance.ATTENDING?
+                    AppCard.bigElevation:
+                    0,
+
                     color:
-                    myAtt == null || myAtt == AnnouncementAttendance.ATTENDING?
-                    backgroundIcon_(context):
+                    myAtt == AnnouncementAttendance.ATTENDING?
+                    CirclePage.strongColor(context, palette):
                     Colors.transparent,
 
                     textColor:
@@ -154,7 +232,7 @@ class AnnouncementWidget extends StatelessWidget{
                       context: context,
                       builder: (context) => AttendingDialog(
                         announcement,
-                        paletteGenerator,
+                        palette,
                         onSuccess: (){
                           Navigator.pop(context);
                           onAttendanceChanged?.call(AnnouncementAttendance.ATTENDING);
@@ -169,9 +247,15 @@ class AnnouncementWidget extends StatelessWidget{
 
                 Expanded(
                   child: SimpleButton.from(
+                    margin: EdgeInsets.zero,
+
+                    elevation: myAtt == AnnouncementAttendance.POSTPONE_RESP?
+                    AppCard.bigElevation:
+                    0,
+
                     color:
-                    myAtt == null || myAtt == AnnouncementAttendance.POSTPONE_RESP?
-                    backgroundIcon_(context):
+                    myAtt == AnnouncementAttendance.POSTPONE_RESP?
+                    CirclePage.strongColor(context, palette):
                     Colors.transparent,
 
                     textColor:
@@ -184,7 +268,7 @@ class AnnouncementWidget extends StatelessWidget{
                         context: context,
                         builder: (context) => PostponeRespDialog(
                           announcement,
-                          paletteGenerator,
+                          palette,
                           onSuccess: (){
                             Navigator.pop(context);
                             onAttendanceChanged?.call(AnnouncementAttendance.POSTPONE_RESP);
@@ -199,9 +283,15 @@ class AnnouncementWidget extends StatelessWidget{
 
                 Expanded(
                   child: SimpleButton.from(
+                    margin: EdgeInsets.zero,
+
+                    elevation: myAtt == AnnouncementAttendance.NOT_ATTENDING?
+                    AppCard.bigElevation:
+                    0,
+
                     color:
-                    myAtt == null || myAtt == AnnouncementAttendance.NOT_ATTENDING?
-                    backgroundIcon_(context):
+                    myAtt == AnnouncementAttendance.NOT_ATTENDING?
+                    CirclePage.strongColor(context, palette):
                     Colors.transparent,
 
                     textColor:
@@ -214,7 +304,7 @@ class AnnouncementWidget extends StatelessWidget{
                         context: context,
                         builder: (context) => NotAttendingDialog(
                           announcement,
-                          paletteGenerator,
+                          palette,
                           onSuccess: (){
                             Navigator.pop(context);
                             onAttendanceChanged?.call(AnnouncementAttendance.NOT_ATTENDING);
@@ -229,7 +319,35 @@ class AnnouncementWidget extends StatelessWidget{
 
               ],
             );
-          }),
+          })
+        else if(announcement.endTime != null && announcement.endTime!.isBefore(DateTime.now()))
+          SizedBox(
+            height: Dimen.ICON_FOOTPRINT,
+            child: Center(
+              child: Text(
+                'Wydarzenie zakończone',
+                style: AppTextStyle(
+                    color: hintEnab_(context),
+                    fontWeight: weight.halfBold,
+                    fontSize: Dimen.TEXT_SIZE_BIG
+                ),
+              ),
+            ),
+          )
+        else if(announcement.startTime != null && announcement.startTime!.isBefore(DateTime.now()))
+            SizedBox(
+              height: Dimen.ICON_FOOTPRINT,
+              child: Center(
+                child: Text(
+                  'Wydarzenie właśnie trwa...',
+                  style: AppTextStyle(
+                    color: hintEnab_(context),
+                    fontWeight: weight.halfBold,
+                    fontSize: Dimen.TEXT_SIZE_BIG
+                  ),
+                ),
+              ),
+            )
 
       ],
     ),
@@ -529,7 +647,7 @@ class PostponeRespDialogState extends State<PostponeRespDialog>{
                 dateTextStyle: AppTextStyle(),
                 dayTextStyle: AppTextStyle(),
                 locale: 'pl_PL',
-                daysCount: announcement.eventTime?.difference(DateTime.now()).abs().inDays??365,
+                daysCount: announcement.startTime?.difference(DateTime.now()).abs().inDays??365,
                 onDateChange: (date) {
                   setState(() {
                     postponeDate = date;

@@ -7,8 +7,8 @@ import 'package:semaphore/semaphore.dart';
 
 abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TErr?>>{
 
-  final checkRunningSemaphore = LocalSemaphore(100000000);
-  final runningSemaphore = LocalSemaphore(100000000);
+  final checkRunningSemaphore = LocalSemaphore(1);
+  final runningSemaphore = LocalSemaphore(1);
 
   @protected
   String get computerName;
@@ -36,11 +36,7 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
   void addListener(TListener listener) => listeners.add(listener);
   void removeListener(TListener listener){
 
-    List<TListener> _newListeners = [];
-    _newListeners.addAll(listeners);
-    _newListeners.remove(listener);
-
-    listeners = _newListeners;
+    _listenersToRemove.add(listener);
 
   }
 
@@ -68,9 +64,7 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
         if(!_listenersToRemove.contains(listener))
           listener.onEnd?.call(null, false);
 
-      for(TListener listener in _listenersToRemove)
-        listeners.remove(listener);
-      _listenersToRemove.clear();
+      _removeListeners();
 
       runningSemaphore.release();
       if(awaitFinish) await completer.future;
@@ -88,9 +82,7 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
       if (!_listenersToRemove.contains(listener))
         listener.onStart?.call();
 
-    for(TListener listener in _listenersToRemove)
-      listeners.remove(listener);
-    _listenersToRemove.clear();
+    _removeListeners();
 
     if(awaitFinish) {
 
@@ -133,6 +125,12 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
 
     runningSemaphore.release();
 
+  }
+
+  _removeListeners(){
+    for(TListener listener in _listenersToRemove)
+      listeners.remove(listener);
+    _listenersToRemove.clear();
   }
 
 }

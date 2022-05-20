@@ -1,3 +1,4 @@
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
@@ -63,11 +64,17 @@ class ChildZHPState extends State<ChildZHP> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
-      body: NestedScrollView(
+      body: ExtendedNestedScrollView(
+        floatHeaderSlivers: true,
+        physics: const BouncingScrollPhysics(),
+        pinnedHeaderSliverHeightBuilder: () => const TabBar(tabs: []).preferredSize.height,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
           SliverAppBar(
             title: const Text('Prawo i Przyrzeczenie'),
             centerTitle: true,
+            floating: true,
+            pinned: true,
+            forceElevated: innerBoxIsScrolled,
             bottom: TabBar(
               physics: const BouncingScrollPhysics(),
               controller: controller,

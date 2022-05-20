@@ -19,7 +19,18 @@ class SprawGridView extends StatelessWidget{
   final bool showProgress;
   final void Function(Spraw spraw)? onSprawLongPress;
 
-  SprawGridView({required this.title, required this.mode, required this.UIDs, required this.icon, this.sprawCardBackgroundColor, this.emptyWidget, this.emptyMessage = 'Pusto', this.showProgress = false, this.onSprawLongPress});
+  const SprawGridView({
+    required this.title,
+    required this.mode,
+    required this.UIDs,
+    required this.icon,
+    this.sprawCardBackgroundColor,
+    this.emptyWidget,
+    this.emptyMessage = 'Pusto',
+    this.showProgress = false,
+    this.onSprawLongPress,
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +58,7 @@ class SprawGridView extends StatelessWidget{
     }
 
     while(children.length % 3 != 0)
-      children.add(SizedBox(width: SprawWidgetSmall.width, height: SprawWidgetSmall.height));
+      children.add(const SizedBox(width: SprawWidgetSmall.width, height: SprawWidgetSmall.height));
 
 
     return Stack(
@@ -59,10 +70,10 @@ class SprawGridView extends StatelessWidget{
             child: Hero(
               tag: icon!,
               child: RotationTransition(
-                turns: AlwaysStoppedAnimation(-15 / 360),
+                turns: const AlwaysStoppedAnimation(-15 / 360),
                 child: Icon(
                   icon,
-                  color: backgroundIcon_(context),
+                  color: background_(context),
                   size: MediaQuery.of(context).size.width,
                 ),
               ),
@@ -86,8 +97,8 @@ class SprawGridView extends StatelessWidget{
 
         Positioned.fill(
           child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            padding: EdgeInsets.only(top: Dimen.SIDE_MARG),
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.only(top: Dimen.SIDE_MARG),
             child: Wrap(
               alignment: WrapAlignment.spaceBetween,
               children: children,

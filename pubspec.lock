@@ -44,7 +44,7 @@ packages:
       name: assets_audio_player_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.4+2"
+    version: "3.0.4+3"
   async:
     dependency: transitive
     description:
@@ -213,6 +213,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.6"
+  dropdown_button2:
+    dependency: "direct main"
+    description:
+      name: dropdown_button2
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.5.1"
+  extended_nested_scroll_view:
+    dependency: "direct main"
+    description:
+      name: extended_nested_scroll_view
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.0-dev.1"
   fake_async:
     dependency: transitive
     description:
@@ -379,13 +393,13 @@ packages:
       name: google_fonts
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.2"
+    version: "2.3.3"
   harcapp_core:
     dependency: "direct main"
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "2c5c756e9bcc8bc4e8f9dcf3b88570ef5afb1659"
+      resolved-ref: "29d6d4cb078902c0fdcfb1c8e74605f4b7d163a4"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core"
     source: git
     version: "0.0.1"
@@ -394,7 +408,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "6a255763f70559680ff12063e78680252c10bdd5"
+      resolved-ref: "0f3da8bd6ca0127e8c004d8a46e848663bcda5e9"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_own_song"
     source: git
     version: "0.0.1"
@@ -412,7 +426,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "4a6792d1ee922b5af36aac665d3960f33a98ac9e"
+      resolved-ref: "058c31e6c81c5a879b90314409b919b2a5502342"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_song_widget"
     source: git
     version: "0.0.1"
@@ -445,7 +459,7 @@ packages:
       name: http_parser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "4.0.1"
   image:
     dependency: "direct main"
     description:
@@ -1045,7 +1059,7 @@ packages:
       name: url_launcher_ios
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.16"
+    version: "6.0.17"
   url_launcher_linux:
     dependency: transitive
     description:

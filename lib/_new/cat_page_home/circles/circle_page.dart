@@ -473,7 +473,7 @@ class CirclePageState extends State<CirclePage>{
         sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
             (context, index) => AnnouncementWidget(
               circle.announcements.reversed.toList()[index],
-              paletteGenerator: paletteGenerator,
+              palette: paletteGenerator,
               onUpdateTap: (){
 
                 Announcement announcement  = circle.announcements.reversed.toList()[index];
@@ -558,7 +558,7 @@ class CirclePageState extends State<CirclePage>{
         sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
             (context, index) => AnnouncementWidget(
               circle.pinnedAnnouncements.reversed.toList()[index],
-              paletteGenerator: paletteGenerator,
+              palette: paletteGenerator,
               onUpdateTap: (){
 
                 Announcement announcement  = circle.pinnedAnnouncements.reversed.toList()[index];
@@ -643,7 +643,7 @@ class CirclePageState extends State<CirclePage>{
         sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
           (context, index) => AnnouncementWidget(
             circle.awaitingAnnouncements.reversed.toList()[index],
-              paletteGenerator: paletteGenerator,
+              palette: paletteGenerator,
               onUpdateTap: (){
 
                 Announcement announcement = circle.awaitingAnnouncements.reversed.toList()[index];

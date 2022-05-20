@@ -1,3 +1,4 @@
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
@@ -46,8 +47,10 @@ class StrefaInstruktoraFragmentState extends State<StrefaInstruktoraFragment> wi
             ),
           ),
 
-          NestedScrollView(
+          ExtendedNestedScrollView(
             floatHeaderSlivers: true,
+            physics: const BouncingScrollPhysics(),
+            pinnedHeaderSliverHeightBuilder: () => const TabBar(tabs: []).preferredSize.height,
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
               SliverAppBar(
                 title: const Text('Strefa instruktora'),
@@ -57,6 +60,7 @@ class StrefaInstruktoraFragmentState extends State<StrefaInstruktoraFragment> wi
                 floating: true,
                 forceElevated: innerBoxIsScrolled,
                 bottom: TabBar(
+                  physics: const BouncingScrollPhysics(),
                   tabs: const <Tab>[
                     Tab(icon: Icon(MdiIcons.lightbulbOutline)),
                     Tab(icon: Icon(MdiIcons.clockOutline)),
@@ -72,7 +76,7 @@ class StrefaInstruktoraFragmentState extends State<StrefaInstruktoraFragment> wi
               physics: const BouncingScrollPhysics(),
               children: <Widget>[
                 ChildMisja(),
-                ChildMetodyki(),
+                const ChildMetodyki(),
                 ChildKodeks(),
                 const ChildStopnie()
               ],

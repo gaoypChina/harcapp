@@ -9,6 +9,7 @@ import 'package:harcapp_core/dimen.dart';
 
 import '../circle_page.dart';
 import '../common/cover_image_pickable_widget.dart';
+import '../model/circle.dart';
 
 class GeneralPart extends StatefulWidget{
 
@@ -51,6 +52,7 @@ class GeneralPartState extends State<GeneralPart>{
           hint: 'Nazwa kręgu:',
           hintTop: 'Nazwa kręgu',
           controller: prov.nameController,
+          maxLength: Circle.maxLenName,
         ),
       ),
 
@@ -61,6 +63,7 @@ class GeneralPartState extends State<GeneralPart>{
           hint: 'Opis kręgu:',
           hintTop: 'Opis kręgu',
           controller: prov.descriptionController,
+          maxLength: Circle.maxLenDescription,
         ),
       ),
 

@@ -44,8 +44,8 @@ class OrgSwitcher extends StatelessWidget{
           builder: (context) => Stack(
             children: [
               Positioned(
-                top: 0,
-                right: 0,
+                top: AppCard.normMargin.top,
+                right: AppCard.normMargin.right,
                 child: AppCard(
                     padding: EdgeInsets.zero,
                     radius: AppCard.BIG_RADIUS,
@@ -65,30 +65,29 @@ class OrgSwitcher extends StatelessWidget{
       ):null,
       child: SizedBox(
         width: OrgSwitcher._width,
-        child: Center(
-            child: Column(
-              children: [
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
 
-                Text('', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL)),
-                Text(
-                    orgName[prov.currentFrom(allowedOrgs)]!,
-                    style: AppTextStyle(
-                        fontSize: Dimen.TEXT_SIZE_BIG,
-                        fontWeight: weight.bold,
-                        color: orgColor[prov.currentFrom(allowedOrgs)]
-                    )
-                ),
-                Text(
-                    prov.currentFrom(allowedOrgs)==Org.zhr_d?'H-KI':(
-                        prov.currentFrom(allowedOrgs)==Org.zhr_c?'H-RZE':''),
-                    style: AppTextStyle(
-                        fontSize: Dimen.TEXT_SIZE_SMALL,
-                        fontWeight: weight.bold,
-                        color: orgColor[prov.currentFrom(allowedOrgs)]
-                    )
+            Text('', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL)),
+            Text(
+                orgName[prov.currentFrom(allowedOrgs)]!,
+                style: AppTextStyle(
+                    fontSize: Dimen.TEXT_SIZE_BIG,
+                    fontWeight: weight.bold,
+                    color: orgColor[prov.currentFrom(allowedOrgs)]
                 )
-              ],
+            ),
+            Text(
+                prov.currentFrom(allowedOrgs)==Org.zhr_d?'H-KI':(
+                    prov.currentFrom(allowedOrgs)==Org.zhr_c?'H-RZE':''),
+                style: AppTextStyle(
+                    fontSize: Dimen.TEXT_SIZE_SMALL,
+                    fontWeight: weight.bold,
+                    color: orgColor[prov.currentFrom(allowedOrgs)]
+                )
             )
+          ],
         ),
       ),
     ),

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -9,18 +8,18 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class SearchField extends StatelessWidget{
 
-  static const double DEF_MARG_VAL = Dimen.DEF_MARG;
+  static const double defMargVal = Dimen.DEF_MARG;
 
   static const EdgeInsets normMargin = EdgeInsets.only(
-    top: DEF_MARG_VAL,
-    left: DEF_MARG_VAL,
-    right: DEF_MARG_VAL
+    top: defMargVal,
+    left: defMargVal,
+    right: defMargVal
   );
 
   static Widget defLeadWidget(BuildContext context) =>
     Padding(
+      padding: const EdgeInsets.all(Dimen.ICON_MARG),
       child: Icon(MdiIcons.magnify, color: hintEnab_(context)),
-      padding: EdgeInsets.all(Dimen.ICON_MARG),
     );
 
     final String? hint;
@@ -31,6 +30,7 @@ class SearchField extends StatelessWidget{
     final Widget? leading;
     final Widget? trailing;
     final Widget? bottom;
+    final Color preBackground;
     final Color background;
     final FocusNode? focusNode;
     final bool enabled;
@@ -46,9 +46,11 @@ class SearchField extends StatelessWidget{
       this.leading,
       this.trailing,
       this.bottom,
+      this.preBackground = Colors.transparent,
       this.background=Colors.transparent,
       this.focusNode,
       this.enabled = true,
+      super.key
     });
 
     @override
@@ -59,13 +61,18 @@ class SearchField extends StatelessWidget{
           Container(
             width: double.infinity,
             height: 42,
+            color: preBackground,
+          ),
+          Container(
+            width: double.infinity,
+            height: 42,
             color: background,
           ),
           AppCard(
               elevation: elevation??AppCard.bigElevation,
               margin: margin,
               padding: EdgeInsets.zero,
-              borderRadius: BorderRadius.all(Radius.circular(Dimen.ICON_SIZE)),
+              borderRadius: BorderRadius.circular(Dimen.ICON_SIZE),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -89,7 +96,7 @@ class SearchField extends StatelessWidget{
                           ),
                         )
                       ),
-                      SizedBox(width: Dimen.DEF_MARG),
+                      const SizedBox(width: Dimen.DEF_MARG),
                       if(trailing!=null) trailing!
                     ],
                   ),

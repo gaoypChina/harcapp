@@ -58,10 +58,10 @@ class SprawFolder{
       id == omegaFolderId? omegaFolderColorKey:
       ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id), CommonColorData.DEF_COLORS_KEY);
 
-  String get colorKey => getColorKey(id)!;
+  String get colorsKey => getColorKey(id)!;
 
   static void setColorKey(String id, String colorKey) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id), colorKey);
-  set colorKey(String value) => setColorKey(id, value);
+  set colorsKey(String value) => setColorKey(id, value);
 
   static CommonColorData? getColorData(String id) => CommonColorData.ALL[getColorKey(id)!];
   CommonColorData? get colorData => getColorData(id);

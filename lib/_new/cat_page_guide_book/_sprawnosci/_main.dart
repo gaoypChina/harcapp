@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/patronite_support_widget.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
@@ -76,16 +77,19 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
         return tabScrollProvider;
       },
       builder: (context, child) => BottomNavScaffold(
-          body: NestedScrollView(
+          body: ExtendedNestedScrollView(
               physics: const BouncingScrollPhysics(),
               floatHeaderSlivers: true,
+              pinnedHeaderSliverHeightBuilder: () => const TabBar(tabs: []).preferredSize.height,
               headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
 
                 Consumer<_TabScrollProvider>(
                     builder: (context, prov, child) => ExtendedSliverAppBar(
                         initIndex: initIndex,
                         backgroundColor: averageColorEnd,
+                        floating: true,
                         pinned: true,
+                        forceElevated: innerBoxIsScrolled,
 
                         titles: allSprawBooks.map((sprawBookData) => sprawBookData.title).toList(),
                         titleColor: DefColorPack.ICON_ENABLED,

@@ -4,6 +4,8 @@ import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../model/circle.dart';
+
 class NetImagePickerWidget extends StatefulWidget{
 
   final TextEditingController? controller;
@@ -57,6 +59,7 @@ class NetImagePickerWidgetState extends State<NetImagePickerWidget>{
           hint: 'Link do zdjęcia:',
           hintTop: 'Link do zdjęcia',
           controller: controller,
+          maxLength: Circle.maxLenCoverImageUrl,
           onAnyChanged: (_) => setState((){}),
         ),
       )

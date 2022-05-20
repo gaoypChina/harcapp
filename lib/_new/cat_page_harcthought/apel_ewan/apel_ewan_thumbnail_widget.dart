@@ -5,14 +5,16 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
+import 'package:webfeed/util/iterable.dart';
 
 import 'apel_ewan_widget.dart';
 
 class ApelEwanThumbnailWidget extends StatelessWidget{
 
   final ApelEwan apelEwan;
+  final String? subgroup;
 
-  const ApelEwanThumbnailWidget(this.apelEwan, {super.key});
+  const ApelEwanThumbnailWidget(this.apelEwan, {this.subgroup, super.key});
 
   @override
   Widget build(BuildContext context) => Hero(
@@ -119,11 +121,14 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
                           bottom: coversBorder + pagesHeight,
                           right: coversBorder,
                           child: SimpleButton(
-                              radius: AppCard.BIG_RADIUS,
+                              radius: outerRadius,
                               margin: EdgeInsets.zero,
                               padding: EdgeInsets.zero,
-                              colorSplash: Colors.deepOrange,
-                              onTap: () => pushPage(context, builder: (context) => ApelEwanWidget(apelEwan)),
+                              colorSplash: Colors.brown,
+                              onTap: () => pushPage(context, builder: (context) => ApelEwanWidget(
+                                apelEwan,
+                                initSubgroup: subgroup
+                              )),
                               child: Container()
                           )
                       ),
@@ -165,7 +170,11 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
                                   children: [
 
                                     Text(
-                                      apelEwan.title,
+                                      apelEwan.subgroupShortTitle[subgroup]??
+                                      apelEwan.subgroupTitle[subgroup]??
+                                      apelEwan.subgroupShortTitle.values.firstOrNull??
+                                      apelEwan.subgroupTitle.values.first,
+
                                       style: AppTextStyle(
                                           fontSize: .7*textSize,
                                           fontWeight: weight.halfBold,

@@ -1,3 +1,4 @@
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
@@ -5,6 +6,7 @@ import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_common_classes/org/org_switcher.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/account/account.dart';
+import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -64,11 +66,17 @@ class ChildFSEState extends State<ChildFSE> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
-      body: NestedScrollView(
+      body: ExtendedNestedScrollView(
+        floatHeaderSlivers: true,
+        physics: const BouncingScrollPhysics(),
+        pinnedHeaderSliverHeightBuilder: () => const TabBar(tabs: []).preferredSize.height,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
           SliverAppBar(
             title: const Text('Prawo i Przyrzeczenie'),
             centerTitle: true,
+            floating: true,
+            pinned: true,
+            forceElevated: innerBoxIsScrolled,
             bottom: TabBar(
               physics: const BouncingScrollPhysics(),
               controller: controller,

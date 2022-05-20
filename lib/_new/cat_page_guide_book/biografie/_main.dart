@@ -57,13 +57,14 @@ class BiografieFragmentState extends State<BiografieFragment> with ModuleStatsMi
     return BottomNavScaffold(
       body: NestedScrollView(
         key: nestedScrollViewKey,
-        floatHeaderSlivers: true,
+        physics: const BouncingScrollPhysics(),
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
           SliverAppBar(
             title: const Text('Biografie'),
             centerTitle: true,
             floating: true,
             backgroundColor: background_(context),
+            forceElevated: innerBoxIsScrolled,
             actions: [
               IconButton(
                 icon: const Icon(MdiIcons.dotsGrid),

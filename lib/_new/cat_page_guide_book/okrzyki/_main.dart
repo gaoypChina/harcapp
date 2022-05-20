@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
@@ -74,19 +75,24 @@ class OkrzykiFragmentState extends State<OkrzykiFragment> with ModuleStatsMixin{
             LinearProgressIndicator(
               value: loadingProgress!/Sound.ITEM_COUNT,
             ),
-            Expanded(
+            const Expanded(
               child: Center(child: CircularProgressIndicator()),
             )
           ],
         ):
         DefaultTabController(
           length: 3,
-          child: NestedScrollView(
+          child: ExtendedNestedScrollView(
+            floatHeaderSlivers: true,
+            pinnedHeaderSliverHeightBuilder: () => const TabBar(tabs: []).preferredSize.height,
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
               SliverAppBar(
-                title: Text('Okrzyki'),
+                title: const Text('Okrzyki'),
                 centerTitle: true,
                 backgroundColor: background_(context),
+                floating: true,
+                pinned: true,
+                forceElevated: innerBoxIsScrolled,
                 actions: <Widget>[
                   if(loadingProgress == -1)
                     IconButton(

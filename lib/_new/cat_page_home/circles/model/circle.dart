@@ -39,6 +39,11 @@ class CircleMembersProvider extends ChangeNotifier{
 
 class Circle{
 
+  static const int maxLenName = 64;
+  static const int maxLenDescription = 320;
+  static const int maxLenCoverImageUrl = 200;
+  static const int maxLenColorsKey = 42;
+
   static List<Circle>? _all;
   static Map<String?, Circle>? _allMap;
 

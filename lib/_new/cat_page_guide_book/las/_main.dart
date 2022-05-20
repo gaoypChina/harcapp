@@ -1,3 +1,4 @@
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
@@ -60,8 +61,9 @@ class LasFragmentState extends State<LasFragment> with TickerProviderStateMixin,
     return BottomNavScaffold(
         body: DefaultTabController(
           length: items.length,
-          child: NestedScrollView(
+          child: ExtendedNestedScrollView(
             floatHeaderSlivers: true,
+            pinnedHeaderSliverHeightBuilder: () => const TabBar(tabs: []).preferredSize.height,
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
               SliverAppBar(
                 backgroundColor: background_(context),
@@ -69,6 +71,7 @@ class LasFragmentState extends State<LasFragment> with TickerProviderStateMixin,
                 centerTitle: true,
                 floating: true,
                 pinned: true,
+                forceElevated: innerBoxIsScrolled,
                 actions: <Widget>[
                   IconButton(
                     icon: const Icon(MdiIcons.magnify),

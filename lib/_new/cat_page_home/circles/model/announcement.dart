@@ -97,7 +97,9 @@ class Announcement{
   String title;
   DateTime postTime;
   DateTime? lastUpdateTime;
-  DateTime? eventTime;
+  DateTime? startTime;
+  DateTime? endTime;
+  String? place;
   UserData author;
   CircleCoverImageData? coverImage;
   String text;
@@ -117,7 +119,9 @@ class Announcement{
     required this.title,
     required this.postTime,
     this.lastUpdateTime,
-    required this.eventTime,
+    required this.startTime,
+    required this.endTime,
+    required this.place,
     required this.author,
     this.coverImage,
     required this.text,
@@ -132,9 +136,11 @@ class Announcement{
     key: key??resp['_key']??(throw InvalidResponseError('_key')),
     title: resp['title']??(throw InvalidResponseError('title')),
     postTime: DateTime.tryParse(resp['post_time_str']??(throw InvalidResponseError('post_time_str')))??(throw InvalidResponseError('post_time_str')),
-    eventTime: resp['event_time'] == null? null: DateTime.tryParse(resp['event_time']),
+    startTime: resp['start_time_str'] == null? null: DateTime.tryParse(resp['start_time_str']),
+    endTime: resp['end_time_str'] == null? null: DateTime.tryParse(resp['end_time_str']),
     lastUpdateTime: resp['last_update_time_str'] == null? null: DateTime.tryParse(resp['last_update_time_str']),
     coverImage: resp['cover_image_url'] == null? null: CircleCoverImageData.from(resp['cover_image_url']),
+    place: resp['place'],
     author: UserData.fromMap(resp['author']),
     text: resp['text'],
     pinned: resp['pinned'],

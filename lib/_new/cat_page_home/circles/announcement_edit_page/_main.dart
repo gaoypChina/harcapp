@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_cover_image_data.dart';
@@ -10,7 +11,7 @@ import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_classes/common.dart';
+import 'package:harcapp_core/comm_classes/date_to_str.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
@@ -63,6 +64,11 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
   TextEditingController? titleController;
   TextEditingController? textController;
 
+  DateTime? startTime;
+  DateTime? endTime;
+
+  String? place;
+
   bool? pinned;
 
   @override
@@ -102,6 +108,11 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
                 if(textController!.text.isEmpty){
                   showAppToast(context, text: 'Podaj treść ogłoszenia');
+                  return;
+                }
+
+                if(startTime != null && endTime != null && startTime!.isAfter(endTime!)){
+                  showAppToast(context, text: 'Początek wydarzenia musi być wcześniej niż koniec');
                   return;
                 }
 
@@ -233,6 +244,66 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
               ),
             ),
 
+            const SizedBox(height: Dimen.SIDE_MARG),
+
+            Align(
+              alignment: Alignment.centerLeft,
+              child: SimpleButton.from(
+                  margin: EdgeInsets.zero,
+                  context: context,
+                  icon: MdiIcons.calendarBlankOutline,
+                  text: startTime==null?
+                  'Dodaj czas rozpoczęcia':
+                  'Początek: ${dateToString(startTime, shortMonth: true, withTime: true)}',
+                  fontWeight: weight.normal,
+                  onTap: () => showScrollBottomSheet(
+                      context: context,
+                      builder: (context) => BottomSheetDateTimePicker(
+                        startTime,
+                        backgroundColor: CirclePage.backgroundColor(context, palette),
+                        start: true,
+                        onSelected: (dateTime) => setState(() => startTime = dateTime),
+                      )
+                  )
+              ),
+            ),
+
+            Align(
+              alignment: Alignment.centerLeft,
+              child: SimpleButton.from(
+                margin: EdgeInsets.zero,
+                context: context,
+                icon: MdiIcons.calendarCheckOutline,
+                text: endTime==null?
+                'Dodaj czas zakończenia':
+                'Zakończ.:  ${dateToString(endTime, shortMonth: true, withTime: true)}',
+                fontWeight: weight.normal,
+                onTap: () => showScrollBottomSheet(
+                  context: context,
+                  builder: (context) => BottomSheetDateTimePicker(
+                    endTime,
+                    backgroundColor: CirclePage.backgroundColor(context, palette),
+                    start: false,
+                    onSelected: (dateTime) => setState(() => endTime = dateTime),
+                  )
+                )
+              ),
+            ),
+
+            AppTextFieldHint(
+              hint: 'Dodaj miejsce',
+              hintTop: '',
+              style: AppTextStyle(color: iconEnab_(context)),
+              textCapitalization: TextCapitalization.sentences,
+              leading: const Padding(
+                padding: EdgeInsets.only(
+                  left: Dimen.ICON_MARG,
+                  right: Dimen.ICON_MARG,
+                ),
+                child: Icon(MdiIcons.mapMarkerOutline),
+              ),
+            ),
+
             if(initAnnouncement != null)
               const SizedBox(height: Dimen.SIDE_MARG),
 
@@ -279,5 +350,102 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
   );
 
 
+
+}
+
+class BottomSheetDateTimePicker extends StatelessWidget{
+
+  final DateTime? initDateTime;
+  final Color? backgroundColor;
+  final bool start;
+  final void Function(DateTime)? onSelected;
+
+  const BottomSheetDateTimePicker(this.initDateTime, {this.backgroundColor, required this.start, this.onSelected, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+
+    DateTime currentDateTime = initDateTime??DateTime.now();
+
+    return BottomSheetDef(
+      color: backgroundColor??background_(context),
+      builder: (context) => Column(
+        children: [
+
+          Padding(
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  start?'Rozpoczęcie':'Zakończenie',
+                  style: AppTextStyle(
+                    fontSize: Dimen.TEXT_SIZE_BIG,
+                    fontWeight: weight.halfBold
+                  ),
+                ),
+                const SizedBox(height: 6.0),
+                Text(
+                  dateToString(currentDateTime, withTime: true),
+                  style: AppTextStyle(
+                    fontSize: Dimen.TEXT_SIZE_APPBAR,
+                  ),
+                ),
+              ],
+            )
+          ),
+
+          ListTile(
+            leading: const Icon(MdiIcons.calendarOutline),
+            title: const Text('Edytuj dzień'),
+            onTap: () async {
+              Navigator.pop(context);
+
+              DateTime? dateTime = await showDatePicker(
+                  context: context,
+                  initialDate: currentDateTime,
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime.now().add(const Duration(days: 100*365))
+              );
+
+              if(dateTime != null)
+                onSelected?.call(DateTime(
+                    dateTime.year,
+                    dateTime.month,
+                    dateTime.day,
+                    currentDateTime.hour,
+                    currentDateTime.minute
+                ));
+
+            },
+          ),
+
+          ListTile(
+            leading: const Icon(MdiIcons.clockOutline),
+            title: const Text('Edytuj godzinę'),
+            onTap: () async {
+              Navigator.pop(context);
+
+              TimeOfDay? timeOfDay = await showTimePicker(
+                context: context,
+                initialTime: TimeOfDay.fromDateTime(initDateTime??DateTime.now()),
+              );
+
+              if(timeOfDay != null)
+                onSelected?.call(DateTime(
+                    currentDateTime.year,
+                    currentDateTime.month,
+                    currentDateTime.day,
+                    timeOfDay.hour,
+                    timeOfDay.minute
+                ));
+
+            },
+          )
+
+        ],
+      ),
+    );
+  }
 
 }

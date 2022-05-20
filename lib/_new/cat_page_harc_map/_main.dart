@@ -136,7 +136,7 @@ class TagWidget extends StatelessWidget{
     return SimpleButton(
         radius: 100,
         padding: EdgeInsets.all(Dimen.ICON_MARG),
-        margin: EdgeInsets.all(SearchField.DEF_MARG_VAL),
+        margin: EdgeInsets.all(SearchField.defMargVal),
         color: cardEnab_(context),
         elevation: AppCard.bigElevation,
         child: Row(

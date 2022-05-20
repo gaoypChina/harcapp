@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_app_common/common_color_data.dart';
-import 'package:harcapp/_app_common/common_icon_data.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_folder_page/spraw_folder.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_folder_page/spraw_folder_icon.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 
-class SprawFolderWidget extends StatelessWidget{
+import 'folder_icon.dart';
+
+class FolderWidget extends StatelessWidget{
 
   static const double defSize = 46.0;
 
@@ -14,18 +12,14 @@ class SprawFolderWidget extends StatelessWidget{
   final String? colorKey;
   final double size;
 
-  const SprawFolderWidget(this.iconKey, this.colorKey, {this.size = defSize});
+  const FolderWidget(this.iconKey, this.colorKey, {this.size = defSize, super.key});
 
-  static SprawFolderWidget from(SprawFolder folder, {double size = defSize}){
-    return SprawFolderWidget(folder.iconKey, folder.colorKey, size: size);
-  }
-
-  static SprawFolderWidget empty({double size = defSize}){
-    return SprawFolderWidget(null, null, size: size);
+  static FolderWidget empty({double size = defSize}){
+    return FolderWidget(null, null, size: size);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
 
     Color color = cardEnab_(context)!;
     Color darkColor = Color.fromARGB(255, color.red-10, color.green-10, color.blue-10);
@@ -60,7 +54,10 @@ class SprawFolderWidget extends StatelessWidget{
                   color: color,
                   elevation: AppCard.bigElevation,
                   radius: radius,
-                  child: iconKey == null || colorKey == null?Container():SprawFolderIcon(iconKey, colorKey, size: size/2),
+                  child:
+                  iconKey == null || colorKey == null?
+                  Container():
+                  FolderIcon(iconKey!, colorKey!, size: size/2),
                 ),
               ),
             ),

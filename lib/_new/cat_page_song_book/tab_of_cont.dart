@@ -413,7 +413,7 @@ class _SearchTextFieldCard extends StatelessWidget{
                   ),
                   const SizedBox(width: Dimen.DEF_MARG/2),
                   Row(
-                    children: searchOptions!.checkedTags!.map((t) => Tag(
+                    children: searchOptions!.checkedTags.map((t) => Tag(
                       t,
                       inCard: false,
                       fontSize: Dimen.TEXT_SIZE_SMALL,
@@ -591,8 +591,8 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
             TagLayout.wrap(
               allTags: Tag.ALL_TAG_NAMES,
               onTagTap: (String tag, bool checked){
-                if(checked) searchOptions!.checkedTags!.remove(tag);
-                else searchOptions!.checkedTags!.add(tag);
+                if(checked) searchOptions!.checkedTags.remove(tag);
+                else searchOptions!.checkedTags.add(tag);
                 setState((){});
                 onChanged?.call();
               },

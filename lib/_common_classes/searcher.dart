@@ -12,14 +12,27 @@ abstract class SearchOptions{
   void clear();
 }
 
-void selectTemplate<TInItem, TOutItem, TOpt extends SearchOptions?>(
-    Tuple3<List<TInItem>, TOpt, SendPort> args,
-    List<TOutItem>? Function(String phrase, List<TInItem> allItems, TOpt options, bool Function()) select
-    ) async {
+class SearchArguments<TInItem, TOutItem, TOpt>{
 
-  final List<TInItem> allItems = args.item1;
-  final TOpt options = args.item2;
-  final SendPort outPort = args.item3;
+  final List<TInItem> allSearchableItems;
+  final TOpt options;
+  final SendPort outPort;
+
+  final List<TOutItem>? Function(String phrase, List<TInItem> allItems, TOpt options, bool Function() stillValid) selectItems;
+
+
+  SearchArguments(this.allSearchableItems, this.options, this.selectItems, this.outPort);
+  
+}
+
+void _runSearchProcess<TInItem, TOutItem, TOpt extends SearchOptions?>(
+  SearchArguments<TInItem, TOutItem, TOpt> searchArgs,
+) async {
+
+  final List<TInItem> allItems = searchArgs.allSearchableItems;
+  final TOpt options = searchArgs.options;
+  final SendPort outPort = searchArgs.outPort;
+  final Function selectItems = searchArgs.selectItems;
 
   int lastRunId = 0;
 
@@ -33,7 +46,7 @@ void selectTemplate<TInItem, TOutItem, TOpt extends SearchOptions?>(
 
     lastRunId = currRunId;
 
-    List<TOutItem>? result = select(phrase, allItems, options, () => currRunId==lastRunId);
+    List<TOutItem>? result = selectItems(phrase, allItems, options, () => currRunId==lastRunId);
 
     if(result == null) {
       outPort.send(null);
@@ -62,21 +75,22 @@ class Searcher<TInItem, TOutItem, TOpt extends SearchOptions?>{
   late List<void Function(String)> _onStartListeners;
   late List<void Function(List<TOutItem>, bool Function())> _onCompleteListeners;
 
-  final void Function(Tuple3<List<TInItem>, TOpt, SendPort>) loopFunction;
+  final List<TOutItem>? Function(String phrase, List<TInItem> allItems, TOpt options, bool Function() stillValid) selectItems;
 
   int lastCompleteId;
   int lastRunId;
 
-  late LocalSemaphore semaphore;
+  final LocalSemaphore semaphore;
 
-  Searcher(this.loopFunction):
+  Searcher(this.selectItems):
         lastCompleteId = 0,
-        lastRunId = 0
+        lastRunId = 0,
+        semaphore = LocalSemaphore(1)
   {
     allItems = [];
     _onStartListeners = [];
     _onCompleteListeners = [];
-    semaphore = LocalSemaphore(1);
+
   }
 
   void addOnStartListener(void Function(String) listener) => _onStartListeners.add(listener);
@@ -88,22 +102,21 @@ class Searcher<TInItem, TOutItem, TOpt extends SearchOptions?>{
 
     ReceivePort inPort = ReceivePort();
 
-    Tuple3<List<TInItem>, TOpt, SendPort> args = Tuple3(
+    SearchArguments<TInItem, TOutItem, TOpt> args = SearchArguments(
         allItems, // !!! jeśli ma być zrealizowane podpowiadanie piosenek z innych śpiewników, trzeba to zmienić.
         options,
+        selectItems,
         inPort.sendPort,
     );
 
-    Isolate isolate = await Isolate.spawn<Tuple3<List<TInItem>, TOpt, SendPort>>(
-        loopFunction,
+    Isolate isolate = await Isolate.spawn<SearchArguments<TInItem, TOutItem, TOpt>>(
+        _runSearchProcess,
         args
     );
 
     isolate.addOnExitListener(inPort.sendPort);
 
-    SendPort outPort = await connect(
-        inPort: inPort,
-    );
+    SendPort outPort = await connect(inPort: inPort);
 
     this.isolate = isolate;
     this.outPort = outPort;
@@ -141,6 +154,7 @@ class Searcher<TInItem, TOutItem, TOpt extends SearchOptions?>{
 
     for(void Function(String) listener in _onStartListeners)
       listener(phrase);
+    
     outPort.send(Tuple2(currRunId, phrase));
   }
 

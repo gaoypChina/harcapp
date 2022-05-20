@@ -1,12 +1,9 @@
-import 'dart:isolate';
-
 import 'package:harcapp/_common_classes/searcher.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
-import 'package:tuple/tuple.dart';
 
 class SongSearchOptions extends SearchOptions{
-  List<String>? checkedTags;
+  late List<String> checkedTags;
   late List<int> checkedRates;
 
   SongSearchOptions({List<String>? checkedTags, List<int>? checkedRates}){
@@ -15,7 +12,7 @@ class SongSearchOptions extends SearchOptions{
   }
 
   @override
-  bool get isEmpty => checkedTags!.isEmpty &&
+  bool get isEmpty => checkedTags.isEmpty &&
         checkedRates.isEmpty;
 
   @override
@@ -49,7 +46,7 @@ class SongSearcher extends Searcher<Song, int, SongSearchOptions?>{
 }
 
 bool _tagMatch(SongSearchOptions options, Song? song){
-  final List<String> checkedTags = options.checkedTags!;
+  final List<String> checkedTags = options.checkedTags;
   if(checkedTags.isEmpty) return true;
 
   for (String tag in song!.tags)
@@ -64,8 +61,7 @@ bool _rateMatch(SongSearchOptions options, Song? song){
   return checkedRates.isEmpty || checkedRates.contains(song!.rate);
 }
 
-void _selectSongs(Tuple3<List<Song?>, SongSearchOptions?, SendPort> args) =>
-    selectTemplate<Song?, int, SongSearchOptions?>(args, (String phrase, List<Song?> allItems, SongSearchOptions? options, bool Function() stillValid){
+List<int>? _selectSongs(String phrase, List<Song> allItems, SongSearchOptions? options, bool Function() stillValid){
 
   String text = remPolChars(phrase);
 
@@ -80,7 +76,7 @@ void _selectSongs(Tuple3<List<Song?>, SongSearchOptions?, SendPort> args) =>
     if (!_tagMatch(options!, song) || !_rateMatch(options, song))
       continue;
 
-    bool titleMatch = remPolChars(song!.title).contains(text);
+    bool titleMatch = remPolChars(song.title).contains(text);
     bool authorMatch = false;
     for(String author in remPolCharsList(song.authors))
       if(author.contains(text)){
@@ -117,4 +113,4 @@ void _selectSongs(Tuple3<List<Song?>, SongSearchOptions?, SendPort> args) =>
   }
   return resultsByMeta + resultsByText;
 
-});
+}

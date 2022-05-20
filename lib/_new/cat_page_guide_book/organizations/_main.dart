@@ -1,3 +1,4 @@
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
@@ -52,13 +53,17 @@ class OrganizationsPageState extends State<OrganizationsPage>{
     return BottomNavScaffold(
       body: DefaultTabController(
         length: 4,
-        child: NestedScrollView(
+        child: ExtendedNestedScrollView(
           physics: const BouncingScrollPhysics(),
+          floatHeaderSlivers: true,
+          pinnedHeaderSliverHeightBuilder: () => const TabBar(tabs: []).preferredSize.height,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
             SliverAppBar(
               title: const Text('Organizacje harc. i skaut.'),
               centerTitle: true,
               floating: true,
+              pinned: true,
+              forceElevated: innerBoxIsScrolled,
               bottom: TabBar(
                 indicator: AppTabBarIncdicator(context: context),
                 isScrollable: true,

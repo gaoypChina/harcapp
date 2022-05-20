@@ -4,10 +4,8 @@ import 'package:harcapp/_app_common/icon_selector_widget.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_folder_page/spraw_folder.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_folder_page/spraw_folder_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -16,26 +14,40 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-class SprawFolderEditPage extends StatefulWidget{
+import 'folder_widget.dart';
+
+class FolderEditPage extends StatefulWidget{
 
   static const int maxNameLenght = 52;
 
-  final SprawFolder? initFolder;
-  final void Function(String name, String selColorKey, String selIconKey)? onSave;
-  final void Function(SprawFolder?)? onDeleteTap;
+  final String? initName;
+  final String? initIconKey;
+  final String? initColorsKey;
+  final void Function(String name, String selIconKey, String selColorKey)? onSave;
+  final void Function()? onDeleteTap;
 
-  const SprawFolderEditPage({this.initFolder, this.onSave, this.onDeleteTap});
+  const FolderEditPage({
+    this.initName,
+    this.initIconKey,
+    this.initColorsKey,
+    this.onSave,
+    this.onDeleteTap,
+    super.key
+  });
 
   @override
-  State<StatefulWidget> createState() => SprawFolderEditPageState();
+  State<StatefulWidget> createState() => FolderEditPageState();
 
 }
 
-class SprawFolderEditPageState extends State<SprawFolderEditPage>{
+class FolderEditPageState extends State<FolderEditPage>{
 
-  SprawFolder? get initFolder => widget.initFolder;
-  void Function(String name, String selColorKey, String selIconKey)? get onSave => widget.onSave;
-  void Function(SprawFolder?)? get onDeleteTap => widget.onDeleteTap;
+  String? get initName => widget.initName;
+  String? get initIconKey => widget.initIconKey;
+  String? get initColorsKey => widget.initColorsKey;
+
+  void Function(String name, String selIconKey, String selColorKey)? get onSave => widget.onSave;
+  void Function()? get onDeleteTap => widget.onDeleteTap;
 
   late String selIconKey;
 
@@ -44,9 +56,9 @@ class SprawFolderEditPageState extends State<SprawFolderEditPage>{
 
   @override
   void initState() {
-    selIconKey = initFolder?.iconKey??CommonIconData.randomKey;
+    selIconKey = initIconKey??CommonIconData.randomKey;
 
-    controller = TextEditingController(text: initFolder?.name??'');
+    controller = TextEditingController(text: initName??'');
     focusNode = FocusNode();
 
     super.initState();
@@ -60,7 +72,7 @@ class SprawFolderEditPageState extends State<SprawFolderEditPage>{
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
-    create: (BuildContext context) => _ColorProvider(initFolder?.colorKey??CommonColorData.randomKey),
+    create: (BuildContext context) => _ColorProvider(initColorsKey??CommonColorData.randomKey),
     builder: (context, child) => BottomNavScaffold(
       appBar: AppBar(
         elevation: 0,
@@ -82,18 +94,14 @@ class SprawFolderEditPageState extends State<SprawFolderEditPage>{
         actions: [
           IconButton(
               onPressed: (){
-                if(initFolder == null && SprawFolder.exists(controller.text)){
-                  showAppToast(context, text: 'Folder o podanej nazwie już istnieje');
-                  return;
-                }
 
                 if(controller.text.isEmpty){
-                  showAppToast(context, text: 'Weź, nazwij jakoś ten folder');
+                  showAppToast(context, text: 'Weź tam, nazwij jakoś ten folder');
                   focusNode.requestFocus();
                   return;
                 }
 
-                onSave?.call(controller.text, Provider.of<_ColorProvider>(context, listen: false).selColorKey, selIconKey);
+                onSave?.call(controller.text, selIconKey, Provider.of<_ColorProvider>(context, listen: false).selColorKey);
                 Navigator.pop(context);
               },
               icon: const Icon(MdiIcons.check)
@@ -123,7 +131,7 @@ class SprawFolderEditPageState extends State<SprawFolderEditPage>{
 
           Expanded(child: Center(
             child: Consumer<_ColorProvider>(
-              builder: (context, prov, child) => SprawFolderWidget(
+              builder: (context, prov, child) => FolderWidget(
                 selIconKey,
                 prov.selColorKey,
                 size: 224.0,
@@ -131,7 +139,7 @@ class SprawFolderEditPageState extends State<SprawFolderEditPage>{
             ),
           )),
 
-          if(initFolder != null)
+          if(initName != null)
             SimpleButton.from(
                 textColor: Colors.red,
                 icon: MdiIcons.close,
@@ -151,7 +159,7 @@ class SprawFolderEditPageState extends State<SprawFolderEditPage>{
                       AlertDialogButton(
                           text: 'Tak',
                           onTap: (){
-                            onDeleteTap?.call(initFolder);
+                            onDeleteTap?.call();
                             Navigator.pop(context);
                             Navigator.pop(context);
                           }
@@ -227,8 +235,8 @@ class _ColorProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Color? get colorStart => CommonColorData.ALL[_selColorKey]!.colorStart;
-  Color? get colorEnd => CommonColorData.ALL[_selColorKey]!.colorEnd;
-  Color get avgColor => CommonColorData.ALL[_selColorKey]!.avgColor;
+  Color? get colorStart => CommonColorData.ALL[_selColorKey]?.colorStart;
+  Color? get colorEnd => CommonColorData.ALL[_selColorKey]?.colorEnd;
+  Color? get avgColor => CommonColorData.ALL[_selColorKey]?.avgColor;
 
 }

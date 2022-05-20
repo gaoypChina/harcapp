@@ -36,6 +36,8 @@ dependencies:
   date_picker_timeline: 1.2.3
   device_info_plus: ^3.2.3
   dio: ^4.0.6
+  dropdown_button2: 1.5.1
+  extended_nested_scroll_view: 6.0.0-dev.1
   flip_card: ^0.6.0
   flutter_email_sender: ^5.1.0
   flutter_keyboard_visibility: ^5.2.0

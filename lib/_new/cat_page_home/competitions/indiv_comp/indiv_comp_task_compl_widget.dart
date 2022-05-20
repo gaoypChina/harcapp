@@ -7,7 +7,7 @@ import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_classes/common.dart';
+import 'package:harcapp_core/comm_classes/date_to_str.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'common/indiv_comp_task_skeleton_widget.dart';

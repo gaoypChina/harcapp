@@ -1,7 +1,10 @@
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/cat_page_guide_book/symbolika/symb_image_widget.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -42,32 +45,26 @@ class SymbolikaFragmentState extends State<SymbolikaFragment> with TickerProvide
 
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
-    body: NestedScrollView(
-      floatHeaderSlivers: true,
+    body: ExtendedNestedScrollView(
+      pinnedHeaderSliverHeightBuilder: () => const TabBar(tabs: []).preferredSize.height,
       physics: const BouncingScrollPhysics(),
-      headerSliverBuilder: (context, value) => [
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
         SliverAppBar(
           backgroundColor: background_(context),
-          floating: true,
-          pinned: true,
           title: const Text('Symbolika'),
           centerTitle: true,
+          floating: true,
+          pinned: true,
+          forceElevated: innerBoxIsScrolled,
           actions: <Widget>[
             IconButton(
               icon: Icon(MdiIcons.dotsGrid, color: iconEnab_(context)),
-              onPressed: (){
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AllSymbolsPage(
-                          onItemTap: (index){
-                            controller!.animateTo(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInQuart);
-                            Navigator.pop(context);
-                          },
-                        )
-                    )
-                );
-              },
+              onPressed: () => pushPage(context, builder: (context) => AllSymbolsPage(
+                onItemTap: (index){
+                  controller!.animateTo(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInQuart);
+                  Navigator.pop(context);
+                },
+              )),
             ),
           ],
           bottom: TabBar(
@@ -77,7 +74,7 @@ class SymbolikaFragmentState extends State<SymbolikaFragment> with TickerProvide
             tabs: items.map((item) => Tab(text: item.title)).toList(),
             //controller: _tabController,
           ),
-        ),
+        )
       ],
       body: TabBarView(
         physics: const BouncingScrollPhysics(),

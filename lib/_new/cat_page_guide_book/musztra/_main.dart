@@ -1,3 +1,4 @@
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
@@ -383,14 +384,16 @@ class MusztraFragmentState extends State<MusztraFragment> with ModuleStatsMixin{
   Widget build(BuildContext context) => BottomNavScaffold(
       body: DefaultTabController(
         length: 4,
-        child: NestedScrollView(
+        child: ExtendedNestedScrollView(
+          pinnedHeaderSliverHeightBuilder: () => const TabBar(tabs: []).preferredSize.height,
           floatHeaderSlivers: true,
           physics: const BouncingScrollPhysics(),
-          headerSliverBuilder: (context, value) => [
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
             SliverAppBar(
               title: const Text('Musztra'),
               centerTitle: true,
               backgroundColor: background_(context),
+              forceElevated: innerBoxIsScrolled,
               pinned: true,
               floating: true,
               actions: <Widget>[
