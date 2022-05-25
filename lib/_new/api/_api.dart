@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/storage.dart';
+import 'package:harcapp/_common_classes/time_settings.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/memory.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
@@ -75,9 +76,11 @@ class API{
 
       saveStringAsFileToFolder(
         getApiErrorFolderLocalPath,
-        'Status code: ${e.response?.statusCode}'
-        '\n\nStatus message: ${e.response?.statusMessage}'
-        '\n\nResponse error data:\n${e.response?.data}'
+        '# Date: ${DateTime.now().toIso8601String()}'
+        '\n# System time used: ${TimeSettings.isTimeAutomatic}'
+        '\n# Status code: ${e.response?.statusCode}'
+        '\n# Status message: ${e.response?.statusMessage}'
+        '\n# Response error data:\n${e.response?.data}'
       );
 
       if (e.response?.statusCode == jwtInvalidHttpStatus) {

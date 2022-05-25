@@ -25,6 +25,7 @@ import 'package:lifecycle/lifecycle.dart';
 import '_common_classes/color_pack.dart';
 import '_common_classes/sha_pref.dart';
 import '_common_classes/storage.dart';
+import '_common_classes/time_settings.dart';
 import '_common_widgets/app_toast.dart';
 import '_new/app_bottom_navigator.dart';
 import '_new/cat_page_guide_book/_sprawnosci/providers.dart';
@@ -67,8 +68,11 @@ void main() async {
     FlutterError.onError = (FlutterErrorDetails details) async {
       saveStringAsFileToFolder(
           getErrorFolderLocalPath,
-          'app_version: ${(await PackageInfo.fromPlatform()).version}\n\n'
-          '${details.stack.toString()}',
+          '# Date: ${DateTime.now().toIso8601String()}'
+          '\n# System time used: ${TimeSettings.isTimeAutomatic}'
+          '\n# App version: ${(await PackageInfo.fromPlatform()).version}'
+          '\n\n${details.exception.toString()}'
+          '\n\n${details.stack.toString()}',
           fileName: DateTime.now().toIso8601String());
 
       throw details.stack!;

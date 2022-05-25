@@ -227,7 +227,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                                   margin: EdgeInsets.zero,
                                   context: context,
                                   icon: MdiIcons.accountCancelOutline,
-                                  text: 'Brak informacji o obecn.',
+                                  text: 'Brak informacji o obecności',
                                   fontWeight: weight.normal,
                                   onTap: null
                               )
@@ -238,7 +238,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                                   margin: EdgeInsets.zero,
                                   context: context,
                                   icon: MdiIcons.accountQuestionOutline,
-                                  text: 'Fakultatywna informacja o obecn.',
+                                  text: 'Dobrowolna informacja o obecności',
                                   fontWeight: weight.normal,
                                   onTap: null
                               )
@@ -249,7 +249,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                                   margin: EdgeInsets.zero,
                                   context: context,
                                   icon: MdiIcons.accountAlertOutline,
-                                  text: 'Obligatoryjna informacja o obecn.',
+                                  text: 'Wymagana informacja o obecności',
                                   fontWeight: weight.normal,
                                   onTap: null
                               )

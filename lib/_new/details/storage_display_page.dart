@@ -172,30 +172,6 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
               )
           ),
 
-          Padding(
-            padding: const EdgeInsets.only(left: Dimen.ICON_MARG, top: Dimen.ICON_MARG),
-            child: TitleShortcutRowWidget(
-                title: 'Błędy API',
-                textAlign: TextAlign.start,
-                trailing: IconButton(
-                  icon: const Icon(MdiIcons.shareOutline),
-                  onPressed: errorFiles==0?null:() async {
-
-                    List<String> filePaths = Directory(getApiErrorFolderPath).listSync().map((file) => file.path).toList();
-
-                    final Email email = Email(
-                      body: 'W załącznikach.',
-                      subject: 'Błędy API w HarcAppce',
-                      recipients: ['harcapp@gmail.com'],
-                      attachmentPaths: filePaths,
-                      isHTML: false,
-                    );
-                    await FlutterEmailSender.send(email);
-                  },
-                )
-            ),
-          ),
-
           _Item(
               icon: MdiIcons.folderAlertOutline,
               title: 'plik: <b>${basename(getApiErrorFolderPath)}</b>',
