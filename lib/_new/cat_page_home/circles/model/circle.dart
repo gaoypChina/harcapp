@@ -45,10 +45,10 @@ class Circle{
   static const int maxLenColorsKey = 42;
 
   static List<Circle>? _all;
-  static Map<String?, Circle>? _allMap;
+  static Map<String, Circle>? _allMap;
 
   static List<Circle>? get all => _all;
-  static Map<String?, Circle>? get allMap => _allMap;
+  static Map<String, Circle>? get allMap => _allMap;
 
   static silentInit(List<Circle> circles){
     if(_all == null){
@@ -131,7 +131,9 @@ class Circle{
   final Map<String, Member> _membersMap;
   List<Member> get members => _members;
   Map<String, Member> get membersMap => _membersMap;
-  
+
+  bool get hasDescription => description != null && description!.isNotEmpty;
+
   void addMember(BuildContext context, List<Member> newMembers){
 
     for(Member mem in newMembers) {
@@ -210,6 +212,7 @@ class Circle{
     _announcementsMap.remove(announcement.key);
   }
 
+  /*
   void updateAnnouncement(Announcement announcement){
     int index = _announcements.indexWhere((ann) => ann.key == announcement.key);
     _announcements.removeAt(index);
@@ -217,7 +220,7 @@ class Circle{
     _announcements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
     _announcementsMap[announcement.key] = announcement;
   }
-  
+  */
   void setAllAnnouncement(List<Announcement> allAnnouncement){
     _announcements.clear();
     _announcementsMap.clear();
@@ -258,15 +261,7 @@ class Circle{
       members.add(memData);
     }
 
-    List<Announcement> announcements = [];
-    Map annResps = resp['announcements']??(throw InvalidResponseError('_key'));
-    for(String annKey in annResps.keys as Iterable<String>){
-      Map annRespData = annResps[annKey];
-      Announcement ann = Announcement.fromMap(annRespData, key: annKey);
-      announcements.add(ann);
-    }
-
-    return Circle(
+    Circle circle = Circle(
       key: resp['_key']??(throw InvalidResponseError('_key')),
       name: resp['name']??(throw InvalidResponseError('name')),
       description: resp['description'],
@@ -275,8 +270,17 @@ class Circle{
       shareCode: resp["share_code"],
       shareCodeSearchable: resp["share_code_searchable"],
       members: members,
-      announcements: announcements,
+      announcements: [],
     );
+
+    Map annResps = resp['announcements']??(throw InvalidResponseError('_key'));
+    for(String annKey in annResps.keys as Iterable<String>){
+      Map annRespData = annResps[annKey];
+      Announcement ann = Announcement.fromMap(annRespData, circle, key: annKey);
+      circle.addAnnouncement(ann);
+    }
+
+    return circle;
   }
 
 }

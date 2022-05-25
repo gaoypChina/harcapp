@@ -7,7 +7,7 @@ import '../model/circle.dart';
 
 class NameProvider extends ChangeNotifier{
 
-  TextEditingController? nameController;
+  late TextEditingController nameController;
 
   NameProvider({Circle? circle}){
     nameController = TextEditingController(text: circle?.name??'');
@@ -17,7 +17,7 @@ class NameProvider extends ChangeNotifier{
 
 class DescriptionProvider extends ChangeNotifier{
 
-  TextEditingController? descriptionController;
+  late TextEditingController descriptionController;
 
   DescriptionProvider({Circle? circle}){
     descriptionController = TextEditingController(text: circle?.description??'');

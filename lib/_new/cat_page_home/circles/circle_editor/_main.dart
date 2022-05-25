@@ -6,6 +6,7 @@ import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_editor/providers.dart';
+import 'package:optional/optional_internal.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -71,6 +72,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
       backgroundColor: CirclePage.backgroundColor(context, palette),
+      appBottomNavColor: CirclePage.backgroundColor(context, palette),
       body: DefaultTabController(
         length: initCircle == null?1:2,
         child: MultiProvider(
@@ -105,7 +107,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                     icon: const Icon(MdiIcons.check),
                     onPressed: () async {
 
-                      if(Provider.of<NameProvider>(context, listen: false).nameController!.text.trim().isEmpty){
+                      if(Provider.of<NameProvider>(context, listen: false).nameController.text.trim().isEmpty){
                         showAppToast(context, text: 'Nazwa kręgu nie może być pusta');
                         return;
                       }
@@ -118,8 +120,8 @@ class CircleEditorPageState extends State<CircleEditorPage>{
 
                       if(initCircle == null)
                         await ApiCircle.create(
-                            name: Provider.of<NameProvider>(context, listen: false).nameController!.text,
-                            description: Provider.of<DescriptionProvider>(context, listen: false).descriptionController!.text,
+                            name: Provider.of<NameProvider>(context, listen: false).nameController.text,
+                            description: Provider.of<DescriptionProvider>(context, listen: false).descriptionController.text,
                             coverImageUrl: Provider.of<CoverImageProvider>(context, listen: false).coverImage!.code,
                             colorsKey: Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey,
                             onSuccess: (circle){
@@ -129,13 +131,37 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                             },
                             onError: onError
                         );
-                      else
+                      else{
+
+                        String name = Provider.of<NameProvider>(context, listen: false).nameController.text;
+                        String? description = Provider.of<DescriptionProvider>(context, listen: false).descriptionController.text;
+                        if(description.isEmpty) description = null;
+                        String? coverImageCode = Provider.of<CoverImageProvider>(context, listen: false).coverImage!.code;
+                        String? colorsKey = Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey;
+
                         await ApiCircle.update(
                             circleKey: initCircle!.key,
-                            name: Provider.of<NameProvider>(context, listen: false).nameController!.text,
-                            description: Provider.of<DescriptionProvider>(context, listen: false).descriptionController!.text,
-                            coverImageUrl: Provider.of<CoverImageProvider>(context, listen: false).coverImage!.code,
-                            colorsKey: Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey,
+
+                            name:
+                            initCircle!.name == name?
+                            const Optional.empty():
+                            Optional.of(name),
+
+                            description:
+                            initCircle!.description == description?
+                            const Optional.empty():
+                            Optional.ofNullable(description),
+
+                            coverImageUrl:
+                            initCircle!.coverImage?.code == coverImageCode?
+                            const Optional.empty():
+                            Optional.ofNullable(coverImageCode),
+
+                            colorsKey:
+                            initCircle!.colorsKey == colorsKey?
+                            const Optional.empty():
+                            Optional.ofNullable(colorsKey),
+
                             onSuccess: (circle){
                               popPage(context); // Close loading widget.
                               popPage(context);
@@ -143,6 +169,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                             },
                             onError: onError
                         );
+                      }
 
                     },
                   )

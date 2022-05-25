@@ -37,6 +37,12 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
     return dir.listSync().length;
   }
 
+  int get apiErrorFiles{
+    Directory dir = Directory(getApiErrorFolderPath);
+    dir.createSync(recursive: true);
+    return dir.listSync().length;
+  }
+
   @override
   Widget build(BuildContext context) => AppScaffold(
     body: CustomScrollView(
@@ -131,7 +137,7 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
           Padding(
             padding: const EdgeInsets.only(left: Dimen.ICON_MARG, top: Dimen.ICON_MARG),
             child: TitleShortcutRowWidget(
-                title: 'Zapisane błędy',
+                title: 'Błędy aplikacji',
                 textAlign: TextAlign.start,
                 trailing: IconButton(
                   icon: const Icon(MdiIcons.shareOutline),
@@ -166,6 +172,44 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
               )
           ),
 
+          Padding(
+            padding: const EdgeInsets.only(left: Dimen.ICON_MARG, top: Dimen.ICON_MARG),
+            child: TitleShortcutRowWidget(
+                title: 'Błędy API',
+                textAlign: TextAlign.start,
+                trailing: IconButton(
+                  icon: const Icon(MdiIcons.shareOutline),
+                  onPressed: errorFiles==0?null:() async {
+
+                    List<String> filePaths = Directory(getApiErrorFolderPath).listSync().map((file) => file.path).toList();
+
+                    final Email email = Email(
+                      body: 'W załącznikach.',
+                      subject: 'Błędy API w HarcAppce',
+                      recipients: ['harcapp@gmail.com'],
+                      attachmentPaths: filePaths,
+                      isHTML: false,
+                    );
+                    await FlutterEmailSender.send(email);
+                  },
+                )
+            ),
+          ),
+
+          _Item(
+              icon: MdiIcons.folderAlertOutline,
+              title: 'plik: <b>${basename(getApiErrorFolderPath)}</b>',
+              trailing: Text('$apiErrorFiles', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, color: hintEnab_(context))),
+              onOpen: () => openDialog(
+                  context: context,
+                  builder: (context) => FolderDisplayer(
+                    getApiErrorFolderPath,
+                    removable: true,
+                    onRemoved: () => setState((){}),
+                  )
+              )
+          ),
+
         ]))
       ],
     ),
@@ -188,16 +232,11 @@ class _Item extends StatelessWidget{
   });
 
   @override
-  Widget build(BuildContext context) => SimpleButton(
-      color: cardEnab_(context),
-      radius: AppCard.BIG_RADIUS,
-      margin: AppCard.normMargin,
-      onTap: onOpen,
-      child: ListTile(
-        leading: Icon(icon),
-        title: AppText(title),
-        trailing: trailing,
-      )
+  Widget build(BuildContext context) => ListTile(
+    leading: Icon(icon),
+    title: AppText(title),
+    trailing: trailing,
+    onTap: onOpen,
   );
 
 }
@@ -362,7 +401,7 @@ class FolderDisplayerState extends State<FolderDisplayer>{
               icon: MdiIcons.trashCanOutline,
               margin: EdgeInsets.zero,
               onLongPress: (){
-                Directory(getErrorFolderPath).deleteSync(recursive: true);
+                Directory(folderPath).deleteSync(recursive: true);
                 onRemoved?.call();
                 Navigator.pop(context);
                 showAppToast(context, text: 'Usunięto wszystkie pliki');

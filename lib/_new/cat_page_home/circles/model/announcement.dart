@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/account/account.dart';
+import 'package:harcapp/logger.dart';
 import 'package:provider/provider.dart';
 
 import '../../../api/_api.dart';
@@ -109,9 +110,28 @@ class Announcement{
 
   final Circle? circle;
 
+  bool get isEvent =>
+      respMode != AnnouncementAttendanceRespMode.NONE ||
+      startTime != null ||
+      place != null;
+
   AnnouncementAttendanceResp? get myAttendance{
-    if(AccountData.key == null) return null;
-    return attendance[AccountData.key];
+    String? accKey = AccountData.key;
+    if(accKey == null){
+      logger.w('Value of saved account data key is null. Are you logged in?');
+      throw Exception('Value of saved account data key is null. Are you logged in?');
+    }
+    return attendance[accKey];
+  }
+
+  set myAttendance(AnnouncementAttendanceResp? resp){
+    String? accKey = AccountData.key;
+    if(accKey == null){
+      logger.w('Value of saved account data key is null. Are you logged in?');
+      return;
+    }
+    if(resp == null) return;
+    attendance[accKey] = resp;
   }
 
   Announcement({
@@ -132,7 +152,23 @@ class Announcement{
     required this.attendance,
   });
 
-  static Announcement fromMap(Map resp, {String? key}) => Announcement(
+  void update(Announcement other){
+    title = other.title;
+    postTime = other.postTime;
+    lastUpdateTime = other.lastUpdateTime;
+    startTime = other.startTime;
+    endTime = other.endTime;
+    place = other.place;
+    author = other.author;
+    coverImage = other.coverImage;
+    text = other.text;
+    pinned = other.pinned;
+
+    respMode = other.respMode;
+    attendance = other.attendance;
+  }
+
+  static Announcement fromMap(Map resp, Circle circle, {String? key}) => Announcement(
     key: key??resp['_key']??(throw InvalidResponseError('_key')),
     title: resp['title']??(throw InvalidResponseError('title')),
     postTime: DateTime.tryParse(resp['post_time_str']??(throw InvalidResponseError('post_time_str')))??(throw InvalidResponseError('post_time_str')),
@@ -145,7 +181,9 @@ class Announcement{
     text: resp['text'],
     pinned: resp['pinned'],
     respMode: strToAnnouncementAttendanceRespMode[resp['attendance_resp_mode']]??(throw InvalidResponseError('attendance_resp_mode')),
-    attendance: ((resp['attendance_responses']??{}) as Map).map((key, value) => MapEntry(key, AnnouncementAttendanceResp.fromResponse(value)))
+    attendance: ((resp['attendance_responses']??{}) as Map).map((key, value) => MapEntry(key, AnnouncementAttendanceResp.fromResponse(value))),
+
+    circle: circle,
   );
 
 }

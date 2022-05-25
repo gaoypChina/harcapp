@@ -11,8 +11,11 @@ import 'package:harcapp/account/account.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
+import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:optional/optional_internal.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 import '../../../../../_common_widgets/loading_widget.dart';
@@ -276,7 +279,7 @@ class SelectedAppBar extends SliverAppBar{
 
 class _MemberTile extends StatefulWidget{
 
-  final Circle? circle;
+  final Circle circle;
   final PaletteGenerator? palette;
   final Member member;
   final bool anythingSelected;
@@ -334,7 +337,7 @@ class _MemberTileState extends State<_MemberTile>{
                 leading: Icon(circleRoleToIcon[CircleRole.OBSERVER]),
                 title: Text('Nadaj rolę uczestnika', style: AppTextStyle()),
                 onTap: member.shadow?null: () async {
-                  await showUpdateDialog(
+                  await showUpdateRoleDialog(
                     CircleRole.OBSERVER,
                     onSuccess: (){
                       if(member.key == AccountData.key)
@@ -353,7 +356,7 @@ class _MemberTileState extends State<_MemberTile>{
                 leading: Icon(circleRoleToIcon[CircleRole.MODERATOR]),
                 title: Text('Nadaj rolę moderatora', style: AppTextStyle()),
                 onTap: member.shadow?null: () async {
-                  await showUpdateDialog(
+                  await showUpdateRoleDialog(
                       CircleRole.MODERATOR,
                       onSuccess: (){
                         if(member.key == AccountData.key)
@@ -370,10 +373,29 @@ class _MemberTileState extends State<_MemberTile>{
                 leading: Icon(circleRoleToIcon[CircleRole.ADMIN]),
                 title: Text('Nadaj rolę administratora', style: AppTextStyle()),
                 onTap: member.shadow?null: () async {
-                  await showUpdateDialog(CircleRole.ADMIN);
+                  await showUpdateRoleDialog(
+                    CircleRole.ADMIN,
+                    onSuccess: (){
+                      if(member.key == AccountData.key)
+                        Navigator.pop(context);
+                    }
+                  );
                   Navigator.pop(context);
                 },
               ),
+
+            const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
+
+            ListTile(
+              enabled: !member.shadow,
+              leading: const Icon(MdiIcons.googleCirclesGroup),
+              title: Text('Zarządzaj zastępem', style: AppTextStyle()),
+              subtitle: member.patrol==null?null:Text(member.patrol!, style: AppTextStyle()),
+              onTap: member.shadow?null: () async {
+                Navigator.pop(context);
+                showUpdatePatrolDialog();
+              },
+            ),
 
             const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
 
@@ -388,7 +410,7 @@ class _MemberTileState extends State<_MemberTile>{
       )
   );
 
-  Future<void> showUpdateDialog(CircleRole newRole, {void Function()? onSuccess}) async {
+  Future<void> showUpdateRoleDialog(CircleRole newRole, {void Function()? onSuccess}) async {
     bool close = false;
 
     if(member.key == AccountData.key && newRole != CircleRole.ADMIN)
@@ -417,7 +439,7 @@ class _MemberTileState extends State<_MemberTile>{
 
     await ApiCircle.updateUsers(
         circleKey: circle!.key,
-        users: [MemberBody(member.key, newRole)],
+        users: [MemberUpdateBody(member.key, role: Optional.of(newRole))],
         onSuccess: (List<Member> allMems){
           circle!.setAllMembers(context, allMems);
           Navigator.pop(context);
@@ -428,6 +450,21 @@ class _MemberTileState extends State<_MemberTile>{
           Navigator.pop(context);
         }
     );
+  }
+
+  Future<void> showUpdatePatrolDialog({void Function()? onSuccess}) async {
+
+    openDialog(
+        context: context,
+        builder: (context) => _EditPatrolDialog(
+          circle!,
+          palette,
+          member,
+          onSuccess: () => Navigator.pop(context),
+          onError: () => Navigator.pop(context),
+        )
+    );
+
   }
 
   Future<void> showRemoveDialog(List<Member> memsToRemove, List<Member?> allMems) async {
@@ -513,6 +550,7 @@ class _MemberTileState extends State<_MemberTile>{
   Widget build(BuildContext context) => MemberTile(
     userKey: member.key,
     name: member.name,
+    subtitle: member.patrol==null?null:Text(member.patrol!, style: AppTextStyle(color: hintEnab_(context))),
     shadow: member.shadow,
     role: member.role,
     anythingSelected: anythingSelected,
@@ -522,6 +560,107 @@ class _MemberTileState extends State<_MemberTile>{
     onLongPress: onSelectionTap,
     onTap: anythingSelected?onSelectionTap:(circle!.myRole == CircleRole.ADMIN || circle!.myRole == CircleRole.MODERATOR?openParticipantDetails:null),
     heroTag: heroTag,
+  );
+
+}
+
+class _EditPatrolDialog extends StatefulWidget{
+
+  final Circle circle;
+  final PaletteGenerator? palette;
+  final Member member;
+  final void Function()? onSuccess;
+  final void Function()? onError;
+
+  const _EditPatrolDialog(this.circle, this.palette, this.member, {this.onSuccess, this.onError});
+
+  @override
+  State<StatefulWidget> createState() => _EditPatrolDialogState();
+
+}
+
+class _EditPatrolDialogState extends State<_EditPatrolDialog>{
+
+  Circle get circle => widget.circle;
+  PaletteGenerator? get palette => widget.palette;
+  Member get member => widget.member;
+  void Function()? get onSuccess => widget.onSuccess;
+  void Function()? get onError => widget.onError;
+
+  late TextEditingController controller;
+
+  @override
+  void initState(){
+    controller = TextEditingController(text: member.patrol??'');
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) => Center(
+    child: Padding(
+      padding: const EdgeInsets.all(Dimen.SIDE_MARG).add(MediaQuery.of(context).viewInsets),
+      child: Material(
+        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        clipBehavior: Clip.hardEdge,
+        color: CirclePage.backgroundColor(context, palette),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AppBar(
+              title: const Text('Przypisz do zastępu'),
+              centerTitle: true,
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              actions: [
+
+                IconButton(
+                  icon: const Icon(MdiIcons.check),
+                  onPressed: () async {
+
+                    showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
+
+                    await ApiCircle.updateUsers(
+                        circleKey: circle.key,
+                        users: [MemberUpdateBody(
+                            member.key,
+                            patrol: Optional.ofNullable(
+                                controller.text.isEmpty?
+                                null:
+                                controller.text
+                            )
+                        )],
+                        onSuccess: (List<Member> allMems){
+                          circle.setAllMembers(context, allMems);
+                          Navigator.pop(context); // Close loading widget.
+                          onSuccess?.call();
+                        },
+                        onError: (){
+                          showAppToast(context, text: 'Coś tu poszło nie tak...');
+                          Navigator.pop(context); // Close loading widget.
+                          onError?.call();
+                        }
+                    );
+
+                  },
+                )
+
+              ],
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+              child: AppTextFieldHint(
+                hint: 'Nazwa zastępu:',
+                hintTop: 'Nazwa zastępu',
+                controller: controller,
+              ),
+            )
+
+          ],
+        ),
+      ),
+    ),
   );
 
 }

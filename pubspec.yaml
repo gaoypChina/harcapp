@@ -37,6 +37,7 @@ dependencies:
   device_info_plus: ^3.2.3
   dio: ^4.0.6
   dropdown_button2: 1.5.1
+  expandable_text: 2.3.0
   extended_nested_scroll_view: 6.0.0-dev.1
   flip_card: ^0.6.0
   flutter_email_sender: ^5.1.0
@@ -58,6 +59,7 @@ dependencies:
   numberpicker: ^2.1.1
   oktoast: ^3.2.0
   open_file: ^3.2.1
+  optional: 6.1.0+1
   package_info: ^2.0.2
   palette_generator: ^0.3.3
   path: ^1.8.1

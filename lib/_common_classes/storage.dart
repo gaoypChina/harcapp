@@ -14,6 +14,9 @@ Future<void> initPaths() async{
 String get getErrorFolderLocalPath => 'errors';
 String get getErrorFolderPath => join(_localPath, getErrorFolderLocalPath);
 
+String get getApiErrorFolderLocalPath => 'api_errors';
+String get getApiErrorFolderPath => join(_localPath, getApiErrorFolderLocalPath);
+
 String get getUsageStatsFolderLocalPath => '/usage_stats/';
 String get getUsageStatsFolderPath => _localPath + getUsageStatsFolderLocalPath;
 
@@ -49,10 +52,10 @@ String get getRemoveSyncReqFolderPath => _localPath + getRemoveSyncReqFolderLoca
 
 String get _getArticleBaseFolderLocalPath => '/articles/';
 String get _getArticleBaseFolderPath => _localPath + _getArticleBaseFolderLocalPath;
-String get getArticleCoresFolderPath => _getArticleBaseFolderPath + 'cores/';
+String get getArticleCoresFolderPath => '${_getArticleBaseFolderPath}cores/';
 
-String get getArticleCoverFolder => _getArticleBaseFolderPath + 'images/';
-String getArticleCoverPath(String id) => getArticleCoverFolder + id + '.jpg';
+String get getArticleCoverFolder => '${_getArticleBaseFolderPath}images/';
+String getArticleCoverPath(String id) => '$getArticleCoverFolder$id.jpg';
 String getArticleCorePath(String id) => getArticleCoresFolderPath + id;
 
 String get getAuthorsFolderLocalPath => '/author/';

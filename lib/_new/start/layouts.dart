@@ -322,8 +322,6 @@ class DefaultLayoutState extends State<DefaultLayout>{
     else if(val < 6) messageType = 1;   // 4, 5
     else if(val < 8) messageType = 2;  // 6, 7
 
-    messageType = 2;
-
     super.initState();
   }
 

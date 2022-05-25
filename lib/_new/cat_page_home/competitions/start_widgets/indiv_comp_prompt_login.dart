@@ -11,9 +11,9 @@ class IndivCompPromptLogin extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => IndivCompPrompt(
-    child: IndivCompPreviewGrid(singleLine: singleLine),
     text: 'Zaloguj się, by współzawodniczyć',
     icon: MdiIcons.accountCircleOutline,
+    child: IndivCompPreviewGrid(singleLine: singleLine),
   );
 
 }

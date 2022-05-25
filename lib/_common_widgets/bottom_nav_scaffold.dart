@@ -11,6 +11,7 @@ class BottomNavScaffold extends StatefulWidget{
   final Color? backgroundColor;
   final Widget? floatingActionButton;
   final Widget? bottomNavigationBar;
+  final Color? appBottomNavColor;
   final Color? statusBarColor;
 
   const BottomNavScaffold({
@@ -19,7 +20,9 @@ class BottomNavScaffold extends StatefulWidget{
     this.backgroundColor,
     this.floatingActionButton,
     this.bottomNavigationBar,
-    this.statusBarColor
+    this.appBottomNavColor,
+    this.statusBarColor,
+    super.key
   });
 
   @override
@@ -61,7 +64,9 @@ class BottomNavScaffoldState extends State<BottomNavScaffold>{
           if(widget.bottomNavigationBar != null)
             widget.bottomNavigationBar!,
 
-          const AppBottomNavigator(),
+          AppBottomNavigator(
+            background: widget.appBottomNavColor,
+          ),
         ],
       ),
     );

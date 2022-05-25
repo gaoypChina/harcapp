@@ -32,6 +32,7 @@ import '_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
 import '_new/cat_page_guide_book/_stopnie/models_common/rank_task.dart';
 import '_new/cat_page_guide_book/szyfry/providers.dart';
 import '_new/cat_page_harcthought/articles/providers.dart';
+import '_new/cat_page_home/circles/model/announcement.dart';
 import '_new/cat_page_home/circles/model/circle.dart';
 import '_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import '_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
@@ -360,6 +361,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (context) => CircleMembersProvider()),
         ChangeNotifierProvider(create: (context) => CircleProvider()),
         ChangeNotifierProvider(create: (context) => CircleListProvider()),
+        ChangeNotifierProvider(create: (context) => AnnouncementProvider()),
 
         //INDIVIDUAL COMPETITION
         ChangeNotifierProvider(create: (context) => IndivCompParticipsProvider()),

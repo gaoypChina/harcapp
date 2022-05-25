@@ -105,16 +105,16 @@ class TabOfContState extends State<TabOfCont>{
 
   static const double tagBarHeight = 2*Dimen.DEF_MARG + Dimen.TEXT_SIZE_NORMAL + 3;
 
-  SearchParamsProvider? searchParamsProvider;
-  CurrentItemsProvider? currItemsProv;
+  late SearchParamsProvider searchParamsProvider;
+  late CurrentItemsProvider currItemsProv;
 
-  SongSearcher? searcher;
+  late SongSearcher searcher;
   List<Song> get allSongs => widget.allSongs;
 
   TabOfContController? _controller;
-  TabOfContController? get controller => widget.controller??_controller;
+  TabOfContController get controller => widget.controller??_controller!;
 
-  TextEditingController? get textController => searchParamsProvider!.textController;
+  TextEditingController? get textController => searchParamsProvider.textController;
 
   double? topPadding;
 
@@ -133,11 +133,11 @@ class TabOfContState extends State<TabOfCont>{
   Function(List<Song> songs, List<GlobalKey> globalKeys, bool Function() stillValid)? get onSearchComplete => widget.onSearchComplete;
 
   SongSearchOptions? _searchOptions;
-  SongSearchOptions? get searchOptions => widget.searchOptions??_searchOptions;
+  SongSearchOptions get searchOptions => widget.searchOptions??_searchOptions!;
 
   void initSearcher() async {
-    await searcher!.init(widget.allSongs, searchOptions);
-    await searcher!.run(widget.initPhrase);
+    await searcher.init(widget.allSongs, searchOptions);
+    await searcher.run(widget.initPhrase);
   }
 
   @override
@@ -146,23 +146,21 @@ class TabOfContState extends State<TabOfCont>{
     if(widget.searchOptions == null)
       _searchOptions = SongSearchOptions();
 
-    _controller = TabOfContController();
-    if(controller != null)
-      controller!.tabOfCont = this;
+    if(widget.controller == null)
+      _controller = TabOfContController();
+    controller.tabOfCont = this;
 
     searcher = SongSearcher((List<Song> songs, bool Function() stillValid) {
+      if(!mounted) return;
       List<GlobalKey> globalKeys = List.generate(songs.length, (index) => GlobalKey());
-
-      if(onSearchComplete != null)
-        onSearchComplete!(songs, globalKeys, stillValid);
-
-      currItemsProv!.set(songs, globalKeys, searcherRunning: true);
-
+      onSearchComplete?.call(songs, globalKeys, stillValid);
+      currItemsProv.set(songs, globalKeys, searcherRunning: true);
     });
 
-    searcher!.addOnStartListener((phrase) {
-      currItemsProv!.searcherRunning = true;
-      if(widget.onChanged != null) widget.onChanged!(phrase);
+    searcher.addOnStartListener((phrase) {
+      if(!mounted) return;
+      currItemsProv.searcherRunning = true;
+      widget.onChanged?.call(phrase);
     });
 
     post(initSearcher);
@@ -175,7 +173,7 @@ class TabOfContState extends State<TabOfCont>{
 
   @override
   void dispose() {
-    searcher!.dispose();
+    searcher.dispose();
     super.dispose();
   }
 
@@ -196,7 +194,7 @@ class TabOfContState extends State<TabOfCont>{
         builder: (context, child){
 
           if(widget.controller != null)
-            controller!.context = context;
+            controller.context = context;
 
           return Consumer<CurrentItemsProvider>(
               builder: (context, prov, child){

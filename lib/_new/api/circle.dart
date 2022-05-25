@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendace.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendance_resp.dart';
+import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendance_resp_mode.dart';
+import 'package:optional/optional_internal.dart';
 
 import '../cat_page_home/circles/circle_role.dart';
 import '../cat_page_home/circles/model/announcement.dart';
@@ -11,20 +13,35 @@ import '../cat_page_home/circles/model/circle.dart';
 import '../cat_page_home/circles/model/member.dart';
 import '_api.dart';
 
-class MemberBody{
+class MemberRespBody{
 
   final String key;
   final CircleRole role;
+  final String? patrol;
 
-  const MemberBody(this.key, this.role);
+  const MemberRespBody(this.key, this.role, this.patrol);
 
 }
 
-class MemberBodyNick extends MemberBody{
+class MemberUpdateBody{
+
+  final String key;
+  final Optional<CircleRole> role;
+  final Optional<String?> patrol;
+
+  const MemberUpdateBody(
+      this.key,
+      { this.role = const Optional.empty(),
+        this.patrol = const Optional.empty()
+      });
+
+}
+
+class MemberRespBodyNick extends MemberRespBody{
 
   final String nick;
 
-  const MemberBodyNick(super.key, super.role, this.nick);
+  const MemberRespBodyNick(super.key, super.role, super.patrol, this.nick);
 
 }
 
@@ -158,19 +175,19 @@ class ApiCircle{
 
   static Future<Response?> update({
     required String circleKey,
-    String? name,
-    String? description,
-    String? coverImageUrl,
-    String? colorsKey,
+    Optional<String> name = const Optional.empty(),
+    Optional<String> description = const Optional.empty(),
+    Optional<String> coverImageUrl = const Optional.empty(),
+    Optional<String> colorsKey = const Optional.empty(),
     void Function(Circle circle)? onSuccess,
     void Function()? onError,
   }) async{
 
     Map<String, dynamic> reqMap = {};
-    if(name != null) reqMap['name'] = name.trim();
-    if(description != null) reqMap['description'] = description.trim();
-    if(coverImageUrl != null) reqMap['cover_image_url'] = coverImageUrl;
-    if(colorsKey != null) reqMap['colors_key'] = colorsKey;
+    if(name.isPresent) reqMap['name'] = name.value.trim();
+    if(description.isPresent) reqMap['description'] = description.value.trim();
+    if(coverImageUrl.isPresent) reqMap['cover_image_url'] = coverImageUrl.value;
+    if(colorsKey.isPresent) reqMap['colors_key'] = colorsKey.value;
 
     return API.sendRequest(
       withToken: true,
@@ -193,13 +210,13 @@ class ApiCircle{
   
   static Future<Response?> addUsers({
     required String circleKey,
-    required List<MemberBodyNick> users,
+    required List<MemberRespBodyNick> users,
     void Function(List<Member>)? onSuccess,
     void Function()? onError,
   }) async{
 
     List<Map<String, dynamic>> body = [];
-    for(MemberBodyNick user in users)
+    for(MemberRespBodyNick user in users)
       body.add({
         'userNick': user.nick,
         'role': circleRoleToStr[user.role],
@@ -228,16 +245,17 @@ class ApiCircle{
 
   static Future<Response?> updateUsers({
     required String circleKey,
-    required List<MemberBody> users,
+    required List<MemberUpdateBody> users,
     void Function(List<Member>)? onSuccess,
     void Function()? onError,
   }) async{
 
     List<Map<String, dynamic>> body = [];
-    for(MemberBody user in users)
+    for(MemberUpdateBody memBody in users)
       body.add({
-        'userKey': user.key,
-        'role': circleRoleToStr[user.role],
+        'userKey': memBody.key,
+        if(memBody.role.isPresent) 'role': circleRoleToStr[memBody.role.value],
+        if(memBody.patrol.isPresent) 'patrol': memBody.patrol.value
       });
 
     return API.sendRequest(
@@ -294,9 +312,13 @@ class ApiCircle{
   static Future<Response?> postAnnouncement({
     required String circleKey,
     required String title,
+    DateTime? startTime,
+    DateTime? endTime,
+    String? place,
     String? coverImageUrl,
     required String text,
-    bool? pinned,
+    required AnnouncementAttendanceRespMode respMode,
+
     void Function(Announcement)? onSuccess,
     void Function()? onError,
   }) => API.sendRequest(
@@ -305,37 +327,77 @@ class ApiCircle{
         '${API.SERVER_URL}api/circle/$circleKey/announcement',
         data: FormData.fromMap({
           'title': title,
-          'cover_image_url': coverImageUrl,
+          if(startTime != null) 'start_time_str': startTime.toIso8601String(),
+          if(endTime != null) 'end_time_str': endTime.toIso8601String(),
+          if(place != null) 'place': place,
+          if(coverImageUrl != null) 'cover_image_url': coverImageUrl,
           'text': text,
-          'pinned': pinned,
+          'attendance_resp_mode': announcementAttendanceRespModeToStr[respMode],
         }),
       ),
       onSuccess: (Response response) async =>
-          onSuccess?.call(Announcement.fromMap(response.data)),
+          onSuccess?.call(Announcement.fromMap(response.data, Circle.allMap![circleKey]!)),
       onError: (err) async => onError?.call()
   );
 
   static Future<Response?> updateAnnouncement({
-    required String annKey,
-    String? title,
-    String? coverImageUrl,
-    String? text,
-    bool? pinned,
+    required Announcement announcement,
+    Optional<String?> title = const Optional.empty(),
+    Optional<DateTime?> startTime = const Optional.empty(),
+    Optional<DateTime?> endTime = const Optional.empty(),
+    Optional<String?> place = const Optional.empty(),
+    Optional<String?> coverImageUrl = const Optional.empty(),
+    Optional<String?> text = const Optional.empty(),
+    Optional<AnnouncementAttendanceRespMode> respMode = const Optional.empty(),
+
     void Function(Announcement)? onSuccess,
     void Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.put(
-        '${API.SERVER_URL}api/announcement/$annKey',
+        '${API.SERVER_URL}api/announcement/${announcement.key}',
         data: FormData.fromMap({
-          'title': title,
-          'cover_image_url': coverImageUrl,
-          'text': text,
-          'pinned': pinned,
+
+          if(title.isPresent) 'title': title.value,
+
+          if(startTime.isPresent) "start_time_str": startTime.value == null?
+          null:
+          startTime.value!.toIso8601String(),
+
+          if(endTime.isPresent) "end_time_str": endTime.value == null?
+          null:
+          endTime.value!.toIso8601String(),
+
+          if(place.isPresent) 'place': place.value,
+
+          if(coverImageUrl.isPresent) 'cover_image_url': coverImageUrl.value,
+
+          if(text.isPresent) 'text': text.value,
+
+          if(respMode.isPresent) 'attendance_resp_mode': announcementAttendanceRespModeToStr[respMode.value]
+
         }),
       ),
       onSuccess: (Response response) async =>
-          onSuccess?.call(Announcement.fromMap(response.data)),
+          onSuccess?.call(Announcement.fromMap(response.data, announcement.circle!)),
+      onError: (err) async => onError?.call()
+  );
+
+  static Future<Response?> pinAnnouncement({
+    required String annKey,
+    required bool pin,
+    void Function(bool)? onSuccess,
+    void Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      sendRequest: (Dio dio) => dio.put(
+        '${API.SERVER_URL}api/announcement/$annKey/pin',
+        data: FormData.fromMap({
+          'pin': pin,
+        }),
+      ),
+      onSuccess: (Response response) async =>
+          onSuccess?.call(response.data),
       onError: (err) async => onError?.call()
   );
 

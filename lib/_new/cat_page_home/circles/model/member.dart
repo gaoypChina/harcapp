@@ -13,11 +13,16 @@ class Member{
   Sex get sex => _userData.sex;
 
   final CircleRole role;
+  final String? patrol;
 
-  const Member(this._userData, this.role);
+  const Member(
+    this._userData, {
+    required this.role,
+    required this.patrol});
 
   static Member fromMap(Map map, {String? key}) => Member(
     UserData.fromMap(map, key: key),
-    strToCircleRole[map['role']]??(throw InvalidResponseError('role')),
+    role: strToCircleRole[map['role']]??(throw InvalidResponseError('role')),
+    patrol: map['patrol'],
   );
 }

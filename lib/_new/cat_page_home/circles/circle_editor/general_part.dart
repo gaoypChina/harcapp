@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:harcapp_core/dimen.dart';
 
 import '../circle_page.dart';
-import '../common/cover_image_pickable_widget.dart';
+import '../common/cover_image_selectable_widget.dart';
 import '../model/circle.dart';
 
 class GeneralPart extends StatefulWidget{
@@ -36,7 +36,7 @@ class GeneralPartState extends State<GeneralPart>{
         clipBehavior: Clip.hardEdge,
         borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
         child: Consumer<CoverImageProvider>(
-            builder: (context, prov, child) => CoverImagePickableWidget(
+            builder: (context, prov, child) => CoverImageSelectableWidget(
               palette,
               initCoverImage: prov.coverImage,
               removable: false,
@@ -64,6 +64,7 @@ class GeneralPartState extends State<GeneralPart>{
           hintTop: 'Opis kręgu',
           controller: prov.descriptionController,
           maxLength: Circle.maxLenDescription,
+          maxLines: null,
         ),
       ),
 

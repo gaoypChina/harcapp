@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/memory.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
@@ -71,6 +72,14 @@ class API{
     } on DioError catch (e) {
       debugPrint('HarcApp API: ${e.requestOptions.method} ${e.requestOptions.path} :: error! :: ${e.message} :: ${e.response?.data?.toString()}');
       bool? finish;
+
+      saveStringAsFileToFolder(
+        getApiErrorFolderLocalPath,
+        'Status code: ${e.response?.statusCode}'
+        '\n\nStatus message: ${e.response?.statusMessage}'
+        '\n\nResponse error data:\n${e.response?.data}'
+      );
+
       if (e.response?.statusCode == jwtInvalidHttpStatus) {
         await SynchronizerEngine.changeSyncStateInAll([
             SyncableParamSingle_.stateSynced,

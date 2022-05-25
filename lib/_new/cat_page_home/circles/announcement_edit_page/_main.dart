@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
@@ -8,7 +9,6 @@ import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_cover_image_data.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/announcement.dart';
 import 'package:harcapp/account/account.dart';
-import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
@@ -16,11 +16,13 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:optional/optional.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../circle_page.dart';
-import '../common/cover_image_pickable_widget.dart';
+import '../common/cover_image_selectable_widget.dart';
+import '../model/announcement_attendance_resp_mode.dart';
 import '../model/circle.dart';
 
 class AnnouncementEditorPage extends StatefulWidget{
@@ -61,28 +63,39 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
   CircleCoverImageData? coverImage;
 
-  TextEditingController? titleController;
-  TextEditingController? textController;
+  late TextEditingController titleController;
+  late TextEditingController textController;
+  late TextEditingController placeController;
+  bool get placeEnabled => placeController.text.isNotEmpty;
 
   DateTime? startTime;
   DateTime? endTime;
 
-  String? place;
+  late AnnouncementAttendanceRespMode attRespMode;
 
-  bool? pinned;
+  late bool eventMode;
 
   @override
   void initState() {
     coverImage = initAnnouncement?.coverImage;
     titleController = TextEditingController(text: initAnnouncement?.title??'');
     textController = TextEditingController(text: initAnnouncement?.text??'');
-    pinned = false;
+    placeController = TextEditingController(text: initAnnouncement?.place??'');
+
+    startTime = initAnnouncement?.startTime;
+    endTime = initAnnouncement?.endTime;
+
+    attRespMode = initAnnouncement?.respMode??AnnouncementAttendanceRespMode.NONE;
+
+    eventMode = initAnnouncement?.isEvent??false;
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
     backgroundColor: CirclePage.backgroundColor(context, palette),
+    appBottomNavColor: CirclePage.backgroundColor(context, palette),
     body: CustomScrollView(
       clipBehavior: Clip.none,
       physics: const BouncingScrollPhysics(),
@@ -96,212 +109,418 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
           backgroundColor: CirclePage.backgroundColor(context, palette),
           centerTitle: true,
           floating: true,
-          actions: [
-            IconButton(
-              icon: const Icon(MdiIcons.earthArrowRight),
-              onPressed: () async {
-
-                if(titleController!.text.isEmpty){
-                  showAppToast(context, text: 'Podaj tytuł ogłoszenia');
-                  return;
-                }
-
-                if(textController!.text.isEmpty){
-                  showAppToast(context, text: 'Podaj treść ogłoszenia');
-                  return;
-                }
-
-                if(startTime != null && endTime != null && startTime!.isAfter(endTime!)){
-                  showAppToast(context, text: 'Początek wydarzenia musi być wcześniej niż koniec');
-                  return;
-                }
-
-                showLoadingWidget(
-                  context, CirclePage.strongColor(context, palette),
-                  initAnnouncement == null?'Publikowanie...':'Uaktualnianie...'
-                );
-
-                if(initAnnouncement == null)
-                  await ApiCircle.postAnnouncement(
-                    circleKey: circle.key,
-                    title: titleController!.text,
-                    coverImageUrl: coverImage?.code,
-                    text: textController!.text,
-                    pinned: pinned,
-                    onSuccess: (announcement) async {
-                      await popPage(context); // Close loading widget.
-                      onSaved?.call(announcement);
-                    },
-                    onError: () async {
-                      await popPage(context); // Close loading widget.
-                      onError?.call();
-                    }
-                  );
-                else
-                  await ApiCircle.updateAnnouncement(
-                      annKey: initAnnouncement!.key,
-                      title: titleController!.text,
-                      coverImageUrl: coverImage?.code,
-                      text: textController!.text,
-                      pinned: pinned,
-                      onSuccess: (announcement) async {
-                        await popPage(context); // Close loading widget.
-                        onSaved?.call(announcement);
-                      },
-                      onError: () async {
-                        await popPage(context); // Close loading widget.
-                        onError?.call();
-                      }
-                  );
-
-                Navigator.pop(context);
-
-              },
-            )
-          ],
         ),
 
         SliverPadding(
           padding: const EdgeInsets.all(Dimen.SIDE_MARG),
           sliver: SliverList(delegate: SliverChildListDelegate([
-            Material(
-              color: CirclePage.cardColor(context, palette),
-              clipBehavior: Clip.antiAlias,
-              borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-              elevation: AppCard.bigElevation,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
 
-                  CoverImagePickableWidget(
-                    palette,
-                    initCoverImage: coverImage,
-                    removable: true,
-                    onSelected: (newCoverImage) => setState(() => coverImage = newCoverImage),
-                  ),
+            Hero(
+              tag: initAnnouncement??UniqueKey(),
+              child: Material(
+                color: CirclePage.cardColor(context, palette),
+                clipBehavior: Clip.antiAlias,
+                borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                elevation: AppCard.bigElevation,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
 
-                  Padding(
-                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-
-                        Text(
-                          dateToString(DateTime.now()),
-                          style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)),
-                        ),
-
-                        AppTextFieldHint(
-                          hint: 'Tytuł:',
-                          hintTop: '',
-                          controller: titleController,
-                          style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.halfBold),
-                          maxLines: 1,
-                        ),
-
-                        AppTextFieldHint(
-                          hint: 'Treść:',
-                          hintTop: '',
-                          controller: textController,
-                          style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
-                          maxLines: null,
-                        ),
-
-                      ],
+                    CoverImageSelectableWidget(
+                      palette,
+                      initCoverImage: coverImage,
+                      removable: true,
+                      onSelected: (newCoverImage) => setState(() => coverImage = newCoverImage),
                     ),
-                  ),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
+                    Container(
+                        color: backgroundIcon_(context),
+                        child: Row(
+                          children: [
 
-                      const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
+                            Expanded(
+                              child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: Dimen.ICON_MARG,
+                                      left: Dimen.SIDE_MARG,
+                                      bottom: Dimen.ICON_MARG
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
 
-                      IconButton(
-                          icon: Icon(
-                            MdiIcons.pinOutline,
-                            color:
-                            pinned!?
-                            iconEnab_(context):
-                            iconDisab_(context),
+                                      Text(AccountData.name??'Nie jesteś zalogowany.', style: AppTextStyle()),
+                                      Text(
+                                        dateToString(DateTime.now()),
+                                        style: AppTextStyle(color: hintEnab_(context)),
+                                      ),
+
+                                    ],
+                                  )
+                              ),
+                            ),
+
+                          ],
+                        )
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+
+                          AppTextFieldHint(
+                            hint: 'Tytuł:',
+                            hintTop: 'Tytuł',
+                            controller: titleController,
+                            style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.halfBold),
+                            maxLines: 1,
                           ),
-                          onPressed: () => setState(() => pinned = !pinned!)
+
+                          AppTextFieldHint(
+                            hint: 'Treść:',
+                            hintTop: '',
+                            controller: textController,
+                            style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                            maxLines: null,
+                          ),
+
+                        ],
                       ),
+                    ),
 
-                      Expanded(child: Container()),
-
-                      Text(AccountData.name!, style: AppTextStyle()),
-                      const SizedBox(width: 10.0),
-                      AccountThumbnailWidget(name: AccountData.name, size: 24.0, elevated: false),
-                      const SizedBox(width: Dimen.SIDE_MARG),
-                    ],
-                  ),
-
-                  const SizedBox(height: Dimen.SIDE_MARG - Dimen.ICON_MARG),
-
-
-                ],
+                  ],
+                ),
               ),
             ),
 
             const SizedBox(height: Dimen.SIDE_MARG),
 
-            Align(
-              alignment: Alignment.centerLeft,
-              child: SimpleButton.from(
-                  margin: EdgeInsets.zero,
-                  context: context,
-                  icon: MdiIcons.calendarBlankOutline,
-                  text: startTime==null?
-                  'Dodaj czas rozpoczęcia':
-                  'Początek: ${dateToString(startTime, shortMonth: true, withTime: true)}',
-                  fontWeight: weight.normal,
-                  onTap: () => showScrollBottomSheet(
-                      context: context,
-                      builder: (context) => BottomSheetDateTimePicker(
-                        startTime,
-                        backgroundColor: CirclePage.backgroundColor(context, palette),
-                        start: true,
-                        onSelected: (dateTime) => setState(() => startTime = dateTime),
+            SwitchListTile(
+              title: Text('Wydarzenie', style: AppTextStyle()),
+              subtitle: Text('Służba, zbiórka, biwak, rajd, obóz...!', style: AppTextStyle()),
+              value: eventMode,
+              onChanged: (value) => setState(() => eventMode = value)
+            ),
+
+            AnimatedSize(
+              alignment: Alignment.topCenter,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeOutQuart,
+              child:
+              eventMode?
+              Column(
+                children: [
+
+                  DropdownButtonHideUnderline(
+                      child: DropdownButton2(
+                        isExpanded: true,
+                        dropdownPadding: EdgeInsets.zero,
+                        itemPadding: EdgeInsets.zero,
+                        buttonPadding: const EdgeInsets.only(right: Dimen.ICON_MARG),
+                        icon: const Icon(MdiIcons.chevronDown),
+                        items: [
+                          DropdownMenuItem<AnnouncementAttendanceRespMode>(
+                              value: AnnouncementAttendanceRespMode.NONE,
+                              child: SimpleButton.from(
+                                  margin: EdgeInsets.zero,
+                                  context: context,
+                                  icon: MdiIcons.accountCancelOutline,
+                                  text: 'Brak informacji o obecn.',
+                                  fontWeight: weight.normal,
+                                  onTap: null
+                              )
+                          ),
+                          DropdownMenuItem<AnnouncementAttendanceRespMode>(
+                              value: AnnouncementAttendanceRespMode.OPTIONAL,
+                              child: SimpleButton.from(
+                                  margin: EdgeInsets.zero,
+                                  context: context,
+                                  icon: MdiIcons.accountQuestionOutline,
+                                  text: 'Fakultatywna informacja o obecn.',
+                                  fontWeight: weight.normal,
+                                  onTap: null
+                              )
+                          ),
+                          DropdownMenuItem<AnnouncementAttendanceRespMode>(
+                              value: AnnouncementAttendanceRespMode.OBLIGATORY,
+                              child: SimpleButton.from(
+                                  margin: EdgeInsets.zero,
+                                  context: context,
+                                  icon: MdiIcons.accountAlertOutline,
+                                  text: 'Obligatoryjna informacja o obecn.',
+                                  fontWeight: weight.normal,
+                                  onTap: null
+                              )
+                          ),
+                        ],
+                        value: attRespMode,
+                        onChanged: (value) => setState(() => attRespMode = value as AnnouncementAttendanceRespMode),
+                        dropdownDecoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                        ),
                       )
-                  )
-              ),
+                  ),
+
+                  Row(
+                    children: [
+                      SimpleButton.from(
+                          margin: EdgeInsets.zero,
+
+                          iconColor: iconEnab_(context),
+
+                          textColor:
+                          startTime==null?
+                          hintEnab_(context):
+                          iconEnab_(context),
+
+                          icon: MdiIcons.calendarBlankOutline,
+                          text: startTime==null?
+                          'Czas rozpoczęcia':
+                          'Początek: ${dateToString(startTime, shortMonth: true, withTime: true)}',
+                          fontWeight: weight.normal,
+                          onTap: startTime == null?null:() => showScrollBottomSheet(
+                              context: context,
+                              builder: (context) => BottomSheetDateTimePicker(
+                                startTime,
+                                backgroundColor: CirclePage.backgroundColor(context, palette),
+                                start: true,
+                                onSelected: (dateTime) => setState(() => startTime = dateTime),
+                              )
+                          )
+                      ),
+                      Expanded(child: Container()),
+                      if(startTime != null)
+                        IconButton(
+                          icon: const Icon(MdiIcons.close),
+                          onPressed: () => setState(() => startTime = null),
+                        )
+                      else
+                        IconButton(
+                            icon: const Icon(MdiIcons.plus),
+                            onPressed: (){
+                              DateTime now = DateTime.now();
+                              setState(() => startTime = DateTime(
+                                  now.year,
+                                  now.month,
+                                  now.day + 7,
+                                  now.hour,
+                                  0,
+                                  0
+                              ));
+                            }
+                        )
+                    ],
+                  ),
+
+                  Row(
+                    children: [
+
+                      SimpleButton.from(
+                          margin: EdgeInsets.zero,
+
+                          iconColor: iconEnab_(context),
+
+                          textColor:
+                          startTime != null && endTime != null && endTime!.isBefore(startTime!)?
+                          Colors.red:
+
+                          startTime==null?
+                          hintEnab_(context):
+                          iconEnab_(context),
+
+                          icon: MdiIcons.calendarCheckOutline,
+                          text: endTime==null?
+                          'Czas zakończenia':
+                          'Zakończ.:  ${dateToString(endTime, shortMonth: true, withTime: true)}',
+                          fontWeight: weight.normal,
+                          onTap: endTime == null?null:() => showScrollBottomSheet(
+                              context: context,
+                              builder: (context) => BottomSheetDateTimePicker(
+                                endTime,
+                                backgroundColor: CirclePage.backgroundColor(context, palette),
+                                start: false,
+                                onSelected: (dateTime) => setState(() => endTime = dateTime),
+                              )
+                          )
+                      ),
+
+                      Expanded(child: Container()),
+
+                      if(endTime != null)
+                        IconButton(
+                          icon: const Icon(MdiIcons.close),
+                          onPressed: () => setState(() => endTime = null),
+                        )
+                      else
+                        IconButton(
+                            icon: const Icon(MdiIcons.plus),
+                            onPressed: (){
+                              DateTime now = DateTime.now();
+                              setState(() => endTime = DateTime(
+                                  now.year,
+                                  now.month,
+                                  now.day + 7,
+                                  now.hour + 3,
+                                  0,
+                                  0
+                              ));
+                            }
+                        )
+
+                    ],
+                  ),
+
+                  Row(
+                    children: [
+
+                      Expanded(
+                        child: AppTextFieldHint(
+                          hint: 'Dodaj miejsce',
+                          hintTop: '',
+                          controller: placeController,
+                          style: AppTextStyle(color: iconEnab_(context)),
+                          textCapitalization: TextCapitalization.sentences,
+                          leading: const Padding(
+                            padding: EdgeInsets.only(
+                              left: Dimen.ICON_MARG,
+                              right: Dimen.ICON_MARG,
+                            ),
+                            child: Icon(MdiIcons.mapMarkerOutline),
+                          ),
+                        ),
+                      ),
+
+                      if(placeEnabled)
+                        IconButton(
+                          icon: const Icon(MdiIcons.close),
+                          onPressed: () => placeController.text = '',
+                        )
+
+                    ],
+                  ),
+
+                ]
+              ):
+              Container()
             ),
 
-            Align(
-              alignment: Alignment.centerLeft,
-              child: SimpleButton.from(
+            const SizedBox(height: Dimen.SIDE_MARG),
+
+            SimpleButton.from(
+                elevation: AppCard.bigElevation,
                 margin: EdgeInsets.zero,
-                context: context,
-                icon: MdiIcons.calendarCheckOutline,
-                text: endTime==null?
-                'Dodaj czas zakończenia':
-                'Zakończ.:  ${dateToString(endTime, shortMonth: true, withTime: true)}',
-                fontWeight: weight.normal,
-                onTap: () => showScrollBottomSheet(
-                  context: context,
-                  builder: (context) => BottomSheetDateTimePicker(
-                    endTime,
-                    backgroundColor: CirclePage.backgroundColor(context, palette),
-                    start: false,
-                    onSelected: (dateTime) => setState(() => endTime = dateTime),
-                  )
-                )
-              ),
-            ),
-
-            AppTextFieldHint(
-              hint: 'Dodaj miejsce',
-              hintTop: '',
-              style: AppTextStyle(color: iconEnab_(context)),
-              textCapitalization: TextCapitalization.sentences,
-              leading: const Padding(
-                padding: EdgeInsets.only(
-                  left: Dimen.ICON_MARG,
-                  right: Dimen.ICON_MARG,
+                textColor: CirclePage.backgroundColor(context, palette),
+                color: CirclePage.strongColor(context, palette),
+                icon: MdiIcons.earthArrowRight,
+                text: initAnnouncement==null?'Dodaj ogłoszenie':'Edytuj ogłoszenie',
+                onTap: () => showAppToast(
+                    context,
+                    text: 'Przytrzymaj, aby opublikować'
                 ),
-                child: Icon(MdiIcons.mapMarkerOutline),
-              ),
+                onLongPress: () async {
+
+
+                  if(titleController.text.isEmpty){
+                    showAppToast(context, text: 'Podaj tytuł ogłoszenia');
+                    return;
+                  }
+
+                  if(textController.text.isEmpty){
+                    showAppToast(context, text: 'Podaj treść ogłoszenia');
+                    return;
+                  }
+
+                  if(startTime != null && endTime != null && startTime!.isAfter(endTime!)){
+                    showAppToast(context, text: 'Początek wydarzenia musi być wcześniej niż koniec');
+                    return;
+                  }
+
+                  showLoadingWidget(
+                      context, CirclePage.strongColor(context, palette),
+                      initAnnouncement == null?'Publikowanie...':'Uaktualnianie...'
+                  );
+
+                  if(initAnnouncement == null)
+                    await ApiCircle.postAnnouncement(
+                        circleKey: circle.key,
+                        title: titleController.text,
+                        startTime: eventMode?startTime:null,
+                        endTime: eventMode?endTime:null,
+                        place: eventMode?placeController.text:null,
+                        coverImageUrl: coverImage?.code,
+                        text: textController.text,
+                        respMode: eventMode?attRespMode:AnnouncementAttendanceRespMode.NONE,
+                        onSuccess: (announcement) async {
+                          await popPage(context); // Close loading widget.
+                          onSaved?.call(announcement);
+                        },
+                        onError: () async {
+                          await popPage(context); // Close loading widget.
+                          onError?.call();
+                        }
+                    );
+                  else
+                    await ApiCircle.updateAnnouncement(
+                        announcement: initAnnouncement!,
+
+                        title:
+                        initAnnouncement!.title == titleController.text?
+                        const Optional.empty():
+                        Optional.of(titleController.text),
+
+                        startTime:
+                        initAnnouncement!.startTime == startTime?
+                        const Optional.empty():
+                        eventMode?
+                        Optional.ofNullable(startTime):
+                        Optional.ofNullable(null),
+
+                        endTime:
+                        initAnnouncement!.endTime == endTime?
+                        const Optional.empty():
+                        eventMode?
+                        Optional.ofNullable(endTime):
+                        Optional.ofNullable(null),
+
+                        place:
+                        initAnnouncement!.place == placeController.text?
+                        const Optional.empty():
+                        eventMode?
+                        Optional.ofNullable(placeEnabled?placeController.text:null):
+                        Optional.ofNullable(null),
+
+                        coverImageUrl:
+                        initAnnouncement!.coverImage?.code == coverImage?.code?
+                        const Optional.empty():
+                        Optional.ofNullable(coverImage?.code),
+
+                        text:
+                        initAnnouncement!.text == textController.text?
+                        const Optional.empty():
+                        Optional.of(textController.text),
+
+                        respMode:
+                        initAnnouncement!.respMode == attRespMode?
+                        const Optional.empty():
+                        eventMode?
+                        Optional.of(attRespMode):
+                        Optional.of(AnnouncementAttendanceRespMode.NONE),
+
+                        onSuccess: (announcement) async {
+                          await popPage(context); // Close loading widget.
+                          onSaved?.call(announcement);
+                        },
+                        onError: () async {
+                          await popPage(context); // Close loading widget.
+                          onError?.call();
+                        }
+                    );
+
+                  Navigator.pop(context);
+
+                }
             ),
 
             if(initAnnouncement != null)
@@ -339,7 +558,6 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
                 }
               ),
-
 
           ])),
         )
@@ -404,8 +622,8 @@ class BottomSheetDateTimePicker extends StatelessWidget{
               DateTime? dateTime = await showDatePicker(
                   context: context,
                   initialDate: currentDateTime,
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime.now().add(const Duration(days: 100*365))
+                  firstDate: DateTime(966),
+                  lastDate: currentDateTime.add(const Duration(days: 100*365))
               );
 
               if(dateTime != null)

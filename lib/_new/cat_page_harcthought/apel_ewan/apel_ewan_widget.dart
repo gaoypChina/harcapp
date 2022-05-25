@@ -90,14 +90,12 @@ class ApelEwanWidgetState extends State<ApelEwanWidget> with ModuleStatsMixin{
   @override
   Widget build(BuildContext context) =>
       BottomNavScaffold(
-        //backgroundColor: AppSettings.isDark?Colors.brown[900]:Colors.yellow[100],
         body: CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
 
             SliverAppBar(
               title: Text(apelEwan.siglum),
-              //backgroundColor: AppSettings.isDark?Colors.brown[900]:Colors.yellow[100],
               centerTitle: true,
               floating: true,
             ),
@@ -207,8 +205,8 @@ class ApelEwanWidgetState extends State<ApelEwanWidget> with ModuleStatsMixin{
                                               DropdownMenuItem<String>(
                                                 value: subgroupSuff,
                                                 child: Text(
-                                                    suffixNameMap[subgroupSuff]!,
-                                                    style: AppTextStyle(fontWeight: subgroupSuff == selSubgroupSuff?weight.halfBold:weight.normal)
+                                                  suffixNameMap[subgroupSuff]!,
+                                                  style: AppTextStyle(fontWeight: subgroupSuff == selSubgroupSuff?weight.halfBold:weight.normal)
                                                 ),
                                               ))
                                               .toList(),

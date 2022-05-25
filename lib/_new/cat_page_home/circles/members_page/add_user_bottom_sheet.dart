@@ -142,7 +142,7 @@ class AddUserBottomSheet extends StatelessWidget{
 
     await ApiCircle.addUsers(
         circleKey: circle!.key,
-        users: [MemberBodyNick(userData.key, CircleRole.OBSERVER, userData.nick)],
+        users: [MemberRespBodyNick(userData.key, CircleRole.OBSERVER, null, userData.nick)],
         onSuccess: (List<Member> allMems){
           circle!.setAllMembers(context, allMems);
           Navigator.pop(context);

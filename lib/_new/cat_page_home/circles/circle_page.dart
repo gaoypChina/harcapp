@@ -1,10 +1,12 @@
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_common_classes/color_pack.dart';
+import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/api/circle.dart';
-import 'package:harcapp/_new/app_bottom_navigator.dart';
-import 'package:harcapp/_new/cat_page_home/circles/announcement_widget.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
@@ -23,13 +25,13 @@ import 'package:provider/provider.dart';
 import '../../../_common_classes/sliver_child_builder_separated_delegate.dart';
 import '../../../_common_widgets/app_toast.dart';
 import 'announcement_edit_page/_main.dart';
+import 'announcement_widget.dart';
 import 'circle_editor/_main.dart';
 import 'circle_palette_generator.dart';
 import 'circle_role.dart';
 import 'cover_image.dart';
 import 'members_page/members_admin_page.dart';
 import 'members_page/members_page.dart';
-import 'model/announcement.dart';
 import 'model/circle.dart';
 
 class CirclePage extends StatefulWidget{
@@ -44,12 +46,13 @@ class CirclePage extends StatefulWidget{
   }
 
   static Color? appBarColor(BuildContext context, PaletteGenerator? palette){
+    return backgroundColor(context, palette);
     if(palette == null) return background_(context);
 
     if(AppSettings.isDark)
       return _lighten(palette.dominantColor!.color, .1);
     else
-      return _lighten(palette.dominantColor!.color, .86);
+      return _lighten(palette.dominantColor!.color, .88);
   }
 
   static Color? backgroundColor(BuildContext context, PaletteGenerator? palette){
@@ -58,7 +61,7 @@ class CirclePage extends StatefulWidget{
     if(AppSettings.isDark)
       return _lighten(palette.dominantColor!.color, .1);
     else
-      return _lighten(palette.dominantColor!.color, .86);
+      return _lighten(palette.dominantColor!.color, .88);
 
   }
 
@@ -68,12 +71,18 @@ class CirclePage extends StatefulWidget{
     if(AppSettings.isDark)
       return _lighten(palette.dominantColor!.color, .16);
     else
-      return _lighten(palette.dominantColor!.color, .8);
+      return _lighten(palette.dominantColor!.color, .84);
 
   }
 
   static Color strongColor(BuildContext context, PaletteGenerator? palette) =>
       _lighten(palette?.dominantColor?.color, .5)??iconEnab_(context);
+
+  static Color coverIconColor(BuildContext context, PaletteGenerator? palette){
+    PaletteColor? color = palette?.dominantColor;
+    if(color == null) return iconEnab_(context);
+    return color.color.computeLuminance() > .5? DefColorPack.ICON_ENABLED:ColorPackBlack.ICON_ENABLED;
+  }
 
   final Circle circle;
   final void Function()? onLeft;
@@ -99,8 +108,6 @@ class CirclePageState extends State<CirclePage>{
 
   late RefreshController refreshController;
 
-  late AppBottomNavigatorProvider appBottomNavigatorProvider;
-
   PaletteGenerator? paletteGeneratorFirst;
   PaletteGenerator? paletteGeneratorSecond;
 
@@ -108,23 +115,18 @@ class CirclePageState extends State<CirclePage>{
     paletteGeneratorFirst = await getPaletteGenerator(circle.coverImage!.local, circle.coverImage!.firstFileName);
     paletteGeneratorSecond = await getPaletteGenerator(circle.coverImage!.local, circle.coverImage!.secondFileName);
 
-    appBottomNavigatorProvider.background = backgroundColor;
+    if(!refresh) return;
 
-    if(refresh) setState(() {});
+    setState(() {});
+    notifyScrollController();
   }
 
-  ScrollController? scrollController;
+  late ScrollController scrollController;
 
-  GlobalKey? appBarKey;
-  GlobalKey? tabBarKey;
+  late GlobalKey appBarKey;
+  late GlobalKey tabBarKey;
 
-  late bool showTitleOnAppBar;
-  AppBarElevationProvider? appBarElevationProv;
-
-  void onBottomNavSelected(int page){
-    if(page != AppBottomNavigator.HOME)
-      appBottomNavigatorProvider.background = null;
-  }
+  late AppBarProvider appBarProv;
 
   @override
   void initState() {
@@ -134,26 +136,24 @@ class CirclePageState extends State<CirclePage>{
     appBarKey = GlobalKey();
     tabBarKey = GlobalKey();
 
-    showTitleOnAppBar = false;
-
     scrollController = ScrollController();
-    scrollController!.addListener(() {
+    scrollController.addListener(() {
       double topPadding = MediaQuery.of(context).padding.top;
-      final appBarBox = appBarKey!.currentContext?.findRenderObject() as RenderBox?;
+      final appBarBox = appBarKey.currentContext?.findRenderObject() as RenderBox?;
       double appBarPos = appBarBox==null? -double.infinity: appBarBox.localToGlobal(Offset(0, -topPadding)).dy;
-      if (appBarPos < kToolbarHeight/2 && !showTitleOnAppBar) setState(() => showTitleOnAppBar = true);
-      else if(appBarPos >= kToolbarHeight/2 && showTitleOnAppBar) setState(() => showTitleOnAppBar = false);
+      if (appBarPos < kToolbarHeight && !appBarProv.showTitleOnAppBar) appBarProv.showTitleOnAppBar = true;
+      else if(appBarPos >= kToolbarHeight && appBarProv.showTitleOnAppBar) appBarProv.showTitleOnAppBar = false;
 
-      final tabBarBox = tabBarKey!.currentContext?.findRenderObject() as RenderBox?;
+      if (appBarPos < 2*kToolbarHeight && !appBarProv.coverVisible) appBarProv.coverVisible = true;
+      else if(appBarPos >= 2*kToolbarHeight && appBarProv.coverVisible) appBarProv.coverVisible = false;
+
+      final tabBarBox = tabBarKey.currentContext?.findRenderObject() as RenderBox?;
       double tabBarPos = tabBarBox==null? -double.infinity: tabBarBox.localToGlobal(Offset(0, -topPadding)).dy;
-      if (tabBarPos <= 96 && appBarElevationProv!.elevated!) appBarElevationProv!.elevated = false;
-      else if(tabBarPos > 96 && !appBarElevationProv!.elevated!) appBarElevationProv!.elevated = true;
+      if (tabBarPos <= 96 && appBarProv.elevated) appBarProv.elevated = false;
+      else if(tabBarPos > 96 && !appBarProv.elevated) appBarProv.elevated = true;
     });
 
     refreshController = RefreshController();
-    appBottomNavigatorProvider = Provider.of<AppBottomNavigatorProvider>(context, listen: false);
-    post(() => appBottomNavigatorProvider.background = null);
-    AppBottomNavigatorProvider.addOnSelectedListener(onBottomNavSelected);
     initPaletteGenerator();
 
     super.initState();
@@ -161,33 +161,42 @@ class CirclePageState extends State<CirclePage>{
 
   @override
   void dispose(){
-    AppBottomNavigatorProvider.removeOnSelectedListener(onBottomNavSelected);
-    scrollController!.dispose();
+    scrollController.dispose();
     super.dispose();
   }
-
-  PaletteGenerator? get paletteGenerator{
-    if(circle.colorsKey == 'none') return null;
-
+  
+  PaletteGenerator? get paletteAlways{
     if(paletteGeneratorSecond == null) return paletteGeneratorFirst;
     return AppSettings.isDark?paletteGeneratorSecond:paletteGeneratorFirst;
   }
+  
+  PaletteGenerator? get palette{
+    if(circle.colorsKey == 'none') return null;
+    return paletteAlways;
+  }
 
-  Color? get appBarColor => CirclePage.appBarColor(context, paletteGenerator);
-  Color? get backgroundColor => CirclePage.backgroundColor(context, paletteGenerator);
-  Color? get cardColor => CirclePage.cardColor(context, paletteGenerator);
-  Color get strongColor => CirclePage.strongColor(context, paletteGenerator);
+
+  Color? get appBarColor => CirclePage.appBarColor(context, palette);
+  Color? get backgroundColor => CirclePage.backgroundColor(context, palette);
+  Color? get cardColor => CirclePage.cardColor(context, palette);
+  Color get strongColor => CirclePage.strongColor(context, palette);
+  Color get iconColor => CirclePage.coverIconColor(context, paletteAlways);
+
+  void notifyScrollController() => post(() => scrollController.jumpTo(scrollController.offset + 1e-10));
 
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-    create: (context){
-      appBarElevationProv = AppBarElevationProvider();
-      return appBarElevationProv;
-    },
-    builder: (context, child) => Material(
-      animationDuration: const Duration(milliseconds: 300),
-      color: backgroundColor,
-      child: SmartRefresher(
+  Widget build(BuildContext context) => BottomNavScaffold(
+    backgroundColor: backgroundColor,
+    appBottomNavColor: backgroundColor,
+    body: ChangeNotifierProvider(
+      create: (context){
+        appBarProv = AppBarProvider();
+        return appBarProv;
+      },
+      builder: (context, child) =>
+      paletteAlways == null?
+      const CircleLoadingWidget():
+      SmartRefresher(
           enablePullDown: true,
           physics: const BouncingScrollPhysics(),
           header: MaterialClassicHeader(backgroundColor: cardEnab_(context), color: strongColor),
@@ -212,7 +221,7 @@ class CirclePageState extends State<CirclePage>{
 
                   setState(() {});
                 },
-                onError: () => null
+                onError: () => showAppToast(context, text: 'Coś poszło nie tak...')
             );
             refreshController.refreshCompleted();
 
@@ -222,22 +231,28 @@ class CirclePageState extends State<CirclePage>{
               physics: const BouncingScrollPhysics(),
               slivers: [
 
-                Consumer<AppBarElevationProvider>(
+                Consumer<AppBarProvider>(
                   builder: (context, prov, child) => SliverAppBar(
+                    iconTheme: IconThemeData(
+                        color: prov.coverVisible?iconEnab_(context):iconColor
+                    ),
                     centerTitle: true,
                     pinned: true,
                     excludeHeaderSemantics: true,
-                    elevation: prov.elevated!?AppCard.bigElevation:0,
+                    elevation: prov.elevated?AppCard.bigElevation:0,
                     backgroundColor: backgroundColor,
                     expandedHeight: 200,
                     actions: [
                       IconButton(
-                        icon: const Icon(MdiIcons.cogOutline),
+                        icon: Icon(
+                            MdiIcons.cogOutline,
+                            color: prov.coverVisible?iconEnab_(context):iconColor
+                        ),
                         onPressed: () => pushPage(
                             context,
                             builder: (context) => CircleEditorPage(
                               initCircle: circle,
-                              palette: paletteGenerator,
+                              palette: palette,
                               onSaved: (updatedCircle) async {
 
                                 circle.name = updatedCircle.name;
@@ -259,7 +274,7 @@ class CirclePageState extends State<CirclePage>{
                     ],
                     flexibleSpace: FlexibleSpaceBar(
                       title: AnimatedOpacity(
-                        opacity: showTitleOnAppBar?1:0,
+                        opacity: prov.showTitleOnAppBar?1:0,
                         duration: const Duration(milliseconds: 200),
                         child: Text(
                           circle.name,
@@ -292,16 +307,34 @@ class CirclePageState extends State<CirclePage>{
                     ),
                   ),
 
+                  if(circle.hasDescription)
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                        child: ExpandableText(
+                          circle.description!,
+                          style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                          maxLines: 3,
+                          animation: true,
+                          linkColor: strongColor,
+                          linkStyle: AppTextStyle(fontWeight: weight.halfBold),
+                          expandText: 'więcej',
+                          collapseText: 'mniej',
+                        )
+                    ),
+
+                  if(circle.hasDescription)
+                    const SizedBox(height: Dimen.ICON_SIZE),
+
                   AccountThumbnailRowWidget(
                     circle.members.map((m) => m.name).toList(),
                     elevated: true,
                     backgroundColor: backgroundColor,
                     padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                     onTap: () => pushPage(
-                      context,
-                      builder: (context) => circle.myRole == CircleRole.ADMIN || circle.myRole == CircleRole.MODERATOR?
-                      MembersAdminPage(circle, paletteGenerator):
-                      MembersPage(circle, paletteGenerator)
+                        context,
+                        builder: (context) => circle.myRole == CircleRole.ADMIN || circle.myRole == CircleRole.MODERATOR?
+                        MembersAdminPage(circle, palette):
+                        MembersPage(circle, palette)
                     ),
                     heroBuilder: (index) => circle.members[index],
                   ),
@@ -313,15 +346,15 @@ class CirclePageState extends State<CirclePage>{
                         margin: EdgeInsets.zero,
                         padding: EdgeInsets.zero,
                         onTap: () => pushPage(
-                          context,
-                          builder: (context) => AnnouncementEditorPage(
-                            circle: circle,
-                            palette: paletteGenerator,
-                            onSaved: (announcement){
-                              circle.addAnnouncement(announcement);
-                              setState(() {});
-                            },
-                          )
+                            context,
+                            builder: (context) => AnnouncementEditorPage(
+                              circle: circle,
+                              palette: palette,
+                              onSaved: (announcement){
+                                circle.addAnnouncement(announcement);
+                                setState(() {});
+                              },
+                            )
                         ),
                         color: cardColor,
                         clipBehavior: Clip.antiAlias,
@@ -354,7 +387,7 @@ class CirclePageState extends State<CirclePage>{
                     bool overlaps = shrinkOffset!=0 || overlapsContent;
                     return Material(
                       key: tabBarKey,
-                      color: CirclePage.backgroundColor(context, paletteGenerator),
+                      color: CirclePage.backgroundColor(context, palette),
                       elevation: overlaps?AppCard.bigElevation:0,
                       child: SizedBox(
                         height: Dimen.ICON_FOOTPRINT,
@@ -373,33 +406,19 @@ class CirclePageState extends State<CirclePage>{
                                 ),
                                 margin: EdgeInsets.zero,
                                 child: Text(
-                                  circle.pinnedAnnouncements.isEmpty?
-                                  'Przypięte':
-                                  'Przypięte (${circle.pinnedAnnouncements.length})',
-                                  style: AppTextStyle(
-                                      fontSize: Dimen.TEXT_SIZE_BIG,
-                                      fontWeight: currTab == pinnedAnnsTab?weight.halfBold:weight.normal,
-                                      color: currTab == pinnedAnnsTab?iconEnab_(context):iconDisab_(context)
-                                  )
+                                    circle.pinnedAnnouncements.isEmpty?
+                                    'Przypięte':
+                                    'Przypięte (${circle.pinnedAnnouncements.length})',
+                                    style: AppTextStyle(
+                                        fontSize: Dimen.TEXT_SIZE_BIG,
+                                        fontWeight: currTab == pinnedAnnsTab?weight.halfBold:weight.normal,
+                                        color: currTab == pinnedAnnsTab?iconEnab_(context):iconDisab_(context)
+                                    )
                                 ),
-                                onTap: () => setState(() => currTab = pinnedAnnsTab)
-                            ),
-
-                            SimpleButton(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: Dimen.ICON_MARG,
-                                vertical: Dimen.ICON_MARG,
-                              ),
-                              margin: EdgeInsets.zero,
-                              child: Text(
-                                'Wszystkie',
-                                style: AppTextStyle(
-                                  fontSize: Dimen.TEXT_SIZE_BIG,
-                                  fontWeight: currTab == allAnnsTab?weight.halfBold:weight.normal,
-                                  color: currTab == allAnnsTab?iconEnab_(context):iconDisab_(context)
-                                )
-                              ),
-                              onTap: () => setState(() => currTab = allAnnsTab)
+                                onTap: (){
+                                  notifyScrollController();
+                                  setState(() => currTab = pinnedAnnsTab);
+                                }
                             ),
 
                             SimpleButton(
@@ -409,17 +428,39 @@ class CirclePageState extends State<CirclePage>{
                                 ),
                                 margin: EdgeInsets.zero,
                                 child: Text(
-                                  circle.awaitingAnnouncements.isEmpty?
-                                  'Oczekujące':
-                                  'Oczekujące (${circle.awaitingAnnouncements.length})',
-                                  style: AppTextStyle(
-                                      fontSize: Dimen.TEXT_SIZE_BIG,
-                                      fontWeight: currTab == awaitingAnnsTab?weight.halfBold:weight.normal,
-                                      color: currTab == awaitingAnnsTab?iconEnab_(context):iconDisab_(context)
-                                  )
+                                    'Wszystkie',
+                                    style: AppTextStyle(
+                                        fontSize: Dimen.TEXT_SIZE_BIG,
+                                        fontWeight: currTab == allAnnsTab?weight.halfBold:weight.normal,
+                                        color: currTab == allAnnsTab?iconEnab_(context):iconDisab_(context)
+                                    )
                                 ),
-                                onTap: () => setState(() => currTab = awaitingAnnsTab)
+                                onTap: (){
+                                  notifyScrollController();
+                                  setState(() => currTab = allAnnsTab);
+                                }
                             ),
+
+                            if(circle.awaitingAnnouncements.isNotEmpty)
+                              SimpleButton(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: Dimen.ICON_MARG,
+                                    vertical: Dimen.ICON_MARG,
+                                  ),
+                                  margin: EdgeInsets.zero,
+                                  child: Text(
+                                      'Oczekujące (${circle.awaitingAnnouncements.length})',
+                                      style: AppTextStyle(
+                                          fontSize: Dimen.TEXT_SIZE_BIG,
+                                          fontWeight: currTab == awaitingAnnsTab?weight.halfBold:weight.normal,
+                                          color: currTab == awaitingAnnsTab?iconEnab_(context):iconDisab_(context)
+                                      )
+                                  ),
+                                  onTap: (){
+                                    notifyScrollController();
+                                    setState(() => currTab = awaitingAnnsTab);
+                                  }
+                              ),
 
                           ],
                         ),
@@ -435,7 +476,7 @@ class CirclePageState extends State<CirclePage>{
                 else if(currTab == pinnedAnnsTab)
                   getPinnedAnnouncements()
                 else if(currTab == awaitingAnnsTab)
-                  getAwaitingAnnouncements()
+                    getAwaitingAnnouncements()
               ]
           )
 
@@ -473,53 +514,8 @@ class CirclePageState extends State<CirclePage>{
         sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
             (context, index) => AnnouncementWidget(
               circle.announcements.reversed.toList()[index],
-              palette: paletteGenerator,
-              onUpdateTap: (){
-
-                Announcement announcement  = circle.announcements.reversed.toList()[index];
-
-                pushPage(
-                    context,
-                    builder: (context) => AnnouncementEditorPage(
-                      circle: circle,
-                      initAnnouncement: announcement,
-                      palette: paletteGenerator,
-                      onSaved: (updatedAnnouncement){
-                        circle.updateAnnouncement(updatedAnnouncement);
-                        setState(() {});
-                      },
-                      onRemoved: (){
-                        circle.removeAnnouncement(announcement);
-                        setState(() {});
-                      },
-                    )
-                );
-
-              },
-              onPinTap: () async {
-
-                Announcement announcement = circle.announcements.reversed.toList()[index];
-
-                await ApiCircle.updateAnnouncement(
-                    annKey: announcement.key,
-                    pinned: !announcement.pinned,
-                    onSuccess: (updatedAnnouncement) async {
-
-                      circle.announcements.reversed.toList()[index].pinned = updatedAnnouncement.pinned;
-
-                      if(updatedAnnouncement.pinned)
-                        showAppToast(context, text: 'Przypięto post');
-                      else
-                        showAppToast(context, text: 'Odpięto post');
-                      setState(() {});
-                    },
-                    onError: () async {
-
-                    }
-                );
-
-              },
-              onAttendanceChanged: (_) => setState((){}),
+              palette,
+              onAnnouncementUpdated: () => setState((){}),
             ),
             separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
             count: circle.announcements.length
@@ -558,53 +554,8 @@ class CirclePageState extends State<CirclePage>{
         sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
             (context, index) => AnnouncementWidget(
               circle.pinnedAnnouncements.reversed.toList()[index],
-              palette: paletteGenerator,
-              onUpdateTap: (){
-
-                Announcement announcement  = circle.pinnedAnnouncements.reversed.toList()[index];
-
-                pushPage(
-                    context,
-                    builder: (context) => AnnouncementEditorPage(
-                      circle: circle,
-                      initAnnouncement: announcement,
-                      palette: paletteGenerator,
-                      onSaved: (updatedAnnouncement){
-                        circle.updateAnnouncement(updatedAnnouncement);
-                        setState(() {});
-                      },
-                      onRemoved: (){
-                        circle.removeAnnouncement(announcement);
-                        setState(() {});
-                      },
-                    )
-                );
-
-              },
-              onPinTap: () async {
-
-                Announcement announcement = circle.pinnedAnnouncements.reversed.toList()[index];
-
-                await ApiCircle.updateAnnouncement(
-                    annKey: announcement.key,
-                    pinned: !announcement.pinned,
-                    onSuccess: (updatedAnnouncement) async {
-
-                      circle.pinnedAnnouncements.reversed.toList()[index].pinned = updatedAnnouncement.pinned;
-
-                      if(updatedAnnouncement.pinned)
-                        showAppToast(context, text: 'Przypięto post');
-                      else
-                        showAppToast(context, text: 'Odpięto post');
-                      setState(() {});
-                    },
-                    onError: () async {
-
-                    }
-                );
-
-              },
-              onAttendanceChanged: (_) => setState((){}),
+              palette,
+              onAnnouncementUpdated: () => setState((){}),
             ),
             separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
             count: circle.pinnedAnnouncements.length
@@ -643,56 +594,11 @@ class CirclePageState extends State<CirclePage>{
         sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
           (context, index) => AnnouncementWidget(
             circle.awaitingAnnouncements.reversed.toList()[index],
-              palette: paletteGenerator,
-              onUpdateTap: (){
-
-                Announcement announcement = circle.awaitingAnnouncements.reversed.toList()[index];
-
-                pushPage(
-                    context,
-                    builder: (context) => AnnouncementEditorPage(
-                      circle: circle,
-                      initAnnouncement: announcement,
-                      palette: paletteGenerator,
-                      onSaved: (updatedAnnouncement){
-                        circle.updateAnnouncement(updatedAnnouncement);
-                        setState(() {});
-                      },
-                      onRemoved: (){
-                        circle.removeAnnouncement(announcement);
-                        setState(() {});
-                      },
-                    )
-                );
-
-              },
-              onPinTap: () async {
-
-                Announcement announcement = circle.awaitingAnnouncements.reversed.toList()[index];
-
-                await ApiCircle.updateAnnouncement(
-                    annKey: announcement.key,
-                    pinned: !announcement.pinned,
-                    onSuccess: (updatedAnnouncement) async {
-
-                      circle.awaitingAnnouncements.reversed.toList()[index].pinned = updatedAnnouncement.pinned;
-
-                      if(updatedAnnouncement.pinned)
-                        showAppToast(context, text: 'Przypięto post');
-                      else
-                        showAppToast(context, text: 'Odpięto post');
-                      setState(() {});
-                    },
-                    onError: () async {
-
-                    }
-                );
-
-              },
-              onAttendanceChanged: (_) => setState((){}),
+            palette,
+            onAnnouncementUpdated: () => setState((){}),
           ),
-            separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-            count: circle.awaitingAnnouncements.length
+          separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
+          count: circle.awaitingAnnouncements.length
         )),
       );
 
@@ -700,17 +606,44 @@ class CirclePageState extends State<CirclePage>{
 
 }
 
-class AppBarElevationProvider extends ChangeNotifier{
+class CircleLoadingWidget extends StatelessWidget{
 
-  bool? _elevated;
-  bool? get elevated => _elevated;
-  set elevated(bool? value){
+  const CircleLoadingWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) => Center(
+    child: SpinKitDualRing(color: iconEnab_(context), size: 48.0),
+  );
+
+}
+
+class AppBarProvider extends ChangeNotifier{
+
+  late bool _elevated;
+  bool get elevated => _elevated;
+  set elevated(bool value){
     _elevated = value;
     notifyListeners();
   }
 
-  AppBarElevationProvider(){
+  late bool _showTitleOnAppBar;
+  bool get showTitleOnAppBar => _showTitleOnAppBar;
+  set showTitleOnAppBar(bool value){
+    _showTitleOnAppBar = value;
+    notifyListeners();
+  }
+
+  late bool _coverVisible;
+  bool get coverVisible => _coverVisible;
+  set coverVisible(bool value){
+    _coverVisible = value;
+    notifyListeners();
+  }
+
+  AppBarProvider(){
     _elevated = true;
+    _showTitleOnAppBar = false;
+    _coverVisible = true;
   }
 
 }

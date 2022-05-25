@@ -16,8 +16,8 @@ class IndivCompPreviewGrid extends StatelessWidget{
     physics: const BouncingScrollPhysics(),
     padding: const EdgeInsets.only(
         top: 5,
-        left: Dimen.SIDE_MARG,
-        right: Dimen.SIDE_MARG,
+        left: Dimen.SIDE_MARG/2,
+        right: Dimen.SIDE_MARG/2,
         bottom: 10.0),
     shrinkWrap: true,
     crossAxisCount: 4,

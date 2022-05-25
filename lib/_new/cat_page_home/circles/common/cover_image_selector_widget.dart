@@ -1,17 +1,22 @@
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
+import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_cover_image_data.dart';
 import 'package:harcapp/_new/details/part_contributors.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import '../model/circle.dart';
 
 class CoverImageSelectorWidget extends StatefulWidget{
 
   final CircleCoverImageData? selected;
-  final void Function(CircleCoverImageData)? onSelected;
+  final void Function(CircleCoverImageData?)? onSelected;
   final bool separateAdaptiveCoverImages;
   final bool canChooseNull;
 
@@ -31,160 +36,291 @@ class CoverImageSelectorWidget extends StatefulWidget{
 class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
 
   CircleCoverImageData? get initiallySelected => widget.selected;
-  void Function(CircleCoverImageData)? get onSelected => widget.onSelected;
+  void Function(CircleCoverImageData?)? get onSelected => widget.onSelected;
   bool get separateAdaptiveCoverImages => widget.separateAdaptiveCoverImages;
   bool get canChooseNull => widget.canChooseNull;
 
-  late List<CircleCoverImageData> adaptiveImages;
-  late List<CircleCoverImageData> standardImages;
+  late List<CircleCoverImageData> adaptiveLocalImages;
+  late List<CircleCoverImageData> standardLocalImages;
 
-  CircleCoverImageData? selected;
+  CircleCoverImageData? get selected{
+    if(bottomIndex == 0) return _selectedLocal;
+    else /*if(bottomIndex == 1)*/ return CircleCoverImageData.from(controller.text);
+  }
+
+  set selected(CircleCoverImageData? value){
+    if(bottomIndex == 0) _selectedLocal = value;
+    else if(bottomIndex == 1) controller.text = value?.code??'';
+  }
+
+  CircleCoverImageData? _selectedLocal;
+
+  late TextEditingController controller;
+
+  late int bottomIndex;
 
   @override
   void initState() {
-    adaptiveImages = CircleCoverImageData.paths.where((image) => image.isAdaptive).toList();
-    standardImages = CircleCoverImageData.paths.where((image) => !image.isAdaptive).toList();
+    adaptiveLocalImages = CircleCoverImageData.paths.where((image) => image.isAdaptive).toList();
+    standardLocalImages = CircleCoverImageData.paths.where((image) => !image.isAdaptive).toList();
 
     if(separateAdaptiveCoverImages) {
       List<CircleCoverImageData> separated = [];
-      for (CircleCoverImageData coverImage in adaptiveImages) {
+      for (CircleCoverImageData coverImage in adaptiveLocalImages) {
         separated.add(CircleCoverImageData(true, [GraphicalResource(coverImage.firstFileName, coverImage.firstAuthor)]));
         separated.add(CircleCoverImageData(true, [GraphicalResource(coverImage.secondFileName, coverImage.secondAuthor)]));
       }
-      standardImages.insertAll(0, separated);
-      adaptiveImages.clear();
+      standardLocalImages.insertAll(0, separated);
+      adaptiveLocalImages.clear();
     }
 
-    selected = initiallySelected;
+    if(initiallySelected == null){
+      controller = TextEditingController();
+    } else if(initiallySelected!.local) {
+      _selectedLocal = initiallySelected!;
+      controller = TextEditingController();
+    } else {
+      controller = TextEditingController(text: initiallySelected!.code??'');
+    }
+
+    bottomIndex = initiallySelected?.local == false?1:0;
 
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) => CustomScrollView(
-    physics: const BouncingScrollPhysics(),
-    slivers: [
+  Widget build(BuildContext context) => Column(
+    children: [
 
-      SliverPadding(
-        padding: const EdgeInsets.only(
-          top: Dimen.SIDE_MARG,
-          left: Dimen.SIDE_MARG,
-          right: Dimen.SIDE_MARG,
-        ),
-        sliver: SliverList(delegate: SliverChildListDelegate([
+      Expanded(
+        child: ExtendedNestedScrollView(
+          floatHeaderSlivers: true,
+          pinnedHeaderSliverHeightBuilder: () => CoverImageWidget.height,
+          physics: const BouncingScrollPhysics(),
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
+            SliverAppBar(
+              title: const Text('Wybierz zdjęcie'),
+              centerTitle: true,
+              floating: true,
+              pinned: true,
+              forceElevated: innerBoxIsScrolled,
+              actions: [
+                IconButton(
+                  icon: const Icon(MdiIcons.check),
+                  onPressed: (){
+                    if(!canChooseNull && selected == null){
+                      showAppToast(context, text: 'Nie można nie wybrać grafiki');
+                      return;
+                    }
+                    onSelected?.call(selected);
+                  },
+                )
+              ],
+              bottom: PreferredSize(
+                preferredSize: const Size(double.infinity, CoverImageWidget.height),
+                child: Builder(
+                  builder: (context){
+                    if(selected == null)
+                      return SizedBox(
+                        height: CoverImageWidget.height,
+                        child: Icon(
+                          bottomIndex == 0?
+                          MdiIcons.imageOffOutline:
+                          MdiIcons.linkOff,
+                          size: 100,
+                          color: backgroundIcon_(context)
+                        ),
+                      );
 
-          Text(
-            'Wybrane zdjęcie',
-            style: AppTextStyle(
-              fontSize: Dimen.TEXT_SIZE_BIG,
-              fontWeight: weight.halfBold
-            ),
-          ),
+                    return Stack(
+                      children: [
 
-          const SizedBox(height: Dimen.ICON_MARG),
+                        if(bottomIndex == 0)
+                          CoverImageWidget(selected, selected: false, radius: 0)
+                        else if(bottomIndex == 1)
+                          Image.network(
+                            controller.text,
+                            fit: BoxFit.cover,
+                            height: CoverImageWidget.height,
+                            errorBuilder: (context, __, _) => SizedBox(
+                              width: double.infinity,
+                              height: CoverImageWidget.height,
+                              child:  Icon(
+                                MdiIcons.linkOff,
+                                color: backgroundIcon_(context),
+                                size: 100,
+                              ),
+                            ),
+                          ),
 
-          if(selected == null)
-            SizedBox(
-              height: CoverImageWidget.height,
-              child: Icon(
-                  MdiIcons.imageOffOutline,
-                  size: 100,
-                  color: backgroundIcon_(context)
+                        if(canChooseNull && (bottomIndex == 0 || controller.text.isNotEmpty))
+                          Positioned(
+                            bottom: Dimen.ICON_MARG,
+                            right: Dimen.ICON_MARG,
+                            child: Material(
+                              borderRadius: BorderRadius.circular(2*Dimen.ICON_FOOTPRINT),
+                              color: background_(context),
+                              child: IconButton(
+                                icon: const Icon(MdiIcons.trashCanOutline),
+                                onPressed: () => setState(() => selected = null),
+                              ),
+                            ),
+                          ),
+
+                      ],
+                    );
+                  },
+                ),
               ),
             )
-          else
-            CoverImageWidget(selected, selected: true),
+          ],
+          body: Builder(
+            builder: (context){
 
-          //Consumer<CoverImageProvider>(
-          //  builder: (context, prov, child) => CoverImageWidget(prov.coverImage),
-          //),
+              if(bottomIndex == 0)
+                return CustomScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  slivers: [
 
-          if(adaptiveImages.isNotEmpty)
-            const SizedBox(height: Dimen.SIDE_MARG + Dimen.ICON_MARG),
+                    SliverList(delegate: SliverChildListDelegate([
 
-          if(adaptiveImages.isNotEmpty)
-            Text(
-              'Adaptacyjne zdjęcia',
-              style: AppTextStyle(
-                fontSize: Dimen.TEXT_SIZE_BIG,
-                fontWeight: weight.halfBold
-              ),
-            ),
+                      if(adaptiveLocalImages.isNotEmpty)
+                        const SizedBox(height: Dimen.SIDE_MARG),
 
-          if(adaptiveImages.isNotEmpty)
-            const SizedBox(height: Dimen.ICON_MARG),
+                      if(adaptiveLocalImages.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                          child: Text(
+                            'Adaptacyjne zdjęcia',
+                            style: AppTextStyle(
+                                fontSize: Dimen.TEXT_SIZE_BIG,
+                                fontWeight: weight.halfBold
+                            ),
+                          ),
+                        ),
 
-        ])),
-      ),
+                    ])),
 
-      if(adaptiveImages.isNotEmpty)
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-          sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-            (context, index) => CoverImageWidget(
-              adaptiveImages[index],
-              selected: adaptiveImages[index] == selected,
-              onTap: (){
-                setState(() => selected = adaptiveImages[index]);
-                onSelected?.call(adaptiveImages[index]);
-              },
-            ),
-            separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-            count: adaptiveImages.length
-          ))
+                    if(adaptiveLocalImages.isNotEmpty)
+                      SliverPadding(
+                          padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                          sliver: SliverGrid(
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 1/.66,
+                              crossAxisSpacing: Dimen.DEF_MARG,
+                              mainAxisSpacing: Dimen.DEF_MARG,
+                            ),
+                            delegate: SliverChildBuilderDelegate((BuildContext context, int index) => CoverImageWidget(
+                              adaptiveLocalImages[index],
+                              selected: adaptiveLocalImages[index] == selected,
+                              radius: AppCard.DEF_RADIUS,
+                              showAuthor: false,
+                              onTap: () =>
+                                  setState(() => selected = adaptiveLocalImages[index]),
+                            ), childCount: adaptiveLocalImages.length),
+                          )
+                      ),
+
+                    SliverPadding(
+                      padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                      sliver: SliverList(delegate: SliverChildListDelegate([
+                        const SizedBox(height: Dimen.SIDE_MARG),
+
+                        Text(
+                          'Pozostałe zdjęcia',
+                          style: AppTextStyle(
+                              fontSize: Dimen.TEXT_SIZE_BIG,
+                              fontWeight: weight.halfBold
+                          ),
+                        ),
+                      ])),
+                    ),
+
+                    SliverPadding(
+                        padding: const EdgeInsets.only(
+                            left: Dimen.DEF_MARG,
+                            right: Dimen.DEF_MARG,
+                            bottom: Dimen.DEF_MARG
+                        ),
+                        sliver: SliverGrid(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 1/.66,
+                            crossAxisSpacing: Dimen.DEF_MARG,
+                            mainAxisSpacing: Dimen.DEF_MARG,
+                          ),
+                          delegate: SliverChildBuilderDelegate((BuildContext context, int index) => CoverImageWidget(
+                            standardLocalImages[index],
+                            selected: standardLocalImages[index] == selected,
+                            radius: AppCard.DEF_RADIUS,
+                            showAuthor: false,
+                            onTap: () =>
+                              setState(() => selected = standardLocalImages[index]),
+                          ), childCount: standardLocalImages.length),
+                        )
+                    ),
+
+                  ],
+                );
+
+              else if(bottomIndex == 1)
+                return Column(
+                  children: [
+
+                    if(adaptiveLocalImages.isNotEmpty)
+                      const SizedBox(height: Dimen.SIDE_MARG),
+
+                    Padding(
+                      padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                      child: AppTextFieldHint(
+                          hint: 'Link do zdjęcia:',
+                          hintTop: 'Link do zdjęcia',
+                          controller: controller,
+                          maxLength: Circle.maxLenCoverImageUrl,
+                          onAnyChanged: (_) => setState((){})
+                      ),
+                    )
+
+                  ],
+                );
+              
+              return Container();
+              
+            },
+          ),
         ),
-
-      SliverPadding(
-        padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-        sliver: SliverList(delegate: SliverChildListDelegate([
-          const SizedBox(height: Dimen.SIDE_MARG + Dimen.ICON_MARG),
-
-          Text(
-            'Pozostałe zdjęcia',
-            style: AppTextStyle(
-                fontSize: Dimen.TEXT_SIZE_BIG,
-                fontWeight: weight.halfBold
-            ),
-          ),
-
-          const SizedBox(height: Dimen.ICON_MARG),
-        ])),
       ),
-
-      SliverPadding(
-          padding: const EdgeInsets.only(
-            left: Dimen.SIDE_MARG,
-            right: Dimen.SIDE_MARG,
-            bottom: Dimen.SIDE_MARG
-          ),
-          sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-              (context, index) => CoverImageWidget(
-                standardImages[index],
-                selected: standardImages[index] == selected,
-                onTap: (){
-                  setState(() => selected = standardImages[index]);
-                  onSelected?.call(standardImages[index]);
-                },
-              ),
-              separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-              count: standardImages.length
-          ))
-      ),
+      
+      BottomNavigationBar(
+        selectedLabelStyle: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL),
+        unselectedLabelStyle: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL),
+        selectedItemColor: iconEnab_(context),
+        unselectedItemColor: iconDisab_(context),
+        currentIndex: bottomIndex,
+        onTap: (index) => setState(() => bottomIndex = index),
+        items: const [
+          BottomNavigationBarItem(icon: Icon(MdiIcons.imageOutline), label: 'Lokalne'),
+          BottomNavigationBarItem(icon: Icon(MdiIcons.linkBoxOutline), label: 'Z sieci'),
+        ]
+      )
 
     ],
   );
-
+  
 }
 
 class CoverImageWidget extends StatefulWidget{
 
-  static double height = 200.0;
+  static const double height = 200.0;
 
   final CircleCoverImageData? coverImage;
-  final bool? selected;
+  final bool selected;
+  final double radius;
+  final bool showAuthor;
   final void Function()? onTap;
 
-  const CoverImageWidget(this.coverImage, {this.selected, this.onTap, super.key});
+  const CoverImageWidget(this.coverImage, {this.selected = false, this.showAuthor = false, this.radius = AppCard.BIG_RADIUS, this.onTap, super.key});
 
   @override
   State<StatefulWidget> createState() => CoverImageWidgetState();
@@ -194,7 +330,9 @@ class CoverImageWidget extends StatefulWidget{
 class CoverImageWidgetState extends State<CoverImageWidget>{
 
   CircleCoverImageData? get coverImage => widget.coverImage;
-  bool? get selected => widget.selected;
+  bool get selected => widget.selected;
+  double get radius => widget.radius;
+  bool get showAuthor => widget.showAuthor;
   void Function()? get onTap => widget.onTap;
 
   late bool showNight;
@@ -217,12 +355,12 @@ class CoverImageWidgetState extends State<CoverImageWidget>{
 
   @override
   Widget build(BuildContext context) => SizedBox(
-      height: CoverImageWidget.height, //600 / MediaQuery.of(context).devicePixelRatio,
+      height: CoverImageWidget.height,
       child: InkWell(
         onTap: onTap,
         child: Material(
             color: Colors.transparent,
-            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+            borderRadius: BorderRadius.circular(radius),
             clipBehavior: Clip.antiAlias,
             child: Stack(
               fit: StackFit.expand,
@@ -245,38 +383,70 @@ class CoverImageWidgetState extends State<CoverImageWidget>{
                 Positioned.fill(
                     child: IgnorePointer(
                       child: AnimatedOpacity(
-                        opacity: selected!?0.8:0,
+                        opacity: selected?0.8:0,
                         duration: const Duration(milliseconds: 300),
                         child: const Icon(MdiIcons.checkOutline, size: 80.0, color: Colors.white),
                       ),
                     )
                 ),
 
-                Positioned(
-                  bottom: Dimen.ICON_MARG,
-                  right: Dimen.ICON_MARG,
-                  child: Text(
-                      coverImage!.firstAuthor!,
-                      style: AppTextStyle(
-                          color: Colors.white,
-                          shadow: true,
-                          fontWeight: weight.halfBold
-                      )),
-                ),
+                if(showAuthor)
+                  Positioned(
+                    bottom: Dimen.ICON_MARG,
+                    right: Dimen.ICON_MARG,
+                    child: Text(
+                        coverImage!.firstAuthor!,
+                        style: AppTextStyle(
+                            color: Colors.white,
+                            shadow: true,
+                            fontSize: Dimen.TEXT_SIZE_SMALL,
+                            fontWeight: weight.halfBold
+                        )),
+                  ),
 
-                Positioned.fill(
-                    child: IgnorePointer(
-                      child: AnimatedOpacity(
-                        opacity: selected!?0:0.5,
-                        duration: const Duration(milliseconds: 300),
-                        child: Container(color: background_(context)),
-                      ),
-                    )
-                ),
               ],
             )
         )
       ),
   );
+
+}
+
+Future<CircleCoverImageData?> selectCoverImage(
+    BuildContext context,
+    CircleCoverImageData? currentCoverImage,
+    { bool separateAdaptiveCoverImages = false,
+      canChooseNull = false
+    }) async {
+
+  bool anythingSelected = false;
+  CircleCoverImageData? selectedCoverImage;
+
+  await openDialog(
+      context: context,
+      builder: (context) => Padding(
+        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+        child: Material(
+          clipBehavior: Clip.hardEdge,
+          color: background_(context),
+          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+          child: CoverImageSelectorWidget(
+            selected: currentCoverImage,
+            onSelected: (coverImage){
+              anythingSelected = true;
+              selectedCoverImage = coverImage;
+              Navigator.pop(context);
+            },
+            separateAdaptiveCoverImages: separateAdaptiveCoverImages,
+            canChooseNull: canChooseNull,
+          ),
+        ),
+      )
+  );
+
+  if(anythingSelected)
+    return selectedCoverImage;
+  else
+    return currentCoverImage;
 
 }

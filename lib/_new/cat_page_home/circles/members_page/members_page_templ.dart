@@ -51,6 +51,7 @@ class MembersPageTempl extends StatelessWidget{
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
     backgroundColor: CirclePage.backgroundColor(context, palette),
+    appBottomNavColor: CirclePage.backgroundColor(context, palette),
     body: Consumer<CircleMembersProvider>(
         builder: (context, prov, child){
 
@@ -195,7 +196,8 @@ class _ParticipListHeader extends StatelessWidget{
     required this.circleRole,
     required this.title,
     required this.trailing,
-    super.key});
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) => Row(

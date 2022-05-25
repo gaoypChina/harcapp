@@ -1,8 +1,8 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_new/app_drawer.dart';
-import 'package:harcapp/_new/cat_page_home/circles/cover_image.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
@@ -43,7 +43,6 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
   static const drawerPageOverview = 'overview';
   static const drawerPageCompetitions = 'competitions';
   static const drawerPageCircles = 'circles';
-  static String drawerPageCircle(Circle circle) => 'circle_${circle.key}';
 
   static String? selectedDrawerPage;
 
@@ -64,19 +63,18 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
     body: Builder(builder: (context){
       if(selectedDrawerPage == drawerPageCompetitions)
         return const CompetitionsPage();
-      else if(selectedDrawerPage!.contains('circle_')) {
-        Circle? circle = Circle.allMap![selectedDrawerPage!.replaceAll('circle_', '')];
-        if(circle == null) return Container();
-        return CirclePage(
-          circle,
-          onLeft: () => setState(() => selectedDrawerPage = drawerPageCircles),
-          onDeleted: () =>
-              setState(() => selectedDrawerPage = drawerPageCircles),
-          key: ValueKey(selectedDrawerPage),
-        );
-      }else if(selectedDrawerPage == drawerPageCircles)
+      else if(selectedDrawerPage == drawerPageCircles)
         return AllCirclesPage(
-          onCircleTap: (circle) => setState(() => selectedDrawerPage = CatPageHomeState.drawerPageCircle(circle)),
+          onCircleTap: (circle) => pushPage(
+            context,
+            builder: (context) => CirclePage(
+              circle,
+              onLeft: () => setState(() => selectedDrawerPage = drawerPageCircles),
+              onDeleted: () =>
+                  setState(() => selectedDrawerPage = drawerPageCircles),
+              key: ValueKey(selectedDrawerPage),
+            )
+          ),
         );
 
       return CustomScrollView(
@@ -125,7 +123,6 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
                 Navigator.pop(context);
               },
             ),
-            const SizedBox(height: Dimen.SIDE_MARG),
 
             DrawerTile(
               icon: MdiIcons.googleCircles,
@@ -138,39 +135,6 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
                 Navigator.pop(context);
               },
             ),
-
-            Consumer<CircleListProvider>(
-              builder: (context, prov, child){
-                if(Circle.all != null)
-                  return ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) => DrawerTile(
-                      leading: const SizedBox(),
-                      trailing: SizedBox(
-                        width: 60,
-                        height: 40,
-                        child: Material(
-                          clipBehavior: Clip.hardEdge,
-                          borderRadius: BorderRadius.circular(6.0),
-                          child: CoverImage(Circle.all![index].coverImage),
-                        ),
-                      ),
-                      title: Circle.all![index].name,
-                      source: drawerPageCircle(Circle.all![index]),
-                      selectedSource: selectedDrawerPage,
-                      onSelect: (dynamic source){
-                        setState(() => selectedDrawerPage = source);
-                        AppBottomNavigatorProvider.of(context).background = null;
-                        Navigator.pop(context);
-                      },
-                    ),
-                    itemCount: Circle.all!.length,
-                    shrinkWrap: true,
-                  );
-
-                return Container();
-              },
-            )
 
           ],
         )
