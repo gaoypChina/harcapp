@@ -17,7 +17,7 @@ class FolderTab extends StatelessWidget implements PreferredSizeWidget{
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Tab(/*Lk_9_28b-36$text: '${folder.name} (${folder.spraws.length})'*/icon: Row(
+  Widget build(BuildContext context) => Tab(icon: Row(
     children: [
       const SizedBox(width: 24.0,),
       FolderIcon(iconKey, colorsKey),
@@ -30,8 +30,6 @@ class FolderTab extends StatelessWidget implements PreferredSizeWidget{
             Text(countText, style: AppTextStyle()),
           ]
       ),
-      //SizedBox(width: 24.0,),
-      //Text('${folder.sprawUIDs.length}', style: AppTextStyle(fontWeight: weight.bold)),
       const SizedBox(width: 32.0),
     ],
   ));

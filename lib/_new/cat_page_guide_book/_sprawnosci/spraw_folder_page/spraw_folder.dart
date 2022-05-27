@@ -9,7 +9,7 @@ import '../../../details/app_settings.dart';
 class SprawFolder{
   
   final String id;
-  final List<Spraw?> spraws;
+  final List<Spraw> spraws;
 
   const SprawFolder({required this.id, required this.spraws});
 
@@ -22,7 +22,7 @@ class SprawFolder{
 
   static SprawFolder get omega => SprawFolder.from(omegaFolderId);
 
-  static List<String> get ownFolderIds => ShaPref.getStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_NAMES, []);
+  static List<String> get ownFolderIds => ShaPref.getStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_IDS, []);
   static List<String> get allFolderIds{
     List<String> folderNames = ownFolderIds;
     folderNames.insert(0, omegaFolderId);
@@ -37,15 +37,15 @@ class SprawFolder{
     return folders;
   }
 
-  static set ownFolderIds(List<String> value) => ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_NAMES, value);
+  static set ownFolderIds(List<String> value) => ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_IDS, value);
 
-  static String? getName(String id) =>
+  static String getName(String id) =>
       id == omegaFolderId?omegaFolderName:
       ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id), '');
 
   static void setName(String id, String value) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id), value);
 
-  String get name => getName(id)!;
+  String get name => getName(id);
   set name(String value) => setName(id, value);
 
   static List<String> getSprawUIDs(String id) => ShaPref.getStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id), []);
@@ -63,22 +63,23 @@ class SprawFolder{
   static void setColorKey(String id, String colorKey) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id), colorKey);
   set colorsKey(String value) => setColorKey(id, value);
 
-  static CommonColorData? getColorData(String id) => CommonColorData.ALL[getColorKey(id)!];
-  CommonColorData? get colorData => getColorData(id);
+  static CommonColorData getColorData(String id) => CommonColorData.ALL[getColorKey(id)]??
+      CommonColorData.ALL[CommonColorData.DEF_COLORS_KEY]!;
+  CommonColorData get colorData => getColorData(id);
 
-  static String? getIconKey(String id) =>
+  static String getIconKey(String id) =>
       id == omegaFolderId?
       omegaFolderIconKey:
       ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), CommonIconData.DEF_ICON_KEY);
-  String get iconKey => getIconKey(id)!;
+  String get iconKey => getIconKey(id);
 
   static void setIconKey(String id, String iconKey) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), iconKey);
   set iconKey(String value) => setIconKey(id, value);
 
-  static IconData? getIcon(String id) => CommonIconData.ALL[getIconKey(id)!];
-  IconData? get icon => CommonIconData.ALL[iconKey];
+  static IconData getIcon(String id) => CommonIconData.ALL[getIconKey(id)]??CommonIconData.FOLDER_ICON;
+  IconData get icon => CommonIconData.ALL[iconKey]??CommonIconData.FOLDER_ICON;
 
-  static void setIcon(String id, IconData? icon){
+  static void setIcon(String id, IconData icon){
 
     List<IconData> icons = CommonIconData.ALL.values.toList();
     List<String> iconKeys = CommonIconData.ALL.keys.toList();
@@ -92,14 +93,15 @@ class SprawFolder{
 
     ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), iconKey);
   }
-  set icon(IconData? value) => setIcon(id, value);
+  set icon(IconData value) => setIcon(id, value);
 
   static SprawFolder from(String id){
 
-    List<Spraw?> spraws = [];
-    for(String sprawUID in getSprawUIDs(id))
-      spraws.add(Spraw.fromUID(sprawUID));
-    
+    List<Spraw> spraws = [];
+    for(String sprawUID in getSprawUIDs(id)) {
+      Spraw? spraw = Spraw.fromUID(sprawUID);
+      if(spraw != null) spraws.add(spraw);
+    }
     return SprawFolder(id: id, spraws: spraws);
   }
 
@@ -113,13 +115,9 @@ class SprawFolder{
 
     String id = _id.toString();
 
-    List<String> all = ownFolderIds;
-    
-    all.add(id);
-
-    ownFolderIds = all;
-
-    ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id), []);
+    List<String> allIds = ownFolderIds;
+    allIds.add(id);
+    ownFolderIds = allIds;
 
     return SprawFolder(id: id, spraws: []);
   }
@@ -132,6 +130,9 @@ class SprawFolder{
     ownFolderIds = all;
 
     ShaPref.remove(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id));
+    ShaPref.remove(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id));
+    ShaPref.remove(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id));
+    ShaPref.remove(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id));
 
     return true;
   }
@@ -140,11 +141,15 @@ class SprawFolder{
 
     if(validate && sprawUIDs.contains(sprawUID))
       return false;
-    
+
+    Spraw? spraw = Spraw.fromUID(sprawUID);
+
+    if(spraw == null) return false;
+
     List<String> _sprawUIDs = getSprawUIDs(id);
 
     _sprawUIDs.add(sprawUID);
-    spraws.add(Spraw.fromUID(sprawUID));
+    spraws.add(spraw);
     sprawUIDs = _sprawUIDs;
     
     return true;
@@ -156,7 +161,7 @@ class SprawFolder{
     List<String> _sprawUIDs = getSprawUIDs(id);
 
     _sprawUIDs.remove(sprawUniqName);
-    spraws.removeWhere((spraw) => spraw!.uniqName == sprawUniqName);
+    spraws.removeWhere((spraw) => spraw.uniqName == sprawUniqName);
 
     sprawUIDs = _sprawUIDs;
 

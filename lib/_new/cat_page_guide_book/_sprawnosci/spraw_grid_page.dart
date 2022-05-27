@@ -47,7 +47,7 @@ class SprawGridPageState extends State<SprawGridPage>{
 
     return BottomNavScaffold(
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
 
           SliverAppBar(

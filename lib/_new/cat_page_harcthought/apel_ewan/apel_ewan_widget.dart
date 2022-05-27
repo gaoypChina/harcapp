@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/data.dart';
-import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';

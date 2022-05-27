@@ -6,18 +6,18 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_common_widgets/folder_widget/add_folder_tab.dart';
+import 'package:harcapp/_common_widgets/folder_widget/add_folder_widget.dart';
 import 'package:harcapp/_common_widgets/folder_widget/folder_edit_page.dart';
 import 'package:harcapp/_common_widgets/folder_widget/folder_tab.dart';
 import 'package:harcapp/_common_widgets/folder_widget/folder_tab_indicator.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_folder_page/spraw_folder.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_grid_page.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_widget_small.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_grid_view.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -51,7 +51,7 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
   void initTabViewStuff(){
     _folders = folders;
     tabController = TabController(
-        length: _folders.length,
+        length: _folders.length + 1, // +1 for new folder tab.
         vsync: this,
         initialIndex: notifier?.value.toInt()??0
     );
@@ -77,6 +77,7 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
   @override
   Widget build(BuildContext context) {
 
+    /*
     Widget addFolderButton = SimpleButton.from(
       context: context,
       icon: MdiIcons.plus,
@@ -96,8 +97,8 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
         ));
       },
     );
-
-    List<FolderTab> tabs = [];
+*/
+    List<Widget> tabs = [];
     List<Widget> children = [];
 
     for(SprawFolder folder in _folders){
@@ -147,6 +148,21 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
       ));
     }
 
+    tabs.add(const AddFolderTab());
+    children.add(AddFolderWidget(
+        text: 'Stwórz nowy folder ze sprawnościami!',
+        onSave: (String name, String iconKey, String colorsKey){
+          SprawFolder folder = SprawFolder.create();
+          folder.name = name;
+          folder.iconKey = iconKey;
+          folder.colorsKey = colorsKey;
+
+          setState(() => initTabViewStuff());
+          post(() => tabController.animateTo(_folders.indexOf(folder)));
+        }
+    ));
+
+    /*
     if(_folders.length == 1)
       return SprawGridPage(
           title: 'Zapisane sprawności',
@@ -155,7 +171,7 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
           icon: SprawFolder.omegaFolderIcon,
           actions: [addFolderButton],
       );
-
+*/
     return BottomNavScaffold(
       body: NestedScrollView(
         physics: const BouncingScrollPhysics(),
@@ -165,7 +181,7 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
             pinned: true,
             title: const Text('Moje foldery'),
             centerTitle: true,
-            actions: [addFolderButton],
+            //actions: [addFolderButton],
             bottom: TabBar(
               splashBorderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(AppCard.BIG_RADIUS),
@@ -188,14 +204,14 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
           ),
         ),
       ),
-      floatingActionButton: _FloatingButton(
+      floatingActionButton: _EditFloatingButton(
         folders: folders,
-        notifier: notifier,
+        notifier: notifier!,
         mode: SprawWidgetSmall.MODE_SAVED,
-        onSaved: (String name, String iconKey, String colorKey) => setState((){
+        onSaved: (String name, String iconKey, String colorsKey) => setState((){
           folders[tabController.index].name = name;
           folders[tabController.index].iconKey = iconKey;
-          folders[tabController.index].colorsKey = colorKey;
+          folders[tabController.index].colorsKey = colorsKey;
         }),
         onDeleted: (folder){
           showAppToast(context, text: 'Usunięto folder <b>${folder.name}</b>');
@@ -208,54 +224,62 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
 
 }
 
-class _FloatingButton extends StatelessWidget{
+class _EditFloatingButton extends StatelessWidget{
+
+  static const int unbuttonedPagesBefore = 1;
+  static const int unbuttonedPagesAfter = 1;
 
   final List<SprawFolder> folders;
   final String mode;
-  final ValueNotifier? notifier;
+  final ValueNotifier notifier;
   final void Function(String, String, String)? onSaved;
   final void Function(SprawFolder)? onDeleted;
 
-  const _FloatingButton({required this.folders, required this.mode, required this.notifier, this.onSaved, this.onDeleted});
+  const _EditFloatingButton({required this.folders, required this.mode, required this.notifier, this.onSaved, this.onDeleted});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => AnimatedBuilder(
+      animation: notifier,
+      builder: (context, child){
 
-    return AnimatedBuilder(
-        animation: notifier!,
-        builder: (context, child) => Transform.translate(
-          offset: Offset(0, Dimen.FLOATING_BUTTON_MARG*(1-cos(2*pi*notifier!.value))),
+        int realPage = (.5 + notifier.value).toInt();
+        int truncPage = min(.5 + notifier.value, folders.length - 1).toInt();
+
+        bool isInvisible = realPage < unbuttonedPagesBefore || realPage > folders.length - unbuttonedPagesAfter;
+
+        return Transform.translate(
+          offset: Offset(0, Dimen.FLOATING_BUTTON_MARG*(1-cos(2*pi*notifier.value))),
           child: Opacity(
-            opacity: (.5 + notifier!.value).toInt() == 0?0:max(0, cos(2*pi*notifier!.value)),
+
+            opacity:
+            isInvisible?
+            0:
+            max(0, cos(2*pi*notifier.value)),
+
             child: FloatingActionButton(
-              backgroundColor: folders[(.5 + notifier!.value).toInt()].colorData!.avgColor,
-              onPressed: (.5 + notifier!.value).toInt() == 0?null: (){
-                SprawFolder folder = folders[(.5 + notifier!.value).toInt()];
-                Navigator.push(
+              backgroundColor: folders[truncPage].colorData.avgColor,
+              onPressed: isInvisible?null:(){
+                SprawFolder folder = folders[truncPage];
+                pushPage(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => FolderEditPage(
-                          initName: folder.name,
-                          initIconKey: folder.iconKey,
-                          initColorsKey: folder.colorsKey,
-                          onSave: onSaved,
-                          onDeleteTap: (){
-                            folder.delete();
-                            onDeleted?.call(folder);
-                          },
-                        )
+                    builder: (context) => FolderEditPage(
+                      initName: folder.name,
+                      initIconKey: folder.iconKey,
+                      initColorsKey: folder.colorsKey,
+                      onSave: onSaved,
+                      onDeleteTap: (){
+                        folder.delete();
+                        onDeleted?.call(folder);
+                      },
                     )
                 );
               },
               child: const Icon(MdiIcons.pencil),
             ),
           ),
-        )
-    );
-
-  }
-
-
+        );
+      }
+  );
 
 }
 

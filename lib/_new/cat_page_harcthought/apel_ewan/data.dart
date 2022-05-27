@@ -1,4 +1,7 @@
+import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan.dart';
+
+import 'apel_ewan_persistant_folder.dart';
 
 
 const String ogolneApelEwansSuffix = 'ogolne';
@@ -136,6 +139,17 @@ List<ApelEwan> dekalogApelEwans = [
   rz_8_5_13,
   koh_5_9
 ];
+
+ApelEwanPersistentFolder dekalogFolder = ApelEwanPersistentFolder(
+    id: '__dekalog__',
+    generalApelEwans: dekalogApelEwans,
+    notedApelEwans: {},
+    name: 'Dekalog',
+    colorsKey: CommonColorData.OMEGA_COLORS_KEY,
+    iconKey: 'textBoxMultiple'
+);
+
+Map<String, ApelEwan> allApelEwanMap = {for (ApelEwan apelEwan in allApelEwans) apelEwan.siglum: apelEwan};
 
 List<ApelEwan> allApelEwans = [
 

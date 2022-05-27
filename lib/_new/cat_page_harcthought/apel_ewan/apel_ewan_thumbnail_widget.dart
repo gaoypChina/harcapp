@@ -4,7 +4,6 @@ import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
-import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:webfeed/util/iterable.dart';
 
 import 'apel_ewan_widget.dart';
@@ -66,14 +65,15 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
                         left: coversBorder,
                         right: 2*coversBorder,
                         height: pagesHeight,
-                        child: GradientWidget(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(innerRadius),
-                            bottomRight: Radius.circular(outerRadius),
-                            bottomLeft: Radius.circular(innerRadius),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(innerRadius),
+                              bottomRight: Radius.circular(outerRadius),
+                              bottomLeft: Radius.circular(innerRadius),
+                            ),
+                            color: Colors.orange[100]!,
                           ),
-                          colorStart: Colors.orange[100]!,
-                          colorEnd: Colors.yellow[100]!,
                         ),
                       ),
                       Positioned(
@@ -81,14 +81,17 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
                         right: coversBorder,
                         height: 2*pagesHeight,
                         width: 2*pagesHeight,
-                        child: Material(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(innerRadius),
-                            bottomRight: Radius.circular(outerRadius),
-                            bottomLeft: Radius.circular(innerRadius),
+                        child: Container(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          decoration: BoxDecoration(
+                            color: Colors.orange[100],
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(innerRadius),
+                              bottomRight: Radius.circular(outerRadius),
+                              bottomLeft: Radius.circular(innerRadius),
+                            ),
                           ),
-                          color: Colors.yellow[100]!,
-                        ),
+                        )
                       ),
 
                       Positioned.fill(
@@ -100,9 +103,10 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
                             children: [
 
                               Positioned.fill(
-                                child: Material(
+                                child: PhysicalModel(
+                                  color: Colors.orange[100]!,
                                   borderRadius: BorderRadius.circular(outerRadius),
-                                  elevation: 3,
+                                  elevation: 6,
                                 ),
                               ),
 
@@ -111,25 +115,16 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
                                 colorEnd: Colors.deepOrange[600]!,
                                 elevation: AppCard.bigElevation,
                                 borderRadius: BorderRadius.circular(outerRadius),
+                                child: InkWell(
+                                    splashColor: Colors.brown,
+                                    onTap: () => pushPage(context, builder: (context) => ApelEwanWidget(
+                                        apelEwan,
+                                        initSubgroup: subgroup
+                                    )),
+                                )
                               ),
 
                             ],
-                          )
-                      ),
-
-                      Positioned.fill(
-                          bottom: coversBorder + pagesHeight,
-                          right: coversBorder,
-                          child: SimpleButton(
-                              radius: outerRadius,
-                              margin: EdgeInsets.zero,
-                              padding: EdgeInsets.zero,
-                              colorSplash: Colors.brown,
-                              onTap: () => pushPage(context, builder: (context) => ApelEwanWidget(
-                                apelEwan,
-                                initSubgroup: subgroup
-                              )),
-                              child: Container()
                           )
                       ),
 
@@ -138,7 +133,7 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
                         bottom: coversBorder + pagesHeight,
                         left: 0,
                         width: coverInitWidth,
-                        child: Material(
+                        child: Container(
                             color: Colors.brown[700],
                             child: RotatedBox(
                                 quarterTurns: 3,
@@ -164,27 +159,21 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
                           child: IgnorePointer(
                             child: Padding(
                               padding: EdgeInsets.all(coversBorder),
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                                  children: [
-
-                                    Text(
-                                      apelEwan.subgroupShortTitle[subgroup]??
+                              child: Center(
+                                child: Text(
+                                  apelEwan.subgroupShortTitle[subgroup]??
                                       apelEwan.subgroupTitle[subgroup]??
                                       apelEwan.subgroupShortTitle.values.firstOrNull??
                                       apelEwan.subgroupTitle.values.first,
 
-                                      style: AppTextStyle(
-                                          fontSize: .7*textSize,
-                                          fontWeight: weight.halfBold,
-                                          color: textColor,
-                                          shadow: true
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-
-                                  ]
+                                  style: AppTextStyle(
+                                      fontSize: .7*textSize,
+                                      fontWeight: weight.halfBold,
+                                      color: textColor,
+                                      shadow: true
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
                           )

@@ -130,7 +130,7 @@ class _SprawFolderSelectItemState extends State<_SprawFolderSelectItem>{
         ),
         Checkbox(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
-            activeColor: folder.colorData!.avgColor,
+            activeColor: folder.colorData.avgColor,
             value: folder.sprawUIDs.contains(sprawUID),
             onChanged: (selected){
               if(selected!) folder.add(sprawUID);

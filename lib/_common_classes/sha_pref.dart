@@ -127,7 +127,7 @@ class ShaPref{
   static const String _SHA_PREF_SPRAW_FOLDER_NAME_ = 'SHA_PREF_SPRAW_FOLDER_NAME_';
   static String SHA_PREF_SPRAW_FOLDER_NAME_(String id) => _SHA_PREF_SPRAW_FOLDER_NAME_ + '\$' + id;
   
-  static const String SHA_PREF_SPRAW_OWN_FOLDER_NAMES = 'SHA_PREF_SPRAW_OWN_FOLDER_NAMES';
+  static const String SHA_PREF_SPRAW_OWN_FOLDER_IDS = 'SHA_PREF_SPRAW_OWN_FOLDER_NAMES';
   static const String _SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_ = '_SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_';
   static String SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(String id) => _SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_ + '\$' + id;
 
@@ -178,21 +178,21 @@ class ShaPref{
 
   static const String _SHA_PREF_SYNC_ITEM_PARAM_ = '_SHA_PREF_SYNC_ITEM_PARAM_';
   static String SHA_PREF_SYNC_ITEM_PARAM_(String classGroupId, String objectId, String paramId)
-  => _SHA_PREF_SYNC_ITEM_PARAM_ + '\$' + classGroupId + '\$' + objectId + '\$' + paramId;
+  => '$_SHA_PREF_SYNC_ITEM_PARAM_\$$classGroupId\$$objectId\$$paramId';
 
   static const String _SHA_PREF_SYNC_PARAM_ = '_SHA_PREF_SYNC_PARAM_';
   static String SHA_PREF_SYNC_PARAM_(String uniqParamId)
-  => _SHA_PREF_SYNC_PARAM_ + '\$' + uniqParamId;
+  => '$_SHA_PREF_SYNC_PARAM_\$$uniqParamId';
 
   static const String _SHA_PREF_SYNC_ITEM_LAST_SYNC_ = '_SHA_PREF_SYNC_ITEM_LAST_SYNC_';
   static String SHA_PREF_SYNC_ITEM_LAST_SYNC_(String classGroupId, String objectId)
-  => _SHA_PREF_SYNC_ITEM_LAST_SYNC_ + '\$' + classGroupId + '\$' + objectId;
+  => '$_SHA_PREF_SYNC_ITEM_LAST_SYNC_\$$classGroupId\$$objectId';
 
   static const String SHA_PREF_SYNC_LAST_SYNC = 'SHA_PREF_SYNC_LAST_SYNC';
 
   static const String _SHA_PREF_SYNC_ITEM_REMOVE_ = '_SHA_PREF_SYNC_ITEM_REMOVE_';
   static String SHA_PREF_SYNC_ITEM_REMOVE_(String classGroupId, String objectId)
-  => _SHA_PREF_SYNC_ITEM_REMOVE_ + '\$' + classGroupId + '\$' + objectId;
+  => '$_SHA_PREF_SYNC_ITEM_REMOVE_\$$classGroupId\$$objectId';
 
   // HARCTHOUGHT
   // HARCTHOUGHT
@@ -201,9 +201,30 @@ class ShaPref{
   static const String SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED = 'SHA_PREF_HARCTHOUGHT_ARTICLES_BOOKMARKED';
   static const String SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED = 'SHA_PREF_HARCTHOUGHT_ARTICLES_LIKED';
   static const String _SHA_PREF_HARCTHOUGHT_ARTICLES_COVER_VERSION_ = 'SHA_PREF_HARCTHOUGHT_ARTICLES_COVER_VERSION_';
-  static String SHA_PREF_HARCTHOUGHT_ARTICLES_COVER_VERSION_(String id) => _SHA_PREF_HARCTHOUGHT_ARTICLES_COVER_VERSION_ + '\$' + id;
+  static String SHA_PREF_HARCTHOUGHT_ARTICLES_COVER_VERSION_(String id) => '$_SHA_PREF_HARCTHOUGHT_ARTICLES_COVER_VERSION_\$$id';
 
   static const String SHA_PREF_HARCTHOUGHT_ARTICLES_LAST_SEEN_ID = 'SHA_PREF_HARCTHOUGHT_ARTICLES_LAST_SEEN_ID';
+
+
+
+  static const String SHA_PREF_APEL_EWAN_FOLDER_LAST_USED_ID = 'SHA_PREF_APEL_EWAN_FOLDER_LAST_USED_ID';
+
+  static const String _SHA_PREF_APEL_EWAN_FOLDER_NAME_ = '_SHA_PREF_APEL_EWAN_FOLDER_NAME_';
+  static String SHA_PREF_APEL_EWAN_FOLDER_NAME_(String id) => '$_SHA_PREF_APEL_EWAN_FOLDER_NAME_\$$id';
+
+  static const String SHA_PREF_APEL_EWAN_ALL_FOLDER_IDS = 'SHA_PREF_APEL_EWAN_ALL_FOLDER_IDS';
+
+  static const String _SHA_PREF_APEL_EWAN_FOLDER_GENERAL_SIGLA_ = '_SHA_PREF_APEL_EWAN_FOLDER_GENERAL_SIGLA_';
+  static String SHA_PREF_APEL_EWAN_FOLDER_GENERAL_SIGLA_(String id) => '$_SHA_PREF_APEL_EWAN_FOLDER_GENERAL_SIGLA_\$$id';
+
+  static const String _SHA_PREF_APEL_EWAN_FOLDER_NOTED_SIGLA_ = '_SHA_PREF_APEL_EWAN_FOLDER_NOTED_SIGLA_';
+  static String SHA_PREF_APEL_EWAN_FOLDER_NOTED_SIGLA_(String id) => '$_SHA_PREF_APEL_EWAN_FOLDER_NOTED_SIGLA_\$$id';
+
+  static const String _SHA_PREF_APEL_EWAN_FOLDER_ICON_ = 'SHA_PREF_APEL_EWAN_FOLDER_ICON_';
+  static String SHA_PREF_APEL_EWAN_FOLDER_ICON_(String id) => '$_SHA_PREF_APEL_EWAN_FOLDER_ICON_\$$id';
+
+  static const String _SHA_PREF_APEL_EWAN_FOLDER_COLOR_ = 'SHA_PREF_APEL_EWAN_FOLDER_COLOR_';
+  static String SHA_PREF_APEL_EWAN_FOLDER_COLOR_(String id) => '$_SHA_PREF_APEL_EWAN_FOLDER_COLOR_\$$id';
 
   //STREFA DUCHA
   //STREFA DUCHA
@@ -254,10 +275,12 @@ class ShaPref{
 
 
   static const String _SHA_PREF_RANK_ZHP_EXT_TEXT_ = 'SHA_PREF_STOP_ZHP_EXT_TEXT_';
-  static String SHA_PREF_STOP_ZHP_EXT_TEXT_(String rankId, String code, int position) => _SHA_PREF_RANK_ZHP_EXT_TEXT_ + rankId + '\$' + code + '\$' + position.toString();
+  static String SHA_PREF_STOP_ZHP_EXT_TEXT_(String rankId, String code, int position) =>
+      '$_SHA_PREF_RANK_ZHP_EXT_TEXT_$rankId\$$code\$$position';
 
   static const String _SHA_PREF_RANK_ZHP_EXT_COMPLETED_ = 'SHA_PREF_STOP_ZHP_EXT_COMPLETED_';
-  static String SHA_PREF_STOP_ZHP_EXT_COMPLETED_(String rankId, String code, int position) => _SHA_PREF_RANK_ZHP_EXT_COMPLETED_ + rankId + '\$' + code + '\$' + position.toString();
+  static String SHA_PREF_STOP_ZHP_EXT_COMPLETED_(String rankId, String code, int position) =>
+      '$_SHA_PREF_RANK_ZHP_EXT_COMPLETED_$rankId\$$code\$$position';
 
 
   static const String _SHA_PREF_SHARE_RANK_DUMP_ = 'SHA_PREF_SHARE_RANK_DUMP_';

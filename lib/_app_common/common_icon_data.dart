@@ -41,7 +41,9 @@ class CommonIconData{
     'bookAccount': MdiIcons.bookAccount,
     'bookSync': MdiIcons.bookClock,
     'bookCross': MdiIcons.bookCross,
-    'bookCheckOutline': MdiIcons.bookCheckOutline
+    'bookCheckOutline': MdiIcons.bookCheckOutline,
+    'textBoxMultiple': MdiIcons.textBoxMultiple,
+    'graveStone': MdiIcons.graveStone,
   };
 
   static const Map<String, IconData> FIRE = {
@@ -261,8 +263,11 @@ class CommonIconData{
     'paperRollOutline': MdiIcons.paperRollOutline,
     'package': MdiIcons.package,
     'packageVariant': MdiIcons.packageVariant,
+    FOLDER_ICON_KEY: MdiIcons.folder,
   };
 
   static const String DEF_ICON_KEY = 'bookVariant';
+  static const String FOLDER_ICON_KEY = 'folder';
+  static const IconData FOLDER_ICON = MdiIcons.folder;
 
 }
