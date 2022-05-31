@@ -6,7 +6,7 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 
 import '../widgets/spraw_widget.dart';
 
-void openSprawDialog(BuildContext context, Spraw? spraw, {heroTag, void Function()? onReqComplChanged}) => openDialog(
+void openSprawDialog(BuildContext context, Spraw spraw, {heroTag, void Function()? onReqComplChanged}) => openDialog(
     context: context,
     builder: (context){
       Widget child = AppCard(

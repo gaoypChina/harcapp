@@ -383,7 +383,7 @@ class QRCodeWidget extends StatelessWidget{
           color: ColorPack.DEF_CARD,
           radius: AppCard.BIG_RADIUS,
           margin: AppCard.normMargin,
-          child: QrImage(
+          child: QrImageView(
             data: encodedGameInstance,
             version: QrVersions.auto,
             foregroundColor: ColorPack.DEF_ICON_ENAB,

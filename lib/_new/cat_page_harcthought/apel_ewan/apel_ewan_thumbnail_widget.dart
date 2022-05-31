@@ -72,7 +72,7 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
                               bottomRight: Radius.circular(outerRadius),
                               bottomLeft: Radius.circular(innerRadius),
                             ),
-                            color: Colors.orange[100]!,
+                            color: Colors.orange[100],
                           ),
                         ),
                       ),
@@ -133,7 +133,7 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
                         bottom: coversBorder + pagesHeight,
                         left: 0,
                         width: coverInitWidth,
-                        child: Container(
+                        child: Material(
                             color: Colors.brown[700],
                             child: RotatedBox(
                                 quarterTurns: 3,
@@ -142,7 +142,6 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
                                     apelEwan.siglum,
                                     style: AppTextStyle(
                                       fontSize: .7*textSize,
-                                      fontWeight: weight.bold,
                                       color: textColor,
                                     ),
                                     textAlign: TextAlign.center,
@@ -168,9 +167,8 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
 
                                   style: AppTextStyle(
                                       fontSize: .7*textSize,
-                                      fontWeight: weight.halfBold,
+                                      fontWeight: weight.bold,
                                       color: textColor,
-                                      shadow: true
                                   ),
                                   textAlign: TextAlign.center,
                                 ),

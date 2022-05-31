@@ -77,27 +77,6 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
   @override
   Widget build(BuildContext context) {
 
-    /*
-    Widget addFolderButton = SimpleButton.from(
-      context: context,
-      icon: MdiIcons.plus,
-      text: _folders.length==1?null:'Nowy',
-      iconLeading: false,
-      onTap: (){
-        pushPage(context, builder: (context) => FolderEditPage(
-          onSave: (String name, String iconKey, String colorKey){
-            SprawFolder folder = SprawFolder.create();
-            folder.name = name;
-            folder.iconKey = iconKey;
-            folder.colorsKey = colorKey;
-
-            setState(() => initTabViewStuff());
-            post(() => tabController.animateTo(_folders.indexOf(folder)));
-          }
-        ));
-      },
-    );
-*/
     List<Widget> tabs = [];
     List<Widget> children = [];
 
@@ -151,8 +130,8 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
     tabs.add(const AddFolderTab());
     children.add(AddFolderWidget(
         text: 'Stwórz nowy folder ze sprawnościami!',
-        onSave: (String name, String iconKey, String colorsKey){
-          SprawFolder folder = SprawFolder.create();
+        onSave: (String name, String iconKey, String colorsKey) async {
+          SprawFolder folder = await SprawFolder.create();
           folder.name = name;
           folder.iconKey = iconKey;
           folder.colorsKey = colorsKey;
@@ -162,16 +141,6 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
         }
     ));
 
-    /*
-    if(_folders.length == 1)
-      return SprawGridPage(
-          title: 'Zapisane sprawności',
-          UIDs: SprawFolder.getSprawUIDs(SprawFolder.omegaFolderId),
-          mode: SprawWidgetSmall.MODE_SAVED,
-          icon: SprawFolder.omegaFolderIcon,
-          actions: [addFolderButton],
-      );
-*/
     return BottomNavScaffold(
       body: NestedScrollView(
         physics: const BouncingScrollPhysics(),
@@ -257,7 +226,7 @@ class _EditFloatingButton extends StatelessWidget{
             max(0, cos(2*pi*notifier.value)),
 
             child: FloatingActionButton(
-              backgroundColor: folders[truncPage].colorData.avgColor,
+              backgroundColor: folders[truncPage].colorsData.avgColor,
               onPressed: isInvisible?null:(){
                 SprawFolder folder = folders[truncPage];
                 pushPage(

@@ -3,6 +3,9 @@ import 'apel_ewan_folder.dart';
 class ApelEwanPersistentFolder extends ApelEwanFolder{
 
   @override
+  int get count => apelEwans.length;
+
+  @override
   final String name;
 
   @override
@@ -13,15 +16,15 @@ class ApelEwanPersistentFolder extends ApelEwanFolder{
 
   const ApelEwanPersistentFolder({
     required super.id,
-    required super.generalApelEwans,
-    required super.notedApelEwans,
+    required super.apelEwans,
+    required super.apelEwanNotes,
     required this.name,
     required this.iconKey,
     required this.colorsKey,
   });
 
   @override
-  bool get isEmpty => generalApelEwans.isEmpty && notedApelEwans.isEmpty;
+  bool get isEmpty => apelEwans.isEmpty;
   
   @override
   bool operator == (Object other) =>

@@ -22,7 +22,7 @@ class QRWidget extends StatelessWidget{
         children: <Widget>[
 
           Center(
-            child: QrImage(
+            child: QrImageView(
               padding: EdgeInsets.all(10),
               foregroundColor: iconEnab_(context),
               data: data,

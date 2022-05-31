@@ -6,7 +6,6 @@ import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_common_classes/org/org_switcher.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/account/account.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -91,7 +90,7 @@ class ChildFSEState extends State<ChildFSE> with TickerProviderStateMixin{
               OrgSwitcher(
                   allowedOrgs: allowedOrgs,
                   onTap: (currentOrg){
-                    showAppToast(context, text: orgFullName[currentOrg]);
+                    showAppToast(context, text: orgFullName[currentOrg]!);
                   }
               )
             ],

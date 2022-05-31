@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
+import 'package:harcapp/_common_widgets/folder_widget/folder.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
 
 import '../../../details/app_settings.dart';
 
-class SprawFolder{
+class SprawFolder extends Folder{
   
   final String id;
   final List<Spraw> spraws;
@@ -37,15 +38,18 @@ class SprawFolder{
     return folders;
   }
 
-  static set ownFolderIds(List<String> value) => ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_IDS, value);
+  static set ownFolderIds(List<String> value) => setOwnFolderIds(value);
+  static Future<void> setOwnFolderIds(List<String> value) async => await ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_IDS, value);
 
   static String getName(String id) =>
       id == omegaFolderId?omegaFolderName:
       ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id), '');
 
-  static void setName(String id, String value) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id), value);
+  static Future<void> setName(String id, String value) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id), value);
 
+  @override
   String get name => getName(id);
+
   set name(String value) => setName(id, value);
 
   static List<String> getSprawUIDs(String id) => ShaPref.getStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id), []);
@@ -54,32 +58,36 @@ class SprawFolder{
   List<String> get sprawUIDs => getSprawUIDs(id);
   set sprawUIDs(List<String> value) => setSprawUIDs(id, value);
 
+  @override
+  int get count => sprawUIDs.length;
+
   static String? getColorKey(String id) =>
       id == omegaFolderId? omegaFolderColorKey:
       ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id), CommonColorData.DEF_COLORS_KEY);
 
+  @override
   String get colorsKey => getColorKey(id)!;
 
-  static void setColorKey(String id, String colorKey) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id), colorKey);
+  static Future<void> setColorKey(String id, String colorKey) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id), colorKey);
   set colorsKey(String value) => setColorKey(id, value);
 
   static CommonColorData getColorData(String id) => CommonColorData.ALL[getColorKey(id)]??
       CommonColorData.ALL[CommonColorData.DEF_COLORS_KEY]!;
-  CommonColorData get colorData => getColorData(id);
 
   static String getIconKey(String id) =>
       id == omegaFolderId?
       omegaFolderIconKey:
       ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), CommonIconData.DEF_ICON_KEY);
+
+  @override
   String get iconKey => getIconKey(id);
 
-  static void setIconKey(String id, String iconKey) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), iconKey);
+  static Future<void> setIconKey(String id, String iconKey) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), iconKey);
   set iconKey(String value) => setIconKey(id, value);
 
   static IconData getIcon(String id) => CommonIconData.ALL[getIconKey(id)]??CommonIconData.FOLDER_ICON;
-  IconData get icon => CommonIconData.ALL[iconKey]??CommonIconData.FOLDER_ICON;
 
-  static void setIcon(String id, IconData icon){
+  static Future<void> setIcon(String id, IconData icon) async {
 
     List<IconData> icons = CommonIconData.ALL.values.toList();
     List<String> iconKeys = CommonIconData.ALL.keys.toList();
@@ -91,7 +99,7 @@ class SprawFolder{
 
     String iconKey = iconKeys[i];
 
-    ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), iconKey);
+    await ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), iconKey);
   }
   set icon(IconData value) => setIcon(id, value);
 
@@ -105,34 +113,38 @@ class SprawFolder{
     return SprawFolder(id: id, spraws: spraws);
   }
 
-  static bool exists(String id) =>  allFolderIds.contains(id);
+  static bool exists(String id) => allFolderIds.contains(id);
 
-  static SprawFolder create(){
+  static Future<SprawFolder> create({String? name, String? iconKey, String? colorsKey}) async {
 
     int lastUsedId = ShaPref.getInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, 0);
     int _id = lastUsedId + 1;
-    ShaPref.setInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, _id);
+    await ShaPref.setInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, _id);
 
     String id = _id.toString();
 
     List<String> allIds = ownFolderIds;
     allIds.add(id);
-    ownFolderIds = allIds;
+    await setOwnFolderIds(allIds);
+
+    if(name != null) await setName(id, name);
+    if(iconKey != null) await setIconKey(id, iconKey);
+    if(colorsKey != null) await setColorKey(id, colorsKey);
 
     return SprawFolder(id: id, spraws: []);
   }
 
-  bool delete(){
-    List<String> all = ownFolderIds;
-    if(!all.contains(id))
+  Future<bool> delete() async {
+    List<String> allIds = ownFolderIds;
+    if(!allIds.contains(id))
       return false;
-    all.remove(id);
-    ownFolderIds = all;
+    allIds.remove(id);
+    await setOwnFolderIds(allIds);
 
-    ShaPref.remove(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id));
-    ShaPref.remove(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id));
-    ShaPref.remove(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id));
-    ShaPref.remove(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id));
+    await ShaPref.remove(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id));
+    await ShaPref.remove(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id));
+    await ShaPref.remove(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id));
+    await ShaPref.remove(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id));
 
     return true;
   }

@@ -1,7 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/data.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -12,6 +11,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import '../../module_statistics_registrator.dart';
 import 'apel_ewan.dart';
+import 'apel_ewan_own_folder_selector.dart';
 
 class ApelEwanWidget extends StatefulWidget{
 
@@ -41,17 +41,17 @@ class ApelEwanWidgetState extends State<ApelEwanWidget> with ModuleStatsMixin{
   late Map<String, List<String>> questions;
 
   void run() async {
-    text = await readStringFromAssets(apelEwan.textFileName);
+    text = await apelEwan.text;
     questions.clear();
     for(String subgroupSuff in allSubgroupSuffs) {
-      String? questionData = await readStringFromAssets(apelEwan.questionsFileName(subgroupSuff));
+      String? questionData = await apelEwan.question(subgroupSuff);
       if(questionData == null) continue;
       questions[subgroupSuff] = questionData.split('\n');
     }
 
     comments.clear();
     for(String subgroupSuff in allSubgroupSuffs) {
-      String? comment = await readStringFromAssets(apelEwan.commentFileName(subgroupSuff));
+      String? comment = await apelEwan.comment(subgroupSuff);
       if(comment == null) continue;
       comments[subgroupSuff] = comment;
     }
@@ -302,6 +302,12 @@ class ApelEwanWidgetState extends State<ApelEwanWidget> with ModuleStatsMixin{
               ),
 
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(MdiIcons.bookmark),
+          onPressed: () => openApelEwanOwnFolderSelector(
+            context, apelEwan.siglum
+          )
         ),
       );
 

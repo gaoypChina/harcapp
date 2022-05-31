@@ -111,8 +111,8 @@ class AlertDialogButton extends StatelessWidget{
 
 Future<void> showAlertDialog(
     BuildContext context,
-    {String? title,
-      String? content,
+    { String? title,
+      required String content,
       Widget? leading,
       List<Widget> Function(BuildContext context)? actionBuilder,
       bool dismissible = true,

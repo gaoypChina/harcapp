@@ -10,7 +10,7 @@ import 'app_text.dart';
 void showAppToast(
     BuildContext context,
     {String? header,
-    required String? text,
+    required String text,
     Color? background,
     Color? textColor,
     Duration duration = const Duration(seconds: 3)

@@ -32,6 +32,8 @@ import '_new/cat_page_guide_book/_sprawnosci/providers.dart';
 import '_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
 import '_new/cat_page_guide_book/_stopnie/models_common/rank_task.dart';
 import '_new/cat_page_guide_book/szyfry/providers.dart';
+import '_new/cat_page_harcthought/apel_ewan/apel_ewan_own_folder.dart';
+import '_new/cat_page_harcthought/apel_ewan/providers.dart';
 import '_new/cat_page_harcthought/articles/providers.dart';
 import '_new/cat_page_home/circles/model/announcement.dart';
 import '_new/cat_page_home/circles/model/circle.dart';
@@ -250,6 +252,8 @@ class AppState extends State<App> with WidgetsBindingObserver {
       AccountData.init()
     ]);
 
+    ApelEwanOwnFolder.loadAllOwnFolders();
+
     subscription = addConnectionListener((hasConnection) async {
       if (!hasConnection) return;
 
@@ -395,6 +399,10 @@ class AppState extends State<App> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (context) => ArticleThemeProvider()),
         ChangeNotifierProvider(create: (context) => BookmarkedArticlesProvider()),
         ChangeNotifierProvider(create: (context) => LikedArticlesProvider()),
+
+        // APEL EWANS
+        ChangeNotifierProvider(create: (context) => ApelEwanFolderProvider()),
+        ChangeNotifierProvider(create: (context) => ApelEwanAllFoldersProvider()),
 
         // STREFA DUCHA
         ChangeNotifierProvider(create: (context) => FadeImageProvider()),

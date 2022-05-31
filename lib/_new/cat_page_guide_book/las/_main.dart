@@ -140,7 +140,7 @@ class Item extends StatelessWidget{
         ),
 
         AppCard(
-          onTap: data.background.author==null?null:() => showAppToast(context, text: data.background.author),
+          onTap: data.background.author==null?null:() => showAppToast(context, text: data.background.author??''),
           radius: AppCard.BIG_RADIUS,
           padding: EdgeInsets.zero,
           margin: const EdgeInsets.all(Dimen.SIDE_MARG),
@@ -170,7 +170,7 @@ class Item extends StatelessWidget{
 
         if(data.background_kora!=null)
           AppCard(
-            onTap: data.background_kora!.author==null?null:() => showAppToast(context, text: data.background_kora!.author),
+            onTap: data.background_kora!.author==null?null:() => showAppToast(context, text: data.background_kora!.author??''),
             radius: AppCard.BIG_RADIUS,
             padding: EdgeInsets.zero,
               margin: const EdgeInsets.only(
@@ -266,7 +266,7 @@ class Item extends StatelessWidget{
                                               bottom: Dimen.DEF_MARG,
                                               right: Dimen.DEF_MARG,
                                               child: AppText(
-                                                data.graphics[idx].author,
+                                                data.graphics[idx].author??'',
                                                 size: Dimen.TEXT_SIZE_SMALL,
                                                 color: hintEnab_(context),
                                               ),

@@ -147,17 +147,17 @@ class OkrzykWidgetState extends State<OkrzykWidget>{
                         context: context,
                         builder: (context) => Center(
                             child: Dismissible(
+                              key: UniqueKey(),
+                              onDismissed: (dir) => Navigator.pop(context),
                               child: AppCard(
                                 padding: EdgeInsets.all(0),
                                 elevation: AppCard.bigElevation,
 
-                                child: QrImage(
+                                child: QrImageView(
                                   data: widget.okrzyk.encode(),
                                   version: QrVersions.auto,
                                 ),
                               ),
-                              key: UniqueKey(),
-                              onDismissed: (dir) => Navigator.pop(context),
                             )
                         )
                     );

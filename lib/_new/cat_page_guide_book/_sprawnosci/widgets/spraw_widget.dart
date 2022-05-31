@@ -26,7 +26,7 @@ import '../models/spraw_task.dart';
 
 class SprawWidget extends StatefulWidget{
   
-  final Spraw? spraw;
+  final Spraw spraw;
   final bool showBack;
   final bool iconHeroTag;
 
@@ -60,7 +60,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
   @override
   String get moduleId => ModuleStatsMixin.sprawnosci;
 
-  Spraw? get spraw => widget.spraw;
+  Spraw get spraw => widget.spraw;
   bool get showBack => widget.showBack;
 
   void Function()? get onClaimed => widget.onClaimed;
@@ -87,20 +87,44 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
 
   @override
   Widget build(BuildContext context) => RankSprawTempWidget(
-    title: spraw!.title,
-    color: SprawBookData.mapIdColorMap[spraw!.sprawBook.id]!.avgColor(false),
+    title: spraw.title,
+    color: SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.avgColor(false),
 
     completedText: 'Sprawność zdobyta!',
 
     titleTrailing:
     widget.iconHeroTag?
     Hero(
-      tag: spraw!.iconPath,
+      tag: spraw.iconPath,
       child: TrailingWidget(spraw),
     ):
     TrailingWidget(spraw),
 
     underTitleLeading: LevelWidget(spraw),
+    floatingButton: buildFloatingButton(),
+    backgroundIcon: SprawBookData.mapIdIconMap[spraw.sprawBook.id],
+    backgroundIconComplete: MdiIcons.trophyVariant,
+
+    inProgress: spraw.inProgress,
+    completenessPercent: spraw.completenessPercent,
+    isReadyToComplete: spraw.isReadyToComplete,
+    completed: spraw.completed,
+    completedDate: spraw.completionDate,
+    onCompleteDateChanged: (DateTime dateTime) => setState(() => spraw.setCompletionDate(dateTime)),
+
+    onStartStopTap: (bool inProgress){
+      setState(() => spraw.changeInProgress(context, value: !inProgress));
+      onStartStop?.call(inProgress);
+    },
+    onAbandonTap: (){
+      spraw.changeCompleted(context);
+      //spraw.changeInProgress(context);
+      onAbandoned?.call();
+      setState(() {});
+    },
+
+    showAppBar: showBack,
+    confettiController: confettiController,
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -116,7 +140,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
 
         const SizedBox(height: Dimen.SIDE_MARG),
 
-        if(spraw!.comment != null)
+        if(spraw.comment != null)
           Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -136,7 +160,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
               Padding(
                 padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 child: AppText(
-                  spraw!.comment,
+                  spraw.comment!,
                   size: Dimen.TEXT_SIZE_BIG,
                 ),
               )
@@ -146,36 +170,12 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
 
       ],
     ),
-    floatingButton: buildFloatingButton(),
-    backgroundIcon: SprawBookData.mapIdIconMap[spraw!.sprawBook.id],
-    backgroundIconComplete: MdiIcons.trophyVariant,
-
-    inProgress: spraw!.inProgress,
-    completenessPercent: spraw!.completenessPercent,
-    isReadyToComplete: spraw!.isReadyToComplete,
-    completed: spraw!.completed,
-    completedDate: spraw!.completionDate,
-    onCompleteDateChanged: (DateTime dateTime) => setState(() => spraw!.setCompletionDate(dateTime)),
-
-    onStartStopTap: (bool inProgress){
-      setState(() => spraw!.changeInProgress(context, value: !inProgress));
-      onStartStop?.call(inProgress);
-    },
-    onAbandonTap: (){
-      spraw!.changeCompleted(context);
-      //spraw.changeInProgress(context);
-      onAbandoned?.call();
-      setState(() {});
-    },
-
-    showAppBar: showBack,
-    confettiController: confettiController,
   );
 
   Widget buildFloatingButton(){
 
-    bool showComplete = spraw!.isReadyToComplete && !spraw!.completed && spraw!.inProgress;
-    bool showClaim = !spraw!.inProgress && !spraw!.completed;
+    bool showComplete = spraw.isReadyToComplete && !spraw.completed && spraw.inProgress;
+    bool showClaim = !spraw.inProgress && !spraw.completed;
 
     return Stack(
       children: [
@@ -194,7 +194,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
                     child: CompleteButton(
                       spraw,
                       confettiController,
-                      color: SprawBookData.mapIdColorMap[spraw!.sprawBook.id]!.avgColor(false),
+                      color: SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.avgColor(false),
                       onPressed: (){
                         onCompleted?.call();
                         setState((){});
@@ -210,7 +210,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
                     ignoring: !showClaim,
                     child: ClaimButton(
                       spraw,
-                      color: SprawBookData.mapIdColorMap[spraw!.sprawBook.id]!.avgColor(false),
+                      color: SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.avgColor(false),
                       confettiController: confettiController,
                       onClaimed: (){
                         setState(() {});
@@ -226,7 +226,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
 
             SaveFloatingButton(
               spraw,
-              SprawBookData.mapIdColorMap[spraw!.sprawBook.id]!.avgColor(false),
+              SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.avgColor(false),
               onTap: () => onSaveChanged?.call(),
             ),
 
@@ -247,7 +247,7 @@ class RequirementsWidget extends StatelessWidget{
   final Spraw? spraw;
   final void Function()? onChanged;
 
-  const RequirementsWidget(this.spraw, {this.onChanged});
+  const RequirementsWidget(this.spraw, {this.onChanged, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -278,7 +278,7 @@ class SaveFloatingButton extends StatefulWidget{
   final Color color;
   final void Function()? onTap;
 
-  const SaveFloatingButton(this.spraw, this.color, {this.onTap});
+  const SaveFloatingButton(this.spraw, this.color, {this.onTap, super.key});
 
   @override
   State<StatefulWidget> createState() => SaveFloatingButtonState();
@@ -297,6 +297,8 @@ class SaveFloatingButtonState extends State<SaveFloatingButton>{
       heroTag: null,
       backgroundColor: color,
       foregroundColor: background_(context),
+      onPressed: null,
+      clipBehavior: Clip.hardEdge,
       child: SprawBookmarkWidget(
           spraw,
           color: background_(context),
@@ -304,8 +306,6 @@ class SaveFloatingButtonState extends State<SaveFloatingButton>{
             setState((){});
             onTap?.call();
           }),
-      onPressed: null,
-      clipBehavior: Clip.hardEdge,
     );
   }
 
@@ -315,7 +315,7 @@ class TrailingWidget extends StatelessWidget{
 
   final Spraw? spraw;
 
-  const TrailingWidget(this.spraw);
+  const TrailingWidget(this.spraw, {super.key});
 
   @override
   Widget build(BuildContext context) {

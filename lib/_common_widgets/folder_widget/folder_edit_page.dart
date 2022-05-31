@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/color_selector_widget.dart';
 import 'package:harcapp/_app_common/icon_selector_widget.dart';
@@ -23,8 +25,8 @@ class FolderEditPage extends StatefulWidget{
   final String? initName;
   final String? initIconKey;
   final String? initColorsKey;
-  final void Function(String name, String selIconKey, String selColorKey)? onSave;
-  final void Function()? onDeleteTap;
+  final FutureOr<void> Function(String name, String selIconKey, String selColorKey)? onSave;
+  final FutureOr<void> Function()? onDeleteTap;
 
   const FolderEditPage({
     this.initName,
@@ -46,8 +48,8 @@ class FolderEditPageState extends State<FolderEditPage>{
   String? get initIconKey => widget.initIconKey;
   String? get initColorsKey => widget.initColorsKey;
 
-  void Function(String name, String selIconKey, String selColorKey)? get onSave => widget.onSave;
-  void Function()? get onDeleteTap => widget.onDeleteTap;
+  FutureOr<void> Function(String name, String selIconKey, String selColorKey)? get onSave => widget.onSave;
+  FutureOr<void> Function()? get onDeleteTap => widget.onDeleteTap;
 
   late String selIconKey;
 
@@ -93,7 +95,7 @@ class FolderEditPageState extends State<FolderEditPage>{
         ),
         actions: [
           IconButton(
-              onPressed: (){
+              onPressed: () async {
 
                 if(controller.text.isEmpty){
                   showAppToast(context, text: 'Weź tam, nazwij jakoś ten folder');
@@ -101,7 +103,7 @@ class FolderEditPageState extends State<FolderEditPage>{
                   return;
                 }
 
-                onSave?.call(controller.text, selIconKey, Provider.of<_ColorProvider>(context, listen: false).selColorKey);
+                await onSave?.call(controller.text, selIconKey, Provider.of<_ColorProvider>(context, listen: false).selColorKey);
                 Navigator.pop(context);
               },
               icon: const Icon(MdiIcons.check)
@@ -158,8 +160,8 @@ class FolderEditPageState extends State<FolderEditPage>{
 
                       AlertDialogButton(
                           text: 'Tak',
-                          onTap: (){
-                            onDeleteTap?.call();
+                          onTap: () async {
+                            await onDeleteTap?.call();
                             Navigator.pop(context);
                             Navigator.pop(context);
                           }

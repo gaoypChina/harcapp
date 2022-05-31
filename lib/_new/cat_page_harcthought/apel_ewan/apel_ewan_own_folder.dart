@@ -11,62 +11,66 @@ class ApelEwanOwnFolder extends ApelEwanFolder{
 
   const ApelEwanOwnFolder({
     required super.id,
-    required super.generalApelEwans,
-    required super.notedApelEwans
+    required super.apelEwans,
+    required super.apelEwanNotes
   });
 
   @override
-  bool get isEmpty => generalApelEwanSigla.isEmpty && notedApelEwanSigla.isEmpty;
+  int get count => apelEwans.length;
+
+  @override
+  bool get isEmpty => apelEwanSigla.isEmpty;
 
   static List<String> get allFolderIds => ShaPref.getStringList(ShaPref.SHA_PREF_APEL_EWAN_ALL_FOLDER_IDS, []);
   static set allFolderIds(List<String> value) => ShaPref.setStringList(ShaPref.SHA_PREF_APEL_EWAN_ALL_FOLDER_IDS, value);
 
-  static List<ApelEwanOwnFolder> get allOwnFolders{
+  static late List<ApelEwanOwnFolder> allOwnFolders;
+
+  static void loadAllOwnFolders(){
     List<ApelEwanOwnFolder> folders = [];
     for(String folderName in ApelEwanOwnFolder.allFolderIds)
       folders.add(ApelEwanOwnFolder.from(folderName));
 
-    return folders;
+    allOwnFolders = folders;
+  }
+
+  static void addOwnFolder(ApelEwanOwnFolder folder){
+    allOwnFolders.add(folder);
   }
 
   static String getName(String id) => ShaPref.getString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_NAME_(id), '');
-  static void setName(String id, String value) => ShaPref.setString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_NAME_(id), value);
+  static Future<void> setName(String id, String value) => ShaPref.setString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_NAME_(id), value);
   @override
   String get name => getName(id);
   set name(String value) => setName(id, value);
 
-  static List<String> getGeneralApelEwanSigla(String id) => ShaPref.getStringList(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_GENERAL_SIGLA_(id), []);
-  static void setGeneralApelEwanSigla(String id, List<String> value) => ShaPref.setStringList(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_GENERAL_SIGLA_(id), value);
-  List<String> get generalApelEwanSigla => getGeneralApelEwanSigla(id);
-  set generalApelEwanSigla(List<String> value) => setGeneralApelEwanSigla(id, value);
+  static List<String> getApelEwanFolderSigla(String id) => ShaPref.getStringList(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_SIGLA_(id), []);
+  static Future<void> setApelEwanFolderSigla(String id, List<String> value) => ShaPref.setStringList(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_SIGLA_(id), value);
+  List<String> get apelEwanSigla => getApelEwanFolderSigla(id);
+  set apelEwanSigla(List<String> value) => setApelEwanFolderSigla(id, value);
 
-  static Map<String, String> getNotedApelEwanSigla(String id) => ShaPref.getMap(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_NOTED_SIGLA_(id), {});
-  static void setNotedApelEwanSigla(String id, Map<String, String> value) => ShaPref.setMap(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_NOTED_SIGLA_(id), value);
-  Map<String, String> get notedApelEwanSigla => getNotedApelEwanSigla(id);
-  set notedApelEwanSigla(Map<String, String> value) => setNotedApelEwanSigla(id, value);
-
-  static String? getColorKey(String id) => ShaPref.getString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_COLOR_(id), CommonColorData.DEF_COLORS_KEY);
+  static String? getColorsKey(String id) => ShaPref.getString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_COLOR_(id), CommonColorData.DEF_COLORS_KEY);
 
   @override
-  String get colorsKey => getColorKey(id)!;
+  String get colorsKey => getColorsKey(id)!;
 
-  static void setColorKey(String id, String colorKey) => ShaPref.setString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_COLOR_(id), colorKey);
-  set colorsKey(String value) => setColorKey(id, value);
+  static Future<void> setColorsKey(String id, String colorKey) => ShaPref.setString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_COLOR_(id), colorKey);
+  set colorsKey(String value) => setColorsKey(id, value);
 
-  static CommonColorData getColorData(String id) => CommonColorData.ALL[getColorKey(id)]??
+  static CommonColorData getColorsData(String id) => CommonColorData.ALL[getColorsKey(id)]??
       CommonColorData.ALL[CommonColorData.DEF_COLORS_KEY]!;
-  CommonColorData get colorData => getColorData(id);
+  CommonColorData get colorData => getColorsData(id);
 
   static String getIconKey(String id) => ShaPref.getString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_ICON_(id), CommonIconData.DEF_ICON_KEY);
   @override
   String get iconKey => getIconKey(id);
 
-  static void setIconKey(String id, String iconKey) => ShaPref.setString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_ICON_(id), iconKey);
+  static Future<void> setIconKey(String id, String iconKey) => ShaPref.setString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_ICON_(id), iconKey);
   set iconKey(String value) => setIconKey(id, value);
 
   static IconData getIcon(String id) => CommonIconData.ALL[getIconKey(id)]??CommonIconData.FOLDER_ICON;
 
-  static void setIcon(String id, IconData icon){
+  static Future<void> setIcon(String id, IconData icon) async {
 
     List<IconData> icons = CommonIconData.ALL.values.toList();
     List<String> iconKeys = CommonIconData.ALL.keys.toList();
@@ -78,27 +82,41 @@ class ApelEwanOwnFolder extends ApelEwanFolder{
 
     String iconKey = iconKeys[i];
 
-    ShaPref.setString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_ICON_(id), iconKey);
+    await ShaPref.setString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_ICON_(id), iconKey);
   }
   set icon(IconData value) => setIcon(id, value);
+
+  static String getNote_(String folderId, String siglum) => ShaPref.getString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_NOTES_(folderId, siglum), '');
+  String getNote(String siglum) => getNote_(id, siglum);
+
+  static Future<void> removeNote_(String folderId, String siglum) => ShaPref.remove(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_NOTES_(folderId, siglum));
+  Future<void> removeNote(String siglum) => removeNote_(id, siglum);
+
+  static Future<void> setNote_(String folderId, String siglum, String note) => ShaPref.setString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_NOTES_(folderId, siglum), note);
+  Future<void> setNote(String siglum, String note) => setNote_(id, siglum, note);
 
   static ApelEwanOwnFolder from(String id){
 
     List<ApelEwan> apelEwans = [];
-    for(String apelEwanSiglum in getGeneralApelEwanSigla(id)) {
+    for(String apelEwanSiglum in getApelEwanFolderSigla(id)) {
       ApelEwan? apelEwan = allApelEwanMap[apelEwanSiglum];
       if(apelEwan != null) apelEwans.add(apelEwan);
     }
-    return ApelEwanOwnFolder(id: id, generalApelEwans: apelEwans, notedApelEwans: {});
+
+    Map<String, String> apelEwanNotes = {};
+    for(ApelEwan apelEwan in apelEwans)
+      apelEwanNotes[apelEwan.siglum] = getNote_(id, apelEwan.siglum);
+
+    return ApelEwanOwnFolder(id: id, apelEwans: apelEwans, apelEwanNotes: apelEwanNotes);
   }
 
   static bool exists(String id) =>  allFolderIds.contains(id);
 
-  static ApelEwanOwnFolder create(){
+  static Future<ApelEwanOwnFolder> create({String? name, String? iconKey, String? colorsKey}) async {
 
     int lastUsedId = ShaPref.getInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, 0);
     int _id = lastUsedId + 1;
-    ShaPref.setInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, _id);
+    await ShaPref.setInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, _id);
 
     String id = _id.toString();
 
@@ -106,7 +124,11 @@ class ApelEwanOwnFolder extends ApelEwanFolder{
     allIds.add(id);
     allFolderIds = allIds;
 
-    return ApelEwanOwnFolder(id: id, generalApelEwans: [], notedApelEwans: {});
+    if(name != null) await setName(id, name);
+    if(iconKey != null) await setIconKey(id, iconKey);
+    if(colorsKey != null) await setColorsKey(id, colorsKey);
+
+    return ApelEwanOwnFolder(id: id, apelEwans: [], apelEwanNotes: {});
   }
 
   bool delete(){
@@ -121,57 +143,30 @@ class ApelEwanOwnFolder extends ApelEwanFolder{
     return true;
   }
 
-  bool addGeneral(String apelEwanSiglum, {bool validate = true}){
+  Future<bool> add(String apelEwanSiglum, {bool validate = true}) async {
 
-    if (validate && generalApelEwanSigla.contains(apelEwanSiglum))
+    if (validate && apelEwanSigla.contains(apelEwanSiglum))
       return false;
 
     ApelEwan? apelEwan = allApelEwanMap[apelEwanSiglum];
     if(apelEwan == null) return false;
 
-    List<String> _apelEwanSigla = generalApelEwanSigla;
+    List<String> _apelEwanSigla = apelEwanSigla;
     _apelEwanSigla.add(apelEwanSiglum);
-    allApelEwans.add(apelEwan);
-    generalApelEwanSigla = _apelEwanSigla;
-
+    apelEwans.add(apelEwan);
+    await setApelEwanFolderSigla(id, _apelEwanSigla);
     return true;
   }
 
-  bool addNoted(String apelEwanSiglum, {required String note, bool validate = true}){
-
-    if (validate && notedApelEwanSigla.containsKey(apelEwanSiglum))
-      return false;
-
-    ApelEwan? apelEwan = allApelEwanMap[apelEwanSiglum];
-    if(apelEwan == null) return false;
-
-    Map<String, String> _apelEwanSigla = notedApelEwanSigla;
-    _apelEwanSigla[apelEwanSiglum] = note;
-    notedApelEwans[apelEwan] = note;
-    notedApelEwanSigla = _apelEwanSigla;
-
-    return true;
-  }
-  
-  bool removeGeneral(String apelEwanSiglum){
-    List<String> _apelEwanSigla = generalApelEwanSigla;
+  Future<bool> remove(String apelEwanSiglum) async {
+    List<String> _apelEwanSigla = apelEwanSigla;
     bool success = _apelEwanSigla.remove(apelEwanSiglum);
-    allApelEwans.removeWhere((apelEwan) => apelEwan.siglum == apelEwanSiglum);
-    generalApelEwanSigla = _apelEwanSigla;
-    
-    return success;
-  }
-
-  bool removeNoted(String apelEwanSiglum){
-    Map<String, String> _apelEwanSigla = notedApelEwanSigla;
-    bool success = _apelEwanSigla.remove(apelEwanSiglum) != null;
-    notedApelEwans.removeWhere((apelEwan, value) => apelEwan.siglum == apelEwanSiglum);
-    allApelEwans.removeWhere((apelEwan) => apelEwan.siglum == apelEwanSiglum);
-    notedApelEwanSigla = _apelEwanSigla;
+    apelEwans.removeWhere((apelEwan) => apelEwan.siglum == apelEwanSiglum);
+    await setApelEwanFolderSigla(id, _apelEwanSigla);
 
     return success;
   }
-  
+
   @override
   bool operator == (Object other) =>
       other is ApelEwanOwnFolder && id == other.id;

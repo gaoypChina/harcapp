@@ -23,7 +23,7 @@ class ApelEwanGridView<T extends ApelEwanFolder> extends StatelessWidget{
 
     List<Widget> children = [];
 
-    for(ApelEwan apelEwan in folder.generalApelEwans)
+    for(ApelEwan apelEwan in folder.apelEwans)
       children.add(ApelEwanThumbnailWidget(apelEwan));
 
     while(children.length % 3 != 0)

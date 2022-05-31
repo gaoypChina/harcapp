@@ -89,7 +89,7 @@ class ChildZHPState extends State<ChildZHP> with TickerProviderStateMixin{
               OrgSwitcher(
                   allowedOrgs: allowedOrgs,
                   onTap: (currentOrg){
-                    showAppToast(context, text: orgFullName[currentOrg]);
+                    showAppToast(context, text: orgFullName[currentOrg]!);
                   }
               )
             ],

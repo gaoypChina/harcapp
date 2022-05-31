@@ -28,7 +28,7 @@ class AccountNickPart extends StatefulWidget{
 
   final EdgeInsets? padding;
 
-  const AccountNickPart({this.padding});
+  const AccountNickPart({this.padding, super.key});
 
   @override
   State<StatefulWidget> createState() => AccountNickPartState();
@@ -133,13 +133,13 @@ class AccountNickPartState extends State<AccountNickPart>{
 
             TitleShortcutRowWidget(
                 title: 'Jak mnie znaleźć',
-                leading: SizedBox(width: Dimen.SIDE_MARG),
+                leading: const SizedBox(width: Dimen.SIDE_MARG),
                 textAlign: TextAlign.start,
                 titleColor: hintEnab_(context)
             ),
 
             Padding(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                   left: Dimen.SIDE_MARG,
                   right: Dimen.SIDE_MARG,
                   bottom: Dimen.SIDE_MARG
@@ -161,7 +161,7 @@ class AccountNickPartState extends State<AccountNickPart>{
                     color: iconDisab_(context)
                 ),
                 trailing: AnimatedOpacity(
-                  duration: Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 300),
                   opacity: nickSearchableProcessing?0.5:1.0,
                   child: Consumer<ConnectivityProvider>(
                     builder: (context, prov, child) => Switch(
@@ -172,7 +172,7 @@ class AccountNickPartState extends State<AccountNickPart>{
                 )
             ),
 
-            SizedBox(height: Dimen.SIDE_MARG),
+            const SizedBox(height: Dimen.SIDE_MARG),
 
             InputField(
               hint: 'Kod publiczny:',
@@ -195,7 +195,7 @@ class AccountNickPartState extends State<AccountNickPart>{
                           context: context,
                           builder: (context) => Center(
                             child: Padding(
-                              padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                               child: Material(
                                   color: ColorPack.DEF_BACKGROUND,
                                   clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -204,11 +204,11 @@ class AccountNickPartState extends State<AccountNickPart>{
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       AppBar(
-                                        title: Text('Udostępnij kod publiczny'),
+                                        title: const Text('Udostępnij kod publiczny'),
                                         centerTitle: true,
                                         elevation: 0,
                                       ),
-                                      QrImage(
+                                      QrImageView(
                                         data: AccountData.nick!,
                                         version: QrVersions.auto,
                                         foregroundColor: ColorPack.DEF_ICON_ENAB,
@@ -238,7 +238,7 @@ class AccountNickPartState extends State<AccountNickPart>{
               ],
             ),
 
-            SizedBox(height: 2*Dimen.SIDE_MARG),
+            const SizedBox(height: 2*Dimen.SIDE_MARG),
 
           ],
         )
@@ -254,7 +254,7 @@ class RotatingHarcAppLogo extends StatefulWidget{
   final double size;
   final Color? color;
 
-  const RotatingHarcAppLogo({this.size = defSize, this.color});
+  const RotatingHarcAppLogo({this.size = defSize, this.color, super.key});
 
   @override
   State<StatefulWidget> createState() => RotatingHarcAppLogoState();
@@ -278,7 +278,7 @@ class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
         else
           colorIdx = 0;
       });
-      await Future.delayed(Duration(milliseconds: 800));
+      await Future.delayed(const Duration(milliseconds: 800));
     }
   }
 
@@ -293,23 +293,12 @@ class RotatingHarcAppLogoState extends State<RotatingHarcAppLogo>{
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    Widget harcAppLogo = SvgPicture.asset(
-      'assets/images/harcapp_logo.svg',
-      width: widget.size,
-      height: widget.size,
-      color: widget.color??iconEnab_(context),
-    );
-
-    return FlipCard(
-      front: HarcAppWidget(color: colors[colorIdx + 1 - (colorIdx % 2)]),
-      back: HarcAppWidget(color: colors[colorIdx - (colorIdx % 2)]),
-      controller: controller,
-      flipOnTouch: false,
-    );
-
-  }
+  Widget build(BuildContext context) => FlipCard(
+    front: HarcAppWidget(color: colors[colorIdx + 1 - (colorIdx % 2)]),
+    back: HarcAppWidget(color: colors[colorIdx - (colorIdx % 2)]),
+    controller: controller,
+    flipOnTouch: false,
+  );
 
 }
 
@@ -320,17 +309,15 @@ class HarcAppWidget extends StatelessWidget{
   final double size;
   final Color? color;
 
-  const HarcAppWidget({this.size = defSize, this.color});
+  const HarcAppWidget({this.size = defSize, this.color, super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      'assets/images/harcapp_logo.svg',
-      width: size,
-      height: size,
-      color: color??iconEnab_(context),
-    );
-  }
+  Widget build(BuildContext context) => SvgPicture.asset(
+    'assets/images/harcapp_logo.svg',
+    width: size,
+    height: size,
+    color: color??iconEnab_(context),
+  );
 
 }
 

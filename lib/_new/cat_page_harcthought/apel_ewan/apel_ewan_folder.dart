@@ -1,31 +1,20 @@
-import 'package:flutter/material.dart';
-import 'package:harcapp/_app_common/common_color_data.dart';
-import 'package:harcapp/_app_common/common_icon_data.dart';
+import 'package:harcapp/_common_widgets/folder_widget/folder.dart';
 
 import 'apel_ewan.dart';
 
-abstract class ApelEwanFolder{
+abstract class ApelEwanFolder extends Folder{
 
   final String id;
-  final List<ApelEwan> generalApelEwans;
-  final Map<ApelEwan, String> notedApelEwans;
+  final List<ApelEwan> apelEwans;
+  final Map<String, String> apelEwanNotes;
 
   const ApelEwanFolder({
     required this.id,
-    required this.generalApelEwans,
-    required this.notedApelEwans
+    required this.apelEwans,
+    required this.apelEwanNotes
   });
 
   bool get isEmpty;
-
-  String get name;
-
-  String get colorsKey;
-  CommonColorData get colorData => CommonColorData.ALL[colorsKey]??
-      CommonColorData.ALL[CommonColorData.DEF_COLORS_KEY]!;
-
-  String get iconKey;
-  IconData get icon => CommonIconData.ALL[iconKey]??CommonIconData.FOLDER_ICON;
 
   @override
   bool operator == (Object other) =>

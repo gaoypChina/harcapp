@@ -12,6 +12,8 @@ class SprawIcon extends StatefulWidget{
   static const double sizeBig = 48.0;
   static const double sizeSmall = 34.0;
 
+  static const double borderFraction = .098;
+
   final Spraw? spraw;
   final double? size;
   final void Function()? onTap;
@@ -102,7 +104,7 @@ class SprawIconPlaceholder extends StatelessWidget{
                       decoration: BoxDecoration(
                         border: Border.all(
                             color: iconEnab_(context),
-                            width: .098*spaceSize,
+                            width: SprawIcon.borderFraction*spaceSize,
                             style: BorderStyle.solid
                         ),
                         borderRadius: BorderRadius.circular(spaceSize),

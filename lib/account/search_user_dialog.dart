@@ -247,7 +247,7 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
                               onTap: (){
                                 if(illegalUserSelected){
                                   if(illegalAttemptMessage != null)
-                                    showAppToast(context, text: illegalAttemptMessage);
+                                    showAppToast(context, text: illegalAttemptMessage!);
                                   return;
                                 }
 

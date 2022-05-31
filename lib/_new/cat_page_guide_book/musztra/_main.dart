@@ -443,7 +443,9 @@ class MusztraFragmentState extends State<MusztraFragment> with ModuleStatsMixin{
 
 class Item extends StatelessWidget{
 
-  final String? title, description, error;
+  final String title;
+  final String description;
+  final String? error;
 
   const Item(this.title, this.description, {this.error, super.key});
 
@@ -459,7 +461,7 @@ class Item extends StatelessWidget{
             if(error!=null)
               const SizedBox(height: Dimen.DEF_MARG),
             if(error!=null)
-              AppText(error, color: Colors.red)
+              AppText(error!, color: Colors.red)
           ]
       ),
     );

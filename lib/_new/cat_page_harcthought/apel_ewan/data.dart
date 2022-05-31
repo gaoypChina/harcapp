@@ -142,8 +142,8 @@ List<ApelEwan> dekalogApelEwans = [
 
 ApelEwanPersistentFolder dekalogFolder = ApelEwanPersistentFolder(
     id: '__dekalog__',
-    generalApelEwans: dekalogApelEwans,
-    notedApelEwans: {},
+    apelEwans: dekalogApelEwans,
+    apelEwanNotes: {},
     name: 'Dekalog',
     colorsKey: CommonColorData.OMEGA_COLORS_KEY,
     iconKey: 'textBoxMultiple'
