@@ -18,8 +18,9 @@ class ShortReadsPage<T extends ShortRead> extends StatefulWidget{
   final String moduleId;
   final String title;
   final List<T> allShortReads;
+  final Color? titleColor;
 
-  const ShortReadsPage(this.moduleId, this.title, this.allShortReads, {super.key});
+  const ShortReadsPage(this.moduleId, this.title, this.allShortReads, {this.titleColor, super.key});
   
   @override
   State<StatefulWidget> createState() => ShortReadsPageState<T>();
@@ -29,7 +30,8 @@ class ShortReadsPage<T extends ShortRead> extends StatefulWidget{
 class ShortReadsPageState<T extends ShortRead> extends State<ShortReadsPage>{
 
   List<T> get allShortReads => widget.allShortReads as List<T>;
-  
+  Color? get titleColor => widget.titleColor;
+
   late List<T> searchedShortReads;
 
   @override
@@ -81,12 +83,13 @@ class ShortReadsPageState<T extends ShortRead> extends State<ShortReadsPage>{
           sliver: SliverGrid.count(
             crossAxisCount: 2,
             crossAxisSpacing: Dimen.ICON_MARG,
-            childAspectRatio: .8,
+            mainAxisSpacing: Dimen.ICON_MARG,
+            childAspectRatio: 1,
             children: searchedShortReads.map((shortRead) => ShortReadThumbnailWidget(
               shortRead,
+              titleColor: titleColor,
               onTap: () => pushPage(context, builder: (context) => ShortReadWidget(widget.moduleId, shortRead)),
-            )
-            ).toList(),
+            )).toList(),
           ),
         ),
 

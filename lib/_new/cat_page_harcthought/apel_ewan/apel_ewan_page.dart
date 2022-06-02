@@ -17,7 +17,6 @@ import 'package:harcapp/_common_widgets/folder_widget/folder_edit_page.dart';
 import 'package:harcapp/_common_widgets/folder_widget/folder_tab.dart';
 import 'package:harcapp/_common_widgets/folder_widget/folder_tab_indicator.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
-import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan_folder.dart';
@@ -482,13 +481,15 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
       builder: (context) => Column(
         children: [
 
-          SwitchListTile(
-            title: Text('Uwzględnij notatki w pliku', style: AppTextStyle()),
-            value: showNotes,
-            onChanged: (value) => setState(() => showNotes = value)
-          ),
+          if(folder is ApelEwanOwnFolder)
+            SwitchListTile(
+              title: Text('Uwzględnij notatki w pliku', style: AppTextStyle()),
+              value: showNotes,
+              onChanged: (value) => setState(() => showNotes = value)
+            ),
 
-          const SizedBox(height: Dimen.SIDE_MARG),
+          if(folder is ApelEwanOwnFolder)
+            const SizedBox(height: Dimen.SIDE_MARG),
 
           SimpleButton(
             onTap: (){

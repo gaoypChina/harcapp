@@ -1,5 +1,3 @@
-
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -11,7 +9,7 @@ import '../article_core.dart';
 import 'article_tag_widget.dart';
 
 
-const double TITLE_SIZE_NORM = 26.0;
+const double TITLE_SIZE_NORM = 22.0;
 const double TITLE_SIZE_DENSE = Dimen.TEXT_SIZE_BIG;
 
 const double CARD_PADDING_NORM = 2*Dimen.ICON_MARG;
@@ -78,10 +76,9 @@ class TitleWidget extends StatelessWidget{
       tag: articleTitleHero(article!),
       child: Material(
         color: Colors.transparent,
-        child: AutoSizeText(
+        child: Text(
           article?.title??'',
-          maxLines: dense?2:3,
-          minFontSize: 16.0,
+          maxLines: dense?1:2,
           overflow: TextOverflow.ellipsis,
           style: AppTextStyle(
               fontWeight: weight.bold,

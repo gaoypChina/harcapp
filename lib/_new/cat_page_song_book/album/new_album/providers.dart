@@ -26,18 +26,16 @@ class AccentColorProvider extends ChangeNotifier{
 
 class IconProvider extends ChangeNotifier{
 
-  String? _iconKey;
+  String _iconKey;
 
-  IconProvider(String iconKey){
-    _iconKey = iconKey;
-  }
+  IconProvider(String iconKey): _iconKey = iconKey;
 
-  String? get iconKey => _iconKey;
-  set iconKey(String? value){
+  String get iconKey => _iconKey;
+  set iconKey(String value){
     _iconKey = value;
     notifyListeners();
   }
 
-  IconData? get icon => CommonIconData.ALL[_iconKey!];
+  IconData? get icon => CommonIconData.ALL[_iconKey];
 
 }

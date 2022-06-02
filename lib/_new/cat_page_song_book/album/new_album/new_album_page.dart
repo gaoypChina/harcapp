@@ -45,8 +45,6 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
   late TabController tabController;
   late FocusNode focusNode;
 
-  late String iconKey;
-
   late List<OffSong> offSongs;
   late List<OwnSong> ownSongs;
 
@@ -77,8 +75,8 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
       ownSongs = List.of(initAlbum!.ownSongs);
     }
 
-    iconKey = initAlbum?.iconKey??
-    CommonIconData.ALL.keys.toList()[Random().nextInt(CommonIconData.ALL.length)];
+    //iconKey = initAlbum?.iconKey??
+    //CommonIconData.ALL.keys.toList()[Random().nextInt(CommonIconData.ALL.length)];
 
     focusNode = FocusNode();
 
@@ -155,7 +153,7 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
                         offSongs,
                         ownSongs,
                         Provider.of<AccentColorProvider>(context, listen: false).colorsKey,
-                        iconKey,
+                        Provider.of<IconProvider>(context, listen: false).iconKey,
                       );
                       Album.addToAll(album);
                       widget.onSaved?.call(album);
@@ -165,7 +163,7 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
                           offSongs: offSongs,
                           ownSongs: ownSongs,
                           colorsKey: Provider.of<AccentColorProvider>(context, listen: false).colorsKey,
-                          iconKey: iconKey
+                          iconKey: Provider.of<IconProvider>(context, listen: false).iconKey
                       );
                       widget.onSaved?.call(initAlbum!);
                     }

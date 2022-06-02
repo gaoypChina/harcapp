@@ -7,7 +7,7 @@ Future<void> openSprawFolderSelector(BuildContext context, String sprawUID) asyn
 
   await openFolderSelector<SprawFolder>(
     context,
-    title: 'Wybierz foldery sprawności',
+    title: 'Dodaj sprawność do folderu',
     countString: 'Liczba sprawności:',
     getAllFolders: () => SprawFolder.allFolders,
     onNewFolderSave: (String name, String iconKey, String colorsKey) => SprawFolder.create(

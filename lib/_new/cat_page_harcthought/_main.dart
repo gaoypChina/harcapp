@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan.dart';
@@ -113,26 +112,35 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
             Padding(
               padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
               child: TitleShortcutRowWidget(
-                icon: MdiIcons.campfire,
+                //icon: MdiIcons.campfire,
                 iconColor: textEnab_(context),
                 title: 'Gawędy',
                 textAlign: TextAlign.start,
-                onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => ShortReadsPage<Gaweda>(ModuleStatsMixin.myslHarcGawedy, 'Gawędy', allGawedy))),
+                onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => ShortReadsPage<Gaweda>(
+                    ModuleStatsMixin.myslHarcGawedy,
+                    'Gawędy',
+                    allGawedy
+                ))),
               ),
             ),
 
-            _ShortReadScrollView<Gaweda>(ModuleStatsMixin.myslHarcGawedy, allGawedy),
+            _ShortReadScrollView<Gaweda>(ModuleStatsMixin.myslHarcGawedy, allGawedy, titleColor: background_(context)),
 
             const SizedBox(height: Dimen.SIDE_MARG),
 
             Padding(
               padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
               child: TitleShortcutRowWidget(
-                icon: MdiIcons.scriptTextOutline,
+                //icon: MdiIcons.scriptTextOutline,
                 iconColor: textEnab_(context),
                 title: 'Wiersze',
                 textAlign: TextAlign.start,
-                onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => ShortReadsPage<Wiersz>(ModuleStatsMixin.myslHarcWiersze, 'Wiersze', allWiersze))),
+                onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => ShortReadsPage<Wiersz>(
+                    ModuleStatsMixin.myslHarcWiersze,
+                    'Wiersze',
+                    allWiersze,
+                    titleColor: Colors.black
+                ))),
               ),
             ),
 
@@ -143,7 +151,7 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
             Padding(
               padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
               child: TitleShortcutRowWidget(
-                icon: MdiIcons.cross,
+                //icon: MdiIcons.cross,
                 iconColor: textEnab_(context),
                 title: 'Apele ewangeliczne',
                 textAlign: TextAlign.start,
@@ -158,7 +166,7 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
             Padding(
               padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
               child: TitleShortcutRowWidget(
-                icon: MdiIcons.packageVariantClosed,
+                //icon: MdiIcons.packageVariantClosed,
                 iconColor: textEnab_(context),
                 title: 'Formy',
                 textAlign: TextAlign.start,
@@ -261,16 +269,10 @@ class _ArticleScrollView extends StatefulWidget{
 
 class _ArticleScrollViewState extends State<_ArticleScrollView>{
 
-  SingleComputerListener? loaderListener;
+  late ArticleLoaderListener loaderListener;
 
   @override
   void initState() {
-
-    if(Article.all == null) {
-      Article.addAll(storedArticles);
-      Provider.of<BookmarkedArticlesProvider>(context, listen: false).init(Article.all);
-      Provider.of<LikedArticlesProvider>(context, listen: false).init(Article.all);
-    }
 
     loaderListener = ArticleLoaderListener(
         onEnd: (ArticleLoaderError? err, bool forceFinished) async {
@@ -283,13 +285,13 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
           }
         },
         onStateChanged: (ArticleLoadState state){
-          if(state == ArticleLoadState.NO_NET){
+          if(state == ArticleLoadState.NO_NET) {
             if(!mounted) return;
             showAppToast(context, text: 'Brak internetu');
-          } else if(state == ArticleLoadState.FAILED){
+          } else if(state == ArticleLoadState.FAILED) {
             if(!mounted) return;
             showAppToast(context, text: 'Błąd ładowania artykułów');
-          } else if(state == ArticleLoadState.LOADED){
+          } else if(state == ArticleLoadState.LOADED) {
             if(!mounted) return;
             showAppToast(context, text: 'Pobrano artykuły');
             setState((){});
@@ -297,9 +299,13 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
 
         }
     );
-    articleLoader.addListener(loaderListener as ArticleLoaderListener);
 
-    if (articleLoader.loadState == ArticleLoadState.NO_NET){
+    articleLoader.addListener(loaderListener);
+
+    if(Article.all == null) {
+      Article.addAll(storedArticles);
+      Provider.of<BookmarkedArticlesProvider>(context, listen: false).init(Article.all);
+      Provider.of<LikedArticlesProvider>(context, listen: false).init(Article.all);
       articleLoader.run();
     }
 
@@ -308,171 +314,174 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
 
   @override
   void dispose() {
-    articleLoader.removeListener(loaderListener as ArticleLoaderListener);
+    articleLoader.removeListener(loaderListener);
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Column(
+    children: [
 
-    return Column(
-      children: [
+      Padding(
+        padding: const EdgeInsets.only(left: Dimen.SIDE_MARG),
+        child: TitleShortcutRowWidget(
+          //icon: MdiIcons.textBoxCheckOutline,
+          iconColor: textEnab_(context),
+          title: 'Artykuły',
+          textAlign: TextAlign.start,
 
-        Padding(
-          padding: const EdgeInsets.only(left: Dimen.SIDE_MARG),
-          child: TitleShortcutRowWidget(
-            icon: MdiIcons.textBoxCheckOutline,
-            iconColor: textEnab_(context),
-            title: 'Artykuły',
-            textAlign: TextAlign.start,
+          trailing:
+          articleLoader.loadState == ArticleLoadState.CHECKING_NET || articleLoader.loadState == ArticleLoadState.LOADING?
+          IconButton(
+            icon: SpinKitChasingDots(size: Dimen.ICON_SIZE, color: accent_(context)),
+            onPressed: () => showAppToast(context, text: 'Ładowanie nowych artykułów...')
+          ):
+          (articleLoader.loadState == ArticleLoadState.NO_NET || articleLoader.loadState == ArticleLoadState.FAILED?
+          IconButton(
+            icon: const Icon(MdiIcons.refresh),
+            onPressed: () => articleLoader.run()
+          ):
+          IconButton(icon: const Icon(MdiIcons.progressDownload), onPressed: () => showAlertDialog(
+              context,
+              title: 'Ostrożnie',
+              content: 'HarcAppka pobiera automatycznie jedynie nowe artykuły.'
+                  '\n'
+                  '\nCzy chcesz pobrać ponownie wszystkie dostępne artykuły?',
+              actionBuilder: (context) => [
 
-            trailing:
-            articleLoader.loadState == ArticleLoadState.CHECKING_NET || articleLoader.loadState == ArticleLoadState.LOADING?
-            IconButton(
-              icon: SpinKitChasingDots(size: Dimen.ICON_SIZE, color: accent_(context)),
-                onPressed: () => showAppToast(context, text: 'Ładowanie nowych artykułów...')
-            ):
-            (articleLoader.loadState == ArticleLoadState.NO_NET || articleLoader.loadState == ArticleLoadState.FAILED?
-                IconButton(
-                    icon: const Icon(MdiIcons.refresh),
-                    onPressed: () => articleLoader.run()
-                ):
-                IconButton(icon: const Icon(MdiIcons.progressDownload), onPressed: (){
+                AlertDialogButton(
+                  text: 'Tak',
+                  onTap: () async{
+                    showAppToast(context, text: 'Pobieranie wszystkich artykułów...');
+                    Article.clearAll();
+                    articleLoader.run(all: true);
+                    Navigator.pop(context);
+                  },
+                ),
 
-                  showAlertDialog(
-                    context,
-                    title: 'Ostrożnie',
-                    content: 'HarcAppka pobiera automatycznie jedynie nowe artykuły.'
-                        '\n'
-                        '\nCzy chcesz pobrać ponownie wszystkie dostępne artykuły?',
-                    actionBuilder: (context) => [
+                AlertDialogButton(
+                    text: 'Nie',
+                    onTap: () => Navigator.pop(context)
+                ),
 
-                      AlertDialogButton(
-                        text: 'Tak',
-                        onTap: () async{
-                          showAppToast(context, text: 'Pobieranie wszystkich artykułów...');
-                          Article.clearAll();
-                          articleLoader.run(all: true);
-                          Navigator.pop(context);
-                        },
-                      ),
+              ]
+          ))),
 
-                      AlertDialogButton(
-                          text: 'Nie',
-                          onTap: () => Navigator.pop(context)
-                      ),
-
-                    ]
-                  );
-                  
-                })
-            ),
-
-            onOpen:
-            articleLoader.loadState == ArticleLoadState.LOADED ?
-                (context) => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const AllArticlesPage()
-                )
-            ):null,
-          ),
+          onOpen:
+          articleLoader.loadState == ArticleLoadState.LOADED ?
+              (context) => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AllArticlesPage())
+          ):null,
         ),
+      ),
 
-        Stack(
+      SizedBox(
+        height: ArticleCardWidget.height,
+        child: ArticleListWidget(
+            Article.all??[],
+            emptyText:
+            articleLoader.loadState == ArticleLoadState.LOADED?
+            'Pusto...':
+            (articleLoader.loadState == ArticleLoadState.LOADING?
+            'Ładowanie...':
+            (articleLoader.loadState == ArticleLoadState.NO_NET?
+            'Brak internetu':
+            'Upsis...')),
+
+            emptyIcon:
+            articleLoader.loadState == ArticleLoadState.LOADING?
+            MdiIcons.bookArrowDownOutline:
+            (articleLoader.loadState == ArticleLoadState.NO_NET?
+            MdiIcons.bookRefreshOutline:
+            MdiIcons.bookOutline),
+
+            mode: ArticleListMode.PageView,
+            itemPadding: const EdgeInsets.only(bottom: 12.0)
+        ),
+      ),
+
+      Padding(
+        padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+        child: Row(
           children: [
 
-            SizedBox(
-              height: ArticleCardWidget.height,
-              child: ArticleListWidget(
-                  Article.all??[],
-                  emptyText:
-                  articleLoader.loadState == ArticleLoadState.LOADED?
-                  'Pusto...':
-                  (articleLoader.loadState == ArticleLoadState.LOADING?
-                  'Ładowanie...':
-                  (articleLoader.loadState == ArticleLoadState.NO_NET?
-                  'Brak internetu':
-                  'Upsis...')),
+            Expanded(
+              child: Consumer<BookmarkedArticlesProvider>(
+                  builder: (context, prov, child) => SimpleButton.from(
+                    context: context,
+                    margin: EdgeInsets.zero,
+                    color: cardEnab_(context),
+                    icon: MdiIcons.bookmarkOutline,
+                    text: 'Zapisane (${Article.bookmarkedIds.length})',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const BookmarkedArticlesPage())
+                    )
+                  )
+              ),
+            ),
 
-                  emptyIcon:
-                  articleLoader.loadState == ArticleLoadState.LOADING?
-                  MdiIcons.bookArrowDownOutline:
-                  (articleLoader.loadState == ArticleLoadState.NO_NET?
-                  MdiIcons.bookRefreshOutline:
-                  MdiIcons.bookOutline),
+            const SizedBox(width: Dimen.ICON_MARG),
 
-                  mode: ArticleListMode.PageView,
-                  itemPadding: const EdgeInsets.only(bottom: 12.0)
+            Expanded(
+              child: Consumer<LikedArticlesProvider>(
+                builder: (context, prov, child) => SimpleButton.from(
+                  context: context,
+                  margin: EdgeInsets.zero,
+                  color: cardEnab_(context),
+                  icon: MdiIcons.heartOutline,
+                  text: 'Polubione (${Article.likedIds.length})',
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LikedArticlesPage())
+                  )
+                ),
               ),
             ),
 
           ],
         ),
+      )
 
-        Padding(
-          padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
-          child: Row(
-            children: [
+    ],
+  );
 
-              Consumer<BookmarkedArticlesProvider>(
-                builder: (context, prov, child) => SimpleButton.from(
-                    context: context,
-                    icon: MdiIcons.bookmarkOutline,
-                    text: 'Zapisane (${Article.bookmarkedIds.length})',
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const BookmarkedArticlesPage())
-                    )
-                )
-              ),
-
-              Consumer<LikedArticlesProvider>(
-                  builder: (context, prov, child) => SimpleButton.from(
-                      context: context,
-                      icon: MdiIcons.heartOutline,
-                      text: 'Polubione (${Article.likedIds.length})',
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => LikedArticlesPage())
-                      )
-                  ),
-              ),
-
-            ],
-          ),
-        )
-
-      ],
-    );
-  }
 }
 
 class _ShortReadScrollView<T extends ShortRead> extends StatelessWidget{
 
   final String moduleId;
   final List<T> allShortReads;
+  final Color? titleColor;
 
-  const _ShortReadScrollView(this.moduleId, this.allShortReads);
+  const _ShortReadScrollView(this.moduleId, this.allShortReads, {this.titleColor});
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-    height: 200,
-    child: ListView.separated(
-      padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
-      physics: const BouncingScrollPhysics(),
-      scrollDirection: Axis.horizontal,
-      itemCount: allShortReads.length,
-      itemBuilder: (context, index) => SizedBox(
-        width: 140,
-        child: ShortReadThumbnailWidget(
-            allShortReads[index],
-            onTap: () => pushPage(context, builder: (context) => ShortReadWidget<T>(moduleId, allShortReads[index])),
+  Widget build(BuildContext context){
+
+    List<T> shuffShortReads = List.of(allShortReads);
+    shuffShortReads.shuffle(Random(DateTime.now().day));
+
+    return SizedBox(
+      height: ShortReadThumbnailWidget.height,
+      child: ListView.separated(
+        padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: shuffShortReads.length,
+        itemBuilder: (context, index) => SizedBox(
+          width: ShortReadThumbnailWidget.height,
+          child: ShortReadThumbnailWidget(
+            shuffShortReads[index],
+            titleColor: titleColor,
+            onTap: () => pushPage(context, builder: (context) => ShortReadWidget<T>(moduleId, shuffShortReads[index])),
+          ),
         ),
+        separatorBuilder: (BuildContext context, int index) => const SizedBox(width: Dimen.ICON_MARG),
       ),
-      separatorBuilder: (BuildContext context, int index) => const SizedBox(width: Dimen.ICON_MARG),
-    ),
-  );
+    );
+  }
 
 }
 
@@ -485,39 +494,53 @@ class FormsScrollView extends StatelessWidget{
   const FormsScrollView(this.forms, {super.key});
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-    height: height,
-    child: ListView.separated(
-      padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
-      physics: const BouncingScrollPhysics(),
-      scrollDirection: Axis.horizontal,
-      itemCount: forms.length,
-      itemBuilder: (context, index) => FormThumbnailWidget(forms[index]),
-      separatorBuilder: (BuildContext context, int index) => const SizedBox(width: Dimen.ICON_MARG),
-    ),
-  );
+  Widget build(BuildContext context) {
+
+    List<HarcForm> shuffForms = List.of(forms);
+    shuffForms.shuffle(Random(DateTime.now().day));
+
+    return SizedBox(
+      height: height,
+      child: ListView.separated(
+        padding: const EdgeInsets.only(
+            left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: shuffForms.length,
+        itemBuilder: (context, index) => FormThumbnailWidget(shuffForms[index]),
+        separatorBuilder: (BuildContext context, int index) =>
+        const SizedBox(width: Dimen.ICON_MARG),
+      ),
+    );
+  }
 
 }
 
 class _ApelEwanScrollView extends StatelessWidget{
 
-  static const double height = 140;
+  static const double height = ShortReadThumbnailWidget.height;
 
   final List<ApelEwan> apelEwanList;
 
   const _ApelEwanScrollView(this.apelEwanList, {super.key});
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-    height: height,
-    child: ListView.separated(
-      padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
-      physics: const BouncingScrollPhysics(),
-      scrollDirection: Axis.horizontal,
-      itemCount: apelEwanList.length,
-      itemBuilder: (context, index) => ApelEwanThumbnailWidget(apelEwanList[index]),
-      separatorBuilder: (BuildContext context, int index) => const SizedBox(width: Dimen.ICON_MARG),
-    ),
-  );
+  Widget build(BuildContext context){
+
+    List<ApelEwan> shuffApelEwanList = List.of(apelEwanList);
+    shuffApelEwanList.shuffle(Random(DateTime.now().day));
+
+    return SizedBox(
+      height: height,
+      child: ListView.separated(
+        padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: shuffApelEwanList.length,
+        itemBuilder: (context, index) => ApelEwanThumbnailWidget(shuffApelEwanList[index]),
+        separatorBuilder: (BuildContext context, int index) => const SizedBox(width: Dimen.ICON_MARG),
+      ),
+    );
+  }
 
 }

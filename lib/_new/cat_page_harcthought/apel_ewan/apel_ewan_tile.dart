@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'apel_ewan_category_selector.dart';
 import 'apel_ewan_thumbnail_widget.dart';

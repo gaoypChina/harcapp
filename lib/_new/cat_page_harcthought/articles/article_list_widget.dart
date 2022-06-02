@@ -105,8 +105,8 @@ class ArticleListWidget extends StatelessWidget{
         child: child,
         builder: (context, child) =>
             Transform.translate(
-              child: child,
               offset: Offset(2*Dimen.DEF_MARG*(index-notifier.value), 0),
+              child: child,
             ),
       ),
     );
