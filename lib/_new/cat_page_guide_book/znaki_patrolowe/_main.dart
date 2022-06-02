@@ -1,7 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/sliding_card.dart';
@@ -109,6 +109,7 @@ class Item extends StatelessWidget{
         children: <Widget>[
 
           Flexible(child: AspectRatio(
+            aspectRatio: 96/50,
             child: Hero(
               tag: data.fileName,
               child: SvgPicture.asset(
@@ -116,7 +117,6 @@ class Item extends StatelessWidget{
                   color: hintEnab_(context)
               ),
             ),
-            aspectRatio: 96/50,
           )),
 
           const SizedBox(height: 42),
@@ -130,13 +130,13 @@ class Item extends StatelessWidget{
                 ),
                 child: Container(
                     height: 64,
+                    alignment: Alignment.center,
                     child: AutoSizeText(
                         data.description,
                         style: TextStyle(fontFamily: 'Hand5', fontSize: 34.0, color: hintEnab_(context)),
                         maxLines: 3,
                         textAlign: TextAlign.center
-                    ),
-                    alignment: Alignment.center)
+                    ))
             ),
           )
 

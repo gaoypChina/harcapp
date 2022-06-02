@@ -1,6 +1,6 @@
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -44,12 +44,12 @@ class Fretboard extends StatelessWidget{
             height: height/stringCount,
             width: double.infinity,
             child: Center(child: Container(
+              decoration: ShadowDecoration(shadowColor: Colors.black26, offset: const Offset(0, 4)),
               child: Container(
                 width: double.infinity,
                 height: (i+1).toDouble(),
                 color: Colors.amberAccent,
               ),
-              decoration: ShadowDecoration(shadowColor: Colors.black26, offset: const Offset(0, 4)),
             ),
           )),
           Row(
@@ -91,35 +91,35 @@ class Fretboard extends StatelessWidget{
               children: <Widget>[
                 Expanded(
                     child: Align(
+                      alignment: Alignment.centerLeft,
                       child: Container(
                         width: 6,
                         color: Colors.grey[400],
-                      ),
-                      alignment: Alignment.centerLeft,)
+                      ),)
                 ),
                 Expanded(
                     child: Align(
+                      alignment: Alignment.centerLeft,
                       child: Container(
                         width: 6,
                         color: Colors.grey[400],
-                      ),
-                      alignment: Alignment.centerLeft,)
+                      ),)
                 ),
                 Expanded(
                     child: Align(
+                      alignment: Alignment.centerLeft,
                       child: Container(
                         width: 6,
                         color: Colors.grey[400],
-                      ),
-                      alignment: Alignment.centerLeft,)
+                      ),)
                 ),
                 Expanded(
                     child: Align(
+                      alignment: Alignment.centerLeft,
                       child: Container(
                         width: 6,
                         color: Colors.grey[400],
-                      ),
-                      alignment: Alignment.centerLeft,)
+                      ),)
                 )
               ],
             ),
@@ -128,6 +128,7 @@ class Fretboard extends StatelessWidget{
           Positioned(
             bottom: 2, right: 2,
             child: RotatedBox(
+              quarterTurns: 3,
               child: AutoSizeText(
                 chord.name,
                 style: AppTextStyle(
@@ -136,7 +137,6 @@ class Fretboard extends StatelessWidget{
                   fontWeight: weight.bold
                 ),
               ),
-              quarterTurns: 3,
             ),
           ),
 
@@ -184,11 +184,11 @@ class RoundContainer extends StatelessWidget{
         child: Container(
           width: width==-1?height:width,
           height: height,
-          child: text==null?Container():Center(child: Text(text!, style: AppTextStyle(color: Colors.white, fontWeight: weight.halfBold))),
           decoration: BoxDecoration(
               color: color,
               boxShadow: [ShadowDecoration.boxShadowDef(shadowColor: Colors.black26, offset: const Offset(0, 4))],
               borderRadius: BorderRadius.circular(height/2)),
+          child: text==null?Container():Center(child: Text(text!, style: AppTextStyle(color: Colors.white, fontWeight: weight.halfBold))),
         )
     );
   }

@@ -7,8 +7,6 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../_common_classes/auto_size_text.dart';
-
 class SlidingMusicIcon extends StatefulWidget{
 
   @override

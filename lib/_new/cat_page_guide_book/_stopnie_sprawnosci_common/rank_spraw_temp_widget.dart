@@ -1,6 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/start_end_button.dart';
 import 'package:harcapp/_new/cat_page_home/common.dart';

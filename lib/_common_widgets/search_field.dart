@@ -29,6 +29,7 @@ class SearchField extends StatelessWidget{
     final EdgeInsets margin;
     final Widget? leading;
     final Widget? trailing;
+    final Color? color;
     final Widget? bottom;
     final Color preBackground;
     final Color background;
@@ -46,6 +47,7 @@ class SearchField extends StatelessWidget{
       this.leading,
       this.trailing,
       this.bottom,
+      this.color,
       this.preBackground = Colors.transparent,
       this.background=Colors.transparent,
       this.focusNode,
@@ -68,42 +70,44 @@ class SearchField extends StatelessWidget{
             height: 42,
             color: background,
           ),
-          AppCard(
-              elevation: elevation??AppCard.bigElevation,
-              margin: margin,
-              padding: EdgeInsets.zero,
-              borderRadius: BorderRadius.circular(Dimen.ICON_SIZE),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      leading??defLeadWidget(context),
-                      Expanded(
-                        child: IgnorePointer(
-                          ignoring: !enabled,
-                          child: TextField(
-                            focusNode: focusNode,
-                            style: AppTextStyle(color: textEnab_(context)),
-                            controller: controller,
-                            onChanged: onChanged,
-                            decoration: InputDecoration(
-                                hintText: hint,
-                                border: InputBorder.none,
-                                hintStyle: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG)
-                            ),
-                          ),
-                        )
-                      ),
-                      const SizedBox(width: Dimen.DEF_MARG),
-                      if(trailing!=null) trailing!
-                    ],
-                  ),
+          Padding(
+            padding: margin,
+            child: Material(
+                color: color??cardEnab_(context),
+                elevation: elevation??AppCard.bigElevation,
+                borderRadius: BorderRadius.circular(Dimen.ICON_SIZE),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        leading??defLeadWidget(context),
+                        Expanded(
+                            child: IgnorePointer(
+                              ignoring: !enabled,
+                              child: TextField(
+                                focusNode: focusNode,
+                                style: AppTextStyle(color: textEnab_(context)),
+                                controller: controller,
+                                onChanged: onChanged,
+                                decoration: InputDecoration(
+                                    hintText: hint,
+                                    border: InputBorder.none,
+                                    hintStyle: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG)
+                                ),
+                              ),
+                            )
+                        ),
+                        const SizedBox(width: Dimen.DEF_MARG),
+                        if(trailing!=null) trailing!
+                      ],
+                    ),
 
-                  if(bottom!=null) bottom!
-                ],
-              )
+                    if(bottom!=null) bottom!
+                  ],
+                )
+            ),
           )
 
         ],

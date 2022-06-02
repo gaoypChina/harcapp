@@ -1,7 +1,5 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/data.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -11,6 +9,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import '../../module_statistics_registrator.dart';
 import 'apel_ewan.dart';
+import 'apel_ewan_category_selector.dart';
 import 'apel_ewan_own_folder_selector.dart';
 
 class ApelEwanWidget extends StatefulWidget{
@@ -193,33 +192,12 @@ class ApelEwanWidgetState extends State<ApelEwanWidget> with ModuleStatsMixin{
                                   ),
 
                                   Expanded(
-                                    child: DropdownButtonHideUnderline(
-                                        child: DropdownButton2(
-                                          isExpanded: true,
-                                          hint: Text(
-                                              'Zestaw pytań',
-                                              style: AppTextStyle(color: hintEnab_(context))
-                                          ),
-                                          items: allSubgroupSuffs.map((subgroupSuff) =>
-                                              DropdownMenuItem<String>(
-                                                value: subgroupSuff,
-                                                child: Text(
-                                                  suffixNameMap[subgroupSuff]!,
-                                                  style: AppTextStyle(fontWeight: subgroupSuff == selSubgroupSuff?weight.halfBold:weight.normal)
-                                                ),
-                                              ))
-                                              .toList(),
-                                          value: selSubgroupSuff,
-                                          onChanged: (value) => setState(() => selSubgroupSuff = value as String),
-                                          buttonPadding: const EdgeInsets.only(left: 6, right: 14),
-                                          icon: const Icon(MdiIcons.dotsVertical),
-                                          iconSize: Dimen.ICON_SIZE,
-                                          dropdownDecoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-                                          ),
-                                        )
+                                    child: ApelEwanCategorySelector(
+                                      allSubgroupSuffs: allSubgroupSuffs,
+                                      selSubgroupSuff: selSubgroupSuff,
+                                      onChanged: (value) => setState(() => selSubgroupSuff = value as String),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),

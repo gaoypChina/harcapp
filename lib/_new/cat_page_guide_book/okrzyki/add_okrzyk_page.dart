@@ -139,19 +139,15 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
 
       body: ImplicitlyAnimatedReorderableList<ItemCard>(
         items: elements,
-        //insertDuration: Duration,
         controller: scrollController,
         physics: const BouncingScrollPhysics(),
         areItemsTheSame: (oldItem, newItem) => oldItem.hashCode == newItem.hashCode,
         onReorderFinished: (item, from, to, newItems) => setState(() => elements..clear()..addAll(newItems)),
-        itemBuilder: (context, itemAnimation, item, index) {
-
-          return Reorderable(
-              key: ValueKey(item.hashCode),
-              builder: (context, dragAnimation, inDrag) {
-                return item;
-              });
-        },
+        itemBuilder: (context, itemAnimation, item, index) => Reorderable(
+            key: ValueKey(item.hashCode),
+            builder: (context, dragAnimation, inDrag) {
+              return item;
+            }),
         header: Padding(
           padding: const EdgeInsets.all(Dimen.SIDE_MARG),
           child: Column(

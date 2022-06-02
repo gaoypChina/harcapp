@@ -1,5 +1,5 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_book.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_icon.dart';
@@ -62,7 +62,7 @@ class SprawWidgetSmall extends StatelessWidget{
                   bottom: -40,
                   left: -40,
                   child: RotationTransition(
-                      turns: AlwaysStoppedAnimation(45 / 360),
+                      turns: const AlwaysStoppedAnimation(45 / 360),
                       child: Container(
                         width: 80,
                         height: 80,
@@ -75,7 +75,7 @@ class SprawWidgetSmall extends StatelessWidget{
                   bottom: 6,
                   left: 6,
                   child: RotationTransition(
-                      turns: AlwaysStoppedAnimation(15 / 360),
+                      turns: const AlwaysStoppedAnimation(15 / 360),
                       child: Icon(
                         SprawBookData.mapIdIconMap[spraw.sprawBook.id],
                         color: Colors.white24,
@@ -85,7 +85,7 @@ class SprawWidgetSmall extends StatelessWidget{
 
                 Positioned.fill(
                   child: Padding(
-                    padding: EdgeInsets.all(Dimen.ICON_MARG),
+                    padding: const EdgeInsets.all(Dimen.ICON_MARG),
                     child: Column(
                       children: [
 
@@ -104,7 +104,7 @@ class SprawWidgetSmall extends StatelessWidget{
                           ],
                         ),
 
-                        SizedBox(height: Dimen.ICON_MARG),
+                        const SizedBox(height: Dimen.ICON_MARG),
 
                         AutoSizeText(
                           spraw.title,

@@ -218,7 +218,10 @@ class ShaPref{
   static String SHA_PREF_APEL_EWAN_FOLDER_SIGLA_(String id) => '$_SHA_PREF_APEL_EWAN_FOLDER_SIGLA_\$$id';
 
   static const String _SHA_PREF_APEL_EWAN_FOLDER_NOTES_ = '_SHA_PREF_APEL_EWAN_FOLDER_NOTES_';
-  static String SHA_PREF_APEL_EWAN_FOLDER_NOTES_(String folderId, String apelEwanSiglum) => '$_SHA_PREF_APEL_EWAN_FOLDER_NOTES_\$$folderId\$apelEwanSiglum';
+  static String SHA_PREF_APEL_EWAN_FOLDER_NOTES_(String folderId, String apelEwanSiglum) => '$_SHA_PREF_APEL_EWAN_FOLDER_NOTES_\$$folderId\$$apelEwanSiglum';
+
+  static const String _SHA_PREF_APEL_EWAN_FOLDER_SUBGROUP_SUFFS_ = '_SHA_PREF_APEL_EWAN_FOLDER_SUFFS_';
+  static String SHA_PREF_APEL_EWAN_FOLDER_SUBGROUP_SUFFS_(String folderId, String apelEwanSiglum) => '$_SHA_PREF_APEL_EWAN_FOLDER_SUBGROUP_SUFFS_\$$folderId\$$apelEwanSiglum';
 
   static const String _SHA_PREF_APEL_EWAN_FOLDER_ICON_ = 'SHA_PREF_APEL_EWAN_FOLDER_ICON_';
   static String SHA_PREF_APEL_EWAN_FOLDER_ICON_(String id) => '$_SHA_PREF_APEL_EWAN_FOLDER_ICON_\$$id';

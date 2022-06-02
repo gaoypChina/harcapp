@@ -95,6 +95,17 @@ class ApelEwanOwnFolder extends ApelEwanFolder{
   static Future<void> setNote_(String folderId, String siglum, String note) => ShaPref.setString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_NOTES_(folderId, siglum), note);
   Future<void> setNote(String siglum, String note) => setNote_(id, siglum, note);
 
+
+  static String? getSubgroupSuff_(String folderId, String siglum) => ShaPref.getStringOrNull(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_SUBGROUP_SUFFS_(folderId, siglum));
+  String? getSubgroupSuff(String siglum) => getSubgroupSuff_(id, siglum);
+
+  static Future<void> removeSubgroupSuff_(String folderId, String siglum) => ShaPref.remove(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_SUBGROUP_SUFFS_(folderId, siglum));
+  Future<void> removeSubgroupSuff(String siglum) => removeSubgroupSuff_(id, siglum);
+
+  static Future<void> setSubgroupSuff_(String folderId, String siglum, String subgroupSuff) => ShaPref.setString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_SUBGROUP_SUFFS_(folderId, siglum), subgroupSuff);
+  Future<void> setSubgroupSuff(String siglum, String subgroupSuff) => setSubgroupSuff_(id, siglum, subgroupSuff);
+
+
   static ApelEwanOwnFolder from(String id){
 
     List<ApelEwan> apelEwans = [];

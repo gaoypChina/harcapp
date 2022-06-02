@@ -143,21 +143,6 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
             Padding(
               padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
               child: TitleShortcutRowWidget(
-                icon: MdiIcons.packageVariantClosed,
-                iconColor: textEnab_(context),
-                title: 'Formy',
-                textAlign: TextAlign.start,
-                onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => HarcFormsPage(allForms))),
-              ),
-            ),
-
-            FormsScrollView(allForms),
-
-            const SizedBox(height: Dimen.SIDE_MARG),
-
-            Padding(
-              padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
-              child: TitleShortcutRowWidget(
                 icon: MdiIcons.cross,
                 iconColor: textEnab_(context),
                 title: 'Apele ewangeliczne',
@@ -167,6 +152,21 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
             ),
 
             _ApelEwanScrollView(allApelEwans),
+
+            const SizedBox(height: Dimen.SIDE_MARG),
+
+            Padding(
+              padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+              child: TitleShortcutRowWidget(
+                icon: MdiIcons.packageVariantClosed,
+                iconColor: textEnab_(context),
+                title: 'Formy',
+                textAlign: TextAlign.start,
+                onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => HarcFormsPage(allForms))),
+              ),
+            ),
+
+            FormsScrollView(allForms),
 
             const SizedBox(height: Dimen.SIDE_MARG),
 

@@ -1,6 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp_core/colors.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -13,7 +13,7 @@ class ZHROrgCardWidget extends StatelessWidget{
 
   final void Function(BuildContext)? onTap;
 
-  const ZHROrgCardWidget({this.onTap});
+  const ZHROrgCardWidget({this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +26,11 @@ class ZHROrgCardWidget extends StatelessWidget{
         colorStart: AppColors.zhr_red,
         colorEnd: Colors.redAccent,
         child: Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(width: Dimen.ICON_MARG),
+                const SizedBox(width: Dimen.ICON_MARG),
                 AspectRatio(
                   aspectRatio: 207.2/264.4,
                   child: SvgPicture.asset(
@@ -40,7 +40,7 @@ class ZHROrgCardWidget extends StatelessWidget{
                   ),
                 ),
 
-                SizedBox(width: 2*Dimen.ICON_MARG),
+                const SizedBox(width: 2*Dimen.ICON_MARG),
 
                 Expanded(
                   child: AutoSizeText(

@@ -1,6 +1,6 @@
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
@@ -70,7 +70,7 @@ class TitleWidget extends StatelessWidget{
   final Color? textColor;
   final bool? shadow;
 
-  const TitleWidget(this.article, {this.dense=false, this.textColor, this.shadow});
+  const TitleWidget(this.article, {this.dense=false, this.textColor, this.shadow, super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp/_common_classes/blur.dart';
 import 'package:harcapp/_common_classes/scan_qr_code.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';

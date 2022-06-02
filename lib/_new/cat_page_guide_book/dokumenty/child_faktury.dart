@@ -1,7 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
-import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/pola_button.dart';
@@ -26,16 +26,16 @@ class ChildFaktury extends StatelessWidget {
 
         Positioned.fill(
           child: ListView.separated(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
                 top: Dimen.SIDE_MARG,
                 bottom: Dimen.ICON_FOOTPRINT + 3*Dimen.SIDE_MARG,
                 left: Dimen.SIDE_MARG,
                 right: Dimen.SIDE_MARG
             ),
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) => FakturaWidget(ALL_DATA_FAKTURY[index]),
             itemCount: ALL_DATA_FAKTURY.length,
-            separatorBuilder: (context, index) => SizedBox(height: Dimen.SIDE_MARG),
+            separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
           ),
         ),
 
@@ -51,7 +51,7 @@ class ChildFaktury extends StatelessWidget {
             child: TitleShortcutRowWidget(
               leading: Padding(
                 child: PolaIcon(color: hintEnab_(context)),
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
               ),
               title: 'Kupuj polskie',
               onOpen: (context) => polaTap(context),
@@ -74,7 +74,7 @@ class FakturaWidget extends StatelessWidget{
     return SimpleButton(
       radius: AppCard.BIG_RADIUS,
       margin: EdgeInsets.zero,
-      padding: EdgeInsets.all(Dimen.ICON_MARG),
+      padding: const EdgeInsets.all(Dimen.ICON_MARG),
       onTap: () => Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => FakturaBigWidget(data))
@@ -92,13 +92,13 @@ class FakturaWidget extends StatelessWidget{
             ),
           ),
 
-          SizedBox(height: Dimen.ICON_MARG),
+          const SizedBox(height: Dimen.ICON_MARG),
           //Text('Adres:', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL, color: AppColors.text_hint_enab)),
           //SizedBox(height: Dimen.DEF_MARG),
           Row(
             children: [
               Icon(MdiIcons.mapMarkerOutline, color: iconDisab_(context)),
-              SizedBox(width: Dimen.ICON_MARG),
+              const SizedBox(width: Dimen.ICON_MARG),
               Hero(
                 tag: data.adres,
                 child: Material(
@@ -110,7 +110,7 @@ class FakturaWidget extends StatelessWidget{
           ),
           //SizedBox(height: 2*Dimen.DEF_MARG),
           //Text('NIP:', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL, color: AppColors.text_hint_enab)),
-          SizedBox(height: Dimen.ICON_MARG),
+          const SizedBox(height: Dimen.ICON_MARG),
           Row(
             children: [
               SizedBox(
@@ -119,7 +119,7 @@ class FakturaWidget extends StatelessWidget{
                 ),
                 width: Dimen.ICON_SIZE,
               ),
-              SizedBox(width: Dimen.ICON_MARG),
+              const SizedBox(width: Dimen.ICON_MARG),
               Hero(
                 tag: data.nip,
                 child: Material(
@@ -152,20 +152,20 @@ class FakturaBigWidget extends StatelessWidget{
       appBar: AppBar(
         backgroundColor: background_(context),
         elevation: 0,
-        title: Text('Dane do faktury'),
+        title: const Text('Dane do faktury'),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(MdiIcons.contentCopy),
+            icon: const Icon(MdiIcons.contentCopy),
             onPressed: ()async{
-              await Clipboard.setData(ClipboardData(text: data.title + '\n\n' + data.adres + '\n\n' + 'NIP: ${data.nip}'));
+              await Clipboard.setData(ClipboardData(text: '${data.title}\n\n${data.adres}\n\nNIP: ${data.nip}'));
               showAppToast(context, text: 'Skopiowano');
             },
           ),
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(Dimen.ICON_MARG),
+        padding: const EdgeInsets.all(Dimen.ICON_MARG),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -181,7 +181,7 @@ class FakturaBigWidget extends StatelessWidget{
                 ),
               )
             ),
-            SizedBox(height: 2*Dimen.ICON_MARG),
+            const SizedBox(height: 2*Dimen.ICON_MARG),
             Text('Adres:',
                 style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, color: hintEnab_(context)),
             ),
@@ -197,7 +197,7 @@ class FakturaBigWidget extends StatelessWidget{
                 ),
               )
             ),
-            SizedBox(height: 2*Dimen.ICON_MARG),
+            const SizedBox(height: 2*Dimen.ICON_MARG),
             Hero(
               tag: data.nip,
               child: Material(

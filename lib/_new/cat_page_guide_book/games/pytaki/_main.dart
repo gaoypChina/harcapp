@@ -1,8 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:harcapp/_common_classes/auto_size_text.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/sliding_card.dart';
 import 'package:harcapp/_common_widgets/swap_card_layout.dart';
@@ -284,10 +284,10 @@ class GamePytakiPageState extends State<GamePytakiPage> with ModuleStatsMixin{
                       left: 6,
                       right: 6,
                       child: AnimatedOpacity(
-                        child: const Icon(MdiIcons.clock, color: Colors.deepOrange, size: 32.0,),
                         opacity: (cardsLeft()&&!showHardCards&&showClock!)?1.0:0.0,
                         duration: const Duration(milliseconds: 700),
                         curve: Curves.easeInOutQuad,
+                        child: const Icon(MdiIcons.clock, color: Colors.deepOrange, size: 32.0,),
                       ),
                     ),
 
@@ -296,10 +296,10 @@ class GamePytakiPageState extends State<GamePytakiPage> with ModuleStatsMixin{
                       left: 6,
                       right: 6,
                       child: AnimatedOpacity(
-                        child: const Icon(MdiIcons.checkCircle, color: Colors.lightBlueAccent, size: 32.0,),
                         opacity: (cardsLeft()&&!showHardCards&&showOk!)?1.0:0.0,
                         duration: const Duration(milliseconds: 700),
                         curve: Curves.easeInOutQuad,
+                        child: const Icon(MdiIcons.checkCircle, color: Colors.lightBlueAccent, size: 32.0,),
                       ),
                     ),
 
@@ -308,37 +308,37 @@ class GamePytakiPageState extends State<GamePytakiPage> with ModuleStatsMixin{
                       left: 6,
                       right: 6,
                       child: AnimatedOpacity(
+                        opacity: showHardCardsButton?0.0:1.0,
+                        duration: const Duration(milliseconds: 350),
                         child: Text(
                           'Pozostało kart: ${((showHardCards)?hardCards!.length:cards!.length) - currIndex!}',
                           style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context)),
                           textAlign: TextAlign.center,),
-                        opacity: showHardCardsButton?0.0:1.0,
-                        duration: const Duration(milliseconds: 350),
                       ),
                     ),
 
 
                     Positioned.fill(
+                      top: 24,
                       child: Align(
                         alignment: const Alignment(0.0, (-0.5 / (STACK_NUM - 1)) * (STACK_NUM - 3)),
                         child: SizedBox(
-                          child: CardItem(this, 'Koniec!\n\nJeżeli Ci się podobało, poleć grę znajomym!', emoIndex: 3, emoName: false),
                           height: cardSecHeight,
                           width: MediaQuery.of(context).size.width * (ITEM_WIDTH_FACTOR + (ITEM_WIDTH_FACTOR*GROW_FACTOR/STACK_NUM)*3),
+                          child: CardItem(this, 'Koniec!\n\nJeżeli Ci się podobało, poleć grę znajomym!', emoIndex: 3, emoName: false),
                         ),
                       ),
-                      top: 24,
                     ),
 
                     if(!showHardCards && !showHardCardsButton)
                       Positioned.fill(
-                        child: _SwapCardLayout(this, cards, controller, const ValueKey('_SwapCardLayout normal cards')),
                         top: 24.0,
+                        child: _SwapCardLayout(this, cards, controller, const ValueKey('_SwapCardLayout normal cards')),
                       )
                     else if(!showHardCardsButton)
                       Positioned.fill(
-                        child: _SwapCardLayout(this, hardCards, controller, const ValueKey('_SwapCardLayout hard cards')),
                         top: 24.0,
+                        child: _SwapCardLayout(this, hardCards, controller, const ValueKey('_SwapCardLayout hard cards')),
                       )
 
                   ],
@@ -349,6 +349,8 @@ class GamePytakiPageState extends State<GamePytakiPage> with ModuleStatsMixin{
           ),
         ),
         floatingActionButton: AnimatedOpacity(
+          opacity: showHardCardsButton?1.0:0,
+          duration: const Duration(milliseconds: 200),
           child: FloatingActionButton.extended(
             onPressed: () {
               setState((){
@@ -361,8 +363,6 @@ class GamePytakiPageState extends State<GamePytakiPage> with ModuleStatsMixin{
             icon: Icon(MdiIcons.reload, color: textEnab_(context)),
             label: Text('Pokaż odłożone karty', style: AppTextStyle(fontWeight: weight.halfBold),),
           ),
-          opacity: showHardCardsButton?1.0:0,
-          duration: const Duration(milliseconds: 200),
         )
     );
   }
@@ -527,6 +527,7 @@ class CardItemState extends State<CardItem>{
 
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 if(widget.emoIndex!=null)
                   SvgPicture.asset('assets/images/emo/${CardItem.EMOTIONS.keys.toList()[widget.emoIndex!]}', width: 48, height: 48),
@@ -544,7 +545,6 @@ class CardItemState extends State<CardItem>{
                   textAlign: TextAlign.center,
                 ),
               ],
-              mainAxisAlignment: MainAxisAlignment.center,
             ),
           ),
 

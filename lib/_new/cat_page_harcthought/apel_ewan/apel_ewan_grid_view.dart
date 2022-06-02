@@ -1,20 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_widget_small.dart';
-import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan_folder.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan_own_folder.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan_thumbnail_widget.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/dimen.dart';
 
 import 'apel_ewan.dart';
+import 'apel_ewan_folder.dart';
 
 class ApelEwanGridView<T extends ApelEwanFolder> extends StatelessWidget{
 
+  static const int crossCount = 3;
+
   final T folder;
+  final EdgeInsets padding;
+  final bool animate;
 
   const ApelEwanGridView({
     required this.folder,
+    this.padding = const EdgeInsets.all(Dimen.ICON_MARG),
+    this.animate = false,
     super.key
   });
 
@@ -23,57 +28,46 @@ class ApelEwanGridView<T extends ApelEwanFolder> extends StatelessWidget{
 
     List<Widget> children = [];
 
-    for(ApelEwan apelEwan in folder.apelEwans)
-      children.add(ApelEwanThumbnailWidget(apelEwan));
-
-    while(children.length % 3 != 0)
-      children.add(const SizedBox(width: SprawWidgetSmall.width, height: SprawWidgetSmall.height));
-
-    return Stack(
-      children: [
-
-        Positioned(
-            right: -0.1*MediaQuery.of(context).size.width,
-            bottom: -0.1*MediaQuery.of(context).size.width,
-            child: Hero(
-              tag: folder.iconKey,
-              child: RotationTransition(
-                turns: const AlwaysStoppedAnimation(-15 / 360),
-                child: Icon(
-                  folder.icon,
-                  color: background_(context),
-                  size: MediaQuery.of(context).size.width,
-                ),
-              ),
-            )
-        ),
-
-        if(folder.isEmpty)
-          Positioned.fill(
-            child: Center(
-              child: Text(
-                'W folderze...\n\n\npusto!',
-                style: AppTextStyle(
-                  fontSize: 24.0,
-                  fontWeight: weight.bold,
-                  color: iconEnab_(context),
-                ),
-                textAlign: TextAlign.center,
+    for(int index=0; index <folder.apelEwans.length; index++) {
+      ApelEwan apelEwan = folder.apelEwans[index];
+      children.add(
+        animate?
+        AnimationConfiguration.staggeredGrid(
+          position: index,
+          duration: const Duration(milliseconds: 375),
+          columnCount: crossCount,
+          child: ScaleAnimation(
+            child: FadeInAnimation(
+              child: ApelEwanThumbnailWidget(
+                apelEwan,
+                subgroup:
+                folder is ApelEwanOwnFolder?
+                (folder as ApelEwanOwnFolder).getSubgroupSuff(apelEwan.siglum):
+                null,
               ),
             ),
           ),
+        ):
+        ApelEwanThumbnailWidget(
+          apelEwan,
+          subgroup:
+          folder is ApelEwanOwnFolder?
+          (folder as ApelEwanOwnFolder).getSubgroupSuff(apelEwan.siglum):
+          null,
+        )
+      );
+    }
+    while(children.length % 3 != 0)
+      children.add(const SizedBox(width: 0, height: 0));
 
-        GridView.count(
-          padding: const EdgeInsets.all(Dimen.ICON_MARG),
-          physics: const BouncingScrollPhysics(),
-          crossAxisCount: 3,
-          crossAxisSpacing: Dimen.ICON_MARG,
-          mainAxisSpacing: Dimen.ICON_MARG,
-          childAspectRatio: 1,
-          children: children,
-        ),
-
-      ],
+    return GridView.count(
+      padding: padding,
+      physics: const BouncingScrollPhysics(),
+      crossAxisCount: crossCount,
+      crossAxisSpacing: Dimen.ICON_MARG,
+      mainAxisSpacing: Dimen.ICON_MARG,
+      childAspectRatio: 1,
+      children: children,
     );
 
   }
