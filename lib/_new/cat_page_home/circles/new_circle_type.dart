@@ -53,8 +53,8 @@ class CircleTypeWidget extends StatelessWidget{
 
         _Button(
           icon: MdiIcons.applicationOutline,
-          title: 'Utwórz puste',
-          description: 'Zacznij od pustego szablonu.\n\nSkorzystaj, jeżeli wiesz jak działają współzawodnictwa.',
+          title: 'Utwórz nowe',
+          description: 'Zawiąż nowy krąg.',
           onTap: () => onSelected!(NewCircleType.empty),
         ),
 
@@ -88,6 +88,7 @@ class _Button extends StatelessWidget{
       padding: EdgeInsets.zero,
       radius: AppCard.BIG_RADIUS,
       color: background_(context),
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.all(Dimen.SIDE_MARG),
         child: Column(
@@ -119,8 +120,7 @@ class _Button extends StatelessWidget{
 
           ],
         ),
-      ),
-      onTap: onTap
+      )
   );
 
 }
@@ -154,7 +154,7 @@ class _JoinButtonState extends State<_JoinButton>{
     return _Button(
       icon: MdiIcons.applicationImport,
       title: 'Dołącz do istniejącego',
-      description: 'Dołącz do współzawodnictwa utworzonego przez inną osobę.',
+      description: 'Dołącz do kręgu zawiązanego przez inną osobę.',
       onTap: null,
       bottom: Row(
         children: [

@@ -73,7 +73,7 @@ class SettingsPageState extends State<SettingsPage> {
           Consumer<ChordsTrailingProvider>(
             builder: (context, prov, child) => SwitchListTile(
               value: prov.chordsTrailing,
-              title: Text('Chwyty po lewej', style: textStyle),
+              title: Text('Chwyty po prawej', style: textStyle),
               onChanged: (bool value) => prov.chordsTrailing = value,
               activeColor: Album.current.avgColorDarkSensitive(context),
             ),

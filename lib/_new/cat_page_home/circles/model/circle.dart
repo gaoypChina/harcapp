@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/account/account.dart';
+import 'package:harcapp/logger.dart';
 import 'package:provider/provider.dart';
 
 import '../../../api/_api.dart';
@@ -43,6 +44,8 @@ class Circle{
   static const int maxLenDescription = 320;
   static const int maxLenCoverImageUrl = 200;
   static const int maxLenColorsKey = 42;
+
+  static const int announcementPageSize = 10;
 
   static List<Circle>? _all;
   static Map<String, Circle>? _allMap;
@@ -206,6 +209,18 @@ class Circle{
     _announcements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
     _announcementsMap[announcement.key] = announcement;
   }
+
+  void addAnnouncements(List<Announcement> announcements){
+    _announcements.addAll(announcements);
+    _announcements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
+    for(Announcement announcement in announcements)
+      _announcementsMap[announcement.key] = announcement;
+
+    // Assert
+    if(_announcements.length != _announcementsMap.length) {
+      logger.w('Tried to add announcements which where already in the list!');
+      _announcementsMap = {for (Announcement announcement in _announcements) announcement.key: announcement};
+    }}
 
   void removeAnnouncement(Announcement announcement){
     _announcements.remove(announcement);

@@ -6,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/all_articles_page.dart';
@@ -139,7 +140,6 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
                     ModuleStatsMixin.myslHarcWiersze,
                     'Wiersze',
                     allWiersze,
-                    titleColor: Colors.black
                 ))),
               ),
             ),
@@ -155,6 +155,65 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
                 iconColor: textEnab_(context),
                 title: 'Apele ewangeliczne',
                 textAlign: TextAlign.start,
+                trailing: IconButton(
+                  icon: const Icon(MdiIcons.informationOutline),
+                  onPressed: () => showScrollBottomSheet(
+                    context: context,
+                    builder: (context) => BottomSheetDef(
+                      title: 'O co kaman?',
+                      builder: (context) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+
+                          Text(
+                            'Harcerze w zastępach otrzymują fragment Pisma Świętego.'
+                            '\n\nPrzez ok. 15 minut każdy ma indywidualny czas, by go przeczytać, przemyśleć i spróbować odpowiedzieć na pytania na dole.'
+                            '\n\nNastępnie zastęp schodzi się razem. Każdy według uznania może podzielić się swoimi przemyśleniami odnośnie każdego z pytań.'
+                            '\n\nCzęść wspólną prowadzi zastępowy (lub inna chętna osoba).',
+                            style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)
+                          ),
+
+                          const SizedBox(height: 2*Dimen.BOTTOM_SHEET_MARG),
+
+                          Text(
+                              'Dla kogo?',
+                              style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold)
+                          ),
+
+                          const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
+
+                          Text(
+                              'Forma ta jest dostosowana do osób w wieku 12 lat i więcej.',
+                              style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)
+                          ),
+
+                          const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
+
+                          Text(
+                              'A opracowana została przez Skautów Europy.',
+                              style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)
+                          ),
+
+                          const SizedBox(height: 3*Dimen.BOTTOM_SHEET_MARG),
+
+                          Center(
+                            child: Text(
+                                'Czuwaj! Z Bogiem :)',
+                                style: AppTextStyle(
+                                    fontSize: Dimen.TEXT_SIZE_BIG,
+                                    color: Colors.amber[900],
+                                    fontWeight: weight.bold
+                                )
+                            ),
+                          ),
+
+                          const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
+
+                        ],
+                      ),
+                    )
+                  ),
+                ),
                 onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => ApelEwansPage(allApelEwans))),
               ),
             ),
@@ -274,14 +333,17 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
   @override
   void initState() {
 
+    BookmarkedArticlesProvider bookmarkedArticlesProv = Provider.of<BookmarkedArticlesProvider>(context, listen: false);
+    LikedArticlesProvider likedArticlesProv = Provider.of<LikedArticlesProvider>(context, listen: false);
+
     loaderListener = ArticleLoaderListener(
         onEnd: (ArticleLoaderError? err, bool forceFinished) async {
 
           if(forceFinished) return;
 
           if(Article.all != null) {
-            Provider.of<BookmarkedArticlesProvider>(context, listen: false).init(Article.all);
-            Provider.of<LikedArticlesProvider>(context, listen: false).init(Article.all);
+            bookmarkedArticlesProv.init(Article.all);
+            likedArticlesProv.init(Article.all);
           }
         },
         onStateChanged: (ArticleLoadState state){
@@ -304,8 +366,8 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
 
     if(Article.all == null) {
       Article.addAll(storedArticles);
-      Provider.of<BookmarkedArticlesProvider>(context, listen: false).init(Article.all);
-      Provider.of<LikedArticlesProvider>(context, listen: false).init(Article.all);
+      bookmarkedArticlesProv.init(Article.all);
+      likedArticlesProv.init(Article.all);
       articleLoader.run();
     }
 

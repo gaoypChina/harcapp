@@ -102,6 +102,7 @@ class ChildZHPState extends State<ChildZHP> with TickerProviderStateMixin{
               ListView(
                 physics: const BouncingScrollPhysics(),
                 children: const <Widget>[
+
                   Padding(
                     padding: EdgeInsets.all(Dimen.SIDE_MARG),
                     child: PrzyrzeczenieItem(ppz_przyrz_title, ppz_przyrz_content),
@@ -120,10 +121,25 @@ class ChildZHPState extends State<ChildZHP> with TickerProviderStateMixin{
               ListView(
                 physics: const BouncingScrollPhysics(),
                 children: const <Widget>[
+
+                  SizedBox(height: Dimen.SIDE_MARG),
+
                   Padding(
-                    padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                    padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                     child: PrzyrzeczenieItem(pph_przyrz_title, pph_przyrz_content),
                   ),
+
+                  SizedBox(height: Dimen.SIDE_MARG),
+
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                    child: PrzyrzeczenieItem(
+                        'Dewiza starszoharcerska',
+                        'Znajdź swój kierunek!'
+                    ),
+                  ),
+
+                  SizedBox(height: Dimen.SIDE_MARG),
 
                   PrawoItem(1, MdiIcons.textBoxCheckOutline, pph1_zhp, comment: kpph1_zhp,),
                   PrawoItem(2, MdiIcons.shieldEdit, pph2, comment: kpph2),

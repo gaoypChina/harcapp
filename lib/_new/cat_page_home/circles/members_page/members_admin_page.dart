@@ -13,6 +13,7 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
+import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:optional/optional_internal.dart';
@@ -589,9 +590,17 @@ class _EditPatrolDialogState extends State<_EditPatrolDialog>{
 
   late TextEditingController controller;
 
+  late List<String> patrolNames;
+
   @override
   void initState(){
     controller = TextEditingController(text: member.patrol??'');
+
+    patrolNames = [];
+    for(Member mem in circle.members)
+      if(mem.patrol != null && !patrolNames.contains(mem.patrol))
+      patrolNames.add(mem.patrol!);
+
     super.initState();
   }
 
@@ -654,6 +663,27 @@ class _EditPatrolDialogState extends State<_EditPatrolDialog>{
                 hint: 'Nazwa zastępu:',
                 hintTop: 'Nazwa zastępu',
                 controller: controller,
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(
+                left: Dimen.ICON_MARG,
+                right: Dimen.ICON_MARG,
+                bottom: Dimen.ICON_MARG
+              ),
+              child: Wrap(
+                spacing: Dimen.ICON_MARG,
+                runSpacing: Dimen.ICON_MARG,
+                children: patrolNames.map(
+                        (patrol) => SimpleButton.from(
+                      context: context,
+                      text: patrol,
+                      margin: EdgeInsets.zero,
+                      color: backgroundIcon_(context),
+                      onTap: () => controller.text = patrol,
+                    )
+                ).toList(),
               ),
             )
 

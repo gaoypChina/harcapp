@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_new/cat_page_song_book/song_contributors_page.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
@@ -48,6 +46,7 @@ class TabOfCont extends StatefulWidget{
   final String initPhrase;
   final SongSearchOptions? searchOptions;
   final bool appBar;
+  final List<Widget>? appBarActions;
   final Widget? floatingButton;
   final Color? background;
   final Color? accentColor;
@@ -75,6 +74,7 @@ class TabOfCont extends StatefulWidget{
       {this.initPhrase='',
         this.searchOptions,
         this.appBar=true,
+        this.appBarActions,
         this.floatingButton,
         this.background,
         this.accentColor,
@@ -214,12 +214,7 @@ class TabOfContState extends State<TabOfCont>{
                             centerTitle: true,
                             elevation: 0,
                             floating: true,
-                            actions: [
-                              IconButton(
-                                icon: const Icon(MdiIcons.trendingUp),
-                                onPressed: () => pushPage(context, builder: (context) => const SongContributorsPage()),
-                              )
-                            ],
+                            actions: widget.appBarActions,
                           ),
 
                         Consumer<SearchParamsProvider>(
@@ -252,8 +247,8 @@ class TabOfContState extends State<TabOfCont>{
                                   prov.currSongs![index],
                                   key: prov.globalKeys![index],
                                   onTap: onItemTap==null?null:(song) => onItemTap!(song, index),
-                                  leading: itemLeadingBuilder==null?null:itemLeadingBuilder!(prov.currSongs![index], prov.globalKeys![index]),
-                                  trailing: itemTrailingBuilder==null?null:itemTrailingBuilder!(prov.currSongs![index], prov.globalKeys![index]),
+                                  leading: itemLeadingBuilder?.call(prov.currSongs![index], prov.globalKeys![index]),
+                                  trailing: itemTrailingBuilder?.call(prov.currSongs![index], prov.globalKeys![index]),
                                 )
                             ),
                                 childCount: prov.currSongs!.length

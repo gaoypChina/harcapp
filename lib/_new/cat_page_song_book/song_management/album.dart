@@ -261,6 +261,7 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncI
   void delete({bool localOnly = false}) {
     markSyncAsRemoved();
     File(getAlbumFolderPath + fileName).deleteSync();
+    ShaPref.remove(ShaPref.SHA_PREF_SPIEWNIK_SEARCH_HISTORY_(this));
     if(!localOnly) synchronizer.post();
   }
 
@@ -344,6 +345,22 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncI
     );
   }
 
+  List<String> get searchHistory => ShaPref.getStringList(ShaPref.SHA_PREF_SPIEWNIK_SEARCH_HISTORY_(this), []);
+  set searchHistory(List<String> value) => ShaPref.setStringList(ShaPref.SHA_PREF_SPIEWNIK_SEARCH_HISTORY_(this), value);
+  void removeFromSeachHistory(int index){
+    List<String> history = searchHistory;
+    history.removeAt(index);
+    searchHistory = history;
+  }
+
+  void registerSongSearchToHistory(Song song){
+    List<String> history = searchHistory;
+    history.insert(0, song.fileName);
+    if(history.length > 1000)
+      history = history.sublist(0, 1000);
+    searchHistory = history;
+  }
+  
   @override
   bool operator == (Object other)=> other is Album && fileName == other.fileName;
 

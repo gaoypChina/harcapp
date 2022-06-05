@@ -7,6 +7,7 @@ import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_progress_widget.dart';
+import 'package:harcapp/main.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
@@ -131,6 +132,27 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
                   bottom: Dimen.SIDE_MARG
                 )
               ),
+
+              const SizedBox(height: Dimen.SIDE_MARG),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                child: TitleShortcutRowWidget(
+                  title: 'Sprawności',
+                  textAlign: TextAlign.start,
+                  onOpen: (context) => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SprawnosciPage())
+                  ),
+                ),
+              ),
+
+              const _SprawButtonsWidget(
+                padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+              ),
+
+              _SprawProgressPreviewWidget(),
+
             ])
         ),
 
@@ -138,10 +160,6 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
           padding: const EdgeInsets.all(Dimen.SIDE_MARG),
           sliver: SliverList(
             delegate: SliverChildListDelegate([
-
-              _SprawnosciPreviewWidget(),
-
-              const SizedBox(height: Dimen.SIDE_MARG),
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
@@ -314,18 +332,20 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
 
               const GameTiles(),
 
-              const SizedBox(height: Dimen.SIDE_MARG),
+              if(App.showPatroniteSeasonally)
+                const SizedBox(height: Dimen.SIDE_MARG),
 
-              const PatroniteSupportWidget(
-                stateTag: PatroniteSupportWidget.tagGuideBook,
-                title: 'Potrzeba wsparcia!',
-                description: 'HarcAppka powstaje <b>po godzinach</b>, jest <b>darmowa</b> dla wszystkich i <b>nie ma reklam</b>.\n'
-                    '\n'
-                    'Jej ciągły rozwój i darmowy dostęp możliwy jest dzięki <b>wsparciu</b> harcerzy, instruktorów i rodziców - <b>takich jak Ty</b>!\n'
-                    '\n'
-                    'Wiele od Ciebie zależy! <b>c:</b>',
-                expandable: false,
-              )
+              if(App.showPatroniteSeasonally)
+                const PatroniteSupportWidget(
+                  stateTag: PatroniteSupportWidget.tagGuideBook,
+                  title: 'Potrzeba wsparcia!',
+                  description: 'HarcAppka powstaje <b>po godzinach</b>, jest <b>darmowa</b> dla wszystkich i <b>nie ma reklam</b>.\n'
+                      '\n'
+                      'Jej ciągły rozwój i darmowy dostęp możliwy jest dzięki <b>wsparciu</b> harcerzy, instruktorów i rodziców - <b>takich jak Ty</b>!\n'
+                      '\n'
+                      'Wiele od Ciebie zależy! <b>c:</b>',
+                  expandable: false,
+                )
             ]),
           ),
         )
@@ -368,93 +388,92 @@ class _ItemWidget extends StatelessWidget{
 }
 
 
-class _SprawnosciPreviewWidget extends StatelessWidget{
+class _SprawButtonsWidget extends StatelessWidget{
+
+  final EdgeInsets padding;
+
+  const _SprawButtonsWidget({
+    this.padding = EdgeInsets.zero
+  });
 
   @override
-  Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: [
-      TitleShortcutRowWidget(
-        title: 'Sprawności',
-        onOpen: (context) => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const SprawnosciPage())
+  Widget build(BuildContext context) => SingleChildScrollView(
+    padding: padding,
+    physics: const BouncingScrollPhysics(),
+    scrollDirection: Axis.horizontal,
+    child: Row(
+      children: [
+        SimpleButton.from(
+          context: context,
+          color: cardEnab_(context),
+          margin: EdgeInsets.zero,
+          icon: SprawFolder.omegaFolderIcon,
+          text: 'Foldery',
+          onTap: () => pushPage(context, builder: (context) => const SprawFoldersPage()),
         ),
-      ),
-
-      Consumer3<SprawSavedListProv, SprawInProgressListProv, SprawCompletedListProv>(
-        builder: (context, savedProv, inProgProv, complProv, child){
-
-          String keyVal = '';
-          for(String uid in SprawFolder.omega.sprawUIDs) keyVal += uid;
-          for(String uid in Spraw.inProgressList) keyVal += uid;
-          for(String uid in Spraw.completedList) keyVal += uid;
-
-          return SprawProgressWidget(
-            key: ValueKey(keyVal),
-            backgroundIcon: true,
-            showIcons: true,
-            onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => SprawFoldersPage())),
-          );
-        },
-      ),
-
-      Row(
-        children: [
-          Expanded(
-            child: SimpleButton.from(
-              context: context,
-              direction: Axis.vertical,
-              margin: EdgeInsets.zero,
-              icon: SprawFolder.omegaFolderIcon,
-              text: 'Foldery',
-              onTap: () => pushPage(context, builder: (context) => SprawFoldersPage()),
-            ),
-          ),
-          Expanded(
-            child: SimpleButton.from(
-                context: context,
-                direction: Axis.vertical,
-                margin: EdgeInsets.zero,
+        const SizedBox(width: Dimen.SIDE_MARG),
+        SimpleButton.from(
+            context: context,
+            color: cardEnab_(context),
+            margin: EdgeInsets.zero,
+            icon: SprawTileWidget.ICON_IN_PROGRESS,
+            text: 'W toku',
+            onTap: () =>
+            Spraw.inProgressList.isEmpty?
+            showAppToast(context, text: 'Wieje pustką...'):
+            pushPage(context, builder: (context) => Consumer<SprawInProgressListProv>(
+              builder: (context, prov, child) => SprawGridPage(
+                key: ValueKey(Spraw.inProgressList),
+                title: 'Realizowane sprawności',
+                UIDs: Spraw.inProgressList,
                 icon: SprawTileWidget.ICON_IN_PROGRESS,
-                text: 'W trakcie',
-                onTap: () =>
-                Spraw.inProgressList.isEmpty?
-                showAppToast(context, text: 'Wieje pustką...'):
-                pushPage(context, builder: (context) => Consumer<SprawInProgressListProv>(
-                  builder: (context, prov, child) => SprawGridPage(
-                    key: ValueKey(Spraw.inProgressList),
-                    title: 'Realizowane sprawności',
-                    UIDs: Spraw.inProgressList,
-                    icon: SprawTileWidget.ICON_IN_PROGRESS,
-                    mode: SprawWidgetSmall.MODE_IN_PROGRESS,
-                  ),
-                ))
-            ),
-          ),
-          Expanded(
-            child: SimpleButton.from(
-                context: context,
-                direction: Axis.vertical,
-                margin: EdgeInsets.zero,
+                mode: SprawWidgetSmall.MODE_IN_PROGRESS,
+              ),
+            ))
+        ),
+        const SizedBox(width: Dimen.SIDE_MARG),
+        SimpleButton.from(
+            context: context,
+            color: cardEnab_(context),
+            margin: EdgeInsets.zero,
+            icon: SprawTileWidget.ICON_COMPLETED,
+            text: 'Zdobyte',
+            onTap: () => Spraw.completedList.isEmpty?
+            showAppToast(context, text: 'Wciąż żadnych osiągnięć...'):
+            pushPage(context, builder: (context) => Consumer<SprawCompletedListProv>(
+              builder: (context, prov, child) => SprawGridPage(
+                key: ValueKey(Spraw.completedList),
+                title: 'Zdobyte sprawności',
+                UIDs: Spraw.completedList,
                 icon: SprawTileWidget.ICON_COMPLETED,
-                text: 'Zdobyte',
-                onTap: () => Spraw.completedList.isEmpty?
-                showAppToast(context, text: 'Wciąż żadnych osiągnięć...'):
-                pushPage(context, builder: (context) => Consumer<SprawCompletedListProv>(
-                  builder: (context, prov, child) => SprawGridPage(
-                    key: ValueKey(Spraw.completedList),
-                    title: 'Zdobyte sprawności',
-                    UIDs: Spraw.completedList,
-                    icon: SprawTileWidget.ICON_COMPLETED,
-                    mode: SprawWidgetSmall.MODE_COMPLETE,
-                  ),
-                ))
-            ),
-          )
-        ],
-      )
-    ],
+                mode: SprawWidgetSmall.MODE_COMPLETE,
+              ),
+            ))
+        ),
+      ],
+    ),
+  );
+
+}
+
+class _SprawProgressPreviewWidget extends StatelessWidget{
+
+  @override
+  Widget build(BuildContext context) => Consumer3<SprawSavedListProv, SprawInProgressListProv, SprawCompletedListProv>(
+    builder: (context, savedProv, inProgProv, complProv, child){
+
+      String keyVal = '';
+      for(String uid in SprawFolder.omega.sprawUIDs) keyVal += uid;
+      for(String uid in Spraw.inProgressList) keyVal += uid;
+      for(String uid in Spraw.completedList) keyVal += uid;
+
+      return SprawProgressWidget(
+        key: ValueKey(keyVal),
+        backgroundIcon: true,
+        showIcons: true,
+        onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => const SprawFoldersPage())),
+      );
+    },
   );
 
 }
@@ -536,11 +555,11 @@ class LatestStopWidgetState extends State<LatestStopWidget>{
               ),
               child: TitleShortcutRowWidget(
                 title: 'Stopnie',
-                leading: const OrgSwitcher(
+                trailing: const OrgSwitcher(
                   allowedOrgs: [Org.zhp, Org.zhr_c, Org.zhr_d],
                   longPressable: false,
                 ),
-                trailing: const SizedBox(width: OrgSwitcher.width - Dimen.ICON_FOOTPRINT),
+                textAlign: TextAlign.start,
                 onOpen: (context) => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => RankPage(org: orgProv.current))

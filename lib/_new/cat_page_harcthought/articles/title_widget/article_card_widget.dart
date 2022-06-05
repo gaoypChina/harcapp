@@ -18,7 +18,7 @@ import 'common.dart';
 
 class ArticleCardWidget extends StatefulWidget{
 
-  static const double height = 256;
+  static const double height = 242;
 
   final Article article;
   final void Function(

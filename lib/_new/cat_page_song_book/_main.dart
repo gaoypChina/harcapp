@@ -733,6 +733,9 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
       forgetScrollPosition: forgetScrollPosition,
       onSongSelected: (Song song, int indexInAlbum, SongOpenType songOpenType) async {
         jumpToPage(indexInAlbum);
+
+        if(songOpenType != SongOpenType.history)
+          Album.current.registerSongSearchToHistory(song);
         // songsStatisticsRegistrator stuff is handled by pageChange.
       },
       onConfAlbumEnabled: (){

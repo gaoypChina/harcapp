@@ -121,7 +121,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                 color: CirclePage.cardColor(context, palette),
                 clipBehavior: Clip.antiAlias,
                 borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-                elevation: AppCard.bigElevation,
+                elevation: AppCard.defElevation,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -227,7 +227,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                                   margin: EdgeInsets.zero,
                                   context: context,
                                   icon: MdiIcons.accountCancelOutline,
-                                  text: 'Brak informacji o obecności',
+                                  text: 'Brak deklaracji obecności',
                                   fontWeight: weight.normal,
                                   onTap: null
                               )
@@ -238,7 +238,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                                   margin: EdgeInsets.zero,
                                   context: context,
                                   icon: MdiIcons.accountQuestionOutline,
-                                  text: 'Dobrowolna informacja o obecności',
+                                  text: 'Dobrowolna deklaracja obecności',
                                   fontWeight: weight.normal,
                                   onTap: null
                               )
@@ -249,7 +249,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                                   margin: EdgeInsets.zero,
                                   context: context,
                                   icon: MdiIcons.accountAlertOutline,
-                                  text: 'Wymagana informacja o obecności',
+                                  text: 'Wymagana deklaracja obecności',
                                   fontWeight: weight.normal,
                                   onTap: null
                               )

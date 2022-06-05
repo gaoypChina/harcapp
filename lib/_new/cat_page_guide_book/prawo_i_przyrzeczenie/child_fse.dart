@@ -104,10 +104,34 @@ class ChildFSEState extends State<ChildFSE> with TickerProviderStateMixin{
                 physics: const BouncingScrollPhysics(),
                 children: const <Widget>[
 
+                  SizedBox(height: Dimen.SIDE_MARG),
+
                   Padding(
-                    padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                    padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                     child: PrzyrzeczenieItem(ppz_przyrz_fse_title, ppz_przyrz_fse_content),
                   ),
+
+                  SizedBox(height: Dimen.SIDE_MARG),
+
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                    child: PrzyrzeczenieItem(
+                      'Obietnica wilczka',
+                      'Obiecuję - ze wszystkich sił: starać się być wiernym Bogu, moim rodzicom, mojej Ojczyźnie Polsce i Prawu Gromady, oraz każdego dnia czynić komuś dobry uczynek.'
+                    ),
+                  ),
+
+                  SizedBox(height: Dimen.SIDE_MARG),
+
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                    child: PrzyrzeczenieItem(
+                        'Dewiza wilczków',
+                        'Ja i Ty jesteśmy jednej krwi.'
+                    ),
+                  ),
+
+                  SizedBox(height: Dimen.SIDE_MARG),
 
                   SizedBox(height: Dimen.LIST_SEP_MARG),
                   PrawoItem(1, MdiIcons.accountSwitch, ppz1_fse),

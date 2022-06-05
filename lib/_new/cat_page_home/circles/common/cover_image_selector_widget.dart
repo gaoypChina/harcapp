@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_cover_image_data.dart';
+import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/_new/details/part_contributors.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -59,6 +60,17 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
 
   late int bottomIndex;
 
+  late bool currAnimDark;
+  late bool previewDark;
+
+  void animate() async {
+    while(true){
+      await Future.delayed(const Duration(milliseconds: 2800));
+      if (!mounted) return;
+      setState(() => currAnimDark = !currAnimDark);
+    }
+  }
+
   @override
   void initState() {
     adaptiveLocalImages = CircleCoverImageData.paths.where((image) => image.isAdaptive).toList();
@@ -84,6 +96,10 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
     }
 
     bottomIndex = initiallySelected?.local == false?1:0;
+
+    currAnimDark = false;
+    previewDark = AppSettings.isDark;
+    animate();
 
     super.initState();
   }
@@ -136,7 +152,7 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
                       children: [
 
                         if(bottomIndex == 0)
-                          CoverImageWidget(selected, selected: false, radius: 0)
+                          CoverImageWidget(selected, selected: false, radius: 0, showNight: selected != null && selected!.isAdaptive?previewDark:null)
                         else if(bottomIndex == 1)
                           Image.network(
                             controller.text,
@@ -159,6 +175,7 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
                             right: Dimen.ICON_MARG,
                             child: Material(
                               borderRadius: BorderRadius.circular(2*Dimen.ICON_FOOTPRINT),
+                              clipBehavior: Clip.antiAlias,
                               color: background_(context),
                               child: IconButton(
                                 icon: const Icon(MdiIcons.trashCanOutline),
@@ -166,6 +183,22 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
                               ),
                             ),
                           ),
+
+                        if(bottomIndex == 0 && selected != null && selected!.isAdaptive)
+                          Positioned(
+                            bottom: Dimen.ICON_MARG,
+                            left: Dimen.ICON_MARG,
+                            child: Material(
+                              borderRadius: BorderRadius.circular(2*Dimen.ICON_FOOTPRINT),
+                              clipBehavior: Clip.antiAlias,
+                              color: background_(context),
+                              child: IconButton(
+                                icon: Icon(previewDark?MdiIcons.weatherNight:MdiIcons.weatherSunny),
+                                onPressed: () => setState(() => previewDark = !previewDark),
+                              ),
+                            ),
+                          ),
+
 
                       ],
                     );
@@ -182,12 +215,11 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
                   physics: const BouncingScrollPhysics(),
                   slivers: [
 
-                    SliverList(delegate: SliverChildListDelegate([
+                    if(adaptiveLocalImages.isNotEmpty)
+                      SliverList(delegate: SliverChildListDelegate([
 
-                      if(adaptiveLocalImages.isNotEmpty)
                         const SizedBox(height: Dimen.SIDE_MARG),
 
-                      if(adaptiveLocalImages.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.all(Dimen.DEF_MARG),
                           child: Text(
@@ -199,7 +231,17 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
                           ),
                         ),
 
-                    ])),
+                        Padding(
+                          padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                          child: Text(
+                            'Zdjęcie zmieni się wraz z przejściem aplikacji między jasnym i ciemnym motywem',
+                            style: AppTextStyle(
+                                fontSize: Dimen.TEXT_SIZE_NORMAL,
+                            ),
+                          ),
+                        ),
+
+                      ])),
 
                     if(adaptiveLocalImages.isNotEmpty)
                       SliverPadding(
@@ -216,8 +258,8 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
                               selected: adaptiveLocalImages[index] == selected,
                               radius: AppCard.DEF_RADIUS,
                               showAuthor: false,
-                              onTap: () =>
-                                  setState(() => selected = adaptiveLocalImages[index]),
+                              showNight: currAnimDark,
+                              onTap: () => setState(() => selected = adaptiveLocalImages[index]),
                             ), childCount: adaptiveLocalImages.length),
                           )
                       ),
@@ -310,7 +352,7 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
   
 }
 
-class CoverImageWidget extends StatefulWidget{
+class CoverImageWidget extends StatelessWidget{
 
   static const double height = 200.0;
 
@@ -318,45 +360,15 @@ class CoverImageWidget extends StatefulWidget{
   final bool selected;
   final double radius;
   final bool showAuthor;
+  final bool? showNight;
   final void Function()? onTap;
 
-  const CoverImageWidget(this.coverImage, {this.selected = false, this.showAuthor = false, this.radius = AppCard.BIG_RADIUS, this.onTap, super.key});
-
-  @override
-  State<StatefulWidget> createState() => CoverImageWidgetState();
-
-}
-
-class CoverImageWidgetState extends State<CoverImageWidget>{
-
-  CircleCoverImageData? get coverImage => widget.coverImage;
-  bool get selected => widget.selected;
-  double get radius => widget.radius;
-  bool get showAuthor => widget.showAuthor;
-  void Function()? get onTap => widget.onTap;
-
-  late bool showNight;
-
-  void animate() async {
-    while(true){
-      await Future.delayed(const Duration(milliseconds: 2000));
-      if (!mounted) return;
-      setState(() => showNight = !showNight);
-    }
-  }
-
-  @override
-  void initState() {
-    showNight = false;
-    if(coverImage!.isAdaptive) animate();
-
-    super.initState();
-  }
+  const CoverImageWidget(this.coverImage, {this.selected = false, this.radius = AppCard.BIG_RADIUS, this.showAuthor = false, this.showNight, this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) => SizedBox(
-      height: CoverImageWidget.height,
-      child: InkWell(
+    height: CoverImageWidget.height,
+    child: InkWell(
         onTap: onTap,
         child: Material(
             color: Colors.transparent,
@@ -372,8 +384,8 @@ class CoverImageWidgetState extends State<CoverImageWidget>{
 
                 if(coverImage!.isAdaptive)
                   AnimatedOpacity(
-                    opacity: showNight?1:0,
-                    duration: const Duration(milliseconds: 300),
+                    opacity: showNight == false?0:1,
+                    duration: const Duration(milliseconds: 500),
                     child: Image(
                         image: AssetImage('assets/images/circle/cover_images/${coverImage!.secondFileName}'),
                         fit: BoxFit.cover
@@ -384,7 +396,7 @@ class CoverImageWidgetState extends State<CoverImageWidget>{
                     child: IgnorePointer(
                       child: AnimatedOpacity(
                         opacity: selected?0.8:0,
-                        duration: const Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 500),
                         child: const Icon(MdiIcons.checkOutline, size: 80.0, color: Colors.white),
                       ),
                     )
@@ -407,7 +419,7 @@ class CoverImageWidgetState extends State<CoverImageWidget>{
               ],
             )
         )
-      ),
+    ),
   );
 
 }

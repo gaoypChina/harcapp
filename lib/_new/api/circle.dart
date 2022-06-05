@@ -309,6 +309,33 @@ class ApiCircle{
       onError: (err) async => onError?.call()
   );
 
+  static Future<Response?> getAnnouncements({
+    required String circleKey,
+    int? page,
+    int? pageSize,
+
+    void Function(List<Announcement>)? onSuccess,
+    void Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      sendRequest: (Dio dio) => dio.get(
+        '${API.SERVER_URL}api/circle/$circleKey/announcement',
+        queryParameters: {
+          if(page != null) 'page': page,
+          if(pageSize != null) 'pageSize': pageSize,
+        }
+      ),
+      onSuccess: (Response response) async {
+
+        List<Announcement> result = [];
+        for(String key in (response.data as Map).keys)
+          result.add(Announcement.fromMap(response.data[key], Circle.allMap![circleKey]!, key: key));
+
+        onSuccess?.call(result);
+      },
+      onError: (err) async => onError?.call()
+  );
+
   static Future<Response?> postAnnouncement({
     required String circleKey,
     required String title,

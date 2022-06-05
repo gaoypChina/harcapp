@@ -6,7 +6,7 @@ import 'package:tuple/tuple.dart';
 
 import '../../_common_classes/time_settings.dart';
 
-enum SongOpenType{init, swipe, search, recommend, random}
+enum SongOpenType{init, swipe, search, recommend, random, history}
 class SongsStatisticsRegistrator{
 
   String? _songLclId;

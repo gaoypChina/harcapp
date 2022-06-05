@@ -8,7 +8,6 @@ import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_page.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendance_resp_mode.dart';
-import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
@@ -52,7 +51,7 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
     color: CirclePage.cardColor(context, palette),
     clipBehavior: Clip.antiAlias,
     borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-    elevation: AppCard.bigElevation,
+    elevation: AppCard.defElevation,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -169,8 +168,8 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
                     Text(
                       announcement.place!,
                       style: AppTextStyle(
-                          fontSize: Dimen.TEXT_SIZE_NORMAL,
-                          color: textEnab_(context)
+                        fontSize: Dimen.TEXT_SIZE_NORMAL,
+                        color: textEnab_(context)
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

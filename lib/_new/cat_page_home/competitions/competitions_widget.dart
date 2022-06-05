@@ -49,10 +49,10 @@ class CompetitionsWidgetState extends State<CompetitionsWidget>{
 
     _listener = IndivCompLoaderListener(
       onError: (message) async {
-        setState(() {});
+        if(mounted) setState(() {});
       },
       onIndivCompsLoaded: (List<IndivComp> comps){
-        setState(() {});
+        if(mounted) setState(() {});
       },
     );
     indivCompLoader.addListener(_listener);
@@ -60,14 +60,14 @@ class CompetitionsWidgetState extends State<CompetitionsWidget>{
     loginListener = LoginProviderListener(
         onLogin: (emailConfirmed){
           if(emailConfirmed) indivCompLoader.run();
-          else setState(() {});
+          else if(mounted) setState(() {});
         },
         onRegistered: (){
           indivCompLoader.run();
         },
         onEmailConfirmChanged: (emailConfirmed){
           if(emailConfirmed) indivCompLoader.run();
-          else setState(() {});
+          else if(mounted) setState(() {});
         }
     );
 

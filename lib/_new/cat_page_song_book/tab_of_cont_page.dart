@@ -4,12 +4,14 @@ import 'dart:math';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
-import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_app_common/patronite_support_widget.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/extended_floating_button.dart';
+import 'package:harcapp/_new/cat_page_song_book/song_contributors_page.dart';
 import 'package:harcapp/_new/cat_page_song_book/songs_statistics_registrator.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp/_new/cat_page_song_book/tab_of_cont_background_icon.dart';
+import 'package:harcapp/_new/cat_page_song_book/tab_of_cont_search_history_page.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_song_book/_main.dart';
@@ -94,12 +96,8 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
             Consumer<_NoSongsFoundProvider>(
               builder: (context, prov, child) =>
               prov.songsFound?
-              Positioned.fill(
-                child: Icon(
-                  CommonIconData.ALL[Album.current.iconKey],
-                  color: backgroundIcon_(context),
-                  size: 0.8*min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
-                ),
+              const Positioned.fill(
+                child: TabOfContBackgroundIcon(),
               ):Container(),
             ),
 
@@ -107,6 +105,7 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
               this,
               controller: controller,
               onConfAlbumEnabled: onConfAlbumEnabled,
+              onSongSelected: onSongSelected,
             )
           ],
         ),
@@ -145,8 +144,9 @@ class _AllSongsPart extends StatefulWidget{
   final TabOfContPageState page;
   final TabOfContController? controller;
   final void Function()? onConfAlbumEnabled;
+  final void Function(Song, int, SongOpenType)? onSongSelected;
 
-  const _AllSongsPart(this.page, {required this.controller, this.onConfAlbumEnabled});
+  const _AllSongsPart(this.page, {required this.controller, this.onConfAlbumEnabled, this.onSongSelected});
 
   @override
   State<StatefulWidget> createState() => _AllSongsPartState();
@@ -163,6 +163,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
   TabOfContPageState get page => widget.page;
   TabOfContController? get controller => widget.controller;
   void Function()? get onConfAlbumEnabled => widget.onConfAlbumEnabled;
+  void Function(Song, int, SongOpenType)? get onSongSelected => widget.onSongSelected;
 
   SongSearchOptions get searchOptions => TabOfContPage.searchOptions;
 
@@ -195,6 +196,26 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
     controller: controller,
     initPhrase: page.widget.initPhrase,
     searchOptions: searchOptions,
+
+    appBarActions: [
+
+      IconButton(
+        icon: const Icon(MdiIcons.history),
+        onPressed: () => pushPage(context, builder: (context) => SearchHistoryPage(
+          onSongSelected: (Song song, int index, SongOpenType type){
+            onSongSelected?.call(song, index, type);
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
+        )),
+      ),
+
+      IconButton(
+        icon: const Icon(MdiIcons.trendingUp),
+        onPressed: () => pushPage(context, builder: (context) => const SongContributorsPage()),
+      )
+
+    ],
 
     floatingButton: Consumer<_NoSongsFoundProvider>(
         builder: (context, prov, child){

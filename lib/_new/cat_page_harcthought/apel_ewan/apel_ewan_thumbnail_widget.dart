@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:webfeed/util/iterable.dart';
 
 import 'apel_ewan_widget.dart';
@@ -24,7 +22,7 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
         builder: (BuildContext context, BoxConstraints constraints){
 
           double textSize = .15*constraints.maxWidth;
-          double coverInitWidth = .25*constraints.maxWidth;
+          double coverInitWidth = .14*constraints.maxWidth;
           double coversBorder = .05*constraints.maxWidth;
           double outerRadius = .12*constraints.maxWidth;
           double innerRadius = .15*constraints.maxWidth;
@@ -38,7 +36,7 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
           else if(apelEwan.siglum.substring(0, 2) == 'Łk')
             textColor = Colors.amber;
           else
-            textColor = Colors.white;
+            textColor = Colors.yellow[100]!;
 
           return Container(
               decoration: BoxDecoration(
@@ -97,83 +95,85 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
                   Positioned.fill(
                       bottom: coversBorder + pagesHeight,
                       right: coversBorder,
-                      left: coversBorder,
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-
-                          Positioned.fill(
-                            child: PhysicalModel(
-                              color: Colors.orange[100]!,
-                              borderRadius: BorderRadius.circular(outerRadius),
-                              elevation: 6,
+                      child: PhysicalModel(
+                        borderRadius: BorderRadius.circular(outerRadius),
+                        color: Colors.transparent,
+                        elevation: 4.0,
+                        child: Row(
+                          children: [
+                            Container(
+                              width: coverInitWidth,
+                              color: Colors.brown[700],
                             ),
-                          ),
 
-                          GradientWidget(
-                              colorStart: Colors.brown[600]!,
-                              colorEnd: Colors.deepOrange[600]!,
-                              elevation: AppCard.bigElevation,
-                              borderRadius: BorderRadius.circular(outerRadius),
-                              child: InkWell(
-                                splashColor: Colors.brown,
-                                onTap: () => pushPage(context, builder: (context) => ApelEwanWidget(
-                                    apelEwan,
-                                    initSubgroup: subgroup
-                                )),
-                                child: IgnorePointer(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                      top: coversBorder,
-                                      bottom: coversBorder,
-                                      left: coverInitWidth,
-                                      right: coversBorder
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        apelEwan.subgroupShortTitle[subgroup]??
-                                            apelEwan.subgroupTitle[subgroup]??
-                                            apelEwan.subgroupShortTitle.values.firstOrNull??
-                                            apelEwan.subgroupTitle.values.first,
-
-                                        style: AppTextStyle(
-                                          fontSize: .7*textSize,
-                                          fontWeight: weight.bold,
-                                          color: textColor,
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.horizontal(
+                                      right: Radius.circular(outerRadius),
+                                  ),
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [Colors.brown[600]!, Colors.deepOrange[600]!]
+                                  ),
+                                ),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    splashColor: Colors.brown,
+                                    onTap: () => pushPage(context, builder: (context) => ApelEwanWidget(
+                                        apelEwan,
+                                        initSubgroup: subgroup
+                                    )),
+                                    child: IgnorePointer(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 2*coversBorder + .7*textSize,
+                                            bottom: 2*coversBorder,
+                                            left: coversBorder,
+                                            right: coversBorder
                                         ),
-                                        textAlign: TextAlign.center,
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                                          children: [
+
+                                            Text(
+                                              apelEwan.subgroupShortTitle[subgroup]??
+                                                  apelEwan.subgroupTitle[subgroup]??
+                                                  apelEwan.subgroupShortTitle.values.firstOrNull??
+                                                  apelEwan.subgroupTitle.values.first,
+
+                                              style: TextStyle(
+                                                fontFamily: 'PlayfairDisplay',
+                                                fontSize: .69*textSize,
+                                                fontWeight: FontWeight.bold,
+                                                color: textColor,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+
+                                            Text(
+                                              apelEwan.siglum,
+                                              style: AppTextStyle(
+                                                fontSize: .68*textSize,
+                                                color: textColor,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                               )
-                          ),
-
-                        ],
-                      )
-                  ),
-
-                  Positioned(
-                    top: 0,
-                    bottom: coversBorder + pagesHeight,
-                    left: 0,
-                    width: coverInitWidth,
-                    child: Material(
-                        color: Colors.brown[700],
-                        child: RotatedBox(
-                            quarterTurns: 3,
-                            child: Center(
-                              child: Text(
-                                apelEwan.siglum,
-                                style: AppTextStyle(
-                                  fontSize: .7*textSize,
-                                  color: textColor,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
                             )
-                        )
-                    ),
+                          ],
+                        ),
+                      )
                   ),
 
                 ],

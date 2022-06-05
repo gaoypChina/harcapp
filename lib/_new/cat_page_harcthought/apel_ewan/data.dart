@@ -19,7 +19,7 @@ ApelEwan lk_18_9_14 = const ApelEwan(
   dirName: 'Lk_18_9-14',
   siglum: 'Łk 18, 9-14',
   subgroupShortTitle: {
-    dekalogApelEwansSuffix: 'I Przykazanie'
+    dekalogApelEwansSuffix: 'I\nPrzykazanie'
   },
   subgroupTitle: {
     ogolneApelEwansSuffix: 'Faryzeusze i celnicy',
@@ -31,7 +31,7 @@ ApelEwan wj_3_13_15 = const ApelEwan(
     dirName: 'Wj_3_13-15',
     siglum: 'Wj 3, 13-15',
     subgroupShortTitle: {
-      dekalogApelEwansSuffix: 'II Przykazanie'
+      dekalogApelEwansSuffix: 'II\nPrzykazanie'
     },
     subgroupTitle: {
       //ogolneApelEwansSuffix: - ',
@@ -43,7 +43,7 @@ ApelEwan wj_20_8_11 = const ApelEwan(
     dirName: 'Wj_20_8-11',
     siglum: 'Wj 20, 8-11',
     subgroupShortTitle: {
-      dekalogApelEwansSuffix: 'III Przykazanie'
+      dekalogApelEwansSuffix: 'III\nPrzykazanie'
     },
     subgroupTitle: {
       dekalogApelEwansSuffix: 'Pamiętaj, abyś dzień święty święcił'
@@ -54,7 +54,7 @@ ApelEwan ef_6_1_4 = const ApelEwan(
     dirName: 'Ef_6_1-4',
     siglum: 'Ef 6, 1-4',
     subgroupShortTitle: {
-      dekalogApelEwansSuffix: 'IV Przykazanie'
+      dekalogApelEwansSuffix: 'IV\nPrzykazanie'
     },
     subgroupTitle: {
       dekalogApelEwansSuffix: 'Czcij ojca swego i matkę swoją'
@@ -65,7 +65,7 @@ ApelEwan mt_5_21_26 = const ApelEwan(
     dirName: 'Mt_5_21-26',
     siglum: 'Mt 5, 21-26',
     subgroupShortTitle: {
-      dekalogApelEwansSuffix: 'V Przykazanie'
+      dekalogApelEwansSuffix: 'V\nPrzykazanie'
     },
     subgroupTitle: {
       dekalogApelEwansSuffix: 'Nie zabijaj'
@@ -76,7 +76,7 @@ ApelEwan mt_5_27_32 = const ApelEwan(
     dirName: 'Mt_5_27-32',
     siglum: 'Mt 5, 27-32',
     subgroupShortTitle: {
-      dekalogApelEwansSuffix: 'VI Przykazanie'
+      dekalogApelEwansSuffix: 'VI\nPrzykazanie'
     },
     subgroupTitle: {
       dekalogApelEwansSuffix: 'Nie cudzołóż'
@@ -87,7 +87,7 @@ ApelEwan ii_tes_3_10_12 = const ApelEwan(
     dirName: '2_Tes_3_10-12',
     siglum: '2 Tes 3, 10-12',
     subgroupShortTitle: {
-      dekalogApelEwansSuffix: 'VII Przykazanie'
+      dekalogApelEwansSuffix: 'VII\nPrzykazanie'
     },
     subgroupTitle: {
       dekalogApelEwansSuffix: 'Nie kradnij'
@@ -98,7 +98,7 @@ ApelEwan mt_5_33_37 = const ApelEwan(
     dirName: 'Mt_5_33-37',
     siglum: 'Mt 5, 33-37',
     subgroupShortTitle: {
-      dekalogApelEwansSuffix: 'VIII Przykazanie'
+      dekalogApelEwansSuffix: 'VIII\nPrzykazanie'
     },
     subgroupTitle: {
       dekalogApelEwansSuffix: 'Nie mów fałszywego świadectwa przeciw bliźniemu swemu'
@@ -109,7 +109,7 @@ ApelEwan rz_8_5_13 = const ApelEwan(
     dirName: 'Rz_8_5-13',
     siglum: 'Rz 8, 5-13',
     subgroupShortTitle: {
-      dekalogApelEwansSuffix: 'IX Przykazanie'
+      dekalogApelEwansSuffix: 'IX\nPrzykazanie'
     },
     subgroupTitle: {
       dekalogApelEwansSuffix: 'Nie pożądaj żony bliźniego swego'
@@ -120,7 +120,7 @@ ApelEwan koh_5_9 = const ApelEwan(
     dirName: 'Koh_5_9',
     siglum: 'Koh 8, 9',
     subgroupShortTitle: {
-      dekalogApelEwansSuffix: 'X Przykazanie'
+      dekalogApelEwansSuffix: 'X\nPrzykazanie'
     },
     subgroupTitle: {
       dekalogApelEwansSuffix: 'Ani żadnej rzeczy, która jego jest'
@@ -244,6 +244,9 @@ List<ApelEwan> allApelEwans = [
   const ApelEwan(
     dirName: 'Lk_20_27-38',
     siglum: 'Łk 20, 27-38',
+    subgroupShortTitle: {
+      ogolneApelEwansSuffix: 'Zmartwych-\nwstanie',
+    },
     subgroupTitle: {
       ogolneApelEwansSuffix: 'Zmartwychwstanie',
     }
