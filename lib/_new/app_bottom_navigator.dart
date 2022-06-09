@@ -9,7 +9,7 @@ import 'app_drawer.dart';
 
 class AppBottomNavigatorProvider extends ChangeNotifier{
 
-  static const initIndex = account?2:1;
+  static const initIndex = AppBottomNavItem.guidebook;
 
   static late AppBottomNavigatorProvider _prov;
 
@@ -18,9 +18,9 @@ class AppBottomNavigatorProvider extends ChangeNotifier{
 
   late List<void Function(int)> _listeners;
 
-  int? _selectedIndex;
-  int? get selectedIndex => _selectedIndex;
-  set selectedIndex(value){
+  late AppBottomNavItem _selectedIndex;
+  AppBottomNavItem get selectedIndex => _selectedIndex;
+  set selectedIndex(AppBottomNavItem value){
     _selectedIndex = value;
     notifyListeners();
   }
@@ -50,14 +50,16 @@ class AppBottomNavigatorProvider extends ChangeNotifier{
 
 }
 
-class AppBottomNavigator extends StatelessWidget{
+enum AppBottomNavItem{
+  home,
+  map,
+  songBook,
+  guidebook,
+  harcThought,
+  strefaDucha
+}
 
-  static const int HOME = account?0:999;
-  //static const int MAP = 1;
-  static const int SONGBOOK = account?1:0;
-  static const int GUIDEBOOK = account?2:1;
-  static const int HARCTHOUGHT = account?3:2;
-  static const int STREFA_DUCHA = account?4:3;
+class AppBottomNavigator extends StatelessWidget{
 
   static const heroTag = 'AppBottomNavigator';
 
@@ -67,6 +69,29 @@ class AppBottomNavigator extends StatelessWidget{
   final double? elevation;
 
   const AppBottomNavigator({this.background, this.selectedItemColor, this.unselectedItemColor, this.elevation, super.key});
+
+  int bottomNavBarToIndex(AppBottomNavItem item){
+    switch(item){
+      case AppBottomNavItem.home: return 0;
+      case AppBottomNavItem.map: return 1;
+      case AppBottomNavItem.songBook: return 2;
+      case AppBottomNavItem.guidebook: return 3;
+      case AppBottomNavItem.harcThought: return 4;
+      case AppBottomNavItem.strefaDucha: return 5;
+    }
+  }
+
+  AppBottomNavItem indexToBottomNavBarItem(int index){
+    switch(index){
+      case 0: return AppBottomNavItem.home;
+      case 1: return AppBottomNavItem.map;
+      case 2: return AppBottomNavItem.songBook;
+      case 3: return AppBottomNavItem.guidebook;
+      case 4: return AppBottomNavItem.harcThought;
+      case 5: return AppBottomNavItem.strefaDucha;
+      default: return AppBottomNavItem.guidebook;
+    }
+  }
 
   @override
   Widget build(BuildContext context) => Hero(
@@ -82,9 +107,9 @@ class AppBottomNavigator extends StatelessWidget{
             selectedIconTheme: IconThemeData(color: selectedItemColor??iconEnab_(context)),
             unselectedIconTheme: IconThemeData(color: unselectedItemColor??iconDisab_(context)),
             showUnselectedLabels: false,
-            currentIndex: prov.selectedIndex!,
+            currentIndex: bottomNavBarToIndex(prov.selectedIndex),
             onTap: (index){
-              prov.selectedIndex = index;
+              prov.selectedIndex = indexToBottomNavBarItem(index);
               for(void Function(int) listener in prov._listeners)
                 listener(index);
 
@@ -99,14 +124,14 @@ class AppBottomNavigator extends StatelessWidget{
                     //activeIcon: Icon(MdiIcons.accountCircle),
                     label: 'Skromny ja'
                 ),
-/*
+
                 BottomNavigationBarItem(
                     backgroundColor: background??background_(context),
-                    icon: Icon(MdiIcons.mapLegend),
+                    icon: const Icon(MdiIcons.mapLegend),
                     //activeIcon: Icon(MdiIcons.map),
                     label: 'Harc mapa'
                 ),
-                 */
+
               BottomNavigationBarItem(
                   backgroundColor: prov.background??background??background_(context),
                   icon: const Icon(MdiIcons.music),

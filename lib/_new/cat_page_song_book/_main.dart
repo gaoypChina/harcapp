@@ -726,7 +726,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     ),
   );
 
-  Future<void> openTabOfCont({String initPhrase='', bool forgetScrollPosition=false}) => pushPage(
+  Future<void> openTabOfCont({String? initPhrase, bool forgetScrollPosition=false}) => pushPage(
     context,
     builder: (context) => TabOfContPage(
       initPhrase: initPhrase,

@@ -44,7 +44,7 @@ dependencies:
   flutter_email_sender: ^5.1.0
   flutter_keyboard_visibility: ^5.2.0
   flutter_lints: ^2.0.1
-  flutter_map: ^0.14.0
+  flutter_map: ^1.0.0
   flutter_reorderable_list: ^1.2.0
   flutter_secure_storage: ^4.2.1
   flutter_slidable: ^1.2.0

@@ -47,7 +47,7 @@ class API{
   static Future<Response?> sendRequest ({
     bool withToken = false,
     required Future<Response> Function(Dio dio) sendRequest,
-    Future<void> Function(Response)? onSuccess,
+    Future<void> Function(Response, DateTime)? onSuccess,
     Future<bool> Function()? onEmailNotConf,
     Future<bool> Function()? onForbidden,
     Future<void> Function(DioError)? onError,
@@ -67,7 +67,7 @@ class API{
 
       if(response.statusCode == HttpStatus.ok){
         debugPrint('HarcApp API: ${response.requestOptions.method} ${response.requestOptions.path} :: success!');
-        await onSuccess?.call(response);
+        await onSuccess?.call(response, DateTime.tryParse(response.headers.value('time')??'')??DateTime(966));
       }
       return response;
     } on DioError catch (e) {
@@ -77,7 +77,7 @@ class API{
       saveStringAsFileToFolder(
         getApiErrorFolderLocalPath,
         '# Date: ${DateTime.now().toIso8601String()}'
-        '\n# System time used: ${TimeSettings.isTimeAutomatic}'
+        '\n# System time used: ${await TimeSettings.isTimeAutomatic}'
         '\n# Status code: ${e.response?.statusCode}'
         '\n# Status message: ${e.response?.statusMessage}'
         '\n# Response error data:\n${e.response?.data}'
@@ -122,7 +122,7 @@ class API{
             '${SERVER_URL}api/song/get_memories',
             data: {'song_file_name': songFileName}
         ),
-        onSuccess: (Response response)async{
+        onSuccess: (Response response, DateTime now) async {
 
           for(Map map in response.data)
             result.add(Memory.fromResponseData(map));
@@ -148,7 +148,7 @@ class API{
         sendRequest: (Dio dio) async => await dio.get(
             '${SERVER_URL}api/song/recomended',
         ),
-        onSuccess: (Response response)async{
+        onSuccess: (Response response, DateTime now) async {
 
           for(Map map in response.data)
             result!.add(OffSong.allOfficialMap[map['file_name']]);

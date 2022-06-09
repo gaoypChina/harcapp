@@ -482,6 +482,10 @@ const Person SZYMON_DROPEK = Person(name: 'Szymon Dropek',
     hufiec: huf_zhp_kwidzyn,
     org: Org.zhp
 );
+const Person SZYMON_JAWOREK = Person(name: 'Szymon Jaworek',
+  druzyna: '17 DH "Gryfne Bajtle"',
+  hufiec: huf_zhp_ziemi_tarnogorskiej
+);
 const Person SZYMON_PODGORNY = Person(name: 'Szymon Podgórny',
     druzyna:'19. Pyzdrska Drużyna Wędrownicza "Wataha", 5 Pyzdrski szczep "Orion"',
     hufiec: huf_zhp_wrzesnia_wrzos,

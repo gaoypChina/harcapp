@@ -31,18 +31,19 @@ import 'song_management/song.dart';
 
 class TabOfContPage extends StatefulWidget{
 
+  static String lastSearchPhrase = '';
   static SongSearchOptions searchOptions = SongSearchOptions();
 
   final void Function(Song, int, SongOpenType) onSongSelected;
   final void Function() onConfAlbumEnabled;
-  final String initPhrase;
+  final String? initPhrase;
   final void Function(Song song)? onNewSongAdded;
   final bool forgetScrollPosition;
 
   const TabOfContPage({
     required this.onSongSelected,
     required this.onConfAlbumEnabled,
-    this.initPhrase = '',
+    this.initPhrase,
     this.onNewSongAdded,
     this.forgetScrollPosition = false,
     super.key});
@@ -97,7 +98,7 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
               builder: (context, prov, child) =>
               prov.songsFound?
               const Positioned.fill(
-                child: TabOfContBackgroundIcon(),
+                child: TabOfContBackgroundIcon()
               ):Container(),
             ),
 
@@ -194,7 +195,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
     Album.current.songs,
     background: Colors.transparent,
     controller: controller,
-    initPhrase: page.widget.initPhrase,
+    initPhrase: page.widget.initPhrase??TabOfContPage.lastSearchPhrase,
     searchOptions: searchOptions,
 
     appBarActions: [
@@ -259,6 +260,8 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
     paddingBottom: paddingBottom,
 
     onChanged: (text){
+
+      TabOfContPage.lastSearchPhrase = text;
 
       if(remPolChars(text) == SONG_CONFID_PASS_KEY){
         if(!Album.isConfidUnlocked) {

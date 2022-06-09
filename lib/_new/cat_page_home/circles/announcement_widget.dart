@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'announcement_edit_page/_main.dart';
 import 'announcement_extended_page.dart';
 import 'model/announcement.dart';
+import 'model/announcement_attendace.dart';
+import 'model/announcement_attendance_resp_mode.dart';
 import 'model/circle.dart';
 
 class AnnouncementWidget extends StatelessWidget{
@@ -48,10 +50,28 @@ class AnnouncementWidget extends StatelessWidget{
               },
             )
           ),
-          onAttendanceChanged: (_){
+          onPinChanged: (pinned){
+            circle.changePinnedAnnouncement(announcement, pinned);
             onAnnouncementUpdated?.call();
             prov.notify();
           },
+          onAttendanceChanged: (resp, now){
+            bool hasResponse = announcement.respMode == AnnouncementAttendanceRespMode.OBLIGATORY && resp.response != null;
+            bool isPostpone = resp.response == AnnouncementAttendance.POSTPONE_RESP && resp.postponeTime!.isAfter(now);
+
+            circle.changeAwaitingAnnouncement(announcement, hasResponse && isPostpone);
+            onAnnouncementUpdated?.call();
+            prov.notify();
+          },
+          onAttendanceIndicatorTap: showOnTap?() => pushPage(
+            context,
+            builder: (context) => AnnouncementExpandedPage(
+              announcement,
+              palette: palette,
+              displayAttendacePage: true,
+              onAnnouncementsUpdated: onAnnouncementUpdated,
+            ),
+          ):null,
           onTap: showOnTap?() => pushPage(
             context,
             builder: (context) => AnnouncementExpandedPage(

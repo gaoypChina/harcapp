@@ -4,6 +4,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
+import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
@@ -11,6 +13,7 @@ import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
+import 'package:harcapp/logger.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -35,6 +38,10 @@ import 'members_page/members_admin_page.dart';
 import 'members_page/members_page.dart';
 import 'model/announcement.dart';
 import 'model/circle.dart';
+
+enum AnnouncementCategories{
+  all, pinned, awaiting
+}
 
 class CirclePage extends StatefulWidget{
 
@@ -91,11 +98,7 @@ class CirclePage extends StatefulWidget{
 
 class CirclePageState extends State<CirclePage>{
 
-  static const String allAnnsTab = 'all_announcements';
-  static const String pinnedAnnsTab = 'pinned_announcements';
-  static const String awaitingAnnsTab = 'awaiting_announcements';
-
-  late String currTab;
+  late AnnouncementCategories currTab;
 
   Circle get circle => widget.circle;
   void Function()? get onLeft => widget.onLeft;
@@ -112,6 +115,12 @@ class CirclePageState extends State<CirclePage>{
 
     if(!refresh) return;
 
+    if(circle.awaitingCount != 0)
+      post(() => openDialog(
+          context: context,
+          builder: (context) => InitAwaitingMessageDialog(palette: palette)
+      ));
+
     setState(() {});
     notifyScrollController();
   }
@@ -123,13 +132,68 @@ class CirclePageState extends State<CirclePage>{
 
   late AppBarProvider appBarProv;
 
-  late int loadedPage;
-  late bool moreToLoad;
+  late int allLoadedPage;
+  late int pinnedLoadedPage;
+  late int awaitingLoadedPage;
+
+  int get loadedPage{
+    switch(currTab){
+      case AnnouncementCategories.all: return allLoadedPage;
+      case AnnouncementCategories.pinned: return pinnedLoadedPage;
+      case AnnouncementCategories.awaiting: return awaitingLoadedPage;
+    }
+  }
+
+  late bool moreAllToLoad;
+  late bool morePinnedToLoad;
+  late bool moreAwaitingToLoad;
+
+  bool get moreToLoad{
+    switch(currTab){
+      case AnnouncementCategories.all: return moreAllToLoad;
+      case AnnouncementCategories.pinned: return morePinnedToLoad;
+      case AnnouncementCategories.awaiting: return moreAwaitingToLoad;
+      default: return false;
+    }
+  }
+
+  set moreToLoad(bool value){
+    switch(currTab){
+      case AnnouncementCategories.all:
+        moreAllToLoad = value;
+        logger.d('Loaded ${circle.allAnnouncements.length} "all" announcements. Any remaining: $value');
+        break;
+      case AnnouncementCategories.pinned:
+        morePinnedToLoad = value;
+        logger.d('Loaded ${circle.pinnedAnnouncements.length} "pinned" announcements. Any remaining: $value');
+        break;
+      case AnnouncementCategories.awaiting:
+        moreAwaitingToLoad = value;
+        logger.d('Loaded ${circle.awaitingAnnouncements.length} "awaiting" announcements. Any remaining: $value');
+        break;
+    }
+  }
+
+  int get loadedAnnouncementsCount{
+    switch(currTab){
+      case AnnouncementCategories.all:
+        return circle.allAnnouncements.length;
+      case AnnouncementCategories.pinned:
+        return circle.pinnedAnnouncements.length;
+      case AnnouncementCategories.awaiting:
+        return circle.awaitingAnnouncements.length;
+      default:
+        return -1;
+    }
+  }
 
   @override
   void initState() {
 
-    currTab = allAnnsTab;
+    if(circle.awaitingCount != 0) {
+      currTab = AnnouncementCategories.awaiting;
+    }else
+      currTab = AnnouncementCategories.all;
 
     appBarKey = GlobalKey();
     tabBarKey = GlobalKey();
@@ -142,8 +206,8 @@ class CirclePageState extends State<CirclePage>{
       if (appBarPos < kToolbarHeight && !appBarProv.showTitleOnAppBar) appBarProv.showTitleOnAppBar = true;
       else if(appBarPos >= kToolbarHeight && appBarProv.showTitleOnAppBar) appBarProv.showTitleOnAppBar = false;
 
-      if (appBarPos < 2*kToolbarHeight && !appBarProv.coverVisible) appBarProv.coverVisible = true;
-      else if(appBarPos >= 2*kToolbarHeight && appBarProv.coverVisible) appBarProv.coverVisible = false;
+      if (appBarPos < 2*kToolbarHeight && appBarProv.coverVisible) appBarProv.coverVisible = false;
+      else if(appBarPos >= 2*kToolbarHeight && !appBarProv.coverVisible) appBarProv.coverVisible = true;
 
       final tabBarBox = tabBarKey.currentContext?.findRenderObject() as RenderBox?;
       double tabBarPos = tabBarBox==null? -double.infinity: tabBarBox.localToGlobal(Offset(0, -topPadding)).dy;
@@ -155,8 +219,13 @@ class CirclePageState extends State<CirclePage>{
 
     initPaletteGenerator();
 
-    loadedPage = 0;
-    moreToLoad = circle.announcements.length == Circle.announcementPageSize;
+    allLoadedPage = 0;
+    pinnedLoadedPage = 0;
+    awaitingLoadedPage = 0;
+
+    moreAllToLoad = circle.allAnnouncements.length == Circle.announcementPageSize;
+    morePinnedToLoad = circle.pinnedAnnouncements.length == Circle.announcementPageSize;
+    moreAwaitingToLoad = circle.awaitingAnnouncements.length == Circle.announcementPageSize;
 
     super.initState();
   }
@@ -199,385 +268,414 @@ class CirclePageState extends State<CirclePage>{
       const CircleLoadingWidget():
 
       Consumer<AnnouncementListProvider>(
-          builder: (context, prov, child) => SmartRefresher(
-              enablePullDown: true,
-              enablePullUp: true,
-              footer: CustomFooter(
-                builder: (BuildContext context, LoadStatus? mode){
-                  Widget body;
-                  if(!moreToLoad)
-                    body = Text(
-                      '${AccountData.sex == Sex.male?'Dotarłeś':'Dotarłaś'} do źródła',
-                      style: AppTextStyle(),
-                    );
+        builder: (context, prov, child) => SmartRefresher(
+          enablePullDown: true,
+          enablePullUp: true,
+          footer: CustomFooter(
+            builder: (BuildContext context, LoadStatus? mode){
+              Widget body;
+              if(!moreToLoad)
+                body = loadedAnnouncementsCount==0?
+                Container():
+                Icon(MdiIcons.circleMedium, color: hintEnab_(context));
 
-                  else if(mode == LoadStatus.idle)
-                    body = Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(MdiIcons.arrowUp),
-                        const SizedBox(width: Dimen.ICON_MARG),
-                        Text(
-                            'Przeciągnij, by załadować kolejne',
-                            style: AppTextStyle()
-                        ),
-                      ],
-                    );
-
-                  else if(mode == LoadStatus.loading)
-                    body = SpinKitDualRing(
-                      color: CirclePage.strongColor(context, palette),
-                      size: Dimen.ICON_SIZE,
-                    );
-
-                  else if(mode == LoadStatus.failed)
-                    body = Text("Coś poszło nie tak!", style: AppTextStyle());
-
-                  else if(mode == LoadStatus.canLoading)
-                    body = Text("Puść, by załadować", style: AppTextStyle());
-
-                  else
-                    body = Text(
-                      'Nie wiem co tu wyświtlić',
-                      style: AppTextStyle(),
-                    );
-
-                  return SizedBox(
-                    height: 55.0,
-                    child: Center(child: body),
-                  );
-                },
-              ),
-              physics: const BouncingScrollPhysics(),
-              header: MaterialClassicHeader(
-                backgroundColor: cardEnab_(context),
-                color: strongColor
-              ),
-              controller: refreshController,
-              onRefresh: () async {
-
-                if(!await isNetworkAvailable()){
-                  showAppToast(context, text: 'Brak dostępu do Internetu');
-                  refreshController.refreshCompleted();
-                  refreshController.loadComplete();
-                  return;
-                }
-
-                await ApiCircle.get(
-                    circleKey: circle.key,
-                    onSuccess: (updatedCircle) async {
-                      circle.name = updatedCircle.name;
-                      circle.description = updatedCircle.description;
-                      circle.coverImage = updatedCircle.coverImage;
-                      circle.colorsKey = updatedCircle.colorsKey;
-                      circle.setAllMembers(context, updatedCircle.members);
-                      circle.setAllAnnouncement(updatedCircle.announcements);
-
-                      loadedPage = 0;
-                      moreToLoad = circle.announcements.length == Circle.announcementPageSize;
-
-                      await initPaletteGenerator(refresh: false);
-
-                      setState(() {});
-                    },
-                    onError: () => showAppToast(context, text: 'Coś poszło nie tak...')
-                );
-
-                refreshController.refreshCompleted();
-                refreshController.loadComplete();
-
-              },
-              onLoading: moreToLoad? () async {
-
-                if(!await isNetworkAvailable()){
-                  showAppToast(context, text: 'Brak dostępu do Internetu');
-                  refreshController.refreshCompleted();
-                  refreshController.loadComplete();
-                  return;
-                }
-
-                await ApiCircle.getAnnouncements(
-                    circleKey: circle.key,
-                    page: loadedPage + 1,
-                    onSuccess: (nextAnnouncements){
-
-                      int i;
-                      for(i=0; i<nextAnnouncements.length; i++)
-                        if(!circle.announcementsMap!.containsKey(nextAnnouncements[i].key))
-                          break;
-
-                      circle.addAnnouncements(nextAnnouncements.sublist(i));
-
-                      Provider.of<AnnouncementListProvider>(context, listen: false).notify();
-
-                      loadedPage = loadedPage+1;
-
-                      if(nextAnnouncements.length != Circle.announcementPageSize)
-                        setState(() => moreToLoad = false);
-
-                    },
-                    onError: () => showAppToast(context, text: 'Coś nie pykło...')
-                );
-
-                refreshController.refreshCompleted();
-                refreshController.loadComplete();
-
-              }: null,
-              child: CustomScrollView(
-                  controller: scrollController,
-                  physics: const BouncingScrollPhysics(),
-                  slivers: [
-
-                    Consumer<AppBarProvider>(
-                      builder: (context, prov, child) => SliverAppBar(
-                        iconTheme: IconThemeData(
-                            color: prov.coverVisible?iconEnab_(context):iconColor
-                        ),
-                        centerTitle: true,
-                        pinned: true,
-                        excludeHeaderSemantics: true,
-                        elevation: prov.elevated?AppCard.bigElevation:0,
-                        backgroundColor: backgroundColor,
-                        expandedHeight: 200,
-                        actions: [
-                          IconButton(
-                            icon: Icon(
-                                MdiIcons.cogOutline,
-                                color: prov.coverVisible?iconEnab_(context):iconColor
-                            ),
-                            onPressed: () => pushPage(
-                                context,
-                                builder: (context) => CircleEditorPage(
-                                  initCircle: circle,
-                                  palette: palette,
-                                  onSaved: (updatedCircle) async {
-
-                                    circle.name = updatedCircle.name;
-                                    circle.description = updatedCircle.description;
-                                    circle.coverImage = updatedCircle.coverImage;
-                                    circle.colorsKey = updatedCircle.colorsKey;
-                                    circle.setAllAnnouncement(updatedCircle.announcements);
-                                    circle.setAllMembers(context, updatedCircle.members);
-
-                                    await initPaletteGenerator(refresh: false);
-
-                                    setState(() {});
-                                  },
-                                  onDeleted: onDeleted,
-                                  onLeft: onLeft,
-                                )
-                            ),
-                          ),
-                        ],
-                        flexibleSpace: FlexibleSpaceBar(
-                          title: AnimatedOpacity(
-                            opacity: prov.showTitleOnAppBar?1:0,
-                            duration: const Duration(milliseconds: 200),
-                            child: Text(
-                              circle.name,
-                              style: AppTextStyle(
-                                  color: iconEnab_(context)
-                              ),
-                              maxLines: 1,
-                            ),
-                          ),
-                          centerTitle: true,
-                          background: CoverImage(circle.coverImage),
-                        ),
-                      ),
+              else if(mode == LoadStatus.idle)
+                body = Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(MdiIcons.arrowUp),
+                    const SizedBox(width: Dimen.ICON_MARG),
+                    Text(
+                      'Przeciągnij, by załadować kolejne',
+                      style: AppTextStyle()
                     ),
+                  ],
+                );
 
-                    SliverList(delegate: SliverChildListDelegate([
+              else if(mode == LoadStatus.loading)
+                body = SpinKitDualRing(
+                  color: CirclePage.strongColor(context, palette),
+                  size: Dimen.ICON_SIZE,
+                );
 
-                      Padding(
-                        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                        child: Center(
-                          child: Text(
-                            circle.name,
-                            style: AppTextStyle(
-                                fontSize: 28.0,
-                                fontWeight: weight.halfBold
-                            ),
-                            textAlign: TextAlign.center,
-                            key: appBarKey,
-                          ),
+              else if(mode == LoadStatus.failed)
+                body = Text("Coś poszło nie tak!", style: AppTextStyle());
+
+              else if(mode == LoadStatus.canLoading)
+                body = Text("Puść, by załadować", style: AppTextStyle());
+
+              else
+                body = Text(
+                  'Nie wiem co tu wyświtlić',
+                  style: AppTextStyle(),
+                );
+
+              return SizedBox(
+                height: 55.0,
+                child: Center(child: body),
+              );
+            },
+          ),
+          physics: const BouncingScrollPhysics(),
+          header: MaterialClassicHeader(
+            backgroundColor: cardEnab_(context),
+            color: strongColor
+          ),
+          controller: refreshController,
+          onRefresh: () async {
+
+            if(!await isNetworkAvailable()){
+              showAppToast(context, text: 'Brak dostępu do Internetu');
+              refreshController.refreshCompleted();
+              return;
+            }
+
+            await ApiCircle.get(
+                circleKey: circle.key,
+                onSuccess: (updatedCircle) async {
+                  circle.name = updatedCircle.name;
+                  circle.description = updatedCircle.description;
+                  circle.coverImage = updatedCircle.coverImage;
+                  circle.colorsKey = updatedCircle.colorsKey;
+                  circle.setAllMembers(context, updatedCircle.members);
+                  circle.resetAnnouncements(
+                    updatedCircle.allAnnouncements,
+                    updatedCircle.pinnedAnnouncements,
+                    updatedCircle.awaitingAnnouncements,
+                  );
+
+                  allLoadedPage = 0;
+                  pinnedLoadedPage = 0;
+                  awaitingLoadedPage = 0;
+
+                  moreAllToLoad = circle.allAnnouncements.length == Circle.announcementPageSize;
+                  morePinnedToLoad = circle.pinnedAnnouncements.length == Circle.announcementPageSize;
+                  moreAwaitingToLoad = circle.awaitingAnnouncements.length == Circle.announcementPageSize;
+
+                  await initPaletteGenerator(refresh: false);
+
+                  setState(() {});
+                },
+                onError: () => showAppToast(context, text: 'Coś poszło nie tak...')
+            );
+
+            refreshController.refreshCompleted();
+
+          },
+          onLoading: () async {
+
+            if(!moreToLoad) {
+              refreshController.loadComplete();
+              return;
+            }
+
+            if(!await isNetworkAvailable()){
+              showAppToast(context, text: 'Brak dostępu do Internetu');
+              refreshController.loadComplete();
+              return;
+            }
+
+            await ApiCircle.getAnnouncements(
+                circleKey: circle.key,
+                page: loadedPage + 1,
+                pinnedOnly: currTab == AnnouncementCategories.pinned,
+                awaitingOnly: currTab == AnnouncementCategories.awaiting,
+                onSuccess: (nextAnnouncements, pinnedOnly, awaitingOnly){
+
+                  int i;
+                  for(i=0; i<nextAnnouncements.length; i++)
+                    if(!circle.announcementsMap.containsKey(nextAnnouncements[i].key) || (
+                        (pinnedOnly && !circle.announcementsMap[nextAnnouncements[i].key]!.inPinned) ||
+                        (awaitingOnly && !circle.announcementsMap[nextAnnouncements[i].key]!.inAwaiting) ||
+                        (!awaitingOnly && !pinnedOnly && !circle.announcementsMap[nextAnnouncements[i].key]!.inAll)
+                    )) break;
+
+                  if(pinnedOnly) {
+                    circle.addPinnedAnnouncements(nextAnnouncements.sublist(i));
+                    pinnedLoadedPage += 1;
+                  }else if(awaitingOnly) {
+                    circle.addAwaitingAnnouncements(nextAnnouncements.sublist(i));
+                    awaitingLoadedPage += 1;
+                  }else {
+                    circle.addAllAnnouncements(nextAnnouncements.sublist(i));
+                    allLoadedPage += 1;
+                  }
+
+                  Provider.of<AnnouncementListProvider>(context, listen: false).notify();
+
+                  if(nextAnnouncements.length != Circle.announcementPageSize)
+                    setState(() => moreToLoad = false);
+
+                },
+                onError: () => showAppToast(context, text: 'Coś nie pykło...')
+            );
+
+            refreshController.loadComplete();
+
+          },
+          child: CustomScrollView(
+              controller: scrollController,
+              physics: const BouncingScrollPhysics(),
+              slivers: [
+
+                Consumer<AppBarProvider>(
+                  builder: (context, prov, child) => SliverAppBar(
+                    iconTheme: IconThemeData(
+                        color: prov.coverVisible?iconColor:iconEnab_(context)
+                    ),
+                    centerTitle: true,
+                    pinned: true,
+                    excludeHeaderSemantics: true,
+                    elevation: prov.elevated?AppCard.bigElevation:0,
+                    backgroundColor: backgroundColor,
+                    expandedHeight: 200,
+                    actions: [
+                      IconButton(
+                        icon: Icon(
+                            MdiIcons.cogOutline,
+                            color: prov.coverVisible?iconColor:iconEnab_(context)
                         ),
-                      ),
+                        onPressed: () => pushPage(
+                            context,
+                            builder: (context) => CircleEditorPage(
+                              initCircle: circle,
+                              palette: palette,
+                              onSaved: (updatedCircle) async {
 
-                      if(circle.hasDescription)
-                        Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                            child: ExpandableText(
-                              circle.description!,
-                              style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
-                              maxLines: 3,
-                              animation: true,
-                              linkColor: strongColor,
-                              linkStyle: AppTextStyle(fontWeight: weight.halfBold),
-                              expandText: 'więcej',
-                              collapseText: 'mniej',
+                                circle.name = updatedCircle.name;
+                                circle.description = updatedCircle.description;
+                                circle.coverImage = updatedCircle.coverImage;
+                                circle.colorsKey = updatedCircle.colorsKey;
+
+                                await initPaletteGenerator(refresh: false);
+
+                                setState(() {});
+                              },
+                              onDeleted: onDeleted,
+                              onLeft: onLeft,
                             )
                         ),
-
-                      if(circle.hasDescription)
-                        const SizedBox(height: Dimen.ICON_SIZE),
-
-                      AccountThumbnailRowWidget(
-                        circle.members.map((m) => m.name).toList(),
-                        elevated: true,
-                        backgroundColor: backgroundColor,
-                        padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                        onTap: () => pushPage(
-                            context,
-                            builder: (context) => circle.myRole == CircleRole.ADMIN || circle.myRole == CircleRole.MODERATOR?
-                            MembersAdminPage(circle, palette):
-                            MembersPage(circle, palette)
-                        ),
-                        heroBuilder: (index) => circle.members[index],
                       ),
-
-                      if(circle.members.firstWhere((mem) => mem.key == AccountData.key).role != CircleRole.OBSERVER)
-                        Padding(
-                          padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG),
-                          child: SimpleButton(
-                            margin: EdgeInsets.zero,
-                            padding: EdgeInsets.zero,
-                            onTap: () => pushPage(
-                                context,
-                                builder: (context) => AnnouncementEditorPage(
-                                  circle: circle,
-                                  palette: palette,
-                                  onSaved: (announcement){
-                                    circle.addAnnouncement(announcement);
-                                    setState(() {});
-                                  },
-                                )
-                            ),
-                            color: cardColor,
-                            clipBehavior: Clip.antiAlias,
-                            radius: AppCard.BIG_RADIUS,
-                            elevation: AppCard.bigElevation,
-                            child: Padding(
-                              padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                              child: Row(
-                                children: [
-                                  Icon(MdiIcons.draw, color: hintEnab_(context)),
-                                  const SizedBox(width: Dimen.SIDE_MARG),
-                                  Text(
-                                      'Dodaj ogłoszenie...',
-                                      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, color: hintEnab_(context))
-                                  )
-                                ],
-                              ),
-                            ),
+                    ],
+                    flexibleSpace: FlexibleSpaceBar(
+                      title: AnimatedOpacity(
+                        opacity: prov.showTitleOnAppBar?1:0,
+                        duration: Duration(milliseconds: prov.showTitleOnAppBar?200:0),
+                        child: Text(
+                          circle.name,
+                          style: AppTextStyle(
+                              color: iconEnab_(context)
                           ),
+                          maxLines: 1,
+                        ),
+                      ),
+                      centerTitle: true,
+                      background: CoverImage(circle.coverImage),
+                    ),
+                  ),
+                ),
+
+                SliverList(delegate: SliverChildListDelegate([
+
+                  Padding(
+                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                    child: Center(
+                      child: Text(
+                        circle.name,
+                        style: AppTextStyle(
+                            fontSize: 28.0,
+                            fontWeight: weight.halfBold
+                        ),
+                        textAlign: TextAlign.center,
+                        key: appBarKey,
+                      ),
+                    ),
+                  ),
+
+                  if(circle.hasDescription)
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                        child: ExpandableText(
+                          circle.description!,
+                          style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                          maxLines: 3,
+                          animation: true,
+                          linkColor: strongColor,
+                          linkStyle: AppTextStyle(fontWeight: weight.halfBold),
+                          expandText: 'więcej',
+                          collapseText: 'mniej',
                         )
-                      else
-                        const SizedBox(height: Dimen.SIDE_MARG),
-
-                      const SizedBox(height: Dimen.SIDE_MARG),
-
-                    ])),
-
-                    FloatingContainer(
-                      builder: (context, double shrinkOffset, bool overlapsContent){
-                        bool overlaps = shrinkOffset!=0 || overlapsContent;
-                        return Material(
-                          key: tabBarKey,
-                          color: CirclePage.backgroundColor(context, palette),
-                          elevation: overlaps?AppCard.bigElevation:0,
-                          child: SizedBox(
-                            height: Dimen.ICON_FOOTPRINT,
-                            child: ListView(
-                              physics: const BouncingScrollPhysics(),
-                              reverse: true,
-                              scrollDirection: Axis.horizontal,
-                              children: [
-
-                                const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG + 2),
-
-                                SimpleButton(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: Dimen.ICON_MARG,
-                                      vertical: Dimen.ICON_MARG,
-                                    ),
-                                    margin: EdgeInsets.zero,
-                                    child: Text(
-                                        circle.pinnedAnnouncements.isEmpty?
-                                        'Przypięte':
-                                        'Przypięte (${circle.pinnedAnnouncements.length})',
-                                        style: AppTextStyle(
-                                            fontSize: Dimen.TEXT_SIZE_BIG,
-                                            fontWeight: currTab == pinnedAnnsTab?weight.halfBold:weight.normal,
-                                            color: currTab == pinnedAnnsTab?iconEnab_(context):iconDisab_(context)
-                                        )
-                                    ),
-                                    onTap: (){
-                                      notifyScrollController();
-                                      setState(() => currTab = pinnedAnnsTab);
-                                    }
-                                ),
-
-                                SimpleButton(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: Dimen.ICON_MARG,
-                                      vertical: Dimen.ICON_MARG,
-                                    ),
-                                    margin: EdgeInsets.zero,
-                                    child: Text(
-                                        'Wszystkie',
-                                        style: AppTextStyle(
-                                            fontSize: Dimen.TEXT_SIZE_BIG,
-                                            fontWeight: currTab == allAnnsTab?weight.halfBold:weight.normal,
-                                            color: currTab == allAnnsTab?iconEnab_(context):iconDisab_(context)
-                                        )
-                                    ),
-                                    onTap: (){
-                                      notifyScrollController();
-                                      setState(() => currTab = allAnnsTab);
-                                    }
-                                ),
-
-                                if(circle.awaitingAnnouncements.isNotEmpty)
-                                  SimpleButton(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: Dimen.ICON_MARG,
-                                        vertical: Dimen.ICON_MARG,
-                                      ),
-                                      margin: EdgeInsets.zero,
-                                      child: Text(
-                                          'Oczekujące (${circle.awaitingAnnouncements.length})',
-                                          style: AppTextStyle(
-                                              fontSize: Dimen.TEXT_SIZE_BIG,
-                                              fontWeight: currTab == awaitingAnnsTab?weight.halfBold:weight.normal,
-                                              color: currTab == awaitingAnnsTab?iconEnab_(context):iconDisab_(context)
-                                          )
-                                      ),
-                                      onTap: (){
-                                        notifyScrollController();
-                                        setState(() => currTab = awaitingAnnsTab);
-                                      }
-                                  ),
-
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                      height: Dimen.ICON_FOOTPRINT,
-                      rebuild: true,
                     ),
 
-                    if(currTab == allAnnsTab)
-                      getAllAnnouncements()
-                    else if(currTab == pinnedAnnsTab)
-                      getPinnedAnnouncements()
-                    else if(currTab == awaitingAnnsTab)
-                        getAwaitingAnnouncements()
-                  ]
-              )
+                  if(circle.hasDescription)
+                    const SizedBox(height: Dimen.ICON_SIZE),
 
-          ),
+                  AccountThumbnailRowWidget(
+                    circle.members.map((m) => m.name).toList(),
+                    elevated: true,
+                    backgroundColor: backgroundColor,
+                    padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                    onTap: () => pushPage(
+                        context,
+                        builder: (context) => circle.myRole == CircleRole.ADMIN || circle.myRole == CircleRole.MODERATOR?
+                        MembersAdminPage(circle, palette):
+                        MembersPage(circle, palette)
+                    ),
+                    heroBuilder: (index) => circle.members[index],
+                  ),
+
+                  if(circle.members.firstWhere((mem) => mem.key == AccountData.key).role != CircleRole.OBSERVER)
+                    Padding(
+                      padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG),
+                      child: SimpleButton(
+                        margin: EdgeInsets.zero,
+                        padding: EdgeInsets.zero,
+                        onTap: () => pushPage(
+                            context,
+                            builder: (context) => AnnouncementEditorPage(
+                              circle: circle,
+                              palette: palette,
+                              onSaved: (announcement){
+                                circle.addAllAnnouncement(announcement);
+                                setState(() {});
+                              },
+                            )
+                        ),
+                        color: cardColor,
+                        clipBehavior: Clip.antiAlias,
+                        radius: AppCard.BIG_RADIUS,
+                        elevation: AppCard.bigElevation,
+                        child: Padding(
+                          padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                          child: Row(
+                            children: [
+                              Icon(MdiIcons.draw, color: hintEnab_(context)),
+                              const SizedBox(width: Dimen.SIDE_MARG),
+                              Text(
+                                'Dodaj ogłoszenie...',
+                                style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, color: hintEnab_(context))
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  else
+                    const SizedBox(height: Dimen.SIDE_MARG),
+
+                  const SizedBox(height: Dimen.SIDE_MARG),
+
+                ])),
+
+                FloatingContainer(
+                  builder: (context, double shrinkOffset, bool overlapsContent){
+                    bool overlaps = shrinkOffset!=0 || overlapsContent;
+                    return Material(
+                      key: tabBarKey,
+                      color: CirclePage.backgroundColor(context, palette),
+                      elevation: overlaps?AppCard.bigElevation:0,
+                      child: SizedBox(
+                        height: Dimen.ICON_FOOTPRINT,
+                        child: ListView(
+                          physics: const BouncingScrollPhysics(),
+                          reverse: true,
+                          scrollDirection: Axis.horizontal,
+                          children: [
+
+                            const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG + 2),
+
+                            SimpleButton(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: Dimen.ICON_MARG,
+                                  vertical: Dimen.ICON_MARG,
+                                ),
+                                margin: EdgeInsets.zero,
+                                child: Text(
+                                    circle.pinnedAnnouncements.isEmpty?
+                                    'Przypięte':
+                                    'Przypięte (${circle.pinnedCount})',
+                                    style: AppTextStyle(
+                                        fontSize: Dimen.TEXT_SIZE_BIG,
+                                        fontWeight: currTab == AnnouncementCategories.pinned?weight.halfBold:weight.normal,
+                                        color: currTab == AnnouncementCategories.pinned?iconEnab_(context):iconDisab_(context)
+                                    )
+                                ),
+                                onTap: () {
+                                  // notifyScrollController();
+                                  scrollController.jumpTo(0);
+                                  appBarProv.set(elevated: false, showTitleOnAppBar: false, coverVisible: true);
+
+                                  setState(() => currTab = AnnouncementCategories.pinned);
+                                }
+                            ),
+
+                            SimpleButton(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: Dimen.ICON_MARG,
+                                  vertical: Dimen.ICON_MARG,
+                                ),
+                                margin: EdgeInsets.zero,
+                                child: Text(
+                                    'Wszystkie',
+                                    style: AppTextStyle(
+                                        fontSize: Dimen.TEXT_SIZE_BIG,
+                                        fontWeight: currTab == AnnouncementCategories.all?weight.halfBold:weight.normal,
+                                        color: currTab == AnnouncementCategories.all?iconEnab_(context):iconDisab_(context)
+                                    )
+                                ),
+                                onTap: (){
+                                  // notifyScrollController();
+                                  scrollController.jumpTo(0);
+                                  appBarProv.set(elevated: false, showTitleOnAppBar: false, coverVisible: true);
+
+                                  setState(() => currTab = AnnouncementCategories.all);
+                                }
+                            ),
+
+                            if(circle.awaitingAnnouncements.isNotEmpty)
+                              SimpleButton(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: Dimen.ICON_MARG,
+                                    vertical: Dimen.ICON_MARG,
+                                  ),
+                                  margin: EdgeInsets.zero,
+                                  child: Text(
+                                      'Oczekujące (${circle.awaitingCount})',
+                                      style: AppTextStyle(
+                                          fontSize: Dimen.TEXT_SIZE_BIG,
+                                          fontWeight: currTab == AnnouncementCategories.awaiting?weight.halfBold:weight.normal,
+                                          color: currTab == AnnouncementCategories.awaiting?iconEnab_(context):iconDisab_(context)
+                                      )
+                                  ),
+                                  onTap: (){
+                                    // notifyScrollController();
+                                    scrollController.jumpTo(0);
+                                    appBarProv.set(elevated: false, showTitleOnAppBar: false, coverVisible: true);
+
+                                    setState(() => currTab = AnnouncementCategories.awaiting);
+                                  }
+                              ),
+
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  height: Dimen.ICON_FOOTPRINT,
+                  rebuild: true,
+                ),
+
+                if(currTab == AnnouncementCategories.all)
+                  getAllAnnouncements()
+                else if(currTab == AnnouncementCategories.pinned)
+                  getPinnedAnnouncements()
+                else if(currTab == AnnouncementCategories.awaiting)
+                  getAwaitingAnnouncements()
+
+              ]
+          )
+
+        ),
       )
 
     ),
@@ -585,7 +683,7 @@ class CirclePageState extends State<CirclePage>{
 
   Widget getAllAnnouncements() {
 
-    if (circle.announcements.isEmpty)
+    if (circle.allAnnouncements.isEmpty)
       return SliverPadding(
         padding: const EdgeInsets.only(
           top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
@@ -613,13 +711,13 @@ class CirclePageState extends State<CirclePage>{
         sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
                 (context, index) =>
                 AnnouncementWidget(
-                  circle.announcements.reversed.toList()[index],
+                  circle.allAnnouncements.reversed.toList()[index],
                   palette,
                   onAnnouncementUpdated: () => setState(() {}),
                 ),
             separatorBuilder: (context, index) =>
             const SizedBox(height: Dimen.SIDE_MARG),
-            count: circle.announcements.length
+            count: circle.allAnnouncements.length
         )),
       );
 
@@ -741,10 +839,94 @@ class AppBarProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  void set({
+    bool? elevated,
+    bool? showTitleOnAppBar,
+    bool? coverVisible,
+  }){
+    if(elevated != null) _elevated = elevated;
+    if(showTitleOnAppBar != null) _showTitleOnAppBar = showTitleOnAppBar;
+    if(coverVisible != null) _coverVisible = coverVisible;
+    notifyListeners();
+  }
+
   AppBarProvider(){
     _elevated = true;
     _showTitleOnAppBar = false;
     _coverVisible = true;
   }
+
+}
+
+class InitAwaitingMessageDialog extends StatelessWidget{
+
+  final PaletteGenerator? palette;
+
+  const InitAwaitingMessageDialog({required this.palette, super.key});
+
+  @override
+  Widget build(BuildContext context) => Center(
+    child: Padding(
+      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+      child: Material(
+        clipBehavior: Clip.hardEdge,
+        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        color: CirclePage.backgroundColor(context, palette),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+
+            Padding(
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+              child: Text(
+                'Konieczne działanie!',
+                style: AppTextStyle(
+                  fontSize: Dimen.TEXT_SIZE_APPBAR,
+                  fontWeight: weight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+
+            Stack(
+              children: [
+                
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: Icon(
+                    MdiIcons.hiking,
+                    color: backgroundIcon_(context),
+                    size: 180,
+                  ),
+                ),
+                
+                Padding(
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  child: AppText(
+                    'W kręgu są <b>ogłoszenia oczekujące</b> na Twoją reakcję.'
+                        '\n\nTo ważne, byś <b>nie ${AccountData.sex==Sex.male?'zostawiał':'zostawiała'} tego na potem</b>.'
+                        '\n\nIgnorowanie ogłoszeń jest wyrazem braku szacunku dla jego autora.'
+                        '\n\n<b>Czuwaj!</b> :)',
+                    size: Dimen.TEXT_SIZE_BIG,
+                  ),
+                ),
+              ],
+            ),
+
+            SimpleButton(
+                radius: 0,
+                margin: EdgeInsets.zero,
+                onTap: () => Navigator.pop(context),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                child: const Icon(MdiIcons.check)
+            )
+
+          ],
+        ),
+      ),
+    ),
+  );
 
 }

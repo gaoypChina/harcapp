@@ -212,7 +212,7 @@ class IndivComp{
   RankDispType? rankDispType;
 
   String? shareCode;
-  bool? shareCodeSearchable;
+  bool shareCodeSearchable;
 
   IndivCompProfile get profile => participMap[AccountData.key!]!.profile;
 
@@ -373,11 +373,11 @@ class IndivComp{
     return IndivComp(
         key: resp['_key']??(throw InvalidResponseError('_key')),
         name: resp['name']??(throw InvalidResponseError('name')),
-        colorsKey: resp['colors_key']??(throw InvalidResponseError('colors_key')),
-        iconKey: resp['icon_key']??(throw InvalidResponseError('icon_key')),
-        startTime: DateTime.tryParse(resp['start_time']??(throw InvalidResponseError('start_time'))),
-        endTime: DateTime.tryParse(resp['end_time'] ?? ''),
-        rankDispType: strToRankDispType[resp['rank_disp_type']??(throw InvalidResponseError('rank_disp_type'))],
+        colorsKey: resp['colorsKey']??(throw InvalidResponseError('colorsKey')),
+        iconKey: resp['iconKey']??(throw InvalidResponseError('iconKey')),
+        startTime: DateTime.tryParse(resp['startTime']??(throw InvalidResponseError('startTime'))),
+        endTime: DateTime.tryParse(resp['endTime'] ?? ''),
+        rankDispType: strToRankDispType[resp['rankDispType']??(throw InvalidResponseError('rankDispType'))],
 
         particips: particips,
 
@@ -385,8 +385,8 @@ class IndivComp{
 
         awards: indivCompAward,
 
-        shareCode: resp["share_code"],
-        shareCodeSearchable: resp["share_code_searchable"]
+        shareCode: resp["shareCode"],
+        shareCodeSearchable: resp["shareCodeSearchable"]
     );
 
   }

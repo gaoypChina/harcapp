@@ -5,6 +5,7 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:provider/provider.dart';
 
 import 'cat_page_guide_book/_main.dart';
+import 'cat_page_harc_map/_main.dart';
 import 'cat_page_harcthought/_main.dart';
 import 'cat_page_home/_main.dart';
 import 'cat_page_song_book/_main.dart';
@@ -55,17 +56,17 @@ class MainPageState extends State<MainPage>{
               body: Consumer<AppBottomNavigatorProvider>(
                   builder: (context, prov, child) {
                     switch(prov.selectedIndex){
-                      case AppBottomNavigator.HOME:
+                      case AppBottomNavItem.home:
                         return const CatPageHome();
-                      //case AppBottomNavigator.MAP:
-                      //  return CatPageHarcMap();
-                      case AppBottomNavigator.SONGBOOK:
+                      case AppBottomNavItem.map:
+                        return const CatPageHarcMap();
+                      case AppBottomNavItem.songBook:
                         return const CatPageSongBook();
-                      case AppBottomNavigator.GUIDEBOOK:
+                      case AppBottomNavItem.guidebook:
                         return const CatPageGuideBook();
-                      case AppBottomNavigator.HARCTHOUGHT:
+                      case AppBottomNavItem.harcThought:
                         return const CatPageHarcThought();
-                      case AppBottomNavigator.STREFA_DUCHA:
+                      case AppBottomNavItem.strefaDucha:
                         return const CatPageStrefaDucha();
                       default:
                         return const CatPageGuideBook();

@@ -54,13 +54,13 @@ class ApiStatistics{
     return await API.sendRequest(
         withToken: true,
         sendRequest: (Dio dio) async => dio.post(
-            API.SERVER_URL + 'api/statistics/observation',
+            '${API.SERVER_URL}api/statistics/observation',
             options: Options(headers: {
               HttpHeaders.contentTypeHeader: 'application/json',
             }),
             data: jsonEncode(body)
         ),
-        onSuccess: (response) async {
+        onSuccess: (Response response, DateTime now) async {
           if(onSuccess == null) return;
 
           Map/*<String, Map<String, Map<String, String>>>*/ respData = (response.data as Map);

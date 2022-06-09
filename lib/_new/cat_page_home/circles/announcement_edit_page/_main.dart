@@ -1,11 +1,14 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
+import 'package:harcapp/_new/cat_page_home/circles/announcement_widget_template.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_cover_image_data.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/announcement.dart';
 import 'package:harcapp/account/account.dart';
@@ -75,6 +78,8 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
   late bool eventMode;
 
+  dynamic heroTag;
+
   @override
   void initState() {
     coverImage = initAnnouncement?.coverImage;
@@ -88,6 +93,8 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
     attRespMode = initAnnouncement?.respMode??AnnouncementAttendanceRespMode.NONE;
 
     eventMode = initAnnouncement?.isEvent??false;
+
+    heroTag = initAnnouncement??UniqueKey();
 
     super.initState();
   }
@@ -109,6 +116,76 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
           backgroundColor: CirclePage.backgroundColor(context, palette),
           centerTitle: true,
           floating: true,
+          actions: [
+            IconButton(
+              icon: const Icon(MdiIcons.eyeOutline),
+              onPressed: (){
+
+                Announcement announcement = Announcement(
+                  key: '',
+                  title: titleController.text,
+                  postTime: DateTime.now(),
+                  lastUpdateTime: DateTime.now(),
+                  startTime: startTime,
+                  endTime: endTime,
+                  place: placeController.text,
+                  author: UserData(
+                    key: AccountData.key!,
+                    name: AccountData.name!,
+                    shadow: false,
+                    sex: AccountData.sex!,
+                  ),
+                  coverImage: coverImage,
+                  text: textController.text,
+                  pinned: false,
+                  circle: circle,
+                  respMode: attRespMode,
+                  attendance: {},
+                  waivedAttRespMembers: [],
+                );
+
+                openDialog(
+                  context: context,
+                  builder: (context) => IntrinsicHeight(
+                    child: Padding(
+                      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+
+                            Expanded(child: Center(
+                              child: SingleChildScrollView(
+                                child: Hero(
+                                  tag: heroTag,
+                                  child: AnnouncementWidgetTemplate(
+                                    announcement,
+                                    palette: palette,
+                                  ),
+                                ),
+                              ),
+                            )),
+
+                            const SizedBox(height: Dimen.SIDE_MARG),
+
+                            SimpleButton.from(
+                              elevation: AppCard.bigElevation,
+                              margin: EdgeInsets.zero,
+                              textColor: iconEnab_(context),
+                              color: CirclePage.backgroundColor(context, palette),
+                              icon: MdiIcons.arrowLeft,
+                              text: 'Wróć',
+                              onTap: () => Navigator.pop(context),
+                            ),
+
+                          ]
+                      )
+                    )
+                  )
+                );
+
+              }
+            )
+          ],
         ),
 
         SliverPadding(
@@ -116,7 +193,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
           sliver: SliverList(delegate: SliverChildListDelegate([
 
             Hero(
-              tag: initAnnouncement??UniqueKey(),
+              tag: heroTag,
               child: Material(
                 color: CirclePage.cardColor(context, palette),
                 clipBehavior: Clip.antiAlias,

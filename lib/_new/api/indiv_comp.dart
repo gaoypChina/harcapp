@@ -112,7 +112,7 @@ class ApiIndivComp{
     sendRequest: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/indivComp',
     ),
-    onSuccess: (Response response) async {
+    onSuccess: (Response response, DateTime now) async {
       List<IndivComp> compList = [];
       for(Map map in response.data)
         compList.add(IndivComp.fromResponse(map));
@@ -131,7 +131,7 @@ class ApiIndivComp{
     sendRequest: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/indivComp/$compKey',
     ),
-    onSuccess: (Response response) async {
+    onSuccess: (Response response, DateTime now) async {
       IndivComp comp = IndivComp.fromResponse(response.data);
       onSuccess?.call(comp);
     },
@@ -175,7 +175,7 @@ class ApiIndivComp{
           }),
           data: jsonEncode(reqMap)
       ),
-      onSuccess: (Response response) async{
+      onSuccess: (Response response, DateTime now) async{
         IndivComp comp = IndivComp.fromResponse(response.data);
         onSuccess?.call(comp);
       }
@@ -192,7 +192,7 @@ class ApiIndivComp{
       sendRequest: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/indivComp/$compKey',
       ),
-      onSuccess: (Response response) async => onSuccess?.call(),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
       onError: (DioError err) async => onError?.call()
   );
 
@@ -205,14 +205,14 @@ class ApiIndivComp{
       sendRequest: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/indivComp/$compKey/shareCode',
       ),
-      onSuccess: (Response response) async => onSuccess?.call(response.data),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
       onError: (DioError err) async => onError?.call(err.response!.data)
   );
 
   static Future<Response?> setShareCodeSearchable({
     required String compKey,
     required bool searchable,
-    void Function(bool?)? onSuccess,
+    void Function(bool)? onSuccess,
     void Function()? onError,
   }) => API.sendRequest(
       withToken: true,
@@ -220,7 +220,7 @@ class ApiIndivComp{
         '${API.SERVER_URL}api/indivComp/$compKey/shareCodeSearchable',
         data: FormData.fromMap({'searchable': searchable}),
       ),
-      onSuccess: (Response response) async => onSuccess?.call(response.data['shareCodeSearchable']),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data['shareCodeSearchable']??false),
       onError: (DioError err) async => onError?.call()
   );
 
@@ -236,7 +236,7 @@ class ApiIndivComp{
           HttpHeaders.contentTypeHeader: 'application/json',
         }),
       ),
-      onSuccess: (Response response) async {
+      onSuccess: (Response response, DateTime now) async {
         IndivComp comp = IndivComp.fromResponse(response.data);
         onSuccess?.call(comp);
       },
@@ -291,7 +291,7 @@ class ApiIndivComp{
           }),
           data: jsonEncode(reqMap)
       ),
-      onSuccess: (Response response) async {
+      onSuccess: (Response response, DateTime now) async {
         if(onSuccess==null) return;
         IndivComp comp = IndivComp.fromResponse(response.data);
         onSuccess(comp);
@@ -321,7 +321,7 @@ class ApiIndivComp{
           '${API.SERVER_URL}api/indivComp/$compKey/user',
           data: jsonEncode(body)
       ),
-      onSuccess: (Response response) async {
+      onSuccess: (Response response, DateTime now) async {
         if(onSuccess == null) return;
 
         List<IndivCompParticip> particips = [];
@@ -357,7 +357,7 @@ class ApiIndivComp{
             '${API.SERVER_URL}api/indivComp/$compKey/user',
             data: jsonEncode(body)
         ),
-        onSuccess: (Response response) async {
+        onSuccess: (Response response, DateTime now) async {
           if(onSuccess == null) return;
 
           List<IndivCompParticip> particips = [];
@@ -383,7 +383,7 @@ class ApiIndivComp{
           '${API.SERVER_URL}api/indivComp/$compKey/user',
           data: jsonEncode(userIds)
       ),
-      onSuccess: (Response response) async {
+      onSuccess: (Response response, DateTime now) async {
         onSuccess?.call((response.data as List).cast<String>());
       },
       onError: (err) async => onError?.call()
@@ -398,7 +398,7 @@ class ApiIndivComp{
       sendRequest: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/indivComp/$compKey/leave',
       ),
-      onSuccess: (Response response) async {
+      onSuccess: (Response response, DateTime now) async {
         onSuccess?.call();
       },
       onError: (err) async => onError?.call()
@@ -427,7 +427,7 @@ class ApiIndivComp{
           'comment': comment,
         })
     ),
-    onSuccess: (Response response) async {
+    onSuccess: (Response response, DateTime now) async {
 
       List<IndivCompTaskCompl> complTasks = [];
       Map complTasksRespMap = response.data['compl_tasks'];
@@ -457,7 +457,7 @@ class ApiIndivComp{
     sendRequest: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/indivComp/task/request/$taskComplKey'
     ),
-    onSuccess: (Response response) async => onSuccess?.call(response.data)
+    onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data)
   );
 
   static Future<Response?> getAllPendingTaskComplRevs({
@@ -475,7 +475,7 @@ class ApiIndivComp{
           'compKey': compKey,
         }
     ),
-    onSuccess: (Response response) async {
+    onSuccess: (Response response, DateTime now) async {
 
       Map<IndivCompParticip, List<IndivCompTaskCompl>> pendingComplTasks = {};
       for(String userKey in (response.data as Map).keys as Iterable<String>) {
@@ -508,7 +508,7 @@ class ApiIndivComp{
           'revComment': revComment
         }),
     ),
-    onSuccess: (Response response) async => onSuccess?.call(response.data),
+    onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
     onError: (_) async => onError?.call()
   );
 

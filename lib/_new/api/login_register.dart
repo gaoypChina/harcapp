@@ -109,7 +109,7 @@ class ApiRegLog{
             '${API.SERVER_URL}api/user/authenticate',
             data: FormData.fromMap({LOGIN_REQ_EMAIL: email, LOGIN_REQ_PASSWORD: password})
         ),
-        onSuccess: (Response response) async {
+        onSuccess: (Response response, DateTime now) async {
           String key = response.data['key']??(throw InvalidResponseError('key'));
           String jwt = response.data['jwt']??(throw InvalidResponseError('jwt'));
           String name = response.data['name']??(throw InvalidResponseError('name'));
@@ -144,7 +144,7 @@ class ApiRegLog{
           '${API.SERVER_URL}api/user/authenticateMicrosoft',
           data: FormData.fromMap({'azureToken': azureToken})
       ),
-      onSuccess: (Response response) async {
+      onSuccess: (Response response, DateTime now) async {
         String email = response.data['email']??(throw InvalidResponseError('email'));
         String key = response.data['key']??(throw InvalidResponseError('key'));
         String jwt = response.data['jwt']??(throw InvalidResponseError('jwt'));
@@ -218,7 +218,7 @@ class ApiRegLog{
   }) async => API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) async => await dio.get('${API.SERVER_URL}api/user/logout'),
-    onSuccess: (Response response) async => onSuccess?.call(),
+    onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
     onForbidden: () async {
       onSuccess?.call();
       return true;
@@ -297,7 +297,7 @@ class ApiRegLog{
               REGISTER_REQ_PASSWORD: password,
             })
         ),
-        onSuccess: (Response response) async {
+        onSuccess: (Response response, DateTime now) async {
           String? key = response.data['key'];
           String? jwt = response.data['jwt'];
           String? email = response.data['email'];
@@ -369,7 +369,7 @@ class ApiRegLog{
               REGISTER_MICROSOFT_REQ_GDPR: gdprAccept,
             })
         ),
-        onSuccess: (Response response) async {
+        onSuccess: (Response response, DateTime now) async {
           String? key = response.data['key'];
           String? jwt = response.data['jwt'];
           String? email = response.data['email'];
@@ -407,7 +407,7 @@ class ApiRegLog{
             'azureToken': azureToken,
           }),
         ),
-        onSuccess: (Response response) async {
+        onSuccess: (Response response, DateTime now) async {
           await AccountData.saveLoginData(AccountData.email, response);
           onSuccess?.call(response);
         },
@@ -441,7 +441,7 @@ class ApiRegLog{
             SEND_PASS_RESET_KEY_EMAIL: email,
           }),
         ),
-        onSuccess: (Response response) async => onSuccess?.call(),
+        onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
         onError: (err) async => onError?.call(err.response)
     );
 
@@ -494,7 +494,7 @@ class ApiRegLog{
             RESET_PASSWORD_REQ_NEW_PASS:newPass,
           })
       ),
-      onSuccess: (Response response) async => onSuccess?.call(),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
       onError: (err) async => onError?.call(err.response)
     );
 
@@ -510,7 +510,7 @@ class ApiRegLog{
             VALIDATE_PASSWORD_PASSWORD: password,
           })
       ),
-      onSuccess: (response) async => await onSuccess?.call(),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
       onError: (DioError error) async {
         String? response;
 
@@ -527,7 +527,7 @@ class ApiRegLog{
   static Future<Response?> resendActivationToken({void Function()? onSuccess, void Function()? onError}) async => await API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) async => dio.get('${API.SERVER_URL}api/user/resend_email_conf_key'),
-      onSuccess: (response) async => onSuccess?.call(),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
       onError: (_) async => onError?.call()
   );
 
@@ -557,7 +557,7 @@ class ApiRegLog{
             '${API.SERVER_URL}api/user/confEmail',
             data: FormData.fromMap({CONF_EMAIL_CONF_KEY: confKey})
         ),
-        onSuccess: (Response response) async {
+        onSuccess: (Response response, DateTime now) async {
 
           String? email = response.data['email'];
           DateTime? lastSyncTime = DateTime.tryParse(response.data['last_sync_time']??'');
@@ -579,7 +579,7 @@ class ApiRegLog{
           withToken: true,
           //token: token,
           sendRequest: (Dio dio) async => await dio.get('${API.SERVER_URL}api/user/confEmail'),
-          onSuccess: (Response response) async => onSuccess?.call(response.data??(throw InvalidResponseError(''))),
+          onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data??(throw InvalidResponseError(''))),
           onError: (err) async => onError?.call(err.response)
       );
 

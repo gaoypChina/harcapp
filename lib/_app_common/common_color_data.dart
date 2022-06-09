@@ -39,8 +39,8 @@ class CommonColorData{
     'darkorange': const CommonColorData(Colors.pinkAccent, Colors.blueGrey, false),
     'darkgreen': CommonColorData(Colors.cyan[300], Colors.blueGrey, false),
     'darkblue': const CommonColorData(Colors.blueAccent, Colors.blueGrey, false),
-    'darkpurple': const CommonColorData(Colors.deepPurple, Colors.blueGrey, false),
-    'darkbrown': const CommonColorData(Colors.brown, Colors.blueGrey, false),
+    'darkpurple': const CommonColorData(Colors.deepPurple, Colors.blueGrey, true),
+    'darkbrown': const CommonColorData(Colors.brown, Colors.blueGrey, true),
 
     'blood': CommonColorData(Colors.red[900], Colors.black, true),
     'deepforest': CommonColorData(Colors.green[900], Colors.black, true),

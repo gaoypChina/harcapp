@@ -86,7 +86,7 @@ class ApiSync{
     return await API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) async => await dio.post(API.SERVER_URL + url, data: reqMap),
-      onSuccess: (Response response) async {
+      onSuccess: (Response response, DateTime now) async {
         dynamic orgHandler = response.data[OrgHandler.syncClassId];
         Map<String, dynamic>? appSettings = response.data[AppSettings.syncClassId];
         Map<String, dynamic>? songBookSettings = response.data[SongBookSettings.syncClassId];
@@ -187,7 +187,7 @@ class ApiSync{
     return await API.sendRequest(
         withToken: true,
         sendRequest: (Dio dio) async => await dio.get(API.SERVER_URL + url),
-        onSuccess: (Response response) async {
+        onSuccess: (Response response, DateTime now) async {
 
           dynamic orgData = response.data[OrgEntityResp.collName];
           OrgEntityResp? orgResp;
@@ -414,7 +414,7 @@ class ApiSync{
   }) async => await API.sendRequest(
         withToken: true,
         sendRequest: (Dio dio) async => await dio.get('${API.SERVER_URL}${url}last_sync'),
-        onSuccess: (Response response) async {
+        onSuccess: (Response response, DateTime now) async {
           DateTime? lastSync;
           lastSync = DateTime.tryParse(response.data);
           onSuccess?.call(lastSync);

@@ -133,7 +133,8 @@ class PartContributors extends StatelessWidget{
     DORIAN_JAREK,
     DANIEL_KORZEB,
     FILIP_SOCHAJ,
-    BARTOSZ_IGNASIAK
+    BARTOSZ_IGNASIAK,
+    SZYMON_JAWOREK
   ];
 
   static const List<Person> osWspierSlownik = [

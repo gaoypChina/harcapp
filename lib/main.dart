@@ -71,7 +71,7 @@ void main() async {
       saveStringAsFileToFolder(
           getErrorFolderLocalPath,
           '# Date: ${DateTime.now().toIso8601String()}'
-          '\n# System time used: ${TimeSettings.isTimeAutomatic}'
+          '\n# System time used: ${await TimeSettings.isTimeAutomatic}'
           '\n# App version: ${(await PackageInfo.fromPlatform()).version}'
           '\n\n${details.exception.toString()}'
           '\n\n${details.stack.toString()}',

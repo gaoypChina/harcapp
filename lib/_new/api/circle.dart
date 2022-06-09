@@ -56,7 +56,7 @@ class ApiCircle{
     sendRequest: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/circle',
     ),
-    onSuccess: (Response response) async {
+    onSuccess: (Response response, DateTime now) async {
       List<Circle> circleList = [];
       for(Map map in response.data)
         circleList.add(Circle.fromResponse(map));
@@ -75,7 +75,7 @@ class ApiCircle{
     sendRequest: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/circle/$circleKey',
     ),
-    onSuccess: (Response response) async {
+    onSuccess: (Response response, DateTime now) async {
       Circle circle = Circle.fromResponse(response.data);
       onSuccess?.call(circle);
     },
@@ -95,8 +95,8 @@ class ApiCircle{
     Map<String, dynamic> reqMap = {};
     reqMap['name'] = name.trim();
     reqMap['description'] = description.trim();
-    reqMap['cover_image_url'] = coverImageUrl;
-    reqMap['colors_key'] = colorsKey;
+    reqMap['coverImageUrl'] = coverImageUrl;
+    reqMap['colorsKey'] = colorsKey;
 
     return API.sendRequest(
       withToken: true,
@@ -107,7 +107,7 @@ class ApiCircle{
           }),
           data: jsonEncode(reqMap)
       ),
-      onSuccess: (Response response) async{
+      onSuccess: (Response response, DateTime now) async{
         Circle circle = Circle.fromResponse(response.data);
         onSuccess?.call(circle);
       },
@@ -125,7 +125,7 @@ class ApiCircle{
       sendRequest: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/circle/$circleKey'
       ),
-      onSuccess: (Response response) async => onSuccess?.call(),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
       onError: (DioError err) async => onError?.call()
   );
 
@@ -138,7 +138,7 @@ class ApiCircle{
       sendRequest: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/circle/$compKey/shareCode',
       ),
-      onSuccess: (Response response) async => onSuccess?.call(response.data),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
       onError: (DioError err) async => onError?.call(err.response!.data)
   );
 
@@ -153,7 +153,7 @@ class ApiCircle{
         '${API.SERVER_URL}api/circle/$compKey/shareCodeSearchable',
         data: FormData.fromMap({'searchable': searchable}),
       ),
-      onSuccess: (Response response) async => onSuccess?.call(response.data['shareCodeSearchable']),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data['shareCodeSearchable']),
       onError: (DioError err) async => onError?.call()
   );
 
@@ -166,7 +166,7 @@ class ApiCircle{
       sendRequest: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/circle/joinByShareCode/$searchCode',
       ),
-      onSuccess: (Response response) async {
+      onSuccess: (Response response, DateTime now) async {
         Circle comp = Circle.fromResponse(response.data);
         onSuccess?.call(comp);
       },
@@ -186,8 +186,8 @@ class ApiCircle{
     Map<String, dynamic> reqMap = {};
     if(name.isPresent) reqMap['name'] = name.value.trim();
     if(description.isPresent) reqMap['description'] = description.value.trim();
-    if(coverImageUrl.isPresent) reqMap['cover_image_url'] = coverImageUrl.value;
-    if(colorsKey.isPresent) reqMap['colors_key'] = colorsKey.value;
+    if(coverImageUrl.isPresent) reqMap['coverImageUrl'] = coverImageUrl.value;
+    if(colorsKey.isPresent) reqMap['colorsKey'] = colorsKey.value;
 
     return API.sendRequest(
       withToken: true,
@@ -198,7 +198,7 @@ class ApiCircle{
         }),
         data: jsonEncode(reqMap)
       ),
-      onSuccess: (Response response) async {
+      onSuccess: (Response response, DateTime now) async {
         if(onSuccess==null) return;
         Circle circle = Circle.fromResponse(response.data);
         onSuccess(circle);
@@ -228,7 +228,7 @@ class ApiCircle{
           '${API.SERVER_URL}api/circle/$circleKey/user',
           data: jsonEncode(body)
       ),
-      onSuccess: (Response response) async {
+      onSuccess: (Response response, DateTime now) async {
         if(onSuccess == null) return;
 
         List<Member> members = [];
@@ -264,7 +264,7 @@ class ApiCircle{
             '${API.SERVER_URL}api/circle/$circleKey/user',
             data: jsonEncode(body)
         ),
-        onSuccess: (Response response) async {
+        onSuccess: (Response response, DateTime now) async {
           if(onSuccess == null) return;
 
           List<Member> particips = [];
@@ -290,7 +290,7 @@ class ApiCircle{
           '${API.SERVER_URL}api/circle/$circleKey/user',
           data: jsonEncode(userKeys)
       ),
-      onSuccess: (Response response) async {
+      onSuccess: (Response response, DateTime now) async {
         onSuccess?.call((response.data as List).cast<String>());
       },
       onError: (err) async => onError?.call()
@@ -305,7 +305,7 @@ class ApiCircle{
       sendRequest: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/circle/$circleKey/leave',
       ),
-      onSuccess: (Response response) async => onSuccess?.call(),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
       onError: (err) async => onError?.call()
   );
 
@@ -313,8 +313,10 @@ class ApiCircle{
     required String circleKey,
     int? page,
     int? pageSize,
+    bool pinnedOnly = false,
+    bool awaitingOnly = false,
 
-    void Function(List<Announcement>)? onSuccess,
+    void Function(List<Announcement>, bool pinnedOnly, bool awaitingOnly)? onSuccess,
     void Function()? onError,
   }) => API.sendRequest(
       withToken: true,
@@ -323,15 +325,17 @@ class ApiCircle{
         queryParameters: {
           if(page != null) 'page': page,
           if(pageSize != null) 'pageSize': pageSize,
+          'pinnedOnly': pinnedOnly,
+          'awaitingOnly': awaitingOnly
         }
       ),
-      onSuccess: (Response response) async {
+      onSuccess: (Response response, DateTime now) async {
 
         List<Announcement> result = [];
         for(String key in (response.data as Map).keys)
           result.add(Announcement.fromMap(response.data[key], Circle.allMap![circleKey]!, key: key));
 
-        onSuccess?.call(result);
+        onSuccess?.call(result, pinnedOnly, awaitingOnly);
       },
       onError: (err) async => onError?.call()
   );
@@ -354,15 +358,15 @@ class ApiCircle{
         '${API.SERVER_URL}api/circle/$circleKey/announcement',
         data: FormData.fromMap({
           'title': title,
-          if(startTime != null) 'start_time_str': startTime.toIso8601String(),
-          if(endTime != null) 'end_time_str': endTime.toIso8601String(),
+          if(startTime != null) 'startTimeStr': startTime.toIso8601String(),
+          if(endTime != null) 'endTimeStr': endTime.toIso8601String(),
           if(place != null) 'place': place,
-          if(coverImageUrl != null) 'cover_image_url': coverImageUrl,
+          if(coverImageUrl != null) 'coverImageUrl': coverImageUrl,
           'text': text,
-          'attendance_resp_mode': announcementAttendanceRespModeToStr[respMode],
+          'attendanceRespMode': announcementAttendanceRespModeToStr[respMode],
         }),
       ),
-      onSuccess: (Response response) async =>
+      onSuccess: (Response response, DateTime now) async =>
           onSuccess?.call(Announcement.fromMap(response.data, Circle.allMap![circleKey]!)),
       onError: (err) async => onError?.call()
   );
@@ -387,25 +391,25 @@ class ApiCircle{
 
           if(title.isPresent) 'title': title.value,
 
-          if(startTime.isPresent) "start_time_str": startTime.value == null?
+          if(startTime.isPresent) "startTimeStr": startTime.value == null?
           null:
           startTime.value!.toIso8601String(),
 
-          if(endTime.isPresent) "end_time_str": endTime.value == null?
+          if(endTime.isPresent) "endTimeStr": endTime.value == null?
           null:
           endTime.value!.toIso8601String(),
 
           if(place.isPresent) 'place': place.value,
 
-          if(coverImageUrl.isPresent) 'cover_image_url': coverImageUrl.value,
+          if(coverImageUrl.isPresent) 'coverImageUrl': coverImageUrl.value,
 
           if(text.isPresent) 'text': text.value,
 
-          if(respMode.isPresent) 'attendance_resp_mode': announcementAttendanceRespModeToStr[respMode.value]
+          if(respMode.isPresent) 'attendanceRespMode': announcementAttendanceRespModeToStr[respMode.value]
 
         }),
       ),
-      onSuccess: (Response response) async =>
+      onSuccess: (Response response, DateTime now) async =>
           onSuccess?.call(Announcement.fromMap(response.data, announcement.circle!)),
       onError: (err) async => onError?.call()
   );
@@ -423,7 +427,7 @@ class ApiCircle{
           'pin': pin,
         }),
       ),
-      onSuccess: (Response response) async =>
+      onSuccess: (Response response, DateTime now) async =>
           onSuccess?.call(response.data),
       onError: (err) async => onError?.call()
   );
@@ -437,31 +441,53 @@ class ApiCircle{
       sendRequest: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/announcement/$annKey',
       ),
-      onSuccess: (Response response) async =>
+      onSuccess: (Response response, DateTime now) async =>
           onSuccess?.call(),
       onError: (err) async => onError?.call()
   );
 
   static Future<Response?> updateAnnouncementAttendanceResponse({
     required String annKey,
+    String? memberKey,
     required AnnouncementAttendance response,
-    String? rejectionReason,
+    String? responseReason,
     DateTime? postponeResponseTime,
-    void Function(AnnouncementAttendanceResp)? onSuccess,
+    void Function(AnnouncementAttendanceResp, DateTime)? onSuccess,
     void Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.put(
         '${API.SERVER_URL}api/announcement/$annKey/response',
         data: FormData.fromMap({
+          'memberKey': memberKey,
           'response': announcementAttendanceToStr[response],
-          'rejection_reason': rejectionReason,
+          'response_reason': responseReason,
           'postpone_response_time': postponeResponseTime?.toIso8601String(),
         }),
       ),
-      onSuccess: (Response response) async =>
-          onSuccess?.call(AnnouncementAttendanceResp.fromResponse(response.data)),
+      onSuccess: (Response response, DateTime now) async =>
+          onSuccess?.call(AnnouncementAttendanceResp.fromResponse(response.data), now),
       onError: (err) async => onError?.call()
   );
-  
+
+  static Future<Response?> waiveResponse({
+    required String annKey,
+    required String memberKey,
+    required bool waive,
+    void Function(bool, DateTime)? onSuccess,
+    void Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      sendRequest: (Dio dio) => dio.put(
+        '${API.SERVER_URL}api/announcement/$annKey/waiveResponse',
+        data: FormData.fromMap({
+          'memberKey': memberKey,
+          'waive': waive,
+        }),
+      ),
+      onSuccess: (Response response, DateTime now) async =>
+          onSuccess?.call(response.data, now),
+      onError: (err) async => onError?.call()
+  );
+
 }

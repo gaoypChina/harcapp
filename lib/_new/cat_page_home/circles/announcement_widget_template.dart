@@ -32,8 +32,9 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
   final PaletteGenerator? palette;
   final void Function()? onTap;
   final void Function()? onUpdateTap;
-  final void Function()? onPinChanged;
-  final void Function(AnnouncementAttendanceResp)? onAttendanceChanged;
+  final void Function(bool)? onPinChanged;
+  final void Function(AnnouncementAttendanceResp, DateTime now)? onAttendanceChanged;
+  final void Function()? onAttendanceIndicatorTap;
 
   const AnnouncementWidgetTemplate(
       this.announcement,
@@ -43,16 +44,19 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
         this.onUpdateTap,
         this.onPinChanged,
         this.onAttendanceChanged,
+        this.onAttendanceIndicatorTap,
         Key? key
       }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Material(
+  Widget build(BuildContext context) => SimpleButton(
+    onTap: onTap,
     color: CirclePage.cardColor(context, palette),
     clipBehavior: Clip.antiAlias,
-    borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+    radius: AppCard.BIG_RADIUS,
     elevation: AppCard.defElevation,
     child: Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
 
@@ -157,7 +161,7 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
               if(announcement.startTime != null || announcement.endTime != null)
                 const SizedBox(height: 10),
 
-              if(announcement.place != null)
+              if(announcement.place != null && announcement.place!.isNotEmpty)
                 Row(
                   children: [
 
@@ -203,6 +207,8 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
 
+            const SizedBox(height: Dimen.ICON_FOOTPRINT),
+
             const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
 
             if(AccountData.key == announcement.author.key)
@@ -219,11 +225,7 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
 
             Expanded(child: Container()),
 
-            if(onTap != null)
-              IconButton(
-                  icon: const Icon(MdiIcons.dotsHorizontal),
-                  onPressed: onTap
-              ),
+            AttendaceIndicatorWidget(announcement, onTap: onAttendanceIndicatorTap),
 
             const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
 
@@ -263,7 +265,7 @@ class AttendanceWidget extends StatelessWidget{
 
   final Announcement announcement;
   final PaletteGenerator? palette;
-  final void Function(AnnouncementAttendanceResp)? onAttendanceChanged;
+  final void Function(AnnouncementAttendanceResp, DateTime)? onAttendanceChanged;
 
   const AttendanceWidget(this.announcement, {this.palette, this.onAttendanceChanged, Key? key}) : super(key: key);
 
@@ -441,7 +443,7 @@ class AttendingDialog extends StatelessWidget{
   final Announcement announcement;
   final PaletteGenerator? palette;
   final BuildContext Function() getContext;
-  final void Function(AnnouncementAttendanceResp)? onSuccess;
+  final void Function(AnnouncementAttendanceResp, DateTime)? onSuccess;
   final void Function()? onError;
   const AttendingDialog(this.announcement, this.palette, {required this.getContext, this.onSuccess, this.onError, super.key});
   
@@ -493,10 +495,10 @@ class AttendingDialog extends StatelessWidget{
                   await ApiCircle.updateAnnouncementAttendanceResponse(
                       annKey: announcement.key,
                       response: AnnouncementAttendance.ATTENDING,
-                      onSuccess: (announcementAttendanceResp) async {
+                      onSuccess: (announcementAttendanceResp, now) async {
                         announcement.attendance[AccountData.key!] = announcementAttendanceResp;
                         await popPage(getContext()); // Close loading widget.
-                        onSuccess?.call(announcementAttendanceResp);
+                        onSuccess?.call(announcementAttendanceResp, now);
                       },
                       onError: () async {
                         showAppToast(getContext(), text: 'Coś nie tak...');
@@ -521,7 +523,7 @@ class PostponeRespDialog extends StatefulWidget{
   final Announcement announcement;
   final PaletteGenerator? palette;
   final BuildContext Function() getContext;
-  final void Function(AnnouncementAttendanceResp)? onSuccess;
+  final void Function(AnnouncementAttendanceResp, DateTime)? onSuccess;
   final void Function()? onError;
 
   const PostponeRespDialog(this.announcement, this.palette, {required this.getContext, this.onSuccess, this.onError, super.key});
@@ -536,7 +538,7 @@ class PostponeRespDialogState extends State<PostponeRespDialog>{
   Announcement get announcement => widget.announcement;
   PaletteGenerator? get palette => widget.palette;
   BuildContext Function() get getContext => widget.getContext;
-  void Function(AnnouncementAttendanceResp)? get onSuccess => widget.onSuccess;
+  void Function(AnnouncementAttendanceResp, DateTime)? get onSuccess => widget.onSuccess;
   void Function()? get onError => widget.onError;
 
   late DateTime? postponeDate;
@@ -545,7 +547,7 @@ class PostponeRespDialogState extends State<PostponeRespDialog>{
   @override
   void initState() {
     postponeDate = announcement.myAttendance?.postponeTime;//null; //DateTime.now();
-    controller = TextEditingController();
+    controller = TextEditingController(text: announcement.myAttendance?.responseReason??'');
     super.initState();
   }
 
@@ -599,8 +601,8 @@ class PostponeRespDialogState extends State<PostponeRespDialog>{
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                 child: AppTextFieldHint(
-                  hint: 'Opcjonalny komentarz:',
-                  hintTop: 'Komentarz',
+                  hint: 'Opcjonalne wyjaśnienie:',
+                  hintTop: 'Wyjaśnienie',
                   controller: controller,
                   maxLines: null,
                 ),
@@ -633,11 +635,11 @@ class PostponeRespDialogState extends State<PostponeRespDialog>{
                       annKey: announcement.key,
                       response: AnnouncementAttendance.POSTPONE_RESP,
                       postponeResponseTime: postponeDate,
-                      rejectionReason: controller.text,
-                      onSuccess: (announcementAttendanceResp) async {
+                      responseReason: controller.text,
+                      onSuccess: (announcementAttendanceResp, now) async {
                         announcement.attendance[AccountData.key!] = announcementAttendanceResp;
                         await popPage(getContext()); // Close loading widget.
-                        onSuccess?.call(announcementAttendanceResp);
+                        onSuccess?.call(announcementAttendanceResp, now);
                       },
                       onError: () async {
                         showAppToast(getContext(), text: 'Coś nie tak...');
@@ -662,7 +664,7 @@ class NotAttendingDialog extends StatefulWidget{
   final Announcement announcement;
   final PaletteGenerator? palette;
   final BuildContext Function() getContext;
-  final void Function(AnnouncementAttendanceResp)? onSuccess;
+  final void Function(AnnouncementAttendanceResp, DateTime)? onSuccess;
   final void Function()? onError;
 
   const NotAttendingDialog(this.announcement, this.palette, {required this.getContext, this.onSuccess, this.onError, super.key});
@@ -677,14 +679,14 @@ class NotAttendingDialogState extends State<NotAttendingDialog>{
   Announcement get announcement => widget.announcement;
   PaletteGenerator? get palette => widget.palette;
   BuildContext Function() get getContext => widget.getContext;
-  void Function(AnnouncementAttendanceResp)? get onSuccess => widget.onSuccess;
+  void Function(AnnouncementAttendanceResp, DateTime)? get onSuccess => widget.onSuccess;
   void Function()? get onError => widget.onError;
 
   late TextEditingController controller;
 
   @override
   void initState() {
-    controller = TextEditingController(text: announcement.myAttendance?.rejectionReason??'');
+    controller = TextEditingController(text: announcement.myAttendance?.responseReason??'');
     super.initState();
   }
 
@@ -756,11 +758,11 @@ class NotAttendingDialogState extends State<NotAttendingDialog>{
                     await ApiCircle.updateAnnouncementAttendanceResponse(
                         annKey: announcement.key,
                         response: AnnouncementAttendance.NOT_ATTENDING,
-                        rejectionReason: controller.text,
-                        onSuccess: (announcementAttendanceResp) async {
+                        responseReason: controller.text,
+                        onSuccess: (announcementAttendanceResp, now) async {
                           announcement.attendance[AccountData.key!] = announcementAttendanceResp;
                           await popPage(getContext()); // Close loading widget.
-                          onSuccess?.call(announcementAttendanceResp);
+                          onSuccess?.call(announcementAttendanceResp, now);
                         },
                         onError: () async {
                           showAppToast(getContext(), text: 'Coś nie tak...');
@@ -783,7 +785,7 @@ class NotAttendingDialogState extends State<NotAttendingDialog>{
 class _PinWidget extends StatefulWidget{
 
   final Announcement announcement;
-  final void Function()? onPinChanged;
+  final void Function(bool)? onPinChanged;
 
   const _PinWidget(this.announcement, {this.onPinChanged});
 
@@ -797,7 +799,7 @@ class _PinWidgetState extends State<_PinWidget>{
   late bool _processing;
 
   Announcement get announcement => widget.announcement;
-  void Function()? get onPinChanged => widget.onPinChanged;
+  void Function(bool)? get onPinChanged => widget.onPinChanged;
 
   @override
   void initState(){
@@ -829,7 +831,7 @@ class _PinWidgetState extends State<_PinWidget>{
               else showAppToast(context, text: 'Odpięto ogłoszenie');
 
               Provider.of<AnnouncementProvider>(context, listen: false).notify();
-              onPinChanged?.call();
+              onPinChanged?.call(pinned);
             },
             onError: () async {
               showAppToast(context, text: 'Coś poszło nie tak');
@@ -841,5 +843,74 @@ class _PinWidgetState extends State<_PinWidget>{
       }
   );
 
+
+}
+
+class AttendaceIndicatorWidget extends StatelessWidget{
+
+  static const double height = 20;
+
+  final Announcement announcement;
+  final void Function()? onTap;
+
+  const AttendaceIndicatorWidget(this.announcement, {this.onTap, super.key});
+
+  @override
+  Widget build(BuildContext context){
+
+    int attendingCount = 0;
+    int postponedCount = 0;
+    int rejectedCount = 0;
+
+    bool postponedOverdue = false;
+
+    for(String userKey in announcement.attendance.keys){
+      AnnouncementAttendanceResp resp = announcement.attendance[userKey]!;
+      if(resp.response == AnnouncementAttendance.ATTENDING) attendingCount++;
+      if(resp.response == AnnouncementAttendance.POSTPONE_RESP){
+        postponedCount++;
+        if(resp.postponeTime != null && resp.postponeTime!.isBefore(DateTime.now()))
+          postponedOverdue = true;
+      }
+      if(resp.response == AnnouncementAttendance.NOT_ATTENDING) rejectedCount++;
+    }
+
+    return SimpleButton(
+      radius: AppCard.BIG_RADIUS,
+      onTap: onTap,
+      child: Row(
+        children: [
+
+          const SizedBox(height: Dimen.ICON_FOOTPRINT),
+          const SizedBox(width: Dimen.ICON_MARG),
+
+          Icon(
+            announcementAttendanceRespToIcon(const AnnouncementAttendanceResp(AnnouncementAttendance.ATTENDING)),
+            size: height,
+            color: hintEnab_(context),
+          ),
+          Text(' $attendingCount', style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context))),
+          const SizedBox(width: Dimen.ICON_MARG),
+          Icon(
+            announcementAttendanceRespToIcon(AnnouncementAttendanceResp(AnnouncementAttendance.POSTPONE_RESP, postponeTime: postponedOverdue?DateTime(0):null)),
+            size: height,
+            color: hintEnab_(context),
+          ),
+          Text(' $postponedCount', style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context))),
+          const SizedBox(width: Dimen.ICON_MARG),
+          Icon(
+            announcementAttendanceRespToIcon(const AnnouncementAttendanceResp(AnnouncementAttendance.NOT_ATTENDING)),
+            size: height,
+            color: hintEnab_(context),
+          ),
+          Text(' $rejectedCount', style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context))),
+
+          const SizedBox(width: Dimen.ICON_MARG),
+
+        ],
+      ),
+    );
+
+  }
 
 }

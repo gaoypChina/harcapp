@@ -107,6 +107,7 @@ class Announcement{
   bool pinned;
   AnnouncementAttendanceRespMode respMode;
   Map<String, AnnouncementAttendanceResp> attendance;
+  List<String> waivedAttRespMembers;
 
   final Circle? circle;
 
@@ -150,6 +151,7 @@ class Announcement{
     this.circle,
     required this.respMode,
     required this.attendance,
+    required this.waivedAttRespMembers,
   });
 
   void update(Announcement other){
@@ -171,17 +173,18 @@ class Announcement{
   static Announcement fromMap(Map resp, Circle circle, {String? key}) => Announcement(
     key: key??resp['_key']??(throw InvalidResponseError('_key')),
     title: resp['title']??(throw InvalidResponseError('title')),
-    postTime: DateTime.tryParse(resp['post_time_str']??(throw InvalidResponseError('post_time_str')))??(throw InvalidResponseError('post_time_str')),
-    startTime: resp['start_time_str'] == null? null: DateTime.tryParse(resp['start_time_str']),
-    endTime: resp['end_time_str'] == null? null: DateTime.tryParse(resp['end_time_str']),
-    lastUpdateTime: resp['last_update_time_str'] == null? null: DateTime.tryParse(resp['last_update_time_str']),
-    coverImage: resp['cover_image_url'] == null? null: CircleCoverImageData.from(resp['cover_image_url']),
+    postTime: DateTime.tryParse(resp['postTimeStr']??(throw InvalidResponseError('postTimeStr')))??(throw InvalidResponseError('post_time_str')),
+    lastUpdateTime: resp['lastUpdateTimeStr'] == null? null: DateTime.tryParse(resp['lastUpdateTimeStr']),
+    startTime: resp['startTimeStr'] == null? null: DateTime.tryParse(resp['startTimeStr']),
+    endTime: resp['endTimeStr'] == null? null: DateTime.tryParse(resp['endTimeStr']),
+    coverImage: resp['coverImageUrl'] == null? null: CircleCoverImageData.from(resp['coverImageUrl']),
     place: resp['place'],
     author: UserData.fromMap(resp['author']),
     text: resp['text'],
     pinned: resp['pinned'],
-    respMode: strToAnnouncementAttendanceRespMode[resp['attendance_resp_mode']]??(throw InvalidResponseError('attendance_resp_mode')),
-    attendance: ((resp['attendance_responses']??{}) as Map).map((key, value) => MapEntry(key, AnnouncementAttendanceResp.fromResponse(value))),
+    respMode: strToAnnouncementAttendanceRespMode[resp['attendanceRespMode']]??(throw InvalidResponseError('attendanceRespMode')),
+    attendance: ((resp['attendanceResponses']??{}) as Map).map((key, value) => MapEntry(key, AnnouncementAttendanceResp.fromResponse(value))),
+    waivedAttRespMembers: (resp['waivedAttRespMembers'] as List?)?.cast<String>()??(throw InvalidResponseError('waivedAttRespMembers')),
 
     circle: circle,
   );

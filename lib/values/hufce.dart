@@ -117,7 +117,7 @@ const String huf_zhp_warszawa_zoliborz = 'Hufiec ZHP Warszawa Żoliborz';
 const String huf_zhp_wolsztyn = 'Hufiec ZHP Wolsztyn';
 
 const String huf_zhp_wroclaw = 'Hufiec ZHP Wrocław im. Polonii Wrocławskiej';
-const String huf_zhp_wrzesnia_wrzos = 'Hufiec Września"WRZOS" ZHP im. Dzieci Wrzesińskich';
+const String huf_zhp_wrzesnia_wrzos = 'Hufiec Września "WRZOS" ZHP im. Dzieci Wrzesińskich';
 
 const String huf_zhp_ziemi_wodzislawskiej = 'Hufiec ZHP Ziemi Wodzisławskiej';
 
@@ -130,6 +130,7 @@ const String huf_zhp_zdunska_wola = 'Hufiec ZHP Zduńska Wola';
 const String huf_zhp_ziemi_cieszynskiej = 'Hufiec ZHP Ziemi Cieszyńskiej';
 const String huf_zhp_ziemi_gliwickiej = 'Hufiec ZHP Ziemi Gliwickiej';
 const String huf_zhp_ziemi_koszalinskiej = 'Hufiec ZHP Ziemi Koszalińskiej';
+const String huf_zhp_ziemi_tarnogorskiej = 'Hufiec Ziemi Tarnogórskiej im. Powstańców Śląskich';
 const String huf_zhp_zielonka = 'Hufiec ZHP Zielonka im. Janusza Korczaka';
 
 const String huf_zhr_zielonagora_topor = 'Zielonogórski Hufiec Harcerzy "Topór"';

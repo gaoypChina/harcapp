@@ -57,6 +57,7 @@ class SearchHistoryPageState extends State<SearchHistoryPage>{
                     onTap: () => showAppToast(context, text: 'Przytrzymaj, by wyczyścić historię wyszukiwania'),
                     onLongPress: (){
                       Album.current.searchHistory = [];
+                      showAppToast(context, text: 'Historia wyczyszczona');
                       setState((){});
                     },
                   )

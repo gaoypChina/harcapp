@@ -21,7 +21,7 @@ packages:
       name: animated_text_kit
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.1"
+    version: "4.2.2"
   archive:
     dependency: transitive
     description:
@@ -163,7 +163,7 @@ packages:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.5"
   date_picker_timeline:
     dependency: "direct main"
     description:
@@ -177,7 +177,7 @@ packages:
       name: device_info_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.3"
+    version: "3.2.4"
   device_info_plus_linux:
     dependency: transitive
     description:
@@ -327,7 +327,7 @@ packages:
       name: flutter_map
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0"
+    version: "1.0.0"
   flutter_reorderable_list:
     dependency: "direct main"
     description:
@@ -420,7 +420,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: e8a6cfac07d9b983eaef1eaecc43a78275238283
+      resolved-ref: "97d910aa0e62d9188bc1137dcd86df6f6d19ffee"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core"
     source: git
     version: "0.0.1"
@@ -447,7 +447,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "058c31e6c81c5a879b90314409b919b2a5502342"
+      resolved-ref: "5ac12bdf126a7981213cf450e76cc75022eb55bf"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_song_widget"
     source: git
     version: "0.0.1"
@@ -676,7 +676,7 @@ packages:
       name: path_provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.10"
+    version: "2.0.11"
   path_provider_android:
     dependency: transitive
     description:
@@ -796,6 +796,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
+  polylabel:
+    dependency: transitive
+    description:
+      name: polylabel
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   positioned_tap_detector_2:
     dependency: transitive
     description:
@@ -1048,13 +1055,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.0"
-  transparent_image:
-    dependency: transitive
-    description:
-      name: transparent_image
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   tuple:
     dependency: transitive
     description:
@@ -1089,7 +1089,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.2"
+    version: "6.1.3"
   url_launcher_android:
     dependency: transitive
     description:

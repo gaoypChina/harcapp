@@ -23,7 +23,7 @@ class ApiUser{
       sendRequest: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/user/shadow',
       ),
-      onSuccess: (Response response) async {
+      onSuccess: (Response response, DateTime now) async {
         List<UserDataNick> users = [];
         for(Map data in response.data)
           users.add(UserDataNick.fromMap(data, data['nick']));
@@ -49,7 +49,7 @@ class ApiUser{
           CREATE_SHADOW_REQ_SEX: sexToBool[sex!]
         })
       ),
-      onSuccess: (Response response) async => onSuccess?.call(UserDataNick.fromMap(response.data, response.data['nick'])),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(UserDataNick.fromMap(response.data, response.data['nick'])),
       onError: (DioError error) async => onError?.call()
   );
 
@@ -70,7 +70,7 @@ class ApiUser{
             UPDATE_SHADOW_REQ_SEX: sexToBool[sex!]
           })
       ),
-      onSuccess: (Response response) async => onSuccess?.call(UserDataNick.fromMap(response.data, response.data['nick'])),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(UserDataNick.fromMap(response.data, response.data['nick'])),
       onError: (DioError error) async => onError?.call()
   );
 
@@ -87,7 +87,7 @@ class ApiUser{
             DELETE_SHADOW_REQ_KEY: key,
           })
       ),
-      onSuccess: (Response response) async => onSuccess?.call(response.data),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
       onError: (DioError error) async => onError?.call()
   );
 
@@ -100,7 +100,7 @@ class ApiUser{
     sendRequest: (Dio dio) => dio.get(
       '${API.SERVER_URL}api/user/search/$nick',
     ),
-    onSuccess: (Response response) async => onSuccess?.call(UserDataNick.fromMap(response.data, nick)),
+    onSuccess: (Response response, DateTime now) async => onSuccess?.call(UserDataNick.fromMap(response.data, nick)),
     onError: (DioError error) async {
       bool noSuchUserStatus = error.response?.statusCode == HttpStatus.notFound;
       bool noSuchUserBody = const DeepCollectionEquality().equals(error.response?.data, {'error': 'User not found'});
@@ -120,7 +120,7 @@ class ApiUser{
           '${API.SERVER_URL}api/user',
           data: validPass==null?null:FormData.fromMap({'valid_pass': validPass})
       ),
-      onSuccess: (Response response) async => onSuccess?.call(),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
       onError: (DioError error) async => onError?.call(error.response!.data['error'])
   );
 
@@ -193,7 +193,7 @@ class ApiUser{
             data: FormData.fromMap(map)
         );
       },
-      onSuccess: (Response response) async {
+      onSuccess: (Response response, DateTime now) async {
         onSuccess?.call(
           response.data[UPDATE_REQ_EMAIL],
           response.data[UPDATE_REQ_JWT],
@@ -212,7 +212,7 @@ class ApiUser{
       sendRequest: (Dio dio) => dio.get(
           '${API.SERVER_URL}api/user/nick'
       ),
-      onSuccess: (response) async => onSuccess?.call(response.data['nick']),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data['nick']),
       onError: (DioError error) async => await onError!(error.response)
   );
 
@@ -223,7 +223,7 @@ class ApiUser{
           '${API.SERVER_URL}api/user/nickSearchable',
           data: FormData.fromMap({UPDATE_REQ_NICK_SEARCHABLE: searchable})
       ),
-      onSuccess: (response) async => onSuccess?.call(response.data['nick_searchable']),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data['nick_searchable']),
       onError: (DioError error) async => await onError!(error.response)
   );
 

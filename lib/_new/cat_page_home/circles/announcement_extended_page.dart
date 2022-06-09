@@ -1,9 +1,13 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/account_header_widget.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
+import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
+import 'package:harcapp/_common_widgets/loading_widget.dart';
+import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_page.dart';
 import 'package:harcapp/account/account_tile.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -25,6 +29,7 @@ class AnnouncementExpandedPage extends StatelessWidget{
 
   final Announcement announcement;
   final PaletteGenerator? palette;
+  final bool displayAttendacePage;
   final void Function()? onAnnouncementsUpdated;
 
   bool get enablesResp => announcement.respMode != AnnouncementAttendanceRespMode.NONE;
@@ -32,6 +37,7 @@ class AnnouncementExpandedPage extends StatelessWidget{
   const AnnouncementExpandedPage(
       this.announcement,
       { this.palette,
+        this.displayAttendacePage = false,
         this.onAnnouncementsUpdated,
         Key? key
       }) : super(key: key);
@@ -42,6 +48,7 @@ class AnnouncementExpandedPage extends StatelessWidget{
     appBottomNavColor: CirclePage.backgroundColor(context, palette),
     body: DefaultTabController(
       length: enablesResp?2:1,
+      initialIndex: enablesResp && displayAttendacePage?1:0,
       child: ExtendedNestedScrollView(
         floatHeaderSlivers: true,
         pinnedHeaderSliverHeightBuilder: () => const TabBar(tabs: []).preferredSize.height,
@@ -87,32 +94,11 @@ class AnnouncementExpandedPage extends StatelessWidget{
                 ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   itemCount: announcement.circle?.members.length??0,
-                  itemBuilder: (context, index){
-
-                    Member member = announcement.circle!.members[index];
-                    AnnouncementAttendanceResp? resp = announcement.attendance[member.key];
-
-                    return AccountTile(
-                      member.name,
-
-                      subtitle:
-                      resp?.response == null || resp?.response == AnnouncementAttendance.ATTENDING?
-                      null:
-                      Text(
-                        resp?.response == AnnouncementAttendance.NOT_ATTENDING?
-                        resp!.rejectionReason??'-':
-                        resp?.response == AnnouncementAttendance.POSTPONE_RESP?
-                        dateToString(resp!.postponeTime):'-',
-                        style: AppTextStyle(color: hintEnab_(context)),
-                      ),
-
-                      trailing:
-                      resp != null?
-                      Icon(announcementAttendanceRespToIcon(resp)):
-                      Icon(MdiIcons.circleMedium, color: hintEnab_(context)),
-                      onTap: () => openParticipantDetails(context, member),
-                    );
-                  }
+                  itemBuilder: (context, index) => MemberTile(
+                    announcement,
+                    announcement.circle!.members[index],
+                    palette
+                  )
                 )
 
             ]
@@ -121,31 +107,83 @@ class AnnouncementExpandedPage extends StatelessWidget{
     ),
   );
 
+}
+
+class MemberTile extends StatefulWidget{
+
+  final Announcement announcement;
+  final Member member;
+  final PaletteGenerator? palette;
+
+  const MemberTile(this.announcement, this.member, this.palette, {super.key});
+
+  @override
+  State<StatefulWidget> createState() => MemberTileState();
+
+}
+
+class MemberTileState extends State<MemberTile>{
+
+  Announcement get announcement => widget.announcement;
+  Member get member => widget.member;
+  PaletteGenerator? get palette => widget.palette;
+
+  @override
+  Widget build(BuildContext context){
+
+    AnnouncementAttendanceResp? resp = announcement.attendance[member.key];
+    bool waived = announcement.waivedAttRespMembers.contains(member.key);
+
+    return AccountTile(
+      member.name,
+
+      subtitle:
+      resp?.response == null || resp?.response == AnnouncementAttendance.ATTENDING?
+      null:
+      Text(
+        resp?.response == AnnouncementAttendance.NOT_ATTENDING?
+        resp!.responseReason??'-':
+        resp?.response == AnnouncementAttendance.POSTPONE_RESP?
+        dateToString(resp!.postponeTime):'-',
+        style: AppTextStyle(color: hintEnab_(context)),
+      ),
+
+      trailing:
+      resp != null?
+      Icon(announcementAttendanceRespToIcon(resp)):
+      waived?
+      null:
+      Icon(MdiIcons.circleMedium, color: hintEnab_(context)),
+      onTap: () => openParticipantDetails(context, member),
+    );
+
+  }
+
   void openParticipantDetails(BuildContext context, Member member) => showScrollBottomSheet(
       context: context,
       builder: (context){
 
         AnnouncementAttendanceResp? resp = announcement.attendance[member.key];
 
-        String commentTitle;
-        if(resp == null)
-          commentTitle = '';
-        else if(resp.response == AnnouncementAttendance.NOT_ATTENDING)
-          commentTitle = 'Powód nieobecności';
-        else if(resp.response == AnnouncementAttendance.POSTPONE_RESP)
-          commentTitle = 'Data deklaracji obecności:';
-        else
-          commentTitle = '';
+        bool waived = announcement.waivedAttRespMembers.contains(member.key);
 
-        String comment;
+        String responseReasonTitle;
         if(resp == null)
-          comment = '';
+          responseReasonTitle = '';
         else if(resp.response == AnnouncementAttendance.NOT_ATTENDING)
-          comment = resp.rejectionReason??'';
+          responseReasonTitle = 'Powód nieobecności';
         else if(resp.response == AnnouncementAttendance.POSTPONE_RESP)
-          comment = dateToString(resp.postponeTime);
+          responseReasonTitle = 'Powód opóźnienia deklaracji';
         else
-          comment = '';
+          responseReasonTitle = '';
+
+        String responseReason;
+        if(resp == null)
+          responseReason = '';
+        else if(resp.response == AnnouncementAttendance.NOT_ATTENDING || resp.response == AnnouncementAttendance.POSTPONE_RESP)
+          responseReason = resp.responseReason??'';
+        else
+          responseReason = '';
 
         return BottomSheetDef(
           color: CirclePage.backgroundColor(context, palette),
@@ -164,17 +202,17 @@ class AnnouncementExpandedPage extends StatelessWidget{
                 child: Text(
                   'Deklaracja obecności',
                   style: AppTextStyle(
-                    fontSize: Dimen.TEXT_SIZE_BIG,
-                    color: hintEnab_(context)
+                      fontSize: Dimen.TEXT_SIZE_BIG,
+                      color: hintEnab_(context)
                   ),
                 ),
               ),
 
               ListTile(
                 leading: Icon(
-                  resp != null?
-                  announcementAttendanceRespToIcon(resp):
-                  MdiIcons.cancel
+                    resp != null?
+                    announcementAttendanceRespToIcon(resp):
+                    MdiIcons.cancel
                 ),
                 title: Text(
                   resp != null?
@@ -184,28 +222,59 @@ class AnnouncementExpandedPage extends StatelessWidget{
                 ),
               ),
 
-              if(resp != null && resp.response != AnnouncementAttendance.ATTENDING)
+              if(resp != null && resp.response == AnnouncementAttendance.POSTPONE_RESP)
                 Padding(
                   padding: const EdgeInsets.only(
-                    left: 2*Dimen.LIST_TILE_LEADING_MARGIN_VAL + Dimen.ICON_SIZE + 2*8
+                      left: 2*Dimen.LIST_TILE_LEADING_MARGIN_VAL + Dimen.ICON_SIZE + 2*8
                   ),
                   child: Text(
-                    commentTitle,
+                    'Data deklaracji obecności',
                     style: AppTextStyle(
-                      fontSize: Dimen.TEXT_SIZE_NORMAL,
-                      color: hintEnab_(context),
-                      fontWeight: weight.halfBold
+                        fontSize: Dimen.TEXT_SIZE_NORMAL,
+                        color: hintEnab_(context),
+                        fontWeight: weight.halfBold
                     ),
                   ),
                 ),
 
-              if(resp != null && resp.response != AnnouncementAttendance.ATTENDING)
+              if(resp != null && resp.response == AnnouncementAttendance.POSTPONE_RESP)
                 Padding(
                   padding: const EdgeInsets.only(
-                    left: 2*Dimen.LIST_TILE_LEADING_MARGIN_VAL + Dimen.ICON_SIZE + 2*8
+                      left: 2*Dimen.LIST_TILE_LEADING_MARGIN_VAL + Dimen.ICON_SIZE + 2*8
                   ),
                   child: Text(
-                    comment,
+                    dateToString(resp.postponeTime),
+                    style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                  ),
+                ),
+
+              if(resp != null && resp.response == AnnouncementAttendance.POSTPONE_RESP && responseReason.isNotEmpty)
+                const SizedBox(height: 2*24.0),
+
+              if(resp != null && (resp.response == AnnouncementAttendance.NOT_ATTENDING ||
+                  resp.response == AnnouncementAttendance.POSTPONE_RESP && responseReason.isNotEmpty))
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 2*Dimen.LIST_TILE_LEADING_MARGIN_VAL + Dimen.ICON_SIZE + 2*8
+                  ),
+                  child: Text(
+                    responseReasonTitle,
+                    style: AppTextStyle(
+                        fontSize: Dimen.TEXT_SIZE_NORMAL,
+                        color: hintEnab_(context),
+                        fontWeight: weight.halfBold
+                    ),
+                  ),
+                ),
+
+              if(resp != null && (resp.response == AnnouncementAttendance.NOT_ATTENDING ||
+                  resp.response == AnnouncementAttendance.POSTPONE_RESP && responseReason.isNotEmpty))
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 2*Dimen.LIST_TILE_LEADING_MARGIN_VAL + Dimen.ICON_SIZE + 2*8
+                  ),
+                  child: Text(
+                    responseReason,
                     style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
                   ),
                 ),
@@ -213,14 +282,44 @@ class AnnouncementExpandedPage extends StatelessWidget{
               const SizedBox(height: 2*24.0),
 
               ListTile(
-                  leading: const Icon(
+                  leading: Icon(
+                    waived?
+                    MdiIcons.playCircleOutline:
                     MdiIcons.pauseCircleOutline,
                   ),
                   title: Text(
+                      waived?
+                      'Wymagaj deklaracji obecności':
                       'Nie wymagaj deklaracji obecności',
                       style: AppTextStyle()
                   ),
-                  onTap: (){}
+                  onTap: (){
+
+                    showLoadingWidget(context, CirclePage.strongColor(context, palette), 'Chwileczkę...');
+
+                    ApiCircle.waiveResponse(
+                        annKey: announcement.key,
+                        memberKey: member.key,
+                        waive: !waived,
+                        onSuccess: (success, now) async {
+
+                          if(waived && success)
+                            announcement.waivedAttRespMembers.remove(member.key);
+                          else if(!waived && success)
+                            announcement.waivedAttRespMembers.add(member.key);
+
+                          Provider.of<AnnouncementProvider>(context, listen: false).notify();
+                          Provider.of<AnnouncementListProvider>(context, listen: false).notify();
+                          setState((){});
+                          await popPage(context); // Close loading widget.
+                          Navigator.pop(context);
+                        },
+                        onError: () async {
+                          showAppToast(context, text: 'Coś nie tak...');
+                          await popPage(context); // Close loading widget.
+                        }
+                    );
+                  }
               ),
 
               const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
@@ -232,4 +331,3 @@ class AnnouncementExpandedPage extends StatelessWidget{
   );
 
 }
-

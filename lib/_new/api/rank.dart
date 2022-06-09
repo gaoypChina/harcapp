@@ -74,7 +74,7 @@ class ApiRank{
         'removeByKey': removeByKey,
       })
     ),
-    onSuccess: (Response response) async {
+    onSuccess: (Response response, DateTime now) async {
 
       List<UserData> userRespBodies = [];
 
@@ -99,7 +99,7 @@ class ApiRank{
           HttpHeaders.contentTypeHeader: 'application/json',
         }),
       ),
-      onSuccess: (Response response) async {
+      onSuccess: (Response response, DateTime now) async {
 
         List<UserData> userRespBodies = [];
 
@@ -120,7 +120,7 @@ class ApiRank{
       sendRequest: (Dio dio) => dio.get(
           '${API.SERVER_URL}api/rank/shared',
       ),
-      onSuccess: (Response response) async {
+      onSuccess: (Response response, DateTime now) async {
 
         List<SharedRankMetaData> sharedRankMetaDataList = [];
 
@@ -143,7 +143,7 @@ class ApiRank{
     sendRequest: (Dio dio) async => await dio.get(
       '${API.SERVER_URL}api/rank/shared/$key',
     ),
-    onSuccess: (Response response) async {
+    onSuccess: (Response response, DateTime now) async {
 
       Map<String, dynamic> rankSyncData = response.data;
       String? uniqRankName = rankSyncData['uniqName'];
