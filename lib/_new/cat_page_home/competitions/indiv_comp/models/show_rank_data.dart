@@ -25,11 +25,11 @@ class ShowRankData{
   static ShowRankData from(Map respMap) => ShowRankData(
       respMap['rank']==null?
       null:
-      ShowSpecificRankData(respMap['rank'], respMap['rank_popularity']),
+      ShowSpecificRankData(respMap['rank'], respMap['rankPopularity']),
 
-      respMap['rank_range']==null?
+      respMap['rankRange']==null?
       null:
-      ShowRangeRankData(respMap['rank_range'][0], respMap['rank_range'][1])
+      ShowRangeRankData(respMap['rankRange'][0], respMap['rankRange'][1])
   );
 }
 

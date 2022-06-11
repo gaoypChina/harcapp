@@ -4,9 +4,7 @@ import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/indiv_comp_task_edit_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_editor/providers.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_details.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -15,9 +13,7 @@ import 'common.dart';
 
 class IndivCompTasksEditorWidget extends StatefulWidget{
 
-  final IndivCompDetails? initComp;
-
-  const IndivCompTasksEditorWidget({this.initComp});
+  const IndivCompTasksEditorWidget({super.key});
 
   @override
   State<StatefulWidget> createState() => _IndivCompTasksEditorWidgetState();

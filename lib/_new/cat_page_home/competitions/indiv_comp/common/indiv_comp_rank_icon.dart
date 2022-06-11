@@ -9,7 +9,7 @@ import 'package:tuple/tuple.dart';
 import '../../../../../_common_widgets/app_toast.dart';
 import '../../../../../_common_widgets/gradient_icon.dart';
 import '../../../../details/app_settings.dart';
-import '../models/ShowRankData.dart';
+import '../models/show_rank_data.dart';
 
 void _showPopularity(BuildContext context, IndivCompProfile profile, bool showPercent, int? activeParticipCnt){
 

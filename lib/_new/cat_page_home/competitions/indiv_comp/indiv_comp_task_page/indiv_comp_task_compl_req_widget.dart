@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/ShowRankData.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/show_rank_data.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task_compl.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
@@ -26,8 +26,7 @@ class IndivTaskComplReqWidget extends StatefulWidget{
   const IndivTaskComplReqWidget(
       this.allTasks,
       this.task,
-      {
-        required this.adminOrMod,
+      { required this.adminOrMod,
         this.onSuccess,
         super.key
       });

@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/ShowRankData.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/show_rank_data.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
@@ -419,12 +419,12 @@ class ApiIndivComp{
         data: userKeys == null?
         FormData.fromMap({
           'taskKey': taskKey,
-          'comment': comment,
+          if(comment != null) 'comment': comment,
         }):
         FormData.fromMap({
           'taskKey': taskKey,
           'userKeys': userKeys,
-          'comment': comment,
+          if(comment != null) 'comment': comment,
         })
     ),
     onSuccess: (Response response, DateTime now) async {
@@ -437,8 +437,8 @@ class ApiIndivComp{
       Map<String, ShowRankData> idRankMap = {};
 
       Map rankResMap = response.data['ranks'];
-      for(String userKey in rankResMap.keys as Iterable<String>)
-        idRankMap[userKey] = ShowRankData.from(rankResMap);
+      for(String userKey in rankResMap.keys)
+        idRankMap[userKey] = ShowRankData.from(rankResMap[userKey]);
 
       onSuccess?.call(
           complTasks,

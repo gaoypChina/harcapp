@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
 
@@ -87,14 +86,14 @@ class IndivCompTaskCompl{
     String? reqComment,
     String? revComment
   }) => IndivCompTaskCompl(
-    participKey: participId??this.participKey,
-    taskKey: taskId??this.taskKey,
+    participKey: participId??participKey,
+    taskKey: taskId??taskKey,
 
     key: key??this.key,
 
     acceptState: acceptState??this.acceptState,
-    reqTime: time??this.reqTime,
-    revTime: time??this.revTime,
+    reqTime: time??reqTime,
+    revTime: time??revTime,
     reqComment: reqComment??this.reqComment,
     revComment: revComment??this.revComment,
   );

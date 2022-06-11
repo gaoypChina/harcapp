@@ -12,7 +12,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/ind
 import 'package:harcapp/account/account.dart';
 import 'package:provider/provider.dart';
 
-import 'ShowRankData.dart';
+import 'show_rank_data.dart';
 import 'indiv_comp_profile.dart';
 import 'indiv_comp_task.dart';
 
@@ -248,8 +248,11 @@ class IndivComp{
 
   void handleRanks(Map<String, ShowRankData> ranks){
 
-    for(String participKey in ranks.keys)
-      participMap[participKey]!.profile.rank = ranks[participKey];
+    for(String participKey in ranks.keys) {
+      IndivCompParticip? particip = participMap[participKey];
+      if(particip == null) continue;
+      particip.profile.rank = ranks[participKey];
+    }
 
     particips.sort((p1, p2) => (p1.profile.rank?.sortIndex??0).toInt() - (p2.profile.rank?.sortIndex??0).toInt());
 
@@ -313,9 +316,23 @@ class IndivComp{
     Provider.of<ComplTasksProvider>(context, listen: false).notify();
   }
 
-  void addPoints(String key, int points) => setPoints(key, participMap[key]!.profile.points! + points);
-  void setPoints(String key, int points){
-    participMap[key]!.profile.points = points;
+  bool addPoints(String participKey, int points){
+    IndivCompParticip? particip = participMap[participKey];
+    if(particip == null)
+      return false;
+
+    if(particip.profile.points == null)
+      return false;
+
+    return setPoints(participKey, particip.profile.points! + points);
+  }
+  bool setPoints(String participKey, int points){
+    IndivCompParticip? particip = participMap[participKey];
+    if(particip == null)
+      return false;
+
+    particip.profile.points = points;
+    return true;
   }
 
   IndivComp({

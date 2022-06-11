@@ -17,7 +17,7 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core_song/song_core.dart';
 
-import '../cat_page_home/competitions/indiv_comp/models/ShowRankData.dart';
+import '../cat_page_home/competitions/indiv_comp/models/show_rank_data.dart';
 import 'song_management/off_song.dart';
 
 class SongContributorsPage extends StatelessWidget{
@@ -70,7 +70,8 @@ class SongContributorsPage extends StatelessWidget{
                             active: true,
                             role: CompRole.OBSERVER,
                             points: null,
-                            rank: ShowRankData.fromShowRank(index + 1)
+                            rank: ShowRankData.fromShowRank(index + 1),
+                            completedTasks: []
                         ),
                         activeParticipCnt: null,
                         colors: CommonColorData.ALL[CommonColorData.OMEGA_COLORS_KEY],

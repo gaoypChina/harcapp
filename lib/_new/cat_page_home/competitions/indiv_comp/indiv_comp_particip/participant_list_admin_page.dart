@@ -35,7 +35,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../_common_widgets/loading_widget.dart';
 import '../indiv_comp_task_page/completed_tasks_page.dart';
-import '../models/ShowRankData.dart';
+import '../models/show_rank_data.dart';
 import '../models/indiv_comp_profile.dart';
 import '../models/rank_disp_type.dart';
 import 'add_user_bottom_sheet.dart';
@@ -456,7 +456,7 @@ class _ParticipTileState extends State<_ParticipTile>{
                   style: AppTextStyle(color: textEnab_(context))
               ),
               trailing:  Text(
-                  '${particip.profile.completedTasks!.length}',
+                  '${particip.profile.completedTasks.length}',
                   style: AppTextStyle(color: textEnab_(context))
               ),
               onTap: (){

@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/icon_selector_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_editor/providers.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_details.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:provider/provider.dart';
 
 import 'common.dart';
 
 class IndivCompIconEditorWidget extends StatefulWidget{
 
-  final IndivCompDetails? initComp;
-
-  const IndivCompIconEditorWidget({this.initComp});
+  const IndivCompIconEditorWidget({super.key});
 
   @override
   State<StatefulWidget> createState() => _IndivCompIconEditorWidgetState();

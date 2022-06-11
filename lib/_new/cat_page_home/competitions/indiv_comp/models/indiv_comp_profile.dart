@@ -1,8 +1,7 @@
 import 'package:harcapp/_new/api/_api.dart';
-import 'package:harcapp/account/account.dart';
 
 import '../comp_role.dart';
-import 'ShowRankData.dart';
+import 'show_rank_data.dart';
 import 'indiv_comp_task_compl.dart';
 
 class IndivCompProfile{
@@ -11,23 +10,21 @@ class IndivCompProfile{
   CompRole role;
   int? points;
   ShowRankData? rank;
-  // int? showRank;
-  // int? rankPopularity;
-  // Tuple2<double, double>? showRankRange;
 
-  final List<IndivCompTaskCompl>? completedTasks;
-  final Map<String?, IndivCompTaskCompl> completedTaskMap;
+  final List<IndivCompTaskCompl> completedTasks;
+  final Map<String, IndivCompTaskCompl> completedTaskMap;
 
   void addCompletedTask(IndivCompTaskCompl taskCompl){
     // Tu kiedyś dodać opcję, by admini i moderatorzy mogli sobie podejrzeć jakie zadania i kiedy zrealizował kto.
-    if(taskCompl.participKey == AccountData.key) completedTasks!.add(taskCompl);
+    completedTasks.add(taskCompl);
+    completedTaskMap[taskCompl.key] = taskCompl;
   }
 
   void removeCompletedTaskByKey(String taskComplKey){
     // Tu kiedyś dodać opcję, by admini i moderatorzy mogli sobie podejrzeć jakie zadania i kiedy zrealizował kto.
     IndivCompTaskCompl? complTesk = completedTaskMap[taskComplKey];
     if(complTesk != null) {
-      completedTasks!.remove(complTesk);
+      completedTasks.remove(complTesk);
       completedTaskMap.remove(taskComplKey);
     }
   }
@@ -37,17 +34,14 @@ class IndivCompProfile{
     required this.role,
     this.points,
     this.rank,
-    // this.showRank,
-    // this.rankPopularity,
-    // this.showRankRange,
-    this.completedTasks,
-  }): completedTaskMap = {for (var complTask in completedTasks??[]) complTask.key: complTask};
+    required this.completedTasks,
+  }): completedTaskMap = {for (var complTask in completedTasks) complTask.key: complTask};
 
   static IndivCompProfile fromResponse(Map resp){
 
-    List<IndivCompTaskCompl>? completedTasks = [];
+    List<IndivCompTaskCompl> completedTasks = [];
     if(resp['completedTasks'] == null)
-      completedTasks = null;
+      completedTasks = [];
     else {
       Map _complTasksRespMap = resp['completedTasks'];
       for (String complTaskKey in _complTasksRespMap.keys as Iterable<String>)

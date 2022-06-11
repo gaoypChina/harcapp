@@ -75,7 +75,7 @@ class IndivCompProfilePendingComplTasksPageState extends State<IndivCompProfileP
           if(!complTaskMap.containsKey(particip))
             complTaskMap[particip] = [];
 
-          for(IndivCompTaskCompl complTask in particip!.profile.completedTasks!)
+          for(IndivCompTaskCompl complTask in particip!.profile.completedTasks)
             complTaskMap[particip]!.add(complTask);
         }
 

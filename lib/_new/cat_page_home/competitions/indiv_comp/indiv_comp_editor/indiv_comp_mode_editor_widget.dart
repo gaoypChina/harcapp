@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/indiv_comp_rank_icon.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_editor/providers.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_details.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_disp_type.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -11,7 +10,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../models/ShowRankData.dart';
+import '../models/show_rank_data.dart';
 import 'common.dart';
 
 class IndivCompModeEditorWidget extends StatefulWidget{
@@ -31,9 +30,7 @@ class IndivCompModeEditorWidget extends StatefulWidget{
     return isAllOk;
   }
 
-  final IndivCompDetails? initComp;
-
-  const IndivCompModeEditorWidget({this.initComp, super.key});
+  const IndivCompModeEditorWidget({super.key});
 
   @override
   State<StatefulWidget> createState() => _IndivCompModeEditorWidgetState();
