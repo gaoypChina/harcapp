@@ -121,10 +121,10 @@ class ColorDataWidget extends StatelessWidget{
                   child: Center(
                       child: GradientWidget(
                         shape: BoxShape.circle,
-                        colorStart: CommonColorData.ALL[colorsKey]!.colorStart!.withOpacity(selected?1:.35),
-                        colorEnd: CommonColorData.ALL[colorsKey]!.colorEnd!.withOpacity(selected?1:.35),
-                        width: BUTTON_SIZE,//selected?_BUTTON_SIZE_SMALL:BUTTON_SIZE,
-                        height: BUTTON_SIZE,//selected?_BUTTON_SIZE_SMALL:BUTTON_SIZE,
+                        colorStart: CommonColorData.ALL[colorsKey]!.colorStart.withOpacity(selected?1:.35),
+                        colorEnd: CommonColorData.ALL[colorsKey]!.colorEnd.withOpacity(selected?1:.35),
+                        width: BUTTON_SIZE,
+                        height: BUTTON_SIZE,
                         duration: const Duration(milliseconds: 300),
                         curve: Curves.easeOutQuart,
                       ))

@@ -54,8 +54,8 @@ class AlbumWidgetSmall extends StatelessWidget{
             child: GradientWidget(
                 elevation: AppCard.bigElevation,
                 radius: AppCard.BIG_RADIUS,
-                colorStart: albColor.colorStart!,
-                colorEnd: albColor.colorEnd!,
+                colorStart: albColor.colorStart,
+                colorEnd: albColor.colorEnd,
                 child: Padding(
                   padding: const EdgeInsets.all(Dimen.ICON_MARG),
                   child: Icon(iconData, color: iconColor??(albColor.iconWhite?Colors.white:cardEnab_(context)), size: ICON_SIZE),

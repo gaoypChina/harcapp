@@ -34,6 +34,8 @@ class AccountThumbnailWidget extends StatelessWidget{
   final bool shadow;
 
   final bool elevated;
+  final Color? color;
+  final Color? borderColor;
   final double? size;
   final bool enabled;
   final IconData? markIcon;
@@ -45,6 +47,8 @@ class AccountThumbnailWidget extends StatelessWidget{
         this.shadow=false,
 
         this.elevated=true,
+        this.color,
+        this.borderColor,
         this.size,
         this.markIcon,
         this.enabled = true,
@@ -77,7 +81,8 @@ class AccountThumbnailWidget extends StatelessWidget{
           abbr += part2[0].toUpperCase();
       }
     }
-    Tuple2<Color, Color> colors = backgroundColors[name.hashCode%backgroundColors.length];
+
+    //Tuple2<Color, Color> colors = backgroundColors[name.hashCode%backgroundColors.length];
 
     return SizedBox(
       width: size,
@@ -92,7 +97,7 @@ class AccountThumbnailWidget extends StatelessWidget{
             margin: EdgeInsets.zero,
             elevation: elevated?AppCard.bigElevation:0,
             radius: size/2,
-            color: cardEnab_(context),
+            color: color??cardEnab_(context),
             child: Center(
               child:
               icon == null?
@@ -139,7 +144,7 @@ class AccountThumbnailWidget extends StatelessWidget{
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                      color: backgroundIcon_(context).withOpacity(.02),
+                      color: borderColor??backgroundIcon_(context).withOpacity(.02),
                       width: .098*size,
                       style: BorderStyle.solid
                   ),

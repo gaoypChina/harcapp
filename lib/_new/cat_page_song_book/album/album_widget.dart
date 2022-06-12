@@ -38,8 +38,8 @@ class AlbumWidget extends StatelessWidget{
           child: GradientWidget(
               elevation: AppCard.bigElevation,
               radius: AppCard.BIG_RADIUS,
-              colorStart: CommonColorData.ALL[album.colorsKey]!.colorStart!,
-              colorEnd: CommonColorData.ALL[album.colorsKey]!.colorEnd!,
+              colorStart: CommonColorData.ALL[album.colorsKey]!.colorStart,
+              colorEnd: CommonColorData.ALL[album.colorsKey]!.colorEnd,
               height: 100,
               width: 100,
               child: Column(

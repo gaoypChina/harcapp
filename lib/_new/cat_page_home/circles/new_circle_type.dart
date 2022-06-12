@@ -53,7 +53,7 @@ class CircleTypeWidget extends StatelessWidget{
 
         _Button(
           icon: MdiIcons.applicationOutline,
-          title: 'Utwórz nowe',
+          title: 'Utwórz nowy',
           description: 'Zawiąż nowy krąg.',
           onTap: () => onSelected!(NewCircleType.empty),
         ),

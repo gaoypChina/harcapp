@@ -51,7 +51,7 @@ class AddUserBottomSheet extends StatelessWidget{
                 TitleShortcutRowWidget(
                   title: 'Dodaj uczestnika',
                   icon: MdiIcons.accountOutline,
-                  onOpen: (context) async {
+                  onOpen: () async {
                     Navigator.pop(context);
 
                     if(!await isNetworkAvailable()){
@@ -86,7 +86,7 @@ class AddUserBottomSheet extends StatelessWidget{
                 TitleShortcutRowWidget(
                   title: 'Dodaj konto widmo',
                   icon: MdiIcons.alienOutline,
-                  onOpen: (context) async {
+                  onOpen: () async {
                     Navigator.pop(context);
 
                     pushPage(

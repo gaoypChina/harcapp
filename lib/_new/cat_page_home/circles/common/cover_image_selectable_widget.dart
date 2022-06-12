@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -16,6 +17,7 @@ class CoverImageSelectableWidget extends StatefulWidget{
   final double height;
   final bool removable;
   final void Function(CircleCoverImageData?)? onSelected;
+  final Widget Function(BuildContext)? emptyBuilder;
 
   const CoverImageSelectableWidget(
       this.palette,
@@ -23,6 +25,7 @@ class CoverImageSelectableWidget extends StatefulWidget{
         this.height = 200,
         this.removable = true,
         this.onSelected,
+        this.emptyBuilder,
         Key? key
       }) : super(key: key);
   
@@ -37,6 +40,7 @@ class CoverImageSelectableWidgetState extends State<CoverImageSelectableWidget>{
   double get height => widget.height;
   bool get removable => widget.removable;
   void Function(CircleCoverImageData?)? get onSelected => widget.onSelected;
+  Widget Function(BuildContext)? get emptyBuilder => widget.emptyBuilder;
 
   CircleCoverImageData? selCoverImage;
   
@@ -47,13 +51,27 @@ class CoverImageSelectableWidgetState extends State<CoverImageSelectableWidget>{
   }
   
   @override
-  Widget build(BuildContext context) => SizedBox(
+  Widget build(BuildContext context) =>
+  selCoverImage == null && emptyBuilder != null?
+  SimpleButton(
+    child: emptyBuilder!.call(context),
+    onTap: () async {
+      selCoverImage = await selectCoverImage(
+          context,
+          selCoverImage,
+          canChooseNull: removable
+      );
+      onSelected?.call(selCoverImage);
+      setState(() {});
+    },
+  ):
+  SizedBox(
       height: height,
       child: Stack(
         fit: StackFit.expand,
         children: [
 
-          if(selCoverImage == null)
+          if(selCoverImage == null && emptyBuilder == null)
             Container(
               color: backgroundIcon_(context),
               child: Icon(

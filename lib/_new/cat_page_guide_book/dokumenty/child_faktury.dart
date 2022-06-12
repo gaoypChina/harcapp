@@ -54,7 +54,7 @@ class ChildFaktury extends StatelessWidget {
                 padding: const EdgeInsets.all(Dimen.ICON_MARG),
               ),
               title: 'Kupuj polskie',
-              onOpen: (context) => polaTap(context),
+              onOpen: () => polaTap(context),
             ),
           ),
         )

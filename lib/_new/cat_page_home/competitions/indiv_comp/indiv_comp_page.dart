@@ -486,7 +486,7 @@ class AwardsWidget extends StatelessWidget{
           title: 'Nagrody',
           textAlign: TextAlign.start,
           titleColor: hintEnab_(context),
-          onOpen: (context) => pushPage(context, builder: (context) => IndivCompAwardsPage(comp)),
+          onOpen: () => pushPage(context, builder: (context) => IndivCompAwardsPage(comp)),
         ),
       ),
 
@@ -522,8 +522,8 @@ class PendingWidget extends StatelessWidget{
         return GradientWidget(
           elevation: AppCard.bigElevation,
           radius: AppCard.BIG_RADIUS,
-          colorStart: comp.colors.colorStart!,
-          colorEnd: comp.colors.colorEnd!,
+          colorStart: comp.colors.colorStart,
+          colorEnd: comp.colors.colorEnd,
           child: InkWell(
             onTap: () async {
 
@@ -620,7 +620,7 @@ class TaskWidget extends StatelessWidget{
               context: context,
               margin: EdgeInsets.zero,
               iconLeading: false,
-              text: 'Zrealizuj',
+              text: comp.profile.role == CompRole.OBSERVER?'Wnioskuj':'Zalicz',
               icon: MdiIcons.cubeSend,
               onTap: () async {
 

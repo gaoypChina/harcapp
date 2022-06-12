@@ -49,7 +49,7 @@ class ChildDokumenty extends StatelessWidget {
                   icon: MdiIcons.web,
                   iconColor: hintEnab_(context),
                   title: 'Więcej dokumentów ZHP',
-                  onOpen: (context) => launchURL('https://dokumenty.zhp.pl'),
+                  onOpen: () => launchURL('https://dokumenty.zhp.pl'),
                 )
             )
         )

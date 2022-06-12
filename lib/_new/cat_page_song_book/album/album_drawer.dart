@@ -49,7 +49,7 @@ class AlbumDrawerState extends State<AlbumDrawer>{
                     title: Albumy_,
                     textAlign: TextAlign.start,
                     titleColor: iconEnab_(context),
-                    onOpen: (context){
+                    onOpen: (){
                       Navigator.pop(context);
                       pushPage(
                           context,

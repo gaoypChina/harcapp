@@ -1,4 +1,5 @@
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -47,10 +48,10 @@ class API{
   static Future<Response?> sendRequest ({
     bool withToken = false,
     required Future<Response> Function(Dio dio) sendRequest,
-    Future<void> Function(Response, DateTime)? onSuccess,
-    Future<bool> Function()? onEmailNotConf,
-    Future<bool> Function()? onForbidden,
-    Future<void> Function(DioError)? onError,
+    FutureOr<void> Function(Response, DateTime)? onSuccess,
+    FutureOr<bool> Function()? onEmailNotConf,
+    FutureOr<bool> Function()? onForbidden,
+    FutureOr<void> Function(DioError)? onError,
 
   }) async {
 

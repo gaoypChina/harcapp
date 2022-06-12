@@ -309,7 +309,7 @@ class ApiCircle{
       onError: (err) async => onError?.call()
   );
 
-  static Future<Response?> getAnnouncements({
+  static Future<Response?> getCircleAnnouncements({
     required String circleKey,
     int? page,
     int? pageSize,
@@ -321,13 +321,13 @@ class ApiCircle{
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.get(
-        '${API.SERVER_URL}api/circle/$circleKey/announcement',
-        queryParameters: {
-          if(page != null) 'page': page,
-          if(pageSize != null) 'pageSize': pageSize,
-          'pinnedOnly': pinnedOnly,
-          'awaitingOnly': awaitingOnly
-        }
+          '${API.SERVER_URL}api/circle/$circleKey/announcement',
+          queryParameters: {
+            if(page != null) 'page': page,
+            if(pageSize != null) 'pageSize': pageSize,
+            'pinnedOnly': pinnedOnly,
+            'awaitingOnly': awaitingOnly
+          }
       ),
       onSuccess: (Response response, DateTime now) async {
 
@@ -338,6 +338,37 @@ class ApiCircle{
         onSuccess?.call(result, pinnedOnly, awaitingOnly);
       },
       onError: (err) async => onError?.call()
+  );
+
+  static Future<Response?> getFeedAnnouncements({
+    int? page,
+    int? pageSize,
+
+    void Function(List<Announcement>)? onSuccess,
+    void Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      sendRequest: (Dio dio) => dio.get(
+        '${API.SERVER_URL}api/announcement',
+        queryParameters: {
+          if(page != null) 'page': page,
+          if(pageSize != null) 'pageSize': pageSize,
+        }
+      ),
+      onSuccess: (Response response, DateTime now) {
+
+        List<Announcement> result = [];
+        for(String key in (response.data as Map).keys)
+          result.add(Announcement.fromMap(
+              response.data[key], 
+              Circle.allMap![response.data[key]['circleKey']??(throw InvalidResponseError('circleKey'))]!,
+              key: key)
+          );
+
+        onSuccess?.call(result);
+
+      },
+      onError: (err) => onError?.call()
   );
 
   static Future<Response?> postAnnouncement({
@@ -461,8 +492,8 @@ class ApiCircle{
         data: FormData.fromMap({
           'memberKey': memberKey,
           'response': announcementAttendanceToStr[response],
-          'response_reason': responseReason,
-          'postpone_response_time': postponeResponseTime?.toIso8601String(),
+          'responseReason': responseReason,
+          'postponeResponseTime': postponeResponseTime?.toIso8601String(),
         }),
       ),
       onSuccess: (Response response, DateTime now) async =>

@@ -79,7 +79,7 @@ class MembersPageTempl extends StatelessWidget{
             slivers: [
 
               customAppBar?? SliverAppBar(
-                title: const Text('Lista uczestników'),
+                title: const Text('Lista członków'),
                 centerTitle: true,
                 floating: true,
                 backgroundColor: CirclePage.appBarColor(context, palette),

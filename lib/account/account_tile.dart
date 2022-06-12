@@ -12,6 +12,8 @@ class AccountTile extends StatelessWidget{
 
   final Color? textColor;
   final Color? backgroundColor;
+  final Color? thumbnailColor;
+  final Color? thumbnailBorderColor;
 
   final Widget? leading;
   final Widget? trailing;
@@ -26,6 +28,8 @@ class AccountTile extends StatelessWidget{
         this.shadow = false,
         this.textColor,
         this.backgroundColor,
+        this.thumbnailColor,
+        this.thumbnailBorderColor,
 
         this.leading,
         this.trailing,
@@ -57,11 +61,11 @@ class AccountTile extends StatelessWidget{
             if(leading != null) leading!,
 
             if(thumbnailHeroTag == null)
-              AccountThumbnailWidget(name: name, shadow: shadow, elevated: false, markIcon: mardIcon)
+              AccountThumbnailWidget(name: name, shadow: shadow, elevated: false, color: thumbnailColor, borderColor: thumbnailBorderColor, markIcon: mardIcon)
             else
               Hero(
                 tag: thumbnailHeroTag,
-                child: AccountThumbnailWidget(name: name, shadow: shadow, elevated: false, markIcon: mardIcon),
+                child: AccountThumbnailWidget(name: name, shadow: shadow, elevated: false, color: thumbnailColor, borderColor: thumbnailBorderColor, markIcon: mardIcon),
               ),
 
           ],

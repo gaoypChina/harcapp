@@ -219,7 +219,7 @@ class LoadGameWidget extends StatelessWidget{
         title: 'Nie, wolę zacząć nową grę',
         titleColor: Colors.red,
         onOpenIconColor: Colors.red,
-        onOpen: (context){
+        onOpen: (){
           SlowoKluczMainGamePage.removeSavedInstanceCode();
           onSavedGameRemoved?.call();
         },

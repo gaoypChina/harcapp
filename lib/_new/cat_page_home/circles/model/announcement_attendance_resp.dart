@@ -15,8 +15,8 @@ class AnnouncementAttendanceResp{
 
   static AnnouncementAttendanceResp fromResponse(Map map) => AnnouncementAttendanceResp(
     strToAnnouncementAttendance[map['response']??(throw InvalidResponseError('response'))]??(throw InvalidResponseError('response')),
-    responseReason: map['response_reason'],
-    postponeTime: DateTime.tryParse(map['postpone_response_time']??''),
+    responseReason: map['responseReason'],
+    postponeTime: DateTime.tryParse(map['postponeResponseTime']??''),
   );
 
 }

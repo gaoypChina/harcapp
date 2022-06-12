@@ -20,6 +20,8 @@ class AnnouncementListProvider extends ChangeNotifier{
 
 class Announcement{
 
+  static const int feedPageSize = 10;
+
   static List<Announcement>? _all;
   static Map<String?, Announcement>? _allMap;
 
@@ -40,9 +42,9 @@ class Announcement{
 
   }
 
-  static init(BuildContext context, List<Announcement> circles){
+  static init(BuildContext context, List<Announcement> announcements){
 
-    silentInit(circles);
+    silentInit(announcements);
 
     Provider.of<AnnouncementProvider>(context, listen: false).notify();
     Provider.of<AnnouncementListProvider>(context, listen: false).notify();
@@ -55,6 +57,20 @@ class Announcement{
     }
     _all!.add(ann);
     _allMap![ann.key] = ann;
+
+    Provider.of<AnnouncementProvider>(context, listen: false).notify();
+    Provider.of<AnnouncementListProvider>(context, listen: false).notify();
+  }
+
+  static addListToAll(BuildContext context, List<Announcement> anns){
+    if(_all == null){
+      _all = [];
+      _allMap = {};
+    }
+    for(Announcement ann in anns) {
+      _all!.add(ann);
+      _allMap![ann.key] = ann;
+    }
 
     Provider.of<AnnouncementProvider>(context, listen: false).notify();
     Provider.of<AnnouncementListProvider>(context, listen: false).notify();
@@ -115,6 +131,10 @@ class Announcement{
       respMode != AnnouncementAttendanceRespMode.NONE ||
       startTime != null ||
       place != null;
+
+  bool get isAwaitingMyResponse =>
+      respMode == AnnouncementAttendanceRespMode.OBLIGATORY &&
+      myAttendance == null && !waivedAttRespMembers.contains(AccountData.key);
 
   AnnouncementAttendanceResp? get myAttendance{
     String? accKey = AccountData.key;

@@ -48,7 +48,7 @@ class DangerPartState extends State<DangerPart>{
         onTap: () => showAlertDialog(
             context,
             title: 'Zastanów się dobrze...',
-            content: 'Krąg <b>przestanie istnieć</b>.\n\nNie będzie już powrotu.\n\nNa pewno chcesz je <b>rozwiazać</b>?',
+            content: 'Krąg <b>przestanie istnieć</b>.\n\nNie będzie już powrotu.\n\nNa pewno chcesz go <b>rozwiazać</b>?',
             actionBuilder: (_) => [
 
               AlertDialogButton(text: 'Jednak nie', onTap: () => Navigator.pop(context)),

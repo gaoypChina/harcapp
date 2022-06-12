@@ -14,6 +14,8 @@ class AccountThumbnailRowWidget extends StatelessWidget{
   final List<String> accounts;
   final EdgeInsets padding;
   final double? size;
+  final Color? color;
+  final Color? borderColor;
   final Color? backgroundColor;
   final bool? elevated;
   final Clip? clipBehavior;
@@ -25,6 +27,8 @@ class AccountThumbnailRowWidget extends StatelessWidget{
       this.accounts,
       { this.padding=EdgeInsets.zero,
         this.size,
+        this.color,
+        this.borderColor,
         this.backgroundColor,
         this.elevated,
         this.clipBehavior,
@@ -71,6 +75,8 @@ class AccountThumbnailRowWidget extends StatelessWidget{
                       name: acc,
                       elevated: elevated??false,
                       size: circleHeight,
+                      color: color,
+                      borderColor: borderColor,
                       onTap: onTap,
                     ),
                   )

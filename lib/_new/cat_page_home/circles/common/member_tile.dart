@@ -19,6 +19,8 @@ class MemberTile extends StatelessWidget{
   final bool selected;
   final Color? selectedColor;
   final Color? selectedTextColor;
+  final Color? thumbnailColor;
+  final Color? thumbnailBorderColor;
   final void Function()? onTap;
   final void Function()? onLongPress;
   final Widget? leading;
@@ -37,6 +39,8 @@ class MemberTile extends StatelessWidget{
         this.selected=false,
         this.selectedColor,
         this.selectedTextColor,
+        this.thumbnailColor,
+        this.thumbnailBorderColor,
         this.onTap,
         this.onLongPress,
         this.leading,
@@ -73,6 +77,8 @@ class MemberTile extends StatelessWidget{
     
     textColor: selected?selectedTextColor:iconEnab_(context),
     backgroundColor: selected?selectedColor??cardEnab_(context):Colors.transparent,
+    thumbnailColor: thumbnailColor,
+    thumbnailBorderColor: thumbnailBorderColor,
     leading: leading,
     trailing: trailing,
     subtitle: subtitle,

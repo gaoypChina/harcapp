@@ -12,24 +12,24 @@ class ChildKodeks extends StatelessWidget{
   Widget build(BuildContext context) {
 
     return ListView(
-      physics: BouncingScrollPhysics(),
-      padding: EdgeInsets.all(Dimen.SIDE_MARG),
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
       children: <Widget>[
 
         AppCard(
           radius: AppCard.BIG_RADIUS,
             elevation: AppCard.bigElevation,
-            padding: EdgeInsets.all(Dimen.CARD_BIG_PADD),
+            padding: const EdgeInsets.all(Dimen.CARD_BIG_PADD),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
 
-                TitleShortcutRowWidget(
+                const TitleShortcutRowWidget(
                   title: 'Zobowiązanie instruktorskie',
                 ),
 
                 Padding(
-                  padding: EdgeInsets.all(Dimen.DEF_MARG),
+                  padding: const EdgeInsets.all(Dimen.DEF_MARG),
                   child: SelectableText(
                     'Przyjmuję obowiązki instruktora Związku Harcerstwa Polskiego. Jestem świadomy odpowiedzialności harcerskiego wychowawcy i opiekuna. Będę dbać o dobre imię harcerstwa, przestrzegać Statutu ZHP, pracować nad sobą, pogłębiać swoją wiedzę i umiejętności. Wychowam swojego następcę. Powierzonej przez Związek Harcerstwa Polskiego służby nie opuszczę samowolnie.',
                     style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2),
@@ -40,7 +40,7 @@ class ChildKodeks extends StatelessWidget{
         ),
 
 
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
         TitleShortcutRowWidget(
           title: 'Kodeks instruktorski',
@@ -48,14 +48,14 @@ class ChildKodeks extends StatelessWidget{
           textAlign: TextAlign.start,
         ),
 
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
         TitleShortcutRowWidget(
           icon: MdiIcons.accountCircleOutline,
           iconColor: hintEnab_(context),
           title: 'Instruktor wobec siebie',
           textAlign: TextAlign.start,
-          onOpen: (context) => showScrollBottomSheet(
+          onOpen: () => showScrollBottomSheet(
               context: context,
               builder: (context) => BottomSheetDef(
                 title: 'Instruktor wobec siebie',
@@ -74,14 +74,14 @@ class ChildKodeks extends StatelessWidget{
           ),
         ),
 
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
         TitleShortcutRowWidget(
           icon: MdiIcons.accountMultiplePlusOutline,
           iconColor: hintEnab_(context),
           title: 'Instruktor wobec wychowanków',
           textAlign: TextAlign.start,
-          onOpen: (context) => showScrollBottomSheet(
+          onOpen: () => showScrollBottomSheet(
               context: context,
               builder: (context) => BottomSheetDef(
                   title: 'Instruktor wobec wychowanków',
@@ -103,14 +103,14 @@ class ChildKodeks extends StatelessWidget{
           ),
         ),
 
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
         TitleShortcutRowWidget(
           icon: MdiIcons.homeVariantOutline,
           iconColor: hintEnab_(context),
           title: 'Instruktor wobec organizacji',
           textAlign: TextAlign.start,
-          onOpen: (context) => showScrollBottomSheet(
+          onOpen: () => showScrollBottomSheet(
               context: context,
               builder: (context) => BottomSheetDef(
                   title: 'Instruktor wobec organizacji',
@@ -133,14 +133,14 @@ class ChildKodeks extends StatelessWidget{
           ),
         ),
 
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
         TitleShortcutRowWidget(
           icon: MdiIcons.earthArrowRight,
           iconColor: hintEnab_(context),
           title: 'Instruktor na zewnątrz organizacji',
           textAlign: TextAlign.start,
-          onOpen: (context) => showScrollBottomSheet(
+          onOpen: () => showScrollBottomSheet(
               context: context,
               builder: (context) => BottomSheetDef(
                   title: 'Instruktor na zewnątrz organizacji',

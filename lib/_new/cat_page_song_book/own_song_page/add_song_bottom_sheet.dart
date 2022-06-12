@@ -48,7 +48,7 @@ class AddSongBottomSheet extends StatelessWidget{
                 TitleShortcutRowWidget(
                   title: 'Nowa piosenka',
                   icon: MdiIcons.plus,
-                  onOpen: (context){
+                  onOpen: (){
                     Navigator.pop(context);
                     openOwnSongPage(context, onSaved: onSaved);
                   },
@@ -67,7 +67,7 @@ class AddSongBottomSheet extends StatelessWidget{
                 TitleShortcutRowWidget(
                   title: 'Skanuj kod piosenki',
                   icon: MdiIcons.qrcodeScan,
-                  onOpen: (context) async {
+                  onOpen: () async {
                     Navigator.pop(context);
 
                     if(await Permission.camera.request().isGranted) {

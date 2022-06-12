@@ -117,7 +117,7 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
                 iconColor: textEnab_(context),
                 title: 'Gawędy',
                 textAlign: TextAlign.start,
-                onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => ShortReadsPage<Gaweda>(
+                onOpen: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ShortReadsPage<Gaweda>(
                     ModuleStatsMixin.myslHarcGawedy,
                     'Gawędy',
                     allGawedy
@@ -136,7 +136,7 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
                 iconColor: textEnab_(context),
                 title: 'Wiersze',
                 textAlign: TextAlign.start,
-                onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => ShortReadsPage<Wiersz>(
+                onOpen: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ShortReadsPage<Wiersz>(
                     ModuleStatsMixin.myslHarcWiersze,
                     'Wiersze',
                     allWiersze,
@@ -214,7 +214,7 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
                     )
                   ),
                 ),
-                onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => ApelEwansPage(allApelEwans))),
+                onOpen: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ApelEwansPage(allApelEwans))),
               ),
             ),
 
@@ -225,11 +225,10 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
             Padding(
               padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
               child: TitleShortcutRowWidget(
-                //icon: MdiIcons.packageVariantClosed,
                 iconColor: textEnab_(context),
                 title: 'Formy',
                 textAlign: TextAlign.start,
-                onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => HarcFormsPage(allForms))),
+                onOpen: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HarcFormsPage(allForms))),
               ),
             ),
 
@@ -431,7 +430,7 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
 
           onOpen:
           articleLoader.loadState == ArticleLoadState.LOADED ?
-              (context) => Navigator.push(
+              () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const AllArticlesPage())
           ):null,

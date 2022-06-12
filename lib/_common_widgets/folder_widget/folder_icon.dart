@@ -30,9 +30,8 @@ class FolderIcon extends StatelessWidget{
           final Rect rect = Rect.fromLTRB(0, 0, size, size);
           final Gradient gradient = LinearGradient(
               colors: [
-                commonColorData!.colorStart!,
-                commonColorData.colorEnd!
-              ],
+                commonColorData!.colorStart,
+                commonColorData.colorEnd],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight
           );

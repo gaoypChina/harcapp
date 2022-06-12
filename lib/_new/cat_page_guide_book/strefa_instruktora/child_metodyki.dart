@@ -218,20 +218,20 @@ class MetoButton extends StatelessWidget{
         TitleShortcutRowWidget(
           title: name,
           textAlign: TextAlign.start,
-          onOpen: (context) => onTap(),
+          onOpen: onTap,
         ),
 
         Row(
           children: <Widget>[
 
             Expanded(
+                flex: 2,
                 child: AppCard(
                     padding: EdgeInsets.zero,
                     color: color,
                     radius: AppCard.BIG_RADIUS,
                     child: Image.asset(imagePath)
-                ),
-                flex: 2
+                )
             ),
 
             const SizedBox(width: Dimen.SIDE_MARG),

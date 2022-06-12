@@ -22,6 +22,7 @@ class IndivCompThumbnailWidget extends StatelessWidget{
   final String? colorsKey;
 
   final double size;
+  final double elevation;
   final void Function()? onTap;
   final dynamic heroTag;
 
@@ -29,6 +30,7 @@ class IndivCompThumbnailWidget extends StatelessWidget{
     required this.iconKey,
     required this.colorsKey,
     this.size=defSize,
+    this.elevation = 0,
     this.onTap,
     this.heroTag,
     super.key});
@@ -38,10 +40,11 @@ class IndivCompThumbnailWidget extends StatelessWidget{
       colorsKey: CommonColorData.randomKey,
   );
 
-  static IndivCompThumbnailWidget from({required IndivComp comp, double? size, dynamic heroTag}) => IndivCompThumbnailWidget(
+  static IndivCompThumbnailWidget from({required IndivComp comp, double? size, double elevation = 0, dynamic heroTag}) => IndivCompThumbnailWidget(
     iconKey: comp.iconKey,
     colorsKey: comp.colorsKey,
     size: size??defSize,
+    elevation: elevation,
     heroTag: heroTag,
   );
 
@@ -56,7 +59,7 @@ class IndivCompThumbnailWidget extends StatelessWidget{
       height: size,
       child: SimpleButton(
           onTap: onTap,
-          elevation: 0,
+          elevation: elevation,
           radius: outerRadiusSizeFactor*size,
           margin: EdgeInsets.zero,
           padding: EdgeInsets.zero,

@@ -46,7 +46,7 @@ void _showPopularity(BuildContext context, IndivCompProfile profile, bool showPe
   else
     pointsWord = '${profile.points} punktów';
 
-  int rankPop = profile.rank?.specificData?.popularity??0 - 1;
+  int rankPop = (profile.rank?.specificData?.popularity??0) - 1;
   if(rankPop == 0)
     text += 'Tylko Ty masz $pointsWord';
   else if(rankPop == 1)

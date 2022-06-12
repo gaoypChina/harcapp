@@ -16,11 +16,15 @@ class PointsWidget extends StatelessWidget{
   final int? points;
   final String prefix;
   final double size;
+  final double? textSize;
+  final Color? textColor;
 
   const PointsWidget({
     required this.points,
     this.prefix = '',
     this.size = PointsIcon.defSize,
+    this.textSize,
+    this.textColor,
     Key? key
   }) : super(key: key);
 
@@ -33,8 +37,9 @@ class PointsWidget extends StatelessWidget{
         Text(
           '$prefix$points ',
           style: AppTextStyle(
-            fontSize: fontSizeCoeff*size,
+            fontSize: textSize??(fontSizeCoeff*size),
             fontWeight: weight.bold,
+            color: textColor
           )
         ),
 

@@ -5,6 +5,8 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 class AccountHeaderWidget extends StatelessWidget{
 
   final String name;
+  final Color? thumbnailColor;
+  final Color? thumbnailBorderColor;
   final bool shadow;
   final Widget? leading;
   final Widget? trailing;
@@ -12,7 +14,9 @@ class AccountHeaderWidget extends StatelessWidget{
 
   const AccountHeaderWidget(
       this.name,
-      { this.shadow = false,
+      { this.thumbnailColor,
+        this.thumbnailBorderColor,
+        this.shadow = false,
         this.leading,
         this.trailing,
         this.heroTag,
@@ -25,7 +29,15 @@ class AccountHeaderWidget extends StatelessWidget{
     Widget child = Column(
       children: [
 
-        AccountThumbnailWidget(name: name, shadow: shadow, size: 84, elevated: false, onTap: null),
+        AccountThumbnailWidget(
+            name: name,
+            shadow: shadow,
+            size: 84,
+            elevated: false,
+            color: thumbnailColor,
+            borderColor: thumbnailBorderColor,
+            onTap: null
+        ),
 
         const SizedBox(height: 24),
 

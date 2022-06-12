@@ -111,7 +111,7 @@ class RankPageState extends State<RankPage> with ModuleStatsMixin{
                     borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
                     child: TitleShortcutRowWidget(
                       title: 'Udostępnione stopnie',
-                      onOpen: (context) => pushPage(context, builder: (context) => const SharedRanksPage()),
+                      onOpen: () => pushPage(context, builder: (context) => const SharedRanksPage()),
                     )
                   ),
                 ),

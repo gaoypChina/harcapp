@@ -11,17 +11,14 @@ import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/widgets/spraw_tile_widget.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
-import 'package:harcapp_core/dimen.dart';
-
-import 'widgets/common.dart';
 
 class SearchPage extends StatefulWidget{
 
   final SprawBook sprawBook;
-  final List<SprawGroup>? sprawGroupList;
+  final List<SprawGroup> sprawGroupList;
   final Function(Spraw spraw)? onPicked;
 
-  const SearchPage(this.sprawBook, this.sprawGroupList, {this.onPicked});
+  const SearchPage(this.sprawBook, this.sprawGroupList, {this.onPicked, super.key});
 
   @override
   State createState() => SearchPageState();
@@ -30,8 +27,8 @@ class SearchPage extends StatefulWidget{
 
 class SearchPageState extends State<SearchPage>{
 
-  List<Spraw>? allSpraws;
-  List<Spraw>? currSpraws;
+  late List<Spraw> allSpraws;
+  late List<Spraw> currSpraws;
 
   late Map<Spraw, String?> groupNameMap;
 
@@ -41,9 +38,9 @@ class SearchPageState extends State<SearchPage>{
     allSpraws = [];
     groupNameMap = {};
 
-    for(SprawGroup group in widget.sprawGroupList!) {
+    for(SprawGroup group in widget.sprawGroupList) {
 
-      allSpraws!.addAll(group.allSpraws);
+      allSpraws.addAll(group.allSpraws);
 
       for(SprawFamily family in group.families!)
         for(Spraw spraw in family.spraws!)
@@ -60,17 +57,19 @@ class SearchPageState extends State<SearchPage>{
     text = remPolChars(text);
     List<Spraw> spraws = [];
 
-    for(Spraw spraw in allSpraws!) {
+    for(Spraw spraw in allSpraws) {
       if (remPolChars(spraw.title).contains(text)) {
         spraws.add(spraw);
         continue;
       }
 
       // TODO: Make sure that you can put a .map without .toList() into a function expecting a list.
-      List<String> requirements = remPolCharsList(spraw.tasks!.map((task) => task.text) as List<String>);
+      List<String> requirements = remPolCharsList(spraw.tasks!.map((task) => task.text).toList());
       for(String req in requirements)
-        if(req.contains(text))
+        if(req.contains(text)) {
           spraws.add(spraw);
+          break;
+        }
     }
     setState(() => currSpraws = spraws);
   }
@@ -95,24 +94,19 @@ class SearchPageState extends State<SearchPage>{
           ),
 
           CustomScrollView(
-            key: PageStorageKey(key_sprawnosci_search_list_view),
-            physics: BouncingScrollPhysics(),
+            key: const PageStorageKey(key_sprawnosci_search_list_view),
+            physics: const BouncingScrollPhysics(),
             slivers: [
               SliverAppBar(
-                title: Container(
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Center(
-                      child: Text(widget.sprawBook.title),
-                    ),
+                title: SizedBox(
+                  width: double.infinity,
+                  child: Center(
+                    child: Text(widget.sprawBook.title),
                   ),
                 ),
                 centerTitle: true,
                 elevation: 0,
-                floating: true,
-                actions: [
-                  SizedBox(width: Dimen.ICON_FOOTPRINT,)
-                ],
+                floating: true
               ),
 
               FloatingContainer.child(
@@ -126,11 +120,11 @@ class SearchPageState extends State<SearchPage>{
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                     (context, index) => SprawTileWidget(
-                        groupName: groupNameMap[currSpraws![index]],
-                        spraw: currSpraws![index],
+                        groupName: groupNameMap[currSpraws[index]],
+                        spraw: currSpraws[index],
                         onPicked: widget.onPicked
                     ),
-                    childCount: currSpraws!.length
+                    childCount: currSpraws.length
                 ),
 
               )

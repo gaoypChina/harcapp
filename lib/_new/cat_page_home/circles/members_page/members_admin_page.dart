@@ -144,7 +144,7 @@ class MembersAdminPageState extends State<MembersAdminPage>{
         customAppBar:
         selectedMembers.isEmpty?
         SliverAppBar(
-          title: const Text('Lista uczestników'),
+          title: const Text('Lista członków'),
           centerTitle: true,
           floating: true,
           backgroundColor: CirclePage.appBarColor(context, palette),
@@ -184,6 +184,7 @@ class MembersAdminPageState extends State<MembersAdminPage>{
             else
               setState(() => selectedMembers.add(member));
           },
+
           heroTag: member,
         ),
 
@@ -323,7 +324,13 @@ class _MemberTileState extends State<_MemberTile>{
         builder: (context) => Column(
           children: [
 
-            MemberHeaderWidget(member.name, member.shadow, member.role, heroTag: member.key),
+            MemberHeaderWidget(
+                member.name,
+                member.shadow,
+                member.role,
+                thumbnailColor: CirclePage.backgroundColor(context, palette),
+                thumbnailBorderColor: CirclePage.cardColor(context, palette),
+                heroTag: member.key),
 
             const SizedBox(height: 2*24.0),
 
@@ -558,6 +565,8 @@ class _MemberTileState extends State<_MemberTile>{
     selected: selected,
     selectedColor: CirclePage.cardColor(context, palette),
     selectedTextColor: CirclePage.strongColor(context, palette),
+    thumbnailColor: CirclePage.backgroundColor(context, palette),
+    thumbnailBorderColor: CirclePage.cardColor(context, palette),
     onLongPress: onSelectionTap,
     onTap: anythingSelected?onSelectionTap:(circle!.myRole == CircleRole.ADMIN || circle!.myRole == CircleRole.MODERATOR?openParticipantDetails:null),
     heroTag: heroTag,

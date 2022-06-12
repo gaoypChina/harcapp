@@ -111,6 +111,7 @@ class SprawProgressWidgetState extends State<SprawProgressWidget>{
                     builder: (BuildContext context, BoxConstraints constraints) => Container(
                       width: constraints.maxWidth,
                       height: constraints.maxWidth,
+                      clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(constraints.maxWidth),
                         border: Border.all(

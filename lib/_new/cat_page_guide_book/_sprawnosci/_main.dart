@@ -124,7 +124,7 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
               duration: Duration.zero,
               onTap: () => pushPage(context, builder: (context) => SearchPage(
                 allSprawBooks[tabController.index],
-                allSprawBooks[tabController.index].groups,
+                allSprawBooks[tabController.index].groups??[],
                 onPicked: (Spraw spraw) {
                   Navigator.push(
                       context,

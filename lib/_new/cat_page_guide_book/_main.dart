@@ -140,7 +140,7 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
                 child: TitleShortcutRowWidget(
                   title: 'Sprawności',
                   textAlign: TextAlign.start,
-                  onOpen: (context) => Navigator.push(
+                  onOpen: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const SprawnosciPage())
                   ),
@@ -560,7 +560,7 @@ class LatestStopWidgetState extends State<LatestStopWidget>{
                   longPressable: false,
                 ),
                 textAlign: TextAlign.start,
-                onOpen: (context) => Navigator.push(
+                onOpen: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => RankPage(org: orgProv.current))
                 ),

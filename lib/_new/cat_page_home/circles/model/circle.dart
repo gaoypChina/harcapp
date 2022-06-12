@@ -236,9 +236,9 @@ class Circle{
     _pinnedAnnouncements.addAll(pinnedAnnouncements);
     _awaitingAnnouncements.addAll(awaitingAnnouncements);
 
-    _allAnnouncements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
-    _pinnedAnnouncements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
-    _awaitingAnnouncements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
+    _allAnnouncements.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
+    _pinnedAnnouncements.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
+    _awaitingAnnouncements.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
 
     for (Announcement ann in _allAnnouncements)
       _addToAnnouncementsMap(ann);
@@ -261,29 +261,28 @@ class Circle{
 
   }
 
-  void addAllAnnouncement(Announcement announcement){
+  void addAllAnnouncement(Announcement announcement, {bool sort = true}){
     _allAnnouncements.add(announcement);
-    _allAnnouncements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
+    if(sort) _allAnnouncements.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
     _addToAnnouncementsMap(announcement, inAll: true);
   }
 
-  void addAllAnnouncements(List<Announcement> announcements){
+  void addAllAnnouncements(List<Announcement> announcements, {bool sort = true}){
     _allAnnouncements.addAll(announcements);
-    _allAnnouncements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
+    if(sort) _allAnnouncements.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
     for(Announcement announcement in announcements)
       _addToAnnouncementsMap(announcement, inAll: true);
   }
 
-
-  void addPinnedAnnouncement(Announcement announcement){
+  void addPinnedAnnouncement(Announcement announcement, {bool sort = true}){
     _pinnedAnnouncements.add(announcement);
-    _pinnedAnnouncements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
+    if(sort) _pinnedAnnouncements.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
     _addToAnnouncementsMap(announcement, inPinned: true);
   }
 
-  void addPinnedAnnouncements(List<Announcement> announcements){
+  void addPinnedAnnouncements(List<Announcement> announcements, {bool sort = true}){
     _pinnedAnnouncements.addAll(announcements);
-    _pinnedAnnouncements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
+    if(sort) _pinnedAnnouncements.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
     for(Announcement announcement in announcements)
       _addToAnnouncementsMap(announcement, inPinned: true);
   }
@@ -304,7 +303,7 @@ class Circle{
 
     if(pinned) {
       _pinnedAnnouncements.add(announcement);
-      _pinnedAnnouncements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
+      _pinnedAnnouncements.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
       pinnedCount += 1;
     }else{
       _pinnedAnnouncements.remove(announcement);
@@ -313,15 +312,15 @@ class Circle{
 
   }
 
-  void addAwaitingAnnouncement(Announcement announcement){
+  void addAwaitingAnnouncement(Announcement announcement, {bool sort = true}){
     _awaitingAnnouncements.add(announcement);
-    _awaitingAnnouncements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
+    if(sort) _awaitingAnnouncements.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
     _addToAnnouncementsMap(announcement, inAwaiting: true);
   }
 
-  void addAwaitingAnnouncements(List<Announcement> announcements){
+  void addAwaitingAnnouncements(List<Announcement> announcements, {bool sort = true}){
     _awaitingAnnouncements.addAll(announcements);
-    _awaitingAnnouncements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
+    if(sort) _awaitingAnnouncements.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
     for(Announcement announcement in announcements)
       _addToAnnouncementsMap(announcement, inAwaiting: true);
   }
@@ -342,7 +341,7 @@ class Circle{
 
     if(isAwaiting) {
       _awaitingAnnouncements.add(announcement);
-      _awaitingAnnouncements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
+      _awaitingAnnouncements.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
       awaitingCount += 1;
     }else{
       _awaitingAnnouncements.remove(announcement);
@@ -432,7 +431,8 @@ class Circle{
       Announcement? savedAnnouncement = circle.announcementsMap[annKey]?.announcemnet;
       savedAnnouncement ??= Announcement.fromMap(annRespData, circle, key: annKey);
 
-      circle.addAllAnnouncement(savedAnnouncement);
+      circle.addAllAnnouncement(savedAnnouncement, sort: false);
+      circle._allAnnouncements.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
     }
 
     for(String annKey in pinnedAnnResps.keys as Iterable<String>){
@@ -441,7 +441,8 @@ class Circle{
       Announcement? savedAnnouncement = circle.announcementsMap[annKey]?.announcemnet;
       savedAnnouncement ??= Announcement.fromMap(annRespData, circle, key: annKey);
 
-      circle.addPinnedAnnouncement(savedAnnouncement);
+      circle.addPinnedAnnouncement(savedAnnouncement, sort: false);
+      circle._pinnedAnnouncements.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
     }
 
     for(String annKey in awaitingAnnResps.keys as Iterable<String>){
@@ -450,7 +451,8 @@ class Circle{
       Announcement? savedAnnouncement = circle.announcementsMap[annKey]?.announcemnet;
       savedAnnouncement ??= Announcement.fromMap(annRespData, circle, key: annKey);
 
-      circle.addAwaitingAnnouncement(savedAnnouncement);
+      circle.addAwaitingAnnouncement(savedAnnouncement, sort: false);
+      circle._awaitingAnnouncements.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
     }
 
     return circle;

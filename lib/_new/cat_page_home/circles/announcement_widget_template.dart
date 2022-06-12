@@ -1,16 +1,21 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:harcapp/_app_common/stripe_widget.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_page.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendance_resp_mode.dart';
+import 'package:harcapp/_new/cat_page_home/circles/model/circle.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
+import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/announcement.dart';
@@ -27,6 +32,9 @@ import 'model/announcement_attendance_resp.dart';
 
 class AnnouncementWidgetTemplate extends StatelessWidget{
 
+  static const double radius = 8.0;
+  static const double elevation = 0;
+
   final Announcement announcement;
   final bool shrinkText;
   final PaletteGenerator? palette;
@@ -35,6 +43,8 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
   final void Function(bool)? onPinChanged;
   final void Function(AnnouncementAttendanceResp, DateTime now)? onAttendanceChanged;
   final void Function()? onAttendanceIndicatorTap;
+  final bool showCircleButton;
+  final void Function()? onCircleButtonTap;
 
   const AnnouncementWidgetTemplate(
       this.announcement,
@@ -45,198 +55,310 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
         this.onPinChanged,
         this.onAttendanceChanged,
         this.onAttendanceIndicatorTap,
+        this.showCircleButton = false,
+        this.onCircleButtonTap,
         Key? key
       }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => SimpleButton(
-    onTap: onTap,
-    color: CirclePage.cardColor(context, palette),
-    clipBehavior: Clip.antiAlias,
-    radius: AppCard.BIG_RADIUS,
-    elevation: AppCard.defElevation,
-    child: Column(
+  Widget build(BuildContext context){
+
+    bool showPin = AccountData.key == announcement.author.key && onPinChanged != null;
+    bool showEdit = AccountData.key == announcement.author.key && onUpdateTap != null;
+
+    bool hasTitle = announcement.title.isNotEmpty;
+    bool hasStartTime = announcement.startTime != null;
+    bool hasEndTime = announcement.endTime != null;
+    bool hasPlace = announcement.place != null && announcement.place!.isNotEmpty;
+
+    Duration timeSincePosted = DateTime.now().difference(announcement.postTime);
+    String timeDurStr;
+    if(timeSincePosted.inDays < 2){
+      timeDurStr = '${timeSincePosted.inHours}';
+      if(timeSincePosted.inHours == 0 || timeSincePosted.inHours >= 5) timeDurStr += ' godzin';
+      else if(timeSincePosted.inHours == 1) timeDurStr += ' godzinę';
+      else if(timeSincePosted.inHours >= 2 && timeSincePosted.inHours <= 4) timeDurStr += ' godziny';
+    } else {
+      timeDurStr = '${timeSincePosted.inDays}';
+      if(timeSincePosted.inDays == 0 || timeSincePosted.inDays >= 2) timeDurStr += ' dni';
+      else if(timeSincePosted.inDays == 1) timeDurStr += ' dzień';
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
 
-        if(announcement.coverImage != null)
-          CoverImage(announcement.coverImage),
-
-        Container(
-            color: backgroundIcon_(context),
-            child: Row(
-              children: [
-
-                const SizedBox(height: Dimen.ICON_FOOTPRINT),
-
-                Expanded(
-                  child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: Dimen.ICON_MARG,
-                          left: Dimen.SIDE_MARG,
-                          bottom: Dimen.ICON_MARG
-                      ),
-                      child: PostingInfoWidget(announcement)
-                  ),
-                ),
-
-                AttendanceWidget(
-                  announcement,
-                  palette: palette,
-                  onAttendanceChanged: onAttendanceChanged,
-                )
-
-              ],
+        if(showCircleButton)
+          SimpleButton(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(AnnouncementWidgetTemplate.radius),
+              topRight: Radius.circular(AnnouncementWidgetTemplate.radius)
+            ),
+            color: CirclePage.cardColor(context, palette),
+            onTap: onCircleButtonTap,
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(MdiIcons.googleCircles, size: 20),
+                  const SizedBox(width: Dimen.ICON_MARG),
+                  Text(announcement.circle!.name, style: AppTextStyle(fontWeight: weight.halfBold, color: iconEnab_(context)))
+                ],
+              ),
             )
-        ),
+          ),
 
-        const SizedBox(height: Dimen.SIDE_MARG),
-
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+        SimpleButton(
+          onTap: onTap,
+          color: CirclePage.cardColor(context, palette),
+          clipBehavior: Clip.antiAlias,
+          borderRadius: showCircleButton?
+          const BorderRadius.only(
+            topLeft: Radius.zero,
+            topRight: Radius.circular(radius),
+            bottomLeft: Radius.circular(radius),
+            bottomRight: Radius.circular(radius)
+          ):
+          BorderRadius.circular(radius),
+          elevation: elevation,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
 
-              Text(
-                announcement.title,
-                style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.halfBold),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+              if(announcement.coverImage != null)
+                CoverImage(announcement.coverImage),
+
+              Container(
+                  color: backgroundIcon_(context),
+                  child: Row(
+                    children: [
+
+                      const SizedBox(height: Dimen.ICON_FOOTPRINT),
+
+                      Expanded(
+                        child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: Dimen.ICON_MARG,
+                                left: Dimen.SIDE_MARG,
+                                bottom: Dimen.ICON_MARG
+                            ),
+                            child: PostingInfoWidget(announcement)
+                        ),
+                      ),
+
+                      AttendanceWidget(
+                        announcement,
+                        palette: palette,
+                        onAttendanceChanged: onAttendanceChanged,
+                      )
+
+                    ],
+                  )
               ),
 
-              const SizedBox(height: 12),
+              if(announcement.isAwaitingMyResponse)
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: Dimen.DEF_MARG,
+                    left: Dimen.DEF_MARG,
+                    right: Dimen.DEF_MARG,
+                  ),
+                  child: GradientWidget(
+                    colorStart: Colors.red,
+                    colorEnd: Colors.amber,
+                    radius: radius,
+                    child: Padding(
+                        padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: CirclePage.backgroundColor(context, palette),
+                              borderRadius: BorderRadius.circular(radius - 3)
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                            child: Row(
+                              children: [
 
-              if(announcement.startTime != null && announcement.endTime != null)
-                Row(
+                                const SizedBox(width: Dimen.ICON_MARG),
+
+                                const Icon(MdiIcons.alertCircleOutline, color: Colors.black54),
+
+                                const SizedBox(width: Dimen.ICON_MARG),
+
+                                Expanded(
+                                  child: AppText(
+                                    'Ogłoszenie czeka <b>$timeDurStr</b> na reakcję',
+                                    color: Colors.black54,
+                                  ),
+                                ),
+
+                                const Icon(MdiIcons.arrowUp, color: Colors.black54),
+
+                                const SizedBox(width: Dimen.ICON_MARG),
+
+                              ],
+                            ),
+                          ),
+                        )
+                    ),
+                  ),
+                ),
+
+              Padding(
+                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
 
-                    Icon(MdiIcons.calendarOutline, size: 20, color: textEnab_(context)),
-
-                    const SizedBox(width: 6.0),
-
-                    Text(
-                      dateRangeToString(
-                          announcement.startTime!,
-                          announcement.endTime!,
-                          shortMonth: true,
-                          showYear: announcement.startTime!.year != DateTime.now().year,
-                          withTime: true,
-                          dateTimeSep: ' '
+                    if(hasTitle)
+                      Text(
+                        announcement.title,
+                        style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      style: AppTextStyle(
-                          fontSize: Dimen.TEXT_SIZE_NORMAL,
+
+                    if(hasTitle)
+                      const SizedBox(height: 12),
+
+                    if(hasStartTime && hasEndTime)
+                      Row(
+                        children: [
+
+                          Icon(MdiIcons.calendarOutline, size: 20, color: textEnab_(context)),
+
+                          const SizedBox(width: 6.0),
+
+                          Text(
+                            dateRangeToString(
+                                announcement.startTime!,
+                                announcement.endTime!,
+                                shortMonth: true,
+                                showYear: announcement.startTime!.year != DateTime.now().year,
+                                withTime: true,
+                                dateTimeSep: ' '
+                            ),
+                            style: AppTextStyle(
+                              fontSize: Dimen.TEXT_SIZE_NORMAL,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        ],
+                      )
+                    else if(hasStartTime)
+                      Row(
+                        children: [
+
+                          Icon(MdiIcons.calendarOutline, size: 20, color: textEnab_(context)),
+
+                          const SizedBox(width: 6.0),
+
+                          Text(
+                            dateToString(
+                                announcement.startTime,
+                                shortMonth: true,
+                                showYear: announcement.startTime!.year != DateTime.now().year,
+                                withTime: true,
+                                dateTimeSep: ' '
+                            ),
+                            style: AppTextStyle(
+                              fontSize: Dimen.TEXT_SIZE_NORMAL,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        ],
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    )
+
+                    if(hasStartTime || hasEndTime)
+                      const SizedBox(height: 10),
+
+                    if(hasPlace)
+                      Row(
+                        children: [
+
+                          Icon(MdiIcons.mapMarkerOutline, size: 20, color: textEnab_(context)),
+
+                          const SizedBox(width: 6.0),
+
+                          Text(
+                            announcement.place!,
+                            style: AppTextStyle(
+                                fontSize: Dimen.TEXT_SIZE_NORMAL,
+                                color: textEnab_(context)
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        ],
+                      ),
+
+                    if(hasPlace)
+                      const SizedBox(height: 1.5*Dimen.SIDE_MARG),
+
+                    if(shrinkText)
+                      Text(
+                          announcement.text,
+                          style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL),
+                          maxLines: 5,
+                          overflow: TextOverflow.ellipsis
+                      )
+                    else
+                      SelectableText(
+                        announcement.text,
+                        style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL),
+                      )
+
                   ],
-                )
-              else if(announcement.startTime != null)
+                ),
+              ),
+
+              if(showPin || showEdit || announcement.isEvent)
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
 
-                    Icon(MdiIcons.calendarOutline, size: 20, color: textEnab_(context)),
+                    const SizedBox(height: Dimen.ICON_FOOTPRINT),
 
-                    const SizedBox(width: 6.0),
+                    const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
 
-                    Text(
-                      dateToString(
-                          announcement.startTime,
-                          shortMonth: true,
-                          showYear: announcement.startTime!.year != DateTime.now().year,
-                          withTime: true,
-                          dateTimeSep: ' '
+                    if(showPin)
+                      _PinWidget(
+                        announcement,
+                        onPinChanged: onPinChanged,
                       ),
-                      style: AppTextStyle(
-                        fontSize: Dimen.TEXT_SIZE_NORMAL,
+
+                    if(showEdit)
+                      IconButton(
+                          icon: const Icon(MdiIcons.pencilOutline),
+                          onPressed: onUpdateTap
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    )
+
+                    Expanded(child: Container()),
+
+                    if(announcement.isEvent)
+                      AttendaceIndicatorWidget(announcement, onTap: onAttendanceIndicatorTap),
+
+                    const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
+
                   ],
                 ),
 
-              if(announcement.startTime != null || announcement.endTime != null)
-                const SizedBox(height: 10),
-
-              if(announcement.place != null && announcement.place!.isNotEmpty)
-                Row(
-                  children: [
-
-                    Icon(MdiIcons.mapMarkerOutline, size: 20, color: textEnab_(context)),
-
-                    const SizedBox(width: 6.0),
-
-                    Text(
-                      announcement.place!,
-                      style: AppTextStyle(
-                        fontSize: Dimen.TEXT_SIZE_NORMAL,
-                        color: textEnab_(context)
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    )
-                  ],
-                ),
-
-              if(announcement.place != null)
-                const SizedBox(height: 1.5*Dimen.SIDE_MARG),
-
-              if(shrinkText)
-                Text(
-                  announcement.text,
-                  style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
-                  maxLines: 5,
-                  overflow: TextOverflow.ellipsis
-                )
-              else
-                SelectableText(
-                  announcement.text,
-                  style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
-                )
+              if(showPin || showEdit || announcement.isEvent)
+                const SizedBox(height: Dimen.SIDE_MARG - Dimen.ICON_MARG),
 
             ],
           ),
-        ),
-
-        const SizedBox(height: Dimen.SIDE_MARG),
-
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-
-            const SizedBox(height: Dimen.ICON_FOOTPRINT),
-
-            const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
-
-            if(AccountData.key == announcement.author.key)
-              _PinWidget(
-                announcement,
-                onPinChanged: onPinChanged,
-              ),
-
-            if(AccountData.key == announcement.author.key)
-              IconButton(
-                  icon: const Icon(MdiIcons.pencilOutline),
-                  onPressed: onUpdateTap
-              ),
-
-            Expanded(child: Container()),
-
-            AttendaceIndicatorWidget(announcement, onTap: onAttendanceIndicatorTap),
-
-            const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
-
-          ],
-        ),
-
-        const SizedBox(height: Dimen.SIDE_MARG - Dimen.ICON_MARG),
+        )
 
       ],
-    ),
-  );
+    );
+
+  }
 
 }
 

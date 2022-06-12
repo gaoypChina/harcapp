@@ -4,6 +4,7 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_new/app_drawer.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
+import 'package:harcapp/_new/cat_page_home/preview_part.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -65,37 +66,18 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
         return const CompetitionsPage();
       else if(selectedDrawerPage == drawerPageCircles)
         return AllCirclesPage(
-          onCircleTap: (circle) => pushPage(
-            context,
-            builder: (context) => CirclePage(
-              circle,
-              onLeft: () => setState(() => selectedDrawerPage = drawerPageCircles),
-              onDeleted: () =>
-                  setState(() => selectedDrawerPage = drawerPageCircles),
-              key: ValueKey(selectedDrawerPage),
-            )
-          ),
+          onCircleTap: openCirclePage,
         );
 
-      return CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
-          SliverAppBar(
-            backgroundColor: background_(context),
-            title: const HarcApp(size: Dimen.TEXT_SIZE_APPBAR),
-            floating: true,
-            centerTitle: true,
-          ),
-
-          SliverPadding(
-            padding: const EdgeInsets.only(top: Dimen.SIDE_MARG),
-            sliver: SliverList(delegate: SliverChildListDelegate([
-              const CirclePreviewWidget()
-            ])),
-          )
-
-        ],
+      return PreviewPart(
+        onCompHeaderOpen: () => setState(() => selectedDrawerPage = drawerPageCompetitions),
+        onAllAnnouncementsHeaderOpen: () => setState(() => selectedDrawerPage = drawerPageCircles),
+        onCircleTap: (circle){
+          setState(() => selectedDrawerPage = drawerPageCircles);
+          openCirclePage(circle);
+        }
       );
+
     }),
     drawer: AppDrawer(
         body: Column(
@@ -142,25 +124,13 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
     bottomNavigationBar: const AppBottomNavigator(),
   );
 
-}
-
-class CirclePreviewWidget extends StatelessWidget{
-
-  const CirclePreviewWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) => CompetitionsWidget(
-      singleLine: true,
-      competitionWidgetBuilder: (allCompList) => SizedBox(
-        height: IndivCompThumbnailWidget.defSize,
-        child: ListView.separated(
-          padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-          physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          itemCount: allCompList.length,
-          itemBuilder: (context, index) => IndivCompPreviewWidget(allCompList[index]),
-          separatorBuilder: (context, index) => const SizedBox(width: Dimen.SIDE_MARG),
-        ),
+  void openCirclePage(Circle circle) => pushPage(
+      context,
+      builder: (context) => CirclePage(
+        circle,
+        onLeft: () => setState(() => selectedDrawerPage = drawerPageCircles),
+        onDeleted: () => setState(() => selectedDrawerPage = drawerPageCircles),
+        key: ValueKey(selectedDrawerPage),
       )
   );
 

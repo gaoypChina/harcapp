@@ -1,15 +1,16 @@
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/_app_common/stripe_widget.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/api/circle.dart';
+import 'package:harcapp/_new/cat_page_home/circles/announcement_widget_template.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/announcement_sliver.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
@@ -26,10 +27,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
-import '../../../_common_classes/sliver_child_builder_separated_delegate.dart';
 import '../../../_common_widgets/app_toast.dart';
 import 'announcement_edit_page/_main.dart';
-import 'announcement_widget.dart';
 import 'circle_editor/_main.dart';
 import 'circle_palette_generator.dart';
 import 'circle_role.dart';
@@ -63,7 +62,7 @@ class CirclePage extends StatefulWidget{
     if(AppSettings.isDark)
       return _lighten(palette.dominantColor!.color, .1);
     else
-      return _lighten(palette.dominantColor!.color, .88);
+      return _lighten(palette.dominantColor!.color, .94);
 
   }
 
@@ -73,7 +72,7 @@ class CirclePage extends StatefulWidget{
     if(AppSettings.isDark)
       return _lighten(palette.dominantColor!.color, .16);
     else
-      return _lighten(palette.dominantColor!.color, .84);
+      return _lighten(palette.dominantColor!.color, .88);
 
   }
 
@@ -233,6 +232,7 @@ class CirclePageState extends State<CirclePage>{
   @override
   void dispose(){
     scrollController.dispose();
+    refreshController.dispose();
     super.dispose();
   }
   
@@ -375,7 +375,7 @@ class CirclePageState extends State<CirclePage>{
               return;
             }
 
-            await ApiCircle.getAnnouncements(
+            await ApiCircle.getCircleAnnouncements(
                 circleKey: circle.key,
                 page: loadedPage + 1,
                 pinnedOnly: currTab == AnnouncementCategories.pinned,
@@ -512,7 +512,9 @@ class CirclePageState extends State<CirclePage>{
 
                   AccountThumbnailRowWidget(
                     circle.members.map((m) => m.name).toList(),
-                    elevated: true,
+                    elevated: AnnouncementWidgetTemplate.elevation != 0,
+                    color: backgroundColor,
+                    borderColor: cardColor,
                     backgroundColor: backgroundColor,
                     padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                     onTap: () => pushPage(
@@ -543,8 +545,8 @@ class CirclePageState extends State<CirclePage>{
                         ),
                         color: cardColor,
                         clipBehavior: Clip.antiAlias,
-                        radius: AppCard.BIG_RADIUS,
-                        elevation: AppCard.bigElevation,
+                        radius: AnnouncementWidgetTemplate.radius,
+                        elevation: AnnouncementWidgetTemplate.elevation,
                         child: Padding(
                           padding: const EdgeInsets.all(Dimen.ICON_MARG),
                           child: Row(
@@ -681,127 +683,46 @@ class CirclePageState extends State<CirclePage>{
     ),
   );
 
-  Widget getAllAnnouncements() {
+  Widget getAllAnnouncements() => getAnnouncementsSliver(
+      context,
+      circle.allAnnouncements,
+      padding: const EdgeInsets.only(
+        top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+        right: Dimen.SIDE_MARG,
+        left: Dimen.SIDE_MARG,
+        bottom: Dimen.SIDE_MARG,
+      ),
+      palette: palette,
+      onAnnouncementUpdated: () => setState((){})
+  );
 
-    if (circle.allAnnouncements.isEmpty)
-      return SliverPadding(
-        padding: const EdgeInsets.only(
-          top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-          right: Dimen.SIDE_MARG,
-          left: Dimen.SIDE_MARG,
-          bottom: Dimen.SIDE_MARG,
-        ),
-        sliver: SliverList(delegate: SliverChildListDelegate([
-          const SizedBox(height: 2 * Dimen.SIDE_MARG),
-          EmptyMessageWidget(
-            icon: MdiIcons.newspaperVariantOutline,
-            text: 'Brak postów',
-            color: cardColor,
-          ),
-        ])),
-      );
-    else
-      return SliverPadding(
-        padding: const EdgeInsets.only(
-          top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-          right: Dimen.SIDE_MARG,
-          left: Dimen.SIDE_MARG,
-          bottom: Dimen.SIDE_MARG,
-        ),
-        sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-                (context, index) =>
-                AnnouncementWidget(
-                  circle.allAnnouncements.reversed.toList()[index],
-                  palette,
-                  onAnnouncementUpdated: () => setState(() {}),
-                ),
-            separatorBuilder: (context, index) =>
-            const SizedBox(height: Dimen.SIDE_MARG),
-            count: circle.allAnnouncements.length
-        )),
-      );
+  Widget getPinnedAnnouncements() => getAnnouncementsSliver(
+      context,
+      circle.pinnedAnnouncements,
+      padding: const EdgeInsets.only(
+        top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+        right: Dimen.SIDE_MARG,
+        left: Dimen.SIDE_MARG,
+        bottom: Dimen.SIDE_MARG,
+      ),
+      palette: palette,
+      emptyMessage: 'Brak przypiętych ogłoszeń',
+      onAnnouncementUpdated: () => setState((){})
+  );
 
-  }
-
-  Widget getPinnedAnnouncements(){
-
-    if(circle.pinnedAnnouncements.isEmpty)
-      return SliverPadding(
-        padding: const EdgeInsets.only(
-          top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-          right: Dimen.SIDE_MARG,
-          left: Dimen.SIDE_MARG,
-          bottom: Dimen.SIDE_MARG,
-        ),
-        sliver: SliverList(delegate: SliverChildListDelegate([
-          const SizedBox(height: 2*Dimen.SIDE_MARG),
-          EmptyMessageWidget(
-            icon: MdiIcons.newspaperVariantOutline,
-            text: 'Brak przypiętych postów',
-            color: cardColor,
-          ),
-        ])),
-      );
-    else
-      return SliverPadding(
-        padding: const EdgeInsets.only(
-          top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-          right: Dimen.SIDE_MARG,
-          left: Dimen.SIDE_MARG,
-          bottom: Dimen.SIDE_MARG,
-        ),
-        sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-            (context, index) => AnnouncementWidget(
-              circle.pinnedAnnouncements.reversed.toList()[index],
-              palette,
-              onAnnouncementUpdated: () => setState((){}),
-            ),
-            separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-            count: circle.pinnedAnnouncements.length
-        )),
-      );
-
-  }
-
-  Widget getAwaitingAnnouncements(){
-
-    if(circle.awaitingAnnouncements.isEmpty)
-      return SliverPadding(
-        padding: const EdgeInsets.only(
-          top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-          right: Dimen.SIDE_MARG,
-          left: Dimen.SIDE_MARG,
-          bottom: Dimen.SIDE_MARG,
-        ),
-        sliver: SliverList(delegate: SliverChildListDelegate([
-          const SizedBox(height: 2*Dimen.SIDE_MARG),
-          EmptyMessageWidget(
-            icon: MdiIcons.newspaperVariantOutline,
-            text: 'Brak oczekujących postów',
-            color: cardColor,
-          ),
-        ])),
-      );
-    else
-      return SliverPadding(
-        padding: const EdgeInsets.only(
-          top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-          right: Dimen.SIDE_MARG,
-          left: Dimen.SIDE_MARG,
-          bottom: Dimen.SIDE_MARG,
-        ),
-        sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-          (context, index) => AnnouncementWidget(
-            circle.awaitingAnnouncements.reversed.toList()[index],
-            palette,
-            onAnnouncementUpdated: () => setState((){}),
-          ),
-          separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-          count: circle.awaitingAnnouncements.length
-        )),
-      );
-
-  }
+  Widget getAwaitingAnnouncements() => getAnnouncementsSliver(
+      context,
+      circle.awaitingAnnouncements,
+      padding: const EdgeInsets.only(
+        top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+        right: Dimen.SIDE_MARG,
+        left: Dimen.SIDE_MARG,
+        bottom: Dimen.SIDE_MARG,
+      ),
+      palette: palette,
+      emptyMessage: 'Brak oczekujących ogłoszeń',
+      onAnnouncementUpdated: () => setState((){})
+  );
 
 }
 
@@ -868,62 +789,53 @@ class InitAwaitingMessageDialog extends StatelessWidget{
   Widget build(BuildContext context) => Center(
     child: Padding(
       padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-      child: Material(
-        clipBehavior: Clip.hardEdge,
+      child: StripeWidget(
         borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-        color: CirclePage.backgroundColor(context, palette),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-
-            Padding(
-              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-              child: Text(
-                'Konieczne działanie!',
-                style: AppTextStyle(
-                  fontSize: Dimen.TEXT_SIZE_APPBAR,
-                  fontWeight: weight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-
-            Stack(
+        child: Padding(
+          padding: const EdgeInsets.all(Dimen.ICON_MARG),
+          child: Material(
+            clipBehavior: Clip.hardEdge,
+            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS - 4),
+            color: CirclePage.backgroundColor(context, palette),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Icon(
-                    MdiIcons.hiking,
-                    color: backgroundIcon_(context),
-                    size: 180,
-                  ),
-                ),
-                
+
                 Padding(
                   padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  child: Text(
+                    'Konieczne działanie!',
+                    style: AppTextStyle(
+                      fontSize: Dimen.TEXT_SIZE_APPBAR,
+                      fontWeight: weight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+
+                const Padding(
+                  padding: EdgeInsets.all(Dimen.SIDE_MARG),
                   child: AppText(
-                    'W kręgu są <b>ogłoszenia oczekujące</b> na Twoją reakcję.'
-                        '\n\nTo ważne, byś <b>nie ${AccountData.sex==Sex.male?'zostawiał':'zostawiała'} tego na potem</b>.'
-                        '\n\nIgnorowanie ogłoszeń jest wyrazem braku szacunku dla jego autora.'
-                        '\n\n<b>Czuwaj!</b> :)',
+                    'Niektóre <b>ogłoszenia oczekują</b> na deklarację Twojej obecności!'
+                        '\n\nIgnorowanie ogłoszeń jest <b>wyrazem braku szacunku</b> dla ich autorów.'
+                        '\n\nNie zwlekaj :)'
+                        '\n<b>Czuwaj!</b>',
                     size: Dimen.TEXT_SIZE_BIG,
                   ),
                 ),
+
+                SimpleButton(
+                    radius: 0,
+                    margin: EdgeInsets.zero,
+                    onTap: () => Navigator.pop(context),
+                    padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                    child: const Icon(MdiIcons.check)
+                )
+
               ],
             ),
-
-            SimpleButton(
-                radius: 0,
-                margin: EdgeInsets.zero,
-                onTap: () => Navigator.pop(context),
-                padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                child: const Icon(MdiIcons.check)
-            )
-
-          ],
+          ),
         ),
       ),
     ),
