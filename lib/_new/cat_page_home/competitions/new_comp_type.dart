@@ -9,6 +9,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_th
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
@@ -16,6 +17,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../_common_widgets/bottom_sheet.dart';
+import '../common.dart';
 import 'indiv_comp/models/indiv_comp.dart';
 
 Future<NewCompType?> pickCompType(BuildContext context)async {
@@ -23,11 +25,14 @@ Future<NewCompType?> pickCompType(BuildContext context)async {
   NewCompType? result;
   await showScrollBottomSheet(
       context: context,
-      builder: (context) => CompTypeWidget(
-          onSelected: (indiv){
-            result = indiv;
-            Navigator.pop(context);
-          }
+      builder: (context) => BottomSheetDef(
+        title: 'Nowe współzawodnictwo',
+        builder: (context) => CompTypeWidget(
+            onSelected: (compType){
+              result = compType;
+              Navigator.pop(context);
+            }
+        ),
       )
   );
 
@@ -54,34 +59,9 @@ class CompTypeWidget extends StatelessWidget{
       padding: MediaQuery.of(context).viewInsets,
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
         child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-
-              _Button(
-                icon: MdiIcons.applicationOutline,
-                title: 'Utwórz puste',
-                colorStart: Colors.grey[AppSettings.isDark?700:300],
-                colorEnd: Colors.grey[AppSettings.isDark?900:600],
-                textColor: Colors.blueGrey,
-                description: 'Zacznij od pustego szablonu.\n\nSkorzystaj, jeżeli wiesz jak działają współzawodnictwa.',
-                onTap: () => onSelected!(NewCompType.empty),
-              ),
-
-              const SizedBox(height: Dimen.SIDE_MARG),
-
-              _Button(
-                icon: MdiIcons.applicationEditOutline,
-                title: 'Utwórz przykładowe',
-                colorStart: Colors.lightBlue[AppSettings.isDark?700:300],
-                colorEnd: Colors.blue[AppSettings.isDark?900:700],
-                textColor: Colors.indigo[AppSettings.isDark?300:500],
-                description: 'Wybierz w pełni uzupełny przykład.\n\nSkorzystaj, jeżeli pierwszy raz tworzysz współzawodnictwo.',
-                onTap: () => onSelected!(NewCompType.example),
-              ),
-
-              const SizedBox(height: Dimen.SIDE_MARG),
 
               _JoinButton(
                 onSuccess: (comp) async {
@@ -91,101 +71,30 @@ class CompTypeWidget extends StatelessWidget{
                 },
               ),
 
+              const SizedBox(height: Dimen.SIDE_MARG),
+
+              CreateNewButton(
+                icon: MdiIcons.applicationOutline,
+                title: 'Utwórz puste',
+                description: 'Zacznij od pustego szablonu.\n\nSkorzystaj, jeżeli wiesz jak działają współzawodnictwa.',
+                onTap: () => onSelected!(NewCompType.empty),
+              ),
+
+              const SizedBox(height: Dimen.SIDE_MARG),
+
+              CreateNewButton(
+                icon: MdiIcons.applicationEditOutline,
+                title: 'Utwórz przykładowe',
+                description: 'Wybierz w pełni uzupełny przykład.\n\nSkorzystaj, jeżeli pierwszy raz tworzysz współzawodnictwo.',
+                onTap: () => onSelected!(NewCompType.example),
+              ),
+
             ]
         ),
       )
     );
 
   }
-
-}
-
-class _Button extends StatelessWidget{
-
-  final IconData icon;
-  final String title;
-  final String description;
-  final Widget? bottom;
-  final Color? colorStart;
-  final Color? colorEnd;
-  final Color? textColor;
-  final void Function()? onTap;
-
-  const _Button({required this.icon, required this.title, required this.description, this.bottom, required this.colorStart, required this.colorEnd, required this.textColor, this.onTap});
-
-  @override
-  Widget build(BuildContext context) => GradientWidget(
-    radius: IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.outerRadiusSizeFactor,
-    colorStart: colorStart!,
-    colorEnd: colorEnd!,
-    child: SimpleButton(
-        padding: EdgeInsets.zero,
-        margin: const EdgeInsets.all(IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.borderSizeFactor),
-        radius: IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.innerRadiusSizeFactor,
-        color: background_(context),
-        child: Stack(
-            children: [
-
-              Positioned.fill(
-                child: GradientWidget(
-                  colorStart: colorEnd!.withOpacity(.2),
-                  colorEnd: colorStart!.withOpacity(.2),
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-
-                    Row(
-                      children: [
-
-                        GradientIcon(
-                          icon,
-                          size: 58.0,
-                          colorStart: colorStart, // backgroundIcon_(context),
-                          colorEnd: colorEnd, //hintEnab_(context),
-                        ),
-
-                        const SizedBox(width: Dimen.SIDE_MARG),
-
-                        Expanded(child: Text(
-                          title,
-                          style: AppTextStyle(
-                            fontSize: Dimen.TEXT_SIZE_APPBAR,
-                            fontWeight: weight.bold,
-                          ),
-                        )),
-
-                      ],
-                    ),
-
-                    const SizedBox(height: Dimen.SIDE_MARG),
-
-                    Padding(
-                      padding: const EdgeInsets.only(left: 2),
-                      child: Text(
-                          description,
-                          style: AppTextStyle(
-                            fontSize: Dimen.TEXT_SIZE_BIG,
-                            color: textColor,
-                          )),
-                    ),
-
-                    if(bottom != null)
-                      bottom!,
-
-                  ],
-                ),
-              ),
-              
-            ]
-        ),
-        onTap: onTap
-    ),
-  );
 
 }
 
@@ -214,52 +123,47 @@ class _JoinButtonState extends State<_JoinButton>{
   }
 
   @override
-  Widget build(BuildContext context) {
-    return _Button(
-      icon: MdiIcons.applicationImport,
-      title: 'Dołącz do istniejącego',
-      colorStart: Colors.yellow[AppSettings.isDark?800:500],
-      colorEnd: Colors.orange[AppSettings.isDark?900:500],
-      textColor: Colors.brown[AppSettings.isDark?300:700],
-      description: 'Dołącz do współzawodnictwa utworzonego przez inną osobę.',
-      onTap: null,
-      bottom: Row(
-        children: [
+  Widget build(BuildContext context) => CreateNewButton(
+    icon: MdiIcons.applicationImport,
+    title: 'Dołącz do istniejącego',
+    description: 'Dołącz do współzawodnictwa utworzonego przez inną osobę.',
+    onTap: null,
+    bottom: Row(
+      children: [
 
-          Expanded(
-            child: AppTextFieldHint(
-              hint: 'Kod dostępu:',
-              hintStyle: AppTextStyle(color: hintEnab_(context)),
-              accentColor: Colors.deepOrange,
-              controller: controller,
-            ),
+        Expanded(
+          child: AppTextFieldHint(
+            hint: 'Kod dostępu:',
+            hintStyle: AppTextStyle(color: hintEnab_(context)),
+            accentColor: Colors.deepOrange,
+            controller: controller,
           ),
+        ),
 
-          IconButton(
-            icon:
-            processing?
-            SpinKitChasingDots(color: iconEnab_(context), size: Dimen.ICON_SIZE):
-            const Icon(MdiIcons.arrowRight),
+        IconButton(
+          icon:
+          processing?
+          SpinKitChasingDots(color: iconEnab_(context), size: Dimen.ICON_SIZE):
+          const Icon(MdiIcons.arrowRight),
 
-            onPressed: () async {
-              setState(() => processing = true);
-              await ApiIndivComp.joinByShareCode(
-                  searchCode: controller!.text,
-                  onSuccess: (comp){
-                    if(!mounted) return;
-                    widget.onSuccess.call(comp);
-                  },
-                  onError: (){
-                    if(mounted) showAppToast(context, text: 'Błędny kod dostępu');
-                  }
-              );
-              if(mounted) setState(() => processing = false);
-            },
-          ),
+          onPressed: () async {
+            setState(() => processing = true);
+            await ApiIndivComp.joinByShareCode(
+                searchCode: controller!.text,
+                onSuccess: (comp){
+                  if(!mounted) return;
+                  widget.onSuccess.call(comp);
+                },
+                onError: (){
+                  if(mounted) showAppToast(context, text: 'Błędny kod dostępu');
+                }
+            );
+            if(mounted) setState(() => processing = false);
+          },
+        ),
 
-        ],
-      ),
-    );
-  }
+      ],
+    ),
+  );
 
 }

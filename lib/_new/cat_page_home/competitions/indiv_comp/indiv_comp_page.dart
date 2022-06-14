@@ -860,7 +860,7 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
                                     setState(() => comp.shareCode = shareCode);
                                   },
                                   onError: (Map? errData){
-                                    if(errData!['errors'] != null && errData['errors']['share_code'] == 'share_code_changed_too_soon')
+                                    if(errData!['errors'] != null && errData['errors']['shareCode'] == 'share_code_changed_too_soon')
                                       showAppToast(context, text: 'Za często zmieniasz kod dostępu');
                                   }
                               );

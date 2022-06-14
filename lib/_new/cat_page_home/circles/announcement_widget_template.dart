@@ -1,17 +1,17 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_app_common/stripe_widget.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_link_previewer/flutter_link_previewer.dart' hide Size;
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
-import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_page.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendance_resp_mode.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/circle.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
@@ -25,6 +25,7 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'cover_image.dart';
 import 'model/announcement_attendace.dart';
@@ -34,6 +35,8 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
 
   static const double radius = 8.0;
   static const double elevation = 0;
+  static const int shrinkedTextMaxLines = 5;
+  static TextStyle textStyle = AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL);
 
   final Announcement announcement;
   final bool shrinkText;
@@ -84,6 +87,15 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
       else if(timeSincePosted.inDays == 1) timeDurStr += ' dzień';
     }
 
+    Size? textSize;
+    if(shrinkText) {
+      TextPainter textPainter = TextPainter(
+          text: TextSpan(text: announcement.text, style: textStyle),
+          textDirection: TextDirection.ltr
+      )..layout(minWidth: 0, maxWidth: double.infinity);
+      textSize = textPainter.size;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -129,7 +141,7 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
             children: [
 
               if(announcement.coverImage != null)
-                CoverImage(announcement.coverImage),
+                CoverImage(announcement.coverImage!),
 
               Container(
                   color: backgroundIcon_(context),
@@ -159,7 +171,11 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
                   )
               ),
 
-              if(announcement.isAwaitingMyResponse)
+
+              AnimatedSize(
+                duration: const Duration(milliseconds: 300),
+                child:
+                announcement.isAwaitingMyResponse?
                 Padding(
                   padding: const EdgeInsets.only(
                     top: Dimen.DEF_MARG,
@@ -205,7 +221,9 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
                         )
                     ),
                   ),
-                ),
+                ):
+                Container(),
+              ),
 
               Padding(
                 padding: const EdgeInsets.all(Dimen.SIDE_MARG),
@@ -304,13 +322,22 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
                       Text(
                           announcement.text,
                           style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL),
-                          maxLines: 5,
+                          maxLines: shrinkedTextMaxLines,
                           overflow: TextOverflow.ellipsis
                       )
                     else
                       SelectableText(
                         announcement.text,
                         style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL),
+                      ),
+
+                    if(shrinkText && textSize!.height > shrinkedTextMaxLines*(textStyle.fontSize! * (textStyle.height??1).toDouble()))
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: Dimen.DEF_MARG),
+                          child: Text('...czytaj dalej', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_NORMAL)),
+                        ),
                       )
 
                   ],
@@ -350,6 +377,9 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
 
               if(showPin || showEdit || announcement.isEvent)
                 const SizedBox(height: Dimen.SIDE_MARG - Dimen.ICON_MARG),
+
+              if(announcement.urlToPreview != null)
+                LinkPreviewer(announcement.urlToPreview!, palette),
 
             ],
           ),
@@ -1034,5 +1064,71 @@ class AttendaceIndicatorWidget extends StatelessWidget{
     );
 
   }
+
+}
+
+class LinkPreviewer extends StatefulWidget{
+
+  final String urlToPreview;
+  final PaletteGenerator? palette;
+  const LinkPreviewer(this.urlToPreview, this.palette, {super.key});
+
+  @override
+  State<StatefulWidget> createState() => LinkPreviewerState();
+
+}
+
+class LinkPreviewerState extends State<LinkPreviewer>{
+
+  String get urlToPreview => widget.urlToPreview;
+  PaletteGenerator? get palette => widget.palette;
+
+  dynamic data;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) => SimpleButton(
+    margin: const EdgeInsets.only(
+        left: Dimen.DEF_MARG,
+        right: Dimen.DEF_MARG,
+        bottom: Dimen.DEF_MARG
+    ),
+    elevation: 3,
+    color: CirclePage.backgroundColor(context, palette),
+    clipBehavior: Clip.hardEdge,
+    borderRadius: BorderRadius.circular(AnnouncementWidgetTemplate.radius),
+    onTap: () => launchURL(urlToPreview),
+    onLongPress: (){
+      Clipboard.setData(ClipboardData(text: urlToPreview));
+      showAppToast(context, text: 'Link skopiowany');
+    },
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        LinkPreview(
+          enableAnimation: true,
+          onPreviewDataFetched: (data) {
+            setState(() => this.data = data);
+          },
+          previewData: data,
+          text: urlToPreview,
+          textWidget: Text(urlToPreview, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppTextStyle()),
+          width: MediaQuery.of(context).size.width,
+          openOnPreviewTitleTap: true,
+          openOnPreviewImageTap: true,
+        ),
+
+        if(data == null)
+          Padding(
+            padding: const EdgeInsets.all(Dimen.ICON_MARG),
+            child: SpinKitChasingDots(size: Dimen.ICON_SIZE, color: CirclePage.strongColor(context, palette)),
+          )
+      ],
+    ),
+  );
 
 }

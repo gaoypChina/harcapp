@@ -1,18 +1,19 @@
-
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:flutter/material.dart';
 
 import 'indiv_comp_preview_grid.dart';
-import 'indiv_comp_prompt.dart';
 
 class IndivCompLoadingWidget extends StatelessWidget{
 
-  final bool singleLine;
-  const IndivCompLoadingWidget({this.singleLine = false, super.key});
+  final double width;
+  const IndivCompLoadingWidget({required this.width, super.key});
 
   @override
-  Widget build(BuildContext context) => IndivCompPrompt(
-      child: IndivCompPreviewGrid(singleLine: singleLine),
-      text: 'Ładowanie współzawodnictw...',
+  Widget build(BuildContext context) => IndivCompPreviewGrid.from(
+    width: width,
+    context: context,
+    icon: MdiIcons.refresh,
+    text: 'Ładowanie\nwspółzawodnictw',
   );
 
 }

@@ -9,7 +9,7 @@ Future<PaletteGenerator?> getPaletteGenerator(bool local, String? imgUrlOrFileNa
   return await PaletteGenerator.fromImageProvider(
     (local?
     AssetImage('assets/images/circle/cover_images/$imgUrlOrFileName'):
-    NetworkImage(imgUrlOrFileName)) as ImageProvider<Object>,
+    NetworkImage(imgUrlOrFileName, headers:{"Keep-Alive": "timeout=5"})) as ImageProvider<Object>,
   );
 
 }

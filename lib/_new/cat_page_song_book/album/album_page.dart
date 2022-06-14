@@ -159,7 +159,7 @@ class _AlbumItemState extends State<_AlbumItem>{
 
           AppButton(
             icon: Icon(MdiIcons.trashCanOutline, color: iconEnab_(context)),
-            onTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć $album_.'),
+            onTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć $album_'),
             onLongPress: (){
               AlbumProvider prov = Provider.of<AlbumProvider>(context, listen: false);
 

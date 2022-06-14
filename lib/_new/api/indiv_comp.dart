@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -104,9 +105,9 @@ class IndivTaskBody{
 class ApiIndivComp{
 
   static Future<Response?> getAll({
-    void Function(List<IndivComp>)? onSuccess,
-    Future<bool> Function()? notAuthorized,
-    void Function(Response? response)? onError,
+    FutureOr<void> Function(List<IndivComp>)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<void> Function(Response? response)? onError,
   }) async => await API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) => dio.get(
@@ -119,13 +120,15 @@ class ApiIndivComp{
 
       onSuccess?.call(compList);
     },
+    onForceLoggedOut: onForceLoggedOut,
     onError: (err) async => onError?.call(err.response)
   );
 
   static Future<Response?> get({
     required String compKey,
-    void Function(IndivComp comp)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(IndivComp comp)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<void> Function()? onError,
   }) async => await API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) => dio.get(
@@ -135,6 +138,7 @@ class ApiIndivComp{
       IndivComp comp = IndivComp.fromResponse(response.data);
       onSuccess?.call(comp);
     },
+    onForceLoggedOut: onForceLoggedOut,
     onError: (_) async => onError?.call(),
   );
 
@@ -148,7 +152,10 @@ class ApiIndivComp{
     required RankDispType? rankDispType,
     required List<String?>? awards,
 
-    void Function(IndivComp comp)? onSuccess,
+    FutureOr<void> Function(IndivComp comp)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<void> Function()? onError,
+
   }) async {
 
     List<Map<String, dynamic>> tasksReqData = [];
@@ -178,42 +185,49 @@ class ApiIndivComp{
       onSuccess: (Response response, DateTime now) async{
         IndivComp comp = IndivComp.fromResponse(response.data);
         onSuccess?.call(comp);
-      }
+      },
+      onForceLoggedOut: onForceLoggedOut,
+      onError: (_) => onError?.call(),
     );
 
   }
 
   static Future<Response?> delete({
     required String compKey,
-    void Function()? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function()? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/indivComp/$compKey',
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+      onForceLoggedOut: onForceLoggedOut,
       onError: (DioError err) async => onError?.call()
   );
 
   static Future<Response?> resetShareCode({
     required String compKey,
-    void Function(String?)? onSuccess,
-    void Function(Map?)? onError,
+    FutureOr<void> Function(String?)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<void> Function(Map?)? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/indivComp/$compKey/shareCode',
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
+      onForceLoggedOut: onForceLoggedOut,
       onError: (DioError err) async => onError?.call(err.response!.data)
   );
 
   static Future<Response?> setShareCodeSearchable({
     required String compKey,
     required bool searchable,
-    void Function(bool)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(bool)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.post(
@@ -221,12 +235,14 @@ class ApiIndivComp{
         data: FormData.fromMap({'searchable': searchable}),
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data['shareCodeSearchable']??false),
+      onForceLoggedOut: onForceLoggedOut,
       onError: (DioError err) async => onError?.call()
   );
 
   static Future<Response?> joinByShareCode({
     required String searchCode,
     void Function(IndivComp)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
     void Function()? onError,
   }) => API.sendRequest(
       withToken: true,
@@ -240,6 +256,7 @@ class ApiIndivComp{
         IndivComp comp = IndivComp.fromResponse(response.data);
         onSuccess?.call(comp);
       },
+      onForceLoggedOut: onForceLoggedOut,
       onError: (DioError err) async => onError?.call()
   );
 
@@ -255,7 +272,10 @@ class ApiIndivComp{
     required List<String?> removeTasks,
     RankDispType? rankDispType,
     List<String?>? awards,
-    void Function(IndivComp comp)? onSuccess,
+
+    FutureOr<void> Function(IndivComp comp)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+
   }) async{
 
     List<Map<String, dynamic>> taskCreateReqData = [];
@@ -295,7 +315,8 @@ class ApiIndivComp{
         if(onSuccess==null) return;
         IndivComp comp = IndivComp.fromResponse(response.data);
         onSuccess(comp);
-      }
+      },
+      onForceLoggedOut: onForceLoggedOut,
     );
 
   }
@@ -303,8 +324,10 @@ class ApiIndivComp{
   static Future<Response?> addUsers({
     required String compKey,
     required List<ParticipBodyNick> users,
-    void Function(List<IndivCompParticip>)? onSuccess,
-    void Function()? onError,
+
+    FutureOr<void> Function(List<IndivCompParticip>)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<void> Function()? onError,
   }) async{
 
     List<Map<String, dynamic>> body = [];
@@ -331,6 +354,7 @@ class ApiIndivComp{
 
         onSuccess(particips);
       },
+      onForceLoggedOut: onForceLoggedOut,
       onError: (err) async => onError?.call()
     );
 
@@ -339,8 +363,9 @@ class ApiIndivComp{
   static Future<Response?> updateUsers({
     required String compKey,
     required List<ParticipBody> users,
-    void Function(List<IndivCompParticip>)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(List<IndivCompParticip>)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<void> Function()? onError,
   }) async{
 
     List<Map<String, dynamic>> body = [];
@@ -367,6 +392,7 @@ class ApiIndivComp{
 
           onSuccess(particips);
         },
+        onForceLoggedOut: onForceLoggedOut,
         onError: (err) async => onError?.call()
     );
 
@@ -375,8 +401,9 @@ class ApiIndivComp{
   static Future<Response?> removeUsers({
     required String compKey,
     required List<String> userIds,
-    void Function(List<String> removedKeys)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(List<String> removedKeys)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.delete(
@@ -386,13 +413,15 @@ class ApiIndivComp{
       onSuccess: (Response response, DateTime now) async {
         onSuccess?.call((response.data as List).cast<String>());
       },
+      onForceLoggedOut: onForceLoggedOut,
       onError: (err) async => onError?.call()
   );
 
   static Future<Response?> leave({
     required String compKey,
-    void Function()? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function()? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.delete(
@@ -401,6 +430,7 @@ class ApiIndivComp{
       onSuccess: (Response response, DateTime now) async {
         onSuccess?.call();
       },
+      onForceLoggedOut: onForceLoggedOut,
       onError: (err) async => onError?.call()
   );
 
@@ -410,8 +440,9 @@ class ApiIndivComp{
     String? comment,
     List<String>? userKeys,
 
-    void Function(List<IndivCompTaskCompl>, Map<String, ShowRankData>)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(List<IndivCompTaskCompl>, Map<String, ShowRankData>)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) => dio.post(
@@ -445,19 +476,22 @@ class ApiIndivComp{
           idRankMap
       );
     },
+    onForceLoggedOut: onForceLoggedOut,
     onError: (_) async => onError?.call()
   );
 
   static Future<Response?> removeTaskComplReq({
     required String taskComplKey,
 
-    void Function(String removedId)? onSuccess,
+    FutureOr<void> Function(String removedId)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
   }) => API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/indivComp/task/request/$taskComplKey'
     ),
-    onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data)
+    onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
+    onForceLoggedOut: onForceLoggedOut,
   );
 
   static Future<Response?> getAllPendingTaskComplRevs({
@@ -466,7 +500,8 @@ class ApiIndivComp{
     required List<IndivCompParticip> allParticipants,
     required List<IndivCompTask> allTasks,
 
-    void Function(Map<IndivCompParticip, List<IndivCompTaskCompl>> pendingComplTasks)? onSuccess,
+    FutureOr<void> Function(Map<IndivCompParticip, List<IndivCompTaskCompl>> pendingComplTasks)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
   }) => API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) => dio.get(
@@ -488,15 +523,17 @@ class ApiIndivComp{
       }
 
       onSuccess?.call(pendingComplTasks);
-    }
+    },
+    onForceLoggedOut: onForceLoggedOut,
   );
 
   static Future<Response?> reviewCompletedTasks({
     required String taskReqKey,
     required TaskAcceptState acceptState,
     required String revComment,
-    void Function(String complTaskKey)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(String complTaskKey)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<void> Function()? onError,
 
   }) => API.sendRequest(
     withToken: true,
@@ -509,6 +546,7 @@ class ApiIndivComp{
         }),
     ),
     onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
+    onForceLoggedOut: onForceLoggedOut,
     onError: (_) async => onError?.call()
   );
 

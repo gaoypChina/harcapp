@@ -377,6 +377,7 @@ class ApiCircle{
     DateTime? startTime,
     DateTime? endTime,
     String? place,
+    String? urlToPreview,
     String? coverImageUrl,
     required String text,
     required AnnouncementAttendanceRespMode respMode,
@@ -392,6 +393,7 @@ class ApiCircle{
           if(startTime != null) 'startTimeStr': startTime.toIso8601String(),
           if(endTime != null) 'endTimeStr': endTime.toIso8601String(),
           if(place != null) 'place': place,
+          if(urlToPreview != null) 'urlToPreview': urlToPreview,
           if(coverImageUrl != null) 'coverImageUrl': coverImageUrl,
           'text': text,
           'attendanceRespMode': announcementAttendanceRespModeToStr[respMode],
@@ -408,6 +410,7 @@ class ApiCircle{
     Optional<DateTime?> startTime = const Optional.empty(),
     Optional<DateTime?> endTime = const Optional.empty(),
     Optional<String?> place = const Optional.empty(),
+    Optional<String?> urlToPreview = const Optional.empty(),
     Optional<String?> coverImageUrl = const Optional.empty(),
     Optional<String?> text = const Optional.empty(),
     Optional<AnnouncementAttendanceRespMode> respMode = const Optional.empty(),
@@ -431,6 +434,8 @@ class ApiCircle{
           endTime.value!.toIso8601String(),
 
           if(place.isPresent) 'place': place.value,
+
+          if(urlToPreview.isPresent) 'urlToPreview': urlToPreview.value,
 
           if(coverImageUrl.isPresent) 'coverImageUrl': coverImageUrl.value,
 

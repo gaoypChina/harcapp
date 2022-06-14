@@ -97,7 +97,9 @@ class AnnouncementExpandedPage extends StatelessWidget{
                   itemBuilder: (context, index) => MemberTile(
                     announcement,
                     announcement.circle!.members[index],
-                    palette
+                    palette,
+                    thumbnailColor: CirclePage.backgroundColor(context, palette),
+                    thumbnailBorderColor: CirclePage.cardColor(context, palette),
                   )
                 )
 
@@ -114,8 +116,10 @@ class MemberTile extends StatefulWidget{
   final Announcement announcement;
   final Member member;
   final PaletteGenerator? palette;
+  final Color? thumbnailColor;
+  final Color? thumbnailBorderColor;
 
-  const MemberTile(this.announcement, this.member, this.palette, {super.key});
+  const MemberTile(this.announcement, this.member, this.palette, {this.thumbnailColor, this.thumbnailBorderColor, super.key});
 
   @override
   State<StatefulWidget> createState() => MemberTileState();
@@ -127,6 +131,9 @@ class MemberTileState extends State<MemberTile>{
   Announcement get announcement => widget.announcement;
   Member get member => widget.member;
   PaletteGenerator? get palette => widget.palette;
+
+  Color? get thumbnailColor => widget.thumbnailColor;
+  Color? get thumbnailBorderColor => widget.thumbnailBorderColor;
 
   @override
   Widget build(BuildContext context){
@@ -155,6 +162,10 @@ class MemberTileState extends State<MemberTile>{
       null:
       Icon(MdiIcons.circleMedium, color: hintEnab_(context)),
       onTap: () => openParticipantDetails(context, member),
+      
+      thumbnailColor: thumbnailColor,
+      thumbnailBorderColor: thumbnailBorderColor,
+      
     );
 
   }

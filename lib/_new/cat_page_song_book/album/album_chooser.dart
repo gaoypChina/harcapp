@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
@@ -87,22 +88,29 @@ class AlbumChooserState extends State<AlbumChooser>{
 
 class _NoAlbumsWidget extends StatelessWidget{
 
+
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Padding(
+      padding: const EdgeInsets.all(Dimen.ICON_MARG),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const SizedBox(width: Dimen.ICON_MARG),
+          Icon(MdiIcons.bookmarkOffOutline, color: hintEnab_(context)),
+          const SizedBox(width: Dimen.ICON_MARG),
+          Text(
+            'Brak $albumow_',
+            style: AppTextStyle(
+              color: hintEnab_(context),
+              fontWeight: weight.halfBold,
+              fontSize: Dimen.TEXT_SIZE_BIG
+            )
+          ),
+          const SizedBox(width: Dimen.ICON_FOOTPRINT),
 
-    return Padding(
-        padding: const EdgeInsets.all(Dimen.ICON_MARG),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            const SizedBox(width: 2*AppCard.NORM_MARGIN_VAL),
-            Icon(MdiIcons.bookmarkOffOutline, color: hintEnab_(context)),
-            const SizedBox(width: Dimen.ICON_MARG),
-            Text('Brak $albumow_.', style: AppTextStyle(color: hintEnab_(context), fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
-          ],
-        )
-    );
-
-  }
+        ],
+      )
+  );
 
 }

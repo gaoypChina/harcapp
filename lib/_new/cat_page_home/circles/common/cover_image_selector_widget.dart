@@ -7,6 +7,7 @@ import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/_new/details/part_contributors.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -62,6 +63,8 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
 
   late bool currAnimDark;
   late bool previewDark;
+
+  bool? networkImgLoadedWithError;
 
   void animate() async {
     while(true){
@@ -124,6 +127,12 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
                 IconButton(
                   icon: const Icon(MdiIcons.check),
                   onPressed: (){
+
+                    if((networkImgLoadedWithError == null || networkImgLoadedWithError == true) && bottomIndex == 1){
+                      showAppToast(context, text: 'Błąd ładowania grafiki');
+                      return;
+                    }
+
                     if(!canChooseNull && selected == null){
                       showAppToast(context, text: 'Nie można nie wybrać grafiki');
                       return;
@@ -158,15 +167,27 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
                             controller.text,
                             fit: BoxFit.cover,
                             height: CoverImageWidget.height,
-                            errorBuilder: (context, __, _) => SizedBox(
-                              width: double.infinity,
-                              height: CoverImageWidget.height,
-                              child:  Icon(
-                                MdiIcons.linkOff,
-                                color: backgroundIcon_(context),
-                                size: 100,
-                              ),
-                            ),
+                            loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? imageChunkEvent){
+                              if(imageChunkEvent != null && imageChunkEvent.cumulativeBytesLoaded == imageChunkEvent.expectedTotalBytes)
+                                post(() => setState(() => networkImgLoadedWithError = false));
+
+                              return child;
+                            },
+                            errorBuilder: (BuildContext context, Object object, StackTrace? stackTrace){
+
+                              if(stackTrace != null)
+                                post(() => setState(() => networkImgLoadedWithError = true));
+
+                              return SizedBox(
+                                width: double.infinity,
+                                height: CoverImageWidget.height,
+                                child:  Icon(
+                                  MdiIcons.linkOff,
+                                  color: backgroundIcon_(context),
+                                  size: 100,
+                                ),
+                              );
+                            }
                           ),
 
                         if(canChooseNull && (bottomIndex == 0 || controller.text.isNotEmpty))
@@ -198,7 +219,6 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
                               ),
                             ),
                           ),
-
 
                       ],
                     );

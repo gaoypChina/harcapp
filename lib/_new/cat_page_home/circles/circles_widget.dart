@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/circles/start_widgets/circle_loading_widget.dart';
-import 'package:harcapp/_new/cat_page_home/circles/start_widgets/circle_preview_grid.dart';
-import 'package:harcapp/_new/cat_page_home/circles/start_widgets/circle_prompt.dart';
+import 'package:harcapp/_new/cat_page_home/circles/start_widgets/circle_preview_widget.dart';
 import 'package:harcapp/_new/cat_page_home/circles/start_widgets/circle_prompt_login.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
@@ -13,6 +12,7 @@ import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
+import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -107,10 +107,11 @@ class CirclesWidgetState extends State<CirclesWidget>{
       builder: (context, loginProv, indivCompProv, child) {
 
         if(!networkAvailable)
-          return CirclePrompt(
+          return CirclePreviewWidget.from(
+            context: context,
+            width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
             text: 'Brak internetu',
             icon: MdiIcons.earthOff,
-            child: CirclePreviewGrid(singleLine: singleLine),
           );
         else if(loginProvider.loggedIn){
 
@@ -125,20 +126,24 @@ class CirclesWidgetState extends State<CirclesWidget>{
                     child: Container(),
                   ),
                 ),
-                IgnorePointer(child: CirclePrompt(
-                    icon: MdiIcons.accountReactivateOutline,
-                    text: 'Aktywuj konto, by współzawodniczyć',
-                    child: CirclePreviewGrid(singleLine: singleLine)
-                )),
+                CirclePreviewWidget.from(
+                  context: context,
+                  width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
+                  icon: MdiIcons.accountReactivateOutline,
+                  text: 'Aktywuj konto, by współzawodniczyć',
+                ),
               ],
             );
           else if(circleLoader.running)
-            return CircleLoadingWidget(singleLine: singleLine);
+            return CircleLoadingWidget(
+              width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG
+            );
           else if(Circle.all == null)
-            return CirclePrompt(
+            return CirclePreviewWidget.from(
+              context: context,
+              width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
               text: 'Mamy problem',
               icon: MdiIcons.closeOutline,
-              child: CirclePreviewGrid(singleLine: singleLine),
             );
           else
             return circleWidgetBuilder(Circle.all);
@@ -154,7 +159,9 @@ class CirclesWidgetState extends State<CirclesWidget>{
                   child: Container(),
                 ),
               ),
-              IgnorePointer(child: CirclePromptLogin(singleLine: singleLine)),
+              CirclePromptLogin(
+                width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
+              ),
             ],
           );
 

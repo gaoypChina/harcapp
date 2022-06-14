@@ -10,6 +10,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class AccountReasonPage extends StatelessWidget{
 
+  const AccountReasonPage({super.key});
+
   @override
   Widget build(BuildContext context) => AppScaffold(
     body: CustomScrollView(
@@ -25,6 +27,51 @@ class AccountReasonPage extends StatelessWidget{
         SliverPadding(
           padding: const EdgeInsets.all(Dimen.SIDE_MARG),
           sliver: SliverList(delegate: SliverChildListDelegate([
+
+            TitleShortcutRowWidget(
+                title: 'Kręgi',
+                textAlign: TextAlign.start,
+                titleColor: hintEnab_(context),
+                trailing: GradientIcon(
+                  MdiIcons.googleCircles,
+                  colorStart: Colors.red,
+                  colorEnd: Colors.deepPurple[700],
+                  size: 28.0,
+                )
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: TitleShortcutRowWidget.textStartPadding),
+              child: Text(
+                'Stwórz lub dołącz do kręgu zastępu, drużyny i szczepu!'
+                '\n\nWszystkie ważne informacje i ogłoszenia są w jednym miejscu.',
+                style: AppTextStyle(),
+              ),
+            ),
+
+            const SizedBox(height: Dimen.SIDE_MARG),
+
+            TitleShortcutRowWidget(
+                title: 'Współzawodnictwa',
+                textAlign: TextAlign.start,
+                titleColor: hintEnab_(context),
+                trailing: const GradientIcon(
+                  MdiIcons.gold,
+                  colorStart: Colors.yellow,
+                  colorEnd: Colors.deepOrange,
+                  size: 28.0,
+                )
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: TitleShortcutRowWidget.textStartPadding),
+              child: Text(
+                'Wszystkie współzawodnictwa, które prowadzisz i w których uczestniczysz są dostępne w Twojej kieszeni. Wszystkie przyznane punkty są natychmiast dostępne uczestnikom.',
+                style: AppTextStyle(),
+              ),
+            ),
+
+            const SizedBox(height: Dimen.SIDE_MARG),
 
             TitleShortcutRowWidget(
                 title: 'Syncrhonizacja',
@@ -87,28 +134,6 @@ class AccountReasonPage extends StatelessWidget{
             ListTile(
               leading: const Icon(MdiIcons.toolboxOutline),
               title: Text('Sprawności', style: AppTextStyle()),
-            ),
-
-            const SizedBox(height: Dimen.SIDE_MARG),
-
-            TitleShortcutRowWidget(
-                title: 'Współzawodnictwa',
-                textAlign: TextAlign.start,
-                titleColor: hintEnab_(context),
-                trailing: const GradientIcon(
-                    MdiIcons.gold,
-                    colorStart: Colors.yellow,
-                    colorEnd: Colors.deepOrange,
-                    size: 28.0,
-                )
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: TitleShortcutRowWidget.textStartPadding),
-              child: Text(
-                'Wszystkie współzawodnictwa, które prowadzisz i w których uczestniczysz są dostępne w Twojej kieszeni. Wszystkie przyznane punkty są natychmiast dostępne uczestnikom.',
-                style: AppTextStyle(),
-              ),
             ),
 
             const SizedBox(height: Dimen.SIDE_MARG),

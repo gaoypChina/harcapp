@@ -1,18 +1,22 @@
 
 import 'package:flutter/material.dart';
 
-import 'circle_preview_grid.dart';
-import 'circle_prompt.dart';
+import 'circle_preview_widget.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CircleLoadingWidget extends StatelessWidget{
 
-  final bool singleLine;
-  const CircleLoadingWidget({this.singleLine = false, super.key});
+  final double width;
+  final EdgeInsets padding;
+  const CircleLoadingWidget({required this.width, this.padding = EdgeInsets.zero, super.key});
 
   @override
-  Widget build(BuildContext context) => CirclePrompt(
-      child: CirclePreviewGrid(singleLine: singleLine),
-      text: 'Ładowanie kręgów...',
+  Widget build(BuildContext context) => CirclePreviewWidget.from(
+    context: context,
+    width: width,
+    padding: padding,
+    icon: MdiIcons.refresh,
+    text: 'Ładowanie kręgów...',
   );
 
 }

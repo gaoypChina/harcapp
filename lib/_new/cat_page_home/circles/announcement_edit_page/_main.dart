@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_link_previewer/flutter_link_previewer.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
@@ -68,11 +69,14 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
   late TextEditingController titleController;
   late TextEditingController textController;
+  late TextEditingController urlToPreviewController;
   late TextEditingController placeController;
   bool get placeEnabled => placeController.text.isNotEmpty;
 
   DateTime? startTime;
   DateTime? endTime;
+
+  dynamic previewData;
 
   late AnnouncementAttendanceRespMode attRespMode;
 
@@ -85,6 +89,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
     coverImage = initAnnouncement?.coverImage;
     titleController = TextEditingController(text: initAnnouncement?.title??'');
     textController = TextEditingController(text: initAnnouncement?.text??'');
+    urlToPreviewController = TextEditingController(text: initAnnouncement?.text??'');
     placeController = TextEditingController(text: initAnnouncement?.place??'');
 
     startTime = initAnnouncement?.startTime;
@@ -129,6 +134,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                   startTime: startTime,
                   endTime: endTime,
                   place: placeController.text,
+                  urlToPreview: urlToPreviewController.text,
                   author: UserData(
                     key: AccountData.key!,
                     name: AccountData.name!,
@@ -241,6 +247,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
               controller: titleController,
               style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
               maxLines: 1,
+              textCapitalization: TextCapitalization.sentences
             ),
 
             const SizedBox(height: 10),
@@ -251,6 +258,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
               controller: textController,
               style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL),
               maxLines: null,
+              textCapitalization: TextCapitalization.sentences
             ),
 
           ])),
@@ -263,6 +271,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
               subtitle: Text('Służba, zbiórka, biwak, rajd, obóz...!', style: AppTextStyle(color: hintEnab_(context))),
               value: eventMode,
               onChanged: (value) => setState(() => eventMode = value),
+              activeColor: CirclePage.strongColor(context, palette),
               contentPadding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
           ),
 
@@ -347,7 +356,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
                             icon: MdiIcons.calendarBlankOutline,
                             text: startTime==null?
-                            'Czas rozpoczęcia':
+                            'Czas rozpoczęcia:':
                             'Początek: ${dateToString(startTime, shortMonth: true, withTime: true)}',
                             fontWeight: weight.normal,
                             onTap: startTime == null?null:() => showScrollBottomSheet(
@@ -407,7 +416,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
                             icon: MdiIcons.calendarCheckOutline,
                             text: endTime==null?
-                            'Czas zakończenia':
+                            'Czas zakończenia:':
                             'Zakończ.:  ${dateToString(endTime, shortMonth: true, withTime: true)}',
                             fontWeight: weight.normal,
                             onTap: endTime == null?null:() => showScrollBottomSheet(
@@ -456,7 +465,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
                         Expanded(
                           child: AppTextFieldHint(
-                            hint: 'Dodaj miejsce',
+                            hint: 'Miejsce:',
                             hintTop: '',
                             controller: placeController,
                             style: AppTextStyle(color: iconEnab_(context)),
@@ -484,6 +493,72 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
               ):
               Container()
           ),
+
+        ])),
+
+        SliverList(delegate: SliverChildListDelegate([
+
+          const SizedBox(height: Dimen.SIDE_MARG),
+
+          Padding(
+              padding: const EdgeInsets.only(
+                  left: Dimen.SIDE_MARG,
+                  right: Dimen.SIDE_MARG - Dimen.ICON_MARG
+              ),
+              child: Row(
+                children: [
+
+                  Expanded(
+                    child: AppTextFieldHint(
+                        hint: 'Link z podglądem:',
+                        hintTop: 'Link z podglądem',
+                        controller: urlToPreviewController,
+                        onAnyChanged: (_){
+                          previewData = null;
+                          setState(() {});
+                        },
+                        style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL),
+                        maxLines: 1,
+                        textCapitalization: TextCapitalization.sentences
+                    ),
+                  ),
+
+                  if(urlToPreviewController.text.isNotEmpty)
+                    IconButton(
+                      icon: const Icon(MdiIcons.close),
+                      onPressed: (){
+                        previewData = null;
+                        setState(() => urlToPreviewController.clear());
+                      },
+                    )
+
+                ],
+              )
+          ),
+
+          if(urlToPreviewController.text.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+              child: Material(
+                elevation: 4.0,
+                borderRadius: BorderRadius.circular(AnnouncementWidgetTemplate.radius),
+                color: CirclePage.cardColor(context, palette),
+                clipBehavior: Clip.hardEdge,
+                child: LinkPreview(
+                  enableAnimation: true,
+                  onPreviewDataFetched: (data) {
+                    setState(() => previewData = data);
+                  },
+                  previewData: previewData,
+                  text: urlToPreviewController.text,
+                  width: MediaQuery.of(context).size.width,
+
+                  openOnPreviewTitleTap: true,
+                  openOnPreviewImageTap: true,
+                  //key: ValueKey(urlToPreviewController.text),
+                ),
+              ),
+            )
 
         ])),
 
@@ -528,6 +603,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                         startTime: eventMode?startTime:null,
                         endTime: eventMode?endTime:null,
                         place: eventMode?placeController.text:null,
+                        urlToPreview: urlToPreviewController.text,
                         coverImageUrl: coverImage?.code,
                         text: textController.text,
                         respMode: eventMode?attRespMode:AnnouncementAttendanceRespMode.NONE,
@@ -569,6 +645,11 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                         eventMode?
                         Optional.ofNullable(placeEnabled?placeController.text:null):
                         Optional.ofNullable(null),
+
+                        urlToPreview:
+                        initAnnouncement!.place == placeController.text?
+                        const Optional.empty():
+                        Optional.ofNullable(urlToPreviewController.text),
 
                         coverImageUrl:
                         initAnnouncement!.coverImage?.code == coverImage?.code?

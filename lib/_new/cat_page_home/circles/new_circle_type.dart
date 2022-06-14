@@ -12,6 +12,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import '../../../_common_widgets/bottom_sheet.dart';
 import '../../api/circle.dart';
+import '../common.dart';
 import 'circle_page.dart';
 import 'model/circle.dart';
 
@@ -51,15 +52,6 @@ class CircleTypeWidget extends StatelessWidget{
       mainAxisSize: MainAxisSize.min,
       children: [
 
-        _Button(
-          icon: MdiIcons.applicationOutline,
-          title: 'Utwórz nowy',
-          description: 'Zawiąż nowy krąg.',
-          onTap: () => onSelected!(NewCircleType.empty),
-        ),
-
-        const SizedBox(height: Dimen.SIDE_MARG),
-
         _JoinButton(
           onSuccess: (comp) async {
             onSelected!(NewCircleType.join);
@@ -68,59 +60,16 @@ class CircleTypeWidget extends StatelessWidget{
           },
         ),
 
-      ]
-  );
+        const SizedBox(height: Dimen.SIDE_MARG),
 
-}
-
-class _Button extends StatelessWidget{
-
-  final IconData icon;
-  final String title;
-  final String description;
-  final Widget? bottom;
-  final void Function()? onTap;
-
-  const _Button({required this.icon, required this.title, required this.description, this.bottom, this.onTap});
-
-  @override
-  Widget build(BuildContext context) => SimpleButton(
-      padding: EdgeInsets.zero,
-      radius: AppCard.BIG_RADIUS,
-      color: background_(context),
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-
-            Text(
-              title,
-              style: AppTextStyle(
-                fontSize: Dimen.TEXT_SIZE_APPBAR,
-                fontWeight: weight.bold,
-              ),
-            ),
-
-            const SizedBox(height: Dimen.SIDE_MARG),
-
-            Padding(
-              padding: const EdgeInsets.only(left: 2),
-              child: Text(
-                  description,
-                  style: AppTextStyle(
-                    fontSize: Dimen.TEXT_SIZE_BIG,
-                  )),
-            ),
-
-            if(bottom != null)
-              bottom!,
-
-          ],
+        CreateNewButton(
+          icon: MdiIcons.applicationOutline,
+          title: 'Utwórz nowy',
+          description: 'Zawiąż nowy krąg.',
+          onTap: () => onSelected!(NewCircleType.empty),
         ),
-      )
+
+      ]
   );
 
 }
@@ -151,7 +100,7 @@ class _JoinButtonState extends State<_JoinButton>{
 
   @override
   Widget build(BuildContext context) {
-    return _Button(
+    return CreateNewButton(
       icon: MdiIcons.applicationImport,
       title: 'Dołącz do istniejącego',
       description: 'Dołącz do kręgu zawiązanego przez inną osobę.',

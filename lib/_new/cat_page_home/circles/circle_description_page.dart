@@ -147,7 +147,7 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
       },
       builder: (context, child) =>
       paletteAlways == null?
-      const CircleLoadingWidget():
+      const _CircleLoadingWidget():
       SmartRefresher(
           enablePullDown: true,
           physics: const BouncingScrollPhysics(),
@@ -187,9 +187,9 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
 
 }
 
-class CircleLoadingWidget extends StatelessWidget{
+class _CircleLoadingWidget extends StatelessWidget{
 
-  const CircleLoadingWidget({super.key});
+  const _CircleLoadingWidget({super.key});
 
   @override
   Widget build(BuildContext context) => Center(

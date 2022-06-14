@@ -11,7 +11,7 @@ import 'model/circle.dart';
 class CircleTile extends StatelessWidget{
   
   final Circle circle;
-  final void Function()? onTap;
+  final void Function(Circle)? onTap;
   const CircleTile(this.circle, {this.onTap, super.key});
 
   @override
@@ -29,7 +29,7 @@ class CircleTile extends StatelessWidget{
               children: [
 
                 InkWell(
-                  onTap: onTap,
+                  onTap: () => onTap?.call(circle),
                   child: Material(
                     child: CoverImage(circle.coverImage),
                   ),

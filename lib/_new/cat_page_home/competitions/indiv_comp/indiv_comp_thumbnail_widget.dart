@@ -61,8 +61,6 @@ class IndivCompThumbnailWidget extends StatelessWidget{
           onTap: onTap,
           elevation: elevation,
           radius: outerRadiusSizeFactor*size,
-          margin: EdgeInsets.zero,
-          padding: EdgeInsets.zero,
           color: colors.colorStart,
           colorEnd: colors.colorEnd,
           child: Padding(

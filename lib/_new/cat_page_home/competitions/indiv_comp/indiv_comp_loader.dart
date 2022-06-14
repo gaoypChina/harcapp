@@ -10,15 +10,12 @@ class IndivCompLoaderListener extends SingleComputerListener<String>{
   final void Function(List<IndivComp>)? onIndivCompsLoaded;
 
   const IndivCompLoaderListener({
-    void Function()? onStart,
-    Future<void> Function(String?)? onError,
+    super.onStart,
     this.onIndivCompsLoaded,
-    void Function(String? err, bool forceFinished)? onEnd
-  }):super(
-      onStart: onStart,
-      onError: onError,
-      onEnd: onEnd,
-  );
+    super.onError,
+    super.onForceLoggedOut,
+    super.onEnd
+  });
 
 }
 
@@ -43,8 +40,11 @@ class IndivCompLoader extends SingleComputer<String?, IndivCompLoaderListener>{
           for(IndivCompLoaderListener? listener in listeners)
             listener!.onIndivCompsLoaded?.call(comps);
         },
-        notAuthorized: () async {
-          await callError('not_authorized');
+        onForceLoggedOut: () async {
+
+          for(IndivCompLoaderListener? listener in listeners)
+            listener!.onForceLoggedOut?.call();
+
           return true;
         },
         onError: (resp) => callError(null),

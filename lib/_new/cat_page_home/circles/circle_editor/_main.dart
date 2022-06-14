@@ -56,8 +56,8 @@ class CircleEditorPageState extends State<CircleEditorPage>{
 
   void calcLocalBackgronudColor() async {
     _palette = await getPaletteGenerator(
-        initCircle!.coverImage!.local,
-        initCircle!.coverImage!.firstFileName
+        initCircle!.coverImage.local,
+        initCircle!.coverImage.firstFileName
     );
     setState(() {});
   }
@@ -124,9 +124,9 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                             description: Provider.of<DescriptionProvider>(context, listen: false).descriptionController.text,
                             coverImageUrl: Provider.of<CoverImageProvider>(context, listen: false).coverImage!.code,
                             colorsKey: Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey,
-                            onSuccess: (circle){
-                              popPage(context); // Close loading widget.
-                              popPage(context);
+                            onSuccess: (circle) async {
+                              await popPage(context); // Close loading widget.
+                              await popPage(context);
                               onSaved?.call(circle);
                             },
                             onError: onError
@@ -153,7 +153,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                             Optional.ofNullable(description),
 
                             coverImageUrl:
-                            initCircle!.coverImage?.code == coverImageCode?
+                            initCircle!.coverImage.code == coverImageCode?
                             const Optional.empty():
                             Optional.ofNullable(coverImageCode),
 
@@ -162,9 +162,9 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                             const Optional.empty():
                             Optional.ofNullable(colorsKey),
 
-                            onSuccess: (circle){
-                              popPage(context); // Close loading widget.
-                              popPage(context);
+                            onSuccess: (circle) async {
+                              await popPage(context); // Close loading widget.
+                              await popPage(context);
                               onSaved?.call(circle);
                             },
                             onError: onError

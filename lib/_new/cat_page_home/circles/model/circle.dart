@@ -140,7 +140,7 @@ class Circle{
   final String key;
   String name;
   String? description;
-  CircleCoverImageData? coverImage;
+  CircleCoverImageData coverImage;
   final String? shareCode;
   final bool? shareCodeSearchable;
   String colorsKey;
@@ -356,7 +356,7 @@ class Circle{
     required this.key,
     required this.name,
     this.description,
-    this.coverImage,
+    required this.coverImage,
     this.shareCode,
     this.shareCodeSearchable,
     required this.colorsKey,

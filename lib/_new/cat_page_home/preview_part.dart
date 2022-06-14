@@ -137,7 +137,9 @@ class PreviewPartState extends State<PreviewPart>{
 
                 if(mounted) setState((){});
               },
-              onError: () => showAppToast(context, text: 'Coś poszło nie tak...')
+              onError: (){
+                if(mounted) showAppToast(context, text: 'Coś poszło nie tak...');
+              }
           );
 
           if(mounted) refreshController.refreshCompleted();

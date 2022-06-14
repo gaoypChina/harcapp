@@ -18,16 +18,12 @@ class IndivCompTile extends StatelessWidget{
   static const double textSizeVal = 42.0;
   static const double textSizePkt = 32.0;
 
-  final Widget? leading;
   final IndivComp comp;
+  final Widget? leading;
+  final void Function(IndivComp)? onTap;
   final bool showPinned;
 
-  IndivCompTile(this.comp, {this.leading, this.showPinned = false}): super(key: ValueKey(comp));
-
-  void openCompPage(BuildContext context) => Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => IndivCompPage(comp))
-  );
+  IndivCompTile(this.comp, {this.leading, this.onTap, this.showPinned = false}): super(key: ValueKey(comp));
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +42,6 @@ class IndivCompTile extends StatelessWidget{
     return Column(
       children: [
 
-        const SizedBox(height: 10),
-
         Row(
           children: [
 
@@ -60,7 +54,7 @@ class IndivCompTile extends StatelessWidget{
                 radius: AppCard.BIG_RADIUS,
                 padding: EdgeInsets.zero,
                 margin: EdgeInsets.zero,
-                onTap: () => openCompPage(context),
+                onTap: () => onTap?.call(comp),
                 child: Row(
                   children: [
                     IndivCompThumbnailWidget.from(
@@ -116,7 +110,7 @@ class IndivCompTile extends StatelessWidget{
                                     comp.particips.map((particip) => particip.name).toList(),
                                     size: 24.0,
                                     clipBehavior: Clip.hardEdge,
-                                    onTap: () => openCompPage(context),
+                                    onTap: () => onTap?.call(comp),
                                   )
                                 ),
 

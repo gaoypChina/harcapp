@@ -109,8 +109,17 @@ class CirclePageState extends State<CirclePage>{
   PaletteGenerator? paletteGeneratorSecond;
 
   Future<void> initPaletteGenerator({bool refresh = true}) async {
-    paletteGeneratorFirst = await getPaletteGenerator(circle.coverImage!.local, circle.coverImage!.firstFileName);
-    paletteGeneratorSecond = await getPaletteGenerator(circle.coverImage!.local, circle.coverImage!.secondFileName);
+    try {
+      paletteGeneratorFirst = await getPaletteGenerator(circle.coverImage.local, circle.coverImage.firstFileName);
+      paletteGeneratorSecond = await getPaletteGenerator(circle.coverImage.local, circle.coverImage.secondFileName);
+    } catch (e){
+      paletteGeneratorFirst = PaletteGenerator.fromColors([PaletteColor(Colors.white, 1)]);
+      paletteGeneratorSecond = PaletteGenerator.fromColors([PaletteColor(Colors.white, 1)]);
+
+      post(() => circle.myRole == CircleRole.OBSERVER?
+      showAppToast(context, text: 'Nie można załadować tła'):
+      showAppToast(context, text: 'Nie można załadować tła. Zmień grafikę tła, by przyspieszyć ładowanie', duration: const Duration(seconds: 6)));
+    }
 
     if(!refresh) return;
 
@@ -265,7 +274,7 @@ class CirclePageState extends State<CirclePage>{
       },
       builder: (context, child) =>
       paletteAlways == null?
-      const CircleLoadingWidget():
+      const _CircleLoadingWidget():
 
       Consumer<AnnouncementListProvider>(
         builder: (context, prov, child) => SmartRefresher(
@@ -446,6 +455,9 @@ class CirclePageState extends State<CirclePage>{
                                 circle.description = updatedCircle.description;
                                 circle.coverImage = updatedCircle.coverImage;
                                 circle.colorsKey = updatedCircle.colorsKey;
+
+                                if(mounted) Provider.of<CircleProvider>(context, listen: false).notify();
+                                if(mounted) Provider.of<CircleListProvider>(context, listen: false).notify();
 
                                 await initPaletteGenerator(refresh: false);
 
@@ -726,9 +738,9 @@ class CirclePageState extends State<CirclePage>{
 
 }
 
-class CircleLoadingWidget extends StatelessWidget{
+class _CircleLoadingWidget extends StatelessWidget{
 
-  const CircleLoadingWidget({super.key});
+  const _CircleLoadingWidget({super.key});
 
   @override
   Widget build(BuildContext context) => Center(

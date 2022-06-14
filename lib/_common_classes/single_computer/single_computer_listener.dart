@@ -1,9 +1,12 @@
+import 'dart:async';
+
 class SingleComputerListener<TErr>{
 
-  final void Function()? onStart;
-  final Future<void> Function(TErr?)? onError;
-  final void Function(TErr? err, bool forceFinished)? onEnd;
+  final FutureOr<void> Function()? onStart;
+  final FutureOr<void> Function(TErr?)? onError;
+  final FutureOr<bool> Function()? onForceLoggedOut;
+  final FutureOr<void> Function(TErr? err, bool forceFinished)? onEnd;
 
-  const SingleComputerListener({this.onStart, this.onError, this.onEnd});
+  const SingleComputerListener({this.onStart, this.onError, this.onForceLoggedOut, this.onEnd});
 
 }

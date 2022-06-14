@@ -80,8 +80,8 @@ class CoverImageSelectableWidgetState extends State<CoverImageSelectableWidget>{
                 color: CirclePage.cardColor(context, palette),
               ),
             )
-          else
-            CoverImage(selCoverImage),
+          else if(selCoverImage != null)
+            CoverImage(selCoverImage!),
 
           Positioned(
             bottom: Dimen.ICON_MARG,

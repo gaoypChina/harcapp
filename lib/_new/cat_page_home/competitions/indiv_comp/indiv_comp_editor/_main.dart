@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_editor/indiv_comp_awards_editor_widget.dart';
@@ -162,7 +163,10 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                                   AwardsProvider.of(context).awards:
                                   null,
 
-                                  onSuccess: widget.onSaved
+                                  onSuccess: (indivComp) async {
+                                    await popPage(context);
+                                    widget.onSaved?.call(indivComp);
+                                  }
                               );
                             else
                               await ApiIndivComp.create(
@@ -174,10 +178,12 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                                   rankDispType: Provider.of<ModeProvider>(context, listen: false).rankDispType,
                                   tasks: Provider.of<TaskBodiesProvider>(context, listen: false).createdTasks(),
                                   awards: Provider.of<AwardsProvider>(context, listen: false).awards,
-                                  onSuccess: widget.onSaved
+                                  onSuccess: (indivComp) async {
+                                    await popPage(context);
+                                    widget.onSaved?.call(indivComp);
+                                  }
                               );
 
-                          Navigator.pop(context);
                         }
                     ),
                   ],

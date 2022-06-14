@@ -50,7 +50,7 @@ class API{
     required Future<Response> Function(Dio dio) sendRequest,
     FutureOr<void> Function(Response, DateTime)? onSuccess,
     FutureOr<bool> Function()? onEmailNotConf,
-    FutureOr<bool> Function()? onForbidden,
+    FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<void> Function(DioError)? onError,
 
   }) async {
@@ -94,7 +94,7 @@ class API{
         SynchronizerEngine.lastSyncTimeLocal = null;
         await AccountData.forgetAccount();
 
-        finish = await onForbidden?.call();
+        finish = await onForceLoggedOut?.call();
       } else if(e.response?.statusCode == HttpStatus.unauthorized){
         finish = await onEmailNotConf?.call();
       }

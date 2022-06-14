@@ -3,25 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_new/app_drawer.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/preview_part.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
-import 'package:harcapp_core/dimen.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../_common_widgets/drawer_tile.dart';
-import '../../_common_widgets/harc_app.dart';
 import '../app_bottom_navigator.dart';
 import 'circles/all_circles_page.dart';
 import 'circles/model/circle.dart';
 import 'circles/circle_page.dart';
-import 'competitions/all_competition_page.dart';
-import 'competitions/competitions_widget.dart';
-import 'competitions/indiv_comp/indiv_comp_preview_widget.dart';
+import 'competitions/all_competitions_page.dart';
+import 'competitions/indiv_comp/indiv_comp_page.dart';
+import 'competitions/indiv_comp/models/indiv_comp.dart';
 
 enum DrawerPage{
   overview,
@@ -63,7 +59,9 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
   AppScaffold(
     body: Builder(builder: (context){
       if(selectedDrawerPage == drawerPageCompetitions)
-        return const CompetitionsPage();
+        return AllCompetitionsPage(
+          onCompetitionTap: openCompPage,
+        );
       else if(selectedDrawerPage == drawerPageCircles)
         return AllCirclesPage(
           onCircleTap: openCirclePage,
@@ -132,6 +130,11 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
         onDeleted: () => setState(() => selectedDrawerPage = drawerPageCircles),
         key: ValueKey(selectedDrawerPage),
       )
+  );
+
+  void openCompPage(IndivComp comp) => Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => IndivCompPage(comp))
   );
 
 }

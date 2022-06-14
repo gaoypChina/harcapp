@@ -117,6 +117,7 @@ class Announcement{
   DateTime? startTime;
   DateTime? endTime;
   String? place;
+  String? urlToPreview;
   UserData author;
   CircleCoverImageData? coverImage;
   String text;
@@ -163,6 +164,7 @@ class Announcement{
     required this.startTime,
     required this.endTime,
     required this.place,
+    required this.urlToPreview,
     required this.author,
     this.coverImage,
     required this.text,
@@ -199,6 +201,7 @@ class Announcement{
     endTime: resp['endTimeStr'] == null? null: DateTime.tryParse(resp['endTimeStr']),
     coverImage: resp['coverImageUrl'] == null? null: CircleCoverImageData.from(resp['coverImageUrl']),
     place: resp['place'],
+    urlToPreview: resp['urlToPreview'],
     author: UserData.fromMap(resp['author']),
     text: resp['text'],
     pinned: resp['pinned'],
