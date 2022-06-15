@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp/main.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
@@ -11,9 +12,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core_tags/tag_layout.dart';
-import 'package:provider/provider.dart';
 
-import '../../main_page_new.dart';
 import 'data.dart';
 import 'image_viewer.dart';
 
@@ -26,8 +25,8 @@ class FastTapCounter{
   static void tap(BuildContext context){
     tapTimes.add(DateTime.now());
     if(tapTimes.length>=maxTapTimes){
-      if(tapTimes[0].difference(tapTimes[maxTapTimes-1]).compareTo(Duration(seconds: 3))<1) {
-        showAppToast(context, text: 'Na wąsy Baden-Powella, <b>SPOKOJNIEJ</b>!', duration: Duration(seconds: 5));
+      if(tapTimes[0].difference(tapTimes[maxTapTimes-1]).compareTo(const Duration(seconds: 3))<1) {
+        showAppToast(context, text: 'Na wąsy Baden-Powella, <b>SPOKOJNIEJ</b>!', duration: const Duration(seconds: 5));
         tapTimes.clear();
       }else{
         tapTimes.remove(tapTimes.last);
@@ -56,19 +55,19 @@ class BioItemWidget extends StatelessWidget{
     double screenWidth = MediaQuery.of(context).size.width;
     double textSize = 28.0;
     double nameWidgetHeight = textSize + 3*Dimen.SIDE_MARG;
-    double statusBarHeight = Provider.of<MainProvider>(context, listen: false).statusBarHeight;
+    double statusBarHeight = App.statusBarHeight;
     double tagsHeight = data.tag.isEmpty?0:Tag.height;
 
     double aspectRatio = (screenWidth) / (screenHeight - 2*appBarHeight - nameWidgetHeight - statusBarHeight - tagsHeight);
 
     return ListView(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       children: [
 
         if(data.tag.isNotEmpty)
           SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
             scrollDirection: Axis.horizontal,
             child: Row(
               children: data.tag.map((String tag) => Tag(tag)).toList(),
@@ -87,12 +86,12 @@ class BioItemWidget extends StatelessWidget{
 
                 controller().animateTo(
                     screenWidth*(1/aspectRatio) + tagsHeight,
-                    duration: Duration(milliseconds: 800),
+                    duration: const Duration(milliseconds: 800),
                     curve: Curves.easeOutQuart
                 );
 
               },
-              margin: EdgeInsets.all(Dimen.SIDE_MARG),
+              margin: const EdgeInsets.all(Dimen.SIDE_MARG),
               padding: EdgeInsets.zero,
               elevation: AppCard.bigElevation,
               radius: AppCard.BIG_RADIUS,
@@ -113,25 +112,25 @@ class BioItemWidget extends StatelessWidget{
         ),
 
         Padding(
-          padding: EdgeInsets.all(Dimen.SIDE_MARG),
+          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
           child: Text(data.name, style: AppTextStyle(fontWeight: weight.bold, fontSize: textSize), textAlign: TextAlign.center,),
         ),
 
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
         Padding(
-          padding: EdgeInsets.all(Dimen.SIDE_MARG),
+          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
 
-              TitleShortcutRowWidget(title: 'Krótki opis', textAlign: TextAlign.start),
+              const TitleShortcutRowWidget(title: 'Krótki opis', textAlign: TextAlign.start),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
               AppText('ur.: ${data.dateBirth}', size: Dimen.TEXT_SIZE_BIG),
-              SizedBox(height: 3.0),
+              const SizedBox(height: 3.0),
               AppText('zm.: ${data.dateDeath}', size: Dimen.TEXT_SIZE_BIG),
-              SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
               AppText(
                 data.shortDesc,
                 size: Dimen.TEXT_SIZE_BIG,
@@ -143,8 +142,8 @@ class BioItemWidget extends StatelessWidget{
         Container(
           height: 200,
           child: ListView.builder(
-              padding: EdgeInsets.only(bottom: 10),
-              physics: BouncingScrollPhysics(),
+              padding: const EdgeInsets.only(bottom: 10),
+              physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemCount: data.imgSrc.length,
               itemBuilder: (context, index) => Hero(
@@ -163,14 +162,14 @@ class BioItemWidget extends StatelessWidget{
 
         if(data.longDesc!=null)
           Padding(
-            padding: EdgeInsets.all(Dimen.SIDE_MARG),
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
 
-                TitleShortcutRowWidget(title: 'Pełny opis', textAlign: TextAlign.start),
+                const TitleShortcutRowWidget(title: 'Pełny opis', textAlign: TextAlign.start),
 
-                SizedBox(height: Dimen.SIDE_MARG),
+                const SizedBox(height: Dimen.SIDE_MARG),
                 AppText(
                   data.longDesc,
                   size: Dimen.TEXT_SIZE_BIG,
@@ -180,7 +179,7 @@ class BioItemWidget extends StatelessWidget{
           ),
 
         Padding(
-          padding: EdgeInsets.all(Dimen.DEF_MARG),
+          padding: const EdgeInsets.all(Dimen.DEF_MARG),
           child: Text(
               data.source,
               style: AppTextStyle(

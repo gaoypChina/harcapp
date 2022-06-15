@@ -141,8 +141,9 @@ class Announcement{
     String? accKey = AccountData.key;
     if(accKey == null){
       logger.w('Value of saved account data key is null. Are you logged in?');
-      throw Exception('Value of saved account data key is null. Are you logged in?');
+      return null;
     }
+
     return attendance[accKey];
   }
 

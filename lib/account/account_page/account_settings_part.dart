@@ -149,9 +149,8 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
             await AccountData.writeEmail(email);
             await AccountData.writeJwt(jwt);
 
-            LoginProvider prov = Provider.of<LoginProvider>(context, listen: false);
-            prov.callOnEmailConfirmChanged(false);
-            prov.notify();
+            Provider.of<LoginProvider>(context, listen: false).notify();
+            AccountData.callOnEmailConfirmChanged(false);
 
             pushReplacePage(context, builder: (context) => ConfEmailPart(email));
           }

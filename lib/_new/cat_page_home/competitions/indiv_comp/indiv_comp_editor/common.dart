@@ -35,7 +35,7 @@ class LeaveCompButton extends StatelessWidget{
       int allAdminCount = 0;
       for(IndivCompParticip? particip in comp.particips) if(particip!.profile.role == CompRole.ADMIN) allAdminCount++;
 
-      if(allAdminCount == 1 && comp.profile.role == CompRole.ADMIN){
+      if(allAdminCount == 1 && comp.myProfile?.role == CompRole.ADMIN){
         showAlertDialog(
             context,
             title: 'Hola, hola...',

@@ -36,6 +36,7 @@ import 'package:tuple/tuple.dart';
 import '../../../../_common_widgets/bottom_sheet.dart';
 import '../../../details/app_settings.dart';
 import '../../../module_statistics_registrator.dart';
+import '../../common.dart';
 import 'common/indiv_comp_rank_icon.dart';
 import 'common/points_widget.dart';
 import 'indiv_comp_awards_page.dart';
@@ -47,6 +48,7 @@ import 'indiv_comp_task_page/pending_task_page.dart';
 import 'indiv_comp_task_page/review_page/indiv_comp_review_page.dart';
 import 'indiv_comp_task_page/indiv_comp_task_compl_req_widget.dart';
 import 'indiv_comp_task_widget.dart';
+import 'models/indiv_comp_profile.dart';
 import 'models/show_rank_data.dart';
 import 'models/indiv_comp.dart';
 import 'models/indiv_comp_particip.dart';
@@ -77,12 +79,24 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
   late RefreshController refreshController;
 
   late bool changeShareCodeProcessing;
-  
+
+  late LoginListener loginListener;
+
   @override
   void initState() {
     changeShareCodeProcessing = false;
     refreshController = RefreshController();
+    loginListener = LoginListener(
+      onForceLogout: () => Navigator.pop(context)
+    );
+    AccountData.addLoginListener(loginListener);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    AccountData.removeLoginListener(loginListener);
+    super.dispose();
   }
 
   @override
@@ -133,7 +147,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                       centerTitle: true,
                       floating: true,
                       actions: [
-                        if(comp.profile.role == CompRole.ADMIN)
+                        if(comp.myProfile?.role == CompRole.ADMIN)
                           IconButton(
                             icon: Icon(comp.shareCodeSearchable?MdiIcons.accessPoint:MdiIcons.accessPointOff),
                             onPressed: changeShareCodeProcessing?null:() async {
@@ -149,7 +163,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
 
                         IconButton(
                           icon: const Icon(MdiIcons.cogOutline),
-                          onPressed: comp.profile.role == CompRole.ADMIN?() => pushPage(
+                          onPressed: comp.myProfile?.role == CompRole.ADMIN?() => pushPage(
                               context,
                               builder: (context) => IndivCompEditorPage(
                                 initComp: comp,
@@ -191,7 +205,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                       ],
                     ),
 
-                    if(comp.profile.role == CompRole.ADMIN || comp.profile.role == CompRole.MODERATOR)
+                    if(comp.myProfile?.role == CompRole.ADMIN || comp.myProfile?.role == CompRole.MODERATOR)
                       SliverPadding(
                         padding: const EdgeInsets.all(Dimen.DEF_MARG),
                         sliver: FloatingContainer(
@@ -213,7 +227,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
 
                     SliverList(delegate: SliverChildListDelegate([
 
-                      if(comp.profile.role == CompRole.ADMIN)
+                      if(comp.myProfile?.role == CompRole.ADMIN)
                         AnimatedSize(
                           alignment: Alignment.bottomCenter,
                           duration: const Duration(milliseconds: 300),
@@ -227,7 +241,21 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                                 left: Dimen.SIDE_MARG,
                                 right: Dimen.SIDE_MARG
                               ),
-                              child: ShareCodeWidget(comp, enabled: !changeShareCodeProcessing),
+                              child: ShareCodeWidget(
+                                comp.shareCode!,
+                                comp.shareCodeSearchable,
+                                enabled: !changeShareCodeProcessing,
+                                resetShareCode: () => ApiIndivComp.resetShareCode(
+                                    compKey: comp.key,
+                                    onSuccess: (shareCode){
+                                      setState(() => comp.shareCode = shareCode);
+                                    },
+                                    onError: (Map? errData){
+                                      if(errData!['errors'] != null && errData['errors']['shareCode'] == 'share_code_changed_too_soon')
+                                        showAppToast(context, text: 'Za często zmieniasz kod dostępu');
+                                    }
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -257,7 +285,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                         comp,
                         onReqSent: (List<IndivCompTaskCompl> taskComplList){
                           IndivCompTaskCompl taskCompl = taskComplList[0];
-                          comp.profile.addCompletedTask(taskCompl);
+                          comp.myProfile?.addCompletedTask(taskCompl);
                           Provider.of<IndivCompProvider>(context, listen: false).notify();
                           setState(() {});
                         },
@@ -312,7 +340,7 @@ class CompHeaderWidget extends StatelessWidget{
 
         const SizedBox(width: Dimen.ICON_MARG),
 
-        if(comp.profile.active)
+        if(comp.myProfile?.active == true)
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -333,7 +361,7 @@ class CompHeaderWidget extends StatelessWidget{
                         ),
                       ),
                       IndivCompRankIcon(
-                        comp.profile,
+                        comp.myProfile!,
                         activeParticipCnt: comp.activeParticipCnt,
                         showPercent: comp.rankDispType == RankDispType.RANGE_PERC,
                         colors: comp.colors,
@@ -349,11 +377,11 @@ class CompHeaderWidget extends StatelessWidget{
                   radius: AppCard.BIG_RADIUS,
                   padding: const EdgeInsets.all(Dimen.DEF_MARG),
                   margin: EdgeInsets.zero,
-                  onTap: () => comp.profile.completedTasks.isEmpty?
+                  onTap: () => (comp.myProfile?.completedTasks??[]).isEmpty?
                       showAppToast(context, text: 'Brak zrealizowanych zadań.'):
                       pushPage(context, builder: (context) => CompletedTasksPage(
                         comp,
-                        comp.profile.completedTasks,
+                        comp.myProfile?.completedTasks,
                         comp.taskMap,
                         comp.participMap,
                         comp.colors
@@ -371,7 +399,7 @@ class CompHeaderWidget extends StatelessWidget{
                         ),
                       ),
 
-                      PointsWidget(points: comp.profile.points, size: 42.0),
+                      PointsWidget(points: comp.myProfile?.points, size: 42.0),
 
                     ],
                   ),
@@ -580,7 +608,7 @@ class TaskWidget extends StatelessWidget{
   Widget build(BuildContext context) => IndivCompTaskWidget(
     task,
     bottom:
-    comp.profile.active?
+    comp.myProfile?.active == true?
     Row(
       children: [
 
@@ -607,7 +635,9 @@ class TaskWidget extends StatelessWidget{
                     comp,
                     pendingTasks,
                     onRemoved: (complTask){
-                      comp.profile.completedTasks.remove(complTask);
+                      IndivCompProfile? myProfile = comp.myProfile;
+                      if(myProfile == null) return;
+                      myProfile.completedTasks.remove(complTask);
                       Provider.of<IndivCompProvider>(context, listen: false).notify();
                     },
                   )
@@ -620,7 +650,7 @@ class TaskWidget extends StatelessWidget{
               context: context,
               margin: EdgeInsets.zero,
               iconLeading: false,
-              text: comp.profile.role == CompRole.OBSERVER?'Wnioskuj':'Zalicz',
+              text: comp.myProfile?.role == CompRole.OBSERVER?'Wnioskuj':'Zalicz',
               icon: MdiIcons.cubeSend,
               onTap: () async {
 
@@ -628,7 +658,7 @@ class TaskWidget extends StatelessWidget{
                   showAppToast(context, text: 'Brak dostępu do Internetu');
                   return;
                 }
-                bool adminOrMod = comp.profile.role == CompRole.ADMIN || comp.profile.role == CompRole.MODERATOR;
+                bool adminOrMod = comp.myProfile?.role == CompRole.ADMIN || comp.myProfile?.role == CompRole.MODERATOR;
 
                 await openDialog(
                     context: context,
@@ -678,7 +708,7 @@ class TaskListWidget extends StatelessWidget{
     List<Widget> children = [];
 
     Map<String, List<IndivCompTaskCompl>> pendingComplTasksMap = {};
-    for(IndivCompTaskCompl complTask in comp.profile.completedTasks){
+    for(IndivCompTaskCompl complTask in comp.myProfile?.completedTasks??[]){
       if(pendingComplTasksMap[complTask.taskKey] == null)
         pendingComplTasksMap[complTask.taskKey] = [];
 
@@ -727,7 +757,7 @@ class ParticipantsWidget extends StatelessWidget{
   static void onTap(IndivComp comp, BuildContext context) => pushPage(
       context,
       builder: (context) =>
-      comp.profile.role == CompRole.ADMIN || comp.profile.role == CompRole.MODERATOR?
+      comp.myProfile?.role == CompRole.ADMIN || comp.myProfile?.role == CompRole.MODERATOR?
       ParticipantListAdminPage(comp):
       ParticipantListPage(comp)
   );
@@ -781,6 +811,7 @@ class LeaveNotAdminDialog extends StatelessWidget{
 
 }
 
+/*
 class ShareCodeWidget extends StatefulWidget{
 
   final IndivComp comp;
@@ -894,3 +925,5 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
   );
 
 }
+
+ */

@@ -12,7 +12,6 @@ import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
-import 'package:harcapp/_new/main_page_new.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
@@ -181,7 +180,6 @@ class PartSettingsState extends State<PartSettings>{
               AppSettings.fullscreen = value;
               setState(() {});
               Provider.of<ColorPackProvider>(context, listen: false).notify();
-              Provider.of<MainProvider>(context, listen: false).recalculate();
             },
           ),
 

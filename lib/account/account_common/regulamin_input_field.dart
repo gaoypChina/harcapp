@@ -7,6 +7,7 @@ import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/main_page_new.dart';
 import 'package:harcapp/account/account_start/input_field_controller.dart';
+import 'package:harcapp/main.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -45,7 +46,7 @@ class RegulaminInputField extends StatelessWidget{
 
       bool? selGdprAccepted = await showChooseGdprAcceptDialog(
           context,
-          position.dy - Provider.of<MainProvider>(context, listen: false).statusBarHeight,
+          position.dy - App.statusBarHeight,
           gdprAccepted
       );
 

@@ -69,7 +69,7 @@ class ApiCircle{
   static Future<Response?> get({
     required String circleKey,
     void Function(Circle circle)? onSuccess,
-    void Function()? onError,
+    void Function(int?)? onError,
   }) async => await API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) => dio.get(
@@ -79,7 +79,7 @@ class ApiCircle{
       Circle circle = Circle.fromResponse(response.data);
       onSuccess?.call(circle);
     },
-    onError: (_) async => onError!(),
+    onError: (error) async => onError?.call(error.response?.statusCode),
   );
 
   static Future<Response?> create({
@@ -130,13 +130,13 @@ class ApiCircle{
   );
 
   static Future<Response?> resetShareCode({
-    required String compKey,
+    required String circleKey,
     void Function(String)? onSuccess,
-    void Function(Map?)? onError,
+    void Function(dynamic)? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.get(
-        '${API.SERVER_URL}api/circle/$compKey/shareCode',
+        '${API.SERVER_URL}api/circle/$circleKey/shareCode',
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
       onError: (DioError err) async => onError?.call(err.response!.data)

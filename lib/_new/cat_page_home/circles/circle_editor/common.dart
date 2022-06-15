@@ -65,7 +65,7 @@ class LeaveCircleButton extends StatelessWidget{
                     await ApiCircle.leave(
                         circleKey: circle!.key,
                         onSuccess: () async {
-                          Circle.removeFromAll(context, circle);
+                          Circle.removeFromAll(circle, context: context);
                           showAppToast(context, text: 'Krąg opuszczony');
                           await popPage(context); // Close loading widget.
 

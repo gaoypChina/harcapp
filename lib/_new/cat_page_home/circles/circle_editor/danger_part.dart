@@ -64,7 +64,7 @@ class DangerPartState extends State<DangerPart>{
                     await ApiCircle.delete(
                       circleKey: circle!.key,
                       onSuccess: () async {
-                        Circle.removeFromAll(context, circle);
+                        Circle.removeFromAll(circle, context: context);
                         showAppToast(context, text: 'Poszło z dymem!');
                         await popPage(context); // Close loading widget.
 

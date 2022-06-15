@@ -52,7 +52,7 @@ class AppBottomNavigatorProvider extends ChangeNotifier{
 
 enum AppBottomNavItem{
   home,
-  map,
+  //map,
   songBook,
   guidebook,
   harcThought,
@@ -73,7 +73,7 @@ class AppBottomNavigator extends StatelessWidget{
   int bottomNavBarToIndex(AppBottomNavItem item){
     switch(item){
       case AppBottomNavItem.home: return 0;
-      case AppBottomNavItem.map: return 1;
+      //case AppBottomNavItem.map: return 1;
       case AppBottomNavItem.songBook: return 2;
       case AppBottomNavItem.guidebook: return 3;
       case AppBottomNavItem.harcThought: return 4;
@@ -84,7 +84,7 @@ class AppBottomNavigator extends StatelessWidget{
   AppBottomNavItem indexToBottomNavBarItem(int index){
     switch(index){
       case 0: return AppBottomNavItem.home;
-      case 1: return AppBottomNavItem.map;
+      //case 1: return AppBottomNavItem.map;
       case 2: return AppBottomNavItem.songBook;
       case 3: return AppBottomNavItem.guidebook;
       case 4: return AppBottomNavItem.harcThought;
@@ -125,12 +125,12 @@ class AppBottomNavigator extends StatelessWidget{
                     label: 'Skromny ja'
                 ),
 
-                BottomNavigationBarItem(
-                    backgroundColor: background??background_(context),
-                    icon: const Icon(MdiIcons.mapLegend),
-                    //activeIcon: Icon(MdiIcons.map),
-                    label: 'Harc mapa'
-                ),
+              // BottomNavigationBarItem(
+              //     backgroundColor: background??background_(context),
+              //     icon: const Icon(MdiIcons.mapLegend),
+              //     //activeIcon: Icon(MdiIcons.map),
+              //     label: 'Harc mapa'
+              // ),
 
               BottomNavigationBarItem(
                   backgroundColor: prov.background??background??background_(context),

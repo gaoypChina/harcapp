@@ -50,8 +50,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
 
   late RefreshController refreshController;
 
-  late LoginProvider loginProvider;
-  late LoginProviderListener loginListener;
+  late LoginListener loginListener;
 
   late IndivCompLoaderListener _listener;
   
@@ -81,7 +80,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
     );
     indivCompLoader.addListener(_listener);
 
-    loginListener = LoginProviderListener(
+    loginListener = LoginListener(
         onLogin: (emailConfirmed){
           if(emailConfirmed) indivCompLoader.run();
           else if(mounted) setState(() {});
@@ -95,8 +94,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
         }
     );
 
-    loginProvider = Provider.of<LoginProvider>(context, listen: false);
-    loginProvider.addLoginListener(loginListener);
+    AccountData.addLoginListener(loginListener);
 
     networkAvailable = true;
     () async {
@@ -123,7 +121,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
 
   @override
   void dispose() {
-    loginProvider.removeLoginListener(loginListener);
+    AccountData.removeLoginListener(loginListener);
     indivCompLoader.removeListener(_listener);
     refreshController.dispose();
 
@@ -171,7 +169,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
           ),
         ),
       ));
-    else if(loginProvider.loggedIn){
+    else if(AccountData.loggedIn){
 
       if(!AccountData.emailConf)
         slivers.add(SliverFillRemaining(
@@ -261,6 +259,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
               child: IndivCompTile(
                 searchedComps[i],
                 showPinned: true,
+                onTap: onCompetitionTap,
               ),
             ));
             widgets.add(const SizedBox(height: Dimen.SIDE_MARG));

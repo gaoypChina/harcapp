@@ -15,6 +15,7 @@ import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core_song_widget/providers.dart';
 import 'package:oktoast/oktoast.dart';
@@ -50,6 +51,7 @@ import '_new/main_page_new.dart';
 import '_new/providers.dart';
 import '_new/start/_main.dart';
 import 'account/account.dart';
+import 'account/ms_oauth.dart';
 import 'account/statistics.dart';
 import 'sync/synchronizer_engine.dart';
 
@@ -173,6 +175,8 @@ class AppNavigatorObserver extends NavigatorObserver{
 
 class App extends StatefulWidget {
 
+  static late double statusBarHeight;
+
   static late List<void Function()> _orientationChangedListeners;
   static void addOrientationChangeListener(void Function() listener){
     _orientationChangedListeners.add(listener);
@@ -249,8 +253,10 @@ class AppState extends State<App> with WidgetsBindingObserver {
     await Future.wait([
       ShaPref.init(),
       initPaths(),
-      AccountData.init()
+      AccountData.init(),
     ]);
+
+    post(() => ZhpAccAuth.init(navigatorKey));
 
     ApelEwanOwnFolder.loadAllOwnFolders();
 
@@ -274,8 +280,9 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
   late ColorPack _selColorPack;
 
-  late LoginProvider loginProvider;
-  late LoginProviderListener _loginListener;
+  late LoginListener _loginListener;
+
+  late GlobalKey<NavigatorState> navigatorKey;
 
   @override
   void initState() {
@@ -292,7 +299,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
       default: _selColorPack = const ColorPackStartDefault(); break;
     }
     
-    _loginListener = LoginProviderListener(
+    _loginListener = LoginListener(
         onLogin: (emailConf) async {
           if(!emailConf) return;
           await Statistics.commit();
@@ -312,8 +319,12 @@ class AppState extends State<App> with WidgetsBindingObserver {
         }
     );
 
+    AccountData.addLoginListener(_loginListener);
+
     initialized = false;
     initAsync();
+
+    navigatorKey = GlobalKey<NavigatorState>();
 
     super.initState();
   }
@@ -321,7 +332,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    loginProvider.removeLoginListener( _loginListener);
+    AccountData.removeLoginListener( _loginListener);
     super.dispose();
   }
 
@@ -354,12 +365,9 @@ class AppState extends State<App> with WidgetsBindingObserver {
             isDark: () => AppSettings.isDark,
             colorPackDark: const ColorPackBlack()
         )),
-        ChangeNotifierProvider(create: (context) => MainProvider()),
 
         ChangeNotifierProvider(create: (context){
-          loginProvider = LoginProvider();
-          loginProvider.addLoginListener( _loginListener);
-          return loginProvider;
+          return LoginProvider();
         }),
 
         ChangeNotifierProvider(create: (context) => DrawerProvider()),
@@ -423,29 +431,28 @@ class AppState extends State<App> with WidgetsBindingObserver {
                     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
 
                   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-                    statusBarColor: colorPackProv.colorPack!.appBar, // status bar color
+                    statusBarColor: colorPackProv.colorPack.appBar, // status bar color
                   ));
 
-                  return Material(
-                    child: MaterialApp(
-                      title: 'HarcApp',
-                      theme: colorPackProv.colorPack!.themeData,
+                  return MaterialApp(
+                    navigatorKey: navigatorKey,
+                    title: 'HarcApp',
+                    theme: colorPackProv.colorPack.themeData,
 
-                      home: const StartPage(),
-                      localizationsDelegates: const [
-                        GlobalMaterialLocalizations.delegate,
-                        GlobalWidgetsLocalizations.delegate,
-                        GlobalCupertinoLocalizations.delegate,
-                      ],
-                      supportedLocales: const [
-                        Locale('pl'),
-                      ],
-                      locale: const Locale('pl'),
-                      navigatorObservers: [
-                        appNavigatorObserver,
-                        defaultLifecycleObserver
-                      ],
-                    ),
+                    home: const StartPage(),
+                    localizationsDelegates: const [
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate,
+                      GlobalCupertinoLocalizations.delegate,
+                    ],
+                    supportedLocales: const [
+                      Locale('pl'),
+                    ],
+                    locale: const Locale('pl'),
+                    navigatorObservers: [
+                      appNavigatorObserver,
+                      defaultLifecycleObserver
+                    ],
                   );
 
                 },

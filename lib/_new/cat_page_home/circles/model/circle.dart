@@ -119,12 +119,14 @@ class Circle{
     Provider.of<CircleListProvider>(context, listen: false).notify();
   }
 
-  static void removeFromAll(BuildContext context, Circle? circle){
+  static void removeFromAll(Circle? circle, {BuildContext? context}){
     if(_all == null)
       return;
 
     _all!.remove(circle);
     _allMap!.remove(circle!.key);
+
+    if(context == null) return;
 
     Provider.of<CircleProvider>(context, listen: false).notify();
     Provider.of<CircleListProvider>(context, listen: false).notify();
@@ -141,8 +143,8 @@ class Circle{
   String name;
   String? description;
   CircleCoverImageData coverImage;
-  final String? shareCode;
-  final bool? shareCodeSearchable;
+  String? shareCode;
+  bool shareCodeSearchable;
   String colorsKey;
 
   final List<Member> _members;
@@ -350,7 +352,22 @@ class Circle{
 
   }
 
-  CircleRole get myRole => _membersMap[AccountData.key!]!.role;
+  CircleRole? get myRole{
+    String? accKey = AccountData.key;
+    if(accKey == null){
+      logger.w('Value of saved account data key is null. Are you logged in?');
+      return null;
+    }
+    Member? me = _membersMap[accKey];
+
+    if(me == null){
+      AccountData.forgetAccount();
+      AccountData.callOnForceLogout();
+      return null;
+    }
+
+    return me.role;
+  }
 
   Circle({
     required this.key,
@@ -358,7 +375,7 @@ class Circle{
     this.description,
     required this.coverImage,
     this.shareCode,
-    this.shareCodeSearchable,
+    required this.shareCodeSearchable,
     required this.colorsKey,
 
     required List<Member> members,

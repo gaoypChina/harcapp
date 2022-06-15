@@ -128,7 +128,6 @@ class _JoinButtonState extends State<_JoinButton>{
               await ApiCircle.joinByShareCode(
                   searchCode: controller!.text,
                   onSuccess: (circle){
-                    if(!mounted) return;
                     widget.onSuccess.call(circle);
                   },
                   onError: (){

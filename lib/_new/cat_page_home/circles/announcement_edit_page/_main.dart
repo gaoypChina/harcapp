@@ -603,7 +603,11 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                         startTime: eventMode?startTime:null,
                         endTime: eventMode?endTime:null,
                         place: eventMode?placeController.text:null,
-                        urlToPreview: urlToPreviewController.text,
+
+                        urlToPreview: urlToPreviewController.text.isEmpty?
+                        null:
+                        urlToPreviewController.text,
+
                         coverImageUrl: coverImage?.code,
                         text: textController.text,
                         respMode: eventMode?attRespMode:AnnouncementAttendanceRespMode.NONE,
@@ -647,9 +651,13 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                         Optional.ofNullable(null),
 
                         urlToPreview:
-                        initAnnouncement!.place == placeController.text?
+                        initAnnouncement!.urlToPreview == urlToPreviewController.text?
                         const Optional.empty():
-                        Optional.ofNullable(urlToPreviewController.text),
+                        Optional.ofNullable(
+                          urlToPreviewController.text.isEmpty?
+                          null:
+                          urlToPreviewController.text
+                        ),
 
                         coverImageUrl:
                         initAnnouncement!.coverImage?.code == coverImage?.code?

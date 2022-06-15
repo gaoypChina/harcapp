@@ -23,28 +23,35 @@ class IndivCompPreviewGrid extends StatelessWidget{
     void Function()? onTap
   }) => IndivCompPreviewGrid(
     width: width,
-    child: SimpleButton(
-      color: background_(context),
+    child: Material(
       borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-      onTap: onTap,
+      color: cardEnab_(context),
       child: Padding(
-        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-        child: Row(
-          children: [
-            Icon(icon, size: 60),
-            const SizedBox(width: 20),
-            Text(
-              text,
-              style: AppTextStyle(
-                fontSize: 20.0,
-                color: iconEnab_(context),
-                height: 1.2
+        padding: const EdgeInsets.all(IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.borderSizeFactor),
+        child: SimpleButton(
+            color: background_(context),
+            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS - 4),
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+              child: Row(
+                children: [
+                  Icon(icon, size: 60),
+                  const SizedBox(width: 20),
+                  Text(
+                    text,
+                    style: AppTextStyle(
+                        fontSize: 20.0,
+                        color: iconEnab_(context),
+                        height: 1.2
+                    ),
+                  )
+                ],
               ),
             )
-          ],
         ),
       )
-    ),
+    )
   );
 
   /*

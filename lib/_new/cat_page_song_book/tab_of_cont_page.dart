@@ -305,7 +305,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
           final RenderBox renderBox = globalKey.currentContext!.findRenderObject() as RenderBox;
           final position = renderBox.localToGlobal(Offset.zero);
 
-          double statusBarHeight = Provider.of<MainProvider>(context, listen: false).statusBarHeight;
+          double statusBarHeight = App.statusBarHeight;
 
           double screenHeight = MediaQuery.of(context).size.height - statusBarHeight;
 

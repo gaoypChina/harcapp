@@ -48,8 +48,7 @@ class AllCirclesPageState extends State<AllCirclesPage>{
 
   late RefreshController refreshController;
 
-  late LoginProvider loginProvider;
-  late LoginProviderListener loginListener;
+  late LoginListener loginListener;
 
   late CircleLoaderListener _listener;
   
@@ -65,36 +64,43 @@ class AllCirclesPageState extends State<AllCirclesPage>{
 
     _listener = CircleLoaderListener(
       onCirclesLoaded: (List<Circle> circles){
+        if(!mounted) return;
+
         Provider.of<CircleProvider>(context, listen: false).notify();
         Provider.of<CircleListProvider>(context, listen: false).notify();
 
         refreshController.refreshCompleted();
-        if(mounted) setState(() {});
+        setState(() {});
         searchedCircles = circles;
       },
       onError: (message) async {
+        if(!mounted) return;
+
         refreshController.refreshCompleted();
-        if(mounted) setState(() {});
+        setState(() {});
       },
     );
     circleLoader.addListener(_listener);
 
-    loginListener = LoginProviderListener(
+    loginListener = LoginListener(
         onLogin: (emailConfirmed){
-          if(emailConfirmed) circleLoader.run();
-          else if(mounted) setState(() {});
+          if(mounted) setState(() {});
+          searchedCircles = Circle.all!;
         },
         onRegistered: (){
           circleLoader.run();
+          searchedCircles = Circle.all!;
         },
         onEmailConfirmChanged: (emailConfirmed){
           if(emailConfirmed) circleLoader.run();
           else if(mounted) setState(() {});
+        },
+        onForceLogout: (){
+          setState((){});
         }
     );
 
-    loginProvider = Provider.of<LoginProvider>(context, listen: false);
-    loginProvider.addLoginListener(loginListener);
+    AccountData.addLoginListener(loginListener);
 
     networkAvailable = true;
     () async {
@@ -121,7 +127,7 @@ class AllCirclesPageState extends State<AllCirclesPage>{
 
   @override
   void dispose() {
-    loginProvider.removeLoginListener(loginListener);
+    AccountData.removeLoginListener(loginListener);
     circleLoader.removeListener(_listener);
     refreshController.dispose();
 
@@ -167,7 +173,7 @@ class AllCirclesPageState extends State<AllCirclesPage>{
           icon: MdiIcons.earthOff,
         ),
       ));
-    else if(loginProvider.loggedIn){
+    else if(AccountData.loggedIn){
 
       if(!AccountData.emailConf)
         slivers.add(SliverFillRemaining(
@@ -191,16 +197,14 @@ class AllCirclesPageState extends State<AllCirclesPage>{
         ));
       else if(Circle.all == null)
         slivers.add(SliverFillRemaining(
-            hasScrollBody: false,
-            child: Padding(
-              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-              child: CirclePreviewWidget.from(
-                context: context,
-                width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
-                icon: MdiIcons.closeOutline,
-                text: 'Mamy problem'
-            ),
-          ),
+          hasScrollBody: false,
+          child: CirclePreviewWidget.from(
+            context: context,
+            width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+            icon: MdiIcons.closeOutline,
+            text: 'Mamy problem'
+         ),
         ));
       else if(Circle.all!.isEmpty)
         slivers.add(SliverFillRemaining(
@@ -296,7 +300,7 @@ class AllCirclesPageState extends State<AllCirclesPage>{
 
   @override
   Widget build(BuildContext context) => Consumer2<LoginProvider, CircleListProvider>(
-      builder: (context, loginProv, indivCompProv, child) => ScrollConfiguration(
+      builder: (context, loginProv, circleListProv, child) => ScrollConfiguration(
           behavior: NoGlowBehavior(),
           child: SmartRefresher(
               enablePullDown: AccountData.loggedIn,

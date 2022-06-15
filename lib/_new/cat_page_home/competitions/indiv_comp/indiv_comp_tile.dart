@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_page.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -89,7 +88,7 @@ class IndivCompTile extends StatelessWidget{
                               const SizedBox(width: Dimen.ICON_MARG),
 
                               Icon(
-                                compRoleToIcon[comp.profile.role],
+                                compRoleToIcon[comp.myProfile?.role],
                                 color: hintEnab_(context),
                               ),
 
@@ -100,7 +99,7 @@ class IndivCompTile extends StatelessWidget{
 
                           const SizedBox(height: Dimen.DEF_MARG),
 
-                          if(comp.profile.active)
+                          if(comp.myProfile?.active == true)
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -116,7 +115,7 @@ class IndivCompTile extends StatelessWidget{
 
                                 const SizedBox(width: Dimen.DEF_MARG),
 
-                                PointsWidget(points: comp.profile.points, size: 32.0),
+                                PointsWidget(points: comp.myProfile?.points, size: 32.0),
 
                                 const SizedBox(width: Dimen.DEF_MARG),
 

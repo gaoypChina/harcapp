@@ -13,6 +13,7 @@ class PatronListWidget extends StatelessWidget{
   static const List<Person> PLN20Patrons = [
     JAROSLAW_JAKUBIAK,
     KLAUDIUSZ_PALUCH,
+    PAWEL_KIMEL,
   ];
 
   static const List<Person> PLN10Patrons = [

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_common/gdpr_input_field.dart';
 import 'package:harcapp/account/account_common/regulamin_input_field.dart';
 import 'package:harcapp/account/account_start/page_template.dart';
@@ -76,9 +77,8 @@ class RegisterPartState extends State<RegisterPart>{
         passwordRepController!.text,
         onSuccess: (Response response, String? key, String? jwt, String? email, String? name, String? nick, Sex? sex) async {
 
-          LoginProvider prov = Provider.of<LoginProvider>(context, listen: false);
-          prov.callOnRegister();
-          prov.notify();
+          Provider.of<LoginProvider>(context, listen: false).notify();
+          AccountData.callOnRegister();
 
           pushReplacePage(
               context,

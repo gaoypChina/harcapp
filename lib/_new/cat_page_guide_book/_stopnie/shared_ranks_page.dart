@@ -67,16 +67,14 @@ class SharedRanksPageState extends State<SharedRanksPage>{
     setState(() => loading = false);
   }
 
-  late LoginProvider loginProv;
-  LoginProviderListener? loginListener;
+  late LoginListener loginListener;
 
   @override
   void initState() {
     refreshController = RefreshController();
     selSharedRanks = selectSharedRanks();
 
-    loginProv = Provider.of<LoginProvider>(context, listen: false);
-    loginListener = LoginProviderListener(
+    loginListener = LoginListener(
       onLogin: (conf){
         if(!conf) return;
         setState(() {});
@@ -93,7 +91,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
       }
     );
 
-    loginProv.addLoginListener(loginListener);
+    AccountData.addLoginListener(loginListener);
 
     if(allSharedRanks == null) {
       loading = true;
@@ -106,7 +104,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
 
   @override
   void dispose() {
-    loginProv.removeLoginListener(loginListener);
+    AccountData.removeLoginListener(loginListener);
     super.dispose();
   }
 

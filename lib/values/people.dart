@@ -89,6 +89,7 @@ List<Person> allPeople = [
   OSKAR_PARDYAK,
   PATRYCJA_SZCZESNA,
   PAULINA_BURDZIK,
+  PAWEL_KIMEL,
   PAWEL_MARUD,
   PIOTR_SOSNOWSKI,
   PIOTR_MACIEJ_KABATA,
@@ -107,6 +108,7 @@ List<Person> allPeople = [
   STEFAN_KRYCZKA,
   SZYMON_CHORAZY,
   SZYMON_DROPEK,
+  SZYMON_JAWOREK,
   SZYMON_PODGORNY,
   SZYMON_ZDZIEBKO,
   WANDA_MARCHEL,
@@ -423,6 +425,10 @@ const Person OLIWIA_STANCZYK = Person(
 const Person OSKAR_PARDYAK = Person(name: 'Oskar Pardyak', stopI: 'pwd.', stopH: StopZHP.HOc, org: Org.zhp);
 const Person PATRYCJA_SZCZESNA = Person(name: 'Patrycja Szczęsna', stopI: 'pwd.', stopH: StopZHP.HOd, hufiec: huf_zhp_warszawa_praga_pn, org: Org.zhp);
 const Person PAULINA_BURDZIK = Person(name: 'Paulina Burdzik', stopI: 'pwd.', hufiec: huf_zhp_krakow_pdg, org: Org.zhp, comment: 'J. niemiecki',);
+const Person PAWEL_KIMEL = Person(
+  name: 'Paweł Kimel',
+  email: 'pawel.kimel@gmail.com'
+);
 const Person PAWEL_MARUD = Person(name: 'Piotr Marud');
 const Person PIOTR_SOSNOWSKI = Person(name: 'Piotr Sosnowski', stopI: 'pwd.',
   druzyna: 'II. SzDHiZ, 74. Poznańska Drużyna Wędrownicza "Lewe Skrzydło" im. Dywizjonu 303',

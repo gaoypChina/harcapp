@@ -88,7 +88,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
     comp.handleRanks(idRank);
 
     for(IndivCompTaskCompl taskCompl in taskComplList) {
-      comp.profile.addCompletedTask(taskCompl);
+      comp.myProfile?.addCompletedTask(taskCompl);
       comp.addPoints(taskCompl.participKey, taskCompl.points(comp));
     }
 
@@ -181,7 +181,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
           centerTitle: true,
           floating: true,
           actions: [
-            if(comp.profile.role == CompRole.ADMIN)
+            if(comp.myProfile?.role == CompRole.ADMIN)
               IconButton(
                   icon: const Icon(MdiIcons.plus),
                   onPressed: () => showScrollBottomSheet(
@@ -287,7 +287,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
             right: 2*Dimen.SIDE_MARG,
             bottom: kBottomNavigationBarHeight + 2*Dimen.SIDE_MARG,
             child: Material(
-              color: background_(context),
+              color: Colors.transparent,
               child: Column(
                 children: [
 
@@ -396,7 +396,7 @@ class _ParticipTile extends StatefulWidget{
 class _ParticipTileState extends State<_ParticipTile>{
 
   IndivComp get comp => widget.comp;
-  IndivCompProfile get profile => comp.profile;
+  IndivCompProfile? get myProfile => comp.myProfile;
 
   IndivCompParticip get particip => widget.particip;
   bool get anythingSelected => widget.anythingSelected;
@@ -482,7 +482,7 @@ class _ParticipTileState extends State<_ParticipTile>{
             if(particip.profile.role != CompRole.OBSERVER)
               ListTile(
                 enabled: !particip.shadow,
-                leading: Icon(compRoleToIcon[CompRole.OBSERVER]),
+                leading: Icon(compRoleToIcon[CompRole.OBSERVER], color: iconEnab_(context)),
                 title: Text('Nadaj rolę uczestnika', style: AppTextStyle()),
                 onTap: particip.shadow?null: () async {
                   await showUpdateDialog(
@@ -502,7 +502,7 @@ class _ParticipTileState extends State<_ParticipTile>{
             if(particip.profile.role != CompRole.MODERATOR)
               ListTile(
                 enabled: !particip.shadow,
-                leading: Icon(compRoleToIcon[CompRole.MODERATOR]),
+                leading: Icon(compRoleToIcon[CompRole.MODERATOR], color: iconEnab_(context)),
                 title: Text('Nadaj rolę moderatora', style: AppTextStyle()),
                 onTap: particip.shadow?null: () async {
                   await showUpdateDialog(
@@ -520,7 +520,7 @@ class _ParticipTileState extends State<_ParticipTile>{
             if(particip.profile.role != CompRole.ADMIN)
               ListTile(
                 enabled: !particip.shadow,
-                leading: Icon(compRoleToIcon[CompRole.ADMIN]),
+                leading: Icon(compRoleToIcon[CompRole.ADMIN], color: iconEnab_(context)),
                 title: Text('Nadaj rolę administratora', style: AppTextStyle()),
                 onTap: particip.shadow?null: () async {
                   await showUpdateDialog(CompRole.ADMIN, particip.profile.active);
@@ -530,7 +530,7 @@ class _ParticipTileState extends State<_ParticipTile>{
 
             ListTile(
               enabled: !particip.shadow,
-              leading: Icon(particip.profile.active?MdiIcons.coffeeOutline:MdiIcons.run),
+              leading: Icon(particip.profile.active?MdiIcons.coffeeOutline:MdiIcons.run, color: iconEnab_(context)),
               title: Text(particip.profile.active?'Unieaktywnij uczestnika':'Włącz uczestnika', style: AppTextStyle()),
               onTap: particip.shadow?null: () async {
                 await showUpdateDialog(particip.profile.role, !particip.profile.active);
@@ -683,7 +683,7 @@ class _ParticipTileState extends State<_ParticipTile>{
     selected: selected,
     selectedTextColor: comp.colors.avgColor,
     onLongPress: onSelectionTap,
-    onTap: anythingSelected?onSelectionTap:(profile.role == CompRole.ADMIN || profile.role == CompRole.MODERATOR?openParticipantDetails:null),
+    onTap: anythingSelected?onSelectionTap:(myProfile?.role == CompRole.ADMIN || myProfile?.role == CompRole.MODERATOR?openParticipantDetails:null),
     heroTag: heroTag,
     subtitle:
     particip.profile.active?
@@ -691,7 +691,7 @@ class _ParticipTileState extends State<_ParticipTile>{
     Text('Obserwator', style: AppTextStyle(color: hintEnab_(context))),
 
     trailing:
-    (profile.role == CompRole.ADMIN || profile.role == CompRole.MODERATOR) && particip.profile.active?
+    (myProfile?.role == CompRole.ADMIN || myProfile?.role == CompRole.MODERATOR) && particip.profile.active?
     AnimatedOpacity(
       opacity: anythingSelected?0:1,
       duration: const Duration(milliseconds: 300),

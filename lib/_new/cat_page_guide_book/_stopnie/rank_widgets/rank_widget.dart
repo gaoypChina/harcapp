@@ -19,7 +19,6 @@ import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
 import 'package:harcapp/account/account_thumbnail_widget.dart';
-import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp/account/search_user_dialog.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -356,14 +355,12 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
 
   }
 
-  late LoginProvider loginProvider;
-  LoginProviderListener? loginListener;
+  late LoginListener loginListener;
 
   @override
   void initState() {
 
-    loginProvider = Provider.of<LoginProvider>(context, listen: false);
-    loginListener = LoginProviderListener(
+    loginListener = LoginListener(
       onRegistered: (){
         loadSharedUsers(resetState: true);
       },
@@ -376,7 +373,7 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
           loadSharedUsers(resetState: true);
       }
     );
-    loginProvider.addLoginListener(loginListener);
+    AccountData.addLoginListener(loginListener);
 
     sharedUsersProv = Provider.of<SharedUsersProvider>(context, listen: false);
 
@@ -389,7 +386,7 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
 
   @override
   void dispose() {
-    loginProvider.removeLoginListener(loginListener);
+    AccountData.removeLoginListener(loginListener);
     super.dispose();
   }
 

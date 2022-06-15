@@ -1,45 +1,31 @@
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp/_common_widgets/empty_message_widget.dart';
-import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/api/circle.dart';
-import 'package:harcapp/_new/details/app_settings.dart';
-import 'package:harcapp/account/account.dart';
-import 'package:harcapp/account/account_thumbnail_row_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../../_common_classes/sliver_child_builder_separated_delegate.dart';
 import '../../../_common_widgets/app_toast.dart';
-import 'announcement_edit_page/_main.dart';
-import 'announcement_widget.dart';
-import 'circle_editor/_main.dart';
 import 'circle_page.dart';
-import 'circle_palette_generator.dart';
-import 'circle_role.dart';
 import 'cover_image.dart';
-import 'members_page/members_admin_page.dart';
-import 'members_page/members_page.dart';
 import 'model/circle.dart';
 
 class CircleDescriptionPage extends StatefulWidget{
 
   final Circle circle;
+  final PaletteGenerator? palette;
   final void Function()? onLeft;
   final void Function()? onDeleted;
-  const CircleDescriptionPage(this.circle, {this.onLeft, this.onDeleted, super.key});
+  const CircleDescriptionPage(this.circle, this.palette, {this.onLeft, this.onDeleted, super.key});
 
   @override
   State<StatefulWidget> createState() => CircleDescriptionPageState();
@@ -55,28 +41,11 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
   late String currTab;
 
   Circle get circle => widget.circle;
-  void Function()? get onLeft => widget.onLeft;
-  void Function()? get onDeleted => widget.onDeleted;
-
-  late RefreshController refreshController;
-
-  PaletteGenerator? paletteGeneratorFirst;
-  PaletteGenerator? paletteGeneratorSecond;
-
-  Future<void> initPaletteGenerator({bool refresh = true}) async {
-    paletteGeneratorFirst = await getPaletteGenerator(circle.coverImage!.local, circle.coverImage!.firstFileName);
-    paletteGeneratorSecond = await getPaletteGenerator(circle.coverImage!.local, circle.coverImage!.secondFileName);
-
-    if(!refresh) return;
-
-    setState(() {});
-    notifyScrollController();
-  }
+  PaletteGenerator? get palette => widget.palette;
 
   late ScrollController scrollController;
 
   late GlobalKey appBarKey;
-  late GlobalKey tabBarKey;
 
   late AppBarProvider appBarProv;
 
@@ -86,7 +55,6 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
     currTab = allAnnsTab;
 
     appBarKey = GlobalKey();
-    tabBarKey = GlobalKey();
 
     scrollController = ScrollController();
     scrollController.addListener(() {
@@ -99,14 +67,7 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
       if (appBarPos < 2*kToolbarHeight && !appBarProv.coverVisible) appBarProv.coverVisible = true;
       else if(appBarPos >= 2*kToolbarHeight && appBarProv.coverVisible) appBarProv.coverVisible = false;
 
-      final tabBarBox = tabBarKey.currentContext?.findRenderObject() as RenderBox?;
-      double tabBarPos = tabBarBox==null? -double.infinity: tabBarBox.localToGlobal(Offset(0, -topPadding)).dy;
-      if (tabBarPos <= 96 && appBarProv.elevated) appBarProv.elevated = false;
-      else if(tabBarPos > 96 && !appBarProv.elevated) appBarProv.elevated = true;
     });
-
-    refreshController = RefreshController();
-    initPaletteGenerator();
 
     super.initState();
   }
@@ -116,115 +77,136 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
     scrollController.dispose();
     super.dispose();
   }
-  
-  PaletteGenerator? get paletteAlways{
-    if(paletteGeneratorSecond == null) return paletteGeneratorFirst;
-    return AppSettings.isDark?paletteGeneratorSecond:paletteGeneratorFirst;
-  }
-  
-  PaletteGenerator? get palette{
-    if(circle.colorsKey == 'none') return null;
-    return paletteAlways;
-  }
-
-
-  Color? get appBarColor => CirclePage.appBarColor(context, palette);
-  Color? get backgroundColor => CirclePage.backgroundColor(context, palette);
-  Color? get cardColor => CirclePage.cardColor(context, palette);
-  Color get strongColor => CirclePage.strongColor(context, palette);
-  Color get iconColor => CirclePage.coverIconColor(context, paletteAlways);
 
   void notifyScrollController() => post(() => scrollController.jumpTo(scrollController.offset + 1e-10));
 
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
-    backgroundColor: backgroundColor,
-    appBottomNavColor: backgroundColor,
+    backgroundColor: CirclePage.backgroundColor(context, palette),
+    appBottomNavColor: CirclePage.backgroundColor(context, palette),
     body: ChangeNotifierProvider(
       create: (context){
         appBarProv = AppBarProvider();
         return appBarProv;
       },
-      builder: (context, child) =>
-      paletteAlways == null?
-      const _CircleLoadingWidget():
-      SmartRefresher(
-          enablePullDown: true,
+      builder: (context, child) => CustomScrollView(
+          controller: scrollController,
           physics: const BouncingScrollPhysics(),
-          header: MaterialClassicHeader(backgroundColor: cardEnab_(context), color: strongColor),
-          controller: refreshController,
-          onRefresh: () async {
+          slivers: [
 
-            if(!await isNetworkAvailable()){
-              showAppToast(context, text: 'Brak dostępu do Internetu');
-              refreshController.refreshCompleted();
-              return;
-            }
+            Consumer<AppBarProvider>(
+              builder: (context, prov, child) => SliverAppBar(
+                iconTheme: IconThemeData(
+                    color:
+                    prov.coverVisible?
+                    CirclePage.coverIconColor(context, palette):
+                    iconEnab_(context)
+                ),
+                centerTitle: true,
+                pinned: true,
+                excludeHeaderSemantics: true,
+                elevation: prov.elevated?AppCard.bigElevation:0,
+                backgroundColor: CirclePage.backgroundColor(context, palette),
+                expandedHeight: 200,
+                flexibleSpace: FlexibleSpaceBar(
+                    title: AnimatedOpacity(
+                      opacity: prov.showTitleOnAppBar?1:0,
+                      duration: Duration(milliseconds: prov.showTitleOnAppBar?200:0),
+                      child: Text(
+                        circle.name,
+                        style: AppTextStyle(
+                            color: iconEnab_(context)
+                        ),
+                        maxLines: 1,
+                      ),
+                    ),
+                    centerTitle: true,
+                    background: Hero(
+                      tag: CirclePageState.circleCoverTag,
+                      child: CoverImage(circle.coverImage),
+                    )
+                ),
+              ),
+            ),
 
-            await ApiCircle.get(
-                circleKey: circle.key,
-                onSuccess: (updatedCircle) async {
-                  circle.name = updatedCircle.name;
-                  circle.description = updatedCircle.description;
-                  circle.coverImage = updatedCircle.coverImage;
-                  circle.colorsKey = updatedCircle.colorsKey;
+            SliverList(delegate: SliverChildListDelegate([
 
-                  await initPaletteGenerator(refresh: false);
+              Padding(
+                  padding: const EdgeInsets.only(
+                    top: Dimen.SIDE_MARG,
+                    left: Dimen.SIDE_MARG,
+                    right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+                    bottom: Dimen.SIDE_MARG,
+                  ),
+                  child: Hero(
+                      tag: CirclePageState.circleNameTag,
+                      child: Material(
+                        color: Colors.transparent,
+                        child: Row(
+                          children: [
 
-                  setState(() {});
-                },
-                onError: () => showAppToast(context, text: 'Coś poszło nie tak...')
-            );
-            refreshController.refreshCompleted();
+                            Expanded(
+                              child:  Text(
+                                circle.name,
+                                style: AppTextStyle(
+                                    fontSize: 28.0,
+                                    fontWeight: weight.bold
+                                ),
+                                key: appBarKey,
+                              ),
+                            ),
 
-          },
-          child: Container()
+                            IconButton(
+                              icon: const Icon(MdiIcons.chevronUp),
+                              onPressed: () => popPage(context),
+                            )
 
-      ),
+                          ],
+                        ),
+                      )
+                  )
+              ),
+
+              if(circle.hasDescription)
+                Padding(
+                    padding: const EdgeInsets.only(
+                      left: Dimen.SIDE_MARG,
+                      bottom: Dimen.ICON_MARG,
+                    ),
+                    child: Text(
+                      'Opis kręgu:',
+                      style: AppTextStyle(
+                          fontWeight: weight.halfBold,
+                          fontSize: Dimen.TEXT_SIZE_BIG
+                      ),
+                      maxLines: 3,
+                    )
+                ),
+
+              if(circle.hasDescription)
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                    child: ExpandableText(
+                      circle.description!,
+                      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                      maxLines: 3,
+                      animation: true,
+                      linkColor: CirclePage.strongColor(context, palette),
+                      linkStyle: AppTextStyle(fontWeight: weight.halfBold),
+                      expandText: 'więcej',
+                      collapseText: 'mniej',
+                    )
+                ),
+
+              if(circle.hasDescription)
+                const SizedBox(height: Dimen.ICON_SIZE),
+
+            ]))
+
+          ]
+      )
     ),
   );
 
-
-}
-
-class _CircleLoadingWidget extends StatelessWidget{
-
-  const _CircleLoadingWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) => Center(
-    child: SpinKitDualRing(color: iconEnab_(context), size: 48.0),
-  );
-
-}
-
-class AppBarProvider extends ChangeNotifier{
-
-  late bool _elevated;
-  bool get elevated => _elevated;
-  set elevated(bool value){
-    _elevated = value;
-    notifyListeners();
-  }
-
-  late bool _showTitleOnAppBar;
-  bool get showTitleOnAppBar => _showTitleOnAppBar;
-  set showTitleOnAppBar(bool value){
-    _showTitleOnAppBar = value;
-    notifyListeners();
-  }
-
-  late bool _coverVisible;
-  bool get coverVisible => _coverVisible;
-  set coverVisible(bool value){
-    _coverVisible = value;
-    notifyListeners();
-  }
-
-  AppBarProvider(){
-    _elevated = true;
-    _showTitleOnAppBar = false;
-    _coverVisible = true;
-  }
 
 }

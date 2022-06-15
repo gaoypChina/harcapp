@@ -46,18 +46,18 @@ class IndivCompPreviewWidget extends StatelessWidget{
             elevation: 6.0
           ),
 
-          if(comp.profile.active)
+          if(comp.myProfile?.active == true)
             const SizedBox(height: sepSize),
 
-          if(comp.profile.active)
+          if(comp.myProfile?.active == true)
             PointsWidget(
-                points: comp.profile.points,
+                points: comp.myProfile?.points,
                 size: textSize,
                 textSize: .65*textSize,
                 textColor: comp.colors.iconColor
             ),
 
-          if(comp.profile.active)
+          if(comp.myProfile?.active == true)
             const SizedBox(height: sepSize),
 
         ],

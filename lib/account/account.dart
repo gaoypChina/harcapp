@@ -7,7 +7,43 @@ import '../_app_common/accounts/user_data.dart';
 
 //bool isLoggedIn = null; //true - logged in. false - not logged in. null - logging in;
 
+class LoginListener{
+
+  final void Function(bool)? onLogin;
+  final void Function()? onRegistered;
+  final void Function(bool)? onEmailConfirmChanged;
+  final void Function()? onForceLogout;
+
+  const LoginListener({this.onLogin, this.onRegistered, this.onEmailConfirmChanged, this.onForceLogout});
+
+}
+
 class AccountData {
+
+  static List<LoginListener> _listeners = [];
+
+  static void addLoginListener(LoginListener listener) => _listeners.add(listener);
+  static void removeLoginListener(LoginListener listener) => _listeners.remove(listener);
+
+  static void callOnLogin(bool emailConfirmed){
+    for(LoginListener? listener in _listeners)
+      listener!.onLogin?.call(emailConfirmed);
+  }
+
+  static void callOnRegister(){
+    for(LoginListener? listener in _listeners)
+      listener!.onRegistered?.call();
+  }
+
+  static void callOnEmailConfirmChanged(bool emailConfirmed){
+    for(LoginListener? listener in _listeners)
+      listener!.onEmailConfirmChanged?.call(emailConfirmed);
+  }
+
+  static void callOnForceLogout(){
+    for(LoginListener? listener in _listeners)
+      listener!.onForceLogout?.call();
+  }
 
   static String? _lastConfLoginEmail;
 

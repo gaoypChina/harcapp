@@ -1,6 +1,8 @@
-import 'package:expandable_text/expandable_text.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_app_common/stripe_widget.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
@@ -28,7 +30,9 @@ import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
 import '../../../_common_widgets/app_toast.dart';
+import '../common.dart';
 import 'announcement_edit_page/_main.dart';
+import 'circle_description_page.dart';
 import 'circle_editor/_main.dart';
 import 'circle_palette_generator.dart';
 import 'circle_role.dart';
@@ -97,6 +101,9 @@ class CirclePage extends StatefulWidget{
 
 class CirclePageState extends State<CirclePage>{
 
+  static const circleCoverTag = 'circleCoverTag';
+  static const circleNameTag = 'circleNameTag';
+
   late AnnouncementCategories currTab;
 
   Circle get circle => widget.circle;
@@ -143,6 +150,10 @@ class CirclePageState extends State<CirclePage>{
   late int allLoadedPage;
   late int pinnedLoadedPage;
   late int awaitingLoadedPage;
+
+  late bool changeShareCodeProcessing;
+
+  late LoginListener loginListener;
 
   int get loadedPage{
     switch(currTab){
@@ -198,6 +209,8 @@ class CirclePageState extends State<CirclePage>{
   @override
   void initState() {
 
+    changeShareCodeProcessing = false;
+
     if(circle.awaitingCount != 0) {
       currTab = AnnouncementCategories.awaiting;
     }else
@@ -235,6 +248,11 @@ class CirclePageState extends State<CirclePage>{
     morePinnedToLoad = circle.pinnedAnnouncements.length == Circle.announcementPageSize;
     moreAwaitingToLoad = circle.awaitingAnnouncements.length == Circle.announcementPageSize;
 
+    loginListener = LoginListener(
+        onForceLogout: () => Navigator.pop(context)
+    );
+    AccountData.addLoginListener(loginListener);
+
     super.initState();
   }
 
@@ -242,6 +260,7 @@ class CirclePageState extends State<CirclePage>{
   void dispose(){
     scrollController.dispose();
     refreshController.dispose();
+    AccountData.removeLoginListener(loginListener);
     super.dispose();
   }
   
@@ -259,7 +278,7 @@ class CirclePageState extends State<CirclePage>{
   Color? get backgroundColor => CirclePage.backgroundColor(context, palette);
   Color? get cardColor => CirclePage.cardColor(context, palette);
   Color get strongColor => CirclePage.strongColor(context, palette);
-  Color get iconColor => CirclePage.coverIconColor(context, paletteAlways);
+  Color get coverIconColor => CirclePage.coverIconColor(context, paletteAlways);
 
   void notifyScrollController() => post(() => scrollController.jumpTo(scrollController.offset + 1e-10));
 
@@ -339,6 +358,8 @@ class CirclePageState extends State<CirclePage>{
               return;
             }
 
+            CircleListProvider circleListProv = Provider.of<CircleListProvider>(context);
+
             await ApiCircle.get(
                 circleKey: circle.key,
                 onSuccess: (updatedCircle) async {
@@ -365,7 +386,22 @@ class CirclePageState extends State<CirclePage>{
 
                   setState(() {});
                 },
-                onError: () => showAppToast(context, text: 'Coś poszło nie tak...')
+                onError: (responseStatusCode){
+                  if(responseStatusCode == HttpStatus.notFound){
+                    showAppToast(
+                        context,
+                        text: AccountData.sex == Sex.male ?
+                        'Zostałeś wyproszony':
+                        'Zostałaś wyproszona'
+                    );
+                    Circle.removeFromAll(circle);
+                    circleListProv.notify();
+                    popPage(context);
+                    return;
+                  }
+
+                  showAppToast(context, text: 'Coś poszło nie tak...');
+                }
             );
 
             refreshController.refreshCompleted();
@@ -430,7 +466,7 @@ class CirclePageState extends State<CirclePage>{
                 Consumer<AppBarProvider>(
                   builder: (context, prov, child) => SliverAppBar(
                     iconTheme: IconThemeData(
-                        color: prov.coverVisible?iconColor:iconEnab_(context)
+                        color: prov.coverVisible?coverIconColor:iconEnab_(context)
                     ),
                     centerTitle: true,
                     pinned: true,
@@ -439,10 +475,32 @@ class CirclePageState extends State<CirclePage>{
                     backgroundColor: backgroundColor,
                     expandedHeight: 200,
                     actions: [
+
+                      if(circle.myRole == CircleRole.ADMIN)
+                        IconButton(
+                          icon: Icon(
+                              circle.shareCodeSearchable?
+                              MdiIcons.accessPoint:
+                              MdiIcons.accessPointOff,
+
+                              color: prov.coverVisible?coverIconColor:iconEnab_(context)
+
+                          ),
+                          onPressed: changeShareCodeProcessing?null:() async {
+                            setState(() => changeShareCodeProcessing = true);
+                            await ApiCircle.setShareCodeSearchable(
+                                compKey: circle.key,
+                                searchable: !circle.shareCodeSearchable,
+                                onSuccess: (searchable) => setState(() => circle.shareCodeSearchable = searchable)
+                            );
+                            setState(() => changeShareCodeProcessing = false);
+                          },
+                        ),
+
                       IconButton(
                         icon: Icon(
                             MdiIcons.cogOutline,
-                            color: prov.coverVisible?iconColor:iconEnab_(context)
+                            color: prov.coverVisible?coverIconColor:iconEnab_(context)
                         ),
                         onPressed: () => pushPage(
                             context,
@@ -482,7 +540,10 @@ class CirclePageState extends State<CirclePage>{
                         ),
                       ),
                       centerTitle: true,
-                      background: CoverImage(circle.coverImage),
+                      background: Hero(
+                        tag: circleCoverTag,
+                        child: CoverImage(circle.coverImage),
+                      ),
                     ),
                   ),
                 ),
@@ -490,37 +551,78 @@ class CirclePageState extends State<CirclePage>{
                 SliverList(delegate: SliverChildListDelegate([
 
                   Padding(
-                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                    child: Center(
-                      child: Text(
-                        circle.name,
-                        style: AppTextStyle(
-                            fontSize: 28.0,
-                            fontWeight: weight.halfBold
-                        ),
-                        textAlign: TextAlign.center,
-                        key: appBarKey,
+                      padding: const EdgeInsets.only(
+                        top: Dimen.SIDE_MARG,
+                        left: Dimen.SIDE_MARG,
+                        right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+                        bottom: Dimen.SIDE_MARG,
                       ),
-                    ),
+                      child: Hero(
+                          tag: circleNameTag,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: Row(
+                              children: [
+
+                                Expanded(
+                                  child: Text(
+                                    circle.name,
+                                    style: AppTextStyle(
+                                        fontSize: 28.0,
+                                        fontWeight: weight.bold
+                                    ),
+                                    key: appBarKey,
+                                  ),
+                                ),
+
+                                IconButton(
+                                  icon: const Icon(MdiIcons.chevronDown),
+                                  onPressed: () => pushPage(
+                                      context,
+                                      builder: (context) => CircleDescriptionPage(circle, palette)
+                                  ),
+                                )
+
+                              ],
+                            ),
+                          )
+                      )
                   ),
 
-                  if(circle.hasDescription)
-                    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                        child: ExpandableText(
-                          circle.description!,
-                          style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
-                          maxLines: 3,
-                          animation: true,
-                          linkColor: strongColor,
-                          linkStyle: AppTextStyle(fontWeight: weight.halfBold),
-                          expandText: 'więcej',
-                          collapseText: 'mniej',
-                        )
+                  if(circle.myRole == CircleRole.ADMIN)
+                    AnimatedSize(
+                      alignment: Alignment.bottomCenter,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeOutQuad,
+                      clipBehavior: Clip.none,
+                      child: SizedBox(
+                        height: circle.shareCodeSearchable?null:0,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: Dimen.SIDE_MARG,
+                            left: Dimen.SIDE_MARG,
+                            right: Dimen.SIDE_MARG
+                          ),
+                          child: ShareCodeWidget(
+                            circle.shareCode!,
+                            circle.shareCodeSearchable,
+                            enabled: !changeShareCodeProcessing,
+                            backgroundColor: CirclePage.backgroundColor(context, palette),
+                            borderColor: CirclePage.cardColor(context, palette),
+                            resetShareCode: () => ApiCircle.resetShareCode(
+                                circleKey: circle.key,
+                                onSuccess: (shareCode){
+                                  setState(() => circle.shareCode = shareCode);
+                                },
+                                onError: (dynamic errData){
+                                  if(errData is Map && errData['errors'] != null && errData['errors']['shareCode'] == 'share_code_changed_too_soon')
+                                    showAppToast(context, text: 'Za często zmieniasz kod dostępu');
+                                }
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-
-                  if(circle.hasDescription)
-                    const SizedBox(height: Dimen.ICON_SIZE),
 
                   AccountThumbnailRowWidget(
                     circle.members.map((m) => m.name).toList(),
@@ -530,15 +632,15 @@ class CirclePageState extends State<CirclePage>{
                     backgroundColor: backgroundColor,
                     padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                     onTap: () => pushPage(
-                        context,
-                        builder: (context) => circle.myRole == CircleRole.ADMIN || circle.myRole == CircleRole.MODERATOR?
-                        MembersAdminPage(circle, palette):
-                        MembersPage(circle, palette)
+                      context,
+                      builder: (context) => circle.myRole == CircleRole.ADMIN || circle.myRole == CircleRole.MODERATOR?
+                      MembersAdminPage(circle, palette):
+                      MembersPage(circle, palette)
                     ),
                     heroBuilder: (index) => circle.members[index],
                   ),
 
-                  if(circle.members.firstWhere((mem) => mem.key == AccountData.key).role != CircleRole.OBSERVER)
+                  if(circle.myRole == CircleRole.MODERATOR || circle.myRole == CircleRole.ADMIN)
                     Padding(
                       padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG),
                       child: SimpleButton(

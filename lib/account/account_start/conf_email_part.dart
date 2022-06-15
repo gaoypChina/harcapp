@@ -57,9 +57,8 @@ class ConfEmailPartState extends State<ConfEmailPart>{
         onSuccess: (loggedIn){
           AccountData.writeEmailConf(true);
 
-          LoginProvider prov = Provider.of<LoginProvider>(context, listen: false);
-          prov.callOnEmailConfirmChanged(loggedIn);
-          prov.notify();
+          Provider.of<LoginProvider>(context, listen: false).notify();
+          AccountData.callOnEmailConfirmChanged(loggedIn);
 
           pushReplacePage(
               context,

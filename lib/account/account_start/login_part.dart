@@ -7,6 +7,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp/_new/cat_page_home/circles/model/circle.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
+import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_common/microsoft_login_button.dart';
 import 'package:harcapp/account/account_start/page_template.dart';
 import 'package:harcapp/account/account_start/part_template.dart';
@@ -65,12 +68,13 @@ class LoginPartState extends State<LoginPart>{
         context: context,
         email: email,
         password: password,
-        onSuccess: (Response response, bool emailConf, bool loggedIn) async {
+        onSuccess: (Response response, bool emailConf, bool loggedIn, List<Circle> circles) async {
           setState(() => processing = false);
 
-          LoginProvider prov = Provider.of<LoginProvider>(context, listen: false);
-          prov.callOnLogin(emailConf);
-          prov.notify();
+          Provider.of<LoginProvider>(context, listen: false).notify();
+          AccountData.callOnLogin(emailConf);
+
+          Circle.init(context, circles);
 
           if(loggedIn)
             widget.onLoggedIn?.call(emailConf);
@@ -116,11 +120,11 @@ class LoginPartState extends State<LoginPart>{
       await ApiRegLog.carefullyMicrosoftLogin(
           context: context,
           azureToken: azureToken,
-          onSuccess: (Response response, bool emailConf, bool loggedIn) async {
+          onSuccess: (Response response, bool emailConf, bool loggedIn, List<Circle> circles) async {
 
-            LoginProvider prov = Provider.of<LoginProvider>(context, listen: false);
-            prov.callOnLogin(emailConf);
-            prov.notify();
+            Provider.of<LoginProvider>(context, listen: false).notify();
+            AccountData.callOnLogin(emailConf);
+            Circle.init(context, circles);
 
             await popPage(context); // close login alert dialog
 
@@ -140,8 +144,8 @@ class LoginPartState extends State<LoginPart>{
           }
       );
     } catch (e) {
-      await popPage(context); // close login alert dialog
       showAppToast(context, text: 'Coś poszło nie tak...');
+      await popPage(context); // close login alert dialog
       await ZhpAccAuth.logout();
     }
 

@@ -9,6 +9,7 @@ class CommonColorData{
   static String get DEF_COLORS_KEY => 'gold';
   static String get CONF_COLORS_KEY => 'dawn';
   static String get OMEGA_COLORS_KEY => 'omegaalbum';
+  static String get SPACE_COLORS_KEY => 'blueberry';
 
   static String get randomKey => ALL_PICKABLE.keys.toList()[Random().nextInt(ALL_PICKABLE.length)];
 

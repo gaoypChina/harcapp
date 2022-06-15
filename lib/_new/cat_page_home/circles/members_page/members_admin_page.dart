@@ -196,7 +196,7 @@ class MembersAdminPageState extends State<MembersAdminPage>{
             right: 2*Dimen.SIDE_MARG,
             bottom: kBottomNavigationBarHeight + 2*Dimen.SIDE_MARG,
             child: Material(
-              color: background_(context),
+              color: Colors.transparent,
               child: Column(
                 children: [
 
@@ -342,7 +342,7 @@ class _MemberTileState extends State<_MemberTile>{
             if(member.role != CircleRole.OBSERVER)
               ListTile(
                 enabled: !member.shadow,
-                leading: Icon(circleRoleToIcon[CircleRole.OBSERVER]),
+                leading: Icon(circleRoleToIcon[CircleRole.OBSERVER], color: iconEnab_(context)),
                 title: Text('Nadaj rolę uczestnika', style: AppTextStyle()),
                 onTap: member.shadow?null: () async {
                   await showUpdateRoleDialog(
@@ -361,7 +361,7 @@ class _MemberTileState extends State<_MemberTile>{
             if(member.role != CircleRole.MODERATOR)
               ListTile(
                 enabled: !member.shadow,
-                leading: Icon(circleRoleToIcon[CircleRole.MODERATOR]),
+                leading: Icon(circleRoleToIcon[CircleRole.MODERATOR], color: iconEnab_(context)),
                 title: Text('Nadaj rolę moderatora', style: AppTextStyle()),
                 onTap: member.shadow?null: () async {
                   await showUpdateRoleDialog(
@@ -378,7 +378,7 @@ class _MemberTileState extends State<_MemberTile>{
             if(member.role != CircleRole.ADMIN)
               ListTile(
                 enabled: !member.shadow,
-                leading: Icon(circleRoleToIcon[CircleRole.ADMIN]),
+                leading: Icon(circleRoleToIcon[CircleRole.ADMIN], color: iconEnab_(context)),
                 title: Text('Nadaj rolę administratora', style: AppTextStyle()),
                 onTap: member.shadow?null: () async {
                   await showUpdateRoleDialog(
@@ -396,7 +396,7 @@ class _MemberTileState extends State<_MemberTile>{
 
             ListTile(
               enabled: !member.shadow,
-              leading: const Icon(MdiIcons.googleCirclesGroup),
+              leading: Icon(MdiIcons.googleCirclesGroup, color: iconEnab_(context)),
               title: Text('Zarządzaj zastępem', style: AppTextStyle()),
               subtitle: member.patrol==null?null:Text(member.patrol!, style: AppTextStyle()),
               onTap: member.shadow?null: () async {

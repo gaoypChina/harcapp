@@ -200,18 +200,18 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
 
                                 const SizedBox(width: Dimen.ICON_MARG),
 
-                                const Icon(MdiIcons.alertCircleOutline, color: Colors.black54),
+                                Icon(MdiIcons.alertCircleOutline, color: textEnab_(context)),
 
                                 const SizedBox(width: Dimen.ICON_MARG),
 
                                 Expanded(
                                   child: AppText(
                                     'Ogłoszenie czeka <b>$timeDurStr</b> na reakcję',
-                                    color: Colors.black54,
+                                    color: textEnab_(context),
                                   ),
                                 ),
 
-                                const Icon(MdiIcons.arrowUp, color: Colors.black54),
+                                Icon(MdiIcons.arrowUp, color: textEnab_(context)),
 
                                 const SizedBox(width: Dimen.ICON_MARG),
 

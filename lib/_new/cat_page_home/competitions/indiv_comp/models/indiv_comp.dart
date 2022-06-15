@@ -10,6 +10,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import 'package:harcapp/account/account.dart';
+import 'package:harcapp/logger.dart';
 import 'package:provider/provider.dart';
 
 import 'show_rank_data.dart';
@@ -214,7 +215,22 @@ class IndivComp{
   String? shareCode;
   bool shareCodeSearchable;
 
-  IndivCompProfile get profile => participMap[AccountData.key!]!.profile;
+  IndivCompProfile? get myProfile{
+    String? accKey = AccountData.key;
+    if(accKey == null){
+      logger.w('Value of saved account data key is null. Are you logged in?');
+      return null;
+    }
+    IndivCompParticip? me = participMap[accKey];
+
+    if(me == null){
+      AccountData.forgetAccount();
+      AccountData.callOnForceLogout();
+      return null;
+    }
+
+    return me.profile;
+  }
 
   final List<IndivCompParticip> particips;
   final Map<String, IndivCompParticip> participMap;
@@ -256,7 +272,7 @@ class IndivComp{
 
     particips.sort((p1, p2) => (p1.profile.rank?.sortIndex??0).toInt() - (p2.profile.rank?.sortIndex??0).toInt());
 
-    if(!profile.active) return;
+    if(myProfile?.active == false) return;
     String? thisParticipKey = AccountData.key;
     if(!ranks.containsKey(thisParticipKey)) return;
 

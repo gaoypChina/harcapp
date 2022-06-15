@@ -24,8 +24,10 @@ class CirclePreviewWidget extends StatelessWidget{
     width: width,
     child: SimpleButton(
         color: background_(context),
+        elevation: AppCard.bigElevation,
+        margin: const EdgeInsets.all(Dimen.SIDE_MARG),
         padding: padding,
-        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        borderRadius: BorderRadius.circular(1000), //AppCard.BIG_RADIUS),
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(Dimen.SIDE_MARG),

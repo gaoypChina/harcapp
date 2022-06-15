@@ -36,8 +36,7 @@ class CirclesWidgetState extends State<CirclesWidget>{
   bool get singleLine => widget.singleLine;
   Widget Function(List<Circle>?) get circleWidgetBuilder => widget.circleWidgetBuilder;
 
-  late LoginProvider loginProvider;
-  late LoginProviderListener loginListener;
+  late LoginListener loginListener;
 
   late CircleLoaderListener _listener;
 
@@ -57,7 +56,7 @@ class CirclesWidgetState extends State<CirclesWidget>{
     );
     circleLoader.addListener(_listener);
 
-    loginListener = LoginProviderListener(
+    loginListener = LoginListener(
         onLogin: (emailConfirmed){
           if(emailConfirmed) circleLoader.run();
           else setState(() {});
@@ -71,8 +70,7 @@ class CirclesWidgetState extends State<CirclesWidget>{
         }
     );
 
-    loginProvider = Provider.of<LoginProvider>(context, listen: false);
-    loginProvider.addLoginListener(loginListener);
+    AccountData.addLoginListener(loginListener);
 
     networkAvailable = true;
         () async {
@@ -96,7 +94,7 @@ class CirclesWidgetState extends State<CirclesWidget>{
 
   @override
   void dispose() {
-    loginProvider.removeLoginListener(loginListener);
+    AccountData.removeLoginListener(loginListener);
     circleLoader.removeListener(_listener);
 
     super.dispose();
@@ -113,7 +111,7 @@ class CirclesWidgetState extends State<CirclesWidget>{
             text: 'Brak internetu',
             icon: MdiIcons.earthOff,
           );
-        else if(loginProvider.loggedIn){
+        else if(AccountData.loggedIn){
 
           if(!AccountData.emailConf)
             return Stack(

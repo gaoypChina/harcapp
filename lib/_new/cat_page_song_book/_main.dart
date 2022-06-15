@@ -47,7 +47,6 @@ import 'package:wakelock/wakelock.dart';
 
 import '../../main.dart';
 import '../app_drawer.dart';
-import '../main_page_new.dart';
 import '../module_statistics_registrator.dart';
 import 'album/album_drawer.dart';
 import 'album/album_page.dart';
@@ -428,7 +427,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
                               double lineHeight = textHeight/song.lineNumList.length;
 
-                              double topPadding = Provider.of<MainProvider>(context, listen: false).statusBarHeight;
+                              double topPadding = App.statusBarHeight;
 
                               double appBarHeight = kToolbarHeight - outerController.offset;
 

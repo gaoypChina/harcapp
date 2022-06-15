@@ -214,10 +214,15 @@ class CommonIconData{
   };
 
   static const Map<String, IconData> CARS = {
+    'bicycle': MdiIcons.bicycle,
+    'bike': MdiIcons.bike,
+    'bicycleCargo': MdiIcons.bicycleCargo,
     'carHatchback': MdiIcons.carHatchback,
     'car': MdiIcons.car,
     'jeepney': MdiIcons.jeepney,
     'wheelBarrow': MdiIcons.wheelBarrow,
+    'rocketOutline': MdiIcons.rocketOutline,
+    'rocketLaunchOutline': MdiIcons.rocketLaunchOutline,
   };
 
   static const Map<String, IconData> WEATHER = {

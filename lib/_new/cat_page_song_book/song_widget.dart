@@ -158,8 +158,6 @@ class SongWidget extends StatelessWidget{
 
     onYTLinkTap: (position) async {
 
-      MainProvider mainProvider = MainProvider.of(context);
-
       if(!await isNetworkAvailable()) {
         showAppToast(context, text: 'Brak połączenia z Internetem.');
         return;
@@ -168,7 +166,7 @@ class SongWidget extends StatelessWidget{
       if(Platform.isAndroid && (await DeviceInfoPlugin().androidInfo).version.sdkInt! < 20 && song.youtubeLink != null)
         launchURL(song.youtubeLink!);
 
-      double statusBarHeight = mainProvider.statusBarHeight;
+      double statusBarHeight = App.statusBarHeight;
 
       await playYoutubeSong(
           parent!.context,
@@ -234,7 +232,7 @@ class SongWidget extends StatelessWidget{
         context: context,
         builder: (context){
 
-          double statusBarHeight = Provider.of<MainProvider>(context, listen: false).statusBarHeight;
+          double statusBarHeight = App.statusBarHeight;
 
           return Stack(
             children: <Widget>[

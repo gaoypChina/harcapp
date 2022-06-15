@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/main_page_new.dart';
 import 'package:harcapp/account/account_start/input_field_controller.dart';
+import 'package:harcapp/main.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
@@ -41,7 +42,7 @@ class SexInputField extends StatelessWidget{
 
       Sex? selSex = await showChooseSexDialog(
           context,
-          position.dy - Provider.of<MainProvider>(context, listen: false).statusBarHeight,
+          position.dy - App.statusBarHeight,
           sex
       );
 
