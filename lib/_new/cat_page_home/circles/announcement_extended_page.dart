@@ -43,70 +43,70 @@ class AnnouncementExpandedPage extends StatelessWidget{
       }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => BottomNavScaffold(
-    backgroundColor: CirclePage.backgroundColor(context, palette),
-    appBottomNavColor: CirclePage.backgroundColor(context, palette),
-    body: DefaultTabController(
-      length: enablesResp?2:1,
-      initialIndex: enablesResp && displayAttendacePage?1:0,
-      child: ExtendedNestedScrollView(
-        floatHeaderSlivers: true,
-        pinnedHeaderSliverHeightBuilder: () => const TabBar(tabs: []).preferredSize.height,
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
+  Widget build(BuildContext context) =>   Consumer<AnnouncementProvider>(
+    builder: (context, prov, child) => BottomNavScaffold(
+      backgroundColor: CirclePage.backgroundColor(context, palette),
+      appBottomNavColor: CirclePage.backgroundColor(context, palette),
+      body: DefaultTabController(
+        length: enablesResp?2:1,
+        initialIndex: enablesResp && displayAttendacePage?1:0,
+        child: ExtendedNestedScrollView(
+          floatHeaderSlivers: true,
+          pinnedHeaderSliverHeightBuilder: () => const TabBar(tabs: []).preferredSize.height,
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
 
-          SliverAppBar(
-            title: Text(announcement.title),
-            centerTitle: true,
-            floating: true,
-            pinned: true,
-            forceElevated: innerBoxIsScrolled,
-            backgroundColor: CirclePage.backgroundColor(context, palette),
-            bottom: enablesResp?TabBar(
-              tabs: const [
-                Tab(text: 'Ogłoszenie'),
-                Tab(text: 'Obecności'),
-              ],
-              indicator: AppTabBarIncdicator(
-                color: CirclePage.strongColor(context, palette)
-              ),
-            ):null,
-          ),
+            SliverAppBar(
+              title: Text(announcement.title),
+              centerTitle: true,
+              floating: true,
+              pinned: true,
+              forceElevated: innerBoxIsScrolled,
+              backgroundColor: CirclePage.backgroundColor(context, palette),
+              bottom: enablesResp?TabBar(
+                tabs: const [
+                  Tab(text: 'Ogłoszenie'),
+                  Tab(text: 'Obecności'),
+                ],
+                indicator: AppTabBarIncdicator(
+                    color: CirclePage.strongColor(context, palette)
+                ),
+              ):null,
+            ),
 
-        ],
-        body: TabBarView(
-            children: [
+          ],
+          body: TabBarView(
+              children: [
 
-              SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                child: Consumer<AnnouncementProvider>(
-                  builder: (context, prov, child) => AnnouncementWidget(
+                SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  child: AnnouncementWidget(
                       announcement,
                       palette,
                       shrinkText: false,
                       showOnTap: false,
                       onAnnouncementUpdated: onAnnouncementsUpdated
                   ),
-                )
-              ),
+                ),
 
-             if(enablesResp)
-                ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: announcement.circle?.members.length??0,
-                  itemBuilder: (context, index) => MemberTile(
-                    announcement,
-                    announcement.circle!.members[index],
-                    palette,
-                    thumbnailColor: CirclePage.backgroundColor(context, palette),
-                    thumbnailBorderColor: CirclePage.cardColor(context, palette),
+                if(enablesResp)
+                  ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: announcement.circle?.members.length??0,
+                      itemBuilder: (context, index) => MemberTile(
+                        announcement,
+                        announcement.circle!.members[index],
+                        palette,
+                        thumbnailColor: CirclePage.backgroundColor(context, palette),
+                        thumbnailBorderColor: CirclePage.cardColor(context, palette),
+                      )
                   )
-                )
 
-            ]
+              ]
+          ),
         ),
       ),
-    ),
+    )
   );
 
 }

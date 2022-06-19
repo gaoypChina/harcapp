@@ -89,7 +89,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
     coverImage = initAnnouncement?.coverImage;
     titleController = TextEditingController(text: initAnnouncement?.title??'');
     textController = TextEditingController(text: initAnnouncement?.text??'');
-    urlToPreviewController = TextEditingController(text: initAnnouncement?.text??'');
+    urlToPreviewController = TextEditingController(text: initAnnouncement?.urlToPreview??'');
     placeController = TextEditingController(text: initAnnouncement?.place??'');
 
     startTime = initAnnouncement?.startTime;

@@ -25,7 +25,6 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'cover_image.dart';
 import 'model/announcement_attendace.dart';
@@ -74,9 +73,11 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
     bool hasEndTime = announcement.endTime != null;
     bool hasPlace = announcement.place != null && announcement.place!.isNotEmpty;
 
-    Duration timeSincePosted = DateTime.now().difference(announcement.postTime);
+    Duration timeSincePosted = AccountData.lastServerTime!.difference(announcement.postTime);
     String timeDurStr;
-    if(timeSincePosted.inDays < 2){
+    if(timeSincePosted.inMinutes < 60) {
+      timeDurStr = '';
+    } else if(timeSincePosted.inDays < 2) {
       timeDurStr = '${timeSincePosted.inHours}';
       if(timeSincePosted.inHours == 0 || timeSincePosted.inHours >= 5) timeDurStr += ' godzin';
       else if(timeSincePosted.inHours == 1) timeDurStr += ' godzinę';
@@ -206,7 +207,9 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
 
                                 Expanded(
                                   child: AppText(
-                                    'Ogłoszenie czeka <b>$timeDurStr</b> na reakcję',
+                                    timeDurStr.isEmpty?
+                                    'Ogłoszenie czeka na reakcję':
+                                    'Ogłoszenie czeka już <b>$timeDurStr</b> na reakcję',
                                     color: textEnab_(context),
                                   ),
                                 ),
@@ -404,7 +407,7 @@ class PostingInfoWidget extends StatelessWidget{
 
       Text(announcement.author.name, style: AppTextStyle()),
       Text(
-        dateToString(announcement.postTime),
+        dateToString(announcement.postTime, shortMonth: true, withTime: true),
         style: AppTextStyle(color: hintEnab_(context)),
       ),
 

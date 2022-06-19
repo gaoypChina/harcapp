@@ -53,6 +53,7 @@ class API{
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<void> Function(DioError)? onError,
 
+    bool saveServerTime = true
   }) async {
 
     Dio dio = Dio(BaseOptions(
@@ -68,7 +69,9 @@ class API{
 
       if(response.statusCode == HttpStatus.ok){
         debugPrint('HarcApp API: ${response.requestOptions.method} ${response.requestOptions.path} :: success!');
-        await onSuccess?.call(response, DateTime.tryParse(response.headers.value('time')??'')??DateTime(966));
+        DateTime lastServerTime = DateTime.tryParse(response.headers.value('time')??'')??DateTime(966);
+        if(saveServerTime) AccountData.writeLastServerTime(lastServerTime);
+        await onSuccess?.call(response, lastServerTime);
       }
       return response;
     } on DioError catch (e) {
@@ -166,4 +169,5 @@ class API{
 
     return result;
   }
+
 }

@@ -71,24 +71,30 @@ class AppBottomNavigator extends StatelessWidget{
   const AppBottomNavigator({this.background, this.selectedItemColor, this.unselectedItemColor, this.elevation, super.key});
 
   int bottomNavBarToIndex(AppBottomNavItem item){
+
+    // This has to return all values from 0..n;
+
     switch(item){
       case AppBottomNavItem.home: return 0;
       //case AppBottomNavItem.map: return 1;
-      case AppBottomNavItem.songBook: return 2;
-      case AppBottomNavItem.guidebook: return 3;
-      case AppBottomNavItem.harcThought: return 4;
-      case AppBottomNavItem.strefaDucha: return 5;
+      case AppBottomNavItem.songBook: return 1;
+      case AppBottomNavItem.guidebook: return 2;
+      case AppBottomNavItem.harcThought: return 3;
+      case AppBottomNavItem.strefaDucha: return 4;
     }
   }
 
   AppBottomNavItem indexToBottomNavBarItem(int index){
+
+    // This has to accept as an argument all values from 0..n;
+
     switch(index){
       case 0: return AppBottomNavItem.home;
       //case 1: return AppBottomNavItem.map;
-      case 2: return AppBottomNavItem.songBook;
-      case 3: return AppBottomNavItem.guidebook;
-      case 4: return AppBottomNavItem.harcThought;
-      case 5: return AppBottomNavItem.strefaDucha;
+      case 1: return AppBottomNavItem.songBook;
+      case 2: return AppBottomNavItem.guidebook;
+      case 3: return AppBottomNavItem.harcThought;
+      case 4: return AppBottomNavItem.strefaDucha;
       default: return AppBottomNavItem.guidebook;
     }
   }

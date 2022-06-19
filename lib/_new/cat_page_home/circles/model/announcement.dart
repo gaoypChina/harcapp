@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendace.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
 import 'package:provider/provider.dart';
@@ -133,9 +134,23 @@ class Announcement{
       startTime != null ||
       place != null;
 
-  bool get isAwaitingMyResponse =>
-      respMode == AnnouncementAttendanceRespMode.OBLIGATORY &&
-      myAttendance == null && !waivedAttRespMembers.contains(AccountData.key);
+  bool get isAwaitingMyResponse{
+
+    if(waivedAttRespMembers.contains(AccountData.key))
+      return false;
+
+    if(endTime != null && endTime!.isBefore(AccountData.lastServerTime??DateTime.now()))
+      return false;
+
+    if(respMode == AnnouncementAttendanceRespMode.OBLIGATORY && myAttendance == null)
+      return true;
+
+    if(myAttendance != null && myAttendance!.response == AnnouncementAttendance.POSTPONE_RESP &&
+        myAttendance!.postponeTime!.isAfter(AccountData.lastServerTime??DateTime.now()))
+      return true;
+
+    return false;
+  }
 
   AnnouncementAttendanceResp? get myAttendance{
     String? accKey = AccountData.key;

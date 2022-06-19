@@ -20,7 +20,7 @@ class LoginListener{
 
 class AccountData {
 
-  static List<LoginListener> _listeners = [];
+  static final List<LoginListener> _listeners = [];
 
   static void addLoginListener(LoginListener listener) => _listeners.add(listener);
   static void removeLoginListener(LoginListener listener) => _listeners.remove(listener);
@@ -47,6 +47,7 @@ class AccountData {
 
   static String? _lastConfLoginEmail;
 
+  static DateTime? _lastServerTime;
   static String? _key;
   static String? _jwt;
   static String? _email;
@@ -65,6 +66,7 @@ class AccountData {
 
   static const String _keyLastConfLoginEmail = 'acc_last_conf_login_email';
 
+  static const String _keyLastServerTime = 'acc_last_server_time';
   static const String _keyKey = 'acc_key';
   static const String _keyJwt = 'acc_jwt';
   static const String _keyEmail = 'acc_email';
@@ -83,6 +85,7 @@ class AccountData {
 
   static Future<void> init() async {
     FlutterSecureStorage storage = const FlutterSecureStorage();
+    _lastServerTime = DateTime.tryParse(await storage.read(key: _keyLastServerTime)??'')??DateTime.now();
     _key = await storage.read(key: _keyKey);
     _jwt = await storage.read(key: _keyJwt);
     _email = await storage.read(key: _keyEmail);
@@ -127,6 +130,23 @@ class AccountData {
   }
 
   static bool get convertableToMicrosoft => !microsoftAcc && (email != null && (email!.split('@')[1] == 'zhp.net.pl' || email!.split('@')[1] == 'zhp.pl'));
+
+
+  static DateTime? get lastServerTime => _lastServerTime;
+
+  static Future<void> removeLastServerTime() async {
+    _lastServerTime = null;
+    await const FlutterSecureStorage().delete(key: _keyLastServerTime);
+  }
+
+  static Future<void> writeLastServerTime(DateTime? value) async {
+    _lastServerTime = value;
+    if (value == null)
+      return await removeLastServerTime();
+    else
+      return await const FlutterSecureStorage().write(key: _keyLastServerTime, value: value.toIso8601String());
+  }
+
 
   static String? get key => _key;
 
@@ -396,7 +416,9 @@ class AccountData {
     
   }
   
-  static Future<void> forgetAccount() async {
+  static Future<void> forgetAccount({bool forgetLastServerTime = false}) async {
+    if(forgetLastServerTime) await AccountData.removeLastServerTime();
+
     await AccountData.removeKey();
     await AccountData.removeEmail();
     await AccountData.removeName();

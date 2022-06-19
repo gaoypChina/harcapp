@@ -358,7 +358,7 @@ class CirclePageState extends State<CirclePage>{
               return;
             }
 
-            CircleListProvider circleListProv = Provider.of<CircleListProvider>(context);
+            CircleListProvider circleListProv = Provider.of<CircleListProvider>(context, listen: false);
 
             await ApiCircle.get(
                 circleKey: circle.key,
