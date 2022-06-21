@@ -103,24 +103,39 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
       children: [
 
         if(showCircleButton)
-          SimpleButton(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(AnnouncementWidgetTemplate.radius),
-              topRight: Radius.circular(AnnouncementWidgetTemplate.radius)
-            ),
-            color: CirclePage.cardColor(context, palette),
-            onTap: onCircleButtonTap,
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(MdiIcons.googleCircles, size: 20),
-                  const SizedBox(width: Dimen.ICON_MARG),
-                  Text(announcement.circle!.name, style: AppTextStyle(fontWeight: weight.halfBold, color: iconEnab_(context)))
-                ],
-              ),
-            )
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+
+              Positioned.fill(child: Material(
+                color: CirclePage.cardColor(context, palette),
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(AnnouncementWidgetTemplate.radius),
+                    topRight: Radius.circular(AnnouncementWidgetTemplate.radius)
+                ),
+              )),
+              
+              SimpleButton(
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(AnnouncementWidgetTemplate.radius),
+                      topRight: Radius.circular(AnnouncementWidgetTemplate.radius)
+                  ),
+                  color: backgroundIcon_(context),
+                  onTap: onCircleButtonTap,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(MdiIcons.googleCircles, size: 20),
+                        const SizedBox(width: Dimen.ICON_MARG),
+                        Text(announcement.circle!.name, style: AppTextStyle(fontWeight: weight.halfBold, color: iconEnab_(context)))
+                      ],
+                    ),
+                  )
+              )
+              
+            ],
           ),
 
         SimpleButton(
@@ -188,7 +203,7 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
                     colorEnd: Colors.amber,
                     radius: radius,
                     child: Padding(
-                        padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                        padding: const EdgeInsets.all(Dimen.DEF_MARG/2),
                         child: Container(
                           decoration: BoxDecoration(
                               color: CirclePage.backgroundColor(context, palette),

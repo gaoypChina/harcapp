@@ -43,10 +43,11 @@ class Announcement{
 
   }
 
-  static init(BuildContext context, List<Announcement> announcements){
+  static init(List<Announcement> announcements, {BuildContext? context}){
 
     silentInit(announcements);
 
+    if(context == null) return;
     Provider.of<AnnouncementProvider>(context, listen: false).notify();
     Provider.of<AnnouncementListProvider>(context, listen: false).notify();
   }
@@ -136,18 +137,22 @@ class Announcement{
 
   bool get isAwaitingMyResponse{
 
+    // If I said I'll respond later
+    if(myAttendance != null && myAttendance!.response == AnnouncementAttendance.POSTPONE_RESP &&
+        myAttendance!.postponeTime!.isBefore(AccountData.lastServerTime??DateTime.now()))
+      return true;
+
+    // If I'm waived from responding
     if(waivedAttRespMembers.contains(AccountData.key))
       return false;
 
-    if(endTime != null && endTime!.isBefore(AccountData.lastServerTime??DateTime.now()))
-      return false;
-
+    // If I haven't responded
     if(respMode == AnnouncementAttendanceRespMode.OBLIGATORY && myAttendance == null)
       return true;
 
-    if(myAttendance != null && myAttendance!.response == AnnouncementAttendance.POSTPONE_RESP &&
-        myAttendance!.postponeTime!.isAfter(AccountData.lastServerTime??DateTime.now()))
-      return true;
+    // If the event has taken place already
+    if(endTime != null && endTime!.isBefore(AccountData.lastServerTime??DateTime.now()))
+      return false;
 
     return false;
   }

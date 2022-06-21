@@ -82,10 +82,11 @@ class Circle{
 
   }
 
-  static init(BuildContext context, List<Circle> circles){
+  static init(List<Circle> circles, {BuildContext? context}){
 
     silentInit(circles);
 
+    if(context == null) return;
     Provider.of<CircleProvider>(context, listen: false).notify();
     Provider.of<CircleListProvider>(context, listen: false).notify();
   }

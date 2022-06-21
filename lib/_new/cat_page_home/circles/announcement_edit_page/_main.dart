@@ -517,7 +517,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                           previewData = null;
                           setState(() {});
                         },
-                        style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL),
+                        style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
                         maxLines: 1,
                         textCapitalization: TextCapitalization.sentences
                     ),

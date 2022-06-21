@@ -28,6 +28,17 @@ class PartChangelog extends StatelessWidget{
             sliver: SliverList(delegate: SliverChildListDelegate([
 
               const ListCard(
+                  '3.1.10',
+                  [
+                    'Dodano nowe piosenki,',
+                    'Dodano apele ewangeliczne,',
+                    'Dodano historię wyszukiwania piosenek',
+                    'Poprawiono błąd odtwarzania piosenek na YT w module "Śpiewnik",',
+                    'Poprawiono i ujednolicono interfejsy',
+                  ]
+              ),
+
+              const ListCard(
                   '3.1.9',
                   [
                     'Dodano język niderlandzki do modułu "Słownik harcerski".'
@@ -732,11 +743,11 @@ class ListCard extends StatelessWidget{
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SizedBox(height: SEPARATOR_BIG/2),
+        const SizedBox(height: SEPARATOR_BIG/2),
         Text(version, style: AppTextStyle(fontWeight: weight.halfBold, color: textEnab_(context))),
-        SizedBox(height: Dimen.DEF_MARG),
+        const SizedBox(height: Dimen.DEF_MARG),
         Column(children: children),
-        SizedBox(height: SEPARATOR_BIG/2),
+        const SizedBox(height: SEPARATOR_BIG/2),
       ]
     );
   }

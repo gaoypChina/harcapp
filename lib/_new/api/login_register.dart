@@ -2,7 +2,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_new/cat_page_home/circles/model/announcement.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/circle.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/common.dart';
 import 'package:harcapp/sync/init_sync_analyser.dart';
@@ -93,7 +95,9 @@ class ApiRegLog{
           DateTime? lastSyncTime,
           bool emailConf,
 
+          List<IndivComp>,
           List<Circle>,
+          List<Announcement>
 
         )? onSuccess,
         void Function(Response? response)? onError
@@ -130,11 +134,24 @@ class ApiRegLog{
           DateTime? lastSyncTime = DateTime.tryParse(response.data['last_sync_time']??'');
           bool emailConf = response.data['email_confirmed']??(throw InvalidResponseError('email_confirmed'));
 
-          List circlesResp = response.data['circles']??(throw InvalidResponseError('email_confirmed'));
+          List indivCompsResp = response.data['indivComps']??(throw InvalidResponseError('indivComps'));
+          List<IndivComp> indivComps = [];
+          for(Map map in indivCompsResp)
+            indivComps.add(IndivComp.fromResponse(map));
 
+          List circlesResp = response.data['circles']??(throw InvalidResponseError('circles'));
           List<Circle> circles = [];
-          for(Map map in circlesResp)
-            circles.add(Circle.fromResponse(map));
+          Map<String, Circle> circleMap = {};
+          for(Map map in circlesResp) {
+            Circle circle = Circle.fromResponse(map);
+            circles.add(circle);
+            circleMap[circle.key] = circle;
+          }
+
+          List feedAnnouncementsResp = response.data['circleFeed']??(throw InvalidResponseError('circleFeed'));
+          List<Announcement> feedAnnouncements = [];
+          for(Map map in feedAnnouncementsResp)
+            feedAnnouncements.add(Announcement.fromMap(map, circleMap[map['circleKey']]!, key: map['_key']));
 
           onSuccess?.call(
             response,
@@ -146,7 +163,9 @@ class ApiRegLog{
             lastSyncTime,
             emailConf,
 
-            circles
+            indivComps,
+            circles,
+            feedAnnouncements,
           );
         },
         onError: (err) async => onError?.call(err.response)
@@ -165,7 +184,11 @@ class ApiRegLog{
           String nick,
           DateTime? lastSyncTime,
           bool emailConf,
-          List<Circle> circles
+
+          List<IndivComp> indivComp,
+          List<Circle> circles,
+          List<Announcement> feedAnnouncements,
+
         )? onSuccess,
         void Function(Response? response)? onError
       }
@@ -185,11 +208,24 @@ class ApiRegLog{
         DateTime? lastSyncTime = DateTime.tryParse(response.data['last_sync_time']??'');
         bool emailConf = response.data['email_confirmed']??(throw InvalidResponseError('email_confirmed'));
 
-        List circlesResp = response.data['circles']??(throw InvalidResponseError('email_confirmed'));
+        List indivCompsResp = response.data['indivComps']??(throw InvalidResponseError('indivComps'));
+        List<IndivComp> indivComps = [];
+        for(Map map in indivCompsResp)
+          indivComps.add(IndivComp.fromResponse(map));
 
+        List circlesResp = response.data['circles']??(throw InvalidResponseError('circles'));
         List<Circle> circles = [];
-        for(Map map in circlesResp)
-          circles.add(Circle.fromResponse(map));
+        Map<String, Circle> circleMap = {};
+        for(Map map in circlesResp) {
+          Circle circle = Circle.fromResponse(map);
+          circles.add(circle);
+          circleMap[circle.key] = circle;
+        }
+
+        List feedAnnouncementsResp = response.data['circleFeed']??(throw InvalidResponseError('circleFeed'));
+        List<Announcement> feedAnnouncements = [];
+        for(Map map in feedAnnouncementsResp)
+          feedAnnouncements.add(Announcement.fromMap(map, circleMap['circleKey']!, key: map['_key']));
 
         onSuccess?.call(
           response,
@@ -202,7 +238,9 @@ class ApiRegLog{
           lastSyncTime,
           emailConf,
 
-          circles
+          indivComps,
+          circles,
+          feedAnnouncements
         );
       },
       onError: (err) async => onError?.call(err.response)
@@ -212,24 +250,24 @@ class ApiRegLog{
     required BuildContext context,
     required String email,
     required String password,
-    void Function(Response response, bool emailConf, bool loggedIn, List<Circle> circles)? onSuccess,
+    void Function(Response response, bool emailConf, bool loggedIn, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements)? onSuccess,
     void Function(Response? response)? onError,
   }) => ApiRegLog._getLoginData(
       email,
       password,
-      onSuccess: (Response response, String key, String jwt, String name, Sex sex, String nick, DateTime? lastSyncTime, bool emailConf, List<Circle> circles) async {
+      onSuccess: (Response response, String key, String jwt, String name, Sex sex, String nick, DateTime? lastSyncTime, bool emailConf, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements) async {
 
         if(!emailConf) {
           await AccountData.writeJwt(jwt);
           await AccountData.writeName(name);
           await AccountData.writeEmail(email);
-          onSuccess?.call(response, emailConf, true, circles);
+          onSuccess?.call(response, emailConf, true, indivComps, circles, feedAnnouncements);
           return;
         }
 
         bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response);
 
-        onSuccess?.call(response, emailConf, loggedIn, circles);
+        onSuccess?.call(response, emailConf, loggedIn, indivComps, circles, feedAnnouncements);
 
       },
       onError: onError
@@ -238,14 +276,14 @@ class ApiRegLog{
   static Future<Response?> carefullyMicrosoftLogin({
     required BuildContext context,
     required String? azureToken,
-    void Function(Response response, bool emailConf, bool loggedIn, List<Circle> circles)? onSuccess,
+    void Function(Response response, bool emailConf, bool loggedIn, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements)? onSuccess,
     void Function(Response? response)? onError,
   }) => ApiRegLog._getMicrosoftLoginData(
       azureToken,
-      onSuccess: (Response response, String email, String key, String jwt, String name, Sex sex, String nick, DateTime? lastSyncTime, bool emailConf, List<Circle> circles) async {
+      onSuccess: (Response response, String email, String key, String jwt, String name, Sex sex, String nick, DateTime? lastSyncTime, bool emailConf, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements) async {
 
         bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response);
-        onSuccess?.call(response, emailConf, loggedIn, circles);
+        onSuccess?.call(response, emailConf, loggedIn, indivComps, circles, feedAnnouncements);
 
       },
       onError: onError

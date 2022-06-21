@@ -88,14 +88,17 @@ const String huf_zhp_uk = 'Hufiec Wilno - Związek Harcerstwa Polskiego w Wielki
 
 const String huf_zhp_andrychow = 'Hufiec ZHP Andrychów';
 const String huf_zhp_brodnica = 'Hufiec ZHP Brodnica';
+const String huf_zhp_bydgoszcz_miasto = 'Hufiec ZHP Bydgoszcz-Miasto';
 const String huf_zhp_czestochowa = 'Hufiec ZHP Częstochowa';
 const String huf_zhp_doliny_liwca = 'Hufiec ZHP Doliny Liwca im. Edmunda Zarzyckiego';
 const String huf_zhp_gdansk_srodmiesie = 'Hufiec ZHP Gdańsk-Śródmieście';
 const String huf_zhp_glowno = 'Hufiec ZHP Głowno';
+const String huf_zhp_gniezno = 'Hufiec ZHP Gniezno';
 const String huf_zhp_jarocin = 'Hufiec ZHP Jarocin';
 const String huf_zhp_kielce_poludnie = 'Hufiec ZHP Kielce-Południe';
 const String huf_zhp_konin = 'Hufiec ZHP Konin';
 const String huf_zhp_lask = 'Hufiec ZHP Łask';
+const String huf_zhp_legionowo = 'Hufiec ZHP Legionowo';
 const String huf_zhp_luban = 'Hufiec ZHP Lubań';
 const String huf_zhp_lublin = 'Hufiec ZHP Lublin';
 const String huf_zhp_lodz_baluty = 'Hufiec ZHP Łódź-Bałuty';
@@ -119,18 +122,19 @@ const String huf_zhp_wolsztyn = 'Hufiec ZHP Wolsztyn';
 const String huf_zhp_wroclaw = 'Hufiec ZHP Wrocław im. Polonii Wrocławskiej';
 const String huf_zhp_wrzesnia_wrzos = 'Hufiec Września "WRZOS" ZHP im. Dzieci Wrzesińskich';
 
-const String huf_zhp_ziemi_wodzislawskiej = 'Hufiec ZHP Ziemi Wodzisławskiej';
-
 const String huf_zhp_krakow_pdg = 'Hufiec ZHP Kraków Podgórze';
 const String huf_zhp_kutno = 'Hufiec ZHP Kutno';
 const String huf_zhp_kwidzyn = 'Hufiec ZHP Kwidzyn';
 const String huf_zhp_stargard = 'Hufiec ZHP Stargard';
 const String huf_zhp_szczecin_pogodno = 'Hufiec ZHP Szczecin Pogodno';
+const String huf_zhp_zary = 'Hufiec ZHP Żary';
 const String huf_zhp_zdunska_wola = 'Hufiec ZHP Zduńska Wola';
 const String huf_zhp_ziemi_cieszynskiej = 'Hufiec ZHP Ziemi Cieszyńskiej';
 const String huf_zhp_ziemi_gliwickiej = 'Hufiec ZHP Ziemi Gliwickiej';
 const String huf_zhp_ziemi_koszalinskiej = 'Hufiec ZHP Ziemi Koszalińskiej';
+const String huf_zhp_ziemi_rybnickiej = 'Hufiec ZHP Ziemii Rybnickiej';
 const String huf_zhp_ziemi_tarnogorskiej = 'Hufiec Ziemi Tarnogórskiej im. Powstańców Śląskich';
+const String huf_zhp_ziemi_wodzislawskiej = 'Hufiec ZHP Ziemi Wodzisławskiej';
 const String huf_zhp_zielonka = 'Hufiec ZHP Zielonka im. Janusza Korczaka';
 
 const String huf_zhr_zielonagora_topor = 'Zielonogórski Hufiec Harcerzy "Topór"';

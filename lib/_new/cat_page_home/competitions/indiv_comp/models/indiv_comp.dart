@@ -144,10 +144,11 @@ class IndivComp{
 
   }
 
-  static init(BuildContext context, List<IndivComp> comps){
+  static init(List<IndivComp> comps, {BuildContext? context}){
 
     silentInit(comps);
 
+    if(context == null) return;
     Provider.of<IndivCompProvider>(context, listen: false).notify();
     Provider.of<IndivCompListProvider>(context, listen: false).notify();
   }

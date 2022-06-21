@@ -10,6 +10,7 @@ import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/announcement.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_loader.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_tile.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
@@ -61,6 +62,8 @@ class PreviewPartState extends State<PreviewPart>{
 
   late IndivCompLoaderListener indivCompLoaderListener;
 
+  late LoginListener loginListener;
+
   @override
   void initState() {
 
@@ -71,8 +74,14 @@ class PreviewPartState extends State<PreviewPart>{
     );
     indivCompLoader.addListener(indivCompLoaderListener);
 
+    loginListener = LoginListener(
+      onForceLogout: () => setState((){})
+    );
+
+    AccountData.addLoginListener(loginListener);
+
     scrollController = ScrollController();
-    refreshController = RefreshController(initialRefresh: Announcement.all == null);
+    refreshController = RefreshController(initialRefresh: AccountData.loggedIn && Announcement.all == null);
 
     loadedPage = -1;
     moreToLoad = true;
@@ -83,6 +92,7 @@ class PreviewPartState extends State<PreviewPart>{
   @override
   void dispose(){
     indivCompLoader.removeListener(indivCompLoaderListener);
+    AccountData.removeLoginListener(loginListener);
 
     scrollController.dispose();
     refreshController.dispose();
@@ -162,8 +172,7 @@ class PreviewPartState extends State<PreviewPart>{
                     page: 0,
                     onSuccess: (List<Announcement> newFeedAnnouncements) async {
 
-                      if(mounted) Announcement.init(context, newFeedAnnouncements);
-                      else Announcement.silentInit(newFeedAnnouncements);
+                      Announcement.init(newFeedAnnouncements, context: mounted?context:null);
                       loadedPage = 0;
                       moreToLoad = newFeedAnnouncements.length == Announcement.feedPageSize;
 
@@ -237,14 +246,29 @@ class PreviewPartState extends State<PreviewPart>{
                     SliverList(delegate: SliverChildListDelegate([
 
                       if(IndivComp.all == null || IndivComp.all!.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                          child: TitleShortcutRowWidget(
-                            title: 'Współzawodnictwa',
-                            textAlign: TextAlign.start,
-                            onOpen: onCompHeaderOpen,
-                          ),
+                        Row(
+                          children: [
+
+                            const SizedBox(width: Dimen.SIDE_MARG),
+
+                            Expanded(
+                              child: Text(
+                                'Współzawodnictwa',
+                                style: AppTextStyle(
+                                  fontSize: Dimen.TEXT_SIZE_BIG,
+                                  fontWeight: weight.halfBold
+                                ),
+                              ),
+                            ),
+
+                            IconButton(
+                              icon: const Icon(MdiIcons.arrowRight),
+                              onPressed: onCompHeaderOpen,
+                            )
+
+                          ],
                         ),
+
 
                       if(IndivComp.all == null && indivCompLoader.running)
                         const Padding(
@@ -263,13 +287,33 @@ class PreviewPartState extends State<PreviewPart>{
                           padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG, bottom: Dimen.SIDE_MARG),
                         ),
 
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                        child: TitleShortcutRowWidget(
-                          title: 'Kręgi i ogłoszenia',
-                          textAlign: TextAlign.start,
-                          onOpen: onAllAnnouncementsHeaderOpen,
-                        ),
+                      if(IndivComp.all != null && IndivComp.all!.isNotEmpty)
+
+
+                      if(IndivComp.all != null && IndivComp.all!.isNotEmpty)
+                        const SizedBox(height: Dimen.SIDE_MARG),
+
+                      Row(
+                        children: [
+
+                          const SizedBox(width: Dimen.SIDE_MARG),
+
+                          Expanded(
+                            child: Text(
+                              'Kręgi i ogłoszenia',
+                              style: AppTextStyle(
+                                  fontSize: Dimen.TEXT_SIZE_BIG,
+                                  fontWeight: weight.halfBold
+                              ),
+                            ),
+                          ),
+
+                          IconButton(
+                            icon: const Icon(MdiIcons.arrowRight),
+                            onPressed: onAllAnnouncementsHeaderOpen,
+                          )
+
+                        ],
                       ),
 
                     ])),
@@ -281,6 +325,7 @@ class PreviewPartState extends State<PreviewPart>{
                       showCircleButton: true,
                       onCircleButtonTap: (circle) => onCircleTap?.call(circle),
                       padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                      loading: indivCompLoader.running,
                       onAnnouncementUpdated: () => setState((){}),
                     )
 
@@ -424,19 +469,34 @@ class IndivCompRowPreviewWidget extends StatelessWidget{
   const IndivCompRowPreviewWidget({this.padding, super.key});
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-      height: IndivCompPreviewWidget.height + (padding?.bottom??0) + (padding?.top??0),
-      child: Consumer<IndivCompProvider>(
-        builder: (context, _, child) => ListView.separated(
-          padding: padding,
-          physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          itemCount: IndivComp.all?.length??0,
-          itemBuilder: (context, index) => IndivCompPreviewWidget(IndivComp.all![index]),
-          separatorBuilder: (context, index) => const SizedBox(width: Dimen.SIDE_MARG),
-        ),
-      )
-  );
+  Widget build(BuildContext context){
+
+    return Consumer2<IndivCompProvider, IndivCompListProvider>(
+      builder: (context, indivCompProv, indivCompListProv, child){
+        if(IndivComp.all!.length == 1)
+          return Padding(
+            padding: padding??EdgeInsets.zero,
+            child: IndivCompTile(IndivComp.all![0]),
+          );
+
+        return SizedBox(
+            height: IndivCompPreviewWidget.height + (padding?.bottom??0) + (padding?.top??0),
+            child: Consumer<IndivCompProvider>(
+              builder: (context, _, child) => ListView.separated(
+                padding: padding,
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemCount: IndivComp.all?.length??0,
+                itemBuilder: (context, index) => IndivCompPreviewWidget(IndivComp.all![index]),
+                separatorBuilder: (context, index) => const SizedBox(width: Dimen.SIDE_MARG),
+              ),
+            )
+        );
+
+      }
+    );
+
+  }
 
 }
 
@@ -645,7 +705,7 @@ class NotLoggedInWidget extends StatelessWidget{
             ),
 
             const AppText(
-              '\nCzas ogarnąć sobie <b>konto HarcApp</b>.',
+              '\nCzas ogarnąć sobie <b>konto HarcApp</b>!',
               size: Dimen.TEXT_SIZE_BIG,
             ),
 

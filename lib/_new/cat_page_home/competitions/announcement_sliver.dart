@@ -16,7 +16,9 @@ Widget getAnnouncementsSliver(
       bool showCircleButton = false,
       void Function(Circle)? onCircleButtonTap,
       PaletteGenerator? palette,
+      bool loading = false,
       String? emptyMessage,
+      String? loadingMessage,
       void Function()? onAnnouncementUpdated,
     }) {
 
@@ -27,7 +29,7 @@ Widget getAnnouncementsSliver(
         const SizedBox(height: 2 * Dimen.SIDE_MARG),
         EmptyMessageWidget(
           icon: MdiIcons.newspaperVariantOutline,
-          text: emptyMessage??'Brak ogłoszeń',
+          text: loading?(loadingMessage??'Ładowanie ogłoszeń'):(emptyMessage??'Brak ogłoszeń'),
           color: CirclePage.cardColor(context, palette),
         ),
       ])),

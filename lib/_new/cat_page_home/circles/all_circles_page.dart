@@ -84,18 +84,21 @@ class AllCirclesPageState extends State<AllCirclesPage>{
 
     loginListener = LoginListener(
         onLogin: (emailConfirmed){
-          if(mounted) setState(() {});
+          if(!mounted) return;
+          setState(() {});
           searchedCircles = Circle.all!;
         },
         onRegistered: (){
-          circleLoader.run();
+          if(!mounted) return;
+          setState(() {});
           searchedCircles = Circle.all!;
         },
         onEmailConfirmChanged: (emailConfirmed){
-          if(emailConfirmed) circleLoader.run();
-          else if(mounted) setState(() {});
+          if(!mounted) return;
+          setState(() {});
         },
         onForceLogout: (){
+          if(!mounted) return;
           setState((){});
         }
     );

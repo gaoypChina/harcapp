@@ -18,6 +18,7 @@ class PointsWidget extends StatelessWidget{
   final double size;
   final double? textSize;
   final Color? textColor;
+  final Axis orientation;
 
   const PointsWidget({
     required this.points,
@@ -25,27 +26,38 @@ class PointsWidget extends StatelessWidget{
     this.size = PointsIcon.defSize,
     this.textSize,
     this.textColor,
+    this.orientation = Axis.horizontal,
     Key? key
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
 
-        Text(
+    List<Widget> children = [
+
+      Text(
           '$prefix$points ',
           style: AppTextStyle(
-            fontSize: textSize??(fontSizeCoeff*size),
-            fontWeight: weight.bold,
-            color: textColor
+              fontSize: textSize??(fontSizeCoeff*size),
+              fontWeight: weight.bold,
+              color: textColor
           )
-        ),
+      ),
 
-        PointsIcon(size: size),
-      ],
-    );
+      PointsIcon(size: size),
+
+    ];
+
+    if(orientation == Axis.horizontal)
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: children,
+      );
+    else
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: children,
+      );
   }
 
 }

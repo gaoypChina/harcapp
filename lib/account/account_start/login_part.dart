@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp/_new/cat_page_home/circles/model/announcement.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/circle.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/account/account.dart';
@@ -68,13 +69,15 @@ class LoginPartState extends State<LoginPart>{
         context: context,
         email: email,
         password: password,
-        onSuccess: (Response response, bool emailConf, bool loggedIn, List<Circle> circles) async {
+        onSuccess: (Response response, bool emailConf, bool loggedIn, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements) async {
           setState(() => processing = false);
 
           Provider.of<LoginProvider>(context, listen: false).notify();
           AccountData.callOnLogin(emailConf);
 
-          Circle.init(context, circles);
+          IndivComp.init(indivComps, context: context);
+          Circle.init(circles, context: context);
+          Announcement.init(feedAnnouncements, context: context);
 
           if(loggedIn)
             widget.onLoggedIn?.call(emailConf);
@@ -120,11 +123,14 @@ class LoginPartState extends State<LoginPart>{
       await ApiRegLog.carefullyMicrosoftLogin(
           context: context,
           azureToken: azureToken,
-          onSuccess: (Response response, bool emailConf, bool loggedIn, List<Circle> circles) async {
+          onSuccess: (Response response, bool emailConf, bool loggedIn, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements) async {
 
             Provider.of<LoginProvider>(context, listen: false).notify();
             AccountData.callOnLogin(emailConf);
-            Circle.init(context, circles);
+
+            IndivComp.init(indivComps, context: context);
+            Circle.init(circles, context: context);
+            Announcement.init(feedAnnouncements, context: context);
 
             await popPage(context); // close login alert dialog
 

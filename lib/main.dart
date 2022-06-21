@@ -271,7 +271,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
     // Run loaders
     songLoader.run();
-    if(await isNetworkAvailable()) {
+    if(AccountData.loggedIn && await isNetworkAvailable()) {
       indivCompLoader.run();
       circleLoader.run();
     }
@@ -303,13 +303,11 @@ class AppState extends State<App> with WidgetsBindingObserver {
         onLogin: (emailConf) async {
           if(!emailConf) return;
           await Statistics.commit();
-          await indivCompLoader.run();
-          await circleLoader.run();
         },
         onRegistered: () async{
           await Statistics.commit();
-          await indivCompLoader.run();
-          await circleLoader.run();
+          IndivComp.init([], context: mounted?context:null);
+          Circle.init([], context: mounted?context:null);
         },
         onEmailConfirmChanged: (emailConf) async {
           if(!emailConf) return;

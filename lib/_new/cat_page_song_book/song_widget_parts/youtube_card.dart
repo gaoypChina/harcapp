@@ -37,8 +37,13 @@ class YoutubeCardState extends State<YoutubeCard>{
   @override
   void initState() {
 
+    String link = song.youtubeLink??'';
+    if(!link.startsWith('http'))
+      link = 'https://$link';
+
+    String id = YoutubePlayer.convertUrlToId(link)??'';
     _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(song.youtubeLink??'')??'',
+      initialVideoId: YoutubePlayer.convertUrlToId(id)??'',
       flags: const YoutubePlayerFlags(enableCaption: false),
     );
 

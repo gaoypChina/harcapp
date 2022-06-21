@@ -112,11 +112,15 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
                                   borderRadius: BorderRadius.horizontal(
                                       right: Radius.circular(outerRadius),
                                   ),
+                                  color: Color.fromARGB(255, 130, 70, 50),
+                                  /*
                                   gradient: LinearGradient(
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                       colors: [Colors.brown[600]!, Colors.deepOrange[600]!]
                                   ),
+
+                                   */
                                 ),
                                 child: Material(
                                   color: Colors.transparent,

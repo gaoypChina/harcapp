@@ -81,17 +81,18 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
     indivCompLoader.addListener(_listener);
 
     loginListener = LoginListener(
-        onLogin: (emailConfirmed){
-          if(emailConfirmed) indivCompLoader.run();
-          else if(mounted) setState(() {});
-        },
-        onRegistered: (){
-          indivCompLoader.run();
-        },
-        onEmailConfirmChanged: (emailConfirmed){
-          if(emailConfirmed) indivCompLoader.run();
-          else if(mounted) setState(() {});
-        }
+      onLogin: (emailConfirmed){
+        if(!mounted) return;
+        setState(() {});
+      },
+      onRegistered: (){
+        if(!mounted) return;
+        setState(() {});
+      },
+      onEmailConfirmChanged: (emailConfirmed){
+        if(!mounted) return;
+        setState(() {});
+      }
     );
 
     AccountData.addLoginListener(loginListener);
@@ -251,7 +252,8 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
                 onChanged: (text) => setState(() => selectIndivComps(text))
             ));
 
-          widgets.add(const SizedBox(height: Dimen.SIDE_MARG));
+          if (IndivComp.all!.length > 3)
+            widgets.add(const SizedBox(height: Dimen.SIDE_MARG));
 
           for (int i = 0; i < searchedComps.length; i++) {
             widgets.add(Padding(

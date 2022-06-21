@@ -132,25 +132,6 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
             Padding(
               padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
               child: TitleShortcutRowWidget(
-                //icon: MdiIcons.scriptTextOutline,
-                iconColor: textEnab_(context),
-                title: 'Wiersze',
-                textAlign: TextAlign.start,
-                onOpen: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ShortReadsPage<Wiersz>(
-                    ModuleStatsMixin.myslHarcWiersze,
-                    'Wiersze',
-                    allWiersze,
-                ))),
-              ),
-            ),
-
-            _ShortReadScrollView<Wiersz>(ModuleStatsMixin.myslHarcWiersze, allWiersze),
-
-            const SizedBox(height: Dimen.SIDE_MARG),
-
-            Padding(
-              padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
-              child: TitleShortcutRowWidget(
                 //icon: MdiIcons.cross,
                 iconColor: textEnab_(context),
                 title: 'Apele ewangeliczne',
@@ -219,6 +200,25 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
             ),
 
             _ApelEwanScrollView(allApelEwans),
+
+            const SizedBox(height: Dimen.SIDE_MARG),
+
+            Padding(
+              padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+              child: TitleShortcutRowWidget(
+                //icon: MdiIcons.scriptTextOutline,
+                iconColor: textEnab_(context),
+                title: 'Wiersze',
+                textAlign: TextAlign.start,
+                onOpen: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ShortReadsPage<Wiersz>(
+                  ModuleStatsMixin.myslHarcWiersze,
+                  'Wiersze',
+                  allWiersze,
+                ))),
+              ),
+            ),
+
+            _ShortReadScrollView<Wiersz>(ModuleStatsMixin.myslHarcWiersze, allWiersze),
 
             const SizedBox(height: Dimen.SIDE_MARG),
 

@@ -130,7 +130,7 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
               child: Center(
                 child: EmptyMessageWidget(
                   icon: MdiIcons.cubeOff,
-                  text: 'Brak zaliczonych zadań!',
+                  text: 'Brak zrealizowanych zadań!',
                 ),
               ),
             )

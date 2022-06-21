@@ -100,17 +100,17 @@ class _HarcAppState extends State<_HarcApp> with TickerProviderStateMixin{
         SlideTransition(
           position: offsetH,
           child: AnimatedOpacity(
-            child: Text('Harc', style: AppTextStyle(fontSize: size, fontWeight: weight.halfBold, color: color, shadow: shadow, height: 1.0)),
             opacity: showH?1:0,
             duration: const Duration(milliseconds: 1000),
+            child: Text('Harc', style: AppTextStyle(fontSize: size, fontWeight: weight.halfBold, color: color, shadow: shadow, height: 1.0)),
           ),
         ),
         SlideTransition(
           position: offsetA,
           child: AnimatedOpacity(
-            child: Text('App', style: AppTextStyle(fontSize: size, fontWeight: weight.normal, color: color, shadow: shadow, height: 1.0)),
             opacity: showA?1:0,
             duration: const Duration(milliseconds: 1000),
+            child: Text('App', style: AppTextStyle(fontSize: size, fontWeight: weight.normal, color: color, shadow: shadow, height: 1.0)),
           ),
         ),
 
@@ -313,14 +313,14 @@ class DefaultLayoutState extends State<DefaultLayout>{
   // 0 - quote
   // 1 - definition
   // 2 - fact
-  int? messageType;
+  late int messageType;
 
   @override
   void initState() {
-    int val = Random().nextInt(8);
-    if(val < 4) messageType = 0;        // 0, 1, 2, 3
-    else if(val < 6) messageType = 1;   // 4, 5
-    else if(val < 8) messageType = 2;  // 6, 7
+    int val = Random().nextInt(9);
+    if(val < 5) messageType = 0;        // 0, 1, 2, 3, 4
+    else if(val < 7) messageType = 1;   // 5, 6
+    else if(val < 9) messageType = 2;  // 7, 8
 
     super.initState();
   }

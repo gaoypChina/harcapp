@@ -240,7 +240,8 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
             prov.notify();
 
             setState(() => initTabViewStuff());
-            post(() => tabController.animateTo(ApelEwanOwnFolder.allOwnFolders.indexOf(folder)));
+            int index = ApelEwanOwnFolder.allOwnFolders.indexOf(folder);
+            post(() => tabController.animateTo(index + 2));
           },
         ));
 
