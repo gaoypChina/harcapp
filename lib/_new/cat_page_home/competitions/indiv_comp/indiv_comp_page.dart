@@ -1,13 +1,18 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
+import 'package:harcapp/_new/cat_page_home/_main.dart';
+import 'package:harcapp/_new/cat_page_home/circles/all_circles_page.dart';
+import 'package:harcapp/_new/cat_page_home/circles/circle_basic_data_tile.dart';
+import 'package:harcapp/_new/cat_page_home/circles/circle_page.dart';
+import 'package:harcapp/_new/cat_page_home/circles/circle_tile.dart';
+import 'package:harcapp/_new/cat_page_home/circles/model/circle.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
@@ -16,6 +21,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_d
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
+import 'package:harcapp/_new/cat_page_home/providers.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
 import 'package:harcapp/account/account_thumbnail_widget.dart';
@@ -302,12 +308,55 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                         },
                       ),
 
-                      const SizedBox(height: Dimen.SIDE_MARG),
+                      if(comp.awards.isNotEmpty)
+                        const SizedBox(height: Dimen.SIDE_MARG),
 
                       if(comp.awards.isNotEmpty)
                         AwardsWidget(comp, padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG)),
 
                       const SizedBox(height: Dimen.SIDE_MARG),
+
+                      if(comp.bindedCircle != null)
+                        Padding(
+                          padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+                          child: TitleShortcutRowWidget(
+                            title: 'Powiązany krąg',
+                            textAlign: TextAlign.start,
+                            titleColor: hintEnab_(context),
+                            onOpen: comp.myProfile?.role == CompRole.ADMIN?
+                            (){
+
+                            }:
+                            null
+
+                          ),
+                        ),
+
+                      if(comp.bindedCircle != null && Circle.allMap!.containsKey(comp.bindedCircle!.key))
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                          child: CircleTile(
+                            Circle.allMap![comp.bindedCircle!.key]!,
+                            onTap: (circle) async {
+                              HomePartProvider.of(context).selectedDrawerPage = HomePartProvider.drawerPageCircles;
+                              await popPage(context);
+                              CatPageHomeState.openCirclePage(context, circle);
+                            },
+                          ),
+                        )
+                      else if(comp.bindedCircle != null && !Circle.allMap!.containsKey(comp.bindedCircle!.key))
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                          child: CircleBasicDataTile(
+                            comp.bindedCircle!,
+                            bottomText: 'Nie jesteś członkiem kręgu',
+                            bottomTextColor: hintEnab_(context),
+                            onTap: (_) => showAppToast(context, text: 'Aby dołączyć, odezwij się do administratora kręgu'),
+                          ),
+                        ),
+
+                      if(comp.bindedCircle != null)
+                        const SizedBox(height: Dimen.SIDE_MARG),
 
                     ]))
 

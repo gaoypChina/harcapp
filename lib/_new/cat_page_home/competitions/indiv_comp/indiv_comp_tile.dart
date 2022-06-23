@@ -20,9 +20,18 @@ class IndivCompTile extends StatelessWidget{
   final IndivComp comp;
   final Widget? leading;
   final void Function(IndivComp)? onTap;
+  final Color? participBorderColor;
+  final Color? participBackgroundColor;
   final bool showPinned;
 
-  IndivCompTile(this.comp, {this.leading, this.onTap, this.showPinned = false}): super(key: ValueKey(comp));
+  IndivCompTile(
+      this.comp,
+      { this.leading,
+        this.onTap,
+        this.participBorderColor,
+        this.participBackgroundColor,
+        this.showPinned = false
+      }): super(key: ValueKey(comp));
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +118,8 @@ class IndivCompTile extends StatelessWidget{
                                     comp.particips.map((particip) => particip.name).toList(),
                                     size: 24.0,
                                     clipBehavior: Clip.hardEdge,
+                                    borderColor: participBorderColor,
+                                    backgroundColor: participBackgroundColor,
                                     onTap: () => onTap?.call(comp),
                                   )
                                 ),

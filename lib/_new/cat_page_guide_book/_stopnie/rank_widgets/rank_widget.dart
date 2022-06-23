@@ -14,7 +14,7 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/clai
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/complete_button.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/rank_spraw_temp_widget.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
-import 'package:harcapp/_new/cat_page_home/providers.dart';
+import 'package:harcapp/_new/cat_page_guide_book/providers.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';

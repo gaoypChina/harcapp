@@ -18,7 +18,7 @@ import 'package:harcapp/_new/cat_page_guide_book/struktura_funkcje/_main.dart';
 import 'package:harcapp/_new/cat_page_guide_book/symbolika/_main.dart';
 import 'package:harcapp/_new/cat_page_guide_book/szyfry/_main.dart';
 import 'package:harcapp/_new/cat_page_guide_book/znaki_patrolowe/_main.dart';
-import 'package:harcapp/_new/cat_page_home/providers.dart';
+import 'package:harcapp/_new/cat_page_guide_book/providers.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';

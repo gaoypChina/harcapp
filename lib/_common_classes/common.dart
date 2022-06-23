@@ -6,7 +6,7 @@ import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/providers.dart';
-import 'package:harcapp/_new/cat_page_home/providers.dart';
+import 'package:harcapp/_new/cat_page_guide_book/providers.dart';
 import 'package:harcapp/_new/cat_page_song_book/providers.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';

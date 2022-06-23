@@ -27,7 +27,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'circle_editor/_main.dart';
 import 'circle_loader.dart';
 import 'circle_page.dart';
-import 'circle_tile.dart';
+import 'circle_widget.dart';
 import 'model/circle.dart';
 import 'new_circle_type.dart';
 
@@ -137,19 +137,19 @@ class AllCirclesPageState extends State<AllCirclesPage>{
     super.dispose();
   }
   
-  void selectIndivComps(String text){
+  void selectCircles(String text){
 
     if(text.isEmpty) {
       searchedCircles = Circle.all!;
       return;
     }
 
-    List<Circle> comps = [];
-    for(Circle comp in Circle.all!)
-      if(remPolChars(comp.name).contains(remPolChars(text)))
-        comps.add(comp);
+    List<Circle> circles = [];
+    for(Circle circle in Circle.all!)
+      if(remPolChars(circle.name).contains(remPolChars(text)))
+        circles.add(circle);
 
-    searchedCircles = comps;
+    searchedCircles = circles;
   }
 
   bool get shouldScroll => AccountData.loggedIn && Circle.all != null && Circle.all!.isNotEmpty;
@@ -265,7 +265,7 @@ class AllCirclesPageState extends State<AllCirclesPage>{
           if (Circle.all!.length > 3)
             widgets.add(SearchField(
                 hint: 'Szukaj kręgów:',
-                onChanged: (text) => setState(() => selectIndivComps(text))
+                onChanged: (text) => setState(() => selectCircles(text))
             ));
 
           widgets.add(const SizedBox(height: Dimen.SIDE_MARG));
@@ -273,7 +273,7 @@ class AllCirclesPageState extends State<AllCirclesPage>{
           for (int i = 0; i < searchedCircles.length; i++) {
             widgets.add(Padding(
               padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-              child: CircleTile(
+              child: CircleWidget(
                 searchedCircles[i],
                 onTap: onCircleTap,
               ),

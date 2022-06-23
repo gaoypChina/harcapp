@@ -5,6 +5,7 @@ import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
+import 'package:harcapp/_new/cat_page_home/circles/model/circle.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_disp_type.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
@@ -49,6 +50,33 @@ class IndivCompAward{
   }
 
   IndivCompAward(this.rangeFrom, this.rangeTo, this.award);
+
+}
+
+class IndivCompBasicData{
+
+  String key;
+  String name;
+
+  IconData? get icon => CommonIconData.ALL[iconKey];
+  String iconKey;
+
+  CommonColorData get colors => CommonColorData.ALL[colorsKey]??CommonColorData.ALL[CommonColorData.DEF_COLORS_KEY]!;
+  String colorsKey;
+
+  IndivCompBasicData({
+    required this.key,
+    required this.name,
+    required this.iconKey,
+    required this.colorsKey,
+  });
+
+  static IndivCompBasicData fromResponse(Map resp) => IndivCompBasicData(
+    key: resp['_key'],
+    name: resp['name'],
+    iconKey: resp['iconKey'],
+    colorsKey: resp['colorsKey'],
+  );
 
 }
 
@@ -120,6 +148,7 @@ class IndivComp{
   static late Map<String, IndivComp> _allMap;
 
   static List<IndivComp>? get all => _all;
+  static Map<String, IndivComp> get allMap => _allMap;
 
   static List<IndivComp> get allPinned{
     List<IndivComp> comps = [];
@@ -215,6 +244,8 @@ class IndivComp{
 
   String? shareCode;
   bool shareCodeSearchable;
+
+  CircleBasicData? bindedCircle;
 
   IndivCompProfile? get myProfile{
     String? accKey = AccountData.key;
@@ -369,6 +400,8 @@ class IndivComp{
     required this.shareCode,
     required this.shareCodeSearchable,
 
+    required this.bindedCircle,
+
   }): taskMap = {for (var task in tasks) task.key!: task},
         participMap = {for (var particip in particips) particip.key: particip};
 
@@ -420,7 +453,11 @@ class IndivComp{
         awards: indivCompAward,
 
         shareCode: resp["shareCode"],
-        shareCodeSearchable: resp["shareCodeSearchable"]
+        shareCodeSearchable: resp["shareCodeSearchable"],
+
+        bindedCircle: resp["bindedCircle"] == null?
+        null:
+        CircleBasicData.fromResponse(resp["bindedCircle"])
     );
 
   }

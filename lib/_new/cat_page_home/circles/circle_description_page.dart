@@ -2,19 +2,20 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp/_new/api/circle.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_tile.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
-import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../_common_widgets/app_toast.dart';
+import '../competitions/indiv_comp/indiv_comp_basic_data_tile.dart';
 import 'circle_page.dart';
 import 'cover_image.dart';
 import 'model/circle.dart';
@@ -25,7 +26,8 @@ class CircleDescriptionPage extends StatefulWidget{
   final PaletteGenerator? palette;
   final void Function()? onLeft;
   final void Function()? onDeleted;
-  const CircleDescriptionPage(this.circle, this.palette, {this.onLeft, this.onDeleted, super.key});
+  final void Function(IndivComp)? onIndivCompTap;
+  const CircleDescriptionPage(this.circle, this.palette, {this.onLeft, this.onDeleted, this.onIndivCompTap, super.key});
 
   @override
   State<StatefulWidget> createState() => CircleDescriptionPageState();
@@ -42,6 +44,10 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
 
   Circle get circle => widget.circle;
   PaletteGenerator? get palette => widget.palette;
+
+  void Function()? get onLeft => widget.onLeft;
+  void Function()? get onDeleted => widget.onDeleted;
+  void Function(IndivComp)? get onIndivCompTap => widget.onIndivCompTap;
 
   late ScrollController scrollController;
 
@@ -169,18 +175,14 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
 
               if(circle.hasDescription)
                 Padding(
-                    padding: const EdgeInsets.only(
-                      left: Dimen.SIDE_MARG,
-                      bottom: Dimen.ICON_MARG,
-                    ),
-                    child: Text(
-                      'Opis kręgu:',
-                      style: AppTextStyle(
-                          fontWeight: weight.halfBold,
-                          fontSize: Dimen.TEXT_SIZE_BIG
-                      ),
-                      maxLines: 3,
-                    )
+                  padding: const EdgeInsets.only(
+                    left: Dimen.SIDE_MARG - TitleShortcutRowWidget.textStartPadding,
+                  ),
+                  child: TitleShortcutRowWidget(
+                    title: 'Opis kręgu',
+                    titleColor: hintEnab_(context),
+                    textAlign: TextAlign.start,
+                  ),
                 ),
 
               if(circle.hasDescription)
@@ -198,8 +200,53 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
                     )
                 ),
 
-              if(circle.hasDescription)
-                const SizedBox(height: Dimen.ICON_SIZE),
+              Padding(
+                  padding: const EdgeInsets.only(
+                    top: Dimen.SIDE_MARG,
+                    left: Dimen.SIDE_MARG - TitleShortcutRowWidget.textStartPadding,
+                    right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+                  ),
+                  child: TitleShortcutRowWidget(
+                    title: 'Powiązane współzawodnictwa',
+                    textAlign: TextAlign.start,
+                    titleColor: hintEnab_(context),
+                    trailing: IconButton(
+                      icon: const Icon(MdiIcons.pencil),
+                      onPressed: () async {
+
+                      },
+                    ),
+                  ),
+              ),
+
+              ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index){
+                  String indivCompKey = circle.bindedIndivComps[index].key;
+                  if(IndivComp.allMap[indivCompKey] == null)
+                    return IndivCompBasicDataTile(
+                      circle.bindedIndivComps[index],
+                      bottomText: 'Nie jesteś uczestnikiem',
+                      bottomTextColor: CirclePage.strongColor(context, palette),
+                      onTap: (_) => showAppToast(context, text: 'Aby dołączyć, odezwij się do administratora współzawodnictwa'),
+                    );
+
+                  return Consumer<IndivCompProvider>(
+                    builder: (context, prov, child) => IndivCompTile(
+                      IndivComp.allMap[indivCompKey]!,
+                      participBorderColor: CirclePage.cardColor(context, palette),
+                      participBackgroundColor: CirclePage.backgroundColor(context, palette),
+                      onTap: onIndivCompTap,
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
+                itemCount: circle.bindedIndivComps.length,
+                shrinkWrap: true,
+              ),
+
+              const SizedBox(height: Dimen.SIDE_MARG),
 
             ]))
 

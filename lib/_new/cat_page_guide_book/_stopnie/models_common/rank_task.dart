@@ -7,7 +7,7 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_cat
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_group.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/task_data.dart';
-import 'package:harcapp/_new/cat_page_home/providers.dart';
+import 'package:harcapp/_new/cat_page_guide_book/providers.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:provider/provider.dart';
 

@@ -156,9 +156,6 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
     for (String fileName in result.item7)
       await callError(fileName);
 
-    OffSong.initialized = true;
-    OwnSong.initialized = true;
-
     // LOAD MEMORIES
     // LOAD MEMORIES
     Directory memoryDir = Directory(getSongMemoriesFolderPath);
@@ -177,8 +174,6 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
         logger.e(e);
       }
     }
-
-    Memory.initialized = true;
 
     // LOAD ALBUMS
     // LOAD ALBUMS
@@ -219,6 +214,8 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
     if (!currAlbumSet)
       Album.initCurrent(Album.omega);
 
+    OffSong.initialized = true;
+    OwnSong.initialized = true;
     Memory.initialized = true;
     Album.initialized = true;
   }

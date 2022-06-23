@@ -11,8 +11,10 @@ import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/api/circle.dart';
+import 'package:harcapp/_new/cat_page_home/_main.dart';
 import 'package:harcapp/_new/cat_page_home/circles/announcement_widget_template.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/announcement_sliver.dart';
+import 'package:harcapp/_new/cat_page_home/providers.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
@@ -579,7 +581,17 @@ class CirclePageState extends State<CirclePage>{
                                   icon: const Icon(MdiIcons.chevronDown),
                                   onPressed: () => pushPage(
                                       context,
-                                      builder: (context) => CircleDescriptionPage(circle, palette)
+                                      builder: (context) => CircleDescriptionPage(
+                                        circle,
+                                        palette,
+                                        onIndivCompTap: (comp) async {
+                                          HomePartProvider.of(context).selectedDrawerPage = HomePartProvider.drawerPageCompetitions;
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                          await Future.delayed(Duration.zero);
+                                          CatPageHomeState.openCompPage(context, comp);
+                                        },
+                                      )
                                   ),
                                 )
 

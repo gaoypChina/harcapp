@@ -157,7 +157,7 @@ const Person ADAM_DUDAK = Person(name: 'Adam Dudak', hufiec: huf_zhp_warszawa_ur
 const Person AGNIESZKA_DURSKA = Person(name: 'Agnieszka Durska', stopI: 'phm.', hufiec: huf_zhp_lodz_baluty);
 const Person AGNIESZKA_TYLKO = Person(name: 'Agnieszka Tylko', stopH: StopZHP.pion,
   hufiec: huf_zhp_myslenice,
-  druzyna: '3.14. Myślenicka Drużyna Starszoharcerska "Awangarda"',
+  druzyna: '3,14. Myślenicka Drużyna Starszoharcerska "Awangarda"',
   org: Org.zhp,
 );
 const Person ALEKSANDRA_CHRUSTEK = Person(
@@ -377,7 +377,7 @@ const Person KLAUDIUSZ_PALUCH = Person(name: 'Klaudiusz Paluch');
 const Person KRZYSZTOF_KANIEWSKI = Person(
   name: 'Krzysztof Kaniewski',
   stopH: StopZHP.HOc,
-  druzyna: '1 DW "Geneza"',
+  druzyna: '1. DW "Geneza"',
   hufiec: huf_zhp_legionowo,
   org: Org.zhp,
   email: ['krzysztof.kaniewski@zhp.net.pl']
@@ -438,7 +438,7 @@ const Person MARYSIA_SLUGAJ = Person(
   name: 'Marysia Ślugaj',
   stopH: StopZHP.HOd,
   hufiec: huf_zhp_wrzesnia_wrzos,
-  druzyna: '77 Wrzesińska Drużyna Wędrownicza "Huragan"',
+  druzyna: '77. Wrzesińska Drużyna Wędrownicza "Huragan"',
   email: ['nutkiq@gmail.com', 'giyuu@op.pl']
 );
 const Person MATEUSZ_CIAGLO = Person(name: 'Mateusz Ciągło', stopH: StopZHP.dhc);

@@ -41,7 +41,7 @@ void main() {
 
   });
 
-  test('Single computer test two test', () async {
+  test('Single computer test two listeners, first awaiting finish', () async {
 
     TestLoader testLoader = TestLoader();
 
@@ -53,6 +53,25 @@ void main() {
 
   });
 
+  test('Single computer test two loaders, second awaiting finish', () async {
+
+    TestLoader testLoader = TestLoader();
+
+    bool finished = false;
+
+    late SingleComputerListener<String> listener = SingleComputerListener<String>(
+      onEnd: (_, __) async => finished = true,
+    );
+
+    testLoader.addListener(listener);
+
+    await testLoader.run();
+    await testLoader.run(awaitFinish: true);
+
+    assert(finished == true);
+
+  });
+
   test('Single computer test listener', () async {
 
     TestLoader testLoader = TestLoader();
@@ -60,8 +79,7 @@ void main() {
     bool listenerOnStartCalled = false;
     bool listenerOnEndCalled = false;
 
-    late SingleComputerListener<String> listener;
-    listener = SingleComputerListener<String>(
+    late SingleComputerListener<String> listener = SingleComputerListener<String>(
       onStart: () => listenerOnStartCalled = true,
       onEnd: (_, __) async => listenerOnEndCalled = true,
     );

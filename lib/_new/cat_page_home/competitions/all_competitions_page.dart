@@ -73,6 +73,11 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
         if(mounted) setState(() {});
         searchedComps = comps;
       },
+      onForceLoggedOut: (){
+        refreshController.refreshCompleted();
+        if(mounted) setState(() {});
+        return true;
+      },
       onError: (message) async {
         refreshController.refreshCompleted();
         if(mounted) setState(() {});
@@ -273,7 +278,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
               child: Icon(MdiIcons.dotsHorizontal, color: hintEnab_(context)),
             )),
           ));
-          widgets.add(const SizedBox(height: Dimen.ICON_MARG));
+          widgets.add(const SizedBox(height: Dimen.SIDE_MARG));
 
           widgets.add(const Padding(
             padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
 import 'package:provider/provider.dart';
@@ -50,6 +51,29 @@ class _AnnouncementLookup{
         this.inPinned = false,
         this.inAwaiting = false
       });
+
+}
+
+class CircleBasicData{
+
+  String key;
+  String name;
+  CircleCoverImageData coverImage;
+  int memberCount;
+
+  CircleBasicData({
+    required this.key,
+    required this.name,
+    required this.coverImage,
+    required this.memberCount,
+  });
+
+  static CircleBasicData fromResponse(Map resp) => CircleBasicData(
+    key: resp['_key']??(throw InvalidResponseError('_key')),
+    name: resp['name']??(throw InvalidResponseError('name')),
+    coverImage: CircleCoverImageData.from(resp['coverImageUrl']??(throw InvalidResponseError('coverImageUrl'))),
+    memberCount: resp['memberCount']??(throw InvalidResponseError('memberCount')),
+  );
 
 }
 
@@ -152,6 +176,8 @@ class Circle{
   final Map<String, Member> _membersMap;
   List<Member> get members => _members;
   Map<String, Member> get membersMap => _membersMap;
+
+  List<IndivCompBasicData> bindedIndivComps;
 
   bool get hasDescription => description != null && description!.isNotEmpty;
 
@@ -386,6 +412,8 @@ class Circle{
     required this.awaitingCount,
     required List<Announcement> awaitingAnnouncements,
 
+    required this.bindedIndivComps,
+
   }): _members = members,
       _membersMap = {for (Member mem in members) mem.key: mem},
       _allAnnouncements = allAnnouncements,
@@ -423,6 +451,12 @@ class Circle{
     int pinnedCount = announcementsResps['pinnedCount']??(throw InvalidResponseError('announcements, pinnedCount'));
     int awaitingCount = announcementsResps['awaitingCount']??(throw InvalidResponseError('announcements, awaitingCount'));
 
+    List<dynamic> bindedIndivCompsResp = resp['bindedIndivComps']??(throw InvalidResponseError('bindedIndivComps'));
+    List<IndivCompBasicData> indivCompBasicData = [];
+
+    for(dynamic resp in bindedIndivCompsResp)
+      indivCompBasicData.add(IndivCompBasicData.fromResponse(resp));
+
     Circle circle = Circle(
       key: resp['_key']??(throw InvalidResponseError('_key')),
       name: resp['name']??(throw InvalidResponseError('name')),
@@ -437,6 +471,7 @@ class Circle{
       pinnedAnnouncements: [],
       awaitingCount: awaitingCount,
       awaitingAnnouncements: [],
+      bindedIndivComps: indivCompBasicData,
     );
 
     Map allAnnResps = announcementsResps['all']??(throw InvalidResponseError('announcements, all'));

@@ -8,7 +8,7 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/shared_ranks_page.dart
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/data/data_zhr_d.dart';
-import 'package:harcapp/_new/cat_page_home/providers.dart';
+import 'package:harcapp/_new/cat_page_guide_book/providers.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';

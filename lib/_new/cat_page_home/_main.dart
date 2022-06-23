@@ -4,6 +4,7 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_new/app_drawer.dart';
 import 'package:harcapp/_new/cat_page_home/preview_part.dart';
+import 'package:harcapp/_new/cat_page_home/providers.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
@@ -37,102 +38,92 @@ class CatPageHome extends StatefulWidget{
 
 class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
 
-  static const drawerPageOverview = 'overview';
-  static const drawerPageCompetitions = 'competitions';
-  static const drawerPageCircles = 'circles';
-
-  static String? selectedDrawerPage;
-
   @override
   void afterFirstLayout(BuildContext context) {
     post(() => Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackHome());
   }
 
   @override
-  void initState() {
-    selectedDrawerPage ??= drawerPageOverview;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) =>
-  AppScaffold(
-    body: Builder(builder: (context){
-      if(selectedDrawerPage == drawerPageCompetitions)
-        return AllCompetitionsPage(
-          onCompetitionTap: openCompPage,
+  Consumer<HomePartProvider>(
+    builder: (context, prov, child) => AppScaffold(
+      body: Builder(builder: (context){
+        if(prov.selectedDrawerPage == HomePartProvider.drawerPageCompetitions)
+          return AllCompetitionsPage(
+            onCompetitionTap: (comp) => openCompPage(context, comp),
+          );
+        else if(prov.selectedDrawerPage == HomePartProvider.drawerPageCircles)
+          return AllCirclesPage(
+            onCircleTap: (circle) => openCirclePage(context, circle),
+          );
+
+        return PreviewPart(
+            onCompHeaderOpen: () => prov.selectedDrawerPage = HomePartProvider.drawerPageCompetitions,
+            onAllAnnouncementsHeaderOpen: () => prov.selectedDrawerPage = HomePartProvider.drawerPageCircles,
+            onCircleTap: (circle){
+              prov.selectedDrawerPage = HomePartProvider.drawerPageCircles;
+              openCirclePage(context, circle);
+            }
         );
-      else if(selectedDrawerPage == drawerPageCircles)
-        return AllCirclesPage(
-          onCircleTap: openCirclePage,
-        );
 
-      return PreviewPart(
-        onCompHeaderOpen: () => setState(() => selectedDrawerPage = drawerPageCompetitions),
-        onAllAnnouncementsHeaderOpen: () => setState(() => selectedDrawerPage = drawerPageCircles),
-        onCircleTap: (circle){
-          setState(() => selectedDrawerPage = drawerPageCircles);
-          openCirclePage(circle);
-        }
-      );
+      }),
+      drawer: AppDrawer(
+          body: Column(
+            children: [
+              DrawerTile<String>(
+                icon: MdiIcons.squareRoundedOutline,
+                title: 'Podgląd',
+                source: HomePartProvider.drawerPageOverview,
+                selectedSource: prov.selectedDrawerPage,
+                onSelect: (String source){
+                  prov.selectedDrawerPage = source;
+                  AppBottomNavigatorProvider.of(context).background = null;
+                  Navigator.pop(context);
+                },
+              ),
 
-    }),
-    drawer: AppDrawer(
-        body: Column(
-          children: [
-            DrawerTile<String?>(
-              icon: MdiIcons.squareRoundedOutline,
-              title: 'Podgląd',
-              source: drawerPageOverview,
-              selectedSource: selectedDrawerPage,
-              onSelect: (source){
-                setState(() => selectedDrawerPage = source);
-                AppBottomNavigatorProvider.of(context).background = null;
-                Navigator.pop(context);
-              },
-            ),
+              DrawerTile<String>(
+                icon: MdiIcons.trophyVariantOutline,
+                title: 'Współzawodnictwa',
+                source: HomePartProvider.drawerPageCompetitions,
+                selectedSource: prov.selectedDrawerPage,
+                onSelect: (String source){
+                  prov.selectedDrawerPage = source;
+                  AppBottomNavigatorProvider.of(context).background = null;
+                  Navigator.pop(context);
+                },
+              ),
 
-            DrawerTile(
-              icon: MdiIcons.trophyVariantOutline,
-              title: 'Współzawodnictwa',
-              source: drawerPageCompetitions,
-              selectedSource: selectedDrawerPage,
-              onSelect: (dynamic source){
-                setState(() => selectedDrawerPage = source);
-                AppBottomNavigatorProvider.of(context).background = null;
-                Navigator.pop(context);
-              },
-            ),
+              DrawerTile<String>(
+                icon: MdiIcons.googleCircles,
+                title: 'Kręgi',
+                source: HomePartProvider.drawerPageCircles,
+                selectedSource: prov.selectedDrawerPage,
+                onSelect: (String source){
+                  prov.selectedDrawerPage = source;
+                  AppBottomNavigatorProvider.of(context).background = null;
+                  Navigator.pop(context);
+                },
+              ),
 
-            DrawerTile(
-              icon: MdiIcons.googleCircles,
-              title: 'Kręgi',
-              source: drawerPageCircles,
-              selectedSource: selectedDrawerPage,
-              onSelect: (dynamic source){
-                setState(() => selectedDrawerPage = source);
-                AppBottomNavigatorProvider.of(context).background = null;
-                Navigator.pop(context);
-              },
-            ),
-
-          ],
-        )
+            ],
+          )
+      ),
+      bottomNavigationBar: const AppBottomNavigator(),
     ),
-    bottomNavigationBar: const AppBottomNavigator(),
   );
 
-  void openCirclePage(Circle circle) => pushPage(
+  static void openCirclePage(BuildContext context, Circle circle) => pushPage(
       context,
       builder: (context) => CirclePage(
         circle,
-        onLeft: () => setState(() => selectedDrawerPage = drawerPageCircles),
-        onDeleted: () => setState(() => selectedDrawerPage = drawerPageCircles),
-        key: ValueKey(selectedDrawerPage),
+        onLeft: () => HomePartProvider.of(context).selectedDrawerPage = HomePartProvider.drawerPageCircles,
+        onDeleted: () => HomePartProvider.of(context).selectedDrawerPage = HomePartProvider.drawerPageCircles,
+        key: ValueKey(HomePartProvider.of(context).selectedDrawerPage),
       )
   );
 
-  void openCompPage(IndivComp comp) => Navigator.push(
+  static void openCompPage(BuildContext context, IndivComp comp) => Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => IndivCompPage(comp))
   );

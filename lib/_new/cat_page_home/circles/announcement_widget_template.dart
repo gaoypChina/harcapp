@@ -353,7 +353,7 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
                       Align(
                         alignment: Alignment.bottomRight,
                         child: Padding(
-                          padding: const EdgeInsets.only(top: Dimen.DEF_MARG),
+                          padding: const EdgeInsets.only(top: 2*Dimen.DEF_MARG),
                           child: Text('...czytaj dalej', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_NORMAL)),
                         ),
                       )

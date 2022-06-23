@@ -1,33 +1,24 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SprawSavedListProv extends ChangeNotifier{
+class HomePartProvider extends ChangeNotifier{
 
-  static SprawSavedListProv of(BuildContext context) => Provider.of<SprawSavedListProv>(context, listen: false);
+  static const drawerPageOverview = 'overview';
+  static const drawerPageCompetitions = 'competitions';
+  static const drawerPageCircles = 'circles';
 
-  void notify() => notifyListeners();
+  late String _selectedDrawerPage;
+  String get selectedDrawerPage => _selectedDrawerPage;
+  set selectedDrawerPage(String value){
+    _selectedDrawerPage = value;
+    notifyListeners();
+  }
 
-}
+  static HomePartProvider of(BuildContext context) => Provider.of<HomePartProvider>(context, listen: false);
 
-class SprawInProgressListProv extends ChangeNotifier{
-
-  static SprawInProgressListProv of(BuildContext context) => Provider.of<SprawInProgressListProv>(context, listen: false);
-
-  void notify() => notifyListeners();
-
-}
-
-class SprawCompletedListProv extends ChangeNotifier{
-
-  static SprawCompletedListProv of(BuildContext context) => Provider.of<SprawCompletedListProv>(context, listen: false);
-
-  void notify() => notifyListeners();
-
-}
-
-class RankProv extends ChangeNotifier{
-
-  static RankProv of(BuildContext context) => Provider.of<RankProv>(context, listen: false);
+  HomePartProvider(){
+    _selectedDrawerPage = drawerPageOverview;
+  }
 
   void notify() => notifyListeners();
 
