@@ -46,6 +46,7 @@ class ApelEwanWidgetState extends State<ApelEwanWidget> with ModuleStatsMixin{
       String? questionData = await apelEwan.question(subgroupSuff);
       if(questionData == null) continue;
       questions[subgroupSuff] = questionData.split('\n');
+      questions[subgroupSuff]!.removeWhere((data) => data.isEmpty);
     }
 
     comments.clear();

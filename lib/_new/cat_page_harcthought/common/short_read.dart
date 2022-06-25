@@ -7,13 +7,16 @@ class ShortRead{
   final Color Function(BuildContext) titleColor;
   final String fileName;
   final GraphicalResource graphicalResource;
-  final dynamic soundResource;
+  final String? soundResource;
+  final String? readingVoice;
 
   const ShortRead({
     required this.title,
     required this.titleColor,
     required this.fileName,
     required this.graphicalResource,
-    this.soundResource});
+    this.soundResource,
+    this.readingVoice
+  });
 
 }

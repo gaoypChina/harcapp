@@ -2,6 +2,8 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_new/cat_page_home/_main.dart';
+import 'package:harcapp/_new/cat_page_home/circles/circle_role.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_tile.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -16,6 +18,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import '../../../_common_widgets/app_toast.dart';
 import '../competitions/indiv_comp/indiv_comp_basic_data_tile.dart';
+import 'circle_binded_indiv_comp_page.dart';
 import 'circle_page.dart';
 import 'cover_image.dart';
 import 'model/circle.dart';
@@ -26,8 +29,8 @@ class CircleDescriptionPage extends StatefulWidget{
   final PaletteGenerator? palette;
   final void Function()? onLeft;
   final void Function()? onDeleted;
-  final void Function(IndivComp)? onIndivCompTap;
-  const CircleDescriptionPage(this.circle, this.palette, {this.onLeft, this.onDeleted, this.onIndivCompTap, super.key});
+
+  const CircleDescriptionPage(this.circle, this.palette, {this.onLeft, this.onDeleted, super.key});
 
   @override
   State<StatefulWidget> createState() => CircleDescriptionPageState();
@@ -36,18 +39,11 @@ class CircleDescriptionPage extends StatefulWidget{
 
 class CircleDescriptionPageState extends State<CircleDescriptionPage>{
 
-  static const String allAnnsTab = 'all_announcements';
-  static const String pinnedAnnsTab = 'pinned_announcements';
-  static const String awaitingAnnsTab = 'awaiting_announcements';
-
-  late String currTab;
-
   Circle get circle => widget.circle;
   PaletteGenerator? get palette => widget.palette;
 
   void Function()? get onLeft => widget.onLeft;
   void Function()? get onDeleted => widget.onDeleted;
-  void Function(IndivComp)? get onIndivCompTap => widget.onIndivCompTap;
 
   late ScrollController scrollController;
 
@@ -57,8 +53,6 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
 
   @override
   void initState() {
-
-    currTab = allAnnsTab;
 
     appBarKey = GlobalKey();
 
@@ -179,7 +173,7 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
                     left: Dimen.SIDE_MARG - TitleShortcutRowWidget.textStartPadding,
                   ),
                   child: TitleShortcutRowWidget(
-                    title: 'Opis kręgu',
+                    title: 'Opis',
                     titleColor: hintEnab_(context),
                     textAlign: TextAlign.start,
                   ),
@@ -190,7 +184,7 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
                     padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                     child: ExpandableText(
                       circle.description!,
-                      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2),
                       maxLines: 3,
                       animation: true,
                       linkColor: CirclePage.strongColor(context, palette),
@@ -207,15 +201,21 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
                     right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
                   ),
                   child: TitleShortcutRowWidget(
-                    title: 'Powiązane współzawodnictwa',
+                    title: 'Powiązane współzawod.',
                     textAlign: TextAlign.start,
                     titleColor: hintEnab_(context),
-                    trailing: IconButton(
-                      icon: const Icon(MdiIcons.pencil),
-                      onPressed: () async {
-
-                      },
-                    ),
+                    trailing:
+                    circle.myRole == CircleRole.ADMIN?
+                    IconButton(
+                      icon: const Icon(MdiIcons.dotsHorizontal),
+                      onPressed: () => pushPage(
+                          context,
+                          builder: (context) => CircleBindedIndivCompPage(
+                            circle, palette
+                          )
+                      ),
+                    ):
+                    null,
                   ),
               ),
 
@@ -224,7 +224,7 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index){
                   String indivCompKey = circle.bindedIndivComps[index].key;
-                  if(IndivComp.allMap[indivCompKey] == null)
+                  if(IndivComp.allMap![indivCompKey] == null)
                     return IndivCompBasicDataTile(
                       circle.bindedIndivComps[index],
                       bottomText: 'Nie jesteś uczestnikiem',
@@ -234,10 +234,12 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
 
                   return Consumer<IndivCompProvider>(
                     builder: (context, prov, child) => IndivCompTile(
-                      IndivComp.allMap[indivCompKey]!,
+                      IndivComp.allMap![indivCompKey]!,
                       participBorderColor: CirclePage.cardColor(context, palette),
                       participBackgroundColor: CirclePage.backgroundColor(context, palette),
-                      onTap: onIndivCompTap,
+                      onTap: (comp){
+                        CatPageHomeState.openCompPage(context, comp);
+                      },
                     ),
                   );
                 },

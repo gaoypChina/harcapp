@@ -71,11 +71,18 @@ class IndivCompBasicData{
     required this.colorsKey,
   });
 
+  static IndivCompBasicData fromIndivComp(IndivComp comp) => IndivCompBasicData(
+    key: comp.key,
+    name: comp.name,
+    iconKey: comp.iconKey,
+    colorsKey: comp.colorsKey,
+  );
+
   static IndivCompBasicData fromResponse(Map resp) => IndivCompBasicData(
-    key: resp['_key'],
-    name: resp['name'],
-    iconKey: resp['iconKey'],
-    colorsKey: resp['colorsKey'],
+    key: resp['_key']??(throw InvalidResponseError('_key')),
+    name: resp['name']??(throw InvalidResponseError('name')),
+    iconKey: resp['iconKey']??(throw InvalidResponseError('iconKey')),
+    colorsKey: resp['colorsKey']??(throw InvalidResponseError('colorsKey')),
   );
 
 }
@@ -145,10 +152,10 @@ class IndivComp{
   static const int maxLenAward = 64;
 
   static List<IndivComp>? _all;
-  static late Map<String, IndivComp> _allMap;
+  static late Map<String, IndivComp>? _allMap;
 
   static List<IndivComp>? get all => _all;
-  static Map<String, IndivComp> get allMap => _allMap;
+  static Map<String, IndivComp>? get allMap => _allMap;
 
   static List<IndivComp> get allPinned{
     List<IndivComp> comps = [];
@@ -159,6 +166,11 @@ class IndivComp{
     return comps;
   }
 
+  static forget(){
+    _all = null;
+    _allMap = null;
+  }
+
   static silentInit(List<IndivComp> comps){
     if(_all == null){
       _all = [];
@@ -166,7 +178,7 @@ class IndivComp{
     }
 
     _all!.clear();
-    _allMap.clear();
+    _allMap!.clear();
 
     _all!.addAll(comps);
     _allMap = {for (IndivComp comp in comps) comp.key: comp};
@@ -188,14 +200,14 @@ class IndivComp{
       _allMap = {};
     }
     _all!.add(comp);
-    _allMap[comp.key] = comp;
+    _allMap![comp.key] = comp;
 
     Provider.of<IndivCompProvider>(context, listen: false).notify();
     Provider.of<IndivCompListProvider>(context, listen: false).notify();
   }
 
   static updateInAll(BuildContext context, IndivComp comp){
-    IndivComp? oldComp = _allMap[comp.key];
+    IndivComp? oldComp = _allMap![comp.key];
     if(oldComp == null){
       addToAll(context, comp);
       return;
@@ -204,7 +216,7 @@ class IndivComp{
     int index = _all!.indexOf(oldComp);
     _all!.removeAt(index);
     _all!.insert(index, comp);
-    _allMap[comp.key] = comp;
+    _allMap![comp.key] = comp;
 
     Provider.of<IndivCompProvider>(context, listen: false).notify();
     Provider.of<IndivCompListProvider>(context, listen: false).notify();
@@ -215,7 +227,7 @@ class IndivComp{
       return;
 
     _all!.remove(comp);
-    _allMap.remove(comp!.key);
+    _allMap!.remove(comp!.key);
 
     Provider.of<IndivCompProvider>(context, listen: false).notify();
     Provider.of<IndivCompListProvider>(context, listen: false).notify();
@@ -225,7 +237,7 @@ class IndivComp{
     if(_all == null)
       return;
     _all!.clear();
-    _allMap.clear();
+    _allMap!.clear();
   }
 
   String key;

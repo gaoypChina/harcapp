@@ -153,6 +153,38 @@ Map<String, ApelEwan> allApelEwanMap = {for (ApelEwan apelEwan in allApelEwans) 
 
 List<ApelEwan> allApelEwans = [
 
+  const ApelEwan(
+      dirName: 'Mt_1_18-24',
+      siglum: 'Mt 1, 18-24',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Narodzenie Jezusa'
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'Mt_4_18-22',
+      siglum: 'Mt 4, 18-22',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Powołanie pierwszych uczniów'
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'Mt_5_13-16',
+      siglum: 'Mt 5, 13-16',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Jesteście solą ziemi'
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'Mt_5_17-19',
+      siglum: 'Mt 5, 17-19',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Jezus a Prawo'
+      }
+  ),
+
   mt_5_21_26,
 
   mt_5_27_32,
@@ -168,10 +200,116 @@ List<ApelEwan> allApelEwans = [
   ),
 
   const ApelEwan(
+      dirName: 'Mt_13_44-52',
+      siglum: 'Mt 13, 44-52',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Przypowieść o skarbie i perle'
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'Mk_6_1-6',
+      siglum: 'Mk 6, 1-6',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Jezus w Nazarecie'
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'Mk_8_1-10',
+      siglum: 'Mk 8, 1-10',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Drugie rozmnożenie chleba'
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'Mk_10_13-16',
+      siglum: 'Mk 10, 13-16',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Jezus błogosławi dzieci'
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'Mk_10_35-45',
+      siglum: 'Mk 10, 35-45',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Przełożeństwo służbą'
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'Mk_11_25-30',
+      siglum: 'Mk 11, 25-30',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Wiara i modlitwa'
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'Mk_12_38-44',
+      siglum: 'Mk 12, 38-44',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Wdowi grosz'
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'Mk_13_24-32',
+      siglum: 'Mk 13, 24-32',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Przyjście Chrystusa'
+      }
+  ),
+
+
+
+  const ApelEwan(
       dirName: 'Lk_1_39-45',
       siglum: 'Łk 1, 39-45',
       subgroupTitle: {
         ogolneApelEwansSuffix: 'Nawiedzenie'
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'Lk_3_1-6',
+      siglum: 'Łk 3, 1-6',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Jan Chrzciciel',
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'Lk_3_10-18',
+      siglum: 'Łk 3, 10-18',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Wskazania i świadectwo o Mesjaszu',
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'Lk_4_1-13',
+      siglum: 'Łk 4, 1-13',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Kuszenie na pustyni',
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'Lk_5_1-11',
+      siglum: 'Łk 5, 1-11',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Nauczanie z łodzi',
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'Lk_6_39-45',
+      siglum: 'Łk 6, 39-45',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Drzewo i owoce',
       }
   ),
 
@@ -192,11 +330,35 @@ List<ApelEwan> allApelEwans = [
   ),
 
   const ApelEwan(
-    dirName: 'Lk_15_1-32',
-    siglum: 'Łk 15, 1-32',
+      dirName: 'Lk_13_1-9',
+      siglum: 'Łk 13, 1-9',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Nieurodzajne drzewo figowe',
+      }
+  ),
+
+  const ApelEwan(
+    dirName: 'Lk_15_1-10',
+    siglum: 'Łk 15, 1-10',
     subgroupTitle: {
-      ogolneApelEwansSuffix: 'Miłosierny ojciec'
+      ogolneApelEwansSuffix: 'Zagubiona owca'
     }
+  ),
+
+  const ApelEwan(
+      dirName: 'Lk_15_11-32',
+      siglum: 'Łk 15, 11-32',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Syn marnotrawny'
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'Lk_16_9-15',
+      siglum: 'Łk 16, 9-15',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Dobry użytek z pieniądza'
+      }
   ),
 
   const ApelEwan(
@@ -234,6 +396,14 @@ List<ApelEwan> allApelEwans = [
   lk_18_9_14,
 
   const ApelEwan(
+      dirName: 'Lk_18_35-43',
+      siglum: 'Łk 18, 35-43',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Niewidomy pod Jerychem'
+      }
+  ),
+
+  const ApelEwan(
     dirName: 'Lk_19_1-10',
     siglum: 'Łk 19, 1-10',
     subgroupTitle: {
@@ -250,6 +420,110 @@ List<ApelEwan> allApelEwans = [
     subgroupTitle: {
       ogolneApelEwansSuffix: 'Zmartwychwstanie',
     }
+  ),
+
+  const ApelEwan(
+      dirName: 'Lk_21_25-36',
+      siglum: 'Łk 21, 25-36',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Przyjście Syna Człowieczego'
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'Lk_23_35-43',
+      siglum: 'Łk 23, 35-43',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Dwóch łotrów'
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'J_3_22-30',
+      siglum: 'J 3, 22-30',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Jezus i Jan Chrzciciel',
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'J_6_55-69',
+      siglum: 'J 6, 55-69',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Mowa eucharystyczna',
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'J_7_37-39',
+      siglum: 'J 7, 37-39',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Źródło wody żywej',
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'J_8_1-11',
+      siglum: 'J 8, 1-11',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Kobieta cudzołożna',
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'J_10_27-30',
+      siglum: 'J 10, 27-30',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Ja i ojciec jedno jesteśmy',
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'J_13_31-35',
+      siglum: 'J 13, 31-35',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Miłujcie się wzajemnie',
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'J_14_23-29',
+      siglum: 'J 14, 23-29',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Miłość objawiona',
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'J_15_1-8',
+      siglum: 'J 15, 1-8',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Zjednoczenie z Chrystusem',
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'J_16_12-15',
+      siglum: 'J 16, 12-15',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Sąd Ducha Świętego',
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'J_18_33b-37',
+      siglum: 'J 18, 33b-37',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Jezus przed Piłatem',
+      }
+  ),
+
+  const ApelEwan(
+      dirName: 'J_20_19-31',
+      siglum: 'J 20, 19-31',
+      subgroupTitle: {
+        ogolneApelEwansSuffix: 'Zmartwychwstały ukazuje się Apostołom',
+      }
   ),
 
   wj_3_13_15,

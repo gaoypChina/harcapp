@@ -68,6 +68,13 @@ class CircleBasicData{
     required this.memberCount,
   });
 
+  static CircleBasicData fromCircle(Circle circle) => CircleBasicData(
+    key: circle.key,
+    name: circle.name,
+    coverImage: circle.coverImage,
+    memberCount: circle.members.length
+  );
+
   static CircleBasicData fromResponse(Map resp) => CircleBasicData(
     key: resp['_key']??(throw InvalidResponseError('_key')),
     name: resp['name']??(throw InvalidResponseError('name')),
@@ -91,6 +98,11 @@ class Circle{
 
   static List<Circle>? get all => _all;
   static Map<String, Circle>? get allMap => _allMap;
+
+  static forget(){
+    _all = null;
+    _allMap = null;
+  }
 
   static silentInit(List<Circle> circles){
     if(_all == null){

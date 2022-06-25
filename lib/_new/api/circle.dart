@@ -526,4 +526,38 @@ class ApiCircle{
       onError: (err) async => onError?.call()
   );
 
+  static Future<Response?> bindIndivComp({
+    required String circleKey,
+    required String indivCompKey,
+    void Function()? onSuccess,
+    void Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      sendRequest: (Dio dio) => dio.put(
+        '${API.SERVER_URL}api/circle/$circleKey/bindComp',
+        data: FormData.fromMap({
+          'compKey': indivCompKey,
+        }),
+      ),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+      onError: (err) async => onError?.call()
+  );
+
+  static Future<Response?> deleteIndivCompBind({
+    required String circleKey,
+    required String indivCompKey,
+    void Function()? onSuccess,
+    void Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      sendRequest: (Dio dio) => dio.delete(
+        '${API.SERVER_URL}api/circle/$circleKey/bindComp',
+        data: FormData.fromMap({
+          'compKey': indivCompKey,
+        }),
+      ),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+      onError: (err) async => onError?.call()
+  );
+
 }

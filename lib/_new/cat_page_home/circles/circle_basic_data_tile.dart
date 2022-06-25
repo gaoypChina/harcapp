@@ -11,10 +11,11 @@ import 'model/circle.dart';
 class CircleBasicDataTile extends StatelessWidget{
 
   final CircleBasicData circle;
+  final Widget? trailing;
   final String bottomText;
   final Color? bottomTextColor;
   final void Function(CircleBasicData)? onTap;
-  const CircleBasicDataTile(this.circle, {this.bottomText='', this.bottomTextColor, this.onTap, super.key});
+  const CircleBasicDataTile(this.circle, {this.trailing, this.bottomText='', this.bottomTextColor, this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) => SimpleButton(
@@ -49,7 +50,10 @@ class CircleBasicDataTile extends StatelessWidget{
             )
 
           ],
-        )
+        ),
+
+        if(trailing != null)
+          trailing!,
 
       ],
     ),

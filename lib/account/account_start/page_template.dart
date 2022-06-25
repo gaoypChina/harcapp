@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:harcapp/_new/common.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
@@ -79,25 +77,25 @@ class PageTemplate extends StatelessWidget {
                     if(prov.connected)
                       return Container();
 
-                    return GradientWidget(
-                        radius: 0,
-                        colorStart: Colors.red[900]!,
-                        colorEnd: Colors.deepOrange[700]!,
-                        height: Dimen.ICON_SIZE + 2*Dimen.DEF_MARG,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
+                    return Container(
+                        color: Colors.red,
+                        child: SizedBox(
+                          height: Dimen.TEXT_SIZE_NORMAL + 2*Dimen.DEF_MARG,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
 
-                            Icon(MdiIcons.wifiOff, color: Colors.white),
+                              //const Icon(MdiIcons.earthOff, color: Colors.white),
 
-                            SizedBox(width: Dimen.ICON_MARG),
+                              const SizedBox(width: Dimen.ICON_MARG),
 
-                            Text(
-                              'Brak połączenia z Internetem',
-                              style: AppTextStyle(fontWeight: weight.halfBold, color: Colors.white),
-                            ),
-                          ],
+                              Text(
+                                'Brak połączenia z Internetem',
+                                style: AppTextStyle(color: Colors.white),
+                              ),
+                            ],
+                          ),
                         )
                     );
                   },

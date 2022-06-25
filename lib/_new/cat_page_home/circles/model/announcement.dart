@@ -24,10 +24,15 @@ class Announcement{
   static const int feedPageSize = 10;
 
   static List<Announcement>? _all;
-  static Map<String?, Announcement>? _allMap;
+  static Map<String, Announcement>? _allMap;
 
   static List<Announcement>? get all => _all;
-  static Map<String?, Announcement>? get allMap => _allMap;
+  static Map<String, Announcement>? get allMap => _allMap;
+
+  static forget(){
+    _all = null;
+    _allMap = null;
+  }
 
   static silentInit(List<Announcement> announcements){
     if(_all == null){

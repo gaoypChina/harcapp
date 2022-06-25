@@ -13,6 +13,7 @@ import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/server.dart';
+import 'package:harcapp_core/comm_classes/network.dart';
 
 import '../../sync/syncable_new.dart';
 
@@ -86,8 +87,11 @@ class API{
         '\n# Status message: ${e.response?.statusMessage}'
         '\n# Response error data:\n${e.response?.data}'
       );
-
-      if (e.response?.statusCode == jwtInvalidHttpStatus) {
+      if (e.response?.statusCode == 404) {
+        if(await isNetworkAvailable())
+          try {Dio().get(SERVER_URL);}
+          on DioError {}
+      } else if (e.response?.statusCode == jwtInvalidHttpStatus) {
         await SynchronizerEngine.changeSyncStateInAll([
             SyncableParamSingle_.stateSynced,
             SyncableParamSingle_.stateSyncInProgress,
@@ -96,6 +100,7 @@ class API{
         );
         SynchronizerEngine.lastSyncTimeLocal = null;
         await AccountData.forgetAccount();
+        AccountData.callOnForceLogout();
 
         finish = await onForceLoggedOut?.call();
       } else if(e.response?.statusCode == HttpStatus.unauthorized){

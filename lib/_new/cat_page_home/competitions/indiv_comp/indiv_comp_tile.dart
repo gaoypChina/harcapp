@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/indiv_comp_rank_icon.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/points_icon.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
-import 'package:harcapp/account/account_thumbnail_row_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../details/app_settings.dart';
 import 'common/points_widget.dart';
 import 'indiv_comp_thumbnail_widget.dart';
 import 'models/indiv_comp.dart';
+import 'models/rank_disp_type.dart';
 
 class IndivCompTile extends StatelessWidget{
 
@@ -19,6 +22,8 @@ class IndivCompTile extends StatelessWidget{
 
   final IndivComp comp;
   final Widget? leading;
+  final Widget? trailing;
+  final Widget? subTitle;
   final void Function(IndivComp)? onTap;
   final Color? participBorderColor;
   final Color? participBackgroundColor;
@@ -27,6 +32,8 @@ class IndivCompTile extends StatelessWidget{
   IndivCompTile(
       this.comp,
       { this.leading,
+        this.trailing,
+        this.subTitle,
         this.onTap,
         this.participBorderColor,
         this.participBackgroundColor,
@@ -77,63 +84,61 @@ class IndivCompTile extends StatelessWidget{
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
 
-                          const SizedBox(height: Dimen.DEF_MARG),
-
-                          Row(
-                            children: [
-
-                              Expanded(
-                                child: Text(
-                                  comp.name,
-                                  style: AppTextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: weight.bold,
-                                    color: AppSettings.isDark?comp.colors.colorStart:comp.colors.colorEnd,
-                                  ),
-                                  maxLines: 2,
+                          SizedBox(
+                            height: PointsIcon.defSize,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                comp.name,
+                                style: AppTextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: weight.halfBold,
+                                  color: AppSettings.isDark?comp.colors.colorStart:comp.colors.colorEnd,
                                 ),
+                                maxLines: 2,
                               ),
-
-                              const SizedBox(width: Dimen.ICON_MARG),
-
-                              Icon(
-                                compRoleToIcon[comp.myProfile?.role],
-                                color: hintEnab_(context),
-                              ),
-
-                              const SizedBox(width: Dimen.ICON_MARG),
-
-                            ],
+                            )
                           ),
 
-                          const SizedBox(height: Dimen.DEF_MARG),
+                          SizedBox(
+                            height: PointsIcon.defSize,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: subTitle??
+                                (comp.myProfile?.active == true?
+                                Row(
+                                  children: [
 
-                          if(comp.myProfile?.active == true)
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
+                                    Icon(
+                                      compRoleToIcon[comp.myProfile?.role],
+                                      color: hintEnab_(context),
+                                    ),
 
-                                Expanded(
-                                  child: AccountThumbnailRowWidget(
-                                    comp.particips.map((particip) => particip.name).toList(),
-                                    size: 24.0,
-                                    clipBehavior: Clip.hardEdge,
-                                    borderColor: participBorderColor,
-                                    backgroundColor: participBackgroundColor,
-                                    onTap: () => onTap?.call(comp),
-                                  )
-                                ),
+                                    const SizedBox(width: Dimen.ICON_MARG/2),
+                                    Icon(MdiIcons.circleMedium, color: backgroundIcon_(context)),
+                                    const SizedBox(width: Dimen.ICON_MARG/2),
 
-                                const SizedBox(width: Dimen.DEF_MARG),
+                                    PointsWidget(
+                                        points: comp.myProfile?.points,
+                                        size: 32.0
+                                    ),
 
-                                PointsWidget(points: comp.myProfile?.points, size: 32.0),
+                                    /*
+                              AccountThumbnailRowWidget(
+                                  comp.particips.map((particip) => particip.name).toList(),
+                                  size: 24.0,
+                                  clipBehavior: Clip.hardEdge,
+                                  borderColor: participBorderColor,
+                                  backgroundColor: participBackgroundColor,
+                                  onTap: () => onTap?.call(comp),
+                                )
+                               */
 
-                                const SizedBox(width: Dimen.DEF_MARG),
-
-                              ],
+                                  ],
+                                ):
+                                Text('obserwator', style: AppTextStyle(fontSize: 42.0, color: hintEnab_(context)))),
                             )
-                          else
-                            Text('obserwator', style: AppTextStyle(fontSize: 42.0, color: hintEnab_(context))),
+                          )
 
                         ],
                       ),
@@ -142,6 +147,15 @@ class IndivCompTile extends StatelessWidget{
                   ],
                 ),
               ),
+            ),
+
+            trailing??
+            IndivCompRankIcon(
+              comp.myProfile!,
+              activeParticipCnt: comp.activeParticipCnt,
+              showPercent: comp.rankDispType == RankDispType.RANGE_PERC,
+              colors: comp.colors,
+              size: 54.0,
             )
           ],
         ),

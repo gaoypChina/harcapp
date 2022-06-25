@@ -44,17 +44,18 @@ class ShortReadThumbnailWidget extends StatelessWidget{
                 ),
 
                 if(shortRead.soundResource != null)
-                  const Positioned(
-                    bottom: 0,
+                  Positioned(
+                    top: 0,
                     right: 0,
-                    child: AppCard(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(AppCard.BIG_RADIUS),
-                          bottomLeft: Radius.zero,
-                          topRight: Radius.zero
+                    child: Material(
+                      color: background_(context),
+                      borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(AppCard.BIG_RADIUS),
                       ),
-                      margin: EdgeInsets.zero,
-                      child: Icon(MdiIcons.volumeHigh),
+                      child: const Padding(
+                        padding: EdgeInsets.all(Dimen.DEF_MARG),
+                        child: Icon(MdiIcons.volumeHigh),
+                      ),
                     ),
                   ),
 

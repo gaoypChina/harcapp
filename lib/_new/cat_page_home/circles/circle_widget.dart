@@ -36,10 +36,10 @@ class CircleWidget extends StatelessWidget{
               ),
 
               Positioned(
-                top: -1.86*height,
-                left: -.8*height,
-                height: 2.3*height,
-                width: 2.3*height,
+                top: -2.44*height,
+                left: -1.0*height,
+                height: 2.8*height,
+                width: 2.8*height,
                 child: Material(
                     borderRadius: BorderRadius.circular(2*height),
                     color: background_(context)
@@ -53,19 +53,34 @@ class CircleWidget extends StatelessWidget{
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
 
-                      Text(
-                          circle.name,
-                          style: AppTextStyle(
-                            fontSize: Dimen.TEXT_SIZE_APPBAR,
-                            fontWeight: weight.bold,
-                          )
+                      Row(
+                        children: [
+
+                          if(circle.awaitingCount != 0)
+                            const Icon(MdiIcons.clockAlertOutline, color: Colors.red),
+
+                          if(circle.awaitingCount != 0)
+                            const SizedBox(width: Dimen.ICON_MARG),
+
+                          Text(
+                              circle.name,
+                              style: AppTextStyle(
+                                fontSize: Dimen.TEXT_SIZE_APPBAR,
+                                fontWeight: weight.bold,
+                              )
+                          ),
+
+                        ],
                       ),
 
                       const SizedBox(height: Dimen.ICON_MARG),
 
+                      /*
                       Row(
                         children: [
 
+                          Icon(MdiIcons.accountMultiple, color: hintEnab_(context)),
+                          const SizedBox(width: Dimen.ICON_MARG),
                           Text(
                               '${circle.members.length}',
                               style: AppTextStyle(
@@ -74,29 +89,11 @@ class CircleWidget extends StatelessWidget{
                                   color: hintEnab_(context)
                               )
                           ),
-                          const SizedBox(width: 3.0),
-                          Icon(MdiIcons.accountMultiple, size: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)),
-
-                          const SizedBox(width: Dimen.ICON_MARG),
-
-                          if(circle.awaitingCount != 0)
-                            Text(
-                                '${circle.awaitingCount}',
-                                style: AppTextStyle(
-                                    fontSize: Dimen.TEXT_SIZE_BIG,
-                                    fontWeight: weight.bold,
-                                    color: Colors.red
-                                )
-                            ),
-                          if(circle.awaitingCount != 0)
-                            const SizedBox(width: 3.0),
-                          if(circle.awaitingCount != 0)
-                            const Icon(MdiIcons.alertCircleOutline, size: Dimen.TEXT_SIZE_BIG, color: Colors.red),
-
 
                         ],
                       )
 
+                       */
                     ],
                   )
               ),

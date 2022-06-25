@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:harcapp/_new/cat_page_home/circles/model/announcement.dart';
+import 'package:harcapp/_new/cat_page_home/circles/model/circle.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 
 import '../_app_common/accounts/user_data.dart';
 
@@ -430,6 +433,10 @@ class AccountData {
     await AccountData.removeMicrosoftAcc();
     await AccountData.removeRegularAcc();
     await AccountData.removeShadowUsers();
+
+    Announcement.forget();
+    Circle.forget();
+    IndivComp.forget();
   }
 }
 

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/points_icon.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
-import 'package:harcapp/account/account_thumbnail_row_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -9,7 +7,6 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 
 import '../../../details/app_settings.dart';
-import 'common/points_widget.dart';
 import 'indiv_comp_thumbnail_widget.dart';
 import 'models/indiv_comp.dart';
 
@@ -18,9 +15,10 @@ class IndivCompBasicDataTile extends StatelessWidget{
   final IndivCompBasicData comp;
   final String bottomText;
   final Color? bottomTextColor;
+  final Widget? trailing;
   final void Function(IndivCompBasicData)? onTap;
 
-  IndivCompBasicDataTile(this.comp, {this.bottomText='', this.bottomTextColor, this.onTap}): super(key: ValueKey(comp));
+  IndivCompBasicDataTile(this.comp, {this.bottomText='', this.bottomTextColor, this.trailing, this.onTap}): super(key: ValueKey(comp));
 
   @override
   Widget build(BuildContext context) => SimpleButton(
@@ -34,6 +32,7 @@ class IndivCompBasicDataTile extends StatelessWidget{
         IndivCompThumbnailWidget(
           iconKey: comp.iconKey,
           colorsKey: comp.colorsKey,
+          heroTag: comp,
         ),
 
         const SizedBox(width: Dimen.ICON_MARG),
@@ -72,6 +71,9 @@ class IndivCompBasicDataTile extends StatelessWidget{
             ],
           ),
         ),
+
+        if(trailing != null)
+          trailing!,
 
       ],
     ),

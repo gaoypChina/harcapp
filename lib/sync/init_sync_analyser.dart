@@ -39,7 +39,7 @@ class InitSyncAnalyser{
         '\nemail: $email'
         '\nlastEmail: $lastConfEmail,'
         '\nisAllSynced: $isAllSynced,'
-        '\nlastSyncServer: ${lastSyncTimeServer?.toIso8601String()}'
+        '\nlastServerSync: ${lastSyncTimeServer?.toIso8601String()}'
         '\nlastLocalSync: ${lastSyncTimeLocal?.toIso8601String()}');
 
     if(lastConfEmail == null) {
