@@ -34,6 +34,7 @@ import '../../_common_classes/app_navigator.dart';
 import '../app_drawer.dart';
 import 'apel_ewan/apel_ewan_page.dart';
 import 'apel_ewan/apel_ewan_thumbnail_widget.dart';
+import 'apel_ewan/apel_ewans_page.dart';
 import 'apel_ewan/data.dart';
 import 'articles/article_core.dart';
 import 'articles/article_list_widget.dart';
@@ -598,7 +599,13 @@ class _ApelEwanScrollView extends StatelessWidget{
         physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         itemCount: shuffApelEwanList.length,
-        itemBuilder: (context, index) => ApelEwanThumbnailWidget(shuffApelEwanList[index]),
+        itemBuilder: (context, index) => ApelEwanThumbnailWidget(
+          shuffApelEwanList[index],
+          onTap: (apelEwan, subgroup) => pushPage(context, builder: (context) => ApelEwanPage(
+              apelEwan,
+              initSubgroup: subgroup
+          )),
+        ),
         separatorBuilder: (BuildContext context, int index) => const SizedBox(width: Dimen.ICON_MARG),
       ),
     );

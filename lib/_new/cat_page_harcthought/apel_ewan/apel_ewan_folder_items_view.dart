@@ -6,6 +6,7 @@ import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import 'apel_ewan.dart';
 import 'apel_ewan_grid_view.dart';
 import 'apel_ewan_own_folder.dart';
 import 'apel_ewan_reorderable_list.dart';
@@ -18,12 +19,14 @@ class ApelEwanFolderItemsView<T extends ApelEwanOwnFolder> extends StatelessWidg
   final EdgeInsets padding;
   final LayoutType type;
   final bool animate;
+  final void Function(ApelEwan, String?)? onTap;
 
   const ApelEwanFolderItemsView({
     required this.folder,
     this.padding = const EdgeInsets.all(Dimen.ICON_MARG),
     required this.type,
     this.animate = false,
+    this.onTap,
     super.key
   });
 
@@ -54,12 +57,14 @@ class ApelEwanFolderItemsView<T extends ApelEwanOwnFolder> extends StatelessWidg
           folder: folder,
           animate: animate,
           padding: padding,
+          onTap: onTap,
         )
       else
         ApelEwanReorderableList(
           folder: folder,
           animate: animate,
-          padding: padding
+          padding: padding,
+          onTap: onTap,
         )
     ],
   );

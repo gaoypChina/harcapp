@@ -24,10 +24,7 @@ class ApelEwanWidget extends StatefulWidget{
 
 }
 
-class ApelEwanWidgetState extends State<ApelEwanWidget> with ModuleStatsMixin{
-
-  @override
-  String get moduleId => ModuleStatsMixin.myslHarcFormy;
+class ApelEwanWidgetState extends State<ApelEwanWidget>{
 
   ApelEwan get apelEwan => widget.apelEwan;
 
@@ -88,206 +85,183 @@ class ApelEwanWidgetState extends State<ApelEwanWidget> with ModuleStatsMixin{
 
   @override
   Widget build(BuildContext context) =>
-      BottomNavScaffold(
-        body: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
+      text == null?
+      Container():
+      Column(
+        children: [
 
-            SliverAppBar(
-              title: Text(apelEwan.siglum),
-              centerTitle: true,
-              floating: true,
-            ),
+          Material(
+              elevation: AppCard.bigElevation,
+              clipBehavior: Clip.hardEdge,
+              color: cardEnab_(context),
+              borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+              child: Padding(
+                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
 
-            if(text != null)
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                sliver: SliverList(delegate: SliverChildListDelegate([
-
-                  const SizedBox(height: Dimen.SIDE_MARG),
-
-                  Material(
-                    elevation: AppCard.bigElevation,
-                    clipBehavior: Clip.hardEdge,
-                    color: cardEnab_(context),
-                    borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-                    child: Padding(
-                      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-
-                          Text(
-                            apelEwan.subgroupTitle[selSubgroupSuff]!,
-                            style: AppTextStyle(
-                                fontSize: Dimen.TEXT_SIZE_APPBAR,
-                                fontWeight: weight.bold
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-
-                          if(author != null)
-                            const SizedBox(height: Dimen.SIDE_MARG),
-
-                          if(author != null)
-                            Text(
-                              'Słowa Ewangelii według Świętego $author',
-                              style: AppTextStyle(
-                                fontSize: Dimen.TEXT_SIZE_BIG, 
-                                fontWeight: weight.halfBold,
-                                color: hintEnab_(context)
-                              ),
-                              textAlign: TextAlign.justify,
-                            ),
-
-                          const SizedBox(height: Dimen.SIDE_MARG),
-
-                          Text(
-                            text!,
-                            style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
-                            textAlign: TextAlign.justify,
-                          ),
-
-                          const SizedBox(height: Dimen.SIDE_MARG),
-
-                          Text(
-                            'Oto Słowo Boże.',
-                            style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
-                            textAlign: TextAlign.justify,
-                          ),
-
-                        ],
+                    Text(
+                      apelEwan.subgroupTitle[selSubgroupSuff]!,
+                      style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_APPBAR,
+                          fontWeight: weight.bold
                       ),
-                    )
-                  ),
+                      textAlign: TextAlign.center,
+                    ),
 
-                  const SizedBox(height: Dimen.SIDE_MARG),
+                    if(author != null)
+                      const SizedBox(height: Dimen.SIDE_MARG),
 
-                  if(comments[selSubgroupSuff] != null || questions[selSubgroupSuff] != null)
-                    Material(
-                      elevation: AppCard.bigElevation,
-                      clipBehavior: Clip.hardEdge,
-                      color: cardEnab_(context),
-                      borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-
-                          if(allSubgroupSuffs.length > 1)
-                            Material(
-                              color: cardEnab_(context),
-                              elevation: AppCard.bigElevation,
-                              child: Row(
-                                children: [
-
-                                  const SizedBox(width: Dimen.SIDE_MARG),
-
-                                  Icon(MdiIcons.checkboxMultipleBlank, color: textEnab_(context)),
-
-                                  const SizedBox(width: Dimen.SIDE_MARG),
-
-                                  Text(
-                                    'Wybierz kategorię:',
-                                    style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
-                                    textAlign: TextAlign.justify,
-                                  ),
-
-                                  Expanded(
-                                    child: ApelEwanCategorySelector(
-                                      allSubgroupSuffs: allSubgroupSuffs,
-                                      selSubgroupSuff: selSubgroupSuff,
-                                      onChanged: (value) => setState(() => selSubgroupSuff = value as String),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            Padding(
-                              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-
-                                  if(comments[selSubgroupSuff] != null)
-                                    Text(
-                                      'Garść komentarzy',
-                                      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
-                                      textAlign: TextAlign.justify,
-                                    ),
-
-                                  if(comments[selSubgroupSuff] != null)
-                                    const SizedBox(height: Dimen.SIDE_MARG),
-
-                                  if(comments[selSubgroupSuff] != null)
-                                    Text(
-                                      comments[selSubgroupSuff]!,
-                                      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
-                                      textAlign: TextAlign.justify,
-                                    ),
-
-                                  if(comments[selSubgroupSuff] != null)
-                                    const SizedBox(height: 2*Dimen.SIDE_MARG),
-
-                                  if(questions[selSubgroupSuff] != null)
-                                    Text(
-                                      'Pytania ',
-                                      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
-                                      textAlign: TextAlign.justify,
-                                    ),
-
-                                  if(questions[selSubgroupSuff] != null)
-                                    const SizedBox(height: Dimen.SIDE_MARG),
-
-                                  if(questions[selSubgroupSuff] != null)
-                                    ListView.builder(
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, index) => Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 6.0),
-                                        child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                width: 32,
-                                                child: Text(
-                                                    '${index + 1}',
-                                                    style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold)
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: AppText(
-                                                    questions[selSubgroupSuff]![index],
-                                                    size: Dimen.TEXT_SIZE_BIG
-                                                ),
-                                              )
-                                            ]),
-                                      ),
-                                      itemCount: questions[selSubgroupSuff]!.length,
-                                      shrinkWrap: true,
-                                    )
-
-                                ],
-                              ),
-                            ),
-
-                        ],
+                    if(author != null)
+                      Text(
+                        'Słowa Ewangelii według Świętego $author',
+                        style: AppTextStyle(
+                            fontSize: Dimen.TEXT_SIZE_BIG,
+                            fontWeight: weight.halfBold,
+                            color: hintEnab_(context)
+                        ),
+                        textAlign: TextAlign.justify,
                       ),
-                  ),
 
-                  if(comments[selSubgroupSuff] != null || questions[selSubgroupSuff] != null)
                     const SizedBox(height: Dimen.SIDE_MARG),
 
-                ])),
-              ),
+                    Text(
+                      text!,
+                      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                      textAlign: TextAlign.justify,
+                    ),
 
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(MdiIcons.bookmark),
-          onPressed: () => openApelEwanOwnFolderSelector(
-            context, apelEwan.siglum
-          )
-        ),
+                    const SizedBox(height: Dimen.SIDE_MARG),
+
+                    Text(
+                      'Oto Słowo Boże.',
+                      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                      textAlign: TextAlign.justify,
+                    ),
+
+                  ],
+                ),
+              )
+          ),
+
+          const SizedBox(height: Dimen.SIDE_MARG),
+
+          if(comments[selSubgroupSuff] != null || questions[selSubgroupSuff] != null)
+            Material(
+              elevation: AppCard.bigElevation,
+              clipBehavior: Clip.hardEdge,
+              color: cardEnab_(context),
+              borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+
+                  if(allSubgroupSuffs.length > 1)
+                    Material(
+                      color: cardEnab_(context),
+                      elevation: AppCard.bigElevation,
+                      child: Row(
+                        children: [
+
+                          const SizedBox(width: Dimen.SIDE_MARG),
+
+                          Icon(MdiIcons.checkboxMultipleBlank, color: textEnab_(context)),
+
+                          const SizedBox(width: Dimen.SIDE_MARG),
+
+                          Text(
+                            'Wybierz kategorię:',
+                            style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
+                            textAlign: TextAlign.justify,
+                          ),
+
+                          Expanded(
+                            child: ApelEwanCategorySelector(
+                              allSubgroupSuffs: allSubgroupSuffs,
+                              selSubgroupSuff: selSubgroupSuff,
+                              onChanged: (value) => setState(() => selSubgroupSuff = value as String),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+
+                        if(comments[selSubgroupSuff] != null)
+                          Text(
+                            'Garść komentarzy',
+                            style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
+                            textAlign: TextAlign.justify,
+                          ),
+
+                        if(comments[selSubgroupSuff] != null)
+                          const SizedBox(height: Dimen.SIDE_MARG),
+
+                        if(comments[selSubgroupSuff] != null)
+                          Text(
+                            comments[selSubgroupSuff]!,
+                            style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                            textAlign: TextAlign.justify,
+                          ),
+
+                        if(comments[selSubgroupSuff] != null)
+                          const SizedBox(height: 2*Dimen.SIDE_MARG),
+
+                        if(questions[selSubgroupSuff] != null)
+                          Text(
+                            'Pytania ',
+                            style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
+                            textAlign: TextAlign.justify,
+                          ),
+
+                        if(questions[selSubgroupSuff] != null)
+                          const SizedBox(height: Dimen.SIDE_MARG),
+
+                        if(questions[selSubgroupSuff] != null)
+                          ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 6.0),
+                              child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: 32,
+                                      child: Text(
+                                          '${index + 1}',
+                                          style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold)
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: AppText(
+                                          questions[selSubgroupSuff]![index],
+                                          size: Dimen.TEXT_SIZE_BIG
+                                      ),
+                                    )
+                                  ]),
+                            ),
+                            itemCount: questions[selSubgroupSuff]!.length,
+                            shrinkWrap: true,
+                          )
+
+                      ],
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+
+          if(comments[selSubgroupSuff] != null || questions[selSubgroupSuff] != null)
+            const SizedBox(height: Dimen.SIDE_MARG),
+
+        ],
       );
 
 }

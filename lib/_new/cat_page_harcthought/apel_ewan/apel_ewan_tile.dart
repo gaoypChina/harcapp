@@ -18,6 +18,8 @@ class ApelEwanTile extends StatefulWidget{
 
   final Widget? noteTrailing;
 
+  final void Function(ApelEwan, String?)? onTap;
+
   const ApelEwanTile(
       this.apelEwan,
       { this.subgroup,
@@ -26,6 +28,7 @@ class ApelEwanTile extends StatefulWidget{
         this.onNoteChanged,
         this.onSubgroupSuffChanged,
         this.noteTrailing,
+        this.onTap,
         super.key
       });
 
@@ -46,6 +49,8 @@ class ApelEwanTileState extends State<ApelEwanTile>{
 
   Widget? get noteTrailing => widget.noteTrailing;
 
+  void Function(ApelEwan, String?)? get onTap => widget.onTap;
+
   late TextEditingController controller;
   late String selSubgroupSuff;
 
@@ -65,7 +70,7 @@ class ApelEwanTileState extends State<ApelEwanTile>{
       SizedBox(
         width: (MediaQuery.of(context).size.shortestSide - 4*Dimen.ICON_MARG)/3,
         height: (MediaQuery.of(context).size.shortestSide - 4*Dimen.ICON_MARG)/3,
-        child: ApelEwanThumbnailWidget(apelEwan, subgroup: subgroup??selSubgroupSuff),
+        child: ApelEwanThumbnailWidget(apelEwan, subgroup: subgroup??selSubgroupSuff, onTap: onTap),
       ),
 
       Expanded(

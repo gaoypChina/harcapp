@@ -87,10 +87,11 @@ class API{
         '\n# Status message: ${e.response?.statusMessage}'
         '\n# Response error data:\n${e.response?.data}'
       );
+
       if (e.response?.statusCode == 404) {
         if(await isNetworkAvailable())
-          try {Dio().get(SERVER_URL);}
-          on DioError {}
+          Dio().get(SERVER_URL).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
+
       } else if (e.response?.statusCode == jwtInvalidHttpStatus) {
         await SynchronizerEngine.changeSyncStateInAll([
             SyncableParamSingle_.stateSynced,

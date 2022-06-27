@@ -15,11 +15,13 @@ class ApelEwanGridView<T extends ApelEwanFolder> extends StatelessWidget{
   final T folder;
   final EdgeInsets padding;
   final bool animate;
+  final void Function(ApelEwan, String?)? onTap;
 
   const ApelEwanGridView({
     required this.folder,
     this.padding = const EdgeInsets.all(Dimen.ICON_MARG),
     this.animate = false,
+    this.onTap,
     super.key
   });
 
@@ -44,6 +46,7 @@ class ApelEwanGridView<T extends ApelEwanFolder> extends StatelessWidget{
                 folder is ApelEwanOwnFolder?
                 (folder as ApelEwanOwnFolder).getSubgroupSuff(apelEwan.siglum):
                 null,
+                onTap: onTap,
               ),
             ),
           ),
@@ -54,6 +57,7 @@ class ApelEwanGridView<T extends ApelEwanFolder> extends StatelessWidget{
           folder is ApelEwanOwnFolder?
           (folder as ApelEwanOwnFolder).getSubgroupSuff(apelEwan.siglum):
           null,
+          onTap: onTap
         )
       );
     }

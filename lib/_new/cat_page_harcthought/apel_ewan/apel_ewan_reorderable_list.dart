@@ -16,11 +16,13 @@ class ApelEwanReorderableList<T extends ApelEwanOwnFolder> extends StatefulWidge
   final T folder;
   final EdgeInsets padding;
   final bool animate;
+  final void Function(ApelEwan, String?)? onTap;
 
   const ApelEwanReorderableList({
     required this.folder,
     this.padding = const EdgeInsets.all(Dimen.ICON_MARG),
     this.animate = false,
+    this.onTap,
     super.key
   });
 
@@ -34,6 +36,7 @@ class ApelEwanReorderableListState<T extends ApelEwanOwnFolder> extends State<Ap
   T get folder => widget.folder;
   EdgeInsets get padding => widget.padding;
   bool get animate => widget.animate;
+  void Function(ApelEwan, String?)? get onTap => widget.onTap;
 
   int _indexOfKey(ValueKey<String> key) {
     return folder.apelEwans.indexWhere((ApelEwan apelEwan) => apelEwan.siglum == key.value);
@@ -101,6 +104,7 @@ class ApelEwanReorderableListState<T extends ApelEwanOwnFolder> extends State<Ap
                             child: Icon(MdiIcons.swapVertical, color: iconEnab_(context)),
                           )
                       ),
+                      onTap: onTap,
                     ),
                   )
               );

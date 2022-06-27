@@ -7,7 +7,7 @@ import 'apel_ewan_own_folder.dart';
 
 Future<void> openApelEwanOwnFolderSelector(BuildContext context, String siglum) => openFolderSelector<ApelEwanOwnFolder>(
     context,
-    title: 'Dodaj apel do folderu',
+    title: 'Dodaj apel $siglum do folderu',
     countString: 'Liczba apeli:',
     getAllFolders: () => ApelEwanOwnFolder.allOwnFolders,
     onNewFolderSave: (String name, String iconKey, String colorsKey) async {

@@ -1,17 +1,19 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:webfeed/util/iterable.dart';
 
-import 'apel_ewan_widget.dart';
+import 'apel_ewan_page.dart';
 
 class ApelEwanThumbnailWidget extends StatelessWidget{
 
   final ApelEwan apelEwan;
   final String? subgroup;
+  final void Function(ApelEwan, String?)? onTap;
 
-  const ApelEwanThumbnailWidget(this.apelEwan, {this.subgroup, super.key});
+  const ApelEwanThumbnailWidget(this.apelEwan, {this.subgroup, this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) => Hero(
@@ -24,9 +26,10 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
           double textSize = .15*constraints.maxWidth;
           double coverInitWidth = .14*constraints.maxWidth;
           double coversBorder = .05*constraints.maxWidth;
-          double outerRadius = .12*constraints.maxWidth;
+          double outerRadius = .15*constraints.maxWidth;
           double innerRadius = .15*constraints.maxWidth;
-          double pagesHeight = .12*constraints.maxWidth;
+          double pagesWidth = constraints.maxWidth - 2*coversBorder;
+          double pagesHeight = .1*constraints.maxWidth;
 
           Color textColor;
           if(apelEwan.siglum.substring(0, 2) == 'Mt')
@@ -38,82 +41,39 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
           else
             textColor = Colors.yellow[100]!;
 
-          return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(outerRadius),
-              ),
-              clipBehavior: Clip.hardEdge,
-              child: Stack(
-                children: [
+          return CustomPaint(
+            size: Size(constraints.maxWidth, constraints.maxWidth),
+            painter: BackCoverPainter(),
+            child: Stack(
+              children: [
 
-                  Positioned.fill(
-                      top: coversBorder,
-                      child: Container(
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                          color: Colors.brown[700],
-                          borderRadius: BorderRadius.circular(outerRadius),
-                        ),
-                      )
+                Positioned(
+                  bottom: coversBorder,
+                  left: coversBorder,
+                  right: coversBorder,
+                  child: CustomPaint(
+                    size: Size(pagesWidth, 3*pagesHeight),
+                    painter: PagesCustomPainter(),
                   ),
+                ),
 
-                  // Pages
-                  Positioned(
-                    bottom: coversBorder,
-                    left: coversBorder,
-                    right: 2*coversBorder,
-                    height: pagesHeight,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(innerRadius),
-                          bottomRight: Radius.circular(outerRadius),
-                          bottomLeft: Radius.circular(innerRadius),
-                        ),
-                        color: Colors.orange[100],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                      bottom: coversBorder,
-                      right: coversBorder,
-                      height: 2*pagesHeight,
-                      width: 2*pagesHeight,
-                      child: Container(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        decoration: BoxDecoration(
-                          color: Colors.orange[100],
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(innerRadius),
-                            bottomRight: Radius.circular(outerRadius),
-                            bottomLeft: Radius.circular(innerRadius),
-                          ),
-                        ),
-                      )
-                  ),
 
-                  Positioned.fill(
-                      bottom: coversBorder + pagesHeight,
-                      right: coversBorder,
-                      child: PhysicalModel(
+                Positioned.fill(
+                    bottom: coversBorder + pagesHeight,
+                    left: coverInitWidth,
+                    right: coversBorder,
+                    child: PhysicalModel(
                         borderRadius: BorderRadius.circular(outerRadius),
                         color: Colors.transparent,
                         elevation: 4.0,
-                        child: Row(
-                          children: [
-                            Container(
-                              width: coverInitWidth,
-                              color: Colors.brown[700],
+                        child: Container(
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.horizontal(
+                              right: Radius.circular(outerRadius),
                             ),
-
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.horizontal(
-                                      right: Radius.circular(outerRadius),
-                                  ),
-                                  color: Color.fromARGB(255, 130, 70, 50),
-                                  /*
+                            color: const Color.fromARGB(255, 130, 70, 50),
+                            /*
                                   gradient: LinearGradient(
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
@@ -121,72 +81,142 @@ class ApelEwanThumbnailWidget extends StatelessWidget{
                                   ),
 
                                    */
-                                ),
-                                child: Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                    splashColor: Colors.brown,
-                                    onTap: () => pushPage(context, builder: (context) => ApelEwanWidget(
-                                        apelEwan,
-                                        initSubgroup: subgroup
-                                    )),
-                                    child: IgnorePointer(
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 2*coversBorder + .7*textSize,
-                                            bottom: 2*coversBorder,
-                                            left: coversBorder,
-                                            right: coversBorder
-                                        ),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                                          children: [
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              splashColor: Colors.brown,
+                              onTap: () => onTap?.call(apelEwan, subgroup),
+                              child: IgnorePointer(
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      top: coversBorder,
+                                      bottom: 2*coversBorder,
+                                      left: coversBorder,
+                                      right: coversBorder
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: [
 
-                                            Text(
-                                              apelEwan.subgroupShortTitle[subgroup]??
-                                                  apelEwan.subgroupTitle[subgroup]??
-                                                  apelEwan.subgroupShortTitle.values.firstOrNull??
-                                                  apelEwan.subgroupTitle.values.first,
+                                      Expanded(
+                                        child: Center(
+                                          child: Text(
+                                            apelEwan.subgroupShortTitle[subgroup]??
+                                                apelEwan.subgroupTitle[subgroup]??
+                                                apelEwan.subgroupShortTitle.values.firstOrNull??
+                                                apelEwan.subgroupTitle.values.first,
 
-                                              style: TextStyle(
-                                                fontFamily: 'PlayfairDisplay',
-                                                fontSize: .69*textSize,
-                                                fontWeight: FontWeight.bold,
-                                                color: textColor,
-                                              ),
-                                              textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontFamily: 'PlayfairDisplay',
+                                              fontSize: .69*textSize,
+                                              fontWeight: FontWeight.bold,
+                                              color: textColor,
                                             ),
-
-                                            Text(
-                                              apelEwan.siglum,
-                                              style: AppTextStyle(
-                                                fontSize: .68*textSize,
-                                                color: textColor,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-
-                                          ],
+                                            textAlign: TextAlign.center,
+                                          ),
                                         ),
                                       ),
-                                    ),
+
+                                      Text(
+                                        apelEwan.siglum,
+                                        style: AppTextStyle(
+                                          fontSize: .68*textSize,
+                                          color: textColor,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+
+                                    ],
                                   ),
                                 ),
-                              )
-                            )
-                          ],
-                        ),
-                      )
-                  ),
+                              ),
+                            ),
+                          ),
+                        )
+                    )
+                ),
 
-                ],
-              )
+              ],
+            ),
           );
 
         },
       ),
     ),
   );
+
+}
+
+
+class BackCoverPainter extends CustomPainter{
+
+  @override
+  void paint(Canvas canvas, Size size) {
+
+    Paint paint = Paint()
+      ..color = Colors.brown[700]!
+      ..style = PaintingStyle.fill
+      ..strokeWidth = 1;
+
+    Path path = Path();
+    path.moveTo(0, size.height*0.15);
+    path.quadraticBezierTo(0, 0, size.width*0.15, 0);
+    path.cubicTo(size.width*0.3375, size.height*0.025, size.width*0.675, size.height*0.075, size.width*0.85, size.height*0.1);
+    path.quadraticBezierTo(size.width, size.height*0.1, size.width, size.height*0.25);
+    path.lineTo(size.width,size.height*0.85);
+    path.quadraticBezierTo(size.width, size.height, size.width*0.85, size.height);
+    path.quadraticBezierTo(size.width*0.6625, size.height, size.width*0.1, size.height);
+    path.quadraticBezierTo(0,size.height, 0, size.height*0.88);
+    path.quadraticBezierTo(0, size.height*0.7125, 0, size.height*0.15);
+    path.close();
+
+    canvas.drawPath(path, paint);
+
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+
+}
+
+
+class PagesCustomPainter extends CustomPainter{
+
+  @override
+  void paint(Canvas canvas, Size size) {
+
+    Paint paint = Paint()
+      ..style = PaintingStyle.fill
+      ..strokeWidth = 1;
+    paint.shader = ui.Gradient.linear(
+        Offset(size.width*0.29,size.height*0.14),
+        Offset(size.width*0.29,size.height*0.43),
+        [Colors.orange[200]!,Colors.orange[100]!],
+        [0.00,1.00]
+    );
+
+
+
+    Path path = Path();
+    path.moveTo(size.width*0.055,size.height*0.6666667);
+    path.quadraticBezierTo(0, size.height*0.668,0,size.height*0.8333333);
+    path.quadraticBezierTo(0, size.height, size.width*0.055, size.height);
+    path.quadraticBezierTo(size.width*0.6805556,size.height, size.width*0.8888889,size.height);
+    path.quadraticBezierTo(size.width,size.height,size.width, size.height*0.6666667);
+    path.lineTo(size.width,0);
+    path.lineTo(size.width*0.7777778,size.height*0.6666667);
+    path.lineTo(size.width*0.055,size.height*0.6666667);
+    path.close();
+
+    canvas.drawPath(path, paint);
+
+
+
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 
 }
