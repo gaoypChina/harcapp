@@ -136,7 +136,7 @@ class IndivCompTile extends StatelessWidget{
 
                                   ],
                                 ):
-                                Text('obserwator', style: AppTextStyle(fontSize: 42.0, color: hintEnab_(context)))),
+                                Text('obserwator', style: AppTextStyle(fontSize: PointsIcon.defSize, color: hintEnab_(context)))),
                             )
                           )
 

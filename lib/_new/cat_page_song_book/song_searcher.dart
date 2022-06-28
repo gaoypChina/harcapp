@@ -1,6 +1,8 @@
 import 'package:harcapp/_common_classes/searcher.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
+import 'package:harcapp/values/people.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
+import 'package:harcapp_core_song/song_core.dart';
 
 class SongSearchOptions extends SearchOptions{
   late List<String> checkedTags;
@@ -67,6 +69,7 @@ List<int>? _selectSongs(String phrase, List<Song> allItems, SongSearchOptions? o
 
   List<int> resultsByMeta = [];
   List<int> resultsByText = [];
+  List<int> resultsByAddPers = [];
 
   for(int i=0; i<allItems.length; i++) {
 
@@ -109,8 +112,21 @@ List<int>? _selectSongs(String phrase, List<Song> allItems, SongSearchOptions? o
       resultsByMeta.add(i);
     else if(remPolChars(song.text).contains(text))
       resultsByText.add(i);
+    else
+      for(AddPerson addPers in song.addPers){
+        if(addPers.name != null && remPolChars(addPers.name!).contains(text)) {
+          resultsByAddPers.add(i);
+          break;
+        }
+
+        if(addPers.emailRef != null && allPeopleMap[addPers.emailRef] != null && remPolChars(allPeopleMap[addPers.emailRef]!.name).contains(text)) {
+          resultsByAddPers.add(i);
+          break;
+        }
+
+      }
 
   }
-  return resultsByMeta + resultsByText;
+  return resultsByMeta + resultsByText + resultsByAddPers;
 
 }

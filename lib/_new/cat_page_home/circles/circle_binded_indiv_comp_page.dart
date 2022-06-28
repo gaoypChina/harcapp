@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../_common_widgets/app_toast.dart';
+import '../../cat_page_harcthought/apel_ewan/providers.dart';
 import '../competitions/indiv_comp/indiv_comp_basic_data_tile.dart';
 import 'circle_page.dart';
 import 'model/circle.dart';
@@ -58,7 +59,7 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
   Widget build(BuildContext context) => BottomNavScaffold(
     backgroundColor: CirclePage.backgroundColor(context, palette),
     appBottomNavColor: CirclePage.backgroundColor(context, palette),
-    body: CustomScrollView(
+    body: Consumer<BindedIndivCompsProvider>(builder: (context, prov, child) => CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
 
@@ -101,6 +102,8 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                           IndivCompProvider indivCompProv = Provider.of<IndivCompProvider>(context, listen: false);
                           IndivCompListProvider indivCompListProv = Provider.of<IndivCompListProvider>(context, listen: false);
 
+                          BindedIndivCompsProvider bindedIndivCompsProv = Provider.of<BindedIndivCompsProvider>(context, listen: false);
+
                           showLoadingWidget(context, CirclePage.strongColor(context, palette), 'Chwileczkę...');
 
                           await ApiCircle.deleteIndivCompBind(
@@ -112,7 +115,8 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                                 circleListProv.notify();
                                 indivCompProv.notify();
                                 indivCompListProv.notify();
-                                setState((){});
+
+                                bindedIndivCompsProv.notify();
                               }
                           );
 
@@ -152,6 +156,8 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                         IndivCompProvider indivCompProv = Provider.of<IndivCompProvider>(context, listen: false);
                         IndivCompListProvider indivCompListProv = Provider.of<IndivCompListProvider>(context, listen: false);
 
+                        BindedIndivCompsProvider bindedIndivCompsProv = Provider.of<BindedIndivCompsProvider>(context, listen: false);
+
                         showLoadingWidget(context, CirclePage.strongColor(context, palette), 'Chwileczkę...');
 
                         await ApiCircle.deleteIndivCompBind(
@@ -164,7 +170,7 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                             circleListProv.notify();
                             indivCompProv.notify();
                             indivCompListProv.notify();
-                            setState((){});
+                            bindedIndivCompsProv.notify();
                           }
                         );
 
@@ -237,6 +243,8 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                         IndivCompProvider indivCompProv = Provider.of<IndivCompProvider>(context, listen: false);
                         IndivCompListProvider indivCompListProv = Provider.of<IndivCompListProvider>(context, listen: false);
 
+                        BindedIndivCompsProvider bindedIndivCompsProv = Provider.of<BindedIndivCompsProvider>(context, listen: false);
+
                         showLoadingWidget(context, CirclePage.strongColor(context, palette), 'Chwileczkę...');
 
                         await ApiCircle.bindIndivComp(
@@ -260,7 +268,7 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                               circleListProv.notify();
                               indivCompProv.notify();
                               indivCompListProv.notify();
-                              setState((){});
+                              bindedIndivCompsProv.notify();
                             }
                         );
 
@@ -291,13 +299,11 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
 
             const SizedBox(height: Dimen.SIDE_MARG),
 
-
-
           ])),
 
 
         ]
-    )
+    ))
   );
 
 

@@ -10,6 +10,7 @@ List<Person> allPeople = [
   ADAM_DUDAK,
   AGNIESZKA_DURSKA,
   AGNIESZKA_TYLKO,
+  ALAN_FILAS,
   ALEKSANDRA_CHRUSTEK,
   ALEKSANDRA_KOSTRZEWA,
   ALEKSANDRA_KOZUBAL,
@@ -39,8 +40,10 @@ List<Person> allPeople = [
   HUBERT_FRUKOWSKI,
   HUBERT_JANIK,
   JADWIGA_BILINSKA,
+  JADWIGA_SZEWCZYK,
   JAKUB_EJDUK,
   JAKUB_KLUCZKOWSKI,
+  JAKUB_MLYNSKI,
   JAKUB_SKUCHA,
   JAKUB_STEFANSKI,
   JAKUB_ZDANOWICZ_ZASIDKO,
@@ -68,6 +71,7 @@ List<Person> allPeople = [
   KATARZYNA_STUDNICKA,
   KLARA_MAZEK,
   KLAUDIUSZ_PALUCH,
+  KORNEL_GOLEBIEWSKI,
   KRZYSZTOF_KANIEWSKI,
   KRZYSZTOF_KRAWCZYK,
   KRZSZTOF_MALIKIEWICZ,
@@ -160,6 +164,14 @@ const Person AGNIESZKA_TYLKO = Person(name: 'Agnieszka Tylko', stopH: StopZHP.pi
   druzyna: '3,14. Myślenicka Drużyna Starszoharcerska "Awangarda"',
   org: Org.zhp,
 );
+const Person ALAN_FILAS = Person(
+  name: 'Alan Filas',
+  stopI: 'phm.',
+  druzyna: '2. Szczep „Malta”',
+  hufiec: huf_zhp_poznan_nowe_miasto,
+  email: ['alan.filas@zhp.net.pl']
+);
+
 const Person ALEKSANDRA_CHRUSTEK = Person(
     name: 'Aleksandra Chrustek',
     stopH: StopZHP.HOd,
@@ -282,6 +294,10 @@ const Person JADWIGA_BILINSKA = Person(
   org: Org.zhp,
   email: ['jadwiga.bilinska@zhp.net.pl']
 );
+const Person JADWIGA_SZEWCZYK = Person(
+  name: 'Jadwiga Szewczyk',
+  email: ['jadzia.m.szewczyk@gmail.com'],
+);
 const Person JAKUB_EJDUK = Person(
     name: 'Jakub Ejduk',
     stopI: 'pwd.',
@@ -296,6 +312,13 @@ const Person JAKUB_KLUCZKOWSKI = Person(
     hufiec: huf_zhp_ziemi_koszalinskiej,
     org: Org.zhp,
     email: ['jakub.kluczkowski@zhp.net.pl']
+);
+const Person JAKUB_MLYNSKI = Person(
+  name: 'Jakub Młyński',
+  druzyna: '77. WDH im."Harcerskiego Batalionu Szturmowego Zośka"',
+  hufiec: huf_zhp_gdansk_srodmiesie,
+  org: Org.zhp,
+  email: ['kubamlynski4@gmail.com']
 );
 const Person JAKUB_SKUCHA = Person(name: 'Jakub Skucha', stopH: StopZHP.dhc);
 const Person JAKUB_STEFANSKI = Person(name: 'Jakub Stefański', stopH: StopZHP.dhc, org: Org.zhp);
@@ -373,7 +396,10 @@ const Person KATARZYNA_STUDNICKA = Person(
 );
 const Person KLARA_MAZEK = Person(name: 'Klara Mazek');
 const Person KLAUDIUSZ_PALUCH = Person(name: 'Klaudiusz Paluch');
-
+const Person KORNEL_GOLEBIEWSKI = Person(
+  name: 'Kornel Gołębiewski',
+  email: ['kornelg2001@wp.pl']
+);
 const Person KRZYSZTOF_KANIEWSKI = Person(
   name: 'Krzysztof Kaniewski',
   stopH: StopZHP.HOc,
@@ -424,7 +450,8 @@ const Person MAREK_LEWANCZYK = Person(
   name: 'Marek Lewańczyk',
   stopH: StopZHP.HOc,
   stopI: 'pwd.',
-  druzyna: '7. GDH "Wilki"'
+  druzyna: '7. GDH "Wilki"',
+  email: ['marek.lewanczyk@zhp.net.pl']
 );
 const Person MAREK_MUSIALIK = Person(name: 'Marek Musialik', stopH: StopZHP.dhc, org: Org.zhp);
 const Person MARLENA_BANIA = Person(

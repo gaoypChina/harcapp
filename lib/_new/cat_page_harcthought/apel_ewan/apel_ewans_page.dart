@@ -185,8 +185,8 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
                 children: searchedApelEwans.map((apelEwan) => ApelEwanThumbnailWidget(
                   apelEwan,
                   onTap: (apelEwa, subgroup) => pushPage(context, builder: (context) => ApelEwanFolderViewerPage(
-                      searchedApelEwans.map((apelEwan) => Tuple2(apelEwan, subgroup)).toList(),
-                      apelEwan,
+                    searchedApelEwans.map((apelEwan) => Tuple2(apelEwan, subgroup)).toList(),
+                    apelEwan,
                   )),
                 )).toList(),
               ),
@@ -203,8 +203,9 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
         children.add(ApelEwanGridView<ApelEwanPersistentFolder>(
           folder: dekalogFolder,
           onTap: (apelEwan, subgroup) => pushPage(context, builder: (context) => ApelEwanFolderViewerPage(
-            searchedApelEwans.map((apelEwan) => Tuple2(apelEwan, subgroup)).toList(),
+            dekalogFolder.apelEwans.map((apelEwan) => Tuple2(apelEwan, subgroup)).toList(),
             apelEwan,
+            title: dekalogFolder.name,
           )),
         ));
 
@@ -233,8 +234,9 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
                   type: type,
                   animate: animate,
                   onTap: (apelEwan, subgroup) => pushPage(context, builder: (context) => ApelEwanFolderViewerPage(
-                    searchedApelEwans.map((apelEwan) => Tuple2(apelEwan, subgroup)).toList(),
+                    folder.apelEwans.map((apelEwan) => Tuple2(apelEwan, subgroup)).toList(),
                     apelEwan,
+                    title: folder.name,
                   )),
               )
           ));

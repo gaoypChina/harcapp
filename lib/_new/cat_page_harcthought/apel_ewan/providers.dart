@@ -20,3 +20,9 @@ class ApelEwanAllFoldersProvider extends ChangeNotifier{
   }
 
 }
+
+class BindedIndivCompsProvider extends ChangeNotifier{
+
+  void notify() => notifyListeners();
+
+}

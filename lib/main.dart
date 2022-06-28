@@ -380,6 +380,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (context) => CircleListProvider()),
         ChangeNotifierProvider(create: (context) => AnnouncementProvider()),
         ChangeNotifierProvider(create: (context) => AnnouncementListProvider()),
+        ChangeNotifierProvider(create: (context) => BindedIndivCompsProvider()),
 
         //INDIVIDUAL COMPETITION
         ChangeNotifierProvider(create: (context) => IndivCompParticipsProvider()),

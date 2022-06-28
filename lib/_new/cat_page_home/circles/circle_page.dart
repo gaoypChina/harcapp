@@ -9,6 +9,7 @@ import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/circles/announcement_widget_template.dart';
@@ -23,6 +24,7 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
+import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -34,6 +36,7 @@ import '../common.dart';
 import 'announcement_edit_page/_main.dart';
 import 'circle_description_page.dart';
 import 'circle_editor/_main.dart';
+import 'circle_editor/common.dart';
 import 'circle_palette_generator.dart';
 import 'circle_role.dart';
 import 'cover_image.dart';
@@ -502,7 +505,9 @@ class CirclePageState extends State<CirclePage>{
                             MdiIcons.cogOutline,
                             color: prov.coverVisible?coverIconColor:iconEnab_(context)
                         ),
-                        onPressed: () => pushPage(
+                        onPressed:
+                        circle.myRole == CircleRole.ADMIN?() =>
+                            pushPage(
                             context,
                             builder: (context) => CircleEditorPage(
                               initCircle: circle,
@@ -523,6 +528,13 @@ class CirclePageState extends State<CirclePage>{
                               },
                               onDeleted: onDeleted,
                               onLeft: onLeft,
+                            )
+                        ):
+
+                        () => showScrollBottomSheet(
+                            context: context,
+                            builder: (context) => BottomSheetDef(
+                              builder: (context) => LeaveNotAdminDialog(circle),
                             )
                         ),
                       ),
@@ -957,5 +969,28 @@ class InitAwaitingMessageDialog extends StatelessWidget{
       ),
     ),
   );
+
+}
+
+class LeaveNotAdminDialog extends StatelessWidget{
+
+  final Circle circle;
+  const LeaveNotAdminDialog(this.circle, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+
+        TitleShortcutRowWidget(
+          title: 'Strefa zagrożenia!',
+          titleColor: hintEnab_(context),
+        ),
+
+        LeaveCircleButton(circle)
+
+      ],
+    );
+  }
 
 }

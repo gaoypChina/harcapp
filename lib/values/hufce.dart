@@ -105,6 +105,7 @@ const String huf_zhp_lodz_baluty = 'Hufiec ZHP Łódź-Bałuty';
 const String huf_zhp_myslenice = 'Hufiec ZHP Myślenice';
 const String huf_zhp_opole = 'Hufiec ZHP Opole';
 const String huf_zhp_podkrakowski = 'Hufiec Podkrakowski ZHP';
+const String huf_zhp_poznan_nowe_miasto = 'Hufiec ZHP Poznań Nowe Miasto';
 const String huf_zhp_poznan_wilda = 'Hufiec ZHP Poznań-Wilda';
 const String huf_zhp_pruszkow = 'Hufiec ZHP Pruszków';
 const String huf_zhp_pulawy = 'Hufiec ZHR Puławy';
@@ -120,7 +121,7 @@ const String huf_zhp_warszawa_zoliborz = 'Hufiec ZHP Warszawa Żoliborz';
 const String huf_zhp_wolsztyn = 'Hufiec ZHP Wolsztyn';
 
 const String huf_zhp_wroclaw = 'Hufiec ZHP Wrocław im. Polonii Wrocławskiej';
-const String huf_zhp_wrzesnia_wrzos = 'Hufiec Września "WRZOS" ZHP im. Dzieci Wrzesińskich';
+const String huf_zhp_wrzesnia_wrzos = 'Hufiec Września "Wrzos" ZHP im. Dzieci Wrzesińskich';
 
 const String huf_zhp_krakow_pdg = 'Hufiec ZHP Kraków Podgórze';
 const String huf_zhp_kutno = 'Hufiec ZHP Kutno';

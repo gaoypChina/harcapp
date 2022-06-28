@@ -27,4 +27,6 @@ class IndivCompParticip{
 
   get isMale => sex == Sex.male;
 
+  UserData toUserData() => UserData(key: key, name: name, shadow: shadow, sex: sex);
+
 }

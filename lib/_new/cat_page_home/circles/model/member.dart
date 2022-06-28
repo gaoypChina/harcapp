@@ -25,4 +25,7 @@ class Member{
     role: strToCircleRole[map['role']]??(throw InvalidResponseError('role')),
     patrol: map['patrol'],
   );
+
+  UserData toUserData() => UserData(key: key, name: name, shadow: shadow, sex: sex);
+
 }

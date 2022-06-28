@@ -294,7 +294,7 @@ packages:
       name: flutter_chat_types
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.4.2"
+    version: "3.4.3"
   flutter_email_sender:
     dependency: "direct main"
     description:
@@ -362,7 +362,7 @@ packages:
       name: flutter_map
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.1.1"
   flutter_reorderable_list:
     dependency: "direct main"
     description:
@@ -501,7 +501,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: db67f34a8d5d6bac317cee08ea2e58d227d5f007
+      resolved-ref: "9f1a5f4ce94f7013997009e721124a9f9b0133ca"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_song"
     source: git
     version: "0.0.1"
@@ -510,7 +510,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "1306a5065d53bcae7f390f1f1e5727947d29f0fc"
+      resolved-ref: "0bb3f9e036c85e0f347dff2731735a52b6db4862"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_song_widget"
     source: git
     version: "0.0.1"
@@ -767,7 +767,7 @@ packages:
       name: path_provider_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.14"
+    version: "2.0.16"
   path_provider_ios:
     dependency: transitive
     description:
@@ -1173,7 +1173,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.3"
+    version: "6.1.4"
   url_launcher_android:
     dependency: transitive
     description:
@@ -1208,7 +1208,7 @@ packages:
       name: url_launcher_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.5"
+    version: "2.1.0"
   url_launcher_web:
     dependency: transitive
     description:
@@ -1292,7 +1292,7 @@ packages:
       name: webview_flutter_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.8.11"
+    version: "2.8.14"
   webview_flutter_platform_interface:
     dependency: transitive
     description:
