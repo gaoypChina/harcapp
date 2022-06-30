@@ -4,9 +4,23 @@ class SingleComputerListener<TErr>{
 
   final FutureOr<void> Function()? onStart;
   final FutureOr<void> Function(TErr?)? onError;
-  final FutureOr<bool> Function()? onForceLoggedOut;
   final FutureOr<void> Function(TErr? err, bool forceFinished)? onEnd;
 
-  const SingleComputerListener({this.onStart, this.onError, this.onForceLoggedOut, this.onEnd});
+  const SingleComputerListener({this.onStart, this.onError, this.onEnd});
+
+}
+
+class SingleComputerApiListener<TErr> extends SingleComputerListener<TErr>{
+
+  final FutureOr<bool> Function()? onForceLoggedOut;
+  final FutureOr<bool> Function()? onServerMaybeWakingUp;
+
+  const SingleComputerApiListener({
+    super.onStart,
+    super.onError,
+    this.onForceLoggedOut,
+    this.onServerMaybeWakingUp,
+    super.onEnd
+  });
 
 }

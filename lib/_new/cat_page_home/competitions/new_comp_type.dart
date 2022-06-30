@@ -7,6 +7,7 @@ import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_page.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -66,7 +67,7 @@ class CompTypeWidget extends StatelessWidget{
               _JoinButton(
                 onSuccess: (comp) async {
                   onSelected!(NewCompType.join);
-                  IndivComp.addToAll(context, comp);
+                  IndivComp.addToAll(comp, context: context);
                   pushReplacePage(context, builder: (context) => IndivCompPage(comp));
                 },
               ),
@@ -153,6 +154,10 @@ class _JoinButtonState extends State<_JoinButton>{
                 onSuccess: (comp){
                   if(!mounted) return;
                   widget.onSuccess.call(comp);
+                },
+                onServerMaybeWakingUp: () {
+                  if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                  return true;
                 },
                 onError: (){
                   if(mounted) showAppToast(context, text: 'Błędny kod dostępu');

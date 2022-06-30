@@ -11,6 +11,7 @@ import 'package:harcapp/_new/cat_page_home/circles/start_widgets/circle_prompt_l
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/login_provider.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -62,16 +63,34 @@ class AllCirclesPageState extends State<AllCirclesPage>{
     
     refreshController = RefreshController();
 
+    CircleProvider circleProv = Provider.of<CircleProvider>(context, listen: false);
+    CircleListProvider circleListProv = Provider.of<CircleListProvider>(context, listen: false);
+
     _listener = CircleLoaderListener(
       onCirclesLoaded: (List<Circle> circles){
-        if(!mounted) return;
 
-        Provider.of<CircleProvider>(context, listen: false).notify();
-        Provider.of<CircleListProvider>(context, listen: false).notify();
+        circleProv.notify();
+        circleListProv.notify();
+
+        if(!mounted) return;
 
         refreshController.refreshCompleted();
         setState(() {});
         searchedCircles = circles;
+      },
+      onForceLoggedOut: (){
+        if(!mounted) return true;
+        refreshController.refreshCompleted();
+        showAppToast(context, text: forceLoggedOutMessage);
+        setState(() {});
+        return true;
+      },
+      onServerMaybeWakingUp: (){
+        if(!mounted) return true;
+        refreshController.refreshCompleted();
+        showAppToast(context, text: serverWakingUpMessage);
+        setState(() {});
+        return true;
       },
       onError: (message) async {
         if(!mounted) return;
@@ -255,7 +274,7 @@ class AllCirclesPageState extends State<AllCirclesPage>{
             child: CirclePreviewWidget.from(
               context: context,
               width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
-              text: 'Coś poszło nie tak',
+              text: simpleErrorMessage,
               icon: MdiIcons.closeOutline,
             ),
           ));

@@ -20,6 +20,7 @@ import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
 import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp/account/search_user_dialog.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
@@ -609,7 +610,7 @@ class ShareDialogState extends State<ShareDialog>{
                         sharedUsersProv!.users = users;
                         Navigator.pop(context);
                       },
-                      onError: () => mounted?showAppToast(context, text: 'Coś poszło nie tak...'):null,
+                      onError: () => mounted?showAppToast(context, text: simpleErrorMessage):null,
                   );
                   await popPage(context);
                   if(mounted) setState(() => processing = false);

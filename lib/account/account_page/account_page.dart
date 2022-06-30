@@ -15,6 +15,7 @@ import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_common/microsoft_login_button.dart';
 import 'package:harcapp/account/account_start/conf_email_part.dart';
 import 'package:harcapp/account/ms_oauth.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -179,25 +180,32 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
                     await ZhpAccAuth.login(context);
                     String? azureToken = await ZhpAccAuth.azureToken;
                     await ApiRegLog.mergeMicrosoft(
-                        azureToken,
-                        onError: (err) async {
-                          Navigator.pop(context);
-                          await ZhpAccAuth.logout();
-                          if(err!.data['error'] == 'microsoft_merge_email_mismatch')
-                            await showAlertDialog(
-                                context,
-                                title: 'To nie przejdzie...',
-                                content: 'Aby połączyć konta, zaloguj się kontem ZHP o tym samym adresie email co konto HarcApp: ${AccountData.email}.',
-                                actionBuilder: (context) => [
-                                  AlertDialogButton(text: 'No dobrze', onTap: () => Navigator.pop(context))
-                                ]
-                            );
-                        },
-                        onSuccess: (response){
-                          Navigator.pop(context);
-                          if(mounted) showAppToast(context, text: 'Połączono konto ZHP z kontem HarcApp.');
-                          if(mounted) setState(() {});
-                        }
+                      azureToken,
+                      onSuccess: (response){
+                        Navigator.pop(context);
+                        if(mounted) showAppToast(context, text: 'Połączono konto ZHP z kontem HarcApp.');
+                        if(mounted) setState(() {});
+                      },
+                      onServerMaybeWakingUp: () {
+                        if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                        return true;
+                      },
+                      onError: (err) async {
+                        Navigator.pop(context);
+                        await ZhpAccAuth.logout();
+                        if(err!.data['error'] == 'microsoft_merge_email_mismatch')
+                          await showAlertDialog(
+                              context,
+                              title: 'To nie przejdzie...',
+                              content: 'Aby połączyć konta, zaloguj się kontem ZHP o tym samym adresie email co konto HarcApp: ${AccountData.email}.',
+                              actionBuilder: (context) => [
+                                AlertDialogButton(text: 'No dobrze', onTap: () => Navigator.pop(context))
+                              ]
+                          );
+                        else
+                          showAppToast(context, text: simpleErrorMessage);
+
+                      },
                     );
 
                   }

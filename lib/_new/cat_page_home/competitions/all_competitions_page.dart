@@ -12,6 +12,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/login_provider.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -64,23 +65,38 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
     
     refreshController = RefreshController();
 
+    IndivCompProvider indivCompProv = Provider.of<IndivCompProvider>(context, listen: false);
+    IndivCompListProvider indivCompListProv = Provider.of<IndivCompListProvider>(context, listen: false);
+
     _listener = IndivCompLoaderListener(
       onIndivCompsLoaded: (List<IndivComp> comps){
-        Provider.of<IndivCompProvider>(context, listen: false).notify();
-        Provider.of<IndivCompListProvider>(context, listen: false).notify();
+        indivCompProv.notify();
+        indivCompListProv.notify();
+        if(!mounted) return;
 
         refreshController.refreshCompleted();
-        if(mounted) setState(() {});
+        setState(() {});
         searchedComps = comps;
       },
       onForceLoggedOut: (){
+        if(!mounted) return true;
         refreshController.refreshCompleted();
-        if(mounted) setState(() {});
+        showAppToast(context, text: forceLoggedOutMessage);
+        setState(() {});
+        return true;
+      },
+      onServerMaybeWakingUp: (){
+        if(!mounted) return true;
+        refreshController.refreshCompleted();
+        showAppToast(context, text: serverWakingUpMessage);
+        setState(() {});
         return true;
       },
       onError: (message) async {
+        if(!mounted) return;
         refreshController.refreshCompleted();
-        if(mounted) setState(() {});
+        showAppToast(context, text: simpleErrorMessage);
+        setState(() {});
       },
     );
     indivCompLoader.addListener(_listener);
@@ -244,7 +260,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
             child: IndivCompPreviewGrid.from(
               context: context,
               width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
-              text: 'Coś poszło nie tak',
+              text: simpleErrorMessage,
               icon: MdiIcons.closeOutline,
             ),
           ));
@@ -436,7 +452,7 @@ class NewIndivCompButton extends StatelessWidget{
                   IndivComp.previewAwards),
 
               onSaved: (comp) async {
-                IndivComp.addToAll(context, comp);
+                IndivComp.addToAll(comp, context: context);
                 pushReplacePage(context, builder: (context) => IndivCompPage(IndivComp.all!.last));
               },
             ),

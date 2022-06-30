@@ -13,6 +13,7 @@ import 'package:harcapp/_new/cat_page_home/circles/announcement_widget_template.
 import 'package:harcapp/_new/cat_page_home/circles/circle_cover_image_data.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/announcement.dart';
 import 'package:harcapp/account/account.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
@@ -612,11 +613,15 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                         text: textController.text,
                         respMode: eventMode?attRespMode:AnnouncementAttendanceRespMode.NONE,
                         onSuccess: (announcement) async {
-                          await popPage(context); // Close loading widget.
+                          if(mounted) await popPage(context); // Close loading widget.
                           onSaved?.call(announcement);
                         },
+                        onServerMaybeWakingUp: () {
+                          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                          return true;
+                        },
                         onError: () async {
-                          await popPage(context); // Close loading widget.
+                          if(mounted) await popPage(context); // Close loading widget.
                           onError?.call();
                         }
                     );
@@ -680,6 +685,10 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                           await popPage(context); // Close loading widget.
                           onSaved?.call(announcement);
                         },
+                        onServerMaybeWakingUp: () {
+                          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                          return true;
+                        },
                         onError: () async {
                           await popPage(context); // Close loading widget.
                           onError?.call();
@@ -717,8 +726,13 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                           await popPage(context);
                           onRemoved?.call();
                         },
+                        onServerMaybeWakingUp: () {
+                          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                          return true;
+                        },
                         onError: () async {
-                          showAppToast(context, text: 'Coś poszło nie tak...');
+                          if(!mounted) return;
+                          showAppToast(context, text: simpleErrorMessage);
                           await popPage(context); // Close loading widget.
                         }
                     );

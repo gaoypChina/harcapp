@@ -7,6 +7,7 @@ import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_tile.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
@@ -117,6 +118,14 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                                 indivCompListProv.notify();
 
                                 bindedIndivCompsProv.notify();
+                              },
+                              onServerMaybeWakingUp: () {
+                                if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                return true;
+                              },
+                              onError: () async {
+                                if(mounted) showAppToast(context, text: simpleErrorMessage);
+                                await popPage(context); // Close loading widget.
                               }
                           );
 
@@ -171,6 +180,14 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                             indivCompProv.notify();
                             indivCompListProv.notify();
                             bindedIndivCompsProv.notify();
+                          },
+                          onServerMaybeWakingUp: () {
+                            if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                            return true;
+                          },
+                          onError: () async {
+                            if(mounted) showAppToast(context, text: simpleErrorMessage);
+                            await popPage(context); // Close loading widget.
                           }
                         );
 
@@ -269,6 +286,13 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                               indivCompProv.notify();
                               indivCompListProv.notify();
                               bindedIndivCompsProv.notify();
+                            },
+                            onServerMaybeWakingUp: () {
+                              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                              return true;
+                            },
+                            onError: () async {
+                              if(mounted) showAppToast(context, text: simpleErrorMessage);
                             }
                         );
 

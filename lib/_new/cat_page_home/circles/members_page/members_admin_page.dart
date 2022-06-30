@@ -8,6 +8,7 @@ import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/account/account.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
@@ -453,7 +454,12 @@ class _MemberTileState extends State<_MemberTile>{
           Navigator.pop(context);
           onSuccess?.call();
         },
+        onServerMaybeWakingUp: () {
+          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+          return true;
+        },
         onError: (){
+          if(!mounted) return;
           showAppToast(context, text: 'Coś tu poszło nie tak...');
           Navigator.pop(context);
         }
@@ -539,10 +545,16 @@ class _MemberTileState extends State<_MemberTile>{
                     onSuccess: (List<String> removedParticips) async {
                       circle!.removeMembersByKey(context, removedParticips);
 
+                      if(!mounted) return;
                       showAppToast(context, text: 'Wyproszono');
                       await popPage(context);
                     },
+                    onServerMaybeWakingUp: () {
+                      if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                      return true;
+                    },
                     onError: () async {
+                      if(!mounted) return;
                       showAppToast(context, text: 'Coś tu poszło nie tak...');
                       await popPage(context);
                     }
@@ -650,12 +662,16 @@ class _EditPatrolDialogState extends State<_EditPatrolDialog>{
                         )],
                         onSuccess: (List<Member> allMems){
                           circle.setAllMembers(context, allMems);
-                          Navigator.pop(context); // Close loading widget.
+                          if(mounted) Navigator.pop(context); // Close loading widget.
                           onSuccess?.call();
                         },
+                        onServerMaybeWakingUp: () {
+                          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                          return true;
+                        },
                         onError: (){
-                          showAppToast(context, text: 'Coś tu poszło nie tak...');
-                          Navigator.pop(context); // Close loading widget.
+                          if(mounted) showAppToast(context, text: 'Coś tu poszło nie tak...');
+                          if(mounted) Navigator.pop(context); // Close loading widget.
                           onError?.call();
                         }
                     );

@@ -4,6 +4,7 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -70,8 +71,12 @@ class DangerPartState extends State<DangerPart>{
 
                         widget.onDeleted?.call();
                       },
+                      onServerMaybeWakingUp: () {
+                        if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                        return true;
+                      },
                       onError: () async {
-                        showAppToast(context, text: 'Coś poszło nie tak...');
+                        if(mounted) showAppToast(context, text: simpleErrorMessage);
                         await popPage(context); // Close loading widget.
 
                         widget.onError?.call();

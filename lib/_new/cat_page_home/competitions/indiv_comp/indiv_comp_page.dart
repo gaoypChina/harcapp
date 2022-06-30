@@ -20,6 +20,7 @@ import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
 import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp/account/login_provider.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
@@ -113,6 +114,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                 onRefresh: () async {
 
                   if(!await isNetworkAvailable()){
+                    if(!mounted) return;
                     showAppToast(context, text: 'Brak dostępu do Internetu');
                     refreshController.refreshCompleted();
                     return;
@@ -122,12 +124,18 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                       compKey: comp.key,
                       onSuccess: (IndivComp comp){
                         updatedComp = comp;
-                        IndivComp.updateInAll(context, comp);
+                        IndivComp.updateInAll(comp, context: mounted?context:null);
+                        if(!mounted) return;
                         setState(() {});
                         showAppToast(context, text: 'Zaktualizowano');
                       },
+                      onServerMaybeWakingUp: () {
+                        if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                        return true;
+                      },
                       onError: (){
-                        showAppToast(context, text: 'Wystąpił błąd.');
+                        if(!mounted) return;
+                        showAppToast(context, text: simpleErrorMessage);
 
                         if(!AccountData.loggedIn)
                           Provider.of<LoginProvider>(context, listen: false).notify();
@@ -155,7 +163,17 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                               await ApiIndivComp.setShareCodeSearchable(
                                   compKey: comp.key,
                                   searchable: !comp.shareCodeSearchable,
-                                  onSuccess: (searchable) => setState(() => comp.shareCodeSearchable = searchable)
+                                  onSuccess: (searchable){
+                                    if(!mounted) return;
+                                    setState(() => comp.shareCodeSearchable = searchable);
+                                  },
+                                  onServerMaybeWakingUp: () {
+                                    if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                    return true;
+                                  },
+                                  onError: (){
+                                    if(mounted) showAppToast(context, text: simpleErrorMessage);
+                                  }
                               );
                               setState(() => changeShareCodeProcessing = false);
                             },
@@ -248,9 +266,14 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                                 resetShareCode: () => ApiIndivComp.resetShareCode(
                                     compKey: comp.key,
                                     onSuccess: (shareCode){
-                                      setState(() => comp.shareCode = shareCode);
+                                      if(mounted) setState(() => comp.shareCode = shareCode);
+                                    },
+                                    onServerMaybeWakingUp: () {
+                                      if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                      return true;
                                     },
                                     onError: (Map? errData){
+                                      if(!mounted) return;
                                       if(errData!['errors'] != null && errData['errors']['shareCode'] == 'share_code_changed_too_soon')
                                         showAppToast(context, text: 'Za często zmieniasz kod dostępu');
                                     }

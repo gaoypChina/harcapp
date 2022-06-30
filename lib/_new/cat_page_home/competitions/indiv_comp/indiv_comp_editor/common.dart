@@ -5,6 +5,7 @@ import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_editor/providers.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -68,15 +69,18 @@ class LeaveCompButton extends StatelessWidget{
                     await ApiIndivComp.leave(
                         compKey: comp.key,
                         onSuccess: () async {
-                          IndivComp.removeFromAll(context, comp);
+                          IndivComp.removeFromAll(comp, context: context);
                           Navigator.pop(context);
                           Navigator.pop(context);
-                          showAppToast(context,
-                              text: 'Współzawodnictwo opuszczone');
+                          showAppToast(context, text: 'Współzawodnictwo opuszczone');
                         },
-                        onError: () =>
-                            showAppToast(
-                                context, text: 'Coś poszło nie tak...')
+                        onServerMaybeWakingUp: () {
+                          showAppToast(context, text: serverWakingUpMessage);
+                          return true;
+                        },
+                        onError: (){
+                          showAppToast(context, text: simpleErrorMessage);
+                        }
                     );
                     Navigator.pop(context);
                   }

@@ -4,6 +4,7 @@ import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/api/user.dart';
 import 'package:harcapp/account/account_common/sex_input_field.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
@@ -410,7 +411,7 @@ class AddShadowUserDialogState extends State<AddShadowUserDialog>{
                                             Navigator.pop(context);
                                             onSuccess?.call(user);
                                           },
-                                          onError: () => showAppToast(context, text: 'Coś poszło nie tak...')
+                                          onError: () => showAppToast(context, text: simpleErrorMessage)
                                       );
                                     else
                                       await ApiUser.updateShadow(
@@ -422,7 +423,7 @@ class AddShadowUserDialogState extends State<AddShadowUserDialog>{
                                             Navigator.pop(context);
                                             onSuccess?.call(user);
                                           },
-                                          onError: () => showAppToast(context, text: 'Coś poszło nie tak...')
+                                          onError: () => showAppToast(context, text: simpleErrorMessage)
                                       );
                                     if(mounted) setState(() => processing = false);
                                   }

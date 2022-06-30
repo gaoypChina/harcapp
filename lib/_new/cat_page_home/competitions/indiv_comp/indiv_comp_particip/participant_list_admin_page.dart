@@ -21,6 +21,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/ind
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
@@ -586,7 +587,12 @@ class _ParticipTileState extends State<_ParticipTile>{
           Navigator.pop(context);
           onSuccess?.call();
         },
+        onServerMaybeWakingUp: () {
+          showAppToast(context, text: serverWakingUpMessage);
+          return true;
+        },
         onError: (){
+          if(!mounted) return;
           showAppToast(context, text: 'Coś tu poszło nie tak...');
           Navigator.pop(context);
         }
@@ -660,7 +666,12 @@ class _ParticipTileState extends State<_ParticipTile>{
                       showAppToast(context, text: 'Wyproszono');
                       await popPage(context);
                     },
+                    onServerMaybeWakingUp: () {
+                      if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                      return true;
+                    },
                     onError: () async {
+                      if(!mounted) return;
                       showAppToast(context, text: 'Coś tu poszło nie tak...');
                       await popPage(context);
                     }
@@ -760,11 +771,15 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
                       comment: controller!.text,
                       userKeys: selectedParticips.map((particips) => particips.key).toList(),
                       onSuccess: (List<IndivCompTaskCompl> taskComplList, Map<String, ShowRankData> idRank){
-                        showAppToast(context, text: 'Zaliczono');
+                        if(mounted) showAppToast(context, text: 'Zaliczono');
                         onSuccess?.call(taskComplList, idRank);
                       },
+                      onServerMaybeWakingUp: () {
+                        if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                        return true;
+                      },
                       onError: (){
-                        showAppToast(context, text: 'Coś poszło nie tak...');
+                        if(mounted) showAppToast(context, text: simpleErrorMessage);
                         widget.onError?.call();
                       }
                   );

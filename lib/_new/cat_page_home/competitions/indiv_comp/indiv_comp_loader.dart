@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:harcapp/_common_classes/single_computer/single_computer.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
@@ -5,16 +7,17 @@ import 'package:harcapp_core/comm_classes/network.dart';
 
 import 'models/indiv_comp.dart';
 
-class IndivCompLoaderListener extends SingleComputerListener<String>{
+class IndivCompLoaderListener extends SingleComputerApiListener<String>{
 
-  final void Function(List<IndivComp>)? onIndivCompsLoaded;
+  final FutureOr<void> Function(List<IndivComp>)? onIndivCompsLoaded;
 
   const IndivCompLoaderListener({
     super.onStart,
-    this.onIndivCompsLoaded,
     super.onError,
     super.onForceLoggedOut,
-    super.onEnd
+    super.onServerMaybeWakingUp,
+    super.onEnd,
+    this.onIndivCompsLoaded,
   });
 
 }
@@ -40,8 +43,13 @@ class IndivCompLoader extends SingleComputer<String?, IndivCompLoaderListener>{
           for(IndivCompLoaderListener? listener in listeners)
             listener!.onIndivCompsLoaded?.call(comps);
         },
-        onForceLoggedOut: () async {
+        onServerMaybeWakingUp: () async {
+          for(IndivCompLoaderListener? listener in listeners)
+            listener!.onServerMaybeWakingUp?.call();
 
+          return true;
+        },
+        onForceLoggedOut: () async {
           for(IndivCompLoaderListener? listener in listeners)
             listener!.onForceLoggedOut?.call();
 

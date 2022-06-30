@@ -15,6 +15,7 @@ import 'package:harcapp/account/account_start/input_field_controller.dart';
 import 'package:harcapp/account/account_start/main_button.dart';
 import 'package:harcapp/account/account_start/part_template.dart';
 import 'package:harcapp/account/account_common/sex_input_field.dart';
+import 'package:harcapp/account/ms_oauth.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
@@ -523,13 +524,15 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
                     switchInCurve: Curves.easeOutQuart,
                     switchOutCurve: Curves.easeOutQuart,
                     children: [
-                      Container(
+                      SizedBox(
                         width: double.infinity,
                         child: SimpleButton.from(
                             text: 'Usuń konto',
                             textColor: background_(context),
                             color: Colors.red,
                             onTap: processing?null:(){
+
+                              LoginProvider loginProv = LoginProvider.of(context);
 
                               if(!AccountData.regularAcc && emailController!.text != AccountData.email){
                                 emailController!.errorText = 'Nie podał${AccountData.sex == Sex.male?'eś':'aś'} poprawnego adresu email';
@@ -542,10 +545,12 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
                                 onSuccess: () async {
                                   String? email = AccountData.email;
                                   await AccountData.forgetAccount();
-                                  Provider.of<LoginProvider>(context, listen: false).notify();
-                                  showAppToast(context, text: 'Konto HarcApp <b>$email</b> trwale usunięte.');
+                                  await ZhpAccAuth.logout();
+                                  loginProv.notify();
 
                                   if (!mounted) return;
+                                  showAppToast(context, text: 'Konto HarcApp <b>$email</b> trwale usunięte.');
+
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                   setState(() => processing = false);

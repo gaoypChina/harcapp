@@ -52,6 +52,7 @@ class API{
     FutureOr<void> Function(Response, DateTime)? onSuccess,
     FutureOr<bool> Function()? onEmailNotConf,
     FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function(DioError)? onError,
 
     bool saveServerTime = true
@@ -89,6 +90,7 @@ class API{
       );
 
       if (e.response?.statusCode == 404) {
+        finish = await onServerMaybeWakingUp?.call();
         if(await isNetworkAvailable())
           Dio().get(SERVER_URL).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
 

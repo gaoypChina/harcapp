@@ -215,7 +215,8 @@ const List<Quote> CYTATY_REGULAR = [
   Quote(quoteAuthorAbpFidelus, 'Mam, bo daję.'),
 
   Quote(quoteAuthorSwTomaszZAkwinu, 'Wiara: akt rozumu nakłonionego wolą, pociągniętego przez łaskę.', difficulty: Difficulty.hard),
-  
+  Quote(quoteAuthorSwTomaszZAkwinu, 'Sprawiedliwie nie oznacza po równo.'),
+
   Quote(quoteAuthorJaroslavPelikan, 'Tradycja jest żyjącą wiarą umarłych. Tradycjonalizm jest martwą wiarą żywych.'),
 ];
 

@@ -12,6 +12,7 @@ import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_page.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendance_resp_mode.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
@@ -670,8 +671,12 @@ class AttendingDialog extends StatelessWidget{
                         await popPage(getContext()); // Close loading widget.
                         onSuccess?.call(announcementAttendanceResp, now);
                       },
+                      onServerMaybeWakingUp: () {
+                        showAppToast(context, text: serverWakingUpMessage);
+                        return true;
+                      },
                       onError: () async {
-                        showAppToast(getContext(), text: 'Coś nie tak...');
+                        showAppToast(getContext(), text: simpleErrorMessage);
                         await popPage(getContext()); // Close loading widget.
                         onError?.call();
                       }
@@ -811,8 +816,12 @@ class PostponeRespDialogState extends State<PostponeRespDialog>{
                         await popPage(getContext()); // Close loading widget.
                         onSuccess?.call(announcementAttendanceResp, now);
                       },
+                      onServerMaybeWakingUp: () {
+                        if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                        return true;
+                      },
                       onError: () async {
-                        showAppToast(getContext(), text: 'Coś nie tak...');
+                        if(mounted) showAppToast(getContext(), text: 'Coś nie tak...');
                         await popPage(getContext()); // Close loading widget.
                         onError?.call();
                       }
@@ -934,8 +943,12 @@ class NotAttendingDialogState extends State<NotAttendingDialog>{
                           await popPage(getContext()); // Close loading widget.
                           onSuccess?.call(announcementAttendanceResp, now);
                         },
+                        onServerMaybeWakingUp: () {
+                          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                          return true;
+                        },
                         onError: () async {
-                          showAppToast(getContext(), text: 'Coś nie tak...');
+                          if(mounted) showAppToast(getContext(), text: simpleErrorMessage);
                           await popPage(getContext()); // Close loading widget.
                           onError?.call();
                         }
@@ -1003,8 +1016,12 @@ class _PinWidgetState extends State<_PinWidget>{
               Provider.of<AnnouncementProvider>(context, listen: false).notify();
               onPinChanged?.call(pinned);
             },
+            onServerMaybeWakingUp: () {
+              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+              return true;
+            },
             onError: () async {
-              showAppToast(context, text: 'Coś poszło nie tak');
+              if(mounted) showAppToast(context, text: simpleErrorMessage);
             }
         );
 

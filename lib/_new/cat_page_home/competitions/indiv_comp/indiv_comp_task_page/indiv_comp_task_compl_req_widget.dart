@@ -4,6 +4,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/show_r
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task_compl.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
@@ -114,6 +115,13 @@ class IndivTaskComplReqWidgetState extends State<IndivTaskComplReqWidget>{
                           if(mounted) showAppToast(context, text: adminOrMod?'Zaliczono':'Przesłano. Wniosek oczekuje na rozpatrzenie.');
                           if(mounted) Navigator.pop(context);
                           widget.onSuccess?.call(taskComplRespMap, idRank);
+                        },
+                        onServerMaybeWakingUp: () {
+                          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                          return true;
+                        },
+                        onError: (){
+                          if(mounted) showAppToast(context, text: simpleErrorMessage);
                         }
                     );
                     if(!mounted) return;

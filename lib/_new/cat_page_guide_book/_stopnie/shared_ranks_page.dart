@@ -7,14 +7,13 @@ import 'package:harcapp/_new/api/rank.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_tile_widget_share.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
-import 'package:harcapp/account/login_provider.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 
 class SharedRanksPage extends StatefulWidget{
 
@@ -60,7 +59,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
       onError: (){
         allSharedRanks = null;
         selSharedRanks = selectSharedRanks();
-        if(mounted) showAppToast(context, text: 'Coś poszło nie tak...');
+        if(mounted) showAppToast(context, text: simpleErrorMessage);
       }
     );
     if(mounted) refreshController.refreshCompleted();

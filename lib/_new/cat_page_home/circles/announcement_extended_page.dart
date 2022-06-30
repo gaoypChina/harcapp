@@ -10,6 +10,7 @@ import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_page.dart';
 import 'package:harcapp/account/account_tile.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
@@ -325,8 +326,12 @@ class MemberTileState extends State<MemberTile>{
                           await popPage(context); // Close loading widget.
                           Navigator.pop(context);
                         },
+                        onServerMaybeWakingUp: () {
+                          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                          return true;
+                        },
                         onError: () async {
-                          showAppToast(context, text: 'Coś nie tak...');
+                          if(mounted) showAppToast(context, text: simpleErrorMessage);
                           await popPage(context); // Close loading widget.
                         }
                     );

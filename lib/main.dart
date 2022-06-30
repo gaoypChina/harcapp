@@ -110,7 +110,104 @@ void main() async {
   else if(DateTime.now().isAfter(DateTime(2022, 4, 17, 4)) && DateTime.now().isBefore(DateTime(2022, 4, 24, 0)))
     appMode = AppMode.appModeZmartwychwstanie;
 
-  runApp(LocalizedApp(delegate, OKToast(child: HarcAppSongBook(const App(), SongBookBaseSetting()))));
+  await ShaPref.init();
+  await initPaths();
+  await AccountData.init();
+
+  ApelEwanOwnFolder.loadAllOwnFolders();
+
+  runApp(LocalizedApp(delegate, OKToast(child: HarcAppSongBook(
+      MultiProvider(
+          providers: [
+
+            ChangeNotifierProvider(create: (context) => ConnectivityProvider()),
+            ChangeNotifierProvider(create: (context) => OrgProvider()),
+            ChangeNotifierProvider(create: (context){
+              AppBottomNavigatorProvider prov = AppBottomNavigatorProvider();
+              prov.init(prov);
+              return prov;
+            }),
+
+            ChangeNotifierProvider(create: (context) => ThemeProvider(AppSettings.theme, onChangedListener: () {
+              showAppToast(context, text: AppSettings.isDark?'Słońce już...\n...zeszło z gór...': 'Nowy dzień wstaje');
+            })),
+            ChangeNotifierProvider(create: (context){
+
+              ColorPack _selColorPack;
+
+              switch(appMode){
+                case AppMode.appModeDefault: _selColorPack = const ColorPackStartDefault(); break;
+                case AppMode.appModeAdwent: _selColorPack = const ColorPackStartAdwent(); break;
+                case AppMode.appModeChristmas: _selColorPack = const ColorPackStartChristmas(); break;
+                case AppMode.appModeZmartwychwstanie: _selColorPack = const ColorPackStartDefault(); break;
+                case AppMode.appModePowstWarsz: _selColorPack = const ColorPackStartDefault(); break;
+                default: _selColorPack = const ColorPackStartDefault(); break;
+              }
+
+              return ColorPackProvider(
+                  initColorPack: _selColorPack,
+                  isDark: () => AppSettings.isDark,
+                  colorPackDark: const ColorPackBlack()
+              );
+
+            }),
+
+            ChangeNotifierProvider(create: (context) => HomePartProvider()),
+
+            ChangeNotifierProvider(create: (context) => LoginProvider()),
+
+            ChangeNotifierProvider(create: (context) => DrawerProvider()),
+            ChangeNotifierProvider(create: (context) => FloatingButtonProvider()),
+
+            //CIRCLES
+            ChangeNotifierProvider(create: (context) => CircleMembersProvider()),
+            ChangeNotifierProvider(create: (context) => CircleProvider()),
+            ChangeNotifierProvider(create: (context) => CircleListProvider()),
+            ChangeNotifierProvider(create: (context) => AnnouncementProvider()),
+            ChangeNotifierProvider(create: (context) => AnnouncementListProvider()),
+            ChangeNotifierProvider(create: (context) => BindedIndivCompsProvider()),
+
+            //INDIVIDUAL COMPETITION
+            ChangeNotifierProvider(create: (context) => IndivCompParticipsProvider()),
+            ChangeNotifierProvider(create: (context) => ComplTasksProvider()),
+            ChangeNotifierProvider(create: (context) => IndivCompProvider()),
+            ChangeNotifierProvider(create: (context) => IndivCompListProvider()),
+
+            // STOPNIE
+            ChangeNotifierProvider(create: (context) => RankProv()),
+
+            // SPRAWNOŚCI
+            ChangeNotifierProvider(create: (context) => SprawSavedListProv()),
+            ChangeNotifierProvider(create: (context) => SprawInProgressListProv()),
+            ChangeNotifierProvider(create: (context) => SprawCompletedListProv()),
+            ChangeNotifierProvider(create: (context) => CurrentSprawGroupProvider()),
+
+            // SPIEWNIK
+            ChangeNotifierProvider(create: (context) => AlbumProvider()),
+
+            // SZYFRY
+            ChangeNotifierProvider(create: (context) => GaderypolukiProvider()),
+
+            //ARTICLES
+            ChangeNotifierProvider(create: (context) => ArticleThemeProvider()),
+            ChangeNotifierProvider(create: (context) => BookmarkedArticlesProvider()),
+            ChangeNotifierProvider(create: (context) => LikedArticlesProvider()),
+
+            // APEL EWANS
+            ChangeNotifierProvider(create: (context) => ApelEwanFolderProvider()),
+            ChangeNotifierProvider(create: (context) => ApelEwanAllFoldersProvider()),
+
+            // STREFA DUCHA
+            ChangeNotifierProvider(create: (context) => FadeImageProvider()),
+            ChangeNotifierProvider(create: (context) => LockProvider()),
+            ChangeNotifierProvider(create: (context) => PinProvider()),
+
+          ],
+          builder: (context, _) => const App()
+
+      ),
+      SongBookBaseSetting())
+  )));
 
 }
 
@@ -206,8 +303,6 @@ class AppState extends State<App> with WidgetsBindingObserver {
   
   late StreamSubscription<ConnectivityResult> subscription;
 
-  late bool initialized;
-
   void convertOldData(){
 
     if(true)
@@ -250,37 +345,6 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
   }
 
-  void initAsync() async {
-    await Future.wait([
-      ShaPref.init(),
-      initPaths(),
-      AccountData.init(),
-    ]);
-
-    post(() => ZhpAccAuth.init(navigatorKey));
-
-    ApelEwanOwnFolder.loadAllOwnFolders();
-
-    subscription = addConnectionListener((hasConnection) async {
-      if (!hasConnection) return;
-
-      if(!await synchronizer.isAllSynced())
-        await synchronizer.post();
-
-      await Statistics.commit();
-    });
-
-    // Run loaders
-    songLoader.run();
-    if(AccountData.loggedIn && await isNetworkAvailable()) {
-      indivCompLoader.run();
-      circleLoader.run();
-    }
-    setState(() => initialized = true);
-  }
-
-  late ColorPack _selColorPack;
-
   late LoginListener _loginListener;
 
   late GlobalKey<NavigatorState> navigatorKey;
@@ -290,15 +354,6 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
     WidgetsBinding.instance.addObserver(this);
     App._orientationChangedListeners = [];
-
-    switch(appMode){
-      case AppMode.appModeDefault: _selColorPack = const ColorPackStartDefault(); break;
-      case AppMode.appModeAdwent: _selColorPack = const ColorPackStartAdwent(); break;
-      case AppMode.appModeChristmas: _selColorPack = const ColorPackStartChristmas(); break;
-      case AppMode.appModeZmartwychwstanie: _selColorPack = const ColorPackStartDefault(); break;
-      case AppMode.appModePowstWarsz: _selColorPack = const ColorPackStartDefault(); break;
-      default: _selColorPack = const ColorPackStartDefault(); break;
-    }
     
     _loginListener = LoginListener(
         onLogin: (emailConf) async {
@@ -317,13 +372,25 @@ class AppState extends State<App> with WidgetsBindingObserver {
           await circleLoader.run();
         }
     );
-
     AccountData.addLoginListener(_loginListener);
 
-    initialized = false;
-    initAsync();
+    subscription = addConnectionListener((hasConnection) async {
+      if (!hasConnection) return;
+
+      if(!await synchronizer.isAllSynced())
+        await synchronizer.post();
+
+      await Statistics.commit();
+    });
+
+    songLoader.run();
+    if(AccountData.loggedIn) {
+      indivCompLoader.run();
+      circleLoader.run();
+    }
 
     navigatorKey = GlobalKey<NavigatorState>();
+    post(() => ZhpAccAuth.init(navigatorKey));
 
     super.initState();
   }
@@ -341,129 +408,45 @@ class AppState extends State<App> with WidgetsBindingObserver {
   }
   
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => StreamBuilder(
+      stream: Connectivity().onConnectivityChanged,
+      builder: (BuildContext context, AsyncSnapshot<ConnectivityResult> snapShot) =>
+          Consumer2<ThemeProvider, ColorPackProvider>(
+            builder: (context, themeProv, colorPackProv, child){
 
-    if(!initialized) return Container();
+              if(AppSettings.fullscreen)
+                SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
+              else
+                SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
 
-    return MultiProvider(
-      providers: [
+              SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+                statusBarColor: colorPackProv.colorPack.appBar, // status bar color
+              ));
 
-        ChangeNotifierProvider(create: (context) => ConnectivityProvider()),
-        ChangeNotifierProvider(create: (context) => OrgProvider()),
-        ChangeNotifierProvider(create: (context){
-          AppBottomNavigatorProvider prov = AppBottomNavigatorProvider();
-          prov.init(prov);
-          return prov;
-        }),
+              return MaterialApp(
+                navigatorKey: navigatorKey,
+                title: 'HarcApp',
+                theme: colorPackProv.colorPack.themeData,
 
-        ChangeNotifierProvider(create: (context) => ThemeProvider(AppSettings.theme, onChangedListener: () {
-          showAppToast(context, text: AppSettings.isDark?'Słońce już...\n...zeszło z gór...': 'Nowy dzień wstaje');
-        })),
-        ChangeNotifierProvider(create: (context) => ColorPackProvider(
-            initColorPack: _selColorPack,
-            isDark: () => AppSettings.isDark,
-            colorPackDark: const ColorPackBlack()
-        )),
+                home: const StartPage(),
+                localizationsDelegates: const [
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: const [
+                  Locale('pl'),
+                ],
+                locale: const Locale('pl'),
+                navigatorObservers: [
+                  appNavigatorObserver,
+                  defaultLifecycleObserver
+                ],
+              );
 
-        ChangeNotifierProvider(create: (context) => HomePartProvider()),
-
-        ChangeNotifierProvider(create: (context){
-          return LoginProvider();
-        }),
-
-        ChangeNotifierProvider(create: (context) => DrawerProvider()),
-        ChangeNotifierProvider(create: (context) => FloatingButtonProvider()),
-
-        //CIRCLES
-        ChangeNotifierProvider(create: (context) => CircleMembersProvider()),
-        ChangeNotifierProvider(create: (context) => CircleProvider()),
-        ChangeNotifierProvider(create: (context) => CircleListProvider()),
-        ChangeNotifierProvider(create: (context) => AnnouncementProvider()),
-        ChangeNotifierProvider(create: (context) => AnnouncementListProvider()),
-        ChangeNotifierProvider(create: (context) => BindedIndivCompsProvider()),
-
-        //INDIVIDUAL COMPETITION
-        ChangeNotifierProvider(create: (context) => IndivCompParticipsProvider()),
-        ChangeNotifierProvider(create: (context) => ComplTasksProvider()),
-        ChangeNotifierProvider(create: (context) => IndivCompProvider()),
-        ChangeNotifierProvider(create: (context) => IndivCompListProvider()),
-
-        // STOPNIE
-        ChangeNotifierProvider(create: (context) => RankProv()),
-
-        // SPRAWNOŚCI
-        ChangeNotifierProvider(create: (context) => SprawSavedListProv()),
-        ChangeNotifierProvider(create: (context) => SprawInProgressListProv()),
-        ChangeNotifierProvider(create: (context) => SprawCompletedListProv()),
-        ChangeNotifierProvider(create: (context) => CurrentSprawGroupProvider()),
-
-        // SPIEWNIK,
-        // ChangeNotifierProvider(create: (context) => ShowChordsProvider(SongBookBaseSetting())),
-        // ChangeNotifierProvider(create: (context) => ChordsDrawTypeProvider(SongBookBaseSetting())),
-        // ChangeNotifierProvider(create: (context) => ChordsDrawShowProvider(SongBookBaseSetting())),
-        ChangeNotifierProvider(create: (context) => AlbumProvider()),
-
-        // SZYFRY
-        ChangeNotifierProvider(create: (context) => GaderypolukiProvider()),
-
-        //ARTICLES
-        ChangeNotifierProvider(create: (context) => ArticleThemeProvider()),
-        ChangeNotifierProvider(create: (context) => BookmarkedArticlesProvider()),
-        ChangeNotifierProvider(create: (context) => LikedArticlesProvider()),
-
-        // APEL EWANS
-        ChangeNotifierProvider(create: (context) => ApelEwanFolderProvider()),
-        ChangeNotifierProvider(create: (context) => ApelEwanAllFoldersProvider()),
-
-        // STREFA DUCHA
-        ChangeNotifierProvider(create: (context) => FadeImageProvider()),
-        ChangeNotifierProvider(create: (context) => LockProvider()),
-        ChangeNotifierProvider(create: (context) => PinProvider()),
-
-      ],
-      builder: (context, _) => StreamBuilder(
-          stream: Connectivity().onConnectivityChanged,
-          builder: (BuildContext context, AsyncSnapshot<ConnectivityResult> snapShot) =>
-              Consumer2<ThemeProvider, ColorPackProvider>(
-                builder: (context, themeProv, colorPackProv, child){
-
-                  if(AppSettings.fullscreen)
-                    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
-                  else
-                    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
-
-                  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-                    statusBarColor: colorPackProv.colorPack.appBar, // status bar color
-                  ));
-
-                  return MaterialApp(
-                    navigatorKey: navigatorKey,
-                    title: 'HarcApp',
-                    theme: colorPackProv.colorPack.themeData,
-
-                    home: const StartPage(),
-                    localizationsDelegates: const [
-                      GlobalMaterialLocalizations.delegate,
-                      GlobalWidgetsLocalizations.delegate,
-                      GlobalCupertinoLocalizations.delegate,
-                    ],
-                    supportedLocales: const [
-                      Locale('pl'),
-                    ],
-                    locale: const Locale('pl'),
-                    navigatorObservers: [
-                      appNavigatorObserver,
-                      defaultLifecycleObserver
-                    ],
-                  );
-
-                },
-              )
-      ),
-
-    );
-
-  }
+            },
+          )
+  );
 
 }
 

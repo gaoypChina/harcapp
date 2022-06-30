@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:harcapp/_common_classes/common.dart';
@@ -100,7 +102,8 @@ class ApiRegLog{
           List<Announcement>
 
         )? onSuccess,
-        void Function(Response? response)? onError
+        FutureOr<bool> Function()? onServerMaybeWakingUp,
+        FutureOr<void> Function(Response? response)? onError,
       }) async {
 
     Map<String, dynamic> errMap = {};
@@ -120,86 +123,12 @@ class ApiRegLog{
     }
 
     return await API.sendRequest(
-        withToken: false,
-        sendRequest: (Dio dio) => dio.post(
-            '${API.SERVER_URL}api/user/authenticate',
-            data: FormData.fromMap({LOGIN_REQ_EMAIL: email, LOGIN_REQ_PASSWORD: password})
-        ),
-        onSuccess: (Response response, DateTime now) async {
-          String key = response.data['key']??(throw InvalidResponseError('key'));
-          String jwt = response.data['jwt']??(throw InvalidResponseError('jwt'));
-          String name = response.data['name']??(throw InvalidResponseError('name'));
-          String nick = response.data['nick']??(throw InvalidResponseError('nick'));
-          Sex sex = strToSex[response.data['sex']??(throw InvalidResponseError('sex'))]??Sex.male;
-          DateTime? lastSyncTime = DateTime.tryParse(response.data['last_sync_time']??'');
-          bool emailConf = response.data['email_confirmed']??(throw InvalidResponseError('email_confirmed'));
-
-          List indivCompsResp = response.data['indivComps']??(throw InvalidResponseError('indivComps'));
-          List<IndivComp> indivComps = [];
-          for(Map map in indivCompsResp)
-            indivComps.add(IndivComp.fromResponse(map));
-
-          List circlesResp = response.data['circles']??(throw InvalidResponseError('circles'));
-          List<Circle> circles = [];
-          Map<String, Circle> circleMap = {};
-          for(Map map in circlesResp) {
-            Circle circle = Circle.fromResponse(map);
-            circles.add(circle);
-            circleMap[circle.key] = circle;
-          }
-
-          List feedAnnouncementsResp = response.data['circleFeed']??(throw InvalidResponseError('circleFeed'));
-          List<Announcement> feedAnnouncements = [];
-          for(Map map in feedAnnouncementsResp)
-            feedAnnouncements.add(Announcement.fromMap(map, circleMap[map['circleKey']]!, key: map['_key']));
-
-          onSuccess?.call(
-            response,
-            key,
-            jwt,
-            name,
-            sex,
-            nick,
-            lastSyncTime,
-            emailConf,
-
-            indivComps,
-            circles,
-            feedAnnouncements,
-          );
-        },
-        onError: (err) async => onError?.call(err.response)
-    );
-  }
-
-  static Future<Response?> _getMicrosoftLoginData(
-      String? azureToken,
-      { void Function(
-          Response response,
-          String email,
-          String key,
-          String jwt,
-          String name,
-          Sex sex,
-          String nick,
-          DateTime? lastSyncTime,
-          bool emailConf,
-
-          List<IndivComp> indivComp,
-          List<Circle> circles,
-          List<Announcement> feedAnnouncements,
-
-        )? onSuccess,
-        void Function(Response? response)? onError
-      }
-  ) async => await API.sendRequest(
       withToken: false,
       sendRequest: (Dio dio) => dio.post(
-          '${API.SERVER_URL}api/user/authenticateMicrosoft',
-          data: FormData.fromMap({'azureToken': azureToken})
+          '${API.SERVER_URL}api/user/authenticate',
+          data: FormData.fromMap({LOGIN_REQ_EMAIL: email, LOGIN_REQ_PASSWORD: password})
       ),
       onSuccess: (Response response, DateTime now) async {
-        String email = response.data['email']??(throw InvalidResponseError('email'));
         String key = response.data['key']??(throw InvalidResponseError('key'));
         String jwt = response.data['jwt']??(throw InvalidResponseError('jwt'));
         String name = response.data['name']??(throw InvalidResponseError('name'));
@@ -225,11 +154,10 @@ class ApiRegLog{
         List feedAnnouncementsResp = response.data['circleFeed']??(throw InvalidResponseError('circleFeed'));
         List<Announcement> feedAnnouncements = [];
         for(Map map in feedAnnouncementsResp)
-          feedAnnouncements.add(Announcement.fromMap(map, circleMap['circleKey']!, key: map['_key']));
+          feedAnnouncements.add(Announcement.fromMap(map, circleMap[map['circleKey']]!, key: map['_key']));
 
         onSuccess?.call(
           response,
-          email,
           key,
           jwt,
           name,
@@ -240,58 +168,141 @@ class ApiRegLog{
 
           indivComps,
           circles,
-          feedAnnouncements
+          feedAnnouncements,
         );
       },
-      onError: (err) async => onError?.call(err.response)
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (err) async => onError?.call(err.response),
+    );
+  }
+
+  static Future<Response?> _getMicrosoftLoginData(
+      String? azureToken,
+      { FutureOr<void> Function(
+          Response response,
+          String email,
+          String key,
+          String jwt,
+          String name,
+          Sex sex,
+          String nick,
+          DateTime? lastSyncTime,
+          bool emailConf,
+
+          List<IndivComp> indivComp,
+          List<Circle> circles,
+          List<Announcement> feedAnnouncements,
+
+        )? onSuccess,
+        FutureOr<bool> Function()? onServerMaybeWakingUp,
+        FutureOr<void> Function(Response? response)? onError,
+      }
+  ) async => await API.sendRequest(
+    withToken: false,
+    sendRequest: (Dio dio) => dio.post(
+        '${API.SERVER_URL}api/user/authenticateMicrosoft',
+        data: FormData.fromMap({'azureToken': azureToken})
+    ),
+    onSuccess: (Response response, DateTime now) async {
+      String email = response.data['email']??(throw InvalidResponseError('email'));
+      String key = response.data['key']??(throw InvalidResponseError('key'));
+      String jwt = response.data['jwt']??(throw InvalidResponseError('jwt'));
+      String name = response.data['name']??(throw InvalidResponseError('name'));
+      String nick = response.data['nick']??(throw InvalidResponseError('nick'));
+      Sex sex = strToSex[response.data['sex']??(throw InvalidResponseError('sex'))]??Sex.male;
+      DateTime? lastSyncTime = DateTime.tryParse(response.data['last_sync_time']??'');
+      bool emailConf = response.data['email_confirmed']??(throw InvalidResponseError('email_confirmed'));
+
+      List indivCompsResp = response.data['indivComps']??(throw InvalidResponseError('indivComps'));
+      List<IndivComp> indivComps = [];
+      for(Map map in indivCompsResp)
+        indivComps.add(IndivComp.fromResponse(map));
+
+      List circlesResp = response.data['circles']??(throw InvalidResponseError('circles'));
+      List<Circle> circles = [];
+      Map<String, Circle> circleMap = {};
+      for(Map map in circlesResp) {
+        Circle circle = Circle.fromResponse(map);
+        circles.add(circle);
+        circleMap[circle.key] = circle;
+      }
+
+      List feedAnnouncementsResp = response.data['circleFeed']??(throw InvalidResponseError('circleFeed'));
+      List<Announcement> feedAnnouncements = [];
+      for(Map map in feedAnnouncementsResp)
+        feedAnnouncements.add(Announcement.fromMap(map, circleMap['circleKey']!, key: map['_key']));
+
+      onSuccess?.call(
+        response,
+        email,
+        key,
+        jwt,
+        name,
+        sex,
+        nick,
+        lastSyncTime,
+        emailConf,
+
+        indivComps,
+        circles,
+        feedAnnouncements
+      );
+    },
+    onServerMaybeWakingUp: onServerMaybeWakingUp,
+    onError: (err) async => onError?.call(err.response),
   );
 
   static Future<Response?> carefullyLogin({
     required BuildContext context,
     required String email,
     required String password,
-    void Function(Response response, bool emailConf, bool loggedIn, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements)? onSuccess,
-    void Function(Response? response)? onError,
+    FutureOr<void> Function(Response response, bool emailConf, bool loggedIn, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements)? onSuccess,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function(Response? response)? onError,
   }) => ApiRegLog._getLoginData(
-      email,
-      password,
-      onSuccess: (Response response, String key, String jwt, String name, Sex sex, String nick, DateTime? lastSyncTime, bool emailConf, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements) async {
+    email,
+    password,
+    onSuccess: (Response response, String key, String jwt, String name, Sex sex, String nick, DateTime? lastSyncTime, bool emailConf, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements) async {
 
-        if(!emailConf) {
-          await AccountData.writeJwt(jwt);
-          await AccountData.writeName(name);
-          await AccountData.writeEmail(email);
-          onSuccess?.call(response, emailConf, true, indivComps, circles, feedAnnouncements);
-          return;
-        }
+      if(!emailConf) {
+        await AccountData.writeJwt(jwt);
+        await AccountData.writeName(name);
+        await AccountData.writeEmail(email);
+        onSuccess?.call(response, emailConf, true, indivComps, circles, feedAnnouncements);
+        return;
+      }
 
-        bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response);
+      bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response);
 
-        onSuccess?.call(response, emailConf, loggedIn, indivComps, circles, feedAnnouncements);
+      onSuccess?.call(response, emailConf, loggedIn, indivComps, circles, feedAnnouncements);
 
-      },
-      onError: onError
+    },
+    onServerMaybeWakingUp: onServerMaybeWakingUp,
+    onError: onError,
   );
 
   static Future<Response?> carefullyMicrosoftLogin({
     required BuildContext context,
     required String? azureToken,
-    void Function(Response response, bool emailConf, bool loggedIn, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements)? onSuccess,
-    void Function(Response? response)? onError,
+    FutureOr<void> Function(Response response, bool emailConf, bool loggedIn, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements)? onSuccess,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function(Response? response)? onError,
   }) => ApiRegLog._getMicrosoftLoginData(
-      azureToken,
-      onSuccess: (Response response, String email, String key, String jwt, String name, Sex sex, String nick, DateTime? lastSyncTime, bool emailConf, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements) async {
+    azureToken,
+    onSuccess: (Response response, String email, String key, String jwt, String name, Sex sex, String nick, DateTime? lastSyncTime, bool emailConf, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements) async {
 
-        bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response);
-        onSuccess?.call(response, emailConf, loggedIn, indivComps, circles, feedAnnouncements);
+      bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response);
+      onSuccess?.call(response, emailConf, loggedIn, indivComps, circles, feedAnnouncements);
 
-      },
-      onError: onError
+    },
+    onServerMaybeWakingUp: onServerMaybeWakingUp,
+    onError: onError,
   );
 
   static Future<Response?> logout({
-    void Function()? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function()? onSuccess,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) async => API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) async => await dio.get('${API.SERVER_URL}api/user/logout'),
@@ -300,6 +311,7 @@ class ApiRegLog{
       onSuccess?.call();
       return true;
     },
+    onServerMaybeWakingUp: onServerMaybeWakingUp,
     onError: (err) async => onError?.call(),
   );
 
@@ -319,9 +331,10 @@ class ApiRegLog{
       bool? gdprAccept,
       String password,
       String passwordRep,
-      {void Function(Response response, String? key, String? jwt, String? email, String? name, String? nick, Sex? sex)? onSuccess,
-        void Function(Response? response)? onError,
-  }) async {
+      { Future<void> Function(Response response, String? key, String? jwt, String? email, String? name, String? nick, Sex? sex)? onSuccess,
+        FutureOr<bool> Function()? onServerMaybeWakingUp,
+        Future<void> Function(Response? response)? onError,
+      }) async {
 
     Map<String, dynamic> errMap = {};
 
@@ -363,38 +376,39 @@ class ApiRegLog{
     }
 
     return await API.sendRequest(
-        sendRequest: (Dio dio) => dio.post(
-            '${API.SERVER_URL}api/user/register',
-            data: FormData.fromMap({
-              REGISTER_REQ_EMAIL: email,
-              REGISTER_REQ_NAME: name,
-              REGISTER_REQ_SEX: sexToBool[sex!],
-              REGISTER_REQ_POLICY: regulaminAccept,
-              REGISTER_REQ_GDPR: gdprAccept,
-              REGISTER_REQ_PASSWORD: password,
-            })
-        ),
-        onSuccess: (Response response, DateTime now) async {
-          String? key = response.data['key'];
-          String? jwt = response.data['jwt'];
-          String? email = response.data['email'];
-          String? name = response.data['name'];
-          String? nick = response.data['nick'];
-          Sex? sex = boolToSex[response.data['sex']];
+      sendRequest: (Dio dio) => dio.post(
+          '${API.SERVER_URL}api/user/register',
+          data: FormData.fromMap({
+            REGISTER_REQ_EMAIL: email,
+            REGISTER_REQ_NAME: name,
+            REGISTER_REQ_SEX: sexToBool[sex!],
+            REGISTER_REQ_POLICY: regulaminAccept,
+            REGISTER_REQ_GDPR: gdprAccept,
+            REGISTER_REQ_PASSWORD: password,
+          })
+      ),
+      onSuccess: (Response response, DateTime now) async {
+        String? key = response.data['key'];
+        String? jwt = response.data['jwt'];
+        String? email = response.data['email'];
+        String? name = response.data['name'];
+        String? nick = response.data['nick'];
+        Sex? sex = boolToSex[response.data['sex']];
 
-          await AccountData.saveLoginData(email, response);
+        await AccountData.saveLoginData(email, response);
 
-          onSuccess?.call(
-            response,
-            key,
-            jwt,
-            email,
-            name,
-            nick,
-            sex,
-          );
-        },
-        onError: (err) async => onError?.call(err.response)
+        onSuccess?.call(
+          response,
+          key,
+          jwt,
+          email,
+          name,
+          nick,
+          sex,
+        );
+      },
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (err) async => onError?.call(err.response),
     );
   }
 
@@ -408,8 +422,9 @@ class ApiRegLog{
       Sex? sex,
       bool? regulaminAccept,
       bool? gdprAccept,
-      {void Function(Response response, String? key, String? jwt, String? email, String? name, String? nick, Sex? sex)? onSuccess,
-        void Function(Response? response)? onError,
+      { FutureOr<void> Function(Response response, String? key, String? jwt, String? email, String? name, String? nick, Sex? sex)? onSuccess,
+        FutureOr<bool> Function()? onServerMaybeWakingUp,
+        FutureOr<void> Function(Response? response)? onError,
       }) async {
 
     Map<String, dynamic> errMap = {};
@@ -437,58 +452,61 @@ class ApiRegLog{
     }
 
     return await API.sendRequest(
-        sendRequest: (Dio dio) => dio.post(
-            '${API.SERVER_URL}api/user/registerMicrosoft',
-            data: FormData.fromMap({
-              REGISTER_MICROSOFT_REQ_AZURE_TOKEN: azureToken,
-              REGISTER_MICROSOFT_REQ_SEX: sexToBool[sex!],
-              REGISTER_MICROSOFT_REQ_POLICY: regulaminAccept,
-              REGISTER_MICROSOFT_REQ_GDPR: gdprAccept,
-            })
-        ),
-        onSuccess: (Response response, DateTime now) async {
-          String? key = response.data['key'];
-          String? jwt = response.data['jwt'];
-          String? email = response.data['email'];
-          String? name = response.data['name'];
-          String? nick = response.data['nick'];
-          Sex? sex = boolToSex[response.data['sex']];
+      sendRequest: (Dio dio) => dio.post(
+          '${API.SERVER_URL}api/user/registerMicrosoft',
+          data: FormData.fromMap({
+            REGISTER_MICROSOFT_REQ_AZURE_TOKEN: azureToken,
+            REGISTER_MICROSOFT_REQ_SEX: sexToBool[sex!],
+            REGISTER_MICROSOFT_REQ_POLICY: regulaminAccept,
+            REGISTER_MICROSOFT_REQ_GDPR: gdprAccept,
+          })
+      ),
+      onSuccess: (Response response, DateTime now) async {
+        String? key = response.data['key'];
+        String? jwt = response.data['jwt'];
+        String? email = response.data['email'];
+        String? name = response.data['name'];
+        String? nick = response.data['nick'];
+        Sex? sex = boolToSex[response.data['sex']];
 
-          await AccountData.saveLoginData(email, response);
+        await AccountData.saveLoginData(email, response);
 
-          onSuccess?.call(
-            response,
-            key,
-            jwt,
-            email,
-            name,
-            nick,
-            sex,
-          );
-        },
-        onError: (err) async => onError?.call(err.response)
+        onSuccess?.call(
+          response,
+          key,
+          jwt,
+          email,
+          name,
+          nick,
+          sex,
+        );
+      },
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (err) async => onError?.call(err.response),
     );
   }
 
   static Future<Response?> mergeMicrosoft(
       String? azureToken,
-      {void Function(Response response)? onSuccess,
-       void Function(Response? response)? onError,
+      { FutureOr<void> Function(Response response)? onSuccess,
+        FutureOr<bool> Function()? onServerMaybeWakingUp,
+        FutureOr<void> Function(Response? response)? onError,
       }) async {
 
     return await API.sendRequest(
-        withToken: true,
-        sendRequest: (Dio dio) async => dio.post(
-          '${API.SERVER_URL}api/user/merge_microsoft',
-          data: FormData.fromMap({
-            'azureToken': azureToken,
-          }),
-        ),
-        onSuccess: (Response response, DateTime now) async {
-          await AccountData.saveLoginData(AccountData.email, response);
-          onSuccess?.call(response);
-        },
-        onError: (err) async => onError?.call(err.response)
+      withToken: true,
+      sendRequest: (Dio dio) async => dio.post(
+        '${API.SERVER_URL}api/user/merge_microsoft',
+        data: FormData.fromMap({
+          'azureToken': azureToken,
+        }),
+      ),
+      onSuccess: (Response response, DateTime now) async {
+        await AccountData.saveLoginData(AccountData.email, response);
+        onSuccess?.call(response);
+      },
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (err) async => onError?.call(err.response),
     );
 
   }
@@ -496,8 +514,9 @@ class ApiRegLog{
   static String SEND_PASS_RESET_KEY_EMAIL = 'email';
   static Future<Response?> sendResetPassReq(
       String email,
-      {void Function()? onSuccess,
-        void Function(Response? response)? onError,
+      { FutureOr<void> Function()? onSuccess,
+        FutureOr<bool> Function()? onServerMaybeWakingUp,
+        FutureOr<void> Function(Response? response)? onError,
       }) async {
 
     Map<String, dynamic> errMap = {};
@@ -512,14 +531,15 @@ class ApiRegLog{
     }
 
     return await API.sendRequest(
-        sendRequest: (Dio dio) async => dio.post(
-          '${API.SERVER_URL}api/user/sendPassResetKey',
-          data: FormData.fromMap({
-            SEND_PASS_RESET_KEY_EMAIL: email,
-          }),
-        ),
-        onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
-        onError: (err) async => onError?.call(err.response)
+      sendRequest: (Dio dio) async => dio.post(
+        '${API.SERVER_URL}api/user/sendPassResetKey',
+        data: FormData.fromMap({
+          SEND_PASS_RESET_KEY_EMAIL: email,
+        }),
+      ),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (err) async => onError?.call(err.response),
     );
 
   }
@@ -535,8 +555,10 @@ class ApiRegLog{
     required String resetPassKey,
     required String newPass,
     required String newPassRep,
-    void Function()? onSuccess,
-    void Function(Response? response)? onError,
+
+    FutureOr<void> Function()? onSuccess,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function(Response? response)? onError,
   }) async {
 
     Map<String, dynamic> errMap = {};
@@ -572,40 +594,52 @@ class ApiRegLog{
           })
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
-      onError: (err) async => onError?.call(err.response)
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (err) async => onError?.call(err.response),
     );
 
   }
 
 
   static const String VALIDATE_PASSWORD_PASSWORD = 'password';
-  static Future<Response?> validatePassword(String password, {Function? onSuccess, Function(String? error)? onError}) async => await API.sendRequest(
-      withToken: true,
-      sendRequest: (Dio dio) => dio.post(
-          '${API.SERVER_URL}api/account/validate_password',
-          data: FormData.fromMap({
-            VALIDATE_PASSWORD_PASSWORD: password,
-          })
-      ),
-      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
-      onError: (DioError error) async {
-        String? response;
+  static Future<Response?> validatePassword(
+    String password,
+    { FutureOr<void> Function()? onSuccess,
+      FutureOr<bool> Function()? onServerMaybeWakingUp,
+      FutureOr<void> Function(String? error)? onError,
+    }) async => await API.sendRequest(
+    withToken: true,
+    sendRequest: (Dio dio) => dio.post(
+        '${API.SERVER_URL}api/account/validate_password',
+        data: FormData.fromMap({
+          VALIDATE_PASSWORD_PASSWORD: password,
+        })
+    ),
+    onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
+    onServerMaybeWakingUp: onServerMaybeWakingUp,
+    onError: (DioError error) async {
+      String? response;
 
-        try{
-          response = error.response?.data['response'];
-          response ??= error.response?.data['password'][0];
-        } on Error{}
+      try{
+        response = error.response?.data['response'];
+        response ??= error.response?.data['password'][0];
+      } on Error{}
 
-        await onError?.call(response);
-      }
+      await onError?.call(response);
+    }
   );
 
 
-  static Future<Response?> resendActivationToken({void Function()? onSuccess, void Function()? onError}) async => await API.sendRequest(
-      withToken: true,
-      sendRequest: (Dio dio) async => dio.get('${API.SERVER_URL}api/user/resend_email_conf_key'),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
-      onError: (_) async => onError?.call()
+  static Future<Response?> resendActivationToken({
+    FutureOr<void> Function()? onSuccess,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) async => await API.sendRequest(
+    withToken: true,
+    sendRequest: (Dio dio) async => dio.get('${API.SERVER_URL}api/user/resend_email_conf_key'),
+    onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+    onServerMaybeWakingUp: onServerMaybeWakingUp,
+    onError: (_) async => onError?.call(),
   );
 
 
@@ -613,8 +647,9 @@ class ApiRegLog{
   static Future<Response?> carefullyConfEmail(
       BuildContext context,
       String confKey,
-      {void Function(bool loggedIn)? onSuccess,
-        void Function(Response? response)? onError,
+      { FutureOr<void> Function(bool loggedIn)? onSuccess,
+        FutureOr<bool> Function()? onServerMaybeWakingUp,
+        FutureOr<void> Function(Response? response)? onError,
       }) async {
 
     Map<String, dynamic> errMap = {};
@@ -629,35 +664,38 @@ class ApiRegLog{
     }
 
     return await API.sendRequest(
-        withToken: true,
-        sendRequest: (Dio dio) async => dio.post(
-            '${API.SERVER_URL}api/user/confEmail',
-            data: FormData.fromMap({CONF_EMAIL_CONF_KEY: confKey})
-        ),
-        onSuccess: (Response response, DateTime now) async {
+      withToken: true,
+      sendRequest: (Dio dio) async => dio.post(
+          '${API.SERVER_URL}api/user/confEmail',
+          data: FormData.fromMap({CONF_EMAIL_CONF_KEY: confKey})
+      ),
+      onSuccess: (Response response, DateTime now) async {
 
-          String? email = response.data['email'];
-          DateTime? lastSyncTime = DateTime.tryParse(response.data['last_sync_time']??'');
+        String? email = response.data['email'];
+        DateTime? lastSyncTime = DateTime.tryParse(response.data['last_sync_time']??'');
 
-          bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response);
+        bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response);
 
-          onSuccess?.call(loggedIn);
-        },
-        onError: (err) async => onError?.call(err.response)
+        onSuccess?.call(loggedIn);
+      },
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (err) async => onError?.call(err.response),
     );
   }
 
   static Future<Response?> isEmailConf({
     String? token,
-    void Function(bool confirmed)? onSuccess,
-    void Function(Response? response)? onError
+    FutureOr<void> Function(bool confirmed)? onSuccess,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function(Response? response)? onError,
   }) async =>
       await API.sendRequest(
-          withToken: true,
-          //token: token,
-          sendRequest: (Dio dio) async => await dio.get('${API.SERVER_URL}api/user/confEmail'),
-          onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data??(throw InvalidResponseError(''))),
-          onError: (err) async => onError?.call(err.response)
+        withToken: true,
+        //token: token,
+        sendRequest: (Dio dio) async => await dio.get('${API.SERVER_URL}api/user/confEmail'),
+        onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data??(throw InvalidResponseError(''))),
+        onServerMaybeWakingUp: onServerMaybeWakingUp,
+        onError: (err) async => onError?.call(err.response),
       );
 
 }

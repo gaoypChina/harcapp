@@ -34,7 +34,7 @@ class PartChangelog extends StatelessWidget{
                     'Dodano apele ewangeliczne,',
                     'Dodano historię wyszukiwania piosenek',
                     'Poprawiono błąd odtwarzania piosenek na YT w module "Śpiewnik",',
-                    'Poprawiono i ujednolicono interfejsy',
+                    'Poprawiono i ujednolicono interfejsy.',
                   ]
               ),
 

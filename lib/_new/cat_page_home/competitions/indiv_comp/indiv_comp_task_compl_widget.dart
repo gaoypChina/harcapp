@@ -5,6 +5,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/points
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
@@ -84,8 +85,15 @@ class IndivCompTaskComplWidget extends StatelessWidget{
 
                 showLoadingWidget(context, colors!.avgColor, 'Wycofywanie...');
                 await ApiIndivComp.removeTaskComplReq(
-                    taskComplKey: complTask.key,
-                    onSuccess: onRemoved
+                  taskComplKey: complTask.key,
+                  onSuccess: onRemoved,
+                  onServerMaybeWakingUp: () {
+                    showAppToast(context, text: serverWakingUpMessage);
+                    return true;
+                  },
+                  onError: (){
+                    showAppToast(context, text: simpleErrorMessage);
+                  }
                 );
                 Navigator.pop(context);
               }

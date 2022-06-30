@@ -18,6 +18,7 @@ import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
 import 'package:harcapp/logger.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -389,6 +390,10 @@ class CirclePageState extends State<CirclePage>{
 
                   setState(() {});
                 },
+                onServerMaybeWakingUp: () {
+                  if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                  return true;
+                },
                 onError: (responseStatusCode){
                   if(responseStatusCode == HttpStatus.notFound){
                     showAppToast(
@@ -403,7 +408,7 @@ class CirclePageState extends State<CirclePage>{
                     return;
                   }
 
-                  showAppToast(context, text: 'Coś poszło nie tak...');
+                  showAppToast(context, text: simpleErrorMessage);
                 }
             );
 
@@ -455,7 +460,13 @@ class CirclePageState extends State<CirclePage>{
                     setState(() => moreToLoad = false);
 
                 },
-                onError: () => showAppToast(context, text: 'Coś nie pykło...')
+                onServerMaybeWakingUp: () {
+                  if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                  return true;
+                },
+                onError: (){
+                  if(mounted) showAppToast(context, text: simpleErrorMessage);
+                }
             );
 
             refreshController.loadComplete();
@@ -494,7 +505,17 @@ class CirclePageState extends State<CirclePage>{
                             await ApiCircle.setShareCodeSearchable(
                                 compKey: circle.key,
                                 searchable: !circle.shareCodeSearchable,
-                                onSuccess: (searchable) => setState(() => circle.shareCodeSearchable = searchable)
+                                onSuccess: (searchable){
+                                  if(mounted) setState(() => circle.shareCodeSearchable = searchable);
+                                },
+                                onServerMaybeWakingUp: () {
+                                  if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                  return true;
+                                },
+                                onError: (){
+                                  if(mounted) showAppToast(context, text: simpleErrorMessage);
+                                }
+
                             );
                             setState(() => changeShareCodeProcessing = false);
                           },
@@ -627,11 +648,15 @@ class CirclePageState extends State<CirclePage>{
                             resetShareCode: () => ApiCircle.resetShareCode(
                                 circleKey: circle.key,
                                 onSuccess: (shareCode){
-                                  setState(() => circle.shareCode = shareCode);
+                                  if(mounted) setState(() => circle.shareCode = shareCode);
+                                },
+                                onServerMaybeWakingUp: () {
+                                  if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                  return true;
                                 },
                                 onError: (dynamic errData){
                                   if(errData is Map && errData['errors'] != null && errData['errors']['shareCode'] == 'share_code_changed_too_soon')
-                                    showAppToast(context, text: 'Za często zmieniasz kod dostępu');
+                                    if(mounted) showAppToast(context, text: 'Za często zmieniasz kod dostępu');
                                 }
                             ),
                           ),

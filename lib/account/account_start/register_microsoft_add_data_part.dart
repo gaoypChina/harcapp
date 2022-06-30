@@ -9,6 +9,7 @@ import 'package:harcapp/account/account_start/part_template.dart';
 import 'package:harcapp/_new/api/login_register.dart';
 import 'package:harcapp/account/account_common/sex_input_field.dart';
 import 'package:harcapp/account/login_provider.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
@@ -70,6 +71,10 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
 
           Navigator.pop(context);
         },
+        onServerMaybeWakingUp: () {
+          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+          return true;
+        },
         onError: (Response? response){
           try {
 
@@ -82,7 +87,9 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
 
             generalError = response.data['error'];
 
-          }catch (e){ showAppToast(context, text: 'Coś nie siadło.'); }
+          }catch (e){
+            showAppToast(context, text: simpleErrorMessage);
+          }
           setState(() => processing = false);
         }
     );

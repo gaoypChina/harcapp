@@ -19,6 +19,7 @@ import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../_app_common/accounts/user_data.dart';
+import '../../values/consts.dart';
 import 'conf_email_part.dart';
 import 'input_field_controller.dart';
 import 'login_part.dart';
@@ -85,7 +86,11 @@ class RegisterPartState extends State<RegisterPart>{
               builder: (context) => ConfEmailPart(email)
           );
         },
-        onError: (Response? response){
+        onServerMaybeWakingUp: () {
+          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+          return true;
+        },
+        onError: (Response? response) async {
           try {
 
             Map? errorFieldMap = response!.data['errors'];
@@ -101,7 +106,9 @@ class RegisterPartState extends State<RegisterPart>{
 
             generalError = response.data['error'];
 
-          }catch (e){ showAppToast(context, text: 'Coś nie siadło.'); }
+          }catch (e){
+            showAppToast(context, text: simpleErrorMessage);
+          }
           setState(() => processing = false);
         }
     );
@@ -123,9 +130,7 @@ class RegisterPartState extends State<RegisterPart>{
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return PageTemplate(
+  Widget build(BuildContext context) => PageTemplate(
       child: PartTemplate(
           title: 'Rejestracja',
           errorMessage: generalError,
@@ -249,8 +254,6 @@ class RegisterPartState extends State<RegisterPart>{
             ],
           )
       )
-    );
-
-  }
+  );
 
 }

@@ -10,6 +10,7 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_progress_widget.d
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_tile_widget_template.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_widgets/rank_widget.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
@@ -113,7 +114,7 @@ Future<void> loadOpenRankDialog(BuildContext context, Color color, SharedRankMet
         },
         onError: (_) async {
           await popPage(context);
-          showAppToast(context, text: 'Coś poszło nie tak.');
+          showAppToast(context, text: simpleErrorMessage);
         }
     );
   }

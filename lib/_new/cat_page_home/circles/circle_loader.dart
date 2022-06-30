@@ -5,20 +5,18 @@ import 'package:harcapp_core/comm_classes/network.dart';
 import '../../api/circle.dart';
 import 'model/circle.dart';
 
-class CircleLoaderListener extends SingleComputerListener<String>{
+class CircleLoaderListener extends SingleComputerApiListener<String>{
 
   final void Function(List<Circle>)? onCirclesLoaded;
 
   const CircleLoaderListener({
-    void Function()? onStart,
-    Future<void> Function(String?)? onError,
+    super.onStart,
+    super.onError,
+    super.onForceLoggedOut,
+    super.onServerMaybeWakingUp,
+    super.onEnd,
     this.onCirclesLoaded,
-    void Function(String? err, bool forceFinished)? onEnd
-  }):super(
-      onStart: onStart,
-      onError: onError,
-      onEnd: onEnd,
-  );
+  });
 
 }
 
@@ -43,10 +41,18 @@ class CircleLoader extends SingleComputer<String?, CircleLoaderListener>{
           for(CircleLoaderListener? listener in listeners)
             listener!.onCirclesLoaded?.call(comps);
         },
-        notAuthorized: () async {
-          await callError('not_authorized');
-          return true;
-        },
+      onServerMaybeWakingUp: () async {
+        for(CircleLoaderListener? listener in listeners)
+          listener!.onServerMaybeWakingUp?.call();
+
+        return true;
+      },
+      onForceLoggedOut: () async {
+        for(CircleLoaderListener? listener in listeners)
+          listener!.onForceLoggedOut?.call();
+
+        return true;
+      },
         onError: (resp) => callError(null),
     );
 

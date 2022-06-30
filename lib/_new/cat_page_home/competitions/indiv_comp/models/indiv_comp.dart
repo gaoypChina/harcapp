@@ -29,10 +29,16 @@ import 'indiv_comp_task.dart';
  */
 
 class IndivCompProvider extends ChangeNotifier{
+
+  static IndivCompProvider of(BuildContext context) => Provider.of<IndivCompProvider>(context, listen: false);
+
   void notify() => notifyListeners();
 }
 
 class IndivCompListProvider extends ChangeNotifier{
+
+  static IndivCompListProvider of(BuildContext context) => Provider.of<IndivCompListProvider>(context, listen: false);
+
   void notify() => notifyListeners();
 }
 
@@ -194,7 +200,7 @@ class IndivComp{
     Provider.of<IndivCompListProvider>(context, listen: false).notify();
   }
 
-  static addToAll(BuildContext context, IndivComp comp){
+  static addToAll(IndivComp comp, {BuildContext? context}){
     if(_all == null){
       _all = [];
       _allMap = {};
@@ -202,14 +208,15 @@ class IndivComp{
     _all!.add(comp);
     _allMap![comp.key] = comp;
 
+    if(context == null) return;
     Provider.of<IndivCompProvider>(context, listen: false).notify();
     Provider.of<IndivCompListProvider>(context, listen: false).notify();
   }
 
-  static updateInAll(BuildContext context, IndivComp comp){
+  static updateInAll(IndivComp comp, {BuildContext? context}){
     IndivComp? oldComp = _allMap![comp.key];
     if(oldComp == null){
-      addToAll(context, comp);
+      addToAll(comp, context: context);
       return;
     }
 
@@ -218,18 +225,21 @@ class IndivComp{
     _all!.insert(index, comp);
     _allMap![comp.key] = comp;
 
+    if(context == null) return;
     Provider.of<IndivCompProvider>(context, listen: false).notify();
     Provider.of<IndivCompListProvider>(context, listen: false).notify();
   }
 
-  static void removeFromAll(BuildContext context, IndivComp? comp){
+  static void removeFromAll(IndivComp? comp, {BuildContext? context}){
     if(_all == null)
       return;
 
     _all!.remove(comp);
     _allMap!.remove(comp!.key);
 
-    Provider.of<IndivCompProvider>(context, listen: false).notify();
+    if(context == null) return;
+
+    IndivCompProvider.of(context).notify();
     Provider.of<IndivCompListProvider>(context, listen: false).notify();
   }
 

@@ -9,6 +9,7 @@ import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/login_register.dart';
 import 'package:harcapp/account/account_start/page_template.dart';
 import 'package:harcapp/account/account_start/part_template.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
@@ -65,16 +66,21 @@ class ConfEmailPartState extends State<ConfEmailPart>{
               builder: (context) => const AccountPage()
           );
         },
+        onServerMaybeWakingUp: () {
+          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+          return true;
+        },
         onError: (Response? response){
 
           Map? errorFieldMap = response!.data['errors'];
-          if(errorFieldMap != null) {
+          if(errorFieldMap != null)
             confController!.errorText = errorFieldMap[ApiRegLog.CONF_EMAIL_CONF_KEY] ?? '';
-          }
+
+          if(mounted) showAppToast(context, text: simpleErrorMessage);
 
           generalError = response.data['error'];
           processing = false;
-          setState((){});
+          if(mounted) setState((){});
         }
     );
 
@@ -132,7 +138,13 @@ class ConfEmailPartState extends State<ConfEmailPart>{
                     setState(() => processingResend = true);
                     await ApiRegLog.resendActivationToken(
                       onSuccess: () => showAppToast(context, text: 'Przesłano'),
-                      onError: () => showAppToast(context, text: 'Coś nie siadło.'),
+                      onServerMaybeWakingUp: () {
+                        if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                        return true;
+                      },
+                      onError: (){
+                        if(mounted) showAppToast(context, text: simpleErrorMessage);
+                      }
                     );
                     setState(() => processingResend = false);
                   }

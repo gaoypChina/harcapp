@@ -8,6 +8,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_editor/providers.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -126,47 +127,55 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
 
                             if(editMode)
                               await ApiIndivComp.update(
-                                  key: widget.initComp!.key,
-                                  name: controller!.text,
+                                key: widget.initComp!.key,
+                                name: controller!.text,
 
-                                  colorsKey:
-                                  widget.initComp!.colorsKey != Provider.of<ColorKeyProvider>(context, listen: false).colorsKey?
-                                  Provider.of<ColorKeyProvider>(context, listen: false).colorsKey:
-                                  null,
+                                colorsKey:
+                                widget.initComp!.colorsKey != Provider.of<ColorKeyProvider>(context, listen: false).colorsKey?
+                                Provider.of<ColorKeyProvider>(context, listen: false).colorsKey:
+                                null,
 
-                                  iconKey:
-                                  widget.initComp!.iconKey != Provider.of<IconKeyProvider>(context, listen: false).iconKey?
-                                  Provider.of<IconKeyProvider>(context, listen: false).iconKey:
-                                  null,
+                                iconKey:
+                                widget.initComp!.iconKey != Provider.of<IconKeyProvider>(context, listen: false).iconKey?
+                                Provider.of<IconKeyProvider>(context, listen: false).iconKey:
+                                null,
 
-                                  startTime:
-                                  widget.initComp!.startTime != Provider.of<ModeProvider>(context, listen: false).startDate?
-                                  Provider.of<ModeProvider>(context, listen: false).startDate:
-                                  null,
+                                startTime:
+                                widget.initComp!.startTime != Provider.of<ModeProvider>(context, listen: false).startDate?
+                                Provider.of<ModeProvider>(context, listen: false).startDate:
+                                null,
 
-                                  endTime:
-                                  widget.initComp!.endTime != Provider.of<ModeProvider>(context, listen: false).endDate?
-                                  Provider.of<ModeProvider>(context, listen: false).endDate:
-                                  null,
+                                endTime:
+                                widget.initComp!.endTime != Provider.of<ModeProvider>(context, listen: false).endDate?
+                                Provider.of<ModeProvider>(context, listen: false).endDate:
+                                null,
 
-                                  createTasks: Provider.of<TaskBodiesProvider>(context, listen: false).createdTasks(),
-                                  updateTasks: Provider.of<TaskBodiesProvider>(context, listen: false).updatedTasks(),
-                                  removeTasks: Provider.of<TaskBodiesProvider>(context, listen: false).removedTasks(),
+                                createTasks: Provider.of<TaskBodiesProvider>(context, listen: false).createdTasks(),
+                                updateTasks: Provider.of<TaskBodiesProvider>(context, listen: false).updatedTasks(),
+                                removeTasks: Provider.of<TaskBodiesProvider>(context, listen: false).removedTasks(),
 
-                                  rankDispType:
-                                  widget.initComp!.rankDispType != Provider.of<ModeProvider>(context, listen: false).rankDispType?
-                                  Provider.of<ModeProvider>(context, listen: false).rankDispType:
-                                  null,
+                                rankDispType:
+                                widget.initComp!.rankDispType != Provider.of<ModeProvider>(context, listen: false).rankDispType?
+                                Provider.of<ModeProvider>(context, listen: false).rankDispType:
+                                null,
 
-                                  awards:
-                                  widget.initComp!.awardsEncoded != AwardsProvider.of(context).awards?
-                                  AwardsProvider.of(context).awards:
-                                  null,
+                                awards:
+                                widget.initComp!.awardsEncoded != AwardsProvider.of(context).awards?
+                                AwardsProvider.of(context).awards:
+                                null,
 
-                                  onSuccess: (indivComp) async {
-                                    await popPage(context);
-                                    widget.onSaved?.call(indivComp);
-                                  }
+                                onSuccess: (indivComp) async {
+                                  if(!mounted) return;
+                                  await popPage(context);
+                                  widget.onSaved?.call(indivComp);
+                                },
+                                onServerMaybeWakingUp: () {
+                                  if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                  return true;
+                                },
+                                onError: (){
+                                  if(mounted) showAppToast(context, text: simpleErrorMessage);
+                                }
                               );
                             else
                               await ApiIndivComp.create(
@@ -181,6 +190,13 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                                   onSuccess: (indivComp) async {
                                     await popPage(context);
                                     widget.onSaved?.call(indivComp);
+                                  },
+                                  onServerMaybeWakingUp: () {
+                                    if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                    return true;
+                                  },
+                                  onError: (){
+                                    if(mounted) showAppToast(context, text: simpleErrorMessage);
                                   }
                               );
 

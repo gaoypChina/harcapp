@@ -5,6 +5,7 @@ import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/login_register.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -167,8 +168,12 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
                                 widget.onLoggedOut?.call();
                                 if(mounted) Navigator.pop(context);
                               },
+                              onServerMaybeWakingUp: () {
+                                if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                return true;
+                              },
                               onError: () async {
-                                if(mounted) showAppToast(context, text: 'Coś poszło nie tak...');
+                                if(mounted) showAppToast(context, text: simpleErrorMessage);
                                 if(mounted) Navigator.pop(context);
                               }
                           );

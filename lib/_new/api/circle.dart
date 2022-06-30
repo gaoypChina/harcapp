@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -48,9 +49,10 @@ class MemberRespBodyNick extends MemberRespBody{
 class ApiCircle{
 
   static Future<Response?> getAll({
-    void Function(List<Circle>)? onSuccess,
-    Future<bool> Function()? notAuthorized,
-    void Function(Response? response)? onError,
+    FutureOr<void> Function(List<Circle>)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function(Response? response)? onError,
   }) async => await API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) => dio.get(
@@ -63,13 +65,17 @@ class ApiCircle{
 
       onSuccess?.call(circleList);
     },
+    onForceLoggedOut: onForceLoggedOut,
+    onServerMaybeWakingUp: onServerMaybeWakingUp,
     onError: (err) async => onError?.call(err.response)
   );
 
   static Future<Response?> get({
     required String circleKey,
-    void Function(Circle circle)? onSuccess,
-    void Function(int?)? onError,
+    FutureOr<void> Function(Circle circle)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function(int?)? onError,
   }) async => await API.sendRequest(
     withToken: true,
     sendRequest: (Dio dio) => dio.get(
@@ -79,6 +85,8 @@ class ApiCircle{
       Circle circle = Circle.fromResponse(response.data);
       onSuccess?.call(circle);
     },
+    onForceLoggedOut: onForceLoggedOut,
+    onServerMaybeWakingUp: onServerMaybeWakingUp,
     onError: (error) async => onError?.call(error.response?.statusCode),
   );
 
@@ -88,8 +96,10 @@ class ApiCircle{
     required String? coverImageUrl,
     required String? colorsKey,
 
-    void Function(Circle circle)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(Circle circle)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) async {
 
     Map<String, dynamic> reqMap = {};
@@ -111,6 +121,8 @@ class ApiCircle{
         Circle circle = Circle.fromResponse(response.data);
         onSuccess?.call(circle);
       },
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (_) async => onError?.call()
     );
 
@@ -118,35 +130,45 @@ class ApiCircle{
 
   static Future<Response?> delete({
     required String circleKey,
-    void Function()? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function()? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/circle/$circleKey'
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (DioError err) async => onError?.call()
   );
 
   static Future<Response?> resetShareCode({
     required String circleKey,
-    void Function(String)? onSuccess,
-    void Function(dynamic)? onError,
+    FutureOr<void> Function(String)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function(dynamic)? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/circle/$circleKey/shareCode',
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (DioError err) async => onError?.call(err.response!.data)
   );
 
   static Future<Response?> setShareCodeSearchable({
     required String compKey,
     required bool searchable,
-    void Function(bool)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(bool)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.post(
@@ -154,13 +176,17 @@ class ApiCircle{
         data: FormData.fromMap({'searchable': searchable}),
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data['shareCodeSearchable']),
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (DioError err) async => onError?.call()
   );
 
   static Future<Response?> joinByShareCode({
     required String searchCode,
-    void Function(Circle)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(Circle)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.get(
@@ -170,6 +196,8 @@ class ApiCircle{
         Circle comp = Circle.fromResponse(response.data);
         onSuccess?.call(comp);
       },
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (DioError err) async => onError?.call()
   );
 
@@ -179,8 +207,10 @@ class ApiCircle{
     Optional<String> description = const Optional.empty(),
     Optional<String> coverImageUrl = const Optional.empty(),
     Optional<String> colorsKey = const Optional.empty(),
-    void Function(Circle circle)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(Circle circle)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) async{
 
     Map<String, dynamic> reqMap = {};
@@ -203,6 +233,8 @@ class ApiCircle{
         Circle circle = Circle.fromResponse(response.data);
         onSuccess(circle);
       },
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (_) async => onError?.call()
     );
 
@@ -211,8 +243,10 @@ class ApiCircle{
   static Future<Response?> addUsers({
     required String circleKey,
     required List<MemberRespBodyNick> users,
-    void Function(List<Member>)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(List<Member>)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) async{
 
     List<Map<String, dynamic>> body = [];
@@ -238,6 +272,8 @@ class ApiCircle{
 
         onSuccess(members);
       },
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => onError?.call()
     );
 
@@ -246,8 +282,10 @@ class ApiCircle{
   static Future<Response?> updateUsers({
     required String circleKey,
     required List<MemberUpdateBody> users,
-    void Function(List<Member>)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(List<Member>)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) async{
 
     List<Map<String, dynamic>> body = [];
@@ -274,6 +312,8 @@ class ApiCircle{
 
           onSuccess(particips);
         },
+        onForceLoggedOut: onForceLoggedOut,
+        onServerMaybeWakingUp: onServerMaybeWakingUp,
         onError: (err) async => onError?.call()
     );
 
@@ -282,30 +322,37 @@ class ApiCircle{
   static Future<Response?> removeUsers({
     required String circleKey,
     required List<String> userKeys,
-    void Function(List<String> removedKeys)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(List<String> removedKeys)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.delete(
           '${API.SERVER_URL}api/circle/$circleKey/user',
           data: jsonEncode(userKeys)
       ),
-      onSuccess: (Response response, DateTime now) async {
-        onSuccess?.call((response.data as List).cast<String>());
-      },
+      onSuccess: (Response response, DateTime now) =>
+          onSuccess?.call((response.data as List).cast<String>()),
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => onError?.call()
   );
 
   static Future<Response?> leave({
     required String circleKey,
-    void Function()? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function()? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/circle/$circleKey/leave',
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => onError?.call()
   );
 
@@ -316,8 +363,10 @@ class ApiCircle{
     bool pinnedOnly = false,
     bool awaitingOnly = false,
 
-    void Function(List<Announcement>, bool pinnedOnly, bool awaitingOnly)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(List<Announcement>, bool pinnedOnly, bool awaitingOnly)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.get(
@@ -337,6 +386,8 @@ class ApiCircle{
 
         onSuccess?.call(result, pinnedOnly, awaitingOnly);
       },
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => onError?.call()
   );
 
@@ -344,8 +395,10 @@ class ApiCircle{
     int? page,
     int? pageSize,
 
-    void Function(List<Announcement>)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(List<Announcement>)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.get(
@@ -368,6 +421,8 @@ class ApiCircle{
         onSuccess?.call(result);
 
       },
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) => onError?.call()
   );
 
@@ -382,8 +437,10 @@ class ApiCircle{
     required String text,
     required AnnouncementAttendanceRespMode respMode,
 
-    void Function(Announcement)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(Announcement)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.post(
@@ -401,6 +458,8 @@ class ApiCircle{
       ),
       onSuccess: (Response response, DateTime now) async =>
           onSuccess?.call(Announcement.fromMap(response.data, Circle.allMap![circleKey]!)),
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => onError?.call()
   );
 
@@ -415,8 +474,10 @@ class ApiCircle{
     Optional<String?> text = const Optional.empty(),
     Optional<AnnouncementAttendanceRespMode> respMode = const Optional.empty(),
 
-    void Function(Announcement)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(Announcement)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.put(
@@ -447,14 +508,18 @@ class ApiCircle{
       ),
       onSuccess: (Response response, DateTime now) async =>
           onSuccess?.call(Announcement.fromMap(response.data, announcement.circle!)),
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => onError?.call()
   );
 
   static Future<Response?> pinAnnouncement({
     required String annKey,
     required bool pin,
-    void Function(bool)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(bool)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.put(
@@ -465,13 +530,17 @@ class ApiCircle{
       ),
       onSuccess: (Response response, DateTime now) async =>
           onSuccess?.call(response.data),
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => onError?.call()
   );
 
   static Future<Response?> deleteAnnouncement({
     required String annKey,
-    void Function()? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function()? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.delete(
@@ -479,6 +548,8 @@ class ApiCircle{
       ),
       onSuccess: (Response response, DateTime now) async =>
           onSuccess?.call(),
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onForceLoggedOut: onForceLoggedOut,
       onError: (err) async => onError?.call()
   );
 
@@ -488,8 +559,10 @@ class ApiCircle{
     required AnnouncementAttendance response,
     String? responseReason,
     DateTime? postponeResponseTime,
-    void Function(AnnouncementAttendanceResp, DateTime)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(AnnouncementAttendanceResp, DateTime)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.put(
@@ -503,6 +576,8 @@ class ApiCircle{
       ),
       onSuccess: (Response response, DateTime now) async =>
           onSuccess?.call(AnnouncementAttendanceResp.fromResponse(response.data), now),
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => onError?.call()
   );
 
@@ -510,8 +585,10 @@ class ApiCircle{
     required String annKey,
     required String memberKey,
     required bool waive,
-    void Function(bool, DateTime)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(bool, DateTime)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.put(
@@ -523,14 +600,18 @@ class ApiCircle{
       ),
       onSuccess: (Response response, DateTime now) async =>
           onSuccess?.call(response.data, now),
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => onError?.call()
   );
 
   static Future<Response?> bindIndivComp({
     required String circleKey,
     required String indivCompKey,
-    void Function()? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function()? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.put(
@@ -540,14 +621,18 @@ class ApiCircle{
         }),
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => onError?.call()
   );
 
   static Future<Response?> deleteIndivCompBind({
     required String circleKey,
     required String indivCompKey,
-    void Function()? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function()? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.delete(
@@ -557,6 +642,8 @@ class ApiCircle{
         }),
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => onError?.call()
   );
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -129,6 +130,10 @@ class _JoinButtonState extends State<_JoinButton>{
                   searchCode: controller!.text,
                   onSuccess: (circle){
                     widget.onSuccess.call(circle);
+                  },
+                  onServerMaybeWakingUp: () {
+                    if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                    return true;
                   },
                   onError: (){
                     if(mounted) showAppToast(context, text: 'Błędny kod dostępu');

@@ -8,6 +8,7 @@ import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_guide_book/games/slowo_klucz/word.dart';
 import 'package:harcapp/_new/cat_page_guide_book/games/slowo_klucz/word_card.dart';
 import 'package:harcapp/_new/cat_page_guide_book/games/slowo_klucz/word_data.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
@@ -132,7 +133,7 @@ class SlowoKluczMainGamePage extends StatefulWidget{
       return SlowoKluczMainGamePage(mode, words);
 
     }catch(e){
-      showAppToast(context, text: 'Coś poszło nie tak...');
+      showAppToast(context, text: simpleErrorMessage);
       return null;
     }
   }

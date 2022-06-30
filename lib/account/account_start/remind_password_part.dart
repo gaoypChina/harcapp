@@ -6,6 +6,7 @@ import 'package:harcapp/_new/api/login_register.dart';
 import 'package:harcapp/account/account_start/page_template.dart';
 import 'package:harcapp/account/account_start/part_template.dart';
 import 'package:harcapp/account/account_start/remind_password_code_part.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
@@ -47,18 +48,23 @@ class RemindPasswordPartState extends State<RemindPasswordPart>{
             context,
             builder: (context) => RemindPasswordCodePart(emailController!.text)
         ),
+        onServerMaybeWakingUp: () {
+          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+          return true;
+        },
         onError: (Response? response){
           try {
 
             Map? errorFieldMap = response!.data['errors'];
-            if(errorFieldMap != null) {
+            if(errorFieldMap != null)
               emailController!.errorText = errorFieldMap[ApiRegLog.RESET_PASSWORD_REQ_EMAIL] ?? '';
-            }
 
             generalError = response.data['error'];
 
-          }catch (e){ showAppToast(context, text: 'Coś nie siadło.'); }
-          setState(() => processing = false);
+          }catch (e){
+            showAppToast(context, text: simpleErrorMessage);
+          }
+          if(mounted) setState(() => processing = false);
         }
     );
 

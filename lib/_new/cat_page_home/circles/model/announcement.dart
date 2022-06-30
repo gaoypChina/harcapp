@@ -69,7 +69,7 @@ class Announcement{
     Provider.of<AnnouncementListProvider>(context, listen: false).notify();
   }
 
-  static addListToAll(BuildContext context, List<Announcement> anns){
+  static addListToAll(List<Announcement> anns, {BuildContext? context}){
     if(_all == null){
       _all = [];
       _allMap = {};
@@ -78,6 +78,8 @@ class Announcement{
       _all!.add(ann);
       _allMap![ann.key] = ann;
     }
+
+    if(context == null) return;
 
     Provider.of<AnnouncementProvider>(context, listen: false).notify();
     Provider.of<AnnouncementListProvider>(context, listen: false).notify();

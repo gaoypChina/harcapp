@@ -10,6 +10,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/account/account_thumbnail_widget.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
@@ -305,7 +306,12 @@ class ReviewButtonsState extends State<ReviewButtons>{
                             onSuccess: (String complTaskKey){
                               onAcceptStateChanged?.call(complTaskKey, TaskAcceptState.REJECTED);
                             },
+                            onServerMaybeWakingUp: () {
+                              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                              return true;
+                            },
                             onError: (){
+                              if(!mounted) return;
                               showAppToast(context, text: 'Wystąpił problem');
                             }
                         );
@@ -352,8 +358,12 @@ class ReviewButtonsState extends State<ReviewButtons>{
                             onSuccess: (String complTaskKey){
                               onAcceptStateChanged?.call(complTaskKey, TaskAcceptState.ACCEPTED);
                             },
+                            onServerMaybeWakingUp: () {
+                              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                              return true;
+                            },
                             onError: (){
-                              showAppToast(context, text: 'Wystąpił problem');
+                              if(mounted) showAppToast(context, text: 'Wystąpił problem');
                             }
                         );
 

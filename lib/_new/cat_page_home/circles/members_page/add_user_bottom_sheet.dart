@@ -7,6 +7,7 @@ import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_page.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/account/search_user_dialog.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
@@ -149,9 +150,13 @@ class AddUserBottomSheet extends StatelessWidget{
           Navigator.pop(context);
           showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}.');
         },
+        onServerMaybeWakingUp: () {
+          showAppToast(context, text: serverWakingUpMessage);
+          return true;
+        },
         onError: (){
           Navigator.pop(context);
-          showAppToast(context, text: 'Coś poszło nie tak...');
+          showAppToast(context, text: simpleErrorMessage);
         }
     );
 

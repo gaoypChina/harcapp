@@ -4,6 +4,7 @@ import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -63,11 +64,18 @@ class _IndivCompDangerEditorWidgetState extends State<IndivCompDangerEditorWidge
                         await ApiIndivComp.delete(
                             compKey: comp.key,
                             onSuccess: ()async{
-                              IndivComp.removeFromAll(context, comp);
+                              IndivComp.removeFromAll(comp, context: mounted?context: null);
+                              if(!mounted) return;
                               showAppToast(context, text: 'Poszło z dymem!');
                               Navigator.pop(context);
                             },
-                            onError: () => showAppToast(context, text: 'Coś poszło nie tak...')
+                            onServerMaybeWakingUp: () {
+                              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                              return true;
+                            },
+                            onError: (){
+                              if(mounted) showAppToast(context, text: simpleErrorMessage);
+                            }
                         );
                         Navigator.pop(context);
 

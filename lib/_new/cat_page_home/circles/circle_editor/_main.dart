@@ -6,6 +6,7 @@ import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_editor/providers.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:optional/optional_internal.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
@@ -129,6 +130,10 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                               await popPage(context);
                               onSaved?.call(circle);
                             },
+                            onServerMaybeWakingUp: () {
+                              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                              return true;
+                            },
                             onError: onError
                         );
                       else{
@@ -166,6 +171,10 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                               await popPage(context); // Close loading widget.
                               await popPage(context);
                               onSaved?.call(circle);
+                            },
+                            onServerMaybeWakingUp: () {
+                              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                              return true;
                             },
                             onError: onError
                         );

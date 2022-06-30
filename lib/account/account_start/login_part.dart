@@ -18,6 +18,7 @@ import 'package:harcapp/account/account_start/register_microsoft_add_data_part.d
 import 'package:harcapp/account/account_start/register_part.dart';
 import 'package:harcapp/account/account_start/remind_password_part.dart';
 import 'package:harcapp/_new/api/login_register.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -83,6 +84,10 @@ class LoginPartState extends State<LoginPart>{
             widget.onLoggedIn?.call(emailConf);
 
         },
+        onServerMaybeWakingUp: () {
+          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+          return true;
+        },
         onError: (Response? response){
           try{
 
@@ -95,7 +100,9 @@ class LoginPartState extends State<LoginPart>{
 
             errMessage = response.data['error'];
 
-          }catch (e){ showAppToast(context, text: 'Coś nie siadło.'); }
+          }catch (e){
+            showAppToast(context, text: simpleErrorMessage);
+          }
 
           processing = false;
           setState((){});
@@ -138,6 +145,10 @@ class LoginPartState extends State<LoginPart>{
               widget.onLoggedIn?.call(emailConf);
 
           },
+          onServerMaybeWakingUp: () {
+            if(mounted) showAppToast(context, text: serverWakingUpMessage);
+            return true;
+          },
           onError: (Response? response) async {
             await popPage(context); // close login alert dialog
             String? respData = (response!.data as Map)['error'];
@@ -146,11 +157,13 @@ class LoginPartState extends State<LoginPart>{
               pushReplacePage(context, builder: (context) => RegisterMicrosoftAddDataPart(
                 azureToken, onAbandon: () => ZhpAccAuth.logout(),
               ));
+            else
+              showAppToast(context, text: simpleErrorMessage);
 
           }
       );
     } catch (e) {
-      showAppToast(context, text: 'Coś poszło nie tak...');
+      showAppToast(context, text: simpleErrorMessage);
       await popPage(context); // close login alert dialog
       await ZhpAccAuth.logout();
     }

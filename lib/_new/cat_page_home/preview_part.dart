@@ -15,6 +15,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/login_provider.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
@@ -170,13 +171,28 @@ class PreviewPartState extends State<PreviewPart>{
                 onSuccess: (List<Announcement> newFeedAnnouncements) async {
 
                   Announcement.init(newFeedAnnouncements, context: mounted?context:null);
+                  if(!mounted) return;
+
                   loadedPage = 0;
                   moreToLoad = newFeedAnnouncements.length == Announcement.feedPageSize;
-
-                  if(mounted) setState((){});
+                  setState((){});
+                },
+                onServerMaybeWakingUp: () {
+                  if(!mounted) return true;
+                  showAppToast(context, text: serverWakingUpMessage);
+                  setState((){});
+                  return true;
+                },
+                onForceLoggedOut: (){
+                  if(!mounted) return true;
+                  showAppToast(context, text: forceLoggedOutMessage);
+                  setState(() {});
+                  return true;
                 },
                 onError: (){
-                  if(mounted) showAppToast(context, text: 'Coś poszło nie tak...');
+                  if(!mounted) return;
+                  showAppToast(context, text: simpleErrorMessage);
+                  setState((){});
                 }
             );
 
@@ -184,6 +200,8 @@ class PreviewPartState extends State<PreviewPart>{
 
           },
           onLoading: () async {
+
+            AnnouncementListProvider annListProv = Provider.of<AnnouncementListProvider>(context, listen: false);
 
             if(!moreToLoad) {
               refreshController.loadComplete();
@@ -204,10 +222,16 @@ class PreviewPartState extends State<PreviewPart>{
                   for(i=0; i<nextAnnouncements.length; i++)
                     if(!Announcement.allMap!.containsKey(nextAnnouncements[i].key)) break;
 
-                  Announcement.addListToAll(context, nextAnnouncements.sublist(i));
+                  Announcement.addListToAll(
+                      nextAnnouncements.sublist(i),
+                      context: mounted?context:null
+                  );
+
+                  if(!mounted) return;
+
                   loadedPage += 1;
 
-                  Provider.of<AnnouncementListProvider>(context, listen: false).notify();
+                  if(mounted) annListProv.notify();
 
                   if(nextAnnouncements.length != Announcement.feedPageSize)
                     moreToLoad = false;
@@ -215,7 +239,23 @@ class PreviewPartState extends State<PreviewPart>{
                   setState((){});
 
                 },
-                onError: () => showAppToast(context, text: 'Coś nie pykło...')
+                onServerMaybeWakingUp: () {
+                  if(!mounted) return true;
+                  showAppToast(context, text: serverWakingUpMessage);
+                  setState((){});
+                  return true;
+                },
+                onForceLoggedOut: (){
+                  if(!mounted) return true;
+                  showAppToast(context, text: forceLoggedOutMessage);
+                  setState(() {});
+                  return true;
+                },
+                onError: (){
+                  if(!mounted) return;
+                  showAppToast(context, text: simpleErrorMessage);
+                  setState((){});
+                }
             );
 
             refreshController.loadComplete();
@@ -285,9 +325,6 @@ class PreviewPartState extends State<PreviewPart>{
                       ),
 
                   if(IndivComp.all != null && IndivComp.all!.isNotEmpty)
-
-
-                    if(IndivComp.all != null && IndivComp.all!.isNotEmpty)
                       const SizedBox(height: Dimen.SIDE_MARG),
 
                   Row(
