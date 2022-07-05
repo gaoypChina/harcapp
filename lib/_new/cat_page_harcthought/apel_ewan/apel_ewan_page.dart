@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../module_statistics_registrator.dart';
 import 'apel_ewan.dart';
-import 'apel_ewan_category_selector.dart';
 import 'apel_ewan_own_folder_selector.dart';
 import 'apel_ewan_widget.dart';
 

@@ -91,7 +91,6 @@ class ApelEwanWidgetState extends State<ApelEwanWidget>{
         children: [
 
           Material(
-              elevation: AppCard.bigElevation,
               clipBehavior: Clip.hardEdge,
               color: cardEnab_(context),
               borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
@@ -115,7 +114,7 @@ class ApelEwanWidgetState extends State<ApelEwanWidget>{
 
                     if(author != null)
                       Text(
-                        'Słowa Ewangelii według Świętego $author',
+                        'Słowa Ewangelii według św. $author',
                         style: AppTextStyle(
                             fontSize: Dimen.TEXT_SIZE_BIG,
                             fontWeight: weight.halfBold,
@@ -126,9 +125,9 @@ class ApelEwanWidgetState extends State<ApelEwanWidget>{
 
                     const SizedBox(height: Dimen.SIDE_MARG),
 
-                    Text(
-                      text!,
-                      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                    AppText(
+                      text!.replaceAll('\n\n', '\n').replaceAll('\n', '\n\n'),
+                      size: Dimen.TEXT_SIZE_BIG,
                       textAlign: TextAlign.justify,
                     ),
 
@@ -149,7 +148,6 @@ class ApelEwanWidgetState extends State<ApelEwanWidget>{
 
           if(comments[selSubgroupSuff] != null || questions[selSubgroupSuff] != null)
             Material(
-              elevation: AppCard.bigElevation,
               clipBehavior: Clip.hardEdge,
               color: cardEnab_(context),
               borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
@@ -159,14 +157,13 @@ class ApelEwanWidgetState extends State<ApelEwanWidget>{
 
                   if(allSubgroupSuffs.length > 1)
                     Material(
-                      color: cardEnab_(context),
-                      elevation: AppCard.bigElevation,
+                      color: backgroundIcon_(context),
                       child: Row(
                         children: [
 
                           const SizedBox(width: Dimen.SIDE_MARG),
 
-                          Icon(MdiIcons.checkboxMultipleBlank, color: textEnab_(context)),
+                          Icon(MdiIcons.checkboxMultipleBlankOutline, color: textEnab_(context)),
 
                           const SizedBox(width: Dimen.SIDE_MARG),
 
@@ -215,7 +212,7 @@ class ApelEwanWidgetState extends State<ApelEwanWidget>{
 
                         if(questions[selSubgroupSuff] != null)
                           Text(
-                            'Pytania ',
+                            'Pytania',
                             style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
                             textAlign: TextAlign.justify,
                           ),

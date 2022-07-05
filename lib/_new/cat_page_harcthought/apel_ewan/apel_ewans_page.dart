@@ -559,7 +559,9 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
 
     showAppToast(context, text: 'Generowanie pliku...');
 
-    final pdf = pw.Document();
+    final pdf = pw.Document(
+      pageMode: PdfPageMode.outlines
+    );
     final font = await PdfGoogleFonts.latoRegular();
     final fontItalic = await PdfGoogleFonts.latoItalic();
     final fontBold = await PdfGoogleFonts.latoBold();
@@ -588,18 +590,12 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
 
       String title = apelEwan.subgroupTitle[subgroupSuff]!;
 
-      String text = await apelEwan.text??'Problem z ładowaniem tekstu z pliku ${apelEwan.textFileName}.';
-      text = text.replaceAll('\n', ' ');
-      text = text.replaceAll('  ', ' ');
-
       String questions = await apelEwan.question(subgroupSuff)??'-';
-      String? comment = await apelEwan.comment(subgroupSuff);
-
-      List<pw.Widget> children = [];
+      List<pw.Widget> questionLineWidgets = [];
       List<String> questionList = questions.split('\n');
       questionList.removeWhere((question) => question.isEmpty);
       for(int i=0; i<questionList.length; i++)
-        children.add(pw.Padding(
+        questionLineWidgets.add(pw.Padding(
             padding: const pw.EdgeInsets.symmetric(vertical: 3),
             child: pw.Row(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -621,67 +617,89 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
         ));
 
       pw.Widget questionsWidget = pw.Column(
-          children: children
+          children: questionLineWidgets
       );
 
-      pw.Page page = pw.Page(
+      String text = await apelEwan.text??'Problem z ładowaniem tekstu z pliku ${apelEwan.textFileName}.';
+      List<String> textParagraphs = text.replaceAll('  ', ' ').split('\n');
+      List<pw.Widget> textParagraphWidgets = [];
+      for(int i=0; i<textParagraphs.length; i++)
+        textParagraphWidgets.add(pw.Padding(
+          padding: const pw.EdgeInsets.only(top: 4),
+          child: getPwRichText(textParagraphs[i], font, fontItalic, fontBold, textAlign: pw.TextAlign.justify, height: 1.2),
+        ));
+
+      String? comment = await apelEwan.comment(subgroupSuff);
+
+      List<pw.Widget> commentParagraphWidgets = [];
+      if(comment != null) {
+        List<String> commentParagraphs = comment.replaceAll('  ', ' ').split('\n');
+        for (int i = 0; i < commentParagraphs.length; i++)
+          commentParagraphWidgets.add(pw.Padding(
+            padding: const pw.EdgeInsets.only(top: 4),
+            child: getPwRichText(
+                commentParagraphs[i], font, fontItalic, fontBold,
+                textAlign: pw.TextAlign.justify, height: 1.2),
+          ));
+      }
+
+      pw.MultiPage page = pw.MultiPage(
           pageFormat: PdfPageFormat.a4,
-          build: (pw.Context pwContext) {
+          build: (pw.Context pwContext) => [
 
-            return pw.Column(
+            pw.Text(title, style: pw.TextStyle(font: font, fontSize: 22.0)),
+
+            pw.SizedBox(height: 6),
+
+            pw.Container(
+                width: double.infinity,
+                height: 1,
+                color: const PdfColor(0, 0, 0, .3)
+            ),
+
+            if(withNotes && folder is ApelEwanOwnFolder && (folder as ApelEwanOwnFolder).getNote(apelEwan.siglum).isNotEmpty)
+              pw.Text(
+                (folder as ApelEwanOwnFolder).getNote(apelEwan.siglum),
+                style: pw.TextStyle(
+                  fontItalic: fontItalic,
+                  fontSize: 14.0,
+                  color: const PdfColor(0, 0, 0, .3),
+                  fontStyle: pw.FontStyle.italic
+                ),
+              ),
+
+            pw.SizedBox(height: 24.0),
+
+            pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+              children: textParagraphWidgets
+            ),
+
+            pw.SizedBox(height: 24.0),
+
+            pw.Text('Pytania', style: pw.TextStyle(font: font, fontSize: 18.0)),
+
+            pw.SizedBox(height: 24.0),
+
+            questionsWidget,
+
+            pw.SizedBox(height: 24.0),
+
+            if(comment != null)
+              pw.Text('Komentarze', style: pw.TextStyle(font: font, fontSize: 18.0)),
+
+            if(comment != null)
+              pw.SizedBox(height: 24.0),
+
+            if(comment != null)
+              pw.Column(
                 crossAxisAlignment: pw.CrossAxisAlignment.stretch,
-                children: [
+                children: commentParagraphWidgets
+              )
 
-                  pw.Text(title, style: pw.TextStyle(font: font, fontSize: 22.0)),
+          ]
 
-                  pw.SizedBox(height: 6),
-
-                  pw.Container(
-                      width: double.infinity,
-                      height: 1,
-                      color: const PdfColor(0, 0, 0, .3)
-                  ),
-
-                  if(withNotes && folder is ApelEwanOwnFolder && (folder as ApelEwanOwnFolder).getNote(apelEwan.siglum).isNotEmpty)
-                    pw.Text(
-                      (folder as ApelEwanOwnFolder).getNote(apelEwan.siglum),
-                      style: pw.TextStyle(
-                          fontItalic: fontItalic,
-                          fontSize: 14.0,
-                          color: const PdfColor(0, 0, 0, .3),
-                          fontStyle: pw.FontStyle.italic
-                      ),
-                    ),
-
-                  pw.SizedBox(height: 24.0),
-
-                  getPwRichText(text, font, fontItalic, fontBold, textAlign: pw.TextAlign.justify, height: 1.2),
-
-                  // pw.Text(text, style: pw.TextStyle(font: font), textAlign: pw.TextAlign.justify),
-
-                  pw.SizedBox(height: 24.0),
-
-                  pw.Text('Pytania', style: pw.TextStyle(font: font, fontSize: 18.0)),
-
-                  pw.SizedBox(height: 24.0),
-
-                  questionsWidget,
-
-                  pw.SizedBox(height: 24.0),
-
-                  if(comment != null)
-                    pw.Text('Komentarze', style: pw.TextStyle(font: font, fontSize: 18.0)),
-
-                  if(comment != null)
-                    pw.SizedBox(height: 24.0),
-
-                  if(comment != null)
-                    pw.Text(comment, style: pw.TextStyle(font: font), textAlign: pw.TextAlign.justify),
-
-                ]);
-
-
-          });
+      );
 
       pdf.addPage(page);
 

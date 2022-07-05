@@ -449,6 +449,9 @@ List<ApelEwan> allApelEwans = [
   const ApelEwan(
       dirName: 'J_6_55-69',
       siglum: 'J 6, 55-69',
+      subgroupShortTitle: {
+        ogolneApelEwansSuffix: 'Mowa eucharysty-\nczna',
+      },
       subgroupTitle: {
         ogolneApelEwansSuffix: 'Mowa eucharystyczna',
       }

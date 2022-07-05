@@ -19,6 +19,7 @@ List<Person> allPeople = [
   BARBARA_THOMAS,
   BARTOSZ_DABROWSKI,
   BARTOSZ_IGNASIAK,
+  BRUNO_BRONCEL,
   DANIEL_IWANICKI,
   DANIEL_KORZEB,
   DAWID_WYSZYNSKI,
@@ -40,6 +41,7 @@ List<Person> allPeople = [
   HUBERT_FRUKOWSKI,
   HUBERT_JANIK,
   JADWIGA_BILINSKA,
+  JADWIGA_GORSKA,
   JADWIGA_SZEWCZYK,
   JAKUB_EJDUK,
   JAKUB_KLUCZKOWSKI,
@@ -48,6 +50,7 @@ List<Person> allPeople = [
   JAKUB_STEFANSKI,
   JAKUB_ZDANOWICZ_ZASIDKO,
   JAN_KUCZA,
+  JAN_STANULA,
   JAROSLAW_JAKUBIAK,
   JAROSLAW_ZASACKI,
   JOANNA_MICHALOWSKA,
@@ -76,6 +79,7 @@ List<Person> allPeople = [
   KRZYSZTOF_KRAWCZYK,
   KRZSZTOF_MALIKIEWICZ,
   LAURA_FRASZEWSKA,
+  LAURA_NOWAKOWSKA,
   LUKASZ_SZEPIELAK,
   LUKASZ_KRYWULT,
   LUKASZ_RYBINSKI,
@@ -193,6 +197,14 @@ const Person ARTUR_RUSA = Person(name: 'Artur Rusa', stopH: StopZHP.wyw, hufiec:
 const Person BARBARA_THOMAS = Person(name: 'Barbara Thomas', stopI: 'phm.');
 const Person BARTOSZ_DABROWSKI = Person(name: 'Bartosz Dąbrowski', stopH: StopZHP.wyw, org: Org.zhp);
 const Person BARTOSZ_IGNASIAK = Person(name: 'Bartosz Ignasiak', stopH: StopZHP.HOc, stopI: 'pwd.', druzyna: '8 Drużyna Wędrownicza "Kuźnia Płomienia"');
+const Person BRUNO_BRONCEL = Person(
+  name: 'Bruno Broncel',
+  stopH: StopZHP.ml,
+  druzyna: '55. DHSiW "Exigo"',
+  hufiec: huf_zhp_karkonoski,
+  org: Org.zhp,
+  email: ['bruno.broncel@gmail.com']
+);
 const Person DANIEL_IWANICKI = Person(
     name: 'Daniel Iwanicki',
     stopH: StopZHP.HOc,
@@ -294,6 +306,12 @@ const Person JADWIGA_BILINSKA = Person(
   org: Org.zhp,
   email: ['jadwiga.bilinska@zhp.net.pl']
 );
+const Person JADWIGA_GORSKA = Person(
+  name: 'Jadwiga Górska',
+  stopH: StopZHP.HOd,
+  email: ['jdzgorska@gmail.com', 'jadwiga.gorska@zhp.net.pl'],
+  org: Org.zhp
+);
 const Person JADWIGA_SZEWCZYK = Person(
   name: 'Jadwiga Szewczyk',
   email: ['jadzia.m.szewczyk@gmail.com'],
@@ -327,6 +345,12 @@ const Person JAN_KUCZA = Person(
   name: 'Jan Kucza',
   org: Org.zhp,
   email: ['jan.kucza@zhp.net.pl']
+);
+const Person JAN_STANULA = Person(
+  name: 'Jan Stanula',
+  druzyna: '4. DSH Ogniste Płomyki',
+  hufiec: huf_zhp_trzebinia,
+  org: Org.zhp
 );
 const Person JAROSLAW_JAKUBIAK = Person(name: 'Jarosław Jakubiak', stopH: StopZHP.dhc,
   hufiec: huf_zhp_uk,
@@ -416,6 +440,13 @@ const Person KRZSZTOF_MALIKIEWICZ = Person(
   email: ['krzysztof.malikiewicz@zhp.net.pl']
 );
 const Person LAURA_FRASZEWSKA = Person(name: 'Laura Fraszewska');
+const Person LAURA_NOWAKOWSKA = Person(
+  name: 'Laura Nowakowska',
+  druzyna: '25. GGDSH "Zawiszacy" im. dh. Stefana Mirowskiego',
+  hufiec: huf_zhp_grodzisk_mazowiecki,
+  org: Org.zhp,
+  email: ['kocham.racuchy.pl@gmail.com', 'laura.elwartowska@edu.sp1grodzisk.pl']
+);
 const Person LUKASZ_SZEPIELAK = Person(name: 'Łukasz Szepielak', stopH: StopZHP.dhc, org: Org.zhp,);
 const Person LUKASZ_SZTANDERA = Person(
   name: 'Łukasz Sztandera',
