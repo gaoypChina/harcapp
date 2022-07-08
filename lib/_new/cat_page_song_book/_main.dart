@@ -124,7 +124,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
   late GlobalKey<NestedScrollViewState> nestedScrollViewKey;
   ScrollController get innerController => nestedScrollViewKey.currentState!.innerController;
   ScrollController get outerController => nestedScrollViewKey.currentState!.outerController;
-  void notifyInnerController() => outerController.animateTo(outerController.offset, duration: const Duration(microseconds: 1), curve: Curves.ease);
+  void notifyInnerController() => innerController.animateTo(innerController.offset, duration: const Duration(microseconds: 1), curve: Curves.ease);
 
   late SynchronizerListener syncListener;
 

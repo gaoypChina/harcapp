@@ -1,3 +1,4 @@
+
 import 'dart:io';
 import 'dart:math';
 
@@ -177,8 +178,8 @@ class SongWidget extends StatelessWidget{
     },
 
     onYTLinkLongPress: ()async{
-      await Clipboard.setData(ClipboardData(text: song.youtubeLink));
       showAppToast(context, text: 'Skopiowano link.');
+      await Clipboard.setData(ClipboardData(text: song.youtubeLink));
     },
 
     onMinusTap: (BuildContext context, bool changedSize){
