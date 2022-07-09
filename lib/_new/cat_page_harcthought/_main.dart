@@ -24,6 +24,7 @@ import 'package:harcapp/_new/cat_page_harcthought/articles/search_page.dart';
 import 'package:harcapp/_new/cat_page_harcthought/gawedy/data.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
+import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -172,7 +173,22 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
                           const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
 
                           Text(
-                              'A opracowana została przez Skautów Europy.',
+                              'Uwagi',
+                              style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold)
+                          ),
+
+                          const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
+
+                          const AppText(
+                              'Pytania do fragmentów Pisma mogą, a nawet <b>powinny być modyfikowane</b>! Każda drużyna jest inna, ma inną wrażliwość i inną charakterystykę. '
+                                  'Dlatego, drogi drużynowy, nie wahaj się używać dostępnych Apeli Ewangelicznych jako poglądowych.',
+                              size: Dimen.TEXT_SIZE_BIG
+                          ),
+
+                          const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
+
+                          Text(
+                              'A forma opracowana została przez Skautów Europy!',
                               style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)
                           ),
 

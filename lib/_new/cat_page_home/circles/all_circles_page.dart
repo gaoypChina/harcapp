@@ -105,7 +105,8 @@ class AllCirclesPageState extends State<AllCirclesPage>{
         onLogin: (emailConfirmed){
           if(!mounted) return;
           setState(() {});
-          searchedCircles = Circle.all!;
+          if(emailConfirmed)
+            searchedCircles = Circle.all!;
         },
         onRegistered: (){
           if(!mounted) return;

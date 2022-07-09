@@ -7,6 +7,7 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp/account/account.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -130,6 +131,32 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
                 await openDialog(
                     context: context,
                     builder: (context) => TextDisplayer('Synchronizacja (removal mark)', result)
+                );
+              }
+          ),
+
+          const Padding(
+            padding: EdgeInsets.only(left: Dimen.ICON_MARG, top: Dimen.ICON_MARG),
+            child: TitleShortcutRowWidget(title: 'Konto HarcApp', textAlign: TextAlign.start),
+          ),
+
+          _Item(
+              icon: MdiIcons.accountCircleOutline,
+              title: 'Dane konta HarcApp',
+              onOpen: () async {
+                await openDialog(
+                    context: context,
+                    builder: (context) => TextDisplayer(
+                      'Dane konta HarcApp',
+                      'Logged in: ${AccountData.loggedIn}'
+                      '\nEmail: ${AccountData.email}'
+                      '\nEmail conf: ${AccountData.emailConf}'
+                      '\nKey: ${AccountData.key}'
+                      '\nName: ${AccountData.name}'
+                      '\nNick: ${AccountData.nick}'
+                      '\nSex: ${AccountData.sex}'
+                      '\nConvertable to microsoft: ${AccountData.convertableToMicrosoft}'
+                    )
                 );
               }
           ),

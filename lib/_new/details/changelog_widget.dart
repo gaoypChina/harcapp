@@ -28,6 +28,14 @@ class PartChangelog extends StatelessWidget{
             sliver: SliverList(delegate: SliverChildListDelegate([
 
               const ListCard(
+                  '3.1.11',
+                  [
+                    'Dodano nowe piosenki,',
+                    'Poprawiono generowanie pliku PDF z apelami ewangelicznymi.',
+                  ]
+              ),
+
+              const ListCard(
                   '3.1.10',
                   [
                     'Dodano nowe piosenki,',

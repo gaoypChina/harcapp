@@ -265,9 +265,7 @@ class ApiRegLog{
     onSuccess: (Response response, String key, String jwt, String name, Sex sex, String nick, DateTime? lastSyncTime, bool emailConf, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements) async {
 
       if(!emailConf) {
-        await AccountData.writeJwt(jwt);
-        await AccountData.writeName(name);
-        await AccountData.writeEmail(email);
+        await AccountData.saveLoginData(email, response);
         onSuccess?.call(response, emailConf, true, indivComps, circles, feedAnnouncements);
         return;
       }

@@ -70,7 +70,14 @@ class LoginPartState extends State<LoginPart>{
         context: context,
         email: email,
         password: password,
-        onSuccess: (Response response, bool emailConf, bool loggedIn, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements) async {
+        onSuccess: (
+            Response response,
+            bool emailConf,
+            bool loggedIn,
+            List<IndivComp> indivComps,
+            List<Circle> circles,
+            List<Announcement> feedAnnouncements
+        ) async {
           setState(() => processing = false);
 
           Provider.of<LoginProvider>(context, listen: false).notify();

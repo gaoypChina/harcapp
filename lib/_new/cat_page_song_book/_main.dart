@@ -124,7 +124,15 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
   late GlobalKey<NestedScrollViewState> nestedScrollViewKey;
   ScrollController get innerController => nestedScrollViewKey.currentState!.innerController;
   ScrollController get outerController => nestedScrollViewKey.currentState!.outerController;
-  void notifyInnerController() => innerController.animateTo(innerController.offset, duration: const Duration(microseconds: 1), curve: Curves.ease);
+  void notifyInnerController(){
+    // Seems like the new position when changing the PageView page is always added to the [1] index.
+    if(innerController.positions.length > 1){
+      // We are swiping, hence two positions in the scroll controller.
+      outerController.animateTo(outerController.offset, duration: const Duration(microseconds: 1), curve: Curves.ease);
+      return;
+    }
+    innerController.animateTo(innerController.offset, duration: const Duration(microseconds: 1), curve: Curves.ease);
+  }
 
   late SynchronizerListener syncListener;
 
