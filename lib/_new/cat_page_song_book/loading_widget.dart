@@ -9,6 +9,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class SlidingMusicIcon extends StatefulWidget{
 
+  const SlidingMusicIcon({super.key});
+
   @override
   State<StatefulWidget> createState() => SlidingMusicIconState();
 
@@ -105,6 +107,8 @@ class SlidingMusicIconState extends State<SlidingMusicIcon>{
 
 class LoadingWidget extends StatelessWidget{
 
+  const LoadingWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
 
@@ -115,21 +119,21 @@ class LoadingWidget extends StatelessWidget{
 
         Positioned.fill(
           child: GridView.builder(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               reverse: true,
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: Dimen.ICON_FOOTPRINT,
                   childAspectRatio: 1,
                   crossAxisSpacing: 20,
                   mainAxisSpacing: 20),
-              itemBuilder: (context, index) => SlidingMusicIcon()
+              itemBuilder: (context, index) => const SlidingMusicIcon()
           ),
         ),
 
         Positioned.fill(
             child: Center(
               child: Padding(
-                padding: EdgeInsets.all(2*Dimen.ICON_FOOTPRINT),
+                padding: const EdgeInsets.all(2*Dimen.ICON_FOOTPRINT),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -156,7 +160,7 @@ class LoadingWidget extends StatelessWidget{
                       maxLines: 1,
                     ),
 
-                    SizedBox(height: 60),
+                    const SizedBox(height: 60),
 
                     SpinKitChasingDots(color: iconEnab_(context), size: textSize)
                   ],
