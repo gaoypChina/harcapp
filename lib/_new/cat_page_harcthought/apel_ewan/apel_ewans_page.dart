@@ -645,6 +645,7 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
 
       pw.MultiPage page = pw.MultiPage(
           pageFormat: PdfPageFormat.a4,
+
           build: (pw.Context pwContext) => [
 
             pw.Text(title, style: pw.TextStyle(font: font, fontSize: 22.0)),
