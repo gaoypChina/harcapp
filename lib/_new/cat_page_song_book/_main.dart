@@ -17,6 +17,7 @@ import 'package:harcapp/_new/cat_page_song_book/settings/song_book_base_settings
 import 'package:harcapp/_new/cat_page_song_book/settings/song_book_settings.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_loader.dart';
 import 'package:harcapp/_new/cat_page_song_book/songs_statistics_registrator.dart';
+import 'package:harcapp/logger.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
@@ -124,19 +125,20 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
   late GlobalKey<NestedScrollViewState> nestedScrollViewKey;
   ScrollController get innerController => nestedScrollViewKey.currentState!.innerController;
   ScrollController get outerController => nestedScrollViewKey.currentState!.outerController;
-  void notifyInnerController(){
-    // Seems like the new position when changing the PageView page is always added to the [1] index.
-    if(innerController.positions.length > 1){
-      // We are swiping, hence two positions in the scroll controller.
-      outerController.animateTo(outerController.offset, duration: const Duration(microseconds: 1), curve: Curves.ease);
-      return;
-    }
-    innerController.animateTo(innerController.offset, duration: const Duration(microseconds: 1), curve: Curves.ease);
+  void notifyScrollController({bool orientationChanged = false}) async {
+    logger.d('Notified scrollController.');
+
+    // Don't ise the innerController.
+    // Setting it a new position causes the appBar to always hide and also makes
+
+    double outerPos = outerController.offset;
+    // This cannot be changed to jumpTo, because jump to is not async. This causes it to be called during build.
+    await outerController.animateTo(outerPos, duration: const Duration(microseconds: 1), curve: Curves.ease);
   }
 
   late SynchronizerListener syncListener;
 
-  void onOrientationChanged() => notifyInnerController();
+  void onOrientationChanged(Orientation orientation) => songsStatisticsRegistrator.registerOrientationChange(orientation);
 
   @override
   void initState() {
@@ -167,12 +169,13 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
             pageController = PageController(initialPage: lastPage);
             pageController.addListener(() => notifier.value = pageController.page??0);
+
             notifier = ValueNotifier<double>(pageController.initialPage.toDouble());
             notifier.addListener(handleSwap);
 
             if(Album.current.songs.isNotEmpty) {
               songsStatisticsRegistrator.openSong(Album.current.songs[lastPage], SongOpenType.init);
-              post(() => notifyInnerController()); // in order to register visible lines on open.
+              post(() => notifyScrollController()); // in order to register visible lines on open.
             }
 
             setState(() {});
@@ -195,7 +198,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
       if(Album.current.songs.isNotEmpty) {
         songsStatisticsRegistrator.openSong(Album.current.songs[lastPage], SongOpenType.init);
-        post(() => notifyInnerController()); // in order to register visible lines on open.
+        post(() => notifyScrollController()); // in order to register visible lines on open.
       }
     }
 
@@ -366,15 +369,13 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
             ),
 
             IconButton(
-                icon: const Icon(MdiIcons.cogOutline),
-                onPressed: !Album.initialized?null:() => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SettingsPage(
-                            onScreenAlwaysOnChanged: (bool screenAlwaysOn) => setSettings()
-                        )
-                    )
+              icon: const Icon(MdiIcons.cogOutline),
+              onPressed: !Album.initialized?null:() => pushPage(
+                context,
+                builder: (context) => SettingsPage(
+                    onScreenAlwaysOnChanged: (bool screenAlwaysOn) => setSettings()
                 )
+              )
             )
 
           ],
@@ -390,7 +391,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
         builder: (context, albProv, child) {
 
           if(!Album.initialized)
-            return LoadingWidget();
+            return const LoadingWidget();
           else if (albProv.current.songs.isNotEmpty)
             return SongAutoScrollController(
                 SongBookBaseSetting(),
@@ -561,7 +562,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                               }
                             }
                           },
-                          onTextSizeChanged: () => post(() => notifyInnerController()),
+                          onTextSizeChanged: () => post(() => notifyScrollController()),
                           controller: innerController,
                         ),
 
@@ -570,7 +571,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                           lastPage = index;
                           await songsStatisticsRegistrator.commit();
                           await songsStatisticsRegistrator.openSong(albProv.current.songs[index], SongOpenType.swipe);
-                          notifyInnerController();
+                          notifyScrollController();
                         },
                       )
                     ),
@@ -644,7 +645,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                                         album.songs.first,
                                         SongOpenType.init,
                                     );
-                                    notifyInnerController();
+                                    notifyScrollController();
                                   }
                                 }
                               }))
@@ -692,7 +693,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                     album.songs.first,
                     SongOpenType.init,
                 );
-                notifyInnerController();
+                notifyScrollController();
               }
               notify();
             },
@@ -705,7 +706,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                     album.songs.first,
                     SongOpenType.init,
                 );
-                notifyInnerController();
+                notifyScrollController();
               }
               notify();
             }

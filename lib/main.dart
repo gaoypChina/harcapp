@@ -275,12 +275,12 @@ class App extends StatefulWidget {
 
   static late double statusBarHeight;
 
-  static late List<void Function()> _orientationChangedListeners;
-  static void addOrientationChangeListener(void Function() listener){
+  static late List<void Function(Orientation)> _orientationChangedListeners;
+  static void addOrientationChangeListener(void Function(Orientation) listener){
     _orientationChangedListeners.add(listener);
   }
 
-  static void removeOrientationChangeListener(void Function() listener){
+  static void removeOrientationChangeListener(void Function(Orientation) listener){
     _orientationChangedListeners.remove(listener);
   }
 
@@ -349,6 +349,8 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
   late GlobalKey<NavigatorState> navigatorKey;
 
+  Orientation? orientation;
+
   @override
   void initState() {
 
@@ -403,48 +405,61 @@ class AppState extends State<App> with WidgetsBindingObserver {
   }
 
   @override void didChangeMetrics() {
-    for(void Function() listener in App._orientationChangedListeners)
-      listener.call();
+    //for(void Function() listener in App._orientationChangedListeners)
+    //  listener.call();
   }
-  
+
   @override
   Widget build(BuildContext context) => StreamBuilder(
       stream: Connectivity().onConnectivityChanged,
       builder: (BuildContext context, AsyncSnapshot<ConnectivityResult> snapShot) =>
-          Consumer2<ThemeProvider, ColorPackProvider>(
-            builder: (context, themeProv, colorPackProv, child){
+          OrientationBuilder(
+            builder: (context, orientation) {
 
-              if(AppSettings.fullscreen)
-                SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
-              else
-                SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+              if(this.orientation == null)
+                this.orientation = orientation;
+              else if(this.orientation != orientation) {
+                this.orientation = orientation;
+                for (void Function(Orientation) listener in App._orientationChangedListeners)
+                  post(() => listener.call(orientation));
+              }
 
-              SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-                statusBarColor: colorPackProv.colorPack.appBar, // status bar color
-              ));
+              return Consumer2<ThemeProvider, ColorPackProvider>(
+                builder: (context, themeProv, colorPackProv, child){
 
-              return MaterialApp(
-                navigatorKey: navigatorKey,
-                title: 'HarcApp',
-                theme: colorPackProv.colorPack.themeData,
+                  if(AppSettings.fullscreen)
+                    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
+                  else
+                    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
 
-                home: const StartPage(),
-                localizationsDelegates: const [
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: const [
-                  Locale('pl'),
-                ],
-                locale: const Locale('pl'),
-                navigatorObservers: [
-                  appNavigatorObserver,
-                  defaultLifecycleObserver
-                ],
+                  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+                    statusBarColor: colorPackProv.colorPack.appBar, // status bar color
+                  ));
+
+                  return MaterialApp(
+                    navigatorKey: navigatorKey,
+                    title: 'HarcApp',
+                    theme: colorPackProv.colorPack.themeData,
+
+                    home: const StartPage(),
+                    localizationsDelegates: const [
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate,
+                      GlobalCupertinoLocalizations.delegate,
+                    ],
+                    supportedLocales: const [
+                      Locale('pl'),
+                    ],
+                    locale: const Locale('pl'),
+                    navigatorObservers: [
+                      appNavigatorObserver,
+                      defaultLifecycleObserver
+                    ],
+                  );
+
+                },
               );
-
-            },
+            }
           )
   );
 

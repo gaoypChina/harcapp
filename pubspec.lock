@@ -32,19 +32,17 @@ packages:
   assets_audio_player:
     dependency: "direct main"
     description:
-      path: "."
-      ref: master
-      resolved-ref: "620b679c14e2f9057faee262184cfe27697d7d7a"
-      url: "https://github.com/luis901101/Flutter-AssetsAudioPlayer.git"
-    source: git
-    version: "3.0.4+2"
+      name: assets_audio_player
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.5"
   assets_audio_player_web:
     dependency: transitive
     description:
       name: assets_audio_player_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.4+3"
+    version: "3.0.5"
   async:
     dependency: transitive
     description:
@@ -72,7 +70,7 @@ packages:
       name: back_button_interceptor
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.0"
+    version: "6.0.1"
   barcode:
     dependency: transitive
     description:
@@ -233,7 +231,7 @@ packages:
       name: dropdown_button2
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.2"
+    version: "1.6.3"
   equatable:
     dependency: transitive
     description:
@@ -451,7 +449,7 @@ packages:
       name: flutter_translate
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.2"
+    version: "4.0.3"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -492,7 +490,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "0f3da8bd6ca0127e8c004d8a46e848663bcda5e9"
+      resolved-ref: d39fc868e187699fcba89e00c4bd9c6e5160e0fd
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_own_song"
     source: git
     version: "0.0.1"
@@ -592,7 +590,7 @@ packages:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.5.0"
+    version: "4.6.0"
   latlong2:
     dependency: "direct main"
     description:
@@ -662,7 +660,7 @@ packages:
       name: material_design_icons_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.6595"
+    version: "5.0.6996"
   meta:
     dependency: transitive
     description:
@@ -1243,7 +1241,7 @@ packages:
       name: wakelock
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.1+2"
+    version: "0.6.2"
   wakelock_macos:
     dependency: transitive
     description:

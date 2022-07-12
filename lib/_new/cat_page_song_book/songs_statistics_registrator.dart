@@ -15,6 +15,7 @@ class SongsStatisticsRegistrator{
   DateTime? _lastPausedTime;
   late Duration _totalPausedDuration;
   late SongOpenType _songOpenType;
+  // time, lineTop, lineBottom, Orientation;
   late List<Tuple4<int, int, int, Orientation>> _scrollEvents;
 
   Duration get totalOpenDuration => DateTime.now().difference(_openTime) - _totalPausedDuration;
@@ -70,11 +71,31 @@ class SongsStatisticsRegistrator{
 
     if(_songLclId == null) return;
 
-    if(_lastPausedTime != null) logger.e('SongsStatisticsRegistrator ($_songLclId) scrolled while paused!');
-
+    if(_lastPausedTime != null) {
+      logger.e('SongsStatisticsRegistrator ($_songLclId) scrolled while paused!');
+      return;
+    }
     _scrollEvents.add(Tuple4(totalOpenDuration.inSeconds, topVisibleLine, bottomVisibleLine, orientation));
     logger.d('SongsStatisticsRegistrator ($_songLclId) '
         'scrolled to ($topVisibleLine:$bottomVisibleLine) (${orientation==Orientation.portrait?'portrait':'horizontal'}) '
+        'after ${_scrollEvents.last.item1} seconds.');
+  }
+
+  Future<void> registerOrientationChange(Orientation orientation) async {
+    if(!await TimeSettings.isTimeAutomatic){
+      clear();
+      return;
+    }
+
+    if(_songLclId == null) return;
+
+    if(_lastPausedTime != null) {
+      logger.e('SongsStatisticsRegistrator ($_songLclId) scrolled while paused!');
+      return;
+    }
+    _scrollEvents.add(Tuple4(totalOpenDuration.inSeconds, -1, -1, orientation));
+    logger.d('SongsStatisticsRegistrator ($_songLclId) '
+        'orientation changed to (${orientation==Orientation.portrait?'portrait':'horizontal'}) '
         'after ${_scrollEvents.last.item1} seconds.');
   }
 
@@ -85,7 +106,7 @@ class SongsStatisticsRegistrator{
       Tuple4 prevEvent = _scrollEvents[i-1];
       Tuple4 event = _scrollEvents[i];
 
-      if(event.item2 == prevEvent.item2 && event.item3 == prevEvent.item3) {
+      if(event.item2 == prevEvent.item2 && event.item3 == prevEvent.item3 && event.item3 == prevEvent.item3) {
         toRemove.add(event);
         continue;
       }
