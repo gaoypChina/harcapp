@@ -212,7 +212,7 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
                     )
                   ),
                 ),
-                onOpen: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ApelEwansPage(allApelEwans))),
+                onOpen: () => pushPage(context, builder: (context) => ApelEwansPage(allApelEwans)),
               ),
             ),
 
@@ -227,11 +227,11 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
                 iconColor: textEnab_(context),
                 title: 'Wiersze',
                 textAlign: TextAlign.start,
-                onOpen: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ShortReadsPage<Wiersz>(
+                onOpen: () => pushPage(context, builder: (context) => ShortReadsPage<Wiersz>(
                   ModuleStatsMixin.myslHarcWiersze,
                   'Wiersze',
                   allWiersze,
-                ))),
+                )),
               ),
             ),
 

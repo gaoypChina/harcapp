@@ -23,6 +23,7 @@ import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan_folder.dar
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan_persistant_folder.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/data.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/providers.dart';
+import 'package:harcapp/logger.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -509,9 +510,14 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
             const SizedBox(height: Dimen.SIDE_MARG),
 
           SimpleButton(
-            onTap: (){
-              Navigator.pop(context);
-              generatePdf(context, withNotes: showNotes);
+            onTap: () async {
+              showAppToast(context, text: 'Generowanie pliku...');
+              await popPage(context);
+              OpenResult result = await generatePdf(withNotes: showNotes);
+              if(result.type == ResultType.noAppToOpen) {
+                showAppToast(context, text: 'Nie znaleziono aplikacji do otarcia pliku PDF');
+                logger.d(result.message);
+              }
             },
 
             radius: AppCard.BIG_RADIUS,
@@ -555,9 +561,7 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
       )
   );
 
-  void generatePdf(BuildContext context, {required bool withNotes}) async {
-
-    showAppToast(context, text: 'Generowanie pliku...');
+  Future<OpenResult> generatePdf({required bool withNotes}) async {
 
     final pdf = pw.Document(
       pageMode: PdfPageMode.outlines
@@ -643,6 +647,8 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
           ));
       }
 
+      bool showNote = withNotes && folder is ApelEwanOwnFolder && (folder as ApelEwanOwnFolder).getNote(apelEwan.siglum).isNotEmpty;
+
       pw.MultiPage page = pw.MultiPage(
           pageFormat: PdfPageFormat.a4,
 
@@ -658,16 +664,10 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
                 color: const PdfColor(0, 0, 0, .3)
             ),
 
-            if(withNotes && folder is ApelEwanOwnFolder && (folder as ApelEwanOwnFolder).getNote(apelEwan.siglum).isNotEmpty)
-              pw.Text(
-                (folder as ApelEwanOwnFolder).getNote(apelEwan.siglum),
-                style: pw.TextStyle(
-                  fontItalic: fontItalic,
-                  fontSize: 14.0,
-                  color: const PdfColor(0, 0, 0, .3),
-                  fontStyle: pw.FontStyle.italic
-                ),
-              ),
+            pw.Text(
+              apelEwan.siglum,
+              style: pw.TextStyle(font: font, fontSize: 14.0),
+            ),
 
             pw.SizedBox(height: 24.0),
 
@@ -676,11 +676,38 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
               children: textParagraphWidgets
             ),
 
+            pw.SizedBox(height: 12.0),
+
+            pw.Text(
+              'Oto słowo boże.',
+              style: pw.TextStyle(font: font, fontSize: 14.0),
+            ),
+
+            if(showNote)
+              pw.SizedBox(height: 24.0),
+
+            if(showNote)
+              pw.Text('Notatka', style: pw.TextStyle(font: font, fontSize: 18.0)),
+
+            if(showNote)
+              pw.SizedBox(height: 12.0),
+
+            if(showNote)
+              pw.Text(
+                (folder as ApelEwanOwnFolder).getNote(apelEwan.siglum),
+                style: pw.TextStyle(
+                    fontItalic: fontItalic,
+                    fontSize: 14.0,
+                    color: const PdfColor(0, 0, 0, .3),
+                    fontStyle: pw.FontStyle.italic
+                ),
+              ),
+
             pw.SizedBox(height: 24.0),
 
             pw.Text('Pytania', style: pw.TextStyle(font: font, fontSize: 18.0)),
 
-            pw.SizedBox(height: 24.0),
+            pw.SizedBox(height: 12.0),
 
             questionsWidget,
 
@@ -690,7 +717,7 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
               pw.Text('Komentarze', style: pw.TextStyle(font: font, fontSize: 18.0)),
 
             if(comment != null)
-              pw.SizedBox(height: 24.0),
+              pw.SizedBox(height: 12.0),
 
             if(comment != null)
               pw.Column(
@@ -711,12 +738,12 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
     final file = File(join(output.path, 'Zbiór apeli ewangelicznych - ${folder.name}.pdf'));
     file.writeAsBytesSync(await pdf.save());
 
-    OpenFile.open(file.path);
+    OpenResult result = await OpenFile.open(file.path);
+    return result;
 
   }
 
 }
-
 
 class _ShowLayoutButtonProvider extends ChangeNotifier{
 
