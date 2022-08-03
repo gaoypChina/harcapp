@@ -122,7 +122,7 @@ String readFileAsString(String path){
   else throw FileNotFoundError();
 }
 
-void openAsset(String assetPath) async {
+Future<OpenResult> openAsset(String assetPath) async {
   final ByteData bytes = await rootBundle.load(assetPath);
   final Uint8List list = bytes.buffer.asUint8List();
 
@@ -133,5 +133,5 @@ void openAsset(String assetPath) async {
 
   file.writeAsBytesSync(list);
 
-  OpenFile.open(file.path);
+  return OpenFile.open(file.path);
 }

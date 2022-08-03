@@ -12,12 +12,14 @@ import 'package:harcapp/_common_classes/single_computer/single_computer_listener
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/extended_floating_button.dart';
+import 'package:harcapp/_common_widgets/person_data_getter.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_song_book/settings/song_book_base_settings.dart';
 import 'package:harcapp/_new/cat_page_song_book/settings/song_book_settings.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_loader.dart';
 import 'package:harcapp/_new/cat_page_song_book/songs_statistics_registrator.dart';
 import 'package:harcapp/logger.dart';
+import 'package:harcapp/values/people.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
@@ -80,15 +82,14 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
   }
 
   static void delLastPageForAlbum(Album album) => ShaPref.remove(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album));
-  static int? getLastPageForAlbum(Album album) => ShaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album), 0);
+  static int getLastPageForAlbum(Album album) => ShaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album), 0);
   static void setLastPageForAlbum(Album album, int value) => ShaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album), value);
 
-  static int get lastPage => getLastPageForAlbum(Album.current)!;
+  static int get lastPage => getLastPageForAlbum(Album.current);
   static set lastPage(int value) => setLastPageForAlbum(Album.current, value);
 
   void jumpToPage(int page){
     pageController.jumpToPage(page);
-    lastPage = page;
     notifier.value = page.toDouble();
   }
 
@@ -128,7 +129,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
   void notifyScrollController({bool orientationChanged = false}) async {
     logger.d('Notified scrollController.');
 
-    // Don't ise the innerController.
+    // Don't use the innerController.
     // Setting it a new position causes the appBar to always hide and also makes
 
     double outerPos = outerController.offset;
@@ -276,7 +277,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
                           setState(() {});
                           int index = Album.current.songs.indexOf(song);
-                          jumpToPage(index);
+                          post(() => jumpToPage(index));
 
                           await openDialog(
                               context: this.context,
@@ -333,9 +334,10 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                                               context: context,
                                               icon: SongWidgetTemplate.ICON_SEND_SONG,
                                               text: 'Wyślij',
-                                              onTap: (){
+                                              onTap: () async {
                                                 Navigator.pop(context);
-                                                SongWidget.sendSong(song);
+                                                Person? person = await getMyPersonData(context);
+                                                SongWidget.sendSong(context, song, person: person);
                                               }
                                           )),
                                         ],
@@ -633,22 +635,22 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                           color: cardEnab_(context),
                           icon: MdiIcons.reload,
                           text: Zmien_album_,
-                          onTap: () => Navigator.push(
+                          onTap: () => pushPage(
                               context,
-                              MaterialPageRoute(builder: (context) => AlbumPage(onAlbumSelected: (Album album) async {
+                              builder: (context) => AlbumPage(onAlbumSelected: (Album album) async {
                                 if(album != Album.current) {
                                   if(pageController.hasClients) {
-                                    jumpToPage(0);
+                                    post(() => jumpToPage(getLastPageForAlbum(album)));
                                     if(album.songs.isEmpty) return;
                                     await songsStatisticsRegistrator.commit();
                                     await songsStatisticsRegistrator.openSong(
-                                        album.songs.first,
+                                        album.songs[getLastPageForAlbum(album)],
                                         SongOpenType.init,
                                     );
                                     notifyScrollController();
                                   }
                                 }
-                              }))
+                              })
                           ),
                         ),
 
@@ -686,29 +688,27 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
         body: AlbumDrawer(
             onSelected: (Album album) async {
               if(pageController.hasClients){
-                jumpToPage(0);
+                post(() => jumpToPage(getLastPageForAlbum(album)));
                 if(album.songs.isEmpty) return;
                 await songsStatisticsRegistrator.commit();
                 await songsStatisticsRegistrator.openSong(
-                    album.songs.first,
+                    album.songs[getLastPageForAlbum(album)],
                     SongOpenType.init,
                 );
                 notifyScrollController();
               }
-              notify();
             },
             onNewCreated: (Album album) async {
               if(pageController.hasClients){
-                jumpToPage(0);
+                post(() => jumpToPage(getLastPageForAlbum(album)));
                 if(album.songs.isEmpty) return;
                 await songsStatisticsRegistrator.commit();
                 await songsStatisticsRegistrator.openSong(
-                    album.songs.first,
+                    album.songs[getLastPageForAlbum(album)],
                     SongOpenType.init,
                 );
                 notifyScrollController();
               }
-              notify();
             }
         )
     ),
@@ -740,15 +740,14 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
       initPhrase: initPhrase,
       forgetScrollPosition: forgetScrollPosition,
       onSongSelected: (Song song, int indexInAlbum, SongOpenType songOpenType) async {
-        jumpToPage(indexInAlbum);
+        post(() => jumpToPage(indexInAlbum));
 
         if(songOpenType != SongOpenType.history)
           Album.current.registerSongSearchToHistory(song);
         // songsStatisticsRegistrator stuff is handled by pageChange.
       },
       onConfAlbumEnabled: (){
-        jumpToPage(0);
-        notify();
+        post(() => jumpToPage(getLastPageForAlbum(Album.confid)));
         showAppToast(context, text: 'Barbaro! Oto zostajesz songowym hakerem.\n<b>Miłego śpiewańska c:</b>', duration: const Duration(seconds: 7));
       },
       onNewSongAdded: (song) async{
@@ -756,7 +755,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
         synchronizer.post();
 
         int index = Album.current.songs.indexOf(song);
-        jumpToPage(index);
+        post(() => jumpToPage(index));
 
         await showDialog(
           barrierDismissible: false,
@@ -814,13 +813,13 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
           ),
         );
 
-        await SongWidget.sendSong(song);
+        Person? person = await getMyPersonData(context);
+        SongWidget.sendSong(context, song, person: person);
       },
     )
   );
 
   void notify(){
-    notifier.value = CatPageSongBookState.lastPage.toDouble();
     setState(() {});
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/storage.dart';
+import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_zhp_sim_2022_get_resp.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/sector_sep_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/single_header_widget.dart';
@@ -9,12 +10,14 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank.dar
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state_local.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state_shared.dart';
+import 'package:harcapp/logger.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:open_file/open_file.dart';
 
 import '../data/data_zhp.dart';
 
@@ -167,7 +170,13 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
                         context: context,
                         icon: MdiIcons.formatListBulleted,
                         text: 'Lista sprawności',
-                        onTap: () => openAsset('assets/documents/zhp_sim_2022_sprawnosci.pdf')
+                        onTap: () async {
+                          OpenResult result = await openAsset('assets/documents/zhp_sim_2022_sprawnosci.pdf');
+                          if(result.type == ResultType.noAppToOpen) {
+                            showAppToast(context, text: 'Nie znaleziono aplikacji do otwarcia pliku PDF');
+                            logger.d(result.message);
+                          }
+                        }
                     ),
 
                     SprawNamesWidget(
@@ -204,7 +213,13 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
                         context: context,
                         icon: MdiIcons.formatListBulleted,
                         text: 'Lista tropów ${metoAbbr.toUpperCase()}',
-                        onTap: () => openAsset('assets/documents/zhp_sim_2022_tropy_$metoAbbr.pdf')
+                        onTap: () async {
+                          OpenResult result = await openAsset('assets/documents/zhp_sim_2022_tropy_$metoAbbr.pdf');
+                          if(result.type == ResultType.noAppToOpen) {
+                            showAppToast(context, text: 'Nie znaleziono aplikacji do otwarcia pliku PDF');
+                            logger.d(result.message);
+                          }
+                        }
                     ),
 
                     SprawNamesWidget(
@@ -241,7 +256,13 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
                         context: context,
                         icon: MdiIcons.formatListBulleted,
                         text: 'Lista wyzwań ${metoAbbr.toUpperCase()}',
-                        onTap: () => openAsset('assets/documents/zhp_sim_2022_wyzwania_$metoAbbr.pdf')
+                        onTap: () async {
+                          OpenResult result = await openAsset('assets/documents/zhp_sim_2022_wyzwania_$metoAbbr.pdf');
+                          if(result.type == ResultType.noAppToOpen) {
+                            showAppToast(context, text: 'Nie znaleziono aplikacji do otwarcia pliku PDF');
+                            logger.d(result.message);
+                          }
+                        }
                     ),
 
                     SprawNamesWidget(

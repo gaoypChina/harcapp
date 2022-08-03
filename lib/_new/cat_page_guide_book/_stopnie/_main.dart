@@ -3,6 +3,7 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
+import 'package:harcapp/_new/app_drawer.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_tile_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/shared_ranks_page.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -102,21 +103,22 @@ class RankPageState extends State<RankPage> with ModuleStatsMixin{
                 ),
               ),
 
-              FloatingContainer(
-                builder: (context, __, _) => Padding(
-                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                  child: Material(
-                    clipBehavior: Clip.hardEdge,
-                    elevation: AppCard.bigElevation,
-                    borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-                    child: TitleShortcutRowWidget(
-                      title: 'Udostępnione stopnie',
-                      onOpen: () => pushPage(context, builder: (context) => const SharedRanksPage()),
-                    )
+              if(account)
+                FloatingContainer(
+                  builder: (context, __, _) => Padding(
+                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                    child: Material(
+                      clipBehavior: Clip.hardEdge,
+                      elevation: AppCard.bigElevation,
+                      borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                      child: TitleShortcutRowWidget(
+                        title: 'Udostępnione stopnie',
+                        onOpen: () => pushPage(context, builder: (context) => const SharedRanksPage()),
+                      )
+                    ),
                   ),
-                ),
-                height: Dimen.ICON_FOOTPRINT + 2*Dimen.SIDE_MARG,
-              )
+                  height: Dimen.ICON_FOOTPRINT + 2*Dimen.SIDE_MARG,
+                )
 
             ],
             body: TabBarView(

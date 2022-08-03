@@ -97,7 +97,7 @@ const List<Definition> allDefinitions = [
   //Definition('Nazizm', 'Zjawisko ...'),
   Definition('Nihilizm', 'Nurt filozoficzny lub przekonanie o całkowitym braku celowości życia.'),
   Definition('Norma', 'Ustalona, ogólnie przyjęta zasada.'),
-  Definition('Nowomowa', 'Manipulacja języka poprzez wyłączenie pewnych określeń, tworzeniu nowych i zawłaszczeniu istniejących celem narzucenia społeczeństwu konkretnej ideologii i systemu wartości.'),
+  Definition('Nowomowa', 'Manipulacja językiem oparta na wyłączaniu pewnych określeń, tworzeniu nowych i zawłaszczeniu istniejących celem narzucenia społeczeństwu konkretnej ideologii i systemu wartości.'),
   Definition('Obyczajowość', 'Przyjęte w społeczności normy wspierające jej sprawne funkcjonowanie. Jeden z fundamentów powszechnego zaufania między członkami społeczności.'),
   Definition('Ojczyzna', 'Kraj, z którym jest się związanym więzią narodową, kulturową, obyczajową.'),
   Definition('Ojkofobia', 'Zjawisko odrzucenia, niechęci lub nienawiści względem własnej grupy rodzinnej, narodowej bądź cywilizacyjnej, ich kultury i symboli.'),

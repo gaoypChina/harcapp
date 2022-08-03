@@ -230,7 +230,7 @@ class ApiRegLog{
       List feedAnnouncementsResp = response.data['circleFeed']??(throw InvalidResponseError('circleFeed'));
       List<Announcement> feedAnnouncements = [];
       for(Map map in feedAnnouncementsResp)
-        feedAnnouncements.add(Announcement.fromMap(map, circleMap['circleKey']!, key: map['_key']));
+        feedAnnouncements.add(Announcement.fromMap(map, circleMap[map['circleKey']]!, key: map['_key']));
 
       onSuccess?.call(
         response,

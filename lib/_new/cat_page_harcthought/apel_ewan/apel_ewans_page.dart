@@ -515,7 +515,7 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
               await popPage(context);
               OpenResult result = await generatePdf(withNotes: showNotes);
               if(result.type == ResultType.noAppToOpen) {
-                showAppToast(context, text: 'Nie znaleziono aplikacji do otarcia pliku PDF');
+                showAppToast(context, text: 'Nie znaleziono aplikacji do otwarcia pliku PDF');
                 logger.d(result.message);
               }
             },
@@ -580,7 +580,8 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
       final file = File(join(output.path, 'Zbiór apeli ewangelicznych - ${folder.name}.pdf'));
       file.writeAsBytesSync(await pdf.save());
 
-      OpenFile.open(file.path);
+      OpenResult result = await OpenFile.open(file.path);
+      return result;
 
     }
 

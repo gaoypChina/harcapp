@@ -92,7 +92,7 @@ class ChooseSexDialog extends StatelessWidget{
   final double top;
   final void Function(Sex)? onSelected;
 
-  const ChooseSexDialog(this.sex, this.top, {this.onSelected});
+  const ChooseSexDialog(this.sex, this.top, {this.onSelected, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -151,20 +151,20 @@ class ChooseSexDialog extends StatelessWidget{
 
 Future<Sex?> showChooseSexDialog(BuildContext context, double top, Sex? sex) async {
 
-  Sex? _selSex;
+  Sex? selectedSex;
 
   await openDialog(
       context: context,
       builder: (context) => ChooseSexDialog(
           sex,
           top,
-          onSelected: (selSex){
-            _selSex = selSex;
+          onSelected: (sex){
+            selectedSex = sex;
             Navigator.pop(context);
           }
       )
   );
 
-  return _selSex;
+  return selectedSex;
 
 }

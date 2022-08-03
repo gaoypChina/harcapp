@@ -34,6 +34,10 @@ class SprawProgressWidget extends StatefulWidget{
 
 class SprawProgressWidgetState extends State<SprawProgressWidget>{
 
+  static const double completedOpacity = 1;
+  static const double inProgressOpacity = .45;
+  static const double savedOpacity = .1;
+
   static const double _paddingVal = Dimen.SIDE_MARG;
 
   late List<Spraw> allSpraws;
@@ -93,7 +97,13 @@ class SprawProgressWidgetState extends State<SprawProgressWidget>{
     if(hiddSpraws.isEmpty) {
       for (Spraw? spraw in allSpraws) {
         children.add(Opacity(
-            opacity: spraw!.completed ? 1 : (spraw.inProgress ? .45 : .1),
+            opacity:
+            spraw!.completed ?
+            completedOpacity :
+            (spraw.inProgress ?
+            inProgressOpacity :
+            savedOpacity),
+
             child: SprawIcon(
                 spraw,
                 onTap: () => openSprawDialog(context, spraw)
@@ -104,7 +114,7 @@ class SprawProgressWidgetState extends State<SprawProgressWidget>{
       for (int i=0; i< SprawProgressWidget.maxDispCount - allSpraws.length; i++) {
         children.add(
             Opacity(
-                opacity: .1,
+                opacity: savedOpacity,
                 child: GestureDetector(
                   onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SprawnosciPage())),
                   child: LayoutBuilder(

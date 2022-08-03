@@ -10,6 +10,42 @@ enum StopZHP{
   HRd, HRc,
 }
 
+Map<StopZHP, String> stopZHPToString = {
+  StopZHP.dhd: 'dhd',
+  StopZHP.dhc: 'dhc',
+  StopZHP.ml: 'ml',
+  StopZHP.och: 'och',
+  StopZHP.wyw: 'wyw',
+  StopZHP.trop: 'trop',
+  StopZHP.odk: 'odk',
+  StopZHP.pion: 'pion',
+
+  StopZHP.cw: 'cw',
+  StopZHP.sam: 'sam',
+  StopZHP.HOd: 'HOd',
+  StopZHP.HOc: 'HOc',
+  StopZHP.HRd: 'HRd',
+  StopZHP.HRc: 'HRc',
+};
+
+Map<String, StopZHP> stringToStopZHP = {
+  'dhd': StopZHP.dhd,
+  'dhc': StopZHP.dhc,
+  'ml': StopZHP.ml,
+  'och': StopZHP.och,
+  'wyw': StopZHP.wyw,
+  'trop': StopZHP.trop,
+  'odk': StopZHP.odk,
+  'pion': StopZHP.pion,
+
+  'cw': StopZHP.cw,
+  'sam': StopZHP.sam,
+  'HOd': StopZHP.HOd,
+  'HOc': StopZHP.HOc,
+  'HRd': StopZHP.HRd,
+  'HRc': StopZHP.HRc,
+};
+
 const String stop_h_dh_d_sh = 'dh.';
 const String stop_h_dh_d = 'Druhna';
 const String stop_h_dh_c_sh = 'dh';
@@ -87,6 +123,7 @@ String stopShortName(StopZHP? stop){
 const String huf_zhp_uk = 'Hufiec Wilno - Związek Harcerstwa Polskiego w Wielkiej Brytanii.';
 
 const String huf_zhp_andrychow = 'Hufiec ZHP Andrychów';
+const String huf_zhp_beskidzki = 'Hufiec ZHP Beskidzki';
 const String huf_zhp_brodnica = 'Hufiec ZHP Brodnica';
 const String huf_zhp_bydgoszcz_miasto = 'Hufiec ZHP Bydgoszcz-Miasto';
 const String huf_zhp_czestochowa = 'Hufiec ZHP Częstochowa';

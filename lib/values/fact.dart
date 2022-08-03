@@ -141,7 +141,7 @@ const List<Fact> ecoFacts = [
   ),
 
   Fact(
-    'Efektywność upraw rolnych wzrosła trzykrtonie od 1961 roku.',
+    'Efektywność upraw rolnych wzrosła trzykrotnie od 1961 roku.',
     source: 'World Bank, "Cereal Yield" chart.',
     meaning: [
       'Technologia upraw rolnych, w tym nawozów oraz modyfikacje plonów prowadzą do szybszego wzrostu efektywności upraw niż przybywa na świecie ludzi.',

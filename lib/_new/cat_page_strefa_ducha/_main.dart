@@ -522,7 +522,7 @@ class _HeartWidgetState extends State<_HeartWidget>{
     double size = 0.8*MediaQuery.of(context).size.shortestSide;
 
     return AnimatedOpacity(
-        opacity: visible?0.25:0,
+        opacity: visible?0.3:0.15,
         duration: _duration,
         child: Stack(
           children: [

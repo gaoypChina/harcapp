@@ -723,7 +723,7 @@ SprawBook sprawBookZHP = SprawBookData(
                       title: 'Kronikarz',
                       level: '1',
                       tasks: [
-                        'Prowadził w okresie próby kronikę zastępu (drużyny]), posługując się kilkoma rodzajami pisma.',
+                        'Prowadził w okresie próby kronikę zastępu (drużyny), posługując się kilkoma rodzajami pisma.',
                         'Sporządził notatki z wydarzeń na podstawie relacji świadków.',
                         'Dopilnował przez co najmniej jeden rok, aby kronika była zawsze tam, gdzie drużyna.',
                         'Zapoznał się z twórczością najbardziej znanych polskich kronikarzy.',
@@ -734,7 +734,7 @@ SprawBook sprawBookZHP = SprawBookData(
                       level: '2',
                       tasks: [
                         'Przygotował rzeczowe relacje z biwaku lub obozu drużyny, z uroczystości szkolnej, z wydarzeń mających miejsce w okolicy.',
-                        'Posługiwał się sprzętem reporterskim (dyktafon, aparat fotograficzny, kamera]), przygotowując materiały dla szkolnego (lokalnego) radia, telewizji, gazety.',
+                        'Posługiwał się sprzętem reporterskim (dyktafon, aparat fotograficzny, kamera), przygotowując materiały dla szkolnego (lokalnego) radia, telewizji, gazety.',
                         'Napisał dwa reportaże: na wybrany i na zadany temat. Dobrał ilustrujące je rysunki lub zdjęcia. Przedstawił je w drużynie.',
                       ]),
                   SprawData(
@@ -1367,7 +1367,7 @@ SprawBook sprawBookZHP = SprawBookData(
                       'Poznał co najmniej jeden język programowania, uczy się następnego, opracował aplikację na użytek drużyny, szczepu, hufca.',
                       'Poznał podstawowe rodzaje licencji na oprogramowanie komputerowe, promuje stosowanie legalnych programów.',
                       'Samodzielnie złożył komputer i właściwie go skonfigurował (na poziomie BIOS-u i systemu operacyjnego).',
-                      'Pełni stałą służbę opartą na wiedzy informatycznej, np. administrator stron www (hufca, szczepu, drużyny]), serwisant sprzętu komputerowego w komendzie hufca, administrator elektronicznej bazy danych.'
+                      'Pełni stałą służbę opartą na wiedzy informatycznej, np. administrator stron www (hufca, szczepu, drużyny), serwisant sprzętu komputerowego w komendzie hufca, administrator elektronicznej bazy danych.'
                     ],
                     comment: 'Funkcję sprawności mistrzowskich pełni zdobycie specjalistycznych certyfikatów.',
                   ),
@@ -2488,7 +2488,7 @@ SprawBook sprawBookZHP = SprawBookData(
                       tasks: [
                         'Poznał zasady kompletowania apteczki. Skompletował apteczkę osobistą.',
                         'Potrafi prawidłowo postąpić w przypadku:'
-                            '\n• krwotoku (np. z kończyny]), stłuczenia, zaprószenia oka, omdlenia,'
+                            '\n• krwotoku (np. z kończyny), stłuczenia, zaprószenia oka, omdlenia,'
                             '\n• konieczności unieruchomienia kończyny,'
                             '\n• konieczności udrożnienia górnych dróg oddechowych.',
                         'Pełnił służbę samarytańską na wycieczce, biwaku lub obozie.',

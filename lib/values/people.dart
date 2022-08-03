@@ -54,6 +54,7 @@ List<Person> allPeople = [
   JAROSLAW_JAKUBIAK,
   JAROSLAW_ZASACKI,
   JOANNA_MICHALOWSKA,
+  JULIA_KARAS,
   JULIA_PILCH,
   JULIA_SIUDMAK,
   JULITA_STEPIEN,
@@ -84,8 +85,10 @@ List<Person> allPeople = [
   LUKASZ_KRYWULT,
   LUKASZ_RYBINSKI,
   MACIEJ_BATKO,
+  MACIEJ_LADOS,
   MACIEJ_SZOLC,
   MALGORZATA_KLOC,
+  MALWINA_TRUSZKOWSKA,
   MARCIN_JANKOWIAK,
   MAREK_LEWANCZYK,
   MAREK_MUSIALIK,
@@ -362,6 +365,14 @@ const Person JOANNA_MICHALOWSKA = Person(name: 'Joanna Michałowska', stopH: Sto
   druzyna: '18. Poznańska Drużyna Harcerek im. Olgi Drahonowskiej-Małkowskiej',
   org: Org.zhp,
 );
+const Person JULIA_KARAS = Person(
+  name: 'Julia Karaś',
+  stopH: StopZHP.pion,
+  druzyna: '78. Grunwaldzka Wielopoziomowa Drużyna Harcerska Halny im. hm. Józefy Kantor',
+  hufiec: huf_zhp_beskidzki,
+  org: Org.zhp,
+  email: ['karasjulka81@gmail.com']
+);
 const Person JULIA_PILCH = Person(name: 'Julia Pilch', stopH: StopZHP.dhd,);
 const Person JULIA_SIUDMAK = Person(name: 'Julia Siudmak');
 const Person JULITA_STEPIEN = Person(name: 'Julita Stępień');
@@ -462,6 +473,14 @@ const Person MACIEJ_BATKO = Person(name: 'Maciej Batko', stopH: StopZHP.dhc,
   druzyna: '117. Elbląskiej Męskiej Drużyny Harcerskiej "Mato"',
   email: ['maciej.batko@uczen11.elblag.pl', 'maciemaciek160@gmail.com', 'maciut2007@gmail.com']
 );
+const Person MACIEJ_LADOS = Person(
+  name: 'Maciej Ładoś',
+  stopI: 'pwd.',
+  druzyna: '8 PgDW Granat',
+  hufiec: huf_zhp_krakow_pdg,
+  org: Org.zhp,
+  email: ['macieklad@gmail.com'],
+);
 const Person MACIEJ_SZOLC = Person(
   name: 'Maciej Szolc',
   druzyna: '17. Drużyna Harcerska "Salamandra" z Jejkowic',
@@ -475,6 +494,14 @@ const Person MALGORZATA_KLOC = Person(
   hufiec: huf_zhp_ziemi_gliwickiej,
   org: Org.zhp,
   email: ['malgorzata.kloc@zhp.net.pl']
+);
+const MALWINA_TRUSZKOWSKA = Person(
+  name: 'Malwina Truszkowska',
+  stopH: StopZHP.pion,
+  druzyna: '23. Warszawska Drużyna Wędrownicza „Binduga”',
+  hufiec: huf_zhp_warszawa_mokotow,
+  org: Org.zhp,
+  email: ['malwina.truszkowska@zhp.net.pl', 'malvisianna@gmail.com']
 );
 const Person MARCIN_JANKOWIAK = Person(name: 'Marcin Jankowiak', hufiec: huf_zhp_jarocin, org: Org.zhp,);
 const Person MAREK_LEWANCZYK = Person(

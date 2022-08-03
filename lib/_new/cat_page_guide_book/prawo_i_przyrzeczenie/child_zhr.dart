@@ -5,6 +5,7 @@ import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_common_classes/org/org_switcher.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -108,6 +109,10 @@ class ChildZHRState extends State<ChildZHR> with TickerProviderStateMixin{
                     child: PrzyrzeczenieItem(ppz_przyrz_title, ppz_przyrz_content),
                   ),
 
+                  SizedBox(height: Dimen.LIST_SEP_MARG),
+
+                  TitleShortcutRowWidget(title: 'Prawo zucha'),
+
                   PrawoItem(1, MdiIcons.cross, ppz1),
                   PrawoItem(2, MdiIcons.imageFilterHdr, ppz2),
                   PrawoItem(3, MdiIcons.microphonePlus, ppz3),
@@ -124,6 +129,10 @@ class ChildZHRState extends State<ChildZHR> with TickerProviderStateMixin{
                     padding: EdgeInsets.all(Dimen.SIDE_MARG),
                     child: PrzyrzeczenieItem(pph_przyrz_title, pph_przyrz_content),
                   ),
+
+                  SizedBox(height: Dimen.LIST_SEP_MARG),
+
+                  TitleShortcutRowWidget(title: 'Prawo harcerskie'),
 
                   PrawoItem(1, MdiIcons.accountTie, pph1_zhr, comment: '$kpph1_zhr$pph1_zhp\n\n$kpph1_zhp'),
                   PrawoItem(2, MdiIcons.shieldEdit, pph2, comment: kpph2),

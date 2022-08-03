@@ -65,7 +65,7 @@ bool _rateMatch(SongSearchOptions options, Song? song){
 
 List<int>? _selectSongs(String phrase, List<Song> allItems, SongSearchOptions? options, bool Function() stillValid){
 
-  String text = remPolChars(phrase);
+  String text = remSpecChars(remPolChars(phrase.trim()));
 
   List<int> resultsByMeta = [];
   List<int> resultsByText = [];
@@ -79,7 +79,7 @@ List<int>? _selectSongs(String phrase, List<Song> allItems, SongSearchOptions? o
     if (!_tagMatch(options!, song) || !_rateMatch(options, song))
       continue;
 
-    bool titleMatch = remPolChars(song.title).contains(text);
+    bool titleMatch = remSpecChars(remPolChars(song.title)).contains(text);
     bool authorMatch = false;
     for(String author in remPolCharsList(song.authors))
       if(author.contains(text)){
@@ -88,14 +88,14 @@ List<int>? _selectSongs(String phrase, List<Song> allItems, SongSearchOptions? o
       }
 
     bool composerMatch = false;
-    for(String composer in remPolCharsList(song.composers))
+    for(String composer in remSpecCharsList(remPolCharsList(song.composers)))
       if(composer.contains(text)){
         composerMatch = true;
         break;
       }
 
     bool performerMatch = false;
-    for(String performer in remPolCharsList(song.performers))
+    for(String performer in remSpecCharsList(remPolCharsList(song.performers)))
       if(performer.contains(text)){
         performerMatch = true;
         break;
@@ -103,23 +103,24 @@ List<int>? _selectSongs(String phrase, List<Song> allItems, SongSearchOptions? o
 
     bool hidTitleMatch = false;
     for(String hidTitle in song.hidTitles)
-      if(remPolChars(hidTitle).contains(text)){
+      if(remSpecChars(remPolChars(hidTitle)).contains(text)){
         hidTitleMatch = true;
         break;
       }
 
+
     if(titleMatch || authorMatch || composerMatch || performerMatch || hidTitleMatch)
       resultsByMeta.add(i);
-    else if(remPolChars(song.text).contains(text))
+    else if(remSpecChars(remPolChars(song.text)).contains(text))
       resultsByText.add(i);
     else
       for(AddPerson addPers in song.addPers){
-        if(addPers.name != null && remPolChars(addPers.name!).contains(text)) {
+        if(addPers.name != null && remSpecChars(remPolChars(addPers.name!)).contains(text)) {
           resultsByAddPers.add(i);
           break;
         }
 
-        if(addPers.emailRef != null && allPeopleMap[addPers.emailRef] != null && remPolChars(allPeopleMap[addPers.emailRef]!.name).contains(text)) {
+        if(addPers.emailRef != null && allPeopleMap[addPers.emailRef] != null && remSpecChars(remPolChars(allPeopleMap[addPers.emailRef]!.name)).contains(text)) {
           resultsByAddPers.add(i);
           break;
         }

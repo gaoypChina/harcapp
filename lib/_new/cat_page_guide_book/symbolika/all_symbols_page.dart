@@ -9,7 +9,7 @@ import 'data.dart';
 class AllSymbolsPage extends StatefulWidget {
 
   final void Function(int) onItemTap;
-  const AllSymbolsPage({required this.onItemTap});
+  const AllSymbolsPage({required this.onItemTap, super.key});
 
   @override
   State<AllSymbolsPage> createState() => AllSymbolsPageState();
@@ -35,17 +35,17 @@ class AllSymbolsPageState extends State<AllSymbolsPage> {
 
     return BottomNavScaffold(
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
 
-          SliverAppBar(
+          const SliverAppBar(
             title: Text('Symbolika'),
             centerTitle: true,
             floating: true,
           ),
 
           SliverPadding(
-            padding: EdgeInsets.all(Dimen.SIDE_MARG),
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             sliver: SliverGrid.count(
               crossAxisCount: (orientation == Orientation.portrait) ? 3 : 5,
               mainAxisSpacing: Dimen.DEF_MARG,

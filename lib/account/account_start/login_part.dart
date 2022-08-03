@@ -203,7 +203,7 @@ class LoginPartState extends State<LoginPart>{
                 child: Text('Po co mi jakieś konto?', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, color: hintEnab_(context)), textAlign: TextAlign.center),
               ),
             ),
-            onTap: () => pushPage(context, builder: (context) => AccountReasonPage())
+            onTap: () => pushPage(context, builder: (context) => const AccountReasonPage())
           ),
 
           Expanded(

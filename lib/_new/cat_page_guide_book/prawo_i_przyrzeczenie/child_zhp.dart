@@ -6,6 +6,7 @@ import 'package:harcapp/_common_classes/org/org_switcher.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/cat_page_guide_book/prawo_i_przyrzeczenie/strings.dart';
+import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -108,6 +109,10 @@ class ChildZHPState extends State<ChildZHP> with TickerProviderStateMixin{
                     child: PrzyrzeczenieItem(ppz_przyrz_title, ppz_przyrz_content),
                   ),
 
+                  SizedBox(height: Dimen.LIST_SEP_MARG),
+
+                  TitleShortcutRowWidget(title: 'Prawo zucha'),
+
                   PrawoItem(1, MdiIcons.cross, ppz1),
                   PrawoItem(2, MdiIcons.imageFilterHdr, ppz2),
                   PrawoItem(3, MdiIcons.microphonePlus, ppz3),
@@ -129,17 +134,17 @@ class ChildZHPState extends State<ChildZHP> with TickerProviderStateMixin{
                     child: PrzyrzeczenieItem(pph_przyrz_title, pph_przyrz_content),
                   ),
 
-                  SizedBox(height: Dimen.SIDE_MARG),
-
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                    padding: EdgeInsets.all(Dimen.SIDE_MARG),
                     child: PrzyrzeczenieItem(
                         'Dewiza starszoharcerska',
                         'Znajdź swój kierunek!'
                     ),
                   ),
 
-                  SizedBox(height: Dimen.SIDE_MARG),
+                  SizedBox(height: Dimen.LIST_SEP_MARG),
+
+                  TitleShortcutRowWidget(title: 'Prawo harcerskie'),
 
                   PrawoItem(1, MdiIcons.textBoxCheckOutline, pph1_zhp, comment: kpph1_zhp,),
                   PrawoItem(2, MdiIcons.shieldEdit, pph2, comment: kpph2),

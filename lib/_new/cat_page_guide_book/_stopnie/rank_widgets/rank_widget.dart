@@ -7,6 +7,7 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/api/rank.dart';
+import 'package:harcapp/_new/app_drawer.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_task.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_widgets/rank_cat_widget.dart';
@@ -121,7 +122,8 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
           completedText: 'Stopień zdobyty!',
           completedTextColor: background_(context),
           appBarBottom:
-          SharedUsersWidget(rank),
+          account?
+          SharedUsersWidget(rank):null,
           underTitleLeading: Row(
             children: widget.icons.map((icon) => Icon(icon, size: RankData.iconSizeMap[rank.data]!.item2,)).toList(),
           ),
@@ -394,8 +396,6 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
   @override
   Widget build(BuildContext context) => Consumer<SharedUsersProvider>(
       builder: (context, prov, child){
-
-        Widget child;
 
         if(!AccountData.loggedIn)
           return SizedBox(

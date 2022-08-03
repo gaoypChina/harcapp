@@ -4,6 +4,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_icon.dart';
+import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_progress_widget.dart';
 
 class SprawIconRotating extends StatefulWidget{
 
@@ -74,7 +75,13 @@ class SprawIconRotatingState extends State<SprawIconRotating>{
         speed: rotateDuration,
 
         front: Opacity(
-          opacity: sprawFront.inProgress?0.35:1.0,
+          opacity:
+          sprawFront.completed ?
+          SprawProgressWidgetState.completedOpacity :
+          (sprawFront.inProgress ?
+          SprawProgressWidgetState.inProgressOpacity :
+          SprawProgressWidgetState.savedOpacity),
+
           child: SprawIcon(
             sprawFront,
             size: size,
@@ -83,7 +90,12 @@ class SprawIconRotatingState extends State<SprawIconRotating>{
         ),
 
         back: Opacity(
-          opacity: sprawBack.inProgress?0.35:1.0,
+          opacity:
+          sprawBack.completed ?
+          SprawProgressWidgetState.completedOpacity :
+          (sprawBack.inProgress ?
+          SprawProgressWidgetState.inProgressOpacity :
+          SprawProgressWidgetState.savedOpacity),
           child: SprawIcon(
             sprawBack,
             size: size,

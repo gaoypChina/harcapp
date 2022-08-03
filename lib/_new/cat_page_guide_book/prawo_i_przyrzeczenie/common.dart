@@ -35,7 +35,7 @@ class PrawoItem extends StatelessWidget{
             builder: (context) => Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Text('$number. ' + content, style: AppTextStyle(fontStyle: FontStyle.italic, fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), textAlign: TextAlign.center,),
+                Text('$number. $content', style: AppTextStyle(fontStyle: FontStyle.italic, fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), textAlign: TextAlign.center,),
                 const SizedBox(height: 12),
                 Text(comment!, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2)),
                 const SizedBox(height: Dimen.DEF_MARG),
@@ -114,6 +114,9 @@ class WedroTabChild extends StatelessWidget{
           padding: EdgeInsets.all(Dimen.SIDE_MARG),
           child: PrzyrzeczenieItem(wedro_dewiza_title, wedro_dewiza_content),
         ),
+
+        const SizedBox(height: Dimen.LIST_SEP_MARG),
+
         Padding(
           padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
           child: Column(
@@ -125,11 +128,11 @@ class WedroTabChild extends StatelessWidget{
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(width: 20.0, child: Text(
-                      '1.',
+                  SizedBox(width: 36.0, child: Text(
+                      '1',
                       style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_APPBAR,
                           fontWeight: weight.halfBold,
-                          fontSize: Dimen.TEXT_SIZE_BIG,
                           color: orgColor[prov.current]
                       ))
                   ),
@@ -141,11 +144,11 @@ class WedroTabChild extends StatelessWidget{
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(width: 20.0, child: Text(
-                      '2.',
+                  SizedBox(width: 36.0, child: Text(
+                      '2',
                       style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_APPBAR,
                           fontWeight: weight.halfBold,
-                          fontSize: Dimen.TEXT_SIZE_BIG,
                           color: orgColor[prov.current]
                       ))
                   ),
@@ -157,11 +160,11 @@ class WedroTabChild extends StatelessWidget{
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(width: 20.0, child: Text(
-                      '3.',
+                  SizedBox(width: 36.0, child: Text(
+                      '3',
                       style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_APPBAR,
                           fontWeight: weight.halfBold,
-                          fontSize: Dimen.TEXT_SIZE_BIG,
                           color: orgColor[prov.current]
                       ))
                   ),
@@ -173,11 +176,11 @@ class WedroTabChild extends StatelessWidget{
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(width: 20.0, child: Text(
-                      '4.',
+                  SizedBox(width: 36.0, child: Text(
+                      '4',
                       style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_APPBAR,
                           fontWeight: weight.halfBold,
-                          fontSize: Dimen.TEXT_SIZE_BIG,
                           color: orgColor[prov.current]
                       ))
                   ),
@@ -189,11 +192,11 @@ class WedroTabChild extends StatelessWidget{
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(width: 20.0, child: Text(
-                      '5.',
+                  SizedBox(width: 36.0, child: Text(
+                      '5',
                       style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_APPBAR,
                           fontWeight: weight.halfBold,
-                          fontSize: Dimen.TEXT_SIZE_BIG,
                           color: orgColor[prov.current]
                       ))
                   ),
@@ -205,11 +208,11 @@ class WedroTabChild extends StatelessWidget{
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(width: 20.0, child: Text(
-                      '6.',
+                  SizedBox(width: 36.0, child: Text(
+                      '6',
                       style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_APPBAR,
                           fontWeight: weight.halfBold,
-                          fontSize: Dimen.TEXT_SIZE_BIG,
                           color: orgColor[prov.current]
                       ))
                   ),

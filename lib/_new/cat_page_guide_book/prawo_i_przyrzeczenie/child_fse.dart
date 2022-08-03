@@ -6,6 +6,7 @@ import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_common_classes/org/org_switcher.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/account/account.dart';
+import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -132,8 +133,10 @@ class ChildFSEState extends State<ChildFSE> with TickerProviderStateMixin{
                   ),
 
                   SizedBox(height: Dimen.SIDE_MARG),
-
                   SizedBox(height: Dimen.LIST_SEP_MARG),
+
+                  TitleShortcutRowWidget(title: 'Prawo wilczka'),
+
                   PrawoItem(1, MdiIcons.accountSwitch, ppz1_fse),
                   PrawoItem(2, MdiIcons.radar, ppz2_fse),
                   PrawoItem(3, MdiIcons.showerHead, ppz3_fse),
@@ -151,6 +154,10 @@ class ChildFSEState extends State<ChildFSE> with TickerProviderStateMixin{
                     padding: EdgeInsets.all(Dimen.SIDE_MARG),
                     child: PrzyrzeczenieItem(pph_przyrz_title, pph_przyrz_fse_content),
                   ),
+
+                  SizedBox(height: Dimen.LIST_SEP_MARG),
+
+                  TitleShortcutRowWidget(title: 'Prawo harcerskie'),
 
                   PrawoItem(1, MdiIcons.medal, pph1_fse_c),
                   PrawoItem(2, MdiIcons.accountTie, pph2_fse_c),
@@ -173,6 +180,10 @@ class ChildFSEState extends State<ChildFSE> with TickerProviderStateMixin{
                     padding: EdgeInsets.all(Dimen.SIDE_MARG),
                     child: PrzyrzeczenieItem(pph_przyrz_title, pph_przyrz_fse_content),
                   ),
+
+                  SizedBox(height: Dimen.LIST_SEP_MARG),
+
+                  TitleShortcutRowWidget(title: 'Prawo harcerskie'),
 
                   PrawoItem(1, MdiIcons.medal, pph1_fse_d),
                   PrawoItem(2, MdiIcons.accountTie, pph2_fse_d),

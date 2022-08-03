@@ -9,6 +9,8 @@ import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:harcapp/_new/cat_page_song_book/add_pers_email_resolver.dart';
 import 'package:harcapp/_new/cat_page_song_book/settings/song_book_base_settings.dart';
 import 'package:harcapp/_new/cat_page_song_book/settings/song_book_settings.dart';
+import 'package:harcapp/values/hufce.dart';
+import 'package:harcapp/values/people.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/storage.dart';
@@ -34,6 +36,7 @@ import 'package:harcapp_core_song_widget/song_widget_template.dart';
 import 'package:harcapp_core_tags/tag_layout.dart';
 import 'package:provider/provider.dart';
 
+import '../../_common_widgets/person_data_getter.dart';
 import '../../main.dart';
 import '../main_page_new.dart';
 import 'album/album_chooser.dart';
@@ -49,22 +52,40 @@ import 'tab_of_cont_page.dart';
 
 class SongWidget extends StatelessWidget{
 
-  static Future<void> sendSong(Song song)async{
+  static Future<void> sendSong(BuildContext context, Song song, {required Person? person})async{
+
+    bool hasName = person?.name != null;
+    bool hasDruzyna = person?.druzyna != null;
+    bool hasHufiec = person?.hufiec != null;
+    bool hasStopI = person?.stopI != null;
+    bool hasStopH = person?.stopH != null;
+    bool hasOrg = person?.org != null;
+
     final Email email = Email(
-      body: 'Dzięki za chęć dzielenia się swoimi piosenkami!'
-          '\n\nPamiętaj, by podać swoje:'
-          '\n\t- imię (np. Janek),'
-          '\n\t- nazwisko (np. Nowak),'
-          '\n\t- stopień harcerski (np. ćwik),'
-          '\n\t- stopień instruktorski (np. przewodnik),'
-          '\n\t- drużynę (np. 14 Krakowska Drużyna Harcerska "Wilki" im. Szarych Szeregów),'
-          '\n\t- hufiec (np. Hufiec ZHP Kraków-Podgórze)'
-          '\n\t- organizację harcerską (np. ZHP).'
-          '\nJeżeli piosenka zostanie zatwierdzona, każdy zobaczy, że została dodana przez Ciebie.'
-          '\n'
-          '\n\n\n'
-          '\n!!! NIE EDYTUJ PONIŻSZEGO TEKSTU !!!'
-          '\n' + await song.code + '\n!!! NIE EDYTUJ POWYŻSZEGO TEKSTU !!!',
+      body: """
+      Dzięki za chęć dzielenia się swoimi piosenkami!
+      (!) Nie edytuj poniższego tekstu.
+      
+      - - - - - - - - -
+      
+      Osoba dodająca:
+      
+      const Person NEW_PERSON = Person(
+        ${hasName?"name: '${person?.name}',":""}
+        ${hasDruzyna?"druzyna: '${person?.druzyna}',":""}
+        ${hasHufiec?"hufiec: '${person?.hufiec}',":""}
+        ${hasStopI?"stopI: '${person?.stopI}',":""}
+        ${hasStopH?"stopH: StopZHP.${stopZHPToString[person?.stopH]},":""}
+        ${hasOrg?"org: Org.${person?.org},":""}
+        email: []
+      );
+      
+      - - - - - - - - -
+      
+      Kod piosenki:
+      
+      ${await song.code}
+      """,
       subject: 'Piosenka własna',
       recipients: ['harcapp@gmail.com'],
       cc: [],
@@ -72,7 +93,11 @@ class SongWidget extends StatelessWidget{
       attachmentPaths: null,
       isHTML: false,
     );
-    await FlutterEmailSender.send(email);
+    try {
+      await FlutterEmailSender.send(email);
+    } on PlatformException{
+      showAppToast(context, text: 'Nie znaleziono aplikacji do wiadomości email.');
+    }
   }
 
   static Future<void> shareSong(BuildContext context, Song song) async{
@@ -300,7 +325,11 @@ class SongWidget extends StatelessWidget{
 
     },
 
-    onSendSongTap: () => sendSong(song),
+    onSendSongTap: () async {
+      Person? person = await getMyPersonData(context);
+      sendSong(context, song, person: person);
+
+    },
 
     onShareTap: () => shareSong(context, song),
 

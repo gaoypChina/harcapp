@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/values/colors.dart';
@@ -13,8 +12,8 @@ List<ItemData> items = [
     'flag_poland.svg',
     'Flaga Polski',
     [
-      Tuple2('Biały kolor', 'Czystość i szczerość'),
-      Tuple2('Czerwony kolor', 'Krew poległych w obronie Ojczyzny.')
+      const Tuple2('Biały kolor', 'Czystość i szczerość'),
+      const Tuple2('Czerwony kolor', 'Krew poległych w obronie Ojczyzny.')
     ],
     'W czasie Powstania Listopadowego Sejm ustanowił biel i czerwień barwami narodowymi. Białoczerwonych opasek używano podczas wszystkich zrywów powstańczych w XIX i XX wieku.',
     padding: false,
@@ -40,7 +39,7 @@ List<ItemData> items = [
       ),
     ),
   ),
-  ItemData(
+  const ItemData(
     Colors.white,
     'herb_polski.svg',
     'Herb Polski',
@@ -56,15 +55,15 @@ List<ItemData> items = [
     colorStart: Colors.red,
     colorEnd: Color.fromARGB(255, 190, 0, 40),
   ),
-  ItemData(
+  const ItemData(
     Colors.black,
     'krzyz_harc.svg',
     'Krzyż harcerski',
     [
-    Tuple2('Okrąg pośrodku krzyża', 'Doskonałość.'),
+      Tuple2('Okrąg pośrodku krzyża', 'Doskonałość.'),
       Tuple2('Promienie rozchodzące się od lilijki', 'Obejmowanie jak najszerszych kręgów społecznych przez harcerstwo, jak największą liczbę dzieci i młodzieży.'),
       Tuple2('Wieniec z dębu i wawrzynu (liści laurowych)', 'Cele do zdobycia: siłę, umiejętności, sprawność i wiedzę. Dąb jednocześnie symbolizuje męstwo, a laur zwycięstwo.'),
-      Tuple2('Hasło \"Czuwaj\"', 'Wezwanie harcerzy do nieustannej służby.'),
+      Tuple2('Hasło "Czuwaj"', 'Wezwanie harcerzy do nieustannej służby.'),
       Tuple2('Ziarna piasku na ramionach Krzyża Harcerskiego', 'Ogromna liczba członków naszego ruchu na całym świecie.'),
       Tuple2('Puste miejsce pomiędzy ziarenkami piasku', 'Stale pozostawione miejsce dla nowych harcerzy.'),
       Tuple2('Dwie gwiazdki na lilijce', 'Czujne oczy harcerza (Prawo i Przyrzeczenie harcerskie).'),
@@ -75,7 +74,7 @@ List<ItemData> items = [
     colorEnd: Colors.white,
   ),
 
-  ItemData(
+  const ItemData(
       Colors.amber,
       'fse.svg',
       'Flaga FSE',
@@ -95,11 +94,11 @@ List<ItemData> items = [
       'WAGGGS.svg',
       'WAGGGS',
       [
-        Tuple2('Trzy listki koniczyny', 'Trzy zobowiązania wobec Boga, bliźnich i ojczyzny zawarte w Przyrzeczeniu Skautowym.'),
-        Tuple2('Dwie pięcioramienne gwiazdki', 'Prawo i Przyrzeczenie, a ich 10 ramion – 10 punktów Prawa.'),
-        Tuple2('Żyłka koniczynki', 'Igła kompasu, który pokazuje skautkom i przewodniczkom dobrą drogę.'),
-        Tuple2('Łodyżka koniczyny', 'Płomień miłości międzyludzkiej.'),
-        Tuple2('Kolory złoty i niebieski', 'Słońce świecące dzieciom na całym świecie.'),
+        const Tuple2('Trzy listki koniczyny', 'Trzy zobowiązania wobec Boga, bliźnich i ojczyzny zawarte w Przyrzeczeniu Skautowym.'),
+        const Tuple2('Dwie pięcioramienne gwiazdki', 'Prawo i Przyrzeczenie, a ich 10 ramion – 10 punktów Prawa.'),
+        const Tuple2('Żyłka koniczynki', 'Igła kompasu, który pokazuje skautkom i przewodniczkom dobrą drogę.'),
+        const Tuple2('Łodyżka koniczyny', 'Płomień miłości międzyludzkiej.'),
+        const Tuple2('Kolory złoty i niebieski', 'Słońce świecące dzieciom na całym świecie.'),
       ],
       'Znak przynależności zuchów i harcerek do Światowego Stowarzyszenia Przewodniczek i Skautek (WAGGGS). noszony na lewej kieszeni bluzy mundurowej - złota koniczyna na niebieskim tle.',
       colorStart: Colors.lightBlueAccent,
@@ -108,13 +107,13 @@ List<ItemData> items = [
       childBuilder: (context) => Center(
         child: AppCard(
           color: Colors.transparent,
-          child: AspectRatio(
-            child: SvgPicture.asset('${ASSETS_PATH}WAGGGS.svg', fit: BoxFit.contain),
-            aspectRatio: 1,
-          ),
           radius: 1000,
           elevation: AppCard.bigElevation,
           padding: EdgeInsets.zero,
+          child: AspectRatio(
+            aspectRatio: 1,
+            child: SvgPicture.asset('${ASSETS_PATH}WAGGGS.svg', fit: BoxFit.contain),
+          ),
         ),
       )
   ),
@@ -123,13 +122,13 @@ List<ItemData> items = [
       'WOSM.svg',
       'WOSM',
       [
-        Tuple2('Lilijka', 'Symbol przypisany przez Baden-Powella zwiadowcom armii brytyjskiej, który następnie został zmodyfikowany dla skautingu.'),
-        Tuple2('Strzałka', 'Igła kompasu wskazującą północ, rozumiana jako symbol służby i jedności.'),
-        Tuple2('Trzy ramiona lilijki', 'Obowiązki wobec Boga, bliźnich i siebie.'),
-        Tuple2('Dwie pięcioramienne gwiazdki', 'Prawda i wiedza, a ich dziesięć ramion – punkty prawa skautowego.'),
-        Tuple2('Kolor biały', 'Czystość.'),
-        Tuple2('Kolor purpurowy', 'Odpowiedzialność i pomoc bliźnim.'),
-        Tuple2('Lina związana węzłem płaskim', 'Jedność i braterstwo skautów.'),
+        const Tuple2('Lilijka', 'Symbol przypisany przez Baden-Powella zwiadowcom armii brytyjskiej, który następnie został zmodyfikowany dla skautingu.'),
+        const Tuple2('Strzałka', 'Igła kompasu wskazującą północ, rozumiana jako symbol służby i jedności.'),
+        const Tuple2('Trzy ramiona lilijki', 'Obowiązki wobec Boga, bliźnich i siebie.'),
+        const Tuple2('Dwie pięcioramienne gwiazdki', 'Prawda i wiedza, a ich dziesięć ramion – punkty prawa skautowego.'),
+        const Tuple2('Kolor biały', 'Czystość.'),
+        const Tuple2('Kolor purpurowy', 'Odpowiedzialność i pomoc bliźnim.'),
+        const Tuple2('Lina związana węzłem płaskim', 'Jedność i braterstwo skautów.'),
       ],
       'Znak przynależności zuchów i harcerzy do Światowej Organizacji Ruchu Skautowego (WOSM) noszony na lewej kieszeni bluzy mundurowej - biała lilijka otoczona liną związana skautowym węzłem, umieszczona na purpurowym tle.',
       colorStart: Colors.deepPurpleAccent,
@@ -138,17 +137,17 @@ List<ItemData> items = [
       childBuilder: (context) => Center(
         child: AppCard(
           color: Colors.transparent,
-          child: AspectRatio(
-            child: SvgPicture.asset('${ASSETS_PATH}WOSM.svg', fit: BoxFit.contain),
-            aspectRatio: 1,
-          ),
           radius: 1000,
           elevation: AppCard.bigElevation,
           padding: EdgeInsets.zero,
+          child: AspectRatio(
+            aspectRatio: 1,
+            child: SvgPicture.asset('${ASSETS_PATH}WOSM.svg', fit: BoxFit.contain),
+          ),
         ),
       )
   ),
-  ItemData(
+  const ItemData(
     AppColors.text_def_enab,
     'znaczek_zucha.svg',
     'Znaczek zucha',
@@ -157,7 +156,22 @@ List<ItemData> items = [
       Tuple2('Promienie słońca', 'Gotowość służenia i niesienia pomocy innym, świecenie przykładem.'),
       Tuple2('Czyste niebo', 'Pogoda ducha.'),
       Tuple2('Orzeł', 'Odwaga, męstwo i dzielność.'),
-      Tuple2('Napis \"ZUCH\"', 'Przynależność do ZHP.'),
+      Tuple2('Napis "ZUCH"', 'Przynależność do ZHP.'),
+    ],
+    'Zuch otrzymuje znaczek po złożeniu Obietnicy i nosi go 2 cm nad lewą kieszenią koszuli mundurowej (przypięty w wyznaczonym miejscu).',
+    colorStart: Colors.lightBlueAccent,
+    colorEnd: Colors.deepPurpleAccent,
+  ),
+  const ItemData(
+    AppColors.text_def_enab,
+    'znaczek_zucha.svg',
+    'Starszoharcerska róża wiatrów',
+    [
+      Tuple2('Słońce', 'Radość.'),
+      Tuple2('Promienie słońca', 'Gotowość służenia i niesienia pomocy innym, świecenie przykładem.'),
+      Tuple2('Czyste niebo', 'Pogoda ducha.'),
+      Tuple2('Orzeł', 'Odwaga, męstwo i dzielność.'),
+      Tuple2('Napis "ZUCH"', 'Przynależność do ZHP.'),
     ],
     'Zuch otrzymuje znaczek po złożeniu Obietnicy i nosi go 2 cm nad lewą kieszenią koszuli mundurowej (przypięty w wyznaczonym miejscu).',
     colorStart: Colors.lightBlueAccent,
@@ -168,11 +182,11 @@ List<ItemData> items = [
     'naramiennik.svg',
     'Naramiennik wędrowniczy',
     [
-      Tuple2('Trzy polana ogniska', 'Służba, szukanie miejsca w społeczeństwie, praca nad sobą.'),
-      Tuple2('Mały płomień ogniska', 'Siła ciała.'),
-      Tuple2('Średni płomień ogniska', 'Siła rozumu.'),
-      Tuple2('Duży płomień ogniska', 'Siła ducha.'),
-      Tuple2('Zielone tło', 'Las, puszczaństwo.'),
+      const Tuple2('Trzy polana ogniska', 'Służba, szukanie miejsca w społeczeństwie, praca nad sobą.'),
+      const Tuple2('Mały płomień ogniska', 'Siła ciała.'),
+      const Tuple2('Średni płomień ogniska', 'Siła rozumu.'),
+      const Tuple2('Duży płomień ogniska', 'Siła ducha.'),
+      const Tuple2('Zielone tło', 'Las, puszczaństwo.'),
     ],
     'Watra noszona na lewym naramienniku munduru symbolizuje świadomą życiową wędrówkę – zarówno intelektualną, jak i fizyczną – po własnej miejscowości, regionie, Polsce, Europie i świecie.',
     colorStart: Colors.green[700],
@@ -203,11 +217,11 @@ class ItemData{
       this.content1,
       this.content2,
       {
-        this.padding: true,
+        this.padding = true,
         required this.colorStart,
         required this.colorEnd,
         this.childBuilder,
-        this.sharpBackgroundEdge: false,
+        this.sharpBackgroundEdge = false,
       });
 
 }
