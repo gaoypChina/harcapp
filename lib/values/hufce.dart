@@ -163,6 +163,7 @@ const String huf_zhp_wroclaw = 'Hufiec ZHP Wrocław im. Polonii Wrocławskiej';
 const String huf_zhp_wrzesnia_wrzos = 'Hufiec Września "Wrzos" ZHP im. Dzieci Wrzesińskich';
 
 const String huf_zhp_krakow_pdg = 'Hufiec ZHP Kraków Podgórze';
+const String huf_zhp_krakow_srodmiescie = 'ZHP Kraków-Śródmieście';
 const String huf_zhp_kutno = 'Hufiec ZHP Kutno';
 const String huf_zhp_kwidzyn = 'Hufiec ZHP Kwidzyn';
 const String huf_zhp_stargard = 'Hufiec ZHP Stargard';

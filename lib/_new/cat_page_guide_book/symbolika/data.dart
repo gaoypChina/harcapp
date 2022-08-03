@@ -164,18 +164,17 @@ List<ItemData> items = [
   ),
   const ItemData(
     AppColors.text_def_enab,
-    'znaczek_zucha.svg',
+    'harcerze_starsi.svg',
     'Starszoharcerska róża wiatrów',
     [
-      Tuple2('Słońce', 'Radość.'),
-      Tuple2('Promienie słońca', 'Gotowość służenia i niesienia pomocy innym, świecenie przykładem.'),
-      Tuple2('Czyste niebo', 'Pogoda ducha.'),
-      Tuple2('Orzeł', 'Odwaga, męstwo i dzielność.'),
-      Tuple2('Napis "ZUCH"', 'Przynależność do ZHP.'),
+      Tuple2('Ramiona róży wiatrów', 'Cztery kierunki rozwoju: intelektualny, społeczny, duchowy i emocjonalny oraz fizyczny.'),
+      Tuple2('Równa długość ramion róży wiatrów', 'Rozwój obszarów: intelektualnego, społęcznego, emocjonalnego i fizycznego powinine być równoważny.'),
+      Tuple2('Róża wiatrów', 'Poszukiwanie kierunku, swojego miejsca, pasji, służby, wyjście w nieznane'),
     ],
-    'Zuch otrzymuje znaczek po złożeniu Obietnicy i nosi go 2 cm nad lewą kieszenią koszuli mundurowej (przypięty w wyznaczonym miejscu).',
-    colorStart: Colors.lightBlueAccent,
-    colorEnd: Colors.deepPurpleAccent,
+    'Róża Wiatrów ma przypominać o właściwym kierunku i, w przypadku zbłądzenia, pomagać wrócić na właściwy szlak. To dzięki niej każdy z nas może obrać właściwy kierunek: w harcerstwie, w rodzinie, w szkole, w pracy oraz w życiu.',
+    colorStart: Color.fromARGB(255, 25, 64, 147),
+    colorEnd: Color.fromARGB(255, 25, 64, 147),
+    padding: false
   ),
   ItemData(
     AppColors.symb_naramiennik_text,

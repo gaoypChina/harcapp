@@ -69,6 +69,7 @@ List<Person> allPeople = [
   KAJETAN_RUSZKOWSKI,
   KAJETAN_WYGNANSKI,
   KAROLINA_MARCINKOWSKA,
+  KAMIL_GORNIK,
   KAMIL_ZAK,
   KAROL_GOLABEK,
   KAROL_MALUS,
@@ -128,6 +129,7 @@ List<Person> allPeople = [
   STANISLAW_WRONSKI,
   STEFAN_KRYCZKA,
   SZYMON_CHORAZY,
+  SZYMON_DRATWINSKI,
   SZYMON_DROPEK,
   SZYMON_JAWOREK,
   SZYMON_PODGORNY,
@@ -415,6 +417,14 @@ const Person KAJETAN_WYGNANSKI = Person(
   org: Org.zhp,
 );
 const Person KAROLINA_MARCINKOWSKA = Person(name: 'Karolina Marcinkowska');
+const Person KAMIL_GORNIK = Person(
+  name: 'Kamil Gurnik',
+  stopH: StopZHP.cw,
+  druzyna: '64. WDHS Etos',
+  hufiec: huf_zhp_warszawa_praga_pn,
+  org: Org.zhp,
+  email: ['kamilgurnik@gmail.com']
+);
 const Person KAMIL_ZAK = Person(name: 'Kamil Żak', stopH: StopZHP.HOc);
 const Person KAROL_GOLABEK = Person(
   name: 'Karol Gołąbek',
@@ -517,7 +527,9 @@ const Person MARLENA_BANIA = Person(
     stopH: StopZHP.pion,
     druzyna: '9. Gliwicka Drużyna Harcerzy Starszych "Lukarna" im. Witolda Pileckiego',
     hufiec: huf_zhp_ziemi_gliwickiej,
-    org: Org.zhp);
+    org: Org.zhp,
+    email: ['marlena.bania6474@gmail.com']
+);
 const Person MARTA_SZYMANDERSKA = Person(name: 'Marta Szymanderska', stopH: StopZHP.dhd, hufiec: huf_zhp_warszawa_mokotow, org: Org.zhp);
 const Person MARYSIA_SLUGAJ = Person(
   name: 'Marysia Ślugaj',
@@ -646,6 +658,14 @@ const Person SZYMON_CHORAZY = Person(
   druzyna: '72. WDHS "Uroczysko"',
   hufiec: huf_zhp_warszawa_praga_pn,
   org: Org.zhp
+);
+const Person SZYMON_DRATWINSKI = Person(
+  name: 'Szymon Dratwiński',
+  stopH: StopZHP.cw,
+  druzyna: '16. Krakowska Drużyna Harcerska',
+  hufiec: huf_zhp_krakow_srodmiescie,
+  org: Org.zhp,
+  email: ['szymon.dratwinski@gmail.com']
 );
 const Person SZYMON_DROPEK = Person(name: 'Szymon Dropek',
     druzyna:'7. Kwidzyńska Drużyna Harcerska',

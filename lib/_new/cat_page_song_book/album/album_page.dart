@@ -163,7 +163,7 @@ class _AlbumItemState extends State<_AlbumItem>{
             onLongPress: (){
               AlbumProvider prov = Provider.of<AlbumProvider>(context, listen: false);
 
-              int? lastPage = CatPageSongBookState.getLastPageForAlbum(album);
+              int lastPage = CatPageSongBookState.getLastPageForAlbum(album);
               CatPageSongBookState.delLastPageForAlbum(album);
 
               album.delete();
@@ -182,7 +182,7 @@ class _AlbumItemState extends State<_AlbumItem>{
                   onButtonPressed: (context){
                     album.save();
                     prov.insertToAll(index, album);
-                    CatPageSongBookState.setLastPageForAlbum(album, lastPage!);
+                    CatPageSongBookState.setLastPageForAlbum(album, lastPage);
                   }
               );
             },

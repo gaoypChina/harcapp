@@ -132,17 +132,24 @@ class _DescriptionWidget extends StatelessWidget{
 
     for(int i = 0; i<data.content1.length; i++){
       children.add(
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+        Padding(
+            padding: const EdgeInsets.only(left: Dimen.ICON_MARG),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
 
-            TitleShortcutRowWidget(title: data.content1[i].item1, textAlign: TextAlign.start, titleColor: hintEnab_(context)),
+                Text(
+                  data.content1[i].item1,
+                  style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
+                ),
 
-            Padding(
-              padding: const EdgeInsets.only(left: Dimen.ICON_MARG),
-              child: Text(data.content1[i].item2, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2)),
+                Text(
+                    data.content1[i].item2,
+                    style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2)
+                ),
+
+              ],
             ),
-          ],
         ),
       );
       if(i!=data.content1.length-1) children.add(const SizedBox(height: Dimen.SIDE_MARG));
@@ -153,7 +160,7 @@ class _DescriptionWidget extends StatelessWidget{
       child: Column(
         children: <Widget>[
 
-          const TitleShortcutRowWidget(title: 'Elementy', textAlign: TextAlign.start, icon: MdiIcons.flare),
+          TitleShortcutRowWidget(title: 'Elementy', textAlign: TextAlign.start, titleColor: hintEnab_(context)),
 
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -162,7 +169,7 @@ class _DescriptionWidget extends StatelessWidget{
 
           const SizedBox(height: 2*Dimen.SIDE_MARG),
 
-          const TitleShortcutRowWidget(title: 'Opis', icon: MdiIcons.textBoxOutline, textAlign: TextAlign.start),
+          TitleShortcutRowWidget(title: 'Opis', textAlign: TextAlign.start, titleColor: hintEnab_(context)),
 
           Padding(
             padding: const EdgeInsets.only(
