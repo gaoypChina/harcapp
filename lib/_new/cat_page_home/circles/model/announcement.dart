@@ -223,7 +223,7 @@ class Announcement{
   static Announcement fromMap(Map resp, Circle circle, {String? key}) => Announcement(
     key: key??resp['_key']??(throw InvalidResponseError('_key')),
     title: resp['title']??(throw InvalidResponseError('title')),
-    postTime: DateTime.tryParse(resp['postTimeStr']??(throw InvalidResponseError('postTimeStr')))??(throw InvalidResponseError('post_time_str')),
+    postTime: DateTime.tryParse(resp['publishTimeStr']??(throw InvalidResponseError('publishTimeStr')))??(throw InvalidResponseError('post_time_str')),
     lastUpdateTime: resp['lastUpdateTimeStr'] == null? null: DateTime.tryParse(resp['lastUpdateTimeStr']),
     startTime: resp['startTimeStr'] == null? null: DateTime.tryParse(resp['startTimeStr']),
     endTime: resp['endTimeStr'] == null? null: DateTime.tryParse(resp['endTimeStr']),
