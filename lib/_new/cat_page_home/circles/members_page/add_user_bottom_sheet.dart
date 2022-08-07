@@ -4,7 +4,6 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/api/circle.dart';
-import 'package:harcapp/_new/cat_page_home/circles/circle_page.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/account/search_user_dialog.dart';
 import 'package:harcapp/values/consts.dart';
@@ -17,6 +16,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:palette_generator/palette_generator.dart';
 
 import '../../../../../account/shadow_user_manager_page.dart';
+import '../../community/common/community_cover_colors.dart';
 import '../circle_role.dart';
 import '../model/circle.dart';
 import '../model/member.dart';
@@ -139,7 +139,7 @@ class AddUserBottomSheet extends StatelessWidget{
 
   void addUser(BuildContext context, UserDataNick userData) async {
 
-    showLoadingWidget(context, CirclePage.strongColor(context, palette), 'Dodawanie uczestnika');
+    showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Dodawanie uczestnika');
 
     await ApiCircle.addUsers(
         circleKey: circle!.key,

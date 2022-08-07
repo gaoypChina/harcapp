@@ -13,7 +13,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import '../../_common_widgets/drawer_tile.dart';
 import '../app_bottom_navigator.dart';
-import 'circles/all_circles_page.dart';
+import 'community/all_comunities_page.dart';
 import 'circles/model/circle.dart';
 import 'circles/circle_page.dart';
 import 'competitions/all_competitions_page.dart';
@@ -53,7 +53,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
             onCompetitionTap: (comp) => openCompPage(context, comp),
           );
         else if(prov.selectedDrawerPage == HomePartProvider.drawerPageCircles)
-          return AllCirclesPage(
+          return AllCommunitiesPage(
             onCircleTap: (circle) => openCirclePage(context, circle),
           );
 
@@ -95,8 +95,8 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
               ),
 
               DrawerTile<String>(
-                icon: MdiIcons.googleCircles,
-                title: 'Kręgi',
+                icon: MdiIcons.googleCirclesCommunities,
+                title: 'Środowiska',
                 source: HomePartProvider.drawerPageCircles,
                 selectedSource: prov.selectedDrawerPage,
                 onSelect: (String source){

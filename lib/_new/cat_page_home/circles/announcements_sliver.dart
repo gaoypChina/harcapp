@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/cat_page_home/circles/announcement_widget.dart';
-import 'package:harcapp/_new/cat_page_home/circles/circle_page.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/announcement.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/circle.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import '../community/common/community_cover_colors.dart';
 
 Widget getAnnouncementsSliver(
     BuildContext context,
@@ -30,7 +31,7 @@ Widget getAnnouncementsSliver(
         EmptyMessageWidget(
           icon: MdiIcons.newspaperVariantOutline,
           text: loading?(loadingMessage??'Ładowanie ogłoszeń'):(emptyMessage??'Brak ogłoszeń'),
-          color: CirclePage.cardColor(context, palette),
+          color: CommunityCoverColors.cardColor(context, palette),
         ),
       ])),
     );

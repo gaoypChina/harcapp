@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_image_data.dart';
 
-import '../circle_cover_image_data.dart';
 import '../model/circle.dart';
 
 class NameProvider extends ChangeNotifier{
@@ -27,15 +27,15 @@ class DescriptionProvider extends ChangeNotifier{
 
 class CoverImageProvider extends ChangeNotifier{
 
-  CircleCoverImageData? _coverImage;
-  CircleCoverImageData? get coverImage => _coverImage;
-  set coverImage(CircleCoverImageData? value){
+  CommunityCoverImageData? _coverImage;
+  CommunityCoverImageData? get coverImage => _coverImage;
+  set coverImage(CommunityCoverImageData? value){
     _coverImage = value;
     notifyListeners();
   }
 
   CoverImageProvider({Circle? circle}){
-    _coverImage = circle?.coverImage??CircleCoverImageData.paths[Random().nextInt(CircleCoverImageData.paths.length)];
+    _coverImage = circle?.coverImage??CommunityCoverImageData.paths[Random().nextInt(CommunityCoverImageData.paths.length)];
   }
 
 }

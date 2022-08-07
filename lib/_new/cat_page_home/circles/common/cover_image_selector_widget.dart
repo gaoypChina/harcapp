@@ -2,7 +2,7 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
-import 'package:harcapp/_new/cat_page_home/circles/circle_cover_image_data.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_image_data.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/_new/details/part_contributors.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -17,8 +17,8 @@ import '../model/circle.dart';
 
 class CoverImageSelectorWidget extends StatefulWidget{
 
-  final CircleCoverImageData? selected;
-  final void Function(CircleCoverImageData?)? onSelected;
+  final CommunityCoverImageData? selected;
+  final void Function(CommunityCoverImageData?)? onSelected;
   final bool separateAdaptiveCoverImages;
   final bool canChooseNull;
 
@@ -37,25 +37,25 @@ class CoverImageSelectorWidget extends StatefulWidget{
 
 class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
 
-  CircleCoverImageData? get initiallySelected => widget.selected;
-  void Function(CircleCoverImageData?)? get onSelected => widget.onSelected;
+  CommunityCoverImageData? get initiallySelected => widget.selected;
+  void Function(CommunityCoverImageData?)? get onSelected => widget.onSelected;
   bool get separateAdaptiveCoverImages => widget.separateAdaptiveCoverImages;
   bool get canChooseNull => widget.canChooseNull;
 
-  late List<CircleCoverImageData> adaptiveLocalImages;
-  late List<CircleCoverImageData> standardLocalImages;
+  late List<CommunityCoverImageData> adaptiveLocalImages;
+  late List<CommunityCoverImageData> standardLocalImages;
 
-  CircleCoverImageData? get selected{
+  CommunityCoverImageData? get selected{
     if(bottomIndex == 0) return _selectedLocal;
-    else /*if(bottomIndex == 1)*/ return CircleCoverImageData.from(controller.text);
+    else /*if(bottomIndex == 1)*/ return CommunityCoverImageData.from(controller.text);
   }
 
-  set selected(CircleCoverImageData? value){
+  set selected(CommunityCoverImageData? value){
     if(bottomIndex == 0) _selectedLocal = value;
     else if(bottomIndex == 1) controller.text = value?.code??'';
   }
 
-  CircleCoverImageData? _selectedLocal;
+  CommunityCoverImageData? _selectedLocal;
 
   late TextEditingController controller;
 
@@ -76,14 +76,14 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
 
   @override
   void initState() {
-    adaptiveLocalImages = CircleCoverImageData.paths.where((image) => image.isAdaptive).toList();
-    standardLocalImages = CircleCoverImageData.paths.where((image) => !image.isAdaptive).toList();
+    adaptiveLocalImages = CommunityCoverImageData.paths.where((image) => image.isAdaptive).toList();
+    standardLocalImages = CommunityCoverImageData.paths.where((image) => !image.isAdaptive).toList();
 
     if(separateAdaptiveCoverImages) {
-      List<CircleCoverImageData> separated = [];
-      for (CircleCoverImageData coverImage in adaptiveLocalImages) {
-        separated.add(CircleCoverImageData(true, [GraphicalResource(coverImage.firstFileName, coverImage.firstAuthor)]));
-        separated.add(CircleCoverImageData(true, [GraphicalResource(coverImage.secondFileName, coverImage.secondAuthor)]));
+      List<CommunityCoverImageData> separated = [];
+      for (CommunityCoverImageData coverImage in adaptiveLocalImages) {
+        separated.add(CommunityCoverImageData(true, [GraphicalResource(coverImage.firstFileName, coverImage.firstAuthor)]));
+        separated.add(CommunityCoverImageData(true, [GraphicalResource(coverImage.secondFileName, coverImage.secondAuthor)]));
       }
       standardLocalImages.insertAll(0, separated);
       adaptiveLocalImages.clear();
@@ -376,7 +376,7 @@ class CoverImageWidget extends StatelessWidget{
 
   static const double height = 200.0;
 
-  final CircleCoverImageData? coverImage;
+  final CommunityCoverImageData? coverImage;
   final bool selected;
   final double radius;
   final bool showAuthor;
@@ -444,15 +444,15 @@ class CoverImageWidget extends StatelessWidget{
 
 }
 
-Future<CircleCoverImageData?> selectCoverImage(
+Future<CommunityCoverImageData?> selectCoverImage(
     BuildContext context,
-    CircleCoverImageData? currentCoverImage,
+    CommunityCoverImageData? currentCoverImage,
     { bool separateAdaptiveCoverImages = false,
       canChooseNull = false
     }) async {
 
   bool anythingSelected = false;
-  CircleCoverImageData? selectedCoverImage;
+  CommunityCoverImageData? selectedCoverImage;
 
   await openDialog(
       context: context,

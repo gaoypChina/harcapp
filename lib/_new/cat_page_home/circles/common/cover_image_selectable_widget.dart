@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_image_data.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../circle_cover_image_data.dart';
-import '../circle_page.dart';
-import '../cover_image.dart';
+import '../../cover_image.dart';
 import 'cover_image_selector_widget.dart';
 
 class CoverImageSelectableWidget extends StatefulWidget{
 
   final PaletteGenerator? palette;
-  final CircleCoverImageData? initCoverImage;
+  final CommunityCoverImageData? initCoverImage;
   final double height;
   final bool removable;
-  final void Function(CircleCoverImageData?)? onSelected;
+  final void Function(CommunityCoverImageData?)? onSelected;
   final Widget Function(BuildContext)? emptyBuilder;
 
   const CoverImageSelectableWidget(
@@ -39,10 +39,10 @@ class CoverImageSelectableWidgetState extends State<CoverImageSelectableWidget>{
   PaletteGenerator? get palette => widget.palette;
   double get height => widget.height;
   bool get removable => widget.removable;
-  void Function(CircleCoverImageData?)? get onSelected => widget.onSelected;
+  void Function(CommunityCoverImageData?)? get onSelected => widget.onSelected;
   Widget Function(BuildContext)? get emptyBuilder => widget.emptyBuilder;
 
-  CircleCoverImageData? selCoverImage;
+  CommunityCoverImageData? selCoverImage;
   
   @override
   void initState() {
@@ -77,7 +77,7 @@ class CoverImageSelectableWidgetState extends State<CoverImageSelectableWidget>{
               child: Icon(
                 MdiIcons.imageOffOutline,
                 size: 100,
-                color: CirclePage.cardColor(context, palette),
+                color: CommunityCoverColors.cardColor(context, palette),
               ),
             )
           else if(selCoverImage != null)
@@ -88,7 +88,7 @@ class CoverImageSelectableWidgetState extends State<CoverImageSelectableWidget>{
             right: Dimen.ICON_MARG,
             child: Material(
                 borderRadius: BorderRadius.circular(Dimen.ICON_FOOTPRINT),
-                color: selCoverImage == null? Colors.transparent: CirclePage.cardColor(context, palette),
+                color: selCoverImage == null? Colors.transparent: CommunityCoverColors.cardColor(context, palette),
                 clipBehavior: Clip.hardEdge,
                 child: IconButton(
                   icon: const Icon(MdiIcons.imageOutline),

@@ -25,38 +25,43 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'circle_editor/_main.dart';
-import 'circle_loader.dart';
-import 'circle_page.dart';
-import 'circle_widget.dart';
-import 'model/circle.dart';
-import 'new_circle_type.dart';
+import 'community_editor/_main.dart';
+import 'forum/model/forum.dart';
+import 'model/community.dart';
+import '../circles/circle_editor/_main.dart';
+import 'communities_loader.dart';
+import '../circles/circle_page.dart';
+import 'community_widget.dart';
+import '../circles/model/circle.dart';
+import '../circles/new_circle_type.dart';
 
-class AllCirclesPage extends StatefulWidget{
+class AllCommunitiesPage extends StatefulWidget{
 
   final void Function(Circle)? onCircleTap;
+  final void Function(Forum)? onForumTap;
 
-  const AllCirclesPage({this.onCircleTap, super.key});
+  const AllCommunitiesPage({this.onCircleTap, this.onForumTap, super.key});
 
   @override
-  State<StatefulWidget> createState() => AllCirclesPageState();
+  State<StatefulWidget> createState() => AllCommunitiesPageState();
 
 }
 
-class AllCirclesPageState extends State<AllCirclesPage>{
+class AllCommunitiesPageState extends State<AllCommunitiesPage>{
 
   void Function(Circle)? get onCircleTap => widget.onCircleTap;
+  void Function(Forum)? get onForumTap => widget.onForumTap;
 
   late RefreshController refreshController;
 
   late LoginListener loginListener;
 
-  late CircleLoaderListener _listener;
+  late CommunityLoaderListener _listener;
   
   StreamSubscription<ConnectivityResult>? networkListener;
   late bool networkAvailable;
 
-  late List<Circle> searchedCircles;
+  late List<Community> searchedCommunities;
   
   @override
   void initState() {
@@ -66,8 +71,8 @@ class AllCirclesPageState extends State<AllCirclesPage>{
     CircleProvider circleProv = Provider.of<CircleProvider>(context, listen: false);
     CircleListProvider circleListProv = Provider.of<CircleListProvider>(context, listen: false);
 
-    _listener = CircleLoaderListener(
-      onCirclesLoaded: (List<Circle> circles){
+    _listener = CommunityLoaderListener(
+      onCommunitiesLoaded: (List<Community> communities){
 
         circleProv.notify();
         circleListProv.notify();
@@ -76,7 +81,7 @@ class AllCirclesPageState extends State<AllCirclesPage>{
 
         refreshController.refreshCompleted();
         setState(() {});
-        searchedCircles = circles;
+        searchedCommunities = communities;
       },
       onForceLoggedOut: (){
         if(!mounted) return true;
@@ -99,19 +104,19 @@ class AllCirclesPageState extends State<AllCirclesPage>{
         setState(() {});
       },
     );
-    circleLoader.addListener(_listener);
+    communitiesLoader.addListener(_listener);
 
     loginListener = LoginListener(
         onLogin: (emailConfirmed){
           if(!mounted) return;
           setState(() {});
           if(emailConfirmed)
-            searchedCircles = Circle.all!;
+            searchedCommunities = Community.all!;
         },
         onRegistered: (){
           if(!mounted) return;
           setState(() {});
-          searchedCircles = Circle.all!;
+          searchedCommunities = Community.all!;
         },
         onEmailConfirmChanged: (emailConfirmed){
           if(!mounted) return;
@@ -139,11 +144,11 @@ class AllCirclesPageState extends State<AllCirclesPage>{
         showAppToast(context, text: 'Brak internetu');
     });
 
-    if(Circle.all == null && AccountData.loggedIn)
-      circleLoader.run();
+    if(Community.all == null && AccountData.loggedIn)
+      communitiesLoader.run();
 
-    if(Circle.all != null)
-      searchedCircles = Circle.all!;
+    if(Community.all != null)
+      searchedCommunities = Community.all!;
 
     super.initState();
   }
@@ -151,7 +156,7 @@ class AllCirclesPageState extends State<AllCirclesPage>{
   @override
   void dispose() {
     AccountData.removeLoginListener(loginListener);
-    circleLoader.removeListener(_listener);
+    communitiesLoader.removeListener(_listener);
     refreshController.dispose();
 
     super.dispose();
@@ -160,26 +165,26 @@ class AllCirclesPageState extends State<AllCirclesPage>{
   void selectCircles(String text){
 
     if(text.isEmpty) {
-      searchedCircles = Circle.all!;
+      searchedCommunities = Community.all!;
       return;
     }
 
-    List<Circle> circles = [];
-    for(Circle circle in Circle.all!)
-      if(remPolChars(circle.name).contains(remPolChars(text)))
-        circles.add(circle);
+    List<Community> communities = [];
+    for(Community community in Community.all!)
+      if(remPolChars(community.name).contains(remPolChars(text)))
+        communities.add(community);
 
-    searchedCircles = circles;
+    searchedCommunities = communities;
   }
 
-  bool get shouldScroll => AccountData.loggedIn && Circle.all != null && Circle.all!.isNotEmpty;
+  bool get shouldScroll => AccountData.loggedIn && Community.all != null && Community.all!.isNotEmpty;
 
   List<Widget> getSlivers(){
     
     List<Widget> slivers = [];
     
     slivers.add(SliverAppBar(
-      title: const Text('Kręgi'),
+      title: const Text('Środowiska'),
       centerTitle: true,
       floating: true,
       pinned: !shouldScroll,
@@ -206,11 +211,11 @@ class AllCirclesPageState extends State<AllCirclesPage>{
             width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             icon: MdiIcons.accountReactivateOutline,
-            text: 'Aktywuj konto by\nzawiązać krąg',
+            text: 'Aktywuj konto by\nzawiązać środowisko',
             onTap: () => AccountPage.open(context),
           ),
         ));
-      else if(circleLoader.running)
+      else if(communitiesLoader.running)
         slivers.add(SliverFillRemaining(
             hasScrollBody: false,
             child: CircleLoadingWidget(
@@ -237,7 +242,7 @@ class AllCirclesPageState extends State<AllCirclesPage>{
               child: Padding(
                   padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                   child: SimpleButton(
-                    onTap: () => NewCircleButton.newCircle(context),
+                    onTap: () => NewCommunityButton.newCommunity(context),
                     elevation: AppCard.bigElevation,
                     padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                     color: cardEnab_(context),
@@ -246,14 +251,14 @@ class AllCirclesPageState extends State<AllCirclesPage>{
                       mainAxisSize: MainAxisSize.min,
                       children: const [
 
-                        IgnorePointer(child: NewCircleButton()),
+                        IgnorePointer(child: NewCommunityButton()),
 
                         SizedBox(height: Dimen.SIDE_MARG),
 
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                           child: AppText(
-                            'Zawiąż krąg zastępu, drużyny lub szczepu!'
+                            'Zawiąż środowisko zastępu, drużyny lub szczepu!'
                             '\n\nWszystkie ważne <b>informacje i ogłoszenia</b> opublikujesz lub znajdziesz właśnie tam.',
                             size: Dimen.TEXT_SIZE_BIG,
                           ),
@@ -290,12 +295,12 @@ class AllCirclesPageState extends State<AllCirclesPage>{
 
           widgets.add(const SizedBox(height: Dimen.SIDE_MARG));
 
-          for (int i = 0; i < searchedCircles.length; i++) {
+          for (int i = 0; i < searchedCommunities.length; i++) {
             widgets.add(Padding(
               padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-              child: CircleWidget(
-                searchedCircles[i],
-                onTap: onCircleTap,
+              child: CommunityWidget(
+                searchedCommunities[i],
+                onCircleTap: onCircleTap,
               ),
             ));
             widgets.add(const SizedBox(height: Dimen.SIDE_MARG));
@@ -303,7 +308,7 @@ class AllCirclesPageState extends State<AllCirclesPage>{
 
           widgets.add(const Padding(
             padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-            child: NewCircleButton(),
+            child: NewCommunityButton(),
           ));
         }
 
@@ -342,7 +347,7 @@ class AllCirclesPageState extends State<AllCirclesPage>{
                   return;
                 }
 
-                circleLoader.run();
+                communitiesLoader.run();
               },
               child: CustomScrollView(
                   physics:
@@ -356,9 +361,9 @@ class AllCirclesPageState extends State<AllCirclesPage>{
   
 }
 
-class NewCircleButton extends StatelessWidget{
+class NewCommunityButton extends StatelessWidget{
 
-  const NewCircleButton({super.key});
+  const NewCommunityButton({super.key});
 
   @override
   Widget build(BuildContext context) => SimpleButton(
@@ -408,7 +413,7 @@ class NewCircleButton extends StatelessWidget{
                     bottom: Dimen.SIDE_MARG,
                     right: Dimen.SIDE_MARG,
                     child: Text(
-                        'Nowy krąg',
+                        'Nowe środowisko',
                         style: AppTextStyle(
                             fontSize: Dimen.TEXT_SIZE_APPBAR,
                             fontWeight: weight.bold,
@@ -423,10 +428,28 @@ class NewCircleButton extends StatelessWidget{
 
         },
       ),
-      onTap: () => newCircle(context)
+      onTap: () => newCommunity(context)
   );
 
-  static void newCircle(BuildContext context) async {
+  static void newCommunity(BuildContext context) async {
+    NewCircleType? type = await pickNewCircleType(context);
+    if (type == null) return;
+
+    if(type == NewCircleType.join)
+      return;
+    else
+      pushPage(
+        context,
+        builder: (context) =>
+            CommunityEditorPage(
+              onSaved: (community) async {
+                Community.addToAll(community, context: context);
+              },
+            ),
+      );
+  }
+
+  static void newCircle(BuildContext context, Community community) async {
     NewCircleType? type = await pickNewCircleType(context);
     if (type == null) return;
 
@@ -437,6 +460,7 @@ class NewCircleButton extends StatelessWidget{
         context,
         builder: (context) =>
             CircleEditorPage(
+              community: community,
               onSaved: (comp) async {
                 Circle.addToAll(context, comp);
                 await pushReplacePage(context, builder: (context) => CirclePage(Circle.all!.last));

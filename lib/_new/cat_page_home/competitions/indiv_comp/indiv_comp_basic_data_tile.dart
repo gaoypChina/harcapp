@@ -48,7 +48,7 @@ class IndivCompBasicDataTile extends StatelessWidget{
                 comp.name,
                 style: AppTextStyle(
                   fontSize: 18.0,
-                  fontWeight: weight.bold,
+                  fontWeight: weight.halfBold,
                   color: AppSettings.isDark?comp.colors.colorStart:comp.colors.colorEnd,
                 ),
                 maxLines: 2,

@@ -30,7 +30,7 @@ import 'package:provider/provider.dart';
 import '../../_common_widgets/harc_app.dart';
 import '../api/circle.dart';
 import 'circles/model/circle.dart';
-import 'competitions/announcement_sliver.dart';
+import 'circles/announcements_sliver.dart';
 import 'competitions/indiv_comp/indiv_comp_preview_widget.dart';
 
 class PreviewPart extends StatefulWidget{

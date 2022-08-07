@@ -18,8 +18,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import '../../../_common_widgets/app_toast.dart';
 import '../../cat_page_harcthought/apel_ewan/providers.dart';
+import '../community/common/community_cover_colors.dart';
 import '../competitions/indiv_comp/indiv_comp_basic_data_tile.dart';
-import 'circle_page.dart';
 import 'model/circle.dart';
 
 class CircleBindedIndivCompPage extends StatefulWidget{
@@ -58,8 +58,8 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
 
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
-    backgroundColor: CirclePage.backgroundColor(context, palette),
-    appBottomNavColor: CirclePage.backgroundColor(context, palette),
+    backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+    appBottomNavColor: CommunityCoverColors.backgroundColor(context, palette),
     body: Consumer<BindedIndivCompsProvider>(builder: (context, prov, child) => CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
@@ -67,7 +67,7 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
           SliverAppBar(
             title: const Text('Współzawodnictwa'),
             centerTitle: true,
-            backgroundColor: CirclePage.backgroundColor(context, palette),
+            backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
           ),
 
           SliverList(delegate: SliverChildListDelegate([
@@ -91,7 +91,7 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                     return IndivCompBasicDataTile(
                       circle.bindedIndivComps[index],
                       bottomText: 'Nie jesteś uczestnikiem',
-                      bottomTextColor: CirclePage.strongColor(context, palette),
+                      bottomTextColor: CommunityCoverColors.strongColor(context, palette),
                       onTap: (_) => showAppToast(context, text: 'Aby dołączyć, odezwij się do administratora współzawodnictwa'),
                       trailing: IconButton(
                         icon: const Icon(MdiIcons.close),
@@ -105,7 +105,7 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
 
                           BindedIndivCompsProvider bindedIndivCompsProv = Provider.of<BindedIndivCompsProvider>(context, listen: false);
 
-                          showLoadingWidget(context, CirclePage.strongColor(context, palette), 'Chwileczkę...');
+                          showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Chwileczkę...');
 
                           await ApiCircle.deleteIndivCompBind(
                               circleKey: circle.key,
@@ -137,8 +137,8 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
 
                   return IndivCompTile(
                     IndivComp.allMap![indivCompKey]!,
-                    participBorderColor: CirclePage.cardColor(context, palette),
-                    participBackgroundColor: CirclePage.backgroundColor(context, palette),
+                    participBorderColor: CommunityCoverColors.cardColor(context, palette),
+                    participBackgroundColor: CommunityCoverColors.backgroundColor(context, palette),
                     subTitle: Row(
                       children: [
                         Icon(MdiIcons.googleCircles, color: hintEnab_(context)),
@@ -167,7 +167,7 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
 
                         BindedIndivCompsProvider bindedIndivCompsProv = Provider.of<BindedIndivCompsProvider>(context, listen: false);
 
-                        showLoadingWidget(context, CirclePage.strongColor(context, palette), 'Chwileczkę...');
+                        showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Chwileczkę...');
 
                         await ApiCircle.deleteIndivCompBind(
                           circleKey: circle.key,
@@ -223,8 +223,8 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
 
                   return IndivCompTile(
                     bindableIndivComps[index],
-                    participBorderColor: CirclePage.cardColor(context, palette),
-                    participBackgroundColor: CirclePage.backgroundColor(context, palette),
+                    participBorderColor: CommunityCoverColors.cardColor(context, palette),
+                    participBackgroundColor: CommunityCoverColors.backgroundColor(context, palette),
                     subTitle:
                     bindableIndivComps[index].bindedCircle == null?
                     Text(
@@ -262,7 +262,7 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
 
                         BindedIndivCompsProvider bindedIndivCompsProv = Provider.of<BindedIndivCompsProvider>(context, listen: false);
 
-                        showLoadingWidget(context, CirclePage.strongColor(context, palette), 'Chwileczkę...');
+                        showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Chwileczkę...');
 
                         await ApiCircle.bindIndivComp(
                             circleKey: circle.key,

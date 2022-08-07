@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendace.dart';
+import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
 import 'package:provider/provider.dart';
 
 import '../../../api/_api.dart';
-import '../circle_cover_image_data.dart';
+import '../../community/common/community_cover_image_data.dart';
 import 'announcement_attendance_resp.dart';
 import 'announcement_attendance_resp_mode.dart';
 import 'circle.dart';
@@ -19,7 +20,7 @@ class AnnouncementListProvider extends ChangeNotifier{
   void notify() => notifyListeners();
 }
 
-class Announcement{
+class Announcement extends CommunityPublishable{
 
   static const int feedPageSize = 10;
 
@@ -119,7 +120,6 @@ class Announcement{
     _allMap!.clear();
   }
 
-  final String key;
   String title;
   DateTime postTime;
   DateTime? lastUpdateTime;
@@ -128,7 +128,7 @@ class Announcement{
   String? place;
   String? urlToPreview;
   UserData author;
-  CircleCoverImageData? coverImage;
+  CommunityCoverImageData? coverImage;
   String text;
   bool pinned;
   AnnouncementAttendanceRespMode respMode;
@@ -185,7 +185,7 @@ class Announcement{
   }
 
   Announcement({
-    required this.key,
+    required super.key,
     required this.title,
     required this.postTime,
     this.lastUpdateTime,
@@ -227,7 +227,7 @@ class Announcement{
     lastUpdateTime: resp['lastUpdateTimeStr'] == null? null: DateTime.tryParse(resp['lastUpdateTimeStr']),
     startTime: resp['startTimeStr'] == null? null: DateTime.tryParse(resp['startTimeStr']),
     endTime: resp['endTimeStr'] == null? null: DateTime.tryParse(resp['endTimeStr']),
-    coverImage: resp['coverImageUrl'] == null? null: CircleCoverImageData.from(resp['coverImageUrl']),
+    coverImage: resp['coverImageUrl'] == null? null: CommunityCoverImageData.from(resp['coverImageUrl']),
     place: resp['place'],
     urlToPreview: resp['urlToPreview'],
     author: UserData.fromMap(resp['author']),

@@ -5,7 +5,8 @@ import 'package:harcapp/logger.dart';
 import 'package:provider/provider.dart';
 
 import '../../../api/_api.dart';
-import '../circle_cover_image_data.dart';
+import '../../community/common/community_cover_image_data.dart';
+import '../../community/model/community.dart';
 import '../circle_role.dart';
 import 'announcement.dart';
 import 'member.dart';
@@ -58,7 +59,7 @@ class CircleBasicData{
 
   String key;
   String name;
-  CircleCoverImageData coverImage;
+  CommunityCoverImageData coverImage;
   int memberCount;
 
   CircleBasicData({
@@ -78,7 +79,7 @@ class CircleBasicData{
   static CircleBasicData fromResponse(Map resp) => CircleBasicData(
     key: resp['_key']??(throw InvalidResponseError('_key')),
     name: resp['name']??(throw InvalidResponseError('name')),
-    coverImage: CircleCoverImageData.from(resp['coverImageUrl']??(throw InvalidResponseError('coverImageUrl'))),
+    coverImage: CommunityCoverImageData.from(resp['coverImageUrl']??(throw InvalidResponseError('coverImageUrl'))),
     memberCount: resp['memberCount']??(throw InvalidResponseError('memberCount')),
   );
 
@@ -177,12 +178,13 @@ class Circle{
   }
 
   final String key;
-  String name;
+  String get name => community.name;
   String? description;
-  CircleCoverImageData coverImage;
+  CommunityCoverImageData coverImage;
   String? shareCode;
   bool shareCodeSearchable;
   String colorsKey;
+  Community community;
 
   final List<Member> _members;
   final Map<String, Member> _membersMap;
@@ -410,7 +412,6 @@ class Circle{
 
   Circle({
     required this.key,
-    required this.name,
     this.description,
     required this.coverImage,
     this.shareCode,
@@ -425,6 +426,7 @@ class Circle{
     required List<Announcement> awaitingAnnouncements,
 
     required this.bindedIndivComps,
+    required this.community,
 
   }): _members = members,
       _membersMap = {for (Member mem in members) mem.key: mem},
@@ -449,7 +451,7 @@ class Circle{
     _allAnnouncements.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
   }
 
-  static Circle fromResponse(Map resp){
+  static Circle fromResponse(Map resp, Community community){
 
     List<Member> members = [];
     Map memResps = resp['members']??(throw InvalidResponseError('_key'));
@@ -471,9 +473,8 @@ class Circle{
 
     Circle circle = Circle(
       key: resp['_key']??(throw InvalidResponseError('_key')),
-      name: resp['name']??(throw InvalidResponseError('name')),
       description: resp['description'],
-      coverImage: CircleCoverImageData.from(resp['coverImageUrl']),
+      coverImage: CommunityCoverImageData.from(resp['coverImageUrl']),
       colorsKey: resp['colorsKey']??(throw InvalidResponseError('colorsKey')),
       shareCode: resp["shareCode"],
       shareCodeSearchable: resp["shareCodeSearchable"],
@@ -484,6 +485,7 @@ class Circle{
       awaitingCount: awaitingCount,
       awaitingAnnouncements: [],
       bindedIndivComps: indivCompBasicData,
+      community: community
     );
 
     Map allAnnResps = announcementsResps['all']??(throw InvalidResponseError('announcements, all'));

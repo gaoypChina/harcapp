@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/blur.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/cover_image.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -8,15 +7,15 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../circles/model/circle.dart';
+import 'model/forum.dart';
 
-class CircleWidget extends StatelessWidget{
+class ForumWidget extends StatelessWidget{
 
   static const double height = 180;
 
-  final Circle circle;
+  final Forum forum;
   final void Function()? onTap;
-  const CircleWidget(this.circle, {this.onTap, super.key});
+  const ForumWidget(this.forum, {this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) => SizedBox(
@@ -31,7 +30,7 @@ class CircleWidget extends StatelessWidget{
               fit: StackFit.expand,
               children: [
 
-                CoverImage(circle.coverImage),
+                CoverImage(forum.coverImage),
 
                 Positioned(
                   top: 0,
@@ -53,35 +52,16 @@ class CircleWidget extends StatelessWidget{
                         child: Row(
                           children: [
                             const SizedBox(width: Dimen.ICON_MARG),
-                            const Icon(MdiIcons.googleCircles),
+                            const Icon(MdiIcons.broadcast),
                             const SizedBox(width: Dimen.ICON_MARG),
                             Text(
-                                'Krąg',
+                                'Forum',
                                 style: AppTextStyle(
                                     fontSize: Dimen.TEXT_SIZE_BIG,
                                     fontWeight: weight.halfBold,
                                     color: iconEnab_(context)
                                 )
                             ),
-
-                            if(circle.awaitingCount != 0)
-                              const SizedBox(width: 2*Dimen.ICON_MARG),
-
-                            if(circle.awaitingCount != 0)
-                              const Icon(MdiIcons.clockAlertOutline, color: Colors.red),
-
-                            if(circle.awaitingCount != 0)
-                              const SizedBox(width: Dimen.ICON_MARG),
-
-                            if(circle.awaitingCount != 0)
-                              Text(
-                                  '${circle.awaitingCount}',
-                                  style: AppTextStyle(
-                                      fontSize: Dimen.TEXT_SIZE_BIG,
-                                      color: Colors.red,
-                                      fontWeight: weight.halfBold
-                                  )
-                              ),
 
                             const SizedBox(width: Dimen.ICON_MARG),
 

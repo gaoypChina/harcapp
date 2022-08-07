@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_new/cat_page_home/circles/circle_page.dart';
 import 'package:palette_generator/palette_generator.dart';
 
+import '../../community/common/community_cover_colors.dart';
 import '../common/member_tile.dart';
 import '../model/circle.dart';
 import 'members_page_templ.dart';
@@ -22,8 +22,8 @@ class MembersPage extends StatelessWidget{
         userKey: member.key,
         name: member.name,
         shadow: member.shadow,
-        thumbnailColor: CirclePage.backgroundColor(context, palette),
-        thumbnailBorderColor: CirclePage.cardColor(context, palette),
+        thumbnailColor: CommunityCoverColors.backgroundColor(context, palette),
+        thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
         role: member.role,
         anythingSelected: false,
         heroTag: member

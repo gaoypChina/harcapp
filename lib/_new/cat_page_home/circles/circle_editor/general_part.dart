@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_editor/providers.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
@@ -7,7 +8,6 @@ import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 import 'package:harcapp_core/dimen.dart';
 
-import '../circle_page.dart';
 import '../common/cover_image_selectable_widget.dart';
 import '../model/circle.dart';
 
@@ -72,7 +72,7 @@ class GeneralPartState extends State<GeneralPart>{
 
       Consumer<ColorsKeyProvider>(
         builder: (context, prov, child) => SwitchListTile(
-          activeColor: CirclePage.strongColor(context, palette),
+          activeColor: CommunityCoverColors.strongColor(context, palette),
           contentPadding: const EdgeInsets.symmetric(horizontal: 3.0),
           title: Text('Tło kolorystyczne', style: AppTextStyle()),
           value: prov.colorsKey == 'auto',

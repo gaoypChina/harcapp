@@ -10,7 +10,6 @@ import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
-import 'package:harcapp/_new/cat_page_home/circles/circle_page.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendance_resp_mode.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -27,7 +26,8 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
-import 'cover_image.dart';
+import '../community/common/community_cover_colors.dart';
+import '../cover_image.dart';
 import 'model/announcement_attendace.dart';
 import 'model/announcement_attendance_resp.dart';
 
@@ -109,7 +109,7 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
             children: [
 
               Positioned.fill(child: Material(
-                color: CirclePage.cardColor(context, palette),
+                color: CommunityCoverColors.cardColor(context, palette),
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(AnnouncementWidgetTemplate.radius),
                     topRight: Radius.circular(AnnouncementWidgetTemplate.radius)
@@ -141,7 +141,7 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
 
         SimpleButton(
           onTap: onTap,
-          color: CirclePage.cardColor(context, palette),
+          color: CommunityCoverColors.cardColor(context, palette),
           clipBehavior: Clip.antiAlias,
           borderRadius: showCircleButton?
           const BorderRadius.only(
@@ -207,7 +207,7 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
                         padding: const EdgeInsets.all(Dimen.DEF_MARG/2),
                         child: Container(
                           decoration: BoxDecoration(
-                              color: CirclePage.backgroundColor(context, palette),
+                              color: CommunityCoverColors.backgroundColor(context, palette),
                               borderRadius: BorderRadius.circular(radius - 3)
                           ),
                           child: Padding(
@@ -624,7 +624,7 @@ class AttendingDialog extends StatelessWidget{
       padding: const EdgeInsets.all(Dimen.SIDE_MARG),
       child: Material(
         clipBehavior: Clip.hardEdge,
-        color: CirclePage.backgroundColor(context, palette),
+        color: CommunityCoverColors.backgroundColor(context, palette),
         borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -659,7 +659,7 @@ class AttendingDialog extends StatelessWidget{
 
                   showLoadingWidget(
                       getContext(),
-                      CirclePage.strongColor(context, palette),
+                      CommunityCoverColors.strongColor(context, palette),
                       'Chwileczkę...'
                   );
 
@@ -734,7 +734,7 @@ class PostponeRespDialogState extends State<PostponeRespDialog>{
       )),
       child: Material(
         clipBehavior: Clip.hardEdge,
-        color: CirclePage.backgroundColor(context, palette),
+        color: CommunityCoverColors.backgroundColor(context, palette),
         borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -760,7 +760,7 @@ class PostponeRespDialogState extends State<PostponeRespDialog>{
             DatePicker(
               DateTime.now(),
               initialSelectedDate: postponeDate,
-              selectionColor: CirclePage.strongColor(context, palette),
+              selectionColor: CommunityCoverColors.strongColor(context, palette),
               selectedTextColor: background_(context),
               monthTextStyle: AppTextStyle(),
               dateTextStyle: AppTextStyle(),
@@ -802,7 +802,7 @@ class PostponeRespDialogState extends State<PostponeRespDialog>{
 
                   showLoadingWidget(
                       getContext(),
-                      CirclePage.strongColor(context, palette),
+                      CommunityCoverColors.strongColor(context, palette),
                       'Chwileczkę...'
                   );
 
@@ -877,7 +877,7 @@ class NotAttendingDialogState extends State<NotAttendingDialog>{
       ),
       child: Material(
           clipBehavior: Clip.hardEdge,
-          color: CirclePage.backgroundColor(context, palette),
+          color: CommunityCoverColors.backgroundColor(context, palette),
           borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -930,7 +930,7 @@ class NotAttendingDialogState extends State<NotAttendingDialog>{
 
                     showLoadingWidget(
                         getContext(),
-                        CirclePage.strongColor(context, palette),
+                        CommunityCoverColors.strongColor(context, palette),
                         'Chwileczkę...'
                     );
 
@@ -1133,7 +1133,7 @@ class LinkPreviewerState extends State<LinkPreviewer>{
         bottom: Dimen.DEF_MARG
     ),
     elevation: 3,
-    color: CirclePage.backgroundColor(context, palette),
+    color: CommunityCoverColors.backgroundColor(context, palette),
     clipBehavior: Clip.hardEdge,
     borderRadius: BorderRadius.circular(AnnouncementWidgetTemplate.radius),
     onTap: () => launchURL(urlToPreview),
@@ -1160,7 +1160,7 @@ class LinkPreviewerState extends State<LinkPreviewer>{
         if(data == null)
           Padding(
             padding: const EdgeInsets.all(Dimen.ICON_MARG),
-            child: SpinKitChasingDots(size: Dimen.ICON_SIZE, color: CirclePage.strongColor(context, palette)),
+            child: SpinKitChasingDots(size: Dimen.ICON_SIZE, color: CommunityCoverColors.strongColor(context, palette)),
           )
       ],
     ),

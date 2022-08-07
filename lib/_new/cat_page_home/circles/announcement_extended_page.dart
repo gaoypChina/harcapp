@@ -8,7 +8,6 @@ import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
-import 'package:harcapp/_new/cat_page_home/circles/circle_page.dart';
 import 'package:harcapp/account/account_tile.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -20,6 +19,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
+import '../community/common/community_cover_colors.dart';
 import 'announcement_widget.dart';
 import 'model/announcement_attendace.dart';
 import 'model/announcement_attendance_resp.dart';
@@ -46,8 +46,8 @@ class AnnouncementExpandedPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) =>   Consumer<AnnouncementProvider>(
     builder: (context, prov, child) => BottomNavScaffold(
-      backgroundColor: CirclePage.backgroundColor(context, palette),
-      appBottomNavColor: CirclePage.backgroundColor(context, palette),
+      backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+      appBottomNavColor: CommunityCoverColors.backgroundColor(context, palette),
       body: DefaultTabController(
         length: enablesResp?2:1,
         initialIndex: enablesResp && displayAttendacePage?1:0,
@@ -62,14 +62,14 @@ class AnnouncementExpandedPage extends StatelessWidget{
               floating: true,
               pinned: true,
               forceElevated: innerBoxIsScrolled,
-              backgroundColor: CirclePage.backgroundColor(context, palette),
+              backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
               bottom: enablesResp?TabBar(
                 tabs: const [
                   Tab(text: 'Ogłoszenie'),
                   Tab(text: 'Obecności'),
                 ],
                 indicator: AppTabBarIncdicator(
-                    color: CirclePage.strongColor(context, palette)
+                    color: CommunityCoverColors.strongColor(context, palette)
                 ),
               ):null,
             ),
@@ -98,8 +98,8 @@ class AnnouncementExpandedPage extends StatelessWidget{
                         announcement,
                         announcement.circle!.members[index],
                         palette,
-                        thumbnailColor: CirclePage.backgroundColor(context, palette),
-                        thumbnailBorderColor: CirclePage.cardColor(context, palette),
+                        thumbnailColor: CommunityCoverColors.backgroundColor(context, palette),
+                        thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
                       )
                   )
 
@@ -198,7 +198,7 @@ class MemberTileState extends State<MemberTile>{
           responseReason = '';
 
         return BottomSheetDef(
-          color: CirclePage.backgroundColor(context, palette),
+          color: CommunityCoverColors.backgroundColor(context, palette),
           builder: (context) => Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -307,7 +307,7 @@ class MemberTileState extends State<MemberTile>{
                   ),
                   onTap: (){
 
-                    showLoadingWidget(context, CirclePage.strongColor(context, palette), 'Chwileczkę...');
+                    showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Chwileczkę...');
 
                     ApiCircle.waiveResponse(
                         annKey: announcement.key,

@@ -10,8 +10,9 @@ import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/circles/announcement_widget_template.dart';
-import 'package:harcapp/_new/cat_page_home/circles/circle_cover_image_data.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/announcement.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_image_data.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -25,7 +26,6 @@ import 'package:optional/optional.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../circle_page.dart';
 import '../common/cover_image_selectable_widget.dart';
 import '../model/announcement_attendance_resp_mode.dart';
 import '../model/circle.dart';
@@ -66,7 +66,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
   void Function()? get onRemoved => widget.onRemoved;
   void Function()? get onError => widget.onError;
 
-  CircleCoverImageData? coverImage;
+  CommunityCoverImageData? coverImage;
 
   late TextEditingController titleController;
   late TextEditingController textController;
@@ -107,8 +107,8 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
-    backgroundColor: CirclePage.backgroundColor(context, palette),
-    appBottomNavColor: CirclePage.backgroundColor(context, palette),
+    backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+    appBottomNavColor: CommunityCoverColors.backgroundColor(context, palette),
     body: CustomScrollView(
       clipBehavior: Clip.none,
       physics: const BouncingScrollPhysics(),
@@ -119,7 +119,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
             initAnnouncement==null?'Dodaj ogłoszenie':'Edytuj ogłoszenie',
             style: AppTextStyle(),
           ),
-          backgroundColor: CirclePage.backgroundColor(context, palette),
+          backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
           centerTitle: true,
           floating: true,
           actions: [
@@ -178,7 +178,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                               elevation: AppCard.bigElevation,
                               margin: EdgeInsets.zero,
                               textColor: iconEnab_(context),
-                              color: CirclePage.backgroundColor(context, palette),
+                              color: CommunityCoverColors.backgroundColor(context, palette),
                               icon: MdiIcons.arrowLeft,
                               text: 'Wróć',
                               onTap: () => Navigator.pop(context),
@@ -272,7 +272,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
               subtitle: Text('Służba, zbiórka, biwak, rajd, obóz...!', style: AppTextStyle(color: hintEnab_(context))),
               value: eventMode,
               onChanged: (value) => setState(() => eventMode = value),
-              activeColor: CirclePage.strongColor(context, palette),
+              activeColor: CommunityCoverColors.strongColor(context, palette),
               contentPadding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
           ),
 
@@ -364,7 +364,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                                 context: context,
                                 builder: (context) => BottomSheetDateTimePicker(
                                   startTime,
-                                  backgroundColor: CirclePage.backgroundColor(context, palette),
+                                  backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
                                   start: true,
                                   onSelected: (dateTime) => setState(() => startTime = dateTime),
                                 )
@@ -424,7 +424,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                                 context: context,
                                 builder: (context) => BottomSheetDateTimePicker(
                                   endTime,
-                                  backgroundColor: CirclePage.backgroundColor(context, palette),
+                                  backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
                                   start: false,
                                   onSelected: (dateTime) => setState(() => endTime = dateTime),
                                 )
@@ -543,7 +543,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
               child: Material(
                 elevation: 4.0,
                 borderRadius: BorderRadius.circular(AnnouncementWidgetTemplate.radius),
-                color: CirclePage.cardColor(context, palette),
+                color: CommunityCoverColors.cardColor(context, palette),
                 clipBehavior: Clip.hardEdge,
                 child: LinkPreview(
                   enableAnimation: true,
@@ -572,8 +572,8 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
             SimpleButton.from(
                 elevation: AppCard.bigElevation,
                 margin: EdgeInsets.zero,
-                textColor: CirclePage.backgroundColor(context, palette),
-                color: CirclePage.strongColor(context, palette),
+                textColor: CommunityCoverColors.backgroundColor(context, palette),
+                color: CommunityCoverColors.strongColor(context, palette),
                 icon: MdiIcons.earthArrowRight,
                 text: initAnnouncement==null?'Dodaj ogłoszenie':'Edytuj ogłoszenie',
                 onTap: () => showAppToast(
@@ -593,12 +593,12 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                   }
 
                   showLoadingWidget(
-                      context, CirclePage.strongColor(context, palette),
+                      context, CommunityCoverColors.strongColor(context, palette),
                       initAnnouncement == null?'Publikowanie...':'Uaktualnianie...'
                   );
 
                   if(initAnnouncement == null)
-                    await ApiCircle.postAnnouncement(
+                    await ApiCircle.publishAnnouncement(
                         circleKey: circle.key,
                         title: titleController.text,
                         startTime: eventMode?startTime:null,
@@ -706,7 +706,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
               SimpleButton.from(
                   elevation: AppCard.bigElevation,
                   margin: EdgeInsets.zero,
-                  textColor: CirclePage.backgroundColor(context, palette),
+                  textColor: CommunityCoverColors.backgroundColor(context, palette),
                   color: Colors.red,
                   icon: MdiIcons.trashCanOutline,
                   text: 'Usuń ogłoszenie',
@@ -715,7 +715,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
                     showLoadingWidget(
                         context,
-                        CirclePage.strongColor(context, palette),
+                        CommunityCoverColors.strongColor(context, palette),
                         'Usuwanie...'
                     );
 

@@ -7,6 +7,7 @@ import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/api/circle.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -21,7 +22,6 @@ import 'package:optional/optional_internal.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 import '../../../../../_common_widgets/loading_widget.dart';
-import '../circle_page.dart';
 import '../circle_role.dart';
 import '../common/member_header_widget.dart';
 import '../common/member_tile.dart';
@@ -148,7 +148,7 @@ class MembersAdminPageState extends State<MembersAdminPage>{
           title: const Text('Lista członków'),
           centerTitle: true,
           floating: true,
-          backgroundColor: CirclePage.appBarColor(context, palette),
+          backgroundColor: CommunityCoverColors.appBarColor(context, palette),
           actions: [
             if(circle.myRole == CircleRole.ADMIN)
               IconButton(
@@ -163,7 +163,7 @@ class MembersAdminPageState extends State<MembersAdminPage>{
         SelectedAppBar(
           circle,
           selectedMembers,
-          backgroundColor: CirclePage.appBarColor(context, palette),
+          backgroundColor: CommunityCoverColors.appBarColor(context, palette),
           onSelectAll: () => setState((){
             selectedMembers.clear();
             selectedMembers.addAll(circle.members);
@@ -321,7 +321,7 @@ class _MemberTileState extends State<_MemberTile>{
   void openParticipantDetails() => showScrollBottomSheet(
       context: context,
       builder: (context) => BottomSheetDef(
-        color: CirclePage.backgroundColor(context, palette),
+        color: CommunityCoverColors.backgroundColor(context, palette),
         builder: (context) => Column(
           children: [
 
@@ -329,8 +329,8 @@ class _MemberTileState extends State<_MemberTile>{
                 member.name,
                 member.shadow,
                 member.role,
-                thumbnailColor: CirclePage.backgroundColor(context, palette),
-                thumbnailBorderColor: CirclePage.cardColor(context, palette),
+                thumbnailColor: CommunityCoverColors.backgroundColor(context, palette),
+                thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
                 heroTag: member.key),
 
             const SizedBox(height: 2*24.0),
@@ -538,7 +538,7 @@ class _MemberTileState extends State<_MemberTile>{
                 Navigator.pop(context);
                 Navigator.pop(context);
 
-                showLoadingWidget(context, CirclePage.strongColor(context, palette), 'Wypraszanie ${plural?'użytkowników':'użytkownika'}...');
+                showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Wypraszanie ${plural?'użytkowników':'użytkownika'}...');
                 await ApiCircle.removeUsers(
                     circleKey: circle!.key,
                     userKeys: memsToRemove.map((p) => p.key).toList(),
@@ -575,10 +575,10 @@ class _MemberTileState extends State<_MemberTile>{
     role: member.role,
     anythingSelected: anythingSelected,
     selected: selected,
-    selectedColor: CirclePage.cardColor(context, palette),
-    selectedTextColor: CirclePage.strongColor(context, palette),
-    thumbnailColor: CirclePage.backgroundColor(context, palette),
-    thumbnailBorderColor: CirclePage.cardColor(context, palette),
+    selectedColor: CommunityCoverColors.cardColor(context, palette),
+    selectedTextColor: CommunityCoverColors.strongColor(context, palette),
+    thumbnailColor: CommunityCoverColors.backgroundColor(context, palette),
+    thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
     onLongPress: onSelectionTap,
     onTap: anythingSelected?onSelectionTap:(circle!.myRole == CircleRole.ADMIN || circle!.myRole == CircleRole.MODERATOR?openParticipantDetails:null),
     heroTag: heroTag,
@@ -632,7 +632,7 @@ class _EditPatrolDialogState extends State<_EditPatrolDialog>{
       child: Material(
         borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
         clipBehavior: Clip.hardEdge,
-        color: CirclePage.backgroundColor(context, palette),
+        color: CommunityCoverColors.backgroundColor(context, palette),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,

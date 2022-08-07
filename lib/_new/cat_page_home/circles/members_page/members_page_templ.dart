@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp/_new/cat_page_home/circles/circle_page.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/member.dart';
 import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -10,6 +9,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
+import '../../community/common/community_cover_colors.dart';
 import '../circle_role.dart';
 import '../model/circle.dart';
 
@@ -50,8 +50,8 @@ class MembersPageTempl extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
-    backgroundColor: CirclePage.backgroundColor(context, palette),
-    appBottomNavColor: CirclePage.backgroundColor(context, palette),
+    backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+    appBottomNavColor: CommunityCoverColors.backgroundColor(context, palette),
     body: Consumer<CircleMembersProvider>(
         builder: (context, prov, child){
 
@@ -82,7 +82,7 @@ class MembersPageTempl extends StatelessWidget{
                 title: const Text('Lista członków'),
                 centerTitle: true,
                 floating: true,
-                backgroundColor: CirclePage.appBarColor(context, palette),
+                backgroundColor: CommunityCoverColors.appBarColor(context, palette),
               ),
 
               SliverList(delegate: SliverChildListDelegate([
@@ -99,7 +99,7 @@ class MembersPageTempl extends StatelessWidget{
                         members: memAdmins,
                         itemBuilder: itemBuilder
                     ),
-                    backgroundColor: CirclePage.backgroundColor(context, palette),
+                    backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
                   ),
 
                 // MODERATORS
@@ -114,7 +114,7 @@ class MembersPageTempl extends StatelessWidget{
                         members: memMods,
                         itemBuilder: itemBuilder
                     ),
-                    backgroundColor: CirclePage.backgroundColor(context, palette),
+                    backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
                   ),
 
                 // OBSERVATORS
@@ -130,7 +130,7 @@ class MembersPageTempl extends StatelessWidget{
                         members: memObs,
                         itemBuilder: itemBuilder
                     ),
-                    backgroundColor: CirclePage.backgroundColor(context, palette),
+                    backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
                   ),
 
                 if(bottom != null)

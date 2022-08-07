@@ -12,6 +12,7 @@ import '../cat_page_home/circles/circle_role.dart';
 import '../cat_page_home/circles/model/announcement.dart';
 import '../cat_page_home/circles/model/circle.dart';
 import '../cat_page_home/circles/model/member.dart';
+import '../cat_page_home/community/model/community.dart';
 import '_api.dart';
 
 class MemberRespBody{
@@ -60,8 +61,11 @@ class ApiCircle{
     ),
     onSuccess: (Response response, DateTime now) async {
       List<Circle> circleList = [];
-      for(Map map in response.data)
-        circleList.add(Circle.fromResponse(map));
+      for(Map map in response.data) {
+        Community community = Community.fromResponse(map['community']);
+        Circle circle = Circle.fromResponse(map['circle'], community);
+        circleList.add(circle);
+      }
 
       onSuccess?.call(circleList);
     },
@@ -72,6 +76,7 @@ class ApiCircle{
 
   static Future<Response?> get({
     required String circleKey,
+    required Community community,
     FutureOr<void> Function(Circle circle)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -82,7 +87,7 @@ class ApiCircle{
         '${API.SERVER_URL}api/circle/$circleKey',
     ),
     onSuccess: (Response response, DateTime now) async {
-      Circle circle = Circle.fromResponse(response.data);
+      Circle circle = Circle.fromResponse(response.data, community);
       onSuccess?.call(circle);
     },
     onForceLoggedOut: onForceLoggedOut,
@@ -95,6 +100,7 @@ class ApiCircle{
     required String description,
     required String? coverImageUrl,
     required String? colorsKey,
+    required Community community,
 
     FutureOr<void> Function(Circle circle)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -118,7 +124,7 @@ class ApiCircle{
           data: jsonEncode(reqMap)
       ),
       onSuccess: (Response response, DateTime now) async{
-        Circle circle = Circle.fromResponse(response.data);
+        Circle circle = Circle.fromResponse(response.data, community);
         onSuccess?.call(circle);
       },
       onForceLoggedOut: onForceLoggedOut,
@@ -183,7 +189,7 @@ class ApiCircle{
 
   static Future<Response?> joinByShareCode({
     required String searchCode,
-    FutureOr<void> Function(Circle)? onSuccess,
+    FutureOr<void> Function(Circle, bool)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function()? onError,
@@ -193,8 +199,22 @@ class ApiCircle{
         '${API.SERVER_URL}api/circle/joinByShareCode/$searchCode',
       ),
       onSuccess: (Response response, DateTime now) async {
-        Circle comp = Circle.fromResponse(response.data);
-        onSuccess?.call(comp);
+        Community? community = Community.allMap![response.data['community']['_key']];
+        Circle circle;
+        bool newCommunityAdded;
+        if(community == null) {
+          newCommunityAdded = true;
+          community = Community.fromResponse(response.data['community']);
+          circle = Circle.fromResponse(response.data['circle'], community);
+          community.circle = circle;
+          Community.addToAll(community);
+        }else{
+          newCommunityAdded = false;
+          circle = Circle.fromResponse(response.data['circle'], community);
+          community.circle = circle;
+        }
+
+        onSuccess?.call(circle, newCommunityAdded);
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -203,6 +223,7 @@ class ApiCircle{
 
   static Future<Response?> update({
     required String circleKey,
+    required Community community,
     Optional<String> name = const Optional.empty(),
     Optional<String> description = const Optional.empty(),
     Optional<String> coverImageUrl = const Optional.empty(),
@@ -230,7 +251,7 @@ class ApiCircle{
       ),
       onSuccess: (Response response, DateTime now) async {
         if(onSuccess==null) return;
-        Circle circle = Circle.fromResponse(response.data);
+        Circle circle = Circle.fromResponse(response.data, community);
         onSuccess(circle);
       },
       onForceLoggedOut: onForceLoggedOut,
@@ -426,7 +447,7 @@ class ApiCircle{
       onError: (err) => onError?.call()
   );
 
-  static Future<Response?> postAnnouncement({
+  static Future<Response?> publishAnnouncement({
     required String circleKey,
     required String title,
     DateTime? startTime,

@@ -6,21 +6,21 @@ import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/circles/circle_editor/providers.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:optional/optional_internal.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../circle_page.dart';
-import '../circle_palette_generator.dart';
+import '../../community/model/community.dart';
 import '../model/circle.dart';
 import 'danger_part.dart';
 import 'general_part.dart';
 
 class CircleEditorPage extends StatefulWidget{
 
-  final Circle? initCircle;
+  final Community community;
   final PaletteGenerator? palette;
 
   final void Function(Circle circle)? onSaved;
@@ -29,7 +29,7 @@ class CircleEditorPage extends StatefulWidget{
   final void Function()? onError;
 
   const CircleEditorPage({
-    this.initCircle,
+    required this.community,
     this.palette,
     this.onSaved,
     this.onDeleted,
@@ -45,7 +45,8 @@ class CircleEditorPage extends StatefulWidget{
 
 class CircleEditorPageState extends State<CircleEditorPage>{
 
-  Circle? get initCircle => widget.initCircle;
+  Community get community => widget.community;
+  Circle? get initCircle => community.circle;
   PaletteGenerator? get palette => _palette??widget.palette;
 
   PaletteGenerator? _palette;
@@ -72,8 +73,8 @@ class CircleEditorPageState extends State<CircleEditorPage>{
 
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
-      backgroundColor: CirclePage.backgroundColor(context, palette),
-      appBottomNavColor: CirclePage.backgroundColor(context, palette),
+      backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+      appBottomNavColor: CommunityCoverColors.backgroundColor(context, palette),
       body: DefaultTabController(
         length: initCircle == null?1:2,
         child: MultiProvider(
@@ -87,12 +88,12 @@ class CircleEditorPageState extends State<CircleEditorPage>{
             floatHeaderSlivers: true,
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
               SliverAppBar(
-                title: Text(widget.initCircle==null?'Nowy krąg':'Edytuj krąg'),
+                title: Text(initCircle==null?'Nowy krąg':'Edytuj krąg'),
                 centerTitle: true,
                 floating: true,
                 pinned: true,
-                backgroundColor: CirclePage.backgroundColor(context, palette),
-                bottom: widget.initCircle==null?null:TabBar(
+                backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+                bottom: initCircle==null?null:TabBar(
                   physics: const BouncingScrollPhysics(),
                   tabs: [
                     const Tab(text: 'Informacje'),
@@ -100,7 +101,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                       const Tab(text: 'Strefa zagrożenia'),
                   ],
                   indicator: AppTabBarIncdicator(
-                      color: CirclePage.strongColor(context, palette)
+                      color: CommunityCoverColors.strongColor(context, palette)
                   ),
                 ),
                 actions: [
@@ -115,7 +116,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
 
                       showLoadingWidget(
                           context,
-                          CirclePage.strongColor(context, palette),
+                          CommunityCoverColors.strongColor(context, palette),
                           initCircle == null? 'Zawiązywanie kręgu...': 'Uaktualnianie...'
                       );
 
@@ -125,6 +126,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                             description: Provider.of<DescriptionProvider>(context, listen: false).descriptionController.text,
                             coverImageUrl: Provider.of<CoverImageProvider>(context, listen: false).coverImage!.code,
                             colorsKey: Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey,
+                            community: community,
                             onSuccess: (circle) async {
                               await popPage(context); // Close loading widget.
                               await popPage(context);
@@ -146,6 +148,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
 
                         await ApiCircle.update(
                             circleKey: initCircle!.key,
+                            community: community,
 
                             name:
                             initCircle!.name == name?

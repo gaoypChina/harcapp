@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_app_common/stripe_widget.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
@@ -13,7 +13,7 @@ import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/circles/announcement_widget_template.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/announcement_sliver.dart';
+import 'package:harcapp/_new/cat_page_home/circles/announcements_sliver.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
@@ -34,13 +34,13 @@ import 'package:provider/provider.dart';
 
 import '../../../_common_widgets/app_toast.dart';
 import '../common.dart';
+import '../community/common/community_cover_colors.dart';
 import 'announcement_edit_page/_main.dart';
 import 'circle_description_page.dart';
 import 'circle_editor/_main.dart';
 import 'circle_editor/common.dart';
-import 'circle_palette_generator.dart';
 import 'circle_role.dart';
-import 'cover_image.dart';
+import '../cover_image.dart';
 import 'members_page/members_admin_page.dart';
 import 'members_page/members_page.dart';
 import 'model/announcement.dart';
@@ -51,47 +51,6 @@ enum AnnouncementCategories{
 }
 
 class CirclePage extends StatefulWidget{
-
-  static Color? _lighten(Color? color, [double amount = .1]) {
-    if(color == null) return null;
-
-    final hsl = HSLColor.fromColor(color);
-    final hslLight = hsl.withLightness(amount);
-
-    return hslLight.toColor();
-  }
-
-  static Color? appBarColor(BuildContext context, PaletteGenerator? palette) =>
-      backgroundColor(context, palette);
-
-  static Color? backgroundColor(BuildContext context, PaletteGenerator? palette){
-    if(palette == null) return background_(context);
-
-    if(AppSettings.isDark)
-      return _lighten(palette.dominantColor!.color, .1);
-    else
-      return _lighten(palette.dominantColor!.color, .94);
-
-  }
-
-  static Color? cardColor(BuildContext context, PaletteGenerator? palette){
-    if(palette == null) return cardEnab_(context);
-
-    if(AppSettings.isDark)
-      return _lighten(palette.dominantColor!.color, .16);
-    else
-      return _lighten(palette.dominantColor!.color, .88);
-
-  }
-
-  static Color strongColor(BuildContext context, PaletteGenerator? palette) =>
-      _lighten(palette?.dominantColor?.color, .5)??iconEnab_(context);
-
-  static Color coverIconColor(BuildContext context, PaletteGenerator? palette){
-    PaletteColor? color = palette?.dominantColor;
-    if(color == null) return iconEnab_(context);
-    return color.color.computeLuminance() > .5? DefColorPack.ICON_ENABLED:ColorPackBlack.ICON_ENABLED;
-  }
 
   final Circle circle;
   final void Function()? onLeft;
@@ -278,11 +237,11 @@ class CirclePageState extends State<CirclePage>{
     return paletteAlways;
   }
 
-  Color? get appBarColor => CirclePage.appBarColor(context, palette);
-  Color? get backgroundColor => CirclePage.backgroundColor(context, palette);
-  Color? get cardColor => CirclePage.cardColor(context, palette);
-  Color get strongColor => CirclePage.strongColor(context, palette);
-  Color get coverIconColor => CirclePage.coverIconColor(context, paletteAlways);
+  Color? get appBarColor => CommunityCoverColors.appBarColor(context, palette);
+  Color? get backgroundColor => CommunityCoverColors.backgroundColor(context, palette);
+  Color? get cardColor => CommunityCoverColors.cardColor(context, palette);
+  Color get strongColor => CommunityCoverColors.strongColor(context, palette);
+  Color get coverIconColor => CommunityCoverColors.coverIconColor(context, paletteAlways);
 
   void notifyScrollController() => post(() => scrollController.jumpTo(scrollController.offset + 1e-10));
 
@@ -326,7 +285,7 @@ class CirclePageState extends State<CirclePage>{
 
               else if(mode == LoadStatus.loading)
                 body = SpinKitDualRing(
-                  color: CirclePage.strongColor(context, palette),
+                  color: strongColor,
                   size: Dimen.ICON_SIZE,
                 );
 
@@ -366,8 +325,8 @@ class CirclePageState extends State<CirclePage>{
 
             await ApiCircle.get(
                 circleKey: circle.key,
+                community: circle.community,
                 onSuccess: (updatedCircle) async {
-                  circle.name = updatedCircle.name;
                   circle.description = updatedCircle.description;
                   circle.coverImage = updatedCircle.coverImage;
                   circle.colorsKey = updatedCircle.colorsKey;
@@ -531,11 +490,10 @@ class CirclePageState extends State<CirclePage>{
                             pushPage(
                             context,
                             builder: (context) => CircleEditorPage(
-                              initCircle: circle,
+                              community: circle.community,
                               palette: palette,
                               onSaved: (updatedCircle) async {
 
-                                circle.name = updatedCircle.name;
                                 circle.description = updatedCircle.description;
                                 circle.coverImage = updatedCircle.coverImage;
                                 circle.colorsKey = updatedCircle.colorsKey;
@@ -573,10 +531,39 @@ class CirclePageState extends State<CirclePage>{
                         ),
                       ),
                       centerTitle: true,
-                      background: Hero(
-                        tag: circleCoverTag,
-                        child: CoverImage(circle.coverImage),
+                      background:
+                      Hero(
+                          tag: circleCoverTag,
+                          child: Stack(
+                            fit: StackFit.expand,
+                            clipBehavior: Clip.none,
+                            children: [
+
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 24.0),
+                                child: CoverImage(circle.coverImage),
+                              ),
+
+                              Positioned(
+                                left: Dimen.SIDE_MARG,
+                                bottom: 0,
+                                child: Material(
+                                  borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                                  clipBehavior: Clip.hardEdge,
+                                  color: cardColor,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                                    child: Icon(
+                                      CommonIconData.ALL[circle.community.iconKey],
+                                      size: 48.0,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
                       ),
+
                     ),
                   ),
                 ),
@@ -585,7 +572,7 @@ class CirclePageState extends State<CirclePage>{
 
                   Padding(
                       padding: const EdgeInsets.only(
-                        top: Dimen.SIDE_MARG,
+                        top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
                         left: Dimen.SIDE_MARG,
                         right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
                         bottom: Dimen.SIDE_MARG,
@@ -643,8 +630,8 @@ class CirclePageState extends State<CirclePage>{
                             circle.shareCode!,
                             circle.shareCodeSearchable,
                             enabled: !changeShareCodeProcessing,
-                            backgroundColor: CirclePage.backgroundColor(context, palette),
-                            borderColor: CirclePage.cardColor(context, palette),
+                            backgroundColor: backgroundColor,
+                            borderColor: cardColor,
                             resetShareCode: () => ApiCircle.resetShareCode(
                                 circleKey: circle.key,
                                 onSuccess: (shareCode){
@@ -728,7 +715,7 @@ class CirclePageState extends State<CirclePage>{
                     bool overlaps = shrinkOffset!=0 || overlapsContent;
                     return Material(
                       key: tabBarKey,
-                      color: CirclePage.backgroundColor(context, palette),
+                      color: backgroundColor,
                       elevation: overlaps?AppCard.bigElevation:0,
                       child: SizedBox(
                         height: Dimen.ICON_FOOTPRINT,
@@ -950,7 +937,7 @@ class InitAwaitingMessageDialog extends StatelessWidget{
           child: Material(
             clipBehavior: Clip.hardEdge,
             borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS - 4),
-            color: CirclePage.backgroundColor(context, palette),
+            color: CommunityCoverColors.backgroundColor(context, palette),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,

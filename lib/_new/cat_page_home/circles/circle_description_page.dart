@@ -1,6 +1,7 @@
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
@@ -11,8 +12,6 @@ import 'package:harcapp/_new/cat_page_home/circles/circle_role.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_tile.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
-import 'package:harcapp/account/account_thumbnail_row_widget.dart';
-import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp/account/account_tile.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -26,11 +25,12 @@ import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../_common_widgets/app_toast.dart';
+import '../community/common/community_cover_colors.dart';
 import '../competitions/indiv_comp/indiv_comp_basic_data_tile.dart';
 import '../competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'circle_binded_indiv_comp_page.dart';
 import 'circle_page.dart';
-import 'cover_image.dart';
+import '../cover_image.dart';
 import 'model/circle.dart';
 import 'model/member.dart';
 
@@ -93,8 +93,8 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
 
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
-    backgroundColor: CirclePage.backgroundColor(context, palette),
-    appBottomNavColor: CirclePage.backgroundColor(context, palette),
+    backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+    appBottomNavColor: CommunityCoverColors.backgroundColor(context, palette),
     body: ChangeNotifierProvider(
       create: (context){
         appBarProv = AppBarProvider();
@@ -110,14 +110,14 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
                 iconTheme: IconThemeData(
                     color:
                     prov.coverVisible?
-                    CirclePage.coverIconColor(context, palette):
+                    CommunityCoverColors.coverIconColor(context, palette):
                     iconEnab_(context)
                 ),
                 centerTitle: true,
                 pinned: true,
                 excludeHeaderSemantics: true,
                 elevation: prov.elevated?AppCard.bigElevation:0,
-                backgroundColor: CirclePage.backgroundColor(context, palette),
+                backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
                 expandedHeight: 200,
                 flexibleSpace: FlexibleSpaceBar(
                     title: AnimatedOpacity(
@@ -133,9 +133,37 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
                     ),
                     centerTitle: true,
                     background: Hero(
-                      tag: CirclePageState.circleCoverTag,
-                      child: CoverImage(circle.coverImage),
-                    )
+                        tag: CirclePageState.circleCoverTag,
+                        child: Stack(
+                          fit: StackFit.expand,
+                          clipBehavior: Clip.none,
+                          children: [
+
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 24.0),
+                              child: CoverImage(circle.coverImage),
+                            ),
+
+                            Positioned(
+                              left: Dimen.SIDE_MARG,
+                              bottom: 0,
+                              child: Material(
+                                borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                                clipBehavior: Clip.hardEdge,
+                                color: CommunityCoverColors.cardColor(context, palette),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                                  child: Icon(
+                                    CommonIconData.ALL[circle.community.iconKey],
+                                    size: 48.0,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                    ),
+
                 ),
               ),
             ),
@@ -144,7 +172,7 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
 
               Padding(
                   padding: const EdgeInsets.only(
-                    top: Dimen.SIDE_MARG,
+                    top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
                     left: Dimen.SIDE_MARG,
                     right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
                     bottom: Dimen.SIDE_MARG,
@@ -198,7 +226,7 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
                       style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2),
                       maxLines: 8,
                       animation: true,
-                      linkColor: CirclePage.strongColor(context, palette),
+                      linkColor: CommunityCoverColors.strongColor(context, palette),
                       linkStyle: AppTextStyle(fontWeight: weight.halfBold),
                       expandText: 'więcej',
                       collapseText: 'mniej',
@@ -309,15 +337,15 @@ class BindedIndivCompTile extends StatelessWidget{
       return IndivCompBasicDataTile(
         indivCompBasicData,
         bottomText: 'Nie jesteś uczestnikiem',
-        bottomTextColor: CirclePage.strongColor(context, palette),
+        bottomTextColor: CommunityCoverColors.strongColor(context, palette),
         onTap: (_) => showAppToast(context, text: 'Aby dołączyć, odezwij się do administratora współzawodnictwa'),
       );
 
     Widget tileWidget = Consumer<IndivCompProvider>(
       builder: (context, prov, child) => IndivCompTile(
         IndivComp.allMap![indivCompBasicData.key]!,
-        participBorderColor: CirclePage.cardColor(context, palette),
-        participBackgroundColor: CirclePage.backgroundColor(context, palette),
+        participBorderColor: CommunityCoverColors.cardColor(context, palette),
+        participBackgroundColor: CommunityCoverColors.backgroundColor(context, palette),
         onTap: (comp) => CatPageHomeState.openCompPage(context, comp),
       ),
     );
@@ -327,7 +355,7 @@ class BindedIndivCompTile extends StatelessWidget{
 
     String noOfPeople(int peopleCount){
       if(peopleCount == 1)
-        return '$peopleCount osoby';
+        return '$peopleCount osoba';
       else
         return '$peopleCount osób';
     }

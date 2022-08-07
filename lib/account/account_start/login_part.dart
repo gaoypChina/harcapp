@@ -7,8 +7,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/announcement.dart';
 import 'package:harcapp/_new/cat_page_home/circles/model/circle.dart';
+import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
+import 'package:harcapp/_new/cat_page_home/community/forum/model/forum.dart';
+import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_common/microsoft_login_button.dart';
@@ -75,8 +77,10 @@ class LoginPartState extends State<LoginPart>{
             bool emailConf,
             bool loggedIn,
             List<IndivComp> indivComps,
+            List<Community> communities,
             List<Circle> circles,
-            List<Announcement> feedAnnouncements
+            List<Forum> forums,
+            List<CommunityPublishable> feed
         ) async {
           setState(() => processing = false);
 
@@ -84,8 +88,10 @@ class LoginPartState extends State<LoginPart>{
           AccountData.callOnLogin(emailConf);
 
           IndivComp.init(indivComps, context: context);
+          Community.init(communities, context: context);
           Circle.init(circles, context: context);
-          Announcement.init(feedAnnouncements, context: context);
+          Forum.init(forums, context: context);
+          CommunityPublishable.init(feed, context: context);
 
           if(loggedIn)
             widget.onLoggedIn?.call(emailConf);
@@ -137,14 +143,16 @@ class LoginPartState extends State<LoginPart>{
       await ApiRegLog.carefullyMicrosoftLogin(
           context: context,
           azureToken: azureToken,
-          onSuccess: (Response response, bool emailConf, bool loggedIn, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements) async {
+          onSuccess: (Response response, bool emailConf, bool loggedIn, List<IndivComp> indivComps, List<Community> communities, List<Circle> circles, List<Forum> forums, List<CommunityPublishable> feed) async {
 
             Provider.of<LoginProvider>(context, listen: false).notify();
             AccountData.callOnLogin(emailConf);
 
             IndivComp.init(indivComps, context: context);
+            Community.init(communities, context: context);
             Circle.init(circles, context: context);
-            Announcement.init(feedAnnouncements, context: context);
+            Forum.init(forums, context: context);
+            CommunityPublishable.init(feed, context: context);
 
             await popPage(context); // close login alert dialog
 

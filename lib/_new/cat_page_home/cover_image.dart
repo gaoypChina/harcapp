@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_new/cat_page_home/circles/circle_cover_image_data.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import 'community/common/community_cover_image_data.dart';
+
 class CoverImage extends StatelessWidget{
 
-  final CircleCoverImageData coverImage;
+  final CommunityCoverImageData coverImage;
 
   const CoverImage(this.coverImage, {super.key});
 
