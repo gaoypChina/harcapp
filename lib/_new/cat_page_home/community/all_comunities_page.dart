@@ -5,9 +5,6 @@ import 'package:connectivity/connectivity.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
-import 'package:harcapp/_new/cat_page_home/circles/start_widgets/circle_loading_widget.dart';
-import 'package:harcapp/_new/cat_page_home/circles/start_widgets/circle_preview_widget.dart';
-import 'package:harcapp/_new/cat_page_home/circles/start_widgets/circle_prompt_login.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/login_provider.dart';
@@ -25,15 +22,18 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import 'circle/circle_editor/_main.dart';
+import 'circle/model/circle.dart';
+import 'circle/start_widgets/circle_loading_widget.dart';
+import 'circle/start_widgets/circle_preview_widget.dart';
+import 'circle/start_widgets/circle_prompt_login.dart';
 import 'community_editor/_main.dart';
 import 'forum/model/forum.dart';
 import 'model/community.dart';
-import '../circles/circle_editor/_main.dart';
 import 'communities_loader.dart';
-import '../circles/circle_page.dart';
+import 'circle/circle_page.dart';
 import 'community_widget.dart';
-import '../circles/model/circle.dart';
-import '../circles/new_circle_type.dart';
+import 'circle/new_circle_type.dart';
 
 class AllCommunitiesPage extends StatefulWidget{
 
@@ -301,6 +301,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
               child: CommunityWidget(
                 searchedCommunities[i],
                 onCircleTap: onCircleTap,
+                onForumTap: onForumTap,
               ),
             ));
             widgets.add(const SizedBox(height: Dimen.SIDE_MARG));

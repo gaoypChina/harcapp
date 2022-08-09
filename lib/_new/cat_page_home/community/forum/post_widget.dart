@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_new/cat_page_home/community/forum/post_editor/_main.dart';
+import 'package:harcapp/_new/cat_page_home/community/forum/post_extended_page.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/post_widget_template.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +51,6 @@ class PostWidget extends StatelessWidget{
                   initPost: post,
                   palette: palette,
                   onSaved: (updatedPost){
-                    // circle.updateAnnouncement(updatedAnnouncement);
                     post.update(updatedPost);
                     onPostUpdated?.call();
                     prov.notify();
@@ -67,7 +68,7 @@ class PostWidget extends StatelessWidget{
               builder: (context) => PostExpandedPage(
                 post,
                 palette: palette,
-                onAnnouncementsUpdated: onPostUpdated,
+                onPostUpdated: onPostUpdated,
               ),
             ):null,
             showForumButton: showForumButton,

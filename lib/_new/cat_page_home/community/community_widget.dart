@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_new/cat_page_home/circles/circle_widget.dart';
+import 'package:harcapp/_new/cat_page_home/community/circle/circle_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_editor/_main.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -9,10 +9,10 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import 'circle/model/circle.dart';
 import 'forum/forum_widget.dart';
 import 'forum/model/forum.dart';
 import 'model/community.dart';
-import '../circles/model/circle.dart';
 
 class CommunityWidget extends StatelessWidget{
 

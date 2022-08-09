@@ -14,8 +14,10 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../../_common_widgets/drawer_tile.dart';
 import '../app_bottom_navigator.dart';
 import 'community/all_comunities_page.dart';
-import 'circles/model/circle.dart';
-import 'circles/circle_page.dart';
+import 'community/circle/circle_page.dart';
+import 'community/circle/model/circle.dart';
+import 'community/forum/forum_page.dart';
+import 'community/forum/model/forum.dart';
 import 'competitions/all_competitions_page.dart';
 import 'competitions/indiv_comp/indiv_comp_page.dart';
 import 'competitions/indiv_comp/models/indiv_comp.dart';
@@ -52,16 +54,17 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
           return AllCompetitionsPage(
             onCompetitionTap: (comp) => openCompPage(context, comp),
           );
-        else if(prov.selectedDrawerPage == HomePartProvider.drawerPageCircles)
+        else if(prov.selectedDrawerPage == HomePartProvider.drawerPageCommunities)
           return AllCommunitiesPage(
             onCircleTap: (circle) => openCirclePage(context, circle),
+            onForumTap: (forum) => openForumPage(context, forum),
           );
 
         return PreviewPart(
             onCompHeaderOpen: () => prov.selectedDrawerPage = HomePartProvider.drawerPageCompetitions,
-            onAllAnnouncementsHeaderOpen: () => prov.selectedDrawerPage = HomePartProvider.drawerPageCircles,
+            onAllAnnouncementsHeaderOpen: () => prov.selectedDrawerPage = HomePartProvider.drawerPageCommunities,
             onCircleTap: (circle){
-              prov.selectedDrawerPage = HomePartProvider.drawerPageCircles;
+              prov.selectedDrawerPage = HomePartProvider.drawerPageCommunities;
               openCirclePage(context, circle);
             }
         );
@@ -97,7 +100,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
               DrawerTile<String>(
                 icon: MdiIcons.googleCirclesCommunities,
                 title: 'Środowiska',
-                source: HomePartProvider.drawerPageCircles,
+                source: HomePartProvider.drawerPageCommunities,
                 selectedSource: prov.selectedDrawerPage,
                 onSelect: (String source){
                   prov.selectedDrawerPage = source;
@@ -117,12 +120,21 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
       context,
       builder: (context) => CirclePage(
         circle,
-        onLeft: () => HomePartProvider.of(context).selectedDrawerPage = HomePartProvider.drawerPageCircles,
-        onDeleted: () => HomePartProvider.of(context).selectedDrawerPage = HomePartProvider.drawerPageCircles,
+        onLeft: () => HomePartProvider.of(context).selectedDrawerPage = HomePartProvider.drawerPageCommunities,
+        onDeleted: () => HomePartProvider.of(context).selectedDrawerPage = HomePartProvider.drawerPageCommunities,
         key: ValueKey(HomePartProvider.of(context).selectedDrawerPage),
       )
   );
 
+  static void openForumPage(BuildContext context, Forum forum) => pushPage(
+      context,
+      builder: (context) => ForumPage(
+        forum,
+        onDeleted: () => HomePartProvider.of(context).selectedDrawerPage = HomePartProvider.drawerPageCommunities,
+        key: ValueKey(HomePartProvider.of(context).selectedDrawerPage),
+      )
+  );
+  
   static void openCompPage(BuildContext context, IndivComp comp) => Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => IndivCompPage(comp))

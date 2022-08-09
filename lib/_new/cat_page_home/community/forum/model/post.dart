@@ -115,42 +115,25 @@ class Post extends CommunityPublishable{
     _allMap!.clear();
   }
 
-  String title;
-  DateTime postTime;
-  DateTime? lastUpdateTime;
-  DateTime? startTime;
-  DateTime? endTime;
-  String? place;
-  String? urlToPreview;
-  UserData author;
-  CommunityCoverImageData? coverImage;
-  String text;
-
   final Forum? forum;
 
   Post({
     required super.key,
-    required this.title,
-    required this.postTime,
-    this.lastUpdateTime,
-    required this.startTime,
-    required this.endTime,
-    required this.place,
-    required this.urlToPreview,
-    required this.author,
-    this.coverImage,
-    required this.text,
+    required super.title,
+    required super.publishTime,
+    super.lastUpdateTime,
+    required super.urlToPreview,
+    required super.author,
+    super.coverImage,
+    required super.text,
 
     this.forum,
   });
 
   void update(Post other){
     title = other.title;
-    postTime = other.postTime;
+    publishTime = other.publishTime;
     lastUpdateTime = other.lastUpdateTime;
-    startTime = other.startTime;
-    endTime = other.endTime;
-    place = other.place;
     author = other.author;
     coverImage = other.coverImage;
     text = other.text;
@@ -159,12 +142,9 @@ class Post extends CommunityPublishable{
   static Post fromMap(Map resp, Forum forum, {String? key}) => Post(
     key: key??resp['_key']??(throw InvalidResponseError('_key')),
     title: resp['title']??(throw InvalidResponseError('title')),
-    postTime: DateTime.tryParse(resp['publishTimeStr']??(throw InvalidResponseError('publishTimeStr')))??(throw InvalidResponseError('post_time_str')),
+    publishTime: DateTime.tryParse(resp['publishTimeStr']??(throw InvalidResponseError('publishTimeStr')))??(throw InvalidResponseError('post_time_str')),
     lastUpdateTime: resp['lastUpdateTimeStr'] == null? null: DateTime.tryParse(resp['lastUpdateTimeStr']),
-    startTime: resp['startTimeStr'] == null? null: DateTime.tryParse(resp['startTimeStr']),
-    endTime: resp['endTimeStr'] == null? null: DateTime.tryParse(resp['endTimeStr']),
     coverImage: resp['coverImageUrl'] == null? null: CommunityCoverImageData.from(resp['coverImageUrl']),
-    place: resp['place'],
     urlToPreview: resp['urlToPreview'],
     author: UserData.fromMap(resp['author']),
     text: resp['text'],

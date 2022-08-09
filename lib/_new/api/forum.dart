@@ -90,7 +90,6 @@ class ApiForum{
   );
 
   static Future<Response?> create({
-    required String name,
     required String description,
     required String? coverImageUrl,
     required String? colorsKey,
@@ -103,7 +102,6 @@ class ApiForum{
   }) async {
 
     Map<String, dynamic> reqMap = {};
-    reqMap['name'] = name.trim();
     reqMap['description'] = description.trim();
     reqMap['coverImageUrl'] = coverImageUrl;
     reqMap['colorsKey'] = colorsKey;
@@ -148,7 +146,6 @@ class ApiForum{
   static Future<Response?> update({
     required String forumKey,
     required Community community,
-    Optional<String> name = const Optional.empty(),
     Optional<String> description = const Optional.empty(),
     Optional<String> coverImageUrl = const Optional.empty(),
     Optional<String> colorsKey = const Optional.empty(),
@@ -159,7 +156,6 @@ class ApiForum{
   }) async{
 
     Map<String, dynamic> reqMap = {};
-    if(name.isPresent) reqMap['name'] = name.value.trim();
     if(description.isPresent) reqMap['description'] = description.value.trim();
     if(coverImageUrl.isPresent) reqMap['coverImageUrl'] = coverImageUrl.value;
     if(colorsKey.isPresent) reqMap['colorsKey'] = colorsKey.value;

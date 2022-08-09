@@ -3,9 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendace.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendance_resp.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendance_resp_mode.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_role.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community_manager.dart';
 import 'package:optional/optional_internal.dart';

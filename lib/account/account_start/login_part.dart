@@ -7,7 +7,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/circle.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/model/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
@@ -30,6 +29,7 @@ import 'package:provider/provider.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../_new/cat_page_home/community/circle/model/circle.dart';
 import '../login_provider.dart';
 import '../ms_oauth.dart';
 import 'account_reason_page.dart';

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:provider/provider.dart';
+
+import 'common/community_cover_image_data.dart';
 
 class CommunityPublishableListProvider extends ChangeNotifier{
   void notify() => notifyListeners();
@@ -103,9 +106,23 @@ abstract class CommunityPublishable{
   }
 
   final String key;
+  String title;
+  DateTime publishTime;
+  DateTime? lastUpdateTime;
+  String? urlToPreview;
+  UserData author;
+  CommunityCoverImageData? coverImage;
+  String text;
 
   CommunityPublishable({
-    required this.key
+    required this.key,
+    required this.title,
+    required this.publishTime,
+    required this.urlToPreview,
+    required this.author,
+    this.lastUpdateTime,
+    this.coverImage,
+    required this.text
   });
 
 }

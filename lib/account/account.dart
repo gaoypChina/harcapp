@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/announcement.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/circle.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 
 import '../_app_common/accounts/user_data.dart';
+import '../_new/cat_page_home/community/circle/model/announcement.dart';
+import '../_new/cat_page_home/community/circle/model/circle.dart';
 
 //bool isLoggedIn = null; //true - logged in. false - not logged in. null - logging in;
 

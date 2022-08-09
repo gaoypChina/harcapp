@@ -7,16 +7,13 @@ import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/api/forum.dart';
-import 'package:harcapp/_new/cat_page_home/circles/announcement_widget_template.dart';
-import 'package:harcapp/_new/cat_page_home/circles/announcements_sliver.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
+import 'package:harcapp/_new/cat_page_home/community/forum/post_editor/_main.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/posts_sliver.dart';
 import 'package:harcapp/_new/cat_page_home/cover_image.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/account/account.dart';
-import 'package:harcapp/account/account_thumbnail_row_widget.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -25,13 +22,15 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
-import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
+import '../community_publishable_widget_template.dart';
+import 'forum_description_page.dart';
+import 'forum_editor/_main.dart';
 import 'forum_role.dart';
 import 'model/forum.dart';
 import 'model/post.dart';
@@ -50,8 +49,8 @@ class ForumPage extends StatefulWidget{
 
 class ForumPageState extends State<ForumPage>{
 
-  static const circleCoverTag = 'forumCoverTag';
-  static const circleNameTag = 'forumNameTag';
+  static const forumCoverTag = 'forumCoverTag';
+  static const forumNameTag = 'forumNameTag';
 
   Forum get forum => widget.forum;
   void Function()? get onLeft => widget.onFollowChanged;
@@ -173,7 +172,7 @@ class ForumPageState extends State<ForumPage>{
       },
       builder: (context, child) =>
       paletteAlways == null?
-      const _CircleLoadingWidget():
+      const _ForumLoadingWidget():
 
       Consumer<PostListProvider>(
         builder: (context, prov, child) => SmartRefresher(
@@ -358,11 +357,11 @@ class ForumPageState extends State<ForumPage>{
                             builder: (context) => ForumEditorPage(
                               community: forum.community,
                               palette: palette,
-                              onSaved: (updatedCircle) async {
+                              onSaved: (updatedForum) async {
 
-                                forum.description = updatedCircle.description;
-                                forum.coverImage = updatedCircle.coverImage;
-                                forum.colorsKey = updatedCircle.colorsKey;
+                                forum.description = updatedForum.description;
+                                forum.coverImage = updatedForum.coverImage;
+                                forum.colorsKey = updatedForum.colorsKey;
 
                                 if(mounted) Provider.of<ForumProvider>(context, listen: false).notify();
                                 if(mounted) Provider.of<ForumListProvider>(context, listen: false).notify();
@@ -372,7 +371,6 @@ class ForumPageState extends State<ForumPage>{
                                 setState(() {});
                               },
                               onDeleted: onDeleted,
-                              onFollowChanged: onLeft,
                             )
                         ):
 
@@ -394,7 +392,7 @@ class ForumPageState extends State<ForumPage>{
                       centerTitle: true,
                       background:
                       Hero(
-                          tag: circleCoverTag,
+                          tag: forumCoverTag,
                           child: Stack(
                             fit: StackFit.expand,
                             clipBehavior: Clip.none,
@@ -439,7 +437,7 @@ class ForumPageState extends State<ForumPage>{
                         bottom: Dimen.SIDE_MARG,
                       ),
                       child: Hero(
-                          tag: circleNameTag,
+                          tag: forumNameTag,
                           child: Material(
                             color: Colors.transparent,
                             child: Row(
@@ -493,8 +491,8 @@ class ForumPageState extends State<ForumPage>{
                         ),
                         color: cardColor,
                         clipBehavior: Clip.antiAlias,
-                        radius: AnnouncementWidgetTemplate.radius,
-                        elevation: AnnouncementWidgetTemplate.elevation,
+                        radius: CommunityPublishableWidgetTemplate.radius,
+                        elevation: CommunityPublishableWidgetTemplate.elevation,
                         child: Padding(
                           padding: const EdgeInsets.all(Dimen.ICON_MARG),
                           child: Row(
@@ -502,7 +500,7 @@ class ForumPageState extends State<ForumPage>{
                               Icon(MdiIcons.draw, color: hintEnab_(context)),
                               const SizedBox(width: Dimen.SIDE_MARG),
                               Text(
-                                'Dodaj ogłoszenie...',
+                                'Dodaj posta...',
                                 style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, color: hintEnab_(context))
                               )
                             ],
@@ -541,13 +539,13 @@ class ForumPageState extends State<ForumPage>{
 
 }
 
-class _CircleLoadingWidget extends StatelessWidget{
+class _ForumLoadingWidget extends StatelessWidget{
 
-  const _CircleLoadingWidget({super.key});
+  const _ForumLoadingWidget({super.key});
 
   @override
   Widget build(BuildContext context) => Center(
-    child: SpinKitDualRing(color: iconEnab_(context), size: 48.0),
+    child: SpinKitRipple(color: iconEnab_(context), size: 48.0),
   );
 
 }

@@ -70,7 +70,6 @@ class ForumBasicData{
 
 class Forum{
 
-  static const int maxLenName = 64;
   static const int maxLenDescription = 320;
   static const int maxLenCoverImageUrl = 200;
   static const int maxLenColorsKey = 42;
@@ -245,20 +244,20 @@ class Forum{
     _postsMap.clear();
 
     _allPosts.addAll(allPosts);
-    _allPosts.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
+    _allPosts.sort((ann1, ann2) => ann2.publishTime.compareTo(ann1.publishTime));
 
     _postsMap = {for (Post post in _allPosts) post.key: post};
   }
 
   void addAllPost(Post post, {bool sort = true}){
     _allPosts.add(post);
-    if(sort) _allPosts.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
+    if(sort) _allPosts.sort((ann1, ann2) => ann2.publishTime.compareTo(ann1.publishTime));
     _postsMap[post.key] = post;
   }
 
   void addAllPosts(List<Post> posts, {bool sort = true}){
     _allPosts.addAll(posts);
-    if(sort) _allPosts.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
+    if(sort) _allPosts.sort((ann1, ann2) => ann2.publishTime.compareTo(ann1.publishTime));
     for(Post post in posts)
       _postsMap[post.key] = post;
   }
@@ -297,7 +296,7 @@ class Forum{
   {
     _managers.sort((m1, m2) => m1.name.compareTo(m2.name));
     _postsMap = {for (Post post in _allPosts) post.key: post};
-    _allPosts.sort((ann1, ann2) => ann1.postTime.compareTo(ann2.postTime));
+    _allPosts.sort((ann1, ann2) => ann1.publishTime.compareTo(ann2.publishTime));
   }
 
   static Forum fromResponse(Map resp, Community community){
@@ -328,7 +327,7 @@ class Forum{
       Post post = Post.fromMap(postRespData, forum, key: postKey);
 
       forum.addAllPost(post, sort: false);
-      forum._allPosts.sort((ann1, ann2) => ann2.postTime.compareTo(ann1.postTime));
+      forum._allPosts.sort((ann1, ann2) => ann2.publishTime.compareTo(ann1.publishTime));
     }
 
     return forum;

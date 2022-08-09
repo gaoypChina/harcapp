@@ -4,7 +4,7 @@ import 'package:harcapp/_new/api/community.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 
-import '../circles/model/circle.dart';
+import 'circle/model/circle.dart';
 import 'forum/model/forum.dart';
 
 class CommunityLoaderListener extends SingleComputerApiListener<String>{

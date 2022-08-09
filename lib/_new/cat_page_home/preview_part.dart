@@ -7,7 +7,6 @@ import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/announcement.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_loader.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_tile.dart';
@@ -29,8 +28,9 @@ import 'package:provider/provider.dart';
 
 import '../../_common_widgets/harc_app.dart';
 import '../api/circle.dart';
-import 'circles/model/circle.dart';
-import 'circles/announcements_sliver.dart';
+import 'community/circle/announcements_sliver.dart';
+import 'community/circle/model/announcement.dart';
+import 'community/circle/model/circle.dart';
 import 'competitions/indiv_comp/indiv_comp_preview_widget.dart';
 
 class PreviewPart extends StatefulWidget{

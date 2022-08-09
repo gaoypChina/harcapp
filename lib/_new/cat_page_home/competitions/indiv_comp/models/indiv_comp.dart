@@ -5,7 +5,6 @@ import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/circle.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_disp_type.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
@@ -14,6 +13,7 @@ import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
 import 'package:provider/provider.dart';
 
+import '../../../community/circle/model/circle.dart';
 import 'show_rank_data.dart';
 import 'indiv_comp_profile.dart';
 import 'indiv_comp_task.dart';

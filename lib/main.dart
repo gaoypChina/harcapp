@@ -36,10 +36,11 @@ import '_new/cat_page_guide_book/szyfry/providers.dart';
 import '_new/cat_page_harcthought/apel_ewan/apel_ewan_own_folder.dart';
 import '_new/cat_page_harcthought/apel_ewan/providers.dart';
 import '_new/cat_page_harcthought/articles/providers.dart';
-import '_new/cat_page_home/circles/model/announcement.dart';
-import '_new/cat_page_home/circles/model/circle.dart';
+import '_new/cat_page_home/community/circle/model/announcement.dart';
+import '_new/cat_page_home/community/circle/model/circle.dart';
 import '_new/cat_page_home/community/community_publishable.dart';
 import '_new/cat_page_home/community/forum/model/forum.dart';
+import '_new/cat_page_home/community/forum/model/post.dart';
 import '_new/cat_page_home/community/model/community.dart';
 import '_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import '_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
@@ -180,6 +181,8 @@ void main() async {
             ChangeNotifierProvider(create: (context) => ForumProvider()),
             ChangeNotifierProvider(create: (context) => ForumListProvider()),
             ChangeNotifierProvider(create: (context) => ForumManagersProvider()),
+            ChangeNotifierProvider(create: (context) => PostProvider()),
+            ChangeNotifierProvider(create: (context) => PostListProvider()),
 
             //INDIVIDUAL COMPETITION
             ChangeNotifierProvider(create: (context) => IndivCompParticipsProvider()),
@@ -196,7 +199,7 @@ void main() async {
             ChangeNotifierProvider(create: (context) => SprawCompletedListProv()),
             ChangeNotifierProvider(create: (context) => CurrentSprawGroupProvider()),
 
-            // SPIEWNIK
+            // ŚPIEWNIK
             ChangeNotifierProvider(create: (context) => AlbumProvider()),
 
             // SZYFRY

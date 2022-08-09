@@ -3,15 +3,15 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendace.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendance_resp.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/announcement_attendance_resp_mode.dart';
 import 'package:optional/optional_internal.dart';
 
-import '../cat_page_home/circles/circle_role.dart';
-import '../cat_page_home/circles/model/announcement.dart';
-import '../cat_page_home/circles/model/circle.dart';
-import '../cat_page_home/circles/model/member.dart';
+import '../cat_page_home/community/circle/circle_role.dart';
+import '../cat_page_home/community/circle/model/announcement.dart';
+import '../cat_page_home/community/circle/model/announcement_attendace.dart';
+import '../cat_page_home/community/circle/model/announcement_attendance_resp.dart';
+import '../cat_page_home/community/circle/model/announcement_attendance_resp_mode.dart';
+import '../cat_page_home/community/circle/model/circle.dart';
+import '../cat_page_home/community/circle/model/member.dart';
 import '../cat_page_home/community/model/community.dart';
 import '_api.dart';
 
@@ -96,7 +96,6 @@ class ApiCircle{
   );
 
   static Future<Response?> create({
-    required String name,
     required String description,
     required String? coverImageUrl,
     required String? colorsKey,
@@ -109,7 +108,6 @@ class ApiCircle{
   }) async {
 
     Map<String, dynamic> reqMap = {};
-    reqMap['name'] = name.trim();
     reqMap['description'] = description.trim();
     reqMap['coverImageUrl'] = coverImageUrl;
     reqMap['colorsKey'] = colorsKey;
@@ -224,7 +222,6 @@ class ApiCircle{
   static Future<Response?> update({
     required String circleKey,
     required Community community,
-    Optional<String> name = const Optional.empty(),
     Optional<String> description = const Optional.empty(),
     Optional<String> coverImageUrl = const Optional.empty(),
     Optional<String> colorsKey = const Optional.empty(),
@@ -235,7 +232,6 @@ class ApiCircle{
   }) async{
 
     Map<String, dynamic> reqMap = {};
-    if(name.isPresent) reqMap['name'] = name.value.trim();
     if(description.isPresent) reqMap['description'] = description.value.trim();
     if(coverImageUrl.isPresent) reqMap['coverImageUrl'] = coverImageUrl.value;
     if(colorsKey.isPresent) reqMap['colorsKey'] = colorsKey.value;

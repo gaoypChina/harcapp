@@ -4,8 +4,6 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/announcement.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/circle.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/model/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/model/post.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
@@ -16,6 +14,8 @@ import 'package:harcapp/sync/synchronizer_engine.dart';
 
 import '../../_app_common/accounts/user_data.dart';
 import '../../logger.dart';
+import '../cat_page_home/community/circle/model/announcement.dart';
+import '../cat_page_home/community/circle/model/circle.dart';
 import '../cat_page_home/community/community_publishable.dart';
 import '../cat_page_home/community/model/community.dart';
 import '_api.dart';

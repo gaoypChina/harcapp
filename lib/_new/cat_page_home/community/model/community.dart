@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/circle.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
 import 'package:provider/provider.dart';
 
 import '../../../api/_api.dart';
+import '../circle/model/circle.dart';
 import '../community_role.dart';
 import '../forum/model/forum.dart';
 import 'community_manager.dart';
