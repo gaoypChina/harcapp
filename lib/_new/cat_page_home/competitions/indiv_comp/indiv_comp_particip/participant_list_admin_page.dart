@@ -588,7 +588,7 @@ class _ParticipTileState extends State<_ParticipTile>{
           onSuccess?.call();
         },
         onServerMaybeWakingUp: () {
-          showAppToast(context, text: serverWakingUpMessage);
+          showServerWakingUpToast(context);
           return true;
         },
         onError: (){
@@ -667,7 +667,7 @@ class _ParticipTileState extends State<_ParticipTile>{
                       await popPage(context);
                     },
                     onServerMaybeWakingUp: () {
-                      if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                      if(mounted) showServerWakingUpToast(context);
                       return true;
                     },
                     onError: () async {
@@ -775,7 +775,7 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
                         onSuccess?.call(taskComplList, idRank);
                       },
                       onServerMaybeWakingUp: () {
-                        if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                        if(mounted) showServerWakingUpToast(context);
                         return true;
                       },
                       onError: (){

@@ -491,7 +491,7 @@ class AwaitingAlertWidget extends StatelessWidget{
         ),
         child: GradientWidget(
           colorStart: Colors.red,
-          colorEnd: Colors.amber,
+          colorEnd: Colors.amber[700]!,
           radius: CommunityPublishableWidgetTemplate.radius,
           child: Padding(
               padding: const EdgeInsets.all(Dimen.DEF_MARG/2),
@@ -777,7 +777,7 @@ class AttendingDialog extends StatelessWidget{
                         onSuccess?.call(announcementAttendanceResp, now);
                       },
                       onServerMaybeWakingUp: () {
-                        showAppToast(context, text: serverWakingUpMessage);
+                        showServerWakingUpToast(context);
                         return true;
                       },
                       onError: () async {
@@ -922,7 +922,7 @@ class PostponeRespDialogState extends State<PostponeRespDialog>{
                         onSuccess?.call(announcementAttendanceResp, now);
                       },
                       onServerMaybeWakingUp: () {
-                        if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                        if(mounted) showServerWakingUpToast(context);
                         return true;
                       },
                       onError: () async {
@@ -1049,7 +1049,7 @@ class NotAttendingDialogState extends State<NotAttendingDialog>{
                           onSuccess?.call(announcementAttendanceResp, now);
                         },
                         onServerMaybeWakingUp: () {
-                          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                          if(mounted) showServerWakingUpToast(context);
                           return true;
                         },
                         onError: () async {
@@ -1122,7 +1122,7 @@ class _PinWidgetState extends State<_PinWidget>{
               onPinChanged?.call(pinned);
             },
             onServerMaybeWakingUp: () {
-              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+              if(mounted) showServerWakingUpToast(context);
               return true;
             },
             onError: () async {

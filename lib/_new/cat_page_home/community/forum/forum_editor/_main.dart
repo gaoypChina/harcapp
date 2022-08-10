@@ -123,7 +123,7 @@ class ForumEditorPageState extends State<ForumEditorPage>{
                               onSaved?.call(forum);
                             },
                             onServerMaybeWakingUp: () {
-                              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                              if(mounted) showServerWakingUpToast(context);
                               return true;
                             },
                             onError: onError
@@ -160,7 +160,7 @@ class ForumEditorPageState extends State<ForumEditorPage>{
                               onSaved?.call(circle);
                             },
                             onServerMaybeWakingUp: () {
-                              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                              if(mounted) showServerWakingUpToast(context);
                               return true;
                             },
                             onError: onError

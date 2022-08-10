@@ -117,7 +117,7 @@ class IndivTaskComplReqWidgetState extends State<IndivTaskComplReqWidget>{
                           widget.onSuccess?.call(taskComplRespMap, idRank);
                         },
                         onServerMaybeWakingUp: () {
-                          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                          if(mounted) showServerWakingUpToast(context);
                           return true;
                         },
                         onError: (){

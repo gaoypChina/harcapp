@@ -93,7 +93,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
       onServerMaybeWakingUp: (){
         if(!mounted) return true;
         refreshController.refreshCompleted();
-        showAppToast(context, text: serverWakingUpMessage);
+        showServerWakingUpToast(context);
         setState(() {});
         return true;
       },
@@ -414,7 +414,7 @@ class NewCommunityButton extends StatelessWidget{
                     bottom: Dimen.SIDE_MARG,
                     right: Dimen.SIDE_MARG,
                     child: Text(
-                        'Nowe środowisko',
+                        'Nowe',
                         style: AppTextStyle(
                             fontSize: Dimen.TEXT_SIZE_APPBAR,
                             fontWeight: weight.bold,

@@ -3,15 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
-import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/api/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
+import 'package:harcapp/_new/cat_page_home/community/forum/common/like_button.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/post_editor/_main.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/posts_sliver.dart';
-import 'package:harcapp/_new/cat_page_home/cover_image.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
@@ -20,15 +19,18 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
+import '../common/community_cover_image_data.dart';
 import '../community_publishable_widget_template.dart';
+import '../community_sliver_app_bar.dart';
+import 'common/follow_button.dart';
 import 'forum_description_page.dart';
 import 'forum_editor/_main.dart';
 import 'forum_role.dart';
@@ -62,6 +64,12 @@ class ForumPageState extends State<ForumPage>{
   PaletteGenerator? paletteGeneratorSecond;
 
   Future<void> initPaletteGenerator({bool refresh = true}) async {
+    if(CommunityCoverImageData.palettes.containsKey(forum.coverImage.code)) {
+      paletteGeneratorFirst = CommunityCoverImageData.palettes[forum.coverImage.code]!.item1;
+      paletteGeneratorSecond = CommunityCoverImageData.palettes[forum.coverImage.code]!.item2;
+      return;
+    }
+
     try {
       paletteGeneratorFirst = await getPaletteGenerator(forum.coverImage.local, forum.coverImage.firstFileName);
       paletteGeneratorSecond = await getPaletteGenerator(forum.coverImage.local, forum.coverImage.secondFileName);
@@ -74,6 +82,8 @@ class ForumPageState extends State<ForumPage>{
       showAppToast(context, text: 'Nie można załadować tła. Zmień grafikę tła, by przyspieszyć ładowanie', duration: const Duration(seconds: 6)));
     }
 
+    CommunityCoverImageData.palettes[forum.coverImage.code] = Tuple2(paletteGeneratorFirst, paletteGeneratorSecond);
+
     if(!refresh) return;
 
     setState(() {});
@@ -82,7 +92,7 @@ class ForumPageState extends State<ForumPage>{
 
   late ScrollController scrollController;
 
-  late GlobalKey appBarKey;
+  late GlobalKey nameWidgetKey;
 
   late AppBarProvider appBarProv;
 
@@ -104,20 +114,9 @@ class ForumPageState extends State<ForumPage>{
 
     changeShareCodeProcessing = false;
 
-    appBarKey = GlobalKey();
+    nameWidgetKey = GlobalKey();
 
     scrollController = ScrollController();
-    scrollController.addListener(() {
-      double topPadding = MediaQuery.of(context).padding.top;
-      final appBarBox = appBarKey.currentContext?.findRenderObject() as RenderBox?;
-      double appBarPos = appBarBox==null? -double.infinity: appBarBox.localToGlobal(Offset(0, -topPadding)).dy;
-      if (appBarPos < kToolbarHeight && !appBarProv.showTitleOnAppBar) appBarProv.showTitleOnAppBar = true;
-      else if(appBarPos >= kToolbarHeight && appBarProv.showTitleOnAppBar) appBarProv.showTitleOnAppBar = false;
-
-      if (appBarPos < 2*kToolbarHeight && appBarProv.coverVisible) appBarProv.coverVisible = false;
-      else if(appBarPos >= 2*kToolbarHeight && !appBarProv.coverVisible) appBarProv.coverVisible = true;
-
-    });
 
     refreshController = RefreshController();
 
@@ -153,9 +152,9 @@ class ForumPageState extends State<ForumPage>{
     return paletteAlways;
   }
 
-  Color? get appBarColor => CommunityCoverColors.appBarColor(context, palette);
-  Color? get backgroundColor => CommunityCoverColors.backgroundColor(context, palette);
-  Color? get cardColor => CommunityCoverColors.cardColor(context, palette);
+  Color get appBarColor => CommunityCoverColors.appBarColor(context, palette);
+  Color get backgroundColor => CommunityCoverColors.backgroundColor(context, palette);
+  Color get cardColor => CommunityCoverColors.cardColor(context, palette);
   Color get strongColor => CommunityCoverColors.strongColor(context, palette);
   Color get coverIconColor => CommunityCoverColors.coverIconColor(context, paletteAlways);
 
@@ -260,7 +259,7 @@ class ForumPageState extends State<ForumPage>{
                   setState(() {});
                 },
                 onServerMaybeWakingUp: () {
-                  if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                  if(mounted) showServerWakingUpToast(context);
                   return true;
                 },
                 onError: (responseStatusCode){
@@ -316,7 +315,7 @@ class ForumPageState extends State<ForumPage>{
 
                 },
                 onServerMaybeWakingUp: () {
-                  if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                  if(mounted) showServerWakingUpToast(context);
                   return true;
                 },
                 onError: (){
@@ -332,99 +331,54 @@ class ForumPageState extends State<ForumPage>{
               physics: const BouncingScrollPhysics(),
               slivers: [
 
-                Consumer<AppBarProvider>(
-                  builder: (context, prov, child) => SliverAppBar(
-                    iconTheme: IconThemeData(
-                        color: prov.coverVisible?coverIconColor:iconEnab_(context)
-                    ),
-                    centerTitle: true,
-                    pinned: true,
-                    excludeHeaderSemantics: true,
-                    elevation: prov.elevated?AppCard.bigElevation:0,
-                    backgroundColor: backgroundColor,
-                    expandedHeight: 200,
-                    actions: [
+                CommunitySliverAppBar(
+                  forum.community,
+                  palette: palette,
+                  coverImage: forum.coverImage,
+                  mainScrollController: scrollController,
+                  communityNameWidgetKey: nameWidgetKey,
+                  heroTag: forumCoverTag,
+                  actions: (appBarProv) => [
 
-                      IconButton(
-                        icon: Icon(
-                            MdiIcons.cogOutline,
-                            color: prov.coverVisible?coverIconColor:iconEnab_(context)
-                        ),
-                        onPressed:
-                        forum.myRole == ForumRole.ADMIN?() =>
-                            pushPage(
-                            context,
-                            builder: (context) => ForumEditorPage(
-                              community: forum.community,
-                              palette: palette,
-                              onSaved: (updatedForum) async {
-
-                                forum.description = updatedForum.description;
-                                forum.coverImage = updatedForum.coverImage;
-                                forum.colorsKey = updatedForum.colorsKey;
-
-                                if(mounted) Provider.of<ForumProvider>(context, listen: false).notify();
-                                if(mounted) Provider.of<ForumListProvider>(context, listen: false).notify();
-
-                                await initPaletteGenerator(refresh: false);
-
-                                setState(() {});
-                              },
-                              onDeleted: onDeleted,
-                            )
-                        ):
-
-                        () => null,
+                    IconButton(
+                      icon: Icon(
+                          MdiIcons.cogOutline,
+                          color: appBarProv.coverVisible?coverIconColor:iconEnab_(context)
                       ),
-                    ],
-                    flexibleSpace: FlexibleSpaceBar(
-                      title: AnimatedOpacity(
-                        opacity: prov.showTitleOnAppBar?1:0,
-                        duration: Duration(milliseconds: prov.showTitleOnAppBar?200:0),
-                        child: Text(
-                          forum.name,
-                          style: AppTextStyle(
-                              color: iconEnab_(context)
-                          ),
-                          maxLines: 1,
-                        ),
-                      ),
-                      centerTitle: true,
-                      background:
-                      Hero(
-                          tag: forumCoverTag,
-                          child: Stack(
-                            fit: StackFit.expand,
-                            clipBehavior: Clip.none,
-                            children: [
+                      onPressed:
+                      forum.myRole == ForumRole.ADMIN?() =>
+                          pushPage(
+                              context,
+                              builder: (context) => ForumEditorPage(
+                                community: forum.community,
+                                palette: palette,
+                                onSaved: (updatedForum) async {
 
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 24.0),
-                                child: CoverImage(forum.coverImage),
-                              ),
+                                  forum.description = updatedForum.description;
+                                  forum.coverImage = updatedForum.coverImage;
+                                  forum.colorsKey = updatedForum.colorsKey;
 
-                              Positioned(
-                                left: Dimen.SIDE_MARG,
-                                bottom: 0,
-                                child: Material(
-                                  borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-                                  clipBehavior: Clip.hardEdge,
-                                  color: cardColor,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                                    child: Icon(
-                                      CommonIconData.ALL[forum.community.iconKey],
-                                      size: 48.0,
-                                    ),
-                                  ),
-                                ),
+                                  if(mounted) Provider.of<ForumProvider>(context, listen: false).notify();
+                                  if(mounted) Provider.of<ForumListProvider>(context, listen: false).notify();
+
+                                  await initPaletteGenerator(refresh: false);
+
+                                  setState(() {});
+                                },
+                                onDeleted: onDeleted,
                               )
-                            ],
-                          )
-                      ),
+                          ):
 
+                          () => null,
                     ),
-                  ),
+                  ],
+                  bottomWidgets: [
+                    ForumFollowButton(forum, palette: palette),
+
+                    const SizedBox(width: Dimen.DEF_MARG),
+
+                    ForumLikeButton(forum, palette: palette),
+                  ],
                 ),
 
                 SliverList(delegate: SliverChildListDelegate([
@@ -450,7 +404,7 @@ class ForumPageState extends State<ForumPage>{
                                         fontSize: 28.0,
                                         fontWeight: weight.bold
                                     ),
-                                    key: appBarKey,
+                                    key: nameWidgetKey,
                                   ),
                                 ),
 
@@ -470,7 +424,6 @@ class ForumPageState extends State<ForumPage>{
                           )
                       )
                   ),
-
 
                   if(forum.myRole == ForumRole.MODERATOR || forum.myRole == ForumRole.ADMIN)
                     Padding(
@@ -500,7 +453,7 @@ class ForumPageState extends State<ForumPage>{
                               Icon(MdiIcons.draw, color: hintEnab_(context)),
                               const SizedBox(width: Dimen.SIDE_MARG),
                               Text(
-                                'Dodaj posta...',
+                                'Dodaj post...',
                                 style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, color: hintEnab_(context))
                               )
                             ],
@@ -547,47 +500,5 @@ class _ForumLoadingWidget extends StatelessWidget{
   Widget build(BuildContext context) => Center(
     child: SpinKitRipple(color: iconEnab_(context), size: 48.0),
   );
-
-}
-
-class AppBarProvider extends ChangeNotifier{
-
-  late bool _elevated;
-  bool get elevated => _elevated;
-  set elevated(bool value){
-    _elevated = value;
-    notifyListeners();
-  }
-
-  late bool _showTitleOnAppBar;
-  bool get showTitleOnAppBar => _showTitleOnAppBar;
-  set showTitleOnAppBar(bool value){
-    _showTitleOnAppBar = value;
-    notifyListeners();
-  }
-
-  late bool _coverVisible;
-  bool get coverVisible => _coverVisible;
-  set coverVisible(bool value){
-    _coverVisible = value;
-    notifyListeners();
-  }
-
-  void set({
-    bool? elevated,
-    bool? showTitleOnAppBar,
-    bool? coverVisible,
-  }){
-    if(elevated != null) _elevated = elevated;
-    if(showTitleOnAppBar != null) _showTitleOnAppBar = showTitleOnAppBar;
-    if(coverVisible != null) _coverVisible = coverVisible;
-    notifyListeners();
-  }
-
-  AppBarProvider(){
-    _elevated = true;
-    _showTitleOnAppBar = false;
-    _coverVisible = true;
-  }
 
 }

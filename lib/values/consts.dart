@@ -4,11 +4,16 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/dimen.dart';
 
+import '../_common_widgets/app_toast.dart';
+
 AppTextStyle settingsHintStyle(BuildContext context) => AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL, color: hintEnab_(context));
 AppTextStyle settingsTextStyle(BuildContext context) => AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: textEnab_(context), fontWeight: weight.halfBold);
 
 const String forceLoggedOutMessage = 'Wymagane ponowne zalogowanie';
 const String serverWakingUpMessage = 'Twoje konto właśnie obudziło drzemiący serwer. Spróbuj za minutę, gdy wstanie na dobre.';
+const Duration serverWakingUpDuration = Duration(seconds: 7);
+void showServerWakingUpToast(BuildContext context) => showAppToast(context, text: serverWakingUpMessage, duration: serverWakingUpDuration);
+
 String get simpleErrorMessage{
 
   List<String> messages = [

@@ -72,7 +72,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
           Navigator.pop(context);
         },
         onServerMaybeWakingUp: () {
-          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+          if(mounted) showServerWakingUpToast(context);
           return true;
         },
         onError: (Response? response){

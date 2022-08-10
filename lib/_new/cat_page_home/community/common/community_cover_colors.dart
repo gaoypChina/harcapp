@@ -28,26 +28,24 @@ class CommunityCoverColors{
     return hslLight.toColor();
   }
 
-  static Color? appBarColor(BuildContext context, PaletteGenerator? palette) =>
+  static Color appBarColor(BuildContext context, PaletteGenerator? palette) =>
       backgroundColor(context, palette);
 
-  static Color? backgroundColor(BuildContext context, PaletteGenerator? palette){
-    if(palette == null) return background_(context);
+  static Color backgroundColor(BuildContext context, PaletteGenerator? palette){
 
     if(AppSettings.isDark)
-      return _lighten(palette.dominantColor!.color, .1);
+      return _lighten(palette?.dominantColor!.color, .1)??background_(context);
     else
-      return _lighten(palette.dominantColor!.color, .94);
+      return _lighten(palette?.dominantColor!.color, .94)??background_(context);
 
   }
 
-  static Color? cardColor(BuildContext context, PaletteGenerator? palette){
-    if(palette == null) return cardEnab_(context);
+  static Color cardColor(BuildContext context, PaletteGenerator? palette){
 
     if(AppSettings.isDark)
-      return _lighten(palette.dominantColor!.color, .16);
+      return _lighten(palette?.dominantColor!.color, .16)??cardEnab_(context)!;
     else
-      return _lighten(palette.dominantColor!.color, .88);
+      return _lighten(palette?.dominantColor!.color, .88)??cardEnab_(context)!;
 
   }
 

@@ -156,7 +156,7 @@ class _JoinButtonState extends State<_JoinButton>{
                   widget.onSuccess.call(comp);
                 },
                 onServerMaybeWakingUp: () {
-                  if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                  if(mounted) showServerWakingUpToast(context);
                   return true;
                 },
                 onError: (){

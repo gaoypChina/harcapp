@@ -1,7 +1,11 @@
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/_new/details/part_contributors.dart';
+import 'package:palette_generator/palette_generator.dart';
+import 'package:tuple/tuple.dart';
 
 class CommunityCoverImageData{
+
+  static Map<String?, Tuple2<PaletteGenerator?, PaletteGenerator?>> palettes = {};
 
   static String localPrefix = 'local@';
 

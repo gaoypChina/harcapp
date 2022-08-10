@@ -455,7 +455,7 @@ class _MemberTileState extends State<_MemberTile>{
           onSuccess?.call();
         },
         onServerMaybeWakingUp: () {
-          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+          if(mounted) showServerWakingUpToast(context);
           return true;
         },
         onError: (){
@@ -550,7 +550,7 @@ class _MemberTileState extends State<_MemberTile>{
                       await popPage(context);
                     },
                     onServerMaybeWakingUp: () {
-                      if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                      if(mounted) showServerWakingUpToast(context);
                       return true;
                     },
                     onError: () async {
@@ -666,7 +666,7 @@ class _EditPatrolDialogState extends State<_EditPatrolDialog>{
                           onSuccess?.call();
                         },
                         onServerMaybeWakingUp: () {
-                          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                          if(mounted) showServerWakingUpToast(context);
                           return true;
                         },
                         onError: (){

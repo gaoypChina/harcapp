@@ -87,7 +87,7 @@ class RegisterPartState extends State<RegisterPart>{
           );
         },
         onServerMaybeWakingUp: () {
-          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+          if(mounted) showServerWakingUpToast(context);
           return true;
         },
         onError: (Response? response) async {

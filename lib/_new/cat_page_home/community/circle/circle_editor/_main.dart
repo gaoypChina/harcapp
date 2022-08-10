@@ -126,7 +126,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                               onSaved?.call(circle);
                             },
                             onServerMaybeWakingUp: () {
-                              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                              if(mounted) showServerWakingUpToast(context);
                               return true;
                             },
                             onError: onError
@@ -163,7 +163,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                               onSaved?.call(circle);
                             },
                             onServerMaybeWakingUp: () {
-                              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                              if(mounted) showServerWakingUpToast(context);
                               return true;
                             },
                             onError: onError

@@ -120,7 +120,7 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                                 bindedIndivCompsProv.notify();
                               },
                               onServerMaybeWakingUp: () {
-                                if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                if(mounted) showServerWakingUpToast(context);
                                 return true;
                               },
                               onError: () async {
@@ -182,7 +182,7 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                             bindedIndivCompsProv.notify();
                           },
                           onServerMaybeWakingUp: () {
-                            if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                            if(mounted) showServerWakingUpToast(context);
                             return true;
                           },
                           onError: () async {
@@ -288,7 +288,7 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                               bindedIndivCompsProv.notify();
                             },
                             onServerMaybeWakingUp: () {
-                              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                              if(mounted) showServerWakingUpToast(context);
                               return true;
                             },
                             onError: () async {

@@ -5,6 +5,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'model/forum.dart';
@@ -20,23 +21,24 @@ class ForumWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) => SizedBox(
       height: height,
-      child: Material(
-          elevation: AppCard.bigElevation,
-          clipBehavior: Clip.hardEdge,
-          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-          child: InkWell(
-            onTap: onTap,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
+      child: Consumer<ForumProvider>(
+        builder: (context, prov, child) => Material(
+            elevation: AppCard.bigElevation,
+            clipBehavior: Clip.hardEdge,
+            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+            child: InkWell(
+              onTap: onTap,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
 
-                CoverImage(forum.coverImage),
+                  CoverImage(forum.coverImage),
 
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  height: Dimen.ICON_FOOTPRINT,
-                  child: Material(
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    height: Dimen.ICON_FOOTPRINT,
+                    child: Material(
                       clipBehavior: Clip.hardEdge,
                       color: cardEnab_(context)!.withOpacity(.7),
                       shape: RoundedRectangleBorder(
@@ -47,33 +49,34 @@ class ForumWidget extends StatelessWidget{
                         side: BorderSide(color: cardEnab_(context)!.withOpacity(.7), width: 4),
                       ),
                       child: Blur(
-                        mode: TileMode.repeated,
-                        sigma: 4,
-                        child: Row(
-                          children: [
-                            const SizedBox(width: Dimen.ICON_MARG),
-                            const Icon(MdiIcons.broadcast),
-                            const SizedBox(width: Dimen.ICON_MARG),
-                            Text(
-                                'Forum',
-                                style: AppTextStyle(
-                                    fontSize: Dimen.TEXT_SIZE_BIG,
-                                    fontWeight: weight.halfBold,
-                                    color: iconEnab_(context)
-                                )
-                            ),
+                          mode: TileMode.repeated,
+                          sigma: 4,
+                          child: Row(
+                            children: [
+                              const SizedBox(width: Dimen.ICON_MARG),
+                              const Icon(MdiIcons.broadcast),
+                              const SizedBox(width: Dimen.ICON_MARG),
+                              Text(
+                                  'Forum',
+                                  style: AppTextStyle(
+                                      fontSize: Dimen.TEXT_SIZE_BIG,
+                                      fontWeight: weight.halfBold,
+                                      color: iconEnab_(context)
+                                  )
+                              ),
 
-                            const SizedBox(width: Dimen.ICON_MARG),
+                              const SizedBox(width: Dimen.ICON_MARG),
 
-                          ],
-                        )
+                            ],
+                          )
                       ),
+                    ),
                   ),
-                ),
 
-              ],
-            ),
-          )
+                ],
+              ),
+            )
+        )
       )
   );
 

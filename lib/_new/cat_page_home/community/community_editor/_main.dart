@@ -97,7 +97,7 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
                               onSaved?.call(circle);
                             },
                             onServerMaybeWakingUp: () {
-                              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                              if(mounted) showServerWakingUpToast(context);
                               return true;
                             },
                             onError: onError
@@ -105,6 +105,7 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
                       else{
 
                         String name = Provider.of<NameProvider>(context, listen: false).nameController.text;
+                        String iconKey = Provider.of<IconKeyProvider>(context, listen: false).iconKey;
 
                         await ApiCommunity.update(
                             circleKey: initCommunity!.key,
@@ -114,13 +115,18 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
                             const Optional.empty():
                             Optional.of(name),
 
+                            iconKey:
+                            initCommunity!.iconKey == iconKey?
+                            const Optional.empty():
+                            Optional.of(iconKey),
+
                             onSuccess: (community) async {
                               await popPage(context); // Close loading widget.
                               await popPage(context);
                               onSaved?.call(community);
                             },
                             onServerMaybeWakingUp: () {
-                              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                              if(mounted) showServerWakingUpToast(context);
                               return true;
                             },
                             onError: onError
@@ -135,7 +141,7 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
             body: TabBarView(
               physics: const BouncingScrollPhysics(),
               children: [
-                GeneralPart(),
+                const GeneralPart(),
 
                 if(initCommunity != null)
                   DangerPart(

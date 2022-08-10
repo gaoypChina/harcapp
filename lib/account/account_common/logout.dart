@@ -169,7 +169,7 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
                                 if(mounted) Navigator.pop(context);
                               },
                               onServerMaybeWakingUp: () {
-                                if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                if(mounted) showServerWakingUpToast(context);
                                 return true;
                               },
                               onError: () async {

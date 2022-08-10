@@ -319,7 +319,6 @@ class LinkPreviewerState extends State<LinkPreviewer>{
         right: Dimen.DEF_MARG,
         bottom: Dimen.DEF_MARG
     ),
-    elevation: 3,
     color: CommunityCoverColors.backgroundColor(context, palette),
     clipBehavior: Clip.hardEdge,
     borderRadius: BorderRadius.circular(CommunityPublishableWidgetTemplate.radius),

@@ -49,7 +49,7 @@ class RemindPasswordPartState extends State<RemindPasswordPart>{
             builder: (context) => RemindPasswordCodePart(emailController!.text)
         ),
         onServerMaybeWakingUp: () {
-          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+          if(mounted) showServerWakingUpToast(context);
           return true;
         },
         onError: (Response? response){

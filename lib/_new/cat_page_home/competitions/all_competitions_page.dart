@@ -88,7 +88,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
       onServerMaybeWakingUp: (){
         if(!mounted) return true;
         refreshController.refreshCompleted();
-        showAppToast(context, text: serverWakingUpMessage);
+        showServerWakingUpToast(context);
         setState(() {});
         return true;
       },

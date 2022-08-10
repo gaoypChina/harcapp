@@ -187,7 +187,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
                         if(mounted) setState(() {});
                       },
                       onServerMaybeWakingUp: () {
-                        if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                        if(mounted) showServerWakingUpToast(context);
                         return true;
                       },
                       onError: (err) async {

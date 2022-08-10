@@ -73,7 +73,7 @@ class LeaveCircleButton extends StatelessWidget{
                           onLeft?.call();
                         },
                         onServerMaybeWakingUp: () {
-                          showAppToast(context, text: serverWakingUpMessage);
+                          showServerWakingUpToast(context);
                           return true;
                         },
                         onError: () async {

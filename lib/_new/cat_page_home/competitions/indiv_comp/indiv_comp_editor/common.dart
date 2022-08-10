@@ -75,7 +75,7 @@ class LeaveCompButton extends StatelessWidget{
                           showAppToast(context, text: 'Współzawodnictwo opuszczone');
                         },
                         onServerMaybeWakingUp: () {
-                          showAppToast(context, text: serverWakingUpMessage);
+                          showServerWakingUpToast(context);
                           return true;
                         },
                         onError: (){

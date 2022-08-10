@@ -313,6 +313,7 @@ class PostEditorPageState extends State<PostEditorPage>{
             SimpleButton.from(
                 elevation: AppCard.bigElevation,
                 margin: EdgeInsets.zero,
+                radius: AppCard.DEF_RADIUS,
                 textColor: CommunityCoverColors.backgroundColor(context, palette),
                 color: CommunityCoverColors.strongColor(context, palette),
                 icon: MdiIcons.earthArrowRight,
@@ -349,7 +350,7 @@ class PostEditorPageState extends State<PostEditorPage>{
                           onSaved?.call(post);
                         },
                         onServerMaybeWakingUp: () {
-                          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                          if(mounted) showServerWakingUpToast(context);
                           return true;
                         },
                         onError: () async {
@@ -390,7 +391,7 @@ class PostEditorPageState extends State<PostEditorPage>{
                           onSaved?.call(announcement);
                         },
                         onServerMaybeWakingUp: () {
-                          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                          if(mounted) showServerWakingUpToast(context);
                           return true;
                         },
                         onError: () async {
@@ -431,7 +432,7 @@ class PostEditorPageState extends State<PostEditorPage>{
                           onRemoved?.call();
                         },
                         onServerMaybeWakingUp: () {
-                          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                          if(mounted) showServerWakingUpToast(context);
                           return true;
                         },
                         onError: () async {

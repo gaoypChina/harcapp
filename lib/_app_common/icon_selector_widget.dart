@@ -1,11 +1,74 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:provider/provider.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'common_icon_data.dart';
+
+Future<String?> selectCommonIcon(BuildContext context, {String? initIconKey}) async {
+
+  String? selected;
+
+  await openDialog(
+    context: context,
+    builder: (context) => Padding(
+      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+      child: Material(
+        color: background_(context),
+        clipBehavior: Clip.hardEdge,
+        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        child: Column(
+          children: [
+
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: IconSelectorWidget(
+                  initIconKey: initIconKey,
+                  onSelected: (value) => selected = value,
+                ),
+              ),
+            ),
+
+            Row(
+              children: [
+                Expanded(child: SimpleButton.from(
+                  context: context,
+                  margin: EdgeInsets.zero,
+                  icon: MdiIcons.arrowLeft,
+                  text: 'Wróć',
+                  onTap: (){
+                    selected = null;
+                    Navigator.pop(context);
+                  }
+                )),
+                Expanded(child: SimpleButton.from(
+                  context: context,
+                  margin: EdgeInsets.zero,
+                  icon: MdiIcons.check,
+                  iconLeading: false,
+                  text: 'Wybierz',
+                  onTap: (){
+                    Navigator.pop(context);
+                  }
+                ))
+              ],
+            )
+
+          ],
+        )
+      ),
+    )
+  );
+
+  return selected;
+
+}
 
 class IconSelectorWidget extends StatefulWidget{
 
@@ -26,7 +89,7 @@ class _Title extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => Padding(
-      padding: const EdgeInsets.only(top: Dimen.ICON_MARG, bottom: Dimen.ICON_MARG),
+      padding: const EdgeInsets.only(left: Dimen.ICON_MARG, top: Dimen.ICON_MARG, bottom: Dimen.ICON_MARG),
       child: Text(title, style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG))
   );
 

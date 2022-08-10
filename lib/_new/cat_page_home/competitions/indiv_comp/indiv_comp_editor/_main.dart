@@ -170,7 +170,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                                   widget.onSaved?.call(indivComp);
                                 },
                                 onServerMaybeWakingUp: () {
-                                  if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                  if(mounted) showServerWakingUpToast(context);
                                   return true;
                                 },
                                 onError: (){
@@ -192,7 +192,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                                     widget.onSaved?.call(indivComp);
                                   },
                                   onServerMaybeWakingUp: () {
-                                    if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                    if(mounted) showServerWakingUpToast(context);
                                     return true;
                                   },
                                   onError: (){

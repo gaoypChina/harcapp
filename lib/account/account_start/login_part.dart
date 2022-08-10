@@ -98,7 +98,7 @@ class LoginPartState extends State<LoginPart>{
 
         },
         onServerMaybeWakingUp: () {
-          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+          if(mounted) showServerWakingUpToast(context);
           return true;
         },
         onError: (Response? response){
@@ -161,7 +161,7 @@ class LoginPartState extends State<LoginPart>{
 
           },
           onServerMaybeWakingUp: () {
-            if(mounted) showAppToast(context, text: serverWakingUpMessage);
+            if(mounted) showServerWakingUpToast(context);
             return true;
           },
           onError: (Response? response) async {

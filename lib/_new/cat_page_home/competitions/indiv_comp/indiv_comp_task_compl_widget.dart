@@ -88,7 +88,7 @@ class IndivCompTaskComplWidget extends StatelessWidget{
                   taskComplKey: complTask.key,
                   onSuccess: onRemoved,
                   onServerMaybeWakingUp: () {
-                    showAppToast(context, text: serverWakingUpMessage);
+                    showServerWakingUpToast(context);
                     return true;
                   },
                   onError: (){

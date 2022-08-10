@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
-import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_app_common/stripe_widget.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
@@ -30,14 +29,16 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../../../_common_widgets/app_toast.dart';
 import '../../common.dart';
 import '../common/community_cover_colors.dart';
+import '../common/community_cover_image_data.dart';
 import '../community_publishable_widget_template.dart';
+import '../community_sliver_app_bar.dart';
 import 'announcement_editor/_main.dart';
 import 'circle_description_page.dart';
-import '../../cover_image.dart';
 import 'circle_editor/_main.dart';
 import 'circle_editor/common.dart';
 import 'circle_role.dart';
@@ -79,6 +80,12 @@ class CirclePageState extends State<CirclePage>{
   PaletteGenerator? paletteGeneratorSecond;
 
   Future<void> initPaletteGenerator({bool refresh = true}) async {
+    if(CommunityCoverImageData.palettes.containsKey(circle.coverImage.code)) {
+      paletteGeneratorFirst = CommunityCoverImageData.palettes[circle.coverImage.code]!.item1;
+      paletteGeneratorSecond = CommunityCoverImageData.palettes[circle.coverImage.code]!.item2;
+      return;
+    }
+
     try {
       paletteGeneratorFirst = await getPaletteGenerator(circle.coverImage.local, circle.coverImage.firstFileName);
       paletteGeneratorSecond = await getPaletteGenerator(circle.coverImage.local, circle.coverImage.secondFileName);
@@ -90,6 +97,8 @@ class CirclePageState extends State<CirclePage>{
       showAppToast(context, text: 'Nie można załadować tła'):
       showAppToast(context, text: 'Nie można załadować tła. Zmień grafikę tła, by przyspieszyć ładowanie', duration: const Duration(seconds: 6)));
     }
+
+    CommunityCoverImageData.palettes[circle.coverImage.code] = Tuple2(paletteGeneratorFirst, paletteGeneratorSecond);
 
     if(!refresh) return;
 
@@ -105,7 +114,7 @@ class CirclePageState extends State<CirclePage>{
 
   late ScrollController scrollController;
 
-  late GlobalKey appBarKey;
+  late GlobalKey nameWidgetKey;
   late GlobalKey tabBarKey;
 
   late AppBarProvider appBarProv;
@@ -179,19 +188,12 @@ class CirclePageState extends State<CirclePage>{
     }else
       currTab = AnnouncementCategories.all;
 
-    appBarKey = GlobalKey();
+    nameWidgetKey = GlobalKey();
     tabBarKey = GlobalKey();
 
     scrollController = ScrollController();
     scrollController.addListener(() {
       double topPadding = MediaQuery.of(context).padding.top;
-      final appBarBox = appBarKey.currentContext?.findRenderObject() as RenderBox?;
-      double appBarPos = appBarBox==null? -double.infinity: appBarBox.localToGlobal(Offset(0, -topPadding)).dy;
-      if (appBarPos < kToolbarHeight && !appBarProv.showTitleOnAppBar) appBarProv.showTitleOnAppBar = true;
-      else if(appBarPos >= kToolbarHeight && appBarProv.showTitleOnAppBar) appBarProv.showTitleOnAppBar = false;
-
-      if (appBarPos < 2*kToolbarHeight && appBarProv.coverVisible) appBarProv.coverVisible = false;
-      else if(appBarPos >= 2*kToolbarHeight && !appBarProv.coverVisible) appBarProv.coverVisible = true;
 
       final tabBarBox = tabBarKey.currentContext?.findRenderObject() as RenderBox?;
       double tabBarPos = tabBarBox==null? -double.infinity: tabBarBox.localToGlobal(Offset(0, -topPadding)).dy;
@@ -237,9 +239,9 @@ class CirclePageState extends State<CirclePage>{
     return paletteAlways;
   }
 
-  Color? get appBarColor => CommunityCoverColors.appBarColor(context, palette);
-  Color? get backgroundColor => CommunityCoverColors.backgroundColor(context, palette);
-  Color? get cardColor => CommunityCoverColors.cardColor(context, palette);
+  Color get appBarColor => CommunityCoverColors.appBarColor(context, palette);
+  Color get backgroundColor => CommunityCoverColors.backgroundColor(context, palette);
+  Color get cardColor => CommunityCoverColors.cardColor(context, palette);
   Color get strongColor => CommunityCoverColors.strongColor(context, palette);
   Color get coverIconColor => CommunityCoverColors.coverIconColor(context, paletteAlways);
 
@@ -350,7 +352,7 @@ class CirclePageState extends State<CirclePage>{
                   setState(() {});
                 },
                 onServerMaybeWakingUp: () {
-                  if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                  if(mounted) showServerWakingUpToast(context);
                   return true;
                 },
                 onError: (responseStatusCode){
@@ -420,7 +422,7 @@ class CirclePageState extends State<CirclePage>{
 
                 },
                 onServerMaybeWakingUp: () {
-                  if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                  if(mounted) showServerWakingUpToast(context);
                   return true;
                 },
                 onError: (){
@@ -436,136 +438,84 @@ class CirclePageState extends State<CirclePage>{
               physics: const BouncingScrollPhysics(),
               slivers: [
 
-                Consumer<AppBarProvider>(
-                  builder: (context, prov, child) => SliverAppBar(
-                    iconTheme: IconThemeData(
-                        color: prov.coverVisible?coverIconColor:iconEnab_(context)
-                    ),
-                    centerTitle: true,
-                    pinned: true,
-                    excludeHeaderSemantics: true,
-                    elevation: prov.elevated?AppCard.bigElevation:0,
-                    backgroundColor: backgroundColor,
-                    expandedHeight: 200,
-                    actions: [
+                CommunitySliverAppBar(
+                  circle.community,
+                  palette: palette,
+                  coverImage: circle.coverImage,
+                  mainScrollController: scrollController,
+                  communityNameWidgetKey: nameWidgetKey,
+                  heroTag: circleCoverTag,
+                  actions: (appBarProv) => [
 
-                      if(circle.myRole == CircleRole.ADMIN)
-                        IconButton(
-                          icon: Icon(
-                              circle.shareCodeSearchable?
-                              MdiIcons.accessPoint:
-                              MdiIcons.accessPointOff,
-
-                              color: prov.coverVisible?coverIconColor:iconEnab_(context)
-
-                          ),
-                          onPressed: changeShareCodeProcessing?null:() async {
-                            setState(() => changeShareCodeProcessing = true);
-                            await ApiCircle.setShareCodeSearchable(
-                                compKey: circle.key,
-                                searchable: !circle.shareCodeSearchable,
-                                onSuccess: (searchable){
-                                  if(mounted) setState(() => circle.shareCodeSearchable = searchable);
-                                },
-                                onServerMaybeWakingUp: () {
-                                  if(mounted) showAppToast(context, text: serverWakingUpMessage);
-                                  return true;
-                                },
-                                onError: (){
-                                  if(mounted) showAppToast(context, text: simpleErrorMessage);
-                                }
-
-                            );
-                            setState(() => changeShareCodeProcessing = false);
-                          },
-                        ),
-
+                    if(circle.myRole == CircleRole.ADMIN)
                       IconButton(
                         icon: Icon(
-                            MdiIcons.cogOutline,
-                            color: prov.coverVisible?coverIconColor:iconEnab_(context)
+                            circle.shareCodeSearchable?
+                            MdiIcons.accessPoint:
+                            MdiIcons.accessPointOff,
+
+                            color: appBarProv.coverVisible?coverIconColor:iconEnab_(context)
+
                         ),
-                        onPressed:
-                        circle.myRole == CircleRole.ADMIN?() =>
-                            pushPage(
-                            context,
-                            builder: (context) => CircleEditorPage(
-                              community: circle.community,
-                              palette: palette,
-                              onSaved: (updatedCircle) async {
-
-                                circle.description = updatedCircle.description;
-                                circle.coverImage = updatedCircle.coverImage;
-                                circle.colorsKey = updatedCircle.colorsKey;
-
-                                if(mounted) Provider.of<CircleProvider>(context, listen: false).notify();
-                                if(mounted) Provider.of<CircleListProvider>(context, listen: false).notify();
-
-                                await initPaletteGenerator(refresh: false);
-
-                                setState(() {});
+                        onPressed: changeShareCodeProcessing?null:() async {
+                          setState(() => changeShareCodeProcessing = true);
+                          await ApiCircle.setShareCodeSearchable(
+                              compKey: circle.key,
+                              searchable: !circle.shareCodeSearchable,
+                              onSuccess: (searchable){
+                                if(mounted) setState(() => circle.shareCodeSearchable = searchable);
                               },
-                              onDeleted: onDeleted,
-                              onLeft: onLeft,
-                            )
-                        ):
+                              onServerMaybeWakingUp: () {
+                                if(mounted) showServerWakingUpToast(context);
+                                return true;
+                              },
+                              onError: (){
+                                if(mounted) showAppToast(context, text: simpleErrorMessage);
+                              }
 
-                        () => showScrollBottomSheet(
-                            context: context,
-                            builder: (context) => BottomSheetDef(
-                              builder: (context) => LeaveNotAdminDialog(circle),
-                            )
-                        ),
+                          );
+                          setState(() => changeShareCodeProcessing = false);
+                        },
                       ),
-                    ],
-                    flexibleSpace: FlexibleSpaceBar(
-                      title: AnimatedOpacity(
-                        opacity: prov.showTitleOnAppBar?1:0,
-                        duration: Duration(milliseconds: prov.showTitleOnAppBar?200:0),
-                        child: Text(
-                          circle.name,
-                          style: AppTextStyle(
-                              color: iconEnab_(context)
-                          ),
-                          maxLines: 1,
-                        ),
+
+                    IconButton(
+                      icon: Icon(
+                          MdiIcons.cogOutline,
+                          color: appBarProv.coverVisible?coverIconColor:iconEnab_(context)
                       ),
-                      centerTitle: true,
-                      background:
-                      Hero(
-                          tag: circleCoverTag,
-                          child: Stack(
-                            fit: StackFit.expand,
-                            clipBehavior: Clip.none,
-                            children: [
+                      onPressed:
+                      circle.myRole == CircleRole.ADMIN?() =>
+                          pushPage(
+                              context,
+                              builder: (context) => CircleEditorPage(
+                                community: circle.community,
+                                palette: palette,
+                                onSaved: (updatedCircle) async {
 
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 24.0),
-                                child: CoverImage(circle.coverImage),
-                              ),
+                                  circle.description = updatedCircle.description;
+                                  circle.coverImage = updatedCircle.coverImage;
+                                  circle.colorsKey = updatedCircle.colorsKey;
 
-                              Positioned(
-                                left: Dimen.SIDE_MARG,
-                                bottom: 0,
-                                child: Material(
-                                  borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
-                                  clipBehavior: Clip.hardEdge,
-                                  color: cardColor,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                                    child: Icon(
-                                      CommonIconData.ALL[circle.community.iconKey],
-                                      size: 48.0,
-                                    ),
-                                  ),
-                                ),
+                                  if(mounted) Provider.of<CircleProvider>(context, listen: false).notify();
+                                  if(mounted) Provider.of<CircleListProvider>(context, listen: false).notify();
+
+                                  await initPaletteGenerator(refresh: false);
+
+                                  setState(() {});
+                                },
+                                onDeleted: onDeleted,
+                                onLeft: onLeft,
                               )
-                            ],
+                          ):
+
+                          () => showScrollBottomSheet(
+                          context: context,
+                          builder: (context) => BottomSheetDef(
+                            builder: (context) => LeaveNotAdminDialog(circle),
                           )
                       ),
-
                     ),
-                  ),
+                  ],
                 ),
 
                 SliverList(delegate: SliverChildListDelegate([
@@ -591,7 +541,7 @@ class CirclePageState extends State<CirclePage>{
                                         fontSize: 28.0,
                                         fontWeight: weight.bold
                                     ),
-                                    key: appBarKey,
+                                    key: nameWidgetKey,
                                   ),
                                 ),
 
@@ -638,7 +588,7 @@ class CirclePageState extends State<CirclePage>{
                                   if(mounted) setState(() => circle.shareCode = shareCode);
                                 },
                                 onServerMaybeWakingUp: () {
-                                  if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                  if(mounted) showServerWakingUpToast(context);
                                   return true;
                                 },
                                 onError: (dynamic errData){
@@ -875,48 +825,6 @@ class _CircleLoadingWidget extends StatelessWidget{
   Widget build(BuildContext context) => Center(
     child: SpinKitDualRing(color: iconEnab_(context), size: 48.0),
   );
-
-}
-
-class AppBarProvider extends ChangeNotifier{
-
-  late bool _elevated;
-  bool get elevated => _elevated;
-  set elevated(bool value){
-    _elevated = value;
-    notifyListeners();
-  }
-
-  late bool _showTitleOnAppBar;
-  bool get showTitleOnAppBar => _showTitleOnAppBar;
-  set showTitleOnAppBar(bool value){
-    _showTitleOnAppBar = value;
-    notifyListeners();
-  }
-
-  late bool _coverVisible;
-  bool get coverVisible => _coverVisible;
-  set coverVisible(bool value){
-    _coverVisible = value;
-    notifyListeners();
-  }
-
-  void set({
-    bool? elevated,
-    bool? showTitleOnAppBar,
-    bool? coverVisible,
-  }){
-    if(elevated != null) _elevated = elevated;
-    if(showTitleOnAppBar != null) _showTitleOnAppBar = showTitleOnAppBar;
-    if(coverVisible != null) _coverVisible = coverVisible;
-    notifyListeners();
-  }
-
-  AppBarProvider(){
-    _elevated = true;
-    _showTitleOnAppBar = false;
-    _coverVisible = true;
-  }
 
 }
 

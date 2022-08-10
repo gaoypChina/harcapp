@@ -150,7 +150,7 @@ class AddUserBottomSheet extends StatelessWidget{
           showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}.');
         },
         onServerMaybeWakingUp: () {
-          showAppToast(context, text: serverWakingUpMessage);
+          showServerWakingUpToast(context);
           return true;
         },
         onError: (){

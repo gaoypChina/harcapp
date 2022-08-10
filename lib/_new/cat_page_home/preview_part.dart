@@ -179,7 +179,7 @@ class PreviewPartState extends State<PreviewPart>{
                 },
                 onServerMaybeWakingUp: () {
                   if(!mounted) return true;
-                  showAppToast(context, text: serverWakingUpMessage);
+                  showServerWakingUpToast(context);
                   setState((){});
                   return true;
                 },
@@ -241,7 +241,7 @@ class PreviewPartState extends State<PreviewPart>{
                 },
                 onServerMaybeWakingUp: () {
                   if(!mounted) return true;
-                  showAppToast(context, text: serverWakingUpMessage);
+                  showServerWakingUpToast(context);
                   setState((){});
                   return true;
                 },

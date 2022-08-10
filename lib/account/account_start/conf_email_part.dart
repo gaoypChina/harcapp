@@ -67,7 +67,7 @@ class ConfEmailPartState extends State<ConfEmailPart>{
           );
         },
         onServerMaybeWakingUp: () {
-          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+          if(mounted) showServerWakingUpToast(context);
           return true;
         },
         onError: (Response? response){
@@ -139,7 +139,7 @@ class ConfEmailPartState extends State<ConfEmailPart>{
                     await ApiRegLog.resendActivationToken(
                       onSuccess: () => showAppToast(context, text: 'Przesłano'),
                       onServerMaybeWakingUp: () {
-                        if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                        if(mounted) showServerWakingUpToast(context);
                         return true;
                       },
                       onError: (){

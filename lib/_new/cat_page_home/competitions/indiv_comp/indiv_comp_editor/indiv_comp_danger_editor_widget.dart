@@ -70,7 +70,7 @@ class _IndivCompDangerEditorWidgetState extends State<IndivCompDangerEditorWidge
                               Navigator.pop(context);
                             },
                             onServerMaybeWakingUp: () {
-                              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                              if(mounted) showServerWakingUpToast(context);
                               return true;
                             },
                             onError: (){

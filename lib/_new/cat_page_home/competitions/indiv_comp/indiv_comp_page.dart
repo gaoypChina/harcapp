@@ -130,7 +130,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                         showAppToast(context, text: 'Zaktualizowano');
                       },
                       onServerMaybeWakingUp: () {
-                        if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                        if(mounted) showServerWakingUpToast(context);
                         return true;
                       },
                       onError: (){
@@ -168,7 +168,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                                     setState(() => comp.shareCodeSearchable = searchable);
                                   },
                                   onServerMaybeWakingUp: () {
-                                    if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                    if(mounted) showServerWakingUpToast(context);
                                     return true;
                                   },
                                   onError: (){
@@ -269,7 +269,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                                       if(mounted) setState(() => comp.shareCode = shareCode);
                                     },
                                     onServerMaybeWakingUp: () {
-                                      if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                      if(mounted) showServerWakingUpToast(context);
                                       return true;
                                     },
                                     onError: (Map? errData){

@@ -307,7 +307,7 @@ class ReviewButtonsState extends State<ReviewButtons>{
                               onAcceptStateChanged?.call(complTaskKey, TaskAcceptState.REJECTED);
                             },
                             onServerMaybeWakingUp: () {
-                              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                              if(mounted) showServerWakingUpToast(context);
                               return true;
                             },
                             onError: (){
@@ -359,7 +359,7 @@ class ReviewButtonsState extends State<ReviewButtons>{
                               onAcceptStateChanged?.call(complTaskKey, TaskAcceptState.ACCEPTED);
                             },
                             onServerMaybeWakingUp: () {
-                              if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                              if(mounted) showServerWakingUpToast(context);
                               return true;
                             },
                             onError: (){
