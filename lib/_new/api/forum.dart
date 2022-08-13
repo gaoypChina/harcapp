@@ -180,7 +180,36 @@ class ApiForum{
     );
 
   }
-  
+
+  static Future<Response?> followForum({
+    required String forumKey,
+    required bool follow,
+    FutureOr<void> Function(bool follow)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) async{
+
+    return API.sendRequest(
+        withToken: true,
+        sendRequest: (Dio dio) => dio.put(
+            '${API.SERVER_URL}api/forum/$forumKey/follow',
+            options: Options(headers: {
+              HttpHeaders.contentTypeHeader: 'application/json',
+            }),
+            data: FormData.fromMap({'follow': follow})
+        ),
+        onSuccess: (Response response, DateTime now) async {
+          if(onSuccess==null) return;
+          onSuccess(response.data);
+        },
+        onForceLoggedOut: onForceLoggedOut,
+        onServerMaybeWakingUp: onServerMaybeWakingUp,
+        onError: (_) async => onError?.call()
+    );
+
+  }
+
   static Future<Response?> addManagers({
     required String forumKey,
     required List<ManagerRespBodyNick> users,
@@ -200,7 +229,7 @@ class ApiForum{
     return API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.post(
-          '${API.SERVER_URL}api/forum/$forumKey/user',
+          '${API.SERVER_URL}api/forum/$forumKey/manager',
           data: jsonEncode(body)
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -239,7 +268,7 @@ class ApiForum{
     return API.sendRequest(
         withToken: true,
         sendRequest: (Dio dio) => dio.put(
-            '${API.SERVER_URL}api/forum/$forumKey/user',
+            '${API.SERVER_URL}api/forum/$forumKey/manager',
             data: jsonEncode(body)
         ),
         onSuccess: (Response response, DateTime now) async {
@@ -269,7 +298,7 @@ class ApiForum{
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.delete(
-          '${API.SERVER_URL}api/forum/$forumKey/user',
+          '${API.SERVER_URL}api/forum/$forumKey/manager',
           data: jsonEncode(userKeys)
       ),
       onSuccess: (Response response, DateTime now) =>

@@ -49,8 +49,8 @@ class GeneralPartState extends State<GeneralPart>{
 
       Consumer<DescriptionProvider>(
         builder: (context, prov, child) => AppTextFieldHint(
-          hint: 'Opis kręgu:',
-          hintTop: 'Opis kręgu',
+          hint: 'Opis forum:',
+          hintTop: 'Opis forum',
           controller: prov.descriptionController,
           maxLength: Forum.maxLenDescription,
           maxLines: null,

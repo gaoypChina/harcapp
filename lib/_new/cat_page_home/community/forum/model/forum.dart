@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_image_data.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/model/post.dart';
@@ -11,6 +12,10 @@ import '../forum_role.dart';
 import 'forum_manager.dart';
 
 class ForumProvider extends ChangeNotifier{
+
+  static ForumProvider of(BuildContext context) => Provider.of<ForumProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
+
   void notify() => notifyListeners();
 }
 
@@ -164,6 +169,10 @@ class Forum{
   String? description;
   CommunityCoverImageData coverImage;
   String colorsKey;
+  bool followed;
+
+  List<UserData> followers;
+  int followersCnt;
 
   Community community;
 
@@ -270,13 +279,7 @@ class Forum{
     }
     ForumManager? me = _managersMap[accKey];
 
-    if(me == null){
-      AccountData.forgetAccount();
-      AccountData.callOnForceLogout();
-      return null;
-    }
-
-    return me.role;
+    return me?.role;
   }
 
   Forum({
@@ -284,6 +287,9 @@ class Forum{
     this.description,
     required this.coverImage,
     required this.colorsKey,
+    required this.followed,
+    required this.followers,
+    required this.followersCnt,
 
     required List<ForumManager> managers,
     required List<Post> allPosts,
@@ -302,11 +308,23 @@ class Forum{
   static Forum fromResponse(Map resp, Community community){
 
     List<ForumManager> managers = [];
-    Map managerResps = resp['managers']??(throw InvalidResponseError('_key'));
-    for(String userKey in managerResps.keys as Iterable<String>){
-      Map managerResp = managerResps[userKey];
-      ForumManager managerData = ForumManager.fromMap(managerResp, key: userKey);
-      managers.add(managerData);
+
+    if(resp.containsKey('managers')) {
+      Map managerResps = resp['managers'];
+      for (String userKey in managerResps.keys as Iterable<String>) {
+        Map managerResp = managerResps[userKey];
+        ForumManager managerData = ForumManager.fromMap(
+            managerResp, key: userKey);
+        managers.add(managerData);
+      }
+    }
+
+    List<UserData> followers = [];
+    Map followersResps = resp['followers']??(throw InvalidResponseError('followers'));
+    for(String userKey in followersResps.keys as Iterable<String>){
+      Map followersResp = followersResps[userKey];
+      UserData followerData = UserData.fromMap(followersResp, key: userKey);
+      followers.add(followerData);
     }
 
     Forum forum = Forum(
@@ -314,6 +332,9 @@ class Forum{
       description: resp['description'],
       coverImage: CommunityCoverImageData.from(resp['coverImageUrl']),
       colorsKey: resp['colorsKey']??(throw InvalidResponseError('colorsKey')),
+      followed: resp['followed']??(throw InvalidResponseError('followed')),
+      followers: followers,
+      followersCnt: resp['followersConut']??(throw InvalidResponseError('followersConut')),
       managers: managers,
       allPosts: [],
       community: community

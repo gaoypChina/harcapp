@@ -29,6 +29,7 @@ class AccountThumbnailWidget extends StatelessWidget{
   static const double textSizeRatio = 1/2.8;
 
   final String? name;
+  final bool fullName;
   final IconData? icon;
 
   final bool shadow;
@@ -43,6 +44,7 @@ class AccountThumbnailWidget extends StatelessWidget{
 
   const AccountThumbnailWidget(
       { this.name,
+        this.fullName = false,
         this.icon,
         this.shadow=false,
 
@@ -64,7 +66,10 @@ class AccountThumbnailWidget extends StatelessWidget{
     double size = this.size??defSize;
 
     String abbr = '';
-    if(name != null) {
+    if(fullName)
+      abbr = name??'';
+
+    else if(name != null) {
       List<String> nameParts = name!.split(' ');
       if (nameParts.length == 1) {
         String part = nameParts[0];
@@ -124,21 +129,6 @@ class AccountThumbnailWidget extends StatelessWidget{
               )
             ),
 
-          if(markIcon != null)
-            Positioned(
-              bottom: -.04*size,
-              right: -.04*size,
-              child: Material(
-                borderRadius: BorderRadius.circular(size),
-                color: background_(context),
-                child: Icon(
-                  markIcon,
-                  color: hintEnab_(context),
-                  size: size/2.6,
-                ),
-              )
-            ),
-
           Positioned.fill(
             child: IgnorePointer(
               child: Container(
@@ -153,6 +143,21 @@ class AccountThumbnailWidget extends StatelessWidget{
               ),
             ),
           ),
+
+          if(markIcon != null)
+            Positioned(
+                bottom: -.04*size,
+                right: -.04*size,
+                child: Material(
+                  borderRadius: BorderRadius.circular(size),
+                  color: color??background_(context),
+                  child: Icon(
+                    markIcon,
+                    color: borderColor??hintEnab_(context),
+                    size: size/2.6,
+                  ),
+                )
+            ),
 
         ],
       )

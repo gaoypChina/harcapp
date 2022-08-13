@@ -40,7 +40,7 @@ class CirclePromptLogin extends StatelessWidget{
                       const Icon(MdiIcons.accountCircleOutline, size: 60),
                       const SizedBox(width: 20),
                       Text(
-                        'Zaloguj się by\nzawiązać krąg',
+                        'Zaloguj się by\nzawiązać środowisko',
                         style: AppTextStyle(
                           fontSize: 20.0,
                           color: iconEnab_(context),

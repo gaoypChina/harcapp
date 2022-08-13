@@ -20,6 +20,7 @@ class AccountThumbnailRowWidget extends StatelessWidget{
   final bool? elevated;
   final Clip? clipBehavior;
   final double? screenWidth;
+  final Widget? leading;
   final dynamic Function(int)? heroBuilder;
   final void Function()? onTap;
 
@@ -33,6 +34,7 @@ class AccountThumbnailRowWidget extends StatelessWidget{
         this.elevated,
         this.clipBehavior,
         this.screenWidth,
+        this.leading,
         this.heroBuilder,
         this.onTap,
         super.key
@@ -98,12 +100,21 @@ class AccountThumbnailRowWidget extends StatelessWidget{
                 );
               }
 
-              return SizedBox(
-                width: scrollViewWidth(big: big),
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: children,
-                )
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if(leading != null)
+                    leading!,
+
+                  SizedBox(
+                      width: scrollViewWidth(big: big),
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: children,
+                      )
+                  )
+
+                ],
               );
 
             }

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp/_new/api/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
+import 'package:harcapp/values/consts.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -24,15 +28,64 @@ class ForumFollowButtonState extends State<ForumFollowButton>{
   Forum get forum => widget.forum;
   PaletteGenerator? get palette => widget.palette;
 
+  late bool processing;
+
+  @override
+  void initState() {
+    processing = false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) => SimpleButton.from(
-      context: context,
       radius: AppCard.DEF_RADIUS,
       margin: EdgeInsets.zero,
       color: CommunityCoverColors.cardColor(context, palette),
-      icon: MdiIcons.broadcast,
-      text: 'Obserwuj',
-      onTap: (){}
+
+      textColor:
+      processing?
+      iconDisab_(context):
+      iconEnab_(context),
+
+      icon:
+      forum.followed?
+      MdiIcons.checkboxMultipleMarked:
+      MdiIcons.plusBoxMultiple,
+
+      text:
+      forum.followed?
+      'Obserwujesz':
+      'Obserwuj',
+
+      animateSize: true,
+
+      onTap: processing?null:() async {
+
+        setState(() => processing = true);
+        await ApiForum.followForum(
+          forumKey: forum.key,
+          follow: !forum.followed,
+          onSuccess: (followed){
+            if(!mounted) return;
+            setState(() => forum.followed = followed);
+            ForumProvider.notify_(context);
+            if(followed) showAppToast(context, text: 'Obserwujesz forum ${forum.name}');
+            else showAppToast(context, text: 'Już nie obserwowanie forum ${forum.name}');
+          },
+          onError: () => mounted?showAppToast(context, text: simpleErrorMessage):null,
+          onServerMaybeWakingUp: () {
+            if(mounted) showServerWakingUpToast(context);
+            return true;
+          },
+          onForceLoggedOut: (){
+            Navigator.pop(context);
+            return true;
+          }
+        );
+
+        setState(() => processing = false);
+
+      }
   );
 
 }

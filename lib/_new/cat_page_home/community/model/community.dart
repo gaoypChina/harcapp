@@ -209,13 +209,7 @@ class Community{
     }
     CommunityManager? me = _managersMap[accKey];
 
-    if(me == null){
-      AccountData.forgetAccount();
-      AccountData.callOnForceLogout();
-      return null;
-    }
-
-    return me.role;
+    return me?.role;
   }
 
   Community({

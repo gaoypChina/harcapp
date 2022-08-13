@@ -44,3 +44,23 @@ class ColorsKeyProvider extends ChangeNotifier{
   }
 
 }
+
+class ForumManagersProvider extends ChangeNotifier {
+
+  static final List<void Function()> _listeners = [];
+
+  static void addOnNotifyListener(void Function() listener){
+    _listeners.add(listener);
+  }
+
+  static void removeOnNotifyListener(void Function() listener){
+    _listeners.remove(listener);
+  }
+
+  void notify(){
+    for(void Function() listener in _listeners)
+      listener.call();
+    notifyListeners();
+  }
+
+}

@@ -13,6 +13,8 @@ import 'package:harcapp/_new/cat_page_home/community/forum/post_editor/_main.dar
 import 'package:harcapp/_new/cat_page_home/community/forum/posts_sliver.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/account/account.dart';
+import 'package:harcapp/account/account_thumbnail_row_widget.dart';
+import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -33,6 +35,8 @@ import '../community_sliver_app_bar.dart';
 import 'common/follow_button.dart';
 import 'forum_description_page.dart';
 import 'forum_editor/_main.dart';
+import 'forum_editor/role_page/managers_admin_page.dart';
+import 'forum_editor/role_page/managers_page.dart';
 import 'forum_role.dart';
 import 'model/forum.dart';
 import 'model/post.dart';
@@ -77,15 +81,17 @@ class ForumPageState extends State<ForumPage>{
       paletteGeneratorFirst = PaletteGenerator.fromColors([PaletteColor(Colors.white, 1)]);
       paletteGeneratorSecond = PaletteGenerator.fromColors([PaletteColor(Colors.white, 1)]);
 
-      post(() => forum.myRole == ForumRole.OBSERVER?
-      showAppToast(context, text: 'Nie można załadować tła'):
-      showAppToast(context, text: 'Nie można załadować tła. Zmień grafikę tła, by przyspieszyć ładowanie', duration: const Duration(seconds: 6)));
+      post(() => forum.myRole == null?
+        showAppToast(context, text: 'Nie można załadować tła'):
+        showAppToast(context, text: 'Nie można załadować tła. Zmień grafikę tła, by przyspieszyć ładowanie', duration: const Duration(seconds: 6))
+      );
     }
 
     CommunityCoverImageData.palettes[forum.coverImage.code] = Tuple2(paletteGeneratorFirst, paletteGeneratorSecond);
 
     if(!refresh) return;
 
+    await Future.delayed(Duration.zero);
     setState(() {});
     notifyScrollController();
   }
@@ -245,6 +251,9 @@ class ForumPageState extends State<ForumPage>{
                   forum.description = updatedForum.description;
                   forum.coverImage = updatedForum.coverImage;
                   forum.colorsKey = updatedForum.colorsKey;
+                  forum.followed = updatedForum.followed;
+                  forum.followersCnt = updatedForum.followersCnt;
+                  forum.followers = updatedForum.followers;
                   forum.setAllManagers(context, updatedForum.managers);
                   forum.resetPosts(
                     updatedForum.allPosts,
@@ -340,37 +349,56 @@ class ForumPageState extends State<ForumPage>{
                   heroTag: forumCoverTag,
                   actions: (appBarProv) => [
 
-                    IconButton(
+                    if(forum.myRole != null)
+                      IconButton(
+                        icon: Icon(
+                            MdiIcons.accountSupervisorCircleOutline,
+                            color: appBarProv.coverVisible?coverIconColor:iconEnab_(context)
+                        ),
+                        onPressed: () =>
+                            pushPage(
+                                context,
+                                builder: (context) => forum.myRole == ForumRole.ADMIN?
+                                ManagersAdminPage(
+                                  forum,
+                                  palette,
+                                ):
+                                ManagersPage(
+                                  forum,
+                                  palette,
+                                )
+                            ),
+                      ),
+
+                    if(forum.myRole == ForumRole.ADMIN)
+                      IconButton(
                       icon: Icon(
                           MdiIcons.cogOutline,
                           color: appBarProv.coverVisible?coverIconColor:iconEnab_(context)
                       ),
-                      onPressed:
-                      forum.myRole == ForumRole.ADMIN?() =>
-                          pushPage(
-                              context,
-                              builder: (context) => ForumEditorPage(
-                                community: forum.community,
-                                palette: palette,
-                                onSaved: (updatedForum) async {
+                      onPressed: () => pushPage(
+                          context,
+                          builder: (context) => ForumEditorPage(
+                            community: forum.community,
+                            palette: palette,
+                            onSaved: (updatedForum) async {
 
-                                  forum.description = updatedForum.description;
-                                  forum.coverImage = updatedForum.coverImage;
-                                  forum.colorsKey = updatedForum.colorsKey;
+                              forum.description = updatedForum.description;
+                              forum.coverImage = updatedForum.coverImage;
+                              forum.colorsKey = updatedForum.colorsKey;
 
-                                  if(mounted) Provider.of<ForumProvider>(context, listen: false).notify();
-                                  if(mounted) Provider.of<ForumListProvider>(context, listen: false).notify();
+                              if(mounted) Provider.of<ForumProvider>(context, listen: false).notify();
+                              if(mounted) Provider.of<ForumListProvider>(context, listen: false).notify();
 
-                                  await initPaletteGenerator(refresh: false);
+                              await initPaletteGenerator(refresh: false);
 
-                                  setState(() {});
-                                },
-                                onDeleted: onDeleted,
-                              )
-                          ):
-
-                          () => null,
+                              setState(() {});
+                            },
+                            onDeleted: onDeleted,
+                          )
+                      )
                     ),
+
                   ],
                   bottomWidgets: [
                     ForumFollowButton(forum, palette: palette),
@@ -425,7 +453,48 @@ class ForumPageState extends State<ForumPage>{
                       )
                   ),
 
-                  if(forum.myRole == ForumRole.MODERATOR || forum.myRole == ForumRole.ADMIN)
+                  if(forum.followersCnt == 0)
+                    SizedBox(
+                      height: AccountThumbnailRowWidget.defSize,
+                      child: Center(
+                        child: Text(
+                          'Brak obserwujących',
+                          style: AppTextStyle(
+                              fontSize: Dimen.TEXT_SIZE_APPBAR,
+                              fontWeight: weight.bold,
+                              color: cardColor
+                          ),
+                        ),
+                      ),
+                    )
+                  else
+                    AccountThumbnailRowWidget(
+                        forum.followers.map((f) => f.name).toList(),
+                        elevated: CommunityPublishableWidgetTemplate.elevation != 0,
+                        color: backgroundColor,
+                        borderColor: cardColor,
+                        backgroundColor: backgroundColor,
+                        padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                        heroBuilder: (index) => forum.followers[index],
+                        leading: Row(
+                          children: [
+                            AccountThumbnailWidget(
+                              name: '${forum.followersCnt}',
+                              fullName: true,
+                              markIcon: MdiIcons.account,
+                              elevated: false,
+                              color: backgroundColor,
+                              borderColor: cardColor,
+                              onTap: () => showAppToast(context, text: 'Liczba obserwujących forum: ${forum.followersCnt}'),
+                            ),
+
+                            const SizedBox(width: Dimen.ICON_MARG),
+
+                          ],
+                        )
+                    ),
+
+                  if(forum.myRole != null)
                     Padding(
                       padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG),
                       child: SimpleButton(

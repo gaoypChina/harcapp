@@ -120,7 +120,7 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
             SliverAppBar(
               title: const Text('Wybierz zdjęcie'),
               centerTitle: true,
-              floating: true,
+              // floating: true,
               pinned: true,
               forceElevated: innerBoxIsScrolled,
               actions: [

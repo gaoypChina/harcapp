@@ -22,7 +22,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'circle/circle_editor/_main.dart';
 import 'circle/model/circle.dart';
 import 'circle/start_widgets/circle_loading_widget.dart';
 import 'circle/start_widgets/circle_preview_widget.dart';
@@ -31,9 +30,7 @@ import 'community_editor/_main.dart';
 import 'forum/model/forum.dart';
 import 'model/community.dart';
 import 'communities_loader.dart';
-import 'circle/circle_page.dart';
 import 'community_widget.dart';
-import 'circle/new_circle_type.dart';
 
 class AllCommunitiesPage extends StatefulWidget{
 
@@ -432,42 +429,15 @@ class NewCommunityButton extends StatelessWidget{
       onTap: () => newCommunity(context)
   );
 
-  static void newCommunity(BuildContext context) async {
-    NewCircleType? type = await pickNewCircleType(context);
-    if (type == null) return;
-
-    if(type == NewCircleType.join)
-      return;
-    else
-      pushPage(
-        context,
-        builder: (context) =>
-            CommunityEditorPage(
-              onSaved: (community) async {
-                Community.addToAll(community, context: context);
-              },
-            ),
-      );
-  }
-
-  static void newCircle(BuildContext context, Community community) async {
-    NewCircleType? type = await pickNewCircleType(context);
-    if (type == null) return;
-
-    if(type == NewCircleType.join)
-      return;
-    else
-      pushPage(
-        context,
-        builder: (context) =>
-            CircleEditorPage(
-              community: community,
-              onSaved: (comp) async {
-                Circle.addToAll(context, comp);
-                await pushReplacePage(context, builder: (context) => CirclePage(Circle.all!.last));
-              },
-            ),
-      );
-  }
+  static void newCommunity(BuildContext context) =>
+    pushPage(
+      context,
+      builder: (context) =>
+          CommunityEditorPage(
+            onSaved: (community) async {
+              Community.addToAll(community, context: context);
+            },
+          ),
+    );
 
 }

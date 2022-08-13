@@ -15,6 +15,7 @@ import 'package:harcapp/_new/cat_page_home/community/circle/announcements_sliver
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
+import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -615,6 +616,21 @@ class CirclePageState extends State<CirclePage>{
                       MembersPage(circle, palette)
                     ),
                     heroBuilder: (index) => circle.members[index],
+                    leading: Row(
+                      children: [
+                        AccountThumbnailWidget(
+                          name: '${circle.members.length}',
+                          fullName: true,
+                          markIcon: MdiIcons.account,
+                          elevated: false,
+                          color: backgroundColor,
+                          borderColor: cardColor,
+                          onTap: () => showAppToast(context, text: 'Liczba uczestników kręgu: ${circle.members.length}'),
+                        ),
+
+                        const SizedBox(width: Dimen.ICON_MARG),
+                      ],
+                    ),
                   ),
 
                   if(circle.myRole == CircleRole.MODERATOR || circle.myRole == CircleRole.ADMIN)
