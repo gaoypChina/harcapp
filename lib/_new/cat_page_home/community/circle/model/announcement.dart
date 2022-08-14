@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
+import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/community_cover_image_data.dart';
@@ -21,6 +23,8 @@ class AnnouncementListProvider extends ChangeNotifier{
 }
 
 class Announcement extends CommunityPublishable{
+
+  static const IconData icon = MdiIcons.googleCircles;
 
   static const int feedPageSize = 10;
 
@@ -120,6 +124,9 @@ class Announcement extends CommunityPublishable{
     _allMap!.clear();
   }
 
+  @override
+  UserData get author => super.author!;
+
   DateTime? startTime;
   DateTime? endTime;
   String? place;
@@ -128,7 +135,10 @@ class Announcement extends CommunityPublishable{
   Map<String, AnnouncementAttendanceResp> attendance;
   List<String> waivedAttRespMembers;
 
-  final Circle? circle;
+  final Circle circle;
+
+  @override
+  Community get community => circle.community;
 
   bool get isEvent =>
       respMode != AnnouncementAttendanceRespMode.NONE ||
@@ -191,7 +201,7 @@ class Announcement extends CommunityPublishable{
     required super.text,
     required this.pinned,
 
-    this.circle,
+    required this.circle,
     required this.respMode,
     required this.attendance,
     required this.waivedAttRespMembers,

@@ -18,10 +18,10 @@ class PostWidget extends StatelessWidget{
   final bool editable;
   final bool showOnTap;
   final void Function()? onPostUpdated;
-  final bool showForumButton;
+  final bool showCommunityInfo;
   final void Function()? onForumButtonTap;
 
-  Forum get forum => post.forum!;
+  Forum get forum => post.forum;
 
   const PostWidget(
       this.post,
@@ -31,7 +31,7 @@ class PostWidget extends StatelessWidget{
         this.editable = true,
         this.showOnTap = true,
         this.onPostUpdated,
-        this.showForumButton = false,
+        this.showCommunityInfo = false,
         this.onForumButtonTap,
         super.key
       });
@@ -71,7 +71,7 @@ class PostWidget extends StatelessWidget{
                 onPostUpdated: onPostUpdated,
               ),
             ):null,
-            showForumButton: showForumButton,
+            showCommunityInfo: showCommunityInfo,
             onForumButtonTap: onForumButtonTap,
         ),
       )

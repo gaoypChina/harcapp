@@ -3,6 +3,8 @@ import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_image_data.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
+import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'forum.dart';
@@ -17,7 +19,7 @@ class PostListProvider extends ChangeNotifier{
 
 class Post extends CommunityPublishable{
 
-  static const int feedPageSize = 10;
+  static const IconData icon = MdiIcons.bullhorn;
 
   static List<Post>? _all;
   static Map<String, Post>? _allMap;
@@ -115,7 +117,10 @@ class Post extends CommunityPublishable{
     _allMap!.clear();
   }
 
-  final Forum? forum;
+  final Forum forum;
+
+  @override
+  Community get community => forum.community;
 
   Post({
     required super.key,
@@ -127,7 +132,7 @@ class Post extends CommunityPublishable{
     super.coverImage,
     required super.text,
 
-    this.forum,
+    required this.forum,
   });
 
   void update(Post other){
@@ -146,7 +151,7 @@ class Post extends CommunityPublishable{
     lastUpdateTime: resp['lastUpdateTimeStr'] == null? null: DateTime.tryParse(resp['lastUpdateTimeStr']),
     coverImage: resp['coverImageUrl'] == null? null: CommunityCoverImageData.from(resp['coverImageUrl']),
     urlToPreview: resp['urlToPreview'],
-    author: UserData.fromMap(resp['author']),
+    author: resp.containsKey('author')?UserData.fromMap(resp['author']):null,
     text: resp['text'],
 
     forum: forum,

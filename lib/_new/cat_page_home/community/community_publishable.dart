@@ -3,12 +3,16 @@ import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:provider/provider.dart';
 
 import 'common/community_cover_image_data.dart';
+import 'model/community.dart';
 
 class CommunityPublishableListProvider extends ChangeNotifier{
+  static CommunityPublishableListProvider of(BuildContext context) => Provider.of<CommunityPublishableListProvider>(context, listen: false);
   void notify() => notifyListeners();
 }
 
 abstract class CommunityPublishable{
+
+  static const int feedPageSize = 10;
 
   static List<CommunityPublishable>? _all;
   static Map<String, CommunityPublishable>? _allMap;
@@ -110,9 +114,10 @@ abstract class CommunityPublishable{
   DateTime publishTime;
   DateTime? lastUpdateTime;
   String? urlToPreview;
-  UserData author;
+  UserData? author;
   CommunityCoverImageData? coverImage;
   String text;
+  Community get community;
 
   CommunityPublishable({
     required this.key,

@@ -7,6 +7,7 @@ import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
+import 'package:harcapp/_new/api/community.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_loader.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_tile.dart';
@@ -27,10 +28,10 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 
 import '../../_common_widgets/harc_app.dart';
-import '../api/circle.dart';
-import 'community/circle/announcements_sliver.dart';
-import 'community/circle/model/announcement.dart';
 import 'community/circle/model/circle.dart';
+import 'community/community_publishable.dart';
+import 'community/community_publishables_sliver.dart';
+import 'community/forum/model/forum.dart';
 import 'competitions/indiv_comp/indiv_comp_preview_widget.dart';
 
 class PreviewPart extends StatefulWidget{
@@ -38,8 +39,15 @@ class PreviewPart extends StatefulWidget{
   final void Function()? onCompHeaderOpen;
   final void Function()? onAllAnnouncementsHeaderOpen;
   final void Function(Circle)? onCircleTap;
+  final void Function(Forum)? onForumTap;
 
-  const PreviewPart({this.onCompHeaderOpen, this.onAllAnnouncementsHeaderOpen, this.onCircleTap, super.key});
+  const PreviewPart({
+    this.onCompHeaderOpen,
+    this.onAllAnnouncementsHeaderOpen,
+    this.onCircleTap,
+    this.onForumTap,
+    super.key
+  });
 
   @override
   State<StatefulWidget> createState() => PreviewPartState();
@@ -51,6 +59,7 @@ class PreviewPartState extends State<PreviewPart>{
   void Function()? get onCompHeaderOpen => widget.onCompHeaderOpen;
   void Function()? get onAllAnnouncementsHeaderOpen => widget.onAllAnnouncementsHeaderOpen;
   void Function(Circle)? get onCircleTap => widget.onCircleTap;
+  void Function(Forum)? get onForumTap => widget.onForumTap;
 
   late RefreshController refreshController;
   late ScrollController scrollController;
@@ -81,7 +90,7 @@ class PreviewPartState extends State<PreviewPart>{
     AccountData.addLoginListener(loginListener);
 
     scrollController = ScrollController();
-    refreshController = RefreshController(initialRefresh: AccountData.loggedIn && Announcement.all == null);
+    refreshController = RefreshController(initialRefresh: AccountData.loggedIn && CommunityPublishable.all == null);
 
     loadedPage = -1;
     moreToLoad = true;
@@ -116,7 +125,7 @@ class PreviewPartState extends State<PreviewPart>{
             builder: (BuildContext context, LoadStatus? mode){
               Widget body;
               if(!moreToLoad)
-                body = Announcement.all!.isEmpty?
+                body = CommunityPublishable.all!.isEmpty?
                 Container():
                 Icon(MdiIcons.circleMedium, color: hintEnab_(context));
 
@@ -166,15 +175,15 @@ class PreviewPartState extends State<PreviewPart>{
               return;
             }
 
-            await ApiCircle.getFeedAnnouncements(
+            await ApiCommunity.getFeed(
                 page: 0,
-                onSuccess: (List<Announcement> newFeedAnnouncements) async {
+                onSuccess: (List<CommunityPublishable> newFeedPublishables) async {
 
-                  Announcement.init(newFeedAnnouncements, context: mounted?context:null);
+                  CommunityPublishable.init(newFeedPublishables, context: mounted?context:null);
                   if(!mounted) return;
 
                   loadedPage = 0;
-                  moreToLoad = newFeedAnnouncements.length == Announcement.feedPageSize;
+                  moreToLoad = newFeedPublishables.length == CommunityPublishable.feedPageSize;
                   setState((){});
                 },
                 onServerMaybeWakingUp: () {
@@ -201,7 +210,7 @@ class PreviewPartState extends State<PreviewPart>{
           },
           onLoading: () async {
 
-            AnnouncementListProvider annListProv = Provider.of<AnnouncementListProvider>(context, listen: false);
+            CommunityPublishableListProvider publishableListProv = CommunityPublishableListProvider.of(context);
 
             if(!moreToLoad) {
               refreshController.loadComplete();
@@ -214,16 +223,16 @@ class PreviewPartState extends State<PreviewPart>{
               return;
             }
 
-            await ApiCircle.getFeedAnnouncements(
+            await ApiCommunity.getFeed(
                 page: loadedPage + 1,
-                onSuccess: (nextAnnouncements){
+                onSuccess: (nextPublishables){
 
                   int i;
-                  for(i=0; i<nextAnnouncements.length; i++)
-                    if(!Announcement.allMap!.containsKey(nextAnnouncements[i].key)) break;
+                  for(i=0; i<nextPublishables.length; i++)
+                    if(!CommunityPublishable.allMap!.containsKey(nextPublishables[i].key)) break;
 
-                  Announcement.addListToAll(
-                      nextAnnouncements.sublist(i),
+                  CommunityPublishable.addListToAll(
+                      nextPublishables.sublist(i),
                       context: mounted?context:null
                   );
 
@@ -231,9 +240,9 @@ class PreviewPartState extends State<PreviewPart>{
 
                   loadedPage += 1;
 
-                  if(mounted) annListProv.notify();
+                  if(mounted) publishableListProv.notify();
 
-                  if(nextAnnouncements.length != Announcement.feedPageSize)
+                  if(nextPublishables.length != CommunityPublishable.feedPageSize)
                     moreToLoad = false;
 
                   setState((){});
@@ -292,8 +301,9 @@ class PreviewPartState extends State<PreviewPart>{
                           child: Text(
                             'Współzawodnictwa',
                             style: AppTextStyle(
-                                fontSize: Dimen.TEXT_SIZE_BIG,
-                                fontWeight: weight.halfBold
+                                fontSize: Dimen.TEXT_SIZE_APPBAR,
+                                fontWeight: weight.halfBold,
+                                color: hintEnab_(context)
                             ),
                           ),
                         ),
@@ -334,10 +344,11 @@ class PreviewPartState extends State<PreviewPart>{
 
                       Expanded(
                         child: Text(
-                          'Kręgi i ogłoszenia',
+                          'Środowiska',
                           style: AppTextStyle(
-                              fontSize: Dimen.TEXT_SIZE_BIG,
-                              fontWeight: weight.halfBold
+                              fontSize: Dimen.TEXT_SIZE_APPBAR,
+                              fontWeight: weight.halfBold,
+                              color: hintEnab_(context)
                           ),
                         ),
                       ),
@@ -353,14 +364,15 @@ class PreviewPartState extends State<PreviewPart>{
                 ])),
 
               if(AccountData.loggedIn)
-                getAnnouncementsSliver(
+                getCommunityPublishablesSliver(
                   context,
-                  Announcement.all??[],
-                  showCircleButton: true,
+                  CommunityPublishable.all??[],
                   onCircleButtonTap: (circle) => onCircleTap?.call(circle),
+                  onForumButtonTap: (forum) => onForumTap?.call(forum),
                   padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                  loading: indivCompLoader.running,
+                  //loading: communityLoader.running,
                   onAnnouncementUpdated: () => setState((){}),
+                  onPostUpdated: () => setState((){}),
                 )
 
             ],

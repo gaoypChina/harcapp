@@ -66,7 +66,11 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
             onCircleTap: (circle){
               prov.selectedDrawerPage = HomePartProvider.drawerPageCommunities;
               openCirclePage(context, circle);
-            }
+            },
+            onForumTap: (forum){
+              prov.selectedDrawerPage = HomePartProvider.drawerPageCommunities;
+              openForumPage(context, forum);
+            },
         );
 
       }),

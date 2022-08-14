@@ -5,6 +5,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
+import 'package:harcapp/_new/cat_page_home/community/search_forum_page.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/login_provider.dart';
@@ -185,6 +186,12 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
       centerTitle: true,
       floating: true,
       pinned: !shouldScroll,
+      actions: [
+        IconButton(
+          icon: const Icon(MdiIcons.magnify),
+          onPressed: () => pushPage(context, builder: (context) => const SearchForumPage()),
+        )
+      ],
     ));
 
     if(!networkAvailable)
@@ -411,7 +418,7 @@ class NewCommunityButton extends StatelessWidget{
                     bottom: Dimen.SIDE_MARG,
                     right: Dimen.SIDE_MARG,
                     child: Text(
-                        'Nowe',
+                        'Stwórz\nlub dołącz',
                         style: AppTextStyle(
                             fontSize: Dimen.TEXT_SIZE_APPBAR,
                             fontWeight: weight.bold,

@@ -21,6 +21,7 @@ import 'forum/forum_editor/_main.dart';
 import 'forum/forum_page.dart';
 import 'forum/forum_widget.dart';
 import 'forum/model/forum.dart';
+import 'forum/model/post.dart';
 import 'model/community.dart';
 
 class CommunityWidget extends StatelessWidget{
@@ -172,7 +173,7 @@ class CommunityWidget extends StatelessWidget{
                     color: background_(context),
                     child: Row(
                       children: [
-                        const Icon(MdiIcons.broadcast),
+                        const Icon(Post.icon),
                         const SizedBox(width: Dimen.SIDE_MARG),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

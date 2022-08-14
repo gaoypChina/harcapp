@@ -3,10 +3,15 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:harcapp/_new/cat_page_home/community/circle/model/announcement.dart';
+import 'package:harcapp/_new/cat_page_home/community/circle/model/circle.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_role.dart';
+import 'package:harcapp/_new/cat_page_home/community/forum/model/forum.dart';
+import 'package:harcapp/_new/cat_page_home/community/forum/model/post.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community_manager.dart';
 import 'package:optional/optional_internal.dart';
 
+import '../cat_page_home/community/community_publishable.dart';
 import '../cat_page_home/community/model/community.dart';
 import '_api.dart';
 
@@ -287,6 +292,41 @@ class ApiCommunity{
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => onError?.call()
+  );
+
+  static Future<Response?> getFeed({
+    int? page,
+    int? pageSize,
+
+    FutureOr<void> Function(List<CommunityPublishable>)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      sendRequest: (Dio dio) => dio.get(
+          '${API.SERVER_URL}api/community/feed',
+          queryParameters: {
+            if(page != null) 'page': page,
+            if(pageSize != null) 'pageSize': pageSize,
+          }
+      ),
+      onSuccess: (Response response, DateTime now) {
+
+        List<CommunityPublishable> feed = [];
+        for(Map map in response.data) {
+          if(map.containsKey('circleKey'))
+            feed.add(Announcement.fromMap(map, Circle.allMap![map['circleKey']]!, key: map['_key']));
+          else
+            feed.add(Post.fromMap(map, Forum.allMap![map['forumKey']]!, key: map['_key']));
+        }
+
+        onSuccess?.call(feed);
+
+      },
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (err) => onError?.call()
   );
 
 }

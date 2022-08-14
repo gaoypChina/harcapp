@@ -408,41 +408,6 @@ class ApiCircle{
       onError: (err) async => onError?.call()
   );
 
-  static Future<Response?> getFeedAnnouncements({
-    int? page,
-    int? pageSize,
-
-    FutureOr<void> Function(List<Announcement>)? onSuccess,
-    FutureOr<bool> Function()? onForceLoggedOut,
-    FutureOr<bool> Function()? onServerMaybeWakingUp,
-    FutureOr<void> Function()? onError,
-  }) => API.sendRequest(
-      withToken: true,
-      sendRequest: (Dio dio) => dio.get(
-        '${API.SERVER_URL}api/announcement',
-        queryParameters: {
-          if(page != null) 'page': page,
-          if(pageSize != null) 'pageSize': pageSize,
-        }
-      ),
-      onSuccess: (Response response, DateTime now) {
-
-        List<Announcement> result = [];
-        for(String key in (response.data as Map).keys)
-          result.add(Announcement.fromMap(
-              response.data[key], 
-              Circle.allMap![response.data[key]['circleKey']??(throw InvalidResponseError('circleKey'))]!,
-              key: key)
-          );
-
-        onSuccess?.call(result);
-
-      },
-      onForceLoggedOut: onForceLoggedOut,
-      onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) => onError?.call()
-  );
-
   static Future<Response?> publishAnnouncement({
     required String circleKey,
     required String title,
@@ -524,7 +489,7 @@ class ApiCircle{
         }),
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(Announcement.fromMap(response.data, announcement.circle!)),
+          onSuccess?.call(Announcement.fromMap(response.data, announcement.circle)),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => onError?.call()

@@ -396,7 +396,7 @@ class ApiForum{
         }),
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(Post.fromMap(response.data, post.forum!)),
+          onSuccess?.call(Post.fromMap(response.data, post.forum)),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => onError?.call()

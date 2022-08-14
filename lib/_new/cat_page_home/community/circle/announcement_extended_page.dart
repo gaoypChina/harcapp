@@ -95,10 +95,10 @@ class AnnouncementExpandedPage extends StatelessWidget{
                 if(enablesResp)
                   ListView.builder(
                       physics: const BouncingScrollPhysics(),
-                      itemCount: announcement.circle?.members.length??0,
+                      itemCount: announcement.circle.members.length,
                       itemBuilder: (context, index) => MemberTile(
                         announcement,
-                        announcement.circle!.members[index],
+                        announcement.circle.members[index],
                         palette,
                         thumbnailColor: CommunityCoverColors.backgroundColor(context, palette),
                         thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),

@@ -38,7 +38,7 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
   final void Function(bool)? onPinChanged;
   final void Function(AnnouncementAttendanceResp, DateTime now)? onAttendanceChanged;
   final void Function()? onAttendanceIndicatorTap;
-  final bool showCircleButton;
+  final bool showCommunityInfo;
   final void Function()? onCircleButtonTap;
 
   const AnnouncementWidgetTemplate(
@@ -50,7 +50,7 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
         this.onPinChanged,
         this.onAttendanceChanged,
         this.onAttendanceIndicatorTap,
-        this.showCircleButton = false,
+        this.showCommunityInfo = false,
         this.onCircleButtonTap,
         Key? key
       }) : super(key: key);
@@ -66,28 +66,22 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
       shrinkText: shrinkText,
       onTap: onTap,
       onUpdateTap: onUpdateTap,
-      showSourceButton: showCircleButton,
-      sourceIcon: MdiIcons.googleCircles,
-      sourceText: announcement.circle!.name,
-      publishInfoTrailing: AttendanceWidget(
+      showCommunityInfo: showCommunityInfo,
+      contentTop:
+      announcement.isEvent?
+      EventInfoWidget(
         announcement,
         palette: palette,
         onAttendanceChanged: onAttendanceChanged,
-      ),
-      titleTop: AwaitingAlertWidget(announcement, palette),
-
+        onAttendanceIndicatorTap: onAttendanceIndicatorTap
+      ):null,
+      //contentTop: AwaitingAlertWidget(announcement, palette),
       bottomLeading:
       showPin?
       _PinWidget(announcement, onPinChanged: onPinChanged):
       null,
 
-      bottomTrailing:
-      announcement.isEvent?
-      AttendanceIndicatorWidget(announcement, onTap: onAttendanceIndicatorTap):
-      null,
-
-      bottomLeadingPadding: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-      bottomTrailingPadding: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+      onCommunityButtonTap: onCircleButtonTap,
 
     );
 
@@ -454,6 +448,166 @@ class PostingInfoWidget extends StatelessWidget{
 
 }
 
+class EventInfoWidget extends StatelessWidget{
+
+  final Announcement announcement;
+  final PaletteGenerator? palette;
+  final void Function(AnnouncementAttendanceResp, DateTime)? onAttendanceChanged;
+  final void Function()? onAttendanceIndicatorTap;
+
+  const EventInfoWidget(
+      this.announcement,
+      { this.palette,
+        this.onAttendanceChanged,
+        this.onAttendanceIndicatorTap
+      });
+
+  @override
+  Widget build(BuildContext context) {
+
+    bool hasStartTime = announcement.startTime != null;
+    bool hasEndTime = announcement.endTime != null;
+    bool hasPlace = announcement.place != null && announcement.place!.isNotEmpty;
+
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: Dimen.DEF_MARG,
+        left: Dimen.DEF_MARG,
+        right: Dimen.DEF_MARG
+      ),
+      child: Material(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppCard.DEF_RADIUS),
+          side: announcement.isAwaitingMyResponse?
+          const BorderSide(color: Colors.red, width: Dimen.DEF_MARG/2):
+          BorderSide.none
+        ),
+        clipBehavior: Clip.hardEdge,
+        color: backgroundIcon_(context),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+
+            if(hasPlace || hasStartTime)
+              const SizedBox(height: Dimen.ICON_MARG),
+
+            if(hasStartTime && hasEndTime)
+              Row(
+                children: [
+
+                  const SizedBox(width: Dimen.ICON_MARG),
+
+                  const Icon(MdiIcons.calendarOutline),
+
+                  const SizedBox(width: Dimen.ICON_MARG),
+
+                  Text(
+                    dateRangeToString(
+                        announcement.startTime!,
+                        announcement.endTime!,
+                        shortMonth: true,
+                        showYear: announcement.startTime!.year != DateTime.now().year,
+                        withTime: true,
+                        dateTimeSep: ' '
+                    ),
+                    style: AppTextStyle(
+                      fontSize: Dimen.TEXT_SIZE_NORMAL,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  )
+                ],
+              )
+            else if(hasStartTime)
+              Row(
+                children: [
+
+                  const SizedBox(width: Dimen.ICON_MARG),
+
+                  const Icon(MdiIcons.calendarOutline),
+
+                  const SizedBox(width: Dimen.ICON_MARG),
+
+                  Text(
+                    dateToString(
+                        announcement.startTime,
+                        shortMonth: true,
+                        showYear: announcement.startTime!.year != DateTime.now().year,
+                        withTime: true,
+                        dateTimeSep: ' '
+                    ),
+                    style: AppTextStyle(
+                      fontSize: Dimen.TEXT_SIZE_NORMAL,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  )
+                ],
+              ),
+
+            if(hasStartTime || hasEndTime)
+              const SizedBox(height: Dimen.ICON_MARG),
+
+            if(hasPlace)
+              Row(
+                children: [
+
+                  const SizedBox(width: Dimen.ICON_MARG),
+
+                  const Icon(MdiIcons.mapMarkerOutline),
+
+                  const SizedBox(width: Dimen.ICON_MARG),
+
+                  Text(
+                    announcement.place!,
+                    style: AppTextStyle(
+                        fontSize: Dimen.TEXT_SIZE_NORMAL,
+                        color: textEnab_(context)
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  )
+                ],
+              ),
+
+            if(hasPlace)
+              const SizedBox(height: Dimen.ICON_MARG),
+
+            if(hasPlace && hasStartTime)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Dimen.ICON_MARG),
+                child: Container(height: 2, width: double.infinity, color: backgroundIcon_(context)),
+              ),
+
+            Row(
+              children: [
+
+                AttendanceWidget(
+                  announcement,
+                  palette: palette,
+                  onAttendanceChanged: onAttendanceChanged,
+                ),
+
+                Expanded(
+                  child: Container(),
+                ),
+
+                AttendanceIndicatorWidget(announcement, onTap: onAttendanceIndicatorTap),
+
+              ],
+            ),
+
+            AwaitingAlertWidget(announcement, palette),
+
+          ],
+        )
+      ),
+    );
+
+  }
+
+}
+
 class AwaitingAlertWidget extends StatelessWidget{
 
   final Announcement announcement;
@@ -469,13 +623,13 @@ class AwaitingAlertWidget extends StatelessWidget{
     if(timeSincePosted.inMinutes < 60) {
       timeDurStr = '';
     } else if(timeSincePosted.inDays < 2) {
-      timeDurStr = '${timeSincePosted.inHours}';
+      timeDurStr = '${timeSincePosted.inHours}.';
       if(timeSincePosted.inHours == 0 || timeSincePosted.inHours >= 5) timeDurStr += ' godzin';
-      else if(timeSincePosted.inHours == 1) timeDurStr += ' godzinę';
-      else if(timeSincePosted.inHours >= 2 && timeSincePosted.inHours <= 4) timeDurStr += ' godziny';
+      else if(timeSincePosted.inHours == 1) timeDurStr += ' godzina';
+      else if(timeSincePosted.inHours >= 2 && timeSincePosted.inHours <= 4) timeDurStr += ' godzina';
     } else {
-      timeDurStr = '${timeSincePosted.inDays}';
-      if(timeSincePosted.inDays == 0 || timeSincePosted.inDays >= 2) timeDurStr += ' dni';
+      timeDurStr = '${timeSincePosted.inDays}.';
+      if(timeSincePosted.inDays == 0 || timeSincePosted.inDays >= 2) timeDurStr += ' dzień';
       else if(timeSincePosted.inDays == 1) timeDurStr += ' dzień';
     }
 
@@ -483,51 +637,20 @@ class AwaitingAlertWidget extends StatelessWidget{
       duration: const Duration(milliseconds: 300),
       child:
       announcement.isAwaitingMyResponse?
-      Padding(
-        padding: const EdgeInsets.only(
-          top: Dimen.DEF_MARG,
-          left: Dimen.DEF_MARG,
-          right: Dimen.DEF_MARG,
-        ),
-        child: GradientWidget(
-          colorStart: Colors.red,
-          colorEnd: Colors.amber[700]!,
-          radius: CommunityPublishableWidgetTemplate.radius,
-          child: Padding(
-              padding: const EdgeInsets.all(Dimen.DEF_MARG/2),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: CommunityCoverColors.backgroundColor(context, palette),
-                    borderRadius: BorderRadius.circular(CommunityPublishableWidgetTemplate.radius - 3)
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(Dimen.DEF_MARG),
-                  child: Row(
-                    children: [
-
-                      const SizedBox(width: Dimen.ICON_MARG),
-
-                      Icon(MdiIcons.alertCircleOutline, color: textEnab_(context)),
-
-                      const SizedBox(width: Dimen.ICON_MARG),
-
-                      Expanded(
-                        child: AppText(
-                          timeDurStr.isEmpty?
-                          'Ogłoszenie czeka na reakcję':
-                          'Ogłoszenie czeka już <b>$timeDurStr</b> na reakcję',
-                          color: textEnab_(context),
-                        ),
-                      ),
-
-                      Icon(MdiIcons.arrowUp, color: textEnab_(context)),
-
-                      const SizedBox(width: Dimen.ICON_MARG),
-
-                    ],
-                  ),
-                ),
-              )
+      Container(
+        color: Colors.red,
+        child: Padding(
+          padding: const EdgeInsets.only(
+              top: Dimen.ICON_MARG,
+              bottom: Dimen.ICON_MARG
+          ),
+          child: AppText(
+            timeDurStr.isEmpty?
+            'Ogłoszenie czeka na <b>Twoją</b> reakcję':
+            'Mija już <b>$timeDurStr</b> bez <b>Twojej</b> reakcji',
+            color: Colors.white,
+            textAlign: TextAlign.center,
+            size: Dimen.TEXT_SIZE_BIG,
           ),
         ),
       ):
@@ -560,6 +683,9 @@ class AttendanceWidget extends StatelessWidget{
 
         return DropdownButtonHideUnderline(
             child: DropdownButton2(
+              buttonDecoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(AppCard.DEF_RADIUS)
+              ),
               customButton:
               myResp == null?
               SimpleButton.from(
@@ -684,7 +810,7 @@ class AttendanceWidget extends StatelessWidget{
 
     if(announcement.startTime != null && announcement.startTime!.isBefore(DateTime.now()) && announcement.endTime != null)
       return Padding(
-        padding: const EdgeInsets.only(right: Dimen.SIDE_MARG),
+        padding: const EdgeInsets.only(left: Dimen.SIDE_MARG),
         child: Text(
           'Właśnie trwa...',
           style: AppTextStyle(
@@ -697,7 +823,7 @@ class AttendanceWidget extends StatelessWidget{
 
     if(announcement.endTime == null || announcement.endTime != null && announcement.endTime!.isBefore(DateTime.now()))
       return Padding(
-        padding: const EdgeInsets.only(right: Dimen.SIDE_MARG),
+        padding: const EdgeInsets.only(left: Dimen.SIDE_MARG),
         child: Text(
           'Ale to już było...',
           style: AppTextStyle(
@@ -1168,7 +1294,7 @@ class AttendanceIndicatorWidget extends StatelessWidget{
     }
 
     return SimpleButton(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.DEF_RADIUS,
       onTap: onTap,
       child: Row(
         children: [
@@ -1179,23 +1305,23 @@ class AttendanceIndicatorWidget extends StatelessWidget{
           Icon(
             announcementAttendanceRespToIcon(const AnnouncementAttendanceResp(AnnouncementAttendance.ATTENDING)),
             size: height,
-            color: hintEnab_(context),
+            color: iconEnab_(context),
           ),
-          Text(' $attendingCount', style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context))),
-          const SizedBox(width: Dimen.ICON_MARG),
+          Text(' $attendingCount', style: AppTextStyle(fontWeight: weight.halfBold, color: iconEnab_(context))),
+          const SizedBox(width: Dimen.ICON_MARG + 2),
           Icon(
             announcementAttendanceRespToIcon(AnnouncementAttendanceResp(AnnouncementAttendance.POSTPONE_RESP, postponeTime: postponedOverdue?DateTime(0):null)),
             size: height,
-            color: hintEnab_(context),
+            color: iconEnab_(context),
           ),
-          Text(' $postponedCount', style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context))),
+          Text(' $postponedCount', style: AppTextStyle(fontWeight: weight.halfBold, color: iconEnab_(context))),
           const SizedBox(width: Dimen.ICON_MARG),
           Icon(
             announcementAttendanceRespToIcon(const AnnouncementAttendanceResp(AnnouncementAttendance.NOT_ATTENDING)),
             size: height,
-            color: hintEnab_(context),
+            color: iconEnab_(context),
           ),
-          Text(' $rejectedCount', style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context))),
+          Text(' $rejectedCount', style: AppTextStyle(fontWeight: weight.halfBold, color: iconEnab_(context))),
 
           const SizedBox(width: Dimen.ICON_MARG),
 

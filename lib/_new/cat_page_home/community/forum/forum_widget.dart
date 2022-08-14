@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'model/forum.dart';
+import 'model/post.dart';
 
 class ForumWidget extends StatelessWidget{
 
@@ -54,7 +55,7 @@ class ForumWidget extends StatelessWidget{
                           child: Row(
                             children: [
                               const SizedBox(width: Dimen.ICON_MARG),
-                              const Icon(MdiIcons.broadcast),
+                              const Icon(Post.icon),
                               const SizedBox(width: Dimen.ICON_MARG),
                               Text(
                                   'Forum',

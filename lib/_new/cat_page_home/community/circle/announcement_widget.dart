@@ -20,10 +20,10 @@ class AnnouncementWidget extends StatelessWidget{
   final bool editable;
   final bool showOnTap;
   final void Function()? onAnnouncementUpdated;
-  final bool showCircleButton;
+  final bool showCommunityInfo;
   final void Function()? onCircleButtonTap;
 
-  Circle get circle => announcement.circle!;
+  Circle get circle => announcement.circle;
 
   const AnnouncementWidget(
       this.announcement,
@@ -33,7 +33,7 @@ class AnnouncementWidget extends StatelessWidget{
         this.editable = true,
         this.showOnTap = true,
         this.onAnnouncementUpdated,
-        this.showCircleButton = false,
+        this.showCommunityInfo = false,
         this.onCircleButtonTap,
         super.key
       });
@@ -95,7 +95,7 @@ class AnnouncementWidget extends StatelessWidget{
                 onAnnouncementUpdated: onAnnouncementUpdated,
               ),
             ):null,
-            showCircleButton: showCircleButton,
+            showCommunityInfo: showCommunityInfo,
             onCircleButtonTap: onCircleButtonTap,
         ),
       )
