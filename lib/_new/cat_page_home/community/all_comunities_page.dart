@@ -23,7 +23,9 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import 'circle/circle_editor/_main.dart';
 import 'circle/model/circle.dart';
+import 'new_community_type.dart';
 import 'circle/start_widgets/circle_loading_widget.dart';
 import 'circle/start_widgets/circle_preview_widget.dart';
 import 'circle/start_widgets/circle_prompt_login.dart';
@@ -436,15 +438,26 @@ class NewCommunityButton extends StatelessWidget{
       onTap: () => newCommunity(context)
   );
 
-  static void newCommunity(BuildContext context) =>
-    pushPage(
-      context,
-      builder: (context) =>
-          CommunityEditorPage(
-            onSaved: (community) async {
-              Community.addToAll(community, context: context);
-            },
-          ),
-    );
+  static void newCommunity(BuildContext context) async {
+
+    NewCommunityType? type = await pickNewCommunityType(context);
+    if (type == null) return;
+
+    if(type == NewCommunityType.joinCircle)
+      // All the logic is handled by the pickNewCommunityType() function.
+      return;
+    else
+      pushPage(
+        context,
+        builder: (context) =>
+            CommunityEditorPage(
+              onSaved: (community) async {
+                Community.addToAll(community, context: context);
+                CommunityListProvider.notify_(context);
+              },
+            ),
+      );
+    
+  }
 
 }

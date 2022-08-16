@@ -76,9 +76,9 @@ class CircleBasicData{
     memberCount: circle.members.length
   );
 
-  static CircleBasicData fromResponse(Map resp) => CircleBasicData(
+  static CircleBasicData fromResponse(Map resp, {String? name}) => CircleBasicData(
     key: resp['_key']??(throw InvalidResponseError('_key')),
-    name: resp['name']??(throw InvalidResponseError('name')),
+    name: name??resp['name']??(throw InvalidResponseError('name')),
     coverImage: CommunityCoverImageData.from(resp['coverImageUrl']??(throw InvalidResponseError('coverImageUrl'))),
     memberCount: resp['memberCount']??(throw InvalidResponseError('memberCount')),
   );

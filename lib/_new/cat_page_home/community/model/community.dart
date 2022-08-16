@@ -46,6 +46,38 @@ class CommunityManagersProvider extends ChangeNotifier{
 
 }
 
+class CommunityBasicData{
+
+  final String key;
+  final String name;
+  final String iconKey;
+  final ForumBasicData? forum;
+  final CircleBasicData? circle;
+
+  const CommunityBasicData({
+    required this.key,
+    required this.name,
+    required this.iconKey,
+    required this.forum,
+    required this.circle,
+  });
+
+  static CommunityBasicData fromResponse(Map resp) => CommunityBasicData(
+    key: resp['_key']??(throw InvalidResponseError('_key')),
+    name: resp['name']??(throw InvalidResponseError('name')),
+    iconKey: resp['iconKey']??(throw InvalidResponseError('iconKey')),
+
+    forum: resp.containsKey('forum')?
+    ForumBasicData.fromResponse(resp['forum'], name: resp['name']):
+    null,
+
+    circle: resp.containsKey('circle')?
+    CircleBasicData.fromResponse(resp['circle'], name: resp['name']):
+    null,
+  );
+
+}
+
 class Community{
 
   static const int maxLenName = 64;

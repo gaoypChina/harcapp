@@ -10,40 +10,40 @@ import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../../../_common_widgets/bottom_sheet.dart';
-import '../../../api/circle.dart';
-import '../../common.dart';
-import 'circle_page.dart';
-import 'model/circle.dart';
+import '../../../_common_widgets/bottom_sheet.dart';
+import '../../api/circle.dart';
+import '../common.dart';
+import 'circle/circle_page.dart';
+import 'circle/model/circle.dart';
 
-Future<NewCircleType?> pickNewCircleType(BuildContext context)async {
+Future<NewCommunityType?> pickNewCommunityType(BuildContext context)async {
 
-  NewCircleType? result;
+  NewCommunityType? result;
   await showScrollBottomSheet(
-      context: context,
-      builder: (context) => BottomSheetDef(
-        title: 'Nowy krąg',
-        builder: (context) => CircleTypeWidget(
-            onSelected: (circle){
-              result = circle;
-              Navigator.pop(context);
-            }
-        ),
-      )
+    context: context,
+    builder: (context) => BottomSheetDef(
+      title: 'Nowe środowisko',
+      builder: (context) => CircleTypeWidget(
+        onSelected: (value){
+          result = value;
+          Navigator.pop(context);
+        }
+      ),
+    )
   );
 
   return result;
 
 }
 
-enum NewCircleType{
+enum NewCommunityType{
   empty,
-  join
+  joinCircle
 }
 
 class CircleTypeWidget extends StatelessWidget{
 
-  final void Function(NewCircleType type)? onSelected;
+  final void Function(NewCommunityType type)? onSelected;
 
   const CircleTypeWidget({this.onSelected, super.key});
 
@@ -52,21 +52,21 @@ class CircleTypeWidget extends StatelessWidget{
       mainAxisSize: MainAxisSize.min,
       children: [
 
-        _JoinButton(
-          onSuccess: (comp) async {
-            onSelected!(NewCircleType.join);
-            Circle.addToAll(context, comp);
-            pushReplacePage(context, builder: (context) => CirclePage(comp));
+        _JoinCircleButton(
+          onSuccess: (circle) async {
+            onSelected!(NewCommunityType.joinCircle);
+            Circle.addToAll(context, circle);
+            pushReplacePage(context, builder: (context) => CirclePage(circle));
           },
         ),
 
         const SizedBox(height: Dimen.SIDE_MARG),
 
         CreateNewButton(
-          icon: MdiIcons.applicationOutline,
-          title: 'Utwórz nowy',
-          description: 'Zawiąż nowy krąg.',
-          onTap: () => onSelected!(NewCircleType.empty),
+          icon: MdiIcons.accountGroup,
+          title: 'Nowe środowisko',
+          description: 'Zawiąż nowe środowisko.',
+          onTap: () => onSelected!(NewCommunityType.empty),
         ),
 
       ]
@@ -74,18 +74,18 @@ class CircleTypeWidget extends StatelessWidget{
 
 }
 
-class _JoinButton extends StatefulWidget{
+class _JoinCircleButton extends StatefulWidget{
 
   final void Function(Circle) onSuccess;
 
-  const _JoinButton({required this.onSuccess});
+  const _JoinCircleButton({required this.onSuccess});
 
   @override
-  State<StatefulWidget> createState() => _JoinButtonState();
+  State<StatefulWidget> createState() => _JoinCircleButtonState();
 
 }
 
-class _JoinButtonState extends State<_JoinButton>{
+class _JoinCircleButtonState extends State<_JoinCircleButton>{
 
   TextEditingController? controller;
 
@@ -101,9 +101,9 @@ class _JoinButtonState extends State<_JoinButton>{
   @override
   Widget build(BuildContext context) {
     return CreateNewButton(
-      icon: MdiIcons.applicationImport,
-      title: 'Dołącz do istniejącego',
-      description: 'Dołącz do kręgu zawiązanego przez inną osobę.',
+      icon: MdiIcons.googleCircles,
+      title: 'Dołącz do kręgu',
+      description: 'Dołącz do istniejącego kręgu zawiązanego przez inną osobę.',
       onTap: null,
       bottom: Row(
         children: [

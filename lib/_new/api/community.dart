@@ -49,6 +49,31 @@ class ManagerRespBodyNick extends ManagerRespBody{
 
 class ApiCommunity{
 
+  static Future<Response?> search({
+    required String phrase,
+    FutureOr<void> Function(List<CommunityBasicData> communities)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) async => await API.sendRequest(
+    withToken: true,
+    sendRequest: (Dio dio) => dio.get(
+      '${API.SERVER_URL}api/community/search',
+      queryParameters: {"phrase": phrase}
+    ),
+    onSuccess: (Response response, DateTime now) async {
+
+      List<CommunityBasicData> result = [];
+      for(Map map in response.data)
+        result.add(CommunityBasicData.fromResponse(map));
+
+      onSuccess?.call(result);
+    },
+    onForceLoggedOut: onForceLoggedOut,
+    onServerMaybeWakingUp: onServerMaybeWakingUp,
+    onError: (error) async => onError?.call(),
+  );
+
   static Future<Response?> getAll({
     FutureOr<void> Function(List<Community>)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -125,23 +150,6 @@ class ApiCommunity{
 
   }
 
-  static Future<Response?> delete({
-    required String communityKey,
-    FutureOr<void> Function()? onSuccess,
-    FutureOr<bool> Function()? onForceLoggedOut,
-    FutureOr<bool> Function()? onServerMaybeWakingUp,
-    FutureOr<void> Function()? onError,
-  }) => API.sendRequest(
-      withToken: true,
-      sendRequest: (Dio dio) => dio.delete(
-        '${API.SERVER_URL}api/community/$communityKey'
-      ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
-      onForceLoggedOut: onForceLoggedOut,
-      onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (DioError err) async => onError?.call()
-  );
-
   static Future<Response?> update({
     required String circleKey,
     Optional<String> name = const Optional.empty(),
@@ -158,25 +166,42 @@ class ApiCommunity{
     if(iconKey.isPresent) reqMap['iconKey'] = iconKey.value;
 
     return API.sendRequest(
-      withToken: true,
-      sendRequest: (Dio dio) => dio.put(
-        '${API.SERVER_URL}api/community/$circleKey',
-        options: Options(headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-        }),
-        data: jsonEncode(reqMap)
-      ),
-      onSuccess: (Response response, DateTime now) async {
-        if(onSuccess==null) return;
-        Community community = Community.fromResponse(response.data);
-        onSuccess(community);
-      },
-      onForceLoggedOut: onForceLoggedOut,
-      onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (_) async => onError?.call()
+        withToken: true,
+        sendRequest: (Dio dio) => dio.put(
+            '${API.SERVER_URL}api/community/$circleKey',
+            options: Options(headers: {
+              HttpHeaders.contentTypeHeader: 'application/json',
+            }),
+            data: jsonEncode(reqMap)
+        ),
+        onSuccess: (Response response, DateTime now) async {
+          if(onSuccess==null) return;
+          Community community = Community.fromResponse(response.data);
+          onSuccess(community);
+        },
+        onForceLoggedOut: onForceLoggedOut,
+        onServerMaybeWakingUp: onServerMaybeWakingUp,
+        onError: (_) async => onError?.call()
     );
 
   }
+
+  static Future<Response?> delete({
+    required String communityKey,
+    FutureOr<void> Function()? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      sendRequest: (Dio dio) => dio.delete(
+        '${API.SERVER_URL}api/community/$communityKey'
+      ),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (DioError err) async => onError?.call()
+  );
   
   static Future<Response?> addManagers({
     required String communityKey,

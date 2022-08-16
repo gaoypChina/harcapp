@@ -48,27 +48,35 @@ class ForumBasicData{
   String key;
   String name;
   CommunityCoverImageData coverImage;
-  int managerCount;
+  String? description;
+  bool followed;
+  int followersCnt;
 
   ForumBasicData({
     required this.key,
     required this.name,
     required this.coverImage,
-    required this.managerCount,
+    required this.description,
+    required this.followed,
+    required this.followersCnt,
   });
 
   static ForumBasicData fromForum(Forum forum) => ForumBasicData(
     key: forum.key,
     name: forum.name,
     coverImage: forum.coverImage,
-      managerCount: forum.managers.length
+    description: forum.description,
+    followed: forum.followed,
+    followersCnt: forum.followersCnt
   );
 
-  static ForumBasicData fromResponse(Map resp) => ForumBasicData(
+  static ForumBasicData fromResponse(Map resp, {String? name}) => ForumBasicData(
     key: resp['_key']??(throw InvalidResponseError('_key')),
-    name: resp['name']??(throw InvalidResponseError('name')),
+    name: name??resp['name']??(throw InvalidResponseError('name')),
     coverImage: CommunityCoverImageData.from(resp['coverImageUrl']??(throw InvalidResponseError('coverImageUrl'))),
-    managerCount: resp['managerCount']??(throw InvalidResponseError('managerCount')),
+    description: resp['description']??(throw InvalidResponseError('description')),
+    followed: resp['followed']??(throw InvalidResponseError('followed')),
+    followersCnt: resp['followersCount']??(throw InvalidResponseError('followersCount')),
   );
 
 }

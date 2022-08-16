@@ -15,7 +15,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'circle/circle_editor/_main.dart';
 import 'circle/circle_page.dart';
 import 'circle/model/circle.dart';
-import 'circle/new_circle_type.dart';
 import 'community_role.dart';
 import 'forum/forum_editor/_main.dart';
 import 'forum/forum_page.dart';
@@ -130,23 +129,17 @@ class CommunityWidget extends StatelessWidget{
                       ),
                       onTap: () async {
 
-                        NewCircleType? type = await pickNewCircleType(context);
-                        if (type == null) return;
-
-                        if(type == NewCircleType.join)
-                          return;
-                        else
-                          pushPage(
-                            context,
-                            builder: (context) =>
-                                CircleEditorPage(
-                                  community: community,
-                                  onSaved: (comp) async {
-                                    Circle.addToAll(context, comp);
-                                    await pushReplacePage(context, builder: (context) => CirclePage(Circle.all!.last));
-                                  },
-                                ),
-                          );
+                        pushPage(
+                          context,
+                          builder: (context) =>
+                              CircleEditorPage(
+                                community: community,
+                                onSaved: (comp) async {
+                                  Circle.addToAll(context, comp);
+                                  await pushReplacePage(context, builder: (context) => CirclePage(Circle.all!.last));
+                                },
+                              ),
+                        );
 
                       }
                   ),
