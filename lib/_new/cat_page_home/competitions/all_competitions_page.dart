@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_preview_grid.dart';
@@ -241,7 +241,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
                 onTap: () => NewIndivCompButton.newCompetition(context),
                 elevation: AppCard.bigElevation,
                 color: cardEnab_(context),
-                borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                borderRadius: BorderRadius.circular(AppCard.bigRadius),
                 child: const Padding(
                   padding: EdgeInsets.all(Dimen.SIDE_MARG),
                   child: IgnorePointer(child: NewIndivCompButton()),
@@ -360,7 +360,7 @@ class NewIndivCompButton extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => SimpleButton(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
       child: Row(

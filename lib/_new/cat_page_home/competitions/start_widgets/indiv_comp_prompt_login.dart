@@ -20,7 +20,7 @@ class IndivCompPromptLogin extends StatelessWidget{
     width: width,
     child: SimpleButton(
       elevation: AppCard.bigElevation,
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       onTap: () => AccountPage.open(context),
       color: cardEnab_(context),
       child: Padding(
@@ -31,7 +31,7 @@ class IndivCompPromptLogin extends StatelessWidget{
 
             Material(
                 color: background_(context),
-                borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                borderRadius: BorderRadius.circular(AppCard.bigRadius),
                 child: Padding(
                   padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                   child: Row(

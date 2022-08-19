@@ -17,7 +17,7 @@ class AbandonButton extends StatelessWidget{
   Widget build(BuildContext context) {
 
     return SimpleButton(
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         padding: EdgeInsets.all(Dimen.ICON_MARG),
         margin: EdgeInsets.zero,
         child: Row(
@@ -45,7 +45,7 @@ class AbandonButton extends StatelessWidget{
       child:
       show?
       SimpleButton(
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           padding: EdgeInsets.all(Dimen.ICON_MARG),
           margin: EdgeInsets.zero,
           child: Row(

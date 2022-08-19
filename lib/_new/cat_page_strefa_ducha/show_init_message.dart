@@ -34,7 +34,7 @@ class ShowInitMessageWidgetState extends State<ShowInitMessageWidget>{
           child: Material(
             clipBehavior: Clip.antiAlias,
             color: background_(context),
-            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+            borderRadius: BorderRadius.circular(AppCard.bigRadius),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
@@ -59,14 +59,14 @@ class ShowInitMessageWidgetState extends State<ShowInitMessageWidget>{
                       Row(
                         children: [
                           const Icon(MdiIcons.heartOutline),
-                          const SizedBox(width: 2*Dimen.DEF_MARG,),
+                          const SizedBox(width: 2*Dimen.defMarg,),
                           Expanded(child: Text('Aby dodać grafikę do ulubionych, dwukrotnie ją naciśnij.', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)))
                         ],),
                       Text('', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
                       Row(
                         children: [
                           const Icon(MdiIcons.pinOutline),
-                          const SizedBox(width: 2*Dimen.DEF_MARG,),
+                          const SizedBox(width: 2*Dimen.defMarg,),
                           Expanded(child: Text('Aby zachować grafikę na później, przytrzymaj ją i wybierz pineskę.', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)))
                         ],),
                       Text('\n\nCzuwaj!', textAlign: TextAlign.center, style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),

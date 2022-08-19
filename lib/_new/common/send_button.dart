@@ -20,7 +20,7 @@ class SendButton extends StatelessWidget{
     return SimpleButton(
       onTap: onTap,
       //elevation: AppCard.bigElevation,
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       padding: EdgeInsets.all(Dimen.ICON_MARG),
       child: Row(
         mainAxisSize: MainAxisSize.min,

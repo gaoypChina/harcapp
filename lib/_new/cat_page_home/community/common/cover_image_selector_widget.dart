@@ -1,7 +1,7 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_image_data.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/_new/details/part_contributors.dart';
@@ -241,7 +241,7 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
                         const SizedBox(height: Dimen.SIDE_MARG),
 
                         Padding(
-                          padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                          padding: const EdgeInsets.all(Dimen.defMarg),
                           child: Text(
                             'Adaptacyjne zdjęcia',
                             style: AppTextStyle(
@@ -252,7 +252,7 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
                         ),
 
                         Padding(
-                          padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                          padding: const EdgeInsets.all(Dimen.defMarg),
                           child: Text(
                             'Zdjęcie zmieni się wraz z przejściem aplikacji między jasnym i ciemnym motywem',
                             style: AppTextStyle(
@@ -265,18 +265,18 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
 
                     if(adaptiveLocalImages.isNotEmpty)
                       SliverPadding(
-                          padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                          padding: const EdgeInsets.all(Dimen.defMarg),
                           sliver: SliverGrid(
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               childAspectRatio: 1/.66,
-                              crossAxisSpacing: Dimen.DEF_MARG,
-                              mainAxisSpacing: Dimen.DEF_MARG,
+                              crossAxisSpacing: Dimen.defMarg,
+                              mainAxisSpacing: Dimen.defMarg,
                             ),
                             delegate: SliverChildBuilderDelegate((BuildContext context, int index) => CoverImageWidget(
                               adaptiveLocalImages[index],
                               selected: adaptiveLocalImages[index] == selected,
-                              radius: AppCard.DEF_RADIUS,
+                              radius: AppCard.defRadius,
                               showAuthor: false,
                               showNight: currAnimDark,
                               onTap: () => setState(() => selected = adaptiveLocalImages[index]),
@@ -285,7 +285,7 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
                       ),
 
                     SliverPadding(
-                      padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                      padding: const EdgeInsets.all(Dimen.defMarg),
                       sliver: SliverList(delegate: SliverChildListDelegate([
                         const SizedBox(height: Dimen.SIDE_MARG),
 
@@ -301,21 +301,21 @@ class CoverImageSelectorWidgetState extends State<CoverImageSelectorWidget>{
 
                     SliverPadding(
                         padding: const EdgeInsets.only(
-                            left: Dimen.DEF_MARG,
-                            right: Dimen.DEF_MARG,
-                            bottom: Dimen.DEF_MARG
+                            left: Dimen.defMarg,
+                            right: Dimen.defMarg,
+                            bottom: Dimen.defMarg
                         ),
                         sliver: SliverGrid(
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             childAspectRatio: 1/.66,
-                            crossAxisSpacing: Dimen.DEF_MARG,
-                            mainAxisSpacing: Dimen.DEF_MARG,
+                            crossAxisSpacing: Dimen.defMarg,
+                            mainAxisSpacing: Dimen.defMarg,
                           ),
                           delegate: SliverChildBuilderDelegate((BuildContext context, int index) => CoverImageWidget(
                             standardLocalImages[index],
                             selected: standardLocalImages[index] == selected,
-                            radius: AppCard.DEF_RADIUS,
+                            radius: AppCard.defRadius,
                             showAuthor: false,
                             onTap: () =>
                               setState(() => selected = standardLocalImages[index]),
@@ -383,7 +383,7 @@ class CoverImageWidget extends StatelessWidget{
   final bool? showNight;
   final void Function()? onTap;
 
-  const CoverImageWidget(this.coverImage, {this.selected = false, this.radius = AppCard.BIG_RADIUS, this.showAuthor = false, this.showNight, this.onTap, super.key});
+  const CoverImageWidget(this.coverImage, {this.selected = false, this.radius = AppCard.bigRadius, this.showAuthor = false, this.showNight, this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) => SizedBox(
@@ -461,7 +461,7 @@ Future<CommunityCoverImageData?> selectCoverImage(
         child: Material(
           clipBehavior: Clip.hardEdge,
           color: background_(context),
-          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+          borderRadius: BorderRadius.circular(AppCard.bigRadius),
           child: CoverImageSelectorWidget(
             selected: currentCoverImage,
             onSelected: (coverImage){

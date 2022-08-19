@@ -4,14 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
-import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:harcapp/account/account.dart';
@@ -211,23 +210,23 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
                 announcement.isAwaitingMyResponse?
                 Padding(
                   padding: const EdgeInsets.only(
-                    top: Dimen.DEF_MARG,
-                    left: Dimen.DEF_MARG,
-                    right: Dimen.DEF_MARG,
+                    top: Dimen.defMarg,
+                    left: Dimen.defMarg,
+                    right: Dimen.defMarg,
                   ),
                   child: GradientWidget(
                     colorStart: Colors.red,
                     colorEnd: Colors.amber,
                     radius: radius,
                     child: Padding(
-                        padding: const EdgeInsets.all(Dimen.DEF_MARG/2),
+                        padding: const EdgeInsets.all(Dimen.defMarg/2),
                         child: Container(
                           decoration: BoxDecoration(
                               color: CommunityCoverColors.backgroundColor(context, palette),
                               borderRadius: BorderRadius.circular(radius - 3)
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                            padding: const EdgeInsets.all(Dimen.defMarg),
                             child: Row(
                               children: [
 
@@ -370,7 +369,7 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
                       Align(
                         alignment: Alignment.bottomRight,
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 2*Dimen.DEF_MARG),
+                          padding: const EdgeInsets.only(top: 2*Dimen.defMarg),
                           child: Text('...czytaj dalej', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_NORMAL)),
                         ),
                       )
@@ -471,15 +470,15 @@ class EventInfoWidget extends StatelessWidget{
 
     return Padding(
       padding: const EdgeInsets.only(
-        top: Dimen.DEF_MARG,
-        left: Dimen.DEF_MARG,
-        right: Dimen.DEF_MARG
+        top: Dimen.defMarg,
+        left: Dimen.defMarg,
+        right: Dimen.defMarg
       ),
       child: Material(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppCard.DEF_RADIUS),
+          borderRadius: BorderRadius.circular(AppCard.defRadius),
           side: announcement.isAwaitingMyResponse?
-          const BorderSide(color: Colors.red, width: Dimen.DEF_MARG/2):
+          const BorderSide(color: Colors.red, width: Dimen.defMarg/2):
           BorderSide.none
         ),
         clipBehavior: Clip.hardEdge,
@@ -684,7 +683,7 @@ class AttendanceWidget extends StatelessWidget{
         return DropdownButtonHideUnderline(
             child: DropdownButton2(
               buttonDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppCard.DEF_RADIUS)
+                borderRadius: BorderRadius.circular(AppCard.defRadius)
               ),
               customButton:
               myResp == null?
@@ -801,7 +800,7 @@ class AttendanceWidget extends StatelessWidget{
 
               },
               dropdownDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                borderRadius: BorderRadius.circular(AppCard.bigRadius),
               ),
             )
         );
@@ -856,7 +855,7 @@ class AttendingDialog extends StatelessWidget{
       child: Material(
         clipBehavior: Clip.hardEdge,
         color: CommunityCoverColors.backgroundColor(context, palette),
-        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -966,7 +965,7 @@ class PostponeRespDialogState extends State<PostponeRespDialog>{
       child: Material(
         clipBehavior: Clip.hardEdge,
         color: CommunityCoverColors.backgroundColor(context, palette),
-        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -1109,7 +1108,7 @@ class NotAttendingDialogState extends State<NotAttendingDialog>{
       child: Material(
           clipBehavior: Clip.hardEdge,
           color: CommunityCoverColors.backgroundColor(context, palette),
-          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+          borderRadius: BorderRadius.circular(AppCard.bigRadius),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -1294,7 +1293,7 @@ class AttendanceIndicatorWidget extends StatelessWidget{
     }
 
     return SimpleButton(
-      radius: AppCard.DEF_RADIUS,
+      radius: AppCard.defRadius,
       onTap: onTap,
       child: Row(
         children: [

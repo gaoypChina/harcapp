@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/title_widget/common.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -447,7 +447,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
 
                 if(AppSettings.devMode)
                   Padding(
-                    padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                    padding: const EdgeInsets.all(Dimen.defMarg),
                     child: AppText(
                       'Kod artykułu: <b>${article.id}</b>',
                       size: Dimen.TEXT_SIZE_SMALL,
@@ -457,7 +457,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
 
                 if(AppSettings.devMode && article.id == Article.lastSeenId)
                   const Padding(
-                    padding: EdgeInsets.all(Dimen.DEF_MARG),
+                    padding: EdgeInsets.all(Dimen.defMarg),
                     child: AppText(
                       'Artykuł zapisany jako ostatnio pobrany.',
                       size: Dimen.TEXT_SIZE_SMALL,

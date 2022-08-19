@@ -1,7 +1,6 @@
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
-import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
@@ -16,6 +15,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -23,14 +23,12 @@ import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../../../_common_widgets/app_toast.dart';
 import '../common/community_cover_colors.dart';
 import '../../competitions/indiv_comp/indiv_comp_basic_data_tile.dart';
 import '../../competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import '../community_sliver_app_bar.dart';
 import 'circle_binded_indiv_comp_page.dart';
 import 'circle_page.dart';
-import '../../cover_image.dart';
 import 'circle_role.dart';
 import 'model/circle.dart';
 import 'model/member.dart';
@@ -307,7 +305,7 @@ class BindedIndivCompTile extends StatelessWidget{
           SimpleButton(
             margin: const EdgeInsets.all(Dimen.ICON_MARG/2),
             padding: const EdgeInsets.all(Dimen.ICON_MARG/2),
-            radius: AppCard.BIG_RADIUS,
+            radius: AppCard.bigRadius,
             onTap: () => openMissingBottomSheet(context, inCompNotInCircle, inCircleNotInComp),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -316,7 +314,7 @@ class BindedIndivCompTile extends StatelessWidget{
                 AppText(
                   '<b>${noOfPeople(inCompNotInCircle.length)}</b> ze współzawod. brakuje w kręgu!',
                 ),
-                const SizedBox(height: Dimen.DEF_MARG),
+                const SizedBox(height: Dimen.defMarg),
                 AppText(
                   '<b>${noOfPeople(inCircleNotInComp.length)}</b> z kręgu brakuje w współzawod.!',
                 ),

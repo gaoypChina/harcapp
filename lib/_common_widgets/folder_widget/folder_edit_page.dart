@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/color_selector_widget.dart';
 import 'package:harcapp/_app_common/icon_selector_widget.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
@@ -180,7 +180,7 @@ class FolderEditPageState extends State<FolderEditPage>{
     builder: (_) => Center(
       child: AppCard(
           padding: EdgeInsets.zero,
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           margin: const EdgeInsets.all(Dimen.SIDE_MARG),
           color: background_(context),
           child: Column(
@@ -203,7 +203,7 @@ class FolderEditPageState extends State<FolderEditPage>{
       child: AppCard(
           margin: const EdgeInsets.all(Dimen.SIDE_MARG),
           padding: EdgeInsets.zero,
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           child: Scaffold(
             body: CustomScrollView(
               slivers: [

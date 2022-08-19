@@ -2,7 +2,7 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/module_statistics_registrator.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -141,7 +141,7 @@ class Item extends StatelessWidget{
 
         AppCard(
           onTap: data.background.author==null?null:() => showAppToast(context, text: data.background.author??''),
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           padding: EdgeInsets.zero,
           margin: const EdgeInsets.all(Dimen.SIDE_MARG),
           elevation: AppCard.bigElevation,
@@ -171,7 +171,7 @@ class Item extends StatelessWidget{
         if(data.background_kora!=null)
           AppCard(
             onTap: data.background_kora!.author==null?null:() => showAppToast(context, text: data.background_kora!.author??''),
-            radius: AppCard.BIG_RADIUS,
+            radius: AppCard.bigRadius,
             padding: EdgeInsets.zero,
               margin: const EdgeInsets.only(
                 left: Dimen.SIDE_MARG,
@@ -224,11 +224,11 @@ class Item extends StatelessWidget{
 
               const SizedBox(height: 10.0),
               Text(data.description, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.1), textAlign: TextAlign.justify,),
-              const SizedBox(height: Dimen.DEF_MARG),
+              const SizedBox(height: Dimen.defMarg),
               Text(data.desc_source!=null?'Źródło: ${data.desc_source}':'', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_TINY, color: AppColors.text_hint_enab), textAlign: TextAlign.end,),
 
               SizedBox(
-                height: 84 + 2*Dimen.DEF_MARG,
+                height: 84 + 2*Dimen.defMarg,
                 child: ListView.separated(
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, idx) => SimpleButton(
@@ -263,8 +263,8 @@ class Item extends StatelessWidget{
                                             ),
 
                                             Positioned(
-                                              bottom: Dimen.DEF_MARG,
-                                              right: Dimen.DEF_MARG,
+                                              bottom: Dimen.defMarg,
+                                              right: Dimen.defMarg,
                                               child: AppText(
                                                 data.graphics[idx].author??'',
                                                 size: Dimen.TEXT_SIZE_SMALL,
@@ -293,7 +293,7 @@ class Item extends StatelessWidget{
                   scrollDirection: Axis.horizontal,
                   itemCount: data.graphics.length,
                   shrinkWrap: true,
-                  separatorBuilder: (context, idx) => const SizedBox(width: 3*Dimen.DEF_MARG),
+                  separatorBuilder: (context, idx) => const SizedBox(width: 3*Dimen.defMarg),
                 ),
               ),
 

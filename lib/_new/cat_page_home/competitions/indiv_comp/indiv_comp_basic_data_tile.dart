@@ -23,7 +23,7 @@ class IndivCompBasicDataTile extends StatelessWidget{
   @override
   Widget build(BuildContext context) => SimpleButton(
     clipBehavior: Clip.none,
-    radius: AppCard.BIG_RADIUS,
+    radius: AppCard.bigRadius,
     padding: EdgeInsets.zero,
     margin: EdgeInsets.zero,
     onTap: () => onTap?.call(comp),
@@ -42,7 +42,7 @@ class IndivCompBasicDataTile extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
 
-              const SizedBox(height: Dimen.DEF_MARG),
+              const SizedBox(height: Dimen.defMarg),
 
               Text(
                 comp.name,
@@ -54,7 +54,7 @@ class IndivCompBasicDataTile extends StatelessWidget{
                 maxLines: 2,
               ),
 
-              const SizedBox(height: Dimen.DEF_MARG),
+              const SizedBox(height: Dimen.defMarg),
 
               SizedBox(
                 height: PointsIcon.defSize,

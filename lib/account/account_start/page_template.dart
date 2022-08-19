@@ -80,7 +80,7 @@ class PageTemplate extends StatelessWidget {
                     return Container(
                         color: Colors.red,
                         child: SizedBox(
-                          height: Dimen.TEXT_SIZE_NORMAL + 2*Dimen.DEF_MARG,
+                          height: Dimen.TEXT_SIZE_NORMAL + 2*Dimen.defMarg,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,

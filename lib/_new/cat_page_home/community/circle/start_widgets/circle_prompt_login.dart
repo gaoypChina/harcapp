@@ -21,7 +21,7 @@ class CirclePromptLogin extends StatelessWidget{
     child: SimpleButton(
       elevation: AppCard.bigElevation,
       margin: const EdgeInsets.all(Dimen.SIDE_MARG),
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       onTap: () => AccountPage.open(context),
       color: cardEnab_(context),
       child: Padding(
@@ -32,7 +32,7 @@ class CirclePromptLogin extends StatelessWidget{
 
             Material(
                 color: background_(context),
-                borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                borderRadius: BorderRadius.circular(AppCard.bigRadius),
                 child: Padding(
                   padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                   child: Row(

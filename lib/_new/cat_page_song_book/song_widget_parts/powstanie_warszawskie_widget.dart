@@ -35,7 +35,7 @@ class PowstWarszCard<T extends SongCore> extends StatelessWidget{
                   SizedBox(width: Dimen.ICON_SIZE),
                   Expanded(child: Container()),
                   SvgPicture.asset('assets/images/hist/hist_2.svg', color: Colors.white, width: Dimen.ICON_SIZE, height: Dimen.ICON_SIZE),
-                  SizedBox(width: Dimen.DEF_MARG),
+                  SizedBox(width: Dimen.defMarg),
                   Text('Piosenki powstańcze', style: TextStyle(fontFamily: 'Hand15', color: Colors.white)),
                   Expanded(child: Container()),
                   Icon(MdiIcons.gestureTap, color: Colors.white54,),

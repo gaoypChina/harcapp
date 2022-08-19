@@ -1,7 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/cat_page_harcthought/common/short_read.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -156,7 +156,7 @@ class ShortReadWidgetState extends State<ShortReadWidget> with ModuleStatsMixin{
       ),
       child: Material(
         clipBehavior: Clip.hardEdge,
-        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
         elevation: AppCard.bigElevation,
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) => Stack(

@@ -67,7 +67,7 @@ class MemoryWidgetState extends State<MemoryWidget> {
     );
 
     return SimpleButton(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       padding: const EdgeInsets.all(Dimen.ICON_MARG),
       onTap: widget.onTap as void Function()?,
       onLongPress: widget.onLongPress as void Function()?,

@@ -51,7 +51,7 @@ class ApiCommunity{
 
   static Future<Response?> search({
     required String phrase,
-    FutureOr<void> Function(List<CommunityBasicData> communities)? onSuccess,
+    FutureOr<void> Function(List<CommunityPreviewData> communities)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function()? onError,
@@ -63,9 +63,9 @@ class ApiCommunity{
     ),
     onSuccess: (Response response, DateTime now) async {
 
-      List<CommunityBasicData> result = [];
+      List<CommunityPreviewData> result = [];
       for(Map map in response.data)
-        result.add(CommunityBasicData.fromResponse(map));
+        result.add(CommunityPreviewData.fromResponse(map));
 
       onSuccess?.call(result);
     },

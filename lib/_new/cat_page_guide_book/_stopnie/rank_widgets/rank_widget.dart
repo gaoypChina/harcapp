@@ -4,7 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/api/rank.dart';
 import 'package:harcapp/_new/app_drawer.dart';
@@ -306,7 +306,7 @@ class SharedUsersWidget extends StatefulWidget implements PreferredSizeWidget{
   @override
   Size get preferredSize => const Size(
       0,
-      AccountThumbnailRowWidget.defSize + 2*Dimen.DEF_MARG + 2*Dimen.ICON_MARG + Dimen.TEXT_SIZE_NORMAL
+      AccountThumbnailRowWidget.defSize + 2*Dimen.defMarg + 2*Dimen.ICON_MARG + Dimen.TEXT_SIZE_NORMAL
   );
   
 }
@@ -405,7 +405,7 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
               padding: EdgeInsets.zero,
               margin: EdgeInsets.zero,
               onTap: () => AccountPage.open(context),
-              radius: AppCard.BIG_RADIUS,
+              radius: AppCard.bigRadius,
               color: background_(context),
               elevation: AppCard.bigElevation,
               clipBehavior: Clip.hardEdge,
@@ -472,8 +472,8 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
                         child: AccountThumbnailRowWidget(
                           sharedUsersProv!.users.map((user) => user.name).toList(),
                           clipBehavior: Clip.hardEdge,
-                          //padding: EdgeInsets.all(Dimen.DEF_MARG),
-                          screenWidth: MediaQuery.of(context).size.width - 2*Dimen.DEF_MARG - Dimen.ICON_FOOTPRINT,
+                          //padding: EdgeInsets.all(Dimen.defMarg),
+                          screenWidth: MediaQuery.of(context).size.width - 2*Dimen.defMarg - Dimen.ICON_FOOTPRINT,
                           elevated: false,
                           heroBuilder: (index) => sharedUsersProv!.users[index],
                         ),
@@ -502,7 +502,7 @@ class SharedUsersWidgetState extends State<SharedUsersWidget>{
         }
 
         return Material(
-          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+          borderRadius: BorderRadius.circular(AppCard.bigRadius),
           color: background_(context),
           elevation: AppCard.bigElevation,
           clipBehavior: Clip.hardEdge,
@@ -588,7 +588,7 @@ class ShareDialogState extends State<ShareDialog>{
     child: Padding(
       padding: const EdgeInsets.all(Dimen.SIDE_MARG),
       child: Material(
-        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
         clipBehavior: Clip.hardEdge,
         color: background_(context),
         child: AppScaffold(
@@ -625,7 +625,7 @@ class ShareDialogState extends State<ShareDialog>{
               if(users.isEmpty)
                 return Center(
                   child: SimpleButton(
-                    radius: AppCard.BIG_RADIUS,
+                    radius: AppCard.bigRadius,
                     onTap: addNewUser,
                     child: const Padding(
                       padding: EdgeInsets.all(Dimen.SIDE_MARG),

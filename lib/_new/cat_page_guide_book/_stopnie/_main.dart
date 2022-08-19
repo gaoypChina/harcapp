@@ -110,7 +110,7 @@ class RankPageState extends State<RankPage> with ModuleStatsMixin{
                     child: Material(
                       clipBehavior: Clip.hardEdge,
                       elevation: AppCard.bigElevation,
-                      borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                      borderRadius: BorderRadius.circular(AppCard.bigRadius),
                       child: TitleShortcutRowWidget(
                         title: 'Udostępnione stopnie',
                         onOpen: () => pushPage(context, builder: (context) => const SharedRanksPage()),

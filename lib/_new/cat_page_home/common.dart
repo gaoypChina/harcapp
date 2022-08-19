@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -21,7 +21,7 @@ class CreateNewButton extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => SimpleButton(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       color: background_(context),
       onTap: onTap,
       child: Padding(
@@ -111,13 +111,13 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
 
   @override
   Widget build(BuildContext context) => Material(
-    borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+    borderRadius: BorderRadius.circular(AppCard.bigRadius),
     color: borderColor??backgroundIcon_(context),
     child: Padding(
       padding: const EdgeInsets.all(8),
       child: Material(
           clipBehavior: Clip.hardEdge,
-          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS-6),
+          borderRadius: BorderRadius.circular(AppCard.bigRadius-6),
           color: backgroundColor??background_(context),
           child: Stack(
             children: [

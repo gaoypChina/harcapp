@@ -14,7 +14,7 @@ import 'package:harcapp/values/people.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/storage.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/cat_page_song_book/_main.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
@@ -38,7 +38,6 @@ import 'package:provider/provider.dart';
 
 import '../../_common_widgets/person_data_getter.dart';
 import '../../main.dart';
-import '../main_page_new.dart';
 import 'album/album_chooser.dart';
 import 'bottom_sheet_report.dart';
 import 'bottom_sheet_words.dart';
@@ -208,23 +207,20 @@ class SongWidget extends StatelessWidget{
     },
 
     onMinusTap: (BuildContext context, bool changedSize){
-      String tag = 'minus';
-      if(!changedSize && !isSnackBarActive(tag: tag))
+      if(!changedSize)
         showAppToast(context, text: 'Osiągnięto limit');
       else
         onTextSizeChanged?.call();
     },
 
     onPlusTap: (BuildContext context, bool changedSize){
-      String tag = 'plus';
-      if(!changedSize && !isSnackBarActive(tag: tag)){
+      if(!changedSize){
         if(SongBookSettings.showChords && song.hasChords)
-          AppScaffold.showMessage(
+          showAppToast(
               context,
-              'Aby powiększyć tekst, schowaj chwyty.',
-              tag: tag,
+              text: 'Schowaj chwyty, by powiększyć.',
               buttonText: 'Schowaj',
-              onButtonPressed: (_){
+              onButtonPressed: (){
                 ShowChordsProvider prov = Provider.of<ShowChordsProvider>(context, listen: false);
                 prov.showChords = false;
 

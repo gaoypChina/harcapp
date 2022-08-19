@@ -36,7 +36,7 @@ class CommunityWidget extends StatelessWidget{
         builder: (context, prov, child) => Material(
             clipBehavior: Clip.hardEdge,
             color: cardEnab_(context),
-            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+            borderRadius: BorderRadius.circular(AppCard.bigRadius),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -84,9 +84,9 @@ class CommunityWidget extends StatelessWidget{
                 if(community.circle != null)
                   Padding(
                     padding: const EdgeInsets.only(
-                        top: Dimen.DEF_MARG,
-                        right: Dimen.DEF_MARG,
-                        left: Dimen.DEF_MARG
+                        top: Dimen.defMarg,
+                        right: Dimen.defMarg,
+                        left: Dimen.defMarg
                     ),
                     child: CircleWidget(community.circle!, onTap: () => onCircleTap?.call(community.circle!)),
                   )
@@ -94,12 +94,12 @@ class CommunityWidget extends StatelessWidget{
                   SimpleButton(
                       elevation: AppCard.bigElevation,
                       margin: const EdgeInsets.only(
-                          top: Dimen.DEF_MARG,
-                          right: Dimen.DEF_MARG,
-                          left: Dimen.DEF_MARG
+                          top: Dimen.defMarg,
+                          right: Dimen.defMarg,
+                          left: Dimen.defMarg
                       ),
                       padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                      radius: AppCard.BIG_RADIUS,
+                      radius: AppCard.bigRadius,
                       color: background_(context),
                       child: Row(
                         children: [
@@ -147,9 +147,9 @@ class CommunityWidget extends StatelessWidget{
                 if(community.forum != null)
                   Padding(
                     padding: const EdgeInsets.only(
-                      top: Dimen.DEF_MARG,
-                      right: Dimen.DEF_MARG,
-                      left: Dimen.DEF_MARG
+                      top: Dimen.defMarg,
+                      right: Dimen.defMarg,
+                      left: Dimen.defMarg
                     ),
                     child: ForumWidget(community.forum!, onTap: () => onForumTap?.call(community.forum!)),
                   )
@@ -157,12 +157,12 @@ class CommunityWidget extends StatelessWidget{
                   SimpleButton(
                     elevation: AppCard.bigElevation,
                     margin: const EdgeInsets.only(
-                        top: Dimen.DEF_MARG,
-                        right: Dimen.DEF_MARG,
-                        left: Dimen.DEF_MARG
+                        top: Dimen.defMarg,
+                        right: Dimen.defMarg,
+                        left: Dimen.defMarg
                     ),
                     padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                    radius: AppCard.BIG_RADIUS,
+                    radius: AppCard.bigRadius,
                     color: background_(context),
                     child: Row(
                       children: [
@@ -221,7 +221,7 @@ class CommunityWidget extends StatelessWidget{
                     ),
                   )
                 else
-                  const SizedBox(height: Dimen.DEF_MARG),
+                  const SizedBox(height: Dimen.defMarg),
 
 
               ],

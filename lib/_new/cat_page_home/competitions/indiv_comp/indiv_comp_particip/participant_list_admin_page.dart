@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/indiv_comp_rank_icon.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/particip_header_widget.dart';
@@ -229,7 +229,7 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
               right: SimpleButton.DEF_MARG,
               bottom: SimpleButton.DEF_MARG
           ),
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           onTap: (){
 
             List<IndivCompParticip> inactiveSelParticips = this.inactiveSelParticips();
@@ -297,9 +297,9 @@ class ParticipantListAdminPageState extends State<ParticipantListAdminPage>{
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Icon(MdiIcons.accountMultiple, size: 48.0, color: backgroundIcon_(context)),
-                      const SizedBox(width: Dimen.DEF_MARG),
+                      const SizedBox(width: Dimen.defMarg),
                       Icon(MdiIcons.accountPlus, size: 68.0, color: backgroundIcon_(context)),
-                      const SizedBox(width: Dimen.DEF_MARG+8),
+                      const SizedBox(width: Dimen.defMarg+8),
 
                       Transform(
                         alignment: Alignment.center,
@@ -356,7 +356,7 @@ class SelectedAppBar extends SliverAppBar{
     pinned: true,
     actions: [
       Padding(
-        padding: const EdgeInsets.only(right: 2*Dimen.DEF_MARG),
+        padding: const EdgeInsets.only(right: 2*Dimen.defMarg),
         child: IconButton(
             icon: const Icon(MdiIcons.selectMultiple),
             onPressed: onSelectAll
@@ -792,7 +792,7 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
           )
       );
       if(i<widget.comp.tasks.length-1)
-        children.add(const SizedBox(height: Dimen.DEF_MARG));
+        children.add(const SizedBox(height: Dimen.defMarg));
     }
 
     return Padding(
@@ -859,7 +859,7 @@ void openAcceptTaskDialog(
         child: Material(
           clipBehavior: Clip.hardEdge,
           color: background_(context),
-          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+          borderRadius: BorderRadius.circular(AppCard.bigRadius),
           child: AcceptTaskWidget(
             comp,
             particips,

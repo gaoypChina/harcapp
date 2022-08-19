@@ -76,7 +76,7 @@ class ApiCircle{
 
   static Future<Response?> get({
     required String circleKey,
-    required Community community,
+    required CommunityBasicData community,
     FutureOr<void> Function(Circle circle)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -99,7 +99,7 @@ class ApiCircle{
     required String description,
     required String? coverImageUrl,
     required String? colorsKey,
-    required Community community,
+    required CommunityBasicData community,
 
     FutureOr<void> Function(Circle circle)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -221,7 +221,7 @@ class ApiCircle{
 
   static Future<Response?> update({
     required String circleKey,
-    required Community community,
+    required CommunityBasicData community,
     Optional<String> description = const Optional.empty(),
     Optional<String> coverImageUrl = const Optional.empty(),
     Optional<String> colorsKey = const Optional.empty(),

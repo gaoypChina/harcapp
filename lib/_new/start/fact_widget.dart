@@ -100,12 +100,12 @@ class FactWidgetState extends State<FactWidget>{
                                   )
                               ),
                             if(fact!.meaning != null)
-                              const SizedBox(height: Dimen.DEF_MARG),
+                              const SizedBox(height: Dimen.defMarg),
                             if(fact!.meaning != null)
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: fact!.meaning!.map((meaning) => Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: Dimen.DEF_MARG),
+                                  padding: const EdgeInsets.symmetric(vertical: Dimen.defMarg),
                                   child: Text(meaning, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: Colors.white54)),
                                 )).toList(),
                               ),
@@ -120,7 +120,7 @@ class FactWidgetState extends State<FactWidget>{
                                     color: Colors.white54
                                 )
                             ),
-                            const SizedBox(height: 2*Dimen.DEF_MARG),
+                            const SizedBox(height: 2*Dimen.defMarg),
                             SelectableText(
                                 fact!.source!,
                                 style: AppTextStyle(
@@ -146,7 +146,7 @@ class FactWidgetState extends State<FactWidget>{
         ),
 
         if(subtext != null)
-          const SizedBox(height: 2*Dimen.DEF_MARG),
+          const SizedBox(height: 2*Dimen.defMarg),
         if(subtext != null)
           AppText(
             subtext,
@@ -155,7 +155,7 @@ class FactWidgetState extends State<FactWidget>{
             height: 1.3,
           ),
 
-        const SizedBox(height: Dimen.DEF_MARG),
+        const SizedBox(height: Dimen.defMarg),
 
       ],
     );

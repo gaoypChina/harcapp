@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
@@ -20,7 +19,8 @@ import 'general_part.dart';
 
 class CircleEditorPage extends StatefulWidget{
 
-  final Community community;
+  final CommunityBasicData community;
+  final Circle? initCircle;
   final PaletteGenerator? palette;
 
   final void Function(Circle circle)? onSaved;
@@ -30,6 +30,7 @@ class CircleEditorPage extends StatefulWidget{
 
   const CircleEditorPage({
     required this.community,
+    this.initCircle,
     this.palette,
     this.onSaved,
     this.onDeleted,
@@ -45,8 +46,8 @@ class CircleEditorPage extends StatefulWidget{
 
 class CircleEditorPageState extends State<CircleEditorPage>{
 
-  Community get community => widget.community;
-  Circle? get initCircle => community.circle;
+  CommunityBasicData get community => widget.community;
+  Circle? get initCircle => widget.initCircle;
   PaletteGenerator? get palette => _palette??widget.palette;
 
   PaletteGenerator? _palette;

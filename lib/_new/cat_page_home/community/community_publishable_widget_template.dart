@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart' hide Size;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/model/announcement.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
@@ -85,7 +85,7 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
     double headerHeight =
     showCommunityThumb?
     .85*CommunityThumbnailWidget.defSize:
-    PublishInfoWidget.height + 2*Dimen.DEF_MARG;
+    PublishInfoWidget.height + 2*Dimen.defMarg;
 
     return Column(
       children: [
@@ -104,7 +104,7 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
               Container(
                 color: backgroundIcon_(context),
                 child: Padding(
-                  padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                  padding: const EdgeInsets.all(Dimen.defMarg),
                   child: PublishInfoWidget(
                     publishable,
                     palette: palette,
@@ -151,7 +151,7 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
                       Align(
                         alignment: Alignment.bottomRight,
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 2*Dimen.DEF_MARG),
+                          padding: const EdgeInsets.only(top: 2*Dimen.defMarg),
                           child: Text('...czytaj dalej', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_NORMAL)),
                         ),
                       )
@@ -230,9 +230,9 @@ class PublishInfoWidget extends StatelessWidget{
                 palette: palette,
                 size: .8*CommunityThumbnailWidget.defSize,
                 paddingSize: .8*CommunityThumbnailWidget.defPaddingSize,
-                radius: .8*AppCard.BIG_RADIUS,
+                radius: .8*AppCard.bigRadius,
                 borderSize: 0,
-                heroTag: null,
+                heroTag: false,
                 onTap: onCommunityButtonTap
             ),
 
@@ -335,9 +335,9 @@ class LinkPreviewerState extends State<LinkPreviewer>{
   @override
   Widget build(BuildContext context) => SimpleButton(
     margin: const EdgeInsets.only(
-        left: Dimen.DEF_MARG,
-        right: Dimen.DEF_MARG,
-        bottom: Dimen.DEF_MARG
+        left: Dimen.defMarg,
+        right: Dimen.defMarg,
+        bottom: Dimen.defMarg
     ),
     color: CommunityCoverColors.backgroundColor(context, palette),
     clipBehavior: Clip.hardEdge,

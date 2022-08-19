@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/patronite_support_widget.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_progress_widget.dart';
 import 'package:harcapp/main.dart';
@@ -376,7 +376,7 @@ class _ItemWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => ListTile(
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS)),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
     leading: Icon(data.icon, color: accent_(context)),
     onTap: () => Navigator.push(context, MaterialPageRoute(builder: data.pageBuilder)),
     title: Text(
@@ -567,7 +567,7 @@ class LatestStopWidgetState extends State<LatestStopWidget>{
               ),
             ),
 
-            const SizedBox(height: Dimen.DEF_MARG),
+            const SizedBox(height: Dimen.defMarg),
 
             AnimatedChildSlider(
               index: index,
@@ -629,7 +629,7 @@ class StopPrevItem extends StatelessWidget{
     else colors = RankData.colorsZhpOld;
 
     return SimpleButton(
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         margin: EdgeInsets.zero,
         padding: EdgeInsets.zero,
         clipBehavior: Clip.none,
@@ -641,7 +641,7 @@ class StopPrevItem extends StatelessWidget{
               child: AspectRatio(
                 aspectRatio: RankTileWidgetTemplate.leadingAspectRatio,
                 child: GradientWidget(
-                  radius: AppCard.BIG_RADIUS,
+                  radius: AppCard.bigRadius,
                   elevation: AppCard.bigElevation,
                   colorStart: colors.start(AppSettings.isDark)!,
                   colorEnd: colors.end(AppSettings.isDark)!,

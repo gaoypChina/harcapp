@@ -9,7 +9,7 @@ import 'common/community_cover_colors.dart';
 class CommunityThumbnailWidget extends StatelessWidget{
 
   static const double defSize = 54.0 + 2*defPaddingSize;
-  static const double defBorderWidth = Dimen.DEF_MARG;
+  static const double defBorderWidth = Dimen.defMarg;
   static const double defPaddingSize = Dimen.ICON_MARG;
 
   final String iconKey;
@@ -19,7 +19,7 @@ class CommunityThumbnailWidget extends StatelessWidget{
   final double paddingSize;
   final double radius;
   final void Function()? onTap;
-  final dynamic heroTag;
+  final bool heroTag;
 
   const CommunityThumbnailWidget(
       this.iconKey,
@@ -27,9 +27,9 @@ class CommunityThumbnailWidget extends StatelessWidget{
         this.size = defSize,
         this.borderSize = defBorderWidth,
         this.paddingSize = defPaddingSize,
-        this.radius = AppCard.BIG_RADIUS,
-        this.heroTag,
+        this.radius = AppCard.bigRadius,
         this.onTap,
+        this.heroTag = true,
         super.key
       });
 
@@ -55,7 +55,7 @@ class CommunityThumbnailWidget extends StatelessWidget{
       ),
     );
 
-    if(heroTag == null)
+    if(!heroTag)
       return child;
 
     return Hero(

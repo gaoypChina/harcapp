@@ -56,7 +56,7 @@ class Item extends StatelessWidget{
 
     if(inCard)
       return AppCard(
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         padding: EdgeInsets.all(commonPadding),
         color: cardColor,
         child: child,

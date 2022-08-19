@@ -34,7 +34,7 @@ class GeneralPartState extends State<GeneralPart>{
 
       Material(
         clipBehavior: Clip.hardEdge,
-        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
         child: Consumer<CoverImageProvider>(
             builder: (context, prov, child) => CoverImageSelectableWidget(
               palette,

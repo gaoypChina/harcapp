@@ -9,7 +9,7 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/login_register.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_common/microsoft_login_button.dart';
@@ -147,7 +147,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
           Padding(
             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             child: AppCard(
-              radius: AppCard.BIG_RADIUS,
+              radius: AppCard.bigRadius,
               margin: EdgeInsets.zero,
               color: Colors.red,
               elevation: AppCard.bigElevation,

@@ -103,10 +103,10 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
   Widget build(BuildContext context) {
     return Material(
       elevation: !remove! && state == TaskState.OPEN?AppCard.bigElevation:0,
-      borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+      borderRadius: BorderRadius.circular(AppCard.bigRadius),
       child: IndivCompTaskSkeletonWidget(
         trailing: SimpleButton(
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           margin: EdgeInsets.zero,
           padding: EdgeInsets.zero,
           onTap: () async {
@@ -284,7 +284,7 @@ class _PointsPickerDialogState extends State<_PointsPickerDialog>{
 
     return Center(
       child: AppCard(
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         margin: const EdgeInsets.all(2*Dimen.SIDE_MARG),
         padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, bottom: Dimen.SIDE_MARG),
         child: ScrollConfiguration(

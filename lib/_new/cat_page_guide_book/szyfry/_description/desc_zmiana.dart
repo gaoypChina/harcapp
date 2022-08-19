@@ -48,7 +48,7 @@ class DescZamiana extends StatelessWidget{
                   '\nŁ',
               style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
             ),
-            SizedBox(width: Dimen.DEF_MARG),
+            SizedBox(width: Dimen.defMarg),
             Text(
               '-'
                   '\n-'
@@ -68,7 +68,7 @@ class DescZamiana extends StatelessWidget{
                   '\n-',
               style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
             ),
-            SizedBox(width: Dimen.DEF_MARG),
+            SizedBox(width: Dimen.defMarg),
             Text(
               'M'
                   '\nN'

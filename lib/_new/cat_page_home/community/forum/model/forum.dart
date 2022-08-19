@@ -46,15 +46,18 @@ class ForumManagersProvider extends ChangeNotifier{
 class ForumBasicData{
 
   String key;
-  String name;
+  CommunityBasicData community;
   CommunityCoverImageData coverImage;
   String? description;
   bool followed;
   int followersCnt;
 
+  String get name => community.name;
+  String get iconKey => community.iconKey;
+
   ForumBasicData({
     required this.key,
-    required this.name,
+    required this.community,
     required this.coverImage,
     required this.description,
     required this.followed,
@@ -63,16 +66,16 @@ class ForumBasicData{
 
   static ForumBasicData fromForum(Forum forum) => ForumBasicData(
     key: forum.key,
-    name: forum.name,
+    community: forum.community,
     coverImage: forum.coverImage,
     description: forum.description,
     followed: forum.followed,
-    followersCnt: forum.followersCnt
+    followersCnt: forum.followersCnt,
   );
 
-  static ForumBasicData fromResponse(Map resp, {String? name}) => ForumBasicData(
+  static ForumBasicData fromResponse(Map resp, CommunityBasicData community) => ForumBasicData(
     key: resp['_key']??(throw InvalidResponseError('_key')),
-    name: name??resp['name']??(throw InvalidResponseError('name')),
+    community: community,
     coverImage: CommunityCoverImageData.from(resp['coverImageUrl']??(throw InvalidResponseError('coverImageUrl'))),
     description: resp['description']??(throw InvalidResponseError('description')),
     followed: resp['followed']??(throw InvalidResponseError('followed')),
@@ -81,7 +84,7 @@ class ForumBasicData{
 
 }
 
-class Forum{
+class Forum extends ForumBasicData{
 
   static const int maxLenDescription = 320;
   static const int maxLenCoverImageUrl = 200;
@@ -172,17 +175,9 @@ class Forum{
     _allMap!.clear();
   }
 
-  final String key;
-  String get name => community.name;
-  String? description;
-  CommunityCoverImageData coverImage;
   String colorsKey;
-  bool followed;
 
   List<UserData> followers;
-  int followersCnt;
-
-  Community community;
 
   final List<ForumManager> _managers;
   final Map<String, ForumManager> _managersMap;
@@ -291,18 +286,18 @@ class Forum{
   }
 
   Forum({
-    required this.key,
-    this.description,
-    required this.coverImage,
+    required super.key,
+    super.description,
+    required super.coverImage,
     required this.colorsKey,
-    required this.followed,
+    required super.followed,
     required this.followers,
-    required this.followersCnt,
+    required super.followersCnt,
 
     required List<ForumManager> managers,
     required List<Post> allPosts,
 
-    required this.community,
+    required super.community,
 
   }): _managers = managers,
       _managersMap = {for (ForumManager manager in managers) manager.key: manager},
@@ -313,7 +308,7 @@ class Forum{
     _allPosts.sort((ann1, ann2) => ann1.publishTime.compareTo(ann2.publishTime));
   }
 
-  static Forum fromResponse(Map resp, Community community){
+  static Forum fromResponse(Map resp, CommunityBasicData community){
 
     List<ForumManager> managers = [];
 
@@ -345,7 +340,9 @@ class Forum{
       followersCnt: resp['followersConut']??(throw InvalidResponseError('followersConut')),
       managers: managers,
       allPosts: [],
+
       community: community
+
     );
 
     Map postsResps = resp['posts']??(throw InvalidResponseError('posts'));

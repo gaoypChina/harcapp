@@ -178,7 +178,7 @@ class HarcAppLogo extends StatelessWidget{
   const HarcAppLogo({super.key});
 
   @override
-  Widget build(BuildContext context) => Padding(padding: const EdgeInsets.all(Dimen.DEF_MARG),
+  Widget build(BuildContext context) => Padding(padding: const EdgeInsets.all(Dimen.defMarg),
       child: SvgPicture.asset('assets/images/harcapp_logo.svg', width: 40, height: 40)
   );
 }
@@ -372,8 +372,8 @@ class DefaultLayoutState extends State<DefaultLayout>{
               ]
           ),
           const Positioned(
-            bottom: Dimen.DEF_MARG,
-            right: Dimen.DEF_MARG,
+            bottom: Dimen.defMarg,
+            right: Dimen.defMarg,
             child: PatroniteSupport(),
           ),
 
@@ -592,8 +592,8 @@ class AdwentLayoutState extends State<DefaultLayout>{
                 ]
             ),
             const Positioned(
-              bottom: Dimen.DEF_MARG,
-              right: Dimen.DEF_MARG,
+              bottom: Dimen.defMarg,
+              right: Dimen.defMarg,
               child: PatroniteSupport(),
             ),
 
@@ -685,8 +685,8 @@ class ChristmasLayoutState extends State<DefaultLayout>{
                 ]
             ),
             const Positioned(
-              bottom: Dimen.DEF_MARG,
-              right: Dimen.DEF_MARG,
+              bottom: Dimen.defMarg,
+              right: Dimen.defMarg,
               child: PatroniteSupport(),
             ),
 
@@ -776,7 +776,7 @@ class WielkiPiatekLayoutState extends State<DefaultLayout>{
                         textAlign: TextAlign.center,
                         style: AppTextStyle(color: Colors.white, fontSize: 32.0),
                       ),
-                      const SizedBox(height: Dimen.DEF_MARG),
+                      const SizedBox(height: Dimen.defMarg),
                       Text(
                         'Wielki piątek.',
                         textAlign: TextAlign.end,
@@ -788,8 +788,8 @@ class WielkiPiatekLayoutState extends State<DefaultLayout>{
               ),
 
               Positioned(
-                bottom: Dimen.DEF_MARG,
-                right: Dimen.DEF_MARG,
+                bottom: Dimen.defMarg,
+                right: Dimen.defMarg,
                 child: PatroniteSupport(textColor: Colors.white.withOpacity(.2)),
               )
 
@@ -918,8 +918,8 @@ class ZmartwychwstanieLayoutState extends State<DefaultLayout>{
           ),
 
           const Positioned(
-            bottom: Dimen.DEF_MARG,
-            right: Dimen.DEF_MARG,
+            bottom: Dimen.defMarg,
+            right: Dimen.defMarg,
             child: PatroniteSupport(textColor: Colors.pink),
           )
 
@@ -989,8 +989,8 @@ class PowstanieWarszawskieLayoutState extends State<DefaultLayout>{
                 ]
             ),
             const Positioned(
-              bottom: Dimen.DEF_MARG,
-              right: Dimen.DEF_MARG,
+              bottom: Dimen.defMarg,
+              right: Dimen.defMarg,
               child: PatroniteSupport(),
             )
 
@@ -1095,8 +1095,8 @@ class NiepodlegloscLayoutState extends State<DefaultLayout>{
           ),
 
           const Positioned(
-            bottom: Dimen.DEF_MARG,
-            right: Dimen.DEF_MARG,
+            bottom: Dimen.defMarg,
+            right: Dimen.defMarg,
             child: PatroniteSupport(),
           )
 

@@ -38,7 +38,7 @@ class QRWidget extends StatelessWidget{
                 Text(
                     'Jak odebrać piosenkę?',
                     style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_NORMAL)),
-                SizedBox(height: Dimen.DEF_MARG),
+                SizedBox(height: Dimen.defMarg),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[

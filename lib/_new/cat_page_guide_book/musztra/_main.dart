@@ -456,10 +456,10 @@ class Item extends StatelessWidget{
       child: Column(
           children: [
             AppText(title, globalBold: true, colorItalic: hintEnab_(context), size: Dimen.TEXT_SIZE_BIG),
-            const SizedBox(height: Dimen.DEF_MARG),
+            const SizedBox(height: Dimen.defMarg),
             AppText(description, colorItalic: hintEnab_(context), size: Dimen.TEXT_SIZE_BIG),
             if(error!=null)
-              const SizedBox(height: Dimen.DEF_MARG),
+              const SizedBox(height: Dimen.defMarg),
             if(error!=null)
               AppText(error!, color: Colors.red)
           ]

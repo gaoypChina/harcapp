@@ -5,7 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_new/api/community.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_loader.dart';
@@ -32,6 +32,7 @@ import 'community/circle/model/circle.dart';
 import 'community/community_publishable.dart';
 import 'community/community_publishables_sliver.dart';
 import 'community/forum/model/forum.dart';
+import 'community/model/community.dart';
 import 'competitions/indiv_comp/indiv_comp_preview_widget.dart';
 
 class PreviewPart extends StatefulWidget{
@@ -109,11 +110,12 @@ class PreviewPartState extends State<PreviewPart>{
   }
 
   @override
-  Widget build(BuildContext context) => Consumer3<LoginProvider, IndivCompListProvider, CircleListProvider>(
+  Widget build(BuildContext context) => Consumer3<LoginProvider, IndivCompListProvider, CommunityListProvider>(
     builder: (context, loginProv, indivCompListProv, circleListProv, child) => ScrollConfiguration(
       behavior: NoGlowBehavior(),
       child: SmartRefresher(
           enablePullDown: AccountData.loggedIn,
+          enablePullUp: AccountData.loggedIn,
           physics:
           shouldScroll?
           const BouncingScrollPhysics():
@@ -491,14 +493,20 @@ class IndivCompRowProblemWidget extends StatelessWidget{
 
           const SizedBox(width: Dimen.SIDE_MARG),
 
-          Text(
-            'Hjuston\nmamy problem...',
-            style: AppTextStyle(
-                fontSize: Dimen.TEXT_SIZE_BIG,
-                height: 1.2,
-                fontWeight: weight.halfBold
+          Expanded(
+            child: Text(
+              'Hjuston\nmamy problem',
+              style: AppTextStyle(
+                  fontSize: Dimen.TEXT_SIZE_APPBAR,
+                  height: 1.2,
+                  fontWeight: weight.bold
+              ),
+              textAlign: TextAlign.center,
             ),
           ),
+
+          const SizedBox(width: IndivCompThumbnailWidget.defSize),
+
 
         ],
       )
@@ -729,7 +737,7 @@ class NotLoggedInWidget extends StatelessWidget{
       ),
 
       SimpleButton(
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         color: cardEnab_(context),
         elevation: AppCard.bigElevation,
         padding: const EdgeInsets.all(Dimen.SIDE_MARG),
@@ -757,7 +765,7 @@ class NotLoggedInWidget extends StatelessWidget{
 
             Material(
                 color: background_(context),
-                borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                borderRadius: BorderRadius.circular(AppCard.bigRadius),
                 child: Padding(
                   padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                   child: Row(

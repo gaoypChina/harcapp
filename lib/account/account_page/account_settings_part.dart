@@ -7,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/user.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_start/conf_email_part.dart';
@@ -67,7 +67,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
         child: Padding(
           padding: MediaQuery.of(context).viewInsets.add(const EdgeInsets.all(Dimen.SIDE_MARG)),
           child: Material(
-            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+            borderRadius: BorderRadius.circular(AppCard.bigRadius),
             child: Padding(
               padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               child: Column(
@@ -474,7 +474,7 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
       child: Padding(
         padding: const EdgeInsets.all(Dimen.SIDE_MARG),
         child: Material(
-          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+          borderRadius: BorderRadius.circular(AppCard.bigRadius),
           child: Padding(
             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             child: Column(

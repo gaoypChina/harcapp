@@ -66,7 +66,7 @@ class IndivCompTile extends StatelessWidget{
             Expanded(
               child: SimpleButton(
                 clipBehavior: Clip.none,
-                radius: AppCard.BIG_RADIUS,
+                radius: AppCard.bigRadius,
                 padding: EdgeInsets.zero,
                 margin: EdgeInsets.zero,
                 onTap: () => onTap?.call(comp),

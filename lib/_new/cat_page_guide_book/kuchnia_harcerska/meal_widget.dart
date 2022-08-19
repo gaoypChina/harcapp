@@ -68,7 +68,7 @@ class MealWidgetState extends State<MealWidget>{
                       fontWeight: weight.halfBold
                   )
               ),
-              SizedBox(width: 2*Dimen.DEF_MARG),
+              SizedBox(width: 2*Dimen.defMarg),
               Expanded(child: textField),
               buttons
             ],
@@ -80,7 +80,7 @@ class MealWidgetState extends State<MealWidget>{
 
         SimpleButton(
           margin: EdgeInsets.only(left: Dimen.ICON_FOOTPRINT - Dimen.ICON_MARG),
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           onTap: (){
             setState(() => changeSelection());
             widget.onSelectedChanged(meal, selected);

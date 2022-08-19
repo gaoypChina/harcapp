@@ -90,7 +90,7 @@ class ApelEwanWidgetState extends State<ApelEwanWidget>{
           Material(
               clipBehavior: Clip.hardEdge,
               color: cardEnab_(context),
-              borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+              borderRadius: BorderRadius.circular(AppCard.bigRadius),
               child: Padding(
                 padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                 child: Column(
@@ -147,7 +147,7 @@ class ApelEwanWidgetState extends State<ApelEwanWidget>{
             Material(
               clipBehavior: Clip.hardEdge,
               color: cardEnab_(context),
-              borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+              borderRadius: BorderRadius.circular(AppCard.bigRadius),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

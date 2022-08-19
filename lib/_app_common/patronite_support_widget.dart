@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
@@ -64,7 +62,7 @@ class PatroniteSupportWidgetState extends State<PatroniteSupportWidget>{
   Widget build(BuildContext context) {
     return AppCard(
         elevation: AppCard.bigElevation,
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         margin: margin??EdgeInsets.zero,
         padding: EdgeInsets.zero,
         child: Stack(

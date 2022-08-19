@@ -24,13 +24,13 @@ class IndivCompPreviewGrid extends StatelessWidget{
   }) => IndivCompPreviewGrid(
     width: width,
     child: Material(
-      borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+      borderRadius: BorderRadius.circular(AppCard.bigRadius),
       color: cardEnab_(context),
       child: Padding(
         padding: const EdgeInsets.all(IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.borderSizeFactor),
         child: SimpleButton(
             color: background_(context),
-            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS - 4),
+            borderRadius: BorderRadius.circular(AppCard.bigRadius - 4),
             onTap: onTap,
             child: Padding(
               padding: const EdgeInsets.all(Dimen.SIDE_MARG),

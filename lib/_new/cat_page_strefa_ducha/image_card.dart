@@ -30,7 +30,7 @@ class ImageCard extends StatelessWidget{
       color: Colors.transparent,
       elevation: AppCard.bigElevation,
       clipBehavior: Clip.hardEdge,
-      borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+      borderRadius: BorderRadius.circular(AppCard.bigRadius),
       child:
       image == null?
       AspectRatio(

@@ -20,7 +20,7 @@ class OrgCardWidgetTemplate extends StatelessWidget{
         tag: heroTag,
         child: AppCard(
             onTap: onTap==null?null:() => onTap!(context),
-            radius: AppCard.BIG_RADIUS,
+            radius: AppCard.bigRadius,
             elevation: 0, //AppCard.bigElevation,
             padding: EdgeInsets.zero,
             color: background,

@@ -65,7 +65,7 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
     for(Memory memory in song.memories) {
       children.add(
           Padding(
-            padding: const EdgeInsets.all(Dimen.DEF_MARG),
+            padding: const EdgeInsets.all(Dimen.defMarg),
             child: MemoryWidget(
                 memory,
                 onTap: onEditMemoryTap,
@@ -85,8 +85,8 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
           children: <Widget>[
 
             SimpleButton(
-              radius: AppCard.BIG_RADIUS,
-              margin: const EdgeInsets.all(Dimen.DEF_MARG),
+              radius: AppCard.bigRadius,
+              margin: const EdgeInsets.all(Dimen.defMarg),
               onTap: () => onNewMemoryTap?.call(song),
               padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
               child: Row(

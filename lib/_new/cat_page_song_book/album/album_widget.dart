@@ -37,7 +37,7 @@ class AlbumWidget extends StatelessWidget{
           tag: heroTagGradient(album),
           child: GradientWidget(
               elevation: AppCard.bigElevation,
-              radius: AppCard.BIG_RADIUS,
+              radius: AppCard.bigRadius,
               colorStart: CommonColorData.ALL[album.colorsKey]!.colorStart,
               colorEnd: CommonColorData.ALL[album.colorsKey]!.colorEnd,
               height: 100,
@@ -65,7 +65,7 @@ class AlbumWidget extends StatelessWidget{
                             size: 14,
                             color: CommonColorData.ALL[album.colorsKey]!.iconColor.withOpacity(.4)
                         ),
-                        const SizedBox(width: Dimen.DEF_MARG),
+                        const SizedBox(width: Dimen.defMarg),
                         Text(
                             '${album.songs.length}',
                             style: AppTextStyle(
@@ -124,14 +124,14 @@ class AlbumWidget extends StatelessWidget{
     if(selected)
       return AppCard(
           elevation: AppCard.bigElevation,//ELEVATION,
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           padding: EdgeInsets.zero,
           onTap: onTap as void Function()?,
           child: widget
       );
     else
       return InkWell(
-        borderRadius: const BorderRadius.all(Radius.circular(AppCard.BIG_RADIUS)),
+        borderRadius: const BorderRadius.all(Radius.circular(AppCard.bigRadius)),
         onTap: onTap as void Function()?,
         child: widget,
       );

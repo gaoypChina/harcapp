@@ -753,7 +753,7 @@ class ListCard extends StatelessWidget{
       children: [
         const SizedBox(height: SEPARATOR_BIG/2),
         Text(version, style: AppTextStyle(fontWeight: weight.halfBold, color: textEnab_(context))),
-        const SizedBox(height: Dimen.DEF_MARG),
+        const SizedBox(height: Dimen.defMarg),
         Column(children: children),
         const SizedBox(height: SEPARATOR_BIG/2),
       ]

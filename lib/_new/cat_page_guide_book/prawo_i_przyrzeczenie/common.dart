@@ -38,7 +38,7 @@ class PrawoItem extends StatelessWidget{
                 Text('$number. $content', style: AppTextStyle(fontStyle: FontStyle.italic, fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), textAlign: TextAlign.center,),
                 const SizedBox(height: 12),
                 Text(comment!, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2)),
-                const SizedBox(height: Dimen.DEF_MARG),
+                const SizedBox(height: Dimen.defMarg),
                 Text('- hm. Stefan Mirowski', style: AppTextStyle(fontStyle: FontStyle.italic, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.end,),
               ],
             ),
@@ -68,7 +68,7 @@ class PrzyrzeczenieItem extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => AppCard(
-    radius: AppCard.BIG_RADIUS,
+    radius: AppCard.bigRadius,
     elevation: AppCard.bigElevation,
     padding: const EdgeInsets.all(Dimen.CARD_BIG_PADD),
     child: Column(
@@ -80,7 +80,7 @@ class PrzyrzeczenieItem extends StatelessWidget{
         ),
 
         Padding(
-          padding: const EdgeInsets.all(Dimen.DEF_MARG),
+          padding: const EdgeInsets.all(Dimen.defMarg),
           child: SelectableText(
             content,
             style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2),

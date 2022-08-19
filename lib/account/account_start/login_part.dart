@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/model/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
@@ -201,7 +201,7 @@ class LoginPartState extends State<LoginPart>{
         children: [
 
           SimpleButton(
-            radius: AppCard.BIG_RADIUS,
+            radius: AppCard.bigRadius,
             padding: const EdgeInsets.all(Dimen.ICON_MARG),
             margin: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
             color: cardEnab_(context),

@@ -26,7 +26,7 @@ class DescTabliczkaMnozenia extends StatelessWidget{
           size: Dimen.TEXT_SIZE_BIG,
         ),
 
-        SizedBox(height: 4*Dimen.DEF_MARG),
+        SizedBox(height: 4*Dimen.defMarg),
 
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -43,7 +43,7 @@ class DescTabliczkaMnozenia extends StatelessWidget{
                 Expanded(child: Text('5', style: AppTextStyle(color: AppColors.text_hint_enab, fontSize: Dimen.TEXT_SIZE_BIG))),
               ],
             ),
-            SizedBox(height: Dimen.DEF_MARG),
+            SizedBox(height: Dimen.defMarg),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -56,7 +56,7 @@ class DescTabliczkaMnozenia extends StatelessWidget{
                 Expanded(child: Text('E', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
               ],
             ),
-            SizedBox(height: Dimen.DEF_MARG),
+            SizedBox(height: Dimen.defMarg),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -69,7 +69,7 @@ class DescTabliczkaMnozenia extends StatelessWidget{
                 Expanded(child: Text('J', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
               ],
             ),
-            SizedBox(height: Dimen.DEF_MARG),
+            SizedBox(height: Dimen.defMarg),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -82,7 +82,7 @@ class DescTabliczkaMnozenia extends StatelessWidget{
                 Expanded(child: Text('O', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
               ],
             ),
-            SizedBox(height: Dimen.DEF_MARG),
+            SizedBox(height: Dimen.defMarg),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -95,7 +95,7 @@ class DescTabliczkaMnozenia extends StatelessWidget{
                 Expanded(child: Text('U', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
               ],
             ),
-            SizedBox(height: Dimen.DEF_MARG),
+            SizedBox(height: Dimen.defMarg),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

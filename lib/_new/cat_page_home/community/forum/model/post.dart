@@ -120,7 +120,7 @@ class Post extends CommunityPublishable{
   final Forum forum;
 
   @override
-  Community get community => forum.community;
+  CommunityBasicData get community => forum.community;
 
   Post({
     required super.key,

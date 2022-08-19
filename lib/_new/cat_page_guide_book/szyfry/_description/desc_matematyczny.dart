@@ -57,7 +57,7 @@ class DescMatematyczny extends StatelessWidget{
                   '\nZ',
               style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
             ),
-            SizedBox(width: Dimen.DEF_MARG),
+            SizedBox(width: Dimen.defMarg),
             Text(
               '\n-'
                   '\n-'
@@ -84,7 +84,7 @@ class DescMatematyczny extends StatelessWidget{
                   '\n-',
               style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
             ),
-            SizedBox(width: Dimen.DEF_MARG),
+            SizedBox(width: Dimen.defMarg),
             Text(
               '\n1'
                   '\n2'

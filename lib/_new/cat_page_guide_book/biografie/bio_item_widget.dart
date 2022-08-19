@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/main.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
@@ -94,7 +94,7 @@ class BioItemWidget extends StatelessWidget{
               margin: const EdgeInsets.all(Dimen.SIDE_MARG),
               padding: EdgeInsets.zero,
               elevation: AppCard.bigElevation,
-              radius: AppCard.BIG_RADIUS,
+              radius: AppCard.bigRadius,
               child: AnimatedBuilder(
                 animation: notifier!,
                 builder: (context, _){
@@ -179,7 +179,7 @@ class BioItemWidget extends StatelessWidget{
           ),
 
         Padding(
-          padding: const EdgeInsets.all(Dimen.DEF_MARG),
+          padding: const EdgeInsets.all(Dimen.defMarg),
           child: Text(
               data.source,
               style: AppTextStyle(

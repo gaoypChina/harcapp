@@ -5,8 +5,6 @@ import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
@@ -85,7 +83,7 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
               bottomWidgets: [
                 ForumFollowButton(forum, palette: palette),
 
-                const SizedBox(width: Dimen.DEF_MARG),
+                const SizedBox(width: Dimen.defMarg),
 
                 ForumLikeButton(forum, palette: palette),
               ],

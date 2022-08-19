@@ -26,12 +26,12 @@ class StartStopButton extends StatelessWidget{
           if(onPressed != null) onPressed!(inProgress());
         },
         elevation: AppCard.bigElevation,
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         padding: const EdgeInsets.only(left: Dimen.ICON_MARG, right: Dimen.ICON_MARG),
         margin: const EdgeInsets.only(
-          right: AppCard.NORM_MARGIN_VAL,
-          left: AppCard.NORM_MARGIN_VAL,
-          bottom: AppCard.NORM_MARGIN_VAL
+          right: AppCard.normMargVal,
+          left: AppCard.normMargVal,
+          bottom: AppCard.normMargVal
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,

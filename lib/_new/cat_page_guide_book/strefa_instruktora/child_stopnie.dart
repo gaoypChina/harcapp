@@ -20,7 +20,7 @@ class ChildStopnie extends StatelessWidget{
     AutoSizeGroup sizeGroup = AutoSizeGroup();
 
     Widget cardPWD = SimpleButton(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       onTap: () => showScrollBottomSheet(
         context: context,
         builder: (context) => BottomSheetStopien(
@@ -78,7 +78,7 @@ class ChildStopnie extends StatelessWidget{
     );
 
     Widget cardPHM = SimpleButton(
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         onTap: () => showScrollBottomSheet(
           context: context,
           builder: (context) => BottomSheetStopien(
@@ -130,7 +130,7 @@ class ChildStopnie extends StatelessWidget{
     );
 
     Widget cardHM = SimpleButton(
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         onTap: () => showScrollBottomSheet(
           context: context,
           builder: (context) => BottomSheetStopien(
@@ -277,27 +277,27 @@ class BottomSheetStopien extends StatelessWidget{
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Text('Idea:', style: AppTextStyle(color: textColor, fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
-          const SizedBox(height: Dimen.DEF_MARG),
+          const SizedBox(height: Dimen.defMarg),
           SelectableText(idea, style: AppTextStyle(color: textColor, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.justify,),
 
           const SizedBox(height: 2*Dimen.ICON_MARG),
           Text('Warunki otwarcia:', style: AppTextStyle(color: textColor, fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
-          const SizedBox(height: Dimen.DEF_MARG),
+          const SizedBox(height: Dimen.defMarg),
           getListWidget(warOtw),
 
           const SizedBox(height: 2*Dimen.ICON_MARG),
           Text('Zadania:', style: AppTextStyle(color: textColor, fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
-          const SizedBox(height: Dimen.DEF_MARG),
+          const SizedBox(height: Dimen.defMarg),
           getListWidget(zadania),
 
           const SizedBox(height: 2*Dimen.ICON_MARG),
           SelectableText('Warunki zamknięcia:', style: AppTextStyle(color: textColor, fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
-          const SizedBox(height: Dimen.DEF_MARG),
+          const SizedBox(height: Dimen.defMarg),
           getListWidget(warZamk),
 
           const SizedBox(height: 2*Dimen.ICON_MARG),
           Text('Oznaczenie:', style: AppTextStyle(color: textColor, fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
-          const SizedBox(height: Dimen.DEF_MARG),
+          const SizedBox(height: Dimen.defMarg),
           SelectableText(oznaczenie, style: AppTextStyle(color: textColor, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.justify,),
         ],),
     );

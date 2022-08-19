@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
@@ -206,9 +206,9 @@ class MembersAdminPageState extends State<MembersAdminPage>{
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Icon(MdiIcons.accountMultiple, size: 48.0, color: backgroundIcon_(context)),
-                      const SizedBox(width: Dimen.DEF_MARG),
+                      const SizedBox(width: Dimen.defMarg),
                       Icon(MdiIcons.accountPlus, size: 68.0, color: backgroundIcon_(context)),
-                      const SizedBox(width: Dimen.DEF_MARG+8),
+                      const SizedBox(width: Dimen.defMarg+8),
 
                       Transform(
                         alignment: Alignment.center,
@@ -268,7 +268,7 @@ class SelectedAppBar extends SliverAppBar{
     pinned: true,
     actions: [
       Padding(
-        padding: const EdgeInsets.only(right: 2*Dimen.DEF_MARG),
+        padding: const EdgeInsets.only(right: 2*Dimen.defMarg),
         child: IconButton(
             icon: const Icon(MdiIcons.selectMultiple),
             onPressed: onSelectAll
@@ -630,7 +630,7 @@ class _EditPatrolDialogState extends State<_EditPatrolDialog>{
     child: Padding(
       padding: const EdgeInsets.all(Dimen.SIDE_MARG).add(MediaQuery.of(context).viewInsets),
       child: Material(
-        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
         clipBehavior: Clip.hardEdge,
         color: CommunityCoverColors.backgroundColor(context, palette),
         child: Column(

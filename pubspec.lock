@@ -77,7 +77,7 @@ packages:
       name: barcode
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.1"
+    version: "2.2.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -203,7 +203,7 @@ packages:
       name: device_info_plus_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.6.0"
+    version: "2.6.1"
   device_info_plus_web:
     dependency: transitive
     description:
@@ -231,14 +231,14 @@ packages:
       name: dropdown_button2
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.7.1"
+    version: "1.7.2"
   equatable:
     dependency: transitive
     description:
       name: equatable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.3"
+    version: "2.0.4"
   expandable_text:
     dependency: "direct main"
     description:
@@ -273,7 +273,7 @@ packages:
       name: file
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.2"
+    version: "6.1.4"
   flip_card:
     dependency: "direct main"
     description:
@@ -374,7 +374,7 @@ packages:
       name: flutter_secure_storage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.1.0"
+    version: "5.1.2"
   flutter_secure_storage_linux:
     dependency: transitive
     description:
@@ -481,7 +481,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "1db920e606b32ad42cd99bb27b38857b67b1e655"
+      resolved-ref: "721930e449ad7e41c0dad418114573543babd977"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core"
     source: git
     version: "0.0.1"
@@ -490,7 +490,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: d39fc868e187699fcba89e00c4bd9c6e5160e0fd
+      resolved-ref: "9ee5ec97a320187fd4cc21d2c689cf5e2d32b9ed"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_own_song"
     source: git
     version: "0.0.1"
@@ -499,7 +499,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "9f1a5f4ce94f7013997009e721124a9f9b0133ca"
+      resolved-ref: dc62edb063670036df063ed8e00901b888780ebd
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_song"
     source: git
     version: "0.0.1"
@@ -765,7 +765,7 @@ packages:
       name: path_provider_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.18"
+    version: "2.0.19"
   path_provider_ios:
     dependency: transitive
     description:
@@ -1290,14 +1290,14 @@ packages:
       name: webview_flutter_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.9.3"
+    version: "2.9.5"
   webview_flutter_platform_interface:
     dependency: transitive
     description:
       name: webview_flutter_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.1"
+    version: "1.9.2"
   webview_flutter_wkwebview:
     dependency: transitive
     description:

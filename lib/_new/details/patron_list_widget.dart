@@ -57,19 +57,19 @@ class PatronListWidget extends StatelessWidget{
                   child: PersonCard(p)
                 )).toList()),
 
-                const SizedBox(height: Dimen.DEF_MARG),
+                const SizedBox(height: Dimen.defMarg),
                 Column(children: PLN20Patrons.map((p) => Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: PersonCard(p)
                 )).toList()),
 
-                const SizedBox(height: Dimen.DEF_MARG),
+                const SizedBox(height: Dimen.defMarg),
                 Column(children: PLN10Patrons.map((p) => Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: PersonCard(p)
                 )).toList()),
 
-                const SizedBox(height: Dimen.DEF_MARG),
+                const SizedBox(height: Dimen.defMarg),
 
                 // ---
                 // PATRONI BEZ PROGU

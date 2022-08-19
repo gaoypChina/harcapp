@@ -43,7 +43,7 @@ class AlbumWidgetSmall extends StatelessWidget{
     Widget widget = Container(
       decoration: BoxDecoration(
           color: selected?backgroundIcon_(context):Colors.transparent,
-          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS)
+          borderRadius: BorderRadius.circular(AppCard.bigRadius)
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -53,7 +53,7 @@ class AlbumWidgetSmall extends StatelessWidget{
             tag: AlbumWidget.heroTagGradient(album),
             child: GradientWidget(
                 elevation: AppCard.bigElevation,
-                radius: AppCard.BIG_RADIUS,
+                radius: AppCard.bigRadius,
                 colorStart: albColor.colorStart,
                 colorEnd: albColor.colorEnd,
                 child: Padding(
@@ -85,14 +85,14 @@ class AlbumWidgetSmall extends StatelessWidget{
                   ),
 
                   if(showSongCount)
-                    const SizedBox(height: Dimen.DEF_MARG),
+                    const SizedBox(height: Dimen.defMarg),
 
                   if(showSongCount)
                     Row(
                       children: [
 
                         const Icon(MdiIcons.music, size: Dimen.TEXT_SIZE_NORMAL),
-                        const SizedBox(width: Dimen.DEF_MARG),
+                        const SizedBox(width: Dimen.defMarg),
                         Hero(
                           tag: AlbumWidget.heroTagSongCnt(album),
                           child: Material(
@@ -124,7 +124,7 @@ class AlbumWidgetSmall extends StatelessWidget{
     );
 
     return InkWell(
-      borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+      borderRadius: BorderRadius.circular(AppCard.bigRadius),
       onTap: onTap,
       onLongPress: onLongPress,
       child: widget,

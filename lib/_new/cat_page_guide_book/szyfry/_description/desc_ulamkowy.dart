@@ -37,7 +37,7 @@ class DescUlamkowy extends StatelessWidget{
                 AutoSizeText('1', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group),
               ],
             )),
-            const SizedBox(width: 2*Dimen.DEF_MARG),
+            const SizedBox(width: 2*Dimen.defMarg),
             Expanded(child: Column(
               children: <Widget>[
                 AutoSizeText('F G H I J', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group, maxLines: 1,),
@@ -47,7 +47,7 @@ class DescUlamkowy extends StatelessWidget{
                 AutoSizeText('2', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group),
               ],
             )),
-            const SizedBox(width: 2*Dimen.DEF_MARG),
+            const SizedBox(width: 2*Dimen.defMarg),
             Expanded(child: Column(
               children: <Widget>[
                 AutoSizeText('K L M N O', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group, maxLines: 1,),
@@ -57,7 +57,7 @@ class DescUlamkowy extends StatelessWidget{
                 AutoSizeText('3', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group),
               ],
             )),
-            const SizedBox(width: 2*Dimen.DEF_MARG),
+            const SizedBox(width: 2*Dimen.defMarg),
             Expanded(child: Column(
               children: <Widget>[
                 AutoSizeText('P R S T U', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group, maxLines: 1,),
@@ -67,7 +67,7 @@ class DescUlamkowy extends StatelessWidget{
                 AutoSizeText('4', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group),
               ],
             )),
-            const SizedBox(width: 2*Dimen.DEF_MARG),
+            const SizedBox(width: 2*Dimen.defMarg),
             Expanded(child: Column(
               children: <Widget>[
                 AutoSizeText('W Y Z', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group, maxLines: 1,),
@@ -100,7 +100,7 @@ class DescUlamkowy extends StatelessWidget{
                 AutoSizeText('2', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group),
               ],
             ),
-            const SizedBox(width: Dimen.DEF_MARG),
+            const SizedBox(width: Dimen.defMarg),
             Column(
               children: <Widget>[
                 AutoSizeText('1', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group, maxLines: 1,),
@@ -110,7 +110,7 @@ class DescUlamkowy extends StatelessWidget{
                 AutoSizeText('1', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group),
               ],
             ),
-            const SizedBox(width: Dimen.DEF_MARG),
+            const SizedBox(width: Dimen.defMarg),
             Column(
               children: <Widget>[
                 AutoSizeText('2', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group, maxLines: 1,),
@@ -120,7 +120,7 @@ class DescUlamkowy extends StatelessWidget{
                 AutoSizeText('4', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group),
               ],
             ),
-            const SizedBox(width: Dimen.DEF_MARG),
+            const SizedBox(width: Dimen.defMarg),
             Column(
               children: <Widget>[
                 AutoSizeText('3', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group, maxLines: 1,),
@@ -130,7 +130,7 @@ class DescUlamkowy extends StatelessWidget{
                 AutoSizeText('1', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group),
               ],
             ),
-            const SizedBox(width: Dimen.DEF_MARG),
+            const SizedBox(width: Dimen.defMarg),
             Column(
               children: <Widget>[
                 AutoSizeText('5', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group, maxLines: 1,),
@@ -140,7 +140,7 @@ class DescUlamkowy extends StatelessWidget{
                 AutoSizeText('1', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group),
               ],
             ),
-            const SizedBox(width: Dimen.DEF_MARG),
+            const SizedBox(width: Dimen.defMarg),
             Column(
               children: <Widget>[
                 AutoSizeText('2', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group, maxLines: 1,),
@@ -150,7 +150,7 @@ class DescUlamkowy extends StatelessWidget{
                 AutoSizeText('4', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group),
               ],
             ),
-            const SizedBox(width: Dimen.DEF_MARG),
+            const SizedBox(width: Dimen.defMarg),
             Column(
               children: <Widget>[
                 AutoSizeText('3', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group, maxLines: 1,),

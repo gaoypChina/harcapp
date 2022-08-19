@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/pola_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
@@ -45,7 +45,7 @@ class ChildFaktury extends StatelessWidget {
           right: Dimen.SIDE_MARG,
           child: AppCard(
             elevation: AppCard.bigElevation,
-            radius: AppCard.BIG_RADIUS,
+            radius: AppCard.bigRadius,
             onTap: () => polaTap(context),
             margin: EdgeInsets.zero,
             child: TitleShortcutRowWidget(
@@ -72,7 +72,7 @@ class FakturaWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return SimpleButton(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       margin: EdgeInsets.zero,
       padding: const EdgeInsets.all(Dimen.ICON_MARG),
       onTap: () => Navigator.push(
@@ -94,7 +94,7 @@ class FakturaWidget extends StatelessWidget{
 
           const SizedBox(height: Dimen.ICON_MARG),
           //Text('Adres:', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL, color: AppColors.text_hint_enab)),
-          //SizedBox(height: Dimen.DEF_MARG),
+          //SizedBox(height: Dimen.defMarg),
           Row(
             children: [
               Icon(MdiIcons.mapMarkerOutline, color: iconDisab_(context)),
@@ -108,7 +108,7 @@ class FakturaWidget extends StatelessWidget{
               ),
             ],
           ),
-          //SizedBox(height: 2*Dimen.DEF_MARG),
+          //SizedBox(height: 2*Dimen.defMarg),
           //Text('NIP:', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL, color: AppColors.text_hint_enab)),
           const SizedBox(height: Dimen.ICON_MARG),
           Row(

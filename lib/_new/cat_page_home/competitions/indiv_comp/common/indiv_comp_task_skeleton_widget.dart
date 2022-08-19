@@ -47,7 +47,7 @@ class IndivCompTaskSkeletonWidget extends StatelessWidget{
 
     return SimpleButton(
       elevation: elevation,
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
       color: cardEnab_(context),
@@ -55,15 +55,15 @@ class IndivCompTaskSkeletonWidget extends StatelessWidget{
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Material(
-          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS - 4),
+          borderRadius: BorderRadius.circular(AppCard.bigRadius - 4),
           clipBehavior: Clip.hardEdge,
           color: background_(context),
           child: Padding(
             padding: const EdgeInsets.only(
               top: padding,
-              //left: Dimen.DEF_MARG,
-              //right: Dimen.DEF_MARG,
-              //bottom: Dimen.DEF_MARG,
+              //left: Dimen.defMarg,
+              //right: Dimen.defMarg,
+              //bottom: Dimen.defMarg,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,

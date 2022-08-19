@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/szyfry/providers.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -87,10 +87,10 @@ class ChildGaderypolukiState extends State<ChildGaderypoluki> with AutomaticKeep
                 return Container();
 
               return Expanded(child: AppCard(
-                  radius: AppCard.BIG_RADIUS,
+                  radius: AppCard.bigRadius,
                   elevation: AppCard.bigElevation,
-                  padding: const EdgeInsets.only(top: Dimen.TEXT_FIELD_PADD, left: AppCard.DEF_PADDING_VAL, right: AppCard.DEF_PADDING_VAL, bottom: AppCard.DEF_PADDING_VAL),
-                  margin: const EdgeInsets.all(Dimen.DEF_MARG),
+                  padding: const EdgeInsets.only(top: Dimen.TEXT_FIELD_PADD, left: AppCard.defPaddingVal, right: AppCard.defPaddingVal, bottom: AppCard.defPaddingVal),
+                  margin: const EdgeInsets.all(Dimen.defMarg),
                   child: Consumer<GaderypolukiProvider>(
                     builder: (context, prov, child){
 
@@ -165,7 +165,7 @@ class KeyCard extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return SimpleButton(
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         onTap: () => onTap == null?null:onTap!(_key),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

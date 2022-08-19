@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/providers.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -70,7 +70,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
       Positioned.fill(child: Hero(
         tag: articleCoverHero(article),
         child: Material(
-          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+          borderRadius: BorderRadius.circular(AppCard.bigRadius),
           color: Colors.transparent,
           clipBehavior: Clip.hardEdge,
           child: Image(image: image, fit: BoxFit.cover),
@@ -197,7 +197,7 @@ class ArticleCardWidgetState extends State<ArticleCardWidget>{
           child: AppCard(
               padding: EdgeInsets.zero,
               onTap: onTap==null?null:() => onTap!(context, article, _background, provider),
-              radius: AppCard.BIG_RADIUS,
+              radius: AppCard.bigRadius,
               elevation: elevation,
               margin: widget.margin,
               child:

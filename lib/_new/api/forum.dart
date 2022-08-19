@@ -70,7 +70,7 @@ class ApiForum{
 
   static Future<Response?> get({
     required String forumKey,
-    required Community community,
+    required CommunityBasicData community,
     FutureOr<void> Function(Forum forum)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -93,7 +93,7 @@ class ApiForum{
     required String description,
     required String? coverImageUrl,
     required String? colorsKey,
-    required Community community,
+    required CommunityBasicData community,
 
     FutureOr<void> Function(Forum forum)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -145,7 +145,7 @@ class ApiForum{
 
   static Future<Response?> update({
     required String forumKey,
-    required Community community,
+    required CommunityBasicData community,
     Optional<String> description = const Optional.empty(),
     Optional<String> coverImageUrl = const Optional.empty(),
     Optional<String> colorsKey = const Optional.empty(),

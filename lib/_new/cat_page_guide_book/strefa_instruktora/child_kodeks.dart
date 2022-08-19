@@ -17,7 +17,7 @@ class ChildKodeks extends StatelessWidget{
       children: <Widget>[
 
         AppCard(
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
             elevation: AppCard.bigElevation,
             padding: const EdgeInsets.all(Dimen.CARD_BIG_PADD),
             child: Column(
@@ -29,7 +29,7 @@ class ChildKodeks extends StatelessWidget{
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                  padding: const EdgeInsets.all(Dimen.defMarg),
                   child: SelectableText(
                     'Przyjmuję obowiązki instruktora Związku Harcerstwa Polskiego. Jestem świadomy odpowiedzialności harcerskiego wychowawcy i opiekuna. Będę dbać o dobre imię harcerstwa, przestrzegać Statutu ZHP, pracować nad sobą, pogłębiać swoją wiedzę i umiejętności. Wychowam swojego następcę. Powierzonej przez Związek Harcerstwa Polskiego służby nie opuszczę samowolnie.',
                     style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2),

@@ -117,7 +117,8 @@ abstract class CommunityPublishable{
   UserData? author;
   CommunityCoverImageData? coverImage;
   String text;
-  Community get community;
+
+  CommunityBasicData get community;
 
   CommunityPublishable({
     required this.key,

@@ -36,7 +36,7 @@ class ZHROrgPageState extends State<ZHROrgPage> with ModuleStatsMixin{
       const SizedBox(height: commonPadding),
 
       AppCard(
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         color: AppColors.zhr_red,
         child: Column(
           children: const [

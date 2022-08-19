@@ -6,7 +6,6 @@ import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 
 import 'data.dart';
@@ -16,7 +15,7 @@ class AllSignsPage extends StatefulWidget {
 
   final void Function(int) onItemTap;
 
-  const AllSignsPage({required this.onItemTap});
+  const AllSignsPage({required this.onItemTap, super.key});
 
   @override
   State<AllSignsPage> createState() => AllSignsPageState();
@@ -48,7 +47,7 @@ class AllSignsPageState extends State<AllSignsPage> {
 
     return BottomNavScaffold(
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
             backgroundColor: background_(context),
@@ -86,11 +85,13 @@ class AllSignsPageState extends State<AllSignsPage> {
               children: _items.map(
                       (item) =>
                       Padding(
-                        padding: EdgeInsets.all(Dimen.DEF_MARG),
+                        padding: const EdgeInsets.all(Dimen.defMarg),
                         child: SimpleButton(
                           radius: 100,
                           onTap: () => widget.onItemTap(items.indexOf(item)),
                           child: SizedBox(
+                            height: 64,
+                            width: 64,
                             child: Hero(
                               tag: item.fileName,
                               child: SvgPicture.asset(
@@ -99,8 +100,6 @@ class AllSignsPageState extends State<AllSignsPage> {
                                 color: textEnab_(context),
                               ),
                             ),
-                            height: 64,
-                            width: 64,
                           ),
                         ),
                       )

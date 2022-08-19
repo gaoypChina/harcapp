@@ -23,6 +23,7 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -32,7 +33,6 @@ import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
-import '../../../../_common_widgets/app_toast.dart';
 import '../../common.dart';
 import '../common/community_cover_colors.dart';
 import '../common/community_cover_image_data.dart';
@@ -490,6 +490,7 @@ class CirclePageState extends State<CirclePage>{
                               context,
                               builder: (context) => CircleEditorPage(
                                 community: circle.community,
+                                initCircle: circle,
                                 palette: palette,
                                 onSaved: (updatedCircle) async {
 
@@ -855,12 +856,12 @@ class InitAwaitingMessageDialog extends StatelessWidget{
     child: Padding(
       padding: const EdgeInsets.all(Dimen.SIDE_MARG),
       child: StripeWidget(
-        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
         child: Padding(
           padding: const EdgeInsets.all(Dimen.ICON_MARG),
           child: Material(
             clipBehavior: Clip.hardEdge,
-            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS - 4),
+            borderRadius: BorderRadius.circular(AppCard.bigRadius - 4),
             color: CommunityCoverColors.backgroundColor(context, palette),
             child: Column(
               mainAxisSize: MainAxisSize.min,

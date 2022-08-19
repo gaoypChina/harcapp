@@ -153,7 +153,7 @@ class SprawProgressWidgetState extends State<SprawProgressWidget>{
       child:
       children.isEmpty?
       SimpleButton(
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SprawnosciPage())),
         child: const EmptyMessageWidget(
             text: 'Zdobywaj!',

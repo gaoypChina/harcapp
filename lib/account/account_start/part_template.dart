@@ -27,19 +27,19 @@ class PartTemplate extends StatelessWidget {
   final String title;
   final String? errorMessage;
   final Widget? child;
-  final heroTag;
+  final dynamic heroTag;
 
-  const PartTemplate({required this.title, this.errorMessage, this.child, this.heroTag: defHeroTag});
+  const PartTemplate({required this.title, this.errorMessage, this.child, this.heroTag = defHeroTag, super.key});
 
   @override
   Widget build(BuildContext context) {
 
     Widget backgroundWidget = Padding(
-      padding: EdgeInsets.all(Dimen.SIDE_MARG),
+      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
       child: GradientWidget(
           colorStart: cardEnab_(context)!,
           colorEnd: background_(context).withAlpha(0),
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           child: SizedBox(
             width: double.infinity,
             height: MediaQuery.of(context).size.longestSide/2,

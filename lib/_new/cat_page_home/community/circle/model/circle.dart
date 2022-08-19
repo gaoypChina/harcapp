@@ -183,7 +183,7 @@ class Circle{
   String? shareCode;
   bool shareCodeSearchable;
   String colorsKey;
-  Community community;
+  CommunityBasicData community;
 
   final List<Member> _members;
   final Map<String, Member> _membersMap;
@@ -450,7 +450,7 @@ class Circle{
     _allAnnouncements.sort((ann1, ann2) => ann1.publishTime.compareTo(ann2.publishTime));
   }
 
-  static Circle fromResponse(Map resp, Community community){
+  static Circle fromResponse(Map resp, CommunityBasicData community){
 
     List<Member> members = [];
     Map memResps = resp['members']??(throw InvalidResponseError('_key'));

@@ -46,7 +46,7 @@ Future<void> openRankDialog(BuildContext context, Rank rank) => openDialog(
     builder: (context) => Padding(
       padding: AppCard.normMargin,
       child: Material(
-        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
         clipBehavior: Clip.hardEdge,
         color: background_(context),
         child: RankWidget(

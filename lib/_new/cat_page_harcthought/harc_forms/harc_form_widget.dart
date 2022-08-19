@@ -144,7 +144,7 @@ class _TagWrapWidget extends StatelessWidget{
         children.add(const SizedBox(width: Dimen.ICON_MARG));
     }
     
-    return Wrap(children: children, spacing: Dimen.DEF_MARG, runSpacing: Dimen.DEF_MARG);
+    return Wrap(children: children, spacing: Dimen.defMarg, runSpacing: Dimen.defMarg);
     
   }
   
@@ -166,7 +166,7 @@ class _MetoTile extends StatelessWidget{
       child: Container(
           decoration: BoxDecoration(
               color: color,
-              borderRadius: BorderRadius.circular(AppCard.DEF_RADIUS)
+              borderRadius: BorderRadius.circular(AppCard.defRadius)
           ),
           child: Row(
             children: [
@@ -209,14 +209,14 @@ class _MetoTile extends StatelessWidget{
               ),
 
               Padding(
-                padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                padding: const EdgeInsets.all(Dimen.defMarg),
                 child: Container(
                     decoration: BoxDecoration(
                         color: background_(context),
-                        borderRadius: BorderRadius.circular(AppCard.DEF_RADIUS)
+                        borderRadius: BorderRadius.circular(AppCard.defRadius)
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                      padding: const EdgeInsets.all(Dimen.defMarg),
                       child: enabled?
                       const Icon(MdiIcons.check):
                       const Icon(MdiIcons.close),

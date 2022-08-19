@@ -8,7 +8,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class SearchField extends StatelessWidget{
 
-  static const double defMargVal = Dimen.DEF_MARG;
+  static const double defMargVal = Dimen.defMarg;
 
   static const EdgeInsets normMargin = EdgeInsets.only(
     top: defMargVal,
@@ -99,7 +99,7 @@ class SearchField extends StatelessWidget{
                               ),
                             )
                         ),
-                        const SizedBox(width: Dimen.DEF_MARG),
+                        const SizedBox(width: Dimen.defMarg),
                         if(trailing!=null) trailing!
                       ],
                     ),

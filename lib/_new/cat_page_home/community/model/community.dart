@@ -49,36 +49,53 @@ class CommunityManagersProvider extends ChangeNotifier{
 class CommunityBasicData{
 
   final String key;
-  final String name;
-  final String iconKey;
-  final ForumBasicData? forum;
-  final CircleBasicData? circle;
+  String name;
+  String iconKey;
 
-  const CommunityBasicData({
+  CommunityBasicData({
     required this.key,
     required this.name,
     required this.iconKey,
+  });
+
+}
+
+class CommunityPreviewData extends CommunityBasicData{
+
+  ForumBasicData? forum;
+  CircleBasicData? circle;
+
+  CommunityPreviewData({
+    required super.key,
+    required super.name,
+    required super.iconKey,
     required this.forum,
     required this.circle,
   });
 
-  static CommunityBasicData fromResponse(Map resp) => CommunityBasicData(
-    key: resp['_key']??(throw InvalidResponseError('_key')),
-    name: resp['name']??(throw InvalidResponseError('name')),
-    iconKey: resp['iconKey']??(throw InvalidResponseError('iconKey')),
+  static CommunityPreviewData fromResponse(Map resp){
 
-    forum: resp.containsKey('forum')?
-    ForumBasicData.fromResponse(resp['forum'], name: resp['name']):
-    null,
+    CommunityPreviewData community = CommunityPreviewData(
+      key: resp['_key']??(throw InvalidResponseError('_key')),
+      name: resp['name']??(throw InvalidResponseError('name')),
+      iconKey: resp['iconKey']??(throw InvalidResponseError('iconKey')),
 
-    circle: resp.containsKey('circle')?
-    CircleBasicData.fromResponse(resp['circle'], name: resp['name']):
-    null,
-  );
+      forum: null,
+      circle: null,
+    );
+
+    if(resp.containsKey('forum'))
+      community.forum = ForumBasicData.fromResponse(resp['forum'], community);
+
+    if(resp.containsKey('circle'))
+      community.circle = CircleBasicData.fromResponse(resp['circle'], name: resp['name']);
+
+    return community;
+  }
 
 }
 
-class Community{
+class Community extends CommunityBasicData{
 
   static const int maxLenName = 64;
   static const int maxLenIconKey = 42;
@@ -168,9 +185,6 @@ class Community{
     _allMap!.clear();
   }
 
-  final String key;
-  String name;
-  String iconKey;
   Circle? circle;
   Forum? forum;
 
@@ -245,9 +259,9 @@ class Community{
   }
 
   Community({
-    required this.key,
-    required this.name,
-    required this.iconKey,
+    required super.key,
+    required super.name,
+    required super.iconKey,
     required this.circle,
     required this.forum,
 

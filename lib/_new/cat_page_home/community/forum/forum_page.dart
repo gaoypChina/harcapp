@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/api/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
@@ -372,38 +372,39 @@ class ForumPageState extends State<ForumPage>{
 
                     if(forum.myRole == ForumRole.ADMIN)
                       IconButton(
-                      icon: Icon(
-                          MdiIcons.cogOutline,
-                          color: appBarProv.coverVisible?coverIconColor:iconEnab_(context)
-                      ),
-                      onPressed: () => pushPage(
-                          context,
-                          builder: (context) => ForumEditorPage(
-                            community: forum.community,
-                            palette: palette,
-                            onSaved: (updatedForum) async {
+                          icon: Icon(
+                              MdiIcons.cogOutline,
+                              color: appBarProv.coverVisible?coverIconColor:iconEnab_(context)
+                          ),
+                          onPressed: () => pushPage(
+                              context,
+                              builder: (context) => ForumEditorPage(
+                                community: forum.community,
+                                initForum: forum,
+                                palette: palette,
+                                onSaved: (updatedForum) async {
 
-                              forum.description = updatedForum.description;
-                              forum.coverImage = updatedForum.coverImage;
-                              forum.colorsKey = updatedForum.colorsKey;
+                                  forum.description = updatedForum.description;
+                                  forum.coverImage = updatedForum.coverImage;
+                                  forum.colorsKey = updatedForum.colorsKey;
 
-                              if(mounted) Provider.of<ForumProvider>(context, listen: false).notify();
-                              if(mounted) Provider.of<ForumListProvider>(context, listen: false).notify();
+                                  if(mounted) Provider.of<ForumProvider>(context, listen: false).notify();
+                                  if(mounted) Provider.of<ForumListProvider>(context, listen: false).notify();
 
-                              await initPaletteGenerator(refresh: false);
+                                  await initPaletteGenerator(refresh: false);
 
-                              setState(() {});
-                            },
-                            onDeleted: onDeleted,
+                                  setState(() {});
+                                },
+                                onDeleted: onDeleted,
+                              )
                           )
-                      )
-                    ),
+                      ),
 
                   ],
                   bottomWidgets: [
                     ForumFollowButton(forum, palette: palette),
 
-                    const SizedBox(width: Dimen.DEF_MARG),
+                    const SizedBox(width: Dimen.defMarg),
 
                     ForumLikeButton(forum, palette: palette),
                   ],

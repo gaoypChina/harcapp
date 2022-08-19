@@ -23,7 +23,7 @@ class SymbImageWidget extends StatelessWidget{
       child: AppCard(
         onTap: onItemTap,
           color: data.colorStart,
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           elevation: AppCard.bigElevation,
           padding: EdgeInsets.zero,
           child: Stack(

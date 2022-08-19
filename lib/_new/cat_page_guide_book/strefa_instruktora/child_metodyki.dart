@@ -164,22 +164,22 @@ class BottomSheetMeto extends BottomSheetDef{
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Text('Założenia ogólne:', style: AppTextStyle(color: textColor??textEnab_(context), fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
-          const SizedBox(height: Dimen.DEF_MARG),
+          const SizedBox(height: Dimen.defMarg),
           Text(zalozenia, style: AppTextStyle(color: textColor??textEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG)),
 
           const SizedBox(height: 2*Dimen.ICON_MARG),
           Text('Rola drużynowego:', style: AppTextStyle(color: textColor??textEnab_(context), fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
-          const SizedBox(height: Dimen.DEF_MARG),
+          const SizedBox(height: Dimen.defMarg),
           Text(rola, style: AppTextStyle(color: textColor??textEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG)),
 
           const SizedBox(height: 2*Dimen.ICON_MARG),
           Text('Formy pracy:', style: AppTextStyle(color: textColor??textEnab_(context), fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
-          const SizedBox(height: Dimen.DEF_MARG),
+          const SizedBox(height: Dimen.defMarg),
           Text(formy, style: AppTextStyle(color: textColor??textEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG)),
 
           const SizedBox(height: 2*Dimen.ICON_MARG),
           Text('Instrumenty metodyczne:', style: AppTextStyle(color: textColor??textEnab_(context), fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
-          const SizedBox(height: Dimen.DEF_MARG),
+          const SizedBox(height: Dimen.defMarg),
           Text(instrumenty, style: AppTextStyle(color: textColor??textEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG))
         ],
       ),
@@ -229,7 +229,7 @@ class MetoButton extends StatelessWidget{
                 child: AppCard(
                     padding: EdgeInsets.zero,
                     color: color,
-                    radius: AppCard.BIG_RADIUS,
+                    radius: AppCard.bigRadius,
                     child: Image.asset(imagePath)
                 )
             ),

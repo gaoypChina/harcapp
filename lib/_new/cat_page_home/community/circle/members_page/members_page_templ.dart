@@ -161,21 +161,21 @@ class _Border extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => Padding(
-      padding: const EdgeInsets.all(Dimen.DEF_MARG),
+      padding: const EdgeInsets.all(Dimen.defMarg),
       child: Material(
         color: backgroundIcon_(context),
-        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
         child: Padding(
             padding: const EdgeInsets.all(8),
             child: Material(
-              borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS-4),
+              borderRadius: BorderRadius.circular(AppCard.bigRadius-4),
               clipBehavior: Clip.hardEdge,
               color: backgroundColor??background_(context),
               child: Column(
                 children: [
-                  const SizedBox(height: Dimen.DEF_MARG),
+                  const SizedBox(height: Dimen.defMarg),
                   header,
-                  const SizedBox(height: Dimen.DEF_MARG),
+                  const SizedBox(height: Dimen.defMarg),
                   body
                 ],
               ),

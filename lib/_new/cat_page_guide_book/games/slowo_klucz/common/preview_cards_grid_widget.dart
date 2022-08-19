@@ -110,7 +110,7 @@ class _CardWidget extends StatelessWidget{
     return Padding(
       padding: AppCard.normMargin,
       child: Material(
-        borderRadius: BorderRadius.circular(AppCard.DEF_RADIUS),
+        borderRadius: BorderRadius.circular(AppCard.defRadius),
         elevation: AppCard.bigElevation,
         color: color,
         child:

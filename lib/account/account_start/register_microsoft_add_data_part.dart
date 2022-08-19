@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_common/gdpr_input_field.dart';
 import 'package:harcapp/account/account_common/regulamin_input_field.dart';

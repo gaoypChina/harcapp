@@ -122,9 +122,9 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
       children: <Widget>[
         Expanded(
           child: AppCard(
-            radius: AppCard.BIG_RADIUS,
+            radius: AppCard.bigRadius,
             elevation: AppCard.bigElevation,
-            margin: const EdgeInsets.all(Dimen.DEF_MARG),
+            margin: const EdgeInsets.all(Dimen.defMarg),
             child: TextField(
               controller: controller,
               textCapitalization: TextCapitalization.characters,
@@ -159,9 +159,9 @@ class ChildMorseState extends State<ChildMorse> with AutomaticKeepAliveClientMix
           ),
         ),
         AppCard(
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           elevation: AppCard.bigElevation,
-          margin: const EdgeInsets.all(Dimen.DEF_MARG),
+          margin: const EdgeInsets.all(Dimen.defMarg),
           child: Row(
             children: [
               Expanded(
@@ -330,7 +330,7 @@ class MorseFlashState extends State<MorseFlash>{
 
         if(_hasFlashlight == null)
           const AppCard(
-            radius: AppCard.BIG_RADIUS,
+            radius: AppCard.bigRadius,
             padding: const EdgeInsets.all(Dimen.ICON_MARG),
             margin: AppCard.normMargin,
             child: const EmptyMessageWidget(
@@ -340,7 +340,7 @@ class MorseFlashState extends State<MorseFlash>{
           )
         else if(!_hasFlashlight)
           const AppCard(
-            radius: AppCard.BIG_RADIUS,
+            radius: AppCard.bigRadius,
             padding: EdgeInsets.all(Dimen.ICON_MARG),
             margin: AppCard.normMargin,
             child: const EmptyMessageWidget(
@@ -350,14 +350,14 @@ class MorseFlashState extends State<MorseFlash>{
           )
         else
           AppCard(
-            radius: AppCard.BIG_RADIUS,
+            radius: AppCard.bigRadius,
             margin: AppCard.normMargin,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(2*Dimen.DEF_MARG),
+                  padding: const EdgeInsets.all(2*Dimen.defMarg),
                   child: signIdx==null?
                   Text(code, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, color: signalising==null?hintEnab_(context):textEnab_(context)),)
                       :

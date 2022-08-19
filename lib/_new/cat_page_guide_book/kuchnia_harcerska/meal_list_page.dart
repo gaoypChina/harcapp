@@ -140,9 +140,9 @@ class MealItemState extends State<MealItem>{
           (Widget buttons, Widget textField) {
         return Row(
           children: <Widget>[
-            const SizedBox(width: Dimen.DEF_MARG),
+            const SizedBox(width: Dimen.defMarg),
             SizedBox(width: 50, child: textField),
-            const SizedBox(width: Dimen.DEF_MARG),
+            const SizedBox(width: Dimen.defMarg),
             Text('x ', style: AppTextStyle(fontWeight: weight.halfBold)),
             Text(widget.meal.name, style: AppTextStyle(fontWeight: weight.halfBold)),
             Expanded(child: Container()),

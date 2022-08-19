@@ -21,7 +21,7 @@ Future<String?> selectCommonIcon(BuildContext context, {String? initIconKey}) as
       child: Material(
         color: background_(context),
         clipBehavior: Clip.hardEdge,
-        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
         child: Column(
           children: [
 

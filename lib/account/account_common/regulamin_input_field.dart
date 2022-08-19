@@ -1,11 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/storage.dart';
-import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
-import 'package:harcapp/_new/main_page_new.dart';
 import 'package:harcapp/account/account_start/input_field_controller.dart';
 import 'package:harcapp/main.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -14,8 +10,6 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:path/path.dart';
-import 'package:provider/provider.dart';
 
 class RegulaminInputField extends StatelessWidget{
 
@@ -30,7 +24,7 @@ class RegulaminInputField extends StatelessWidget{
   final InputFieldController? controller;
   final void Function(bool)? onAcceptChanged;
 
-  const RegulaminInputField(this.gdprAccepted, {this.enabled = true, this.controller, this.onAcceptChanged});
+  const RegulaminInputField(this.gdprAccepted, {this.enabled = true, this.controller, this.onAcceptChanged, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +87,7 @@ class ChooseGdprAcceptDialog extends StatelessWidget{
   final double top;
   final void Function(bool)? onSelected;
 
-  const ChooseGdprAcceptDialog(this.gdprAccept, this.top, {this.onSelected});
+  const ChooseGdprAcceptDialog(this.gdprAccept, this.top, {this.onSelected, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +119,7 @@ class ChooseGdprAcceptDialog extends StatelessWidget{
             top: top,
             right: 2*Dimen.SIDE_MARG,
             child: Material(
-              borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+              borderRadius: BorderRadius.circular(AppCard.bigRadius),
               child: SizedBox(
                 //width: (MediaQuery.of(context).size.width - 4*Dimen.SIDE_MARG)/2,
                 child: Column(
@@ -179,22 +173,22 @@ Future<void> showContent(BuildContext context) async {
   await openDialog(
       context: context,
       builder: (context) => Padding(
-        padding: EdgeInsets.all(Dimen.SIDE_MARG),
+        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
         child: Material(
             color: background_(context),
-            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+            borderRadius: BorderRadius.circular(AppCard.bigRadius),
             clipBehavior: Clip.antiAliasWithSaveLayer,
             child: CustomScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               slivers: [
-                SliverAppBar(
+                const SliverAppBar(
                   floating: true,
                   title: Text('Regulamin'),
                   centerTitle: true,
                 ),
 
                 SliverPadding(
-                    padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                     sliver: SliverList(delegate: SliverChildListDelegate([
                       Text(content!, style: AppTextStyle())
                     ]))

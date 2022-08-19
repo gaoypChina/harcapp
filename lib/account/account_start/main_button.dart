@@ -13,8 +13,8 @@ class MainButton extends StatelessWidget{
 
   static Color borderColor(BuildContext context) => iconDisab_(context);
   static const double borderSize = 4.0;
-  static const double outerRadius = AppCard.BIG_RADIUS;
-  static const double innerRadius = AppCard.BIG_RADIUS - 3.0;
+  static const double outerRadius = AppCard.bigRadius;
+  static const double innerRadius = AppCard.bigRadius - 3.0;
   static const double height = Dimen.ICON_FOOTPRINT + borderSize;
 
   final IconData? icon;

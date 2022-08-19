@@ -267,26 +267,26 @@ class _SearchTextFieldCard extends StatelessWidget{
       SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.only(left: Dimen.DEF_MARG, right: Dimen.DEF_MARG, bottom: Dimen.DEF_MARG),
+          padding: const EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg, bottom: Dimen.defMarg),
           child: SizedBox(
-            height: 2*Dimen.DEF_MARG + Dimen.TEXT_SIZE_NORMAL + 3,
+            height: 2*Dimen.defMarg + Dimen.TEXT_SIZE_NORMAL + 3,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const SizedBox(width: Dimen.DEF_MARG),
+                  const SizedBox(width: Dimen.defMarg),
                   if(fromDate != null || toDate != null)
                   Text(
                     '${fromDate==null?'...':dateToString(fromDate!, shortMonth: true, yearAbbr: '')} - ${toDate==null?'...':dateToString(toDate!, shortMonth: true, yearAbbr: 'A.D.')}',
                     style: AppTextStyle(fontWeight: weight.halfBold),
                   ),
-                  const SizedBox(width: Dimen.DEF_MARG/2),
+                  const SizedBox(width: Dimen.defMarg/2),
                   Row(
                     children: searchOptions!.checkedTags!.map((t) => Tag(
                       t,
                       inCard: false,
                       fontSize: Dimen.TEXT_SIZE_SMALL,
                       padding: EdgeInsets.zero,
-                      margin: const EdgeInsets.only(left: Dimen.DEF_MARG, right: Dimen.DEF_MARG),
+                      margin: const EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg),
                       elevate: false,
                     )).toList(),
                   )
@@ -339,7 +339,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
     DateTime startDate = DateTime(2016, 1, 1);
 
     return BottomSheetDef(
-      childMargin: const EdgeInsets.all(Dimen.DEF_MARG/2),
+      childMargin: const EdgeInsets.all(Dimen.defMarg/2),
       title: 'Opcje wyszukiwania',
       builder: (context) =>
           Column(
@@ -350,7 +350,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
                 children: [
                   Expanded(
                     child: SimpleButton(
-                        radius: AppCard.BIG_RADIUS,
+                        radius: AppCard.bigRadius,
                         padding: const EdgeInsets.all(Dimen.ICON_MARG),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -374,7 +374,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
                   ),
                   Expanded(
                     child: SimpleButton(
-                        radius: AppCard.BIG_RADIUS,
+                        radius: AppCard.bigRadius,
                         padding: const EdgeInsets.all(Dimen.ICON_MARG),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -412,7 +412,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
                 },
                 checkedTags: checkedTags,
                 tagBuilder: (context, tag, checked) => SimpleButton(
-                  radius: AppCard.BIG_RADIUS,
+                  radius: AppCard.bigRadius,
                   padding: const EdgeInsets.all(Dimen.ICON_MARG),
                     child: Text(
                       tag,

@@ -65,7 +65,7 @@ class FormThumbnailWidget extends StatelessWidget{
         child: GradientWidget(
             colorStart: form.colorStart.withOpacity(.25),
             colorEnd: form.colorEnd.withOpacity(.25),
-            radius: AppCard.BIG_RADIUS,
+            radius: AppCard.bigRadius,
             child: InkWell(
                 onTap: () => Navigator.push(
                     context,

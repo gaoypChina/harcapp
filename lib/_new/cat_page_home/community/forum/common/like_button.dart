@@ -27,7 +27,7 @@ class ForumLikeButtonState extends State<ForumLikeButton>{
   @override
   Widget build(BuildContext context) => SimpleButton.from(
       context: context,
-      radius: AppCard.DEF_RADIUS,
+      radius: AppCard.defRadius,
       margin: EdgeInsets.zero,
       color: CommunityCoverColors.cardColor(context, palette),
       icon: MdiIcons.thumbUp,

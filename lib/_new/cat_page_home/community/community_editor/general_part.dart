@@ -31,7 +31,7 @@ class GeneralPartState extends State<GeneralPart>{
 
       Consumer<IconKeyProvider>(
         builder: (context, prov, child) => SimpleButton(
-            radius: AppCard.BIG_RADIUS,
+            radius: AppCard.bigRadius,
             child: Row(
               children: [
 

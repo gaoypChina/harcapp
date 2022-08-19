@@ -19,7 +19,7 @@ class CircleBasicDataTile extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => SimpleButton(
-    radius: AppCard.BIG_RADIUS,
+    radius: AppCard.bigRadius,
     child: Row(
       children: [
 
@@ -33,7 +33,7 @@ class CircleBasicDataTile extends StatelessWidget{
 
             Text(circle.name, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.halfBold)),
 
-            const SizedBox(height: Dimen.DEF_MARG),
+            const SizedBox(height: Dimen.defMarg),
 
             Row(
               children: [

@@ -138,7 +138,7 @@ class Announcement extends CommunityPublishable{
   final Circle circle;
 
   @override
-  Community get community => circle.community;
+  CommunityBasicData get community => circle.community;
 
   bool get isEvent =>
       respMode != AnnouncementAttendanceRespMode.NONE ||

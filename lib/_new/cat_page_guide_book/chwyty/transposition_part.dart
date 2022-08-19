@@ -59,7 +59,7 @@ class TranspositionPartState extends State<TranspositionPart> with AutomaticKeep
 
                 Expanded(
                   child: Padding(
-                      padding: const EdgeInsets.all(2*AppCard.NORM_MARGIN_VAL),
+                      padding: const EdgeInsets.all(2*AppCard.normMargVal),
                       child: TextFieldChords(
                         textStyle: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
                         maxLines: null, // needed to wrap text, else it's one line.
@@ -77,7 +77,7 @@ class TranspositionPartState extends State<TranspositionPart> with AutomaticKeep
 
                 Expanded(
                   child: AppCard(
-                      radius: AppCard.BIG_RADIUS,
+                      radius: AppCard.bigRadius,
                       elevation: AppCard.bigElevation,
                       margin: AppCard.normMargin,
                       child: Column(

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_home/community/search_forum_page.dart';
 import 'package:harcapp/account/account.dart';
@@ -23,7 +23,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'circle/circle_editor/_main.dart';
 import 'circle/model/circle.dart';
 import 'new_community_type.dart';
 import 'circle/start_widgets/circle_loading_widget.dart';
@@ -252,7 +251,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
                     elevation: AppCard.bigElevation,
                     padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                     color: cardEnab_(context),
-                    borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                    borderRadius: BorderRadius.circular(AppCard.bigRadius),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: const [
@@ -374,7 +373,7 @@ class NewCommunityButton extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => SimpleButton(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
       child: Builder(
@@ -390,7 +389,7 @@ class NewCommunityButton extends StatelessWidget{
 
                   Material(
                     clipBehavior: Clip.hardEdge,
-                    borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                    borderRadius: BorderRadius.circular(AppCard.bigRadius),
                     color: hintEnab_(context),
                   ),
 

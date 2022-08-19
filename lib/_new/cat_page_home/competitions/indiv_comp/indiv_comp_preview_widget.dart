@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_page.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
@@ -29,7 +27,7 @@ class IndivCompPreviewWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) => SimpleButton(
     clipBehavior: Clip.none,
-    radius: AppCard.BIG_RADIUS,
+    radius: AppCard.bigRadius,
     padding: EdgeInsets.zero,
     margin: EdgeInsets.zero,
     onTap: () => openCompPage(context),

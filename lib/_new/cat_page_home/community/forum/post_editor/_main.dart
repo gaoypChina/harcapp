@@ -3,7 +3,7 @@ import 'package:flutter_link_previewer/flutter_link_previewer.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/forum.dart';
@@ -313,7 +313,7 @@ class PostEditorPageState extends State<PostEditorPage>{
             SimpleButton.from(
                 elevation: AppCard.bigElevation,
                 margin: EdgeInsets.zero,
-                radius: AppCard.DEF_RADIUS,
+                radius: AppCard.defRadius,
                 textColor: CommunityCoverColors.backgroundColor(context, palette),
                 color: CommunityCoverColors.strongColor(context, palette),
                 icon: MdiIcons.earthArrowRight,

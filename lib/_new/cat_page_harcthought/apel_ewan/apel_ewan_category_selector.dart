@@ -48,7 +48,7 @@ class ApelEwanCategorySelector extends StatelessWidget{
         icon: const Icon(MdiIcons.dotsVertical),
         iconSize: Dimen.ICON_SIZE,
         dropdownDecoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+          borderRadius: BorderRadius.circular(AppCard.bigRadius),
         ),
       )
   );

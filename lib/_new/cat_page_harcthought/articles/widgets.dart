@@ -132,7 +132,7 @@ class PictureWidget extends StatelessWidget{
               ),
               if(picture.desc != null && picture.desc!.isNotEmpty)
                 Padding(
-                  padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                  padding: const EdgeInsets.all(Dimen.defMarg),
                   child: Text(
                     picture.desc!,
                     style: AppTextStyle(
@@ -292,9 +292,9 @@ class AuthorWidget extends StatelessWidget{
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: Dimen.DEF_MARG),
+              SizedBox(height: Dimen.defMarg),
               Text(author.name??'', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold)),
-              SizedBox(height: Dimen.DEF_MARG),
+              SizedBox(height: Dimen.defMarg),
               Text(
                 author.desc??'',
                 style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL,
@@ -305,7 +305,7 @@ class AuthorWidget extends StatelessWidget{
             ],
           ),
         ),
-        SizedBox(width: Dimen.DEF_MARG),
+        SizedBox(width: Dimen.defMarg),
       ],
     );
 

@@ -17,7 +17,7 @@ class CircleTile extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => SimpleButton(
-    radius: AppCard.BIG_RADIUS,
+    radius: AppCard.bigRadius,
     child: Row(
     children: [
 
@@ -25,7 +25,7 @@ class CircleTile extends StatelessWidget{
         height: 72,
         width: 124,
         child: Material(
-          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+          borderRadius: BorderRadius.circular(AppCard.bigRadius),
           clipBehavior: Clip.antiAlias,
           child: CoverImage(circle.coverImage),
         ),
@@ -39,12 +39,12 @@ class CircleTile extends StatelessWidget{
 
           Text(circle.name, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.halfBold)),
 
-          const SizedBox(height: Dimen.DEF_MARG),
+          const SizedBox(height: Dimen.defMarg),
 
           Row(
             children: [
               Icon(MdiIcons.accountMultiple, color: hintEnab_(context)),
-              const SizedBox(width: Dimen.DEF_MARG),
+              const SizedBox(width: Dimen.defMarg),
               Text(
                   circle.members.length.toString(),
                   style: AppTextStyle(

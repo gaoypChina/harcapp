@@ -10,7 +10,7 @@ import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/extended_floating_button.dart';
 import 'package:harcapp/_common_widgets/person_data_getter.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
@@ -283,7 +283,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                               context: this.context,
                               builder: (context) => Center(
                                 child: AppCard(
-                                  radius: AppCard.ALERT_DIALOG_RADIUS,
+                                  radius: AppCard.alertDialogRadius,
                                   padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                                   margin: const EdgeInsets.all(Dimen.SIDE_MARG),
                                   child: Column(
@@ -349,10 +349,10 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                                         children: <Widget>[
                                           Expanded(child: Container()),
                                           InkWell(
-                                            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                                            borderRadius: BorderRadius.circular(AppCard.bigRadius),
                                             onTap: () => Navigator.pop(context),
                                             child: Padding(
-                                              padding: const EdgeInsets.all(Dimen.DEF_MARG*2),
+                                              padding: const EdgeInsets.all(Dimen.defMarg*2),
                                               child: Text('Wdechowo!', style: AppTextStyle(color: Album.current.avgColor, fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.end,),
                                             ),
                                           )
@@ -762,8 +762,8 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
           context: context,
           builder: (context) => Center(
             child: AppCard(
-                radius: AppCard.ALERT_DIALOG_RADIUS,
-                padding: const EdgeInsets.all(AppCard.ALERT_DIALOG_PADDING),
+                radius: AppCard.alertDialogRadius,
+                padding: const EdgeInsets.all(AppCard.alertDialogPadding),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -791,7 +791,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                       children: [
                         Expanded(child: Container()),
                         SimpleButton(
-                            radius: AppCard.BIG_RADIUS,
+                            radius: AppCard.bigRadius,
                             padding: const EdgeInsets.all(Dimen.ICON_MARG),
                             child: Row(
                               children: [

@@ -55,7 +55,7 @@ class YoutubeCardState extends State<YoutubeCard>{
     return Column(
       children: [
         AppCard(
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           elevation: AppCard.bigElevation,
           padding: EdgeInsets.zero,
           margin: AppCard.normMargin,

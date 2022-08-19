@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/forum.dart';
@@ -20,7 +19,8 @@ import 'general_part.dart';
 
 class ForumEditorPage extends StatefulWidget{
 
-  final Community community;
+  final CommunityBasicData community;
+  final Forum? initForum;
   final PaletteGenerator? palette;
 
   final void Function(Forum forum)? onSaved;
@@ -29,6 +29,7 @@ class ForumEditorPage extends StatefulWidget{
 
   const ForumEditorPage({
     required this.community,
+    this.initForum,
     this.palette,
     this.onSaved,
     this.onDeleted,
@@ -43,8 +44,8 @@ class ForumEditorPage extends StatefulWidget{
 
 class ForumEditorPageState extends State<ForumEditorPage>{
 
-  Community get community => widget.community;
-  Forum? get initForum => community.forum;
+  CommunityBasicData get community => widget.community;
+  Forum? get initForum => widget.initForum;
   PaletteGenerator? get palette => _palette??widget.palette;
 
   PaletteGenerator? _palette;

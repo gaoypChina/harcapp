@@ -23,7 +23,7 @@ class TitledCardWidget extends AppCard {
                     item.title,
                     style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG),
                     textAlign: TextAlign.start),
-                padding: const EdgeInsets.only(bottom: Dimen.DEF_MARG))),
+                padding: const EdgeInsets.only(bottom: Dimen.defMarg))),
         Align(alignment: Alignment.centerLeft,
             child: Text(item.description, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL)))
       ],

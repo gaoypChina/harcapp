@@ -46,7 +46,7 @@ class RankTileWidgetTemplate extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => SimpleButton(
-    radius: AppCard.BIG_RADIUS,
+    radius: AppCard.bigRadius,
     padding: EdgeInsets.zero,
     margin: EdgeInsets.zero,
     clipBehavior: Clip.none,
@@ -58,7 +58,7 @@ class RankTileWidgetTemplate extends StatelessWidget{
           child: AspectRatio(
             aspectRatio: leadingAspectRatio,
             child: GradientWidget(
-              radius: AppCard.BIG_RADIUS,
+              radius: AppCard.bigRadius,
               colorStart: colorStart!,
               colorEnd: colorEnd!,
               child: Row(
@@ -91,7 +91,7 @@ class RankTileWidgetTemplate extends StatelessWidget{
               ),
 
               if(titleBottomLeading != null || titleBottom != null)
-                const SizedBox(height: Dimen.DEF_MARG),
+                const SizedBox(height: Dimen.defMarg),
 
               Row(
                 children: [

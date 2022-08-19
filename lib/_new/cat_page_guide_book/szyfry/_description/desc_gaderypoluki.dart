@@ -28,7 +28,7 @@ class DescGaderypoluki extends StatelessWidget{
                       '\n<b>Z</b> - nie występuje w kluczu,',
                   size: Dimen.TEXT_SIZE_BIG,
                 ),
-                SizedBox(width: Dimen.DEF_MARG),
+                SizedBox(width: Dimen.defMarg),
                 AppText(
                   '\n-> <b>H</b>,'
                       '\n-> <b>G</b>,'

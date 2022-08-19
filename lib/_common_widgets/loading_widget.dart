@@ -15,7 +15,7 @@ class LoadingWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return AppCard(
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         margin: const EdgeInsets.all(Dimen.SIDE_MARG),
         padding: const EdgeInsets.all(Dimen.SIDE_MARG),
         child: Row(

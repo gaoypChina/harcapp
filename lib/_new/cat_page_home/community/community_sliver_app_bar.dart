@@ -15,7 +15,7 @@ import 'model/community.dart';
 
 class CommunitySliverAppBar extends StatefulWidget{
 
-  final Community community;
+  final CommunityBasicData community;
   final PaletteGenerator? palette;
   final CommunityCoverImageData coverImage;
   final ScrollController mainScrollController;
@@ -42,7 +42,7 @@ class CommunitySliverAppBar extends StatefulWidget{
 
 class CommunitySliverAppBarState extends State<CommunitySliverAppBar>{
 
-  Community get community => widget.community;
+  CommunityBasicData get community => widget.community;
   PaletteGenerator? get palette => widget.palette;
   CommunityCoverImageData get coverImage => widget.coverImage;
   ScrollController get mainScrollController => widget.mainScrollController;
@@ -125,7 +125,10 @@ class CommunitySliverAppBarState extends State<CommunitySliverAppBar>{
             Positioned(
               left: Dimen.SIDE_MARG,
               bottom: 0,
-              child: CommunityThumbnailWidget(community.iconKey, palette: palette),
+              child: CommunityThumbnailWidget(
+                community.iconKey,
+                palette: palette,
+              ),
             ),
 
             Positioned(

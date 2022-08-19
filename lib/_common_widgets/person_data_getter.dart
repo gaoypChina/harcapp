@@ -67,7 +67,7 @@ class PersonDataDialogState extends State<PersonDataDialog>{
     child: Padding(
       padding: MediaQuery.of(context).viewInsets.add(const EdgeInsets.all(Dimen.SIDE_MARG)),
       child: Material(
-          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+          borderRadius: BorderRadius.circular(AppCard.bigRadius),
           child: ListView(
             physics: const BouncingScrollPhysics(),
             shrinkWrap: true,

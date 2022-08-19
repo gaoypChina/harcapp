@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/values/consts.dart';
@@ -38,7 +38,7 @@ class ForumFollowButtonState extends State<ForumFollowButton>{
 
   @override
   Widget build(BuildContext context) => SimpleButton.from(
-      radius: AppCard.DEF_RADIUS,
+      radius: AppCard.defRadius,
       margin: EdgeInsets.zero,
       color: CommunityCoverColors.cardColor(context, palette),
 
@@ -49,8 +49,8 @@ class ForumFollowButtonState extends State<ForumFollowButton>{
 
       icon:
       forum.followed?
-      MdiIcons.checkboxMultipleMarked:
-      MdiIcons.plusBoxMultiple,
+      MdiIcons.eyeCheckOutline:
+      MdiIcons.eyePlusOutline,
 
       text:
       forum.followed?

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
@@ -225,7 +225,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
 
                     if(comp.myProfile?.role == CompRole.ADMIN || comp.myProfile?.role == CompRole.MODERATOR)
                       SliverPadding(
-                        padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                        padding: const EdgeInsets.all(Dimen.defMarg),
                         sliver: FloatingContainer(
                           builder: (context, _, __) => PendingWidget(
                             comp,
@@ -385,7 +385,7 @@ class CompHeaderWidget extends StatelessWidget{
               children: [
 
                 Padding(
-                  padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                  padding: const EdgeInsets.all(Dimen.defMarg),
                   child: Row(
                     children: [
                       Expanded(
@@ -412,8 +412,8 @@ class CompHeaderWidget extends StatelessWidget{
                 ),
 
                 SimpleButton(
-                  radius: AppCard.BIG_RADIUS,
-                  padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                  radius: AppCard.bigRadius,
+                  padding: const EdgeInsets.all(Dimen.defMarg),
                   margin: EdgeInsets.zero,
                   onTap: () => (comp.myProfile?.completedTasks??[]).isEmpty?
                       showAppToast(context, text: 'Brak zrealizowanych zadań.'):
@@ -573,7 +573,7 @@ class PendingWidget extends StatelessWidget{
 
   static double get height =>
       Dimen.ICON_FOOTPRINT +
-          2*AppCard.DEF_PADDING_VAL;
+          2*AppCard.defPaddingVal;
 
   @override
   Widget build(BuildContext context) => Consumer<ComplTasksProvider>(
@@ -587,7 +587,7 @@ class PendingWidget extends StatelessWidget{
 
         return GradientWidget(
           elevation: AppCard.bigElevation,
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           colorStart: comp.colors.colorStart,
           colorEnd: comp.colors.colorEnd,
           child: InkWell(
@@ -606,13 +606,13 @@ class PendingWidget extends StatelessWidget{
             },
             child: TitleShortcutRowWidget(
               leading: Padding(
-                padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.DEF_PADDING_VAL),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.defPaddingVal),
                 child: Icon(MdiIcons.cube, color: background_(context)),
               ),
               title: '${pendingTaskCount==0?'':'($pendingTaskCount) '}Wnioski o punkty',
               titleColor: background_(context),
               trailing: IconButton(
-                  padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.DEF_PADDING_VAL),
+                  padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.defPaddingVal),
                   icon: Icon(MdiIcons.arrowRight, color: background_(context)),
                   onPressed: null
               ),
@@ -877,13 +877,13 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
 
   @override
   Widget build(BuildContext context) => Material(
-    borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+    borderRadius: BorderRadius.circular(AppCard.bigRadius),
     color: backgroundIcon_(context),
     child: Padding(
       padding: const EdgeInsets.all(8),
       child: Material(
           clipBehavior: Clip.hardEdge,
-          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS-6),
+          borderRadius: BorderRadius.circular(AppCard.bigRadius-6),
           color: background_(context),
           child: Stack(
             children: [

@@ -1,4 +1,3 @@
-import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -12,7 +11,7 @@ class CompletedWidget extends StatelessWidget{
   final Color color;
   final void Function()? onPressed;
 
-  const CompletedWidget(this.text, this.color, {this.colorText, this.onPressed});
+  const CompletedWidget(this.text, this.color, {this.colorText, this.onPressed, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +19,9 @@ class CompletedWidget extends StatelessWidget{
         onTap: onPressed,
         elevation: AppCard.bigElevation,
         color: color,
-        padding: EdgeInsets.all(Dimen.ICON_MARG),
-        margin: EdgeInsets.only(left: AppCard.NORM_MARGIN_VAL, right: AppCard.NORM_MARGIN_VAL, bottom: AppCard.NORM_MARGIN_VAL),
-        radius: AppCard.BIG_RADIUS,
+        padding: const EdgeInsets.all(Dimen.ICON_MARG),
+        margin: const EdgeInsets.only(left: AppCard.normMargVal, right: AppCard.normMargVal, bottom: AppCard.normMargVal),
+        radius: AppCard.bigRadius,
         child: Stack(
           children: [
 

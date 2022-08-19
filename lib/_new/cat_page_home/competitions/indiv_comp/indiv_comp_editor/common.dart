@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_editor/providers.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
@@ -103,7 +103,7 @@ class EditGradientButton extends StatelessWidget{
   
   @override
   Widget build(BuildContext context) => AppCard(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       elevation: AppCard.bigElevation,
       margin: AppCard.normMargin,
       padding: EdgeInsets.zero,
@@ -113,7 +113,7 @@ class EditGradientButton extends StatelessWidget{
         colorEnd: Provider.of<ColorKeyProvider>(context, listen: false).color2!,
         child: TitleShortcutRowWidget(
           leading: Padding(
-            padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.DEF_PADDING_VAL),
+            padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.defPaddingVal),
             child: Icon(icon, color: background_(context)),
           ),
           title: text,

@@ -49,10 +49,10 @@ class BottomSheetWordsState extends State<BottomSheetWords>{
 
         // child 1
         SimpleButton(
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           onTap: () => setState(() => reportClicked = true),
           margin: EdgeInsets.all(Dimen.BOTTOM_SHEET_MARG),
-          padding: EdgeInsets.all(Dimen.DEF_MARG),
+          padding: EdgeInsets.all(Dimen.defMarg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -109,11 +109,11 @@ class BottomSheetWordsState extends State<BottomSheetWords>{
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.all(Dimen.DEF_MARG),
+            padding: EdgeInsets.all(Dimen.defMarg),
             child: Text('Do tej pory nikt tu nie znalazł niejasnego słowa.', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)), textAlign: TextAlign.center,),
           ),
 
-          SizedBox(height: Dimen.DEF_MARG),
+          SizedBox(height: Dimen.defMarg),
           reportCard
         ],
       );
@@ -182,7 +182,7 @@ class InterpWidget extends StatelessWidget{
           int num = int.parse(line);
           children.add(Row(children: <Widget>[
             Expanded(child: Text('  ${songLines[num-1]}', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)))),
-            SizedBox(width: Dimen.DEF_MARG),
+            SizedBox(width: Dimen.defMarg),
             Text('$num', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)),),
           ]));
         }
@@ -217,13 +217,13 @@ class HardWordWidget extends StatelessWidget{
           Row(
             children: <Widget>[
               Text(elements[0], style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, color: textEnab_(context)),),
-              SizedBox(width: Dimen.DEF_MARG),
+              SizedBox(width: Dimen.defMarg),
               Text('[${elements[1]}]', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: textEnab_(context)),),
             ],
           ),
-          SizedBox(height: Dimen.DEF_MARG),
+          SizedBox(height: Dimen.defMarg),
           Text(elements[2], style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: textEnab_(context))),
-          SizedBox(height: Dimen.DEF_MARG),
+          SizedBox(height: Dimen.defMarg),
           Text(elements[3], style: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_TINY), textAlign: TextAlign.end,),
 
         ],
