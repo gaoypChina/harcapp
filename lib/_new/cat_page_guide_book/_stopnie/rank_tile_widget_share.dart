@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/rank.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state_local.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state_shared.dart';
@@ -49,7 +49,7 @@ class RankTileWidgetShare extends StatelessWidget {
           titleBottom: data.userData.name,
           titleBottomColor: hintEnab_(context),
           titleBottomLeading: Padding(
-            padding: const EdgeInsets.only(right: Dimen.DEF_MARG),
+            padding: const EdgeInsets.only(right: Dimen.defMarg),
             child: Icon(MdiIcons.accountCircle, color: hintEnab_(context)),
           ),
 
@@ -62,7 +62,7 @@ class RankTileWidgetShare extends StatelessWidget {
           child: Row(
             children: [
               Icon(MdiIcons.update, size: Dimen.TEXT_SIZE_NORMAL + 2, color: hintEnab_(context)),
-              const SizedBox(width: Dimen.DEF_MARG),
+              const SizedBox(width: Dimen.defMarg),
               Text(dateToString(data.lastUpdateDate, shortMonth: true, withTime: true), style: AppTextStyle(color: hintEnab_(context), fontWeight: weight.halfBold))
             ],
           ),
@@ -78,7 +78,7 @@ Future<void> _openRankDialog(BuildContext context, Rank sharedRank, DateTime las
     builder: (context) => Padding(
       padding: AppCard.normMargin,
       child: Material(
-        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
         clipBehavior: Clip.hardEdge,
         color: background_(context),
         child: RankWidget(

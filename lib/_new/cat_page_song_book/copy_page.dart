@@ -118,7 +118,7 @@ class CopyPageState<T extends SongCore> extends State<CopyPage> with TickerProvi
           color: cardEnab_(context),
           margin: AppCard.normMargin.copyWith(top: 0),
           elevation: AppCard.bigElevation,
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           padding: const EdgeInsets.all(Dimen.ICON_MARG),
           child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

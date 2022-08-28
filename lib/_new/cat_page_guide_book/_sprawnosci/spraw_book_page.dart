@@ -52,7 +52,7 @@ class GroupItemWidet extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return SimpleButton(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SprawGroupPage(group))),
       child: ListTile(
           title: Column(

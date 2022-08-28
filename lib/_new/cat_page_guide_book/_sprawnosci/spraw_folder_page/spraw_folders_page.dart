@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/folder_widget/add_folder_tab.dart';
 import 'package:harcapp/_common_widgets/folder_widget/add_folder_widget.dart';
@@ -153,8 +153,8 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
             //actions: [addFolderButton],
             bottom: TabBar(
               splashBorderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(AppCard.BIG_RADIUS),
-                  topRight: Radius.circular(AppCard.BIG_RADIUS)
+                  topLeft: Radius.circular(AppCard.bigRadius),
+                  topRight: Radius.circular(AppCard.bigRadius)
               ),
               controller: tabController,
               isScrollable: true,

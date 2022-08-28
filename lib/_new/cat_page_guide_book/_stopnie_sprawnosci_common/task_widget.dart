@@ -130,7 +130,7 @@ class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
                 )
               ),
 
-            if(dispIndex != null) const SizedBox(height: Dimen.DEF_MARG),
+            if(dispIndex != null) const SizedBox(height: Dimen.defMarg),
 
             Text(
               text,
@@ -215,7 +215,7 @@ class _Dialog extends StatelessWidget{
     return AppCard(
         margin: AppCard.normMargin,
         padding: EdgeInsets.zero,
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         child: IntrinsicHeight(
           child:  Column(
             mainAxisSize: MainAxisSize.min,

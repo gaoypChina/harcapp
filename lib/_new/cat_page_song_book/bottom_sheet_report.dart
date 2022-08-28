@@ -1,12 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/google_form_sender.dart';
 import 'package:harcapp/_common_classes/storage.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -24,7 +22,7 @@ class BottomSheetReport extends StatefulWidget{
   static const String SPIEWNIK_REPORT_WORD_TYPE = 'Word';
 
   final Song? song;
-  const BottomSheetReport(this.song);
+  const BottomSheetReport(this.song, {super.key});
 
   @override
   State<StatefulWidget> createState() => BottomSheetReportState();
@@ -42,7 +40,7 @@ class BottomSheetReportState extends State<BottomSheetReport>{
   void initState() {
     errorType = BottomSheetReport.SPIEWNIK_REPORT_TEXT;
     _text = '';
-    _selection = new TextSelection(baseOffset: 0, extentOffset: 0);
+    _selection = const TextSelection(baseOffset: 0, extentOffset: 0);
     super.initState();
   }
 
@@ -70,8 +68,8 @@ class BottomSheetReportState extends State<BottomSheetReport>{
           showUnderline: true,
         ),
 
-        SizedBox(
-          height: Dimen.DEF_MARG,
+        const SizedBox(
+          height: Dimen.defMarg,
         ),
 
         RadioListTile<int>(
@@ -132,7 +130,7 @@ class SpiewnikReportSendButton extends StatefulWidget{
   final bool enabled;
   final Color? background;
 
-  const SpiewnikReportSendButton(this.fileName, this.content, this.errorType, this.enabled, {this.background});
+  const SpiewnikReportSendButton(this.fileName, this.content, this.errorType, this.enabled, {this.background, super.key});
 
   @override
   State<StatefulWidget> createState() => SpiewnikReportSendButtonState();
@@ -153,45 +151,43 @@ class SpiewnikReportSendButtonState extends State<SpiewnikReportSendButton>{
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SimpleButton(
-        enabled: widget.enabled,
-        padding: EdgeInsets.all(Dimen.ICON_MARG),
-        onTap: widget.enabled?() {
-          if (!_isSendButtonActive) return;
-          GoogleFormSender sender = GoogleFormSender(
-              GoogleFormSender.SONG_ERROR_FORM_URL,
-              beforeSubmit: () {
-                setState(() {
-                  _buttonSendText = 'Wysyłanie...';
-                  _isSendButtonActive = false;
-                });
-              },
-              afterSubmit: (Response response) {
-                Navigator.pop(context);
-                showAppToast(context, text: 'Dzięki za zgłoszenie!');
-              }
-          );
+  Widget build(BuildContext context) => SimpleButton(
+      enabled: widget.enabled,
+      padding: const EdgeInsets.all(Dimen.ICON_MARG),
+      onTap: widget.enabled?() {
+        if (!_isSendButtonActive) return;
+        GoogleFormSender sender = GoogleFormSender(
+            GoogleFormSender.SONG_ERROR_FORM_URL,
+            beforeSubmit: () {
+              setState(() {
+                _buttonSendText = 'Wysyłanie...';
+                _isSendButtonActive = false;
+              });
+            },
+            afterSubmit: (Response response) {
+              Navigator.pop(context);
+              showAppToast(context, text: 'Dzięki za zgłoszenie!');
+            }
+        );
 
-          sender.addTextResponse('entry.320940762', widget.fileName);
-          sender.addTextResponse('entry.1590782802', widget.errorType);
-          sender.addTextResponse("entry.14528159", widget.content());
+        sender.addTextResponse('entry.320940762', widget.fileName);
+        sender.addTextResponse('entry.1590782802', widget.errorType);
+        sender.addTextResponse("entry.14528159", widget.content());
 
-          sender.submit(saveLocalPath: getSongReportFolderLocalPath);
-        }:null,
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                _buttonSendText,
-                style: AppTextStyle(
-                  fontSize: Dimen.TEXT_SIZE_BIG,
-                  color: widget.enabled?textEnab_(context):textDisab_(context),
-                ),
+        sender.submit(saveLocalPath: getSongReportFolderLocalPath);
+      }:null,
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              _buttonSendText,
+              style: AppTextStyle(
+                fontSize: Dimen.TEXT_SIZE_BIG,
+                color: widget.enabled?textEnab_(context):textDisab_(context),
               ),
-              SizedBox(width: 12,),
-              Icon(MdiIcons.send, color: widget.enabled?textEnab_(context):textDisab_(context)),
-            ])
-    );
-  }
+            ),
+            const SizedBox(width: 12,),
+            Icon(MdiIcons.send, color: widget.enabled?textEnab_(context):textDisab_(context)),
+          ])
+  );
 }

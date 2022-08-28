@@ -35,13 +35,13 @@ class GameTile extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => ListTile(
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS)),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
     leading: const SizedBox(),
     trailing: Hero(
       tag: data,
       child: Material(
         elevation: 2.0,
-        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
         clipBehavior: Clip.antiAlias,
         child: Image.asset(
           'assets/images/games/${data.coverImg}.webp',

@@ -61,23 +61,22 @@ class SprawFolder extends Folder{
   @override
   int get count => sprawUIDs.length;
 
-  static String? getColorKey(String id) =>
+  static String getColorKey(String id) =>
       id == omegaFolderId? omegaFolderColorKey:
-      ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id), CommonColorData.DEF_COLORS_KEY);
+      ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id), CommonColorData.defColorsKey);
 
   @override
-  String get colorsKey => getColorKey(id)!;
+  String get colorsKey => getColorKey(id);
 
   static Future<void> setColorKey(String id, String colorKey) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id), colorKey);
   set colorsKey(String value) => setColorKey(id, value);
 
-  static CommonColorData getColorData(String id) => CommonColorData.ALL[getColorKey(id)]??
-      CommonColorData.ALL[CommonColorData.DEF_COLORS_KEY]!;
+  static CommonColorData getColorData(String id) => CommonColorData.get(getColorKey(id));
 
   static String getIconKey(String id) =>
       id == omegaFolderId?
       omegaFolderIconKey:
-      ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), CommonIconData.DEF_ICON_KEY);
+      ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), CommonIconData.defIconKey);
 
   @override
   String get iconKey => getIconKey(id);
@@ -85,12 +84,12 @@ class SprawFolder extends Folder{
   static Future<void> setIconKey(String id, String iconKey) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), iconKey);
   set iconKey(String value) => setIconKey(id, value);
 
-  static IconData getIcon(String id) => CommonIconData.ALL[getIconKey(id)]??CommonIconData.FOLDER_ICON;
+  static IconData getIcon(String id) => CommonIconData.get(getIconKey(id), defKey: CommonIconData.folderIconKey);
 
   static Future<void> setIcon(String id, IconData icon) async {
 
-    List<IconData> icons = CommonIconData.ALL.values.toList();
-    List<String> iconKeys = CommonIconData.ALL.keys.toList();
+    List<IconData> icons = CommonIconData.all.values.toList();
+    List<String> iconKeys = CommonIconData.all.keys.toList();
 
     int i;
     for(i=0; i<icons.length; i++)

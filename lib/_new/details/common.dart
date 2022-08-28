@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -15,7 +14,7 @@ class ListCard extends StatelessWidget{
   final String title;
   final String content;
 
-  const ListCard(this.colorPack, this.title, this.content);
+  const ListCard(this.colorPack, this.title, this.content, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class ListCard extends StatelessWidget{
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Text(title, style: AppTextStyle(fontWeight: weight.halfBold, color: colorPack.hintDrawer)),
-          SizedBox(height: Dimen.DEF_MARG/2),
+          const SizedBox(height: Dimen.defMarg/2),
           Text(content, style: AppTextStyle(color: colorPack.textDrawer)),
         ],
       ),

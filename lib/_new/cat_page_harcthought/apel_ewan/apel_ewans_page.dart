@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_text_pw.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
@@ -127,7 +127,7 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
 
         tabs.add(FolderTab(
             iconKey: 'bookCross',
-            colorsKey: CommonColorData.DEF_COLORS_KEY,
+            colorsKey: CommonColorData.defColorsKey,
             folderName: 'Wszystkie',
             countText: 'Liczba apeli: ${allApelEwans.length}'
         ));
@@ -197,7 +197,7 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
 
         tabs.add(FolderTab(
             iconKey: 'textBoxMultiple',
-            colorsKey: CommonColorData.OMEGA_COLORS_KEY,
+            colorsKey: CommonColorData.omegaColorsKey,
             folderName: 'Dekalog',
             countText: 'Liczba apeli: ${dekalogApelEwans.length}'
         ));
@@ -307,8 +307,8 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
                       isScrollable: true,
                       indicator: FolderTabIndicator(context),
                       splashBorderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(AppCard.BIG_RADIUS),
-                          topRight: Radius.circular(AppCard.BIG_RADIUS)
+                          topLeft: Radius.circular(AppCard.bigRadius),
+                          topRight: Radius.circular(AppCard.bigRadius)
                       ),
                     ),
                   ),
@@ -520,7 +520,7 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
               }
             },
 
-            radius: AppCard.BIG_RADIUS,
+            radius: AppCard.bigRadius,
             color: cardEnab_(context),
             child: SizedBox(
               height: 100,

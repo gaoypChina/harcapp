@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/scan_qr_code.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/regex_input_formatter.dart';
@@ -240,12 +240,12 @@ class ItemCard extends StatelessWidget{
           padding: const EdgeInsets.all(Dimen.ICON_MARG),
           child: Icon(MdiIcons.swapVertical, color: iconEnab_(context)),
         )),
-        const SizedBox(width: Dimen.DEF_MARG),
+        const SizedBox(width: Dimen.defMarg),
         Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: const EdgeInsets.all(Dimen.DEF_MARG/2),
+              padding: const EdgeInsets.all(Dimen.defMarg/2),
               child: TextFieldFit(
                 style: AppTextStyle(color: textEnab_(context), fontWeight: weight.halfBold),
                 decoration: InputDecoration(
@@ -270,7 +270,7 @@ class ItemCard extends StatelessWidget{
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(Dimen.DEF_MARG/2),
+              padding: const EdgeInsets.all(Dimen.defMarg/2),
               child: TextFieldFit(
                 style: AppTextStyle(color: textEnab_(context), fontWeight: weight.halfBold),
                 decoration: InputDecoration(
@@ -295,7 +295,7 @@ class ItemCard extends StatelessWidget{
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(Dimen.DEF_MARG/2),
+              padding: const EdgeInsets.all(Dimen.defMarg/2),
               child: TextField(
                 decoration: InputDecoration(
                   hintText: '...',
@@ -320,7 +320,7 @@ class ItemCard extends StatelessWidget{
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(Dimen.DEF_MARG/2),
+              padding: const EdgeInsets.all(Dimen.defMarg/2),
               child: TextFieldFit(
                 style: AppTextStyle(),
                 inputFormatters: [

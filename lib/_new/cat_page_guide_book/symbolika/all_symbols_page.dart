@@ -48,8 +48,8 @@ class AllSymbolsPageState extends State<AllSymbolsPage> {
             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             sliver: SliverGrid.count(
               crossAxisCount: (orientation == Orientation.portrait) ? 3 : 5,
-              mainAxisSpacing: Dimen.DEF_MARG,
-              crossAxisSpacing: Dimen.DEF_MARG,
+              mainAxisSpacing: Dimen.defMarg,
+              crossAxisSpacing: Dimen.defMarg,
               children: children,
             ),
           )

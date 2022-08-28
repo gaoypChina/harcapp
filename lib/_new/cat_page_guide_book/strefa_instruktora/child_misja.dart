@@ -17,7 +17,7 @@ class ChildMisja extends StatelessWidget{
       children: [
 
         AppCard(
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
             elevation: AppCard.bigElevation,
             padding: const EdgeInsets.all(Dimen.CARD_BIG_PADD),
             child: Column(
@@ -33,7 +33,7 @@ class ChildMisja extends StatelessWidget{
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                  padding: const EdgeInsets.all(Dimen.defMarg),
                   child: SelectableText(
                     'Misją Związku Harcerstwa Polskiego jest wychowywanie młodego człowieka, czyli wspieranie go we wszechstronnym rozwoju i kształtowaniu charakteru przez stawianie wyzwań.',
                     style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2),

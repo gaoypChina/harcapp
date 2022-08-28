@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_guide_book/games/slowo_klucz/word.dart';
 import 'package:harcapp/_new/cat_page_guide_book/games/slowo_klucz/word_card.dart';
 import 'package:harcapp/_new/cat_page_guide_book/games/slowo_klucz/word_data.dart';
@@ -382,7 +382,7 @@ class QRCodeWidget extends StatelessWidget{
       children: [
         AppCard(
           color: ColorPack.DEF_CARD,
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           margin: AppCard.normMargin,
           child: QrImageView(
             data: encodedGameInstance,
@@ -393,7 +393,7 @@ class QRCodeWidget extends StatelessWidget{
 
         AppCard(
           color: ColorPack.DEF_CARD,
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           margin: AppCard.normMargin,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -410,7 +410,7 @@ class QRCodeWidget extends StatelessWidget{
 
               AppCard(
                 color: ColorPack.DEF_CARD,
-                radius: AppCard.BIG_RADIUS,
+                radius: AppCard.bigRadius,
                 elevation: AppCard.bigElevation,
                 padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 onTap: () => Navigator.pop(context),
@@ -464,7 +464,7 @@ class InfoWidgetState extends State<InfoWidget>{
         .size
         .height / 1.7,
     child: AppCard(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       color: color,
       margin: AppCard.normMargin,
       elevation: AppCard.bigElevation,

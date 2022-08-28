@@ -45,13 +45,13 @@ class FontCard extends StatelessWidget{
         bool isMe = prov.paraFontFamily == fontFamily;
 
         return AppCard(
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
             elevation: isMe?AppCard.bigElevation:0,
             margin: const EdgeInsets.only(
-              top: AppCard.NORM_MARGIN_VAL,
-              left: AppCard.NORM_MARGIN_VAL,
-              right: AppCard.NORM_MARGIN_VAL,
-              bottom: AppCard.bigElevation + AppCard.NORM_MARGIN_VAL
+              top: AppCard.normMargVal,
+              left: AppCard.normMargVal,
+              right: AppCard.normMargVal,
+              bottom: AppCard.bigElevation + AppCard.normMargVal
             ),
             padding: const EdgeInsets.all(Dimen.ICON_MARG),
             child: Column(
@@ -107,7 +107,7 @@ class ColorCard extends StatelessWidget{
   @override
   Widget build(BuildContext context) => Consumer<ArticleThemeProvider>(
     builder: (context, prov, child) => AppCard(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       padding: const EdgeInsets.all(Dimen.ICON_MARG),
       color: colorOption.background,
       child: Text(

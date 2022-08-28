@@ -28,7 +28,7 @@ class AllBioPage extends StatelessWidget{
                   Navigator.pop(context);
                 },
                 elevation: AppCard.bigElevation,
-                radius: AppCard.BIG_RADIUS,
+                radius: AppCard.bigRadius,
                 padding: EdgeInsets.zero,
                 child: Image.asset('assets/images/bio/${data.imgSrc[0].item1}.webp', fit: BoxFit.cover)
             ),
@@ -50,8 +50,8 @@ class AllBioPage extends StatelessWidget{
             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             sliver: SliverGrid.count(
               crossAxisCount: (orientation == Orientation.portrait) ? 3 : 5,
-              mainAxisSpacing: Dimen.DEF_MARG,
-              crossAxisSpacing: Dimen.DEF_MARG,
+              mainAxisSpacing: Dimen.defMarg,
+              crossAxisSpacing: Dimen.defMarg,
               children: children,
             ),
           )

@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
-import 'package:harcapp/_new/cat_page_guide_book/kuchnia_harcerska/ingredient.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -106,7 +105,7 @@ class SearchItem extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => SimpleButton(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -117,10 +116,10 @@ class SearchItem extends StatelessWidget{
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               physics: BouncingScrollPhysics(),
-              padding: EdgeInsets.only(left: Dimen.DEF_MARG, right: Dimen.DEF_MARG),
+              padding: EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg),
               child: Row(
                 children: meal.tags.map((tag) => Padding(
-                  padding: EdgeInsets.all(Dimen.DEF_MARG),
+                  padding: EdgeInsets.all(Dimen.defMarg),
                   child: Text(tag, style: AppTextStyle(fontWeight: weight.halfBold)),
                 )).toList(),
               ),

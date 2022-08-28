@@ -8,8 +8,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp/_new/account_test_widget.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/login_register.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_common/microsoft_login_button.dart';
@@ -18,7 +18,6 @@ import 'package:harcapp/account/ms_oauth.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:provider/provider.dart';
 
@@ -137,27 +136,16 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
             controller: controller,
             children: [
 
-              AccountSettingsPart(padding: EdgeInsets.only(top: 88.0 + (AccountData.convertableToMicrosoft?(MicrosoftLoginButton.height + Dimen.SIDE_MARG):0))),
+              AccountSettingsPart(padding: EdgeInsets.only(top: 132.0 + (AccountData.convertableToMicrosoft?(MicrosoftLoginButton.height + Dimen.SIDE_MARG):0))),
 
-              AccountNickPart(padding: EdgeInsets.only(top: 88.0 + (AccountData.convertableToMicrosoft?(MicrosoftLoginButton.height + Dimen.SIDE_MARG):0)),),
+              AccountNickPart(padding: EdgeInsets.only(top: 132.0 + (AccountData.convertableToMicrosoft?(MicrosoftLoginButton.height + Dimen.SIDE_MARG):0)),),
 
             ],
           ),
 
-          Padding(
-            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-            child: AppCard(
-              radius: AppCard.BIG_RADIUS,
-              margin: EdgeInsets.zero,
-              color: Colors.red,
-              elevation: AppCard.bigElevation,
-              padding: const EdgeInsets.all(Dimen.ICON_MARG),
-              child: AppText(
-                'Konta HarcApp i wszystko z nimi związane są obecnie w <b>fazie testu</b>. Do czasu wydania wersji stabilnej, konta w każdej chwili <b>mogą zostać skasowane</b>.',
-                textAlign: TextAlign.center,
-                color: background_(context),
-              ),
-            )
+          const Padding(
+            padding: EdgeInsets.all(Dimen.SIDE_MARG),
+            child: AccountTestWidget()
           ),
 
           if(AccountData.convertableToMicrosoft)
@@ -187,7 +175,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
                         if(mounted) setState(() {});
                       },
                       onServerMaybeWakingUp: () {
-                        if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                        if(mounted) showServerWakingUpToast(context);
                         return true;
                       },
                       onError: (err) async {

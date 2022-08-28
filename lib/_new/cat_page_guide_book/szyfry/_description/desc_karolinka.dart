@@ -44,7 +44,7 @@ class DescKarolinka extends StatelessWidget{
             Expanded(child: Text('9', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: AppColors.text_hint_enab))),
           ],
         ),
-        SizedBox(height: Dimen.DEF_MARG),
+        SizedBox(height: Dimen.defMarg),
         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -61,7 +61,7 @@ class DescKarolinka extends StatelessWidget{
             Expanded(child: Text('T', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, ))),
           ],
         ),
-        SizedBox(height: Dimen.DEF_MARG),
+        SizedBox(height: Dimen.defMarg),
         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -78,7 +78,7 @@ class DescKarolinka extends StatelessWidget{
             Expanded(child: Text('I', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, ))),
           ],
         ),
-        SizedBox(height: Dimen.DEF_MARG),
+        SizedBox(height: Dimen.defMarg),
         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -96,7 +96,7 @@ class DescKarolinka extends StatelessWidget{
 
           ],
         ),
-        SizedBox(height: Dimen.DEF_MARG),
+        SizedBox(height: Dimen.defMarg),
         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -113,7 +113,7 @@ class DescKarolinka extends StatelessWidget{
             Expanded(child: Text('Z', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, ))),
           ],
         ),
-        SizedBox(height: Dimen.DEF_MARG),
+        SizedBox(height: Dimen.defMarg),
         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -130,7 +130,7 @@ class DescKarolinka extends StatelessWidget{
             Expanded(child: Text('U', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, ))),
           ],
         ),
-        SizedBox(height: Dimen.DEF_MARG),
+        SizedBox(height: Dimen.defMarg),
         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -147,7 +147,7 @@ class DescKarolinka extends StatelessWidget{
             Expanded(child: Text('R', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, ))),
           ],
         ),
-        SizedBox(height: Dimen.DEF_MARG),
+        SizedBox(height: Dimen.defMarg),
         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -164,7 +164,7 @@ class DescKarolinka extends StatelessWidget{
             Expanded(child: Text('Y', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, ))),
           ],
         ),
-        SizedBox(height: Dimen.DEF_MARG),
+        SizedBox(height: Dimen.defMarg),
         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -181,7 +181,7 @@ class DescKarolinka extends StatelessWidget{
             Expanded(child: Text('T', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, ))),
           ],
         ),
-        SizedBox(height: Dimen.DEF_MARG),
+        SizedBox(height: Dimen.defMarg),
         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

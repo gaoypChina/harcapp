@@ -101,7 +101,7 @@ class AlertDialogButton extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => SimpleButton(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       padding: const EdgeInsets.all(Dimen.ICON_MARG),
       onTap: enabled?onTap:null,
       child: Text(text, style: AppTextStyle(fontWeight: weight.halfBold, color: textColor??(enabled?textEnab_(context):textDisab_(context)), fontSize: Dimen.TEXT_SIZE_BIG))
@@ -131,7 +131,7 @@ Future<void> showAlertDialog(
         actionsPadding: const EdgeInsets.only(bottom: Dimen.ICON_MARG, right: Dimen.ICON_MARG),
         backgroundColor: cardEnab_(context),
         contentTextStyle: TextStyle(color: textEnab_(context)),
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppCard.ALERT_DIALOG_RADIUS))),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppCard.alertDialogRadius))),
       ),
     );
 

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/cat_page_strefa_ducha/source.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -156,7 +156,7 @@ class _ErrorCard extends StatelessWidget{
         elevation: AppCard.bigElevation,
         clipBehavior: Clip.hardEdge,
         margin: EdgeInsets.zero,
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         color: cardEnab_(context),
         onTap: onReload,
         child: Column(
@@ -195,7 +195,7 @@ class _LoadingCard extends StatelessWidget{
     child: Material(
         elevation: AppCard.bigElevation,
         clipBehavior: Clip.hardEdge,
-        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
         child: Center(
           child: SpinKitFoldingCube(
             size: 72,

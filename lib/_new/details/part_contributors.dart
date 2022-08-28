@@ -231,10 +231,10 @@ class GraphicalResourceCard extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => AppCard(
-    radius: AppCard.BIG_RADIUS,
+    radius: AppCard.bigRadius,
     margin: const EdgeInsets.only(
-      left: Dimen.DEF_MARG,
-      right: Dimen.DEF_MARG,
+      left: Dimen.defMarg,
+      right: Dimen.defMarg,
       top: Dimen.SIDE_MARG,
       bottom: Dimen.SIDE_MARG,
     ),
@@ -332,10 +332,10 @@ class ContribListCard extends StatelessWidget{
   Widget build(BuildContext context) {
 
     return AppCard(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       margin: const EdgeInsets.only(
-        left: Dimen.DEF_MARG,
-        right: Dimen.DEF_MARG,
+        left: Dimen.defMarg,
+        right: Dimen.defMarg,
         top: Dimen.SIDE_MARG,
         bottom: Dimen.SIDE_MARG,
       ),

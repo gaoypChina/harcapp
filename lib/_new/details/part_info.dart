@@ -63,7 +63,7 @@ class PartInfoState extends State<PartInfo>{
           onTap: () => openDialog(
               context: context,
               builder: (context) => const AppCard(
-                radius: AppCard.BIG_RADIUS,
+                radius: AppCard.bigRadius,
                 margin: EdgeInsets.all(Dimen.SIDE_MARG),
                 padding: EdgeInsets.zero,
                 child: PartChangelog(),
@@ -93,7 +93,7 @@ class PartInfoState extends State<PartInfo>{
           onTap: () => openDialog(
               context: context,
               builder: (context) => AppCard(
-                radius: AppCard.BIG_RADIUS,
+                radius: AppCard.bigRadius,
                 padding: EdgeInsets.zero,
                 margin: const EdgeInsets.all(Dimen.SIDE_MARG),
                 child: PatronListWidget(),

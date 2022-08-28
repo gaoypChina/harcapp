@@ -7,8 +7,8 @@ class FolderTabIndicator extends MaterialIndicator {
 
   FolderTabIndicator(BuildContext context) : super(
     height: 48.0,
-    topRightRadius: AppCard.BIG_RADIUS,
-    topLeftRadius: AppCard.BIG_RADIUS,
+    topRightRadius: AppCard.bigRadius,
+    topLeftRadius: AppCard.bigRadius,
     color: backgroundIcon_(context)
   );
 

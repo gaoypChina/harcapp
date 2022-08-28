@@ -86,7 +86,9 @@ class SettingsPageState extends State<SettingsPage> {
               onChanged: (bool value){
                 prov.chordsDrawShow = value;
                 Provider.of<TextSizeProvider>(context, listen: false).reinit(
-                    Album.current.songs[CatPageSongBookState.lastPage]);
+                    Album.current.songs[CatPageSongBookState.lastPage],
+                    chordsVisible: ShowChordsProvider.of(context).showChords
+                );
               },
               activeColor: Album.current.avgColorDarkSensitive(context),
             ),

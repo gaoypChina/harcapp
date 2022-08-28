@@ -4,14 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_particip/participant_list_page.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_disp_type.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
@@ -43,8 +42,9 @@ import 'common/points_widget.dart';
 import 'indiv_comp_awards_page.dart';
 import 'indiv_comp_editor/_main.dart';
 import 'indiv_comp_editor/common.dart';
+import 'indiv_comp_particip/participants_page.dart';
 import 'indiv_comp_task_page/completed_tasks_page.dart';
-import 'indiv_comp_particip/participant_list_admin_page.dart';
+import 'indiv_comp_particip/participants_extended_page.dart';
 import 'indiv_comp_task_page/pending_task_page.dart';
 import 'indiv_comp_task_page/review_page/indiv_comp_review_page.dart';
 import 'indiv_comp_task_page/indiv_comp_task_compl_req_widget.dart';
@@ -97,6 +97,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
   @override
   void dispose() {
     AccountData.removeLoginListener(loginListener);
+    refreshController.dispose();
     super.dispose();
   }
 
@@ -130,7 +131,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                         showAppToast(context, text: 'Zaktualizowano');
                       },
                       onServerMaybeWakingUp: () {
-                        if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                        if(mounted) showServerWakingUpToast(context);
                         return true;
                       },
                       onError: (){
@@ -166,9 +167,16 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                                   onSuccess: (searchable){
                                     if(!mounted) return;
                                     setState(() => comp.shareCodeSearchable = searchable);
+                                    showAppToast(
+                                        context,
+                                        text: searchable?
+                                        'Każdy może teraz dołączyć do współzawodnictwa znając kod dostępu':
+                                        'Dołączanie po kodzie dostępu wyłączone',
+                                        duration: searchable?const Duration(seconds: 5):const Duration(seconds: 3)
+                                    );
                                   },
                                   onServerMaybeWakingUp: () {
-                                    if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                    if(mounted) showServerWakingUpToast(context);
                                     return true;
                                   },
                                   onError: (){
@@ -225,7 +233,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
 
                     if(comp.myProfile?.role == CompRole.ADMIN || comp.myProfile?.role == CompRole.MODERATOR)
                       SliverPadding(
-                        padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                        padding: const EdgeInsets.all(Dimen.defMarg),
                         sliver: FloatingContainer(
                           builder: (context, _, __) => PendingWidget(
                             comp,
@@ -269,7 +277,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                                       if(mounted) setState(() => comp.shareCode = shareCode);
                                     },
                                     onServerMaybeWakingUp: () {
-                                      if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                      if(mounted) showServerWakingUpToast(context);
                                       return true;
                                     },
                                     onError: (Map? errData){
@@ -385,7 +393,7 @@ class CompHeaderWidget extends StatelessWidget{
               children: [
 
                 Padding(
-                  padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                  padding: const EdgeInsets.all(Dimen.defMarg),
                   child: Row(
                     children: [
                       Expanded(
@@ -412,8 +420,8 @@ class CompHeaderWidget extends StatelessWidget{
                 ),
 
                 SimpleButton(
-                  radius: AppCard.BIG_RADIUS,
-                  padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                  radius: AppCard.bigRadius,
+                  padding: const EdgeInsets.all(Dimen.defMarg),
                   margin: EdgeInsets.zero,
                   onTap: () => (comp.myProfile?.completedTasks??[]).isEmpty?
                       showAppToast(context, text: 'Brak zrealizowanych zadań.'):
@@ -573,7 +581,7 @@ class PendingWidget extends StatelessWidget{
 
   static double get height =>
       Dimen.ICON_FOOTPRINT +
-          2*AppCard.DEF_PADDING_VAL;
+          2*AppCard.defPaddingVal;
 
   @override
   Widget build(BuildContext context) => Consumer<ComplTasksProvider>(
@@ -587,7 +595,7 @@ class PendingWidget extends StatelessWidget{
 
         return GradientWidget(
           elevation: AppCard.bigElevation,
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           colorStart: comp.colors.colorStart,
           colorEnd: comp.colors.colorEnd,
           child: InkWell(
@@ -606,13 +614,13 @@ class PendingWidget extends StatelessWidget{
             },
             child: TitleShortcutRowWidget(
               leading: Padding(
-                padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.DEF_PADDING_VAL),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.defPaddingVal),
                 child: Icon(MdiIcons.cube, color: background_(context)),
               ),
               title: '${pendingTaskCount==0?'':'($pendingTaskCount) '}Wnioski o punkty',
               titleColor: background_(context),
               trailing: IconButton(
-                  padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.DEF_PADDING_VAL),
+                  padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.defPaddingVal),
                   icon: Icon(MdiIcons.arrowRight, color: background_(context)),
                   onPressed: null
               ),
@@ -796,8 +804,8 @@ class ParticipantsWidget extends StatelessWidget{
       context,
       builder: (context) =>
       comp.myProfile?.role == CompRole.ADMIN || comp.myProfile?.role == CompRole.MODERATOR?
-      ParticipantListAdminPage(comp):
-      ParticipantListPage(comp)
+      ParticipantsExtendedPage(comp):
+      ParticipantsPage(comp: comp)
   );
 
   @override
@@ -877,13 +885,13 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
 
   @override
   Widget build(BuildContext context) => Material(
-    borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+    borderRadius: BorderRadius.circular(AppCard.bigRadius),
     color: backgroundIcon_(context),
     child: Padding(
       padding: const EdgeInsets.all(8),
       child: Material(
           clipBehavior: Clip.hardEdge,
-          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS-6),
+          borderRadius: BorderRadius.circular(AppCard.bigRadius-6),
           color: background_(context),
           child: Stack(
             children: [

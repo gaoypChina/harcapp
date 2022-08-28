@@ -64,7 +64,7 @@ class ApelEwanReorderableListState<T extends ApelEwanOwnFolder> extends State<Ap
       },
       decoratePlaceholder: (widget, offset) => DecoratedPlaceholder(
           widget: Material(
-            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+            borderRadius: BorderRadius.circular(AppCard.bigRadius),
             color: background_(context),
             elevation: offset*AppCard.bigElevation,
             child: widget,
@@ -85,7 +85,7 @@ class ApelEwanReorderableListState<T extends ApelEwanOwnFolder> extends State<Ap
               Widget tile = Opacity(
                   opacity: state == ReorderableItemState.placeholder ? 0.0 : 1.0,
                   child: Material(
-                    borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                    borderRadius: BorderRadius.circular(AppCard.bigRadius),
                     animationDuration: Duration.zero,
 
                     color: state == ReorderableItemState.dragProxy?

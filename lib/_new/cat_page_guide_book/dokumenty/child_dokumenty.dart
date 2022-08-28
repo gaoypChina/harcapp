@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
@@ -45,7 +45,7 @@ class ChildDokumenty extends StatelessWidget {
             right: Dimen.SIDE_MARG,
             child: AppCard(
                 onTap: () => launchURL('https://dokumenty.zhp.pl'),
-                radius: AppCard.BIG_RADIUS,
+                radius: AppCard.bigRadius,
                 elevation: AppCard.bigElevation,
                 margin: EdgeInsets.zero,
                 child: TitleShortcutRowWidget(
@@ -70,7 +70,7 @@ class DocCard extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return SimpleButton(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       padding: const EdgeInsets.all(Dimen.ICON_MARG),
       margin: EdgeInsets.zero,
       onTap: () async {
@@ -84,7 +84,7 @@ class DocCard extends StatelessWidget{
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Text(data.titleShort, style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
-          const SizedBox(height: Dimen.DEF_MARG),
+          const SizedBox(height: Dimen.defMarg),
           Text(data.titleLong, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context))),
           const SizedBox(height: 2*Dimen.ICON_MARG),
           Row(

@@ -12,12 +12,12 @@ import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
 import 'package:harcapp_core/comm_widgets/app_button.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../_common_widgets/app_toast.dart';
 import '../_common_widgets/bottom_nav_scaffold.dart';
 import '../_common_widgets/empty_message_widget.dart';
 import 'account.dart';
@@ -112,7 +112,7 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
                       Expanded(
                         child: Center(
                           child: SimpleButton(
-                              radius: AppCard.BIG_RADIUS,
+                              radius: AppCard.bigRadius,
                               padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                               child: const EmptyMessageWidget(
                                 icon: MdiIcons.alienOutline,
@@ -138,7 +138,7 @@ class ShadowUserManagerPageState extends State<ShadowUserManagerPage>{
                               color: backgroundIcon_(context),
                               width: 8,
                             ),
-                            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                            borderRadius: BorderRadius.circular(AppCard.bigRadius),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
@@ -338,7 +338,7 @@ class AddShadowUserDialogState extends State<AddShadowUserDialog>{
       child: Padding(
         padding: const EdgeInsets.all(Dimen.SIDE_MARG),
         child: Material(
-            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+            borderRadius: BorderRadius.circular(AppCard.bigRadius),
             color: background_(context),
             clipBehavior: Clip.hardEdge,
             child: Column(

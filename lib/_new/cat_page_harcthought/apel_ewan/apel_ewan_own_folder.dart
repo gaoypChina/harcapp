@@ -49,31 +49,30 @@ class ApelEwanOwnFolder extends ApelEwanFolder{
   List<String> get apelEwanSigla => getApelEwanFolderSigla(id);
   set apelEwanSigla(List<String> value) => setApelEwanFolderSigla(id, value);
 
-  static String? getColorsKey(String id) => ShaPref.getString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_COLOR_(id), CommonColorData.DEF_COLORS_KEY);
+  static String getColorsKey(String id) => ShaPref.getString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_COLOR_(id), CommonColorData.defColorsKey);
 
   @override
-  String get colorsKey => getColorsKey(id)!;
+  String get colorsKey => getColorsKey(id);
 
   static Future<void> setColorsKey(String id, String colorKey) => ShaPref.setString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_COLOR_(id), colorKey);
   set colorsKey(String value) => setColorsKey(id, value);
 
-  static CommonColorData getColorsData(String id) => CommonColorData.ALL[getColorsKey(id)]??
-      CommonColorData.ALL[CommonColorData.DEF_COLORS_KEY]!;
+  static CommonColorData getColorsData(String id) => CommonColorData.get(getColorsKey(id));
   CommonColorData get colorData => getColorsData(id);
 
-  static String getIconKey(String id) => ShaPref.getString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_ICON_(id), CommonIconData.DEF_ICON_KEY);
+  static String getIconKey(String id) => ShaPref.getString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_ICON_(id), CommonIconData.defIconKey);
   @override
   String get iconKey => getIconKey(id);
 
   static Future<void> setIconKey(String id, String iconKey) => ShaPref.setString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_ICON_(id), iconKey);
   set iconKey(String value) => setIconKey(id, value);
 
-  static IconData getIcon(String id) => CommonIconData.ALL[getIconKey(id)]??CommonIconData.FOLDER_ICON;
+  static IconData getIcon(String id) => CommonIconData.get(getIconKey(id), defKey: CommonIconData.folderIconKey);
 
   static Future<void> setIcon(String id, IconData icon) async {
 
-    List<IconData> icons = CommonIconData.ALL.values.toList();
-    List<String> iconKeys = CommonIconData.ALL.keys.toList();
+    List<IconData> icons = CommonIconData.all.values.toList();
+    List<String> iconKeys = CommonIconData.all.keys.toList();
 
     int i;
     for(i=0; i<icons.length; i++)

@@ -16,10 +16,10 @@ class AccentColorProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Color get avgColor => CommonColorData.ALL[_colorsKey]!.avgColor;
+  Color get avgColor => CommonColorData.get(_colorsKey).avgColor;
 
-  Color? get color1 => CommonColorData.ALL[_colorsKey]!.colorStart;
-  Color? get color2 => CommonColorData.ALL[_colorsKey]!.colorEnd;
+  Color? get color1 => CommonColorData.get(_colorsKey).colorStart;
+  Color? get color2 => CommonColorData.get(_colorsKey).colorEnd;
   Color get accIconColor => Colors.white;
 
 }
@@ -36,6 +36,6 @@ class IconProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  IconData? get icon => CommonIconData.ALL[_iconKey];
+  IconData get icon => CommonIconData.get(_iconKey);
 
 }

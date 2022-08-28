@@ -47,7 +47,7 @@ Function polaTap = (BuildContext context) {
                   else if (Platform.isIOS) launchURL('https://apps.apple.com/us/app/pola-zabierz-ja-na-zakupy/id1038401148?ls=1');
                 },
                 elevation: AppCard.bigElevation,
-                radius: AppCard.BIG_RADIUS,
+                radius: AppCard.bigRadius,
                 padding: EdgeInsets.all(12.0),
                 child: Row(
                   children: <Widget>[
@@ -71,7 +71,7 @@ Function polaTap = (BuildContext context) {
             SizedBox(height: Dimen.BOTTOM_SHEET_MARG,),
 
             Padding(
-              padding: EdgeInsets.all(Dimen.DEF_MARG/2),
+              padding: EdgeInsets.all(Dimen.defMarg/2),
               child: AppText(
                 '<b>Pola</b> ułatwia kupowanie polskich produktów.'
                     '\n\n<b>Zeskanuj kod kreskowy</b> z dowolnego produktu i dowiedz się, czy firma, która go wyprodukowała jest polska.'
@@ -83,7 +83,7 @@ Function polaTap = (BuildContext context) {
             SizedBox(height: 2*Dimen.BOTTOM_SHEET_MARG,),
 
             Padding(
-              padding: EdgeInsets.all(Dimen.DEF_MARG),
+              padding: EdgeInsets.all(Dimen.defMarg),
               child: Center(
                 child: AppCard(
                     padding: EdgeInsets.zero,

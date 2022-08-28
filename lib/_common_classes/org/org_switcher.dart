@@ -28,7 +28,7 @@ class OrgSwitcher extends StatelessWidget{
   @override
   Widget build(BuildContext context) => Consumer<OrgProvider>(
     builder: (context, prov, child) => SimpleButton(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       padding: const EdgeInsets.only(
         left: OrgSwitcher.margin,
         right: OrgSwitcher.margin,
@@ -48,7 +48,7 @@ class OrgSwitcher extends StatelessWidget{
                 right: AppCard.normMargin.right,
                 child: AppCard(
                     padding: EdgeInsets.zero,
-                    radius: AppCard.BIG_RADIUS,
+                    radius: AppCard.bigRadius,
                     child: Column(
                       children: [
                         _OrgSwitcherExtendedButton(allowedOrgs, Org.fse, onTap: onTap),

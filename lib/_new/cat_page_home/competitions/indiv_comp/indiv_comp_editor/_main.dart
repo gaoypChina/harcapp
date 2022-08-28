@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_editor/indiv_comp_awards_editor_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
@@ -170,7 +170,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                                   widget.onSaved?.call(indivComp);
                                 },
                                 onServerMaybeWakingUp: () {
-                                  if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                  if(mounted) showServerWakingUpToast(context);
                                   return true;
                                 },
                                 onError: (){
@@ -191,8 +191,13 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                                     await popPage(context);
                                     widget.onSaved?.call(indivComp);
                                   },
+                                  onForceLoggedOut: (){
+                                    if(!mounted) return true;
+                                    showAppToast(context, text: forceLoggedOutMessage);
+                                    return true;
+                                  },
                                   onServerMaybeWakingUp: () {
-                                    if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                    if(mounted) showServerWakingUpToast(context);
                                     return true;
                                   },
                                   onError: (){

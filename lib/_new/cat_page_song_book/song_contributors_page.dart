@@ -74,7 +74,7 @@ class SongContributorsPage extends StatelessWidget{
                             completedTasks: []
                         ),
                         activeParticipCnt: null,
-                        colors: CommonColorData.ALL[CommonColorData.OMEGA_COLORS_KEY],
+                        colors: CommonColorData.get(CommonColorData.omegaColorsKey),
                         size: 42.0,
                       ),
 
@@ -117,7 +117,7 @@ class _SongListDialog extends StatelessWidget{
       padding: const EdgeInsets.all(Dimen.SIDE_MARG),
       child: Material(
         color: background_(context),
-        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
         clipBehavior: Clip.hardEdge,
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),

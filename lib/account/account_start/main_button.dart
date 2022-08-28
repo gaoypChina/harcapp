@@ -13,8 +13,8 @@ class MainButton extends StatelessWidget{
 
   static Color borderColor(BuildContext context) => iconDisab_(context);
   static const double borderSize = 4.0;
-  static const double outerRadius = AppCard.BIG_RADIUS;
-  static const double innerRadius = AppCard.BIG_RADIUS - 3.0;
+  static const double outerRadius = AppCard.bigRadius;
+  static const double innerRadius = AppCard.bigRadius - 3.0;
   static const double height = Dimen.ICON_FOOTPRINT + borderSize;
 
   final IconData? icon;
@@ -27,8 +27,9 @@ class MainButton extends StatelessWidget{
     this.icon,
     this.text,
     this.processing,
-    this.enabled: true,
+    this.enabled = true,
     this.onTap,
+    super.key
   });
 
   @override
@@ -40,7 +41,7 @@ class MainButton extends StatelessWidget{
             borderRadius: BorderRadius.circular(outerRadius),
             color: borderColor(context),
             child: Padding(
-              padding: EdgeInsets.all(4.0),
+              padding: const EdgeInsets.all(4.0),
               child: Material(
                   clipBehavior: Clip.hardEdge,
                   borderRadius: BorderRadius.circular(innerRadius),

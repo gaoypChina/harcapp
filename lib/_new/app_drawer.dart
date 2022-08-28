@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/auto_rotate.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
@@ -129,7 +129,7 @@ class AccountHeader extends StatelessWidget{
   @override
   Widget build(BuildContext context) => AppCard(
     elevation: AppCard.bigElevation,
-    radius: AppCard.BIG_RADIUS,
+    radius: AppCard.bigRadius,
     margin: AppCard.normMargin,
     child: Column(
       mainAxisSize: MainAxisSize.min,
@@ -168,7 +168,7 @@ class AccountHeader extends StatelessWidget{
 
             /*
             Padding(
-              padding: EdgeInsets.only(top: iconSize/2 - AppCard.NORM_MARGIN_VAL),
+              padding: EdgeInsets.only(top: iconSize/2 - AppCard.normMargVal),
               child:
             ),
              */
@@ -183,7 +183,7 @@ class AccountHeader extends StatelessWidget{
                 Navigator.pop(context);
                 AccountPage.open(context);
               },
-              radius: AppCard.BIG_RADIUS,
+              radius: AppCard.bigRadius,
               margin: AppCard.normMargin,
               child: Row(
                 children: [

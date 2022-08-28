@@ -1,9 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/sector_sep_widget.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/single_line_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -28,7 +25,7 @@ class ListHeaderWidget extends StatelessWidget{
       children.add(
           Material(
             color: cardEnab_(context),
-            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+            borderRadius: BorderRadius.circular(AppCard.bigRadius),
             child: Padding(
               padding: EdgeInsets.all(Dimen.SIDE_MARG),
               child: SelectableText(_text, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
@@ -37,7 +34,7 @@ class ListHeaderWidget extends StatelessWidget{
       );
 
       if(i < text.length - 1)
-        children.add(SizedBox(height: 2*Dimen.DEF_MARG));
+        children.add(SizedBox(height: 2*Dimen.defMarg));
     }
 
     return Column(

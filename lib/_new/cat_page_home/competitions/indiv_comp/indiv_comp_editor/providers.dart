@@ -43,42 +43,40 @@ class ModeProvider extends ChangeNotifier{
 
 class ColorKeyProvider extends ChangeNotifier{
 
-  String? _colorsKey;
+  String _colorsKey;
 
-  ColorKeyProvider({String? colorKey}){
-    _colorsKey = colorKey??CommonColorData.DEF_COLORS_KEY;
-  }
+  ColorKeyProvider({String? colorKey}):
+    _colorsKey = colorKey??CommonColorData.defColorsKey;
 
-  String? get colorsKey => _colorsKey;
-  set colorsKey(String? value){
+  String get colorsKey => _colorsKey;
+  set colorsKey(String value){
     _colorsKey = value;
     notifyListeners();
   }
 
-  Color get avgColor => CommonColorData.ALL[_colorsKey!]!.avgColor;
+  Color get avgColor => CommonColorData.get(_colorsKey).avgColor;
 
-  CommonColorData? get colors => CommonColorData.ALL[_colorsKey!];
-  Color? get color1 => colors!.colorStart;
-  Color? get color2 => colors!.colorEnd;
+  CommonColorData get colors => CommonColorData.get(_colorsKey);
+  Color? get color1 => colors.colorStart;
+  Color? get color2 => colors.colorEnd;
   Color get accIconColor => Colors.white;
 
 }
 
 class IconKeyProvider extends ChangeNotifier{
 
-  String? _iconKey;
+  String _iconKey;
 
-  IconKeyProvider({String? iconKey}){
-    _iconKey = iconKey??CommonIconData.DEF_ICON_KEY;
-  }
+  IconKeyProvider({String? iconKey}):
+      _iconKey = iconKey??CommonIconData.defIconKey;
 
-  String? get iconKey => _iconKey;
-  set iconKey(String? value){
+  String get iconKey => _iconKey;
+  set iconKey(String value){
     _iconKey = value;
     notifyListeners();
   }
 
-  IconData? get icon => CommonIconData.ALL[_iconKey!];
+  IconData get icon => CommonIconData.get(_iconKey);
 
 }
 

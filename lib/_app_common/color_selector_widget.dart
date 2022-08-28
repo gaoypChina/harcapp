@@ -25,7 +25,7 @@ class ColorSelectorWidgetState extends State<ColorSelectorWidget>{
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (BuildContext context) => _Provider(widget.initColorKey??CommonColorData.DEF_COLORS_KEY),
+        create: (BuildContext context) => _Provider(widget.initColorKey??CommonColorData.defColorsKey),
         builder: (context, child) => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -121,8 +121,8 @@ class ColorDataWidget extends StatelessWidget{
                   child: Center(
                       child: GradientWidget(
                         shape: BoxShape.circle,
-                        colorStart: CommonColorData.ALL[colorsKey]!.colorStart.withOpacity(selected?1:.35),
-                        colorEnd: CommonColorData.ALL[colorsKey]!.colorEnd.withOpacity(selected?1:.35),
+                        colorStart: CommonColorData.get(colorsKey).colorStart.withOpacity(selected?1:.35),
+                        colorEnd: CommonColorData.get(colorsKey).colorEnd.withOpacity(selected?1:.35),
                         width: BUTTON_SIZE,
                         height: BUTTON_SIZE,
                         duration: const Duration(milliseconds: 300),

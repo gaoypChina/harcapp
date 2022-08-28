@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -96,7 +96,7 @@ class OkrzykWidgetState extends State<OkrzykWidget>{
     }
 
     return AppCard(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       elevation: AppCard.bigElevation,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

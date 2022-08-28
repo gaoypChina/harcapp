@@ -134,7 +134,7 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Icon(MdiIcons.circleSmall, size: Dimen.TEXT_SIZE_BIG),
-                              const SizedBox(width: Dimen.DEF_MARG),
+                              const SizedBox(width: Dimen.defMarg),
                               Expanded(child: WordWidget(langData2.word, weight.halfBold)),
                             ],
                           ),
@@ -144,7 +144,7 @@ class SlownikFragmentState extends State<SlownikFragment> with ModuleStatsMixin{
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Icon(MdiIcons.circleSmall, size: Dimen.TEXT_SIZE_BIG),
-                                const SizedBox(width: Dimen.DEF_MARG),
+                                const SizedBox(width: Dimen.defMarg),
                                 Expanded(child: WordWidget(word, weight.halfBold)),
                               ],
                             )).toList(),

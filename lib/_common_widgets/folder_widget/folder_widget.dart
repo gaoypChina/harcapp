@@ -24,7 +24,7 @@ class FolderWidget extends StatelessWidget{
     Color color = cardEnab_(context)!;
     Color darkColor = Color.fromARGB(255, color.red-10, color.green-10, color.blue-10);
 
-    double radius = size>84?AppCard.BIG_RADIUS:AppCard.DEF_RADIUS;
+    double radius = size>84?AppCard.bigRadius:AppCard.defRadius;
 
     return SizedBox(
         width: size,

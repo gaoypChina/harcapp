@@ -13,7 +13,7 @@ void openSprawDialog(BuildContext context, Spraw spraw, {heroTag, void Function(
           color: background_(context),
           margin: AppCard.normMargin,
           padding: EdgeInsets.zero,
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           child: SprawWidget(spraw, onReqComplChanged: onReqComplChanged)
       );
 

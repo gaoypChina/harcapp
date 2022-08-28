@@ -58,7 +58,7 @@ class SlowoKluczHowToGuideState extends State<SlowoKluczHowToGuide>{
   Widget build(BuildContext context) {
 
     return AppCard(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       margin: EdgeInsets.all(Dimen.SIDE_MARG),
       padding: EdgeInsets.zero,
       child: GradientWidget(

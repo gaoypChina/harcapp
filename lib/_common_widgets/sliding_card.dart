@@ -121,7 +121,7 @@ class SlidingCard extends StatelessWidget{
 
     return AppCard(
       elevation: AppCard.bigElevation,
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       padding: padding,
       child: child,
       color: color,

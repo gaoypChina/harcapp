@@ -1,11 +1,8 @@
-
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:harcapp/_app_common/color_selector_widget.dart';
 import 'package:harcapp/_app_common/icon_selector_widget.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
@@ -69,14 +66,11 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
       textEditingController = TextEditingController();
       offSongs = [];
       ownSongs = [];
-    }else {
+    } else {
       textEditingController = TextEditingController(text: initAlbum!.title);
       offSongs = List.of(initAlbum!.offSongs);
       ownSongs = List.of(initAlbum!.ownSongs);
     }
-
-    //iconKey = initAlbum?.iconKey??
-    //CommonIconData.ALL.keys.toList()[Random().nextInt(CommonIconData.ALL.length)];
 
     focusNode = FocusNode();
 
@@ -99,11 +93,11 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
       providers: [
         ChangeNotifierProvider(create: (context) => AccentColorProvider(
             initAlbum?.colorsKey??
-                CommonColorData.ALL.keys.toList()[Random().nextInt(CommonColorData.ALL.length)]
+                CommonColorData.randomKey
         )),
         ChangeNotifierProvider(create: (context) => IconProvider(
             initAlbum?.iconKey??
-                CommonIconData.ALL.keys.toList()[Random().nextInt(CommonIconData.ALL.length)]
+                CommonIconData.randomKey
         )),
         ChangeNotifierProvider(create: (context){
           appBarProv = _AppBarProvider();

@@ -79,7 +79,7 @@ class GameItem extends StatelessWidget{
           child: Hero(
             tag: data,
             child: AppCard(
-              radius: AppCard.BIG_RADIUS,
+              radius: AppCard.bigRadius,
               elevation: 0,//AppCard.bigElevation,
               padding: EdgeInsets.zero,
               margin: EdgeInsets.zero,
@@ -129,7 +129,7 @@ class GameItem extends StatelessWidget{
         ),
 
         Padding(
-          padding: const EdgeInsets.all(3*Dimen.DEF_MARG),
+          padding: const EdgeInsets.all(3*Dimen.defMarg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

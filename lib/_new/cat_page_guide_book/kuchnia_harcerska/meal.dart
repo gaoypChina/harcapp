@@ -9,7 +9,7 @@ class Meal{
 
   static Meal jajecznica = Meal.create(
       'Jajecznica',
-      [
+      const [
         Ingredient(Product.jajko, 3, Unit.item),
         Ingredient(Product.szynka_wedzona, 1, Unit.slice),
         Ingredient(Product.cebula, 40, Unit.g),
@@ -34,7 +34,7 @@ class Meal{
 
   static Meal twarog_ze_smietana = Meal.create(
       "Twaróg ze śmietaną",
-      [
+      const [
         Ingredient(Product.ser_twarogowy_chudy, 100, Unit.g),
         Ingredient(Product.smietana, 1, Unit.spoonB),
         Ingredient(Product.cukier, 2, Unit.spoonS)
@@ -53,7 +53,7 @@ class Meal{
 
   static Meal tosty_francuskie = Meal.create(
       "Tosty francuskie",
-      [
+      const [
         Ingredient(Product.chleb_wiejski, 4, Unit.breadSlice),
         Ingredient(Product.jajko, 1, Unit.item),
         Ingredient(Product.ser_zolty, 2, Unit.slice),
@@ -367,6 +367,32 @@ class Meal{
   fire: true,
   water: true);
 
+  static Meal buraki_na_ostro = Meal.create(
+      "Buraki na ostro",
+      [
+        Ingredient(Product.burak, 500, Unit.g),
+        Ingredient(Product.chrzan, 120, Unit.g),
+        Ingredient(Product.czosnek, 6, Unit.clove),
+        Ingredient(Product.smietana, 300, Unit.g),
+        Ingredient(Product.sol, 0.1, Unit.spoonS)
+      ],
+      {
+        Equipment.GARNEK:1,
+        Equipment.TARKA:1,
+        Equipment.NOZ:1,
+        Equipment.LYZKA_DO_MIESZANIA:1
+      },
+      [
+        'Buraki ugotowac bez opierania.',
+        'Obrać i zetrzeć buraki na tarce.',
+        'Obrać i drobno pokroić czosnek.',
+        'Buraki, czosnek, chrzan i śmietanę wymieszać.',
+        'Doprawić solą',
+      ],
+      tags: [TAG_WEGE],
+      fire: true,
+      water: false);
+
   static List<Meal> all = [
     jajecznica,
     twarog_ze_smietana,
@@ -380,7 +406,8 @@ class Meal{
     makaron_z_pesto,
     kaszki_dzieciece,
     nalesniki,
-    puree_z_warzywami
+    puree_z_warzywami,
+    buraki_na_ostro
   ];
 
   final String name;
@@ -396,13 +423,13 @@ class Meal{
   final bool water;
 
   final double kcal100, proteins100, carbohyd100, fat100;
-  final List<String> vitamines;
+  final List<String> vitamins;
   final List<Subst> other;
 
   final double totalMass;
 
   const Meal(this.name, this.ingredients, this.equipment, this.prepSteps, this.tags, this.fire, this.water,
-      this.kcal100, this.proteins100, this.carbohyd100, this.fat100, this.vitamines, this.other, this.totalMass);
+      this.kcal100, this.proteins100, this.carbohyd100, this.fat100, this.vitamins, this.other, this.totalMass);
 
   static Meal create(String name, List<Ingredient> ingredients, Map<Equipment, int> equipment, List<String> prepSteps, {List<String> tags: const [], bool fire: false, bool water: false}){
 

@@ -224,7 +224,7 @@ class Page8State extends State<Page8> with PageTemplateInterface{
                     duration: _showMessDuration,
                     curve: curve,
                     child: AppCard(
-                        radius: AppCard.BIG_RADIUS,
+                        radius: AppCard.bigRadius,
                         elevation: AppCard.bigElevation,
                         margin: EdgeInsets.only(left: initGridSize(width)/2, top: 8.0, bottom: 8.0, right: 8.0),
                         padding: EdgeInsets.only(left:initGridSize(width)/2, top: 8.0, bottom: 8.0, right: 8.0),

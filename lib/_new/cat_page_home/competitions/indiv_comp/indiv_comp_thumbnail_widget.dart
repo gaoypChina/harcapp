@@ -18,8 +18,8 @@ class IndivCompThumbnailWidget extends StatelessWidget{
   static const double outerRadiusSizeFactor = .25;
   static const double innerRadiusSizeFactor = .16;
 
-  final String? iconKey;
-  final String? colorsKey;
+  final String iconKey;
+  final String colorsKey;
 
   final double size;
   final double elevation;
@@ -51,8 +51,8 @@ class IndivCompThumbnailWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    CommonColorData colors = CommonColorData.ALL[colorsKey!]!;
-    IconData? icon = CommonIconData.ALL[iconKey!];
+    CommonColorData colors = CommonColorData.get(colorsKey);
+    IconData icon = CommonIconData.get(iconKey);
 
     Widget widget = SizedBox(
       width: size,

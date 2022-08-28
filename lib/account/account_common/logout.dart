@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/login_register.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
@@ -88,8 +88,8 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
       child: SizedBox(
         width: 286,
         child: AppCard(
-            radius: AppCard.ALERT_DIALOG_RADIUS,
-            padding: const EdgeInsets.all(AppCard.ALERT_DIALOG_PADDING),
+            radius: AppCard.alertDialogRadius,
+            padding: const EdgeInsets.all(AppCard.alertDialogPadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
@@ -119,7 +119,7 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
                                 padding: const EdgeInsets.all(2),
                                 child: SpinKitThreeBounce(color: accent_(context), size: Dimen.ICON_SIZE - 4),
                               ),
-                              const SizedBox(width: Dimen.DEF_MARG),
+                              const SizedBox(width: Dimen.defMarg),
                               Text('Sprawdzanie stanu...', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL, color: hintEnab_(context))),
                             ],
                           )
@@ -131,7 +131,7 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
                                 padding: const EdgeInsets.all(2),
                                 child: SpinKitThreeBounce(color: accent_(context), size: Dimen.ICON_SIZE - 4),
                               ),
-                              const SizedBox(width: Dimen.DEF_MARG),
+                              const SizedBox(width: Dimen.defMarg),
                               Text('Trwa synchronizacja...', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL, color: hintEnab_(context))),
                             ],
                           )
@@ -140,7 +140,7 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
                               children: <Widget>[
 
                                 const Icon(MdiIcons.alertCircleOutline, color: Colors.red),
-                                const SizedBox(width: Dimen.DEF_MARG),
+                                const SizedBox(width: Dimen.defMarg),
                                 Text('Problem z synchronizacją', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL, color: Colors.red)),
                               ],
                             )
@@ -169,7 +169,7 @@ class LogoutDialogState extends State<LogoutDialog> with TickerProviderStateMixi
                                 if(mounted) Navigator.pop(context);
                               },
                               onServerMaybeWakingUp: () {
-                                if(mounted) showAppToast(context, text: serverWakingUpMessage);
+                                if(mounted) showServerWakingUpToast(context);
                                 return true;
                               },
                               onError: () async {

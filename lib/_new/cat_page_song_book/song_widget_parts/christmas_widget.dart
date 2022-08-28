@@ -17,7 +17,7 @@ class ChristmasCard<T extends SongCore> extends StatelessWidget{
   Widget build(BuildContext context) {
     return AppCard(
         elevation: 0,
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         margin: AppCard.normMargin,
         onTap: onChristmasCardTap,
         child: Stack(

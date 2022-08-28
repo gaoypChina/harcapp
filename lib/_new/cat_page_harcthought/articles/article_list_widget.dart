@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -80,7 +80,7 @@ class ArticleListWidget extends StatelessWidget{
 
     Widget child = ArticleCardWidget(
       articles[index],
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       onTap: (context, article, background, articleSeenProv) =>
       background == null?
       showAppToast(context, text: 'Ładowanie...'):
@@ -105,7 +105,7 @@ class ArticleListWidget extends StatelessWidget{
         child: child,
         builder: (context, child) =>
             Transform.translate(
-              offset: Offset(2*Dimen.DEF_MARG*(index-notifier.value), 0),
+              offset: Offset(2*Dimen.defMarg*(index-notifier.value), 0),
               child: child,
             ),
       ),

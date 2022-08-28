@@ -100,10 +100,10 @@ class SprawNamesWidgetState extends State<SprawNamesWidget>{
       );
 
     return Material(
-        borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
         color: backgroundColor??cardEnab_(context),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG, vertical: Dimen.DEF_MARG),
+          padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG, vertical: Dimen.defMarg),
           child: Column(children: children),
         )
     );

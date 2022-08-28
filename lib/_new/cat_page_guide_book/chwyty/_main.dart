@@ -65,7 +65,7 @@ class ChwytyFragmentState extends State<ChwytyFragment> with ModuleStatsMixin {
                     padding: EdgeInsets.only(left: AppCard.defPadding.left, right: AppCard.defPadding.right),
                     child: Row(children: <Widget>[
                       const Icon(MdiIcons.guitarPickOutline,),
-                      const SizedBox(width: Dimen.DEF_MARG),
+                      const SizedBox(width: Dimen.defMarg),
                       SizedBox(
                         width: 52,
                         child: Consumer<FretboardProvider>(
@@ -74,7 +74,7 @@ class ChwytyFragmentState extends State<ChwytyFragment> with ModuleStatsMixin {
                             children: [
                               Text('Gitara', style: AppTextStyle(color: iconEnab_(context), fontWeight: weight.halfBold)),
                               Text('Ukulele', style: AppTextStyle(color: iconEnab_(context), fontWeight: weight.halfBold)),
-                              Text('Mandolina', style: AppTextStyle(color: iconEnab_(context), fontWeight: weight.halfBold)),
+                              Text('Mando-lina', style: AppTextStyle(color: iconEnab_(context), fontWeight: weight.halfBold)),
                             ],
                           ),
                         ),

@@ -20,7 +20,7 @@ class MealWidget extends StatefulWidget{
 
   final Meal meal;
   final void Function(Meal meal, bool selected) onSelectedChanged;
-  const MealWidget(this.meal, {required this.onSelectedChanged});
+  const MealWidget(this.meal, {required this.onSelectedChanged, super.key});
 
   @override
   State<StatefulWidget> createState() => MealWidgetState();
@@ -48,19 +48,19 @@ class MealWidgetState extends State<MealWidget>{
   Widget build(BuildContext context) {
 
     return ListView(
-      padding: EdgeInsets.all(Dimen.SIDE_MARG),
-      physics: BouncingScrollPhysics(),
+      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+      physics: const BouncingScrollPhysics(),
       children: <Widget>[
 
         TitleShortcutRowWidget(title: meal.name),
 
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
         PortionsSelectorWidget.create(builder:
             (Widget buttons, Widget textField) {
           return Row(
             children: <Widget>[
-              SizedBox(width: Dimen.ICON_FOOTPRINT),
+              const SizedBox(width: Dimen.ICON_FOOTPRINT),
               Text(
                   'Liczba porcji:',
                   style: AppTextStyle(
@@ -68,7 +68,7 @@ class MealWidgetState extends State<MealWidget>{
                       fontWeight: weight.halfBold
                   )
               ),
-              SizedBox(width: 2*Dimen.DEF_MARG),
+              const SizedBox(width: 2*Dimen.defMarg),
               Expanded(child: textField),
               buttons
             ],
@@ -79,8 +79,8 @@ class MealWidgetState extends State<MealWidget>{
         ),
 
         SimpleButton(
-          margin: EdgeInsets.only(left: Dimen.ICON_FOOTPRINT - Dimen.ICON_MARG),
-          radius: AppCard.BIG_RADIUS,
+          margin: const EdgeInsets.only(left: Dimen.ICON_FOOTPRINT - Dimen.ICON_MARG),
+          radius: AppCard.bigRadius,
           onTap: (){
             setState(() => changeSelection());
             widget.onSelectedChanged(meal, selected);
@@ -89,7 +89,7 @@ class MealWidgetState extends State<MealWidget>{
             children: [
 
               Padding(
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 child: Icon(
                     selected?MdiIcons.cartCheck:MdiIcons.cartOutline,
                     color: selected?iconEnab_(context):iconDisab_(context)),
@@ -114,7 +114,7 @@ class MealWidgetState extends State<MealWidget>{
 
         ),
 
-        SizedBox(height: 2*Dimen.SIDE_MARG),
+        const SizedBox(height: 2*Dimen.SIDE_MARG),
 
         if(meal.tags.isNotEmpty)
           SingleChildScrollView(
@@ -122,12 +122,12 @@ class MealWidgetState extends State<MealWidget>{
             child: Row(children: meal.tags.map<Widget>((tag) => Tag(tag)).toList()),
           ),
         if(meal.tags.isNotEmpty)
-          SizedBox(height: 28),
+          const SizedBox(height: 28),
 
 
         Row(
           children: [
-            KuchSectionHeader(text: 'Składniki'),
+            const KuchSectionHeader(text: 'Składniki'),
             KuchSectionHeader(text: ' (porcja: ${meal.totalMass} g)', color: hintEnab_(context), paddingLeft: 0),
           ],
         ),
@@ -135,11 +135,11 @@ class MealWidgetState extends State<MealWidget>{
         Column(children: meal.ingredients.map(
                 (ingredient) => IngredientWidgetConv(ingredient, portions!.get())).toList()),
 
-        SizedBox(height: 28),
+        const SizedBox(height: 28),
 
         EquipmentListWidget(meal.equipment),
 
-        SizedBox(height: 28),
+        const SizedBox(height: 28),
 
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -150,13 +150,13 @@ class MealWidgetState extends State<MealWidget>{
                     meal.water?MdiIcons.waterOutline:MdiIcons.waterOffOutline,
                     size: 48.0,
                     color: meal.water?iconEnab_(context):iconDisab_(context)),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Padding(
-                  padding: EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.all(12.0),
                   child: Text(
                     meal.water?
-                    'Do przygotowania potrzebna jest woda':
-                    'Do przygotowania nie jest potrzebna woda',
+                    'Potrzebna jest woda':
+                    'Nie jest potrzebna woda',
                     style: AppTextStyle(
                       fontSize: Dimen.TEXT_SIZE_BIG,
                       fontWeight: weight.halfBold,
@@ -174,13 +174,13 @@ class MealWidgetState extends State<MealWidget>{
                     meal.fire?MdiIcons.fire:MdiIcons.bowlMixOutline,
                     size: 48.0,
                     color: meal.fire?iconEnab_(context):iconDisab_(context)),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Padding(
-                  padding: EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.all(12.0),
                   child: Text(
                     meal.fire?
-                    'Do przygotowania potrzebny jest ogień':
-                    'Do przygotowania nie jest potrzebny ogień',
+                    'Potrzebny jest ogień':
+                    'Nie jest potrzebny ogień',
                     style: AppTextStyle(
                         fontSize: Dimen.TEXT_SIZE_BIG,
                         fontWeight: weight.halfBold,
@@ -195,17 +195,17 @@ class MealWidgetState extends State<MealWidget>{
           ],
         ),
 
-        SizedBox(height: 28),
+        const SizedBox(height: 28),
 
-        KuchSectionHeader(text: 'Sposób przygotowania'),
+        const KuchSectionHeader(text: 'Sposób przygotowania'),
         PrepStepsWidget(meal),
 
-        SizedBox(height: 28),
+        const SizedBox(height: 28),
 
-        KuchSectionHeader(text: 'Wartości odżywcze (na 100 g)'),
+        const KuchSectionHeader(text: 'Wartości odżywcze (na 100 g)'),
         NutritionWidgetFull(
             meal.kcal100, meal.proteins100, meal.carbohyd100,
-            meal.fat100, meal.vitamines, meal.other),
+            meal.fat100, meal.vitamins, meal.other),
 
       ],
     );

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/blur.dart';
 import 'package:harcapp/_common_classes/scan_qr_code.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_guide_book/games/slowo_klucz/word.dart';
 import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
@@ -255,7 +255,7 @@ class ButtonWidget extends StatelessWidget{
 
     return AppCard(
       onTap: onTap,
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       elevation: AppCard.bigElevation,
       padding: EdgeInsets.zero,
       color: Colors.transparent,

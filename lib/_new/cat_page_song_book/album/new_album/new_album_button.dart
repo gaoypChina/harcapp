@@ -19,20 +19,20 @@ class NewAlbumButton extends StatelessWidget{
   @override
   Widget build(BuildContext context) => SimpleButton(
       clipBehavior: Clip.none,
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       padding: EdgeInsets.zero,
       margin: EdgeInsets.zero,
       child: Row(
         children: [
           AppCard(
-            radius: AppCard.BIG_RADIUS,
+            radius: AppCard.bigRadius,
             elevation: AppCard.bigElevation,
             padding: const EdgeInsets.all(Dimen.ICON_MARG),
             margin: EdgeInsets.zero,
             child: Icon(
               MdiIcons.bookmarkPlusOutline,
               color: textEnab_(context),
-              size: AlbumWidgetSmall.ICON_SIZE,
+              size: AlbumWidgetSmall.iconSize,
             ),
           ),
           Expanded(
@@ -46,7 +46,7 @@ class NewAlbumButton extends StatelessWidget{
                   textAlign: TextAlign.center
               )
           ),
-          const SizedBox(width: AlbumWidgetSmall.ICON_SIZE + 2*Dimen.ICON_MARG),
+          const SizedBox(width: AlbumWidgetSmall.iconSize + 2*Dimen.ICON_MARG),
         ],
       ),
       onTap: (){

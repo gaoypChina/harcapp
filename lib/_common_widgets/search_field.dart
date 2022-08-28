@@ -8,7 +8,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class SearchField extends StatelessWidget{
 
-  static const double defMargVal = Dimen.DEF_MARG;
+  static const double defMargVal = Dimen.defMarg;
 
   static const EdgeInsets normMargin = EdgeInsets.only(
     top: defMargVal,
@@ -33,6 +33,7 @@ class SearchField extends StatelessWidget{
     final Widget? bottom;
     final Color preBackground;
     final Color background;
+    final bool autofocus;
     final FocusNode? focusNode;
     final bool enabled;
 
@@ -50,6 +51,7 @@ class SearchField extends StatelessWidget{
       this.color,
       this.preBackground = Colors.transparent,
       this.background=Colors.transparent,
+      this.autofocus = false,
       this.focusNode,
       this.enabled = true,
       super.key
@@ -76,6 +78,7 @@ class SearchField extends StatelessWidget{
                 color: color??cardEnab_(context),
                 elevation: elevation??AppCard.bigElevation,
                 borderRadius: BorderRadius.circular(Dimen.ICON_SIZE),
+                clipBehavior: Clip.hardEdge,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -84,22 +87,23 @@ class SearchField extends StatelessWidget{
                       children: <Widget>[
                         leading??defLeadWidget(context),
                         Expanded(
-                            child: IgnorePointer(
-                              ignoring: !enabled,
-                              child: TextField(
-                                focusNode: focusNode,
-                                style: AppTextStyle(color: textEnab_(context)),
-                                controller: controller,
-                                onChanged: onChanged,
-                                decoration: InputDecoration(
-                                    hintText: hint,
-                                    border: InputBorder.none,
-                                    hintStyle: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG)
-                                ),
+                          child: IgnorePointer(
+                            ignoring: !enabled,
+                            child: TextField(
+                              autofocus: autofocus,
+                              focusNode: focusNode,
+                              style: AppTextStyle(color: textEnab_(context)),
+                              controller: controller,
+                              onChanged: onChanged,
+                              decoration: InputDecoration(
+                                hintText: hint,
+                                border: InputBorder.none,
+                                hintStyle: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG)
                               ),
-                            )
+                            ),
+                          )
                         ),
-                        const SizedBox(width: Dimen.DEF_MARG),
+                        const SizedBox(width: Dimen.defMarg),
                         if(trailing!=null) trailing!
                       ],
                     ),

@@ -9,7 +9,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_cat.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_group.dart';
-import 'package:harcapp/_new/cat_page_home/circles/circle_loader.dart';
+import 'package:harcapp/_new/cat_page_home/community/communities_loader.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_loader.dart';
 import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp/logger.dart';
@@ -17,6 +17,7 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core_song_widget/providers.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:package_info/package_info.dart';
@@ -27,7 +28,6 @@ import '_common_classes/color_pack.dart';
 import '_common_classes/sha_pref.dart';
 import '_common_classes/storage.dart';
 import '_common_classes/time_settings.dart';
-import '_common_widgets/app_toast.dart';
 import '_new/app_bottom_navigator.dart';
 import '_new/cat_page_guide_book/_sprawnosci/providers.dart';
 import '_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
@@ -36,8 +36,12 @@ import '_new/cat_page_guide_book/szyfry/providers.dart';
 import '_new/cat_page_harcthought/apel_ewan/apel_ewan_own_folder.dart';
 import '_new/cat_page_harcthought/apel_ewan/providers.dart';
 import '_new/cat_page_harcthought/articles/providers.dart';
-import '_new/cat_page_home/circles/model/announcement.dart';
-import '_new/cat_page_home/circles/model/circle.dart';
+import '_new/cat_page_home/community/circle/model/announcement.dart';
+import '_new/cat_page_home/community/circle/model/circle.dart';
+import '_new/cat_page_home/community/community_publishable.dart';
+import '_new/cat_page_home/community/forum/model/forum.dart';
+import '_new/cat_page_home/community/forum/model/post.dart';
+import '_new/cat_page_home/community/model/community.dart';
 import '_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import '_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
 import '_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
@@ -48,7 +52,6 @@ import '_new/cat_page_strefa_ducha/providers.dart';
 import '_new/cat_page_song_book/providers.dart';
 import '_new/cat_page_song_book/settings/song_book_base_settings.dart';
 import '_new/details/app_settings.dart';
-import '_new/main_page_new.dart';
 import '_new/providers.dart';
 import '_new/start/_main.dart';
 import 'account/account.dart';
@@ -159,13 +162,25 @@ void main() async {
             ChangeNotifierProvider(create: (context) => DrawerProvider()),
             ChangeNotifierProvider(create: (context) => FloatingButtonProvider()),
 
+            //COMMUNITIES
+            ChangeNotifierProvider(create: (context) => CommunityProvider()),
+            ChangeNotifierProvider(create: (context) => CommunityListProvider()),
+            ChangeNotifierProvider(create: (context) => CommunityManagersProvider()),
+
+            ChangeNotifierProvider(create: (context) => CommunityPublishableListProvider()),
+
             //CIRCLES
             ChangeNotifierProvider(create: (context) => CircleMembersProvider()),
             ChangeNotifierProvider(create: (context) => CircleProvider()),
-            ChangeNotifierProvider(create: (context) => CircleListProvider()),
             ChangeNotifierProvider(create: (context) => AnnouncementProvider()),
             ChangeNotifierProvider(create: (context) => AnnouncementListProvider()),
             ChangeNotifierProvider(create: (context) => BindedIndivCompsProvider()),
+
+            //FORUM
+            ChangeNotifierProvider(create: (context) => ForumProvider()),
+            ChangeNotifierProvider(create: (context) => ForumManagersProvider()),
+            ChangeNotifierProvider(create: (context) => PostProvider()),
+            ChangeNotifierProvider(create: (context) => PostListProvider()),
 
             //INDIVIDUAL COMPETITION
             ChangeNotifierProvider(create: (context) => IndivCompParticipsProvider()),
@@ -182,7 +197,7 @@ void main() async {
             ChangeNotifierProvider(create: (context) => SprawCompletedListProv()),
             ChangeNotifierProvider(create: (context) => CurrentSprawGroupProvider()),
 
-            // SPIEWNIK
+            // ŚPIEWNIK
             ChangeNotifierProvider(create: (context) => AlbumProvider()),
 
             // SZYFRY
@@ -365,13 +380,12 @@ class AppState extends State<App> with WidgetsBindingObserver {
         onRegistered: () async{
           await Statistics.commit();
           IndivComp.init([], context: mounted?context:null);
-          Circle.init([], context: mounted?context:null);
         },
         onEmailConfirmChanged: (emailConf) async {
           if(!emailConf) return;
           await Statistics.commit();
           await indivCompLoader.run();
-          await circleLoader.run();
+          await communitiesLoader.run();
         }
     );
     AccountData.addLoginListener(_loginListener);
@@ -388,7 +402,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
     songLoader.run();
     if(AccountData.loggedIn) {
       indivCompLoader.run();
-      circleLoader.run();
+      communitiesLoader.run();
     }
 
     navigatorKey = GlobalKey<NavigatorState>();

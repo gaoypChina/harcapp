@@ -2,13 +2,13 @@
 // const String SERVER_IP = 'https://harcapp-api-harcapp-test-n3o2k7i8ch5.cloud.okteto.net';
 // const String? SERVER_PORT = null;
 
-const String SERVER_IP = 'https://harcapp-api-beta-production-1-n3o2k7i8ch5.cloud.okteto.net';
-const String? SERVER_PORT = null;
+// const String SERVER_IP = 'https://harcapp-api-beta-production-2-n3o2k7i8ch5.cloud.okteto.net';
+// const String? SERVER_PORT = null;
 
 /* A to jeżeli zdecyzujesz się uruchomić serwer lokalnie. */
 
-// const String SERVER_IP = 'http://0.0.0.0';
-// const String SERVER_PORT = '8080';
+const String SERVER_IP = 'http://0.0.0.0';
+const String SERVER_PORT = '8080';
 
 /*
 !!! WAŻNE !!!

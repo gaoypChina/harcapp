@@ -153,10 +153,10 @@ class RankSprawTempWidget extends StatelessWidget{
                 if(!previewOnly)
                   FloatingContainer(
                     builder: (context, __, _) => Padding(
-                      padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                      padding: const EdgeInsets.all(Dimen.defMarg),
                       child: appBarBottom,
                     ),
-                    height: (appBarBottom?.preferredSize.height??0) + 2*Dimen.DEF_MARG,
+                    height: (appBarBottom?.preferredSize.height??0) + 2*Dimen.defMarg,
                     rebuild: true,
                   ),
 

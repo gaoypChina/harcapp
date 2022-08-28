@@ -48,10 +48,10 @@ class HintDropdownWidget<T> extends StatelessWidget{
                 iconSize: 0,
                 dropdownMaxHeight: dropdownMaxHeight,
                 buttonDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppCard.DEF_RADIUS),
+                  borderRadius: BorderRadius.circular(AppCard.defRadius),
                 ),
                 dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                  borderRadius: BorderRadius.circular(AppCard.bigRadius),
                 ),
               )
           )),

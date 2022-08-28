@@ -38,7 +38,7 @@ class TagsWidget extends StatelessWidget{
     List<Widget> tags = [];
     for(int i=0; i<article!.tags!.length; i++){
       tags.add(ArticleTagWidget(article!.tags![i], dense: dense));
-      if(i < article!.tags!.length-1) tags.add(SizedBox(width: dense?Dimen.DEF_MARG:Dimen.ICON_MARG));
+      if(i < article!.tags!.length-1) tags.add(SizedBox(width: dense?Dimen.defMarg:Dimen.ICON_MARG));
     }
 
     return SingleChildScrollView(
@@ -179,7 +179,7 @@ class AuthorWidget extends StatelessWidget{
       SimpleButton(
         margin: EdgeInsets.zero,
         padding: EdgeInsets.all(Dimen.ICON_MARG),
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         child: child,
         onTap: onTap,
       ),

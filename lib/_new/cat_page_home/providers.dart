@@ -5,7 +5,7 @@ class HomePartProvider extends ChangeNotifier{
 
   static const drawerPageOverview = 'overview';
   static const drawerPageCompetitions = 'competitions';
-  static const drawerPageCircles = 'circles';
+  static const drawerPageCommunities = 'communities';
 
   late String _selectedDrawerPage;
   String get selectedDrawerPage => _selectedDrawerPage;

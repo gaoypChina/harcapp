@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/login_register.dart';
 import 'package:harcapp/account/account_start/page_template.dart';
 import 'package:harcapp/account/account_start/part_template.dart';
@@ -49,7 +49,7 @@ class RemindPasswordPartState extends State<RemindPasswordPart>{
             builder: (context) => RemindPasswordCodePart(emailController!.text)
         ),
         onServerMaybeWakingUp: () {
-          if(mounted) showAppToast(context, text: serverWakingUpMessage);
+          if(mounted) showServerWakingUpToast(context);
           return true;
         },
         onError: (Response? response){

@@ -21,7 +21,7 @@ class AddPersEmailResolver extends AddPersResolver{
           textSize: textSize ?? Dimen.TEXT_SIZE_NORMAL,
           textColor: textColor ?? hintEnab_(context)
       );
-    }else if(data.name != null || data.name!.isEmpty)
+    }else if(data.name != null && data.name!.isNotEmpty)
       return AddPersSimpleResolver(textSize: textSize, textColor: textColor).build(context, data);
 
     logger.e('All null addPers found. Use null instead.');

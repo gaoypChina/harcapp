@@ -8,11 +8,10 @@ abstract class Folder{
   int get count;
 
   String get iconKey;
-  IconData get icon => CommonIconData.ALL[iconKey]??CommonIconData.FOLDER_ICON;
+  IconData get icon => CommonIconData.get(iconKey, defKey: CommonIconData.folderIconKey);
 
   String get colorsKey;
-  CommonColorData get colorsData => CommonColorData.ALL[colorsKey]??
-      CommonColorData.ALL[CommonColorData.DEF_COLORS_KEY]!;
+  CommonColorData get colorsData => CommonColorData.get(colorsKey);
 
   const Folder();
 

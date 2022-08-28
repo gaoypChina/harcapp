@@ -52,7 +52,7 @@ class SprawWidgetSmall extends StatelessWidget{
                 onReqComplChanged: onReqComplChanged
             ):null,
             margin: margin,
-            radius: AppCard.BIG_RADIUS,
+            radius: AppCard.bigRadius,
             elevation: AppCard.bigElevation,
             padding: EdgeInsets.zero,
             child: Stack(

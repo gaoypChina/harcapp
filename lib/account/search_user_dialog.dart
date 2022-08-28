@@ -5,7 +5,7 @@ import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/scan_qr_code.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/api/user.dart';
@@ -104,7 +104,7 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
         child: Padding(
           padding: const EdgeInsets.all(Dimen.SIDE_MARG),
           child: Material(
-            borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+            borderRadius: BorderRadius.circular(AppCard.bigRadius),
             clipBehavior: Clip.hardEdge,
             child: Scaffold(
               resizeToAvoidBottomInset : false,
@@ -114,9 +114,9 @@ class SearchUserWidgetState extends State<SearchUserWidget>{
 
                   Padding(
                     padding: const EdgeInsets.only(
-                      top: Dimen.DEF_MARG,
-                      left: Dimen.DEF_MARG,
-                      right: Dimen.DEF_MARG,
+                      top: Dimen.defMarg,
+                      left: Dimen.defMarg,
+                      right: Dimen.defMarg,
                     ),
                     child:
                     SearchField(

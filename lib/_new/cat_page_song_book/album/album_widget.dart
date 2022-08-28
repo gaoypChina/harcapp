@@ -37,22 +37,22 @@ class AlbumWidget extends StatelessWidget{
           tag: heroTagGradient(album),
           child: GradientWidget(
               elevation: AppCard.bigElevation,
-              radius: AppCard.BIG_RADIUS,
-              colorStart: CommonColorData.ALL[album.colorsKey]!.colorStart,
-              colorEnd: CommonColorData.ALL[album.colorsKey]!.colorEnd,
+              radius: AppCard.bigRadius,
+              colorStart: CommonColorData.get(album.colorsKey).colorStart,
+              colorEnd: CommonColorData.get(album.colorsKey).colorEnd,
               height: 100,
               width: 100,
               child: Column(
                 children: [
 
                   Expanded(
-                    child: album.iconKey!=null?Center(
+                    child: Center(
                       child: Icon(
-                        CommonIconData.ALL[album.iconKey],
+                        CommonIconData.get(album.iconKey),
                         color: background_(context),
                         size: ICON_SIZE,
                       ),
-                    ):Container(),
+                    ),
                   ),
 
                   Padding(
@@ -63,15 +63,15 @@ class AlbumWidget extends StatelessWidget{
                         Icon(
                             MdiIcons.music,
                             size: 14,
-                            color: CommonColorData.ALL[album.colorsKey]!.iconColor.withOpacity(.4)
+                            color: CommonColorData.get(album.colorsKey).iconColor.withOpacity(.4)
                         ),
-                        const SizedBox(width: Dimen.DEF_MARG),
+                        const SizedBox(width: Dimen.defMarg),
                         Text(
                             '${album.songs.length}',
                             style: AppTextStyle(
                                 fontSize: 14.0,
                                 fontWeight: weight.halfBold,
-                                color: CommonColorData.ALL[album.colorsKey]!.iconColor.withOpacity(.4)
+                                color: CommonColorData.get(album.colorsKey).iconColor.withOpacity(.4)
                             )
                         )
 
@@ -124,14 +124,14 @@ class AlbumWidget extends StatelessWidget{
     if(selected)
       return AppCard(
           elevation: AppCard.bigElevation,//ELEVATION,
-          radius: AppCard.BIG_RADIUS,
+          radius: AppCard.bigRadius,
           padding: EdgeInsets.zero,
           onTap: onTap as void Function()?,
           child: widget
       );
     else
       return InkWell(
-        borderRadius: const BorderRadius.all(Radius.circular(AppCard.BIG_RADIUS)),
+        borderRadius: const BorderRadius.all(Radius.circular(AppCard.bigRadius)),
         onTap: onTap as void Function()?,
         child: widget,
       );

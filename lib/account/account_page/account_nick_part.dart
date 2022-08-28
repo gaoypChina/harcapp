@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/user.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_start/input_field_controller.dart';
@@ -199,7 +199,7 @@ class AccountNickPartState extends State<AccountNickPart>{
                               child: Material(
                                   color: ColorPack.DEF_BACKGROUND,
                                   clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                                  borderRadius: BorderRadius.circular(AppCard.bigRadius),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [

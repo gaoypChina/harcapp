@@ -5,7 +5,6 @@ import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -17,7 +16,7 @@ class SearchPage extends StatefulWidget {
 
   final void Function(int) onItemTap;
 
-  const SearchPage({required this.onItemTap});
+  const SearchPage({required this.onItemTap, super.key});
 
   @override
   State<SearchPage> createState() => SearchPageState();
@@ -48,21 +47,21 @@ class SearchPageState extends State<SearchPage> {
                 left: Dimen.SIDE_MARG,
                 right: Dimen.SIDE_MARG
             ),
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemCount: data.length,
             itemBuilder: (context, index) => Item(
               data[index],
               onTap: () => widget.onItemTap(index),
             ),
             separatorBuilder: (BuildContext context, int index) =>
-            SizedBox(height: Dimen.SIDE_MARG),
+            const SizedBox(height: Dimen.SIDE_MARG),
           ),
 
           SearchField(
             hint: 'Szukaj...',
             background: background_(context),
             leading: IconButton(
-              icon: Icon(MdiIcons.arrowLeft),
+              icon: const Icon(MdiIcons.arrowLeft),
               onPressed: () => Navigator.pop(context),
             ),
             onChanged: (text){
@@ -97,12 +96,12 @@ class Item extends StatelessWidget{
   final ItemData data;
   final Function? onTap;
 
-  const Item(this.data, {this.onTap});
+  const Item(this.data, {this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {
     return AppCard(
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         padding: EdgeInsets.zero,
         onTap: onTap as void Function()?,
         child: Container(
@@ -116,7 +115,7 @@ class Item extends StatelessWidget{
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
                 data.name,
                 style: AppTextStyle(
@@ -127,7 +126,7 @@ class Item extends StatelessWidget{
                 ),
                 textAlign: TextAlign.center
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
               Expanded(child: Container()),
 

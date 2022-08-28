@@ -10,7 +10,7 @@ import '_main.dart';
 
 class AllChordsWidget extends StatefulWidget {
 
-  const AllChordsWidget();
+  const AllChordsWidget({super.key});
 
   @override
   State<StatefulWidget> createState() => AllChordsWidgetState();
@@ -31,14 +31,13 @@ class AllChordsWidgetState extends State<AllChordsWidget> with AutomaticKeepAliv
       prov.type == InstrumentType.GUITAR?
       AllGuitarChordsWidget(
         onTap: (chord) => prov.guitChord = chord
-      ):(
+      ):
       prov.type == InstrumentType.UKULELE?
       AllUkuleleChordsWidget(
-          onTap: (chord) => prov.ukulChord = chord
+        onTap: (chord) => prov.ukulChord = chord
       ):
       AllMandolinChordsWidget(
-          onTap: (chord) => prov.mandChord = chord
-      )
+        onTap: (chord) => prov.mandChord = chord
       )
 
     );
@@ -51,7 +50,7 @@ class AllGuitarChordsWidget extends StatelessWidget{
 
   final void Function(GChord chord)? onTap;
 
-  const AllGuitarChordsWidget({this.onTap});
+  const AllGuitarChordsWidget({this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -72,24 +71,21 @@ class AllGuitarChordsWidget extends StatelessWidget{
 
     return SingleChildScrollView(
         padding: AppCard.defPadding,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Wrap(
-            children: children,
             alignment: WrapAlignment.spaceAround,
+            children: children,
         )
     );
     
   }
 
-  List<Widget> chordSetToWidgets(BuildContext context, List<List<GChord>> chordSet){
-
-    return chordSet.map((List<GChord> chords) => ChordWidget.fromGChord(
-      chords[0],
-      onTap: () => onTap==null?null:onTap!(chords[0]),
-      color: textEnab_(context),
-    )).toList();
-
-  }
+  List<Widget> chordSetToWidgets(BuildContext context, List<List<GChord>> chordSet) => chordSet.map((List<GChord> chords) => ChordWidget.fromGChord(
+    chords[0],
+    size: MediaQuery.of(context).size.shortestSide/9,
+    onTap: () => onTap==null?null:onTap!(chords[0]),
+    color: textEnab_(context),
+  )).toList();
 
 }
 
@@ -97,7 +93,7 @@ class AllUkuleleChordsWidget extends StatelessWidget{
 
   final void Function(UChord chord)? onTap;
 
-  const AllUkuleleChordsWidget({this.onTap});
+  const AllUkuleleChordsWidget({this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -130,24 +126,21 @@ class AllUkuleleChordsWidget extends StatelessWidget{
 
     return SingleChildScrollView(
         padding: AppCard.defPadding,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Wrap(
-          children: children,
           alignment: WrapAlignment.spaceAround,
+          children: children,
         )
     );
 
   }
 
-  Widget chordSetToWidgets(BuildContext context, UChord chord){
-
-    return ChordWidget.fromUChord(
-      chord,
-      onTap: () => onTap==null?null:onTap!(chord),
-      color: textEnab_(context),
-    );
-
-  }
+  Widget chordSetToWidgets(BuildContext context, UChord chord) => ChordWidget.fromUChord(
+    chord,
+    size: MediaQuery.of(context).size.shortestSide/9,
+    onTap: () => onTap==null?null:onTap!(chord),
+    color: textEnab_(context),
+  );
 
 }
 
@@ -155,7 +148,7 @@ class AllMandolinChordsWidget extends StatelessWidget{
 
   final void Function(MChord chord)? onTap;
 
-  const AllMandolinChordsWidget({this.onTap});
+  const AllMandolinChordsWidget({this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -259,24 +252,21 @@ class AllMandolinChordsWidget extends StatelessWidget{
 
     return SingleChildScrollView(
         padding: AppCard.defPadding,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Wrap(
-          children: children,
           alignment: WrapAlignment.spaceAround,
+          children: children,
         )
     );
 
   }
 
-  Widget chordSetToWidgets(BuildContext context, MChord chord){
-
-    return ChordWidget.fromMChord(
-      chord,
-      onTap: () => onTap==null?null:onTap!(chord),
-      color: textEnab_(context),
-    );
-
-  }
+  Widget chordSetToWidgets(BuildContext context, MChord chord) => ChordWidget.fromMChord(
+    chord,
+    size: MediaQuery.of(context).size.shortestSide/9,
+    onTap: () => onTap==null?null:onTap!(chord),
+    color: textEnab_(context),
+  );
 
 }
 
@@ -285,15 +275,14 @@ class UChordWidget extends StatelessWidget{
   final UChord chord;
   final void Function(bool typeGuitar, UChord chord)? onTap;
 
-  UChordWidget(this.chord, {this.onTap});
+  const UChordWidget(this.chord, {this.onTap, super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ChordWidget.fromUChord(
-        chord,
-        onTap: () => onTap==null?null:onTap!(false, chord),
-    );
-  }
+  Widget build(BuildContext context) => ChordWidget.fromUChord(
+    chord,
+    size: 48.0,
+    onTap: () => onTap==null?null:onTap!(false, chord),
+  );
 
 }
 
@@ -302,24 +291,21 @@ class GChordSetWidget extends StatelessWidget{
   final List<List<GChord>> chordSet;
   final void Function(bool typeGuitar, List<GChord> chords, int chordsDispIdx)? onTap;
 
-  GChordSetWidget(this.chordSet, {this.onTap});
+  const GChordSetWidget(this.chordSet, {this.onTap, super.key});
 
   @override
-  Widget build(BuildContext context) {
-
-    return Wrap(
-      alignment: WrapAlignment.spaceAround,
-      runAlignment: WrapAlignment.spaceAround,
-      children: chordSet.map(
-              (List<GChord> chords) =>
-              ChordWidget.fromGChord(
-                chords[0],
-                onTap: () => onTap==null?null:onTap!(true, chords, 0),
-                color: textEnab_(context),
-              )
-      ).toList(),
-    );
-
-  }
+  Widget build(BuildContext context) => Wrap(
+    alignment: WrapAlignment.spaceAround,
+    runAlignment: WrapAlignment.spaceAround,
+    children: chordSet.map(
+            (List<GChord> chords) =>
+            ChordWidget.fromGChord(
+              chords[0],
+              size: 48.0,
+              onTap: () => onTap==null?null:onTap!(true, chords, 0),
+              color: textEnab_(context),
+            )
+    ).toList(),
+  );
 
 }

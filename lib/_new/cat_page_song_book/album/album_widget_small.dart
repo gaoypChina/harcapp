@@ -12,7 +12,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class AlbumWidgetSmall extends StatelessWidget{
 
-  static const double ICON_SIZE = 36.0;
+  static const double iconSize = 36.0;
 
   final Album album;
   final bool? selected;
@@ -29,7 +29,8 @@ class AlbumWidgetSmall extends StatelessWidget{
         this.showSongCount = true,
         this.iconColor,
         this.onTap,
-        this.onLongPress
+        this.onLongPress,
+        super.key
       });
 
   @override
@@ -37,13 +38,13 @@ class AlbumWidgetSmall extends StatelessWidget{
 
     bool selected = this.selected??Album.current == album;
 
-    CommonColorData albColor = CommonColorData.ALL[album.colorsKey]!;
-    IconData? iconData = CommonIconData.ALL[album.iconKey];
+    CommonColorData albColor = CommonColorData.get(album.colorsKey);
+    IconData? iconData = CommonIconData.get(album.iconKey);
 
     Widget widget = Container(
       decoration: BoxDecoration(
           color: selected?backgroundIcon_(context):Colors.transparent,
-          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS)
+          borderRadius: BorderRadius.circular(AppCard.bigRadius)
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -53,12 +54,12 @@ class AlbumWidgetSmall extends StatelessWidget{
             tag: AlbumWidget.heroTagGradient(album),
             child: GradientWidget(
                 elevation: AppCard.bigElevation,
-                radius: AppCard.BIG_RADIUS,
+                radius: AppCard.bigRadius,
                 colorStart: albColor.colorStart,
                 colorEnd: albColor.colorEnd,
                 child: Padding(
                   padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                  child: Icon(iconData, color: iconColor??(albColor.iconWhite?Colors.white:cardEnab_(context)), size: ICON_SIZE),
+                  child: Icon(iconData, color: iconColor??(albColor.iconWhite?Colors.white:cardEnab_(context)), size: iconSize),
                 )
             ),
           ),
@@ -77,7 +78,6 @@ class AlbumWidgetSmall extends StatelessWidget{
                         style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          //color: selected?textEnab_(context):hintEnab_(context),
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis
@@ -85,14 +85,14 @@ class AlbumWidgetSmall extends StatelessWidget{
                   ),
 
                   if(showSongCount)
-                    const SizedBox(height: Dimen.DEF_MARG),
+                    const SizedBox(height: Dimen.defMarg),
 
                   if(showSongCount)
                     Row(
                       children: [
 
                         const Icon(MdiIcons.music, size: Dimen.TEXT_SIZE_NORMAL),
-                        const SizedBox(width: Dimen.DEF_MARG),
+                        const SizedBox(width: Dimen.defMarg),
                         Hero(
                           tag: AlbumWidget.heroTagSongCnt(album),
                           child: Material(
@@ -124,7 +124,7 @@ class AlbumWidgetSmall extends StatelessWidget{
     );
 
     return InkWell(
-      borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+      borderRadius: BorderRadius.circular(AppCard.bigRadius),
       onTap: onTap,
       onLongPress: onLongPress,
       child: widget,

@@ -115,7 +115,7 @@ class DescMorse extends StatelessWidget{
                     '\n<b>• kropką</b> w przeciwnym razie.',
                   size: Dimen.TEXT_SIZE_BIG
               ),
-              SizedBox(height: 2*Dimen.DEF_MARG),
+              SizedBox(height: 2*Dimen.defMarg),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -123,12 +123,12 @@ class DescMorse extends StatelessWidget{
                     letters,
                     style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, height: 1.2),
                   ),
-                  SizedBox(width: 2*Dimen.DEF_MARG),
+                  SizedBox(width: 2*Dimen.defMarg),
                   Text(
                     morse,
                     style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, height: 1.2),
                   ),
-                  SizedBox(width: 2*Dimen.DEF_MARG),
+                  SizedBox(width: 2*Dimen.defMarg),
                   Text(
                     words,
                     style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, height: 1.2),

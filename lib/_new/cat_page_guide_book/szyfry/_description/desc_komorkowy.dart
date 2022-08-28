@@ -37,7 +37,7 @@ class DescKomorkowy extends StatelessWidget{
             Expanded(child: Text('3 DEF', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
           ],
         ),
-        SizedBox(height: Dimen.DEF_MARG),
+        SizedBox(height: Dimen.defMarg),
         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -47,7 +47,7 @@ class DescKomorkowy extends StatelessWidget{
             Expanded(child: Text('6 MNO', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
           ],
         ),
-        SizedBox(height: Dimen.DEF_MARG),
+        SizedBox(height: Dimen.defMarg),
         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

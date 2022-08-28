@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/api/rank.dart';
@@ -133,7 +133,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
                 hasScrollBody: false,
                 child: Center(
                   child: SimpleButton(
-                    radius: AppCard.BIG_RADIUS,
+                    radius: AppCard.bigRadius,
                     padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                     onTap: () => AccountPage.open(context),
                     child: const EmptyMessageWidget(

@@ -5,32 +5,32 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class CommonIconData{
   
-  static Map<String, IconData> get ALL{
+  static Map<String, IconData> get all{
     Map<String, IconData> all = {};
 
-    all.addAll(BOOKS);
-    all.addAll(FIRE);
-    all.addAll(WRITING);
-    all.addAll(HOME);
-    all.addAll(SYMBOLS);
-    all.addAll(MUSIC);
-    all.addAll(PLANTS);
-    all.addAll(ANIMALS);
-    all.addAll(SPORT);
-    all.addAll(FOOD);
-    all.addAll(MASKS);
-    all.addAll(SEA);
-    all.addAll(TOOLS);
-    all.addAll(CARS);
-    all.addAll(WEATHER);
-    all.addAll(OTHER);
+    all.addAll(books);
+    all.addAll(fire);
+    all.addAll(writing);
+    all.addAll(home);
+    all.addAll(symbols);
+    all.addAll(music);
+    all.addAll(plants);
+    all.addAll(animals);
+    all.addAll(sport);
+    all.addAll(food);
+    all.addAll(masks);
+    all.addAll(sea);
+    all.addAll(tools);
+    all.addAll(cars);
+    all.addAll(weather);
+    all.addAll(other);
 
     return all;
   }
 
-  static String get randomKey => ALL.keys.toList()[Random().nextInt(ALL.length)];
+  static String get randomKey => all.keys.toList()[Random().nextInt(all.length)];
 
-  static const Map<String, IconData> BOOKS = {
+  static const Map<String, IconData> books = {
     'bookMusicOutline': MdiIcons.bookMusicOutline,
     'scriptOutline': MdiIcons.scriptOutline,
     'scriptTextOutline': MdiIcons.scriptTextOutline,
@@ -46,7 +46,7 @@ class CommonIconData{
     'graveStone': MdiIcons.graveStone,
   };
 
-  static const Map<String, IconData> FIRE = {
+  static const Map<String, IconData> fire = {
     'fireplace': MdiIcons.fireplace,
     'campfire': MdiIcons.campfire,
     'fire': MdiIcons.fire,
@@ -54,7 +54,7 @@ class CommonIconData{
     'torch': MdiIcons.torch
   };
 
-  static const Map<String, IconData> WRITING = {
+  static const Map<String, IconData> writing = {
     'fountainPenTip': MdiIcons.fountainPenTip,
     'pencilOutline': MdiIcons.pencilOutline,
     'pencilRuler': MdiIcons.pencilRuler,
@@ -62,7 +62,7 @@ class CommonIconData{
     'feather': MdiIcons.feather,
   };
 
-  static const Map<String, IconData> HOME = {
+  static const Map<String, IconData> home = {
     'tent': MdiIcons.tent,
     'homeVariant': MdiIcons.homeVariant,
     'home': MdiIcons.home,
@@ -75,7 +75,7 @@ class CommonIconData{
     'homeAnalytics': MdiIcons.warehouse,
   };
 
-  static const Map<String, IconData> SYMBOLS = {
+  static const Map<String, IconData> symbols = {
     'christianity': MdiIcons.cross,
 
     'cardsHeart': MdiIcons.cardsHeart,
@@ -96,7 +96,7 @@ class CommonIconData{
     'clover': MdiIcons.clover,
   };
 
-  static const Map<String, IconData> MUSIC = {
+  static const Map<String, IconData> music = {
     'musicClefBass': MdiIcons.musicClefBass,
     'musicClefTreble': MdiIcons.musicClefTreble,
     'musicNoteQuarter': MdiIcons.musicNoteQuarter,
@@ -114,7 +114,7 @@ class CommonIconData{
     'saxophone': MdiIcons.saxophone,
   };
 
-  static const Map<String, IconData> PLANTS = {
+  static const Map<String, IconData> plants = {
     'pineTree': MdiIcons.pineTree,
     'treeOutline': MdiIcons.treeOutline,
     'flower': MdiIcons.flower,
@@ -122,7 +122,7 @@ class CommonIconData{
     'flowerPoppy': MdiIcons.flowerPoppy,
   };
 
-  static const Map<String, IconData> ANIMALS = {
+  static const Map<String, IconData> animals = {
     'penguin': MdiIcons.penguin,
     'dog': MdiIcons.dog,
     'cat': MdiIcons.cat,
@@ -142,7 +142,7 @@ class CommonIconData{
     'paw': MdiIcons.paw,
   };
 
-  static const Map<String, IconData> SPORT = {
+  static const Map<String, IconData> sport = {
     'basketball': MdiIcons.basketball,
     'waterPolo': MdiIcons.waterPolo,
     'baseball': MdiIcons.baseball,
@@ -160,7 +160,7 @@ class CommonIconData{
     'whistle': MdiIcons.whistle,
   };
 
-  static const Map<String, IconData> FOOD = {
+  static const Map<String, IconData> food = {
     'breadSliceOutline': MdiIcons.breadSliceOutline,
     'cake': MdiIcons.cake,
     'candycane': MdiIcons.candycane,
@@ -184,12 +184,12 @@ class CommonIconData{
     'bowlOutline': MdiIcons.bowlMixOutline,
   };
 
-  static const Map<String, IconData> MASKS = {
+  static const Map<String, IconData> masks = {
     'dominoMask': MdiIcons.dominoMask,
     'dramaMasks': MdiIcons.dramaMasks,
   };
 
-  static const Map<String, IconData> SEA = {
+  static const Map<String, IconData> sea = {
     'pirate': MdiIcons.pirate,
     'sailBoat': MdiIcons.sailBoat,
     'shipWheel': MdiIcons.shipWheel,
@@ -202,7 +202,7 @@ class CommonIconData{
     'sharkFin': MdiIcons.sharkFin
   };
 
-  static const Map<String, IconData> TOOLS = {
+  static const Map<String, IconData> tools = {
     'sawBlade': MdiIcons.sawBlade,
     'handSaw': MdiIcons.handSaw,
     'axe': MdiIcons.axe,
@@ -213,7 +213,7 @@ class CommonIconData{
     'wrench': MdiIcons.wrench,
   };
 
-  static const Map<String, IconData> CARS = {
+  static const Map<String, IconData> cars = {
     'bicycle': MdiIcons.bicycle,
     'bike': MdiIcons.bike,
     'bicycleCargo': MdiIcons.bicycleCargo,
@@ -225,7 +225,7 @@ class CommonIconData{
     'rocketLaunchOutline': MdiIcons.rocketLaunchOutline,
   };
 
-  static const Map<String, IconData> WEATHER = {
+  static const Map<String, IconData> weather = {
     'snowflake': MdiIcons.snowflake,
     'brightness3': MdiIcons.brightness3,
     'weatherNight': MdiIcons.weatherNight,
@@ -238,7 +238,7 @@ class CommonIconData{
     'weatherSnowyHeavy': MdiIcons.weatherSnowyHeavy,
   };
 
-  static const Map<String, IconData> OTHER = {
+  static const Map<String, IconData> other = {
     'fleurDeLis': MdiIcons.fleurDeLis,
 
     'bed': MdiIcons.bed,
@@ -268,11 +268,14 @@ class CommonIconData{
     'paperRollOutline': MdiIcons.paperRollOutline,
     'package': MdiIcons.package,
     'packageVariant': MdiIcons.packageVariant,
-    FOLDER_ICON_KEY: MdiIcons.folder,
+    folderIconKey: MdiIcons.folder,
   };
 
-  static const String DEF_ICON_KEY = 'bookVariant';
-  static const String FOLDER_ICON_KEY = 'folder';
-  static const IconData FOLDER_ICON = MdiIcons.folder;
+  static const String defIconKey = 'bookVariant';
+  static const String folderIconKey = 'folder';
+  static const IconData folderIcon = MdiIcons.folder;
+
+  static IconData get(String key, {String defKey = defIconKey}) =>
+      all[key]??all[defKey]??all[defIconKey]!;
 
 }

@@ -4,8 +4,8 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/announcement.dart';
-import 'package:harcapp/_new/cat_page_home/circles/model/circle.dart';
+import 'package:harcapp/_new/cat_page_home/community/forum/model/forum.dart';
+import 'package:harcapp/_new/cat_page_home/community/forum/model/post.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/common.dart';
@@ -14,6 +14,10 @@ import 'package:harcapp/sync/synchronizer_engine.dart';
 
 import '../../_app_common/accounts/user_data.dart';
 import '../../logger.dart';
+import '../cat_page_home/community/circle/model/announcement.dart';
+import '../cat_page_home/community/circle/model/circle.dart';
+import '../cat_page_home/community/community_publishable.dart';
+import '../cat_page_home/community/model/community.dart';
 import '_api.dart';
 
 class ApiRegLog{
@@ -97,9 +101,11 @@ class ApiRegLog{
           DateTime? lastSyncTime,
           bool emailConf,
 
-          List<IndivComp>,
-          List<Circle>,
-          List<Announcement>
+          List<IndivComp> indivComps,
+          List<Community> communities,
+          List<Circle> circles,
+          List<Forum> forums,
+          List<CommunityPublishable> feed,
 
         )? onSuccess,
         FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -129,6 +135,7 @@ class ApiRegLog{
           data: FormData.fromMap({LOGIN_REQ_EMAIL: email, LOGIN_REQ_PASSWORD: password})
       ),
       onSuccess: (Response response, DateTime now) async {
+
         String key = response.data['key']??(throw InvalidResponseError('key'));
         String jwt = response.data['jwt']??(throw InvalidResponseError('jwt'));
         String name = response.data['name']??(throw InvalidResponseError('name'));
@@ -142,20 +149,39 @@ class ApiRegLog{
         for(Map map in indivCompsResp)
           indivComps.add(IndivComp.fromResponse(map));
 
-        List circlesResp = response.data['circles']??(throw InvalidResponseError('circles'));
-        List<Circle> circles = [];
-        Map<String, Circle> circleMap = {};
-        for(Map map in circlesResp) {
-          Circle circle = Circle.fromResponse(map);
-          circles.add(circle);
-          circleMap[circle.key] = circle;
+        List communitiesResp = response.data['communities']??(throw InvalidResponseError('communities'));
+        List<Community> communities = [];
+        Map<String, Community> communityMap = {};
+        for(Map map in communitiesResp) {
+          Community community = Community.fromResponse(map);
+          communities.add(community);
+          communityMap[community.key] = community;
         }
 
-        List feedAnnouncementsResp = response.data['circleFeed']??(throw InvalidResponseError('circleFeed'));
-        List<Announcement> feedAnnouncements = [];
-        for(Map map in feedAnnouncementsResp)
-          feedAnnouncements.add(Announcement.fromMap(map, circleMap[map['circleKey']]!, key: map['_key']));
+        List<Circle> circles = [];
+        Map<String, Circle> circleMap = {};
+        List<Forum> forums = [];
+        Map<String, Forum> forumMap = {};
 
+        for(Community community in communities){
+          if(community.circle != null){
+            circles.add(community.circle!);
+            circleMap[community.circle!.key] = community.circle!;
+          }
+          if(community.forum != null){
+            forums.add(community.forum!);
+            forumMap[community.forum!.key] = community.forum!;
+          }
+        }
+
+        List feedResp = response.data['feed']??(throw InvalidResponseError('feed'));
+        List<CommunityPublishable> feed = [];
+        for(Map map in feedResp) {
+          if(map.containsKey('circleKey'))
+            feed.add(Announcement.fromMap(map, circleMap[map['circleKey']]!, key: map['_key']));
+          else
+            feed.add(Post.fromMap(map, forumMap[map['forumKey']]!, key: map['_key']));
+        }
         onSuccess?.call(
           response,
           key,
@@ -167,8 +193,10 @@ class ApiRegLog{
           emailConf,
 
           indivComps,
+          communities,
           circles,
-          feedAnnouncements,
+          forums,
+          feed,
         );
       },
       onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -190,8 +218,10 @@ class ApiRegLog{
           bool emailConf,
 
           List<IndivComp> indivComp,
+          List<Community> communities,
           List<Circle> circles,
-          List<Announcement> feedAnnouncements,
+          List<Forum> forums,
+          List<CommunityPublishable> feed,
 
         )? onSuccess,
         FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -218,20 +248,39 @@ class ApiRegLog{
       for(Map map in indivCompsResp)
         indivComps.add(IndivComp.fromResponse(map));
 
-      List circlesResp = response.data['circles']??(throw InvalidResponseError('circles'));
-      List<Circle> circles = [];
-      Map<String, Circle> circleMap = {};
-      for(Map map in circlesResp) {
-        Circle circle = Circle.fromResponse(map);
-        circles.add(circle);
-        circleMap[circle.key] = circle;
+      List communitiesResp = response.data['communities']??(throw InvalidResponseError('communities'));
+      List<Community> communities = [];
+      Map<String, Community> communityMap = {};
+      for(Map map in communitiesResp) {
+        Community community = Community.fromResponse(map);
+        communities.add(community);
+        communityMap[community.key] = community;
       }
 
-      List feedAnnouncementsResp = response.data['circleFeed']??(throw InvalidResponseError('circleFeed'));
-      List<Announcement> feedAnnouncements = [];
-      for(Map map in feedAnnouncementsResp)
-        feedAnnouncements.add(Announcement.fromMap(map, circleMap[map['circleKey']]!, key: map['_key']));
+      List<Circle> circles = [];
+      Map<String, Circle> circleMap = {};
+      List<Forum> forums = [];
+      Map<String, Forum> forumMap = {};
 
+      for(Community community in communities){
+        if(community.circle != null){
+          circles.add(community.circle!);
+          circleMap[community.circle!.key] = community.circle!;
+        }
+        if(community.forum != null){
+          forums.add(community.forum!);
+          forumMap[community.forum!.key] = community.forum!;
+        }
+      }
+
+      List feedResp = response.data['feed']??(throw InvalidResponseError('feed'));
+      List<CommunityPublishable> feed = [];
+      for(Map map in feedResp) {
+        if(map.containsKey('circleKey'))
+          feed.add(Announcement.fromMap(map, circleMap[map['circleKey']]!, key: map['_key']));
+        else
+          feed.add(Post.fromMap(map, forumMap[map['forumKey']]!, key: map['_key']));
+      }
       onSuccess?.call(
         response,
         email,
@@ -244,8 +293,10 @@ class ApiRegLog{
         emailConf,
 
         indivComps,
+        communities,
         circles,
-        feedAnnouncements
+        forums,
+        feed
       );
     },
     onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -256,23 +307,23 @@ class ApiRegLog{
     required BuildContext context,
     required String email,
     required String password,
-    FutureOr<void> Function(Response response, bool emailConf, bool loggedIn, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements)? onSuccess,
+    FutureOr<void> Function(Response response, bool emailConf, bool loggedIn, List<IndivComp> indivComps, List<Community> communities, List<Circle> circles, List<Forum> forums, List<CommunityPublishable> feed)? onSuccess,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function(Response? response)? onError,
   }) => ApiRegLog._getLoginData(
     email,
     password,
-    onSuccess: (Response response, String key, String jwt, String name, Sex sex, String nick, DateTime? lastSyncTime, bool emailConf, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements) async {
+    onSuccess: (Response response, String key, String jwt, String name, Sex sex, String nick, DateTime? lastSyncTime, bool emailConf, List<IndivComp> indivComps, List<Community> communities, List<Circle> circles, List<Forum> forums, List<CommunityPublishable> feed) async {
 
       if(!emailConf) {
         await AccountData.saveLoginData(email, response);
-        onSuccess?.call(response, emailConf, true, indivComps, circles, feedAnnouncements);
+        onSuccess?.call(response, emailConf, true, indivComps, communities, circles, forums, feed);
         return;
       }
 
       bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response);
 
-      onSuccess?.call(response, emailConf, loggedIn, indivComps, circles, feedAnnouncements);
+      onSuccess?.call(response, emailConf, loggedIn, indivComps, communities, circles, forums, feed);
 
     },
     onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -282,16 +333,23 @@ class ApiRegLog{
   static Future<Response?> carefullyMicrosoftLogin({
     required BuildContext context,
     required String? azureToken,
-    FutureOr<void> Function(Response response, bool emailConf, bool loggedIn, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements)? onSuccess,
+    FutureOr<void> Function(
+        Response response,
+        bool emailConf,
+        bool loggedIn,
+        List<IndivComp> indivComps,
+        List<Community> communities,
+        List<Circle> circles,
+        List<Forum> forums,
+        List<CommunityPublishable> feed
+        )? onSuccess,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function(Response? response)? onError,
   }) => ApiRegLog._getMicrosoftLoginData(
     azureToken,
-    onSuccess: (Response response, String email, String key, String jwt, String name, Sex sex, String nick, DateTime? lastSyncTime, bool emailConf, List<IndivComp> indivComps, List<Circle> circles, List<Announcement> feedAnnouncements) async {
-
+    onSuccess: (Response response, String email, String key, String jwt, String name, Sex sex, String nick, DateTime? lastSyncTime, bool emailConf, List<IndivComp> indivComps, List<Community> communities, List<Circle> circles, List<Forum> forums, List<CommunityPublishable> feed) async {
       bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response);
-      onSuccess?.call(response, emailConf, loggedIn, indivComps, circles, feedAnnouncements);
-
+      onSuccess?.call(response, emailConf, loggedIn, indivComps, communities, circles, forums, feed);
     },
     onServerMaybeWakingUp: onServerMaybeWakingUp,
     onError: onError,

@@ -14,7 +14,7 @@ import 'package:harcapp/values/people.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/storage.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/cat_page_song_book/_main.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
@@ -28,7 +28,6 @@ import 'package:harcapp/_new/cat_page_song_book/song_widget_parts/powstanie_wars
 import 'package:harcapp/_new/cat_page_song_book/song_widget_parts/qr_widget.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core_own_song/song_raw.dart';
 import 'package:harcapp_core_song_widget/providers.dart';
 import 'package:harcapp_core_song_widget/song_rate.dart';
@@ -38,7 +37,6 @@ import 'package:provider/provider.dart';
 
 import '../../_common_widgets/person_data_getter.dart';
 import '../../main.dart';
-import '../main_page_new.dart';
 import 'album/album_chooser.dart';
 import 'bottom_sheet_report.dart';
 import 'bottom_sheet_words.dart';
@@ -208,23 +206,20 @@ class SongWidget extends StatelessWidget{
     },
 
     onMinusTap: (BuildContext context, bool changedSize){
-      String tag = 'minus';
-      if(!changedSize && !isSnackBarActive(tag: tag))
+      if(!changedSize)
         showAppToast(context, text: 'Osiągnięto limit');
       else
         onTextSizeChanged?.call();
     },
 
     onPlusTap: (BuildContext context, bool changedSize){
-      String tag = 'plus';
-      if(!changedSize && !isSnackBarActive(tag: tag)){
+      if(!changedSize){
         if(SongBookSettings.showChords && song.hasChords)
-          AppScaffold.showMessage(
+          showAppToast(
               context,
-              'Aby powiększyć tekst, schowaj chwyty.',
-              tag: tag,
+              text: 'Schowaj chwyty, by powiększyć.',
               buttonText: 'Schowaj',
-              onButtonPressed: (_){
+              onButtonPressed: (){
                 ShowChordsProvider prov = Provider.of<ShowChordsProvider>(context, listen: false);
                 prov.showChords = false;
 
@@ -232,11 +227,10 @@ class SongWidget extends StatelessWidget{
                 textSizeProv.recalculate(
                     MediaQuery.of(context).size.width,
                     song,
-                    fontSize: max(TextSizeProvider.defFontSize, textSizeProv.value)
+                    fontSize: max(TextSizeProvider.defFontSize, textSizeProv.value),
+                    chordsVisible: false
                 );
                 onTextSizeChanged?.call();
-
-                Scaffold.of(context).hideCurrentSnackBar();
               }
           );
         else
@@ -315,7 +309,11 @@ class SongWidget extends StatelessWidget{
           onSaved: (Song song, EditType editType) async {
 
             if(editType == EditType.editOwn)
-              prov.value = prov.calculate(MediaQuery.of(context).size.width, song);
+              prov.value = prov.calculate(
+                MediaQuery.of(context).size.width,
+                song,
+                chordsVisible: ShowChordsProvider.of(context).showChords
+              );
 
             parent!.notify();
             int index = Album.current.songs.indexOf(song);
@@ -349,12 +347,20 @@ class SongWidget extends StatelessWidget{
 
     onChordsTap: (prov){
       song.shiftChordsUp();
-      prov.recalculate(MediaQuery.of(context).size.width, song);
+      prov.recalculate(
+          MediaQuery.of(context).size.width,
+          song,
+          chordsVisible: ShowChordsProvider.of(context).showChords
+      );
     },
 
     onChordsLongPress: (prov){
       song.shiftChordsDown();
-      prov.recalculate(MediaQuery.of(context).size.width, song);
+      prov.recalculate(
+          MediaQuery.of(context).size.width,
+          song,
+          chordsVisible: ShowChordsProvider.of(context).showChords
+      );
     },
 
     header: (BuildContext context, ScrollController? controller) => Column(

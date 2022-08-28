@@ -347,7 +347,7 @@ class SongWebEditorInfo extends StatelessWidget{
         elevation: AppCard.bigElevation,
         margin: const EdgeInsets.all(Dimen.SIDE_MARG),
         padding: EdgeInsets.zero,
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         child: Stack(
           children: [
             Padding(

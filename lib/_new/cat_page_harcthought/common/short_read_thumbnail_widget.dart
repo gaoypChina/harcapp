@@ -26,7 +26,7 @@ class ShortReadThumbnailWidget extends StatelessWidget{
         child: SimpleButton(
             onTap: onTap,
             color: backgroundIcon_(context),
-            radius: AppCard.BIG_RADIUS,
+            radius: AppCard.bigRadius,
             padding: EdgeInsets.zero,
             margin: EdgeInsets.zero,
             child: Stack(
@@ -50,10 +50,10 @@ class ShortReadThumbnailWidget extends StatelessWidget{
                     child: Material(
                       color: background_(context),
                       borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(AppCard.BIG_RADIUS),
+                          bottomLeft: Radius.circular(AppCard.bigRadius),
                       ),
                       child: const Padding(
-                        padding: EdgeInsets.all(Dimen.DEF_MARG),
+                        padding: EdgeInsets.all(Dimen.defMarg),
                         child: Icon(MdiIcons.volumeHigh),
                       ),
                     ),
@@ -63,11 +63,11 @@ class ShortReadThumbnailWidget extends StatelessWidget{
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  height: 2*Dimen.TEXT_SIZE_NORMAL + 2*Dimen.DEF_MARG,
+                  height: 2*Dimen.TEXT_SIZE_NORMAL + 2*Dimen.defMarg,
                   child: Container(
                     color: iconEnab_(context).withOpacity(.5),
                     child: Padding(
-                        padding: const EdgeInsets.all(Dimen.DEF_MARG),
+                        padding: const EdgeInsets.all(Dimen.defMarg),
                         child: Center(
                           child: Text(
                             shortRead.title,

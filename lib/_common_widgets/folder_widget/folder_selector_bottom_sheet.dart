@@ -82,7 +82,7 @@ class FolderSelectorState<T extends Folder> extends State<FolderSelector<T>>{
         const SizedBox(height: Dimen.SIDE_MARG),
 
         SimpleButton(
-            radius: AppCard.BIG_RADIUS,
+            radius: AppCard.bigRadius,
             clipBehavior: Clip.none,
             padding: EdgeInsets.zero,
             child: Row(

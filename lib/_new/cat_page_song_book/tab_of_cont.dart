@@ -103,7 +103,7 @@ class TabOfContState extends State<TabOfCont>{
 
   final PageStorageBucket pageStorageBucket = PageStorageBucket();
 
-  static const double tagBarHeight = 2*Dimen.DEF_MARG + Dimen.TEXT_SIZE_NORMAL + 3;
+  static const double tagBarHeight = 2*Dimen.defMarg + Dimen.TEXT_SIZE_NORMAL + 3;
 
   late SearchParamsProvider searchParamsProvider;
   late CurrentItemsProvider currItemsProv;
@@ -242,7 +242,7 @@ class TabOfContState extends State<TabOfCont>{
                         else
                           SliverList(
                             delegate: SliverChildBuilderDelegate((context, index) => Padding(
-                                padding: const EdgeInsets.only(bottom: Dimen.DEF_MARG),
+                                padding: const EdgeInsets.only(bottom: Dimen.defMarg),
                                 child: SongTile(
                                   prov.currSongs![index],
                                   key: prov.globalKeys![index],
@@ -394,24 +394,24 @@ class _SearchTextFieldCard extends StatelessWidget{
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.only(bottom: 6, left: 6, right: 6),
           child: SizedBox(
-            height: 2*Dimen.DEF_MARG + Dimen.TEXT_SIZE_NORMAL + 3,
+            height: 2*Dimen.defMarg + Dimen.TEXT_SIZE_NORMAL + 3,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Row(
                     children: searchOptions!.checkedRates.map((rate) => Padding(
-                      padding: const EdgeInsets.only(left: Dimen.DEF_MARG, right: Dimen.DEF_MARG),
+                      padding: const EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg),
                       child: RateIcon.build(context, rate, size: 20.0),
                     )).toList(),
                   ),
-                  const SizedBox(width: Dimen.DEF_MARG/2),
+                  const SizedBox(width: Dimen.defMarg/2),
                   Row(
                     children: searchOptions!.checkedTags.map((t) => Tag(
                       t,
                       inCard: false,
                       fontSize: Dimen.TEXT_SIZE_SMALL,
                       padding: EdgeInsets.zero,
-                      margin: const EdgeInsets.only(left: Dimen.DEF_MARG, right: Dimen.DEF_MARG),
+                      margin: const EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg),
                       elevate: false,
                     )).toList(),
                   )
@@ -468,7 +468,7 @@ class SongTile extends StatelessWidget{
             Icon(MdiIcons.pencil, size: Dimen.TEXT_SIZE_NORMAL, color: hintEnab_(context)),
 
           if(!song.isOfficial)
-            const SizedBox(width: Dimen.DEF_MARG),
+            const SizedBox(width: Dimen.defMarg),
 
           Expanded(
             child: SingleChildScrollView(
@@ -561,7 +561,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
 
   @override
   Widget build(BuildContext context) => BottomSheetDef(
-    childMargin: const EdgeInsets.all(Dimen.DEF_MARG/2),
+    childMargin: const EdgeInsets.all(Dimen.defMarg/2),
     title: 'Opcje wyszukiwania',
     builder: (context) =>
         Column(
@@ -739,7 +739,7 @@ void _showAddSongBottomSheet(BuildContext context, void Function(Song song)? onN
 
           SimpleButton(
               padding: const EdgeInsets.all(Dimen.ICON_MARG),
-              radius: AppCard.BIG_RADIUS,
+              radius: AppCard.bigRadius,
               onTap: null,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -775,7 +775,7 @@ void _showAddSongBottomSheet(BuildContext context, void Function(Song song)? onN
 
           SimpleButton(
             padding: const EdgeInsets.all(Dimen.ICON_MARG),
-            radius: AppCard.BIG_RADIUS,
+            radius: AppCard.bigRadius,
             child: Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,

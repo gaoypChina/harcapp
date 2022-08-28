@@ -73,7 +73,7 @@ class WordCardState extends State<WordCard>{
     AutoSizeGroup group = AutoSizeGroup();
 
     Widget back = AppCard(
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         margin: AppCard.normMargin,
         elevation: (!selected! && widget.mode==GameMode.LEADER)?AppCard.bigElevation:AppCard.defElevation,
         onTap: widget.mode==GameMode.LEADER && word.cardColor!=CardColor.kill?(){
@@ -105,7 +105,7 @@ class WordCardState extends State<WordCard>{
                 ),
 
               if(widget.mode!=GameMode.LEADER)
-                const SizedBox(height: Dimen.DEF_MARG),
+                const SizedBox(height: Dimen.defMarg),
 
               AutoSizeText(
                 widget.mode==GameMode.NONE?'':
@@ -129,7 +129,7 @@ class WordCardState extends State<WordCard>{
       return Expanded(child: back);
 
     Widget front = AppCard(
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         margin: AppCard.normMargin,
         padding: EdgeInsets.zero,
         onTap:
@@ -159,7 +159,7 @@ class WordCardState extends State<WordCard>{
                         style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)), textAlign: TextAlign.center, group: group,),
                     ),
 
-                    const SizedBox(height: Dimen.DEF_MARG),
+                    const SizedBox(height: Dimen.defMarg),
 
                     AutoSizeText(
                         widget.mode==GameMode.NONE?'':

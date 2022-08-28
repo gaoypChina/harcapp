@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_new/main_page_new.dart';
 import 'package:harcapp/account/account_start/input_field_controller.dart';
 import 'package:harcapp/main.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -9,7 +8,6 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 
 import '../../_app_common/accounts/user_data.dart';
 
@@ -124,7 +122,7 @@ class ChooseSexDialog extends StatelessWidget{
             top: top,
             right: 2*Dimen.SIDE_MARG,
             child: Material(
-              borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+              borderRadius: BorderRadius.circular(AppCard.bigRadius),
               child: SizedBox(
                 //width: (MediaQuery.of(context).size.width - 4*Dimen.SIDE_MARG)/2,
                 child: Column(

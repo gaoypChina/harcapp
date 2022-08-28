@@ -34,7 +34,7 @@ class DescCzekoladka extends StatelessWidget{
           Row(
             children: <Widget>[
 
-              SizedBox(width: 2*Dimen.DEF_MARG),
+              SizedBox(width: 2*Dimen.defMarg),
 
               Expanded(
                   child: Column(
@@ -119,7 +119,7 @@ class DescCzekoladka extends StatelessWidget{
                 ],
               ),
 
-              SizedBox(width: 2*Dimen.DEF_MARG),
+              SizedBox(width: 2*Dimen.defMarg),
 
             ],),
 

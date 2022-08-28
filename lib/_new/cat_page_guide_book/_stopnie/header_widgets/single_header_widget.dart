@@ -28,7 +28,7 @@ class SingleHeaderWidget extends StatelessWidget{
 
         Material(
           color: cardEnab_(context),
-          borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+          borderRadius: BorderRadius.circular(AppCard.bigRadius),
           child: Padding(
             padding: EdgeInsets.all(Dimen.SIDE_MARG),
             child: SelectableText(text!, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),

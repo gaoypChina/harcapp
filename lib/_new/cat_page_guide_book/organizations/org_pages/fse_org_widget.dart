@@ -67,7 +67,7 @@ class FSEOrgWidgetState extends State<FSEOrgWidget> with ModuleStatsMixin{
       ),
 
       AppCard(
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         padding: EdgeInsets.zero,
         color: grayColorDark,
         child: Column(

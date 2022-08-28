@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_song_book/_main.dart';
 import 'package:harcapp/_new/providers.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -179,7 +179,7 @@ class _AlbumItemState extends State<_AlbumItem>{
                   context,
                   'Usunięto.',
                   buttonText: 'Cofnij',
-                  onButtonPressed: (context){
+                  onButtonPressed: (){
                     album.save();
                     prov.insertToAll(index, album);
                     CatPageSongBookState.setLastPageForAlbum(album, lastPage);

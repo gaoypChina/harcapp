@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/storage.dart';
-import 'package:harcapp/_common_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_zhp_sim_2022_get_resp.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/sector_sep_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/header_widgets/single_header_widget.dart';
@@ -161,7 +161,7 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
             const SizedBox(height: Dimen.SIDE_MARG),
 
             Material(
-                borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                borderRadius: BorderRadius.circular(AppCard.bigRadius),
                 color: cardEnab_(context),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -204,7 +204,7 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
             const SizedBox(height: Dimen.SIDE_MARG),
 
             Material(
-                borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                borderRadius: BorderRadius.circular(AppCard.bigRadius),
                 color: cardEnab_(context),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -247,7 +247,7 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
             const SizedBox(height: Dimen.SIDE_MARG),
 
             Material(
-                borderRadius: BorderRadius.circular(AppCard.BIG_RADIUS),
+                borderRadius: BorderRadius.circular(AppCard.bigRadius),
                 color: cardEnab_(context),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,

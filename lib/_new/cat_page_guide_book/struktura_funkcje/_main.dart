@@ -38,7 +38,7 @@ class StrukturaFunkcjeFragmentState extends State<StrukturaFunkcjeFragment> with
           ),
 
           SliverPadding(
-            padding: const EdgeInsets.all(Dimen.SIDE_MARG - Dimen.DEF_MARG/2),
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG - Dimen.defMarg/2),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 StructCard(
@@ -293,7 +293,7 @@ class StructCard extends StatelessWidget{
   Widget build(BuildContext context) {
 
     return AppCard(
-      radius: AppCard.BIG_RADIUS,
+      radius: AppCard.bigRadius,
       elevation: enabled?AppCard.bigElevation:0,
         onTap: enabled?() => showScrollBottomSheet(
             context: context,
@@ -302,7 +302,7 @@ class StructCard extends StatelessWidget{
               builder: (context) => ColumnDet(description: description!, auth: auth!, funkcje: funkcje!,),
             )
         ):null,
-        margin: EdgeInsets.only(top: 0, bottom: 0, left: Dimen.DEF_MARG/2, right: Dimen.DEF_MARG/2),
+        margin: EdgeInsets.only(top: 0, bottom: 0, left: Dimen.defMarg/2, right: Dimen.defMarg/2),
         child: Padding(
           child: Text(title,
               style: AppTextStyle(
@@ -327,13 +327,13 @@ class ColumnDet extends Column{
     mainAxisSize: MainAxisSize.min,
     children: [
       Text('Opis', style: AppTextStyle(color: AppColors.text_hint_enab), textAlign: TextAlign.start,),
-      const SizedBox(height: Dimen.DEF_MARG),
+      const SizedBox(height: Dimen.defMarg),
       Text(description, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
 
       const SizedBox(height: div,),
 
       Text('Władze', style: AppTextStyle(color: AppColors.text_hint_enab), textAlign: TextAlign.start,),
-      const SizedBox(height: Dimen.DEF_MARG),
+      const SizedBox(height: Dimen.defMarg),
       Text(auth, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
 
       const SizedBox(height: div,),
@@ -423,7 +423,7 @@ class Funkcja extends StatelessWidget{
     );
 
     return Padding(
-      padding: EdgeInsets.only(top: 3*Dimen.DEF_MARG, bottom: 3*Dimen.DEF_MARG),
+      padding: EdgeInsets.only(top: 3*Dimen.defMarg, bottom: 3*Dimen.defMarg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -433,7 +433,7 @@ class Funkcja extends StatelessWidget{
               Expanded(child: Text(name, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)))
             ],
           ),
-          SizedBox(height: Dimen.DEF_MARG),
+          SizedBox(height: Dimen.defMarg),
           Text(description, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL),)
         ],
       ),

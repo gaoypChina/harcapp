@@ -41,6 +41,7 @@ const String quoteAuthorDenisPreger = 'Denis Preger';
 const String quoteAuthorAbpFidelus = 'ks. abp Bronisław Fidelus';
 const String quoteAuthorSwTomaszZAkwinu = 'św. Tomasz z Akwinu';
 const String quoteAuthorJaroslavPelikan = 'Jaroslav Pelikan';
+const String quoteAuthorWolter = 'François-Marie Arouet Voltaire';
 
 const Quote tischnerZmartwychwstwanie = Quote(quoteAuthorTischner, 'Od czasu, gdy Chrystus zwyciężył śmierć, żaden optymizm nie jest w Kościele przesadą.');
 
@@ -218,6 +219,8 @@ const List<Quote> CYTATY_REGULAR = [
   Quote(quoteAuthorSwTomaszZAkwinu, 'Sprawiedliwie nie oznacza po równo.'),
 
   Quote(quoteAuthorJaroslavPelikan, 'Tradycja jest żyjącą wiarą umarłych. Tradycjonalizm jest martwą wiarą żywych.'),
+
+  Quote(quoteAuthorWolter, 'Nie zgadzam się z tym co mówisz, ale oddam życie, abyś miał prawo to powiedzieć.'),
 ];
 
 

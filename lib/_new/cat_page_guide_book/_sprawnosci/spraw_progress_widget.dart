@@ -10,7 +10,6 @@ import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_icon_rotating
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/widgets/open_spraw_dialog.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -123,16 +122,13 @@ class SprawProgressWidgetState extends State<SprawProgressWidget>{
                       height: constraints.maxWidth,
                       clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
+                        color: background_(context),
                         borderRadius: BorderRadius.circular(constraints.maxWidth),
                         border: Border.all(
                             color: iconEnab_(context),
                             width: SprawIcon.borderFraction*constraints.maxWidth,
                             style: BorderStyle.solid
                         ),
-                      ),
-                      child: GradientWidget(
-                        colorStart: textEnab_(context)!,
-                        colorEnd: backgroundIcon_(context),
                       ),
                     ),
                   )
@@ -153,7 +149,7 @@ class SprawProgressWidgetState extends State<SprawProgressWidget>{
       child:
       children.isEmpty?
       SimpleButton(
-        radius: AppCard.BIG_RADIUS,
+        radius: AppCard.bigRadius,
         onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SprawnosciPage())),
         child: const EmptyMessageWidget(
             text: 'Zdobywaj!',
