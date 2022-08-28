@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_app_common/icon_selector_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_editor/providers.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
+import 'package:harcapp/account/account.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -14,8 +16,8 @@ import 'package:harcapp_core/dimen.dart';
 
 class GeneralPart extends StatefulWidget{
 
-  final String communityKey;
-  const GeneralPart({this.communityKey = '', super.key});
+  final Community? initCommunity;
+  const GeneralPart(this.initCommunity, {super.key});
 
   @override
   State<StatefulWidget> createState() => GeneralPartState();
@@ -24,7 +26,7 @@ class GeneralPart extends StatefulWidget{
 
 class GeneralPartState extends State<GeneralPart>{
 
-  String get communityKey => widget.communityKey;
+  Community? get initCommunity => widget.initCommunity;
 
   @override
   Widget build(BuildContext context) => ListView(
@@ -38,7 +40,7 @@ class GeneralPartState extends State<GeneralPart>{
             child: Row(
               children: [
 
-                CommunityThumbnailWidget(prov.iconKey, communityKey),
+                CommunityThumbnailWidget(prov.iconKey, initCommunity?.key??''),
 
                 const SizedBox(width: Dimen.SIDE_MARG),
 
@@ -74,6 +76,16 @@ class GeneralPartState extends State<GeneralPart>{
           maxLength: Community.maxLenName,
         ),
       ),
+
+      const SizedBox(height: 3*Dimen.SIDE_MARG),
+
+      Text(
+        'Zawiązać krąg lub założyć forum będziesz ${AccountData.sex == Sex.male?'mógł':'mogła'} po stworzeniu środowiska.',
+        style: AppTextStyle(
+          fontSize: Dimen.TEXT_SIZE_APPBAR
+        ),
+        textAlign: TextAlign.center,
+      )
 
     ],
   );

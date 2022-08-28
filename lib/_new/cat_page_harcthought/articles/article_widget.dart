@@ -105,8 +105,8 @@ class ArticleWidgetState extends State<ArticleWidget> {
   ScrollController? controller;
   late bool showRateButton;
 
-  GlobalKey? appBarKey;
-  GlobalKey? articleKey;
+  late GlobalKey appBarKey;
+  late GlobalKey articleKey;
   late GlobalKey gridViewKey;
   late GlobalKey authorKey;
 
@@ -137,7 +137,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
       double topPadding = MediaQuery.of(context).padding.top;
       double screenHeight = MediaQuery.of(context).size.height;
 
-      final appBarBox = appBarKey!.currentContext!.findRenderObject() as RenderBox;
+      final appBarBox = appBarKey.currentContext!.findRenderObject() as RenderBox;
       double appBarPos = appBarBox.localToGlobal(Offset(0, -topPadding)).dy;
       if(appBarPos == 0) appBarPos = 1;
       else appBarPos = 0;
@@ -147,7 +147,7 @@ class ArticleWidgetState extends State<ArticleWidget> {
       double gridViewHeight = gridViewKey.currentContext==null?0:gridViewKey.currentContext!.size!.height;
       double authorHeight = authorKey.currentContext==null?0:authorKey.currentContext!.size!.height;
 
-      final articleBox = articleKey!.currentContext!.findRenderObject() as RenderBox;
+      final articleBox = articleKey.currentContext!.findRenderObject() as RenderBox;
       double articlePos = articleBox.localToGlobal(Offset(0, -kToolbarHeight-topPadding)).dy;
       double articleHeight = articleBox.size.height;
 

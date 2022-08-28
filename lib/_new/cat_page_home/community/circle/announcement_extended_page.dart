@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/account_header_widget.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
+import 'package:harcapp/account/account.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
@@ -20,13 +21,15 @@ import 'package:provider/provider.dart';
 
 import '../common/community_cover_colors.dart';
 import 'announcement_widget.dart';
+import 'announcement_widget_template.dart';
 import 'model/announcement.dart';
 import 'model/announcement_attendace.dart';
 import 'model/announcement_attendance_resp.dart';
 import 'model/announcement_attendance_resp_mode.dart';
+import 'model/circle.dart';
 import 'model/member.dart';
 
-class AnnouncementExpandedPage extends StatelessWidget{
+class AnnouncementExpandedPage extends StatefulWidget{
 
   final Announcement announcement;
   final PaletteGenerator? palette;
@@ -34,8 +37,6 @@ class AnnouncementExpandedPage extends StatelessWidget{
   final void Function()? onAnnouncementUpdated;
   final bool showCommunityInfo;
   final bool showPinShortcutButton;
-
-  bool get enablesResp => announcement.respMode != AnnouncementAttendanceRespMode.NONE;
 
   const AnnouncementExpandedPage(
       this.announcement,
@@ -48,14 +49,53 @@ class AnnouncementExpandedPage extends StatelessWidget{
       }) : super(key: key);
 
   @override
+  State<StatefulWidget> createState() => AnnouncementExpandedPageState();
+
+}
+
+class AnnouncementExpandedPageState extends State<AnnouncementExpandedPage> with TickerProviderStateMixin{
+
+  Announcement get announcement => widget.announcement;
+  PaletteGenerator? get palette => widget.palette;
+  bool get displayAttendancePage => widget.displayAttendancePage;
+  void Function()? get onAnnouncementUpdated => widget.onAnnouncementUpdated;
+  bool get showCommunityInfo => widget.showCommunityInfo;
+  bool get showPinShortcutButton => widget.showPinShortcutButton;
+
+  bool get enablesResp => announcement.respMode != AnnouncementAttendanceRespMode.NONE;
+
+  late TabController tabController;
+
+  late List<Member> sortedMembers;
+
+  @override
+  void initState() {
+    tabController = TabController(
+      length: enablesResp?2:1,
+      initialIndex: enablesResp && displayAttendancePage?1:0,
+      vsync: this
+    );
+
+    sortedMembers = [announcement.circle.membersMap[AccountData.key]!];
+    for(Member member in announcement.circle.members)
+      if(member.key != AccountData.key)
+        sortedMembers.add(member);
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) => Consumer<AnnouncementProvider>(
-    builder: (context, prov, child) => BottomNavScaffold(
-      backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
-      appBottomNavColor: CommunityCoverColors.backgroundColor(context, palette),
-      body: DefaultTabController(
-        length: enablesResp?2:1,
-        initialIndex: enablesResp && displayAttendancePage?1:0,
-        child: ExtendedNestedScrollView(
+      builder: (context, prov, child) => BottomNavScaffold(
+        backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+        appBottomNavColor: CommunityCoverColors.backgroundColor(context, palette),
+        body: ExtendedNestedScrollView(
           floatHeaderSlivers: true,
           physics: const BouncingScrollPhysics(),
           pinnedHeaderSliverHeightBuilder: () => const TabBar(tabs: []).preferredSize.height,
@@ -69,6 +109,8 @@ class AnnouncementExpandedPage extends StatelessWidget{
               forceElevated: innerBoxIsScrolled,
               backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
               bottom: enablesResp?TabBar(
+                physics: const BouncingScrollPhysics(),
+                controller: tabController,
                 tabs: const [
                   Tab(text: 'Ogłoszenie'),
                   Tab(text: 'Obecności'),
@@ -81,6 +123,7 @@ class AnnouncementExpandedPage extends StatelessWidget{
 
           ],
           body: TabBarView(
+              controller: tabController,
               physics: const BouncingScrollPhysics(),
               children: [
 
@@ -92,6 +135,7 @@ class AnnouncementExpandedPage extends StatelessWidget{
                     palette,
                     shrinkText: false,
                     showOnTap: false,
+                    customOnAttendanceIndicatorTap: () => tabController.animateTo(1),
                     onAnnouncementUpdated: onAnnouncementUpdated,
                     showCommunityInfo: showCommunityInfo,
                     showPinShortcutButton: showPinShortcutButton,
@@ -101,26 +145,25 @@ class AnnouncementExpandedPage extends StatelessWidget{
                 if(enablesResp)
                   ListView.builder(
                       physics: const BouncingScrollPhysics(),
-                      itemCount: announcement.circle.members.length,
-                      itemBuilder: (context, index) => MemberTile(
+                      itemCount: sortedMembers.length,
+                      itemBuilder: (context, index) => MemberAttendanceTile(
                         announcement,
-                        announcement.circle.members[index],
+                        sortedMembers[index],
                         palette,
                         thumbnailColor: CommunityCoverColors.backgroundColor(context, palette),
                         thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
                       )
-                  )
+                  ),
 
               ]
           ),
         ),
-      ),
-    )
+      )
   );
 
 }
 
-class MemberTile extends StatefulWidget{
+class MemberAttendanceTile extends StatefulWidget{
 
   final Announcement announcement;
   final Member member;
@@ -128,14 +171,14 @@ class MemberTile extends StatefulWidget{
   final Color? thumbnailColor;
   final Color? thumbnailBorderColor;
 
-  const MemberTile(this.announcement, this.member, this.palette, {this.thumbnailColor, this.thumbnailBorderColor, super.key});
+  const MemberAttendanceTile(this.announcement, this.member, this.palette, {this.thumbnailColor, this.thumbnailBorderColor, super.key});
 
   @override
-  State<StatefulWidget> createState() => MemberTileState();
+  State<StatefulWidget> createState() => MemberAttendanceTileState();
 
 }
 
-class MemberTileState extends State<MemberTile>{
+class MemberAttendanceTileState extends State<MemberAttendanceTile>{
 
   Announcement get announcement => widget.announcement;
   Member get member => widget.member;
@@ -165,6 +208,17 @@ class MemberTileState extends State<MemberTile>{
       ),
 
       trailing:
+      member.key == AccountData.key?
+      AttendanceWidget(
+        announcement,
+        palette: palette,
+        onAttendanceChanged: (resp, now){
+          AttendanceWidget.defaultOnAttendanceChanged(context, announcement, resp, now);
+          AnnouncementProvider.notify_(context);
+          AnnouncementListProvider.notify_(context);
+          CircleProvider.notify_(context);
+        },
+      ):
       resp != null?
       Icon(announcementAttendanceRespToIcon(resp)):
       waived?
@@ -217,7 +271,7 @@ class MemberTileState extends State<MemberTile>{
 
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 2*Dimen.LIST_TILE_LEADING_MARGIN_VAL + Dimen.ICON_SIZE + 2*8
+                  left: 2*Dimen.LIST_TILE_LEADING_MARGIN_VAL + Dimen.ICON_SIZE + 2*8
                 ),
                 child: Text(
                   'Deklaracja obecności',
@@ -299,52 +353,54 @@ class MemberTileState extends State<MemberTile>{
                   ),
                 ),
 
-              const SizedBox(height: 2*24.0),
+              if(announcement.author.key == AccountData.key)
+                const SizedBox(height: 2*24.0),
 
-              ListTile(
-                  leading: Icon(
-                    waived?
-                    MdiIcons.playCircleOutline:
-                    MdiIcons.pauseCircleOutline,
-                  ),
-                  title: Text(
+              if(announcement.author.key == AccountData.key)
+                ListTile(
+                    leading: Icon(
                       waived?
-                      'Wymagaj deklaracji obecności':
-                      'Nie wymagaj deklaracji obecności',
-                      style: AppTextStyle()
-                  ),
-                  onTap: (){
+                      MdiIcons.playCircleOutline:
+                      MdiIcons.pauseCircleOutline,
+                    ),
+                    title: Text(
+                        waived?
+                        'Wymagaj deklaracji obecności':
+                        'Nie wymagaj deklaracji obecności',
+                        style: AppTextStyle()
+                    ),
+                    onTap: (){
 
-                    showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Chwileczkę...');
+                      showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Chwileczkę...');
 
-                    ApiCircle.waiveResponse(
-                        annKey: announcement.key,
-                        memberKey: member.key,
-                        waive: !waived,
-                        onSuccess: (success, now) async {
+                      ApiCircle.waiveResponse(
+                          annKey: announcement.key,
+                          memberKey: member.key,
+                          waive: !waived,
+                          onSuccess: (success, now) async {
 
-                          if(waived && success)
-                            announcement.waivedAttRespMembers.remove(member.key);
-                          else if(!waived && success)
-                            announcement.waivedAttRespMembers.add(member.key);
+                            if(waived && success)
+                              announcement.waivedAttRespMembers.remove(member.key);
+                            else if(!waived && success)
+                              announcement.waivedAttRespMembers.add(member.key);
 
-                          Provider.of<AnnouncementProvider>(context, listen: false).notify();
-                          Provider.of<AnnouncementListProvider>(context, listen: false).notify();
-                          setState((){});
-                          await popPage(context); // Close loading widget.
-                          Navigator.pop(context);
-                        },
-                        onServerMaybeWakingUp: () {
-                          if(mounted) showServerWakingUpToast(context);
-                          return true;
-                        },
-                        onError: () async {
-                          if(mounted) showAppToast(context, text: simpleErrorMessage);
-                          await popPage(context); // Close loading widget.
-                        }
-                    );
-                  }
-              ),
+                            Provider.of<AnnouncementProvider>(context, listen: false).notify();
+                            Provider.of<AnnouncementListProvider>(context, listen: false).notify();
+                            setState((){});
+                            await popPage(context); // Close loading widget.
+                            Navigator.pop(context);
+                          },
+                          onServerMaybeWakingUp: () {
+                            if(mounted) showServerWakingUpToast(context);
+                            return true;
+                          },
+                          onError: () async {
+                            if(mounted) showAppToast(context, text: simpleErrorMessage);
+                            await popPage(context); // Close loading widget.
+                          }
+                      );
+                    }
+                ),
 
               const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
 

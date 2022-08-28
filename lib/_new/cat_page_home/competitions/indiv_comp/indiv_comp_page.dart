@@ -267,10 +267,10 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                                 left: Dimen.SIDE_MARG,
                                 right: Dimen.SIDE_MARG
                               ),
-                              child: ShareCodeWidget(
+                              child: ShareCodeWidget.from(
                                 comp.shareCode!,
                                 comp.shareCodeSearchable,
-                                enabled: !changeShareCodeProcessing,
+                                !changeShareCodeProcessing,
                                 resetShareCode: () => ApiIndivComp.resetShareCode(
                                     compKey: comp.key,
                                     onSuccess: (shareCode){
@@ -286,6 +286,9 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                                         showAppToast(context, text: 'Za często zmieniasz kod dostępu');
                                     }
                                 ),
+
+                                description: 'Kod dostępu pozwala dołączyć do współzawodnictwa osobom, które go znają.',
+                                resetFrequencyDays: 2,
                               ),
                             ),
                           ),
@@ -696,7 +699,7 @@ class TaskWidget extends StatelessWidget{
               context: context,
               margin: EdgeInsets.zero,
               iconLeading: false,
-              text: comp.myProfile?.role == CompRole.OBSERVER?'Wnioskuj':'Zalicz',
+              text: comp.myProfile?.role == CompRole.OBSERVER?'Wnioskuj':'Zalicz sobie',
               icon: MdiIcons.cubeSend,
               onTap: () async {
 
@@ -856,120 +859,3 @@ class LeaveNotAdminDialog extends StatelessWidget{
   }
 
 }
-
-/*
-class ShareCodeWidget extends StatefulWidget{
-
-  final IndivComp comp;
-  final bool enabled;
-
-  const ShareCodeWidget(this.comp, {this.enabled = true, super.key});
-
-  @override
-  State<StatefulWidget> createState() => ShareCodeWidgetState();
-
-}
-
-class ShareCodeWidgetState extends State<ShareCodeWidget>{
-
-  IndivComp get comp => widget.comp;
-
-  bool get processing => !widget.enabled || _processing;
-  late bool _processing;
-
-  @override
-  void initState() {
-    _processing = false;
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) => Material(
-    borderRadius: BorderRadius.circular(AppCard.bigRadius),
-    color: backgroundIcon_(context),
-    child: Padding(
-      padding: const EdgeInsets.all(8),
-      child: Material(
-          clipBehavior: Clip.hardEdge,
-          borderRadius: BorderRadius.circular(AppCard.bigRadius-6),
-          color: background_(context),
-          child: Stack(
-            children: [
-
-              Padding(
-                  padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                  child: Stack(
-                    children: [
-
-                      Text('Kod dostępu:', style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context))),
-
-                      Row(
-                        children: [
-
-                          const SizedBox(width: Dimen.ICON_FOOTPRINT),
-
-                          Expanded(
-                              child: GestureDetector(
-                                onLongPress: (){
-                                  Clipboard.setData(ClipboardData(text: comp.shareCode));
-                                  showAppToast(context, text: 'Skopiowano');
-                                },
-                                child: Text(
-                                  comp.shareCode!,
-                                  style: AppTextStyle(
-                                      fontSize: Dimen.ICON_SIZE,
-                                      fontWeight: weight.bold,
-                                      color: comp.shareCodeSearchable?iconEnab_(context):iconDisab_(context)
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              )
-                          ),
-
-                          IconButton(
-                            icon: const Icon(MdiIcons.refresh),
-                            onPressed: processing || !comp.shareCodeSearchable?null:() async {
-
-                              setState(() => _processing = true);
-                              await ApiIndivComp.resetShareCode(
-                                  compKey: comp.key,
-                                  onSuccess: (shareCode){
-                                    setState(() => comp.shareCode = shareCode);
-                                  },
-                                  onError: (Map? errData){
-                                    if(errData!['errors'] != null && errData['errors']['shareCode'] == 'share_code_changed_too_soon')
-                                      showAppToast(context, text: 'Za często zmieniasz kod dostępu');
-                                  }
-                              );
-                              setState(() => _processing = false);
-
-                            },
-                          ),
-
-                        ],
-                      )
-
-                    ],
-                  )
-              ),
-
-              Positioned(
-                left: 0,
-                top: -60,
-                bottom: -60,
-                child: Icon(
-                    MdiIcons.radar,
-                    color: backgroundIcon_(context),
-                    size: (Dimen.ICON_FOOTPRINT + 2*Dimen.ICON_MARG) + 2*60
-                ),
-              )
-
-            ],
-          )
-      ),
-    ),
-  );
-
-}
-
- */

@@ -45,15 +45,24 @@ class CommunityManagersPage extends StatelessWidget{
           appBarTitle: 'Lista ogarniaczy (${managers.length})',
           userSets: [
             UserSet(
-                icon: communityRoleToIcon[CommunityRole.ADMIN]!,
-                name: 'Administratorzy',
-                users: managAdmins
+              icon: communityRoleToIcon[CommunityRole.ADMIN]!,
+              name: 'Administratorzy',
+              users: managAdmins,
+              persmissions: [
+                'Dodawanie nowych ogarniaczy',
+                'Wyrzucanie ogarniaczy',
+                'Edycja ról ogarniaczy',
+                'Zmiana ustawień środowiska'
+              ]
             ),
 
             UserSet(
                 icon: communityRoleToIcon[CommunityRole.REGULAR]!,
                 name: 'Redaktorzy',
-                users: managRegulars
+                users: managRegulars,
+                persmissions: [
+                  'Pilne obserwowanie kto ogarnia środowisko',
+                ]
             ),
 
           ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -28,17 +29,46 @@ Future<JoinOrCreateType?> pickJoinCreateType(BuildContext context)async {
           mainAxisSize: MainAxisSize.min,
           children: [
 
-            CreateNewButton(
-                icon: MdiIcons.accountGroup,
-                title: 'Nowe środowisko',
-                description: 'Środowisko to wspólnota.'
-                    '\n'
-                    '\nZawiąż w nim <b>krąg - zamkniętą grupę</b>.'
-                    '\nZałoż w nim <b>forum - otwartą przestrzeń</b>, którą każdy może obserwować!',
-                onTap: (){
-                  result = JoinOrCreateType.newCommunity;
-                  Navigator.pop(context);
-                }
+            KeyboardVisibilityBuilder(
+              builder: (context, keyboardVisible){
+                if(keyboardVisible)
+                  return Container();
+
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+
+                    CreateNewButton(
+                        icon: MdiIcons.accountGroup,
+                        title: 'Nowe środowisko',
+                        description: 'Środowisko to wspólnota.'
+                            '\n'
+                            '\nZawiąż w nim <b>krąg - zamkniętą grupę</b>.'
+                            '\nZałoż w nim <b>forum - publiczną stronę</b>, którą każdy może obserwować!',
+                        onTap: (){
+                          result = JoinOrCreateType.newCommunity;
+                          Navigator.pop(context);
+                        }
+                    ),
+
+                    const SizedBox(height: Dimen.SIDE_MARG),
+
+                    CreateNewButton(
+                        icon: Forum.icon,
+                        title: 'Przeglądaj fora',
+                        description: 'Forum to publiczna strona środowiska.'
+                            '\n'
+                            '\nObczaj fora różnych środowisk i obserwuj najciekawsze z nich!',
+                        onTap: (){
+                          result = JoinOrCreateType.searchForum;
+                          Navigator.pop(context);
+                        }
+                    ),
+
+                  ],
+                );
+
+              },
             ),
 
             const SizedBox(height: Dimen.SIDE_MARG),
@@ -50,20 +80,6 @@ Future<JoinOrCreateType?> pickJoinCreateType(BuildContext context)async {
                 Community.addToAllByCircle(circle, context: context);
                 pushReplacePage(context, builder: (context) => CirclePage(circle));
               },
-            ),
-
-            const SizedBox(height: Dimen.SIDE_MARG),
-
-            CreateNewButton(
-              icon: Forum.icon,
-              title: 'Przeglądaj fora',
-              description: 'Forum to publiczna strona środowiska.'
-                  '\n'
-                  '\nObczaj fora różnych środowisk i obserwuj najciekawsze z nich!',
-              onTap: (){
-                result = JoinOrCreateType.searchForum;
-                Navigator.pop(context);
-              }
             ),
 
           ]
@@ -96,13 +112,14 @@ class _JoinCircleButton extends StatefulWidget{
 
 class _JoinCircleButtonState extends State<_JoinCircleButton>{
 
-  TextEditingController? controller;
-
+  late TextEditingController controller;
+  late FocusNode focusNode;
   late bool processing;
 
   @override
   void initState() {
     controller = TextEditingController();
+    focusNode = FocusNode();
     processing = false;
     super.initState();
   }
@@ -123,6 +140,7 @@ class _JoinCircleButtonState extends State<_JoinCircleButton>{
             hintStyle: AppTextStyle(color: hintEnab_(context)),
             accentColor: Colors.deepOrange,
             controller: controller,
+            focusNode: focusNode,
           ),
         ),
 
@@ -133,9 +151,15 @@ class _JoinCircleButtonState extends State<_JoinCircleButton>{
           const Icon(MdiIcons.arrowRight),
 
           onPressed: () async {
+            if(controller.text.isEmpty){
+              focusNode.requestFocus();
+              showAppToast(context, text: 'Podaj kod dostępu');
+              return;
+            }
+
             setState(() => processing = true);
             await ApiCircle.joinByShareCode(
-                searchCode: controller!.text,
+                searchCode: controller.text,
                 onSuccess: (circle, newCommunityAdded){
                   widget.onSuccess.call(circle);
                   if(newCommunityAdded)

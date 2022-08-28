@@ -51,13 +51,23 @@ class ManagersPage extends StatelessWidget{
             UserSet(
                 icon: forumRoleToIcon[ForumRole.ADMIN]!,
                 name: 'Administratorzy',
-                users: managAdmins
+                users: managAdmins,
+                persmissions: [
+                  'Dodawanie postów',
+                  'Dodawanie nowych ogarniaczy',
+                  'Wyrzucanie ogarniaczy',
+                  'Edycja ról ogarniaczy',
+                  'Zmiana ustawień forum'
+                ]
             ),
 
             UserSet(
                 icon: forumRoleToIcon[ForumRole.EDITOR]!,
                 name: 'Redaktorzy',
-                users: managEditors
+                users: managEditors,
+                persmissions: [
+                  'Dodawanie postów',
+                ]
             ),
 
           ],

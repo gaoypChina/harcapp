@@ -14,10 +14,14 @@ import 'announcement_attendance_resp_mode.dart';
 import 'circle.dart';
 
 class AnnouncementProvider extends ChangeNotifier{
+  static AnnouncementProvider of(BuildContext context) => Provider.of<AnnouncementProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
   void notify() => notifyListeners();
 }
 
 class AnnouncementListProvider extends ChangeNotifier{
+  static AnnouncementListProvider of(BuildContext context) => Provider.of<AnnouncementListProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
   void notify() => notifyListeners();
 }
 

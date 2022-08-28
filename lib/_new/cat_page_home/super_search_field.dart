@@ -143,19 +143,79 @@ class SuperSearchPageState extends State<SuperSearchPage>{
         ),
 
         if(textController.text.isEmpty)
-          const SliverFillRemaining(
+          SliverFillRemaining(
             hasScrollBody: false,
-            child: EmptyMessageWidget(
-              icon: MdiIcons.magnify,
-              text: 'Szukaj',
-            ),
+            child: Column(
+              children: [
+
+                ListTile(
+                  leading: const SizedBox(),
+                  title: Text(
+                      'Wpisz frazę by wyszukać swoje:',
+                      style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_BIG,
+                          color: iconDisab_(context)
+                      )
+                  ),
+                ),
+
+                ListTile(
+                  leading: Icon(MdiIcons.plusCircleMultipleOutline, color: iconDisab_(context)),
+                  dense: true,
+                  title: Text(
+                    'Współzawodnictwo',
+                    style: AppTextStyle(
+                      fontSize: Dimen.TEXT_SIZE_BIG,
+                      color: iconDisab_(context)
+                    )
+                  ),
+                ),
+
+                ListTile(
+                  leading: Icon(Community.icon, color: iconDisab_(context)),
+                  dense: true,
+                  title: Text(
+                      'Środowisko',
+                      style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_BIG,
+                          color: iconDisab_(context)
+                      )
+                  ),
+                ),
+
+                ListTile(
+                  leading: Icon(Circle.icon, color: iconDisab_(context)),
+                  dense: true,
+                  title: Text(
+                      'Krąg',
+                      style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_BIG,
+                          color: iconDisab_(context)
+                      )
+                  ),
+                ),
+
+                ListTile(
+                  leading: Icon(Forum.icon, color: iconDisab_(context)),
+                  dense: true,
+                  title: Text(
+                      'Forum',
+                      style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_BIG,
+                          color: iconDisab_(context)
+                      )
+                  ),
+                ),
+
+              ],
+            )
           )
         else if(searched.isEmpty)
           const SliverFillRemaining(
             hasScrollBody: false,
             child: EmptyMessageWidget(
               icon: MdiIcons.magnifyClose,
-              text: 'Nic nie\nznaleziono',
+              text: 'Niczego nie\nznaleziono',
             ),
           )
         else

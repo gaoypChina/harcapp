@@ -10,6 +10,24 @@ import '../models/indiv_comp.dart';
 
 class ParticipantsPage extends StatelessWidget{
 
+  static const List<String> adminPersmissions = [
+    'Przyznawanie punktów',
+    'Rozpatrywanie wniosków o punkty',
+    'Dodawanie nowych uczestników',
+    'Wyrzucanie uczestników',
+    'Edycja ról uczestników',
+    'Zmiana ustawień współzawodnictwa'
+  ];
+
+  static const List<String> moderatorPersmissions = [
+    'Przyznawanie punktów',
+    'Rozpatrywanie wniosków o punkty',
+  ];
+
+  static const List<String> obsPersmissions = [
+    'Pyszna zabawa i współzawodniczenie (:'
+  ];
+
   final IndivComp comp;
 
   List<IndivCompParticip> get particips => comp.particips;
@@ -62,21 +80,24 @@ class ParticipantsPage extends StatelessWidget{
           appBarTitle: 'Lista członków (${particips.length})',
           userSets: [
             UserSet(
-                icon: compRoleToIcon[CompRole.ADMIN]!,
-                name: 'Administratorzy',
-                users: participAdmins
+              icon: compRoleToIcon[CompRole.ADMIN]!,
+              name: 'Administratorzy',
+              users: participAdmins,
+              persmissions: adminPersmissions
             ),
 
             UserSet(
-                icon: compRoleToIcon[CompRole.MODERATOR]!,
-                name: 'Moderatorzy',
-                users: participMods
+              icon: compRoleToIcon[CompRole.MODERATOR]!,
+              name: 'Moderatorzy',
+              users: participMods,
+              persmissions: moderatorPersmissions
             ),
 
             UserSet(
-                icon: compRoleToIcon[CompRole.OBSERVER]!,
-                name: 'Pozostali',
-                users: participObs
+              icon: compRoleToIcon[CompRole.OBSERVER]!,
+              name: 'Pozostali',
+              users: participObs,
+              persmissions: obsPersmissions
             )
           ],
           userTileBuilder: (context, particip) =>

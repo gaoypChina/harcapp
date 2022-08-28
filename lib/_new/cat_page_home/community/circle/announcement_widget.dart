@@ -19,6 +19,7 @@ class AnnouncementWidget extends StatelessWidget{
   final bool pinnable;
   final bool editable;
   final bool showOnTap;
+  final void Function()? customOnAttendanceIndicatorTap;
   final void Function()? onAnnouncementUpdated;
   final bool showCommunityInfo;
   final void Function()? onCircleButtonTap;
@@ -33,6 +34,7 @@ class AnnouncementWidget extends StatelessWidget{
         this.pinnable = true,
         this.editable = true,
         this.showOnTap = true,
+        this.customOnAttendanceIndicatorTap,
         this.onAnnouncementUpdated,
         this.showCommunityInfo = false,
         this.onCircleButtonTap,
@@ -44,7 +46,7 @@ class AnnouncementWidget extends StatelessWidget{
   Widget build(BuildContext context) => Hero(
       tag: announcement,
       child: Consumer<AnnouncementProvider>(
-        builder: (context, prov, child) => AnnouncementWidgetTemplate(
+        builder: (context, announcementProv, child) => AnnouncementWidgetTemplate(
             announcement,
             palette: palette,
             shrinkText: shrinkText,
@@ -57,35 +59,27 @@ class AnnouncementWidget extends StatelessWidget{
                   onSaved: (updatedAnnouncement){
                     announcement.update(updatedAnnouncement);
                     onAnnouncementUpdated?.call();
-                    prov.notify();
+                    announcementProv.notify();
                   },
                   onRemoved: (){
                     circle.removeAnnouncement(announcement);
                     onAnnouncementUpdated?.call();
-                    prov.notify();
+                    announcementProv.notify();
                   },
                 )
             ):null,
             onPinChanged: pinnable ? (pinned){
               onAnnouncementUpdated?.call();
-              prov.notify();
+              announcementProv.notify();
             }:null,
             onAttendanceChanged: (resp, now){
-              bool hasResponse = announcement.respMode == AnnouncementAttendanceRespMode.OBLIGATORY && resp.response != null;
-              bool isOverdue = resp.response == AnnouncementAttendance.POSTPONE_RESP && resp.postponeTime!.isAfter(now);
-
-              bool isNewAwaiting = !hasResponse || (hasResponse && isOverdue);
-              if(announcement.isAwaitingMyResponse && !isNewAwaiting)
-                circle.pinnedCount -= 1;
-              else if(!announcement.isAwaitingMyResponse && isNewAwaiting)
-                circle.pinnedCount += 1;
-
-              circle.changeAwaitingAnnouncement(announcement, isNewAwaiting);
+              AttendanceWidget.defaultOnAttendanceChanged(context, announcement, resp, now);
               onAnnouncementUpdated?.call();
-              prov.notify();
+              announcementProv.notify();
+              AnnouncementListProvider.notify_(context);
               CircleProvider.notify_(context);
             },
-            onAttendanceIndicatorTap: showOnTap?() => pushPage(
+            onAttendanceIndicatorTap: customOnAttendanceIndicatorTap??(showOnTap?() => pushPage(
               context,
               builder: (context) => AnnouncementExpandedPage(
                 announcement,
@@ -94,7 +88,7 @@ class AnnouncementWidget extends StatelessWidget{
                 onAnnouncementUpdated: onAnnouncementUpdated,
                 showCommunityInfo: showCommunityInfo,
               ),
-            ):null,
+            ):null),
             onTap: showOnTap?() => pushPage(
               context,
               builder: (context) => AnnouncementExpandedPage(

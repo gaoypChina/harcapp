@@ -28,6 +28,7 @@ import 'model/announcement.dart';
 import 'model/announcement_attendace.dart';
 import 'model/announcement_attendance_resp.dart';
 import 'model/announcement_attendance_resp_mode.dart';
+import 'model/circle.dart';
 
 class AnnouncementWidgetTemplate extends StatelessWidget{
 
@@ -519,6 +520,22 @@ class AttendanceWidget extends StatelessWidget{
 
 
     return Container();
+  }
+
+  static void defaultOnAttendanceChanged(BuildContext context, Announcement announcement, AnnouncementAttendanceResp resp, DateTime now){
+    Circle circle = announcement.circle;
+
+    bool hasResponse = announcement.respMode == AnnouncementAttendanceRespMode.OBLIGATORY && resp.response != null;
+      bool isOverdue = resp.response == AnnouncementAttendance.POSTPONE_RESP && resp.postponeTime!.isAfter(now);
+
+      bool isNewAwaiting = !hasResponse || (hasResponse && isOverdue);
+      if(announcement.isAwaitingMyResponse && !isNewAwaiting)
+        circle.pinnedCount -= 1;
+      else if(!announcement.isAwaitingMyResponse && isNewAwaiting)
+        circle.pinnedCount += 1;
+
+      circle.changeAwaitingAnnouncement(announcement, isNewAwaiting);
+
   }
 
 }

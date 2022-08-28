@@ -327,11 +327,8 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
                 return Stack(
                   children: <Widget>[
 
-                    Positioned(
+                    Positioned.fill(
                       top: cardTop - scrollVal,
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
                       child: RateCard(
                           song,
                           onTap: (int rate, bool selected) async {

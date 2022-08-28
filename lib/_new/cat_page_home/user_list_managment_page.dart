@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class UserSet<T extends UserData>{
 
   final IconData icon;
   final String name;
   final List<T> users;
+  final List<String> persmissions;
 
-  const UserSet({required this.icon, required this.name, required this.users});
+  const UserSet({required this.icon, required this.name, required this.users, required this.persmissions});
 
 }
 
@@ -63,6 +67,8 @@ class UserListManagementPage<T extends UserData> extends StatelessWidget{
             icon: userSet.icon,
             title: userSet.name,
             trailing: headerTrailing?.call(context, userSet),
+            permissions: userSet.persmissions,
+            color: backgroundColor,
           ),
           body: Builder(
               builder: (context){
@@ -118,11 +124,15 @@ class _ListHeader extends StatelessWidget{
   final IconData icon;
   final String title;
   final Widget? trailing;
+  final List<String> permissions;
+  final Color? color;
 
   const _ListHeader({
     required this.icon,
     required this.title,
     required this.trailing,
+    required this.permissions,
+    required this.color,
     super.key
   });
 
@@ -130,28 +140,179 @@ class _ListHeader extends StatelessWidget{
   Widget build(BuildContext context) => Row(
     children: [
 
-      SizedBox(
-        width: AccountThumbnailWidget.defSize + 2*Dimen.SIDE_MARG,
-        child: Center(
-          child: Icon(icon, color: hintEnab_(context)),
+      const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
+
+      Expanded(
+        child: SimpleButton(
+          radius: 10.0,
+            onTap: () => openDialog(
+                context: context,
+                builder: (context) => PermissionsDialog(
+                  icon: icon,
+                  title: title,
+                  permissions: permissions,
+                  color: color,
+                )
+            ),
+            child: Row(
+              children: [
+
+                const SizedBox(width: Dimen.ICON_MARG),
+
+                const SizedBox(height: Dimen.ICON_FOOTPRINT),
+
+                SizedBox(
+                  width: AccountThumbnailWidget.defSize,
+                  child: Center(
+                    child: Icon(icon, color: hintEnab_(context)),
+                  ),
+                ),
+
+                const SizedBox(width: Dimen.SIDE_MARG),
+
+                Expanded(
+                    child: Text(
+                      title,
+                      style: AppTextStyle(
+                          fontWeight: weight.bold,
+                          fontSize: Dimen.TEXT_SIZE_BIG,
+                          color: hintEnab_(context)
+                      ),
+                    )
+                ),
+
+              ],
+            )
         ),
       ),
 
-      Expanded(
-          child: Text(
-            title,
-            style: AppTextStyle(
-                fontWeight: weight.bold,
-                fontSize: Dimen.TEXT_SIZE_BIG,
-                color: hintEnab_(context)
-            ),
-          )
-      ),
+      const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
 
       if(trailing != null)
         trailing!
 
     ],
+  );
+
+}
+
+class PermissionsDialog extends StatelessWidget{
+
+  final IconData icon;
+  final String title;
+  final List<String> permissions;
+  final Color? color;
+
+  const PermissionsDialog({
+    required this.icon,
+    required this.title,
+    required this.permissions,
+    required this.color,
+    super.key
+  });
+
+  @override
+  Widget build(BuildContext context) => Center(
+    child: Padding(
+        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+        child: Material(
+            borderRadius: BorderRadius.circular(AppCard.bigRadius),
+            clipBehavior: Clip.hardEdge,
+            color: color??background_(context),
+            child: CustomScrollView(
+              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
+              slivers: [
+
+                SliverList(delegate: SliverChildListDelegate([
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: Dimen.ICON_MARG),
+                    child: Row(
+                      children: [
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: Dimen.ICON_MARG),
+                          child: Icon(icon),
+                        ),
+
+                        Expanded(
+                          child: Column(
+                            children: [
+
+                              Text(
+                                title,
+                                style: AppTextStyle(
+                                    fontSize: Dimen.TEXT_SIZE_APPBAR,
+                                    color: iconEnab_(context),
+                                    fontWeight: weight.halfBold
+                                ),
+                              ),
+
+                              Text(
+                                '(uprawnienia)',
+                                style: AppTextStyle(
+                                    fontSize: Dimen.TEXT_SIZE_BIG,
+                                    color: iconEnab_(context)
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(width: Dimen.ICON_FOOTPRINT)
+
+                      ],
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: Dimen.ICON_MARG,
+                      left: 2*Dimen.ICON_MARG,
+                      right: 2*Dimen.ICON_MARG,
+                      bottom: Dimen.ICON_MARG
+                    ),
+                    child: Container(height: 3.0, color: backgroundIcon_(context)),
+                  )
+
+                ])),
+
+                SliverList(delegate: SliverChildBuilderDelegate(
+                    (context, index) => ListTile(
+                      leading: Text(
+                          '${index + 1}.',
+                          style: AppTextStyle(
+                              fontSize: Dimen.TEXT_SIZE_APPBAR,
+                              fontWeight: weight.halfBold
+                          )
+                      ),
+                      title: Text(
+                          permissions[index],
+                          style: AppTextStyle(
+                            fontSize: Dimen.TEXT_SIZE_BIG
+                          )
+                      ),
+                    ),
+                    childCount: permissions.length
+                )),
+
+                SliverList(delegate: SliverChildListDelegate([
+
+                  SimpleButton.from(
+                    context: context,
+                    text: 'Zamknij',
+                    icon: MdiIcons.check,
+                    onTap: () => Navigator.pop(context)
+                  )
+
+                ])),
+
+              ],
+            )
+        )
+    ),
   );
 
 }

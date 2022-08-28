@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -18,15 +21,64 @@ import 'indiv_comp/models/indiv_comp.dart';
 Future<NewCompType?> pickCompType(BuildContext context)async {
 
   NewCompType? result;
+
   await showScrollBottomSheet(
       context: context,
       builder: (context) => BottomSheetDef(
         title: 'Nowe współzawodnictwo',
-        builder: (context) => CompTypeWidget(
-            onSelected: (compType){
-              result = compType;
-              Navigator.pop(context);
-            }
+        builder: (context) => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+
+              KeyboardVisibilityBuilder(
+                builder: (context, keyboardVisible){
+                  if(keyboardVisible)
+                    return Container();
+
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+
+                      CreateNewButton(
+                        icon: MdiIcons.applicationOutline,
+                        title: 'Utwórz puste',
+                        description: 'Zacznij od pustego szablonu.\n\nSkorzystaj, jeżeli wiesz jak działają współzawodnictwa.',
+                        onTap: (){
+                          result = NewCompType.empty;
+                          Navigator.pop(context);
+                        }
+                      ),
+
+                      const SizedBox(height: Dimen.SIDE_MARG),
+
+                      CreateNewButton(
+                        icon: MdiIcons.applicationEditOutline,
+                        title: 'Utwórz przykładowe',
+                        description: 'Wybierz w pełni uzupełny przykład.\n\nSkorzystaj, jeżeli pierwszy raz tworzysz współzawodnictwo.',
+                          onTap: (){
+                            result = NewCompType.example;
+                            Navigator.pop(context);
+                          }
+                      ),
+
+                      const SizedBox(height: Dimen.SIDE_MARG),
+
+                    ],
+                  );
+
+                },
+              ),
+
+              _JoinButton(
+                onSuccess: (comp) async {
+                  result = NewCompType.join;
+                  Navigator.pop(context);
+                  IndivComp.addToAll(comp, context: context);
+                  pushReplacePage(context, builder: (context) => IndivCompPage(comp));
+                },
+              ),
+
+            ]
         ),
       )
   );
@@ -39,58 +91,6 @@ enum NewCompType{
   empty,
   example,
   join
-}
-
-class CompTypeWidget extends StatelessWidget{
-
-  final void Function(NewCompType type)? onSelected;
-
-  const CompTypeWidget({this.onSelected, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Padding(
-      padding: MediaQuery.of(context).viewInsets,
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-
-              _JoinButton(
-                onSuccess: (comp) async {
-                  onSelected!(NewCompType.join);
-                  IndivComp.addToAll(comp, context: context);
-                  pushReplacePage(context, builder: (context) => IndivCompPage(comp));
-                },
-              ),
-
-              const SizedBox(height: Dimen.SIDE_MARG),
-
-              CreateNewButton(
-                icon: MdiIcons.applicationOutline,
-                title: 'Utwórz puste',
-                description: 'Zacznij od pustego szablonu.\n\nSkorzystaj, jeżeli wiesz jak działają współzawodnictwa.',
-                onTap: () => onSelected!(NewCompType.empty),
-              ),
-
-              const SizedBox(height: Dimen.SIDE_MARG),
-
-              CreateNewButton(
-                icon: MdiIcons.applicationEditOutline,
-                title: 'Utwórz przykładowe',
-                description: 'Wybierz w pełni uzupełny przykład.\n\nSkorzystaj, jeżeli pierwszy raz tworzysz współzawodnictwo.',
-                onTap: () => onSelected!(NewCompType.example),
-              ),
-
-            ]
-        ),
-      )
-    );
-
-  }
-
 }
 
 class _JoinButton extends StatefulWidget{
@@ -106,20 +106,21 @@ class _JoinButton extends StatefulWidget{
 
 class _JoinButtonState extends State<_JoinButton>{
 
-  TextEditingController? controller;
-
+  late TextEditingController controller;
+  late FocusNode focusNode;
   late bool processing;
 
   @override
   void initState() {
     controller = TextEditingController();
+    focusNode = FocusNode();
     processing = false;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) => CreateNewButton(
-    icon: MdiIcons.applicationImport,
+    icon: ShareCodeWidget.iconOn,
     title: 'Dołącz do istniejącego',
     description: 'Dołącz do współzawodnictwa utworzonego przez inną osobę.',
     onTap: null,
@@ -132,6 +133,7 @@ class _JoinButtonState extends State<_JoinButton>{
             hintStyle: AppTextStyle(color: hintEnab_(context)),
             accentColor: Colors.deepOrange,
             controller: controller,
+            focusNode: focusNode
           ),
         ),
 
@@ -142,9 +144,15 @@ class _JoinButtonState extends State<_JoinButton>{
           const Icon(MdiIcons.arrowRight),
 
           onPressed: () async {
+            if(controller.text.isEmpty){
+              focusNode.requestFocus();
+              showAppToast(context, text: 'Podaj kod dostępu');
+              return;
+            }
+
             setState(() => processing = true);
             await ApiIndivComp.joinByShareCode(
-                searchCode: controller!.text,
+                searchCode: controller.text,
                 onSuccess: (comp){
                   if(!mounted) return;
                   widget.onSuccess.call(comp);

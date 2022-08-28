@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -42,54 +44,61 @@ class BottomSheetTemplateState extends State<BottomSheetTemplate>{
 
   void notify() => setState((){});
 
-  bool? exceedsHeight;
+  late bool exceedsHeight;
+  late StreamSubscription<bool> keyboardSubscription;
 
   @override
   void initState() {
+
+    post(() => handleSizeConf());
+
+    keyboardSubscription = KeyboardVisibilityController().onChange.listen((bool visible) =>
+      handleSizeConf()
+    );
+
     contentKey = GlobalKey();
     exceedsHeight = true;
     super.initState();
   }
 
-  handleSizeConf(){
+  @override
+  void dispose(){
+    super.dispose();
+    keyboardSubscription.cancel();
+  }
+
+  bool handleSizeConf(){
     bool _exceedsHeight = contentKey!.currentContext!.size!.height > MediaQuery.of(context).size.height;
     if(_exceedsHeight != exceedsHeight)
       setState(() => exceedsHeight = _exceedsHeight);
+
+    return _exceedsHeight;
   }
 
   @override
   Widget build(BuildContext context) {
-
-    return KeyboardVisibilityBuilder(
-        builder: (context, isKeyboardVisible) {
-
-          post(() => handleSizeConf());
-
-          if(exceedsHeight!)
-            return DraggableScrollableSheet(
-                expand: false,
-                builder: (context, scrollController) =>
-                    ScrollConfiguration(
-                      behavior: NoGlowBehavior(),
-                      child: SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          controller: scrollController,
-                          child: Container(
-                            key: contentKey,
-                            child: widget.builder(context),
-                          )
-                      ),
+    if(exceedsHeight)
+      return DraggableScrollableSheet(
+          expand: false,
+          builder: (context, scrollController) =>
+              ScrollConfiguration(
+                behavior: NoGlowBehavior(),
+                child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    controller: scrollController,
+                    child: Container(
+                      key: contentKey,
+                      child: widget.builder(context),
                     )
+                ),
+              )
 
-            );
-          else
-            return Container(
-              key: contentKey,
-              child: widget.builder(context),
-            );
-        }
-    );
-
+      );
+    else
+      return Container(
+        key: contentKey,
+        child: widget.builder(context),
+      );
   }
 
 }
@@ -142,6 +151,7 @@ class BottomSheetDefState extends State<BottomSheetDef>{
                     padding: const EdgeInsets.all(Dimen.BOTTOM_SHEET_TITLE_MARG),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Text(widget.title!, style: AppTextStyle(fontWeight: weight.halfBold, color: widget.textColor, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.end,),
                         if(widget.subTitle!=null) Text(widget.subTitle!, style: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_NORMAL), textAlign: TextAlign.end,),
@@ -158,5 +168,7 @@ class BottomSheetDefState extends State<BottomSheetDef>{
     );
 
   }
+
+  void notify() => setState((){});
 
 }

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_particip/participants_page.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_page.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
@@ -118,21 +119,24 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
 
               userSets: [
                 UserSet(
-                    icon: compRoleToIcon[CompRole.ADMIN]!,
-                    name: 'Administratorzy',
-                    users: participAdmins
+                  icon: compRoleToIcon[CompRole.ADMIN]!,
+                  name: 'Administratorzy',
+                  users: participAdmins,
+                  persmissions: ParticipantsPage.adminPersmissions
                 ),
 
                 UserSet(
-                    icon: compRoleToIcon[CompRole.MODERATOR]!,
-                    name: 'Moderatorzy',
-                    users: participMods
+                  icon: compRoleToIcon[CompRole.MODERATOR]!,
+                  name: 'Moderatorzy',
+                  users: participMods,
+                  persmissions: ParticipantsPage.moderatorPersmissions
                 ),
 
                 UserSet(
-                    icon: compRoleToIcon[CompRole.OBSERVER]!,
-                    name: 'Pozostali',
-                    users: participObs
+                  icon: compRoleToIcon[CompRole.OBSERVER]!,
+                  name: 'Pozostali',
+                  users: participObs,
+                  persmissions: ParticipantsPage.obsPersmissions
                 )
               ],
 
@@ -219,8 +223,10 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
                     right: Dimen.defMarg,
                     bottom: Dimen.defMarg,
                 ),
+                padding: const EdgeInsets.all(Dimen.SIDE_MARG - Dimen.ICON_MARG),
                 radius: AppCard.bigRadius,
                 onTap: applyPointsToMultipleParticips,
+                elevation: AppCard.bigElevation,
                 color: comp.colors.colorStart,
                 colorEnd: comp.colors.colorEnd,
                 child: TitleShortcutRowWidget(

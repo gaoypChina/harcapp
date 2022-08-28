@@ -97,7 +97,7 @@ class IndivTaskComplReqWidgetState extends State<IndivTaskComplReqWidget>{
                   iconLeading: false,
                   margin: EdgeInsets.zero,
                   icon: adminOrMod?MdiIcons.check:MdiIcons.cubeSend,
-                  text: adminOrMod?'Zalicz':'Prześlij',
+                  text: adminOrMod?'Zalicz sobie':'Prześlij',
                   onTap: sending?null:() async {
 
                     if(!await isNetworkAvailable()) {

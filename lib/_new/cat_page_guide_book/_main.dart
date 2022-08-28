@@ -163,6 +163,11 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
+              const TitleShortcutRowWidget(
+                title: 'Poradnik',
+                textAlign: TextAlign.start,
+              ),
+
               _ItemWidget(
                   data: ItemData(
                       MdiIcons.translate,

@@ -104,12 +104,6 @@ class CirclePageState extends State<CirclePage>{
 
     if(!refresh) return;
 
-    if(circle.awaitingCount != 0)
-      post(() => openDialog(
-          context: context,
-          builder: (context) => InitAwaitingMessageDialog(palette: palette)
-      ));
-
     setState(() {});
     notifyScrollController();
   }
@@ -187,9 +181,13 @@ class CirclePageState extends State<CirclePage>{
 
     if(initTap != null)
       currTab = AnnouncementCategories.pinned;
-    else if(circle.awaitingCount != 0)
+    else if(circle.awaitingCount != 0) {
       currTab = AnnouncementCategories.awaiting;
-    else
+      post(() => openDialog(
+          context: context,
+          builder: (context) => InitAwaitingMessageDialog(palette: palette)
+      ));
+    }else
       currTab = AnnouncementCategories.all;
 
     nameWidgetKey = GlobalKey();
@@ -454,8 +452,8 @@ class CirclePageState extends State<CirclePage>{
                       IconButton(
                         icon: Icon(
                             circle.shareCodeSearchable?
-                            MdiIcons.accessPoint:
-                            MdiIcons.accessPointOff,
+                            ShareCodeWidget.iconOn:
+                            ShareCodeWidget.iconOff,
 
                             color: appBarProv.coverVisible?coverIconColor:iconEnab_(context)
 
@@ -587,10 +585,10 @@ class CirclePageState extends State<CirclePage>{
                             left: Dimen.SIDE_MARG,
                             right: Dimen.SIDE_MARG
                           ),
-                          child: ShareCodeWidget(
+                          child: ShareCodeWidget.from(
                             circle.shareCode!,
                             circle.shareCodeSearchable,
-                            enabled: !changeShareCodeProcessing,
+                            !changeShareCodeProcessing,
                             backgroundColor: backgroundColor,
                             borderColor: cardColor,
                             resetShareCode: () => ApiCircle.resetShareCode(
@@ -607,6 +605,8 @@ class CirclePageState extends State<CirclePage>{
                                     if(mounted) showAppToast(context, text: 'Za często zmieniasz kod dostępu');
                                 }
                             ),
+                            description: 'Kod dostępu pozwala dołączyć do kręgu osobom, które go znają.',
+                            resetFrequencyDays: 2,
                           ),
                         ),
                       ),

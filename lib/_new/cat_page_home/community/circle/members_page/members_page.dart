@@ -70,19 +70,32 @@ class MembersPage extends StatelessWidget{
             UserSet(
                 icon: circleRoleToIcon[CircleRole.ADMIN]!,
                 name: 'Administratorzy',
-                users: memAdmins
+                users: memAdmins,
+                persmissions: [
+                  'Dodawanie ogłoszeń',
+                  'Dodawanie nowych uczestników',
+                  'Wyrzucanie uczestników',
+                  'Edycja ról uczestników',
+                  'Zmiana ustawień kręgu'
+                ]
             ),
 
             UserSet(
-                icon: circleRoleToIcon[CircleRole.EDITOR]!,
-                name: 'Redaktorzy',
-                users: memMods
+              icon: circleRoleToIcon[CircleRole.EDITOR]!,
+              name: 'Redaktorzy',
+              users: memMods,
+              persmissions: [
+                'Dodawanie ogłoszeń',
+              ]
             ),
 
             UserSet(
                 icon: circleRoleToIcon[CircleRole.OBSERVER]!,
                 name: 'Pozostali',
-                users: memObs
+                users: memObs,
+                persmissions: [
+                  'Śledzenie wiadomości (:',
+                ]
             )
           ],
           userTileBuilder: (context, member) => circle.myRole == CircleRole.ADMIN?

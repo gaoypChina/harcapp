@@ -288,11 +288,10 @@ class PublishInfoWidget extends StatelessWidget{
 
                   const SizedBox(width: 6.0),
 
-                  Container(
-                    decoration: BoxDecoration(
-                        color: CommunityCoverColors.backgroundColor(context, palette),
-                        borderRadius: BorderRadius.circular(AppCard.defRadius)
-                    ),
+                  SimpleButton(
+                    onTap: onCommunityButtonTap,
+                    color: CommunityCoverColors.backgroundColor(context, palette),
+                    radius: AppCard.defRadius,
                     child: Padding(
                       padding: const EdgeInsets.all(Dimen.defMarg),
                       child: Row(
