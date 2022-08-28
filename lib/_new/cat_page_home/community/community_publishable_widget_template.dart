@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart' hide Size;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
-import 'package:harcapp/_new/cat_page_home/community/circle/model/announcement.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
 import 'package:harcapp/account/account.dart';
@@ -17,9 +17,12 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 
-import '../cover_image.dart';
+import 'cover_image.dart';
+import 'circle/model/circle.dart';
 import 'common/community_cover_colors.dart';
+import 'forum/model/forum.dart';
 import 'forum/model/post.dart';
 
 class CommunityPublishableWidgetTemplate extends StatelessWidget{
@@ -82,8 +85,7 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
     bool showCommunityThumb = showCommunityInfo || publishable is Post;
     bool showAuthor = publishable.author != null;
 
-    double headerHeight =
-    showCommunityThumb?
+    double headerHeight = showCommunityThumb?
     .85*CommunityThumbnailWidget.defSize:
     PublishInfoWidget.height + 2*Dimen.defMarg;
 
@@ -102,7 +104,7 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
             children: [
 
               Container(
-                color: backgroundIcon_(context),
+                color: CommunityCoverColors.cardColor(context, palette),
                 child: Padding(
                   padding: const EdgeInsets.all(Dimen.defMarg),
                   child: PublishInfoWidget(
@@ -166,7 +168,6 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
               if(publishable.coverImage != null)
                 CoverImage(publishable.coverImage!),
 
-
               if(showEdit || bottomLeading != null || bottomTrailing != null)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -210,6 +211,8 @@ class PublishInfoWidget extends StatelessWidget{
   static const double lineSepHeight = 6.0;
   static const double height = 2*Dimen.TEXT_SIZE_NORMAL + lineSepHeight;
 
+  static const double factor = AccountThumbnailWidget.defSize/CommunityThumbnailWidget.defSize;
+
   final CommunityPublishable publishable;
   final PaletteGenerator? palette;
   final bool showCommunityInfo;
@@ -218,93 +221,128 @@ class PublishInfoWidget extends StatelessWidget{
   const PublishInfoWidget(this.publishable, {this.palette, this.showCommunityInfo = false, this.onCommunityButtonTap, super.key});
 
   @override
-  Widget build(BuildContext context) => Row(
-    children: [
+  Widget build(BuildContext context) => Consumer<CommunityProvider>(
+    builder: (context, prov, child) => Row(
+      children: [
 
-      if(showCommunityInfo || publishable.author == null)
-        Stack(
-          children: [
+        if(showCommunityInfo || publishable.author == null)
+          Stack(
+            children: [
 
-            CommunityThumbnailWidget(
-                publishable.community.iconKey,
-                palette: palette,
-                size: .8*CommunityThumbnailWidget.defSize,
-                paddingSize: .8*CommunityThumbnailWidget.defPaddingSize,
-                radius: .8*AppCard.bigRadius,
-                borderSize: 0,
-                heroTag: false,
-                onTap: onCommunityButtonTap
-            ),
+              CommunityThumbnailWidget(
+                  publishable.community.iconKey,
+                  publishable.community.key,
+                  palette: palette,
+                  size: AccountThumbnailWidget.defSize,//.8*CommunityThumbnailWidget.defSize,
+                  paddingSize: factor*CommunityThumbnailWidget.defPaddingSize,
+                  radius: factor*AppCard.bigRadius,
+                  borderSize: 0,
+                  heroTag: false,
+                  onTap: onCommunityButtonTap
+              ),
 
-            if(publishable.author != null)
-              Positioned(
-                right: 0,
-                bottom: 0,
-                child: AccountThumbnailWidget(
-                  name: publishable.author!.name,
-                  elevated: false,
-                  color: CommunityCoverColors.backgroundColor(context, palette),
-                  borderColor: CommunityCoverColors.cardColor(context, palette),
-                  size: .45*.8*CommunityThumbnailWidget.defSize,
-                ),
-              )
+              if(publishable.author != null)
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: AccountThumbnailWidget(
+                    name: publishable.author!.name,
+                    elevated: false,
+                    color: CommunityCoverColors.backgroundColor(context, palette),
+                    borderColor: CommunityCoverColors.cardColor(context, palette),
+                    size: .45*AccountThumbnailWidget.defSize,
+                  ),
+                )
 
-          ],
-        )
-      else
-        AccountThumbnailWidget(
-          name: publishable.author!.name,
-          elevated: false,
-          color: CommunityCoverColors.backgroundColor(context, palette),
-          borderColor: CommunityCoverColors.cardColor(context, palette),
-        ),
+            ],
+          )
+        else
+          AccountThumbnailWidget(
+            name: publishable.author!.name,
+            elevated: false,
+            color: CommunityCoverColors.backgroundColor(context, palette),
+            borderColor: CommunityCoverColors.backgroundColor(context, palette),
+          ),
 
-      const SizedBox(width: 12.0),
+        const SizedBox(width: 12.0),
 
-      Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
 
-            if(showCommunityInfo || publishable.author == null)
               Row(
                 children: [
-                  Text(publishable.community.name, style: AppTextStyle(
-                      fontSize: Dimen.TEXT_SIZE_BIG,
-                      fontWeight: weight.halfBold
-                  )),
+                  if(showCommunityInfo || publishable.author == null)
+                    Expanded(child: Text(
+                      publishable.community.name,
+                      style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_BIG,
+                          fontWeight: weight.halfBold
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.clip,
+                    ))
+                  else
+                    Expanded(child: Text(publishable.author!.name, style: AppTextStyle())),
 
                   const SizedBox(width: 6.0),
 
-                  Icon(
-                    publishable is Post?Post.icon:Announcement.icon,
-                    size: Dimen.TEXT_SIZE_BIG + 2,
-                    color: textEnab_(context),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: CommunityCoverColors.backgroundColor(context, palette),
+                        borderRadius: BorderRadius.circular(AppCard.defRadius)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(Dimen.defMarg),
+                      child: Row(
+                        children: [
+
+                          Text(
+                            publishable is Post?'Forum':'Krąg',
+                            style: AppTextStyle(
+                                fontSize: Dimen.TEXT_SIZE_BIG,
+                                fontWeight: weight.halfBold
+                            ),
+                          ),
+
+                          const SizedBox(width: 6.0),
+
+                          Icon(
+                            publishable is Post?Forum.icon:Circle.icon,
+                            size: Dimen.TEXT_SIZE_BIG + 2,
+                            color: textEnab_(context),
+                          ),
+
+                        ],
+                      ),
+                    ),
                   ),
 
                 ],
-              )
-            else
-              Text(publishable.author!.name, style: AppTextStyle()),
+              ),
 
-            const SizedBox(height: 6.0),
-            Row(
-              children: [
-                if(showCommunityInfo && publishable.author != null)
-                  Text('${publishable.author!.name}  ', style: AppTextStyle()),
+              Row(
+                children: [
+                  if(showCommunityInfo && publishable.author != null)
+                    Text('${publishable.author!.name}  ', style: AppTextStyle()),
 
-                Text(
-                  dateToString(publishable.publishTime, shortMonth: true, withTime: true),
-                  style: AppTextStyle(color: hintEnab_(context)),
-                ),
-              ],
-            ),
+                  Text(
+                    dateToString(publishable.publishTime, shortMonth: true, withTime: true),
+                    style: AppTextStyle(color: hintEnab_(context)),
+                  ),
+                ],
+              ),
 
-          ],
-        ),
-      )
 
-    ],
+              const SizedBox(height: 6.0),
+
+            ],
+          ),
+        )
+
+      ],
+    )
   );
 
 }

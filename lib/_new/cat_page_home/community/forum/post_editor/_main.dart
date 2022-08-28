@@ -112,7 +112,11 @@ class PostEditorPageState extends State<PostEditorPage>{
                   title: titleController.text,
                   publishTime: DateTime.now(),
                   lastUpdateTime: DateTime.now(),
-                  urlToPreview: urlToPreviewController.text,
+
+                  urlToPreview: urlToPreviewController.text.isEmpty?
+                  null:
+                  urlToPreviewController.text,
+
                   author: UserData(
                     key: AccountData.key!,
                     name: AccountData.name!,
@@ -252,8 +256,8 @@ class PostEditorPageState extends State<PostEditorPage>{
 
                   Expanded(
                     child: AppTextFieldHint(
-                        hint: 'Link z podglądem:',
-                        hintTop: 'Link z podglądem',
+                        hint: 'Link do załącznika:',
+                        hintTop: 'Link do załącznika',
                         controller: urlToPreviewController,
                         onAnyChanged: (_){
                           previewData = null;
@@ -411,6 +415,7 @@ class PostEditorPageState extends State<PostEditorPage>{
               SimpleButton.from(
                   elevation: AppCard.bigElevation,
                   margin: EdgeInsets.zero,
+                  radius: AppCard.defRadius,
                   textColor: CommunityCoverColors.backgroundColor(context, palette),
                   color: Colors.red,
                   icon: MdiIcons.trashCanOutline,

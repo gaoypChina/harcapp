@@ -4,9 +4,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_new/account_test_widget.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
-import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_preview_grid.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_prompt_login.dart';
 import 'package:harcapp/account/account.dart';
@@ -15,7 +15,6 @@ import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_classes/no_glow_behavior.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -26,6 +25,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../super_search_field.dart';
 import 'indiv_comp/indiv_comp_editor/_main.dart';
 import 'indiv_comp/indiv_comp_page.dart';
 import 'indiv_comp/indiv_comp_thumbnail_widget.dart';
@@ -58,8 +58,6 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
   StreamSubscription<ConnectivityResult>? networkListener;
   late bool networkAvailable;
 
-  late List<IndivComp> searchedComps;
-  
   @override
   void initState() {
     
@@ -76,7 +74,6 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
 
         refreshController.refreshCompleted();
         setState(() {});
-        searchedComps = comps;
       },
       onForceLoggedOut: (){
         if(!mounted) return true;
@@ -135,9 +132,6 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
     if(IndivComp.all == null && AccountData.loggedIn)
       indivCompLoader.run();
 
-    if(IndivComp.all != null)
-      searchedComps = IndivComp.all!;
-
     super.initState();
   }
 
@@ -148,21 +142,6 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
     refreshController.dispose();
 
     super.dispose();
-  }
-  
-  void selectIndivComps(String text){
-
-    if(text.isEmpty) {
-      searchedComps = IndivComp.all!;
-      return;
-    }
-
-    List<IndivComp> comps = [];
-    for(IndivComp comp in IndivComp.all!)
-      if(remPolChars(comp.name).contains(remPolChars(text)))
-        comps.add(comp);
-
-    searchedComps = comps;
   }
 
   bool get shouldScroll => AccountData.loggedIn && IndivComp.all != null && IndivComp.all!.isNotEmpty;
@@ -176,7 +155,29 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
       centerTitle: true,
       floating: true,
       pinned: !shouldScroll,
+      actions: [
+        IconButton(
+          icon: const Icon(MdiIcons.plus),
+          onPressed: () => NewIndivCompButton.newCompetition(context),
+        )
+      ],
     ));
+
+    slivers.add(SliverPadding(
+      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+      sliver: SliverList(delegate: SliverChildListDelegate([
+        const AccountTestWidget()
+      ])),
+    ));
+
+    slivers.add(SliverList(delegate: SliverChildListDelegate([
+      const SuperSearchFieldButton(
+          margin: EdgeInsets.only(
+            left: Dimen.SIDE_MARG,
+            right: Dimen.SIDE_MARG,
+            bottom: Dimen.SIDE_MARG,
+          ))
+    ])));
 
     if(!networkAvailable)
       slivers.add(SliverFillRemaining(
@@ -267,20 +268,11 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
 
         else {
 
-          if (IndivComp.all!.length > 3)
-            widgets.add(SearchField(
-                hint: 'Szukaj współzawodnictw:',
-                onChanged: (text) => setState(() => selectIndivComps(text))
-            ));
-
-          if (IndivComp.all!.length > 3)
-            widgets.add(const SizedBox(height: Dimen.SIDE_MARG));
-
-          for (int i = 0; i < searchedComps.length; i++) {
+          for (int i = 0; i < IndivComp.all!.length; i++) {
             widgets.add(Padding(
               padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
               child: IndivCompTile(
-                searchedComps[i],
+                IndivComp.all![i],
                 showPinned: true,
                 onTap: onCompetitionTap,
               ),
@@ -376,10 +368,10 @@ class NewIndivCompButton extends StatelessWidget{
               child: Padding(
                 padding: const EdgeInsets.all(IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.borderSizeFactor),
                 child: Material(
-                  borderRadius: BorderRadius.circular(IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.innerRadiusSizeFactor,),
+                  borderRadius: BorderRadius.circular(IndivCompThumbnailWidget.defSize*IndivCompThumbnailWidget.innerRadiusSizeFactor),
                   color: background_(context),
                   child: GradientIcon(
-                    MdiIcons.plus,
+                    MdiIcons.plusThick,
                     size: IndivCompThumbnailWidget.defSize * IndivCompThumbnailWidget.iconSizeFactor,
                     colorStart: hintEnab_(context),
                     colorEnd: textEnab_(context),
@@ -391,27 +383,13 @@ class NewIndivCompButton extends StatelessWidget{
 
           const SizedBox(width: Dimen.SIDE_MARG),
 
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              Text('Nowe',
-                style: AppTextStyle(
-                  fontSize: IndivCompTile.textSizePkt,
-                  color: hintEnab_(context),
-                  fontWeight: weight.bold
-                )
-              ),
-
-              Text('współzawodnictwo',
+          Expanded(
+            child: Text('Stwórz lub dołącz do współzawodnictwa',
                 style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR,
-                  color: hintEnab_(context),
-                  fontWeight: weight.bold
+                    color: textEnab_(context),
+                    fontWeight: weight.halfBold
                 )
-              )
-
-            ],
+            ),
           )
 
         ],

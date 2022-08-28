@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -10,14 +11,18 @@ import 'model/community.dart';
 
 class CommunityWidgetTemplate extends StatelessWidget{
 
+  final String communityKey;
   final String iconKey;
   final String name;
+  final Widget? subtitle;
   final Widget child;
 
   const CommunityWidgetTemplate(
+      this.communityKey,
       this.iconKey,
       this.name,
-      { required this.child,
+      { this.subtitle,
+        required this.child,
         super.key
       });
 
@@ -26,7 +31,7 @@ class CommunityWidgetTemplate extends StatelessWidget{
       child: Consumer<CommunityProvider>(
         builder: (context, prov, _) => Material(
             clipBehavior: Clip.hardEdge,
-            color: cardEnab_(context),
+            color: CommunityCoverColors.nonPaletteCardColor(),
             borderRadius: BorderRadius.circular(AppCard.bigRadius),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,19 +46,29 @@ class CommunityWidgetTemplate extends StatelessWidget{
                   child: Row(
                     children: [
 
-                      CommunityThumbnailWidget(iconKey),
+                      CommunityThumbnailWidget(iconKey, communityKey),
 
                       const SizedBox(width: Dimen.ICON_MARG),
 
                       Expanded(
-                        child: Text(
-                            name,
-                            style: AppTextStyle(
-                                fontSize: Dimen.TEXT_SIZE_BIG,
-                                fontWeight: weight.halfBold,
-                                color: iconEnab_(context)
-                            )
-                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+
+                            Text(
+                                name,
+                                style: AppTextStyle(
+                                    fontSize: Dimen.TEXT_SIZE_BIG,
+                                    fontWeight: weight.halfBold,
+                                    color: iconEnab_(context)
+                                )
+                            ),
+
+                            if(subtitle != null)
+                              subtitle!
+
+                          ],
+                        )
                       ),
 
                     ],

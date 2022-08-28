@@ -708,6 +708,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
               SimpleButton.from(
                   elevation: AppCard.bigElevation,
                   margin: EdgeInsets.zero,
+                  radius: AppCard.defRadius,
                   textColor: CommunityCoverColors.backgroundColor(context, palette),
                   color: Colors.red,
                   icon: MdiIcons.trashCanOutline,
@@ -728,7 +729,14 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                           await popPage(context);
                           onRemoved?.call();
                         },
+                        onForceLoggedOut: (){
+                          if(!mounted) return true;
+                          popPage(context); // Close loading widget.
+                          setState(() {});
+                          return true;
+                        },
                         onServerMaybeWakingUp: () {
+                          popPage(context); // Close loading widget.
                           if(mounted) showServerWakingUpToast(context);
                           return true;
                         },

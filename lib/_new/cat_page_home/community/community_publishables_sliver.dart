@@ -57,6 +57,7 @@ Widget getCommunityPublishablesSliver(
                 onAnnouncementUpdated: onAnnouncementUpdated,
                 showCommunityInfo: true,
                 onCircleButtonTap: onCircleButtonTap == null?null:() => onCircleButtonTap.call(publishable.circle),
+                showPinShortcutButton: true
               );
             else if(publishable is Post)
               return PostWidget(

@@ -3,6 +3,7 @@ import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/community_cover_image_data.dart';
@@ -12,10 +13,10 @@ import 'announcement.dart';
 import 'member.dart';
 
 class CircleProvider extends ChangeNotifier{
-  void notify() => notifyListeners();
-}
 
-class CircleListProvider extends ChangeNotifier{
+  static CircleProvider of(BuildContext context) => Provider.of<CircleProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
+
   void notify() => notifyListeners();
 }
 
@@ -87,94 +88,13 @@ class CircleBasicData{
 
 class Circle{
 
+  static const IconData icon = MdiIcons.googleCircles;
+
   static const int maxLenDescription = 320;
   static const int maxLenCoverImageUrl = 200;
   static const int maxLenColorsKey = 42;
 
   static const int announcementPageSize = 10;
-
-  static List<Circle>? _all;
-  static Map<String, Circle>? _allMap;
-
-  static List<Circle>? get all => _all;
-  static Map<String, Circle>? get allMap => _allMap;
-
-  static forget(){
-    _all = null;
-    _allMap = null;
-  }
-
-  static silentInit(List<Circle> circles){
-    if(_all == null){
-      _all = [];
-      _allMap = {};
-    }
-
-    _all!.clear();
-    _allMap!.clear();
-
-    _all!.addAll(circles);
-    _allMap = {for (Circle circle in circles) circle.key: circle};
-
-  }
-
-  static init(List<Circle> circles, {BuildContext? context}){
-
-    silentInit(circles);
-
-    if(context == null) return;
-    Provider.of<CircleProvider>(context, listen: false).notify();
-    Provider.of<CircleListProvider>(context, listen: false).notify();
-  }
-
-
-  static addToAll(BuildContext context, Circle circle){
-    if(_all == null){
-      _all = [];
-      _allMap = {};
-    }
-    _all!.add(circle);
-    _allMap![circle.key] = circle;
-
-    Provider.of<CircleProvider>(context, listen: false).notify();
-    Provider.of<CircleListProvider>(context, listen: false).notify();
-  }
-
-  static updateInAll(BuildContext context, Circle circle){
-    Circle? oldCircle = _allMap![circle.key];
-    if(oldCircle == null){
-      addToAll(context, circle);
-      return;
-    }
-
-    int index = _all!.indexOf(oldCircle);
-    _all!.removeAt(index);
-    _all!.insert(index, circle);
-    _allMap![circle.key] = circle;
-
-    Provider.of<CircleProvider>(context, listen: false).notify();
-    Provider.of<CircleListProvider>(context, listen: false).notify();
-  }
-
-  static void removeFromAll(Circle? circle, {BuildContext? context}){
-    if(_all == null)
-      return;
-
-    _all!.remove(circle);
-    _allMap!.remove(circle!.key);
-
-    if(context == null) return;
-
-    Provider.of<CircleProvider>(context, listen: false).notify();
-    Provider.of<CircleListProvider>(context, listen: false).notify();
-  }
-
-  static clear(){
-    if(_all == null)
-      return;
-    _all!.clear();
-    _allMap!.clear();
-  }
 
   final String key;
   String get name => community.name;
@@ -203,8 +123,7 @@ class Circle{
     
     Provider.of<CircleMembersProvider>(context, listen: false).notify();
     Provider.of<CircleProvider>(context, listen: false).notify();
-    Provider.of<CircleListProvider>(context, listen: false).notify();
-    
+
   }
 
   void setAllMembers(BuildContext context, List<Member> allMembers){
@@ -216,7 +135,6 @@ class Circle{
 
     Provider.of<CircleMembersProvider>(context, listen: false).notify();
     Provider.of<CircleProvider>(context, listen: false).notify();
-    Provider.of<CircleListProvider>(context, listen: false).notify();
   }
 
   void updateMembers(BuildContext context, List<Member> newMembers){
@@ -230,7 +148,6 @@ class Circle{
 
     Provider.of<CircleMembersProvider>(context, listen: false).notify();
     Provider.of<CircleProvider>(context, listen: false).notify();
-    Provider.of<CircleListProvider>(context, listen: false).notify();
   }
 
   void removeMembersByKey(BuildContext context, List<String> memberKeys){
@@ -240,7 +157,6 @@ class Circle{
 
     Provider.of<CircleMembersProvider>(context, listen: false).notify();
     Provider.of<CircleProvider>(context, listen: false).notify();
-    Provider.of<CircleListProvider>(context, listen: false).notify();
   }
   
   void removeMember(Member member){

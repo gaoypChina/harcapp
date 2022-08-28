@@ -12,33 +12,38 @@ import 'package:optional/optional_internal.dart';
 import '../cat_page_home/community/model/community.dart';
 import '_api.dart';
 
-class ManagerRespBody{
+class ForumManagerRespBody{
 
   final String key;
   final ForumRole role;
 
-  const ManagerRespBody(this.key, this.role);
+  const ForumManagerRespBody(this.key, this.role);
 
 }
 
-class ManagerUpdateBody{
+class ForumManagerUpdateBody{
 
   final String key;
   final Optional<ForumRole> role;
 
-  const ManagerUpdateBody(
+  const ForumManagerUpdateBody(
       this.key,
       { this.role = const Optional.empty(),
       });
 
 }
 
-class ManagerRespBodyNick extends ManagerRespBody{
+class ForumManagerRespBodyNick extends ForumManagerRespBody{
 
   final String nick;
 
-  const ManagerRespBodyNick(super.key, super.role, this.nick);
+  const ForumManagerRespBodyNick(super.key, super.role, this.nick);
 
+}
+
+enum ForumSearchSort{
+  likes,
+  follows
 }
 
 class ApiForum{
@@ -102,6 +107,7 @@ class ApiForum{
   }) async {
 
     Map<String, dynamic> reqMap = {};
+    reqMap['communityKey'] = community.key;
     reqMap['description'] = description.trim();
     reqMap['coverImageUrl'] = coverImageUrl;
     reqMap['colorsKey'] = colorsKey;
@@ -181,6 +187,31 @@ class ApiForum{
 
   }
 
+  static Future<Response?> likeForum({
+    required String forumKey,
+    required bool like,
+    FutureOr<void> Function(bool like)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      sendRequest: (Dio dio) => dio.put(
+          '${API.SERVER_URL}api/forum/$forumKey/like',
+          options: Options(headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+          }),
+          data: FormData.fromMap({'like': like})
+      ),
+      onSuccess: (Response response, DateTime now) async {
+        if(onSuccess==null) return;
+        onSuccess(response.data);
+      },
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (_) async => onError?.call()
+  );
+
   static Future<Response?> followForum({
     required String forumKey,
     required bool follow,
@@ -212,7 +243,7 @@ class ApiForum{
 
   static Future<Response?> addManagers({
     required String forumKey,
-    required List<ManagerRespBodyNick> users,
+    required List<ForumManagerRespBodyNick> users,
     FutureOr<void> Function(List<ForumManager>)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -220,7 +251,7 @@ class ApiForum{
   }) async{
 
     List<Map<String, dynamic>> body = [];
-    for(ManagerRespBodyNick user in users)
+    for(ForumManagerRespBodyNick user in users)
       body.add({
         'userNick': user.nick,
         'role': forumRoleToStr[user.role],
@@ -251,7 +282,7 @@ class ApiForum{
 
   static Future<Response?> updateManagers({
     required String forumKey,
-    required List<ManagerUpdateBody> users,
+    required List<ForumManagerUpdateBody> users,
     FutureOr<void> Function(List<ForumManager>)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -259,7 +290,7 @@ class ApiForum{
   }) async{
 
     List<Map<String, dynamic>> body = [];
-    for(ManagerUpdateBody managerBody in users)
+    for(ForumManagerUpdateBody managerBody in users)
       body.add({
         'userKey': managerBody.key,
         if(managerBody.role.isPresent) 'role': forumRoleToStr[managerBody.role.value],
@@ -330,7 +361,7 @@ class ApiForum{
 
         List<Post> result = [];
         for(String key in (response.data as Map).keys)
-          result.add(Post.fromMap(response.data[key], Forum.allMap![forumKey]!, key: key));
+          result.add(Post.fromMap(response.data[key], Community.allForumMap![forumKey]!, key: key));
 
         onSuccess?.call(result);
       },
@@ -362,7 +393,7 @@ class ApiForum{
         }),
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(Post.fromMap(response.data, Forum.allMap![forumKey]!)),
+          onSuccess?.call(Post.fromMap(response.data, Community.allForumMap![forumKey]!)),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => onError?.call()

@@ -19,6 +19,10 @@ Future<PaletteGenerator?> getPaletteGenerator(bool local, String? imgUrlOrFileNa
 
 class CommunityCoverColors{
 
+  static const colorsKeyAuto = 'auto';
+  static const colorsKeyNone = 'none';
+
+
   static Color? _lighten(Color? color, [double amount = .1]) {
     if(color == null) return null;
 
@@ -40,12 +44,19 @@ class CommunityCoverColors{
 
   }
 
+  static Color nonPaletteCardColor(){
+    if(AppSettings.isDark)
+      return const Color.fromARGB(255, 50, 50, 50);
+    else
+      return const Color.fromARGB(255, 240, 240, 240);
+  }
+
   static Color cardColor(BuildContext context, PaletteGenerator? palette){
 
     if(AppSettings.isDark)
-      return _lighten(palette?.dominantColor!.color, .16)??cardEnab_(context)!;
+      return _lighten(palette?.dominantColor!.color, .16)??nonPaletteCardColor();
     else
-      return _lighten(palette?.dominantColor!.color, .88)??cardEnab_(context)!;
+      return _lighten(palette?.dominantColor!.color, .88)??nonPaletteCardColor();
 
   }
 

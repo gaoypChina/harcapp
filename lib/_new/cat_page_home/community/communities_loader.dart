@@ -50,8 +50,6 @@ class CommunitiesLoader extends SingleComputer<String?, CommunityLoaderListener>
           }
 
           Community.silentInit(communities);
-          Circle.silentInit(circles);
-          Forum.silentInit(forums);
 
           for(CommunityLoaderListener? listener in listeners)
             listener!.onCommunitiesLoaded?.call(communities);

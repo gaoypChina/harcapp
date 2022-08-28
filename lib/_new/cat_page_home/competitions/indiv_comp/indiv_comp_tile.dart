@@ -54,37 +54,34 @@ class IndivCompTile extends StatelessWidget{
       );
     }
 
-    return Column(
-      children: [
-
-        Row(
+    return SimpleButton(
+        clipBehavior: Clip.none,
+        radius: AppCard.bigRadius,
+        padding: EdgeInsets.zero,
+        margin: EdgeInsets.zero,
+        onTap: () => onTap?.call(comp),
+        child: Row(
           children: [
 
             if(leading != null)
               leading!,
 
             Expanded(
-              child: SimpleButton(
-                clipBehavior: Clip.none,
-                radius: AppCard.bigRadius,
-                padding: EdgeInsets.zero,
-                margin: EdgeInsets.zero,
-                onTap: () => onTap?.call(comp),
-                child: Row(
-                  children: [
-                    IndivCompThumbnailWidget.from(
-                        comp: comp,
-                        heroTag: IndivCompThumbnailWidget.defHeroTag(comp)
-                    ),
+              child: Row(
+                children: [
+                  IndivCompThumbnailWidget.from(
+                      comp: comp,
+                      heroTag: IndivCompThumbnailWidget.defHeroTag(comp)
+                  ),
 
-                    const SizedBox(width: Dimen.ICON_MARG),
+                  const SizedBox(width: Dimen.ICON_MARG),
 
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
 
-                          SizedBox(
+                        SizedBox(
                             height: PointsIcon.defSize,
                             child: Align(
                               alignment: Alignment.centerLeft,
@@ -98,32 +95,32 @@ class IndivCompTile extends StatelessWidget{
                                 maxLines: 2,
                               ),
                             )
-                          ),
+                        ),
 
-                          SizedBox(
+                        SizedBox(
                             height: PointsIcon.defSize,
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: subTitle??
-                                (comp.myProfile?.active == true?
-                                Row(
-                                  children: [
+                                  (comp.myProfile?.active == true?
+                                  Row(
+                                    children: [
 
-                                    Icon(
-                                      compRoleToIcon[comp.myProfile?.role],
-                                      color: hintEnab_(context),
-                                    ),
+                                      Icon(
+                                        compRoleToIcon[comp.myProfile?.role],
+                                        color: hintEnab_(context),
+                                      ),
 
-                                    const SizedBox(width: Dimen.ICON_MARG/2),
-                                    Icon(MdiIcons.circleMedium, color: backgroundIcon_(context)),
-                                    const SizedBox(width: Dimen.ICON_MARG/2),
+                                      const SizedBox(width: Dimen.ICON_MARG/2),
+                                      Icon(MdiIcons.circleMedium, color: backgroundIcon_(context)),
+                                      const SizedBox(width: Dimen.ICON_MARG/2),
 
-                                    PointsWidget(
-                                        points: comp.myProfile?.points,
-                                        size: 32.0
-                                    ),
+                                      PointsWidget(
+                                          points: comp.myProfile?.points,
+                                          size: 32.0
+                                      ),
 
-                                    /*
+                                      /*
                               AccountThumbnailRowWidget(
                                   comp.particips.map((particip) => particip.name).toList(),
                                   size: 24.0,
@@ -134,34 +131,32 @@ class IndivCompTile extends StatelessWidget{
                                 )
                                */
 
-                                  ],
-                                ):
-                                Text('obserwator', style: AppTextStyle(fontSize: PointsIcon.defSize, color: hintEnab_(context)))),
+                                    ],
+                                  ):
+                                  Text('obserwator', style: AppTextStyle(fontSize: PointsIcon.defSize, color: hintEnab_(context)))),
                             )
-                          )
+                        )
 
-                        ],
-                      ),
+                      ],
                     ),
+                  ),
 
-                  ],
-                ),
+                ],
               ),
             ),
 
             trailing??
-            IndivCompRankIcon(
-              comp.myProfile!,
-              activeParticipCnt: comp.activeParticipCnt,
-              showPercent: comp.rankDispType == RankDispType.RANGE_PERC,
-              colors: comp.colors,
-              size: 54.0,
-            )
+                IndivCompRankIcon(
+                  comp.myProfile!,
+                  activeParticipCnt: comp.activeParticipCnt,
+                  showPercent: comp.rankDispType == RankDispType.RANGE_PERC,
+                  colors: comp.colors,
+                  size: 54.0,
+                )
           ],
-        ),
-
-      ],
+        )
     );
+
   }
 
 }

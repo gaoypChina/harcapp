@@ -3,23 +3,30 @@ import 'package:harcapp/_new/api/_api.dart';
 
 import '../forum_role.dart';
 
-class ForumManager{
-
-  final UserData _userData;
-
-  String get key => _userData.key;
-  String get name => _userData.name;
-  bool get shadow => _userData.shadow;
-  Sex get sex => _userData.sex;
+class ForumManager extends UserData{
 
   final ForumRole role;
 
-  const ForumManager(
-    this._userData, {
+  const ForumManager({
+    required super.key,
+    required super.name,
+    required super.shadow,
+    required super.sex,
     required this.role
   });
 
-  static ForumManager fromMap(Map map, {String? key}) => ForumManager(
+  static ForumManager fromUserData(
+      UserData userData,
+      { required ForumRole role})
+  => ForumManager(
+      key: userData.key,
+      name: userData.name,
+      shadow: userData.shadow,
+      sex: userData.sex,
+      role: role,
+  );
+
+  static ForumManager fromMap(Map map, {String? key}) => ForumManager.fromUserData(
     UserData.fromMap(map, key: key),
     role: strToForumRole[map['role']]??(throw InvalidResponseError('role')),
   );

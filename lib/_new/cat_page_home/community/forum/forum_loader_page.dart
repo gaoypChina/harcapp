@@ -8,7 +8,6 @@ import 'package:harcapp/_new/cat_page_home/community/forum/model/forum.dart';
 import 'package:harcapp/values/consts.dart';
 
 import 'forum_page.dart';
-import 'model/post.dart';
 
 class ForumLoaderPage extends StatefulWidget{
 
@@ -34,8 +33,6 @@ class ForumLoaderPageState extends State<ForumLoaderPage>{
       community: widget.forum.community,
       onSuccess: (forum){
         if(!mounted) return;
-
-        Forum.addToAll(context, forum);
 
         pushReplacePage(
           context,
@@ -74,7 +71,7 @@ class ForumLoaderPageState extends State<ForumLoaderPage>{
     ),
     body: const Center(
       child: EmptyMessageWidget(
-        icon: Post.icon,
+        icon: Forum.icon,
         text: 'Ładowanie forum...',
       ),
     ),

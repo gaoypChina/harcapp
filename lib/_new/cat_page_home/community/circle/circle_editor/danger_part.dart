@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
@@ -65,7 +66,7 @@ class DangerPartState extends State<DangerPart>{
                     await ApiCircle.delete(
                       circleKey: circle!.key,
                       onSuccess: () async {
-                        Circle.removeFromAll(circle, context: context);
+                        Community.removeCircle(circle!, context: context);
                         showAppToast(context, text: 'Poszło z dymem!');
                         await popPage(context); // Close loading widget.
 

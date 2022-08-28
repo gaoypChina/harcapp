@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_new/cat_page_home/community/start_widgets/communities_preview_widget.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
-import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_home/community/search_forum_page.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
@@ -12,7 +12,6 @@ import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_classes/no_glow_behavior.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -23,11 +22,14 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../account_test_widget.dart';
+import '../super_search_field.dart';
 import 'circle/model/circle.dart';
+import 'common/community_cover_colors.dart';
 import 'new_community_type.dart';
-import 'circle/start_widgets/circle_loading_widget.dart';
-import 'circle/start_widgets/circle_preview_widget.dart';
-import 'circle/start_widgets/circle_prompt_login.dart';
+import 'start_widgets/communities_loading_widget.dart';
+import 'start_widgets/communities_preview_widget.dart';
+import 'start_widgets/communities_prompt_login.dart';
 import 'community_editor/_main.dart';
 import 'forum/model/forum.dart';
 import 'model/community.dart';
@@ -60,27 +62,24 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
   StreamSubscription<ConnectivityResult>? networkListener;
   late bool networkAvailable;
 
-  late List<Community> searchedCommunities;
-  
   @override
   void initState() {
     
     refreshController = RefreshController();
 
-    CircleProvider circleProv = Provider.of<CircleProvider>(context, listen: false);
-    CircleListProvider circleListProv = Provider.of<CircleListProvider>(context, listen: false);
+    CommunityProvider communityProv = CommunityProvider.of(context);
+    CommunityListProvider communityListProv = CommunityListProvider.of(context);
 
     _listener = CommunityLoaderListener(
       onCommunitiesLoaded: (List<Community> communities){
 
-        circleProv.notify();
-        circleListProv.notify();
+        communityProv.notify();
+        communityListProv.notify();
 
         if(!mounted) return;
 
         refreshController.refreshCompleted();
         setState(() {});
-        searchedCommunities = communities;
       },
       onForceLoggedOut: (){
         if(!mounted) return true;
@@ -109,13 +108,10 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
         onLogin: (emailConfirmed){
           if(!mounted) return;
           setState(() {});
-          if(emailConfirmed)
-            searchedCommunities = Community.all!;
         },
         onRegistered: (){
           if(!mounted) return;
           setState(() {});
-          searchedCommunities = Community.all!;
         },
         onEmailConfirmChanged: (emailConfirmed){
           if(!mounted) return;
@@ -146,8 +142,6 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
     if(Community.all == null && AccountData.loggedIn)
       communitiesLoader.run();
 
-    if(Community.all != null)
-      searchedCommunities = Community.all!;
 
     super.initState();
   }
@@ -159,21 +153,6 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
     refreshController.dispose();
 
     super.dispose();
-  }
-  
-  void selectCircles(String text){
-
-    if(text.isEmpty) {
-      searchedCommunities = Community.all!;
-      return;
-    }
-
-    List<Community> communities = [];
-    for(Community community in Community.all!)
-      if(remPolChars(community.name).contains(remPolChars(text)))
-        communities.add(community);
-
-    searchedCommunities = communities;
   }
 
   bool get shouldScroll => AccountData.loggedIn && Community.all != null && Community.all!.isNotEmpty;
@@ -189,16 +168,32 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
       pinned: !shouldScroll,
       actions: [
         IconButton(
-          icon: const Icon(MdiIcons.magnify),
-          onPressed: () => pushPage(context, builder: (context) => const SearchForumPage()),
+          icon: const Icon(MdiIcons.plus),
+          onPressed: () => NewCommunityButton.newCommunity(context),
         )
       ],
     ));
 
+    slivers.add(SliverPadding(
+      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+      sliver: SliverList(delegate: SliverChildListDelegate([
+        const AccountTestWidget()
+      ])),
+    ));
+
+    slivers.add(SliverList(delegate: SliverChildListDelegate([
+      const SuperSearchFieldButton(
+          margin: EdgeInsets.only(
+            left: Dimen.SIDE_MARG,
+            right: Dimen.SIDE_MARG,
+            bottom: Dimen.SIDE_MARG,
+          ))
+    ])));
+
     if(!networkAvailable)
       slivers.add(SliverFillRemaining(
         hasScrollBody: false,
-        child: CirclePreviewWidget.from(
+        child: CommunitiesPreviewWidget.from(
           context: context,
           width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
           padding: const EdgeInsets.all(Dimen.SIDE_MARG),
@@ -211,7 +206,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
       if(!AccountData.emailConf)
         slivers.add(SliverFillRemaining(
           hasScrollBody: false,
-          child: CirclePreviewWidget.from(
+          child: CommunitiesPreviewWidget.from(
             context: context,
             width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
@@ -223,15 +218,15 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
       else if(communitiesLoader.running)
         slivers.add(SliverFillRemaining(
             hasScrollBody: false,
-            child: CircleLoadingWidget(
+            child: CommunitiesLoadingWidget(
                 width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
                 padding: const EdgeInsets.all(Dimen.SIDE_MARG)
             ),
         ));
-      else if(Circle.all == null)
+      else if(Community.all == null)
         slivers.add(SliverFillRemaining(
           hasScrollBody: false,
-          child: CirclePreviewWidget.from(
+          child: CommunitiesPreviewWidget.from(
             context: context,
             width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
@@ -239,10 +234,10 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
             text: 'Mamy problem'
          ),
         ));
-      else if(Circle.all!.isEmpty)
+      else if(Community.all!.isEmpty)
         slivers.add(SliverFillRemaining(
           hasScrollBody: false,
-          child: CirclePreviewWidget(
+          child: CommunitiesPreviewWidget(
               width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
               child: Padding(
                   padding: const EdgeInsets.all(Dimen.SIDE_MARG),
@@ -279,10 +274,10 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
 
         List<Widget> widgets = [];
 
-        if(Circle.all == null)
+        if(Community.all == null)
           widgets.add(Padding(
             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-            child: CirclePreviewWidget.from(
+            child: CommunitiesPreviewWidget.from(
               context: context,
               width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
               text: simpleErrorMessage,
@@ -292,19 +287,11 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
 
         else {
 
-          if (Circle.all!.length > 3)
-            widgets.add(SearchField(
-                hint: 'Szukaj kręgów:',
-                onChanged: (text) => setState(() => selectCircles(text))
-            ));
-
-          widgets.add(const SizedBox(height: Dimen.SIDE_MARG));
-
-          for (int i = 0; i < searchedCommunities.length; i++) {
+          for (int i = 0; i < Community.all!.length; i++) {
             widgets.add(Padding(
               padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
               child: CommunityWidget(
-                searchedCommunities[i],
+                Community.all![i],
                 onCircleTap: onCircleTap,
                 onForumTap: onForumTap,
               ),
@@ -313,7 +300,11 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
           }
 
           widgets.add(const Padding(
-            padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+            padding: EdgeInsets.only(
+              left: Dimen.SIDE_MARG,
+              right: Dimen.SIDE_MARG,
+              bottom: Dimen.SIDE_MARG
+            ),
             child: NewCommunityButton(),
           ));
         }
@@ -323,7 +314,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
     }else
       slivers.add(SliverFillRemaining(
         hasScrollBody: false,
-        child: CirclePromptLogin(
+        child: CommunitiesPromptLogin(
           width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
         )
       ));
@@ -333,7 +324,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
   }
 
   @override
-  Widget build(BuildContext context) => Consumer2<LoginProvider, CircleListProvider>(
+  Widget build(BuildContext context) => Consumer2<LoginProvider, CommunityListProvider>(
       builder: (context, loginProv, circleListProv, child) => ScrollConfiguration(
           behavior: NoGlowBehavior(),
           child: SmartRefresher(
@@ -369,6 +360,8 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
 
 class NewCommunityButton extends StatelessWidget{
 
+  static const double height = 100;
+
   const NewCommunityButton({super.key});
 
   @override
@@ -379,57 +372,41 @@ class NewCommunityButton extends StatelessWidget{
       child: Builder(
         builder: (context){
 
-          double height = 100;
-
           return SizedBox(
-              height: height,
-              child: Stack(
-                fit: StackFit.expand,
+            height: height,
+            child: Material(
+              clipBehavior: Clip.hardEdge,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: CommunityCoverColors.nonPaletteCardColor(), width: Dimen.defMarg),
+                borderRadius: BorderRadius.circular(AppCard.bigRadius),
+              ),
+              color: background_(context),
+              child: Row(
                 children: [
 
-                  Material(
-                    clipBehavior: Clip.hardEdge,
-                    borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                    color: hintEnab_(context),
+                  const SizedBox(width: (height - 72.0)/2),
+
+                  const Icon(
+                    MdiIcons.plus,
+                    size: 72.0,
                   ),
 
-                  Positioned(
-                    top: Dimen.SIDE_MARG,
-                    left: Dimen.SIDE_MARG,
-                    child: Icon(
-                      MdiIcons.plus,
-                      size: height - 2*Dimen.SIDE_MARG,
-                      color: background_(context),
-                    ),
-                  ),
+                  const SizedBox(width: (height - 72.0)/2),
 
-                  Positioned(
-                    bottom: -1.6*height,
-                    right: -.5*height,
-                    height: 2.3*height,
-                    width: 2.3*height,
-                    child: Material(
-                        borderRadius: BorderRadius.circular(2*height),
-                        clipBehavior: Clip.hardEdge,
-                        color: background_(context)
-                    ),
-                  ),
-
-                  Positioned(
-                    bottom: Dimen.SIDE_MARG,
-                    right: Dimen.SIDE_MARG,
+                  Expanded(
                     child: Text(
-                        'Stwórz\nlub dołącz',
-                        style: AppTextStyle(
-                            fontSize: Dimen.TEXT_SIZE_APPBAR,
-                            fontWeight: weight.bold,
-                            color: hintEnab_(context)
-                        )
+                      'Stwórz lub dołącz do środowiska',
+                      style: AppTextStyle(
+                        fontSize: Dimen.TEXT_SIZE_APPBAR,
+                        fontWeight: weight.halfBold,
+                        color: iconEnab_(context)
+                      ),
                     ),
-                  )
+                  ),
 
                 ],
-              )
+              ),
+            ),
           );
 
         },
@@ -439,20 +416,24 @@ class NewCommunityButton extends StatelessWidget{
 
   static void newCommunity(BuildContext context) async {
 
-    NewCommunityType? type = await pickNewCommunityType(context);
+    JoinOrCreateType? type = await pickJoinCreateType(context);
     if (type == null) return;
 
-    if(type == NewCommunityType.joinCircle)
+    if(type == JoinOrCreateType.joinCircle)
       // All the logic is handled by the pickNewCommunityType() function.
       return;
-    else
+    else if(type == JoinOrCreateType.searchForum)
+      pushPage(
+        context,
+        builder: (context) => SearchForumPage(),
+      );
+    else if(type == JoinOrCreateType.newCommunity)
       pushPage(
         context,
         builder: (context) =>
             CommunityEditorPage(
               onSaved: (community) async {
                 Community.addToAll(community, context: context);
-                CommunityListProvider.notify_(context);
               },
             ),
       );

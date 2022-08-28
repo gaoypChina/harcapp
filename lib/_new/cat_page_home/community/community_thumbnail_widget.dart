@@ -11,8 +11,14 @@ class CommunityThumbnailWidget extends StatelessWidget{
   static const double defSize = 54.0 + 2*defPaddingSize;
   static const double defBorderWidth = Dimen.defMarg;
   static const double defPaddingSize = Dimen.ICON_MARG;
+  static const double defRadius = AppCard.bigRadius;
+
+  static double border(double size) => defBorderWidth * (size/defSize);
+  static double padding(double size) => defPaddingSize * (size/defSize);
+  static double radius_(double size) => defRadius * (size/defSize);
 
   final String iconKey;
+  final String communityKey;
   final PaletteGenerator? palette;
   final double size;
   final double borderSize;
@@ -23,6 +29,7 @@ class CommunityThumbnailWidget extends StatelessWidget{
 
   const CommunityThumbnailWidget(
       this.iconKey,
+      this.communityKey,
       { this.palette,
         this.size = defSize,
         this.borderSize = defBorderWidth,
@@ -48,7 +55,7 @@ class CommunityThumbnailWidget extends StatelessWidget{
         child: Padding(
           padding: EdgeInsets.all(paddingSize),
           child: Icon(
-            CommonIconData.ALL[iconKey],
+            CommonIconData.get(iconKey),
             size: size - 2*paddingSize,
           ),
         ),
@@ -59,7 +66,7 @@ class CommunityThumbnailWidget extends StatelessWidget{
       return child;
 
     return Hero(
-      tag: 'CommunityThumbnailWidget$iconKey',
+      tag: 'CommunityThumbnailWidget$communityKey',
       child: child
     );
 

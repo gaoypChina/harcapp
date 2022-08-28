@@ -74,7 +74,7 @@ class SongContributorsPage extends StatelessWidget{
                             completedTasks: []
                         ),
                         activeParticipCnt: null,
-                        colors: CommonColorData.ALL[CommonColorData.OMEGA_COLORS_KEY],
+                        colors: CommonColorData.get(CommonColorData.omegaColorsKey),
                         size: 42.0,
                       ),
 

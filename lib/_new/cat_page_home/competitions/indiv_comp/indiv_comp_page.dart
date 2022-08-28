@@ -11,7 +11,6 @@ import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_particip/participant_list_page.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_disp_type.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
@@ -43,8 +42,9 @@ import 'common/points_widget.dart';
 import 'indiv_comp_awards_page.dart';
 import 'indiv_comp_editor/_main.dart';
 import 'indiv_comp_editor/common.dart';
+import 'indiv_comp_particip/participants_page.dart';
 import 'indiv_comp_task_page/completed_tasks_page.dart';
-import 'indiv_comp_particip/participant_list_admin_page.dart';
+import 'indiv_comp_particip/participants_extended_page.dart';
 import 'indiv_comp_task_page/pending_task_page.dart';
 import 'indiv_comp_task_page/review_page/indiv_comp_review_page.dart';
 import 'indiv_comp_task_page/indiv_comp_task_compl_req_widget.dart';
@@ -97,6 +97,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
   @override
   void dispose() {
     AccountData.removeLoginListener(loginListener);
+    refreshController.dispose();
     super.dispose();
   }
 
@@ -166,6 +167,13 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                                   onSuccess: (searchable){
                                     if(!mounted) return;
                                     setState(() => comp.shareCodeSearchable = searchable);
+                                    showAppToast(
+                                        context,
+                                        text: searchable?
+                                        'Każdy może teraz dołączyć do współzawodnictwa znając kod dostępu':
+                                        'Dołączanie po kodzie dostępu wyłączone',
+                                        duration: searchable?const Duration(seconds: 5):const Duration(seconds: 3)
+                                    );
                                   },
                                   onServerMaybeWakingUp: () {
                                     if(mounted) showServerWakingUpToast(context);
@@ -796,8 +804,8 @@ class ParticipantsWidget extends StatelessWidget{
       context,
       builder: (context) =>
       comp.myProfile?.role == CompRole.ADMIN || comp.myProfile?.role == CompRole.MODERATOR?
-      ParticipantListAdminPage(comp):
-      ParticipantListPage(comp)
+      ParticipantsExtendedPage(comp):
+      ParticipantsPage(comp: comp)
   );
 
   @override

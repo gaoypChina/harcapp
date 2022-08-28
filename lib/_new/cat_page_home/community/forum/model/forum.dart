@@ -6,6 +6,7 @@ import 'package:harcapp/_new/cat_page_home/community/forum/model/post.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../forum_role.dart';
@@ -16,10 +17,6 @@ class ForumProvider extends ChangeNotifier{
   static ForumProvider of(BuildContext context) => Provider.of<ForumProvider>(context, listen: false);
   static void notify_(BuildContext context) => of(context).notify();
 
-  void notify() => notifyListeners();
-}
-
-class ForumListProvider extends ChangeNotifier{
   void notify() => notifyListeners();
 }
 
@@ -49,6 +46,8 @@ class ForumBasicData{
   CommunityBasicData community;
   CommunityCoverImageData coverImage;
   String? description;
+  bool liked;
+  int likeCnt;
   bool followed;
   int followersCnt;
 
@@ -60,6 +59,8 @@ class ForumBasicData{
     required this.community,
     required this.coverImage,
     required this.description,
+    required this.liked,
+    required this.likeCnt,
     required this.followed,
     required this.followersCnt,
   });
@@ -69,6 +70,8 @@ class ForumBasicData{
     community: forum.community,
     coverImage: forum.coverImage,
     description: forum.description,
+    liked: forum.liked,
+    likeCnt: forum.likeCnt,
     followed: forum.followed,
     followersCnt: forum.followersCnt,
   );
@@ -78,6 +81,8 @@ class ForumBasicData{
     community: community,
     coverImage: CommunityCoverImageData.from(resp['coverImageUrl']??(throw InvalidResponseError('coverImageUrl'))),
     description: resp['description']??(throw InvalidResponseError('description')),
+    liked: resp['liked']??(throw InvalidResponseError('liked')),
+    likeCnt: resp['likeCount']??(throw InvalidResponseError('likeCount')),
     followed: resp['followed']??(throw InvalidResponseError('followed')),
     followersCnt: resp['followersCount']??(throw InvalidResponseError('followersCount')),
   );
@@ -86,94 +91,14 @@ class ForumBasicData{
 
 class Forum extends ForumBasicData{
 
+  static const IconData icon = MdiIcons.earth;
+  static const IconData iconOff = MdiIcons.earthOff;
+
   static const int maxLenDescription = 320;
   static const int maxLenCoverImageUrl = 200;
   static const int maxLenColorsKey = 42;
 
   static const int postPageSize = 10;
-
-  static List<Forum>? _all;
-  static Map<String, Forum>? _allMap;
-
-  static List<Forum>? get all => _all;
-  static Map<String, Forum>? get allMap => _allMap;
-
-  static forget(){
-    _all = null;
-    _allMap = null;
-  }
-
-  static silentInit(List<Forum> forums){
-    if(_all == null){
-      _all = [];
-      _allMap = {};
-    }
-
-    _all!.clear();
-    _allMap!.clear();
-
-    _all!.addAll(forums);
-    _allMap = {for (Forum forum in forums) forum.key: forum};
-
-  }
-
-  static init(List<Forum> forums, {BuildContext? context}){
-
-    silentInit(forums);
-
-    if(context == null) return;
-    Provider.of<ForumProvider>(context, listen: false).notify();
-    Provider.of<ForumListProvider>(context, listen: false).notify();
-  }
-
-
-  static addToAll(BuildContext context, Forum forum){
-    if(_all == null){
-      _all = [];
-      _allMap = {};
-    }
-    _all!.add(forum);
-    _allMap![forum.key] = forum;
-
-    Provider.of<ForumProvider>(context, listen: false).notify();
-    Provider.of<ForumListProvider>(context, listen: false).notify();
-  }
-
-  static updateInAll(BuildContext context, Forum forum){
-    Forum? oldForum = _allMap![forum.key];
-    if(oldForum == null){
-      addToAll(context, forum);
-      return;
-    }
-
-    int index = _all!.indexOf(oldForum);
-    _all!.removeAt(index);
-    _all!.insert(index, forum);
-    _allMap![forum.key] = forum;
-
-    Provider.of<ForumProvider>(context, listen: false).notify();
-    Provider.of<ForumListProvider>(context, listen: false).notify();
-  }
-
-  static void removeFromAll(Forum? forum, {BuildContext? context}){
-    if(_all == null)
-      return;
-
-    _all!.remove(forum);
-    _allMap!.remove(forum!.key);
-
-    if(context == null) return;
-
-    Provider.of<ForumProvider>(context, listen: false).notify();
-    Provider.of<ForumListProvider>(context, listen: false).notify();
-  }
-
-  static clear(){
-    if(_all == null)
-      return;
-    _all!.clear();
-    _allMap!.clear();
-  }
 
   String colorsKey;
 
@@ -195,7 +120,6 @@ class Forum extends ForumBasicData{
 
     Provider.of<ForumManagersProvider>(context, listen: false).notify();
     Provider.of<ForumProvider>(context, listen: false).notify();
-    Provider.of<ForumListProvider>(context, listen: false).notify();
 
   }
 
@@ -208,7 +132,6 @@ class Forum extends ForumBasicData{
 
     Provider.of<ForumManagersProvider>(context, listen: false).notify();
     Provider.of<ForumProvider>(context, listen: false).notify();
-    Provider.of<ForumListProvider>(context, listen: false).notify();
   }
 
   void updateManagers(BuildContext context, List<ForumManager> newManagers){
@@ -222,7 +145,6 @@ class Forum extends ForumBasicData{
 
     Provider.of<ForumManagersProvider>(context, listen: false).notify();
     Provider.of<ForumProvider>(context, listen: false).notify();
-    Provider.of<ForumListProvider>(context, listen: false).notify();
   }
 
   void removeManagersByKey(BuildContext context, List<String> managerKeys){
@@ -232,7 +154,6 @@ class Forum extends ForumBasicData{
 
     Provider.of<ForumManagersProvider>(context, listen: false).notify();
     Provider.of<ForumProvider>(context, listen: false).notify();
-    Provider.of<ForumListProvider>(context, listen: false).notify();
   }
 
   void removeManager(ForumManager manager){
@@ -290,6 +211,8 @@ class Forum extends ForumBasicData{
     super.description,
     required super.coverImage,
     required this.colorsKey,
+    required super.liked,
+    required super.likeCnt,
     required super.followed,
     required this.followers,
     required super.followersCnt,
@@ -335,9 +258,11 @@ class Forum extends ForumBasicData{
       description: resp['description'],
       coverImage: CommunityCoverImageData.from(resp['coverImageUrl']),
       colorsKey: resp['colorsKey']??(throw InvalidResponseError('colorsKey')),
+      liked: resp['liked']??(throw InvalidResponseError('liked')),
+      likeCnt: resp['likeCount']??(throw InvalidResponseError('likeCount')),
       followed: resp['followed']??(throw InvalidResponseError('followed')),
       followers: followers,
-      followersCnt: resp['followersConut']??(throw InvalidResponseError('followersConut')),
+      followersCnt: resp['followersCount']??(throw InvalidResponseError('followersCount')),
       managers: managers,
       allPosts: [],
 

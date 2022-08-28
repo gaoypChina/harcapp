@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_image_data.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/forum_editor/providers.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/cover_image_selectable_widget.dart';
@@ -14,8 +15,9 @@ import '../model/forum.dart';
 class GeneralPart extends StatefulWidget{
 
   final PaletteGenerator? palette;
+  final void Function(CommunityCoverImageData)? onCoverSelected;
 
-  const GeneralPart({this.palette, super.key});
+  const GeneralPart({this.palette, this.onCoverSelected, super.key});
 
   @override
   State<StatefulWidget> createState() => GeneralPartState();
@@ -25,6 +27,7 @@ class GeneralPart extends StatefulWidget{
 class GeneralPartState extends State<GeneralPart>{
 
   PaletteGenerator? get palette => widget.palette;
+  void Function(CommunityCoverImageData)? get onCoverSelected => widget.onCoverSelected;
 
   @override
   Widget build(BuildContext context) => ListView(
@@ -40,7 +43,10 @@ class GeneralPartState extends State<GeneralPart>{
               palette,
               initCoverImage: prov.coverImage,
               removable: false,
-              onSelected: (coverImage) => prov.coverImage = coverImage,
+              onSelected: (coverImage){
+                prov.coverImage = coverImage!;
+                onCoverSelected?.call(coverImage);
+              }
             )
         ),
       ),
@@ -64,8 +70,9 @@ class GeneralPartState extends State<GeneralPart>{
           activeColor: CommunityCoverColors.strongColor(context, palette),
           contentPadding: const EdgeInsets.symmetric(horizontal: 3.0),
           title: Text('Tło kolorystyczne', style: AppTextStyle()),
-          value: prov.colorsKey == 'auto',
-          onChanged: (bool checked) => prov.colorsKey = (checked?'auto':'none')
+          value: prov.colorsKey == CommunityCoverColors.colorsKeyAuto,
+          onChanged: (bool checked) => prov.colorsKey =
+          (checked?CommunityCoverColors.colorsKeyAuto:CommunityCoverColors.colorsKeyNone)
         ),
       ),
     ],

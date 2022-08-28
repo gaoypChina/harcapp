@@ -76,7 +76,7 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncI
     allMap[album.fileName] = album;
   }
 
-  static Album get omega => Album(omegaFileName, omegaTitle, OffSong.allOfficial, OwnSong.allOwn, CommonColorData.OMEGA_COLORS_KEY, 'null');
+  static Album get omega => Album(omegaFileName, omegaTitle, OffSong.allOfficial, OwnSong.allOwn, CommonColorData.omegaColorsKey, 'null');
 
   static late Album _current;
 
@@ -99,16 +99,16 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncI
       confidTitle,
       OffSong.allConfid,
       [],
-      CommonColorData.CONF_COLORS_KEY,
+      CommonColorData.confColorsKey,
       'fruitPineapple'
   );
 
-  Color get avgColor => CommonColorData.ALL[colorsKey]!.avgColor;
-  Color? get colorStart => CommonColorData.ALL[colorsKey]!.colorStart;
-  Color? get colorEnd => CommonColorData.ALL[colorsKey]!.colorEnd;
+  Color get avgColor => CommonColorData.get(colorsKey).avgColor;
+  Color? get colorStart => CommonColorData.get(colorsKey).colorStart;
+  Color? get colorEnd => CommonColorData.get(colorsKey).colorEnd;
   Color avgColorDarkSensitive(BuildContext context) => Provider.of<ColorPackProvider>(context, listen: false).isDark()?Colors.white:avgColor;
 
-  Color get iconColor => CommonColorData.ALL[colorsKey]!.iconColor;
+  Color get iconColor => CommonColorData.get(colorsKey).iconColor;
 
   final String fileName;
   String? title;
@@ -192,7 +192,7 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncI
         offSongs,
         ownSongs,
         map[paramColorsKey],
-        map[paramIconKey]??CommonIconData.DEF_ICON_KEY,
+        map[paramIconKey]??CommonIconData.defIconKey,
       );
 
       album.save(localOnly: true);
@@ -211,7 +211,7 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncI
       songTuple.item1,
       songTuple.item2,
       map[paramColorsKey],
-      map[paramIconKey]??CommonIconData.DEF_ICON_KEY,
+      map[paramIconKey]??CommonIconData.defIconKey,
     );
   }
 
@@ -293,8 +293,8 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncI
     String title = responseData[_PARAM_TITLE]??(throw InvalidResponseError(_PARAM_TITLE));
     List<String> offSongsLclIds = responseData[paramOffSongs]??[];
     List<String> ownSongsLclIds = responseData[paramOwnSongs]??[];
-    String iconKey = responseData[paramIconKey]??CommonIconData.DEF_ICON_KEY;
-    String colorsKey = responseData[paramColorsKey]??CommonColorData.DEF_COLORS_KEY;
+    String iconKey = responseData[paramIconKey]??CommonIconData.defIconKey;
+    String colorsKey = responseData[paramColorsKey]??CommonColorData.defColorsKey;
 
     List<OffSong> offSongs = [];
     for (String lclId in offSongsLclIds) {

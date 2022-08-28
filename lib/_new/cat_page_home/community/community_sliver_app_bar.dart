@@ -8,7 +8,7 @@ import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
-import '../cover_image.dart';
+import 'cover_image.dart';
 import 'common/community_cover_colors.dart';
 import 'community_thumbnail_widget.dart';
 import 'model/community.dart';
@@ -127,6 +127,7 @@ class CommunitySliverAppBarState extends State<CommunitySliverAppBar>{
               bottom: 0,
               child: CommunityThumbnailWidget(
                 community.iconKey,
+                community.key,
                 palette: palette,
               ),
             ),

@@ -421,7 +421,7 @@ class ApiIndivComp{
 
   static Future<Response?> removeUsers({
     required String compKey,
-    required List<String> userIds,
+    required List<String> userKeys,
     FutureOr<void> Function(List<String> removedKeys)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -430,7 +430,7 @@ class ApiIndivComp{
       withToken: true,
       sendRequest: (Dio dio) => dio.delete(
           '${API.SERVER_URL}api/indivComp/$compKey/user',
-          data: jsonEncode(userIds)
+          data: jsonEncode(userKeys)
       ),
       onSuccess: (Response response, DateTime now) async {
         onSuccess?.call((response.data as List).cast<String>());

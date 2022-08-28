@@ -7,7 +7,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import '../community_group_widget_template.dart';
 import 'model/forum.dart';
-import 'model/post.dart';
 
 class ForumWidget extends StatelessWidget{
 
@@ -22,7 +21,7 @@ class ForumWidget extends StatelessWidget{
       builder: (context, prov, child) => CommunityGroupWidgetTemplate(
         forum.coverImage,
         text: 'Forum',
-        icon: Post.icon,
+        icon: Forum.icon,
         onTap: onTap,
         titleBottom: Column(
           children: [
@@ -51,7 +50,7 @@ class ForumWidget extends StatelessWidget{
                 const Icon(MdiIcons.thumbUpOutline),
                 const SizedBox(width: Dimen.ICON_MARG),
                 Text(
-                    '${forum.followersCnt}',
+                    '${forum.likeCnt}',
                     style: AppTextStyle(
                         fontSize: Dimen.TEXT_SIZE_BIG,
                         color: iconEnab_(context),

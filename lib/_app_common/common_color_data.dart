@@ -6,24 +6,24 @@ import '../_new/details/app_settings.dart';
 
 class CommonColorData{
 
-  static String get DEF_COLORS_KEY => 'gold';
-  static String get CONF_COLORS_KEY => 'dawn';
-  static String get OMEGA_COLORS_KEY => 'omegaalbum';
-  static String get SPACE_COLORS_KEY => 'blueberry';
+  static const String defColorsKey = 'gold';
+  static const String confColorsKey = 'dawn';
+  static const String omegaColorsKey = 'omegaalbum';
+  static const String spaceColorsKey = 'blueberry';
 
-  static String get randomKey => ALL_PICKABLE.keys.toList()[Random().nextInt(ALL_PICKABLE.length)];
+  static String get randomKey => allPickable.keys.toList()[Random().nextInt(allPickable.length)];
 
-  static Map<String, CommonColorData> get ALL{
+  static Map<String, CommonColorData> get all{
 
     Map<String, CommonColorData> all = {};
-    all.addAll(ALL_PICKABLE);
+    all.addAll(allPickable);
     all['white'] = const CommonColorData(Colors.white, Colors.white, true);
     all['black'] = const CommonColorData(Color.fromARGB(255, 30, 30, 30), Color.fromARGB(255, 30, 30, 30), true);
 
     return all;
   }
 
-  static Map<String, CommonColorData> ALL_PICKABLE = {
+  static Map<String, CommonColorData> allPickable = {
 
     'chocolate': CommonColorData(Colors.pink, Colors.brown[900]!, true),
     'raspberry': CommonColorData(Colors.red[800]!, Colors.deepPurple, false),
@@ -51,7 +51,10 @@ class CommonColorData{
 
     'omegaalbum': const CommonColorData(Colors.greenAccent, Colors.blue, false)
   };
-  
+
+  static CommonColorData get(String key, {String defKey = defColorsKey}) =>
+      all[key]??all[defKey]??all[defColorsKey]!;
+
   final Color colorStart;
   final Color colorEnd;
   final bool iconWhite;

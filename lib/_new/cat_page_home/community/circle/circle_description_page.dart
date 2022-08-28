@@ -81,152 +81,154 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
   Widget build(BuildContext context) => BottomNavScaffold(
     backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
     appBottomNavColor: CommunityCoverColors.backgroundColor(context, palette),
-    body: ChangeNotifierProvider(
-      create: (context){
-        return AppBarProvider();
-      },
-      builder: (context, child) => CustomScrollView(
-          controller: scrollController,
-          physics: const BouncingScrollPhysics(),
-          slivers: [
+    body: Consumer<CircleProvider>(
+      builder: (context, circleProv, child) => ChangeNotifierProvider(
+          create: (context){
+            return AppBarProvider();
+          },
+          builder: (context, child) => CustomScrollView(
+              controller: scrollController,
+              physics: const BouncingScrollPhysics(),
+              slivers: [
 
-            CommunitySliverAppBar(
-              circle.community,
-              palette: palette,
-              coverImage: circle.coverImage,
-              mainScrollController: scrollController,
-              communityNameWidgetKey: nameWidgetKey,
-              heroTag: CirclePageState.circleCoverTag,
-            ),
-            
-            SliverList(delegate: SliverChildListDelegate([
+                CommunitySliverAppBar(
+                  circle.community,
+                  palette: palette,
+                  coverImage: circle.coverImage,
+                  mainScrollController: scrollController,
+                  communityNameWidgetKey: nameWidgetKey,
+                  heroTag: CirclePageState.circleCoverTag,
+                ),
 
-              Padding(
-                  padding: const EdgeInsets.only(
-                    top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-                    left: Dimen.SIDE_MARG,
-                    right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-                    bottom: Dimen.SIDE_MARG,
-                  ),
-                  child: Hero(
-                      tag: CirclePageState.circleNameTag,
-                      child: Material(
-                        color: Colors.transparent,
-                        child: Row(
-                          children: [
+                SliverList(delegate: SliverChildListDelegate([
 
-                            Expanded(
-                              child:  Text(
-                                circle.name,
-                                style: AppTextStyle(
-                                    fontSize: 28.0,
-                                    fontWeight: weight.bold
+                  Padding(
+                      padding: const EdgeInsets.only(
+                        top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+                        left: Dimen.SIDE_MARG,
+                        right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+                        bottom: Dimen.SIDE_MARG,
+                      ),
+                      child: Hero(
+                          tag: CirclePageState.circleNameTag,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: Row(
+                              children: [
+
+                                Expanded(
+                                  child:  Text(
+                                    circle.name,
+                                    style: AppTextStyle(
+                                        fontSize: 28.0,
+                                        fontWeight: weight.bold
+                                    ),
+                                    key: nameWidgetKey,
+                                  ),
                                 ),
-                                key: nameWidgetKey,
-                              ),
+
+                                IconButton(
+                                  icon: const Icon(MdiIcons.chevronUp),
+                                  onPressed: () => popPage(context),
+                                )
+
+                              ],
                             ),
-
-                            IconButton(
-                              icon: const Icon(MdiIcons.chevronUp),
-                              onPressed: () => popPage(context),
-                            )
-
-                          ],
-                        ),
-                      )
-                  )
-              ),
-
-              if(circle.hasDescription)
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: Dimen.SIDE_MARG - TitleShortcutRowWidget.textStartPadding,
-                  ),
-                  child: TitleShortcutRowWidget(
-                    title: 'Opis',
-                    titleColor: hintEnab_(context),
-                    textAlign: TextAlign.start,
-                  ),
-                ),
-
-              if(circle.hasDescription)
-                Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                    child: ExpandableText(
-                      circle.description!,
-                      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2),
-                      maxLines: 8,
-                      animation: true,
-                      linkColor: CommunityCoverColors.strongColor(context, palette),
-                      linkStyle: AppTextStyle(fontWeight: weight.halfBold),
-                      expandText: 'więcej',
-                      collapseText: 'mniej',
-                    )
-                ),
-
-              Padding(
-                  padding: const EdgeInsets.only(
-                    top: Dimen.SIDE_MARG,
-                    left: Dimen.SIDE_MARG - TitleShortcutRowWidget.textStartPadding,
-                    right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-                  ),
-                  child: TitleShortcutRowWidget(
-                    title: 'Powiązane współzawod.',
-                    textAlign: TextAlign.start,
-                    titleColor: hintEnab_(context),
-                    trailing:
-                    circle.myRole == CircleRole.ADMIN?
-                    IconButton(
-                      icon: const Icon(MdiIcons.dotsHorizontal),
-                      onPressed: () => pushPage(
-                          context,
-                          builder: (context) => CircleBindedIndivCompPage(
-                            circle, palette
                           )
-                      ),
-                    ):
-                    null,
+                      )
                   ),
-              ),
 
-              Consumer<BindedIndivCompsProvider>(
-                    builder: (context, prov, child) =>
-                    circle.bindedIndivComps.isEmpty?
+                  if(circle.hasDescription)
                     Padding(
-                      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                      child: Text(
-                        'Brak powiązanych współzawodnictw',
-                        style: AppTextStyle(
-                          color: hintEnab_(context),
-                          fontSize: Dimen.TEXT_SIZE_BIG,
-                        ),
-                        textAlign: TextAlign.center,
+                      padding: const EdgeInsets.only(
+                        left: Dimen.SIDE_MARG - TitleShortcutRowWidget.textStartPadding,
                       ),
-                    ):
-                    Container()
-                ),
+                      child: TitleShortcutRowWidget(
+                        title: 'Opis',
+                        titleColor: hintEnab_(context),
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
 
-              Consumer<BindedIndivCompsProvider>(
-                builder: (context, prov, child) => ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => BindedIndivCompTile(
-                    circle,
-                    circle.bindedIndivComps[index],
-                    palette: palette
+                  if(circle.hasDescription)
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                        child: ExpandableText(
+                          circle.description!,
+                          style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2),
+                          maxLines: 8,
+                          animation: true,
+                          linkColor: CommunityCoverColors.strongColor(context, palette),
+                          linkStyle: AppTextStyle(fontWeight: weight.halfBold),
+                          expandText: 'więcej',
+                          collapseText: 'mniej',
+                        )
+                    ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: Dimen.SIDE_MARG,
+                      left: Dimen.SIDE_MARG - TitleShortcutRowWidget.textStartPadding,
+                      right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+                    ),
+                    child: TitleShortcutRowWidget(
+                      title: 'Powiązane współzawod.',
+                      textAlign: TextAlign.start,
+                      titleColor: hintEnab_(context),
+                      trailing:
+                      circle.myRole == CircleRole.ADMIN?
+                      IconButton(
+                        icon: const Icon(MdiIcons.dotsHorizontal),
+                        onPressed: () => pushPage(
+                            context,
+                            builder: (context) => CircleBindedIndivCompPage(
+                                circle, palette
+                            )
+                        ),
+                      ):
+                      null,
+                    ),
                   ),
-                  separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-                  itemCount: circle.bindedIndivComps.length,
-                  shrinkWrap: true,
-                ),
-              ),
 
-              const SizedBox(height: Dimen.SIDE_MARG),
+                  Consumer<BindedIndivCompsProvider>(
+                      builder: (context, prov, child) =>
+                      circle.bindedIndivComps.isEmpty?
+                      Padding(
+                        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                        child: Text(
+                          'Brak powiązanych współzawodnictw',
+                          style: AppTextStyle(
+                            color: hintEnab_(context),
+                            fontSize: Dimen.TEXT_SIZE_BIG,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ):
+                      Container()
+                  ),
 
-            ]))
+                  Consumer<BindedIndivCompsProvider>(
+                    builder: (context, prov, child) => ListView.separated(
+                      padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) => BindedIndivCompTile(
+                          circle,
+                          circle.bindedIndivComps[index],
+                          palette: palette
+                      ),
+                      separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
+                      itemCount: circle.bindedIndivComps.length,
+                      shrinkWrap: true,
+                    ),
+                  ),
 
-          ]
-      )
+                  const SizedBox(height: Dimen.SIDE_MARG),
+
+                ]))
+
+              ]
+          )
+      ),
     ),
   );
 

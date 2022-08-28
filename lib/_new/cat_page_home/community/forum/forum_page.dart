@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_new/cat_page_home/community/forum/role_page/managers_page.dart';
+import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/api/forum.dart';
@@ -13,8 +15,6 @@ import 'package:harcapp/_new/cat_page_home/community/forum/post_editor/_main.dar
 import 'package:harcapp/_new/cat_page_home/community/forum/posts_sliver.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/account/account.dart';
-import 'package:harcapp/account/account_thumbnail_row_widget.dart';
-import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -35,8 +35,6 @@ import '../community_sliver_app_bar.dart';
 import 'common/follow_button.dart';
 import 'forum_description_page.dart';
 import 'forum_editor/_main.dart';
-import 'forum_editor/role_page/managers_admin_page.dart';
-import 'forum_editor/role_page/managers_page.dart';
 import 'forum_role.dart';
 import 'model/forum.dart';
 import 'model/post.dart';
@@ -44,9 +42,10 @@ import 'model/post.dart';
 class ForumPage extends StatefulWidget{
 
   final Forum forum;
-  final void Function()? onFollowChanged;
+  final void Function(bool)? onFollowChanged;
+  final void Function(bool)? onLikeChanged;
   final void Function()? onDeleted;
-  const ForumPage(this.forum, {this.onFollowChanged, this.onDeleted, super.key});
+  const ForumPage(this.forum, {this.onFollowChanged, this.onLikeChanged, this.onDeleted, super.key});
 
   @override
   State<StatefulWidget> createState() => ForumPageState();
@@ -59,7 +58,8 @@ class ForumPageState extends State<ForumPage>{
   static const forumNameTag = 'forumNameTag';
 
   Forum get forum => widget.forum;
-  void Function()? get onLeft => widget.onFollowChanged;
+  void Function(bool)? get onFollowChanged => widget.onFollowChanged;
+  void Function(bool)? get onLikeChanged => widget.onLikeChanged;
   void Function()? get onDeleted => widget.onDeleted;
 
   late RefreshController refreshController;
@@ -179,10 +179,10 @@ class ForumPageState extends State<ForumPage>{
       paletteAlways == null?
       const _ForumLoadingWidget():
 
-      Consumer<PostListProvider>(
-        builder: (context, prov, child) => SmartRefresher(
+      Consumer2<ForumProvider, PostListProvider>(
+        builder: (context, forumProv, prov, child) => SmartRefresher(
           enablePullDown: true,
-          enablePullUp: true,
+          enablePullUp: !refreshController.isRefresh,
           footer: CustomFooter(
             builder: (BuildContext context, LoadStatus? mode){
               Widget body;
@@ -218,7 +218,7 @@ class ForumPageState extends State<ForumPage>{
 
               else
                 body = Text(
-                  'Nie wiem co tu wyświtlić',
+                  'Nie wiem co tu wyświtlić. Pozdrawiam mamę!',
                   style: AppTextStyle(),
                 );
 
@@ -242,18 +242,15 @@ class ForumPageState extends State<ForumPage>{
               return;
             }
 
-            ForumListProvider forumListProv = Provider.of<ForumListProvider>(context, listen: false);
-
             await ApiForum.get(
                 forumKey: forum.key,
                 community: forum.community,
                 onSuccess: (updatedForum) async {
-                  forum.description = updatedForum.description;
-                  forum.coverImage = updatedForum.coverImage;
-                  forum.colorsKey = updatedForum.colorsKey;
-                  forum.followed = updatedForum.followed;
-                  forum.followersCnt = updatedForum.followersCnt;
+
+                  updateForum(updatedForum);
+
                   forum.followers = updatedForum.followers;
+
                   forum.setAllManagers(context, updatedForum.managers);
                   forum.resetPosts(
                     updatedForum.allPosts,
@@ -273,14 +270,13 @@ class ForumPageState extends State<ForumPage>{
                 },
                 onError: (responseStatusCode){
                   if(responseStatusCode == HttpStatus.notFound){
+                    Community.removeForum(forum, context: context);
                     showAppToast(
                         context,
                         text: AccountData.sex == Sex.male ?
                         'Zostałeś wyproszony':
                         'Zostałaś wyproszona'
                     );
-                    Forum.removeFromAll(forum);
-                    forumListProv.notify();
                     popPage(context);
                     return;
                   }
@@ -352,20 +348,15 @@ class ForumPageState extends State<ForumPage>{
                     if(forum.myRole != null)
                       IconButton(
                         icon: Icon(
-                            MdiIcons.accountSupervisorCircleOutline,
-                            color: appBarProv.coverVisible?coverIconColor:iconEnab_(context)
+                          MdiIcons.accountSupervisorCircleOutline,
+                          color: appBarProv.coverVisible?coverIconColor:iconEnab_(context)
                         ),
                         onPressed: () =>
                             pushPage(
                                 context,
-                                builder: (context) => forum.myRole == ForumRole.ADMIN?
-                                ManagersAdminPage(
-                                  forum,
-                                  palette,
-                                ):
-                                ManagersPage(
-                                  forum,
-                                  palette,
+                                builder: (context) => ManagersPage(
+                                  forum: forum,
+                                  palette: palette,
                                 )
                             ),
                       ),
@@ -384,12 +375,9 @@ class ForumPageState extends State<ForumPage>{
                                 palette: palette,
                                 onSaved: (updatedForum) async {
 
-                                  forum.description = updatedForum.description;
-                                  forum.coverImage = updatedForum.coverImage;
-                                  forum.colorsKey = updatedForum.colorsKey;
+                                  updateForum(updatedForum);
 
                                   if(mounted) Provider.of<ForumProvider>(context, listen: false).notify();
-                                  if(mounted) Provider.of<ForumListProvider>(context, listen: false).notify();
 
                                   await initPaletteGenerator(refresh: false);
 
@@ -402,11 +390,11 @@ class ForumPageState extends State<ForumPage>{
 
                   ],
                   bottomWidgets: [
-                    ForumFollowButton(forum, palette: palette),
+                    ForumFollowButton(forum, palette: palette, onChanged: onFollowChanged),
 
                     const SizedBox(width: Dimen.defMarg),
 
-                    ForumLikeButton(forum, palette: palette),
+                    ForumLikeButton(forum, palette: palette, onChanged: onLikeChanged),
                   ],
                 ),
 
@@ -454,50 +442,9 @@ class ForumPageState extends State<ForumPage>{
                       )
                   ),
 
-                  if(forum.followersCnt == 0)
-                    SizedBox(
-                      height: AccountThumbnailRowWidget.defSize,
-                      child: Center(
-                        child: Text(
-                          'Brak obserwujących',
-                          style: AppTextStyle(
-                              fontSize: Dimen.TEXT_SIZE_APPBAR,
-                              fontWeight: weight.bold,
-                              color: cardColor
-                          ),
-                        ),
-                      ),
-                    )
-                  else
-                    AccountThumbnailRowWidget(
-                        forum.followers.map((f) => f.name).toList(),
-                        elevated: CommunityPublishableWidgetTemplate.elevation != 0,
-                        color: backgroundColor,
-                        borderColor: cardColor,
-                        backgroundColor: backgroundColor,
-                        padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                        heroBuilder: (index) => forum.followers[index],
-                        leading: Row(
-                          children: [
-                            AccountThumbnailWidget(
-                              name: '${forum.followersCnt}',
-                              fullName: true,
-                              markIcon: MdiIcons.account,
-                              elevated: false,
-                              color: backgroundColor,
-                              borderColor: cardColor,
-                              onTap: () => showAppToast(context, text: 'Liczba obserwujących forum: ${forum.followersCnt}'),
-                            ),
-
-                            const SizedBox(width: Dimen.ICON_MARG),
-
-                          ],
-                        )
-                    ),
-
                   if(forum.myRole != null)
                     Padding(
-                      padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG),
+                      padding: const EdgeInsets.only(right: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG),
                       child: SimpleButton(
                         margin: EdgeInsets.zero,
                         padding: EdgeInsets.zero,
@@ -530,9 +477,7 @@ class ForumPageState extends State<ForumPage>{
                           ),
                         ),
                       ),
-                    )
-                  else
-                    const SizedBox(height: Dimen.SIDE_MARG),
+                    ),
 
                   const SizedBox(height: Dimen.SIDE_MARG),
 
@@ -548,7 +493,7 @@ class ForumPageState extends State<ForumPage>{
                       bottom: Dimen.SIDE_MARG,
                     ),
                     palette: palette,
-                    onAnnouncementUpdated: () => setState((){})
+                    onPostUpdated: () => setState((){})
                 )
 
               ]
@@ -559,6 +504,20 @@ class ForumPageState extends State<ForumPage>{
 
     ),
   );
+
+  void updateForum(Forum updatedForum){
+
+    forum.description = updatedForum.description;
+    forum.coverImage = updatedForum.coverImage;
+    forum.colorsKey = updatedForum.colorsKey;
+
+    forum.liked = updatedForum.liked;
+    forum.likeCnt = updatedForum.likeCnt;
+
+    forum.followed = updatedForum.followed;
+    forum.followersCnt = updatedForum.followersCnt;
+
+  }
 
 }
 

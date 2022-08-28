@@ -172,14 +172,12 @@ void main() async {
             //CIRCLES
             ChangeNotifierProvider(create: (context) => CircleMembersProvider()),
             ChangeNotifierProvider(create: (context) => CircleProvider()),
-            ChangeNotifierProvider(create: (context) => CircleListProvider()),
             ChangeNotifierProvider(create: (context) => AnnouncementProvider()),
             ChangeNotifierProvider(create: (context) => AnnouncementListProvider()),
             ChangeNotifierProvider(create: (context) => BindedIndivCompsProvider()),
 
             //FORUM
             ChangeNotifierProvider(create: (context) => ForumProvider()),
-            ChangeNotifierProvider(create: (context) => ForumListProvider()),
             ChangeNotifierProvider(create: (context) => ForumManagersProvider()),
             ChangeNotifierProvider(create: (context) => PostProvider()),
             ChangeNotifierProvider(create: (context) => PostListProvider()),
@@ -382,7 +380,6 @@ class AppState extends State<App> with WidgetsBindingObserver {
         onRegistered: () async{
           await Statistics.commit();
           IndivComp.init([], context: mounted?context:null);
-          Circle.init([], context: mounted?context:null);
         },
         onEmailConfirmChanged: (emailConf) async {
           if(!emailConf) return;

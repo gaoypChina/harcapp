@@ -12,7 +12,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class AlbumWidgetSmall extends StatelessWidget{
 
-  static const double ICON_SIZE = 36.0;
+  static const double iconSize = 36.0;
 
   final Album album;
   final bool? selected;
@@ -29,7 +29,8 @@ class AlbumWidgetSmall extends StatelessWidget{
         this.showSongCount = true,
         this.iconColor,
         this.onTap,
-        this.onLongPress
+        this.onLongPress,
+        super.key
       });
 
   @override
@@ -37,8 +38,8 @@ class AlbumWidgetSmall extends StatelessWidget{
 
     bool selected = this.selected??Album.current == album;
 
-    CommonColorData albColor = CommonColorData.ALL[album.colorsKey]!;
-    IconData? iconData = CommonIconData.ALL[album.iconKey];
+    CommonColorData albColor = CommonColorData.get(album.colorsKey);
+    IconData? iconData = CommonIconData.get(album.iconKey);
 
     Widget widget = Container(
       decoration: BoxDecoration(
@@ -58,7 +59,7 @@ class AlbumWidgetSmall extends StatelessWidget{
                 colorEnd: albColor.colorEnd,
                 child: Padding(
                   padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                  child: Icon(iconData, color: iconColor??(albColor.iconWhite?Colors.white:cardEnab_(context)), size: ICON_SIZE),
+                  child: Icon(iconData, color: iconColor??(albColor.iconWhite?Colors.white:cardEnab_(context)), size: iconSize),
                 )
             ),
           ),
@@ -77,7 +78,6 @@ class AlbumWidgetSmall extends StatelessWidget{
                         style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
-                          //color: selected?textEnab_(context):hintEnab_(context),
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis

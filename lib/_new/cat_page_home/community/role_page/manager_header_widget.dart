@@ -2,31 +2,28 @@ import 'package:flutter/cupertino.dart';
 import 'package:harcapp/_app_common/accounts/account_header_widget.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:palette_generator/palette_generator.dart';
 
-import '../../forum_role.dart';
+import '../community_role.dart';
+import '../model/community_manager.dart';
 
 class ManagerHeaderWidget extends StatelessWidget{
 
-  final String name;
-  final bool shadow;
-  final ForumRole role;
-  final Color? thumbnailColor;
-  final Color? thumbnailBorderColor;
+  final CommunityManager manager;
+  final PaletteGenerator? palette;
   final dynamic heroTag;
 
-  const ManagerHeaderWidget(this.name, this.shadow, this.role, {this.thumbnailColor, this.thumbnailBorderColor, this.heroTag, super.key});
+  const ManagerHeaderWidget(this.manager, {this.palette, this.heroTag, super.key});
 
   @override
   Widget build(BuildContext context) => AccountHeaderWidget(
-    name,
-    shadow: shadow,
-    thumbnailColor: thumbnailColor,
-    thumbnailBorderColor: thumbnailBorderColor,
+    manager.name,
+    shadow: manager.shadow,
     leading: const SizedBox(width: Dimen.ICON_SIZE + Dimen.ICON_MARG),
     trailing: Row(
       children: [
         const SizedBox(width: Dimen.ICON_MARG),
-        Icon(forumRoleToIcon[role], color: iconDisab_(context))
+        Icon(communityRoleToIcon[manager.role], color: iconDisab_(context))
       ],
     ),
   );

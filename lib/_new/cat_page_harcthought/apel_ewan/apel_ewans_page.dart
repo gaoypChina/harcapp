@@ -127,7 +127,7 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
 
         tabs.add(FolderTab(
             iconKey: 'bookCross',
-            colorsKey: CommonColorData.DEF_COLORS_KEY,
+            colorsKey: CommonColorData.defColorsKey,
             folderName: 'Wszystkie',
             countText: 'Liczba apeli: ${allApelEwans.length}'
         ));
@@ -197,7 +197,7 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
 
         tabs.add(FolderTab(
             iconKey: 'textBoxMultiple',
-            colorsKey: CommonColorData.OMEGA_COLORS_KEY,
+            colorsKey: CommonColorData.omegaColorsKey,
             folderName: 'Dekalog',
             countText: 'Liczba apeli: ${dekalogApelEwans.length}'
         ));

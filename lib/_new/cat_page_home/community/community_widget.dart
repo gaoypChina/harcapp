@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
+import 'package:harcapp/_new/cat_page_home/_main.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/circle_widget.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_editor/_main.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
+import 'package:harcapp/_new/cat_page_home/community/role_page/managers_page.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -13,14 +16,11 @@ import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'circle/circle_editor/_main.dart';
-import 'circle/circle_page.dart';
 import 'circle/model/circle.dart';
 import 'community_role.dart';
 import 'forum/forum_editor/_main.dart';
-import 'forum/forum_page.dart';
 import 'forum/forum_widget.dart';
 import 'forum/model/forum.dart';
-import 'forum/model/post.dart';
 import 'model/community.dart';
 
 class CommunityWidget extends StatelessWidget{
@@ -35,7 +35,7 @@ class CommunityWidget extends StatelessWidget{
       child: Consumer<CommunityProvider>(
         builder: (context, prov, child) => Material(
             clipBehavior: Clip.hardEdge,
-            color: cardEnab_(context),
+            color: CommunityCoverColors.nonPaletteCardColor(),
             borderRadius: BorderRadius.circular(AppCard.bigRadius),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +50,7 @@ class CommunityWidget extends StatelessWidget{
                   child: Row(
                     children: [
 
-                      CommunityThumbnailWidget(community.iconKey),
+                      CommunityThumbnailWidget(community.iconKey, community.key),
 
                       const SizedBox(width: Dimen.ICON_MARG),
 
@@ -68,6 +68,48 @@ class CommunityWidget extends StatelessWidget{
                     ],
                   ),
                 ),
+
+                if(community.myRole != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: Dimen.defMarg),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+
+                        SimpleButton.from(
+                            context: context,
+                            margin: EdgeInsets.zero,
+                            icon: MdiIcons.accountSupervisorCircleOutline,
+                            text: 'Role',
+                            onTap: () => pushPage(
+                                context,
+                                builder: (context) => CommunityManagersPage(
+                                  community: community,
+                                )
+                            )
+                        ),
+
+                        SimpleButton.from(
+                            context: context,
+                            margin: EdgeInsets.zero,
+                            icon: MdiIcons.cogOutline,
+                            text: 'Ustawienia',
+                            onTap: () => pushPage(
+                                context,
+                                builder: (context) => CommunityEditorPage(
+                                    initCommunity: community,
+                                    onSaved: (updatedCommunity){
+                                      community.name = updatedCommunity.name;
+                                      community.iconKey = updatedCommunity.iconKey;
+                                      CommunityProvider.notify_(context);
+                                    }
+                                )
+                            )
+                        ),
+
+                      ],
+                    ),
+                  ),
 
                 if(community.myRole == CommunityRole.ADMIN && community.circle == null && community.forum == null)
                   const Padding(
@@ -134,9 +176,12 @@ class CommunityWidget extends StatelessWidget{
                           builder: (context) =>
                               CircleEditorPage(
                                 community: community,
-                                onSaved: (comp) async {
-                                  Circle.addToAll(context, comp);
-                                  await pushReplacePage(context, builder: (context) => CirclePage(Circle.all!.last));
+                                onSaved: (circle) async {
+                                  community.setCircle(circle);
+                                  CommunityProvider.notify_(context);
+                                  CommunityListProvider.notify_(context);
+
+                                  CatPageHomeState.openCirclePage(context, circle);
                                 },
                               ),
                         );
@@ -166,7 +211,7 @@ class CommunityWidget extends StatelessWidget{
                     color: background_(context),
                     child: Row(
                       children: [
-                        const Icon(Post.icon),
+                        const Icon(Forum.icon),
                         const SizedBox(width: Dimen.SIDE_MARG),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -196,32 +241,18 @@ class CommunityWidget extends StatelessWidget{
                           ForumEditorPage(
                             community: community,
                             onSaved: (forum) async {
-                              Forum.addToAll(context, forum);
-                              await pushReplacePage(context, builder: (context) => ForumPage(Forum.all!.last));
+                              community.setForum(forum);
+
+                              CommunityProvider.notify_(context);
+                              CommunityListProvider.notify_(context);
+
+                              CatPageHomeState.openForumPage(context, forum);
                             },
                           ),
                     )
                   ),
 
-                if(community.myRole != null)
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: SimpleButton.from(
-                        context: context,
-                        icon: MdiIcons.cogOutline,
-                        text: 'Ustawienia',
-                        onTap: () => pushPage(
-                            context,
-                            builder: (context) => CommunityEditorPage(
-                              initCommunity: community,
-                              onSaved: (community) =>
-                                  Provider.of<CommunityProvider>(context, listen: false).notify(),
-                            )
-                        )
-                    ),
-                  )
-                else
-                  const SizedBox(height: Dimen.defMarg),
+                 const SizedBox(height: Dimen.defMarg),
 
 
               ],

@@ -5,7 +5,6 @@ import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart'
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/community_cover_image_data.dart';
@@ -23,8 +22,6 @@ class AnnouncementListProvider extends ChangeNotifier{
 }
 
 class Announcement extends CommunityPublishable{
-
-  static const IconData icon = MdiIcons.googleCircles;
 
   static const int feedPageSize = 10;
 

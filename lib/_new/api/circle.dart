@@ -108,6 +108,7 @@ class ApiCircle{
   }) async {
 
     Map<String, dynamic> reqMap = {};
+    reqMap['communityKey'] = community.key;
     reqMap['description'] = description.trim();
     reqMap['coverImageUrl'] = coverImageUrl;
     reqMap['colorsKey'] = colorsKey;
@@ -204,12 +205,12 @@ class ApiCircle{
           newCommunityAdded = true;
           community = Community.fromResponse(response.data['community']);
           circle = Circle.fromResponse(response.data['circle'], community);
-          community.circle = circle;
-          Community.addToAll(community);
+          Community.addToAll(community, mapCircle: false);
+          community.setCircle(circle);
         }else{
           newCommunityAdded = false;
           circle = Circle.fromResponse(response.data['circle'], community);
-          community.circle = circle;
+          community.setCircle(circle);
         }
 
         onSuccess?.call(circle, newCommunityAdded);
@@ -399,7 +400,7 @@ class ApiCircle{
 
         List<Announcement> result = [];
         for(String key in (response.data as Map).keys)
-          result.add(Announcement.fromMap(response.data[key], Circle.allMap![circleKey]!, key: key));
+          result.add(Announcement.fromMap(response.data[key], Community.allCircleMap![circleKey]!, key: key));
 
         onSuccess?.call(result, pinnedOnly, awaitingOnly);
       },
@@ -439,7 +440,7 @@ class ApiCircle{
         }),
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(Announcement.fromMap(response.data, Circle.allMap![circleKey]!)),
+          onSuccess?.call(Announcement.fromMap(response.data, Community.allCircleMap![circleKey]!)),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => onError?.call()

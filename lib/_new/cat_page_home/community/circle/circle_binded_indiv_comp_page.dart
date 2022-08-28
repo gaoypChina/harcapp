@@ -20,6 +20,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../../../cat_page_harcthought/apel_ewan/providers.dart';
 import '../common/community_cover_colors.dart';
 import '../../competitions/indiv_comp/indiv_comp_basic_data_tile.dart';
+import '../model/community.dart';
 import 'model/circle.dart';
 
 class CircleBindedIndivCompPage extends StatefulWidget{
@@ -98,7 +99,6 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                         onPressed: () async {
 
                           CircleProvider circleProv = Provider.of<CircleProvider>(context, listen: false);
-                          CircleListProvider circleListProv = Provider.of<CircleListProvider>(context, listen: false);
 
                           IndivCompProvider indivCompProv = Provider.of<IndivCompProvider>(context, listen: false);
                           IndivCompListProvider indivCompListProv = Provider.of<IndivCompListProvider>(context, listen: false);
@@ -113,7 +113,6 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                               onSuccess: (){
                                 circle.bindedIndivComps.removeWhere((indivCompBasicData) => indivCompBasicData.key == indivCompKey);
                                 circleProv.notify();
-                                circleListProv.notify();
                                 indivCompProv.notify();
                                 indivCompListProv.notify();
 
@@ -160,7 +159,6 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                         IndivComp comp = IndivComp.allMap![indivCompKey]!;
 
                         CircleProvider circleProv = Provider.of<CircleProvider>(context, listen: false);
-                        CircleListProvider circleListProv = Provider.of<CircleListProvider>(context, listen: false);
 
                         IndivCompProvider indivCompProv = Provider.of<IndivCompProvider>(context, listen: false);
                         IndivCompListProvider indivCompListProv = Provider.of<IndivCompListProvider>(context, listen: false);
@@ -176,7 +174,6 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                             comp.bindedCircle = null;
                             circle.bindedIndivComps.removeWhere((indivCompBasicData) => indivCompBasicData.key == comp.key);
                             circleProv.notify();
-                            circleListProv.notify();
                             indivCompProv.notify();
                             indivCompListProv.notify();
                             bindedIndivCompsProv.notify();
@@ -255,7 +252,6 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                         IndivComp comp = bindableIndivComps[index];
 
                         CircleProvider circleProv = Provider.of<CircleProvider>(context, listen: false);
-                        CircleListProvider circleListProv = Provider.of<CircleListProvider>(context, listen: false);
 
                         IndivCompProvider indivCompProv = Provider.of<IndivCompProvider>(context, listen: false);
                         IndivCompListProvider indivCompListProv = Provider.of<IndivCompListProvider>(context, listen: false);
@@ -273,8 +269,8 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                               comp.bindedCircle = CircleBasicData.fromCircle(circle);
 
                               // If circle was binded before, remove comp binding from old circle
-                              if(oldCircleKey != null && Circle.allMap!.containsKey(oldCircleKey)){
-                                Circle oldCircle = Circle.allMap![oldCircleKey]!;
+                              if(oldCircleKey != null && Community.allCircleMap!.containsKey(oldCircleKey)){
+                                Circle oldCircle = Community.allCircleMap![oldCircleKey]!;
                                 oldCircle.bindedIndivComps.removeWhere((indivCompBasicData) => indivCompBasicData.key == comp.key);
                               }
 
@@ -282,7 +278,6 @@ class CircleBindedIndivCompPageState extends State<CircleBindedIndivCompPage>{
                               circle.bindedIndivComps.add(IndivCompBasicData.fromIndivComp(comp));
 
                               circleProv.notify();
-                              circleListProv.notify();
                               indivCompProv.notify();
                               indivCompListProv.notify();
                               bindedIndivCompsProv.notify();

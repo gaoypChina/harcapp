@@ -4,7 +4,6 @@ import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_image_data.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'forum.dart';
@@ -18,8 +17,6 @@ class PostListProvider extends ChangeNotifier{
 }
 
 class Post extends CommunityPublishable{
-
-  static const IconData icon = MdiIcons.bullhorn;
 
   static List<Post>? _all;
   static Map<String, Post>? _allMap;

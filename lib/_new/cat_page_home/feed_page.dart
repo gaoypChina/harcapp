@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
+import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
+import 'package:harcapp/_new/cat_page_home/super_search_field.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_new/api/community.dart';
@@ -28,37 +31,33 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 
 import '../../_common_widgets/harc_app.dart';
+import '../account_test_widget.dart';
 import 'community/circle/model/circle.dart';
 import 'community/community_publishable.dart';
 import 'community/community_publishables_sliver.dart';
 import 'community/forum/model/forum.dart';
 import 'community/model/community.dart';
+import 'community/community_preview_page.dart';
 import 'competitions/indiv_comp/indiv_comp_preview_widget.dart';
 
-class PreviewPart extends StatefulWidget{
+class FeedPage extends StatefulWidget{
 
-  final void Function()? onCompHeaderOpen;
-  final void Function()? onAllAnnouncementsHeaderOpen;
   final void Function(Circle)? onCircleTap;
   final void Function(Forum)? onForumTap;
 
-  const PreviewPart({
-    this.onCompHeaderOpen,
-    this.onAllAnnouncementsHeaderOpen,
+  const FeedPage({
     this.onCircleTap,
     this.onForumTap,
     super.key
   });
 
   @override
-  State<StatefulWidget> createState() => PreviewPartState();
+  State<StatefulWidget> createState() => FeedPageState();
 
 }
 
-class PreviewPartState extends State<PreviewPart>{
+class FeedPageState extends State<FeedPage>{
 
-  void Function()? get onCompHeaderOpen => widget.onCompHeaderOpen;
-  void Function()? get onAllAnnouncementsHeaderOpen => widget.onAllAnnouncementsHeaderOpen;
   void Function(Circle)? get onCircleTap => widget.onCircleTap;
   void Function(Forum)? get onForumTap => widget.onForumTap;
 
@@ -115,7 +114,7 @@ class PreviewPartState extends State<PreviewPart>{
       behavior: NoGlowBehavior(),
       child: SmartRefresher(
           enablePullDown: AccountData.loggedIn,
-          enablePullUp: AccountData.loggedIn,
+          enablePullUp: AccountData.loggedIn && !refreshController.isRefresh,
           physics:
           shouldScroll?
           const BouncingScrollPhysics():
@@ -158,7 +157,7 @@ class PreviewPartState extends State<PreviewPart>{
 
               else
                 body = Text(
-                  'Nie wiem co tu wyświtlić',
+                  'Nie wiem co tu wyświtlić. Pozdrawiam mamę!',
                   style: AppTextStyle(),
                 );
 
@@ -284,6 +283,13 @@ class PreviewPartState extends State<PreviewPart>{
                 pinned: !shouldScroll,
               ),
 
+              SliverPadding(
+                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                sliver: SliverList(delegate: SliverChildListDelegate([
+                  const AccountTestWidget()
+                ])),
+              ),
+
               if(!AccountData.loggedIn)
                 const SliverFillRemaining(
                   hasScrollBody: false,
@@ -293,6 +299,15 @@ class PreviewPartState extends State<PreviewPart>{
               if(AccountData.loggedIn)
                 SliverList(delegate: SliverChildListDelegate([
 
+                  const SuperSearchFieldButton(
+                    margin: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                  ),
+
+                  /*
+                  CommunitiesBarWidget(onAllCommunitiesOpen: onAllCommunitiesOpen),
+                   */
+
+                  /*
                   if(IndivComp.all == null || IndivComp.all!.isNotEmpty)
                     Row(
                       children: [
@@ -318,7 +333,6 @@ class PreviewPartState extends State<PreviewPart>{
                       ],
                     ),
 
-
                   if(IndivComp.all == null && indivCompLoader.running)
                     const Padding(
                       padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG, bottom: Dimen.SIDE_MARG),
@@ -335,33 +349,9 @@ class PreviewPartState extends State<PreviewPart>{
                       const IndivCompRowPreviewWidget(
                         padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG, bottom: Dimen.SIDE_MARG),
                       ),
-
+                  */
                   if(IndivComp.all != null && IndivComp.all!.isNotEmpty)
                       const SizedBox(height: Dimen.SIDE_MARG),
-
-                  Row(
-                    children: [
-
-                      const SizedBox(width: Dimen.SIDE_MARG),
-
-                      Expanded(
-                        child: Text(
-                          'Środowiska',
-                          style: AppTextStyle(
-                              fontSize: Dimen.TEXT_SIZE_APPBAR,
-                              fontWeight: weight.halfBold,
-                              color: hintEnab_(context)
-                          ),
-                        ),
-                      ),
-
-                      IconButton(
-                        icon: const Icon(MdiIcons.arrowRight),
-                        onPressed: onAllAnnouncementsHeaderOpen,
-                      )
-
-                    ],
-                  ),
 
                 ])),
 
@@ -372,7 +362,7 @@ class PreviewPartState extends State<PreviewPart>{
                   onCircleButtonTap: (circle) => onCircleTap?.call(circle),
                   onForumButtonTap: (forum) => onForumTap?.call(forum),
                   padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                  //loading: communityLoader.running,
+                  loading: refreshController.isRefresh,
                   onAnnouncementUpdated: () => setState((){}),
                   onPostUpdated: () => setState((){}),
                 )
@@ -385,7 +375,76 @@ class PreviewPartState extends State<PreviewPart>{
 
 }
 
+class CommunitiesBarWidget extends StatelessWidget{
+
+  final void Function()? onAllCommunitiesOpen;
+  const CommunitiesBarWidget({this.onAllCommunitiesOpen, super.key});
+
+  @override
+  Widget build(BuildContext context) => Consumer2<CommunityListProvider, CommunityProvider>(
+      builder: (context, _, __, child){
+
+        List<Widget> children = [];
+        for(Community community in Community.all!){
+          children.add(InkWell(
+            onTap: () => pushPage(
+              context,
+              builder: (context) => CommunityPreviewPage(
+                community,
+                onAllCommunitiesTap: (){
+                  Navigator.pop(context);
+                  onAllCommunitiesOpen?.call();
+                }
+              )
+            ),
+            child: Stack(
+              children: [
+
+                CommunityThumbnailWidget(
+                    community.iconKey,
+                    community.key
+                ),
+
+                Positioned.fill(
+                  child: Material(
+                    borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                    clipBehavior: Clip.hardEdge,
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () => pushPage(
+                          context,
+                          builder: (context) => CommunityPreviewPage(
+                              community,
+                              onAllCommunitiesTap: (){
+                                Navigator.pop(context);
+                                onAllCommunitiesOpen?.call();
+                              }
+                          )
+                      ),
+                    ),
+                  )
+                )
+                
+              ],
+            ),
+          ));
+
+          if(community != Community.all!.last)
+            children.add(const SizedBox(width: Dimen.SIDE_MARG));
+        }
+
+        return SingleChildScrollView(
+          padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+          child: Row(children: children),
+        );
+      }
+  );
+
+}
+
 class IndivCompAutoRotatThumbnail extends StatefulWidget{
+
+  const IndivCompAutoRotatThumbnail({super.key});
 
   @override
   State<StatefulWidget> createState() => IndivCompAutoRotatThumbnailState();
@@ -489,7 +548,7 @@ class IndivCompRowProblemWidget extends StatelessWidget{
       child: Row(
         children: [
 
-          IndivCompThumbnailWidget(iconKey: 'rocketLaunchOutline', colorsKey: CommonColorData.SPACE_COLORS_KEY),
+          const IndivCompThumbnailWidget(iconKey: 'rocketLaunchOutline', colorsKey: CommonColorData.spaceColorsKey),
 
           const SizedBox(width: Dimen.SIDE_MARG),
 
@@ -569,8 +628,8 @@ class NotLoggedInWidget extends StatelessWidget{
               child: GradientIcon(
                 MdiIcons.crownCircleOutline,
                 size: 96,
-                colorStart: CommonColorData.ALL.values.toList()[10].colorStart,
-                colorEnd: CommonColorData.ALL.values.toList()[10].colorEnd,
+                colorStart: CommonColorData.all.values.toList()[10].colorStart,
+                colorEnd: CommonColorData.all.values.toList()[10].colorEnd,
               ),
             )
         ),
@@ -585,8 +644,8 @@ class NotLoggedInWidget extends StatelessWidget{
               child: GradientIcon(
                 MdiIcons.cogOutline,
                 size: 96,
-                colorStart: CommonColorData.ALL.values.toList()[9].colorStart,
-                colorEnd: CommonColorData.ALL.values.toList()[9].colorEnd,
+                colorStart: CommonColorData.all.values.toList()[9].colorStart,
+                colorEnd: CommonColorData.all.values.toList()[9].colorEnd,
               ),
             )
         ),
@@ -601,8 +660,8 @@ class NotLoggedInWidget extends StatelessWidget{
               child: GradientIcon(
                 MdiIcons.chevronDoubleRight,
                 size: 96,
-                colorStart: CommonColorData.ALL.values.toList()[8].colorStart,
-                colorEnd: CommonColorData.ALL.values.toList()[8].colorEnd,
+                colorStart: CommonColorData.all.values.toList()[8].colorStart,
+                colorEnd: CommonColorData.all.values.toList()[8].colorEnd,
               ),
             )
         ),
@@ -617,8 +676,8 @@ class NotLoggedInWidget extends StatelessWidget{
             child: GradientIcon(
               MdiIcons.googleCircles,
               size: 96,
-              colorStart: CommonColorData.ALL.values.toList()[5].colorStart,
-              colorEnd: CommonColorData.ALL.values.toList()[5].colorEnd,
+              colorStart: CommonColorData.all.values.toList()[5].colorStart,
+              colorEnd: CommonColorData.all.values.toList()[5].colorEnd,
             ),
           )
         ),
@@ -633,8 +692,8 @@ class NotLoggedInWidget extends StatelessWidget{
             child: GradientIcon(
               MdiIcons.trophyVariantOutline,
               size: 96,
-              colorStart: CommonColorData.ALL.values.toList()[6].colorStart,
-              colorEnd: CommonColorData.ALL.values.toList()[6].colorEnd,
+              colorStart: CommonColorData.all.values.toList()[6].colorStart,
+              colorEnd: CommonColorData.all.values.toList()[6].colorEnd,
             ),
           )
         ),
@@ -649,8 +708,8 @@ class NotLoggedInWidget extends StatelessWidget{
             child: GradientIcon(
               MdiIcons.shareVariant,
               size: 96,
-              colorStart: CommonColorData.ALL.values.toList()[4].colorStart,
-              colorEnd: CommonColorData.ALL.values.toList()[4].colorEnd,
+              colorStart: CommonColorData.all.values.toList()[4].colorStart,
+              colorEnd: CommonColorData.all.values.toList()[4].colorEnd,
             ),
           )
         ),
@@ -665,8 +724,8 @@ class NotLoggedInWidget extends StatelessWidget{
             child: GradientIcon(
               MdiIcons.bookmarkOutline,
               size: 96,
-              colorStart: CommonColorData.ALL.values.toList()[7].colorStart,
-              colorEnd: CommonColorData.ALL.values.toList()[7].colorEnd,
+              colorStart: CommonColorData.all.values.toList()[7].colorStart,
+              colorEnd: CommonColorData.all.values.toList()[7].colorEnd,
             ),
           )
         ),
@@ -681,8 +740,8 @@ class NotLoggedInWidget extends StatelessWidget{
             child: GradientIcon(
               MdiIcons.cloudOutline,
               size: 96,
-              colorStart: CommonColorData.ALL.values.toList()[3].colorStart,
-              colorEnd: CommonColorData.ALL.values.toList()[3].colorEnd,
+              colorStart: CommonColorData.all.values.toList()[3].colorStart,
+              colorEnd: CommonColorData.all.values.toList()[3].colorEnd,
             ),
           )
         ),
@@ -697,8 +756,8 @@ class NotLoggedInWidget extends StatelessWidget{
             child: GradientIcon(
               MdiIcons.license,
               size: 96,
-              colorStart: CommonColorData.ALL.values.toList()[2].colorStart,
-              colorEnd: CommonColorData.ALL.values.toList()[2].colorEnd,
+              colorStart: CommonColorData.all.values.toList()[2].colorStart,
+              colorEnd: CommonColorData.all.values.toList()[2].colorEnd,
             ),
           )
         ),
@@ -713,8 +772,8 @@ class NotLoggedInWidget extends StatelessWidget{
             child: GradientIcon(
               MdiIcons.newspaperVariantOutline,
               size: 96,
-              colorStart: CommonColorData.ALL.values.toList()[1].colorStart,
-              colorEnd: CommonColorData.ALL.values.toList()[1].colorEnd,
+              colorStart: CommonColorData.all.values.toList()[1].colorStart,
+              colorEnd: CommonColorData.all.values.toList()[1].colorEnd,
             ),
           )
         ),
@@ -729,8 +788,8 @@ class NotLoggedInWidget extends StatelessWidget{
             child: GradientIcon(
               MdiIcons.musicNoteEighth,
               size: 96,
-              colorStart: CommonColorData.ALL.values.toList()[0].colorStart,
-              colorEnd: CommonColorData.ALL.values.toList()[0].colorEnd,
+              colorStart: CommonColorData.all.values.toList()[0].colorStart,
+              colorEnd: CommonColorData.all.values.toList()[0].colorEnd,
             ),
           )
         ),

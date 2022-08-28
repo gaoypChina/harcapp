@@ -12,10 +12,10 @@ import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/announcements_sliver.dart';
+import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
-import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -43,7 +43,6 @@ import 'circle_description_page.dart';
 import 'circle_editor/_main.dart';
 import 'circle_editor/common.dart';
 import 'circle_role.dart';
-import 'members_page/members_admin_page.dart';
 import 'members_page/members_page.dart';
 import 'model/announcement.dart';
 import 'model/circle.dart';
@@ -55,9 +54,10 @@ enum AnnouncementCategories{
 class CirclePage extends StatefulWidget{
 
   final Circle circle;
+  final AnnouncementCategories? initTab;
   final void Function()? onLeft;
   final void Function()? onDeleted;
-  const CirclePage(this.circle, {this.onLeft, this.onDeleted, super.key});
+  const CirclePage(this.circle, {this.initTab, this.onLeft, this.onDeleted, super.key});
 
   @override
   State<StatefulWidget> createState() => CirclePageState();
@@ -72,6 +72,7 @@ class CirclePageState extends State<CirclePage>{
   late AnnouncementCategories currTab;
 
   Circle get circle => widget.circle;
+  AnnouncementCategories? get initTap => widget.initTab;
   void Function()? get onLeft => widget.onLeft;
   void Function()? get onDeleted => widget.onDeleted;
 
@@ -184,9 +185,11 @@ class CirclePageState extends State<CirclePage>{
 
     changeShareCodeProcessing = false;
 
-    if(circle.awaitingCount != 0) {
+    if(initTap != null)
+      currTab = AnnouncementCategories.pinned;
+    else if(circle.awaitingCount != 0)
       currTab = AnnouncementCategories.awaiting;
-    }else
+    else
       currTab = AnnouncementCategories.all;
 
     nameWidgetKey = GlobalKey();
@@ -261,10 +264,10 @@ class CirclePageState extends State<CirclePage>{
       paletteAlways == null?
       const _CircleLoadingWidget():
 
-      Consumer<AnnouncementListProvider>(
-        builder: (context, prov, child) => SmartRefresher(
+      Consumer2<CircleProvider, AnnouncementListProvider>(
+        builder: (context, circleProv, prov, child) => SmartRefresher(
           enablePullDown: true,
-          enablePullUp: true,
+          enablePullUp: !refreshController.isRefresh,
           footer: CustomFooter(
             builder: (BuildContext context, LoadStatus? mode){
               Widget body;
@@ -300,7 +303,7 @@ class CirclePageState extends State<CirclePage>{
 
               else
                 body = Text(
-                  'Nie wiem co tu wyświtlić',
+                  'Nie wiem co tu wyświtlić. Pozdrawiam mamę!',
                   style: AppTextStyle(),
                 );
 
@@ -323,8 +326,6 @@ class CirclePageState extends State<CirclePage>{
               refreshController.refreshCompleted();
               return;
             }
-
-            CircleListProvider circleListProv = Provider.of<CircleListProvider>(context, listen: false);
 
             await ApiCircle.get(
                 circleKey: circle.key,
@@ -358,14 +359,15 @@ class CirclePageState extends State<CirclePage>{
                 },
                 onError: (responseStatusCode){
                   if(responseStatusCode == HttpStatus.notFound){
+
+                    Community.removeCircle(circle, context: context);
+
                     showAppToast(
                         context,
                         text: AccountData.sex == Sex.male ?
                         'Zostałeś wyproszony':
                         'Zostałaś wyproszona'
                     );
-                    Circle.removeFromAll(circle);
-                    circleListProv.notify();
                     popPage(context);
                     return;
                   }
@@ -464,7 +466,15 @@ class CirclePageState extends State<CirclePage>{
                               compKey: circle.key,
                               searchable: !circle.shareCodeSearchable,
                               onSuccess: (searchable){
-                                if(mounted) setState(() => circle.shareCodeSearchable = searchable);
+                                if(!mounted) return;
+                                setState(() => circle.shareCodeSearchable = searchable);
+                                showAppToast(
+                                  context,
+                                  text: searchable?
+                                  'Każdy może teraz dołączyć do kręgu znając kod dostępu':
+                                  'Dołączanie po kodzie dostępu wyłączone',
+                                  duration: searchable?const Duration(seconds: 5):const Duration(seconds: 3)
+                                );
                               },
                               onServerMaybeWakingUp: () {
                                 if(mounted) showServerWakingUpToast(context);
@@ -499,7 +509,6 @@ class CirclePageState extends State<CirclePage>{
                                   circle.colorsKey = updatedCircle.colorsKey;
 
                                   if(mounted) Provider.of<CircleProvider>(context, listen: false).notify();
-                                  if(mounted) Provider.of<CircleListProvider>(context, listen: false).notify();
 
                                   await initPaletteGenerator(refresh: false);
 
@@ -606,35 +615,18 @@ class CirclePageState extends State<CirclePage>{
                   AccountThumbnailRowWidget(
                     circle.members.map((m) => m.name).toList(),
                     elevated: CommunityPublishableWidgetTemplate.elevation != 0,
-                    color: backgroundColor,
+                    color: cardColor,
                     borderColor: cardColor,
                     backgroundColor: backgroundColor,
                     padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                     onTap: () => pushPage(
                       context,
-                      builder: (context) => circle.myRole == CircleRole.ADMIN || circle.myRole == CircleRole.MODERATOR?
-                      MembersAdminPage(circle, palette):
-                      MembersPage(circle, palette)
+                      builder: (context) => MembersPage(circle: circle, palette: palette)
                     ),
                     heroBuilder: (index) => circle.members[index],
-                    leading: Row(
-                      children: [
-                        AccountThumbnailWidget(
-                          name: '${circle.members.length}',
-                          fullName: true,
-                          markIcon: MdiIcons.account,
-                          elevated: false,
-                          color: backgroundColor,
-                          borderColor: cardColor,
-                          onTap: () => showAppToast(context, text: 'Liczba uczestników kręgu: ${circle.members.length}'),
-                        ),
-
-                        const SizedBox(width: Dimen.ICON_MARG),
-                      ],
-                    ),
                   ),
 
-                  if(circle.myRole == CircleRole.MODERATOR || circle.myRole == CircleRole.ADMIN)
+                  if(circle.myRole == CircleRole.EDITOR || circle.myRole == CircleRole.ADMIN)
                     Padding(
                       padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG),
                       child: SimpleButton(
@@ -647,7 +639,15 @@ class CirclePageState extends State<CirclePage>{
                               palette: palette,
                               onSaved: (announcement){
                                 circle.addAllAnnouncement(announcement);
-                                setState(() {});
+                                if(announcement.pinned) {
+                                  circle.addPinnedAnnouncement(announcement);
+                                  circle.pinnedCount += 1;
+                                }
+                                if(announcement.isAwaitingMyResponse) {
+                                  circle.addAwaitingAnnouncement(announcement);
+                                  circle.awaitingCount += 1;
+                                }
+                                setState(() => currTab = AnnouncementCategories.all);
                               },
                             )
                         ),

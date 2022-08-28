@@ -32,6 +32,8 @@ class AnnouncementExpandedPage extends StatelessWidget{
   final PaletteGenerator? palette;
   final bool displayAttendancePage;
   final void Function()? onAnnouncementUpdated;
+  final bool showCommunityInfo;
+  final bool showPinShortcutButton;
 
   bool get enablesResp => announcement.respMode != AnnouncementAttendanceRespMode.NONE;
 
@@ -40,11 +42,13 @@ class AnnouncementExpandedPage extends StatelessWidget{
       { this.palette,
         this.displayAttendancePage = false,
         this.onAnnouncementUpdated,
+        required this.showCommunityInfo,
+        this.showPinShortcutButton = false,
         Key? key
       }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) =>   Consumer<AnnouncementProvider>(
+  Widget build(BuildContext context) => Consumer<AnnouncementProvider>(
     builder: (context, prov, child) => BottomNavScaffold(
       backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
       appBottomNavColor: CommunityCoverColors.backgroundColor(context, palette),
@@ -84,11 +88,13 @@ class AnnouncementExpandedPage extends StatelessWidget{
                   physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                   child: AnnouncementWidget(
-                      announcement,
-                      palette,
-                      shrinkText: false,
-                      showOnTap: false,
-                      onAnnouncementUpdated: onAnnouncementUpdated
+                    announcement,
+                    palette,
+                    shrinkText: false,
+                    showOnTap: false,
+                    onAnnouncementUpdated: onAnnouncementUpdated,
+                    showCommunityInfo: showCommunityInfo,
+                    showPinShortcutButton: showPinShortcutButton,
                   ),
                 ),
 
@@ -164,7 +170,7 @@ class MemberTileState extends State<MemberTile>{
       waived?
       null:
       Icon(MdiIcons.circleMedium, color: hintEnab_(context)),
-      onTap: () => openParticipantDetails(context, member),
+      onTap: () => openDetails(context, member),
       
       thumbnailColor: thumbnailColor,
       thumbnailBorderColor: thumbnailBorderColor,
@@ -173,7 +179,7 @@ class MemberTileState extends State<MemberTile>{
 
   }
 
-  void openParticipantDetails(BuildContext context, Member member) => showScrollBottomSheet(
+  void openDetails(BuildContext context, Member member) => showScrollBottomSheet(
       context: context,
       builder: (context){
 

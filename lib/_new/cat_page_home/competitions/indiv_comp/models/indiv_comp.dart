@@ -64,10 +64,10 @@ class IndivCompBasicData{
   String key;
   String name;
 
-  IconData? get icon => CommonIconData.ALL[iconKey];
+  IconData get icon => CommonIconData.get(iconKey);
   String iconKey;
 
-  CommonColorData get colors => CommonColorData.ALL[colorsKey]??CommonColorData.ALL[CommonColorData.DEF_COLORS_KEY]!;
+  CommonColorData get colors => CommonColorData.get(colorsKey);
   String colorsKey;
 
   IndivCompBasicData({
@@ -253,10 +253,10 @@ class IndivComp{
   String key;
   String name;
 
-  IconData? get icon => CommonIconData.ALL[iconKey];
+  IconData get icon => CommonIconData.get(iconKey);
   String iconKey;
 
-  CommonColorData get colors => CommonColorData.ALL[colorsKey]??CommonColorData.ALL[CommonColorData.DEF_COLORS_KEY]!;
+  CommonColorData get colors => CommonColorData.get(colorsKey);
   String colorsKey;
 
   DateTime? startTime;

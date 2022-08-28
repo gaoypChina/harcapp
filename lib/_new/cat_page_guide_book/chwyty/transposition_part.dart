@@ -19,7 +19,7 @@ class TranspositionPart extends StatefulWidget{
 
   final bool? typeGuitar;
 
-  const TranspositionPart({this.typeGuitar});
+  const TranspositionPart({this.typeGuitar, super.key});
 
   @override
   State<StatefulWidget> createState() => TranspositionPartState();
@@ -76,10 +76,15 @@ class TranspositionPartState extends State<TranspositionPart> with AutomaticKeep
                 ),
 
                 Expanded(
-                  child: AppCard(
-                      radius: AppCard.bigRadius,
-                      elevation: AppCard.bigElevation,
-                      margin: AppCard.normMargin,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: cardEnab_(context),
+                      borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                    ),
+                    margin: AppCard.normMargin,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal:
+                      2*AppCard.normMargVal),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
@@ -114,7 +119,8 @@ class TranspositionPartState extends State<TranspositionPart> with AutomaticKeep
                           ),
 
                         ],
-                      )
+                      ),
+                    )
                   ),
                 ),
 

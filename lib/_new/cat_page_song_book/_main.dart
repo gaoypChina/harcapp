@@ -589,12 +589,12 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                       ),
                     ),
 
-                    if(SongBookSettings.showAlbumIcon)
+                    if(!albProv.current.isOmega && SongBookSettings.showAlbumIcon)
                       IgnorePointer(child: AnimatedBuilder(
                         animation: notifier,
                         child: Center(
                           child: Icon(
-                            CommonIconData.ALL[Album.current.iconKey],
+                            CommonIconData.get(Album.current.iconKey),
                             color: iconEnab_(context),
                             size: 0.8*min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
                           ),
@@ -720,7 +720,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
           if(isAutoScrolling)
             return Container();
 
-          CommonColorData colors = CommonColorData.ALL[Album.current.colorsKey]!;
+          CommonColorData colors = CommonColorData.get(Album.current.colorsKey);
           return ExtendedFloatingButton(
               MdiIcons.magnify,
               'Spis treści',
@@ -819,8 +819,6 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     )
   );
 
-  void notify(){
-    setState(() {});
-  }
+  void notify() => setState(() {});
 
 }

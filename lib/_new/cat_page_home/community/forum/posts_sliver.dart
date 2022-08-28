@@ -21,7 +21,7 @@ Widget getPostsSliver(
       bool loading = false,
       String? emptyMessage,
       String? loadingMessage,
-      void Function()? onAnnouncementUpdated,
+      void Function()? onPostUpdated,
     }) {
 
   if (posts.isEmpty)
@@ -46,7 +46,7 @@ Widget getPostsSliver(
                 palette,
                 pinnable: false,
                 editable: false,
-                onPostUpdated: onAnnouncementUpdated,
+                onPostUpdated: onPostUpdated,
                 showCommunityInfo: showCommunityInfo,
                 onForumButtonTap: onForumButtonTap == null?null:() => onForumButtonTap.call(posts[index].forum),
               ),

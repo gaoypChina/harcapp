@@ -77,7 +77,7 @@ packages:
       name: barcode
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.2"
+    version: "2.2.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -238,7 +238,7 @@ packages:
       name: equatable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.4"
+    version: "2.0.5"
   expandable_text:
     dependency: "direct main"
     description:
@@ -481,7 +481,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "721930e449ad7e41c0dad418114573543babd977"
+      resolved-ref: "9ea0d6a51dfd38990af60bdd637312a9be4b7072"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core"
     source: git
     version: "0.0.1"
@@ -490,7 +490,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "9ee5ec97a320187fd4cc21d2c689cf5e2d32b9ed"
+      resolved-ref: f1402167bee13d5f860c61ff64bd5ee673c5b2b5
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_own_song"
     source: git
     version: "0.0.1"
@@ -508,7 +508,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "0bb3f9e036c85e0f347dff2731735a52b6db4862"
+      resolved-ref: b27ffc0c24c2ccb6b73e606ea72dd52f153d0c7f
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_song_widget"
     source: git
     version: "0.0.1"
@@ -517,7 +517,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "89abd433157545290e8ad5aebb2dba66b4bbfe71"
+      resolved-ref: efdcf77e2d356c1627f2f210c272d2e74d96c601
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_tags"
     source: git
     version: "0.0.1"
@@ -807,7 +807,7 @@ packages:
       name: pdf
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.8.2"
+    version: "3.8.3"
   pedantic:
     dependency: transitive
     description:
@@ -926,7 +926,7 @@ packages:
       name: proj4dart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.1.0"
   provider:
     dependency: transitive
     description:

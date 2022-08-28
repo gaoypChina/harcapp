@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../api/_api.dart';
@@ -62,6 +63,8 @@ class CommunityBasicData{
 
 class CommunityPreviewData extends CommunityBasicData{
 
+  static const int searchPageSize = 10;
+
   ForumBasicData? forum;
   CircleBasicData? circle;
 
@@ -97,31 +100,51 @@ class CommunityPreviewData extends CommunityBasicData{
 
 class Community extends CommunityBasicData{
 
+  static const IconData icon = MdiIcons.accountGroup;
+
   static const int maxLenName = 64;
   static const int maxLenIconKey = 42;
+
+  static Map<String, Circle>? _allCircleMap;
+  static Map<String, Forum>? _allForumMap;
 
   static List<Community>? _all;
   static Map<String, Community>? _allMap;
 
   static List<Community>? get all => _all;
   static Map<String, Community>? get allMap => _allMap;
+  static Map<String, Circle>? get allCircleMap => _allCircleMap;
+  static Map<String, Forum>? get allForumMap => _allForumMap;
 
   static forget(){
     _all = null;
     _allMap = null;
+    _allCircleMap = null;
+    _allForumMap = null;
   }
 
   static silentInit(List<Community> communities){
     if(_all == null){
       _all = [];
       _allMap = {};
+      _allCircleMap = {};
+      _allForumMap = {};
     }
 
     _all!.clear();
     _allMap!.clear();
+    _allCircleMap!.clear();
+    _allForumMap!.clear();
 
     _all!.addAll(communities);
-    _allMap = {for (Community community in communities) community.key: community};
+
+    for (Community community in communities){
+      _allMap![community.key] = community;
+      if(community.circle != null)
+        _allCircleMap![community.circle!.key] = community.circle!;
+      if(community.forum != null)
+        _allForumMap![community.forum!.key] = community.forum!;
+    }
 
   }
 
@@ -135,17 +158,63 @@ class Community extends CommunityBasicData{
   }
 
 
-  static addToAll(Community community, {BuildContext? context}){
+  static addToAll(Community community, {bool mapCircle = true, bool mapForum = true, BuildContext? context}){
     if(_all == null){
       _all = [];
       _allMap = {};
+      _allCircleMap = {};
+      _allForumMap = {};
     }
     _all!.add(community);
     _allMap![community.key] = community;
+    if(mapCircle && community.circle != null)
+      _allCircleMap![community.circle!.key] = community.circle!;
+    if(mapForum && community.forum != null)
+      _allForumMap![community.forum!.key] = community.forum!;
 
     if(context == null) return;
     Provider.of<CommunityProvider>(context, listen: false).notify();
     Provider.of<CommunityListProvider>(context, listen: false).notify();
+  }
+
+  static addToAllByForum(Forum forum, {BuildContext? context}){
+
+    if(_all == null){
+      _all = [];
+      _allMap = {};
+    }
+
+    if(allMap!.containsKey(forum.community.key))
+      allMap![forum.community.key]!.setForum(forum);
+    else
+      addToAll(Community(
+        key: forum.community.key,
+        name: forum.community.name,
+        iconKey: forum.community.iconKey,
+        circle: null,
+        forum: forum,
+        managers: []
+      ), context: context);
+  }
+
+  static addToAllByCircle(Circle circle, {BuildContext? context}){
+
+    if(_all == null){
+      _all = [];
+      _allMap = {};
+    }
+
+    if(allMap!.containsKey(circle.community.key))
+      allMap![circle.community.key]!.setCircle(circle);
+    else
+      addToAll(Community(
+          key: circle.community.key,
+          name: circle.community.name,
+          iconKey: circle.community.iconKey,
+          circle: circle,
+          forum: null,
+          managers: []
+      ), context: context);
   }
 
   static updateInAll(Community community, {BuildContext? context}){
@@ -160,22 +229,72 @@ class Community extends CommunityBasicData{
     _all!.insert(index, community);
     _allMap![community.key] = community;
 
+    if(oldCommunity.circle != null)
+      _allCircleMap!.remove(oldCommunity.circle!.key);
+    if(community.circle != null)
+      _allCircleMap![community.circle!.key] = community.circle!;
+
+    if(oldCommunity.forum != null)
+      _allForumMap!.remove(oldCommunity.forum!.key);
+    if(community.forum != null)
+      _allForumMap![community.forum!.key] = community.forum!;
+
     if(context == null) return;
     Provider.of<CommunityProvider>(context, listen: false).notify();
     Provider.of<CommunityListProvider>(context, listen: false).notify();
   }
 
-  static void removeFromAll(Community? community, {BuildContext? context}){
+  static void removeFromAll(Community community, {BuildContext? context}){
     if(_all == null)
       return;
 
     _all!.remove(community);
-    _allMap!.remove(community!.key);
+    _allMap!.remove(community.key);
+    if(community.circle != null)
+      _allCircleMap!.remove(community.circle!.key);
+    if(community.forum != null)
+      _allForumMap!.remove(community.forum!.key);
 
     if(context == null) return;
 
     Provider.of<CommunityProvider>(context, listen: false).notify();
     Provider.of<CommunityListProvider>(context, listen: false).notify();
+  }
+
+  static void removeForum(Forum forum, {BuildContext? context}){
+    if(_all == null)
+      return;
+
+    Community community = allMap![forum.community.key]!;
+
+    if(community.myRole == null && community.circle == null)
+      removeFromAll(community);
+    else
+      community.setForum(null);
+
+    if(context == null) return;
+
+    Provider.of<CommunityProvider>(context, listen: false).notify();
+    Provider.of<CommunityListProvider>(context, listen: false).notify();
+
+  }
+
+  static void removeCircle(Circle circle, {BuildContext? context}){
+    if(_all == null)
+      return;
+
+    Community community = allMap![circle.community.key]!;
+
+    if(community.myRole == null && community.forum == null)
+      removeFromAll(community);
+    else
+      community.setCircle(null);
+
+    if(context == null) return;
+
+    Provider.of<CommunityProvider>(context, listen: false).notify();
+    Provider.of<CommunityListProvider>(context, listen: false).notify();
+
   }
 
   static clear(){
@@ -185,8 +304,10 @@ class Community extends CommunityBasicData{
     _allMap!.clear();
   }
 
-  Circle? circle;
-  Forum? forum;
+  Circle? _circle;
+  Circle? get circle => _circle;
+  Forum? _forum;
+  Forum? get forum => _forum;
 
   final List<CommunityManager> _managers;
   final Map<String, CommunityManager> _managersMap;
@@ -247,6 +368,22 @@ class Community extends CommunityBasicData{
     _managersMap.remove(manager.key);
   }
 
+  void setCircle(Circle? circle){
+    if(_circle != null)
+      _allCircleMap!.remove(_circle!.key);
+    _circle = circle;
+    if(circle != null)
+      _allCircleMap![circle.key] = circle;
+  }
+
+  void setForum(Forum? forum){
+    if(_forum != null)
+      _allForumMap!.remove(_forum!.key);
+    _forum = forum;
+    if(forum != null)
+      _allForumMap![forum.key] = forum;
+  }
+
   CommunityRole? get myRole{
     String? accKey = AccountData.key;
     if(accKey == null){
@@ -262,12 +399,14 @@ class Community extends CommunityBasicData{
     required super.key,
     required super.name,
     required super.iconKey,
-    required this.circle,
-    required this.forum,
+    required Circle? circle,
+    required Forum? forum,
 
     required List<CommunityManager> managers,
 
-  }): _managers = managers,
+  }): _circle = circle,
+      _forum = forum,
+      _managers = managers,
       _managersMap = {for (CommunityManager m in managers) m.key: m}
   {
     _managers.sort((m1, m2) => m1.name.compareTo(m2.name));
@@ -293,10 +432,10 @@ class Community extends CommunityBasicData{
     );
 
     if(resp['circle'] != null)
-      community.circle = Circle.fromResponse(resp['circle'], community);
+      community._circle = Circle.fromResponse(resp['circle'], community);
 
     if(resp['forum'] != null)
-      community.forum = Forum.fromResponse(resp['forum'], community);
+      community._forum = Forum.fromResponse(resp['forum'], community);
 
     return community;
   }

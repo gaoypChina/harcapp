@@ -61,7 +61,7 @@ class DangerPartState extends State<DangerPart>{
                     await ApiCommunity.delete(
                       communityKey: community!.key,
                       onSuccess: () async {
-                        Community.removeFromAll(community, context: context);
+                        Community.removeFromAll(community!, context: context);
                         showAppToast(context, text: 'Poszło z dymem!');
                         await popPage(context); // Close loading widget.
 

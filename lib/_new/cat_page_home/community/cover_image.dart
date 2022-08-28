@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'community/common/community_cover_image_data.dart';
+import 'common/community_cover_image_data.dart';
 
 class CoverImage extends StatelessWidget{
 
@@ -50,14 +51,17 @@ class NoImagePlaceholder extends StatelessWidget{
   Widget build(BuildContext context) => AspectRatio(
     aspectRatio: 3/2,
     child: Material(
-      child: Icon(
-        loading?
-        MdiIcons.dotsHorizontal:
+      child: loading?
+      SpinKitThreeBounce(
+        size: 72.0,
+        color: iconDisab_(context),
+      ):
+      Icon(
         local?
         MdiIcons.imageOffOutline:
         MdiIcons.linkOff,
         size: 72,
-        color: backgroundIcon_(context),
+        color: iconDisab_(context),
       ),
     )
   );

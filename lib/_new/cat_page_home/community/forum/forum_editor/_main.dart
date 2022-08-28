@@ -56,143 +56,158 @@ class ForumEditorPageState extends State<ForumEditorPage>{
 
   void calcLocalBackgronudColor() async {
     _palette = await getPaletteGenerator(
-        initForum!.coverImage.local,
-        initForum!.coverImage.firstFileName
+        coverImageProv.coverImage.local,
+        coverImageProv.coverImage.firstFileName,
+        // initForum!.coverImage.local,
+        // initForum!.coverImage.firstFileName
     );
-    setState(() {});
+    colorsKeyProv.notify();
   }
+
+  late CoverImageProvider coverImageProv;
+  late ColorsKeyProvider colorsKeyProv;
 
   @override
   void initState() {
-    if(initForum != null && initForum!.colorsKey == 'auto' && palette == null)
+    coverImageProv = CoverImageProvider(forum: initForum);
+    if(initForum != null && palette == null)
       calcLocalBackgronudColor();
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) => BottomNavScaffold(
-      backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
-      appBottomNavColor: CommunityCoverColors.backgroundColor(context, palette),
-      body: DefaultTabController(
-        length: initForum == null?1:2,
-        child: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (context) => DescriptionProvider(forum: initForum)),
-            ChangeNotifierProvider(create: (context) => CoverImageProvider(forum: initForum)),
-            ChangeNotifierProvider(create: (context) => ColorsKeyProvider(forum: initForum))
-          ],
-          builder: (context, child) => NestedScrollView(
-            floatHeaderSlivers: true,
-            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
-              SliverAppBar(
-                title: Text(initForum==null?'Nowe forum':'Edytuj forum'),
-                centerTitle: true,
-                floating: true,
-                pinned: true,
-                backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
-                bottom: initForum==null?null:TabBar(
-                  physics: const BouncingScrollPhysics(),
-                  tabs: [
-                    const Tab(text: 'Informacje'),
-                    if(initForum != null)
-                      const Tab(text: 'Strefa zagrożenia'),
-                  ],
-                  indicator: AppTabBarIncdicator(
-                      color: CommunityCoverColors.strongColor(context, palette)
+  Widget build(BuildContext context) => MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => DescriptionProvider(forum: initForum)),
+        ChangeNotifierProvider(create: (context) => coverImageProv),
+        ChangeNotifierProvider(create: (context){
+          colorsKeyProv = ColorsKeyProvider(forum: initForum);
+          return colorsKeyProv;
+        })
+      ],
+      builder: (context, child) => Consumer<ColorsKeyProvider>(
+        builder: (context, colorsKeyProv, child) => BottomNavScaffold(
+            backgroundColor: CommunityCoverColors.backgroundColor(context, colorsKeyProv.isColorsKeyAuto?palette:null),
+            appBottomNavColor: CommunityCoverColors.backgroundColor(context, colorsKeyProv.isColorsKeyAuto?palette:null),
+            body: DefaultTabController(
+              length: initForum == null?1:2,
+              child: NestedScrollView(
+                floatHeaderSlivers: true,
+                headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
+                  SliverAppBar(
+                    title: Text(initForum==null?'Nowe forum':'Edytuj forum'),
+                    centerTitle: true,
+                    floating: true,
+                    pinned: true,
+                    backgroundColor: CommunityCoverColors.backgroundColor(context, colorsKeyProv.isColorsKeyAuto?palette:null),
+                    bottom: initForum==null?null:TabBar(
+                      physics: const BouncingScrollPhysics(),
+                      tabs: [
+                        const Tab(text: 'Informacje'),
+                        if(initForum != null)
+                          const Tab(text: 'Strefa zagrożenia'),
+                      ],
+                      indicator: AppTabBarIncdicator(
+                          color: CommunityCoverColors.strongColor(context, colorsKeyProv.isColorsKeyAuto?palette:null)
+                      ),
+                    ),
+                    actions: [
+                      IconButton(
+                        icon: const Icon(MdiIcons.check),
+                        onPressed: () async {
+
+                          showLoadingWidget(
+                              context,
+                              CommunityCoverColors.strongColor(context, colorsKeyProv.isColorsKeyAuto?palette:null),
+                              initForum == null? 'Zakładanie forum...': 'Uaktualnianie...'
+                          );
+
+                          if(initForum == null)
+                            await ApiForum.create(
+                                description: Provider.of<DescriptionProvider>(context, listen: false).descriptionController.text,
+                                coverImageUrl: Provider.of<CoverImageProvider>(context, listen: false).coverImage.code,
+                                colorsKey: Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey,
+                                community: community,
+                                onSuccess: (forum) async {
+                                  await popPage(context); // Close loading widget.
+                                  await popPage(context);
+                                  onSaved?.call(forum);
+                                },
+                                onServerMaybeWakingUp: () {
+                                  if(mounted) showServerWakingUpToast(context);
+                                  return true;
+                                },
+                                onError: onError
+                            );
+                          else{
+
+                            String? description = Provider.of<DescriptionProvider>(context, listen: false).descriptionController.text;
+                            if(description.isEmpty) description = null;
+                            String? coverImageCode = Provider.of<CoverImageProvider>(context, listen: false).coverImage.code;
+                            String? colorsKey = Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey;
+
+                            await ApiForum.update(
+                                forumKey: initForum!.key,
+                                community: community,
+
+                                description:
+                                initForum!.description == description?
+                                const Optional.empty():
+                                Optional.ofNullable(description),
+
+                                coverImageUrl:
+                                initForum!.coverImage.code == coverImageCode?
+                                const Optional.empty():
+                                Optional.ofNullable(coverImageCode),
+
+                                colorsKey:
+                                initForum!.colorsKey == colorsKey?
+                                const Optional.empty():
+                                Optional.ofNullable(colorsKey),
+
+                                onSuccess: (circle) async {
+                                  await popPage(context); // Close loading widget.
+                                  await popPage(context);
+                                  onSaved?.call(circle);
+                                },
+                                onServerMaybeWakingUp: () {
+                                  if(mounted) showServerWakingUpToast(context);
+                                  return true;
+                                },
+                                onError: onError
+                            );
+                          }
+
+                        },
+                      )
+                    ],
                   ),
-                ),
-                actions: [
-                  IconButton(
-                    icon: const Icon(MdiIcons.check),
-                    onPressed: () async {
-
-                      showLoadingWidget(
-                          context,
-                          CommunityCoverColors.strongColor(context, palette),
-                          initForum == null? 'Zakładanie forum...': 'Uaktualnianie...'
-                      );
-
-                      if(initForum == null)
-                        await ApiForum.create(
-                            description: Provider.of<DescriptionProvider>(context, listen: false).descriptionController.text,
-                            coverImageUrl: Provider.of<CoverImageProvider>(context, listen: false).coverImage!.code,
-                            colorsKey: Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey,
-                            community: community,
-                            onSuccess: (forum) async {
-                              await popPage(context); // Close loading widget.
-                              await popPage(context);
-                              onSaved?.call(forum);
-                            },
-                            onServerMaybeWakingUp: () {
-                              if(mounted) showServerWakingUpToast(context);
-                              return true;
-                            },
-                            onError: onError
-                        );
-                      else{
-
-                        String? description = Provider.of<DescriptionProvider>(context, listen: false).descriptionController.text;
-                        if(description.isEmpty) description = null;
-                        String? coverImageCode = Provider.of<CoverImageProvider>(context, listen: false).coverImage!.code;
-                        String? colorsKey = Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey;
-
-                        await ApiForum.update(
-                            forumKey: initForum!.key,
-                            community: community,
-
-                            description:
-                            initForum!.description == description?
-                            const Optional.empty():
-                            Optional.ofNullable(description),
-
-                            coverImageUrl:
-                            initForum!.coverImage.code == coverImageCode?
-                            const Optional.empty():
-                            Optional.ofNullable(coverImageCode),
-
-                            colorsKey:
-                            initForum!.colorsKey == colorsKey?
-                            const Optional.empty():
-                            Optional.ofNullable(colorsKey),
-
-                            onSuccess: (circle) async {
-                              await popPage(context); // Close loading widget.
-                              await popPage(context);
-                              onSaved?.call(circle);
-                            },
-                            onServerMaybeWakingUp: () {
-                              if(mounted) showServerWakingUpToast(context);
-                              return true;
-                            },
-                            onError: onError
-                        );
-                      }
-
-                    },
-                  )
                 ],
+                body: TabBarView(
+                  physics: const BouncingScrollPhysics(),
+                  children: [
+                    GeneralPart(
+                      palette: colorsKeyProv.isColorsKeyAuto?palette:null,
+                      onCoverSelected: (coverImage){
+                        calcLocalBackgronudColor();
+                      },
+                    ),
+
+                    if(initForum != null)
+                      DangerPart(
+                        initForum,
+                        onDeleted: () async {
+                          Navigator.pop(context);
+                          onDeleted?.call();
+                        },
+                      ),
+                  ],
+                ),
+
               ),
-            ],
-            body: TabBarView(
-              physics: const BouncingScrollPhysics(),
-              children: [
-                GeneralPart(palette: palette),
-
-                if(initForum != null)
-                  DangerPart(
-                    initForum,
-                    onDeleted: (){
-                      Navigator.pop(context);
-                      onDeleted?.call();
-                    },
-                  ),
-              ],
-            ),
-
-          ),
+            )
         ),
       )
   );
-
 
 }

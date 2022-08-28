@@ -191,6 +191,11 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                                     await popPage(context);
                                     widget.onSaved?.call(indivComp);
                                   },
+                                  onForceLoggedOut: (){
+                                    if(!mounted) return true;
+                                    showAppToast(context, text: forceLoggedOutMessage);
+                                    return true;
+                                  },
                                   onServerMaybeWakingUp: () {
                                     if(mounted) showServerWakingUpToast(context);
                                     return true;

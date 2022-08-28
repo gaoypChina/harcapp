@@ -15,20 +15,60 @@ import '../../api/circle.dart';
 import '../common.dart';
 import 'circle/circle_page.dart';
 import 'circle/model/circle.dart';
+import 'forum/model/forum.dart';
 
-Future<NewCommunityType?> pickNewCommunityType(BuildContext context)async {
+Future<JoinOrCreateType?> pickJoinCreateType(BuildContext context)async {
 
-  NewCommunityType? result;
+  JoinOrCreateType? result;
   await showScrollBottomSheet(
     context: context,
     builder: (context) => BottomSheetDef(
-      title: 'Nowe środowisko',
-      builder: (context) => CircleTypeWidget(
-        onSelected: (value){
-          result = value;
-          Navigator.pop(context);
-        }
-      ),
+      title: 'Stwórz lub dołącz do środowiska',
+      builder: (context) => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+
+            CreateNewButton(
+                icon: MdiIcons.accountGroup,
+                title: 'Nowe środowisko',
+                description: 'Środowisko to wspólnota.'
+                    '\n'
+                    '\nZawiąż w nim <b>krąg - zamkniętą grupę</b>.'
+                    '\nZałoż w nim <b>forum - otwartą przestrzeń</b>, którą każdy może obserwować!',
+                onTap: (){
+                  result = JoinOrCreateType.newCommunity;
+                  Navigator.pop(context);
+                }
+            ),
+
+            const SizedBox(height: Dimen.SIDE_MARG),
+
+            _JoinCircleButton(
+              onSuccess: (circle) async {
+                result = JoinOrCreateType.joinCircle;
+                Navigator.pop(context);
+                Community.addToAllByCircle(circle, context: context);
+                pushReplacePage(context, builder: (context) => CirclePage(circle));
+              },
+            ),
+
+            const SizedBox(height: Dimen.SIDE_MARG),
+
+            CreateNewButton(
+              icon: Forum.icon,
+              title: 'Przeglądaj fora',
+              description: 'Forum to publiczna strona środowiska.'
+                  '\n'
+                  '\nObczaj fora różnych środowisk i obserwuj najciekawsze z nich!',
+              onTap: (){
+                result = JoinOrCreateType.searchForum;
+                Navigator.pop(context);
+              }
+            ),
+
+          ]
+      )
+
     )
   );
 
@@ -36,43 +76,12 @@ Future<NewCommunityType?> pickNewCommunityType(BuildContext context)async {
 
 }
 
-enum NewCommunityType{
-  empty,
-  joinCircle
+enum JoinOrCreateType{
+  newCommunity,
+  joinCircle,
+  searchForum,
 }
 
-class CircleTypeWidget extends StatelessWidget{
-
-  final void Function(NewCommunityType type)? onSelected;
-
-  const CircleTypeWidget({this.onSelected, super.key});
-
-  @override
-  Widget build(BuildContext context) => Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-
-        _JoinCircleButton(
-          onSuccess: (circle) async {
-            onSelected!(NewCommunityType.joinCircle);
-            Circle.addToAll(context, circle);
-            pushReplacePage(context, builder: (context) => CirclePage(circle));
-          },
-        ),
-
-        const SizedBox(height: Dimen.SIDE_MARG),
-
-        CreateNewButton(
-          icon: MdiIcons.accountGroup,
-          title: 'Nowe środowisko',
-          description: 'Zawiąż nowe środowisko.',
-          onTap: () => onSelected!(NewCommunityType.empty),
-        ),
-
-      ]
-  );
-
-}
 
 class _JoinCircleButton extends StatefulWidget{
 
@@ -99,54 +108,53 @@ class _JoinCircleButtonState extends State<_JoinCircleButton>{
   }
 
   @override
-  Widget build(BuildContext context) {
-    return CreateNewButton(
-      icon: MdiIcons.googleCircles,
-      title: 'Dołącz do kręgu',
-      description: 'Dołącz do istniejącego kręgu zawiązanego przez inną osobę.',
-      onTap: null,
-      bottom: Row(
-        children: [
+  Widget build(BuildContext context) => CreateNewButton(
+    icon: MdiIcons.googleCircles,
+    title: 'Dołącz do kręgu',
+    description: 'Krąg to zamknięta grupa.'
+        '\n\nDołącz do istniejącego kręgu zawiązanego przez inną osobę.',
+    onTap: null,
+    bottom: Row(
+      children: [
 
-          Expanded(
-            child: AppTextFieldHint(
-              hint: 'Kod dostępu:',
-              hintStyle: AppTextStyle(color: hintEnab_(context)),
-              accentColor: Colors.deepOrange,
-              controller: controller,
-            ),
+        Expanded(
+          child: AppTextFieldHint(
+            hint: 'Kod dostępu:',
+            hintStyle: AppTextStyle(color: hintEnab_(context)),
+            accentColor: Colors.deepOrange,
+            controller: controller,
           ),
+        ),
 
-          IconButton(
-            icon:
-            processing?
-            SpinKitChasingDots(color: iconEnab_(context), size: Dimen.ICON_SIZE):
-            const Icon(MdiIcons.arrowRight),
+        IconButton(
+          icon:
+          processing?
+          SpinKitChasingDots(color: iconEnab_(context), size: Dimen.ICON_SIZE):
+          const Icon(MdiIcons.arrowRight),
 
-            onPressed: () async {
-              setState(() => processing = true);
-              await ApiCircle.joinByShareCode(
-                  searchCode: controller!.text,
-                  onSuccess: (circle, newCommunityAdded){
-                    widget.onSuccess.call(circle);
-                    if(newCommunityAdded)
-                      CommunityProvider.of(context).notify();
-                  },
-                  onServerMaybeWakingUp: () {
-                    if(mounted) showServerWakingUpToast(context);
-                    return true;
-                  },
-                  onError: (){
-                    if(mounted) showAppToast(context, text: 'Błędny kod dostępu');
-                  }
-              );
-              if(mounted) setState(() => processing = false);
-            },
-          ),
+          onPressed: () async {
+            setState(() => processing = true);
+            await ApiCircle.joinByShareCode(
+                searchCode: controller!.text,
+                onSuccess: (circle, newCommunityAdded){
+                  widget.onSuccess.call(circle);
+                  if(newCommunityAdded)
+                    CommunityProvider.of(context).notify();
+                },
+                onServerMaybeWakingUp: () {
+                  if(mounted) showServerWakingUpToast(context);
+                  return true;
+                },
+                onError: (){
+                  if(mounted) showAppToast(context, text: 'Błędny kod dostępu');
+                }
+            );
+            if(mounted) setState(() => processing = false);
+          },
+        ),
 
-        ],
-      ),
-    );
-  }
+      ],
+    ),
+  );
 
 }

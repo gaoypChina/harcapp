@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_new/app_drawer.dart';
-import 'package:harcapp/_new/cat_page_home/preview_part.dart';
+import 'package:harcapp/_new/cat_page_home/community/community_preview_page.dart';
+import 'package:harcapp/_new/cat_page_home/feed_page.dart';
 import 'package:harcapp/_new/cat_page_home/providers.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
@@ -18,6 +19,7 @@ import 'community/circle/circle_page.dart';
 import 'community/circle/model/circle.dart';
 import 'community/forum/forum_page.dart';
 import 'community/forum/model/forum.dart';
+import 'community/model/community.dart';
 import 'competitions/all_competitions_page.dart';
 import 'competitions/indiv_comp/indiv_comp_page.dart';
 import 'competitions/indiv_comp/models/indiv_comp.dart';
@@ -60,15 +62,11 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
             onForumTap: (forum) => openForumPage(context, forum),
           );
 
-        return PreviewPart(
-            onCompHeaderOpen: () => prov.selectedDrawerPage = HomePartProvider.drawerPageCompetitions,
-            onAllAnnouncementsHeaderOpen: () => prov.selectedDrawerPage = HomePartProvider.drawerPageCommunities,
+        return FeedPage(
             onCircleTap: (circle){
-              prov.selectedDrawerPage = HomePartProvider.drawerPageCommunities;
               openCirclePage(context, circle);
             },
             onForumTap: (forum){
-              prov.selectedDrawerPage = HomePartProvider.drawerPageCommunities;
               openForumPage(context, forum);
             },
         );
@@ -120,28 +118,65 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
     ),
   );
 
-  static void openCirclePage(BuildContext context, Circle circle) => pushPage(
+  static void openCommunityPage(
+      BuildContext context,
+      Community community,
+      { bool replacePage = false,
+      }) => (replacePage?pushReplacePage:pushPage).call(
       context,
-      builder: (context) => CirclePage(
-        circle,
-        onLeft: () => HomePartProvider.of(context).selectedDrawerPage = HomePartProvider.drawerPageCommunities,
-        onDeleted: () => HomePartProvider.of(context).selectedDrawerPage = HomePartProvider.drawerPageCommunities,
+      builder: (context) => CommunityPreviewPage(
+        community,
         key: ValueKey(HomePartProvider.of(context).selectedDrawerPage),
       )
   );
 
-  static void openForumPage(BuildContext context, Forum forum) => pushPage(
+  static void openCirclePage(
+      BuildContext context,
+      Circle circle,
+      { AnnouncementCategories? initTab,
+        bool replacePage = false,
+      }) => (replacePage?pushReplacePage:pushPage).call(
       context,
-      builder: (context) => ForumPage(
-        forum,
-        onDeleted: () => HomePartProvider.of(context).selectedDrawerPage = HomePartProvider.drawerPageCommunities,
+      builder: (context) => CirclePage(
+        circle,
+        initTab: initTab,
+        onLeft: () {
+          Navigator.pop(context); // Close circle page.
+        },
+        onDeleted: () {
+          Navigator.pop(context); // Close circle page.
+        },
         key: ValueKey(HomePartProvider.of(context).selectedDrawerPage),
       )
   );
-  
-  static void openCompPage(BuildContext context, IndivComp comp) => Navigator.push(
+
+  static void openForumPage(
+      BuildContext context,
+      Forum forum,
+      { void Function()? onDeleted,
+        void Function(bool)? onFollowChanged,
+        void Function(bool)? onLikeChanged,
+        bool replacePage = false,
+      }) => (replacePage?pushReplacePage:pushPage).call(
       context,
-      MaterialPageRoute(builder: (context) => IndivCompPage(comp))
+      builder: (context) => ForumPage(
+        forum,
+        onDeleted: (){
+          Navigator.pop(context); // Close forum page.
+          onDeleted?.call();
+        },
+        onFollowChanged: onFollowChanged,
+        onLikeChanged: onLikeChanged,
+        key: ValueKey(HomePartProvider.of(context).selectedDrawerPage),
+      )
   );
+
+  static void openCompPage(
+      BuildContext context,
+      IndivComp comp,
+      { bool replacePage = false }) => (replacePage?pushReplacePage:pushPage).call(
+        context,
+        builder: (context) => IndivCompPage(comp)
+      );
 
 }

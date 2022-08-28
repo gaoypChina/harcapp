@@ -6,21 +6,21 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class CirclePreviewWidget extends StatelessWidget{
+class CommunitiesPreviewWidget extends StatelessWidget{
 
   final double width;
   final Widget child;
 
-  const CirclePreviewWidget({required this.width, required this.child, super.key});
+  const CommunitiesPreviewWidget({required this.width, required this.child, super.key});
 
-  static CirclePreviewWidget from({
+  static CommunitiesPreviewWidget from({
     required BuildContext context,
     required double width,
     EdgeInsets padding = EdgeInsets.zero,
     required IconData icon,
     required String text,
     void Function()? onTap
-  }) => CirclePreviewWidget(
+  }) => CommunitiesPreviewWidget(
     width: width,
     child: SimpleButton(
         color: background_(context),

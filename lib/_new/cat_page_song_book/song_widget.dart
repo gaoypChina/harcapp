@@ -28,7 +28,6 @@ import 'package:harcapp/_new/cat_page_song_book/song_widget_parts/powstanie_wars
 import 'package:harcapp/_new/cat_page_song_book/song_widget_parts/qr_widget.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
-import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core_own_song/song_raw.dart';
 import 'package:harcapp_core_song_widget/providers.dart';
 import 'package:harcapp_core_song_widget/song_rate.dart';
@@ -228,11 +227,10 @@ class SongWidget extends StatelessWidget{
                 textSizeProv.recalculate(
                     MediaQuery.of(context).size.width,
                     song,
-                    fontSize: max(TextSizeProvider.defFontSize, textSizeProv.value)
+                    fontSize: max(TextSizeProvider.defFontSize, textSizeProv.value),
+                    chordsVisible: false
                 );
                 onTextSizeChanged?.call();
-
-                Scaffold.of(context).hideCurrentSnackBar();
               }
           );
         else
@@ -311,7 +309,11 @@ class SongWidget extends StatelessWidget{
           onSaved: (Song song, EditType editType) async {
 
             if(editType == EditType.editOwn)
-              prov.value = prov.calculate(MediaQuery.of(context).size.width, song);
+              prov.value = prov.calculate(
+                MediaQuery.of(context).size.width,
+                song,
+                chordsVisible: ShowChordsProvider.of(context).showChords
+              );
 
             parent!.notify();
             int index = Album.current.songs.indexOf(song);
@@ -345,12 +347,20 @@ class SongWidget extends StatelessWidget{
 
     onChordsTap: (prov){
       song.shiftChordsUp();
-      prov.recalculate(MediaQuery.of(context).size.width, song);
+      prov.recalculate(
+          MediaQuery.of(context).size.width,
+          song,
+          chordsVisible: ShowChordsProvider.of(context).showChords
+      );
     },
 
     onChordsLongPress: (prov){
       song.shiftChordsDown();
-      prov.recalculate(MediaQuery.of(context).size.width, song);
+      prov.recalculate(
+          MediaQuery.of(context).size.width,
+          song,
+          chordsVisible: ShowChordsProvider.of(context).showChords
+      );
     },
 
     header: (BuildContext context, ScrollController? controller) => Column(

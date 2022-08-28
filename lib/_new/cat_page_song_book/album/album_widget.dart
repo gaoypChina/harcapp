@@ -38,21 +38,21 @@ class AlbumWidget extends StatelessWidget{
           child: GradientWidget(
               elevation: AppCard.bigElevation,
               radius: AppCard.bigRadius,
-              colorStart: CommonColorData.ALL[album.colorsKey]!.colorStart,
-              colorEnd: CommonColorData.ALL[album.colorsKey]!.colorEnd,
+              colorStart: CommonColorData.get(album.colorsKey).colorStart,
+              colorEnd: CommonColorData.get(album.colorsKey).colorEnd,
               height: 100,
               width: 100,
               child: Column(
                 children: [
 
                   Expanded(
-                    child: album.iconKey!=null?Center(
+                    child: Center(
                       child: Icon(
-                        CommonIconData.ALL[album.iconKey],
+                        CommonIconData.get(album.iconKey),
                         color: background_(context),
                         size: ICON_SIZE,
                       ),
-                    ):Container(),
+                    ),
                   ),
 
                   Padding(
@@ -63,7 +63,7 @@ class AlbumWidget extends StatelessWidget{
                         Icon(
                             MdiIcons.music,
                             size: 14,
-                            color: CommonColorData.ALL[album.colorsKey]!.iconColor.withOpacity(.4)
+                            color: CommonColorData.get(album.colorsKey).iconColor.withOpacity(.4)
                         ),
                         const SizedBox(width: Dimen.defMarg),
                         Text(
@@ -71,7 +71,7 @@ class AlbumWidget extends StatelessWidget{
                             style: AppTextStyle(
                                 fontSize: 14.0,
                                 fontWeight: weight.halfBold,
-                                color: CommonColorData.ALL[album.colorsKey]!.iconColor.withOpacity(.4)
+                                color: CommonColorData.get(album.colorsKey).iconColor.withOpacity(.4)
                             )
                         )
 

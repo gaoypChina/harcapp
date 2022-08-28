@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/forum.dart';
@@ -46,7 +47,7 @@ class DangerPartState extends State<DangerPart>{
         onTap: () => showAlertDialog(
             context,
             title: 'Zastanów się dobrze...',
-            content: 'Krąg <b>przestanie istnieć</b>.\n\nNie będzie już powrotu.\n\nNa pewno chcesz go <b>rozwiazać</b>?',
+            content: 'Forum <b>przestanie istnieć</b>.\n\nNie będzie już powrotu.\n\nNa pewno chcesz je <b>zamknąć</b>?',
             actionBuilder: (_) => [
 
               AlertDialogButton(text: 'Jednak nie', onTap: () => Navigator.pop(context)),
@@ -62,7 +63,7 @@ class DangerPartState extends State<DangerPart>{
                     await ApiForum.delete(
                       forumKey: forum!.key,
                       onSuccess: () async {
-                        Forum.removeFromAll(forum, context: context);
+                        Community.removeForum(forum!, context: context);
                         showAppToast(context, text: 'Poszło z dymem!');
                         await popPage(context); // Close loading widget.
 

@@ -14,7 +14,8 @@ import 'package:harcapp_core/dimen.dart';
 
 class GeneralPart extends StatefulWidget{
 
-  const GeneralPart({super.key});
+  final String communityKey;
+  const GeneralPart({this.communityKey = '', super.key});
 
   @override
   State<StatefulWidget> createState() => GeneralPartState();
@@ -22,6 +23,8 @@ class GeneralPart extends StatefulWidget{
 }
 
 class GeneralPartState extends State<GeneralPart>{
+
+  String get communityKey => widget.communityKey;
 
   @override
   Widget build(BuildContext context) => ListView(
@@ -35,7 +38,7 @@ class GeneralPartState extends State<GeneralPart>{
             child: Row(
               children: [
 
-                CommunityThumbnailWidget(prov.iconKey),
+                CommunityThumbnailWidget(prov.iconKey, communityKey),
 
                 const SizedBox(width: Dimen.SIDE_MARG),
 

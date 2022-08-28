@@ -141,7 +141,7 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
             body: TabBarView(
               physics: const BouncingScrollPhysics(),
               children: [
-                const GeneralPart(),
+                GeneralPart(communityKey: initCommunity?.key??''),
 
                 if(initCommunity != null)
                   DangerPart(

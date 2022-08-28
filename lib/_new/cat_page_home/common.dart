@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -49,11 +50,10 @@ class CreateNewButton extends StatelessWidget{
 
             Padding(
               padding: const EdgeInsets.only(left: 2),
-              child: Text(
-                  description,
-                  style: AppTextStyle(
-                    fontSize: Dimen.TEXT_SIZE_BIG,
-                  )),
+              child: AppText(
+                description,
+                size: Dimen.TEXT_SIZE_BIG,
+              ),
             ),
 
             if(bottom != null)

@@ -8,15 +8,15 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'circle_preview_widget.dart';
+import 'communities_preview_widget.dart';
 
-class CirclePromptLogin extends StatelessWidget{
+class CommunitiesPromptLogin extends StatelessWidget{
 
   final double width;
-  const CirclePromptLogin({required this.width, super.key});
+  const CommunitiesPromptLogin({required this.width, super.key});
 
   @override
-  Widget build(BuildContext context) => CirclePreviewWidget(
+  Widget build(BuildContext context) => CommunitiesPreviewWidget(
     width: width,
     child: SimpleButton(
       elevation: AppCard.bigElevation,
@@ -57,7 +57,7 @@ class CirclePromptLogin extends StatelessWidget{
             const Padding(
               padding: EdgeInsets.all(6.0),
               child: AppText(
-                  'Dzięki <b>kontu HarcApp</b> możesz dzielić się informacjami w <b>kręgach</b>!',
+                  'Dzięki <b>kontu HarcApp</b> możesz dzielić się informacjami w <b>środowiskach</b>!',
                   size: Dimen.TEXT_SIZE_BIG,
                   height: 1.2
               ),

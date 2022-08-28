@@ -32,7 +32,7 @@ class NewAlbumButton extends StatelessWidget{
             child: Icon(
               MdiIcons.bookmarkPlusOutline,
               color: textEnab_(context),
-              size: AlbumWidgetSmall.ICON_SIZE,
+              size: AlbumWidgetSmall.iconSize,
             ),
           ),
           Expanded(
@@ -46,7 +46,7 @@ class NewAlbumButton extends StatelessWidget{
                   textAlign: TextAlign.center
               )
           ),
-          const SizedBox(width: AlbumWidgetSmall.ICON_SIZE + 2*Dimen.ICON_MARG),
+          const SizedBox(width: AlbumWidgetSmall.iconSize + 2*Dimen.ICON_MARG),
         ],
       ),
       onTap: (){

@@ -107,58 +107,58 @@ class IconSelectorWidgetState extends State<IconSelectorWidget>{
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => _Provider(widget.initIconKey??CommonIconData.DEF_ICON_KEY),
+      create: (context) => _Provider(widget.initIconKey??CommonIconData.defIconKey),
       builder: (context, child) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
 
           const _Title('Książki'),
-          _IconSetWidget(CommonIconData.BOOKS, onTap: onSelected),
+          _IconSetWidget(CommonIconData.books, onTap: onSelected),
 
           const _Title('Ogień'),
-          _IconSetWidget(CommonIconData.FIRE, onTap: onSelected),
+          _IconSetWidget(CommonIconData.fire, onTap: onSelected),
 
           const _Title('Pisanie'),
-          _IconSetWidget(CommonIconData.WRITING, onTap: onSelected),
+          _IconSetWidget(CommonIconData.writing, onTap: onSelected),
 
           const _Title('Dom'),
-          _IconSetWidget(CommonIconData.HOME, onTap: onSelected),
+          _IconSetWidget(CommonIconData.home, onTap: onSelected),
 
           const _Title('Symbole'),
-          _IconSetWidget(CommonIconData.SYMBOLS, onTap: onSelected),
+          _IconSetWidget(CommonIconData.symbols, onTap: onSelected),
 
           const _Title('Muzyka'),
-          _IconSetWidget(CommonIconData.MUSIC, onTap: onSelected),
+          _IconSetWidget(CommonIconData.music, onTap: onSelected),
 
           const _Title('Rośliny'),
-          _IconSetWidget(CommonIconData.PLANTS, onTap: onSelected),
+          _IconSetWidget(CommonIconData.plants, onTap: onSelected),
 
           const _Title('Zwierzęta'),
-          _IconSetWidget(CommonIconData.ANIMALS, onTap: onSelected),
+          _IconSetWidget(CommonIconData.animals, onTap: onSelected),
 
           const _Title('Sport'),
-          _IconSetWidget(CommonIconData.SPORT, onTap: onSelected),
+          _IconSetWidget(CommonIconData.sport, onTap: onSelected),
 
           const _Title('Jedzenie'),
-          _IconSetWidget(CommonIconData.FOOD, onTap: onSelected),
+          _IconSetWidget(CommonIconData.food, onTap: onSelected),
 
           const _Title('Maski'),
-          _IconSetWidget(CommonIconData.MASKS, onTap: onSelected),
+          _IconSetWidget(CommonIconData.masks, onTap: onSelected),
 
           const _Title('Morze'),
-          _IconSetWidget(CommonIconData.SEA, onTap: onSelected),
+          _IconSetWidget(CommonIconData.sea, onTap: onSelected),
 
           const _Title('Narzędzia'),
-          _IconSetWidget(CommonIconData.TOOLS, onTap: onSelected),
+          _IconSetWidget(CommonIconData.tools, onTap: onSelected),
 
           const _Title('Pojazdy'),
-          _IconSetWidget(CommonIconData.CARS, onTap: onSelected),
+          _IconSetWidget(CommonIconData.cars, onTap: onSelected),
 
           const _Title('Pogoda'),
-          _IconSetWidget(CommonIconData.WEATHER, onTap: onSelected),
+          _IconSetWidget(CommonIconData.weather, onTap: onSelected),
 
           const _Title('Inne'),
-          _IconSetWidget(CommonIconData.OTHER, onTap: onSelected),
+          _IconSetWidget(CommonIconData.other, onTap: onSelected),
 
         ],
       ),
@@ -236,7 +236,7 @@ class _IconOption extends StatelessWidget{
                           color: background_(context),
                           shape: BoxShape.circle
                       ),
-                      child: Icon(CommonIconData.ALL[iconKey], size: _ICON_SIZE, color: iconEnab_(context).withOpacity(selected?1:.4)),
+                      child: Icon(CommonIconData.get(iconKey), size: _ICON_SIZE, color: iconEnab_(context).withOpacity(selected?1:.4)),
                     )
                 )
             ),

@@ -98,7 +98,7 @@ class IndivCompPreviewGrid extends StatelessWidget{
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: const [
           Center(child: IndivCompThumbnailWidget(colorsKey: 'mint', iconKey: 'fleurDeLis')),
-          SizedBox(width: IndivCompThumbnailWidget.defSize),//SizedBox(width: IndivCompThumbnailWidget.defSize, child: IndivCompRankIconTemplate(1, colors: CommonColorData.ALL.values.first,),),
+          SizedBox(width: IndivCompThumbnailWidget.defSize),
           Center(child: IndivCompThumbnailWidget(colorsKey: 'rosegold', iconKey: 'paperRollOutline')),
           SizedBox(width: IndivCompThumbnailWidget.defSize),
         ],

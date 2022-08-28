@@ -26,7 +26,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 
 import '../../main.dart';
-import '../main_page_new.dart';
 import 'song_management/song.dart';
 
 class TabOfContPage extends StatefulWidget{
@@ -96,7 +95,7 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
 
             Consumer<_NoSongsFoundProvider>(
               builder: (context, prov, child) =>
-              prov.songsFound?
+              !Album.current.isOmega && prov.songsFound?
               const Positioned.fill(
                 child: TabOfContBackgroundIcon()
               ):Container(),
@@ -224,7 +223,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
           if(!prov.songsFound)
             return Container();
 
-          CommonColorData colors = CommonColorData.ALL[Album.current.colorsKey]!;
+          CommonColorData colors = CommonColorData.get(Album.current.colorsKey);
 
           return ExtendedFloatingButton(
             MdiIcons.shuffle,

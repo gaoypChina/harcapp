@@ -124,7 +124,7 @@ class FolderEditPageState extends State<FolderEditPage>{
 
           SimpleButton.from(
             context: context,
-            icon: CommonIconData.ALL[selIconKey],
+            icon: CommonIconData.get(selIconKey),
             text: 'Zmień ikonę',
             onTap: openIconPicker,
           ),
@@ -237,8 +237,8 @@ class _ColorProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Color? get colorStart => CommonColorData.ALL[_selColorKey]?.colorStart;
-  Color? get colorEnd => CommonColorData.ALL[_selColorKey]?.colorEnd;
-  Color? get avgColor => CommonColorData.ALL[_selColorKey]?.avgColor;
+  Color get colorStart => CommonColorData.get(_selColorKey).colorStart;
+  Color get colorEnd => CommonColorData.get(_selColorKey).colorEnd;
+  Color get avgColor => CommonColorData.get(_selColorKey).avgColor;
 
 }

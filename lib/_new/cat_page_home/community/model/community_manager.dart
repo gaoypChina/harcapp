@@ -3,23 +3,31 @@ import 'package:harcapp/_app_common/accounts/user_data.dart';
 import '../../../api/_api.dart';
 import '../community_role.dart';
 
-class CommunityManager{
-
-  final UserData _userData;
-
-  String get key => _userData.key;
-  String get name => _userData.name;
-  bool get shadow => _userData.shadow;
-  Sex get sex => _userData.sex;
+class CommunityManager extends UserData{
 
   final CommunityRole role;
 
-  const CommunityManager(
-    this._userData, {
+  const CommunityManager({
+    required super.key,
+    required super.name,
+    required super.shadow,
+    required super.sex,
     required this.role
   });
 
-  static CommunityManager fromMap(Map map, {String? key}) => CommunityManager(
+
+  static CommunityManager fromUserData(
+      UserData userData,
+      { required CommunityRole role})
+  => CommunityManager(
+    key: userData.key,
+    name: userData.name,
+    shadow: userData.shadow,
+    sex: userData.sex,
+    role: role,
+  );
+
+  static CommunityManager fromMap(Map map, {String? key}) => CommunityManager.fromUserData(
     UserData.fromMap(map, key: key),
     role: strToCommunityRole[map['role']]??(throw InvalidResponseError('role')),
   );

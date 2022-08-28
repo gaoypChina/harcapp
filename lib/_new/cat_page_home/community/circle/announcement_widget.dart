@@ -22,6 +22,7 @@ class AnnouncementWidget extends StatelessWidget{
   final void Function()? onAnnouncementUpdated;
   final bool showCommunityInfo;
   final void Function()? onCircleButtonTap;
+  final bool showPinShortcutButton;
 
   Circle get circle => announcement.circle;
 
@@ -35,6 +36,7 @@ class AnnouncementWidget extends StatelessWidget{
         this.onAnnouncementUpdated,
         this.showCommunityInfo = false,
         this.onCircleButtonTap,
+        this.showPinShortcutButton = false,
         super.key
       });
 
@@ -53,7 +55,6 @@ class AnnouncementWidget extends StatelessWidget{
                   initAnnouncement: announcement,
                   palette: palette,
                   onSaved: (updatedAnnouncement){
-                    // circle.updateAnnouncement(updatedAnnouncement);
                     announcement.update(updatedAnnouncement);
                     onAnnouncementUpdated?.call();
                     prov.notify();
@@ -66,17 +67,23 @@ class AnnouncementWidget extends StatelessWidget{
                 )
             ):null,
             onPinChanged: pinnable ? (pinned){
-              circle.changePinnedAnnouncement(announcement, pinned);
               onAnnouncementUpdated?.call();
               prov.notify();
             }:null,
             onAttendanceChanged: (resp, now){
               bool hasResponse = announcement.respMode == AnnouncementAttendanceRespMode.OBLIGATORY && resp.response != null;
-              bool isPostpone = resp.response == AnnouncementAttendance.POSTPONE_RESP && resp.postponeTime!.isAfter(now);
+              bool isOverdue = resp.response == AnnouncementAttendance.POSTPONE_RESP && resp.postponeTime!.isAfter(now);
 
-              circle.changeAwaitingAnnouncement(announcement, hasResponse && isPostpone);
+              bool isNewAwaiting = !hasResponse || (hasResponse && isOverdue);
+              if(announcement.isAwaitingMyResponse && !isNewAwaiting)
+                circle.pinnedCount -= 1;
+              else if(!announcement.isAwaitingMyResponse && isNewAwaiting)
+                circle.pinnedCount += 1;
+
+              circle.changeAwaitingAnnouncement(announcement, isNewAwaiting);
               onAnnouncementUpdated?.call();
               prov.notify();
+              CircleProvider.notify_(context);
             },
             onAttendanceIndicatorTap: showOnTap?() => pushPage(
               context,
@@ -85,6 +92,7 @@ class AnnouncementWidget extends StatelessWidget{
                 palette: palette,
                 displayAttendancePage: true,
                 onAnnouncementUpdated: onAnnouncementUpdated,
+                showCommunityInfo: showCommunityInfo,
               ),
             ):null,
             onTap: showOnTap?() => pushPage(
@@ -93,10 +101,13 @@ class AnnouncementWidget extends StatelessWidget{
                 announcement,
                 palette: palette,
                 onAnnouncementUpdated: onAnnouncementUpdated,
+                showCommunityInfo: showCommunityInfo,
+                showPinShortcutButton: showPinShortcutButton,
               ),
             ):null,
             showCommunityInfo: showCommunityInfo,
             onCircleButtonTap: onCircleButtonTap,
+            showPinShortcutButton: showPinShortcutButton,
         ),
       )
   );

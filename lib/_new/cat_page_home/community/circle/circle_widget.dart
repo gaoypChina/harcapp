@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../community_group_widget_template.dart';
-import 'model/announcement.dart';
 import 'model/circle.dart';
 
 class CircleWidget extends StatelessWidget{
@@ -22,7 +21,7 @@ class CircleWidget extends StatelessWidget{
       builder: (context, prov, child) => CommunityGroupWidgetTemplate(
         circle.coverImage,
         text: 'Krąg',
-        icon: Announcement.icon,
+        icon: Circle.icon,
         onTap: onTap,
         titleBottom: circle.awaitingCount == 0?
         null:

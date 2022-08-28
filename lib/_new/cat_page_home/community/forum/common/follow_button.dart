@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
@@ -15,8 +16,9 @@ class ForumFollowButton extends StatefulWidget{
 
   final Forum forum;
   final PaletteGenerator? palette;
+  final void Function(bool)? onChanged;
 
-  const ForumFollowButton(this.forum, {this.palette, super.key});
+  const ForumFollowButton(this.forum, {this.palette, this.onChanged, super.key});
 
   @override
   State<StatefulWidget> createState() => ForumFollowButtonState();
@@ -26,6 +28,7 @@ class ForumFollowButton extends StatefulWidget{
 class ForumFollowButtonState extends State<ForumFollowButton>{
 
   Forum get forum => widget.forum;
+  void Function(bool)? get onChanged => widget.onChanged;
   PaletteGenerator? get palette => widget.palette;
 
   late bool processing;
@@ -67,10 +70,26 @@ class ForumFollowButtonState extends State<ForumFollowButton>{
           follow: !forum.followed,
           onSuccess: (followed){
             if(!mounted) return;
-            setState(() => forum.followed = followed);
+
+            if(forum.followed && !followed)
+              forum.followersCnt -= 1;
+            else if(!forum.followed && followed)
+              forum.followersCnt += 1;
+
+            forum.followed = followed;
+
+            if(followed)
+              Community.addToAllByForum(forum, context: context);
+            else
+              Community.removeForum(forum, context: context);
+            
+            setState((){});
             ForumProvider.notify_(context);
+            CommunityListProvider.notify_(context);
             if(followed) showAppToast(context, text: 'Obserwujesz forum ${forum.name}');
-            else showAppToast(context, text: 'Już nie obserwowanie forum ${forum.name}');
+            else showAppToast(context, text: 'Już nie obserwujesz forum ${forum.name}');
+
+            onChanged?.call(followed);
           },
           onError: () => mounted?showAppToast(context, text: simpleErrorMessage):null,
           onServerMaybeWakingUp: () {

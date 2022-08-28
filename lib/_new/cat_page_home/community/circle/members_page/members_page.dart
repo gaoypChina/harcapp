@@ -1,33 +1,120 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_widgets/bottom_sheet.dart';
+import 'package:harcapp/_new/cat_page_home/community/circle/members_page/member_tile_extended.dart';
+import 'package:harcapp/_new/cat_page_home/community/circle/model/member.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
+import 'package:harcapp/_new/cat_page_home/user_list_managment_page.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
+import 'package:provider/provider.dart';
 
-import '../common/member_tile.dart';
+import '../circle_role.dart';
 import '../model/circle.dart';
-import 'members_page_templ.dart';
+import 'add_user_bottom_sheet.dart';
+import 'member_tile.dart';
 
 class MembersPage extends StatelessWidget{
 
   final Circle circle;
   final PaletteGenerator? palette;
+  List<Member> get members => circle.members;
 
-  const MembersPage(this.circle, this.palette, {super.key});
+  final Widget Function(List<Member> members)? adminsListHeaderTrailing;
+  final Widget Function(List<Member> members)? modsListHeaderTrailing;
+  final Widget Function(List<Member> members)? obsListHeaderTrailing;
+
+  final Widget? floatingButton;
+  final Widget? bottomNavigationBar;
+  final Widget? bottom;
+
+  const MembersPage({
+    required this.circle,
+    required this.palette,
+
+    this.adminsListHeaderTrailing,
+    this.modsListHeaderTrailing,
+    this.obsListHeaderTrailing,
+
+    this.floatingButton,
+    this.bottomNavigationBar,
+    this.bottom,
+
+    super.key});
 
   @override
-  Widget build(BuildContext context) => MembersPageTempl(
-    circle: circle,
-    palette: palette,
-    itemBuilder: (context, member) => MemberTile(
-        userKey: member.key,
-        name: member.name,
-        shadow: member.shadow,
-        thumbnailColor: CommunityCoverColors.backgroundColor(context, palette),
-        thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
-        role: member.role,
-        anythingSelected: false,
-        heroTag: member
-    ),
+  Widget build(BuildContext context) => Consumer<CircleMembersProvider>(
+      builder: (context, prov, child){
+
+        List<Member> memAdmins = [];
+        List<Member> memMods = [];
+        List<Member> memObs = [];
+
+        for(Member mem in members) {
+          if (mem.role == CircleRole.ADMIN)
+            memAdmins.add(mem);
+
+          else if (mem.role == CircleRole.EDITOR)
+            memMods.add(mem);
+
+          else if (mem.role == CircleRole.OBSERVER)
+            memObs.add(mem);
+        }
+
+        memAdmins.sort((p1, p2) => p1.name.compareTo(p2.name));
+        memMods.sort((p1, p2) => p1.name.compareTo(p2.name));
+        memObs.sort((p1, p2) => p1.name.compareTo(p2.name));
+
+        return UserListManagementPage<Member>(
+          appBarTitle: 'Lista członków (${members.length})',
+          userSets: [
+            UserSet(
+                icon: circleRoleToIcon[CircleRole.ADMIN]!,
+                name: 'Administratorzy',
+                users: memAdmins
+            ),
+
+            UserSet(
+                icon: circleRoleToIcon[CircleRole.EDITOR]!,
+                name: 'Redaktorzy',
+                users: memMods
+            ),
+
+            UserSet(
+                icon: circleRoleToIcon[CircleRole.OBSERVER]!,
+                name: 'Pozostali',
+                users: memObs
+            )
+          ],
+          userTileBuilder: (context, member) => circle.myRole == CircleRole.ADMIN?
+          MemberTileExtended(
+            circle: circle,
+            member: member,
+            palette: palette,
+            heroTag: member
+          ):
+          MemberTile(
+            member: member,
+            palette: palette,
+            heroTag: member
+          ),
+
+          backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+          appBottomNavColor: CommunityCoverColors.backgroundColor(context, palette),
+
+          appBarActions: [
+            if(circle.myRole == CircleRole.ADMIN)
+              IconButton(
+                  icon: const Icon(MdiIcons.plus),
+                  onPressed: () => showScrollBottomSheet(
+                      context: context,
+                      builder: (context) => AddUserBottomSheet(circle, palette)
+                  )
+              )
+          ],
+
+        );
+
+      }
   );
 
 }

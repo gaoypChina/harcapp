@@ -3,10 +3,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:harcapp/_new/api/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/model/announcement.dart';
-import 'package:harcapp/_new/cat_page_home/community/circle/model/circle.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_role.dart';
-import 'package:harcapp/_new/cat_page_home/community/forum/model/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/model/post.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community_manager.dart';
 import 'package:optional/optional_internal.dart';
@@ -15,23 +14,22 @@ import '../cat_page_home/community/community_publishable.dart';
 import '../cat_page_home/community/model/community.dart';
 import '_api.dart';
 
-class ManagerRespBody{
+class CommunityManagerRespBody{
 
   final String key;
   final CommunityRole role;
-  final String? patrol;
 
-  const ManagerRespBody(this.key, this.role, this.patrol);
+  const CommunityManagerRespBody(this.key, this.role);
 
 }
 
-class ManagerUpdateBody{
+class CommunityManagerUpdateBody{
 
   final String key;
   final Optional<CommunityRole> role;
   final Optional<String?> patrol;
 
-  const ManagerUpdateBody(
+  const CommunityManagerUpdateBody(
       this.key,
       { this.role = const Optional.empty(),
         this.patrol = const Optional.empty()
@@ -39,11 +37,11 @@ class ManagerUpdateBody{
 
 }
 
-class ManagerRespBodyNick extends ManagerRespBody{
+class CommunityManagerRespBodyNick extends CommunityManagerRespBody{
 
   final String nick;
 
-  const ManagerRespBodyNick(super.key, super.role, super.patrol, this.nick);
+  const CommunityManagerRespBodyNick(super.key, super.role, this.nick);
 
 }
 
@@ -51,6 +49,10 @@ class ApiCommunity{
 
   static Future<Response?> search({
     required String phrase,
+    required ForumSearchSort sort,
+    int? page,
+    int? pageSize,
+
     FutureOr<void> Function(List<CommunityPreviewData> communities)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -59,7 +61,14 @@ class ApiCommunity{
     withToken: true,
     sendRequest: (Dio dio) => dio.get(
       '${API.SERVER_URL}api/community/search',
-      queryParameters: {"phrase": phrase}
+      queryParameters: {
+        "phrase": phrase,
+        "sort": sort==ForumSearchSort.likes?
+        'LIKES':
+        'FOLLOWS',
+        if(page != null) 'page': page,
+        if(pageSize != null) 'pageSize': pageSize,
+      }
     ),
     onSuccess: (Response response, DateTime now) async {
 
@@ -205,7 +214,7 @@ class ApiCommunity{
   
   static Future<Response?> addManagers({
     required String communityKey,
-    required List<ManagerRespBodyNick> users,
+    required List<CommunityManagerRespBodyNick> users,
     FutureOr<void> Function(List<CommunityManager>)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -213,7 +222,7 @@ class ApiCommunity{
   }) async{
 
     List<Map<String, dynamic>> body = [];
-    for(ManagerRespBodyNick user in users)
+    for(CommunityManagerRespBodyNick user in users)
       body.add({
         'userNick': user.nick,
         'role': communityRoleToStr[user.role],
@@ -244,7 +253,7 @@ class ApiCommunity{
 
   static Future<Response?> updateManagers({
     required String communityKey,
-    required List<ManagerUpdateBody> users,
+    required List<CommunityManagerUpdateBody> users,
     FutureOr<void> Function(List<CommunityManager>)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -252,7 +261,7 @@ class ApiCommunity{
   }) async{
 
     List<Map<String, dynamic>> body = [];
-    for(ManagerUpdateBody managerBody in users)
+    for(CommunityManagerUpdateBody managerBody in users)
       body.add({
         'userKey': managerBody.key,
         if(managerBody.role.isPresent) 'role': communityRoleToStr[managerBody.role.value],
@@ -341,9 +350,9 @@ class ApiCommunity{
         List<CommunityPublishable> feed = [];
         for(Map map in response.data) {
           if(map.containsKey('circleKey'))
-            feed.add(Announcement.fromMap(map, Circle.allMap![map['circleKey']]!, key: map['_key']));
+            feed.add(Announcement.fromMap(map, Community.allCircleMap![map['circleKey']]!, key: map['_key']));
           else
-            feed.add(Post.fromMap(map, Forum.allMap![map['forumKey']]!, key: map['_key']));
+            feed.add(Post.fromMap(map, Community.allForumMap![map['forumKey']]!, key: map['_key']));
         }
 
         onSuccess?.call(feed);

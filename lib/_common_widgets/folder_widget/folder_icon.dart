@@ -18,11 +18,11 @@ class FolderIcon extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    CommonColorData? commonColorData = CommonColorData.ALL[colorKey];
+    CommonColorData commonColorData = CommonColorData.get(colorKey);
 
     return ShaderMask(
         child: Icon(
-          CommonIconData.ALL[iconKey],
+          CommonIconData.get(iconKey),
           size: size,
           color: Colors.white,
         ),
@@ -30,7 +30,7 @@ class FolderIcon extends StatelessWidget{
           final Rect rect = Rect.fromLTRB(0, 0, size, size);
           final Gradient gradient = LinearGradient(
               colors: [
-                commonColorData!.colorStart,
+                commonColorData.colorStart,
                 commonColorData.colorEnd],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight
