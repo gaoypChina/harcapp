@@ -43,7 +43,7 @@ class PostExpandedPage extends StatelessWidget{
 
             SliverAppBar(
               title: Text(
-                post.title.isEmpty?post.text:post.title,
+                post.title == null || post.title!.isEmpty?post.text:post.title!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

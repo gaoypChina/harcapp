@@ -417,7 +417,7 @@ class ApiCircle{
 
   static Future<Response?> publishAnnouncement({
     required String circleKey,
-    required String title,
+    String? title,
     DateTime? startTime,
     DateTime? endTime,
     String? place,
@@ -491,7 +491,7 @@ class ApiCircle{
 
           if(urlToPreview != null) 'urlToPreview': urlToPreview.orElseNull,
 
-          if(coverImage != null) 'coverImage': coverImage.orElseNull?.toReqMap(),
+          if(coverImage != null) 'coverImage': await coverImage.orElseNull?.toReqMap(),
 
           if(text != null) 'text': text,
 

@@ -111,7 +111,7 @@ abstract class CommunityPublishable{
   }
 
   final String key;
-  String title;
+  String? title;
   DateTime publishTime;
   DateTime? lastUpdateTime;
   String? urlToPreview;

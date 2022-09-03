@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:convert' show utf8;
+import 'dart:convert' show base64;
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
@@ -17,6 +17,7 @@ class CommunityCoverImageData{
 
   static String samplePrefix = 'sample';
   static String urlPrefix = 'url';
+  static String filePrefix = 'file';
 
   static List<CommunityCoverImageData> allSample = const [
     CommunityCoverImageData(CommunityCoverImageDataType.sample,
@@ -224,7 +225,7 @@ class CommunityCoverImageData{
 
       case CommunityCoverImageDataType.localFile:
         // MultipartFile file = await MultipartFile.fromFile(localFilePath!);
-        return {localFilePath: utf8.decode(File(localFilePath!).readAsBytesSync())};
+        return {filePrefix: base64.encode(File(localFilePath!).readAsBytesSync())};
 
     }
 

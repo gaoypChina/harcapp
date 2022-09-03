@@ -71,7 +71,7 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
   @override
   Widget build(BuildContext context){
 
-    bool hasTitle = publishable.title.isNotEmpty;
+    bool hasTitle = publishable.title == null || publishable.title!.isNotEmpty;
 
     return SimpleButton(
       onTap: onTap,
@@ -139,7 +139,7 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
 
                     if(hasTitle)
                       Text(
-                        publishable.title,
+                        publishable.title!,
                         style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
