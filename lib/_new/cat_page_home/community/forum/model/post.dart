@@ -146,13 +146,13 @@ class Post extends CommunityPublishable{
 
   static Post fromMap(Map resp, Forum forum, {String? key}) => Post(
     key: key??resp['_key']??(throw InvalidResponseError('_key')),
-    title: resp['title']??(throw InvalidResponseError('title')),
+    title: resp['title'],
     publishTime: DateTime.tryParse(resp['publishTimeStr']??(throw InvalidResponseError('publishTimeStr')))??(throw InvalidResponseError('post_time_str')),
-    lastUpdateTime: resp['lastUpdateTimeStr'] == null? null: DateTime.tryParse(resp['lastUpdateTimeStr']),
+    lastUpdateTime: DateTime.tryParse(resp['lastUpdateTimeStr']??''),
     coverImage: resp['coverImage'] == null? null: CommunityCoverImageData.from(resp['coverImage']),
     urlToPreview: resp['urlToPreview'],
     author: resp.containsKey('author')?UserData.fromMap(resp['author']):null,
-    text: resp['text'],
+    text: resp['text']??(throw InvalidResponseError('text')),
 
     forum: forum,
   );
