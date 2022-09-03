@@ -14,6 +14,7 @@ import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/colors.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
+import 'package:harcapp_core/comm_classes/date_to_str.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
@@ -394,4 +395,26 @@ class PolishLettersComparator {
     else if (a.length > b.length) return 1;
     return 0;
   }
+}
+
+String timeAgo(DateTime now, DateTime past){
+
+  Duration diff = past.difference(now);
+
+  if(diff < const Duration(seconds: 60))
+    return '${diff.inSeconds } sek.';
+
+  if(diff < const Duration(minutes: 60))
+    return '${diff.inMinutes } min.';
+
+  if(diff < const Duration(hours: 24))
+    return '${diff.inHours } godz.';
+
+  if(diff < const Duration(days: 7))
+    return '${diff.inDays } dni';
+
+  if(now.year == past.year)
+    return dateToString(past, showYear: false);
+
+  return dateToString(past);
 }

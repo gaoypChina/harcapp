@@ -77,7 +77,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
             children: [
               DrawerTile<String>(
                 icon: MdiIcons.squareRoundedOutline,
-                title: 'Podgląd',
+                title: 'Mój potok',
                 source: HomePartProvider.drawerPageOverview,
                 selectedSource: prov.selectedDrawerPage,
                 onSelect: (String source){

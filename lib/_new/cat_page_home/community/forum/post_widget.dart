@@ -3,9 +3,11 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/post_editor/_main.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/post_extended_page.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/post_widget_template.dart';
+import 'package:harcapp/account/account.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
+import '../community_publishable_widget_template.dart';
 import 'model/forum.dart';
 import 'model/post.dart';
 
@@ -14,9 +16,7 @@ class PostWidget extends StatelessWidget{
   final Post post;
   final PaletteGenerator? palette;
   final bool shrinkText;
-  final bool pinnable;
-  final bool editable;
-  final bool showOnTap;
+  final bool disableTap;
   final void Function()? onPostUpdated;
   final bool showCommunityInfo;
   final void Function()? onForumButtonTap;
@@ -27,9 +27,7 @@ class PostWidget extends StatelessWidget{
       this.post,
       this.palette,
       { this.shrinkText = true,
-        this.pinnable = true,
-        this.editable = true,
-        this.showOnTap = true,
+        this.disableTap = false,
         this.onPostUpdated,
         this.showCommunityInfo = false,
         this.onForumButtonTap,
@@ -37,10 +35,14 @@ class PostWidget extends StatelessWidget{
       });
 
   @override
-  Widget build(BuildContext context) => Hero(
-      tag: post,
-      child: Consumer<PostProvider>(
-        builder: (context, prov, child) => PostWidgetTemplate(
+  Widget build(BuildContext context){
+
+    bool editable = post.author?.key == AccountData.key && post.forum.myRole != null;
+
+    return Hero(
+        tag: post,
+        child: Consumer<PostProvider>(
+          builder: (context, prov, child) => PostWidgetTemplate(
             post,
             palette: palette,
             shrinkText: shrinkText,
@@ -63,7 +65,8 @@ class PostWidget extends StatelessWidget{
                 )
             ):null,
 
-            onTap: showOnTap?() => pushPage(
+            onTap: !disableTap && CommunityPublishableWidgetTemplate.isTextExpandable(post.text, context: context)?
+            () => pushPage(
               context,
               builder: (context) => PostExpandedPage(
                 post,
@@ -73,8 +76,11 @@ class PostWidget extends StatelessWidget{
             ):null,
             showCommunityInfo: showCommunityInfo,
             onForumButtonTap: onForumButtonTap,
-        ),
-      )
-  );
+
+          ),
+        )
+    );
+
+  }
 
 }

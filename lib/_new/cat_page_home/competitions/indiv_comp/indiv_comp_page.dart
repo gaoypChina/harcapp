@@ -287,7 +287,8 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                                     }
                                 ),
 
-                                description: 'Kod dostępu pozwala dołączyć do współzawodnictwa osobom, które go znają.',
+                                description: 'To, co widzisz, to <b>kod dostępu</b>.'
+                                    '\n\nPozwala on dołączyć do współzawodnictwa tym, którzy go znają.',
                                 resetFrequencyDays: 2,
                               ),
                             ),

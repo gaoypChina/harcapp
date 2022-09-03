@@ -35,7 +35,7 @@ class AddUserBottomSheet extends StatelessWidget{
           communityKey: community.key,
           users: [CommunityManagerRespBodyNick(userData.key, CommunityRole.REGULAR, userData.nick)],
           onSuccess: (List<CommunityManager> allManagers){
-            community.setAllManagers(context, allManagers);
+            community.setAllManagers(allManagers, context: context);
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
             showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}.');

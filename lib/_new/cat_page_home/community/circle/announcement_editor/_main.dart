@@ -35,6 +35,7 @@ class AnnouncementEditorPage extends StatefulWidget{
 
   final Circle circle;
   final PaletteGenerator? palette;
+  final bool isEvent;
   final Announcement? initAnnouncement;
 
   final void Function(Announcement)? onSaved;
@@ -44,6 +45,7 @@ class AnnouncementEditorPage extends StatefulWidget{
   const AnnouncementEditorPage(
       { required this.circle,
         required this.palette,
+        required this.isEvent,
         this.initAnnouncement,
         this.onSaved,
         this.onRemoved,
@@ -61,6 +63,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
   Circle get circle => widget.circle;
   PaletteGenerator? get palette => widget.palette;
+  bool get isEvent => widget.isEvent;
   Announcement? get initAnnouncement => widget.initAnnouncement;
 
   void Function(Announcement)? get onSaved => widget.onSaved;
@@ -82,8 +85,6 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
   late AnnouncementAttendanceRespMode attRespMode;
 
-  late bool eventMode;
-
   dynamic heroTag;
 
   @override
@@ -98,8 +99,6 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
     endTime = initAnnouncement?.endTime;
 
     attRespMode = initAnnouncement?.respMode??AnnouncementAttendanceRespMode.NONE;
-
-    eventMode = initAnnouncement?.isEvent??false;
 
     heroTag = initAnnouncement??UniqueKey();
 
@@ -200,43 +199,16 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
           padding: const EdgeInsets.all(Dimen.SIDE_MARG),
           sliver: SliverList(delegate: SliverChildListDelegate([
 
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(CommunityPublishableWidgetTemplate.radius)
-              ),
-              clipBehavior: Clip.hardEdge,
-              child:
-              CoverImageSelectableWidget(
-                palette,
-                initCoverImage: coverImage,
-                removable: true,
-                onSelected: (newCoverImage) => setState(() => coverImage = newCoverImage),
-                emptyBuilder: (context) => SizedBox(
-                  height: Dimen.ICON_FOOTPRINT,
-                  child: Container(
-                    color: backgroundIcon_(context),
-                    child: Row(
-                      children: [
-
-                        const SizedBox(width: Dimen.SIDE_MARG),
-
-                        Expanded(
-                          child: Text(
-                            'Dodaj grafikę w tle',
-                            style: AppTextStyle(
-                                color: hintEnab_(context),
-                                fontWeight: weight.halfBold
-                            ),
-                          ),
-                        ),
-
-                        Icon(MdiIcons.imagePlus, color: hintEnab_(context)),
-
-                        const SizedBox(width: Dimen.SIDE_MARG),
-
-                      ],
-                    ),
-                  ),
+            Material(
+              borderRadius: BorderRadius.circular(AppCard.defRadius),
+              color: CommunityCoverColors.cardColor(context, palette),
+              child: Padding(
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                child: Text(
+                  'To ${isEvent?'wydarzenie':'ogłoszenie'} zobaczą tylko członkowie kręgu ${circle.name}',
+                  style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
                 ),
               ),
             ),
@@ -258,7 +230,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
               hint: 'Treść:',
               hintTop: '',
               controller: textController,
-              style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL),
+              style: CommunityPublishableWidgetTemplate.textStyle,
               maxLines: null,
               textCapitalization: TextCapitalization.sentences
             ),
@@ -266,309 +238,351 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
           ])),
         ),
 
-        SliverList(delegate: SliverChildListDelegate([
+        if(isEvent)
+          SliverList(delegate: SliverChildListDelegate([
 
-          SwitchListTile(
-              title: Text('Wydarzenie', style: AppTextStyle()),
-              subtitle: Text('Służba, zbiórka, biwak, rajd, obóz...!', style: AppTextStyle(color: hintEnab_(context))),
-              value: eventMode,
-              onChanged: (value) => setState(() => eventMode = value),
-              activeColor: CommunityCoverColors.strongColor(context, palette),
-              contentPadding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-          ),
-
-          AnimatedSize(
-              alignment: Alignment.topCenter,
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.easeOutQuart,
-              child:
-              eventMode?
-              Column(
-                  children: [
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG - Dimen.ICON_MARG),
-                      child: DropdownButtonHideUnderline(
-                          child: DropdownButton2(
-                            isExpanded: true,
-                            dropdownPadding: EdgeInsets.zero,
-                            itemPadding: EdgeInsets.zero,
-                            icon: const SizedBox(
-                              width: Dimen.ICON_FOOTPRINT,
-                              child: Icon(MdiIcons.chevronDown),
-                            ),
-                            items: [
-                              DropdownMenuItem<AnnouncementAttendanceRespMode>(
-                                  value: AnnouncementAttendanceRespMode.NONE,
-                                  child: SimpleButton.from(
-                                      margin: EdgeInsets.zero,
-                                      context: context,
-                                      icon: MdiIcons.accountCancelOutline,
-                                      text: 'Brak deklaracji obecności',
-                                      fontWeight: weight.normal,
-                                      onTap: null
-                                  )
-                              ),
-                              DropdownMenuItem<AnnouncementAttendanceRespMode>(
-                                  value: AnnouncementAttendanceRespMode.OPTIONAL,
-                                  child: SimpleButton.from(
-                                      margin: EdgeInsets.zero,
-                                      context: context,
-                                      icon: MdiIcons.accountQuestionOutline,
-                                      text: 'Dobrowolna deklaracja obecności',
-                                      fontWeight: weight.normal,
-                                      onTap: null
-                                  )
-                              ),
-                              DropdownMenuItem<AnnouncementAttendanceRespMode>(
-                                  value: AnnouncementAttendanceRespMode.OBLIGATORY,
-                                  child: SimpleButton.from(
-                                      margin: EdgeInsets.zero,
-                                      context: context,
-                                      icon: MdiIcons.accountAlertOutline,
-                                      text: 'Wymagana deklaracja obecności',
-                                      fontWeight: weight.normal,
-                                      onTap: null
-                                  )
-                              ),
-                            ],
-                            value: attRespMode,
-                            onChanged: (value) => setState(() => attRespMode = value as AnnouncementAttendanceRespMode),
-                            dropdownDecoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                            ),
-                          )
-                      ),
-                    ),
-
-                    Row(
-                      children: [
-
-                        const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
-
-                        SimpleButton.from(
-                            margin: EdgeInsets.zero,
-
-                            iconColor: iconEnab_(context),
-
-                            textColor:
-                            startTime==null?
-                            hintEnab_(context):
-                            iconEnab_(context),
-
-                            icon: MdiIcons.calendarBlankOutline,
-                            text: startTime==null?
-                            'Czas rozpoczęcia:':
-                            'Początek: ${dateToString(startTime, shortMonth: true, withTime: true)}',
-                            fontWeight: weight.normal,
-                            onTap: startTime == null?null:() => showScrollBottomSheet(
-                                context: context,
-                                builder: (context) => BottomSheetDateTimePicker(
-                                  startTime,
-                                  backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
-                                  start: true,
-                                  onSelected: (dateTime) => setState(() => startTime = dateTime),
-                                )
-                            )
-                        ),
-                        Expanded(child: Container()),
-                        if(startTime != null)
-                          IconButton(
-                            icon: const Icon(MdiIcons.close),
-                            onPressed: () => setState(() => startTime = null),
-                          )
-                        else
-                          IconButton(
-                              icon: const Icon(MdiIcons.plus),
-                              onPressed: (){
-                                DateTime now = DateTime.now();
-                                setState(() => startTime = DateTime(
-                                    now.year,
-                                    now.month,
-                                    now.day + 7,
-                                    now.hour,
-                                    0,
-                                    0
-                                ));
-                              }
-                          ),
-
-                        const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
-
-                      ],
-                    ),
-
-                    Row(
-                      children: [
-
-                        const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
-
-                        SimpleButton.from(
-                            margin: EdgeInsets.zero,
-
-                            iconColor: iconEnab_(context),
-
-                            textColor:
-                            startTime != null && endTime != null && endTime!.isBefore(startTime!)?
-                            Colors.red:
-
-                            startTime==null?
-                            hintEnab_(context):
-                            iconEnab_(context),
-
-                            icon: MdiIcons.calendarCheckOutline,
-                            text: endTime==null?
-                            'Czas zakończenia:':
-                            'Zakończ.:  ${dateToString(endTime, shortMonth: true, withTime: true)}',
-                            fontWeight: weight.normal,
-                            onTap: endTime == null?null:() => showScrollBottomSheet(
-                                context: context,
-                                builder: (context) => BottomSheetDateTimePicker(
-                                  endTime,
-                                  backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
-                                  start: false,
-                                  onSelected: (dateTime) => setState(() => endTime = dateTime),
-                                )
-                            )
-                        ),
-
-                        Expanded(child: Container()),
-
-                        if(endTime != null)
-                          IconButton(
-                            icon: const Icon(MdiIcons.close),
-                            onPressed: () => setState(() => endTime = null),
-                          )
-                        else
-                          IconButton(
-                              icon: const Icon(MdiIcons.plus),
-                              onPressed: (){
-                                DateTime now = DateTime.now();
-                                setState(() => endTime = DateTime(
-                                    now.year,
-                                    now.month,
-                                    now.day + 7,
-                                    now.hour + 3,
-                                    0,
-                                    0
-                                ));
-                              }
-                          ),
-
-                        const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
-
-                      ],
-                    ),
-
-                    Row(
-                      children: [
-
-                        const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
-
-                        Expanded(
-                          child: AppTextFieldHint(
-                            hint: 'Miejsce:',
-                            hintTop: '',
-                            controller: placeController,
-                            style: AppTextStyle(color: iconEnab_(context)),
-                            textCapitalization: TextCapitalization.sentences,
-                            leading: const Padding(
-                              padding: EdgeInsets.only(
-                                left: Dimen.ICON_MARG,
-                                right: Dimen.ICON_MARG,
-                              ),
-                              child: Icon(MdiIcons.mapMarkerOutline),
-                            ),
-                          ),
-                        ),
-
-                        if(placeEnabled)
-                          IconButton(
-                            icon: const Icon(MdiIcons.close),
-                            onPressed: () => placeController.text = '',
-                          )
-
-                      ],
-                    ),
-
-                  ]
-              ):
-              Container()
-          ),
-
-        ])),
-
-        SliverList(delegate: SliverChildListDelegate([
-
-          const SizedBox(height: Dimen.SIDE_MARG),
-
-          Padding(
-              padding: const EdgeInsets.only(
-                  left: Dimen.SIDE_MARG,
-                  right: Dimen.SIDE_MARG - Dimen.ICON_MARG
-              ),
-              child: Row(
+            Column(
                 children: [
 
-                  Expanded(
-                    child: AppTextFieldHint(
-                        hint: 'Link z podglądem:',
-                        hintTop: 'Link z podglądem',
-                        controller: urlToPreviewController,
-                        onAnyChanged: (_){
-                          previewData = null;
-                          setState(() {});
-                        },
-                        style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
-                        maxLines: 1,
-                        textCapitalization: TextCapitalization.sentences
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG - Dimen.ICON_MARG),
+                    child: DropdownButtonHideUnderline(
+                        child: DropdownButton2(
+                          isExpanded: true,
+                          dropdownPadding: EdgeInsets.zero,
+                          itemPadding: EdgeInsets.zero,
+                          icon: const SizedBox(
+                            width: Dimen.ICON_FOOTPRINT,
+                            child: Icon(MdiIcons.chevronDown),
+                          ),
+                          items: [
+                            DropdownMenuItem<AnnouncementAttendanceRespMode>(
+                                value: AnnouncementAttendanceRespMode.NONE,
+                                child: SimpleButton.from(
+                                    margin: EdgeInsets.zero,
+                                    context: context,
+                                    icon: MdiIcons.accountCancelOutline,
+                                    text: 'Brak deklaracji obecności',
+                                    fontWeight: weight.normal,
+                                    onTap: null
+                                )
+                            ),
+                            DropdownMenuItem<AnnouncementAttendanceRespMode>(
+                                value: AnnouncementAttendanceRespMode.OPTIONAL,
+                                child: SimpleButton.from(
+                                    margin: EdgeInsets.zero,
+                                    context: context,
+                                    icon: MdiIcons.accountQuestionOutline,
+                                    text: 'Dobrowolna deklaracja obecności',
+                                    fontWeight: weight.normal,
+                                    onTap: null
+                                )
+                            ),
+                            DropdownMenuItem<AnnouncementAttendanceRespMode>(
+                                value: AnnouncementAttendanceRespMode.OBLIGATORY,
+                                child: SimpleButton.from(
+                                    margin: EdgeInsets.zero,
+                                    context: context,
+                                    icon: MdiIcons.accountAlertOutline,
+                                    text: 'Wymagana deklaracja obecności',
+                                    fontWeight: weight.normal,
+                                    onTap: null
+                                )
+                            ),
+                          ],
+                          value: attRespMode,
+                          onChanged: (value) => setState(() => attRespMode = value as AnnouncementAttendanceRespMode),
+                          dropdownDecoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                          ),
+                        )
                     ),
                   ),
 
-                  if(urlToPreviewController.text.isNotEmpty)
-                    IconButton(
-                      icon: const Icon(MdiIcons.close),
-                      onPressed: (){
-                        previewData = null;
-                        setState(() => urlToPreviewController.clear());
-                      },
-                    )
+                  Row(
+                    children: [
 
-                ],
-              )
-          ),
+                      const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
 
-          if(urlToPreviewController.text.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-              child: Material(
-                elevation: 4.0,
-                borderRadius: BorderRadius.circular(CommunityPublishableWidgetTemplate.radius),
-                color: CommunityCoverColors.cardColor(context, palette),
-                clipBehavior: Clip.hardEdge,
-                child: LinkPreview(
-                  enableAnimation: true,
-                  onPreviewDataFetched: (data) {
-                    setState(() => previewData = data);
-                  },
-                  previewData: previewData,
-                  text: urlToPreviewController.text,
-                  width: MediaQuery.of(context).size.width,
+                      SimpleButton.from(
+                          margin: EdgeInsets.zero,
 
-                  openOnPreviewTitleTap: true,
-                  openOnPreviewImageTap: true,
-                  //key: ValueKey(urlToPreviewController.text),
-                ),
-              ),
+                          iconColor: iconEnab_(context),
+
+                          textColor:
+                          startTime==null?
+                          hintEnab_(context):
+                          iconEnab_(context),
+
+                          icon: MdiIcons.calendarBlankOutline,
+                          text: startTime==null?
+                          'Czas rozpoczęcia:':
+                          'Początek: ${dateToString(startTime, shortMonth: true, withTime: true)}',
+                          fontWeight: weight.normal,
+                          onTap: startTime == null?null:() => showScrollBottomSheet(
+                              context: context,
+                              builder: (context) => BottomSheetDateTimePicker(
+                                startTime,
+                                backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+                                start: true,
+                                onSelected: (dateTime) => setState(() => startTime = dateTime),
+                              )
+                          )
+                      ),
+                      Expanded(child: Container()),
+                      if(startTime != null)
+                        IconButton(
+                          icon: const Icon(MdiIcons.close),
+                          onPressed: () => setState(() => startTime = null),
+                        )
+                      else
+                        IconButton(
+                            icon: const Icon(MdiIcons.plus),
+                            onPressed: (){
+                              DateTime now = DateTime.now();
+                              setState(() => startTime = DateTime(
+                                  now.year,
+                                  now.month,
+                                  now.day + 7,
+                                  now.hour,
+                                  0,
+                                  0
+                              ));
+                            }
+                        ),
+
+                      const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
+
+                    ],
+                  ),
+
+                  Row(
+                    children: [
+
+                      const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
+
+                      SimpleButton.from(
+                          margin: EdgeInsets.zero,
+
+                          iconColor: iconEnab_(context),
+
+                          textColor:
+                          startTime != null && endTime != null && endTime!.isBefore(startTime!)?
+                          Colors.red:
+
+                          startTime==null?
+                          hintEnab_(context):
+                          iconEnab_(context),
+
+                          icon: MdiIcons.calendarCheckOutline,
+                          text: endTime==null?
+                          'Czas zakończenia:':
+                          'Zakończ.:  ${dateToString(endTime, shortMonth: true, withTime: true)}',
+                          fontWeight: weight.normal,
+                          onTap: endTime == null?null:() => showScrollBottomSheet(
+                              context: context,
+                              builder: (context) => BottomSheetDateTimePicker(
+                                endTime,
+                                backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+                                start: false,
+                                onSelected: (dateTime) => setState(() => endTime = dateTime),
+                              )
+                          )
+                      ),
+
+                      Expanded(child: Container()),
+
+                      if(endTime != null)
+                        IconButton(
+                          icon: const Icon(MdiIcons.close),
+                          onPressed: () => setState(() => endTime = null),
+                        )
+                      else
+                        IconButton(
+                            icon: Icon(
+                              MdiIcons.plus,
+                              color: startTime == null?iconDisab_(context):iconEnab_(context),
+                            ),
+                            onPressed: startTime == null?null: (){
+                              DateTime now = DateTime.now();
+                              setState(() => endTime = DateTime(
+                                  now.year,
+                                  now.month,
+                                  now.day + 7,
+                                  now.hour + 3,
+                                  0,
+                                  0
+                              ));
+                            }
+                        ),
+
+                      const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
+
+                    ],
+                  ),
+
+                  Row(
+                    children: [
+
+                      const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG),
+
+                      Expanded(
+                        child: AppTextFieldHint(
+                          hint: 'Miejsce:',
+                          hintTop: '',
+                          controller: placeController,
+                          style: AppTextStyle(color: iconEnab_(context)),
+                          textCapitalization: TextCapitalization.sentences,
+                          leading: const Padding(
+                            padding: EdgeInsets.only(
+                              left: Dimen.ICON_MARG,
+                              right: Dimen.ICON_MARG,
+                            ),
+                            child: Icon(MdiIcons.mapMarkerOutline),
+                          ),
+                        ),
+                      ),
+
+                      if(placeEnabled)
+                        IconButton(
+                          icon: const Icon(MdiIcons.close),
+                          onPressed: () => placeController.text = '',
+                        )
+
+                    ],
+                  ),
+
+                ]
             )
 
-        ])),
+          ])),
+
+        if(!isEvent)
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+            sliver: SliverList(delegate: SliverChildListDelegate([
+
+              if(coverImage == null)
+                Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(CommunityPublishableWidgetTemplate.radius),
+                        color: backgroundIcon_(context)
+                    ),
+                    clipBehavior: Clip.hardEdge,
+                    child: Row(
+                      children: [
+
+                        const SizedBox(width: Dimen.SIDE_MARG),
+
+                        Expanded(
+                          child: AppTextFieldHint(
+                              hint: 'Link z podglądem:',
+                              hintTop: '',
+                              controller: urlToPreviewController,
+                              onAnyChanged: (_){
+                                previewData = null;
+                                setState(() {});
+                              },
+                              style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                              hintStyle: AppTextStyle(
+                                  fontSize: Dimen.TEXT_SIZE_BIG,
+                                  fontWeight: weight.halfBold,
+                                  color: hintEnab_(context)
+                              ),
+                              maxLines: 1,
+                              textCapitalization: TextCapitalization.sentences
+                          ),
+                        ),
+
+                        if(urlToPreviewController.text.isNotEmpty)
+                          IconButton(
+                            icon: const Icon(MdiIcons.close),
+                            onPressed: (){
+                              previewData = null;
+                              setState(() => urlToPreviewController.clear());
+                            },
+                          )
+
+                      ],
+                    )
+                ),
+
+              if(coverImage == null && urlToPreviewController.text.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: Dimen.SIDE_MARG),
+                  child: Material(
+                    elevation: 4.0,
+                    borderRadius: BorderRadius.circular(CommunityPublishableWidgetTemplate.radius),
+                    color: CommunityCoverColors.cardColor(context, palette),
+                    clipBehavior: Clip.hardEdge,
+                    child: LinkPreview(
+                      enableAnimation: true,
+                      onPreviewDataFetched: (data) {
+                        setState(() => previewData = data);
+                      },
+                      previewData: previewData,
+                      text: urlToPreviewController.text,
+                      width: MediaQuery.of(context).size.width,
+
+                      openOnPreviewTitleTap: true,
+                      openOnPreviewImageTap: true,
+                      //key: ValueKey(urlToPreviewController.text),
+                    ),
+                  ),
+                ),
+
+              const SizedBox(height: Dimen.SIDE_MARG),
+
+              if(urlToPreviewController.text.isEmpty)
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(CommunityPublishableWidgetTemplate.radius)
+                  ),
+                  clipBehavior: Clip.hardEdge,
+                  child:
+                  CoverImageSelectableWidget(
+                    palette,
+                    initCoverImage: coverImage,
+                    adaptiveImages: false,
+                    removable: true,
+                    onSelected: (newCoverImage) => setState(() => coverImage = newCoverImage),
+                    emptyBuilder: (context) => SizedBox(
+                      height: Dimen.ICON_FOOTPRINT,
+                      child: Container(
+                        color: backgroundIcon_(context),
+                        child: Row(
+                          children: [
+
+                            const SizedBox(width: Dimen.SIDE_MARG),
+
+                            Expanded(
+                              child: Text(
+                                'Dodaj grafikę',
+                                style: AppTextStyle(
+                                    color: hintEnab_(context),
+                                    fontWeight: weight.halfBold,
+                                    fontSize: Dimen.TEXT_SIZE_BIG
+                                ),
+                              ),
+                            ),
+
+                            Icon(MdiIcons.imagePlus, color: hintEnab_(context)),
+
+                            const SizedBox(width: Dimen.SIDE_MARG),
+
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+            ])),
+          ),
 
         SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
           sliver: SliverList(delegate: SliverChildListDelegate([
-
-            const SizedBox(height: Dimen.SIDE_MARG),
 
             SimpleButton.from(
                 elevation: AppCard.bigElevation,
@@ -603,17 +617,17 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                     await ApiCircle.publishAnnouncement(
                         circleKey: circle.key,
                         title: titleController.text,
-                        startTime: eventMode?startTime:null,
-                        endTime: eventMode?endTime:null,
-                        place: eventMode?placeController.text:null,
+                        startTime: isEvent?startTime:null,
+                        endTime: isEvent?endTime:null,
+                        place: isEvent?placeController.text:null,
 
                         urlToPreview: urlToPreviewController.text.isEmpty?
                         null:
                         urlToPreviewController.text,
 
-                        coverImageUrl: coverImage?.code,
+                        coverImage: coverImage,
                         text: textController.text,
-                        respMode: eventMode?attRespMode:AnnouncementAttendanceRespMode.NONE,
+                        respMode: isEvent?attRespMode:AnnouncementAttendanceRespMode.NONE,
                         onSuccess: (announcement) async {
                           if(mounted) await popPage(context); // Close loading widget.
                           onSaved?.call(announcement);
@@ -639,21 +653,21 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                         startTime:
                         initAnnouncement!.startTime == startTime?
                         const Optional.empty():
-                        eventMode?
+                        isEvent?
                         Optional.ofNullable(startTime):
                         Optional.ofNullable(null),
 
                         endTime:
                         initAnnouncement!.endTime == endTime?
                         const Optional.empty():
-                        eventMode?
+                        isEvent?
                         Optional.ofNullable(endTime):
                         Optional.ofNullable(null),
 
                         place:
                         initAnnouncement!.place == placeController.text?
                         const Optional.empty():
-                        eventMode?
+                        isEvent?
                         Optional.ofNullable(placeEnabled?placeController.text:null):
                         Optional.ofNullable(null),
 
@@ -661,27 +675,28 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                         initAnnouncement!.urlToPreview == urlToPreviewController.text?
                         const Optional.empty():
                         Optional.ofNullable(
-                          urlToPreviewController.text.isEmpty?
-                          null:
-                          urlToPreviewController.text
+                            urlToPreviewController.text.isEmpty?
+                            null:
+                            urlToPreviewController.text
                         ),
 
-                        coverImageUrl:
-                        initAnnouncement!.coverImage?.code == coverImage?.code?
+                        coverImage:
+                        coverImage?.localFilePath == null &&
+                        initAnnouncement!.coverImage?.uniqueID == coverImage?.uniqueID?
                         const Optional.empty():
-                        Optional.ofNullable(coverImage?.code),
+                        Optional.ofNullable(coverImage),
 
                         text:
                         initAnnouncement!.text == textController.text?
-                        const Optional.empty():
-                        Optional.of(textController.text),
+                        null:
+                        textController.text,
 
                         respMode:
                         initAnnouncement!.respMode == attRespMode?
-                        const Optional.empty():
-                        eventMode?
-                        Optional.of(attRespMode):
-                        Optional.of(AnnouncementAttendanceRespMode.NONE),
+                        null:
+                        isEvent?
+                        attRespMode:
+                        AnnouncementAttendanceRespMode.NONE,
 
                         onSuccess: (announcement) async {
                           await popPage(context); // Close loading widget.
@@ -702,60 +717,8 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                 }
             ),
 
-            const SizedBox(height: Dimen.SIDE_MARG),
-
-            if(initAnnouncement != null)
-              SimpleButton.from(
-                  elevation: AppCard.bigElevation,
-                  margin: EdgeInsets.zero,
-                  radius: AppCard.defRadius,
-                  textColor: CommunityCoverColors.backgroundColor(context, palette),
-                  color: Colors.red,
-                  icon: MdiIcons.trashCanOutline,
-                  text: 'Usuń ogłoszenie',
-                  onTap: () => showAppToast(context, text: 'Przytrzymaj, aby usunąć ogłoszenie'),
-                  onLongPress: (){
-
-                    showLoadingWidget(
-                        context,
-                        CommunityCoverColors.strongColor(context, palette),
-                        'Usuwanie...'
-                    );
-
-                    ApiCircle.deleteAnnouncement(
-                        annKey: initAnnouncement!.key,
-                        onSuccess: () async {
-                          await popPage(context); // Close loading widget.
-                          await popPage(context);
-                          onRemoved?.call();
-                        },
-                        onForceLoggedOut: (){
-                          if(!mounted) return true;
-                          popPage(context); // Close loading widget.
-                          setState(() {});
-                          return true;
-                        },
-                        onServerMaybeWakingUp: () {
-                          popPage(context); // Close loading widget.
-                          if(mounted) showServerWakingUpToast(context);
-                          return true;
-                        },
-                        onError: () async {
-                          if(!mounted) return;
-                          showAppToast(context, text: simpleErrorMessage);
-                          await popPage(context); // Close loading widget.
-                        }
-                    );
-
-                  }
-              ),
-
-            if(initAnnouncement != null)
-              const SizedBox(height: Dimen.SIDE_MARG),
-
           ])),
         )
-
 
       ],
     ),

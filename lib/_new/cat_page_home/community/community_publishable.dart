@@ -7,6 +7,7 @@ import 'model/community.dart';
 
 class CommunityPublishableListProvider extends ChangeNotifier{
   static CommunityPublishableListProvider of(BuildContext context) => Provider.of<CommunityPublishableListProvider>(context, listen: false);
+  static notify_(BuildContext context) => of(context).notify();
   void notify() => notifyListeners();
 }
 

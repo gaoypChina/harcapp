@@ -6,7 +6,7 @@ import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_home/_main.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
-import 'package:harcapp/_new/cat_page_home/community/common/cover_image_selector_widget.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/cover_image_selector_dialog.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
@@ -19,6 +19,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import 'community/circle/model/circle.dart';
 import 'community/community_thumbnail_widget.dart';
+import 'community/common/cover_image.dart';
 import 'community/forum/model/forum.dart';
 
 class SuperSearchField extends StatelessWidget{
@@ -330,9 +331,11 @@ class _CircleTile extends StatelessWidget{
     leading: SizedBox(
       height: 48.0,
       width: 48.0,
-      child: CoverImageWidget(
-        circle.coverImage,
-        radius: AppCard.defRadius,
+      child: Container(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(AppCard.defRadius)),
+        child: CoverImageWidget(
+          circle.coverImage,
+        ),
       )
     ),
     onTap: () => CatPageHomeState.openCirclePage(context, circle, replacePage: true),
@@ -354,9 +357,11 @@ class _ForumTile extends StatelessWidget{
     leading: SizedBox(
       height: 48.0,
       width: 48.0,
-      child: CoverImageWidget(
-        forum.coverImage,
-        radius: AppCard.defRadius
+      child: Container(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(AppCard.defRadius)),
+        child: CoverImageWidget(
+          forum.coverImage,
+        ),
       )
     ),
     onTap: () => CatPageHomeState.openForumPage(context, forum, replacePage: true),

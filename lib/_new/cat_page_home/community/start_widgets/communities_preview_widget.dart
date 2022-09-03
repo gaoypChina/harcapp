@@ -35,11 +35,13 @@ class CommunitiesPreviewWidget extends StatelessWidget{
             children: [
               Icon(icon, size: 60),
               const SizedBox(width: 20),
-              Text(
-                text,
-                style: AppTextStyle(
-                  fontSize: 20.0,
-                  color: iconEnab_(context)
+              Expanded(
+                child: Text(
+                  text,
+                  style: AppTextStyle(
+                      fontSize: 20.0,
+                      color: iconEnab_(context)
+                  ),
                 ),
               )
             ],

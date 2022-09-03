@@ -10,6 +10,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import 'circle/model/circle.dart';
 import 'common/community_cover_colors.dart';
+import 'community_publishable_widget_template.dart';
 import 'forum/model/forum.dart';
 import 'forum/model/post.dart';
 import 'forum/post_widget.dart';
@@ -52,8 +53,6 @@ Widget getCommunityPublishablesSliver(
               return AnnouncementWidget(
                 publishable,
                 palette,
-                pinnable: false,
-                editable: false,
                 onAnnouncementUpdated: onAnnouncementUpdated,
                 showCommunityInfo: true,
                 onCircleButtonTap: onCircleButtonTap == null?null:() => onCircleButtonTap.call(publishable.circle),
@@ -63,8 +62,6 @@ Widget getCommunityPublishablesSliver(
               return PostWidget(
                 publishable,
                 palette,
-                pinnable: false,
-                editable: false,
                 onPostUpdated: onPostUpdated,
                 showCommunityInfo: true,
                 onForumButtonTap: onForumButtonTap == null?null:() => onForumButtonTap.call(publishable.forum),
@@ -72,7 +69,7 @@ Widget getCommunityPublishablesSliver(
 
           },
           separatorBuilder: (context, index) =>
-          const SizedBox(height: Dimen.SIDE_MARG),
+          const SizedBox(height: 3*CommunityPublishableWidgetTemplate.borderHorizontalMarg),
           count: communityPublishables.length
       )),
     );

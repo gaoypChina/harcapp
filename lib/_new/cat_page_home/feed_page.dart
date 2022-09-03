@@ -6,6 +6,7 @@ import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/super_search_field.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -34,6 +35,7 @@ import '../../_common_widgets/harc_app.dart';
 import '../account_test_widget.dart';
 import 'community/circle/model/circle.dart';
 import 'community/community_publishable.dart';
+import 'community/community_publishable_widget_template.dart';
 import 'community/community_publishables_sliver.dart';
 import 'community/forum/model/forum.dart';
 import 'community/model/community.dart';
@@ -351,7 +353,7 @@ class FeedPageState extends State<FeedPage>{
                       ),
                   */
                   if(IndivComp.all != null && IndivComp.all!.isNotEmpty)
-                      const SizedBox(height: Dimen.SIDE_MARG),
+                    const SizedBox(height: Dimen.SIDE_MARG),
 
                 ])),
 
@@ -361,7 +363,7 @@ class FeedPageState extends State<FeedPage>{
                   CommunityPublishable.all??[],
                   onCircleButtonTap: (circle) => onCircleTap?.call(circle),
                   onForumButtonTap: (forum) => onForumTap?.call(forum),
-                  padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                  padding: const EdgeInsets.symmetric(horizontal: CommunityPublishableWidgetTemplate.borderHorizontalMarg),
                   loading: refreshController.isRefresh,
                   onAnnouncementUpdated: () => setState((){}),
                   onPostUpdated: () => setState((){}),

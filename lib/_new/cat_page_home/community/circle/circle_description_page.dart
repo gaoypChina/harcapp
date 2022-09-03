@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
@@ -104,7 +105,7 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
 
                   Padding(
                       padding: const EdgeInsets.only(
-                        top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+                        top: Dimen.SIDE_MARG,
                         left: Dimen.SIDE_MARG,
                         right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
                         bottom: Dimen.SIDE_MARG,
@@ -117,12 +118,14 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
                               children: [
 
                                 Expanded(
-                                  child:  Text(
+                                  child: AutoSizeText(
                                     circle.name,
                                     style: AppTextStyle(
                                         fontSize: 28.0,
+                                        color: iconEnab_(context),
                                         fontWeight: weight.bold
                                     ),
+                                    maxLines: 2,
                                     key: nameWidgetKey,
                                   ),
                                 ),
@@ -288,7 +291,7 @@ class BindedIndivCompTile extends StatelessWidget{
 
     String noOfPeople(int peopleCount){
       if(peopleCount == 1)
-        return '$peopleCount osoba';
+        return '$peopleCount osoby';
       else
         return '$peopleCount osób';
     }

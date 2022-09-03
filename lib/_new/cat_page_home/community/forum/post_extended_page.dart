@@ -42,7 +42,11 @@ class PostExpandedPage extends StatelessWidget{
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
 
             SliverAppBar(
-              title: Text(post.title),
+              title: Text(
+                post.title.isEmpty?post.text:post.title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
               centerTitle: true,
               floating: true,
               pinned: true,
@@ -51,7 +55,6 @@ class PostExpandedPage extends StatelessWidget{
               bottom: enablesResp?TabBar(
                 tabs: const [
                   Tab(text: 'Post'),
-                  Tab(text: 'Obecności'),
                 ],
                 indicator: AppTabBarIncdicator(
                     color: CommunityCoverColors.strongColor(context, palette)
@@ -66,18 +69,15 @@ class PostExpandedPage extends StatelessWidget{
 
                 SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  padding: const EdgeInsets.all(Dimen.defMarg),
                   child: PostWidget(
                       post,
                       palette,
                       shrinkText: false,
-                      showOnTap: false,
+                      disableTap: true,
                       onPostUpdated: onPostUpdated
                   ),
                 ),
-
-                if(enablesResp)
-                  Container(),
 
               ]
           ),

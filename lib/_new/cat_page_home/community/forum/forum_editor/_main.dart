@@ -12,6 +12,7 @@ import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../common/community_cover_image_data.dart';
 import '../../model/community.dart';
 import '../model/forum.dart';
 import 'danger_part.dart';
@@ -55,12 +56,7 @@ class ForumEditorPageState extends State<ForumEditorPage>{
   void Function()? get onError => widget.onError;
 
   void calcLocalBackgronudColor() async {
-    _palette = await getPaletteGenerator(
-        coverImageProv.coverImage.local,
-        coverImageProv.coverImage.firstFileName,
-        // initForum!.coverImage.local,
-        // initForum!.coverImage.firstFileName
-    );
+    _palette = await getPaletteGenerator(coverImageProv.coverImage);
     colorsKeyProv.notify();
   }
 
@@ -125,7 +121,7 @@ class ForumEditorPageState extends State<ForumEditorPage>{
                           if(initForum == null)
                             await ApiForum.create(
                                 description: Provider.of<DescriptionProvider>(context, listen: false).descriptionController.text,
-                                coverImageUrl: Provider.of<CoverImageProvider>(context, listen: false).coverImage.code,
+                                coverImage: Provider.of<CoverImageProvider>(context, listen: false).coverImage,
                                 colorsKey: Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey,
                                 community: community,
                                 onSuccess: (forum) async {
@@ -143,7 +139,7 @@ class ForumEditorPageState extends State<ForumEditorPage>{
 
                             String? description = Provider.of<DescriptionProvider>(context, listen: false).descriptionController.text;
                             if(description.isEmpty) description = null;
-                            String? coverImageCode = Provider.of<CoverImageProvider>(context, listen: false).coverImage.code;
+                            CommunityCoverImageData coverImage = Provider.of<CoverImageProvider>(context, listen: false).coverImage;
                             String? colorsKey = Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey;
 
                             await ApiForum.update(
@@ -152,18 +148,18 @@ class ForumEditorPageState extends State<ForumEditorPage>{
 
                                 description:
                                 initForum!.description == description?
-                                const Optional.empty():
+                                null:
                                 Optional.ofNullable(description),
 
-                                coverImageUrl:
-                                initForum!.coverImage.code == coverImageCode?
-                                const Optional.empty():
-                                Optional.ofNullable(coverImageCode),
+                                coverImage:
+                                initForum!.coverImage.uniqueID == coverImage.uniqueID?
+                                null:
+                                coverImage,
 
                                 colorsKey:
                                 initForum!.colorsKey == colorsKey?
-                                const Optional.empty():
-                                Optional.ofNullable(colorsKey),
+                                null:
+                                colorsKey,
 
                                 onSuccess: (circle) async {
                                   await popPage(context); // Close loading widget.

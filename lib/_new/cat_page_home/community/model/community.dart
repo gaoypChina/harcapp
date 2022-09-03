@@ -314,32 +314,34 @@ class Community extends CommunityBasicData{
   List<CommunityManager> get managers => _managers;
   Map<String, CommunityManager> get managersMap => _managersMap;
   
-  void addManager(BuildContext context, List<CommunityManager> newManagers){
+  void addManager(List<CommunityManager> newManagers, {BuildContext? context}){
 
     for(CommunityManager manager in newManagers) {
       _managers.add(manager);
       _managersMap[manager.key] = manager;
     }
-    
+
+    if(context == null) return;
     Provider.of<CommunityManagersProvider>(context, listen: false).notify();
     Provider.of<CommunityProvider>(context, listen: false).notify();
     Provider.of<CommunityListProvider>(context, listen: false).notify();
     
   }
 
-  void setAllManagers(BuildContext context, List<CommunityManager> allManagers){
+  void setAllManagers(List<CommunityManager> allManagers, {BuildContext? context}){
     _managers.clear();
     _managersMap.clear();
     _managers.addAll(allManagers);
     _managers.sort((m1, m2) => m1.name.compareTo(m2.name));
     _managersMap.addAll({for (CommunityManager? m in allManagers) m!.key: m});
 
+    if(context == null) return;
     Provider.of<CommunityManagersProvider>(context, listen: false).notify();
     Provider.of<CommunityProvider>(context, listen: false).notify();
     Provider.of<CommunityListProvider>(context, listen: false).notify();
   }
 
-  void updateManagers(BuildContext context, List<CommunityManager> newManagers){
+  void updateManagers(List<CommunityManager> newManagers, {BuildContext? context}){
 
     for(CommunityManager manager in newManagers) {
       int index = _managers.indexWhere((managerIter) => managerIter.key == manager.key);
@@ -348,16 +350,18 @@ class Community extends CommunityBasicData{
       _managersMap[manager.key] = manager;
     }
 
+    if(context == null) return;
     Provider.of<CommunityManagersProvider>(context, listen: false).notify();
     Provider.of<CommunityProvider>(context, listen: false).notify();
     Provider.of<CommunityListProvider>(context, listen: false).notify();
   }
 
-  void removeManagersByKey(BuildContext context, List<String> managerKeys){
+  void removeManagersByKey(List<String> managerKeys, {BuildContext? context}){
 
     _managers.removeWhere((particip) => managerKeys.contains(particip.key));
     for(String managerKey in managerKeys) _managersMap.remove(managerKey);
 
+    if(context == null) return;
     Provider.of<CommunityManagersProvider>(context, listen: false).notify();
     Provider.of<CommunityProvider>(context, listen: false).notify();
     Provider.of<CommunityListProvider>(context, listen: false).notify();

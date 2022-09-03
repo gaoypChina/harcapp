@@ -35,7 +35,8 @@ class CoverImageProvider extends ChangeNotifier{
   }
 
   CoverImageProvider({Circle? circle}){
-    _coverImage = circle?.coverImage??CommunityCoverImageData.paths[Random().nextInt(CommunityCoverImageData.paths.length)];
+    _coverImage = (circle?.coverImage??
+        CommunityCoverImageData.allSample[Random().nextInt(CommunityCoverImageData.allSample.length)]);
   }
 
   void notify() => notifyListeners();
@@ -47,9 +48,9 @@ class ColorsKeyProvider extends ChangeNotifier{
   static ColorsKeyProvider of(BuildContext context) => Provider.of<ColorsKeyProvider>(context, listen: false);
   static void notify_(BuildContext context) => of(context).notify();
 
-  String? _colorsKey;
-  String? get colorsKey => _colorsKey;
-  set colorsKey(String? value){
+  late String _colorsKey;
+  String get colorsKey => _colorsKey;
+  set colorsKey(String value){
     _colorsKey = value;
     notifyListeners();
   }

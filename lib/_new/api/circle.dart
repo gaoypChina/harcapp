@@ -12,6 +12,7 @@ import '../cat_page_home/community/circle/model/announcement_attendance_resp.dar
 import '../cat_page_home/community/circle/model/announcement_attendance_resp_mode.dart';
 import '../cat_page_home/community/circle/model/circle.dart';
 import '../cat_page_home/community/circle/model/member.dart';
+import '../cat_page_home/community/common/community_cover_image_data.dart';
 import '../cat_page_home/community/model/community.dart';
 import '_api.dart';
 
@@ -28,13 +29,13 @@ class MemberRespBody{
 class MemberUpdateBody{
 
   final String key;
-  final Optional<CircleRole> role;
-  final Optional<String?> patrol;
+  final CircleRole? role;
+  final Optional<String>? patrol;
 
   const MemberUpdateBody(
       this.key,
-      { this.role = const Optional.empty(),
-        this.patrol = const Optional.empty()
+      { this.role,
+        this.patrol
       });
 
 }
@@ -97,7 +98,7 @@ class ApiCircle{
 
   static Future<Response?> create({
     required String description,
-    required String? coverImageUrl,
+    required CommunityCoverImageData coverImage,
     required String? colorsKey,
     required CommunityBasicData community,
 
@@ -107,20 +108,19 @@ class ApiCircle{
     FutureOr<void> Function()? onError,
   }) async {
 
-    Map<String, dynamic> reqMap = {};
-    reqMap['communityKey'] = community.key;
-    reqMap['description'] = description.trim();
-    reqMap['coverImageUrl'] = coverImageUrl;
-    reqMap['colorsKey'] = colorsKey;
-
     return API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.post(
+      sendRequest: (Dio dio) async => dio.post(
           '${API.SERVER_URL}api/circle',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
           }),
-          data: jsonEncode(reqMap)
+          data: jsonEncode({
+            'communityKey': community.key,
+            'description': description.trim(),
+            'coverImage': await MultipartFile.fromFile(coverImage.localFilePath!),
+            'colorsKey': colorsKey
+          })
       ),
       onSuccess: (Response response, DateTime now) async{
         Circle circle = Circle.fromResponse(response.data, community);
@@ -223,9 +223,9 @@ class ApiCircle{
   static Future<Response?> update({
     required String circleKey,
     required CommunityBasicData community,
-    Optional<String> description = const Optional.empty(),
-    Optional<String> coverImageUrl = const Optional.empty(),
-    Optional<String> colorsKey = const Optional.empty(),
+    Optional<String>? description,
+    CommunityCoverImageData? coverImage,
+    String? colorsKey,
     FutureOr<void> Function(Circle circle)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -233,9 +233,12 @@ class ApiCircle{
   }) async{
 
     Map<String, dynamic> reqMap = {};
-    if(description.isPresent) reqMap['description'] = description.value.trim();
-    if(coverImageUrl.isPresent) reqMap['coverImageUrl'] = coverImageUrl.value;
-    if(colorsKey.isPresent) reqMap['colorsKey'] = colorsKey.value;
+    if(description != null) reqMap['description'] = description.orElseNull?.trim();
+
+    if(coverImage != null)
+      reqMap['coverImage'] = await coverImage.toReqMap();
+
+    if(colorsKey != null) reqMap['colorsKey'] = colorsKey;
 
     return API.sendRequest(
       withToken: true,
@@ -258,7 +261,7 @@ class ApiCircle{
 
   }
   
-  static Future<Response?> addUsers({
+  static Future<Response?> addMembers({
     required String circleKey,
     required List<MemberRespBodyNick> users,
     FutureOr<void> Function(List<Member>)? onSuccess,
@@ -277,7 +280,7 @@ class ApiCircle{
     return API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.post(
-          '${API.SERVER_URL}api/circle/$circleKey/user',
+          '${API.SERVER_URL}api/circle/$circleKey/member',
           data: jsonEncode(body)
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -297,7 +300,7 @@ class ApiCircle{
 
   }
 
-  static Future<Response?> updateUsers({
+  static Future<Response?> updateMembers({
     required String circleKey,
     required List<MemberUpdateBody> users,
     FutureOr<void> Function(List<Member>)? onSuccess,
@@ -310,14 +313,17 @@ class ApiCircle{
     for(MemberUpdateBody memBody in users)
       body.add({
         'userKey': memBody.key,
-        if(memBody.role.isPresent) 'role': circleRoleToStr[memBody.role.value],
-        if(memBody.patrol.isPresent) 'patrol': memBody.patrol.value
+        if(memBody.role != null) 'role': circleRoleToStr[memBody.role],
+        if(memBody.patrol != null) 'patrol': memBody.patrol!.orElseNull
       });
 
     return API.sendRequest(
         withToken: true,
         sendRequest: (Dio dio) => dio.put(
-            '${API.SERVER_URL}api/circle/$circleKey/user',
+            '${API.SERVER_URL}api/circle/$circleKey/member',
+            options: Options(headers: {
+              HttpHeaders.contentTypeHeader: 'application/json',
+            }),
             data: jsonEncode(body)
         ),
         onSuccess: (Response response, DateTime now) async {
@@ -337,7 +343,7 @@ class ApiCircle{
 
   }
 
-  static Future<Response?> removeUsers({
+  static Future<Response?> removeMembers({
     required String circleKey,
     required List<String> userKeys,
     FutureOr<void> Function(List<String> removedKeys)? onSuccess,
@@ -347,7 +353,7 @@ class ApiCircle{
   }) => API.sendRequest(
       withToken: true,
       sendRequest: (Dio dio) => dio.delete(
-          '${API.SERVER_URL}api/circle/$circleKey/user',
+          '${API.SERVER_URL}api/circle/$circleKey/member',
           data: jsonEncode(userKeys)
       ),
       onSuccess: (Response response, DateTime now) =>
@@ -416,7 +422,7 @@ class ApiCircle{
     DateTime? endTime,
     String? place,
     String? urlToPreview,
-    String? coverImageUrl,
+    CommunityCoverImageData? coverImage,
     required String text,
     required AnnouncementAttendanceRespMode respMode,
 
@@ -426,18 +432,23 @@ class ApiCircle{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.post(
+      sendRequest: (Dio dio) async => await dio.post(
         '${API.SERVER_URL}api/circle/$circleKey/announcement',
-        data: FormData.fromMap({
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+        }),
+        data: jsonEncode({
           'title': title,
           if(startTime != null) 'startTimeStr': startTime.toIso8601String(),
           if(endTime != null) 'endTimeStr': endTime.toIso8601String(),
           if(place != null) 'place': place,
           if(urlToPreview != null) 'urlToPreview': urlToPreview,
-          if(coverImageUrl != null) 'coverImageUrl': coverImageUrl,
+          if(coverImage != null)
+            'coverImage': await coverImage.toReqMap(),
+
           'text': text,
           'attendanceRespMode': announcementAttendanceRespModeToStr[respMode],
-        }),
+        })
       ),
       onSuccess: (Response response, DateTime now) async =>
           onSuccess?.call(Announcement.fromMap(response.data, Community.allCircleMap![circleKey]!)),
@@ -448,14 +459,14 @@ class ApiCircle{
 
   static Future<Response?> updateAnnouncement({
     required Announcement announcement,
-    Optional<String?> title = const Optional.empty(),
-    Optional<DateTime?> startTime = const Optional.empty(),
-    Optional<DateTime?> endTime = const Optional.empty(),
-    Optional<String?> place = const Optional.empty(),
-    Optional<String?> urlToPreview = const Optional.empty(),
-    Optional<String?> coverImageUrl = const Optional.empty(),
-    Optional<String?> text = const Optional.empty(),
-    Optional<AnnouncementAttendanceRespMode> respMode = const Optional.empty(),
+    Optional<String>? title,
+    Optional<DateTime>? startTime,
+    Optional<DateTime>? endTime,
+    Optional<String>? place,
+    Optional<String>? urlToPreview,
+    Optional<CommunityCoverImageData>? coverImage,
+    String? text,
+    AnnouncementAttendanceRespMode? respMode,
 
     FutureOr<void> Function(Announcement)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -463,31 +474,30 @@ class ApiCircle{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.put(
+      sendRequest: (Dio dio) async => dio.put(
         '${API.SERVER_URL}api/announcement/${announcement.key}',
-        data: FormData.fromMap({
-
-          if(title.isPresent) 'title': title.value,
-
-          if(startTime.isPresent) "startTimeStr": startTime.value == null?
-          null:
-          startTime.value!.toIso8601String(),
-
-          if(endTime.isPresent) "endTimeStr": endTime.value == null?
-          null:
-          endTime.value!.toIso8601String(),
-
-          if(place.isPresent) 'place': place.value,
-
-          if(urlToPreview.isPresent) 'urlToPreview': urlToPreview.value,
-
-          if(coverImageUrl.isPresent) 'coverImageUrl': coverImageUrl.value,
-
-          if(text.isPresent) 'text': text.value,
-
-          if(respMode.isPresent) 'attendanceRespMode': announcementAttendanceRespModeToStr[respMode.value]
-
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
         }),
+        data: jsonEncode({
+
+          if(title != null) 'title': title.orElseNull,
+
+          if(startTime != null) "startTimeStr": startTime.orElseNull,
+
+          if(endTime != null) "endTimeStr": endTime.orElseNull,
+
+          if(place != null) 'place': place.orElseNull,
+
+          if(urlToPreview != null) 'urlToPreview': urlToPreview.orElseNull,
+
+          if(coverImage != null) 'coverImage': coverImage.orElseNull?.toReqMap(),
+
+          if(text != null) 'text': text,
+
+          if(respMode != null) 'attendanceRespMode': announcementAttendanceRespModeToStr[respMode]
+
+        })
       ),
       onSuccess: (Response response, DateTime now) async =>
           onSuccess?.call(Announcement.fromMap(response.data, announcement.circle)),

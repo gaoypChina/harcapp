@@ -80,7 +80,7 @@ class CircleBasicData{
   static CircleBasicData fromResponse(Map resp, {String? name}) => CircleBasicData(
     key: resp['_key']??(throw InvalidResponseError('_key')),
     name: name??resp['name']??(throw InvalidResponseError('name')),
-    coverImage: CommunityCoverImageData.from(resp['coverImageUrl']??(throw InvalidResponseError('coverImageUrl'))),
+    coverImage: CommunityCoverImageData.from(resp['coverImage']??(throw InvalidResponseError('coverImage'))),
     memberCount: resp['memberCount']??(throw InvalidResponseError('memberCount')),
   );
 
@@ -114,30 +114,32 @@ class Circle{
 
   bool get hasDescription => description != null && description!.isNotEmpty;
 
-  void addMember(BuildContext context, List<Member> newMembers){
+  void addMember(List<Member> newMembers, {BuildContext? context}){
 
     for(Member mem in newMembers) {
       _members.add(mem);
       _membersMap[mem.key] = mem;
     }
-    
+
+    if(context == null) return;
     Provider.of<CircleMembersProvider>(context, listen: false).notify();
     Provider.of<CircleProvider>(context, listen: false).notify();
 
   }
 
-  void setAllMembers(BuildContext context, List<Member> allMembers){
+  void setAllMembers(List<Member> allMembers, {BuildContext? context}){
     _members.clear();
     _membersMap.clear();
     _members.addAll(allMembers);
     _members.sort((mem1, mem2) => mem1.name.compareTo(mem2.name));
     _membersMap.addAll({for (Member? mem in allMembers) mem!.key: mem});
 
+    if(context == null) return;
     Provider.of<CircleMembersProvider>(context, listen: false).notify();
     Provider.of<CircleProvider>(context, listen: false).notify();
   }
 
-  void updateMembers(BuildContext context, List<Member> newMembers){
+  void updateMembers(List<Member> newMembers, {BuildContext? context}){
 
     for(Member mem in newMembers) {
       int index = _members.indexWhere((memIter) => memIter.key == mem.key);
@@ -146,15 +148,17 @@ class Circle{
       _membersMap[mem.key] = mem;
     }
 
+    if(context == null) return;
     Provider.of<CircleMembersProvider>(context, listen: false).notify();
     Provider.of<CircleProvider>(context, listen: false).notify();
   }
 
-  void removeMembersByKey(BuildContext context, List<String> memberKeys){
+  void removeMembersByKey(List<String> memberKeys, {BuildContext? context}){
 
     _members.removeWhere((particip) => memberKeys.contains(particip.key));
     for(String memKey in memberKeys) _membersMap.remove(memKey);
 
+    if(context == null) return;
     Provider.of<CircleMembersProvider>(context, listen: false).notify();
     Provider.of<CircleProvider>(context, listen: false).notify();
   }
@@ -169,6 +173,10 @@ class Circle{
 
   void removeAnnouncement(Announcement announcement){
     _allAnnouncements.remove(announcement);
+
+    if(_pinnedAnnouncements.remove(announcement)) pinnedCount -= 1;
+    if(_awaitingAnnouncements.remove(announcement)) awaitingCount -= 1;
+
     _announcementsMap.remove(announcement.key);
   }
 
@@ -389,7 +397,7 @@ class Circle{
     Circle circle = Circle(
       key: resp['_key']??(throw InvalidResponseError('_key')),
       description: resp['description'],
-      coverImage: CommunityCoverImageData.from(resp['coverImageUrl']),
+      coverImage: CommunityCoverImageData.from(resp['coverImage']),
       colorsKey: resp['colorsKey']??(throw InvalidResponseError('colorsKey')),
       shareCode: resp["shareCode"],
       shareCodeSearchable: resp["shareCodeSearchable"],

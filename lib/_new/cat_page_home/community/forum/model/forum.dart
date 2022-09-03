@@ -79,7 +79,7 @@ class ForumBasicData{
   static ForumBasicData fromResponse(Map resp, CommunityBasicData community) => ForumBasicData(
     key: resp['_key']??(throw InvalidResponseError('_key')),
     community: community,
-    coverImage: CommunityCoverImageData.from(resp['coverImageUrl']??(throw InvalidResponseError('coverImageUrl'))),
+    coverImage: CommunityCoverImageData.from(resp['coverImage']??(throw InvalidResponseError('coverImage'))),
     description: resp['description']??(throw InvalidResponseError('description')),
     liked: resp['liked']??(throw InvalidResponseError('liked')),
     likeCnt: resp['likeCount']??(throw InvalidResponseError('likeCount')),
@@ -111,30 +111,32 @@ class Forum extends ForumBasicData{
 
   bool get hasDescription => description != null && description!.isNotEmpty;
 
-  void addManager(BuildContext context, List<ForumManager> newManagers){
+  void addManager(List<ForumManager> newManagers, {BuildContext? context}){
 
     for(ForumManager manager in newManagers) {
       _managers.add(manager);
       _managersMap[manager.key] = manager;
     }
 
+    if(context == null) return;
     Provider.of<ForumManagersProvider>(context, listen: false).notify();
     Provider.of<ForumProvider>(context, listen: false).notify();
 
   }
 
-  void setAllManagers(BuildContext context, List<ForumManager> allManagers){
+  void setAllManagers(List<ForumManager> allManagers, {BuildContext? context}){
     _managers.clear();
     _managersMap.clear();
     _managers.addAll(allManagers);
     _managers.sort((m1, m2) => m1.name.compareTo(m2.name));
     _managersMap.addAll({for (ForumManager? manager in allManagers) manager!.key: manager});
 
+    if(context == null) return;
     Provider.of<ForumManagersProvider>(context, listen: false).notify();
     Provider.of<ForumProvider>(context, listen: false).notify();
   }
 
-  void updateManagers(BuildContext context, List<ForumManager> newManagers){
+  void updateManagers(List<ForumManager> newManagers, {BuildContext? context}){
 
     for(ForumManager manager in newManagers) {
       int index = _managers.indexWhere((managerIter) => managerIter.key == manager.key);
@@ -143,15 +145,17 @@ class Forum extends ForumBasicData{
       _managersMap[manager.key] = manager;
     }
 
+    if(context == null) return;
     Provider.of<ForumManagersProvider>(context, listen: false).notify();
     Provider.of<ForumProvider>(context, listen: false).notify();
   }
 
-  void removeManagersByKey(BuildContext context, List<String> managerKeys){
+  void removeManagersByKey(List<String> managerKeys, {BuildContext? context}){
 
     _managers.removeWhere((particip) => managerKeys.contains(particip.key));
     for(String managerKey in managerKeys) _managersMap.remove(managerKey);
 
+    if(context == null) return;
     Provider.of<ForumManagersProvider>(context, listen: false).notify();
     Provider.of<ForumProvider>(context, listen: false).notify();
   }
@@ -256,7 +260,7 @@ class Forum extends ForumBasicData{
     Forum forum = Forum(
       key: resp['_key']??(throw InvalidResponseError('_key')),
       description: resp['description'],
-      coverImage: CommunityCoverImageData.from(resp['coverImageUrl']),
+      coverImage: CommunityCoverImageData.from(resp['coverImage']),
       colorsKey: resp['colorsKey']??(throw InvalidResponseError('colorsKey')),
       liked: resp['liked']??(throw InvalidResponseError('liked')),
       likeCnt: resp['likeCount']??(throw InvalidResponseError('likeCount')),

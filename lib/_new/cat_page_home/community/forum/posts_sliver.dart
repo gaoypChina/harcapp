@@ -7,6 +7,7 @@ import 'package:palette_generator/palette_generator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../common/community_cover_colors.dart';
+import '../community_publishable_widget_template.dart';
 import 'model/forum.dart';
 import 'model/post.dart';
 
@@ -44,14 +45,12 @@ Widget getPostsSliver(
               PostWidget(
                 posts[index],
                 palette,
-                pinnable: false,
-                editable: false,
                 onPostUpdated: onPostUpdated,
                 showCommunityInfo: showCommunityInfo,
                 onForumButtonTap: onForumButtonTap == null?null:() => onForumButtonTap.call(posts[index].forum),
               ),
           separatorBuilder: (context, index) =>
-          const SizedBox(height: Dimen.SIDE_MARG),
+          const SizedBox(height: 3*CommunityPublishableWidgetTemplate.borderHorizontalMarg),
           count: posts.length
       )),
     );

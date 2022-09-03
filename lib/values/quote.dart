@@ -42,6 +42,7 @@ const String quoteAuthorAbpFidelus = 'ks. abp Bronisław Fidelus';
 const String quoteAuthorSwTomaszZAkwinu = 'św. Tomasz z Akwinu';
 const String quoteAuthorJaroslavPelikan = 'Jaroslav Pelikan';
 const String quoteAuthorWolter = 'François-Marie Arouet Voltaire';
+const String quoteAuthorJerzyDobrowolski = 'Jerzy Dobrowolski';
 
 const Quote tischnerZmartwychwstwanie = Quote(quoteAuthorTischner, 'Od czasu, gdy Chrystus zwyciężył śmierć, żaden optymizm nie jest w Kościele przesadą.');
 
@@ -221,6 +222,9 @@ const List<Quote> CYTATY_REGULAR = [
   Quote(quoteAuthorJaroslavPelikan, 'Tradycja jest żyjącą wiarą umarłych. Tradycjonalizm jest martwą wiarą żywych.'),
 
   Quote(quoteAuthorWolter, 'Nie zgadzam się z tym co mówisz, ale oddam życie, abyś miał prawo to powiedzieć.'),
+
+  Quote(quoteAuthorJerzyDobrowolski, 'Nie ma nic gorszego niż człowiek wykształcony ponad własną inteligencję'),
+
 ];
 
 
@@ -239,7 +243,7 @@ const String cytaty_autor_baczynski = 'Krzysztof Kamil Baczyński';
 const String cytaty_autor_jankowski = 'Jan Stanisław Jankowski';
 const String cytaty_autor_mickiewicz = 'Adam Mickwiecz';
 const String cytaty_autor_napieralski = 'Stefan Napierski';
-const String cytaty_autor_dobrowolski = 'Stanisław Dobrowolski';
+const String cytaty_autor_stanislaw_dobrowolski = 'Stanisław Dobrowolski';
 
 const List<Quote> CYTATY_POWST_WARSZ = [
   Quote(cytaty_autor_pilecki, 'Starałem się tak żyć, abym w godzinie śmierci mógł się raczej cieszyć, niż lękać.'),
@@ -259,6 +263,5 @@ const List<Quote> CYTATY_POWST_WARSZ = [
 
   Quote(cytaty_autor_napieralski, 'Ojczyzna: to jest tam, gdzie by się chciało umrzeć.'),
 
-  Quote(cytaty_autor_dobrowolski, 'Poległym chwała, wolność żywym.'),
-  Quote(cytaty_autor_dobrowolski, 'Za każdy kamień Twój, Stolico, damy krew.'),
+  Quote(cytaty_autor_stanislaw_dobrowolski, 'Poległym chwała, wolność żywym.'),
 ];

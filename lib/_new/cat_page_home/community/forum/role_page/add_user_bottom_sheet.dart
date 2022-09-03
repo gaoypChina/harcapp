@@ -36,7 +36,7 @@ class AddUserBottomSheet extends StatelessWidget{
           forumKey: forum.key,
           users: [ForumManagerRespBodyNick(userData.key, ForumRole.EDITOR, userData.nick)],
           onSuccess: (List<ForumManager> allManagers){
-            forum.setAllManagers(context, allManagers);
+            forum.setAllManagers(allManagers, context: context);
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
             showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}.');

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
+import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/cat_page_home/_main.dart';
+import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
@@ -24,6 +26,7 @@ import 'package:provider/provider.dart';
 import '../common/community_cover_colors.dart';
 import '../community_publishable_widget_template.dart';
 import 'circle_page.dart';
+import 'circle_role.dart';
 import 'model/announcement.dart';
 import 'model/announcement_attendace.dart';
 import 'model/announcement_attendance_resp.dart';
@@ -37,6 +40,7 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
   final PaletteGenerator? palette;
   final void Function()? onTap;
   final void Function()? onUpdateTap;
+  final void Function(Announcement)? onDeleted;
   final void Function(bool)? onPinChanged;
   final void Function(AnnouncementAttendanceResp, DateTime now)? onAttendanceChanged;
   final void Function()? onAttendanceIndicatorTap;
@@ -50,6 +54,8 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
         this.palette,
         this.onTap,
         this.onUpdateTap,
+        this.onDeleted,
+
         this.onPinChanged,
         this.onAttendanceChanged,
         this.onAttendanceIndicatorTap,
@@ -62,16 +68,17 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
   @override
   Widget build(BuildContext context){
 
-    bool showPin = AccountData.key == announcement.author.key && onPinChanged != null;
+    bool amIAuthor = AccountData.key == announcement.author.key;
 
     return CommunityPublishableWidgetTemplate(
       announcement,
       palette,
+
       shrinkText: shrinkText,
       onTap: onTap,
       onUpdateTap: onUpdateTap,
       showCommunityInfo: showCommunityInfo,
-      contentTop:
+      contentBottom:
       announcement.isEvent?
       EventInfoWidget(
         announcement,
@@ -79,37 +86,83 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
         onAttendanceChanged: onAttendanceChanged,
         onAttendanceIndicatorTap: onAttendanceIndicatorTap
       ):null,
-      //contentTop: AwaitingAlertWidget(announcement, palette),
-      bottomLeading:
-      showPin?
-      _PinWidget(announcement, onPinChanged: onPinChanged, showShortcutButton: showPinShortcutButton):
-      null,
 
       onCommunityButtonTap: onCircleButtonTap,
+      
+      onMoreTap:
+      amIAuthor && announcement.circle.myRole != CircleRole.OBSERVER?
+      () => showScrollBottomSheet(
+        context: context, 
+        builder: (_) => BottomSheetDef(
+          color: CommunityCoverColors.backgroundColor(context, palette),
+          builder: (_) => Column(
+            children: [
+
+              if(amIAuthor && announcement.circle.myRole != CircleRole.OBSERVER)
+                ListTile(
+                  leading: const Icon(MdiIcons.pencil),
+                  title: Text('Edytuj ogłoszenie', style: AppTextStyle()),
+                  onTap: (){
+                    Navigator.pop(context);
+                    onUpdateTap?.call();
+                  },
+                ),
+
+              if(amIAuthor && announcement.circle.myRole != CircleRole.OBSERVER)
+                _PinTile(
+                    announcement,
+                    onPinChanged: onPinChanged,
+                    showShortcutButton: showPinShortcutButton
+                ),
+
+              if(amIAuthor && announcement.circle.myRole != CircleRole.OBSERVER)
+                ListTile(
+                  leading: const Icon(MdiIcons.trashCanOutline),
+                  title: Text('Usuń ogłoszenie', style: AppTextStyle()),
+                  onTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć'),
+                  onLongPress: (){
+
+                    Navigator.pop(context); // Hide bottom sheet
+
+                    showLoadingWidget(
+                        context,
+                        CommunityCoverColors.strongColor(context, palette),
+                        'Usuwanie...'
+                    );
+
+                    ApiCircle.deleteAnnouncement(
+                        annKey: announcement.key,
+                        onSuccess: () async {
+                          announcement.circle.removeAnnouncement(announcement);
+                          AnnouncementListProvider.notify_(context);
+                          CommunityPublishableListProvider.notify_(context);
+                          await popPage(context); // Close loading widget.
+                          onDeleted?.call(announcement);
+                        },
+                        onForceLoggedOut: (){
+                          popPage(context); // Close loading widget.
+                          return true;
+                        },
+                        onServerMaybeWakingUp: () {
+                          showServerWakingUpToast(context);
+                          popPage(context); // Close loading widget.
+                          return true;
+                        },
+                        onError: () async {
+                          showAppToast(context, text: simpleErrorMessage);
+                          await popPage(context); // Close loading widget.
+                        }
+                    );
+
+                  },
+                ),
+            ],
+          ),
+        )
+      ):null,
 
     );
   }
-
-}
-
-class PostingInfoWidget extends StatelessWidget{
-
-  final Announcement announcement;
-  const PostingInfoWidget(this.announcement, {super.key});
-
-  @override
-  Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-
-      Text(announcement.author.name, style: AppTextStyle()),
-      Text(
-        dateToString(announcement.publishTime, shortMonth: true, withTime: true),
-        style: AppTextStyle(color: hintEnab_(context)),
-      ),
-
-    ],
-  );
 
 }
 
@@ -135,133 +188,118 @@ class EventInfoWidget extends StatelessWidget{
     bool hasEndTime = announcement.endTime != null;
     bool hasPlace = announcement.place != null && announcement.place!.isNotEmpty;
 
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: Dimen.defMarg,
-        left: Dimen.defMarg,
-        right: Dimen.defMarg
-      ),
-      child: Material(
-        color: CommunityCoverColors.backgroundColor(context, palette),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppCard.defRadius),
-          side: BorderSide.none,
-        ),
-        clipBehavior: Clip.hardEdge,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+    return Container(
+      color: CommunityCoverColors.cardColor(context, palette),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
 
-            if(hasPlace || hasStartTime)
-              const SizedBox(height: Dimen.ICON_MARG),
+          if(hasPlace || hasStartTime)
+            const SizedBox(height: Dimen.ICON_MARG),
 
-            if(hasStartTime && hasEndTime)
-              Row(
-                children: [
+          if(hasStartTime && hasEndTime)
+            Row(
+              children: [
 
-                  const SizedBox(width: Dimen.ICON_MARG),
+                const SizedBox(width: Dimen.ICON_MARG),
 
-                  const Icon(MdiIcons.calendarOutline),
+                const Icon(MdiIcons.calendarOutline),
 
-                  const SizedBox(width: Dimen.ICON_MARG),
+                const SizedBox(width: Dimen.ICON_MARG),
 
-                  Text(
-                    dateRangeToString(
+                Text(
+                  dateRangeToString(
                       announcement.startTime!,
                       announcement.endTime!,
                       shortMonth: true,
                       showYear: announcement.startTime!.year != DateTime.now().year,
                       withTime: true,
                       dateTimeSep: ' '
-                    ),
-                    style: AppTextStyle(
-                      fontSize: Dimen.TEXT_SIZE_NORMAL,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  )
-                ],
-              )
-            else if(hasStartTime)
-              Row(
-                children: [
+                  ),
+                  style: AppTextStyle(
+                    fontSize: Dimen.TEXT_SIZE_NORMAL,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            )
+          else if(hasStartTime)
+            Row(
+              children: [
 
-                  const SizedBox(width: Dimen.ICON_MARG),
+                const SizedBox(width: Dimen.ICON_MARG),
 
-                  const Icon(MdiIcons.calendarOutline),
+                const Icon(MdiIcons.calendarOutline),
 
-                  const SizedBox(width: Dimen.ICON_MARG),
+                const SizedBox(width: Dimen.ICON_MARG),
 
-                  Text(
-                    dateToString(
+                Text(
+                  dateToString(
                       announcement.startTime,
                       shortMonth: true,
                       showYear: announcement.startTime!.year != DateTime.now().year,
                       withTime: true,
                       dateTimeSep: ' '
-                    ),
-                    style: AppTextStyle(
-                      fontSize: Dimen.TEXT_SIZE_NORMAL,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  )
-                ],
-              ),
-
-            if(hasStartTime || hasEndTime)
-              const SizedBox(height: Dimen.ICON_MARG),
-
-            if(hasPlace)
-              Row(
-                children: [
-
-                  const SizedBox(width: Dimen.ICON_MARG),
-
-                  const Icon(MdiIcons.mapMarkerOutline),
-
-                  const SizedBox(width: Dimen.ICON_MARG),
-
-                  Text(
-                    announcement.place!,
-                    style: AppTextStyle(
-                        fontSize: Dimen.TEXT_SIZE_NORMAL,
-                        color: textEnab_(context)
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  )
-                ],
-              ),
-
-            if(hasPlace)
-              const SizedBox(height: Dimen.ICON_MARG),
-
-            Padding(
-              padding: const EdgeInsets.all(Dimen.defMarg),
-              child: Row(
-                children: [
-
-                  AttendanceWidget(
-                    announcement,
-                    palette: palette,
-                    onAttendanceChanged: onAttendanceChanged,
                   ),
-
-                  Expanded(
-                    child: Container(),
+                  style: AppTextStyle(
+                    fontSize: Dimen.TEXT_SIZE_NORMAL,
                   ),
-
-                  AttendanceIndicatorWidget(announcement, onTap: onAttendanceIndicatorTap),
-
-                ],
-              ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
             ),
 
-            AwaitingAlertWidget(announcement, palette),
+          if(hasStartTime || hasEndTime)
+            const SizedBox(height: Dimen.ICON_MARG),
 
-          ],
-        )
+          if(hasPlace)
+            Row(
+              children: [
+
+                const SizedBox(width: Dimen.ICON_MARG),
+
+                const Icon(MdiIcons.mapMarkerOutline),
+
+                const SizedBox(width: Dimen.ICON_MARG),
+
+                Text(
+                  announcement.place!,
+                  style: AppTextStyle(
+                      fontSize: Dimen.TEXT_SIZE_NORMAL,
+                      color: textEnab_(context)
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ),
+
+          Padding(
+            padding: announcement.isAwaitingMyResponse?
+            const EdgeInsets.symmetric(vertical: Dimen.defMarg):
+            const EdgeInsets.only(top: Dimen.defMarg),
+            child: Row(
+              children: [
+
+                AttendanceWidget(
+                  announcement,
+                  palette: palette,
+                  onAttendanceChanged: onAttendanceChanged,
+                ),
+
+                Expanded(child: Container()),
+
+                AttendanceIndicatorWidget(announcement, onTap: onAttendanceIndicatorTap),
+
+              ],
+            ),
+          ),
+
+          AwaitingAlertWidget(announcement, palette),
+
+        ],
       ),
     );
 
@@ -298,32 +336,25 @@ class AwaitingAlertWidget extends StatelessWidget{
       duration: const Duration(milliseconds: 300),
       child:
       announcement.isAwaitingMyResponse?
-      Padding(
+      Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppCard.defRadius),
+          color: CommunityCoverColors.strongColor(context, palette),
+        ),
+        child: Padding(
           padding: const EdgeInsets.only(
-            left: Dimen.defMarg,
-            right: Dimen.defMarg,
-            bottom: Dimen.defMarg,
+              top: Dimen.ICON_MARG,
+              bottom: Dimen.ICON_MARG
           ),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(AppCard.defRadius),
-              color: Colors.red,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: Dimen.ICON_MARG,
-                  bottom: Dimen.ICON_MARG
-              ),
-              child: AppText(
-                timeDurStr.isEmpty?
-                'Ogłoszenie czeka na <b>Twoją</b> reakcję':
-                'Mija już <b>$timeDurStr</b> bez <b>Twojej</b> reakcji',
-                color: Colors.white,
-                textAlign: TextAlign.center,
-                size: Dimen.TEXT_SIZE_BIG,
-              ),
-            ),
-          )
+          child: AppText(
+            timeDurStr.isEmpty?
+            'Ogłoszenie czeka na <b>Twoją</b> reakcję':
+            'Mija już <b>$timeDurStr</b> bez <b>Twojej</b> reakcji',
+            color: Colors.white,
+            textAlign: TextAlign.center,
+            size: Dimen.TEXT_SIZE_BIG,
+          ),
+        ),
       ):
       Container(),
     );
@@ -338,6 +369,33 @@ class AttendanceWidget extends StatelessWidget{
   final void Function(AnnouncementAttendanceResp, DateTime)? onAttendanceChanged;
 
   const AttendanceWidget(this.announcement, {this.palette, this.onAttendanceChanged, Key? key}) : super(key: key);
+
+  Widget getQuasiButton(BuildContext context, {required IconData icon, required String text}) => Material(
+      color: CommunityCoverColors.backgroundColor(context, palette),
+      borderRadius: BorderRadius.circular(AppCard.defRadius),
+      elevation: 3,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: Dimen.ICON_FOOTPRINT),
+          const SizedBox(width: Dimen.ICON_MARG),
+          Icon(icon),
+          // AccountThumbnailWidget(name: AccountData.name, size: 30.0, elevated: false),
+          const SizedBox(width: Dimen.ICON_MARG),
+          Text(
+            text,
+            style: AppTextStyle(
+                fontWeight: weight.halfBold,
+                fontSize: Dimen.TEXT_SIZE_BIG,
+                color: iconEnab_(context)
+            ),
+          ),
+          const SizedBox(width: Dimen.ICON_MARG),
+          const Icon(MdiIcons.chevronDown),
+          const SizedBox(width: Dimen.ICON_MARG),
+        ],
+      )
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -359,42 +417,17 @@ class AttendanceWidget extends StatelessWidget{
               ),
               customButton:
               myResp == null?
-              SimpleButton.from(
-                margin: EdgeInsets.zero,
-                radius: AppCard.defRadius,
-                color: CommunityCoverColors.cardColor(context, palette),
-                context: context,
-                icon: announcementAttendanceDropdownIcon[myResp],
-                text: announcementAttendanceDropdownText[myResp],
-                onTap: null
+              getQuasiButton(
+                context,
+                icon: announcementAttendanceDropdownIcon[myResp]!,
+                text: announcementAttendanceDropdownText[myResp]!
               ):
-              Container(
-                decoration: BoxDecoration(
-                  color: CommunityCoverColors.cardColor(context, palette),
-                  borderRadius: BorderRadius.circular(AppCard.defRadius)
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const SizedBox(height: Dimen.ICON_FOOTPRINT),
-                    const SizedBox(width: Dimen.ICON_MARG),
-                    Icon(announcementAttendanceRespToIcon(announcement.attendance[AccountData.key]!)),
-                    // AccountThumbnailWidget(name: AccountData.name, size: 30.0, elevated: false),
-                    const SizedBox(width: Dimen.ICON_MARG),
-                    Text(
-                      announcementAttendanceDropdownText[myResp]!,
-                      style: AppTextStyle(
-                          fontWeight: weight.halfBold,
-                          color: iconEnab_(context)
-                      ),
-                    ),
-                    const SizedBox(width: Dimen.ICON_MARG),
-                    const Icon(MdiIcons.chevronDown),
-                    const SizedBox(width: Dimen.ICON_MARG),
-                  ],
-                ),
-              ),
-              dropdownWidth: 144,
+              getQuasiButton(
+                context,
+                icon: announcementAttendanceRespToIcon(announcement.attendance[AccountData.key]!),
+                text: announcementAttendanceDropdownText[myResp]!
+            ),
+              dropdownWidth: 169,
               dropdownPadding: EdgeInsets.zero,
               dropdownOverButton: true,
               itemPadding: EdgeInsets.zero,
@@ -486,6 +519,7 @@ class AttendanceWidget extends StatelessWidget{
               },
               dropdownDecoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppCard.defRadius),
+                color: CommunityCoverColors.backgroundColor(context, palette),
               ),
             )
         );
@@ -896,20 +930,20 @@ class NotAttendingDialogState extends State<NotAttendingDialog>{
 
 }
 
-class _PinWidget extends StatefulWidget{
+class _PinTile extends StatefulWidget{
 
   final Announcement announcement;
   final void Function(bool)? onPinChanged;
   final bool showShortcutButton;
 
-  const _PinWidget(this.announcement, {this.onPinChanged, this.showShortcutButton = false});
+  const _PinTile(this.announcement, {this.onPinChanged, this.showShortcutButton = false});
 
   @override
-  State<StatefulWidget> createState() => _PinWidgetState();
+  State<StatefulWidget> createState() => _PinTileState();
 
 }
 
-class _PinWidgetState extends State<_PinWidget>{
+class _PinTileState extends State<_PinTile>{
 
   bool get showShortcutButton => widget.showShortcutButton;
 
@@ -925,17 +959,23 @@ class _PinWidgetState extends State<_PinWidget>{
   }
 
   @override
-  Widget build(BuildContext context) => IconButton(
-      icon: Icon(
+  Widget build(BuildContext context) => ListTile(
+      title: Text(
+        announcement.pinned?
+        'Ogłoszenie przypięte':
+        'Przypnij ogłoszenie',
+        style: AppTextStyle(),
+      ),
+      leading: Icon(
         announcement.pinned?
         MdiIcons.pin:
         MdiIcons.pinOutline,
         color:
         _processing?
         iconDisab_(context):
-        iconEnab_(context),
+        null,
       ),
-      onPressed: _processing?null:() async {
+      onTap: _processing?null:() async {
 
         setState(() => _processing = true);
         await ApiCircle.pinAnnouncement(
@@ -955,11 +995,16 @@ class _PinWidgetState extends State<_PinWidget>{
                 context,
                 text: 'Przypięto ogłoszenie',
                 buttonText: showShortcutButton?'Zobacz przypięte':null,
-                onButtonPressed: showShortcutButton?() => CatPageHomeState.openCirclePage(
-                  context,
-                  announcement.circle,
-                  initTab: AnnouncementCategories.pinned
-                ): null
+                onButtonPressed: showShortcutButton?() async {
+
+                  popPage(context); // Close bottom sheet
+                  CatPageHomeState.openCirclePage(
+                      context,
+                      announcement.circle,
+                      initTab: AnnouncementCategories.pinned
+                  );
+
+                }: null
               );
               else showAppToast(context, text: 'Odpięto ogłoszenie');
 
@@ -1024,23 +1069,23 @@ class AttendanceIndicatorWidget extends StatelessWidget{
           Icon(
             announcementAttendanceRespToIcon(const AnnouncementAttendanceResp(AnnouncementAttendance.ATTENDING)),
             size: height,
-            color: iconEnab_(context),
+            color: iconDisab_(context),
           ),
-          Text(' $attendingCount', style: AppTextStyle(fontWeight: weight.halfBold, color: iconEnab_(context))),
+          Text(' $attendingCount', style: AppTextStyle(fontWeight: weight.halfBold, color: iconDisab_(context))),
           const SizedBox(width: Dimen.ICON_MARG + 2),
           Icon(
             announcementAttendanceRespToIcon(AnnouncementAttendanceResp(AnnouncementAttendance.POSTPONE_RESP, postponeTime: postponedOverdue?DateTime(0):null)),
             size: height,
-            color: iconEnab_(context),
+            color: iconDisab_(context),
           ),
-          Text(' $postponedCount', style: AppTextStyle(fontWeight: weight.halfBold, color: iconEnab_(context))),
+          Text(' $postponedCount', style: AppTextStyle(fontWeight: weight.halfBold, color: iconDisab_(context))),
           const SizedBox(width: Dimen.ICON_MARG),
           Icon(
             announcementAttendanceRespToIcon(const AnnouncementAttendanceResp(AnnouncementAttendance.NOT_ATTENDING)),
             size: height,
-            color: iconEnab_(context),
+            color: iconDisab_(context),
           ),
-          Text(' $rejectedCount', style: AppTextStyle(fontWeight: weight.halfBold, color: iconEnab_(context))),
+          Text(' $rejectedCount', style: AppTextStyle(fontWeight: weight.halfBold, color: iconDisab_(context))),
 
           const SizedBox(width: Dimen.ICON_MARG),
 

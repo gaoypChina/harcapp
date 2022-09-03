@@ -300,7 +300,7 @@ class LoginPartState extends State<LoginPart>{
                     const SizedBox(height: 1.5*Dimen.SIDE_MARG),
 
                     Material(
-                        color: MainButton.borderColor(context),
+                        color: Colors.orange,
                         borderRadius: BorderRadius.circular(MainButton.outerRadius),
                         child: Padding(
                             padding: const EdgeInsets.all(MainButton.borderSize),

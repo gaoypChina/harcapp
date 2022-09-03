@@ -21,12 +21,14 @@ class CommunityEditorPage extends StatefulWidget{
   final Community? initCommunity;
 
   final void Function(Community community)? onSaved;
+  final void Function()? onForceLoggedOut;
   final void Function()? onDeleted;
   final void Function()? onError;
 
   const CommunityEditorPage({
     this.initCommunity,
     this.onSaved,
+    this.onForceLoggedOut,
     this.onDeleted,
     this.onError,
     Key? key
@@ -42,6 +44,7 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
   Community? get initCommunity => widget.initCommunity;
 
   void Function(Community circle)? get onSaved => widget.onSaved;
+  void Function()? get onForceLoggedOut => widget.onForceLoggedOut;
   void Function()? get onDeleted => widget.onDeleted;
   void Function()? get onError => widget.onError;
 
@@ -96,6 +99,13 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
                               await popPage(context);
                               onSaved?.call(circle);
                             },
+                            onForceLoggedOut: () async {
+                              if(!mounted) return true;
+                              showAppToast(context, text: forceLoggedOutMessage);
+                              await popPage(context); // Close loading widget.
+                              onForceLoggedOut?.call();
+                              return true;
+                            },
                             onServerMaybeWakingUp: () {
                               if(mounted) showServerWakingUpToast(context);
                               return true;
@@ -124,6 +134,13 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
                               await popPage(context); // Close loading widget.
                               await popPage(context);
                               onSaved?.call(community);
+                            },
+                            onForceLoggedOut: () async {
+                              if(!mounted) return true;
+                              showAppToast(context, text: forceLoggedOutMessage);
+                              await popPage(context); // Close loading widget.
+                              onForceLoggedOut?.call();
+                              return true;
                             },
                             onServerMaybeWakingUp: () {
                               if(mounted) showServerWakingUpToast(context);

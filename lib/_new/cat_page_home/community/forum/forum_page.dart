@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
@@ -68,15 +69,15 @@ class ForumPageState extends State<ForumPage>{
   PaletteGenerator? paletteGeneratorSecond;
 
   Future<void> initPaletteGenerator({bool refresh = true}) async {
-    if(CommunityCoverImageData.palettes.containsKey(forum.coverImage.code)) {
-      paletteGeneratorFirst = CommunityCoverImageData.palettes[forum.coverImage.code]!.item1;
-      paletteGeneratorSecond = CommunityCoverImageData.palettes[forum.coverImage.code]!.item2;
+    if(CommunityCoverImageData.palettes.containsKey(forum.coverImage.uniqueID)) {
+      paletteGeneratorFirst = CommunityCoverImageData.palettes[forum.coverImage.uniqueID]!.item1;
+      paletteGeneratorSecond = CommunityCoverImageData.palettes[forum.coverImage.uniqueID]!.item2;
       return;
     }
 
     try {
-      paletteGeneratorFirst = await getPaletteGenerator(forum.coverImage.local, forum.coverImage.firstFileName);
-      paletteGeneratorSecond = await getPaletteGenerator(forum.coverImage.local, forum.coverImage.secondFileName);
+      paletteGeneratorFirst = await getPaletteGenerator(forum.coverImage);
+      paletteGeneratorSecond = await getPaletteGenerator(forum.coverImage, darkSample: true);
     } catch (e){
       paletteGeneratorFirst = PaletteGenerator.fromColors([PaletteColor(Colors.white, 1)]);
       paletteGeneratorSecond = PaletteGenerator.fromColors([PaletteColor(Colors.white, 1)]);
@@ -87,7 +88,7 @@ class ForumPageState extends State<ForumPage>{
       );
     }
 
-    CommunityCoverImageData.palettes[forum.coverImage.code] = Tuple2(paletteGeneratorFirst, paletteGeneratorSecond);
+    CommunityCoverImageData.palettes[forum.coverImage.uniqueID] = Tuple2(paletteGeneratorFirst, paletteGeneratorSecond);
 
     if(!refresh) return;
 
@@ -251,7 +252,7 @@ class ForumPageState extends State<ForumPage>{
 
                   forum.followers = updatedForum.followers;
 
-                  forum.setAllManagers(context, updatedForum.managers);
+                  forum.setAllManagers(updatedForum.managers, context: context);
                   forum.resetPosts(
                     updatedForum.allPosts,
                   );
@@ -402,7 +403,7 @@ class ForumPageState extends State<ForumPage>{
 
                   Padding(
                       padding: const EdgeInsets.only(
-                        top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+                        top: Dimen.SIDE_MARG,
                         left: Dimen.SIDE_MARG,
                         right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
                         bottom: Dimen.SIDE_MARG,
@@ -415,12 +416,14 @@ class ForumPageState extends State<ForumPage>{
                               children: [
 
                                 Expanded(
-                                  child: Text(
+                                  child: AutoSizeText(
                                     forum.name,
                                     style: AppTextStyle(
                                         fontSize: 28.0,
+                                        color: iconEnab_(context),
                                         fontWeight: weight.bold
                                     ),
+                                    maxLines: 2,
                                     key: nameWidgetKey,
                                   ),
                                 ),
@@ -428,11 +431,11 @@ class ForumPageState extends State<ForumPage>{
                                 IconButton(
                                   icon: const Icon(MdiIcons.chevronDown),
                                   onPressed: () => pushPage(
-                                      context,
-                                      builder: (context) => ForumDescriptionPage(
-                                        forum,
-                                        palette,
-                                      )
+                                    context,
+                                    builder: (context) => ForumDescriptionPage(
+                                      forum,
+                                      palette,
+                                    )
                                   ),
                                 )
 
@@ -487,10 +490,9 @@ class ForumPageState extends State<ForumPage>{
                     context,
                     forum.allPosts,
                     padding: const EdgeInsets.only(
-                      top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-                      right: Dimen.SIDE_MARG,
-                      left: Dimen.SIDE_MARG,
-                      bottom: Dimen.SIDE_MARG,
+                      top: Dimen.defMarg,
+                      right: CommunityPublishableWidgetTemplate.borderHorizontalMarg,
+                      left: CommunityPublishableWidgetTemplate.borderHorizontalMarg,
                     ),
                     palette: palette,
                     onPostUpdated: () => setState((){})

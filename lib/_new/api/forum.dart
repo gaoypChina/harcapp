@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_image_data.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/forum_role.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/model/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/model/forum_manager.dart';
@@ -24,12 +25,11 @@ class ForumManagerRespBody{
 class ForumManagerUpdateBody{
 
   final String key;
-  final Optional<ForumRole> role;
+  final ForumRole? role;
 
   const ForumManagerUpdateBody(
       this.key,
-      { this.role = const Optional.empty(),
-      });
+      { this.role });
 
 }
 
@@ -95,9 +95,9 @@ class ApiForum{
   );
 
   static Future<Response?> create({
-    required String description,
-    required String? coverImageUrl,
-    required String? colorsKey,
+    required String? description,
+    required CommunityCoverImageData coverImage,
+    required String colorsKey,
     required CommunityBasicData community,
 
     FutureOr<void> Function(Forum forum)? onSuccess,
@@ -106,20 +106,19 @@ class ApiForum{
     FutureOr<void> Function()? onError,
   }) async {
 
-    Map<String, dynamic> reqMap = {};
-    reqMap['communityKey'] = community.key;
-    reqMap['description'] = description.trim();
-    reqMap['coverImageUrl'] = coverImageUrl;
-    reqMap['colorsKey'] = colorsKey;
-
     return API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.post(
+      sendRequest: (Dio dio) async => dio.post(
           '${API.SERVER_URL}api/forum',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
           }),
-          data: jsonEncode(reqMap)
+          data: jsonEncode({
+            'communityKey': community.key,
+            'description': description?.trim(),
+            'coverImage': await coverImage.toReqMap(),
+            'colorsKey': colorsKey
+          })
       ),
       onSuccess: (Response response, DateTime now) async{
         Forum forum = Forum.fromResponse(response.data, community);
@@ -152,9 +151,9 @@ class ApiForum{
   static Future<Response?> update({
     required String forumKey,
     required CommunityBasicData community,
-    Optional<String> description = const Optional.empty(),
-    Optional<String> coverImageUrl = const Optional.empty(),
-    Optional<String> colorsKey = const Optional.empty(),
+    Optional<String>? description,
+    CommunityCoverImageData? coverImage,
+    String? colorsKey,
     FutureOr<void> Function(Forum forum)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -162,9 +161,9 @@ class ApiForum{
   }) async{
 
     Map<String, dynamic> reqMap = {};
-    if(description.isPresent) reqMap['description'] = description.value.trim();
-    if(coverImageUrl.isPresent) reqMap['coverImageUrl'] = coverImageUrl.value;
-    if(colorsKey.isPresent) reqMap['colorsKey'] = colorsKey.value;
+    if(description != null) reqMap['description'] = description.orElseNull?.trim();
+    if(coverImage != null) reqMap['coverImage'] = await coverImage.toReqMap();
+    if(colorsKey != null) reqMap['colorsKey'] = colorsKey;
 
     return API.sendRequest(
       withToken: true,
@@ -293,7 +292,7 @@ class ApiForum{
     for(ForumManagerUpdateBody managerBody in users)
       body.add({
         'userKey': managerBody.key,
-        if(managerBody.role.isPresent) 'role': forumRoleToStr[managerBody.role.value],
+        if(managerBody.role != null) 'role': forumRoleToStr[managerBody.role],
       });
 
     return API.sendRequest(
@@ -374,7 +373,7 @@ class ApiForum{
     required String forumKey,
     required String title,
     String? urlToPreview,
-    String? coverImageUrl,
+    CommunityCoverImageData? coverImage,
     required String text,
 
     FutureOr<void> Function(Post)? onSuccess,
@@ -383,12 +382,16 @@ class ApiForum{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.post(
+      sendRequest: (Dio dio) async => dio.post(
         '${API.SERVER_URL}api/forum/$forumKey/post',
-        data: FormData.fromMap({
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+        }),
+        data: jsonEncode({
           'title': title,
           if(urlToPreview != null) 'urlToPreview': urlToPreview,
-          if(coverImageUrl != null) 'coverImageUrl': coverImageUrl,
+          if(coverImage != null)
+            'coverImage': await coverImage.toReqMap(),
           'text': text,
         }),
       ),
@@ -401,10 +404,10 @@ class ApiForum{
 
   static Future<Response?> updatePost({
     required Post post,
-    Optional<String?> title = const Optional.empty(),
-    Optional<String?> urlToPreview = const Optional.empty(),
-    Optional<String?> coverImageUrl = const Optional.empty(),
-    Optional<String?> text = const Optional.empty(),
+    Optional<String>? title,
+    Optional<String>? urlToPreview,
+    Optional<CommunityCoverImageData>? coverImage,
+    String? text,
 
     FutureOr<void> Function(Post)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -412,19 +415,23 @@ class ApiForum{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.put(
+      sendRequest: (Dio dio) async => dio.put(
         '${API.SERVER_URL}api/post/${post.key}',
-        data: FormData.fromMap({
-
-          if(title.isPresent) 'title': title.value,
-
-          if(urlToPreview.isPresent) 'urlToPreview': urlToPreview.value,
-
-          if(coverImageUrl.isPresent) 'coverImageUrl': coverImageUrl.value,
-
-          if(text.isPresent) 'text': text.value,
-
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
         }),
+        data: jsonEncode({
+
+          if(title != null) 'title': title.orElseNull,
+
+          if(urlToPreview != null) 'urlToPreview': urlToPreview.orElseNull,
+
+          if(coverImage != null)
+            'coverImage': coverImage.orElseNull?.toReqMap(),
+
+          if(text != null) 'text': text,
+
+        })
       ),
       onSuccess: (Response response, DateTime now) async =>
           onSuccess?.call(Post.fromMap(response.data, post.forum)),

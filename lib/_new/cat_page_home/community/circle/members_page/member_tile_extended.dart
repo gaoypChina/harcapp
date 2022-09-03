@@ -164,12 +164,12 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
 
           showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
 
-          await ApiCircle.updateUsers(
+          await ApiCircle.updateMembers(
               circleKey: circle.key,
-              users: [MemberUpdateBody(member.key, role: Optional.of(newRole))],
+              users: [MemberUpdateBody(member.key, role: newRole)],
               onSuccess: (List<Member> allMems){
-                circle.setAllMembers(context, allMems);
-                Navigator.pop(context); // Close loading widget.
+                circle.setAllMembers(allMems, context: context);
+                if(mounted) Navigator.pop(context); // Close loading widget.
                 onSuccess?.call();
               },
               onForceLoggedOut: () {
@@ -217,11 +217,11 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
         handleRemove: () async {
 
           showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Wypraszanie członka...');
-          await ApiCircle.removeUsers(
+          await ApiCircle.removeMembers(
               circleKey: circle.key,
               userKeys: [member.key],
               onSuccess: (List<String> removedMembers) async {
-                circle.removeMembersByKey(context, removedMembers);
+                circle.removeMembersByKey(removedMembers, context: context);
 
                 if(!mounted) return;
                 showAppToast(context, text: 'Wyproszono');
@@ -324,7 +324,7 @@ class _EditPatrolDialogState extends State<_EditPatrolDialog>{
 
                     showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
 
-                    await ApiCircle.updateUsers(
+                    await ApiCircle.updateMembers(
                         circleKey: circle.key,
                         users: [MemberUpdateBody(
                             member.key,
@@ -335,7 +335,7 @@ class _EditPatrolDialogState extends State<_EditPatrolDialog>{
                             )
                         )],
                         onSuccess: (List<Member> allMems){
-                          circle.setAllMembers(context, allMems);
+                          circle.setAllMembers(allMems, context: context);
                           if(mounted) Navigator.pop(context); // Close loading widget.
                           onSuccess?.call();
                         },

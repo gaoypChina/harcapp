@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_new/cat_page_home/community/cover_image.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/cover_image.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -40,7 +40,7 @@ class CommunityGroupWidgetTemplate extends StatelessWidget{
               fit: StackFit.expand,
               children: [
 
-                CoverImage(coverImage),
+                CoverImageWidget(coverImage),
 
                 Positioned(
                   top: 6,

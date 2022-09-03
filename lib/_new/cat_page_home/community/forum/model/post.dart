@@ -9,10 +9,13 @@ import 'package:provider/provider.dart';
 import 'forum.dart';
 
 class PostProvider extends ChangeNotifier{
+
   void notify() => notifyListeners();
 }
 
 class PostListProvider extends ChangeNotifier{
+  static PostListProvider of(BuildContext context) => Provider.of<PostListProvider>(context, listen: false);
+  static notify_(BuildContext context) => of(context).notify();
   void notify() => notifyListeners();
 }
 
@@ -146,7 +149,7 @@ class Post extends CommunityPublishable{
     title: resp['title']??(throw InvalidResponseError('title')),
     publishTime: DateTime.tryParse(resp['publishTimeStr']??(throw InvalidResponseError('publishTimeStr')))??(throw InvalidResponseError('post_time_str')),
     lastUpdateTime: resp['lastUpdateTimeStr'] == null? null: DateTime.tryParse(resp['lastUpdateTimeStr']),
-    coverImage: resp['coverImageUrl'] == null? null: CommunityCoverImageData.from(resp['coverImageUrl']),
+    coverImage: resp['coverImage'] == null? null: CommunityCoverImageData.from(resp['coverImage']),
     urlToPreview: resp['urlToPreview'],
     author: resp.containsKey('author')?UserData.fromMap(resp['author']):null,
     text: resp['text'],

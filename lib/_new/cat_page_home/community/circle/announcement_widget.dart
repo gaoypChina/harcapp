@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/account/account.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
+import '../community_publishable_widget_template.dart';
 import 'announcement_editor/_main.dart';
 import 'announcement_extended_page.dart';
 import 'announcement_widget_template.dart';
+import 'attending_members_dialog.dart';
+import 'circle_role.dart';
 import 'model/announcement.dart';
-import 'model/announcement_attendace.dart';
-import 'model/announcement_attendance_resp_mode.dart';
 import 'model/circle.dart';
 
 class AnnouncementWidget extends StatelessWidget{
@@ -16,10 +19,7 @@ class AnnouncementWidget extends StatelessWidget{
   final Announcement announcement;
   final PaletteGenerator? palette;
   final bool shrinkText;
-  final bool pinnable;
-  final bool editable;
-  final bool showOnTap;
-  final void Function()? customOnAttendanceIndicatorTap;
+  final bool disableTap;
   final void Function()? onAnnouncementUpdated;
   final bool showCommunityInfo;
   final void Function()? onCircleButtonTap;
@@ -31,10 +31,7 @@ class AnnouncementWidget extends StatelessWidget{
       this.announcement,
       this.palette,
       { this.shrinkText = true,
-        this.pinnable = true,
-        this.editable = true,
-        this.showOnTap = true,
-        this.customOnAttendanceIndicatorTap,
+        this.disableTap = false,
         this.onAnnouncementUpdated,
         this.showCommunityInfo = false,
         this.onCircleButtonTap,
@@ -43,10 +40,15 @@ class AnnouncementWidget extends StatelessWidget{
       });
 
   @override
-  Widget build(BuildContext context) => Hero(
-      tag: announcement,
-      child: Consumer<AnnouncementProvider>(
-        builder: (context, announcementProv, child) => AnnouncementWidgetTemplate(
+  Widget build(BuildContext context){
+
+    bool editable = announcement.author.key == AccountData.key && announcement.circle.myRole != CircleRole.OBSERVER;
+    bool pinnable = announcement.author.key == AccountData.key && announcement.circle.myRole != CircleRole.OBSERVER;
+
+    return Hero(
+        tag: announcement,
+        child: Consumer<AnnouncementProvider>(
+          builder: (context, announcementProv, child) => AnnouncementWidgetTemplate(
             announcement,
             palette: palette,
             shrinkText: shrinkText,
@@ -55,6 +57,7 @@ class AnnouncementWidget extends StatelessWidget{
                 builder: (context) => AnnouncementEditorPage(
                   circle: circle,
                   initAnnouncement: announcement,
+                  isEvent: announcement.isEvent,
                   palette: palette,
                   onSaved: (updatedAnnouncement){
                     announcement.update(updatedAnnouncement);
@@ -79,31 +82,30 @@ class AnnouncementWidget extends StatelessWidget{
               AnnouncementListProvider.notify_(context);
               CircleProvider.notify_(context);
             },
-            onAttendanceIndicatorTap: customOnAttendanceIndicatorTap??(showOnTap?() => pushPage(
-              context,
-              builder: (context) => AnnouncementExpandedPage(
-                announcement,
-                palette: palette,
-                displayAttendancePage: true,
-                onAnnouncementUpdated: onAnnouncementUpdated,
-                showCommunityInfo: showCommunityInfo,
-              ),
-            ):null),
-            onTap: showOnTap?() => pushPage(
+            onAttendanceIndicatorTap: () => openDialog(
+                context: context,
+                builder: (context) => AttendingMembersDialog(announcement, palette: palette)
+            ),
+            onTap:
+            !disableTap &&
+                CommunityPublishableWidgetTemplate.isTextExpandable(announcement.text, context: context) ?
+            () => pushPage(
               context,
               builder: (context) => AnnouncementExpandedPage(
                 announcement,
                 palette: palette,
                 onAnnouncementUpdated: onAnnouncementUpdated,
                 showCommunityInfo: showCommunityInfo,
+                onCircleButtonTap: onCircleButtonTap,
                 showPinShortcutButton: showPinShortcutButton,
               ),
             ):null,
             showCommunityInfo: showCommunityInfo,
             onCircleButtonTap: onCircleButtonTap,
             showPinShortcutButton: showPinShortcutButton,
-        ),
-      )
-  );
+          ),
+        )
+    );
+  }
 
 }

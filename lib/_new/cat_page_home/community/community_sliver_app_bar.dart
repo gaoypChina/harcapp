@@ -8,7 +8,7 @@ import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
-import 'cover_image.dart';
+import 'common/cover_image.dart';
 import 'common/community_cover_colors.dart';
 import 'community_thumbnail_widget.dart';
 import 'model/community.dart';
@@ -33,6 +33,7 @@ class CommunitySliverAppBar extends StatefulWidget{
         this.heroTag,
         this.actions,
         this.bottomWidgets = const [],
+        super.key
       });
 
   @override
@@ -88,6 +89,18 @@ class CommunitySliverAppBarState extends State<CommunitySliverAppBar>{
       iconTheme: IconThemeData(
           color: prov.coverVisible?coverIconColor:iconEnab_(context)
       ),
+      title: AnimatedOpacity(
+        opacity: prov.showTitleOnAppBar?1:0,
+        duration: Duration(milliseconds: prov.showTitleOnAppBar?200:0),
+        child: Text(
+          community.name,
+          style: AppTextStyle(
+              color: iconEnab_(context)
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
       centerTitle: true,
       pinned: true,
       excludeHeaderSemantics: true,
@@ -96,18 +109,6 @@ class CommunitySliverAppBarState extends State<CommunitySliverAppBar>{
       expandedHeight: 200,
       actions: actions?.call(prov),
       flexibleSpace: FlexibleSpaceBar(
-        title: AnimatedOpacity(
-          opacity: prov.showTitleOnAppBar?1:0,
-          duration: Duration(milliseconds: prov.showTitleOnAppBar?200:0),
-          child: Text(
-            community.name,
-            style: AppTextStyle(
-                color: iconEnab_(context)
-            ),
-            maxLines: 1,
-          ),
-        ),
-        centerTitle: true,
         background:
         Stack(
           fit: StackFit.expand,
@@ -118,7 +119,7 @@ class CommunitySliverAppBarState extends State<CommunitySliverAppBar>{
                 tag: Tuple2(heroTag, 'coverImage'),
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 24.0),
-                  child: CoverImage(coverImage),
+                  child: CoverImageWidget(coverImage),
                 ),
             ),
 

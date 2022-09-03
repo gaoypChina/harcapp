@@ -102,7 +102,10 @@ class CommunityWidget extends StatelessWidget{
                                       community.name = updatedCommunity.name;
                                       community.iconKey = updatedCommunity.iconKey;
                                       CommunityProvider.notify_(context);
-                                    }
+                                    },
+                                    onForceLoggedOut: (){
+                                      Navigator.pop(context);
+                                    },
                                 )
                             )
                         ),

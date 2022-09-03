@@ -135,7 +135,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
               communityKey: community.key,
               users: [CommunityManagerUpdateBody(manager.key, role: Optional.of(newRole))],
               onSuccess: (List<CommunityManager> allManagers){
-                community.setAllManagers(context, allManagers);
+                community.setAllManagers(allManagers, context: context);
                 Navigator.pop(context); // Close loading widget
                 onSuccess?.call();
               },
@@ -171,7 +171,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
               forumKey: community.key,
               userKeys: [manager.key],
               onSuccess: (List<String> removedManagers) async {
-                community.removeManagersByKey(context, removedManagers);
+                community.removeManagersByKey(removedManagers, context: context);
 
                 if(!mounted) return;
                 showAppToast(context, text: 'Wyproszono');

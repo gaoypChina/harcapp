@@ -176,43 +176,17 @@ class PostEditorPageState extends State<PostEditorPage>{
           padding: const EdgeInsets.all(Dimen.SIDE_MARG),
           sliver: SliverList(delegate: SliverChildListDelegate([
 
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(CommunityPublishableWidgetTemplate.radius)
-              ),
-              clipBehavior: Clip.hardEdge,
-              child:
-              CoverImageSelectableWidget(
-                palette,
-                initCoverImage: coverImage,
-                removable: true,
-                onSelected: (newCoverImage) => setState(() => coverImage = newCoverImage),
-                emptyBuilder: (context) => SizedBox(
-                  height: Dimen.ICON_FOOTPRINT,
-                  child: Container(
-                    color: backgroundIcon_(context),
-                    child: Row(
-                      children: [
 
-                        const SizedBox(width: Dimen.SIDE_MARG),
-
-                        Expanded(
-                          child: Text(
-                            'Dodaj grafikę w tle',
-                            style: AppTextStyle(
-                                color: hintEnab_(context),
-                                fontWeight: weight.halfBold
-                            ),
-                          ),
-                        ),
-
-                        Icon(MdiIcons.imagePlus, color: hintEnab_(context)),
-
-                        const SizedBox(width: Dimen.SIDE_MARG),
-
-                      ],
-                    ),
-                  ),
+            Material(
+              borderRadius: BorderRadius.circular(AppCard.defRadius),
+              color: CommunityCoverColors.cardColor(context, palette),
+              child: Padding(
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                child: Text(
+                  'Ten post będą mogli zobaczyć wszyscy\nz kontem HarcApp.',
+                  style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
                 ),
               ),
             ),
@@ -234,7 +208,7 @@ class PostEditorPageState extends State<PostEditorPage>{
               hint: 'Treść:',
               hintTop: '',
               controller: textController,
-              style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL),
+              style: CommunityPublishableWidgetTemplate.textStyle,
               maxLines: null,
               textCapitalization: TextCapitalization.sentences
             ),
@@ -242,75 +216,124 @@ class PostEditorPageState extends State<PostEditorPage>{
           ])),
         ),
 
-        SliverList(delegate: SliverChildListDelegate([
-
-          const SizedBox(height: Dimen.SIDE_MARG),
-
-          Padding(
-              padding: const EdgeInsets.only(
-                  left: Dimen.SIDE_MARG,
-                  right: Dimen.SIDE_MARG - Dimen.ICON_MARG
-              ),
-              child: Row(
-                children: [
-
-                  Expanded(
-                    child: AppTextFieldHint(
-                        hint: 'Link do załącznika:',
-                        hintTop: 'Link do załącznika',
-                        controller: urlToPreviewController,
-                        onAnyChanged: (_){
-                          previewData = null;
-                          setState(() {});
-                        },
-                        style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
-                        maxLines: 1,
-                        textCapitalization: TextCapitalization.sentences
-                    ),
-                  ),
-
-                  if(urlToPreviewController.text.isNotEmpty)
-                    IconButton(
-                      icon: const Icon(MdiIcons.close),
-                      onPressed: (){
-                        previewData = null;
-                        setState(() => urlToPreviewController.clear());
-                      },
-                    )
-
-                ],
-              )
-          ),
-
-          if(urlToPreviewController.text.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-              child: Material(
-                elevation: 4.0,
-                borderRadius: BorderRadius.circular(CommunityPublishableWidgetTemplate.radius),
-                color: CommunityCoverColors.cardColor(context, palette),
-                clipBehavior: Clip.hardEdge,
-                child: LinkPreview(
-                  enableAnimation: true,
-                  onPreviewDataFetched: (data) {
-                    setState(() => previewData = data);
-                  },
-                  previewData: previewData,
-                  text: urlToPreviewController.text,
-                  width: MediaQuery.of(context).size.width,
-
-                  openOnPreviewTitleTap: true,
-                  openOnPreviewImageTap: true,
-                  //key: ValueKey(urlToPreviewController.text),
-                ),
-              ),
-            )
-
-        ])),
-
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
           sliver: SliverList(delegate: SliverChildListDelegate([
+
+            if(coverImage == null)
+              Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(CommunityPublishableWidgetTemplate.radius),
+                      color: backgroundIcon_(context)
+                  ),
+                  clipBehavior: Clip.hardEdge,
+                  child: Row(
+                    children: [
+
+                      const SizedBox(width: Dimen.SIDE_MARG),
+
+                      Expanded(
+                        child: AppTextFieldHint(
+                            hint: 'Link z podglądem:',
+                            hintTop: '',
+                            controller: urlToPreviewController,
+                            onAnyChanged: (_){
+                              previewData = null;
+                              setState(() {});
+                            },
+                            style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                            hintStyle: AppTextStyle(
+                                fontSize: Dimen.TEXT_SIZE_BIG,
+                                fontWeight: weight.halfBold,
+                                color: hintEnab_(context)
+                            ),
+                            maxLines: 1,
+                            textCapitalization: TextCapitalization.sentences
+                        ),
+                      ),
+
+                      if(urlToPreviewController.text.isNotEmpty)
+                        IconButton(
+                          icon: const Icon(MdiIcons.close),
+                          onPressed: (){
+                            previewData = null;
+                            setState(() => urlToPreviewController.clear());
+                          },
+                        )
+
+                    ],
+                  )
+              ),
+
+            if(coverImage == null && urlToPreviewController.text.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: Dimen.SIDE_MARG),
+                child: Material(
+                  elevation: 4.0,
+                  borderRadius: BorderRadius.circular(CommunityPublishableWidgetTemplate.radius),
+                  color: CommunityCoverColors.cardColor(context, palette),
+                  clipBehavior: Clip.hardEdge,
+                  child: LinkPreview(
+                    enableAnimation: true,
+                    onPreviewDataFetched: (data) {
+                      setState(() => previewData = data);
+                    },
+                    previewData: previewData,
+                    text: urlToPreviewController.text,
+                    width: MediaQuery.of(context).size.width,
+
+                    openOnPreviewTitleTap: true,
+                    openOnPreviewImageTap: true,
+                    //key: ValueKey(urlToPreviewController.text),
+                  ),
+                ),
+              ),
+
+            const SizedBox(height: Dimen.SIDE_MARG),
+
+            if(urlToPreviewController.text.isEmpty)
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(CommunityPublishableWidgetTemplate.radius)
+                ),
+                clipBehavior: Clip.hardEdge,
+                child:
+                CoverImageSelectableWidget(
+                  palette,
+                  initCoverImage: coverImage,
+                  adaptiveImages: false,
+                  removable: true,
+                  onSelected: (newCoverImage) => setState(() => coverImage = newCoverImage),
+                  emptyBuilder: (context) => SizedBox(
+                    height: Dimen.ICON_FOOTPRINT,
+                    child: Container(
+                      color: backgroundIcon_(context),
+                      child: Row(
+                        children: [
+
+                          const SizedBox(width: Dimen.SIDE_MARG),
+
+                          Expanded(
+                            child: Text(
+                              'Dodaj grafikę',
+                              style: AppTextStyle(
+                                  color: hintEnab_(context),
+                                  fontWeight: weight.halfBold,
+                                  fontSize: Dimen.TEXT_SIZE_BIG
+                              ),
+                            ),
+                          ),
+
+                          Icon(MdiIcons.imagePlus, color: hintEnab_(context)),
+
+                          const SizedBox(width: Dimen.SIDE_MARG),
+
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
 
             const SizedBox(height: Dimen.SIDE_MARG),
 
@@ -347,7 +370,7 @@ class PostEditorPageState extends State<PostEditorPage>{
                         null:
                         urlToPreviewController.text,
 
-                        coverImageUrl: coverImage?.code,
+                        coverImage: coverImage,
                         text: textController.text,
                         onSuccess: (post) async {
                           if(mounted) await popPage(context); // Close loading widget.
@@ -368,27 +391,28 @@ class PostEditorPageState extends State<PostEditorPage>{
 
                         title:
                         initPost!.title == titleController.text?
-                        const Optional.empty():
+                        null:
                         Optional.of(titleController.text),
 
                         urlToPreview:
                         initPost!.urlToPreview == urlToPreviewController.text?
-                        const Optional.empty():
+                        null:
                         Optional.ofNullable(
-                          urlToPreviewController.text.isEmpty?
-                          null:
-                          urlToPreviewController.text
+                            urlToPreviewController.text.isEmpty?
+                            null:
+                            urlToPreviewController.text
                         ),
 
-                        coverImageUrl:
-                        initPost!.coverImage?.code == coverImage?.code?
-                        const Optional.empty():
-                        Optional.ofNullable(coverImage?.code),
+                        coverImage:
+                        coverImage?.localFilePath == null &&
+                        initPost!.coverImage?.uniqueID == coverImage?.uniqueID?
+                        null:
+                        Optional.ofNullable(coverImage),
 
                         text:
                         initPost!.text == textController.text?
-                        const Optional.empty():
-                        Optional.of(textController.text),
+                        null:
+                        textController.text,
 
                         onSuccess: (announcement) async {
                           await popPage(context); // Close loading widget.
@@ -411,50 +435,8 @@ class PostEditorPageState extends State<PostEditorPage>{
 
             const SizedBox(height: Dimen.SIDE_MARG),
 
-            if(initPost != null)
-              SimpleButton.from(
-                  elevation: AppCard.bigElevation,
-                  margin: EdgeInsets.zero,
-                  radius: AppCard.defRadius,
-                  textColor: CommunityCoverColors.backgroundColor(context, palette),
-                  color: Colors.red,
-                  icon: MdiIcons.trashCanOutline,
-                  text: 'Usuń post',
-                  onTap: () => showAppToast(context, text: 'Przytrzymaj, aby usunąć post'),
-                  onLongPress: (){
-
-                    showLoadingWidget(
-                        context,
-                        CommunityCoverColors.strongColor(context, palette),
-                        'Usuwanie...'
-                    );
-
-                    ApiForum.deletePost(
-                        postKey: initPost!.key,
-                        onSuccess: () async {
-                          await popPage(context); // Close loading widget.
-                          await popPage(context);
-                          onRemoved?.call();
-                        },
-                        onServerMaybeWakingUp: () {
-                          if(mounted) showServerWakingUpToast(context);
-                          return true;
-                        },
-                        onError: () async {
-                          if(!mounted) return;
-                          showAppToast(context, text: simpleErrorMessage);
-                          await popPage(context); // Close loading widget.
-                        }
-                    );
-
-                  }
-              ),
-
-            if(initPost != null)
-              const SizedBox(height: Dimen.SIDE_MARG),
-
           ])),
-        )
+        ),
 
 
       ],

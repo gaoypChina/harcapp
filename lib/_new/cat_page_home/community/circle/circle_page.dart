@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
@@ -82,15 +83,15 @@ class CirclePageState extends State<CirclePage>{
   PaletteGenerator? paletteGeneratorSecond;
 
   Future<void> initPaletteGenerator({bool refresh = true}) async {
-    if(CommunityCoverImageData.palettes.containsKey(circle.coverImage.code)) {
-      paletteGeneratorFirst = CommunityCoverImageData.palettes[circle.coverImage.code]!.item1;
-      paletteGeneratorSecond = CommunityCoverImageData.palettes[circle.coverImage.code]!.item2;
+    if(CommunityCoverImageData.palettes.containsKey(circle.coverImage.uniqueID)) {
+      paletteGeneratorFirst = CommunityCoverImageData.palettes[circle.coverImage.uniqueID]!.item1;
+      paletteGeneratorSecond = CommunityCoverImageData.palettes[circle.coverImage.uniqueID]!.item2;
       return;
     }
 
     try {
-      paletteGeneratorFirst = await getPaletteGenerator(circle.coverImage.local, circle.coverImage.firstFileName);
-      paletteGeneratorSecond = await getPaletteGenerator(circle.coverImage.local, circle.coverImage.secondFileName);
+      paletteGeneratorFirst = await getPaletteGenerator(circle.coverImage);
+      paletteGeneratorSecond = await getPaletteGenerator(circle.coverImage, darkSample: true);
     } catch (e){
       paletteGeneratorFirst = PaletteGenerator.fromColors([PaletteColor(Colors.white, 1)]);
       paletteGeneratorSecond = PaletteGenerator.fromColors([PaletteColor(Colors.white, 1)]);
@@ -100,7 +101,7 @@ class CirclePageState extends State<CirclePage>{
       showAppToast(context, text: 'Nie można załadować tła. Zmień grafikę tła, by przyspieszyć ładowanie', duration: const Duration(seconds: 6)));
     }
 
-    CommunityCoverImageData.palettes[circle.coverImage.code] = Tuple2(paletteGeneratorFirst, paletteGeneratorSecond);
+    CommunityCoverImageData.palettes[circle.coverImage.uniqueID] = Tuple2(paletteGeneratorFirst, paletteGeneratorSecond);
 
     if(!refresh) return;
 
@@ -332,7 +333,7 @@ class CirclePageState extends State<CirclePage>{
                   circle.description = updatedCircle.description;
                   circle.coverImage = updatedCircle.coverImage;
                   circle.colorsKey = updatedCircle.colorsKey;
-                  circle.setAllMembers(context, updatedCircle.members);
+                  circle.setAllMembers(updatedCircle.members, context: context);
                   circle.resetAnnouncements(
                     updatedCircle.allAnnouncements,
                     updatedCircle.pinnedAnnouncements,
@@ -416,7 +417,7 @@ class CirclePageState extends State<CirclePage>{
                     allLoadedPage += 1;
                   }
 
-                  Provider.of<AnnouncementListProvider>(context, listen: false).notify();
+                  AnnouncementListProvider.notify_(context);
 
                   if(nextAnnouncements.length != Circle.announcementPageSize)
                     setState(() => moreToLoad = false);
@@ -531,7 +532,7 @@ class CirclePageState extends State<CirclePage>{
 
                   Padding(
                       padding: const EdgeInsets.only(
-                        top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+                        top: Dimen.SIDE_MARG,
                         left: Dimen.SIDE_MARG,
                         right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
                         bottom: Dimen.SIDE_MARG,
@@ -544,12 +545,14 @@ class CirclePageState extends State<CirclePage>{
                               children: [
 
                                 Expanded(
-                                  child: Text(
+                                  child: AutoSizeText(
                                     circle.name,
                                     style: AppTextStyle(
                                         fontSize: 28.0,
+                                        color: iconEnab_(context),
                                         fontWeight: weight.bold
                                     ),
+                                    maxLines: 2,
                                     key: nameWidgetKey,
                                   ),
                                 ),
@@ -605,7 +608,8 @@ class CirclePageState extends State<CirclePage>{
                                     if(mounted) showAppToast(context, text: 'Za często zmieniasz kod dostępu');
                                 }
                             ),
-                            description: 'Kod dostępu pozwala dołączyć do kręgu osobom, które go znają.',
+                            description: 'To, co widzisz, to <b>kod dostępu</b>.'
+                                '\n\nPozwala on dołączyć do kręgu tym, którzy go znają.',
                             resetFrequencyDays: 2,
                           ),
                         ),
@@ -632,25 +636,7 @@ class CirclePageState extends State<CirclePage>{
                       child: SimpleButton(
                         margin: EdgeInsets.zero,
                         padding: EdgeInsets.zero,
-                        onTap: () => pushPage(
-                            context,
-                            builder: (context) => AnnouncementEditorPage(
-                              circle: circle,
-                              palette: palette,
-                              onSaved: (announcement){
-                                circle.addAllAnnouncement(announcement);
-                                if(announcement.pinned) {
-                                  circle.addPinnedAnnouncement(announcement);
-                                  circle.pinnedCount += 1;
-                                }
-                                if(announcement.isAwaitingMyResponse) {
-                                  circle.addAwaitingAnnouncement(announcement);
-                                  circle.awaitingCount += 1;
-                                }
-                                setState(() => currTab = AnnouncementCategories.all);
-                              },
-                            )
-                        ),
+                        onTap: () => openNewAnnouncementCreator(),
                         color: cardColor,
                         clipBehavior: Clip.antiAlias,
                         radius: CommunityPublishableWidgetTemplate.radius,
@@ -662,7 +648,7 @@ class CirclePageState extends State<CirclePage>{
                               Icon(MdiIcons.draw, color: hintEnab_(context)),
                               const SizedBox(width: Dimen.SIDE_MARG),
                               Text(
-                                'Dodaj ogłoszenie...',
+                                'Co w trawie piszczy?',
                                 style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, color: hintEnab_(context))
                               )
                             ],
@@ -684,53 +670,90 @@ class CirclePageState extends State<CirclePage>{
                       key: tabBarKey,
                       color: backgroundColor,
                       elevation: overlaps?AppCard.bigElevation:0,
-                      child: SizedBox(
-                        height: Dimen.ICON_FOOTPRINT,
-                        child: ListView(
-                          physics: const BouncingScrollPhysics(),
-                          reverse: true,
-                          scrollDirection: Axis.horizontal,
-                          children: [
+                      child: ListView(
+                        physics: const BouncingScrollPhysics(),
+                        reverse: true,
+                        scrollDirection: Axis.horizontal,
+                        children: [
 
-                            const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG + 2),
+                          const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG + 2),
 
+                          SimpleButton(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: Dimen.ICON_MARG,
+                                vertical: Dimen.ICON_MARG,
+                              ),
+                              margin: EdgeInsets.zero,
+
+                              color: currTab == AnnouncementCategories.pinned?
+                              cardColor:
+                              backgroundColor,
+
+                              child: Text(
+                                  circle.pinnedAnnouncements.isEmpty?
+                                  'Przypięte':
+                                  'Przypięte [${circle.pinnedCount}]',
+                                  style: AppTextStyle(
+                                      fontSize: Dimen.TEXT_SIZE_BIG,
+                                      fontWeight: currTab == AnnouncementCategories.pinned?weight.halfBold:weight.normal,
+                                      color: currTab == AnnouncementCategories.pinned?iconEnab_(context):iconDisab_(context)
+                                  )
+                              ),
+                              onTap: () {
+                                // notifyScrollController();
+                                scrollController.jumpTo(0);
+                                appBarProv.set(elevated: false, showTitleOnAppBar: false, coverVisible: true);
+
+                                setState(() => currTab = AnnouncementCategories.pinned);
+                              }
+                          ),
+
+                          SimpleButton(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: Dimen.ICON_MARG,
+                                vertical: Dimen.ICON_MARG,
+                              ),
+
+                              color: currTab == AnnouncementCategories.all?
+                              cardColor:
+                              backgroundColor,
+
+                              margin: EdgeInsets.zero,
+                              child: Text(
+                                  'Wszystkie',
+                                  style: AppTextStyle(
+                                      fontSize: Dimen.TEXT_SIZE_BIG,
+                                      fontWeight: currTab == AnnouncementCategories.all?weight.halfBold:weight.normal,
+                                      color: currTab == AnnouncementCategories.all?iconEnab_(context):iconDisab_(context)
+                                  )
+                              ),
+                              onTap: (){
+                                // notifyScrollController();
+                                scrollController.jumpTo(0);
+                                appBarProv.set(elevated: false, showTitleOnAppBar: false, coverVisible: true);
+
+                                setState(() => currTab = AnnouncementCategories.all);
+                              }
+                          ),
+
+                          if(circle.awaitingAnnouncements.isNotEmpty)
                             SimpleButton(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: Dimen.ICON_MARG,
                                   vertical: Dimen.ICON_MARG,
                                 ),
+
+                                color: currTab == AnnouncementCategories.awaiting?
+                                cardColor:
+                                backgroundColor,
+
                                 margin: EdgeInsets.zero,
                                 child: Text(
-                                    circle.pinnedAnnouncements.isEmpty?
-                                    'Przypięte':
-                                    'Przypięte (${circle.pinnedCount})',
+                                    'Oczekujące [${circle.awaitingCount}]',
                                     style: AppTextStyle(
                                         fontSize: Dimen.TEXT_SIZE_BIG,
-                                        fontWeight: currTab == AnnouncementCategories.pinned?weight.halfBold:weight.normal,
-                                        color: currTab == AnnouncementCategories.pinned?iconEnab_(context):iconDisab_(context)
-                                    )
-                                ),
-                                onTap: () {
-                                  // notifyScrollController();
-                                  scrollController.jumpTo(0);
-                                  appBarProv.set(elevated: false, showTitleOnAppBar: false, coverVisible: true);
-
-                                  setState(() => currTab = AnnouncementCategories.pinned);
-                                }
-                            ),
-
-                            SimpleButton(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: Dimen.ICON_MARG,
-                                  vertical: Dimen.ICON_MARG,
-                                ),
-                                margin: EdgeInsets.zero,
-                                child: Text(
-                                    'Wszystkie',
-                                    style: AppTextStyle(
-                                        fontSize: Dimen.TEXT_SIZE_BIG,
-                                        fontWeight: currTab == AnnouncementCategories.all?weight.halfBold:weight.normal,
-                                        color: currTab == AnnouncementCategories.all?iconEnab_(context):iconDisab_(context)
+                                        fontWeight: currTab == AnnouncementCategories.awaiting?weight.halfBold:weight.normal,
+                                        color: currTab == AnnouncementCategories.awaiting?iconEnab_(context):iconDisab_(context)
                                     )
                                 ),
                                 onTap: (){
@@ -738,40 +761,15 @@ class CirclePageState extends State<CirclePage>{
                                   scrollController.jumpTo(0);
                                   appBarProv.set(elevated: false, showTitleOnAppBar: false, coverVisible: true);
 
-                                  setState(() => currTab = AnnouncementCategories.all);
+                                  setState(() => currTab = AnnouncementCategories.awaiting);
                                 }
                             ),
 
-                            if(circle.awaitingAnnouncements.isNotEmpty)
-                              SimpleButton(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: Dimen.ICON_MARG,
-                                    vertical: Dimen.ICON_MARG,
-                                  ),
-                                  margin: EdgeInsets.zero,
-                                  child: Text(
-                                      'Oczekujące (${circle.awaitingCount})',
-                                      style: AppTextStyle(
-                                          fontSize: Dimen.TEXT_SIZE_BIG,
-                                          fontWeight: currTab == AnnouncementCategories.awaiting?weight.halfBold:weight.normal,
-                                          color: currTab == AnnouncementCategories.awaiting?iconEnab_(context):iconDisab_(context)
-                                      )
-                                  ),
-                                  onTap: (){
-                                    // notifyScrollController();
-                                    scrollController.jumpTo(0);
-                                    appBarProv.set(elevated: false, showTitleOnAppBar: false, coverVisible: true);
-
-                                    setState(() => currTab = AnnouncementCategories.awaiting);
-                                  }
-                              ),
-
-                          ],
-                        ),
+                        ],
                       ),
                     );
                   },
-                  height: Dimen.ICON_FOOTPRINT,
+                  height: 2*Dimen.ICON_MARG + Dimen.TEXT_SIZE_BIG,
                   rebuild: true,
                 ),
 
@@ -795,10 +793,9 @@ class CirclePageState extends State<CirclePage>{
       context,
       circle.allAnnouncements,
       padding: const EdgeInsets.only(
-        top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-        right: Dimen.SIDE_MARG,
-        left: Dimen.SIDE_MARG,
-        bottom: Dimen.SIDE_MARG,
+        top: Dimen.defMarg,
+        right: CommunityPublishableWidgetTemplate.borderHorizontalMarg,
+        left: CommunityPublishableWidgetTemplate.borderHorizontalMarg,
       ),
       palette: palette,
       onAnnouncementUpdated: () => setState((){})
@@ -808,10 +805,9 @@ class CirclePageState extends State<CirclePage>{
       context,
       circle.pinnedAnnouncements,
       padding: const EdgeInsets.only(
-        top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-        right: Dimen.SIDE_MARG,
-        left: Dimen.SIDE_MARG,
-        bottom: Dimen.SIDE_MARG,
+        top: Dimen.defMarg,
+        right: CommunityPublishableWidgetTemplate.borderHorizontalMarg,
+        left: CommunityPublishableWidgetTemplate.borderHorizontalMarg,
       ),
       palette: palette,
       emptyMessage: 'Brak przypiętych ogłoszeń',
@@ -822,15 +818,77 @@ class CirclePageState extends State<CirclePage>{
       context,
       circle.awaitingAnnouncements,
       padding: const EdgeInsets.only(
-        top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-        right: Dimen.SIDE_MARG,
-        left: Dimen.SIDE_MARG,
-        bottom: Dimen.SIDE_MARG,
+        top: Dimen.defMarg,
+        right: CommunityPublishableWidgetTemplate.borderHorizontalMarg,
+        left: CommunityPublishableWidgetTemplate.borderHorizontalMarg,
       ),
       palette: palette,
       emptyMessage: 'Brak oczekujących ogłoszeń',
-      onAnnouncementUpdated: () => setState((){})
+      onAnnouncementUpdated: () => setState((){}),
   );
+
+  void openNewAnnouncementCreator() async {
+
+    bool? isEvent;
+
+    await showScrollBottomSheet(
+      context: context,
+      builder: (context) => BottomSheetDef(
+        color: CommunityCoverColors.backgroundColor(context, palette),
+        builder: (context) => Column(
+          children: [
+
+            CreateNewButton(
+                icon: MdiIcons.noteTextOutline,
+                title: 'Ogłoszenie',
+                description: 'Dodaj ogłoszenie, przypomnienie, informację, zasady drużyny lub listę ekwipunku',
+                onTap: (){
+                  isEvent = false;
+                  Navigator.pop(context);
+                }
+            ),
+
+            const SizedBox(height: Dimen.SIDE_MARG),
+
+            CreateNewButton(
+                icon: MdiIcons.calendarRangeOutline,
+                title: 'Wydarzenie',
+                description: 'Dodaj wydarzenie służby, zbiórki, biwaku, rajdu, mszy lub obozu!',
+                onTap: (){
+                  isEvent = true;
+                  Navigator.pop(context);
+                }
+            ),
+
+          ],
+        )
+      )
+    );
+
+    if(isEvent == null) return;
+
+    pushPage(
+      context,
+      builder: (context) => AnnouncementEditorPage(
+        circle: circle,
+        palette: palette,
+        isEvent: isEvent!,
+        onSaved: (announcement){
+          circle.addAllAnnouncement(announcement);
+          if(announcement.pinned) {
+            circle.addPinnedAnnouncement(announcement);
+            circle.pinnedCount += 1;
+          }
+          if(announcement.isAwaitingMyResponse) {
+            circle.addAwaitingAnnouncement(announcement);
+            circle.awaitingCount += 1;
+          }
+          setState(() => currTab = AnnouncementCategories.all);
+        },
+      )
+    );
+
+  }
 
 }
 

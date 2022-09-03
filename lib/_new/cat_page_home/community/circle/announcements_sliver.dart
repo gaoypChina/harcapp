@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/announcement_widget.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../common/community_cover_colors.dart';
+import '../community_publishable_widget_template.dart';
 import 'model/announcement.dart';
 import 'model/circle.dart';
 
@@ -43,14 +46,13 @@ Widget getAnnouncementsSliver(
               AnnouncementWidget(
                 announcements[index],
                 palette,
-                pinnable: false,
-                editable: false,
                 onAnnouncementUpdated: onAnnouncementUpdated,
                 showCommunityInfo: showCommunityInfo,
                 onCircleButtonTap: onCircleButtonTap == null?null:() => onCircleButtonTap.call(announcements[index].circle),
               ),
-          separatorBuilder: (context, index) =>
-          const SizedBox(height: Dimen.SIDE_MARG),
+          separatorBuilder: (context, index) => const SizedBox(height: 3*CommunityPublishableWidgetTemplate.borderHorizontalMarg),
+          
+          //SizedBox(height: Dimen.SIDE_MARG),
           count: announcements.length
       )),
     );

@@ -3,39 +3,29 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'common/community_cover_image_data.dart';
+import '../../../details/app_settings.dart';
+import 'community_cover_image_data.dart';
 
-class CoverImage extends StatelessWidget{
+class CoverImageWidget extends StatelessWidget{
 
   final CommunityCoverImageData coverImage;
+  final BoxFit fit;
 
-  const CoverImage(this.coverImage, {super.key});
-
-  ImageProvider getImageProvider(){
-
-    if(coverImage.local)
-      return AssetImage('assets/images/circle/cover_images/${coverImage.themedFileName}');
-
-    String url = coverImage.themedFileName!;
-
-    return NetworkImage(url, headers:{"Keep-Alive": "timeout=5"});
-
-  }
+  const CoverImageWidget(this.coverImage, {this.fit = BoxFit.cover, super.key});
 
   @override
   Widget build(BuildContext context) => Image(
-    image: getImageProvider(),
+    image: coverImage.getImageProvider(darkSample: coverImage.isAdaptive && AppSettings.isDark)!,
 
-    fit: BoxFit.cover,
+    fit: fit,
 
     loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? imageChunkEvent) =>
     imageChunkEvent?.expectedTotalBytes == imageChunkEvent?.cumulativeBytesLoaded?
     child:
-    NoImagePlaceholder(loading: true, local: coverImage.local),
+    NoImagePlaceholder(loading: true, isSample: coverImage.dataType == CommunityCoverImageDataType.sample),
 
-    errorBuilder: (BuildContext context, Object object, StackTrace? stackTrace){
-      return NoImagePlaceholder(loading: false, local: coverImage.local);
-    }
+    errorBuilder: (BuildContext context, Object object, StackTrace? stackTrace) =>
+      NoImagePlaceholder(loading: false, isSample: coverImage.dataType == CommunityCoverImageDataType.sample)
   );
 
 }
@@ -43,9 +33,9 @@ class CoverImage extends StatelessWidget{
 class NoImagePlaceholder extends StatelessWidget{
 
   final bool loading;
-  final bool local;
+  final bool isSample;
 
-  const NoImagePlaceholder({required this.loading, required this.local, super.key});
+  const NoImagePlaceholder({required this.loading, required this.isSample, super.key});
 
   @override
   Widget build(BuildContext context) => AspectRatio(
@@ -57,7 +47,7 @@ class NoImagePlaceholder extends StatelessWidget{
         color: iconDisab_(context),
       ):
       Icon(
-        local?
+        isSample?
         MdiIcons.imageOffOutline:
         MdiIcons.linkOff,
         size: 72,

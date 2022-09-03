@@ -25,7 +25,6 @@ class CreateNewButton extends StatelessWidget{
   @override
   Widget build(BuildContext context) => SimpleButton(
       radius: AppCard.bigRadius,
-      color: background_(context),
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.all(Dimen.SIDE_MARG),
@@ -207,7 +206,7 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
                           padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                           child: Material(
                               borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                              color: background_(context),
+                              color: backgroundColor??background_(context),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -241,9 +240,9 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
 
                                         const SizedBox(height: Dimen.SIDE_MARG),
 
-                                        Text(
+                                        AppText(
                                           description,
-                                          style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                                          size: Dimen.TEXT_SIZE_BIG,
                                         ),
 
                                         const SizedBox(height: 2*Dimen.defMarg),
@@ -327,52 +326,39 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
 
                   Padding(
                       padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                      child: Stack(
-                        clipBehavior: Clip.none,
+                      child: Row(
                         children: [
 
-                          Positioned(
-                            bottom: -.5*Dimen.ICON_MARG,
-                            right: -.5*Dimen.ICON_MARG,
-                            child: Text('Kod dostępu', style: AppTextStyle(fontWeight: weight.halfBold, color: hintEnab_(context))),
+                          const SizedBox(width: Dimen.ICON_FOOTPRINT),
+
+                          Expanded(
+                              child: GestureDetector(
+                                onLongPress: (){
+                                  Clipboard.setData(ClipboardData(text: shareCode.value));
+                                  showAppToast(context, text: 'Skopiowano');
+                                },
+                                child: Text(
+                                  shareCode.value,
+                                  style: AppTextStyle(
+                                      fontSize: Dimen.ICON_SIZE,
+                                      fontWeight: weight.bold,
+                                      color: shareCodeSearchable.value?iconEnab_(context):iconDisab_(context)
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              )
                           ),
 
-                          Row(
-                            children: [
+                          IconButton(
+                            icon: const Icon(MdiIcons.refresh),
+                            onPressed: processing || !shareCodeSearchable.value?null:() async {
 
-                              const SizedBox(width: Dimen.ICON_FOOTPRINT),
+                              setState(() => _processing.value = true);
+                              await resetShareCode();
+                              setState(() => _processing.value = false);
 
-                              Expanded(
-                                  child: GestureDetector(
-                                    onLongPress: (){
-                                      Clipboard.setData(ClipboardData(text: shareCode.value));
-                                      showAppToast(context, text: 'Skopiowano');
-                                    },
-                                    child: Text(
-                                      shareCode.value,
-                                      style: AppTextStyle(
-                                          fontSize: Dimen.ICON_SIZE,
-                                          fontWeight: weight.bold,
-                                          color: shareCodeSearchable.value?iconEnab_(context):iconDisab_(context)
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  )
-                              ),
-
-                              IconButton(
-                                icon: const Icon(MdiIcons.refresh),
-                                onPressed: processing || !shareCodeSearchable.value?null:() async {
-
-                                  setState(() => _processing.value = true);
-                                  await resetShareCode();
-                                  setState(() => _processing.value = false);
-
-                                },
-                              ),
-
-                            ],
-                          )
+                            },
+                          ),
 
                         ],
                       )

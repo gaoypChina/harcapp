@@ -372,8 +372,9 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
           } else if(state == ArticleLoadState.LOADED) {
             if(!mounted) return;
             showAppToast(context, text: 'Pobrano artykuły');
-            setState((){});
           }
+
+          setState((){});
 
         }
     );
@@ -414,7 +415,7 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
             icon: SpinKitChasingDots(size: Dimen.ICON_SIZE, color: accent_(context)),
             onPressed: () => showAppToast(context, text: 'Ładowanie nowych artykułów...')
           ):
-          (articleLoader.loadState == ArticleLoadState.NO_NET || articleLoader.loadState == ArticleLoadState.FAILED?
+          articleLoader.loadState == ArticleLoadState.NO_NET || articleLoader.loadState == ArticleLoadState.FAILED?
           IconButton(
             icon: const Icon(MdiIcons.refresh),
             onPressed: () => articleLoader.run()
@@ -443,11 +444,11 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
                 ),
 
               ]
-          ))),
+          )),
 
           onOpen:
           articleLoader.loadState == ArticleLoadState.LOADED ?
-              () => Navigator.push(
+          () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const AllArticlesPage())
           ):null,
@@ -461,11 +462,12 @@ class _ArticleScrollViewState extends State<_ArticleScrollView>{
             emptyText:
             articleLoader.loadState == ArticleLoadState.LOADED?
             'Pusto...':
-            (articleLoader.loadState == ArticleLoadState.LOADING?
+            articleLoader.loadState == ArticleLoadState.LOADING ||
+            articleLoader.loadState == ArticleLoadState.CHECKING_NET?
             'Ładowanie...':
-            (articleLoader.loadState == ArticleLoadState.NO_NET?
+            articleLoader.loadState == ArticleLoadState.NO_NET?
             'Brak internetu':
-            'Upsis...')),
+            'Upsis...',
 
             emptyIcon:
             articleLoader.loadState == ArticleLoadState.LOADING?

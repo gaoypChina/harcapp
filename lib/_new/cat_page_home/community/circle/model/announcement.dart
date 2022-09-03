@@ -59,8 +59,8 @@ class Announcement extends CommunityPublishable{
     silentInit(announcements);
 
     if(context == null) return;
-    Provider.of<AnnouncementProvider>(context, listen: false).notify();
-    Provider.of<AnnouncementListProvider>(context, listen: false).notify();
+    AnnouncementProvider.notify_(context);
+    AnnouncementListProvider.notify_(context);
   }
 
   static addToAll(BuildContext context, Announcement ann){
@@ -71,8 +71,8 @@ class Announcement extends CommunityPublishable{
     _all!.add(ann);
     _allMap![ann.key] = ann;
 
-    Provider.of<AnnouncementProvider>(context, listen: false).notify();
-    Provider.of<AnnouncementListProvider>(context, listen: false).notify();
+    AnnouncementProvider.notify_(context);
+    AnnouncementListProvider.notify_(context);
   }
 
   static addListToAll(List<Announcement> anns, {BuildContext? context}){
@@ -87,8 +87,8 @@ class Announcement extends CommunityPublishable{
 
     if(context == null) return;
 
-    Provider.of<AnnouncementProvider>(context, listen: false).notify();
-    Provider.of<AnnouncementListProvider>(context, listen: false).notify();
+    AnnouncementProvider.notify_(context);
+    AnnouncementListProvider.notify_(context);
   }
 
   static updateInAll(BuildContext context, Announcement ann){
@@ -103,8 +103,8 @@ class Announcement extends CommunityPublishable{
     _all!.insert(index, ann);
     _allMap![ann.key] = ann;
 
-    Provider.of<AnnouncementProvider>(context, listen: false).notify();
-    Provider.of<AnnouncementListProvider>(context, listen: false).notify();
+    AnnouncementProvider.notify_(context);
+    AnnouncementListProvider.notify_(context);
   }
 
   static void removeFromAll(BuildContext context, Announcement ann){
@@ -114,8 +114,8 @@ class Announcement extends CommunityPublishable{
     _all!.remove(ann);
     _allMap!.remove(ann.key);
 
-    Provider.of<AnnouncementProvider>(context, listen: false).notify();
-    Provider.of<AnnouncementListProvider>(context, listen: false).notify();
+    AnnouncementProvider.notify_(context);
+    AnnouncementListProvider.notify_(context);
   }
 
   static clear(){
@@ -148,6 +148,14 @@ class Announcement extends CommunityPublishable{
 
   bool get isAwaitingMyResponse{
 
+    // If the event has taken place already
+    if(endTime != null && endTime!.isBefore(AccountData.lastServerTime??DateTime.now()))
+      return false;
+
+    // If the event has taken place already
+    if(endTime == null && startTime != null && startTime!.isBefore(AccountData.lastServerTime??DateTime.now()))
+      return false;
+
     // If I said I'll respond later
     if(myAttendance != null && myAttendance!.response == AnnouncementAttendance.POSTPONE_RESP &&
         myAttendance!.postponeTime!.isBefore(AccountData.lastServerTime??DateTime.now()))
@@ -160,10 +168,6 @@ class Announcement extends CommunityPublishable{
     // If I haven't responded
     if(respMode == AnnouncementAttendanceRespMode.OBLIGATORY && myAttendance == null)
       return true;
-
-    // If the event has taken place already
-    if(endTime != null && endTime!.isBefore(AccountData.lastServerTime??DateTime.now()))
-      return false;
 
     return false;
   }
@@ -231,7 +235,7 @@ class Announcement extends CommunityPublishable{
     lastUpdateTime: resp['lastUpdateTimeStr'] == null? null: DateTime.tryParse(resp['lastUpdateTimeStr']),
     startTime: resp['startTimeStr'] == null? null: DateTime.tryParse(resp['startTimeStr']),
     endTime: resp['endTimeStr'] == null? null: DateTime.tryParse(resp['endTimeStr']),
-    coverImage: resp['coverImageUrl'] == null? null: CommunityCoverImageData.from(resp['coverImageUrl']),
+    coverImage: resp['coverImage'] == null? null: CommunityCoverImageData.from(resp['coverImage']),
     place: resp['place'],
     urlToPreview: resp['urlToPreview'],
     author: UserData.fromMap(resp['author']),

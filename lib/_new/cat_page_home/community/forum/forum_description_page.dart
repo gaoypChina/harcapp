@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
@@ -97,7 +98,7 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
 
                   Padding(
                       padding: const EdgeInsets.only(
-                        top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+                        top: Dimen.SIDE_MARG,
                         left: Dimen.SIDE_MARG,
                         right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
                         bottom: Dimen.SIDE_MARG,
@@ -110,12 +111,14 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                               children: [
 
                                 Expanded(
-                                  child:  Text(
+                                  child: AutoSizeText(
                                     forum.name,
                                     style: AppTextStyle(
                                         fontSize: 28.0,
+                                        color: iconEnab_(context),
                                         fontWeight: weight.bold
                                     ),
+                                    maxLines: 2,
                                     key: nameWidgetKey,
                                   ),
                                 ),
@@ -241,7 +244,7 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                     AccountThumbnailRowWidget(
                         forum.followers.map((f) => f.name).toList(),
                         elevated: CommunityPublishableWidgetTemplate.elevation != 0,
-                        color: CommunityCoverColors.backgroundColor(context, palette),
+                        color: CommunityCoverColors.cardColor(context, palette),
                         borderColor: CommunityCoverColors.cardColor(context, palette),
                         backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
                         padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),

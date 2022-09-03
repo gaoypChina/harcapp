@@ -1,19 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/widgets.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_image_data.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:palette_generator/palette_generator.dart';
 
-Future<PaletteGenerator?> getPaletteGenerator(bool local, String? imgUrlOrFileName) async {
+Future<PaletteGenerator?> getPaletteGenerator(CommunityCoverImageData? data, {bool darkSample = false}) async {
 
-  if(imgUrlOrFileName == null)
-    return null;
+  if(data == null) return null;
+  ImageProvider? imageProv = data.getImageProvider(darkSample: darkSample);
+  if(imageProv == null) return null;
 
-  return await PaletteGenerator.fromImageProvider(
-    (local?
-    AssetImage('assets/images/circle/cover_images/$imgUrlOrFileName'):
-    NetworkImage(imgUrlOrFileName, headers:{"Keep-Alive": "timeout=5"})) as ImageProvider<Object>,
-  );
+  return await PaletteGenerator.fromImageProvider(imageProv);
 
 }
 

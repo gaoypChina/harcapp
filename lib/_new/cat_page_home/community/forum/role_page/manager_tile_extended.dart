@@ -132,9 +132,9 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
 
           await ApiForum.updateManagers(
               forumKey: forum.key,
-              users: [ForumManagerUpdateBody(manager.key, role: Optional.of(newRole))],
+              users: [ForumManagerUpdateBody(manager.key, role: newRole)],
               onSuccess: (List<ForumManager> allManagers){
-                forum.setAllManagers(context, allManagers);
+                forum.setAllManagers(allManagers, context: context);
                 Navigator.pop(context); // Close loading widget
                 onSuccess?.call();
               },
@@ -170,7 +170,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
               forumKey: forum.key,
               userKeys: [manager.key],
               onSuccess: (List<String> removedManagers) async {
-                forum.removeManagersByKey(context, removedManagers);
+                forum.removeManagersByKey(removedManagers, context: context);
 
                 if(!mounted) return;
                 showAppToast(context, text: 'Wyproszono');
@@ -201,6 +201,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
   @override
   Widget build(BuildContext context) => ForumManagerTile(
     manager: manager,
+    palette: palette,
     onTap: openDetails,
     heroTag: heroTag,
   );

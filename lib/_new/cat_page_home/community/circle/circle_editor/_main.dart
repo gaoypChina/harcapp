@@ -6,6 +6,7 @@ import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/circle_editor/providers.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_image_data.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:optional/optional_internal.dart';
 import 'package:palette_generator/palette_generator.dart';
@@ -57,11 +58,8 @@ class CircleEditorPageState extends State<CircleEditorPage>{
   void Function()? get onLeft => widget.onLeft;
   void Function()? get onError => widget.onError;
 
-  void calcLocalBackgronudColor() async {
-    _palette = await getPaletteGenerator(
-        coverImageProv.coverImage.local,
-        coverImageProv.coverImage.firstFileName
-    );
+  void calcLocalBackgroundColor() async {
+    _palette = await getPaletteGenerator(coverImageProv.coverImage);
     colorsKeyProv.notify();
   }
 
@@ -72,7 +70,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
   void initState() {
     coverImageProv = CoverImageProvider(circle: initCircle);
     if(initCircle != null && palette == null)
-      calcLocalBackgronudColor();
+      calcLocalBackgroundColor();
     super.initState();
   }
 
@@ -126,7 +124,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                           if(initCircle == null)
                             await ApiCircle.create(
                                 description: Provider.of<DescriptionProvider>(context, listen: false).descriptionController.text,
-                                coverImageUrl: Provider.of<CoverImageProvider>(context, listen: false).coverImage.code,
+                                coverImage: Provider.of<CoverImageProvider>(context, listen: false).coverImage,
                                 colorsKey: Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey,
                                 community: community,
                                 onSuccess: (circle) async {
@@ -144,8 +142,8 @@ class CircleEditorPageState extends State<CircleEditorPage>{
 
                             String? description = Provider.of<DescriptionProvider>(context, listen: false).descriptionController.text;
                             if(description.isEmpty) description = null;
-                            String? coverImageCode = Provider.of<CoverImageProvider>(context, listen: false).coverImage.code;
-                            String? colorsKey = Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey;
+                            CommunityCoverImageData? coverImage = Provider.of<CoverImageProvider>(context, listen: false).coverImage;
+                            String colorsKey = Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey;
 
                             await ApiCircle.update(
                                 circleKey: initCircle!.key,
@@ -153,18 +151,18 @@ class CircleEditorPageState extends State<CircleEditorPage>{
 
                                 description:
                                 initCircle!.description == description?
-                                const Optional.empty():
+                                null:
                                 Optional.ofNullable(description),
 
-                                coverImageUrl:
-                                initCircle!.coverImage.code == coverImageCode?
-                                const Optional.empty():
-                                Optional.ofNullable(coverImageCode),
+                                coverImage:
+                                initCircle!.coverImage.uniqueID == coverImage.uniqueID?
+                                null:
+                                coverImage,
 
                                 colorsKey:
                                 initCircle!.colorsKey == colorsKey?
-                                const Optional.empty():
-                                Optional.ofNullable(colorsKey),
+                                null:
+                                colorsKey,
 
                                 onSuccess: (circle) async {
                                   await popPage(context); // Close loading widget.
@@ -190,7 +188,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                     GeneralPart(
                       palette: colorsKeyProv.isColorsKeyAuto?palette:null,
                       onCoverSelected: (coverImage){
-                        calcLocalBackgronudColor();
+                        calcLocalBackgroundColor();
                       },
                     ),
 

@@ -1,113 +1,197 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/account_header_widget.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
-import 'package:harcapp/_new/cat_page_home/community/community_publishable_widget_template.dart';
-import 'package:harcapp/account/account.dart';
-import 'package:harcapp_core/comm_widgets/app_toast.dart';
-import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
+import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
+import 'package:harcapp/_new/cat_page_home/community/circle/model/announcement.dart';
+import 'package:harcapp/_new/cat_page_home/community/circle/model/announcement_attendace.dart';
+import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_tile.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
-import 'package:provider/provider.dart';
 
 import '../common/community_cover_colors.dart';
-import 'announcement_widget.dart';
-import 'announcement_widget_template.dart';
-import 'model/announcement.dart';
-import 'model/announcement_attendace.dart';
 import 'model/announcement_attendance_resp.dart';
-import 'model/announcement_attendance_resp_mode.dart';
-import 'model/circle.dart';
 import 'model/member.dart';
 
-class AnnouncementExpandedPage extends StatefulWidget{
+class AttendingMembersDialog extends StatelessWidget{
 
   final Announcement announcement;
   final PaletteGenerator? palette;
-  final bool displayAttendancePage;
-  final void Function()? onAnnouncementUpdated;
-  final bool showCommunityInfo;
-  final void Function()? onCircleButtonTap;
-  final bool showPinShortcutButton;
 
-  const AnnouncementExpandedPage(
-      this.announcement,
-      { this.palette,
-        this.displayAttendancePage = false,
-        this.onAnnouncementUpdated,
-        required this.showCommunityInfo,
-        this.onCircleButtonTap,
-        this.showPinShortcutButton = false,
-        Key? key
-      }) : super(key: key);
+  const AttendingMembersDialog(this.announcement, {this.palette, super.key});
 
   @override
-  State<StatefulWidget> createState() => AnnouncementExpandedPageState();
+  Widget build(BuildContext context) {
+
+    List<Member> attending = [];
+    List<Member> postponed = [];
+    List<Member> rejected = [];
+    List<Member> noAnswer = [];
+
+    for(Member member in announcement.circle.members)
+      switch(announcement.attendance[member.key]?.response){
+        case AnnouncementAttendance.ATTENDING:
+          attending.add(member);
+          break;
+        case AnnouncementAttendance.POSTPONE_RESP:
+          postponed.add(member);
+          break;
+        case AnnouncementAttendance.NOT_ATTENDING:
+          rejected.add(member);
+          break;
+        case null:
+          noAnswer.add(member);
+          break;
+      }
+
+    attending.sort((m1, m2) => m1.name.compareTo(m2.name));
+    postponed.sort((m1, m2) => m1.name.compareTo(m2.name));
+    rejected.sort((m1, m2) => m1.name.compareTo(m2.name));
+    noAnswer.sort((m1, m2) => m1.name.compareTo(m2.name));
+
+    return Padding(
+      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+      child: Material(
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
+        clipBehavior: Clip.hardEdge,
+        color: CommunityCoverColors.backgroundColor(context, palette),
+        child: DefaultTabController(
+          length: 4,
+          child: NestedScrollView(
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
+
+              SliverAppBar(
+                floating: true,
+                pinned: true,
+                title: Text(
+                  announcement.title.isEmpty?announcement.text:announcement.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                centerTitle: true,
+                backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+                bottom: TabBar(
+                    physics: const BouncingScrollPhysics(),
+                    indicator: AppTabBarIncdicator(color: CommunityCoverColors.strongColor(context, palette)),
+                    isScrollable: true,
+                    tabs: [
+                      Tab(text: 'Będę [${attending.length}]'),
+                      Tab(text: 'Nie wiem [${postponed.length}]'),
+                      Tab(text: 'Nie będę [${rejected.length}]'),
+                      Tab(text: 'Brak odpowiedzi [${noAnswer.length}]'),
+                    ]
+                ),
+              )
+
+            ],
+            body: TabBarView(
+                physics: const BouncingScrollPhysics(),
+                children: [
+
+                  MemberResponseWidget(
+                      announcement,
+                      attending,
+                      announcementAttendanceDropdownIcon[AnnouncementAttendance.ATTENDING]!,
+                      'Brak odób, które\nzadeklarowały obecność\n',
+                      palette: palette
+                  ),
+
+                  MemberResponseWidget(
+                      announcement,
+                      postponed,
+                      announcementAttendanceDropdownIcon[AnnouncementAttendance.POSTPONE_RESP]!,
+                      'Brak odób, które\njeszcze nie wiedzą\n',
+                      palette: palette
+                  ),
+
+                  MemberResponseWidget(
+                      announcement,
+                      rejected,
+                      announcementAttendanceDropdownIcon[AnnouncementAttendance.NOT_ATTENDING]!,
+                      'Brak odób, które\nnie dadzą rady\nsię pojawić',
+                      palette: palette
+                  ),
+
+                  MemberResponseWidget(
+                      announcement,
+                      noAnswer,
+                      MdiIcons.partyPopper,
+                      'Wszyscy udzielili odpowiedzi!\n\n',
+                      palette: palette
+                  ),
+
+                ]
+            ),
+          )
+        ),
+      ),
+    );
+
+  }
 
 }
 
-class AnnouncementExpandedPageState extends State<AnnouncementExpandedPage> with TickerProviderStateMixin{
+class MemberResponseWidget extends StatelessWidget{
 
-  Announcement get announcement => widget.announcement;
-  PaletteGenerator? get palette => widget.palette;
-  bool get displayAttendancePage => widget.displayAttendancePage;
-  void Function()? get onAnnouncementUpdated => widget.onAnnouncementUpdated;
-  bool get showCommunityInfo => widget.showCommunityInfo;
-  void Function()? get onCircleButtonTap => widget.onCircleButtonTap;
-  bool get showPinShortcutButton => widget.showPinShortcutButton;
+  final Announcement announcement;
+  final List<Member> members;
+  final PaletteGenerator? palette;
+  final IconData emptyIcon;
+  final String emptyMessage;
 
-  bool get enablesResp => announcement.respMode != AnnouncementAttendanceRespMode.NONE;
+  const MemberResponseWidget(this.announcement, this.members, this.emptyIcon, this.emptyMessage, {this.palette, super.key});
 
   @override
-  Widget build(BuildContext context) => Consumer<AnnouncementProvider>(
-      builder: (context, prov, child) => BottomNavScaffold(
-        backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
-        appBottomNavColor: CommunityCoverColors.backgroundColor(context, palette),
-        body: CustomScrollView(
-          slivers: [
+  Widget build(BuildContext context){
 
-            SliverAppBar(
-              title: Text(
-                announcement.title.isEmpty?announcement.text:announcement.title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              centerTitle: true,
-              floating: true,
-              pinned: true,
-              backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+    if(members.isEmpty)
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          
+          Icon(
+            emptyIcon,
+            size: 120,
+            color: hintEnab_(context),
+          ),
+
+          const SizedBox(height: 40),
+
+          Text(
+            emptyMessage,
+            style: AppTextStyle(
+              fontSize: 24.0,
+              color: hintEnab_(context),
+              fontWeight: weight.halfBold,
             ),
+            textAlign: TextAlign.center,
+          )
+          
+        ],
+      );
 
-            SliverPadding(
-              padding: const EdgeInsets.all(CommunityPublishableWidgetTemplate.borderHorizontalMarg),
-              sliver: SliverList(delegate: SliverChildListDelegate([
-                AnnouncementWidget(
-                  announcement,
-                  palette,
-                  shrinkText: false,
-                  disableTap: true,
-                  onAnnouncementUpdated: onAnnouncementUpdated,
-                  showCommunityInfo: showCommunityInfo,
-                  onCircleButtonTap: onCircleButtonTap,
-                  showPinShortcutButton: showPinShortcutButton,
-                ),
-              ])),
-            )
-
-
-          ],
+    return ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        itemCount: members.length,
+        itemBuilder: (context, index) => MemberAttendanceTile(
+          announcement,
+          members[index],
+          palette,
+          color: CommunityCoverColors.cardColor(context, palette),
         )
-      )
-  );
+    );
+  }
 
 }
 
@@ -116,10 +200,9 @@ class MemberAttendanceTile extends StatefulWidget{
   final Announcement announcement;
   final Member member;
   final PaletteGenerator? palette;
-  final Color? thumbnailColor;
-  final Color? thumbnailBorderColor;
+  final Color? color;
 
-  const MemberAttendanceTile(this.announcement, this.member, this.palette, {this.thumbnailColor, this.thumbnailBorderColor, super.key});
+  const MemberAttendanceTile(this.announcement, this.member, this.palette, {this.color, super.key});
 
   @override
   State<StatefulWidget> createState() => MemberAttendanceTileState();
@@ -132,8 +215,7 @@ class MemberAttendanceTileState extends State<MemberAttendanceTile>{
   Member get member => widget.member;
   PaletteGenerator? get palette => widget.palette;
 
-  Color? get thumbnailColor => widget.thumbnailColor;
-  Color? get thumbnailBorderColor => widget.thumbnailBorderColor;
+  Color? get color => widget.color;
 
   @override
   Widget build(BuildContext context){
@@ -145,6 +227,8 @@ class MemberAttendanceTileState extends State<MemberAttendanceTile>{
       member.name,
 
       subtitle:
+      announcement.waivedAttRespMembers.contains(member.key)?
+      Text('Zwolniony z odpowiedzi', style: AppTextStyle()):
       resp?.response == null || resp?.response == AnnouncementAttendance.ATTENDING?
       null:
       Text(
@@ -158,27 +242,16 @@ class MemberAttendanceTileState extends State<MemberAttendanceTile>{
       ),
 
       trailing:
-      member.key == AccountData.key?
-      AttendanceWidget(
-        announcement,
-        palette: palette,
-        onAttendanceChanged: (resp, now){
-          AttendanceWidget.defaultOnAttendanceChanged(context, announcement, resp, now);
-          AnnouncementProvider.notify_(context);
-          AnnouncementListProvider.notify_(context);
-          CircleProvider.notify_(context);
-        },
-      ):
       resp != null?
       Icon(announcementAttendanceRespToIcon(resp)):
       waived?
       null:
       Icon(MdiIcons.dotsHorizontal, color: hintEnab_(context)),
       onTap: () => openDetails(context, member),
-      
-      thumbnailColor: thumbnailColor,
-      thumbnailBorderColor: thumbnailBorderColor,
-      
+
+      thumbnailColor: color,
+      thumbnailBorderColor: color,
+
     );
 
   }
@@ -221,7 +294,7 @@ class MemberAttendanceTileState extends State<MemberAttendanceTile>{
 
               Padding(
                 padding: const EdgeInsets.only(
-                  left: 2*Dimen.LIST_TILE_LEADING_MARGIN_VAL + Dimen.ICON_SIZE + 2*8
+                    left: 2*Dimen.LIST_TILE_LEADING_MARGIN_VAL + Dimen.ICON_SIZE + 2*8
                 ),
                 child: Text(
                   'Deklaracja obecności',
