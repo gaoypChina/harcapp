@@ -77,7 +77,7 @@ class AnnouncementExpandedPageState extends State<AnnouncementExpandedPage> with
 
             SliverAppBar(
               title: Text(
-                announcement.title.isEmpty?announcement.text:announcement.title,
+                announcement.hasTitle?announcement.title!:announcement.text,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

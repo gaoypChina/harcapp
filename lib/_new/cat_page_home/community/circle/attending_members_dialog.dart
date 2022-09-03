@@ -75,7 +75,7 @@ class AttendingMembersDialog extends StatelessWidget{
                 floating: true,
                 pinned: true,
                 title: Text(
-                  announcement.title == null || announcement.title!.isEmpty?announcement.text:announcement.title!,
+                  announcement.hasTitle?announcement.title!:announcement.text,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

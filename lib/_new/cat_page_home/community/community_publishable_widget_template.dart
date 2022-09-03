@@ -71,8 +71,6 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
   @override
   Widget build(BuildContext context){
 
-    bool hasTitle = publishable.title == null || publishable.title!.isNotEmpty;
-
     return SimpleButton(
       onTap: onTap,
       color: CommunityCoverColors.cardColor(context, palette),
@@ -137,7 +135,7 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
 
-                    if(hasTitle)
+                    if(publishable.hasTitle)
                       Text(
                         publishable.title!,
                         style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
@@ -145,7 +143,7 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
                         overflow: TextOverflow.ellipsis,
                       ),
 
-                    if(hasTitle)
+                    if(publishable.hasTitle)
                       const SizedBox(height: Dimen.ICON_MARG),
 
                     if(shrinkText)

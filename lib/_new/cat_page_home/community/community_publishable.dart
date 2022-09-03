@@ -112,6 +112,7 @@ abstract class CommunityPublishable{
 
   final String key;
   String? title;
+  bool get hasTitle => title != null && title!.isNotEmpty;
   DateTime publishTime;
   DateTime? lastUpdateTime;
   String? urlToPreview;
