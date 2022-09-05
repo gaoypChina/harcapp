@@ -44,7 +44,7 @@ class NoImagePlaceholder extends StatelessWidget{
       child: loading?
       Center(
         child: SpinKitThreeBounce(
-          size: 72.0,
+          size: 48.0,
           color: iconDisab_(context),
         ),
       ):

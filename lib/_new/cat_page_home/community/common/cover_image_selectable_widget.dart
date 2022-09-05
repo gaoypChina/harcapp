@@ -15,7 +15,8 @@ class CoverImageSelectableWidget extends StatefulWidget{
   final PaletteGenerator? palette;
   final CommunityCoverImageData? initCoverImage;
   final double height;
-  final bool adaptiveImages;
+  final bool showAdaptiveImages;
+  final bool separateAdaptiveImages;
   final bool removable;
   final void Function(CommunityCoverImageData?)? onSelected;
   final Widget Function(BuildContext)? emptyBuilder;
@@ -24,7 +25,8 @@ class CoverImageSelectableWidget extends StatefulWidget{
       this.palette,
       { this.initCoverImage,
         this.height = 200,
-        this.adaptiveImages = true,
+        this.showAdaptiveImages = true,
+        this.separateAdaptiveImages = false,
         this.removable = true,
         this.onSelected,
         this.emptyBuilder,
@@ -40,7 +42,8 @@ class CoverImageSelectableWidgetState extends State<CoverImageSelectableWidget>{
   
   PaletteGenerator? get palette => widget.palette;
   double get height => widget.height;
-  bool get adaptiveImages => widget.adaptiveImages;
+  bool get showAdaptiveImages => widget.showAdaptiveImages;
+  bool get separateAdaptiveImages => widget.separateAdaptiveImages;
   bool get removable => widget.removable;
   void Function(CommunityCoverImageData?)? get onSelected => widget.onSelected;
   Widget Function(BuildContext)? get emptyBuilder => widget.emptyBuilder;
@@ -62,7 +65,9 @@ class CoverImageSelectableWidgetState extends State<CoverImageSelectableWidget>{
       selCoverImage = await openSelectCoverImageDialog(
         context,
         selCoverImage,
-        separateAdaptiveCoverImages: !adaptiveImages,
+
+        showAdaptiveCoverImages: showAdaptiveImages,
+        separateAdaptiveCoverImages: separateAdaptiveImages,
         canChooseNull: removable
       );
       onSelected?.call(selCoverImage);
@@ -100,6 +105,9 @@ class CoverImageSelectableWidgetState extends State<CoverImageSelectableWidget>{
                     selCoverImage = await openSelectCoverImageDialog(
                         context,
                         selCoverImage,
+
+                        showAdaptiveCoverImages: showAdaptiveImages,
+                        separateAdaptiveCoverImages: separateAdaptiveImages,
                         canChooseNull: removable
                     );
                     onSelected?.call(selCoverImage);

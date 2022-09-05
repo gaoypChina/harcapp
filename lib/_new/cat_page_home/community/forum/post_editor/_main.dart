@@ -301,7 +301,8 @@ class PostEditorPageState extends State<PostEditorPage>{
                 CoverImageSelectableWidget(
                   palette,
                   initCoverImage: coverImage,
-                  adaptiveImages: false,
+                  showAdaptiveImages: false,
+                  separateAdaptiveImages: true,
                   removable: true,
                   onSelected: (newCoverImage) => setState(() => coverImage = newCoverImage),
                   emptyBuilder: (context) => SizedBox(

@@ -4,7 +4,6 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
-import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_image_data.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
@@ -24,12 +23,14 @@ class CoverImageSelectorDialog extends StatefulWidget{
 
   final CommunityCoverImageData? selected;
   final void Function(CommunityCoverImageData?)? onSelected;
+  final bool showAdaptiveCoverImages;
   final bool separateAdaptiveCoverImages;
   final bool canChooseNull;
 
   const CoverImageSelectorDialog({
     this.selected,
     this.onSelected,
+    this.showAdaptiveCoverImages = true,
     this.separateAdaptiveCoverImages = false,
     this.canChooseNull = false,
     Key? key
@@ -44,6 +45,7 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
 
   CommunityCoverImageData? get initiallySelected => widget.selected;
   void Function(CommunityCoverImageData?)? get onSelected => widget.onSelected;
+  bool get showAdaptiveCoverImages => widget.showAdaptiveCoverImages;
   bool get separateAdaptiveCoverImages => widget.separateAdaptiveCoverImages;
   bool get canChooseNull => widget.canChooseNull;
 
@@ -92,17 +94,23 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
 
   @override
   void initState() {
-    adaptiveSampleImages = CommunityCoverImageData.allSample.where((image) => image.isAdaptive).toList();
+
+    List<CommunityCoverImageData> allAdaptives = CommunityCoverImageData.allSample.where((image) => image.isAdaptive).toList();
+
+    if(showAdaptiveCoverImages)
+      adaptiveSampleImages = allAdaptives;
+    else
+      adaptiveSampleImages = [];
+
     standardSampleImages = CommunityCoverImageData.allSample.where((image) => !image.isAdaptive).toList();
 
     if(separateAdaptiveCoverImages) {
       List<CommunityCoverImageData> separated = [];
-      for (CommunityCoverImageData coverImage in adaptiveSampleImages) {
+      for (CommunityCoverImageData coverImage in allAdaptives) {
         separated.add(CommunityCoverImageData(CommunityCoverImageDataType.sample, sample: [coverImage.sample![0]]));
         separated.add(CommunityCoverImageData(CommunityCoverImageDataType.sample, sample: [coverImage.sample![1]]));
       }
       standardSampleImages.insertAll(0, separated);
-      adaptiveSampleImages.clear();
     }
 
     netFocusNode = FocusNode();
@@ -132,7 +140,7 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
     currAnimDark = false;
     previewDark = AppSettings.isDark;
 
-    if(!separateAdaptiveCoverImages)
+    if(showAdaptiveCoverImages)
       animate();
 
     super.initState();
@@ -159,7 +167,6 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
                   centerTitle: true,
                   // floating: true,
                   pinned: true,
-                  forceElevated: innerBoxIsScrolled,
                   actions: [
                     IconButton(
                       icon: const Icon(MdiIcons.check),
@@ -195,47 +202,50 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
                       slivers: [
 
                         FloatingContainer.child(
-                          child:
-                          selected == null?
-                          const SizedBox(
-                            height: CoverImagePreviewWidget.height,
-                            child: EmptyCoverImage(bottomIndex: 0),
-                          ):
-                          Stack(
-                            children: [
+                          child: Material(
+                            color: background_(context),
+                              elevation: AppCard.bigElevation,
+                              child: selected == null?
+                              const SizedBox(
+                                height: CoverImagePreviewWidget.height,
+                                child: EmptyCoverImage(bottomIndex: 0),
+                              ):
+                              Stack(
+                                children: [
 
-                              CoverImagePreviewWidget(
-                                  selected,
-                                  selected: false,
-                                  radius: 0,
-                                  showNight: selected != null && selected!.isAdaptive?previewDark:null
-                              ),
+                                  CoverImagePreviewWidget(
+                                      selected,
+                                      selected: false,
+                                      radius: 0,
+                                      showNight: selected != null && selected!.isAdaptive?previewDark:null
+                                  ),
 
-                              if(selected != null && selected!.isAdaptive)
-                                Positioned(
-                                  bottom: Dimen.ICON_MARG,
-                                  left: Dimen.ICON_MARG,
-                                  child: Material(
-                                    borderRadius: BorderRadius.circular(2*Dimen.ICON_FOOTPRINT),
-                                    clipBehavior: Clip.antiAlias,
-                                    color: background_(context),
-                                    child: IconButton(
-                                      icon: Icon(previewDark?MdiIcons.weatherNight:MdiIcons.weatherSunny),
-                                      onPressed: () => setState(() => previewDark = !previewDark),
+                                  if(selected != null && selected!.isAdaptive)
+                                    Positioned(
+                                      bottom: Dimen.ICON_MARG,
+                                      left: Dimen.ICON_MARG,
+                                      child: Material(
+                                        borderRadius: BorderRadius.circular(2*Dimen.ICON_FOOTPRINT),
+                                        clipBehavior: Clip.antiAlias,
+                                        color: background_(context),
+                                        child: IconButton(
+                                          icon: Icon(previewDark?MdiIcons.weatherNight:MdiIcons.weatherSunny),
+                                          onPressed: () => setState(() => previewDark = !previewDark),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
 
-                              if(canChooseNull)
-                                Positioned(
-                                  bottom: Dimen.ICON_MARG,
-                                  right: Dimen.ICON_MARG,
-                                  child: RemoveButton(
-                                    onPressed: () => setState(() => selected = null),
-                                  ),
-                                ),
+                                  if(canChooseNull)
+                                    Positioned(
+                                      bottom: Dimen.ICON_MARG,
+                                      right: Dimen.ICON_MARG,
+                                      child: RemoveButton(
+                                        onPressed: () => setState(() => selected = null),
+                                      ),
+                                    ),
 
-                            ],
+                                ],
+                              ),
                           ),
                           height: CoverImagePreviewWidget.height,
                           rebuild: true
@@ -340,15 +350,18 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
                         Expanded(
                           child:
                           localImageFile == null?
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: Dimen.ICON_MARG,
-                              right: Dimen.ICON_MARG,
-                              left: Dimen.ICON_MARG
-                            ),
-                            child: EmptyCoverImage(
-                              bottomIndex: 1,
-                              onTap: uploadFile,
+                          Container(
+                            color: background_(context),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: Dimen.ICON_MARG,
+                                  right: Dimen.ICON_MARG,
+                                  left: Dimen.ICON_MARG
+                              ),
+                              child: EmptyCoverImage(
+                                bottomIndex: 1,
+                                onTap: uploadFile,
+                              ),
                             ),
                           ):
                           Align(
@@ -630,7 +643,8 @@ class CoverImagePreviewWidget extends StatelessWidget{
 Future<CommunityCoverImageData?> openSelectCoverImageDialog(
     BuildContext context,
     CommunityCoverImageData? currentCoverImage,
-    { bool separateAdaptiveCoverImages = false,
+    { bool showAdaptiveCoverImages = true,
+      bool separateAdaptiveCoverImages = false,
       canChooseNull = false
     }) async {
 
@@ -646,6 +660,7 @@ Future<CommunityCoverImageData?> openSelectCoverImageDialog(
           selectedCoverImage = coverImage;
           Navigator.pop(context);
         },
+        showAdaptiveCoverImages: showAdaptiveCoverImages,
         separateAdaptiveCoverImages: separateAdaptiveCoverImages,
         canChooseNull: canChooseNull,
       )

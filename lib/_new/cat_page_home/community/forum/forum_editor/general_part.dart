@@ -5,7 +5,6 @@ import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colo
 import 'package:harcapp/_new/cat_page_home/community/common/cover_image_selectable_widget.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +42,8 @@ class GeneralPartState extends State<GeneralPart>{
             builder: (context, prov, child) => CoverImageSelectableWidget(
               palette,
               initCoverImage: prov.coverImage,
+              showAdaptiveImages: true,
+              separateAdaptiveImages: true,
               removable: false,
               onSelected: (coverImage){
                 prov.coverImage = coverImage!;

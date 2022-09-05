@@ -543,7 +543,8 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                   CoverImageSelectableWidget(
                     palette,
                     initCoverImage: coverImage,
-                    adaptiveImages: false,
+                    showAdaptiveImages: false,
+                    separateAdaptiveImages: true,
                     removable: true,
                     onSelected: (newCoverImage) => setState(() => coverImage = newCoverImage),
                     emptyBuilder: (context) => SizedBox(

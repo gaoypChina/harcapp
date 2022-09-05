@@ -34,6 +34,7 @@ import 'package:provider/provider.dart';
 import '../../_common_widgets/harc_app.dart';
 import '../account_test_widget.dart';
 import 'community/circle/model/circle.dart';
+import 'community/communities_loader.dart';
 import 'community/community_publishable.dart';
 import 'community/community_publishable_widget_template.dart';
 import 'community/community_publishables_sliver.dart';
@@ -72,6 +73,7 @@ class FeedPageState extends State<FeedPage>{
   bool get shouldScroll => AccountData.loggedIn;
 
   late IndivCompLoaderListener indivCompLoaderListener;
+  late CommunityLoaderListener communitiesLoaderListener;
 
   late LoginListener loginListener;
 
@@ -85,6 +87,15 @@ class FeedPageState extends State<FeedPage>{
     );
     indivCompLoader.addListener(indivCompLoaderListener);
 
+    communitiesLoaderListener = CommunityLoaderListener(
+      onCommunitiesLoaded: (communities){
+        if(CommunityPublishable.all == null)
+          refreshController.requestRefresh();
+      },
+      onError: (_) => setState((){})
+    );
+    communitiesLoader.addListener(communitiesLoaderListener);
+
     loginListener = LoginListener(
       onForceLogout: () => Provider.of<LoginProvider>(context, listen: false).notify()
     );
@@ -92,7 +103,12 @@ class FeedPageState extends State<FeedPage>{
     AccountData.addLoginListener(loginListener);
 
     scrollController = ScrollController();
-    refreshController = RefreshController(initialRefresh: AccountData.loggedIn && CommunityPublishable.all == null);
+    refreshController = RefreshController(
+        initialRefresh:
+        AccountData.loggedIn &&
+        Community.all != null &&
+        CommunityPublishable.all == null
+    );
 
     loadedPage = -1;
     moreToLoad = true;
@@ -103,6 +119,7 @@ class FeedPageState extends State<FeedPage>{
   @override
   void dispose(){
     indivCompLoader.removeListener(indivCompLoaderListener);
+    communitiesLoader.addListener(communitiesLoaderListener);
     AccountData.removeLoginListener(loginListener);
 
     scrollController.dispose();
