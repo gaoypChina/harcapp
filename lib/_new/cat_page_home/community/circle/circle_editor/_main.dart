@@ -128,15 +128,19 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                                 colorsKey: Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey,
                                 community: community,
                                 onSuccess: (circle) async {
-                                  await popPage(context); // Close loading widget.
-                                  await popPage(context);
+                                  if(mounted) await popPage(context); // Close loading widget.
+                                  if(mounted) await popPage(context);
                                   onSaved?.call(circle);
                                 },
                                 onServerMaybeWakingUp: () {
+                                  if(mounted) popPage(context); // Close loading widget.
                                   if(mounted) showServerWakingUpToast(context);
                                   return true;
                                 },
-                                onError: onError
+                                onError: (){
+                                  if(mounted) popPage(context); // Close loading widget.
+                                  onError?.call();
+                                }
                             );
                           else{
 
@@ -165,15 +169,19 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                                 colorsKey,
 
                                 onSuccess: (circle) async {
-                                  await popPage(context); // Close loading widget.
-                                  await popPage(context);
+                                  if(mounted) await popPage(context); // Close loading widget.
+                                  if(mounted) await popPage(context);
                                   onSaved?.call(circle);
                                 },
                                 onServerMaybeWakingUp: () {
+                                  if(mounted) popPage(context); // Close loading widget.
                                   if(mounted) showServerWakingUpToast(context);
                                   return true;
                                 },
-                                onError: onError
+                                onError: (){
+                                  if(mounted) popPage(context); // Close loading widget.
+                                  onError?.call();
+                                }
                             );
                           }
 

@@ -217,14 +217,13 @@ class CommunityCoverImageData{
     switch(dataType){
 
       case CommunityCoverImageDataType.sample:
-        if(isAdaptive) return {samplePrefix: '${firstFileName!.split('#')}#'};
-        else return {samplePrefix: firstFileName};
+        if(isAdaptive) return {samplePrefix: '${firstFileName!.split('#')[0]}#'};
+        else return {samplePrefix: firstFileName!.split('.')[0]};
 
       case CommunityCoverImageDataType.url:
         return {urlPrefix: url};
 
       case CommunityCoverImageDataType.localFile:
-        // MultipartFile file = await MultipartFile.fromFile(localFilePath!);
         return {filePrefix: base64.encode(File(localFilePath!).readAsBytesSync())};
 
     }

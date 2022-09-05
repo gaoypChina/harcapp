@@ -177,7 +177,7 @@ class _AlbumItemState extends State<_AlbumItem>{
 
               AppScaffold.showMessage(
                   context,
-                  'Usunięto.',
+                  'Usunięto',
                   buttonText: 'Cofnij',
                   onButtonPressed: (){
                     album.save();

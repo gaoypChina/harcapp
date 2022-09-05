@@ -377,11 +377,13 @@ class PostEditorPageState extends State<PostEditorPage>{
                           onSaved?.call(post);
                         },
                         onServerMaybeWakingUp: () {
+                          if(mounted) popPage(context); // Close loading widget.
                           if(mounted) showServerWakingUpToast(context);
                           return true;
                         },
                         onError: () async {
                           if(mounted) await popPage(context); // Close loading widget.
+                          if(mounted) showAppToast(context, text: 'Błąd w publikowaniu');
                           onError?.call();
                         }
                     );
@@ -415,15 +417,17 @@ class PostEditorPageState extends State<PostEditorPage>{
                         textController.text,
 
                         onSuccess: (announcement) async {
-                          await popPage(context); // Close loading widget.
+                          if(mounted) await popPage(context); // Close loading widget.
                           onSaved?.call(announcement);
                         },
                         onServerMaybeWakingUp: () {
+                          if(mounted) popPage(context); // Close loading widget.
                           if(mounted) showServerWakingUpToast(context);
                           return true;
                         },
                         onError: () async {
-                          await popPage(context); // Close loading widget.
+                          if(mounted) await popPage(context); // Close loading widget.
+                          if(mounted) showAppToast(context, text: 'Błąd w publikowaniu');
                           onError?.call();
                         }
                     );

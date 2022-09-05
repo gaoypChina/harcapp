@@ -125,15 +125,19 @@ class ForumEditorPageState extends State<ForumEditorPage>{
                                 colorsKey: Provider.of<ColorsKeyProvider>(context, listen: false).colorsKey,
                                 community: community,
                                 onSuccess: (forum) async {
-                                  await popPage(context); // Close loading widget.
-                                  await popPage(context);
+                                  if(mounted) await popPage(context); // Close loading widget.
+                                  if(mounted) await popPage(context);
                                   onSaved?.call(forum);
                                 },
                                 onServerMaybeWakingUp: () {
+                                  if(mounted) popPage(context); // Close loading widget.
                                   if(mounted) showServerWakingUpToast(context);
                                   return true;
                                 },
-                                onError: onError
+                                onError: (){
+                                  if(mounted) popPage(context); // Close loading widget.
+                                  onError?.call();
+                                }
                             );
                           else{
 
@@ -170,7 +174,10 @@ class ForumEditorPageState extends State<ForumEditorPage>{
                                   if(mounted) showServerWakingUpToast(context);
                                   return true;
                                 },
-                                onError: onError
+                                onError: (){
+                                  if(mounted) popPage(context); // Close loading widget.
+                                  onError?.call();
+                                }
                             );
                           }
 

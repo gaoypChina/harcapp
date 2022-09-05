@@ -427,7 +427,7 @@ class ApiForum{
           if(urlToPreview != null) 'urlToPreview': urlToPreview.orElseNull,
 
           if(coverImage != null)
-            'coverImage': coverImage.orElseNull?.toReqMap(),
+            'coverImage': await coverImage.orElseNull?.toReqMap(),
 
           if(text != null) 'text': text,
 

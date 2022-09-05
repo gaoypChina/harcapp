@@ -381,7 +381,7 @@ class FolderDisplayerState extends State<FolderDisplayer>{
                         filePaths.removeAt(index);
                         setState(() {});
                         onRemoved?.call();
-                        showAppToast(context, text: 'Usunięto.');
+                        showAppToast(context, text: 'Usunięto');
                       },
                     ):null,
                     title: AppText(

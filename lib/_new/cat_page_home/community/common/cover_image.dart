@@ -42,9 +42,11 @@ class NoImagePlaceholder extends StatelessWidget{
     aspectRatio: 3/2,
     child: Material(
       child: loading?
-      SpinKitThreeBounce(
-        size: 72.0,
-        color: iconDisab_(context),
+      Center(
+        child: SpinKitThreeBounce(
+          size: 72.0,
+          color: iconDisab_(context),
+        ),
       ):
       Icon(
         isSample?

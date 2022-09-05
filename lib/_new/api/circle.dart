@@ -118,7 +118,7 @@ class ApiCircle{
           data: jsonEncode({
             'communityKey': community.key,
             'description': description.trim(),
-            'coverImage': await MultipartFile.fromFile(coverImage.localFilePath!),
+            'coverImage': await coverImage.toReqMap(),
             'colorsKey': colorsKey
           })
       ),

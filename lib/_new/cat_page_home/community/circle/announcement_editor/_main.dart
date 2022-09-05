@@ -630,14 +630,17 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                         respMode: isEvent?attRespMode:AnnouncementAttendanceRespMode.NONE,
                         onSuccess: (announcement) async {
                           if(mounted) await popPage(context); // Close loading widget.
+                          if(mounted) popPage(context);
                           onSaved?.call(announcement);
                         },
                         onServerMaybeWakingUp: () {
+                          if(mounted) popPage(context); // Close loading widget.
                           if(mounted) showServerWakingUpToast(context);
                           return true;
                         },
                         onError: () async {
                           if(mounted) await popPage(context); // Close loading widget.
+                          if(mounted) showAppToast(context, text: 'Błąd w publikowaniu');
                           onError?.call();
                         }
                     );
@@ -699,20 +702,21 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                         AnnouncementAttendanceRespMode.NONE,
 
                         onSuccess: (announcement) async {
-                          await popPage(context); // Close loading widget.
+                          if(mounted) await popPage(context); // Close loading widget.
+                          if(mounted) popPage(context); // Close loading widget.
                           onSaved?.call(announcement);
                         },
                         onServerMaybeWakingUp: () {
+                          if(mounted) popPage(context); // Close loading widget.
                           if(mounted) showServerWakingUpToast(context);
                           return true;
                         },
                         onError: () async {
-                          await popPage(context); // Close loading widget.
+                          if(mounted) await popPage(context); // Close loading widget.
+                          if(mounted) showAppToast(context, text: 'Błąd w publikowaniu');
                           onError?.call();
                         }
                     );
-
-                  Navigator.pop(context);
 
                 }
             ),

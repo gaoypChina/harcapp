@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_common_widgets/floating_container.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_image_data.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
@@ -70,6 +72,7 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
 
   CommunityCoverImageData? selectedSample;
   File? localImageFile;
+  late FocusNode netFocusNode;
   late TextEditingController netImageController;
 
   late int bottomIndex;
@@ -101,6 +104,8 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
       standardSampleImages.insertAll(0, separated);
       adaptiveSampleImages.clear();
     }
+
+    netFocusNode = FocusNode();
 
     if(initiallySelected == null){
       netImageController = TextEditingController();
@@ -135,7 +140,7 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+    padding: const EdgeInsets.all(Dimen.SIDE_MARG).add(MediaQuery.of(context).viewInsets),
     child: Material(
       clipBehavior: Clip.hardEdge,
       color: background_(context),
@@ -179,105 +184,6 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
                       },
                     )
                   ],
-                  bottom: PreferredSize(
-                    preferredSize: const Size(double.infinity, CoverImagePreviewWidget.height),
-                    child: Builder(
-                      builder: (context){
-                        if(selected == null)
-                          return SizedBox(
-                            height: CoverImagePreviewWidget.height,
-                            child: Icon(
-                                bottomIndex == 0?
-                                MdiIcons.imageOffOutline:
-                                MdiIcons.linkOff,
-                                size: 100,
-                                color: backgroundIcon_(context)
-                            ),
-                          );
-
-                        return Stack(
-                          children: [
-
-                            if(bottomIndex == 0)
-                              CoverImagePreviewWidget(selected, selected: false, radius: 0, showNight: selected != null && selected!.isAdaptive?previewDark:null)
-                            else if(bottomIndex == 1 && localImageFile != null)
-                              SizedBox(
-                                height: CoverImagePreviewWidget.height,
-                                child: Image.file(localImageFile!, fit: BoxFit.cover),
-                              )
-                            else if(bottomIndex == 1 && localImageFile == null)
-                                SizedBox(
-                                  width: double.infinity,
-                                  height: CoverImagePreviewWidget.height,
-                                  child: Icon(
-                                    MdiIcons.trayArrowUp,
-                                    color: backgroundIcon_(context),
-                                    size: 100,
-                                  ),
-                                )
-                              else if(bottomIndex == 2)
-                                  Image.network(
-                                      netImageController.text,
-                                      fit: BoxFit.cover,
-                                      height: CoverImagePreviewWidget.height,
-                                      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? imageChunkEvent){
-                                        if(imageChunkEvent != null && imageChunkEvent.cumulativeBytesLoaded == imageChunkEvent.expectedTotalBytes)
-                                          post(() => setState(() => networkImgLoadedWithError = false));
-
-                                        return child;
-                                      },
-                                      errorBuilder: (BuildContext context, Object object, StackTrace? stackTrace){
-
-                                        if(stackTrace != null)
-                                          post(() => setState(() => networkImgLoadedWithError = true));
-
-                                        return SizedBox(
-                                          width: double.infinity,
-                                          height: CoverImagePreviewWidget.height,
-                                          child:  Icon(
-                                            MdiIcons.linkOff,
-                                            color: backgroundIcon_(context),
-                                            size: 100,
-                                          ),
-                                        );
-                                      }
-                                  ),
-
-                            if(canChooseNull && (bottomIndex == 0 || netImageController.text.isNotEmpty))
-                              Positioned(
-                                bottom: Dimen.ICON_MARG,
-                                right: Dimen.ICON_MARG,
-                                child: Material(
-                                  borderRadius: BorderRadius.circular(2*Dimen.ICON_FOOTPRINT),
-                                  clipBehavior: Clip.antiAlias,
-                                  color: background_(context),
-                                  child: IconButton(
-                                    icon: const Icon(MdiIcons.trashCanOutline),
-                                    onPressed: () => setState(() => selected = null),
-                                  ),
-                                ),
-                              ),
-
-                            if(bottomIndex == 0 && selected != null && selected!.isAdaptive)
-                              Positioned(
-                                bottom: Dimen.ICON_MARG,
-                                left: Dimen.ICON_MARG,
-                                child: Material(
-                                  borderRadius: BorderRadius.circular(2*Dimen.ICON_FOOTPRINT),
-                                  clipBehavior: Clip.antiAlias,
-                                  color: background_(context),
-                                  child: IconButton(
-                                    icon: Icon(previewDark?MdiIcons.weatherNight:MdiIcons.weatherSunny),
-                                    onPressed: () => setState(() => previewDark = !previewDark),
-                                  ),
-                                ),
-                              ),
-
-                          ],
-                        );
-                      },
-                    ),
-                  ),
                 )
               ],
               body: Builder(
@@ -287,6 +193,53 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
                     return CustomScrollView(
                       physics: const BouncingScrollPhysics(),
                       slivers: [
+
+                        FloatingContainer.child(
+                          child:
+                          selected == null?
+                          const SizedBox(
+                            height: CoverImagePreviewWidget.height,
+                            child: EmptyCoverImage(bottomIndex: 0),
+                          ):
+                          Stack(
+                            children: [
+
+                              CoverImagePreviewWidget(
+                                  selected,
+                                  selected: false,
+                                  radius: 0,
+                                  showNight: selected != null && selected!.isAdaptive?previewDark:null
+                              ),
+
+                              if(selected != null && selected!.isAdaptive)
+                                Positioned(
+                                  bottom: Dimen.ICON_MARG,
+                                  left: Dimen.ICON_MARG,
+                                  child: Material(
+                                    borderRadius: BorderRadius.circular(2*Dimen.ICON_FOOTPRINT),
+                                    clipBehavior: Clip.antiAlias,
+                                    color: background_(context),
+                                    child: IconButton(
+                                      icon: Icon(previewDark?MdiIcons.weatherNight:MdiIcons.weatherSunny),
+                                      onPressed: () => setState(() => previewDark = !previewDark),
+                                    ),
+                                  ),
+                                ),
+
+                              if(canChooseNull)
+                                Positioned(
+                                  bottom: Dimen.ICON_MARG,
+                                  right: Dimen.ICON_MARG,
+                                  child: RemoveButton(
+                                    onPressed: () => setState(() => selected = null),
+                                  ),
+                                ),
+
+                            ],
+                          ),
+                          height: CoverImagePreviewWidget.height,
+                          rebuild: true
+                        ),
 
                         if(adaptiveSampleImages.isNotEmpty)
                           SliverList(delegate: SliverChildListDelegate([
@@ -384,6 +337,46 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
 
+                        Expanded(
+                          child:
+                          localImageFile == null?
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: Dimen.ICON_MARG,
+                              right: Dimen.ICON_MARG,
+                              left: Dimen.ICON_MARG
+                            ),
+                            child: EmptyCoverImage(
+                              bottomIndex: 1,
+                              onTap: uploadFile,
+                            ),
+                          ):
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: Stack(
+                              children: [
+
+                                Image.file(
+                                  localImageFile!,
+                                  fit: BoxFit.cover,
+                                  // height: CoverImagePreviewWidget.height,
+                                  // width: double.infinity,
+                                ),
+
+                                if(canChooseNull && localImageFile != null)
+                                  Positioned(
+                                    bottom: Dimen.ICON_MARG,
+                                    right: Dimen.ICON_MARG,
+                                    child: RemoveButton(
+                                      onPressed: () => setState(() => localImageFile = null),
+                                    ),
+                                  ),
+
+                              ],
+                            ),
+                          )
+                        ),
+
                         if(adaptiveSampleImages.isNotEmpty)
                           const SizedBox(height: Dimen.SIDE_MARG),
 
@@ -394,11 +387,7 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
                                 radius: AppCard.defRadius,
                                 color: backgroundIcon_(context),
                                 text: 'Wrzuć zdjęcie lokalne',
-                                onTap: () async {
-                                  XFile? result = await ImagePicker().pickImage(source: ImageSource.gallery);
-                                  if(result == null) return;
-                                  setState(() => localImageFile = File(result.path));
-                                }
+                                onTap: uploadFile
                             )
                         )
 
@@ -409,18 +398,71 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
                     return Column(
                       children: [
 
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: [
+
+                                Image.network(
+                                    netImageController.text,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? imageChunkEvent){
+                                      if(imageChunkEvent != null && imageChunkEvent.cumulativeBytesLoaded == imageChunkEvent.expectedTotalBytes)
+                                        post(() => setState(() => networkImgLoadedWithError = false));
+
+                                      return child;
+                                    },
+                                    errorBuilder: (BuildContext context, Object object, StackTrace? stackTrace){
+
+                                      if(stackTrace != null)
+                                        post(() => setState(() => networkImgLoadedWithError = true));
+
+                                      return Positioned(
+                                        top: Dimen.ICON_MARG,
+                                        right: Dimen.ICON_MARG,
+                                        left: Dimen.ICON_MARG,
+                                        bottom: 0,
+                                        child: EmptyCoverImage(
+                                          bottomIndex: 2,
+                                          onTap: () => netFocusNode.requestFocus(),
+                                        ),
+                                      );
+                                    }
+                                ),
+
+                                if(canChooseNull && netImageController.text.isNotEmpty)
+                                  Positioned(
+                                    bottom: Dimen.ICON_MARG,
+                                    right: Dimen.ICON_MARG,
+                                    child: RemoveButton(
+                                      onPressed: () => setState(() => netImageController.text = ''),
+                                    ),
+                                  ),
+
+                              ],
+                            ),
+                          ),
+                        ),
+
                         if(adaptiveSampleImages.isNotEmpty)
                           const SizedBox(height: Dimen.SIDE_MARG),
 
                         Padding(
                           padding: const EdgeInsets.all(Dimen.ICON_MARG),
                           child: AppTextFieldHint(
-                              hint: 'Link do zdjęcia:',
+                            focusNode: netFocusNode,
+                              hint: 'Podaj link do zdjęcia:',
+                              hintStyle: AppTextStyle(
+                                color: hintEnab_(context),
+                                fontWeight: weight.halfBold
+                              ),
                               hintTop: 'Link do zdjęcia',
                               controller: netImageController,
                               maxLength: Circle.maxLenCoverImageUrl,
                               onAnyChanged: (_) => setState((){})
-                          ),
+                          )
                         )
 
                       ],
@@ -452,7 +494,65 @@ class CoverImageSelectorDialogState extends State<CoverImageSelectorDialog>{
       ),
     ),
   );
-  
+
+  void uploadFile() async {
+
+    XFile? result = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if(result == null) return;
+    setState(() => localImageFile = File(result.path));
+
+  }
+
+}
+
+class EmptyCoverImage extends StatelessWidget{
+
+  final int bottomIndex;
+  final void Function()? onTap;
+
+  const EmptyCoverImage({required this.bottomIndex, this.onTap, super.key});
+
+  @override
+  Widget build(BuildContext context){
+
+    Widget child = Icon(
+        bottomIndex == 0?
+        MdiIcons.imageOffOutline:
+        bottomIndex == 1?
+        MdiIcons.trayArrowUp:
+        MdiIcons.linkOff,
+        size: 100,
+        color: backgroundIcon_(context)
+    );
+
+    if(onTap == null)
+      return child;
+
+    return SimpleButton(
+      onTap: onTap,
+      child: child,
+    );
+
+  }
+
+}
+
+class RemoveButton extends StatelessWidget{
+
+  final void Function()? onPressed;
+  const RemoveButton({this.onPressed, super.key});
+
+  @override
+  Widget build(BuildContext context) => Material(
+    borderRadius: BorderRadius.circular(2*Dimen.ICON_FOOTPRINT),
+    clipBehavior: Clip.antiAlias,
+    color: background_(context),
+    child: IconButton(
+      icon: const Icon(MdiIcons.trashCanOutline),
+      onPressed: onPressed,
+    ),
+  );
+
 }
 
 class CoverImagePreviewWidget extends StatelessWidget{
