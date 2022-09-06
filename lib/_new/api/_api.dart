@@ -1,6 +1,7 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -68,6 +69,9 @@ class API{
 
     try {
       Response response = await sendRequest(dio);
+
+      if(Random().nextInt(10) == 0)
+      Dio().get(IMAGE_DB_SERVER_IP).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
 
       if(response.statusCode == HttpStatus.ok){
         debugPrint('HarcApp API: ${response.requestOptions.method} ${response.requestOptions.path} :: success!');

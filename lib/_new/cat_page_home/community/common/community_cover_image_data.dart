@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert' show base64;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/_new/details/part_contributors.dart';
 import 'package:palette_generator/palette_generator.dart';
@@ -224,7 +225,16 @@ class CommunityCoverImageData{
         return {urlPrefix: url};
 
       case CommunityCoverImageDataType.localFile:
-        return {filePrefix: base64.encode(File(localFilePath!).readAsBytesSync())};
+
+        var result = await FlutterImageCompress.compressWithFile(
+          localFilePath!,
+          minWidth: 1000,
+          minHeight: 1000,
+          quality: 80,
+          format: CompressFormat.webp
+        );
+
+        return {filePrefix: base64.encode(result!)};
 
     }
 

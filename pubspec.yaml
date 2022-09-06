@@ -42,6 +42,7 @@ dependencies:
   extended_nested_scroll_view: 6.0.0-dev.1
   flip_card: ^0.6.0
   flutter_email_sender: ^5.1.0
+  flutter_image_compress: 1.1.2
   flutter_keyboard_visibility: ^5.2.0
   flutter_link_previewer: ^3.0.1
   flutter_lints: ^2.0.1
