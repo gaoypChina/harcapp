@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/account/account_tile.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
 import '../model/community_manager.dart';
 
 class CommunityManagerTile extends StatelessWidget{
@@ -30,6 +31,9 @@ class CommunityManagerTile extends StatelessWidget{
 
     subtitle: subtitle,
     thumbnailHeroTag: heroTag,
+
+    thumbnailBorderColor: cardEnab_(context),
+    thumbnailColor: cardEnab_(context),
 
     onTap: onTap,
     onLongPress: onLongPress,

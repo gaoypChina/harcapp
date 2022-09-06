@@ -33,7 +33,7 @@ class ForumManagerTile extends StatelessWidget{
     manager.name,
     shadow: manager.shadow,
 
-    thumbnailColor: CommunityCoverColors.backgroundColor(context, palette),
+    thumbnailColor: CommunityCoverColors.cardColor(context, palette),
     thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
     subtitle: subtitle,
     thumbnailHeroTag: heroTag,

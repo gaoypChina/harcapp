@@ -62,6 +62,7 @@ class InputField extends StatefulWidget{
   final List<TextInputFormatter>? inputFormatters;
 
   final bool? enabled;
+  final bool autofocus;
 
   const InputField({
     this.hintTop,
@@ -72,6 +73,7 @@ class InputField extends StatefulWidget{
     this.hintTextColor,
     this.textColor,
     this.enabled = true,
+    this.autofocus = false,
     this.isPassword = false,
     this.noUnderline = true,
     this.maxLength,
@@ -136,6 +138,7 @@ class InputFieldState extends State<InputField>{
                 onAnyChanged: (text) => setState(() => controller!.errorDimed = true),
                 inputFormatters: widget.inputFormatters,
                 obscureText: widget.isPassword!,
+                autofocus: widget.autofocus,
               )
             ),
             if(widget.trailing != null)
@@ -172,6 +175,7 @@ class InputFieldPassword extends StatefulWidget{
   final Color? textColor;
   final bool noUnderline;
   final int? maxLength;
+  final bool autofocus;
 
   final bool? enabled;
 
@@ -184,6 +188,7 @@ class InputFieldPassword extends StatefulWidget{
     this.textColor,
     this.noUnderline = true,
     this.maxLength,
+    this.autofocus = false,
 
     this.enabled = true,
     super.key});
@@ -214,6 +219,7 @@ class InputFieldPasswordState extends State<InputFieldPassword>{
       textColor: widget.textColor,
       noUnderline: widget.noUnderline,
       enabled: widget.enabled,
+      autofocus: widget.autofocus,
       isPassword: hidePass,
       inputFormatters:[
         LengthLimitingTextInputFormatter(widget.maxLength),

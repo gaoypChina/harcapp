@@ -21,29 +21,18 @@ class PostListProvider extends ChangeNotifier{
 
 class Post extends CommunityPublishable{
 
-  static List<Post>? _all;
   static Map<String, Post>? _allMap;
 
-  static List<Post>? get all => _all;
   static Map<String, Post>? get allMap => _allMap;
 
   static forget(){
-    _all = null;
     _allMap = null;
   }
 
   static silentInit(List<Post> posts){
-    if(_all == null){
-      _all = [];
-      _allMap = {};
-    }
-
-    _all!.clear();
+    _allMap ??= {};
     _allMap!.clear();
-
-    _all!.addAll(posts);
     _allMap = {for (Post p in posts) p.key: p};
-
   }
 
   static init(List<Post> posts, {BuildContext? context}){
@@ -55,27 +44,9 @@ class Post extends CommunityPublishable{
     Provider.of<PostListProvider>(context, listen: false).notify();
   }
 
-  static addToAll(BuildContext context, Post p){
-    if(_all == null){
-      _all = [];
-      _allMap = {};
-    }
-    _all!.add(p);
+  static addToAll(Post p, {BuildContext? context}){
+    _allMap ??= {};
     _allMap![p.key] = p;
-
-    Provider.of<PostProvider>(context, listen: false).notify();
-    Provider.of<PostListProvider>(context, listen: false).notify();
-  }
-
-  static addListToAll(List<Post> posts, {BuildContext? context}){
-    if(_all == null){
-      _all = [];
-      _allMap = {};
-    }
-    for(Post p in posts) {
-      _all!.add(p);
-      _allMap![p.key] = p;
-    }
 
     if(context == null) return;
 
@@ -83,37 +54,47 @@ class Post extends CommunityPublishable{
     Provider.of<PostListProvider>(context, listen: false).notify();
   }
 
-  static updateInAll(BuildContext context, Post p){
-    Post? oldPost = _allMap![p.key];
-    if(oldPost == null){
-      addToAll(context, p);
-      return;
-    }
+  static addListToAll(List<Post> posts, {BuildContext? context}){
+    _allMap ??= {};
+    for(Post p in posts)
+      _allMap![p.key] = p;
 
-    int index = _all!.indexOf(oldPost);
-    _all!.removeAt(index);
-    _all!.insert(index, p);
-    _allMap![p.key] = p;
+    if(context == null) return;
 
     Provider.of<PostProvider>(context, listen: false).notify();
     Provider.of<PostListProvider>(context, listen: false).notify();
   }
 
-  static void removeFromAll(BuildContext context, Post p){
-    if(_all == null)
+  static updateInAll(Post p, {BuildContext? context}){
+    Post? oldPost = _allMap![p.key];
+    if(oldPost == null){
+      addToAll(p, context: context);
+      return;
+    }
+
+    _allMap![p.key] = p;
+
+    if(context == null) return;
+
+    Provider.of<PostProvider>(context, listen: false).notify();
+    Provider.of<PostListProvider>(context, listen: false).notify();
+  }
+
+  static void removeFromAll(Post p, {BuildContext? context}){
+    if(_allMap == null)
       return;
 
-    _all!.remove(p);
     _allMap!.remove(p.key);
+
+    if(context == null) return;
 
     Provider.of<PostProvider>(context, listen: false).notify();
     Provider.of<PostListProvider>(context, listen: false).notify();
   }
 
   static clear(){
-    if(_all == null)
+    if(_allMap == null)
       return;
-    _all!.clear();
     _allMap!.clear();
   }
 
@@ -139,6 +120,7 @@ class Post extends CommunityPublishable{
     title = other.title;
     publishTime = other.publishTime;
     lastUpdateTime = other.lastUpdateTime;
+    urlToPreview = other.urlToPreview;
     author = other.author;
     coverImage = other.coverImage;
     text = other.text;

@@ -488,7 +488,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "9ea0d6a51dfd38990af60bdd637312a9be4b7072"
+      resolved-ref: "4439b7b3f3afefa2005135a814c3027f28edfd2d"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core"
     source: git
     version: "0.0.1"

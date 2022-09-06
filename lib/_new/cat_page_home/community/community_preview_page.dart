@@ -27,7 +27,7 @@ class CommunityPreviewPage extends StatelessWidget{
         child: TitleShortcutRowWidget(
           leading: Padding(
             padding: const EdgeInsets.all(Dimen.ICON_MARG),
-            child: Icon(MdiIcons.accountGroup, color: hintEnab_(context)),
+            child: Icon(Community.icon, color: hintEnab_(context)),
           ),
           title: 'Wszystkie środowiska',
           onOpen: onAllCommunitiesTap,

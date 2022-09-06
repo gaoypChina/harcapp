@@ -62,7 +62,7 @@ class PostWidgetTemplate extends StatelessWidget{
 
                 if(amIAuthor && post.forum.myRole != null)
                   ListTile(
-                    leading: const Icon(MdiIcons.pencil),
+                    leading: const Icon(MdiIcons.pencilOutline),
                     title: Text('Edytuj post', style: AppTextStyle()),
                     onTap: (){
                       Navigator.pop(context);

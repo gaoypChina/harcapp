@@ -40,6 +40,17 @@ abstract class SingleComputer<TErr, TListener extends SingleComputerListener<TEr
 
   }
 
+  Future<void> awaitFinishIfRunning()async{
+    await checkRunningSemaphore.acquire();
+    if(!running){
+      checkRunningSemaphore.release();
+      return;
+    }
+    checkRunningSemaphore.release();
+
+    await completer.future;
+  }
+
   /// Function returns TRUE if it wasn't already running;
   /// Function returns FALSE if it was already running (in which case it waits);
   Future<bool> run({bool awaitFinish = false}) async {

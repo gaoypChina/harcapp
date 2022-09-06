@@ -12,6 +12,7 @@ import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/api/circle.dart';
+import 'package:harcapp/_new/cat_page_home/community/circle/announcement_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/announcements_sliver.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
@@ -40,6 +41,7 @@ import '../common/community_cover_image_data.dart';
 import '../community_publishable_widget_template.dart';
 import '../community_sliver_app_bar.dart';
 import 'announcement_editor/_main.dart';
+import 'announcement_extended_page.dart';
 import 'circle_description_page.dart';
 import 'circle_editor/_main.dart';
 import 'circle_editor/common.dart';
@@ -798,7 +800,7 @@ class CirclePageState extends State<CirclePage>{
         left: CommunityPublishableWidgetTemplate.borderHorizontalMarg,
       ),
       palette: palette,
-      onAnnouncementUpdated: () => setState((){})
+      onAnnouncementUpdated: (announcement) => setState((){})
   );
 
   Widget getPinnedAnnouncements() => getAnnouncementsSliver(
@@ -811,7 +813,7 @@ class CirclePageState extends State<CirclePage>{
       ),
       palette: palette,
       emptyMessage: 'Brak przypiętych ogłoszeń',
-      onAnnouncementUpdated: () => setState((){})
+      onAnnouncementUpdated: (announcement) => setState((){})
   );
 
   Widget getAwaitingAnnouncements() => getAnnouncementsSliver(
@@ -824,7 +826,24 @@ class CirclePageState extends State<CirclePage>{
       ),
       palette: palette,
       emptyMessage: 'Brak oczekujących ogłoszeń',
-      onAnnouncementUpdated: () => setState((){}),
+      onAttendanceChanged: (announcement){
+        showAppToast(
+          context,
+          text: 'Dzięki! Ogłoszenie przeniesione.',
+          buttonText: 'Zobacz',
+          onButtonPressed: () => pushPage(
+            context,
+            builder: (context) => AnnouncementExpandedPage(
+              announcement,
+              palette: palette,
+              onAnnouncementUpdated: () => setState(() {}),
+              showCommunityInfo: false,
+            ),
+          ),
+          duration: const Duration(seconds: 7)
+        );
+      },
+      onAnnouncementUpdated: (announcement) => setState((){}),
   );
 
   void openNewAnnouncementCreator() async {

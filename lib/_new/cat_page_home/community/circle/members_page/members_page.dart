@@ -65,7 +65,7 @@ class MembersPage extends StatelessWidget{
         memObs.sort((p1, p2) => p1.name.compareTo(p2.name));
 
         return UserListManagementPage<Member>(
-          appBarTitle: 'Lista członków (${members.length})',
+          appBarTitle: 'Członkowie (${members.length})',
           userSets: [
             UserSet(
                 icon: circleRoleToIcon[CircleRole.ADMIN]!,

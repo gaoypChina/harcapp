@@ -46,7 +46,7 @@ class ManagersPage extends StatelessWidget{
         managEditors.sort((m1, m2) => m1.name.compareTo(m2.name));
 
         return UserListManagementPage<ForumManager>(
-          appBarTitle: 'Lista ogarniaczy (${managers.length})',
+          appBarTitle: 'Ogarniacze (${managers.length})',
           userSets: [
             UserSet(
                 icon: forumRoleToIcon[ForumRole.ADMIN]!,

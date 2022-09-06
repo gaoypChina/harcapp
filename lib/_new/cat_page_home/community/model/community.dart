@@ -100,7 +100,7 @@ class CommunityPreviewData extends CommunityBasicData{
 
 class Community extends CommunityBasicData{
 
-  static const IconData icon = MdiIcons.accountGroup;
+  static const IconData icon = MdiIcons.googleCirclesCommunities;
 
   static const int maxLenName = 64;
   static const int maxLenIconKey = 42;

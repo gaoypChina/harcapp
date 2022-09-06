@@ -21,7 +21,7 @@ class ManagerHeaderWidget extends StatelessWidget{
     manager.name,
     shadow: manager.shadow,
     leading: const SizedBox(width: Dimen.ICON_SIZE + Dimen.ICON_MARG),
-    thumbnailColor: CommunityCoverColors.backgroundColor(context, palette),
+    thumbnailColor: CommunityCoverColors.cardColor(context, palette),
     thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
     trailing: Row(
       children: [

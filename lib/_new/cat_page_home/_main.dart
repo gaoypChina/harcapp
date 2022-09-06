@@ -100,7 +100,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin{
               ),
 
               DrawerTile<String>(
-                icon: MdiIcons.googleCirclesCommunities,
+                icon: Community.icon,
                 title: 'Środowiska',
                 source: HomePartProvider.drawerPageCommunities,
                 selectedSource: prov.selectedDrawerPage,

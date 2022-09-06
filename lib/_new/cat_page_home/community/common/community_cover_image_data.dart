@@ -193,7 +193,7 @@ class CommunityCoverImageData{
       String code = responseData[samplePrefix];
       List<GraphicalResource> graphics = [];
 
-      if(code.contains('#')){
+      if(code.contains('#') && code.endsWith("#")){
         // String filePath = code.split(':')[1];
         String author = 'freepik.com (${code.split(':')[0]})';
         graphics.add(GraphicalResource('${code}light.webp', author));

@@ -42,7 +42,7 @@ class CommunityManagersPage extends StatelessWidget{
         managRegulars.sort((m1, m2) => m1.name.compareTo(m2.name));
 
         return UserListManagementPage<CommunityManager>(
-          appBarTitle: 'Lista ogarniaczy (${managers.length})',
+          appBarTitle: 'Ogarniacze (${managers.length})',
           userSets: [
             UserSet(
               icon: communityRoleToIcon[CommunityRole.ADMIN]!,

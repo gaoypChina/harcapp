@@ -31,7 +31,7 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
 
   static const double borderHorizontalMarg = Dimen.defMarg;
   static const double borderWidth = Dimen.defMarg;
-  static const double textHorizontalWidth = Dimen.ICON_MARG;
+  static const double textHorizontalMarg = Dimen.ICON_MARG;
 
   static const double radius = 8.0;
   static const double elevation = 0;
@@ -127,8 +127,8 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
               Padding(
                 padding: const EdgeInsets.only(
                     top: Dimen.ICON_MARG,
-                    left: textHorizontalWidth,
-                    right: textHorizontalWidth,
+                    left: textHorizontalMarg,
+                    right: textHorizontalMarg,
                     bottom: Dimen.ICON_MARG
                 ),
                 child: Column(
@@ -204,7 +204,7 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
 
     assert(width != null || context != null);
 
-    width ??= MediaQuery.of(context!).size.width - 2*(borderHorizontalMarg + borderWidth + textHorizontalWidth);
+    width ??= MediaQuery.of(context!).size.width - 2*(borderHorizontalMarg + borderWidth + textHorizontalMarg);
 
     TextPainter textPainter = TextPainter(
         text: TextSpan(text: text, style: textStyle),
@@ -212,8 +212,8 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
     )..layout(minWidth: 0, maxWidth: width);
     Size textSize = textPainter.size;
 
-    return textSize.height > shrinkedTextMaxLines*(textStyle.fontSize! * (textStyle.height??1).toDouble());
-
+    return textSize.height > (shrinkedTextMaxLines + .5)*(textStyle.fontSize! * (textStyle.height??1).toDouble());
+    // .5 is used, because emojis are a bit bigger.
   }
 
 }

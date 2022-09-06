@@ -6,13 +6,11 @@ import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/super_search_field.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_new/api/community.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_loader.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_tile.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
@@ -72,27 +70,23 @@ class FeedPageState extends State<FeedPage>{
 
   bool get shouldScroll => AccountData.loggedIn;
 
-  late IndivCompLoaderListener indivCompLoaderListener;
   late CommunityLoaderListener communitiesLoaderListener;
 
   late LoginListener loginListener;
 
   @override
   void initState() {
-
-    indivCompLoaderListener = IndivCompLoaderListener(
-      onStart: () => setState((){}),
-      onIndivCompsLoaded: (loadedIndivComps) => setState((){}),
-      onError: (_) => setState((){}),
-    );
-    indivCompLoader.addListener(indivCompLoaderListener);
-
     communitiesLoaderListener = CommunityLoaderListener(
-      onCommunitiesLoaded: (communities){
-        if(CommunityPublishable.all == null)
+      onStart: () => setState((){}),
+      onCommunitiesLoaded: (communities) async {
+        if(refreshController.isRefresh)
+          return;
+
+        if(await isNetworkAvailable() && CommunityPublishable.all == null)
           refreshController.requestRefresh();
       },
-      onError: (_) => setState((){})
+      onError: (_) => setState((){}),
+      onEnd: (_, __) => setState((){}),
     );
     communitiesLoader.addListener(communitiesLoaderListener);
 
@@ -106,8 +100,8 @@ class FeedPageState extends State<FeedPage>{
     refreshController = RefreshController(
         initialRefresh:
         AccountData.loggedIn &&
-        Community.all != null &&
-        CommunityPublishable.all == null
+        (Community.all == null ||
+        CommunityPublishable.all == null)
     );
 
     loadedPage = -1;
@@ -118,8 +112,7 @@ class FeedPageState extends State<FeedPage>{
 
   @override
   void dispose(){
-    indivCompLoader.removeListener(indivCompLoaderListener);
-    communitiesLoader.addListener(communitiesLoaderListener);
+    communitiesLoader.removeListener(communitiesLoaderListener);
     AccountData.removeLoginListener(loginListener);
 
     scrollController.dispose();
@@ -194,6 +187,8 @@ class FeedPageState extends State<FeedPage>{
               refreshController.refreshCompleted();
               return;
             }
+
+            await communitiesLoader.awaitFinishIfRunning();
 
             await ApiCommunity.getFeed(
                 page: 0,
@@ -322,53 +317,6 @@ class FeedPageState extends State<FeedPage>{
                     margin: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                   ),
 
-                  /*
-                  CommunitiesBarWidget(onAllCommunitiesOpen: onAllCommunitiesOpen),
-                   */
-
-                  /*
-                  if(IndivComp.all == null || IndivComp.all!.isNotEmpty)
-                    Row(
-                      children: [
-
-                        const SizedBox(width: Dimen.SIDE_MARG),
-
-                        Expanded(
-                          child: Text(
-                            'Współzawodnictwa',
-                            style: AppTextStyle(
-                                fontSize: Dimen.TEXT_SIZE_APPBAR,
-                                fontWeight: weight.halfBold,
-                                color: hintEnab_(context)
-                            ),
-                          ),
-                        ),
-
-                        IconButton(
-                          icon: const Icon(MdiIcons.arrowRight),
-                          onPressed: onCompHeaderOpen,
-                        )
-
-                      ],
-                    ),
-
-                  if(IndivComp.all == null && indivCompLoader.running)
-                    const Padding(
-                      padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG, bottom: Dimen.SIDE_MARG),
-                      child: IndivCompRowLoadingWidget(),
-                    )
-                  else if (IndivComp.all == null && !indivCompLoader.running)
-                    const Padding(
-                      padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG, bottom: Dimen.SIDE_MARG),
-                      child: IndivCompRowProblemWidget(),
-                    )
-                  // else if(IndivComp.all!.isEmpty)
-                  //   const IndivCompRowEmptyWidget()
-                  else if(IndivComp.all!.isNotEmpty)
-                      const IndivCompRowPreviewWidget(
-                        padding: EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG, bottom: Dimen.SIDE_MARG),
-                      ),
-                  */
                   if(IndivComp.all != null && IndivComp.all!.isNotEmpty)
                     const SizedBox(height: Dimen.SIDE_MARG),
 

@@ -77,25 +77,29 @@ class GeneralPartState extends State<GeneralPart>{
         ),
       ),
 
-      const SizedBox(height: 4*Dimen.SIDE_MARG),
+      if(initCommunity == null)
+        const SizedBox(height: 4*Dimen.SIDE_MARG),
 
-      Text(
-        'Zawiązać krąg lub założyć forum będziesz ${AccountData.sex == Sex.male?'mógł':'mogła'} po stworzeniu środowiska',
-        style: AppTextStyle(
-          fontSize: Dimen.TEXT_SIZE_APPBAR,
-          fontWeight: weight.halfBold,
-          color: hintEnab_(context)
+      if(initCommunity == null)
+        Text(
+          'Zawiązać krąg lub założyć forum będziesz ${AccountData.sex == Sex.male?'mógł':'mogła'} po stworzeniu środowiska',
+          style: AppTextStyle(
+            fontSize: Dimen.TEXT_SIZE_APPBAR,
+            fontWeight: weight.halfBold,
+            color: hintEnab_(context)
+          ),
+          textAlign: TextAlign.center,
         ),
-        textAlign: TextAlign.center,
-      ),
 
-      const SizedBox(height: 2*Dimen.SIDE_MARG),
+      if(initCommunity == null)
+        const SizedBox(height: 2*Dimen.SIDE_MARG),
 
-      Icon(
-        MdiIcons.timerSand,
-        color: hintEnab_(context),
-        size: 72,
-      )
+      if(initCommunity == null)
+        Icon(
+          MdiIcons.timerSand,
+          color: hintEnab_(context),
+          size: 72,
+        )
 
     ],
   );

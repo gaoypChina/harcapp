@@ -29,29 +29,18 @@ class Announcement extends CommunityPublishable{
 
   static const int feedPageSize = 10;
 
-  static List<Announcement>? _all;
   static Map<String, Announcement>? _allMap;
 
-  static List<Announcement>? get all => _all;
   static Map<String, Announcement>? get allMap => _allMap;
 
   static forget(){
-    _all = null;
     _allMap = null;
   }
 
   static silentInit(List<Announcement> announcements){
-    if(_all == null){
-      _all = [];
-      _allMap = {};
-    }
-
-    _all!.clear();
+    _allMap ??= {};
     _allMap!.clear();
-
-    _all!.addAll(announcements);
     _allMap = {for (Announcement ann in announcements) ann.key: ann};
-
   }
 
   static init(List<Announcement> announcements, {BuildContext? context}){
@@ -63,27 +52,9 @@ class Announcement extends CommunityPublishable{
     AnnouncementListProvider.notify_(context);
   }
 
-  static addToAll(BuildContext context, Announcement ann){
-    if(_all == null){
-      _all = [];
-      _allMap = {};
-    }
-    _all!.add(ann);
+  static addToAll(Announcement ann, {BuildContext? context}){
+    _allMap ??= {};
     _allMap![ann.key] = ann;
-
-    AnnouncementProvider.notify_(context);
-    AnnouncementListProvider.notify_(context);
-  }
-
-  static addListToAll(List<Announcement> anns, {BuildContext? context}){
-    if(_all == null){
-      _all = [];
-      _allMap = {};
-    }
-    for(Announcement ann in anns) {
-      _all!.add(ann);
-      _allMap![ann.key] = ann;
-    }
 
     if(context == null) return;
 
@@ -91,37 +62,47 @@ class Announcement extends CommunityPublishable{
     AnnouncementListProvider.notify_(context);
   }
 
-  static updateInAll(BuildContext context, Announcement ann){
-    Announcement? oldAnn = _allMap![ann.key];
-    if(oldAnn == null){
-      addToAll(context, ann);
-      return;
-    }
+  static addListToAll(List<Announcement> anns, {BuildContext? context}){
+    _allMap ??= {};
+    for(Announcement ann in anns)
+      _allMap![ann.key] = ann;
 
-    int index = _all!.indexOf(oldAnn);
-    _all!.removeAt(index);
-    _all!.insert(index, ann);
-    _allMap![ann.key] = ann;
+    if(context == null) return;
 
     AnnouncementProvider.notify_(context);
     AnnouncementListProvider.notify_(context);
   }
 
-  static void removeFromAll(BuildContext context, Announcement ann){
-    if(_all == null)
+  static updateInAll(Announcement ann, {BuildContext? context}){
+    Announcement? oldAnn = _allMap![ann.key];
+    if(oldAnn == null){
+      addToAll(ann, context: context);
+      return;
+    }
+
+    _allMap![ann.key] = ann;
+
+    if(context == null) return;
+
+    AnnouncementProvider.notify_(context);
+    AnnouncementListProvider.notify_(context);
+  }
+
+  static void removeFromAll(Announcement ann, {BuildContext? context}){
+    if(_allMap == null)
       return;
 
-    _all!.remove(ann);
     _allMap!.remove(ann.key);
+
+    if(context == null) return;
 
     AnnouncementProvider.notify_(context);
     AnnouncementListProvider.notify_(context);
   }
 
   static clear(){
-    if(_all == null)
+    if(_allMap == null)
       return;
-    _all!.clear();
     _allMap!.clear();
   }
 
@@ -219,6 +200,7 @@ class Announcement extends CommunityPublishable{
     startTime = other.startTime;
     endTime = other.endTime;
     place = other.place;
+    urlToPreview = other.urlToPreview;
     author = other.author;
     coverImage = other.coverImage;
     text = other.text;
@@ -226,6 +208,7 @@ class Announcement extends CommunityPublishable{
 
     respMode = other.respMode;
     attendance = other.attendance;
+    waivedAttRespMembers = other.waivedAttRespMembers;
   }
 
   static Announcement fromMap(Map resp, Circle circle, {String? key}) => Announcement(

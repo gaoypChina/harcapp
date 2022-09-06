@@ -41,13 +41,16 @@ class OkrzykiFragmentState extends State<OkrzykiFragment> with ModuleStatsMixin{
   }
 
   void load()async{
-    await Sound.initAll(onProgress: (progress) => setState(() => loadingProgress = progress));
-    setState(() => loadingProgress = -1);
+    await Sound.initAll(onProgress: (progress){
+      if(mounted)
+        setState(() => loadingProgress = progress);
+    });
+    if(mounted) setState(() => loadingProgress = -1);
 
-    await setUnofficialOkrzyki();
+    setUnofficialOkrzyki();
   }
 
-  Future<void> setUnofficialOkrzyki() async {
+  void setUnofficialOkrzyki() {
     Directory dir = Directory(getOkrzykiFolderPath);
     if(!dir.existsSync()) return;
     List<FileSystemEntity> files = dir.listSync(recursive: false);

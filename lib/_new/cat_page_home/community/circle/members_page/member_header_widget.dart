@@ -19,7 +19,7 @@ class MemberHeaderWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) => AccountHeaderWidget(
     member.name,
-    thumbnailColor: CommunityCoverColors.backgroundColor(context, palette),
+    thumbnailColor: CommunityCoverColors.cardColor(context, palette),
     thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
     shadow: member.shadow,
     leading: const SizedBox(width: Dimen.ICON_SIZE + Dimen.ICON_MARG),

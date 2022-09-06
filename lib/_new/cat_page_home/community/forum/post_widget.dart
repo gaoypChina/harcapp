@@ -7,6 +7,7 @@ import 'package:harcapp/account/account.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
+import '../community_publishable.dart';
 import '../community_publishable_widget_template.dart';
 import 'model/forum.dart';
 import 'model/post.dart';
@@ -53,7 +54,8 @@ class PostWidget extends StatelessWidget{
                   initPost: post,
                   palette: palette,
                   onSaved: (updatedPost){
-                    post.update(updatedPost);
+                    Post.allMap?[post.key]?.update(updatedPost);
+                    (CommunityPublishable.allMap?[post.key] as Post?)?.update(updatedPost);
                     onPostUpdated?.call();
                     prov.notify();
                   },

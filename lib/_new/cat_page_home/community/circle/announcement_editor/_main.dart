@@ -293,7 +293,8 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                           value: attRespMode,
                           onChanged: (value) => setState(() => attRespMode = value as AnnouncementAttendanceRespMode),
                           dropdownDecoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                            color: CommunityCoverColors.backgroundColor(context, palette),
+                            borderRadius: BorderRadius.circular(communityRadius),
                           ),
                         )
                     ),
@@ -651,33 +652,33 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
                         title:
                         initAnnouncement!.title == titleController.text?
-                        const Optional.empty():
+                        null:
                         Optional.of(titleController.text),
 
                         startTime:
                         initAnnouncement!.startTime == startTime?
-                        const Optional.empty():
+                        null:
                         isEvent?
                         Optional.ofNullable(startTime):
                         Optional.ofNullable(null),
 
                         endTime:
                         initAnnouncement!.endTime == endTime?
-                        const Optional.empty():
+                        null:
                         isEvent?
                         Optional.ofNullable(endTime):
                         Optional.ofNullable(null),
 
                         place:
                         initAnnouncement!.place == placeController.text?
-                        const Optional.empty():
+                        null:
                         isEvent?
                         Optional.ofNullable(placeEnabled?placeController.text:null):
                         Optional.ofNullable(null),
 
                         urlToPreview:
                         initAnnouncement!.urlToPreview == urlToPreviewController.text?
-                        const Optional.empty():
+                        null:
                         Optional.ofNullable(
                             urlToPreviewController.text.isEmpty?
                             null:
@@ -685,9 +686,8 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                         ),
 
                         coverImage:
-                        coverImage?.localFilePath == null &&
                         initAnnouncement!.coverImage?.uniqueID == coverImage?.uniqueID?
-                        const Optional.empty():
+                        null:
                         Optional.ofNullable(coverImage),
 
                         text:

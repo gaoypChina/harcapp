@@ -39,7 +39,7 @@ Future<JoinOrCreateType?> pickJoinCreateType(BuildContext context)async {
                   children: [
 
                     CreateNewButton(
-                        icon: MdiIcons.accountGroup,
+                        icon: Community.icon,
                         title: 'Nowe środowisko',
                         description: 'Środowisko to wspólnota.'
                             '\n'

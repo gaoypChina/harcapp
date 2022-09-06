@@ -172,6 +172,7 @@ class Circle{
   Map<String, _AnnouncementLookup> get announcementsMap => _announcementsMap;
 
   void removeAnnouncement(Announcement announcement){
+    Announcement.removeFromAll(announcement);
     _allAnnouncements.remove(announcement);
 
     if(_pinnedAnnouncements.remove(announcement)) pinnedCount -= 1;
@@ -228,12 +229,14 @@ class Circle{
   }
 
   void addAllAnnouncement(Announcement announcement, {bool sort = true}){
+    Announcement.addToAll(announcement);
     _allAnnouncements.add(announcement);
     if(sort) _allAnnouncements.sort((ann1, ann2) => ann2.publishTime.compareTo(ann1.publishTime));
     _addToAnnouncementsMap(announcement, inAll: true);
   }
 
   void addAllAnnouncements(List<Announcement> announcements, {bool sort = true}){
+    Announcement.addListToAll(announcements);
     _allAnnouncements.addAll(announcements);
     if(sort) _allAnnouncements.sort((ann1, ann2) => ann2.publishTime.compareTo(ann1.publishTime));
     for(Announcement announcement in announcements)
@@ -241,12 +244,14 @@ class Circle{
   }
 
   void addPinnedAnnouncement(Announcement announcement, {bool sort = true}){
+    Announcement.addToAll(announcement);
     _pinnedAnnouncements.add(announcement);
     if(sort) _pinnedAnnouncements.sort((ann1, ann2) => ann2.publishTime.compareTo(ann1.publishTime));
     _addToAnnouncementsMap(announcement, inPinned: true);
   }
 
   void addPinnedAnnouncements(List<Announcement> announcements, {bool sort = true}){
+    Announcement.addListToAll(announcements);
     _pinnedAnnouncements.addAll(announcements);
     if(sort) _pinnedAnnouncements.sort((ann1, ann2) => ann2.publishTime.compareTo(ann1.publishTime));
     for(Announcement announcement in announcements)
@@ -279,12 +284,14 @@ class Circle{
   }
 
   void addAwaitingAnnouncement(Announcement announcement, {bool sort = true}){
+    Announcement.addToAll(announcement);
     _awaitingAnnouncements.add(announcement);
     if(sort) _awaitingAnnouncements.sort((ann1, ann2) => ann2.publishTime.compareTo(ann1.publishTime));
     _addToAnnouncementsMap(announcement, inAwaiting: true);
   }
 
   void addAwaitingAnnouncements(List<Announcement> announcements, {bool sort = true}){
+    Announcement.addListToAll(announcements);
     _awaitingAnnouncements.addAll(announcements);
     if(sort) _awaitingAnnouncements.sort((ann1, ann2) => ann2.publishTime.compareTo(ann1.publishTime));
     for(Announcement announcement in announcements)

@@ -407,7 +407,6 @@ class PostEditorPageState extends State<PostEditorPage>{
                         ),
 
                         coverImage:
-                        coverImage?.localFilePath == null &&
                         initPost!.coverImage?.uniqueID == coverImage?.uniqueID?
                         null:
                         Optional.ofNullable(coverImage),
@@ -417,9 +416,9 @@ class PostEditorPageState extends State<PostEditorPage>{
                         null:
                         textController.text,
 
-                        onSuccess: (announcement) async {
+                        onSuccess: (post) async {
                           if(mounted) await popPage(context); // Close loading widget.
-                          onSaved?.call(announcement);
+                          onSaved?.call(post);
                         },
                         onServerMaybeWakingUp: () {
                           if(mounted) popPage(context); // Close loading widget.

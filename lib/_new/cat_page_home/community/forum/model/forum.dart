@@ -169,6 +169,7 @@ class Forum extends ForumBasicData{
   Map<String, Post> get postsMap => _postsMap;
 
   void removePost(Post post){
+    Post.removeFromAll(post);
     _allPosts.remove(post);
     _postsMap.remove(post.key);
   }
@@ -187,12 +188,14 @@ class Forum extends ForumBasicData{
   }
 
   void addAllPost(Post post, {bool sort = true}){
+    Post.addToAll(post);
     _allPosts.add(post);
     if(sort) _allPosts.sort((ann1, ann2) => ann2.publishTime.compareTo(ann1.publishTime));
     _postsMap[post.key] = post;
   }
 
   void addAllPosts(List<Post> posts, {bool sort = true}){
+    Post.addListToAll(posts);
     _allPosts.addAll(posts);
     if(sort) _allPosts.sort((ann1, ann2) => ann2.publishTime.compareTo(ann1.publishTime));
     for(Post post in posts)

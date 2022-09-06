@@ -16,6 +16,7 @@ import 'account.dart';
 class LoginProvider extends ChangeNotifier{
 
   static LoginProvider of(BuildContext context) => Provider.of<LoginProvider>(context, listen: false);
+  static notify_(BuildContext context) => of(context).notify();
 
   // late List<LoginProviderListener?> _listeners;
 

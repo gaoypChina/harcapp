@@ -100,7 +100,7 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
 
               if(amIAuthor && announcement.circle.myRole != CircleRole.OBSERVER)
                 ListTile(
-                  leading: const Icon(MdiIcons.pencil),
+                  leading: const Icon(MdiIcons.pencilOutline),
                   title: Text('Edytuj ogłoszenie', style: AppTextStyle()),
                   onTap: (){
                     Navigator.pop(context);
@@ -279,7 +279,7 @@ class EventInfoWidget extends StatelessWidget{
           Padding(
             padding: announcement.isAwaitingMyResponse?
             const EdgeInsets.symmetric(vertical: Dimen.defMarg):
-            const EdgeInsets.only(top: Dimen.defMarg),
+            const EdgeInsets.only(top: 2*Dimen.defMarg),
             child: Row(
               children: [
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:harcapp/_common_classes/single_computer/single_computer.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
 import 'package:harcapp/_new/api/community.dart';
@@ -9,7 +11,7 @@ import 'forum/model/forum.dart';
 
 class CommunityLoaderListener extends SingleComputerApiListener<String>{
 
-  final void Function(List<Community>)? onCommunitiesLoaded;
+  final FutureOr<void> Function(List<Community>)? onCommunitiesLoaded;
 
   const CommunityLoaderListener({
     super.onStart,
@@ -36,7 +38,7 @@ class CommunitiesLoader extends SingleComputer<String?, CommunityLoaderListener>
       return false;
 
     await ApiCommunity.getAll(
-        onSuccess: (List<Community> communities){
+        onSuccess: (List<Community> communities) async {
 
           List<Circle> circles = [];
           List<Forum> forums = [];
@@ -51,18 +53,23 @@ class CommunitiesLoader extends SingleComputer<String?, CommunityLoaderListener>
 
           Community.silentInit(communities);
 
-          for(CommunityLoaderListener? listener in listeners)
-            listener!.onCommunitiesLoaded?.call(communities);
+          List<Future> futures = [];
+
+          for(CommunityLoaderListener listener in listeners) {
+            dynamic maybeFuture = listener.onCommunitiesLoaded?.call(communities);
+            if(maybeFuture is Future) futures.add(maybeFuture);
+          }
+          await Future.wait(futures);
         },
       onServerMaybeWakingUp: () async {
-        for(CommunityLoaderListener? listener in listeners)
-          listener!.onServerMaybeWakingUp?.call();
+        for(CommunityLoaderListener listener in listeners)
+          listener.onServerMaybeWakingUp?.call();
 
         return true;
       },
       onForceLoggedOut: () async {
-        for(CommunityLoaderListener? listener in listeners)
-          listener!.onForceLoggedOut?.call();
+        for(CommunityLoaderListener listener in listeners)
+          listener.onForceLoggedOut?.call();
 
         return true;
       },

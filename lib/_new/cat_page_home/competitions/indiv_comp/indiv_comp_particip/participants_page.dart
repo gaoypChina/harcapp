@@ -77,7 +77,7 @@ class ParticipantsPage extends StatelessWidget{
         participObs.sort((p1, p2) => p1.name.compareTo(p2.name));
 
         return UserListManagementPage<IndivCompParticip>(
-          appBarTitle: 'Lista członków (${particips.length})',
+          appBarTitle: 'Uczestnicy (${particips.length})',
           userSets: [
             UserSet(
               icon: compRoleToIcon[CompRole.ADMIN]!,

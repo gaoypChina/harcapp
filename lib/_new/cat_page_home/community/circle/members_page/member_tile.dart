@@ -32,7 +32,7 @@ class MemberTile extends StatelessWidget{
     subtitle: member.patrol==null?null:Text(member.patrol!, style: AppTextStyle()),
     shadow: member.shadow,
 
-    thumbnailColor: CommunityCoverColors.backgroundColor(context, palette),
+    thumbnailColor: CommunityCoverColors.cardColor(context, palette),
     thumbnailBorderColor: CommunityCoverColors.cardColor(context, palette),
     thumbnailHeroTag: heroTag,
 

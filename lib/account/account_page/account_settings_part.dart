@@ -23,12 +23,10 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:provider/provider.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../_app_common/accounts/user_data.dart';
-import '../account_start/input_field_controller.dart';
 import '../login_provider.dart';
 
 
@@ -36,7 +34,7 @@ class AccountSettingsPart extends StatefulWidget{
 
   final EdgeInsets? padding;
 
-  const AccountSettingsPart({this.padding});
+  const AccountSettingsPart({this.padding, super.key});
 
   @override
   State<StatefulWidget> createState() => AccountSettingsPartState();
@@ -60,52 +58,55 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
 
   String? errMessage;
 
-  void showPasswordDialog() => openDialog(
+  void showPasswordDialog(BuildContext context) => openDialog(
       context: context,
-      builder: (_) => Align(
-        alignment: Alignment.bottomCenter,
-        child: Padding(
-          padding: MediaQuery.of(context).viewInsets.add(const EdgeInsets.all(Dimen.SIDE_MARG)),
-          child: Material(
-            borderRadius: BorderRadius.circular(AppCard.bigRadius),
-            child: Padding(
-              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
+      builder: (_) => LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) => Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG).add(MediaQuery.of(context).viewInsets),
+              child: Material(
+                borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                child: Padding(
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
 
-                  const TitleShortcutRowWidget(title: 'Czy to na pewno Ty?'),
+                      const TitleShortcutRowWidget(title: 'Czy to na pewno Ty?'),
 
-                  InputFieldPassword(
-                    hint: 'Hasło:',
-                    controller: validPasswordController,
+                      InputFieldPassword(
+                          hint: 'Hasło:',
+                          controller: validPasswordController,
+                          autofocus: true
+                      ),
+
+                      MainButton(
+                          icon: MdiIcons.check,
+                          text: 'Zapisz',
+                          processing: processing,
+                          onTap: () async {
+                            Navigator.pop(context);
+                            await hideKeyboard(context);
+                            sendChangeRequest(
+                                onSuccess: (){
+                                  if(mounted) showAppToast(context, text: 'Zapisano');
+                                  if(mounted) setState(() => editMode = false);
+                                }
+                            );
+                          }
+                      ),
+
+                    ],
                   ),
-
-                  MainButton(
-                      icon: MdiIcons.check,
-                      text: 'Zapisz',
-                      processing: processing,
-                      onTap: () async {
-                        Navigator.pop(context);
-                        await hideKeyboard(context);
-                        sendChangeRequest(
-                            onSuccess: (){
-                              if(mounted) showAppToast(context, text: 'Zapisano');
-                              if(mounted) setState(() => editMode = false);
-                            }
-                        );
-                      }
-                  ),
-
-                ],
-              ),
-            ),
+                ),
+              )
           ),
         ),
-      )
+      ),
   );
 
-  void showEmailChangedDialog() => showAlertDialog(
+  void showEmailChangedDialog(BuildContext context) => showAlertDialog(
       context,
       title: 'Ostrożnie...',
       content: 'Zmiana adresu email będzie wymagała jego ponownej weryfikacji.\n\nCzy chcesz kontynuować?',
@@ -115,7 +116,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
             text: 'Tak',
             onTap: (){
               Navigator.pop(context);
-              showPasswordDialog();
+              showPasswordDialog(context);
             }
         ),
 
@@ -137,6 +138,8 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
 
     setState(() => processing = true);
 
+    LoginProvider loginProv = LoginProvider.of(context);
+
     await ApiUser.update(
         email: emailController!.text,
         password: passController!.text,
@@ -150,10 +153,11 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
             await AccountData.writeEmail(email);
             await AccountData.writeJwt(jwt);
 
-            Provider.of<LoginProvider>(context, listen: false).notify();
+            loginProv.notify();
             AccountData.callOnEmailConfirmChanged(false);
 
-            pushReplacePage(context, builder: (context) => ConfEmailPart(email));
+            if(mounted)
+              pushReplacePage(context, builder: (context) => ConfEmailPart(email));
           }
 
           if(name != null)
@@ -215,21 +219,19 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
     emailController!.text.isNotEmpty && nameController!.text.isNotEmpty && sex != null;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => ListView(
+    padding: widget.padding,
+    physics: const BouncingScrollPhysics(),
+    children: [
 
-    return ListView(
-      padding: widget.padding,
-      physics: const BouncingScrollPhysics(),
-      children: [
+      PartTemplate(
+          title: 'Moje informacje',
+          errorMessage: errMessage,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
 
-        PartTemplate(
-            title: 'Moje informacje',
-            errorMessage: errMessage,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-
-                TitleShortcutRowWidget(
+              TitleShortcutRowWidget(
                   title: 'Email',
                   leading: const SizedBox(width: Dimen.SIDE_MARG),
                   textAlign: TextAlign.start,
@@ -240,213 +242,213 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                     onPressed: () => showAppToast(context, text: 'Konto powiązane z Microsoft ZHP'),
                     icon: Icon(MdiIcons.microsoft, color: iconEnab_(context)),
                   ):null
-                ),
+              ),
 
-                Padding(
-                  padding: const EdgeInsets.only(
+              Padding(
+                padding: const EdgeInsets.only(
                     left: Dimen.SIDE_MARG,
                     right: Dimen.SIDE_MARG,
                     bottom: Dimen.SIDE_MARG
-                  ),
-                  child: Text(
-                    'Adres email jest widoczny tylko dla Ciebie. Służy do weryfikacji i odzyskiwania konta.',
-                    style: AppTextStyle(color: hintEnab_(context)),
-                  ),
                 ),
-
-                InputField(
-                  hint: 'Email:',
-                  controller: emailController,
-                  enabled: !AccountData.microsoftAcc && editMode!,
-                  maxLength: ApiUser.EMAIL_MAX_LENGTH,
-                  leading: Icon(MdiIcons.email, color: iconDisab_(context)),
+                child: Text(
+                  'Adres email jest widoczny tylko dla Ciebie. Służy do weryfikacji i odzyskiwania konta.',
+                  style: AppTextStyle(color: hintEnab_(context)),
                 ),
+              ),
 
+              InputField(
+                hint: 'Email:',
+                controller: emailController,
+                enabled: !AccountData.microsoftAcc && editMode!,
+                maxLength: ApiUser.EMAIL_MAX_LENGTH,
+                leading: Icon(MdiIcons.email, color: iconDisab_(context)),
+              ),
+
+              const SizedBox(height: Dimen.SIDE_MARG),
+
+              TitleShortcutRowWidget(
+                  title: 'Ja u innych',
+                  leading: const SizedBox(width: Dimen.SIDE_MARG),
+                  textAlign: TextAlign.start,
+                  titleColor: hintEnab_(context)
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: Dimen.SIDE_MARG,
+                    right: Dimen.SIDE_MARG,
+                    bottom: Dimen.SIDE_MARG
+                ),
+                child: Text(
+                  'Imię i nazwisko wyświetlane jest innym uczestnikom. Płeć pozwala HarcAppce dobrze odmienić niektóre słowa.'
+                      '\n\n${AccountData.microsoftAcc?'Imię i nazwisko jest takie, jak w koncie ZHP.':'Imię i nazwisko można zmienić raz na 60 dni.'}',
+                  style: AppTextStyle(color: hintEnab_(context)),
+                ),
+              ),
+
+              InputField(
+                hint: 'Imię i nazwisko:',
+                controller: nameController,
+                enabled: !AccountData.microsoftAcc && editMode!,
+                maxLength: ApiUser.NAME_MAX_LENGTH,
+                leading: Icon(MdiIcons.accountEdit, color: iconDisab_(context)),
+              ),
+
+              const SizedBox(height: Dimen.SIDE_MARG),
+
+              SexInputField(
+                  sex,
+                  enabled: editMode,
+                  controller: sexController,
+                  onSexChanged: (sex) => setState(() => this.sex = sex)
+              ),
+
+              if(AccountData.regularAcc)
                 const SizedBox(height: Dimen.SIDE_MARG),
 
+              if(AccountData.regularAcc)
                 TitleShortcutRowWidget(
-                    title: 'Ja u innych',
-                    leading: const SizedBox(width: Dimen.SIDE_MARG),
-                    textAlign: TextAlign.start,
-                    titleColor: hintEnab_(context)
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: Dimen.SIDE_MARG,
-                      right: Dimen.SIDE_MARG,
-                      bottom: Dimen.SIDE_MARG
-                  ),
-                  child: Text(
-                    'Imię i nazwisko wyświetlane jest innym uczestnikom. Płeć pozwala HarcAppce dobrze odmienić niektóre słowa.'
-                        '\n\n${AccountData.microsoftAcc?'Imię i nazwisko jest takie, jak w koncie ZHP.':'Imię i nazwisko można zmienić raz na 60 dni.'}',
-                    style: AppTextStyle(color: hintEnab_(context)),
-                  ),
-                ),
-
-                InputField(
-                  hint: 'Imię i nazwisko:',
-                  controller: nameController,
-                  enabled: !AccountData.microsoftAcc && editMode!,
-                  maxLength: ApiUser.NAME_MAX_LENGTH,
-                  leading: Icon(MdiIcons.accountEdit, color: iconDisab_(context)),
-                ),
-
-                const SizedBox(height: Dimen.SIDE_MARG),
-
-                SexInputField(
-                    sex,
-                    enabled: editMode,
-                    controller: sexController,
-                    onSexChanged: (sex) => setState(() => this.sex = sex)
-                ),
-
-                if(AccountData.regularAcc)
-                  const SizedBox(height: Dimen.SIDE_MARG),
-
-                if(AccountData.regularAcc)
-                  TitleShortcutRowWidget(
                     title: 'Nowe hasło',
                     leading: const SizedBox(width: Dimen.SIDE_MARG),
                     textAlign: TextAlign.start,
                     titleColor: hintEnab_(context)
+                ),
+
+              if(AccountData.regularAcc)
+                InputFieldPassword(
+                  hint: 'Hasło:',
+                  controller: passController,
+                  enabled: editMode,
+                  maxLength: ApiUser.PASS_MAX_LENGTH,
+                  leading: Icon(MdiIcons.key, color: iconDisab_(context)),
+                ),
+
+              if(AccountData.regularAcc)
+                InputFieldPassword(
+                  hint: 'Powtórz hasło:',
+                  controller: passRepController,
+                  enabled: editMode,
+                  maxLength: ApiUser.PASS_MAX_LENGTH,
+                  leading: Icon(MdiIcons.shieldKey, color: iconDisab_(context)),
+                ),
+
+              const SizedBox(height: 2*Dimen.SIDE_MARG),
+
+              Row(
+                children: [
+
+                  Expanded(
+                      child: editMode!?Hero(
+                        tag: PartTemplate.secondaryButtonHeroTag,
+                        child: SimpleButton.from(
+                          context: context,
+                          margin: EdgeInsets.zero,
+                          fontWeight: weight.normal,
+                          textColor: processing!?iconDisab_(context):iconEnab_(context),
+                          text: 'Jednak nie',
+                          icon: MdiIcons.arrowLeft,
+                          onTap: (){
+                            emailController!.text = AccountData.email!;
+                            emailController!.errorText = '';
+                            passController!.text = '';
+                            nameController!.text = AccountData.name!;
+                            nameController!.errorText = '';
+                            sex = AccountData.sex;
+
+                            setState(() => editMode = false);
+                          },
+                        ),
+                      ):Container()
                   ),
 
-                if(AccountData.regularAcc)
-                  InputFieldPassword(
-                    hint: 'Hasło:',
-                    controller: passController,
-                    enabled: editMode,
-                    maxLength: ApiUser.PASS_MAX_LENGTH,
-                    leading: Icon(MdiIcons.key, color: iconDisab_(context)),
-                  ),
+                  const SizedBox(width: Dimen.SIDE_MARG),
 
-                if(AccountData.regularAcc)
-                  InputFieldPassword(
-                    hint: 'Powtórz hasło:',
-                    controller: passRepController,
-                    enabled: editMode,
-                    maxLength: ApiUser.PASS_MAX_LENGTH,
-                    leading: Icon(MdiIcons.shieldKey, color: iconDisab_(context)),
-                  ),
-
-                const SizedBox(height: 2*Dimen.SIDE_MARG),
-
-                Row(
-                  children: [
-
-                    Expanded(
-                        child: editMode!?Hero(
-                          tag: PartTemplate.secondaryButtonHeroTag,
-                          child: SimpleButton.from(
-                            context: context,
-                            margin: EdgeInsets.zero,
-                            fontWeight: weight.normal,
-                            textColor: processing!?iconDisab_(context):iconEnab_(context),
-                            text: 'Jednak nie',
-                            icon: MdiIcons.arrowLeft,
-                            onTap: (){
-                              emailController!.text = AccountData.email!;
-                              emailController!.errorText = '';
-                              passController!.text = '';
-                              nameController!.text = AccountData.name!;
-                              nameController!.errorText = '';
-                              sex = AccountData.sex;
-
-                              setState(() => editMode = false);
-                            },
-                          ),
-                        ):Container()
-                    ),
-
-                    const SizedBox(width: Dimen.SIDE_MARG),
-
-                    Expanded(
-                      child: MainButton(
-                        processing: processing,
-                        text: editMode!?'Zapisz':'Edytuj',
-                        icon: editMode!?MdiIcons.check:MdiIcons.pencilOutline,
-                        enabled: !editMode! || savable(),
-                        onTap: editMode!?(){
-                          hideKeyboard(context);
-                          if(AccountData.microsoftAcc){
-                            sendChangeRequest(
+                  Expanded(
+                    child: MainButton(
+                      processing: processing,
+                      text: editMode!?'Zapisz':'Edytuj',
+                      icon: editMode!?MdiIcons.check:MdiIcons.pencilOutline,
+                      enabled: !editMode! || savable(),
+                      onTap: editMode!?(){
+                        hideKeyboard(context);
+                        if(AccountData.microsoftAcc){
+                          sendChangeRequest(
                               onSuccess: (){
                                 if(mounted) showAppToast(context, text: 'Zapisano');
                                 if(mounted) setState(() => editMode = false);
                               }
-                            );
-                            return;
-                          }
+                          );
+                          return;
+                        }
 
-                          if(emailController!.text==AccountData.email)
-                            showPasswordDialog();
-                          else
-                            showEmailChangedDialog();
-                        }:
-                        (processing!?null:() => setState(() => editMode = true)),
-                      ),
-                    )
-                  ],
+                        if(emailController!.text==AccountData.email)
+                          showPasswordDialog(context);
+                        else
+                          showEmailChangedDialog(context);
+                      }:
+                      (processing!?null:() => setState(() => editMode = true)),
+                    ),
+                  )
+                ],
+              ),
+
+            ],
+          )
+      ),
+
+      PartTemplate(
+          title: 'Strefa zagrożenia',
+          heroTag: null,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+
+              TitleShortcutRowWidget(
+                  title: 'Usuń konto',
+                  leading: const SizedBox(width: Dimen.SIDE_MARG),
+                  textAlign: TextAlign.start,
+                  titleColor: hintEnab_(context)
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: Dimen.SIDE_MARG,
+                    right: Dimen.SIDE_MARG,
+                    bottom: Dimen.SIDE_MARG
                 ),
-
-              ],
-            )
-        ),
-
-        PartTemplate(
-            title: 'Strefa zagrożenia',
-            heroTag: null,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-
-                TitleShortcutRowWidget(
-                    title: 'Usuń konto',
-                    leading: const SizedBox(width: Dimen.SIDE_MARG),
-                    textAlign: TextAlign.start,
-                    titleColor: hintEnab_(context)
+                child: Text(
+                  'Usunięcie konta jest równoznaczne z trwałą utratą wszystkich informacji z nim związanych.\nNie ma możliwości cofnięcia tej operacji.',
+                  style: AppTextStyle(color: hintEnab_(context)),
                 ),
+              ),
 
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: Dimen.SIDE_MARG,
-                      right: Dimen.SIDE_MARG,
-                      bottom: Dimen.SIDE_MARG
-                  ),
-                  child: Text(
-                    'Usunięcie konta jest równoznaczne z trwałą utratą wszystkich informacji z nim związanych.\nNie ma możliwości cofnięcia tej operacji.',
-                    style: AppTextStyle(color: hintEnab_(context)),
-                  ),
-                ),
-
-                Hero(
-                  tag: DeleteAccountDialog.buttonHeroTag,
-                  child: SimpleButton.from(
-                      text: 'Usuń konto',
-                      textColor: background_(context),
-                      color: Colors.red,
-                      onTap: () => openDialog(
+              Hero(
+                tag: DeleteAccountDialog.buttonHeroTag,
+                child: SimpleButton.from(
+                    text: 'Usuń konto',
+                    textColor: background_(context),
+                    color: Colors.red,
+                    onTap: () => openDialog(
                         context: context,
                         builder: (context) => DeleteAccountDialog()
-                      )
-                  ),
+                    )
                 ),
+              ),
 
-              ],
-            )
-        ),
+            ],
+          )
+      ),
 
-      ],
-    );
-
-  }
+    ],
+  );
 
 }
 
 class DeleteAccountDialog extends StatefulWidget{
 
   static const buttonHeroTag = 'deleteButtonHeroTag';
+
+  const DeleteAccountDialog({super.key});
 
   @override
   State<StatefulWidget> createState() => DeleteAccountDialogState();
@@ -468,122 +470,119 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) => Center(
+    child: Padding(
+      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+      child: Material(
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
+        child: Padding(
+          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
 
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-        child: Material(
-          borderRadius: BorderRadius.circular(AppCard.bigRadius),
-          child: Padding(
-            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
+              TitleShortcutRowWidget(
+                  title: 'Ostrożnie!',
+                  leading: const SizedBox(width: Dimen.SIDE_MARG),
+                  textAlign: TextAlign.start,
+                  titleColor: hintEnab_(context)
+              ),
 
-                TitleShortcutRowWidget(
-                    title: 'Ostrożnie!',
-                    leading: const SizedBox(width: Dimen.SIDE_MARG),
-                    textAlign: TextAlign.start,
-                    titleColor: hintEnab_(context)
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: Dimen.SIDE_MARG,
+                    right: Dimen.SIDE_MARG,
+                    bottom: Dimen.SIDE_MARG
+                ),
+                child: AppText(
+                  'Usunięcie konta jest równoznaczne z trwałą utratą wszystkich informacji z nim związanych.\n<b>Nie ma możliwości cofnięcia tej operacji.</b>',
+                  color: hintEnab_(context),
+                ),
+              ),
+
+              if(AccountData.regularAcc)
+                InputFieldPassword(
+                  hint: 'Hasło',
+                  controller: passwordController,
+                )
+              else
+                InputField(
+                  leading: Icon(MdiIcons.email, color: hintEnab_(context)),
+                  hintTop: 'Email',
+                  hint: 'Potwierdź adres email',
+                  controller: emailController,
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: Dimen.SIDE_MARG,
-                      right: Dimen.SIDE_MARG,
-                      bottom: Dimen.SIDE_MARG
-                  ),
-                  child: AppText(
-                    'Usunięcie konta jest równoznaczne z trwałą utratą wszystkich informacji z nim związanych.\n<b>Nie ma możliwości cofnięcia tej operacji.</b>',
-                    color: hintEnab_(context),
-                  ),
-                ),
+              if(AccountData.regularAcc)
+                const SizedBox(height: Dimen.SIDE_MARG),
 
-                if(AccountData.regularAcc)
-                  InputFieldPassword(
-                    hint: 'Hasło',
-                    controller: passwordController,
-                  )
-                else
-                  InputField(
-                    leading: Icon(MdiIcons.email, color: hintEnab_(context)),
-                    hintTop: 'Email',
-                    hint: 'Potwierdź adres email',
-                    controller: emailController,
-                  ),
+              Hero(
+                tag: DeleteAccountDialog.buttonHeroTag,
+                child: AnimatedChildSlider(
+                  index: processing?1:0,
+                  switchInCurve: Curves.easeOutQuart,
+                  switchOutCurve: Curves.easeOutQuart,
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: SimpleButton.from(
+                          text: 'Usuń konto',
+                          textColor: background_(context),
+                          color: Colors.red,
+                          onTap: processing?null:(){
 
-                if(AccountData.regularAcc)
-                  const SizedBox(height: Dimen.SIDE_MARG),
+                            LoginProvider loginProv = LoginProvider.of(context);
 
-                Hero(
-                  tag: DeleteAccountDialog.buttonHeroTag,
-                  child: AnimatedChildSlider(
-                    index: processing?1:0,
-                    switchInCurve: Curves.easeOutQuart,
-                    switchOutCurve: Curves.easeOutQuart,
-                    children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: SimpleButton.from(
-                            text: 'Usuń konto',
-                            textColor: background_(context),
-                            color: Colors.red,
-                            onTap: processing?null:(){
-
-                              LoginProvider loginProv = LoginProvider.of(context);
-
-                              if(!AccountData.regularAcc && emailController!.text != AccountData.email){
-                                emailController!.errorText = 'Nie podał${AccountData.sex == Sex.male?'eś':'aś'} poprawnego adresu email';
-                                return;
-                              }
-
-                              setState(() => processing = true);
-                              ApiUser.delete(
-                                validPass: AccountData.regularAcc?passwordController!.text:null,
-                                onSuccess: () async {
-                                  String? email = AccountData.email;
-                                  await AccountData.forgetAccount();
-                                  await ZhpAccAuth.logout();
-                                  loginProv.notify();
-
-                                  if (!mounted) return;
-                                  showAppToast(context, text: 'Konto HarcApp <b>$email</b> trwale usunięte.');
-
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  setState(() => processing = false);
-                                },
-                                onError: (message){
-                                  if(mounted) showAppToast(context, text: 'Coś nie tak...');
-                                  if(mounted) passwordController!.errorText = message;
-                                  if(mounted) setState(() => processing = false);
-                                },
-                              );
+                            if(!AccountData.regularAcc && emailController!.text != AccountData.email){
+                              emailController!.errorText = 'Nie podał${AccountData.sex == Sex.male?'eś':'aś'} poprawnego adresu email';
+                              return;
                             }
-                        ),
+
+                            setState(() => processing = true);
+                            ApiUser.delete(
+                              validPass: AccountData.regularAcc?passwordController!.text:null,
+                              onSuccess: () async {
+                                String? email = AccountData.email;
+                                await AccountData.forgetAccount();
+                                await ZhpAccAuth.logout();
+                                loginProv.notify();
+
+                                if (!mounted) return;
+                                showAppToast(context, text: 'Konto HarcApp <b>$email</b> trwale usunięte.');
+
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                                setState(() => processing = false);
+                              },
+                              onError: (message){
+                                if(mounted) showAppToast(context, text: 'Coś nie tak...');
+                                if(mounted) passwordController!.errorText = message;
+                                if(mounted) setState(() => processing = false);
+                              },
+                            );
+                          }
                       ),
+                    ),
 
-                      SizedBox(
-                        height: Dimen.ICON_SIZE + 2*Dimen.ICON_MARG + 2*SimpleButton.DEF_MARG,
-                        child: SpinKitThreeBounce(
-                          size: Dimen.ICON_SIZE,
-                          color: iconEnab_(context),
-                        ),
-                      )
+                    SizedBox(
+                      height: Dimen.ICON_SIZE + 2*Dimen.ICON_MARG + 2*SimpleButton.DEF_MARG,
+                      child: SpinKitThreeBounce(
+                        size: Dimen.ICON_SIZE,
+                        color: iconEnab_(context),
+                      ),
+                    )
 
-                    ],
-                  ),
+                  ],
                 ),
+              ),
 
-              ],
-            ),
+            ],
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
 
 }
 
@@ -652,14 +651,12 @@ class HarcAppWidget extends StatelessWidget{
   const HarcAppWidget({this.size = defSize, this.color});
 
   @override
-  Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      'assets/images/harcapp_logo.svg',
-      width: size,
-      height: size,
-      color: color??iconEnab_(context),
-    );
-  }
+  Widget build(BuildContext context) => SvgPicture.asset(
+    'assets/images/harcapp_logo.svg',
+    width: size,
+    height: size,
+    color: color??iconEnab_(context),
+  );
 
 }
 

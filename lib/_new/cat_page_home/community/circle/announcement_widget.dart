@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
@@ -16,10 +17,43 @@ import 'model/circle.dart';
 
 class AnnouncementWidget extends StatelessWidget{
 
+  static void defaultOnUpdateTap({
+    required BuildContext context,
+    required Announcement announcement,
+    required PaletteGenerator? palette,
+    void Function()? onAnnouncementUpdated,
+  }){
+
+    AnnouncementProvider announcementProv = AnnouncementProvider.of(context);
+
+    pushPage(
+        context,
+        builder: (context) => AnnouncementEditorPage(
+          circle: announcement.circle,
+          initAnnouncement: announcement,
+          isEvent: announcement.isEvent,
+          palette: palette,
+          onSaved: (updatedAnnouncement){
+            Announcement.allMap?[announcement.key]?.update(updatedAnnouncement);
+            (CommunityPublishable.allMap?[announcement.key] as Announcement?)?.update(updatedAnnouncement);
+            onAnnouncementUpdated?.call();
+            announcementProv.notify();
+          },
+          onRemoved: (){
+            announcement.circle.removeAnnouncement(announcement);
+            onAnnouncementUpdated?.call();
+            announcementProv.notify();
+          },
+        )
+    );
+
+  }
+
   final Announcement announcement;
   final PaletteGenerator? palette;
   final bool shrinkText;
   final bool disableTap;
+  final void Function()? onAttendanceChanged;
   final void Function()? onAnnouncementUpdated;
   final bool showCommunityInfo;
   final void Function()? onCircleButtonTap;
@@ -32,6 +66,7 @@ class AnnouncementWidget extends StatelessWidget{
       this.palette,
       { this.shrinkText = true,
         this.disableTap = false,
+        this.onAttendanceChanged,
         this.onAnnouncementUpdated,
         this.showCommunityInfo = false,
         this.onCircleButtonTap,
@@ -52,24 +87,11 @@ class AnnouncementWidget extends StatelessWidget{
             announcement,
             palette: palette,
             shrinkText: shrinkText,
-            onUpdateTap: editable ? () => pushPage(
-                context,
-                builder: (context) => AnnouncementEditorPage(
-                  circle: circle,
-                  initAnnouncement: announcement,
-                  isEvent: announcement.isEvent,
-                  palette: palette,
-                  onSaved: (updatedAnnouncement){
-                    announcement.update(updatedAnnouncement);
-                    onAnnouncementUpdated?.call();
-                    announcementProv.notify();
-                  },
-                  onRemoved: (){
-                    circle.removeAnnouncement(announcement);
-                    onAnnouncementUpdated?.call();
-                    announcementProv.notify();
-                  },
-                )
+            onUpdateTap: editable ? () => defaultOnUpdateTap(
+              context: context,
+              announcement: announcement,
+              palette: palette,
+              onAnnouncementUpdated: onAnnouncementUpdated
             ):null,
             onPinChanged: pinnable ? (pinned){
               onAnnouncementUpdated?.call();
@@ -77,6 +99,7 @@ class AnnouncementWidget extends StatelessWidget{
             }:null,
             onAttendanceChanged: (resp, now){
               AttendanceWidget.defaultOnAttendanceChanged(context, announcement, resp, now);
+              onAttendanceChanged?.call();
               onAnnouncementUpdated?.call();
               announcementProv.notify();
               AnnouncementListProvider.notify_(context);
