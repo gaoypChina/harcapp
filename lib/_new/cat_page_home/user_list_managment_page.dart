@@ -115,7 +115,21 @@ class UserListManagementPage<T extends UserData> extends StatelessWidget{
     );
   }
 
-
+  static Future<void> openPermissionsDialog({
+    required BuildContext context,
+    required IconData icon,
+    required String title,
+    required List<String> permissions,
+    Color? color,
+  }) => openDialog(
+      context: context,
+      builder: (context) => PermissionsDialog(
+        icon: icon,
+        title: title,
+        permissions: permissions,
+        color: color,
+      )
+  );
 
 }
 
@@ -145,14 +159,12 @@ class _ListHeader extends StatelessWidget{
       Expanded(
         child: SimpleButton(
           radius: 10.0,
-            onTap: () => openDialog(
-                context: context,
-                builder: (context) => PermissionsDialog(
-                  icon: icon,
-                  title: title,
-                  permissions: permissions,
-                  color: color,
-                )
+            onTap: () => UserListManagementPage.openPermissionsDialog(
+              context: context,
+              icon: icon,
+              title: title,
+              permissions: permissions,
+              color: color,
             ),
             child: Row(
               children: [
@@ -171,14 +183,14 @@ class _ListHeader extends StatelessWidget{
                 const SizedBox(width: Dimen.SIDE_MARG),
 
                 Expanded(
-                    child: Text(
-                      title,
-                      style: AppTextStyle(
-                          fontWeight: weight.bold,
-                          fontSize: Dimen.TEXT_SIZE_BIG,
-                          color: hintEnab_(context)
-                      ),
-                    )
+                  child: Text(
+                    title,
+                    style: AppTextStyle(
+                      fontWeight: weight.bold,
+                      fontSize: Dimen.TEXT_SIZE_BIG,
+                      color: hintEnab_(context)
+                    ),
+                  )
                 ),
 
               ],
@@ -304,6 +316,7 @@ class PermissionsDialog extends StatelessWidget{
                     context: context,
                     text: 'Zamknij',
                     icon: MdiIcons.check,
+                    radius: AppCard.bigRadius - 2,
                     onTap: () => Navigator.pop(context)
                   )
 
@@ -331,27 +344,27 @@ class _Border extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => Padding(
-      padding: const EdgeInsets.all(Dimen.defMarg),
-      child: Material(
-        color: backgroundIcon_(context),
-        borderRadius: BorderRadius.circular(AppCard.bigRadius),
-        child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Material(
-              borderRadius: BorderRadius.circular(AppCard.bigRadius-6),
-              clipBehavior: Clip.hardEdge,
-              color: backgroundColor??background_(context),
-              child: Column(
-                children: [
-                  const SizedBox(height: Dimen.defMarg),
-                  header,
-                  const SizedBox(height: Dimen.defMarg),
-                  body
-                ],
-              ),
-            )
-        ),
-      )
+    padding: const EdgeInsets.all(Dimen.defMarg),
+    child: Material(
+      color: backgroundIcon_(context),
+      borderRadius: BorderRadius.circular(AppCard.bigRadius),
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Material(
+          borderRadius: BorderRadius.circular(AppCard.bigRadius-6),
+          clipBehavior: Clip.hardEdge,
+          color: backgroundColor??background_(context),
+          child: Column(
+            children: [
+              const SizedBox(height: Dimen.defMarg),
+              header,
+              const SizedBox(height: Dimen.defMarg),
+              body
+            ],
+          ),
+        )
+      ),
+    )
   );
 
 }

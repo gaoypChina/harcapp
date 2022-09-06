@@ -184,7 +184,11 @@ class PostEditorPageState extends State<PostEditorPage>{
                 padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 child: Text(
                   'Ten post będą mogli zobaczyć wszyscy\nz kontem HarcApp.',
-                  style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                  style: AppTextStyle(
+                    fontSize: Dimen.TEXT_SIZE_BIG,
+                    color: CommunityCoverColors.strongColor(context, palette),
+                    fontWeight: weight.halfBold
+                  ),
                   textAlign: TextAlign.center,
                   maxLines: 2,
                 ),

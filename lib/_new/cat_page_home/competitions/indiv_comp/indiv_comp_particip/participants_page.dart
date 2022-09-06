@@ -10,6 +10,10 @@ import '../models/indiv_comp.dart';
 
 class ParticipantsPage extends StatelessWidget{
 
+  static String adminsHeaderTitle = 'Administratorzy';
+  static String moderatorsHeaderTitle = 'Moderatorzy';
+  static String obsHeaderTitle = 'Pozostali';
+
   static const List<String> adminPersmissions = [
     'Przyznawanie punktów',
     'Rozpatrywanie wniosków o punkty',

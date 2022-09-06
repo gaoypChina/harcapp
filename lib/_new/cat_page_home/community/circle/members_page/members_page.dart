@@ -15,6 +15,26 @@ import 'member_tile.dart';
 
 class MembersPage extends StatelessWidget{
 
+  static String adminsHeaderTitle = 'Administratorzy';
+  static String editorsHeaderTitle = 'Redaktorzy';
+  static String observersHeaderTitle = 'Obserwatorzy';
+
+  static List<String> adminPersmissions = [
+    'Dodawanie ogłoszeń',
+    'Dodawanie nowych uczestników',
+    'Wyrzucanie uczestników',
+    'Edycja ról uczestników',
+    'Zmiana ustawień kręgu'
+  ];
+
+  static List<String> editorPersmissions = [
+    'Dodawanie ogłoszeń',
+  ];
+
+  static List<String> observerPersmissions = [
+    'Śledzenie wiadomości (:',
+  ];
+
   final Circle circle;
   final PaletteGenerator? palette;
   List<Member> get members => circle.members;
@@ -69,33 +89,23 @@ class MembersPage extends StatelessWidget{
           userSets: [
             UserSet(
                 icon: circleRoleToIcon[CircleRole.ADMIN]!,
-                name: 'Administratorzy',
+                name: adminsHeaderTitle,
                 users: memAdmins,
-                persmissions: [
-                  'Dodawanie ogłoszeń',
-                  'Dodawanie nowych uczestników',
-                  'Wyrzucanie uczestników',
-                  'Edycja ról uczestników',
-                  'Zmiana ustawień kręgu'
-                ]
+                persmissions: adminPersmissions
             ),
 
             UserSet(
               icon: circleRoleToIcon[CircleRole.EDITOR]!,
-              name: 'Redaktorzy',
+              name: editorsHeaderTitle,
               users: memMods,
-              persmissions: [
-                'Dodawanie ogłoszeń',
-              ]
+              persmissions: editorPersmissions
             ),
 
             UserSet(
                 icon: circleRoleToIcon[CircleRole.OBSERVER]!,
-                name: 'Pozostali',
+                name: observersHeaderTitle,
                 users: memObs,
-                persmissions: [
-                  'Śledzenie wiadomości (:',
-                ]
+                persmissions: observerPersmissions
             )
           ],
           userTileBuilder: (context, member) => circle.myRole == CircleRole.ADMIN?

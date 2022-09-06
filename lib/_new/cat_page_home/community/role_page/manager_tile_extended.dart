@@ -4,6 +4,7 @@ import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/community.dart';
 import 'package:harcapp/_new/api/forum.dart';
+import 'package:harcapp/_new/cat_page_home/user_list_managment_page.dart';
 import 'package:harcapp/_new/cat_page_home/user_tile_dialogs.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
@@ -21,6 +22,7 @@ import '../model/community.dart';
 import '../model/community_manager.dart';
 import 'manager_header_widget.dart';
 import 'manager_tile.dart';
+import 'managers_page.dart';
 
 class CommunityManagerTileExtended extends StatefulWidget{
 
@@ -66,15 +68,31 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
             const SizedBox(height: 2*24.0),
 
             ListTile(
-                leading: const SizedBox(width: Dimen.ICON_SIZE),
-                title: Text('Edytuj rolę ogarniacza', style: AppTextStyle(color: hintEnab_(context)))
+              leading: const SizedBox(width: Dimen.ICON_SIZE),
+              title: Text('Edytuj rolę ogarniacza', style: AppTextStyle(color: hintEnab_(context))),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
             ),
 
             if(manager.role == CommunityRole.ADMIN)
               ListTile(
                 enabled: !manager.shadow,
-                leading: Icon(communityRoleToIcon[CommunityRole.REGULAR], color: iconEnab_(context)),
+                leading: Icon(communityRoleToIcon[CommunityRole.REGULAR]),
                 title: Text('Nadaj rolę parobka', style: AppTextStyle()),
+                trailing: IconButton(
+                  icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    await UserListManagementPage.openPermissionsDialog(
+                      context: context,
+                      icon: communityRoleToIcon[CommunityRole.REGULAR]!,
+                      title: CommunityManagersPage.regularsHeaderTitle,
+                      permissions: CommunityManagersPage.regularPersmissions,
+                      color: CommunityCoverColors.backgroundColor(context, palette),
+                    );
+                    openDetails();
+                  },
+                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
                 onTap: manager.shadow?null: () async {
                   await showUpdateManagerDialog(
                       CommunityRole.REGULAR,
@@ -84,7 +102,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
                       }
                   );
 
-                  Navigator.pop(context);
+                  if(mounted) Navigator.pop(context);
 
                 },
               ),
@@ -92,8 +110,23 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
             if(manager.role == CommunityRole.REGULAR)
               ListTile(
                 enabled: !manager.shadow,
-                leading: Icon(communityRoleToIcon[CommunityRole.REGULAR], color: iconEnab_(context)),
+                leading: Icon(communityRoleToIcon[CommunityRole.REGULAR]),
                 title: Text('Nadaj rolę administratora', style: AppTextStyle()),
+                trailing: IconButton(
+                  icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    await UserListManagementPage.openPermissionsDialog(
+                      context: context,
+                      icon: communityRoleToIcon[CommunityRole.ADMIN]!,
+                      title: CommunityManagersPage.adminsHeaderTitle,
+                      permissions: CommunityManagersPage.adminPersmissions,
+                      color: CommunityCoverColors.backgroundColor(context, palette),
+                    );
+                    openDetails();
+                  },
+                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
                 onTap: manager.shadow?null: () async {
                   await showUpdateManagerDialog(
                       CommunityRole.ADMIN,
@@ -102,7 +135,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
                           Navigator.pop(context);
                       }
                   );
-                  Navigator.pop(context);
+                  if(mounted) Navigator.pop(context);
                 },
               ),
 
@@ -112,6 +145,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
               ListTile(
                   leading: const Icon(MdiIcons.logoutVariant, color: Colors.red),
                   title: Text('Wyproś ogarniacza', style: AppTextStyle(color: Colors.red)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
                   onTap: () => showRemoveManagerDialog()
               ),
 

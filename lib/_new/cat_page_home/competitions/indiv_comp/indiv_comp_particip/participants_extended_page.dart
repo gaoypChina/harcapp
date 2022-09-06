@@ -120,21 +120,21 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
               userSets: [
                 UserSet(
                   icon: compRoleToIcon[CompRole.ADMIN]!,
-                  name: 'Administratorzy',
+                  name: ParticipantsPage.adminsHeaderTitle,
                   users: participAdmins,
                   persmissions: ParticipantsPage.adminPersmissions
                 ),
 
                 UserSet(
                   icon: compRoleToIcon[CompRole.MODERATOR]!,
-                  name: 'Moderatorzy',
+                  name: ParticipantsPage.moderatorsHeaderTitle,
                   users: participMods,
                   persmissions: ParticipantsPage.moderatorPersmissions
                 ),
 
                 UserSet(
                   icon: compRoleToIcon[CompRole.OBSERVER]!,
-                  name: 'Pozostali',
+                  name: ParticipantsPage.obsHeaderTitle,
                   users: participObs,
                   persmissions: ParticipantsPage.obsPersmissions
                 )

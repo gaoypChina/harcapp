@@ -3,6 +3,7 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/forum.dart';
+import 'package:harcapp/_new/cat_page_home/user_list_managment_page.dart';
 import 'package:harcapp/_new/cat_page_home/user_tile_dialogs.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
@@ -11,7 +12,6 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:optional/optional_internal.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 import '../../common/community_cover_colors.dart';
@@ -20,6 +20,7 @@ import '../model/forum.dart';
 import '../model/forum_manager.dart';
 import 'manager_header_widget.dart';
 import 'manager_tile.dart';
+import 'managers_page.dart';
 
 class ForumManagerTileExtended extends StatefulWidget{
 
@@ -65,15 +66,31 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
             const SizedBox(height: 2*24.0),
 
             ListTile(
-                leading: const SizedBox(width: Dimen.ICON_SIZE),
-                title: Text('Edytuj rolę ogarniacza', style: AppTextStyle(color: hintEnab_(context)))
+              leading: const SizedBox(width: Dimen.ICON_SIZE),
+              title: Text('Edytuj rolę ogarniacza', style: AppTextStyle(color: hintEnab_(context))),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
             ),
 
             if(manager.role == ForumRole.ADMIN)
               ListTile(
                 enabled: !manager.shadow,
-                leading: Icon(forumRoleToIcon[ForumRole.EDITOR], color: iconEnab_(context)),
+                leading: Icon(forumRoleToIcon[ForumRole.EDITOR]),
                 title: Text('Nadaj rolę redaktora', style: AppTextStyle()),
+                trailing: IconButton(
+                  icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    await UserListManagementPage.openPermissionsDialog(
+                      context: context,
+                      icon: forumRoleToIcon[ForumRole.EDITOR]!,
+                      title: ManagersPage.editorsHeaderTitle,
+                      permissions: ManagersPage.editorPersmissions,
+                      color: CommunityCoverColors.backgroundColor(context, palette),
+                    );
+                    openDetails();
+                  },
+                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
                 onTap: manager.shadow?null: () async {
                   await showUpdateManagerDialog(
                       ForumRole.EDITOR,
@@ -83,7 +100,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
                       }
                   );
 
-                  Navigator.pop(context);
+                  if(mounted) Navigator.pop(context);
 
                 },
               ),
@@ -91,8 +108,23 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
             if(manager.role == ForumRole.EDITOR)
               ListTile(
                 enabled: !manager.shadow,
-                leading: Icon(forumRoleToIcon[ForumRole.ADMIN], color: iconEnab_(context)),
+                leading: Icon(forumRoleToIcon[ForumRole.ADMIN]),
                 title: Text('Nadaj rolę administratora', style: AppTextStyle()),
+                trailing: IconButton(
+                  icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    await UserListManagementPage.openPermissionsDialog(
+                      context: context,
+                      icon: forumRoleToIcon[ForumRole.ADMIN]!,
+                      title: ManagersPage.adminsHeaderTitle,
+                      permissions: ManagersPage.adminPersmissions,
+                      color: CommunityCoverColors.backgroundColor(context, palette),
+                    );
+                    openDetails();
+                  },
+                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
                 onTap: manager.shadow?null: () async {
                   await showUpdateManagerDialog(
                       ForumRole.ADMIN,
@@ -101,7 +133,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
                           Navigator.pop(context);
                       }
                   );
-                  Navigator.pop(context);
+                  if(mounted) Navigator.pop(context);
                 },
               ),
 
@@ -111,6 +143,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
               ListTile(
                   leading: const Icon(MdiIcons.logoutVariant, color: Colors.red),
                   title: Text('Wyproś ogarniacza', style: AppTextStyle(color: Colors.red)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
                   onTap: () => showRemoveManagerDialog()
               ),
 

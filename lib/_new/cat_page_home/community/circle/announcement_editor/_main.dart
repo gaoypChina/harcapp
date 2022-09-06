@@ -206,7 +206,11 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                 padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 child: Text(
                   'To ${isEvent?'wydarzenie':'ogłoszenie'} zobaczą tylko członkowie kręgu ${circle.name}',
-                  style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                  style: AppTextStyle(
+                    fontSize: Dimen.TEXT_SIZE_BIG,
+                    color: CommunityCoverColors.strongColor(context, palette),
+                    fontWeight: weight.halfBold
+                  ),
                   textAlign: TextAlign.center,
                   maxLines: 2,
                 ),

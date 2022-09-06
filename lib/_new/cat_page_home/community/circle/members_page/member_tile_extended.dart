@@ -5,6 +5,7 @@ import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
+import 'package:harcapp/_new/cat_page_home/user_list_managment_page.dart';
 import 'package:harcapp/_new/cat_page_home/user_tile_dialogs.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
@@ -24,6 +25,7 @@ import '../model/circle.dart';
 import '../model/member.dart';
 import 'member_header_widget.dart';
 import 'member_tile.dart';
+import 'members_page.dart';
 
 class MemberTileExtended extends StatefulWidget{
 
@@ -69,15 +71,31 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
             const SizedBox(height: 2*24.0),
 
             ListTile(
-                leading: const SizedBox(width: Dimen.ICON_SIZE),
-                title: Text('Edytuj rolę uczestnika', style: AppTextStyle(color: hintEnab_(context)))
+              leading: const SizedBox(width: Dimen.ICON_SIZE),
+              title: Text('Edytuj rolę członka', style: AppTextStyle(color: hintEnab_(context))),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
             ),
 
             if(member.role != CircleRole.OBSERVER)
               ListTile(
                 enabled: !member.shadow,
-                leading: Icon(circleRoleToIcon[CircleRole.OBSERVER], color: iconEnab_(context)),
-                title: Text('Nadaj rolę uczestnika', style: AppTextStyle()),
+                leading: Icon(circleRoleToIcon[CircleRole.OBSERVER]),
+                title: Text('Nadaj rolę obserwatora', style: AppTextStyle()),
+                trailing: IconButton(
+                  icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    await UserListManagementPage.openPermissionsDialog(
+                      context: context,
+                      icon: circleRoleToIcon[CircleRole.OBSERVER]!,
+                      title: MembersPage.observersHeaderTitle,
+                      permissions: MembersPage.observerPersmissions,
+                      color: CommunityCoverColors.backgroundColor(context, palette),
+                    );
+                    openDetails();
+                  },
+                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
                 onTap: member.shadow?null: () async {
                   await showUpdateMemberDialog(
                       CircleRole.OBSERVER,
@@ -87,7 +105,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
                       }
                   );
 
-                  Navigator.pop(context);
+                  if(mounted) Navigator.pop(context);
 
                 },
               ),
@@ -95,8 +113,23 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
             if(member.role != CircleRole.EDITOR)
               ListTile(
                 enabled: !member.shadow,
-                leading: Icon(circleRoleToIcon[CircleRole.EDITOR], color: iconEnab_(context)),
+                leading: Icon(circleRoleToIcon[CircleRole.EDITOR]),
                 title: Text('Nadaj rolę redaktora', style: AppTextStyle()),
+                trailing: IconButton(
+                  icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    await UserListManagementPage.openPermissionsDialog(
+                      context: context,
+                      icon: circleRoleToIcon[CircleRole.EDITOR]!,
+                      title: MembersPage.editorsHeaderTitle,
+                      permissions: MembersPage.editorPersmissions,
+                      color: CommunityCoverColors.backgroundColor(context, palette),
+                    );
+                    openDetails();
+                  },
+                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
                 onTap: member.shadow?null: () async {
                   await showUpdateMemberDialog(
                       CircleRole.EDITOR,
@@ -105,15 +138,30 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
                           Navigator.pop(context);
                       }
                   );
-                  Navigator.pop(context);
+                  if(mounted) Navigator.pop(context);
                 },
               ),
 
             if(member.role != CircleRole.ADMIN)
               ListTile(
                 enabled: !member.shadow,
-                leading: Icon(circleRoleToIcon[CircleRole.ADMIN], color: iconEnab_(context)),
+                leading: Icon(circleRoleToIcon[CircleRole.ADMIN]),
                 title: Text('Nadaj rolę administratora', style: AppTextStyle()),
+                trailing: IconButton(
+                  icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    await UserListManagementPage.openPermissionsDialog(
+                      context: context,
+                      icon: circleRoleToIcon[CircleRole.ADMIN]!,
+                      title: MembersPage.adminsHeaderTitle,
+                      permissions: MembersPage.adminPersmissions,
+                      color: CommunityCoverColors.backgroundColor(context, palette),
+                    );
+                    openDetails();
+                  },
+                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
                 onTap: member.shadow?null: () async {
                   await showUpdateMemberDialog(
                       CircleRole.ADMIN,
@@ -122,7 +170,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
                           Navigator.pop(context);
                       }
                   );
-                  Navigator.pop(context);
+                  if(mounted) Navigator.pop(context);
                 },
               ),
 
@@ -130,9 +178,10 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
 
             ListTile(
               enabled: !member.shadow,
-              leading: Icon(MdiIcons.googleCirclesGroup, color: iconEnab_(context)),
+              leading: Icon(MdiIcons.googleCirclesGroup),
               title: Text('Zarządzaj zastępem', style: AppTextStyle()),
               subtitle: member.patrol==null?null:Text(member.patrol!, style: AppTextStyle()),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
               onTap: member.shadow?null: () async {
                 Navigator.pop(context);
                 showUpdatePatrolDialog();
@@ -145,6 +194,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
               ListTile(
                   leading: const Icon(MdiIcons.logoutVariant, color: Colors.red),
                   title: Text('Wyproś członka', style: AppTextStyle(color: Colors.red)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
                   onTap: () => showRemoveMemberDialog()
               ),
 

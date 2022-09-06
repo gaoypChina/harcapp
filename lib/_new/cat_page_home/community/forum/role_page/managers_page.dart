@@ -16,6 +16,22 @@ import 'manager_tile.dart';
 
 class ManagersPage extends StatelessWidget{
 
+  static String adminsHeaderTitle = 'Administratorzy';
+  static String editorsHeaderTitle = 'Redaktorzy';
+
+  static List<String> adminPersmissions = [
+    'Dodawanie postów',
+    'Dodawanie nowych ogarniaczy',
+    'Wyrzucanie ogarniaczy',
+    'Edycja ról ogarniaczy',
+    'Zmiana ustawień forum'
+  ];
+
+  static List<String> editorPersmissions = [
+    'Dodawanie postów',
+  ];
+
+
   final Forum forum;
   final PaletteGenerator? palette;
   List<ForumManager> get managers => forum.managers;
@@ -50,24 +66,16 @@ class ManagersPage extends StatelessWidget{
           userSets: [
             UserSet(
                 icon: forumRoleToIcon[ForumRole.ADMIN]!,
-                name: 'Administratorzy',
+                name: adminsHeaderTitle,
                 users: managAdmins,
-                persmissions: [
-                  'Dodawanie postów',
-                  'Dodawanie nowych ogarniaczy',
-                  'Wyrzucanie ogarniaczy',
-                  'Edycja ról ogarniaczy',
-                  'Zmiana ustawień forum'
-                ]
+                persmissions: adminPersmissions
             ),
 
             UserSet(
                 icon: forumRoleToIcon[ForumRole.EDITOR]!,
-                name: 'Redaktorzy',
+                name: editorsHeaderTitle,
                 users: managEditors,
-                persmissions: [
-                  'Dodawanie postów',
-                ]
+                persmissions: editorPersmissions
             ),
 
           ],

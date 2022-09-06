@@ -14,6 +14,20 @@ import 'manager_tile_extended.dart';
 
 class CommunityManagersPage extends StatelessWidget{
 
+  static String adminsHeaderTitle = 'Administratorzy';
+  static String regularsHeaderTitle = 'Parobkowie';
+
+  static List<String> adminPersmissions = [
+    'Dodawanie nowych ogarniaczy',
+    'Wyrzucanie ogarniaczy',
+    'Edycja ról ogarniaczy',
+    'Zmiana ustawień środowiska'
+  ];
+
+  static List<String> regularPersmissions = [
+    'Pilne obserwowanie kto ogarnia środowisko'
+  ];
+
   final Community community;
   List<CommunityManager> get managers => community.managers;
 
@@ -46,23 +60,16 @@ class CommunityManagersPage extends StatelessWidget{
           userSets: [
             UserSet(
               icon: communityRoleToIcon[CommunityRole.ADMIN]!,
-              name: 'Administratorzy',
+              name: adminsHeaderTitle,
               users: managAdmins,
-              persmissions: [
-                'Dodawanie nowych ogarniaczy',
-                'Wyrzucanie ogarniaczy',
-                'Edycja ról ogarniaczy',
-                'Zmiana ustawień środowiska'
-              ]
+              persmissions: adminPersmissions
             ),
 
             UserSet(
                 icon: communityRoleToIcon[CommunityRole.REGULAR]!,
-                name: 'Redaktorzy',
+                name: regularsHeaderTitle,
                 users: managRegulars,
-                persmissions: [
-                  'Pilne obserwowanie kto ogarnia środowisko',
-                ]
+                persmissions: regularPersmissions
             ),
 
           ],
