@@ -11,7 +11,8 @@ import 'models_common/rank.dart';
 
 class RankTileWidgetTemplate extends StatelessWidget{
 
-  static const double DEF_TILE_ICON_SIZE = 36.0;
+  static const double defTileIconSize = 36.0;
+  static const double elevation = 4.0;
 
   static const double leadingWidth = RankData.iconSizeSmall*3 + 2*Dimen.SIDE_MARG;
   static const double leadingAspectRatio = 1.8;
@@ -61,13 +62,14 @@ class RankTileWidgetTemplate extends StatelessWidget{
               radius: AppCard.bigRadius,
               colorStart: colorStart!,
               colorEnd: colorEnd!,
+              elevation: elevation,
+
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: icons.map((icon) => Icon(icon, size: iconSize, color: iconEnab_(context))).toList(),
               ),
-              elevation: AppCard.bigElevation,
             ),
           ),
         ),

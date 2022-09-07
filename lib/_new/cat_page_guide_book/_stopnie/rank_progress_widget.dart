@@ -20,7 +20,7 @@ class RankProgressWidget extends StatelessWidget{
       return Icon(
         MdiIcons.trophyAward,
         color: Colors.amber,
-        size: RankTileWidgetTemplate.DEF_TILE_ICON_SIZE,
+        size: RankTileWidgetTemplate.defTileIconSize,
       );
 
     if(inProgress!)

@@ -120,7 +120,6 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
           title: const Text('Poradnik i rozwój'),
           centerTitle: true,
           floating: true,
-          actions: const [SizedBox(width: Dimen.ICON_FOOTPRINT)],
         ),
 
         SliverList(
@@ -647,13 +646,13 @@ class StopPrevItem extends StatelessWidget{
                 aspectRatio: RankTileWidgetTemplate.leadingAspectRatio,
                 child: GradientWidget(
                   radius: AppCard.bigRadius,
-                  elevation: AppCard.bigElevation,
                   colorStart: colors.start(AppSettings.isDark)!,
                   colorEnd: colors.end(AppSettings.isDark)!,
+                  elevation: RankTileWidgetTemplate.elevation,
                   child: Icon(
                       MdiIcons.bookOpenPageVariantOutline,
                       color: iconEnab_(context).withOpacity(.4),
-                      size: RankTileWidgetTemplate.DEF_TILE_ICON_SIZE
+                      size: RankTileWidgetTemplate.defTileIconSize
                   ),
                 ),
               ),

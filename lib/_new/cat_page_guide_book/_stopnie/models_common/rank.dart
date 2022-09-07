@@ -17,7 +17,6 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_tas
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/rank_spraw_template.dart';
 import 'package:harcapp/_new/cat_page_guide_book/providers.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
@@ -116,13 +115,13 @@ abstract class RankData{
 
   static RankColors colorsZhpOldZuch = RankColors(
     Colors.grey[400]!,
-    ColorPack.DEF_CARD,
+    Colors.grey[200]!,
     Colors.grey[900]!,
     ColorPackBlack.CARD_ENAB,
   );
 
   static RankColors colorsZhpOld = RankColors(
-    ColorPack.DEF_CARD,
+    Colors.grey[200]!,
     Colors.grey[400]!,
     ColorPackBlack.CARD_ENAB,
     Colors.grey[900]!,
@@ -204,7 +203,7 @@ abstract class RankData{
     rankZhrHarcC5Data: colorsZhrC,
   };
 
-  static const iconSizeBig = RankTileWidgetTemplate.DEF_TILE_ICON_SIZE;
+  static const iconSizeBig = RankTileWidgetTemplate.defTileIconSize;
   static const iconSizeSmall = 24.0;
 
   static Map<RankData, Tuple2<List<IconData>, double>> iconSizeMap = {
