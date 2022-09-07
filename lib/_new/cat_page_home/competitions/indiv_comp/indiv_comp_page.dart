@@ -827,10 +827,33 @@ class ParticipantsWidget extends StatelessWidget{
         ),
 
         if(comp.particips.length == 1)
-          const SizedBox(width: Dimen.ICON_MARG),
+          SimpleButton(
+            color: backgroundIcon_(context),
+            radius: 100,
+            child: Row(
+              children: [
+                const SizedBox(width: 2*Dimen.ICON_MARG),
 
-        if(comp.particips.length == 1)
-          AccountThumbnailWidget(icon: MdiIcons.accountPlusOutline, onTap: () => onTap(comp, context))
+                Text(
+                  'Dodaj członków',
+                  style: AppTextStyle(
+                    fontWeight: weight.halfBold,
+                    color: textEnab_(context),
+                    fontSize: Dimen.TEXT_SIZE_APPBAR
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+
+                const SizedBox(width: Dimen.ICON_MARG),
+
+                const AccountThumbnailWidget(
+                  elevated: false,
+                  icon: MdiIcons.accountPlusOutline,
+                )
+              ],
+            ),
+            onTap: () => onTap(comp, context)
+          )
 
       ],
     ),

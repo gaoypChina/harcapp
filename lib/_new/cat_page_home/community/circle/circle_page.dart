@@ -18,6 +18,7 @@ import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
+import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -618,18 +619,9 @@ class CirclePageState extends State<CirclePage>{
                       ),
                     ),
 
-                  AccountThumbnailRowWidget(
-                    circle.members.map((m) => m.name).toList(),
-                    elevated: CommunityPublishableWidgetTemplate.elevation != 0,
-                    color: cardColor,
-                    borderColor: cardColor,
-                    backgroundColor: backgroundColor,
-                    padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                    onTap: () => pushPage(
-                      context,
-                      builder: (context) => MembersPage(circle: circle, palette: palette)
-                    ),
-                    heroBuilder: (index) => circle.members[index],
+                  MembersWidget(
+                    circle,
+                    palette: palette,
                   ),
 
                   if(circle.myRole == CircleRole.EDITOR || circle.myRole == CircleRole.ADMIN)
@@ -908,6 +900,78 @@ class CirclePageState extends State<CirclePage>{
     );
 
   }
+
+}
+
+class MembersWidget extends StatelessWidget{
+
+  final Circle circle;
+  final PaletteGenerator? palette;
+  final EdgeInsets padding;
+
+  const MembersWidget(this.circle, {this.palette, this.padding=EdgeInsets.zero, super.key});
+
+  static void onTap(Circle circle, PaletteGenerator? palette, BuildContext context) => pushPage(
+      context,
+      builder: (context) => MembersPage(circle: circle, palette: palette)
+  );
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: padding,
+    child: Row(
+      children: [
+
+        Expanded(
+          child: AccountThumbnailRowWidget(
+            circle.members.map((m) => m.name).toList(),
+            elevated: CommunityPublishableWidgetTemplate.elevation != 0,
+            color: CommunityCoverColors.cardColor(context, palette),
+            borderColor: CommunityCoverColors.cardColor(context, palette),
+            backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+            padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+            onTap: () => pushPage(
+                context,
+                builder: (context) => MembersPage(circle: circle, palette: palette)
+            ),
+            heroBuilder: (index) => circle.members[index],
+          ),
+        ),
+
+        if(circle.members.length == 1)
+          SimpleButton(
+              color: CommunityCoverColors.cardColor(context, palette),
+              radius: 100,
+              child: Row(
+                children: [
+                  const SizedBox(width: 2*Dimen.ICON_MARG),
+
+                  Text(
+                    'Dodaj członków',
+                    style: AppTextStyle(
+                        fontWeight: weight.halfBold,
+                        color: textEnab_(context),
+                        fontSize: Dimen.TEXT_SIZE_APPBAR
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+
+                  const SizedBox(width: Dimen.ICON_MARG),
+
+                  AccountThumbnailWidget(
+                    elevated: false,
+                    color: CommunityCoverColors.backgroundColor(context, palette),
+                    borderColor: CommunityCoverColors.cardColor(context, palette),
+                    icon: MdiIcons.accountPlusOutline,
+                  )
+                ],
+              ),
+              onTap: () => onTap(circle, palette, context)
+          )
+
+      ],
+    ),
+  );
 
 }
 

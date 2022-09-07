@@ -33,6 +33,8 @@ import 'package:harcapp_core_song_widget/providers.dart';
 import 'package:harcapp_core_song_widget/song_rate.dart';
 import 'package:harcapp_core_song_widget/song_widget_template.dart';
 import 'package:harcapp_core_tags/tag_layout.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pretty_json/pretty_json.dart';
 import 'package:provider/provider.dart';
 
 import '../../_common_widgets/person_data_getter.dart';
@@ -59,8 +61,18 @@ class SongWidget extends StatelessWidget{
     bool hasStopH = person?.stopH != null;
     bool hasOrg = person?.org != null;
 
+    String nameSimple = song.generateFileName(withPerformer: true);
+
+    String dir = (await getTemporaryDirectory()).path;
+    File tempSongFile = File('$dir/song_$nameSimple.hrcpsng');
+    tempSongFile.createSync(recursive: true);
+
+    String fileContent = '{"official":{"o!_$nameSimple":{"song":${await song.code},"index":0}},"conf":{}}';
+
+    tempSongFile.writeAsStringSync(fileContent);
+
     final Email email = Email(
-      body: """
+      body: trimLeadingWhitespace("""
       Dzięki za chęć dzielenia się swoimi piosenkami!
       (!) Nie edytuj poniższego tekstu.
       
@@ -74,7 +86,7 @@ class SongWidget extends StatelessWidget{
         ${hasHufiec?"hufiec: '${person?.hufiec}',":""}
         ${hasStopI?"stopI: '${person?.stopI}',":""}
         ${hasStopH?"stopH: StopZHP.${stopZHPToString[person?.stopH]},":""}
-        ${hasOrg?"org: Org.${person?.org},":""}
+        ${hasOrg?"org: ${person?.org},":""}
         email: []
       );
       
@@ -83,12 +95,12 @@ class SongWidget extends StatelessWidget{
       Kod piosenki:
       
       ${await song.code}
-      """,
+      """),
       subject: 'Piosenka własna',
       recipients: ['harcapp@gmail.com'],
       cc: [],
       bcc: [],
-      attachmentPaths: null,
+      attachmentPaths: [tempSongFile.path],
       isHTML: false,
     );
     try {

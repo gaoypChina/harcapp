@@ -9,15 +9,12 @@ import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/memory.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
-import 'package:harcapp/_new/cat_page_song_book/song_management/old/parse_old_code.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/own_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/logger.dart';
-import 'package:harcapp_core_own_song/song_raw.dart';
 import 'package:path/path.dart';
 import 'package:tuple/tuple.dart';
 
-import '../../_common_classes/storage.dart';
 Future<Tuple7<
     List<OffSong?>,
     Map<String, OffSong>,
@@ -124,10 +121,6 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
 
     String? allSongsCode = await readStringFromAssets('assets/songs/all_songs.hrcpsng');
 
-    convertSongToVer2();
-    convertSong_2_8_2_to_3_0_0();
-    convertSong_3_1_8_to_3_1_9();
-
     String? ownSongsCode;
     try {
       ownSongsCode = readFileAsString(getOwnSongFilePath);
@@ -218,103 +211,6 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
     OwnSong.initialized = true;
     Memory.initialized = true;
     Album.initialized = true;
-  }
-
-  void convertSongToVer2(){
-
-    if(ShaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW, false))
-      return;
-
-    Directory songDir = Directory(getSongFolderPath);
-    songDir.createSync(recursive: true);
-
-    List<FileSystemEntity> unOffFiles = songDir.listSync(recursive: false);
-
-    Map allOwnSongsMap = {};
-
-    for(int i=0; i<unOffFiles.length; i++){
-
-      FileSystemEntity file = unOffFiles[i];
-
-      String code = readFileAsString(file.path);
-      try {
-        SongRaw songRaw = parseOldCode('$i', code);
-        allOwnSongsMap['$i'] = songRaw.toMap(withFileName: false);
-      } on Exception{}
-    }
-
-    String code = jsonEncode(allOwnSongsMap);
-
-    saveStringAsFile(getOwnSongFilePath, code);
-    saveStringAsFile(getOwnLastFileNameFilePath, '${unOffFiles.length-1}');
-
-    ShaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW, true);
-  }
-
-  void convertSong_2_8_2_to_3_0_0() async {
-
-    if(ShaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW_2, false))
-      return;
-
-    File ownSongFile = File(getOwnSongFilePath);
-
-    String ownSongString = ownSongFile.readAsStringSync();
-    ownSongString = ownSongString.replaceAll(
-        '"text_author":',
-        '"text_authors":[');
-    ownSongString = ownSongString.replaceAll(
-        ',"composer":',
-        '],"composers":[');
-    ownSongString = ownSongString.replaceAll(
-        ',"performer":',
-        '],"performers":[');
-    ownSongString = ownSongString.replaceAll(
-        ',"yt_link":',
-        '],"release_date":null,"show_rel_date_month":true,"show_rel_date_day":true,"yt_link":');
-
-    ownSongString = ownSongString.replaceAll('"add_pers":', '"add_pers":[');
-    ownSongString = ownSongString.replaceAll(',"tags"', '],"tags"');
-
-    saveStringAsFile(getOwnSongFilePath, ownSongString);
-
-    ShaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW_2, true);
-  }
-
-  void convertSong_3_1_8_to_3_1_9() async {
-
-    //if(shaPref.getBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW_3, false))
-    //  return;
-
-    File ownSongFile = File(getOwnSongFilePath);
-
-    String ownSongString = ownSongFile.readAsStringSync();
-
-    Map ownSongData = jsonDecode(ownSongString);
-
-    for(String lclId in ownSongData.keys as Iterable<String>){
-
-      Map songData = ownSongData[lclId];
-      List<String>? addPers = songData["add_pers"];
-
-      List<Map> addPersList = [];
-      if(addPers != null)
-        for(String name in addPers)
-          addPersList.add({
-            "name": name,
-            "email_ref": null,
-            "user_key_ref": null,
-          });
-
-      songData["add_pers"] = addPersList;
-      ownSongData[lclId] = songData;
-
-    }
-
-    ownSongString = jsonEncode(ownSongData);
-
-    saveStringAsFile(getOwnSongFilePath, ownSongString);
-
-    ShaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_CONVERTED_OLD_SONG_CODES_TO_NEW_3, true);
   }
 
 }

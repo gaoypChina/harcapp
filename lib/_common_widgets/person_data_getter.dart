@@ -282,7 +282,7 @@ Future<Person?> getMyPersonData(BuildContext context) async {
     org: orgFromInt[ShaPref.getInt(ShaPref.SHA_PREF_MY_PERSON_DATA_ORG, -1)],
   );
 
-  Person? person;
+  Person? person = initPerson;
 
   await openDialog(context: context, dismissible: false, builder: (context) => PersonDataDialog(
     initialPerson: initPerson,
