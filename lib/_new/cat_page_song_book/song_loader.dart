@@ -78,12 +78,12 @@ Future<Tuple7<
   allConfidSongs = allConfidSongs.cast<OffSong>();
 
   // OWN SONGS
-  Map? ownSongsMap = {};
+  Map ownSongsMap = {};
   if(ownSongsCode != null) ownSongsMap = jsonDecode(ownSongsCode);
 
   List<OwnSong> allOwnSongs = [];
   Map<String, OwnSong> allOwnSongsMap = {};
-  for(String fileName in ownSongsMap!.keys as Iterable<String>) {
+  for(String fileName in ownSongsMap.keys) {
     try {
       OwnSong song = OwnSong.fromMap(fileName, ownSongsMap[fileName]);
       allOwnSongs.add(song);
@@ -124,7 +124,8 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
     String? ownSongsCode;
     try {
       ownSongsCode = readFileAsString(getOwnSongFilePath);
-    } catch (e) {
+    } on FileNotFoundError{}
+    catch (e) {
       logger.e(e);
     }
 
