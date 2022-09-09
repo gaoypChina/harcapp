@@ -7,6 +7,7 @@ import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colo
 import 'package:harcapp/_new/cat_page_home/community/community_editor/_main.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/role_page/managers_page.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -18,6 +19,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'circle/circle_editor/_main.dart';
 import 'circle/model/circle.dart';
 import 'community_role.dart';
+import 'community_widget_template.dart';
 import 'forum/forum_editor/_main.dart';
 import 'forum/forum_widget.dart';
 import 'forum/model/forum.dart';
@@ -33,41 +35,13 @@ class CommunityWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) => SizedBox(
       child: Consumer<CommunityProvider>(
-        builder: (context, prov, child) => Material(
-            clipBehavior: Clip.hardEdge,
-            color: CommunityCoverColors.nonPaletteCardColor(),
-            borderRadius: BorderRadius.circular(AppCard.bigRadius),
+        builder: (context, prov, child) => CommunityWidgetTemplate(
+          community.key,
+            community.iconKey,
+            community.name,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-                    right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-                    left: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-                  ),
-                  child: Row(
-                    children: [
-
-                      CommunityThumbnailWidget(community.iconKey, community.key),
-
-                      const SizedBox(width: Dimen.ICON_MARG),
-
-                      Expanded(
-                        child: Text(
-                            community.name,
-                            style: AppTextStyle(
-                                fontSize: Dimen.TEXT_SIZE_BIG,
-                                fontWeight: weight.halfBold,
-                                color: iconEnab_(context)
-                            )
-                        ),
-                      ),
-
-                    ],
-                  ),
-                ),
 
                 if(community.myRole != null)
                   Padding(
@@ -79,6 +53,7 @@ class CommunityWidget extends StatelessWidget{
                         SimpleButton.from(
                             context: context,
                             margin: EdgeInsets.zero,
+                            radius: communityRadius,
                             icon: MdiIcons.accountSupervisorCircleOutline,
                             text: 'Role',
                             onTap: () => pushPage(
@@ -92,6 +67,7 @@ class CommunityWidget extends StatelessWidget{
                         SimpleButton.from(
                             context: context,
                             margin: EdgeInsets.zero,
+                            radius: communityRadius,
                             icon: MdiIcons.cogOutline,
                             text: 'Ustawienia',
                             onTap: () => pushPage(
@@ -158,7 +134,7 @@ class CommunityWidget extends StatelessWidget{
                           left: Dimen.defMarg
                       ),
                       padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                      radius: AppCard.bigRadius,
+                      radius: communityRadius,
                       color: background_(context),
                       child: Row(
                         children: [
@@ -237,7 +213,7 @@ class CommunityWidget extends StatelessWidget{
                         left: Dimen.defMarg
                     ),
                     padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                    radius: AppCard.bigRadius,
+                    radius: communityRadius,
                     color: background_(context),
                     child: Row(
                       children: [
@@ -297,7 +273,6 @@ class CommunityWidget extends StatelessWidget{
                   ),
 
                  const SizedBox(height: Dimen.defMarg),
-
 
               ],
             )

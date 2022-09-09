@@ -40,7 +40,11 @@ class GeneralPartState extends State<GeneralPart>{
             child: Row(
               children: [
 
-                CommunityThumbnailWidget(prov.iconKey, initCommunity?.key??''),
+                CommunityThumbnailWidget(
+                  prov.iconKey,
+                  initCommunity?.key??'',
+                  colorsInverted: true,
+                ),
 
                 const SizedBox(width: Dimen.SIDE_MARG),
 

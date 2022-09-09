@@ -143,10 +143,7 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
             ],
           ),
 
-          const Padding(
-            padding: EdgeInsets.all(Dimen.SIDE_MARG),
-            child: AccountTestWidget()
-          ),
+          const AccountTestWidget(),
 
           if(AccountData.convertableToMicrosoft)
             Padding(

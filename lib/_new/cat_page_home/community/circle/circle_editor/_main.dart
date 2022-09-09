@@ -69,8 +69,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
   @override
   void initState() {
     coverImageProv = CoverImageProvider(circle: initCircle);
-    if(initCircle != null && palette == null)
-      calcLocalBackgroundColor();
+    calcLocalBackgroundColor();
     super.initState();
   }
 
@@ -203,6 +202,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                     if(initCircle != null)
                       DangerPart(
                         initCircle,
+                        palette: palette,
                         onDeleted: (){
                           Navigator.pop(context);
                           onDeleted?.call();

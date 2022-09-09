@@ -28,7 +28,6 @@ import 'circle/model/circle.dart';
 import 'common/community_cover_colors.dart';
 import 'new_community_type.dart';
 import 'start_widgets/communities_loading_widget.dart';
-import 'start_widgets/communities_preview_widget.dart';
 import 'start_widgets/communities_prompt_login.dart';
 import 'community_editor/_main.dart';
 import 'forum/model/forum.dart';
@@ -161,29 +160,30 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
     
     List<Widget> slivers = [];
     
-    slivers.add(SliverAppBar(
-      title: const Text('Środowiska'),
-      centerTitle: true,
-      floating: true,
-      pinned: !shouldScroll,
-      actions: [
-        IconButton(
-          icon: const Icon(MdiIcons.plus),
-          onPressed: () => NewCommunityButton.newCommunity(context),
-        )
-      ],
-    ));
+    // slivers.add(SliverAppBar(
+    //   title: const Text('Środowiska'),
+    //   centerTitle: true,
+    //   floating: true,
+    //   pinned: !shouldScroll,
+    //   actions: [
+    //     IconButton(
+    //       icon: const Icon(MdiIcons.plus),
+    //       onPressed: () => NewCommunityButton.newCommunity(context),
+    //     )
+    //   ],
+    // ));
 
     slivers.add(SliverPadding(
-      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+      padding: const EdgeInsets.only(bottom: Dimen.SIDE_MARG),
       sliver: SliverList(delegate: SliverChildListDelegate([
         const AccountTestWidget()
       ])),
     ));
 
     slivers.add(SliverList(delegate: SliverChildListDelegate([
-      const SuperSearchFieldButton(
-          margin: EdgeInsets.only(
+      SuperSearchFieldButton(
+          color: CommunityCoverColors.nonPaletteBackgroundColor(),
+          margin: const EdgeInsets.only(
             left: Dimen.SIDE_MARG,
             right: Dimen.SIDE_MARG,
             bottom: Dimen.SIDE_MARG,
@@ -366,7 +366,7 @@ class NewCommunityButton extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => SimpleButton(
-      radius: AppCard.bigRadius,
+      radius: communityRadius,
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
       child: Builder(
@@ -377,8 +377,8 @@ class NewCommunityButton extends StatelessWidget{
             child: Material(
               clipBehavior: Clip.hardEdge,
               shape: RoundedRectangleBorder(
-                side: BorderSide(color: CommunityCoverColors.nonPaletteCardColor(), width: Dimen.defMarg),
-                borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                side: BorderSide(color: CommunityCoverColors.nonPaletteBackgroundColor(), width: Dimen.defMarg),
+                borderRadius: BorderRadius.circular(communityRadius),
               ),
               color: background_(context),
               child: Row(

@@ -447,7 +447,7 @@ class ForumPageState extends State<ForumPage>{
 
                   if(forum.myRole != null)
                     Padding(
-                      padding: const EdgeInsets.only(right: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG),
+                      padding: const EdgeInsets.only(right: Dimen.defMarg, left: Dimen.defMarg),
                       child: SimpleButton(
                         margin: EdgeInsets.zero,
                         padding: EdgeInsets.zero,

@@ -35,28 +35,30 @@ class CommunityCoverColors{
   static Color appBarColor(BuildContext context, PaletteGenerator? palette) =>
       backgroundColor(context, palette);
 
-  static Color backgroundColor(BuildContext context, PaletteGenerator? palette){
-
-    if(AppSettings.isDark)
-      return _lighten(palette?.dominantColor!.color, .1)??background_(context);
-    else
-      return _lighten(palette?.dominantColor!.color, .94)??background_(context);
-
-  }
-
-  static Color nonPaletteCardColor(){
+  static Color nonPaletteBackgroundColor(){
     if(AppSettings.isDark)
       return const Color.fromARGB(255, 50, 50, 50);
     else
       return const Color.fromARGB(255, 240, 240, 240);
   }
 
+  static Color backgroundColor(BuildContext context, PaletteGenerator? palette){
+
+    if(AppSettings.isDark)
+      return _lighten(palette?.dominantColor!.color, .16)??nonPaletteBackgroundColor();
+    else
+      return _lighten(palette?.dominantColor!.color, .88)??nonPaletteBackgroundColor();
+
+  }
+
+  static Color nonPaletteCardColor(BuildContext context) => background_(context);
+
   static Color cardColor(BuildContext context, PaletteGenerator? palette){
 
     if(AppSettings.isDark)
-      return _lighten(palette?.dominantColor!.color, .16)??nonPaletteCardColor();
+      return _lighten(palette?.dominantColor!.color, .1)??nonPaletteCardColor(context);
     else
-      return _lighten(palette?.dominantColor!.color, .88)??nonPaletteCardColor();
+      return _lighten(palette?.dominantColor!.color, .94)??nonPaletteCardColor(context);
 
   }
 

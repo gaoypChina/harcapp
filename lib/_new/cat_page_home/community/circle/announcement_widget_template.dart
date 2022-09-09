@@ -189,7 +189,7 @@ class EventInfoWidget extends StatelessWidget{
     bool hasPlace = announcement.place != null && announcement.place!.isNotEmpty;
 
     return Container(
-      color: CommunityCoverColors.cardColor(context, palette),
+      color: CommunityCoverColors.backgroundColor(context, palette).withOpacity(.35),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -279,9 +279,11 @@ class EventInfoWidget extends StatelessWidget{
           Padding(
             padding: announcement.isAwaitingMyResponse?
             const EdgeInsets.symmetric(vertical: Dimen.defMarg):
-            const EdgeInsets.only(top: 2*Dimen.defMarg),
+            const EdgeInsets.only(top: 2*Dimen.defMarg, bottom: Dimen.defMarg),
             child: Row(
               children: [
+
+                const SizedBox(width: Dimen.defMarg),
 
                 AttendanceWidget(
                   announcement,
@@ -371,7 +373,7 @@ class AttendanceWidget extends StatelessWidget{
   const AttendanceWidget(this.announcement, {this.palette, this.onAttendanceChanged, Key? key}) : super(key: key);
 
   Widget getQuasiButton(BuildContext context, {required IconData icon, required String text}) => Material(
-      color: CommunityCoverColors.backgroundColor(context, palette),
+      color: CommunityCoverColors.cardColor(context, palette),
       borderRadius: BorderRadius.circular(AppCard.defRadius),
       elevation: 3,
       child: Row(
@@ -519,7 +521,7 @@ class AttendanceWidget extends StatelessWidget{
               },
               dropdownDecoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppCard.defRadius),
-                color: CommunityCoverColors.backgroundColor(context, palette),
+                color: CommunityCoverColors.cardColor(context, palette),
               ),
             )
         );

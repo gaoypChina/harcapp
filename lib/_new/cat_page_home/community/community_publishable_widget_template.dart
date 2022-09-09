@@ -6,6 +6,7 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/time_settings.dart';
 import 'package:harcapp/_common_widgets/periodic_rebuild_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
@@ -76,126 +77,118 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
       color: CommunityCoverColors.cardColor(context, palette),
       borderRadius: BorderRadius.circular(radius),
       elevation: 3.0,//elevation,
-      child: Padding(
-        padding: const EdgeInsets.all(borderWidth),
-        child: Material(
-          borderRadius: BorderRadius.circular(AppCard.defRadius),
-          clipBehavior: Clip.none,
-          color: CommunityCoverColors.backgroundColor(context, palette),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: Dimen.defMarg,
-                          left: Dimen.defMarg,
-                          bottom: Dimen.defMarg
-                      ),
-                      child: PublishInfoWidget(
-                        publishable,
-                        palette: palette,
-                        showCommunityInfo: showCommunityInfo,
-                        onCommunityButtonTap: onCommunityButtonTap,
-                      ),
-                    ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: Dimen.defMarg,
+                      left: Dimen.defMarg,
+                      bottom: Dimen.defMarg
                   ),
-
-                  if(onMoreTap != null)
-                    SimpleButton.from(
-                      context: context,
-                      radius: AppCard.defRadius,
-                      margin: const EdgeInsets.all(Dimen.defMarg),
-                      icon: MdiIcons.dotsVertical,
-                      onTap: onMoreTap,
-                    )
-                  else
-                    const SizedBox(width: Dimen.defMarg)
-
-                ],
-              ),
-
-              if(contentTop != null)
-                contentTop!,
-
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: Dimen.ICON_MARG,
-                    left: textHorizontalMarg,
-                    right: textHorizontalMarg,
-                    bottom: Dimen.ICON_MARG
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-
-                    if(publishable.hasTitle)
-                      Text(
-                        publishable.title!,
-                        style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-
-                    if(publishable.hasTitle)
-                      const SizedBox(height: Dimen.ICON_MARG),
-
-                    if(shrinkText)
-                      Text(
-                          publishable.text,
-                          style: textStyle,
-                          maxLines: shrinkedTextMaxLines,
-                          overflow: TextOverflow.ellipsis
-                      )
-                    else
-                      SelectableText(
-                        publishable.text,
-                        style: textStyle,
-                      ),
-
-                    if(shrinkText && isTextExpandable(publishable.text, context: context))
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 2*Dimen.defMarg),
-                          child: Text('...czytaj dalej', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_NORMAL)),
-                        ),
-                      )
-
-                  ],
+                  child: PublishInfoWidget(
+                    publishable,
+                    palette: palette,
+                    showCommunityInfo: showCommunityInfo,
+                    onCommunityButtonTap: onCommunityButtonTap,
+                  ),
                 ),
               ),
 
-              if(contentBottom != null)
-                contentBottom!,
-
-              if(publishable.coverImage != null)
-                Container(
-                  clipBehavior: Clip.hardEdge,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.vertical(bottom: Radius.circular(radius - 2))
-                  ),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxHeight: MediaQuery.of(context).size.shortestSide,
-                    ),
-                    child: CoverImageWidget(publishable.coverImage!),
-                  ),
-                ),
-
-              if(publishable.urlToPreview != null)
-                LinkPreviewer(publishable.urlToPreview!, palette),
+              if(onMoreTap != null)
+                SimpleButton.from(
+                  context: context,
+                  radius: AppCard.defRadius,
+                  margin: const EdgeInsets.all(Dimen.defMarg),
+                  icon: MdiIcons.dotsVertical,
+                  onTap: onMoreTap,
+                )
+              else
+                const SizedBox(width: Dimen.defMarg)
 
             ],
           ),
-        )
-      )
+
+          if(contentTop != null)
+            contentTop!,
+
+          Padding(
+            padding: const EdgeInsets.only(
+                top: Dimen.ICON_MARG,
+                left: textHorizontalMarg,
+                right: textHorizontalMarg,
+                bottom: Dimen.ICON_MARG
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+
+                if(publishable.hasTitle)
+                  Text(
+                    publishable.title!,
+                    style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+
+                if(publishable.hasTitle)
+                  const SizedBox(height: Dimen.ICON_MARG),
+
+                if(shrinkText)
+                  Text(
+                      publishable.text,
+                      style: textStyle,
+                      maxLines: shrinkedTextMaxLines,
+                      overflow: TextOverflow.ellipsis
+                  )
+                else
+                  SelectableText(
+                    publishable.text,
+                    style: textStyle,
+                  ),
+
+                if(shrinkText && isTextExpandable(publishable.text, context: context))
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 2*Dimen.defMarg),
+                      child: Text('...czytaj dalej', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_NORMAL)),
+                    ),
+                  )
+
+              ],
+            ),
+          ),
+
+          if(contentBottom != null)
+            contentBottom!,
+
+          if(publishable.coverImage != null)
+            Container(
+              clipBehavior: Clip.hardEdge,
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(radius - 2))
+              ),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.shortestSide,
+                ),
+                child: CoverImageWidget(publishable.coverImage!),
+              ),
+            ),
+
+          if(publishable.urlToPreview != null)
+            LinkPreviewer(publishable.urlToPreview!, palette),
+
+        ],
+      ),
     );
 
   }
@@ -252,9 +245,10 @@ class PublishInfoWidget extends StatelessWidget{
                   publishable.community.iconKey,
                   publishable.community.key,
                   palette: palette,
+                  colorsInverted: true,
                   size: AccountThumbnailWidget.defSize,//.8*CommunityThumbnailWidget.defSize,
                   paddingSize: factor*CommunityThumbnailWidget.defPaddingSize,
-                  radius: factor*AppCard.bigRadius,
+                  radius: communityRadius,
                   borderSize: factor*CommunityThumbnailWidget.defBorderWidth,
                   heroTag: false,
                   onTap: onCommunityButtonTap
@@ -269,9 +263,9 @@ class PublishInfoWidget extends StatelessWidget{
                         name: publishable.author!.name,
                         elevated: false,
 
-                        color: CommunityCoverColors.cardColor(context, palette),
+                        color: CommunityCoverColors.backgroundColor(context, palette),
 
-                        borderColor: CommunityCoverColors.cardColor(context, palette),
+                        borderColor: CommunityCoverColors.backgroundColor(context, palette),
 
                         size: .45*AccountThumbnailWidget.defSize,
                       ),
@@ -285,9 +279,9 @@ class PublishInfoWidget extends StatelessWidget{
             name: publishable.author!.name,
             elevated: false,
 
-            color: CommunityCoverColors.cardColor(context, palette),
+            color: CommunityCoverColors.backgroundColor(context, palette),
 
-            borderColor: CommunityCoverColors.cardColor(context, palette),
+            borderColor: CommunityCoverColors.backgroundColor(context, palette),
           ),
 
         const SizedBox(width: 10.0),
@@ -371,7 +365,7 @@ class PublishInfoWidget extends StatelessWidget{
 
         SimpleButton(
           onTap: onCommunityButtonTap,
-          color: CommunityCoverColors.cardColor(context, palette),
+          color: CommunityCoverColors.backgroundColor(context, palette),
           radius: AppCard.defRadius,
           child: Padding(
             padding: const EdgeInsets.all(6.0),

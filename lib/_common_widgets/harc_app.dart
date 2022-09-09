@@ -10,7 +10,7 @@ class HarcApp extends StatelessWidget{
   final double size;
   final Color? color;
   final bool shadow;
-  const HarcApp({this.size: Dimen.TEXT_SIZE_BIG, this.color, this.shadow=false});
+  const HarcApp({this.size = Dimen.TEXT_SIZE_BIG, this.color, this.shadow=false});
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +21,14 @@ class HarcApp extends StatelessWidget{
         Text('Harc', style: AppTextStyle(
             fontSize: size,
             fontWeight: weight.halfBold,
-            color: color??iconEnab_(context),
+            color: color,
             shadow: shadow,
             height: 1.0
         )),
         Text('App', style: AppTextStyle(
             fontSize: size,
             fontWeight: weight.normal,
-            color: color??iconEnab_(context), //Theme.of(context).iconTheme.color,
+            color: color, //Theme.of(context).iconTheme.color,
             shadow: shadow,
             height: 1.0
         ))

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:provider/provider.dart';
 
@@ -27,30 +27,30 @@ class CommunityWidgetTemplate extends StatelessWidget{
       });
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-      child: Consumer<CommunityProvider>(
-        builder: (context, prov, _) => Material(
-            clipBehavior: Clip.hardEdge,
-            color: CommunityCoverColors.nonPaletteCardColor(),
-            borderRadius: BorderRadius.circular(AppCard.bigRadius),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+  Widget build(BuildContext context) => Consumer<CommunityProvider>(
+      builder: (context, prov, _) => Material(
+          clipBehavior: Clip.hardEdge,
+          color: CommunityCoverColors.nonPaletteBackgroundColor(),
+          borderRadius: BorderRadius.circular(communityRadius),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
 
-                Padding(
-                  padding: const EdgeInsets.only(
+              Padding(
+                padding: const EdgeInsets.only(
                     top: Dimen.SIDE_MARG - Dimen.ICON_MARG,
                     right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
                     left: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-                  ),
-                  child: Row(
-                    children: [
+                    bottom: Dimen.SIDE_MARG - Dimen.ICON_MARG
+                ),
+                child: Row(
+                  children: [
 
-                      CommunityThumbnailWidget(iconKey, communityKey),
+                    CommunityThumbnailWidget(iconKey, communityKey),
 
-                      const SizedBox(width: Dimen.ICON_MARG),
+                    const SizedBox(width: Dimen.ICON_MARG),
 
-                      Expanded(
+                    Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -69,17 +69,16 @@ class CommunityWidgetTemplate extends StatelessWidget{
 
                           ],
                         )
-                      ),
+                    ),
 
-                    ],
-                  ),
+                  ],
                 ),
+              ),
 
-                child,
+              child,
 
-              ],
-            )
-        )
+            ],
+          )
       )
   );
 

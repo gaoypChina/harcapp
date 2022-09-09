@@ -37,7 +37,7 @@ Widget getCommunityPublishablesSliver(
         EmptyMessageWidget(
           icon: MdiIcons.newspaperVariantOutline,
           text: loading?(loadingMessage??'Ładowanie'):(emptyMessage??'Brak ogłoszeń'),
-          color: CommunityCoverColors.cardColor(context, palette),
+          color: CommunityCoverColors.nonPaletteCardColor(context),
         ),
       ])),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/cover_image.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -33,7 +34,7 @@ class CommunityGroupWidgetTemplate extends StatelessWidget{
       child: Material(
           elevation: AppCard.bigElevation,
           clipBehavior: Clip.hardEdge,
-          borderRadius: BorderRadius.circular(AppCard.bigRadius),
+          borderRadius: BorderRadius.circular(communityRadius),
           child: InkWell(
             onTap: onTap,
             child: Stack(
@@ -48,7 +49,7 @@ class CommunityGroupWidgetTemplate extends StatelessWidget{
                   child: Container(
                       decoration: BoxDecoration(
                           color: cardEnab_(context),
-                          borderRadius: BorderRadius.circular(AppCard.bigRadius - 4)
+                          borderRadius: BorderRadius.circular(communityRadius)
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

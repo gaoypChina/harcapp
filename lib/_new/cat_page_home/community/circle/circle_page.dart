@@ -588,8 +588,8 @@ class CirclePageState extends State<CirclePage>{
                         child: Padding(
                           padding: const EdgeInsets.only(
                             bottom: Dimen.SIDE_MARG,
-                            left: Dimen.SIDE_MARG,
-                            right: Dimen.SIDE_MARG
+                            left: Dimen.defMarg,
+                            right: Dimen.defMarg
                           ),
                           child: ShareCodeWidget.from(
                             circle.shareCode!,
@@ -626,7 +626,7 @@ class CirclePageState extends State<CirclePage>{
 
                   if(circle.myRole == CircleRole.EDITOR || circle.myRole == CircleRole.ADMIN)
                     Padding(
-                      padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG, left: Dimen.SIDE_MARG),
+                      padding: const EdgeInsets.only(top: Dimen.SIDE_MARG, right: Dimen.defMarg, left: Dimen.defMarg),
                       child: SimpleButton(
                         margin: EdgeInsets.zero,
                         padding: EdgeInsets.zero,
@@ -766,6 +766,10 @@ class CirclePageState extends State<CirclePage>{
                   height: 2*Dimen.ICON_MARG + Dimen.TEXT_SIZE_BIG,
                   rebuild: true,
                 ),
+
+                SliverList(delegate: SliverChildListDelegate([
+                  const SizedBox(height: Dimen.SIDE_MARG - Dimen.defMarg)
+                ])),
 
                 if(currTab == AnnouncementCategories.all)
                   getAllAnnouncements()
@@ -929,7 +933,7 @@ class MembersWidget extends StatelessWidget{
             color: CommunityCoverColors.cardColor(context, palette),
             borderColor: CommunityCoverColors.cardColor(context, palette),
             backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
-            padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+            padding: const EdgeInsets.symmetric(horizontal: Dimen.defMarg),
             onTap: () => pushPage(
                 context,
                 builder: (context) => MembersPage(circle: circle, palette: palette)
@@ -997,12 +1001,12 @@ class InitAwaitingMessageDialog extends StatelessWidget{
     child: Padding(
       padding: const EdgeInsets.all(Dimen.SIDE_MARG),
       child: StripeWidget(
-        borderRadius: BorderRadius.circular(AppCard.bigRadius),
+        borderRadius: BorderRadius.circular(communityRadius),
         child: Padding(
-          padding: const EdgeInsets.all(Dimen.ICON_MARG),
+          padding: const EdgeInsets.all(Dimen.defMarg),
           child: Material(
             clipBehavior: Clip.hardEdge,
-            borderRadius: BorderRadius.circular(AppCard.bigRadius - 4),
+            borderRadius: BorderRadius.circular(communityRadius - 2),
             color: CommunityCoverColors.backgroundColor(context, palette),
             child: Column(
               mainAxisSize: MainAxisSize.min,

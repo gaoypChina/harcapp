@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
 
@@ -11,7 +10,7 @@ class CommunityThumbnailWidget extends StatelessWidget{
   static const double defSize = 54.0 + 2*defPaddingSize;
   static const double defBorderWidth = Dimen.defMarg;
   static const double defPaddingSize = Dimen.ICON_MARG;
-  static const double defRadius = AppCard.bigRadius;
+  static const double defRadius = 14.0;
 
   static double border(double size) => defBorderWidth * (size/defSize);
   static double padding(double size) => defPaddingSize * (size/defSize);
@@ -36,7 +35,7 @@ class CommunityThumbnailWidget extends StatelessWidget{
         this.size = defSize,
         this.borderSize = defBorderWidth,
         this.paddingSize = defPaddingSize,
-        this.radius = AppCard.bigRadius,
+        this.radius = defRadius,
         this.onTap,
         this.heroTag = true,
         super.key

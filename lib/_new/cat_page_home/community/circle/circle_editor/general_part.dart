@@ -55,28 +55,43 @@ class GeneralPartState extends State<GeneralPart>{
 
       const SizedBox(height: Dimen.SIDE_MARG),
 
-      Consumer<DescriptionProvider>(
-        builder: (context, prov, child) => AppTextFieldHint(
-          hint: 'Opis kręgu:',
-          hintTop: 'Opis kręgu',
-          controller: prov.descriptionController,
-          maxLength: Circle.maxLenDescription,
-          maxLines: null,
-        ),
+      Material(
+          color: CommunityCoverColors.cardColor(context, palette),
+          borderRadius: BorderRadius.circular(communityRadius),
+          child: Padding(
+            padding: const EdgeInsets.all(Dimen.defMarg),
+            child: Consumer<DescriptionProvider>(
+              builder: (context, prov, child) => AppTextFieldHint(
+                hint: 'Opis kręgu:',
+                hintTop: 'Opis kręgu',
+                controller: prov.descriptionController,
+                maxLength: Circle.maxLenDescription,
+                maxLines: null,
+              ),
+            ),
+          )
       ),
 
       const SizedBox(height: Dimen.SIDE_MARG),
 
-      Consumer<ColorsKeyProvider>(
-        builder: (context, prov, child) => SwitchListTile(
-          activeColor: CommunityCoverColors.strongColor(context, palette),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 3.0),
-          title: Text('Tło kolorystyczne', style: AppTextStyle()),
-          value: prov.colorsKey == CommunityCoverColors.colorsKeyAuto,
-          onChanged: (bool checked) => prov.colorsKey =
-          (checked?CommunityCoverColors.colorsKeyAuto:CommunityCoverColors.colorsKeyNone)
-        ),
+      Material(
+          color: CommunityCoverColors.cardColor(context, palette),
+          borderRadius: BorderRadius.circular(communityRadius),
+          child: Padding(
+            padding: const EdgeInsets.all(Dimen.defMarg),
+            child: Consumer<ColorsKeyProvider>(
+              builder: (context, prov, child) => SwitchListTile(
+                  activeColor: CommunityCoverColors.strongColor(context, palette),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 3.0),
+                  title: Text('Tło kolorystyczne', style: AppTextStyle()),
+                  value: prov.colorsKey == CommunityCoverColors.colorsKeyAuto,
+                  onChanged: (bool checked) => prov.colorsKey =
+                  (checked?CommunityCoverColors.colorsKeyAuto:CommunityCoverColors.colorsKeyNone)
+              ),
+            ),
+          ),
       ),
+
     ],
   );
 

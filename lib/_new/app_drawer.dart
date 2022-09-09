@@ -144,7 +144,10 @@ class AccountHeader extends StatelessWidget{
               leading!,
 
             Expanded(child: Container()),
-            const HarcApp(size: Dimen.TEXT_SIZE_APPBAR),
+            HarcApp(
+              size: Dimen.TEXT_SIZE_APPBAR,
+              color: iconEnab_(context),
+            ),
             Expanded(child: Container()),
 
             if(account)

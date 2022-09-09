@@ -25,6 +25,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../community/common/community_cover_colors.dart';
 import '../super_search_field.dart';
 import 'indiv_comp/indiv_comp_editor/_main.dart';
 import 'indiv_comp/indiv_comp_page.dart';
@@ -150,29 +151,30 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
     
     List<Widget> slivers = [];
     
-    slivers.add(SliverAppBar(
-      title: const Text('Współzawodnictwa'),
-      centerTitle: true,
-      floating: true,
-      pinned: !shouldScroll,
-      actions: [
-        IconButton(
-          icon: const Icon(MdiIcons.plus),
-          onPressed: () => NewIndivCompButton.newCompetition(context),
-        )
-      ],
-    ));
+    // slivers.add(SliverAppBar(
+    //   title: const Text('Współzawodnictwa'),
+    //   centerTitle: true,
+    //   floating: true,
+    //   pinned: !shouldScroll,
+    //   actions: [
+    //     IconButton(
+    //       icon: const Icon(MdiIcons.plus),
+    //       onPressed: () => NewIndivCompButton.newCompetition(context),
+    //     )
+    //   ],
+    // ));
 
     slivers.add(SliverPadding(
-      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+      padding: const EdgeInsets.only(bottom: Dimen.SIDE_MARG),
       sliver: SliverList(delegate: SliverChildListDelegate([
         const AccountTestWidget()
       ])),
     ));
 
     slivers.add(SliverList(delegate: SliverChildListDelegate([
-      const SuperSearchFieldButton(
-          margin: EdgeInsets.only(
+      SuperSearchFieldButton(
+          color: CommunityCoverColors.nonPaletteBackgroundColor(),
+          margin: const EdgeInsets.only(
             left: Dimen.SIDE_MARG,
             right: Dimen.SIDE_MARG,
             bottom: Dimen.SIDE_MARG,

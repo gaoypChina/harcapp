@@ -6,6 +6,7 @@ import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/super_search_field.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -123,221 +124,223 @@ class FeedPageState extends State<FeedPage>{
   @override
   Widget build(BuildContext context) => Consumer3<LoginProvider, IndivCompListProvider, CommunityListProvider>(
     builder: (context, loginProv, indivCompListProv, circleListProv, child) => ScrollConfiguration(
-      behavior: NoGlowBehavior(),
-      child: SmartRefresher(
-          enablePullDown: AccountData.loggedIn,
-          enablePullUp: AccountData.loggedIn && !refreshController.isRefresh,
-          physics:
-          shouldScroll?
-          const BouncingScrollPhysics():
-          const AlwaysScrollableScrollPhysics(),
+        behavior: NoGlowBehavior(),
+        child: SmartRefresher(
+            enablePullDown: AccountData.loggedIn,
+            enablePullUp: AccountData.loggedIn && !refreshController.isRefresh,
+            physics:
+            shouldScroll?
+            const BouncingScrollPhysics():
+            const AlwaysScrollableScrollPhysics(),
 
-          header: MaterialClassicHeader(backgroundColor: cardEnab_(context), color: accent_(context)),
-          controller: refreshController,
-          footer: CustomFooter(
-            builder: (BuildContext context, LoadStatus? mode){
-              Widget body;
-              if(!moreToLoad)
-                body = CommunityPublishable.all!.isEmpty?
-                Container():
-                Icon(MdiIcons.circleMedium, color: hintEnab_(context));
+            header: MaterialClassicHeader(backgroundColor: cardEnab_(context), color: accent_(context)),
+            controller: refreshController,
+            footer: CustomFooter(
+              builder: (BuildContext context, LoadStatus? mode){
+                Widget body;
+                if(!moreToLoad)
+                  body = CommunityPublishable.all!.isEmpty?
+                  Container():
+                  Icon(MdiIcons.circleMedium, color: hintEnab_(context));
 
-              else if(mode == LoadStatus.idle)
-                body = Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(MdiIcons.arrowUp),
-                    const SizedBox(width: Dimen.ICON_MARG),
-                    Text(
-                        'Przeciągnij, by załadować kolejne',
-                        style: AppTextStyle()
-                    ),
-                  ],
-                );
-
-              else if(mode == LoadStatus.loading)
-                body = SpinKitDualRing(
-                  color: iconEnab_(context),
-                  size: Dimen.ICON_SIZE,
-                );
-
-              else if(mode == LoadStatus.failed)
-                body = Text("Coś poszło nie tak!", style: AppTextStyle());
-
-              else if(mode == LoadStatus.canLoading)
-                body = Text("Puść, by załadować", style: AppTextStyle());
-
-              else
-                body = Text(
-                  'Nie wiem co tu wyświtlić. Pozdrawiam mamę!',
-                  style: AppTextStyle(),
-                );
-
-              return SizedBox(
-                height: 55.0,
-                child: Center(child: body),
-              );
-            },
-          ),
-
-          onRefresh: () async {
-
-            if(!await isNetworkAvailable()){
-              showAppToast(context, text: 'Brak dostępu do Internetu');
-              refreshController.refreshCompleted();
-              return;
-            }
-
-            await communitiesLoader.awaitFinishIfRunning();
-
-            await ApiCommunity.getFeed(
-                page: 0,
-                onSuccess: (List<CommunityPublishable> newFeedPublishables) async {
-
-                  CommunityPublishable.init(newFeedPublishables, context: mounted?context:null);
-                  if(!mounted) return;
-
-                  loadedPage = 0;
-                  moreToLoad = newFeedPublishables.length == CommunityPublishable.feedPageSize;
-                  setState((){});
-                },
-                onServerMaybeWakingUp: () {
-                  if(!mounted) return true;
-                  showServerWakingUpToast(context);
-                  setState((){});
-                  return true;
-                },
-                onForceLoggedOut: (){
-                  if(!mounted) return true;
-                  showAppToast(context, text: forceLoggedOutMessage);
-                  setState(() {});
-                  return true;
-                },
-                onError: (){
-                  if(!mounted) return;
-                  showAppToast(context, text: simpleErrorMessage);
-                  setState((){});
-                }
-            );
-
-            if(mounted) refreshController.refreshCompleted();
-
-          },
-          onLoading: () async {
-
-            CommunityPublishableListProvider publishableListProv = CommunityPublishableListProvider.of(context);
-
-            if(!moreToLoad) {
-              refreshController.loadComplete();
-              return;
-            }
-
-            if(!await isNetworkAvailable()){
-              showAppToast(context, text: 'Brak dostępu do Internetu');
-              refreshController.loadComplete();
-              return;
-            }
-
-            await ApiCommunity.getFeed(
-                page: loadedPage + 1,
-                onSuccess: (nextPublishables){
-
-                  int i;
-                  for(i=0; i<nextPublishables.length; i++)
-                    if(!CommunityPublishable.allMap!.containsKey(nextPublishables[i].key)) break;
-
-                  CommunityPublishable.addListToAll(
-                      nextPublishables.sublist(i),
-                      context: mounted?context:null
+                else if(mode == LoadStatus.idle)
+                  body = Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(MdiIcons.arrowUp),
+                      const SizedBox(width: Dimen.ICON_MARG),
+                      Text(
+                          'Przeciągnij, by załadować kolejne',
+                          style: AppTextStyle()
+                      ),
+                    ],
                   );
 
-                  if(!mounted) return;
+                else if(mode == LoadStatus.loading)
+                  body = SpinKitDualRing(
+                    color: iconEnab_(context),
+                    size: Dimen.ICON_SIZE,
+                  );
 
-                  loadedPage += 1;
+                else if(mode == LoadStatus.failed)
+                  body = Text("Coś poszło nie tak!", style: AppTextStyle());
 
-                  if(mounted) publishableListProv.notify();
+                else if(mode == LoadStatus.canLoading)
+                  body = Text("Puść, by załadować", style: AppTextStyle());
 
-                  if(nextPublishables.length != CommunityPublishable.feedPageSize)
-                    moreToLoad = false;
+                else
+                  body = Text(
+                    'Nie wiem co tu wyświtlić. Pozdrawiam mamę!',
+                    style: AppTextStyle(),
+                  );
 
-                  setState((){});
+                return SizedBox(
+                  height: 55.0,
+                  child: Center(child: body),
+                );
+              },
+            ),
 
-                },
-                onServerMaybeWakingUp: () {
-                  if(!mounted) return true;
-                  showServerWakingUpToast(context);
-                  setState((){});
-                  return true;
-                },
-                onForceLoggedOut: (){
-                  if(!mounted) return true;
-                  showAppToast(context, text: forceLoggedOutMessage);
-                  setState(() {});
-                  return true;
-                },
-                onError: (){
-                  if(!mounted) return;
-                  showAppToast(context, text: simpleErrorMessage);
-                  setState((){});
-                }
-            );
+            onRefresh: () async {
 
-            refreshController.loadComplete();
+              if(!await isNetworkAvailable()){
+                showAppToast(context, text: 'Brak dostępu do Internetu');
+                refreshController.refreshCompleted();
+                return;
+              }
 
-          },
-          child: CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
+              await communitiesLoader.awaitFinishIfRunning();
 
-              SliverAppBar(
-                backgroundColor: background_(context),
-                title: const HarcApp(size: Dimen.TEXT_SIZE_APPBAR),
-                floating: true,
-                centerTitle: true,
-                pinned: !shouldScroll,
-              ),
+              await ApiCommunity.getFeed(
+                  page: 0,
+                  onSuccess: (List<CommunityPublishable> newFeedPublishables) async {
 
-              SliverPadding(
-                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                sliver: SliverList(delegate: SliverChildListDelegate([
-                  const AccountTestWidget()
-                ])),
-              ),
+                    CommunityPublishable.init(newFeedPublishables, context: mounted?context:null);
+                    if(!mounted) return;
 
-              if(!AccountData.loggedIn)
-                const SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: NotLoggedInWidget(),
+                    loadedPage = 0;
+                    moreToLoad = newFeedPublishables.length == CommunityPublishable.feedPageSize;
+                    setState((){});
+                  },
+                  onServerMaybeWakingUp: () {
+                    if(!mounted) return true;
+                    showServerWakingUpToast(context);
+                    setState((){});
+                    return true;
+                  },
+                  onForceLoggedOut: (){
+                    if(!mounted) return true;
+                    showAppToast(context, text: forceLoggedOutMessage);
+                    setState(() {});
+                    return true;
+                  },
+                  onError: (){
+                    if(!mounted) return;
+                    showAppToast(context, text: simpleErrorMessage);
+                    setState((){});
+                  }
+              );
+
+              if(mounted) refreshController.refreshCompleted();
+
+            },
+            onLoading: () async {
+
+              CommunityPublishableListProvider publishableListProv = CommunityPublishableListProvider.of(context);
+
+              if(!moreToLoad) {
+                refreshController.loadComplete();
+                return;
+              }
+
+              if(!await isNetworkAvailable()){
+                showAppToast(context, text: 'Brak dostępu do Internetu');
+                refreshController.loadComplete();
+                return;
+              }
+
+              await ApiCommunity.getFeed(
+                  page: loadedPage + 1,
+                  onSuccess: (nextPublishables){
+
+                    int i;
+                    for(i=0; i<nextPublishables.length; i++)
+                      if(!CommunityPublishable.allMap!.containsKey(nextPublishables[i].key)) break;
+
+                    CommunityPublishable.addListToAll(
+                        nextPublishables.sublist(i),
+                        context: mounted?context:null
+                    );
+
+                    if(!mounted) return;
+
+                    loadedPage += 1;
+
+                    if(mounted) publishableListProv.notify();
+
+                    if(nextPublishables.length != CommunityPublishable.feedPageSize)
+                      moreToLoad = false;
+
+                    setState((){});
+
+                  },
+                  onServerMaybeWakingUp: () {
+                    if(!mounted) return true;
+                    showServerWakingUpToast(context);
+                    setState((){});
+                    return true;
+                  },
+                  onForceLoggedOut: (){
+                    if(!mounted) return true;
+                    showAppToast(context, text: forceLoggedOutMessage);
+                    setState(() {});
+                    return true;
+                  },
+                  onError: (){
+                    if(!mounted) return;
+                    showAppToast(context, text: simpleErrorMessage);
+                    setState((){});
+                  }
+              );
+
+              refreshController.loadComplete();
+
+            },
+            child: CustomScrollView(
+              physics: const BouncingScrollPhysics(),
+              slivers: [
+
+                // SliverAppBar(
+                //   backgroundColor: loginProv.loggedIn?
+                //   CommunityCoverColors.nonPaletteBackgroundColor():
+                //   CommunityCoverColors.nonPaletteCardColor(context),
+                //   title: const HarcApp(size: Dimen.TEXT_SIZE_APPBAR),
+                //   floating: true,
+                //   centerTitle: true,
+                //   pinned: !shouldScroll,
+                // ),
+
+                SliverPadding(
+                  padding: const EdgeInsets.only(bottom: Dimen.SIDE_MARG),
+                  sliver: SliverList(delegate: SliverChildListDelegate([
+                    const AccountTestWidget()
+                  ])),
                 ),
 
-              if(AccountData.loggedIn)
-                SliverList(delegate: SliverChildListDelegate([
-
-                  const SuperSearchFieldButton(
-                    margin: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                if(!AccountData.loggedIn)
+                  const SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: NotLoggedInWidget(),
                   ),
 
-                  if(IndivComp.all != null && IndivComp.all!.isNotEmpty)
-                    const SizedBox(height: Dimen.SIDE_MARG),
+                if(AccountData.loggedIn)
+                  SliverList(delegate: SliverChildListDelegate([
 
-                ])),
+                    const SuperSearchFieldButton(
+                      margin: EdgeInsets.symmetric(horizontal: Dimen.defMarg),
+                    ),
 
-              if(AccountData.loggedIn)
-                getCommunityPublishablesSliver(
-                  context,
-                  CommunityPublishable.all??[],
-                  onCircleButtonTap: (circle) => onCircleTap?.call(circle),
-                  onForumButtonTap: (forum) => onForumTap?.call(forum),
-                  padding: const EdgeInsets.symmetric(horizontal: CommunityPublishableWidgetTemplate.borderHorizontalMarg),
-                  loading: refreshController.isRefresh,
-                  onAnnouncementUpdated: () => setState((){}),
-                  onPostUpdated: () => setState((){}),
-                )
+                    if(IndivComp.all != null && IndivComp.all!.isNotEmpty)
+                      const SizedBox(height: Dimen.SIDE_MARG),
 
-            ],
-          )
+                  ])),
+
+                if(AccountData.loggedIn)
+                  getCommunityPublishablesSliver(
+                    context,
+                    CommunityPublishable.all??[],
+                    onCircleButtonTap: (circle) => onCircleTap?.call(circle),
+                    onForumButtonTap: (forum) => onForumTap?.call(forum),
+                    padding: const EdgeInsets.symmetric(horizontal: CommunityPublishableWidgetTemplate.borderHorizontalMarg),
+                    loading: refreshController.isRefresh,
+                    onAnnouncementUpdated: () => setState((){}),
+                    onPostUpdated: () => setState((){}),
+                  )
+
+              ],
+            )
+        ),
       ),
-    ),
   );
 
 }

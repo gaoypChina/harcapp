@@ -107,8 +107,8 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
-    backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
-    appBottomNavColor: CommunityCoverColors.backgroundColor(context, palette),
+    backgroundColor: CommunityCoverColors.cardColor(context, palette),
+    appBottomNavColor: CommunityCoverColors.cardColor(context, palette),
     body: CustomScrollView(
       clipBehavior: Clip.none,
       physics: const BouncingScrollPhysics(),
@@ -119,7 +119,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
             initAnnouncement==null?'Dodaj ogłoszenie':'Edytuj ogłoszenie',
             style: AppTextStyle(),
           ),
-          backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+          backgroundColor: CommunityCoverColors.cardColor(context, palette),
           centerTitle: true,
           floating: true,
           actions: [
@@ -178,7 +178,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                               elevation: AppCard.bigElevation,
                               margin: EdgeInsets.zero,
                               textColor: iconEnab_(context),
-                              color: CommunityCoverColors.backgroundColor(context, palette),
+                              color: CommunityCoverColors.cardColor(context, palette),
                               icon: MdiIcons.arrowLeft,
                               text: 'Wróć',
                               onTap: () => Navigator.pop(context),
@@ -201,7 +201,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
             Material(
               borderRadius: BorderRadius.circular(AppCard.defRadius),
-              color: CommunityCoverColors.cardColor(context, palette),
+              color: CommunityCoverColors.backgroundColor(context, palette),
               child: Padding(
                 padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 child: Text(

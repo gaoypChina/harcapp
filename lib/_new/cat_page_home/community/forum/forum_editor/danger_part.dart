@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
@@ -10,17 +11,19 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:palette_generator/palette_generator.dart';
 
 import '../model/forum.dart';
 
 class DangerPart extends StatefulWidget{
 
   final Forum? forum;
+  final PaletteGenerator? palette;
   final void Function()? onDeleted;
   final void Function()? onLeft;
   final void Function()? onError;
 
-  const DangerPart(this.forum, {this.onDeleted, this.onLeft, this.onError, super.key});
+  const DangerPart(this.forum, {this.palette, this.onDeleted, this.onLeft, this.onError, super.key});
 
   @override
   State<StatefulWidget> createState() => DangerPartState();
@@ -30,6 +33,7 @@ class DangerPart extends StatefulWidget{
 class DangerPartState extends State<DangerPart>{
 
   Forum? get forum => widget.forum;
+  PaletteGenerator? get palette => widget.palette;
   void Function()? get onLeft => widget.onLeft;
 
   @override
@@ -39,6 +43,10 @@ class DangerPartState extends State<DangerPart>{
     children: [
 
       ListTile(
+        tileColor: CommunityCoverColors.cardColor(context, palette),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(communityRadius),
+        ),
         leading: const Icon(MdiIcons.vanish),
         title: Text(
           'Zamknij forum',

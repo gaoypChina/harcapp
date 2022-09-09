@@ -66,8 +66,7 @@ class ForumEditorPageState extends State<ForumEditorPage>{
   @override
   void initState() {
     coverImageProv = CoverImageProvider(forum: initForum);
-    if(initForum != null && palette == null)
-      calcLocalBackgronudColor();
+    calcLocalBackgronudColor();
     super.initState();
   }
 
@@ -199,6 +198,7 @@ class ForumEditorPageState extends State<ForumEditorPage>{
                     if(initForum != null)
                       DangerPart(
                         initForum,
+                        palette: palette,
                         onDeleted: () async {
                           Navigator.pop(context);
                           onDeleted?.call();

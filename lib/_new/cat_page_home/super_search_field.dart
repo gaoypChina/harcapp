@@ -18,6 +18,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'community/circle/model/circle.dart';
+import 'community/community_publishable_widget_template.dart';
 import 'community/community_thumbnail_widget.dart';
 import 'community/common/cover_image.dart';
 import 'community/forum/model/forum.dart';
@@ -27,28 +28,49 @@ class SuperSearchField extends StatelessWidget{
   static const String heroTag = 'SuperSearchField';
 
   final TextEditingController? controller;
+  final Color? color;
   final Widget? leading;
   final bool autofocus;
   final FocusNode? focusNode;
   final EdgeInsets margin;
   final void Function(String)? onChanged;
+  final void Function()? overrideTap;
 
-  const SuperSearchField({this.controller, this.leading, this.autofocus = false, this.focusNode, this.margin = SearchField.normMargin, this.onChanged, super.key});
+  const SuperSearchField({
+    this.controller,
+    this.color,
+    this.leading,
+    this.autofocus = false,
+    this.focusNode,
+    this.margin = SearchField.normMargin,
+    this.onChanged,
+    this.overrideTap,
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) => Hero(
     tag: heroTag,
-    child: SearchField(
-      hint: 'Szukaj czego tam tylko chcesz:',
-      controller: controller,
-      leading: leading,
-      autofocus: autofocus,
-      focusNode: focusNode,
-      margin: margin,
-      onChanged: onChanged,
-      elevation: 0,
-      color: CommunityCoverColors.nonPaletteCardColor(),
-      background: background_(context),
+    child: Material(
+      color: Colors.transparent,
+      child: GestureDetector(
+        onTap: overrideTap,
+        child: AbsorbPointer(
+          absorbing: overrideTap != null,
+          child: SearchField(
+            hint: 'Szukaj czego tam tylko chcesz:',
+            controller: controller,
+            leading: leading,
+            margin: margin,
+            autofocus: autofocus,
+            focusNode: focusNode,
+            onChanged: onChanged,
+            elevation: CommunityPublishableWidgetTemplate.elevation,
+            color: color??CommunityCoverColors.nonPaletteCardColor(context),
+            background: Colors.transparent,
+          ),
+        ),
+      ),
     ),
   );
 
@@ -57,15 +79,15 @@ class SuperSearchField extends StatelessWidget{
 
 class SuperSearchFieldButton extends StatelessWidget{
 
+  final Color? color;
   final EdgeInsets margin;
-  const SuperSearchFieldButton({this.margin = SearchField.normMargin, super.key});
+  const SuperSearchFieldButton({this.color, this.margin = SearchField.normMargin, super.key});
 
   @override
-  Widget build(BuildContext context) => InkWell(
-    onTap: () => pushPage(context, builder: (context) => const SuperSearchPage()),
-    child: AbsorbPointer(
-      child: SuperSearchField(margin: margin),
-    ),
+  Widget build(BuildContext context) => SuperSearchField(
+    color: color,
+    margin: margin,
+    overrideTap: () => pushPage(context, builder: (context) => const SuperSearchPage())
   );
 
 }
@@ -103,6 +125,7 @@ class SuperSearchPageState extends State<SuperSearchPage>{
             child: SuperSearchField(
               autofocus: true,
               controller: textController,
+              color: CommunityCoverColors.nonPaletteBackgroundColor(),
               leading: IconButton(
                 icon: const Icon(MdiIcons.arrowLeft),
                 onPressed: () => Navigator.pop(context),
