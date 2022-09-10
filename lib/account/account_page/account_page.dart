@@ -128,74 +128,92 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
           Tab(icon: Icon(MdiIcons.broadcast))
         ],
       ),
-      child: Stack(
+      child: Column(
         children: [
-
-          TabBarView(
-            physics: const BouncingScrollPhysics(),
-            controller: controller,
-            children: [
-
-              AccountSettingsPart(padding: EdgeInsets.only(top: 132.0 + (AccountData.convertableToMicrosoft?(MicrosoftLoginButton.height + Dimen.SIDE_MARG):0))),
-
-              AccountNickPart(padding: EdgeInsets.only(top: 132.0 + (AccountData.convertableToMicrosoft?(MicrosoftLoginButton.height + Dimen.SIDE_MARG):0)),),
-
-            ],
-          ),
 
           const AccountTestWidget(),
 
-          if(AccountData.convertableToMicrosoft)
-            Padding(
-              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-              child: MicrosoftLoginButton(
-                  'Połącz z kontem ZHP',
-                  trailing: mergingMsAcc?
-                  const SpinKitChasingDots(color: Colors.black, size: Dimen.ICON_SIZE):
-                  const Icon(MdiIcons.loginVariant, color: Colors.black),
-                  onTap: () async {
+          Expanded(
+            child: Stack(
+              children: [
 
-                    showAlertDialog(
-                      context,
-                      dismissible: false,
-                      title: 'Lodowanie',
-                      content: 'Trwa logowanie przez konto ZHP...',
-                    );
+                TabBarView(
+                  physics: const BouncingScrollPhysics(),
+                  controller: controller,
+                  children: [
 
-                    await ZhpAccAuth.login(context);
-                    String? azureToken = await ZhpAccAuth.azureToken;
-                    await ApiRegLog.mergeMicrosoft(
-                      azureToken,
-                      onSuccess: (response){
-                        Navigator.pop(context);
-                        if(mounted) showAppToast(context, text: 'Połączono konto ZHP z kontem HarcApp.');
-                        if(mounted) setState(() {});
-                      },
-                      onServerMaybeWakingUp: () {
-                        if(mounted) showServerWakingUpToast(context);
-                        return true;
-                      },
-                      onError: (err) async {
-                        Navigator.pop(context);
-                        await ZhpAccAuth.logout();
-                        if(err!.data['error'] == 'microsoft_merge_email_mismatch')
-                          await showAlertDialog(
-                              context,
-                              title: 'To nie przejdzie...',
-                              content: 'Aby połączyć konta, zaloguj się kontem ZHP o tym samym adresie email co konto HarcApp: ${AccountData.email}.',
-                              actionBuilder: (context) => [
-                                AlertDialogButton(text: 'No dobrze', onTap: () => Navigator.pop(context))
-                              ]
+                    AccountSettingsPart(
+                        padding: EdgeInsets.only(
+                            top: AccountData.convertableToMicrosoft?(MicrosoftLoginButton.height + Dimen.SIDE_MARG):0
+                        )
+                    ),
+
+                    AccountNickPart(
+                        padding: EdgeInsets.only(
+                            top: AccountData.convertableToMicrosoft?(MicrosoftLoginButton.height + Dimen.SIDE_MARG):0
+                        )
+                    ),
+
+                  ],
+                ),
+
+                if(AccountData.convertableToMicrosoft)
+                  Padding(
+                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                    child: MicrosoftLoginButton(
+                        'Połącz z kontem ZHP',
+                        trailing: mergingMsAcc?
+                        const SpinKitChasingDots(color: Colors.black, size: Dimen.ICON_SIZE):
+                        const Icon(MdiIcons.loginVariant, color: Colors.black),
+                        onTap: () async {
+
+
+
+                          showAlertDialog(
+                            context,
+                            dismissible: false,
+                            title: 'Lodowanie',
+                            content: 'Trwa logowanie przez konto ZHP...',
                           );
-                        else
-                          showAppToast(context, text: simpleErrorMessage);
 
-                      },
-                    );
+                          await ZhpAccAuth.login();
+                          String? azureToken = await ZhpAccAuth.azureToken;
+                          await ApiRegLog.mergeMicrosoft(
+                            azureToken,
+                            onSuccess: (response){
+                              Navigator.pop(context);
+                              if(mounted) showAppToast(context, text: 'Połączono konto ZHP z kontem HarcApp.');
+                              if(mounted) setState(() {});
+                            },
+                            onServerMaybeWakingUp: () {
+                              if(mounted) showServerWakingUpToast(context);
+                              return true;
+                            },
+                            onError: (err) async {
+                              Navigator.pop(context);
+                              await ZhpAccAuth.logout();
+                              if(err!.data['error'] == 'microsoft_merge_email_mismatch')
+                                await showAlertDialog(
+                                    context,
+                                    title: 'To nie przejdzie...',
+                                    content: 'Aby połączyć konta, zaloguj się kontem ZHP o tym samym adresie email co konto HarcApp: ${AccountData.email}.',
+                                    actionBuilder: (context) => [
+                                      AlertDialogButton(text: 'No dobrze', onTap: () => Navigator.pop(context))
+                                    ]
+                                );
+                              else
+                                showAppToast(context, text: simpleErrorMessage);
 
-                  }
-              ),
+                            },
+                          );
+
+                        }
+                    ),
+                  ),
+
+              ],
             ),
+          )
 
         ],
       )

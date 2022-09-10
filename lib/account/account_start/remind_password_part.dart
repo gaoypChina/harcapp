@@ -44,15 +44,19 @@ class RemindPasswordPartState extends State<RemindPasswordPart>{
 
     await ApiRegLog.sendResetPassReq(
         emailController!.text,
-        onSuccess: () async => pushReplacePage(
-            context,
-            builder: (context) => RemindPasswordCodePart(emailController!.text)
-        ),
+        onSuccess: (){
+          if(!mounted) return;
+          pushReplacePage(
+              context,
+              builder: (context) => RemindPasswordCodePart(emailController!.text)
+          );
+        },
         onServerMaybeWakingUp: () {
           if(mounted) showServerWakingUpToast(context);
           return true;
         },
         onError: (Response? response){
+          if(!mounted) return;
           try {
 
             Map? errorFieldMap = response!.data['errors'];
@@ -64,7 +68,7 @@ class RemindPasswordPartState extends State<RemindPasswordPart>{
           }catch (e){
             showAppToast(context, text: simpleErrorMessage);
           }
-          if(mounted) setState(() => processing = false);
+          setState(() => processing = false);
         }
     );
 
@@ -73,72 +77,67 @@ class RemindPasswordPartState extends State<RemindPasswordPart>{
   @override
   void initState() {
     emailController = InputFieldController(text: widget.email);
-
     processing = false;
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return PageTemplate(
+  Widget build(BuildContext context) => PageTemplate(
       child: PartTemplate(
-        title: 'Resetuj hasło',
-        errorMessage: generalError,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+          title: 'Resetuj hasło',
+          errorMessage: generalError,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
 
-            Hero(
-              tag: PartTemplate.emailInputFieldHeroTag,
-              child: InputField(
-                hint: 'E-mail:',
-                controller: emailController,
-                enabled: !processing!,
-                leading: Icon(MdiIcons.account, color: iconDisab_(context)),
-              ),
-            ),
-
-
-            SizedBox(height: 2*Dimen.SIDE_MARG),
-
-            Row(
-              children: [
-
-                Expanded(
-                    child: Hero(
-                      tag: PartTemplate.secondaryButtonHeroTag,
-                      child: SimpleButton.from(
-                        context: context,
-                        fontWeight: weight.normal,
-                        text: 'Wróć',
-                        icon: MdiIcons.arrowLeft,
-                        onTap: processing!?null:() => pushReplacePage(
-                            context,
-                            builder: (context) => LoginPart(initEmail: emailController!.text)
-                        ),
-                      ),
-                    )
+              Hero(
+                tag: PartTemplate.emailInputFieldHeroTag,
+                child: InputField(
+                  hint: 'E-mail:',
+                  controller: emailController,
+                  enabled: !processing!,
+                  leading: Icon(MdiIcons.account, color: iconDisab_(context)),
                 ),
+              ),
 
-                SizedBox(width: Dimen.SIDE_MARG),
 
-                Expanded(
-                  child: MainButton(
-                      processing: processing,
-                      text: 'Wyślij',
-                      icon: MdiIcons.emailOutline,
-                      onTap: processing!?null:remindPasswordClick
+              SizedBox(height: 2*Dimen.SIDE_MARG),
+
+              Row(
+                children: [
+
+                  Expanded(
+                      child: Hero(
+                        tag: PartTemplate.secondaryButtonHeroTag,
+                        child: SimpleButton.from(
+                          context: context,
+                          fontWeight: weight.normal,
+                          text: 'Wróć',
+                          icon: MdiIcons.arrowLeft,
+                          onTap: processing!?null:() => pushReplacePage(
+                              context,
+                              builder: (context) => LoginPart(initEmail: emailController!.text)
+                          ),
+                        ),
+                      )
                   ),
-                )
-              ],
-            ),
 
-          ],
-        )
-    )
-    );
+                  SizedBox(width: Dimen.SIDE_MARG),
 
-  }
+                  Expanded(
+                    child: MainButton(
+                        processing: processing,
+                        text: 'Wyślij',
+                        icon: MdiIcons.emailOutline,
+                        onTap: processing!?null:remindPasswordClick
+                    ),
+                  )
+                ],
+              ),
+
+            ],
+          )
+      )
+  );
 
 }

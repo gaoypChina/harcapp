@@ -25,7 +25,7 @@ import 'community/forum/model/forum.dart';
 
 class SuperSearchField extends StatelessWidget{
 
-  static const String heroTag = 'SuperSearchField';
+  static const String defHeroTag = 'SuperSearchField';
 
   final TextEditingController? controller;
   final Color? color;
@@ -35,6 +35,7 @@ class SuperSearchField extends StatelessWidget{
   final EdgeInsets margin;
   final void Function(String)? onChanged;
   final void Function()? overrideTap;
+  final dynamic heroTag;
 
   const SuperSearchField({
     this.controller,
@@ -45,6 +46,7 @@ class SuperSearchField extends StatelessWidget{
     this.margin = SearchField.normMargin,
     this.onChanged,
     this.overrideTap,
+    this.heroTag,
     super.key
   });
 
@@ -81,21 +83,27 @@ class SuperSearchFieldButton extends StatelessWidget{
 
   final Color? color;
   final EdgeInsets margin;
-  const SuperSearchFieldButton({this.color, this.margin = SearchField.normMargin, super.key});
+  final dynamic heroTag;
+  const SuperSearchFieldButton({this.color, this.margin = SearchField.normMargin, this.heroTag, super.key});
 
   @override
-  Widget build(BuildContext context) => SuperSearchField(
-    color: color,
-    margin: margin,
-    overrideTap: () => pushPage(context, builder: (context) => const SuperSearchPage())
-  );
+  Widget build(BuildContext context){
+    dynamic heroTag = this.heroTag??UniqueKey();
+    return SuperSearchField(
+        color: color,
+        margin: margin,
+        heroTag: heroTag,
+        overrideTap: () => pushPage(context, builder: (context) => SuperSearchPage(heroTag: heroTag))
+    );
+  }
 
 }
 
 
 class SuperSearchPage extends StatefulWidget{
 
-  const SuperSearchPage({super.key});
+  final dynamic heroTag;
+  const SuperSearchPage({this.heroTag, super.key});
 
   @override
   State<StatefulWidget> createState() => SuperSearchPageState();
@@ -103,6 +111,8 @@ class SuperSearchPage extends StatefulWidget{
 }
 
 class SuperSearchPageState extends State<SuperSearchPage>{
+
+  dynamic get heroTag => widget.heroTag;
 
   late List<dynamic> searched;
 
@@ -161,7 +171,8 @@ class SuperSearchPageState extends State<SuperSearchPage>{
 
                 setState((){});
 
-              }
+              },
+              heroTag: heroTag,
             ),
             height: SearchField.height
         ),

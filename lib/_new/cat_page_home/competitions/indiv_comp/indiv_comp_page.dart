@@ -202,7 +202,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                                   comp.endTime = savedComp.endTime;
                                   comp.rankDispType = savedComp.rankDispType;
 
-                                  comp.updateParticips(context, savedComp.particips);
+                                  comp.updateParticips(savedComp.particips, context: context);
 
                                   comp.tasks = savedComp.tasks;
                                   comp.awards = savedComp.awards;

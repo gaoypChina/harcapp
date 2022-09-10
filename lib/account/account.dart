@@ -88,6 +88,7 @@ class AccountData {
   static bool get loggedIn => jwt != null;
 
   static Future<void> init() async {
+
     FlutterSecureStorage storage = const FlutterSecureStorage();
     _lastServerTime = DateTime.tryParse(await storage.read(key: _keyLastServerTime)??'')??DateTime.now();
     _key = await storage.read(key: _keyKey);
@@ -102,7 +103,6 @@ class AccountData {
     _nickEditable = await storage.read(key: _keyNickEditable);
     _microsoftAcc = await storage.read(key: _keyMicrosoftAcc);
     _regularAcc = await storage.read(key: _keyRegularAcc);
-
 
     String? shadowUserData = await storage.read(key: _keyShadowUsers);
     if(shadowUserData != null)

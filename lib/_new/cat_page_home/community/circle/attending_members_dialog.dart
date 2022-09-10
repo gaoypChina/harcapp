@@ -3,7 +3,6 @@ import 'package:harcapp/_app_common/accounts/account_header_widget.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
-import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/model/announcement.dart';
@@ -65,7 +64,7 @@ class AttendingMembersDialog extends StatelessWidget{
       child: Material(
         borderRadius: BorderRadius.circular(AppCard.bigRadius),
         clipBehavior: Clip.hardEdge,
-        color: CommunityCoverColors.backgroundColor(context, palette),
+        color: CommunityCoverColors.cardColor(context, palette),
         child: DefaultTabController(
           length: 4,
           child: NestedScrollView(
@@ -80,7 +79,7 @@ class AttendingMembersDialog extends StatelessWidget{
                   overflow: TextOverflow.ellipsis,
                 ),
                 centerTitle: true,
-                backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+                backgroundColor: CommunityCoverColors.cardColor(context, palette),
                 bottom: TabBar(
                     physics: const BouncingScrollPhysics(),
                     indicator: AppTabBarIncdicator(color: CommunityCoverColors.strongColor(context, palette)),
@@ -188,7 +187,7 @@ class MemberResponseWidget extends StatelessWidget{
           announcement,
           members[index],
           palette,
-          color: CommunityCoverColors.cardColor(context, palette),
+          color: CommunityCoverColors.backgroundColor(context, palette),
         )
     );
   }

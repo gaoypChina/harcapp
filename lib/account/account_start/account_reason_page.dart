@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
+import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/account/account_start/page_template.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -29,11 +30,11 @@ class AccountReasonPage extends StatelessWidget{
           sliver: SliverList(delegate: SliverChildListDelegate([
 
             TitleShortcutRowWidget(
-                title: 'Kręgi',
+                title: 'Środowiska',
                 textAlign: TextAlign.start,
                 titleColor: hintEnab_(context),
                 trailing: GradientIcon(
-                  MdiIcons.googleCircles,
+                  Community.icon,
                   colorStart: Colors.red,
                   colorEnd: Colors.deepPurple[700],
                   size: 28.0,
@@ -43,7 +44,7 @@ class AccountReasonPage extends StatelessWidget{
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: TitleShortcutRowWidget.textStartPadding),
               child: Text(
-                'Stwórz lub dołącz do kręgu zastępu, drużyny i szczepu!'
+                'Stwórz lub dołącz do kręgu - zamkniętej grupy, lub do forum - publicznej strony zastępu, drużyny i szczepu!'
                 '\n\nWszystkie ważne informacje i ogłoszenia są w jednym miejscu.',
                 style: AppTextStyle(),
               ),
@@ -69,6 +70,18 @@ class AccountReasonPage extends StatelessWidget{
                 'Wszystkie współzawodnictwa, które prowadzisz i w których uczestniczysz są dostępne w Twojej kieszeni. Wszystkie przyznane punkty są natychmiast dostępne uczestnikom.',
                 style: AppTextStyle(),
               ),
+            ),
+
+            const SizedBox(height: Dimen.SIDE_MARG),
+
+            ListTile(
+              leading: const Icon(MdiIcons.run),
+              title: Text('Uczestnictwo we współzawod.', style: AppTextStyle()),
+            ),
+
+            ListTile(
+              leading: const Icon(MdiIcons.accountMultipleOutline),
+              title: Text('Tworzenie współzawodnictw', style: AppTextStyle()),
             ),
 
             const SizedBox(height: Dimen.SIDE_MARG),
@@ -134,18 +147,6 @@ class AccountReasonPage extends StatelessWidget{
             ListTile(
               leading: const Icon(MdiIcons.toolboxOutline),
               title: Text('Sprawności', style: AppTextStyle()),
-            ),
-
-            const SizedBox(height: Dimen.SIDE_MARG),
-
-            ListTile(
-              leading: const Icon(MdiIcons.run),
-              title: Text('Uczestnictwo we współzawod.', style: AppTextStyle()),
-            ),
-
-            ListTile(
-              leading: const Icon(MdiIcons.accountMultipleOutline),
-              title: Text('Tworzenie współzawodnictw', style: AppTextStyle()),
             ),
 
             const SizedBox(height: Dimen.SIDE_MARG),

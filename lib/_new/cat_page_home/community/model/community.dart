@@ -148,13 +148,32 @@ class Community extends CommunityBasicData{
 
   }
 
+  static callProvidersOf(BuildContext context){
+    CommunityProvider.notify_(context);
+    CommunityListProvider.notify_(context);
+  }
+
+  static callProviders(CommunityProvider communityProv, CommunityListProvider communityListProv){
+    communityProv.notify();
+    communityListProv.notify();
+  }
+
+  static callProvidersWithManagersOf(BuildContext context){
+    callProvidersOf(context);
+    CommunityManagersProvider.notify_(context);
+  }
+
+  static callProvidersWithManagers(CommunityProvider communityProv, CommunityListProvider communityListProv, CommunityManagersProvider communityManagersProv){
+    callProviders(communityProv, communityListProv);
+    communityManagersProv.notify();
+  }
+
   static init(List<Community> communities, {BuildContext? context}){
 
     silentInit(communities);
 
     if(context == null) return;
-    Provider.of<CommunityProvider>(context, listen: false).notify();
-    Provider.of<CommunityListProvider>(context, listen: false).notify();
+    callProvidersOf(context);
   }
 
 
@@ -173,8 +192,7 @@ class Community extends CommunityBasicData{
       _allForumMap![community.forum!.key] = community.forum!;
 
     if(context == null) return;
-    Provider.of<CommunityProvider>(context, listen: false).notify();
-    Provider.of<CommunityListProvider>(context, listen: false).notify();
+    callProvidersOf(context);
   }
 
   static addToAllByForum(Forum forum, {BuildContext? context}){
@@ -240,8 +258,7 @@ class Community extends CommunityBasicData{
       _allForumMap![community.forum!.key] = community.forum!;
 
     if(context == null) return;
-    Provider.of<CommunityProvider>(context, listen: false).notify();
-    Provider.of<CommunityListProvider>(context, listen: false).notify();
+    callProvidersOf(context);
   }
 
   static void removeFromAll(Community community, {BuildContext? context}){
@@ -256,9 +273,7 @@ class Community extends CommunityBasicData{
       _allForumMap!.remove(community.forum!.key);
 
     if(context == null) return;
-
-    Provider.of<CommunityProvider>(context, listen: false).notify();
-    Provider.of<CommunityListProvider>(context, listen: false).notify();
+    callProvidersOf(context);
   }
 
   static void removeForum(Forum forum, {BuildContext? context}){
@@ -273,9 +288,7 @@ class Community extends CommunityBasicData{
       community.setForum(null);
 
     if(context == null) return;
-
-    Provider.of<CommunityProvider>(context, listen: false).notify();
-    Provider.of<CommunityListProvider>(context, listen: false).notify();
+    callProvidersOf(context);
 
   }
 
@@ -291,9 +304,7 @@ class Community extends CommunityBasicData{
       community.setCircle(null);
 
     if(context == null) return;
-
-    Provider.of<CommunityProvider>(context, listen: false).notify();
-    Provider.of<CommunityListProvider>(context, listen: false).notify();
+    callProvidersOf(context);
 
   }
 
@@ -322,9 +333,7 @@ class Community extends CommunityBasicData{
     }
 
     if(context == null) return;
-    Provider.of<CommunityManagersProvider>(context, listen: false).notify();
-    Provider.of<CommunityProvider>(context, listen: false).notify();
-    Provider.of<CommunityListProvider>(context, listen: false).notify();
+    callProvidersWithManagersOf(context);
     
   }
 
@@ -336,9 +345,7 @@ class Community extends CommunityBasicData{
     _managersMap.addAll({for (CommunityManager? m in allManagers) m!.key: m});
 
     if(context == null) return;
-    Provider.of<CommunityManagersProvider>(context, listen: false).notify();
-    Provider.of<CommunityProvider>(context, listen: false).notify();
-    Provider.of<CommunityListProvider>(context, listen: false).notify();
+    callProvidersWithManagersOf(context);
   }
 
   void updateManagers(List<CommunityManager> newManagers, {BuildContext? context}){
@@ -351,9 +358,7 @@ class Community extends CommunityBasicData{
     }
 
     if(context == null) return;
-    Provider.of<CommunityManagersProvider>(context, listen: false).notify();
-    Provider.of<CommunityProvider>(context, listen: false).notify();
-    Provider.of<CommunityListProvider>(context, listen: false).notify();
+    callProvidersWithManagersOf(context);
   }
 
   void removeManagersByKey(List<String> managerKeys, {BuildContext? context}){
@@ -362,9 +367,7 @@ class Community extends CommunityBasicData{
     for(String managerKey in managerKeys) _managersMap.remove(managerKey);
 
     if(context == null) return;
-    Provider.of<CommunityManagersProvider>(context, listen: false).notify();
-    Provider.of<CommunityProvider>(context, listen: false).notify();
-    Provider.of<CommunityListProvider>(context, listen: false).notify();
+    callProvidersWithManagersOf(context);
   }
   
   void removeManager(CommunityManager manager){

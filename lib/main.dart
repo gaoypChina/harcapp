@@ -46,7 +46,6 @@ import '_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import '_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
 import '_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import '_new/cat_page_guide_book/providers.dart';
-import '_new/cat_page_home/providers.dart';
 import '_new/cat_page_song_book/song_loader.dart';
 import '_new/cat_page_strefa_ducha/providers.dart';
 import '_new/cat_page_song_book/providers.dart';
@@ -154,8 +153,6 @@ void main() async {
               );
 
             }),
-
-            ChangeNotifierProvider(create: (context) => HomePartProvider()),
 
             ChangeNotifierProvider(create: (context) => LoginProvider()),
 

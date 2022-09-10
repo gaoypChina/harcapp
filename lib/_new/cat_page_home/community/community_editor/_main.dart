@@ -80,7 +80,7 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
                     onPressed: () async {
 
                       if(Provider.of<NameProvider>(context, listen: false).nameController.text.trim().isEmpty){
-                        showAppToast(context, text: 'Nazwa kręgu nie może być pusta');
+                        showAppToast(context, text: 'Nazwa środowiska nie może być pusta');
                         return;
                       }
 

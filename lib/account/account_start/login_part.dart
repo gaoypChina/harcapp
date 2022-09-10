@@ -61,6 +61,17 @@ class LoginPartState extends State<LoginPart>{
 
   void loginClick() async {
 
+    LoginProvider loginProv = LoginProvider.of(context);
+
+    IndivCompProvider indivCompProv = IndivCompProvider.of(context);
+    IndivCompListProvider indivCompListProv = IndivCompListProvider.of(context);
+
+    CommunityProvider communityProv = CommunityProvider.of(context);
+    CommunityListProvider communityListProv = CommunityListProvider.of(context);
+
+    CommunityPublishableListProvider communityPublishableListProv = CommunityPublishableListProvider.of(context);
+
+
     emailController!.errorText = '';
     passwordController!.errorText = '';
 
@@ -83,14 +94,19 @@ class LoginPartState extends State<LoginPart>{
             List<Forum> forums,
             List<CommunityPublishable> feed
         ) async {
-          setState(() => processing = false);
+          if(mounted) setState(() => processing = false);
 
-          IndivComp.init(indivComps, context: context);
-          Community.init(communities, context: context);
-          CommunityPublishable.init(feed, context: context);
-
-          Provider.of<LoginProvider>(context, listen: false).notify();
+          loginProv.notify();
           AccountData.callOnLogin(emailConf);
+
+          IndivComp.init(indivComps);
+          IndivComp.callProviders(indivCompProv, indivCompListProv);
+
+          Community.init(communities);
+          Community.callProviders(communityProv, communityListProv);
+
+          CommunityPublishable.init(feed);
+          communityPublishableListProv.notify();
 
           if(loggedIn)
             widget.onLoggedIn?.call(emailConf);
@@ -101,6 +117,7 @@ class LoginPartState extends State<LoginPart>{
           return true;
         },
         onError: (Response? response){
+          if(!mounted) return;
           try{
 
             Map? errMap = response!.data['errors'];
@@ -128,6 +145,16 @@ class LoginPartState extends State<LoginPart>{
 
   void microsoftLoginClick() async {
 
+    LoginProvider loginProv = LoginProvider.of(context);
+
+    IndivCompProvider indivCompProv = IndivCompProvider.of(context);
+    IndivCompListProvider indivCompListProv = IndivCompListProvider.of(context);
+
+    CommunityProvider communityProv = CommunityProvider.of(context);
+    CommunityListProvider communityListProv = CommunityListProvider.of(context);
+
+    CommunityPublishableListProvider communityPublishableListProv = CommunityPublishableListProvider.of(context);
+
     try {
 
       showAlertDialog(
@@ -137,21 +164,26 @@ class LoginPartState extends State<LoginPart>{
         content: 'Trwa logowanie przez konto ZHP...',
       );
 
-      await ZhpAccAuth.login(context);
+      await ZhpAccAuth.login();
       String? azureToken = await ZhpAccAuth.azureToken;
       await ApiRegLog.carefullyMicrosoftLogin(
           context: context,
           azureToken: azureToken,
           onSuccess: (Response response, bool emailConf, bool loggedIn, List<IndivComp> indivComps, List<Community> communities, List<Circle> circles, List<Forum> forums, List<CommunityPublishable> feed) async {
 
-            Provider.of<LoginProvider>(context, listen: false).notify();
+            loginProv.notify();
             AccountData.callOnLogin(emailConf);
 
-            IndivComp.init(indivComps, context: context);
-            Community.init(communities, context: context);
-            CommunityPublishable.init(feed, context: context);
+            IndivComp.init(indivComps);
+            IndivComp.callProviders(indivCompProv, indivCompListProv);
 
-            await popPage(context); // close login alert dialog
+            Community.init(communities);
+            Community.callProviders(communityProv, communityListProv);
+
+            CommunityPublishable.init(feed);
+            communityPublishableListProv.notify();
+
+            if(mounted) await popPage(context); // close login alert dialog
 
             if(loggedIn)
               widget.onLoggedIn?.call(emailConf);
@@ -162,6 +194,7 @@ class LoginPartState extends State<LoginPart>{
             return true;
           },
           onError: (Response? response) async {
+            if(!mounted) return;
             await popPage(context); // close login alert dialog
             String? respData = (response!.data as Map)['error'];
 
@@ -175,8 +208,8 @@ class LoginPartState extends State<LoginPart>{
           }
       );
     } catch (e) {
-      showAppToast(context, text: simpleErrorMessage);
-      await popPage(context); // close login alert dialog
+      if(mounted) showAppToast(context, text: simpleErrorMessage);
+      if(mounted) await popPage(context); // close login alert dialog
       await ZhpAccAuth.logout();
     }
 

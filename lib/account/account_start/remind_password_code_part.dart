@@ -48,7 +48,6 @@ class RemindPasswordCodePartState extends State<RemindPasswordCodePart>{
     passwordController!.errorText = '';
     passwordRepController!.errorText = '';
 
-
     setState(() => processing = true);
 
     await ApiRegLog.resetPass(
@@ -57,6 +56,7 @@ class RemindPasswordCodePartState extends State<RemindPasswordCodePart>{
         newPass: passwordController!.text,
         newPassRep: passwordRepController!.text,
         onSuccess: () async {
+          if(!mounted) return;
           showAppToast(context, text: 'Ustawiono nowe hasło');
           pushReplacePage(
               context,
@@ -68,6 +68,7 @@ class RemindPasswordCodePartState extends State<RemindPasswordCodePart>{
           return true;
         },
         onError: (Response? response){
+          if(!mounted) return;
           try {
 
             Map? errorFieldMap = response!.data['errors'];
@@ -82,7 +83,7 @@ class RemindPasswordCodePartState extends State<RemindPasswordCodePart>{
           }catch (e){
             showAppToast(context, text: simpleErrorMessage);
           }
-          if(mounted) setState(() => processing = false);
+          setState(() => processing = false);
         }
     );
 
@@ -104,102 +105,98 @@ class RemindPasswordCodePartState extends State<RemindPasswordCodePart>{
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => PageTemplate(
+    child: PartTemplate(
+        title: 'Resetuj hasło',
+        errorMessage: generalError,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
 
-    return PageTemplate(
-      child: PartTemplate(
-          title: 'Resetuj hasło',
-          errorMessage: generalError,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-
-              Hero(
-                tag: PartTemplate.emailInputFieldHeroTag,
-                child: InputField(
-                  hint: 'E-mail:',
-                  controller: emailController,
-                  enabled: false,
-                  leading: Icon(MdiIcons.account, color: iconDisab_(context)),
-                ),
-              ),
-
-              SizedBox(height: Dimen.SIDE_MARG),
-
-              InputField(
-                hint: 'Kod resetu hasła:',
-                controller: resetKeyController,
-                enabled: !processing!,
+            Hero(
+              tag: PartTemplate.emailInputFieldHeroTag,
+              child: InputField(
+                hint: 'E-mail:',
+                controller: emailController,
+                enabled: false,
                 leading: Icon(MdiIcons.account, color: iconDisab_(context)),
               ),
+            ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+            SizedBox(height: Dimen.SIDE_MARG),
 
-              InputField(
-                hint: 'Nowe hasło:',
-                controller: passwordController,
-                trailing: IconButton(
-                  icon: Icon(showPassword?MdiIcons.eyeOffOutline:MdiIcons.eyeOutline),
-                  onPressed: processing!?null:() => setState(() => showPassword = !showPassword),
-                ),
-                isPassword: !showPassword,
-                enabled: !processing!,
-                leading: Icon(MdiIcons.key, color: iconDisab_(context)),
+            InputField(
+              hint: 'Kod resetu hasła:',
+              controller: resetKeyController,
+              enabled: !processing!,
+              leading: Icon(MdiIcons.account, color: iconDisab_(context)),
+            ),
+
+            SizedBox(height: Dimen.SIDE_MARG),
+
+            InputField(
+              hint: 'Nowe hasło:',
+              controller: passwordController,
+              trailing: IconButton(
+                icon: Icon(showPassword?MdiIcons.eyeOffOutline:MdiIcons.eyeOutline),
+                onPressed: processing!?null:() => setState(() => showPassword = !showPassword),
               ),
+              isPassword: !showPassword,
+              enabled: !processing!,
+              leading: Icon(MdiIcons.key, color: iconDisab_(context)),
+            ),
 
-              SizedBox(height: Dimen.SIDE_MARG),
+            SizedBox(height: Dimen.SIDE_MARG),
 
-              InputField(
-                hint: 'Powtórz nowe hasło:',
-                controller: passwordRepController,
-                trailing: IconButton(
-                  icon: Icon(showPasswordRep?MdiIcons.eyeOffOutline:MdiIcons.eyeOutline),
-                  onPressed: processing!?null:() => setState(() => showPasswordRep = !showPasswordRep),
-                ),
-                isPassword: !showPasswordRep,
-                enabled: !processing!,
-                leading: Icon(MdiIcons.shieldKey, color: iconDisab_(context)),
+            InputField(
+              hint: 'Powtórz nowe hasło:',
+              controller: passwordRepController,
+              trailing: IconButton(
+                icon: Icon(showPasswordRep?MdiIcons.eyeOffOutline:MdiIcons.eyeOutline),
+                onPressed: processing!?null:() => setState(() => showPasswordRep = !showPasswordRep),
               ),
+              isPassword: !showPasswordRep,
+              enabled: !processing!,
+              leading: Icon(MdiIcons.shieldKey, color: iconDisab_(context)),
+            ),
 
-              SizedBox(height: 2*Dimen.SIDE_MARG),
+            SizedBox(height: 2*Dimen.SIDE_MARG),
 
-              Row(
-                children: [
+            Row(
+              children: [
 
-                  Expanded(
-                      child: Hero(
-                        tag: PartTemplate.secondaryButtonHeroTag,
-                        child: SimpleButton.from(
-                          context: context,
-                          fontWeight: weight.normal,
-                          text: 'Wróć',
-                          icon: MdiIcons.arrowLeft,
-                          onTap: processing!?null:() => pushReplacePage(
-                              context,
-                              builder: (context) => RemindPasswordPart(email: emailController!.text)
-                          ),
+                Expanded(
+                    child: Hero(
+                      tag: PartTemplate.secondaryButtonHeroTag,
+                      child: SimpleButton.from(
+                        context: context,
+                        fontWeight: weight.normal,
+                        text: 'Wróć',
+                        icon: MdiIcons.arrowLeft,
+                        onTap: processing!?null:() => pushReplacePage(
+                            context,
+                            builder: (context) => RemindPasswordPart(email: emailController!.text)
                         ),
-                      )
+                      ),
+                    )
+                ),
+
+                SizedBox(width: Dimen.SIDE_MARG),
+
+                Expanded(
+                  child: MainButton(
+                      processing: processing,
+                      text: 'Weryfikuj',
+                      icon: MdiIcons.shieldAccountOutline,
+                      onTap: processing!?null:remindPasswordClick
                   ),
+                )
+              ],
+            ),
 
-                  SizedBox(width: Dimen.SIDE_MARG),
-
-                  Expanded(
-                    child: MainButton(
-                        processing: processing,
-                        text: 'Weryfikuj',
-                        icon: MdiIcons.shieldAccountOutline,
-                        onTap: processing!?null:remindPasswordClick
-                    ),
-                  )
-                ],
-              ),
-
-            ],
-          )
-      ),
-    );
-
-  }
+          ],
+        )
+    ),
+  );
 
 }

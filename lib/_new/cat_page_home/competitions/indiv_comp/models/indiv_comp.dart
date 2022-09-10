@@ -31,6 +31,7 @@ import 'indiv_comp_task.dart';
 class IndivCompProvider extends ChangeNotifier{
 
   static IndivCompProvider of(BuildContext context) => Provider.of<IndivCompProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
 
   void notify() => notifyListeners();
 }
@@ -38,6 +39,7 @@ class IndivCompProvider extends ChangeNotifier{
 class IndivCompListProvider extends ChangeNotifier{
 
   static IndivCompListProvider of(BuildContext context) => Provider.of<IndivCompListProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
 
   void notify() => notifyListeners();
 }
@@ -191,13 +193,32 @@ class IndivComp{
 
   }
 
+  static callProvidersOf(BuildContext context){
+    IndivCompProvider.notify_(context);
+    IndivCompListProvider.notify_(context);
+  }
+
+  static callProviders(IndivCompProvider indivCompProv, IndivCompListProvider indivCompListProv){
+    indivCompProv.notify();
+    indivCompListProv.notify();
+  }
+
+  static callProvidersWithParticipsOf(BuildContext context){
+    callProvidersOf(context);
+    IndivCompParticipsProvider.notify_(context);
+  }
+
+  static callProvidersWithParticips(IndivCompProvider indivCompProv, IndivCompListProvider indivCompListProv, IndivCompParticipsProvider indivCompParticipsProv){
+    callProviders(indivCompProv, indivCompListProv);
+    indivCompParticipsProv.notify();
+  }
+
   static init(List<IndivComp> comps, {BuildContext? context}){
 
     silentInit(comps);
 
     if(context == null) return;
-    Provider.of<IndivCompProvider>(context, listen: false).notify();
-    Provider.of<IndivCompListProvider>(context, listen: false).notify();
+    callProvidersOf(context);
   }
 
   static addToAll(IndivComp comp, {BuildContext? context}){
@@ -209,8 +230,7 @@ class IndivComp{
     _allMap![comp.key] = comp;
 
     if(context == null) return;
-    Provider.of<IndivCompProvider>(context, listen: false).notify();
-    Provider.of<IndivCompListProvider>(context, listen: false).notify();
+    callProvidersOf(context);
   }
 
   static updateInAll(IndivComp comp, {BuildContext? context}){
@@ -226,8 +246,7 @@ class IndivComp{
     _allMap![comp.key] = comp;
 
     if(context == null) return;
-    Provider.of<IndivCompProvider>(context, listen: false).notify();
-    Provider.of<IndivCompListProvider>(context, listen: false).notify();
+    callProvidersOf(context);
   }
 
   static void removeFromAll(IndivComp? comp, {BuildContext? context}){
@@ -239,8 +258,7 @@ class IndivComp{
 
     if(context == null) return;
 
-    IndivCompProvider.of(context).notify();
-    Provider.of<IndivCompListProvider>(context, listen: false).notify();
+    callProvidersOf(context);
   }
 
   static clear(){
@@ -332,31 +350,29 @@ class IndivComp{
 
   }
 
-  void addParticips(BuildContext context, List<IndivCompParticip> newParticips){
+  void addParticips(List<IndivCompParticip> newParticips, {BuildContext? context}){
 
     for(IndivCompParticip particip in newParticips) {
       particips.add(particip);
       participMap[particip.key] = particip;
     }
 
-    Provider.of<IndivCompParticipsProvider>(context, listen: false).notify();
-    Provider.of<IndivCompProvider>(context, listen: false).notify();
-    Provider.of<IndivCompListProvider>(context, listen: false).notify();
+    if(context == null) return;
+    callProvidersWithParticipsOf(context);
   }
 
-  void setAllParticips(BuildContext context, List<IndivCompParticip> allParticips){
+  void setAllParticips(List<IndivCompParticip> allParticips, {BuildContext? context}){
     particips.clear();
     participMap.clear();
     particips.addAll(allParticips);
     particips.sort((mem1, mem2) => mem1.name.compareTo(mem2.name));
     participMap.addAll({for (IndivCompParticip mem in allParticips) mem.key: mem});
 
-    Provider.of<IndivCompParticipsProvider>(context, listen: false).notify();
-    Provider.of<IndivCompProvider>(context, listen: false).notify();
-    Provider.of<IndivCompListProvider>(context, listen: false).notify();
+    if(context == null) return;
+    callProvidersWithParticipsOf(context);
   }
 
-  void updateParticips(BuildContext context, List<IndivCompParticip> newParticips){
+  void updateParticips(List<IndivCompParticip> newParticips, {BuildContext? context}){
 
     for(IndivCompParticip particip in newParticips) {
       int index = particips.indexWhere((participIter) => participIter.key == particip.key);
@@ -365,19 +381,17 @@ class IndivComp{
       participMap[particip.key] = particip;
     }
 
-    Provider.of<IndivCompParticipsProvider>(context, listen: false).notify();
-    Provider.of<IndivCompProvider>(context, listen: false).notify();
-    Provider.of<IndivCompListProvider>(context, listen: false).notify();
+    if(context == null) return;
+    callProvidersWithParticipsOf(context);
   }
 
-  void removeParticipsByKey(BuildContext context, List<String> participKeys){
+  void removeParticipsByKey(List<String> participKeys, {BuildContext? context}){
 
     particips.removeWhere((particip) => participKeys.contains(particip.key));
     for(String participKey in participKeys) participMap.remove(participKey);
 
-    Provider.of<IndivCompParticipsProvider>(context, listen: false).notify();
-    Provider.of<IndivCompProvider>(context, listen: false).notify();
-    Provider.of<IndivCompListProvider>(context, listen: false).notify();
+    if(context == null) return;
+    callProvidersWithParticipsOf(context);
   }
 
   void removeComplTask(BuildContext context, String participKey, String complTaskKey){

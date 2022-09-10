@@ -18,6 +18,9 @@ class CommunitySliverAppBar extends StatefulWidget{
   final CommunityBasicData community;
   final PaletteGenerator? palette;
   final CommunityCoverImageData coverImage;
+  final Color? backgroundColor;
+  final Color? preBackgroundColor;
+  final double backgroundMarg;
   final ScrollController mainScrollController;
   final GlobalKey communityNameWidgetKey;
   final dynamic heroTag;
@@ -28,6 +31,9 @@ class CommunitySliverAppBar extends StatefulWidget{
       this.community,
       { this.palette,
         required this.coverImage,
+        this.backgroundColor,
+        this.preBackgroundColor,
+        this.backgroundMarg = 0,
         required this.mainScrollController,
         required this.communityNameWidgetKey,
         this.heroTag,
@@ -46,6 +52,9 @@ class CommunitySliverAppBarState extends State<CommunitySliverAppBar>{
   CommunityBasicData get community => widget.community;
   PaletteGenerator? get palette => widget.palette;
   CommunityCoverImageData get coverImage => widget.coverImage;
+  Color? get backgroundColor => widget.backgroundColor;
+  Color? get preBackgroundColor => widget.preBackgroundColor;
+  double get backgroundMarg => widget.backgroundMarg;
   ScrollController get mainScrollController => widget.mainScrollController;
   GlobalKey get communityNameWidgetKey => widget.communityNameWidgetKey;
   dynamic get heroTag => widget.heroTag;
@@ -53,7 +62,7 @@ class CommunitySliverAppBarState extends State<CommunitySliverAppBar>{
   List<Widget> get bottomWidgets => widget.bottomWidgets;
 
   Color get appBarColor => CommunityCoverColors.appBarColor(context, palette);
-  Color get backgroundColor => CommunityCoverColors.backgroundColor(context, palette);
+  Color get _backgroundColor => backgroundColor??CommunityCoverColors.backgroundColor(context, palette);
   Color get cardColor => CommunityCoverColors.cardColor(context, palette);
   Color get strongColor => CommunityCoverColors.strongColor(context, palette);
   Color get coverIconColor => CommunityCoverColors.coverIconColor(context, palette);
@@ -87,7 +96,7 @@ class CommunitySliverAppBarState extends State<CommunitySliverAppBar>{
   Widget build(BuildContext context) => Consumer<AppBarProvider>(
     builder: (context, prov, child) => SliverAppBar(
       iconTheme: IconThemeData(
-          color: prov.coverVisible?coverIconColor:iconEnab_(context)
+        color: prov.coverVisible?coverIconColor:iconEnab_(context)
       ),
       title: AnimatedOpacity(
         opacity: prov.showTitleOnAppBar?1:0,
@@ -105,7 +114,7 @@ class CommunitySliverAppBarState extends State<CommunitySliverAppBar>{
       pinned: true,
       excludeHeaderSemantics: true,
       elevation: prov.elevated?AppCard.bigElevation:0,
-      backgroundColor: backgroundColor,
+      backgroundColor: preBackgroundColor??_backgroundColor,
       expandedHeight: 200,
       actions: actions?.call(prov),
       flexibleSpace: FlexibleSpaceBar(
@@ -114,6 +123,14 @@ class CommunitySliverAppBarState extends State<CommunitySliverAppBar>{
           fit: StackFit.expand,
           clipBehavior: Clip.none,
           children: [
+
+            Positioned(
+              top: 0,
+              bottom: 0,
+              left: backgroundMarg,
+              right: backgroundMarg,
+              child: Container(color: _backgroundColor),
+            ),
 
             Hero(
                 tag: Tuple2(heroTag, 'coverImage'),
@@ -144,7 +161,6 @@ class CommunitySliverAppBarState extends State<CommunitySliverAppBar>{
                 ),
               )
             ),
-
 
           ],
         ),

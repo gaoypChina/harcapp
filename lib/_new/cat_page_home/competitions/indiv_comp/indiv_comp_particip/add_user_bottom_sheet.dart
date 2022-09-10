@@ -34,7 +34,7 @@ class AddUserBottomSheet extends StatelessWidget{
           onSuccess: (List<IndivCompParticip> allParticips){
             comp.participMap.clear();
             comp.particips.clear();
-            comp.addParticips(context, allParticips);
+            comp.addParticips(allParticips, context: context);
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
             showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}.');

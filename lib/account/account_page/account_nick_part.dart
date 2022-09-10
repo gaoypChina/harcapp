@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
+import 'package:harcapp/_new/account_test_widget.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/user.dart';
 import 'package:harcapp/account/account.dart';
@@ -194,29 +195,29 @@ class AccountNickPartState extends State<AccountNickPart>{
                       onTap: nickProcessing || !AccountData.nickSearchable?null:() => openDialog(
                           context: context,
                           builder: (context) => Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                              child: Material(
-                                  color: ColorPack.DEF_BACKGROUND,
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      AppBar(
-                                        title: const Text('Udostępnij kod publiczny'),
-                                        centerTitle: true,
-                                        elevation: 0,
-                                      ),
-                                      QrImageView(
-                                        data: AccountData.nick!,
-                                        version: QrVersions.auto,
-                                        foregroundColor: ColorPack.DEF_ICON_ENAB,
-                                      ),
-                                    ],
-                                  )
-                              ),
-                            )
+                              child: Padding(
+                                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                                child: Material(
+                                    color: ColorPack.DEF_BACKGROUND,
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        AppBar(
+                                          title: const Text('Udostępnij kod publiczny'),
+                                          centerTitle: true,
+                                          elevation: 0,
+                                        ),
+                                        QrImageView(
+                                          data: AccountData.nick!,
+                                          version: QrVersions.auto,
+                                          foregroundColor: ColorPack.DEF_ICON_ENAB,
+                                        ),
+                                      ],
+                                    )
+                                ),
+                              )
                           )
                       )
                   ),

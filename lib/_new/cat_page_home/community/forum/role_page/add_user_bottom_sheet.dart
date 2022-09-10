@@ -22,15 +22,16 @@ class AddUserBottomSheet extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => UserListAddNewBottomSheet(
-    addUserMess: 'Dodaj członka',
-    addUserWithHarcappAccountMess: 'Dodaj członka posiadającego konto HarcApp.',
+    addUserMess: 'Dodaj ogarniacza',
+    addUserWithHarcappAccountMess: 'Dodaj osobę posiadającą konto HarcApp.',
     alreadyAddedMess: 'Już jest w kręgu',
     userAlreadyAddedMess: (name) => '$name już jest w kręgu!',
 
     participatingUserKeys: forum.managersMap.keys.toList(),
+    backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
     handleAddingUser: (BuildContext context, UserDataNick userData) async {
 
-      showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Dodawanie członka');
+      showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Dodawanie ogarniacza');
 
       await ApiForum.addManagers(
           forumKey: forum.key,

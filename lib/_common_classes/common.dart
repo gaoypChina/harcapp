@@ -400,7 +400,7 @@ class PolishLettersComparator {
 
 String timeAgo(DateTime now, DateTime past){
 
-  Duration diff = past.difference(now);
+  Duration diff = now.difference(past);
 
   if(diff < const Duration(seconds: 60))
     return '${diff.inSeconds } sek.';
@@ -417,7 +417,7 @@ String timeAgo(DateTime now, DateTime past){
   if(now.year == past.year)
     return dateToString(past, showYear: false);
 
-  return dateToString(past);
+  return dateToString(past, shortMonth: true);
 }
 
 String trimLeadingWhitespace(String text) {

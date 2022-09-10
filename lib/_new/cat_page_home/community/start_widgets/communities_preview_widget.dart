@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/community_cover_image_data.dart';
+import 'package:harcapp/_new/cat_page_home/community/common/cover_image.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import '../forum/model/forum.dart';
+import '../model/community.dart';
 
 class CommunitiesPreviewWidget extends StatelessWidget{
 
@@ -24,7 +30,6 @@ class CommunitiesPreviewWidget extends StatelessWidget{
     width: width,
     child: SimpleButton(
         color: background_(context),
-        elevation: AppCard.bigElevation,
         margin: const EdgeInsets.all(Dimen.SIDE_MARG),
         padding: padding,
         borderRadius: BorderRadius.circular(1000), //AppCard.bigRadius),
@@ -51,31 +56,78 @@ class CommunitiesPreviewWidget extends StatelessWidget{
   );
 
   @override
-  Widget build(BuildContext context) => Stack(
+  Widget build(BuildContext context) => Column(
     children: [
 
-      Positioned(
-        top: -width/1.6,
-        left: -.4*width,
-        child: Icon(MdiIcons.circleOutline, size: 1.4*width),
+      Expanded(child: Container()),
+
+      child,
+
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+        child: Row(
+          children: [
+
+            Expanded(
+              flex: 2,
+              child: Material(
+                clipBehavior: Clip.hardEdge,
+                borderRadius: BorderRadius.circular(communityRadius),
+                child: CoverImageWidget(CommunityCoverImageData.allSample[43]),
+              ),
+            ),
+
+            Expanded(child: Container()),
+
+          ],
+        ),
       ),
 
-      Positioned(
-        top: 0,
-        bottom: 0,
-        right: -.9*width,
-        child: Icon(MdiIcons.circleOutline, size: 1.4*width),
+      const SizedBox(height: Dimen.SIDE_MARG),
+
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+        child: Row(
+          children: [
+
+            Expanded(child: Container()),
+
+            Expanded(
+              flex: 2,
+              child: Material(
+                clipBehavior: Clip.hardEdge,
+                borderRadius: BorderRadius.circular(communityRadius),
+                child: CoverImageWidget(CommunityCoverImageData.allSample[34]),
+              ),
+            ),
+
+          ],
+        ),
       ),
 
-      Positioned(
-        bottom: -width/1.4,
-        left: -.5*width,
-        child: Icon(MdiIcons.circleOutline, size: 1.4*width),
+      const SizedBox(height: Dimen.SIDE_MARG),
+
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+        child: Row(
+          children: [
+
+            Expanded(
+              flex: 2,
+              child: Material(
+                clipBehavior: Clip.hardEdge,
+                borderRadius: BorderRadius.circular(communityRadius),
+                child: CoverImageWidget(CommunityCoverImageData.allSample[10]),
+              ),
+            ),
+
+            Expanded(child: Container()),
+
+          ],
+        ),
       ),
 
-      Center(
-        child: child,
-      ),
+      const SizedBox(height: Dimen.SIDE_MARG),
 
     ],
   );

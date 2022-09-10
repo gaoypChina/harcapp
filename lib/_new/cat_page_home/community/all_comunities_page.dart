@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_new/cat_page_home/community/start_widgets/communities_preview_widget.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -28,7 +25,6 @@ import 'circle/model/circle.dart';
 import 'common/community_cover_colors.dart';
 import 'new_community_type.dart';
 import 'start_widgets/communities_loading_widget.dart';
-import 'start_widgets/communities_prompt_login.dart';
 import 'community_editor/_main.dart';
 import 'forum/model/forum.dart';
 import 'model/community.dart';
@@ -39,8 +35,9 @@ class AllCommunitiesPage extends StatefulWidget{
 
   final void Function(Circle)? onCircleTap;
   final void Function(Forum)? onForumTap;
+  final bool networkAvailable;
 
-  const AllCommunitiesPage({this.onCircleTap, this.onForumTap, super.key});
+  const AllCommunitiesPage({this.onCircleTap, this.onForumTap, required this.networkAvailable, super.key});
 
   @override
   State<StatefulWidget> createState() => AllCommunitiesPageState();
@@ -51,15 +48,13 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
 
   void Function(Circle)? get onCircleTap => widget.onCircleTap;
   void Function(Forum)? get onForumTap => widget.onForumTap;
+  bool get networkAvailable => widget.networkAvailable;
 
   late RefreshController refreshController;
 
   late LoginListener loginListener;
 
   late CommunityLoaderListener _listener;
-  
-  StreamSubscription<ConnectivityResult>? networkListener;
-  late bool networkAvailable;
 
   @override
   void initState() {
@@ -124,23 +119,8 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
 
     AccountData.addLoginListener(loginListener);
 
-    networkAvailable = true;
-    () async {
-      networkAvailable = await isNetworkAvailable();
-      if(mounted) setState((){});
-    }();
-
-    networkListener = addConnectionListener((hasConnection) async{
-      networkAvailable = hasConnection;
-      if(!mounted) return;
-      setState((){});
-      if(!hasConnection)
-        showAppToast(context, text: 'Brak internetu');
-    });
-
-    if(Community.all == null && AccountData.loggedIn)
+    if(Community.all == null)
       communitiesLoader.run();
-
 
     super.initState();
   }
@@ -154,24 +134,11 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
     super.dispose();
   }
 
-  bool get shouldScroll => AccountData.loggedIn && Community.all != null && Community.all!.isNotEmpty;
+  bool get shouldScroll => Community.all != null && Community.all!.isNotEmpty;
 
   List<Widget> getSlivers(){
     
     List<Widget> slivers = [];
-    
-    // slivers.add(SliverAppBar(
-    //   title: const Text('Środowiska'),
-    //   centerTitle: true,
-    //   floating: true,
-    //   pinned: !shouldScroll,
-    //   actions: [
-    //     IconButton(
-    //       icon: const Icon(MdiIcons.plus),
-    //       onPressed: () => NewCommunityButton.newCommunity(context),
-    //     )
-    //   ],
-    // ));
 
     slivers.add(SliverPadding(
       padding: const EdgeInsets.only(bottom: Dimen.SIDE_MARG),
@@ -201,7 +168,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
           icon: MdiIcons.earthOff,
         ),
       ));
-    else if(AccountData.loggedIn){
+    else{
 
       if(!AccountData.emailConf)
         slivers.add(SliverFillRemaining(
@@ -241,31 +208,21 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
               width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
               child: Padding(
                   padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                  child: SimpleButton(
-                    onTap: () => NewCommunityButton.newCommunity(context),
-                    elevation: AppCard.bigElevation,
-                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                    color: cardEnab_(context),
-                    borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
 
-                        IgnorePointer(child: NewCommunityButton()),
-
-                        SizedBox(height: Dimen.SIDE_MARG),
-
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                          child: AppText(
-                            'Zawiąż środowisko zastępu, drużyny lub szczepu!'
+                      AppText(
+                        'Zawiąż środowisko zastępu, drużyny lub szczepu!'
                             '\n\nWszystkie ważne <b>informacje i ogłoszenia</b> opublikujesz lub znajdziesz właśnie tam.',
-                            size: Dimen.TEXT_SIZE_BIG,
-                          ),
-                        ),
+                        size: Dimen.TEXT_SIZE_BIG,
+                      ),
 
-                      ],
-                    )
+                      SizedBox(height: Dimen.SIDE_MARG),
+
+                      NewCommunityButton(radius: AppCard.bigRadius-4),
+
+                    ],
                   )
               )
           ),
@@ -311,13 +268,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
 
         slivers.add(SliverList(delegate: SliverChildListDelegate(widgets)));
       }
-    }else
-      slivers.add(SliverFillRemaining(
-        hasScrollBody: false,
-        child: CommunitiesPromptLogin(
-          width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
-        )
-      ));
+    }
 
     return slivers;
 
@@ -328,7 +279,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
       builder: (context, loginProv, circleListProv, child) => ScrollConfiguration(
           behavior: NoGlowBehavior(),
           child: SmartRefresher(
-              enablePullDown: AccountData.loggedIn,
+              enablePullDown: true,
               physics:
               shouldScroll?
               const BouncingScrollPhysics():
@@ -361,12 +312,13 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
 class NewCommunityButton extends StatelessWidget{
 
   static const double height = 100;
+  final double radius;
 
-  const NewCommunityButton({super.key});
+  const NewCommunityButton({this.radius = communityRadius, super.key});
 
   @override
   Widget build(BuildContext context) => SimpleButton(
-      radius: communityRadius,
+      radius: radius,
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
       child: Builder(
@@ -378,7 +330,7 @@ class NewCommunityButton extends StatelessWidget{
               clipBehavior: Clip.hardEdge,
               shape: RoundedRectangleBorder(
                 side: BorderSide(color: CommunityCoverColors.nonPaletteBackgroundColor(), width: Dimen.defMarg),
-                borderRadius: BorderRadius.circular(communityRadius),
+                borderRadius: BorderRadius.circular(radius),
               ),
               color: background_(context),
               child: Row(

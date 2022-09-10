@@ -4,6 +4,7 @@ import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/announcement_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/model/announcement.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -14,6 +15,7 @@ import 'community_publishable_widget_template.dart';
 import 'forum/model/forum.dart';
 import 'forum/model/post.dart';
 import 'forum/post_widget.dart';
+import 'model/community.dart';
 
 Widget getCommunityPublishablesSliver(
     BuildContext context,
@@ -24,6 +26,7 @@ Widget getCommunityPublishablesSliver(
       PaletteGenerator? palette,
       bool loading = false,
       String? emptyMessage,
+      String? nullMessage,
       String? loadingMessage,
       void Function()? onAnnouncementUpdated,
       void Function()? onPostUpdated,
@@ -36,8 +39,12 @@ Widget getCommunityPublishablesSliver(
         const SizedBox(height: 2 * Dimen.SIDE_MARG),
         EmptyMessageWidget(
           icon: MdiIcons.newspaperVariantOutline,
-          text: loading?(loadingMessage??'Ładowanie'):(emptyMessage??'Brak ogłoszeń'),
-          color: CommunityCoverColors.nonPaletteCardColor(context),
+          text: loading?
+          (loadingMessage??'Ładowanie'):
+          CommunityPublishable.all == null?
+          (nullMessage??'Przeciągnij,\nby załadować'):
+          (emptyMessage??'Brak ogłoszeń'),
+          color: textEnab_(context),
         ),
       ])),
     );

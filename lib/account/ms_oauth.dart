@@ -17,7 +17,7 @@ class ZhpAccAuth{
     ));
   }
 
-  static Future<void> login(BuildContext context) => msOauth.login();
+  static Future<void> login() => msOauth.login();
 
   static Future<void> logout() => msOauth.logout();
 

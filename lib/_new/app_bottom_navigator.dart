@@ -70,7 +70,7 @@ class AppBottomNavigator extends StatelessWidget{
 
   const AppBottomNavigator({this.background, this.selectedItemColor, this.unselectedItemColor, this.elevation, super.key});
 
-  int bottomNavBarToIndex(AppBottomNavItem item){
+  static int bottomNavBarToIndex(AppBottomNavItem item){
 
     // This has to return all values from 0..n;
 
@@ -94,7 +94,7 @@ class AppBottomNavigator extends StatelessWidget{
     return 1;
   }
 
-  AppBottomNavItem indexToBottomNavBarItem(int index){
+  static AppBottomNavItem indexToBottomNavBarItem(int index){
 
     // This has to accept as an argument all values from 0..n;
 

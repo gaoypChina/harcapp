@@ -1,17 +1,13 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_new/account_test_widget.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_preview_grid.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_prompt_login.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
-import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -39,7 +35,8 @@ import 'indiv_comp/models/indiv_comp.dart';
 class AllCompetitionsPage extends StatefulWidget{
 
   final void Function(IndivComp) onCompetitionTap;
-  const AllCompetitionsPage({required this.onCompetitionTap, super.key});
+  final bool networkAvailable;
+  const AllCompetitionsPage({required this.onCompetitionTap, required this.networkAvailable, super.key});
 
   @override
   State<StatefulWidget> createState() => AllCompetitionsPageState();
@@ -49,15 +46,13 @@ class AllCompetitionsPage extends StatefulWidget{
 class AllCompetitionsPageState extends State<AllCompetitionsPage>{
 
   void Function(IndivComp) get onCompetitionTap => widget.onCompetitionTap;
+  bool get networkAvailable => widget.networkAvailable;
 
   late RefreshController refreshController;
 
   late LoginListener loginListener;
 
   late IndivCompLoaderListener _listener;
-  
-  StreamSubscription<ConnectivityResult>? networkListener;
-  late bool networkAvailable;
 
   @override
   void initState() {
@@ -116,21 +111,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
 
     AccountData.addLoginListener(loginListener);
 
-    networkAvailable = true;
-    () async {
-      networkAvailable = await isNetworkAvailable();
-      if(mounted) setState((){});
-    }();
-
-    networkListener = addConnectionListener((hasConnection) async{
-      networkAvailable = hasConnection;
-      if(!mounted) return;
-      setState((){});
-      if(!hasConnection)
-        showAppToast(context, text: 'Brak internetu');
-    });
-
-    if(IndivComp.all == null && AccountData.loggedIn)
+    if(IndivComp.all == null)
       indivCompLoader.run();
 
     super.initState();
@@ -145,24 +126,11 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
     super.dispose();
   }
 
-  bool get shouldScroll => AccountData.loggedIn && IndivComp.all != null && IndivComp.all!.isNotEmpty;
+  bool get shouldScroll => IndivComp.all != null && IndivComp.all!.isNotEmpty;
 
   List<Widget> getSlivers(){
     
     List<Widget> slivers = [];
-    
-    // slivers.add(SliverAppBar(
-    //   title: const Text('Współzawodnictwa'),
-    //   centerTitle: true,
-    //   floating: true,
-    //   pinned: !shouldScroll,
-    //   actions: [
-    //     IconButton(
-    //       icon: const Icon(MdiIcons.plus),
-    //       onPressed: () => NewIndivCompButton.newCompetition(context),
-    //     )
-    //   ],
-    // ));
 
     slivers.add(SliverPadding(
       padding: const EdgeInsets.only(bottom: Dimen.SIDE_MARG),
@@ -194,7 +162,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
           ),
         ),
       ));
-    else if(AccountData.loggedIn){
+    else{
 
       if(!AccountData.emailConf)
         slivers.add(SliverFillRemaining(
@@ -236,22 +204,24 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
       else if(IndivComp.all!.isEmpty)
         slivers.add(SliverFillRemaining(
           hasScrollBody: false,
-          child: Padding(
-            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-            child: IndivCompPreviewGrid(
-              width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
-              child: SimpleButton(
-                onTap: () => NewIndivCompButton.newCompetition(context),
-                elevation: AppCard.bigElevation,
-                color: cardEnab_(context),
-                borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                child: const Padding(
-                  padding: EdgeInsets.all(Dimen.SIDE_MARG),
-                  child: IgnorePointer(child: NewIndivCompButton()),
-                ),
-              )
-            )
-          ),
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                child: IndivCompPreviewGrid(
+                    width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
+                    child: SimpleButton(
+                      onTap: () => NewIndivCompButton.newCompetition(context),
+                      color: cardEnab_(context),
+                      borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                      child: const Padding(
+                        padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                        child: IgnorePointer(child: NewIndivCompButton()),
+                      ),
+                    )
+                )
+            ),
+          )
         ));
       else {
 
@@ -298,27 +268,17 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
 
         slivers.add(SliverList(delegate: SliverChildListDelegate(widgets)));
       }
-    }else
-      slivers.add(SliverFillRemaining(
-        hasScrollBody: false,
-        child: Padding(
-          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-          child: IndivCompPromptLogin(
-            width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
-          )
-        ),
-      ));
+    }
 
     return slivers;
 
   }
 
   @override
-  Widget build(BuildContext context) => Consumer2<LoginProvider, IndivCompListProvider>(
-      builder: (context, loginProv, indivCompProv, child) => ScrollConfiguration(
+  Widget build(BuildContext context) => Consumer<IndivCompListProvider>(
+      builder: (context, indivCompProv, child) => ScrollConfiguration(
           behavior: NoGlowBehavior(),
           child: SmartRefresher(
-              enablePullDown: AccountData.loggedIn,
               physics:
               shouldScroll?
               const BouncingScrollPhysics():

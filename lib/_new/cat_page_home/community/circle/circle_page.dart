@@ -447,6 +447,9 @@ class CirclePageState extends State<CirclePage>{
                   circle.community,
                   palette: palette,
                   coverImage: circle.coverImage,
+                  backgroundColor: cardColor,
+                  preBackgroundColor: backgroundColor,
+                  backgroundMarg: Dimen.defMarg,
                   mainScrollController: scrollController,
                   communityNameWidgetKey: nameWidgetKey,
                   heroTag: circleCoverTag,
@@ -459,7 +462,8 @@ class CirclePageState extends State<CirclePage>{
                             ShareCodeWidget.iconOn:
                             ShareCodeWidget.iconOff,
 
-                            color: appBarProv.coverVisible?coverIconColor:iconEnab_(context)
+                            color: (appBarProv.coverVisible?coverIconColor:iconEnab_(context))
+                                .withOpacity(changeShareCodeProcessing?0.4:1)
 
                         ),
                         onPressed: changeShareCodeProcessing?null:() async {
@@ -534,94 +538,111 @@ class CirclePageState extends State<CirclePage>{
                 SliverList(delegate: SliverChildListDelegate([
 
                   Padding(
-                      padding: const EdgeInsets.only(
-                        top: Dimen.SIDE_MARG,
-                        left: Dimen.SIDE_MARG,
-                        right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-                        bottom: Dimen.SIDE_MARG,
-                      ),
-                      child: Hero(
-                          tag: circleNameTag,
-                          child: Material(
-                            color: Colors.transparent,
-                            child: Row(
-                              children: [
+                    padding: const EdgeInsets.symmetric(horizontal: Dimen.defMarg),
+                    child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.vertical(bottom: Radius.circular(communityRadius)),
+                          color: cardColor,
+                        ),
+                        child: Column(
+                          children: [
 
-                                Expanded(
-                                  child: AutoSizeText(
-                                    circle.name,
-                                    style: AppTextStyle(
-                                        fontSize: 28.0,
-                                        color: iconEnab_(context),
-                                        fontWeight: weight.bold
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                  top: Dimen.SIDE_MARG,
+                                  left: Dimen.SIDE_MARG,
+                                  right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+                                  bottom: Dimen.SIDE_MARG,
+                                ),
+                                child: Hero(
+                                    tag: circleNameTag,
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: Row(
+                                        children: [
+
+                                          Expanded(
+                                            child: AutoSizeText(
+                                              circle.name,
+                                              style: AppTextStyle(
+                                                  fontSize: 28.0,
+                                                  color: iconEnab_(context),
+                                                  fontWeight: weight.bold
+                                              ),
+                                              maxLines: 2,
+                                              key: nameWidgetKey,
+                                            ),
+                                          ),
+
+                                          IconButton(
+                                            icon: const Icon(MdiIcons.chevronDown),
+                                            onPressed: () => pushPage(
+                                                context,
+                                                builder: (context) => CircleDescriptionPage(
+                                                  circle,
+                                                  palette,
+                                                )
+                                            ),
+                                          )
+
+                                        ],
+                                      ),
+                                    )
+                                )
+                            ),
+
+                            if(circle.myRole == CircleRole.ADMIN)
+                              AnimatedSize(
+                                alignment: Alignment.bottomCenter,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeOutQuad,
+                                clipBehavior: Clip.none,
+                                child: SizedBox(
+                                  height: circle.shareCodeSearchable?null:0,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: Dimen.SIDE_MARG,
+                                        left: Dimen.defMarg,
+                                        right: Dimen.defMarg
                                     ),
-                                    maxLines: 2,
-                                    key: nameWidgetKey,
+                                    child: ShareCodeWidget.from(
+                                      circle.shareCode!,
+                                      circle.shareCodeSearchable,
+                                      !changeShareCodeProcessing,
+                                      backgroundColor: cardColor,
+                                      borderColor: backgroundColor,
+                                      resetShareCode: () => ApiCircle.resetShareCode(
+                                          circleKey: circle.key,
+                                          onSuccess: (shareCode){
+                                            if(mounted) setState(() => circle.shareCode = shareCode);
+                                          },
+                                          onServerMaybeWakingUp: () {
+                                            if(mounted) showServerWakingUpToast(context);
+                                            return true;
+                                          },
+                                          onError: (dynamic errData){
+                                            if(errData is Map && errData['errors'] != null && errData['errors']['shareCode'] == 'share_code_changed_too_soon')
+                                              if(mounted) showAppToast(context, text: 'Za często zmieniasz kod dostępu');
+                                          }
+                                      ),
+                                      description: 'To, co widzisz, to <b>kod dostępu</b>.'
+                                          '\n\nPozwala on dołączyć do kręgu tym, którzy go znają.',
+                                      resetFrequencyDays: 2,
+                                    ),
                                   ),
                                 ),
+                              ),
 
-                                IconButton(
-                                  icon: const Icon(MdiIcons.chevronDown),
-                                  onPressed: () => pushPage(
-                                      context,
-                                      builder: (context) => CircleDescriptionPage(
-                                        circle,
-                                        palette,
-                                      )
-                                  ),
-                                )
-
-                              ],
+                            MembersWidget(
+                              circle,
+                              palette: palette,
                             ),
-                          )
-                      )
-                  ),
 
-                  if(circle.myRole == CircleRole.ADMIN)
-                    AnimatedSize(
-                      alignment: Alignment.bottomCenter,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeOutQuad,
-                      clipBehavior: Clip.none,
-                      child: SizedBox(
-                        height: circle.shareCodeSearchable?null:0,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: Dimen.SIDE_MARG,
-                            left: Dimen.defMarg,
-                            right: Dimen.defMarg
-                          ),
-                          child: ShareCodeWidget.from(
-                            circle.shareCode!,
-                            circle.shareCodeSearchable,
-                            !changeShareCodeProcessing,
-                            backgroundColor: backgroundColor,
-                            borderColor: cardColor,
-                            resetShareCode: () => ApiCircle.resetShareCode(
-                                circleKey: circle.key,
-                                onSuccess: (shareCode){
-                                  if(mounted) setState(() => circle.shareCode = shareCode);
-                                },
-                                onServerMaybeWakingUp: () {
-                                  if(mounted) showServerWakingUpToast(context);
-                                  return true;
-                                },
-                                onError: (dynamic errData){
-                                  if(errData is Map && errData['errors'] != null && errData['errors']['shareCode'] == 'share_code_changed_too_soon')
-                                    if(mounted) showAppToast(context, text: 'Za często zmieniasz kod dostępu');
-                                }
-                            ),
-                            description: 'To, co widzisz, to <b>kod dostępu</b>.'
-                                '\n\nPozwala on dołączyć do kręgu tym, którzy go znają.',
-                            resetFrequencyDays: 2,
-                          ),
-                        ),
-                      ),
+                            const SizedBox(height: Dimen.SIDE_MARG),
+
+                          ],
+                        )
                     ),
-
-                  MembersWidget(
-                    circle,
-                    palette: palette,
                   ),
 
                   if(circle.myRole == CircleRole.EDITOR || circle.myRole == CircleRole.ADMIN)
@@ -673,6 +694,11 @@ class CirclePageState extends State<CirclePage>{
                           const SizedBox(width: Dimen.SIDE_MARG - Dimen.ICON_MARG + 2),
 
                           SimpleButton(
+                              borderRadius: BorderRadius.vertical(
+                                top: const Radius.circular(communityRadius),
+                                bottom: Radius.circular(loadedAnnouncementsCount==0?communityRadius:0)
+                              ),
+
                               padding: const EdgeInsets.symmetric(
                                 horizontal: Dimen.ICON_MARG,
                                 vertical: Dimen.ICON_MARG,
@@ -703,6 +729,11 @@ class CirclePageState extends State<CirclePage>{
                           ),
 
                           SimpleButton(
+                              borderRadius: BorderRadius.vertical(
+                                  top: const Radius.circular(communityRadius),
+                                  bottom: Radius.circular(loadedAnnouncementsCount==0?communityRadius:0)
+                              ),
+
                               padding: const EdgeInsets.symmetric(
                                 horizontal: Dimen.ICON_MARG,
                                 vertical: Dimen.ICON_MARG,
@@ -732,6 +763,11 @@ class CirclePageState extends State<CirclePage>{
 
                           if(circle.awaitingAnnouncements.isNotEmpty)
                             SimpleButton(
+                                borderRadius: BorderRadius.vertical(
+                                    top: const Radius.circular(communityRadius),
+                                    bottom: Radius.circular(loadedAnnouncementsCount==0?communityRadius:0)
+                                ),
+
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: Dimen.ICON_MARG,
                                   vertical: Dimen.ICON_MARG,
@@ -767,10 +803,6 @@ class CirclePageState extends State<CirclePage>{
                   rebuild: true,
                 ),
 
-                SliverList(delegate: SliverChildListDelegate([
-                  const SizedBox(height: Dimen.SIDE_MARG - Dimen.defMarg)
-                ])),
-
                 if(currTab == AnnouncementCategories.all)
                   getAllAnnouncements()
                 else if(currTab == AnnouncementCategories.pinned)
@@ -791,7 +823,6 @@ class CirclePageState extends State<CirclePage>{
       context,
       circle.allAnnouncements,
       padding: const EdgeInsets.only(
-        top: Dimen.defMarg,
         right: CommunityPublishableWidgetTemplate.borderHorizontalMarg,
         left: CommunityPublishableWidgetTemplate.borderHorizontalMarg,
       ),
@@ -803,7 +834,6 @@ class CirclePageState extends State<CirclePage>{
       context,
       circle.pinnedAnnouncements,
       padding: const EdgeInsets.only(
-        top: Dimen.defMarg,
         right: CommunityPublishableWidgetTemplate.borderHorizontalMarg,
         left: CommunityPublishableWidgetTemplate.borderHorizontalMarg,
       ),
@@ -816,7 +846,6 @@ class CirclePageState extends State<CirclePage>{
       context,
       circle.awaitingAnnouncements,
       padding: const EdgeInsets.only(
-        top: Dimen.defMarg,
         right: CommunityPublishableWidgetTemplate.borderHorizontalMarg,
         left: CommunityPublishableWidgetTemplate.borderHorizontalMarg,
       ),
@@ -930,9 +959,9 @@ class MembersWidget extends StatelessWidget{
           child: AccountThumbnailRowWidget(
             circle.members.map((m) => m.name).toList(),
             elevated: CommunityPublishableWidgetTemplate.elevation != 0,
-            color: CommunityCoverColors.cardColor(context, palette),
-            borderColor: CommunityCoverColors.cardColor(context, palette),
-            backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
+            color: CommunityCoverColors.backgroundColor(context, palette),
+            borderColor: CommunityCoverColors.backgroundColor(context, palette),
+            backgroundColor: CommunityCoverColors.cardColor(context, palette),
             padding: const EdgeInsets.symmetric(horizontal: Dimen.defMarg),
             onTap: () => pushPage(
                 context,
@@ -944,7 +973,7 @@ class MembersWidget extends StatelessWidget{
 
         if(circle.members.length == 1)
           SimpleButton(
-              color: CommunityCoverColors.cardColor(context, palette),
+              color: CommunityCoverColors.backgroundColor(context, palette),
               radius: 100,
               child: Row(
                 children: [
@@ -964,8 +993,8 @@ class MembersWidget extends StatelessWidget{
 
                   AccountThumbnailWidget(
                     elevated: false,
-                    color: CommunityCoverColors.backgroundColor(context, palette),
-                    borderColor: CommunityCoverColors.cardColor(context, palette),
+                    color: CommunityCoverColors.cardColor(context, palette),
+                    borderColor: CommunityCoverColors.backgroundColor(context, palette),
                     icon: MdiIcons.accountPlusOutline,
                   )
                 ],

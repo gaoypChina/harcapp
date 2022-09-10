@@ -338,24 +338,18 @@ class AwaitingAlertWidget extends StatelessWidget{
       duration: const Duration(milliseconds: 300),
       child:
       announcement.isAwaitingMyResponse?
-      Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppCard.defRadius),
-          color: CommunityCoverColors.strongColor(context, palette),
+      Padding(
+        padding: const EdgeInsets.only(
+            top: Dimen.ICON_MARG,
+            bottom: Dimen.ICON_MARG
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(
-              top: Dimen.ICON_MARG,
-              bottom: Dimen.ICON_MARG
-          ),
-          child: AppText(
-            timeDurStr.isEmpty?
-            'Ogłoszenie czeka na <b>Twoją</b> reakcję':
-            'Mija już <b>$timeDurStr</b> bez <b>Twojej</b> reakcji',
-            color: Colors.white,
-            textAlign: TextAlign.center,
-            size: Dimen.TEXT_SIZE_BIG,
-          ),
+        child: AppText(
+          timeDurStr.isEmpty?
+          'Ogłoszenie czeka na <b>Twoją</b> reakcję':
+          'Mija już <b>$timeDurStr</b> bez <b>Twojej</b> reakcji',
+          color: CommunityCoverColors.strongColor(context, palette),
+          textAlign: TextAlign.center,
+          size: Dimen.TEXT_SIZE_BIG,
         ),
       ):
       Container(),

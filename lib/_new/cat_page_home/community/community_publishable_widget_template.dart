@@ -70,128 +70,124 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
       });
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) => SimpleButton(
+    onTap: onTap,
+    color: CommunityCoverColors.cardColor(context, palette),
+    borderRadius: BorderRadius.circular(radius),
+    elevation: 3.0,//elevation,
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
 
-    return SimpleButton(
-      onTap: onTap,
-      color: CommunityCoverColors.cardColor(context, palette),
-      borderRadius: BorderRadius.circular(radius),
-      elevation: 3.0,//elevation,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
 
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: Dimen.defMarg,
-                      left: Dimen.defMarg,
-                      bottom: Dimen.defMarg
-                  ),
-                  child: PublishInfoWidget(
-                    publishable,
-                    palette: palette,
-                    showCommunityInfo: showCommunityInfo,
-                    onCommunityButtonTap: onCommunityButtonTap,
-                  ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    top: Dimen.defMarg,
+                    left: Dimen.defMarg,
+                    bottom: Dimen.defMarg
+                ),
+                child: PublishInfoWidget(
+                  publishable,
+                  palette: palette,
+                  showCommunityInfo: showCommunityInfo,
+                  onCommunityButtonTap: onCommunityButtonTap,
                 ),
               ),
+            ),
 
-              if(onMoreTap != null)
-                SimpleButton.from(
-                  context: context,
-                  radius: AppCard.defRadius,
-                  margin: const EdgeInsets.all(Dimen.defMarg),
-                  icon: MdiIcons.dotsVertical,
-                  onTap: onMoreTap,
+            if(onMoreTap != null)
+              SimpleButton.from(
+                context: context,
+                radius: AppCard.defRadius,
+                margin: const EdgeInsets.all(Dimen.defMarg),
+                icon: MdiIcons.dotsVertical,
+                onTap: onMoreTap,
+              )
+            else
+              const SizedBox(width: Dimen.defMarg)
+
+          ],
+        ),
+
+        if(contentTop != null)
+          contentTop!,
+
+        Padding(
+          padding: const EdgeInsets.only(
+              top: Dimen.ICON_MARG,
+              left: textHorizontalMarg,
+              right: textHorizontalMarg,
+              bottom: Dimen.ICON_MARG
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+
+              if(publishable.hasTitle)
+                Text(
+                  publishable.title!,
+                  style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+
+              if(publishable.hasTitle)
+                const SizedBox(height: Dimen.ICON_MARG),
+
+              if(shrinkText)
+                Text(
+                    publishable.text,
+                    style: textStyle,
+                    maxLines: shrinkedTextMaxLines,
+                    overflow: TextOverflow.ellipsis
                 )
               else
-                const SizedBox(width: Dimen.defMarg)
+                SelectableText(
+                  publishable.text,
+                  style: textStyle,
+                ),
+
+              if(shrinkText && isTextExpandable(publishable.text, context: context))
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 2*Dimen.defMarg),
+                    child: Text('...czytaj dalej', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_NORMAL)),
+                  ),
+                )
 
             ],
           ),
+        ),
 
-          if(contentTop != null)
-            contentTop!,
+        if(contentBottom != null)
+          contentBottom!,
 
-          Padding(
-            padding: const EdgeInsets.only(
-                top: Dimen.ICON_MARG,
-                left: textHorizontalMarg,
-                right: textHorizontalMarg,
-                bottom: Dimen.ICON_MARG
+        if(publishable.coverImage != null)
+          Container(
+            clipBehavior: Clip.hardEdge,
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.vertical(bottom: Radius.circular(radius - 2))
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-
-                if(publishable.hasTitle)
-                  Text(
-                    publishable.title!,
-                    style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-
-                if(publishable.hasTitle)
-                  const SizedBox(height: Dimen.ICON_MARG),
-
-                if(shrinkText)
-                  Text(
-                      publishable.text,
-                      style: textStyle,
-                      maxLines: shrinkedTextMaxLines,
-                      overflow: TextOverflow.ellipsis
-                  )
-                else
-                  SelectableText(
-                    publishable.text,
-                    style: textStyle,
-                  ),
-
-                if(shrinkText && isTextExpandable(publishable.text, context: context))
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 2*Dimen.defMarg),
-                      child: Text('...czytaj dalej', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_NORMAL)),
-                    ),
-                  )
-
-              ],
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.shortestSide,
+              ),
+              child: CoverImageWidget(publishable.coverImage!),
             ),
           ),
 
-          if(contentBottom != null)
-            contentBottom!,
+        if(publishable.urlToPreview != null)
+          LinkPreviewer(publishable.urlToPreview!, palette),
 
-          if(publishable.coverImage != null)
-            Container(
-              clipBehavior: Clip.hardEdge,
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(radius - 2))
-              ),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.shortestSide,
-                ),
-                child: CoverImageWidget(publishable.coverImage!),
-              ),
-            ),
-
-          if(publishable.urlToPreview != null)
-            LinkPreviewer(publishable.urlToPreview!, palette),
-
-        ],
-      ),
-    );
-
-  }
+      ],
+    ),
+  );
 
   static bool isTextExpandable(String text, {double? width, BuildContext? context}){
 
@@ -326,14 +322,14 @@ class PublishInfoWidget extends StatelessWidget{
 
                         if(snapshot.hasData && isTimeAuto == true) {
                           builder = (context) => Text(
-                            timeAgo(publishable.publishTime, DateTime.now()),
+                            timeAgo(DateTime.now(), publishable.publishTime),
                             style: AppTextStyle(color: hintEnab_(context)),
                           );
                           diff = publishable.publishTime.difference(DateTime.now());
                         }
                         else if(AccountData.lastServerTime != null) {
                           builder = (context) => Text(
-                            timeAgo(publishable.publishTime, AccountData.lastServerTime!),
+                            timeAgo(AccountData.lastServerTime!, publishable.publishTime),
                             style: AppTextStyle(color: hintEnab_(context)),
                           );
                           diff = publishable.publishTime.difference(AccountData.lastServerTime!);

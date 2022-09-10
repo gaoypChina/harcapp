@@ -64,6 +64,7 @@ class IndivCompPreviewGrid extends StatelessWidget{
   @override
   Widget build(BuildContext context) => Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
+    mainAxisSize: MainAxisSize.min,
     children: [
 
       Row(
@@ -88,11 +89,11 @@ class IndivCompPreviewGrid extends StatelessWidget{
         ],
       ),
 
-      Expanded(
-        child: Center(
-          child: child,
-        ),
-      ),
+      SizedBox(height: (width - 4*IndivCompThumbnailWidget.defSize)/3),
+
+      child,
+
+      SizedBox(height: (width - 4*IndivCompThumbnailWidget.defSize)/3),
 
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

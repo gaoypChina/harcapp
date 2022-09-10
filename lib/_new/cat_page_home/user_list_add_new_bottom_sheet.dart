@@ -22,6 +22,8 @@ class UserListAddNewBottomSheet extends StatelessWidget{
   final String alreadyAddedMess; // 'Już uczestniczy'
   final String Function(String) userAlreadyAddedMess; // '{Name} już uczestniczy we wspolzawodnictwie!'
 
+  final Color? backgroundColor;
+
   const UserListAddNewBottomSheet({
     this.participatingUserKeys = const [],
     required this.handleAddingUser,
@@ -29,11 +31,13 @@ class UserListAddNewBottomSheet extends StatelessWidget{
     required this.addUserWithHarcappAccountMess,
     required this.alreadyAddedMess,
     required this.userAlreadyAddedMess,
+    this.backgroundColor,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) => BottomSheetDef(
+      color: backgroundColor,
       title: addUserMess,
       childMargin: EdgeInsets.zero,
       builder: (context) => Stack(

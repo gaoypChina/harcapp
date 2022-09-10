@@ -58,6 +58,8 @@ class RegisterPartState extends State<RegisterPart>{
 
   void registerClick() async {
 
+    LoginProvider loginProv = LoginProvider.of(context);
+
     emailController!.errorText = '';
     passwordController!.errorText = '';
     passwordRepController!.errorText = '';
@@ -78,10 +80,10 @@ class RegisterPartState extends State<RegisterPart>{
         passwordRepController!.text,
         onSuccess: (Response response, String? key, String? jwt, String? email, String? name, String? nick, Sex? sex) async {
 
-          Provider.of<LoginProvider>(context, listen: false).notify();
+          loginProv.notify();
           AccountData.callOnRegister();
 
-          pushReplacePage(
+          if(mounted) pushReplacePage(
               context,
               builder: (context) => ConfEmailPart(email)
           );
@@ -91,6 +93,7 @@ class RegisterPartState extends State<RegisterPart>{
           return true;
         },
         onError: (Response? response) async {
+          if(!mounted) return;
           try {
 
             Map? errorFieldMap = response!.data['errors'];

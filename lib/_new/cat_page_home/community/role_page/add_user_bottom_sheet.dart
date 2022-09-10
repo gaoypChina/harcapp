@@ -6,7 +6,9 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/values/consts.dart';
+import 'package:palette_generator/palette_generator.dart';
 
+import '../common/community_cover_colors.dart';
 import '../community_role.dart';
 import '../model/community.dart';
 import '../model/community_manager.dart';
@@ -21,15 +23,15 @@ class AddUserBottomSheet extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => UserListAddNewBottomSheet(
-    addUserMess: 'Dodaj członka',
-    addUserWithHarcappAccountMess: 'Dodaj członka posiadającego konto HarcApp.',
+    addUserMess: 'Dodaj ogarniacza',
+    addUserWithHarcappAccountMess: 'Dodaj osobę posiadającą konto HarcApp.',
     alreadyAddedMess: 'Już jest w kręgu',
     userAlreadyAddedMess: (name) => '$name już jest w kręgu!',
 
     participatingUserKeys: community.managersMap.keys.toList(),
     handleAddingUser: (BuildContext context, UserDataNick userData) async {
 
-      showLoadingWidget(context, iconEnab_(context), 'Dodawanie członka');
+      showLoadingWidget(context, iconEnab_(context), 'Dodawanie ogarniacza');
 
       await ApiCommunity.addManagers(
           communityKey: community.key,

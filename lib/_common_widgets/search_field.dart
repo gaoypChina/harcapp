@@ -90,6 +90,9 @@ class SearchField extends StatelessWidget{
                           child: IgnorePointer(
                             ignoring: !enabled,
                             child: TextField(
+                              // This key has to be here in order to make other PageStorageKey's work
+                              // which have the SearchField as a child.
+                              key: const PageStorageKey('SearchFieldPageStorageKey'),
                               autofocus: autofocus,
                               focusNode: focusNode,
                               style: AppTextStyle(color: textEnab_(context)),

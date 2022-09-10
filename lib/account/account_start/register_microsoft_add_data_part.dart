@@ -51,6 +51,8 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
 
   void registerClick() async {
 
+    LoginProvider loginProv = LoginProvider.of(context);
+
     sexController!.errorText = '';
     regulaminController!.errorText = '';
     gdprController!.errorText = '';
@@ -64,18 +66,19 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
         gdprAccept,
         onSuccess: (Response response, String? key, String? jwt, String? email, String? name, String? nick, Sex? sex) async {
 
-          Provider.of<LoginProvider>(context, listen: false).notify();
+          loginProv.notify();
           AccountData.callOnRegister();
 
           registered = true;
 
-          Navigator.pop(context);
+          if(mounted) Navigator.pop(context);
         },
         onServerMaybeWakingUp: () {
           if(mounted) showServerWakingUpToast(context);
           return true;
         },
         onError: (Response? response){
+          if(!mounted) return;
           try {
 
             Map? errorFieldMap = response!.data['errors'];
@@ -114,9 +117,7 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return PageTemplate(
+  Widget build(BuildContext context) => PageTemplate(
       child: PartTemplate(
           title: 'Ostatni krok',
           errorMessage: generalError,
@@ -198,8 +199,6 @@ class _RegisterMicrosoftAddDataPartState extends State<RegisterMicrosoftAddDataP
             ],
           )
       )
-    );
-
-  }
+  );
 
 }

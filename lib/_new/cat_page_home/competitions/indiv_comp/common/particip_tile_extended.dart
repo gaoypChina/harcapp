@@ -306,7 +306,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
             compKey: comp.key,
             users: [ParticipBody(particip.key, newRole, newActive)],
             onSuccess: (List<IndivCompParticip> allParticips){
-              comp.setAllParticips(context, allParticips);
+              comp.setAllParticips(allParticips, context: context);
               Navigator.pop(context); // Close loading widget.
               Navigator.pop(context);
               onSuccess?.call();
@@ -349,7 +349,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
               compKey: comp.key,
               userKeys: [particip.key],
               onSuccess: (List<String> removedParticips) async {
-                comp.removeParticipsByKey(context, removedParticips);
+                comp.removeParticipsByKey(removedParticips, context: context);
 
                 if(!mounted) return;
                 showAppToast(context, text: 'Wyproszono');
