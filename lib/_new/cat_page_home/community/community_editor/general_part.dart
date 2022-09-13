@@ -14,6 +14,8 @@ import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:harcapp_core/dimen.dart';
 
+import '../model/community_category.dart';
+
 class GeneralPart extends StatefulWidget{
 
   final Community? initCommunity;
@@ -72,13 +74,41 @@ class GeneralPartState extends State<GeneralPart>{
 
       const SizedBox(height: Dimen.SIDE_MARG),
 
+      Text(
+        'Nazwa środowiska:',
+        style: AppTextStyle(
+            fontSize: Dimen.TEXT_SIZE_BIG,
+            fontWeight: weight.halfBold
+        ),
+      ),
+
       Consumer<NameProvider>(
         builder: (context, prov, child) => AppTextFieldHint(
           hint: 'Nazwa środowiska:',
-          hintTop: 'Nazwa środowiska',
+          hintTop: '',
           controller: prov.nameController,
           maxLength: Community.maxLenName,
         ),
+      ),
+
+      const SizedBox(height: Dimen.SIDE_MARG),
+
+      Text(
+        'Rodzaj środowiska:',
+        style: AppTextStyle(
+          fontSize: Dimen.TEXT_SIZE_BIG,
+          fontWeight: weight.halfBold
+        ),
+      ),
+
+      const SizedBox(height: Dimen.defMarg),
+
+      Wrap(
+        runAlignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        runSpacing: Dimen.defMarg,
+        spacing: Dimen.defMarg,
+        children: allCommunityCategories.map((cat) => CategoryWidget(cat)).toList(),
       ),
 
       if(initCommunity == null)
@@ -100,12 +130,34 @@ class GeneralPartState extends State<GeneralPart>{
 
       if(initCommunity == null)
         Icon(
-          MdiIcons.timerSand,
+          Community.icon,
           color: hintEnab_(context),
           size: 72,
         )
 
     ],
   );
+
+}
+
+class CategoryWidget extends StatelessWidget{
+
+  final CommunityCategory category;
+
+  const CategoryWidget(this.category, {super.key});
+
+  @override
+  Widget build(BuildContext context) => Consumer<CategoryProvider>(
+      builder: (context, prov, child) => SimpleButton.from(
+          color: category == prov.category?backgroundIcon_(context):backgroundIcon_(context),
+          textColor: category == prov.category?iconEnab_(context):iconDisab_(context),
+          margin: EdgeInsets.zero,
+          padding: const EdgeInsets.all(Dimen.defMarg),
+          text: commCatToName[category],
+          onTap: () => CategoryProvider.of(context).category = category
+      )
+  );
+
+
 
 }

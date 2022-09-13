@@ -5,7 +5,6 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
-import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
@@ -46,6 +45,7 @@ import 'community/forum/forum_page.dart';
 import 'community/forum/model/forum.dart';
 import 'community/forum/model/post.dart';
 import 'community/model/community.dart';
+import 'community/model/community_category.dart';
 import 'competitions/all_competitions_page.dart';
 import 'competitions/indiv_comp/indiv_comp_page.dart';
 import 'competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
@@ -360,9 +360,24 @@ class NotLoggedInWidgetState extends State<NotLoggedInWidget>{
 
   late PageController controller;
 
+  void autoScroll() async {
+
+    while(true){
+      await Future.delayed(const Duration(seconds: 5));
+      if(!mounted) return;
+      controller.animateToPage(
+          (controller.page!.toInt() + 1)%3,
+          duration: const Duration(milliseconds: 800),
+          curve: Curves.easeInOutCubic
+      );
+    }
+
+  }
+
   @override
   void initState() {
     controller = PageController();
+    autoScroll();
     super.initState();
   }
 
@@ -400,7 +415,7 @@ class NotLoggedInWidgetState extends State<NotLoggedInWidget>{
               ),
 
               AppText(
-                  '\nCzas ogarnąć sobie <b>konto HarcApp</b>!',
+                  '\nCzas ogarnąć sobie <b>konto HarcApp</b>.',
                   size: Dimen.TEXT_SIZE_BIG,
                   textAlign: TextAlign.center,
                   color: iconEnab_(context)
@@ -717,9 +732,10 @@ class NotLoggedInPartCommunitiesWidget extends StatelessWidget{
                       awaitingAnnouncements: [],
                       bindedIndivComps: [],
                       community: CommunityBasicData(
-                          key: '',
-                          name: '30 PgDH "Czarne Stopy"',
-                          iconKey: 'shoePrint'
+                        key: '',
+                        name: '30 PgDH "Czarne Stopy"',
+                        iconKey: 'shoePrint',
+                        category: CommunityCategory.druzyna
                       ),
                     ),
                     respMode: AnnouncementAttendanceRespMode.NONE,
@@ -773,7 +789,8 @@ class NotLoggedInPartCommunitiesWidget extends StatelessWidget{
                         community: CommunityBasicData(
                             key: '',
                             name: '72 WDHS "Uroczysko"',
-                            iconKey: 'deathStarVariant'
+                            iconKey: 'deathStarVariant',
+                            category: CommunityCategory.druzyna
                         ),
                       )
                   ),

@@ -41,6 +41,7 @@ class DisplayedSongsProvider extends ChangeNotifier{
 class AlbumProvider extends ChangeNotifier{
 
   static AlbumProvider of(BuildContext context) => Provider.of<AlbumProvider>(context, listen: false);
+  static notify_(BuildContext context) => of(context).notify();
 
   Album get current => Album.current;
   set current(Album album){
@@ -65,5 +66,7 @@ class AlbumProvider extends ChangeNotifier{
     Album.insertToAll(index, album);
     notifyListeners();
   }
+
+  void notify() => notifyListeners();
 }
 

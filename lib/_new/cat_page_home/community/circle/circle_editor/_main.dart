@@ -136,6 +136,11 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                                   if(mounted) showServerWakingUpToast(context);
                                   return true;
                                 },
+                                onImageDBWakingUp: () async {
+                                  if(mounted) await popPage(context); // Close loading widget.
+                                  if(mounted) showImageDBWakingUpToast(context);
+                                  return true;
+                                },
                                 onError: (){
                                   if(mounted) popPage(context); // Close loading widget.
                                   onError?.call();
@@ -175,6 +180,11 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                                 onServerMaybeWakingUp: () {
                                   if(mounted) popPage(context); // Close loading widget.
                                   if(mounted) showServerWakingUpToast(context);
+                                  return true;
+                                },
+                                onImageDBWakingUp: () async {
+                                  if(mounted) await popPage(context); // Close loading widget.
+                                  if(mounted) showImageDBWakingUpToast(context);
                                   return true;
                                 },
                                 onError: (){

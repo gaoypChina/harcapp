@@ -1,7 +1,6 @@
 
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ import 'package:harcapp/_new/cat_page_song_book/song_management/memory.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/account/account.dart';
+import 'package:harcapp/account/ms_oauth.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/server.dart';
@@ -54,6 +54,7 @@ class API{
     FutureOr<bool> Function()? onEmailNotConf,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<bool> Function()? onImageDBWakingUp,
     FutureOr<void> Function(DioError)? onError,
 
     bool saveServerTime = true
@@ -69,9 +70,6 @@ class API{
 
     try {
       Response response = await sendRequest(dio);
-
-      if(Random().nextInt(10) == 0)
-      Dio().get(IMAGE_DB_SERVER_IP).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
 
       if(response.statusCode == HttpStatus.ok){
         debugPrint('HarcApp API: ${response.requestOptions.method} ${response.requestOptions.path} :: success!');
@@ -93,6 +91,13 @@ class API{
         '\n# Response error data:\n${e.response?.data}'
       );
 
+      if(e.response?.statusCode == 400 && e.response?.data == "image_db_sleeping"){
+        finish = await onImageDBWakingUp?.call();
+        if(await isNetworkAvailable())
+          Dio().get(IMAGE_DB_SERVER_IP).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
+
+      }
+
       if (e.response?.statusCode == 404) {
         finish = await onServerMaybeWakingUp?.call();
         if(await isNetworkAvailable())
@@ -106,6 +111,7 @@ class API{
           SyncableParamSingle_.stateNotSynced
         );
         SynchronizerEngine.lastSyncTimeLocal = null;
+        await ZhpAccAuth.logout();
         await AccountData.forgetAccount();
         AccountData.callOnForceLogout();
 

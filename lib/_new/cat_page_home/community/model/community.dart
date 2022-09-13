@@ -8,6 +8,7 @@ import '../../../api/_api.dart';
 import '../circle/model/circle.dart';
 import '../community_role.dart';
 import '../forum/model/forum.dart';
+import 'community_category.dart';
 import 'community_manager.dart';
 
 class CommunityProvider extends ChangeNotifier{
@@ -52,11 +53,13 @@ class CommunityBasicData{
   final String key;
   String name;
   String iconKey;
+  CommunityCategory category;
 
   CommunityBasicData({
     required this.key,
     required this.name,
     required this.iconKey,
+    required this.category,
   });
 
 }
@@ -72,6 +75,7 @@ class CommunityPreviewData extends CommunityBasicData{
     required super.key,
     required super.name,
     required super.iconKey,
+    required super.category,
     required this.forum,
     required this.circle,
   });
@@ -82,6 +86,7 @@ class CommunityPreviewData extends CommunityBasicData{
       key: resp['_key']??(throw InvalidResponseError('_key')),
       name: resp['name']??(throw InvalidResponseError('name')),
       iconKey: resp['iconKey']??(throw InvalidResponseError('iconKey')),
+      category: strToCommCat[resp['category']??(throw InvalidResponseError('category'))]??CommunityCategory.error,
 
       forum: null,
       circle: null,
@@ -209,6 +214,7 @@ class Community extends CommunityBasicData{
         key: forum.community.key,
         name: forum.community.name,
         iconKey: forum.community.iconKey,
+        category: forum.community.category,
         circle: null,
         forum: forum,
         managers: []
@@ -229,6 +235,7 @@ class Community extends CommunityBasicData{
           key: circle.community.key,
           name: circle.community.name,
           iconKey: circle.community.iconKey,
+          category: circle.community.category,
           circle: circle,
           forum: null,
           managers: []
@@ -406,6 +413,7 @@ class Community extends CommunityBasicData{
     required super.key,
     required super.name,
     required super.iconKey,
+    required super.category,
     required Circle? circle,
     required Forum? forum,
 
@@ -433,6 +441,7 @@ class Community extends CommunityBasicData{
       key: resp['_key']??(throw InvalidResponseError('_key')),
       name: resp['name']??(throw InvalidResponseError('name')),
       iconKey: resp['iconKey']??(throw InvalidResponseError('iconKey')),
+      category: strToCommCat[resp['category']??(throw InvalidResponseError('category'))]??CommunityCategory.error,
       circle: null,
       forum: null,
       managers: managers,

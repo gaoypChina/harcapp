@@ -103,6 +103,7 @@ class ApiForum{
     FutureOr<void> Function(Forum forum)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<bool> Function()? onImageDBWakingUp,
     FutureOr<void> Function()? onError,
   }) async {
 
@@ -126,6 +127,7 @@ class ApiForum{
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onImageDBWakingUp: onImageDBWakingUp,
       onError: (_) async => onError?.call()
     );
 
@@ -157,6 +159,7 @@ class ApiForum{
     FutureOr<void> Function(Forum forum)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<bool> Function()? onImageDBWakingUp,
     FutureOr<void> Function()? onError,
   }) async{
 

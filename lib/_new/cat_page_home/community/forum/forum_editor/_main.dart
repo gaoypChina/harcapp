@@ -133,6 +133,11 @@ class ForumEditorPageState extends State<ForumEditorPage>{
                                   if(mounted) showServerWakingUpToast(context);
                                   return true;
                                 },
+                                onImageDBWakingUp: (){
+                                  if(mounted) popPage(context); // Close loading widget.
+                                  if(mounted) showImageDBWakingUpToast(context);
+                                  return true;
+                                },
                                 onError: (){
                                   if(mounted) popPage(context); // Close loading widget.
                                   onError?.call();
@@ -164,13 +169,19 @@ class ForumEditorPageState extends State<ForumEditorPage>{
                                 null:
                                 colorsKey,
 
-                                onSuccess: (circle) async {
-                                  await popPage(context); // Close loading widget.
-                                  await popPage(context);
-                                  onSaved?.call(circle);
+                                onSuccess: (forum) async {
+                                  if(mounted) await popPage(context); // Close loading widget.
+                                  if(mounted) await popPage(context);
+                                  onSaved?.call(forum);
                                 },
-                                onServerMaybeWakingUp: () {
+                                onServerMaybeWakingUp: () async {
+                                  if(mounted) await popPage(context); // Close loading widget.
                                   if(mounted) showServerWakingUpToast(context);
+                                  return true;
+                                },
+                                onImageDBWakingUp: () async {
+                                  if(mounted) await popPage(context); // Close loading widget.
+                                  if(mounted) showImageDBWakingUpToast(context);
                                   return true;
                                 },
                                 onError: (){

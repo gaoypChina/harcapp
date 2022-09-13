@@ -421,29 +421,29 @@ class CommunityBasicDataWidget extends StatelessWidget{
       community.key,
       community.iconKey,
       community.name,
+      community.category,
 
       subtitle: community.forum!.followed?
-      Padding(
-        padding: const EdgeInsets.only(top: Dimen.defMarg),
-        child: Row(
-          children: [
+      Row(
+        children: [
 
-            Padding(
-              padding: const EdgeInsets.only(right: Dimen.ICON_MARG),
-              child: Icon(MdiIcons.eyeCheckOutline, color: iconDisab_(context)),
+          Padding(
+            padding: const EdgeInsets.only(right: Dimen.ICON_MARG),
+            child: Icon(MdiIcons.eyeCheckOutline, color: iconDisab_(context)),
+          ),
+
+          Text(
+            'Obserwujesz',
+            style: AppTextStyle(
+                fontSize: Dimen.TEXT_SIZE_NORMAL,
+                fontWeight: weight.halfBold,
+                color: iconDisab_(context),
             ),
+            maxLines: 1,
+            overflow: TextOverflow.clip,
+          )
 
-            Text(
-              'Obserwujesz',
-              style: AppTextStyle(
-                  fontSize: Dimen.TEXT_SIZE_BIG,
-                  fontWeight: weight.halfBold,
-                  color: iconDisab_(context)
-              ),
-            )
-
-          ],
-        ),
+        ],
       ):null,
 
       child: Consumer<ForumProvider>(

@@ -12,6 +12,7 @@ import 'package:optional/optional_internal.dart';
 
 import '../cat_page_home/community/community_publishable.dart';
 import '../cat_page_home/community/model/community.dart';
+import '../cat_page_home/community/model/community_category.dart';
 import '_api.dart';
 
 class CommunityManagerRespBody{
@@ -128,6 +129,7 @@ class ApiCommunity{
   static Future<Response?> create({
     required String name,
     required String iconKey,
+    required CommunityCategory category,
 
     FutureOr<void> Function(Community community)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -138,6 +140,7 @@ class ApiCommunity{
     Map<String, dynamic> reqMap = {};
     reqMap['name'] = name.trim();
     reqMap['iconKey'] = iconKey;
+    reqMap['category'] = commCatToString[category];
 
     return API.sendRequest(
       withToken: true,
@@ -163,6 +166,7 @@ class ApiCommunity{
     required String circleKey,
     Optional<String> name = const Optional.empty(),
     Optional<String> iconKey = const Optional.empty(),
+    Optional<CommunityCategory> category = const Optional.empty(),
 
     FutureOr<void> Function(Community community)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -173,6 +177,7 @@ class ApiCommunity{
     Map<String, dynamic> reqMap = {};
     if(name.isPresent) reqMap['name'] = name.value.trim();
     if(iconKey.isPresent) reqMap['iconKey'] = iconKey.value;
+    if(category.isPresent) reqMap['category'] = commCatToString[category.value];
 
     return API.sendRequest(
         withToken: true,

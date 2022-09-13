@@ -422,14 +422,9 @@ class LinkPreviewerState extends State<LinkPreviewer>{
 
   @override
   Widget build(BuildContext context) => SimpleButton(
-    margin: const EdgeInsets.only(
-        left: Dimen.defMarg,
-        right: Dimen.defMarg,
-        bottom: Dimen.defMarg
-    ),
-    color: CommunityCoverColors.backgroundColor(context, palette),
+    radius: 0,
+    color: CommunityCoverColors.backgroundColor(context, palette).withOpacity(.35),
     clipBehavior: Clip.hardEdge,
-    borderRadius: BorderRadius.circular(CommunityPublishableWidgetTemplate.radius),
     onTap: () => launchURL(urlToPreview),
     onLongPress: (){
       Clipboard.setData(ClipboardData(text: urlToPreview));

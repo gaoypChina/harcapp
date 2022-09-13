@@ -359,6 +359,8 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
   late LoginListener _loginListener;
 
+  late SynchronizerListener syncListener;
+
   late GlobalKey<NavigatorState> navigatorKey;
 
   Orientation? orientation;
@@ -383,9 +385,31 @@ class AppState extends State<App> with WidgetsBindingObserver {
           await Statistics.commit();
           await indivCompLoader.run();
           await communitiesLoader.run();
+        },
+        onForceLogout: (){
+          LoginProvider.notify_(context);
         }
     );
     AccountData.addLoginListener(_loginListener);
+
+    syncListener = SynchronizerListener(
+      onEnd: (syncOper){
+        if(syncOper == SyncOper.get){
+
+          // Tutaj odświeżyć wszystkie providery, które zawierają jakieś synchronizowalne dane.
+          ThemeProvider.notify_(context);
+          AlbumProvider.notify_(context);
+
+          RankProv.notify_(context);
+
+          SprawSavedListProv.notify_(context);
+          SprawInProgressListProv.notify_(context);
+          SprawCompletedListProv.notify_(context);
+
+        }
+      }
+    );
+    synchronizer.addListener(syncListener);
 
     subscription = addConnectionListener((hasConnection) async {
       if (!hasConnection) return;
@@ -412,10 +436,12 @@ class AppState extends State<App> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     AccountData.removeLoginListener( _loginListener);
+    synchronizer.removeListener(syncListener);
     super.dispose();
   }
 
-  @override void didChangeMetrics() {
+  @override
+  void didChangeMetrics() {
     //for(void Function() listener in App._orientationChangedListeners)
     //  listener.call();
   }
@@ -478,6 +504,9 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
 class ThemeProvider extends ChangeNotifier{
 
+  static ThemeProvider of(BuildContext context) => Provider.of<ThemeProvider>(context, listen: false);
+  static notify_(BuildContext context) => of(context).notify();
+
   Timer? _themeTimer;
 
   void Function()? _onChangedListener;
@@ -512,4 +541,7 @@ class ThemeProvider extends ChangeNotifier{
       _themeTimer = null;
     }
   }
+
+  void notify() => notifyListeners();
+
 }

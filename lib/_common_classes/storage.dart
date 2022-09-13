@@ -86,7 +86,7 @@ File saveStringAsFileToFolder(String localPath, String content, {String? fileNam
 
   if(fileName == null){
     int i=0;
-    while(File('$path$i').existsSync()) i++;
+    while(File(join(path, i.toString())).existsSync()) i++;
     fileName = i.toString();
   }
 

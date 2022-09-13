@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../community/model/community.dart';
+import '../model/community_category.dart';
 import 'danger_part.dart';
 import 'general_part.dart';
 
@@ -56,6 +57,7 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
           providers: [
             ChangeNotifierProvider(create: (context) => NameProvider(community: initCommunity)),
             ChangeNotifierProvider(create: (context) => IconKeyProvider(community: initCommunity)),
+            ChangeNotifierProvider(create: (context) => CategoryProvider(community: initCommunity)),
           ],
           builder: (context, child) => NestedScrollView(
             floatHeaderSlivers: true,
@@ -79,7 +81,7 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
                     icon: const Icon(MdiIcons.check),
                     onPressed: () async {
 
-                      if(Provider.of<NameProvider>(context, listen: false).nameController.text.trim().isEmpty){
+                      if(NameProvider.of(context).nameController.text.trim().isEmpty){
                         showAppToast(context, text: 'Nazwa środowiska nie może być pusta');
                         return;
                       }
@@ -92,8 +94,10 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
 
                       if(initCommunity == null)
                         await ApiCommunity.create(
-                            name: Provider.of<NameProvider>(context, listen: false).nameController.text,
-                            iconKey: Provider.of<IconKeyProvider>(context, listen: false).iconKey,
+                            name: NameProvider.of(context).nameController.text,
+                            iconKey: IconKeyProvider.of(context).iconKey,
+                            category: CategoryProvider.of(context).category,
+
                             onSuccess: (circle) async {
                               await popPage(context); // Close loading widget.
                               await popPage(context);
@@ -114,8 +118,9 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
                         );
                       else{
 
-                        String name = Provider.of<NameProvider>(context, listen: false).nameController.text;
-                        String iconKey = Provider.of<IconKeyProvider>(context, listen: false).iconKey;
+                        String name = NameProvider.of(context).nameController.text;
+                        String iconKey = IconKeyProvider.of(context).iconKey;
+                        CommunityCategory category = CategoryProvider.of(context).category;
 
                         await ApiCommunity.update(
                             circleKey: initCommunity!.key,
@@ -129,6 +134,11 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
                             initCommunity!.iconKey == iconKey?
                             const Optional.empty():
                             Optional.of(iconKey),
+
+                            category:
+                            initCommunity!.category == category?
+                            const Optional.empty():
+                            Optional.of(category),
 
                             onSuccess: (community) async {
                               await popPage(context); // Close loading widget.

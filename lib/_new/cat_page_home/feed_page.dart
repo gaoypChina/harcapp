@@ -10,7 +10,6 @@ import 'package:harcapp/_new/cat_page_home/super_search_field.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/community.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp/values/consts.dart';
@@ -293,8 +292,7 @@ class FeedPageState extends State<FeedPage>{
                   margin: EdgeInsets.symmetric(horizontal: Dimen.defMarg),
                 ),
 
-                if(IndivComp.all != null && IndivComp.all!.isNotEmpty)
-                  const SizedBox(height: Dimen.SIDE_MARG),
+                const SizedBox(height: Dimen.SIDE_MARG),
 
               ])),
 

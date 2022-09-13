@@ -12,8 +12,10 @@ AppTextStyle settingsTextStyle(BuildContext context) => AppTextStyle(fontSize: D
 
 const String forceLoggedOutMessage = 'Wymagane ponowne zalogowanie';
 const String serverWakingUpMessage = 'Twoje konto właśnie obudziło drzemiący serwer. Spróbuj za minutę, gdy wstanie na dobre.';
+const String imageDBWakingUpMessage = 'Twoje konto właśnie obudziło drzemiący serwer zdjęć. Spróbuj za minutę, gdy wstanie na dobre.';
 const Duration serverWakingUpDuration = Duration(seconds: 7);
 void showServerWakingUpToast(BuildContext context) => showAppToast(context, text: serverWakingUpMessage, duration: serverWakingUpDuration);
+void showImageDBWakingUpToast(BuildContext context) => showAppToast(context, text: imageDBWakingUpMessage, duration: serverWakingUpDuration);
 
 String get simpleErrorMessage{
 

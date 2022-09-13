@@ -105,6 +105,7 @@ class ApiCircle{
     FutureOr<void> Function(Circle circle)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<bool> Function()? onImageDBWakingUp,
     FutureOr<void> Function()? onError,
   }) async {
 
@@ -128,6 +129,7 @@ class ApiCircle{
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onImageDBWakingUp: onImageDBWakingUp,
       onError: (_) async => onError?.call()
     );
 
@@ -229,6 +231,7 @@ class ApiCircle{
     FutureOr<void> Function(Circle circle)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<bool> Function()? onImageDBWakingUp,
     FutureOr<void> Function()? onError,
   }) async{
 
@@ -256,6 +259,7 @@ class ApiCircle{
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onImageDBWakingUp: onImageDBWakingUp,
       onError: (_) async => onError?.call()
     );
 

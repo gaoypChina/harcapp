@@ -37,6 +37,7 @@ class CommunityWidget extends StatelessWidget{
           community.key,
             community.iconKey,
             community.name,
+            community.category,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -75,6 +76,7 @@ class CommunityWidget extends StatelessWidget{
                                     onSaved: (updatedCommunity){
                                       community.name = updatedCommunity.name;
                                       community.iconKey = updatedCommunity.iconKey;
+                                      community.category = updatedCommunity.category;
                                       CommunityProvider.notify_(context);
                                     },
                                     onForceLoggedOut: (){

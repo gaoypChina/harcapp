@@ -224,7 +224,7 @@ class ApiSync{
               try {
                 ownSongResps[lclId] = OwnSongGetResp.from(response);
               } catch (e){
-                logger.e('Own song from respnse creation error: ${e.toString()}');
+                logger.e('Own song from response creation error: ${e.toString()}');
               }
             }
 
@@ -236,7 +236,7 @@ class ApiSync{
               try {
                 albumResps[lclId] = AlbumGetResp.from(response);
               } catch (e){
-                logger.e('Album from respnse creation error: ${e.toString()}');
+                logger.e('Album from response creation error: ${e.toString()}');
               }
             }
 
@@ -248,7 +248,7 @@ class ApiSync{
               try {
                 sprawResps[uniqName] = SprawGetResp.from(response);
               } catch (e){
-                logger.e('Spraw from respnse creation error: ${e.toString()}');
+                logger.e('Spraw from response creation error: ${e.toString()}');
               }
             }
 
@@ -260,7 +260,7 @@ class ApiSync{
               try {
                 rankDefResps[uniqName] = RankDefGetResp.from(response);
               } catch (e){
-                logger.e('RankDef from respnse creation error: ${e.toString()}');
+                logger.e('RankDef from response creation error: ${e.toString()}');
               }
             }
 
@@ -272,7 +272,7 @@ class ApiSync{
               try {
                 rankZhpSim2022Resps[uniqName] = RankZhpSim2022GetResp.from(response);
               } catch (e){
-                logger.e('RankZhpSim2022 from respnse creation error: ${e.toString()}');
+                logger.e('RankZhpSim2022 from response creation error: ${e.toString()}');
               }
             }
 
@@ -415,8 +415,7 @@ class ApiSync{
         withToken: true,
         sendRequest: (Dio dio) async => await dio.get('${API.SERVER_URL}${url}last_sync'),
         onSuccess: (Response response, DateTime now) async {
-          DateTime? lastSync;
-          lastSync = DateTime.tryParse(response.data);
+          DateTime? lastSync = DateTime.tryParse(response.data);
           onSuccess?.call(lastSync);
         },
         onError: (err) async => onError?.call(err.response)
