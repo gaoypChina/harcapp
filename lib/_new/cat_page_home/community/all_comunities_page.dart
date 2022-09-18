@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_new/cat_page_home/community/start_widgets/communities_preview_message_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/start_widgets/communities_preview_widget.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/community/search_forum_page.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
-import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -24,7 +24,6 @@ import '../super_search_field.dart';
 import 'circle/model/circle.dart';
 import 'common/community_cover_colors.dart';
 import 'new_community_type.dart';
-import 'start_widgets/communities_loading_widget.dart';
 import 'community_editor/_main.dart';
 import 'forum/model/forum.dart';
 import 'model/community.dart';
@@ -35,9 +34,8 @@ class AllCommunitiesPage extends StatefulWidget{
 
   final void Function(Circle)? onCircleTap;
   final void Function(Forum)? onForumTap;
-  final bool networkAvailable;
 
-  const AllCommunitiesPage({this.onCircleTap, this.onForumTap, required this.networkAvailable, super.key});
+  const AllCommunitiesPage({this.onCircleTap, this.onForumTap, super.key});
 
   @override
   State<StatefulWidget> createState() => AllCommunitiesPageState();
@@ -48,7 +46,6 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
 
   void Function(Circle)? get onCircleTap => widget.onCircleTap;
   void Function(Forum)? get onForumTap => widget.onForumTap;
-  bool get networkAvailable => widget.networkAvailable;
 
   late RefreshController refreshController;
 
@@ -91,8 +88,8 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
       },
       onError: (message) async {
         if(!mounted) return;
-
         refreshController.refreshCompleted();
+        showAppToast(context, text: simpleErrorMessage);
         setState(() {});
       },
     );
@@ -136,7 +133,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
 
   bool get shouldScroll => Community.all != null && Community.all!.isNotEmpty;
 
-  List<Widget> getSlivers(){
+  List<Widget> getSlivers({required bool networkAvailable}){
     
     List<Widget> slivers = [];
 
@@ -158,74 +155,78 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
     ])));
 
     if(!networkAvailable)
-      slivers.add(SliverFillRemaining(
-        hasScrollBody: false,
-        child: CommunitiesPreviewWidget.from(
-          context: context,
-          width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
-          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-          text: 'Brak internetu',
-          icon: MdiIcons.earthOff,
-        ),
+      slivers.add(const SliverFillRemaining(
+          hasScrollBody: false,
+          child: Padding(
+            padding: EdgeInsets.all(Dimen.SIDE_MARG),
+            child: CommunitiesPreviewMessageWidget(
+              text: 'Brak połączenia\nz siecią',
+              icon: Community.icon,
+            ),
+          )
       ));
     else{
 
       if(!AccountData.emailConf)
         slivers.add(SliverFillRemaining(
-          hasScrollBody: false,
-          child: CommunitiesPreviewWidget.from(
-            context: context,
-            width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
-            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-            icon: MdiIcons.accountReactivateOutline,
-            text: 'Aktywuj konto by\nzawiązać środowisko',
-            onTap: () => AccountPage.open(context),
-          ),
+            hasScrollBody: false,
+            child: Padding(
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+              child: CommunitiesPreviewMessageWidget(
+                icon: MdiIcons.accountReactivateOutline,
+                text: 'Aktywuj konto by\nzawiązać środowisko',
+                onTap: () => AccountPage.open(context),
+              ),
+            )
         ));
       else if(communitiesLoader.running)
-        slivers.add(SliverFillRemaining(
+        slivers.add(const SliverFillRemaining(
             hasScrollBody: false,
-            child: CommunitiesLoadingWidget(
-                width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
-                padding: const EdgeInsets.all(Dimen.SIDE_MARG)
-            ),
+            child: Padding(
+              padding: EdgeInsets.all(Dimen.SIDE_MARG),
+              child: CommunitiesPreviewMessageWidget(
+                icon: MdiIcons.refresh,
+                text: 'Ładowanie środowisk...',
+              ),
+            )
         ));
       else if(Community.all == null)
-        slivers.add(SliverFillRemaining(
-          hasScrollBody: false,
-          child: CommunitiesPreviewWidget.from(
-            context: context,
-            width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
-            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-            icon: MdiIcons.closeOutline,
-            text: 'Mamy problem'
-         ),
+        slivers.add(const SliverFillRemaining(
+            hasScrollBody: false,
+            child: Padding(
+              padding: EdgeInsets.all(Dimen.SIDE_MARG),
+              child: CommunitiesPreviewMessageWidget(
+                  icon: MdiIcons.closeOutline,
+                  text: 'Mamy problem'
+              ),
+            )
         ));
       else if(Community.all!.isEmpty)
         slivers.add(SliverFillRemaining(
-          hasScrollBody: false,
-          child: CommunitiesPreviewWidget(
-              width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
-              child: Padding(
-                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
+            hasScrollBody: false,
+            child: Padding(
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+              child: Column(
+                children: [
 
-                      AppText(
-                        'Zawiąż środowisko zastępu, drużyny lub szczepu!'
-                            '\n\nWszystkie ważne <b>informacje i ogłoszenia</b> opublikujesz lub znajdziesz właśnie tam.',
-                        size: Dimen.TEXT_SIZE_BIG,
-                      ),
+                  const AppText(
+                    'Zawiąż środowisko zastępu, drużyny lub szczepu!'
+                        '\n\nWszystkie ważne <b>informacje i ogłoszenia</b> opublikujesz lub znajdziesz właśnie tam.',
+                    size: Dimen.TEXT_SIZE_BIG,
+                  ),
 
-                      SizedBox(height: Dimen.SIDE_MARG),
+                  const SizedBox(height: Dimen.SIDE_MARG),
 
-                      NewCommunityButton(radius: AppCard.bigRadius-4),
+                  const NewCommunityButton(radius: AppCard.bigRadius-4),
 
-                    ],
-                  )
-              )
-          ),
+                  Expanded(child: Container()),
+
+                  const CommunitiesPreviewWidget(),
+
+                ],
+              ),
+            )
+
         ));
       else {
 
@@ -234,9 +235,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
         if(Community.all == null)
           widgets.add(Padding(
             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-            child: CommunitiesPreviewWidget.from(
-              context: context,
-              width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
+            child: CommunitiesPreviewMessageWidget(
               text: simpleErrorMessage,
               icon: MdiIcons.closeOutline,
             ),
@@ -275,8 +274,8 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
   }
 
   @override
-  Widget build(BuildContext context) => Consumer2<LoginProvider, CommunityListProvider>(
-      builder: (context, loginProv, circleListProv, child) => ScrollConfiguration(
+  Widget build(BuildContext context) => Consumer2<ConnectivityProvider, CommunityListProvider>(
+      builder: (context, connProv, circleListProv, child) => ScrollConfiguration(
           behavior: NoGlowBehavior(),
           child: SmartRefresher(
               enablePullDown: true,
@@ -301,7 +300,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
                   physics:
                   const BouncingScrollPhysics(),
 
-                  slivers: getSlivers()
+                  slivers: getSlivers(networkAvailable: connProv.connected)
               )
           )
       )

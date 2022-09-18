@@ -386,6 +386,11 @@ class PostEditorPageState extends State<PostEditorPage>{
                           if(mounted) showServerWakingUpToast(context);
                           return true;
                         },
+                        onImageDBWakingUp: (){
+                          if(mounted) popPage(context); // Close loading widget.
+                          if(mounted) showImageDBWakingUpToast(context);
+                          return true;
+                        },
                         onError: () async {
                           if(mounted) await popPage(context); // Close loading widget.
                           if(mounted) showAppToast(context, text: 'Błąd w publikowaniu');
@@ -427,6 +432,11 @@ class PostEditorPageState extends State<PostEditorPage>{
                         onServerMaybeWakingUp: () {
                           if(mounted) popPage(context); // Close loading widget.
                           if(mounted) showServerWakingUpToast(context);
+                          return true;
+                        },
+                        onImageDBWakingUp: (){
+                          if(mounted) popPage(context); // Close loading widget.
+                          if(mounted) showImageDBWakingUpToast(context);
                           return true;
                         },
                         onError: () async {

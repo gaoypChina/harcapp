@@ -382,6 +382,7 @@ class ApiForum{
     FutureOr<void> Function(Post)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<bool> Function()? onImageDBWakingUp,
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
@@ -402,6 +403,7 @@ class ApiForum{
           onSuccess?.call(Post.fromMap(response.data, Community.allForumMap![forumKey]!)),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onImageDBWakingUp: onImageDBWakingUp,
       onError: (err) async => onError?.call()
   );
 
@@ -415,6 +417,7 @@ class ApiForum{
     FutureOr<void> Function(Post)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<bool> Function()? onImageDBWakingUp,
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
@@ -440,6 +443,7 @@ class ApiForum{
           onSuccess?.call(Post.fromMap(response.data, post.forum)),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onImageDBWakingUp: onImageDBWakingUp,
       onError: (err) async => onError?.call()
   );
 

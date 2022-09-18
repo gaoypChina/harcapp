@@ -9,15 +9,18 @@ import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 import 'package:harcapp_core/dimen.dart';
 
+import '../../common/community_icon_name_edit_prompt.dart';
 import '../../common/cover_image_selectable_widget.dart';
+import '../../model/community.dart';
 import '../model/circle.dart';
 
 class GeneralPart extends StatefulWidget{
 
+  final CommunityBasicData initCommunity;
   final PaletteGenerator? palette;
   final void Function(CommunityCoverImageData)? onCoverSelected;
 
-  const GeneralPart({this.palette, this.onCoverSelected, super.key});
+  const GeneralPart(this.initCommunity, {this.palette, this.onCoverSelected, super.key});
 
   @override
   State<StatefulWidget> createState() => GeneralPartState();
@@ -26,6 +29,7 @@ class GeneralPart extends StatefulWidget{
 
 class GeneralPartState extends State<GeneralPart>{
 
+  CommunityBasicData get initCommunity => widget.initCommunity;
   PaletteGenerator? get palette => widget.palette;
   void Function(CommunityCoverImageData)? get onCoverSelected => widget.onCoverSelected;
 
@@ -34,6 +38,10 @@ class GeneralPartState extends State<GeneralPart>{
     physics: const BouncingScrollPhysics(),
     padding: const EdgeInsets.all(Dimen.SIDE_MARG),
     children: [
+
+      CommunityIconNameEditPrompt(initCommunity, palette, editing: Community.allMap![initCommunity.key]?.circle != null),
+
+      const SizedBox(height: Dimen.SIDE_MARG),
 
       Material(
         clipBehavior: Clip.hardEdge,

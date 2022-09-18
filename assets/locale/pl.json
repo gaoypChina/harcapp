@@ -11,7 +11,7 @@
 
   "name_too_long": "Imię i nazwisko za długie",
 
-  "invalid_credentails": "Nieprawidłowy login i/lub hasło",
+  "invalid_credentials": "Nieprawidłowy login i/lub hasło",
   "invalid_conf_key": "Nieprawidłowy token aktywacyjny",
   "invalid_password_reset_token": "Nieprawidłowy token resetujący hasło",
 
@@ -39,6 +39,8 @@
   "login_with_microsoft": "Zaloguj się używając konta ZHP",
   "login_without_microsoft": "Email nie jest powiązany z kontem HarcApp",
 
-  "cannot_reset_password_for_microsoft_account": "Email powiązany jest z kontem ZHP"
+  "cannot_reset_password_for_microsoft_account": "Email powiązany jest z kontem ZHP",
+
+  "email_not_sent": "Kod aktywacyjny nie został wysłany. Błąd serwera"
 
 }

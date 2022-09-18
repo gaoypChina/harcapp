@@ -94,7 +94,6 @@ class LoginPartState extends State<LoginPart>{
             List<Forum> forums,
             List<CommunityPublishable> feed
         ) async {
-          if(mounted) setState(() => processing = false);
 
           loginProv.notify();
           AccountData.callOnLogin(emailConf);
@@ -133,13 +132,13 @@ class LoginPartState extends State<LoginPart>{
             showAppToast(context, text: simpleErrorMessage);
           }
 
-          processing = false;
           setState((){});
         }
+      );
 
-    );
+    if(mounted) setState(() => processing = false);
 
-   // bool noErrors = await errRespHandler.apply(response: response);
+    // bool noErrors = await errRespHandler.apply(response: response);
 
   }
 

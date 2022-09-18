@@ -331,7 +331,13 @@ class Community extends CommunityBasicData{
   final Map<String, CommunityManager> _managersMap;
   List<CommunityManager> get managers => _managers;
   Map<String, CommunityManager> get managersMap => _managersMap;
-  
+
+  void update(Community updatedCommunity){
+    name = updatedCommunity.name;
+    iconKey = updatedCommunity.iconKey;
+    category = updatedCommunity.category;
+  }
+
   void addManager(List<CommunityManager> newManagers, {BuildContext? context}){
 
     for(CommunityManager manager in newManagers) {

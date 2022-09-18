@@ -5,17 +5,14 @@ import 'package:harcapp/_new/cat_page_home/community/circle/announcement_widget.
 import 'package:harcapp/_new/cat_page_home/community/circle/model/announcement.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'circle/model/circle.dart';
-import 'common/community_cover_colors.dart';
 import 'community_publishable_widget_template.dart';
 import 'forum/model/forum.dart';
 import 'forum/model/post.dart';
 import 'forum/post_widget.dart';
-import 'model/community.dart';
 
 Widget getCommunityPublishablesSliver(
     BuildContext context,
@@ -24,10 +21,12 @@ Widget getCommunityPublishablesSliver(
       void Function(Circle)? onCircleButtonTap,
       void Function(Forum)? onForumButtonTap,
       PaletteGenerator? palette,
-      bool loading = false,
-      String? emptyMessage,
-      String? nullMessage,
-      String? loadingMessage,
+      required bool loading,
+      required bool hasNetwork,
+      String noNetMessage = 'Brak połączenia\nz siecią',
+      String emptyMessage = 'Brak ogłoszeń',
+      String nullMessage = 'Przeciągnij,\nby załadować',
+      String loadingMessage = 'Ładowanie',
       void Function()? onAnnouncementUpdated,
       void Function()? onPostUpdated,
     }) {
@@ -35,18 +34,25 @@ Widget getCommunityPublishablesSliver(
   if (communityPublishables.isEmpty)
     return SliverPadding(
       padding: padding,
-      sliver: SliverList(delegate: SliverChildListDelegate([
-        const SizedBox(height: 2 * Dimen.SIDE_MARG),
+      sliver: SliverFillRemaining(child:
         EmptyMessageWidget(
           icon: MdiIcons.newspaperVariantOutline,
-          text: loading?
-          (loadingMessage??'Ładowanie'):
+          text: !hasNetwork?
+          noNetMessage:
+
+          loading?
+          loadingMessage:
+
           CommunityPublishable.all == null?
-          (nullMessage??'Przeciągnij,\nby załadować'):
-          (emptyMessage??'Brak ogłoszeń'),
+          nullMessage:
+
+          emptyMessage,
           color: textEnab_(context),
         ),
-      ])),
+
+
+
+      ),
     );
   else
     return SliverPadding(

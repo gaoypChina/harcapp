@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_new/account_test_widget.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/competition_preview_grid_message.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/start_widgets/indiv_comp_preview_grid.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/values/consts.dart';
@@ -23,20 +23,20 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../community/common/community_cover_colors.dart';
 import '../super_search_field.dart';
+import 'competition.dart';
 import 'indiv_comp/indiv_comp_editor/_main.dart';
 import 'indiv_comp/indiv_comp_page.dart';
 import 'indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'indiv_comp/indiv_comp_tile.dart';
 import 'new_comp_type.dart';
-import 'start_widgets/indiv_comp_loading_widget.dart';
 import 'indiv_comp/indiv_comp_loader.dart';
 import 'indiv_comp/models/indiv_comp.dart';
+import 'start_widgets/competition_preview_grid.dart';
 
 class AllCompetitionsPage extends StatefulWidget{
 
   final void Function(IndivComp) onCompetitionTap;
-  final bool networkAvailable;
-  const AllCompetitionsPage({required this.onCompetitionTap, required this.networkAvailable, super.key});
+  const AllCompetitionsPage({required this.onCompetitionTap, super.key});
 
   @override
   State<StatefulWidget> createState() => AllCompetitionsPageState();
@@ -46,7 +46,6 @@ class AllCompetitionsPage extends StatefulWidget{
 class AllCompetitionsPageState extends State<AllCompetitionsPage>{
 
   void Function(IndivComp) get onCompetitionTap => widget.onCompetitionTap;
-  bool get networkAvailable => widget.networkAvailable;
 
   late RefreshController refreshController;
 
@@ -128,7 +127,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
 
   bool get shouldScroll => IndivComp.all != null && IndivComp.all!.isNotEmpty;
 
-  List<Widget> getSlivers(){
+  List<Widget> getSlivers({required bool networkAvailable}){
     
     List<Widget> slivers = [];
 
@@ -149,16 +148,14 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
           ))
     ])));
 
-    if(!networkAvailable)
-      slivers.add(SliverFillRemaining(
+    if(!networkAvailable)// && (IndivComp.all == null || IndivComp.all!.isEmpty))
+      slivers.add(const SliverFillRemaining(
         hasScrollBody: false,
         child: Padding(
-          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-          child: IndivCompPreviewGrid.from(
-            context: context,
-            width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
-            text: 'Brak internetu',
-            icon: MdiIcons.earthOff,
+          padding: EdgeInsets.all(Dimen.SIDE_MARG),
+          child: CompetitionPreviewGridMessage(
+            icon: Competition.icon,
+            text: 'Brak połączenia\nz siecią',
           ),
         ),
       ));
@@ -169,9 +166,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
           hasScrollBody: false,
           child: Padding(
             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-            child: IndivCompPreviewGrid.from(
-              context: context,
-              width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
+            child: CompetitionPreviewGridMessage(
               icon: MdiIcons.accountReactivateOutline,
               text: 'Aktywuj konto by\nwspółzawodniczyć',
               onTap: () => AccountPage.open(context),
@@ -179,23 +174,22 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
           ),
         ));
       else if(indivCompLoader.running)
-        slivers.add(SliverFillRemaining(
+        slivers.add(const SliverFillRemaining(
             hasScrollBody: false,
             child: Padding(
-              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-              child: IndivCompLoadingWidget(
-              width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
+              padding: EdgeInsets.all(Dimen.SIDE_MARG),
+              child: CompetitionPreviewGridMessage(
+                icon: Competition.icon,
+                text: 'Ładowanie\nwspółzawodnictw',
+              ),
             ),
-          ),
         ));
       else if(IndivComp.all == null)
-        slivers.add(SliverFillRemaining(
+        slivers.add(const SliverFillRemaining(
             hasScrollBody: false,
             child: Padding(
-              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-              child: IndivCompPreviewGrid.from(
-                context: context,
-                width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
+              padding: EdgeInsets.all(Dimen.SIDE_MARG),
+              child: CompetitionPreviewGridMessage(
                 icon: MdiIcons.closeOutline,
                 text: 'Mamy problem'
             ),
@@ -203,25 +197,29 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
         ));
       else if(IndivComp.all!.isEmpty)
         slivers.add(SliverFillRemaining(
-          hasScrollBody: false,
-          child: Align(
-            alignment: Alignment.bottomCenter,
+            hasScrollBody: false,
             child: Padding(
-                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                child: IndivCompPreviewGrid(
-                    width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
-                    child: SimpleButton(
-                      onTap: () => NewIndivCompButton.newCompetition(context),
-                      color: cardEnab_(context),
-                      borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                      child: const Padding(
-                        padding: EdgeInsets.all(Dimen.SIDE_MARG),
-                        child: IgnorePointer(child: NewIndivCompButton()),
-                      ),
-                    )
-                )
-            ),
-          )
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+              child: Column(
+                children: [
+
+                  SimpleButton(
+                    onTap: () => NewIndivCompButton.newCompetition(context),
+                    color: cardEnab_(context),
+                    borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                    child: const Padding(
+                      padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                      child: IgnorePointer(child: NewIndivCompButton()),
+                    ),
+                  ),
+
+                  Expanded(child: Container()),
+
+                  const CompetitionPreviewGrid()
+
+                ],
+              ),
+            )
         ));
       else {
 
@@ -230,9 +228,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
         if(IndivComp.all == null)
           widgets.add(Padding(
             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-            child: IndivCompPreviewGrid.from(
-              context: context,
-              width: MediaQuery.of(context).size.width - 2*Dimen.SIDE_MARG,
+            child: CompetitionPreviewGridMessage(
               text: simpleErrorMessage,
               icon: MdiIcons.closeOutline,
             ),
@@ -275,8 +271,8 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
   }
 
   @override
-  Widget build(BuildContext context) => Consumer<IndivCompListProvider>(
-      builder: (context, indivCompProv, child) => ScrollConfiguration(
+  Widget build(BuildContext context) => Consumer2<ConnectivityProvider, IndivCompListProvider>(
+      builder: (context, connProv, indivCompProv, child) => ScrollConfiguration(
           behavior: NoGlowBehavior(),
           child: SmartRefresher(
               physics:
@@ -300,7 +296,7 @@ class AllCompetitionsPageState extends State<AllCompetitionsPage>{
                   physics:
                   const BouncingScrollPhysics(),
 
-                  slivers: getSlivers()
+                  slivers: getSlivers(networkAvailable: connProv.connected)
               )
           )
       )

@@ -1,15 +1,10 @@
-import 'package:flip_card/flip_card.dart';
-import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:harcapp/_app_common/common_color_data.dart';
-import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/super_search_field.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/community.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp/values/consts.dart';
@@ -62,6 +57,7 @@ class FeedPageState extends State<FeedPage>{
   late CommunityLoaderListener communitiesLoaderListener;
 
   late LoginListener loginListener;
+  late LoginProvider loginProv;
 
   @override
   void initState() {
@@ -72,7 +68,12 @@ class FeedPageState extends State<FeedPage>{
           return;
 
         if(await isNetworkAvailable() && CommunityPublishable.all == null)
-          refreshController.requestRefresh();
+          if(mounted) refreshController.requestRefresh();
+      },
+      onForceLoggedOut: (){
+        if(mounted) setState((){});
+        loginProv.notify();
+        return true;
       },
       onError: (_){ if(mounted) setState((){}); },
       onEnd: (_, __){ if(mounted) setState((){}); },
@@ -84,6 +85,8 @@ class FeedPageState extends State<FeedPage>{
     );
 
     AccountData.addLoginListener(loginListener);
+
+    loginProv = LoginProvider.of(context);
 
     refreshController = RefreshController(
         initialRefresh: Community.all == null ||
@@ -106,8 +109,8 @@ class FeedPageState extends State<FeedPage>{
   }
 
   @override
-  Widget build(BuildContext context) => Consumer<CommunityListProvider>(
-    builder: (context, communityListProv, child) => ScrollConfiguration(
+  Widget build(BuildContext context) => Consumer2<ConnectivityProvider, CommunityListProvider>(
+    builder: (context, connProv, communityListProv, child) => ScrollConfiguration(
       behavior: NoGlowBehavior(),
       child: SmartRefresher(
           enablePullDown: true,
@@ -131,8 +134,8 @@ class FeedPageState extends State<FeedPage>{
                     const Icon(MdiIcons.arrowUp),
                     const SizedBox(width: Dimen.ICON_MARG),
                     Text(
-                        'Przeciągnij, by załadować kolejne',
-                        style: AppTextStyle()
+                      'Przeciągnij, by załadować kolejne',
+                      style: AppTextStyle()
                     ),
                   ],
                 );
@@ -199,6 +202,7 @@ class FeedPageState extends State<FeedPage>{
                 },
                 onForceLoggedOut: (){
                   if(!mounted) return true;
+                  loginProv.notify();
                   showAppToast(context, text: forceLoggedOutMessage);
                   setState(() {});
                   return true;
@@ -261,6 +265,7 @@ class FeedPageState extends State<FeedPage>{
                 },
                 onForceLoggedOut: (){
                   if(!mounted) return true;
+                  loginProv.notify();
                   showAppToast(context, text: forceLoggedOutMessage);
                   setState(() {});
                   return true;
@@ -292,7 +297,8 @@ class FeedPageState extends State<FeedPage>{
                   margin: EdgeInsets.symmetric(horizontal: Dimen.defMarg),
                 ),
 
-                const SizedBox(height: Dimen.SIDE_MARG),
+                if(CommunityPublishable.all != null && CommunityPublishable.all!.isNotEmpty)
+                  const SizedBox(height: Dimen.SIDE_MARG),
 
               ])),
 
@@ -303,10 +309,10 @@ class FeedPageState extends State<FeedPage>{
                 onForumButtonTap: (forum) => onForumTap?.call(forum),
                 padding: const EdgeInsets.symmetric(horizontal: CommunityPublishableWidgetTemplate.borderHorizontalMarg),
                 loading: refreshController.isRefresh,
+                hasNetwork: connProv.connected,
                 onAnnouncementUpdated: () => setState((){}),
                 onPostUpdated: () => setState((){}),
               )
-
 
             ],
           )
@@ -379,73 +385,6 @@ class CommunitiesBarWidget extends StatelessWidget{
           child: Row(children: children),
         );
       }
-  );
-
-}
-
-class IndivCompAutoRotatThumbnail extends StatefulWidget{
-
-  const IndivCompAutoRotatThumbnail({super.key});
-
-  @override
-  State<StatefulWidget> createState() => IndivCompAutoRotatThumbnailState();
-
-}
-
-class IndivCompAutoRotatThumbnailState extends State<IndivCompAutoRotatThumbnail>{
-
-  late String iconFrontKey;
-  late String iconBackKey;
-
-  late String colorsDataFrontKey;
-  late String colorsDataBackKey;
-
-  late FlipCardController controller;
-
-  void autoRotate() async {
-    while(mounted){
-      await Future.delayed(const Duration(seconds: 1));
-      if(!mounted) return;
-      controller.toggleCard();
-      iconBackKey = CommonIconData.randomKey;
-      colorsDataBackKey = CommonColorData.randomKey;
-      setState((){});
-
-      await Future.delayed(const Duration(seconds: 1));
-
-      if(!mounted) return;
-      controller.toggleCard();
-      iconFrontKey = CommonIconData.randomKey;
-      colorsDataFrontKey = CommonColorData.randomKey;
-      setState((){});
-
-    }
-  }
-
-  @override
-  void initState() {
-    controller = FlipCardController();
-    iconFrontKey = CommonIconData.randomKey;
-    iconBackKey = CommonIconData.randomKey;
-
-    colorsDataFrontKey = CommonColorData.randomKey;
-    colorsDataBackKey = CommonColorData.randomKey;
-
-    autoRotate();
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => FlipCard(
-    front: IndivCompThumbnailWidget(iconKey: iconFrontKey, colorsKey: colorsDataFrontKey),
-    back: IndivCompThumbnailWidget(iconKey: iconBackKey, colorsKey: colorsDataBackKey),
-    controller: controller,
   );
 
 }

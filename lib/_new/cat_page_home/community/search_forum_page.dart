@@ -92,7 +92,7 @@ class SearchForumPageState extends State<SearchForumPage>{
     loadedPage = 0;
     _moreToLoad = true;
 
-    runNewSearch(runProcessing: false).then((_) => setState(() => initProcessing = false));
+    runNewSearch(runProcessing: false).then((_) => mounted?setState(() => initProcessing = false):null);
 
     super.initState();
   }
@@ -425,6 +425,7 @@ class CommunityBasicDataWidget extends StatelessWidget{
 
       subtitle: community.forum!.followed?
       Row(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
 
           Padding(

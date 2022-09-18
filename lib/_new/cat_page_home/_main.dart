@@ -48,8 +48,8 @@ import 'community/model/community.dart';
 import 'community/model/community_category.dart';
 import 'competitions/all_competitions_page.dart';
 import 'competitions/indiv_comp/indiv_comp_page.dart';
-import 'competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
 import 'competitions/indiv_comp/models/indiv_comp.dart';
+import 'competitions/start_widgets/competition_preview_grid.dart';
 
 
 class CatPageHome extends StatefulWidget{
@@ -92,7 +92,6 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin, TickerP
   }
 
   late StreamSubscription<ConnectivityResult> networkListener;
-  late bool networkAvailable;
 
   late LoginListener loginListener;
 
@@ -117,18 +116,11 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin, TickerP
 
     nestedScrollViewKey = GlobalKey<NestedScrollViewState>();
 
-
-    networkAvailable = true;
-    () async {
-      networkAvailable = await isNetworkAvailable();
-      if(mounted) setState((){});
-    }();
-
     networkListener = addConnectionListener((hasConnection) async{
-      networkAvailable = hasConnection;
       if(!mounted) return;
-      setState((){});
-      if(!hasConnection)
+      if(hasConnection)
+        showAppToast(context, text: 'Przywrócono połączenie');
+      else
         showAppToast(context, text: 'Brak internetu');
     });
 
@@ -255,19 +247,44 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin, TickerP
                           key: const PageStorageKey("AllCommunitiesPageStorageKey"),
                           onCircleTap: (circle) => openCirclePage(context, circle),
                           onForumTap: (forum) => openForumPage(context, forum),
-                          networkAvailable: networkAvailable,
                         ),
 
                         AllCompetitionsPage(
                           key: const PageStorageKey("AllCompetitionsPageStorageKey"),
                           onCompetitionTap: (comp) => openCompPage(context, comp),
-                          networkAvailable: networkAvailable,
                         ),
 
                       ]
                   ),
                 ),
-                bottomNavigationBar: const AppBottomNavigator(),
+                bottomNavigationBar: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Consumer<ConnectivityProvider>(
+                      builder: (context, prov, child) =>
+                      prov.connected?
+                      Container():
+                      SizedBox(
+                        height: 2*Dimen.defMarg + Dimen.TEXT_SIZE_BIG,
+                        child: Material(
+                            elevation: AppCard.bigElevation,
+                            color: Colors.red,
+                            child: Center(
+                              child: Text(
+                                'Brak połączenia z siecią',
+                                style: AppTextStyle(
+                                    fontSize: Dimen.TEXT_SIZE_BIG,
+                                    color: Colors.white
+                                ),
+                              ),
+                            )
+                        ),
+                      )
+                    ),
+                    const AppBottomNavigator()
+                  ],
+                ),
               ),
               builder: (context, child) => Consumer<LoginProvider>(
                 child: child!,
@@ -424,26 +441,26 @@ class NotLoggedInWidgetState extends State<NotLoggedInWidget>{
               const SizedBox(height: Dimen.SIDE_MARG),
 
               SimpleButton(
-                  onTap: () => AccountPage.open(context),
-                  color: cardEnab_(context),
-                  borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                  child: Padding(
-                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                    child: Row(
-                      children: [
-                        const Icon(MdiIcons.accountCircleOutline, size: 60),
-                        const SizedBox(width: 20),
-                        Text(
-                          'Zaloguj się\nlub ogarnij konto',
-                          style: AppTextStyle(
-                              fontSize: 20.0,
-                              color: iconEnab_(context),
-                              height: 1.2
-                          ),
-                        )
-                      ],
-                    ),
-                  )
+                onTap: () => AccountPage.open(context),
+                color: cardEnab_(context),
+                borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                child: Padding(
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  child: Row(
+                    children: [
+                      const Icon(MdiIcons.accountCircleOutline, size: 60),
+                      const SizedBox(width: 20),
+                      Text(
+                        'Zaloguj się\nlub ogarnij konto',
+                        style: AppTextStyle(
+                          fontSize: 20.0,
+                          color: iconEnab_(context),
+                          height: 1.2
+                        ),
+                      )
+                    ],
+                  ),
+                )
               ),
 
             ],
@@ -816,55 +833,21 @@ class NotLoggedInPartCompetitionsWidget extends StatelessWidget{
       Padding(
         padding: const EdgeInsets.all(Dimen.SIDE_MARG),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Center(child: IndivCompThumbnailWidget(colorsKey: 'rosegold', iconKey: 'map')),
-                Center(child: IndivCompThumbnailWidget(colorsKey: 'deepblue', iconKey: 'jellyfish')),
-                SizedBox(width: IndivCompThumbnailWidget.defSize),
-                Center(child: IndivCompThumbnailWidget(colorsKey: 'gold', iconKey: 'axe')),
-              ],
-            ),
-
-            SizedBox(height: (MediaQuery.of(context).size.width - 4*IndivCompThumbnailWidget.defSize - 2*Dimen.SIDE_MARG)/3),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Center(child: IndivCompThumbnailWidget(colorsKey: 'mint', iconKey: 'fleurDeLis')),
-                SizedBox(width: IndivCompThumbnailWidget.defSize),
-                Center(child: IndivCompThumbnailWidget(colorsKey: 'rosegold', iconKey: 'music')),
-                SizedBox(width: IndivCompThumbnailWidget.defSize),
-              ],
-            ),
-
-            SizedBox(height: (MediaQuery.of(context).size.width - 4*IndivCompThumbnailWidget.defSize - 2*Dimen.SIDE_MARG)/3),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Center(child: IndivCompThumbnailWidget(colorsKey: 'raspberry', iconKey: 'pirate')),
-                Center(child: IndivCompThumbnailWidget(colorsKey: 'turquoise', iconKey: 'androidStudio')),
-                SizedBox(width: IndivCompThumbnailWidget.defSize),
-                Center(child: IndivCompThumbnailWidget(colorsKey: 'chocolate', iconKey: 'chessKing')),
-              ],
-            ),
+            const CompetitionPreviewGrid(),
 
             Expanded(
               child: Center(
                 child: Text(
                   'Zyskaj dostęp do współzawodnictw\ni miej swoje punkty zawsze w kieszeni!',
                   style: AppTextStyle(
-                    fontSize: Dimen.TEXT_SIZE_APPBAR
+                      fontSize: Dimen.TEXT_SIZE_APPBAR
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
             )
-
           ],
         ),
       );

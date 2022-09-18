@@ -12,7 +12,6 @@ import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/api/circle.dart';
-import 'package:harcapp/_new/cat_page_home/community/circle/announcement_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/announcements_sliver.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
@@ -550,7 +549,7 @@ class CirclePageState extends State<CirclePage>{
                             Padding(
                                 padding: const EdgeInsets.only(
                                   top: Dimen.SIDE_MARG,
-                                  left: Dimen.SIDE_MARG,
+                                  left: Dimen.SIDE_MARG - Dimen.defMarg,
                                   right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
                                   bottom: Dimen.SIDE_MARG,
                                 ),
@@ -602,8 +601,8 @@ class CirclePageState extends State<CirclePage>{
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                         bottom: Dimen.SIDE_MARG,
-                                        left: Dimen.defMarg,
-                                        right: Dimen.defMarg
+                                        left: Dimen.SIDE_MARG - Dimen.defMarg,
+                                        right: Dimen.SIDE_MARG - Dimen.defMarg
                                     ),
                                     child: ShareCodeWidget.from(
                                       circle.shareCode!,

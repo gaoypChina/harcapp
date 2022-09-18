@@ -91,7 +91,7 @@ class API{
         '\n# Response error data:\n${e.response?.data}'
       );
 
-      if(e.response?.statusCode == 400 && e.response?.data == "image_db_sleeping"){
+      if(e.response?.statusCode == 400 && e.response?.data?['error'] == "image_db_sleeping"){
         finish = await onImageDBWakingUp?.call();
         if(await isNetworkAvailable())
           Dio().get(IMAGE_DB_SERVER_IP).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));

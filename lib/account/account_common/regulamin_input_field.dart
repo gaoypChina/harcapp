@@ -1,12 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/account/account_start/input_field_controller.dart';
 import 'package:harcapp/main.dart';
-import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -190,7 +189,7 @@ Future<void> showContent(BuildContext context) async {
                 SliverPadding(
                     padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                     sliver: SliverList(delegate: SliverChildListDelegate([
-                      Text(content!, style: AppTextStyle())
+                      AppText(content!)
                     ]))
                 )
               ],

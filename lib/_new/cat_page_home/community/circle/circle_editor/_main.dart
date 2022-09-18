@@ -203,6 +203,7 @@ class CircleEditorPageState extends State<CircleEditorPage>{
                   physics: const BouncingScrollPhysics(),
                   children: [
                     GeneralPart(
+                      community,
                       palette: colorsKeyProv.isColorsKeyAuto?palette:null,
                       onCoverSelected: (coverImage){
                         calcLocalBackgroundColor();

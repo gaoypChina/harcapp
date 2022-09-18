@@ -433,6 +433,7 @@ class ApiCircle{
     FutureOr<void> Function(Announcement)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<bool> Function()? onImageDBWakingUp,
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
@@ -458,6 +459,7 @@ class ApiCircle{
           onSuccess?.call(Announcement.fromMap(response.data, Community.allCircleMap![circleKey]!)),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onImageDBWakingUp: onImageDBWakingUp,
       onError: (err) async => onError?.call()
   );
 
@@ -475,6 +477,7 @@ class ApiCircle{
     FutureOr<void> Function(Announcement)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<bool> Function()? onImageDBWakingUp,
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
@@ -507,6 +510,7 @@ class ApiCircle{
           onSuccess?.call(Announcement.fromMap(response.data, announcement.circle)),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onImageDBWakingUp: onImageDBWakingUp,
       onError: (err) async => onError?.call()
   );
 

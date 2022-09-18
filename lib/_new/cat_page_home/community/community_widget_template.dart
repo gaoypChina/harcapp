@@ -59,41 +59,33 @@ class CommunityWidgetTemplate extends StatelessWidget{
                           children: [
 
                             Text(
-                                name,
-                                style: AppTextStyle(
-                                    fontSize: Dimen.TEXT_SIZE_BIG,
-                                    fontWeight: weight.halfBold,
-                                    color: iconEnab_(context)
-                                )
+                              name,
+                              style: AppTextStyle(
+                                fontSize: Dimen.TEXT_SIZE_BIG,
+                                fontWeight: weight.halfBold,
+                                color: iconEnab_(context)
+                              )
                             ),
 
                             const SizedBox(height: Dimen.defMarg),
 
-                            Row(
-                              children: [
-
-                                Material(
-                                    borderRadius: BorderRadius.circular(100),
-                                    color: hintEnab_(context),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(Dimen.defMarg),
-                                      child: Text(
-                                          commCatToName[category]??'',
-                                          style: AppTextStyle(
-                                              fontSize: Dimen.TEXT_SIZE_NORMAL,
-                                              fontWeight: weight.halfBold,
-                                              color: background_(context)
-                                          )
-                                      ),
-                                    )
-                                ),
-
-                                const SizedBox(width: Dimen.ICON_MARG),
-
-                                if(subtitle != null)
-                                  subtitle!
-
-                              ],
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Material(
+                                  borderRadius: BorderRadius.circular(100),
+                                  color: hintEnab_(context),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(Dimen.defMarg),
+                                    child: Text(
+                                        commCatToName[category]??'',
+                                        style: AppTextStyle(
+                                            fontSize: Dimen.TEXT_SIZE_NORMAL,
+                                            fontWeight: weight.halfBold,
+                                            color: background_(context)
+                                        )
+                                    ),
+                                  )
+                              ),
                             )
 
                           ],
@@ -103,6 +95,13 @@ class CommunityWidgetTemplate extends StatelessWidget{
                   ],
                 ),
               ),
+
+              if(subtitle != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Dimen.ICON_MARG),
+                  child:
+                  subtitle!,
+                ),
 
               child,
 

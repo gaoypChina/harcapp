@@ -20,6 +20,11 @@ class CommunityThumbnailWidget extends StatelessWidget{
   final String communityKey;
   final PaletteGenerator? palette;
   final bool colorsInverted;
+
+  final Color? backgroundColor;
+  final Color? borderColor;
+  final Color? iconColor;
+
   final double size;
   final double borderSize;
   final double paddingSize;
@@ -32,6 +37,11 @@ class CommunityThumbnailWidget extends StatelessWidget{
       this.communityKey,
       { this.palette,
         this.colorsInverted = false,
+
+        this.backgroundColor,
+        this.borderColor,
+        this.iconColor,
+
         this.size = defSize,
         this.borderSize = defBorderWidth,
         this.paddingSize = defPaddingSize,
@@ -47,18 +57,18 @@ class CommunityThumbnailWidget extends StatelessWidget{
     Widget child = Material(
       shape: RoundedRectangleBorder(
         side: BorderSide(
-          color: colorsInverted?
+          color: borderColor??(colorsInverted?
           CommunityCoverColors.backgroundColor(context, palette):
-          CommunityCoverColors.cardColor(context, palette),
+          CommunityCoverColors.cardColor(context, palette)),
           width: borderSize
         ),
         borderRadius: BorderRadius.circular(radius),
       ),
       clipBehavior: Clip.hardEdge,
 
-      color: colorsInverted?
+      color: backgroundColor??(colorsInverted?
       CommunityCoverColors.cardColor(context, palette):
-      CommunityCoverColors.backgroundColor(context, palette),
+      CommunityCoverColors.backgroundColor(context, palette)),
 
       child: InkWell(
         onTap: onTap,
@@ -67,6 +77,7 @@ class CommunityThumbnailWidget extends StatelessWidget{
           child: Icon(
             CommonIconData.get(iconKey),
             size: size - 2*paddingSize,
+            color: iconColor,
           ),
         ),
       ),

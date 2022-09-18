@@ -7,7 +7,6 @@ import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +37,7 @@ class GeneralPartState extends State<GeneralPart>{
 
       Consumer<IconKeyProvider>(
         builder: (context, prov, child) => SimpleButton(
-            radius: AppCard.bigRadius,
+            radius: CommunityThumbnailWidget.defRadius,
             child: Row(
               children: [
 
@@ -55,6 +54,8 @@ class GeneralPartState extends State<GeneralPart>{
                     'Edytuj ikonę środowiska',
                     style: AppTextStyle(
                       fontSize: Dimen.TEXT_SIZE_BIG,
+                      fontWeight: weight.halfBold,
+                      color: hintEnab_(context)
                     ),
                     textAlign: TextAlign.center,
                   ),

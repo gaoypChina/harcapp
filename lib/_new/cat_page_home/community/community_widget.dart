@@ -69,21 +69,25 @@ class CommunityWidget extends StatelessWidget{
                             radius: communityRadius,
                             icon: MdiIcons.cogOutline,
                             text: 'Ustawienia',
-                            onTap: () => pushPage(
-                                context,
-                                builder: (context) => CommunityEditorPage(
+                            onTap: (){
+
+                              CommunityProvider communityProv = CommunityProvider.of(context);
+
+                              pushPage(
+                                  context,
+                                  builder: (context) => CommunityEditorPage(
                                     initCommunity: community,
                                     onSaved: (updatedCommunity){
-                                      community.name = updatedCommunity.name;
-                                      community.iconKey = updatedCommunity.iconKey;
-                                      community.category = updatedCommunity.category;
-                                      CommunityProvider.notify_(context);
+                                      community.update(updatedCommunity);
+                                      communityProv.notify();
                                     },
                                     onForceLoggedOut: (){
                                       Navigator.pop(context);
                                     },
-                                )
-                            )
+                                  )
+                              );
+
+                            }
                         ),
 
                       ],
