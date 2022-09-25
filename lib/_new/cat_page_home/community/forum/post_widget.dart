@@ -21,6 +21,7 @@ class PostWidget extends StatelessWidget{
   final void Function()? onPostUpdated;
   final bool showCommunityInfo;
   final void Function()? onForumButtonTap;
+  final bool constrainImage;
 
   Forum get forum => post.forum;
 
@@ -32,6 +33,7 @@ class PostWidget extends StatelessWidget{
         this.onPostUpdated,
         this.showCommunityInfo = false,
         this.onForumButtonTap,
+        this.constrainImage = true,
         super.key
       });
 
@@ -73,12 +75,13 @@ class PostWidget extends StatelessWidget{
               builder: (context) => PostExpandedPage(
                 post,
                 palette: palette,
+                showCommunityInfo: showCommunityInfo,
                 onPostUpdated: onPostUpdated,
               ),
             ):null,
             showCommunityInfo: showCommunityInfo,
             onForumButtonTap: onForumButtonTap,
-
+            constrainImage: constrainImage
           ),
         )
     );

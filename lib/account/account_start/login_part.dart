@@ -190,6 +190,7 @@ class LoginPartState extends State<LoginPart>{
           },
           onServerMaybeWakingUp: () {
             if(mounted) showServerWakingUpToast(context);
+            if(mounted) popPage(context); // close login alert dialog
             return true;
           },
           onError: (Response? response) async {

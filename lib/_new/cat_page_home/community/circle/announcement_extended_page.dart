@@ -99,6 +99,7 @@ class AnnouncementExpandedPageState extends State<AnnouncementExpandedPage> with
                   showCommunityInfo: showCommunityInfo,
                   onCircleButtonTap: onCircleButtonTap,
                   showPinShortcutButton: showPinShortcutButton,
+                  constrainImage: false,
                 ),
               ])),
             )

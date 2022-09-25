@@ -14,12 +14,14 @@ class PostExpandedPage extends StatelessWidget{
 
   final Post post;
   final PaletteGenerator? palette;
+  final bool showCommunityInfo;
   final bool displayAttendancePage;
   final void Function()? onPostUpdated;
 
   const PostExpandedPage(
       this.post,
       { this.palette,
+        this.showCommunityInfo = false,
         this.displayAttendancePage = false,
         this.onPostUpdated,
         Key? key
@@ -75,7 +77,9 @@ class PostExpandedPage extends StatelessWidget{
                       palette,
                       shrinkText: false,
                       disableTap: true,
-                      onPostUpdated: onPostUpdated
+                      onPostUpdated: onPostUpdated,
+                      showCommunityInfo: showCommunityInfo,
+                      constrainImage: false
                   ),
                 ),
 

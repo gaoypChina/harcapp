@@ -21,6 +21,8 @@ enum CommunityCategory{
   komendaHufca,
   namiestnictwo,
   komisjaStopniInstruktorskich,
+
+  toIOwo
 }
 
 List<CommunityCategory> allCommunityCategories = [
@@ -44,6 +46,7 @@ List<CommunityCategory> allCommunityCategories = [
   CommunityCategory.komendaHufca,
   CommunityCategory.namiestnictwo,
   CommunityCategory.komisjaStopniInstruktorskich,
+  CommunityCategory.toIOwo
 ];
 
 const Map<CommunityCategory, String> commCatToName = {
@@ -68,7 +71,8 @@ const Map<CommunityCategory, String> commCatToName = {
   CommunityCategory.hufiec: 'Hufiec',
   CommunityCategory.komendaHufca: 'Komenda Hufca',
   CommunityCategory.namiestnictwo: 'Namiestnictwo',
-  CommunityCategory.komisjaStopniInstruktorskich: 'Komisja Stopni Instruktorskich'
+  CommunityCategory.komisjaStopniInstruktorskich: 'Komisja Stopni Instruktorskich',
+  CommunityCategory.toIOwo: 'To i owo',
 };
 
 const Map<CommunityCategory, String> commCatToString = {
@@ -93,7 +97,8 @@ const Map<CommunityCategory, String> commCatToString = {
   CommunityCategory.hufiec: 'hufiec',
   CommunityCategory.komendaHufca: 'komendaHufca',
   CommunityCategory.namiestnictwo: 'namiestnictwo',
-  CommunityCategory.komisjaStopniInstruktorskich: 'komisjaStopniInstruktorskich'
+  CommunityCategory.komisjaStopniInstruktorskich: 'komisjaStopniInstruktorskich',
+  CommunityCategory.toIOwo: 'toIOwo',
 };
 
 const Map<String, CommunityCategory> strToCommCat = {
@@ -116,5 +121,6 @@ const Map<String, CommunityCategory> strToCommCat = {
   'hufiec': CommunityCategory.hufiec,
   'komendaHufca': CommunityCategory.komendaHufca,
   'namiestnictwo': CommunityCategory.namiestnictwo,
-  'komisjaStopniInstruktorskich': CommunityCategory.komisjaStopniInstruktorskich
+  'komisjaStopniInstruktorskich': CommunityCategory.komisjaStopniInstruktorskich,
+  'toIOwo': CommunityCategory.toIOwo,
 };

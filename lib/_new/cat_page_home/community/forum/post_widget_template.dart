@@ -25,6 +25,7 @@ class PostWidgetTemplate extends StatelessWidget{
   final void Function(Post)? onDeleted;
   final bool showCommunityInfo;
   final void Function()? onForumButtonTap;
+  final bool constrainImage;
 
   const PostWidgetTemplate(
       this.post,
@@ -35,6 +36,7 @@ class PostWidgetTemplate extends StatelessWidget{
         this.onDeleted,
         this.showCommunityInfo = false,
         this.onForumButtonTap,
+        this.constrainImage = true,
         Key? key
       }) : super(key: key);
 
@@ -111,6 +113,7 @@ class PostWidgetTemplate extends StatelessWidget{
             ),
           )
       ):null,
+      constrainImage: constrainImage
     );
 
   }

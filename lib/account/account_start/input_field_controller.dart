@@ -114,9 +114,9 @@ class InputFieldState extends State<InputField>{
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return Stack(
+  Widget build(BuildContext context) => Material(
+    color: Colors.transparent,
+    child: Stack(
       children: <Widget>[
 
         Row(
@@ -127,19 +127,19 @@ class InputFieldState extends State<InputField>{
             if(widget.leading != null)
               const SizedBox(width: Dimen.ICON_MARG),
             Expanded(
-              child: AppTextFieldHint(
-                hintTop: widget.hintTop,
-                hint: widget.hint,
-                controller: widget.controller,
-                enabled: widget.enabled,
-                style: AppTextStyle(color: widget.textColor??(widget.enabled!?textEnab_(context):textDisab_(context)), fontSize: Dimen.TEXT_SIZE_BIG),
-                hintStyle: AppTextStyle(color: widget.hintTextColor??hintEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG),
-                showUnderline: !widget.noUnderline,
-                onAnyChanged: (text) => setState(() => controller!.errorDimed = true),
-                inputFormatters: widget.inputFormatters,
-                obscureText: widget.isPassword!,
-                autofocus: widget.autofocus,
-              )
+                child: AppTextFieldHint(
+                  hintTop: widget.hintTop,
+                  hint: widget.hint,
+                  controller: widget.controller,
+                  enabled: widget.enabled,
+                  style: AppTextStyle(color: widget.textColor??(widget.enabled!?textEnab_(context):textDisab_(context)), fontSize: Dimen.TEXT_SIZE_BIG),
+                  hintStyle: AppTextStyle(color: widget.hintTextColor??hintEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG),
+                  showUnderline: !widget.noUnderline,
+                  onAnyChanged: (text) => setState(() => controller!.errorDimed = true),
+                  inputFormatters: widget.inputFormatters,
+                  obscureText: widget.isPassword!,
+                  autofocus: widget.autofocus,
+                )
             ),
             if(widget.trailing != null)
               widget.trailing!
@@ -161,8 +161,8 @@ class InputFieldState extends State<InputField>{
           ),
         )
       ],
-    );
-  }
+    ),
+  );
 }
 
 class InputFieldPassword extends StatefulWidget{
@@ -177,7 +177,7 @@ class InputFieldPassword extends StatefulWidget{
   final int? maxLength;
   final bool autofocus;
 
-  final bool? enabled;
+  final bool enabled;
 
   const InputFieldPassword({
     this.hintTop,
@@ -226,7 +226,7 @@ class InputFieldPasswordState extends State<InputFieldPassword>{
       ],
       trailing: IconButton(
         icon: Icon(hidePass!?MdiIcons.eyeOutline:MdiIcons.eyeOffOutline),
-        onPressed: widget.enabled!?() => setState(() => hidePass = !hidePass!):null,
+        onPressed: widget.enabled?() => setState(() => hidePass = !hidePass!):null,
       ),
     );
   }

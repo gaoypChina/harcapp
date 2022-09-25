@@ -3,7 +3,7 @@
 // const String? SERVER_PORT = null;
 
 const String IMAGE_DB_SERVER_IP = 'https://imagedb-harcapp-image-db-n3o2k7i8ch5.cloud.okteto.net';
-const String SERVER_IP = 'https://harcapp-api-beta-production-2-n3o2k7i8ch5.cloud.okteto.net';
+const String SERVER_IP = 'https://harcapp-api-beta-production-3-n3o2k7i8ch5.cloud.okteto.net';
 const String? SERVER_PORT = null;
 
 /* A to jeżeli zdecyzujesz się uruchomić serwer lokalnie. */

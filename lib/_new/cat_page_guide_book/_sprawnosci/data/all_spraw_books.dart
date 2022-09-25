@@ -3,10 +3,14 @@ import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/data/data_spraw_zhp
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/data/data_spraw_zhr_harc_c.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_book.dart';
 
+import 'data_spraw_zhp_harc.dart';
+import 'data_spraw_zhp_zuch.dart';
 import 'data_spraw_zhr_harc_d.dart';
 
 List<SprawBook> allSprawBooks = [
-  sprawBookZHP,
+  sprawBookZHPZuchSim2022,
+  sprawBookZHPHarcSim2022,
+  sprawBookZHPOld,
   sprawBookZHPWodneOld,
   sprawBookZHRC,
   sprawBookZHRD,

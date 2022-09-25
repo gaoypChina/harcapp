@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart' hide Size;
@@ -21,6 +23,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'dart:ui' as ui;
 
 import 'common/cover_image.dart';
 import 'circle/model/circle.dart';
@@ -37,7 +40,7 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
   static const double radius = 8.0;
   static const double elevation = 0;
   static const int shrinkedTextMaxLines = 5;
-  static TextStyle textStyle = AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG);
+  static TextStyle textStyle = const TextStyle(fontFamily: 'Lato', fontSize: Dimen.TEXT_SIZE_BIG-1);
 
   final CommunityPublishable publishable;
   final PaletteGenerator? palette;
@@ -52,6 +55,8 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
   final Widget? contentTop;
   final Widget? contentBottom;
 
+  final bool constrainImage;
+
   const CommunityPublishableWidgetTemplate(
       this.publishable,
       this.palette,
@@ -65,6 +70,8 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
 
         this.contentTop,
         this.contentBottom,
+
+        this.constrainImage=true,
 
         super.key
       });
@@ -174,12 +181,58 @@ class CommunityPublishableWidgetTemplate extends StatelessWidget{
             decoration: const BoxDecoration(
                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(radius - 2))
             ),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.shortestSide,
-              ),
-              child: CoverImageWidget(publishable.coverImage!),
-            ),
+            child: Builder(
+              builder: (context){
+
+                ImageProvider image = publishable.coverImage!.getImageProvider(darkSample: false)!;
+                Completer<ui.Image> completer = Completer<ui.Image>();
+                image.resolve(const ImageConfiguration()).addListener(ImageStreamListener((ImageInfo info, bool _) =>
+                    completer.complete(info.image)
+                ));
+
+                return FutureBuilder<ui.Image>(
+                  future: completer.future,
+                  builder: (BuildContext context, AsyncSnapshot<ui.Image> snapshot) {
+                    if (constrainImage && snapshot.hasData && snapshot.data!.width < snapshot.data!.height) {
+                      return ConstrainedBox(
+                          constraints:
+                          BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.shortestSide,
+                          ),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+
+                              CoverImageWidget(publishable.coverImage!),
+
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: Container(
+                                    height: 16,
+                                    decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Colors.black.withOpacity(.3),
+                                            Colors.black.withOpacity(0),
+                                          ],
+                                        )
+                                    )
+                                ),
+                              )
+
+                            ],
+                          )
+                      );
+
+                    } else
+                      return CoverImageWidget(publishable.coverImage!);
+                  }
+                );
+
+              },
+            )
           ),
 
         if(publishable.urlToPreview != null)

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -18,24 +20,24 @@ class CoverImageWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => Image(
-    image: coverImage.getImageProvider(darkSample: coverImage.isAdaptive && AppSettings.isDark)!,
+      image: coverImage.getImageProvider(darkSample: coverImage.isAdaptive && AppSettings.isDark)!,
+      //alignment: Alignment.topCenter,
+      fit: fit,
 
-    fit: fit,
+      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? imageChunkEvent) =>
+      imageChunkEvent?.expectedTotalBytes == imageChunkEvent?.cumulativeBytesLoaded?
+      child:
+      NoImagePlaceholder(loading: true, isSample: coverImage.dataType == CommunityCoverImageDataType.sample),
 
-    loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? imageChunkEvent) =>
-    imageChunkEvent?.expectedTotalBytes == imageChunkEvent?.cumulativeBytesLoaded?
-    child:
-    NoImagePlaceholder(loading: true, isSample: coverImage.dataType == CommunityCoverImageDataType.sample),
+      errorBuilder: (BuildContext context, Object object, StackTrace? stackTrace){
+        if(coverImage.url != null && coverImage.url!.contains(IMAGE_DB_SERVER_IP.replaceAll("https://", "")))
+          isNetworkAvailable().then((hasNetwork){
+            if(hasNetwork)
+              Dio().get(IMAGE_DB_SERVER_IP).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
+          });
 
-    errorBuilder: (BuildContext context, Object object, StackTrace? stackTrace){
-      if(coverImage.url != null && coverImage.url!.contains(IMAGE_DB_SERVER_IP.replaceAll("https://", "")))
-        isNetworkAvailable().then((hasNetwork){
-          if(hasNetwork)
-            Dio().get(IMAGE_DB_SERVER_IP).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
-        });
-
-      return NoImagePlaceholder(loading: false, isSample: coverImage.dataType == CommunityCoverImageDataType.sample);
-    }
+        return NoImagePlaceholder(loading: false, isSample: coverImage.dataType == CommunityCoverImageDataType.sample);
+      }
   );
 
 }

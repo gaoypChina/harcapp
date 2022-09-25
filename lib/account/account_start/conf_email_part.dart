@@ -41,7 +41,7 @@ class ConfEmailPartState extends State<ConfEmailPart>{
 
   InputFieldController? confController;
 
-  bool? processing;
+  late bool processing;
   late bool processingResend;
 
   String? generalError;
@@ -114,7 +114,7 @@ class ConfEmailPartState extends State<ConfEmailPart>{
             children: [
 
               AppText(
-                'Na adres <b>${widget.email}</b> wysłano kod aktywacyjny. Przepisz kod do pola poniżej.',
+                'Na adres <b>${widget.email}</b> wysłano kod aktywacyjny. Przepisz kod do pola poniżej.\n\nSprawdź spam.',
                 size: Dimen.TEXT_SIZE_BIG,
               ),
 
@@ -123,7 +123,7 @@ class ConfEmailPartState extends State<ConfEmailPart>{
               InputField(
                 hint: 'Kod aktywacji:',
                 controller: confController,
-                enabled: !processing!,
+                enabled: !processing,
                 leading: Icon(MdiIcons.accountReactivate, color: iconDisab_(context)),
               ),
 
@@ -163,10 +163,10 @@ class ConfEmailPartState extends State<ConfEmailPart>{
                             context: context,
                             margin: EdgeInsets.zero,
                             fontWeight: weight.normal,
-                            textColor: processing!?iconDisab_(context):iconEnab_(context),
+                            textColor: processing?iconDisab_(context):iconEnab_(context),
                             text: 'Rezygnuję',
                             icon: MdiIcons.close,
-                            onTap: processing!?null:() => Navigator.pop(context)
+                            onTap: processing?null:() => Navigator.pop(context)
                         ),
                       )
                   ),
@@ -178,7 +178,7 @@ class ConfEmailPartState extends State<ConfEmailPart>{
                       processing: processing,
                       text: 'Dalej',
                       icon: MdiIcons.arrowRight,
-                      onTap: processingResend||processing!?null:confEmailClick,
+                      onTap: processingResend||processing?null:confEmailClick,
                     ),
                   )
                 ],

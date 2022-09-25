@@ -58,6 +58,7 @@ class AnnouncementWidget extends StatelessWidget{
   final bool showCommunityInfo;
   final void Function()? onCircleButtonTap;
   final bool showPinShortcutButton;
+  final bool constrainImage;
 
   Circle get circle => announcement.circle;
 
@@ -71,6 +72,7 @@ class AnnouncementWidget extends StatelessWidget{
         this.showCommunityInfo = false,
         this.onCircleButtonTap,
         this.showPinShortcutButton = false,
+        this.constrainImage = true,
         super.key
       });
 
@@ -126,6 +128,7 @@ class AnnouncementWidget extends StatelessWidget{
             showCommunityInfo: showCommunityInfo,
             onCircleButtonTap: onCircleButtonTap,
             showPinShortcutButton: showPinShortcutButton,
+            constrainImage: constrainImage
           ),
         )
     );

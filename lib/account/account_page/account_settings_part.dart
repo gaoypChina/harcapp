@@ -7,7 +7,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/app_text.dart';
-import 'package:harcapp/_new/account_test_widget.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/user.dart';
 import 'package:harcapp/account/account.dart';
@@ -54,8 +53,8 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
 
   InputFieldController? validPasswordController;
 
-  bool? editMode;
-  bool? processing;
+  late bool editMode;
+  late bool processing;
 
   String? errMessage;
 
@@ -260,7 +259,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
               InputField(
                 hint: 'Email:',
                 controller: emailController,
-                enabled: !AccountData.microsoftAcc && editMode!,
+                enabled: !AccountData.microsoftAcc && editMode,
                 maxLength: ApiUser.EMAIL_MAX_LENGTH,
                 leading: Icon(MdiIcons.email, color: iconDisab_(context)),
               ),
@@ -290,7 +289,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
               InputField(
                 hint: 'Imię i nazwisko:',
                 controller: nameController,
-                enabled: !AccountData.microsoftAcc && editMode!,
+                enabled: !AccountData.microsoftAcc && editMode,
                 maxLength: ApiUser.NAME_MAX_LENGTH,
                 leading: Icon(MdiIcons.accountEdit, color: iconDisab_(context)),
               ),
@@ -339,13 +338,13 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                 children: [
 
                   Expanded(
-                      child: editMode!?Hero(
+                      child: editMode?Hero(
                         tag: PartTemplate.secondaryButtonHeroTag,
                         child: SimpleButton.from(
                           context: context,
                           margin: EdgeInsets.zero,
                           fontWeight: weight.normal,
-                          textColor: processing!?iconDisab_(context):iconEnab_(context),
+                          textColor: processing?iconDisab_(context):iconEnab_(context),
                           text: 'Jednak nie',
                           icon: MdiIcons.arrowLeft,
                           onTap: (){
@@ -367,10 +366,10 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                   Expanded(
                     child: MainButton(
                       processing: processing,
-                      text: editMode!?'Zapisz':'Edytuj',
-                      icon: editMode!?MdiIcons.check:MdiIcons.pencilOutline,
-                      enabled: !editMode! || savable(),
-                      onTap: editMode!?(){
+                      text: editMode?'Zapisz':'Edytuj',
+                      icon: editMode?MdiIcons.check:MdiIcons.pencilOutline,
+                      enabled: !editMode|| savable(),
+                      onTap: editMode?(){
                         hideKeyboard(context);
                         if(AccountData.microsoftAcc){
                           sendChangeRequest(
@@ -387,7 +386,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                         else
                           showEmailChangedDialog(context);
                       }:
-                      (processing!?null:() => setState(() => editMode = true)),
+                      (processing?null:() => setState(() => editMode = true)),
                     ),
                   )
                 ],
@@ -431,7 +430,7 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                     color: Colors.red,
                     onTap: () => openDialog(
                         context: context,
-                        builder: (context) => DeleteAccountDialog()
+                        builder: (context) => const DeleteAccountDialog()
                     )
                 ),
               ),
@@ -649,7 +648,7 @@ class HarcAppWidget extends StatelessWidget{
   final double size;
   final Color? color;
 
-  const HarcAppWidget({this.size = defSize, this.color});
+  const HarcAppWidget({this.size = defSize, this.color, super.key});
 
   @override
   Widget build(BuildContext context) => SvgPicture.asset(

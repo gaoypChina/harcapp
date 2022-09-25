@@ -7,10 +7,11 @@ class SprawGroupData{
   final String? id;
   final String? title;
   final String? description;
+  final List<String>? tags;
 
   final List<SprawFamilyData>? familyData;
 
-  SprawGroupData({this.id, this.title, this.description, this.familyData});
+  SprawGroupData({this.id, this.title, this.description, this.tags, this.familyData});
 
   SprawGroup build(SprawBook sprawBook){
 

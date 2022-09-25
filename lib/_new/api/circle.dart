@@ -451,7 +451,7 @@ class ApiCircle{
           if(coverImage != null)
             'coverImage': await coverImage.toReqMap(),
 
-          'text': text,
+          'text': text.replaceAll("\n\n\n", "\n\n"),
           'attendanceRespMode': announcementAttendanceRespModeToStr[respMode],
         })
       ),
@@ -500,7 +500,7 @@ class ApiCircle{
 
           if(coverImage != null) 'coverImage': await coverImage.orElseNull?.toReqMap(),
 
-          if(text != null) 'text': text,
+          if(text != null) 'text': text.replaceAll("\n\n\n", "\n\n"),
 
           if(respMode != null) 'attendanceRespMode': announcementAttendanceRespModeToStr[respMode]
 

@@ -9,19 +9,28 @@ import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_group.
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../data/data_spraw_zhp_harc.dart';
+import '../data/data_spraw_zhp_zuch.dart';
+
 class SprawBookData{
 
+  static const String ZHP_ZUCH_SIM_2022_ID = 'zhp_zuch_sim_2022';
+  static const String ZHP_HARC_SIM_2022_ID = 'zhp_harc_sim_2022';
   static const String ZHP_HARC_OLD_ID = 'zhp_harc_old';
   static const String ZHP_HARC_OLD_WOD_ID = 'zhp_harc_wodne_old';
   static const String ZHR_HARC_C = 'zhr_harc_c';
   static const String ZHR_HARC_D = 'zhr_harc_d';
 
+  static RankColors SPRAW_BOOK_ZHP_ZUCH_SIM_2022_COLOR = const RankColors(Colors.amber, Colors.yellow, Colors.amber, Colors.yellow);
+  static RankColors SPRAW_BOOK_ZHP_HARC_SIM_2022_COLOR = const RankColors(Colors.green, Colors.cyan, Colors.green, Colors.cyan);
   static RankColors SPRAW_BOOK_ZHP_ZUCH_OLD_COLOR = RankData.colorsZhpOldZuch;
   static RankColors SPRAW_BOOK_ZHP_HARC_OLD_COLOR = RankData.colorsZhp;
   static RankColors SPRAW_BOOK_ZHP_WODNE_OLD_COLOR = RankColors(Colors.lightBlueAccent, Colors.blue[700]!, Colors.lightBlueAccent, Colors.blue[700]!);
   static RankColors SPRAW_BOOK_ZHR_H_RZE_COLOR = RankData.colorsZhrC;
   static RankColors SPRAW_BOOK_ZHR_H_RKI_COLOR = RankData.colorsZhrD;
 
+  static const IconData SPRAW_BOOK_ZHP_ZUCH_SIM_2022_ICON = MdiIcons.abacus;
+  static const IconData SPRAW_BOOK_ZHP_HARC_SIM_2022_ICON = MdiIcons.abacus;
   static const IconData SPRAW_BOOK_ZHP_ZUCH_OLD_ICON = MdiIcons.dramaMasks;
   static const IconData SPRAW_BOOK_ZHP_HARC_OLD_ICON = MdiIcons.hammerScrewdriver;
   static const IconData SPRAW_BOOK_ZHP_WODNE_OLD_ICON = MdiIcons.shipWheel;
@@ -29,6 +38,8 @@ class SprawBookData{
   static const IconData SPRAW_BOOK_ZHR_H_RKI_ICON = MdiIcons.tent;
 
   static Map<String, RankColors> mapIdColorMap = {
+    SprawBookData.ZHP_ZUCH_SIM_2022_ID: SPRAW_BOOK_ZHP_ZUCH_SIM_2022_COLOR,
+    SprawBookData.ZHP_HARC_SIM_2022_ID: SPRAW_BOOK_ZHP_HARC_SIM_2022_COLOR,
     SprawBookData.ZHP_HARC_OLD_ID: SPRAW_BOOK_ZHP_HARC_OLD_COLOR,
     SprawBookData.ZHP_HARC_OLD_WOD_ID: SPRAW_BOOK_ZHP_WODNE_OLD_COLOR,
     SprawBookData.ZHR_HARC_C: SPRAW_BOOK_ZHR_H_RZE_COLOR,
@@ -36,6 +47,8 @@ class SprawBookData{
   };
 
   static Map<String, IconData> mapIdIconMap = {
+    SprawBookData.ZHP_ZUCH_SIM_2022_ID: SPRAW_BOOK_ZHP_ZUCH_SIM_2022_ICON,
+    SprawBookData.ZHP_HARC_SIM_2022_ID: SPRAW_BOOK_ZHP_HARC_SIM_2022_ICON,
     SprawBookData.ZHP_HARC_OLD_ID: SPRAW_BOOK_ZHP_HARC_OLD_ICON,
     SprawBookData.ZHP_HARC_OLD_WOD_ID: SPRAW_BOOK_ZHP_WODNE_OLD_ICON,
     SprawBookData.ZHR_HARC_C: SPRAW_BOOK_ZHR_H_RZE_ICON,
@@ -44,8 +57,12 @@ class SprawBookData{
 
   static SprawBook? get lastViewedSprawBook{
     String? lastViewedSprawBook = ShaPref.getString(ShaPref.SHA_PREF_LAST_VIEWED_SPRAWBOOK, ZHP_HARC_OLD_ID);
+    if(lastViewedSprawBook == ZHP_HARC_SIM_2022_ID)
+      return sprawBookZHPHarcSim2022;
+    else if(lastViewedSprawBook == ZHP_ZUCH_SIM_2022_ID)
+      return sprawBookZHPZuchSim2022;
     if(lastViewedSprawBook == ZHP_HARC_OLD_ID)
-      return sprawBookZHP;
+      return sprawBookZHPOld;
     else if(lastViewedSprawBook == ZHP_HARC_OLD_WOD_ID)
       return sprawBookZHPWodneOld;
     else if(lastViewedSprawBook == ZHR_HARC_C)

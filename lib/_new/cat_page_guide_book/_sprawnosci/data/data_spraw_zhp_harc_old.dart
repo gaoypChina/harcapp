@@ -3,7 +3,7 @@ import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_book.d
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_family.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_group.dart';
 
-SprawBook sprawBookZHP = SprawBookData(
+SprawBook sprawBookZHPOld = SprawBookData(
     id: SprawBookData.ZHP_HARC_OLD_ID,
     title: 'Sprawności harcerskie ZHP',
     source: 'Regulamin i programy sprawności przyjęte uchwałą Głównej Kwatery ZHP nr 24/2014 z dnia 11 czerwca 2014',

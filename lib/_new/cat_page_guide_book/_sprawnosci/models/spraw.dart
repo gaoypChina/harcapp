@@ -26,6 +26,10 @@ class SprawData{
   final String level;
   final String? comment;
 
+  final List<String>? requirements;
+  final List<String>? notesForLeaders;
+  final bool tasksAreExamples;
+
   final List<SprawTaskData> taskData;
 
   SprawData({
@@ -33,6 +37,11 @@ class SprawData{
     required this.title,
     required this.level,
     this.comment,
+
+    this.requirements,
+    this.notesForLeaders,
+    this.tasksAreExamples = false,
+
     required List<String> tasks,
   }): taskData = tasks.map((task) => SprawTaskData(task)).toList();
 
@@ -234,7 +243,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
 
     switch(sprawBookId){
       case SprawBookData.ZHP_HARC_OLD_ID:
-        sprawBook = sprawBookZHP;
+        sprawBook = sprawBookZHPOld;
         break;
       case SprawBookData.ZHP_HARC_OLD_WOD_ID:
         sprawBook = sprawBookZHPWodneOld;
