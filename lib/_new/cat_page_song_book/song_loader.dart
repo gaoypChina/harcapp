@@ -38,9 +38,9 @@ Future<Tuple7<
   if(allSongsCode != null) allSongsJSONMap = jsonDecode(allSongsCode);
 
   // OFFICIAL SONGS
-  Map? offSongsMap = {};
+  Map offSongsMap = {};
   if(allSongsJSONMap != null) offSongsMap = allSongsJSONMap['official'];
-  List<OffSong?> allOffSongs = List.filled(offSongsMap!.length, null, growable: true);
+  List<OffSong?> allOffSongs = List.filled(offSongsMap.length, null, growable: true);
   Map<String, OffSong> allOffSongsMap = {};
   for(String fileName in offSongsMap.keys as Iterable<String>) {
     try {

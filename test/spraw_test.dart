@@ -6,6 +6,7 @@
 // tree, read Lk_9_28b-36$text, and verify that the values of widget properties are correct.
 
 import 'package:harcapp/_common_classes/sha_pref.dart';
+import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
 
 import 'package:harcapp/sync/synchronizer_engine.dart';
@@ -15,8 +16,9 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
 
   test('Spraw uniqueness test', () async {
-
+    TestWidgetsFlutterBinding.ensureInitialized(); // This is for enabling assets from tests.
     await ShaPref.init();
+    await initPaths();
     await synchronizer.reloadSyncables();
 
     List<String> uniqNames = [];
@@ -34,8 +36,9 @@ void main() {
   });
 
   test('Spraw valid chars test', () async {
-
+    TestWidgetsFlutterBinding.ensureInitialized(); // This is for enabling assets from tests.
     await ShaPref.init();
+    await initPaths();
     await synchronizer.reloadSyncables();
 
     for (Spraw spraw in Spraw.all) {

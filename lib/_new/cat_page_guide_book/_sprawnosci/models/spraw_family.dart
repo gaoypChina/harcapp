@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_group.dart';
 
@@ -10,6 +9,9 @@ class SprawFamilyData{
   final String? fragment;
   final String? fragmentAuthor;
 
+  final List<String>? requirements;
+  final List<String>? notesForLeaders;
+
   final List<SprawData> sprawData;
 
   const SprawFamilyData({
@@ -18,6 +20,9 @@ class SprawFamilyData{
     this.tags,
     this.fragment,
     this.fragmentAuthor,
+
+    this.requirements,
+    this.notesForLeaders,
     required this.sprawData
   });
 
