@@ -182,6 +182,29 @@ flutter:
     - assets/songs/
     - assets/songs_confid/
 
+    - assets/spraw/zhp_harc_sim_2022/artystyczne/
+    - assets/spraw/zhp_harc_sim_2022/jezdzieckie/
+    - assets/spraw/zhp_harc_sim_2022/komputerowe/
+    - assets/spraw/zhp_harc_sim_2022/lotnicze/
+    - assets/spraw/zhp_harc_sim_2022/naukowe/
+    - assets/spraw/zhp_harc_sim_2022/pasje_i_specjalnosci/
+    - assets/spraw/zhp_harc_sim_2022/przyrodnicze/
+    - assets/spraw/zhp_harc_sim_2022/spoleczne_i_religijne/
+    - assets/spraw/zhp_harc_sim_2022/sportowe/
+    - assets/spraw/zhp_harc_sim_2022/terenoznawstwo_i_turystyka/
+    - assets/spraw/zhp_harc_sim_2022/wodne/
+    - assets/spraw/zhp_harc_sim_2022/wych_gospodarcze_i_ekonomiczne/
+    - assets/spraw/zhp_harc_sim_2022/wyrobienie_harcerskie/
+    - assets/spraw/zhp_harc_sim_2022/zaradnosc_zyciowa/
+    - assets/spraw/zhp_harc_sim_2022/zdrowie/
+
+    - assets/spraw/zhp_zuch_sim_2022/artystyczne/
+    - assets/spraw/zhp_zuch_sim_2022/naukowo_hobbystyczne/
+    - assets/spraw/zhp_zuch_sim_2022/przyrodnicze/
+    - assets/spraw/zhp_zuch_sim_2022/spoleczno_obywatelskie/
+    - assets/spraw/zhp_zuch_sim_2022/sportowe/
+    - assets/spraw/zhp_zuch_sim_2022/zaradnosc_zyciowa/
+
     - assets/spraw/zhr_harc_c/ozdobnictwo_i_przyroda/
     - assets/spraw/zhr_harc_c/ozdobnictwo_i_przyroda/rozpalanie_ognia/
     - assets/spraw/zhr_harc_c/ozdobnictwo_i_przyroda/orient_w_teren/
