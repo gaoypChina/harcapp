@@ -330,8 +330,8 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 ],
                 sprawData: [
                   SprawData(
-                      id: 'milosnik_muzyki',
-                      title: 'Miłośnik muzyki',
+                      id: 'mistrz_muzyki',
+                      title: 'Mistrz muzyki',
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
