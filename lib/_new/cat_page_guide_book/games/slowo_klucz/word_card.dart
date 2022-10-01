@@ -7,7 +7,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
-import 'package:harcapp/_common_widgets/app_text.dart';
+import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp/_new/cat_page_guide_book/games/slowo_klucz/word.dart';
 import 'package:harcapp/values/colors.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';

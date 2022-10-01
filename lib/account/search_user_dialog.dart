@@ -4,7 +4,7 @@ import 'package:harcapp/_app_common/accounts/account_header_widget.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/scan_qr_code.dart';
-import 'package:harcapp/_common_widgets/app_text.dart';
+import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';

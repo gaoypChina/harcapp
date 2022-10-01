@@ -10,6 +10,9 @@ class SprawTaskWidget extends TaskWidget<SprawTask>{
   final SprawTask task;
 
   @override
+  final bool isExample;
+
+  @override
   Color get color => SprawBookData.mapIdColorMap[task.sprawBook.id]!.avgColor(false);
 
   @override
@@ -45,6 +48,6 @@ class SprawTaskWidget extends TaskWidget<SprawTask>{
   @override
   final void Function(SprawTask task, bool completed)? onCompletedChanged;
 
-  const SprawTaskWidget(this.task, {this.onCompletedChanged, super.key});
+  const SprawTaskWidget(this.task, {this.isExample = false, this.onCompletedChanged, super.key});
 
 }

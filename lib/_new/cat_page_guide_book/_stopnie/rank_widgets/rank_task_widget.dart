@@ -14,6 +14,9 @@ class RankTaskWidget extends TaskWidget<RankTask>{
   final RankTask task;
 
   @override
+  bool get isExample => false;
+
+  @override
   Color get color => RankData.colors[rank!.data]!.avgColor(false);
 
   @override
@@ -52,6 +55,6 @@ class RankTaskWidget extends TaskWidget<RankTask>{
 
   const RankTaskWidget(this.task, this.dispIndex, {this.hideIndex=false, required this.onCompletedChanged});
 
-  static Widget separator(BuildContext context, int index) => SizedBox(height: 2*Dimen.ICON_MARG);
+  static Widget separator(BuildContext context, int index) => const SizedBox(height: 2*Dimen.ICON_MARG);
 
 }

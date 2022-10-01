@@ -51,6 +51,9 @@ class SprawFamily{
   String? get fragment => data.fragment;
   String? get fragmentAuthor => data.fragmentAuthor;
 
+  List<String>? get requirements => data.requirements;
+  List<String>? get notesForLeaders => data.notesForLeaders;
+
   SprawGroup group;
   List<Spraw>? spraws;
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/app_text.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -27,6 +27,7 @@ class PatroniteSupportWidget extends StatefulWidget{
     required this.description,
     this.expandable = true,
     this.margin,
+    super.key
   });
 
   @override
@@ -88,13 +89,13 @@ class PatroniteSupportWidgetState extends State<PatroniteSupportWidget>{
             ),
 
             Padding(
-              padding: EdgeInsets.all(Dimen.SIDE_MARG),
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               child: Column(
                 children: [
 
                   Row(
                     children: [
-                      SizedBox(height: Dimen.ICON_FOOTPRINT),
+                      const SizedBox(height: Dimen.ICON_FOOTPRINT),
 
                       if(expandable)
                         IconButton(
@@ -136,7 +137,7 @@ class PatroniteSupportWidgetState extends State<PatroniteSupportWidget>{
                           opacity: expanded?0:1,
                           duration: _duration,
                           child: IconButton(
-                            icon: Icon(MdiIcons.arrowRight),
+                            icon: const Icon(MdiIcons.arrowRight),
                             onPressed: expanded?null:() => launchURL('https://patronite.pl/harcapp'),
                           ),
                         ),
@@ -154,10 +155,10 @@ class PatroniteSupportWidgetState extends State<PatroniteSupportWidget>{
                     Column(
                       children: [
 
-                        SizedBox(height: .5*Dimen.SIDE_MARG),
+                        const SizedBox(height: .5*Dimen.SIDE_MARG),
 
                         Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                             left: Dimen.ICON_MARG,
                             right: Dimen.ICON_MARG,
                             bottom: Dimen.ICON_MARG,

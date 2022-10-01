@@ -5,7 +5,7 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../app_text.dart';
+import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'folder_edit_page.dart';
 
 class AddFolderWidget extends StatelessWidget{

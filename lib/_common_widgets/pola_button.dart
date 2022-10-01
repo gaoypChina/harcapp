@@ -1,11 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/app_text.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
+import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -16,7 +15,7 @@ class PolaIcon extends StatelessWidget{
 
   final Color? color;
 
-  const PolaIcon({this.color});
+  const PolaIcon({this.color, super.key});
 
   @override
   Widget build(BuildContext context) =>
@@ -48,29 +47,29 @@ Function polaTap = (BuildContext context) {
                 },
                 elevation: AppCard.bigElevation,
                 radius: AppCard.bigRadius,
-                padding: EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Row(
                   children: <Widget>[
 
                     Padding(
+                      padding: const EdgeInsets.all(Dimen.ICON_MARG),
                       child: Icon(iconDownload),
-                      padding: EdgeInsets.all(Dimen.ICON_MARG),
                     ),
                     Expanded(
                       child: Text('Pobierz aplikację', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG)),
                     ),
                     Padding(
+                      padding: const EdgeInsets.all(Dimen.ICON_MARG),
                       child: PolaIcon(color: textEnab_(context)),
-                      padding: EdgeInsets.all(Dimen.ICON_MARG),
                     ),
 
                   ],
                 )
             ),
 
-            SizedBox(height: Dimen.BOTTOM_SHEET_MARG,),
+            const SizedBox(height: Dimen.BOTTOM_SHEET_MARG,),
 
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(Dimen.defMarg/2),
               child: AppText(
                 '<b>Pola</b> ułatwia kupowanie polskich produktów.'
@@ -80,10 +79,10 @@ Function polaTap = (BuildContext context) {
               ),
             ),
 
-            SizedBox(height: 2*Dimen.BOTTOM_SHEET_MARG,),
+            const SizedBox(height: 2*Dimen.BOTTOM_SHEET_MARG,),
 
             Padding(
-              padding: EdgeInsets.all(Dimen.defMarg),
+              padding: const EdgeInsets.all(Dimen.defMarg),
               child: Center(
                 child: AppCard(
                     padding: EdgeInsets.zero,

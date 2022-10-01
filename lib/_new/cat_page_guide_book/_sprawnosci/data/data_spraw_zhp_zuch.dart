@@ -11,6 +11,9 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
     icon: SprawBookData.SPRAW_BOOK_ZHP_ZUCH_SIM_2022_ICON,
     male: true,
     female: true,
+    iconPathWithFamilyId: false,
+    iconPathWithLevel: false,
+    iconBlackAndWightOnly: false,
     groupData: [
 
       SprawGroupData(
@@ -341,8 +344,8 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Brałem(-am) udział w szkolnej imprezie muzycznej. Narysowałem(-am) obrazek przedstawiający tę imprezę i opowiedziałem(-am) o niej innym zuchom.',
                       ]),
                   SprawData(
-                      id: 'milosnik_muzyki',
-                      title: 'Miłośnik muzyki',
+                      id: 'mistrz_muzyki',
+                      title: 'Mistrz muzyki',
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
@@ -353,8 +356,8 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Zagrałem(-am) gromadzie dwie melodie',
                       ]),
                   SprawData(
-                      id: 'milosnik_muzyki',
-                      title: 'Miłośnik muzyki',
+                      id: 'mistrz_muzyki',
+                      title: 'Mistrz muzyki',
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
@@ -586,7 +589,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
 
                   SprawData(
                       id: 'dobry_opiekun',
-                      title: 'Dobry opiekun/Dobra opiekunka',
+                      title: 'Dobry opiekun',
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
@@ -597,7 +600,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       ]),
                   SprawData(
                       id: 'dobry_opiekun',
-                      title: 'Dobry opiekun/Dobra opiekunka',
+                      title: 'Dobry opiekun',
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
@@ -610,7 +613,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       ]),
                   SprawData(
                       id: 'dobry_opiekun',
-                      title: 'Dobry opiekun/Dobra opiekunka',
+                      title: 'Dobry opiekun',
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
@@ -649,7 +652,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
 
                   SprawData(
                       id: 'kolednik',
-                      title: 'Kolędnik/Kolędniczka',
+                      title: 'Kolędnik',
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
@@ -661,7 +664,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       ]),
                   SprawData(
                       id: 'kolednik',
-                      title: 'Kolędnik/Kolędniczka',
+                      title: 'Kolędnik',
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
@@ -673,7 +676,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       ]),
                   SprawData(
                       id: 'kolednik',
-                      title: 'Kolędnik/Kolędniczka',
+                      title: 'Kolędnik',
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
@@ -707,7 +710,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
 
                   SprawData(
                       id: 'mlody_patriota',
-                      title: 'Młody Patriota/Młoda Patriotka',
+                      title: 'Młody Patriota',
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
@@ -719,7 +722,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       ]),
                   SprawData(
                       id: 'mlody_patriota',
-                      title: 'Młody Patriota/Młoda Patriotka',
+                      title: 'Młody Patriota',
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
@@ -734,7 +737,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       ]),
                   SprawData(
                       id: 'mlody_patriota',
-                      title: 'Młody Patriota/Młoda Patriotka',
+                      title: 'Młody Patriota',
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
@@ -769,8 +772,8 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 sprawData: [
 
                   SprawData(
-                      id: 'obywatal_unii_europejskiej',
-                      title: 'Obywatel/Obywatelka Unii Europejskiej',
+                      id: 'obywatel_unii_europejskiej',
+                      title: 'Obywatel Unii Europejskiej',
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
@@ -779,8 +782,8 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Wykonałem(-am) flagę Unii Europejskiej. Wyjaśniłem(-am) swojej szóstce, co oznacza liczba gwiazdek na tej fladze oraz jak nazywa się waluta, którą posługuje się większość państw należących do Unii Europejskiej.',
                       ]),
                   SprawData(
-                      id: 'obywatal_unii_europejskiej',
-                      title: 'Obywatel/Obywatelka Unii Europejskiej',
+                      id: 'obywatel_unii_europejskiej',
+                      title: 'Obywatel Unii Europejskiej',
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
@@ -791,8 +794,8 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Wyjaśniłem(-am) zuchom, od kiedy Polska należy do Unii Europejskiej.',
                       ]),
                   SprawData(
-                      id: 'obywatal_unii_europejskiej',
-                      title: 'Obywatel/Obywatelka Unii Europejskiej',
+                      id: 'obywatel_unii_europejskiej',
+                      title: 'Obywatel Unii Europejskiej',
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
@@ -832,7 +835,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
 
                   SprawData(
                       id: 'przyjaciel_nieznanego_swiata',
-                      title: 'Przyjaciel/Przyjaciółka Nieznanego Świata',
+                      title: 'Przyjaciel Nieznanego Świata',
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
@@ -844,7 +847,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       ]),
                   SprawData(
                       id: 'przyjaciel_nieznanego_swiata',
-                      title: 'Przyjaciel/Przyjaciółka Nieznanego Świata',
+                      title: 'Przyjaciel Nieznanego Świata',
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
@@ -858,7 +861,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       ]),
                   SprawData(
                       id: 'przyjaciel_nieznanego_swiata',
-                      title: 'Przyjaciel/Przyjaciółka Nieznanego Świata',
+                      title: 'Przyjaciel Nieznanego Świata',
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
@@ -895,7 +898,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
 
                   SprawData(
                       id: 'straznik_betlejemskiego_swiatla_pokoju',
-                      title: 'Strażnik/Strażniczka Betlejemskiego Światła Pokoju',
+                      title: 'Strażnik Betlejemskiego Światła Pokoju',
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
@@ -908,7 +911,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       ]),
                   SprawData(
                       id: 'straznik_betlejemskiego_swiatla_pokoju',
-                      title: 'Strażnik/Strażniczka Betlejemskiego Światła Pokoju',
+                      title: 'Strażnik Betlejemskiego Światła Pokoju',
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
@@ -924,7 +927,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       ]),
                   SprawData(
                       id: 'straznik_betlejemskiego_swiatla_pokoju',
-                      title: 'Strażnik/Strażniczka Betlejemskiego Światła Pokoju',
+                      title: 'Strażnik Betlejemskiego Światła Pokoju',
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
@@ -1035,7 +1038,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
 
                   SprawData(
                       id: 'smieszek',
-                      title: 'Śmieszek/Śmieszka',
+                      title: 'Śmieszek',
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
@@ -1047,7 +1050,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       ]),
                   SprawData(
                       id: 'smieszek',
-                      title: 'Śmieszek/Śmieszka',
+                      title: 'Śmieszek',
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
@@ -1060,7 +1063,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       ]),
                   SprawData(
                       id: 'smieszek',
-                      title: 'Śmieszek/Śmieszka',
+                      title: 'Śmieszek',
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [

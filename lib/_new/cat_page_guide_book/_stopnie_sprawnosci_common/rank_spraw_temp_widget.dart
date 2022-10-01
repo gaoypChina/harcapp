@@ -83,7 +83,8 @@ class RankSprawTempWidget extends StatelessWidget{
     this.appBarBottom,
 
     this.previewOnly = false,
-    super.key});
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -173,15 +174,15 @@ class RankSprawTempWidget extends StatelessWidget{
                     Row(
                       children: [
 
-                        if(titleTrailing != null)
-                          const SizedBox(width: trailingSize),
-
-                        const SizedBox(width: 6.0, height: trailingSize),
+                        const SizedBox(width: Dimen.SIDE_MARG, height: trailingSize),
 
                         Expanded(
                           child: AutoSizeText(title,
-                            style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.bold),
-                            textAlign: TextAlign.center,
+                            style: AppTextStyle(
+                              fontSize: Dimen.TEXT_SIZE_APPBAR, 
+                              fontWeight: weight.bold,
+                              color: iconEnab_(context)
+                            ),
                           ),
                         ),
 
@@ -267,50 +268,50 @@ class RankSprawTempWidget extends StatelessWidget{
 
           if(!previewOnly)
             Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: SizedBox(
-              height: AppBar().preferredSize.height,
-              child: completed!?
-              Consumer<_ReachedBottomProvider>(
-                builder: (context, prov, child) => AnimatedChildSlider(
-                  duration: const Duration(milliseconds: 500),
-                  switchInCurve: Curves.easeOutExpo,
-                  switchOutCurve: Curves.easeOutExpo,
-                  index: prov.reachedBottom!?1:0,
-                  direction: Axis.horizontal,
-                  children: [
-                    CompletedWidget(
-                      completedText,
-                      color,
-                      colorText: completedTextColor??background_(context),
-                      onPressed: () => confettiController!.play(),
-                    ),
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: SizedBox(
+                height: AppBar().preferredSize.height,
+                child: completed!?
+                Consumer<_ReachedBottomProvider>(
+                  builder: (context, prov, child) => AnimatedChildSlider(
+                    duration: const Duration(milliseconds: 500),
+                    switchInCurve: Curves.easeOutExpo,
+                    switchOutCurve: Curves.easeOutExpo,
+                    index: prov.reachedBottom!?1:0,
+                    direction: Axis.horizontal,
+                    children: [
+                      CompletedWidget(
+                        completedText,
+                        color,
+                        colorText: completedTextColor??background_(context),
+                        onPressed: () => confettiController!.play(),
+                      ),
 
-                    AbandonButton(
-                      onTap: onAbandonTap,
-                    ),
-                  ],
+                      AbandonButton(
+                        onTap: onAbandonTap,
+                      ),
+                    ],
+                  ),
+                ):
+                StartStopButton(
+                  color: color,
+                  inProgress: () => inProgress,
+                  completenessPercent: () => completenessPercent,
+                  onPressed: (bool inProgress){
+                    onStartStopTap?.call(inProgress);
+                    if(!inProgress) // if start
+                      Provider.of<_ReachedBottomProvider>(context, listen: false).reachedBottom = false;
+                  },
                 ),
-              ):
-              StartStopButton(
-                color: color,
-                inProgress: () => inProgress,
-                completenessPercent: () => completenessPercent,
-                onPressed: (bool inProgress){
-                  onStartStopTap?.call(inProgress);
-                  if(!inProgress) // if start
-                    Provider.of<_ReachedBottomProvider>(context, listen: false).reachedBottom = false;
-                },
               ),
             ),
-          ),
 
           if(!previewOnly)
             Positioned.fill(
-            child: ConfettiLayer(confettiController),
-          ),
+              child: ConfettiLayer(confettiController),
+            ),
 
         ],
       )

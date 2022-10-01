@@ -12,6 +12,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 abstract class TaskWidget<T_TASK extends TaskData> extends StatefulWidget{
 
   T_TASK get task;
+  bool get isExample;
   Color get color;
   int? get dispIndex;
   String get text;
@@ -41,6 +42,7 @@ abstract class TaskWidget<T_TASK extends TaskData> extends StatefulWidget{
 class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
 
   T_TASK get task => widget.task as T_TASK;
+  bool get isExample => widget.isExample;
   int? get dispIndex => widget.dispIndex;
   String get text => widget.text;
   String? get description => widget.description;
@@ -81,7 +83,7 @@ class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
                 child: Row(
                   children: [
                     Text(
-                        hideIndex?'Zadanie':'Zadanie $dispIndex.',
+                        'Zadanie${hideIndex?'':' $dispIndex.'}',
                         style: AppTextStyle(
                           fontSize: Dimen.TEXT_SIZE_APPBAR,
                           fontWeight: weight.halfBold,
@@ -128,6 +130,15 @@ class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
                       )
                   ],
                 )
+              ),
+
+            if(dispIndex != null && isExample)
+              Text(
+                  'przykładowe',
+                  style: AppTextStyle(
+                      fontSize: Dimen.TEXT_SIZE_BIG,
+                      fontWeight: weight.halfBold,
+                  )
               ),
 
             if(dispIndex != null) const SizedBox(height: Dimen.defMarg),

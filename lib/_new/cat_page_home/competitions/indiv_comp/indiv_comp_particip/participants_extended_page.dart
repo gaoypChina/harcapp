@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/app_text.dart';
+import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_particip/participants_page.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_page.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';

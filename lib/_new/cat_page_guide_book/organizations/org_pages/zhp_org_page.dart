@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_guide_book/organizations/org_cards/zhp_org_card_widget.dart';
 import 'package:harcapp/values/colors.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 

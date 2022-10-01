@@ -10,7 +10,7 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 class SprawIcon extends StatefulWidget{
 
   static const double sizeBig = 48.0;
-  static const double sizeSmall = 34.0;
+  static const double sizeSmall = 40.0;
 
   static const double borderFraction = .098;
 
@@ -56,7 +56,7 @@ class SprawIconState extends State<SprawIcon>{
         spraw!.iconPath,
         width: size,
         height: size,
-        color: iconEnab_(context),
+        color: spraw!.iconBlackAndWightOnly?iconEnab_(context):null,
         placeholderBuilder: (context) => SprawIconPlaceholder(
           spraw,
           size: size,

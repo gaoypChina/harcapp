@@ -55,23 +55,28 @@ class SprawBookData{
     SprawBookData.ZHR_HARC_D: SPRAW_BOOK_ZHR_H_RKI_ICON,
   };
 
-  static SprawBook? get lastViewedSprawBook{
-    String? lastViewedSprawBook = ShaPref.getString(ShaPref.SHA_PREF_LAST_VIEWED_SPRAWBOOK, ZHP_HARC_OLD_ID);
-    if(lastViewedSprawBook == ZHP_HARC_SIM_2022_ID)
+  static SprawBook? getById(String id){
+    if(id == ZHP_HARC_SIM_2022_ID)
       return sprawBookZHPHarcSim2022;
-    else if(lastViewedSprawBook == ZHP_ZUCH_SIM_2022_ID)
+    else if(id == ZHP_ZUCH_SIM_2022_ID)
       return sprawBookZHPZuchSim2022;
-    if(lastViewedSprawBook == ZHP_HARC_OLD_ID)
+    if(id == ZHP_HARC_OLD_ID)
       return sprawBookZHPOld;
-    else if(lastViewedSprawBook == ZHP_HARC_OLD_WOD_ID)
+    else if(id == ZHP_HARC_OLD_WOD_ID)
       return sprawBookZHPWodneOld;
-    else if(lastViewedSprawBook == ZHR_HARC_C)
+    else if(id == ZHR_HARC_C)
       return sprawBookZHRC;
-    else if(lastViewedSprawBook == ZHR_HARC_D)
+    else if(id == ZHR_HARC_D)
       return sprawBookZHRD;
 
     return null;
   }
+
+  static SprawBook? get lastViewedSprawBook{
+    String? lastViewedSprawBook = ShaPref.getString(ShaPref.SHA_PREF_LAST_VIEWED_SPRAWBOOK, ZHP_HARC_OLD_ID);
+    return getById(lastViewedSprawBook);
+  }
+
   static set lastViewedSprawBook(SprawBook? sprawBook){
     if(sprawBook == null) ShaPref.remove(ShaPref.SHA_PREF_LAST_VIEWED_SPRAWBOOK);
     else ShaPref.setString(ShaPref.SHA_PREF_LAST_VIEWED_SPRAWBOOK, sprawBook.id);
@@ -85,6 +90,10 @@ class SprawBookData{
   final bool male;
   final bool female;
 
+  final bool iconPathWithFamilyId;
+  final bool iconPathWithLevel;
+  final bool iconBlackAndWightOnly;
+
   final List<SprawGroupData> groupData;
 
   const SprawBookData({
@@ -95,6 +104,10 @@ class SprawBookData{
     required this.icon,
     this.male = false,
     this.female = false,
+
+    this.iconPathWithFamilyId = true,
+    this.iconPathWithLevel = true,
+    this.iconBlackAndWightOnly = true,
 
     required this.groupData,
   });
@@ -126,6 +139,10 @@ class SprawBook{
   IconData get icon => data.icon;
   bool get male => data.male;
   bool get female => data.female;
+
+  bool get iconPathWithFamilyId => data.iconPathWithFamilyId;
+  bool get iconPathWithLevel => data.iconPathWithLevel;
+  bool get iconBlackAndWightOnly => data.iconBlackAndWightOnly;
 
   List<SprawGroup>? groups;
 

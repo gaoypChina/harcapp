@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_common_widgets/app_text.dart';
+import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp/_new/cat_page_home/_main.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/circle_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_editor/_main.dart';

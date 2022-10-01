@@ -94,6 +94,10 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   String get level => data.level;
   String? get comment => data.comment;
 
+  List<String>? get requirements => data.requirements??family.requirements;
+  List<String>? get notesForLeaders => data.notesForLeaders??family.notesForLeaders;
+  bool get tasksAreExamples => data.tasksAreExamples;
+
   SprawBook get sprawBook => group.sprawBook;
   SprawGroup get group => family.group;
   SprawFamily family;
@@ -109,7 +113,24 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
 
   Spraw(this.data, this.family, _tasks): _taskMap = {for (SprawTask task in _tasks??[]) task.uid: task};
 
-  String get iconPath => 'assets/spraw/${sprawBook.id}/${group.id}/${family.id}/${level}_$id.svg';
+  bool get iconPathWithFailmyId => sprawBook.iconPathWithFamilyId;
+  bool get iconPathWithLevel => sprawBook.iconPathWithLevel;
+  bool get iconBlackAndWightOnly => sprawBook.iconBlackAndWightOnly;
+
+  String get iconPath{
+
+    String path = 'assets/spraw/${sprawBook.id}/${group.id}';
+
+    if(iconPathWithFailmyId)
+      path += '/${family.id}';
+
+    if(iconPathWithLevel)
+      path += '/${level}_$id.svg';
+    else
+      path += '/$id.svg';
+
+    return path;
+  }
 
   bool get savedInOmega => SprawFolder.omega.sprawUIDs.contains(uniqName);
   set _savedInOmega(bool value) {
@@ -239,24 +260,9 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     String sprawFamilyId = parts[2];
     String sprawId = parts[3];
 
-    SprawBook sprawBook;
+    SprawBook? sprawBook = SprawBookData.getById(sprawBookId);
 
-    switch(sprawBookId){
-      case SprawBookData.ZHP_HARC_OLD_ID:
-        sprawBook = sprawBookZHPOld;
-        break;
-      case SprawBookData.ZHP_HARC_OLD_WOD_ID:
-        sprawBook = sprawBookZHPWodneOld;
-        break;
-      case SprawBookData.ZHR_HARC_C:
-        sprawBook = sprawBookZHRC;
-        break;
-      case SprawBookData.ZHR_HARC_D:
-        sprawBook = sprawBookZHRD;
-        break;
-      default:
-        return null;
-    }
+    if(sprawBook == null) return null;
 
     SprawGroup? group;
 
