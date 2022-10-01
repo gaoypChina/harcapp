@@ -336,92 +336,89 @@ class _SearchTextFieldCard extends StatelessWidget{
 
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => SearchField(
+    hint: 'Tytuł, autor, wykonawca, słowa:',
 
-    return SearchField(
-      hint: 'Tytuł, autor, wykonawca, słowa:',
+    controller: textController,
+    margin: SearchField.normMargin,
+    background: background_(context),
 
-      controller: textController,
-      margin: SearchField.normMargin,
-      background: background_(context),
+    onChanged: (text) async {
 
-      onChanged: (text) async {
+      if(text == '#') {
+        // HAS TO IN POST - ITS A WORKAROUND FOR A BUG. OTHERWISE THE onChanged METHOD IS CALLED TWICE AFTER ENTERING "#".
+        post(() => textController!.text = '');
+        showOptionsBottomSheet(context);
+      }else
+        searcher!.run(text);
 
-        if(text == '#') {
-          // HAS TO IN POST - ITS A WORKAROUND FOR A BUG. OTHERWISE THE onChanged METHOD IS CALLED TWICE AFTER ENTERING "#".
-          post(() => textController!.text = '');
-          showOptionsBottomSheet(context);
-        }else
-          searcher!.run(text);
+    },
 
-      },
+    leading: AnimatedChildSlider(
+      index: Provider.of<SearchParamsProvider>(context, listen: false).isEmpty?0:1,
+      children: [
+        SearchField.defLeadWidget(context),
+        IconButton(
+          icon: Icon(MdiIcons.close, color: iconEnab_(context)),
+          onPressed: () async{
 
-      leading: AnimatedChildSlider(
-        index: Provider.of<SearchParamsProvider>(context, listen: false).isEmpty?0:1,
-        children: [
-          SearchField.defLeadWidget(context),
-          IconButton(
-            icon: Icon(MdiIcons.close, color: iconEnab_(context)),
-            onPressed: () async{
+            Provider.of<SearchParamsProvider>(context, listen: false).clear();
+            await searcher!.init(searcher!.allItems, searchOptions);
+            await searcher!.run('');
 
-              Provider.of<SearchParamsProvider>(context, listen: false).clear();
-              await searcher!.init(searcher!.allItems, searchOptions);
-              await searcher!.run('');
+            onCleared?.call();
+            onSearchOptionChanged(searchOptions);
 
-              onCleared?.call();
-              onSearchOptionChanged(searchOptions);
+          },
+        )
+      ],
+    ),
+    trailing: IconButton(
+        icon: Icon(MdiIcons.cogOutline, color: iconEnab_(context)),
+        onPressed: () async {
 
-            },
-          )
-        ],
-      ),
-      trailing: IconButton(
-          icon: Icon(MdiIcons.cogOutline, color: iconEnab_(context)),
-          onPressed: () async {
+          hideKeyboard(context);
+          await showOptionsBottomSheet(context);//, onChanged: () => onChanged(textController.Lk_9_28b-36$text));
 
-            hideKeyboard(context);
-            await showOptionsBottomSheet(context);//, onChanged: () => onChanged(textController.Lk_9_28b-36$text));
+          await searcher!.run(textController!.text);
+          //onSearchOptionChanged(searchOptions);
 
-            await searcher!.run(textController!.text);
-            //onSearchOptionChanged(searchOptions);
+        }),
+    bottom:
+    searchOptions!.isEmpty?
+    null:
+    SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.only(bottom: 6, left: 6, right: 6),
+        child: SizedBox(
+          height: 2*Dimen.defMarg + Dimen.TEXT_SIZE_NORMAL + 3,
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  children: searchOptions!.checkedRates.map((rate) => Padding(
+                    padding: const EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg),
+                    child: RateIcon.build(context, rate, size: 20.0),
+                  )).toList(),
+                ),
+                const SizedBox(width: Dimen.defMarg/2),
+                Row(
+                  children: searchOptions!.checkedTags.map((t) => Tag(
+                    t,
+                    inCard: false,
+                    fontSize: Dimen.TEXT_SIZE_SMALL,
+                    padding: EdgeInsets.zero,
+                    margin: const EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg),
+                    elevate: false,
+                  )).toList(),
+                )
+              ]
+          ),
+        )
+    ),
 
-          }),
-      bottom:
-      searchOptions!.isEmpty?
-      null:
-      SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.only(bottom: 6, left: 6, right: 6),
-          child: SizedBox(
-            height: 2*Dimen.defMarg + Dimen.TEXT_SIZE_NORMAL + 3,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    children: searchOptions!.checkedRates.map((rate) => Padding(
-                      padding: const EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg),
-                      child: RateIcon.build(context, rate, size: 20.0),
-                    )).toList(),
-                  ),
-                  const SizedBox(width: Dimen.defMarg/2),
-                  Row(
-                    children: searchOptions!.checkedTags.map((t) => Tag(
-                      t,
-                      inCard: false,
-                      fontSize: Dimen.TEXT_SIZE_SMALL,
-                      padding: EdgeInsets.zero,
-                      margin: const EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg),
-                      elevate: false,
-                    )).toList(),
-                  )
-                ]
-            ),
-          )
-      ),
-
-    );
-  }
+  );
 
   onSearchOptionChanged(SongSearchOptions? searchOptions){
     if(tabOfContController!=null && tabOfContController!.onSearchOptionsChanged != null)
@@ -434,10 +431,11 @@ class _SearchTextFieldCard extends StatelessWidget{
           searchOptions,
           searcher,
           onChanged: ()async{
+            SearchParamsProvider searchParamsProvider = SearchParamsProvider.of(context);
             await searcher!.init(searcher!.allItems, searchOptions);
             await searcher!.run(textController!.text);
             if(onChanged != null) onChanged();
-            Provider.of<SearchParamsProvider>(context, listen: false).notify();
+            searchParamsProvider.notify();
           }
       )
   );
@@ -681,6 +679,9 @@ class CurrentItemsProvider extends ChangeNotifier{
 }
 
 class SearchParamsProvider extends ChangeNotifier {
+
+  static SearchParamsProvider of(BuildContext context) => Provider.of<SearchParamsProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
 
   SongSearchOptions? _searchOptions;
   TextEditingController? _controller;
