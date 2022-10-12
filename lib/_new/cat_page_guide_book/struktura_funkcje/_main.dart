@@ -302,8 +302,9 @@ class StructCard extends StatelessWidget{
               builder: (context) => ColumnDet(description: description!, auth: auth!, funkcje: funkcje!,),
             )
         ):null,
-        margin: EdgeInsets.only(top: 0, bottom: 0, left: Dimen.defMarg/2, right: Dimen.defMarg/2),
+        margin: const EdgeInsets.only(left: Dimen.defMarg/2, right: Dimen.defMarg/2),
         child: Padding(
+          padding: const EdgeInsets.all(Dimen.ICON_MARG),
           child: Text(title,
               style: AppTextStyle(
                 fontSize: Dimen.TEXT_SIZE_BIG,
@@ -311,7 +312,6 @@ class StructCard extends StatelessWidget{
                 fontWeight: weight.halfBold
               ),
               textAlign: TextAlign.center),
-          padding: EdgeInsets.all(Dimen.ICON_MARG),
         )
     );
   }

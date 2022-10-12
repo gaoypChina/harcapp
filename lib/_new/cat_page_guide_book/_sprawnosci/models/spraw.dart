@@ -255,10 +255,14 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   static Spraw? fromUID(String UID){
 
     List<String> parts = UID.split(Spraw.sepChar);
+
+    if(parts.length < 5) return null;
+
     String sprawBookId = parts[0];
     String sprawGroupId = parts[1];
     String sprawFamilyId = parts[2];
     String sprawId = parts[3];
+    String sprawLevel = parts[4];
 
     SprawBook? sprawBook = SprawBookData.getById(sprawBookId);
 
@@ -278,7 +282,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     for(SprawFamily family in group.families!)
       if(family.id == sprawFamilyId)
         for(Spraw spraw in family.spraws!)
-          if(spraw.id == sprawId)
+          if(spraw.id == sprawId && spraw.level == sprawLevel)
             return spraw;
 
     return null;

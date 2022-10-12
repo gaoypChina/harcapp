@@ -26,6 +26,8 @@ abstract class RankState<T extends RankTaskState>{
   @protected
   Map<String, T> get tasks;
 
+  Iterable<T> get taskVals => tasks.values;
+
   T? task(String uid);
 
   RankState();

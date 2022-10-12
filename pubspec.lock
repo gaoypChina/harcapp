@@ -292,7 +292,7 @@ packages:
       name: flutter_chat_types
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.4.5"
+    version: "3.5.0"
   flutter_email_sender:
     dependency: "direct main"
     description:
@@ -306,14 +306,14 @@ packages:
       name: flutter_image_compress
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.2"
+    version: "1.1.3"
   flutter_inappwebview:
     dependency: transitive
     description:
       name: flutter_inappwebview
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.4.3+7"
+    version: "5.4.3+8"
   flutter_keyboard_visibility:
     dependency: "direct main"
     description:
@@ -341,7 +341,7 @@ packages:
       name: flutter_link_previewer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "3.1.0"
   flutter_linkify:
     dependency: transitive
     description:
@@ -367,7 +367,7 @@ packages:
       name: flutter_map
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.0"
+    version: "3.0.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -451,7 +451,7 @@ packages:
       name: flutter_svg
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.1.5"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -569,7 +569,7 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.3"
+    version: "3.2.0"
   image_picker:
     dependency: "direct main"
     description:
@@ -1322,9 +1322,11 @@ packages:
   webfeed:
     dependency: "direct main"
     description:
-      name: webfeed
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: c954f762c2c8da66321db3d1cb81b25f3bdc3de8
+      url: "https://github.com/n3o2k7i8ch5/webfeed"
+    source: git
     version: "0.7.0"
   webview_flutter:
     dependency: transitive
@@ -1381,7 +1383,7 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.4.1"
+    version: "6.1.0"
   youtube_player_flutter:
     dependency: "direct main"
     description:
@@ -1391,4 +1393,4 @@ packages:
     version: "8.1.0"
 sdks:
   dart: ">=2.17.0 <3.0.0"
-  flutter: ">=3.0.0"
+  flutter: ">=3.3.0"

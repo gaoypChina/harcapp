@@ -10,7 +10,6 @@ import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
-import 'package:harcapp_core/comm_widgets/shadow_icon.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:latlong2/latlong.dart';
@@ -45,26 +44,26 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
             center: LatLng(52.0, 19.1),
             zoom: 5.85,
           ),
-          layers: [
-            TileLayerOptions(
-              //urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-              //subdomains: ['a', 'b', 'c'],
-              urlTemplate: 'http://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
-              subdomains: ['0', '1', '2', '3'],
-              //retinaMode: true,
-            ),
-            MarkerLayerOptions(
-              markers: [
-                Marker(
-                    width: 24.0,
-                    height: 24.0,
-                    point: LatLng(50.04438820440828, 19.945508021792207),
-                    builder: (context) => const Icon(MdiIcons.mapMarker)
-                ),
-
-              ],
-            ),
-          ],
+          // layers: [
+          //   TileLayerOptions(
+          //     //urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+          //     //subdomains: ['a', 'b', 'c'],
+          //     urlTemplate: 'http://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
+          //     subdomains: ['0', '1', '2', '3'],
+          //     //retinaMode: true,
+          //   ),
+          //   MarkerLayerOptions(
+          //     markers: [
+          //       Marker(
+          //           width: 24.0,
+          //           height: 24.0,
+          //           point: LatLng(50.04438820440828, 19.945508021792207),
+          //           builder: (context) => const Icon(MdiIcons.mapMarker)
+          //       ),
+          //
+          //     ],
+          //   ),
+          // ],
         ),
 
         Positioned(

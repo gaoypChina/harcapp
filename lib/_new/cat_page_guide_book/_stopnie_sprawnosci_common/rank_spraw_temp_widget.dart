@@ -1,11 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/start_end_button.dart';
 import 'package:harcapp/_common_widgets/confetti_layer.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
 import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
@@ -47,6 +49,7 @@ class RankSprawTempWidget extends StatelessWidget{
   final void Function()? onAbandonTap;
 
   final bool showAppBar;
+  final bool hideTitle;
   final ConfettiController? confettiController;
   final List<Widget>? actions;
   final PreferredSizeWidget? appBarBottom;
@@ -78,6 +81,7 @@ class RankSprawTempWidget extends StatelessWidget{
     required this.onAbandonTap,
 
     this.showAppBar = false,
+    this.hideTitle = true,
     required this.confettiController,
     this.actions,
     this.appBarBottom,
@@ -132,111 +136,113 @@ class RankSprawTempWidget extends StatelessWidget{
             ),
 
           NotificationListener<ScrollNotification>(
-            child: CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: [
-                if(showAppBar)
-                  SliverAppBar(
-                    title: Consumer<_ReachedTopProvider>(
-                      builder: (context, prov, child) => AnimatedOpacity(
-                        duration: const Duration(milliseconds: 300),
-                        opacity: prov.reachedTop!?0:1,
-                        child: Text(titleAppBar??title, textAlign: TextAlign.center),
+            child: KeyboardVisibilityBuilder(
+              builder: (context, keyboardVisible) => CustomScrollView(
+                physics: const BouncingScrollPhysics(),
+                slivers: [
+                  if(showAppBar)
+                    SliverAppBar(
+                      title: Consumer<_ReachedTopProvider>(
+                        builder: (context, prov, child) => AnimatedOpacity(
+                          duration: const Duration(milliseconds: 300),
+                          opacity: !hideTitle?1:prov.reachedTop!?0:1,
+                          child: Text(titleAppBar??title, textAlign: TextAlign.center),
+                        ),
                       ),
+                      centerTitle: true,
+                      //backgroundColor: Colors.transparent,
+                      floating: true,
+                      elevation: appBarBottom==null?null:0,
+                      actions: actions,
                     ),
-                    centerTitle: true,
-                    //backgroundColor: Colors.transparent,
-                    floating: true,
-                    elevation: appBarBottom==null?null:0,
-                    actions: actions,
-                  ),
 
-                if(!previewOnly)
-                  FloatingContainer(
-                    builder: (context, __, _) => Padding(
-                      padding: const EdgeInsets.all(Dimen.defMarg),
-                      child: appBarBottom,
+                  if(!previewOnly)
+                    FloatingContainer(
+                      builder: (context, __, _) => Padding(
+                        padding: const EdgeInsets.all(Dimen.defMarg),
+                        child: appBarBottom,
+                      ),
+                      height: (appBarBottom?.preferredSize.height??0) + 2*Dimen.defMarg,
+                      rebuild: true,
                     ),
-                    height: (appBarBottom?.preferredSize.height??0) + 2*Dimen.defMarg,
-                    rebuild: true,
-                  ),
 
-                SliverPadding(
-                  padding: EdgeInsets.only(
-                      left: Dimen.SIDE_MARG,
-                      right: Dimen.SIDE_MARG,
-                      bottom: (!previewOnly?kToolbarHeight:0) + Dimen.SIDE_MARG
-                  ),
-                  sliver: SliverList(delegate: SliverChildListDelegate([
+                  SliverPadding(
+                    padding: EdgeInsets.only(
+                        left: Dimen.SIDE_MARG,
+                        right: Dimen.SIDE_MARG,
+                        bottom: (keyboardVisible?0:(!previewOnly?kToolbarHeight:0)) + Dimen.SIDE_MARG
+                    ),
+                    sliver: SliverList(delegate: SliverChildListDelegate([
 
-                    const SizedBox(height: Dimen.SIDE_MARG),
+                      const SizedBox(height: Dimen.SIDE_MARG),
 
-                    Row(
-                      children: [
+                      Row(
+                        children: [
 
-                        const SizedBox(width: Dimen.SIDE_MARG, height: trailingSize),
+                          const SizedBox(width: Dimen.SIDE_MARG, height: trailingSize),
 
-                        Expanded(
-                          child: AutoSizeText(title,
-                            style: AppTextStyle(
-                              fontSize: Dimen.TEXT_SIZE_APPBAR, 
-                              fontWeight: weight.bold,
-                              color: iconEnab_(context)
+                          Expanded(
+                            child: AutoSizeText(title,
+                              style: AppTextStyle(
+                                  fontSize: Dimen.TEXT_SIZE_APPBAR,
+                                  fontWeight: weight.bold,
+                                  color: iconEnab_(context)
+                              ),
                             ),
                           ),
-                        ),
 
-                        const SizedBox(width: 6.0),
+                          const SizedBox(width: 6.0),
 
-                        if(titleTrailing != null)
-                          SizedBox(
-                            height: trailingSize,
-                            width: trailingSize,
-                            child: titleTrailing,
+                          if(titleTrailing != null)
+                            SizedBox(
+                              height: trailingSize,
+                              width: trailingSize,
+                              child: titleTrailing,
+                            ),
+                        ],
+                      ),
+
+                      const SizedBox(height: Dimen.SIDE_MARG),
+
+                      Row(
+                        children: [
+                          const SizedBox(height: Dimen.ICON_FOOTPRINT + 2*SimpleButton.DEF_MARG),
+                          Padding(
+                            padding: const EdgeInsets.only(left: Dimen.ICON_FOOTPRINT),
+                            child: underTitleLeading,
                           ),
-                      ],
-                    ),
 
-                    const SizedBox(height: Dimen.SIDE_MARG),
+                          Expanded(child: Container()),
 
-                    Row(
-                      children: [
-                        const SizedBox(height: Dimen.ICON_FOOTPRINT + 2*SimpleButton.DEF_MARG),
-                        Padding(
-                          padding: const EdgeInsets.only(left: Dimen.ICON_FOOTPRINT),
-                          child: underTitleLeading,
-                        ),
-
-                        Expanded(child: Container()),
-
-                        if(completed!)
-                          SimpleButton.from(
+                          if(completed!)
+                            SimpleButton.from(
                               context: context,
                               icon: MdiIcons.calendarCheckOutline,
                               text: dateToString(completedDate!, shortMonth: true),
                               onTap: () async {
                                 DateTime? dateTime = await showDatePicker(
-                                    context: context,
-                                    helpText: 'Data zdobycia sprawności',
-                                    initialDate: completedDate??DateTime(966),
-                                    firstDate: DateTime(966),
-                                    lastDate: DateTime.now()
+                                  context: context,
+                                  helpText: 'Data zdobycia sprawności',
+                                  initialDate: completedDate??DateTime(966),
+                                  firstDate: DateTime(966),
+                                  lastDate: DateTime.now()
                                 );
                                 if(dateTime == null) return;
                                 onCompleteDateChanged?.call(dateTime);
                               }
-                          )
-                      ],
-                    ),
+                            )
+                        ],
+                      ),
 
-                    const SizedBox(height: Dimen.SIDE_MARG),
+                      const SizedBox(height: Dimen.SIDE_MARG),
 
-                    child,
+                      child,
 
-                  ])),
-                )
+                    ])),
+                  )
 
-              ],
+                ],
+              ),
             ),
             onNotification: (ScrollNotification scrollInfo) {
 
@@ -244,15 +250,15 @@ class RankSprawTempWidget extends StatelessWidget{
               _ReachedBottomProvider provBottom = Provider.of<_ReachedBottomProvider>(context, listen: false);
 
               if(scrollInfo.metrics.pixels <= kToolbarHeight) {
-                if (!provTop.reachedTop!) provTop.reachedTop = true;
+                if (!provTop.reachedTop!) post(() => provTop.reachedTop = true);
               }else {
-                if (provTop.reachedTop!) provTop.reachedTop = false;
+                if (provTop.reachedTop!) post(() => provTop.reachedTop = false);
               }
 
               if(scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent-1) {
-                if (!provBottom.reachedBottom!) provBottom.reachedBottom = true;
+                if (!provBottom.reachedBottom!) post(() => provBottom.reachedBottom = true);
               }else {
-                if (provBottom.reachedBottom!) provBottom.reachedBottom = false;
+                if (provBottom.reachedBottom!) post(() => provBottom.reachedBottom = false);
               }
 
               return false;
@@ -271,39 +277,43 @@ class RankSprawTempWidget extends StatelessWidget{
               bottom: 0,
               left: 0,
               right: 0,
-              child: SizedBox(
-                height: AppBar().preferredSize.height,
-                child: completed!?
-                Consumer<_ReachedBottomProvider>(
-                  builder: (context, prov, child) => AnimatedChildSlider(
-                    duration: const Duration(milliseconds: 500),
-                    switchInCurve: Curves.easeOutExpo,
-                    switchOutCurve: Curves.easeOutExpo,
-                    index: prov.reachedBottom!?1:0,
-                    direction: Axis.horizontal,
-                    children: [
-                      CompletedWidget(
-                        completedText,
-                        color,
-                        colorText: completedTextColor??background_(context),
-                        onPressed: () => confettiController!.play(),
-                      ),
+              child: KeyboardVisibilityBuilder(
+                builder: (context, keyboardVisible) => keyboardVisible?
+                Container():
+                SizedBox(
+                  height: AppBar().preferredSize.height,
+                  child: completed!?
+                  Consumer<_ReachedBottomProvider>(
+                    builder: (context, prov, child) => AnimatedChildSlider(
+                      duration: const Duration(milliseconds: 500),
+                      switchInCurve: Curves.easeOutExpo,
+                      switchOutCurve: Curves.easeOutExpo,
+                      index: prov.reachedBottom!?1:0,
+                      direction: Axis.horizontal,
+                      children: [
+                        CompletedWidget(
+                          completedText,
+                          color,
+                          colorText: completedTextColor??background_(context),
+                          onPressed: () => confettiController!.play(),
+                        ),
 
-                      AbandonButton(
-                        onTap: onAbandonTap,
-                      ),
-                    ],
+                        AbandonButton(
+                          onTap: onAbandonTap,
+                        ),
+                      ],
+                    ),
+                  ):
+                  StartStopButton(
+                    color: color,
+                    inProgress: () => inProgress,
+                    completenessPercent: () => completenessPercent,
+                    onPressed: (bool inProgress){
+                      onStartStopTap?.call(inProgress);
+                      if(!inProgress) // if start
+                        Provider.of<_ReachedBottomProvider>(context, listen: false).reachedBottom = false;
+                    },
                   ),
-                ):
-                StartStopButton(
-                  color: color,
-                  inProgress: () => inProgress,
-                  completenessPercent: () => completenessPercent,
-                  onPressed: (bool inProgress){
-                    onStartStopTap?.call(inProgress);
-                    if(!inProgress) // if start
-                      Provider.of<_ReachedBottomProvider>(context, listen: false).reachedBottom = false;
-                  },
                 ),
               ),
             ),

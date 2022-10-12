@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
+import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/widgets/open_spraw_dialog.dart';
+import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/widgets/spraw_tile_template_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models/rank_zhp_sim_2022.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_cat.dart';
@@ -10,11 +12,393 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'package:provider/provider.dart';
 
+import '../../_sprawnosci/models/spraw.dart';
+import '../../_sprawnosci/spraw_selector.dart';
+
 const String _tab = '    ';
+
+
+class Indicator extends StatelessWidget{
+
+  final int index;
+  final bool required;
+  final String name;
+  final double width;
+  final double height;
+
+  const Indicator({
+    required this.index,
+    required this.required,
+    required this.name,
+
+    required this.width,
+    required this.height,
+
+    super.key
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.horizontal(right: Radius.circular(2))
+      ),
+      clipBehavior: Clip.hardEdge,
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+
+            Positioned(
+              top: -1.5*height,
+              bottom: -1.5*height,
+              //left: -4*height + width,
+              left: -2*height,
+              child: Container(
+                height: 4*height,
+                width: 4*height,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4*height),
+                  color: cardEnab_(context), // hintEnab_(context),
+                ),
+
+              ),
+            ),
+
+            Center(
+              child: Text(
+                '$index${required?'*':''}',
+                style: AppTextStyle(
+                    color: hintEnab_(context),//background_(context),
+                    fontWeight: weight.halfBold
+                ),
+              ),
+            )
+
+          ],
+        ),
+      ),
+    );
+  }
+
+}
+
+
+class SprawSelectedListWidget extends StatefulWidget{
+
+  static const String customPrefix = 'custom@';
+  static const String samplePrefix = 'sample@';
+
+  final String stopId;
+  final String code;
+  final String name;
+  final int count;
+  final int? reqCount;
+  final Color? backgroundColor;
+  final Color? stopColor;
+  final void Function(int, Spraw?, String?)? onNewSprawSelected;
+  final void Function(int, bool)? onCheckChanged;
+  final void Function()? onSprawStateChanged;
+  final bool checkVisible;
+  final bool checkable;
+
+  const SprawSelectedListWidget(
+      this.stopId,
+      this.code,
+      this.name,
+      { required this.count,
+        this.reqCount,
+        this.backgroundColor,
+        this.stopColor,
+        this.onNewSprawSelected,
+        this.onCheckChanged,
+        this.onSprawStateChanged,
+        required this.checkVisible,
+        required this.checkable,
+        super.key
+      });
+
+  @override
+  State<StatefulWidget> createState() => SprawSelectedListWidgetState();
+
+}
+
+class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
+
+  static const double itemHeight = 72.0;
+  static const double indicatorWidth = 18.0;
+
+  String get stopId => widget.stopId;
+  String get name => widget.name;
+  String get code => widget.code;
+  int get count => widget.count;
+  int? get reqCount => widget.reqCount;
+  Color? get backgroundColor => widget.backgroundColor;
+  Color? get stopColor => widget.stopColor;
+  void Function(int, Spraw?, String)? get onNewSprawSelected => widget.onNewSprawSelected;
+  void Function(int, bool)? get onCheckChanged => widget.onCheckChanged;
+  void Function()? get onSprawStateChanged => widget.onSprawStateChanged;
+  bool get checkVisible => widget.checkVisible;
+  bool get checkable => widget.checkable;
+
+  late List<TextEditingController> controllers;
+  
+  @override
+  void initState() {
+    controllers = [];
+    for(int i=0; i<count; i++) {
+
+      String extText = RankZHPSim2022Templ.getExtText(stopId, code, i)??'';
+      if(extText.contains(SprawSelectedListWidget.customPrefix))
+        extText = extText.substring(SprawSelectedListWidget.customPrefix.length);
+
+      controllers.add(TextEditingController(
+        text: extText
+      ));
+    }
+    
+    super.initState();
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    int _reqCount = reqCount ?? count;
+
+    List<Widget> children = [];
+    for (int i = 0; i < count; i++){
+
+      String? extText = RankZHPSim2022Templ.getExtText(stopId, code, i);
+
+      Spraw? spraw;
+      if(extText == null)
+        spraw = null;
+      else if(extText.length > SprawSelectedListWidget.samplePrefix.length)
+        spraw = Spraw.fromUID(extText.substring(SprawSelectedListWidget.samplePrefix.length));
+      else if(!extText.startsWith(SprawSelectedListWidget.samplePrefix) && !extText.startsWith(SprawSelectedListWidget.customPrefix) && extText.isNotEmpty) {
+        // This is a temporary solution.
+        spraw = null;
+        extText = SprawSelectedListWidget.customPrefix + extText;
+        RankZHPSim2022Templ.setExtText(stopId, code, i, extText);
+      }else
+        spraw = null;
+
+      Widget emptyButtons = SizedBox(
+        height: itemHeight,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+
+            Indicator(
+              index: i+1,
+              required: i<_reqCount,
+              name: name,
+              width: indicatorWidth,
+              height: itemHeight,
+            ),
+
+            const SizedBox(width: Dimen.defMarg),
+
+            Expanded(child: SimpleButton.from(
+                context: context,
+                icon: MdiIcons.dotsHorizontalCircleOutline,
+                text: 'Wybierz',
+                radius: 0,
+                margin: EdgeInsets.zero,
+                onTap: () async {
+
+                  Spraw? selectedSpraw = await selectSpraw(
+                    context, allSpraws: Spraw.all,
+                  );
+
+                  if(selectedSpraw == null) return;
+
+                  RankZHPSim2022Templ.setExtText(stopId, code, i, SprawSelectedListWidget.samplePrefix + selectedSpraw.uniqName);
+                  setState(() {});
+                }
+            )),
+            Expanded(child: SimpleButton.from(
+                context: context,
+                icon: MdiIcons.pencilCircleOutline,
+                text: 'Notatka',
+                radius: 0,
+                margin: EdgeInsets.zero,
+                onTap: (){
+                  RankZHPSim2022Templ.setExtText(stopId, code, i, SprawSelectedListWidget.customPrefix);
+                  setState(() {});
+                }
+            )),
+          ],
+        ),
+      );
+
+      if (extText == null)
+        children.add(emptyButtons);
+
+      else if (extText.startsWith(SprawSelectedListWidget.customPrefix))
+        children.add(
+          SizedBox(
+            height: itemHeight,
+            child: Row(
+              children: [
+
+                Indicator(
+                  index: i+1,
+                  required: i<_reqCount,
+                  name: name,
+                  width: indicatorWidth,
+                  height: itemHeight,
+                ),
+
+                const SizedBox(width: Dimen.ICON_MARG),
+
+                Expanded(
+                  child: AppTextFieldHint(
+                    hint: 'Notatka',
+                    hintTop: 'Notatka',
+                    style: AppTextStyle(),
+                    maxLines: 3,
+                    hintStyle: AppTextStyle(color: hintEnab_(context)),
+                    controller: controllers[i],
+                    onChanged: (_, text) =>
+                        RankZHPSim2022Templ.setExtText(stopId, code, i, SprawSelectedListWidget.customPrefix + text),
+                  ),
+                ),
+                if(checkVisible)
+                  IgnorePointer(
+                    ignoring: !checkable,
+                    child: Checkbox(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
+                      value: RankZHPSim2022Templ.getExtChecked(stopId, code, i),
+                      onChanged: (value) {
+                        RankZHPSim2022Templ.setExtChecked(stopId, code, i, value!);
+                        setState(() {});
+                        RankFloatingButtonProvider.notify_(context);
+                        onCheckChanged?.call(i, value);
+                      },
+                      activeColor: stopColor,
+                    ),
+                  ),
+
+                IconButton(
+                  icon: const Icon(MdiIcons.close),
+                  onPressed: () async {
+                    String? oldExtText = RankZHPSim2022Templ.getExtText(stopId, code, i)??'';
+                    await RankZHPSim2022Templ.removeExtText(stopId, code, i);
+                    if(!mounted) return;
+                    showAppToast(
+                        context,
+                        text: 'Usunięto ${name.toLowerCase()}',
+                        buttonText: 'Cofnij',
+                        onButtonPressed: (){
+                          RankZHPSim2022Templ.setExtText(stopId, code, i, oldExtText);
+                          setState(() {});
+                        }
+                    );
+                    setState((){});
+                  },
+                )
+              ],
+            ),
+          )
+        );
+      else if(extText.startsWith(SprawSelectedListWidget.samplePrefix) && spraw != null) {
+        children.add(
+          SizedBox(
+              height: itemHeight,
+              child: Row(
+                children: [
+
+                  Indicator(
+                    index: i+1,
+                    required: i<_reqCount,
+                    name: name,
+                    width: indicatorWidth,
+                    height: itemHeight,
+                  ),
+
+                  Expanded(
+                    child: SprawTileTemplateWidget(
+                      padding: const EdgeInsets.only(left: Dimen.ICON_MARG),
+                      spraw: spraw,
+                      onTap: () => openSprawDialog(
+                          context,
+                          spraw!,
+                          onStateChanged: (){
+                            onSprawStateChanged?.call();
+                            setState((){});
+                          },
+                      ),
+                      trailing: Row(
+                        children: [
+
+                          if(spraw.completed)
+                            IgnorePointer(
+                              child: Checkbox(
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
+                                value: true,
+                                onChanged: (value) {},
+                                activeColor: hintEnab_(context),
+                              ),
+                            )
+                          else
+                            SprawTileProgressWidget(spraw: spraw),
+
+                          IconButton(
+                            icon: const Icon(MdiIcons.close),
+                            onPressed: () async {
+                              String? oldExtText = RankZHPSim2022Templ.getExtText(stopId, code, i)??'';
+                              await RankZHPSim2022Templ.removeExtText(stopId, code, i);
+                              if(!mounted) return;
+                              showAppToast(
+                                context,
+                                text: 'Usunięto ${name.toLowerCase()}',
+                                buttonText: 'Cofnij',
+                                onButtonPressed: (){
+                                  RankZHPSim2022Templ.setExtText(stopId, code, i, oldExtText);
+                                  setState(() {});
+                                }
+                              );
+                              setState((){});
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+
+                ],
+              )
+          )
+        );
+      } else
+        children.add(emptyButtons);
+
+      if(i < count - 1)
+        children.add(const SizedBox(height: Dimen.defMarg));
+      
+    }
+
+    return Material(
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
+        color: backgroundColor??cardEnab_(context),
+        clipBehavior: Clip.hardEdge,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: children),
+        )
+    );
+  }
+
+}
 
 class SprawNamesWidget extends StatefulWidget{
 
@@ -27,7 +411,7 @@ class SprawNamesWidget extends StatefulWidget{
   final Color? stopColor;
   final void Function(bool?)? onCheckChanged;
   final bool checkVisible;
-  final bool? checkable;
+  final bool checkable;
 
   const SprawNamesWidget(
       this.stopId,
@@ -59,7 +443,7 @@ class SprawNamesWidgetState extends State<SprawNamesWidget>{
   Color? get stopColor => widget.stopColor;
   void Function(bool?)? get onCheckChanged => widget.onCheckChanged;
   bool get checkVisible => widget.checkVisible;
-  bool? get checkable => widget.checkable;
+  bool get checkable => widget.checkable;
 
   @override
   Widget build(BuildContext context) {
@@ -76,18 +460,18 @@ class SprawNamesWidgetState extends State<SprawNamesWidget>{
                   hintTop: '$name ${i + 1} ${i<_reqCount?'*':''}',
                   style: AppTextStyle(),
                   hintStyle: AppTextStyle(color: hintEnab_(context)),
-                  controller: TextEditingController(text: RankZHPSim2022Templ.getExtTextKey(stopId, code, i)),
-                  onChanged: (_, text) => RankZHPSim2022Templ.setExtTextKey(stopId, code, i, text),
+                  controller: TextEditingController(text: RankZHPSim2022Templ.getExtText(stopId, code, i)),
+                  onChanged: (_, text) => RankZHPSim2022Templ.setExtText(stopId, code, i, text),
                 ),
               ),
               if(checkVisible)
                 IgnorePointer(
-                  ignoring: checkable!,
+                  ignoring: !checkable,
                   child: Checkbox(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
-                    value: RankZHPSim2022Templ.getExtCheckedKey(stopId, code, i),
+                    value: RankZHPSim2022Templ.getExtChecked(stopId, code, i),
                     onChanged: (value) async {
-                      RankZHPSim2022Templ.setExtCheckedKey(stopId, code, i, value!);
+                      RankZHPSim2022Templ.setExtChecked(stopId, code, i, value!);
                       setState((){});
                       Provider.of<RankFloatingButtonProvider>(context, listen: false).notify();
                       onCheckChanged?.call(value);
@@ -170,7 +554,7 @@ RankZHPSim2022Data rankZhp1Data = RankZHPSim2022Data(
       '\n$_tab Wie, że ludzie swoimi decyzjami mają wpływ na naturę, stara się o nią dbać każdego dnia, wyrabia w sobie ekologiczne zachowania (np. segregacja odpadów, oszczędzanie wody i energii itd.).'
       '\n$_tab Najpierw myśli, potem mówi, nie życzy innym źle, nie obgaduje, nie używa wulgaryzmów.',
   catData: [
-    
+
     const RankCatData(
       icon: RankData.iconCatStopZadania,
       groupData: [
@@ -245,7 +629,7 @@ RankZHPSim2022Data rankZhp1Data = RankZHPSim2022Data(
         )
       ]
     )
-    
+
   ]
 );
 RankZHPSim2022 rankZhp1 = rankZhp1Data.build();

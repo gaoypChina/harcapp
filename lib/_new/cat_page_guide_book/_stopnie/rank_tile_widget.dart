@@ -35,25 +35,8 @@ class RankTileWidget<T extends Rank> extends StatelessWidget {
       titleBottom: rank.titleFemale,
 
       trailing: RankProgressWidget(rank.completed, rank.inProgress, rank.completenessPercent),
-      onTap: (context) => openRankDialog(context, rank),
+      onTap: (context) => openRankPage(context, rank),
     );
   }
 
 }
-
-Future<void> openRankDialog(BuildContext context, Rank rank) => openDialog(
-    context: context,
-    builder: (context) => Padding(
-      padding: AppCard.normMargin,
-      child: Material(
-        borderRadius: BorderRadius.circular(AppCard.bigRadius),
-        clipBehavior: Clip.hardEdge,
-        color: background_(context),
-        child: RankWidget(
-          rank: rank,
-          icons: RankData.iconSizeMap[rank.data]!.item1,
-          showBack: true,
-        ),
-      ),
-    )
-);

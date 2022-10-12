@@ -187,7 +187,7 @@ class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
               child:
               inProgress! || completed!?
               Padding(
-                padding: MediaQuery.of(context).viewInsets.add(const EdgeInsets.only(left: Dimen.ICON_MARG, top: 10, bottom: 10)),
+                padding: const EdgeInsets.only(left: Dimen.ICON_MARG, top: 10, bottom: 10), //MediaQuery.of(context).viewInsets.add(const EdgeInsets.only(left: Dimen.ICON_MARG, top: 10, bottom: 10)),
                 child: AppTextFieldHint(
                   enabled: !completed! && editable,
                   controller: textController,

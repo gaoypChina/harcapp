@@ -120,7 +120,6 @@ class SearchPageState extends State<SearchPage>{
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                     (context, index) => SprawTileWidget(
-                        groupName: groupNameMap[currSpraws[index]],
                         spraw: currSpraws[index],
                         onPicked: widget.onPicked
                     ),

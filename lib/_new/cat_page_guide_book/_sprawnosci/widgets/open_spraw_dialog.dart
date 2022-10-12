@@ -6,15 +6,27 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 
 import '../widgets/spraw_widget.dart';
 
-void openSprawDialog(BuildContext context, Spraw spraw, {heroTag, void Function()? onReqComplChanged}) => openDialog(
+void openSprawDialog(
+    BuildContext context,
+    Spraw spraw,
+    { heroTag,
+      void Function()? onStateChanged,
+      void Function()? onReqComplChanged
+    }) => openDialog(
     context: context,
     builder: (context){
-      Widget child = AppCard(
+      Widget child = Padding(
+        padding: MediaQuery.of(context).viewInsets.add(AppCard.normMargin),
+        child: Material(
           color: background_(context),
-          margin: AppCard.normMargin,
-          padding: EdgeInsets.zero,
-          radius: AppCard.bigRadius,
-          child: SprawWidget(spraw, onReqComplChanged: onReqComplChanged)
+          borderRadius: BorderRadius.circular(AppCard.bigRadius),
+          clipBehavior: Clip.hardEdge,
+          child: SprawWidget(
+              spraw,
+              onStateChanged: onStateChanged,
+              onReqComplChanged: onReqComplChanged
+          )
+        ),
       );
 
       if(heroTag == null)

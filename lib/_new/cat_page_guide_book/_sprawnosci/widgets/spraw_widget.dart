@@ -37,6 +37,8 @@ class SprawWidget extends StatefulWidget{
   final void Function()? onAbandoned;
   final void Function(bool)? onStartStop;
 
+  final void Function()? onStateChanged;
+
   const SprawWidget(
       this.spraw,
       { this.showBack = true,
@@ -47,6 +49,9 @@ class SprawWidget extends StatefulWidget{
         this.onCompleted,
         this.onAbandoned,
         this.onStartStop,
+
+        this.onStateChanged,
+
         super.key
       });
 
@@ -63,13 +68,33 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
   Spraw get spraw => widget.spraw;
   bool get showBack => widget.showBack;
 
-  void Function()? get onClaimed => widget.onClaimed;
-  void Function()? get onSaveChanged => widget.onSaveChanged;
-  void Function()? get onReqComplChanged => widget.onReqComplChanged;
+  void onClaimed(){
+    widget.onClaimed?.call();
+    onStateChanged?.call();
+  }
+  void onSaveChanged(){
+    widget.onSaveChanged?.call();
+    onStateChanged?.call();
+  }
+  void onReqComplChanged(){
+    widget.onReqComplChanged?.call();
+    onStateChanged?.call();
+  }
 
-  void Function()? get onCompleted => widget.onCompleted;
-  void Function()? get onAbandoned => widget.onAbandoned;
-  void Function(bool)? get onStartStop => widget.onStartStop;
+  void onCompleted(){
+    widget.onCompleted?.call();
+    onStateChanged?.call();
+  }
+  void onAbandoned(){
+    widget.onAbandoned?.call();
+    onStateChanged?.call();
+  }
+  void onStartStop(bool value){
+    widget.onStartStop?.call(value);
+    onStateChanged?.call();
+  }
+
+  void Function()? get onStateChanged => widget.onStateChanged;
 
   late ConfettiController confettiController;
 

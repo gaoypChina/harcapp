@@ -42,17 +42,17 @@ dependencies:
   extended_nested_scroll_view: 6.0.0-dev.1
   flip_card: ^0.6.0
   flutter_email_sender: ^5.1.0
-  flutter_image_compress: 1.1.2
+  flutter_image_compress: ^1.1.3
   flutter_keyboard_visibility: ^5.2.0
   flutter_link_previewer: ^3.0.1
   flutter_lints: ^2.0.1
-  flutter_map: ^2.2.0
+  flutter_map: ^3.0.0
   flutter_reorderable_list: ^1.2.0
   flutter_secure_storage: ^5.0.2
   flutter_slidable: ^2.0.0
   flutter_spinkit: ^5.1.0
   flutter_staggered_animations: ^1.1.1
-  flutter_svg: ^1.0.3
+  flutter_svg: ^1.1.5 # ^1.0.3
   flutter_translate: ^4.0.2
   gallery_saver: ^2.3.2
   google_fonts: ^3.0.1
@@ -94,7 +94,7 @@ dependencies:
   torch_light: ^0.4.0
   url_launcher: ^6.1.2
   wakelock: ^0.6.1+2
-  webfeed: ^0.7.0
+  # webfeed: ^0.7.0
   youtube_player_flutter: ^8.1.0 # add dependencies to iOS # add dependencies to Android
 
   #qrcode_reader:
@@ -106,9 +106,9 @@ dependencies:
       #git:
       #url: git://github.com/mashnoon33/circular_check_box.git
 
-  #webfeed:
-  #  git:
-  #    url: git://github.com/n3o2k7i8ch5/webfeed.git
+  webfeed:
+    git:
+      url: https://github.com/n3o2k7i8ch5/webfeed
 
   harcapp_core:
     git:

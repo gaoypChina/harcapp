@@ -131,17 +131,16 @@ class BottomSheetDef extends StatefulWidget{
 class BottomSheetDefState extends State<BottomSheetDef>{
 
   @override
-  Widget build(BuildContext context) {
-
-    return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: GradientWidget(
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(12.0),
-              topRight: Radius.circular(12.0)
-          ),
-          colorStart: widget.color??background_(context),
-          colorEnd: widget.colorEnd??widget.color??background_(context),
+  Widget build(BuildContext context) => Padding(
+    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+    child: GradientWidget(
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(12.0),
+            topRight: Radius.circular(12.0)
+        ),
+        colorStart: widget.color??background_(context),
+        colorEnd: widget.colorEnd??widget.color??background_(context),
+        child: IntrinsicHeight(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -158,16 +157,21 @@ class BottomSheetDefState extends State<BottomSheetDef>{
                       ],
                     )
                 ),
-              Padding(
-                padding: widget.childMargin,
-                child: widget.builder(context),
+              // Padding(
+              //   padding: widget.childMargin,
+              //   child: widget.builder(context),
+              // )
+              Expanded(
+                child: Padding(
+                  padding: widget.childMargin,
+                  child: widget.builder(context),
+                ),
               )
             ],
-          )
-      ),
-    );
-
-  }
+          ),
+        )
+    ),
+  );
 
   void notify() => setState((){});
 

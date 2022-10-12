@@ -15,7 +15,7 @@ class FamilyWidget extends StatelessWidget{
   final String? groupName;
   final void Function(Spraw spraw)? onPicked;
 
-  const FamilyWidget(this.sprawFamily, {this.groupName, this.onPicked});
+  const FamilyWidget(this.sprawFamily, {this.groupName, this.onPicked, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +25,13 @@ class FamilyWidget extends StatelessWidget{
 
         if(sprawFamily.title != null)
           Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               top: 2*Dimen.ICON_MARG,
             ),
             child: Row(
               children: [
 
-                SizedBox(height: Dimen.ICON_FOOTPRINT, width: Dimen.ICON_FOOTPRINT,),
+                const SizedBox(height: Dimen.ICON_FOOTPRINT, width: Dimen.ICON_FOOTPRINT,),
 
                 Expanded(
                   child: Text(
@@ -46,7 +46,7 @@ class FamilyWidget extends StatelessWidget{
 
                 if(sprawFamily.fragment != null)
                   IconButton(
-                      icon: Icon(MdiIcons.dotsVertical),
+                      icon: const Icon(MdiIcons.dotsVertical),
                       onPressed: () => showScrollBottomSheet(
                           context: context,
                           builder: (context) => BottomSheetDef(
@@ -63,7 +63,7 @@ class FamilyWidget extends StatelessWidget{
                                           fontWeight: weight.halfBold
                                       )
                                   ),
-                                  SizedBox(height: 2*Dimen.BOTTOM_SHEET_MARG),
+                                  const SizedBox(height: 2*Dimen.BOTTOM_SHEET_MARG),
                                   if(sprawFamily.fragmentAuthor != null)
                                     Text(
                                         '~ ${sprawFamily.fragmentAuthor}',
@@ -81,14 +81,14 @@ class FamilyWidget extends StatelessWidget{
                       )
                   )
                 else
-                  SizedBox(height: Dimen.ICON_FOOTPRINT, width: Dimen.ICON_FOOTPRINT,),
+                  const SizedBox(height: Dimen.ICON_FOOTPRINT, width: Dimen.ICON_FOOTPRINT,),
               ],
             ),
           ),
 
         if(sprawFamily.tags != null)
           Padding(
-            padding: EdgeInsets.only(left: Dimen.ICON_MARG, right: Dimen.ICON_MARG, bottom: Dimen.ICON_MARG),
+            padding: const EdgeInsets.only(left: Dimen.ICON_MARG, right: Dimen.ICON_MARG, bottom: Dimen.ICON_MARG),
             child: Wrap(
               alignment: WrapAlignment.center,
               spacing: 14.0,
@@ -99,8 +99,8 @@ class FamilyWidget extends StatelessWidget{
 
         Column(
           children: sprawFamily.spraws!.map((spraw) => SprawTileWidget(
-              groupName: groupName,
               spraw: spraw,
+              padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
               onPicked: onPicked
           )).toList(),
         ),

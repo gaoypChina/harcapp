@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/api/rank.dart';
@@ -38,6 +39,18 @@ import '../../../module_statistics_registrator.dart';
 
 class RankFloatingButtonProvider extends ChangeNotifier{
 
+  static RankFloatingButtonProvider of(BuildContext context) => Provider.of<RankFloatingButtonProvider>(context, listen: false);
+  static notify_(BuildContext context) => of(context).notify();
+
+  void notify() => notifyListeners();
+
+}
+
+class RankProgressProvider extends ChangeNotifier{
+
+  static RankProgressProvider of(BuildContext context) => Provider.of<RankProgressProvider>(context, listen: false);
+  static notify_(BuildContext context) => of(context).notify();
+
   void notify() => notifyListeners();
 
 }
@@ -48,6 +61,7 @@ class RankWidget extends StatefulWidget{
   final List<IconData> icons;
   final DateTime? lastUpdateTime;
 
+  final bool hideTitle;
   final bool showBack;
 
   final void Function(RankTask item, bool completed)? onReqCompletedChanged;
@@ -58,6 +72,7 @@ class RankWidget extends StatefulWidget{
     required this.rank,
     required this.icons,
     this.lastUpdateTime,
+    this.hideTitle = true,
     this.showBack = false,
     this.onReqCompletedChanged,
 
@@ -75,6 +90,7 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
   String get moduleId => ModuleStatsMixin.stopnie;
 
   Rank get rank => widget.rank;
+  bool get hideTitle => widget.hideTitle;
   bool get showBack => widget.showBack;
   void Function(RankTask item, bool completed)? get onReqCompletedChanged => widget.onReqCompletedChanged;
 
@@ -114,107 +130,111 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (BuildContext context) => RankFloatingButtonProvider()),
+        ChangeNotifierProvider(create: (BuildContext context) => RankProgressProvider()),
         ChangeNotifierProvider(create: (BuildContext context) => SharedUsersProvider(rank, [])),
       ],
-      builder: (context, child) => RankSprawTempWidget(
-          title: '${rank.titleMale}${rank.titleFemale==null?'':'\n${rank.titleFemale}'}',
-          color: RankData.colors[rank.data]!.avgColor(false),
-          completedText: 'Stopień zdobyty!',
-          completedTextColor: background_(context),
-          appBarBottom:
-          account?
-          SharedUsersWidget(rank):null,
-          underTitleLeading: Row(
-            children: widget.icons.map((icon) => Icon(icon, size: RankData.iconSizeMap[rank.data]!.item2,)).toList(),
-          ),
-          floatingButton: Consumer<RankFloatingButtonProvider>(
-            builder: (context, prov, child){
+      builder: (context, child) => Consumer<RankProgressProvider>(
+        builder: (context, prov, child) => RankSprawTempWidget(
+              title: '${rank.titleMale}${rank.titleFemale==null?'':'\n${rank.titleFemale}'}',
+              color: RankData.colors[rank.data]!.avgColor(false),
+              completedText: 'Stopień zdobyty!',
+              completedTextColor: background_(context),
+              appBarBottom:
+              account?
+              SharedUsersWidget(rank):null,
+              titleTrailing: Row(
+                children: widget.icons.map((icon) => Icon(icon, size: RankData.iconSizeMap[rank.data]!.item2,)).toList(),
+              ),
+              floatingButton: Consumer<RankFloatingButtonProvider>(
+                builder: (context, prov, child){
 
-              bool showComplete = rank.isReadyToComplete && !rank.completed&& rank.inProgress;
-              bool showClaim = !rank.inProgress&& !rank.completed;
+                  bool showComplete = rank.isReadyToComplete && !rank.completed&& rank.inProgress;
+                  bool showClaim = !rank.inProgress&& !rank.completed;
 
-              return Stack(
+                  return Stack(
+                    children: [
+
+                      AnimatedOpacity(
+                        opacity: rank.inProgress&& rank.isReadyToComplete && !rank.completed?1:0,
+                        duration: const Duration(milliseconds: 300),
+                        child: IgnorePointer(
+                          ignoring: !showComplete,
+                          child: CompleteButton(
+                            rank,
+                            confettiController,
+                            color: RankData.colors[rank.data]!.avgColor(false),
+                            onPressed: (){
+                              setState((){});
+                            },
+                          ),
+                        ),
+                      ),
+
+                      AnimatedOpacity(
+                        opacity: rank.inProgress|| rank.completed?0:1,
+                        duration: const Duration(milliseconds: 300),
+                        child: IgnorePointer(
+                          ignoring: !showClaim,
+                          child: ClaimButton(
+                            rank,
+                            color: RankData.colors[rank.data]!.avgColor(false),
+                            confettiController: confettiController,
+                            onClaimed: () => setState(() => Provider.of<RankProv>(context, listen: false).notify()),
+                          ),
+                        ),
+                      ),
+
+                    ],
+                  );
+                },
+              ),
+              backgroundIconComplete: MdiIcons.trophyAward,
+
+              completenessPercent: rank.completenessPercent,
+              inProgress: rank.inProgress,
+              isReadyToComplete: rank.isReadyToComplete,
+              completed: rank.completed,
+              completedDate: rank.completionDate,
+              onCompleteDateChanged: (DateTime dateTime) => setState(() => rank.setCompletionDate(dateTime)),
+              onStartStopTap: (bool inProgress) => setState(() => rank.changeInProgress(context)),
+              onAbandonTap: (){
+                rank.changeCompleted(context, value: false, localOnly: true);
+                rank.changeInProgress(context, value: false);
+                Provider.of<RankProv>(context, listen: false).notify();
+                setState(() {});
+              },
+
+              showAppBar: showBack,
+              hideTitle: hideTitle,
+              confettiController: confettiController,
+
+              previewOnly: widget.previewOnly,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  AnimatedOpacity(
-                    opacity: rank.inProgress&& rank.isReadyToComplete && !rank.completed?1:0,
-                    duration: const Duration(milliseconds: 300),
-                    child: IgnorePointer(
-                      ignoring: !showComplete,
-                      child: CompleteButton(
-                        rank,
-                        confettiController,
-                        color: RankData.colors[rank.data]!.avgColor(false),
-                        onPressed: (){
-                          setState((){});
-                        },
-                      ),
+                  if(widget.lastUpdateTime != null)
+                    SimpleButton.from(
+                      textColor: textEnab_(context),
+                      icon: MdiIcons.update,
+                      text: dateToString(widget.lastUpdateTime!, shortMonth: true, withTime: true),
+                      textSize: Dimen.TEXT_SIZE_BIG,
+                      margin: EdgeInsets.zero,
+                      onTap: () => showAppToast(context, text: 'Ostatnia aktualizacja stopnia:\n<b>${dateToString(widget.lastUpdateTime!, shortMonth: true, withTime: true)}</b>')
                     ),
-                  ),
 
-                  AnimatedOpacity(
-                    opacity: rank.inProgress|| rank.completed?0:1,
-                    duration: const Duration(milliseconds: 300),
-                    child: IgnorePointer(
-                      ignoring: !showClaim,
-                      child: ClaimButton(
-                        rank,
-                        color: RankData.colors[rank.data]!.avgColor(false),
-                        confettiController: confettiController,
-                        onClaimed: () => setState(() => Provider.of<RankProv>(context, listen: false).notify()),
-                      ),
-                    ),
-                  ),
+                  rank.buildHeader(context),
+
+                  const SizedBox(height: Dimen.SIDE_MARG),
+
+                  Column(children: children),
+
+                  rank.buildFooter(context),
+                  const SizedBox(height: 2*Dimen.ICON_MARG)
 
                 ],
-              );
-            },
-          ),
-          backgroundIconComplete: MdiIcons.trophyAward,
-
-          completenessPercent: rank.completenessPercent,
-          inProgress: rank.inProgress,
-          isReadyToComplete: rank.isReadyToComplete,
-          completed: rank.completed,
-          completedDate: rank.completionDate,
-          onCompleteDateChanged: (DateTime dateTime) => setState(() => rank.setCompletionDate(dateTime)),
-          onStartStopTap: (bool inProgress) => setState(() => rank.changeInProgress(context)),
-          onAbandonTap: (){
-            rank.changeCompleted(context, value: false, localOnly: true);
-            rank.changeInProgress(context, value: false);
-            Provider.of<RankProv>(context, listen: false).notify();
-            setState(() {});
-          },
-
-          showAppBar: showBack,
-          confettiController: confettiController,
-
-          previewOnly: widget.previewOnly,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              if(widget.lastUpdateTime != null)
-                SimpleButton.from(
-                  textColor: textEnab_(context),
-                  icon: MdiIcons.update,
-                  text: dateToString(widget.lastUpdateTime!, shortMonth: true, withTime: true),
-                  textSize: Dimen.TEXT_SIZE_BIG,
-                  margin: EdgeInsets.zero,
-                  onTap: () => showAppToast(context, text: 'Ostatnia aktualizacja stopnia:\n<b>${dateToString(widget.lastUpdateTime!, shortMonth: true, withTime: true)}</b>')
-                ),
-
-              rank.buildHeader(context),
-
-              const SizedBox(height: Dimen.SIDE_MARG),
-
-              Column(children: children),
-
-              rank.buildFooter(context),
-              const SizedBox(height: 2*Dimen.ICON_MARG)
-
-            ],
-          ),
+              ),
+          )
       ),
     );
 
@@ -715,3 +735,32 @@ class SharedUsersProvider extends ChangeNotifier{
   }
 
 }
+
+Future<void> openRankDialog(BuildContext context, Rank rank) => openDialog(
+    context: context,
+    builder: (context) => Padding(
+      padding: MediaQuery.of(context).viewInsets.add(AppCard.normMargin),
+      child: Material(
+        borderRadius: BorderRadius.circular(AppCard.bigRadius),
+        clipBehavior: Clip.hardEdge,
+        color: background_(context),
+        child: RankWidget(
+          rank: rank,
+          icons: RankData.iconSizeMap[rank.data]!.item1,
+          showBack: true,
+        ),
+      ),
+    )
+);
+
+Future<void> openRankPage(BuildContext context, Rank rank) => pushPage(
+    context,
+    builder: (context) => BottomNavScaffold(
+      body: RankWidget(
+        rank: rank,
+        icons: RankData.iconSizeMap[rank.data]!.item1,
+        showBack: true,
+        hideTitle: false
+      ),
+    )
+);

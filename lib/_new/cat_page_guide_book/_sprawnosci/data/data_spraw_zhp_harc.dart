@@ -6,6 +6,14 @@ import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_group.
 //     -> zmienić na spację
 // /am -> (-am)
 // /łam -> (-am)
+// /wzięłam -> (wzięłam)
+// /powinnam -> (powinnam)
+// /podjęłam -> (podjęłam)
+// /poszłam -> (poszłam)
+// drużynowemu/drużynowej -> drużynowemu
+// drużynowy/drużynowa -> drużynowy
+// drużynowym/drużynową -> drużynowym
+
 
 SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
     id: SprawBookData.ZHP_HARC_SIM_2022_ID,
@@ -862,7 +870,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                                   comment: 'Nauczył(-a) się gospodarować posiadanymi pieniędzmi, w szczególności efektywnie je wydatkować oraz oszczędzać. Wziął/wzięła udział w przedsięwzięciach finansowych drużyny.',
                                   tasks: [
                                         'Robiąc zakupy na rzecz drużyny, uzyskałem(-am) od sprzedającego właściwie wystawioną fakturę. Odbierając ją, sprawdziłem(-am) poprawność wszystkich niezbędnych danych.',
-                                        'Wziąłem/wzięłam udział w pozyskiwaniu środków w formie np. akcji zarobkowej, zbiórki publicznej, loterii, crowdfundingu, akcji 1% itp.',
+                                        'Wziąłem(wzięłam) udział w pozyskiwaniu środków w formie np. akcji zarobkowej, zbiórki publicznej, loterii, crowdfundingu, akcji 1% itp.',
                                         'Przez miesiąc prowadziłem(-am) zestawienie swoich wydatków. Następnie określiłem(-am), które były niezbędne, a z których mógłbym/mogłabym zrezygnować.',
                                         'Zapoznałem(-am) się z zasadą 4R (refuse, reduce, reuse, recycle), i stosując ją, ograniczyłem(-am) swoją konsumpcję. W trakcie trwania próby całkowicie zrezygnowałem(-am) z kupowania jednego z produktów nieodpowiedzialnych środowiskowo np. słodyczy z olejem palmowym, napojów w butelkach PET itp.',
                                   ]),
@@ -873,9 +881,9 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                                   comment: 'Uzyskał(-a) doświadczenie związane z zarabianiem oraz gospodarowaniem pieniędzmi na potrzeby własne lub zespołów, w których aktywnie działa.',
                                   tasks: [
                                         'Wykorzystując więcej niż jeden sposób, pozyskałem(-am) środki finansowe lub materialne na wybrany przez siebie cel.',
-                                        'Wziąłem/wzięłam udział w organizowaniu akcji zarobkowej (np. w formie zbiórki publicznej, sprzedaży towarów lub usług, loterii, crowdfundingu), będąc osobą odpowiedzialną za ustalony obszar jej realizacji bądź rozliczenia (pod nadzorem instruktora).',
+                                        'Wziąłem(wzięłam) udział w organizowaniu akcji zarobkowej (np. w formie zbiórki publicznej, sprzedaży towarów lub usług, loterii, crowdfundingu), będąc osobą odpowiedzialną za ustalony obszar jej realizacji bądź rozliczenia (pod nadzorem instruktora).',
                                         'Wykonałem(-am) co najmniej jedno z poniższych zadań:',
-                                        '\n- Dokonałem(-am) płatności przy pomocy karty płatniczej, wypłaciłem(-am) pieniądze z bankomatu oraz zapłaciłem(-am) przelewem bankowym np. składki.',
+                                        '\n\n- Dokonałem(-am) płatności przy pomocy karty płatniczej, wypłaciłem(-am) pieniądze z bankomatu oraz zapłaciłem(-am) przelewem bankowym np. składki.',
                                         '\n\n- Zaprezentowałem(-am) zastępowi/drużynie w formie graficznej informacje o drodze produkcji i podziale zysków z produkcji i sprzedaży wybranego produktu (w tym o sposobie ich opodatkowania).',
                                         'Zebrałem(-am) informacje o dostępnych dla młodzieży ofertach różnych banków i przeanalizowałem(-am) oferowane w ramach nich usługi i produkty. Na podstawie dokonanej analizy założyłem(-am) konto bankowe lub porównałem(-am) warunki banku, w którym posiadam rachunek, z innymi zebranymi ofertami.',
                                         'Przygotowałem(-am) plan finansowy biwaku, rajdu, wycieczki lub innego przedsięwzięcia harcerskiego. Rozliczyłem(-am) go w ramach uzyskanej zaliczki, jednocześnie weryfikując w ramach tego rozliczenia realizację zakładanego preliminarza.',
@@ -888,7 +896,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                                   comment: 'Nabył(-a) umiejętności w zakresie planowania oraz prowadzenia rozliczeń finansowych w ramach podstawowych aktywności zespołów (np. drużyny, zastępu itp.). Zdobył(-a) podstawową wiedzę o swoich kompetencjach jako przyszłego pracownika lub przedsiębiorcy. Skutecznie nauczył(-a) się przekazywać innym wiedzę o podstawowych pojęciach ekonomicznych.',
                                   tasks: [
                                         'Wykonałem(-am) co najmniej jedno z poniższych zadań:',
-                                        '\n- Przeprowadziłem(-am) w drużynie grę ekonomiczną umożliwiającą uczestnikom poznanie pojęć: popyt, podaż, koszt, przychód, marża, zysk, wykorzystując udostępnione w ramach programów edukacyjnych materiały wychowania ekonomicznego. Odpowiedzialnie zadbałem(-am) o jakość materiałów, czerpiąc je ze stron instytucji finansowych, np. NBP, GPW, Związek Banków Polskich.',
+                                        '\n\n- Przeprowadziłem(-am) w drużynie grę ekonomiczną umożliwiającą uczestnikom poznanie pojęć: popyt, podaż, koszt, przychód, marża, zysk, wykorzystując udostępnione w ramach programów edukacyjnych materiały wychowania ekonomicznego. Odpowiedzialnie zadbałem(-am) o jakość materiałów, czerpiąc je ze stron instytucji finansowych, np. NBP, GPW, Związek Banków Polskich.',
                                         '\n\n- Pokierowałem(-am) akcją zarobkową drużyny (w formie np. zbiórki publicznej, sprzedaży towarów lub usług, loterii, crowdfundingu), która przyniosła wymierny zysk, i rozliczyłem(-am) ją.',
                                         'Zidentyfikowałem(-am) swoje predyspozycje zawodowe, korzystając z pomocy doradcy zawodowego lub wybranego kwestionariusza.',
                                         'Poznałem(-am) różne rodzaje ochrony i pomnażania oszczędności. Pomnożyłem(-am) swoje środki i przedstawiłem(-am) osiągnięte efekty wraz z wnioskami podczas zbiórki dla zastępu/drużyny/rodziców. Podczas prezentacji efektów tego działania wykorzystałem(-am) narzędzie analizy portfelowej.',
@@ -970,8 +978,8 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                                   tasks: [
                                         'Przeprowadziłem(-am) szkolenie dla skarbników zastępów i drużyn.',
                                         'Uczestniczyłem(-am) w pracach zespołu przygotowującego oraz rozliczającego pod względem finansowym obóz mojego środowiska.',
-                                        'Wziąłem/wzięłam udział w opracowywaniu wniosku grantowego i rozliczaniu grantu po jego wykonaniu.',
-                                        'Wziąłem/wzięłam udział w opracowywaniu miesięcznego rozliczenia finansowego hufca.',
+                                        'Wziąłem(wzięłam) udział w opracowywaniu wniosku grantowego i rozliczaniu grantu po jego wykonaniu.',
+                                        'Wziąłem(wzięłam) udział w opracowywaniu miesięcznego rozliczenia finansowego hufca.',
                                   ]),
                         ]
                     ),
@@ -1101,7 +1109,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                                   tasks: [
                                         'Dowiedziałem(-am) się, z jakiego banku korzystają moi rodzice/opiekunowie, gdzie się znajduje i jakie usługi oferuje. Wspólnie z nimi przedyskutowałem(-am) powody, dla których korzystają z oferty akurat tego banku.',
                                         'Poznałem(-am) dostępne dla siebie sposoby oszczędzania pieniędzy i przedstawiłem(-am) je na zbiórce zastępu.',
-                                        'Odszukałem(-am) dostępne w sieci edukacyjne materiały multimedialne, dzięki którym poznałem(-am) definicję pieniądza oraz zapoznałem(-am) się z zabezpieczeniami na banknotach, jak również nietypowymi monetami w obiegu w Polsce. Wziąłem/wzięłam udział w minimum jednej grze oraz quizie, dzięki którym zapamiętałem(-am) powyższe informacje (np. na portalu NBP).',
+                                        'Odszukałem(-am) dostępne w sieci edukacyjne materiały multimedialne, dzięki którym poznałem(-am) definicję pieniądza oraz zapoznałem(-am) się z zabezpieczeniami na banknotach, jak również nietypowymi monetami w obiegu w Polsce. Wziąłem(wzięłam) udział w minimum jednej grze oraz quizie, dzięki którym zapamiętałem(-am) powyższe informacje (np. na portalu NBP).',
                                         'Dowiedziałem(-am) się, co to jest RRSO i jaką rolę pełni. Wyjaśniłem(-am) to innym, porównując poziom RRSO w kilku ofertach finansowych.',
                                   ]),
                               SprawData(
@@ -1112,7 +1120,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                                   tasks: [
                                         'Poznałem(-am) pojęcia takie jak: cechy pieniądza, funkcje pieniądza oraz jestem świadomy(-a) ewolucji form pieniądza. Jedno z tych pojęć wyjaśniłem(-am) na forum zastępu przygotowując graficzną prezentację.',
                                         'Wykonałem(-am) jedno z poniższych zadań:'
-                                            '\n- Wziąłem/wzięłam udział w grze dostępnej na Portalu Edukacji Ekonomicznej Narodowego Banku Polskiego (NBP).'
+                                            '\n\n- Wziąłem(wzięłam) udział w grze dostępnej na Portalu Edukacji Ekonomicznej Narodowego Banku Polskiego (NBP).'
                                             '\n\n- Odwiedziłem(-am) Centrum Pieniądza NBP.'
                                             'Obliczyłem(-am) odsetki, jakie uzyskałbym/uzyskałabym w wypadku założenia rocznej lokaty w wysokości 100 zł, przy użyciu aktualnej stopy oprocentowania, jaką proponuje wybrany przeze mnie bank i przy założeniu, że nie uwzględniona zostaje kapitalizacja (procent prosty).'
                                             'Poznałem(-am) różnice pomiędzy przelewem bądź przekazem bankowym i pocztowym. Dokonałem(-am) jednego z nich.',
@@ -1125,7 +1133,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                                   tasks: [
                                         'Wyjaśniłem(-am) innym, jak wygląda obieg pieniądza w gospodarce. Przygotowałem(-am) na ten temat dowolną prezentację.',
                                         'Obliczyłem(-am) odsetki, jakie uzyskałbym/uzyskałabym w wypadku założenia rok temu rocznej lokaty w walucie (kwota w EUR) w wysokości 100 zł (przeliczonych na EUR), przy użyciu aktualnej stopy oprocentowania, jaką proponuje wybrany przeze mnie bank oraz kursu waluty sprzed roku i dzisiejszego oraz przy założeniu, że nie uwzględniona zostaje kapitalizacja (procent prosty).',
-                                        'Wziąłem/wzięłam udział w grze ekonomicznej zawierającej elementy inwestowania (forma inwestycji, czas, płynność) oraz oceny ryzyka oraz rozwiązałem(-am) quiz lub krzyżówkę z dziedziny finansów i bankowości, dostępnych na Portalu Edukacji Ekonomicznej NBP.',
+                                        'Wziąłem(wzięłam) udział w grze ekonomicznej zawierającej elementy inwestowania (forma inwestycji, czas, płynność) oraz oceny ryzyka oraz rozwiązałem(-am) quiz lub krzyżówkę z dziedziny finansów i bankowości, dostępnych na Portalu Edukacji Ekonomicznej NBP.',
                                         'Poznałem(-am) różne rodzaje ochrony i pomnażania oszczędności, przeprowadziłem(-am) na ten temat zbiórkę dla członków drużyny oraz dla ich rodziców. Podczas zbiórki uwzględniłem(-am) kwestie poziomu ryzyka, zabezpieczeń BFG oraz specyfiki poszczególnych instrumentów i wynikających stąd różnic (np. różnica między kredytem a pożyczką).',
                                   ]),
                               SprawData(
@@ -1138,7 +1146,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                                         'Przygotowałem(-am) i ustawiłem(-am) odpowiednie zabezpieczenia dla transakcji zakupu dokonywanych poprzez Internet.',
                                         'Przygotowałem(-am) i przeprowadziłem(-am) grę ekonomiczną zawierającą elementy inwestowania (forma inwestycji, czas, płynność), oszczędzania oraz oceny ryzyka.',
                                         'Posługuję się biegle bankowością elektroniczną, realizując następujące działania:'
-                                        '\n- dokonałem(-am) przelewu,'
+                                        '\n\n- dokonałem(-am) przelewu,'
                                         '\n\n- użyłem(-am) karty płatniczej,'
                                         '\n\n- ustanowiłem(-am) lokatę,'
                                         '\n\n- zapłaciłem(-am) przy użyciu dostępnego elektronicznego serwisu transakcyjnego (np. BLIK) wykorzystując do tego telefon. Przeanalizowałem(-am) na podstawie systemu bankowego strukturę swoich wydatków.',
@@ -1166,7 +1174,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                                         'Przygotowałem(-am) infografikę przedstawiającą strukturę rynku finansowego w Polsce oraz podmiotów na nim występujących. Infografika pozwoli zrozumieć zainteresowanym znaczenie podstawowych pojęć jak: rynek, giełda, notowanie, akcja, obligacja, dywidenda, dematerializacja oraz rolę podstawowych instytucji: KNF, GPW, KDPW, NBP, itp. Na podstawie infografiki przedstawiłem/am funkcjonowanie tego rynku swojej drużynie/zastępowi.',
                                         'Poznałem(-am) podstawowe indeksy giełdowe oraz rynki funkcjonujące na GPW oraz na głównych giełdach na świecie. W ciągu miesiąca prowadziłem(-am) analizę notowań wybranych spółek z tych rynków i oceniłem(-am) różnice poziomu opłacalności oraz ryzyka pomiędzy nimi wykorzystując do tego między innymi narzędzie, jakim jest mapa ryzyka.',
                                         'Sporządziłem(-am) mapę ryzyka oraz rentowności dla wybranych instrumentów finansowych (np. akcje vs. obligacje vs. jednostki uczestnictwa funduszy). Na jej podstawie podczas zbiórki drużyny/zastępu przeprowadziłem(-am) dyskusję na temat wyborów inwestycyjnych w kontekście osobistych preferencji co do akceptowanego poziomu ryzyka oraz oczekiwanych zysków. Wnioski dyskusji w ramach podsumowania uczestnicy odnieśli do innych sytuacji życiowych, poza rynkiem finansowym.',
-                                        'Odwiedziłem(-am) portal wiedzy ekonomicznej z dziedziny finansów oraz giełdy, na którym wziąłem/wzięłam udział w minimum dwóch grach edukacyjnych z dziedziny inwestowania na rynku finansowym. Zdobytą wiedzę wykorzystałem(-am), biorąc udział w grze giełdowej.',
+                                        'Odwiedziłem(-am) portal wiedzy ekonomicznej z dziedziny finansów oraz giełdy, na którym wziąłem(wzięłam) udział w minimum dwóch grach edukacyjnych z dziedziny inwestowania na rynku finansowym. Zdobytą wiedzę wykorzystałem(-am), biorąc udział w grze giełdowej.',
                                   ]),
                               SprawData(
                                   id: 'makler',
@@ -1177,7 +1185,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                                         'Na podstawie dostępnych w Internecie materiałów przeprowadziłem(-am) dla członków drużyny test oceny skłonności do ryzyka inwestycyjnego.',
                                         'Dokonałem(-am) analizy ofert domów maklerskich i na jej podstawie otworzyłem(-am) własny rachunek inwestycyjny.',
                                         'Przeprowadziłem(-am) grę, dzięki której mogłem(-am) przedstawić uczestnikom podstawowe mechanizmy inwestowania oraz działania giełdy.',
-                                        'Poznałem(-am) techniki gry na wybranej przez siebie części rynku finansowego i wybrałem(-am) najlepszą dla siebie. Następnie po zapoznaniu się z typami zleceń oraz dodatkowymi istotnymi warunkami transakcji podjąłem/podjęłam decyzje inwestycyjne składając zlecenia kupna/sprzedaży. Oceniłem(-am) efekt swoich inwestycji w horyzoncie minimum trzech miesięcy, porównując go z wybranymi alternatywnymi możliwościami inwestycji oraz dokonując szacunku efektywności w horyzoncie długoterminowym.',
+                                        'Poznałem(-am) techniki gry na wybranej przez siebie części rynku finansowego i wybrałem(-am) najlepszą dla siebie. Następnie po zapoznaniu się z typami zleceń oraz dodatkowymi istotnymi warunkami transakcji podjąłem(podjęłam) decyzje inwestycyjne składając zlecenia kupna/sprzedaży. Oceniłem(-am) efekt swoich inwestycji w horyzoncie minimum trzech miesięcy, porównując go z wybranymi alternatywnymi możliwościami inwestycji oraz dokonując szacunku efektywności w horyzoncie długoterminowym.',
                                   ]),
                         ]
                     ),
@@ -1248,9 +1256,9 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       level: '3',
                       comment:'Bierze udział w konkursach/przeglądach muzycznych. Propaguje w swoim środowisku świat muzyki. Angażuje się w oprawę muzyczną wydarzeń harcerskich.',
                       tasks: [
-                        'Wziąłem/wzięłam udział w konkursie/przeglądzie muzycznym.',
+                        'Wziąłem(wzięłam) udział w konkursie/przeglądzie muzycznym.',
                         'Zorganizowałem(-am) wyjście zastępu lub drużyny na koncert (np. do filharmonii/opery/klubu muzycznego).',
-                        'Wziąłem/wzięłam udział w przygotowaniu uroczystości harcerskiej, organizując oprawę muzyczną.',
+                        'Wziąłem(wzięłam) udział w przygotowaniu uroczystości harcerskiej, organizując oprawę muzyczną.',
                       ]),
                   SprawData(
                       id: 'muzyk',
@@ -1353,8 +1361,8 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       tasks: [
                         'Zaprezentowałem(-am) się przed publicznością w jednej z form aktorskich: monolog, dialog, pantomima, teatr radia, teatr lalek, teatr tańca.',
                         'Wykonałem(-am) jedno z poniższych zadań:'
-                            '\n\n- Wziąłem/wzięłam udział w warsztacie teatralnym.'
-                            '\n\n- Wziąłem/wzięłam udział w przedstawieniu lub nagraniu filmu lub słuchowiska przygotowanym przez drużynę.',
+                            '\n\n- Wziąłem(wzięłam) udział w warsztacie teatralnym.'
+                            '\n\n- Wziąłem(wzięłam) udział w przedstawieniu lub nagraniu filmu lub słuchowiska przygotowanym przez drużynę.',
                         'Wybrałem(-am) jedną z ról mojego ulubionego aktora/aktorki i odtworzyłem(-am) jej kilkuminutowy fragment przed członkami zastępu. Zadbałem(-am) o odpowiedni kostium i charakteryzację.',
                       ]),
                   SprawData(
@@ -1366,7 +1374,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Zaprezentowałem(-am) się przed publicznością w trzech różnych formach aktorskich np. monolog, dialog, pantomima, teatr radia, teatr lalek, teatr tańca.',
                         'Wykonałem(-am) jedno z poniższych zadań:'
                             '\n\n- uczęszczałem(-am) na zajęcia/warsztaty teatralne przynajmniej przez 3 miesiące'
-                            '\n\n- wziąłem/wzięłam udział w poprzedzonym próbami przedstawieniu lub nagraniu filmu lub słuchowisku przygotowanym przez drużynę.',
+                            '\n\n- wziąłem(wzięłam) udział w poprzedzonym próbami przedstawieniu lub nagraniu filmu lub słuchowisku przygotowanym przez drużynę.',
                         'Wybrałem(-am) jedną z klasycznych ról (np. z dzieł Sofoklesa, Szekspira, Mickiewicza, Słowackiego, itp.) i odtworzyłem(-am) jej kilkuminutowy fragment przed członkami zastępu. Zadbałem(-am) o odpowiedni kostium i charakteryzację.',
                       ]),
                 ]
@@ -1419,7 +1427,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       tasks: [
                         'Zaprezentowałem(-am) członkom zastępu podstawowe ćwiczenia doskonalące dykcję.',
                         'Obejrzałem(-am) na żywo lub na nagraniu trzy interpretacje prozy lub wierszy w wykonaniu profesjonalistów. Zinterpretowałem(-am) utwór poetycki lub prozatorski, dobierając barwę głosu, modulację, tempo i rytm.',
-                        'Wziąłem/wzięłam udział w konkursie recytatorskim.',
+                        'Wziąłem(wzięłam) udział w konkursie recytatorskim.',
                         'Uczestniczyłem(-am) w przygotowaniu wieczoru poezji, prezentując swoje ulubione utwory.',
                       ]),
                   SprawData(
@@ -1785,7 +1793,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Znam historię godła i barw narodowych. Wiem, co oznaczają i potrafię się wobec nich zachować. Wywiesiłem(-am) flagę biało-czerwoną w dniu święta państwowego.',
                         'Razem z zastępem/drużyną zaśpiewałem(-am) hymn państwowy w czasie uroczystości.',
                         'Posiadam mapę Polski, na której oznaczam miejsca, w których byłem(-am) (może być konturówka z magnesami, pocztówkami itp.).',
-                        'Zapoznałem(-am) się z częścią statutu szkoły, zawierającą prawa i obowiązki ucznia. Angażuje się w życie swojej szkoły/klasy. Wziąłem/Wzięłam udział w choć jednym przedsięwzięciu szkolnym przygotowywanym przez klasę/samorząd szkolny.',
+                        'Zapoznałem(-am) się z częścią statutu szkoły, zawierającą prawa i obowiązki ucznia. Angażuje się w życie swojej szkoły/klasy. Wziąłem(Wzięłam) udział w choć jednym przedsięwzięciu szkolnym przygotowywanym przez klasę/samorząd szkolny.',
                       ]),
                   SprawData(
                       id: 'obywatel',
@@ -1797,7 +1805,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Wskazałem(-am) na mapie krainy geograficzne Polski. Jedną z nich zaprezentowałem(-am) na zbiórce zastępu.',
                         'Poznałem(-am) zasady demokratycznych wyborów i etapy podejmowania decyzji. Wykonałem(-am) co najmniej jedno z zadań:'
                             '\n\n- Przedstawiłem(-am) swoja sprawę na Radzie Drużyny.'
-                            '\n- Po wcześniejszym poznaniu programów wyborczych kandydatów, wziąłem/wzięłam udział w głosowaniu w wyborach do samorządu uczniowskiego.',
+                            '\n\n- Po wcześniejszym poznaniu programów wyborczych kandydatów, wziąłem(wzięłam) udział w głosowaniu w wyborach do samorządu uczniowskiego.',
                         'Znam obszar swojej gminy. Posługując się planem swojej okolicy, dotarłem(-am) do urzędu gminy/miasta i dowiedziałem(-am) się, jakie sprawy można w nim załatwić.',
                       ]),
                   SprawData(
@@ -1808,7 +1816,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       tasks: [
                         'Przeprowadziłem(-am) zwiad tematyczny w mojej „małej ojczyźnie” (np. poznając kulturę, historię, współczesne życie społeczne i gospodarcze, poznając ciekawe osoby, odkrywając mało znane miejsca, zapomniane pamiątki historyczne). Sporządziłem(-am) dokumentację zwiadu (np. opisy, wywiady, pamiątki, fotografie, spis lektur na wybrany temat). W interesujący sposób przedstawiłem(-am) wyniki zwiadu w drużynie.',
                         'Wziąłem(-am) udział w pracach samorządu klasowego lub szkolnego (chodzi o udział w przedsięwzięciu organizowanym przez samorząd, nie jest konieczne sprawowanie w nim funkcji).',
-                        'Przygotowałem(-am) się i podjąłem/podjęłam funkcję w zastępie, drużynie lub szczepie.',
+                        'Przygotowałem(-am) się i podjąłem(podjęłam) funkcję w zastępie, drużynie lub szczepie.',
                         'Dowiedziałem(-am) się, dlaczego ważne jest wyrażanie swojego zdania we wspólnych sprawach, zachęciłem(-am) swoich rodziców lub innych członków rodziny do uczestnictwa w wyborach lub głosowaniu w budżecie obywatelskim/partycypacyjnym.',
                       ]),
                   SprawData(
@@ -1822,7 +1830,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Poznałem(-am) podział polskiej sceny politycznej i programy wyborcze partii posiadających mandaty w parlamencie. Dowiedziałem(-am) się, jakie uprawnienia posiada Sejm i Senat RP. Zaprezentowałem(-am) członkom zastępu/drużyny narzędzie do badania preferencji politycznych (np. Latarnik wyborczy).',
                         'Wykonałem(-am) jedno z zadań:'
                             '\n\n- Przeprowadziłem(-am) analizę lokalnych potrzeb i przygotowałem(-am) projekt do budżetu obywatelskiego/partycypacyjnego.'
-                            '\n- Zorganizowałem(-am) spotkanie z lokalnym radnym poświęcone potrzebom lokalnej młodzieży.',
+                            '\n\n- Zorganizowałem(-am) spotkanie z lokalnym radnym poświęcone potrzebom lokalnej młodzieży.',
                         'Wiem, czym są organizacje typu watchdog. Nawiązałem(-am) kontakt z wybraną z nich i upowszechniłem(-am) w swoim środowisku efekty jej pracy.',
                       ]),
                 ]
@@ -1839,8 +1847,8 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Dowiedziałem(-am) się, czym jest Unia Europejska i od kiedy należy do niej Polska. Zdobyłem(-am) różne ciekawostki dotyczące państw należących do UE. Zaprezentowałem(-am) je w ciekawej formie rówieśnikom.',
                         'Poznałem(-am) najważniejsze symbole Unii Europejskiej. Wykonałem(-am) jedno z zadań:'
                             '\n\n- Odśpiewałem(-am) hymn Unii Europejskiej.'
-                            '\n- Zagrałem(-am) hymn Unii Europejskiej na instrumencie.'
-                            '\n- Wykonałem(-am) flagę europejską.',
+                            '\n\n- Zagrałem(-am) hymn Unii Europejskiej na instrumencie.'
+                            '\n\n- Wykonałem(-am) flagę europejską.',
                         'Wiem, jakie kraje z najbliższego otoczenia mojego kraju są członkami Unii Europejskiej. Przygotowałem(-am) mapę Polski z zaznaczonymi zewnętrznymi granicami UE, które pokrywają się z granicami Polski.',
                       ]),
                   SprawData(
@@ -1862,8 +1870,8 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Dowiedziałem(-am) się, czym była Deklaracja Schumana i jakie miała znaczenie w pokojowym jednoczeniu kontynentu. Wcieliłem(-am) się w rolę historyka i stworzyłem(-am) krótką notatkę przedstawiającą główne etapy tworzenia Unii Europejskiej. Dowiedziałem(-am) się, jakie kraje starają się obecnie przystąpić do Unii Europejskiej i jakie jeszcze warunki muszą spełnić. Wyniki swojej pracy zaprezentowałem(-am) publicznie.',
                         'Wykonałem(-am) co najmniej jedno z poniższych zadań:'
                             '\n\n- Zapoznałem(-am) się z różnymi kulturami krajów należących do Unii Europejskiej uwzględniając zwyczaje, obrzędy i stroje ludowe. Przygotowałem(-am) na ten temat materiał, który został opublikowany.'
-                            '\n- Przeprowadziłem(-am) warsztaty wymiany międzykulturowej z drużyną z innego kraju UE.'
-                            '\n- Brałem(-am) udział w wydarzeniu propagującym kulturę państw członkowskich UE (np. Festiwal Kultury Europy).',
+                            '\n\n- Przeprowadziłem(-am) warsztaty wymiany międzykulturowej z drużyną z innego kraju UE.'
+                            '\n\n- Brałem(-am) udział w wydarzeniu propagującym kulturę państw członkowskich UE (np. Festiwal Kultury Europy).',
                         'Dowiedziałem(-am) się, jakie wymogi należy spełnić, aby podróżować w Strefie Schengen. Zaplanowałem(-am) wycieczkę do jednego kraju ze strefy Schengen, uwzględniając walory turystyczne.',
                       ]),
                   SprawData(
@@ -1910,11 +1918,11 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       level: '4',
                       tasks: [
                         'Na zbiórce zastępu lub drużyny zaprezentowałem(-am) w ciekawy sposób ideę i najważniejsze działania ruchu ekumenicznego, bazując na dokumentach Światowej Rady Kościołów lub Polskiej Rady Ekumenicznej. Przedstawiłem(-am) idee i sposób działania Wspólnoty z Taizé.',
-                        'Wziąłem/wzięłam udział w nabożeństwie w ramach Światowego Tygodnia Modlitw o Jedność Chrześcijan, Europejskiego Spotkania Młodych lub w innym nabożeństwie ekumenicznym. Porozmawiałem(-am) z kilkorgiem jego uczestników o powodach, dla których zdecydowali się na udział.',
+                        'Wziąłem(wzięłam) udział w nabożeństwie w ramach Światowego Tygodnia Modlitw o Jedność Chrześcijan, Europejskiego Spotkania Młodych lub w innym nabożeństwie ekumenicznym. Porozmawiałem(-am) z kilkorgiem jego uczestników o powodach, dla których zdecydowali się na udział.',
                         'W odniesieniu do trzech Kościołów działających w Polsce (prawosławnego, rzymskokatolickiego i jednego z Kościołów ewangelickich), odszukałem(-am) najważniejsze informacje dotyczące zasad ich wiary: problematyki usprawiedliwienia, relacji człowieka z Bogiem i Kościołem, najważniejszych świąt, struktury, sposobu działania, największych ośrodków i sposobów prowadzenia działalności dobroczynnej. Zrobiłem(-am) to, zapoznając się z ich stronami internetowymi. Zastanowiłem(-am) się nad tym, jakie elementy są dla nich wspólne i pozwalają na współpracę.',
                         'Wykonałem(-am) jedno z zadań:'
                             '\n\n- Poznałem(-am) główne spory teologiczne w obrębie chrześcijaństwa. Zastanowiłem(-am) się nad ich konsekwencjami dla funkcjonowania społeczeństw. Poznałem(-am) najważniejsze inicjatywy na rzecz jedności chrześcijan. Przeprowadziłem(-am) w szczepie lub hufcu dyskusję na ten temat.'
-                            '\n- Poznałem(-am) ideę i historię ruchu ekumenicznego, w tym trudności, które w nim występują (np. relacje między Kościołami prawosławnymi a Kościołami ewangelickimi, negatywne nastawienie do idei ekumenizmu, problemy z różnym rozumieniem pojęć teologicznych). Podjąłem/podjęłam refleksję na temat ich źródeł, w tym uwarunkowań kulturowych i społecznych. Przeprowadziłem(-am) w szczepie lub hufcu dyskusję na temat trudności i przyszłości ekumenizmu.',
+                            '\n\n- Poznałem(-am) ideę i historię ruchu ekumenicznego, w tym trudności, które w nim występują (np. relacje między Kościołami prawosławnymi a Kościołami ewangelickimi, negatywne nastawienie do idei ekumenizmu, problemy z różnym rozumieniem pojęć teologicznych). Podjąłem(podjęłam) refleksję na temat ich źródeł, w tym uwarunkowań kulturowych i społecznych. Przeprowadziłem(-am) w szczepie lub hufcu dyskusję na temat trudności i przyszłości ekumenizmu.',
                       ]),
                 ]
             ),
@@ -1998,7 +2006,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Doprowadziłem(-am) do porozumienia między stronami konfliktu.',
                         'Znam pojęcie erystyki. Zapoznałem(-am) się z dialektyką erystyczną Schopenhauera i potrafię zidentyfikować minimum 5 forteli w dyskusji i właściwie na nie zareagować, rozbrajając oponenta.',
                         'Zauważam u siebie odruchowe zagrania erystyczne, zastępując je rzeczową, merytoryczną argumentacją. W czasie podsumowania sprawności wskazałem(-am), jakie chwyty erystyczne najczęściej musiałem u siebie ograniczać.',
-                        'Wziąłem/wzięłam udział w warsztatach z zakresu Porozumienia Bez Przemocy lub przeczytałem(-am) książkę na ten temat.',
+                        'Wziąłem(wzięłam) udział w warsztatach z zakresu Porozumienia Bez Przemocy lub przeczytałem(-am) książkę na ten temat.',
                       ]),
                 ]
             ),
@@ -2027,13 +2035,13 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Przygotowałem(-am) relacje z biwaku, obozu drużyny lub innego dłuższego wyjazdu. Upubliczniłem(-am) je na blogu/fanpage lub stronie drużyny.',
                         'Wykonałem(-am) jedno z poniższych zadań:'
                             '\n\n- Zapoznałem(-am) się z czterema reportażami (np. wojennymi, podróżniczymi).'
-                            '\n- Zapoznałem(-am) się z sześcioma felietonami na interesujący mnie temat.',
+                            '\n\n- Zapoznałem(-am) się z sześcioma felietonami na interesujący mnie temat.',
                         'Wykonałem(-am) jedno z poniższych zadań:'
                             '\n\n- Przeprowadziłem(-am) wywiad z nauczycielem/specjalistą dotyczący jego pracy/pasji. Omówiłem(-am) swoje wyniki w zastępie/drużynie.'
-                            '\n- Wcieliłem(-am) się w rolę komentatora sportowego podczas meczu drużyny lub szkoły.',
+                            '\n\n- Wcieliłem(-am) się w rolę komentatora sportowego podczas meczu drużyny lub szkoły.',
                         'Wykonałem(-am) jedno z poniższych zadań:'
                             '\n\n- Poznałem(-am) zasady edycji i korekty tekstów, stosując je w swoich artykułach. Napisałem(-am) artykuł do gazetki szkolnej lub hufcowej.'
-                            '\n- Wykonałem(-am) fotoreportaż, publikując go w gazetce szkolnej lub hufcowej.',
+                            '\n\n- Wykonałem(-am) fotoreportaż, publikując go w gazetce szkolnej lub hufcowej.',
                       ]),
                   SprawData(
                       id: 'dziennikarz',
@@ -2044,14 +2052,14 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Przeprowadziłem(-am) debatę na temat znaczenia środków masowego przekazu dla zachowania wolności słowa. Przeanalizowałem(-am) sytuację prawną dziennikarzy. W czasie debaty wziąłem(-am) pod uwagę represje wobec dziennikarzy ze strony różnych państw.',
                         'Wykonałem(-am) co najmniej jedno z poniższych zadań:'
                             '\n\n- Napisałem(-am) minimum dwa artykuły do gazetki hufcowej lub prasy lokalnej.'
-                            '\n- Nakręciłem(-am) reportaż, który zaprezentowałem(-am) na forum szczepowym/hufcowym o problemach dotyczących mojego najbliższego środowiska lokalnego.'
-                            '\n- Sprawdziłem(-am) na YouTube kanały prowadzone przez harcerzy. Udało mi się nawiązać z nimi współpracę, tworząc wspólny film.',
+                            '\n\n- Nakręciłem(-am) reportaż, który zaprezentowałem(-am) na forum szczepowym/hufcowym o problemach dotyczących mojego najbliższego środowiska lokalnego.'
+                            '\n\n- Sprawdziłem(-am) na YouTube kanały prowadzone przez harcerzy. Udało mi się nawiązać z nimi współpracę, tworząc wspólny film.',
                         'Porównałem(-am) wiadomości dotyczące mojego kraju i świata na podstawie dwóch mediów o przeciwnych liniach programowych. Swoje przemyślenia przedstawiłem(-am) na forum drużyny.',
                         'Wykonałem(-am) co najmniej jedno z poniższych zadań:'
                             '\n\n- Znalazłem(-am) minimum 10 przykładów działań public relations, wykorzystujące, m.in. technikę spinu (socjotechnika) i czarny PR. Przedstawiłem(-am) własne spostrzeżenia na forum drużyny/szczepu.'
-                            '\n- Przeanalizowałem(-am) rolę plakatów, memów oraz motywatorów jako środków masowego przekazu. - Przedstawiłem(-am) własne spostrzeżenia na forum drużyny/szczepu.'
-                            '\n- Porównałem(-am) gazety z XIX w., np. „Kurier Warszawski”, „Czas”, „Dziennik Wileński” ze współczesnymi gazetami. Znalezione podobieństwa i różnice przedstawiłem(-am) na forum drużyny/szczepu.'
-                            '\n- Porównałem(-am) twórczość kilku różnych youtuberów, m.in. jak tworzą kontent i wchodzą w kontakt ze swoimi odbiorcami. Przedstawiłem(-am) własne spostrzeżenia na forum drużyny/szczepu.',
+                            '\n\n- Przeanalizowałem(-am) rolę plakatów, memów oraz motywatorów jako środków masowego przekazu. - Przedstawiłem(-am) własne spostrzeżenia na forum drużyny/szczepu.'
+                            '\n\n- Porównałem(-am) gazety z XIX w., np. „Kurier Warszawski”, „Czas”, „Dziennik Wileński” ze współczesnymi gazetami. Znalezione podobieństwa i różnice przedstawiłem(-am) na forum drużyny/szczepu.'
+                            '\n\n- Porównałem(-am) twórczość kilku różnych youtuberów, m.in. jak tworzą kontent i wchodzą w kontakt ze swoimi odbiorcami. Przedstawiłem(-am) własne spostrzeżenia na forum drużyny/szczepu.',
                       ]),
                 ]
             ),
@@ -2143,7 +2151,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       'Zapisałem(-am) się do lokalnej biblioteki. Poznałem(-am) obowiązujące w niej zasady i się do nich stosuje. Regularnie (co najmniej raz w miesiącu) odwiedzałem(-am) bibliotekę i wypożyczałem(-am) książki.',
                       'Wykonałem(-am) co najmniej jedno zadanie:'
                           '\n\n- Wykonałem(-am) drobne naprawy introligatorskie kilku książek.'
-                          '\n- Pełniłem(-am) dyżur w bibliotece szkolnej lub publicznej.',
+                          '\n\n- Pełniłem(-am) dyżur w bibliotece szkolnej lub publicznej.',
                       'Sporządziłem(-am) listę książek, które chciałbym/chciałabym mieć w swojej biblioteczce (książek w wersji drukowanej lub/i elektronicznej). Zakupiłem(-am) je za własne oszczędności lub poprosiłem o sprezentowanie przez rodzinę/znajomych.',
                     ]),
                 SprawData(
@@ -2156,13 +2164,13 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       'Wzbogaciłem(-am) swoją prywatną biblioteczkę. Choć jedną książkę do mojej biblioteczki znalazłem (-am) w antykwariacie.',
                       'Wykonałem(-am) co najmniej jedno zadanie:'
                           '\n\n− Stworzyłem(-am) ex libris biblioteczki swojej lub harcerskiej. Umieściłem(-am) go w książkach moich lub należących do mojego środowiska harcerskiego.'
-                          '\n− Prowadziłem(-am) w czasie próby na sprawność bibliotekę drużyny (szczepu) lub obozu.',
+                          '\n\n− Prowadziłem(-am) w czasie próby na sprawność bibliotekę drużyny (szczepu) lub obozu.',
                       'Na podstawie wybranej książki o charakterze poradnikowym/naukowym itp. Wykonałem(-am) jedno z poniższych zadań:'
                           '\n\n− Przygotowałem(-am) dla osoby prowadzącej zajęcia materiały na określony temat.'
-                          '\n− Przygotowałem(-am) miniporadnik na wybrany temat.',
+                          '\n\n− Przygotowałem(-am) miniporadnik na wybrany temat.',
                     ]),
                 SprawData(
-                    id: 'pryjaciel_ksiazki',
+                    id: 'przyjaciel_ksiazki',
                     title: 'Przyjaciel książki',
                     level: '4',
                     comment: 'Orientuje się w najciekawszych aktualnie wydawanych pozycjach. Dużo czyta oraz dzieli się swoją pasją do książek.',
@@ -2170,10 +2178,10 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       'Przedstawiłem(-am) i uzasadniłem(-am) propozycje książek, które warto dodać do biblioteczki drużyny lub przeczytać w ramach prób na stopnie.',
                       'Wykonałem(-am) jedno z zadań:'
                           '\n\n− Urządziłem(-am) w drużynie/szkole itp. wieczór wspólnego czytania wybranej książki, spotkanie z autorem lub podobną imprezę literacką.'
-                          '\n− Urządziłem(-am) w drużynie/szkole itp. wystawę ciekawych książek, prezentując na niej także własne zbiory.',
+                          '\n\n− Urządziłem(-am) w drużynie/szkole itp. wystawę ciekawych książek, prezentując na niej także własne zbiory.',
                       'Wykonałem(-am) jedno z zadań:'
                           '\n\n− Nawiązałem(-am) kontakt z antykwariatem, poznałem(-am) sposoby gromadzenia wydawnictw antykwarycznych i przechowywania oraz zabezpieczania starodruków.'
-                          '\n− Nawiązałem(-am) kontakt z muzeum lub archiwum, poznałem(-am) sposoby gromadzenia, przechowywania oraz zabezpieczania starodruków.',
+                          '\n\n− Nawiązałem(-am) kontakt z muzeum lub archiwum, poznałem(-am) sposoby gromadzenia, przechowywania oraz zabezpieczania starodruków.',
                       'Stworzyłem(-am) analogowy lub cyfrowy katalog swojego księgozbioru.',
                     ]),
               ]),
@@ -2343,7 +2351,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       'Poznałem(-am) strukturę Straży Granicznej. Wymieniłem(-am) Oddziały Straży Granicznej. Dowiedziałem(-am) się, gdzie znajduje się najbliższa mojemu miejscu zamieszkania jednostka Straży Granicznej.',
                     ]),
                 SprawData(
-                    id: 'straznik_granicyi',
+                    id: 'straznik_granicy',
                     title: 'Strażnik granicy',
                     level: '4',
                     comment: 'Promuje wiedzę dotyczącą tematyki granicznej. Nawiązuje współpracę ze Strażą Graniczną szkoląc harcerzy i propagując wiedzę na temat funkcjonowania granicy.',
@@ -2351,13 +2359,13 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       'Odbyłem(-am) kilkudniową wędrówkę po wybranym odcinku granicy lub brałem(-am) udział w wycieczce na wybrane przejście graniczne. Zapoznałem(-am) się ze specyfiką poznanego odcinka granicy i związanymi z tym szczególnymi cechami pełnionej tu służby granicznej.',
                       'Przeprowadziłem(-am) dla młodszych zajęcia dotyczące jednego z poniższych tematów:'
                           '\n\n- historia polskich formacji granicznych,'
-                          '\n- nielegalna migracja,'
-                          '\n- przemyt narkotyków, broni i materiałów niebezpiecznych,'
-                          '\n- nielegalny wwóz odpadów,'
-                          '\n- nielegalny wywóz zabytków,'
-                          '\n- handel ludźmi,'
-                          '\n- przemyt egzotycznych zwierząt, roślin oraz produktów z nich pochodzących (wg konwencji CITES).'
-                          '\n- Wykonałem(-am) prostą grę edukacyjną (memory, domino, układanka itp.) dotyczącą wybranego tematu.',
+                          '\n\n- nielegalna migracja,'
+                          '\n\n- przemyt narkotyków, broni i materiałów niebezpiecznych,'
+                          '\n\n- nielegalny wwóz odpadów,'
+                          '\n\n- nielegalny wywóz zabytków,'
+                          '\n\n- handel ludźmi,'
+                          '\n\n- przemyt egzotycznych zwierząt, roślin oraz produktów z nich pochodzących (wg konwencji CITES).'
+                          '\n\n- Wykonałem(-am) prostą grę edukacyjną (memory, domino, układanka itp.) dotyczącą wybranego tematu.',
                       'Poznałem(-am) zasady rekrutacji do Straży Granicznej. Przeszedłem(-am) pozytywnie test sprawnościowy, wymagany od kandydatów do SG.',
                       'Pełniłem(-am) służbę na rzecz uchodźców lub uczestniczyłem(-am) w akcji profilaktycznej związanej z problematyką handlu ludźmi.',
                     ]),
@@ -2417,9 +2425,9 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                     tasks: [
                       'W czasie zbiórek zastępów wykazałem(-am) się znajomością:'
                           '\n\n− stopni Państwowej Straży Pożarnej oraz stopni funkcyjnych Ochotniczej Straży Pożarnej,'
-                          '\n- struktury organizacyjnej Związku Ochotniczych Straży Pożarnych RP,'
-                          '\n− podstawowych przyczyny pożarów,'
-                          '\n− rodzajów węży oraz sprzętu do ich obsługi oraz zasad konserwacji.',
+                          '\n\n- struktury organizacyjnej Związku Ochotniczych Straży Pożarnych RP,'
+                          '\n\n− podstawowych przyczyny pożarów,'
+                          '\n\n− rodzajów węży oraz sprzętu do ich obsługi oraz zasad konserwacji.',
                       'Wspólnie z zastępem zbudowałem(-am) linię wężową.',
                       'Sprawnie ubrałem(-am) się w osobiste uzbrojenie strażaka.',
                       'Wiem, jakimi środkami gaśniczymi należy gasić różnego rodzaju pożary.',
@@ -3633,7 +3641,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Przejechałem(-am) parkur złożony z 8 różnych przeszkód o wysokości 70-80cm (duże konie) i 60-70 cm (kucyki).',
                         'Odliczyłem(-am) foule w linii.',
                         'Pokonałem(-am) szereg gimnastyczny zróżnicowany wysokościowo.',
-                        'Co najmniej raz wziąłem/wzięłam udział w zawodach towarzyskich.',
+                        'Co najmniej raz wziąłem(wzięłam) udział w zawodach towarzyskich.',
                       ]),
                   SprawData(
                       id: 'skoczek',
@@ -3643,7 +3651,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       tasks: [
                         'Przejechałem(-am) parkur złożony z więcej niż 8 przeszkód o wysokości powyżej 80 cm (duże konie) i 70 cm (kucyki).',
                         'Skompletowałem(-am) prawidłowy ubiór na zawody jeździeckie.',
-                        'Wziąłem/Wzięłam udział w różnych zawodach (towarzyskich i regionalnych) przynajmniej 2 razy.',
+                        'Wziąłem(Wzięłam) udział w różnych zawodach (towarzyskich i regionalnych) przynajmniej 2 razy.',
                         'Zaprezentowałem(-am) innym harcerzom swoją wiedzę na temat jazdy skokowej i zawodów.',
                       ]),
                 ]
@@ -3839,7 +3847,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       level: '2',
                       comment:'Bierze udział w zawodach na poziomie L. Pokonuje przeszkody w kłusie. Monitoruje rozwój dyscypliny i ma jeźdźca, na którym się wzoruje. Pokazuje innym, jak prawidłowo pokonuje się podane przeszkody.',
                       tasks: [
-                        'Wziąłem/Wzięłam udział w zawodach regionalnych lub towarzyskich na poziomie L, osiągnąłem/osiągnęłam wynik min. 55%.',
+                        'Wziąłem(Wzięłam) udział w zawodach regionalnych lub towarzyskich na poziomie L, osiągnąłem/osiągnęłam wynik min. 55%.',
                         'Poprawnie pokonałem(-am) przeszkody w kłusie: ósemka między beczkami, skok przez kostki słomy, gliniany garnek, objeżdżanie tyczek lub przeszkód, przeniesienie kubka z jednej tyczki na drugą.',
                         'Aktywnie monitorowałem(-am) rozwój dyscypliny Working Equitation w Polsce, znalazłem(-am) informacje na temat aktualnych zawodów i szkoleń, a także wskazałem(-am) jeźdźca, na którym się wzoruję.',
                         'Przygotowałem(-am) pokaz dla zastępu/drużyny, na którym pokazałem(-am), jak pokonuję podane przeszkody. Wykonałem(-am) je w dwóch formach: na szybkość oraz na dokładność.',
@@ -3868,8 +3876,8 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       comment:'Ma świadomość, czym są zawody TREC PTTK, rozróżnia ich fazy. Prawidłowo orientuje się w terenie. Bierze udział w dwóch fazach TREC – MA oraz PTV.',
                       tasks: [
                         'Wytłumaczyłem(-am) zastępowi, czym są zawody TREC PTTK, oraz wyjaśniłem(-am) skróty Faza PTV, MA, POR.',
-                        'Posługiwałem(-am) się mapą topograficzną. Wziąłem/Wzięłam udział w rozgrywkach INO.',
-                        'Wziąłem/Wzięłam udział w fazie MA (kontrola tempa). Osiągnąłem/Osiągnęłam wyniki: galop - powyżej 27 sekund, stęp - poniżej 95 sekund.',
+                        'Posługiwałem(-am) się mapą topograficzną. Wziąłem(Wzięłam) udział w rozgrywkach INO.',
+                        'Wziąłem(Wzięłam) udział w fazie MA (kontrola tempa). Osiągnąłem/Osiągnęłam wyniki: galop - powyżej 27 sekund, stęp - poniżej 95 sekund.',
                         'Poprawnie pokonałem(-am) przeszkody z fazy PTV: niskie gałęzie, korytarz, nieruchomość w siodle, prowadzenie konia po literze "S", dosiadanie konia.',
                       ]),
                   SprawData(
@@ -3880,7 +3888,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       tasks: [
                         'Zaprezentowałem(-am) zastępowi w dowolnej formie regulamin TREC PTTK.',
                         'Uczestniczyłem(-am) w wycieczce konnej, podczas której zaznaczałem(-am) na mapie topograficznej przejechaną trasę.',
-                        'Wziąłem/Wzięłam udział w fazie MA (kontrola tempa). Osiągnąłem(-am) wyniki: galop - powyżej 30 sekund, stęp - poniżej 80 sekund.',
+                        'Wziąłem(Wzięłam) udział w fazie MA (kontrola tempa). Osiągnąłem(-am) wyniki: galop - powyżej 30 sekund, stęp - poniżej 80 sekund.',
                         'Poprawnie pokonałem(-am) przeszkody z fazy PTV: przejazd na koniu po literze "S", nieruchomość, bramka, kłoda, ósemka.',
                       ]),
                   SprawData(
@@ -3889,9 +3897,9 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       level: '3',
                       comment:'Bierze udział w zawodach TREC PTTK. Organizuje zawody z elementami tej dyscypliny dla innych. Sprawnie pokonuje coraz trudniejsze elementy fazy PTV oraz osiąga coraz lepsze wyniki w fazie MA',
                       tasks: [
-                        'Wziąłem/Wzięłam udział w zawodach TREC PTTK.',
+                        'Wziąłem(Wzięłam) udział w zawodach TREC PTTK.',
                         'Zorganizowałem(-am) zawody z elementami TREC dla znajomych ze stajni lub/i harcerstwa.',
-                        'Wziąłem/Wzięłam udział w fazie MA (kontrola tempa). Osiągnąłem(-am) wyniki: galop - powyżej 33,5 sekund, stęp - poniżej 70 sekund.',
+                        'Wziąłem(Wzięłam) udział w fazie MA (kontrola tempa). Osiągnąłem(-am) wyniki: galop - powyżej 33,5 sekund, stęp - poniżej 70 sekund.',
                         'Poprawnie pokonałem(-am) przeszkody z fazy PTV: mostek przejechany na koniu, cofanie, wprowadzanie konia do przyczepy, szereg (cross), zjazd z pochyłości.',                       ]),
                 ]
             ),
@@ -3908,7 +3916,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Poznałem(-am) zasady bezpiecznego popasu koni, prawidłowo uwiązałem(-am) konia.',
                         'Prawidłowo wykonywałem(-am) podstawowe ćwiczenia rozluźniające w siodle.',
                         'W równowadze i harmonii poruszałem(-am) się stępem, kłusem i galopem.',
-                        'Wziąłem/Wzięłam udział w wycieczce konnej, podczas której poznałem(-am) walory przyrodniczo-krajoznawcze okolic ośrodka.',
+                        'Wziąłem(Wzięłam) udział w wycieczce konnej, podczas której poznałem(-am) walory przyrodniczo-krajoznawcze okolic ośrodka.',
                       ]),
                   SprawData(
                       id: 'turysta_konny',
@@ -4053,8 +4061,8 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       tasks: [
                         'Rozpoznawałem(-am) podstawowe pasze objętościowe i treściwe w żywieniu koni.',
                         'Poznałem(-am) i zaprezentowałem(-am) zasady karmienia i pojenia koni.',
-                        'Wziąłem/Wzięłam czynny udział w karmieniu koni pod okiem specjalisty.',
-                        'Kontrolowałem(-am) stan poideł i żłobów. Przynajmniej raz wziąłem/wzięłam udział w ich czyszczeniu.',
+                        'Wziąłem(Wzięłam) czynny udział w karmieniu koni pod okiem specjalisty.',
+                        'Kontrolowałem(-am) stan poideł i żłobów. Przynajmniej raz wziąłem(wzięłam) udział w ich czyszczeniu.',
                         'Poznałem(-am) podstawową budowę układu pokarmowego koni, wskazałem(-am) różnice między nim a układem pokarmowym ludzi.',
                       ]),
                   SprawData(
@@ -4078,7 +4086,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Byłem(-am) obecny/a przy układaniu dawki pokarmowej przez specjalistę żywienia koni. Następnie przedstawiłem(-am) zastępowi, na co należy zwracać uwagę przy układaniu zbilansowanej dawki, a także opowiedziałem(-am), jak taki specjalista pracuje.',
                         'Pod opieką specjalisty dokonałem(-am) oceny BCS u min. 5 różnych koni. Wskazałem(-am), który koń jest w normie, który ma nadwagę lub niedowagę.',
                         'Poznałem(-am) i opisałem(-am) objawy podstawowych chorób układu pokarmowego dowiedziałem(-am) się, jakie są wskazania dietetyczne w takich przypadkach.',
-                        'Wymieniłem(-am) kilka metod oceny wagi koni, wziąłem/wzięłam udział w takiej ocenie wybraną przez siebie metodą.',
+                        'Wymieniłem(-am) kilka metod oceny wagi koni, wziąłem(wzięłam) udział w takiej ocenie wybraną przez siebie metodą.',
                         'Kontrolowałem(-am) pobieranie paszy przez konie, dowiedziałem(-am), o czym mogą świadczyć pozostawione resztki paszy w żłobie. Byłem(-am) obecny podczas kontroli uzębienia koni w stajni. Zaprezentowałem(-am) zastępowi, dlaczego tak ważna jest regularna kontrola stomatologiczna u koni.',
                       ]),
                 ]
@@ -4118,7 +4126,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Pod okiem specjalisty przygotowałem(-am) konia (nauczyłem(-am) sztuczek) do swojego przedstawienia.',
                         'Zaprezentowałem(-am) swój autorski program końskich sztuczek.',
                         'Nauczyłem(-am) min. 2 osoby, jak poprawnie i bezpiecznie wykonać z koniem min. 3 sztuczki.',
-                        'Wziąłem/Wzięłam udział w sesji zdjęciowej, w której były przedstawione końskie sztuczki.',
+                        'Wziąłem(Wzięłam) udział w sesji zdjęciowej, w której były przedstawione końskie sztuczki.',
                       ]),
                 ]
             ),
@@ -4126,7 +4134,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 id: '16',
                 sprawData: [
                   SprawData(
-                      id: 'rozmawiwjacy_z_konmi',
+                      id: 'rozmawiajacy_z_konmi',
                       title: 'Rozmawiający z Końmi',
                       level: '1',
                       comment:'Odczytuje i przekazuje innym, jak należy interpretować mowę końskiego ciała. Podchodzi odpowiednio do konia, zakłada kantar, prowadzi, odwrażliwia na dotyk, uczy ustępować od nacisku, zatrzymuje. Porozumiewa się z koniem za pomocą mowy ciała. Gra w trzy pierwsze gry Parelliego.',
@@ -4137,7 +4145,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Poznałem(-am) 7 gier Parelliego. Zagrałem(-am) z koniem w grę w zaprzyjaźnianie, w jeża oraz w prowadzenie.',
                       ]),
                   SprawData(
-                      id: 'rozmawiwjacy_z_konmi',
+                      id: 'rozmawiajacy_z_konmi',
                       title: 'Rozmawiający z Końmi',
                       level: '2',
                       comment:'Gra w gry Parelliego. Odczula konia na różne przedmioty. Pracuje zgodnie z założeniami bezstresowej pracy. Pracuje z koniem z ziemi. Lonżuje prawidłowo konia.',
@@ -4149,7 +4157,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Poznałem(-am) prawidłowe zasady lonżowania konia, pod okiem specjalisty lonżowałem(-am) konia zgodnie z biomechaniką ruchu oraz potrzebami ruchowymi i psychicznymi konia.',
                       ]),
                   SprawData(
-                      id: 'rozmawiwjacy_z_konmi',
+                      id: 'rozmawiajacy_z_konmi',
                       title: 'Rozmawiający z Końmi',
                       level: '3',
                       comment:'Stosując różne źródła, poszerza swoją wiedzę na temat pracy z ziemi i komunikacji człowiekkoń. Analizując różne osoby i ich sposoby pracy, odnalazł/a najbardziej mu odpowiadający nurt naturalnej pracy z koniem. Nawiązuje kontakt z koniem w sposób bezpieczny i przyjazny dla konia i człowieka. Pracuje z użyciem naturalnych pomocy. Przekazuje wiedzę na temat porozumienia i harmonii w pracy z ziemi.',
@@ -4205,7 +4213,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 id: '18',
                 sprawData: [
                   SprawData(
-                      id: 'pomocnik_weterynaza',
+                      id: 'pomocnik_weterynarza',
                       title: 'Pomocnik Weterynaża',
                       level: '1',
                       comment:'Pokazuje kilka najważniejszych struktur kostnych konia. Opowiada o temperaturze i odrobaczaniu oraz o odpowiedniej diecie dla konia, a także potrafi wymienić podstawowe choroby koni.',
@@ -4216,7 +4224,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Wykonałem(-am) wywiad z lekarzem weterynarii na temat układu pokarmowego, diety oraz najczęstszych chorób u koni.',
                       ]),
                   SprawData(
-                      id: 'pomocnik_weterynaza',
+                      id: 'pomocnik_weterynarza',
                       title: 'Pomocnik Weterynaża',
                       level: '2',
                       comment:'Prawidłowo posługuje się terminologią anatomiczną. Mierzy temperaturę (kontroluje, czy jest odpowiednia), tętno i liczbę oddechów. Rozpoznaje najczęstsze objawy chorobowe i dopasowuje je do choroby. Kontroluje stan apteczki, uzupełnia ją.',
@@ -4227,7 +4235,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Poznałem(-am) skład apteczki, skontrolowałem(-am) jej stan, wszelkie ubytki uzupełniłem(-am). Zastosowałem(-am) wcierki i założyłem(-am) opatrunek na kopyto.',
                       ]),
                   SprawData(
-                      id: 'pomocnik_weterynaza',
+                      id: 'pomocnik_weterynarza',
                       title: 'Pomocnik Weterynaża',
                       level: '3',
                       comment:'Opowiada o podstawowej anatomii konia. Udziela pomocy w przypadku problemów zdrowotnych. Przekazuje wiedzę na temat temperatury konia, oddechów, tętna, nawodnienia. Zwraca uwagę na szczepienia oraz ich powód.',
@@ -4325,7 +4333,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       comment:'Opisuje budowę siodła oraz ogłowia, prawidłowo zakłada je na konia. Konserwuje sprzęt skórzany. Sprawdza, czy grzbiet konia jest w dobrym stanie (takim, że można założyć siodło), rozpoznaje symptomy źle dopasowanego siodła, które widoczne są na grzbiecie.',
                       tasks: [
                         'Poznałem(-am) podstawową budowę siodła, poznałem(-am) pojęcie terlica oraz wymieniłem(-am) i opisałem(-am) typy siodeł. Poznałem(-am) podstawową budowę ogłowia, rozróżniłem(-am) i opisałem(-am) nachrapniki.',
-                        'Wziąłem/Wzięłam udział w czyszczeniu i konserwacji sprzętu skórzanego (siodło, ogłowie).',
+                        'Wziąłem(Wzięłam) udział w czyszczeniu i konserwacji sprzętu skórzanego (siodło, ogłowie).',
                         'Prawidłowo założyłem(-am) siodło i ogłowie na trzech koniach o różnej budowie, jeśli koń w swoim sprzęcie posiadał dodatkowe elementy: wytok, podogonie, podkładki, również założyłem(-am) je prawidłowo.',
                         'W trakcie siodłania i po jeździe kontrolowałem(-am) grzbiet konia. Rozpoznałem(-am) podstawowe problemy związane ze źle dopasowanym siodłem (otarcia, białe włosy, opuchlizny, zanik mięśni, blizny lub zgrubienia).',
                       ]),
@@ -4359,8 +4367,8 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                 id: '22',
                 sprawData: [
                   SprawData(
-                      id: 'wychowawca_zwierzat',
-                      title: 'Wychowawca Zwierząt',
+                      id: 'wychowawca_zrebiat',
+                      title: 'Wychowawca Źrebiąt',
                       level: '2',
                       comment:'Zna etapy życia konia. Prezentuje, jakie są różnice między końmi w pierwszych okresach życia oraz czego powinien się nauczyć źrebak w pierwszych miesiącach życia. Czyści źrebaka.',
                       tasks: [
@@ -4370,19 +4378,19 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Uczestniczyłem(-am) w sesji treningowej źrebiąt jako pomocnik. Następnie wykonałem(-am) mapę myśli dotyczącą wczesnego szkolenia źrebiąt, czyli dotyczącą tego, czego źrebak powinien się nauczyć w pierwszych miesiącach życia.',
                       ]),
                   SprawData(
-                      id: 'wychowawca_zwierzat',
-                      title: 'Wychowawca Zwierząt',
+                      id: 'wychowawca_zrebiat',
+                      title: 'Wychowawca Źrebiąt',
                       level: '3',
                       comment:'Przekazuje wiedzę na temat imprintingu. Bierze udział w sesji treningowej źrebaka. Wskazuje, do ilu godzin po porodzie należy wykonać pierwszą sesję. Trzyma źrebaka w pozycji bezpiecznej.',
                       tasks: [
                         'Przedstawiłem(-am) zastępowi, co to jest imprinting zwierząt, kto opisał tę metodę dla koni oraz jakie są jej główne cele.',
-                        'Wziąłem/Wzięłam udział w sesji treningowej źrebaka, gdzie przy specjaliście uczyłem(-am) konia podawania nóg, chodzenia na uwiązie lub odczulania na jakiś „straszny” bodziec.',
+                        'Wziąłem(Wzięłam) udział w sesji treningowej źrebaka, gdzie przy specjaliście uczyłem(-am) konia podawania nóg, chodzenia na uwiązie lub odczulania na jakiś „straszny” bodziec.',
                         'Wskazałem(-am), do ilu godzin po porodzie należy wykonać pierwszą sesję imprintingu.',
                         'Zaprezentowałem(-am) i nauczyłem(-am) mniej doświadczone osoby, jak należy trzymać źrebaka w pozycji bezpiecznej (na sztucznym/pluszowym koniu).',
                       ]),
                   SprawData(
-                      id: 'wychowawca_zwierzat',
-                      title: 'Wychowawca Zwierząt',
+                      id: 'wychowawca_zrebiat',
+                      title: 'Wychowawca Źrebiąt',
                       level: '4',
                       comment:'Nazywa zabawy źrebiąt. Poznaje zasady planowania sesji treningowych oraz zalety i wady wczesnego szkolenia źrebiąt. Prezentuje zasady postępowania przy źrebiętach.',
                       tasks: [
