@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_progress_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_tile_widget_template.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/rank_widgets/rank_widget.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/dimen.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../details/app_settings.dart';
@@ -34,7 +32,10 @@ class RankTileWidget<T extends Rank> extends StatelessWidget {
       titleTop: rank.titleMale,
       titleBottom: rank.titleFemale,
 
-      trailing: RankProgressWidget(rank.completed, rank.inProgress, rank.completenessPercent),
+      trailing: Padding(
+        padding: const EdgeInsets.only(right: Dimen.SIDE_MARG),
+        child: RankProgressWidget(rank.completed, rank.inProgress, rank.completenessPercent),
+      ),
       onTap: (context) => openRankPage(context, rank),
     );
   }

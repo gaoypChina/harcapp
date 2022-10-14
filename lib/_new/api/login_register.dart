@@ -80,6 +80,8 @@ class ApiRegLog{
         await synchronizer.reloadSyncables();
         synchronizer.post(dumpReplaceExisting: true);
         break;
+      case null:
+        loggedIn = false;
     }
 
     return loggedIn;
@@ -281,7 +283,7 @@ class ApiRegLog{
         else
           feed.add(Post.fromMap(map, forumMap[map['forumKey']]!, key: map['_key']));
       }
-      onSuccess?.call(
+      await onSuccess?.call(
         response,
         email,
         key,
@@ -300,7 +302,7 @@ class ApiRegLog{
       );
     },
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (err) async => onError?.call(err.response),
+    onError: (err) => onError?.call(err.response),
   );
 
   static Future<Response?> carefullyLogin({
@@ -317,13 +319,13 @@ class ApiRegLog{
 
       if(!emailConf) {
         await AccountData.saveLoginData(email, response);
-        onSuccess?.call(response, emailConf, true, indivComps, communities, circles, forums, feed);
+        await onSuccess?.call(response, emailConf, true, indivComps, communities, circles, forums, feed);
         return;
       }
 
       bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response);
 
-      onSuccess?.call(response, emailConf, loggedIn, indivComps, communities, circles, forums, feed);
+      await onSuccess?.call(response, emailConf, loggedIn, indivComps, communities, circles, forums, feed);
 
     },
     onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -349,7 +351,7 @@ class ApiRegLog{
     azureToken,
     onSuccess: (Response response, String email, String key, String jwt, String name, Sex sex, String nick, DateTime? lastSyncTime, bool emailConf, List<IndivComp> indivComps, List<Community> communities, List<Circle> circles, List<Forum> forums, List<CommunityPublishable> feed) async {
       bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response);
-      onSuccess?.call(response, emailConf, loggedIn, indivComps, communities, circles, forums, feed);
+      await onSuccess?.call(response, emailConf, loggedIn, indivComps, communities, circles, forums, feed);
     },
     onServerMaybeWakingUp: onServerMaybeWakingUp,
     onError: onError,
@@ -364,11 +366,11 @@ class ApiRegLog{
     sendRequest: (Dio dio) async => await dio.get('${API.SERVER_URL}api/user/logout'),
     onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
     onForceLoggedOut: () async {
-      onSuccess?.call();
+      await onSuccess?.call();
       return true;
     },
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (err) async => onError?.call(),
+    onError: (err) => onError?.call(),
   );
 
   static String REGISTER_REQ_EMAIL = 'email';
@@ -427,7 +429,7 @@ class ApiRegLog{
 
     if(errMap.isNotEmpty) {
       Response errResp = API.createFakeErrResponse(errMap: errMap);
-      onError?.call(errResp);
+      await onError?.call(errResp);
       return errResp;
     }
 
@@ -464,7 +466,7 @@ class ApiRegLog{
         );
       },
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) async => onError?.call(err.response),
+      onError: (err) => onError?.call(err.response),
     );
   }
 
@@ -503,7 +505,7 @@ class ApiRegLog{
 
     if(errMap.isNotEmpty) {
       Response errResp = API.createFakeErrResponse(errMap: errMap);
-      onError?.call(errResp);
+      await onError?.call(errResp);
       return errResp;
     }
 
@@ -538,7 +540,7 @@ class ApiRegLog{
         );
       },
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) async => onError?.call(err.response),
+      onError: (err) => onError?.call(err.response),
     );
   }
 
@@ -559,10 +561,10 @@ class ApiRegLog{
       ),
       onSuccess: (Response response, DateTime now) async {
         await AccountData.saveLoginData(AccountData.email, response);
-        onSuccess?.call(response);
+        await onSuccess?.call(response);
       },
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) async => onError?.call(err.response),
+      onError: (err) => onError?.call(err.response),
     );
 
   }
@@ -582,7 +584,7 @@ class ApiRegLog{
 
     if(errMap.isNotEmpty) {
       Response errResp = API.createFakeErrResponse(errMap: errMap);
-      onError?.call(errResp);
+      await onError?.call(errResp);
       return errResp;
     }
 
@@ -593,9 +595,9 @@ class ApiRegLog{
           SEND_PASS_RESET_KEY_EMAIL: email,
         }),
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+      onSuccess: (Response response, DateTime now) => onSuccess?.call(),
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) async => onError?.call(err.response),
+      onError: (err) => onError?.call(err.response),
     );
 
   }
@@ -636,7 +638,7 @@ class ApiRegLog{
 
     if(errMap.isNotEmpty) {
       Response errResp = API.createFakeErrResponse(errMap: errMap);
-      onError?.call(errResp);
+      await onError?.call(errResp);
       return errResp;
     }
 
@@ -649,9 +651,9 @@ class ApiRegLog{
             RESET_PASSWORD_REQ_NEW_PASS:newPass,
           })
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+      onSuccess: (Response response, DateTime now) => onSuccess?.call(),
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) async => onError?.call(err.response),
+      onError: (err) => onError?.call(err.response),
     );
 
   }

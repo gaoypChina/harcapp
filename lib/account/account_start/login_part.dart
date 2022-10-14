@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
@@ -41,7 +43,7 @@ class LoginPart extends StatefulWidget{
 
   final String? initEmail;
   final String? initPassword;
-  final void Function(bool? accActivated)? onLoggedIn;
+  final FutureOr<void> Function(bool? accActivated)? onLoggedIn;
 
   const LoginPart({this.initEmail, this.initPassword, this.onLoggedIn, super.key});
 
@@ -164,11 +166,14 @@ class LoginPartState extends State<LoginPart>{
       );
 
       await ZhpAccAuth.login();
+      await Future.delayed(pageTransDuration);
       String? azureToken = await ZhpAccAuth.azureToken;
       await ApiRegLog.carefullyMicrosoftLogin(
           context: context,
           azureToken: azureToken,
           onSuccess: (Response response, bool emailConf, bool loggedIn, List<IndivComp> indivComps, List<Community> communities, List<Circle> circles, List<Forum> forums, List<CommunityPublishable> feed) async {
+
+            if(mounted) await popPage(context); // close login alert dialog
 
             loginProv.notify();
             AccountData.callOnLogin(emailConf);
@@ -182,21 +187,21 @@ class LoginPartState extends State<LoginPart>{
             CommunityPublishable.init(feed);
             communityPublishableListProv.notify();
 
-            if(mounted) await popPage(context); // close login alert dialog
-
             if(loggedIn)
-              widget.onLoggedIn?.call(emailConf);
+              await widget.onLoggedIn?.call(emailConf);
 
           },
-          onServerMaybeWakingUp: () {
+          onServerMaybeWakingUp: () async {
             if(mounted) showServerWakingUpToast(context);
-            if(mounted) popPage(context); // close login alert dialog
+            if(mounted) await popPage(context); // close login alert dialog
             return true;
           },
           onError: (Response? response) async {
             if(!mounted) return;
             await popPage(context); // close login alert dialog
             String? respData = (response!.data as Map)['error'];
+
+            if(!mounted) return;
 
             if(respData == 'registration_required')
               pushReplacePage(context, builder: (context) => RegisterMicrosoftAddDataPart(

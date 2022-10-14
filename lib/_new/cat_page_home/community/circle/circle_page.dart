@@ -999,7 +999,9 @@ class MembersWidget extends StatelessWidget{
                 ],
               ),
               onTap: () => onTap(circle, palette, context)
-          )
+          ),
+
+        const SizedBox(width: Dimen.defMarg),
 
       ],
     ),

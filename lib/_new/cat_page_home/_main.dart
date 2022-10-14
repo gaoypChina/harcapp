@@ -83,7 +83,7 @@ class CatPageHomeState extends State<CatPageHome> with AfterLayoutMixin, TickerP
       Duration duration = const Duration(seconds: 1);
       Curve curve = Curves.easeInOutQuad;
 
-      tabToPosition[tabController.index]!.animateTo(
+      tabToPosition[tabController.index]?.animateTo(
           -0.0001,
           duration: duration,
           curve: curve

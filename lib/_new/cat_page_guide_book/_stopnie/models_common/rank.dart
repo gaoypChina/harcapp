@@ -41,8 +41,8 @@ class RankColors{
 
   Color avgColor(bool isDark){
 
-    Color colorStart = start(isDark)!;
-    Color colorEnd = end(isDark)!;
+    Color colorStart = start(isDark);
+    Color colorEnd = end(isDark);
 
     return Color.fromARGB(
         255,
@@ -52,8 +52,8 @@ class RankColors{
     );
   }
 
-  Color? start(bool isDark) => isDark?colorStartDark:colorStartLight;
-  Color? end(bool isDark) => isDark?colorEndDark:colorEndLight;
+  Color start(bool isDark) => isDark?colorStartDark:colorStartLight;
+  Color end(bool isDark) => isDark?colorEndDark:colorEndLight;
 }
 
 abstract class RankData{
@@ -114,17 +114,17 @@ abstract class RankData{
   );
 
   static RankColors colorsZhpOldZuch = RankColors(
+    Colors.grey[700]!,
+    ColorPackBlack.CARD_ENAB,
     Colors.grey[400]!,
     Colors.grey[200]!,
-    Colors.grey[900]!,
-    ColorPackBlack.CARD_ENAB,
   );
 
   static RankColors colorsZhpOld = RankColors(
+    ColorPackBlack.CARD_ENAB,
+    Colors.grey[700]!,
     Colors.grey[200]!,
     Colors.grey[400]!,
-    ColorPackBlack.CARD_ENAB,
-    Colors.grey[900]!,
   );
 
   static RankColors colorsZhrDZuch = RankColors(

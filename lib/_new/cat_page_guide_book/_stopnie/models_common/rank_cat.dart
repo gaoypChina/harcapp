@@ -32,13 +32,17 @@ class RankCatData{
     return cat;
   }
 
-  RankCat buildUnregistered(){
+  RankCat buildUnregistered(Rank rank){
+
+    RankCat cat = RankCat(this, rank, null, 0);
 
     List<RankGroup> groups = [];
     for(int i=0; i<groupData!.length; i++)
-      groups.add(groupData![i].buildUnregistered());
+      groups.add(groupData![i].build(cat, i));
 
-    return RankCat(this, null, groups, null);
+    cat.groups = groups;
+
+    return cat;
   }
 
 }

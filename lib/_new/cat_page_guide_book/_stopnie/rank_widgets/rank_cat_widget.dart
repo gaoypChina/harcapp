@@ -47,7 +47,7 @@ class RankCatWidget extends StatelessWidget{
             ],
           )
       );
-      children.add(SizedBox(height: Dimen.SIDE_MARG));
+      children.add(const SizedBox(height: Dimen.SIDE_MARG));
     }
     for(int i=0; i<cat.groups!.length; i++){
       RankGroup group = cat.groups![i];

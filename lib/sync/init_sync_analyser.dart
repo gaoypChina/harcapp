@@ -102,27 +102,25 @@ class InitSyncAnalyser{
             text: 'Zachowaj stan lokalny.',
             onTap: () async {
               result = InitSyncOperation.postReplace;
-              Navigator.pop(context);
+              await popPage(context);
             }
           ),
           AlertDialogButton(
             text: 'Zachowaj stan konta.',
             onTap: () async {
               result = InitSyncOperation.getReplace;
-              Navigator.pop(context);
+              await popPage(context);
             }
           ),
           AlertDialogButton(
             text: 'Nie wiem. Wyloguj.',
             onTap: () async {
               result = InitSyncOperation.logout;
-              Navigator.pop(context);
+              await popPage(context);
             }
           )
         ]
     );
-
-    await Future.delayed(pageTransDuration);
 
     return result;
   }

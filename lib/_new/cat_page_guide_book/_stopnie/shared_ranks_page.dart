@@ -131,6 +131,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
             if(!AccountData.loggedIn)
               SliverFillRemaining(
                 hasScrollBody: false,
+                fillOverscroll: true,
                 child: Center(
                   child: SimpleButton(
                     radius: AppCard.bigRadius,

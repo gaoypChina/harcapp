@@ -8,6 +8,7 @@ import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_gro
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie_sprawnosci_common/task_data.dart';
 import 'package:harcapp/_new/cat_page_guide_book/providers.dart';
+import 'package:harcapp/logger.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:provider/provider.dart';
 
@@ -47,10 +48,14 @@ class RankTask extends SyncableParamGroup_ with SyncNode<RankTaskResp> implement
   }
 
   @override
-  String? get note => taskState!.note;
+  String? get note => taskState?.note;
 
   @override
   void setNote(BuildContext context, String value){
+    if(taskState == null) {
+      logger.e("It seems you tried to set a note for an unregistered task. That's an invalid operation.");
+      return;
+    }
     taskState!.note = value;
     setSingleState(PARAM_NOTE, SyncableParamSingle_.stateNotSynced);
     synchronizer.post(aggregateDelay: SynchronizerEngine.aggregateTextInputDuration);

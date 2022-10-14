@@ -109,7 +109,7 @@ abstract class RankZHRCTempl<T extends RankState> extends Rank<RankZHRCData, Ran
       if(koment != null) const SizedBox(height: Dimen.SIDE_MARG),
       if(koment != null)
         RankCatWidget(
-          RankCatData(groupData: koment).buildUnregistered(),
+          RankCatData(groupData: koment).buildUnregistered(this),
         ),
 
       const SizedBox(height: 3*Dimen.SIDE_MARG),

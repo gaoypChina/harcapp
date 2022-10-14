@@ -2,11 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
-import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
-import 'package:harcapp_core/dimen.dart';
 import 'package:provider/provider.dart';
 
 class ExtendedSliverAppBar extends StatefulWidget{
@@ -24,6 +22,7 @@ class ExtendedSliverAppBar extends StatefulWidget{
 
   final TabController? tabController;
   final List<Tab>? tabs;
+  final bool isScrollable;
 
   final void Function(int index, double offset)? onChanged;
 
@@ -43,6 +42,7 @@ class ExtendedSliverAppBar extends StatefulWidget{
 
     this.tabController,
     this.tabs,
+    this.isScrollable = false,
 
     this.onChanged,
 
@@ -71,6 +71,7 @@ class ExtendedSliverAppBarState extends State<ExtendedSliverAppBar> with TickerP
   List<String> get titles => widget.titles;
 
   List<Tab>? get tabs => widget.tabs;
+  bool get isScrollable => widget.isScrollable;
 
   void Function(int index, double offset)? get onChanged => widget.onChanged;
 
@@ -124,10 +125,11 @@ class ExtendedSliverAppBarState extends State<ExtendedSliverAppBar> with TickerP
 
         bottom: TabBar(
           controller: tabController,
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           tabs: tabs!,
           labelColor: backgroundColor,
           unselectedLabelColor: iconDisab_(context),
+          isScrollable: isScrollable,
           indicator: AppTabBarIncdicator(color: backgroundColor)
         ),
       )

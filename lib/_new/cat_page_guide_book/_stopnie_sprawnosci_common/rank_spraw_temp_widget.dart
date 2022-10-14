@@ -21,7 +21,7 @@ import 'completed_widget.dart';
 
 class RankSprawTempWidget extends StatelessWidget{
 
-  static const double trailingSize = 64.0;
+  static const double trailingSize = 72.0;
 
   final String title;
   final String? titleAppBar;
@@ -202,39 +202,40 @@ class RankSprawTempWidget extends StatelessWidget{
                         ],
                       ),
 
-                      const SizedBox(height: Dimen.SIDE_MARG),
+                      const SizedBox(height: Dimen.ICON_MARG),
 
                       Row(
                         children: [
                           const SizedBox(height: Dimen.ICON_FOOTPRINT + 2*SimpleButton.DEF_MARG),
+
+                          if(completed!)
+                            SimpleButton.from(
+                                context: context,
+                                icon: MdiIcons.calendarCheckOutline,
+                                text: dateToString(completedDate!, shortMonth: true),
+                                onTap: () async {
+                                  DateTime? dateTime = await showDatePicker(
+                                      context: context,
+                                      helpText: 'Data zdobycia sprawności',
+                                      initialDate: completedDate??DateTime(966),
+                                      firstDate: DateTime(966),
+                                      lastDate: DateTime.now()
+                                  );
+                                  if(dateTime == null) return;
+                                  onCompleteDateChanged?.call(dateTime);
+                                }
+                            ),
+
+                          Expanded(child: Container()),
+
                           Padding(
                             padding: const EdgeInsets.only(left: Dimen.ICON_FOOTPRINT),
                             child: underTitleLeading,
                           ),
-
-                          Expanded(child: Container()),
-
-                          if(completed!)
-                            SimpleButton.from(
-                              context: context,
-                              icon: MdiIcons.calendarCheckOutline,
-                              text: dateToString(completedDate!, shortMonth: true),
-                              onTap: () async {
-                                DateTime? dateTime = await showDatePicker(
-                                  context: context,
-                                  helpText: 'Data zdobycia sprawności',
-                                  initialDate: completedDate??DateTime(966),
-                                  firstDate: DateTime(966),
-                                  lastDate: DateTime.now()
-                                );
-                                if(dateTime == null) return;
-                                onCompleteDateChanged?.call(dateTime);
-                              }
-                            )
                         ],
                       ),
 
-                      const SizedBox(height: Dimen.SIDE_MARG),
+                      const SizedBox(height: Dimen.ICON_MARG),
 
                       child,
 

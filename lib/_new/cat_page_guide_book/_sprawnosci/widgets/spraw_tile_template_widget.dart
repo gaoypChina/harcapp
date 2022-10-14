@@ -13,6 +13,7 @@ class SprawTileTemplateWidget extends StatefulWidget{
   final EdgeInsets padding;
   final Alignment alignment;
   final void Function()? onTap;
+  final Widget? leading;
   final Widget? trailing;
 
   const SprawTileTemplateWidget({
@@ -20,6 +21,7 @@ class SprawTileTemplateWidget extends StatefulWidget{
     this.padding = EdgeInsets.zero,
     this.alignment = Alignment.center,
     this.onTap,
+    this.leading,
     this.trailing,
     super.key});
 
@@ -33,6 +35,7 @@ class SprawTileTemplateWidgetState extends State<SprawTileTemplateWidget>{
   EdgeInsets get padding => widget.padding;
   Alignment get alignment => widget.alignment;
   void Function()? get onTap => widget.onTap;
+  Widget? get leading => widget.leading;
   Widget? get trailing => widget.trailing;
 
   String get title => spraw.title;
@@ -45,6 +48,10 @@ class SprawTileTemplateWidgetState extends State<SprawTileTemplateWidget>{
       padding: padding,
       child: Row(
         children: [
+
+          if(leading != null)
+            leading!,
+
           SizedBox(
             width: Dimen.ICON_FOOTPRINT,
             height: Dimen.ICON_FOOTPRINT + 2*12,

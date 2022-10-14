@@ -17,7 +17,7 @@ class RankProgressWidget extends StatelessWidget{
   Widget build(BuildContext context) {
 
     if(completed!)
-      return Icon(
+      return const Icon(
         MdiIcons.trophyAward,
         color: Colors.amber,
         size: RankTileWidgetTemplate.defTileIconSize,
@@ -25,7 +25,7 @@ class RankProgressWidget extends StatelessWidget{
 
     if(inProgress!)
       return Text(
-        '${completenessPercent}%',
+        '$completenessPercent%',
         style: AppTextStyle(
             fontSize: Dimen.TEXT_SIZE_APPBAR,
             fontWeight: weight.halfBold,

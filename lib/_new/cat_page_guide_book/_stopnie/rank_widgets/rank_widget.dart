@@ -136,7 +136,7 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
       builder: (context, child) => Consumer<RankProgressProvider>(
         builder: (context, prov, child) => RankSprawTempWidget(
               title: '${rank.titleMale}${rank.titleFemale==null?'':'\n${rank.titleFemale}'}',
-              color: RankData.colors[rank.data]!.avgColor(false),
+              color: RankData.colors[rank.data]!.avgColor(AppSettings.isDark),
               completedText: 'Stopień zdobyty!',
               completedTextColor: background_(context),
               appBarBottom:
@@ -162,7 +162,7 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
                           child: CompleteButton(
                             rank,
                             confettiController,
-                            color: RankData.colors[rank.data]!.avgColor(false),
+                            color: RankData.colors[rank.data]!.avgColor(AppSettings.isDark),
                             onPressed: (){
                               setState((){});
                             },
@@ -177,7 +177,7 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
                           ignoring: !showClaim,
                           child: ClaimButton(
                             rank,
-                            color: RankData.colors[rank.data]!.avgColor(false),
+                            color: RankData.colors[rank.data]!.avgColor(AppSettings.isDark),
                             confettiController: confettiController,
                             onClaimed: () => setState(() => Provider.of<RankProv>(context, listen: false).notify()),
                           ),

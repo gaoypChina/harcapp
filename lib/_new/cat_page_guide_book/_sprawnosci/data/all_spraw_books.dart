@@ -10,8 +10,9 @@ import 'data_spraw_zhr_harc_d.dart';
 List<SprawBook> allSprawBooks = [
   sprawBookZHPZuchSim2022,
   sprawBookZHPHarcSim2022,
-  sprawBookZHPOld,
-  sprawBookZHPWodneOld,
   sprawBookZHRC,
   sprawBookZHRD,
+
+  sprawBookZHPOld,
+  sprawBookZHPWodneOld,
 ];

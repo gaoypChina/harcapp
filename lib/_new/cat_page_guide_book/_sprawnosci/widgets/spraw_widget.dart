@@ -2,6 +2,7 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/spraw_icon.dart';
@@ -113,7 +114,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
   @override
   Widget build(BuildContext context) => RankSprawTempWidget(
     title: spraw.title,
-    color: SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.avgColor(false),
+    color: SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.avgColor(AppSettings.isDark),
 
     completedText: 'Sprawność zdobyta!',
 
@@ -125,7 +126,10 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
     ):
     TrailingWidget(spraw),
 
-    underTitleLeading: LevelWidget(spraw),
+    underTitleLeading: SizedBox(
+        width: RankSprawTempWidget.trailingSize,
+        child: Center(child: LevelWidget(spraw))
+    ),
     floatingButton: buildFloatingButton(),
     // backgroundIcon: SprawBookData.mapIdIconMap[spraw.sprawBook.id],
     backgroundIconComplete: MdiIcons.trophyVariant,
@@ -139,12 +143,12 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
 
     onStartStopTap: (bool inProgress){
       setState(() => spraw.changeInProgress(context, value: !inProgress));
-      onStartStop?.call(inProgress);
+      onStartStop.call(inProgress);
     },
     onAbandonTap: (){
       spraw.changeCompleted(context);
       //spraw.changeInProgress(context);
-      onAbandoned?.call();
+      onAbandoned.call();
       setState(() {});
     },
 
@@ -370,9 +374,9 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
                     child: CompleteButton(
                       spraw,
                       confettiController,
-                      color: SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.avgColor(false),
+                      color: SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.avgColor(AppSettings.isDark),
                       onPressed: (){
-                        onCompleted?.call();
+                        onCompleted.call();
                         setState((){});
                       },
                     ),
@@ -386,11 +390,11 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
                     ignoring: !showClaim,
                     child: ClaimButton(
                       spraw,
-                      color: SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.avgColor(false),
+                      color: SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.avgColor(AppSettings.isDark),
                       confettiController: confettiController,
                       onClaimed: (){
                         setState(() {});
-                        onClaimed?.call();
+                        onClaimed.call();
                       },
                     ),
                   ),
@@ -402,8 +406,8 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
 
             SaveFloatingButton(
               spraw,
-              SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.avgColor(false),
-              onTap: () => onSaveChanged?.call(),
+              SprawBookData.mapIdColorMap[spraw.sprawBook.id]!.avgColor(AppSettings.isDark),
+              onTap: () => onSaveChanged.call(),
             ),
 
           ],

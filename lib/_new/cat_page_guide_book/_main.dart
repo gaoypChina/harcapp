@@ -23,7 +23,6 @@ import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
-import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -34,7 +33,6 @@ import 'package:provider/provider.dart';
 
 import '../../_common_classes/org/org_switcher.dart';
 import '../app_drawer.dart';
-import '../details/app_settings.dart';
 import '_sprawnosci/_main.dart';
 import '_sprawnosci/models/spraw.dart';
 import '_sprawnosci/spraw_folder_page/spraw_folder.dart';
@@ -636,36 +634,33 @@ class StopPrevItem extends StatelessWidget{
         radius: AppCard.bigRadius,
         margin: EdgeInsets.zero,
         padding: EdgeInsets.zero,
+        color: backgroundIcon_(context),
         clipBehavior: Clip.none,
         child: Row(
           children: [
 
+            const SizedBox(width: Dimen.ICON_MARG),
+
             SizedBox(
+              height: 64,
               width: RankTileWidgetTemplate.leadingWidth,
               child: AspectRatio(
                 aspectRatio: RankTileWidgetTemplate.leadingAspectRatio,
-                child: GradientWidget(
-                  radius: AppCard.bigRadius,
-                  colorStart: colors.start(AppSettings.isDark)!,
-                  colorEnd: colors.end(AppSettings.isDark)!,
-                  elevation: RankTileWidgetTemplate.elevation,
-                  child: Icon(
-                      MdiIcons.bookOpenPageVariantOutline,
-                      color: iconEnab_(context).withOpacity(.4),
-                      size: RankTileWidgetTemplate.defTileIconSize
-                  ),
+                child: Icon(
+                    MdiIcons.bookOpenPageVariantOutline,
+                    color: iconEnab_(context),
+                    size: RankTileWidgetTemplate.defTileIconSize
                 ),
               ),
             ),
 
-            const SizedBox(width: Dimen.SIDE_MARG),
+            const SizedBox(width: Dimen.ICON_MARG),
 
             Expanded(
               child: Text(
                 'Przeglądaj stopnie',
                 style: AppTextStyle(
-                    fontWeight: weight.bold,
-                    color: colors.colorEndLight.withOpacity(.5),//hintEnab_(context),
+                    color: iconEnab_(context),
                     fontSize: Dimen.TEXT_SIZE_APPBAR
                 ),
               ),

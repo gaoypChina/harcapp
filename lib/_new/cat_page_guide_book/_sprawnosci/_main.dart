@@ -49,6 +49,64 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
 
   late int initIndex;
 
+  Tab getTab(SprawBookData sprawBookData){
+
+    switch(sprawBookData.id){
+      case SprawBookData.ZHP_ZUCH_SIM_2022_ID:
+        return Tab(child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('ZHP', style: AppTextStyle(fontWeight: weight.bold)),
+            Text('zuchy', style: AppTextStyle())
+          ],
+        ));
+      case SprawBookData.ZHP_HARC_SIM_2022_ID:
+        return Tab(child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('ZHP', style: AppTextStyle(fontWeight: weight.bold)),
+            Text('harcerze', style: AppTextStyle())
+          ],
+        ));
+      case SprawBookData.ZHP_HARC_OLD_ID:
+        return Tab(child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('ZHP', style: AppTextStyle(fontWeight: weight.bold)),
+            Text('stare', style: AppTextStyle())
+          ],
+        ));
+      case SprawBookData.ZHP_HARC_OLD_WOD_ID:
+        return Tab(child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('ZHP', style: AppTextStyle(fontWeight: weight.bold)),
+            Text('stare wodne', style: AppTextStyle())
+          ],
+        ));
+      case SprawBookData.ZHR_HARC_D:
+        return Tab(child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('ZHR', style: AppTextStyle(fontWeight: weight.bold)),
+            Text('pł. piękna', style: AppTextStyle())
+          ],
+        ));
+      case SprawBookData.ZHR_HARC_C:
+        return Tab(child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('ZHR', style: AppTextStyle(fontWeight: weight.bold)),
+            Text('pł. silna', style: AppTextStyle())
+          ],
+        ));
+
+    }
+
+    return Tab();
+
+  }
+
   @override
   void initState() {
 
@@ -95,7 +153,10 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
                         titleColor: DefColorPack.ICON_ENABLED,
 
                         tabController: tabController,
-                        tabs: allSprawBooks.map((sprawBookData) => Tab(icon: Icon(sprawBookData.icon))).toList(),
+                        tabs: allSprawBooks.map(
+                            (sprawBook) => getTab(sprawBook.data)//Tab(icon: Icon(sprawBookData.icon))
+                        ).toList(),
+                        isScrollable: true,
 
                         onChanged: (int index, double offset){
                           tabNotifier.value = index + offset;

@@ -46,18 +46,18 @@ class RankGroupWidget extends StatelessWidget{
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
 
-        if(group.cat!.icon != null)
-          SizedBox(height: Dimen.ICON_MARG),
+        if(group.cat?.icon != null)
+          const SizedBox(height: Dimen.ICON_MARG),
 
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
         if(group.title != null)
           Padding(
-            padding: EdgeInsets.all(Dimen.ICON_MARG),
+            padding: const EdgeInsets.all(Dimen.ICON_MARG),
             child: Row(
               children: [
 
-                SizedBox(width: Dimen.SIDE_MARG),
+                const SizedBox(width: Dimen.SIDE_MARG),
 
                 Expanded(
                     child: Column(
@@ -75,9 +75,9 @@ class RankGroupWidget extends StatelessWidget{
                           ),
                         ),
 
-                        if(group.title != null && group.cat!.title != null)
+                        if(group.title != null && group.cat?.title != null)
                           Text(
-                            'Kat.: ${group.cat!.title}',
+                            'Kat.: ${group.cat?.title}',
                             style: AppTextStyle(
                               fontSize: Dimen.TEXT_SIZE_NORMAL,
                               fontWeight: weight.halfBold,
@@ -90,7 +90,7 @@ class RankGroupWidget extends StatelessWidget{
 
                 if(group.icon!=null)
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: Dimen.ICON_MARG),
+                    padding: const EdgeInsets.symmetric(horizontal: Dimen.ICON_MARG),
                     child: GradientIcon(
                         group.icon,
                         size: 42.0,
@@ -104,13 +104,13 @@ class RankGroupWidget extends StatelessWidget{
           ),
 
         if(group.title != null)
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
 
         Column(
           children: children,
         ),
 
-        SizedBox(height: Dimen.SIDE_MARG),
+        const SizedBox(height: Dimen.SIDE_MARG),
 
       ],
     );
@@ -121,7 +121,7 @@ class RankGroupWidget extends StatelessWidget{
         Padding(
           padding: EdgeInsets.only(
             top:
-            group.cat!.icon == null?
+            group.cat?.icon == null?
             0:Dimen.ICON_MARG + Dimen.ICON_FOOTPRINT/2
           ),
           child: Material(
@@ -131,24 +131,24 @@ class RankGroupWidget extends StatelessWidget{
           ),
         ),
 
-        if(group.cat!.icon != null)
+        if(group.cat?.icon != null)
           Center(
             child: SimpleButton(
                 padding: EdgeInsets.zero,
                 onTap:
-                  group.cat!.title == null?
+                  group.cat?.title == null?
                   null:
-                  () => showAppToast(context, text: 'Kategoria: ${group.cat!.title}'),
+                  () => showAppToast(context, text: 'Kategoria: ${group.cat?.title}'),
                 radius: 100,
                 color: cardEnab_(context),
                 child: Padding(
-                  padding: EdgeInsets.all(Dimen.ICON_MARG),
+                  padding: const EdgeInsets.all(Dimen.ICON_MARG),
                   child: Material(
                     borderRadius: BorderRadius.circular(100),
                     color: background_(context),
                     child: Padding(
-                      padding: EdgeInsets.all(Dimen.ICON_MARG),
-                      child: Icon(group.cat!.icon),
+                      padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                      child: Icon(group.cat?.icon),
                     ),
                   ),
                 )

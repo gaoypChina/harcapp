@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
+import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/data/data_spraw_zhp_harc.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/widgets/open_spraw_dialog.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/widgets/spraw_tile_template_widget.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models/rank_zhp_sim_2022.dart';
@@ -54,38 +55,16 @@ class Indicator extends StatelessWidget{
       child: SizedBox(
         width: width,
         height: height,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-
-            Positioned(
-              top: -1.5*height,
-              bottom: -1.5*height,
-              //left: -4*height + width,
-              left: -2*height,
-              child: Container(
-                height: 4*height,
-                width: 4*height,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4*height),
-                  color: cardEnab_(context), // hintEnab_(context),
-                ),
-
-              ),
+        child: Center(
+          child: Text(
+            ' $index',
+            style: AppTextStyle(
+                color: iconEnab_(context).withOpacity(required?1:.5),
+                fontSize: Dimen.TEXT_SIZE_BIG,
+                fontWeight: weight.halfBold
             ),
-
-            Center(
-              child: Text(
-                '$index${required?'*':''}',
-                style: AppTextStyle(
-                    color: hintEnab_(context),//background_(context),
-                    fontWeight: weight.halfBold
-                ),
-              ),
-            )
-
-          ],
-        ),
+          ),
+        )
       ),
     );
   }
@@ -98,7 +77,7 @@ class SprawSelectedListWidget extends StatefulWidget{
   static const String customPrefix = 'custom@';
   static const String samplePrefix = 'sample@';
 
-  final String stopId;
+  final String rankId;
   final String code;
   final String name;
   final int count;
@@ -112,7 +91,7 @@ class SprawSelectedListWidget extends StatefulWidget{
   final bool checkable;
 
   const SprawSelectedListWidget(
-      this.stopId,
+      this.rankId,
       this.code,
       this.name,
       { required this.count,
@@ -135,9 +114,9 @@ class SprawSelectedListWidget extends StatefulWidget{
 class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
 
   static const double itemHeight = 72.0;
-  static const double indicatorWidth = 18.0;
+  static const double indicatorWidth = 24.0;
 
-  String get stopId => widget.stopId;
+  String get rankId => widget.rankId;
   String get name => widget.name;
   String get code => widget.code;
   int get count => widget.count;
@@ -157,7 +136,7 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
     controllers = [];
     for(int i=0; i<count; i++) {
 
-      String extText = RankZHPSim2022Templ.getExtText(stopId, code, i)??'';
+      String extText = RankZHPSim2022Templ.getExtText(rankId, code, i)??'';
       if(extText.contains(SprawSelectedListWidget.customPrefix))
         extText = extText.substring(SprawSelectedListWidget.customPrefix.length);
 
@@ -176,7 +155,7 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
     List<Widget> children = [];
     for (int i = 0; i < count; i++){
 
-      String? extText = RankZHPSim2022Templ.getExtText(stopId, code, i);
+      String? extText = RankZHPSim2022Templ.getExtText(rankId, code, i);
 
       Spraw? spraw;
       if(extText == null)
@@ -187,7 +166,7 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
         // This is a temporary solution.
         spraw = null;
         extText = SprawSelectedListWidget.customPrefix + extText;
-        RankZHPSim2022Templ.setExtText(stopId, code, i, extText);
+        RankZHPSim2022Templ.setExtText(rankId, code, i, extText);
       }else
         spraw = null;
 
@@ -209,30 +188,63 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
 
             Expanded(child: SimpleButton.from(
                 context: context,
-                icon: MdiIcons.dotsHorizontalCircleOutline,
+                icon: MdiIcons.dotsHorizontal,
                 text: 'Wybierz',
-                radius: 0,
+                radius: AppCard.defRadius,
                 margin: EdgeInsets.zero,
                 onTap: () async {
 
+                  String level1 = '';
+                  String level2 = '';
+                  switch(rankId){
+                    case rankZhp1Id:
+                      level1 = '1';
+                      level2 = '2';
+                      break;
+                    case rankZhp2Id:
+                      level1 = '1';
+                      level2 = '2';
+                      break;
+                    case rankZhp3Id:
+                      level1 = '2';
+                      level2 = '3';
+                      break;
+                    case rankZhp4Id:
+                      level1 = '2';
+                      level2 = '3';
+                      break;
+                    case rankZhp5Id:
+                      level1 = '3';
+                      level2 = '4';
+                      break;
+                    case rankZhp6Id:
+                      level1 = '3';
+                      level2 = '4';
+                      break;
+                  }
+                  
+                  List<Spraw> spraws = sprawBookZHPHarcSim2022.allSpraws.where(
+                    (spraw) => spraw.level == level1 || spraw.level == level2
+                  ).toList();
+                  
                   Spraw? selectedSpraw = await selectSpraw(
-                    context, allSpraws: Spraw.all,
+                    context, allSpraws: spraws,
                   );
 
                   if(selectedSpraw == null) return;
 
-                  RankZHPSim2022Templ.setExtText(stopId, code, i, SprawSelectedListWidget.samplePrefix + selectedSpraw.uniqName);
+                  RankZHPSim2022Templ.setExtText(rankId, code, i, SprawSelectedListWidget.samplePrefix + selectedSpraw.uniqName);
                   setState(() {});
                 }
             )),
             Expanded(child: SimpleButton.from(
                 context: context,
-                icon: MdiIcons.pencilCircleOutline,
+                icon: MdiIcons.pencil,
                 text: 'Notatka',
-                radius: 0,
+                radius: AppCard.defRadius,
                 margin: EdgeInsets.zero,
                 onTap: (){
-                  RankZHPSim2022Templ.setExtText(stopId, code, i, SprawSelectedListWidget.customPrefix);
+                  RankZHPSim2022Templ.setExtText(rankId, code, i, SprawSelectedListWidget.customPrefix);
                   setState(() {});
                 }
             )),
@@ -269,7 +281,7 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
                     hintStyle: AppTextStyle(color: hintEnab_(context)),
                     controller: controllers[i],
                     onChanged: (_, text) =>
-                        RankZHPSim2022Templ.setExtText(stopId, code, i, SprawSelectedListWidget.customPrefix + text),
+                        RankZHPSim2022Templ.setExtText(rankId, code, i, SprawSelectedListWidget.customPrefix + text),
                   ),
                 ),
                 if(checkVisible)
@@ -277,9 +289,9 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
                     ignoring: !checkable,
                     child: Checkbox(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
-                      value: RankZHPSim2022Templ.getExtChecked(stopId, code, i),
+                      value: RankZHPSim2022Templ.getExtChecked(rankId, code, i),
                       onChanged: (value) {
-                        RankZHPSim2022Templ.setExtChecked(stopId, code, i, value!);
+                        RankZHPSim2022Templ.setExtChecked(rankId, code, i, value!);
                         setState(() {});
                         RankFloatingButtonProvider.notify_(context);
                         onCheckChanged?.call(i, value);
@@ -291,15 +303,15 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
                 IconButton(
                   icon: const Icon(MdiIcons.close),
                   onPressed: () async {
-                    String? oldExtText = RankZHPSim2022Templ.getExtText(stopId, code, i)??'';
-                    await RankZHPSim2022Templ.removeExtText(stopId, code, i);
+                    String? oldExtText = RankZHPSim2022Templ.getExtText(rankId, code, i)??'';
+                    await RankZHPSim2022Templ.removeExtText(rankId, code, i);
                     if(!mounted) return;
                     showAppToast(
                         context,
                         text: 'Usunięto ${name.toLowerCase()}',
                         buttonText: 'Cofnij',
                         onButtonPressed: (){
-                          RankZHPSim2022Templ.setExtText(stopId, code, i, oldExtText);
+                          RankZHPSim2022Templ.setExtText(rankId, code, i, oldExtText);
                           setState(() {});
                         }
                     );
@@ -314,76 +326,69 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
         children.add(
           SizedBox(
               height: itemHeight,
-              child: Row(
-                children: [
-
-                  Indicator(
+              child: SprawTileTemplateWidget(
+                spraw: spraw,
+                onTap: () => openSprawDialog(
+                  context,
+                  spraw!,
+                  onStateChanged: (){
+                    onSprawStateChanged?.call();
+                    setState((){});
+                  },
+                ),
+                leading: Padding(
+                  padding: const EdgeInsets.only(right: Dimen.ICON_MARG),
+                  child: Indicator(
                     index: i+1,
                     required: i<_reqCount,
                     name: name,
                     width: indicatorWidth,
                     height: itemHeight,
                   ),
+                ),
+                trailing: Row(
+                  children: [
 
-                  Expanded(
-                    child: SprawTileTemplateWidget(
-                      padding: const EdgeInsets.only(left: Dimen.ICON_MARG),
-                      spraw: spraw,
-                      onTap: () => openSprawDialog(
-                          context,
-                          spraw!,
-                          onStateChanged: (){
-                            onSprawStateChanged?.call();
-                            setState((){});
-                          },
-                      ),
-                      trailing: Row(
-                        children: [
+                    if(spraw.completed)
+                      IgnorePointer(
+                        child: Checkbox(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
+                          value: true,
+                          onChanged: (value) {},
+                          activeColor: hintEnab_(context),
+                        ),
+                      )
+                    else
+                      SprawTileProgressWidget(spraw: spraw),
 
-                          if(spraw.completed)
-                            IgnorePointer(
-                              child: Checkbox(
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
-                                value: true,
-                                onChanged: (value) {},
-                                activeColor: hintEnab_(context),
-                              ),
-                            )
-                          else
-                            SprawTileProgressWidget(spraw: spraw),
-
-                          IconButton(
-                            icon: const Icon(MdiIcons.close),
-                            onPressed: () async {
-                              String? oldExtText = RankZHPSim2022Templ.getExtText(stopId, code, i)??'';
-                              await RankZHPSim2022Templ.removeExtText(stopId, code, i);
-                              if(!mounted) return;
-                              showAppToast(
-                                context,
-                                text: 'Usunięto ${name.toLowerCase()}',
-                                buttonText: 'Cofnij',
-                                onButtonPressed: (){
-                                  RankZHPSim2022Templ.setExtText(stopId, code, i, oldExtText);
-                                  setState(() {});
-                                }
-                              );
-                              setState((){});
-                            },
-                          ),
-                        ],
-                      ),
+                    IconButton(
+                      icon: const Icon(MdiIcons.close),
+                      onPressed: () async {
+                        String? oldExtText = RankZHPSim2022Templ.getExtText(rankId, code, i)??'';
+                        await RankZHPSim2022Templ.removeExtText(rankId, code, i);
+                        if(!mounted) return;
+                        showAppToast(
+                            context,
+                            text: 'Usunięto ${name.toLowerCase()}',
+                            buttonText: 'Cofnij',
+                            onButtonPressed: (){
+                              RankZHPSim2022Templ.setExtText(rankId, code, i, oldExtText);
+                              setState(() {});
+                            }
+                        );
+                        setState((){});
+                      },
                     ),
-                  )
-
-                ],
-              )
+                  ],
+                ),
+              ),
           )
         );
       } else
         children.add(emptyButtons);
 
       if(i < count - 1)
-        children.add(const SizedBox(height: Dimen.defMarg));
+        children.add(const SizedBox(height: Dimen.defMarg/3));
       
     }
 
@@ -532,6 +537,7 @@ RankZHPSim2022Data rankZhp0Data = RankZHPSim2022Data(
 );
 RankZHPSim2022 rankZhp0 = rankZhp0Data.build();
 
+const String rankZhp1Id = 'HARC_1_SIM_2022';
 RankZHPSim2022Data rankZhp1Data = RankZHPSim2022Data(
   titleMale: 'Młodzik',
   titleFemale: 'Ochotniczka',
@@ -545,7 +551,7 @@ RankZHPSim2022Data rankZhp1Data = RankZHPSim2022Data(
   wyzwCountReq: 1,
 
   org: Org.zhp,
-  id: 'HARC_1_SIM_2022',
+  id: rankZhp1Id,
   idea: '$_tab Jest aktywny w działaniach klasy oraz grupy przyjaciół.'
       '\n$_tab Chętnie poznaje otaczający go świat, historię swojej rodziny oraz regionu. Rozwija swoje zainteresowania, czyta książki, poszerzając swoją wiedzę.'
       '\n$_tab Jest obowiązkowy - dotrzymuje danego słowa, wywiązuje się ze złożonych obietnic, mówi prawdę. Radzi sobie z realizacją swoich obowiązków, rozsądnie dysponuje swoim kieszonkowym.'
@@ -634,6 +640,7 @@ RankZHPSim2022Data rankZhp1Data = RankZHPSim2022Data(
 );
 RankZHPSim2022 rankZhp1 = rankZhp1Data.build();
 
+const String rankZhp2Id = 'HARC_2_SIM_2022';
 RankZHPSim2022Data rankZhp2Data = RankZHPSim2022Data(
   titleMale: 'Wywiadowca',
   titleFemale: 'Tropicielka',
@@ -647,7 +654,7 @@ RankZHPSim2022Data rankZhp2Data = RankZHPSim2022Data(
   wyzwCountReq: 1,
 
   org: Org.zhp,
-  id: 'HARC_2_SIM_2022',
+  id: rankZhp2Id,
   idea: '$_tab Aktywnie uczestniczy w działaniach klasy oraz grupy przyjaciół, proponuje swoje pomysły.'
       '\n$_tab Wywiadowca jest ciekawy otaczającego świata, interesuje się bieżącymi wydarzeniami, czyta książki, rozwija swoje zainteresowania.'
       '\n$_tab Ma swój wzór do naśladowania.'
@@ -750,6 +757,7 @@ RankZHPSim2022Data rankZhp2Data = RankZHPSim2022Data(
 );
 RankZHPSim2022 rankZhp2 = rankZhp2Data.build();
 
+const String rankZhp3Id = 'HARC_3_SIM_2022';
 RankZHPSim2022Data rankZhp3Data = RankZHPSim2022Data(
   titleMale: 'Odkrywca',
   titleFemale: 'Pionierka',
@@ -763,7 +771,7 @@ RankZHPSim2022Data rankZhp3Data = RankZHPSim2022Data(
   wyzwCountReq: 1,
 
   org: Org.zhp,
-  id: 'HARC_3_SIM_2022',
+  id: rankZhp3Id,
   idea: '$_tab Nie myśli tylko o sobie, ale żyje także dla innych, dba o swoich przyjaciół i rodzinę. Rozumie, co znaczy słowo „braterstwo”, szuka tego, co łączy, nie tego co dzieli. Staje w obronie słabszych i pokrzywdzonych.'
       '\n$_tab Zna potrzeby i problemy najbliższego otoczenia, wciela w życie ideę służby, zmienia świat na lepsze. Podejmuje działania mające na celu ochronę przyrody.'
       '\n$_tab Szanuje czas swój i innych, potrafi realnie rozłożyć dane działanie w czasie. Umie świętować swoje osiągnięcia i realizację celów.'
@@ -849,6 +857,7 @@ RankZHPSim2022Data rankZhp3Data = RankZHPSim2022Data(
 );
 RankZHPSim2022 rankZhp3 = rankZhp3Data.build();
 
+const String rankZhp4Id = 'HARC_4_SIM_2022';
 RankZHPSim2022Data rankZhp4Data = RankZHPSim2022Data(
   titleMale: 'Ćwik',
   titleFemale: 'Samarytanka',
@@ -862,7 +871,7 @@ RankZHPSim2022Data rankZhp4Data = RankZHPSim2022Data(
   wyzwCountReq: 1,
 
   org: Org.zhp,
-  id: 'HARC_4_SIM_2022',
+  id: rankZhp4Id,
   idea: '$_tab Potrafi zidentyfikować potrzeby i problemy najbliższego otoczenia oraz szuka dla nich rozwiązania. Współpracuje z osobami o innych poglądach. Zgłębia problemy i stawia dociekliwe pytania, poszukuje informacji i rozwiązań.'
       '\n$_tab Poznaje miejsce człowieka w środowisku i konsekwencje jego decyzji, podejmuje działania, aby zmniejszyć swój negatywny wpływ na środowisko.'
       '\n$_tab Poszukuje nowych pasji i rozwija swoje zainteresowania. Podejmując decyzje, zastanawia się nad tym, jakie konsekwencje przyniosą – dla niego i innych.'
@@ -967,6 +976,7 @@ RankZHPSim2022Data rankZhp4Data = RankZHPSim2022Data(
 );
 RankZHPSim2022 rankZhp4 = rankZhp4Data.build();
 
+const String rankZhp5Id = 'HARC_5_SIM_2022';
 RankZHPSim2022Data rankZhp5Data = RankZHPSim2022Data(
   titleMale: 'Harcerz Orli',
   titleFemale: 'Harcerka Orla',
@@ -980,7 +990,7 @@ RankZHPSim2022Data rankZhp5Data = RankZHPSim2022Data(
   wyzwCountReq: 1,
 
   org: Org.zhp,
-  id: 'HARC_5_SIM_2022',
+  id: rankZhp5Id,
   idea: 'Harcerz Orli, czyli wyróżniający się spośród innych, wymagający od siebie więcej, nawet wtedy, kiedy inni od niego nie wymagają. Inspirując się symboliką płomieni wędrowniczej watry pracuje nad swoim ciałem, rozumem i duchem.',
   catData: [
     const RankCatData(
@@ -1092,6 +1102,7 @@ RankZHPSim2022Data rankZhp5Data = RankZHPSim2022Data(
 );
 RankZHPSim2022 rankZhp5 = rankZhp5Data.build();
 
+const String rankZhp6Id = 'HARC_6_SIM_2022';
 RankZHPSim2022Data rankZhp6Data = RankZHPSim2022Data(
   titleMale: 'H-rz Rzeczypospolitej',
   titleFemale: 'H-ka Rzeczypospolitej',
@@ -1104,7 +1115,7 @@ RankZHPSim2022Data rankZhp6Data = RankZHPSim2022Data(
   wyzwCount: 0,
 
   org: Org.zhp,
-  id: 'HARC_6_SIM_2022',
+  id: rankZhp6Id,
   idea: 'Harcerz Rzeczypospolitej, czyli dojrzały człowiek i świadomy obywatel, ten, który dba o siebie i innych. Inspirując się symboliką wędrowniczej watry szuka swojego miejsca w społeczeństwie, wychodzi w świat i szuka miejsca, w którym może pomóc innym - podejmuje się służby, a także pracuje nad sobą - swoim duchem, ciałem oraz umysłem.',
   catData: [
     const RankCatData(
