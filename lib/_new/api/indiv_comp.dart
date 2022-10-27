@@ -111,7 +111,7 @@ class ApiIndivComp{
     FutureOr<void> Function(Response? response)? onError,
   }) async => await API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.get(
+    requestSender: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/indivComp',
     ),
     onSuccess: (Response response, DateTime now) async {
@@ -134,7 +134,7 @@ class ApiIndivComp{
     FutureOr<void> Function()? onError,
   }) async => await API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.get(
+    requestSender: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/indivComp/$compKey',
     ),
     onSuccess: (Response response, DateTime now) async {
@@ -180,7 +180,7 @@ class ApiIndivComp{
 
     return API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.post(
+      requestSender: (Dio dio) => dio.post(
           '${API.SERVER_URL}api/indivComp',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
@@ -206,7 +206,7 @@ class ApiIndivComp{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.delete(
+    requestSender: (Dio dio) => dio.delete(
       '${API.SERVER_URL}api/indivComp/$compKey',
     ),
     onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
@@ -223,7 +223,7 @@ class ApiIndivComp{
     FutureOr<void> Function(Map?)? onError,
   }) => API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.get(
+    requestSender: (Dio dio) => dio.get(
       '${API.SERVER_URL}api/indivComp/$compKey/shareCode',
     ),
     onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
@@ -241,7 +241,7 @@ class ApiIndivComp{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.post(
+    requestSender: (Dio dio) => dio.post(
       '${API.SERVER_URL}api/indivComp/$compKey/shareCodeSearchable',
       data: FormData.fromMap({'searchable': searchable}),
     ),
@@ -259,7 +259,7 @@ class ApiIndivComp{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.get(
+    requestSender: (Dio dio) => dio.get(
       '${API.SERVER_URL}api/indivComp/joinByShareCode/$searchCode',
       options: Options(headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
@@ -319,7 +319,7 @@ class ApiIndivComp{
 
     return API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.put(
+      requestSender: (Dio dio) => dio.put(
           '${API.SERVER_URL}api/indivComp/$key',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
@@ -358,7 +358,7 @@ class ApiIndivComp{
 
     return API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.post(
+      requestSender: (Dio dio) => dio.post(
           '${API.SERVER_URL}api/indivComp/$compKey/user',
           data: jsonEncode(body)
       ),
@@ -398,7 +398,7 @@ class ApiIndivComp{
 
     return API.sendRequest(
         withToken: true,
-        sendRequest: (Dio dio) => dio.put(
+        requestSender: (Dio dio) => dio.put(
             '${API.SERVER_URL}api/indivComp/$compKey/user',
             data: jsonEncode(body)
         ),
@@ -428,7 +428,7 @@ class ApiIndivComp{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.delete(
+      requestSender: (Dio dio) => dio.delete(
           '${API.SERVER_URL}api/indivComp/$compKey/user',
           data: jsonEncode(userKeys)
       ),
@@ -448,7 +448,7 @@ class ApiIndivComp{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.delete(
+      requestSender: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/indivComp/$compKey/leave',
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -471,7 +471,7 @@ class ApiIndivComp{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.post(
+    requestSender: (Dio dio) => dio.post(
         '${API.SERVER_URL}api/indivComp/task/request',
         data: userKeys == null?
         FormData.fromMap({
@@ -516,7 +516,7 @@ class ApiIndivComp{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.delete(
+    requestSender: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/indivComp/task/request/$taskComplKey'
     ),
     onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
@@ -535,7 +535,7 @@ class ApiIndivComp{
     FutureOr<bool> Function()? onForceLoggedOut,
   }) => API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.get(
+    requestSender: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/indivComp/task/request/pending',
         queryParameters: {
           'compKey': compKey,
@@ -569,7 +569,7 @@ class ApiIndivComp{
 
   }) => API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.post(
+    requestSender: (Dio dio) => dio.post(
         '${API.SERVER_URL}api/indivComp/task/review',
         data: FormData.fromMap({
           'taskReqKey': taskReqKey,

@@ -54,6 +54,7 @@ class AccountData {
   static DateTime? _lastServerTime;
   static String? _key;
   static String? _jwt;
+  static String? _refreshToken;
   static String? _email;
   static String? _emailConf;
   static String? _name;
@@ -73,6 +74,7 @@ class AccountData {
   static const String _keyLastServerTime = 'acc_last_server_time';
   static const String _keyKey = 'acc_key';
   static const String _keyJwt = 'acc_jwt';
+  static const String _keyRefreshToken = 'acc_refresh_token';
   static const String _keyEmail = 'acc_email';
   static const String _keyEmailConf = 'acc_email_conf';
   static const String _keyName = 'acc_name';
@@ -93,6 +95,7 @@ class AccountData {
     _lastServerTime = DateTime.tryParse(await storage.read(key: _keyLastServerTime)??'')??DateTime.now();
     _key = await storage.read(key: _keyKey);
     _jwt = await storage.read(key: _keyJwt);
+    _refreshToken = await storage.read(key: _keyRefreshToken);
     _email = await storage.read(key: _keyEmail);
     _emailConf = await storage.read(key: _keyEmailConf);
     _name = await storage.read(key: _keyName);
@@ -114,6 +117,7 @@ class AccountData {
   static Future<void> saveLoginData(String? email, Response response) async {
     await AccountData.writeKey(response.data['key']);
     await AccountData.writeJwt(response.data['jwt']);
+    await AccountData.writeRefreshToken(response.data['refreshToken']);
     await AccountData.writeEmail(email);
     await AccountData.writeLastConfLoginEmail(email);
     await AccountData.writeEmailConf(response.data['email_confirmed']);
@@ -181,6 +185,22 @@ class AccountData {
       return await removeJwt();
     else
       return await const FlutterSecureStorage().write(key: _keyJwt, value: value);
+  }
+
+
+  static String? get refreshToken => _refreshToken;
+
+  static Future<void> removeRefreshToken() async {
+    _refreshToken = null;
+    await const FlutterSecureStorage().delete(key: _keyRefreshToken);
+  }
+
+  static Future<void> writeRefreshToken(String? value) async {
+    _refreshToken = value;
+    if (value == null)
+      return await removeRefreshToken();
+    else
+      return await const FlutterSecureStorage().write(key: _keyRefreshToken, value: value);
   }
 
 

@@ -60,7 +60,7 @@ class ApiCommunity{
     FutureOr<void> Function()? onError,
   }) async => await API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.get(
+    requestSender: (Dio dio) => dio.get(
       '${API.SERVER_URL}api/community/search',
       queryParameters: {
         "phrase": phrase,
@@ -91,7 +91,7 @@ class ApiCommunity{
     FutureOr<void> Function(Response? response)? onError,
   }) async => await API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.get(
+    requestSender: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/community',
     ),
     onSuccess: (Response response, DateTime now) async {
@@ -114,7 +114,7 @@ class ApiCommunity{
     FutureOr<void> Function(int?)? onError,
   }) async => await API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.get(
+    requestSender: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/community/$communityKey',
     ),
     onSuccess: (Response response, DateTime now) async {
@@ -144,7 +144,7 @@ class ApiCommunity{
 
     return API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.post(
+      requestSender: (Dio dio) => dio.post(
           '${API.SERVER_URL}api/community',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
@@ -181,7 +181,7 @@ class ApiCommunity{
 
     return API.sendRequest(
         withToken: true,
-        sendRequest: (Dio dio) => dio.put(
+        requestSender: (Dio dio) => dio.put(
             '${API.SERVER_URL}api/community/$circleKey',
             options: Options(headers: {
               HttpHeaders.contentTypeHeader: 'application/json',
@@ -208,7 +208,7 @@ class ApiCommunity{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.delete(
+      requestSender: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/community/$communityKey'
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
@@ -235,7 +235,7 @@ class ApiCommunity{
 
     return API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.post(
+      requestSender: (Dio dio) => dio.post(
           '${API.SERVER_URL}api/community/$communityKey/user',
           data: jsonEncode(body)
       ),
@@ -275,7 +275,7 @@ class ApiCommunity{
 
     return API.sendRequest(
         withToken: true,
-        sendRequest: (Dio dio) => dio.put(
+        requestSender: (Dio dio) => dio.put(
             '${API.SERVER_URL}api/community/$communityKey/user',
             data: jsonEncode(body)
         ),
@@ -305,7 +305,7 @@ class ApiCommunity{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.delete(
+      requestSender: (Dio dio) => dio.delete(
           '${API.SERVER_URL}api/community/$communityKey/user',
           data: jsonEncode(userKeys)
       ),
@@ -324,7 +324,7 @@ class ApiCommunity{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.delete(
+      requestSender: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/community/$communityKey/leave',
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
@@ -343,7 +343,7 @@ class ApiCommunity{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.get(
+      requestSender: (Dio dio) => dio.get(
           '${API.SERVER_URL}api/community/feed',
           queryParameters: {
             if(page != null) 'page': page,

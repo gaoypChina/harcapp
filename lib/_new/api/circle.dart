@@ -57,7 +57,7 @@ class ApiCircle{
     FutureOr<void> Function(Response? response)? onError,
   }) async => await API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.get(
+    requestSender: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/circle',
     ),
     onSuccess: (Response response, DateTime now) async {
@@ -84,7 +84,7 @@ class ApiCircle{
     FutureOr<void> Function(int?)? onError,
   }) async => await API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.get(
+    requestSender: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/circle/$circleKey',
     ),
     onSuccess: (Response response, DateTime now) async {
@@ -111,7 +111,7 @@ class ApiCircle{
 
     return API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) async => dio.post(
+      requestSender: (Dio dio) async => dio.post(
           '${API.SERVER_URL}api/circle',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
@@ -143,7 +143,7 @@ class ApiCircle{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.delete(
+      requestSender: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/circle/$circleKey'
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
@@ -160,7 +160,7 @@ class ApiCircle{
     FutureOr<void> Function(dynamic)? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.get(
+      requestSender: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/circle/$circleKey/shareCode',
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
@@ -178,7 +178,7 @@ class ApiCircle{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.post(
+      requestSender: (Dio dio) => dio.post(
         '${API.SERVER_URL}api/circle/$compKey/shareCodeSearchable',
         data: FormData.fromMap({'searchable': searchable}),
       ),
@@ -196,7 +196,7 @@ class ApiCircle{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.get(
+      requestSender: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/circle/joinByShareCode/$searchCode',
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -245,7 +245,7 @@ class ApiCircle{
 
     return API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.put(
+      requestSender: (Dio dio) => dio.put(
         '${API.SERVER_URL}api/circle/$circleKey',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
@@ -283,7 +283,7 @@ class ApiCircle{
 
     return API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.post(
+      requestSender: (Dio dio) => dio.post(
           '${API.SERVER_URL}api/circle/$circleKey/member',
           data: jsonEncode(body)
       ),
@@ -323,7 +323,7 @@ class ApiCircle{
 
     return API.sendRequest(
         withToken: true,
-        sendRequest: (Dio dio) => dio.put(
+        requestSender: (Dio dio) => dio.put(
             '${API.SERVER_URL}api/circle/$circleKey/member',
             options: Options(headers: {
               HttpHeaders.contentTypeHeader: 'application/json',
@@ -356,7 +356,7 @@ class ApiCircle{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.delete(
+      requestSender: (Dio dio) => dio.delete(
           '${API.SERVER_URL}api/circle/$circleKey/member',
           data: jsonEncode(userKeys)
       ),
@@ -375,7 +375,7 @@ class ApiCircle{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.delete(
+      requestSender: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/circle/$circleKey/leave',
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
@@ -397,7 +397,7 @@ class ApiCircle{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.get(
+      requestSender: (Dio dio) => dio.get(
           '${API.SERVER_URL}api/circle/$circleKey/announcement',
           queryParameters: {
             if(page != null) 'page': page,
@@ -437,7 +437,7 @@ class ApiCircle{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) async => await dio.post(
+      requestSender: (Dio dio) async => await dio.post(
         '${API.SERVER_URL}api/circle/$circleKey/announcement',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
@@ -481,7 +481,7 @@ class ApiCircle{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) async => dio.put(
+      requestSender: (Dio dio) async => dio.put(
         '${API.SERVER_URL}api/announcement/${announcement.key}',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
@@ -523,7 +523,7 @@ class ApiCircle{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.put(
+      requestSender: (Dio dio) => dio.put(
         '${API.SERVER_URL}api/announcement/$annKey/pin',
         data: FormData.fromMap({
           'pin': pin,
@@ -544,7 +544,7 @@ class ApiCircle{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.delete(
+      requestSender: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/announcement/$annKey',
       ),
       onSuccess: (Response response, DateTime now) async =>
@@ -566,7 +566,7 @@ class ApiCircle{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.put(
+      requestSender: (Dio dio) => dio.put(
         '${API.SERVER_URL}api/announcement/$annKey/response',
         data: FormData.fromMap({
           'memberKey': memberKey,
@@ -592,7 +592,7 @@ class ApiCircle{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.put(
+      requestSender: (Dio dio) => dio.put(
         '${API.SERVER_URL}api/announcement/$annKey/waiveResponse',
         data: FormData.fromMap({
           'memberKey': memberKey,
@@ -615,7 +615,7 @@ class ApiCircle{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.put(
+      requestSender: (Dio dio) => dio.put(
         '${API.SERVER_URL}api/circle/$circleKey/bindComp',
         data: FormData.fromMap({
           'compKey': indivCompKey,
@@ -636,7 +636,7 @@ class ApiCircle{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.delete(
+      requestSender: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/circle/$circleKey/bindComp',
         data: FormData.fromMap({
           'compKey': indivCompKey,

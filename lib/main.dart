@@ -370,7 +370,9 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
     WidgetsBinding.instance.addObserver(this);
     App._orientationChangedListeners = [];
-    
+
+    LoginProvider loginProv = LoginProvider.of(context);
+
     _loginListener = LoginListener(
         onLogin: (emailConf) async {
           if(!emailConf) return;
@@ -387,7 +389,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
           await communitiesLoader.run();
         },
         onForceLogout: (){
-          LoginProvider.notify_(context);
+          loginProv.notify();
         }
     );
     AccountData.addLoginListener(_loginListener);

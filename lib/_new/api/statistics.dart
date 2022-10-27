@@ -53,7 +53,7 @@ class ApiStatistics{
 
     return await API.sendRequest(
         withToken: true,
-        sendRequest: (Dio dio) async => dio.post(
+        requestSender: (Dio dio) async => dio.post(
             '${API.SERVER_URL}api/statistics/observation',
             options: Options(headers: {
               HttpHeaders.contentTypeHeader: 'application/json',

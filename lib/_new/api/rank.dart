@@ -64,7 +64,7 @@ class ApiRank{
         void Function(List<UserData> sharedUsers)? onSuccess,
       }) async => await API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.post(
+    requestSender: (Dio dio) => dio.post(
       '${API.SERVER_URL}api/rank/share/$uniqName',
       options: Options(headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
@@ -93,7 +93,7 @@ class ApiRank{
         void Function(List<UserData> sharedUsers)? onSuccess,
       }) async => await API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.get(
+      requestSender: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/rank/share/$uniqName',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
@@ -117,7 +117,7 @@ class ApiRank{
         void Function(List<SharedRankMetaData>)? onSuccess,
       }) async => await API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.get(
+      requestSender: (Dio dio) => dio.get(
           '${API.SERVER_URL}api/rank/shared',
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -140,7 +140,7 @@ class ApiRank{
     void Function(Response? response)? onError,
   }) async => await API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) async => await dio.get(
+    requestSender: (Dio dio) async => await dio.get(
       '${API.SERVER_URL}api/rank/shared/$key',
     ),
     onSuccess: (Response response, DateTime now) async {

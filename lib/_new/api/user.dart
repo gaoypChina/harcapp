@@ -20,7 +20,7 @@ class ApiUser{
     void Function()? onError,
   }) async => await API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.get(
+      requestSender: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/user/shadow',
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -42,7 +42,7 @@ class ApiUser{
         void Function()? onError,
       }) async => await API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.post(
+      requestSender: (Dio dio) => dio.post(
         '${API.SERVER_URL}api/user/shadow',
         data: FormData.fromMap({
           CREATE_SHADOW_REQ_NAME: name,
@@ -63,7 +63,7 @@ class ApiUser{
         void Function()? onError,
       }) async => await API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.put(
+      requestSender: (Dio dio) => dio.put(
           '${API.SERVER_URL}api/user/shadow/${user!.key}',
           data: FormData.fromMap({
             UPDATE_SHADOW_REQ_NAME: name,
@@ -81,7 +81,7 @@ class ApiUser{
         void Function()? onError,
       }) async => await API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.delete(
+      requestSender: (Dio dio) => dio.delete(
           '${API.SERVER_URL}api/user/shadow',
           data: FormData.fromMap({
             DELETE_SHADOW_REQ_KEY: key,
@@ -97,7 +97,7 @@ class ApiUser{
         void Function(UserDataNick user)? onSuccess,
       }) async => await API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.get(
+    requestSender: (Dio dio) => dio.get(
       '${API.SERVER_URL}api/user/search/$nick',
     ),
     onSuccess: (Response response, DateTime now) async => onSuccess?.call(UserDataNick.fromMap(response.data, nick)),
@@ -116,7 +116,7 @@ class ApiUser{
         void Function()? onSuccess,
       }) async => await API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.delete(
+      requestSender: (Dio dio) => dio.delete(
           '${API.SERVER_URL}api/user',
           data: validPass==null?null:FormData.fromMap({'valid_pass': validPass})
       ),
@@ -179,7 +179,7 @@ class ApiUser{
 
     return await API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) async {
+      requestSender: (Dio dio) async {
         Map<String, dynamic> map = {};
         if(email != null && email.isNotEmpty && AccountData.email != email) map[UPDATE_REQ_EMAIL] = email;
         if(password != null && password.isNotEmpty) map[UPDATE_REQ_PASSWORD] = password;
@@ -209,7 +209,7 @@ class ApiUser{
 
   static Future<Response?> resetNick({void Function(String? nick)? onSuccess, Function(Response? response)? onError}) async => await API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.get(
+      requestSender: (Dio dio) => dio.get(
           '${API.SERVER_URL}api/user/nick'
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data['nick']),
@@ -219,7 +219,7 @@ class ApiUser{
   static String UPDATE_REQ_NICK_SEARCHABLE = 'nick_searchable';
   static Future<Response?> nickSearchable({required searchable, void Function(bool? searchable)? onSuccess, Function(Response? response)? onError}) async => await API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.post(
+      requestSender: (Dio dio) => dio.post(
           '${API.SERVER_URL}api/user/nickSearchable',
           data: FormData.fromMap({UPDATE_REQ_NICK_SEARCHABLE: searchable})
       ),

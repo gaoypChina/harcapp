@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/values/server.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../../details/app_settings.dart';
 import 'community_cover_image_data.dart';
 
 class CoverImageWidget extends StatelessWidget{

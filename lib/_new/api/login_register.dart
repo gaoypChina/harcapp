@@ -132,7 +132,7 @@ class ApiRegLog{
 
     return await API.sendRequest(
       withToken: false,
-      sendRequest: (Dio dio) => dio.post(
+      requestSender: (Dio dio) => dio.post(
           '${API.SERVER_URL}api/user/authenticate',
           data: FormData.fromMap({LOGIN_REQ_EMAIL: email, LOGIN_REQ_PASSWORD: password})
       ),
@@ -231,7 +231,7 @@ class ApiRegLog{
       }
   ) async => await API.sendRequest(
     withToken: false,
-    sendRequest: (Dio dio) => dio.post(
+    requestSender: (Dio dio) => dio.post(
         '${API.SERVER_URL}api/user/authenticateMicrosoft',
         data: FormData.fromMap({'azureToken': azureToken})
     ),
@@ -363,7 +363,7 @@ class ApiRegLog{
     FutureOr<void> Function()? onError,
   }) async => API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) async => await dio.get('${API.SERVER_URL}api/user/logout'),
+    requestSender: (Dio dio) async => await dio.get('${API.SERVER_URL}api/user/logout'),
     onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
     onForceLoggedOut: () async {
       await onSuccess?.call();
@@ -434,7 +434,7 @@ class ApiRegLog{
     }
 
     return await API.sendRequest(
-      sendRequest: (Dio dio) => dio.post(
+      requestSender: (Dio dio) => dio.post(
           '${API.SERVER_URL}api/user/register',
           data: FormData.fromMap({
             REGISTER_REQ_EMAIL: email,
@@ -510,7 +510,7 @@ class ApiRegLog{
     }
 
     return await API.sendRequest(
-      sendRequest: (Dio dio) => dio.post(
+      requestSender: (Dio dio) => dio.post(
           '${API.SERVER_URL}api/user/registerMicrosoft',
           data: FormData.fromMap({
             REGISTER_MICROSOFT_REQ_AZURE_TOKEN: azureToken,
@@ -553,7 +553,7 @@ class ApiRegLog{
 
     return await API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) async => dio.post(
+      requestSender: (Dio dio) async => dio.post(
         '${API.SERVER_URL}api/user/merge_microsoft',
         data: FormData.fromMap({
           'azureToken': azureToken,
@@ -589,7 +589,7 @@ class ApiRegLog{
     }
 
     return await API.sendRequest(
-      sendRequest: (Dio dio) async => dio.post(
+      requestSender: (Dio dio) async => dio.post(
         '${API.SERVER_URL}api/user/sendPassResetKey',
         data: FormData.fromMap({
           SEND_PASS_RESET_KEY_EMAIL: email,
@@ -643,7 +643,7 @@ class ApiRegLog{
     }
 
     return await API.sendRequest(
-      sendRequest: (Dio dio) async => await dio.post(
+      requestSender: (Dio dio) async => await dio.post(
           '${API.SERVER_URL}api/user/resetPass',
           data: FormData.fromMap({
             RESET_PASSWORD_REQ_EMAIL:email,
@@ -667,7 +667,7 @@ class ApiRegLog{
       FutureOr<void> Function(String? error)? onError,
     }) async => await API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.post(
+    requestSender: (Dio dio) => dio.post(
         '${API.SERVER_URL}api/account/validate_password',
         data: FormData.fromMap({
           VALIDATE_PASSWORD_PASSWORD: password,
@@ -694,7 +694,7 @@ class ApiRegLog{
     FutureOr<void> Function()? onError,
   }) async => await API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) async => dio.get('${API.SERVER_URL}api/user/resend_email_conf_key'),
+    requestSender: (Dio dio) async => dio.get('${API.SERVER_URL}api/user/resend_email_conf_key'),
     onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
     onServerMaybeWakingUp: onServerMaybeWakingUp,
     onError: (_) async => onError?.call(),
@@ -723,7 +723,7 @@ class ApiRegLog{
 
     return await API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) async => dio.post(
+      requestSender: (Dio dio) async => dio.post(
           '${API.SERVER_URL}api/user/confEmail',
           data: FormData.fromMap({CONF_EMAIL_CONF_KEY: confKey})
       ),
@@ -750,7 +750,7 @@ class ApiRegLog{
       await API.sendRequest(
         withToken: true,
         //token: token,
-        sendRequest: (Dio dio) async => await dio.get('${API.SERVER_URL}api/user/confEmail'),
+        requestSender: (Dio dio) async => await dio.get('${API.SERVER_URL}api/user/confEmail'),
         onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data??(throw InvalidResponseError(''))),
         onServerMaybeWakingUp: onServerMaybeWakingUp,
         onError: (err) async => onError?.call(err.response),

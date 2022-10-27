@@ -55,7 +55,7 @@ class ApiForum{
     FutureOr<void> Function(Response? response)? onError,
   }) async => await API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.get(
+    requestSender: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/forum',
     ),
     onSuccess: (Response response, DateTime now) async {
@@ -82,7 +82,7 @@ class ApiForum{
     FutureOr<void> Function(int?)? onError,
   }) async => await API.sendRequest(
     withToken: true,
-    sendRequest: (Dio dio) => dio.get(
+    requestSender: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/forum/$forumKey',
     ),
     onSuccess: (Response response, DateTime now) async {
@@ -109,7 +109,7 @@ class ApiForum{
 
     return API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) async => dio.post(
+      requestSender: (Dio dio) async => dio.post(
           '${API.SERVER_URL}api/forum',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
@@ -141,7 +141,7 @@ class ApiForum{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.delete(
+      requestSender: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/forum/$forumKey'
       ),
       onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
@@ -170,7 +170,7 @@ class ApiForum{
 
     return API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.put(
+      requestSender: (Dio dio) => dio.put(
         '${API.SERVER_URL}api/forum/$forumKey',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
@@ -198,7 +198,7 @@ class ApiForum{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.put(
+      requestSender: (Dio dio) => dio.put(
           '${API.SERVER_URL}api/forum/$forumKey/like',
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
@@ -225,7 +225,7 @@ class ApiForum{
 
     return API.sendRequest(
         withToken: true,
-        sendRequest: (Dio dio) => dio.put(
+        requestSender: (Dio dio) => dio.put(
             '${API.SERVER_URL}api/forum/$forumKey/follow',
             options: Options(headers: {
               HttpHeaders.contentTypeHeader: 'application/json',
@@ -261,7 +261,7 @@ class ApiForum{
 
     return API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.post(
+      requestSender: (Dio dio) => dio.post(
           '${API.SERVER_URL}api/forum/$forumKey/manager',
           data: jsonEncode(body)
       ),
@@ -300,7 +300,7 @@ class ApiForum{
 
     return API.sendRequest(
         withToken: true,
-        sendRequest: (Dio dio) => dio.put(
+        requestSender: (Dio dio) => dio.put(
             '${API.SERVER_URL}api/forum/$forumKey/manager',
             data: jsonEncode(body)
         ),
@@ -330,7 +330,7 @@ class ApiForum{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.delete(
+      requestSender: (Dio dio) => dio.delete(
           '${API.SERVER_URL}api/forum/$forumKey/manager',
           data: jsonEncode(userKeys)
       ),
@@ -352,7 +352,7 @@ class ApiForum{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.get(
+      requestSender: (Dio dio) => dio.get(
           '${API.SERVER_URL}api/forum/$forumKey/post',
           queryParameters: {
             if(page != null) 'page': page,
@@ -386,7 +386,7 @@ class ApiForum{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) async => dio.post(
+      requestSender: (Dio dio) async => dio.post(
         '${API.SERVER_URL}api/forum/$forumKey/post',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
@@ -421,7 +421,7 @@ class ApiForum{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) async => dio.put(
+      requestSender: (Dio dio) async => dio.put(
         '${API.SERVER_URL}api/post/${post.key}',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
@@ -455,7 +455,7 @@ class ApiForum{
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
       withToken: true,
-      sendRequest: (Dio dio) => dio.delete(
+      requestSender: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/post/$postKey',
       ),
       onSuccess: (Response response, DateTime now) async =>

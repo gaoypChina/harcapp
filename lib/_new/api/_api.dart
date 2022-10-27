@@ -49,7 +49,7 @@ class API{
 
   static Future<Response?> sendRequest ({
     bool withToken = false,
-    required Future<Response> Function(Dio dio) sendRequest,
+    required Future<Response> Function(Dio dio) requestSender,
     FutureOr<void> Function(Response, DateTime)? onSuccess,
     FutureOr<bool> Function()? onEmailNotConf,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -57,7 +57,8 @@ class API{
     FutureOr<bool> Function()? onImageDBWakingUp,
     FutureOr<void> Function(DioError)? onError,
 
-    bool saveServerTime = true
+    bool saveServerTime = true,
+    bool jwtTokenRefreshed = false // do not use this argument.
   }) async {
 
     Dio dio = Dio(BaseOptions(
@@ -69,7 +70,7 @@ class API{
     ));
 
     try {
-      Response response = await sendRequest(dio);
+      Response response = await requestSender(dio);
 
       if(response.statusCode == HttpStatus.ok){
         debugPrint('HarcApp API: ${response.requestOptions.method} ${response.requestOptions.path} :: success!');
@@ -95,7 +96,6 @@ class API{
         finish = await onImageDBWakingUp?.call();
         if(await isNetworkAvailable())
           Dio().get(IMAGE_DB_SERVER_IP).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
-
       }
 
       if (e.response?.statusCode == 404) {
@@ -104,16 +104,41 @@ class API{
           Dio().get(SERVER_URL).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
 
       } else if (e.response?.statusCode == jwtInvalidHttpStatus) {
-        await SynchronizerEngine.changeSyncStateInAll([
-            SyncableParamSingle_.stateSynced,
-            SyncableParamSingle_.stateSyncInProgress,
-          ],
-          SyncableParamSingle_.stateNotSynced
-        );
-        SynchronizerEngine.lastSyncTimeLocal = null;
-        await ZhpAccAuth.logout();
-        await AccountData.forgetAccount();
-        AccountData.callOnForceLogout();
+
+        if(!jwtTokenRefreshed && e.response?.data is Map && e.response?.data['error'] == "jwt_expired"){
+          debugPrint("Jwt expired. Attempting a token refresh...");
+
+          Response response;
+          try {
+            response = await Dio().get('${SERVER_URL}api/refreshToken/${AccountData.refreshToken}');
+          } on DioError catch (e){
+            await handleForgetAccount();
+            finish = await onForceLoggedOut?.call();
+            if(finish??false)
+              return e.response;
+            await onError?.call(e);
+            return e.response;
+          }
+
+          await AccountData.writeJwt(response.data['jwt']);
+          await AccountData.writeRefreshToken(response.data['refreshToken']);
+          
+          return sendRequest(
+              withToken: withToken,
+              requestSender: requestSender,
+              onSuccess: onSuccess,
+              onEmailNotConf: onEmailNotConf,
+              onForceLoggedOut: onForceLoggedOut,
+              onServerMaybeWakingUp: onServerMaybeWakingUp,
+              onImageDBWakingUp: onImageDBWakingUp,
+              onError: onError,
+
+              saveServerTime: saveServerTime,
+              jwtTokenRefreshed: true
+          );
+        }
+
+        await handleForgetAccount();
 
         finish = await onForceLoggedOut?.call();
       } else if(e.response?.statusCode == HttpStatus.unauthorized){
@@ -122,13 +147,23 @@ class API{
 
       if(finish??false)
         return e.response;
-
       await onError?.call(e);
-
       return e.response;
     }
   }
 
+  static Future<void> handleForgetAccount() async {
+    await SynchronizerEngine.changeSyncStateInAll([
+      SyncableParamSingle_.stateSynced,
+      SyncableParamSingle_.stateSyncInProgress,
+    ],
+        SyncableParamSingle_.stateNotSynced
+    );
+    SynchronizerEngine.lastSyncTimeLocal = null;
+    await ZhpAccAuth.logout();
+    await AccountData.forgetAccount();
+    AccountData.callOnForceLogout();
+  }
 
   // INNE
   // RÓZNE
@@ -140,7 +175,7 @@ class API{
 
     await sendRequest(
         withToken: false,
-        sendRequest: (Dio dio) async => await dio.post(
+        requestSender: (Dio dio) async => await dio.post(
             '${SERVER_URL}api/song/get_memories',
             data: {'song_file_name': songFileName}
         ),
@@ -167,8 +202,8 @@ class API{
 
     await sendRequest(
         withToken: true,
-        sendRequest: (Dio dio) async => await dio.get(
-            '${SERVER_URL}api/song/recomended',
+        requestSender: (Dio dio) async => await dio.get(
+            '${SERVER_URL}api/song/recommended',
         ),
         onSuccess: (Response response, DateTime now) async {
 

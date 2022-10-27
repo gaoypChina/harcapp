@@ -132,20 +132,20 @@ class StrukturaFunkcjeFragmentState extends State<StrukturaFunkcjeFragment> with
                   children: <Widget>[
                     Expanded(flex: 1, child: Container()),
                     const Line(flex: 1, fat: true, long: true,),
-                    Expanded(child: StructCard(
+                    Expanded(flex: 2, child: StructCard(
                         'Szczep',
                         description: 'Szczep jest strukturą występującą fakultatywnie. Jest wspólnotą podstawowych jednostek organizacyjnych, działających w jednym środowisku (szkoła, osiedle, dzielnica). Podstawowym celem działania szczepu jest zapewnienie ciągu wychowawczego - tworzą go minimum trzy podstawowe jednostki organizacyjne działające w co najmniej dwóch grupach metodycznych.',
                         auth: '• Komendant Szczepu'
                             '\n• Komenda Szczepu',
                         funkcje: funkcjeSz
-                    ), flex: 2),
-                    Expanded(child: StructCard(
+                    )),
+                    Expanded(flex: 2, child: StructCard(
                         'Zw. drużyn',
                         description: 'Związek drużyn jest strukturą fakultatywną. Jest terytorialną wspólnotą wszystkich jednostek organizacyjnych działających na terenie jednej lub kilku gmin. Tworzą go przynajmniej trzy podstawowe jednostki organizacyjne, przy czym w jego skład mogą wchodzić także szczepy.',
                         auth: '• Komendant Związku Drużyn'
                             '\n• Komenda Związku Drużyn',
                         funkcje: funkcjeZD
-                    ), flex: 2)
+                    ))
                   ],
                 ),
 
@@ -387,7 +387,7 @@ class Funkcja extends StatelessWidget{
             ]
           ),
 
-        SizedBox(width: 4,),
+        const SizedBox(width: 4,),
         Column(
           children: <Widget>[
             suwak1_cross == null?
@@ -398,7 +398,7 @@ class Funkcja extends StatelessWidget{
                 Container(height: 4, width: 8, color: suwak1_cross),
               ],
             ),
-            SizedBox(height: 4,),
+            const SizedBox(height: 4,),
             suwak2_cross == null?
             Container(height: 8, width: 8, color: suwak2):
             Column(
@@ -407,7 +407,7 @@ class Funkcja extends StatelessWidget{
                 Container(height: 4, width: 8, color: suwak2_cross),
               ],
             ),
-            SizedBox(height: 4,),
+            const SizedBox(height: 4,),
             suwak3_cross == null?
             Container(height: 8, width: 8, color: suwak3):
             Column(
@@ -418,12 +418,12 @@ class Funkcja extends StatelessWidget{
             ),
           ],
         ),
-        SizedBox(width: 6,),
+        const SizedBox(width: 6,),
       ],
     );
 
     return Padding(
-      padding: EdgeInsets.only(top: 3*Dimen.defMarg, bottom: 3*Dimen.defMarg),
+      padding: const EdgeInsets.only(top: 3*Dimen.defMarg, bottom: 3*Dimen.defMarg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -433,7 +433,7 @@ class Funkcja extends StatelessWidget{
               Expanded(child: Text(name, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)))
             ],
           ),
-          SizedBox(height: Dimen.defMarg),
+          const SizedBox(height: Dimen.defMarg),
           Text(description, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL),)
         ],
       ),
