@@ -379,6 +379,7 @@ class PostEditorPageState extends State<PostEditorPage>{
                         text: textController.text,
                         onSuccess: (post) async {
                           if(mounted) await popPage(context); // Close loading widget.
+                          if(mounted) popPage(context); // Close page.
                           onSaved?.call(post);
                         },
                         onServerMaybeWakingUp: () {
@@ -386,8 +387,8 @@ class PostEditorPageState extends State<PostEditorPage>{
                           if(mounted) showServerWakingUpToast(context);
                           return true;
                         },
-                        onImageDBWakingUp: (){
-                          if(mounted) popPage(context); // Close loading widget.
+                        onImageDBWakingUp: () async {
+                          if(mounted) await popPage(context); // Close loading widget.
                           if(mounted) showImageDBWakingUpToast(context);
                           return true;
                         },
@@ -445,8 +446,6 @@ class PostEditorPageState extends State<PostEditorPage>{
                           onError?.call();
                         }
                     );
-
-                  Navigator.pop(context);
 
                 }
             ),

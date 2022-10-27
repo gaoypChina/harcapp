@@ -636,7 +636,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                         respMode: isEvent?attRespMode:AnnouncementAttendanceRespMode.NONE,
                         onSuccess: (announcement) async {
                           if(mounted) await popPage(context); // Close loading widget.
-                          if(mounted) popPage(context);
+                          if(mounted) popPage(context); // Close page.
                           onSaved?.call(announcement);
                         },
                         onServerMaybeWakingUp: () {
@@ -713,7 +713,7 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
 
                         onSuccess: (announcement) async {
                           if(mounted) await popPage(context); // Close loading widget.
-                          if(mounted) popPage(context); // Close loading widget.
+                          if(mounted) popPage(context); // Close page.
                           onSaved?.call(announcement);
                         },
                         onServerMaybeWakingUp: () {
