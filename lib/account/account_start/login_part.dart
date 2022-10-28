@@ -165,7 +165,12 @@ class LoginPartState extends State<LoginPart>{
         content: 'Trwa logowanie przez konto ZHP...',
       );
 
-      await ZhpAccAuth.login();
+      try {
+        await ZhpAccAuth.login();
+      } on Exception{
+        await popPage(context); // close login alert dialog
+        return;
+      }
       await Future.delayed(pageTransDuration);
       String? azureToken = await ZhpAccAuth.azureToken;
       await ApiRegLog.carefullyMicrosoftLogin(

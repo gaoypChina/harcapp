@@ -27,13 +27,11 @@ class _IndivCompColorsEditorWidgetState extends State<IndivCompColorsEditorWidge
 
           const SettingsPartHeader('Kolor współzawodnictwa'),
 
-          Padding(
-            padding: const EdgeInsets.only(left: settingsPartPaddingVal, right: settingsPartPaddingVal),
-            child: ColorSelectorWidget(
-              initColorKey: Provider.of<ColorKeyProvider>(context, listen: false).colorsKey,
-              onSelected: (iconKey) => Provider.of<ColorKeyProvider>(context, listen: false).colorsKey = iconKey,
-            ),
-          )
+          ColorSelectorWidget(
+            initColorKey: Provider.of<ColorKeyProvider>(context, listen: false).colorsKey,
+            onSelected: (iconKey) => Provider.of<ColorKeyProvider>(context, listen: false).colorsKey = iconKey,
+          ),
+
         ]))
 
       ]

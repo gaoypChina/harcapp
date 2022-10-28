@@ -1071,7 +1071,7 @@ RankZHPSim2022Data rankZhp5Data = RankZHPSim2022Data(
           title: 'Ekologia',
           icon: RankData.iconEkologia,
           taskData: [
-            RankTaskData(text: 'oznałem podstawowe problemy związane z dostępem do wody pitnej (w tym jej niedoboru) na świecie i w Polsce. Poznałem różne sposoby pozyskania lub uzdatniania wody pitnej w terenie (destylacja, filtry osobiste, filtracja i uzdatnianie chemiczne itp.). Podczas wędrówki zastosowałem jeden z nich.'),
+            RankTaskData(text: 'Poznałem podstawowe problemy związane z dostępem do wody pitnej (w tym jej niedoboru) na świecie i w Polsce. Poznałem różne sposoby pozyskania lub uzdatniania wody pitnej w terenie (destylacja, filtry osobiste, filtracja i uzdatnianie chemiczne itp.). Podczas wędrówki zastosowałem jeden z nich.'),
             RankTaskData(text: 'Znam i stosuję zasady ekologicznego obozowania. Wdrażam w nie młodszych od siebie harcerzy, pomagając im w ekologicznym obozowaniu lub biwakowaniu.')
           ],
         ),
@@ -1079,7 +1079,7 @@ RankZHPSim2022Data rankZhp5Data = RankZHPSim2022Data(
           title: 'Ekologia',
           icon: RankData.iconEkologia,
           taskData: [
-            RankTaskData(text: 'oznałem podstawowe problemy związane z dostępem do wody pitnej (w tym jej niedoboru) na świecie i w Polsce. Poznałem różne sposoby pozyskania lub uzdatniania wody pitnej w terenie (destylacja, filtry osobiste, filtracja i uzdatnianie chemiczne itp.). Podczas wędrówki zastosowałem jeden z nich.'),
+            RankTaskData(text: 'Poznałem podstawowe problemy związane z dostępem do wody pitnej (w tym jej niedoboru) na świecie i w Polsce. Poznałem różne sposoby pozyskania lub uzdatniania wody pitnej w terenie (destylacja, filtry osobiste, filtracja i uzdatnianie chemiczne itp.). Podczas wędrówki zastosowałem jeden z nich.'),
           ],
         ),
         RankGroupData(

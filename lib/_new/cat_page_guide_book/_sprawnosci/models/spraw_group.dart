@@ -4,14 +4,14 @@ import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_family
 
 class SprawGroupData{
 
-  final String? id;
-  final String? title;
+  final String id;
+  final String title;
   final String? description;
   final List<String>? tags;
 
   final List<SprawFamilyData>? familyData;
 
-  SprawGroupData({this.id, this.title, this.description, this.tags, this.familyData});
+  SprawGroupData({required this.id, required this.title, this.description, this.tags, this.familyData});
 
   SprawGroup build(SprawBook sprawBook){
 
@@ -32,8 +32,8 @@ class SprawGroup{
 
   SprawGroupData data;
 
-  String? get id => data.id;
-  String? get title => data.title;
+  String get id => data.id;
+  String get title => data.title;
   String? get description => data.description;
 
   SprawBook sprawBook;

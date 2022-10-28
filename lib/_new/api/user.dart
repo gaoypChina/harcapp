@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -112,16 +113,20 @@ class ApiUser{
 
   static Future<Response?> delete(
       { String? validPass,
-        void Function(String?)? onError,
-        void Function()? onSuccess,
+        String? validAzureToken,
+        FutureOr<void> Function(String?)? onError,
+        FutureOr<void> Function()? onSuccess,
       }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
           '${API.SERVER_URL}api/user',
-          data: validPass==null?null:FormData.fromMap({'valid_pass': validPass})
+          data: FormData.fromMap({
+            if(validPass != null) 'validPass': validPass,
+            if(validAzureToken != null) 'validAzureToken': validAzureToken,
+          })
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
-      onError: (DioError error) async => onError?.call(error.response!.data['error'])
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
+      onError: (DioError error) async => await onError?.call(error.response!.data['error'])
   );
 
   static String UPDATE_REQ_EMAIL = 'email';

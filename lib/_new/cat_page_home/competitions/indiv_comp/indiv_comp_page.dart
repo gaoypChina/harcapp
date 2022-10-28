@@ -158,7 +158,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                       actions: [
                         if(comp.myProfile?.role == CompRole.ADMIN)
                           IconButton(
-                            icon: Icon(comp.shareCodeSearchable?MdiIcons.accessPoint:MdiIcons.accessPointOff),
+                            icon: Icon(comp.shareCodeSearchable?ShareCodeWidget.iconOn:ShareCodeWidget.iconOff),
                             onPressed: changeShareCodeProcessing?null:() async {
                               setState(() => changeShareCodeProcessing = true);
                               await ApiIndivComp.setShareCodeSearchable(

@@ -125,7 +125,7 @@ class EditGradientButton extends StatelessWidget{
   
 }
 
-const double settingsPartPaddingVal = Dimen.SIDE_MARG;
+const double settingsPartPaddingVal = Dimen.ICON_MARG;
 
 class SettingsPartHeader extends StatelessWidget{
 
@@ -134,15 +134,11 @@ class SettingsPartHeader extends StatelessWidget{
   const SettingsPartHeader(this.title, {super.key});
 
   @override
-  Widget build(BuildContext context) => ListTile(
-    title: Text(
-      title,
-      style: AppTextStyle(
-        fontSize: Dimen.TEXT_SIZE_APPBAR,
-        fontWeight: weight.bold,
-        color: backgroundIcon_(context).withOpacity(.1)
-      ),
-    ),
-  );
+  Widget build(BuildContext context) =>
+      TitleShortcutRowWidget(
+          title: title,
+          textAlign: TextAlign.start,
+          titleColor: backgroundIcon_(context).withOpacity(.1)
+      );
 
 }

@@ -45,7 +45,7 @@ class SearchHistoryPageState extends State<SearchHistoryPage>{
 
             SliverAppBar(
               backgroundColor: background_(context),
-              title: const Text('Historia wyszukiwania'),
+              title: const Text('Co było grane?'),
               centerTitle: true,
               elevation: 0,
               floating: true,

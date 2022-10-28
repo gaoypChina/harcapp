@@ -120,12 +120,13 @@ class FeedPageState extends State<FeedPage>{
           header: MaterialClassicHeader(backgroundColor: cardEnab_(context), color: accent_(context)),
           controller: refreshController,
           footer: CustomFooter(
+            height: 55.0,
             builder: (BuildContext context, LoadStatus? mode){
+
               Widget body;
               if(!moreToLoad)
-                body = CommunityPublishable.all!.isEmpty?
-                Container():
-                Icon(MdiIcons.circleMedium, color: hintEnab_(context));
+                // This doesn't matter - `enablePullUp` is off anyway.
+                body = Container();
 
               else if(mode == LoadStatus.idle)
                 body = Row(
@@ -312,7 +313,15 @@ class FeedPageState extends State<FeedPage>{
                 hasNetwork: connProv.connected,
                 onAnnouncementUpdated: () => setState((){}),
                 onPostUpdated: () => setState((){}),
-              )
+              ),
+
+              if(!moreToLoad && CommunityPublishable.all!.isNotEmpty)
+                SliverList(delegate: SliverChildListDelegate([
+                  SizedBox(
+                    height: 50,
+                    child: Icon(MdiIcons.circleMedium, color: hintEnab_(context)),
+                  )
+                ]))
 
             ],
           )

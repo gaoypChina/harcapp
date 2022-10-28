@@ -495,8 +495,1065 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
       SprawGroupData(
           id: 'spraw_sportowe',
           title: 'Sportowe',
-          tags: ['#aktywność fizyczna', '#rekreacja', '#zdrowa rywalizacja', '#zdrowy tryb życia', '#praca nad sobą', '#ruch to zdrowie', '#w zdrowym ciele zdrowy duch'],
+          tags: ['#aktywność fizyczna', '#rekreacja' '#zdrowa rywalizacja' '#zdrowy tryb życia', '#praca nad sobą', '#ruch to zdrowie', '#w zdrowym ciele zdrowy duch'],
           familyData: [
+
+            // 1. sportowa GIMNASTYK
+            SprawFamilyData(
+                id: '1',
+                requirements: [
+                  'Wiem, dlaczego gimnastyka jest ważna dla zdrowia. Gimnastykuję się codziennie rano',
+                  'Zrobiłem(-łam) pomoce do ćwiczeń gimnastycznych, np. woreczki z grochem, serso, piłki szmaciane lub szarfy.',
+                  'Obejrzałem(-łam) zawody gimnastyczne. ',
+                  'Dobrałem(-łam) ćwiczenia do muzyki',
+                  'Brałem(-łam) udział w pokazach gimnastycznych organizowanych przez gromadę lub szkołę.',
+                  'Umiem zrobić przewrót w tył i w przód, mostek z pozycji leżącej, głęboki skłon (dotykając dłońmi podłogi) i jaskółkę.',
+                  'Prowadziłem(-łam) na zbiórce lub kolonii zuchowej gimnastykę oraz rozgrzewkę na lekcji wychowania fizycznego. ',
+                  'Staram się zachować prawidłową postawę w każdej sytuacji.',
+                  'Nauczyłem(-łam) kolegów prostego układu ćwiczeń.',
+                  'Wykonałem(-łam) ćwiczenia na przyrządach (ławeczce, drabince, materacu, drążku)',
+                  'Wykonałem(-łam) układ ćwiczeń z piłką, wstążką lub skakanką.',
+                ],
+                notesForLeaders: [
+                  'Wobec powszechnego występowania u dzieci wad postawy bardzo ważne są działania profilaktyczne, dlatego warto zachęcać zuchy do zdobywania sprawności „Gimnastyka/Gimnastyczki”.',
+                  'Indywidualne zadania zucha można włączyć do zbiórek gromady, szczególnie podczas zdobywania tropów „Olimpijczyków/Olimpijek”, „Sportowców”, Trenerek/Trenerów”, „Rycerzy”, „Kosmonautów” lub „Żołnierzy”.',
+                  'Zuchowi, który interesuje się sportem, warto zaproponować także zdobywanie innych sprawności, np. „Mistrza/Mistrzyni rolek (wrotek)”, „Mistrza/Mistrzyni deskorolki”, „Narciarza/Narciarki”, „Pływaka/Pływaczki” lub „Lekkoatlety/Lekkoatletki".',
+                  'Punkt Prawa Zucha, na który zwracamy szczególną uwagę, realizując sprawność „Gimnastyka/Gimnastyczki”: "Zuch stara się być coraz lepszy."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'gimnastyk',
+                      title: 'Gimnastyk',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Gimnastykowałem(-łam) się rano co najmniej trzy razy w tygodniu.',
+                        'Zapisałem(-łam) dwa powody, dla których gimnastyka jest ważna dla zdrowia.',
+                        'Dobrałem(-łam) trzy ćwiczenia do mojej ulubionej piosenki i zaprezentowałem(-łam) je gromadzie na zbiórce.',
+                        'Przeszedłem(-łam) ścieżkę zdrowia. Narysowałem(-łam) trzy ćwiczenia, które na niej wykonałem(-łam).',
+                      ]),
+                  SprawData(
+                      id: 'gimnastyk',
+                      title: 'Gimnastyk',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Gimnastykowałem(-łam) się rano co najmniej pięć razy w tygodniu.',
+                        'Zapisałem(-łam) trzy powody, dla których gimnastyka jest ważna dla zdrowia.',
+                        'Przeszedłem(-łam) ścieżkę zdrowia. Narysowałem(-łam) cztery ćwiczenia, które na niej wykonałem(-łam).',
+                        'Przeprowadziłem(-łam) rozgrzewkę na zbiórce, biwaku lub kolonii gromady.',
+                        'Zrobiłem(-łam) jedną pomoc do ćwiczeń gimnastycznych, np. woreczki z grochem, serso, piłki szmaciane lub szarfy.',
+                        'Nauczyłem(-łam) się wykonywać dwa ćwiczenia gimnastyczne, np. przewrót w tył i w przód, mostek z pozycji leżącej, głęboki skłon (dotykając dłońmi podłogi) i jaskółkę. Zaprezentowałem(-łam) je na zbiórce',
+                      ]),
+                  SprawData(
+                      id: 'gimnastyk',
+                      title: 'Gimnastyk',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Gimnastykowałem(-łam) się rano co najmniej pięć razy w tygodniu.',
+                        'Zapisałem(-łam) trzy powody, dla których gimnastyka jest ważna dla zdrowia.',
+                        'Przeszedłem(-łam) ścieżkę zdrowia. Narysowałem(-łam) pięć ćwiczeń, które na niej wykonałem(-łam).',
+                        'Przeprowadziłem(-łam) rozgrzewkę na zbiórce, biwaku lub kolonii gromady.',
+                        'Wykonałem(-łam) układ ćwiczeń z piłką, wstążką lub skakanką, zawierający o najmniej trzy różne ćwiczenia.',
+                        'Nauczyłem(-łam) się wykonywać trzy ćwiczenia, np. przewrót w tył i w przód, mostek z pozycji leżącej, głęboki skłon (dotykając dłońmi podłogi) i jaskółkę. Zaprezentowałem(-łam) je na zbiórce.',
+                      ]),
+                ]
+            ),
+
+            // 2. sportowa LEKKOATLETA
+            SprawFamilyData(
+                id: '2',
+                requirements: [
+                  'Znam konkurencje lekkoatletyczne. Uprawiam jedną z dziedzin lekkiej atletyki.',
+                  'Pracuję nad swoją kondycją fizyczną. Systematycznie uprawiam gimnastykę.',
+                  'Założyłem(-łam) dzienniczek swoich rekordów.',
+                  'Opowiedziałem(-łam) kolegom, na czym polega zdrowe odżywianie się. Wyjaśniłem(-łam), dlaczego jest ważne.',
+                  'Uczestniczyłem(-łam) w meetingu lekkoatletycznym lub zawodach sportowych.',
+                  'Znam rekordy olimpijskie i nazwiska sportowców uprawiających wybraną dyscyplinę sportową.',
+                  'Zorganizowałem(-łam) zawody w gromadzie lub na podwórku.',
+                  'Podczas zawodów stosuję zasady fair play.',
+                ],
+                notesForLeaders: [
+                  'Zuch „Lekkoatleta/Lekkoatletka” uprawia jedną lub kilka dyscyplin lekkoatletycznych. Lubi uprawiać sport, ma dużo energii i chęci do pracy nad sobą.',
+                  'Zuchy, które zdobywają tę sprawność na kolonii, mogą pomagać w porannych rozgrzewkach lub zajęciach sportowych.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Lekkoatlety/Lekkoatletki”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.", "Zuch pamięta o swoich obowiązkach."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'lekkoatleta',
+                      title: 'Lekkoatleta',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Zawsze jestem przygotowany(-na) na zajęcia sportowe. Narysowałem(-łam), jak wyglądam w stroju sportowym.',
+                        'Systematycznie uprawiam gimnastykę, przygotowałem(-łam) trzy ulubione ćwiczenia i przedstawiłem(-łam) je na zbiórce.',
+                        'Zrobiłem(-łam) plakat, na którym pokazałem(-łam), co powinni jeść chłopcy/dziewczynki w moim wieku. Pokazałem(-łam) plakat w kręgu rady. Opowiedziałem(-łam) innym zuchom, na czym polega zdrowe odżywianie i dlaczego jest ważne.',
+                        'Uczestniczyłem(-łam) w meetingu lekkoatletycznym lub zawodach sportowych.',
+                        'Założyłem(-łam) dzienniczek swoich rekordów.',
+                      ]),
+                  SprawData(
+                      id: 'lekkoatleta',
+                      title: 'Lekkoatleta',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Regularnie ćwiczę na zajęciach sportowych. Zrobiłem(-łam) dzienniczek swoich osiągnięć.',
+                        'Mam swojego ulubionego olimpijczyka. Przedstawiłem(-łam) na zbiórce prezentację o nim. Wiem, jakie pobił rekordy i ile medali zdobył.',
+                        'W kręgu rady zaprezentowałem(-łam) moje trzy ulubione dyscypliny sportowe. Opowiedziałem(-łam) zuchom o zasadach fair play.',
+                        'Narysowałem(-łam) piramidę zdrowego odżywiania i zaprezentowałem(-łam) ją zuchom z gromady.',
+                        'Obejrzałem(-łam) razem z rodzicami Igrzyska Olimpijskie.',
+                        'Założyłem(-łam) dzienniczek moich rekordów. Analizuję je i sprawdzam, czy moje wyniki się poprawiły.',
+                        'Uczestniczyłem(-łam) w meetingu lekkoatletycznym lub zawodach sportowych.',
+                      ]),
+                  SprawData(
+                      id: 'lekkoatleta',
+                      title: 'Lekkoatleta',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Regularnie ćwiczę w domu i na zajęciach sportowych. Po każdych zajęciach pamiętam o rozciąganiu. Zrobiłem(-łam) plan ćwiczeń odpowiednich dla mojego wieku i zaprezentowałem(-łam) go na zbiórce.',
+                        'Znam co najmniej trzech mistrzów olimpijskich. Znam ich rekordy i liczbę zdobytych medali.',
+                        'Zorganizowałem(-łam) na zbiórce zawody między szóstkami. Opowiedziałem(-łam) gromadzie o zasadach fair play. Przygotowałem(-łam) drobne nagrody dla najlepszej szóstki.',
+                        'Zrobiłem(-łam) plakat dotyczący mojej ulubionej dziedziny lekkiej atletyki.',
+                        'Nauczyłem(-łam) się jednej nowej rzeczy związanej z moją ulubioną dziedziną lekkiej atletyki. Zaprezentowałem(-łam) ją na zbiórce.',
+                        'Założyłem(-łam) dzienniczek moich rekordów. Analizuję je i sprawdzam, czy moje wyniki się poprawiły.',
+                        'Przygotowałem(-łam) piramidę zdrowego odżywiania. Przedstawiłem(-łam) ją w kręgu rady.',
+                        'Przygotowałem(-łam) listę zdrowych produktów, które powinna jeść osoba w moim wieku uprawiająca sport.',
+                        'Uczestniczyłem(-łam) w meetingu lekkoatletycznym lub zawodach sportowych.',
+                      ]),
+                ]
+            ),
+
+            // 3. sportowa ŁYŻWIARZ
+            SprawFamilyData(
+                id: '3',
+                requirements: [
+                  'Byłem(-łam) na lodowisku. Jeździłem(-łam) na łyżwach.',
+                  'Znam dyscypliny łyżwiarskie i nazwiska słynnych łyżwiarzy.',
+                  'Jeździłem(-łam) na jednej nodze, tyłem i w pozycji kucznej.',
+                  'Wymijałem(-łam) przeszkody znajdujące się na lodzie.',
+                  'Wytłumaczyłem(-łam) kolegom, gdzie wolno jeździć na łyżwach i jakie niebezpieczeństwa czyhają na nieostrożnych łyżwiarzy.',
+                  'Oglądałem(-łam) w telewizji mistrzostwa w łyżwiarstwie szybkim lub figurowym albo rozgrywki w hokeju na lodzie.',
+                  'Dbam o swój sprzęt łyżwiarski.',
+                  'Sam(a) zrobiłem(-łam) sobie kij do hokeja.',
+                  'Uczestniczyłem(-łam) w zawodach łyżwiarskich lub meczu hokejowym organizowanym w gromadzie.',
+                ],
+                notesForLeaders: [
+                  'Zuch „Łyżwiarz/Łyżwiarka” kształtuje swoją zwinność, zręczność oraz ogólną kondycję fizyczną. Świetnie jeździ na łyżwach. Wie, jak bezpiecznie bawić się na lodzie oraz gdzie wolno jeździć na łyżwach.',
+                  'Aby dalej rozwijać zainteresowania zucha, można mu wskazać sprawności „Mistrza/Mistrzyni rolek” i „Narciarza/Narciarki”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Łyżwiarza/Łyżwiarki”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.", "Zuch jest dzielny."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'lyzwiarz',
+                      title: 'Łyżwiarz',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Byłem(-łam) z rodzicami lub klasą na łyżwach. Przejechałem(-łam) samodzielnie przynajmniej jedną długość lodowiska.',
+                        'Nauczyłem(-łam) się jeździć w pozycji klasycznej bez pomocy rodziców i podpórek.',
+                        'Mam swojego ulubionego łyżwiarza, opowiedziałem(-łam) o nim na zbiórce.',
+                        'Narysowałem(-łam) swoje wymarzone łyżwy.',
+                        'Opowiedziałem(-łam) szóstce, gdzie wolno jeździć na łyżwach i jakie niebezpieczeństwa czyhają na nieostrożnych łyżwiarzy.',
+                      ]),
+                  SprawData(
+                      id: 'lyzwiarz',
+                      title: 'Łyżwiarz',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Byłem(-łam) z rodzicami lub klasą na łyżwach. Przejechałem(-łam) dowolną odległość tyłem.',
+                        'Znam trzech sławnych łyżwiarzy. Zrobiłem(-łam) plakat prezentujący jednego z nich.',
+                        'Pokazałem(-łam), jak wymijam przeszkody na lodzie.',
+                        'Mam własne łyżwy, razem z rodzicami oddałem(-łam) je do ostrzenia. Opowiedziałem(-łam) szóstce, jak należy o nie dbać.',
+                        'Wykonałem(-łam) swój wymarzony kij do hokeja.',
+                        'Oglądałem(-łam) z rodzicami mistrzostwa w łyżwiarstwie.',
+                        'W kręgu rady opowiedziałem(-łam), gdzie wolno jeździć na łyżwach i jakie niebezpieczeństwa czyhają na nieostrożnych łyżwiarzy.',
+                      ]),
+                  SprawData(
+                      id: 'lyzwiarz',
+                      title: 'Łyżwiarz',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Regularnie ćwiczyłem(-łam) na lodowisku. Nauczyłem(-łam) młodszego zucha jazdy przodem na lodzie.',
+                        'Jeździłem(-łam) tyłem, w pozycji klasycznej i na jednej nodze.',
+                        'W kręgu rady opowiedziałem(-łam), gdzie wolno jeździć na łyżwach i jakie niebezpieczeństwa czyhają na nieostrożnych łyżwiarzy. Zaprezentowałem(-łam) idealny strój na łyżwy.',
+                        'Dbam o moje łyżwy, samodzielnie je czyszczę i regularnie ostrzę.',
+                        'Byłem(-łam) z rodzicami na zawodach hokejowych lub mistrzostwach w łyżwiarstwie.',
+                        'Wykonałem(-łam) swój kij hokejowy i przyozdobiłem(-łam) kask.',
+                        'Znam przynajmniej trzech sławnych łyżwiarzy. Mam swoją ulubioną drużynę hokejową. Zaprezentowałem(-łam) ulubionych sportowców i ich osiągnięcia na zbiórce.',
+                      ]),
+                ]
+            ),
+
+            // 4. sportowa MISTRZ DESKOROLKI
+            SprawFamilyData(
+                id: '4',
+                requirements: [
+                  'Lubię jeździć na deskorolce. Jestem sprawny(-na) i zwinny(-na).',
+                  'Znam kilka ewolucji na deskorolce. Wykonałem(-łam) je.',
+                  'Dbam o bezpieczeństwo podczas jazdy. Noszę nakolanniki i kask.',
+                  'Konserwuję swoją deskę.',
+                  'Jeżdżę tylko w miejscach do tego wyznaczonych.',
+                  'Naprawiłem(-łam) zepsutą deskę.',
+                  'Zorganizowałem(-łam) na podwórku pokaz jazdy na deskorolce.',
+                ],
+                notesForLeaders: [
+                  'Zuch zdobywający sprawność kształtuje swoją zwinność, zręczność i ogólną kondycję fizyczną. Świetnie jeździ na desce. Wie, jak bezpiecznie się bawić i gdzie powinno się jeździć.',
+                  'Aby dalej rozwijać zainteresowania zucha, można mu wskazać inne sprawności sportowe, np. „Mistrza/Mistrzyni rolek” i „Gimnastyka/Gimnastyczki”.',
+                  ' Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza/Mistrzyni deskorolki”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'mistrz_deskorolki',
+                      title: 'Mistrz deskorolki',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Potrafię jeździć na deskorolce klasycznie oraz hamować.',
+                        'Dbam o swoją deskorolkę i zestaw ochraniaczy.',
+                        'Narysowałem(-łam) siebie podczas robienia jednej z ewolucji na deskorolce.',
+                        'Znam zasady bezpiecznej jazdy na deskorolce. Przedstawiłem(-łam) je w kręgu rady.',
+                        'Ozdobiłem(-łam) swoją deskorolkę naklejkami.',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_deskorolki',
+                      title: 'Mistrz deskorolki',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Umiem jeździć na deskorolce klasycznie, skręcać i hamować.',
+                        'Dbam o swoją deskorolkę i zestaw ochraniaczy.',
+                        'Byłem(-łam) na osiedlowym skateparku i obserwowałem(-łam) inne jeżdżące osoby.',
+                        'Wiem, z czego składa się deskorolka, zrobiłem(-łam) plakat, który pokazuje jej budowę.',
+                        'Mam swojego ulubionego skatera, opowiedziałem(-łam) o nim na zbiórce.',
+                        'Znam zasady bezpiecznej jazdy na deskorolce. Przedstawiłem(-łam) je w kręgu rady.',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_deskorolki',
+                      title: 'Mistrz deskorolki',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Umiem jeździć na deskorolce klasycznie, skręcać i hamować.',
+                        'Dbam o swoją deskorolkę i zestaw ochraniaczy.',
+                        'Byłem(-łam) na osiedlowym skateparku i obserwowałem(-łam) inne jeżdżące osoby.',
+                        'Wiem, z czego składa się deskorolka. Przedstawiłem(-łam) jej budowę na plakacie. ',
+                        'Mam swojego ulubionego skatera. Opowiedziałem(-łam) o nim na zbiórce.',
+                        'Znam zasady bezpiecznej jazdy na deskorolce. Przedstawiłem(-łam) je w kręgu rady.',
+                      ]),
+                ]
+            ),
+
+            // 5. sportowa MISTRZ GIER I ZABAW
+            SprawFamilyData(
+                id: '5',
+                requirements: [
+                  'Znam różne gry: ruchowe, umysłowe, świetlicowe i podwórkowe. Założyłem(-łam) wielką księgę gier gromady.',
+                  'Wykonałem(-łam) przybory do gier i zabaw.',
+                  'Zbieram gry i zabawy, zapisuję je w notatniku i wykorzystuję podczas zabaw.',
+                  'Wymyśliłem(-łam) nową grę. Wypróbowaliśmy ją na zbiórce.',
+                  'Prowadziłem(-łam) kilka gier na zbiórce.',
+                  'Nauczyłem(-łam) kolegów na podwórku lub w klasie kilku nowych gier. Opowiedziałem(-łam) im o zasadzie fair play.',
+                  'Byłem(-łam) sędzią podczas rozgrywek.',
+                  'Zrobiłem(-łam) spis gier planszowych znajdujących się w zuchówce.',
+                  'Zorganizowałem(-łam) na podwórku festyn gier.',
+                  'Dbam o znajdujące się w zuchówce przybory do gier i zabaw. Zostałem(-łam) strażnikiem/strażniczką sprzętu sportowego na biwaku lub kolonii i prowadziłem(-łam) książkę wypożyczeń.',
+                ],
+                notesForLeaders: [
+                  'Sprawność jest przeznaczona dla zuchów, które lubią grać, chętnie proponują gry i potrafią je prowadzić, a także wymyślają nowe gry i zabawy.',
+                  'Indywidualne zadania zucha można włączyć do zajęć gromady –na zbiórce, biwaku lub kolonii. Zuch zdobywający sprawność może sędziować rozgrywki oraz przeprowadzić zabawę lub grę według własnego pomysłu (z pomocą kadry). Może także być inicjatorem nowych pląsów, sprawować pieczę nad sprzętem sportowym lub grami planszowymi i odpowiadać za ich wypożyczanie (np. na kolonii).',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza/Mistrzyni gier i zabaw”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'mistrz_gier_i_zabaw',
+                      title: 'Mistrz gier i zabaw',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Wykonałem(-łam) przybory do gier i zabaw.',
+                        'Zbieram różne gry. Zapisuję je w notatniku i wykorzystuję podczas zabaw. Przeprowadziłem(-łam) przynajmniej dwie gry lub zabawy na zbiórce.',
+                        'Zrobiłem(-łam) spis gier planszowych zgromadzonych w zuchówce.',
+                        'Dbam o przybory do gier i zabaw znajdujące się w zuchówce. Zostałem(-łam)strażnikiem/strażniczką sprzętu sportowego na kolonii i prowadziłem(-łam) książkę wypożyczeń.',
+                        'Przeprowadziłem(-łam) na zbiórce gromady moją ulubioną grę.',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_gier_i_zabaw',
+                      title: 'Mistrz gier i zabaw',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Założyłem(-łam) wielką księgę gier gromady.',
+                        'Prowadziłem(-łam) na zbiórce przynajmniej pięć gier',
+                        'Zbieram gry i zabawy, zapisuję je w notatniku i wykorzystuję podczas zabaw.',
+                        'Nauczyłem(-łam) kolegów na podwórku lub w klasie przynajmniej dwóch nowych gier. Opowiedziałem(-łam) im o zasadzie fair play.',
+                        'Zorganizowałem(-łam) na podwórku festyn gier. ',
+                        'Wymyśliłem(-łam) trzy nowe gry. Wypróbowaliśmy je na zbiórce lub w klasie.',
+                        'Zostałem(-łam) strażnikiem/strażniczką sprzętu sportowego na biwaku lub kolonii i prowadziłem(-łam) książkę wypożyczeń.',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_gier_i_zabaw',
+                      title: 'Mistrz gier i zabaw',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Założyłem(-łam) wielką księgę gier gromady.',
+                        'Zbieram gry i zabawy, zapisuję je w notatniku i wykorzystuję podczas zabaw.',
+                        'Zorganizowałem(-łam) na podwórku festyn gier.',
+                        'Prowadziłem(-łam) przynajmniej pięć gier na zbiórce',
+                        'Nauczyłem(-łam) moich kolegów na podwórku lub w klasie przynajmniej dwóch nowych gier. Opowiedziałem(-łam) im o zasadzie fair play.',
+                        'Byłem(-łam) sędzią podczas rozgrywek.',
+                        'Rozmawiałem(-łam) z rodzicami lub dziadkami i dowiedziałem(-łam) się, w jakie gry grali, kiedy byli w moim wieku. Przeprowadziłem(-łam) na zbiórce trzy zabawy podwórkowe i zaprosiłem(-łam) do wspólnej zabawy rodziców lub dziadków.',
+                      ]),
+                ]
+            ),
+
+            // 6. sportowa MISTRZ KOMETKI
+            SprawFamilyData(
+                id: '6',
+                requirements: [
+                  'Mam własny sprzęt do kometki. Dbam o niego, naprawiłem(-łam) niewielkie uszkodzenia.',
+                  'Przygotowałem(-łam) boisko do gry w kometkę.',
+                  'Rozegrałem(-łam) mecz w singlu i deblu.',
+                  'Pobiłem(-łam) swój rekord w podbijaniu lotki.',
+                  'Pokazałem(-łam) koledze, jak się gra w kometkę. Wytłumaczyłem(-łam) mu zasady gry.',
+                  'Nauczyłem(-łam) kolegę podbijać lotkę, uderzać rakietą z forhendu i bekhendu.',
+                  'Zorganizowałem(-łam) podwórkowy turniej kometki.',
+                ],
+                notesForLeaders: [
+                  'Sprawność kształtuje zwinność, spostrzegawczość, zręczność i ogólną kondycję fizyczną.',
+                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu inne sprawności sportowe, np. „Gimnastyka/Gimnastyczki” i „Mistrza/Mistrzyni ringo”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza/Mistrzyni kometki”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.".',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'mistrz_kometki',
+                      title: 'Mistrz kometki',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Mam własny sprzęt do kometki. Zadbałem(-łam) o niego.',
+                        'Regularnie gram w kometkę (co najmniej raz w tygodniu).',
+                        'Podbiłem(-łam) lotkę co najmniej pięć razy.',
+                        'Znam zasady gry w kometkę i nauczyłem(-łam) grać kolegę/koleżankę.',
+                        'Zorganizowałem(-łam) w szóstce turniej gry w kometkę.',
+                        'Oglądałem(-łam) w telewizji lub w Internecie profesjonalne zawody gry w kometkę. Opowiedziałem(-łam) o nich na zbiórce gromady.',
+                        'Rozegrałem(-łam) mecz w singlu',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_kometki',
+                      title: 'Mistrz kometki',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Mam własny sprzęt do kometki. Zadbałem(-łam) o niego. Naprawiłem(-łam) niewielkie uszkodzenie.',
+                        'Regularnie gram w kometkę (co najmniej raz w tygodniu).',
+                        'Podbiłem(-łam) lotkę co najmniej dziesięć razy.',
+                        'Uderzałem(-łam) rakietą z forhendu i bekhendu.',
+                        'Przygotowałem(-łam) boisko do gry.',
+                        'Zorganizowałem(-łam) podwórkowy turniej.',
+                        'Oglądałem(-łam) w telewizji lub w Internecie profesjonalne zawody gry w kometkę. Opowiedziałem(-łam) o nich na zbiórce',
+                        'Rozegrałem(-łam) mecz w singlu i deblu.',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_kometki',
+                      title: 'Mistrz kometki',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Mam własny sprzęt do kometki. Kupiłem(-łam) go za zaoszczędzone pieniądze.',
+                        'Zadbałem(-łam) o swój sprzęt. Naprawiłem(-łam) niewielkie uszkodzenie.',
+                        'Regularnie gram w kometkę (co najmniej raz w tygodniu).',
+                        'Nauczyłem(-łam) grać w kometkę co najmniej trzy osoby.',
+                        'Wiem, jak wyglądają mistrzostwa gry w kometkę. Zorganizowałem(-łam) mistrzostwapodwórkowe.',
+                        'Poprawiłem(-łam) swoje rekordy w odbijaniu lotki. Zapisałem(-łam) wyniki w tabeli.',
+                        'Oglądałem(-łam) w telewizji lub w Internecie profesjonalne zawody gry w kometkę.',
+                        'Rozegrałem(-łam) mecz w singlu i deblu.',
+                      ]),
+                ]
+            ),
+
+            // 7. sportowa MISTRZ PING-PONGA
+            SprawFamilyData(
+                id: '7',
+                requirements: [
+                  'Rozegrałem(-łam) mecz w singlu i deblu.',
+                  'Pobiłem(-łam) swój rekord w podbijaniu piłeczki.',
+                  'Dbam o swój sprzęt. Naprawiłem(-łam) niewielkie uszkodzenia.',
+                  'Przygotowałem(-łam) stół do gry.',
+                  'Sędziowałem(-łam) mecz tenisa stołowego.',
+                  'Wytłumaczyłem(-łam) zasady gry i fachowe słownictwo używane podczas meczu.',
+                  'Brałem(-łam) udział w turnieju ping-ponga.',
+                ],
+                notesForLeaders: [
+                  'Sprawność kształtuje zwinność, spostrzegawczość, zręczność i ogólną kondycję fizyczną.',
+                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu inne sprawności sportowe, np. „Gimnastyka/Gimnastyczki” i „Mistrza/Mistrzyni ringo”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza/Mistrzyni ping-ponga”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.".',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'mistrz_ping_ponga',
+                      title: 'Mistrz ping-ponga',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Mam własną paletkę. Co najmniej raz w tygodniu gram w ping-ponga.',
+                        'Podbiłem(-łam) piłeczkę co najmniej pięć razy.',
+                        'Znam zasady gry w ping-ponga i nauczyłem(-łam) grać kolegę/koleżankę.',
+                        'Oglądałem(-łam) w telewizji lub w Internecie zawody w ping-ponga.',
+                        'Przygotowałem(-łam) stół do gry',
+                        'Rozegrałem(-łam) mecz w singlu.',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_ping_ponga',
+                      title: 'Mistrz ping-ponga',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Mam własną paletkę. Co najmniej raz w tygodniu gram w ping-ponga.',
+                        'Podbiłem(-łam) piłeczkę co najmniej dziesięć razy.',
+                        'Rozegrałem(-łam) mecz w singlu i deblu.',
+                        'Nauczyłem(-łam) grać w ping-ponga co najmniej jedną osobę.Nauczyłem(-łam) grać w ping-ponga co najmniej jedną osobę.',
+                        'Przygotowałem(-łam) stół do gry.',
+                        'Zorganizowałem(-łam) podwórkowy turniej.',
+                        'Wytłumaczyłem(-łam) swojej szóstce zasady gry i fachowe słownictwo używane podczas meczu.',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_ping_ponga',
+                      title: 'Mistrz ping-ponga',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Za zaoszczędzone pieniądze kupiłem(-łam) własny sprzęt do ping-ponga.',
+                        'Co najmniej raz w tygodniu gram w ping-ponga.',
+                        'Nauczyłem(-łam) grać co najmniej dwie osoby.',
+                        'Wiem, jak wyglądają mistrzostwa gry w ping-ponga. Zorganizowałem(-łam) mistrzostwa w gromadzie.',
+                        'Poprawiłem(-łam) swoje rekordy w odbijaniu piłeczki. Zapisałem(-łam) wyniki w tabeli.',
+                        'Wytłumaczyłem(-łam) swojej szóstce zasady gry i fachowe słownictwo używane podczas meczu.',
+                        'Sędziowałem(-łam) mecz tenisa stołowego.',
+                        'Brałem(-łam) udział w turnieju ping-ponga.',
+                      ]),
+                ]
+            ),
+
+            // 8. sportowa MISTRZ RINGO
+            SprawFamilyData(
+                id: '8',
+                requirements: [
+                  'Poznałem(-łam) historię gry w ringo. Opowiedziałem(-łam) ją innym.',
+                  'Umiem dobrze grać w ringo. Rzucałem(-łam) i chwytałem(-łam) ringo prawą i lewą ręką.',
+                  'Brałem(-łam) udział w rozgrywkach ringo.',
+                  'Wytłumaczyłem(-łam) zasady gry i nauczyłem(-łam) grać w ringo kolegę/koleżankę.',
+                  'Sędziowałem(-łam) mecz.',
+                  'Zorganizowałem(-łam) zawody dla kolegów.',
+                ],
+                notesForLeaders: [
+                  'Sprawność kształtuje zwinność, spostrzegawczość, zręczność oraz ogólną kondycję fizyczną.',
+                  ' Aby dalej rozwijać zainteresowania zucha, można wskazać mu inne sprawności sportowe, np. „Gimnastyka/Gimnastyczki” i „Mistrza/Mistrzyni ping-ponga”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza/Mistrzyni ringo”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze".',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'mistrz_ringo',
+                      title: 'Mistrz ringo',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Mam własne ringo. Gram co najmniej raz w tygodniu.',
+                        'Rzucałem(-łam) i chwytałem(-łam) ringo jedną (wybraną) ręką.',
+                        'Znam zasady gry w ringo i nauczyłem(-łam) grać kolegę/koleżankę.',
+                        'Brałem(-łam) udział w rozgrywkach ringo.',
+                        'Zorganizowałem(-łam) zawody dla kolegów i koleżanek.',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_ringo',
+                      title: 'Mistrz ringo',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Mam własne ringo. Gram co najmniej raz w tygodniu.',
+                        'Brałem(-łam) udział w rozgrywkach ringo.',
+                        'Rzucałem(-łam) i chwytałem(-łam) ringo prawą i lewą ręką. ',
+                        'Rozegrałem(-łam) mecz w ringo ze starszym kolegą/starszą koleżanką.',
+                        'Zorganizowałem(-łam) podwórkowy turniej ringo.',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_ringo',
+                      title: 'Mistrz ringo',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Kupiłem(-łam) ringo za zaoszczędzone pieniądze. Gram co najmniej raz w tygodniu.',
+                        'Nauczyłem(-łam) grać w ringo co najmniej trzy osoby.',
+                        'Zorganizowałem(-łam) zawody w gromadzie. Sędziowałem(-łam) mecz w ringo.',
+                        'Opowiedziałem(-łam) na zbiórce o najlepszym sportowcu w ringo.',
+                        'Wykonałem(-łam) plakat przedstawiający historię gry w ringo.',
+                      ]),
+                ]
+            ),
+
+            // 9. sportowa MISTRZ ROLEK (WROTEK)
+            SprawFamilyData(
+                id: '9',
+                requirements: [
+                  'Umiem jeździć na rolkach (wrotkach). Wykonałem(-łam) kilka ewolucji: jeździłem(-łam) na jednej nodze, tyłem i w pozycji kucznej.',
+                  'Odpowiednio ubieram się do jazdy, zakładam kask.',
+                  'Wymijałem(-łam) przeszkody znajdujące się na drodze.',
+                  'Dbam o swój sprzęt. Naprawiłem(-łam) niewielkie uszkodzenie.',
+                  'Uczestniczyłem(-łam) w zawodach jazdy na wrotkach lub rolkach.',
+                  'Wytłumaczyłem(-łam) kolegom i koleżankom, gdzie wolno jeździć na rolkach (wrotkach) oraz jakie niebezpieczeństwa czyhają na osoby jeżdżące nieostrożnie.',
+                ],
+                notesForLeaders: [
+                  'Zuch „Mistrz/Mistrzyni rolek” kształtuje swoją zwinność, zręczność i ogólną kondycję fizyczną. Świetnie jeździ na rolkach (wrotkach). Wie, jak bezpiecznie bawić się na rolkach i gdzie należy jeździć.',
+                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu sprawność „Łyżwiarza/Łyżwiarki”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza/Mistrzyni rolek (wrotek)”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.", "Zuch jest dzielny.".',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'mistrz_rolek',
+                      title: 'Mistrz rolek',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Nauczyłem(-łam) się jeździć w pozycji klasycznej bez pomocy innej osoby i bez podpórek.',
+                        'Narysowałem(-łam) swoje wymarzone rolki.',
+                        'Odpowiednio ubieram się do jazdy i zakładam kask. Opowiedziałem (-łam) o tym szóstce.',
+                        'Potrafię wymijać przeszkody znajdujące się na drodze. Zaprezentowałem(-łam), jak to robię.',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_rolek',
+                      title: 'Mistrz rolek',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Zaprezentowałem(-łam) jazdę w pozycji klasycznej, skręt w prawo i w lewo oraz hamowanie.',
+                        'Znam przeszkody znajdujące się na drodze. Zaprezentowałem(-łam), jak je omijam.',
+                        'Pod okiem osoby dorosłej naoliwiłem(-łam) kółka w rolkach.',
+                        'Przyniosłem(-łam) kask i ochraniacze na zbiórkę oraz wyjaśniłem(-łam), dlaczego bardzo ważne jest ich używanie.',
+                        'Jeżdżę na rolkach regularnie, co najmniej dwa razy w tygodniu.',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_rolek',
+                      title: 'Mistrz rolek',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Jeżdżę na rolkach regularnie, co najmniej dwa razy w tygodniu.',
+                        'Wykonałem(-łam) kilka ewolucji. Jeździłem(-łam) na jednej nodze, tyłem i w pozycji kucznej.',
+                        'Zebrałem(-łam) połowę sumy na nowe rolki. Dbam o swoje rolki.',
+                        'Wiem, jakie zagrożenia występują na drodze. Wyjaśniłem(-łam), jak należy wezwać pomoc w razie wypadku.',
+                        'Przyniosłem(-łam) kask i ochraniacze na zbiórkę oraz wyjaśniłem(-łam), dlaczego bardzo ważne jest ich używanie.',
+                        'Uczestniczyłem(-łam) w zawodach jazdy na wrotkach (rolkach).',
+                      ]),
+                ]
+            ),
+
+            // 10. sportowa MISTRZ SNOWBOARDU
+            SprawFamilyData(
+                id: '10',
+                requirements: [
+                  'Lubię uprawiać sporty zimowe. Jeździłem(-łam) na desce snowboardowej.',
+                  'Wiem, jak wygląda powierzchnia stoku podczas różnych warunków atmosferycznych (marznący deszcz, świeże opady śniegu, odwilż). Nie jeżdżę, gdy śnieg na stoku jest bardzo twardy (zmrożony), bo wiem, czym to grozi.',
+                  'Wiem, co to jest ratrak i do czego służy.',
+                  'Korzystałem(-łam) z wyciągu narciarskiego.',
+                  'Wiem, jak się odpowiednio ubrać do jazdy na desce, zabezpieczyłem(-łam) się przed mrozem.',
+                  'Dbam o sprzęt, na którym jeżdżę. Smaruję deskę i naprawiam niewielkie uszkodzenia wiązań. Wiem, gdzie należy się zgłosić, aby naprawić większe uszkodzenia lub zmienić ustawienia wiązań.',
+                  'Jeżdżę w bezpiecznych miejscach. Zwracam uwagę na bezpieczeństwo, kulturę jazdy oraz na inne osoby znajdujące się na stoku.',
+                  'Urządziłem(-łam) pokaz jazdy na snowboardzie. Zaprezentowałem(-łam) skręty z omijaniem przeszkód i hamowanie.',
+                  'Brałem(-łam) udział w zawodach w jeździe na desce snowboardowej.',
+                ],
+                notesForLeaders: [
+                  'Zuch „Mistrz/Mistrzyni snowboardu” ćwiczy swoją zwinność, zręczność i ogólną kondycję fizyczną. Świetnie jeździ na desce. Wie, jak bezpiecznie się bawić na śniegu i gdzie powinno się jeździć na desce snowboardowej.',
+                  'Aby dalej rozwijać zainteresowania zucha, można mu wskazać inne sprawności sportowe, np. „Mistrza/Mistrzyni rolek”, „Mistrza/Mistrzyni deskorolki”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza/Mistrzyni snowboardu”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.".',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'mistrz_snowboardu',
+                      title: 'Mistrz snowboardu',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Jeździłem(-łam) na snowboardzie.',
+                        'Znam zasady bezpieczeństwa na stoku. Opowiedziałem(-łam) o nich swojej szóstce.',
+                        'Narysowałem(-łam) ratrak i opowiedziałem(-łam) na zbiórce gromady, do czego służy.',
+                        'Mam zestaw ochraniaczy oraz kask. Przyniosłem(-łam) je na zbiórkę i opowiedziałem(-łam), jak ważne jest ich używanie.',
+                        'Wiem, jak się odpowiednio ubrać do jazdy na desce. Potrafię zabezpieczyć się przed mrozem. Opowiedziałem(-łam) o tym w kręgu rady.',
+                        'Pokonałem(-łam) tor przeszkód.',
+                        'Zaprezentowałem(-łam) hamowanie na desce snowboardowej.',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_snowboardu',
+                      title: 'Mistrz snowboardu',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Jeździłem(-łam) na snowboardzie co najmniej trzy razy.',
+                        'Znam zasady bezpieczeństwa na stoku. Zrobiłem(-łam) krótki filmik lub plakat na ten temat.',
+                        'Wiem, jak wygląda powierzchnia stoku podczas różnych warunków atmosferycznych (marznący deszcz, świeże opady śniegu, odwilż). Przygotowałem(-łam) plakat ilustrujący ten temat.',
+                        'Znam numery telefonów GOPR i TOPR. Wiem, jak udzielić pomocy podczas lawiny. Opowiedziałem(-łam) o tym w kręgu rady.',
+                        'Zaprojektowałem(-łam) wymarzoną deskę i ochraniacze. Zaprezentowałem(-łam) projekt w gromadzie.',
+                        'Korzystałem(-łam) z wyciągu narciarskiego.',
+                        'Pokonałem(-łam) tor przeszkód.',
+                        'Zaprezentowałem(-łam) omijanie przeszkód i hamowanie.',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_snowboardu',
+                      title: 'Mistrz snowboardu',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Umiem jeździć na snowboardzie. Byłem(-łam) na zimowym wyjeździe.',
+                        'Przygotowałem(-łam) plakat prezentujący powierzchnię stoku w czasie różnych warunków atmosferycznych (marznący deszcz, świeże opady śniegu, odwilż).',
+                        'Znam zasady bezpiecznej i kulturalnej jazdy na stoku. Przygotowałem(-łam) krótki kodeks snowboardzisty.',
+                        'Mam zestaw ochraniaczy oraz kask. Przyniosłem(-łam) je na zbiórkę i opowiedziałem(-łam), dlaczego trzeba ich używać.',
+                        'Wiem, jak udzielić pomocy podczas lawiny. Znam numery alarmowe do GOPRi TOPR. Przedstawiłem(-łam) je na zbiórce.',
+                        'Korzystałem(-łam) z wyciągu narciarskiego.',
+                        'Pokonałem(-łam) tor przeszkód.',
+                        'Urządziłem(-łam) pokaz jazdy na snowboardzie. Zaprezentowałem(-łam) skręty z omijaniem przeszkód i hamowanie',
+                        'Brałem(-łam) udział w zawodach w jeździe na desce snowboardowej.',
+                      ]),
+                ]
+            ),
+
+            // 11. sportowa NARCIARZ
+            SprawFamilyData(
+                id: '11',
+                requirements: [
+                  'Umiem jeździć na nartach.',
+                  'Sporządziłem(-łam) schematyczne obrazki podstawowych rodzajów śniegu i opisałem(-łam) każdy z nich pod kątem przydatności do jazdy na nartach.',
+                  'Brałem(-łam) udział w zawodach narciarskich.',
+                  'Urządziłem(-łam) pokaz jazdy na nartach, zaprezentowałem(-łam) m.in. skręt pługiem w lewo i w prawo, podchodzenie pod górkę dwoma sposobami, omijanie przeszkód.',
+                  'Korzystałem(-łam) z wyciągu narciarskiego.',
+                  'Dbam o sprzęt, na którym jeżdżę. Smaruję narty i naprawiam niewielkie uszkodzenia wiązań lub kijków.',
+                  'Jeżdżę w bezpiecznych miejscach. Zwracam uwagę na bezpieczeństwo własne i innych osób znajdujących się na stoku.',
+                  'Nauczyłem(-łam) początkującego kolegę podstaw jazdy.',
+                ],
+                notesForLeaders: [
+                  'Zuch „Narciarz/Narciarka” ćwiczy zwinność, zręczność i ogólną kondycję fizyczną. Świetnie jeździ na nartach. Wie, gdzie powinno się jeździć. Uczy inne zuchy bezpiecznie bawić się na śniegu.',
+                  'Aby dalej rozwijać zainteresowania zucha, można mu wskazać sprawności „Saneczkarza/Saneczkarki” i „Łyżwiarza/Łyżwiarki”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Narciarza/Narciarki”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.".',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'narciarz',
+                      title: 'Narciarz',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Jeździłem(-łam) na nartach.',
+                        'Znam zasady bezpiecznej i kulturalnej jazdy na stoku. Opowiedziałem(-łam) o nich na zbiórce gromady.',
+                        'Zaprezentowałem(-łam) skręt pługiem w lewo i w prawo, podchodzenie pod górkę oraz hamowanie.',
+                        'Umiem założyć buty narciarskie i kask. Zaprezentowałem(-łam) tę umiejętność.',
+                      ]),
+                  SprawData(
+                      id: 'narciarz',
+                      title: 'Narciarz',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Jeździłem(-łam) co najmniej pięć razy na nartach.',
+                        'Sporządziłem(-łam) schematyczne obrazki podstawowych rodzajów śniegu i opisałem(-łam) każdy z nich pod kątem przydatności do jazdy na nartach.',
+                        'Opowiedziałem(-łam) na zbiórce o różnych konkurencjach narciarskich.',
+                        'Znam zasady bezpieczeństwa na stoku, zrobiłem(-łam) krótki filmik na ten temat.',
+                        'Korzystałem(-łam) z wyciągu narciarskiego.',
+                        'Dbam o sprzęt, na którym jeżdżę. Pod okiem dorosłego nasmarowałem(-łam) narty lub naprawiłem(-łam) niewielkie uszkodzenia wiązań lub kijków.',
+                        'Urządziłem(-łam) pokaz jazdy na nartach, zaprezentowałem(-łam) m.in. skręt pługiem w lewo i w prawo, podchodzenie pod górkę dwoma sposobami i hamowanie.',
+                      ]),
+                  SprawData(
+                      id: 'narciarz',
+                      title: 'Narciarz',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Umiem jeździć na nartach. Byłem(-łam) na zimowym wyjeździe narciarskim.',
+                        'Wykonałem(-łam) plakat, który informuje o powierzchni stoku w czasie różnych warunków atmosferycznych (marznący deszcz, świeże opady śniegu, odwilż).',
+                        'Wiem, jak udzielić pomocy podczas lawiny i znam numer alarmowy, pod który należy zadzwonić w razie niebezpieczeństwa. Przygotowałem(-łam) plakat z taką informacją.',
+                        'Zrobiłem(-łam) projekt wymarzonych nart.',
+                        'Nauczyłem(-łam) kolegę jazdy na nartach.',
+                        'Urządziłem(-łam) pokaz jazdy na nartach. Zaprezentowałem(-łam) m.in. skręt pługiem w lewo i w prawo, podchodzenie pod górkę dwoma sposobami, omijanie przeszkód i krawędziowanie.',
+                        'Brałem(-łam) udział w mini zawodach narciarskich.',
+                      ]),
+                ]
+            ),
+
+            // 12. sportowa PIŁKARZ
+            SprawFamilyData(
+                id: '12',
+                requirements: [
+                  'Rozegrałem(-łam) kilkanaście meczów w piłkę nożną (grając na różnych pozycjach).',
+                  ' Podczas meczu stosuję zasady fair play. Przedstawiłem(-łam) te zasady w gromadzie.',
+                  'Byłem(-łam) sędzią podczas meczu.',
+                  'Prowadziłem(-łam) przed meczem rozgrzewkę. Opowiedziałem(-łam) zuchom, dlaczego jest ona ważna.',
+                  'Zorganizowałem(-łam) mini rozgrywki na podwórku lub w gromadzie albo przeprowadziłem(-łam) zawody, wybierając króla strzelców lub najlepszego bramkarza.',
+                  'Umiem podbijać piłkę nogą, prowadzić ją lewą i prawą nogą oraz wybijać z rzutu rożnego. Zaprezentowałem(-łam) te umiejętności gromadzie.',
+                ],
+                notesForLeaders: [
+                  'Sprawność jest przeznaczona dla zuchów w każdym wieku, zwłaszcza fanów piłki nożnej.',
+                  'Zuch, który ją zdobywa, zna zasady fair play oraz wie, jak ważny jest ruch i zdrowy styl życia.',
+                  'Należy zwrócić uwagę na to, aby zadania były dostosowane do poziomu zucha. Podczas zdobywania sprawności powinien on rozwinąć swoje dotychczasowe umiejętności piłkarskie oraz poznać nowe tricki.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Piłkarza/Piłkarki”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy.".',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'pilkarz',
+                      title: 'Piłkarz',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Podczas meczu stosuję zasady fair play. Przedstawiłem(-łam) je w swojej gromadzie..',
+                        'Prowadziłem(-łam) przed meczem rozgrzewkę. Opowiedziałem(-łam) zuchom, dlaczego jest ona ważna.',
+                        'Umiem podbijać piłkę nogą, prowadzić ją lewą lub prawą nogą. Zaprezentowałem(-łam) te umiejętności swojej gromadzie.',
+                        'Rozegrałem(-łam) co najmniej dwa mecze.',
+                      ]),
+                  SprawData(
+                      id: 'pilkarz',
+                      title: 'Piłkarz',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Podczas meczu stosuję zasady fair play. Przedstawiłem(-łam) je w swojej gromadzie.',
+                        'Prowadziłem(-łam) przed meczem rozgrzewkę. Opowiedziałem(-łam) zuchom, dlaczego jest ona ważna.',
+                        'Umiem podbijać piłkę nogą, prowadzić ją lewą i prawą nogą, wybijać z rzutu rożnego. Zaprezentowałem(-łam) te umiejętności swojej gromadzie.',
+                        'Rozegrałem(-łam) kilka meczów w piłkę nożną (grając na różnych pozycjach).',
+                        'Zorganizowałem(-łam) mini zawody na podwórku.',
+                      ]),
+                  SprawData(
+                      id: 'pilkarz',
+                      title: 'Piłkarz',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Rozegrałem(-łam) kilkanaście meczów w piłkę nożną (grając na różnych pozycjach).',
+                        'Podczas meczu stosuję zasady fair play. Przygotowałem(-łam) kodeks piłkarza.',
+                        'Byłem(-łam) sędzią podczas meczu',
+                        'Zorganizowałem(-łam) mini rozgrywki na podwórku lub w gromadzie albo przeprowadziłem(-łam) zawody, wybierając króla strzelców lub najlepszego bramkarza.',
+                        'Umiem podbijać piłkę nogą, prowadzić ją lewą i prawą nogą oraz wybijać z rzutu rożnego. Zaprezentowałem(-łam) te umiejętności swojej gromadzie.',
+                      ]),
+                ]
+            ),
+
+            // 13. sportowa PŁYWAK
+            SprawFamilyData(
+                id: '13',
+                requirements: [
+                  'Staram się regularnie chodzić na basen lub kąpielisko.',
+                  'Znam zasady bezpiecznej kąpieli w basenie i w wodach otwartych. Przestrzegam regulaminu kąpieli.',
+                  'Brałem(-łam) udział w zajęciach w wodzie organizowanych przez gromadę.',
+                  'Potrafię przepłynąć wybranym stylem określony dystans.',
+                  'Umiem nurkować i skakać do wody w bezpiecznym miejscu.',
+                  'Brałem(-łam) udział w wodnej olimpiadzie lub zawodach.',
+                ],
+                notesForLeaders: [
+                  'Zuch „Pływak/Pływaczka” zna miejsca, w których bezpiecznie można się kąpać. Wie, jak zachować się podczas zabaw w wodzie i sprawnie pływa.',
+                  'Drużynowy musi wyraźnie podkreślić, że zdobycie sprawności „Pływaka/Pływaczki” nie jest równoznaczne z uzyskaniem karty pływackiej (ale np. na kolonii zdobywanie sprawności można połączyć ze zdobywaniem karty).',
+                  'Punkt Prawa Zucha, na który zwracamy szczególną uwagę, realizując sprawność „Pływaka/Pływaczki”: "Zuch stara się być coraz lepszy.".',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'plywak',
+                      title: 'Pływak',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'W ciągu miesiąca/podczas kolonii byłem(-łam) na basenie lub kąpielisku co najmniej cztery razy.',
+                        'Narysowałem(-łam), co wolno i czego nie wolno robić na basenie. Narysowałem(-łam) białą i czerwoną flagę. Opisałem(-łam), co one znaczą.',
+                        'Brałem(-łam) udział w zajęciach w wodzie organizowanych przez gromadę.',
+                        'Przepłynąłem(-łam) 25 m dowolnym stylem, z deską do pływania lub bez niej.',
+                        'Wskoczyłem(-łam) do wody z krawędzi basenu lub pomostu w miejscu dozwolonym',
+                      ]),
+                  SprawData(
+                      id: 'plywak',
+                      title: 'Pływak',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'W ciągu miesiąca/podczas kolonii byłem(-łam) na basenie lub kąpielisku co najmniej cztery razy.',
+                        'Opowiedziałem(-łam), w jaki sposób należy zachowywać się na basenie. Wyjaśniłem(-łam), co oznaczają białe i czerwone flagi wywieszone na kąpieliskach.',
+                        'Brałem(-łam) udział w zajęciach w wodzie organizowanych przez gromadę.',
+                        'Przepłynąłem(-łam) 25 m dowolnym stylem, bez użycia deski do pływania.',
+                        'Wskoczyłem(-łam) do wody z krawędzi basenu lub pomostu w miejscu dozwolonym.',
+                        'Wyłowiłem(-łam) z dna przedmiot rzucony przez ratownika.',
+                      ]),
+                  SprawData(
+                      id: 'plywak',
+                      title: 'Pływak',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'W ciągu miesiąca/podczas kolonii byłem(-łam) na basenie lub kąpielisku co najmniej cztery razy.',
+                        'Opowiedziałem(-łam) innym zuchom, jak należy zachowywać się na basenie lub kąpielisku.',
+                        'Wyjaśniłem(-łam) innym zuchom, co oznaczają białe i czerwone flagi wywieszone na kąpieliskach.',
+                        'Przeprowadziłem(-łam) rozgrzewkę dla innych zuchów przed kąpielą.',
+                        'Brałem(-łam) udział w wodnej olimpiadzie lub zawodach.',
+                        'Przepłynąłem(-łam) 50 m dowolnym stylem, bez użycia deski do pływania. Przepłynąłem(-łam) także 5 m pod wodą.',
+                        'Wskoczyłem(-łam) do wody ze słupka lub pomostu w dozwolonym miejscu. Wyłowiłem z dna przedmiot rzucony przez ratownika.',
+                      ]),
+                ]
+            ),
+
+            // 14. sportowa ROWERZYSTA
+            SprawFamilyData(
+                id: '14',
+                requirements: [
+                  'Znam historię roweru. Opowiedziałem kolegom i koleżankom, jak dawniej wyglądały rowery.',
+                  'Bezpiecznie jeżdżę na rowerze. Znam podstawowe przepisy ruchu drogowego.',
+                  'Znam rodzaje znaków drogowych i potrafię rozpoznać niektóre z nich.',
+                  'Bawiłem(-łam) się z kolegami w wyścig kolarski.',
+                  'Urządziłem(-łam) rowerowy tor przeszkód – jazda po ósemce, slalom itp.',
+                  'Konserwuję swój rower i potrafię naprawić drobne uszkodzenia.',
+                  'Potrafię przygotować rower do bezpiecznej jazdy.',
+                  'Potrafię udzielić pierwszej pomocy przy skaleczeniu.',
+                  'Znam numery alarmowe, pod które można zadzwonić po pomoc w razie wypadku na drodze.',
+                ],
+                notesForLeaders: [
+                  'Sprawność kształtuje zwinność, sprawność i wytrzymałość, a także zdolność przewidywania i umiejętność podporządkowania się przepisom.',
+                  'Zuch „Rowerzysta/Rowerzystka” bezpiecznie porusza się na rowerze. Nie stwarza zagrożenia dla innych osób i nie naraża własnego zdrowia.',
+                  'Zuchowi zdobywającemu sprawność należy uświadomić, że nie jest ona równoznaczna z kartą rowerową.',
+                  'Punkt Prawa Zucha, na który zwracamy szczególną uwagę, realizując sprawność „Rowerzysty/Rowerzystki”: "Zuch stara się być coraz lepszy.".',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'rowerzysta',
+                      title: 'Rowerzysta',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Na zbiórce gromady opowiedziałem(-łam), jak ubieram się do bezpiecznej jazdy rowerem.',
+                        'Bawiłem(-łam) się z kolegami w wyścig kolarski. Zaplanowałem(-łam) trasę wyścigu i przed startem opowiedziałem(-łam) innym rowerzystom o zasadach bezpiecznej jazdy.',
+                        'Zapisałem(-łam) numery alarmowe, pod które mogę zadzwonić po pomoc w razie wypadku na drodze.',
+                        'Połączyłem(-łam) znaki drogowe z ich opisami: droga dla rowerów, stop, ustąp pierwszeństwa przejazdu, droga z pierwszeństwem przejazdu, zakaz wjazdu rowerów.',
+                      ]),
+                  SprawData(
+                      id: 'rowerzysta',
+                      title: 'Rowerzysta',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Wyszukałem(-łam) ilustracje i informacje o tym, jak wyglądały rowery w przeszłości. Pokazałem(-łam) na zbiórce zdjęcia i opowiedziałem(-łam) o nich kolegom.',
+                        'Urządziłem(-łam) rowerowy tor przeszkód − jazda po ósemce, slalom. Zaprezentowałem(-łam) bezpieczny przejazd torem.',
+                        'Zaopatrzyłem(-łam) swój rower w światła i dzwonek. Posiadam co najmniej jeden odblask.',
+                        'Zapisałem(-łam) numery alarmowe, pod które mogę zadzwonić po pomoc w razie wypadku na drodze.',
+                        'Połączyłem(-łam) znaki drogowe z ich opisami: droga dla rowerów, stop, ustąp pierwszeństwa przejazdu, droga z pierwszeństwem przejazdu, zakaz wjazdu rowerów, przejście dla pieszych, droga dla pieszych.',
+                      ]),
+                  SprawData(
+                      id: 'rowerzysta',
+                      title: 'Rowerzysta',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Z pamięci wymieniłem(-łam) numery alarmowe, pod które mogę zadzwonić po pomoc w razie wypadku na drodze.',
+                        'Urządziłem(-łam) rowerowy tor przeszkód − jazda po ósemce, slalom, jazda pod górkę, jazda po nierównej powierzchni. Zaprezentowałem(-łam) bezpieczny przejazd torem.',
+                        'Pokazałem(-łam) innym zuchom, jak udzielić pomocy w razie skaleczenia kolana lub łokcia.',
+                        'Napompowałem(-łam) koła mojego roweru.',
+                        'Zaopatrzyłem(-łam) swój rower w światła i dzwonek. Posiadam co najmniej jedenodblask.',
+                        'Połączyłem(-łam) znaki drogowe z ich opisami.',
+                        'Jako rowerzysta potrafię zasygnalizować na drodze manewry skrętu w prawo i lewo. Pokazałem(-łam) to innym zuchom i wyjaśniłem(-łam) im, na co trzeba zwracać uwagę podczas jazdy rowerem na ścieżce rowerowej i na drodze.',
+                      ]),
+                ]
+            ),
+
+            // 15. sportowa SANECZKARZ
+            SprawFamilyData(
+                id: '15',
+                requirements: [
+                  'Umiem kierować sankami. Pokonałem(-łam) górkę lub tor przeszkód.',
+                  'Zabezpieczyłem(-łam) swój sprzęt i wykonałem(-łam) potrzebne naprawy.',
+                  'Jeżdżę na bezpiecznych górkach. Odradzam kolegom jazdę w miejscach niebezpiecznych. Wymyśliłem(-łam) własny bezpieczny sposób zjeżdżania na sankach. Ułożyłem(-łam) regulamin jazdy na sankach na biwaku lub zimowisku.',
+                  'Odpowiednio się ubieram, wychodząc na sanki. Przedstawiłem(-łam) te zasady w formie graficznej na zbiórce gromady. ',
+                  'Narysowałem(-łam) plan bezpiecznej górki. Zaznaczyłem(-łam) na nim podejścia dla saneczkarzy, zjazdy dla bardziej i mniej zaawansowanych oraz poczekalnię dla rodziców. Uwzględniłem(-łam) bezpieczną odległość od ulic, chodników, płotów i drzew.',
+                  'Brałem(-łam) udział w zawodach saneczkowych',
+                  'Urządziłem(-łam) pokaz jazdy na sankach (jazda w różnych pozycjach, w kuligu,slalomem, zaprzęgiem).',
+                  'Zorganizowałem(-łam) dla gromady wyścigi saneczkowych zaprzęgów.',
+                ],
+                notesForLeaders: [
+                  'Sprawność kształtuje zwinność, zręczność i ogólną kondycję fizyczną.',
+                  'Zucha zdobywającego tę sprawność należy uczulić przede wszystkim na bezpieczeństwo jazdy − i to nie tylko osoby jeżdżącej, lecz także otoczenia.',
+                  'Sanki to doskonała zimowa zabawa, szczególnie jeśli bierze w niej udział grupa dzieci. Dlatego warto pomyśleć o wykorzystaniu do wspólnej zabawy umiejętności kilku zuchów „Saneczkarzy/Saneczkarek”.',
+                  'Aby dalej rozwijać zainteresowania zucha sportem, można mu wskazać m.in. sprawności „Łyżwiarza/Łyżwiarki” i „Narciarza/Narciarki”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Saneczkarza/Saneczkarki”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy.".',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'saneczkarz',
+                      title: 'Saneczkarz',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Umiem kierować sankami. Pokonałem(-łam) górkę lub tor przeszkód.',
+                        'Zabezpieczyłem(-łam) swój sprzęt i wykonałem(-łam) potrzebne naprawy.',
+                        'Odpowiednio się ubieram wychodząc na sanki. Na zbiórce gromady przedstawiłem(-łam) zasady ubioru na sanki w postaci plakatu.',
+                        'Narysowałem(-łam) plan bezpiecznej górki, na którym zaznaczyłem(-łam) podejścia dla saneczkarzy, zjazdy dla bardziej i mniej zaawansowanych, poczekalnię dla rodziców. Uwzględniłem(-łam) bezpieczną odległość od ulic, chodników, płotów i drzew.',
+                        'Brałem(-łam) udział w zawodach saneczkowych.',
+                      ]),
+                  SprawData(
+                      id: 'saneczkarz',
+                      title: 'Saneczkarz',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Zabezpieczyłem(-łam) swój sprzęt i wykonałem(-łam) potrzebne naprawy.',
+                        'Jeżdżę na bezpiecznych górkach i odradzam innym jazdę w miejscach niebezpiecznych. Wymyśliłem(-łam) własny bezpieczny sposób zjeżdżania na sankach. Ułożyłem(-łam) regulamin jazdy na sankach na biwaku.',
+                        'Odpowiednio się ubieram, wychodząc na sanki. Na zbiórce gromady przedstawiłem(-łam) rysunek pokazujący zasady ubioru na sanki.',
+                        'Narysowałem(-łam) plan bezpiecznej górki, w którym zaznaczyłem(-łam) podejścia dla saneczkarzy, zjazdy dla bardziej i mniej zaawansowanych, poczekalnię dla rodziców. Uwzględniłem(-łam) bezpieczną odległość od ulic, chodników, płotów i drzew.',
+                        'Brałem(-łam) udział w zawodach saneczkowych.',
+                        'Urządziłem(-łam) pokaz jazdy na sankach (jazda w różnych pozycjach, w kuligu, slalomem, zaprzęgiem).',
+                      ]),
+                  SprawData(
+                      id: 'saneczkarz',
+                      title: 'Saneczkarz',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Zabezpieczyłem(-łam) swój sprzęt i wykonałem(-łam) potrzebne naprawy.',
+                        'Jeżdżę na bezpiecznych górkach i odradzam innym jazdę w miejscach niebezpiecznych. Wymyśliłem(-łam) własny bezpieczny sposób zjeżdżania na sankach. Ułożyłem(-łam) regulamin jazdy na sankach na biwaku.',
+                        'Odpowiednio się ubieram, wychodząc na sanki. Na zbiórce gromady przedstawiłem(-łam) rysunek pokazujący zasady ubioru na sanki.',
+                        'Brałem(-łam) udział w zawodach saneczkowych.',
+                        'Urządziłem(-łam) pokaz jazdy na sankach (jazda w różnych pozycjach, w kuligu, slalomem, zaprzęgiem).',
+                        'Zorganizowałem(-łam) dla gromady wyścigi saneczkowych zaprzęgów.',
+                      ]),
+                ]
+            ),
+
+            // 16. sportowa SZACHISTA
+            SprawFamilyData(
+                id: '16',
+                requirements: [
+                  'Znam podstawowe zasady gry w szachy i przedstawiłem(-łam) je na plakacie lub opowiedziałem(-łam) o nich w gromadzie.',
+                  'Potrafię rozpoznać wszystkie figury szachowe i znam ich ruchy. Nauczyłem(-łam) nazw figur i ich ruchów kolegę/koleżankę.',
+                  'Rozegrałem(-łam) kilka partii szachowych z kolegami lub rodzeństwem.',
+                  'Zorganizowałem(-łam) turniej szachowy lub żywe szachy.',
+                  'Potrafię ocenić sytuację na szachownicy i wykonać właściwy ruch. Nauczyłem(-łam) tej taktyki kolegę/koleżankę.',
+                  'Znam nazwiska mistrzów szachowych. Zaprezentowałem(-łam) je w gromadzie. ',
+                  'Wiem, na czym polega obrona i atak podczas gry. Opowiedziałem(-łam) o tym w swojej szóstce.',
+                  'Nauczyłem(-łam) grać w szachy kolegę/koleżankę. Wytłumaczyłem(-łam) jemu/jej, co oznacza roszada, pat i mat.',
+                ],
+                notesForLeaders: [
+                  'Zdobywając tę sprawność, zuch rozwija zmysł taktyczny, uczy się strategii i logicznego myślenia, kształci umiejętność przewidywania dalszego ciągu zdarzeń i konsekwencji podejmowanych działań.',
+                  'Zuch „Szachista/Szachistka” to strateg, który w różnych sytuacjach potrafi wykorzystać swoje umiejętności na potrzeby całej gromady.',
+                  'Zdobywanie sprawności powinno być dostosowane do indywidualnych umiejętności zucha i jego znajomości gry w szachy.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Szachisty/Szachistki”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy.".',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'szachista',
+                      title: 'Szachista',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Znam podstawowe zasady gry w szachy. Przedstawiłem(-łam) je na plakacie lub opowiedziałem(-łam) o nich w gromadzie.',
+                        'Rozegrałem(-łam) partię szachową z kolegami lub rodzeństwem.',
+                        'Potrafię rozpoznać wszystkie figury szachowe i znam ich ruchy. Nauczyłem(-łam) nazw figur i ich ruchów kolegę/koleżankę.',
+                      ]),
+                  SprawData(
+                      id: 'szachista',
+                      title: 'Szachista',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Znam podstawowe zasady gry w szachy. Przedstawiłem(-łam) je na plakacie lub opowiedziałem(-łam) o nich w gromadzie.',
+                        'Potrafię rozpoznać wszystkie figury szachowe i znam ich ruchy. Nauczyłem(-łam) nazw figur i ich ruchów kolegę/koleżankę.',
+                        'Rozegrałem(-łam) kilka partii szachowych z kolegami lub rodzeństwem.',
+                        'Potrafię ocenić sytuację na szachownicy i wykonać właściwy ruch. Nauczyłem(-łam) tej taktyki kolegę/koleżankę.',
+                        'Znam nazwiska mistrzów szachowych. Zaprezentowałem(-łam) je w gromadzie.',
+                        'Wiem, na czym polega obrona i atak podczas gry. Opowiedziałem(-łam) o tym w swojej szóstce.',
+                      ]),
+                  SprawData(
+                      id: 'szachista',
+                      title: 'Szachista',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Potrafię rozpoznać wszystkie figury szachowe. Znam ich ruchy. Nauczyłem(-łam) nazw figur i ich ruchów kolegę/koleżankę.',
+                        'Zorganizowałem(-łam) turniej szachowy lub żywe szachy.',
+                        'Potrafię ocenić sytuację na szachownicy i wykonać właściwy ruch. Nauczyłem(-łam) tej taktyki kolegę/koleżankę.',
+                        'Rozegrałem(-łam) kilka partii szachowych z kolegami lub rodzeństwem.',
+                        'Znam nazwiska mistrzów szachowych. Zaprezentowałem(-łam) je w gromadzie.',
+                        'Nauczyłem(-łam) grać w szachy kolegę/koleżankę. Wytłumaczyłem(-łam) jemu/jej, co oznacza roszada, pat i mat.',
+                      ]),
+                ]
+            ),
+
+            // 17. sportowa TENISISTA
+            SprawFamilyData(
+                id: '17',
+                requirements: [
+                  'Rozegrałem(-łam) mecz w singlu i deblu.',
+                  'Pobiłem(-łam) swój rekord w podbijaniu piłeczki tenisowej. Zorganizowałem(-łam) mini zawody w szóstce.',
+                  'Dbam o swój sprzęt. Naprawiłem(-łam) niewielkie uszkodzenia. Przygotowałem(-łam) poradnik na ten temat.',
+                  'Przygotowałem(-łam) kort do gry.',
+                  'Sędziowałem(-łam) mecz tenisa.',
+                  'Wytłumaczyłem(-łam) w gromadzie zasady gry oraz fachowe słownictwo używane podczas meczu.',
+                  'Brałem(-łam) udział w turnieju tenisa.',
+                  'Nauczyłem(-łam) kolegę odbijać piłkę z forhendu i bekhendu.',
+                  'Zorganizowałem(-łam) turniej tenisa w gromadzie.',
+                ],
+                notesForLeaders: [
+                  'Sprawność ćwiczy zwinność, spostrzegawczość, zręczność i ogólną kondycję fizyczną, a także umiejętność przestrzegania zasad fair play.',
+                  'Zdobywając ją, zuch może promować zdrowy styl życia i hasło „W zdrowym ciele zdrowy duch”.',
+                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu inne sprawności sportowe, np. „Gimnastyka/Gimnastyczki” lub „Mistrza/Mistrzyni ringo”.',
+                  ' Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Tenisisty/Tenisistki”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy.".',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'tenisista',
+                      title: 'Tenisista',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Rozegrałem(-łam) mecz w singlu i deblu.',
+                        'Pobiłem(-łam) swój rekord w podbijaniu piłeczki tenisowej.',
+                        'Zorganizowałem(-łam) mini zawody w szóstce.',
+                        'Dbam o swój sprzęt, naprawiłem(-łam) niewielkie uszkodzenia. Przygotowałem(-łam) poradnik na ten temat.',
+                        'Przygotowałem(-łam) kort do gry.',
+                        'Brałem(-łam) udział w turnieju tenisa.',
+                      ]),
+                  SprawData(
+                      id: 'tenisista',
+                      title: 'Tenisista',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Rozegrałem(-łam) mecz w singlu i deblu.',
+                        'Przygotowałem(-łam) kort do gry.',
+                        'Sędziowałem(-łam) mecz tenisa.',
+                        'Wytłumaczyłem(-łam) zasady gry i fachowe słownictwo używane podczas meczu. Zaprezentowałem(-łam) to w gromadzie.',
+                        'Brałem(-łam) udział w turnieju tenisa.',
+                      ]),
+                  SprawData(
+                      id: 'tenisista',
+                      title: 'Tenisista',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Wytłumaczyłem(-łam) zasady gry i fachowe słownictwo używane podczas meczu. Zaprezentowałem(-łam) to w gromadzie.',
+                        'Sędziowałem(-łam) mecz tenisa.',
+                        'Brałem(-łam) udział w turnieju tenisa.',
+                        'Nauczyłem(-łam) kolegę odbijać piłkę z forhendu i bekhendu.',
+                        'Zorganizowałem(-łam) turniej tenisa w gromadzie.',
+                      ]),
+                ]
+            ),
 
           ]),
 

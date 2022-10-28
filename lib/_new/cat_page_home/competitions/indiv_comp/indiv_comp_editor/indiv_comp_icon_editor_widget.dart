@@ -27,13 +27,10 @@ class _IndivCompIconEditorWidgetState extends State<IndivCompIconEditorWidget> w
 
           const SettingsPartHeader('Ikona współzawodnictwa'),
 
-          Padding(
-            padding: const EdgeInsets.only(left: settingsPartPaddingVal, right: settingsPartPaddingVal),
-            child: IconSelectorWidget(
-              initIconKey: Provider.of<IconKeyProvider>(context, listen: false).iconKey,
-              onSelected: (iconKey) => Provider.of<IconKeyProvider>(context, listen: false).iconKey = iconKey,
-            ),
-          )
+          IconSelectorWidget(
+            initIconKey: Provider.of<IconKeyProvider>(context, listen: false).iconKey,
+            onSelected: (iconKey) => Provider.of<IconKeyProvider>(context, listen: false).iconKey = iconKey,
+          ),
 
         ]))
 

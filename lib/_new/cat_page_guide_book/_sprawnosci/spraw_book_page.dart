@@ -47,7 +47,7 @@ class GroupItemWidet extends StatelessWidget{
 
   final SprawGroup group;
 
-  const GroupItemWidet(this.group);
+  const GroupItemWidet(this.group, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class GroupItemWidet extends StatelessWidget{
                     child: Material(
                       color: Colors.transparent,
                       child: Text(
-                          group.title!,
+                          group.title,
                           style: AppTextStyle(
                               fontSize: Dimen.TEXT_SIZE_BIG,
                               fontWeight: weight.halfBold,

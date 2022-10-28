@@ -428,10 +428,14 @@ class AccountSettingsPartState extends State<AccountSettingsPart>{
                     text: 'Usuń konto',
                     textColor: background_(context),
                     color: Colors.red,
-                    onTap: () => openDialog(
-                        context: context,
-                        builder: (context) => const DeleteAccountDialog()
-                    )
+                    onTap: () async {
+
+                      openDialog(
+                          context: context,
+                          builder: (context) => const DeleteAccountDialog()
+                      );
+
+                    }
                 ),
               ),
 
@@ -458,13 +462,11 @@ class DeleteAccountDialog extends StatefulWidget{
 class DeleteAccountDialogState extends State<DeleteAccountDialog>{
 
   InputFieldController? passwordController;
-  InputFieldController? emailController;
   late bool processing;
 
   @override
   void initState() {
     passwordController = InputFieldController();
-    emailController = InputFieldController();
     processing = false;
     super.initState();
   }
@@ -507,11 +509,17 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
                   controller: passwordController,
                 )
               else
-                InputField(
-                  leading: Icon(MdiIcons.email, color: hintEnab_(context)),
-                  hintTop: 'Email',
-                  hint: 'Potwierdź adres email',
-                  controller: emailController,
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: Dimen.SIDE_MARG,
+                      right: Dimen.SIDE_MARG,
+                      bottom: Dimen.SIDE_MARG
+                  ),
+                  child: AppText(
+                    'Za chwilę będziesz poproszony o zalogowanie się swoim kontem ZHP. Po udanym logowaniu, Twoje <b>konto HarcApp</b> zostanie usunięte.'
+                        '\n\nTwoje <b>konto ZHP</b> nie zostanie uzunięte.',
+                    color: hintEnab_(context),
+                  ),
                 ),
 
               if(AccountData.regularAcc)
@@ -527,21 +535,28 @@ class DeleteAccountDialogState extends State<DeleteAccountDialog>{
                     SizedBox(
                       width: double.infinity,
                       child: SimpleButton.from(
-                          text: 'Usuń konto',
+                          text: AccountData.microsoftAcc?'Kontynuuj usuwanie konta':'Usuń konto',
                           textColor: background_(context),
                           color: Colors.red,
-                          onTap: processing?null:(){
+                          onTap: processing?null:() async {
 
                             LoginProvider loginProv = LoginProvider.of(context);
 
-                            if(!AccountData.regularAcc && emailController!.text != AccountData.email){
-                              emailController!.errorText = 'Nie podał${AccountData.sex == Sex.male?'eś':'aś'} poprawnego adresu email';
-                              return;
+                            setState(() => processing = true);
+
+                            if(AccountData.microsoftAcc) {
+                              await ZhpAccAuth.logout();
+                              try{
+                                await ZhpAccAuth.login();
+                              } on Exception{
+                                setState(() => processing = false);
+                                return;
+                              }
                             }
 
-                            setState(() => processing = true);
                             ApiUser.delete(
                               validPass: AccountData.regularAcc?passwordController!.text:null,
+                              validAzureToken: await ZhpAccAuth.azureToken,
                               onSuccess: () async {
                                 String? email = AccountData.email;
                                 await AccountData.forgetAccount();

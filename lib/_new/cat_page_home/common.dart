@@ -70,8 +70,8 @@ class CreateNewButton extends StatelessWidget{
 
 class ShareCodeWidget extends StatefulWidget{
 
-  static const IconData iconOn = MdiIcons.accessPoint;
-  static const IconData iconOff = MdiIcons.accessPointOff;
+  static const IconData iconOn = MdiIcons.lockOpenVariantOutline;
+  static const IconData iconOff = MdiIcons.lockOutline;
 
   final ValueNotifier<String> shareCode;
   final ValueNotifier<bool> shareCodeSearchable;
@@ -132,7 +132,7 @@ class ShareCodeWidgetState extends State<ShareCodeWidget>{
 
   static bool _dialogOpened = false;
 
-  static const double backgroundIconSize = (Dimen.ICON_FOOTPRINT + 2*Dimen.ICON_MARG) + 2*60;
+  static const double backgroundIconSize = (Dimen.ICON_FOOTPRINT + 2*Dimen.ICON_MARG) + 2*24;
   static const double backgroundIconShift = 60;
 
   ValueNotifier<String> get shareCode => widget.shareCode;

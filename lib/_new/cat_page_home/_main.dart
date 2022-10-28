@@ -376,17 +376,19 @@ class NotLoggedInWidget extends StatefulWidget{
 class NotLoggedInWidgetState extends State<NotLoggedInWidget>{
 
   late PageController controller;
+  late bool tapped;
 
   void autoScroll() async {
 
     while(true){
       await Future.delayed(const Duration(seconds: 5));
       if(!mounted) return;
-      controller.animateToPage(
-          (controller.page!.toInt() + 1)%3,
-          duration: const Duration(milliseconds: 800),
-          curve: Curves.easeInOutCubic
-      );
+      if(!tapped)
+        controller.animateToPage(
+            (controller.page!.toInt() + 1)%3,
+            duration: const Duration(milliseconds: 800),
+            curve: Curves.easeInOutCubic
+        );
     }
 
   }
@@ -394,6 +396,7 @@ class NotLoggedInWidgetState extends State<NotLoggedInWidget>{
   @override
   void initState() {
     controller = PageController();
+    tapped = false;
     autoScroll();
     super.initState();
   }
@@ -468,19 +471,29 @@ class NotLoggedInWidgetState extends State<NotLoggedInWidget>{
         ),
 
         Expanded(
-          child: PageView(
-            physics: const BouncingScrollPhysics(),
-            controller: controller,
-            children: const [
+          child: GestureDetector(
+            onTapDown: (_){
+              tapped = true;
+              print('down');
+            },
+            onTapUp: (_){
+              tapped = false;
+              print('up');
+            },
+            child: PageView(
+              physics: const BouncingScrollPhysics(),
+              controller: controller,
+              children: const [
 
-              NotLoggedInPartAllWidget(),
+                NotLoggedInPartAllWidget(),
 
-              NotLoggedInPartCommunitiesWidget(),
+                NotLoggedInPartCommunitiesWidget(),
 
-              NotLoggedInPartCompetitionsWidget(),
+                NotLoggedInPartCompetitionsWidget(),
 
-            ],
-          ),
+              ],
+            ),
+          )
         ),
 
         SmoothPageIndicator(

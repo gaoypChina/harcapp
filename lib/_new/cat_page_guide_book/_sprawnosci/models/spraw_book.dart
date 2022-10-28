@@ -73,7 +73,7 @@ class SprawBookData{
   }
 
   static SprawBook? get lastViewedSprawBook{
-    String? lastViewedSprawBook = ShaPref.getString(ShaPref.SHA_PREF_LAST_VIEWED_SPRAWBOOK, ZHP_HARC_OLD_ID);
+    String? lastViewedSprawBook = ShaPref.getString(ShaPref.SHA_PREF_LAST_VIEWED_SPRAWBOOK, ZHP_HARC_SIM_2022_ID);
     return getById(lastViewedSprawBook);
   }
 

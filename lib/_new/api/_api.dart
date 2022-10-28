@@ -38,6 +38,15 @@ class API{
 
   static const String SERVER_URL = '$SERVER_IP${SERVER_PORT==null?'':':$SERVER_PORT'}/';
 
+  static void saveErrorMessage(DioError e) async => saveStringAsFileToFolder(
+      getApiErrorFolderLocalPath,
+      '# Date: ${DateTime.now().toIso8601String()}'
+          '\n# System time used: ${await TimeSettings.isTimeAutomatic}'
+          '\n# Status code: ${e.response?.statusCode}'
+          '\n# Status message: ${e.response?.statusMessage}'
+          '\n# Response error data:\n${e.response?.data}'
+  );
+
   static Response createFakeErrResponse({String? error, Map<String, dynamic>? errMap}) => Response(
     statusCode: HttpStatus.badRequest,
     requestOptions: RequestOptions(path: ''), // is it okay to have empty path?
@@ -83,16 +92,7 @@ class API{
       debugPrint('HarcApp API: ${e.requestOptions.method} ${e.requestOptions.path} :: error! :: ${e.message} :: ${e.response?.data?.toString()}');
       bool? finish;
 
-      saveStringAsFileToFolder(
-        getApiErrorFolderLocalPath,
-        '# Date: ${DateTime.now().toIso8601String()}'
-        '\n# System time used: ${await TimeSettings.isTimeAutomatic}'
-        '\n# Status code: ${e.response?.statusCode}'
-        '\n# Status message: ${e.response?.statusMessage}'
-        '\n# Response error data:\n${e.response?.data}'
-      );
-
-      if(e.response?.statusCode == 400 && e.response?.data is Map && e.response?.data?['error'] == "image_db_sleeping"){
+      if (e.response?.statusCode == 400 && e.response?.data is Map && e.response?.data?['error'] == "image_db_sleeping"){
         finish = await onImageDBWakingUp?.call();
         if(await isNetworkAvailable())
           Dio().get(IMAGE_DB_SERVER_IP).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
@@ -112,8 +112,11 @@ class API{
           try {
             response = await Dio().get('${SERVER_URL}api/refreshToken/${AccountData.refreshToken}');
           } on DioError catch (e){
-            await handleForgetAccount();
-            finish = await onForceLoggedOut?.call();
+            saveErrorMessage(e);
+            if (e.response?.statusCode == jwtInvalidHttpStatus && e.response?.data is Map && e.response?.data?['error'] == "refresh_token_expired") {
+              await handleForgetAccount();
+              finish = await onForceLoggedOut?.call();
+            }
             if(finish??false)
               return e.response;
             await onError?.call(e);
@@ -145,6 +148,8 @@ class API{
         finish = await onEmailNotConf?.call();
       }
 
+      saveErrorMessage(e);
+
       if(finish??false)
         return e.response;
       await onError?.call(e);
@@ -157,7 +162,7 @@ class API{
       SyncableParamSingle_.stateSynced,
       SyncableParamSingle_.stateSyncInProgress,
     ],
-        SyncableParamSingle_.stateNotSynced
+      SyncableParamSingle_.stateNotSynced
     );
     SynchronizerEngine.lastSyncTimeLocal = null;
     await ZhpAccAuth.logout();
