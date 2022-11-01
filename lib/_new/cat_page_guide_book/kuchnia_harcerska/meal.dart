@@ -4,7 +4,7 @@ import 'product.dart';
 
 class Meal{
 
-  static const String TAG_WEGE = "#Wege";
+  static const String TAG_JARSKIE = "#Jarskie";
   static const String TAG_JEDNOGARNKOWE = "#Jednogarnkowe";
 
   static Meal jajecznica = Meal.create(
@@ -48,7 +48,7 @@ class Meal{
         'Dodać śmietanę i cukier.',
         'Całość mieszać do uzyskania jednakowej konsystencji.'
       ],
-      tags: [Meal.TAG_WEGE, Meal.TAG_JEDNOGARNKOWE],
+      tags: [Meal.TAG_JARSKIE, Meal.TAG_JEDNOGARNKOWE],
   );
 
   static Meal tosty_francuskie = Meal.create(
@@ -96,7 +96,7 @@ class Meal{
         'Odsączyć wodę.',
         'Dodać bakalie.',
       ],
-      tags: [TAG_WEGE, TAG_JEDNOGARNKOWE],
+      tags: [TAG_JARSKIE, TAG_JEDNOGARNKOWE],
       water: true,
       fire: true);
 
@@ -156,7 +156,7 @@ class Meal{
         'Do gotującej się wody włożyć ryż.',
         'Gotować przez ok. 10 min. i wyjąć gotowy ryż.',
       ],
-      tags: [TAG_WEGE],
+      tags: [TAG_JARSKIE],
       water: true,
       fire: true);
 
@@ -286,7 +286,7 @@ class Meal{
         'Wrzucić wszystkie składniki do jednego naczynia i dokładnie wymieszać.',
         'Wymieszać makaron z pesto i posypujemy serem.',
       ],
-      tags: [TAG_WEGE, TAG_JEDNOGARNKOWE],
+      tags: [TAG_JARSKIE, TAG_JEDNOGARNKOWE],
       water: true,
       fire: true);
 
@@ -332,7 +332,7 @@ class Meal{
   'Na każdą turę rozlane ciasto po 3 min. odwrócić, a po kolejnych 3 min. zdjąć z patelni.',
   'Posmarować gotowe naleśniki dżemem i zwinąć w ruloniki.'
   ],
-  tags: [TAG_WEGE],
+  tags: [TAG_JARSKIE],
   fire: true,
   water: true);
 
@@ -389,7 +389,7 @@ class Meal{
         'Buraki, czosnek, chrzan i śmietanę wymieszać.',
         'Doprawić solą',
       ],
-      tags: [TAG_WEGE],
+      tags: [TAG_JARSKIE],
       fire: true,
       water: false);
 
