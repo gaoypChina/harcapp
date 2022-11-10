@@ -52,7 +52,7 @@ class AppBottomNavigatorProvider extends ChangeNotifier{
 
 enum AppBottomNavItem{
   home,
-  //map,
+  map,
   songBook,
   guidebook,
   harcThought,
@@ -77,11 +77,11 @@ class AppBottomNavigator extends StatelessWidget{
     if(account)
       switch(item){
         case AppBottomNavItem.home: return 0;
-        //case AppBottomNavItem.map: return 1;
-        case AppBottomNavItem.songBook: return 1;
-        case AppBottomNavItem.guidebook: return 2;
-        case AppBottomNavItem.harcThought: return 3;
-        case AppBottomNavItem.strefaDucha: return 4;
+        case AppBottomNavItem.map: return 1;
+        case AppBottomNavItem.songBook: return 2;
+        case AppBottomNavItem.guidebook: return 3;
+        case AppBottomNavItem.harcThought: return 4;
+        case AppBottomNavItem.strefaDucha: return 5;
       }
     else
       switch(item){
@@ -101,11 +101,11 @@ class AppBottomNavigator extends StatelessWidget{
     if(account)
       switch(index){
         case 0: return AppBottomNavItem.home;
-        //case 1: return AppBottomNavItem.map;
-        case 1: return AppBottomNavItem.songBook;
-        case 2: return AppBottomNavItem.guidebook;
-        case 3: return AppBottomNavItem.harcThought;
-        case 4: return AppBottomNavItem.strefaDucha;
+        case 1: return AppBottomNavItem.map;
+        case 2: return AppBottomNavItem.songBook;
+        case 3: return AppBottomNavItem.guidebook;
+        case 4: return AppBottomNavItem.harcThought;
+        case 5: return AppBottomNavItem.strefaDucha;
         default: return AppBottomNavItem.guidebook;
       }
     else
@@ -150,12 +150,12 @@ class AppBottomNavigator extends StatelessWidget{
                     label: 'Skromny ja'
                 ),
 
-              // BottomNavigationBarItem(
-              //     backgroundColor: background??background_(context),
-              //     icon: const Icon(MdiIcons.mapLegend),
-              //     //activeIcon: Icon(MdiIcons.map),
-              //     label: 'Harc mapa'
-              // ),
+              BottomNavigationBarItem(
+                  backgroundColor: background??background_(context),
+                  icon: const Icon(MdiIcons.mapLegend),
+                  //activeIcon: Icon(MdiIcons.map),
+                  label: 'Harc mapa'
+              ),
 
               BottomNavigationBarItem(
                   backgroundColor: prov.background??background??background_(context),

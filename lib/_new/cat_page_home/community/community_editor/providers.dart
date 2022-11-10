@@ -50,3 +50,40 @@ class CategoryProvider extends ChangeNotifier{
   }
 
 }
+
+class ContactProvider extends ChangeNotifier{
+
+  static ContactProvider of(BuildContext context) => Provider.of<ContactProvider>(context, listen: false);
+
+  late CommunityContactData _contact;
+  CommunityContactData get contact => _contact;
+
+  List<String> get email => _contact.email;
+  set email(List<String> value){
+    _contact.email = value;
+    notifyListeners();
+  }
+
+  List<String> get phone => _contact.phone;
+  set phone(List<String> value){
+    _contact.phone = value;
+    notifyListeners();
+  }
+
+  List<String> get website => _contact.website;
+  set website(List<String> value){
+    _contact.website = value;
+    notifyListeners();
+  }
+
+  String? get other => _contact.other;
+  set other(String? value){
+    _contact.other = value;
+    notifyListeners();
+  }
+
+  ContactProvider({Community? community}){
+    _contact = community?.contact?.copy()??CommunityContactData.empty();
+  }
+
+}

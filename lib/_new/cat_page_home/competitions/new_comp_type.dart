@@ -120,7 +120,7 @@ class _JoinButtonState extends State<_JoinButton>{
 
   @override
   Widget build(BuildContext context) => CreateNewButton(
-    icon: ShareCodeWidget.iconOn,
+    icon: ShareCodeDialog.iconOn,
     title: 'Dołącz do istniejącego',
     description: 'Dołącz do współzawodnictwa utworzonego przez inną osobę.',
     onTap: null,

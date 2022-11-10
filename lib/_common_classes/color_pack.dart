@@ -53,7 +53,7 @@ class ColorPackHome extends DefColorPack{
 
 class ColorPackHarcMap extends DefColorPack{
 
-  static const ACCENT_COLOR = Colors.white;
+  static const ACCENT_COLOR = Colors.blue;
 
   @override
   Color get accentColor => ACCENT_COLOR;
@@ -62,7 +62,7 @@ class ColorPackHarcMap extends DefColorPack{
 
 class ColorPackSongBook extends DefColorPack{
 
-  static final ACCENT_COLOR = Colors.grey;
+  static const ACCENT_COLOR = Colors.grey;
 
   @override
   Color get accentColor => ACCENT_COLOR;

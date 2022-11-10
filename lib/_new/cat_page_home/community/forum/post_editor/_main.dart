@@ -408,7 +408,8 @@ class PostEditorPageState extends State<PostEditorPage>{
                         Optional.of(titleController.text),
 
                         urlToPreview:
-                        initPost!.urlToPreview == urlToPreviewController.text?
+                        initPost!.urlToPreview == urlToPreviewController.text ||
+                        (initPost!.urlToPreview == null && urlToPreviewController.text.isEmpty)?
                         null:
                         Optional.ofNullable(
                             urlToPreviewController.text.isEmpty?

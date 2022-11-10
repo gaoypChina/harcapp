@@ -490,9 +490,9 @@ class ApiCircle{
 
           if(title != null) 'title': title.orElseNull,
 
-          if(startTime != null) "startTimeStr": startTime.orElseNull,
+          if(startTime != null) "startTimeStr": startTime.orElseNull?.toIso8601String(),
 
-          if(endTime != null) "endTimeStr": endTime.orElseNull,
+          if(endTime != null) "endTimeStr": endTime.orElseNull?.toIso8601String(),
 
           if(place != null) 'place': place.orElseNull,
 

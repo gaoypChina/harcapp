@@ -2,10 +2,22 @@ enum CommunityCategory{
   error,
 
   gromada,
+  gromadaZuchowaZHP,
+  gromadaZuchowZHR,
+  gromadaZuchenekZHR,
+
   radaGromady,
   szostka,
 
   druzyna,
+  druzynaHarcerskaZHP,
+  druzynaHarcerzyStarszychZHP,
+  druzynaWedrowniczaZHP,
+  druzynaHarcerzyZHR,
+  druzynaHarcerekZHR,
+  druzynaWedrownikowZHR,
+  druzynaWedrowniczekZHR,
+
   radaDruzyny,
   zastep,
   patrol,
@@ -27,10 +39,22 @@ enum CommunityCategory{
 
 List<CommunityCategory> allCommunityCategories = [
   CommunityCategory.gromada,
+  CommunityCategory.gromadaZuchowaZHP,
+  CommunityCategory.gromadaZuchowZHR,
+  CommunityCategory.gromadaZuchenekZHR,
+
   CommunityCategory.radaGromady,
   CommunityCategory.szostka,
 
   CommunityCategory.druzyna,
+  CommunityCategory.druzynaHarcerskaZHP,
+  CommunityCategory.druzynaHarcerzyStarszychZHP,
+  CommunityCategory.druzynaWedrowniczaZHP,
+  CommunityCategory.druzynaHarcerzyZHR,
+  CommunityCategory.druzynaHarcerekZHR,
+  CommunityCategory.druzynaWedrownikowZHR,
+  CommunityCategory.druzynaWedrowniczekZHR,
+
   CommunityCategory.radaDruzyny,
   CommunityCategory.zastep,
   CommunityCategory.patrol,
@@ -53,10 +77,22 @@ const Map<CommunityCategory, String> commCatToName = {
   CommunityCategory.error: 'Błąd!',
 
   CommunityCategory.gromada: 'Gromada',
+  CommunityCategory.gromadaZuchowaZHP: 'Gromada zuchowa ZHP',
+  CommunityCategory.gromadaZuchowZHR: 'Gromada zuchów ZHR',
+  CommunityCategory.gromadaZuchenekZHR: 'Gromada zuchenek ZHR',
+
   CommunityCategory.radaGromady: 'Rada Gromady',
   CommunityCategory.szostka: 'Szóstka',
 
   CommunityCategory.druzyna: 'Drużyna',
+  CommunityCategory.druzynaHarcerskaZHP: 'Drużyna harcerska ZHP',
+  CommunityCategory.druzynaHarcerzyStarszychZHP: 'Drużyna harcerzy starszych ZHP',
+  CommunityCategory.druzynaWedrowniczaZHP: 'Drużyna harcerzy wędrownicza ZHP',
+  CommunityCategory.druzynaHarcerzyZHR: 'Drużyna harcerzy ZHR',
+  CommunityCategory.druzynaHarcerekZHR: 'Drużyna harcerek ZHR',
+  CommunityCategory.druzynaWedrownikowZHR: 'Drużyna wedrownikow ZHR',
+  CommunityCategory.druzynaWedrowniczekZHR: 'Drużyna wedrownikow ZHR',
+
   CommunityCategory.radaDruzyny: 'Rada Drużyny',
   CommunityCategory.zastep: 'Zastęp',
   CommunityCategory.patrol: 'Patrol',

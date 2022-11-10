@@ -104,6 +104,8 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
     return Material(
       elevation: !remove! && state == TaskState.OPEN?AppCard.bigElevation:0,
       borderRadius: BorderRadius.circular(AppCard.bigRadius),
+
+      color: cardEnab_(context),
       child: IndivCompTaskSkeletonWidget(
         trailing: SimpleButton(
           radius: AppCard.bigRadius,
@@ -133,6 +135,7 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
           hintStyle: IndivCompTaskSkeletonWidget.titleTextStyle(context, enabled: !remove! && state == TaskState.OPEN, crossOut: remove!).copyWith(color: hintEnab_(context)),
           enabled: state == TaskState.OPEN,
           controller: titleController,
+          textCapitalization: TextCapitalization.sentences,
           inputFormatters: [
             LengthLimitingTextInputFormatter(IndivCompTask.MAX_LEN_TITLE),
           ],
@@ -144,6 +147,7 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
           hintStyle: IndivCompTaskSkeletonWidget.descriptionTextStyle(context, enabled: !remove! && state == TaskState.OPEN, crossOut: remove!).copyWith(color: hintEnab_(context)),
           enabled: state == TaskState.OPEN,
           controller: descController,
+          textCapitalization: TextCapitalization.sentences,
           maxLines: null,
           inputFormatters: [
             LengthLimitingTextInputFormatter(IndivCompTask.MAX_LEN_DESC),
@@ -246,8 +250,6 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
 
 
       ),
-
-      color: cardEnab_(context),
     );
 
   }

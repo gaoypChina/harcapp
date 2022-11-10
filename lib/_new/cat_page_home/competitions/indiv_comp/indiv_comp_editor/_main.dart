@@ -91,7 +91,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
         ChangeNotifierProvider(create: (context) => widget.initComp == null?AwardsProvider(awards: widget.initAwards):AwardsProvider.fromIndivCompAwards(widget.initComp!.awards)),
       ],
       builder: (context, child) => Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         body: DefaultTabController(
           length: editMode?6:5,
           child: NestedScrollView(

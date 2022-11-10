@@ -11,6 +11,7 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:optional/optional_internal.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../community/model/community.dart';
 import '../model/community_category.dart';
@@ -58,6 +59,7 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
             ChangeNotifierProvider(create: (context) => NameProvider(community: initCommunity)),
             ChangeNotifierProvider(create: (context) => IconKeyProvider(community: initCommunity)),
             ChangeNotifierProvider(create: (context) => CategoryProvider(community: initCommunity)),
+            ChangeNotifierProvider(create: (context) => ContactProvider(community: initCommunity)),
           ],
           builder: (context, child) => NestedScrollView(
             floatHeaderSlivers: true,
@@ -97,6 +99,7 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
                             name: NameProvider.of(context).nameController.text,
                             iconKey: IconKeyProvider.of(context).iconKey,
                             category: CategoryProvider.of(context).category,
+                            contact: ContactProvider.of(context).contact,
 
                             onSuccess: (circle) async {
                               await popPage(context); // Close loading widget.
@@ -121,6 +124,7 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
                         String name = NameProvider.of(context).nameController.text;
                         String iconKey = IconKeyProvider.of(context).iconKey;
                         CommunityCategory category = CategoryProvider.of(context).category;
+                        CommunityContactData contact = ContactProvider.of(context).contact;
 
                         await ApiCommunity.update(
                             circleKey: initCommunity!.key,
@@ -139,6 +143,11 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
                             initCommunity!.category == category?
                             const Optional.empty():
                             Optional.of(category),
+
+                            contact:
+                            initCommunity!.contact == contact?
+                            const Optional.empty():
+                            Optional.of(Tuple2(initCommunity!.contact, contact)),
 
                             onSuccess: (community) async {
                               await popPage(context); // Close loading widget.

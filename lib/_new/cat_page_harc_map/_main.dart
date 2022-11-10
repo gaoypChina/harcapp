@@ -1,6 +1,7 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
@@ -10,11 +11,17 @@ import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+
+import '../../values/consts.dart';
+import '../api/harc_map.dart';
+import 'app_marker.dart';
+import 'marker_editor/_main.dart';
 
 class CatPageHarcMap extends StatefulWidget{
 
@@ -32,6 +39,22 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     post(() => Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackHarcMap());
   }
 
+  static List<MarkerRespBody>? markers;
+
+  @override
+  void initState() {
+    if(markers == null){
+      ApiHarcMap.getAllMarkers(
+        onSuccess: (markers) => setState(() => CatPageHarcMapState.markers = markers),
+        onError: (_){
+          if(!mounted) return;
+          showAppToast(context, text: simpleErrorMessage);
+        }
+      );
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) => AppScaffold(
     bottomNavigationBar: const AppBottomNavigator(),
@@ -40,30 +63,26 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
         FlutterMap(
           options: MapOptions(
-            minZoom: 3,
-            center: LatLng(52.0, 19.1),
-            zoom: 5.85,
+            center: LatLng(54.5, 19.5),
+            zoom: 5,
+            minZoom: 2,
+            maxZoom: 18.0
           ),
-          // layers: [
-          //   TileLayerOptions(
-          //     //urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-          //     //subdomains: ['a', 'b', 'c'],
-          //     urlTemplate: 'http://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
-          //     subdomains: ['0', '1', '2', '3'],
-          //     //retinaMode: true,
-          //   ),
-          //   MarkerLayerOptions(
-          //     markers: [
-          //       Marker(
-          //           width: 24.0,
-          //           height: 24.0,
-          //           point: LatLng(50.04438820440828, 19.945508021792207),
-          //           builder: (context) => const Icon(MdiIcons.mapMarker)
-          //       ),
-          //
-          //     ],
-          //   ),
-          // ],
+          nonRotatedChildren: [
+            // AttributionWidget.defaultWidget(
+            //   source: 'OpenStreetMap contributors',
+            //   onSourceTapped: () {},
+            // ),
+          ],
+          children: [
+            TileLayer(
+              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+              // urlTemplate: 'http://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
+              userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+            ),
+            if(markers != null)
+              MarkerLayer(markers: markers!.map((m) => AppMarker(marker: m)).toList()),
+          ],
         ),
 
         Positioned(
@@ -74,6 +93,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SearchField(
+                  elevation: AppCard.defElevation,
                   leading: IconButton(
                     icon: const Icon(MdiIcons.menu),
                     onPressed: (){},
@@ -81,31 +101,41 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                   hint: 'Szukaj...',
                 ),
 
-                SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  clipBehavior: Clip.none,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      TagWidget(MdiIcons.handshake, 'Służba'),
-                      TagWidget(MdiIcons.accountChild, 'Zuchy'),
-                      TagWidget(MdiIcons.account, 'Harcerze'),
-                      TagWidget(MdiIcons.accountStar, 'Harcerze Starsi'),
-                      TagWidget(MdiIcons.accountCowboyHat, 'Wędrownicy'),
-                      TagWidget(MdiIcons.school, 'Krąg akademicki'),
-                      TagWidget(MdiIcons.candle, 'Duszpasterstwa'),
-                      TagWidget(MdiIcons.tent, 'Miejsca biwakowe'),
-                      TagWidget(MdiIcons.flagTriangle, 'Miejsca obozowe'),
-                    ],
-                  ),
-                )
+                // SingleChildScrollView(
+                //   physics: const BouncingScrollPhysics(),
+                //   scrollDirection: Axis.horizontal,
+                //   clipBehavior: Clip.none,
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.start,
+                //     children: const [
+                //       TagWidget(MdiIcons.handshake, 'Służba'),
+                //       TagWidget(MdiIcons.accountChild, 'Zuchy'),
+                //       TagWidget(MdiIcons.account, 'Harcerze'),
+                //       TagWidget(MdiIcons.accountStar, 'Harcerze Starsi'),
+                //       TagWidget(MdiIcons.accountCowboyHat, 'Wędrownicy'),
+                //       TagWidget(MdiIcons.school, 'Krąg akademicki'),
+                //       TagWidget(MdiIcons.candle, 'Duszpasterstwa'),
+                //       TagWidget(MdiIcons.tent, 'Miejsca biwakowe'),
+                //       TagWidget(MdiIcons.flagTriangle, 'Miejsca obozowe'),
+                //     ],
+                //   ),
+                // )
               ],
             )
         ),
 
       ],
     ),
+
+    floatingActionButton: FloatingActionButton(
+      backgroundColor: background_(context),
+      child: Icon(MdiIcons.plus, color: iconEnab_(context)),
+      onPressed: () => pushPage(
+          context,
+          builder: (context) => const MarkerEditorPage()
+      )
+    ),
+
   );
 
 }
@@ -119,11 +149,11 @@ class TagWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => SimpleButton(
-      radius: 100,
-      padding: const EdgeInsets.all(Dimen.ICON_MARG),
+      radius: AppCard.defRadius,
+      padding: const EdgeInsets.all(SearchField.defMargVal),
       margin: const EdgeInsets.all(SearchField.defMargVal),
       color: cardEnab_(context),
-      elevation: AppCard.bigElevation,
+      elevation: AppCard.defElevation,
       child: Row(
         children: [
           Icon(icon, size: 20.0),
@@ -132,7 +162,10 @@ class TagWidget extends StatelessWidget{
           const SizedBox(width: Dimen.ICON_MARG),
         ],
       ),
-      onTap: (){}
+      onTap: () => pushPage(
+          context,
+          builder: (context) => MarkerEditorPage()
+      )
   );
 
 }

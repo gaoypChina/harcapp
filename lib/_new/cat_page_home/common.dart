@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -68,47 +65,50 @@ class CreateNewButton extends StatelessWidget{
 
 }
 
-class ShareCodeWidget extends StatefulWidget{
+class ShareCodeDialog extends StatefulWidget{
 
   static const IconData iconOn = MdiIcons.lockOpenVariantOutline;
   static const IconData iconOff = MdiIcons.lockOutline;
 
-  final ValueNotifier<String> shareCode;
-  final ValueNotifier<bool> shareCodeSearchable;
-  final ValueNotifier<bool> enabled;
-  final ValueNotifier<bool>? processing;
+  final String shareCode;
+  final bool shareCodeSearchable;
+  final bool enabled;
+  final bool? processing;
   final Color? backgroundColor;
   final Color? borderColor;
-  final Future<void> Function() resetShareCode;
+  final Future<String?> Function() resetShareCode;
+  final Future<bool> Function() changeShareCodeSearchable;
 
   final String description;
   final int resetFrequencyDays;
 
-  static ShareCodeWidget from(
+  static ShareCodeDialog from(
       String shareCode,
       bool shareCodeSearchable,
       bool enabled,
       { Color? backgroundColor,
         Color? borderColor,
-        required Future<void> Function() resetShareCode,
+        required Future<String?> Function() resetShareCode,
+        required Future<bool> Function() changeShareCodeSearchable,
 
         required String description,
         required int resetFrequencyDays,
 
         Key? key
-      }) => ShareCodeWidget(
-    ValueNotifier(shareCode),
-    ValueNotifier(shareCodeSearchable),
-    ValueNotifier(enabled),
+      }) => ShareCodeDialog(
+    shareCode,
+    shareCodeSearchable,
+    enabled,
     backgroundColor: backgroundColor,
     borderColor: borderColor,
     resetShareCode: resetShareCode,
+    changeShareCodeSearchable: changeShareCodeSearchable,
     description: description,
     resetFrequencyDays: resetFrequencyDays,
     key: key,
   );
 
-  const ShareCodeWidget(
+  const ShareCodeDialog(
       this.shareCode,
       this.shareCodeSearchable,
       this.enabled,
@@ -116,6 +116,7 @@ class ShareCodeWidget extends StatefulWidget{
         this.backgroundColor,
         this.borderColor,
         required this.resetShareCode,
+        required this.changeShareCodeSearchable,
 
         required this.description,
         required this.resetFrequencyDays,
@@ -124,250 +125,228 @@ class ShareCodeWidget extends StatefulWidget{
       });
 
   @override
-  State<StatefulWidget> createState() => ShareCodeWidgetState();
+  State<StatefulWidget> createState() => ShareCodeDialogState();
 
 }
 
-class ShareCodeWidgetState extends State<ShareCodeWidget>{
-
-  static bool _dialogOpened = false;
-
+class ShareCodeDialogState extends State<ShareCodeDialog>{
+  
   static const double backgroundIconSize = (Dimen.ICON_FOOTPRINT + 2*Dimen.ICON_MARG) + 2*24;
   static const double backgroundIconShift = 60;
 
-  ValueNotifier<String> get shareCode => widget.shareCode;
-  ValueNotifier<bool> get shareCodeSearchable => widget.shareCodeSearchable;
-  ValueNotifier<bool> get enabled => widget.enabled;
+  late String? shareCode;
+  late bool shareCodeSearchable;
+
+  bool get enabled => widget.enabled;
   Color? get backgroundColor => widget.backgroundColor;
   Color? get borderColor => widget.borderColor;
 
-  Future<void> Function() get resetShareCode => widget.resetShareCode;
+  Future<String?> Function() get resetShareCode => widget.resetShareCode;
+  Future<bool> Function() get changeShareCodeSearchable => widget.changeShareCodeSearchable;
 
   String get description => widget.description;
   int get resetFrequencyDays => widget.resetFrequencyDays;
 
-  bool get processing => !widget.enabled.value || _processing.value;
-  late ValueNotifier<bool> _processing;
+  bool get processing => !widget.enabled || _processing;
+  late bool _processing;
 
   late GlobalKey positionKey;
-
-  void notify() => setState(() {});
 
   @override
   void initState() {
 
-    _processing = widget.processing??ValueNotifier(false);
-
-    shareCode.addListener(notify);
-    shareCodeSearchable.addListener(notify);
-    enabled.addListener(notify);
-    _processing.addListener(notify);
+    _processing = widget.processing??false;
+    shareCode = widget.shareCode;
+    shareCodeSearchable = widget.shareCodeSearchable;
 
     positionKey = GlobalKey();
     super.initState();
   }
 
   @override
-  void dispose() {
-    shareCode.removeListener(notify);
-    shareCodeSearchable.removeListener(notify);
-    enabled.removeListener(notify);
-    _processing.removeListener(notify);
-
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => Hero(
-    tag: 'ShareCodeWidget',
-    child: GestureDetector(
-      onTap: _dialogOpened?null:() async {
-
-        setState(() => _dialogOpened = true);
-
-        await openDialog(
-            context: context,
-            builder: (context){
-
-              final RenderBox renderBox = positionKey.currentContext!.findRenderObject() as RenderBox;
-              final position = renderBox.localToGlobal(Offset.zero);
-
-              return Stack(
-                children: [
-
-                  Positioned.fill(
-                      top: max(
-                          Dimen.SIDE_MARG,
-                          position.dy - MediaQuery.of(context).viewPadding.top
-                      ),
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                          child: Material(
-                              borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                              color: backgroundColor??background_(context),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-
-                                  ShareCodeWidget(
-                                    shareCode,
-                                    shareCodeSearchable,
-                                    enabled,
-                                    processing: _processing,
-                                    backgroundColor: backgroundColor,
-                                    borderColor: borderColor,
-                                    resetShareCode: resetShareCode,
-                                    description: description,
-                                    resetFrequencyDays: resetFrequencyDays,
-                                  ),
-
-                                  Padding(
-                                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-
-                                        Text(
-                                          'O co chodzi?',
-                                          style: AppTextStyle(
-                                            fontSize: Dimen.TEXT_SIZE_BIG,
-                                            fontWeight: weight.halfBold
-                                          ),
-                                        ),
-
-                                        const SizedBox(height: Dimen.SIDE_MARG),
-
-                                        AppText(
-                                          description,
-                                          size: Dimen.TEXT_SIZE_BIG,
-                                        ),
-
-                                        const SizedBox(height: 2*Dimen.defMarg),
-
-                                        Text(
-                                          'Kod dostępu można zmienić raz na $resetFrequencyDays dni.',
-                                          style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
-                                        ),
-
-                                        const SizedBox(height: 2*Dimen.defMarg),
-
-                                        Row(
-                                          children: [
-
-                                            const Icon(ShareCodeWidget.iconOn),
-
-                                            const SizedBox(width: Dimen.SIDE_MARG),
-
-                                            Expanded(
-                                              child: Text(
-                                                'Dostęp po kodzie można włączyć lub wyłączyć tymże przyciskiem.',
-                                                style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
-                                              ),
-                                            ),
-
-                                          ],
-                                        ),
-
-                                        const SizedBox(height: 2*Dimen.defMarg),
-
-                                      ],
-                                    )
-                                  ),
-
-                                  SimpleButton.from(
-                                      context: context,
-                                      icon: MdiIcons.check,
-                                      text: 'Wszystko jasne',
-                                      onTap: () => Navigator.pop(context)
-                                  ),
-
-                                ],
-                              )
-                          ),
-                        ),
-                      )
-                  )
-
-                ],
-              );
-
-            }
-        );
-
-        setState(() => _dialogOpened = false);
-
-      },
-      key: positionKey,
+  Widget build(BuildContext context) => Center(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
       child: Material(
-        borderRadius: BorderRadius.circular(AppCard.bigRadius),
-        color: borderColor??backgroundIcon_(context),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Material(
-              clipBehavior: Clip.hardEdge,
-              borderRadius: BorderRadius.circular(AppCard.bigRadius-6),
-              color: backgroundColor??background_(context),
-              child: Stack(
-                children: [
+          borderRadius: BorderRadius.circular(AppCard.bigRadius),
+          color: backgroundColor??background_(context),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
 
-                  Positioned(
-                    left: 0,
-                    top: -backgroundIconShift,
-                    bottom: -backgroundIconShift,
-                    child: Icon(
-                        ShareCodeWidget.iconOn,
-                        color: borderColor??backgroundIcon_(context),
-                        size: backgroundIconSize
-                    ),
-                  ),
-
-                  Padding(
-                      padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                      child: Row(
+              Material(
+                borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                color: borderColor??backgroundIcon_(context),
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Material(
+                      clipBehavior: Clip.hardEdge,
+                      borderRadius: BorderRadius.circular(AppCard.bigRadius-6),
+                      color: backgroundColor??background_(context),
+                      child: Stack(
                         children: [
 
-                          const SizedBox(width: Dimen.ICON_FOOTPRINT),
+                          Positioned(
+                            left: 0,
+                            top: -backgroundIconShift,
+                            bottom: -backgroundIconShift,
+                            child: Icon(
+                                shareCodeSearchable?
+                                ShareCodeDialog.iconOn:
+                                ShareCodeDialog.iconOff,
+                                color: borderColor??backgroundIcon_(context),
+                                size: backgroundIconSize
+                            ),
+                          ),
 
-                          Expanded(
-                              child: GestureDetector(
-                                onLongPress: (){
-                                  Clipboard.setData(ClipboardData(text: shareCode.value));
-                                  showAppToast(context, text: 'Skopiowano');
-                                },
-                                child: Text(
-                                  shareCode.value,
+                          Center(
+                            child: Padding(
+                                padding: const EdgeInsets.all(2*Dimen.ICON_MARG),
+                                child: shareCodeSearchable == false?
+                                Text(
+                                  '- - - - -',
                                   style: AppTextStyle(
                                       fontSize: Dimen.ICON_SIZE,
                                       fontWeight: weight.bold,
-                                      color: shareCodeSearchable.value?iconEnab_(context):iconDisab_(context)
+                                      color: iconDisab_(context)
                                   ),
                                   textAlign: TextAlign.center,
-                                ),
-                              )
-                          ),
-
-                          IconButton(
-                            icon: const Icon(MdiIcons.refresh),
-                            onPressed: processing || !shareCodeSearchable.value?null:() async {
-
-                              setState(() => _processing.value = true);
-                              await resetShareCode();
-                              setState(() => _processing.value = false);
-
-                            },
-                          ),
+                                ):
+                                shareCode == null?
+                                Text(
+                                  'Kod niedostępny',
+                                  style: AppTextStyle(
+                                      fontSize: Dimen.ICON_SIZE,
+                                      fontWeight: weight.bold,
+                                      color: iconDisab_(context)
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ):GestureDetector(
+                                  onLongPress: (){
+                                    Clipboard.setData(ClipboardData(text: shareCode));
+                                    showAppToast(context, text: 'Skopiowano');
+                                  },
+                                  child: Text(
+                                    shareCode!,
+                                    style: AppTextStyle(
+                                        fontSize: Dimen.ICON_SIZE,
+                                        fontWeight: weight.bold,
+                                        color: shareCodeSearchable?iconEnab_(context):iconDisab_(context)
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                            ),
+                          )
 
                         ],
                       )
                   ),
+                ),
+              ),
 
+              Row(
+                children: [
+                  Expanded(
+                    child: SimpleButton.from(
+                        iconColor: processing?iconDisab_(context):iconEnab_(context),
+                        textColor: processing?iconDisab_(context):iconEnab_(context),
+                        icon: shareCodeSearchable?
+                        ShareCodeDialog.iconOff:
+                        ShareCodeDialog.iconOn,
+                        text: shareCodeSearchable?'Ukryj':'Pokaż',
+                        onTap: processing?null:() async {
+                          setState(() => _processing = true);
+                          shareCodeSearchable = await changeShareCodeSearchable();
+                          setState(() => _processing = false);
+                        },
+                    ),
+                  ),
+                  Expanded(
+                    child: SimpleButton.from(
+                      iconColor: processing?iconDisab_(context):iconEnab_(context),
+                      textColor: processing?iconDisab_(context):iconEnab_(context),
+                      icon: MdiIcons.refresh,
+                      text: 'Nowy kod',
+                      onTap: processing || !shareCodeSearchable?null:() async {
+
+                        setState(() => _processing = true);
+                        String? _shareCode = await resetShareCode();
+                        if(_shareCode != null)
+                          shareCode = _shareCode;
+
+                        setState(() => _processing = false);
+
+                      },
+                    ),
+                  ),
                 ],
-              )
-          ),
-        ),
+              ),
+
+              Padding(
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+                      Text(
+                        'O co chodzi?',
+                        style: AppTextStyle(
+                            fontSize: Dimen.TEXT_SIZE_BIG,
+                            fontWeight: weight.halfBold
+                        ),
+                      ),
+
+                      const SizedBox(height: Dimen.SIDE_MARG),
+
+                      AppText(
+                        description,
+                        size: Dimen.TEXT_SIZE_BIG,
+                      ),
+
+                      const SizedBox(height: 2*Dimen.defMarg),
+
+                      Text(
+                        'Kod dostępu można zmienić raz na $resetFrequencyDays dni.',
+                        style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                      ),
+
+                      const SizedBox(height: 2*Dimen.defMarg),
+
+                      // Row(
+                      //   children: [
+                      //
+                      //     const Icon(ShareCodeWidget.iconOn),
+                      //
+                      //     const SizedBox(width: Dimen.SIDE_MARG),
+                      //
+                      //     Expanded(
+                      //       child: Text(
+                      //         'Dostęp po kodzie można włączyć lub wyłączyć tymże przyciskiem.',
+                      //         style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                      //       ),
+                      //     ),
+                      //
+                      //   ],
+                      // ),
+                      //
+                      // const SizedBox(height: 2*Dimen.defMarg),
+
+                    ],
+                  )
+              ),
+
+              SimpleButton.from(
+                  context: context,
+                  icon: MdiIcons.check,
+                  margin: EdgeInsets.zero,
+                  text: 'Wszystko jasne',
+                  onTap: () => Navigator.pop(context)
+              ),
+
+            ],
+          )
       ),
     ),
   );

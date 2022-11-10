@@ -9,6 +9,7 @@ import 'package:harcapp/_new/cat_page_home/community/community_role.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/model/post.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community_manager.dart';
 import 'package:optional/optional_internal.dart';
+import 'package:tuple/tuple.dart';
 
 import '../cat_page_home/community/community_publishable.dart';
 import '../cat_page_home/community/model/community.dart';
@@ -130,6 +131,7 @@ class ApiCommunity{
     required String name,
     required String iconKey,
     required CommunityCategory category,
+    required CommunityContactData? contact,
 
     FutureOr<void> Function(Community community)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -141,6 +143,7 @@ class ApiCommunity{
     reqMap['name'] = name.trim();
     reqMap['iconKey'] = iconKey;
     reqMap['category'] = commCatToString[category];
+    reqMap['contact'] = contact?.toMap();
 
     return API.sendRequest(
       withToken: true,
@@ -167,6 +170,7 @@ class ApiCommunity{
     Optional<String> name = const Optional.empty(),
     Optional<String> iconKey = const Optional.empty(),
     Optional<CommunityCategory> category = const Optional.empty(),
+    Optional<Tuple2<CommunityContactData?, CommunityContactData?>> contact = const Optional.empty(),
 
     FutureOr<void> Function(Community community)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -178,6 +182,11 @@ class ApiCommunity{
     if(name.isPresent) reqMap['name'] = name.value.trim();
     if(iconKey.isPresent) reqMap['iconKey'] = iconKey.value;
     if(category.isPresent) reqMap['category'] = commCatToString[category.value];
+    if(contact.isPresent){
+      CommunityContactData? oldContact = contact.value.item1;
+      CommunityContactData? newContact = contact.value.item2;
+      reqMap['contact'] = newContact?.toUpdateMap(oldContact);
+    }
 
     return API.sendRequest(
         withToken: true,

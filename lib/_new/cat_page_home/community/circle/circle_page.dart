@@ -458,40 +458,70 @@ class CirclePageState extends State<CirclePage>{
                       IconButton(
                         icon: Icon(
                             circle.shareCodeSearchable?
-                            ShareCodeWidget.iconOn:
-                            ShareCodeWidget.iconOff,
+                            ShareCodeDialog.iconOn:
+                            ShareCodeDialog.iconOff,
 
                             color: (appBarProv.coverVisible?coverIconColor:iconEnab_(context))
                                 .withOpacity(changeShareCodeProcessing?0.4:1)
 
                         ),
-                        onPressed: changeShareCodeProcessing?null:() async {
-                          setState(() => changeShareCodeProcessing = true);
-                          await ApiCircle.setShareCodeSearchable(
-                              compKey: circle.key,
-                              searchable: !circle.shareCodeSearchable,
-                              onSuccess: (searchable){
-                                if(!mounted) return;
-                                setState(() => circle.shareCodeSearchable = searchable);
-                                showAppToast(
-                                  context,
-                                  text: searchable?
-                                  'Każdy może teraz dołączyć do kręgu znając kod dostępu':
-                                  'Dołączanie po kodzie dostępu wyłączone',
-                                  duration: searchable?const Duration(seconds: 5):const Duration(seconds: 3)
+                        onPressed: () => openDialog(
+                            context: context,
+                            builder: (context) => ShareCodeDialog.from(
+                              circle.shareCode!,
+                              circle.shareCodeSearchable,
+                              !changeShareCodeProcessing,
+                              backgroundColor: cardColor,
+                              borderColor: backgroundColor,
+                              resetShareCode: () async {
+                                await ApiCircle.resetShareCode(
+                                    circleKey: circle.key,
+                                    onSuccess: (shareCode){
+                                      circle.shareCode = shareCode;
+                                      if(mounted) setState((){});
+                                    },
+                                    onServerMaybeWakingUp: () {
+                                      if(mounted) showServerWakingUpToast(context);
+                                      return true;
+                                    },
+                                    onError: (dynamic errData){
+                                      if(errData is Map && errData['errors'] != null && errData['errors']['shareCode'] == 'share_code_changed_too_soon')
+                                        if(mounted) showAppToast(context, text: 'Za często zmieniasz kod dostępu');
+                                    }
                                 );
+                                return circle.shareCode;
                               },
-                              onServerMaybeWakingUp: () {
-                                if(mounted) showServerWakingUpToast(context);
-                                return true;
+                              changeShareCodeSearchable: () async {
+                                await ApiCircle.setShareCodeSearchable(
+                                    compKey: circle.key,
+                                    searchable: !circle.shareCodeSearchable,
+                                    onSuccess: (searchable){
+                                      circle.shareCodeSearchable = searchable;
+                                      if(!mounted) return;
+                                      setState((){});
+                                      showAppToast(
+                                          context,
+                                          text: searchable?
+                                          'Każdy może teraz dołączyć do kręgu znając kod dostępu':
+                                          'Dołączanie po kodzie dostępu wyłączone',
+                                          duration: searchable?const Duration(seconds: 5):const Duration(seconds: 3)
+                                      );
+                                    },
+                                    onServerMaybeWakingUp: () {
+                                      if(mounted) showServerWakingUpToast(context);
+                                      return true;
+                                    },
+                                    onError: (){
+                                      if(mounted) showAppToast(context, text: simpleErrorMessage);
+                                    }
+                                );
+                                return circle.shareCodeSearchable;
                               },
-                              onError: (){
-                                if(mounted) showAppToast(context, text: simpleErrorMessage);
-                              }
-
-                          );
-                          setState(() => changeShareCodeProcessing = false);
-                        },
+                              description: 'To, co widzisz, to <b>kod dostępu</b>.'
+                                  '\n\nPozwala on dołączyć do kręgu tym, którzy go znają.',
+                              resetFrequencyDays: 2,
+                            ),
+                        )
                       ),
 
                     IconButton(
@@ -590,47 +620,47 @@ class CirclePageState extends State<CirclePage>{
                                 )
                             ),
 
-                            if(circle.myRole == CircleRole.ADMIN)
-                              AnimatedSize(
-                                alignment: Alignment.bottomCenter,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeOutQuad,
-                                clipBehavior: Clip.none,
-                                child: SizedBox(
-                                  height: circle.shareCodeSearchable?null:0,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: Dimen.SIDE_MARG,
-                                        left: Dimen.SIDE_MARG - Dimen.defMarg,
-                                        right: Dimen.SIDE_MARG - Dimen.defMarg
-                                    ),
-                                    child: ShareCodeWidget.from(
-                                      circle.shareCode!,
-                                      circle.shareCodeSearchable,
-                                      !changeShareCodeProcessing,
-                                      backgroundColor: cardColor,
-                                      borderColor: backgroundColor,
-                                      resetShareCode: () => ApiCircle.resetShareCode(
-                                          circleKey: circle.key,
-                                          onSuccess: (shareCode){
-                                            if(mounted) setState(() => circle.shareCode = shareCode);
-                                          },
-                                          onServerMaybeWakingUp: () {
-                                            if(mounted) showServerWakingUpToast(context);
-                                            return true;
-                                          },
-                                          onError: (dynamic errData){
-                                            if(errData is Map && errData['errors'] != null && errData['errors']['shareCode'] == 'share_code_changed_too_soon')
-                                              if(mounted) showAppToast(context, text: 'Za często zmieniasz kod dostępu');
-                                          }
-                                      ),
-                                      description: 'To, co widzisz, to <b>kod dostępu</b>.'
-                                          '\n\nPozwala on dołączyć do kręgu tym, którzy go znają.',
-                                      resetFrequencyDays: 2,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                            // if(circle.myRole == CircleRole.ADMIN)
+                            //   AnimatedSize(
+                            //     alignment: Alignment.bottomCenter,
+                            //     duration: const Duration(milliseconds: 300),
+                            //     curve: Curves.easeOutQuad,
+                            //     clipBehavior: Clip.none,
+                            //     child: SizedBox(
+                            //       height: circle.shareCodeSearchable?null:0,
+                            //       child: Padding(
+                            //         padding: const EdgeInsets.only(
+                            //             bottom: Dimen.SIDE_MARG,
+                            //             left: Dimen.SIDE_MARG - Dimen.defMarg,
+                            //             right: Dimen.SIDE_MARG - Dimen.defMarg
+                            //         ),
+                            //         child: ShareCodeDialog.from(
+                            //           circle.shareCode!,
+                            //           circle.shareCodeSearchable,
+                            //           !changeShareCodeProcessing,
+                            //           backgroundColor: cardColor,
+                            //           borderColor: backgroundColor,
+                            //           resetShareCode: () => ApiCircle.resetShareCode(
+                            //               circleKey: circle.key,
+                            //               onSuccess: (shareCode){
+                            //                 if(mounted) setState(() => circle.shareCode = shareCode);
+                            //               },
+                            //               onServerMaybeWakingUp: () {
+                            //                 if(mounted) showServerWakingUpToast(context);
+                            //                 return true;
+                            //               },
+                            //               onError: (dynamic errData){
+                            //                 if(errData is Map && errData['errors'] != null && errData['errors']['shareCode'] == 'share_code_changed_too_soon')
+                            //                   if(mounted) showAppToast(context, text: 'Za często zmieniasz kod dostępu');
+                            //               }
+                            //           ),
+                            //           description: 'To, co widzisz, to <b>kod dostępu</b>.'
+                            //               '\n\nPozwala on dołączyć do kręgu tym, którzy go znają.',
+                            //           resetFrequencyDays: 2,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
 
                             MembersWidget(
                               circle,

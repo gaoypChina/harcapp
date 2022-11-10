@@ -52,8 +52,8 @@ class MainPageState extends State<MainPage>{
               switch(prov.selectedIndex){
                 case AppBottomNavItem.home:
                   return const CatPageHome();
-                //case AppBottomNavItem.map:
-                //  return const CatPageHarcMap();
+                case AppBottomNavItem.map:
+                  return const CatPageHarcMap();
                 case AppBottomNavItem.songBook:
                   return const CatPageSongBook();
                 case AppBottomNavItem.guidebook:

@@ -41,6 +41,7 @@ class AwardTileEditWidget extends StatelessWidget{
         hintStyle: AppTextStyle(color: hintEnab_(context)),
         controller: TextEditingController(text: award.award),
         maxLength: null,
+        textCapitalization: TextCapitalization.sentences,
         inputFormatters: [
           LengthLimitingTextInputFormatter(IndivComp.maxLenAward)
         ],

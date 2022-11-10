@@ -31,6 +31,7 @@ class PatronListWidget extends StatelessWidget{
     Person(
       name: 'Mikołaj Olejarz',
     ),
+    WIKTORIA_PRUSZYNSKA,
   ];
 
   @override

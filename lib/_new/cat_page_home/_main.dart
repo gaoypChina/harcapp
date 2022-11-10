@@ -751,7 +751,7 @@ class NotLoggedInPartCommunitiesWidget extends StatelessWidget{
                       key: '',
                       description: '',
                       coverImage: CommunityCoverImageData.allSample[10],
-                      shareCode: 'kupaa',
+                      shareCode: 'nieInterere',
                       shareCodeSearchable: false,
                       colorsKey: CommonColorData.defColorsKey,
                       members: [],
@@ -765,7 +765,13 @@ class NotLoggedInPartCommunitiesWidget extends StatelessWidget{
                         key: '',
                         name: '30 PgDH "Czarne Stopy"',
                         iconKey: 'shoePrint',
-                        category: CommunityCategory.druzyna
+                        category: CommunityCategory.druzyna,
+                        contact: CommunityContactData(
+                          email: [],
+                          phone: [],
+                          website: [],
+                          other: null,
+                        )
                       ),
                     ),
                     respMode: AnnouncementAttendanceRespMode.NONE,
@@ -817,10 +823,16 @@ class NotLoggedInPartCommunitiesWidget extends StatelessWidget{
                         managers: [],
                         allPosts: [],
                         community: CommunityBasicData(
-                            key: '',
-                            name: '72 WDHS "Uroczysko"',
-                            iconKey: 'deathStarVariant',
-                            category: CommunityCategory.druzyna
+                          key: '',
+                          name: '72 WDHS "Uroczysko"',
+                          iconKey: 'deathStarVariant',
+                          category: CommunityCategory.druzyna,
+                          contact: CommunityContactData(
+                            email: [],
+                            phone: [],
+                            website: [],
+                            other: null,
+                          )
                         ),
                       )
                   ),

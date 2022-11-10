@@ -1,120 +1,122 @@
 // STOPNIE HARCERSKIE
 
 enum StopZHP{
-  dhd, dhc,
-  ml, och,
-  wyw, trop,
-  odk, pion,
-  cw, sam,
-  HOd, HOc,
-  HRd, HRc,
+  dhd,
+  dhc,
+  
+  zhpMlodzik, zhpOchotniczka,
+  zhpWywiadowca, zhpTropicielka,
+  zhpOdkrywca, zhpPionierka,
+  zhpCwik, zhpSamarytanka,
+  zhpHOd, zhpHOc,
+  zhpHRd, zhpHRc,
 }
 
 Map<StopZHP, String> stopZHPToString = {
   StopZHP.dhd: 'dhd',
   StopZHP.dhc: 'dhc',
-  StopZHP.ml: 'ml',
-  StopZHP.och: 'och',
-  StopZHP.wyw: 'wyw',
-  StopZHP.trop: 'trop',
-  StopZHP.odk: 'odk',
-  StopZHP.pion: 'pion',
+  StopZHP.zhpMlodzik: 'zhpMlodzik',
+  StopZHP.zhpOchotniczka: 'zhpOchotniczka',
+  StopZHP.zhpWywiadowca: 'zhpWywiadowca',
+  StopZHP.zhpTropicielka: 'zhpTropicielka',
+  StopZHP.zhpOdkrywca: 'zhpOdkrywca',
+  StopZHP.zhpPionierka: 'zhpPionierka',
 
-  StopZHP.cw: 'cw',
-  StopZHP.sam: 'sam',
-  StopZHP.HOd: 'HOd',
-  StopZHP.HOc: 'HOc',
-  StopZHP.HRd: 'HRd',
-  StopZHP.HRc: 'HRc',
+  StopZHP.zhpCwik: 'zhpCwik',
+  StopZHP.zhpSamarytanka: 'zhpSamarytanka',
+  StopZHP.zhpHOd: 'zhpHOd',
+  StopZHP.zhpHOc: 'zhpHOc',
+  StopZHP.zhpHRd: 'zhpHRd',
+  StopZHP.zhpHRc: 'zhpHRc',
 };
 
 Map<String, StopZHP> stringToStopZHP = {
   'dhd': StopZHP.dhd,
   'dhc': StopZHP.dhc,
-  'ml': StopZHP.ml,
-  'och': StopZHP.och,
-  'wyw': StopZHP.wyw,
-  'trop': StopZHP.trop,
-  'odk': StopZHP.odk,
-  'pion': StopZHP.pion,
+  'zhpMlodzik': StopZHP.zhpMlodzik,
+  'zhpOchotniczka': StopZHP.zhpOchotniczka,
+  'zhpWywiadowca': StopZHP.zhpWywiadowca,
+  'zhpTropicielka': StopZHP.zhpTropicielka,
+  'zhpOdkrywca': StopZHP.zhpOdkrywca,
+  'zhpPionierka': StopZHP.zhpPionierka,
 
-  'cw': StopZHP.cw,
-  'sam': StopZHP.sam,
-  'HOd': StopZHP.HOd,
-  'HOc': StopZHP.HOc,
-  'HRd': StopZHP.HRd,
-  'HRc': StopZHP.HRc,
+  'zhpCwik': StopZHP.zhpCwik,
+  'zhpSamarytanka': StopZHP.zhpSamarytanka,
+  'zhpHOd': StopZHP.zhpHOd,
+  'zhpHOc': StopZHP.zhpHOc,
+  'zhpHRd': StopZHP.zhpHRd,
+  'zhpHRc': StopZHP.zhpHRc,
 };
 
-const String stop_h_dh_d_sh = 'dh.';
-const String stop_h_dh_d = 'Druhna';
-const String stop_h_dh_c_sh = 'dh';
-const String stop_h_dh_c = 'Druh';
+const String stopZhpDhD = 'Druhna';
+const String stopZhpDhDShort = 'dh.';
+const String stopZhpDhC = 'Druh';
+const String stopZhpDhCShort = 'dh';
 
-const String stop_h_mlodzik = 'Młodzik';
-const String stop_h_mlodzik_sh = 'mł.';
-const String stop_h_ochotniczka = 'Ochotniczka';
-const String stop_h_ochotniczka_sh = 'och.';
+const String stopZhpMlodzik = 'Młodzik';
+const String stopZhpMlodzikShort = 'mł.';
+const String stopZhpOchotniczka = 'Ochotniczka';
+const String stopZhpOchotniczkaShort = 'och.';
 
-const String stop_h_wywiadowca = 'Wywiadowca';
-const String stop_h_wywiadowca_sh = 'wyw.';
-const String stop_h_tropicielka = 'Tropicielka';
-const String stop_h_tropicielka_sh = 'trop.';
+const String stopZhpWywiadowca = 'Wywiadowca';
+const String stopZhpWywiadowcaShort = 'wyw.';
+const String stopZhpTropicielka = 'Tropicielka';
+const String stopZhpTropicielkaShort = 'trop.';
 
-const String stop_h_odkrywca = 'Odkrywca';
-const String stop_h_odkrywca_sh = 'odk.';
-const String stop_h_pionierka = 'Pionierka';
-const String stop_h_pionierka_sh = 'pion.';
+const String stopZhpOdkrywca = 'Odkrywca';
+const String stopZhpOdkrywcaShort = 'odk.';
+const String stopZhpPionierka = 'Pionierka';
+const String stopZhpPionierkaShort = 'pion.';
 
-const String stop_h_cwik = 'Ćwik';
-const String stop_h_cwik_sh = 'ćw.';
-const String stop_h_samarytanka = 'Samarytanka';
-const String stop_h_samarytanka_sh = 'sam.';
+const String stopZhpCwik = 'Ćwik';
+const String stopZhpCwikShort = 'ćw.';
+const String stopZhpSamarytanka = 'Samarytanka';
+const String stopZhpSamarytankaShort = 'sam.';
 
-const String stop_h_ho_d = 'Harcerka Orla';
-const String stop_h_ho_c = 'Harcerz Orli';
-const String stop_h_ho_sh = 'HO';
+const String stopZhpHoD = 'Harcerka Orla';
+const String stopZhpHoC = 'Harcerz Orli';
+const String stopZhpHoShort = 'HO';
 
-const String stop_h_hr_d = 'Harcerka Rzeczypospolitej';
-const String stop_h_hr_c = 'Harcerz Rzeczypospolitej';
-const String stop_h_hr_sh = 'HR';
+const String stopZhpHrD = 'Harcerka Rzeczypospolitej';
+const String stopZhpHrC = 'Harcerz Rzeczypospolitej';
+const String stopZhpHrShort = 'HR';
 
 String stopFullName(StopZHP stop){
     switch(stop){
-      case StopZHP.dhd: return stop_h_dh_d;
-      case StopZHP.dhc: return stop_h_dh_c;
-      case StopZHP.ml: return stop_h_mlodzik;
-      case StopZHP.och: return stop_h_ochotniczka;
-      case StopZHP.wyw: return stop_h_wywiadowca;
-      case StopZHP.trop: return stop_h_tropicielka;
-      case StopZHP.odk: return stop_h_odkrywca;
-      case StopZHP.pion: return stop_h_pionierka;
-      case StopZHP.cw: return stop_h_cwik;
-      case StopZHP.sam: return stop_h_samarytanka;
-      case StopZHP.HOd: return stop_h_ho_d;
-      case StopZHP.HOc: return stop_h_ho_c;
-      case StopZHP.HRd: return stop_h_hr_d;
-      case StopZHP.HRc: return stop_h_hr_c;
+      case StopZHP.dhd: return stopZhpDhD;
+      case StopZHP.dhc: return stopZhpDhC;
+      case StopZHP.zhpMlodzik: return stopZhpMlodzik;
+      case StopZHP.zhpOchotniczka: return stopZhpOchotniczka;
+      case StopZHP.zhpWywiadowca: return stopZhpWywiadowca;
+      case StopZHP.zhpTropicielka: return stopZhpTropicielka;
+      case StopZHP.zhpOdkrywca: return stopZhpOdkrywca;
+      case StopZHP.zhpPionierka: return stopZhpPionierka;
+      case StopZHP.zhpCwik: return stopZhpCwik;
+      case StopZHP.zhpSamarytanka: return stopZhpSamarytanka;
+      case StopZHP.zhpHOd: return stopZhpHoD;
+      case StopZHP.zhpHOc: return stopZhpHoC;
+      case StopZHP.zhpHRd: return stopZhpHrD;
+      case StopZHP.zhpHRc: return stopZhpHrC;
       default: return '';
     }
 }
 
 String stopShortName(StopZHP? stop){
   switch(stop){
-    case StopZHP.dhd: return stop_h_dh_d_sh;
-    case StopZHP.dhc: return stop_h_dh_c_sh;
-    case StopZHP.ml: return stop_h_mlodzik_sh;
-    case StopZHP.och: return stop_h_ochotniczka_sh;
-    case StopZHP.wyw: return stop_h_wywiadowca_sh;
-    case StopZHP.trop: return stop_h_tropicielka_sh;
-    case StopZHP.odk: return stop_h_odkrywca_sh;
-    case StopZHP.pion: return stop_h_pionierka_sh;
-    case StopZHP.cw: return stop_h_cwik_sh;
-    case StopZHP.sam: return stop_h_samarytanka_sh;
-    case StopZHP.HOd: return stop_h_ho_sh;
-    case StopZHP.HOc: return stop_h_ho_sh;
-    case StopZHP.HRd: return stop_h_hr_sh;
-    case StopZHP.HRc: return stop_h_hr_sh;
+    case StopZHP.dhd: return stopZhpDhDShort;
+    case StopZHP.dhc: return stopZhpDhCShort;
+    case StopZHP.zhpMlodzik: return stopZhpMlodzikShort;
+    case StopZHP.zhpOchotniczka: return stopZhpOchotniczkaShort;
+    case StopZHP.zhpWywiadowca: return stopZhpWywiadowcaShort;
+    case StopZHP.zhpTropicielka: return stopZhpTropicielkaShort;
+    case StopZHP.zhpOdkrywca: return stopZhpOdkrywcaShort;
+    case StopZHP.zhpPionierka: return stopZhpPionierkaShort;
+    case StopZHP.zhpCwik: return stopZhpCwikShort;
+    case StopZHP.zhpSamarytanka: return stopZhpSamarytankaShort;
+    case StopZHP.zhpHOd: return stopZhpHoShort;
+    case StopZHP.zhpHOc: return stopZhpHoShort;
+    case StopZHP.zhpHRd: return stopZhpHrShort;
+    case StopZHP.zhpHRc: return stopZhpHrShort;
     default: return '';
   }
 }

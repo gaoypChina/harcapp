@@ -156,35 +156,69 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                       centerTitle: true,
                       floating: true,
                       actions: [
+
                         if(comp.myProfile?.role == CompRole.ADMIN)
                           IconButton(
-                            icon: Icon(comp.shareCodeSearchable?ShareCodeWidget.iconOn:ShareCodeWidget.iconOff),
-                            onPressed: changeShareCodeProcessing?null:() async {
-                              setState(() => changeShareCodeProcessing = true);
-                              await ApiIndivComp.setShareCodeSearchable(
-                                  compKey: comp.key,
-                                  searchable: !comp.shareCodeSearchable,
-                                  onSuccess: (searchable){
-                                    if(!mounted) return;
-                                    setState(() => comp.shareCodeSearchable = searchable);
-                                    showAppToast(
-                                        context,
-                                        text: searchable?
-                                        'Każdy może teraz dołączyć do współzawodnictwa znając kod dostępu':
-                                        'Dołączanie po kodzie dostępu wyłączone',
-                                        duration: searchable?const Duration(seconds: 5):const Duration(seconds: 3)
+                              icon: Icon(
+                                  comp.shareCodeSearchable?
+                                  ShareCodeDialog.iconOn:
+                                  ShareCodeDialog.iconOff,
+                              ),
+                              onPressed: () => openDialog(
+                                context: context,
+                                builder: (context) => ShareCodeDialog.from(
+                                  comp.shareCode!,
+                                  comp.shareCodeSearchable,
+                                  !changeShareCodeProcessing,
+                                  resetShareCode: () async {
+                                    await ApiIndivComp.resetShareCode(
+                                        compKey: comp.key,
+                                        onSuccess: (shareCode){
+                                          comp.shareCode = shareCode;
+                                          if(mounted) setState((){});
+                                        },
+                                        onServerMaybeWakingUp: () {
+                                          if(mounted) showServerWakingUpToast(context);
+                                          return true;
+                                        },
+                                        onError: (dynamic errData){
+                                          if(errData is Map && errData['errors'] != null && errData['errors']['shareCode'] == 'share_code_changed_too_soon')
+                                            if(mounted) showAppToast(context, text: 'Za często zmieniasz kod dostępu');
+                                        }
                                     );
+                                    return comp.shareCode;
                                   },
-                                  onServerMaybeWakingUp: () {
-                                    if(mounted) showServerWakingUpToast(context);
-                                    return true;
+                                  changeShareCodeSearchable: () async {
+                                    await ApiIndivComp.setShareCodeSearchable(
+                                        compKey: comp.key,
+                                        searchable: !comp.shareCodeSearchable,
+                                        onSuccess: (searchable){
+                                          comp.shareCodeSearchable = searchable;
+                                          if(!mounted) return;
+                                          setState((){});
+                                          showAppToast(
+                                              context,
+                                              text: searchable?
+                                              'Każdy może teraz dołączyć do kręgu znając kod dostępu':
+                                              'Dołączanie po kodzie dostępu wyłączone',
+                                              duration: searchable?const Duration(seconds: 5):const Duration(seconds: 3)
+                                          );
+                                        },
+                                        onServerMaybeWakingUp: () {
+                                          if(mounted) showServerWakingUpToast(context);
+                                          return true;
+                                        },
+                                        onError: (){
+                                          if(mounted) showAppToast(context, text: simpleErrorMessage);
+                                        }
+                                    );
+                                    return comp.shareCodeSearchable;
                                   },
-                                  onError: (){
-                                    if(mounted) showAppToast(context, text: simpleErrorMessage);
-                                  }
-                              );
-                              setState(() => changeShareCodeProcessing = false);
-                            },
+                                  description: 'To, co widzisz, to <b>kod dostępu</b>.'
+                                      '\n\nPozwala on dołączyć do kręgu tym, którzy go znają.',
+                                  resetFrequencyDays: 2,
+                                ),
+                              )
                           ),
 
                         IconButton(
@@ -252,48 +286,6 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                       ),
 
                     SliverList(delegate: SliverChildListDelegate([
-
-                      if(comp.myProfile?.role == CompRole.ADMIN)
-                        AnimatedSize(
-                          alignment: Alignment.bottomCenter,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeOutQuad,
-                          clipBehavior: Clip.none,
-                          child: SizedBox(
-                            height: comp.shareCodeSearchable?null:0,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                top: Dimen.SIDE_MARG,
-                                left: Dimen.SIDE_MARG,
-                                right: Dimen.SIDE_MARG
-                              ),
-                              child: ShareCodeWidget.from(
-                                comp.shareCode!,
-                                comp.shareCodeSearchable,
-                                !changeShareCodeProcessing,
-                                resetShareCode: () => ApiIndivComp.resetShareCode(
-                                    compKey: comp.key,
-                                    onSuccess: (shareCode){
-                                      if(mounted) setState(() => comp.shareCode = shareCode);
-                                    },
-                                    onServerMaybeWakingUp: () {
-                                      if(mounted) showServerWakingUpToast(context);
-                                      return true;
-                                    },
-                                    onError: (Map? errData){
-                                      if(!mounted) return;
-                                      if(errData!['errors'] != null && errData['errors']['shareCode'] == 'share_code_changed_too_soon')
-                                        showAppToast(context, text: 'Za często zmieniasz kod dostępu');
-                                    }
-                                ),
-
-                                description: 'To, co widzisz, to <b>kod dostępu</b>.'
-                                    '\n\nPozwala on dołączyć do współzawodnictwa tym, którzy go znają.',
-                                resetFrequencyDays: 2,
-                              ),
-                            ),
-                          ),
-                        ),
 
                       Padding(
                         padding: const EdgeInsets.all(Dimen.SIDE_MARG),

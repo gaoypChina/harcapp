@@ -140,51 +140,51 @@ class PersonDataDialogState extends State<PersonDataDialog>{
                           child: Text('Druhna', style: AppTextStyle()),
                         ),
                         DropdownMenuItem<StopZHP>(
-                          value: StopZHP.ml,
+                          value: StopZHP.zhpMlodzik,
                           child: Text('Młodzik', style: AppTextStyle()),
                         ),
                         DropdownMenuItem<StopZHP>(
-                          value: StopZHP.och,
+                          value: StopZHP.zhpOchotniczka,
                           child: Text('Ochotniczka', style: AppTextStyle()),
                         ),
                         DropdownMenuItem<StopZHP>(
-                          value: StopZHP.wyw,
+                          value: StopZHP.zhpWywiadowca,
                           child: Text('Wywiadowca', style: AppTextStyle()),
                         ),
                         DropdownMenuItem<StopZHP>(
-                          value: StopZHP.trop,
+                          value: StopZHP.zhpTropicielka,
                           child: Text('Tropicielka', style: AppTextStyle()),
                         ),
                         DropdownMenuItem<StopZHP>(
-                          value: StopZHP.odk,
+                          value: StopZHP.zhpOdkrywca,
                           child: Text('Odkrywca', style: AppTextStyle()),
                         ),
                         DropdownMenuItem<StopZHP>(
-                          value: StopZHP.pion,
+                          value: StopZHP.zhpPionierka,
                           child: Text('Pionierka', style: AppTextStyle()),
                         ),
                         DropdownMenuItem<StopZHP>(
-                          value: StopZHP.cw,
+                          value: StopZHP.zhpCwik,
                           child: Text('Ćwik', style: AppTextStyle()),
                         ),
                         DropdownMenuItem<StopZHP>(
-                          value: StopZHP.sam,
+                          value: StopZHP.zhpSamarytanka,
                           child: Text('Samarytanka', style: AppTextStyle()),
                         ),
                         DropdownMenuItem<StopZHP>(
-                          value: StopZHP.HOc,
+                          value: StopZHP.zhpHOc,
                           child: Text('Harcerz Orli', style: AppTextStyle()),
                         ),
                         DropdownMenuItem<StopZHP>(
-                          value: StopZHP.HOd,
+                          value: StopZHP.zhpHOd,
                           child: Text('Harcerka Orla', style: AppTextStyle()),
                         ),
                         DropdownMenuItem<StopZHP>(
-                          value: StopZHP.HRc,
+                          value: StopZHP.zhpHRc,
                           child: Text('Harcerz Rzeczypospolitej', style: AppTextStyle()),
                         ),
                         DropdownMenuItem<StopZHP>(
-                          value: StopZHP.HRd,
+                          value: StopZHP.zhpHRd,
                           child: Text('Harcerka Rzeczypospolitej', style: AppTextStyle()),
                         ),
                       ],
@@ -242,6 +242,18 @@ class PersonDataDialogState extends State<PersonDataDialog>{
                         DropdownMenuItem<Org>(
                           value: Org.fse,
                           child: Text('FSE', style: AppTextStyle()),
+                        ),
+                        DropdownMenuItem<Org>(
+                          value: Org.sh,
+                          child: Text('SH', style: AppTextStyle()),
+                        ),
+                        DropdownMenuItem<Org>(
+                          value: Org.zhp_n_l,
+                          child: Text('ZHPnL', style: AppTextStyle()),
+                        ),
+                        DropdownMenuItem<Org>(
+                          value: Org.hrp,
+                          child: Text('HRP', style: AppTextStyle()),
                         ),
                       ],
                     ),

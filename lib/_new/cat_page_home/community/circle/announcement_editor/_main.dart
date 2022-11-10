@@ -686,7 +686,8 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                         Optional.ofNullable(null),
 
                         urlToPreview:
-                        initAnnouncement!.urlToPreview == urlToPreviewController.text?
+                        initAnnouncement!.urlToPreview == urlToPreviewController.text ||
+                        (initAnnouncement!.urlToPreview == null && urlToPreviewController.text.isEmpty)?
                         null:
                         Optional.ofNullable(
                             urlToPreviewController.text.isEmpty?
