@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
-import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
 import 'package:harcapp/values/consts.dart';
-import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:provider/provider.dart';
 
+import 'common_widgets/community_header_widget.dart';
 import 'model/community.dart';
 import 'model/community_category.dart';
 
@@ -36,7 +34,7 @@ class CommunityWidgetTemplate extends StatelessWidget{
           color: CommunityCoverColors.nonPaletteBackgroundColor(),
           borderRadius: BorderRadius.circular(communityRadius),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
 
               Padding(
@@ -46,62 +44,16 @@ class CommunityWidgetTemplate extends StatelessWidget{
                     left: Dimen.SIDE_MARG - Dimen.ICON_MARG,
                     bottom: Dimen.SIDE_MARG - Dimen.ICON_MARG
                 ),
-                child: Row(
-                  children: [
-
-                    CommunityThumbnailWidget(iconKey, communityKey),
-
-                    const SizedBox(width: Dimen.ICON_MARG),
-
-                    Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-
-                            Text(
-                              name,
-                              style: AppTextStyle(
-                                fontSize: Dimen.TEXT_SIZE_BIG,
-                                fontWeight: weight.halfBold,
-                                color: iconEnab_(context)
-                              )
-                            ),
-
-                            const SizedBox(height: Dimen.defMarg),
-
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Material(
-                                  borderRadius: BorderRadius.circular(100),
-                                  color: hintEnab_(context),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(Dimen.defMarg),
-                                    child: Text(
-                                        commCatToName[category]??'',
-                                        style: AppTextStyle(
-                                            fontSize: Dimen.TEXT_SIZE_NORMAL,
-                                            fontWeight: weight.halfBold,
-                                            color: background_(context)
-                                        )
-                                    ),
-                                  )
-                              ),
-                            )
-
-                          ],
-                        )
-                    ),
-
-                  ],
+                child: CommunityHeaderWidget(
+                  iconKey,
+                  communityKey,
+                  name,
+                  category
                 ),
               ),
 
               if(subtitle != null)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Dimen.ICON_MARG),
-                  child:
-                  subtitle!,
-                ),
+                subtitle!,
 
               child,
 

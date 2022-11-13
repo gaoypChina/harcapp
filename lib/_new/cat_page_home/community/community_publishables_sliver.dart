@@ -4,11 +4,11 @@ import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/announcement_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/model/announcement.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'circle/model/circle.dart';
+import 'common/community_cover_colors.dart';
 import 'community_publishable_widget_template.dart';
 import 'forum/model/forum.dart';
 import 'forum/model/post.dart';
@@ -47,7 +47,7 @@ Widget getCommunityPublishablesSliver(
           nullMessage:
 
           emptyMessage,
-          color: textEnab_(context),
+          color: CommunityCoverColors.strongColor(context, palette),
         ),
 
 

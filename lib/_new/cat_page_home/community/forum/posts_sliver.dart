@@ -33,7 +33,7 @@ Widget getPostsSliver(
         EmptyMessageWidget(
           icon: MdiIcons.newspaperVariantOutline,
           text: loading?(loadingMessage??'Ładowanie ogłoszeń'):(emptyMessage??'Brak ogłoszeń'),
-          color: CommunityCoverColors.cardColor(context, palette),
+          color: CommunityCoverColors.strongColor(context, palette),
         ),
       ])),
     );

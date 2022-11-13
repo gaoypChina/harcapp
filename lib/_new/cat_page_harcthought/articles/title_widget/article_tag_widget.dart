@@ -26,9 +26,9 @@ class ArticleTagWidget extends StatelessWidget{
   ];
 
   static const Map<String, Tuple2<Color, Color>> colors = {
-    TAG_ZUCH: Tuple2(AppColors.meto_z, Colors.black),
-    TAG_HARC: Tuple2(AppColors.meto_h, Colors.black),
-    TAG_WEDRO: Tuple2(AppColors.meto_w, Colors.black),
+    TAG_ZUCH: Tuple2(AppColors.metoZhpZ, Colors.black),
+    TAG_HARC: Tuple2(AppColors.metoZhpH, Colors.black),
+    TAG_WEDRO: Tuple2(AppColors.metoZhpW, Colors.black),
     TAG_INSTR: Tuple2(Colors.red, Colors.black),
 
     TAG_PROGRAM: Tuple2(Colors.deepPurpleAccent, Colors.white),

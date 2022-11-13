@@ -17,10 +17,10 @@ class ZHPOrgCardWidget extends StatelessWidget{
 
     return OrgCardWidgetTemplate(
         onTap: onTap,
-        background: AppColors.zhp_green,
+        background: AppColors.zhpGreen,
         heroTag: Org.zhp,
         child: GradientWidget(
-          colorStart: AppColors.zhp_green,
+          colorStart: AppColors.zhpGreen,
           colorEnd: Colors.green,
           child: Padding(
               padding: EdgeInsets.all(24.0),

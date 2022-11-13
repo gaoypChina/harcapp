@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_common_widgets/common_contact_widget.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -7,7 +8,6 @@ import 'package:provider/provider.dart';
 
 import 'circle/model/circle.dart';
 import 'common_widgets/community_buttons_widget.dart';
-import 'common_widgets/community_contact_widget.dart';
 import 'common_widgets/community_groups_widget.dart';
 import 'common_widgets/community_header_widget.dart';
 import 'forum/model/forum.dart';
@@ -73,7 +73,7 @@ class CommunityPage extends StatelessWidget{
                     borderRadius: BorderRadius.circular(communityRadius),
                     child: Padding(
                       padding: const EdgeInsets.all(Dimen.defMarg),
-                      child: CommunityContactWidget(community.contact!),
+                      child: CommonContactWidget(community.contact!),
                     ),
                   ),
 

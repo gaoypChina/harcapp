@@ -96,7 +96,7 @@ class WordCardState extends State<WordCard>{
                     style: AppTextStyle(
                       fontSize: Dimen.TEXT_SIZE_BIG,
                       color: (cardColor==CardColor.kill)?
-                      const ColorPackBlack().hintEnabled:AppColors.text_hint_enab,
+                      const ColorPackBlack().hintEnabled:AppColors.textHintEnab,
                     ),
                     textAlign: TextAlign.center,
                     group: group,
@@ -111,7 +111,7 @@ class WordCardState extends State<WordCard>{
                 widget.mode==GameMode.NONE?'':
                 word.data.data.toUpperCase(),
                 style: AppTextStyle(
-                    color: (cardColor==CardColor.kill)?Colors.white:AppColors.text_def_enab.withOpacity(dimm?0.1:1),
+                    color: (cardColor==CardColor.kill)?Colors.white:AppColors.textDefEnab.withOpacity(dimm?0.1:1),
                     fontSize: Dimen.TEXT_SIZE_BIG,
                     fontWeight: weight.halfBold,
                     shadow: !dimm),
@@ -221,7 +221,7 @@ class WordCardState extends State<WordCard>{
                       const Center(
                         child: InfoWidget(
                           color: GREEN_COLOR,
-                          textColor: AppColors.text_def_enab,
+                          textColor: AppColors.textDefEnab,
                           text: 'Wygrana!',
                         ),
                       )
@@ -239,7 +239,7 @@ class WordCardState extends State<WordCard>{
                       const Center(
                         child: InfoWidget(
                           color: RED_COLOR,
-                          textColor: AppColors.text_def_enab,
+                          textColor: AppColors.textDefEnab,
                           text: 'Wygrana!',
                         ),
                       )

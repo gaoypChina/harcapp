@@ -225,7 +225,7 @@ class Item extends StatelessWidget{
               const SizedBox(height: 10.0),
               Text(data.description, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.1), textAlign: TextAlign.justify,),
               const SizedBox(height: Dimen.defMarg),
-              Text(data.desc_source!=null?'Źródło: ${data.desc_source}':'', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_TINY, color: AppColors.text_hint_enab), textAlign: TextAlign.end,),
+              Text(data.desc_source!=null?'Źródło: ${data.desc_source}':'', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_TINY, color: AppColors.textHintEnab), textAlign: TextAlign.end,),
 
               SizedBox(
                 height: 84 + 2*Dimen.defMarg,

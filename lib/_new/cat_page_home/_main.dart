@@ -8,6 +8,7 @@ import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
+import 'package:harcapp/_common_classes/common_contact_data.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_common_widgets/harc_app.dart';
@@ -766,7 +767,7 @@ class NotLoggedInPartCommunitiesWidget extends StatelessWidget{
                         name: '30 PgDH "Czarne Stopy"',
                         iconKey: 'shoePrint',
                         category: CommunityCategory.druzyna,
-                        contact: CommunityContactData(
+                        contact: CommonContactData(
                           email: [],
                           phone: [],
                           website: [],
@@ -827,7 +828,7 @@ class NotLoggedInPartCommunitiesWidget extends StatelessWidget{
                           name: '72 WDHS "Uroczysko"',
                           iconKey: 'deathStarVariant',
                           category: CommunityCategory.druzyna,
-                          contact: CommunityContactData(
+                          contact: CommonContactData(
                             email: [],
                             phone: [],
                             website: [],

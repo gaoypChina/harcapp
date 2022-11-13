@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_app_common/icon_selector_widget.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_common_widgets/common_contact_editor_widget.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_editor/providers.dart';
@@ -13,12 +14,12 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
-import 'package:harcapp_core/comm_widgets/multi_text_field.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:harcapp_core/dimen.dart';
 
+import '../community_category_widget.dart';
 import '../model/community_category.dart';
 
 class GeneralPart extends StatefulWidget{
@@ -134,7 +135,15 @@ class GeneralPartState extends State<GeneralPart>{
 
       const SizedBox(height: Dimen.defMarg),
 
-      const CommunityContactEditorWidget(),
+      Consumer<ContactProvider>(
+        builder: (context, prov, child) => CommonContactEditorWidget(
+          initContactData: initCommunity?.contact,
+          onEmailsChanged: (emails) => prov.email = emails,
+          onPhonesChanged: (phones) => prov.phone = phones,
+          onWebsitesChanged: (websites) => prov.website = websites,
+          onOtherChanged: (other) => prov.other = other,
+        ),
+      ),
 
       if(initCommunity == null)
         const SizedBox(height: 4*Dimen.SIDE_MARG),
@@ -161,53 +170,6 @@ class GeneralPartState extends State<GeneralPart>{
         )
 
     ],
-  );
-
-}
-
-class CategoryTemplateWidget extends StatelessWidget{
-
-  final CommunityCategory category;
-  final Color? backgroundColor;
-  final Color? textColor;
-  final void Function()? onTap;
-
-  const CategoryTemplateWidget(
-      this.category,
-      { this.backgroundColor,
-        this.textColor,
-        this.onTap,
-        super.key
-      });
-
-  @override
-  Widget build(BuildContext context) => SimpleButton.from(
-      color: backgroundColor??backgroundIcon_(context),
-      textColor: textColor??iconEnab_(context),
-      margin: EdgeInsets.zero,
-      padding: const EdgeInsets.all(Dimen.defMarg),
-      text: commCatToName[category],
-      onTap: onTap
-  );
-
-}
-
-class CategoryWidget extends StatelessWidget{
-
-  final CommunityCategory category;
-  final bool selected;
-  final void Function()? onTap;
-
-  const CategoryWidget(this.category, this.selected, {this.onTap, super.key});
-
-  @override
-  Widget build(BuildContext context) => SimpleButton.from(
-      color: selected?backgroundIcon_(context):backgroundIcon_(context),
-      textColor: selected?iconEnab_(context):iconDisab_(context),
-      margin: EdgeInsets.zero,
-      padding: const EdgeInsets.all(Dimen.defMarg),
-      text: commCatToName[category],
-      onTap: onTap
   );
 
 }
@@ -245,7 +207,7 @@ class CommunityCategorySelectorDialogState extends State<CommunityCategorySelect
 
   @override
   void initState() {
-    searchedCommunityCategories = allCommunityCategories;
+    searchedCommunityCategories = CommunityCategory.values;
     selectedCategory = initialCategory;
     super.initState();
   }
@@ -270,20 +232,21 @@ class CommunityCategorySelectorDialogState extends State<CommunityCategorySelect
                         hint: 'Szukaj kategorii',
                         elevation: 1,
                         background: background_(context),
+                        margin: EdgeInsets.zero,
                         onChanged: (text){
 
                           text = remSpecChars(remPolChars(text));
                           List<CommunityCategory> searched = [];
 
-                          for(CommunityCategory category in allCommunityCategories)
-                            if(remSpecChars(remPolChars(commCatToName[category]!)).contains(text))
+                          for(CommunityCategory category in CommunityCategory.values)
+                            if(remSpecChars(remPolChars(commCatToName(category))).contains(text))
                               searched.add(category);
 
                           searchedCommunityCategories = searched;
                           setState(() {});
                         },
                       ),
-                      height: SearchField.height
+                      height: SearchField.height - SearchField.defMargVal,
                   ),
 
                   SliverPadding(
@@ -294,9 +257,9 @@ class CommunityCategorySelectorDialogState extends State<CommunityCategorySelect
                         crossAxisAlignment: WrapCrossAlignment.center,
                         runSpacing: Dimen.defMarg,
                         spacing: Dimen.defMarg,
-                        children: searchedCommunityCategories.map((cat) => CategoryWidget(
+                        children: searchedCommunityCategories.map((cat) => CommunityCategoryWidget(
                           cat,
-                          selectedCategory == cat,
+                          selected: selectedCategory == cat,
                           onTap: () => setState(() => selectedCategory = cat),
                         )).toList(),
                       ),
@@ -342,90 +305,6 @@ class CommunityCategorySelectorDialogState extends State<CommunityCategorySelect
 
           ],
         )
-    ),
-  );
-
-}
-
-
-class CommunityContactEditorWidget extends StatefulWidget{
-
-  const CommunityContactEditorWidget({super.key});
-
-  @override
-  State<StatefulWidget> createState() => CommunityContactEditorWidgetState();
-
-}
-
-class CommunityContactEditorWidgetState extends State<CommunityContactEditorWidget>{
-
-  late MultiTextFieldController emailController;
-  late MultiTextFieldController phoneController;
-  late MultiTextFieldController websiteController;
-  late TextEditingController otherController;
-
-  @override
-  void initState() {
-
-    ContactProvider contactProv = ContactProvider.of(context);
-
-    emailController = MultiTextFieldController(texts: contactProv.email);
-    phoneController = MultiTextFieldController(texts: contactProv.phone);
-    websiteController = MultiTextFieldController(texts: contactProv.website);
-    otherController = TextEditingController(text: contactProv.other);
-
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) => Consumer<ContactProvider>(
-    builder: (context, prov, child) => Column(
-      children: [
-
-        AppTextFieldHint(
-          hint: 'Email:',
-          hintTop: 'Email',
-          multiHintTop: 'Emaile',
-          multi: true,
-          multiExpanded: true,
-          multiAddIcon: MdiIcons.plus,
-          multiController: emailController,
-          style: AppTextStyle(),
-          onAnyChanged: (emails) => prov.email = emails,
-        ),
-
-        AppTextFieldHint(
-          hint: 'Telefon:',
-          hintTop: 'Telefon',
-          multiHintTop: 'Telefony',
-          multi: true,
-          multiExpanded: true,
-          multiAddIcon: MdiIcons.plus,
-          multiController: phoneController,
-          style: AppTextStyle(),
-          onAnyChanged: (phones) => prov.phone = phones,
-        ),
-
-        AppTextFieldHint(
-          hint: 'Strona:',
-          hintTop: 'Strona internetowa',
-          multiHintTop: 'Strony internetowe',
-          multi: true,
-          multiExpanded: true,
-          multiAddIcon: MdiIcons.plus,
-          multiController: websiteController,
-          style: AppTextStyle(),
-          onAnyChanged: (websites) => prov.website = websites,
-        ),
-
-        AppTextFieldHint(
-          hint: 'Uwaga na marginesie:',
-          hintTop: 'Uwaga na marginesie',
-          controller: otherController,
-          onAnyChanged: (other) => prov.other = other[0],
-        ),
-
-      ],
     ),
   );
 

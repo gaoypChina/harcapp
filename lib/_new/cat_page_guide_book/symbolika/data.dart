@@ -148,7 +148,7 @@ List<ItemData> items = [
       )
   ),
   const ItemData(
-    AppColors.text_def_enab,
+    AppColors.textDefEnab,
     'znaczek_zucha.svg',
     'Znaczek zucha',
     [
@@ -163,7 +163,7 @@ List<ItemData> items = [
     colorEnd: Colors.deepPurpleAccent,
   ),
   const ItemData(
-    AppColors.text_def_enab,
+    AppColors.textDefEnab,
     'harcerze_starsi.svg',
     'Starszoharcerska róża wiatrów',
     [

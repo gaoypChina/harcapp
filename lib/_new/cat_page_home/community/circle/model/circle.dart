@@ -86,7 +86,7 @@ class CircleBasicData{
 
 }
 
-class Circle{
+class Circle extends CircleBasicData{
 
   static const IconData icon = MdiIcons.googleCircles;
 
@@ -96,10 +96,9 @@ class Circle{
 
   static const int announcementPageSize = 10;
 
-  final String key;
+  @override
   String get name => community.name;
   String? description;
-  CommunityCoverImageData coverImage;
   String? shareCode;
   bool shareCodeSearchable;
   String colorsKey;
@@ -341,9 +340,9 @@ class Circle{
   }
 
   Circle({
-    required this.key,
+    required super.key,
     this.description,
-    required this.coverImage,
+    required super.coverImage,
     this.shareCode,
     required this.shareCodeSearchable,
     required this.colorsKey,
@@ -362,7 +361,8 @@ class Circle{
       _membersMap = {for (Member mem in members) mem.key: mem},
       _allAnnouncements = allAnnouncements,
       _pinnedAnnouncements = pinnedAnnouncements,
-      _awaitingAnnouncements = awaitingAnnouncements
+      _awaitingAnnouncements = awaitingAnnouncements,
+      super(name: community.name, memberCount: members.length)
   {
     _members.sort((mem1, mem2) => mem1.name.compareTo(mem2.name));
     _announcementsMap = {for (Announcement ann in _allAnnouncements) ann.key: _AnnouncementLookup(ann, inAll: true)};

@@ -1,10 +1,14 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
+import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
+import 'package:harcapp/account/account.dart';
+import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
@@ -40,19 +44,90 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
   }
 
   static List<MarkerRespBody>? markers;
+  static List<MarkerRespBody>? publicOnlyMarkers;
+
+  late LoginListener loginListener;
+
+  void getPublicMarkers() => ApiHarcMap.getAllMarkers(
+      publicOnly: true,
+      onSuccess: (markers) => setState(() => CatPageHarcMapState.publicOnlyMarkers = markers),
+      // onForceLoggedOut: () => This will never be called.
+      onServerMaybeWakingUp: (){
+        if(!mounted) return true;
+        showServerWakingUpToast(context);
+        return true;
+      },
+      onError: (_){
+        if(!mounted) return;
+        showAppToast(context, text: simpleErrorMessage);
+      }
+  );
+
+  void getPersonalizedMarkers() => ApiHarcMap.getAllMarkers(
+      publicOnly: false,
+      onSuccess: (markers) => setState(() => CatPageHarcMapState.markers = markers),
+      onForceLoggedOut: (){
+        if(!mounted) return true;
+        if(publicOnlyMarkers == null) getPublicMarkers();
+        showAppToast(context, text: forceLoggedOutMessage);
+        setState(() {});
+        return true;
+      },
+      onServerMaybeWakingUp: (){
+        if(!mounted) return true;
+        showServerWakingUpToast(context);
+        return true;
+      },
+      onError: (_){
+        if(!mounted) return;
+        showAppToast(context, text: simpleErrorMessage);
+      },
+  );
 
   @override
   void initState() {
-    if(markers == null){
-      ApiHarcMap.getAllMarkers(
-        onSuccess: (markers) => setState(() => CatPageHarcMapState.markers = markers),
-        onError: (_){
-          if(!mounted) return;
-          showAppToast(context, text: simpleErrorMessage);
-        }
-      );
-    }
+
+    loginListener = LoginListener(
+      onLogin: (emailConf){
+        if(markers == null)
+          getPersonalizedMarkers();
+        else
+          setState(() {});
+      },
+      onRegistered: (){
+        if(markers == null)
+          getPersonalizedMarkers();
+        else
+          setState(() {});
+      },
+      onEmailConfirmChanged: (emailConf){
+        if(markers == null)
+          getPersonalizedMarkers();
+        else
+          setState(() {});
+      },
+      onForceLogout: (){
+        if(publicOnlyMarkers == null)
+          getPublicMarkers();
+        else
+          setState(() {});
+      }
+    );
+
+    AccountData.addLoginListener(loginListener);
+
+    if(AccountData.loggedIn && markers == null)
+      getPersonalizedMarkers();
+    else if(!AccountData.loggedIn && publicOnlyMarkers == null)
+      getPublicMarkers();
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    AccountData.removeLoginListener(loginListener);
+    super.dispose();
   }
 
   @override
@@ -66,7 +141,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
             center: LatLng(54.5, 19.5),
             zoom: 5,
             minZoom: 2,
-            maxZoom: 18.0
+            maxZoom: 18.0,
           ),
           nonRotatedChildren: [
             // AttributionWidget.defaultWidget(
@@ -81,7 +156,9 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
               userAgentPackageName: 'dev.fleaflet.flutter_map.example',
             ),
             if(markers != null)
-              MarkerLayer(markers: markers!.map((m) => AppMarker(marker: m)).toList()),
+              MarkerLayer(markers: markers!.map((m) => AppMarker(marker: m)).toList())
+            else if(publicOnlyMarkers != null)
+              MarkerLayer(markers: publicOnlyMarkers!.map((m) => AppMarker(marker: m)).toList()),
           ],
         ),
 
@@ -127,13 +204,32 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
       ],
     ),
 
-    floatingActionButton: FloatingActionButton(
-      backgroundColor: background_(context),
-      child: Icon(MdiIcons.plus, color: iconEnab_(context)),
-      onPressed: () => pushPage(
-          context,
-          builder: (context) => const MarkerEditorPage()
-      )
+    floatingActionButton: Consumer2<LoginProvider, CommunityProvider>(
+      builder: (context, loginProv, commProv, child) {
+
+        if(!loginProv.loggedIn)
+          return Container();
+
+        if(Community.all == null)
+          return FloatingActionButton(
+              backgroundColor: background_(context),
+              child: SpinKitChasingDots(
+                color: iconEnab_(context),
+                size: Dimen.ICON_SIZE,
+              ),
+              onPressed: () => showAppToast(context, text: 'Ładowanie środowisk...')
+          );
+
+        return FloatingActionButton(
+            backgroundColor: background_(context),
+            child: Icon(MdiIcons.plus, color: iconEnab_(context)),
+            onPressed: () => pushPage(
+                context,
+                builder: (context) => const MarkerEditorPage()
+            )
+        );
+
+      }
     ),
 
   );

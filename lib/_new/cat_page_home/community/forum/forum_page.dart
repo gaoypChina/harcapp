@@ -416,21 +416,25 @@ class ForumPageState extends State<ForumPage>{
                               children: [
 
                                 Expanded(
-                                  child: AutoSizeText(
-                                    forum.name,
-                                    style: AppTextStyle(
-                                        fontSize: 28.0,
-                                        color: iconEnab_(context),
-                                        fontWeight: weight.bold
+                                  child: Consumer<CommunityProvider>(
+                                    builder: (context, prov, child) => AutoSizeText(
+                                      forum.name,
+                                      style: AppTextStyle(
+                                          fontSize: CommunitySliverAppBar.communityNameFontSize,
+                                          color: iconEnab_(context),
+                                          fontWeight: weight.bold
+                                      ),
+                                      maxLines: 2,
+                                      key: nameWidgetKey,
                                     ),
-                                    maxLines: 2,
-                                    key: nameWidgetKey,
                                   ),
                                 ),
 
-                                IconButton(
-                                  icon: const Icon(MdiIcons.chevronDown),
-                                  onPressed: () => pushPage(
+                                SimpleButton.from(
+                                  context: context,
+                                  radius: communityRadius,
+                                  icon: MdiIcons.chevronDown,
+                                  onTap: () => pushPage(
                                     context,
                                     builder: (context) => ForumDescriptionPage(
                                       forum,

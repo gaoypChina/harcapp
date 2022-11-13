@@ -13,8 +13,10 @@ class ForumWidget extends StatelessWidget{
   static const double height = 180;
 
   final ForumBasicData forum;
+  final BorderRadius? borderRadius;
+  final double? elevation;
   final void Function()? onTap;
-  const ForumWidget(this.forum, {this.onTap, super.key});
+  const ForumWidget(this.forum, {this.borderRadius, this.elevation, this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) => Consumer<ForumProvider>(
@@ -22,6 +24,8 @@ class ForumWidget extends StatelessWidget{
         forum.coverImage,
         text: 'Forum',
         icon: Forum.icon,
+        borderRadius: borderRadius,
+        elevation: elevation,
         onTap: onTap,
         titleBottom: Column(
           children: [
@@ -29,7 +33,7 @@ class ForumWidget extends StatelessWidget{
             Row(
               children: [
                 const SizedBox(width: Dimen.ICON_MARG),
-                const Icon(MdiIcons.eyeCheckOutline),
+                Icon(forum.followed?MdiIcons.eyeCheck:MdiIcons.eyeOutline),
                 const SizedBox(width: Dimen.ICON_MARG),
                 Text(
                     '${forum.followersCnt}',
@@ -47,7 +51,7 @@ class ForumWidget extends StatelessWidget{
             Row(
               children: [
                 const SizedBox(width: Dimen.ICON_MARG),
-                const Icon(MdiIcons.thumbUpOutline),
+                Icon(forum.liked?MdiIcons.thumbUp:MdiIcons.thumbUpOutline),
                 const SizedBox(width: Dimen.ICON_MARG),
                 Text(
                     '${forum.likeCnt}',

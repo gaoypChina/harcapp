@@ -3,11 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/api/forum.dart';
-import 'package:harcapp/_new/cat_page_home/_main.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -15,7 +13,6 @@ import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/api/community.dart';
-import 'package:harcapp/_new/cat_page_home/community/community_widget_template.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/model/forum.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -23,11 +20,9 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'forum/forum_loader_page.dart';
-import 'forum/forum_widget.dart';
+import 'community_preview_data_widget.dart';
 import 'model/community.dart';
 
 class SearchForumPage extends StatefulWidget{
@@ -283,44 +278,16 @@ class SearchForumPageState extends State<SearchForumPage>{
               SliverPadding(
                 padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                 sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-                    (context, index) => CommunityBasicDataWidget(
+                    (context, index) => CommunityPreviewDataWidget(
                       searchedCommunities![index],
-                      onForumTap: (forum){
-
-                        if(Community.allForumMap!.containsKey(forum.key))
-                          CatPageHomeState.openForumPage(
-                            context,
-                            Community.allForumMap![forum.key]!,
-                            onDeleted: () => setState(() => searchedCommunities!.removeAt(index)),
-                            onFollowChanged: (followed){
-                              ForumBasicData forum = searchedCommunities![index].forum!;
-                              if(followed && !forum.followed)
-                                forum.followersCnt += 1;
-                              else if(!followed && forum.followed)
-                                forum.followersCnt -= 1;
-
-                              forum.followed = followed;
-                              setState(() {});
-                            },
-                            onLikeChanged: (liked){
-                              ForumBasicData forum = searchedCommunities![index].forum!;
-                              if(liked && !forum.liked)
-                                forum.likeCnt += 1;
-                              else if(!liked && forum.liked)
-                                forum.likeCnt -= 1;
-
-                              forum.liked = liked;
-                              setState(() {});
-                            }
-                          );
-                        else
-                          pushPage(
-                            context,
-                            builder: (context) => ForumLoaderPage(
-                              forum: forum
-                            )
-                          );
-                      }
+                      onForumTap: (forum) => tryOpenPreviewForum(
+                        context,
+                        searchedCommunities![index].forum!,
+                        onDeleted: () => setState(() => searchedCommunities!.removeAt(index)),
+                        onFollowChanged: (followed) => setState(() {}),
+                        onLikeChanged: (liked) => setState(() {}),
+                      ),
+                      showHeaderInContact: true,
                     ),
 
                     separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
@@ -406,89 +373,6 @@ class SortBottomSheet extends StatelessWidget{
 
       ],
     )
-  );
-
-}
-
-class CommunityBasicDataWidget extends StatelessWidget{
-
-  final CommunityPreviewData community;
-  final void Function(ForumBasicData)? onForumTap;
-  const CommunityBasicDataWidget(this.community, {this.onForumTap, super.key});
-
-  @override
-  Widget build(BuildContext context) => CommunityWidgetTemplate(
-      community.key,
-      community.iconKey,
-      community.name,
-      community.category,
-
-      subtitle: community.forum!.followed?
-      Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-
-          Padding(
-            padding: const EdgeInsets.only(right: Dimen.ICON_MARG),
-            child: Icon(MdiIcons.eyeCheckOutline, color: iconDisab_(context)),
-          ),
-
-          Text(
-            'Obserwujesz',
-            style: AppTextStyle(
-                fontSize: Dimen.TEXT_SIZE_NORMAL,
-                fontWeight: weight.halfBold,
-                color: iconDisab_(context),
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.clip,
-          )
-
-        ],
-      ):null,
-
-      child: Consumer<ForumProvider>(
-        builder: (context, prov, child) => Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-
-            Padding(
-              padding: const EdgeInsets.all(Dimen.defMarg),
-              child: ForumWidget(
-                community.forum!,
-                onTap:
-                onForumTap == null?
-                null:
-                    () => onForumTap?.call(community.forum!),
-              ),
-            ),
-
-            if(community.forum!.description != null)
-              Padding(
-                padding: const EdgeInsets.only(top: Dimen.ICON_MARG, left: Dimen.ICON_MARG),
-                child: Text(
-                  'Opis:',
-                  style: AppTextStyle(
-                      fontSize: Dimen.TEXT_SIZE_BIG,
-                      fontWeight: weight.halfBold
-                  ),
-                  maxLines: 4,
-                ),
-              ),
-
-            if(community.forum!.description != null)
-              Padding(
-                padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                child: Text(
-                  community.forum!.description!,
-                  style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
-                  maxLines: 4,
-                ),
-              )
-
-          ],
-        )
-      )
   );
 
 }

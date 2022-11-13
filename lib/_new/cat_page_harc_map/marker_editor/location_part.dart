@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:harcapp/_new/cat_page_harc_map/marker_editor/providers.dart';
+import 'package:harcapp/_new/api/harc_map.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -14,6 +14,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 
 import '../app_marker.dart';
+import 'providers.dart';
 
 class LocationPart extends StatefulWidget{
 
@@ -70,11 +71,11 @@ class LocationPartState extends State<LocationPart> with AfterLayoutMixin, Autom
 
                   IgnorePointer(
                     ignoring: !editMode,
-                    child: Consumer<MarkerRespBodyProvider>(
-                      builder: (context, prov, child) => FlutterMap(
+                    child: Consumer2<PositionProvider, MarkerTypeProvider>(
+                      builder: (context, posProv, typeProv, child) => FlutterMap(
                         mapController: controller,
                         options: MapOptions(
-                            center: LatLng(prov.markerBody.lat, prov.markerBody.lng),
+                            center: LatLng(posProv.lat, posProv.lng),
                             zoom: 10,
                             minZoom: 2,
                             maxZoom: 18.0,
@@ -88,7 +89,11 @@ class LocationPartState extends State<LocationPart> with AfterLayoutMixin, Autom
                             userAgentPackageName: 'dev.fleaflet.flutter_map.example',
                           ),
                           MarkerLayer(markers: [
-                            AppMarker(marker: prov.markerBody),
+                            AppMarker(marker: MarkerRespBody.fromSimple(
+                                lat: posProv.lat,
+                                lng: posProv.lng,
+                                type: typeProv.markerType
+                            )),
                             if(editMode)
                               marker,
                           ]),
@@ -192,7 +197,7 @@ class LocationPartState extends State<LocationPart> with AfterLayoutMixin, Autom
                                   radius: AppCard.bigRadius,
                                   padding: const EdgeInsets.all(Dimen.ICON_MARG),
                                   onTap: (){
-                                    MarkerRespBodyProvider.of(context).setPosition(marker.point);
+                                    PositionProvider.of(context).setPosition(marker.point);
                                     setState(() => editMode = false);
                                   },
                                   child: Text(

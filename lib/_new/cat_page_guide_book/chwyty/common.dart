@@ -1,7 +1,6 @@
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -11,6 +10,8 @@ import 'package:harcapp_core/dimen.dart';
 
 class Fretboard extends StatelessWidget{
 
+  static const fingerColor = Color.fromARGB(255, 40, 184, 166);
+
   final double height;
   final int stringCount;
   final Chord chord;
@@ -19,7 +20,7 @@ class Fretboard extends StatelessWidget{
 
   final int nearestDotPosition;
 
-  const Fretboard(this.height, this.stringCount, this.onTap, this.chord, this.nearestDotPosition);
+  const Fretboard(this.height, this.stringCount, this.onTap, this.chord, this.nearestDotPosition, {super.key});
 
   static Fretboard from({required double height, required int stringCount, Function? onTap, Chord? chord}){
     int nearestDotPosition = 0;
@@ -55,16 +56,16 @@ class Fretboard extends StatelessWidget{
           Row(
             children: <Widget>[
               Expanded(
-                child: chord.strings[stringCount-i-1]==1?RoundContainer(height/stringCount, color: const ColorPackOrange().accentColor, text: '${0+nearestDotPosition}',):Container(),
+                child: chord.strings[stringCount-i-1]==1?RoundContainer(height/stringCount, color: fingerColor, text: '${0+nearestDotPosition}',):Container(),
               ),
               Expanded(
-                child: chord.strings[stringCount-i-1]==2?RoundContainer(height/stringCount, color: const ColorPackOrange().accentColor, text: '${1+nearestDotPosition}'):Container(),
+                child: chord.strings[stringCount-i-1]==2?RoundContainer(height/stringCount, color: fingerColor, text: '${1+nearestDotPosition}'):Container(),
               ),
               Expanded(
-                child: chord.strings[stringCount-i-1]==3?RoundContainer(height/stringCount, color: const ColorPackOrange().accentColor, text: '${2+nearestDotPosition}'):Container(),
+                child: chord.strings[stringCount-i-1]==3?RoundContainer(height/stringCount, color: fingerColor, text: '${2+nearestDotPosition}'):Container(),
               ),
               Expanded(
-                child: chord.strings[stringCount-i-1]==4?RoundContainer(height/stringCount, color: const ColorPackOrange().accentColor, text: '${3+nearestDotPosition}'):Container(),
+                child: chord.strings[stringCount-i-1]==4?RoundContainer(height/stringCount, color: fingerColor, text: '${3+nearestDotPosition}'):Container(),
               )
             ],
           )
@@ -152,10 +153,10 @@ class Fretboard extends StatelessWidget{
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                chord.bar==1?Expanded(child: RoundContainer(height, width: height/stringCount, color: const ColorPackOrange().accentColor, text: '${0+nearestDotPosition}'),):Expanded(child: Container()),
-                chord.bar==2?Expanded(child: RoundContainer(height, width: height/stringCount, color: const ColorPackOrange().accentColor, text: '${1+nearestDotPosition}'),):Expanded(child: Container()),
-                chord.bar==3?Expanded(child: RoundContainer(height, width: height/stringCount, color: const ColorPackOrange().accentColor, text: '${2+nearestDotPosition}'),):Expanded(child: Container()),
-                chord.bar==4?Expanded(child: RoundContainer(height, width: height/stringCount, color: const ColorPackOrange().accentColor, text: '${3+nearestDotPosition}'),):Expanded(child: Container()),
+                chord.bar==1?Expanded(child: RoundContainer(height, width: height/stringCount, color: fingerColor, text: '${0+nearestDotPosition}'),):Expanded(child: Container()),
+                chord.bar==2?Expanded(child: RoundContainer(height, width: height/stringCount, color: fingerColor, text: '${1+nearestDotPosition}'),):Expanded(child: Container()),
+                chord.bar==3?Expanded(child: RoundContainer(height, width: height/stringCount, color: fingerColor, text: '${2+nearestDotPosition}'),):Expanded(child: Container()),
+                chord.bar==4?Expanded(child: RoundContainer(height, width: height/stringCount, color: fingerColor, text: '${3+nearestDotPosition}'),):Expanded(child: Container()),
               ],
             ),
           )

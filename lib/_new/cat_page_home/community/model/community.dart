@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/common_contact_data.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -48,80 +49,13 @@ class CommunityManagersProvider extends ChangeNotifier{
 
 }
 
-class CommunityContactData{
-
-  List<String> email;
-  List<String> phone;
-  List<String> website;
-  String? other;
-
-  CommunityContactData({
-    required this.email,
-    required this.phone,
-    required this.website,
-    required this.other,
-  });
-
-  static CommunityContactData fromMap(Map map) => CommunityContactData(
-    email: (map['email'] as List?)?.cast<String>()??[],
-    phone: (map['phone'] as List?)?.cast<String>()??[],
-    website: (map['website'] as List?)?.cast<String>()??[],
-    other: map['other']
-  );
-
-  Map toMap() => {
-    if(email.isNotEmpty) 'email': email,
-    if(phone.isNotEmpty) 'phone': phone,
-    if(website.isNotEmpty) 'website': website,
-    if(other != null) 'other': other,
-  };
-
-  Map toUpdateMap(CommunityContactData? oldContact){
-    if(oldContact == null)
-      return toMap();
-
-    return {
-      if(email != oldContact.email) 'email': email,
-      if(phone != oldContact.phone) 'phone': phone,
-      if(website != oldContact.website) 'website': website,
-      if(other != oldContact.other) 'other': other,
-    };
-  }
-
-  static CommunityContactData empty() => CommunityContactData(
-      email: [],
-      phone: [],
-      website: [],
-      other: null
-  );
-
-  CommunityContactData copy() => CommunityContactData(
-      email: List.of(email),
-      phone: List.of(phone),
-      website: List.of(website),
-      other: other
-  );
-
-  @override
-  bool operator ==(Object other) =>
-      other is CommunityContactData &&
-          email == other.email &&
-          phone == other.phone &&
-          website == other.website &&
-          other == other;
-
-  @override
-  int get hashCode => email.hashCode + phone.hashCode + website.hashCode + other.hashCode;
-
-}
-
 class CommunityBasicData{
 
   final String key;
   String name;
   String iconKey;
   CommunityCategory category;
-  CommunityContactData? contact;
+  CommonContactData? contact;
 
   CommunityBasicData({
     required this.key,
@@ -158,19 +92,29 @@ class CommunityPreviewData extends CommunityBasicData{
       name: resp['name']??(throw InvalidResponseError('name')),
       iconKey: resp['iconKey']??(throw InvalidResponseError('iconKey')),
       category: strToCommCat[resp['category']??(throw InvalidResponseError('category'))]??CommunityCategory.error,
-      contact: resp['contact']==null?null:CommunityContactData.fromMap(resp['contact']),
+      contact: resp['contact']==null?null:CommonContactData.fromMap(resp['contact']),
       forum: null,
       circle: null,
     );
 
-    if(resp.containsKey('forum'))
+    if(resp['forum'] != null)
       community.forum = ForumBasicData.fromResponse(resp['forum'], community);
 
-    if(resp.containsKey('circle'))
+    if(resp['circle'] != null)
       community.circle = CircleBasicData.fromResponse(resp['circle'], name: resp['name']);
 
     return community;
   }
+
+  static CommunityPreviewData fromCommunity(Community community) => CommunityPreviewData(
+    key: community.key,
+    name: community.name,
+    iconKey: community.iconKey,
+    category: community.category,
+    contact: community.contact,
+    forum: community.forum,
+    circle: community.circle,
+  );
 
 }
 
@@ -524,7 +468,7 @@ class Community extends CommunityBasicData{
       name: resp['name']??(throw InvalidResponseError('name')),
       iconKey: resp['iconKey']??(throw InvalidResponseError('iconKey')),
       category: strToCommCat[resp['category']??(throw InvalidResponseError('category'))]??CommunityCategory.error,
-      contact: resp['contact']==null?null:CommunityContactData.fromMap(resp['contact']),
+      contact: resp['contact']==null?null:CommonContactData.fromMap(resp['contact']),
       circle: null,
       forum: null,
       managers: managers,

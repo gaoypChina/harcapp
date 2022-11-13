@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
+import 'package:harcapp/_common_classes/common_contact_data.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
@@ -124,7 +125,7 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
                         String name = NameProvider.of(context).nameController.text;
                         String iconKey = IconKeyProvider.of(context).iconKey;
                         CommunityCategory category = CategoryProvider.of(context).category;
-                        CommunityContactData contact = ContactProvider.of(context).contact;
+                        CommonContactData contact = ContactProvider.of(context).contact;
 
                         await ApiCommunity.update(
                             circleKey: initCommunity!.key,

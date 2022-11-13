@@ -23,11 +23,11 @@ class ChildMetodyki extends StatelessWidget{
       age: '7-9 lat',
       leader: 'wódz',
       method: 'Zabawa w kogoś lub coś',
-      color: AppColors.meto_z,
+      color: AppColors.metoZhpZ,
       onTap: () => showScrollBottomSheet(
         context: context,
         builder: (context) => BottomSheetMeto(
-          color: AppSettings.isDark?cardEnab_(context):AppColors.meto_z,
+          color: AppSettings.isDark?cardEnab_(context):AppColors.metoZhpZ,
           textColor: textEnab_(context),
           title: 'Zuchy',
           zalozenia: 'Charakterystyczną formą aktywności zuchów jest zabawa w kogoś lub w coś – realizowana zespołowo przez zdobywanie sprawności oraz podczas zbiórek gromady. Animatorem zabawy jest wódz zuchowy – drużynowy.',
@@ -45,11 +45,11 @@ class ChildMetodyki extends StatelessWidget{
       age: '10-12 lat',
       leader: 'przywódca',
       method: 'Gra',
-      color: AppColors.meto_h,
+      color: AppColors.metoZhpH,
       onTap: () => showScrollBottomSheet(
         context: context,
         builder: (context) => BottomSheetMeto(
-          color: AppSettings.isDark?cardEnab_(context):AppColors.meto_h,
+          color: AppSettings.isDark?cardEnab_(context):AppColors.metoZhpH,
           textColor: textEnab_(context),
           title: 'Harcerze',
           zalozenia: 'Charakterystyczną formą aktywności w tej grupie metodycznej jest gra - przyswajanie technik harcerskich, nabywanie wiedzy i umiejętności, oraz towarzyszące temu współzawodnictwo.',
@@ -66,11 +66,11 @@ class ChildMetodyki extends StatelessWidget{
       age: '13-15 lat',
       leader: 'przewodnik',
       method: 'Poszukiwanie',
-      color: AppColors.meto_hs,
+      color: AppColors.metoZhpHS,
       onTap: () => showScrollBottomSheet(
         context: context,
         builder: (context) => BottomSheetMeto(
-          color: AppSettings.isDark?cardEnab_(context):AppColors.meto_hs,
+          color: AppSettings.isDark?cardEnab_(context):AppColors.metoZhpHS,
           textColor: AppSettings.isDark?textEnab_(context):Colors.white,
           title: 'Harcerze starsi',
           zalozenia: 'Charakterystyczną formą aktywności harcerek starszych i harcerzy starszych jest poszukiwanie, polegające na przewartościowywaniu dotychczasowego sposobu patrzenia na świat i autorytety. O programie i działaniach drużyny decyduje rada drużyny.',
@@ -87,11 +87,11 @@ class ChildMetodyki extends StatelessWidget{
       age: '16-21 lat',
       leader: 'lider',
       method: 'Wyczyn',
-      color: AppColors.meto_w,
+      color: AppColors.metoZhpW,
       onTap: () => showScrollBottomSheet(
         context: context,
         builder: (context) => BottomSheetMeto(
-          color: AppSettings.isDark?cardEnab_(context):AppColors.meto_w,
+          color: AppSettings.isDark?cardEnab_(context):AppColors.metoZhpW,
           textColor: Colors.white,
           title: 'Wędrownicy',
           zalozenia: 'Charakterystyczną formą aktywności wędrowniczek i wędrowników  jest służba realizowana wewnątrz organizacji i poza nią. Zadania realizowane indywidualnie lub zespołowo mają charakter wyczynu. W działalności wędrowniczej ważne miejsce zajmują specjalności i specjalizacje, pozwalające na rozwijanie indywidualnych zainteresowań. O programie pracy drużyny i podejmowanych zadaniach decyduje cała drużyna.',

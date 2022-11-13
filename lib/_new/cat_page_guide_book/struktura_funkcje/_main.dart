@@ -326,19 +326,19 @@ class ColumnDet extends Column{
     crossAxisAlignment: CrossAxisAlignment.stretch,
     mainAxisSize: MainAxisSize.min,
     children: [
-      Text('Opis', style: AppTextStyle(color: AppColors.text_hint_enab), textAlign: TextAlign.start,),
+      Text('Opis', style: AppTextStyle(color: AppColors.textHintEnab), textAlign: TextAlign.start,),
       const SizedBox(height: Dimen.defMarg),
       Text(description, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
 
       const SizedBox(height: div,),
 
-      Text('Władze', style: AppTextStyle(color: AppColors.text_hint_enab), textAlign: TextAlign.start,),
+      Text('Władze', style: AppTextStyle(color: AppColors.textHintEnab), textAlign: TextAlign.start,),
       const SizedBox(height: Dimen.defMarg),
       Text(auth, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
 
       const SizedBox(height: div,),
 
-      Text('Funkcje', style: AppTextStyle(color: AppColors.text_hint_enab), textAlign: TextAlign.start,),
+      Text('Funkcje', style: AppTextStyle(color: AppColors.textHintEnab), textAlign: TextAlign.start,),
       Column(children: funkcje)
 
     ],

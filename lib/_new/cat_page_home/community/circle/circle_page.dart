@@ -591,21 +591,27 @@ class CirclePageState extends State<CirclePage>{
                                         children: [
 
                                           Expanded(
-                                            child: AutoSizeText(
-                                              circle.name,
-                                              style: AppTextStyle(
-                                                  fontSize: 28.0,
-                                                  color: iconEnab_(context),
-                                                  fontWeight: weight.bold
+                                            child: Expanded(
+                                              child: Consumer<CommunityProvider>(
+                                                builder: (context, prov, child) => AutoSizeText(
+                                                  circle.name,
+                                                  style: AppTextStyle(
+                                                      fontSize: CommunitySliverAppBar.communityNameFontSize,
+                                                      color: iconEnab_(context),
+                                                      fontWeight: weight.bold
+                                                  ),
+                                                  maxLines: 2,
+                                                  key: nameWidgetKey,
+                                                ),
                                               ),
-                                              maxLines: 2,
-                                              key: nameWidgetKey,
                                             ),
                                           ),
 
-                                          IconButton(
-                                            icon: const Icon(MdiIcons.chevronDown),
-                                            onPressed: () => pushPage(
+                                          SimpleButton.from(
+                                            context: context,
+                                            radius: communityRadius,
+                                            icon: MdiIcons.chevronDown,
+                                            onTap: () => pushPage(
                                                 context,
                                                 builder: (context) => CircleDescriptionPage(
                                                   circle,
@@ -619,48 +625,6 @@ class CirclePageState extends State<CirclePage>{
                                     )
                                 )
                             ),
-
-                            // if(circle.myRole == CircleRole.ADMIN)
-                            //   AnimatedSize(
-                            //     alignment: Alignment.bottomCenter,
-                            //     duration: const Duration(milliseconds: 300),
-                            //     curve: Curves.easeOutQuad,
-                            //     clipBehavior: Clip.none,
-                            //     child: SizedBox(
-                            //       height: circle.shareCodeSearchable?null:0,
-                            //       child: Padding(
-                            //         padding: const EdgeInsets.only(
-                            //             bottom: Dimen.SIDE_MARG,
-                            //             left: Dimen.SIDE_MARG - Dimen.defMarg,
-                            //             right: Dimen.SIDE_MARG - Dimen.defMarg
-                            //         ),
-                            //         child: ShareCodeDialog.from(
-                            //           circle.shareCode!,
-                            //           circle.shareCodeSearchable,
-                            //           !changeShareCodeProcessing,
-                            //           backgroundColor: cardColor,
-                            //           borderColor: backgroundColor,
-                            //           resetShareCode: () => ApiCircle.resetShareCode(
-                            //               circleKey: circle.key,
-                            //               onSuccess: (shareCode){
-                            //                 if(mounted) setState(() => circle.shareCode = shareCode);
-                            //               },
-                            //               onServerMaybeWakingUp: () {
-                            //                 if(mounted) showServerWakingUpToast(context);
-                            //                 return true;
-                            //               },
-                            //               onError: (dynamic errData){
-                            //                 if(errData is Map && errData['errors'] != null && errData['errors']['shareCode'] == 'share_code_changed_too_soon')
-                            //                   if(mounted) showAppToast(context, text: 'Za często zmieniasz kod dostępu');
-                            //               }
-                            //           ),
-                            //           description: 'To, co widzisz, to <b>kod dostępu</b>.'
-                            //               '\n\nPozwala on dołączyć do kręgu tym, którzy go znają.',
-                            //           resetFrequencyDays: 2,
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
 
                             MembersWidget(
                               circle,

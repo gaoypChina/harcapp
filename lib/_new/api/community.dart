@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:harcapp/_common_classes/common_contact_data.dart';
 import 'package:harcapp/_new/api/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/model/announcement.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_role.dart';
@@ -131,7 +132,7 @@ class ApiCommunity{
     required String name,
     required String iconKey,
     required CommunityCategory category,
-    required CommunityContactData? contact,
+    required CommonContactData? contact,
 
     FutureOr<void> Function(Community community)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -142,7 +143,7 @@ class ApiCommunity{
     Map<String, dynamic> reqMap = {};
     reqMap['name'] = name.trim();
     reqMap['iconKey'] = iconKey;
-    reqMap['category'] = commCatToString[category];
+    reqMap['category'] = commCatToString(category);
     reqMap['contact'] = contact?.toMap();
 
     return API.sendRequest(
@@ -170,7 +171,7 @@ class ApiCommunity{
     Optional<String> name = const Optional.empty(),
     Optional<String> iconKey = const Optional.empty(),
     Optional<CommunityCategory> category = const Optional.empty(),
-    Optional<Tuple2<CommunityContactData?, CommunityContactData?>> contact = const Optional.empty(),
+    Optional<Tuple2<CommonContactData?, CommonContactData?>> contact = const Optional.empty(),
 
     FutureOr<void> Function(Community community)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -181,10 +182,10 @@ class ApiCommunity{
     Map<String, dynamic> reqMap = {};
     if(name.isPresent) reqMap['name'] = name.value.trim();
     if(iconKey.isPresent) reqMap['iconKey'] = iconKey.value;
-    if(category.isPresent) reqMap['category'] = commCatToString[category.value];
+    if(category.isPresent) reqMap['category'] = commCatToString(category.value);
     if(contact.isPresent){
-      CommunityContactData? oldContact = contact.value.item1;
-      CommunityContactData? newContact = contact.value.item2;
+      CommonContactData? oldContact = contact.value.item1;
+      CommonContactData? newContact = contact.value.item2;
       reqMap['contact'] = newContact?.toUpdateMap(oldContact);
     }
 

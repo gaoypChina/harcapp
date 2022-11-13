@@ -3,6 +3,7 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
@@ -27,7 +28,9 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../common/community_cover_colors.dart';
 import '../../competitions/indiv_comp/indiv_comp_basic_data_tile.dart';
 import '../../competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
+import '../community_category_widget.dart';
 import '../community_sliver_app_bar.dart';
+import '../model/community.dart';
 import 'circle_binded_indiv_comp_page.dart';
 import 'circle_page.dart';
 import 'circle_role.dart';
@@ -108,7 +111,7 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
                         top: Dimen.SIDE_MARG,
                         left: Dimen.SIDE_MARG,
                         right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-                        bottom: Dimen.SIDE_MARG,
+                        bottom: Dimen.defMarg,
                       ),
                       child: Hero(
                           tag: CirclePageState.circleNameTag,
@@ -118,27 +121,43 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
                               children: [
 
                                 Expanded(
-                                  child: AutoSizeText(
-                                    circle.name,
-                                    style: AppTextStyle(
-                                        fontSize: 28.0,
-                                        color: iconEnab_(context),
-                                        fontWeight: weight.bold
+                                  child: Consumer<CommunityProvider>(
+                                    builder: (context, prov, child) => AutoSizeText(
+                                      circle.name,
+                                      style: AppTextStyle(
+                                          fontSize: CommunitySliverAppBar.communityNameFontSize,
+                                          color: iconEnab_(context),
+                                          fontWeight: weight.bold
+                                      ),
+                                      maxLines: 2,
+                                      key: nameWidgetKey,
                                     ),
-                                    maxLines: 2,
-                                    key: nameWidgetKey,
                                   ),
                                 ),
 
-                                IconButton(
-                                  icon: const Icon(MdiIcons.chevronUp),
-                                  onPressed: () => popPage(context),
+                                SimpleButton.from(
+                                  context: context,
+                                  radius: communityRadius,
+                                  icon: MdiIcons.chevronUp,
+                                  onTap: () => popPage(context),
                                 )
 
                               ],
                             ),
                           )
                       )
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: Dimen.SIDE_MARG,
+                      right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+                      bottom: Dimen.SIDE_MARG,
+                    ),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: CommunityCategoryWidget(circle.community.category, dense: true),
+                    ),
                   ),
 
                   if(circle.hasDescription)

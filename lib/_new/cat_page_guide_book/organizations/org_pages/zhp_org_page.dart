@@ -40,21 +40,21 @@ class ZHPOrgPageState extends State<ZHPOrgPage> with ModuleStatsMixin{
             child: SimpleButton(
               padding: const EdgeInsets.all(Dimen.ICON_MARG),
               onTap: () => launchURL('https://www.facebook.com/ZwiazekHarcerstwaPolskiego/'),
-              child: const Icon(MdiIcons.facebook, color: AppColors.zhp_green),
+              child: const Icon(MdiIcons.facebook, color: AppColors.zhpGreen),
             ),
           ),
           Expanded(
             child: SimpleButton(
               padding: const EdgeInsets.all(Dimen.ICON_MARG),
               onTap: () => launchURL('https://twitter.com/zhp_pl'),
-              child: const Icon(MdiIcons.twitter, color: AppColors.zhp_green),
+              child: const Icon(MdiIcons.twitter, color: AppColors.zhpGreen),
             ),
           ),
           Expanded(
             child: SimpleButton(
               padding: const EdgeInsets.all(Dimen.ICON_MARG),
               onTap: () => launchURL('https://www.instagram.com/zhp_pl'),
-              child: const Icon(MdiIcons.instagram, color: AppColors.zhp_green),
+              child: const Icon(MdiIcons.instagram, color: AppColors.zhpGreen),
             ),
           ),
         ],
@@ -86,28 +86,28 @@ class ZHPOrgPageState extends State<ZHPOrgPage> with ModuleStatsMixin{
           const Item(
             'Harcerstwo w ruchu',
             'Wszelka aktywność na świeżym powietrzu – na łonie przyrody, z szacunkiem do natury. Propagowanie zdrowych zachowań, wędrówki, biwakowanie i obozowanie, wspólne przygotowywanie i spożywanie pełnowartościowych posiłków.',
-            titleColor: AppColors.zhp_green,
+            titleColor: AppColors.zhpGreen,
           ),
           const Item(
               'Aktywność społeczna',
               'Zespołowe podejmowanie działań na rzecz społeczności lokalnej w oparciu o rozpoznanie potrzeb najbliższego środowiska działania gromad i drużyn. Tworzenie projektów mających na celu poprawę jakości funkcjonowania wspólnoty lokalnej.',
-              titleColor: AppColors.zhp_green),
+              titleColor: AppColors.zhpGreen),
           const Item(
               'Ciekawość świata',
               'Ciekawość Polski, Europy, świata; ludzi i kultur; przyrody - jej piękna i praw działania. Ciekawość po to, by poznać. Poznać po to, by działać.',
-              titleColor: AppColors.zhp_green),
+              titleColor: AppColors.zhpGreen),
           const Item(
               'Sprawności na całe życie',
               'Rozbudzanie zainteresowań, praktyczna nauka umiejętności przydatnych w życiu, techniki harcerskie wypełniane aktualnymi treściami, specjalnościami, a także samoorganizacja, pilność i rzetelność w realizowaniu zadań.',
-              titleColor: AppColors.zhp_green),
+              titleColor: AppColors.zhpGreen),
           const Item(
               'Braterstwo',
               'Przyjaźń, nauka dialogu i szacunku mimo różnic, nawiązywanie i utrzymywanie kontaktów z ludźmi, sprzeciwianie się przemocy.',
-              titleColor: AppColors.zhp_green),
+              titleColor: AppColors.zhpGreen),
           const Item(
               'Radosny patriotyzm',
               'Promowanie Polski w świecie, optymizm i wiara we własne możliwości, postawa obywatelska, radosne przeżywanie świąt państwowych, orientowanie się w osiągnięciach Polaków.',
-              titleColor: AppColors.zhp_green),
+              titleColor: AppColors.zhpGreen),
         ],
       ),
     ],

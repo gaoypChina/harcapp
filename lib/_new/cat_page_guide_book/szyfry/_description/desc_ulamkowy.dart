@@ -95,7 +95,7 @@ class DescUlamkowy extends StatelessWidget{
               children: <Widget>[
                 AutoSizeText('3', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group, maxLines: 1,),
                 const SizedBox(height: FRACTION_MARGIN),
-                Container(height: 1, width: 16, color: AppColors.text_def_enab),
+                Container(height: 1, width: 16, color: AppColors.textDefEnab),
                 const SizedBox(height: FRACTION_MARGIN),
                 AutoSizeText('2', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group),
               ],
@@ -105,7 +105,7 @@ class DescUlamkowy extends StatelessWidget{
               children: <Widget>[
                 AutoSizeText('1', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group, maxLines: 1,),
                 const SizedBox(height: FRACTION_MARGIN),
-                Container(height: 1, width: 16, color: AppColors.text_def_enab),
+                Container(height: 1, width: 16, color: AppColors.textDefEnab),
                 const SizedBox(height: FRACTION_MARGIN),
                 AutoSizeText('1', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group),
               ],
@@ -115,7 +115,7 @@ class DescUlamkowy extends StatelessWidget{
               children: <Widget>[
                 AutoSizeText('2', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group, maxLines: 1,),
                 const SizedBox(height: FRACTION_MARGIN),
-                Container(height: 1, width: 16, color: AppColors.text_def_enab),
+                Container(height: 1, width: 16, color: AppColors.textDefEnab),
                 const SizedBox(height: FRACTION_MARGIN),
                 AutoSizeText('4', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group),
               ],
@@ -125,7 +125,7 @@ class DescUlamkowy extends StatelessWidget{
               children: <Widget>[
                 AutoSizeText('3', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group, maxLines: 1,),
                 const SizedBox(height: FRACTION_MARGIN),
-                Container(height: 1, width: 16, color: AppColors.text_def_enab),
+                Container(height: 1, width: 16, color: AppColors.textDefEnab),
                 const SizedBox(height: FRACTION_MARGIN),
                 AutoSizeText('1', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group),
               ],
@@ -135,7 +135,7 @@ class DescUlamkowy extends StatelessWidget{
               children: <Widget>[
                 AutoSizeText('5', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group, maxLines: 1,),
                 const SizedBox(height: FRACTION_MARGIN),
-                Container(height: 1, width: 16, color: AppColors.text_def_enab),
+                Container(height: 1, width: 16, color: AppColors.textDefEnab),
                 const SizedBox(height: FRACTION_MARGIN),
                 AutoSizeText('1', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group),
               ],
@@ -145,7 +145,7 @@ class DescUlamkowy extends StatelessWidget{
               children: <Widget>[
                 AutoSizeText('2', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group, maxLines: 1,),
                 const SizedBox(height: FRACTION_MARGIN),
-                Container(height: 1, width: 16, color: AppColors.text_def_enab),
+                Container(height: 1, width: 16, color: AppColors.textDefEnab),
                 const SizedBox(height: FRACTION_MARGIN),
                 AutoSizeText('4', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group),
               ],
@@ -155,7 +155,7 @@ class DescUlamkowy extends StatelessWidget{
               children: <Widget>[
                 AutoSizeText('3', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group, maxLines: 1,),
                 const SizedBox(height: FRACTION_MARGIN),
-                Container(height: 1, width: 16, color: AppColors.text_def_enab),
+                Container(height: 1, width: 16, color: AppColors.textDefEnab),
                 const SizedBox(height: FRACTION_MARGIN),
                 AutoSizeText('5', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold), group: group),
               ],

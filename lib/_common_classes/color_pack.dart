@@ -7,8 +7,8 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 
 abstract class DefColorPack extends ColorPack{
 
-  static const Color ICON_DISABLED = AppColors.icon_disabled;
-  static const Color ICON_ENABLED = AppColors.icon_enabled;
+  static const Color ICON_DISABLED = AppColors.iconDisabled;
+  static const Color ICON_ENABLED = AppColors.iconEnabled;
 
   @override
   String get name => 'DefColorPack';
@@ -20,7 +20,7 @@ abstract class DefColorPack extends ColorPack{
   Color get appBarTextEnab_ => Colors.black;
 
   @override
-  Color get appBartextDisab_ => AppColors.text_def_disab;
+  Color get appBartextDisab_ => AppColors.textDefDisab;
 
   @override
   Color get accentIconColor => Colors.black;
@@ -104,6 +104,8 @@ class ColorPackStrefaDucha extends DefColorPack{
 
 class ColorPackStartDefault extends ColorPack{
 
+  static const ACCENT_COLOR = Colors.blueGrey;
+
   const ColorPackStartDefault();
 
   @override
@@ -113,10 +115,10 @@ class ColorPackStartDefault extends ColorPack{
   Color get appBarTextEnab_ => Colors.white;
 
   @override
-  Color get accentColor => AppColors.app_orange_main;
+  Color get accentColor => ACCENT_COLOR;
 
   @override
-  Color get darkColor => AppColors.start_background_default;
+  Color get darkColor => AppColors.startBackgroundDefault;
 
   //@override
   //Color get lightColor => AppColors.start_background_default;
@@ -128,10 +130,10 @@ class ColorPackStartDefault extends ColorPack{
   Color get accentIconColor => Colors.white;
 
   @override
-  Color get iconEnabled => AppColors.icon_enabled;
+  Color get iconEnabled => AppColors.iconEnabled;
 
   @override
-  Color get iconDisabled => AppColors.icon_disabled;
+  Color get iconDisabled => AppColors.iconDisabled;
 }
 
 class ColorPackStartAdwent extends ColorPack{
@@ -163,10 +165,10 @@ class ColorPackStartAdwent extends ColorPack{
   Color get accentIconColor => Colors.white;
 
   @override
-  Color get iconEnabled => AppColors.icon_enabled;
+  Color get iconEnabled => AppColors.iconEnabled;
 
   @override
-  Color get iconDisabled => AppColors.icon_disabled;
+  Color get iconDisabled => AppColors.iconDisabled;
 }
 
 class ColorPackStartChristmas extends ColorPack{
@@ -177,10 +179,10 @@ class ColorPackStartChristmas extends ColorPack{
   String get name => 'ColorPackStartChristmas';
 
   @override
-  Color get appBarTextEnab_ => AppColors.icon_enabled;
+  Color get appBarTextEnab_ => AppColors.iconEnabled;
 
   @override
-  Color get appBartextDisab_ => AppColors.text_def_disab;
+  Color get appBartextDisab_ => AppColors.textDefDisab;
 
   @override
   Color get accentColor => Colors.white;
@@ -189,22 +191,24 @@ class ColorPackStartChristmas extends ColorPack{
   Color get darkColor => mainColor;
 
   @override
-  Color get lightColor => AppColors.start_background_christmas_light;
+  Color get lightColor => AppColors.startBackgroundChristmasLight;
 
   @override
-  Color get mainColor => AppColors.start_background_christmas;
+  Color get mainColor => AppColors.startBackgroundChristmas;
 
   @override
   Color get accentIconColor => Colors.white;
 
   @override
-  Color get iconEnabled => AppColors.icon_enabled;
+  Color get iconEnabled => AppColors.iconEnabled;
 
   @override
-  Color get iconDisabled => AppColors.icon_disabled;
+  Color get iconDisabled => AppColors.iconDisabled;
 }
 
 class ColorPackAccount extends ColorPack{
+
+  static const ACCENT_COLOR = Colors.blueGrey;
 
   const ColorPackAccount();
 
@@ -212,31 +216,16 @@ class ColorPackAccount extends ColorPack{
   String get name => 'ColorPackAccount';
 
   @override
-  Color get appBarTextEnab_ => AppColors.icon_enabled;
-
-  @override
-  Color get appBartextDisab_ => AppColors.text_def_disab;
-
-  @override
-  Color get accentColor => AppColors.app_orange_accent;
-
-  @override
-  Color get darkColor => AppColors.app_orange_accent;
-
-  @override
-  Color get lightColor => AppColors.app_orange_accent;
-
-  @override
-  Color get mainColor => AppColors.app_orange_accent;
+  Color get accentColor => ACCENT_COLOR;
 
   @override
   Color get accentIconColor => Colors.white;
 
   @override
-  Color get iconEnabled => AppColors.icon_enabled;
+  Color get iconEnabled => AppColors.iconEnabled;
 
   @override
-  Color get iconDisabled => AppColors.icon_disabled;
+  Color get iconDisabled => AppColors.iconDisabled;
 }
 
 class ColorPackBlack extends ColorPack{
@@ -322,255 +311,21 @@ class ColorPackBlack extends ColorPack{
 
 }
 
-class ColorPackGraphite extends ColorPack{
-
-  const ColorPackGraphite();
-
-  @override
-  String get name => 'ColorPackGraphite';
-
-  //@override
-  //Color get appBarTextEnab_ => Colors.white;
-
-  //@override
-  //Color get appBartextDisab_ => Colors.white70;
-
-  @override
-  Color get textDrawer => Colors.white70;
-
-  @override
-  Color get hintDrawer => Colors.white30;
-
-  @override
-  Color get accentColor => Colors.indigo;
-
-  //@override
-  //Color get darkColor => Color.fromARGB(255, 55, 55, 65);
-
-  //@override
-  //Color get lightColor => Color.fromARGB(255, 95, 95, 105);
-
-  //@override
-  //Color get mainColor => Color.fromARGB(255, 75, 75, 85);
-
-  @override
-  Color get accentIconColor => Colors.white;
-
-  @override
-  Color get iconEnabled => AppColors.icon_enabled;
-
-  @override
-  Color get iconDisabled => AppColors.icon_disabled;
-
-  @override
-  Color get drawerIconColor => Colors.white;
-
-  @override
-  Color get drawerIconDisabled => Colors.white54;
-}
-
-class ColorPackOrange extends ColorPack{
-
-  const ColorPackOrange();
-
-  @override
-  String get name => 'ColorPackOrange';
-
-  //@override
-  //Color get appBarTextEnab_ => AppColors.icon_enabled;
-
-  //@override
-  //Color get appBartextDisab_ => AppColors.icon_disabled;
-
-  @override
-  Color get accentColor => AppColors.app_orange_accent;
-
-  //@override
-  //Color get darkColor => AppColors.app_orange_dark;
-
-  //@override
-  //Color get lightColor => AppColors.app_orange_light;
-
-  //@override
-  //Color get mainColor => AppColors.app_orange_main;
-
-  @override
-  Color get accentIconColor => Colors.white;
-
-  @override
-  Color get iconEnabled => AppColors.icon_enabled;
-
-  @override
-  Color get iconDisabled => AppColors.icon_disabled;
-}
-
-class ColorPackYellow extends ColorPack{
-
-  const ColorPackYellow();
-
-  @override
-  String get name => 'ColorPackYellow';
-
-  //@override
-  //Color get appBarTextEnab_ => AppColors.icon_enabled;
-
-  //@override
-  //Color get appBartextDisab_ => AppColors.icon_disabled;
-
-  @override
-  Color get accentColor => AppColors.app_yellow_accent;
-
-  //@override
-  //Color get darkColor => AppColors.app_yellow_dark;
-
-  //@override
-  //Color get lightColor => AppColors.app_yellow_light;
-
-  //@override
-  //Color get mainColor => AppColors.app_yellow_main;
-
-  @override
-  Color get accentIconColor => Colors.white;
-
-  @override
-  Color get iconEnabled => AppColors.icon_enabled;
-
-  @override
-  Color get iconDisabled => AppColors.icon_disabled;
-}
-
-class ColorPackGreen extends ColorPack{
-
-  const ColorPackGreen();
-
-  @override
-  String get name => 'ColorPackGreen';
-
-  @override
-  Color get appBarTextEnab_ => Colors.white;
-
-  @override
-  Color get appBartextDisab_ => Colors.white70;
-
-  @override
-  Color get accentColor => AppColors.app_green_accent;
-
-  //@override
-  //Color get darkColor => AppColors.app_green_dark;
-
-  //@override
-  //Color get lightColor => AppColors.app_green_light;
-
-  //@override
-  //Color get mainColor => AppColors.app_green_main;
-
-  @override
-  Color get accentIconColor => AppColors.icon_enabled;
-
-  @override
-  Color get iconEnabled => AppColors.icon_enabled;
-
-  @override
-  Color get iconDisabled => AppColors.icon_disabled;
-
-  @override
-  Color get drawerIconColor => Colors.white;
-
-  @override
-  Color get drawerIconDisabled => Colors.white54;
-}
-
-class ColorPackBlue extends ColorPack{
-
-  const ColorPackBlue();
-
-  @override
-  String get name => 'ColorPackBlue';
-
-  //@override
-  //Color get appBarTextEnab_ => Colors.white;
-
-  //@override
-  //Color get appBartextDisab_ => Colors.white70;
-
-  @override
-  Color get accentColor => AppColors.app_blue_accent;
-
-  //@override
-  //Color get darkColor => AppColors.app_blue_dark;
-
-  //@override
-  //Color get lightColor => AppColors.app_blue_light;
-
-  //@override
-  //Color get mainColor => AppColors.app_blue_main;
-
-  @override
-  Color get accentIconColor => Colors.white;
-
-  @override
-  Color get iconEnabled => AppColors.icon_enabled;
-
-  @override
-  Color get iconDisabled => AppColors.icon_disabled;
-
-  @override
-  Color get drawerIconColor => Colors.white;
-
-  @override
-  Color get drawerIconDisabled => Colors.white54;
-}
-
-class ColorPackWhite extends ColorPack{
-
-  const ColorPackWhite();
-
-  @override
-  String get name => 'ColorPackWhite';
-
-  //@override
-  //Color get appBarTextEnab_ => AppColors.icon_enabled;
-
-  //@override
-  //Color get appBartextDisab_ => AppColors.text_def_disab;
-
-  @override
-  Color get accentColor => AppColors.app_white_accent;
-
-  //@override
-  //Color get darkColor => AppColors.app_white_dark;
-
-  //@override
-  //Color get lightColor => AppColors.app_white_light;
-
-  //@override
-  //Color get mainColor => AppColors.app_white_main;
-
-  @override
-  Color get accentIconColor => Colors.black;
-
-  @override
-  Color get iconEnabled => AppColors.icon_enabled;
-
-  @override
-  Color get iconDisabled => AppColors.icon_disabled;
-}
-
 class ColorPackGamePytaki extends ColorPack{
   @override
   Color get accentColor => Colors.red;
 
   @override
-  Color get accentIconColor => AppColors.text_def_enab;
+  Color get accentIconColor => AppColors.textDefEnab;
 
   //@override
   //Color get darkColor => Colors.orange;
 
   @override
-  Color get iconDisabled => AppColors.icon_disabled;
+  Color get iconDisabled => AppColors.iconDisabled;
 
   @override
-  Color get iconEnabled => AppColors.icon_enabled;
+  Color get iconEnabled => AppColors.iconEnabled;
 
   //@override
   //Color get lightColor => Colors.yellow;

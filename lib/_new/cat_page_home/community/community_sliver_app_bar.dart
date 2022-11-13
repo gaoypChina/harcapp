@@ -4,6 +4,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
@@ -14,6 +15,8 @@ import 'community_thumbnail_widget.dart';
 import 'model/community.dart';
 
 class CommunitySliverAppBar extends StatefulWidget{
+
+  static const double communityNameFontSize = 24.0;
 
   final CommunityBasicData community;
   final PaletteGenerator? palette;
@@ -95,6 +98,16 @@ class CommunitySliverAppBarState extends State<CommunitySliverAppBar>{
   @override
   Widget build(BuildContext context) => Consumer<AppBarProvider>(
     builder: (context, prov, child) => SliverAppBar(
+      leading: Hero(
+        tag: 'CommunitySliverAppBarBackButton',
+        child: Material(
+          color: Colors.transparent,
+          child: IconButton(
+            icon: const Icon(MdiIcons.arrowLeft),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+      ),
       iconTheme: IconThemeData(
         color: prov.coverVisible?coverIconColor:iconEnab_(context)
       ),

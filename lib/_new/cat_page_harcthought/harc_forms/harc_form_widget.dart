@@ -242,9 +242,9 @@ class MetoGridWidget extends StatelessWidget{
       Row(
         children: [
 
-          Expanded(child: _MetoTile('meto_z', 'Zuch', '7-9 lat', AppColors.meto_z, form.meto.contains(metoZ))),
+          Expanded(child: _MetoTile('meto_z', 'Zuch', '7-9 lat', AppColors.metoZhpZ, form.meto.contains(metoZ))),
           const SizedBox(width: Dimen.ICON_MARG),
-          Expanded(child: _MetoTile('meto_h', 'Harc', '10-12 lat', AppColors.meto_h, form.meto.contains(metoH))),
+          Expanded(child: _MetoTile('meto_h', 'Harc', '10-12 lat', AppColors.metoZhpH, form.meto.contains(metoH))),
 
         ],
       ),
@@ -254,9 +254,9 @@ class MetoGridWidget extends StatelessWidget{
       Row(
         children: [
 
-          Expanded(child: _MetoTile('meto_hs', 'HS', '13-15 lat', AppColors.meto_hs, form.meto.contains(metoHS))),
+          Expanded(child: _MetoTile('meto_hs', 'HS', '13-15 lat', AppColors.metoZhpHS, form.meto.contains(metoHS))),
           const SizedBox(width: Dimen.ICON_MARG),
-          Expanded(child: _MetoTile('meto_w', 'Wędro', '16-21 lat', AppColors.meto_w, form.meto.contains(metoW))),
+          Expanded(child: _MetoTile('meto_w', 'Wędro', '16-21 lat', AppColors.metoZhpW, form.meto.contains(metoW))),
 
         ],
       ),

@@ -36,11 +36,11 @@ class DescTabliczkaMnozenia extends StatelessWidget{
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Expanded(child: Text(' ', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
-                Expanded(child: Text('1', style: AppTextStyle(color: AppColors.text_hint_enab, fontSize: Dimen.TEXT_SIZE_BIG))),
-                Expanded(child: Text('2', style: AppTextStyle(color: AppColors.text_hint_enab, fontSize: Dimen.TEXT_SIZE_BIG))),
-                Expanded(child: Text('3', style: AppTextStyle(color: AppColors.text_hint_enab, fontSize: Dimen.TEXT_SIZE_BIG))),
-                Expanded(child: Text('4', style: AppTextStyle(color: AppColors.text_hint_enab, fontSize: Dimen.TEXT_SIZE_BIG))),
-                Expanded(child: Text('5', style: AppTextStyle(color: AppColors.text_hint_enab, fontSize: Dimen.TEXT_SIZE_BIG))),
+                Expanded(child: Text('1', style: AppTextStyle(color: AppColors.textHintEnab, fontSize: Dimen.TEXT_SIZE_BIG))),
+                Expanded(child: Text('2', style: AppTextStyle(color: AppColors.textHintEnab, fontSize: Dimen.TEXT_SIZE_BIG))),
+                Expanded(child: Text('3', style: AppTextStyle(color: AppColors.textHintEnab, fontSize: Dimen.TEXT_SIZE_BIG))),
+                Expanded(child: Text('4', style: AppTextStyle(color: AppColors.textHintEnab, fontSize: Dimen.TEXT_SIZE_BIG))),
+                Expanded(child: Text('5', style: AppTextStyle(color: AppColors.textHintEnab, fontSize: Dimen.TEXT_SIZE_BIG))),
               ],
             ),
             SizedBox(height: Dimen.defMarg),
@@ -48,7 +48,7 @@ class DescTabliczkaMnozenia extends StatelessWidget{
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Expanded(child: Text('1', style: AppTextStyle(color: AppColors.text_hint_enab, fontSize: Dimen.TEXT_SIZE_BIG))),
+                Expanded(child: Text('1', style: AppTextStyle(color: AppColors.textHintEnab, fontSize: Dimen.TEXT_SIZE_BIG))),
                 Expanded(child: Text('A', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
                 Expanded(child: Text('B', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
                 Expanded(child: Text('C', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
@@ -61,7 +61,7 @@ class DescTabliczkaMnozenia extends StatelessWidget{
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Expanded(child: Text('2', style: AppTextStyle(color: AppColors.text_hint_enab, fontSize: Dimen.TEXT_SIZE_BIG))),
+                Expanded(child: Text('2', style: AppTextStyle(color: AppColors.textHintEnab, fontSize: Dimen.TEXT_SIZE_BIG))),
                 Expanded(child: Text('F', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
                 Expanded(child: Text('G', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
                 Expanded(child: Text('H', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
@@ -74,7 +74,7 @@ class DescTabliczkaMnozenia extends StatelessWidget{
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Expanded(child: Text('3', style: AppTextStyle(color: AppColors.text_hint_enab, fontSize: Dimen.TEXT_SIZE_BIG))),
+                Expanded(child: Text('3', style: AppTextStyle(color: AppColors.textHintEnab, fontSize: Dimen.TEXT_SIZE_BIG))),
                 Expanded(child: Text('K', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
                 Expanded(child: Text('L', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
                 Expanded(child: Text('M', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
@@ -87,7 +87,7 @@ class DescTabliczkaMnozenia extends StatelessWidget{
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Expanded(child: Text('4', style: AppTextStyle(color: AppColors.text_hint_enab, fontSize: Dimen.TEXT_SIZE_BIG))),
+                Expanded(child: Text('4', style: AppTextStyle(color: AppColors.textHintEnab, fontSize: Dimen.TEXT_SIZE_BIG))),
                 Expanded(child: Text('P', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
                 Expanded(child: Text('R', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
                 Expanded(child: Text('S', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
@@ -100,12 +100,12 @@ class DescTabliczkaMnozenia extends StatelessWidget{
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Expanded(child: Text('5', style: AppTextStyle(color: AppColors.text_hint_enab, fontSize: Dimen.TEXT_SIZE_BIG))),
+                Expanded(child: Text('5', style: AppTextStyle(color: AppColors.textHintEnab, fontSize: Dimen.TEXT_SIZE_BIG))),
                 Expanded(child: Text('W', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
                 Expanded(child: Text('Y', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
                 Expanded(child: Text('Z', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))),
-                Expanded(child: Text('-', style: AppTextStyle(color: AppColors.text_hint_enab, fontSize: Dimen.TEXT_SIZE_BIG))),
-                Expanded(child: Text('-', style: AppTextStyle(color: AppColors.text_hint_enab, fontSize: Dimen.TEXT_SIZE_BIG))),
+                Expanded(child: Text('-', style: AppTextStyle(color: AppColors.textHintEnab, fontSize: Dimen.TEXT_SIZE_BIG))),
+                Expanded(child: Text('-', style: AppTextStyle(color: AppColors.textHintEnab, fontSize: Dimen.TEXT_SIZE_BIG))),
               ],
             )
           ],

@@ -3,6 +3,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
 
+import '../community_category_widget.dart';
 import '../community_thumbnail_widget.dart';
 import '../model/community_category.dart';
 
@@ -15,6 +16,12 @@ class CommunityHeaderWidget extends StatelessWidget{
 
   final Color? thumbnailBackgroundColor;
   final Color? thumbnailBorderColor;
+  final Color? thumbnailColor;
+
+  final Color? nameColor;
+  final double? tagOpacity;
+
+  final bool thumbnailHeroTag;
 
   const CommunityHeaderWidget(
       this.iconKey,
@@ -23,6 +30,12 @@ class CommunityHeaderWidget extends StatelessWidget{
       this.category,
       { this.thumbnailBackgroundColor,
         this.thumbnailBorderColor,
+        this.thumbnailColor,
+
+        this.nameColor,
+        this.tagOpacity,
+
+        this.thumbnailHeroTag = true,
         super.key
       });
 
@@ -35,6 +48,8 @@ class CommunityHeaderWidget extends StatelessWidget{
         communityKey,
         backgroundColor: thumbnailBackgroundColor,
         borderColor: thumbnailBorderColor,
+        iconColor: thumbnailColor,
+        heroTag: thumbnailHeroTag,
       ),
 
       const SizedBox(width: Dimen.ICON_MARG),
@@ -47,32 +62,22 @@ class CommunityHeaderWidget extends StatelessWidget{
               Text(
                   name,
                   style: AppTextStyle(
-                      fontSize: Dimen.TEXT_SIZE_BIG,
-                      fontWeight: weight.halfBold,
-                      color: iconEnab_(context)
+                      fontSize: Dimen.TEXT_SIZE_BIG + 2,
+                      fontWeight: weight.bold,
+                      color: nameColor??iconEnab_(context)
                   )
               ),
 
-              const SizedBox(height: Dimen.defMarg),
+              const SizedBox(height: Dimen.ICON_MARG),
 
               Align(
                 alignment: Alignment.centerLeft,
-                child: Material(
-                    borderRadius: BorderRadius.circular(100),
-                    color: hintEnab_(context),
-                    child: Padding(
-                      padding: const EdgeInsets.all(Dimen.defMarg),
-                      child: Text(
-                          commCatToName[category]??'',
-                          style: AppTextStyle(
-                              fontSize: Dimen.TEXT_SIZE_NORMAL,
-                              fontWeight: weight.halfBold,
-                              color: background_(context)
-                          )
-                      ),
-                    )
+                child:
+                Opacity(
+                  opacity: tagOpacity??1.0,
+                  child: CommunityCategoryWidget(category, dense: true),
                 ),
-              )
+              ),
 
             ],
           )

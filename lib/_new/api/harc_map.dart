@@ -2,19 +2,26 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/_common_classes/common_contact_data.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_type.dart';
+import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 
+import '../cat_page_home/community/model/community_category.dart';
 import '_api.dart';
 
 class MarkerRespBody{
 
   final String key;
   final String name;
-  final MarkerContactRespBody contact;
+  final CommonContactData? contact;
   double lat;
   double lng;
   MarkerType type;
   final UserData user;
+  final List<CommunityPreviewData> communities;
+
+  late Map<CommunityCategory, int> communityCategories;
+  late bool anyDoubleCommunityCategories;
 
   MarkerRespBody({
     required this.key,
@@ -23,40 +30,52 @@ class MarkerRespBody{
     required this.lat,
     required this.lng,
     required this.type,
-    required this.user
-  });
+    required this.user,
+    required this.communities,
+  }){
+    Map<CommunityCategory, int> commCats = {};
+    anyDoubleCommunityCategories = false;
+    for(CommunityBasicData commCat in communities)
+      if(commCats.containsKey(commCat.category)) {
+        commCats[commCat.category] = commCats[commCat.category]! + 1;
+        anyDoubleCommunityCategories = true;
+      } else
+        commCats[commCat.category] = 1;
+
+      communityCategories = commCats;
+  }
 
   static MarkerRespBody fromMap(Map map, {String? key}) => MarkerRespBody(
     key: key??map['_key']??(throw InvalidResponseError('_key')),
     name: map['name']??(throw InvalidResponseError('name')),
-    contact: MarkerContactRespBody.fromMap(map['contact']??(throw InvalidResponseError('contact'))),
+    contact: map['contact'] == null?null:CommonContactData.fromMap(map['contact']),
     lat: map['lat']??(throw InvalidResponseError('lat')),
     lng: map['lng']??(throw InvalidResponseError('lng')),
-    type: strToMarkerType[map['type']]??(throw InvalidResponseError('type')),
+    type: strToMarkerType[map['type']??(throw InvalidResponseError('type'))]??MarkerType.ERROR,
     user: UserData.fromMap(map['creatorUser']??(throw InvalidResponseError('creatorUser'))),
+    communities: ((map['communities'] as List?)??[]).map(
+            (resp) => CommunityPreviewData.fromResponse(resp)
+    ).toList(),
   );
 
-}
-
-class MarkerContactRespBody{
-
-  final List<String> email;
-  final List<String> phone;
-  final List<String> website;
-  final String? other;
-
-  const MarkerContactRespBody({
-    required this.email,
-    required this.phone,
-    required this.website,
-    required this.other
-  });
-
-  static MarkerContactRespBody fromMap(Map map) => MarkerContactRespBody(
-    email: (map['email'] as List?)?.cast<String>()??[],
-    phone: (map['phone'] as List?)?.cast<String>()??[],
-    website: (map['website'] as List?)?.cast<String>()??[],
-    other: map['other']
+  static MarkerRespBody fromSimple({
+    required double lat,
+    required double lng,
+    required MarkerType type,
+  }) => MarkerRespBody(
+    key: '',
+    name: '',
+    contact: null,
+    lat: lat,
+    lng: lng,
+    type: type,
+    user: UserData(
+      key: '',
+      name: '',
+      shadow: false,
+      sex: Sex.male
+    ),
+    communities: [],
   );
 
 }
@@ -64,14 +83,15 @@ class MarkerContactRespBody{
 class ApiHarcMap{
 
   static Future<Response?> getAllMarkers({
+    bool publicOnly = false,
     FutureOr<void> Function(List<MarkerRespBody>)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function(Response? response)? onError,
   }) async => await API.sendRequest(
-    withToken: true,
+    withToken: !publicOnly,
     requestSender: (Dio dio) => dio.get(
-        '${API.SERVER_URL}api/harcMap',
+        '${API.SERVER_URL}api/harcMap${publicOnly?'/public':''}',
     ),
     onSuccess: (Response response, DateTime now) async {
       List<MarkerRespBody> markerRespBodyList = [];

@@ -30,7 +30,7 @@ class _HarcApp extends StatefulWidget{
   final double size;
   final Color color;
   final bool shadow;
-  const _HarcApp({this.size = defFontSize, this.color = AppColors.text_def_enab, this.shadow = false});
+  const _HarcApp({this.size = defFontSize, this.color = AppColors.textDefEnab, this.shadow = false});
 
   @override
   State<StatefulWidget> createState() => _HarcAppState();
@@ -328,7 +328,7 @@ class DefaultLayoutState extends State<DefaultLayout>{
   @override
   Widget build(BuildContext context) => GradientWidget(
       radius: 0,
-      colorStart: AppColors.start_background_default,
+      colorStart: AppColors.startBackgroundDefault,
       colorEnd: Colors.teal,
       child: Stack(
         children: [

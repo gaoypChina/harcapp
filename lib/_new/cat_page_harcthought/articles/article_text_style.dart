@@ -4,7 +4,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 
 class HeaderTextStyle extends CustTextStyle{
 
-  const HeaderTextStyle({Color color: AppColors.text_def_enab, weight fontWeight:weight.normal, fontSize, bool? shadow, FontStyle? fontStyle, double height: 1.0}):super(
+  const HeaderTextStyle({Color color: AppColors.textDefEnab, weight fontWeight:weight.normal, fontSize, bool? shadow, FontStyle? fontStyle, double height: 1.0}):super(
       'Gentium',
       color: color,
       fontStyle: fontStyle,
@@ -19,7 +19,7 @@ class Parag1TextStyle extends CustTextStyle{
 
   static const String FAMILY = 'Lato';
 
-  const Parag1TextStyle({Color color: AppColors.text_def_enab, weight fontWeight:weight.normal, fontSize, bool? shadow, FontStyle? fontStyle, double height: 1.0}):super(
+  const Parag1TextStyle({Color color: AppColors.textDefEnab, weight fontWeight:weight.normal, fontSize, bool? shadow, FontStyle? fontStyle, double height: 1.0}):super(
       FAMILY,
       color: color,
       fontStyle: fontStyle,
@@ -34,7 +34,7 @@ class Parag2TextStyle extends CustTextStyle{
 
   static const String FAMILY = 'PlayfairDisplay';
 
-  const Parag2TextStyle({Color color: AppColors.text_def_enab, weight fontWeight:weight.normal, fontSize, bool? shadow, FontStyle? fontStyle, double height: 1.0}):super(
+  const Parag2TextStyle({Color color: AppColors.textDefEnab, weight fontWeight:weight.normal, fontSize, bool? shadow, FontStyle? fontStyle, double height: 1.0}):super(
       FAMILY,
       color: color,
       fontStyle: fontStyle,
@@ -49,7 +49,7 @@ class Parag3TextStyle extends CustTextStyle{
 
   static const String FAMILY = 'Merriweather';
 
-  const Parag3TextStyle({Color color: AppColors.text_def_enab, weight fontWeight:weight.normal, fontSize, bool? shadow, FontStyle? fontStyle, double height: 1.0}):super(
+  const Parag3TextStyle({Color color: AppColors.textDefEnab, weight fontWeight:weight.normal, fontSize, bool? shadow, FontStyle? fontStyle, double height: 1.0}):super(
       FAMILY,
       color: color,
       fontStyle: fontStyle,

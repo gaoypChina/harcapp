@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
+import 'package:harcapp/_common_classes/common_contact_data.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:provider/provider.dart';
 
@@ -55,8 +56,8 @@ class ContactProvider extends ChangeNotifier{
 
   static ContactProvider of(BuildContext context) => Provider.of<ContactProvider>(context, listen: false);
 
-  late CommunityContactData _contact;
-  CommunityContactData get contact => _contact;
+  late CommonContactData _contact;
+  CommonContactData get contact => _contact;
 
   List<String> get email => _contact.email;
   set email(List<String> value){
@@ -83,7 +84,7 @@ class ContactProvider extends ChangeNotifier{
   }
 
   ContactProvider({Community? community}){
-    _contact = community?.contact?.copy()??CommunityContactData.empty();
+    _contact = community?.contact?.copy()??CommonContactData.empty();
   }
 
 }

@@ -52,7 +52,7 @@ class ForumFollowButtonState extends State<ForumFollowButton>{
 
       icon:
       forum.followed?
-      MdiIcons.eyeCheckOutline:
+      MdiIcons.eyeCheck:
       MdiIcons.eyePlusOutline,
 
       text:

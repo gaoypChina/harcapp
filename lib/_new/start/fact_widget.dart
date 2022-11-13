@@ -84,7 +84,7 @@ class FactWidgetState extends State<FactWidget>{
                   onPressed: () => showScrollBottomSheet(
                     context: context,
                     builder: (context) => BottomSheetDef(
-                        color: AppColors.start_background_default,
+                        color: AppColors.startBackgroundDefault,
                         colorEnd: Colors.teal,
                         childMargin: const EdgeInsets.all(32),
                         builder: (context) => Column(

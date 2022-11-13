@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/account/account_thumbnail_row_widget.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
@@ -15,8 +17,10 @@ import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../common/community_cover_colors.dart';
+import '../community_category_widget.dart';
 import '../community_publishable_widget_template.dart';
 import '../community_sliver_app_bar.dart';
+import '../model/community.dart';
 import 'common/follow_button.dart';
 import 'common/like_button.dart';
 import 'forum_page.dart';
@@ -101,7 +105,7 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                         top: Dimen.SIDE_MARG,
                         left: Dimen.SIDE_MARG,
                         right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-                        bottom: Dimen.SIDE_MARG,
+                        bottom: Dimen.defMarg,
                       ),
                       child: Hero(
                           tag: ForumPageState.forumNameTag,
@@ -111,27 +115,43 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                               children: [
 
                                 Expanded(
-                                  child: AutoSizeText(
-                                    forum.name,
-                                    style: AppTextStyle(
-                                        fontSize: 28.0,
-                                        color: iconEnab_(context),
-                                        fontWeight: weight.bold
+                                  child: Consumer<CommunityProvider>(
+                                    builder: (context, prov, child) => AutoSizeText(
+                                      forum.name,
+                                      style: AppTextStyle(
+                                          fontSize: CommunitySliverAppBar.communityNameFontSize,
+                                          color: iconEnab_(context),
+                                          fontWeight: weight.bold
+                                      ),
+                                      maxLines: 2,
+                                      key: nameWidgetKey,
                                     ),
-                                    maxLines: 2,
-                                    key: nameWidgetKey,
                                   ),
                                 ),
 
-                                IconButton(
-                                  icon: const Icon(MdiIcons.chevronUp),
-                                  onPressed: () => popPage(context),
+                                SimpleButton.from(
+                                  context: context,
+                                  radius: communityRadius,
+                                  icon: MdiIcons.chevronUp,
+                                  onTap: () => popPage(context),
                                 )
 
                               ],
                             ),
                           )
                       )
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: Dimen.SIDE_MARG,
+                      right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
+                      bottom: Dimen.SIDE_MARG,
+                    ),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: CommunityCategoryWidget(forum.community.category, dense: true),
+                    ),
                   ),
 
                   Padding(

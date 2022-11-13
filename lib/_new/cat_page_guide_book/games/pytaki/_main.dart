@@ -535,13 +535,13 @@ class CardItemState extends State<CardItem>{
                   const SizedBox(height: 6.0),
 
                 if(widget.emoName && widget.emoIndex!=null)
-                  Text(CardItem.EMOTIONS.values.toList()[widget.emoIndex!], style: AppTextStyle(fontWeight: weight.halfBold, color: AppColors.text_def_enab),),
+                  Text(CardItem.EMOTIONS.values.toList()[widget.emoIndex!], style: AppTextStyle(fontWeight: weight.halfBold, color: AppColors.textDefEnab),),
 
                 const SizedBox(height: 24.0),
 
                 AutoSizeText(
                   widget.content,
-                  style: AppTextStyle(fontSize: 20.0, height: 1.3, fontWeight: weight.halfBold, color: AppColors.text_def_enab),
+                  style: AppTextStyle(fontSize: 20.0, height: 1.3, fontWeight: weight.halfBold, color: AppColors.textDefEnab),
                   textAlign: TextAlign.center,
                 ),
               ],

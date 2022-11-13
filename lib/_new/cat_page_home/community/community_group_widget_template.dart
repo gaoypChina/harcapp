@@ -16,6 +16,8 @@ class CommunityGroupWidgetTemplate extends StatelessWidget{
   final IconData icon;
   final String text;
   final Widget? titleBottom;
+  final BorderRadius? borderRadius;
+  final double? elevation;
 
   final void Function()? onTap;
 
@@ -24,6 +26,8 @@ class CommunityGroupWidgetTemplate extends StatelessWidget{
       { required this.icon,
         required this.text,
         this.titleBottom,
+        this.borderRadius,
+        this.elevation,
         this.onTap,
         super.key
       });
@@ -32,9 +36,9 @@ class CommunityGroupWidgetTemplate extends StatelessWidget{
   Widget build(BuildContext context) => SizedBox(
       height: height,
       child: Material(
-          elevation: AppCard.bigElevation,
+          elevation: elevation??AppCard.bigElevation,
           clipBehavior: Clip.hardEdge,
-          borderRadius: BorderRadius.circular(communityRadius),
+          borderRadius: borderRadius??BorderRadius.circular(communityRadius),
           child: InkWell(
             onTap: onTap,
             child: Stack(
