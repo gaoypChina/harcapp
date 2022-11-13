@@ -5,6 +5,7 @@ import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/common_contact_data.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_type.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
+import 'package:tuple/tuple.dart';
 
 import '../cat_page_home/community/model/community_category.dart';
 import '_api.dart';
@@ -18,7 +19,7 @@ class MarkerRespBody{
   double lng;
   MarkerType type;
   final UserData user;
-  final List<CommunityPreviewData> communities;
+  final List<Tuple2<CommunityPreviewData, String?>> communities;
 
   late Map<CommunityCategory, int> communityCategories;
   late bool anyDoubleCommunityCategories;
@@ -35,12 +36,12 @@ class MarkerRespBody{
   }){
     Map<CommunityCategory, int> commCats = {};
     anyDoubleCommunityCategories = false;
-    for(CommunityBasicData commCat in communities)
-      if(commCats.containsKey(commCat.category)) {
-        commCats[commCat.category] = commCats[commCat.category]! + 1;
+    for(Tuple2<CommunityPreviewData, String?> comm in communities)
+      if(commCats.containsKey(comm.item1.category)) {
+        commCats[comm.item1.category] = commCats[comm.item1.category]! + 1;
         anyDoubleCommunityCategories = true;
       } else
-        commCats[commCat.category] = 1;
+        commCats[comm.item1.category] = 1;
 
       communityCategories = commCats;
   }
@@ -54,7 +55,7 @@ class MarkerRespBody{
     type: strToMarkerType[map['type']??(throw InvalidResponseError('type'))]??MarkerType.ERROR,
     user: UserData.fromMap(map['creatorUser']??(throw InvalidResponseError('creatorUser'))),
     communities: ((map['communities'] as List?)??[]).map(
-            (resp) => CommunityPreviewData.fromResponse(resp)
+            (resp) => Tuple2(CommunityPreviewData.fromResponse(resp), resp["note"] as String?)
     ).toList(),
   );
 

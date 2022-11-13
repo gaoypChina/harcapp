@@ -215,10 +215,51 @@ Future<void> showMarkerBottomSheet(BuildContext context, MarkerRespBody marker) 
 
                         if(marker.communities.isNotEmpty)
                           ListView.separated(
-                            itemBuilder: (_, index) => CommunityTile(
-                              marker.communities[index],
-                              onPreShowDialog: () => Navigator.pop(context),
-                              onPostShowDialog: () => showMarkerBottomSheet(context, marker),
+                            itemBuilder: (_, index) => Material(
+                              borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                              color: cardEnab_(context),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  CommunityTile(
+                                    marker.communities[index].item1,
+                                    onPreShowDialog: () => Navigator.pop(context),
+                                    onPostShowDialog: () => showMarkerBottomSheet(context, marker),
+                                  ),
+
+                                  if(marker.communities[index].item2 != null)
+                                    Padding(
+                                      padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                                        children: [
+
+                                          Text(
+                                            'Notatka:',
+                                            style: AppTextStyle(
+                                                fontSize: Dimen.TEXT_SIZE_NORMAL,
+                                                fontWeight: weight.halfBold,
+                                                color: iconDisab_(context)
+                                            ),
+                                          ),
+
+                                          const SizedBox(height: Dimen.defMarg),
+
+                                          Text(
+                                            marker.communities[index].item2!,
+                                            style: AppTextStyle(
+                                                fontSize: Dimen.TEXT_SIZE_BIG,
+                                                color: iconEnab_(context),
+                                            ),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+
+                                        ],
+                                      )
+                                    )
+                                ],
+                              ),
                             ),
                             separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
                             itemCount: marker.communities.length,

@@ -4,6 +4,7 @@ import 'package:harcapp/_new/cat_page_harc_map/marker_type.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../api/harc_map.dart';
 
@@ -102,7 +103,7 @@ class BindedCommunitiesProvider extends ChangeNotifier{
   late Map<String, String> communityKeys;
 
   BindedCommunitiesProvider({MarkerRespBody? initMarker}){
-    communityKeys = {for(CommunityPreviewData c in (initMarker?.communities??[])) c.key: ''};
+    communityKeys = {for(Tuple2<CommunityPreviewData, String?> c in (initMarker?.communities??[])) c.item1.key: ''};
   }
 
   void add(String communityKey){
