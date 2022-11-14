@@ -211,9 +211,6 @@ Future<void> showMarkerBottomSheet(BuildContext context, MarkerRespBody marker) 
                           ),
 
                         if(marker.communities.isNotEmpty)
-                          const SizedBox(height: Dimen.SIDE_MARG),
-
-                        if(marker.communities.isNotEmpty)
                           ListView.separated(
                             itemBuilder: (_, index) => Material(
                               borderRadius: BorderRadius.circular(AppCard.bigRadius),
