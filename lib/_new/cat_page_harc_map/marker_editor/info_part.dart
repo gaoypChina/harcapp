@@ -4,6 +4,7 @@ import 'package:harcapp/_common_widgets/common_contact_editor_widget.dart';
 import 'package:harcapp/_new/api/harc_map.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_editor/providers.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_type.dart';
+import 'package:harcapp/_new/cat_page_harc_map/marker_visibility.dart';
 import 'package:harcapp/_new/cat_page_home/community/common_widgets/community_header_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/_new/cat_page_home/community/select_community.dart';
@@ -89,6 +90,48 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
                 )).toList(),
                 value: prov.markerType,
                 onChanged: (value) => setState(() => prov.markerType = value as MarkerType),
+
+                buttonHeight: Dimen.ICON_SIZE + 2*16.0,
+                buttonDecoration: BoxDecoration(
+                  color: backgroundIcon_(context),
+                  borderRadius: BorderRadius.circular(AppCard.defRadius),
+                ),
+
+                itemHeight: Dimen.ICON_SIZE + 2*16.0,
+                dropdownDecoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                ),
+              )
+          ),
+        ),
+
+        const SizedBox(height: Dimen.SIDE_MARG),
+        TitleShortcutRowWidget(
+          title: 'Widoczność miejsca',
+          titleColor: hintEnab_(context),
+          textAlign: TextAlign.left,
+        ),
+        Consumer<MarkerVisibilityProvider>(
+          builder: (context, prov, child) => DropdownButtonHideUnderline(
+              child: DropdownButton2(
+                isExpanded: true,
+                dropdownPadding: EdgeInsets.zero,
+                itemPadding: EdgeInsets.zero,
+                icon: const SizedBox(
+                  width: Dimen.ICON_FOOTPRINT,
+                  child: Icon(MdiIcons.chevronDown),
+                ),
+                items: allUsableMarkerVisbility.map((markerVisibility) => DropdownMenuItem<MarkerVisibility>(
+                    value: markerVisibility,
+                    child: ListTile(
+                      title: Text(
+                        markerVisibilityToName(markerVisibility),
+                        style: AppTextStyle(),
+                      ),
+                    )
+                )).toList(),
+                value: prov.markerVisibility,
+                onChanged: (value) => setState(() => prov.markerVisibility = value as MarkerVisibility),
 
                 buttonHeight: Dimen.ICON_SIZE + 2*16.0,
                 buttonDecoration: BoxDecoration(

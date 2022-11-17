@@ -38,6 +38,7 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
 
       ChangeNotifierProvider(create: (context) => NameProvider(initMarker: initMarker)),
       ChangeNotifierProvider(create: (context) => MarkerTypeProvider(initMarker: initMarker)),
+      ChangeNotifierProvider(create: (context) => MarkerVisibilityProvider(initMarker: initMarker)),
       ChangeNotifierProvider(create: (context) => ContactProvider(initMarker: initMarker)),
       ChangeNotifierProvider(create: (context) => BindedCommunitiesProvider(initMarker: initMarker)),
     ],
@@ -71,6 +72,7 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
 
                   NameProvider nameProv = NameProvider.of(context);
                   MarkerTypeProvider markerTypeProv = MarkerTypeProvider.of(context);
+                  MarkerVisibilityProvider markerVisibilityProv = MarkerVisibilityProvider.of(context);
                   ContactProvider contactProv = ContactProvider.of(context);
                   BindedCommunitiesProvider bindedCommProv = BindedCommunitiesProvider.of(context);
 
@@ -80,6 +82,9 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
                         lat: positionProv.lat,
                         lng: positionProv.lng,
                         type: markerTypeProv.markerType,
+                        visibility: markerVisibilityProv.markerVisibility,
+
+                        communityKeys: bindedCommProv.communityKeys,
 
                         onSuccess: (MarkerRespBody marker){},
                     );

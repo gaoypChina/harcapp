@@ -71,8 +71,8 @@ class LocationPartState extends State<LocationPart> with AfterLayoutMixin, Autom
 
                   IgnorePointer(
                     ignoring: !editMode,
-                    child: Consumer2<PositionProvider, MarkerTypeProvider>(
-                      builder: (context, posProv, typeProv, child) => FlutterMap(
+                    child: Consumer3<PositionProvider, MarkerTypeProvider, MarkerVisibilityProvider>(
+                      builder: (context, posProv, typeProv, visibilityProv, child) => FlutterMap(
                         mapController: controller,
                         options: MapOptions(
                             center: LatLng(posProv.lat, posProv.lng),
@@ -92,7 +92,8 @@ class LocationPartState extends State<LocationPart> with AfterLayoutMixin, Autom
                             AppMarker(marker: MarkerRespBody.fromSimple(
                                 lat: posProv.lat,
                                 lng: posProv.lng,
-                                type: typeProv.markerType
+                                type: typeProv.markerType,
+                                visibility: visibilityProv.markerVisibility
                             )),
                             if(editMode)
                               marker,

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../api/harc_map.dart';
+import '../marker_visibility.dart';
 
 const double wawelLat = 50.0537412;
 const double wawelLng = 19.9349666;
@@ -69,7 +70,29 @@ class MarkerTypeProvider extends ChangeNotifier{
   }
 
   MarkerTypeProvider({MarkerRespBody? initMarker}){
-    markerType = initMarker?.type??MarkerType.HARCOWKA;
+    _markerType = initMarker?.type??MarkerType.HARCOWKA;
+  }
+
+  void notify() => notifyListeners();
+
+}
+
+class MarkerVisibilityProvider extends ChangeNotifier{
+
+  static MarkerVisibilityProvider of(BuildContext context) =>
+      Provider.of<MarkerVisibilityProvider>(context, listen: false);
+
+  static void notify_(BuildContext context) => of(context).notify();
+
+  late MarkerVisibility _markerVisibility;
+  MarkerVisibility get markerVisibility => _markerVisibility;
+  set markerVisibility(MarkerVisibility value){
+    _markerVisibility = value;
+    notifyListeners();
+  }
+
+  MarkerVisibilityProvider({MarkerRespBody? initMarker}){
+    _markerVisibility = initMarker?.visibility??MarkerVisibility.PUBLIC;
   }
 
   void notify() => notifyListeners();

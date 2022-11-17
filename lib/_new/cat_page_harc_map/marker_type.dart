@@ -23,21 +23,26 @@ List<MarkerType> get allUsableMarkerType{
   return all;
 }
 
-Map<MarkerType, String> markerTypeToStr = {
-  MarkerType.HARCOWKA: 'HARCOWKA',
-  MarkerType.SZKOLA: 'SZKOLA',
-  MarkerType.KOSCIOL: 'KOSCIOL',
-  MarkerType.SALA_PARAFIALNA: 'SALA_PARAFIALNA',
-  MarkerType.REMIZA: 'REMIZA',
+String markerTypeToStr(MarkerType type){
 
-  MarkerType.DUSZPASTERSTWO_AKADEMICKIE: 'DUSZPASTERSTWO_AKADEMICKIE',
+  switch(type){
+    case MarkerType.HARCOWKA: return 'HARCOWKA';
+    case MarkerType.SZKOLA: return 'SZKOLA';
+    case MarkerType.KOSCIOL: return 'KOSCIOL';
+    case MarkerType.SALA_PARAFIALNA: return 'SALA_PARAFIALNA';
+    case MarkerType.REMIZA: return 'REMIZA';
 
-  MarkerType.SIEDZIBA_HUFCA_ZHP: 'SIEDZIBA_HUFCA_ZHP',
-  MarkerType.SIEDZIBA_CHORAGWI_ZHP: 'SIEDZIBA_CHORAGWI_ZHP',
-  MarkerType.SIEDZIBA_GLOWNEJ_KWATERY_ZHP: 'SIEDZIBA_GLOWNEJ_KWATERY_ZHP',
+    case MarkerType.DUSZPASTERSTWO_AKADEMICKIE: return 'DUSZPASTERSTWO_AKADEMICKIE';
 
-  MarkerType.INNE: 'INNE',
-};
+    case MarkerType.SIEDZIBA_HUFCA_ZHP: return 'SIEDZIBA_HUFCA_ZHP';
+    case MarkerType.SIEDZIBA_CHORAGWI_ZHP: return 'SIEDZIBA_CHORAGWI_ZHP';
+    case MarkerType.SIEDZIBA_GLOWNEJ_KWATERY_ZHP: return 'SIEDZIBA_GLOWNEJ_KWATERY_ZHP';
+
+    case MarkerType.INNE: return 'INNE';
+    case MarkerType.ERROR: return 'ERROR';
+  }
+
+}
 
 Map<String, MarkerType> strToMarkerType = {
   'HARCOWKA': MarkerType.HARCOWKA,

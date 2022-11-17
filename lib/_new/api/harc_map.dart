@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/common_contact_data.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_type.dart';
+import 'package:harcapp/_new/cat_page_harc_map/marker_visibility.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:tuple/tuple.dart';
 
@@ -18,6 +19,7 @@ class MarkerRespBody{
   double lat;
   double lng;
   MarkerType type;
+  MarkerVisibility visibility;
   final UserData user;
   final List<Tuple2<CommunityPreviewData, String?>> communities;
 
@@ -31,6 +33,7 @@ class MarkerRespBody{
     required this.lat,
     required this.lng,
     required this.type,
+    required this.visibility,
     required this.user,
     required this.communities,
   }){
@@ -53,6 +56,7 @@ class MarkerRespBody{
     lat: map['lat']??(throw InvalidResponseError('lat')),
     lng: map['lng']??(throw InvalidResponseError('lng')),
     type: strToMarkerType[map['type']??(throw InvalidResponseError('type'))]??MarkerType.ERROR,
+    visibility: strToMarkerVisibility[map['visibility']??(throw InvalidResponseError('visibility'))]??MarkerVisibility.ERROR,
     user: UserData.fromMap(map['creatorUser']??(throw InvalidResponseError('creatorUser'))),
     communities: ((map['communities'] as List?)??[]).map(
             (resp) => Tuple2(CommunityPreviewData.fromResponse(resp), resp["note"] as String?)
@@ -63,6 +67,7 @@ class MarkerRespBody{
     required double lat,
     required double lng,
     required MarkerType type,
+    required MarkerVisibility visibility,
   }) => MarkerRespBody(
     key: '',
     name: '',
@@ -70,6 +75,7 @@ class MarkerRespBody{
     lat: lat,
     lng: lng,
     type: type,
+    visibility: visibility,
     user: UserData(
       key: '',
       name: '',
@@ -113,15 +119,15 @@ class ApiHarcMap{
     required double lat,
     required double lng,
     required MarkerType type,
+    required MarkerVisibility visibility,
+    required Map<String, String> communityKeys,
 
     FutureOr<void> Function(MarkerRespBody marker)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<bool> Function()? onImageDBWakingUp,
     FutureOr<void> Function()? onError,
-  }) async {
-
-    return API.sendRequest(
+  }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) async => dio.post(
           '${API.SERVER_URL}api/harcMap',
@@ -129,7 +135,8 @@ class ApiHarcMap{
             'name': name,
             'lat': lat,
             'lng': lng,
-            'type': markerTypeToStr[type],
+            'type': markerTypeToStr(type),
+            'visibility': markerVisibilityToStr(visibility),
           })
       ),
       onSuccess: (Response response, DateTime now) async{
@@ -140,8 +147,6 @@ class ApiHarcMap{
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onImageDBWakingUp: onImageDBWakingUp,
       onError: (_) async => onError?.call()
-    );
-
-  }
+  );
 
 }

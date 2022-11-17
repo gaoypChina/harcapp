@@ -157,6 +157,7 @@ class HarcAppRotatedBackgroundState extends State<HarcAppRotatedBackground>{
       bottom: -1*bgIconSize*0.167,
       left: -1*bgIconSize*0.167,
       child: RotationTransition(
+        turns: const AlwaysStoppedAnimation(45 / 360),
         child: AnimatedOpacity(
           opacity: loaded?1:0,
           duration: const Duration(milliseconds: 2000),
@@ -166,7 +167,6 @@ class HarcAppRotatedBackgroundState extends State<HarcAppRotatedBackground>{
               width: bgIconSize,
               color: widget.color),
         ),
-        turns: const AlwaysStoppedAnimation(45 / 360),
       ),
     );
   }
@@ -872,6 +872,8 @@ class ZmartwychwstanieLayoutState extends State<DefaultLayout>{
                             ),
 
                             AnimatedOpacity(
+                              duration: glowDuration,
+                              opacity: glow?0.6:0.2,
                               child: Container(
                                 color: Colors.transparent,
                                 alignment: Alignment.center,
@@ -884,17 +886,15 @@ class ZmartwychwstanieLayoutState extends State<DefaultLayout>{
                                   ),
                                 ),
                               ),
-                              duration: glowDuration,
-                              opacity: glow?0.6:0.2,
                             ),
 
                             GyroscopeWidget(
+                              multipleY: 0,
+                              multipleX: 24,
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 85),
                                 child: SvgPicture.asset('assets/images/resur_rock.svg'),
                               ),
-                              multipleY: 0,
-                              multipleX: 24,
                             ),
 
 
