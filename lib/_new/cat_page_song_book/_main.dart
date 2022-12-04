@@ -9,6 +9,7 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
+import 'package:harcapp/_new/cat_page_song_book/tab_of_cont_controller.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/extended_floating_button.dart';
@@ -28,7 +29,6 @@ import 'package:harcapp/_new/cat_page_song_book/providers.dart';
 import 'package:harcapp/_new/cat_page_song_book/settings/settings_page.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
-import 'package:harcapp/_new/cat_page_song_book/song_searcher.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_widget.dart';
 import 'package:harcapp/_new/cat_page_song_book/tab_of_cont_page.dart';
 import 'package:harcapp/_new/providers.dart';
@@ -93,12 +93,21 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     notifier.value = page.toDouble();
   }
 
+  void onAlbumChanged(Album album){
+    controller = TabOfContController(
+        Album.current.songs,
+        initSearchOptions: TabOfContPage.searchOptions,
+        initPhrase: TabOfContPage.lastSearchPhrase
+    );
+  }
+
   static late bool tabOfContOpenOnBack;
   late PageController pageController;
   late ValueNotifier<double> notifier;
   SingleComputerListener<String>? loaderListener;
-  late SongSearchOptions searchOptions;
   late bool floatingButtonExpanded;
+
+  late TabOfContController controller;
 
   late bool isAutoScrolling;
 
@@ -203,10 +212,12 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
       }
     }
 
-    searchOptions = SongSearchOptions();
+    Album.addListener(onAlbumChanged);
 
     floatingButtonExpanded = true;
     isAutoScrolling = false;
+
+    onAlbumChanged(Album.current);
 
     BackButtonInterceptor.add(onBackPressed);
 
@@ -234,6 +245,8 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     songsStatisticsRegistrator.commit();
 
     synchronizer.removeListener(syncListener);
+
+    Album.removeListener(onAlbumChanged);
 
     super.dispose();
   }
@@ -742,7 +755,9 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                   floatingButtonExpanded:
                   floatingButtonExpanded &&
                       !randButtProv.showButtonOnMain,
-                  onTap: openTabOfCont
+                  onTap: openTabOfCont,
+
+                  withHero: false,//!randButtProv.showButtonOnMain,
               ),
 
               SizedBox(
@@ -763,10 +778,25 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                                 textColor: colors.iconColor,
                                 background: colors.colorStart,
                                 backgroundEnd: colors.colorEnd,
+                                onTap: (){
+
+                                  // This entire function should be a copy of the 'Losuj' button onTap in the Table Of Content Page.
+                                  if(controller.currSongs == null || controller.currSongs!.isEmpty){
+                                    showAppToast(context, text: 'Brak piosenek do losowania.');
+                                    return;
+                                  }
+
+                                  RandomButtonProvider.registerTap_(context);
+                                  int index = Random().nextInt(controller.currSongs!.length);
+                                  Song randomSong = controller.currSongs![index];
+                                  int indexInAlbum = Album.current.songs.indexOf(randomSong);
+                                  onSongSelected(randomSong, indexInAlbum, SongOpenType.random);
+
+                                },
                               ),
                             );
 
-                          return Container();
+                          return Container(height: Dimen.ICON_SIZE + 2*Dimen.FLOATING_BUTTON_MARG);
 
                         },
                       )
@@ -782,15 +812,9 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
   Future<void> openTabOfCont({String? initPhrase, bool forgetScrollPosition=false}) => pushPage(
     context,
     builder: (context) => TabOfContPage(
-      initPhrase: initPhrase,
+      controller: controller,
       forgetScrollPosition: forgetScrollPosition,
-      onSongSelected: (Song song, int indexInAlbum, SongOpenType songOpenType) async {
-        post(() => jumpToPage(indexInAlbum));
-
-        if(songOpenType != SongOpenType.history)
-          Album.current.registerSongSearchToHistory(song);
-        // songsStatisticsRegistrator stuff is handled by pageChange.
-      },
+      onSongSelected: onSongSelected,
       onConfAlbumEnabled: (){
         post(() => jumpToPage(getLastPageForAlbum(Album.confid)));
         showAppToast(context, text: 'Barbaro! Oto zostajesz songowym hakerem.\n<b>Miłego śpiewańska c:</b>', duration: const Duration(seconds: 7));
@@ -863,6 +887,14 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
       },
     )
   );
+
+  void onSongSelected(Song song, int indexInAlbum, SongOpenType songOpenType) async {
+    post(() => jumpToPage(indexInAlbum));
+
+    if(songOpenType != SongOpenType.history)
+      Album.current.registerSongSearchToHistory(song);
+    // songsStatisticsRegistrator stuff is handled by pageChange.
+  }
 
   void notify() => setState(() {});
 

@@ -5,6 +5,7 @@ import 'package:harcapp/_new/cat_page_song_book/album/new_album/providers.dart';
 import 'package:harcapp/_common_widgets/check_box.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/_new/cat_page_song_book/tab_of_cont.dart';
+import 'package:harcapp/_new/cat_page_song_book/tab_of_cont_controller.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +37,6 @@ class AlbumSongSelectorState extends State<AlbumSongSelector> with AutomaticKeep
   bool? allChecked;
 
   late List<Song> displayedSongs;
-  List<GlobalKey>? globalKeys;
 
   @override
   void initState() {
@@ -72,17 +72,20 @@ class AlbumSongSelectorState extends State<AlbumSongSelector> with AutomaticKeep
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
 
     return Scaffold(
       body: TabOfCont(
-          Song.all,
+          controller: TabOfContController(
+            Song.all
+          ),
           itemLeadingBuilder: (Song song, GlobalKey globalKey) => _ItemTrailing(
             this,
             song,
           ),
           appBar: false,
           onItemTap: (Song song, int index) => onTap(song),
-          onSearchComplete: (List<Song> songs, List<GlobalKey> globalKeys, bool Function() stillValid){
+          onSearchComplete: (List<Song> songs, bool Function() stillValid){
 
             displayedSongs = songs;
 
@@ -97,8 +100,6 @@ class AlbumSongSelectorState extends State<AlbumSongSelector> with AutomaticKeep
               setState(() => allChecked = false);
             else
               setState(() => allChecked = null);
-
-            this.globalKeys = globalKeys;
 
           },
           showAddSongSuggestion: false,

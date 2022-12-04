@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:harcapp/_new/cat_page_song_book/tab_of_cont_controller.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
@@ -19,32 +20,12 @@ import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
 import 'package:harcapp_core_song_widget/song_rate.dart';
 import 'package:harcapp_core_tags/tag_layout.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 
 import 'song_management/album.dart';
 import 'song_management/song.dart';
 
-class TabOfContController{
-
-  Function(SongSearchOptions? searchOptions)? onSearchOptionsChanged;
-  TabOfContController({this.onSearchOptionsChanged});
-
-  late BuildContext context;
-
-  late TabOfContState tabOfCont;
-
-  String get phrase => tabOfCont.textController!.text;
-  set phrase(String value) => tabOfCont.textController!.text = value;
-
-  List<Song>? get currSongs => Provider.of<CurrentItemsProvider>(context, listen: false).currSongs;
-
-}
-
 class TabOfCont extends StatefulWidget{
 
-  final List<Song> allSongs;
-  final String initPhrase;
-  final SongSearchOptions? searchOptions;
   final bool appBar;
   final List<Widget>? appBarActions;
   final Widget? floatingButton;
@@ -63,17 +44,13 @@ class TabOfCont extends StatefulWidget{
 
   final Function(String)? onChanged;
 
-  final Function(List<Song> songs, List<GlobalKey> globalKeys, bool Function() stillValid)? onSearchComplete;
+  final Function(List<Song> songs, bool Function() stillValid)? onSearchComplete;
   final PageStorageKey? pageStorageKey;
   final bool showAddSongSuggestion;
   final void Function(Song song)? onNewSongAdded;
 
   const TabOfCont(
-      this.allSongs,
-
-      {this.initPhrase='',
-        this.searchOptions,
-        this.appBar=true,
+      { this.appBar=true,
         this.appBarActions,
         this.floatingButton,
         this.background,
@@ -105,16 +82,13 @@ class TabOfContState extends State<TabOfCont>{
 
   static const double tagBarHeight = 2*Dimen.defMarg + Dimen.TEXT_SIZE_NORMAL + 3;
 
-  late SearchParamsProvider searchParamsProvider;
-  late CurrentItemsProvider currItemsProv;
-
   late SongSearcher searcher;
-  List<Song> get allSongs => widget.allSongs;
+  List<Song> get allSongs => controller.allSongs;
 
   TabOfContController? _controller;
   TabOfContController get controller => widget.controller??_controller!;
 
-  TextEditingController? get textController => searchParamsProvider.textController;
+  late TextEditingController textController;
 
   double? topPadding;
 
@@ -130,36 +104,33 @@ class TabOfContState extends State<TabOfCont>{
 
   double? get paddingBottom => widget.paddingBottom;
 
-  Function(List<Song> songs, List<GlobalKey> globalKeys, bool Function() stillValid)? get onSearchComplete => widget.onSearchComplete;
+  Function(List<Song> songs, bool Function() stillValid)? get onSearchComplete => widget.onSearchComplete;
 
-  SongSearchOptions? _searchOptions;
-  SongSearchOptions get searchOptions => widget.searchOptions??_searchOptions!;
+  SongSearchOptions get searchOptions => controller.searchOptions;
 
   void initSearcher() async {
-    await searcher.init(widget.allSongs, searchOptions);
-    await searcher.run(widget.initPhrase);
+    await searcher.init(allSongs, searchOptions);
+    await searcher.run(controller.phrase);
   }
 
   @override
   void initState() {
 
-    if(widget.searchOptions == null)
-      _searchOptions = SongSearchOptions();
-
     if(widget.controller == null)
-      _controller = TabOfContController();
-    controller.tabOfCont = this;
+      _controller = TabOfContController(Album.current.songs);
+
+    textController = TextEditingController(text: controller.phrase);
+    textController.addListener(() => controller.phrase = controller.phrase);
 
     searcher = SongSearcher((List<Song> songs, bool Function() stillValid) {
       if(!mounted) return;
-      List<GlobalKey> globalKeys = List.generate(songs.length, (index) => GlobalKey());
-      onSearchComplete?.call(songs, globalKeys, stillValid);
-      currItemsProv.set(songs, globalKeys, searcherRunning: true);
+      onSearchComplete?.call(songs, stillValid);
+      controller.currSongs = songs;
+      setState(() {});
     });
 
     searcher.addOnStartListener((phrase) {
       if(!mounted) return;
-      currItemsProv.searcherRunning = true;
       widget.onChanged?.call(phrase);
     });
 
@@ -174,100 +145,78 @@ class TabOfContState extends State<TabOfCont>{
   @override
   void dispose() {
     searcher.dispose();
+    textController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    if(controller.currSongs == null)
+      return Center(child: SpinKitChasingDots(size: 2*Dimen.ICON_SIZE, color: widget.accentColor??Album.current.avgColor));
+    else
+      return AppScaffold(
+        backgroundColor: Colors.transparent,
+        body: CustomScrollView(
+          controller: scrollController,
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            if(widget.appBar)
+              SliverAppBar(
+                backgroundColor: background_(context),
+                title: const Text('Spis treści'),
+                centerTitle: true,
+                elevation: 0,
+                floating: true,
+                actions: widget.appBarActions,
+              ),
 
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context){
-            searchParamsProvider = SearchParamsProvider(searchOptions: searchOptions, initPhrase: widget.initPhrase);
-            return searchParamsProvider;
-          }),
-          ChangeNotifierProvider(create: (context){
-            currItemsProv = CurrentItemsProvider();
-            return currItemsProv;
-          })
-        ],
-        builder: (context, child){
+            FloatingContainer.child(
+                child: _SearchTextFieldCard(
+                    searcher: searcher,
+                    tabOfContController: controller,
+                    textController: textController,
+                    onCleared: () => setState(() {})
+                ),
+                height: SearchField.height + (controller.searchOptions.isEmpty?0:35.0),
+                rebuild: true
+            ),
 
-          if(widget.controller != null)
-            controller.context = context;
+            SliverList(
+              delegate: SliverChildListDelegate([const SizedBox(height: 10.0)]),
+            ),
 
-          return Consumer<CurrentItemsProvider>(
-              builder: (context, prov, child){
-                if(prov.currSongs == null)
-                  return Center(child: SpinKitChasingDots(size: 2*Dimen.ICON_SIZE, color: widget.accentColor??Album.current.avgColor));
-                else
-                  return AppScaffold(
-                    backgroundColor: Colors.transparent,
-                    body: CustomScrollView(
-                      controller: scrollController,
-                      physics: const BouncingScrollPhysics(),
-                      slivers: [
-                        if(widget.appBar)
-                          SliverAppBar(
-                            backgroundColor: background_(context),
-                            title: const Text('Spis treści'),
-                            centerTitle: true,
-                            elevation: 0,
-                            floating: true,
-                            actions: widget.appBarActions,
-                          ),
-
-                        Consumer<SearchParamsProvider>(
-                          builder: (context, prov, child) => FloatingContainer.child(
-                            child: _SearchTextFieldCard(
-                              searcher: searcher,
-                              searchOptions: prov.options,
-                              tabOfContController: controller,
-                              textController: prov.textController,
-                            ),
-                            height: SearchField.height + (prov.options!.isEmpty?0:35.0),
-                            rebuild: true
-                          )
-                        ),
-
-                        SliverList(
-                          delegate: SliverChildListDelegate([const SizedBox(height: 10.0)]),
-                        ),
-
-                        if(prov.currSongs!.isEmpty)
-                          SliverFillRemaining(
-                            hasScrollBody: false,
-                            child: Center(child: _NoSongWidget(widget.showAddSongSuggestion, widget.onNewSongAdded))
-                          )
-                        else
-                          SliverList(
-                            delegate: SliverChildBuilderDelegate((context, index) => Padding(
-                                padding: const EdgeInsets.only(bottom: Dimen.defMarg),
-                                child: SongTile(
-                                  prov.currSongs![index],
-                                  key: prov.globalKeys![index],
-                                  onTap: onItemTap==null?null:(song) => onItemTap!(song, index),
-                                  leading: itemLeadingBuilder?.call(prov.currSongs![index], prov.globalKeys![index]),
-                                  trailing: itemTrailingBuilder?.call(prov.currSongs![index], prov.globalKeys![index]),
-                                )
-                            ),
-                                childCount: prov.currSongs!.length
-                            ),
-                          ),
-
-                        SliverList(
-                          delegate: SliverChildListDelegate([SizedBox(height: widget.paddingBottom)]),
+            if(controller.currSongs!.isEmpty)
+              SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Center(child: _NoSongWidget(widget.showAddSongSuggestion, widget.onNewSongAdded))
+              )
+            else
+              SliverList(
+                  delegate: SliverChildBuilderDelegate((context, index){
+                    GlobalKey globalKey = GlobalKey();
+                    return Padding(
+                        padding: const EdgeInsets.only(bottom: Dimen.defMarg),
+                        child: SongTile(
+                          controller.currSongs![index],
+                          key: globalKey,
+                          onTap: onItemTap==null?null:(song) => onItemTap!(song, index),
+                          leading: itemLeadingBuilder?.call(controller.currSongs![index], globalKey),
+                          trailing: itemTrailingBuilder?.call(controller.currSongs![index], globalKey),
                         )
+                    );
 
-                      ],
-                    ),
-                    floatingActionButton: widget.floatingButton,
-                  );
-              }
-          );
-        }
-    );
+                  },
+                      childCount: controller.currSongs!.length
+                  )),
 
+            SliverList(
+              delegate: SliverChildListDelegate([SizedBox(height: widget.paddingBottom)]),
+            )
+
+          ],
+        ),
+        floatingActionButton: widget.floatingButton,
+      );
   }
 
   void setTopPadding(double value) => setState(() => topPadding = value);
@@ -301,8 +250,6 @@ class _NoSongWidget extends StatelessWidget{
 
               SimpleButton.from(
                   context: context,
-                  //elevation: AppCard.bigElevation,
-                  //color: cardEnab_(context),
                   icon: MdiIcons.plusCircleOutline,
                   text: 'Chcesz dodać oficjalną piosenkę?',
                   onTap: () => _showAddSongBottomSheet(context, onNewSongAdded)
@@ -319,15 +266,13 @@ class _NoSongWidget extends StatelessWidget{
 class _SearchTextFieldCard extends StatelessWidget{
 
   final SongSearcher? searcher;
-  final SongSearchOptions? searchOptions;
-  final TabOfContController? tabOfContController;
-  final TextEditingController? textController;
+  final TabOfContController tabOfContController;
+  final TextEditingController textController;
 
   final void Function()? onCleared;
 
   const _SearchTextFieldCard(
       { required this.searcher,
-        required this.searchOptions,
         required this.tabOfContController,
         required this.textController,
         this.onCleared,
@@ -347,7 +292,7 @@ class _SearchTextFieldCard extends StatelessWidget{
 
       if(text == '#') {
         // HAS TO IN POST - ITS A WORKAROUND FOR A BUG. OTHERWISE THE onChanged METHOD IS CALLED TWICE AFTER ENTERING "#".
-        post(() => textController!.text = '');
+        post(() => textController.text = '');
         showOptionsBottomSheet(context);
       }else
         searcher!.run(text);
@@ -355,19 +300,20 @@ class _SearchTextFieldCard extends StatelessWidget{
     },
 
     leading: AnimatedChildSlider(
-      index: Provider.of<SearchParamsProvider>(context, listen: false).isEmpty?0:1,
+      index: tabOfContController.searchOptions.isEmpty && textController.text.isEmpty?0:1,
       children: [
         SearchField.defLeadWidget(context),
         IconButton(
           icon: Icon(MdiIcons.close, color: iconEnab_(context)),
           onPressed: () async{
 
-            Provider.of<SearchParamsProvider>(context, listen: false).clear();
-            await searcher!.init(searcher!.allItems, searchOptions);
+            textController.clear();
+            tabOfContController.searchOptions.clear();
+            await searcher!.init(searcher!.allItems, tabOfContController.searchOptions);
             await searcher!.run('');
 
             onCleared?.call();
-            onSearchOptionChanged(searchOptions);
+            onSearchOptionChanged(tabOfContController.searchOptions);
 
           },
         )
@@ -378,14 +324,13 @@ class _SearchTextFieldCard extends StatelessWidget{
         onPressed: () async {
 
           hideKeyboard(context);
-          await showOptionsBottomSheet(context);//, onChanged: () => onChanged(textController.Lk_9_28b-36$text));
+          await showOptionsBottomSheet(context);//, onChanged: () => setState((){}));
 
-          await searcher!.run(textController!.text);
-          //onSearchOptionChanged(searchOptions);
+          await searcher!.run(textController.text);
 
         }),
     bottom:
-    searchOptions!.isEmpty?
+    tabOfContController.searchOptions.isEmpty?
     null:
     SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -397,14 +342,14 @@ class _SearchTextFieldCard extends StatelessWidget{
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Row(
-                  children: searchOptions!.checkedRates.map((rate) => Padding(
+                  children: tabOfContController.searchOptions.checkedRates.map((rate) => Padding(
                     padding: const EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg),
                     child: RateIcon.build(context, rate, size: 20.0),
                   )).toList(),
                 ),
                 const SizedBox(width: Dimen.defMarg/2),
                 Row(
-                  children: searchOptions!.checkedTags.map((t) => Tag(
+                  children: tabOfContController.searchOptions.checkedTags.map((t) => Tag(
                     t,
                     inCard: false,
                     fontSize: Dimen.TEXT_SIZE_SMALL,
@@ -421,21 +366,18 @@ class _SearchTextFieldCard extends StatelessWidget{
   );
 
   onSearchOptionChanged(SongSearchOptions? searchOptions){
-    if(tabOfContController!=null && tabOfContController!.onSearchOptionsChanged != null)
-      tabOfContController!.onSearchOptionsChanged!(searchOptions);
+    tabOfContController.onSearchOptionsChanged?.call(searchOptions);
   }
 
   Future<void> showOptionsBottomSheet(BuildContext context, {void Function()? onChanged}) => showScrollBottomSheet(
       context: context,
       builder: (_) => BottomSheetOptions(
-          searchOptions,
+          tabOfContController.searchOptions,
           searcher,
           onChanged: ()async{
-            SearchParamsProvider searchParamsProvider = SearchParamsProvider.of(context);
-            await searcher!.init(searcher!.allItems, searchOptions);
-            await searcher!.run(textController!.text);
-            if(onChanged != null) onChanged();
-            searchParamsProvider.notify();
+            await searcher!.init(searcher!.allItems, tabOfContController.searchOptions);
+            await searcher!.run(textController.text);
+            onChanged?.call();
           }
       )
   );
@@ -508,7 +450,8 @@ class SongTile extends StatelessWidget{
       ),
       subtitle: Padding(
         padding: const EdgeInsets.only(top: 6),
-        child: Text(song.tagsAsString,
+        child: Text(
+          song.tagsAsString,
           style: AppTextStyle(
             fontSize: Dimen.TEXT_SIZE_TINY,
             fontWeight: weight.halfBold,
@@ -642,80 +585,69 @@ class RateCheckButtonState extends State<RateCheckButton>{
 
 }
 
-class CurrentItemsProvider extends ChangeNotifier{
+// class CurrentItemsProvider extends ChangeNotifier{
+//
+//   List<Song>? _currSongs;
+//   List<Song>? get currSongs => _currSongs;
+//
+//   bool? _searcherRunning;
+//   bool? get searcherRunning => _searcherRunning;
+//   set searcherRunning(bool? value){
+//     _searcherRunning = value;
+//     notifyListeners();
+//   }
+//
+//   CurrentItemsProvider(){
+//     _searcherRunning = true;
+//   }
+//
+//   void set(List<Song> currSongs, {bool? searcherRunning}){
+//     _currSongs = currSongs;
+//     if(searcherRunning != null)
+//       _searcherRunning=searcherRunning;
+//     notifyListeners();
+//   }
+//
+//   void clear(){
+//     _currSongs = null;
+//     notifyListeners();
+//   }
+//
+//   void notify() => notifyListeners();
+// }
 
-  List<Song>? _currSongs;
-  List<Song>? get currSongs => _currSongs;
-
-  List<GlobalKey>? _globalKeys;
-  List<GlobalKey>? get globalKeys => _globalKeys;
-
-  bool? _searcherRunning;
-  bool? get searcherRunning => _searcherRunning;
-  set searcherRunning(bool? value){
-    _searcherRunning = value;
-    notifyListeners();
-  }
-
-  CurrentItemsProvider(){
-    _searcherRunning = true;
-  }
-
-  void set(List<Song> currSongs, List<GlobalKey> globalKeys, {bool? searcherRunning}){
-    _currSongs = currSongs;
-    _globalKeys = globalKeys;
-    if(searcherRunning != null)
-      _searcherRunning=searcherRunning;
-    notifyListeners();
-  }
-
-  void clear(){
-    _currSongs = null;
-    _globalKeys = [];
-    notifyListeners();
-  }
-
-  void notify() => notifyListeners();
-}
-
-class SearchParamsProvider extends ChangeNotifier {
-
-  static SearchParamsProvider of(BuildContext context) => Provider.of<SearchParamsProvider>(context, listen: false);
-  static void notify_(BuildContext context) => of(context).notify();
-
-  SongSearchOptions? _searchOptions;
-  TextEditingController? _controller;
-
-  SongSearchOptions? get options => _searchOptions;
-  TextEditingController? get textController => _controller;
-
-  SearchParamsProvider({SongSearchOptions? searchOptions, String initPhrase=''}){
-    _searchOptions = searchOptions??SongSearchOptions();
-    _controller = TextEditingController(text: initPhrase);
-  }
-
-  clear(){
-    _searchOptions!.clear();
-    _controller!.clear();
-    notifyListeners();
-  }
-
-  set phrase(String value){
-    _controller!.text = value;
-    notifyListeners();
-  }
-
-  bool get isEmpty => _controller!.text.isEmpty && _searchOptions!.isEmpty;
-
-  @override
-  void dispose() {
-    _controller!.dispose();
-    super.dispose();
-  }
-
-  void notify() => notifyListeners();
-
-}
+// class SearchParamsProvider extends ChangeNotifier {
+//
+//   static SearchParamsProvider of(BuildContext context) => Provider.of<SearchParamsProvider>(context, listen: false);
+//   static void notify_(BuildContext context) => of(context).notify();
+//
+//   TextEditingController? _controller;
+//
+//   TextEditingController? get textController => _controller;
+//
+//   SearchParamsProvider({String initPhrase=''}){
+//     _controller = TextEditingController(text: initPhrase);
+//   }
+//
+//   clear(){
+//     _controller!.clear();
+//     notifyListeners();
+//   }
+//
+//   set phrase(String value){
+//     _controller!.text = value;
+//     notifyListeners();
+//   }
+//
+//   @override
+//   void dispose() {
+//     _controller!.dispose();
+//     super.dispose();
+//   }
+//
+//   void notify() => notifyListeners();
+//
+// }
 
 void _showAddSongBottomSheet(BuildContext context, void Function(Song song)? onNewSongAdded) => showScrollBottomSheet(
     context: context,

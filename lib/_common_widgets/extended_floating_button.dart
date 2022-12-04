@@ -16,6 +16,7 @@ class ExtendedFloatingButton extends StatelessWidget{
 
   final void Function()? onTap;
   final Duration? duration;
+  final bool withHero;
 
   const ExtendedFloatingButton(
       this.icon,
@@ -26,6 +27,7 @@ class ExtendedFloatingButton extends StatelessWidget{
         this.floatingButtonExpanded = true,
         this.onTap,
         this.duration,
+        this.withHero = true,
         super.key
       });
 
@@ -54,21 +56,26 @@ class ExtendedFloatingButton extends StatelessWidget{
       ),
     );
 
-    return Hero(
-      tag: const FloatingActionButton(onPressed: null).heroTag!,
-      child: SimpleButton(
-          color: background??accent_(context),
-          colorEnd: backgroundEnd??background??accent_(context),
-          duration: duration,
-          margin: EdgeInsets.zero,
-          elevation: 6,
-          padding: EdgeInsets.zero,
-          radius: 100,
-          onTap: onTap,
-          colorSplash: Colors.white24,
-          child: child
-      ),
+    Widget widget = SimpleButton(
+        color: background??accent_(context),
+        colorEnd: backgroundEnd??background??accent_(context),
+        duration: duration,
+        margin: EdgeInsets.zero,
+        elevation: 6,
+        padding: EdgeInsets.zero,
+        radius: 100,
+        onTap: onTap,
+        colorSplash: Colors.white24,
+        child: child
     );
+
+    if(withHero)
+      return Hero(
+        tag: const FloatingActionButton(onPressed: null).heroTag!,
+        child: widget,
+      );
+
+    return widget;
   }
 
 }

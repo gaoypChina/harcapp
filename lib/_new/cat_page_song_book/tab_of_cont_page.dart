@@ -11,6 +11,7 @@ import 'package:harcapp/_common_widgets/extended_floating_button.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_contributors_page.dart';
 import 'package:harcapp/_new/cat_page_song_book/songs_statistics_registrator.dart';
 import 'package:harcapp/_new/cat_page_song_book/tab_of_cont_background_icon.dart';
+import 'package:harcapp/_new/cat_page_song_book/tab_of_cont_controller.dart';
 import 'package:harcapp/_new/cat_page_song_book/tab_of_cont_search_history_page.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -36,17 +37,18 @@ class TabOfContPage extends StatefulWidget{
 
   final void Function(Song, int, SongOpenType) onSongSelected;
   final void Function() onConfAlbumEnabled;
-  final String? initPhrase;
+  final TabOfContController controller;
   final void Function(Song song)? onNewSongAdded;
   final bool forgetScrollPosition;
 
   const TabOfContPage({
     required this.onSongSelected,
     required this.onConfAlbumEnabled,
-    this.initPhrase,
+    required this.controller,
     this.onNewSongAdded,
     this.forgetScrollPosition = false,
-    super.key});
+    super.key
+  });
 
   @override
   State createState() => TabOfContPageState();
@@ -59,7 +61,7 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
   void Function() get onConfAlbumEnabled => widget.onConfAlbumEnabled;
 
   late TabController tabController;
-  late TabOfContController controller;
+  TabOfContController get controller => widget.controller;
 
   _NoSongsFoundProvider? noSongProv;
 
@@ -68,7 +70,7 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
     BackButtonInterceptor.add(onBackPressed);
 
     tabController = TabController(length: 2, vsync: this);
-    controller = TabOfContController();
+
     super.initState();
 
   }
@@ -143,7 +145,7 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
 class _AllSongsPart extends StatefulWidget{
 
   final TabOfContPageState page;
-  final TabOfContController? controller;
+  final TabOfContController controller;
   final void Function()? onConfAlbumEnabled;
   final void Function(Song, int, SongOpenType)? onSongSelected;
 
@@ -162,11 +164,9 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
   static double _scrollOffset = 0;
 
   TabOfContPageState get page => widget.page;
-  TabOfContController? get controller => widget.controller;
+  TabOfContController get controller => widget.controller;
   void Function()? get onConfAlbumEnabled => widget.onConfAlbumEnabled;
   void Function(Song, int, SongOpenType)? get onSongSelected => widget.onSongSelected;
-
-  SongSearchOptions get searchOptions => TabOfContPage.searchOptions;
 
   ScrollController? scrollController;
   double? paddingBottom;
@@ -192,11 +192,8 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
 
   @override
   Widget build(BuildContext context) => TabOfCont(
-    Album.current.songs,
     background: Colors.transparent,
     controller: controller,
-    initPhrase: page.widget.initPhrase??TabOfContPage.lastSearchPhrase,
-    searchOptions: searchOptions,
 
     appBarActions: [
 
@@ -234,14 +231,14 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
             backgroundEnd: colors.colorEnd,
             onTap: prov.songsFound?(){
 
-              if(Album.current.songs.isEmpty){
+              if(controller.currSongs == null || controller.currSongs!.isEmpty){
                 showAppToast(context, text: 'Brak piosenek do losowania.');
                 return;
               }
 
               RandomButtonProvider.registerTap_(context);
-              int index = Random().nextInt(controller!.currSongs!.length);
-              Song randomSong = controller!.currSongs![index];
+              int index = Random().nextInt(controller.currSongs!.length);
+              Song randomSong = controller.currSongs![index];
               int indexInAlbum = Album.current.songs.indexOf(randomSong);
               page.onSongSelected(randomSong, indexInAlbum, SongOpenType.random);
               Navigator.pop(context);
@@ -269,7 +266,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
           Album.isConfidUnlocked = true;
           hideKeyboard(context);
           Album.current = Album.confid;
-          controller!.phrase = '';
+          controller.phrase = '';
           onConfAlbumEnabled?.call();
           Navigator.pop(context);
         }
@@ -281,7 +278,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
       }
 
     },
-    onSearchComplete: (songs, __, ___){
+    onSearchComplete: (songs, _){
 
       if(!mounted) return;
       _NoSongsFoundProvider prov = Provider.of(context, listen: false);

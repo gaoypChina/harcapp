@@ -43,6 +43,10 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncI
   static const int maxLenColorsKey = 42;
   static const int maxLenIconsKey = 42;
 
+  static final List<void Function(Album)> _listeners = [];
+  static void addListener(void Function(Album) listener) => _listeners.add(listener);
+  static void removeListener(void Function(Album) listener) => _listeners.remove(listener);
+
   // Whether the all, allMap, etc. are initialized.
   static bool initialized = false;
 
@@ -90,6 +94,8 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncI
   }
   static set current(Album value){
     _current = value;
+    for(void Function(Album) listener in _listeners)
+      listener.call(value);
     ShaPref.setString(ShaPref.SHA_PREF_SPIEWNIK_CURR_ALBUM, value.fileName);
   }
 
