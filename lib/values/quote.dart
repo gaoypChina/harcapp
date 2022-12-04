@@ -227,7 +227,7 @@ const List<Quote> CYTATY_REGULAR = [
 
 ];
 
-
+// "Konserwatyści to postępowcy, którzy jadą zgodnie z ograniczeniem prędkości." - Michael Malice
 
 
 

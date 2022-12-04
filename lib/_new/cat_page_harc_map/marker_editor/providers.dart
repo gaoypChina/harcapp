@@ -45,10 +45,11 @@ class NameProvider extends ChangeNotifier{
 
   static void notify_(BuildContext context) => of(context).notify();
 
-  late String name;
+  late TextEditingController controller;
+  String get name => controller.text;
 
   NameProvider({MarkerRespBody? initMarker}){
-    name = initMarker?.name??'';
+    controller = TextEditingController(text: initMarker?.name??'');
   }
 
   void notify() => notifyListeners();
@@ -123,19 +124,70 @@ class BindedCommunitiesProvider extends ChangeNotifier{
 
   static void notify_(BuildContext context) => of(context).notify();
 
-  late Map<String, String> communityKeys;
+  late Map<String, String> _initCommunities;
 
-  BindedCommunitiesProvider({MarkerRespBody? initMarker}){
-    communityKeys = {for(Tuple2<CommunityPreviewData, String?> c in (initMarker?.communities??[])) c.item1.key: ''};
+  late Map<String, String> _communitiesToAdd;
+  late Map<String, String> _communitiesToEdit;
+  late List<String> _communitiesToRemove;
+
+  Map<String, String> get addedCommunities => _communitiesToAdd;
+  Map<String, String> get editedCommunities{
+    Map<String, String> result = {};
+    for(String key in _communitiesToEdit.keys)
+      if(_communitiesToEdit[key] != _initCommunities[key])
+        result[key] = _communitiesToEdit[key]!;
+
+    return result;
+  }
+  List<String> get removedCommunities => _communitiesToRemove;
+
+  Map<String, String> get communities{
+    Map<String, String> result = {};
+
+    for(String commKey in _initCommunities.keys)
+      if(!_communitiesToRemove.contains(commKey))
+        result[commKey] = _communitiesToEdit[commKey]??_initCommunities[commKey]!;
+
+    result.addAll(_communitiesToAdd);
+
+    return result;
   }
 
-  void add(String communityKey){
-    communityKeys[communityKey] = '';
+  int get length =>
+    _initCommunities.length + _communitiesToAdd.length - _communitiesToEdit.length;
+
+  BindedCommunitiesProvider({MarkerRespBody? initMarker}){
+    _initCommunities = {for(Tuple2<CommunityPreviewData, String?> c in (initMarker?.communities??[])) c.item1.key: c.item2??''};
+    _communitiesToAdd = {};
+    _communitiesToEdit = {};
+    _communitiesToRemove = [];
+  }
+
+  bool add(String communityKey){
+    if(_initCommunities.containsKey(communityKey))
+      return false;
+
+    if(_communitiesToAdd.containsKey(communityKey))
+      return false;
+
+    _communitiesToAdd[communityKey] = '';
     notifyListeners();
+    return true;
+  }
+
+  void edit(String communityKey, communityNote){
+    if(_communitiesToAdd.containsKey(communityKey))
+      _communitiesToAdd[communityKey] = communityNote;
+    else if(_initCommunities.containsKey(communityKey))
+      _communitiesToEdit[communityKey] = communityNote;
   }
 
   void remove(String communityKey){
-    communityKeys.remove(communityKey);
+    if(_communitiesToAdd.containsKey(communityKey))
+      _communitiesToAdd.remove(communityKey);
+    else if(!_communitiesToRemove.contains(communityKey))
+      _communitiesToRemove.add(communityKey);
+
     notifyListeners();
   }
 

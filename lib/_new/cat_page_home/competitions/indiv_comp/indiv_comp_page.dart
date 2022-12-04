@@ -227,7 +227,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                               context,
                               builder: (context) => IndivCompEditorPage(
                                 initComp: comp,
-                                onSaved: (IndivComp savedComp){
+                                onSuccess: (IndivComp savedComp){
 
                                   comp.name = savedComp.name;
                                   comp.iconKey = savedComp.iconKey;

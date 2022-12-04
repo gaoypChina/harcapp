@@ -13,7 +13,6 @@ import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../../_common_widgets/loading_widget.dart';
 import '../comp_role.dart';
@@ -102,25 +101,23 @@ class EditGradientButton extends StatelessWidget{
   const EditGradientButton(this.icon, this.text, {this.onTap, super.key});
   
   @override
-  Widget build(BuildContext context) => AppCard(
-      radius: AppCard.bigRadius,
-      elevation: AppCard.bigElevation,
-      margin: AppCard.normMargin,
-      padding: EdgeInsets.zero,
+  Widget build(BuildContext context) => GradientWidget(
+    radius: AppCard.bigRadius,
+    elevation: AppCard.bigElevation,
+    colorStart: ColorKeyProvider.of(context).color1!,
+    colorEnd: ColorKeyProvider.of(context).color2!,
+    child: InkWell(
       onTap: onTap,
-      child: GradientWidget(
-        colorStart: Provider.of<ColorKeyProvider>(context, listen: false).color1!,
-        colorEnd: Provider.of<ColorKeyProvider>(context, listen: false).color2!,
-        child: TitleShortcutRowWidget(
-          leading: Padding(
-            padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.defPaddingVal),
-            child: Icon(icon, color: background_(context)),
-          ),
-          title: text,
-          titleColor: background_(context),
-          trailing: const SizedBox(width: Dimen.ICON_FOOTPRINT),
+      child: TitleShortcutRowWidget(
+        leading: Padding(
+          padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.defPaddingVal),
+          child: Icon(icon, color: background_(context)),
         ),
-      )
+        title: text,
+        titleColor: background_(context),
+        trailing: const SizedBox(width: Dimen.ICON_FOOTPRINT),
+      ),
+    )
   );
   
 }

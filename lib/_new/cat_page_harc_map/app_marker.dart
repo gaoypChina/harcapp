@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/common_contact_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/common_widgets/community_header_widget.dart';
@@ -20,6 +22,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../api/harc_map.dart';
 import '../cat_page_home/community/community_preview_data_widget.dart';
 import '../cat_page_home/community/model/community.dart';
+import 'marker_editor/_main.dart';
 import 'marker_type.dart';
 
 class AppMarker extends Marker{
@@ -130,8 +133,7 @@ class CommunityTile extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => SimpleButton(
-    elevation: 2.0,
-    color: cardEnab_(context),
+    color: background_(context),
     radius: CommunityThumbnailWidget.defRadius,
     child: Hero(
         tag: 'CommunityHeaderHero${comm.key}',
@@ -168,12 +170,60 @@ Future<void> showMarkerBottomSheet(BuildContext context, MarkerRespBody marker) 
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
 
-                ListTile(
-                  title: Text(marker.name, style: AppTextStyle(
-                    fontSize: Dimen.TEXT_SIZE_APPBAR,
-                    fontWeight: weight.halfBold,
-                  )),
-                  subtitle: Text(markerTypeToName(marker.type), style: AppTextStyle()),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      icon: const Icon(MdiIcons.arrowLeft),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+
+                    const SizedBox(width: Dimen.APPBAR_LEADING_WIDTH - Dimen.ICON_FOOTPRINT),
+
+                    Expanded(child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+
+                        const SizedBox(
+                          height: Dimen.ICON_MARG + (Dimen.ICON_SIZE - Dimen.TEXT_SIZE_APPBAR)/2,
+                        ),
+
+                        Text(marker.name, style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_APPBAR,
+                          fontWeight: weight.bold,
+                          color: iconEnab_(context)
+                        )),
+
+                        const SizedBox(height: Dimen.defMarg),
+
+                        Text(
+                          markerTypeToName(marker.type),
+                          style: AppTextStyle(
+                            color: textEnab_(context),
+                            fontWeight: weight.halfBold
+                          )
+                        )
+
+                      ],
+                    )),
+
+                    IconButton(
+                      icon: const Icon(MdiIcons.pencilOutline),
+                      onPressed: (){
+                        Navigator.pop(context);
+                        pushPage(
+                          context,
+                          builder: (context) => MarkerEditorPage(
+                            initMarker: marker,
+                            onSuccess: (updatedMarker){
+                              marker.update(updatedMarker);
+                            },
+                          )
+                        );
+                      },
+                    ),
+
+                  ],
                 ),
 
                 Padding(
@@ -212,51 +262,55 @@ Future<void> showMarkerBottomSheet(BuildContext context, MarkerRespBody marker) 
 
                         if(marker.communities.isNotEmpty)
                           ListView.separated(
-                            itemBuilder: (_, index) => Material(
-                              borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                              color: cardEnab_(context),
+                            itemBuilder: (_, index) => BorderMaterial(
+                              elevation: 2.0,
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  CommunityTile(
-                                    marker.communities[index].item1,
-                                    onPreShowDialog: () => Navigator.pop(context),
-                                    onPostShowDialog: () => showMarkerBottomSheet(context, marker),
-                                  ),
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  children: [
+                                    CommunityTile(
+                                      marker.communities[index].item1,
+                                      onPreShowDialog: () => Navigator.pop(context),
+                                      onPostShowDialog: () => showMarkerBottomSheet(context, marker),
+                                    ),
 
-                                  if(marker.communities[index].item2 != null)
-                                    Padding(
-                                      padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                                        children: [
-
-                                          Text(
-                                            'Notatka:',
-                                            style: AppTextStyle(
-                                                fontSize: Dimen.TEXT_SIZE_NORMAL,
-                                                fontWeight: weight.halfBold,
-                                                color: iconDisab_(context)
-                                            ),
+                                    if(marker.communities[index].item2 != null)
+                                      Padding(
+                                          padding: const EdgeInsets.only(
+                                            top: Dimen.defMarg,
+                                            left: Dimen.ICON_MARG,
+                                            right: Dimen.ICON_MARG,
+                                            bottom: Dimen.ICON_MARG
                                           ),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                                            children: [
 
-                                          const SizedBox(height: Dimen.defMarg),
+                                              Text(
+                                                'Notatka:',
+                                                style: AppTextStyle(
+                                                    fontSize: Dimen.TEXT_SIZE_NORMAL,
+                                                    fontWeight: weight.halfBold,
+                                                    color: iconDisab_(context)
+                                                ),
+                                              ),
 
-                                          Text(
-                                            marker.communities[index].item2!,
-                                            style: AppTextStyle(
-                                                fontSize: Dimen.TEXT_SIZE_BIG,
-                                                color: iconEnab_(context),
-                                            ),
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
+                                              const SizedBox(height: Dimen.defMarg),
 
-                                        ],
+                                              Text(
+                                                marker.communities[index].item2!,
+                                                style: AppTextStyle(
+                                                  fontSize: Dimen.TEXT_SIZE_BIG,
+                                                  color: iconEnab_(context),
+                                                ),
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+
+                                            ],
+                                          )
                                       )
-                                    )
-                                ],
-                              ),
+                                  ],
+                                ),
                             ),
                             separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
                             itemCount: marker.communities.length,

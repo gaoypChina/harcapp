@@ -44,7 +44,8 @@ class API{
           '\n# System time used: ${await TimeSettings.isTimeAutomatic}'
           '\n# Status code: ${e.response?.statusCode}'
           '\n# Status message: ${e.response?.statusMessage}'
-          '\n# Response error data:\n${e.response?.data}'
+          '\n# Error:\n${e.message}'
+          '\n\n# Error response data:\n${e.response?.data}'
   );
 
   static Response createFakeErrResponse({String? error, Map<String, dynamic>? errMap}) => Response(

@@ -40,6 +40,7 @@ class _IndivCompAwardsEditorWidgetState extends State<IndivCompAwardsEditorWidge
                 if(awardProv.awards!.isEmpty)
                   return const SliverFillRemaining(
                     hasScrollBody: false,
+                    fillOverscroll: true,
                     child: Center(
                       child: EmptyMessageWidget(
                         icon: MdiIcons.trophyOutline,
@@ -85,9 +86,9 @@ class _IndivCompAwardsEditorWidgetState extends State<IndivCompAwardsEditorWidge
       ),
 
       Positioned(
-        bottom: 0,
-        left: 0,
-        right: 0,
+        bottom: Dimen.defMarg,
+        left: Dimen.defMarg,
+        right: Dimen.defMarg,
         child: EditGradientButton(
             MdiIcons.trophy,
             'Dodaj nagrodę',

@@ -193,8 +193,8 @@ class CirclePageState extends State<CirclePage>{
     }else
       currTab = AnnouncementCategories.all;
 
-    nameWidgetKey = GlobalKey();
-    tabBarKey = GlobalKey();
+    nameWidgetKey = GlobalKey(debugLabel: 'nameWidgetKey');
+    tabBarKey = GlobalKey(debugLabel: 'tabBarKey');
 
     scrollController = ScrollController();
     scrollController.addListener(() {
@@ -591,18 +591,16 @@ class CirclePageState extends State<CirclePage>{
                                         children: [
 
                                           Expanded(
-                                            child: Expanded(
-                                              child: Consumer<CommunityProvider>(
-                                                builder: (context, prov, child) => AutoSizeText(
-                                                  circle.name,
-                                                  style: AppTextStyle(
-                                                      fontSize: CommunitySliverAppBar.communityNameFontSize,
-                                                      color: iconEnab_(context),
-                                                      fontWeight: weight.bold
-                                                  ),
-                                                  maxLines: 2,
-                                                  key: nameWidgetKey,
+                                            child: Consumer<CommunityProvider>(
+                                              builder: (context, prov, child) => AutoSizeText(
+                                                circle.name,
+                                                style: AppTextStyle(
+                                                    fontSize: CommunitySliverAppBar.communityNameFontSize,
+                                                    color: iconEnab_(context),
+                                                    fontWeight: weight.bold
                                                 ),
+                                                maxLines: 2,
+                                                key: nameWidgetKey,
                                               ),
                                             ),
                                           ),

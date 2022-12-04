@@ -5,14 +5,10 @@ import 'package:harcapp/_new/api/harc_map.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_editor/providers.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_type.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_visibility.dart';
-import 'package:harcapp/_new/cat_page_home/community/common_widgets/community_header_widget.dart';
-import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
-import 'package:harcapp/_new/cat_page_home/community/select_community.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
-import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -57,9 +53,9 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
 
         Consumer<NameProvider>(
           builder: (context, prov, child) => AppTextFieldHint(
+            controller: prov.controller,
             hint: 'Nazwa miejsca:',
             hintTop: '',
-            onChanged: (_, text) => prov.name = text,
           ),
         ),
 
@@ -164,87 +160,6 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
           ),
         ),
 
-        const SizedBox(height: Dimen.SIDE_MARG),
-        TitleShortcutRowWidget(
-          title: 'Środowiska',
-          titleColor: hintEnab_(context),
-          textAlign: TextAlign.left,
-        ),
-
-        Consumer<BindedCommunitiesProvider>(
-          builder: (context, prov, child) => ListView.separated(
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index){
-
-              String commKey = prov.communityKeys.keys.toList()[index];
-
-              Community community = Community.allMap![commKey]!;
-              return Material(
-                clipBehavior: Clip.hardEdge,
-                color: backgroundIcon_(context),
-                borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-
-                    CommunityHeaderWidget(
-                        community.iconKey,
-                        community.key,
-                        community.name,
-                        community.category,
-
-                        thumbnailHeroTag: false
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.all(Dimen.defMarg),
-                      child: AppTextFieldHint(
-                        hint: 'Notatka:',
-                        hintTop: 'Notatka',
-                        maxLines: null,
-                        onChanged: (_, text) => prov.communityKeys[commKey] = text,
-                      ),
-                    ),
-                    
-                    SimpleButton.from(
-                      context: context,
-                      margin: EdgeInsets.zero,
-                      radius: 0,
-                      icon: MdiIcons.trashCanOutline,
-                      text: 'Jednak nie',
-                      onTap: () => prov.remove(commKey)
-                    )
-
-                  ],
-                ),
-              );
-            },
-            separatorBuilder: (context, index) => const SizedBox(height: Dimen.defMarg),
-            shrinkWrap: true,
-            itemCount: prov.communityKeys.length,
-          ),
-        ),
-
-        SimpleButton.from(
-          context: context,
-          icon: MdiIcons.plus,
-          text: 'Dodaj środowisko',
-          onTap: () async {
-
-            BindedCommunitiesProvider bindedCommunitiesProv = BindedCommunitiesProvider.of(context);
-
-            String? communityKey = await selectCommunity(
-              context,
-              forbiddenCommunityKeys: bindedCommunitiesProv.communityKeys.keys.toList(),
-              filterMode: FilterMode.manager
-            );
-            if(communityKey == null) return;
-            if(!bindedCommunitiesProv.communityKeys.containsKey(communityKey))
-              bindedCommunitiesProv.add(communityKey);
-
-          }
-        )
-        
       ],
     );
   }

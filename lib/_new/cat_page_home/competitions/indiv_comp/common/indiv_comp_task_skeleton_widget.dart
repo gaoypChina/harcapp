@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 
 class IndivCompTaskSkeletonWidget extends StatelessWidget{
@@ -43,90 +42,67 @@ class IndivCompTaskSkeletonWidget extends StatelessWidget{
     super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => BorderMaterial(
+    child: Padding(
+      padding: const EdgeInsets.only(top: padding),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
 
-    return SimpleButton(
-      elevation: elevation,
-      radius: AppCard.bigRadius,
-      margin: EdgeInsets.zero,
-      padding: EdgeInsets.zero,
-      color: cardEnab_(context),
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Material(
-          borderRadius: BorderRadius.circular(AppCard.bigRadius - 4),
-          clipBehavior: Clip.hardEdge,
-          color: background_(context),
-          child: Padding(
-            padding: const EdgeInsets.only(
-              top: padding,
-              //left: Dimen.defMarg,
-              //right: Dimen.defMarg,
-              //bottom: Dimen.defMarg,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
+          Stack(
+            children: [
 
-                Stack(
-                  children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
 
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
+                      const SizedBox(width: IndivCompTaskSkeletonWidget.padding),
+                      Expanded(child: title??Container()),
 
-                            const SizedBox(width: IndivCompTaskSkeletonWidget.padding),
-                            Expanded(child: title??Container()),
+                      if(trailing != null)
+                        const SizedBox(width: 12.0),
 
-                            if(trailing != null)
-                              const SizedBox(width: 12.0),
+                      if(trailing != null)
+                        trailing!,
 
-                            if(trailing != null)
-                              trailing!,
+                      const SizedBox(width: IndivCompTaskSkeletonWidget.padding),
 
-                            const SizedBox(width: IndivCompTaskSkeletonWidget.padding),
+                    ],
+                  ),
 
-                          ],
-                        ),
+                  if(titleBottom != null)
+                    titleBottom!,
 
-                        if(titleBottom != null)
-                          titleBottom!,
-
-                        if(description != null)
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: IndivCompTaskSkeletonWidget.padding,
-                                left: IndivCompTaskSkeletonWidget.padding,
-                                right: IndivCompTaskSkeletonWidget.padding
-                            ),
-                            child: description,
-                          ),
-                      ],
+                  if(description != null)
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: IndivCompTaskSkeletonWidget.padding,
+                          left: IndivCompTaskSkeletonWidget.padding,
+                          right: IndivCompTaskSkeletonWidget.padding
+                      ),
+                      child: description,
                     ),
+                ],
+              ),
 
-                    if(front != null)
-                      front!
+              if(front != null)
+                front!
 
-                  ],
-                ),
-
-                const SizedBox(height: IndivCompTaskSkeletonWidget.padding),
-
-                if(bottom != null)
-                  bottom!,
-
-              ],
-            ),
+            ],
           ),
-        ),
-      )
-    );
 
-  }
+          const SizedBox(height: IndivCompTaskSkeletonWidget.padding),
+
+          if(bottom != null)
+            bottom!,
+
+        ],
+      ),
+    ),
+  );
 
 }

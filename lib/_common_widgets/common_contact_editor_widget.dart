@@ -99,6 +99,7 @@ class CommonContactEditorWidgetState extends State<CommonContactEditorWidget>{
         hintTop: 'Uwaga na marginesie',
         controller: otherController,
         onAnyChanged: (other) => onOtherChanged?.call(other[0]),
+        maxLines: null,
       ),
 
     ],

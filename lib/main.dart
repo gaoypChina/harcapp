@@ -196,6 +196,7 @@ void main() async {
 
             // ŚPIEWNIK
             ChangeNotifierProvider(create: (context) => AlbumProvider()),
+            ChangeNotifierProvider(create: (context) => RandomButtonProvider()),
 
             // SZYFRY
             ChangeNotifierProvider(create: (context) => GaderypolukiProvider()),

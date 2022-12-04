@@ -34,7 +34,6 @@ import 'package:harcapp_core_song_widget/song_rate.dart';
 import 'package:harcapp_core_song_widget/song_widget_template.dart';
 import 'package:harcapp_core_tags/tag_layout.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pretty_json/pretty_json.dart';
 import 'package:provider/provider.dart';
 
 import '../../_common_widgets/person_data_getter.dart';
@@ -243,6 +242,7 @@ class SongWidget extends StatelessWidget{
                     chordsVisible: false
                 );
                 onTextSizeChanged?.call();
+                showAppToast(context, text: 'Chwyty możesz przywrócić w ustawieniach');
               }
           );
         else

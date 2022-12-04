@@ -715,21 +715,66 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
     floatingActionButton:
     !Album.initialized || Album.current.songs.isEmpty ? null:
-    Consumer2<FloatingButtonProvider, AlbumProvider>(
-        builder: (context, floatingButtonProv, albumProv, child){
+    Consumer3<FloatingButtonProvider, AlbumProvider, RandomButtonProvider>(
+        builder: (context, floatingButtonProv, albumProv, randButtProv, child){
           if(isAutoScrolling)
             return Container();
 
           CommonColorData colors = CommonColorData.get(Album.current.colorsKey);
-          return ExtendedFloatingButton(
-              MdiIcons.magnify,
-              'Spis treści',
-              textColor: colors.iconColor,
-              background: colors.colorStart,
-              backgroundEnd: colors.colorEnd,
-              floatingButtonExpanded: floatingButtonExpanded,
-              onTap: openTabOfCont
+
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+
+              ExtendedFloatingButton(
+                  MdiIcons.magnify,
+
+                  'Spis treści',
+
+                  textColor: colors.iconColor,
+                  background: colors.colorStart,
+
+                  backgroundEnd:
+                  randButtProv.showButtonOnMain?
+                  colors.colorStart:
+                  colors.colorEnd,
+
+                  floatingButtonExpanded:
+                  floatingButtonExpanded &&
+                      !randButtProv.showButtonOnMain,
+                  onTap: openTabOfCont
+              ),
+
+              SizedBox(
+                  height: Dimen.ICON_SIZE + 2*Dimen.FLOATING_BUTTON_MARG,
+                  child: AnimatedSize(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeOutQuart,
+                      alignment: Alignment.centerLeft,
+                      child: Builder(
+                        builder: (context){
+
+                          if(randButtProv.showButtonOnMain)
+                            return Padding(
+                              padding: const EdgeInsets.only(left: Dimen.FLOATING_BUTTON_MARG),
+                              child: ExtendedFloatingButton(
+                                MdiIcons.shuffle,
+                                'Losuj',
+                                textColor: colors.iconColor,
+                                background: colors.colorStart,
+                                backgroundEnd: colors.colorEnd,
+                              ),
+                            );
+
+                          return Container();
+
+                        },
+                      )
+                  )
+              )
+            ],
           );
+
         }
     ),
   );

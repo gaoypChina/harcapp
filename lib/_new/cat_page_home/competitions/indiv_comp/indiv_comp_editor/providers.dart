@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
@@ -11,6 +10,8 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_d
 import 'indiv_comp_task_editable.dart';
 
 class ModeProvider extends ChangeNotifier{
+
+  static ModeProvider of(BuildContext context) => Provider.of<ModeProvider>(context, listen: false);
 
   DateTime? _startDate;
   DateTime? get startDate => _startDate;
@@ -43,6 +44,8 @@ class ModeProvider extends ChangeNotifier{
 
 class ColorKeyProvider extends ChangeNotifier{
 
+  static ColorKeyProvider of(BuildContext context) => Provider.of<ColorKeyProvider>(context, listen: false);
+
   String _colorsKey;
 
   ColorKeyProvider({String? colorKey}):
@@ -65,6 +68,8 @@ class ColorKeyProvider extends ChangeNotifier{
 
 class IconKeyProvider extends ChangeNotifier{
 
+  static IconKeyProvider of(BuildContext context) => Provider.of<IconKeyProvider>(context, listen: false);
+
   String _iconKey;
 
   IconKeyProvider({String? iconKey}):
@@ -81,6 +86,8 @@ class IconKeyProvider extends ChangeNotifier{
 }
 
 class TaskBodiesProvider extends ChangeNotifier{
+
+  static TaskBodiesProvider of(BuildContext context) => Provider.of<TaskBodiesProvider>(context, listen: false);
 
   List<IndivCompTaskEditable>? _taskEditables;
 

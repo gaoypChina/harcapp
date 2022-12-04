@@ -387,7 +387,7 @@ class NewIndivCompButton extends StatelessWidget{
               initAwards: type == NewCompType.empty ? null : List.of(
                   IndivComp.previewAwards),
 
-              onSaved: (comp) async {
+              onSuccess: (comp) async {
                 IndivComp.addToAll(comp, context: context);
                 pushReplacePage(context, builder: (context) => IndivCompPage(IndivComp.all!.last));
               },

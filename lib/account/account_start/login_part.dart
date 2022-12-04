@@ -167,7 +167,7 @@ class LoginPartState extends State<LoginPart>{
 
       try {
         await ZhpAccAuth.login();
-      } on Exception{
+      } on Exception {
         await popPage(context); // close login alert dialog
         return;
       }

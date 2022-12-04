@@ -58,7 +58,7 @@ class CommonContactData{
           email == other.email &&
           phone == other.phone &&
           website == other.website &&
-          other == other;
+          this.other == other.other;
 
   @override
   int get hashCode => email.hashCode + phone.hashCode + website.hashCode + other.hashCode;

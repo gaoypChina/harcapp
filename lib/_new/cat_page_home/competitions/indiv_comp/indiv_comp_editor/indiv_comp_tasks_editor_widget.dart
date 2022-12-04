@@ -41,6 +41,7 @@ class _IndivCompTasksEditorWidgetState extends State<IndivCompTasksEditorWidget>
                 if(prov.taskEditables!.isEmpty)
                   return const SliverFillRemaining(
                     hasScrollBody: false,
+                    fillOverscroll: true,
                     child: Center(
                       child: EmptyMessageWidget(
                         icon: MdiIcons.cubeOutline,
@@ -109,9 +110,9 @@ class _IndivCompTasksEditorWidgetState extends State<IndivCompTasksEditorWidget>
       ),
 
       Positioned(
-        bottom: 0,
-        left: 0,
-        right: 0,
+        bottom: Dimen.defMarg,
+        left: Dimen.defMarg,
+        right: Dimen.defMarg,
         child: EditGradientButton(
             MdiIcons.cube,
             'Dodaj zadanie',

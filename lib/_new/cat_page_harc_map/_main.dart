@@ -26,6 +26,7 @@ import '../../values/consts.dart';
 import '../api/harc_map.dart';
 import 'app_marker.dart';
 import 'marker_editor/_main.dart';
+import 'marker_visibility.dart';
 
 class CatPageHarcMap extends StatefulWidget{
 
@@ -212,21 +213,27 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
         if(Community.all == null)
           return FloatingActionButton(
-              backgroundColor: background_(context),
-              child: SpinKitChasingDots(
-                color: iconEnab_(context),
-                size: Dimen.ICON_SIZE,
-              ),
-              onPressed: () => showAppToast(context, text: 'Ładowanie środowisk...')
+            backgroundColor: background_(context),
+            child: SpinKitChasingDots(
+              color: iconEnab_(context),
+              size: Dimen.ICON_SIZE,
+            ),
+            onPressed: () => showAppToast(context, text: 'Ładowanie środowisk...')
           );
 
         return FloatingActionButton(
-            backgroundColor: background_(context),
-            child: Icon(MdiIcons.plus, color: iconEnab_(context)),
-            onPressed: () => pushPage(
-                context,
-                builder: (context) => const MarkerEditorPage()
+          backgroundColor: background_(context),
+          child: Icon(MdiIcons.plus, color: iconEnab_(context)),
+          onPressed: () => pushPage(
+            context,
+            builder: (context) => MarkerEditorPage(
+              onSuccess: (marker){
+                markers!.add(marker);
+                if(marker.visibility != MarkerVisibility.PUBLIC)
+                  publicOnlyMarkers!.add(marker);
+              },
             )
+          )
         );
 
       }
@@ -258,10 +265,7 @@ class TagWidget extends StatelessWidget{
           const SizedBox(width: Dimen.ICON_MARG),
         ],
       ),
-      onTap: () => pushPage(
-          context,
-          builder: (context) => MarkerEditorPage()
-      )
+      onTap: (){}
   );
 
 }

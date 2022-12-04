@@ -76,7 +76,6 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
   bool get showRemove => widget.showRemove;
   bool get showFreeze => widget.showFreeze;
 
-
   int? points;
 
   TaskState? get state => widget.state;
@@ -95,18 +94,16 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
     descController = TextEditingController(text: widget.initDesc);
     descController!.addListener(() => onDescChanged!(descController!.text));
 
-
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Material(
-      elevation: !remove! && state == TaskState.OPEN?AppCard.bigElevation:0,
-      borderRadius: BorderRadius.circular(AppCard.bigRadius),
+  Widget build(BuildContext context) => Material(
+    elevation: !remove! && state == TaskState.OPEN?AppCard.bigElevation:0,
+    borderRadius: BorderRadius.circular(AppCard.bigRadius),
 
-      color: cardEnab_(context),
-      child: IndivCompTaskSkeletonWidget(
+    color: cardEnab_(context),
+    child: IndivCompTaskSkeletonWidget(
         trailing: SimpleButton(
           radius: AppCard.bigRadius,
           margin: EdgeInsets.zero,
@@ -167,20 +164,24 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
         ),
 
         bottom: AnimatedChildSlider(
-            switchInCurve: Curves.easeOutQuad,
-            switchOutCurve: Curves.easeOutQuad,
-            index: !remove! && state == TaskState.OPEN?0:1,
-            direction: Axis.horizontal,
-            withOpacity: true,
-            children: [
+          switchInCurve: Curves.easeOutQuad,
+          switchOutCurve: Curves.easeOutQuad,
+          index: !remove! && state == TaskState.OPEN?0:1,
+          direction: Axis.horizontal,
+          withOpacity: true,
+          isCenter: false,
+          children: [
 
-              Row(
-                  children: [
-                    if(showFreeze)
-                      Expanded(
-                        child: IconButton(
-                          icon: const Icon(MdiIcons.snowflake),
-                          onPressed: (){
+            Row(
+                children: [
+                  if(showFreeze)
+                    Expanded(
+                      child: SimpleButton.from(
+                          context: context,
+                          radius: 0,
+                          margin: EdgeInsets.zero,
+                          icon: MdiIcons.snowflake,
+                          onTap: (){
 
                             showAlertDialog(
                                 context,
@@ -204,14 +205,17 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
                             );
 
                           }
-                        ),
                       ),
+                    ),
 
-                    if(showRemove)
-                      Expanded(
-                        child: IconButton(
-                          icon: const Icon(MdiIcons.trashCanOutline),
-                          onPressed: (){
+                  if(showRemove)
+                    Expanded(
+                      child: SimpleButton.from(
+                          context: context,
+                          radius: 0,
+                          margin: EdgeInsets.zero,
+                          icon: MdiIcons.trashCanOutline,
+                          onTap: (){
 
                             showAlertDialog(
                                 context,
@@ -235,24 +239,28 @@ class IndivCompTaskEditWidgetState extends State<IndivCompTaskEditWidget>{
                             );
 
                           }
-                        ),
                       ),
-                  ]
-              ),
+                    ),
+                ]
+            ),
 
-              IconButton(
-                icon: const Icon(MdiIcons.arrowLeft),
-                onPressed: onRestoreTap,
+            SizedBox(
+              width: double.infinity,
+              child: SimpleButton.from(
+                context: context,
+                radius: 0,
+                margin: EdgeInsets.zero,
+                icon: MdiIcons.arrowLeft,
+                onTap: onRestoreTap,
               ),
+            ),
 
-            ],
+          ],
         )
 
 
-      ),
-    );
-
-  }
+    ),
+  );
 
 }
 

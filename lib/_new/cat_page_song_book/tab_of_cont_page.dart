@@ -26,6 +26,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 
 import '../../main.dart';
+import 'providers.dart';
 import 'song_management/song.dart';
 
 class TabOfContPage extends StatefulWidget{
@@ -238,6 +239,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
                 return;
               }
 
+              RandomButtonProvider.registerTap_(context);
               int index = Random().nextInt(controller!.currSongs!.length);
               Song randomSong = controller!.currSongs![index];
               int indexInAlbum = Album.current.songs.indexOf(randomSong);

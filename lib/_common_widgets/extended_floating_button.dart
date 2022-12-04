@@ -64,9 +64,9 @@ class ExtendedFloatingButton extends StatelessWidget{
           elevation: 6,
           padding: EdgeInsets.zero,
           radius: 100,
-          child: child,
           onTap: onTap,
-          colorSplash: Colors.white24
+          colorSplash: Colors.white24,
+          child: child
       ),
     );
   }
@@ -80,10 +80,10 @@ class _TextWidget extends StatelessWidget{
   final Color? textColor;
 
   const _TextWidget(
-      this.floatingButtonExpanded,
-      this.text,
-      this.textColor
-      );
+    this.floatingButtonExpanded,
+    this.text,
+    this.textColor
+  );
 
   @override
   Widget build(BuildContext context) {

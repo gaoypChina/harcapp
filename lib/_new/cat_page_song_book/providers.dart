@@ -70,3 +70,38 @@ class AlbumProvider extends ChangeNotifier{
   void notify() => notifyListeners();
 }
 
+class RandomButtonProvider extends ChangeNotifier {
+
+  static RandomButtonProvider of(BuildContext context) => Provider.of<RandomButtonProvider>(context, listen: false);
+
+  static notify_(BuildContext context) => of(context).notify();
+
+  late bool _showButtonOnMain;
+  late int _lastTapId;
+  bool get showButtonOnMain => _showButtonOnMain;
+
+  Future<void> registerTap() async {
+    _showButtonOnMain = true;
+    _lastTapId++;
+    int lastTapId = _lastTapId;
+    notify();
+    await Future.delayed(const Duration(seconds: 4));
+    if(_lastTapId == lastTapId){
+      _showButtonOnMain = false;
+      _lastTapId = 0;
+      notify();
+    }
+
+  }
+
+  static Future<void> registerTap_(BuildContext context) => of(context).registerTap();
+
+  RandomButtonProvider(){
+    _showButtonOnMain = false;
+    _lastTapId = 0;
+  }
+
+  void notify() => notifyListeners();
+
+
+}

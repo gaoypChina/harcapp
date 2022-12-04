@@ -25,7 +25,7 @@ dependencies:
   aad_oauth: ^0.4.0
   after_layout: ^1.1.0
   animated_text_kit: ^4.2.1
-  assets_audio_player: ^3.0.5
+  assets_audio_player: ^3.0.6
 #  assets_audio_player:
 #    git:
 #      url: https://github.com/luis901101/Flutter-AssetsAudioPlayer.git
@@ -48,7 +48,7 @@ dependencies:
   flutter_lints: ^2.0.1
   flutter_map: ^3.0.0
   flutter_reorderable_list: ^1.2.0
-  flutter_secure_storage: ^5.0.2
+  flutter_secure_storage: ^6.1.0
   flutter_slidable: ^2.0.0
   flutter_spinkit: ^5.1.0
   flutter_staggered_animations: ^1.1.1
