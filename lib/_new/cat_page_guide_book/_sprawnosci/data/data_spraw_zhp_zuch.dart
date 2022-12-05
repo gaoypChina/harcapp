@@ -248,7 +248,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Wykonałem(-am) wybrany element dekoracji i stroju oraz scenę do przygotowanego w gromadzie lub szkole przedstawienia.',
                         'Zaprezentowałem(-am) gromadzie kilka piosenek zainscenizowanych za pomocą lalki.',
                         'Przedstawiłem(-am) w kręgu rady, jak podkładam głos mojej lalce i jak ją animuję. Umiem „zagrać” lalką różne emocje.',
-                        'Zorganizowałem(-am) przedstawienie dla młodszych kolegów i koleżanek, zuchów z gromady lub rodziców.',
+                        'Zorganizowałem(-am) przedstawienie dla młodszych kolegów, zuchów z gromady lub rodziców.',
                       ]),
                 ]
             ),
@@ -490,6 +490,427 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 ]
             ),
 
+            // 9. artystyczna MISTRZ ROBÓTEK RĘCZNYCH
+            SprawFamilyData(
+                id: '9',
+                requirements: [
+                  'Wykonałem(-am) robótki z różnego rodzaju materiałów.',
+                  'Zrobiłem(-am) dla siebie lub dla kogoś szalik lub inny włóczkowy upominek.',
+                  'Wykonałem(-am) serwetkę według wzoru (wymyślonego przez siebie lub podpatrzonego).',
+                  'Gromadzę wzory i pomysły robótek ręcznych z różnych materiałów.',
+                  'Znam przynajmniej jeden ze sposobów nabierania oczek, robienia łańcuszka, słupków i półsłupków. Potrafię nazwać i wykonać kilka rodzajów ściegów na drutach (francuski, pończoszniczy, ściągaczowy).',
+                  'Umiem rozpoznać rodzaj włóczki.',
+                  'Dobrałem(-am) włóczkę oraz druty lub szydełko do planowanej robótki.',
+                  'Wykonałem(-am) coś pożytecznego dla mojej gromady.',
+                ],
+                notesForLeaders: [
+                  'Sprawność uczy zucha cierpliwości i dokładności. Wyrabia zmysł estetyki oraz umiejętności manualne.',
+                  'W zdobywaniu sprawności może pomóc mama lub babcia.',
+                  'Aby dalej rozwijać zainteresowania zucha, można polecić mu sprawność „Mistrza makramy”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza robótek ręcznych”: "Zuch stara się być coraz lepszy.", "Wszystkim z zuchem jest dobrze."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'mistrz_robotek_recznych',
+                      title: 'Mistrz robótek ręcznych',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Zrobiłem(-am) dla siebie lub dla kogoś szalik albo inny włóczkowy upominek.',
+                        'Znam przynajmniej jeden ze sposobów nabierania oczek i robienia łańcuszka.',
+                        'Nauczyłem(-am) się rozpoznawać rodzaj włóczki. Opowiedziałem(-am) o rodzajach włóczki mojej szóstce.',
+                        'Gromadzę wzory i pomysły robótek ręcznych z różnych materiałów.',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_robotek_recznych',
+                      title: 'Mistrz robótek ręcznych',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Zrobiłem(-am) dla siebie lub dla kogoś szalik albo inny włóczkowy upominek.',
+                        'Wykonałem(-am) serwetkę według wzoru (wymyślonego przez siebie lub podpatrzonego).',
+                        'Gromadzę wzory i pomysły robótek ręcznych z różnych materiałów.',
+                        'Znam przynajmniej jeden ze sposobów nabierania oczek, robienia łańcuszka, słupków i półsłupków. Potrafię je wykonać.',
+                        'Nauczyłem(-am) się rozpoznawać rodzaj włóczki. Opowiedziałem(-am) o rodzajach włóczki w kręgu rady.',
+                        'Dobrałem(-am) włóczkę i druty lub szydełko do planowanej robótki.',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_robotek_recznych',
+                      title: 'Mistrz robótek ręcznych',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Zrobiłem(-am) dla siebie lub dla kogoś szalik albo inny włóczkowy upominek.',
+                        'Wykonałem(-am) serwetkę według wzoru (wymyślonego przez siebie lub podpatrzonego).',
+                        'Gromadzę wzory i pomysły robótek ręcznych z różnych materiałów.',
+                        'Nauczyłem(-am) się przynajmniej jednego ze sposobów nabierania oczek, robienia łańcuszka, słupków i półsłupków.',
+                        'Nauczyłem(-am) się nazw i wykonania kilku rodzajów ściegów na drutach (francuski, pończoszniczy, ściągaczowy). Pokazałem(-am) efekty mojej pracy w kręgu rady.',
+                        'Nauczyłem(-am) się rozpoznawać rodzaj włóczki. Opowiedziałem(-am) o rodzajach włóczki w kręgu rady.',
+                        'Wykonałem(-am) coś pożytecznego dla mojej gromady.',
+                      ]),
+                ]
+            ),
+
+            // 10. artystyczna MODELARZ
+            SprawFamilyData(
+                id: '10',
+                requirements: [
+                  'Sklejam modele z papieru, sklejki i tworzywa.',
+                  'Zgromadziłem(-am) własną kolekcję prac.',
+                  'Znam i stosuję odpowiednie rodzaje klejów.',
+                  'Korzystam z fachowej literatury.',
+                  'Zorganizowałem(-am) wystawę prac własnych i kolegów.',
+                  'Opowiedziałem(-am) kolegom o etapach powstawania modelu.',
+                  'Wykonałem(-am) własny model.',
+                ],
+                notesForLeaders: [
+                  'Sprawność kształtuje cierpliwość, zdolności manualne i wytrwałość.',
+                  'Zuch zdobywający sprawność może uczestniczyć w działaniach kółka modelarskiego lub samodzielnie uczyć się sklejać modele.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Modelarza”: "Zuch stara się być coraz lepszy.", "Wszystkim z zuchem jest dobrze."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'modelarz',
+                      title: 'Modelarz',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Zastosowałem(-am) różne rodzaje klejów (odpowiednio do materiału).',
+                        'Skleiłem(-am) dwa modele z papieru, sklejki lub tworzywa na podstawie instrukcji.',
+                        'Wykonałem (-am) własny model.',
+                      ]),
+                  SprawData(
+                      id: 'modelarz',
+                      title: 'Modelarz',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Zastosowałem(-am) różne rodzaje klejów (odpowiednio do materiału).',
+                        'Skleiłem(-am) trzy modele z papieru, sklejki lub tworzywa na podstawie instrukcji.',
+                        'Wykonałem(-am) własny model. Zaprezentowałem(-am) go na zbiórce gromady.',
+                        'Zgromadziłem(-am) własną kolekcję prac.',
+                        'Opowiedziałem(-am) kolegom o etapach powstawania modelu.',
+                      ]),
+                  SprawData(
+                      id: 'modelarz',
+                      title: 'Modelarz',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Zastosowałem(-am) różne rodzaje klejów (odpowiednio do materiału).',
+                        'Skleiłem(-am) cztery modele z papieru, sklejki lub tworzywa na podstawie instrukcji.',
+                        'Wykonałem(-am) własny model. Zaprezentowałem(-am) go na zbiórce gromady.',
+                        'Opowiedziałem(-am) kolegom o etapach powstawania modelu.',
+                        'Zorganizowałem(-am) wystawę prac własnych i kolegów.',
+                      ]),
+                ]
+            ),
+
+            // 11. artystyczna PLASTYK
+            SprawFamilyData(
+                id: '11',
+                requirements: [
+                  'Wiem, co znaczą słowa: oryginał, kopia, reprodukcja, galeria, paleta, krytyk.',
+                  'Wykonałem(-am) cztery prace różnymi technikami plastycznymi.',
+                  'Brałem(-am) udział w konkursie plastycznym.',
+                  'Zaprojektowałem(-am) kostium lub maskę na bal gromady.',
+                  'Zorganizowałem(-am) dla swojej szóstki konkurs rysunkowy.',
+                  'Zapoznałem(-am) innych z różnymi technikami plastycznymi. Nauczyłem(-am) kolegów kilku z nich.',
+                  'Różnymi sposobami upiększam swój pokój (dbam o estetykę wnętrza).',
+                  'Wykonałem(-am) własnoręcznie lub pomogłem(-am) wykonać scenografię do przedstawienia szóstki lub gromady.',
+                ],
+                notesForLeaders: [
+                  'Sprawność wyzwala drzemiące w dzieciach możliwości tworzenia nawet „z niczego”, według własnej wyobraźni. Zuch rozwija swoje poczucie estetyki i zdolności manualne oraz uczy się organizacji warsztatu pracy.',
+                  'Samodzielne zadania zucha można włączyć do pracy gromady. Zuch zdobywający sprawność może pomóc przy organizowaniu konkursów i pokazów technik plastycznych, zadbać o wystrój zuchówki lub przyczynić się do ulepszenia szaty graficznej gazetki lub kroniki.',
+                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu inne sprawności plastyczne, np. „Dekoratora”, „Rzeźbiarza” i „Miłośnika sztuk pięknych”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Plastyka": "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'plastyk',
+                      title: 'Plastyk',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Dowiedziałem(-am) się, co znaczą słowa: oryginał, kopia, reprodukcja, galeria, paleta, krytyk. Opowiedziałem(-am) o tym w kręgu rady.',
+                        'Zapoznałem(-am) się z różnymi technikami plastycznymi. Nauczyłem(-am) się dwóch wybranych technik.',
+                        'Wykonałem(-am) dwie prace różnymi technikami plastycznymi.',
+                        'Brałem(-am) udział w konkursie plastycznym.',
+                      ]),
+                  SprawData(
+                      id: 'plastyk',
+                      title: 'Plastyk',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Dowiedziałem(-am) się, co znaczą słowa: oryginał, kopia, reprodukcja, galeria, paleta, krytyk. Opowiedziałem(-am) o tym w kręgu rady.',
+                        'Zapoznałem(-am) się z różnymi technikami plastycznymi. Nauczyłem(-am) się trzech wybranych technik.',
+                        'Wykonałem(-am) trzy prace różnymi technikami plastycznymi.',
+                        'Brałem(-am) udział w konkursie plastycznym.',
+                        'Wykonałem(-am) własnoręcznie lub pomogłem(-am) wykonać scenografię do przedstawienia szóstki lub gromady.',
+                        'Zaprojektowałem(-am) kostium na przedstawienie gromady.',
+                      ]),
+                  SprawData(
+                      id: 'plastyk',
+                      title: 'Plastyk',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Dowiedziałem(-am) się, co znaczą słowa: oryginał, reprodukcja, galeria, paleta, krytyk. Opowiedziałem(-am) o tym w kręgu rady.',
+                        'Zapoznałem(-am) się z różnymi technikami plastycznymi. Nauczyłem(-am) się trzech wybranych technik.',
+                        'Wykonałem(-am) trzy prace różnymi technikami plastycznymi.',
+                        'Zorganizowałem(-am) konkurs plastyczny dla mojej szóstki lub gromady.',
+                        'Wziąłem(wzięłam) udział w konkursie plastycznym.',
+                        'Wykonałem(-am) własnoręcznie lub pomogłem(-am) wykonać scenografię do przedstawienia szóstki lub gromady.',
+                        'Zaprojektowałem(-am) kostium na przedstawienie gromady.',
+                      ]),
+                ]
+            ),
+
+
+            // 12. artystyczna RECYTATOR
+            SprawFamilyData(
+                id: '12',
+                requirements: [
+                  'Mam swoje ulubione wiersze. Potrafię je odpowiednio wyrecytować.',
+                  'Znam kilka nazwisk popularnych autorów wierszy dla dzieci.',
+                  'Recytowałem(-am) wiersz podczas uroczystości w gromadzie lub szkole.',
+                  'Wiem, jak ćwiczyć poprawność wymowy, dykcję i oddech oraz jak dbać o gardło.',
+                  'Znam zasady dobrej recytacji. Potrafię modulować głos, akcentować w mowie znaki interpunkcyjne, robić pauzy w odpowiednich momentach recytacji oraz dbać o tempo i rytm.',
+                  'Słucham recytacji wierszy.',
+                  'Zaprezentowałem(-am) swoich ulubionych autorów wierszy i ich dzieła.',
+                ],
+                notesForLeaders: [
+                  'Podczas zdobywania sprawności zuch uczy się dostrzegać piękno w słowach (w poezji). Wiersze kształtują osobowość dziecka, uczą oddziaływać na drugiego człowieka, uwrażliwiają na melodyjność języka, a także poszerzają jego słownictwo. Zadania sprawności wspierają pewność siebie zucha, który poprzez głośne deklamowanie utworu przełamuje swoje lęki i nieśmiałość.',
+                  'Zadania realizowane przez zucha można wykorzystać przy okazji różnych uroczystości w gromadzie i w szkole.',
+                  'Aby dalej wspierać zainteresowania zucha, można mu zaproponować zdobywanie sprawności „Bajarza”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Recytatora”: "Zuch kocha Boga i Polskę", "Wszystkim jest z zuchem dobrze", "Zuch stara się być coraz lepszy."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'recytator',
+                      title: 'Recytator',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Przedstawiłem(-am) szóstce swój ulubiony wiersz i jego autora. Wyrecytowałem(-am) go lub odpowiednio odczytałem(-am).',
+                        'Znam przynajmniej dwóch autorów wierszy i bajek dla dzieci. Zaprezentowałem(-am) gromadzie ich sylwetki w dowolnej formie.',
+                        'Wyrecytowałem(-am) wiersz podczas uroczystości w gromadzie lub w szkole.',
+                        'Potrafię wyrecytować tekst i modulować głos, wcielając się w wybraną postać. Zaprezentowałem(-am) wybrany fragment mojej szóstce.',
+                      ]),
+                  SprawData(
+                      id: 'recytator',
+                      title: 'Recytator',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Wyrecytowałem(-am) gromadzie mój ulubiony wiersz i przedstawiłem(-am) zuchom jego autora.',
+                        'Znam przynajmniej trzech autorów wierszy i bajek dla dzieci. Zaprezentowałem(-am) gromadzie ich sylwetki w dowolnej formie.',
+                        'Wyrecytowałem(-am) wiersz podczas uroczystości w gromadzie lub w szkole.',
+                        'Potrafię wyrecytować tekst i modulować głos, wcielając się w wybrane postaci. Zaprezentowałem(-am) w kręgu rady wybrane fragmenty (co najmniej dwa).',
+                        'Uczestniczyłem(-am) w wieczorku poetyckim, słuchając recytacji wierszy.',
+                      ]),
+                  SprawData(
+                      id: 'recytator',
+                      title: 'Recytator',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Wyrecytowałem(-am) gromadzie mój ulubiony wiersz i przedstawiłem(-am) jego autora. Uzasadniłem(-am), dlaczego wybrałem ten utwór i czego możemy się z niego nauczyć.',
+                        'Znam przynajmniej czterech autorów wierszy i bajek dla dzieci. Zaprezentowałem(-am) gromadzie ich sylwetki w dowolnej formie.',
+                        'Wyrecytowałem(-am) wiersz podczas uroczystości w gromadzie lub szkole.',
+                        'Potrafię wyrecytować tekst i modulować głos, wcielając się w wybrane postaci. Zaprezentowałem(-am) w kręgu rady wybrane fragmenty (co najmniej trzy).',
+                        'Uczestniczyłem(-am) w wieczorku poetyckim, słuchając recytacji wierszy.',
+                        'Zaprezentowałem(-am) zuchom ćwiczenia i wprawki przygotowujące do dobrej recytacji. Opowiedziałem(-am), jak dbać o gardło.',
+                      ]),
+                ]
+            ),
+
+
+            // 13. artystyczna RZEŹBIARZ
+            SprawFamilyData(
+                id: '13',
+                requirements: [
+                  'Byłem(-am) w pracowni rzeźbiarza, kamieniarza lub garncarza.',
+                  'Rozróżniam rzeźbę i płaskorzeźbę. Wiem, jakie funkcje mogą pełnić rzeźby i płaskorzeźby (np. dekoracyjne, pomnikowe, nagrobne, architektoniczne).',
+                  'Znam rzeźby i płaskorzeźby znajdujące się w najbliższej okolicy.',
+                  'Wykonałem(-am) kilka prac różnymi technikami rzeźbiarskimi. Rzeźbiłem(-am) w glinie, plastelinie, masie solnej, masie papierowej, gipsie, kamieniu, drewnie, mydle, korze, śniegu lub piasku.',
+                  'Brałem(-am) udział w konkursie rzeźbiarskim.',
+                  'Urządziłem(-am) wystawę swoich prac.',
+                  'Zorganizowałem(-am) kurs rzeźbienia w wybranym materiale. Pokazałem(-am), jak bezpiecznie posługiwać się narzędziami.',
+                ],
+                notesForLeaders: [
+                  'Sprawność wspiera rozwój zdolności manualnych oraz uczy bezpiecznego korzystania z różnych narzędzi. Zuch poznaje właściwości rozmaitych materiałów i kształci swój zmysł estetyczny, poczynając od zachowania czystości na stanowisku pracy, a kończąc na nauce określania właściwych proporcji.',
+                  'Aby dalej rozwijać zainteresowania zucha, można mu polecić inne sprawności artystyczne, np. „Dekoratora”, „Plastyka” i „Miłośnika sztuk pięknych”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Rzeźbiarza": "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'rzezbiarz',
+                      title: 'Rzeźbiarz',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Byłem(-am) w pracowni rzeźbiarza, kamieniarza lub garncarza. Narysowałem(-am) sprzęty i narzędzia, które tam się znajdują.',
+                        'Poznałem(-am) kilka technik rzeźbiarskich. Opowiedziałem(-am) o nich drużynowemu.',
+                        'Wykonałem(-am) pracę wybraną techniką rzeźbiarską (np. w glinie, plastelinie lub masie solnej).',
+                        'Wykonaną pracę zaprezentowałem(-am) na zbiórce gromady.',
+                      ]),
+                  SprawData(
+                      id: 'rzezbiarz',
+                      title: 'Rzeźbiarz',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Byłem(-am) w pracowni rzeźbiarza, kamieniarza lub garncarza. Narysowałem(-am) sprzęty i narzędzia, które tam się znajdują.',
+                        'Poznałem(-am) różne techniki rzeźbiarskie. Opowiedziałem(-am) o nich drużynowemu.',
+                        'Wykonałem(-am) trzy prace wybranymi technikami rzeźbiarskimi (np. w glinie, gipsie, kamieniu, drewnie, mydle lub korze). Wykonane prace zaprezentowałem(-am) na zbiórce gromady.',
+                        'Znam rzeźby i płaskorzeźby znajdujące się w różnych miejscach w najbliższej okolicy (np. pomniki, rzeźby i płaskorzeźby w kościele, w muzeum, na cmentarzu, umieszczone na budynkach). Wykonałem(-am) replikę (miniaturę) wybranej rzeźby lub płaskorzeźby, a następnie zaprezentowałem(-am) ją gromadzie.',
+                        'Brałem(-am) udział w konkursie rzeźbiarskim.',
+                      ]),
+                  SprawData(
+                      id: 'rzezbiarz',
+                      title: 'Rzeźbiarz',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Byłem(-am) w pracowni rzeźbiarza, kamieniarza lub garncarza. Narysowałem(-am) sprzęty i narzędzia, które tam się znajdują.',
+                        'Znam rzeźby i płaskorzeźby znajdujące się w różnych miejscach w najbliższej okolicy (np. pomniki, rzeźby i płaskorzeźby w kościele, w muzeum, na cmentarzu, umieszczone na budynkach). Wykonałem(-am) replikę (miniaturę) wybranej rzeźby lub płaskorzeźby, a następnie zaprezentowałem(-am) ją gromadzie.',
+                        'Poznałem(-am) różne techniki rzeźbiarskie. Opowiedziałem(-am) o nich w kręgu rady.',
+                        'Wykonałem(-am) kilka prac wybranymi technikami rzeźbiarskimi (np. w glinie, plastelinie, masie solnej, masie papierowej, gipsie, kamieniu, drewnie, mydle, korze, śniegu lub piasku).',
+                        'Pokazałem(-am) swoje prace na urządzonej przeze mnie wystawie.',
+                        'Brałem(-am) udział w konkursie rzeźbiarskim.',
+                        'Zorganizowałem(-am) kurs rzeźbienia w wybranym materiale. Pokazałem(-am), jak bezpiecznie posługiwać się narzędziami.',
+                      ]),
+                ]
+            ),
+
+
+            // 14. artystyczna SZANTYMEN
+            SprawFamilyData(
+                id: '14',
+                requirements: [
+                  'Wiem, co oznacza słowo „szanta”.',
+                  'Wiem, do czego dawniej szanty były wykorzystywane na statkach. Potrafię odróżnić pieśni kubryku, wielorybnicze i szanty klasyczne.',
+                  'Mam swój szantowy śpiewnik.',
+                  'Potrafię zaśpiewać przynajmniej pięć szant i opowiedzieć ich treść.',
+                  'Wymyśliłem(-am) gesty i ruchy do jednej z żeglarskich piosenek.',
+                  'Znam nazwy kilku zespołów, które śpiewają szanty. Mam swój ulubiony zespół szantowy. Posiadam nagrania jego piosenek lub potrafię zaśpiewać kilka z nich.',
+                  'Wystąpiłem(-am) na zuchowym festiwalu, śpiewając solo lub z szóstką piosenkę żeglarską.',
+                ],
+                notesForLeaders: [
+                  'Podczas zdobywania sprawności zuch rozwija swoje zdolności muzyczne i zainteresowania związane z żeglarstwem. Kadra zuchowa musi zwrócić szczególną uwagę na dobór piosenek, gdyż niektóre szanty zawierają wulgaryzmy.',
+                  'Sprawność jest przeznaczona przede wszystkim dla zuchów, które interesują się żeglarstwem lub należą do gromady, w której występuje obrzędowość żeglarska.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Szantymena”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.".',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'szantymen',
+                      title: 'Szantymen',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Wiem, co oznacza słowo „szanta”. Wykonałem(-am) plakat promujący szanty.',
+                        'Założyłem(-am) swój szantowy śpiewnik.',
+                        'Wymyśliłem(-am) gesty i ruchy do jednej z żeglarskich piosenek.',
+                        'Potrafię zaśpiewać przynajmniej dwie szanty.',
+                      ]),
+                  SprawData(
+                      id: 'szantymen',
+                      title: 'Szantymen',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Wiem, co oznacza słowo „szanta”. Wiem, do czego kiedyś były wykorzystywane szanty. Opowiedziałem(-am) o tym swojej szóstce.',
+                        'Założyłem(-am) swój szantowy śpiewnik.',
+                        'Wymyśliłem(-am) gesty i ruchy do dwóch szant.',
+                        'Potrafię zaśpiewać przynajmniej trzy szanty i opowiedzieć ich treść.',
+                        'Wystąpiłem(-am) na zuchowym festiwalu, śpiewając solo lub z szóstką piosenkę żeglarską.',
+                        'Zorganizowałem(-am) spotkanie szantowe dla bliskich lub gromady, podczas którego śpiewaliśmy wspólnie szanty.',
+                      ]),
+                  SprawData(
+                      id: 'szantymen',
+                      title: 'Szantymen',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Wykonałem(-am) plakat dotyczący szant. Wyjaśniłem(-am) na nim, skąd wzięła się ich nazwa, do czego były dawniej wykorzystywane oraz wymieniłem(-am) różne rodzaje szant (np. pieśni kubryku, wielorybnicze, szanty klasyczne).',
+                        'Założyłem(-am) swój szantowy śpiewnik.',
+                        'Wystąpiłem(-am) na zuchowym festiwalu, śpiewając solo lub z szóstką piosenkę żeglarską.',
+                        'Znam przynajmniej jeden zespół szantowy i potrafię zaśpiewać kilka jego piosenek.',
+                        'Zorganizowałem(-am) szantowe spotkanie dla bliskich lub gromady, podczas którego wspólnie śpiewaliśmy szanty.',
+                      ]),
+                ]
+            ),
+
+
+            // 15. artystyczna ŚPIEWAK
+            SprawFamilyData(
+                id: '15',
+                requirements: [
+                  'Zaśpiewałem(-am) co najmniej dziesięć piosenek i pląsów.',
+                  'Nauczyłem(-am) kolegów z podwórka, klasy lub gromady dwóch nowych piosenek lub pląsów.',
+                  'Założyłem(-am) swój śpiewnik, wpisuję lub wklejam do niego słowa piosenek.',
+                  'Zorganizowałem(-am) lub współorganizowałem(-am) festiwal piosenki.',
+                  'Byłem(-am) na koncercie lub wysłuchałem(-am) przynajmniej jednej audycji muzycznej.',
+                  'Zaśpiewałem(-am) dźwięki gamy.',
+                  'Zorganizowałem(-am) wraz z zuchami ze swojej szóstki „spotkanie z piosenką”.',
+                  'Mam swojego ulubionego wykonawcę. Potrafię zaśpiewać jedną z jego piosenek.',
+                ],
+                notesForLeaders: [
+                  'Zuch zdobywający sprawność rozwija swój talent muzyczny, kształci wrażliwość na piękno, ćwiczy rytmikę i przełamuje swoją nieśmiałość.',
+                  'Samodzielne zadania zucha można włączyć do pracy gromady. Zuch zdobywający sprawność „Śpiewaka” może poprowadzić na zbiórce śpiew lub pląs.',
+                  'Aby dalej rozwijać zainteresowania zucha, można mu polecić sprawność „Grajka” i „Miłośnika muzyki”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Śpiewaka”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'spiewak',
+                      title: 'Śpiewak',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Założyłem(-am) śpiewnik i stale uzupełniam go nowymi piosenkami. Zaprezentowałem(-am) go mojej szóstce.',
+                        'Słuchałem(-am) muzyki na żywo.',
+                        'Opowiedziałem(-am) zuchom z gromady o moim ulubionym wykonawcy. Wspólnie wysłuchaliśmy piosenki z jego repertuaru.',
+                        'Razem z gromadą zaśpiewałem(-am) co najmniej trzy piosenki.',
+                      ]),
+                  SprawData(
+                      id: 'spiewak',
+                      title: 'Śpiewak',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Założyłem(-am) śpiewnik i stale uzupełniam go nowymi piosenkami. Zaprezentowałem(-am) go w kręgu rady.',
+                        'Słuchałem(-am) muzyki na żywo. Opowiedziałem(-am) w kręgu rady o koncercie (co mi się najbardziej podobało i co szczególnie zwróciło moją uwagę).',
+                        'Opowiedziałem(-am) zuchom z gromady o moim ulubionym wykonawcy. Zaprezentowałem(-am) przedstawiający go plakat oraz zaśpiewałem(-am) moją ulubioną piosenkę z jego repertuaru.',
+                        'Razem z gromadą zaśpiewałem(-am) co najmniej pięć piosenek.',
+                        'Wystąpiłem(-am) na festiwalu zuchowym. Zaśpiewałem(-am) wybraną piosenkę.',
+                      ]),
+                  SprawData(
+                      id: 'spiewak',
+                      title: 'Śpiewak',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Założyłem(-am) śpiewnik i stale uzupełniam go nowymi piosenkami. Mam w nim co najmniej trzy piosenki harcerskie, które umiem już zaśpiewać. Zaśpiewałem(-am) jedną z nich zuchom z mojej gromady.',
+                        'Byłem(-am) na koncercie. Opowiedziałem(-am) o nim w kręgu rady.',
+                        'Opowiedziałem(-am) mojej szóstce o ciekawej audycji muzycznej, której ostatnio słuchałem(-am).',
+                        'Opowiedziałem(-am) zuchom z gromady o swoim ulubionym wykonawcy. Zaprezentowałem(-am) przedstawiający go plakat oraz zaśpiewałem(-am) swoją ulubioną piosenkę z jego repertuaru.',
+                        'Razem z gromadą zaśpiewałem(-am) co najmniej pięć piosenek.',
+                        'Wystąpiłem(-am) na festiwalu zuchowym. Zaśpiewałem(-am) wybraną piosenkę.',
+                        'Potrafię zaśpiewać dźwięki gamy. Zaprezentowałem(-am) to na zbiórce.',
+                      ]),
+                ]
+            ),
+
           ]),
 
       SprawGroupData(
@@ -503,22 +924,22 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 id: '1',
                 requirements: [
                   'Wiem, dlaczego gimnastyka jest ważna dla zdrowia. Gimnastykuję się codziennie rano',
-                  'Zrobiłem(-łam) pomoce do ćwiczeń gimnastycznych, np. woreczki z grochem, serso, piłki szmaciane lub szarfy.',
-                  'Obejrzałem(-łam) zawody gimnastyczne. ',
-                  'Dobrałem(-łam) ćwiczenia do muzyki',
-                  'Brałem(-łam) udział w pokazach gimnastycznych organizowanych przez gromadę lub szkołę.',
+                  'Zrobiłem(-am) pomoce do ćwiczeń gimnastycznych, np. woreczki z grochem, serso, piłki szmaciane lub szarfy.',
+                  'Obejrzałem(-am) zawody gimnastyczne. ',
+                  'Dobrałem(-am) ćwiczenia do muzyki',
+                  'Brałem(-am) udział w pokazach gimnastycznych organizowanych przez gromadę lub szkołę.',
                   'Umiem zrobić przewrót w tył i w przód, mostek z pozycji leżącej, głęboki skłon (dotykając dłońmi podłogi) i jaskółkę.',
-                  'Prowadziłem(-łam) na zbiórce lub kolonii zuchowej gimnastykę oraz rozgrzewkę na lekcji wychowania fizycznego. ',
+                  'Prowadziłem(-am) na zbiórce lub kolonii zuchowej gimnastykę oraz rozgrzewkę na lekcji wychowania fizycznego. ',
                   'Staram się zachować prawidłową postawę w każdej sytuacji.',
-                  'Nauczyłem(-łam) kolegów prostego układu ćwiczeń.',
-                  'Wykonałem(-łam) ćwiczenia na przyrządach (ławeczce, drabince, materacu, drążku)',
-                  'Wykonałem(-łam) układ ćwiczeń z piłką, wstążką lub skakanką.',
+                  'Nauczyłem(-am) kolegów prostego układu ćwiczeń.',
+                  'Wykonałem(-am) ćwiczenia na przyrządach (ławeczce, drabince, materacu, drążku)',
+                  'Wykonałem(-am) układ ćwiczeń z piłką, wstążką lub skakanką.',
                 ],
                 notesForLeaders: [
-                  'Wobec powszechnego występowania u dzieci wad postawy bardzo ważne są działania profilaktyczne, dlatego warto zachęcać zuchy do zdobywania sprawności „Gimnastyka/Gimnastyczki”.',
-                  'Indywidualne zadania zucha można włączyć do zbiórek gromady, szczególnie podczas zdobywania tropów „Olimpijczyków/Olimpijek”, „Sportowców”, Trenerek/Trenerów”, „Rycerzy”, „Kosmonautów” lub „Żołnierzy”.',
-                  'Zuchowi, który interesuje się sportem, warto zaproponować także zdobywanie innych sprawności, np. „Mistrza/Mistrzyni rolek (wrotek)”, „Mistrza/Mistrzyni deskorolki”, „Narciarza/Narciarki”, „Pływaka/Pływaczki” lub „Lekkoatlety/Lekkoatletki".',
-                  'Punkt Prawa Zucha, na który zwracamy szczególną uwagę, realizując sprawność „Gimnastyka/Gimnastyczki”: "Zuch stara się być coraz lepszy."',
+                  'Wobec powszechnego występowania u dzieci wad postawy bardzo ważne są działania profilaktyczne, dlatego warto zachęcać zuchy do zdobywania sprawności „Gimnastyka”.',
+                  'Indywidualne zadania zucha można włączyć do zbiórek gromady, szczególnie podczas zdobywania tropów „Olimpijczyków”, „Sportowców”, Trenerek”, „Rycerzy”, „Kosmonautów” lub „Żołnierzy”.',
+                  'Zuchowi, który interesuje się sportem, warto zaproponować także zdobywanie innych sprawności, np. „Mistrza rolek (wrotek)”, „Mistrza deskorolki”, „Narciarza”, „Pływaka” lub „Lekkoatlety".',
+                  'Punkt Prawa Zucha, na który zwracamy szczególną uwagę, realizując sprawność „Gimnastyka”: "Zuch stara się być coraz lepszy."',
                 ],
                 sprawData: [
 
@@ -528,10 +949,10 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
-                        'Gimnastykowałem(-łam) się rano co najmniej trzy razy w tygodniu.',
-                        'Zapisałem(-łam) dwa powody, dla których gimnastyka jest ważna dla zdrowia.',
-                        'Dobrałem(-łam) trzy ćwiczenia do mojej ulubionej piosenki i zaprezentowałem(-łam) je gromadzie na zbiórce.',
-                        'Przeszedłem(-łam) ścieżkę zdrowia. Narysowałem(-łam) trzy ćwiczenia, które na niej wykonałem(-łam).',
+                        'Gimnastykowałem(-am) się rano co najmniej trzy razy w tygodniu.',
+                        'Zapisałem(-am) dwa powody, dla których gimnastyka jest ważna dla zdrowia.',
+                        'Dobrałem(-am) trzy ćwiczenia do mojej ulubionej piosenki i zaprezentowałem(-am) je gromadzie na zbiórce.',
+                        'Przeszedłem(-am) ścieżkę zdrowia. Narysowałem(-am) trzy ćwiczenia, które na niej wykonałem(-am).',
                       ]),
                   SprawData(
                       id: 'gimnastyk',
@@ -539,12 +960,12 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
-                        'Gimnastykowałem(-łam) się rano co najmniej pięć razy w tygodniu.',
-                        'Zapisałem(-łam) trzy powody, dla których gimnastyka jest ważna dla zdrowia.',
-                        'Przeszedłem(-łam) ścieżkę zdrowia. Narysowałem(-łam) cztery ćwiczenia, które na niej wykonałem(-łam).',
-                        'Przeprowadziłem(-łam) rozgrzewkę na zbiórce, biwaku lub kolonii gromady.',
-                        'Zrobiłem(-łam) jedną pomoc do ćwiczeń gimnastycznych, np. woreczki z grochem, serso, piłki szmaciane lub szarfy.',
-                        'Nauczyłem(-łam) się wykonywać dwa ćwiczenia gimnastyczne, np. przewrót w tył i w przód, mostek z pozycji leżącej, głęboki skłon (dotykając dłońmi podłogi) i jaskółkę. Zaprezentowałem(-łam) je na zbiórce',
+                        'Gimnastykowałem(-am) się rano co najmniej pięć razy w tygodniu.',
+                        'Zapisałem(-am) trzy powody, dla których gimnastyka jest ważna dla zdrowia.',
+                        'Przeszedłem(-am) ścieżkę zdrowia. Narysowałem(-am) cztery ćwiczenia, które na niej wykonałem(-am).',
+                        'Przeprowadziłem(-am) rozgrzewkę na zbiórce, biwaku lub kolonii gromady.',
+                        'Zrobiłem(-am) jedną pomoc do ćwiczeń gimnastycznych, np. woreczki z grochem, serso, piłki szmaciane lub szarfy.',
+                        'Nauczyłem(-am) się wykonywać dwa ćwiczenia gimnastyczne, np. przewrót w tył i w przód, mostek z pozycji leżącej, głęboki skłon (dotykając dłońmi podłogi) i jaskółkę. Zaprezentowałem(-am) je na zbiórce',
                       ]),
                   SprawData(
                       id: 'gimnastyk',
@@ -552,12 +973,12 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
-                        'Gimnastykowałem(-łam) się rano co najmniej pięć razy w tygodniu.',
-                        'Zapisałem(-łam) trzy powody, dla których gimnastyka jest ważna dla zdrowia.',
-                        'Przeszedłem(-łam) ścieżkę zdrowia. Narysowałem(-łam) pięć ćwiczeń, które na niej wykonałem(-łam).',
-                        'Przeprowadziłem(-łam) rozgrzewkę na zbiórce, biwaku lub kolonii gromady.',
-                        'Wykonałem(-łam) układ ćwiczeń z piłką, wstążką lub skakanką, zawierający o najmniej trzy różne ćwiczenia.',
-                        'Nauczyłem(-łam) się wykonywać trzy ćwiczenia, np. przewrót w tył i w przód, mostek z pozycji leżącej, głęboki skłon (dotykając dłońmi podłogi) i jaskółkę. Zaprezentowałem(-łam) je na zbiórce.',
+                        'Gimnastykowałem(-am) się rano co najmniej pięć razy w tygodniu.',
+                        'Zapisałem(-am) trzy powody, dla których gimnastyka jest ważna dla zdrowia.',
+                        'Przeszedłem(-am) ścieżkę zdrowia. Narysowałem(-am) pięć ćwiczeń, które na niej wykonałem(-am).',
+                        'Przeprowadziłem(-am) rozgrzewkę na zbiórce, biwaku lub kolonii gromady.',
+                        'Wykonałem(-am) układ ćwiczeń z piłką, wstążką lub skakanką, zawierający o najmniej trzy różne ćwiczenia.',
+                        'Nauczyłem(-am) się wykonywać trzy ćwiczenia, np. przewrót w tył i w przód, mostek z pozycji leżącej, głęboki skłon (dotykając dłońmi podłogi) i jaskółkę. Zaprezentowałem(-am) je na zbiórce.',
                       ]),
                 ]
             ),
@@ -568,17 +989,17 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 requirements: [
                   'Znam konkurencje lekkoatletyczne. Uprawiam jedną z dziedzin lekkiej atletyki.',
                   'Pracuję nad swoją kondycją fizyczną. Systematycznie uprawiam gimnastykę.',
-                  'Założyłem(-łam) dzienniczek swoich rekordów.',
-                  'Opowiedziałem(-łam) kolegom, na czym polega zdrowe odżywianie się. Wyjaśniłem(-łam), dlaczego jest ważne.',
-                  'Uczestniczyłem(-łam) w meetingu lekkoatletycznym lub zawodach sportowych.',
+                  'Założyłem(-am) dzienniczek swoich rekordów.',
+                  'Opowiedziałem(-am) kolegom, na czym polega zdrowe odżywianie się. Wyjaśniłem(-am), dlaczego jest ważne.',
+                  'Uczestniczyłem(-am) w meetingu lekkoatletycznym lub zawodach sportowych.',
                   'Znam rekordy olimpijskie i nazwiska sportowców uprawiających wybraną dyscyplinę sportową.',
-                  'Zorganizowałem(-łam) zawody w gromadzie lub na podwórku.',
+                  'Zorganizowałem(-am) zawody w gromadzie lub na podwórku.',
                   'Podczas zawodów stosuję zasady fair play.',
                 ],
                 notesForLeaders: [
                   'Zuch „Lekkoatleta/Lekkoatletka” uprawia jedną lub kilka dyscyplin lekkoatletycznych. Lubi uprawiać sport, ma dużo energii i chęci do pracy nad sobą.',
                   'Zuchy, które zdobywają tę sprawność na kolonii, mogą pomagać w porannych rozgrzewkach lub zajęciach sportowych.',
-                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Lekkoatlety/Lekkoatletki”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.", "Zuch pamięta o swoich obowiązkach."',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Lekkoatlety”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.", "Zuch pamięta o swoich obowiązkach."',
                 ],
                 sprawData: [
 
@@ -588,11 +1009,11 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
-                        'Zawsze jestem przygotowany(-na) na zajęcia sportowe. Narysowałem(-łam), jak wyglądam w stroju sportowym.',
-                        'Systematycznie uprawiam gimnastykę, przygotowałem(-łam) trzy ulubione ćwiczenia i przedstawiłem(-łam) je na zbiórce.',
-                        'Zrobiłem(-łam) plakat, na którym pokazałem(-łam), co powinni jeść chłopcy/dziewczynki w moim wieku. Pokazałem(-łam) plakat w kręgu rady. Opowiedziałem(-łam) innym zuchom, na czym polega zdrowe odżywianie i dlaczego jest ważne.',
-                        'Uczestniczyłem(-łam) w meetingu lekkoatletycznym lub zawodach sportowych.',
-                        'Założyłem(-łam) dzienniczek swoich rekordów.',
+                        'Zawsze jestem przygotowany(-na) na zajęcia sportowe. Narysowałem(-am), jak wyglądam w stroju sportowym.',
+                        'Systematycznie uprawiam gimnastykę, przygotowałem(-am) trzy ulubione ćwiczenia i przedstawiłem(-am) je na zbiórce.',
+                        'Zrobiłem(-am) plakat, na którym pokazałem(-am), co powinni jeść chłopcy i dziewczynki w moim wieku. Pokazałem(-am) plakat w kręgu rady. Opowiedziałem(-am) innym zuchom, na czym polega zdrowe odżywianie i dlaczego jest ważne.',
+                        'Uczestniczyłem(-am) w meetingu lekkoatletycznym lub zawodach sportowych.',
+                        'Założyłem(-am) dzienniczek swoich rekordów.',
                       ]),
                   SprawData(
                       id: 'lekkoatleta',
@@ -600,13 +1021,13 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
-                        'Regularnie ćwiczę na zajęciach sportowych. Zrobiłem(-łam) dzienniczek swoich osiągnięć.',
-                        'Mam swojego ulubionego olimpijczyka. Przedstawiłem(-łam) na zbiórce prezentację o nim. Wiem, jakie pobił rekordy i ile medali zdobył.',
-                        'W kręgu rady zaprezentowałem(-łam) moje trzy ulubione dyscypliny sportowe. Opowiedziałem(-łam) zuchom o zasadach fair play.',
-                        'Narysowałem(-łam) piramidę zdrowego odżywiania i zaprezentowałem(-łam) ją zuchom z gromady.',
-                        'Obejrzałem(-łam) razem z rodzicami Igrzyska Olimpijskie.',
-                        'Założyłem(-łam) dzienniczek moich rekordów. Analizuję je i sprawdzam, czy moje wyniki się poprawiły.',
-                        'Uczestniczyłem(-łam) w meetingu lekkoatletycznym lub zawodach sportowych.',
+                        'Regularnie ćwiczę na zajęciach sportowych. Zrobiłem(-am) dzienniczek swoich osiągnięć.',
+                        'Mam swojego ulubionego olimpijczyka. Przedstawiłem(-am) na zbiórce prezentację o nim. Wiem, jakie pobił rekordy i ile medali zdobył.',
+                        'W kręgu rady zaprezentowałem(-am) moje trzy ulubione dyscypliny sportowe. Opowiedziałem(-am) zuchom o zasadach fair play.',
+                        'Narysowałem(-am) piramidę zdrowego odżywiania i zaprezentowałem(-am) ją zuchom z gromady.',
+                        'Obejrzałem(-am) razem z rodzicami Igrzyska Olimpijskie.',
+                        'Założyłem(-am) dzienniczek moich rekordów. Analizuję je i sprawdzam, czy moje wyniki się poprawiły.',
+                        'Uczestniczyłem(-am) w meetingu lekkoatletycznym lub zawodach sportowych.',
                       ]),
                   SprawData(
                       id: 'lekkoatleta',
@@ -614,15 +1035,15 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
-                        'Regularnie ćwiczę w domu i na zajęciach sportowych. Po każdych zajęciach pamiętam o rozciąganiu. Zrobiłem(-łam) plan ćwiczeń odpowiednich dla mojego wieku i zaprezentowałem(-łam) go na zbiórce.',
+                        'Regularnie ćwiczę w domu i na zajęciach sportowych. Po każdych zajęciach pamiętam o rozciąganiu. Zrobiłem(-am) plan ćwiczeń odpowiednich dla mojego wieku i zaprezentowałem(-am) go na zbiórce.',
                         'Znam co najmniej trzech mistrzów olimpijskich. Znam ich rekordy i liczbę zdobytych medali.',
-                        'Zorganizowałem(-łam) na zbiórce zawody między szóstkami. Opowiedziałem(-łam) gromadzie o zasadach fair play. Przygotowałem(-łam) drobne nagrody dla najlepszej szóstki.',
-                        'Zrobiłem(-łam) plakat dotyczący mojej ulubionej dziedziny lekkiej atletyki.',
-                        'Nauczyłem(-łam) się jednej nowej rzeczy związanej z moją ulubioną dziedziną lekkiej atletyki. Zaprezentowałem(-łam) ją na zbiórce.',
-                        'Założyłem(-łam) dzienniczek moich rekordów. Analizuję je i sprawdzam, czy moje wyniki się poprawiły.',
-                        'Przygotowałem(-łam) piramidę zdrowego odżywiania. Przedstawiłem(-łam) ją w kręgu rady.',
-                        'Przygotowałem(-łam) listę zdrowych produktów, które powinna jeść osoba w moim wieku uprawiająca sport.',
-                        'Uczestniczyłem(-łam) w meetingu lekkoatletycznym lub zawodach sportowych.',
+                        'Zorganizowałem(-am) na zbiórce zawody między szóstkami. Opowiedziałem(-am) gromadzie o zasadach fair play. Przygotowałem(-am) drobne nagrody dla najlepszej szóstki.',
+                        'Zrobiłem(-am) plakat dotyczący mojej ulubionej dziedziny lekkiej atletyki.',
+                        'Nauczyłem(-am) się jednej nowej rzeczy związanej z moją ulubioną dziedziną lekkiej atletyki. Zaprezentowałem(-am) ją na zbiórce.',
+                        'Założyłem(-am) dzienniczek moich rekordów. Analizuję je i sprawdzam, czy moje wyniki się poprawiły.',
+                        'Przygotowałem(-am) piramidę zdrowego odżywiania. Przedstawiłem(-am) ją w kręgu rady.',
+                        'Przygotowałem(-am) listę zdrowych produktów, które powinna jeść osoba w moim wieku uprawiająca sport.',
+                        'Uczestniczyłem(-am) w meetingu lekkoatletycznym lub zawodach sportowych.',
                       ]),
                 ]
             ),
@@ -631,20 +1052,20 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
             SprawFamilyData(
                 id: '3',
                 requirements: [
-                  'Byłem(-łam) na lodowisku. Jeździłem(-łam) na łyżwach.',
+                  'Byłem(-am) na lodowisku. Jeździłem(-am) na łyżwach.',
                   'Znam dyscypliny łyżwiarskie i nazwiska słynnych łyżwiarzy.',
-                  'Jeździłem(-łam) na jednej nodze, tyłem i w pozycji kucznej.',
-                  'Wymijałem(-łam) przeszkody znajdujące się na lodzie.',
-                  'Wytłumaczyłem(-łam) kolegom, gdzie wolno jeździć na łyżwach i jakie niebezpieczeństwa czyhają na nieostrożnych łyżwiarzy.',
-                  'Oglądałem(-łam) w telewizji mistrzostwa w łyżwiarstwie szybkim lub figurowym albo rozgrywki w hokeju na lodzie.',
+                  'Jeździłem(-am) na jednej nodze, tyłem i w pozycji kucznej.',
+                  'Wymijałem(-am) przeszkody znajdujące się na lodzie.',
+                  'Wytłumaczyłem(-am) kolegom, gdzie wolno jeździć na łyżwach i jakie niebezpieczeństwa czyhają na nieostrożnych łyżwiarzy.',
+                  'Oglądałem(-am) w telewizji mistrzostwa w łyżwiarstwie szybkim lub figurowym albo rozgrywki w hokeju na lodzie.',
                   'Dbam o swój sprzęt łyżwiarski.',
-                  'Sam(a) zrobiłem(-łam) sobie kij do hokeja.',
-                  'Uczestniczyłem(-łam) w zawodach łyżwiarskich lub meczu hokejowym organizowanym w gromadzie.',
+                  'Sam(a) zrobiłem(-am) sobie kij do hokeja.',
+                  'Uczestniczyłem(-am) w zawodach łyżwiarskich lub meczu hokejowym organizowanym w gromadzie.',
                 ],
                 notesForLeaders: [
-                  'Zuch „Łyżwiarz/Łyżwiarka” kształtuje swoją zwinność, zręczność oraz ogólną kondycję fizyczną. Świetnie jeździ na łyżwach. Wie, jak bezpiecznie bawić się na lodzie oraz gdzie wolno jeździć na łyżwach.',
-                  'Aby dalej rozwijać zainteresowania zucha, można mu wskazać sprawności „Mistrza/Mistrzyni rolek” i „Narciarza/Narciarki”.',
-                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Łyżwiarza/Łyżwiarki”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.", "Zuch jest dzielny."',
+                  'Zuch „Łyżwiarz” kształtuje swoją zwinność, zręczność oraz ogólną kondycję fizyczną. Świetnie jeździ na łyżwach. Wie, jak bezpiecznie bawić się na lodzie oraz gdzie wolno jeździć na łyżwach.',
+                  'Aby dalej rozwijać zainteresowania zucha, można mu wskazać sprawności „Mistrza rolek” i „Narciarza”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Łyżwiarza”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.", "Zuch jest dzielny."',
                 ],
                 sprawData: [
 
@@ -654,11 +1075,11 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
-                        'Byłem(-łam) z rodzicami lub klasą na łyżwach. Przejechałem(-łam) samodzielnie przynajmniej jedną długość lodowiska.',
-                        'Nauczyłem(-łam) się jeździć w pozycji klasycznej bez pomocy rodziców i podpórek.',
-                        'Mam swojego ulubionego łyżwiarza, opowiedziałem(-łam) o nim na zbiórce.',
-                        'Narysowałem(-łam) swoje wymarzone łyżwy.',
-                        'Opowiedziałem(-łam) szóstce, gdzie wolno jeździć na łyżwach i jakie niebezpieczeństwa czyhają na nieostrożnych łyżwiarzy.',
+                        'Byłem(-am) z rodzicami lub klasą na łyżwach. Przejechałem(-am) samodzielnie przynajmniej jedną długość lodowiska.',
+                        'Nauczyłem(-am) się jeździć w pozycji klasycznej bez pomocy rodziców i podpórek.',
+                        'Mam swojego ulubionego łyżwiarza, opowiedziałem(-am) o nim na zbiórce.',
+                        'Narysowałem(-am) swoje wymarzone łyżwy.',
+                        'Opowiedziałem(-am) szóstce, gdzie wolno jeździć na łyżwach i jakie niebezpieczeństwa czyhają na nieostrożnych łyżwiarzy.',
                       ]),
                   SprawData(
                       id: 'lyzwiarz',
@@ -666,13 +1087,13 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
-                        'Byłem(-łam) z rodzicami lub klasą na łyżwach. Przejechałem(-łam) dowolną odległość tyłem.',
-                        'Znam trzech sławnych łyżwiarzy. Zrobiłem(-łam) plakat prezentujący jednego z nich.',
-                        'Pokazałem(-łam), jak wymijam przeszkody na lodzie.',
-                        'Mam własne łyżwy, razem z rodzicami oddałem(-łam) je do ostrzenia. Opowiedziałem(-łam) szóstce, jak należy o nie dbać.',
-                        'Wykonałem(-łam) swój wymarzony kij do hokeja.',
-                        'Oglądałem(-łam) z rodzicami mistrzostwa w łyżwiarstwie.',
-                        'W kręgu rady opowiedziałem(-łam), gdzie wolno jeździć na łyżwach i jakie niebezpieczeństwa czyhają na nieostrożnych łyżwiarzy.',
+                        'Byłem(-am) z rodzicami lub klasą na łyżwach. Przejechałem(-am) dowolną odległość tyłem.',
+                        'Znam trzech sławnych łyżwiarzy. Zrobiłem(-am) plakat prezentujący jednego z nich.',
+                        'Pokazałem(-am), jak wymijam przeszkody na lodzie.',
+                        'Mam własne łyżwy, razem z rodzicami oddałem(-am) je do ostrzenia. Opowiedziałem(-am) szóstce, jak należy o nie dbać.',
+                        'Wykonałem(-am) swój wymarzony kij do hokeja.',
+                        'Oglądałem(-am) z rodzicami mistrzostwa w łyżwiarstwie.',
+                        'W kręgu rady opowiedziałem(-am), gdzie wolno jeździć na łyżwach i jakie niebezpieczeństwa czyhają na nieostrożnych łyżwiarzy.',
                       ]),
                   SprawData(
                       id: 'lyzwiarz',
@@ -680,13 +1101,13 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
-                        'Regularnie ćwiczyłem(-łam) na lodowisku. Nauczyłem(-łam) młodszego zucha jazdy przodem na lodzie.',
-                        'Jeździłem(-łam) tyłem, w pozycji klasycznej i na jednej nodze.',
-                        'W kręgu rady opowiedziałem(-łam), gdzie wolno jeździć na łyżwach i jakie niebezpieczeństwa czyhają na nieostrożnych łyżwiarzy. Zaprezentowałem(-łam) idealny strój na łyżwy.',
+                        'Regularnie ćwiczyłem(-am) na lodowisku. Nauczyłem(-am) młodszego zucha jazdy przodem na lodzie.',
+                        'Jeździłem(-am) tyłem, w pozycji klasycznej i na jednej nodze.',
+                        'W kręgu rady opowiedziałem(-am), gdzie wolno jeździć na łyżwach i jakie niebezpieczeństwa czyhają na nieostrożnych łyżwiarzy. Zaprezentowałem(-am) idealny strój na łyżwy.',
                         'Dbam o moje łyżwy, samodzielnie je czyszczę i regularnie ostrzę.',
-                        'Byłem(-łam) z rodzicami na zawodach hokejowych lub mistrzostwach w łyżwiarstwie.',
-                        'Wykonałem(-łam) swój kij hokejowy i przyozdobiłem(-łam) kask.',
-                        'Znam przynajmniej trzech sławnych łyżwiarzy. Mam swoją ulubioną drużynę hokejową. Zaprezentowałem(-łam) ulubionych sportowców i ich osiągnięcia na zbiórce.',
+                        'Byłem(-am) z rodzicami na zawodach hokejowych lub mistrzostwach w łyżwiarstwie.',
+                        'Wykonałem(-am) swój kij hokejowy i przyozdobiłem(-am) kask.',
+                        'Znam przynajmniej trzech sławnych łyżwiarzy. Mam swoją ulubioną drużynę hokejową. Zaprezentowałem(-am) ulubionych sportowców i ich osiągnięcia na zbiórce.',
                       ]),
                 ]
             ),
@@ -696,17 +1117,17 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 id: '4',
                 requirements: [
                   'Lubię jeździć na deskorolce. Jestem sprawny(-na) i zwinny(-na).',
-                  'Znam kilka ewolucji na deskorolce. Wykonałem(-łam) je.',
+                  'Znam kilka ewolucji na deskorolce. Wykonałem(-am) je.',
                   'Dbam o bezpieczeństwo podczas jazdy. Noszę nakolanniki i kask.',
                   'Konserwuję swoją deskę.',
                   'Jeżdżę tylko w miejscach do tego wyznaczonych.',
-                  'Naprawiłem(-łam) zepsutą deskę.',
-                  'Zorganizowałem(-łam) na podwórku pokaz jazdy na deskorolce.',
+                  'Naprawiłem(-am) zepsutą deskę.',
+                  'Zorganizowałem(-am) na podwórku pokaz jazdy na deskorolce.',
                 ],
                 notesForLeaders: [
                   'Zuch zdobywający sprawność kształtuje swoją zwinność, zręczność i ogólną kondycję fizyczną. Świetnie jeździ na desce. Wie, jak bezpiecznie się bawić i gdzie powinno się jeździć.',
-                  'Aby dalej rozwijać zainteresowania zucha, można mu wskazać inne sprawności sportowe, np. „Mistrza/Mistrzyni rolek” i „Gimnastyka/Gimnastyczki”.',
-                  ' Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza/Mistrzyni deskorolki”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze."',
+                  'Aby dalej rozwijać zainteresowania zucha, można mu wskazać inne sprawności sportowe, np. „Mistrza rolek” i „Gimnastyka”.',
+                  ' Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza deskorolki”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze."',
                 ],
                 sprawData: [
 
@@ -718,9 +1139,9 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasks: [
                         'Potrafię jeździć na deskorolce klasycznie oraz hamować.',
                         'Dbam o swoją deskorolkę i zestaw ochraniaczy.',
-                        'Narysowałem(-łam) siebie podczas robienia jednej z ewolucji na deskorolce.',
-                        'Znam zasady bezpiecznej jazdy na deskorolce. Przedstawiłem(-łam) je w kręgu rady.',
-                        'Ozdobiłem(-łam) swoją deskorolkę naklejkami.',
+                        'Narysowałem(-am) siebie podczas robienia jednej z ewolucji na deskorolce.',
+                        'Znam zasady bezpiecznej jazdy na deskorolce. Przedstawiłem(-am) je w kręgu rady.',
+                        'Ozdobiłem(-am) swoją deskorolkę naklejkami.',
                       ]),
                   SprawData(
                       id: 'mistrz_deskorolki',
@@ -730,10 +1151,10 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasks: [
                         'Umiem jeździć na deskorolce klasycznie, skręcać i hamować.',
                         'Dbam o swoją deskorolkę i zestaw ochraniaczy.',
-                        'Byłem(-łam) na osiedlowym skateparku i obserwowałem(-łam) inne jeżdżące osoby.',
-                        'Wiem, z czego składa się deskorolka, zrobiłem(-łam) plakat, który pokazuje jej budowę.',
-                        'Mam swojego ulubionego skatera, opowiedziałem(-łam) o nim na zbiórce.',
-                        'Znam zasady bezpiecznej jazdy na deskorolce. Przedstawiłem(-łam) je w kręgu rady.',
+                        'Byłem(-am) na osiedlowym skateparku i obserwowałem(-am) inne jeżdżące osoby.',
+                        'Wiem, z czego składa się deskorolka, zrobiłem(-am) plakat, który pokazuje jej budowę.',
+                        'Mam swojego ulubionego skatera, opowiedziałem(-am) o nim na zbiórce.',
+                        'Znam zasady bezpiecznej jazdy na deskorolce. Przedstawiłem(-am) je w kręgu rady.',
                       ]),
                   SprawData(
                       id: 'mistrz_deskorolki',
@@ -743,10 +1164,10 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasks: [
                         'Umiem jeździć na deskorolce klasycznie, skręcać i hamować.',
                         'Dbam o swoją deskorolkę i zestaw ochraniaczy.',
-                        'Byłem(-łam) na osiedlowym skateparku i obserwowałem(-łam) inne jeżdżące osoby.',
-                        'Wiem, z czego składa się deskorolka. Przedstawiłem(-łam) jej budowę na plakacie. ',
-                        'Mam swojego ulubionego skatera. Opowiedziałem(-łam) o nim na zbiórce.',
-                        'Znam zasady bezpiecznej jazdy na deskorolce. Przedstawiłem(-łam) je w kręgu rady.',
+                        'Byłem(-am) na osiedlowym skateparku i obserwowałem(-am) inne jeżdżące osoby.',
+                        'Wiem, z czego składa się deskorolka. Przedstawiłem(-am) jej budowę na plakacie. ',
+                        'Mam swojego ulubionego skatera. Opowiedziałem(-am) o nim na zbiórce.',
+                        'Znam zasady bezpiecznej jazdy na deskorolce. Przedstawiłem(-am) je w kręgu rady.',
                       ]),
                 ]
             ),
@@ -755,21 +1176,21 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
             SprawFamilyData(
                 id: '5',
                 requirements: [
-                  'Znam różne gry: ruchowe, umysłowe, świetlicowe i podwórkowe. Założyłem(-łam) wielką księgę gier gromady.',
-                  'Wykonałem(-łam) przybory do gier i zabaw.',
+                  'Znam różne gry: ruchowe, umysłowe, świetlicowe i podwórkowe. Założyłem(-am) wielką księgę gier gromady.',
+                  'Wykonałem(-am) przybory do gier i zabaw.',
                   'Zbieram gry i zabawy, zapisuję je w notatniku i wykorzystuję podczas zabaw.',
-                  'Wymyśliłem(-łam) nową grę. Wypróbowaliśmy ją na zbiórce.',
-                  'Prowadziłem(-łam) kilka gier na zbiórce.',
-                  'Nauczyłem(-łam) kolegów na podwórku lub w klasie kilku nowych gier. Opowiedziałem(-łam) im o zasadzie fair play.',
-                  'Byłem(-łam) sędzią podczas rozgrywek.',
-                  'Zrobiłem(-łam) spis gier planszowych znajdujących się w zuchówce.',
-                  'Zorganizowałem(-łam) na podwórku festyn gier.',
-                  'Dbam o znajdujące się w zuchówce przybory do gier i zabaw. Zostałem(-łam) strażnikiem/strażniczką sprzętu sportowego na biwaku lub kolonii i prowadziłem(-łam) książkę wypożyczeń.',
+                  'Wymyśliłem(-am) nową grę. Wypróbowaliśmy ją na zbiórce.',
+                  'Prowadziłem(-am) kilka gier na zbiórce.',
+                  'Nauczyłem(-am) kolegów na podwórku lub w klasie kilku nowych gier. Opowiedziałem(-am) im o zasadzie fair play.',
+                  'Byłem(-am) sędzią podczas rozgrywek.',
+                  'Zrobiłem(-am) spis gier planszowych znajdujących się w zuchówce.',
+                  'Zorganizowałem(-am) na podwórku festyn gier.',
+                  'Dbam o znajdujące się w zuchówce przybory do gier i zabaw. Zostałem(-am) strażnikiem sprzętu sportowego na biwaku lub kolonii i prowadziłem(-am) książkę wypożyczeń.',
                 ],
                 notesForLeaders: [
                   'Sprawność jest przeznaczona dla zuchów, które lubią grać, chętnie proponują gry i potrafią je prowadzić, a także wymyślają nowe gry i zabawy.',
                   'Indywidualne zadania zucha można włączyć do zajęć gromady –na zbiórce, biwaku lub kolonii. Zuch zdobywający sprawność może sędziować rozgrywki oraz przeprowadzić zabawę lub grę według własnego pomysłu (z pomocą kadry). Może także być inicjatorem nowych pląsów, sprawować pieczę nad sprzętem sportowym lub grami planszowymi i odpowiadać za ich wypożyczanie (np. na kolonii).',
-                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza/Mistrzyni gier i zabaw”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy."',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza gier i zabaw”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy."',
                 ],
                 sprawData: [
 
@@ -779,11 +1200,11 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
-                        'Wykonałem(-łam) przybory do gier i zabaw.',
-                        'Zbieram różne gry. Zapisuję je w notatniku i wykorzystuję podczas zabaw. Przeprowadziłem(-łam) przynajmniej dwie gry lub zabawy na zbiórce.',
-                        'Zrobiłem(-łam) spis gier planszowych zgromadzonych w zuchówce.',
-                        'Dbam o przybory do gier i zabaw znajdujące się w zuchówce. Zostałem(-łam)strażnikiem/strażniczką sprzętu sportowego na kolonii i prowadziłem(-łam) książkę wypożyczeń.',
-                        'Przeprowadziłem(-łam) na zbiórce gromady moją ulubioną grę.',
+                        'Wykonałem(-am) przybory do gier i zabaw.',
+                        'Zbieram różne gry. Zapisuję je w notatniku i wykorzystuję podczas zabaw. Przeprowadziłem(-am) przynajmniej dwie gry lub zabawy na zbiórce.',
+                        'Zrobiłem(-am) spis gier planszowych zgromadzonych w zuchówce.',
+                        'Dbam o przybory do gier i zabaw znajdujące się w zuchówce. Zostałem(-am)strażnikiem sprzętu sportowego na kolonii i prowadziłem(-am) książkę wypożyczeń.',
+                        'Przeprowadziłem(-am) na zbiórce gromady moją ulubioną grę.',
                       ]),
                   SprawData(
                       id: 'mistrz_gier_i_zabaw',
@@ -791,13 +1212,13 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
-                        'Założyłem(-łam) wielką księgę gier gromady.',
-                        'Prowadziłem(-łam) na zbiórce przynajmniej pięć gier',
+                        'Założyłem(-am) wielką księgę gier gromady.',
+                        'Prowadziłem(-am) na zbiórce przynajmniej pięć gier',
                         'Zbieram gry i zabawy, zapisuję je w notatniku i wykorzystuję podczas zabaw.',
-                        'Nauczyłem(-łam) kolegów na podwórku lub w klasie przynajmniej dwóch nowych gier. Opowiedziałem(-łam) im o zasadzie fair play.',
-                        'Zorganizowałem(-łam) na podwórku festyn gier. ',
-                        'Wymyśliłem(-łam) trzy nowe gry. Wypróbowaliśmy je na zbiórce lub w klasie.',
-                        'Zostałem(-łam) strażnikiem/strażniczką sprzętu sportowego na biwaku lub kolonii i prowadziłem(-łam) książkę wypożyczeń.',
+                        'Nauczyłem(-am) kolegów na podwórku lub w klasie przynajmniej dwóch nowych gier. Opowiedziałem(-am) im o zasadzie fair play.',
+                        'Zorganizowałem(-am) na podwórku festyn gier. ',
+                        'Wymyśliłem(-am) trzy nowe gry. Wypróbowaliśmy je na zbiórce lub w klasie.',
+                        'Zostałem(-am) strażnikiem sprzętu sportowego na biwaku lub kolonii i prowadziłem(-am) książkę wypożyczeń.',
                       ]),
                   SprawData(
                       id: 'mistrz_gier_i_zabaw',
@@ -805,13 +1226,13 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
-                        'Założyłem(-łam) wielką księgę gier gromady.',
+                        'Założyłem(-am) wielką księgę gier gromady.',
                         'Zbieram gry i zabawy, zapisuję je w notatniku i wykorzystuję podczas zabaw.',
-                        'Zorganizowałem(-łam) na podwórku festyn gier.',
-                        'Prowadziłem(-łam) przynajmniej pięć gier na zbiórce',
-                        'Nauczyłem(-łam) moich kolegów na podwórku lub w klasie przynajmniej dwóch nowych gier. Opowiedziałem(-łam) im o zasadzie fair play.',
-                        'Byłem(-łam) sędzią podczas rozgrywek.',
-                        'Rozmawiałem(-łam) z rodzicami lub dziadkami i dowiedziałem(-łam) się, w jakie gry grali, kiedy byli w moim wieku. Przeprowadziłem(-łam) na zbiórce trzy zabawy podwórkowe i zaprosiłem(-łam) do wspólnej zabawy rodziców lub dziadków.',
+                        'Zorganizowałem(-am) na podwórku festyn gier.',
+                        'Prowadziłem(-am) przynajmniej pięć gier na zbiórce',
+                        'Nauczyłem(-am) moich kolegów na podwórku lub w klasie przynajmniej dwóch nowych gier. Opowiedziałem(-am) im o zasadzie fair play.',
+                        'Byłem(-am) sędzią podczas rozgrywek.',
+                        'Rozmawiałem(-am) z rodzicami lub dziadkami i dowiedziałem(-am) się, w jakie gry grali, kiedy byli w moim wieku. Przeprowadziłem(-am) na zbiórce trzy zabawy podwórkowe i zaprosiłem(-am) do wspólnej zabawy rodziców lub dziadków.',
                       ]),
                 ]
             ),
@@ -820,18 +1241,18 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
             SprawFamilyData(
                 id: '6',
                 requirements: [
-                  'Mam własny sprzęt do kometki. Dbam o niego, naprawiłem(-łam) niewielkie uszkodzenia.',
-                  'Przygotowałem(-łam) boisko do gry w kometkę.',
-                  'Rozegrałem(-łam) mecz w singlu i deblu.',
-                  'Pobiłem(-łam) swój rekord w podbijaniu lotki.',
-                  'Pokazałem(-łam) koledze, jak się gra w kometkę. Wytłumaczyłem(-łam) mu zasady gry.',
-                  'Nauczyłem(-łam) kolegę podbijać lotkę, uderzać rakietą z forhendu i bekhendu.',
-                  'Zorganizowałem(-łam) podwórkowy turniej kometki.',
+                  'Mam własny sprzęt do kometki. Dbam o niego, naprawiłem(-am) niewielkie uszkodzenia.',
+                  'Przygotowałem(-am) boisko do gry w kometkę.',
+                  'Rozegrałem(-am) mecz w singlu i deblu.',
+                  'Pobiłem(-am) swój rekord w podbijaniu lotki.',
+                  'Pokazałem(-am) koledze, jak się gra w kometkę. Wytłumaczyłem(-am) mu zasady gry.',
+                  'Nauczyłem(-am) kolegę podbijać lotkę, uderzać rakietą z forhendu i bekhendu.',
+                  'Zorganizowałem(-am) podwórkowy turniej kometki.',
                 ],
                 notesForLeaders: [
                   'Sprawność kształtuje zwinność, spostrzegawczość, zręczność i ogólną kondycję fizyczną.',
-                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu inne sprawności sportowe, np. „Gimnastyka/Gimnastyczki” i „Mistrza/Mistrzyni ringo”.',
-                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza/Mistrzyni kometki”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.".',
+                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu inne sprawności sportowe, np. „Gimnastyka” i „Mistrza ringo”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza kometki”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.".',
                 ],
                 sprawData: [
 
@@ -841,13 +1262,13 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
-                        'Mam własny sprzęt do kometki. Zadbałem(-łam) o niego.',
+                        'Mam własny sprzęt do kometki. Zadbałem(-am) o niego.',
                         'Regularnie gram w kometkę (co najmniej raz w tygodniu).',
-                        'Podbiłem(-łam) lotkę co najmniej pięć razy.',
-                        'Znam zasady gry w kometkę i nauczyłem(-łam) grać kolegę/koleżankę.',
-                        'Zorganizowałem(-łam) w szóstce turniej gry w kometkę.',
-                        'Oglądałem(-łam) w telewizji lub w Internecie profesjonalne zawody gry w kometkę. Opowiedziałem(-łam) o nich na zbiórce gromady.',
-                        'Rozegrałem(-łam) mecz w singlu',
+                        'Podbiłem(-am) lotkę co najmniej pięć razy.',
+                        'Znam zasady gry w kometkę i nauczyłem(-am) grać kolegę.',
+                        'Zorganizowałem(-am) w szóstce turniej gry w kometkę.',
+                        'Oglądałem(-am) w telewizji lub w Internecie profesjonalne zawody gry w kometkę. Opowiedziałem(-am) o nich na zbiórce gromady.',
+                        'Rozegrałem(-am) mecz w singlu',
                       ]),
                   SprawData(
                       id: 'mistrz_kometki',
@@ -855,14 +1276,14 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
-                        'Mam własny sprzęt do kometki. Zadbałem(-łam) o niego. Naprawiłem(-łam) niewielkie uszkodzenie.',
+                        'Mam własny sprzęt do kometki. Zadbałem(-am) o niego. Naprawiłem(-am) niewielkie uszkodzenie.',
                         'Regularnie gram w kometkę (co najmniej raz w tygodniu).',
-                        'Podbiłem(-łam) lotkę co najmniej dziesięć razy.',
-                        'Uderzałem(-łam) rakietą z forhendu i bekhendu.',
-                        'Przygotowałem(-łam) boisko do gry.',
-                        'Zorganizowałem(-łam) podwórkowy turniej.',
-                        'Oglądałem(-łam) w telewizji lub w Internecie profesjonalne zawody gry w kometkę. Opowiedziałem(-łam) o nich na zbiórce',
-                        'Rozegrałem(-łam) mecz w singlu i deblu.',
+                        'Podbiłem(-am) lotkę co najmniej dziesięć razy.',
+                        'Uderzałem(-am) rakietą z forhendu i bekhendu.',
+                        'Przygotowałem(-am) boisko do gry.',
+                        'Zorganizowałem(-am) podwórkowy turniej.',
+                        'Oglądałem(-am) w telewizji lub w Internecie profesjonalne zawody gry w kometkę. Opowiedziałem(-am) o nich na zbiórce',
+                        'Rozegrałem(-am) mecz w singlu i deblu.',
                       ]),
                   SprawData(
                       id: 'mistrz_kometki',
@@ -870,14 +1291,14 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
-                        'Mam własny sprzęt do kometki. Kupiłem(-łam) go za zaoszczędzone pieniądze.',
-                        'Zadbałem(-łam) o swój sprzęt. Naprawiłem(-łam) niewielkie uszkodzenie.',
+                        'Mam własny sprzęt do kometki. Kupiłem(-am) go za zaoszczędzone pieniądze.',
+                        'Zadbałem(-am) o swój sprzęt. Naprawiłem(-am) niewielkie uszkodzenie.',
                         'Regularnie gram w kometkę (co najmniej raz w tygodniu).',
-                        'Nauczyłem(-łam) grać w kometkę co najmniej trzy osoby.',
-                        'Wiem, jak wyglądają mistrzostwa gry w kometkę. Zorganizowałem(-łam) mistrzostwapodwórkowe.',
-                        'Poprawiłem(-łam) swoje rekordy w odbijaniu lotki. Zapisałem(-łam) wyniki w tabeli.',
-                        'Oglądałem(-łam) w telewizji lub w Internecie profesjonalne zawody gry w kometkę.',
-                        'Rozegrałem(-łam) mecz w singlu i deblu.',
+                        'Nauczyłem(-am) grać w kometkę co najmniej trzy osoby.',
+                        'Wiem, jak wyglądają mistrzostwa gry w kometkę. Zorganizowałem(-am) mistrzostwapodwórkowe.',
+                        'Poprawiłem(-am) swoje rekordy w odbijaniu lotki. Zapisałem(-am) wyniki w tabeli.',
+                        'Oglądałem(-am) w telewizji lub w Internecie profesjonalne zawody gry w kometkę.',
+                        'Rozegrałem(-am) mecz w singlu i deblu.',
                       ]),
                 ]
             ),
@@ -886,18 +1307,18 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
             SprawFamilyData(
                 id: '7',
                 requirements: [
-                  'Rozegrałem(-łam) mecz w singlu i deblu.',
-                  'Pobiłem(-łam) swój rekord w podbijaniu piłeczki.',
-                  'Dbam o swój sprzęt. Naprawiłem(-łam) niewielkie uszkodzenia.',
-                  'Przygotowałem(-łam) stół do gry.',
-                  'Sędziowałem(-łam) mecz tenisa stołowego.',
-                  'Wytłumaczyłem(-łam) zasady gry i fachowe słownictwo używane podczas meczu.',
-                  'Brałem(-łam) udział w turnieju ping-ponga.',
+                  'Rozegrałem(-am) mecz w singlu i deblu.',
+                  'Pobiłem(-am) swój rekord w podbijaniu piłeczki.',
+                  'Dbam o swój sprzęt. Naprawiłem(-am) niewielkie uszkodzenia.',
+                  'Przygotowałem(-am) stół do gry.',
+                  'Sędziowałem(-am) mecz tenisa stołowego.',
+                  'Wytłumaczyłem(-am) zasady gry i fachowe słownictwo używane podczas meczu.',
+                  'Brałem(-am) udział w turnieju ping-ponga.',
                 ],
                 notesForLeaders: [
                   'Sprawność kształtuje zwinność, spostrzegawczość, zręczność i ogólną kondycję fizyczną.',
-                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu inne sprawności sportowe, np. „Gimnastyka/Gimnastyczki” i „Mistrza/Mistrzyni ringo”.',
-                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza/Mistrzyni ping-ponga”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.".',
+                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu inne sprawności sportowe, np. „Gimnastyka” i „Mistrza ringo”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza ping-ponga”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.".',
                 ],
                 sprawData: [
 
@@ -908,11 +1329,11 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasksAreExamples: true,
                       tasks: [
                         'Mam własną paletkę. Co najmniej raz w tygodniu gram w ping-ponga.',
-                        'Podbiłem(-łam) piłeczkę co najmniej pięć razy.',
-                        'Znam zasady gry w ping-ponga i nauczyłem(-łam) grać kolegę/koleżankę.',
-                        'Oglądałem(-łam) w telewizji lub w Internecie zawody w ping-ponga.',
-                        'Przygotowałem(-łam) stół do gry',
-                        'Rozegrałem(-łam) mecz w singlu.',
+                        'Podbiłem(-am) piłeczkę co najmniej pięć razy.',
+                        'Znam zasady gry w ping-ponga i nauczyłem(-am) grać kolegę.',
+                        'Oglądałem(-am) w telewizji lub w Internecie zawody w ping-ponga.',
+                        'Przygotowałem(-am) stół do gry',
+                        'Rozegrałem(-am) mecz w singlu.',
                       ]),
                   SprawData(
                       id: 'mistrz_ping_ponga',
@@ -921,12 +1342,12 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasksAreExamples: true,
                       tasks: [
                         'Mam własną paletkę. Co najmniej raz w tygodniu gram w ping-ponga.',
-                        'Podbiłem(-łam) piłeczkę co najmniej dziesięć razy.',
-                        'Rozegrałem(-łam) mecz w singlu i deblu.',
-                        'Nauczyłem(-łam) grać w ping-ponga co najmniej jedną osobę.Nauczyłem(-łam) grać w ping-ponga co najmniej jedną osobę.',
-                        'Przygotowałem(-łam) stół do gry.',
-                        'Zorganizowałem(-łam) podwórkowy turniej.',
-                        'Wytłumaczyłem(-łam) swojej szóstce zasady gry i fachowe słownictwo używane podczas meczu.',
+                        'Podbiłem(-am) piłeczkę co najmniej dziesięć razy.',
+                        'Rozegrałem(-am) mecz w singlu i deblu.',
+                        'Nauczyłem(-am) grać w ping-ponga co najmniej jedną osobę.Nauczyłem(-am) grać w ping-ponga co najmniej jedną osobę.',
+                        'Przygotowałem(-am) stół do gry.',
+                        'Zorganizowałem(-am) podwórkowy turniej.',
+                        'Wytłumaczyłem(-am) swojej szóstce zasady gry i fachowe słownictwo używane podczas meczu.',
                       ]),
                   SprawData(
                       id: 'mistrz_ping_ponga',
@@ -934,14 +1355,14 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
-                        'Za zaoszczędzone pieniądze kupiłem(-łam) własny sprzęt do ping-ponga.',
+                        'Za zaoszczędzone pieniądze kupiłem(-am) własny sprzęt do ping-ponga.',
                         'Co najmniej raz w tygodniu gram w ping-ponga.',
-                        'Nauczyłem(-łam) grać co najmniej dwie osoby.',
-                        'Wiem, jak wyglądają mistrzostwa gry w ping-ponga. Zorganizowałem(-łam) mistrzostwa w gromadzie.',
-                        'Poprawiłem(-łam) swoje rekordy w odbijaniu piłeczki. Zapisałem(-łam) wyniki w tabeli.',
-                        'Wytłumaczyłem(-łam) swojej szóstce zasady gry i fachowe słownictwo używane podczas meczu.',
-                        'Sędziowałem(-łam) mecz tenisa stołowego.',
-                        'Brałem(-łam) udział w turnieju ping-ponga.',
+                        'Nauczyłem(-am) grać co najmniej dwie osoby.',
+                        'Wiem, jak wyglądają mistrzostwa gry w ping-ponga. Zorganizowałem(-am) mistrzostwa w gromadzie.',
+                        'Poprawiłem(-am) swoje rekordy w odbijaniu piłeczki. Zapisałem(-am) wyniki w tabeli.',
+                        'Wytłumaczyłem(-am) swojej szóstce zasady gry i fachowe słownictwo używane podczas meczu.',
+                        'Sędziowałem(-am) mecz tenisa stołowego.',
+                        'Brałem(-am) udział w turnieju ping-ponga.',
                       ]),
                 ]
             ),
@@ -950,17 +1371,17 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
             SprawFamilyData(
                 id: '8',
                 requirements: [
-                  'Poznałem(-łam) historię gry w ringo. Opowiedziałem(-łam) ją innym.',
-                  'Umiem dobrze grać w ringo. Rzucałem(-łam) i chwytałem(-łam) ringo prawą i lewą ręką.',
-                  'Brałem(-łam) udział w rozgrywkach ringo.',
-                  'Wytłumaczyłem(-łam) zasady gry i nauczyłem(-łam) grać w ringo kolegę/koleżankę.',
-                  'Sędziowałem(-łam) mecz.',
-                  'Zorganizowałem(-łam) zawody dla kolegów.',
+                  'Poznałem(-am) historię gry w ringo. Opowiedziałem(-am) ją innym.',
+                  'Umiem dobrze grać w ringo. Rzucałem(-am) i chwytałem(-am) ringo prawą i lewą ręką.',
+                  'Brałem(-am) udział w rozgrywkach ringo.',
+                  'Wytłumaczyłem(-am) zasady gry i nauczyłem(-am) grać w ringo kolegę.',
+                  'Sędziowałem(-am) mecz.',
+                  'Zorganizowałem(-am) zawody dla kolegów.',
                 ],
                 notesForLeaders: [
                   'Sprawność kształtuje zwinność, spostrzegawczość, zręczność oraz ogólną kondycję fizyczną.',
-                  ' Aby dalej rozwijać zainteresowania zucha, można wskazać mu inne sprawności sportowe, np. „Gimnastyka/Gimnastyczki” i „Mistrza/Mistrzyni ping-ponga”.',
-                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza/Mistrzyni ringo”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze".',
+                  ' Aby dalej rozwijać zainteresowania zucha, można wskazać mu inne sprawności sportowe, np. „Gimnastyka” i „Mistrza ping-ponga”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza ringo”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze".',
                 ],
                 sprawData: [
 
@@ -971,10 +1392,10 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasksAreExamples: true,
                       tasks: [
                         'Mam własne ringo. Gram co najmniej raz w tygodniu.',
-                        'Rzucałem(-łam) i chwytałem(-łam) ringo jedną (wybraną) ręką.',
-                        'Znam zasady gry w ringo i nauczyłem(-łam) grać kolegę/koleżankę.',
-                        'Brałem(-łam) udział w rozgrywkach ringo.',
-                        'Zorganizowałem(-łam) zawody dla kolegów i koleżanek.',
+                        'Rzucałem(-am) i chwytałem(-am) ringo jedną (wybraną) ręką.',
+                        'Znam zasady gry w ringo i nauczyłem(-am) grać kolegę.',
+                        'Brałem(-am) udział w rozgrywkach ringo.',
+                        'Zorganizowałem(-am) zawody dla kolegów.',
                       ]),
                   SprawData(
                       id: 'mistrz_ringo',
@@ -983,10 +1404,10 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasksAreExamples: true,
                       tasks: [
                         'Mam własne ringo. Gram co najmniej raz w tygodniu.',
-                        'Brałem(-łam) udział w rozgrywkach ringo.',
-                        'Rzucałem(-łam) i chwytałem(-łam) ringo prawą i lewą ręką. ',
-                        'Rozegrałem(-łam) mecz w ringo ze starszym kolegą/starszą koleżanką.',
-                        'Zorganizowałem(-łam) podwórkowy turniej ringo.',
+                        'Brałem(-am) udział w rozgrywkach ringo.',
+                        'Rzucałem(-am) i chwytałem(-am) ringo prawą i lewą ręką. ',
+                        'Rozegrałem(-am) mecz w ringo ze starszym kolegą.',
+                        'Zorganizowałem(-am) podwórkowy turniej ringo.',
                       ]),
                   SprawData(
                       id: 'mistrz_ringo',
@@ -994,11 +1415,11 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
-                        'Kupiłem(-łam) ringo za zaoszczędzone pieniądze. Gram co najmniej raz w tygodniu.',
-                        'Nauczyłem(-łam) grać w ringo co najmniej trzy osoby.',
-                        'Zorganizowałem(-łam) zawody w gromadzie. Sędziowałem(-łam) mecz w ringo.',
-                        'Opowiedziałem(-łam) na zbiórce o najlepszym sportowcu w ringo.',
-                        'Wykonałem(-łam) plakat przedstawiający historię gry w ringo.',
+                        'Kupiłem(-am) ringo za zaoszczędzone pieniądze. Gram co najmniej raz w tygodniu.',
+                        'Nauczyłem(-am) grać w ringo co najmniej trzy osoby.',
+                        'Zorganizowałem(-am) zawody w gromadzie. Sędziowałem(-am) mecz w ringo.',
+                        'Opowiedziałem(-am) na zbiórce o najlepszym sportowcu w ringo.',
+                        'Wykonałem(-am) plakat przedstawiający historię gry w ringo.',
                       ]),
                 ]
             ),
@@ -1007,17 +1428,17 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
             SprawFamilyData(
                 id: '9',
                 requirements: [
-                  'Umiem jeździć na rolkach (wrotkach). Wykonałem(-łam) kilka ewolucji: jeździłem(-łam) na jednej nodze, tyłem i w pozycji kucznej.',
+                  'Umiem jeździć na rolkach (wrotkach). Wykonałem(-am) kilka ewolucji: jeździłem(-am) na jednej nodze, tyłem i w pozycji kucznej.',
                   'Odpowiednio ubieram się do jazdy, zakładam kask.',
-                  'Wymijałem(-łam) przeszkody znajdujące się na drodze.',
-                  'Dbam o swój sprzęt. Naprawiłem(-łam) niewielkie uszkodzenie.',
-                  'Uczestniczyłem(-łam) w zawodach jazdy na wrotkach lub rolkach.',
-                  'Wytłumaczyłem(-łam) kolegom i koleżankom, gdzie wolno jeździć na rolkach (wrotkach) oraz jakie niebezpieczeństwa czyhają na osoby jeżdżące nieostrożnie.',
+                  'Wymijałem(-am) przeszkody znajdujące się na drodze.',
+                  'Dbam o swój sprzęt. Naprawiłem(-am) niewielkie uszkodzenie.',
+                  'Uczestniczyłem(-am) w zawodach jazdy na wrotkach lub rolkach.',
+                  'Wytłumaczyłem(-am) kolegom, gdzie wolno jeździć na rolkach (wrotkach) oraz jakie niebezpieczeństwa czyhają na osoby jeżdżące nieostrożnie.',
                 ],
                 notesForLeaders: [
-                  'Zuch „Mistrz/Mistrzyni rolek” kształtuje swoją zwinność, zręczność i ogólną kondycję fizyczną. Świetnie jeździ na rolkach (wrotkach). Wie, jak bezpiecznie bawić się na rolkach i gdzie należy jeździć.',
-                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu sprawność „Łyżwiarza/Łyżwiarki”.',
-                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza/Mistrzyni rolek (wrotek)”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.", "Zuch jest dzielny.".',
+                  'Zuch „Mistrz rolek” kształtuje swoją zwinność, zręczność i ogólną kondycję fizyczną. Świetnie jeździ na rolkach (wrotkach). Wie, jak bezpiecznie bawić się na rolkach i gdzie należy jeździć.',
+                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu sprawność „Łyżwiarza”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza rolek (wrotek)”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.", "Zuch jest dzielny.".',
                 ],
                 sprawData: [
 
@@ -1027,10 +1448,10 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
-                        'Nauczyłem(-łam) się jeździć w pozycji klasycznej bez pomocy innej osoby i bez podpórek.',
-                        'Narysowałem(-łam) swoje wymarzone rolki.',
-                        'Odpowiednio ubieram się do jazdy i zakładam kask. Opowiedziałem (-łam) o tym szóstce.',
-                        'Potrafię wymijać przeszkody znajdujące się na drodze. Zaprezentowałem(-łam), jak to robię.',
+                        'Nauczyłem(-am) się jeździć w pozycji klasycznej bez pomocy innej osoby i bez podpórek.',
+                        'Narysowałem(-am) swoje wymarzone rolki.',
+                        'Odpowiednio ubieram się do jazdy i zakładam kask. Opowiedziałem (-am) o tym szóstce.',
+                        'Potrafię wymijać przeszkody znajdujące się na drodze. Zaprezentowałem(-am), jak to robię.',
                       ]),
                   SprawData(
                       id: 'mistrz_rolek',
@@ -1038,10 +1459,10 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
-                        'Zaprezentowałem(-łam) jazdę w pozycji klasycznej, skręt w prawo i w lewo oraz hamowanie.',
-                        'Znam przeszkody znajdujące się na drodze. Zaprezentowałem(-łam), jak je omijam.',
-                        'Pod okiem osoby dorosłej naoliwiłem(-łam) kółka w rolkach.',
-                        'Przyniosłem(-łam) kask i ochraniacze na zbiórkę oraz wyjaśniłem(-łam), dlaczego bardzo ważne jest ich używanie.',
+                        'Zaprezentowałem(-am) jazdę w pozycji klasycznej, skręt w prawo i w lewo oraz hamowanie.',
+                        'Znam przeszkody znajdujące się na drodze. Zaprezentowałem(-am), jak je omijam.',
+                        'Pod okiem osoby dorosłej naoliwiłem(-am) kółka w rolkach.',
+                        'Przyniosłem(-am) kask i ochraniacze na zbiórkę oraz wyjaśniłem(-am), dlaczego bardzo ważne jest ich używanie.',
                         'Jeżdżę na rolkach regularnie, co najmniej dwa razy w tygodniu.',
                       ]),
                   SprawData(
@@ -1051,11 +1472,11 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasksAreExamples: true,
                       tasks: [
                         'Jeżdżę na rolkach regularnie, co najmniej dwa razy w tygodniu.',
-                        'Wykonałem(-łam) kilka ewolucji. Jeździłem(-łam) na jednej nodze, tyłem i w pozycji kucznej.',
-                        'Zebrałem(-łam) połowę sumy na nowe rolki. Dbam o swoje rolki.',
-                        'Wiem, jakie zagrożenia występują na drodze. Wyjaśniłem(-łam), jak należy wezwać pomoc w razie wypadku.',
-                        'Przyniosłem(-łam) kask i ochraniacze na zbiórkę oraz wyjaśniłem(-łam), dlaczego bardzo ważne jest ich używanie.',
-                        'Uczestniczyłem(-łam) w zawodach jazdy na wrotkach (rolkach).',
+                        'Wykonałem(-am) kilka ewolucji. Jeździłem(-am) na jednej nodze, tyłem i w pozycji kucznej.',
+                        'Zebrałem(-am) połowę sumy na nowe rolki. Dbam o swoje rolki.',
+                        'Wiem, jakie zagrożenia występują na drodze. Wyjaśniłem(-am), jak należy wezwać pomoc w razie wypadku.',
+                        'Przyniosłem(-am) kask i ochraniacze na zbiórkę oraz wyjaśniłem(-am), dlaczego bardzo ważne jest ich używanie.',
+                        'Uczestniczyłem(-am) w zawodach jazdy na wrotkach (rolkach).',
                       ]),
                 ]
             ),
@@ -1064,20 +1485,20 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
             SprawFamilyData(
                 id: '10',
                 requirements: [
-                  'Lubię uprawiać sporty zimowe. Jeździłem(-łam) na desce snowboardowej.',
+                  'Lubię uprawiać sporty zimowe. Jeździłem(-am) na desce snowboardowej.',
                   'Wiem, jak wygląda powierzchnia stoku podczas różnych warunków atmosferycznych (marznący deszcz, świeże opady śniegu, odwilż). Nie jeżdżę, gdy śnieg na stoku jest bardzo twardy (zmrożony), bo wiem, czym to grozi.',
                   'Wiem, co to jest ratrak i do czego służy.',
-                  'Korzystałem(-łam) z wyciągu narciarskiego.',
-                  'Wiem, jak się odpowiednio ubrać do jazdy na desce, zabezpieczyłem(-łam) się przed mrozem.',
+                  'Korzystałem(-am) z wyciągu narciarskiego.',
+                  'Wiem, jak się odpowiednio ubrać do jazdy na desce, zabezpieczyłem(-am) się przed mrozem.',
                   'Dbam o sprzęt, na którym jeżdżę. Smaruję deskę i naprawiam niewielkie uszkodzenia wiązań. Wiem, gdzie należy się zgłosić, aby naprawić większe uszkodzenia lub zmienić ustawienia wiązań.',
                   'Jeżdżę w bezpiecznych miejscach. Zwracam uwagę na bezpieczeństwo, kulturę jazdy oraz na inne osoby znajdujące się na stoku.',
-                  'Urządziłem(-łam) pokaz jazdy na snowboardzie. Zaprezentowałem(-łam) skręty z omijaniem przeszkód i hamowanie.',
-                  'Brałem(-łam) udział w zawodach w jeździe na desce snowboardowej.',
+                  'Urządziłem(-am) pokaz jazdy na snowboardzie. Zaprezentowałem(-am) skręty z omijaniem przeszkód i hamowanie.',
+                  'Brałem(-am) udział w zawodach w jeździe na desce snowboardowej.',
                 ],
                 notesForLeaders: [
-                  'Zuch „Mistrz/Mistrzyni snowboardu” ćwiczy swoją zwinność, zręczność i ogólną kondycję fizyczną. Świetnie jeździ na desce. Wie, jak bezpiecznie się bawić na śniegu i gdzie powinno się jeździć na desce snowboardowej.',
-                  'Aby dalej rozwijać zainteresowania zucha, można mu wskazać inne sprawności sportowe, np. „Mistrza/Mistrzyni rolek”, „Mistrza/Mistrzyni deskorolki”.',
-                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza/Mistrzyni snowboardu”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.".',
+                  'Zuch „Mistrz snowboardu” ćwiczy swoją zwinność, zręczność i ogólną kondycję fizyczną. Świetnie jeździ na desce. Wie, jak bezpiecznie się bawić na śniegu i gdzie powinno się jeździć na desce snowboardowej.',
+                  'Aby dalej rozwijać zainteresowania zucha, można mu wskazać inne sprawności sportowe, np. „Mistrza rolek”, „Mistrza deskorolki”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza snowboardu”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.".',
                 ],
                 sprawData: [
 
@@ -1087,13 +1508,13 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
-                        'Jeździłem(-łam) na snowboardzie.',
-                        'Znam zasady bezpieczeństwa na stoku. Opowiedziałem(-łam) o nich swojej szóstce.',
-                        'Narysowałem(-łam) ratrak i opowiedziałem(-łam) na zbiórce gromady, do czego służy.',
-                        'Mam zestaw ochraniaczy oraz kask. Przyniosłem(-łam) je na zbiórkę i opowiedziałem(-łam), jak ważne jest ich używanie.',
-                        'Wiem, jak się odpowiednio ubrać do jazdy na desce. Potrafię zabezpieczyć się przed mrozem. Opowiedziałem(-łam) o tym w kręgu rady.',
-                        'Pokonałem(-łam) tor przeszkód.',
-                        'Zaprezentowałem(-łam) hamowanie na desce snowboardowej.',
+                        'Jeździłem(-am) na snowboardzie.',
+                        'Znam zasady bezpieczeństwa na stoku. Opowiedziałem(-am) o nich swojej szóstce.',
+                        'Narysowałem(-am) ratrak i opowiedziałem(-am) na zbiórce gromady, do czego służy.',
+                        'Mam zestaw ochraniaczy oraz kask. Przyniosłem(-am) je na zbiórkę i opowiedziałem(-am), jak ważne jest ich używanie.',
+                        'Wiem, jak się odpowiednio ubrać do jazdy na desce. Potrafię zabezpieczyć się przed mrozem. Opowiedziałem(-am) o tym w kręgu rady.',
+                        'Pokonałem(-am) tor przeszkód.',
+                        'Zaprezentowałem(-am) hamowanie na desce snowboardowej.',
                       ]),
                   SprawData(
                       id: 'mistrz_snowboardu',
@@ -1101,14 +1522,14 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
-                        'Jeździłem(-łam) na snowboardzie co najmniej trzy razy.',
-                        'Znam zasady bezpieczeństwa na stoku. Zrobiłem(-łam) krótki filmik lub plakat na ten temat.',
-                        'Wiem, jak wygląda powierzchnia stoku podczas różnych warunków atmosferycznych (marznący deszcz, świeże opady śniegu, odwilż). Przygotowałem(-łam) plakat ilustrujący ten temat.',
-                        'Znam numery telefonów GOPR i TOPR. Wiem, jak udzielić pomocy podczas lawiny. Opowiedziałem(-łam) o tym w kręgu rady.',
-                        'Zaprojektowałem(-łam) wymarzoną deskę i ochraniacze. Zaprezentowałem(-łam) projekt w gromadzie.',
-                        'Korzystałem(-łam) z wyciągu narciarskiego.',
-                        'Pokonałem(-łam) tor przeszkód.',
-                        'Zaprezentowałem(-łam) omijanie przeszkód i hamowanie.',
+                        'Jeździłem(-am) na snowboardzie co najmniej trzy razy.',
+                        'Znam zasady bezpieczeństwa na stoku. Zrobiłem(-am) krótki filmik lub plakat na ten temat.',
+                        'Wiem, jak wygląda powierzchnia stoku podczas różnych warunków atmosferycznych (marznący deszcz, świeże opady śniegu, odwilż). Przygotowałem(-am) plakat ilustrujący ten temat.',
+                        'Znam numery telefonów GOPR i TOPR. Wiem, jak udzielić pomocy podczas lawiny. Opowiedziałem(-am) o tym w kręgu rady.',
+                        'Zaprojektowałem(-am) wymarzoną deskę i ochraniacze. Zaprezentowałem(-am) projekt w gromadzie.',
+                        'Korzystałem(-am) z wyciągu narciarskiego.',
+                        'Pokonałem(-am) tor przeszkód.',
+                        'Zaprezentowałem(-am) omijanie przeszkód i hamowanie.',
                       ]),
                   SprawData(
                       id: 'mistrz_snowboardu',
@@ -1116,15 +1537,15 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
-                        'Umiem jeździć na snowboardzie. Byłem(-łam) na zimowym wyjeździe.',
-                        'Przygotowałem(-łam) plakat prezentujący powierzchnię stoku w czasie różnych warunków atmosferycznych (marznący deszcz, świeże opady śniegu, odwilż).',
-                        'Znam zasady bezpiecznej i kulturalnej jazdy na stoku. Przygotowałem(-łam) krótki kodeks snowboardzisty.',
-                        'Mam zestaw ochraniaczy oraz kask. Przyniosłem(-łam) je na zbiórkę i opowiedziałem(-łam), dlaczego trzeba ich używać.',
-                        'Wiem, jak udzielić pomocy podczas lawiny. Znam numery alarmowe do GOPRi TOPR. Przedstawiłem(-łam) je na zbiórce.',
-                        'Korzystałem(-łam) z wyciągu narciarskiego.',
-                        'Pokonałem(-łam) tor przeszkód.',
-                        'Urządziłem(-łam) pokaz jazdy na snowboardzie. Zaprezentowałem(-łam) skręty z omijaniem przeszkód i hamowanie',
-                        'Brałem(-łam) udział w zawodach w jeździe na desce snowboardowej.',
+                        'Umiem jeździć na snowboardzie. Byłem(-am) na zimowym wyjeździe.',
+                        'Przygotowałem(-am) plakat prezentujący powierzchnię stoku w czasie różnych warunków atmosferycznych (marznący deszcz, świeże opady śniegu, odwilż).',
+                        'Znam zasady bezpiecznej i kulturalnej jazdy na stoku. Przygotowałem(-am) krótki kodeks snowboardzisty.',
+                        'Mam zestaw ochraniaczy oraz kask. Przyniosłem(-am) je na zbiórkę i opowiedziałem(-am), dlaczego trzeba ich używać.',
+                        'Wiem, jak udzielić pomocy podczas lawiny. Znam numery alarmowe do GOPRi TOPR. Przedstawiłem(-am) je na zbiórce.',
+                        'Korzystałem(-am) z wyciągu narciarskiego.',
+                        'Pokonałem(-am) tor przeszkód.',
+                        'Urządziłem(-am) pokaz jazdy na snowboardzie. Zaprezentowałem(-am) skręty z omijaniem przeszkód i hamowanie',
+                        'Brałem(-am) udział w zawodach w jeździe na desce snowboardowej.',
                       ]),
                 ]
             ),
@@ -1134,18 +1555,18 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 id: '11',
                 requirements: [
                   'Umiem jeździć na nartach.',
-                  'Sporządziłem(-łam) schematyczne obrazki podstawowych rodzajów śniegu i opisałem(-łam) każdy z nich pod kątem przydatności do jazdy na nartach.',
-                  'Brałem(-łam) udział w zawodach narciarskich.',
-                  'Urządziłem(-łam) pokaz jazdy na nartach, zaprezentowałem(-łam) m.in. skręt pługiem w lewo i w prawo, podchodzenie pod górkę dwoma sposobami, omijanie przeszkód.',
-                  'Korzystałem(-łam) z wyciągu narciarskiego.',
+                  'Sporządziłem(-am) schematyczne obrazki podstawowych rodzajów śniegu i opisałem(-am) każdy z nich pod kątem przydatności do jazdy na nartach.',
+                  'Brałem(-am) udział w zawodach narciarskich.',
+                  'Urządziłem(-am) pokaz jazdy na nartach, zaprezentowałem(-am) m.in. skręt pługiem w lewo i w prawo, podchodzenie pod górkę dwoma sposobami, omijanie przeszkód.',
+                  'Korzystałem(-am) z wyciągu narciarskiego.',
                   'Dbam o sprzęt, na którym jeżdżę. Smaruję narty i naprawiam niewielkie uszkodzenia wiązań lub kijków.',
                   'Jeżdżę w bezpiecznych miejscach. Zwracam uwagę na bezpieczeństwo własne i innych osób znajdujących się na stoku.',
-                  'Nauczyłem(-łam) początkującego kolegę podstaw jazdy.',
+                  'Nauczyłem(-am) początkującego kolegę podstaw jazdy.',
                 ],
                 notesForLeaders: [
-                  'Zuch „Narciarz/Narciarka” ćwiczy zwinność, zręczność i ogólną kondycję fizyczną. Świetnie jeździ na nartach. Wie, gdzie powinno się jeździć. Uczy inne zuchy bezpiecznie bawić się na śniegu.',
-                  'Aby dalej rozwijać zainteresowania zucha, można mu wskazać sprawności „Saneczkarza/Saneczkarki” i „Łyżwiarza/Łyżwiarki”.',
-                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Narciarza/Narciarki”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.".',
+                  'Zuch „Narciarz” ćwiczy zwinność, zręczność i ogólną kondycję fizyczną. Świetnie jeździ na nartach. Wie, gdzie powinno się jeździć. Uczy inne zuchy bezpiecznie bawić się na śniegu.',
+                  'Aby dalej rozwijać zainteresowania zucha, można mu wskazać sprawności „Saneczkarza” i „Łyżwiarza”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Narciarza”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.".',
                 ],
                 sprawData: [
 
@@ -1155,10 +1576,10 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
-                        'Jeździłem(-łam) na nartach.',
-                        'Znam zasady bezpiecznej i kulturalnej jazdy na stoku. Opowiedziałem(-łam) o nich na zbiórce gromady.',
-                        'Zaprezentowałem(-łam) skręt pługiem w lewo i w prawo, podchodzenie pod górkę oraz hamowanie.',
-                        'Umiem założyć buty narciarskie i kask. Zaprezentowałem(-łam) tę umiejętność.',
+                        'Jeździłem(-am) na nartach.',
+                        'Znam zasady bezpiecznej i kulturalnej jazdy na stoku. Opowiedziałem(-am) o nich na zbiórce gromady.',
+                        'Zaprezentowałem(-am) skręt pługiem w lewo i w prawo, podchodzenie pod górkę oraz hamowanie.',
+                        'Umiem założyć buty narciarskie i kask. Zaprezentowałem(-am) tę umiejętność.',
                       ]),
                   SprawData(
                       id: 'narciarz',
@@ -1166,13 +1587,13 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
-                        'Jeździłem(-łam) co najmniej pięć razy na nartach.',
-                        'Sporządziłem(-łam) schematyczne obrazki podstawowych rodzajów śniegu i opisałem(-łam) każdy z nich pod kątem przydatności do jazdy na nartach.',
-                        'Opowiedziałem(-łam) na zbiórce o różnych konkurencjach narciarskich.',
-                        'Znam zasady bezpieczeństwa na stoku, zrobiłem(-łam) krótki filmik na ten temat.',
-                        'Korzystałem(-łam) z wyciągu narciarskiego.',
-                        'Dbam o sprzęt, na którym jeżdżę. Pod okiem dorosłego nasmarowałem(-łam) narty lub naprawiłem(-łam) niewielkie uszkodzenia wiązań lub kijków.',
-                        'Urządziłem(-łam) pokaz jazdy na nartach, zaprezentowałem(-łam) m.in. skręt pługiem w lewo i w prawo, podchodzenie pod górkę dwoma sposobami i hamowanie.',
+                        'Jeździłem(-am) co najmniej pięć razy na nartach.',
+                        'Sporządziłem(-am) schematyczne obrazki podstawowych rodzajów śniegu i opisałem(-am) każdy z nich pod kątem przydatności do jazdy na nartach.',
+                        'Opowiedziałem(-am) na zbiórce o różnych konkurencjach narciarskich.',
+                        'Znam zasady bezpieczeństwa na stoku, zrobiłem(-am) krótki filmik na ten temat.',
+                        'Korzystałem(-am) z wyciągu narciarskiego.',
+                        'Dbam o sprzęt, na którym jeżdżę. Pod okiem dorosłego nasmarowałem(-am) narty lub naprawiłem(-am) niewielkie uszkodzenia wiązań lub kijków.',
+                        'Urządziłem(-am) pokaz jazdy na nartach, zaprezentowałem(-am) m.in. skręt pługiem w lewo i w prawo, podchodzenie pod górkę dwoma sposobami i hamowanie.',
                       ]),
                   SprawData(
                       id: 'narciarz',
@@ -1180,13 +1601,13 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
-                        'Umiem jeździć na nartach. Byłem(-łam) na zimowym wyjeździe narciarskim.',
-                        'Wykonałem(-łam) plakat, który informuje o powierzchni stoku w czasie różnych warunków atmosferycznych (marznący deszcz, świeże opady śniegu, odwilż).',
-                        'Wiem, jak udzielić pomocy podczas lawiny i znam numer alarmowy, pod który należy zadzwonić w razie niebezpieczeństwa. Przygotowałem(-łam) plakat z taką informacją.',
-                        'Zrobiłem(-łam) projekt wymarzonych nart.',
-                        'Nauczyłem(-łam) kolegę jazdy na nartach.',
-                        'Urządziłem(-łam) pokaz jazdy na nartach. Zaprezentowałem(-łam) m.in. skręt pługiem w lewo i w prawo, podchodzenie pod górkę dwoma sposobami, omijanie przeszkód i krawędziowanie.',
-                        'Brałem(-łam) udział w mini zawodach narciarskich.',
+                        'Umiem jeździć na nartach. Byłem(-am) na zimowym wyjeździe narciarskim.',
+                        'Wykonałem(-am) plakat, który informuje o powierzchni stoku w czasie różnych warunków atmosferycznych (marznący deszcz, świeże opady śniegu, odwilż).',
+                        'Wiem, jak udzielić pomocy podczas lawiny i znam numer alarmowy, pod który należy zadzwonić w razie niebezpieczeństwa. Przygotowałem(-am) plakat z taką informacją.',
+                        'Zrobiłem(-am) projekt wymarzonych nart.',
+                        'Nauczyłem(-am) kolegę jazdy na nartach.',
+                        'Urządziłem(-am) pokaz jazdy na nartach. Zaprezentowałem(-am) m.in. skręt pługiem w lewo i w prawo, podchodzenie pod górkę dwoma sposobami, omijanie przeszkód i krawędziowanie.',
+                        'Brałem(-am) udział w mini zawodach narciarskich.',
                       ]),
                 ]
             ),
@@ -1195,18 +1616,18 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
             SprawFamilyData(
                 id: '12',
                 requirements: [
-                  'Rozegrałem(-łam) kilkanaście meczów w piłkę nożną (grając na różnych pozycjach).',
-                  ' Podczas meczu stosuję zasady fair play. Przedstawiłem(-łam) te zasady w gromadzie.',
-                  'Byłem(-łam) sędzią podczas meczu.',
-                  'Prowadziłem(-łam) przed meczem rozgrzewkę. Opowiedziałem(-łam) zuchom, dlaczego jest ona ważna.',
-                  'Zorganizowałem(-łam) mini rozgrywki na podwórku lub w gromadzie albo przeprowadziłem(-łam) zawody, wybierając króla strzelców lub najlepszego bramkarza.',
-                  'Umiem podbijać piłkę nogą, prowadzić ją lewą i prawą nogą oraz wybijać z rzutu rożnego. Zaprezentowałem(-łam) te umiejętności gromadzie.',
+                  'Rozegrałem(-am) kilkanaście meczów w piłkę nożną (grając na różnych pozycjach).',
+                  ' Podczas meczu stosuję zasady fair play. Przedstawiłem(-am) te zasady w gromadzie.',
+                  'Byłem(-am) sędzią podczas meczu.',
+                  'Prowadziłem(-am) przed meczem rozgrzewkę. Opowiedziałem(-am) zuchom, dlaczego jest ona ważna.',
+                  'Zorganizowałem(-am) mini rozgrywki na podwórku lub w gromadzie albo przeprowadziłem(-am) zawody, wybierając króla strzelców lub najlepszego bramkarza.',
+                  'Umiem podbijać piłkę nogą, prowadzić ją lewą i prawą nogą oraz wybijać z rzutu rożnego. Zaprezentowałem(-am) te umiejętności gromadzie.',
                 ],
                 notesForLeaders: [
                   'Sprawność jest przeznaczona dla zuchów w każdym wieku, zwłaszcza fanów piłki nożnej.',
                   'Zuch, który ją zdobywa, zna zasady fair play oraz wie, jak ważny jest ruch i zdrowy styl życia.',
                   'Należy zwrócić uwagę na to, aby zadania były dostosowane do poziomu zucha. Podczas zdobywania sprawności powinien on rozwinąć swoje dotychczasowe umiejętności piłkarskie oraz poznać nowe tricki.',
-                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Piłkarza/Piłkarki”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy.".',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Piłkarza”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy.".',
                 ],
                 sprawData: [
 
@@ -1216,10 +1637,10 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
-                        'Podczas meczu stosuję zasady fair play. Przedstawiłem(-łam) je w swojej gromadzie..',
-                        'Prowadziłem(-łam) przed meczem rozgrzewkę. Opowiedziałem(-łam) zuchom, dlaczego jest ona ważna.',
-                        'Umiem podbijać piłkę nogą, prowadzić ją lewą lub prawą nogą. Zaprezentowałem(-łam) te umiejętności swojej gromadzie.',
-                        'Rozegrałem(-łam) co najmniej dwa mecze.',
+                        'Podczas meczu stosuję zasady fair play. Przedstawiłem(-am) je w swojej gromadzie..',
+                        'Prowadziłem(-am) przed meczem rozgrzewkę. Opowiedziałem(-am) zuchom, dlaczego jest ona ważna.',
+                        'Umiem podbijać piłkę nogą, prowadzić ją lewą lub prawą nogą. Zaprezentowałem(-am) te umiejętności swojej gromadzie.',
+                        'Rozegrałem(-am) co najmniej dwa mecze.',
                       ]),
                   SprawData(
                       id: 'pilkarz',
@@ -1227,11 +1648,11 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
-                        'Podczas meczu stosuję zasady fair play. Przedstawiłem(-łam) je w swojej gromadzie.',
-                        'Prowadziłem(-łam) przed meczem rozgrzewkę. Opowiedziałem(-łam) zuchom, dlaczego jest ona ważna.',
-                        'Umiem podbijać piłkę nogą, prowadzić ją lewą i prawą nogą, wybijać z rzutu rożnego. Zaprezentowałem(-łam) te umiejętności swojej gromadzie.',
-                        'Rozegrałem(-łam) kilka meczów w piłkę nożną (grając na różnych pozycjach).',
-                        'Zorganizowałem(-łam) mini zawody na podwórku.',
+                        'Podczas meczu stosuję zasady fair play. Przedstawiłem(-am) je w swojej gromadzie.',
+                        'Prowadziłem(-am) przed meczem rozgrzewkę. Opowiedziałem(-am) zuchom, dlaczego jest ona ważna.',
+                        'Umiem podbijać piłkę nogą, prowadzić ją lewą i prawą nogą, wybijać z rzutu rożnego. Zaprezentowałem(-am) te umiejętności swojej gromadzie.',
+                        'Rozegrałem(-am) kilka meczów w piłkę nożną (grając na różnych pozycjach).',
+                        'Zorganizowałem(-am) mini zawody na podwórku.',
                       ]),
                   SprawData(
                       id: 'pilkarz',
@@ -1239,11 +1660,11 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
-                        'Rozegrałem(-łam) kilkanaście meczów w piłkę nożną (grając na różnych pozycjach).',
-                        'Podczas meczu stosuję zasady fair play. Przygotowałem(-łam) kodeks piłkarza.',
-                        'Byłem(-łam) sędzią podczas meczu',
-                        'Zorganizowałem(-łam) mini rozgrywki na podwórku lub w gromadzie albo przeprowadziłem(-łam) zawody, wybierając króla strzelców lub najlepszego bramkarza.',
-                        'Umiem podbijać piłkę nogą, prowadzić ją lewą i prawą nogą oraz wybijać z rzutu rożnego. Zaprezentowałem(-łam) te umiejętności swojej gromadzie.',
+                        'Rozegrałem(-am) kilkanaście meczów w piłkę nożną (grając na różnych pozycjach).',
+                        'Podczas meczu stosuję zasady fair play. Przygotowałem(-am) kodeks piłkarza.',
+                        'Byłem(-am) sędzią podczas meczu',
+                        'Zorganizowałem(-am) mini rozgrywki na podwórku lub w gromadzie albo przeprowadziłem(-am) zawody, wybierając króla strzelców lub najlepszego bramkarza.',
+                        'Umiem podbijać piłkę nogą, prowadzić ją lewą i prawą nogą oraz wybijać z rzutu rożnego. Zaprezentowałem(-am) te umiejętności swojej gromadzie.',
                       ]),
                 ]
             ),
@@ -1254,15 +1675,15 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 requirements: [
                   'Staram się regularnie chodzić na basen lub kąpielisko.',
                   'Znam zasady bezpiecznej kąpieli w basenie i w wodach otwartych. Przestrzegam regulaminu kąpieli.',
-                  'Brałem(-łam) udział w zajęciach w wodzie organizowanych przez gromadę.',
+                  'Brałem(-am) udział w zajęciach w wodzie organizowanych przez gromadę.',
                   'Potrafię przepłynąć wybranym stylem określony dystans.',
                   'Umiem nurkować i skakać do wody w bezpiecznym miejscu.',
-                  'Brałem(-łam) udział w wodnej olimpiadzie lub zawodach.',
+                  'Brałem(-am) udział w wodnej olimpiadzie lub zawodach.',
                 ],
                 notesForLeaders: [
-                  'Zuch „Pływak/Pływaczka” zna miejsca, w których bezpiecznie można się kąpać. Wie, jak zachować się podczas zabaw w wodzie i sprawnie pływa.',
-                  'Drużynowy musi wyraźnie podkreślić, że zdobycie sprawności „Pływaka/Pływaczki” nie jest równoznaczne z uzyskaniem karty pływackiej (ale np. na kolonii zdobywanie sprawności można połączyć ze zdobywaniem karty).',
-                  'Punkt Prawa Zucha, na który zwracamy szczególną uwagę, realizując sprawność „Pływaka/Pływaczki”: "Zuch stara się być coraz lepszy.".',
+                  'Zuch „Pływak” zna miejsca, w których bezpiecznie można się kąpać. Wie, jak zachować się podczas zabaw w wodzie i sprawnie pływa.',
+                  'Drużynowy musi wyraźnie podkreślić, że zdobycie sprawności „Pływaka” nie jest równoznaczne z uzyskaniem karty pływackiej (ale np. na kolonii zdobywanie sprawności można połączyć ze zdobywaniem karty).',
+                  'Punkt Prawa Zucha, na który zwracamy szczególną uwagę, realizując sprawność „Pływaka”: "Zuch stara się być coraz lepszy.".',
                 ],
                 sprawData: [
 
@@ -1272,11 +1693,11 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
-                        'W ciągu miesiąca/podczas kolonii byłem(-łam) na basenie lub kąpielisku co najmniej cztery razy.',
-                        'Narysowałem(-łam), co wolno i czego nie wolno robić na basenie. Narysowałem(-łam) białą i czerwoną flagę. Opisałem(-łam), co one znaczą.',
-                        'Brałem(-łam) udział w zajęciach w wodzie organizowanych przez gromadę.',
-                        'Przepłynąłem(-łam) 25 m dowolnym stylem, z deską do pływania lub bez niej.',
-                        'Wskoczyłem(-łam) do wody z krawędzi basenu lub pomostu w miejscu dozwolonym',
+                        'W ciągu miesiąca lub podczas kolonii byłem(-am) na basenie lub kąpielisku co najmniej cztery razy.',
+                        'Narysowałem(-am), co wolno i czego nie wolno robić na basenie. Narysowałem(-am) białą i czerwoną flagę. Opisałem(-am), co one znaczą.',
+                        'Brałem(-am) udział w zajęciach w wodzie organizowanych przez gromadę.',
+                        'Przepłynąłem(-am) 25 m dowolnym stylem, z deską do pływania lub bez niej.',
+                        'Wskoczyłem(-am) do wody z krawędzi basenu lub pomostu w miejscu dozwolonym',
                       ]),
                   SprawData(
                       id: 'plywak',
@@ -1284,12 +1705,12 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
-                        'W ciągu miesiąca/podczas kolonii byłem(-łam) na basenie lub kąpielisku co najmniej cztery razy.',
-                        'Opowiedziałem(-łam), w jaki sposób należy zachowywać się na basenie. Wyjaśniłem(-łam), co oznaczają białe i czerwone flagi wywieszone na kąpieliskach.',
-                        'Brałem(-łam) udział w zajęciach w wodzie organizowanych przez gromadę.',
-                        'Przepłynąłem(-łam) 25 m dowolnym stylem, bez użycia deski do pływania.',
-                        'Wskoczyłem(-łam) do wody z krawędzi basenu lub pomostu w miejscu dozwolonym.',
-                        'Wyłowiłem(-łam) z dna przedmiot rzucony przez ratownika.',
+                        'W ciągu miesiąca lub podczas kolonii byłem(-am) na basenie lub kąpielisku co najmniej cztery razy.',
+                        'Opowiedziałem(-am), w jaki sposób należy zachowywać się na basenie. Wyjaśniłem(-am), co oznaczają białe i czerwone flagi wywieszone na kąpieliskach.',
+                        'Brałem(-am) udział w zajęciach w wodzie organizowanych przez gromadę.',
+                        'Przepłynąłem(-am) 25 m dowolnym stylem, bez użycia deski do pływania.',
+                        'Wskoczyłem(-am) do wody z krawędzi basenu lub pomostu w miejscu dozwolonym.',
+                        'Wyłowiłem(-am) z dna przedmiot rzucony przez ratownika.',
                       ]),
                   SprawData(
                       id: 'plywak',
@@ -1297,13 +1718,13 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
-                        'W ciągu miesiąca/podczas kolonii byłem(-łam) na basenie lub kąpielisku co najmniej cztery razy.',
-                        'Opowiedziałem(-łam) innym zuchom, jak należy zachowywać się na basenie lub kąpielisku.',
-                        'Wyjaśniłem(-łam) innym zuchom, co oznaczają białe i czerwone flagi wywieszone na kąpieliskach.',
-                        'Przeprowadziłem(-łam) rozgrzewkę dla innych zuchów przed kąpielą.',
-                        'Brałem(-łam) udział w wodnej olimpiadzie lub zawodach.',
-                        'Przepłynąłem(-łam) 50 m dowolnym stylem, bez użycia deski do pływania. Przepłynąłem(-łam) także 5 m pod wodą.',
-                        'Wskoczyłem(-łam) do wody ze słupka lub pomostu w dozwolonym miejscu. Wyłowiłem z dna przedmiot rzucony przez ratownika.',
+                        'W ciągu miesiąca lub podczas kolonii byłem(-am) na basenie lub kąpielisku co najmniej cztery razy.',
+                        'Opowiedziałem(-am) innym zuchom, jak należy zachowywać się na basenie lub kąpielisku.',
+                        'Wyjaśniłem(-am) innym zuchom, co oznaczają białe i czerwone flagi wywieszone na kąpieliskach.',
+                        'Przeprowadziłem(-am) rozgrzewkę dla innych zuchów przed kąpielą.',
+                        'Brałem(-am) udział w wodnej olimpiadzie lub zawodach.',
+                        'Przepłynąłem(-am) 50 m dowolnym stylem, bez użycia deski do pływania. Przepłynąłem(-am) także 5 m pod wodą.',
+                        'Wskoczyłem(-am) do wody ze słupka lub pomostu w dozwolonym miejscu. Wyłowiłem z dna przedmiot rzucony przez ratownika.',
                       ]),
                 ]
             ),
@@ -1312,11 +1733,11 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
             SprawFamilyData(
                 id: '14',
                 requirements: [
-                  'Znam historię roweru. Opowiedziałem kolegom i koleżankom, jak dawniej wyglądały rowery.',
+                  'Znam historię roweru. Opowiedziałem kolegom, jak dawniej wyglądały rowery.',
                   'Bezpiecznie jeżdżę na rowerze. Znam podstawowe przepisy ruchu drogowego.',
                   'Znam rodzaje znaków drogowych i potrafię rozpoznać niektóre z nich.',
-                  'Bawiłem(-łam) się z kolegami w wyścig kolarski.',
-                  'Urządziłem(-łam) rowerowy tor przeszkód – jazda po ósemce, slalom itp.',
+                  'Bawiłem(-am) się z kolegami w wyścig kolarski.',
+                  'Urządziłem(-am) rowerowy tor przeszkód – jazda po ósemce, slalom itp.',
                   'Konserwuję swój rower i potrafię naprawić drobne uszkodzenia.',
                   'Potrafię przygotować rower do bezpiecznej jazdy.',
                   'Potrafię udzielić pierwszej pomocy przy skaleczeniu.',
@@ -1324,9 +1745,9 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 ],
                 notesForLeaders: [
                   'Sprawność kształtuje zwinność, sprawność i wytrzymałość, a także zdolność przewidywania i umiejętność podporządkowania się przepisom.',
-                  'Zuch „Rowerzysta/Rowerzystka” bezpiecznie porusza się na rowerze. Nie stwarza zagrożenia dla innych osób i nie naraża własnego zdrowia.',
+                  'Zuch „Rowerzysta” bezpiecznie porusza się na rowerze. Nie stwarza zagrożenia dla innych osób i nie naraża własnego zdrowia.',
                   'Zuchowi zdobywającemu sprawność należy uświadomić, że nie jest ona równoznaczna z kartą rowerową.',
-                  'Punkt Prawa Zucha, na który zwracamy szczególną uwagę, realizując sprawność „Rowerzysty/Rowerzystki”: "Zuch stara się być coraz lepszy.".',
+                  'Punkt Prawa Zucha, na który zwracamy szczególną uwagę, realizując sprawność „Rowerzysty”: "Zuch stara się być coraz lepszy.".',
                 ],
                 sprawData: [
 
@@ -1336,10 +1757,10 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
-                        'Na zbiórce gromady opowiedziałem(-łam), jak ubieram się do bezpiecznej jazdy rowerem.',
-                        'Bawiłem(-łam) się z kolegami w wyścig kolarski. Zaplanowałem(-łam) trasę wyścigu i przed startem opowiedziałem(-łam) innym rowerzystom o zasadach bezpiecznej jazdy.',
-                        'Zapisałem(-łam) numery alarmowe, pod które mogę zadzwonić po pomoc w razie wypadku na drodze.',
-                        'Połączyłem(-łam) znaki drogowe z ich opisami: droga dla rowerów, stop, ustąp pierwszeństwa przejazdu, droga z pierwszeństwem przejazdu, zakaz wjazdu rowerów.',
+                        'Na zbiórce gromady opowiedziałem(-am), jak ubieram się do bezpiecznej jazdy rowerem.',
+                        'Bawiłem(-am) się z kolegami w wyścig kolarski. Zaplanowałem(-am) trasę wyścigu i przed startem opowiedziałem(-am) innym rowerzystom o zasadach bezpiecznej jazdy.',
+                        'Zapisałem(-am) numery alarmowe, pod które mogę zadzwonić po pomoc w razie wypadku na drodze.',
+                        'Połączyłem(-am) znaki drogowe z ich opisami: droga dla rowerów, stop, ustąp pierwszeństwa przejazdu, droga z pierwszeństwem przejazdu, zakaz wjazdu rowerów.',
                       ]),
                   SprawData(
                       id: 'rowerzysta',
@@ -1347,11 +1768,11 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
-                        'Wyszukałem(-łam) ilustracje i informacje o tym, jak wyglądały rowery w przeszłości. Pokazałem(-łam) na zbiórce zdjęcia i opowiedziałem(-łam) o nich kolegom.',
-                        'Urządziłem(-łam) rowerowy tor przeszkód − jazda po ósemce, slalom. Zaprezentowałem(-łam) bezpieczny przejazd torem.',
-                        'Zaopatrzyłem(-łam) swój rower w światła i dzwonek. Posiadam co najmniej jeden odblask.',
-                        'Zapisałem(-łam) numery alarmowe, pod które mogę zadzwonić po pomoc w razie wypadku na drodze.',
-                        'Połączyłem(-łam) znaki drogowe z ich opisami: droga dla rowerów, stop, ustąp pierwszeństwa przejazdu, droga z pierwszeństwem przejazdu, zakaz wjazdu rowerów, przejście dla pieszych, droga dla pieszych.',
+                        'Wyszukałem(-am) ilustracje i informacje o tym, jak wyglądały rowery w przeszłości. Pokazałem(-am) na zbiórce zdjęcia i opowiedziałem(-am) o nich kolegom.',
+                        'Urządziłem(-am) rowerowy tor przeszkód − jazda po ósemce, slalom. Zaprezentowałem(-am) bezpieczny przejazd torem.',
+                        'Zaopatrzyłem(-am) swój rower w światła i dzwonek. Posiadam co najmniej jeden odblask.',
+                        'Zapisałem(-am) numery alarmowe, pod które mogę zadzwonić po pomoc w razie wypadku na drodze.',
+                        'Połączyłem(-am) znaki drogowe z ich opisami: droga dla rowerów, stop, ustąp pierwszeństwa przejazdu, droga z pierwszeństwem przejazdu, zakaz wjazdu rowerów, przejście dla pieszych, droga dla pieszych.',
                       ]),
                   SprawData(
                       id: 'rowerzysta',
@@ -1359,13 +1780,13 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
-                        'Z pamięci wymieniłem(-łam) numery alarmowe, pod które mogę zadzwonić po pomoc w razie wypadku na drodze.',
-                        'Urządziłem(-łam) rowerowy tor przeszkód − jazda po ósemce, slalom, jazda pod górkę, jazda po nierównej powierzchni. Zaprezentowałem(-łam) bezpieczny przejazd torem.',
-                        'Pokazałem(-łam) innym zuchom, jak udzielić pomocy w razie skaleczenia kolana lub łokcia.',
-                        'Napompowałem(-łam) koła mojego roweru.',
-                        'Zaopatrzyłem(-łam) swój rower w światła i dzwonek. Posiadam co najmniej jedenodblask.',
-                        'Połączyłem(-łam) znaki drogowe z ich opisami.',
-                        'Jako rowerzysta potrafię zasygnalizować na drodze manewry skrętu w prawo i lewo. Pokazałem(-łam) to innym zuchom i wyjaśniłem(-łam) im, na co trzeba zwracać uwagę podczas jazdy rowerem na ścieżce rowerowej i na drodze.',
+                        'Z pamięci wymieniłem(-am) numery alarmowe, pod które mogę zadzwonić po pomoc w razie wypadku na drodze.',
+                        'Urządziłem(-am) rowerowy tor przeszkód − jazda po ósemce, slalom, jazda pod górkę, jazda po nierównej powierzchni. Zaprezentowałem(-am) bezpieczny przejazd torem.',
+                        'Pokazałem(-am) innym zuchom, jak udzielić pomocy w razie skaleczenia kolana lub łokcia.',
+                        'Napompowałem(-am) koła mojego roweru.',
+                        'Zaopatrzyłem(-am) swój rower w światła i dzwonek. Posiadam co najmniej jedenodblask.',
+                        'Połączyłem(-am) znaki drogowe z ich opisami.',
+                        'Jako rowerzysta potrafię zasygnalizować na drodze manewry skrętu w prawo i lewo. Pokazałem(-am) to innym zuchom i wyjaśniłem(-am) im, na co trzeba zwracać uwagę podczas jazdy rowerem na ścieżce rowerowej i na drodze.',
                       ]),
                 ]
             ),
@@ -1374,21 +1795,21 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
             SprawFamilyData(
                 id: '15',
                 requirements: [
-                  'Umiem kierować sankami. Pokonałem(-łam) górkę lub tor przeszkód.',
-                  'Zabezpieczyłem(-łam) swój sprzęt i wykonałem(-łam) potrzebne naprawy.',
-                  'Jeżdżę na bezpiecznych górkach. Odradzam kolegom jazdę w miejscach niebezpiecznych. Wymyśliłem(-łam) własny bezpieczny sposób zjeżdżania na sankach. Ułożyłem(-łam) regulamin jazdy na sankach na biwaku lub zimowisku.',
-                  'Odpowiednio się ubieram, wychodząc na sanki. Przedstawiłem(-łam) te zasady w formie graficznej na zbiórce gromady. ',
-                  'Narysowałem(-łam) plan bezpiecznej górki. Zaznaczyłem(-łam) na nim podejścia dla saneczkarzy, zjazdy dla bardziej i mniej zaawansowanych oraz poczekalnię dla rodziców. Uwzględniłem(-łam) bezpieczną odległość od ulic, chodników, płotów i drzew.',
-                  'Brałem(-łam) udział w zawodach saneczkowych',
-                  'Urządziłem(-łam) pokaz jazdy na sankach (jazda w różnych pozycjach, w kuligu,slalomem, zaprzęgiem).',
-                  'Zorganizowałem(-łam) dla gromady wyścigi saneczkowych zaprzęgów.',
+                  'Umiem kierować sankami. Pokonałem(-am) górkę lub tor przeszkód.',
+                  'Zabezpieczyłem(-am) swój sprzęt i wykonałem(-am) potrzebne naprawy.',
+                  'Jeżdżę na bezpiecznych górkach. Odradzam kolegom jazdę w miejscach niebezpiecznych. Wymyśliłem(-am) własny bezpieczny sposób zjeżdżania na sankach. Ułożyłem(-am) regulamin jazdy na sankach na biwaku lub zimowisku.',
+                  'Odpowiednio się ubieram, wychodząc na sanki. Przedstawiłem(-am) te zasady w formie graficznej na zbiórce gromady. ',
+                  'Narysowałem(-am) plan bezpiecznej górki. Zaznaczyłem(-am) na nim podejścia dla saneczkarzy, zjazdy dla bardziej i mniej zaawansowanych oraz poczekalnię dla rodziców. Uwzględniłem(-am) bezpieczną odległość od ulic, chodników, płotów i drzew.',
+                  'Brałem(-am) udział w zawodach saneczkowych',
+                  'Urządziłem(-am) pokaz jazdy na sankach (jazda w różnych pozycjach, w kuligu,slalomem, zaprzęgiem).',
+                  'Zorganizowałem(-am) dla gromady wyścigi saneczkowych zaprzęgów.',
                 ],
                 notesForLeaders: [
                   'Sprawność kształtuje zwinność, zręczność i ogólną kondycję fizyczną.',
                   'Zucha zdobywającego tę sprawność należy uczulić przede wszystkim na bezpieczeństwo jazdy − i to nie tylko osoby jeżdżącej, lecz także otoczenia.',
-                  'Sanki to doskonała zimowa zabawa, szczególnie jeśli bierze w niej udział grupa dzieci. Dlatego warto pomyśleć o wykorzystaniu do wspólnej zabawy umiejętności kilku zuchów „Saneczkarzy/Saneczkarek”.',
-                  'Aby dalej rozwijać zainteresowania zucha sportem, można mu wskazać m.in. sprawności „Łyżwiarza/Łyżwiarki” i „Narciarza/Narciarki”.',
-                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Saneczkarza/Saneczkarki”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy.".',
+                  'Sanki to doskonała zimowa zabawa, szczególnie jeśli bierze w niej udział grupa dzieci. Dlatego warto pomyśleć o wykorzystaniu do wspólnej zabawy umiejętności kilku zuchów „Saneczkarzy”.',
+                  'Aby dalej rozwijać zainteresowania zucha sportem, można mu wskazać m.in. sprawności „Łyżwiarza” i „Narciarza”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Saneczkarza”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy.".',
                 ],
                 sprawData: [
 
@@ -1398,11 +1819,11 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
-                        'Umiem kierować sankami. Pokonałem(-łam) górkę lub tor przeszkód.',
-                        'Zabezpieczyłem(-łam) swój sprzęt i wykonałem(-łam) potrzebne naprawy.',
-                        'Odpowiednio się ubieram wychodząc na sanki. Na zbiórce gromady przedstawiłem(-łam) zasady ubioru na sanki w postaci plakatu.',
-                        'Narysowałem(-łam) plan bezpiecznej górki, na którym zaznaczyłem(-łam) podejścia dla saneczkarzy, zjazdy dla bardziej i mniej zaawansowanych, poczekalnię dla rodziców. Uwzględniłem(-łam) bezpieczną odległość od ulic, chodników, płotów i drzew.',
-                        'Brałem(-łam) udział w zawodach saneczkowych.',
+                        'Umiem kierować sankami. Pokonałem(-am) górkę lub tor przeszkód.',
+                        'Zabezpieczyłem(-am) swój sprzęt i wykonałem(-am) potrzebne naprawy.',
+                        'Odpowiednio się ubieram wychodząc na sanki. Na zbiórce gromady przedstawiłem(-am) zasady ubioru na sanki w postaci plakatu.',
+                        'Narysowałem(-am) plan bezpiecznej górki, na którym zaznaczyłem(-am) podejścia dla saneczkarzy, zjazdy dla bardziej i mniej zaawansowanych, poczekalnię dla rodziców. Uwzględniłem(-am) bezpieczną odległość od ulic, chodników, płotów i drzew.',
+                        'Brałem(-am) udział w zawodach saneczkowych.',
                       ]),
                   SprawData(
                       id: 'saneczkarz',
@@ -1410,12 +1831,12 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
-                        'Zabezpieczyłem(-łam) swój sprzęt i wykonałem(-łam) potrzebne naprawy.',
-                        'Jeżdżę na bezpiecznych górkach i odradzam innym jazdę w miejscach niebezpiecznych. Wymyśliłem(-łam) własny bezpieczny sposób zjeżdżania na sankach. Ułożyłem(-łam) regulamin jazdy na sankach na biwaku.',
-                        'Odpowiednio się ubieram, wychodząc na sanki. Na zbiórce gromady przedstawiłem(-łam) rysunek pokazujący zasady ubioru na sanki.',
-                        'Narysowałem(-łam) plan bezpiecznej górki, w którym zaznaczyłem(-łam) podejścia dla saneczkarzy, zjazdy dla bardziej i mniej zaawansowanych, poczekalnię dla rodziców. Uwzględniłem(-łam) bezpieczną odległość od ulic, chodników, płotów i drzew.',
-                        'Brałem(-łam) udział w zawodach saneczkowych.',
-                        'Urządziłem(-łam) pokaz jazdy na sankach (jazda w różnych pozycjach, w kuligu, slalomem, zaprzęgiem).',
+                        'Zabezpieczyłem(-am) swój sprzęt i wykonałem(-am) potrzebne naprawy.',
+                        'Jeżdżę na bezpiecznych górkach i odradzam innym jazdę w miejscach niebezpiecznych. Wymyśliłem(-am) własny bezpieczny sposób zjeżdżania na sankach. Ułożyłem(-am) regulamin jazdy na sankach na biwaku.',
+                        'Odpowiednio się ubieram, wychodząc na sanki. Na zbiórce gromady przedstawiłem(-am) rysunek pokazujący zasady ubioru na sanki.',
+                        'Narysowałem(-am) plan bezpiecznej górki, w którym zaznaczyłem(-am) podejścia dla saneczkarzy, zjazdy dla bardziej i mniej zaawansowanych, poczekalnię dla rodziców. Uwzględniłem(-am) bezpieczną odległość od ulic, chodników, płotów i drzew.',
+                        'Brałem(-am) udział w zawodach saneczkowych.',
+                        'Urządziłem(-am) pokaz jazdy na sankach (jazda w różnych pozycjach, w kuligu, slalomem, zaprzęgiem).',
                       ]),
                   SprawData(
                       id: 'saneczkarz',
@@ -1423,12 +1844,12 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
-                        'Zabezpieczyłem(-łam) swój sprzęt i wykonałem(-łam) potrzebne naprawy.',
-                        'Jeżdżę na bezpiecznych górkach i odradzam innym jazdę w miejscach niebezpiecznych. Wymyśliłem(-łam) własny bezpieczny sposób zjeżdżania na sankach. Ułożyłem(-łam) regulamin jazdy na sankach na biwaku.',
-                        'Odpowiednio się ubieram, wychodząc na sanki. Na zbiórce gromady przedstawiłem(-łam) rysunek pokazujący zasady ubioru na sanki.',
-                        'Brałem(-łam) udział w zawodach saneczkowych.',
-                        'Urządziłem(-łam) pokaz jazdy na sankach (jazda w różnych pozycjach, w kuligu, slalomem, zaprzęgiem).',
-                        'Zorganizowałem(-łam) dla gromady wyścigi saneczkowych zaprzęgów.',
+                        'Zabezpieczyłem(-am) swój sprzęt i wykonałem(-am) potrzebne naprawy.',
+                        'Jeżdżę na bezpiecznych górkach i odradzam innym jazdę w miejscach niebezpiecznych. Wymyśliłem(-am) własny bezpieczny sposób zjeżdżania na sankach. Ułożyłem(-am) regulamin jazdy na sankach na biwaku.',
+                        'Odpowiednio się ubieram, wychodząc na sanki. Na zbiórce gromady przedstawiłem(-am) rysunek pokazujący zasady ubioru na sanki.',
+                        'Brałem(-am) udział w zawodach saneczkowych.',
+                        'Urządziłem(-am) pokaz jazdy na sankach (jazda w różnych pozycjach, w kuligu, slalomem, zaprzęgiem).',
+                        'Zorganizowałem(-am) dla gromady wyścigi saneczkowych zaprzęgów.',
                       ]),
                 ]
             ),
@@ -1437,20 +1858,20 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
             SprawFamilyData(
                 id: '16',
                 requirements: [
-                  'Znam podstawowe zasady gry w szachy i przedstawiłem(-łam) je na plakacie lub opowiedziałem(-łam) o nich w gromadzie.',
-                  'Potrafię rozpoznać wszystkie figury szachowe i znam ich ruchy. Nauczyłem(-łam) nazw figur i ich ruchów kolegę/koleżankę.',
-                  'Rozegrałem(-łam) kilka partii szachowych z kolegami lub rodzeństwem.',
-                  'Zorganizowałem(-łam) turniej szachowy lub żywe szachy.',
-                  'Potrafię ocenić sytuację na szachownicy i wykonać właściwy ruch. Nauczyłem(-łam) tej taktyki kolegę/koleżankę.',
-                  'Znam nazwiska mistrzów szachowych. Zaprezentowałem(-łam) je w gromadzie. ',
-                  'Wiem, na czym polega obrona i atak podczas gry. Opowiedziałem(-łam) o tym w swojej szóstce.',
-                  'Nauczyłem(-łam) grać w szachy kolegę/koleżankę. Wytłumaczyłem(-łam) jemu/jej, co oznacza roszada, pat i mat.',
+                  'Znam podstawowe zasady gry w szachy i przedstawiłem(-am) je na plakacie lub opowiedziałem(-am) o nich w gromadzie.',
+                  'Potrafię rozpoznać wszystkie figury szachowe i znam ich ruchy. Nauczyłem(-am) nazw figur i ich ruchów kolegę.',
+                  'Rozegrałem(-am) kilka partii szachowych z kolegami lub rodzeństwem.',
+                  'Zorganizowałem(-am) turniej szachowy lub żywe szachy.',
+                  'Potrafię ocenić sytuację na szachownicy i wykonać właściwy ruch. Nauczyłem(-am) tej taktyki kolegę.',
+                  'Znam nazwiska mistrzów szachowych. Zaprezentowałem(-am) je w gromadzie. ',
+                  'Wiem, na czym polega obrona i atak podczas gry. Opowiedziałem(-am) o tym w swojej szóstce.',
+                  'Nauczyłem(-am) grać w szachy kolegę. Wytłumaczyłem(-am) jemu/jej, co oznacza roszada, pat i mat.',
                 ],
                 notesForLeaders: [
                   'Zdobywając tę sprawność, zuch rozwija zmysł taktyczny, uczy się strategii i logicznego myślenia, kształci umiejętność przewidywania dalszego ciągu zdarzeń i konsekwencji podejmowanych działań.',
-                  'Zuch „Szachista/Szachistka” to strateg, który w różnych sytuacjach potrafi wykorzystać swoje umiejętności na potrzeby całej gromady.',
+                  'Zuch „Szachista” to strateg, który w różnych sytuacjach potrafi wykorzystać swoje umiejętności na potrzeby całej gromady.',
                   'Zdobywanie sprawności powinno być dostosowane do indywidualnych umiejętności zucha i jego znajomości gry w szachy.',
-                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Szachisty/Szachistki”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy.".',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Szachisty”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy.".',
                 ],
                 sprawData: [
 
@@ -1460,9 +1881,9 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
-                        'Znam podstawowe zasady gry w szachy. Przedstawiłem(-łam) je na plakacie lub opowiedziałem(-łam) o nich w gromadzie.',
-                        'Rozegrałem(-łam) partię szachową z kolegami lub rodzeństwem.',
-                        'Potrafię rozpoznać wszystkie figury szachowe i znam ich ruchy. Nauczyłem(-łam) nazw figur i ich ruchów kolegę/koleżankę.',
+                        'Znam podstawowe zasady gry w szachy. Przedstawiłem(-am) je na plakacie lub opowiedziałem(-am) o nich w gromadzie.',
+                        'Rozegrałem(-am) partię szachową z kolegami lub rodzeństwem.',
+                        'Potrafię rozpoznać wszystkie figury szachowe i znam ich ruchy. Nauczyłem(-am) nazw figur i ich ruchów kolegę.',
                       ]),
                   SprawData(
                       id: 'szachista',
@@ -1470,12 +1891,12 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
-                        'Znam podstawowe zasady gry w szachy. Przedstawiłem(-łam) je na plakacie lub opowiedziałem(-łam) o nich w gromadzie.',
-                        'Potrafię rozpoznać wszystkie figury szachowe i znam ich ruchy. Nauczyłem(-łam) nazw figur i ich ruchów kolegę/koleżankę.',
-                        'Rozegrałem(-łam) kilka partii szachowych z kolegami lub rodzeństwem.',
-                        'Potrafię ocenić sytuację na szachownicy i wykonać właściwy ruch. Nauczyłem(-łam) tej taktyki kolegę/koleżankę.',
-                        'Znam nazwiska mistrzów szachowych. Zaprezentowałem(-łam) je w gromadzie.',
-                        'Wiem, na czym polega obrona i atak podczas gry. Opowiedziałem(-łam) o tym w swojej szóstce.',
+                        'Znam podstawowe zasady gry w szachy. Przedstawiłem(-am) je na plakacie lub opowiedziałem(-am) o nich w gromadzie.',
+                        'Potrafię rozpoznać wszystkie figury szachowe i znam ich ruchy. Nauczyłem(-am) nazw figur i ich ruchów kolegę.',
+                        'Rozegrałem(-am) kilka partii szachowych z kolegami lub rodzeństwem.',
+                        'Potrafię ocenić sytuację na szachownicy i wykonać właściwy ruch. Nauczyłem(-am) tej taktyki kolegę.',
+                        'Znam nazwiska mistrzów szachowych. Zaprezentowałem(-am) je w gromadzie.',
+                        'Wiem, na czym polega obrona i atak podczas gry. Opowiedziałem(-am) o tym w swojej szóstce.',
                       ]),
                   SprawData(
                       id: 'szachista',
@@ -1483,12 +1904,12 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
-                        'Potrafię rozpoznać wszystkie figury szachowe. Znam ich ruchy. Nauczyłem(-łam) nazw figur i ich ruchów kolegę/koleżankę.',
-                        'Zorganizowałem(-łam) turniej szachowy lub żywe szachy.',
-                        'Potrafię ocenić sytuację na szachownicy i wykonać właściwy ruch. Nauczyłem(-łam) tej taktyki kolegę/koleżankę.',
-                        'Rozegrałem(-łam) kilka partii szachowych z kolegami lub rodzeństwem.',
-                        'Znam nazwiska mistrzów szachowych. Zaprezentowałem(-łam) je w gromadzie.',
-                        'Nauczyłem(-łam) grać w szachy kolegę/koleżankę. Wytłumaczyłem(-łam) jemu/jej, co oznacza roszada, pat i mat.',
+                        'Potrafię rozpoznać wszystkie figury szachowe. Znam ich ruchy. Nauczyłem(-am) nazw figur i ich ruchów kolegę.',
+                        'Zorganizowałem(-am) turniej szachowy lub żywe szachy.',
+                        'Potrafię ocenić sytuację na szachownicy i wykonać właściwy ruch. Nauczyłem(-am) tej taktyki kolegę.',
+                        'Rozegrałem(-am) kilka partii szachowych z kolegami lub rodzeństwem.',
+                        'Znam nazwiska mistrzów szachowych. Zaprezentowałem(-am) je w gromadzie.',
+                        'Nauczyłem(-am) grać w szachy kolegę. Wytłumaczyłem(-am) jemu/jej, co oznacza roszada, pat i mat.',
                       ]),
                 ]
             ),
@@ -1497,21 +1918,21 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
             SprawFamilyData(
                 id: '17',
                 requirements: [
-                  'Rozegrałem(-łam) mecz w singlu i deblu.',
-                  'Pobiłem(-łam) swój rekord w podbijaniu piłeczki tenisowej. Zorganizowałem(-łam) mini zawody w szóstce.',
-                  'Dbam o swój sprzęt. Naprawiłem(-łam) niewielkie uszkodzenia. Przygotowałem(-łam) poradnik na ten temat.',
-                  'Przygotowałem(-łam) kort do gry.',
-                  'Sędziowałem(-łam) mecz tenisa.',
-                  'Wytłumaczyłem(-łam) w gromadzie zasady gry oraz fachowe słownictwo używane podczas meczu.',
-                  'Brałem(-łam) udział w turnieju tenisa.',
-                  'Nauczyłem(-łam) kolegę odbijać piłkę z forhendu i bekhendu.',
-                  'Zorganizowałem(-łam) turniej tenisa w gromadzie.',
+                  'Rozegrałem(-am) mecz w singlu i deblu.',
+                  'Pobiłem(-am) swój rekord w podbijaniu piłeczki tenisowej. Zorganizowałem(-am) mini zawody w szóstce.',
+                  'Dbam o swój sprzęt. Naprawiłem(-am) niewielkie uszkodzenia. Przygotowałem(-am) poradnik na ten temat.',
+                  'Przygotowałem(-am) kort do gry.',
+                  'Sędziowałem(-am) mecz tenisa.',
+                  'Wytłumaczyłem(-am) w gromadzie zasady gry oraz fachowe słownictwo używane podczas meczu.',
+                  'Brałem(-am) udział w turnieju tenisa.',
+                  'Nauczyłem(-am) kolegę odbijać piłkę z forhendu i bekhendu.',
+                  'Zorganizowałem(-am) turniej tenisa w gromadzie.',
                 ],
                 notesForLeaders: [
                   'Sprawność ćwiczy zwinność, spostrzegawczość, zręczność i ogólną kondycję fizyczną, a także umiejętność przestrzegania zasad fair play.',
                   'Zdobywając ją, zuch może promować zdrowy styl życia i hasło „W zdrowym ciele zdrowy duch”.',
-                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu inne sprawności sportowe, np. „Gimnastyka/Gimnastyczki” lub „Mistrza/Mistrzyni ringo”.',
-                  ' Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Tenisisty/Tenisistki”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy.".',
+                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu inne sprawności sportowe, np. „Gimnastyka” lub „Mistrza ringo”.',
+                  ' Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Tenisisty”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy.".',
                 ],
                 sprawData: [
 
@@ -1521,12 +1942,12 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
-                        'Rozegrałem(-łam) mecz w singlu i deblu.',
-                        'Pobiłem(-łam) swój rekord w podbijaniu piłeczki tenisowej.',
-                        'Zorganizowałem(-łam) mini zawody w szóstce.',
-                        'Dbam o swój sprzęt, naprawiłem(-łam) niewielkie uszkodzenia. Przygotowałem(-łam) poradnik na ten temat.',
-                        'Przygotowałem(-łam) kort do gry.',
-                        'Brałem(-łam) udział w turnieju tenisa.',
+                        'Rozegrałem(-am) mecz w singlu i deblu.',
+                        'Pobiłem(-am) swój rekord w podbijaniu piłeczki tenisowej.',
+                        'Zorganizowałem(-am) mini zawody w szóstce.',
+                        'Dbam o swój sprzęt, naprawiłem(-am) niewielkie uszkodzenia. Przygotowałem(-am) poradnik na ten temat.',
+                        'Przygotowałem(-am) kort do gry.',
+                        'Brałem(-am) udział w turnieju tenisa.',
                       ]),
                   SprawData(
                       id: 'tenisista',
@@ -1534,11 +1955,11 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
-                        'Rozegrałem(-łam) mecz w singlu i deblu.',
-                        'Przygotowałem(-łam) kort do gry.',
-                        'Sędziowałem(-łam) mecz tenisa.',
-                        'Wytłumaczyłem(-łam) zasady gry i fachowe słownictwo używane podczas meczu. Zaprezentowałem(-łam) to w gromadzie.',
-                        'Brałem(-łam) udział w turnieju tenisa.',
+                        'Rozegrałem(-am) mecz w singlu i deblu.',
+                        'Przygotowałem(-am) kort do gry.',
+                        'Sędziowałem(-am) mecz tenisa.',
+                        'Wytłumaczyłem(-am) zasady gry i fachowe słownictwo używane podczas meczu. Zaprezentowałem(-am) to w gromadzie.',
+                        'Brałem(-am) udział w turnieju tenisa.',
                       ]),
                   SprawData(
                       id: 'tenisista',
@@ -1546,11 +1967,11 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
-                        'Wytłumaczyłem(-łam) zasady gry i fachowe słownictwo używane podczas meczu. Zaprezentowałem(-łam) to w gromadzie.',
-                        'Sędziowałem(-łam) mecz tenisa.',
-                        'Brałem(-łam) udział w turnieju tenisa.',
-                        'Nauczyłem(-łam) kolegę odbijać piłkę z forhendu i bekhendu.',
-                        'Zorganizowałem(-łam) turniej tenisa w gromadzie.',
+                        'Wytłumaczyłem(-am) zasady gry i fachowe słownictwo używane podczas meczu. Zaprezentowałem(-am) to w gromadzie.',
+                        'Sędziowałem(-am) mecz tenisa.',
+                        'Brałem(-am) udział w turnieju tenisa.',
+                        'Nauczyłem(-am) kolegę odbijać piłkę z forhendu i bekhendu.',
+                        'Zorganizowałem(-am) turniej tenisa w gromadzie.',
                       ]),
                 ]
             ),
@@ -1569,12 +1990,12 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   'Używam słów: proszę, przepraszam, dziękuję, dzień dobry, dobranoc, do widzenia. Opowiedziałam o tym swojej szóstce.',
                   'Zachowuję się uprzejmie wobec chłopców i dziewcząt. Nie zaczepiam ich i nie przezywam. Stworzyłam poradnik młodej damy.',
                   'Przeczytałam książkę lub artykuł z czasopisma dla dzieci o zasadach savoir-vivre’u. Ułożyłam kodeks damy.',
-                  'Zrobiłam gazetkę na temat savoir-vivre’u lub opowiedziałam o zasadach savoir-vivre’u kolegom i koleżankom.',
+                  'Zrobiłam gazetkę na temat savoir-vivre’u lub opowiedziałam o zasadach savoir-vivre’u kolegom.',
                   'Spory rozwiązuję w sposób kulturalny. Zorganizowałam obrady okrągłego stołu, w czasie których rozstrzygaliśmy problem, przestrzegając zasad kulturalnej dyskusji.',
                   'Przygotowałam dla papierowych lalek ubranka na różne okazje.',
                   'Umiem ubrać się odpowiednio do okazji. Przygotowałam pokaz mody w gromadzie lub klasie.',
                   'Nakrywałam do stołu w domu, na kolonii zuchowej, podczas święta klasowego lub w gromadzie.',
-                  'Zaprosiłam koleżanki i kolegów na herbatkę (urodziny). Urządziłam przyjęcie.',
+                  'Zaprosiłam kolegów na herbatkę (urodziny). Urządziłam przyjęcie.',
                   'Potrafię rozmawiać przez telefon. Zaprezentowałam na zbiórce podstawowe zasady kulturalnej rozmowy telefonicznej ',
                 ],
                 notesForLeaders: [
@@ -1591,7 +2012,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasks: [
                         'Używam słów: proszę, przepraszam, dziękuję, dzień dobry, dobranoc, do widzenia. Opowiedziałam swojej szóstce, dlaczego ważne są zwroty grzecznościowe.',
                         'Zachowuję się uprzejmie wobec chłopców i dziewcząt. Nie zaczepiam ich i nie przezywam. Stworzyłam poradnik młodej damy, w którym zawarłam najważniejsze porady.',
-                        'Zrobiłam gazetkę na temat savoir-vivre’u lub opowiedziałam o zasadach savoir-vivre’u kolegom i koleżankom.',
+                        'Zrobiłam gazetkę na temat savoir-vivre’u lub opowiedziałam o zasadach savoir-vivre’u kolegom.',
                         'Wykonałam dla papierowych lalek ubranka na różne okazje. Wiem, jak się ubrać odpowiednio do okazji.',
                         'Nakrywałam do stołu w domu, na kolonii zuchowej, podczas święta klasowego lub w gromadzie.',
                       ]),
@@ -1603,10 +2024,10 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasks: [
                         'Używam słów: proszę, przepraszam, dziękuję, dzień dobry, dobranoc, do widzenia. Opowiedziałam szóstce, dlaczego ważne są zwroty grzecznościowe.',
                         'Zachowuję się uprzejmie wobec chłopców i dziewcząt. Nie zaczepiam ich i nie przezywam. Stworzyłam poradnik młodej damy, w którym zawarłam najważniejsze porady.',
-                        'Zrobiłam gazetkę na temat savoir-vivre’u lub opowiedziałam o zasadach savoir-vivre’u kolegom i koleżankom.',
+                        'Zrobiłam gazetkę na temat savoir-vivre’u lub opowiedziałam o zasadach savoir-vivre’u kolegom.',
                         'Umiem ubrać się odpowiednio do okazji. Przygotowałam pokaz mody w gromadzie lub klasie.',
                         ' Nakrywałam do stołu w domu, na kolonii zuchowej, podczas święta klasowego lub w gromadzie.',
-                        'Zaprosiłam koleżanki i kolegów na herbatkę (urodziny). Urządziłam przyjęcie.',
+                        'Zaprosiłam kolegów na herbatkę (urodziny). Urządziłam przyjęcie.',
                         'Potrafię rozmawiać przez telefon. Zaprezentowałam na zbiórce podstawowe zasady kulturalnej rozmowy telefonicznej.',
                       ]),
                   SprawData(
@@ -1615,12 +2036,12 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
-                        'Przeczytałam książkę lub artykuł z czasopisma dla dzieci o zasadach savoir-vivre’u. Ułożyłam kodeks damy, który zaprezentowałam koleżankom z klasy lub gromady.',
-                        'Zrobiłam gazetkę na temat savoir-vivre’u lub opowiedziałam o zasadach savoir-vivre’u kolegom i koleżankom.',
+                        'Przeczytałam książkę lub artykuł z czasopisma dla dzieci o zasadach savoir-vivre’u. Ułożyłam kodeks damy, który zaprezentowałam kolegom z klasy lub gromady.',
+                        'Zrobiłam gazetkę na temat savoir-vivre’u lub opowiedziałam o zasadach savoir-vivre’u kolegom.',
                         'Spory rozwiązuję w sposób kulturalny. Zorganizowałam obrady okrągłego stołu, w czasie których rozstrzygaliśmy problem, przestrzegając zasad kulturalnej dyskusji.',
                         'Umiem ubrać się odpowiednio do okazji. Przygotowałam pokaz mody w gromadzie lub w klasie.',
                         'Nakrywałam do stołu w domu, na kolonii zuchowej, podczas święta klasowego lub w gromadzie.',
-                        'Zaprosiłam koleżanki i kolegów na herbatkę (urodziny). Urządziłam przyjęcie.',
+                        'Zaprosiłam kolegów na herbatkę (urodziny). Urządziłam przyjęcie.',
                         'Potrafię rozmawiać przez telefon. Zaprezentowałam na zbiórce podstawowe zasady kulturalnej rozmowy telefonicznej.',
                       ]),
                 ]
@@ -1697,7 +2118,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   'Realizacja sprawności ma sens wtedy, gdy zuch musi przez pewien czas przebywać w „domowej izolacji”, ponieważ tylko powtarzanie niektórych czynności pomoże wypracować zdrowe nawyki.',
                   'Sprawność można zdobyć bez angażowania innych członków gromady (w zamian za to zuch współpracuje ze swoimi domownikami).',
                   'Pierwowzór sprawności został opracowany na początku pandemii COVID-19 przez XIII „Czarny” Szczep im. Zawiszy Czarnego z Hufca ZHP Radomsko.',
-                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Epidemiologa/Epidemiolożki”: "Zuch pamięta o swoich obowiązkach" Wszystkim jest z zuchem dobrze" "Zuch jest dzielny".',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Epidemiologa”: "Zuch pamięta o swoich obowiązkach" Wszystkim jest z zuchem dobrze" "Zuch jest dzielny".',
 
                 ],
                 sprawData: [
@@ -1749,7 +2170,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   'Zbieram makulaturę, butelki, zioła lub owoce lasu i pieniądze uzyskane z ich sprzedaży oszczędzam na określony cel.',
                   'Zrobiłem(-am) portmonetkę lub sakiewkę do przechowywania drobnych oszczędności.',
                   'Umiem ułożyć pieniądze według ich wartości.',
-                  'Sprzedawałem(-am) w sklepiku zuchowym lub na kiermaszu prowadzonym przez gromadę/klasę.',
+                  'Sprzedawałem(-am) w sklepiku zuchowym lub na kiermaszu prowadzonym przez gromadę lub klasę.',
                 ],
                 notesForLeaders: [
                   'Sprawność uczy oszczędności, odpowiedzialności, samodzielności i umiejętności gospodarowania pieniędzmi (planowania wydatków, zdobywania funduszy, realizowania planów).',
@@ -1766,7 +2187,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Zbieram swoje oszczędności do skarbonki. Przeznaczyłem(-am) je na wybrany cel.',
                         'Zrobiłem(-am) portmonetkę lub sakiewkę do przechowywania drobnych oszczędności.',
                         'Poznałem(-am) wartości pieniądza, ułożyłem(-am) je według nominałów.',
-                        'Dowiedziałem(-am) się, w jaki sposób można oszczędzać pieniądze i opowiedziałem(-am) o tym drużynowemu/drużynowej.',
+                        'Dowiedziałem(-am) się, w jaki sposób można oszczędzać pieniądze i opowiedziałem(-am) o tym drużynowemu.',
                       ]),
                   SprawData(
                       id: 'grosik',
@@ -1777,7 +2198,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Wykonałem(-am) skarbonkę, do której zbieram swoje oszczędności. Przeznaczyłem(-am) je na wybrany cel.',
                         'Brałem(-am) udział w akcji zarobkowej gromady.',
                         'Dowiedziałem(-am) się, w jaki sposób można oszczędzać pieniądze. Wymyśliłem(-am) własny sposób oszczędzania.',
-                        'Sprzedawałem(-am) w sklepiku zuchowym lub na kiermaszu prowadzonym przez gromadę/klasę.',
+                        'Sprzedawałem(-am) w sklepiku zuchowym lub na kiermaszu prowadzonym przez gromadę lub klasę.',
                         'Podczas wyjazdu gromady zaplanowałem(-am) swoje wydatki z otrzymanych na ten cel pieniędzy.',
                       ]),
                   SprawData(
@@ -1789,7 +2210,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Wykonałem(-am) skarbonkę, do której zbieram swoje oszczędności. Przeznaczyłem(-am) je na wybrany cel.',
                         'Brałem(-am) udział w akcji zarobkowej gromady.',
                         'Dowiedziałem(-am) się, w jaki sposób można oszczędzać pieniądze. Wymyśliłem(-am) własny sposób.',
-                        'Sprzedawałem(-am) w sklepiku zuchowym lub na kiermaszu prowadzonym przez gromadę/klasę.',
+                        'Sprzedawałem(-am) w sklepiku zuchowym lub na kiermaszu prowadzonym przez gromadę lub klasę.',
                         'Podczas wyjazdu gromady zaplanowałem(-am) swoje wydatki z otrzymanych na ten cel pieniędzy.',
                         'Dowiedziałem(-am) się, co to jest bankomat i karta płatnicza. Opowiedziałem(-am) o tym innym zuchom w kręgu rady.',
                       ]),
@@ -1800,15 +2221,15 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 requirements: [
                   'Wiem, na czym polega codzienna toaleta.',
                   'Dbam o higienę własnego ciała. Wiem, kiedy i jak należy myć ręce.',
-                  'Opowiedziałem(-am) kolegom i koleżankom, jak należy dbać o higienę.',
+                  'Opowiedziałem(-am) kolegom, jak należy dbać o higienę.',
                   'Sprawdzałem(-am) stan czystości na kolonii.',
                   'Zmierzyłem(-am) temperaturę i oceniłem(-am), czy jest prawidłowa.',
-                  'Dbam o swój pokój/kącik. Potrafię uporządkować swoje miejsce pracy.',
+                  'Dbam o swój pokój lub kącik. Potrafię uporządkować swoje miejsce pracy.',
                 ],
                 notesForLeaders: [
                   'Sprawność kształtuje postawę dbałości o zdrowie. Uczy zucha troski o higienę swojego ciała i miejsca, w którym przebywa.',
-                  'Zuch „Higienista/Higienistka” może następnie zdobyć sprawność „Śnieżnobiały uśmiech”.',
-                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Higienisty/Higienistki”: "Zuch stara się być coraz lepszy.", "Zuch pamięta o swoich obowiązkach." ',
+                  'Zuch „Higienista” może następnie zdobyć sprawność „Śnieżnobiały uśmiech”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Higienisty”: "Zuch stara się być coraz lepszy.", "Zuch pamięta o swoich obowiązkach." ',
                 ],
                 sprawData: [
                   SprawData(
@@ -1820,7 +2241,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Zademonstrowałem(-am) innym zuchom, jak prawidłowo myć ręce.',
                         'Sprawdzałem(-am) stan czystości na wyjeździe gromady.',
                         'Nauczyłem(-am) się prawidłowo myć zęby.',
-                        'Samodzielnie umyłem(-am) włosy podczas wyjazdu gromady lub w domu pod okiem rodziców. Efekty zaprezentowałem(-am) drużynowemu/drużynowej.',
+                        'Samodzielnie umyłem(-am) włosy podczas wyjazdu gromady lub w domu pod okiem rodziców. Efekty zaprezentowałem(-am) drużynowemu.',
                       ]),
                   SprawData(
                       id: 'higienista',
@@ -1831,7 +2252,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Zademonstrowałem(-am) innym zuchom, jak prawidłowo myć ręce.',
                         'Dwukrotnie sprawdzałem(-am) stan czystości na wyjeździe gromady.',
                         'Zmierzyłem(-am) temperaturę w domu i oceniłem(-am), czy jest prawidłowa.',
-                        'Samodzielnie umyłem(-am) włosy podczas wyjazdu gromady lub w domu pod okiem rodziców. Efekty zaprezentowałem(-am) drużynowemu/drużynowej.',
+                        'Samodzielnie umyłem(-am) włosy podczas wyjazdu gromady lub w domu pod okiem rodziców. Efekty zaprezentowałem(-am) drużynowemu.',
                       ]),
                   SprawData(
                       id: 'higienista',
@@ -1844,7 +2265,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Trzykrotnie sprawdzałem(-am) stan czystości na wyjeździe gromady.',
                         'Zaprezentowałem(-am) młodszym zuchom, jak należy dbać o czystość swojego miejsca w namiocie lub w pokoju.',
                         'Zmierzyłem(-am) temperaturę w domu i oceniłem(-am), czy jest prawidłowa.',
-                        'Samodzielnie umyłem(-am), a następnie uczesałem(-am) włosy podczas wyjazdu gromady lub w domu pod okiem rodziców. Efekty zaprezentowałem(-am) drużynowemu/drużynowej.',
+                        'Samodzielnie umyłem(-am), a następnie uczesałem(-am) włosy podczas wyjazdu gromady lub w domu pod okiem rodziców. Efekty zaprezentowałem(-am) drużynowemu.',
                       ]),
                 ]
             ),
@@ -1863,8 +2284,8 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   'Chętnie pomagam rodzicom w robieniu zakupów i przygotowywaniu posiłków.',
                 ],
                 notesForLeaders: [
-                  'Sprawność jest przeznaczona dla dzieci, które lubią pomagać w kuchni. Zdobywającyą zuch na pewno chętnie umieści swoje ulubione przepisy we własnej książce ucharskiej, pochwali się kolorowym fartuszkiem lub przygotuje plakat, który pokaże olegom i koleżankom z gromady lub klasy, aby przekonać ich, że bardzo ważne jest to, o jedzą.',
-                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność "Kuchmistrza/Kuchmistrzyni”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze." ',
+                  'Sprawność jest przeznaczona dla dzieci, które lubią pomagać w kuchni. Zdobywającyą zuch na pewno chętnie umieści swoje ulubione przepisy we własnej książce ucharskiej, pochwali się kolorowym fartuszkiem lub przygotuje plakat, który pokaże kolegom z gromady lub klasy, aby przekonać ich, że bardzo ważne jest to, o jedzą.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność "Kuchmistrza”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze." ',
                 ],
                 sprawData: [
                   SprawData(
@@ -1886,7 +2307,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasksAreExamples: true,
                       tasks: [
                         'Z pomocą osoby dorosłej nauczyłem(-am) się prawidłowo kroić.',
-                        'Samodzielnie przygotowałem(-am) zdrowy deser dla rodziny lub kolegi/koleżanki.',
+                        'Samodzielnie przygotowałem(-am) zdrowy deser dla rodziny lub kolegi.',
                         'Pomogłem(-am) komuś z rodziny przygotować dwa wybrane posiłki.',
                         'Podczas wyjazdu z gromadą pomogłem(-am) w przygotowaniu posiłku.',
                         'Założyłem(-am) własną książkę kucharską, w której zbieram przepisy.',
@@ -1901,7 +2322,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Przez tydzień zabierałem(-am) zdrowe przekąski do szkoły.',
                         'Pomogłem(-am) komuś z rodziny przygotować trzy wybrane posiłki.',
                         'Samodzielnie wybrałem(-am) w sklepie produkty potrzebne do przygotowania określonego posiłku.',
-                        'Samodzielnie przygotowałem(-am) zdrowy deser dla rodziny lub kolegi/koleżanki.',
+                        'Samodzielnie przygotowałem(-am) zdrowy deser dla rodziny lub kolegi.',
                         'Założyłem(-am) własną książkę kucharską, w której zbieram przepisy.',
                         'Podczas wyjazdu z gromadą pomogłem(-am) w przygotowaniu posiłku.',
                         'Zabrałem(-am) zdrową przekąskę na wyjazd z gromadą.',
@@ -1925,8 +2346,8 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 ],
                 notesForLeaders: [
                   'Sprawność kształtuje przydatną każdemu człowiekowi umiejętność dbania o siebie i swoje otoczenie oraz radzenia sobie z obowiązkami domowymi. Uczy systematyczności, zaradności życiowej i porządku oraz rozwija zmysł estetyki.',
-                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu sprawności „Złotej rączki” i „Kuchmistrza/Kuchmistrzyni”.',
-                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Perfekcyjnego pana domu/Perfekcyjnej pani domu”: "Zuch pamięta o swoich obowiązkach.", "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze." ',
+                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu sprawności „Złotej rączki” i „Kuchmistrza”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Perfekcyjnego pana/pani domu”: "Zuch pamięta o swoich obowiązkach.", "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze." ',
                 ],
                 sprawData: [
                   SprawData(
@@ -1991,7 +2412,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 notesForLeaders: [
                   'Sprawność kształtuje samodzielność, spostrzegawczość, a także umiejętność przewidywania i podporządkowania się przepisom. Zuch „Przechodzień” bezpiecznie porusza się po drodze. Wie, jak prawidłowo przechodzić przez ulicę, nie narażając własnego zdrowia i nie stanowiąc zagrożenia dla innych.',
                   'Zuchowi zdobywającemu sprawność należy uświadomić, że poruszanie się po drogach może być niebezpieczne, a podczas przechodzenia przez jezdnię należy zachować szczególną ostrożność (nawet przy zielonym świetle).',
-                  'Zuchowi można zaproponować następnie sprawność „Rowerzysty/Rowerzystki”.',
+                  'Zuchowi można zaproponować następnie sprawność „Rowerzysty”.',
                   'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Przechodnia”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze." ',
                 ],
                 sprawData: [
@@ -2003,7 +2424,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasks: [
                         'Narysowałem(-am) i zaprezentowałem(-am) w gromadzie znak drogowy „przejście dla pieszych”. Opowiedziałem(-am), w jaki sposób należy bezpiecznie przechodzić przez jezdnię.',
                         'Mam odblaski przypięte do plecaka. Na zbiórce opowiedziałem(-am), gdzie należy je nosić i dlaczego są takie ważne.',
-                        'Znam telefon na policję, straż pożarną i pogotowie. Wiem, jak wezwać pomoc. Przedstawiłem(-am) to drużynowemu/drużynowej.',
+                        'Znam telefon na policję, straż pożarną i pogotowie. Wiem, jak wezwać pomoc. Przedstawiłem(-am) to drużynowemu.',
                         'Umiem w poprawny sposób przejść przez przejście dla pieszych. Pokazałem(-am) rodzicom, jak to robię.',
                         'Sporządziłem(-am) mapkę mojej drogi z domu do szkoły. Zaznaczyłem(-am) na niej miejsca niebezpieczne i przejścia dla pieszych.',
                       ]),
@@ -2046,8 +2467,8 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   'Przyprowadziłem(-am) na zbiórkę gromady młodszego kolegę.',
                 ],
                 notesForLeaders: [
-                  'Zuch „Przewodnik/Przewodniczka po szkole” jest odpowiedzialny nie tylko za siebie, ale także za innych. Łatwo nawiązuje kontakty z rówieśnikami i chętnie pomaga innym. Warto zwrócić uwagę zucha na pierwszoklasistów oraz nowych uczniów.',
-                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Przewodnika/Przewodniczki po szkole”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze." ',
+                  'Zuch „Przewodnik po szkole” jest odpowiedzialny nie tylko za siebie, ale także za innych. Łatwo nawiązuje kontakty z rówieśnikami i chętnie pomaga innym. Warto zwrócić uwagę zucha na pierwszoklasistów oraz nowych uczniów.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Przewodnika po szkole”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze." ',
                 ],
                 sprawData: [
                   SprawData(
@@ -2057,8 +2478,8 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasksAreExamples: true,
                       tasks: [
                         'Wiem, gdzie jest moja klasa. Sam(a) do niej trafiłem(-am).',
-                        'Znam imię i nazwisko wychowawcy/wychowawczyni.',
-                        'Wiem, kto jest patronem mojej szkoły. Opowiedziałem(-am) na lekcji/zbiórce o jego zasługach.',
+                        'Znam imię i nazwisko wychowawcy.',
+                        'Wiem, kto jest patronem mojej szkoły. Opowiedziałem(-am) na lekcji lub zbiórce o jego zasługach.',
                         'Wiem, gdzie pracują różni pracownicy szkoły (dyrektor, pielęgniarka, woźna, dozorca, sekretarka, pedagog, bibliotekarka, kucharki). Wyjaśniłem(-am) w kręgu rady, do kogo z nich można zwracać się w różnych sprawach.',
                       ]),
                   SprawData(
@@ -2083,7 +2504,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Zrobiłem(-am) filmik o patronie szkoły.',
                         'Oprowadziłem(-am) po szkole pierwszoklasistę.',
                         'Narysowałem(-am) mapę szkoły. Podarowałem(-am) ją klasie pierwszej.',
-                        'Przyprowadziłem(-am) na zbiórkę młodszego kolegę/młodszą koleżankę.',
+                        'Przyprowadziłem(-am) na zbiórkę młodszego kolegę.',
                         'Pokazałem(-am) pierwszoklasiście, gdzie pracują różni pracownicy szkoły (dyrektor, pielęgniarka, woźna, dozorca, sekretarka, pedagog, bibliotekarka, kucharki). Wyjaśniłem(-am), do kogo z nich może zwracać się w różnych sprawach.',
                         'Pokazałem(-am) pierwszoklasistom, jak dbać o naszą szkołę.',
                       ]),
@@ -2092,7 +2513,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
             SprawFamilyData(
                 id: '10',
                 requirements: [
-                  'Wziąłem/wzięłam udział w kolonii zuchowej.',
+                  'Wziąłem(wzięłam) udział w kolonii zuchowej.',
                   'Potrafię posługiwać się narzędziami w bezpieczny sposób.',
                   'Potrafię samodzielnie rozłożyć i pościelić kanadyjkę.',
                   'Potrafię samodzielnie złożyć swój śpiwór.',
@@ -2113,8 +2534,8 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '1',
                       tasksAreExamples: true,
                       tasks: [
-                        'Wziąłem/wzięłam udział w kolonii zuchowej lub leśnym biwaku.',
-                        'Nauczyłem(-am) się bezpiecznie posługiwać narzędziami. Opowiem o tym drużynowemu/drużynowej.',
+                        'Wziąłem(wzięłam) udział w kolonii zuchowej lub leśnym biwaku.',
+                        'Nauczyłem(-am) się bezpiecznie posługiwać narzędziami. Opowiem o tym drużynowemu.',
                         'Samodzielnie rozłożyłem(-am) i pościeliłem(-am) kanadyjkę oraz złożyłem(-am) i rozłożyłem(-am) swój śpiwór.',
                         'Wbiłem(-am) gwóźdź, przeciąłem(-am) sznurek lub przepiłowałem(-am) żerdkę.',
                         'Bez użycia latarki trafiłem(-am) po ciemku do swojego namiotu lub domku.',
@@ -2126,8 +2547,8 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '2',
                       tasksAreExamples: true,
                       tasks: [
-                        'Wziąłem/wzięłam udział w kolonii zuchowej lub leśnym biwaku.',
-                        'Nauczyłem(-am) się bezpiecznie posługiwać narzędziami. Opowiedziałem(-am) o tym drużynowemu/drużynowej.',
+                        'Wziąłem(wzięłam) udział w kolonii zuchowej lub leśnym biwaku.',
+                        'Nauczyłem(-am) się bezpiecznie posługiwać narzędziami. Opowiedziałem(-am) o tym drużynowemu.',
                         'Samodzielnie rozłożyłem(-am) i pościeliłem(-am) kanadyjkę. Przez cały wyjazd dbałem(-am) o swoje miejsce do spania.',
                         'Samodzielnie złożyłem(-am) i rozłożyłem(-am) swój śpiwór.',
                         'Wraz z szóstką przygotowałem(-am) element zdobnictwa kolonijnego, np. tablicę ogłoszeń.',
@@ -2141,13 +2562,13 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       level: '3',
                       tasksAreExamples: true,
                       tasks: [
-                        'Wziąłem/wzięłam udział w kolonii zuchowej lub leśnym biwaku.',
+                        'Wziąłem(wzięłam) udział w kolonii zuchowej lub leśnym biwaku.',
                         'Nauczyłem(-am) się bezpiecznie posługiwać narzędziami. Opowiedziałem(-am) o tym w kręgu rady.',
                         'Samodzielnie rozłożyłem(-am) i pościeliłem(-am) kanadyjkę. Przez cały wyjazd dbałem(-am) o swoje miejsce do spania.',
                         'Samodzielnie złożyłem(-am) i rozłożyłem(-am) swój śpiwór.',
                         'Zaprojektowałem(-am) element zdobnictwa, np. tablicę ogłoszeń. Pokierowałem(-am) jej wykonaniem przez szóstkę.',
                         'Nauczyłem(-am) się bezpiecznie posługiwać scyzorykiem. Wykonałem(-am) majsterkę lub zdobnictwo z jego użyciem.',
-                        'Bez użycia latarki trafiłem(-am) po ciemku do swojego namiotu/domku. Nauczyłem(-am) tej umiejętności zucha z mojego domku/namiotu.',
+                        'Bez użycia latarki trafiłem(-am) po ciemku do swojego namiotu lub domku. Nauczyłem(-am) tej umiejętności zucha z mojego domku lub namiotu.',
                         'Przez cały wyjazd sam(a) dokładnie myłem(-am) swoją menażkę.',
                       ]),
                 ]
@@ -2213,7 +2634,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 id: '12',
                 requirements: [
                   'Umiem bezpiecznie posługiwać się podstawowymi narzędziami (np. młotkiem, śrubokrętem, nożyczkami).',
-                  'Wykonałem(-am) kilka zabawek i podarowałem(-am) je młodszym kolegom  i koleżankom.',
+                  'Wykonałem(-am) kilka zabawek i podarowałem(-am) je młodszym kolegom.',
                   'Przygotowałem(-am) dekoracje do zuchówki, do swojego pokoju lub na przyjęcie.',
                   'Złożyłem(-am) prosty model z gotowych elementów.',
                   'Własnoręcznie odnowiłem(-am) zniszczone drobne sprzęty.',
@@ -2291,7 +2712,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   'Sadziłem(-am) kwiaty. Podlewałem(-am) je i nawoziłem(-am).',
                   'Wykonałem(-am) drabinkę do kwiatków.',
                   'Ułożyłem(-am) bukiet z kwiatów.',
-                  'Razem z kolegami i koleżankami zaopiekowałem(-am) się klombem lub trawnikiem.',
+                  'Razem z kolegami zaopiekowałem(-am) się klombem lub trawnikiem.',
                 ],
                 notesForLeaders: [
                   'Sprawność uczy systematyczności i odpowiedzialności.',
@@ -2486,12 +2907,12 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Narysowałem(-am), co można zrobić, żeby zmniejszyć zanieczyszczenie środowiska. Przedstawiłem(-am) swoją pracę w kręgu rady.',
                         'Spędzam wolny czas na łonie przyrody. Brałem(-am) udział w wycieczce np. do lasu, nad wodę, w góry. Poszukałem(-am) śladów zwierząt, przyjrzałem(-am) się mijanym po drodze roślinom. Narysowałem(-am) lub sfotografowałem(-am) to, co zaobserwowałem(-am).',
                         'Podjąłem(podjęłam) ekowyzwanie. Przez siedem dni realizowałem(-am) po dwa postanowienia z listy (codziennie mogą być inne):'
-                        '\n\n-Zakręcałem(-am) wodę w czasie mycia zębów.'
-                        '\n\n-Segregowałem(-am) śmieci.'
-                        '\n\n-Nie wyrzuciłem(-am) żadnego jedzenia (np. drugiego śniadania w szkole).'
-                        '\n\n-Wyłączyłem(-am) niepotrzebne światło.'
-                        '\n\n-Podczas spaceru podniosłem(-am) śmieci z ziemi i wrzuciłem(-am) do kosza.'
-                        '\n\n-Wziąłem(wzięłam) krótki prysznic zamiast kąpieli.',
+                            '\n\n-Zakręcałem(-am) wodę w czasie mycia zębów.'
+                            '\n\n-Segregowałem(-am) śmieci.'
+                            '\n\n-Nie wyrzuciłem(-am) żadnego jedzenia (np. drugiego śniadania w szkole).'
+                            '\n\n-Wyłączyłem(-am) niepotrzebne światło.'
+                            '\n\n-Podczas spaceru podniosłem(-am) śmieci z ziemi i wrzuciłem(-am) do kosza.'
+                            '\n\n-Wziąłem(wzięłam) krótki prysznic zamiast kąpieli.',
                         'Razem z rodzicami, z klasą lub gromadą wziąłem(wzięłam) udział w akcji ekologicznej np. sprzątaniu świata, sadzeniu drzew, zbiórce elektrośmieci.',
                       ]),
                   SprawData(
@@ -2504,15 +2925,15 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Wykonałem(-am) plakat zachęcający do działań na rzecz ratowania środowiska naturalnego. Przedstawiłem(-am) go w kręgu rady.',
                         'Spędzam wolny czas na łonie przyrody. Brałem(-am) udział w dwóch wycieczkach np. do lasu, nad wodę, w góry. Poszukałem(-am) śladów zwierząt i przyjrzałem(-am) się mijanym po drodze roślinom. Narysowałem(-am) lub sfotografowałem(-am) to, co zaobserwowałem(-am).',
                         'Podjąłem(podjęłam) ekowyzwanie. Przez siedem dni realizowałem(-am) przynajmniej dwa postanowienia z listy (codziennie mogą być inne):'
-                        '\n\n- Zakręcałem(-am) wodę w czasie mycia zębów.'
-                        '\n\n- Wyjmowałem(-am) ładowarkę od telefonu z kontaktu.'
-                        '\n\n- Segregowałem(-am) śmieci.'
-                        '\n\n- Pojechałem(-am) gdzieś na rowerze, autobusem lub poszedłem(poszłam) pieszo.'
-                        '\n\n- Nie wyrzuciłem(-am) żadnego jedzenia (np. drugiego śniadania w szkole).'
-                        '\n\n- Nie wziąłem(wzięłam) torebki foliowej lub nie kupiłem(-am) w szkolnym sklepiku niczego w plastikowym opakowaniu.'
-                        '\n\n- Wyłączyłem(-am) niepotrzebne światło.'
-                        '\n\n- Podczas spaceru podniosłem(-am) śmieci z ziemi i wrzuciłem(-am) do kosza.'
-                        '\n\n- Wziąłem(wzięłam) krótki prysznic zamiast kąpieli.',
+                            '\n\n- Zakręcałem(-am) wodę w czasie mycia zębów.'
+                            '\n\n- Wyjmowałem(-am) ładowarkę od telefonu z kontaktu.'
+                            '\n\n- Segregowałem(-am) śmieci.'
+                            '\n\n- Pojechałem(-am) gdzieś na rowerze, autobusem lub poszedłem(poszłam) pieszo.'
+                            '\n\n- Nie wyrzuciłem(-am) żadnego jedzenia (np. drugiego śniadania w szkole).'
+                            '\n\n- Nie wziąłem(wzięłam) torebki foliowej lub nie kupiłem(-am) w szkolnym sklepiku niczego w plastikowym opakowaniu.'
+                            '\n\n- Wyłączyłem(-am) niepotrzebne światło.'
+                            '\n\n- Podczas spaceru podniosłem(-am) śmieci z ziemi i wrzuciłem(-am) do kosza.'
+                            '\n\n- Wziąłem(wzięłam) krótki prysznic zamiast kąpieli.',
                         'Razem z rodzicami, z klasą lub gromadą uczestniczyłem(-am) w akcji ekologicznej np. sprzątaniu świata, sadzeniu drzew, zbiórce elektrośmieci. Opowiedziałem(-am) o tym w kręgu rady.',
                         'Wyjaśniłem(-am) innym zuchom, czym jest ślad węglowy i jak można go zlikwidować.',
                       ]),
@@ -2526,15 +2947,15 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Wykonałem(-am) plakat zachęcający do działań na rzecz ratowania środowiska naturalnego. Przedstawiłem(-am) go w kręgu rady.',
                         'Spędzam wolny czas na łonie przyrody. Brałem(-am) udział w trzech wycieczkach np. do lasu, nad wodę, w góry. Poszukałem(-am) śladów zwierząt, przyjrzałem(-am) się mijanym po drodze roślinom. Narysowałem(-am) lub sfotografowałem(-am) to, co zaobserwowałem(-am).',
                         'Podjąłem(podjęłam) ekowyzwanie. Przez siedem dni realizowałam więcej niż dwa postanowienia z listy (codziennie mogą być inne):'
-                        '\n\n- Zakręcałem(-am) wodę w czasie mycia zębów.'
-                        '\n\n- Wyjmowałem(-am) ładowarkę od telefonu z kontaktu'
-                        '\n\n- Segregowałem(-am) śmieci.'
-                        '\n\n- Pojechałem(-am) gdzieś na rowerze, autobusem lub poszedłem(poszłam) pieszo.'
-                        '\n\n- Nie wyrzuciłem(-am) żadnego jedzenia (np. drugiego śniadania w szkole).'
-                        '\n\n- Nie wziąłem(wzięłam) torebki foliowej lub nie kupiłem(-am) w szkolnym sklepiku niczego w plastikowym opakowaniu.'
-                        '\n\n- Wyłączyłem(-am) niepotrzebne światło.'
-                        '\n\n- Podczas spaceru podniosłem(-am) śmieci z ziemi i wrzuciłem(-am) do kosza.'
-                        '\n\n- Wziąłem(wzięłam) krótki prysznic zamiast kąpieli.',
+                            '\n\n- Zakręcałem(-am) wodę w czasie mycia zębów.'
+                            '\n\n- Wyjmowałem(-am) ładowarkę od telefonu z kontaktu'
+                            '\n\n- Segregowałem(-am) śmieci.'
+                            '\n\n- Pojechałem(-am) gdzieś na rowerze, autobusem lub poszedłem(poszłam) pieszo.'
+                            '\n\n- Nie wyrzuciłem(-am) żadnego jedzenia (np. drugiego śniadania w szkole).'
+                            '\n\n- Nie wziąłem(wzięłam) torebki foliowej lub nie kupiłem(-am) w szkolnym sklepiku niczego w plastikowym opakowaniu.'
+                            '\n\n- Wyłączyłem(-am) niepotrzebne światło.'
+                            '\n\n- Podczas spaceru podniosłem(-am) śmieci z ziemi i wrzuciłem(-am) do kosza.'
+                            '\n\n- Wziąłem(wzięłam) krótki prysznic zamiast kąpieli.',
                         'Razem z rodzicami, klasą lub gromadą uczestniczyłem(-am) w akcji ekologicznej, np. sprzątaniu świata, sadzeniu drzew, zbiórce elektrośmieci. Wytłumaczyłem(-am) w kręgu rady, że było to ważne działanie.',
                         'Wyjaśniłem(-am) innym zuchom, czym jest ślad węglowy i jak można gozlikwidować.',
                       ]),
@@ -2605,7 +3026,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   'Znam popularne rośliny występujące w lesie. Potrafię je rozpoznać.',
                   'Znam owoce lasu występujące w okolicy. Wiem, które z nich nadają się do spożycia.',
                   'Znam zwierzęta zamieszkujące polskie lasy, potrafię rozpoznać ich ślady.',
-                  'Znam zasady przebywania w lesie. Opowiedziałem(-am) o nich kolegom i koleżankom.',
+                  'Znam zasady przebywania w lesie. Opowiedziałem(-am) o nich kolegom.',
                   'Wybrałem(-am) się na wycieczkę do lasu, podczas której zebrałem(-am) znalezione śmieci.',
                   'Wykonałem(-am) makietę lasu, opisując poszczególne jego warstwy.',
                 ],
@@ -2672,7 +3093,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   'Narysowałem(-am) ptaka lub sfotografowałem(-am) go.',
                   'Wiem, co zrobić, gdy znajdę rannego ptaka.',
                   'Zebrałem(-am) pióra ptaków. Potrafię rozpoznać, do jakich gatunków należały.',
-                  'Opowiedziałem(-am) kolegom i koleżankom o życiu ptaków.',
+                  'Opowiedziałem(-am) kolegom o życiu ptaków.',
                 ],
                 notesForLeaders: [
                   'Zdobywając tę sprawność, zuch rozwija zainteresowania przyrodnicze i uczy się systematyczności (należy uświadomić mu, że dokarmianie ptaków nie może skończyć się wraz ze zdobyciem sprawności, lecz trzeba prowadzić je do wiosny).',
@@ -2845,6 +3266,985 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
           tags: ['#ciekawość świata', '#różnorodność', '#kultura', '#nauka', '#praca nad sobą', '#zawody', '#pasje', '#pomysłowość'],
           familyData: [
 
+// 1. naukowo-hobbystyczna ASTRONOM
+            SprawFamilyData(
+                id: '1',
+                requirements: [
+                  'Przeprowadziłem(-am) regularne obserwacje nieba. Wiem, czym są wschód i zachód słońca oraz fazy księżyca.',
+                  'Wiem, co to jest zaćmienie księżyca. Obserwowałem(-am) całkowite lub częściowe zaćmienie księżyca albo dowiedziałem(-am) się, kiedy wystąpi najbliższe takie zjawisko.',
+                  'Znam budowę układu słonecznego.',
+                  'Potrafię wskazać Wielką Niedźwiedzicę i inne wybrane gwiazdozbiory.',
+                  'Wiem, co to jest Gwiazda Polarna oraz potrafię ją wskazać.',
+                  'Znam osiągnięcia Mikołaja Kopernika lub innego sławnego astronoma.',
+                  'Byłem(-am) w planetarium lub obserwatorium astronomicznym lub obejrzałem(-am) w atlasie lub Internecie mapę nieba.',
+                  'Obejrzałem(-am) program o wszechświecie lub przeczytałem(-am) książkę na ten temat.',
+
+                ],
+                notesForLeaders: [
+                  'Sprawność jest przeznaczona dla zuchów, które lubią obserwować niebo i interesują się wszechświatem.',
+                  'Sprawność doskonale nadaje się na kolonię, podczas której można dokonywać wspólnych obserwacji, a także wykorzystać wiedzę zucha przy poznawaniu nieba przez inne dzieci.',
+                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu sprawność „Meteorologa”.',
+                  'Punkt Prawa Zucha, który podkreślamy, realizując sprawność „Astronoma”: "Zuch stara się być coraz lepszy."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'astronom',
+                      title: 'Astronom',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Dowiedziałem(-am) się, co to są fazy księżyca.',
+                        'Przez tydzień prowadziłem(-am) regularne obserwacje nieba. Rysowałem(-am) w dzienniku obserwacji, jak wygląda niebo i księżyc.',
+                        'Wykonałem(-am) plakat lub konstrukcję przestrzenną układu słonecznego, którą zaprezentowałem(-am) w kręgu rady.',
+                        'Poznałem(-am) postać wybranego astronoma. Opowiedziałem(-am) o nim drużynowemu.',
+                        'Wskazałem(-am) na niebie gwiazdozbiór Wielkiej Niedźwiedzicy oraz inny wybrany gwiazdozbiór.',
+                        'Byłem(-am) w planetarium lub obserwatorium astronomicznym lub obejrzałem(-am) w atlasie lub Internecie mapę nieba.',
+                        'Wskazałem(-am) Gwiazdę Polarną.',
+                      ]),
+                  SprawData(
+                      id: 'astronom',
+                      title: 'Astronom',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Prowadziłem(-am) regularne obserwacje nieba przez tydzień. Zapisałem(-am) każdego dnia, o której godzinie był wschód i zachód słońca oraz określiłem(-am) fazy księżyca.',
+                        'Poznałem(-am) postać wybranego astronoma. Opowiedziałem(-am) o nim drużynowemu.',
+                        'Wskazałem(-am) na niebie gwiazdozbiór Wielkiej Niedźwiedzicy i dwa inne wybrane gwiazdozbiory.',
+                        'Byłem(-am) w planetarium lub obserwatorium astronomicznym lub obejrzałem(-am) w atlasie mapę nieba.',
+                        'Podczas wyjazdu z gromadą wyznaczyłem(-am) północ według Gwiazdy Polarnej.',
+                        'Obejrzałem(-am) program o wszechświecie lub przeczytałem(-am) książkę o tej tematyce. Zapisałem(-am) najciekawsze informacje.',
+                      ]),
+                  SprawData(
+                      id: 'astronom',
+                      title: 'Astronom',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Przez tydzień prowadziłem(-am) regularne obserwacje nieba. Zapisałem(-am) każdego dnia, o której godzinie był wschód i zachód słońca oraz określiłem(-am) fazy księżyca.',
+                        'Wykonałem(-am) konstrukcję przestrzenną układu słonecznego. Zaprezentowałem(-am) ją w kręgu rady.',
+                        'Poznałem(-am) postać wybranego astronoma. Opowiedziałem(-am) o nim innym zuchom w kręgu rady.',
+                        'Wskazałem(-am) na niebie gwiazdozbiór Psy Gończe i trzy inne wybrane gwiazdozbiory.',
+                        'Byłem(-am) w planetarium lub obserwatorium astronomicznym lub obejrzałem(-am) w atlasie lub Internecie mapę nieba.',
+                        'Podczas wyjazdu z moją gromadą wyznaczyłem(-am) północ według Gwiazdy Polarnej.',
+                        'Obejrzałem(-am) program o wszechświecie lub przeczytałem(-am) książkę o tej tematyce. Zapisałem(-am) najciekawsze informacje, które przedstawiłem(-am) innym zuchom w kręgu rady.',
+                        'Dowiedziałem(-am) się, co to jest zaćmienie księżyca. Obserwowałem(-am) całkowite lub częściowe zaćmienie księżyca albo dowiedziałem(-am) się, kiedy wystąpi najbliższe takie zjawisko.',
+                      ]),
+                ]
+            ),
+
+// 2. naukowo-hobbystyczna BADACZ
+            SprawFamilyData(
+                id: '2',
+                requirements: [
+                  'Mam swój dziennik, w którym zapisuję przeprowadzane doświadczenia. Opisuję zawsze przebieg doświadczenia i wnioski.',
+                  'Pokazałem(-am) zuchom na zbiórce kilka ciekawych doświadczeń.',
+                  'Umiem dbać o bezpieczeństwo podczas wykonywania doświadczeń. Niebezpieczne doświadczenia przeprowadzam z pomocą osoby dorosłej.',
+                  'Podczas wykonywania doświadczeń zawsze utrzymuję porządek.',
+                  'Potrafię wytłumaczyć, dlaczego roślina wygina się do światła, dlaczego kompas pokazuje północ i jak powstaje wiatr.',
+                  'Potrafię wymienić nazwiska trzech naukowców i powiedzieć, czym się zajmowali.',
+                  'Widziałem(-am) pokaz doświadczeń naukowych lub byłem(-am) w centrum naukowym.',
+                  'Interesuję się nauką i oglądam programy naukowe.',
+                ],
+                notesForLeaders: [
+                  'Sprawność wprowadza zucha w pasjonujący świat nauki, doświadczeń i eksperymentów.',
+                  'Jest przeznaczona przede wszystkim dla starszych dzieci, które interesują się mechanizmami rządzącymi światem. Pozwala na bogaty zakres działań ― przedmiotem podejmowanych doświadczeń może zostać każdy element naszego otoczenia.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Badacza”: "Zuch pamięta o swoich obowiązkach.", "Zuch stara się być coraz lepszy."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'badacz',
+                      title: 'Badacz',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Przeprowadziłem(-am) przynajmniej dwa doświadczenia. Opisałem(-am) je w swoim dzienniku badań.',
+                        'Zaprezentowałem(-am) gromadzie wybrane doświadczenie. Opowiedziałam(-am), co ono ukazuje i jakie wnioski z niego płyną.',
+                        'Interesuję się światem i zachodzącymi w nim zjawiskami. Znalazłem(-am) odpowiedzi na trzy zajmujące mnie pytania. Opowiedziałem(-am) o tym w kręgu rady.',
+                        'Znam nazwiska co najmniej jednego polskiego i jednego zagranicznego naukowca. Wiem, czym się zajmowali i czego dokonali. Opowiedziałem(-am) o nich drużynowemu.',
+                        'Odwiedziłem(-am) centrum nauki lub uczestniczyłem(-am) w pokazie doświadczeń.',
+                      ]),
+                  SprawData(
+                      id: 'badacz',
+                      title: 'Badacz',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Przeprowadziłem(-am) przynajmniej trzy doświadczenia. Opisałem(-am) je w swoim dzienniku badań, który zaprezentowałem(-am) w kręgu rady.',
+                        'Wykonałem(-am) dla zuchów wybrane dwa doświadczenia. Opowiedziałem(-am), co ukazują i jakie wnioski z nich płyną.',
+                        'Opowiedziałem(-am) zuchom z gromady, jak należy przygotować się do prowadzenia doświadczeń i jakie środki bezpieczeństwa zachować.',
+                        'Interesuję się światem i zachodzącymi w nim zjawiskami. Znalazłem(-am) odpowiedzi na pięć zajmujących mnie pytań. Wynikiem mojej pracy podzieliłem(-am) się w kręgu rady, prezentując go w wybranej formie (plakat, opowieść, zdjęcia, prezentacja).',
+                        'Znam nazwiska co najmniej dwóch polskich i dwóch zagranicznych naukowców. Wiem, czym się zajmowali i czego dokonali. Wykonałem(-am) plakaty prezentujące ich sylwetki lub opisałem(-am) ich w moim dzienniku badań.',
+                        'Odwiedziłem(-am) centrum nauki lub uczestniczyłem(-am) w pokazie doświadczeń.',
+                      ]),
+                  SprawData(
+                      id: 'badacz',
+                      title: 'Badacz',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Przeprowadziłem(-am) przynajmniej cztery doświadczenia. Opisałem(-am) je w swoim dzienniku badań, który zaprezentowałem(-am) zuchom w kręgu rady.',
+                        'Wykonałem(-am) dla zuchów wybrane trzy doświadczenia. Opowiedziałem(-am), co ukazują i jakie wnioski z nich płyną.',
+                        'Opowiedziałem(-am) zuchom z gromady, jak należy przygotować się do prowadzenia doświadczeń i jakie środki bezpieczeństwa zachować.',
+                        'Wymieniłem(-am) lub narysowałem(-am) przedmioty potrzebne młodemu badaczowi. Wiem, do czego należy ich używać i jak o nie dbać.',
+                        'Interesuję się światem i zachodzącymi w nim zjawiskami. Znalazłem(-am) odpowiedzi na siedem zajmujących mnie pytań. Wynikiem mojej pracy podzieliłem(-am) się w kręgu rady, prezentując go w wybranej formie (plakat, opowieść, zdjęcia, prezentacja).',
+                        'Znam nazwiska co najmniej trzech polskich i trzech zagranicznych naukowców. Wiem, czym się zajmowali i czego dokonali. Wykonałem(-am) plakaty z ich sylwetkami lub opisałem(-am) ich w moim dzienniku badań.',
+                        'Odwiedziłem(-am) centrum nauki lub uczestniczyłem(-am) w pokazie doświadczeń.',
+                        'Mam swój ulubiony program naukowy. Opowiedziałem(-am) o nim w kręgu rady, zachęcając do obejrzenia go inne zuchy.',
+                      ]),
+                ]
+            ),
+
+// 3. naukowo-hobbystyczna BAJARZ
+            SprawFamilyData(
+                id: '3',
+                requirements: [
+                  'Wiem, jaka jest różnica między bajką a legendą. Opowiedziałem(-am) kolegom dwie bajki i jedną legendę.',
+                  'Wykonałem(-am) ilustracje do ulubionej bajki.',
+                  'Przeczytałem(-am) kilka baśni Andersena i dowolną książkę jednego z polskich autorów, np. Marii Kownackiej, Marii Konopnickiej, Hanny Januszewskiej, Jana Brzechwy.',
+                  'Wysłuchałem(-am) nagrania bajki.',
+                  'Zbieram książki i czasopisma z bajkami i legendami.',
+                  'Brałem(-am) udział w konkursie bajarzy lub gawędziarzy.',
+                  'Wykonałem(-am) krótką inscenizację bajkową. Byłem(-am) narratorem w teatrzyku zuchowym.',
+                  'Zrobiłem(-am) zakładki do książek z motywami ulubionych bajek.',
+                  'Napisałem(-am) bajkę.',
+                ],
+                notesForLeaders: [
+                  'Zuch „Bajarz” chętnie czyta i opowiada bajki. Oprócz utworów z kanonu literatury dziecięcej warto zaproponować mu bajki i baśnie współczesnych autorów.',
+                  'Zuchy zdobywające tę sprawność na kolonii mogą opowiadać bajki na dobranoc.',
+                  'Zuch, który lubi przede wszystkim czytać, może następnie zdobywać sprawność „Przyjaciela książki”, a zuch, który chętnie rysuje – sprawność „Plastyka”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Bajarza”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'bajarz',
+                      title: 'Bajarz',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Wiem, co to jest legenda i co to jest bajka. Porozmawiałem(-am) o tym z drużynowym.',
+                        'Opowiedziałem(-am) lub przeczytałem(-am) swoją ulubioną bajkę młodszemu rodzeństwu lub kolegom.',
+                        'Wykonałem(-am) zakładkę do książki.',
+                      ]),
+                  SprawData(
+                      id: 'bajarz',
+                      title: 'Bajarz',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Mam swoją ulubioną bajkę, wykonałem(-am) do niej ilustracje. Znam jej autora.',
+                        'Wiem, co to jest legenda i co to jest bajka. Zapisałem(-am), co je charakteryzuje. Podałem(-am) po jednym tytule bajki i legendy.',
+                        'Przeczytałem(-am) kilka baśni Andersena i jedną dowolną książkę któregoś z polskich autorów, np. Marii Konopnickiej, Marii Kownackiej, Hanny Januszewskiej, Jana Brzechwy.',
+                        'Wykonałem(-am) zakładkę do książki i podarowałem(-am) ją komuś bliskiemu.',
+                        'Wymyśliłem(-am) krótką inscenizację bajkową, którą wraz ze swoją szóstką zaprezentowałem(-am) na zbiórce gromady.',
+                      ]),
+                  SprawData(
+                      id: 'bajarz',
+                      title: 'Bajarz',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Mam swoją ulubioną bajkę. Wykonałem(-am) do niej ilustracje. Znam jej autora.',
+                        'Wykonałem(-am) plakat zachęcający zuchy do czytania bajek. Zaprezentowałem(-am) go zuchom na zbiórce.',
+                        'Przeczytałem(-am) kilka baśni Andersena i dwie dowolne książki któregoś z polskich autorów, np. Marii Konopnickiej, Marii Kownackiej, Hanny Januszewskiej, Jana Brzechwy.',
+                        'Zorganizowałem(-am) w gromadzie konkurs na najładniejszą zakładkę.',
+                        'Wiem, co to jest legenda i co to jest bajka. Zapisałem(-am), co je charakteryzuje. Wymieniłem(-am) tytuły jednej bajki i jednej legendy. Wybraną bajkę lub legendę zaprezentowałem(-am) zuchom na zbiórce gromady.',
+                        'Napisałem(-am) własną bajkę i wykonałem(-am) do niej ilustracje. Przeczytałem(-am) ją zuchom na zbiórce.',
+                      ]),
+                ]
+            ),
+
+// 4. naukowo-hobbystyczna FOTOAMATOR
+            SprawFamilyData(
+                id: '4',
+                requirements: [
+                  'Wiem, jak jest zbudowany aparat fotograficzny.',
+                  'Byłem(-am) w studiu fotograficznym.',
+                  'Potrafię prawidłowo robić zdjęcia swoim aparatem lub telefonem. Nauczyłem(-am) się kadrowania zdjęć.',
+                  'Umiem przesłać drogą elektroniczną zdjęcie do innej osoby.',
+                  'Założyłem(-am) i systematycznie prowadzę album rodzinny.',
+                  'Zorganizowałem(-am) wystawę prac fotograficznych.',
+                  'Zrobiłem(-am) zdjęcie do kroniki gromady.',
+                  'Umiem przerabiać zdjęcia za pomocą aplikacji dostępnych w telefonach komórkowych lub innych urządzeniach elektronicznych.',
+                ],
+                notesForLeaders: [
+                  'Zuch „Fotoamator” może być fotografem gromady lub opiekować się albumem fotograficznym rodziny lub gromady. Zadania na sprawność może realizować podczas wypraw gromady, dokumentując ciekawe wydarzenia na zbiórkach i pomagając w prowadzeniu kroniki lub strony internetowej.',
+                  'Zuch zdobywający tę sprawność powinien nauczyć się korzystać z różnych rodzajów aparatów, nie tylko tradycyjnych.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Fotoamatora”: "Zuch stara się być coraz lepszy.", "Zucha pamięta o swoich obowiązkach."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'fotoamator',
+                      title: 'Fotoamator',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Znam budowę tradycyjnego aparatu fotograficznego. Przygotowałem(-am) plakat prezentujący budowę aparatu i przedstawiłem(-am) go drużynowemu.',
+                        'Byłem(-am) w studiu fotograficznym i poznałem(-am) pracę fotografa. Opowiedziałem(-am) o tym na zbiórce.',
+                        'Prawidłowo wykonałem(-am) trzy zdjęcia o różnej tematyce i zaprezentowałem(- łam) je w gromadzie.',
+                        'Założyłem(-am) i systematycznie prowadzę album rodzinny. Zaprezentowałem(-am) go w kręgu rady.',
+                        'Zrobiłem(-am) zdjęcie do kroniki gromady/na stronę internetową gromady.',
+                      ]),
+                  SprawData(
+                      id: 'fotoamator',
+                      title: 'Fotoamator',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Znam budowę tradycyjnego aparatu fotograficznego. Przygotowałem(-am) plakat prezentujący budowę aparatu i przedstawiłem(-am) go na zbiórce.',
+                        'Byłem(-am) w studiu fotograficznym i poznałem(-am) pracę fotografa. Opowiedziałem(-am) o tym na zbiórce.',
+                        'Prawidłowo wykonałem(-am) trzy zdjęcia o różnej tematyce. Prawidłowo je wykadrowałem(-am).',
+                        'Założyłem(-am) i systematycznie prowadzę album rodzinny. Zaprezentowałem(-am) go w kręgu rady.',
+                        'Przerobiłem(-am) zdjęcie za pomocą aplikacji dostępnej w telefonie komórkowym lub innym urządzeniu elektronicznym (kadrowanie, przycinanie, zmiana filtru).',
+                      ]),
+                  SprawData(
+                      id: 'fotoamator',
+                      title: 'Fotoamator',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Znam budowę tradycyjnego aparatu fotograficznego. Stworzyłem(-am) model aparatu w formacie 3D.',
+                        'Byłem(-am) w studiu fotograficznym i poznałem(-am) pracę fotografa. Opowiedziałem(-am) o tym na zbiórce.',
+                        'Założyłem(-am) i systematycznie prowadzę album rodzinny. Zaprezentowałem(-am) go w kręgu rady.',
+                        'Wysłałem(-am) drogą elektroniczną/przez MMS wybrane zdjęcie do innej osoby. Opowiedziałem(-am) o tym na zbiórce.',
+                        'Zorganizowałem(-am) wystawę prac fotograficznych.',
+                        'Przerobiłem(-am) zdjęcie za pomocą aplikacji dostępnej w telefonie komórkowym lub innym urządzeniu elektronicznym (kadrowanie, przycinanie, zmiana filtru).',
+                      ]),
+                ]
+            ),
+
+// 5. naukowo-hobbystyczna FRYZJER
+            SprawFamilyData(
+                id: '5',
+                requirements: [
+                  'Byłem(-am) u fryzjera i obserwowałem(-am) jego pracę.',
+                  'Ułożyłem(-am) według własnego pomysłu kilka fryzur z długich, średnich i krótkich włosów.',
+                  'Opowiedziałem(-am) zuchom, jak właściwie pielęgnować włosy i skórę głowy oraz jak dobierać szampon.',
+                  'Wykonałem(-am) ozdobę do włosów.',
+                  'Wykonałem(-am) fryzurę balową z różnymi dodatkami.',
+                  'Zakręciłem(-am) włosy na dwa różne sposoby.',
+                  'Opowiedziałem(-am) zuchom, do czego służą odżywki, żele, pianki i dlaczego trzeba mieć własny grzebień.',
+                ],
+                notesForLeaders: [
+                  'Sprawność wspiera rozwój umiejętności manualnych, wyobraźni i poczucia estetyki, a także zwraca uwagę na potrzebę zachowania higieny i schludnego wyglądu.',
+                  'Zuchy mogą ją zdobywać podczas kolonii lub na biwaku, kiedy w pewnym stopniu samodzielnie dbają o higienę głowy i estetykę swojego uczesania.',
+                  'Zuchom zainteresowanym sprawami higieny można następnie polecić sprawność „Higienisty”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Fryzjera”: "Zuch pamięta o swoich obowiązkach.", "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'fryzjer',
+                      title: 'Fryzjer',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Byłem(-am) u fryzjera i obserwowałem(-am) jego pracę. Wiem, jakich narzędzi i urządzeń używa oraz do czego służy każde z nich. Narysowałem(-am) je i zaprezentowałem(-am) zuchom w szóstce.',
+                        'Własnoręcznie wykonałem(-am) ozdobę do włosów.',
+                        'Ułożyłem(-am) fryzurę z włosów krótkich, średnich i długich.',
+                        'Wiem, jak dbać o włosy i skórę głowy. Opowiedziałem(-am) o tym zuchom z gromady.',
+                        'Umiem się samodzielnie uczesać. Na biwaku lub kolonii zuchowej czesałem(-am) się sam(a) każdego ranka.',
+                      ]),
+                  SprawData(
+                      id: 'fryzjer',
+                      title: 'Fryzjer',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Byłem(-am) u fryzjera i obserwowałem(-am) jego pracę. Zadałem(-am) fryzjerowi pytania dotyczące pielęgnacji włosów. Zdobytą wiedzą podzieliłem(-am) się z zuchami z mojej szóstki.',
+                        'Wiem, jakich narzędzi i urządzeń używa fryzjer oraz do czego one służą. Narysowałem(-am) je i opowiedziałem(-am) o nich zuchom w szóstce.',
+                        'Własnoręcznie wykonałem(-am) ozdobę do włosów.',
+                        'Ułożyłem(-am) po dwie fryzury z włosów krótkich, średnich i długich.',
+                        'Wiem, jak dbać o włosy i skórę głowy. Znam podstawowe kosmetyki do pielęgnacji i higieny. Opowiedziałem(-am) o pielęgnacji włosów zuchom z mojej gromady.',
+                        'Umiem się samodzielnie uczesać. Na biwaku lub kolonii zuchowej czesałem(-am) się sam(a) każdego ranka.',
+                      ]),
+                  SprawData(
+                      id: 'fryzjer',
+                      title: 'Fryzjer',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Byłem(-am) u fryzjera i obserwowałem(-am) jego pracę. Zadałem(-am) fryzjerowi pytania dotyczące pielęgnacji włosów. Zdobytą wiedzą podzieliłem(-am) się z zuchami z gromady.',
+                        'Wiem, jakich narzędzi i urządzeń używa fryzjer oraz do czego one służą. Narysowałem(-am) je i opowiedziałem(-am) o nich zuchom w kręgu rady.',
+                        'Własnoręcznie wykonałem(-am) ozdobę do włosów.',
+                        'Ułożyłem(-am) po trzy fryzury z włosów krótkich, średnich i długich.',
+                        'Wiem, jak dbać o włosy i skórę głowy. Znam podstawowe kosmetyki do pielęgnacji i higieny. Opowiedziałem(-am) o pielęgnacji włosów zuchom z mojej gromady.',
+                        'Zakręciłem(-am) włosy na dwa wybrane sposoby.',
+                        'Umiem się samodzielnie uczesać. Na biwaku lub kolonii zuchowej czesałem(-am) się sam(a) każdego ranka.',
+                      ]),
+                ]
+            ),
+
+// 6. naukowo-hobbystyczna GEOPOSZUKIACZ
+            SprawFamilyData(
+                id: '6',
+                requirements: [
+                  'Wiem, co to jest geocaching, GPS i współrzędne geograficzne.',
+                  'Zapoznałem(-am) się z kodeksem geocachera.',
+                  'Odnalazłem(-am) wraz z opiekunem trzy skrzynki.',
+                  'Znalazłem(-am) ciekawe miejsce lub budowlę w okolicy miejsca zamieszkania.',
+                  'Zarejestrowałem(-am) w serwisie internetowym odnalezienie skrzynki.',
+                ],
+                notesForLeaders: [
+                  'To sprawność dla zuchów, które chcą być współczesnymi poszukiwaczami skarbów.',
+                  'Podczas jej zdobywania młody odkrywca uczy się dostrzegać piękno otaczającego świata i zwracać uwagę na zabytki. Korzysta z uroków natury, żyjąc z nią w zgodzie. Perspektywa odnalezienia skarbu jest dla niego dodatkową motywacją do działania.',
+                  'Zuchy mogą zdobywać sprawność „Geoposzukiwacza” podczas realizacji w gromadzie tropów turystycznych i kulturoznawczych.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Geoposzukiwacza”: "Zuch kocha Boga i Polskę.", "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'geoposzukiwacz',
+                      title: 'Geoposzukiwacz',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Opowiedziałem(-am) zuchom z mojej szóstki, czym jest geocaching.',
+                        'Zaprezentowałem(-am) graficznie kodeks geocachera.',
+                        'Odnalazłem(-am) skrzynkę. Opowiedziałem(-am) w kręgu rady, co się w niej znajdowało.',
+                        'Zaprezentowałem(-am) gromadzie ciekawe miejsce lub budowlę znajdującą się w okolicy mojego domu. Uzasadniłem(-am), dlaczego warto je odwiedzić.',
+                        'Wiem, gdzie należy zgłaszać odnalezienie skrzynek. Samodzielnie lub z pomocą dorosłego zarejestrowałem(-am) znalezioną skrzynkę.',
+                      ]),
+                  SprawData(
+                      id: 'geoposzukiwacz',
+                      title: 'Geoposzukiwacz',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Opowiedziałem(-am) zuchom z mojej gromady, czym jest geocaching oraz GPS.',
+                        'Zaprezentowałem(-am) graficznie kodeks geocachera.',
+                        'Odnalazłem(-am) trzy skrzynki. Opowiedziałem(-am) w kręgu rady, co się w nich znajdowało.',
+                        'Zaprezentowałem(-am) gromadzie trzy ciekawe miejsce lub budowle znajdujące się w okolicy mojego domu. Uzasadniłem(-am), dlaczego warto je odwiedzić.',
+                        'Wiem, gdzie należy zgłaszać odnalezienie skrzynek. Samodzielnie zarejestrowałem(-am) znalezioną skrzynkę.',
+                      ]),
+                  SprawData(
+                      id: 'geoposzukiwacz',
+                      title: 'Geoposzukiwacz',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Opowiedziałem(-am) zuchom z mojej gromady, czym jest geocaching i GPS oraz jak z niego korzystać.',
+                        'Zaprezentowałem(-am) graficznie kodeks geocachera.',
+                        'Odnalazłem(-am) trzy skrzynki. Opowiedziałem(-am) w kręgu rady, co się w nich znajdowało.',
+                        'Zaprezentowałem(-am) gromadzie trzy ciekawe miejsce lub budowle znajdujące się w okolicy mojego domu. Uzasadniłem(-am), dlaczego warto je odwiedzić.',
+                        'Zarejestrowałem(-am) wszystkie odnalezione przez siebie kesze.',
+                        'Samodzielnie przygotowałem(-am) skrzynkę. Umieściłem(-am) ją w wybranym miejscu i zarejestrowałem(-am) na stronie internetowej.',
+                      ]),
+                ]
+            ),
+
+// 7. naukowo-hobbystyczna INTERNAUTA
+/////////////////////////////////////////////////////
+// SUGEROWANE TYLKO DLA ZDOBYWAJĄCYCH 3. GWIAZDKĘ ///
+/////////////////////////////////////////////////////
+            SprawFamilyData(
+                id: '7',
+                requirements: [
+                  'Dowiedziałem(-am) się, w jaki sposób należy bezpiecznie korzystać z Internetu.',
+                  'Sprawdziłem(-am) w Internecie prognozę pogody, rozkład jazdy pociągów lub autobusów.',
+                  'Sprawdziłem(-am) w Internecie, jak dostać się w wybrane miejsce.',
+                  'Znalazłem(-am) w Internecie film z kategorii „zrób to sam” i przygotowałem(-am) prezent dla bliskiej osoby według instrukcji.',
+                  'Znalazłem(-am) w Internecie ciekawostki i przedstawiłem(-am) je na zbiórce.',
+                  'Znalazłem(-am) w Internecie przepis i przyrządziłem(-am) posiłek według instrukcji.',
+                ],
+                notesForLeaders: [
+                  'Zuch „Internauta” wie, że Internet to źródło wiedzy, inspiracji i rozrywki. Potrafi znaleźć odpowiedzi na proste pytania. Zna podstawowe zasady netykiety. Wie, jak bezpiecznie korzystać z Internetu.',
+                  'Zucha zdobywającego tę sprawność można zaangażować w przygotowanie zbiórki i poprosić o wyszukanie ciekawostek dotyczących jej tematu.',
+                  'Wskazując zuchom zadania związanie z działalnością w sieci, należy wziąć pod uwagę obowiązujące przepisy. Nie wolno proponować im zadań niezgodnych z prawem (np. dzieci w wieku zuchowym nie mogą posiadać konta na portalach społecznościowych).',
+                  'Rekomendujemy zdobywanie sprawności przez najstarsze zuchy.',
+                  'Rekomendujemy, by na wstępie ustalić z rodzicami lub opiekunami, czy zuch może zdobywać sprawność „Internauty”.',
+                  'Punkt Prawa Zucha, na który zwracamy szczególną uwagę, realizując sprawność „Internauty”: "Zuch stara się być coraz lepszy."',
+                ],
+                sprawData: [
+///////////////////////// TU USUNĄĆ? ///////////////
+                  SprawData(
+                      id: 'internauta',
+                      title: 'Internauta',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        '',
+                      ]),
+                  SprawData(
+                      id: 'internauta',
+                      title: 'Internauta',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        '',
+
+////////////////////////KONIEC USUNIĘCIA //////////
+                      ]),
+                  SprawData(
+                      id: 'internauta',
+                      title: 'Internauta',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Sprawdziłem(-am) w Internecie długoterminową prognozę pogody dla mojej miejscowości. Dowiedziałem(-am) się, czy prognozowane są niebezpieczne zjawiska pogodowe.',
+                        'Sprawdziłem(-am) w Internecie rozkład jazdy pociągów lub autobusów do miejsca, w którym chciałbym(-am) spędzić wakacje.',
+                        'Korzystając z internetowej mapy, znalazłem(-am) w mojej okolicy: lodziarnię, pocztę, posterunek policji i park. Wyznaczyłem(-am) trasę do tych miejsc.',
+                        'Znalazłem(-am) w Internecie filmik z instrukcją wykonania ozdoby. Wykonałem(-am) ją według wskazówek i podarowałem(-am) w prezencie bliskiej osobie.',
+                        'Znalazłem(-am) w Internecie pięć ciekawostek na ustalony z drużynowym temat. Przedstawiłem(-am) je na zbiórce.',
+                        'Znalazłem(-am) w Internecie przepis na ciasto i upiekłem(-am) je zgodnie z instrukcją pod opieką osoby dorosłej.',
+                        'Obejrzałem(-am) w Internecie filmik dotyczący interesującego mnie tematu.',
+                      ]),
+                ]
+            ),
+
+// 8. naukowo-hobbystyczna KOLEKCJONER
+            SprawFamilyData(
+                id: '8',
+                requirements: [
+                  'Posiadam własną kolekcję.',
+                  'Znam historię przedmiotów, które zbieram.',
+                  'Dbam o swoje zbiory, utrzymuję swoją kolekcję w porządku.',
+                  'Systematycznie wzbogacam swoją kolekcję.',
+                  'Zaprezentowałem(-am) swoją kolekcję i opowiedziałem(-am) o niej.',
+                  'Wymieniałem(-am) swoje zbiory z innymi hobbystami.',
+                  'Wykonałem(-am) opisy do najciekawszych okazów.',
+                ],
+                notesForLeaders: [
+                  'Zbieractwo jest popularną pasją wieku dziecięcego. Zuchy mogą zbierać autografy, etykiety zapałczane, monety, odznaki i znaczki metalowe, magnesy, znaczki pocztowe, widokówki, żołnierzyki, puszki, kapsle i wiele innych rzeczy. Pasje się zmieniają, zuchy mogą więc kilkakrotnie zdobyć tę sprawność.',
+                  'Warto zachęcić zucha do poszerzania wiedzy o zbieranych przez niego przedmiotach.',
+                  'Należy zwrócić uwagę na to, aby zuch nie kończył zbierania po zdobyciu sprawności.',
+                  'Można zorganizować na zbiórce giełdę kolekcjonerską. To doskonała okazja, żeby zuchy zaprezentowały swoje zbiory, opowiedziały o nich innym i wymieniły się posiadanymi okazami.',
+                  'Sprawność ma duże znaczenie wychowawcze ― rozbudza, poszerza i pogłębia zainteresowania poznawcze, przyspiesza wrastanie w kulturę, sprzyja powstawaniu zamiłowań, służy wypełnianiu wolnego czasu i uczy cierpliwości.',
+                  'Punkt Prawa Zucha, na który zwracamy szczególną uwagę, realizując sprawność „Kolekcjonera”: "Zuch stara się być coraz lepszy."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'kolekcjoner',
+                      title: 'Kolekcjoner',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Zebrałem(-am) własną kolekcję.',
+                        'Pokazałem(-am) moją kolekcję i opowiedziałem(-am) o niej.',
+                        'Wybrałem(-am) najciekawszy okaz i opowiedziałem(-am) jego historię.',
+                        'Opowiedziałem(-am), jak dbam o moją kolekcję.',
+                        'Wzbogaciłem(-am) moją kolekcję o jeden nowy przedmiot.',
+                      ]),
+                  SprawData(
+                      id: 'kolekcjoner',
+                      title: 'Kolekcjoner',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Zebrałem(-am) własną kolekcję.',
+                        'Pokazałem(-am) moją kolekcję i opowiedziałem(-am) o niej.',
+                        'Wybrałem(-am) trzy najciekawsze okazy i opowiedziałem(-am) ich historię.',
+                        'Opowiedziałem(-am), jak dbam o moją kolekcję.',
+                        'Wzbogaciłem(-am) moją kolekcję o dwa nowe przedmioty.',
+                      ]),
+                  SprawData(
+                      id: 'kolekcjoner',
+                      title: 'Kolekcjoner',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Zebrałem(-am) własną kolekcję.',
+                        'Pokazałem(-am) moją kolekcję i opowiedziałem(-am) o niej.',
+                        'Wybrałem(-am) najciekawszy okaz i opracowałem(-am) jego kartę, zawierającą szkic okazu, opis oraz jego historię.',
+                        'Opowiedziałem(-am), jak dbam o moją kolekcję.',
+                        'Wzbogaciłem(-am) moją kolekcję o trzy nowe przedmioty.',
+                        'Wymieniłem(-am) jeden okaz z mojego zbioru z innym hobbystą.',
+                      ]),
+                ]
+            ),
+
+// 9. naukowo-hobbystyczna KRONIKARZ
+            SprawFamilyData(
+                id: '9',
+                requirements: [
+                  'Jestem dobrym(-rą) obserwatorem (-rką), prowadzę dziennik (pamiętnik), w którym notuję najważniejsze wydarzenia.',
+                  'Znam dzieje baśniowego kronikarza Koszałka-Opałka.',
+                  'Zanotowałem(-am) trzy ważne wydarzenia z życia mojej gromady.',
+                  'Piszę czysto i czytelnie.',
+                  'Opowiedziałem(-am) nowemu zuchowi, koledze lub gościowi o kronice naszej gromady.',
+                  'Przez miesiąc systematycznie pomagałem(-am) w prowadzeniu kroniki.',
+                  'Wykonałem(-am) ochronną okładkę na kronikę albo przeprowadziłem(-am) renowację kroniki.',
+                  'Zaprezentowałem(-am) wykorzystane przez siebie różne techniki pisma i zdobienia.',
+                ],
+                notesForLeaders: [
+                  'Sprawność jest przeznaczona dla zuchów, które lubią opisywać i ilustrować wydarzenia, w których uczestniczą.',
+                  'Działania zucha „Kronikarza“ można włączyć do pracy gromady. Może on pełnić funkcję pomocnika kronikarza w gromadzie, na biwaku czy kolonii zuchowej.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Kronikarza”: "Zuch stara się być coraz lepszy.", "Zuch pamięta o swoich obowiązkach."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'kronikarz',
+                      title: 'Kronikarz',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Prowadzę dziennik (pamiętnik), w którym notuję najważniejsze wydarzenia.',
+                        'Znam dzieje baśniowego kronikarza Koszałka-Opałka.',
+                        'Zanotowałem(-am) trzy ważne wydarzenia z życia mojej gromady.',
+                        'Piszę czysto i czytelnie.',
+                      ]),
+                  SprawData(
+                      id: 'kronikarz',
+                      title: 'Kronikarz',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Prowadzę dziennik (pamiętnik), w którym notuję najważniejsze wydarzenia.',
+                        'Opowiedziałem(-am) szóstce o dziejach baśniowego kronikarza Koszałka-Opałka.',
+                        'Zanotowałem(-am) trzy ważne wydarzenia z życia mojej gromady.',
+                        'Piszę czysto i czytelnie.',
+                        'Opowiedziałem(-am) nowemu zuchowi, koledze lub gościowi o kronice naszej gromady.',
+                        'Przez miesiąc systematycznie pomagałem(-am) w prowadzeniu kroniki. Samodzielnie wykonałem(-am) jedną stronę do kroniki gromady.',
+                      ]),
+                  SprawData(
+                      id: 'kronikarz',
+                      title: 'Kronikarz',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Prowadzę dziennik (pamiętnik), w którym notuję najważniejsze wydarzenia.',
+                        'Opowiedziałem(-am) gromadzie o dziejach baśniowego kronikarza Koszałka-Opałka.',
+                        'Piszę czysto i czytelnie.',
+                        'Przez miesiąc systematycznie pomagałem(-am) w prowadzeniu kroniki. Samodzielnie wykonałem(-am) dwie strony do kroniki gromady.',
+                        'Wykonałem(-am) ochronną okładkę na kronikę albo przeprowadziłem(-am) renowację kroniki.',
+                        'Zaprezentowałem(-am) wykorzystane przez siebie różne techniki pisma i zdobienia.',
+                      ]),
+                ]
+            ),
+
+// 10. naukowo-hobbystyczna ŁAMIGŁOWA
+            SprawFamilyData(
+                id: '10',
+                requirements: [
+                  'Lubię rozwiązywać krzyżówki i łamigłówki. Rozwiązałem(-am) różne rodzaje łamigłówek (rebusy, szarady).',
+                  'Potrafię odnaleźć w słowniku lub encyklopedii słowa potrzebne do rozwiązania krzyżówki.',
+                  'Ułożyłem(-am) kilka łamigłówek.',
+                  'Przedstawiłem(-am) propozycje swoich zagadek zuchom w gromadzie.',
+                  'Wziąłem(wzięłam) udział w konkursie zagadek.',
+                  'Zorganizowałem(-am) konkurs zagadek.',
+                ],
+                notesForLeaders: [
+                  'Sprawność ćwiczy pamięć, uwagę i spostrzegawczość oraz wzbogaca słownictwo. Pomaga w poszerzaniu i utrwalaniu wiadomości z różnych dziedzin. Rozwija umiejętność logicznego kojarzenia i wnioskowania.',
+                  'Sprawność jest przeznaczona dla zuchów, które lubią rozwiązywać i tworzyć łamigłówki.',
+                  'Zuch zdobywający sprawność „Łamigłowy” może przygotować na zbiórkę gromady zagadki na zadany temat, opracować prostą krzyżówkę lub przygotować łamigłówki do zuchowej gazetki.',
+                  'Punkt Prawa Zucha, który podkreślamy, realizując sprawność „Łamigłowy”: "Zuch stara się być coraz lepszy."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'lamiglowa',
+                      title: 'Łamigłowa',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Rozwiązałem(-am) krzyżówkę, rebus i ułożyłem(-am) puzzle.',
+                        'Znalazłem(-am) w encyklopedii lub słowniku słowo potrzebne do rozwiązania krzyżówki.',
+                        'Ułożyłem(-am) rebus i pokazałem(-am) go na zbiórce.',
+                        'Ułożyłem(-am) dwie zagadki i pokazałem(-am) je na zbiórce.',
+                      ]),
+                  SprawData(
+                      id: 'lamiglowa',
+                      title: 'Łamigłowa',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Rozwiązałem(-am) krzyżówkę, labirynt, rebus, odszyfrowałem(-am) wiadomość, ułożyłem(-am) puzzle.',
+                        'Znalazłem(-am) w encyklopedii lub słowniku słowo potrzebne do rozwiązania krzyżówki.',
+                        'Ułożyłem(-am) krzyżówkę i pokazałem(-am) ją na zbiórce.',
+                        'Ułożyłem(-am) dwie zagadki i pokazałem(-am) je na zbiórce.',
+                        'Wziąłem(wzięłam) udział w konkursie zagadek.',
+                      ]),
+                  SprawData(
+                      id: 'lamiglowa',
+                      title: 'Łamigłowa',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Rozwiązałem(-am) krzyżówkę, sudoku, labirynt, rebus, odszyfrowałem(-am) wiadomość, ułożyłem(-am) puzzle.',
+                        'Znalazłem(-am) w encyklopedii lub słowniku słowo potrzebne do rozwiązania krzyżówki.',
+                        'Ułożyłem(-am) krzyżówkę i pokazałem(-am) ją na zbiórce.',
+                        'Ułożyłem(-am) trzy zagadki i pokazałem(-am) je na zbiórce.',
+                        'Przeprowadziłem(-am) konkurs zagadek.',
+                      ]),
+                ]
+            ),
+
+// 11. naukowo-hobbystyczna MIŁOŚNIK FILMU
+            SprawFamilyData(
+                id: '11',
+                requirements: [
+                  'Lubię oglądać filmy. Wiem, jak powstaje film, czym zajmuje się reżyser, operator kamery i scenograf.',
+                  'Wykonałem(-am) album zawierający zdjęcia ulubionych aktorów.',
+                  'Opowiedziałem(-am) o ulubionym filmie. Znam nazwiska występujących w nim aktorów.',
+                  'Wiem, jakie nagrody przyznaje się twórcom filmowym.',
+                  'Właściwie zachowuję się w kinie.',
+                  'Oglądam filmy przeznaczone dla dzieci. Mam wśród nich swoje ulubione i potrafię uzasadnić, dlaczego zasługują one na wyróżnienie.',
+                  'Zaprojektowałem(-am) i wykonałem(-am) plakat do mojego ulubionego filmu.',
+                  'Rozpoznałem(-am) różne gatunki filmów: przyrodnicze, historyczne, komedie itp.',
+                ],
+                notesForLeaders: [
+                  'Sprawność jest przeznaczona dla zuchów zainteresowanych kinem. Warto zachęcać je do wybierania ciekawych i wartościowych filmów oraz rekomendowania ich innym dzieciom.',
+                  'Zdobywanie sprawności „Miłośnika filmu” to doskonała okazja, by zwrócić uwagę na postawy bohaterów filmowych, odnosząc je do zachowania zuchów.',
+                  'Zuchy zdobywające sprawność powinny wiedzieć, że długie przebywanie przed telewizorem przynosi skutki niekorzystne dla zdrowia.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Miłośnika filmu”: "Zuch pamięta o swoich obowiązkach.", "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'milosnik_filmu',
+                      title: 'Miłośnik filmu',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Wiem, jakie zadania przy powstawaniu filmu mają reżyser, operator kamery i scenograf. Opowiedziałem(-am) o tym zuchom z mojej szóstki.',
+                        'Mam swojego ulubionego aktora. Opowiedziałem(-am) o nim zuchom lub kolegom z klasy.',
+                        'Zaprezentowałem(-am) w kręgu rady własnoręcznie wykonany plakat do mojego ulubionego filmu. Opowiedziałem(-am) krótko, o czym jest ten film.',
+                        'Wiem, jak należy zachować się w kinie. Zaprezentowałem(-am) to zuchom z mojej szóstki.',
+                        'Znam przynajmniej dwa gatunki filmowe. Opowiedziałem(-am) zuchom, czym się charakteryzują.',
+                      ]),
+                  SprawData(
+                      id: 'milosnik_filmu',
+                      title: 'Miłośnik filmu',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Wiem, jakie zadania przy powstawaniu filmu mają reżyser, operator kamery, scenograf i kostiumolog. Opowiedziałem(-am) o tym zuchom w kręgu rady.',
+                        'Wykonałem(-am) album prezentujący zdjęcia mojego ulubionego aktora. Pokazałem(-am) go gromadzie.',
+                        'Zaprezentowałem(-am) w kręgu rady własnoręcznie wykonany plakat do mojego ulubionego filmu. Opowiedziałem(-am) o filmie i wymieniłem(-am) nazwiska aktorów grających w nim główne role.',
+                        'Wiem, jak należy zachować się w kinie. Opowiedziałem(-am) o tym w kręgu rady.',
+                        'Znam przynajmniej trzy gatunki filmowe. Opowiedziałem(-am) zuchom, czym się charakteryzują. Podałem(-am) po jednym przykładzie filmu z każdego gatunku.',
+                        'Uczestniczyłem(-am) w dyskusji na temat wybranego filmu.',
+                      ]),
+                  SprawData(
+                      id: 'milosnik_filmu',
+                      title: 'Miłośnik filmu',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Wiem, jakie zadania przy powstawaniu filmu mają reżyser, operator kamery, scenograf, kostiumolog i charakteryzator. Opowiedziałem(-am) o tym zuchom w kręgu rady.',
+                        'Wykonałem(-am) album prezentujący zdjęcia moich ulubionych aktorów. Pokazałem(-am) go gromadzie.',
+                        'Zaprezentowałem(-am) w kręgu rady własnoręcznie wykonany plakat do mojego ulubionego filmu. Opowiedziałem(-am) o filmie i wyjaśniłem(-am), dlaczego go szczególnie lubię. Wymieniłem(-am) nazwiska aktorów grających w nim główne role.',
+                        'Wiem, jak należy zachować się w kinie. Wyjaśniłem(-am) to innym zuchom w kręgurady.',
+                        'Znam przynajmniej pięć gatunków filmowych. Wyjaśniłem(-am) zuchom, czym sięcharakteryzują. Podałem(-am) po jednym przykładzie filmu z każdego gatunku.',
+                        'Przedstawiłem(-am) w gromadzie wybraną nagrodę filmową. Opowiedziałem(-am), za co się ją przyznaje.',
+                        'Przeprowadziłem(-am) w szóstce dyskusję na temat wybranego filmu.',
+                      ]),
+                ]
+            ),
+
+// 12. naukowo-hobbystyczna MIŁOŚNIK SZTUK PIĘKNYCH
+            SprawFamilyData(
+                id: '12',
+                requirements: [
+                  'Interesuję się malarstwem, rzeźbą lub inną dziedziną sztuk plastycznych.',
+                  'Byłem(-am) w kilku muzeach lub galeriach sztuki. Zbieram przewodniki po wystawach (katalogi).',
+                  'Oglądałem(-am) albumy o sztuce. Jeden z nich pokazałem na zbiórce gromady.',
+                  'Opowiedziałem(-am) kolegom o swoim ulubionym dziele lub twórcy.',
+                  'Zbieram wiadomości o interesujących mnie dziełach sztuki.',
+                  'Znalazłem(-am) w czasopiśmie dla dzieci artykuł o malarzu, rzeźbiarzu, wystawie itp. Opowiedziałem(-am) o nim kolegom.',
+                  'Namalowałem(-am) kopię mojego ulubionego obrazu lub wykonałem(-am) replikę ulubionej rzeźby.',
+                ],
+                notesForLeaders: [
+                  'Sprawność jest przeznaczona dla zuchów zainteresowanych plastyką (malarstwem, rzeźbą) i posiadających pewną wiedzę „teoretyczną” z tej dziedziny.',
+                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu inne sprawności plastyczne, np. „Dekoratora”, „Rzeźbiarza” i „Plastyka”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Miłośnika sztuk pięknych”: "Zuch stara się być coraz lepszy., "Wszystkim jest z zuchem dobrze."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'milosnik_sztuk_pieknych',
+                      title: 'Miłośnik sztuk pięknych',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Odwiedziłem(-am) muzeum lub galerię sztuki.',
+                        'Opowiedziałem(-am) szóstce o moim ulubionym dziele lub twórcy.',
+                        'Namalowałem(-am) kopię mojego ulubionego obrazu lub wykonałem(-am) replikę ulubionej rzeźby.',
+                        'Obejrzałem(-am) album o sztuce. Pokazałem(-am) go kolegom na zbiórce.',
+                      ]),
+                  SprawData(
+                      id: 'milosnik_sztuk_pieknych',
+                      title: 'Miłośnik sztuk pięknych',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Byłem(-am) w muzeum lub galerii sztuki. Przyniosłem(-am) przewodnik po wystawie, który pokazałem(-am) innym zuchom.',
+                        'Opowiedziałem(-am) kolegom o moim ulubionym dziele lub twórcy.',
+                        'Zebrałem(-am) informacje o interesującym mnie dziele sztuki. Zaprezentowałem(-am) je drużynowemu lub nauczycielowi.',
+                        'Namalowałem(-am) kopię ulubionego obrazu lub wykonałem(-am) replikę ulubionej rzeźby.',
+                        'Obejrzałem(-am) album o sztuce. Pokazałem(-am) na zbiórce gromady obraz lub rzeźbę, która najbardziej mi się spodobała.',
+                      ]),
+                  SprawData(
+                      id: 'milosnik_sztuk_pieknych',
+                      title: 'Miłośnik sztuk pięknych',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Byłem(-am) w kilku muzeach lub galeriach sztuki. Zbieram przewodniki po wystawach (katalogi).',
+                        'Obejrzałem(-am) album o sztuce. Pokazałem(-am) kolegom na zbiórce obraz lub rzeźbę, która najbardziej mi się spodobała. Uzasadniłem(-am), dlaczego wybrałem(-am) to dzieło.',
+                        'Zebrałem(-am) informacje na temat interesującego mnie dzieła sztuki. Zaprezentowałem(-am) je drużynowemu lub nauczycielowi.',
+                        'Znalazłem(-am) w czasopiśmie dla dzieci artykuł o malarzu, rzeźbiarzu, wystawie itp. Opowiedziałem(-am) o nim kolegom.',
+                        'Namalowałem(-am) kopię ulubionego obrazu lub wykonałem(-am) replikę ulubionej rzeźby.',
+                      ]),
+                ]
+            ),
+
+// 13. naukowo-hobbystyczna MISTRZ GIER PLANSZOWYCH
+            SprawFamilyData(
+                id: '13',
+                requirements: [
+                  'Znam reguły przynajmniej pięciu gier planszowych.',
+                  'Mam ulubioną grę, nauczyłem(-am) grać w nią inne dzieci.',
+                  'Znam dawne gry.',
+                  'Wymyśliłem(-am) własną grę. Ułożyłem(-am) jej reguły, wykonałem(-am) planszę i potrzebne rekwizyty.',
+                  'Dbam o swoje gry. Naprawiłem(-am) lub uzupełniłem(-am) braki w grze planszowej.',
+                  'W trakcie gry przestrzegam obowiązujących zasad.',
+                  'Zorganizowałem(-am) turniej gier planszowych.',
+                ],
+                notesForLeaders: [
+                  'Podczas zdobywania sprawności zuch uczy się twórczego myślenia, wygrywania i przegrywania. Rozwija swoją umiejętność pracy w grupie i uczy się dbać o swoje rzeczy.',
+                  'Aby dalej rozwijać zainteresowania zucha, można mu wskazać sprawność „Łamigłowy”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza gier planszowych”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'mistrz_gier_planszowych',
+                      title: 'Mistrz gier planszowych',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Mam własne trzy ulubione gry planszowe. Zaprezentowałem(-am) szóstce ich zasady.',
+                        'Nauczyłem(-am) kolegów grać w moją ulubioną grę planszową.',
+                        'Wymyśliłem(-am) własną grę karcianą.',
+                        'Naprawiłem(-am) jedną grę z biblioteczki gromady.',
+                        'Wraz z drużynowym zorganizowałem(-am) wystawę gier planszowych.',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_gier_planszowych',
+                      title: 'Mistrz gier planszowych',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Mam własne trzy ulubione gry planszowe. Zaprezentowałem(-am) ich zasady i zagrałem(-am) ze swoją szóstką.',
+                        'Nauczyłem(-am) kolegów grać w moją ulubioną grę planszową.',
+                        'Wymyśliłem(-am) własną grę karcianą.',
+                        'Naprawiłem(-am) jedną grę z biblioteczki gromady.',
+                        'Zorganizowałem(-am) turniej gier planszowych w gromadzie.',
+                      ]),
+                  SprawData(
+                      id: 'mistrz_gier_planszowych',
+                      title: 'Mistrz gier planszowych',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Mam półkę z grami planszowymi. Zagrałem(-am) z kolegami w co najmniej pięć z nich.',
+                        'Przez miesiąc przynajmniej raz w tygodniu grałem(-am) z rodzicami w gry planszowe.',
+                        'Nauczyłem(-am) młodsze zuchy grać w moją ulubioną grę.',
+                        'Wykonałem(-am) według własnego pomysłu grę planszową o naszej gromadzie.',
+                        'Zorganizowałem(-am) zbiórkę używanych gier planszowych. Naprawiłem(-am) je i oddałem(-am) potrzebującym.',
+                        'Zorganizowałem(-am) turniej gier planszowych w gromadzie.',
+                      ]),
+                ]
+            ),
+
+// 14. naukowo-hobbystyczna POLIGLOTA
+            SprawFamilyData(
+                id: '14',
+                requirements: [
+                  'Interesuję się językami obcymi. Uczę się jednego z nich.',
+                  'Poprawnie mówię po polsku.',
+                  'Potrafię w trzech językach powiedzieć dziesięć słów mających to samo znaczenie.',
+                  'Prowadzę własny słowniczek.',
+                  'Potrafię powiedzieć wiersz lub zaśpiewać piosenkę w innym języku.',
+                  'Koresponduję z osobą z zagranicy.',
+                  'Wydałem(-am) w kilku egzemplarzach i rozprowadziłem(-am) wśród znajomych „Mini słownik grzeczności” własnego pomysłu w jednym lub kilku obcych językach.',
+                  'Przetłumaczyłem(-am) na język polski kilka obcojęzycznych etykietek różnych produktów.',
+                  'Każdemu zuchowi z gromady (o ile to możliwe) podałem(-am) odpowiednik jego imienia w języku, którego się uczę.',
+                  'Mówię „dzień dobry” i „do widzenia” w języku każdego z krajów sąsiadujących z Polską.',
+                ],
+                notesForLeaders: [
+                  'Zuch „Poliglota” chętnie uczy się języków obcych. Chce poznać inne kraje, kultury i narodowości.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Poligloty”: "Zuch pamięta o swoich obowiązkach.", "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'poliglota',
+                      title: 'Poliglota',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Nauczyłem(-am) się wybranego wiersza w innym języku. Wyrecytowałem(-am) go w kręgu rady.',
+                        'Nauczyłem(-am) gromadę mówić „dzień dobry” i „do widzenia” w dwóch językach innych niż język polski.',
+                        'Wykonałem(-am) plakat prezentujący moje ulubione państwo i jego język.',
+                        'Zrobiłem(-am) słowniczek z wyrazami niezbędnymi do porozumiewania się w dowolnym języku obcym',
+                      ]),
+                  SprawData(
+                      id: 'poliglota',
+                      title: 'Poliglota',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Nauczyłem(-am) się wybranego wiersza w innym języku. Wyrecytowałem(-am) go w kręgu rady.',
+                        'Mam swoją ulubioną piosenkę w języku obcym. Zaśpiewałem(-am) ją kadrze gromady.',
+                        'Zrobiłem(-am) tabelkę z pięcioma słowami, które potrafię powiedzieć i zapisać w trzech różnych językach.',
+                        'Zrobiłem(-am) słowniczek ze słowami niezbędnymi do porozumiewania się w dowolnym języku obcym.',
+                        'Każdemu zuchowi z gromady (o ile to możliwe) podałem(-am) w kręgu rady odpowiednik jego imienia w języku, którego się uczę.',
+                        'Przetłumaczyłem(-am) na język polski kilka obcojęzycznych etykietek różnych produktów.',
+                      ]),
+                  SprawData(
+                      id: 'poliglota',
+                      title: 'Poliglota',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Nauczyłem(-am) się wybranego wiersza w innym języku. Wyrecytowałem(-am) go w kręgu rady.',
+                        'Koresponduję z kolegą z innego kraju. Narysowałem(-am), jak wyobrażam sobie jego/jej miejsce zamieszkania itp.',
+                        'Nauczyłem(-am) gromadę pląsu po angielsku.',
+                        'Zrobiłem(-am) tabelkę z dziesięcioma słowami, które potrafię mówić i pisać w trzech różnych językach.',
+                        'Mam swoją ulubioną piosenkę w języku obcym. Zaśpiewałem(-am) ją kadrze gromady.',
+                        'Przetłumaczyłem(-am) na język polski kilka obcojęzycznych etykietek różnych produktów.',
+                      ]),
+                ]
+            ),
+
+// 15. naukowo-hobbystyczna PRZEWODNIK PO...
+            SprawFamilyData(
+                id: '15',
+                requirements: [
+                  'Opowiedziałem(-am) podanie, historię lub legendę związaną z moją miejscowością.',
+                  'Znam najciekawsze obiekty w mojej miejscowości. Potrafię wskazać do nich drogę.',
+                  'Wiem, gdzie jest najbliższy przystanek, apteka, poczta, straż pożarna, przychodnia (szpital), siedziba władz miasta, dzielnicy lub gminy.',
+                  'Umiem dojść lub dojechać do określonego miejsca w mojej miejscowości.',
+                  'Oprowadziłem(-am) wycieczkę lub gościa po mojej miejscowości.',
+                  'Wykonałem(-am) prosty plan mojej miejscowości.',
+                  'Prowadziłem(-am) dla zuchów z gromady punkt informacji turystycznej o mojej miejscowości.',
+                  'Zaplanowałem(-am) trasy wycieczek po mojej miejscowości.',
+                  'Mam w swojej kolekcji mapę, zdjęcia oraz foldery dotyczące mojej miejscowości. Przeczytałem(-am) o niej w przewodniku.',
+                  'Przestrzegam przepisów poruszania się po drogach.',
+                  'Umiem opowiadać jak przewodnik, dobierając informacje oraz język do zainteresowań i poziomu uczestników wycieczki.',
+                ],
+                notesForLeaders: [
+                  'Zuch „Przewodnik po…” ma obszerną wiedzę na wiele tematów. Interesuje się podróżami i zwiedzaniem ciekawych miejsc. Lubi przygody. Łatwo nawiązuje kontakty z innymi ludźmi. Nie boi się mówić do wielu słuchaczy.',
+                  'Aby dalej rozwijać zainteresowania zucha, można wskazać mu sprawność „Geoposzukiwacza”.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Przewodnika po…”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'przewodnik_po',
+                      title: 'Przewodnik po...',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Opowiedziałem(-am) na zbiórce podanie, historię lub legendę związaną z moją miejscowością.',
+                        'Narysowałem(-am) najciekawszy budynek znajdujący się w mojej miejscowości.',
+                        'Wykonałem(-am) prosty plan okolicy. Zaznaczyłem(-am) na nim najbliższy przystanek, aptekę, pocztę, straż pożarną, przychodnię (szpital), siedzibę władz miasta, dzielnicy lub gminy.',
+                        'Zaplanowałem(-am) trasę niedzielnego spaceru z rodzicami po okolicy.',
+                        'Rozpocząłem(-am) zbieranie pocztówek, magnesów lub pamiątek związanych z moją miejscowością.',
+                      ]),
+                  SprawData(
+                      id: 'przewodnik_po',
+                      title: 'Przewodnik po...',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Opowiedziałem(-am) na zbiórce podanie, historię lub legendę związaną z moją miejscowością.',
+                        'Znam najciekawsze obiekty w okolicy i potrafię wskazać do nich drogę.',
+                        'Wykonałem(-am) prosty plan okolicy. Zaznaczyłem(-am) na nim najbliższy przystanek, aptekę, pocztę, straż pożarną, przychodnię (szpital), siedzibę władz miasta, dzielnicy lub gminy.',
+                        'Oprowadziłem(-am) rodzinę z innego miasta po mojej okolicy. Opowiadałem(-am) jak przewodnik, dobierając informacje i język do zainteresowań oraz poziomu uczestników wycieczki.',
+                        'Zrobiłem(-am) mały przewodnik turystyczny dla zuchów z mojej szóstki.',
+                        'Mam w swojej kolekcji mapę, zdjęcia oraz foldery dotyczące mojej miejscowości. Przeczytałem(-am) o niej w przewodniku.',
+                        'Zrobiłem(-am) prezentacje na zbiórce, podczas której opowiedziałem(-am), jak należy zachowywać się na drodze. Pokazałem(-am) również, jak wykonać odblask i gdzie należy go nosić.',
+                      ]),
+                  SprawData(
+                      id: 'przewodnik_po',
+                      title: 'Przewodnik po...',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Opowiedziałem(-am) na zbiórce podanie, historię lub legendę związaną z moją miejscowością.',
+                        'Znam najciekawsze obiekty w okolicy. Potrafię wskazać do nich drogę.',
+                        'Wykonałem(-am) prosty plan okolicy. Wiem, gdzie jest najbliższy przystanek, apteka, poczta, straż pożarna, przychodnia (szpital), siedziba władz miasta, dzielnicy lub gminy.',
+                        'Spotkałem(-am) się z przyjacielem w wybranym przez niego miejscu w naszej okolicy. Uzgodniłem(-am) z rodzicami wyjście z domu i samodzielnie do niego dotarłem(-am).',
+                        'Oprowadziłem(-am) rodzinę z innego miasta po okolicy, opowiadałem(-am) jak przewodnik, dobierając informacje i język do zainteresowań i poziomu uczestników wycieczki.',
+                        'Zrobiłem(-am) mały przewodnik turystyczny dla zuchów z gromady.',
+                        'Zaplanowałem(-am) trasę wycieczki dla gromady.',
+                        'Mam w swojej kolekcji mapę, zdjęcia oraz foldery dotyczące mojej miejscowości. Przeczytałem(-am) o niej w przewodniku.',
+                        'Zrobiłem(-am) filmik, w którym opowiadam, jak należy zachowywać się na drodze. Pokazałem(-am) w nim, jak wykonać odblask i gdzie należy go nosić.',
+                      ]),
+                ]
+            ),
+
+// 16. naukowo-hobbystyczna PRZYJACIEL KSIĄŻEK
+            SprawFamilyData(
+                id: '16',
+                requirements: [
+                  'Lubię czytać książki. Potrafię wymienić autorów moich ulubionych książek.',
+                  'Mam kartę w bibliotece.',
+                  'Mam biblioteczkę domową, dbam o nią i staram się ją powiększać.',
+                  'Pomagałem(-am) w szkolnej bibliotece lub prowadziłem(-am) bibliotekę na kolonii zuchowej.',
+                  'Naprawiałem(-am) drobne uszkodzenia książek. Wykonałem(-am) zakładkę do książek.',
+                  'Uczestniczyłem(-am) w konkursie czytelniczym.',
+                  'Mam swojego ulubionego bohatera książkowego. Opowiedziałem(-am) o nim kolegom. Zachęciłem(-am) do przeczytania jego przygód.',
+                  'Obejrzałem(-am) film na motywach znanej mi książki. Wskazałem(-am) różnice między książką i filmem oraz wady i zalety adaptacji filmowej.',
+                ],
+                notesForLeaders: [
+                  'Zdobywając sprawność „Przyjaciela książek”, zuch poszerza wiedzę o świecie, rozwija wyobraźnię, kształci mowę i doskonali technikę czytania. Uczy się operowania słowem i budowania zdań.',
+                  '„Przyjaciel książek” chętnie pomaga w bibliotece, dlatego ważne jest, aby kadra drużyny nawiązała kontakt z bibliotekarzem w szkole.',
+                  'Zuch zdobywający sprawność może prezentować ulubionych bohaterów w różnej formie, np. w gawędzie, teatrze zuchowym lub pracy plastycznej.',
+                  'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, zdobywając sprawność „Przyjaciela książki”: "Zuch pamięta o swoich obowiązkach.", "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy."',
+                ],
+                sprawData: [
+
+                  SprawData(
+                      id: 'przyjaciel_ksiazek',
+                      title: 'Przyjaciel książek',
+                      level: '1',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Założyłem(-am) kartę w bibliotece.',
+                        'Przeczytałem(-am) trzy książki.',
+                        'Opowiedziałem(-am) na zbiórce o przygodach mojego ulubionego książkowego bohatera.',
+                        'Wykonałem(-am) zakładkę do książki.',
+                        'Uporządkowałem(-am) książki w mojej domowej biblioteczce.',
+                        'Obejrzałem(-am) film na motywach znanej mi książki.',
+                      ]),
+                  SprawData(
+                      id: 'przyjaciel_ksiazek',
+                      title: 'Przyjaciel książek',
+                      level: '2',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Założyłem(-am) kartę w bibliotece.',
+                        'Przeczytałem(-am) pięć książek.',
+                        'Opowiedziałem(-am) na zbiórce o mojej ulubionej książce i jej autorze.',
+                        'Zaprojektowałem(-am) okładkę książki. Dokonałem(-am) drobnej naprawy książki.',
+                        'Uporządkowałem(-am) książki w mojej domowej biblioteczce. Zrobiłem(-am) listę książek, które chciał(a)bym pozyskać do mojej kolekcji.',
+                        'Obejrzałem(-am) film na motywach znanej mi książki. Opowiedziałem(-am) o książce i filmie na zbiórce.',
+                      ]),
+                  SprawData(
+                      id: 'przyjaciel_ksiazek',
+                      title: 'Przyjaciel książek',
+                      level: '3',
+                      tasksAreExamples: true,
+                      tasks: [
+                        'Założyłem(-am) kartę w bibliotece.',
+                        'Przeczytałem(-am) siedem książek.',
+                        'Opowiedziałem(-am) na zbiórce o dwóch ulubionych książkach i ich autorach.',
+                        'Pomagałem(-am) w szkolnej bibliotece lub prowadziłem(-am) bibliotekę na kolonii zuchowej.',
+                        'Uporządkowałem(-am) książki w mojej domowej biblioteczce. Zrobiłem(-am) listę książek, które chciał(a)bym pozyskać do mojej kolekcji.',
+                        'Obejrzałem(-am) film na motywach znanej mi książki, opowiedziałem(-am) o niej na zbiórce.',
+                        'Odwiedziłem(-am) antykwariat lub osobę posiadającą stary księgozbiór.',
+                      ]),
+                ]
+            ),
           ]),
 
       SprawGroupData(
@@ -2925,7 +4325,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   'Brałem(-am) udział w jasełkach.',
                   'Potrafię powiedzieć, jakie postacie są prezentowane przez kolędników i dlaczego. Samodzielnie lub z pomocą rodzica przygotowałem(-am) sobie strój kolędnika.',
                   'Zaprezentowałem(-am) swój strój i kolędę na zbiórce wigilijnej.',
-                  'W okresie świątecznym razem z kolegami i koleżankami chodziłem(-am) i kolędowałem(-am), niosąc radość ludziom w mojej okolicy.',
+                  'W okresie świątecznym razem z kolegami chodziłem(-am) i kolędowałem(-am), niosąc radość ludziom w mojej okolicy.',
                   'Wiem, jak dawniej wyglądało kolędowanie na terenach, na których mieszkam. Dowiedziałem(-am) się, jakie panowały wtedy obrzędy i zwyczaje świąteczne.',
                   'Nauczyłem(-am) inne zuchy przynajmniej jednej kolędy.',
                   'Mam śpiewnik lub nagrania z kolędami.',
@@ -2958,7 +4358,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasks: [
                         'Potrafię zaśpiewać pięć kolęd. Zapisałem(-am) ich tytuły.',
                         'Brałem(-am) udział w jasełkach.',
-                        'W okresie świątecznym wspólnie z kolegami i koleżankami chodziłem(-am) i kolędowałem(-am), niosąc radość ludziom w mojej okolicy.',
+                        'W okresie świątecznym wspólnie z kolegami chodziłem(-am) i kolędowałem(-am), niosąc radość ludziom w mojej okolicy.',
                         'Narysowałem(-am) postacie pięciu kolędników. Podpisałem(-am), jak się nazywają.',
                         'Mam swój śpiewnik lub nagrania z kolędami. Zaprezentowałem(-am) go/je na zbiórce.',
                       ]),
@@ -2972,7 +4372,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Brałem(-am) udział w jasełkach.',
                         'Opowiedziałem(-am) młodszym zuchom, jak w dawnych czasach wyglądała tradycja kolędowania.',
                         'Samodzielnie lub z pomocą rodzica przygotowałem(-am) sobie strój kolędnika. Zaprezentowałem(-am) go na zbiórce.',
-                        'W okresie świątecznym wspólnie z kolegami i koleżankami chodziłem(-am) i kolędowałem(-am), niosąc radość ludziom w mojej okolicy.',
+                        'W okresie świątecznym wspólnie z kolegami chodziłem(-am) i kolędowałem(-am), niosąc radość ludziom w mojej okolicy.',
                         'Mam swój śpiewnik lub nagrania z kolędami. Zaprezentowałem(-am) go/je na zbiórce.',
                       ]),
                 ]
@@ -2991,7 +4391,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 ],
                 notesForLeaders: [
                   'Zdobywając tę sprawność, zuch poznaje swoje środowisko, uczy się dostrzegać problemy rówieśników i wspólnoty lokalnej, a także poszukiwać pokojowych i nowoczesnych rozwiązań. Staje się świadomym i aktywnym uczestnikiem oraz kreatorem życia codziennego w XXI wieku.',
-                  'Kadra gromady powinna zwrócić uwagę na fakt, że współczesny patriota to człowiek otwarty, tolerancyjny, dbający o środowisko i język ojczysty, znający historię i kultywujący tradycje. Patriota szanuje swoją małą ojczyznę – rodzinę, nauczycieli, koleżanki i kolegów oraz miejscowość, w której mieszka. Tworzy świat oparty na podstawowych wartościach: wolności, samorządności i demokracji.',
+                  'Kadra gromady powinna zwrócić uwagę na fakt, że współczesny patriota to człowiek otwarty, tolerancyjny, dbający o środowisko i język ojczysty, znający historię i kultywujący tradycje. Patriota szanuje swoją małą ojczyznę – rodzinę, nauczycieli, kolegów oraz miejscowość, w której mieszka. Tworzy świat oparty na podstawowych wartościach: wolności, samorządności i demokracji.',
                   'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Młodego patrioty”: „Zuch pamięta o swoich obowiązkach.”, „Wszystkim jest z zuchem dobrze.”, „Zuch kocha Polskę i czyni dobro.”',
                 ],
                 sprawData: [
@@ -3103,14 +4503,14 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 requirements: [
                   'Opiekowałem(-am) się osobą niepełnosprawną lub starszą.',
                   'Systematycznie odwiedzałem(-am) osobę niepełnosprawną lub starszą.',
-                  'Pomagałem(-am) odrabiać lekcje koledze lub koleżance.',
-                  'Opowiedziałem(-am) o tym, co się dzieje w szkole lub w gromadzie niepełnosprawnemu koledze lub koleżance.',
-                  'Nauczyłem(-am) niepełnosprawnego kolegę lub koleżankę piosenki, pląsu, gry dostosowanej do jego/jej możliwości.',
-                  'Wspólnie z niepełnosprawnym kolegą lub koleżanką zorganizowałem(-am) coś dla innych dzieci (turniej, zabawy itp.).',
+                  'Pomagałem(-am) odrabiać lekcje koledze.',
+                  'Opowiedziałem(-am) o tym, co się dzieje w szkole lub w gromadzie niepełnosprawnemu koledze.',
+                  'Nauczyłem(-am) niepełnosprawnego kolegę piosenki, pląsu, gry dostosowanej do jego/jej możliwości.',
+                  'Wspólnie z niepełnosprawnym kolegą zorganizowałem(-am) coś dla innych dzieci (turniej, zabawy itp.).',
                   'Zrobiłem(-am) coś miłego dla osoby niepełnosprawnej lub starszej.',
                   'Opowiedziałem(-am) w gromadzie o moich kontaktach z osobą niepełnosprawną lub starszą.',
-                  'Pomogłem(-am) niepełnosprawnemu koledze lub koleżance przyjść na zbiórkę.',
-                  'Pomagałem(-am) w czynnościach życiowych niepełnosprawnej/starszej osobie, np. zrobiłem(-am) zakupy, czytałem(-am) niewidomemu.',
+                  'Pomogłem(-am) niepełnosprawnemu koledze przyjść na zbiórkę.',
+                  'Pomagałem(-am) w czynnościach życiowych niepełnosprawnej lub starszej osobie, np. zrobiłem(-am) zakupy, czytałem(-am) niewidomemu.',
                 ],
                 notesForLeaders: [
                   'Sprawność może zdobywać zuch, który ma kontakt z osobą niepełnosprawną – dorosłą lub rówieśnikiem (w rodzinie, w sąsiedztwie, w klasie lub w gromadzie).',
@@ -3129,8 +4529,8 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasks: [
                         'Opiekowałem(-am) się osobą niepełnosprawną lub starszą i pomagałem(-am) w prostych czynnościach domowych.',
                         'Systematycznie odwiedzałem(-am) osobą niepełnosprawną lub starszą przez dwa tygodnie.',
-                        'Pomagałem(-am) odrabiać lekcje koledze lub koleżance z niepełnosprawnością.',
-                        'Opowiedziałem(-am) o tym, co się dzieje w szkole lub w gromadzie koledze lub koleżance z niepełnosprawnością.',
+                        'Pomagałem(-am) odrabiać lekcje koledze z niepełnosprawnością.',
+                        'Opowiedziałem(-am) o tym, co się dzieje w szkole lub w gromadzie koledze z niepełnosprawnością.',
                         'Zrobiłem(-am) coś miłego dla osoby niepełnosprawnej lub starszej.',
                       ]),
                   SprawData(
@@ -3141,11 +4541,11 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasks: [
                         'Opiekowałem(-am) się osobą niepełnosprawną lub starszą i pomagałem(-am) jej w prostych czynnościach domowych.',
                         'Systematycznie odwiedzałem(-am) osobę niepełnosprawną lub starszą przez miesiąc.',
-                        'Nauczyłem(-am) kolegę lub koleżankę z niepełnosprawnością piosenki, pląsu, gry dostosowanej do jego/jej możliwości.',
-                        'Wspólnie z kolegą lub koleżanką z niepełnosprawnością zorganizowałem(-am) coś dla innych dzieci (turniej, zabawy itp.).',
+                        'Nauczyłem(-am) kolegę z niepełnosprawnością piosenki, pląsu, gry dostosowanej do jego/jej możliwości.',
+                        'Wspólnie z kolegą z niepełnosprawnością zorganizowałem(-am) coś dla innych dzieci (turniej, zabawy itp.).',
                         'Zrobiłem(-am) coś miłego dla osoby niepełnosprawnej lub starszej.',
                         'Opowiedziałem(-am) o moich kontaktach z osobą niepełnosprawną lub starszą zuchom w gromadzie lub w szóstce.',
-                        'Pomogłem(-am) koledze lub koleżance z niepełnosprawnością przyjść na zbiórkę.',
+                        'Pomogłem(-am) koledze z niepełnosprawnością przyjść na zbiórkę.',
                       ]),
                   SprawData(
                       id: 'przyjaciel_nieznanego_swiata',
@@ -3155,11 +4555,11 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasks: [
                         'Opiekowałem(-am) się osobą niepełnosprawną lub starszą i pomagałem(-am) w prostych czynnościach domowych.',
                         'Systematycznie odwiedzałem(-am) osobą niepełnosprawną lub starszą przez dwa miesiące.',
-                        'Nauczyłem(-am) kolegę lub koleżankę z niepełnosprawnością piosenki, pląsu, gry dostosowanej do jego/jej możliwości.',
-                        'Wspólnie z kolegą lub koleżanką z niepełnosprawnością zorganizowałem(-am) coś dla innych dzieci (turniej, zabawy itp.).',
+                        'Nauczyłem(-am) kolegę z niepełnosprawnością piosenki, pląsu, gry dostosowanej do jego/jej możliwości.',
+                        'Wspólnie z kolegą z niepełnosprawnością zorganizowałem(-am) coś dla innych dzieci (turniej, zabawy itp.).',
                         'Opowiedziałem(-am) o moich kontaktach z osobą niepełnosprawną lub osobą starszą zuchom w gromadzie lub w szóstce.',
-                        'Pomogłem(-am) koledze lub koleżance z niepełnosprawnością przyjść na zbiórkę.',
-                        'Pomagałem(-am) w czynnościach życiowych osobie niepełnosprawnej/starszej (zrobiłem zakupy, czytałem niewidomemu).',
+                        'Pomogłem(-am) koledze z niepełnosprawnością przyjść na zbiórkę.',
+                        'Pomagałem(-am) w czynnościach życiowych osobie niepełnosprawnej lub starszej (zrobiłem zakupy, czytałem niewidomemu).',
                       ]),
                 ]
             ),
@@ -3237,7 +4637,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
             SprawFamilyData(
                 id: '7',
                 requirements: [
-                  'Znam tradycje związane ze Świętami Wielkanocnymi. Zaprezentowałem(-am) je kolegom i koleżankom.',
+                  'Znam tradycje związane ze Świętami Wielkanocnymi. Zaprezentowałem(-am) je kolegom.',
                   'Wiem, na pamiątkę jakiego zdarzenia obchodzi się Święta Wielkanocne. Opowiedziałem(-am) o tym na zbiórce.',
                   'Wykonałem(-am) samodzielnie lub z pomocą palmę wielkanocną.',
                   'Pomagałem(-am) rodzinie w wielkich porządkach przedświątecznych.',
@@ -3295,7 +4695,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                       tasks: [
                         'Wykonałem(-am) samodzielnie lub z pomocą palmę wielkanocną.',
                         'Pomagałem(-am) rodzinie w wielkich porządkach przedświątecznych.',
-                        'Znam kilka technik wykonywania pisanek i kraszanek. Zrobiłem(-am) farby z cebuli, dębu lub zboża. Samodzielnie ozdobiłem(-am) pisankę/kraszankę.',
+                        'Znam kilka technik wykonywania pisanek i kraszanek. Zrobiłem(-am) farby z cebuli, dębu lub zboża. Samodzielnie ozdobiłem(-am) pisankę lub kraszankę.',
                         'Przygotowałem(-am) wspólnie z rodzicami koszyczek wielkanocny, który poświęciłem(-am) w Wielką Sobotę.',
                         'Samodzielnie lub z pomocą przygotowałem(-am) świąteczną babę lub mazurka.',
                         'Przygotowałem(-am) mapę Polski z zaznaczonymi charakterystycznymi dla danego regionu zwyczajami wielkanocnymi.',
