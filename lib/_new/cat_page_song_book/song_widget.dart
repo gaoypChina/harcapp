@@ -163,33 +163,17 @@ class SongWidget extends StatelessWidget{
       );
     },
 
-    onAuthorTap: (String author) async {
-      SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
-      TabOfContPage.searchOptions = SongSearchOptions();
-      await parent!.openTabOfCont(initPhrase: author, forgetScrollPosition: true);
-      TabOfContPage.searchOptions = oldSearchOptions;
-    },
+    onAuthorTap: (String author) =>
+        parent!.openTabOfCont(initPhrase: author, forgetScrollPosition: true, oneTimeSearchOptions: SongSearchOptions()),
 
-    onComposerTap: (composer) async {
-      SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
-      TabOfContPage.searchOptions = SongSearchOptions();
-      await parent!.openTabOfCont(initPhrase: composer, forgetScrollPosition: true);
-      TabOfContPage.searchOptions = oldSearchOptions;
-    },
+    onComposerTap: (composer) =>
+        parent!.openTabOfCont(initPhrase: composer, forgetScrollPosition: true, oneTimeSearchOptions: SongSearchOptions()),
 
-    onPerformerTap: (performer) async {
-      SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
-      TabOfContPage.searchOptions = SongSearchOptions();
-      await parent!.openTabOfCont(initPhrase: performer, forgetScrollPosition: true);
-      TabOfContPage.searchOptions = oldSearchOptions;
-    },
+    onPerformerTap: (performer) =>
+        parent!.openTabOfCont(initPhrase: performer, forgetScrollPosition: true, oneTimeSearchOptions: SongSearchOptions()),
 
-    onTagTap: (String tag) async{
-      SongSearchOptions oldSearchOptions = TabOfContPage.searchOptions;
-      TabOfContPage.searchOptions = SongSearchOptions(checkedTags: [tag]);
-      await parent!.openTabOfCont(forgetScrollPosition: true);
-      TabOfContPage.searchOptions = oldSearchOptions;
-    },
+    onTagTap: (String tag) =>
+        parent!.openTabOfCont(forgetScrollPosition: true, oneTimeSearchOptions: SongSearchOptions(checkedTags: [tag])),
 
     onYTLinkTap: (position) async {
 

@@ -1,8 +1,8 @@
-
 enum Difficulty{
   easy,
   hard
 }
+
 class Quote{
   final String autor;
   final String cytat;
@@ -43,6 +43,7 @@ const String quoteAuthorSwTomaszZAkwinu = 'św. Tomasz z Akwinu';
 const String quoteAuthorJaroslavPelikan = 'Jaroslav Pelikan';
 const String quoteAuthorWolter = 'François-Marie Arouet Voltaire';
 const String quoteAuthorJerzyDobrowolski = 'Jerzy Dobrowolski';
+const String quoteAuthorAdamSzustak = 'o. Adam Szustak OP';
 
 const Quote tischnerZmartwychwstwanie = Quote(quoteAuthorTischner, 'Od czasu, gdy Chrystus zwyciężył śmierć, żaden optymizm nie jest w Kościele przesadą.');
 
@@ -224,6 +225,8 @@ const List<Quote> CYTATY_REGULAR = [
   Quote(quoteAuthorWolter, 'Nie zgadzam się z tym co mówisz, ale oddam życie, abyś miał prawo to powiedzieć.'),
 
   Quote(quoteAuthorJerzyDobrowolski, 'Nie ma nic gorszego niż człowiek wykształcony ponad własną inteligencję'),
+
+  Quote(quoteAuthorAdamSzustak, 'Nikt nie ma indywidualnej drogi do Boga.\nBóg jest trójcą.\nCzyli wspólnotą.\nNie bez powodu.')
 
 ];
 

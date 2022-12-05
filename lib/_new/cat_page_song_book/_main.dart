@@ -9,6 +9,7 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/single_computer/single_computer_listener.dart';
+import 'package:harcapp/_new/cat_page_song_book/song_searcher.dart';
 import 'package:harcapp/_new/cat_page_song_book/tab_of_cont_controller.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -809,9 +810,22 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     ),
   );
 
-  Future<void> openTabOfCont({String? initPhrase, bool forgetScrollPosition=false}) => pushPage(
-    context,
-    builder: (context) => TabOfContPage(
+  Future<void> openTabOfCont({
+    String? initPhrase,
+    bool forgetScrollPosition=false,
+    SongSearchOptions? oneTimeSearchOptions,
+  }) async {
+
+    if(initPhrase != null)
+      controller.phrase = initPhrase;
+
+    SongSearchOptions oldSearchOptions = controller.searchOptions;
+    if(oneTimeSearchOptions != null)
+      controller.searchOptions = oneTimeSearchOptions;
+
+    await pushPage(
+        context,
+        builder: (context) => TabOfContPage(
       controller: controller,
       forgetScrollPosition: forgetScrollPosition,
       onSongSelected: onSongSelected,
@@ -886,7 +900,11 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
         SongWidget.sendSong(context, song, person: person);
       },
     )
-  );
+    );
+
+    if(oneTimeSearchOptions != null)
+      controller.searchOptions = oldSearchOptions;
+  }
 
   void onSongSelected(Song song, int indexInAlbum, SongOpenType songOpenType) async {
     post(() => jumpToPage(indexInAlbum));
