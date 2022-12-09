@@ -135,7 +135,7 @@ class ApiUser{
   static String UPDATE_REQ_PASSWORD = 'password';
   static String UPDATE_REQ_PASSWORD_REP = 'password_rep';
   static String UPDATE_REQ_SEX = 'sex';
-  static String UPDATE_REQ_VALID_PASS = 'valid_pass';
+  static String UPDATE_REQ_VALID_PASS = 'validPass';
   static Future<Response?> update({
     String? email,
     String? password,
@@ -221,14 +221,14 @@ class ApiUser{
       onError: (DioError error) async => await onError!(error.response)
   );
 
-  static String UPDATE_REQ_NICK_SEARCHABLE = 'nick_searchable';
+  static String UPDATE_REQ_NICK_SEARCHABLE = 'nickSearchable';
   static Future<Response?> nickSearchable({required searchable, void Function(bool? searchable)? onSuccess, Function(Response? response)? onError}) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.post(
           '${API.SERVER_URL}api/user/nickSearchable',
           data: FormData.fromMap({UPDATE_REQ_NICK_SEARCHABLE: searchable})
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data['nick_searchable']),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data['nickSearchable']),
       onError: (DioError error) async => await onError!(error.response)
   );
 

@@ -914,7 +914,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
           ]),
 
       SprawGroupData(
-          id: 'spraw_sportowe',
+          id: 'sportowe',
           title: 'Sportowe',
           tags: ['#aktywność fizyczna', '#rekreacja' '#zdrowa rywalizacja' '#zdrowy tryb życia', '#praca nad sobą', '#ruch to zdrowie', '#w zdrowym ciele zdrowy duch'],
           familyData: [
@@ -3261,7 +3261,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
           ]),
 
       SprawGroupData(
-          id: 'spraw_naukowo_hobbystyczne',
+          id: 'naukowo_hobbystyczne',
           title: 'Naukowo-hobbystyczne',
           tags: ['#ciekawość świata', '#różnorodność', '#kultura', '#nauka', '#praca nad sobą', '#zawody', '#pasje', '#pomysłowość'],
           familyData: [

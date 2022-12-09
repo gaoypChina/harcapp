@@ -98,7 +98,7 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryGetResp>, RemoveSyn
   static const String paramDate = 'date';
   static const String paramPlace = 'place';
   static const String paramDesc = 'desc';
-  static const String paramFontKey = 'font_key';
+  static const String paramFontKey = 'fontKey';
   static const String paramPublished = 'published';
 
   static String get fontName => 'Hand';

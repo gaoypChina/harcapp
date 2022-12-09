@@ -49,6 +49,8 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
   late LoginListener loginListener;
 
+  late MapController mapController;
+
   void getPublicMarkers() => ApiHarcMap.getAllMarkers(
       publicOnly: true,
       onSuccess: (markers) => setState(() => CatPageHarcMapState.publicOnlyMarkers = markers),
@@ -122,6 +124,8 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     else if(!AccountData.loggedIn && publicOnlyMarkers == null)
       getPublicMarkers();
 
+    mapController = MapController();
+
     super.initState();
   }
 
@@ -144,12 +148,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
             minZoom: 2,
             maxZoom: 18.0,
           ),
-          nonRotatedChildren: [
-            // AttributionWidget.defaultWidget(
-            //   source: 'OpenStreetMap contributors',
-            //   onSourceTapped: () {},
-            // ),
-          ],
+          mapController: mapController,
           children: [
             TileLayer(
               urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -157,9 +156,9 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
               userAgentPackageName: 'dev.fleaflet.flutter_map.example',
             ),
             if(markers != null)
-              MarkerLayer(markers: markers!.map((m) => AppMarker(marker: m)).toList())
+              MarkerLayer(rotate: true, markers: markers!.map((m) => AppMarker(marker: m)).toList())
             else if(publicOnlyMarkers != null)
-              MarkerLayer(markers: publicOnlyMarkers!.map((m) => AppMarker(marker: m)).toList()),
+              MarkerLayer(rotate: true, markers: publicOnlyMarkers!.map((m) => AppMarker(marker: m)).toList()),
           ],
         ),
 
@@ -231,6 +230,16 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                 markers!.add(marker);
                 if(marker.visibility != MarkerVisibility.PUBLIC)
                   publicOnlyMarkers!.add(marker);
+                setState(() {});
+
+                mapController.moveAndRotate(
+                    LatLng(marker.lat, marker.lng),
+                    15,
+                    0
+                );
+
+                showAppToast(context, text: 'Dodano miejsce');
+
               },
             )
           )

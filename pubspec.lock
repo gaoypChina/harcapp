@@ -245,7 +245,7 @@ packages:
       name: dropdown_button2
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.1"
+    version: "1.9.2"
   equatable:
     dependency: transitive
     description:
@@ -327,7 +327,7 @@ packages:
       name: flutter_inappwebview
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.7.2+1"
+    version: "5.7.2+2"
   flutter_keyboard_visibility:
     dependency: "direct main"
     description:
@@ -539,7 +539,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "62df846b08247da7ee635ce9726404fb62b0d591"
+      resolved-ref: "5dae812a62c753a42d77c93a65421e25d51f6c35"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_own_song"
     source: git
     version: "0.0.1"
@@ -557,7 +557,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: b27ffc0c24c2ccb6b73e606ea72dd52f153d0c7f
+      resolved-ref: f58ffd910fdcf6ff10df281a190f09c33966d6d2
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_song_widget"
     source: git
     version: "0.0.1"

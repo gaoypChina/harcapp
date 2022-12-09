@@ -135,8 +135,8 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
     OffSong.allOfficialMap = result.item2;
     OffSong.allConfid = result.item3;
     OffSong.allConfidMap = result.item4;
-    OwnSong.allOwn = result.item5;
-    OwnSong.allOwnMap = result.item6;
+    OwnSong.init(result.item5, result.item6, recalculateAddPersRanking: false);
+    Song.recalculateAddPersRanking();
 
     for (OffSong song in OffSong.allOfficial)
       song.initRate();

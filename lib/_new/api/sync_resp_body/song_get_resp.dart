@@ -7,7 +7,7 @@ class SongGetResp extends SyncGetResp{
   static const String paramRate = 'rate';
   final int? rate;
 
-  static const String paramChordShift = 'chord_shift';
+  static const String paramChordShift = 'chordShift';
   final int? chordShift;
 
   static const String paramMemories = 'memories';

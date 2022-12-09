@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
@@ -15,93 +13,97 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:harcapp_core_song/song_core.dart';
 
 import '../cat_page_home/competitions/indiv_comp/models/show_rank_data.dart';
-import 'song_management/off_song.dart';
 
 class SongContributorsPage extends StatelessWidget{
+
+  static const double iconSize = 42.0;
 
   const SongContributorsPage({super.key});
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) => BottomNavScaffold(
+    body: CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
 
-    Map<AddPerson, List<Song>> map = {};
-    for(OffSong song in OffSong.allOfficial)
-      for(AddPerson addPers in song.addPers)
-        if(map.containsKey(addPers))
-          map[addPers]!.add(song);
-        else
-          map[addPers] = [song];
+        const SliverAppBar(
+          title: Text('Ranking dodanych pieśni'),
+          centerTitle: true,
+          floating: true,
+        ),
 
-    var sortedKeys = map.keys.toList(growable:false)..sort((k1, k2) => map[k2]!.length.compareTo(map[k1]!.length));
-    LinkedHashMap sortedMap = LinkedHashMap.fromIterable(sortedKeys, key: (k) => k, value: (k) => map[k]);
-
-    return BottomNavScaffold(
-      body: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
-
-          const SliverAppBar(
-            title: Text('Ranking dodanych pieśni'),
-            centerTitle: true,
-            floating: true,
-          ),
-
-          SliverPadding(
-            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-            sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-                (context, index) => InkWell(
-                  onTap: () => openDialog(
+        SliverPadding(
+          padding: const EdgeInsets.all(Dimen.SIDE_MARG/2),
+          sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
+              (context, index) => InkWell(
+                borderRadius: BorderRadius.circular(AppCard.defRadius),
+                onTap: () => openDialog(
                     context: context,
-                    builder: (context) => _SongListDialog(sortedMap.values.toList()[index])
-                  ),
+                    builder: (context) => _SongListDialog(Song.addPersRanking.values.toList()[index])
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG/2),
                   child: Row(
-                    crossAxisAlignment:
-                    sortedMap.keys.toList()[index].emailRef==null?
-                    CrossAxisAlignment.center:
-                    CrossAxisAlignment.center,
-
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
 
-                      IndivCompRankIcon(
-                        IndivCompProfile(
-                            active: true,
-                            role: CompRole.OBSERVER,
-                            points: null,
-                            rank: ShowRankData.fromShowRank(index + 1),
-                            completedTasks: []
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: IndivCompRankIcon(
+                          IndivCompProfile(
+                              active: true,
+                              role: CompRole.OBSERVER,
+                              points: null,
+                              rank: ShowRankData.fromShowRank(index + 1),
+                              completedTasks: []
+                          ),
+                          activeParticipCnt: null,
+                          colors: CommonColorData.get(CommonColorData.omegaColorsKey),
+                          size: iconSize,
                         ),
-                        activeParticipCnt: null,
-                        colors: CommonColorData.get(CommonColorData.omegaColorsKey),
-                        size: 42.0,
                       ),
 
                       const SizedBox(width: Dimen.SIDE_MARG),
 
-                      Expanded(child: AddPersEmailResolver(
-                          textSize: Dimen.TEXT_SIZE_BIG,
-                          textColor: textEnab_(context)
-                      ).build(context, sortedMap.keys.toList()[index])),
+                      Expanded(child: Container(
+                        alignment: Alignment.centerLeft,
+                          constraints: const BoxConstraints(minHeight: iconSize),
+                          child: AddPersEmailResolver(
+                              textSize: Dimen.TEXT_SIZE_BIG,
+                              textColor: textEnab_(context),
+                              showSongCount: false
+                          ).build(
+                              context,
+                              Song.addPersRanking.keys.toList()[index]
+                          )
+                      )),
 
                       const SizedBox(width: Dimen.SIDE_MARG),
 
-                      Text(sortedMap.values.toList()[index].length.toString(), style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.bold))
+                      SizedBox(
+                        height: iconSize,
+                        child: Center(
+                          child: Text(
+                              Song.addPersRanking.values.toList()[index].length.toString(),
+                              style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.bold)
+                          ),
+                        )
+                      )
 
                     ],
                   ),
                 ),
-                separatorBuilder: (context, index) => const SizedBox(height: 2*Dimen.SIDE_MARG),
-                count: sortedMap.length
-            )),
-          )
+              ),
+              separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
+              count: Song.addPersRanking.length
+          )),
+        )
 
-        ],
-      ),
-    );
-
-  }
+      ],
+    ),
+  );
 
 }
 

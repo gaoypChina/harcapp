@@ -24,38 +24,33 @@ class PatronListWidget extends StatelessWidget{
 
   static const List<Person> PLN5Patrons = [
     KAROLINA_MARCINKOWSKA,
-    Person(
-      name: 'Szymon Hołysz',
-    ),
+    Person(name: 'Szymon Hołysz'),
     PRZEMYSLAW_KLUCZKOWSKI,
-    Person(
-      name: 'Mikołaj Olejarz',
-    ),
+    Person(name: 'Mikołaj Olejarz'),
     WIKTORIA_PRUSZYNSKA,
+    Person(name: 'Sławomira Wcisło'),
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Scaffold(
+    body: CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
 
-    return Scaffold(
-      body: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
+        const SliverAppBar(
+          title: Text('Lista Patronów'),
+          centerTitle: true,
+          floating: true,
+        ),
 
-          const SliverAppBar(
-            title: Text('Lista Patronów'),
-            centerTitle: true,
-            floating: true,
-          ),
-
-          SliverPadding(
+        SliverPadding(
             padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
 
                 Column(children: PLN50Patrons.map((p) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: PersonCard(p)
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: PersonCard(p)
                 )).toList()),
 
                 const SizedBox(height: Dimen.defMarg),
@@ -81,12 +76,11 @@ class PatronListWidget extends StatelessWidget{
 
               ]),
             )
-          )
+        )
 
-        ],
-      ),
-    );
-  }
+      ],
+    ),
+  );
 
 
 }

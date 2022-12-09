@@ -55,7 +55,24 @@ class CommunitiesPartState extends State<CommunitiesPart> with AutomaticKeepAliv
                   // SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
 
                   SliverPadding(
-                      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                    sliver: SliverList(delegate: SliverChildListDelegate([
+
+                      TitleShortcutRowWidget(
+                        title: 'Środowiska powiązane z miejscem',
+                        titleColor: hintEnab_(context),
+                        textAlign: TextAlign.left,
+                      )
+
+                    ])),
+                  ),
+
+                  SliverPadding(
+                      padding: const EdgeInsets.only(
+                        right: Dimen.SIDE_MARG,
+                        left: Dimen.SIDE_MARG,
+                        bottom: Dimen.SIDE_MARG
+                      ),
                       sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
                         (context, index){
                           String commKey = communities.keys.toList()[index];

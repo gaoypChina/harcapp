@@ -75,7 +75,7 @@ class RemindPasswordCodePartState extends State<RemindPasswordCodePart>{
             if(errorFieldMap != null) {
               resetKeyController!.errorText = errorFieldMap[ApiRegLog.RESET_PASSWORD_REQ_PASS_RESET_KEY] ?? '';
               passwordController!.errorText = errorFieldMap[ApiRegLog.RESET_PASSWORD_REQ_NEW_PASS] ?? '';
-              passwordRepController!.errorText = errorFieldMap[ApiRegLog.RESET_PASSWORD_REQ_NEW_PASS_REP] ?? '';
+              passwordRepController!.errorText = errorFieldMap[ApiRegLog.RESET_PASSWORD_REQ_NEW_PASS] ?? '';
             }
 
             generalError = response.data['error'];

@@ -17,24 +17,35 @@ class OwnSong extends Song<OwnSongGetResp>{
       if(content.isEmpty) return 0;
       return int.parse(content);
     }on Error{
-      return allOwn.isEmpty?0:int.tryParse(allOwn.last.fileName)??-1;
+      return _allOwn.isEmpty?0:int.tryParse(_allOwn.last.fileName)??-1;
     }
   }
 
   // Whether the all, allMap, etc. are initialized.
   static bool initialized = false;
 
-  static late List<OwnSong> allOwn;
+  static late List<OwnSong> _allOwn;
+  static List<OwnSong> get allOwn => _allOwn;
   static late Map<String, OwnSong> _allOwnMap;
   static Map<String, OwnSong> get allOwnMap => _allOwnMap;
   static set allOwnMap(Map<String, OwnSong> value) => _allOwnMap = Map.from(value);
-  static void addOwn(OwnSong song){
-    allOwn.add(song);
-    _allOwnMap[song.fileName] = song;
+  static init(List<OwnSong> allOwn, Map<String, OwnSong> allOwnMap, {bool recalculateAddPersRanking = true}){
+    _allOwn = allOwn;
+    _allOwnMap = allOwnMap;
+    if(recalculateAddPersRanking)
+      Song.recalculateAddPersRanking();
   }
-  static void removeOwn(OwnSong song){
-    allOwn.remove(song);
+  static void addOwn(OwnSong song, {bool recalculateAddPersRanking = true}){
+    _allOwn.add(song);
+    _allOwnMap[song.fileName] = song;
+    if(recalculateAddPersRanking)
+      Song.recalculateAddPersRanking();
+  }
+  static void removeOwn(OwnSong song, {bool recalculateAddPersRanking = true}){
+    _allOwn.remove(song);
     _allOwnMap.remove(song.fileName);
+    if(recalculateAddPersRanking)
+      Song.recalculateAddPersRanking();
   }
 
   static const String paramCode = 'code';

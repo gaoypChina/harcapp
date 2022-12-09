@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
+import 'package:harcapp/values/hufce.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
@@ -144,7 +145,8 @@ class PartContributors extends StatelessWidget{
     ZUZANNA_JAWORSKA,
     Person(name: 'Josef Balvín', hufiec: 'Junák - český skaut',),
     Person(name: 'Wiktoria Hernik', hufiec: 'Hufiec ZHP Kraków - Nowa Huta', stopI: 'phm.', org: Org.zhp),
-    FRANCISZEK_LINKE
+    FRANCISZEK_LINKE,
+    Person(name: 'Kacper Porębski', stopH: StopZHP.zhpHOc),
   ];
 
   static const List<Person> osWspierKuch = [

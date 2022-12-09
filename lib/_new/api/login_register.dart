@@ -143,8 +143,8 @@ class ApiRegLog{
         String name = response.data['name']??(throw InvalidResponseError('name'));
         String nick = response.data['nick']??(throw InvalidResponseError('nick'));
         Sex sex = strToSex[response.data['sex']??(throw InvalidResponseError('sex'))]??Sex.male;
-        DateTime? lastSyncTime = DateTime.tryParse(response.data['last_sync_time']??'');
-        bool emailConf = response.data['email_confirmed']??(throw InvalidResponseError('email_confirmed'));
+        DateTime? lastSyncTime = DateTime.tryParse(response.data['lastSyncTime']??'');
+        bool emailConf = response.data['emailConfirmed']??(throw InvalidResponseError('emailConfirmed'));
 
         List indivCompsResp = response.data['indivComps']??(throw InvalidResponseError('indivComps'));
         List<IndivComp> indivComps = [];
@@ -242,8 +242,8 @@ class ApiRegLog{
       String name = response.data['name']??(throw InvalidResponseError('name'));
       String nick = response.data['nick']??(throw InvalidResponseError('nick'));
       Sex sex = strToSex[response.data['sex']??(throw InvalidResponseError('sex'))]??Sex.male;
-      DateTime? lastSyncTime = DateTime.tryParse(response.data['last_sync_time']??'');
-      bool emailConf = response.data['email_confirmed']??(throw InvalidResponseError('email_confirmed'));
+      DateTime? lastSyncTime = DateTime.tryParse(response.data['lastSyncTime']??'');
+      bool emailConf = response.data['emailConfirmed']??(throw InvalidResponseError('emailConfirmed'));
 
       List indivCompsResp = response.data['indivComps']??(throw InvalidResponseError('indivComps'));
       List<IndivComp> indivComps = [];
@@ -554,7 +554,7 @@ class ApiRegLog{
     return await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) async => dio.post(
-        '${API.SERVER_URL}api/user/merge_microsoft',
+        '${API.SERVER_URL}api/user/mergeMicrosoft',
         data: FormData.fromMap({
           'azureToken': azureToken,
         }),
@@ -604,9 +604,8 @@ class ApiRegLog{
 
 
   static String RESET_PASSWORD_REQ_EMAIL = 'email';
-  static String RESET_PASSWORD_REQ_PASS_RESET_KEY = 'pass_reset_key';
-  static String RESET_PASSWORD_REQ_NEW_PASS = 'new_pass';
-  static String RESET_PASSWORD_REQ_NEW_PASS_REP = 'new_pass_rep';
+  static String RESET_PASSWORD_REQ_PASS_RESET_KEY = 'passResetKey';
+  static String RESET_PASSWORD_REQ_NEW_PASS = 'newPass';
 
   static Future<Response?> resetPass({
     required String email,
@@ -631,9 +630,9 @@ class ApiRegLog{
 
 
     if(newPassRep.isEmpty)
-      errMap[ApiRegLog.RESET_PASSWORD_REQ_NEW_PASS_REP] = 'field_may_not_be_blank';
+      errMap[ApiRegLog.RESET_PASSWORD_REQ_NEW_PASS] = 'field_may_not_be_blank';
     else if(newPass != newPassRep)
-      errMap[ApiRegLog.RESET_PASSWORD_REQ_NEW_PASS_REP] = 'passwords_must_match';
+      errMap[ApiRegLog.RESET_PASSWORD_REQ_NEW_PASS] = 'passwords_must_match';
 
 
     if(errMap.isNotEmpty) {
@@ -694,14 +693,14 @@ class ApiRegLog{
     FutureOr<void> Function()? onError,
   }) async => await API.sendRequest(
     withToken: true,
-    requestSender: (Dio dio) async => dio.get('${API.SERVER_URL}api/user/resend_email_conf_key'),
+    requestSender: (Dio dio) async => dio.get('${API.SERVER_URL}api/user/resendEmailConfKey'),
     onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
     onServerMaybeWakingUp: onServerMaybeWakingUp,
     onError: (_) async => onError?.call(),
   );
 
 
-  static String CONF_EMAIL_CONF_KEY = 'conf_key';
+  static String CONF_EMAIL_CONF_KEY = 'confKey';
   static Future<Response?> carefullyConfEmail(
       BuildContext context,
       String confKey,
@@ -730,7 +729,7 @@ class ApiRegLog{
       onSuccess: (Response response, DateTime now) async {
 
         String? email = response.data['email'];
-        DateTime? lastSyncTime = DateTime.tryParse(response.data['last_sync_time']??'');
+        DateTime? lastSyncTime = DateTime.tryParse(response.data['lastSyncTime']??'');
 
         bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response);
 

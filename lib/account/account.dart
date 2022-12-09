@@ -120,19 +120,19 @@ class AccountData {
     await AccountData.writeRefreshToken(response.data['refreshToken']);
     await AccountData.writeEmail(email);
     await AccountData.writeLastConfLoginEmail(email);
-    await AccountData.writeEmailConf(response.data['email_confirmed']);
+    await AccountData.writeEmailConf(response.data['emailConfirmed']);
     await AccountData.writeName(response.data['name']);
     await AccountData.writeNick(response.data['nick']);
-    await AccountData.writeNickSearchable(response.data['nick_searchable']);
+    await AccountData.writeNickSearchable(response.data['nickSearchable']);
     await AccountData.writeSex(boolToSex[response.data['sex']]);
 
-    await AccountData.writeNameEditable(response.data['name_editable']);
-    await AccountData.writeNickEditable(response.data['nick_editable']);
-    await AccountData.writeMicrosoftAcc(response.data['microsoft_login']);
-    await AccountData.writeRegularAcc(response.data['regular_login']);
+    await AccountData.writeNameEditable(response.data['nameEditable']);
+    await AccountData.writeNickEditable(response.data['nickEditable']);
+    await AccountData.writeMicrosoftAcc(response.data['microsoftLogin']);
+    await AccountData.writeRegularAcc(response.data['regularLogin']);
 
     initShadowUsers(
-        (response.data['shadow_users'] as List).cast<Map<String, dynamic>>()
+        (response.data['shadowUsers'] as List).cast<Map<String, dynamic>>()
     );
 
   }

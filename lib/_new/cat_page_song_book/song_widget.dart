@@ -6,9 +6,11 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_new/cat_page_song_book/add_pers_email_resolver.dart';
 import 'package:harcapp/_new/cat_page_song_book/settings/song_book_base_settings.dart';
 import 'package:harcapp/_new/cat_page_song_book/settings/song_book_settings.dart';
+import 'package:harcapp/_new/cat_page_song_book/song_contributors_page.dart';
 import 'package:harcapp/values/hufce.dart';
 import 'package:harcapp/values/people.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -28,6 +30,7 @@ import 'package:harcapp/_new/cat_page_song_book/song_widget_parts/powstanie_wars
 import 'package:harcapp/_new/cat_page_song_book/song_widget_parts/qr_widget.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
+import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core_own_song/song_raw.dart';
 import 'package:harcapp_core_song_widget/providers.dart';
 import 'package:harcapp_core_song_widget/song_rate.dart';
@@ -385,7 +388,7 @@ class SongWidget extends StatelessWidget{
       ],
     ),
 
-    footer: (BuildContext context, ScrollController? controller) => MemoryListWidget(
+    contentFooter: (BuildContext context, ScrollController? controller) => MemoryListWidget(
         song,
         controller,
 
@@ -411,8 +414,25 @@ class SongWidget extends StatelessWidget{
           ));
         }
     ),
+
+    footer: (BuildContext context, ScrollController? controller) => const SizedBox(
+      height: Dimen.FLOATING_BUTTON_SIZE + 2*Dimen.FLOATING_BUTTON_MARG
+    ),
+
     accentColor: Album.current.avgColor,
 
-    addPersResolver: const AddPersEmailResolver(),
+    addPersResolver: AddPersEmailResolver(
+      textColor: textEnab_(context),
+      onSongCountTap: () => pushPage(context, builder: (context) => const SongContributorsPage())
+    ),
   );
 }
+
+/*
+Padding(
+      padding: const EdgeInsets.only(
+        bottom: Dimen.FLOATING_BUTTON_SIZE + 2*Dimen.FLOATING_BUTTON_MARG
+      ),
+      child: ,
+    )
+ */

@@ -67,7 +67,33 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
   // Whether the all, allMap, etc. are initialized.
   static bool initialized = false;
   
-  static List<Song> recomended = [];
+  static List<Song> recommended = [];
+
+  static Map<AddPerson, List<Song>> _addPersRanking = {};
+  static Map<AddPerson, List<Song>> get addPersRanking => _addPersRanking;
+  static Map<String, List<Song>> _addPersRankingByEmail = {};
+  static Map<String, List<Song>> get addPersRankingByEmail => _addPersRankingByEmail;
+
+  static void recalculateAddPersRanking(){
+
+    Map<AddPerson, List<Song>> map = {};
+    for(OffSong song in OffSong.allOfficial)
+      for(AddPerson addPers in song.addPers)
+        if(map.containsKey(addPers))
+          map[addPers]!.add(song);
+        else
+          map[addPers] = [song];
+
+    var sortedKeys = map.keys.toList(growable: false)..sort((k1, k2) => map[k2]!.length.compareTo(map[k1]!.length));
+    LinkedHashMap sortedMap = LinkedHashMap.fromIterable(sortedKeys, key: (k) => k, value: (k) => map[k]);
+
+    _addPersRanking = sortedMap.cast<AddPerson, List<Song>>();
+    _addPersRankingByEmail = {};
+    for(AddPerson addPers in _addPersRanking.keys)
+      if(addPers.emailRef != null)
+        _addPersRankingByEmail[addPers.emailRef!] = _addPersRanking[addPers]!;
+
+  }
 
   static List<Song> get all{
     List<Song> songs = [];
@@ -84,7 +110,7 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
 
   static const String paramLclId = 'lcl_id';
   static const String paramRate = 'rate';
-  static const String paramChordShift = 'chord_shift';
+  static const String paramChordShift = 'chordShift';
   static const String paramMemories = 'memories';
 
   static const String tabChar = '   ';
