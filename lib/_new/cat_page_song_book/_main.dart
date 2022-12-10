@@ -826,80 +826,80 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     await pushPage(
         context,
         builder: (context) => TabOfContPage(
-      controller: controller,
-      forgetScrollPosition: forgetScrollPosition,
-      onSongSelected: onSongSelected,
-      onConfAlbumEnabled: (){
-        post(() => jumpToPage(getLastPageForAlbum(Album.confid)));
-        showAppToast(context, text: 'Barbaro! Oto zostajesz songowym hakerem.\n<b>Miłego śpiewańska c:</b>', duration: const Duration(seconds: 7));
-      },
-      onNewSongAdded: (song) async{
+          controller: controller,
+          forgetScrollPosition: forgetScrollPosition,
+          onSongSelected: onSongSelected,
+          onConfAlbumEnabled: (){
+            post(() => jumpToPage(getLastPageForAlbum(Album.confid)));
+            showAppToast(context, text: 'Barbaro! Oto zostajesz songowym hakerem.\n<b>Miłego śpiewańska c:</b>', duration: const Duration(seconds: 7));
+          },
+          onNewSongAdded: (song) async{
 
-        synchronizer.post();
+            synchronizer.post();
 
-        int index = Album.current.songs.indexOf(song);
-        post(() => jumpToPage(index));
+            int index = Album.current.songs.indexOf(song);
+            post(() => jumpToPage(index));
 
-        await showDialog(
-          barrierDismissible: false,
-          context: context,
-          builder: (context) => Center(
-            child: AppCard(
-                radius: AppCard.alertDialogRadius,
-                padding: const EdgeInsets.all(AppCard.alertDialogPadding),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-
-                    Row(
+            await showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) => Center(
+                child: AppCard(
+                    radius: AppCard.alertDialogRadius,
+                    padding: const EdgeInsets.all(AppCard.alertDialogPadding),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.all(Dimen.ICON_MARG),
-                          child: Icon(MdiIcons.informationOutline),
-                        ),
-                        Text('Ostatni krok!', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_APPBAR)),
-                      ],
-                    ),
 
-                    const SizedBox(height: Dimen.ICON_MARG),
-
-                    Text(
-                      'Pozostało wysłanie piosenki mailem.\n\nPo zamknięciu tej wiadomości otworzy się Twoja poczta.',
-                      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
-                    ),
-
-                    const SizedBox(height: 2*Dimen.ICON_MARG),
-
-                    Row(
-                      children: [
-                        Expanded(child: Container()),
-                        SimpleButton(
-                            radius: AppCard.bigRadius,
-                            padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Jedziemy',
-                                  style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, color: iconEnab_(context)),
-                                ),
-                                const SizedBox(width: Dimen.ICON_MARG),
-                                const Icon(SongWidgetTemplate.ICON_SEND_SONG)
-                              ],
+                        Row(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(Dimen.ICON_MARG),
+                              child: Icon(MdiIcons.informationOutline),
                             ),
-                            onTap: () => Navigator.pop(context)
+                            Text('Ostatni krok!', style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_APPBAR)),
+                          ],
+                        ),
+
+                        const SizedBox(height: Dimen.ICON_MARG),
+
+                        Text(
+                          'Pozostało wysłanie piosenki mailem.\n\nPo zamknięciu tej wiadomości otworzy się Twoja poczta.',
+                          style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                        ),
+
+                        const SizedBox(height: 2*Dimen.ICON_MARG),
+
+                        Row(
+                          children: [
+                            Expanded(child: Container()),
+                            SimpleButton(
+                                radius: AppCard.bigRadius,
+                                padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'Jedziemy',
+                                      style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, color: iconEnab_(context)),
+                                    ),
+                                    const SizedBox(width: Dimen.ICON_MARG),
+                                    const Icon(SongWidgetTemplate.ICON_SEND_SONG)
+                                  ],
+                                ),
+                                onTap: () => Navigator.pop(context)
+                            )
+                          ],
                         )
                       ],
                     )
-                  ],
-                )
-            ),
-          ),
-        );
+                ),
+              ),
+            );
 
-        Person? person = await getMyPersonData(context);
-        SongWidget.sendSong(context, song, person: person);
-      },
-    )
+            Person? person = await getMyPersonData(context);
+            SongWidget.sendSong(context, song, person: person);
+          },
+        )
     );
 
     if(oneTimeSearchOptions != null)

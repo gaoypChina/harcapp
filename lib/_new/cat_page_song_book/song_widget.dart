@@ -325,7 +325,6 @@ class SongWidget extends StatelessWidget{
     onSendSongTap: () async {
       Person? person = await getMyPersonData(context);
       sendSong(context, song, person: person);
-
     },
 
     onShareTap: () => shareSong(context, song),

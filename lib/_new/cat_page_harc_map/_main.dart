@@ -53,7 +53,10 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
   void getPublicMarkers() => ApiHarcMap.getAllMarkers(
       publicOnly: true,
-      onSuccess: (markers) => setState(() => CatPageHarcMapState.publicOnlyMarkers = markers),
+      onSuccess: (markers){
+        CatPageHarcMapState.publicOnlyMarkers = markers;
+        if(mounted) setState((){});
+      },
       // onForceLoggedOut: () => This will never be called.
       onServerMaybeWakingUp: (){
         if(!mounted) return true;

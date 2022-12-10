@@ -290,6 +290,8 @@ class _SearchTextFieldCard extends StatelessWidget{
 
     onChanged: (text) async {
 
+      tabOfContController.phrase = text;
+
       if(text == '#') {
         // HAS TO IN POST - ITS A WORKAROUND FOR A BUG. OTHERWISE THE onChanged METHOD IS CALLED TWICE AFTER ENTERING "#".
         post(() => textController.text = '');
@@ -308,6 +310,7 @@ class _SearchTextFieldCard extends StatelessWidget{
           onPressed: () async{
 
             textController.clear();
+            tabOfContController.phrase = '';
             tabOfContController.searchOptions.clear();
             await searcher!.init(searcher!.allItems, tabOfContController.searchOptions);
             await searcher!.run('');
