@@ -54,6 +54,7 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
         Consumer<NameProvider>(
           builder: (context, prov, child) => AppTextFieldHint(
             controller: prov.controller,
+            focusNode: prov.focusNode,
             hint: 'Nazwa miejsca:',
             hintTop: '',
           ),

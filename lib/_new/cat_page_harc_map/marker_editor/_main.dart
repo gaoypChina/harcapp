@@ -70,6 +70,10 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
                   onPressed: (){
 
                     PositionProvider positionProv = PositionProvider.of(context);
+
+                    if(positionProv.editMode)
+                      positionProv.applyPosition();
+
                     if(positionProv.lat == wawelLat && positionProv.lng == wawelLng){
 
                       controller.animateTo(2);
@@ -82,6 +86,19 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
                     }
 
                     NameProvider nameProv = NameProvider.of(context);
+
+                    if(nameProv.name.isEmpty){
+
+                      controller.animateTo(0);
+                      nameProv.focusNode.requestFocus();
+                      showAppToast(
+                          context,
+                          text: 'Wypadałoby podać jakąś nazwę, nie...?',
+                          duration: const Duration(seconds: 8)
+                      );
+                      return;
+                    }
+
                     MarkerTypeProvider markerTypeProv = MarkerTypeProvider.of(context);
                     MarkerVisibilityProvider markerVisibilityProv = MarkerVisibilityProvider.of(context);
                     ContactProvider contactProv = ContactProvider.of(context);

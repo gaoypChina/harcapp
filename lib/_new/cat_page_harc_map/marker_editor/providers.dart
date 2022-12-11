@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:harcapp/_common_classes/common_contact_data.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_type.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
@@ -14,13 +16,41 @@ const double wawelLng = 19.9349666;
 
 class PositionProvider extends ChangeNotifier{
 
+  late bool _editMode;
+  bool get editMode => _editMode;
+  set editMode(bool value){
+    _editMode = value;
+    notifyListeners();
+  }
+
   late double lat;
   late double lng;
+  late Marker tmpMarker;
 
   PositionProvider({MarkerRespBody? initMarker}){
+    _editMode = false;
     lat = initMarker?.lat??wawelLat;
     lng = initMarker?.lng??wawelLng;
+    tmpMarker = _getMarker(LatLng(lat, lng));
+  }
 
+  Marker _getMarker(LatLng point) =>
+      Marker(
+          height: 24,
+          width: 24,
+          point: point,
+          builder: (context) =>
+          PositionProvider.of(context).editMode?
+          const Icon(MdiIcons.circleSmall):
+          const Icon(MdiIcons.mapMarkerCircle)
+      );
+
+  static void applyPosition_(BuildContext context) => of(context).applyPosition();
+
+  void applyPosition(){
+    lat = tmpMarker.point.latitude;
+    lng = tmpMarker.point.longitude;
+    notifyListeners();
   }
 
   static PositionProvider of(BuildContext context) =>
@@ -30,9 +60,8 @@ class PositionProvider extends ChangeNotifier{
 
   void notify() => notifyListeners();
 
-  void setPosition(LatLng pointer){
-    lat = pointer.latitude;
-    lng = pointer.longitude;
+  void setTmpMarkerPosition(LatLng pointer){
+    tmpMarker = _getMarker(pointer);
     notifyListeners();
   }
 
@@ -48,8 +77,11 @@ class NameProvider extends ChangeNotifier{
   late TextEditingController controller;
   String get name => controller.text;
 
+  late FocusNode focusNode;
+
   NameProvider({MarkerRespBody? initMarker}){
     controller = TextEditingController(text: initMarker?.name??'');
+    focusNode = FocusNode();
   }
 
   void notify() => notifyListeners();
