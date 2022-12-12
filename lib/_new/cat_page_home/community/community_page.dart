@@ -4,12 +4,14 @@ import 'package:harcapp/_common_widgets/common_contact_widget.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'circle/model/circle.dart';
 import 'common_widgets/community_buttons_widget.dart';
 import 'common_widgets/community_groups_widget.dart';
 import 'common_widgets/community_header_widget.dart';
+import 'common_widgets/community_markers_widget.dart';
 import 'forum/model/forum.dart';
 import 'model/community.dart';
 
@@ -66,6 +68,12 @@ class CommunityPage extends StatelessWidget{
                 ),
 
                 const SizedBox(height: Dimen.defMarg),
+
+                if(community.markers.isNotEmpty)
+                  CommunityMarkersWidget(community.markers, customPointer: const Icon(MdiIcons.mapMarkerCircle)),
+
+                if(community.markers.isNotEmpty)
+                  const SizedBox(height: Dimen.defMarg),
 
                 if(community.contact != null)
                   Material(

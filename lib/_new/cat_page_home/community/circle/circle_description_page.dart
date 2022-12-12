@@ -28,6 +28,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../common/community_cover_colors.dart';
 import '../../competitions/indiv_comp/indiv_comp_basic_data_tile.dart';
 import '../../competitions/indiv_comp/indiv_comp_thumbnail_widget.dart';
+import '../common_widgets/community_markers_widget.dart';
 import '../community_category_widget.dart';
 import '../community_sliver_app_bar.dart';
 import '../model/community.dart';
@@ -152,7 +153,6 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
                     padding: const EdgeInsets.only(
                       left: Dimen.SIDE_MARG,
                       right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-                      bottom: Dimen.SIDE_MARG,
                     ),
                     child: Align(
                       alignment: Alignment.centerLeft,
@@ -160,9 +160,21 @@ class CircleDescriptionPageState extends State<CircleDescriptionPage>{
                     ),
                   ),
 
+                  if(circle.community.markers.isNotEmpty)
+                    CommunityMarkersWidget(
+                      circle.community.markers,
+                      padding: const EdgeInsets.only(
+                        top: Dimen.SIDE_MARG,
+                        left: Dimen.SIDE_MARG,
+                        right: Dimen.SIDE_MARG,
+                      ),
+                      customPointer: const Icon(MdiIcons.mapMarkerCircle)
+                    ),
+
                   if(circle.hasDescription)
                     Padding(
                       padding: const EdgeInsets.only(
+                        top: Dimen.SIDE_MARG,
                         left: Dimen.SIDE_MARG - TitleShortcutRowWidget.textStartPadding,
                       ),
                       child: TitleShortcutRowWidget(

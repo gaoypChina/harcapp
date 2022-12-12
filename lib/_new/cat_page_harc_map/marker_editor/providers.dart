@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:harcapp/_common_classes/common_contact_data.dart';
+import 'package:harcapp/_new/cat_page_harc_map/marker_data.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_type.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:latlong2/latlong.dart';
@@ -8,7 +9,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
-import '../../api/harc_map.dart';
 import '../marker_visibility.dart';
 
 const double wawelLat = 50.0537412;
@@ -27,7 +27,7 @@ class PositionProvider extends ChangeNotifier{
   late double lng;
   late Marker tmpMarker;
 
-  PositionProvider({MarkerRespBody? initMarker}){
+  PositionProvider({MarkerData? initMarker}){
     _editMode = false;
     lat = initMarker?.lat??wawelLat;
     lng = initMarker?.lng??wawelLng;
@@ -79,7 +79,7 @@ class NameProvider extends ChangeNotifier{
 
   late FocusNode focusNode;
 
-  NameProvider({MarkerRespBody? initMarker}){
+  NameProvider({MarkerData? initMarker}){
     controller = TextEditingController(text: initMarker?.name??'');
     focusNode = FocusNode();
   }
@@ -102,7 +102,7 @@ class MarkerTypeProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  MarkerTypeProvider({MarkerRespBody? initMarker}){
+  MarkerTypeProvider({MarkerData? initMarker}){
     _markerType = initMarker?.type??MarkerType.HARCOWKA;
   }
 
@@ -124,7 +124,7 @@ class MarkerVisibilityProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  MarkerVisibilityProvider({MarkerRespBody? initMarker}){
+  MarkerVisibilityProvider({MarkerData? initMarker}){
     _markerVisibility = initMarker?.visibility??MarkerVisibility.PUBLIC;
   }
 
@@ -141,7 +141,7 @@ class ContactProvider extends ChangeNotifier{
 
   late CommonContactData contactData;
 
-  ContactProvider({MarkerRespBody? initMarker}){
+  ContactProvider({MarkerData? initMarker}){
     contactData = initMarker?.contact??CommonContactData.empty();
   }
 
@@ -188,7 +188,7 @@ class BindedCommunitiesProvider extends ChangeNotifier{
   int get length =>
     _initCommunities.length + _communitiesToAdd.length - _communitiesToEdit.length;
 
-  BindedCommunitiesProvider({MarkerRespBody? initMarker}){
+  BindedCommunitiesProvider({MarkerData? initMarker}){
     _initCommunities = {for(Tuple2<CommunityPreviewData, String?> c in (initMarker?.communities??[])) c.item1.key: c.item2??''};
     _communitiesToAdd = {};
     _communitiesToEdit = {};

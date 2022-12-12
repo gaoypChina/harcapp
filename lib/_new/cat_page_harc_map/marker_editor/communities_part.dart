@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
-import 'package:harcapp/_new/api/harc_map.dart';
+import 'package:harcapp/_new/cat_page_harc_map/marker_data.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_editor/providers.dart';
 import 'package:harcapp/_new/cat_page_home/community/common_widgets/community_header_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
@@ -17,7 +17,7 @@ import 'package:provider/provider.dart';
 
 class CommunitiesPart extends StatefulWidget{
 
-  final MarkerRespBody? initMarker;
+  final MarkerData? initMarker;
 
   const CommunitiesPart({this.initMarker, super.key});
 
@@ -31,7 +31,7 @@ class CommunitiesPartState extends State<CommunitiesPart> with AutomaticKeepAliv
   @override
   bool get wantKeepAlive => true;
 
-  MarkerRespBody? get initMarker => widget.initMarker;
+  MarkerData? get initMarker => widget.initMarker;
 
   @override
   void initState() {

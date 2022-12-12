@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/common_contact_data.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_type.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_visibility.dart';
@@ -11,107 +10,14 @@ import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:optional/optional_internal.dart';
 import 'package:tuple/tuple.dart';
 
-import '../cat_page_home/community/model/community_category.dart';
+import '../cat_page_harc_map/marker_data.dart';
 import '_api.dart';
-
-class MarkerRespBody{
-
-  final String key;
-  String name;
-  CommonContactData? contact;
-  double lat;
-  double lng;
-  MarkerType type;
-  MarkerVisibility visibility;
-  final UserData user;
-  List<Tuple2<CommunityPreviewData, String?>> communities;
-
-  late Map<CommunityCategory, int> communityCategories;
-  late bool anyDoubleCommunityCategories;
-
-  MarkerRespBody({
-    required this.key,
-    required this.name,
-    required this.contact,
-    required this.lat,
-    required this.lng,
-    required this.type,
-    required this.visibility,
-    required this.user,
-    required this.communities,
-  }){
-    Map<CommunityCategory, int> commCats = {};
-    anyDoubleCommunityCategories = false;
-    for(Tuple2<CommunityPreviewData, String?> comm in communities)
-      if(commCats.containsKey(comm.item1.category)) {
-        commCats[comm.item1.category] = commCats[comm.item1.category]! + 1;
-        anyDoubleCommunityCategories = true;
-      } else
-        commCats[comm.item1.category] = 1;
-
-      communityCategories = commCats;
-  }
-
-  static MarkerRespBody fromMap(Map map, {String? key}) => MarkerRespBody(
-    key: key??map['_key']??(throw InvalidResponseError('_key')),
-    name: map['name']??(throw InvalidResponseError('name')),
-    contact: map['contact'] == null?null:CommonContactData.fromMap(map['contact']),
-    lat: map['lat']??(throw InvalidResponseError('lat')),
-    lng: map['lng']??(throw InvalidResponseError('lng')),
-    type: strToMarkerType[map['type']??(throw InvalidResponseError('type'))]??MarkerType.ERROR,
-    visibility: strToMarkerVisibility[map['visibility']??(throw InvalidResponseError('visibility'))]??MarkerVisibility.ERROR,
-    user: UserData.fromMap(map['creatorUser']??(throw InvalidResponseError('creatorUser'))),
-    communities: ((map['communities'] as List?)??[]).map(
-            (resp) => Tuple2(CommunityPreviewData.fromResponse(resp), resp["note"] as String?)
-    ).toList(),
-  );
-
-  static MarkerRespBody fromSimple({
-    required double lat,
-    required double lng,
-    required MarkerType type,
-    required MarkerVisibility visibility,
-  }) => MarkerRespBody(
-    key: '',
-    name: '',
-    contact: null,
-    lat: lat,
-    lng: lng,
-    type: type,
-    visibility: visibility,
-    user: const UserData(
-      key: '',
-      name: '',
-      shadow: false,
-      sex: Sex.male
-    ),
-    communities: [],
-  );
-
-  void update(MarkerRespBody updatedMarker){
-
-    name = updatedMarker.name;
-    contact = updatedMarker.contact;
-
-    lat = updatedMarker.lat;
-    lng = updatedMarker.lng;
-    type = updatedMarker.type;
-    visibility = updatedMarker.visibility;
-
-    communities = updatedMarker.communities;
-
-    communityCategories = updatedMarker.communityCategories;
-    anyDoubleCommunityCategories = updatedMarker.anyDoubleCommunityCategories;
-
-  }
-
-}
 
 class ApiHarcMap{
 
   static Future<Response?> getAllMarkers({
     bool publicOnly = false,
-    FutureOr<void> Function(List<MarkerRespBody>)? onSuccess,
+    FutureOr<void> Function(List<MarkerData>)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function(Response? response)? onError,
@@ -121,13 +27,13 @@ class ApiHarcMap{
         '${API.SERVER_URL}api/harcMap${publicOnly?'/public':''}',
     ),
     onSuccess: (Response response, DateTime now) async {
-      List<MarkerRespBody> markerRespBodyList = [];
+      List<MarkerData> markerDataList = [];
       for(Map map in response.data) {
-        MarkerRespBody markerRespBody = MarkerRespBody.fromMap(map);
-        markerRespBodyList.add(markerRespBody);
+        MarkerData markerRespBody = MarkerData.fromMap(map);
+        markerDataList.add(markerRespBody);
       }
 
-      onSuccess?.call(markerRespBodyList);
+      onSuccess?.call(markerDataList);
     },
     onForceLoggedOut: onForceLoggedOut,
     onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -143,11 +49,11 @@ class ApiHarcMap{
     required MarkerVisibility visibility,
     required Map<String, String> communityKeys, // {key: note}
 
-    FutureOr<void> Function(MarkerRespBody marker)? onSuccess,
+    FutureOr<void> Function(MarkerData marker)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function()? onError,
-  }) async => await API.sendRequest(
+  }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) async => dio.post(
           '${API.SERVER_URL}api/harcMap',
@@ -165,8 +71,8 @@ class ApiHarcMap{
           })
       ),
       onSuccess: (Response response, DateTime now) async{
-        MarkerRespBody markerRespBody = MarkerRespBody.fromMap(response.data);
-        onSuccess?.call(markerRespBody);
+        MarkerData markerData = MarkerData.fromMap(response.data);
+        onSuccess?.call(markerData);
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -186,7 +92,7 @@ class ApiHarcMap{
     Map<String, String> editCommunity = const {},
     List<String> removeCommunity = const [],
 
-    FutureOr<void> Function(MarkerRespBody marker)? onSuccess,
+    FutureOr<void> Function(MarkerData marker)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function()? onError,
@@ -220,8 +126,8 @@ class ApiHarcMap{
             data: jsonEncode(reqMap)
         ),
         onSuccess: (Response response, DateTime now) async{
-          MarkerRespBody markerRespBody = MarkerRespBody.fromMap(response.data);
-          onSuccess?.call(markerRespBody);
+          MarkerData markerData = MarkerData.fromMap(response.data);
+          onSuccess?.call(markerData);
         },
         onForceLoggedOut: onForceLoggedOut,
         onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -229,5 +135,29 @@ class ApiHarcMap{
     );
 
   }
+
+  static Future<Response?> getCommunitiesOfMarker({
+    required String markerKey,
+
+    FutureOr<void> Function(List<Tuple2<CommunityPreviewData, String?>> communities)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      requestSender: (Dio dio) async => dio.get(
+          '${API.SERVER_URL}api/harcMap/$markerKey/communities',
+      ),
+      onSuccess: (Response response, DateTime now) async{
+        List<Tuple2<CommunityPreviewData, String?>> communities = [];
+
+        for(Map<String, dynamic> resp in response.data as List)
+          communities.add(Tuple2(CommunityPreviewData.fromResponse(resp), resp["note"] as String?));
+        onSuccess?.call(communities);
+      },
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (_) async => onError?.call()
+  );
 
 }

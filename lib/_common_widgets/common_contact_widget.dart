@@ -71,10 +71,13 @@ class CommonContactWidget extends StatelessWidget{
       ),
 
       if(data.other != null)
-        ContactItemWidget(
-          MdiIcons.cardTextOutline,
-          data.other!,
-          multiline: otherMultiline,
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: Dimen.ICON_MARG),
+          child: ContactItemWidget(
+            MdiIcons.cardTextOutline,
+            data.other!,
+            multiline: otherMultiline,
+          ),
         ),
 
     ],
@@ -101,7 +104,7 @@ class ContactItemWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => Row(
-    crossAxisAlignment: CrossAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.center,
     children: [
 
       const SizedBox(width: Dimen.ICON_MARG),

@@ -1,7 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/common_contact_editor_widget.dart';
-import 'package:harcapp/_new/api/harc_map.dart';
+import 'package:harcapp/_new/cat_page_harc_map/marker_data.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_editor/providers.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_type.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_visibility.dart';
@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 
 class InfoPart extends StatefulWidget{
 
-  final MarkerRespBody? initMarker;
+  final MarkerData? initMarker;
 
   const InfoPart({this.initMarker, super.key});
 
@@ -30,7 +30,7 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
   @override
   bool get wantKeepAlive => true;
 
-  MarkerRespBody? get initMarker => widget.initMarker;
+  MarkerData? get initMarker => widget.initMarker;
 
   @override
   void initState() {

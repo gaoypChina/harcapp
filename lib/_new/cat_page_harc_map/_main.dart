@@ -25,6 +25,7 @@ import 'package:provider/provider.dart';
 import '../../values/consts.dart';
 import '../api/harc_map.dart';
 import 'app_marker.dart';
+import 'marker_data.dart';
 import 'marker_editor/_main.dart';
 import 'marker_visibility.dart';
 
@@ -44,8 +45,8 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     post(() => Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackHarcMap());
   }
 
-  static List<MarkerRespBody>? markers;
-  static List<MarkerRespBody>? publicOnlyMarkers;
+  static List<MarkerData>? markers;
+  static List<MarkerData>? publicOnlyMarkers;
 
   late LoginListener loginListener;
 
@@ -207,8 +208,8 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
       ],
     ),
 
-    floatingActionButton: Consumer2<LoginProvider, CommunityProvider>(
-      builder: (context, loginProv, commProv, child) {
+    floatingActionButton: Consumer2<LoginProvider, CommunityListProvider>(
+      builder: (context, loginProv, commListProv, child) {
 
         if(!loginProv.loggedIn)
           return Container();

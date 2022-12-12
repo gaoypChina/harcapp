@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common_contact_data.dart';
+import 'package:harcapp/_new/cat_page_harc_map/marker_data.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -49,6 +50,30 @@ class CommunityManagersProvider extends ChangeNotifier{
 
 }
 
+class CommunityMarkersProvider extends ChangeNotifier{
+
+  static CommunityMarkersProvider of(BuildContext context) => Provider.of<CommunityMarkersProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
+
+  static final List<void Function()> _listeners = [];
+
+  static void addOnNotifyListener(void Function() listener){
+    _listeners.add(listener);
+  }
+
+  static void removeOnNotifyListener(void Function() listener){
+    _listeners.remove(listener);
+  }
+
+  void notify(){
+    for(void Function() listener in _listeners)
+      listener.call();
+    notifyListeners();
+  }
+
+
+}
+
 class CommunityBasicData{
 
   final String key;
@@ -56,6 +81,7 @@ class CommunityBasicData{
   String iconKey;
   CommunityCategory category;
   CommonContactData? contact;
+  List<MarkerData> markers;
 
   CommunityBasicData({
     required this.key,
@@ -63,6 +89,7 @@ class CommunityBasicData{
     required this.iconKey,
     required this.category,
     required this.contact,
+    required this.markers,
   });
 
 }
@@ -80,6 +107,7 @@ class CommunityPreviewData extends CommunityBasicData{
     required super.iconKey,
     required super.category,
     required super.contact,
+    required super.markers,
 
     required this.forum,
     required this.circle,
@@ -87,12 +115,21 @@ class CommunityPreviewData extends CommunityBasicData{
 
   static CommunityPreviewData fromResponse(Map resp){
 
+    List<MarkerData> markers = [];
+    Map markerResps = resp['markers']??(throw InvalidResponseError('markers'));
+    for(String markerKey in markerResps.keys){
+      Map markerResp = markerResps[markerKey];
+      MarkerData m = MarkerData.fromMap(markerResp, key: markerKey);
+      markers.add(m);
+    }
+
     CommunityPreviewData community = CommunityPreviewData(
       key: resp['_key']??(throw InvalidResponseError('_key')),
       name: resp['name']??(throw InvalidResponseError('name')),
       iconKey: resp['iconKey']??(throw InvalidResponseError('iconKey')),
       category: strToCommCat[resp['category']??(throw InvalidResponseError('category'))]??CommunityCategory.error,
       contact: resp['contact']==null?null:CommonContactData.fromMap(resp['contact']),
+      markers: markers,
       forum: null,
       circle: null,
     );
@@ -114,6 +151,7 @@ class CommunityPreviewData extends CommunityBasicData{
     contact: community.contact,
     forum: community.forum,
     circle: community.circle,
+    markers: community.markers
   );
 
 }
@@ -188,6 +226,16 @@ class Community extends CommunityBasicData{
     communityManagersProv.notify();
   }
 
+  static callProvidersWithMarkersOf(BuildContext context){
+    callProvidersOf(context);
+    CommunityMarkersProvider.notify_(context);
+  }
+
+  static callProvidersWithMarkers(CommunityProvider communityProv, CommunityListProvider communityListProv, CommunityMarkersProvider communityMarkersProv){
+    callProviders(communityProv, communityListProv);
+    communityMarkersProv.notify();
+  }
+
   static init(List<Community> communities, {BuildContext? context}){
 
     silentInit(communities);
@@ -233,7 +281,8 @@ class Community extends CommunityBasicData{
         contact: forum.community.contact,
         circle: null,
         forum: forum,
-        managers: []
+        managers: [],
+        markers: []
       ), context: context);
   }
 
@@ -255,7 +304,8 @@ class Community extends CommunityBasicData{
           contact: circle.community.contact,
           circle: circle,
           forum: null,
-          managers: []
+          managers: [],
+          markers: circle.community.markers
       ), context: context);
   }
 
@@ -349,6 +399,8 @@ class Community extends CommunityBasicData{
   List<CommunityManager> get managers => _managers;
   Map<String, CommunityManager> get managersMap => _managersMap;
 
+  final Map<String, MarkerData> markersMap;
+
   void update(Community updatedCommunity){
     name = updatedCommunity.name;
     iconKey = updatedCommunity.iconKey;
@@ -391,6 +443,44 @@ class Community extends CommunityBasicData{
     if(context == null) return;
     callProvidersWithManagersOf(context);
   }
+
+
+  void addMarker(List<MarkerData> newMarker, {BuildContext? context}){
+
+    for(MarkerData marker in newMarker) {
+      markers.add(marker);
+      markersMap[marker.key] = marker;
+    }
+
+    if(context == null) return;
+    callProvidersWithMarkersOf(context);
+
+  }
+
+  void setAllMarkers(List<MarkerData> allMarkers, {BuildContext? context}){
+    markers.clear();
+    markersMap.clear();
+    markers.addAll(allMarkers);
+    markers.sort((m1, m2) => m1.name.compareTo(m2.name));
+    markersMap.addAll({for (MarkerData? m in allMarkers) m!.key: m});
+
+    if(context == null) return;
+    callProvidersWithMarkersOf(context);
+  }
+
+  void updateMarkers(List<MarkerData> newMarkers, {BuildContext? context}){
+
+    for(MarkerData marker in newMarkers) {
+      int index = markers.indexWhere((markerIter) => markerIter.key == marker.key);
+      markers.removeAt(index);
+      markers.insert(index, marker);
+      markersMap[marker.key] = marker;
+    }
+
+    if(context == null) return;
+    callProvidersWithMarkersOf(context);
+  }
+
 
   void removeManagersByKey(List<String> managerKeys, {BuildContext? context}){
 
@@ -439,6 +529,7 @@ class Community extends CommunityBasicData{
     required super.iconKey,
     required super.category,
     required super.contact,
+    required super.markers,
 
     required Circle? circle,
     required Forum? forum,
@@ -448,7 +539,8 @@ class Community extends CommunityBasicData{
   }): _circle = circle,
       _forum = forum,
       _managers = managers,
-      _managersMap = {for (CommunityManager m in managers) m.key: m}
+      _managersMap = {for (CommunityManager m in managers) m.key: m},
+      markersMap = {for (MarkerData m in markers) m.key: m}
   {
     _managers.sort((m1, m2) => m1.name.compareTo(m2.name));
   }
@@ -463,6 +555,14 @@ class Community extends CommunityBasicData{
       managers.add(m);
     }
 
+    List<MarkerData> markers = [];
+    Map markerResps = resp['markers']??{};
+    for(String markerKey in markerResps.keys){
+      Map markerResp = markerResps[markerKey];
+      MarkerData m = MarkerData.fromMap(markerResp, key: markerKey);
+      markers.add(m);
+    }
+
     Community community = Community(
       key: resp['_key']??(throw InvalidResponseError('_key')),
       name: resp['name']??(throw InvalidResponseError('name')),
@@ -472,6 +572,8 @@ class Community extends CommunityBasicData{
       circle: null,
       forum: null,
       managers: managers,
+      markers: markers,
+
     );
 
     if(resp['circle'] != null)

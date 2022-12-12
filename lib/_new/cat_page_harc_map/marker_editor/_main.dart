@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/api/harc_map.dart';
+import 'package:harcapp/_new/cat_page_harc_map/marker_data.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_editor/providers.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -16,8 +17,8 @@ import 'location_part.dart';
 
 class MarkerEditorPage extends StatefulWidget{
 
-  final MarkerRespBody? initMarker;
-  final void Function(MarkerRespBody marker)? onSuccess;
+  final MarkerData? initMarker;
+  final void Function(MarkerData marker)? onSuccess;
 
   const MarkerEditorPage({this.initMarker, this.onSuccess, super.key});
 
@@ -28,8 +29,8 @@ class MarkerEditorPage extends StatefulWidget{
 
 class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderStateMixin{
 
-  MarkerRespBody? get initMarker => widget.initMarker;
-  void Function(MarkerRespBody marker)? get onSuccess => widget.onSuccess;
+  MarkerData? get initMarker => widget.initMarker;
+  void Function(MarkerData marker)? get onSuccess => widget.onSuccess;
 
   late TabController controller;
 
@@ -115,7 +116,7 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
 
                         communityKeys: bindedCommProv.addedCommunities,
 
-                        onSuccess: (MarkerRespBody marker){
+                        onSuccess: (MarkerData marker){
                           onSuccess?.call(marker);
                           Navigator.pop(context);
                         },
@@ -158,7 +159,7 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
                         editCommunity: bindedCommProv.editedCommunities,
                         removeCommunity: bindedCommProv.removedCommunities,
 
-                        onSuccess: (MarkerRespBody marker){
+                        onSuccess: (MarkerData marker){
                           onSuccess?.call(marker);
                           Navigator.pop(context);
                         },

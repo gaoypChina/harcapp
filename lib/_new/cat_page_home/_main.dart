@@ -772,7 +772,8 @@ class NotLoggedInPartCommunitiesWidget extends StatelessWidget{
                           phone: [],
                           website: [],
                           other: null,
-                        )
+                        ),
+                        markers: []
                       ),
                     ),
                     respMode: AnnouncementAttendanceRespMode.NONE,
@@ -833,7 +834,8 @@ class NotLoggedInPartCommunitiesWidget extends StatelessWidget{
                             phone: [],
                             website: [],
                             other: null,
-                          )
+                          ),
+                          markers: []
                         ),
                       )
                   ),

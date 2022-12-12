@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../common/community_cover_colors.dart';
+import '../common_widgets/community_markers_widget.dart';
 import '../community_category_widget.dart';
 import '../community_publishable_widget_template.dart';
 import '../community_sliver_app_bar.dart';
@@ -146,7 +147,6 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                     padding: const EdgeInsets.only(
                       left: Dimen.SIDE_MARG,
                       right: Dimen.SIDE_MARG - Dimen.ICON_MARG,
-                      bottom: Dimen.SIDE_MARG,
                     ),
                     child: Align(
                       alignment: Alignment.centerLeft,
@@ -154,15 +154,30 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                     ),
                   ),
 
+                  if(forum.community.markers.isNotEmpty)
+                    CommunityMarkersWidget(
+                      forum.community.markers,
+                      padding: const EdgeInsets.only(
+                        top: Dimen.SIDE_MARG,
+                        left: Dimen.SIDE_MARG,
+                        right: Dimen.SIDE_MARG,
+                      ),
+                      customPointer: const Icon(MdiIcons.mapMarkerCircle)
+                    ),
+
+
                   Padding(
                     padding: const EdgeInsets.only(
+                      top: Dimen.SIDE_MARG,
                       left: Dimen.SIDE_MARG - TitleShortcutRowWidget.textStartPadding,
                     ),
                     child: TitleShortcutRowWidget(
                       title: 'Polubienia',
                       titleColor: hintEnab_(context),
                       trailing: Padding(
-                        padding: const EdgeInsets.only(right: Dimen.SIDE_MARG),
+                        padding: const EdgeInsets.only(
+                          right: Dimen.SIDE_MARG
+                        ),
                         child: Material(
                           borderRadius: BorderRadius.circular(AppCard.bigRadius),
                           color: hintEnab_(context),
@@ -276,6 +291,7 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                   if(forum.hasDescription)
                     Padding(
                       padding: const EdgeInsets.only(
+                        top: Dimen.SIDE_MARG,
                         left: Dimen.SIDE_MARG - TitleShortcutRowWidget.textStartPadding,
                       ),
                       child: TitleShortcutRowWidget(

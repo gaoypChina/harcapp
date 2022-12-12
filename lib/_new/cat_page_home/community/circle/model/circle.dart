@@ -384,7 +384,7 @@ class Circle extends CircleBasicData{
   static Circle fromResponse(Map resp, CommunityBasicData community){
 
     List<Member> members = [];
-    Map memResps = resp['members']??(throw InvalidResponseError('_key'));
+    Map memResps = resp['members']??(throw InvalidResponseError('members'));
     for(String userKey in memResps.keys as Iterable<String>){
       Map memResp = memResps[userKey];
       Member memData = Member.fromMap(memResp, key: userKey);

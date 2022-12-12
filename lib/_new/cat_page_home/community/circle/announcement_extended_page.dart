@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/account_header_widget.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_new/cat_page_home/community/community_publishable.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_publishable_widget_template.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -73,6 +72,7 @@ class AnnouncementExpandedPageState extends State<AnnouncementExpandedPage> with
         backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
         appBottomNavColor: CommunityCoverColors.backgroundColor(context, palette),
         body: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
           slivers: [
 
             SliverAppBar(
