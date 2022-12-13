@@ -207,7 +207,7 @@ class CommunityCategorySelectorDialogState extends State<CommunityCategorySelect
 
   @override
   void initState() {
-    searchedCommunityCategories = CommunityCategory.values;
+    searchedCommunityCategories = allUsableCommunityCategory;
     selectedCategory = initialCategory;
     super.initState();
   }

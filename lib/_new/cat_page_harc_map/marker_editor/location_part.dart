@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:harcapp/_new/cat_page_harc_map/_main.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_data.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -71,14 +72,15 @@ class LocationPartState extends State<LocationPart> with AfterLayoutMixin, Autom
                       center: LatLng(posProv.lat, posProv.lng),
                       zoom: 10,
                       minZoom: 2,
-                      maxZoom: 18.0,
+                      maxZoom: CatPageHarcMap.maxZoom,
+                      interactiveFlags: CatPageHarcMap.interactiveFlags,
                       onPositionChanged: (MapPosition position, bool _){
                         if(posProv.editMode) posProv.setTmpMarkerPosition(position.center!);
                       }
                   ),
                   children: [
                     TileLayer(
-                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      urlTemplate: CatPageHarcMap.tileServer,
                       userAgentPackageName: 'dev.fleaflet.flutter_map.example',
                     ),
                     MarkerLayer(markers: [

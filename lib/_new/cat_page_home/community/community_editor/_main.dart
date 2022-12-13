@@ -182,7 +182,7 @@ class CommunityEditorPageState extends State<CommunityEditorPage>{
 
                 if(initCommunity != null)
                   DangerPart(
-                    initCommunity,
+                    initCommunity!,
                     onDeleted: (){
                       Navigator.pop(context);
                       onDeleted?.call();

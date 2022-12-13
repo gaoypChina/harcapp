@@ -5,9 +5,9 @@ import 'package:harcapp/_new/cat_page_harc_map/marker_data.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_editor/providers.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_type.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_visibility.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -46,22 +46,6 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
       children: [
 
         TitleShortcutRowWidget(
-          title: 'Nazwa',
-          titleColor: hintEnab_(context),
-          textAlign: TextAlign.left,
-        ),
-
-        Consumer<NameProvider>(
-          builder: (context, prov, child) => AppTextFieldHint(
-            controller: prov.controller,
-            focusNode: prov.focusNode,
-            hint: 'Nazwa miejsca:',
-            hintTop: '',
-          ),
-        ),
-
-        const SizedBox(height: Dimen.SIDE_MARG),
-        TitleShortcutRowWidget(
           title: 'Typ miejsca',
           titleColor: hintEnab_(context),
           textAlign: TextAlign.left,
@@ -71,6 +55,7 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
               child: DropdownButton2(
                 isExpanded: true,
                 dropdownPadding: EdgeInsets.zero,
+                dropdownMaxHeight: MediaQuery.of(context).size.height/2,
                 itemPadding: EdgeInsets.zero,
                 icon: const SizedBox(
                   width: Dimen.ICON_FOOTPRINT,
@@ -91,14 +76,29 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
                 buttonHeight: Dimen.ICON_SIZE + 2*16.0,
                 buttonDecoration: BoxDecoration(
                   color: backgroundIcon_(context),
-                  borderRadius: BorderRadius.circular(AppCard.defRadius),
+                  borderRadius: BorderRadius.circular(communityRadius),
                 ),
 
                 itemHeight: Dimen.ICON_SIZE + 2*16.0,
                 dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                  borderRadius: BorderRadius.circular(communityRadius),
                 ),
               )
+          ),
+        ),
+
+        const SizedBox(height: Dimen.SIDE_MARG),
+        TitleShortcutRowWidget(
+          title: 'Nazwa',
+          titleColor: hintEnab_(context),
+          textAlign: TextAlign.left,
+        ),
+        Consumer<NameProvider>(
+          builder: (context, prov, child) => AppTextFieldHint(
+            controller: prov.controller,
+            focusNode: prov.focusNode,
+            hint: 'Nazwa miejsca (jeśli jakoweś ma):',
+            hintTop: '',
           ),
         ),
 
@@ -133,12 +133,12 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
                 buttonHeight: Dimen.ICON_SIZE + 2*16.0,
                 buttonDecoration: BoxDecoration(
                   color: backgroundIcon_(context),
-                  borderRadius: BorderRadius.circular(AppCard.defRadius),
+                  borderRadius: BorderRadius.circular(communityRadius),
                 ),
 
                 itemHeight: Dimen.ICON_SIZE + 2*16.0,
                 dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                  borderRadius: BorderRadius.circular(communityRadius),
                 ),
               )
           ),
@@ -153,11 +153,11 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
 
         Consumer<ContactProvider>(
           builder: (context, prov, child) => CommonContactEditorWidget(
-            initContactData: prov.contactData,
-            onEmailsChanged: (emails) => prov.contactData.email = emails,
-            onPhonesChanged: (phones) => prov.contactData.phone = phones,
-            onWebsitesChanged: (websites) => prov.contactData.website = websites,
-            onOtherChanged: (other) => prov.contactData.other = other,
+            initContactData: prov.contact,
+            onEmailsChanged: (emails) => prov.contact.email = emails,
+            onPhonesChanged: (phones) => prov.contact.phone = phones,
+            onWebsitesChanged: (websites) => prov.contact.website = websites,
+            onOtherChanged: (other) => prov.contact.other = other,
           ),
         ),
 

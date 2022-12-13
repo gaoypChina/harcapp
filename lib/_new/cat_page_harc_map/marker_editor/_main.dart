@@ -3,6 +3,7 @@ import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/api/harc_map.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_data.dart';
+import 'package:harcapp/_new/cat_page_harc_map/marker_editor/danger_part.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_editor/providers.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -36,7 +37,7 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
 
   @override
   void initState() {
-    controller = TabController(length: 3, vsync: this);
+    controller = TabController(length: initMarker==null?3:4, vsync: this);
     super.initState();
   }
 
@@ -88,17 +89,17 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
 
                     NameProvider nameProv = NameProvider.of(context);
 
-                    if(nameProv.name.isEmpty){
-
-                      controller.animateTo(0);
-                      nameProv.focusNode.requestFocus();
-                      showAppToast(
-                          context,
-                          text: 'Wypadałoby podać jakąś nazwę, nie...?',
-                          duration: const Duration(seconds: 8)
-                      );
-                      return;
-                    }
+                    // if(nameProv.name.isEmpty){
+                    //
+                    //   controller.animateTo(0);
+                    //   nameProv.focusNode.requestFocus();
+                    //   showAppToast(
+                    //       context,
+                    //       text: 'Wypadałoby podać jakąś nazwę, nie...?',
+                    //       duration: const Duration(seconds: 8)
+                    //   );
+                    //   return;
+                    // }
 
                     MarkerTypeProvider markerTypeProv = MarkerTypeProvider.of(context);
                     MarkerVisibilityProvider markerVisibilityProv = MarkerVisibilityProvider.of(context);
@@ -106,9 +107,9 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
                     BindedCommunitiesProvider bindedCommProv = BindedCommunitiesProvider.of(context);
 
                     if(initMarker == null)
-                      ApiHarcMap.createMarker(
+                      ApiHarcMap.create(
                         name: nameProv.name,
-                        contact: contactProv.contactData,
+                        contact: contactProv.contact,
                         lat: positionProv.lat,
                         lng: positionProv.lng,
                         type: markerTypeProv.markerType,
@@ -128,16 +129,20 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
                           return true;
                         },
                         onError: (){
-
+                          if(mounted) showAppToast(context, text: simpleErrorMessage);
                         },
                       );
                     else
-                      ApiHarcMap.updateMarker(
+                      ApiHarcMap.update(
                         markerKey: initMarker!.key,
-                        name: nameProv.name,
-                        contact: initMarker!.contact == contactProv.contactData?
-                        const Optional.empty():
-                        Optional.of(Tuple2(initMarker!.contact, contactProv.contactData)),
+
+                        name: initMarker!.name == nameProv.name?
+                        null:
+                        Optional.of(nameProv.name),
+
+                        contact: initMarker!.contact == contactProv.contact?
+                        null:
+                        Optional.of(Tuple2(initMarker!.contact, contactProv.contact)),
 
                         lat: initMarker!.lat != positionProv.lat?
                         positionProv.lat:
@@ -171,7 +176,7 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
                           return true;
                         },
                         onError: (){
-
+                          if(mounted) showAppToast(context, text: simpleErrorMessage);
                         },
                       );
 
@@ -181,11 +186,14 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
               bottom: TabBar(
                 controller: controller,
                 physics: const BouncingScrollPhysics(),
+                isScrollable: initMarker != null,
                 indicator: AppTabBarIncdicator(context: context),
-                tabs: const [
-                  Tab(text: 'Informacje'),
-                  Tab(text: 'Środowiska'),
-                  Tab(text: 'Lokalizacja'),
+                tabs: [
+                  const Tab(text: 'Informacje'),
+                  const Tab(text: 'Środowiska'),
+                  const Tab(text: 'Lokalizacja'),
+                  if(initMarker != null)
+                    const Tab(text: 'Strefa zagrożenia'),
                 ],
               ),
 
@@ -196,10 +204,18 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
         body: TabBarView(
           physics: const BouncingScrollPhysics(),
           controller: controller,
-          children: const [
-            InfoPart(),
-            CommunitiesPart(),
-            LocationPart(),
+          children: [
+            const InfoPart(),
+            const CommunitiesPart(),
+            const LocationPart(),
+            if(initMarker != null)
+              DangerPart(
+                initMarker!,
+                onDeleted: (){
+                  Navigator.pop(context);
+                  setState(() {});
+                },
+              )
           ],
         ),
 

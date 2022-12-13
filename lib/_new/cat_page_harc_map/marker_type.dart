@@ -2,6 +2,9 @@ enum MarkerType{
   ERROR,
 
   HARCOWKA,
+  MIEJSCE_OGNISKOWE,
+  MIEJSCE_BIWAKOWE,
+  MIEJSCE_OBOZOWE,
   SZKOLA,
   KOSCIOL,
   SALA_PARAFIALNA,
@@ -27,6 +30,9 @@ String markerTypeToStr(MarkerType type){
 
   switch(type){
     case MarkerType.HARCOWKA: return 'HARCOWKA';
+    case MarkerType.MIEJSCE_OGNISKOWE: return 'MIEJSCE_OGNISKOWE';
+    case MarkerType.MIEJSCE_BIWAKOWE: return 'MIEJSCE_BIWAKOWE';
+    case MarkerType.MIEJSCE_OBOZOWE: return 'MIEJSCE_OBOZOWE';
     case MarkerType.SZKOLA: return 'SZKOLA';
     case MarkerType.KOSCIOL: return 'KOSCIOL';
     case MarkerType.SALA_PARAFIALNA: return 'SALA_PARAFIALNA';
@@ -46,6 +52,9 @@ String markerTypeToStr(MarkerType type){
 
 Map<String, MarkerType> strToMarkerType = {
   'HARCOWKA': MarkerType.HARCOWKA,
+  'MIEJSCE_OGNISKOWE': MarkerType.MIEJSCE_OGNISKOWE,
+  'MIEJSCE_BIWAKOWE': MarkerType.MIEJSCE_BIWAKOWE,
+  'MIEJSCE_OBOZOWE': MarkerType.MIEJSCE_OBOZOWE,
   'SZKOLA': MarkerType.SZKOLA,
   'KOSCIOL': MarkerType.KOSCIOL,
   'SALA_PARAFIALNA': MarkerType.SALA_PARAFIALNA,
@@ -68,6 +77,12 @@ String markerTypeToName(MarkerType markerType){
 
     case MarkerType.HARCOWKA:
       return 'Harcówka';
+    case MarkerType.MIEJSCE_OGNISKOWE:
+      return 'Miejsce Ogniskowe';
+    case MarkerType.MIEJSCE_BIWAKOWE:
+      return 'Miejsce biwakowe';
+    case MarkerType.MIEJSCE_OBOZOWE:
+      return 'Miejsce obozowe';
     case MarkerType.SZKOLA:
       return 'Szkoła';
     case MarkerType.KOSCIOL:

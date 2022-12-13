@@ -359,7 +359,7 @@ class DefaultLayoutState extends State<DefaultLayout>{
                           icon: MdiIcons.earth,
                           subtext: (fact){
                             if(fact == ecoFactPopulation) return null;
-                            return 'Warto być <b>zawsze pogodnym</b>:\nna Ziemii żyje się coraz lepiej!';
+                            return 'Warto być <b>zawsze pogodnym</b>:\nna Ziemi żyje się coraz lepiej!';
                           }
                         )
 

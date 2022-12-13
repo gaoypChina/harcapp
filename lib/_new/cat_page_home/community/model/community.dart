@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common_contact_data.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_data.dart';
+import 'package:harcapp/_new/cat_page_harc_map/marker_type.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -461,7 +462,7 @@ class Community extends CommunityBasicData{
     markers.clear();
     markersMap.clear();
     markers.addAll(allMarkers);
-    markers.sort((m1, m2) => m1.name.compareTo(m2.name));
+    markers.sort((m1, m2) => (m1.name??markerTypeToName(m1.type)).compareTo(m2.name??markerTypeToName(m2.type)));
     markersMap.addAll({for (MarkerData? m in allMarkers) m!.key: m});
 
     if(context == null) return;

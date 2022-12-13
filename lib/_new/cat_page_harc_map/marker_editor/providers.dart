@@ -41,8 +41,8 @@ class PositionProvider extends ChangeNotifier{
           point: point,
           builder: (context) =>
           PositionProvider.of(context).editMode?
-          const Icon(MdiIcons.circleSmall):
-          const Icon(MdiIcons.mapMarkerCircle)
+          const Icon(MdiIcons.circleSmall, color: Colors.black):
+          const Icon(MdiIcons.mapMarkerCircle, color: Colors.black)
       );
 
   static void applyPosition_(BuildContext context) => of(context).applyPosition();
@@ -139,10 +139,10 @@ class ContactProvider extends ChangeNotifier{
 
   static void notify_(BuildContext context) => of(context).notify();
 
-  late CommonContactData contactData;
+  late CommonContactData contact;
 
   ContactProvider({MarkerData? initMarker}){
-    contactData = initMarker?.contact??CommonContactData.empty();
+    contact = initMarker?.contact??CommonContactData.empty();
   }
 
   void notify() => notifyListeners();

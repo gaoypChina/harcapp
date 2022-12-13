@@ -13,7 +13,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class DangerPart extends StatefulWidget{
 
-  final Community? community;
+  final Community community;
   final void Function()? onDeleted;
   final void Function()? onLeft;
   final void Function()? onError;
@@ -27,7 +27,7 @@ class DangerPart extends StatefulWidget{
 
 class DangerPartState extends State<DangerPart>{
 
-  Community? get community => widget.community;
+  Community get community => widget.community;
   void Function()? get onLeft => widget.onLeft;
 
   @override
@@ -37,6 +37,9 @@ class DangerPartState extends State<DangerPart>{
     children: [
 
       ListTile(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(communityRadius),
+        ),
         leading: const Icon(MdiIcons.vanish),
         title: Text(
           'Rozwiąż środowisko',
@@ -59,24 +62,24 @@ class DangerPartState extends State<DangerPart>{
                     showLoadingWidget(context, iconEnab_(context), 'Zwijanie kręgu...');
 
                     await ApiCommunity.delete(
-                      communityKey: community!.key,
-                      onSuccess: () async {
-                        Community.removeFromAll(community!, context: context);
-                        showAppToast(context, text: 'Poszło z dymem!');
-                        await popPage(context); // Close loading widget.
+                        communityKey: community.key,
+                        onSuccess: () async {
+                          Community.removeFromAll(community, context: context);
+                          showAppToast(context, text: 'Poszło z dymem!');
+                          await popPage(context); // Close loading widget.
 
-                        widget.onDeleted?.call();
-                      },
-                      onServerMaybeWakingUp: () {
-                        if(mounted) showServerWakingUpToast(context);
-                        return true;
-                      },
-                      onError: () async {
-                        if(mounted) showAppToast(context, text: simpleErrorMessage);
-                        await popPage(context); // Close loading widget.
+                          widget.onDeleted?.call();
+                        },
+                        onServerMaybeWakingUp: () {
+                          if(mounted) showServerWakingUpToast(context);
+                          return true;
+                        },
+                        onError: () async {
+                          if(mounted) showAppToast(context, text: simpleErrorMessage);
+                          await popPage(context); // Close loading widget.
 
-                        widget.onError?.call();
-                      }
+                          widget.onError?.call();
+                        }
                     );
                   }
               )

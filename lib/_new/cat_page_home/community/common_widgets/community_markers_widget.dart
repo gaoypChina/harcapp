@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:harcapp/_new/cat_page_harc_map/_main.dart';
 import 'package:harcapp/_new/cat_page_harc_map/app_marker.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_data.dart';
+import 'package:harcapp/_new/cat_page_harc_map/marker_type.dart';
 import 'package:harcapp/values/consts.dart';
+import 'package:harcapp_core/comm_classes/app_text_style.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -17,7 +21,7 @@ class CommunityMarkersWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => SizedBox(
-    height: MarkerWidget.size + padding.vertical,
+    height: MarkerWidget.height + padding.vertical,
     child: ListView.separated(
         physics: const BouncingScrollPhysics(),
         padding: padding,
@@ -32,8 +36,11 @@ class CommunityMarkersWidget extends StatelessWidget{
 
 class MarkerWidget extends StatelessWidget{
 
-  static const double size = 100;
+  static const double height = width + textAreaHeight;
+  static const double width = 100.0;
 
+  static const double textAreaHeight = 2*Dimen.TEXT_SIZE_NORMAL + 2*Dimen.defMarg;
+  
   final MarkerData marker;
   final Widget? customPointer;
 
@@ -43,32 +50,53 @@ class MarkerWidget extends StatelessWidget{
   Widget build(BuildContext context) => Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(communityRadius),
+      color: backgroundIcon_(context),
     ),
     clipBehavior: Clip.hardEdge,
-    height: size,
-    width: size,
-    child: IgnorePointer(
-      child: FlutterMap(
-        options: MapOptions(
-          center: LatLng(marker.lat, marker.lng),
-          zoom: 16,
-        ),
-        children: [
-          TileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+    height: height,
+    width: width,
+    child: Column(
+      children: [
+
+        Expanded(
+          child: IgnorePointer(
+            child: FlutterMap(
+              options: MapOptions(
+                center: LatLng(marker.lat, marker.lng),
+                zoom: 16,
+              ),
+              children: [
+                TileLayer(
+                  urlTemplate: CatPageHarcMap.tileServer,
+                  userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+                ),
+
+                MarkerLayer(
+                    rotate: true,
+                    markers:
+                    customPointer==null?
+                    [AppMarker(marker: marker)]:
+                    [Marker(point: LatLng(marker.lat, marker.lng), builder: (context) => customPointer!)]
+                )
+
+              ],
+            ),
           ),
+        ),
 
-          MarkerLayer(
-              rotate: true,
-              markers:
-              customPointer==null?
-              [AppMarker(marker: marker)]:
-              [Marker(point: LatLng(marker.lat, marker.lng), builder: (context) => customPointer!)]
+        SizedBox(
+          height: textAreaHeight,
+          child: Padding(
+            padding: const EdgeInsets.all(Dimen.defMarg),
+            child: Text(
+              marker.name??markerTypeToName(marker.type),
+              style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_NORMAL),
+              maxLines: 2,
+            ),
           )
+        )
 
-        ],
-      ),
+      ],
     ),
   );
 

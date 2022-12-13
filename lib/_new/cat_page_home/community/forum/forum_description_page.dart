@@ -162,7 +162,7 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                         left: Dimen.SIDE_MARG,
                         right: Dimen.SIDE_MARG,
                       ),
-                      customPointer: const Icon(MdiIcons.mapMarkerCircle)
+                      customPointer: const Icon(MdiIcons.mapMarkerCircle, color: Colors.black)
                     ),
 
 

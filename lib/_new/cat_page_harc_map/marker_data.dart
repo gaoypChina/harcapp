@@ -11,7 +11,7 @@ import '../cat_page_home/community/model/community_category.dart';
 class MarkerData{
 
   final String key;
-  String name;
+  String? name;
   CommonContactData? contact;
   double lat;
   double lng;
@@ -54,7 +54,7 @@ class MarkerData{
 
     return MarkerData(
         key: key??map['_key']??(throw InvalidResponseError('_key')),
-        name: map['name']??(throw InvalidResponseError('name')),
+        name: map['name'],
         contact: map['contact'] == null?null:CommonContactData.fromMap(map['contact']),
         lat: map['lat']??(throw InvalidResponseError('lat')),
         lng: map['lng']??(throw InvalidResponseError('lng')),

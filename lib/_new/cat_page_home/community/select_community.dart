@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/cat_page_home/community/common_widgets/community_header_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_role.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -88,7 +88,7 @@ class CommunitySelectDialogState extends State<CommunitySelectDialog>{
     child: Padding(
       padding: const EdgeInsets.all(Dimen.SIDE_MARG),
       child: Material(
-        borderRadius: BorderRadius.circular(AppCard.bigRadius),
+        borderRadius: BorderRadius.circular(communityRadius),
         clipBehavior: Clip.hardEdge,
         color: background_(context),
         child: Column(
@@ -141,6 +141,7 @@ class CommunitySelectDialogState extends State<CommunitySelectDialog>{
                 Expanded(
                   child: SimpleButton.from(
                       context: context,
+                      radius: communityRadius,
                       margin: EdgeInsets.zero,
                       icon: MdiIcons.arrowLeft,
                       text: 'Wróć',
@@ -151,6 +152,7 @@ class CommunitySelectDialogState extends State<CommunitySelectDialog>{
                 Expanded(
                   child: SimpleButton.from(
                       margin: EdgeInsets.zero,
+                      radius: communityRadius,
                       textColor: selectedKey==null?iconDisab_(context):iconEnab_(context),
                       icon: MdiIcons.check,
                       iconLeading: false,

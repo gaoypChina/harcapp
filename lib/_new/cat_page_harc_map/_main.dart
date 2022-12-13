@@ -24,12 +24,21 @@ import 'package:provider/provider.dart';
 
 import '../../values/consts.dart';
 import '../api/harc_map.dart';
+import '../app_drawer.dart';
 import 'app_marker.dart';
 import 'marker_data.dart';
 import 'marker_editor/_main.dart';
 import 'marker_visibility.dart';
 
 class CatPageHarcMap extends StatefulWidget{
+
+  static const double maxZoom = 18.0;
+  static const String tileServer = 'https://tile.osmand.net/hd/{z}/{x}/{y}.png';
+  static const int interactiveFlags = InteractiveFlag.drag |
+  InteractiveFlag.flingAnimation |
+  InteractiveFlag.pinchMove |
+  InteractiveFlag.pinchZoom |
+  InteractiveFlag.doubleTapZoom;
 
   const CatPageHarcMap({super.key});
 
@@ -150,13 +159,17 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
             center: LatLng(54.5, 19.5),
             zoom: 5,
             minZoom: 2,
-            maxZoom: 18.0,
+            maxZoom: CatPageHarcMap.maxZoom,
+
+            interactiveFlags: CatPageHarcMap.interactiveFlags
           ),
           mapController: mapController,
           children: [
             TileLayer(
-              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+              // urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
               // urlTemplate: 'http://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
+              // urlTemplate: 'https://cdn.lima-labs.com/{z}/{x}/{y}.png?api=demo',
+              urlTemplate: CatPageHarcMap.tileServer,
               userAgentPackageName: 'dev.fleaflet.flutter_map.example',
             ),
             if(markers != null)
@@ -175,10 +188,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
               children: [
                 SearchField(
                   elevation: AppCard.defElevation,
-                  leading: IconButton(
-                    icon: const Icon(MdiIcons.menu),
-                    onPressed: (){},
-                  ),
+                  leading: const AccountHeaderIcon(),
                   hint: 'Szukaj...',
                 ),
 

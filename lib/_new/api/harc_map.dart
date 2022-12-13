@@ -40,8 +40,8 @@ class ApiHarcMap{
     onError: (err) async => onError?.call(err.response)
   );
 
-  static Future<Response?> createMarker({
-    required String name,
+  static Future<Response?> create({
+    required String? name,
     required CommonContactData? contact,
     required double lat,
     required double lng,
@@ -79,10 +79,10 @@ class ApiHarcMap{
       onError: (_) async => onError?.call()
   );
 
-  static Future<Response?> updateMarker({
+  static Future<Response?> update({
     required String markerKey,
-    String? name,
-    Optional<Tuple2<CommonContactData?, CommonContactData?>> contact = const Optional.empty(),
+    Optional<String>? name,
+    Optional<Tuple2<CommonContactData?, CommonContactData?>>? contact,
     double? lat,
     double? lng,
     MarkerType? type,
@@ -99,10 +99,10 @@ class ApiHarcMap{
   }) async {
 
     Map<String, dynamic> reqMap = {};
-    if(name != null) reqMap['name'] = name.trim();
-    if(contact.isPresent){
-      CommonContactData? oldContact = contact.value.item1;
-      CommonContactData? newContact = contact.value.item2;
+    if(name != null) reqMap['name'] = name.orElseNull?.trim();
+    if(contact != null){
+      CommonContactData? oldContact = contact.orElseNull?.item1;
+      CommonContactData? newContact = contact.orElseNull?.item2;
       reqMap['contact'] = newContact?.toUpdateMap(oldContact);
     }
     if(lat != null) reqMap['lat'] = lat;
@@ -116,7 +116,7 @@ class ApiHarcMap{
     if(removeCommunity.isNotEmpty) communities['removeByKey'] = removeCommunity;
     if(communities.isNotEmpty) reqMap['communities'] = communities;
 
-    await API.sendRequest(
+    return await API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) async => dio.put(
             '${API.SERVER_URL}api/harcMap/$markerKey',
@@ -129,6 +129,28 @@ class ApiHarcMap{
           MarkerData markerData = MarkerData.fromMap(response.data);
           onSuccess?.call(markerData);
         },
+        onForceLoggedOut: onForceLoggedOut,
+        onServerMaybeWakingUp: onServerMaybeWakingUp,
+        onError: (_) async => onError?.call()
+    );
+
+  }
+
+  static Future<Response?> delete({
+    required String markerKey,
+
+    FutureOr<void> Function()? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) async {
+
+    return await API.sendRequest(
+        withToken: true,
+        requestSender: (Dio dio) async => dio.delete(
+            '${API.SERVER_URL}api/harcMap/$markerKey',
+        ),
+        onSuccess: (Response response, DateTime now) => onSuccess?.call(),
         onForceLoggedOut: onForceLoggedOut,
         onServerMaybeWakingUp: onServerMaybeWakingUp,
         onError: (_) async => onError?.call()

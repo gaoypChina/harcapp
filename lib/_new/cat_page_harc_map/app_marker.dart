@@ -12,6 +12,7 @@ import 'package:harcapp/_new/api/harc_map.dart';
 import 'package:harcapp/_new/cat_page_home/community/common_widgets/community_header_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community_category.dart';
+import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -81,9 +82,10 @@ class AppMarker extends Marker{
               if(children.isEmpty)
                 return Center(
                   child: Material(
+                    color: Colors.white,
                     elevation: 2.0,
                     borderRadius: BorderRadius.circular(Dimen.ICON_SIZE),
-                    child: const Icon(MdiIcons.mapMarker),
+                    child: const Icon(MdiIcons.mapMarker, color: Colors.black),
                   ),
                 );
 
@@ -183,50 +185,62 @@ Future<void> showMarkerBottomSheet(BuildContext context, MarkerData marker) asyn
                   const SizedBox(
                       width: Dimen.APPBAR_LEADING_WIDTH - Dimen.ICON_FOOTPRINT),
 
-                  Expanded(child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-
-                      const SizedBox(
-                        height: Dimen.ICON_MARG +
-                            (Dimen.ICON_SIZE - Dimen.TEXT_SIZE_APPBAR) / 2,
-                      ),
-
-                      Text(marker.name, style: AppTextStyle(
+                  if(marker.name == null || marker.name!.isEmpty)
+                    Expanded(child: Padding(
+                      padding: const EdgeInsets.only(top: Dimen.ICON_MARG +
+                          (Dimen.ICON_SIZE - Dimen.TEXT_SIZE_APPBAR) / 2),
+                      child: Text(markerTypeToName(marker.type), style: AppTextStyle(
                           fontSize: Dimen.TEXT_SIZE_APPBAR,
                           fontWeight: weight.bold,
                           color: iconEnab_(context)
                       )),
+                    ))
+                  else
+                    Expanded(child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
 
-                      const SizedBox(height: Dimen.defMarg),
+                        const SizedBox(
+                          height: Dimen.ICON_MARG +
+                              (Dimen.ICON_SIZE - Dimen.TEXT_SIZE_APPBAR) / 2,
+                        ),
 
-                      Text(
-                          markerTypeToName(marker.type),
-                          style: AppTextStyle(
-                              color: textEnab_(context),
-                              fontWeight: weight.halfBold
-                          )
-                      )
+                        Text(marker.name!, style: AppTextStyle(
+                            fontSize: Dimen.TEXT_SIZE_APPBAR,
+                            fontWeight: weight.bold,
+                            color: iconEnab_(context)
+                        )),
 
-                    ],
-                  )),
+                        const SizedBox(height: Dimen.defMarg),
 
-                  IconButton(
-                    icon: const Icon(MdiIcons.pencilOutline),
-                    onPressed: () {
-                      Navigator.pop(context);
-                      pushPage(
-                          context,
-                          builder: (context) =>
-                              MarkerEditorPage(
-                                initMarker: marker,
-                                onSuccess: (updatedMarker) {
-                                  marker.update(updatedMarker);
-                                },
-                              )
-                      );
-                    },
-                  ),
+                        Text(
+                            markerTypeToName(marker.type),
+                            style: AppTextStyle(
+                                color: textEnab_(context),
+                                fontWeight: weight.halfBold
+                            )
+                        )
+
+                      ],
+                    )),
+
+                  if(marker.user.key == AccountData.key)
+                    IconButton(
+                      icon: const Icon(MdiIcons.pencilOutline),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        pushPage(
+                            context,
+                            builder: (context) =>
+                                MarkerEditorPage(
+                                  initMarker: marker,
+                                  onSuccess: (updatedMarker) {
+                                    marker.update(updatedMarker);
+                                  },
+                                )
+                        );
+                      },
+                    ),
 
                 ],
               ),

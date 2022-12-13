@@ -70,7 +70,7 @@ class CommunityPage extends StatelessWidget{
                 const SizedBox(height: Dimen.defMarg),
 
                 if(community.markers.isNotEmpty)
-                  CommunityMarkersWidget(community.markers, customPointer: const Icon(MdiIcons.mapMarkerCircle)),
+                  CommunityMarkersWidget(community.markers, customPointer: const Icon(MdiIcons.mapMarkerCircle, color: Colors.black)),
 
                 if(community.markers.isNotEmpty)
                   const SizedBox(height: Dimen.defMarg),

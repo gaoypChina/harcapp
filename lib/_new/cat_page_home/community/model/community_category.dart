@@ -44,6 +44,12 @@ enum CommunityCategory{
   toIOwo
 }
 
+List<CommunityCategory> get allUsableCommunityCategory{
+  List<CommunityCategory> all = List.of(CommunityCategory.values);
+  all.remove(CommunityCategory.error);
+  return all;
+}
+
 Color getCommCatColor(CommunityCategory commCat){
 
   switch(commCat) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
+import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_data.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_editor/providers.dart';
 import 'package:harcapp/_new/cat_page_home/community/common_widgets/community_header_widget.dart';
@@ -67,6 +68,15 @@ class CommunitiesPartState extends State<CommunitiesPart> with AutomaticKeepAliv
                     ])),
                   ),
 
+                  if(communities.isEmpty)
+                    const SliverFillRemaining(
+                      child: Center(
+                        child: EmptyMessageWidget(
+                          icon: Community.icon,
+                          text: 'Nikt się tu na razie nie kręci...',
+                        ),
+                      ),
+                    ),
                   SliverPadding(
                       padding: const EdgeInsets.only(
                         right: Dimen.SIDE_MARG,
@@ -174,8 +184,8 @@ class BindedCommunityEditWidgetState extends State<BindedCommunityEditWidget>{
           padding: const EdgeInsets.all(Dimen.defMarg),
           child: AppTextFieldHint(
             controller: noteController,
-            hint: 'Notatka:',
-            hintTop: 'Notatka',
+            hint: 'Jakieś uwagi:',
+            hintTop: 'Uwagi',
             maxLines: null,
             onChanged: (_, text) => onNoteChanged?.call(text),
           ),

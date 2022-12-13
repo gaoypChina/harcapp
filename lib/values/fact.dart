@@ -67,7 +67,7 @@ const List<Fact> ecoFacts = [
     'Średnia cena 50 najpotrzebniejszych produktów względem średniej pensji spadła od 1980 roku o 70%.',
     source: 'Gale L. Pooley and Marian L. Tupy, "The Simon Abundance Index: A New Way to Measure Availability of Resources", Cato Policy Analysis no. 857, December 4, 2018.',
     meaning: [
-      'Zasoby świata maleją, a populacja w od 1980 roku niemal dwukrotnie wzrosła. Pomimo tego ceny produktów są coraz niższe - oznacza to, że statystycznie każdy urodzony człowiek zwiększa efektywność wykrzystania zasobów Ziemii szybciej, niż ich używa.',
+      'Zasoby świata maleją, a populacja w od 1980 roku niemal dwukrotnie wzrosła. Pomimo tego ceny produktów są coraz niższe - oznacza to, że statystycznie każdy urodzony człowiek zwiększa efektywność wykrzystania zasobów Ziemi szybciej, niż ich używa.',
       'Wraz z rozwojem świata ilość pracy i środków potrzebnych do wytwarzania rosnącej liczby potrzebnych produktów maleje.',
       'Stan na 2018 rok.'
     ]
