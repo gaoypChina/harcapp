@@ -9,16 +9,16 @@ class AlbumGetResp extends SyncGetResp{
   static const String paramTitle = 'title';
   final String title;
 
-  static const String paramOffSongs = 'off_song';
+  static const String paramOffSongs = 'offSong';
   final List<String> offSongs;
 
-  static const String paramOwnSongs = 'own_song';
+  static const String paramOwnSongs = 'ownSong';
   final List<String> ownSongs;
 
-  static const String paramColorsKey = 'colors_key';
+  static const String paramColorsKey = 'colorsKey';
   final String colorsKey;
 
-  static const String paramIconKey = 'icon_key';
+  static const String paramIconKey = 'iconKey';
   final String iconKey;
 
   const AlbumGetResp({

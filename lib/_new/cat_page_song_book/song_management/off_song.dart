@@ -83,7 +83,7 @@ class OffSong extends Song<OffSongGetResp>{
     );
   }
 
-  static const String syncClassId = 'off_song';
+  static const String syncClassId = 'offSong';
 
   @override
   String get classId => syncClassId;

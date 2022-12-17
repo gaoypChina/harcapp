@@ -18,7 +18,9 @@ import 'providers.dart';
 
 class LocationPart extends StatefulWidget{
 
-  const LocationPart({super.key});
+  final double? initZoom;
+
+  const LocationPart({this.initZoom, super.key});
 
   @override
   State<StatefulWidget> createState() => LocationPartState();
@@ -29,6 +31,8 @@ class LocationPartState extends State<LocationPart> with AfterLayoutMixin, Autom
 
   @override
   bool get wantKeepAlive => true;
+
+  double? get initZoom => widget.initZoom;
 
   late MapController controller;
 
@@ -70,7 +74,7 @@ class LocationPartState extends State<LocationPart> with AfterLayoutMixin, Autom
                   mapController: controller,
                   options: MapOptions(
                       center: LatLng(posProv.lat, posProv.lng),
-                      zoom: 10,
+                      zoom: initZoom??10,
                       minZoom: 2,
                       maxZoom: CatPageHarcMap.maxZoom,
                       interactiveFlags: CatPageHarcMap.interactiveFlags,

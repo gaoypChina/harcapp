@@ -27,10 +27,10 @@ class PositionProvider extends ChangeNotifier{
   late double lng;
   late Marker tmpMarker;
 
-  PositionProvider({MarkerData? initMarker}){
+  PositionProvider({double? initLat, double? initLng}){
     _editMode = false;
-    lat = initMarker?.lat??wawelLat;
-    lng = initMarker?.lng??wawelLng;
+    lat = initLat??wawelLat;
+    lng = initLng??wawelLng;
     tmpMarker = _getMarker(LatLng(lat, lng));
   }
 

@@ -26,10 +26,10 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncI
 
   static const String PARAM_ID = 'file_name';
   static const String _PARAM_TITLE = 'title';
-  static const String paramOffSongs = 'off_songs';
-  static const String paramOwnSongs = 'own_songs';
-  static const String paramColorsKey = 'colors_key';
-  static const String paramIconKey = 'icon_key';
+  static const String paramOffSongs = 'offSongs';
+  static const String paramOwnSongs = 'ownSongs';
+  static const String paramColorsKey = 'colorsKey';
+  static const String paramIconKey = 'iconKey';
 
   static const String omegaFileName = 'o!_omega';
   static const String confidFileName = 'o!_confid';

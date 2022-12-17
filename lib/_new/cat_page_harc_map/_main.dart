@@ -240,6 +240,8 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
           onPressed: () => pushPage(
             context,
             builder: (context) => MarkerEditorPage(
+              initZoom: mapController.zoom,
+              initCenter: mapController.center,
               onSuccess: (marker){
                 markers!.add(marker);
                 if(marker.visibility != MarkerVisibility.PUBLIC)

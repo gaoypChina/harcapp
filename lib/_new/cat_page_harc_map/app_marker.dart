@@ -252,22 +252,39 @@ Future<void> showMarkerBottomSheet(BuildContext context, MarkerData marker) asyn
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
 
-                      if(marker.contact != null)
-                        TitleShortcutRowWidget(
-                          title: 'Kontakt do miejsca',
-                          titleColor: textEnab_(context),
-                          textAlign: TextAlign.left,
-                          onOpenIcon: MdiIcons.chevronRight,
-                          onOpen: () async {
-                            Navigator.pop(context);
-                            await openCommonContact(
-                                context,
-                                marker.contact!,
-                                otherMultiline: true
-                            );
-                            showMarkerBottomSheet(context, marker);
-                          },
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+
+                          if(marker.user.key == AccountData.key)
+                            SimpleButton.from(
+                                context: context,
+                                color: backgroundIcon_(context),
+                                icon: MdiIcons.accountSupervisorCircleOutline,
+                                text: 'Role',
+                                onTap: () async {
+                                }
+                            ),
+
+                          if(marker.contact != null)
+                            SimpleButton.from(
+                                context: context,
+                                color: backgroundIcon_(context),
+                                icon: MdiIcons.emailOutline,
+                                text: 'Kontakt',
+                                onTap: () async {
+                                  Navigator.pop(context);
+                                  await openCommonContact(
+                                      context,
+                                      marker.contact!,
+                                      otherMultiline: true
+                                  );
+                                  showMarkerBottomSheet(context, marker);
+                                }
+                            ),
+
+                        ],
+                      ),
 
                       if(marker.communitiesBasicData.isNotEmpty)
                         const SizedBox(height: Dimen.SIDE_MARG),

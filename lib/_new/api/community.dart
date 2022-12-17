@@ -246,7 +246,7 @@ class ApiCommunity{
     return API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.post(
-          '${API.SERVER_URL}api/community/$communityKey/user',
+          '${API.SERVER_URL}api/community/$communityKey/manager',
           data: jsonEncode(body)
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -286,7 +286,7 @@ class ApiCommunity{
     return API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) => dio.put(
-            '${API.SERVER_URL}api/community/$communityKey/user',
+            '${API.SERVER_URL}api/community/$communityKey/manager',
             data: jsonEncode(body)
         ),
         onSuccess: (Response response, DateTime now) async {
@@ -316,7 +316,7 @@ class ApiCommunity{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
-          '${API.SERVER_URL}api/community/$communityKey/user',
+          '${API.SERVER_URL}api/community/$communityKey/manager',
           data: jsonEncode(userKeys)
       ),
       onSuccess: (Response response, DateTime now) =>

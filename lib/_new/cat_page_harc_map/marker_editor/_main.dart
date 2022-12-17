@@ -7,6 +7,7 @@ import 'package:harcapp/_new/cat_page_harc_map/marker_editor/danger_part.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_editor/providers.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:optional/optional_internal.dart';
 import 'package:provider/provider.dart';
@@ -19,9 +20,11 @@ import 'location_part.dart';
 class MarkerEditorPage extends StatefulWidget{
 
   final MarkerData? initMarker;
+  final double? initZoom;
+  final LatLng? initCenter;
   final void Function(MarkerData marker)? onSuccess;
 
-  const MarkerEditorPage({this.initMarker, this.onSuccess, super.key});
+  const MarkerEditorPage({this.initMarker, this.initZoom, this.initCenter, this.onSuccess, super.key});
 
   @override
   State<StatefulWidget> createState() => MarkerEditorPageState();
@@ -31,6 +34,9 @@ class MarkerEditorPage extends StatefulWidget{
 class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderStateMixin{
 
   MarkerData? get initMarker => widget.initMarker;
+  double? get initZoom => widget.initZoom;
+  LatLng? get initCenter => widget.initCenter;
+
   void Function(MarkerData marker)? get onSuccess => widget.onSuccess;
 
   late TabController controller;
@@ -43,7 +49,10 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
 
   @override
   Widget build(BuildContext context) => MultiProvider(providers: [
-      ChangeNotifierProvider(create: (context) => PositionProvider(initMarker: initMarker)),
+      ChangeNotifierProvider(create: (context) => PositionProvider(
+        initLat: initMarker?.lat??initCenter?.latitude,
+        initLng: initMarker?.lng??initCenter?.longitude,
+      )),
 
       ChangeNotifierProvider(create: (context) => NameProvider(initMarker: initMarker)),
       ChangeNotifierProvider(create: (context) => MarkerTypeProvider(initMarker: initMarker)),
@@ -207,7 +216,7 @@ class MarkerEditorPageState extends State<MarkerEditorPage> with TickerProviderS
           children: [
             const InfoPart(),
             const CommunitiesPart(),
-            const LocationPart(),
+            LocationPart(initZoom: initZoom),
             if(initMarker != null)
               DangerPart(
                 initMarker!,

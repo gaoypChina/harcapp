@@ -186,7 +186,7 @@ class OwnSong extends Song<OwnSongGetResp>{
     copyWith(song);
   }
 
-  static const String syncClassId = 'own_song';
+  static const String syncClassId = 'ownSong';
 
   @override
   String get classId => syncClassId;
