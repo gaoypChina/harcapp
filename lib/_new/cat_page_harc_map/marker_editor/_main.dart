@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/api/harc_map.dart';
-import 'package:harcapp/_new/cat_page_harc_map/marker_data.dart';
+import 'package:harcapp/_new/cat_page_harc_map/model/marker_data.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_editor/danger_part.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_editor/providers.dart';
 import 'package:harcapp/values/consts.dart';

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_particip/participants_page.dart';
-import 'package:harcapp/_new/cat_page_home/user_list_managment_page.dart';
+import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
@@ -21,6 +21,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../../user_list_managment_page.dart';
 import '../common/accept_task_dialog.dart';
 import '../common/particip_tile_extended.dart';
 import '../models/show_rank_data.dart';
@@ -122,21 +123,21 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
                   icon: compRoleToIcon[CompRole.ADMIN]!,
                   name: ParticipantsPage.adminsHeaderTitle,
                   users: participAdmins,
-                  persmissions: ParticipantsPage.adminPersmissions
+                  permissions: ParticipantsPage.adminPersmissions
                 ),
 
                 UserSet(
                   icon: compRoleToIcon[CompRole.MODERATOR]!,
                   name: ParticipantsPage.moderatorsHeaderTitle,
                   users: participMods,
-                  persmissions: ParticipantsPage.moderatorPersmissions
+                  permissions: ParticipantsPage.moderatorPersmissions
                 ),
 
                 UserSet(
                   icon: compRoleToIcon[CompRole.OBSERVER]!,
                   name: ParticipantsPage.obsHeaderTitle,
                   users: participObs,
-                  persmissions: ParticipantsPage.obsPersmissions
+                  permissions: ParticipantsPage.obsPersmissions
                 )
               ],
 

@@ -8,7 +8,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
-import '../community_role.dart';
+import '../model/community_role.dart';
 import '../community_thumbnail_widget.dart';
 import '../model/community.dart';
 import 'community_cover_colors.dart';

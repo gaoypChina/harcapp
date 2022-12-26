@@ -3,7 +3,7 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/forum.dart';
-import 'package:harcapp/_new/cat_page_home/user_list_managment_page.dart';
+import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/_new/cat_page_home/user_tile_dialogs.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
@@ -80,7 +80,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
                   icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
                   onPressed: () async {
                     Navigator.pop(context);
-                    await UserListManagementPage.openPermissionsDialog(
+                    await UserListManagementLoadablePage.openPermissionsDialog(
                       context: context,
                       icon: forumRoleToIcon[ForumRole.EDITOR]!,
                       title: ManagersPage.editorsHeaderTitle,
@@ -114,7 +114,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
                   icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
                   onPressed: () async {
                     Navigator.pop(context);
-                    await UserListManagementPage.openPermissionsDialog(
+                    await UserListManagementLoadablePage.openPermissionsDialog(
                       context: context,
                       icon: forumRoleToIcon[ForumRole.ADMIN]!,
                       title: ManagersPage.adminsHeaderTitle,

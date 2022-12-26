@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:harcapp/_common_classes/common_contact_data.dart';
-import 'package:harcapp/_new/cat_page_harc_map/marker_data.dart';
-import 'package:harcapp/_new/cat_page_harc_map/marker_type.dart';
+import 'package:harcapp/_new/cat_page_harc_map/model/marker_data.dart';
+import 'package:harcapp/_new/cat_page_harc_map/model/marker_type.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
-import '../marker_visibility.dart';
+import '../model/marker_visibility.dart';
 
 const double wawelLat = 50.0537412;
 const double wawelLng = 19.9349666;

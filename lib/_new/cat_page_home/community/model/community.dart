@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common_contact_data.dart';
-import 'package:harcapp/_new/cat_page_harc_map/marker_data.dart';
-import 'package:harcapp/_new/cat_page_harc_map/marker_type.dart';
+import 'package:harcapp/_new/cat_page_harc_map/model/marker_data.dart';
+import 'package:harcapp/_new/cat_page_harc_map/model/marker_type.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../../api/_api.dart';
 import '../circle/model/circle.dart';
-import '../community_role.dart';
+import 'community_role.dart';
 import '../forum/model/forum.dart';
 import 'community_category.dart';
 import 'community_manager.dart';
@@ -207,10 +207,8 @@ class Community extends CommunityBasicData{
 
   }
 
-  static callProvidersOf(BuildContext context){
-    CommunityProvider.notify_(context);
-    CommunityListProvider.notify_(context);
-  }
+  static callProvidersOf(BuildContext context) =>
+    callProviders(CommunityProvider.of(context), CommunityListProvider.of(context));
 
   static callProviders(CommunityProvider communityProv, CommunityListProvider communityListProv){
     communityProv.notify();
@@ -409,9 +407,11 @@ class Community extends CommunityBasicData{
     contact = updatedCommunity.contact;
   }
 
-  void addManager(List<CommunityManager> newManagers, {BuildContext? context}){
+
+  void addManagers(List<CommunityManager> newManagers, {BuildContext? context}){
 
     for(CommunityManager manager in newManagers) {
+      if(_managersMap.containsKey(manager.key)) continue;
       _managers.add(manager);
       _managersMap[manager.key] = manager;
     }

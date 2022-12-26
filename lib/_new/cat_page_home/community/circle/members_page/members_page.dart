@@ -3,11 +3,12 @@ import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/members_page/member_tile_extended.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/model/member.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
-import 'package:harcapp/_new/cat_page_home/user_list_managment_page.dart';
+import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
+import '../../../user_list_managment_page.dart';
 import '../circle_role.dart';
 import '../model/circle.dart';
 import 'add_user_bottom_sheet.dart';
@@ -91,21 +92,21 @@ class MembersPage extends StatelessWidget{
                 icon: circleRoleToIcon[CircleRole.ADMIN]!,
                 name: adminsHeaderTitle,
                 users: memAdmins,
-                persmissions: adminPersmissions
+                permissions: adminPersmissions
             ),
 
             UserSet(
               icon: circleRoleToIcon[CircleRole.EDITOR]!,
               name: editorsHeaderTitle,
               users: memMods,
-              persmissions: editorPersmissions
+              permissions: editorPersmissions
             ),
 
             UserSet(
                 icon: circleRoleToIcon[CircleRole.OBSERVER]!,
                 name: observersHeaderTitle,
                 users: memObs,
-                persmissions: observerPersmissions
+                permissions: observerPersmissions
             )
           ],
           userTileBuilder: (context, member) => circle.myRole == CircleRole.ADMIN?

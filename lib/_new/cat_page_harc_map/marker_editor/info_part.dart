@@ -1,10 +1,10 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/common_contact_editor_widget.dart';
-import 'package:harcapp/_new/cat_page_harc_map/marker_data.dart';
+import 'package:harcapp/_new/cat_page_harc_map/model/marker_data.dart';
 import 'package:harcapp/_new/cat_page_harc_map/marker_editor/providers.dart';
-import 'package:harcapp/_new/cat_page_harc_map/marker_type.dart';
-import 'package:harcapp/_new/cat_page_harc_map/marker_visibility.dart';
+import 'package:harcapp/_new/cat_page_harc_map/model/marker_type.dart';
+import 'package:harcapp/_new/cat_page_harc_map/model/marker_visibility.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';

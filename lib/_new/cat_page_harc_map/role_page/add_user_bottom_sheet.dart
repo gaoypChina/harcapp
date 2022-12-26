@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
-import 'package:harcapp/_new/api/community.dart';
+import 'package:harcapp/_new/api/harc_map.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_add_new_bottom_sheet.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/values/consts.dart';
 
-import '../model/community_role.dart';
-import '../model/community.dart';
-import '../model/community_manager.dart';
+import '../model/marker_data.dart';
+import '../model/marker_role.dart';
+import '../model/marker_manager.dart';
 
 
 class AddUserBottomSheet extends StatelessWidget{
 
-  final Community community;
+  final MarkerData marker;
 
-  const AddUserBottomSheet(this.community, {super.key});
+  const AddUserBottomSheet(this.marker, {super.key});
 
 
   @override
@@ -26,16 +26,16 @@ class AddUserBottomSheet extends StatelessWidget{
     alreadyAddedMess: 'Już jest w kręgu',
     userAlreadyAddedMess: (name) => '$name już jest w kręgu!',
 
-    participatingUserKeys: community.managersMap.keys.toList(),
+    participatingUserKeys: marker.managersMap.keys.toList(),
     handleAddingUser: (BuildContext context, UserDataNick userData) async {
 
       showLoadingWidget(context, iconEnab_(context), 'Dodawanie ogarniacza');
 
-      await ApiCommunity.addManagers(
-          communityKey: community.key,
-          users: [CommunityManagerRespBodyNick(userData.key, CommunityRole.REGULAR, userData.nick)],
-          onSuccess: (List<CommunityManager> allManagers){
-            community.setAllManagers(allManagers, context: context);
+      await ApiHarcMap.addManagers(
+          markerKey: marker.key,
+          users: [MarkerManagerRespBodyNick(userData.key, MarkerRole.COMMUNITY_MODERATOR, userData.nick)],
+          onSuccess: (List<MarkerManager> allManagers){
+            marker.setAllManagers(allManagers, context: context);
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
             showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}.');

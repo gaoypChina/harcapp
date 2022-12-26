@@ -3,11 +3,12 @@ import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/model/forum_manager.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/role_page/manager_tile_extended.dart';
-import 'package:harcapp/_new/cat_page_home/user_list_managment_page.dart';
+import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
+import '../../../user_list_managment_page.dart';
 import '../forum_role.dart';
 import '../model/forum.dart';
 import 'add_user_bottom_sheet.dart';
@@ -68,14 +69,14 @@ class ManagersPage extends StatelessWidget{
                 icon: forumRoleToIcon[ForumRole.ADMIN]!,
                 name: adminsHeaderTitle,
                 users: managAdmins,
-                persmissions: adminPersmissions
+                permissions: adminPersmissions
             ),
 
             UserSet(
                 icon: forumRoleToIcon[ForumRole.EDITOR]!,
                 name: editorsHeaderTitle,
                 users: managEditors,
-                persmissions: editorPersmissions
+                permissions: editorPersmissions
             ),
 
           ],

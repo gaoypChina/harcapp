@@ -26,9 +26,9 @@ import '../../values/consts.dart';
 import '../api/harc_map.dart';
 import '../app_drawer.dart';
 import 'app_marker.dart';
-import 'marker_data.dart';
+import 'model/marker_data.dart';
 import 'marker_editor/_main.dart';
-import 'marker_visibility.dart';
+import 'model/marker_visibility.dart';
 
 class CatPageHarcMap extends StatefulWidget{
 

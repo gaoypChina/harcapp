@@ -111,9 +111,10 @@ class Forum extends ForumBasicData{
 
   bool get hasDescription => description != null && description!.isNotEmpty;
 
-  void addManager(List<ForumManager> newManagers, {BuildContext? context}){
+  void addManagers(List<ForumManager> newManagers, {BuildContext? context}){
 
     for(ForumManager manager in newManagers) {
+      if(_managersMap.containsKey(manager.key)) continue;
       _managers.add(manager);
       _managersMap[manager.key] = manager;
     }
@@ -152,7 +153,7 @@ class Forum extends ForumBasicData{
 
   void removeManagersByKey(List<String> managerKeys, {BuildContext? context}){
 
-    _managers.removeWhere((particip) => managerKeys.contains(particip.key));
+    _managers.removeWhere((manager) => managerKeys.contains(manager.key));
     for(String managerKey in managerKeys) _managersMap.remove(managerKey);
 
     if(context == null) return;

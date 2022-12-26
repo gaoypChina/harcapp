@@ -11,7 +11,7 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../marker_data.dart';
+import '../model/marker_data.dart';
 
 class DangerPart extends StatefulWidget{
 

@@ -9,6 +9,7 @@ import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/common_contact_widget.dart';
 import 'package:harcapp/_new/api/harc_map.dart';
+import 'package:harcapp/_new/cat_page_harc_map/role_page/managers_page.dart';
 import 'package:harcapp/_new/cat_page_home/community/common_widgets/community_header_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community_category.dart';
@@ -26,9 +27,10 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import '../cat_page_home/community/community_preview_data_widget.dart';
 import '../cat_page_home/community/model/community.dart';
-import 'marker_data.dart';
+import 'model/marker_data.dart';
 import 'marker_editor/_main.dart';
-import 'marker_type.dart';
+import 'model/marker_role.dart';
+import 'model/marker_type.dart';
 
 class AppMarker extends Marker{
 
@@ -224,7 +226,7 @@ Future<void> showMarkerBottomSheet(BuildContext context, MarkerData marker) asyn
                       ],
                     )),
 
-                  if(marker.user.key == AccountData.key)
+                  if(marker.managersMap[AccountData.key]?.role == MarkerRole.ADMIN)
                     IconButton(
                       icon: const Icon(MdiIcons.pencilOutline),
                       onPressed: () {
@@ -256,13 +258,14 @@ Future<void> showMarkerBottomSheet(BuildContext context, MarkerData marker) asyn
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
 
-                          if(marker.user.key == AccountData.key)
+                          if(marker.managersMap[AccountData.key]?.role == MarkerRole.ADMIN)
                             SimpleButton.from(
                                 context: context,
                                 color: backgroundIcon_(context),
                                 icon: MdiIcons.accountSupervisorCircleOutline,
                                 text: 'Role',
                                 onTap: () async {
+                                  pushReplacePage(context, builder: (context) => MarkerManagersPage(marker: marker));
                                 }
                             ),
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
-import 'package:harcapp/_new/api/community.dart';
+import 'package:harcapp/_new/api/harc_map.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/_new/cat_page_home/user_tile_dialogs.dart';
 import 'package:harcapp/account/account.dart';
@@ -13,54 +13,47 @@ import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:optional/optional_internal.dart';
-import 'package:palette_generator/palette_generator.dart';
 
-import '../common/community_cover_colors.dart';
-import '../model/community_role.dart';
-import '../model/community.dart';
-import '../model/community_manager.dart';
+import '../model/marker_role.dart';
+import '../model/marker_data.dart';
+import '../model/marker_manager.dart';
 import 'manager_header_widget.dart';
 import 'manager_tile.dart';
 import 'managers_page.dart';
 
-class CommunityManagerTileExtended extends StatefulWidget{
+class MarkerManagerTileExtended extends StatefulWidget{
 
-  final Community community;
-  final CommunityManager manager;
-  final PaletteGenerator? palette;
+  final MarkerData marker;
+  final MarkerManager manager;
   final dynamic heroTag;
 
-  const CommunityManagerTileExtended({
-    required this.community,
+  const MarkerManagerTileExtended({
+    required this.marker,
     required this.manager,
-    this.palette,
     this.heroTag,
     super.key
   });
 
   @override
-  State<StatefulWidget> createState() => CommunityManagerTileExtendedState();
+  State<StatefulWidget> createState() => MarkerManagerTileExtendedState();
 
 }
 
-class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtended>{
+class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
 
-  Community get community => widget.community;
-  PaletteGenerator? get palette => widget.palette;
-  CommunityManager get manager => widget.manager;
+  MarkerData get marker => widget.marker;
+  MarkerManager get manager => widget.manager;
 
   get heroTag => widget.heroTag;
 
   void openDetails() => showScrollBottomSheet(
       context: context,
       builder: (context) => BottomSheetDef(
-        color: CommunityCoverColors.backgroundColor(context, palette),
         builder: (context) => Column(
           children: [
 
             ManagerHeaderWidget(
               manager,
-              palette: palette,
               heroTag: manager.key
             ),
 
@@ -72,21 +65,20 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
             ),
 
-            if(manager.role == CommunityRole.ADMIN)
+            if(manager.role == MarkerRole.ADMIN)
               ListTile(
                 enabled: !manager.shadow,
-                leading: Icon(communityRoleToIcon[CommunityRole.REGULAR]),
-                title: Text('Nadaj rolę parobka', style: AppTextStyle()),
+                leading: Icon(markerRoleToIcon[MarkerRole.COMMUNITY_MODERATOR]),
+                title: Text('Nadaj rolę przedstawiciela środowisk', style: AppTextStyle()),
                 trailing: IconButton(
                   icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
                   onPressed: () async {
                     Navigator.pop(context);
                     await UserListManagementLoadablePage.openPermissionsDialog(
                       context: context,
-                      icon: communityRoleToIcon[CommunityRole.REGULAR]!,
-                      title: CommunityManagersPage.regularsHeaderTitle,
-                      permissions: CommunityManagersPage.regularPersmissions,
-                      color: CommunityCoverColors.backgroundColor(context, palette),
+                      icon: markerRoleToIcon[MarkerRole.COMMUNITY_MODERATOR]!,
+                      title: MarkerManagersPage.regularsHeaderTitle,
+                      permissions: MarkerManagersPage.regularPersmissions,
                     );
                     openDetails();
                   },
@@ -94,7 +86,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
                 onTap: manager.shadow?null: () async {
                   await showUpdateManagerDialog(
-                      CommunityRole.REGULAR,
+                      MarkerRole.COMMUNITY_MODERATOR,
                       onSuccess: (){
                         if(manager.key == AccountData.key)
                           Navigator.pop(context);
@@ -106,10 +98,10 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
                 },
               ),
 
-            if(manager.role == CommunityRole.REGULAR)
+            if(manager.role ==MarkerRole.COMMUNITY_MODERATOR)
               ListTile(
                 enabled: !manager.shadow,
-                leading: Icon(communityRoleToIcon[CommunityRole.REGULAR]),
+                leading: Icon(markerRoleToIcon[MarkerRole.COMMUNITY_MODERATOR]),
                 title: Text('Nadaj rolę administratora', style: AppTextStyle()),
                 trailing: IconButton(
                   icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
@@ -117,10 +109,9 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
                     Navigator.pop(context);
                     await UserListManagementLoadablePage.openPermissionsDialog(
                       context: context,
-                      icon: communityRoleToIcon[CommunityRole.ADMIN]!,
-                      title: CommunityManagersPage.adminsHeaderTitle,
-                      permissions: CommunityManagersPage.adminPersmissions,
-                      color: CommunityCoverColors.backgroundColor(context, palette),
+                      icon: markerRoleToIcon[MarkerRole.ADMIN]!,
+                      title: MarkerManagersPage.adminsHeaderTitle,
+                      permissions: MarkerManagersPage.adminPersmissions,
                     );
                     openDetails();
                   },
@@ -128,7 +119,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
                 onTap: manager.shadow?null: () async {
                   await showUpdateManagerDialog(
-                      CommunityRole.ADMIN,
+                      MarkerRole.ADMIN,
                       onSuccess: (){
                         if(manager.key == AccountData.key)
                           Navigator.pop(context);
@@ -153,22 +144,22 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
       )
   );
 
-  Future<void> showUpdateManagerDialog(CommunityRole newRole, {void Function()? onSuccess}) =>
+  Future<void> showUpdateManagerDialog(MarkerRole newRole, {void Function()? onSuccess}) =>
     showUpdateDialog(
         context: context,
         isMe: manager.key == AccountData.key,
-        loosingAdmin: newRole != CommunityRole.ADMIN,
-        currAdminCount: community.managers.where((m) => m.role == CommunityRole.ADMIN).length,
-        looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> środowiska <b>${community.name}</b>?',
+        loosingAdmin: newRole != MarkerRole.ADMIN,
+        currAdminCount: marker.managers.where((m) => m.role == MarkerRole.ADMIN).length,
+        looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> środowiska <b>${marker.name}</b>?',
         handleUpdate: () async {
 
           showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
 
-          await ApiCommunity.updateManagers(
-              communityKey: community.key,
-              users: [CommunityManagerUpdateBody(manager.key, role: Optional.of(newRole))],
-              onSuccess: (List<CommunityManager> allManagers){
-                community.setAllManagers(allManagers, context: context);
+          await ApiHarcMap.updateManagers(
+              markerKey: marker.key,
+              users: [MarkerManagerUpdateBody(manager.key, role: Optional.of(newRole))],
+              onSuccess: (List<MarkerManager> allManagers){
+                marker.setAllManagers(allManagers, context: context);
                 Navigator.pop(context); // Close loading widget
                 onSuccess?.call();
               },
@@ -194,17 +185,17 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
         context: context,
         isMe: manager.key == AccountData.key,
         loosingAdmin: manager.key == AccountData.key,
-        currAdminCount: community.managers.where((m) => m.role == CommunityRole.ADMIN).length,
+        currAdminCount: marker.managers.where((m) => m.role == MarkerRole.ADMIN).length,
         removingUserTitleMess: 'Wypraszanie ogarniacza...',
         removingUserDetailMess: '${manager.name} nie będzie mieć dłużej dostępu do zarządzania forum.\n\nNa pewno chcesz ${manager.isMale?'go':'ją'} wyprosić?',
         handleRemove: () async {
 
-          showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Wypraszanie ogarniacza...');
-          await ApiCommunity.removeManagers(
-              communityKey: community.key,
+          showLoadingWidget(context, iconEnab_(context), 'Wypraszanie ogarniacza...');
+          await ApiHarcMap.removeManagers(
+              markerKey: marker.key,
               userKeys: [manager.key],
               onSuccess: (List<String> removedManagers) async {
-                community.removeManagersByKey(removedManagers, context: context);
+                marker.removeManagersByKey(removedManagers, context: context);
 
                 if(!mounted) return;
                 showAppToast(context, text: 'Wyproszono');
@@ -233,7 +224,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
   }
 
   @override
-  Widget build(BuildContext context) => CommunityManagerTile(
+  Widget build(BuildContext context) => MarkerManagerTile(
     manager: manager,
     onTap: openDetails,
     heroTag: heroTag,

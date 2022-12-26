@@ -193,10 +193,8 @@ class IndivComp{
 
   }
 
-  static callProvidersOf(BuildContext context){
-    IndivCompProvider.notify_(context);
-    IndivCompListProvider.notify_(context);
-  }
+  static callProvidersOf(BuildContext context) =>
+      callProviders(IndivCompProvider.of(context), IndivCompListProvider.of(context));
 
   static callProviders(IndivCompProvider indivCompProv, IndivCompListProvider indivCompListProv){
     indivCompProv.notify();

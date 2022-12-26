@@ -5,7 +5,7 @@ import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/api/circle.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_colors.dart';
-import 'package:harcapp/_new/cat_page_home/user_list_managment_page.dart';
+import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp/_new/cat_page_home/user_tile_dialogs.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
@@ -85,7 +85,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
                   icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
                   onPressed: () async {
                     Navigator.pop(context);
-                    await UserListManagementPage.openPermissionsDialog(
+                    await UserListManagementLoadablePage.openPermissionsDialog(
                       context: context,
                       icon: circleRoleToIcon[CircleRole.OBSERVER]!,
                       title: MembersPage.observersHeaderTitle,
@@ -119,7 +119,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
                   icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
                   onPressed: () async {
                     Navigator.pop(context);
-                    await UserListManagementPage.openPermissionsDialog(
+                    await UserListManagementLoadablePage.openPermissionsDialog(
                       context: context,
                       icon: circleRoleToIcon[CircleRole.EDITOR]!,
                       title: MembersPage.editorsHeaderTitle,
@@ -151,7 +151,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
                   icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
                   onPressed: () async {
                     Navigator.pop(context);
-                    await UserListManagementPage.openPermissionsDialog(
+                    await UserListManagementLoadablePage.openPermissionsDialog(
                       context: context,
                       icon: circleRoleToIcon[CircleRole.ADMIN]!,
                       title: MembersPage.adminsHeaderTitle,

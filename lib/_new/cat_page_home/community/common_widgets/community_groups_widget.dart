@@ -14,7 +14,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../circle/circle_editor/_main.dart';
 import '../circle/circle_widget.dart';
 import '../circle/model/circle.dart';
-import '../community_role.dart';
+import '../model/community_role.dart';
 import '../forum/forum_editor/_main.dart';
 import '../forum/forum_widget.dart';
 import '../forum/model/forum.dart';

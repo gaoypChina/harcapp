@@ -4,12 +4,12 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:palette_generator/palette_generator.dart';
 
-import '../model/community_role.dart';
-import '../model/community_manager.dart';
+import '../model/marker_role.dart';
+import '../model/marker_manager.dart';
 
 class ManagerHeaderWidget extends StatelessWidget{
 
-  final CommunityManager manager;
+  final MarkerManager manager;
   final PaletteGenerator? palette;
   final dynamic heroTag;
 
@@ -25,7 +25,7 @@ class ManagerHeaderWidget extends StatelessWidget{
     trailing: Row(
       children: [
         const SizedBox(width: Dimen.ICON_MARG),
-        Icon(communityRoleToIcon[manager.role], color: iconDisab_(context))
+        Icon(markerRoleToIcon[manager.role], color: iconDisab_(context))
       ],
     ),
   );

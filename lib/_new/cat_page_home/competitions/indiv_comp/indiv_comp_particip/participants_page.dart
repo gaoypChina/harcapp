@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
-import 'package:harcapp/_new/cat_page_home/user_list_managment_page.dart';
+import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:provider/provider.dart';
 
+import '../../../user_list_managment_page.dart';
 import '../common/particip_tile.dart';
 import '../comp_role.dart';
 import '../models/indiv_comp.dart';
@@ -87,21 +88,21 @@ class ParticipantsPage extends StatelessWidget{
               icon: compRoleToIcon[CompRole.ADMIN]!,
               name: 'Administratorzy',
               users: participAdmins,
-              persmissions: adminPersmissions
+              permissions: adminPersmissions
             ),
 
             UserSet(
               icon: compRoleToIcon[CompRole.MODERATOR]!,
               name: 'Moderatorzy',
               users: participMods,
-              persmissions: moderatorPersmissions
+              permissions: moderatorPersmissions
             ),
 
             UserSet(
               icon: compRoleToIcon[CompRole.OBSERVER]!,
               name: 'Pozostali',
               users: participObs,
-              persmissions: obsPersmissions
+              permissions: obsPersmissions
             )
           ],
           userTileBuilder: (context, particip) =>

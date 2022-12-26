@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
-import 'package:harcapp/_new/cat_page_home/user_list_managment_page.dart';
+import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
@@ -183,7 +183,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                   icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
                   onPressed: () async {
                     Navigator.pop(context);
-                    await UserListManagementPage.openPermissionsDialog(
+                    await UserListManagementLoadablePage.openPermissionsDialog(
                       context: context,
                       icon: compRoleToIcon[CompRole.OBSERVER]!,
                       title: ParticipantsPage.obsHeaderTitle,
@@ -217,7 +217,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                   icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
                   onPressed: () async {
                     Navigator.pop(context);
-                    await UserListManagementPage.openPermissionsDialog(
+                    await UserListManagementLoadablePage.openPermissionsDialog(
                       context: context,
                       icon: compRoleToIcon[CompRole.MODERATOR]!,
                       title: ParticipantsPage.moderatorsHeaderTitle,
@@ -249,7 +249,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                   icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
                   onPressed: () async {
                     Navigator.pop(context);
-                    await UserListManagementPage.openPermissionsDialog(
+                    await UserListManagementLoadablePage.openPermissionsDialog(
                       context: context,
                       icon: compRoleToIcon[CompRole.ADMIN]!,
                       title: ParticipantsPage.adminsHeaderTitle,

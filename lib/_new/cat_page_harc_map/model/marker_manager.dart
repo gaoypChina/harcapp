@@ -1,13 +1,13 @@
 import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/_new/api/_api.dart';
 
-import '../../../api/_api.dart';
-import 'community_role.dart';
+import 'marker_role.dart';
 
-class CommunityManager extends UserData{
+class MarkerManager extends UserData{
 
-  final CommunityRole role;
+  final MarkerRole role;
 
-  const CommunityManager({
+  const MarkerManager({
     required super.key,
     required super.name,
     required super.shadow,
@@ -16,10 +16,10 @@ class CommunityManager extends UserData{
   });
 
 
-  static CommunityManager fromUserData(
+  static MarkerManager fromUserData(
       UserData userData,
-      { required CommunityRole role})
-  => CommunityManager(
+      { required MarkerRole role})
+  => MarkerManager(
     key: userData.key,
     name: userData.name,
     shadow: userData.shadow,
@@ -27,9 +27,9 @@ class CommunityManager extends UserData{
     role: role,
   );
 
-  static CommunityManager fromMap(Map map, {String? key}) => CommunityManager.fromUserData(
+  static MarkerManager fromMap(Map map, {String? key}) => MarkerManager.fromUserData(
     UserData.fromMap(map, key: key),
-    role: strToCommunityRole[map['role']]??(throw InvalidResponseError('role')),
+    role: strToMarkerRole[map['role']]??(throw InvalidResponseError('role')),
   );
 
   UserData toUserData() => UserData(key: key, name: name, shadow: shadow, sex: sex);

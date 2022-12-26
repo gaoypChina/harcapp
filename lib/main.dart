@@ -9,6 +9,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_cat.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_group.dart';
+import 'package:harcapp/_new/cat_page_harc_map/model/marker_data.dart';
 import 'package:harcapp/_new/cat_page_home/community/communities_loader.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_loader.dart';
 import 'package:harcapp/account/login_provider.dart';
@@ -158,6 +159,11 @@ void main() async {
 
             ChangeNotifierProvider(create: (context) => DrawerProvider()),
             ChangeNotifierProvider(create: (context) => FloatingButtonProvider()),
+
+            //HARCMAP
+            ChangeNotifierProvider(create: (context) => MarkerProvider()),
+            ChangeNotifierProvider(create: (context) => MarkerListProvider()),
+            ChangeNotifierProvider(create: (context) => MarkerManagersProvider()),
 
             //COMMUNITIES
             ChangeNotifierProvider(create: (context) => CommunityProvider()),

@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:harcapp/_common_classes/common_contact_data.dart';
 import 'package:harcapp/_new/api/forum.dart';
 import 'package:harcapp/_new/cat_page_home/community/circle/model/announcement.dart';
-import 'package:harcapp/_new/cat_page_home/community/community_role.dart';
+import 'package:harcapp/_new/cat_page_home/community/model/community_role.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/model/post.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community_manager.dart';
 import 'package:optional/optional_internal.dart';
@@ -30,12 +30,10 @@ class CommunityManagerUpdateBody{
 
   final String key;
   final Optional<CommunityRole> role;
-  final Optional<String?> patrol;
 
   const CommunityManagerUpdateBody(
       this.key,
       { this.role = const Optional.empty(),
-        this.patrol = const Optional.empty()
       });
 
 }
@@ -280,7 +278,6 @@ class ApiCommunity{
       body.add({
         'userKey': managerBody.key,
         if(managerBody.role.isPresent) 'role': communityRoleToStr[managerBody.role.value],
-        if(managerBody.patrol.isPresent) 'patrol': managerBody.patrol.value
       });
 
     return API.sendRequest(
@@ -306,7 +303,7 @@ class ApiCommunity{
 
   }
 
-  static Future<Response?> removeUsers({
+  static Future<Response?> removeManagers({
     required String communityKey,
     required List<String> userKeys,
     FutureOr<void> Function(List<String> removedKeys)? onSuccess,
