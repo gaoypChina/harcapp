@@ -61,17 +61,17 @@ class IndivCompTaskCompl{
     revComment: revComment
   );
 
-  static IndivCompTaskCompl fromMap(String key, Map map) => IndivCompTaskCompl.from(
-      key: key,
+  static IndivCompTaskCompl fromRespMap(Map respMap, {String? key}) => IndivCompTaskCompl.from(
+      key: key??respMap['_key'],
 
-      participKey: map['userKey']??(throw InvalidResponseError('userKey')),
-      taskKey: map['taskKey']??(throw InvalidResponseError('taskKey')),
+      participKey: respMap['userKey']??(throw InvalidResponseError('userKey')),
+      taskKey: respMap['taskKey']??(throw InvalidResponseError('taskKey')),
 
-      acceptState: strToTaskAcceptState[map['accept_state']??(throw InvalidResponseError('accept_state'))],
-      reqTime: DateTime.tryParse(map['req_time']??''),
-      revTime: DateTime.tryParse(map['rev_time']??''),
-      reqComment: map['req_comment'],
-      revComment: map['rev_comment']
+      acceptState: strToTaskAcceptState[respMap['acceptState']??(throw InvalidResponseError('accept_state'))],
+      reqTime: DateTime.tryParse(respMap['reqTime']??''),
+      revTime: DateTime.tryParse(respMap['revTime']??''),
+      reqComment: respMap['reqComment'],
+      revComment: respMap['revComment']
   );
 
   IndivCompTaskCompl copyWith({

@@ -31,6 +31,7 @@ class AccountThumbnailWidget extends StatelessWidget{
   final String? name;
   final bool fullName;
   final IconData? icon;
+  final Widget? child;
 
   final bool shadow;
 
@@ -46,6 +47,7 @@ class AccountThumbnailWidget extends StatelessWidget{
       { this.name,
         this.fullName = false,
         this.icon,
+        this.child,
         this.shadow=false,
 
         this.elevated=true,
@@ -56,12 +58,10 @@ class AccountThumbnailWidget extends StatelessWidget{
         this.enabled = true,
         this.onTap,
         super.key
-      });
+      }):assert(name != null || icon != null || child != null);
 
   @override
   Widget build(BuildContext context) {
-
-    assert(name != null || icon != null);
 
     double size = this.size??defSize;
 
@@ -103,7 +103,7 @@ class AccountThumbnailWidget extends StatelessWidget{
             elevation: elevated?AppCard.bigElevation:0,
             radius: size/2,
             color: color??cardEnab_(context),
-            child: Center(
+            child: child??Center(
               child:
               icon == null?
               Text(

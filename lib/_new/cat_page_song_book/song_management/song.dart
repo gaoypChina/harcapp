@@ -259,31 +259,31 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
 
     Map<String, dynamic> map = jsonDecode(code)[fileName];
 
-    return Song.fromMap(fileName, map);
+    return Song.fromRespMap(fileName, map);
 
   }
 
   @protected
-  static SongDataEntity fromMap(String fileName, Map map){
+  static SongDataEntity fromRespMap(String fileName, Map respMap){
 
     List<Memory> memoryList = [];
     Map<String, Memory> memoryMap = {};
     bool hasChords = false;
 
-    String title = map[SongCore.PARAM_TITLE]??defTitle;
-    List<String> addTitles = ((map[SongCore.PARAM_HID_TITLES]??[]) as List).cast<String>();
-    List<String> authors = ((map[SongCore.PARAM_TEXT_AUTHORS]??defAuthors) as List).cast<String>();
-    List<String> performers = ((map[SongCore.PARAM_PERFORMERS]??defPerformers) as List).cast<String>();
-    List<String> composers = ((map[SongCore.PARAM_COMPOSERS]??defComposers) as List).cast<String>();
-    DateTime? releaseDate = DateTime.tryParse(map[SongCore.PARAM_REL_DATE]??'');
-    bool showRelDateMonth = map[SongCore.PARAM_SHOW_REL_DATE_MONTH]??true;
-    bool showRelDateDay = map[SongCore.PARAM_SHOW_REL_DATE_DAY]??true;
-    String ytLink = map[SongCore.PARAM_YT_LINK]??defYoutubeLink;
-    List<AddPerson> addPers = ((map[SongCore.PARAM_ADD_PERS]??[]) as List).map((addPersMap) => AddPerson.fromMap(addPersMap)).toList();
-    List<String> tags = ((map[SongCore.PARAM_TAGS]??[]) as List).cast<String>();
+    String title = respMap[SongCore.PARAM_TITLE]??defTitle;
+    List<String> addTitles = ((respMap[SongCore.PARAM_HID_TITLES]??[]) as List).cast<String>();
+    List<String> authors = ((respMap[SongCore.PARAM_TEXT_AUTHORS]??defAuthors) as List).cast<String>();
+    List<String> performers = ((respMap[SongCore.PARAM_PERFORMERS]??defPerformers) as List).cast<String>();
+    List<String> composers = ((respMap[SongCore.PARAM_COMPOSERS]??defComposers) as List).cast<String>();
+    DateTime? releaseDate = DateTime.tryParse(respMap[SongCore.PARAM_REL_DATE]??'');
+    bool showRelDateMonth = respMap[SongCore.PARAM_SHOW_REL_DATE_MONTH]??true;
+    bool showRelDateDay = respMap[SongCore.PARAM_SHOW_REL_DATE_DAY]??true;
+    String ytLink = respMap[SongCore.PARAM_YT_LINK]??defYoutubeLink;
+    List<AddPerson> addPers = ((respMap[SongCore.PARAM_ADD_PERS]??[]) as List).map<AddPerson>((addPersMap) => AddPerson.fromRespMap(addPersMap)).toList();
+    List<String> tags = ((respMap[SongCore.PARAM_TAGS]??[]) as List).cast<String>();
     late SongElementOld refren;
-    if (map.containsKey(SongCore.PARAM_REFREN)) {
-      Map refrenMap = map[SongCore.PARAM_REFREN];
+    if (respMap.containsKey(SongCore.PARAM_REFREN)) {
+      Map refrenMap = respMap[SongCore.PARAM_REFREN];
       refren = SongElementOld.from(refrenMap['text'], refrenMap['chords']);
     }
 
@@ -292,7 +292,7 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
     String songChords = '';
     String songText = '';
 
-    List<dynamic> partsList = map[SongCore.PARAM_PARTS]??[];
+    List<dynamic> partsList = respMap[SongCore.PARAM_PARTS]??[];
     for (Map partMap in partsList) {
       if (partMap.containsKey('refren'))
         for (int i = 0; i < partMap['refren']; i++) {

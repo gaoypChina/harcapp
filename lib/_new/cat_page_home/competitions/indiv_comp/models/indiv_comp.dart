@@ -86,16 +86,18 @@ class IndivCompBasicData{
     colorsKey: comp.colorsKey,
   );
 
-  static IndivCompBasicData fromResponse(Map resp) => IndivCompBasicData(
-    key: resp['_key']??(throw InvalidResponseError('_key')),
-    name: resp['name']??(throw InvalidResponseError('name')),
-    iconKey: resp['iconKey']??(throw InvalidResponseError('iconKey')),
-    colorsKey: resp['colorsKey']??(throw InvalidResponseError('colorsKey')),
+  static IndivCompBasicData fromRespMap(Map respMap) => IndivCompBasicData(
+    key: respMap['_key']??(throw InvalidResponseError('_key')),
+    name: respMap['name']??(throw InvalidResponseError('name')),
+    iconKey: respMap['iconKey']??(throw InvalidResponseError('iconKey')),
+    colorsKey: respMap['colorsKey']??(throw InvalidResponseError('colorsKey')),
   );
 
 }
 
 class IndivComp{
+
+  static const int participsPageSize = 10;
 
   static List<IndivCompTask> previewTasks = [
 
@@ -304,9 +306,8 @@ class IndivComp{
 
   final List<IndivCompParticip> particips;
   final Map<String, IndivCompParticip> participMap;
-
-  int get activeParticipCnt =>
-    particips.where((particip) => particip.profile.active).length;
+  int participCount;
+  int activeParticipCount;
 
   List<IndivCompTask> tasks;
   Map<String, IndivCompTask> taskMap;
@@ -321,6 +322,28 @@ class IndivComp{
     return result;
   }
 
+  void update(IndivComp updatedComp){
+    name = updatedComp.name;
+    iconKey = updatedComp.iconKey;
+    colorsKey = updatedComp.colorsKey;
+    
+    startTime = updatedComp.startTime;
+    endTime = updatedComp.endTime;
+    rankDispType = updatedComp.rankDispType;
+    shareCode = updatedComp.shareCode;
+    shareCodeSearchable = updatedComp.shareCodeSearchable;
+
+    bindedCircle = updatedComp.bindedCircle;
+
+    tasks = updatedComp.tasks;
+    taskMap = updatedComp.taskMap;
+
+    participCount = updatedComp.participCount;
+    activeParticipCount = updatedComp.activeParticipCount;
+
+    awards = updatedComp.awards;
+  }
+  
   bool get pinned => ShaPref.getBool(ShaPref.SHA_PREF_INDIV_COMP_PINNED_(key), true);
   void setPinned(BuildContext context, bool value){
     ShaPref.setBool(ShaPref.SHA_PREF_INDIV_COMP_PINNED_(key), value);
@@ -351,6 +374,7 @@ class IndivComp{
   void addParticips(List<IndivCompParticip> newParticips, {BuildContext? context}){
 
     for(IndivCompParticip particip in newParticips) {
+      if(participMap[particip.key] != null) continue;
       particips.add(particip);
       participMap[particip.key] = particip;
     }
@@ -363,7 +387,6 @@ class IndivComp{
     particips.clear();
     participMap.clear();
     particips.addAll(allParticips);
-    particips.sort((mem1, mem2) => mem1.name.compareTo(mem2.name));
     participMap.addAll({for (IndivCompParticip mem in allParticips) mem.key: mem});
 
     if(context == null) return;
@@ -427,6 +450,8 @@ class IndivComp{
     required this.rankDispType,
 
     required this.particips,
+    required this.participCount,
+    required this.activeParticipCount,
 
     required this.tasks,
     required this.awards,
@@ -451,47 +476,42 @@ class IndivComp{
 
   }
 
-  static IndivComp fromResponse(Map resp){
+  static IndivComp fromRespMap(Map respMap){
 
     List<IndivCompTask> tasks = [];
-    Map tasksRespMap = resp['tasks']??(throw InvalidResponseError('tasks'));
+    Map tasksRespMap = respMap['tasks']??(throw InvalidResponseError('tasks'));
     for (String taskKey in tasksRespMap.keys as Iterable<String>)
-      tasks.add(IndivCompTask.fromMap(taskKey, tasksRespMap[taskKey]));
+      tasks.add(IndivCompTask.fromRespMap(tasksRespMap[taskKey], key: taskKey));
 
     tasks.sort((task1, task2) => task1.key!.compareTo(task2.key!));
 
-    List<IndivCompParticip> particips = [];
-    Map participsRespMap = resp['participants']??(throw InvalidResponseError('participants'));
-    for (MapEntry participEntry in participsRespMap.entries)
-      particips.add(IndivCompParticip.fromMap(participEntry.key, participEntry.value));
-
-    particips.sort((p1, p2) => (p1.profile.rank?.sortIndex??0).toInt() - (p2.profile.rank?.sortIndex??0).toInt());
-
-    List<String?> awards = ((resp['awards']??(throw InvalidResponseError('awards'))) as List).cast<String?>();
+    List<String?> awards = ((respMap['awards']??(throw InvalidResponseError('awards'))) as List).cast<String?>();
 
     List<IndivCompAward> indivCompAward = awardListFromRaw(awards);
 
     return IndivComp(
-        key: resp['_key']??(throw InvalidResponseError('_key')),
-        name: resp['name']??(throw InvalidResponseError('name')),
-        colorsKey: resp['colorsKey']??(throw InvalidResponseError('colorsKey')),
-        iconKey: resp['iconKey']??(throw InvalidResponseError('iconKey')),
-        startTime: DateTime.tryParse(resp['startTime']??(throw InvalidResponseError('startTime'))),
-        endTime: DateTime.tryParse(resp['endTime'] ?? ''),
-        rankDispType: strToRankDispType[resp['rankDispType']??(throw InvalidResponseError('rankDispType'))],
+        key: respMap['_key']??(throw InvalidResponseError('_key')),
+        name: respMap['name']??(throw InvalidResponseError('name')),
+        colorsKey: respMap['colorsKey']??(throw InvalidResponseError('colorsKey')),
+        iconKey: respMap['iconKey']??(throw InvalidResponseError('iconKey')),
+        startTime: DateTime.tryParse(respMap['startTime']??(throw InvalidResponseError('startTime'))),
+        endTime: DateTime.tryParse(respMap['endTime'] ?? ''),
+        rankDispType: strToRankDispType[respMap['rankDispType']??(throw InvalidResponseError('rankDispType'))],
 
-        particips: particips,
+        particips: (respMap['participants']??(throw InvalidResponseError('participants'))).map<IndivCompParticip>((data) => IndivCompParticip.fromRespMap(data)).toList(),
+        participCount: respMap['participantCount'],
+        activeParticipCount: respMap['activeParticipConut'],
 
         tasks: tasks,
 
         awards: indivCompAward,
 
-        shareCode: resp["shareCode"],
-        shareCodeSearchable: resp["shareCodeSearchable"],
+        shareCode: respMap["shareCode"],
+        shareCodeSearchable: respMap["shareCodeSearchable"],
 
-        bindedCircle: resp["bindedCircle"] == null?
+        bindedCircle: respMap["bindedCircle"] == null?
         null:
-        CircleBasicData.fromResponse(resp["bindedCircle"])
+        CircleBasicData.fromRespMap(respMap["bindedCircle"])
     );
 
   }

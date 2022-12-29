@@ -248,14 +248,9 @@ class ForumPageState extends State<ForumPage>{
                 community: forum.community,
                 onSuccess: (updatedForum) async {
 
-                  updateForum(updatedForum);
+                  forum.update(updatedForum);
 
-                  forum.followers = updatedForum.followers;
-
-                  forum.setAllManagers(updatedForum.managers, context: context);
-                  forum.resetPosts(
-                    updatedForum.allPosts,
-                  );
+                  forum.resetPosts(updatedForum.allPosts);
 
                   loadedPage = 0;
 
@@ -376,7 +371,7 @@ class ForumPageState extends State<ForumPage>{
                                 palette: palette,
                                 onSaved: (updatedForum) async {
 
-                                  updateForum(updatedForum);
+                                  forum.update(updatedForum);
 
                                   if(mounted) Provider.of<ForumProvider>(context, listen: false).notify();
 
@@ -510,20 +505,6 @@ class ForumPageState extends State<ForumPage>{
 
     ),
   );
-
-  void updateForum(Forum updatedForum){
-
-    forum.description = updatedForum.description;
-    forum.coverImage = updatedForum.coverImage;
-    forum.colorsKey = updatedForum.colorsKey;
-
-    forum.liked = updatedForum.liked;
-    forum.likeCnt = updatedForum.likeCnt;
-
-    forum.followed = updatedForum.followed;
-    forum.followersCnt = updatedForum.followersCnt;
-
-  }
 
 }
 

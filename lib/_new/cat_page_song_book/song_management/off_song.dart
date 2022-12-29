@@ -59,8 +59,8 @@ class OffSong extends Song<OffSongGetResp>{
       memoryMap
   );
 
-  static OffSong fromMap(String fileName, Map map){
-    SongDataEntity songStuff = Song.fromMap(fileName, map);
+  static OffSong fromRespMap(String fileName, Map respMap){
+    SongDataEntity songStuff = Song.fromRespMap(fileName, respMap);
     return OffSong(
       fileName,
       songStuff.title,

@@ -211,22 +211,22 @@ class Announcement extends CommunityPublishable{
     waivedAttRespMembers = other.waivedAttRespMembers;
   }
 
-  static Announcement fromMap(Map resp, Circle circle, {String? key}) => Announcement(
-    key: key??resp['_key']??(throw InvalidResponseError('_key')),
-    title: resp['title'],
-    publishTime: DateTime.tryParse(resp['publishTimeStr']??(throw InvalidResponseError('publishTimeStr')))??(throw InvalidResponseError('publishTimeStr')),
-    lastUpdateTime: DateTime.tryParse(resp['lastUpdateTimeStr']??''),
-    startTime: DateTime.tryParse(resp['startTimeStr']??''),
-    endTime: DateTime.tryParse(resp['endTimeStr']??''),
-    coverImage: resp['coverImage'] == null? null: CommunityCoverImageData.from(resp['coverImage']),
-    place: resp['place'],
-    urlToPreview: resp['urlToPreview'],
-    author: UserData.fromMap(resp['author']??(throw InvalidResponseError('author'))),
-    text: resp['text']??(throw InvalidResponseError('text')),
-    pinned: resp['pinned']??false,
-    respMode: strToAnnouncementAttendanceRespMode[resp['attendanceRespMode']]??(throw InvalidResponseError('attendanceRespMode')),
-    attendance: ((resp['attendanceResponses']??{}) as Map).map((key, value) => MapEntry(key, AnnouncementAttendanceResp.fromResponse(value))),
-    waivedAttRespMembers: (resp['waivedAttRespMembers'] as List?)?.cast<String>()??(throw InvalidResponseError('waivedAttRespMembers')),
+  static Announcement fromRespMap(Map respMap, Circle circle, {String? key}) => Announcement(
+    key: key??respMap['_key']??(throw InvalidResponseError('_key')),
+    title: respMap['title'],
+    publishTime: DateTime.tryParse(respMap['publishTimeStr']??(throw InvalidResponseError('publishTimeStr')))??(throw InvalidResponseError('publishTimeStr')),
+    lastUpdateTime: DateTime.tryParse(respMap['lastUpdateTimeStr']??''),
+    startTime: DateTime.tryParse(respMap['startTimeStr']??''),
+    endTime: DateTime.tryParse(respMap['endTimeStr']??''),
+    coverImage: respMap['coverImage'] == null? null: CommunityCoverImageData.fromRespMap(respMap['coverImage']),
+    place: respMap['place'],
+    urlToPreview: respMap['urlToPreview'],
+    author: UserData.fromRespMap(respMap['author']??(throw InvalidResponseError('author'))),
+    text: respMap['text']??(throw InvalidResponseError('text')),
+    pinned: respMap['pinned']??false,
+    respMode: strToAnnouncementAttendanceRespMode[respMap['attendanceRespMode']]??(throw InvalidResponseError('attendanceRespMode')),
+    attendance: ((respMap['attendanceResponses']??{}) as Map).map((key, value) => MapEntry(key, AnnouncementAttendanceResp.fromRespMap(value))),
+    waivedAttRespMembers: (respMap['waivedAttRespMembers'] as List?)?.cast<String>()??(throw InvalidResponseError('waivedAttRespMembers')),
 
     circle: circle,
   );

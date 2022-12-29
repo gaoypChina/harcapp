@@ -27,10 +27,17 @@ class MarkerManagerTileExtended extends StatefulWidget{
   final MarkerManager manager;
   final dynamic heroTag;
 
+  final void Function()? onUpdated;
+  final void Function()? onRemoved;
+
   const MarkerManagerTileExtended({
     required this.marker,
     required this.manager,
     this.heroTag,
+
+    this.onUpdated,
+    this.onRemoved,
+
     super.key
   });
 
@@ -45,6 +52,9 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
   MarkerManager get manager => widget.manager;
 
   get heroTag => widget.heroTag;
+
+  void Function()? get onUpdated => widget.onUpdated;
+  void Function()? get onRemoved => widget.onRemoved;
 
   void openDetails() => showScrollBottomSheet(
       context: context,
@@ -90,6 +100,7 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
                       onSuccess: (){
                         if(manager.key == AccountData.key)
                           Navigator.pop(context);
+                        onUpdated?.call();
                       }
                   );
 
@@ -98,7 +109,7 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
                 },
               ),
 
-            if(manager.role ==MarkerRole.COMMUNITY_MODERATOR)
+            if(manager.role == MarkerRole.COMMUNITY_MODERATOR)
               ListTile(
                 enabled: !manager.shadow,
                 leading: Icon(markerRoleToIcon[MarkerRole.COMMUNITY_MODERATOR]),
@@ -123,6 +134,7 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
                       onSuccess: (){
                         if(manager.key == AccountData.key)
                           Navigator.pop(context);
+                        onUpdated?.call();
                       }
                   );
                   if(mounted) Navigator.pop(context);
@@ -136,7 +148,9 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
                   leading: const Icon(MdiIcons.logoutVariant, color: Colors.red),
                   title: Text('Wyproś ogarniacza', style: AppTextStyle(color: Colors.red)),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
-                  onTap: () => showRemoveManagerDialog()
+                  onTap: () => showRemoveManagerDialog(
+                    onSuccess: onRemoved
+                  )
               ),
 
           ],
@@ -150,7 +164,7 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
         isMe: manager.key == AccountData.key,
         loosingAdmin: newRole != MarkerRole.ADMIN,
         currAdminCount: marker.managers.where((m) => m.role == MarkerRole.ADMIN).length,
-        looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> środowiska <b>${marker.name}</b>?',
+        looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> miejsca <b>${marker.name}</b>?',
         handleUpdate: () async {
 
           showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
@@ -159,9 +173,11 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
               markerKey: marker.key,
               users: [MarkerManagerUpdateBody(manager.key, role: Optional.of(newRole))],
               onSuccess: (List<MarkerManager> allManagers){
-                marker.setAllManagers(allManagers, context: context);
-                Navigator.pop(context); // Close loading widget
+                marker.updateManagers(allManagers, context: context);
                 onSuccess?.call();
+
+                if(!mounted) return;
+                Navigator.pop(context); // Close loading widget
               },
               onServerMaybeWakingUp: () {
                 if(!mounted) return true;
@@ -171,7 +187,7 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
               },
               onError: (){
                 if(!mounted) return;
-                showAppToast(context, text: 'Coś tu poszło nie tak...');
+                showAppToast(context, text: simpleErrorMessage);
                 Navigator.pop(context); // Close loading widget
               }
           );
@@ -179,7 +195,7 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
         }
     );
 
-  Future<void> showRemoveManagerDialog() async {
+  Future<void> showRemoveManagerDialog({void Function()? onSuccess}) async {
 
     showRemoveDialog(
         context: context,
@@ -187,7 +203,7 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
         loosingAdmin: manager.key == AccountData.key,
         currAdminCount: marker.managers.where((m) => m.role == MarkerRole.ADMIN).length,
         removingUserTitleMess: 'Wypraszanie ogarniacza...',
-        removingUserDetailMess: '${manager.name} nie będzie mieć dłużej dostępu do zarządzania forum.\n\nNa pewno chcesz ${manager.isMale?'go':'ją'} wyprosić?',
+        removingUserDetailMess: '${manager.name} nie będzie mieć dłużej dostępu do zarządzania miejscem.\n\nNa pewno chcesz ${manager.isMale?'go':'ją'} wyprosić?',
         handleRemove: () async {
 
           showLoadingWidget(context, iconEnab_(context), 'Wypraszanie ogarniacza...');
@@ -196,6 +212,7 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
               userKeys: [manager.key],
               onSuccess: (List<String> removedManagers) async {
                 marker.removeManagersByKey(removedManagers, context: context);
+                onSuccess?.call();
 
                 if(!mounted) return;
                 showAppToast(context, text: 'Wyproszono');
@@ -213,7 +230,7 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
               },
               onError: () async {
                 if(!mounted) return;
-                showAppToast(context, text: 'Coś tu poszło nie tak...');
+                showAppToast(context, text: simpleErrorMessage);
                 await popPage(context);
               }
           );

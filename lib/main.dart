@@ -182,6 +182,8 @@ void main() async {
             //FORUM
             ChangeNotifierProvider(create: (context) => ForumProvider()),
             ChangeNotifierProvider(create: (context) => ForumManagersProvider()),
+            ChangeNotifierProvider(create: (context) => ForumFollowersProvider()),
+            ChangeNotifierProvider(create: (context) => ForumLikesProvider()),
             ChangeNotifierProvider(create: (context) => PostProvider()),
             ChangeNotifierProvider(create: (context) => PostListProvider()),
 

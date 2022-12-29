@@ -31,7 +31,6 @@ import 'package:provider/provider.dart';
 
 import '../song_widget.dart';
 import 'album_picker.dart';
-import 'song_part_editor.dart';
 
 enum EditType{
   newOwn,
@@ -301,7 +300,7 @@ class OwnSongPageState extends State<OwnSongPage> {
           onPressed: () async {
 
             SongRaw songRaw = currItemProv!.song;
-            Song song = OffSong.fromMap('', jsonDecode(songRaw.toCode(withFileName: false)));
+            Song song = OffSong.fromRespMap('', jsonDecode(songRaw.toCode(withFileName: false)));
 
             await Navigator.push(context, MaterialPageRoute(
               builder: (context) => AppScaffold(

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
@@ -17,8 +18,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class UserSet<T extends UserData>{
 
-  final IconData icon;
-  final String name;
+  final IconData? icon;
+  final String? name;
   final List<T> users;
   final List<String> permissions;
 
@@ -31,6 +32,7 @@ class UserListManagementLoadablePage<T extends UserData> extends StatefulWidget{
   final List<UserSet<T>> userSets;
   final Widget Function(BuildContext, T) userTileBuilder;
 
+  final Color? strongColor;
   final Color? backgroundColor;
   final Color? appBottomNavColor;
   final String appBarTitle;
@@ -43,12 +45,14 @@ class UserListManagementLoadablePage<T extends UserData> extends StatefulWidget{
   
   final int userCount;
   final FutureOr<void> Function() callReload;
-  final FutureOr<bool> Function(int) callLoadMore;
+  final FutureOr<bool> Function() callLoadMore;
+  final bool callLoadOnInit;
 
   const UserListManagementLoadablePage({
     required this.userSets,
     required this.userTileBuilder,
 
+    this.strongColor,
     this.backgroundColor,
     this.appBottomNavColor,
     this.appBarTitle = 'Lista ludzi',
@@ -63,6 +67,7 @@ class UserListManagementLoadablePage<T extends UserData> extends StatefulWidget{
     required this.userCount,
     required this.callReload,
     required this.callLoadMore,
+    required this.callLoadOnInit,
 
     super.key
   });
@@ -93,6 +98,7 @@ class UserListManagementLoadablePageState<T extends UserData> extends State<User
   List<UserSet<T>> get userSets => widget.userSets;
   Widget Function(BuildContext, T) get userTileBuilder => widget.userTileBuilder;
 
+  Color? get strongColor => widget.strongColor;
   Color? get backgroundColor => widget.backgroundColor;
   Color? get appBottomNavColor => widget.appBottomNavColor;
   String get appBarTitle => widget.appBarTitle;
@@ -105,7 +111,8 @@ class UserListManagementLoadablePageState<T extends UserData> extends State<User
 
   int get userCount => widget.userCount;
   FutureOr<void> Function() get callReload => widget.callReload;
-  FutureOr<bool> Function(int) get callLoadMore => widget.callLoadMore;
+  FutureOr<bool> Function() get callLoadMore => widget.callLoadMore;
+  bool get callLoadOnInit => widget.callLoadOnInit;
 
   late RefreshController refreshController;
   
@@ -117,17 +124,36 @@ class UserListManagementLoadablePageState<T extends UserData> extends State<User
     return allLoaded < userCount;
   }
 
-  late int lastLoadedPage;
-
   @override
   void initState() {
-    refreshController = RefreshController();
-
-    lastLoadedPage = -1;
+    refreshController = RefreshController(
+        initialLoadStatus: callLoadOnInit?LoadStatus.loading:LoadStatus.idle
+    );
+    if(callLoadOnInit)
+      onLoading();
 
     super.initState();
   }
-  
+
+  void onLoading() async {
+
+    if(!moreToLoad) {
+      refreshController.loadComplete();
+      return;
+    }
+
+    if(!await isNetworkAvailable()){
+      showAppToast(context, text: 'Brak dostępu do Internetu');
+      refreshController.loadComplete();
+      return;
+    }
+
+    bool success = await callLoadMore.call();
+
+    refreshController.loadComplete();
+
+  }
+
   @override
   Widget build(BuildContext context){
 
@@ -137,9 +163,11 @@ class UserListManagementLoadablePageState<T extends UserData> extends State<User
       if(userSet.users.isNotEmpty || showIfEmpty)
         userSetWidgets.add(_Border(
           backgroundColor: backgroundColor,
-          header: _ListHeader(
-            icon: userSet.icon,
-            title: userSet.name,
+          header: userSet.icon == null && userSet.name == null?
+          null:
+          _ListHeader(
+            icon: userSet.icon!,
+            title: userSet.name!,
             trailing: headerTrailing?.call(context, userSet),
             permissions: userSet.permissions,
             color: backgroundColor,
@@ -165,6 +193,57 @@ class UserListManagementLoadablePageState<T extends UserData> extends State<User
           enablePullDown: true,
           enablePullUp: !refreshController.isRefresh,
           physics: const BouncingScrollPhysics(),
+          header: MaterialClassicHeader(
+              backgroundColor: cardEnab_(context),
+              color: strongColor
+          ),
+          footer: CustomFooter(
+            height: moreToLoad?55:0,
+            builder: (BuildContext context, LoadStatus? mode){
+
+              Widget body;
+              if(!moreToLoad)
+                // This doesn't matter - `enablePullUp` is off anyway.
+                body = Container();
+
+              else if(mode == LoadStatus.idle)
+                body = Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(MdiIcons.arrowUp),
+                    const SizedBox(width: Dimen.ICON_MARG),
+                    Text(
+                        'Przeciągnij, by załadować kolejne',
+                        style: AppTextStyle()
+                    ),
+                  ],
+                );
+
+              else if(mode == LoadStatus.loading)
+                body = SpinKitChasingDots(
+                  color: strongColor??iconEnab_(context),
+                  size: Dimen.ICON_SIZE,
+                );
+
+              else if(mode == LoadStatus.failed)
+                body = Text("Coś poszło nie tak!", style: AppTextStyle());
+
+              else if(mode == LoadStatus.canLoading)
+                body = Text("Puść, by załadować", style: AppTextStyle());
+
+              else
+                body = Text(
+                  'Nie wiem co tu wyświtlić. Pozdrawiam mamę!',
+                  style: AppTextStyle(),
+                );
+
+              return SizedBox(
+                height: 55.0,
+                child: Center(child: body),
+              );
+
+            },
+          ),
           controller: refreshController,
           onRefresh: () async {
 
@@ -172,26 +251,7 @@ class UserListManagementLoadablePageState<T extends UserData> extends State<User
             refreshController.refreshCompleted();
 
           },
-          onLoading: () async {
-
-            if(!moreToLoad) {
-              refreshController.loadComplete();
-              return;
-            }
-
-            if(!await isNetworkAvailable()){
-              showAppToast(context, text: 'Brak dostępu do Internetu');
-              refreshController.loadComplete();
-              return;
-            }
-
-            bool success = await callLoadMore.call(lastLoadedPage + 1);
-            if(success)
-              lastLoadedPage++;
-
-            refreshController.loadComplete();
-
-          },
+          onLoading: onLoading,
           child: CustomScrollView(
             physics: const BouncingScrollPhysics(),
             slivers: [
@@ -422,7 +482,7 @@ class PermissionsDialog extends StatelessWidget{
 
 class _Border extends StatelessWidget{
 
-  final Widget header;
+  final Widget? header;
   final Widget body;
   final Color? backgroundColor;
 
@@ -444,10 +504,12 @@ class _Border extends StatelessWidget{
           borderRadius: BorderRadius.circular(AppCard.bigRadius-6),
           clipBehavior: Clip.hardEdge,
           color: backgroundColor??background_(context),
-          child: Column(
+          child: header==null?
+          body:
+          Column(
             children: [
               const SizedBox(height: Dimen.defMarg),
-              header,
+              header!,
               const SizedBox(height: Dimen.defMarg),
               body
             ],

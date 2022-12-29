@@ -167,7 +167,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
               forumKey: forum.key,
               users: [ForumManagerUpdateBody(manager.key, role: newRole)],
               onSuccess: (List<ForumManager> allManagers){
-                forum.setAllManagers(allManagers, context: context);
+                forum.updateManagers(allManagers, context: context);
                 Navigator.pop(context); // Close loading widget
                 onSuccess?.call();
               },
@@ -179,7 +179,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
               },
               onError: (){
                 if(!mounted) return;
-                showAppToast(context, text: 'Coś tu poszło nie tak...');
+                showAppToast(context, text: simpleErrorMessage);
                 Navigator.pop(context); // Close loading widget
               }
           );
@@ -221,7 +221,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
               },
               onError: () async {
                 if(!mounted) return;
-                showAppToast(context, text: 'Coś tu poszło nie tak...');
+                showAppToast(context, text: simpleErrorMessage);
                 await popPage(context);
               }
           );

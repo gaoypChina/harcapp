@@ -63,8 +63,8 @@ class ApiCircle{
     onSuccess: (Response response, DateTime now) async {
       List<Circle> circleList = [];
       for(Map map in response.data) {
-        Community community = Community.fromResponse(map['community']);
-        Circle circle = Circle.fromResponse(map['circle'], community);
+        Community community = Community.fromRespMap(map['community']);
+        Circle circle = Circle.fromRespMap(map['circle'], community);
         circleList.add(circle);
       }
 
@@ -88,7 +88,7 @@ class ApiCircle{
         '${API.SERVER_URL}api/circle/$circleKey',
     ),
     onSuccess: (Response response, DateTime now) async {
-      Circle circle = Circle.fromResponse(response.data, community);
+      Circle circle = Circle.fromRespMap(response.data, community);
       onSuccess?.call(circle);
     },
     onForceLoggedOut: onForceLoggedOut,
@@ -124,7 +124,7 @@ class ApiCircle{
           })
       ),
       onSuccess: (Response response, DateTime now) async{
-        Circle circle = Circle.fromResponse(response.data, community);
+        Circle circle = Circle.fromRespMap(response.data, community);
         onSuccess?.call(circle);
       },
       onForceLoggedOut: onForceLoggedOut,
@@ -205,13 +205,13 @@ class ApiCircle{
         bool newCommunityAdded;
         if(community == null) {
           newCommunityAdded = true;
-          community = Community.fromResponse(response.data['community']);
-          circle = Circle.fromResponse(response.data['circle'], community);
+          community = Community.fromRespMap(response.data['community']);
+          circle = Circle.fromRespMap(response.data['circle'], community);
           Community.addToAll(community, mapCircle: false);
           community.setCircle(circle);
         }else{
           newCommunityAdded = false;
-          circle = Circle.fromResponse(response.data['circle'], community);
+          circle = Circle.fromRespMap(response.data['circle'], community);
           community.setCircle(circle);
         }
 
@@ -254,7 +254,7 @@ class ApiCircle{
       ),
       onSuccess: (Response response, DateTime now) async {
         if(onSuccess==null) return;
-        Circle circle = Circle.fromResponse(response.data, community);
+        Circle circle = Circle.fromRespMap(response.data, community);
         onSuccess(circle);
       },
       onForceLoggedOut: onForceLoggedOut,
@@ -264,7 +264,47 @@ class ApiCircle{
     );
 
   }
-  
+
+  static Future<Response?> getMembers({
+    required String circleKey,
+    required int? pageSize,
+    required CircleRole? lastRole,
+    required String? lastUserName,
+    required String? lastUserKey,
+    FutureOr<void> Function(List<Member>)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) async{
+
+    return API.sendRequest(
+        withToken: true,
+        requestSender: (Dio dio) => dio.get(
+            '${API.SERVER_URL}api/circle/$circleKey/member',
+            queryParameters: {
+              if(pageSize != null) 'pageSize': pageSize,
+              if(lastRole != null) 'lastRole': circleRoleToStr[lastRole],
+              if(lastUserName != null) 'lastUserName': lastUserName,
+              if(lastUserKey != null) 'lastUserKey': lastUserKey,
+            }
+        ),
+        onSuccess: (Response response, DateTime now) async {
+          if(onSuccess == null) return;
+
+          List<Member> members = [];
+          Map membersRespMap = response.data;
+          for(MapEntry memEntry in membersRespMap.entries)
+            members.add(Member.fromRespMap(memEntry.value, key: memEntry.key));
+
+          onSuccess(members);
+        },
+        onForceLoggedOut: onForceLoggedOut,
+        onServerMaybeWakingUp: onServerMaybeWakingUp,
+        onError: (err) async => onError?.call()
+    );
+
+  }
+
   static Future<Response?> addMembers({
     required String circleKey,
     required List<MemberRespBodyNick> users,
@@ -293,7 +333,7 @@ class ApiCircle{
         List<Member> members = [];
         Map membersRespMap = response.data;
         for(MapEntry memEntry in membersRespMap.entries)
-          members.add(Member.fromMap(memEntry.value, key: memEntry.key));
+          members.add(Member.fromRespMap(memEntry.value, key: memEntry.key));
 
         onSuccess(members);
       },
@@ -336,7 +376,7 @@ class ApiCircle{
           List<Member> particips = [];
           Map participsRespMap = response.data;
           for(MapEntry participEntry in participsRespMap.entries)
-            particips.add(Member.fromMap(participEntry.value, key: participEntry.key));
+            particips.add(Member.fromRespMap(participEntry.value, key: participEntry.key));
 
           onSuccess(particips);
         },
@@ -410,7 +450,7 @@ class ApiCircle{
 
         List<Announcement> result = [];
         for(String key in (response.data as Map).keys)
-          result.add(Announcement.fromMap(response.data[key], Community.allCircleMap![circleKey]!, key: key));
+          result.add(Announcement.fromRespMap(response.data[key], Community.allCircleMap![circleKey]!, key: key));
 
         onSuccess?.call(result, pinnedOnly, awaitingOnly);
       },
@@ -456,7 +496,7 @@ class ApiCircle{
         })
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(Announcement.fromMap(response.data, Community.allCircleMap![circleKey]!)),
+          onSuccess?.call(Announcement.fromRespMap(response.data, Community.allCircleMap![circleKey]!)),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onImageDBWakingUp: onImageDBWakingUp,
@@ -507,7 +547,7 @@ class ApiCircle{
         })
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(Announcement.fromMap(response.data, announcement.circle)),
+          onSuccess?.call(Announcement.fromRespMap(response.data, announcement.circle)),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onImageDBWakingUp: onImageDBWakingUp,
@@ -576,7 +616,7 @@ class ApiCircle{
         }),
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(AnnouncementAttendanceResp.fromResponse(response.data), now),
+          onSuccess?.call(AnnouncementAttendanceResp.fromRespMap(response.data), now),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (err) async => onError?.call()

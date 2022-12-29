@@ -27,9 +27,9 @@ class MarkerManager extends UserData{
     role: role,
   );
 
-  static MarkerManager fromMap(Map map, {String? key}) => MarkerManager.fromUserData(
-    UserData.fromMap(map, key: key),
-    role: strToMarkerRole[map['role']]??(throw InvalidResponseError('role')),
+  static MarkerManager fromRespMap(Map respMap, {String? key}) => MarkerManager.fromUserData(
+    UserData.fromRespMap(respMap, key: key),
+    role: strToMarkerRole[respMap['role']]??(throw InvalidResponseError('role')),
   );
 
   UserData toUserData() => UserData(key: key, name: name, shadow: shadow, sex: sex);

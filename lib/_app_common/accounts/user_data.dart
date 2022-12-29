@@ -40,11 +40,11 @@ class UserData{
     required this.sex,
   });
 
-  static UserData fromMap(Map map, {String? key}) => UserData(
-    key: key??map['_key']??(throw InvalidResponseError('_key')),
-    name: map['name']??(throw InvalidResponseError('name')),
-    shadow: map['shadow']??(throw InvalidResponseError('shadow')),
-    sex: strToSex[map['sex']]??(throw InvalidResponseError('sex')),
+  static UserData fromRespMap(Map respMap, {String? key}) => UserData(
+    key: key??respMap['_key']??(throw InvalidResponseError('_key')),
+    name: respMap['name']??(throw InvalidResponseError('name')),
+    shadow: respMap['shadow']??(throw InvalidResponseError('shadow')),
+    sex: strToSex[respMap['sex']]??(throw InvalidResponseError('sex')),
     //nick: nick,
   );
 
@@ -62,8 +62,8 @@ class UserDataNick extends UserData{
     required this.nick,
   });
 
-  static UserDataNick fromMap(Map map, String nick, {String? key}){
-    UserData userData = UserData.fromMap(map, key: key);
+  static UserDataNick fromRespMap(Map respMap, String nick, {String? key}){
+    UserData userData = UserData.fromRespMap(respMap, key: key);
     return UserDataNick(
         key: userData.key,
         name: userData.name,

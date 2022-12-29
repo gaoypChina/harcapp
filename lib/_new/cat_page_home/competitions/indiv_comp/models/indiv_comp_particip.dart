@@ -26,13 +26,17 @@ class IndivCompParticip extends UserData{
       profile: profile
   );
 
-  static IndivCompParticip fromMap(String key, Map map) => IndivCompParticip.fromUserData(
-    UserData.fromMap(map, key: key),
-    profile: IndivCompProfile.fromResponse(map['profile']??(throw InvalidResponseError('profile'))),
+  static IndivCompParticip fromRespMap(Map respMap, {String? key}) => IndivCompParticip.fromUserData(
+    UserData.fromRespMap(respMap, key: key),
+    profile: IndivCompProfile.fromRespMap(respMap['profile']??(throw InvalidResponseError('profile'))),
   );
 
-  get isMale => sex == Sex.male;
-
   UserData toUserData() => UserData(key: key, name: name, shadow: shadow, sex: sex);
+
+  @override
+  int get hashCode => key.hashCode + name.hashCode + shadow.hashCode + sex.hashCode + profile.hashCode;
+
+  @override
+  bool operator ==(Object other) => other is IndivCompParticip && key == other.key;
 
 }

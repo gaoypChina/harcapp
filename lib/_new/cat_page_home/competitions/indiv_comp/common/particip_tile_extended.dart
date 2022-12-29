@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
@@ -93,11 +92,11 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
         duration: const Duration(milliseconds: 300),
         child: IndivCompRankIcon(
           particip.profile,
-          activeParticipCnt: comp.activeParticipCnt,
+          activeParticipCnt: comp.activeParticipCount,
           showPercent: comp.rankDispType == RankDispType.RANGE_PERC,
           colors: comp.colors,
           size: 42.0,
-          key: ValueKey(Tuple2(comp.rankDispType, comp.activeParticipCnt)),
+          key: ValueKey(Tuple2(comp.rankDispType, comp.activeParticipCount)),
         )
     ):null,
   );
@@ -302,11 +301,11 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
 
         showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
 
-        await ApiIndivComp.updateUsers(
+        await ApiIndivComp.updateParticipants(
             compKey: comp.key,
             users: [ParticipBody(particip.key, newRole, newActive)],
             onSuccess: (List<IndivCompParticip> allParticips){
-              comp.setAllParticips(allParticips, context: context);
+              comp.updateParticips(allParticips, context: context);
               Navigator.pop(context); // Close loading widget.
               Navigator.pop(context);
               onSuccess?.call();
@@ -325,7 +324,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
             },
             onError: (){
               if(!mounted) return;
-              showAppToast(context, text: 'Coś tu poszło nie tak...');
+              showAppToast(context, text: simpleErrorMessage);
               Navigator.pop(context);  // Close loading widget.
             }
         );
@@ -345,7 +344,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
         handleRemove: () async {
 
           showLoadingWidget(context, comp.colors.avgColor, 'Wypraszanie użytkownika...');
-          await ApiIndivComp.removeUsers(
+          await ApiIndivComp.removeParticipants(
               compKey: comp.key,
               userKeys: [particip.key],
               onSuccess: (List<String> removedParticips) async {
@@ -369,7 +368,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
               },
               onError: () async {
                 if(!mounted) return;
-                showAppToast(context, text: 'Coś tu poszło nie tak...');
+                showAppToast(context, text: simpleErrorMessage);
                 await popPage(context); // Close loading widget.
                 await popPage(context);
               }

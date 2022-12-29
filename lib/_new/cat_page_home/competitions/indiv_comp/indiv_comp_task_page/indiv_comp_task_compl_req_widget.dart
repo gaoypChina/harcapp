@@ -107,7 +107,7 @@ class IndivTaskComplReqWidgetState extends State<IndivTaskComplReqWidget>{
 
                     setState(() => sending = true);
                     showAppToast(context, text: 'Przesyłanie...');
-                    await ApiIndivComp.sendTaskComplReq(
+                    await ApiIndivComp.requestCompletedTask(
                         allTasks: allTasks,
                         taskKey: task.key,
                         comment: controller.text,

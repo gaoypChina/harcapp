@@ -185,13 +185,13 @@ class CommunityCoverImageData{
 
   const CommunityCoverImageData(this.dataType, {this.sample, this.url, this.localFilePath});
 
-  static CommunityCoverImageData from(Map responseData){
+  static CommunityCoverImageData fromRespMap(Map respMap){
 
     // E.g.: vectorpouch:woman-greenhouse-time-care-garden-plants
     // E.g.: vectorpouch:car-parking-city-street#
-    if(responseData.containsKey(samplePrefix)) {
+    if(respMap.containsKey(samplePrefix)) {
 
-      String code = responseData[samplePrefix];
+      String code = respMap[samplePrefix];
       List<GraphicalResource> graphics = [];
 
       if(code.contains('#') && code.endsWith("#")){
@@ -209,7 +209,7 @@ class CommunityCoverImageData{
 
     // E.g.: www.image.com/0783450317984
     }else // if(responseData.containsKey(urlPrefix))
-      return CommunityCoverImageData(CommunityCoverImageDataType.url, url: responseData[urlPrefix]);
+      return CommunityCoverImageData(CommunityCoverImageDataType.url, url: respMap[urlPrefix]);
 
   }
 

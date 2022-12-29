@@ -26,9 +26,9 @@ class ForumManager extends UserData{
       role: role,
   );
 
-  static ForumManager fromMap(Map map, {String? key}) => ForumManager.fromUserData(
-    UserData.fromMap(map, key: key),
-    role: strToForumRole[map['role']]??(throw InvalidResponseError('role')),
+  static ForumManager fromRespMap(Map respMap, {String? key}) => ForumManager.fromUserData(
+    UserData.fromRespMap(respMap, key: key),
+    role: strToForumRole[respMap['role']]??(throw InvalidResponseError('role')),
   );
 
   UserData toUserData() => UserData(key: key, name: name, shadow: shadow, sex: sex);

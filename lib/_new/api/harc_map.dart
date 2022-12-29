@@ -60,7 +60,7 @@ class ApiHarcMap{
     onSuccess: (Response response, DateTime now) async {
       List<MarkerData> markerDataList = [];
       for(Map map in response.data) {
-        MarkerData markerRespBody = MarkerData.fromMap(map);
+        MarkerData markerRespBody = MarkerData.fromRespMap(map);
         markerDataList.add(markerRespBody);
       }
 
@@ -102,7 +102,7 @@ class ApiHarcMap{
           })
       ),
       onSuccess: (Response response, DateTime now) async{
-        MarkerData markerData = MarkerData.fromMap(response.data);
+        MarkerData markerData = MarkerData.fromRespMap(response.data);
         onSuccess?.call(markerData);
       },
       onForceLoggedOut: onForceLoggedOut,
@@ -157,7 +157,7 @@ class ApiHarcMap{
             data: jsonEncode(reqMap)
         ),
         onSuccess: (Response response, DateTime now) async{
-          MarkerData markerData = MarkerData.fromMap(response.data);
+          MarkerData markerData = MarkerData.fromRespMap(response.data);
           onSuccess?.call(markerData);
         },
         onForceLoggedOut: onForceLoggedOut,
@@ -218,7 +218,7 @@ class ApiHarcMap{
           List<MarkerManager> managers = [];
           Map membersRespMap = response.data;
           for(MapEntry memEntry in membersRespMap.entries)
-            managers.add(MarkerManager.fromMap(memEntry.value, key: memEntry.key));
+            managers.add(MarkerManager.fromRespMap(memEntry.value, key: memEntry.key));
 
           onSuccess(managers);
         },
@@ -257,7 +257,7 @@ class ApiHarcMap{
           List<MarkerManager> managers = [];
           Map membersRespMap = response.data;
           for(MapEntry memEntry in membersRespMap.entries)
-            managers.add(MarkerManager.fromMap(memEntry.value, key: memEntry.key));
+            managers.add(MarkerManager.fromRespMap(memEntry.value, key: memEntry.key));
 
           onSuccess(managers);
         },
@@ -296,7 +296,7 @@ class ApiHarcMap{
           List<MarkerManager> managers = [];
           Map managersRespMap = response.data;
           for(MapEntry managerEntry in managersRespMap.entries)
-            managers.add(MarkerManager.fromMap(managerEntry.value, key: managerEntry.key));
+            managers.add(MarkerManager.fromRespMap(managerEntry.value, key: managerEntry.key));
 
           onSuccess(managers);
         },
@@ -343,7 +343,7 @@ class ApiHarcMap{
         List<Tuple2<CommunityPreviewData, String?>> communities = [];
 
         for(Map<String, dynamic> resp in response.data as List)
-          communities.add(Tuple2(CommunityPreviewData.fromResponse(resp), resp["note"] as String?));
+          communities.add(Tuple2(CommunityPreviewData.fromRespMap(resp), resp["note"] as String?));
         onSuccess?.call(communities);
       },
       onForceLoggedOut: onForceLoggedOut,

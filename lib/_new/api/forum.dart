@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_new/cat_page_home/community/common/community_cover_image_data.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/forum_role.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/model/forum.dart';
@@ -61,8 +62,8 @@ class ApiForum{
     onSuccess: (Response response, DateTime now) async {
       List<Forum> forumList = [];
       for(Map map in response.data) {
-        Community community = Community.fromResponse(map['community']);
-        Forum forum = Forum.fromResponse(map['forum'], community);
+        Community community = Community.fromRespMap(map['community']);
+        Forum forum = Forum.fromRespMap(map['forum'], community);
         forumList.add(forum);
       }
 
@@ -86,7 +87,7 @@ class ApiForum{
         '${API.SERVER_URL}api/forum/$forumKey',
     ),
     onSuccess: (Response response, DateTime now) async {
-      Forum forum = Forum.fromResponse(response.data, community);
+      Forum forum = Forum.fromRespMap(response.data, community);
       onSuccess?.call(forum);
     },
     onForceLoggedOut: onForceLoggedOut,
@@ -122,7 +123,7 @@ class ApiForum{
           })
       ),
       onSuccess: (Response response, DateTime now) async{
-        Forum forum = Forum.fromResponse(response.data, community);
+        Forum forum = Forum.fromRespMap(response.data, community);
         onSuccess?.call(forum);
       },
       onForceLoggedOut: onForceLoggedOut,
@@ -179,7 +180,7 @@ class ApiForum{
       ),
       onSuccess: (Response response, DateTime now) async {
         if(onSuccess==null) return;
-        Forum forum = Forum.fromResponse(response.data, community);
+        Forum forum = Forum.fromRespMap(response.data, community);
         onSuccess(forum);
       },
       onForceLoggedOut: onForceLoggedOut,
@@ -214,6 +215,44 @@ class ApiForum{
       onError: (_) async => onError?.call()
   );
 
+  static Future<Response?> getLikes({
+    required String forumKey,
+    required int? pageSize,
+    required String? lastUserName,
+    required String? lastUserKey,
+    FutureOr<void> Function(List<UserData>)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) async{
+
+    return API.sendRequest(
+        withToken: true,
+        requestSender: (Dio dio) => dio.get(
+            '${API.SERVER_URL}api/forum/$forumKey/like',
+            queryParameters: {
+              if(pageSize != null) 'pageSize': pageSize,
+              if(lastUserName != null) 'lastUserName': lastUserName,
+              if(lastUserKey != null) 'lastUserKey': lastUserKey,
+            }
+        ),
+        onSuccess: (Response response, DateTime now) async {
+          if(onSuccess == null) return;
+
+          List<UserData> members = [];
+          Map userRespMap = response.data;
+          for(MapEntry memEntry in userRespMap.entries)
+            members.add(UserData.fromRespMap(memEntry.value, key: memEntry.key));
+
+          onSuccess(members);
+        },
+        onForceLoggedOut: onForceLoggedOut,
+        onServerMaybeWakingUp: onServerMaybeWakingUp,
+        onError: (err) async => onError?.call()
+    );
+
+  }
+
   static Future<Response?> followForum({
     required String forumKey,
     required bool follow,
@@ -243,6 +282,80 @@ class ApiForum{
 
   }
 
+  static Future<Response?> getFollowers({
+    required String forumKey,
+    required int? pageSize,
+    required String? lastUserName,
+    required String? lastUserKey,
+    FutureOr<void> Function(List<UserData>)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) async{
+
+    return API.sendRequest(
+        withToken: true,
+        requestSender: (Dio dio) => dio.get(
+            '${API.SERVER_URL}api/forum/$forumKey/follower',
+            queryParameters: {
+              if(pageSize != null) 'pageSize': pageSize,
+              if(lastUserName != null) 'lastUserName': lastUserName,
+              if(lastUserKey != null) 'lastUserKey': lastUserKey,
+            }
+        ),
+        onSuccess: (Response response, DateTime now) async {
+          if(onSuccess == null) return;
+
+          List<UserData> members = [];
+          Map userRespMap = response.data;
+          for(MapEntry memEntry in userRespMap.entries)
+            members.add(UserData.fromRespMap(memEntry.value, key: memEntry.key));
+
+          onSuccess(members);
+        },
+        onForceLoggedOut: onForceLoggedOut,
+        onServerMaybeWakingUp: onServerMaybeWakingUp,
+        onError: (err) async => onError?.call()
+    );
+
+  }
+
+  static Future<Response?> getManagers({
+    required String forumKey,
+    required int? pageSize,
+    required ForumRole? lastRole,
+    required String? lastUserName,
+    required String? lastUserKey,
+    FutureOr<void> Function(List<ForumManager>)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      requestSender: (Dio dio) => dio.get(
+          '${API.SERVER_URL}api/forum/$forumKey/manager',
+          queryParameters: {
+            if(pageSize != null) 'pageSize': pageSize,
+            if(lastRole != null) 'lastRole': forumRoleToStr[lastRole],
+            if(lastUserName != null) 'lastUserName': lastUserName,
+            if(lastUserKey != null) 'lastUserKey': lastUserKey,
+          }
+      ),
+      onSuccess: (Response response, DateTime now) async {
+        if(onSuccess == null) return;
+
+        List<ForumManager> managers = [];
+        Map membersRespMap = response.data;
+        for(MapEntry memEntry in membersRespMap.entries)
+          managers.add(ForumManager.fromRespMap(memEntry.value, key: memEntry.key));
+
+        onSuccess(managers);
+      },
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (err) async => onError?.call()
+  );
+
   static Future<Response?> addManagers({
     required String forumKey,
     required List<ForumManagerRespBodyNick> users,
@@ -271,7 +384,7 @@ class ApiForum{
         List<ForumManager> managers = [];
         Map managersRespMap = response.data;
         for(MapEntry managerEntry in managersRespMap.entries)
-          managers.add(ForumManager.fromMap(managerEntry.value, key: managerEntry.key));
+          managers.add(ForumManager.fromRespMap(managerEntry.value, key: managerEntry.key));
 
         onSuccess(managers);
       },
@@ -310,7 +423,7 @@ class ApiForum{
           List<ForumManager> managers = [];
           Map managersRespMap = response.data;
           for(MapEntry participEntry in managersRespMap.entries)
-            managers.add(ForumManager.fromMap(participEntry.value, key: participEntry.key));
+            managers.add(ForumManager.fromRespMap(participEntry.value, key: participEntry.key));
 
           onSuccess(managers);
         },
@@ -363,7 +476,7 @@ class ApiForum{
 
         List<Post> result = [];
         for(String key in (response.data as Map).keys)
-          result.add(Post.fromMap(response.data[key], Community.allForumMap![forumKey]!, key: key));
+          result.add(Post.fromRespMap(response.data[key], Community.allForumMap![forumKey]!, key: key));
 
         onSuccess?.call(result);
       },
@@ -400,7 +513,7 @@ class ApiForum{
         }),
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(Post.fromMap(response.data, Community.allForumMap![forumKey]!)),
+          onSuccess?.call(Post.fromRespMap(response.data, Community.allForumMap![forumKey]!)),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onImageDBWakingUp: onImageDBWakingUp,
@@ -440,7 +553,7 @@ class ApiForum{
         })
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(Post.fromMap(response.data, post.forum)),
+          onSuccess?.call(Post.fromRespMap(response.data, post.forum)),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onImageDBWakingUp: onImageDBWakingUp,

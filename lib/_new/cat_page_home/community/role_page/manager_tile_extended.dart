@@ -180,7 +180,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
               },
               onError: (){
                 if(!mounted) return;
-                showAppToast(context, text: 'Coś tu poszło nie tak...');
+                showAppToast(context, text: simpleErrorMessage);
                 Navigator.pop(context); // Close loading widget
               }
           );
@@ -196,7 +196,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
         loosingAdmin: manager.key == AccountData.key,
         currAdminCount: community.managers.where((m) => m.role == CommunityRole.ADMIN).length,
         removingUserTitleMess: 'Wypraszanie ogarniacza...',
-        removingUserDetailMess: '${manager.name} nie będzie mieć dłużej dostępu do zarządzania forum.\n\nNa pewno chcesz ${manager.isMale?'go':'ją'} wyprosić?',
+        removingUserDetailMess: '${manager.name} nie będzie mieć dłużej dostępu do zarządzania środowiskiem.\n\nNa pewno chcesz ${manager.isMale?'go':'ją'} wyprosić?',
         handleRemove: () async {
 
           showLoadingWidget(context, CommunityCoverColors.strongColor(context, palette), 'Wypraszanie ogarniacza...');
@@ -222,7 +222,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
               },
               onError: () async {
                 if(!mounted) return;
-                showAppToast(context, text: 'Coś tu poszło nie tak...');
+                showAppToast(context, text: simpleErrorMessage);
                 await popPage(context);
               }
           );

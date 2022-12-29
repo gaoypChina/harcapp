@@ -106,8 +106,8 @@ class OwnSong extends Song<OwnSongGetResp>{
       memoryMap
   );
 
-  static OwnSong fromMap(String fileName, Map map){
-    SongDataEntity songStuff = Song.fromMap(fileName, map);
+  static OwnSong fromRespMap(String fileName, Map respMap){
+    SongDataEntity songStuff = Song.fromRespMap(fileName, respMap);
     return OwnSong(
       fileName,
       songStuff.title,
@@ -176,13 +176,13 @@ class OwnSong extends Song<OwnSongGetResp>{
     saveStringAsFile(getOwnSongFilePath, allOwnSngsJsonStr);
     saveStringAsFile(getOwnLastFileNameFilePath, lclId);
 
-    return OwnSong.fromMap(lclId, jsonMap);
+    return OwnSong.fromRespMap(lclId, jsonMap);
 
   }
 
   recode(String code){
     Map map = jsonDecode(code);
-    OwnSong song = OwnSong.fromMap(fileName, map);
+    OwnSong song = OwnSong.fromRespMap(fileName, map);
     copyWith(song);
   }
 

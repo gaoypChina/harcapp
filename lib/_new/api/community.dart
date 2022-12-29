@@ -75,7 +75,7 @@ class ApiCommunity{
 
       List<CommunityPreviewData> result = [];
       for(Map map in response.data)
-        result.add(CommunityPreviewData.fromResponse(map));
+        result.add(CommunityPreviewData.fromRespMap(map));
 
       onSuccess?.call(result);
     },
@@ -97,7 +97,7 @@ class ApiCommunity{
     onSuccess: (Response response, DateTime now) async {
       List<Community> communityList = [];
       for(Map map in response.data)
-        communityList.add(Community.fromResponse(map));
+        communityList.add(Community.fromRespMap(map));
 
       onSuccess?.call(communityList);
     },
@@ -118,7 +118,7 @@ class ApiCommunity{
         '${API.SERVER_URL}api/community/$communityKey',
     ),
     onSuccess: (Response response, DateTime now) async {
-      Community community = Community.fromResponse(response.data);
+      Community community = Community.fromRespMap(response.data);
       onSuccess?.call(community);
     },
     onForceLoggedOut: onForceLoggedOut,
@@ -154,7 +154,7 @@ class ApiCommunity{
           data: jsonEncode(reqMap)
       ),
       onSuccess: (Response response, DateTime now) async{
-        Community community = Community.fromResponse(response.data);
+        Community community = Community.fromRespMap(response.data);
         onSuccess?.call(community);
       },
       onForceLoggedOut: onForceLoggedOut,
@@ -198,7 +198,7 @@ class ApiCommunity{
         ),
         onSuccess: (Response response, DateTime now) async {
           if(onSuccess==null) return;
-          Community community = Community.fromResponse(response.data);
+          Community community = Community.fromRespMap(response.data);
           onSuccess(community);
         },
         onForceLoggedOut: onForceLoggedOut,
@@ -224,7 +224,43 @@ class ApiCommunity{
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onError: (DioError err) async => onError?.call()
   );
-  
+
+  static Future<Response?> getManagers({
+    required String communityKey,
+    required int? pageSize,
+    required CommunityRole? lastRole,
+    required String? lastUserName,
+    required String? lastUserKey,
+    FutureOr<void> Function(List<CommunityManager>)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      requestSender: (Dio dio) => dio.get(
+          '${API.SERVER_URL}api/community/$communityKey/manager',
+          queryParameters: {
+            if(pageSize != null) 'pageSize': pageSize,
+            if(lastRole != null) 'lastRole': communityRoleToStr[lastRole],
+            if(lastUserName != null) 'lastUserName': lastUserName,
+            if(lastUserKey != null) 'lastUserKey': lastUserKey,
+          }
+      ),
+      onSuccess: (Response response, DateTime now) async {
+        if(onSuccess == null) return;
+
+        List<CommunityManager> managers = [];
+        Map membersRespMap = response.data;
+        for(MapEntry memEntry in membersRespMap.entries)
+          managers.add(CommunityManager.fromRespMap(memEntry.value, key: memEntry.key));
+
+        onSuccess(managers);
+      },
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (err) async => onError?.call()
+  );
+
   static Future<Response?> addManagers({
     required String communityKey,
     required List<CommunityManagerRespBodyNick> users,
@@ -253,7 +289,7 @@ class ApiCommunity{
         List<CommunityManager> managers = [];
         Map membersRespMap = response.data;
         for(MapEntry memEntry in membersRespMap.entries)
-          managers.add(CommunityManager.fromMap(memEntry.value, key: memEntry.key));
+          managers.add(CommunityManager.fromRespMap(memEntry.value, key: memEntry.key));
 
         onSuccess(managers);
       },
@@ -292,7 +328,7 @@ class ApiCommunity{
           List<CommunityManager> managers = [];
           Map managersRespMap = response.data;
           for(MapEntry managerEntry in managersRespMap.entries)
-            managers.add(CommunityManager.fromMap(managerEntry.value, key: managerEntry.key));
+            managers.add(CommunityManager.fromRespMap(managerEntry.value, key: managerEntry.key));
 
           onSuccess(managers);
         },
@@ -362,9 +398,9 @@ class ApiCommunity{
         List<CommunityPublishable> feed = [];
         for(Map map in response.data) {
           if(map.containsKey('circleKey'))
-            feed.add(Announcement.fromMap(map, Community.allCircleMap![map['circleKey']]!, key: map['_key']));
+            feed.add(Announcement.fromRespMap(map, Community.allCircleMap![map['circleKey']]!, key: map['_key']));
           else
-            feed.add(Post.fromMap(map, Community.allForumMap![map['forumKey']]!, key: map['_key']));
+            feed.add(Post.fromRespMap(map, Community.allForumMap![map['forumKey']]!, key: map['_key']));
         }
 
         onSuccess?.call(feed);

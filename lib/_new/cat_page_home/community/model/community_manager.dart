@@ -27,9 +27,9 @@ class CommunityManager extends UserData{
     role: role,
   );
 
-  static CommunityManager fromMap(Map map, {String? key}) => CommunityManager.fromUserData(
-    UserData.fromMap(map, key: key),
-    role: strToCommunityRole[map['role']]??(throw InvalidResponseError('role')),
+  static CommunityManager fromRespMap(Map respMap, {String? key}) => CommunityManager.fromUserData(
+    UserData.fromRespMap(respMap, key: key),
+    role: strToCommunityRole[respMap['role']]??(throw InvalidResponseError('role')),
   );
 
   UserData toUserData() => UserData(key: key, name: name, shadow: shadow, sex: sex);

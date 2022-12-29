@@ -37,23 +37,23 @@ class IndivCompProfile{
     required this.completedTasks,
   }): completedTaskMap = {for (var complTask in completedTasks) complTask.key: complTask};
 
-  static IndivCompProfile fromResponse(Map resp){
+  static IndivCompProfile fromRespMap(Map respMap){
 
     List<IndivCompTaskCompl> completedTasks = [];
-    if(resp['completedTasks'] == null)
+    if(respMap['completedTasks'] == null)
       completedTasks = [];
     else {
-      Map _complTasksRespMap = resp['completedTasks'];
+      Map _complTasksRespMap = respMap['completedTasks'];
       for (String complTaskKey in _complTasksRespMap.keys as Iterable<String>)
-        completedTasks.add(IndivCompTaskCompl.fromMap(complTaskKey, _complTasksRespMap[complTaskKey]));
+        completedTasks.add(IndivCompTaskCompl.fromRespMap(_complTasksRespMap[complTaskKey], key: complTaskKey));
     }
 
     IndivCompProfile profile = IndivCompProfile(
-      active: resp['active']??(throw InvalidResponseError('active')),
-      role: strToCompRole[resp['role']??(throw InvalidResponseError('role'))]??(throw InvalidResponseError('role')),
+      active: respMap['active']??(throw InvalidResponseError('active')),
+      role: strToCompRole[respMap['role']??(throw InvalidResponseError('role'))]??(throw InvalidResponseError('role')),
 
-      points: resp['points'],
-      rank: resp['active']==true?ShowRankData.from(resp):null,
+      points: respMap['points'],
+      rank: respMap['active']==true?ShowRankData.from(respMap):null,
 
       completedTasks: completedTasks,
     );

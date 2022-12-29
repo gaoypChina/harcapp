@@ -28,7 +28,7 @@ class AddUserBottomSheet extends StatelessWidget{
 
       showLoadingWidget(context, comp.colors.avgColor, 'Dodawanie uczestnika');
 
-      await ApiIndivComp.addUsers(
+      await ApiIndivComp.addParticipants(
           compKey: comp.key,
           users: [ParticipBodyNick(userData.key, CompRole.OBSERVER, true, userData.nick)],
           onSuccess: (List<IndivCompParticip> allParticips){

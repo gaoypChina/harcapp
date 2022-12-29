@@ -14,10 +14,10 @@ class AnnouncementAttendanceResp{
 
   const AnnouncementAttendanceResp(this.response, {this.responseReason, this.postponeTime});
 
-  static AnnouncementAttendanceResp fromResponse(Map map) => AnnouncementAttendanceResp(
-    strToAnnouncementAttendance[map['response']??(throw InvalidResponseError('response'))]??(throw InvalidResponseError('response')),
-    responseReason: map['responseReason'],
-    postponeTime: DateTime.tryParse(map['postponeResponseTime']??''),
+  static AnnouncementAttendanceResp fromRespMap(Map respMap) => AnnouncementAttendanceResp(
+    strToAnnouncementAttendance[respMap['response']??(throw InvalidResponseError('response'))]??(throw InvalidResponseError('response')),
+    responseReason: respMap['responseReason'],
+    postponeTime: DateTime.tryParse(respMap['postponeResponseTime']??''),
   );
 
 }

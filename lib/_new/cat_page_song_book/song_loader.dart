@@ -47,7 +47,7 @@ Future<Tuple7<
       Map songMap = offSongsMap[fileName]['song'];
       int index = offSongsMap[fileName]['index'];
 
-      OffSong song = OffSong.fromMap(fileName, songMap);
+      OffSong song = OffSong.fromRespMap(fileName, songMap);
       allOffSongs[index] = song;
       allOffSongsMap[song.fileName] = song;
     } on Error {
@@ -67,7 +67,7 @@ Future<Tuple7<
       Map songMap = confSongsMap[fileName]['song'];
       int index = confSongsMap[fileName]['index'];
 
-      OffSong song = OffSong.fromMap(fileName, songMap);
+      OffSong song = OffSong.fromRespMap(fileName, songMap);
       allConfidSongs[index] = song;
       allConfidSongsMap[song.fileName] = song;
     } on Error {
@@ -85,7 +85,7 @@ Future<Tuple7<
   Map<String, OwnSong> allOwnSongsMap = {};
   for(String fileName in ownSongsMap.keys) {
     try {
-      OwnSong song = OwnSong.fromMap(fileName, ownSongsMap[fileName]);
+      OwnSong song = OwnSong.fromRespMap(fileName, ownSongsMap[fileName]);
       allOwnSongs.add(song);
       allOwnSongsMap[song.fileName] = song;
     } catch (e){

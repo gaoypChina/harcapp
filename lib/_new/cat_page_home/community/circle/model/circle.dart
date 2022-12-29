@@ -74,20 +74,22 @@ class CircleBasicData{
     key: circle.key,
     name: circle.name,
     coverImage: circle.coverImage,
-    memberCount: circle.members.length
+    memberCount: circle.memberCount
   );
 
-  static CircleBasicData fromResponse(Map resp, {String? name}) => CircleBasicData(
-    key: resp['_key']??(throw InvalidResponseError('_key')),
-    name: name??resp['name']??(throw InvalidResponseError('name')),
-    coverImage: CommunityCoverImageData.from(resp['coverImage']??(throw InvalidResponseError('coverImage'))),
-    memberCount: resp['memberCount']??(throw InvalidResponseError('memberCount')),
+  static CircleBasicData fromRespMap(Map respMap, {String? name}) => CircleBasicData(
+    key: respMap['_key']??(throw InvalidResponseError('_key')),
+    name: name??respMap['name']??(throw InvalidResponseError('name')),
+    coverImage: CommunityCoverImageData.fromRespMap(respMap['coverImage']??(throw InvalidResponseError('coverImage'))),
+    memberCount: respMap['memberCount']??(throw InvalidResponseError('memberCount')),
   );
 
 }
 
 class Circle extends CircleBasicData{
 
+  static const int memberPageSize = 10;
+  
   static const IconData icon = MdiIcons.googleCircles;
 
   static const int maxLenDescription = 320;
@@ -113,9 +115,10 @@ class Circle extends CircleBasicData{
 
   bool get hasDescription => description != null && description!.isNotEmpty;
 
-  void addMember(List<Member> newMembers, {BuildContext? context}){
+  void addMembers(List<Member> newMembers, {BuildContext? context}){
 
     for(Member mem in newMembers) {
+      if(_membersMap[mem.key] != null) continue;
       _members.add(mem);
       _membersMap[mem.key] = mem;
     }
@@ -348,6 +351,8 @@ class Circle extends CircleBasicData{
     required this.colorsKey,
 
     required List<Member> members,
+    required super.memberCount,
+
     required List<Announcement> allAnnouncements,
     required this.pinnedCount,
     required List<Announcement> pinnedAnnouncements,
@@ -362,7 +367,7 @@ class Circle extends CircleBasicData{
       _allAnnouncements = allAnnouncements,
       _pinnedAnnouncements = pinnedAnnouncements,
       _awaitingAnnouncements = awaitingAnnouncements,
-      super(name: community.name, memberCount: members.length)
+      super(name: community.name)
   {
     _members.sort((mem1, mem2) => mem1.name.compareTo(mem2.name));
     _announcementsMap = {for (Announcement ann in _allAnnouncements) ann.key: _AnnouncementLookup(ann, inAll: true)};
@@ -381,34 +386,27 @@ class Circle extends CircleBasicData{
     _allAnnouncements.sort((ann1, ann2) => ann1.publishTime.compareTo(ann2.publishTime));
   }
 
-  static Circle fromResponse(Map resp, CommunityBasicData community){
-
-    List<Member> members = [];
-    Map memResps = resp['members']??(throw InvalidResponseError('members'));
-    for(String userKey in memResps.keys as Iterable<String>){
-      Map memResp = memResps[userKey];
-      Member memData = Member.fromMap(memResp, key: userKey);
-      members.add(memData);
-    }
-
-    Map announcementsResps = resp['announcements']??(throw InvalidResponseError('announcements'));
+  static Circle fromRespMap(Map respMap, CommunityBasicData community){
+    
+    Map announcementsResps = respMap['announcements']??(throw InvalidResponseError('announcements'));
     int pinnedCount = announcementsResps['pinnedCount']??(throw InvalidResponseError('announcements, pinnedCount'));
     int awaitingCount = announcementsResps['awaitingCount']??(throw InvalidResponseError('announcements, awaitingCount'));
 
-    List<dynamic> bindedIndivCompsResp = resp['bindedIndivComps']??(throw InvalidResponseError('bindedIndivComps'));
+    List<dynamic> bindedIndivCompsResp = respMap['bindedIndivComps']??(throw InvalidResponseError('bindedIndivComps'));
     List<IndivCompBasicData> indivCompBasicData = [];
 
     for(dynamic resp in bindedIndivCompsResp)
-      indivCompBasicData.add(IndivCompBasicData.fromResponse(resp));
+      indivCompBasicData.add(IndivCompBasicData.fromRespMap(resp));
 
     Circle circle = Circle(
-      key: resp['_key']??(throw InvalidResponseError('_key')),
-      description: resp['description'],
-      coverImage: CommunityCoverImageData.from(resp['coverImage']),
-      colorsKey: resp['colorsKey']??(throw InvalidResponseError('colorsKey')),
-      shareCode: resp["shareCode"],
-      shareCodeSearchable: resp["shareCodeSearchable"],
-      members: members,
+      key: respMap['_key']??(throw InvalidResponseError('_key')),
+      description: respMap['description'],
+      coverImage: CommunityCoverImageData.fromRespMap(respMap['coverImage']),
+      colorsKey: respMap['colorsKey']??(throw InvalidResponseError('colorsKey')),
+      shareCode: respMap["shareCode"],
+      shareCodeSearchable: respMap["shareCodeSearchable"],
+      members: (respMap['members']??(throw InvalidResponseError('members'))).map<Member>((data) => Member.fromRespMap(data)).toList(),
+      memberCount: respMap['memberCount']??(throw InvalidResponseError('colorsKey')),
       allAnnouncements: [],
       pinnedCount: pinnedCount,
       pinnedAnnouncements: [],
@@ -423,30 +421,30 @@ class Circle extends CircleBasicData{
     Map awaitingAnnResps = announcementsResps['awaiting']??(throw InvalidResponseError('announcements, awaiting'));
 
     for(String annKey in allAnnResps.keys as Iterable<String>){
-      Map annRespData = allAnnResps[annKey];
+      Map annRespMap = allAnnResps[annKey];
 
       Announcement? savedAnnouncement = circle.announcementsMap[annKey]?.announcemnet;
-      savedAnnouncement ??= Announcement.fromMap(annRespData, circle, key: annKey);
+      savedAnnouncement ??= Announcement.fromRespMap(annRespMap, circle, key: annKey);
 
       circle.addAllAnnouncement(savedAnnouncement, sort: false);
       circle._allAnnouncements.sort((ann1, ann2) => ann2.publishTime.compareTo(ann1.publishTime));
     }
 
     for(String annKey in pinnedAnnResps.keys as Iterable<String>){
-      Map annRespData = pinnedAnnResps[annKey];
+      Map annRespMap = pinnedAnnResps[annKey];
 
       Announcement? savedAnnouncement = circle.announcementsMap[annKey]?.announcemnet;
-      savedAnnouncement ??= Announcement.fromMap(annRespData, circle, key: annKey);
+      savedAnnouncement ??= Announcement.fromRespMap(annRespMap, circle, key: annKey);
 
       circle.addPinnedAnnouncement(savedAnnouncement, sort: false);
       circle._pinnedAnnouncements.sort((ann1, ann2) => ann2.publishTime.compareTo(ann1.publishTime));
     }
 
     for(String annKey in awaitingAnnResps.keys as Iterable<String>){
-      Map annRespData = awaitingAnnResps[annKey];
+      Map annRespMap = awaitingAnnResps[annKey];
 
       Announcement? savedAnnouncement = circle.announcementsMap[annKey]?.announcemnet;
-      savedAnnouncement ??= Announcement.fromMap(annRespData, circle, key: annKey);
+      savedAnnouncement ??= Announcement.fromRespMap(annRespMap, circle, key: annKey);
 
       circle.addAwaitingAnnouncement(savedAnnouncement, sort: false);
       circle._awaitingAnnouncements.sort((ann1, ann2) => ann2.publishTime.compareTo(ann1.publishTime));

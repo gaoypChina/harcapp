@@ -434,7 +434,7 @@ class AccountData {
     List<UserDataNick> shadowUsers = [];
 
     for(Map map in shadowUserData)
-      shadowUsers.add(UserDataNick.fromMap(map, map['nick']));
+      shadowUsers.add(UserDataNick.fromRespMap(map, map['nick']));
 
     AccountData.shadowUsers = shadowUsers;
     

@@ -149,13 +149,13 @@ class ApiRegLog{
         List indivCompsResp = response.data['indivComps']??(throw InvalidResponseError('indivComps'));
         List<IndivComp> indivComps = [];
         for(Map map in indivCompsResp)
-          indivComps.add(IndivComp.fromResponse(map));
+          indivComps.add(IndivComp.fromRespMap(map));
 
         List communitiesResp = response.data['communities']??(throw InvalidResponseError('communities'));
         List<Community> communities = [];
         Map<String, Community> communityMap = {};
         for(Map map in communitiesResp) {
-          Community community = Community.fromResponse(map);
+          Community community = Community.fromRespMap(map);
           communities.add(community);
           communityMap[community.key] = community;
         }
@@ -180,9 +180,9 @@ class ApiRegLog{
         List<CommunityPublishable> feed = [];
         for(Map map in feedResp) {
           if(map.containsKey('circleKey'))
-            feed.add(Announcement.fromMap(map, circleMap[map['circleKey']]!, key: map['_key']));
+            feed.add(Announcement.fromRespMap(map, circleMap[map['circleKey']]!, key: map['_key']));
           else
-            feed.add(Post.fromMap(map, forumMap[map['forumKey']]!, key: map['_key']));
+            feed.add(Post.fromRespMap(map, forumMap[map['forumKey']]!, key: map['_key']));
         }
         onSuccess?.call(
           response,
@@ -248,13 +248,13 @@ class ApiRegLog{
       List indivCompsResp = response.data['indivComps']??(throw InvalidResponseError('indivComps'));
       List<IndivComp> indivComps = [];
       for(Map map in indivCompsResp)
-        indivComps.add(IndivComp.fromResponse(map));
+        indivComps.add(IndivComp.fromRespMap(map));
 
       List communitiesResp = response.data['communities']??(throw InvalidResponseError('communities'));
       List<Community> communities = [];
       Map<String, Community> communityMap = {};
       for(Map map in communitiesResp) {
-        Community community = Community.fromResponse(map);
+        Community community = Community.fromRespMap(map);
         communities.add(community);
         communityMap[community.key] = community;
       }
@@ -279,9 +279,9 @@ class ApiRegLog{
       List<CommunityPublishable> feed = [];
       for(Map map in feedResp) {
         if(map.containsKey('circleKey'))
-          feed.add(Announcement.fromMap(map, circleMap[map['circleKey']]!, key: map['_key']));
+          feed.add(Announcement.fromRespMap(map, circleMap[map['circleKey']]!, key: map['_key']));
         else
-          feed.add(Post.fromMap(map, forumMap[map['forumKey']]!, key: map['_key']));
+          feed.add(Post.fromRespMap(map, forumMap[map['forumKey']]!, key: map['_key']));
       }
       await onSuccess?.call(
         response,

@@ -37,10 +37,10 @@ class Member extends UserData{
       patrol: patrol
   );
 
-  static Member fromMap(Map map, {String? key}) => Member.fromUserData(
-    UserData.fromMap(map, key: key),
-    role: strToCircleRole[map['role']]??(throw InvalidResponseError('role')),
-    patrol: map['patrol'],
+  static Member fromRespMap(Map respMap, {String? key}) => Member.fromUserData(
+    UserData.fromRespMap(respMap, key: key),
+    role: strToCircleRole[respMap['role']]??(throw InvalidResponseError('role')),
+    patrol: respMap['patrol'],
   );
 
   UserData toUserData() => UserData(key: key, name: name, shadow: shadow, sex: sex);

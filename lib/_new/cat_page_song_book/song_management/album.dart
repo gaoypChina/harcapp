@@ -293,14 +293,14 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncI
 
   }
 
-  static Album fromResponseData(Map responseData) {
+  static Album fromRespMap(Map respMap) {
 
-    String fileName = responseData[PARAM_ID]??(throw InvalidResponseError(PARAM_ID));
-    String title = responseData[_PARAM_TITLE]??(throw InvalidResponseError(_PARAM_TITLE));
-    List<String> offSongsLclIds = responseData[paramOffSongs]??[];
-    List<String> ownSongsLclIds = responseData[paramOwnSongs]??[];
-    String iconKey = responseData[paramIconKey]??CommonIconData.defIconKey;
-    String colorsKey = responseData[paramColorsKey]??CommonColorData.defColorsKey;
+    String fileName = respMap[PARAM_ID]??(throw InvalidResponseError(PARAM_ID));
+    String title = respMap[_PARAM_TITLE]??(throw InvalidResponseError(_PARAM_TITLE));
+    List<String> offSongsLclIds = respMap[paramOffSongs]??[];
+    List<String> ownSongsLclIds = respMap[paramOwnSongs]??[];
+    String iconKey = respMap[paramIconKey]??CommonIconData.defIconKey;
+    String colorsKey = respMap[paramColorsKey]??CommonColorData.defColorsKey;
 
     List<OffSong> offSongs = [];
     for (String lclId in offSongsLclIds) {

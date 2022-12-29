@@ -3,12 +3,12 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp/account/account_thumbnail_row_widget.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
@@ -19,11 +19,12 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../common/community_cover_colors.dart';
 import '../common_widgets/community_markers_widget.dart';
 import '../community_category_widget.dart';
-import '../community_publishable_widget_template.dart';
 import '../community_sliver_app_bar.dart';
 import '../model/community.dart';
 import 'common/follow_button.dart';
 import 'common/like_button.dart';
+import 'forum_followers_page.dart';
+import 'forum_likes_page.dart';
 import 'forum_page.dart';
 import 'model/forum.dart';
 
@@ -165,19 +166,16 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                       customPointer: const Icon(MdiIcons.mapMarkerCircle, color: Colors.black)
                     ),
 
+                  const SizedBox(height: Dimen.SIDE_MARG),
 
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: Dimen.SIDE_MARG,
-                      left: Dimen.SIDE_MARG - TitleShortcutRowWidget.textStartPadding,
-                    ),
+                  SimpleButton(
+                    radius: communityRadius,
+                    margin: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG - TitleShortcutRowWidget.textStartPadding),
                     child: TitleShortcutRowWidget(
                       title: 'Polubienia',
                       titleColor: hintEnab_(context),
                       trailing: Padding(
-                        padding: const EdgeInsets.only(
-                          right: Dimen.SIDE_MARG
-                        ),
+                        padding: const EdgeInsets.only(right: 2*SimpleButton.DEF_PADDING),
                         child: Material(
                           borderRadius: BorderRadius.circular(AppCard.bigRadius),
                           color: hintEnab_(context),
@@ -213,17 +211,22 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                       ),
                       textAlign: TextAlign.start,
                     ),
+                    onTap: () => forum.likeCnt==0?
+                    showAppToast(context, text: 'Wieje pustką...'):
+                    pushPage(
+                        context,
+                        builder: (context) => ForumLikesPage(forum: forum, palette: palette)
+                    ),
                   ),
 
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: Dimen.SIDE_MARG - TitleShortcutRowWidget.textStartPadding,
-                    ),
+                  SimpleButton(
+                    radius: communityRadius,
+                    margin: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG - TitleShortcutRowWidget.textStartPadding),
                     child: TitleShortcutRowWidget(
                       title: 'Obserwujący',
                       titleColor: hintEnab_(context),
                       trailing: Padding(
-                        padding: const EdgeInsets.only(right: Dimen.SIDE_MARG),
+                        padding: const EdgeInsets.only(right: 2*SimpleButton.DEF_PADDING),
                         child: Material(
                           borderRadius: BorderRadius.circular(AppCard.bigRadius),
                           color: hintEnab_(context),
@@ -231,8 +234,8 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                             children: [
 
                               const SizedBox(
-                                height: Dimen.ICON_SIZE + 2*Dimen.defMarg,
-                                width: Dimen.ICON_MARG
+                                  height: Dimen.ICON_SIZE + 2*Dimen.defMarg,
+                                  width: Dimen.ICON_MARG
                               ),
 
                               Text(
@@ -247,8 +250,8 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                               const SizedBox(width: Dimen.ICON_MARG),
 
                               Icon(
-                                MdiIcons.eyeOutline,
-                                color: CommunityCoverColors.backgroundColor(context, palette)
+                                  MdiIcons.eyeOutline,
+                                  color: CommunityCoverColors.backgroundColor(context, palette)
                               ),
 
                               const SizedBox(width: Dimen.ICON_MARG),
@@ -259,32 +262,13 @@ class ForumDescriptionPageState extends State<ForumDescriptionPage>{
                       ),
                       textAlign: TextAlign.start,
                     ),
-                  ),
-
-                  if(forum.followersCnt == 0)
-                    SizedBox(
-                      height: AccountThumbnailRowWidget.defSize,
-                      child: Center(
-                        child: Text(
-                          'Brak obserwujących',
-                          style: AppTextStyle(
-                              fontSize: Dimen.TEXT_SIZE_APPBAR,
-                              fontWeight: weight.bold,
-                              color: CommunityCoverColors.cardColor(context, palette)
-                          ),
-                        ),
-                      ),
-                    )
-                  else
-                    AccountThumbnailRowWidget(
-                        forum.followers.map((f) => f.name).toList(),
-                        elevated: CommunityPublishableWidgetTemplate.elevation != 0,
-                        color: CommunityCoverColors.cardColor(context, palette),
-                        borderColor: CommunityCoverColors.cardColor(context, palette),
-                        backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
-                        padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-                        heroBuilder: (index) => forum.followers[index],
+                    onTap: () => forum.followersCnt==0?
+                    showAppToast(context, text: 'Wieje pustką...'):
+                    pushPage(
+                        context,
+                        builder: (context) => ForumFollowersPage(forum: forum, palette: palette)
                     ),
+                  ),
 
                   const SizedBox(height: Dimen.SIDE_MARG),
 

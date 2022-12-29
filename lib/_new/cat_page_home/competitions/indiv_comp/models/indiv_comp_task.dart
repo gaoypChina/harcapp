@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 
@@ -23,14 +22,14 @@ class IndivCompTask{
     required this.state,
   });
 
-  static IndivCompTask fromMap(String key, Map map) => IndivCompTask(
+  static IndivCompTask fromRespMap(Map respMap, {String? key}) => IndivCompTask(
     key: key,
-    title: map['title']??(throw InvalidResponseError('title')),
-    description: map['description']??(throw InvalidResponseError('description')),
-    points: map['points']??(throw InvalidResponseError('points')),
-    position: map['position']??(throw InvalidResponseError('position')),
+    title: respMap['title']??(throw InvalidResponseError('title')),
+    description: respMap['description']??(throw InvalidResponseError('description')),
+    points: respMap['points']??(throw InvalidResponseError('points')),
+    position: respMap['position']??(throw InvalidResponseError('position')),
     // TODO: wywalić TaskState.OPEN.
-    state: strToTaskState[map['state']]??TaskState.OPEN//(throw InvalidResponseError('state'))
+    state: strToTaskState[respMap['state']]??TaskState.OPEN//(throw InvalidResponseError('state'))
   );
 
   IndivTaskBody toTaskBody() => IndivTaskBody(

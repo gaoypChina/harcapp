@@ -133,15 +133,15 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryGetResp>, RemoveSyn
 
   Memory(this.fileName, this.songFileName, this.date, this.place, this.desc, this.fontIndex, this.published);
 
-  static Memory fromResponseData(Map responseData){
+  static Memory fromRespMap(Map respMap){
 
-    String fileName = responseData[PARAM_ID];
-    String songFileName = responseData[paramSongFileName]??'!';
-    DateTime date = DateTime.parse(responseData[Memory.paramDate]);
-    String place = responseData[paramPlace]??'';
-    String desc = responseData[paramDesc]??'';
-    int fontIndex = responseData[paramFontKey]??0;
-    bool published = responseData[paramPublished]??false;
+    String fileName = respMap[PARAM_ID];
+    String songFileName = respMap[paramSongFileName]??'!';
+    DateTime date = DateTime.parse(respMap[Memory.paramDate]);
+    String place = respMap[paramPlace]??'';
+    String desc = respMap[paramDesc]??'';
+    int fontIndex = respMap[paramFontKey]??0;
+    bool published = respMap[paramPublished]??false;
 
     return Memory(fileName, songFileName, date, place, desc, fontIndex, published);
 

@@ -188,7 +188,7 @@ class API{
         onSuccess: (Response response, DateTime now) async {
 
           for(Map map in response.data)
-            result.add(Memory.fromResponseData(map));
+            result.add(Memory.fromRespMap(map));
 
         },
       onError: (DioError error)async{

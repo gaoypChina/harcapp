@@ -34,11 +34,18 @@ class MemberTileExtended extends StatefulWidget{
   final PaletteGenerator? palette;
   final dynamic heroTag;
 
+  final void Function()? onUpdated;
+  final void Function()? onRemoved;
+
   const MemberTileExtended({
     required this.circle,
     required this.member,
     this.palette,
     this.heroTag,
+
+    this.onUpdated,
+    this.onRemoved,
+
     super.key
   });
 
@@ -54,6 +61,9 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
   Member get member => widget.member;
 
   get heroTag => widget.heroTag;
+
+  void Function()? get onUpdated => widget.onUpdated;
+  void Function()? get onRemoved => widget.onRemoved;
 
   void openDetails() => showScrollBottomSheet(
       context: context,
@@ -102,6 +112,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
                       onSuccess: (){
                         if(member.key == AccountData.key)
                           Navigator.pop(context);
+                        onUpdated?.call();
                       }
                   );
 
@@ -136,6 +147,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
                       onSuccess: (){
                         if(member.key == AccountData.key)
                           Navigator.pop(context);
+                        onUpdated?.call();
                       }
                   );
                   if(mounted) Navigator.pop(context);
@@ -168,6 +180,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
                       onSuccess: (){
                         if(member.key == AccountData.key)
                           Navigator.pop(context);
+                        onUpdated?.call();
                       }
                   );
                   if(mounted) Navigator.pop(context);
@@ -178,7 +191,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
 
             ListTile(
               enabled: !member.shadow,
-              leading: Icon(MdiIcons.googleCirclesGroup),
+              leading: const Icon(MdiIcons.googleCirclesGroup),
               title: Text('Zarządzaj zastępem', style: AppTextStyle()),
               subtitle: member.patrol==null?null:Text(member.patrol!, style: AppTextStyle()),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
@@ -195,7 +208,9 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
                   leading: const Icon(MdiIcons.logoutVariant, color: Colors.red),
                   title: Text('Wyproś członka', style: AppTextStyle(color: Colors.red)),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(communityRadius)),
-                  onTap: () => showRemoveMemberDialog()
+                  onTap: () => showRemoveMemberDialog(
+                      onSuccess: onRemoved
+                  )
               ),
 
           ],
@@ -218,9 +233,11 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
               circleKey: circle.key,
               users: [MemberUpdateBody(member.key, role: newRole)],
               onSuccess: (List<Member> allMems){
-                circle.setAllMembers(allMems, context: context);
-                if(mounted) Navigator.pop(context); // Close loading widget.
+                circle.updateMembers(allMems, context: context);
                 onSuccess?.call();
+
+                if(!mounted) return;
+                Navigator.pop(context); // Close loading widget.
               },
               onForceLoggedOut: () {
                 if(!mounted) return true;
@@ -236,7 +253,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
               },
               onError: (){
                 if(!mounted) return;
-                showAppToast(context, text: 'Coś tu poszło nie tak...');
+                showAppToast(context, text: simpleErrorMessage);
                 Navigator.pop(context); // Close loading widget.
               }
           );
@@ -256,7 +273,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
       )
   );
 
-  Future<void> showRemoveMemberDialog() =>
+  Future<void> showRemoveMemberDialog({void Function()? onSuccess}) =>
     showRemoveDialog(
         context: context,
         isMe: member.key == AccountData.key,
@@ -272,6 +289,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
               userKeys: [member.key],
               onSuccess: (List<String> removedMembers) async {
                 circle.removeMembersByKey(removedMembers, context: context);
+                onSuccess?.call();
 
                 if(!mounted) return;
                 showAppToast(context, text: 'Wyproszono');
@@ -292,7 +310,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
               },
               onError: () async {
                 if(!mounted) return;
-                showAppToast(context, text: 'Coś tu poszło nie tak...');
+                showAppToast(context, text: simpleErrorMessage);
                 Navigator.pop(context); // Close loading widget.
               }
           );
@@ -385,7 +403,7 @@ class _EditPatrolDialogState extends State<_EditPatrolDialog>{
                             )
                         )],
                         onSuccess: (List<Member> allMems){
-                          circle.setAllMembers(allMems, context: context);
+                          circle.updateMembers(allMems, context: context);
                           if(mounted) Navigator.pop(context); // Close loading widget.
                           onSuccess?.call();
                         },
@@ -394,7 +412,7 @@ class _EditPatrolDialogState extends State<_EditPatrolDialog>{
                           return true;
                         },
                         onError: (){
-                          if(mounted) showAppToast(context, text: 'Coś tu poszło nie tak...');
+                          if(mounted) showAppToast(context, text: simpleErrorMessage);
                           if(mounted) Navigator.pop(context); // Close loading widget.
                           onError?.call();
                         }

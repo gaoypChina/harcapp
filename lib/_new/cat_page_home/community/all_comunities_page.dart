@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_new/cat_page_home/community/start_widgets/communities_preview_message_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/start_widgets/communities_preview_widget.dart';
+import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/community/search_forum_page.dart';
 import 'package:harcapp/account/account.dart';
@@ -110,6 +111,7 @@ class AllCommunitiesPageState extends State<AllCommunitiesPage>{
         },
         onForceLogout: (){
           if(!mounted) return;
+          LoginProvider.notify_(context);
           setState((){});
         }
     );

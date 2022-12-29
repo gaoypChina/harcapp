@@ -27,7 +27,7 @@ class ApiUser{
       onSuccess: (Response response, DateTime now) async {
         List<UserDataNick> users = [];
         for(Map data in response.data)
-          users.add(UserDataNick.fromMap(data, data['nick']));
+          users.add(UserDataNick.fromRespMap(data, data['nick']));
 
         onSuccess?.call(users);
       },
@@ -50,7 +50,7 @@ class ApiUser{
           CREATE_SHADOW_REQ_SEX: sexToBool[sex!]
         })
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(UserDataNick.fromMap(response.data, response.data['nick'])),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(UserDataNick.fromRespMap(response.data, response.data['nick'])),
       onError: (DioError error) async => onError?.call()
   );
 
@@ -71,7 +71,7 @@ class ApiUser{
             UPDATE_SHADOW_REQ_SEX: sexToBool[sex!]
           })
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(UserDataNick.fromMap(response.data, response.data['nick'])),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(UserDataNick.fromRespMap(response.data, response.data['nick'])),
       onError: (DioError error) async => onError?.call()
   );
 
@@ -101,7 +101,7 @@ class ApiUser{
     requestSender: (Dio dio) => dio.get(
       '${API.SERVER_URL}api/user/search/$nick',
     ),
-    onSuccess: (Response response, DateTime now) async => onSuccess?.call(UserDataNick.fromMap(response.data, nick)),
+    onSuccess: (Response response, DateTime now) async => onSuccess?.call(UserDataNick.fromRespMap(response.data, nick)),
     onError: (DioError error) async {
       bool noSuchUserStatus = error.response?.statusCode == HttpStatus.notFound;
       bool noSuchUserBody = const DeepCollectionEquality().equals(error.response?.data, {'error': 'User not found'});

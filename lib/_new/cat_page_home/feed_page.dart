@@ -81,7 +81,7 @@ class FeedPageState extends State<FeedPage>{
     communitiesLoader.addListener(communitiesLoaderListener);
 
     loginListener = LoginListener(
-      onForceLogout: () => Provider.of<LoginProvider>(context, listen: false).notify()
+      onForceLogout: () => loginProv.notify()
     );
 
     AccountData.addLoginListener(loginListener);

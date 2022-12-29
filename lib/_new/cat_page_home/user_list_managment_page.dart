@@ -53,9 +53,11 @@ class UserListManagementPage<T extends UserData> extends StatelessWidget{
       if(userSet.users.isNotEmpty || showIfEmpty)
         userSetWidgets.add(_Border(
             backgroundColor: backgroundColor,
-            header: _ListHeader(
-              icon: userSet.icon,
-              title: userSet.name,
+            header: userSet.icon == null && userSet.name == null?
+            null:
+            _ListHeader(
+              icon: userSet.icon!,
+              title: userSet.name!,
               trailing: headerTrailing?.call(context, userSet),
               permissions: userSet.permissions,
               color: backgroundColor,
@@ -322,7 +324,7 @@ class PermissionsDialog extends StatelessWidget{
 
 class _Border extends StatelessWidget{
 
-  final Widget header;
+  final Widget? header;
   final Widget body;
   final Color? backgroundColor;
 
@@ -344,10 +346,12 @@ class _Border extends StatelessWidget{
               borderRadius: BorderRadius.circular(AppCard.bigRadius-6),
               clipBehavior: Clip.hardEdge,
               color: backgroundColor??background_(context),
-              child: Column(
+              child: header==null?
+              body:
+              Column(
                 children: [
                   const SizedBox(height: Dimen.defMarg),
-                  header,
+                  header!,
                   const SizedBox(height: Dimen.defMarg),
                   body
                 ],

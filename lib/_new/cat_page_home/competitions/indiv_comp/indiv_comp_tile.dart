@@ -148,7 +148,7 @@ class IndivCompTile extends StatelessWidget{
             trailing??
                 IndivCompRankIcon(
                   comp.myProfile!,
-                  activeParticipCnt: comp.activeParticipCnt,
+                  activeParticipCnt: comp.activeParticipCount,
                   showPercent: comp.rankDispType == RankDispType.RANGE_PERC,
                   colors: comp.colors,
                   size: 54.0,

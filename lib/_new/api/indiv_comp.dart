@@ -117,7 +117,7 @@ class ApiIndivComp{
     onSuccess: (Response response, DateTime now) async {
       List<IndivComp> compList = [];
       for(Map map in response.data)
-        compList.add(IndivComp.fromResponse(map));
+        compList.add(IndivComp.fromRespMap(map));
 
       onSuccess?.call(compList);
     },
@@ -138,7 +138,7 @@ class ApiIndivComp{
         '${API.SERVER_URL}api/indivComp/$compKey',
     ),
     onSuccess: (Response response, DateTime now) async {
-      IndivComp comp = IndivComp.fromResponse(response.data);
+      IndivComp comp = IndivComp.fromRespMap(response.data);
       onSuccess?.call(comp);
     },
     onForceLoggedOut: onForceLoggedOut,
@@ -188,7 +188,7 @@ class ApiIndivComp{
           data: jsonEncode(reqMap)
       ),
       onSuccess: (Response response, DateTime now) async{
-        IndivComp comp = IndivComp.fromResponse(response.data);
+        IndivComp comp = IndivComp.fromRespMap(response.data);
         onSuccess?.call(comp);
       },
       onForceLoggedOut: onForceLoggedOut,
@@ -266,7 +266,7 @@ class ApiIndivComp{
       }),
     ),
     onSuccess: (Response response, DateTime now) async {
-      IndivComp comp = IndivComp.fromResponse(response.data);
+      IndivComp comp = IndivComp.fromRespMap(response.data);
       onSuccess?.call(comp);
     },
     onForceLoggedOut: onForceLoggedOut,
@@ -328,7 +328,7 @@ class ApiIndivComp{
       ),
       onSuccess: (Response response, DateTime now) async {
         if(onSuccess==null) return;
-        IndivComp comp = IndivComp.fromResponse(response.data);
+        IndivComp comp = IndivComp.fromRespMap(response.data);
         onSuccess(comp);
       },
       onForceLoggedOut: onForceLoggedOut,
@@ -338,7 +338,43 @@ class ApiIndivComp{
 
   }
 
-  static Future<Response?> addUsers({
+  static Future<Response?> getParticipants({
+    required String compKey,
+    required int? pageSize,
+    required CompRole? lastRole,
+    required String? lastUserName,
+    required String? lastUserKey,
+    FutureOr<void> Function(List<IndivCompParticip>)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      requestSender: (Dio dio) => dio.get(
+          '${API.SERVER_URL}api/indivComp/$compKey/participant',
+          queryParameters: {
+            if(pageSize != null) 'pageSize': pageSize,
+            if(lastRole != null) 'lastRole': compRoleToStr[lastRole],
+            if(lastUserName != null) 'lastUserName': lastUserName,
+            if(lastUserKey != null) 'lastUserKey': lastUserKey,
+          }
+      ),
+      onSuccess: (Response response, DateTime now) async {
+        if(onSuccess == null) return;
+
+        List<IndivCompParticip> particips = [];
+        Map participsRespMap = response.data;
+        for(MapEntry memEntry in participsRespMap.entries)
+          particips.add(IndivCompParticip.fromRespMap(memEntry.value, key: memEntry.key));
+
+        onSuccess(particips);
+      },
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (err) async => onError?.call()
+  );
+
+  static Future<Response?> addParticipants({
     required String compKey,
     required List<ParticipBodyNick> users,
 
@@ -359,7 +395,7 @@ class ApiIndivComp{
     return API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.post(
-          '${API.SERVER_URL}api/indivComp/$compKey/user',
+          '${API.SERVER_URL}api/indivComp/$compKey/participant',
           data: jsonEncode(body)
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -368,7 +404,7 @@ class ApiIndivComp{
         List<IndivCompParticip> particips = [];
         Map participsRespMap = response.data;
         for(MapEntry participEntry in participsRespMap.entries)
-          particips.add(IndivCompParticip.fromMap(participEntry.key, participEntry.value));
+          particips.add(IndivCompParticip.fromRespMap(participEntry.value, key: participEntry.key));
 
         onSuccess(particips);
       },
@@ -379,7 +415,7 @@ class ApiIndivComp{
 
   }
 
-  static Future<Response?> updateUsers({
+  static Future<Response?> updateParticipants({
     required String compKey,
     required List<ParticipBody> users,
     FutureOr<void> Function(List<IndivCompParticip>)? onSuccess,
@@ -399,7 +435,7 @@ class ApiIndivComp{
     return API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) => dio.put(
-            '${API.SERVER_URL}api/indivComp/$compKey/user',
+            '${API.SERVER_URL}api/indivComp/$compKey/participant',
             data: jsonEncode(body)
         ),
         onSuccess: (Response response, DateTime now) async {
@@ -408,7 +444,7 @@ class ApiIndivComp{
           List<IndivCompParticip> particips = [];
           Map participsRespMap = response.data;
           for(MapEntry participEntry in participsRespMap.entries)
-            particips.add(IndivCompParticip.fromMap(participEntry.key, participEntry.value));
+            particips.add(IndivCompParticip.fromRespMap(participEntry.value, key: participEntry.key));
 
           onSuccess(particips);
         },
@@ -419,7 +455,7 @@ class ApiIndivComp{
 
   }
 
-  static Future<Response?> removeUsers({
+  static Future<Response?> removeParticipants({
     required String compKey,
     required List<String> userKeys,
     FutureOr<void> Function(List<String> removedKeys)? onSuccess,
@@ -429,7 +465,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
-          '${API.SERVER_URL}api/indivComp/$compKey/user',
+          '${API.SERVER_URL}api/indivComp/$compKey/participant',
           data: jsonEncode(userKeys)
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -459,7 +495,7 @@ class ApiIndivComp{
       onError: (err) async => onError?.call()
   );
 
-  static Future<Response?> sendTaskComplReq({
+  static Future<Response?> requestCompletedTask({
     required List<IndivCompTask> allTasks,
     required String? taskKey,
     String? comment,
@@ -472,24 +508,18 @@ class ApiIndivComp{
   }) => API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.post(
-        '${API.SERVER_URL}api/indivComp/task/request',
-        data: userKeys == null?
-        FormData.fromMap({
-          'taskKey': taskKey,
-          if(comment != null) 'comment': comment,
-        }):
-        FormData.fromMap({
-          'taskKey': taskKey,
-          'userKeys': userKeys,
+        '${API.SERVER_URL}api/indivComp/task/$taskKey/request',
+        data: FormData.fromMap({
+          if(userKeys != null) 'userKeys': userKeys,
           if(comment != null) 'comment': comment,
         })
     ),
     onSuccess: (Response response, DateTime now) async {
 
       List<IndivCompTaskCompl> complTasks = [];
-      Map complTasksRespMap = response.data['compl_tasks'];
+      Map complTasksRespMap = response.data['complTasks'];
       for(MapEntry complTaskEntry in complTasksRespMap.entries)
-        complTasks.add(IndivCompTaskCompl.fromMap(complTaskEntry.key, complTaskEntry.value));
+        complTasks.add(IndivCompTaskCompl.fromRespMap(complTaskEntry.value, key: complTaskEntry.key));
 
       Map<String, ShowRankData> idRankMap = {};
 
@@ -517,7 +547,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.delete(
-        '${API.SERVER_URL}api/indivComp/task/request/$taskComplKey'
+        '${API.SERVER_URL}api/indivComp/task/$taskComplKey/request/'
     ),
     onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
     onForceLoggedOut: onForceLoggedOut,
@@ -547,7 +577,7 @@ class ApiIndivComp{
       for(String userKey in (response.data as Map).keys as Iterable<String>) {
         List<IndivCompTaskCompl> indivCompTaskComplList = [];
         for (MapEntry complTaskEntry in (response.data[userKey] as Map).entries)
-          indivCompTaskComplList.add(IndivCompTaskCompl.fromMap(complTaskEntry.key, complTaskEntry.value));
+          indivCompTaskComplList.add(IndivCompTaskCompl.fromRespMap(complTaskEntry.value, key: complTaskEntry.key));
 
         IndivCompParticip particip = allParticipants.firstWhere((participIter) => participIter.key == userKey);
         pendingComplTasks[particip] = indivCompTaskComplList;

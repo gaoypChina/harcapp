@@ -34,12 +34,12 @@ class SharedRankMetaData{
     required this.lastUpdateDate,
   });
 
-  static SharedRankMetaData fromMap(Map map){
+  static SharedRankMetaData fromRespMap(Map respMap){
 
-    Map<String, dynamic> rankData = map['rank']??(throw InvalidResponseError('rank'));
+    Map<String, dynamic> rankData = respMap['rank']??(throw InvalidResponseError('rank'));
 
     return SharedRankMetaData(
-      userData: UserData.fromMap(map['user']),
+      userData: UserData.fromRespMap(respMap['user']),
       rankType: rankData['type']??(throw InvalidResponseError('type')),
       sharedRankKey: rankData['key']??(throw InvalidResponseError('key')),
       rankUniqName: rankData['uniqName']??(throw InvalidResponseError('uniqName')),
@@ -80,7 +80,7 @@ class ApiRank{
 
       Map<String, dynamic> rawData = response.data;
       for(String key in rawData.keys)
-        userRespBodies.add(UserData.fromMap(rawData[key], key: key));
+        userRespBodies.add(UserData.fromRespMap(rawData[key], key: key));
 
       onSuccess?.call(userRespBodies);
     },
@@ -105,7 +105,7 @@ class ApiRank{
 
         Map<String, dynamic> rawData = response.data;
         for(String key in rawData.keys)
-          userRespBodies.add(UserData.fromMap(rawData[key], key: key));
+          userRespBodies.add(UserData.fromRespMap(rawData[key], key: key));
 
         onSuccess?.call(userRespBodies);
       },
@@ -126,7 +126,7 @@ class ApiRank{
 
         List<dynamic> rawData = response.data;
         for(dynamic rawDataItem in rawData)
-          sharedRankMetaDataList.add(SharedRankMetaData.fromMap(rawDataItem));
+          sharedRankMetaDataList.add(SharedRankMetaData.fromRespMap(rawDataItem));
 
         onSuccess?.call(sharedRankMetaDataList);
       },

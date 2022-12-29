@@ -114,32 +114,32 @@ class CommunityPreviewData extends CommunityBasicData{
     required this.circle,
   });
 
-  static CommunityPreviewData fromResponse(Map resp){
+  static CommunityPreviewData fromRespMap(Map respMap){
 
     List<MarkerData> markers = [];
-    Map markerResps = resp['markers']??(throw InvalidResponseError('markers'));
+    Map markerResps = respMap['markers']??{};
     for(String markerKey in markerResps.keys){
       Map markerResp = markerResps[markerKey];
-      MarkerData m = MarkerData.fromMap(markerResp, key: markerKey);
+      MarkerData m = MarkerData.fromRespMap(markerResp, key: markerKey);
       markers.add(m);
     }
 
     CommunityPreviewData community = CommunityPreviewData(
-      key: resp['_key']??(throw InvalidResponseError('_key')),
-      name: resp['name']??(throw InvalidResponseError('name')),
-      iconKey: resp['iconKey']??(throw InvalidResponseError('iconKey')),
-      category: strToCommCat[resp['category']??(throw InvalidResponseError('category'))]??CommunityCategory.error,
-      contact: resp['contact']==null?null:CommonContactData.fromMap(resp['contact']),
+      key: respMap['_key']??(throw InvalidResponseError('_key')),
+      name: respMap['name']??(throw InvalidResponseError('name')),
+      iconKey: respMap['iconKey']??(throw InvalidResponseError('iconKey')),
+      category: strToCommCat[respMap['category']??(throw InvalidResponseError('category'))]??CommunityCategory.error,
+      contact: respMap['contact']==null?null:CommonContactData.fromRespMap(respMap['contact']),
       markers: markers,
       forum: null,
       circle: null,
     );
 
-    if(resp['forum'] != null)
-      community.forum = ForumBasicData.fromResponse(resp['forum'], community);
+    if(respMap['forum'] != null)
+      community.forum = ForumBasicData.fromRespMap(respMap['forum'], community);
 
-    if(resp['circle'] != null)
-      community.circle = CircleBasicData.fromResponse(resp['circle'], name: resp['name']);
+    if(respMap['circle'] != null)
+      community.circle = CircleBasicData.fromRespMap(respMap['circle'], name: respMap['name']);
 
     return community;
   }
@@ -158,6 +158,8 @@ class CommunityPreviewData extends CommunityBasicData{
 }
 
 class Community extends CommunityBasicData{
+
+  static const int managerPageSize = 10;
 
   static const IconData icon = MdiIcons.googleCirclesCommunities;
 
@@ -399,6 +401,7 @@ class Community extends CommunityBasicData{
   Map<String, CommunityManager> get managersMap => _managersMap;
 
   final Map<String, MarkerData> markersMap;
+  final int? managerCount;
 
   void update(Community updatedCommunity){
     name = updatedCommunity.name;
@@ -536,6 +539,7 @@ class Community extends CommunityBasicData{
     required Forum? forum,
 
     required List<CommunityManager> managers,
+    this.managerCount,
 
   }): _circle = circle,
       _forum = forum,
@@ -546,42 +550,34 @@ class Community extends CommunityBasicData{
     _managers.sort((m1, m2) => m1.name.compareTo(m2.name));
   }
 
-  static Community fromResponse(Map resp){
-
-    List<CommunityManager> managers = [];
-    Map managerResps = resp['managers']??{};
-    for(String userKey in managerResps.keys){
-      Map managerResp = managerResps[userKey];
-      CommunityManager m = CommunityManager.fromMap(managerResp, key: userKey);
-      managers.add(m);
-    }
+  static Community fromRespMap(Map respMap){
 
     List<MarkerData> markers = [];
-    Map markerResps = resp['markers']??{};
+    Map markerResps = respMap['markers']??{};
     for(String markerKey in markerResps.keys){
       Map markerResp = markerResps[markerKey];
-      MarkerData m = MarkerData.fromMap(markerResp, key: markerKey);
+      MarkerData m = MarkerData.fromRespMap(markerResp, key: markerKey);
       markers.add(m);
     }
 
     Community community = Community(
-      key: resp['_key']??(throw InvalidResponseError('_key')),
-      name: resp['name']??(throw InvalidResponseError('name')),
-      iconKey: resp['iconKey']??(throw InvalidResponseError('iconKey')),
-      category: strToCommCat[resp['category']??(throw InvalidResponseError('category'))]??CommunityCategory.error,
-      contact: resp['contact']==null?null:CommonContactData.fromMap(resp['contact']),
+      key: respMap['_key']??(throw InvalidResponseError('_key')),
+      name: respMap['name']??(throw InvalidResponseError('name')),
+      iconKey: respMap['iconKey']??(throw InvalidResponseError('iconKey')),
+      category: strToCommCat[respMap['category']??(throw InvalidResponseError('category'))]??CommunityCategory.error,
+      contact: respMap['contact']==null?null:CommonContactData.fromRespMap(respMap['contact']),
       circle: null,
       forum: null,
-      managers: managers,
+      managers: (respMap['managers']??[]).map<CommunityManager>((data) => CommunityManager.fromRespMap(data)).toList(),
+      managerCount: respMap['managerCount'],
       markers: markers,
-
     );
 
-    if(resp['circle'] != null)
-      community._circle = Circle.fromResponse(resp['circle'], community);
+    if(respMap['circle'] != null)
+      community._circle = Circle.fromRespMap(respMap['circle'], community);
 
-    if(resp['forum'] != null)
-      community._forum = Forum.fromResponse(resp['forum'], community);
+    if(respMap['forum'] != null)
+      community._forum = Forum.fromRespMap(respMap['forum'], community);
 
     return community;
   }

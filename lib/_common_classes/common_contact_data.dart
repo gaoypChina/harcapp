@@ -12,11 +12,11 @@ class CommonContactData{
     required this.other,
   });
 
-  static CommonContactData fromMap(Map map) => CommonContactData(
-      email: (map['email'] as List?)?.cast<String>()??[],
-      phone: (map['phone'] as List?)?.cast<String>()??[],
-      website: (map['website'] as List?)?.cast<String>()??[],
-      other: map['other']
+  static CommonContactData fromRespMap(Map respMap) => CommonContactData(
+      email: (respMap['email'] as List?)?.cast<String>()??[],
+      phone: (respMap['phone'] as List?)?.cast<String>()??[],
+      website: (respMap['website'] as List?)?.cast<String>()??[],
+      other: respMap['other']
   );
 
   Map toMap() => {

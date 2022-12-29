@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/indiv_comp_particips_provider.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
+import 'package:harcapp/account/account.dart';
+import 'package:harcapp/values/consts.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:provider/provider.dart';
 
-import '../../../user_list_managment_page.dart';
 import '../common/particip_tile.dart';
 import '../comp_role.dart';
 import '../models/indiv_comp.dart';
 
-class ParticipantsPage extends StatelessWidget{
+class ParticipantsPage extends StatefulWidget{
 
   static String adminsHeaderTitle = 'Administratorzy';
   static String moderatorsHeaderTitle = 'Moderatorzy';
@@ -35,8 +38,6 @@ class ParticipantsPage extends StatelessWidget{
 
   final IndivComp comp;
 
-  List<IndivCompParticip> get particips => comp.particips;
-
   final Widget Function(List<IndivCompParticip> particips)? adminsListHeaderTrailing;
   final Widget Function(List<IndivCompParticip> particips)? modsListHeaderTrailing;
   final Widget Function(List<IndivCompParticip> particips)? obsListHeaderTrailing;
@@ -59,57 +60,148 @@ class ParticipantsPage extends StatelessWidget{
     super.key});
 
   @override
+  State<StatefulWidget> createState() => ParticipantsPageState();
+
+}
+
+class ParticipantsPageState extends State<ParticipantsPage>{
+
+  IndivComp get comp => widget.comp;
+  List<IndivCompParticip> get particips => comp.particips;
+
+  List<IndivCompParticip> participAdmins = [];
+  List<IndivCompParticip> participModerators = [];
+  List<IndivCompParticip> participObservers = [];
+
+  void updateUserSets(){
+    participAdmins.clear();
+    participModerators.clear();
+    participObservers.clear();
+    for(IndivCompParticip particip in particips) {
+      switch(particip.profile.role){
+        case CompRole.ADMIN:
+          participAdmins.add(particip);
+          break;
+        case CompRole.MODERATOR:
+          participModerators.add(particip);
+          break;
+        case CompRole.OBSERVER:
+          participObservers.add(particip);
+          break;
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    updateUserSets();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) => Consumer<IndivCompParticipsProvider>(
       builder: (context, prov, child){
 
-        List<IndivCompParticip> participAdmins = [];
-        List<IndivCompParticip> participMods = [];
-        List<IndivCompParticip> participObs = [];
-
-        for(IndivCompParticip particip in particips) {
-          if (particip.profile.role == CompRole.ADMIN)
-            participAdmins.add(particip);
-
-          else if (particip.profile.role == CompRole.MODERATOR)
-            participMods.add(particip);
-
-          else if (particip.profile.role == CompRole.OBSERVER)
-            participObs.add(particip);
-        }
-
-        participAdmins.sort((p1, p2) => p1.name.compareTo(p2.name));
-        participMods.sort((p1, p2) => p1.name.compareTo(p2.name));
-        participObs.sort((p1, p2) => p1.name.compareTo(p2.name));
-
-        return UserListManagementPage<IndivCompParticip>(
-          appBarTitle: 'Uczestnicy (${particips.length})',
+        return UserListManagementLoadablePage<IndivCompParticip>(
+          appBarTitle: 'Uczestnicy (${comp.participCount})',
           userSets: [
             UserSet(
-              icon: compRoleToIcon[CompRole.ADMIN]!,
-              name: 'Administratorzy',
-              users: participAdmins,
-              permissions: adminPersmissions
+                icon: compRoleToIcon[CompRole.ADMIN]!,
+                name: 'Administratorzy',
+                users: participAdmins,
+                permissions: ParticipantsPage.adminPersmissions
             ),
 
             UserSet(
-              icon: compRoleToIcon[CompRole.MODERATOR]!,
-              name: 'Moderatorzy',
-              users: participMods,
-              permissions: moderatorPersmissions
+                icon: compRoleToIcon[CompRole.MODERATOR]!,
+                name: 'Moderatorzy',
+                users: participModerators,
+                permissions: ParticipantsPage.moderatorPersmissions
             ),
 
             UserSet(
-              icon: compRoleToIcon[CompRole.OBSERVER]!,
-              name: 'Pozostali',
-              users: participObs,
-              permissions: obsPersmissions
+                icon: compRoleToIcon[CompRole.OBSERVER]!,
+                name: 'Pozostali',
+                users: participObservers,
+                permissions: ParticipantsPage.obsPersmissions
             )
           ],
           userTileBuilder: (context, particip) =>
-          ParticipTile(
-            particip: particip,
-            heroTag: particip
-          ),
+              ParticipTile(
+                  particip: particip,
+                  heroTag: particip
+              ),
+
+          userCount: comp.participCount,
+          callReload: () async {
+            await ApiIndivComp.getParticipants(
+              compKey: comp.key,
+              pageSize: IndivComp.participsPageSize,
+              lastRole: null,
+              lastUserName: null,
+              lastUserKey: null,
+              onSuccess: (participsPage){
+                IndivCompParticip me = comp.participMap[AccountData.key]!;
+                participsPage.removeWhere((member) => member.key == me.key);
+                participsPage.insert(0, me);
+                comp.setAllParticips(participsPage, context: context);
+                updateUserSets();
+                setState((){});
+              },
+              onForceLoggedOut: (){
+                if(!mounted) return true;
+                showAppToast(context, text: forceLoggedOutMessage);
+                setState(() {});
+                return true;
+              },
+              onServerMaybeWakingUp: (){
+                if(!mounted) return true;
+                showServerWakingUpToast(context);
+                return true;
+              },
+              onError: (){
+                if(!mounted) return;
+                showAppToast(context, text: simpleErrorMessage);
+              },
+            );
+          },
+          callLoadMore: () async {
+
+            bool success = false;
+
+            await ApiIndivComp.getParticipants(
+              compKey: comp.key,
+              pageSize: IndivComp.participsPageSize,
+              lastRole: comp.particips.length==1?null:comp.particips.last.profile.role,
+              lastUserName: comp.particips.length==1?null:comp.particips.last.name,
+              lastUserKey: comp.particips.length==1?null:comp.particips.last.key,
+              onSuccess: (participsPage){
+                comp.addParticips(participsPage, context: context);
+                updateUserSets();
+                success = true;
+                setState((){});
+              },
+              onForceLoggedOut: (){
+                if(!mounted) return true;
+                showAppToast(context, text: forceLoggedOutMessage);
+                setState(() {});
+                return true;
+              },
+              onServerMaybeWakingUp: (){
+                if(!mounted) return true;
+                showServerWakingUpToast(context);
+                return true;
+              },
+              onError: (){
+                if(!mounted) return;
+                showAppToast(context, text: simpleErrorMessage);
+              },
+            );
+
+            return success;
+
+          },
+          callLoadOnInit: comp.particips.length == 1,
 
         );
 

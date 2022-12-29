@@ -2,6 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_new/api/indiv_comp.dart';
+import 'package:harcapp/account/account.dart';
+import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_particip/participants_page.dart';
 import 'package:harcapp/_new/cat_page_home/user_list_managment_loadable_page.dart';
@@ -21,7 +24,6 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../../../user_list_managment_page.dart';
 import '../common/accept_task_dialog.dart';
 import '../common/particip_tile_extended.dart';
 import '../models/show_rank_data.dart';
@@ -46,16 +48,38 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
 
   late List<IndivCompParticip> selectedParticips;
 
-  void onParticipProviderNotified() => setState((){});
+  List<IndivCompParticip> participAdmins = [];
+  List<IndivCompParticip> participModerators = [];
+  List<IndivCompParticip> participObservers = [];
+
+  void updateUserSets(){
+    participAdmins.clear();
+    participModerators.clear();
+    participObservers.clear();
+    for(IndivCompParticip particip in particips) {
+      switch(particip.profile.role){
+        case CompRole.ADMIN:
+          participAdmins.add(particip);
+          break;
+        case CompRole.MODERATOR:
+          participModerators.add(particip);
+          break;
+        case CompRole.OBSERVER:
+          participObservers.add(particip);
+          break;
+      }
+    }
+  }
 
   @override
   void initState() {
-
+    updateUserSets();
     IndivCompParticipsProvider.addOnNotifyListener(onParticipProviderNotified);
     selectedParticips = [];
-
     super.initState();
   }
+
+  void onParticipProviderNotified() => setState((){});
 
   @override
   void dispose() {
@@ -91,29 +115,10 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
   Widget build(BuildContext context) => Consumer<IndivCompParticipsProvider>(
       builder: (context, prov, child){
 
-        List<IndivCompParticip> participAdmins = [];
-        List<IndivCompParticip> participMods = [];
-        List<IndivCompParticip> participObs = [];
-
-        for(IndivCompParticip particip in particips) {
-          if (particip.profile.role == CompRole.ADMIN)
-            participAdmins.add(particip);
-
-          else if (particip.profile.role == CompRole.MODERATOR)
-            participMods.add(particip);
-
-          else if (particip.profile.role == CompRole.OBSERVER)
-            participObs.add(particip);
-        }
-
-        participAdmins.sort((p1, p2) => p1.profile.points??0 - (p2.profile.points??0));
-        participMods.sort((p1, p2) => p1.profile.points??0 - (p2.profile.points??0));
-        participObs.sort((p1, p2) => p1.profile.points??0 - (p2.profile.points??0));
-
         return Stack(
           children: [
 
-            UserListManagementPage<IndivCompParticip>(
+            UserListManagementLoadablePage<IndivCompParticip>(
               appBarTitle: selectedParticips.isEmpty?
               'Uczestnicy (${particips.length})':
               'Zaznaczono: ${selectedParticips.length}',
@@ -129,14 +134,14 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
                 UserSet(
                   icon: compRoleToIcon[CompRole.MODERATOR]!,
                   name: ParticipantsPage.moderatorsHeaderTitle,
-                  users: participMods,
+                  users: participModerators,
                   permissions: ParticipantsPage.moderatorPersmissions
                 ),
 
                 UserSet(
                   icon: compRoleToIcon[CompRole.OBSERVER]!,
                   name: ParticipantsPage.obsHeaderTitle,
-                  users: participObs,
+                  users: participObservers,
                   permissions: ParticipantsPage.obsPersmissions
                 )
               ],
@@ -239,9 +244,82 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
 
               ),
 
+
+              userCount: comp.participCount,
+              callReload: () async {
+                await ApiIndivComp.getParticipants(
+                  compKey: comp.key,
+                  pageSize: IndivComp.participsPageSize,
+                  lastRole: null,
+                  lastUserName: null,
+                  lastUserKey: null,
+                  onSuccess: (participsPage){
+                    IndivCompParticip me = comp.participMap[AccountData.key]!;
+                    participsPage.removeWhere((member) => member.key == me.key);
+                    participsPage.insert(0, me);
+                    comp.setAllParticips(participsPage, context: context);
+                    updateUserSets();
+                    selectedParticips.clear();
+                    setState((){});
+                  },
+                  onForceLoggedOut: (){
+                    if(!mounted) return true;
+                    showAppToast(context, text: forceLoggedOutMessage);
+                    setState(() {});
+                    return true;
+                  },
+                  onServerMaybeWakingUp: (){
+                    if(!mounted) return true;
+                    showServerWakingUpToast(context);
+                    return true;
+                  },
+                  onError: (){
+                    if(!mounted) return;
+                    showAppToast(context, text: simpleErrorMessage);
+                  },
+                );
+              },
+              callLoadMore: () async {
+
+                bool success = false;
+
+                await ApiIndivComp.getParticipants(
+                  compKey: comp.key,
+                  pageSize: IndivComp.participsPageSize,
+                  lastRole: comp.particips.length==1?null:comp.particips.last.profile.role,
+                  lastUserName: comp.particips.length==1?null:comp.particips.last.name,
+                  lastUserKey: comp.particips.length==1?null:comp.particips.last.key,
+                  onSuccess: (participsPage){
+                    comp.addParticips(participsPage, context: context);
+                    updateUserSets();
+                    success = true;
+                    setState((){});
+                  },
+                  onForceLoggedOut: (){
+                    if(!mounted) return true;
+                    showAppToast(context, text: forceLoggedOutMessage);
+                    setState(() {});
+                    return true;
+                  },
+                  onServerMaybeWakingUp: (){
+                    if(!mounted) return true;
+                    showServerWakingUpToast(context);
+                    return true;
+                  },
+                  onError: (){
+                    if(!mounted) return;
+                    showAppToast(context, text: simpleErrorMessage);
+                  },
+                );
+
+                return success;
+
+              },
+              callLoadOnInit: comp.particips.length == 1,
+
             ),
 
-            if(comp.particips.length == 1 && selectedParticips.isEmpty)
+            if(comp.participCount == 1 && selectedParticips.isEmpty)
               Positioned(
                   left: 2*Dimen.SIDE_MARG,
                   right: 2*Dimen.SIDE_MARG,

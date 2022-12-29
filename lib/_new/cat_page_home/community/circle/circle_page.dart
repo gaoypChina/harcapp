@@ -49,6 +49,7 @@ import 'circle_role.dart';
 import 'members_page/members_page.dart';
 import 'model/announcement.dart';
 import 'model/circle.dart';
+import 'model/member.dart';
 
 enum AnnouncementCategories{
   all, pinned, awaiting
@@ -335,7 +336,7 @@ class CirclePageState extends State<CirclePage>{
                   circle.description = updatedCircle.description;
                   circle.coverImage = updatedCircle.coverImage;
                   circle.colorsKey = updatedCircle.colorsKey;
-                  circle.setAllMembers(updatedCircle.members, context: context);
+                  // circle.setAllMembers(updatedCircle.members, context: context);
                   circle.resetAnnouncements(
                     updatedCircle.allAnnouncements,
                     updatedCircle.pinnedAnnouncements,
@@ -573,6 +574,7 @@ class CirclePageState extends State<CirclePage>{
                           borderRadius: const BorderRadius.vertical(bottom: Radius.circular(communityRadius)),
                           color: cardColor,
                         ),
+                        clipBehavior: Clip.hardEdge,
                         child: Column(
                           children: [
 
@@ -927,7 +929,7 @@ class CirclePageState extends State<CirclePage>{
 
 }
 
-class MembersWidget extends StatelessWidget{
+class MembersWidget extends StatefulWidget{
 
   final Circle circle;
   final PaletteGenerator? palette;
@@ -941,13 +943,73 @@ class MembersWidget extends StatelessWidget{
   );
 
   @override
+  State<StatefulWidget> createState() => MembersWidgetState();
+
+}
+
+class MembersWidgetState extends State<MembersWidget>{
+
+  Circle get circle => widget.circle;
+  PaletteGenerator? get palette => widget.palette;
+  EdgeInsets get padding => widget.padding;
+
+  late bool isLoading;
+
+  Future<void> loadMoreMembers() async {
+    setState(() => isLoading = true);
+    if(!await isNetworkAvailable()){
+      setState(() => isLoading = false);
+      return;
+    }
+    await ApiCircle.getMembers(
+      circleKey: circle.key,
+      pageSize: Circle.memberPageSize,
+      lastRole: circle.members.length==1?null:circle.members.last.role,
+      lastUserName: circle.members.length==1?null:circle.members.last.name,
+      lastUserKey: circle.members.length==1?null:circle.members.last.key,
+      onSuccess: (membersPage){
+        Member me = circle.membersMap[AccountData.key]!;
+        membersPage.removeWhere((member) => member.key == me.key);
+        membersPage.insert(0, me);
+        circle.addMembers(membersPage, context: context);
+        setState((){});
+      },
+      onForceLoggedOut: (){
+        if(!mounted) return true;
+        showAppToast(context, text: forceLoggedOutMessage);
+        setState(() {});
+        return true;
+      },
+      onServerMaybeWakingUp: (){
+        if(!mounted) return true;
+        showServerWakingUpToast(context);
+        return true;
+      },
+      onError: (){
+        if(!mounted) return;
+        showAppToast(context, text: simpleErrorMessage);
+      },
+    );
+
+    setState(() => isLoading = false);
+
+  }
+
+  @override
+  void initState() {
+    isLoading = circle.members.length == 1;
+    if(isLoading) loadMoreMembers();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) => Padding(
     padding: padding,
     child: Row(
       children: [
 
         Expanded(
-          child: AccountThumbnailRowWidget(
+          child: AccountThumbnailLoadableRowWidget(
             circle.members.map((m) => m.name).toList(),
             elevated: CommunityPublishableWidgetTemplate.elevation != 0,
             color: CommunityCoverColors.backgroundColor(context, palette),
@@ -955,14 +1017,18 @@ class MembersWidget extends StatelessWidget{
             backgroundColor: CommunityCoverColors.cardColor(context, palette),
             padding: const EdgeInsets.symmetric(horizontal: Dimen.defMarg),
             onTap: () => pushPage(
-                context,
-                builder: (context) => MembersPage(circle: circle, palette: palette)
+              context,
+              builder: (context) => MembersPage(circle: circle, palette: palette)
             ),
             heroBuilder: (index) => circle.members[index],
+
+            onLoadMore: () => loadMoreMembers(),
+            isLoading: isLoading,
+            isMoreToLoad: circle.members.length < circle.memberCount,
           ),
         ),
 
-        if(circle.members.length == 1)
+        if(circle.memberCount == 1)
           SimpleButton(
               color: CommunityCoverColors.backgroundColor(context, palette),
               radius: 100,
@@ -990,7 +1056,7 @@ class MembersWidget extends StatelessWidget{
                   )
                 ],
               ),
-              onTap: () => onTap(circle, palette, context)
+              onTap: () => MembersWidget.onTap(circle, palette, context)
           ),
 
         const SizedBox(width: Dimen.defMarg),

@@ -132,9 +132,9 @@ class MarkerData{
       }
   }
 
-  static MarkerData fromMap(Map map, {String? key}){
+  static MarkerData fromRespMap(Map respMap, {String? key}){
 
-    Map<String, int> commBasicDataRaw = ((map['communitiesBasicData']??(throw InvalidResponseError('communitiesBasicData'))) as Map).cast<String, int>();
+    Map<String, int> commBasicDataRaw = ((respMap['communitiesBasicData']??(throw InvalidResponseError('communitiesBasicData'))) as Map).cast<String, int>();
     Map<CommunityCategory, int> commBasicData = {};
     for(String commCatStr in commBasicDataRaw.keys){
       CommunityCategory? commCat = strToCommCat[commCatStr];
@@ -143,15 +143,15 @@ class MarkerData{
     }
 
     return MarkerData(
-        key: key??map['_key']??(throw InvalidResponseError('_key')),
-        name: map['name'],
-        contact: map['contact'] == null?null:CommonContactData.fromMap(map['contact']),
-        lat: map['lat']??(throw InvalidResponseError('lat')),
-        lng: map['lng']??(throw InvalidResponseError('lng')),
-        type: strToMarkerType[map['type']??(throw InvalidResponseError('type'))]??MarkerType.ERROR,
-        visibility: strToMarkerVisibility[map['visibility']??(throw InvalidResponseError('visibility'))]??MarkerVisibility.ERROR,
-        managers: (map['managers']??[]).map<MarkerManager>((data) => MarkerManager.fromMap(data)).toList(),
-        managerCount: map['managerCount']??(throw InvalidResponseError('managerCount')),
+        key: key??respMap['_key']??(throw InvalidResponseError('_key')),
+        name: respMap['name'],
+        contact: respMap['contact'] == null?null:CommonContactData.fromRespMap(respMap['contact']),
+        lat: respMap['lat']??(throw InvalidResponseError('lat')),
+        lng: respMap['lng']??(throw InvalidResponseError('lng')),
+        type: strToMarkerType[respMap['type']??(throw InvalidResponseError('type'))]??MarkerType.ERROR,
+        visibility: strToMarkerVisibility[respMap['visibility']??(throw InvalidResponseError('visibility'))]??MarkerVisibility.ERROR,
+        managers: (respMap['managers']??[]).map<MarkerManager>((data) => MarkerManager.fromRespMap(data)).toList(),
+        managerCount: respMap['managerCount']??(throw InvalidResponseError('managerCount')),
         communitiesBasicData: commBasicData
     );
 
@@ -208,7 +208,6 @@ class MarkerData{
     _managers.clear();
     _managersMap.clear();
     _managers.addAll(allManagers);
-    _managers.sort((m1, m2) => m1.name.compareTo(m2.name));
     _managersMap.addAll({for (MarkerManager? m in allManagers) m!.key: m});
 
     if(context == null) return;

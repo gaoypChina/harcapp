@@ -126,15 +126,15 @@ class Post extends CommunityPublishable{
     text = other.text;
   }
 
-  static Post fromMap(Map resp, Forum forum, {String? key}) => Post(
-    key: key??resp['_key']??(throw InvalidResponseError('_key')),
-    title: resp['title'],
-    publishTime: DateTime.tryParse(resp['publishTimeStr']??(throw InvalidResponseError('publishTimeStr')))??(throw InvalidResponseError('post_time_str')),
-    lastUpdateTime: DateTime.tryParse(resp['lastUpdateTimeStr']??''),
-    coverImage: resp['coverImage'] == null? null: CommunityCoverImageData.from(resp['coverImage']),
-    urlToPreview: resp['urlToPreview'],
-    author: resp.containsKey('author')?UserData.fromMap(resp['author']):null,
-    text: resp['text']??(throw InvalidResponseError('text')),
+  static Post fromRespMap(Map respMap, Forum forum, {String? key}) => Post(
+    key: key??respMap['_key']??(throw InvalidResponseError('_key')),
+    title: respMap['title'],
+    publishTime: DateTime.tryParse(respMap['publishTimeStr']??(throw InvalidResponseError('publishTimeStr')))??(throw InvalidResponseError('post_time_str')),
+    lastUpdateTime: DateTime.tryParse(respMap['lastUpdateTimeStr']??''),
+    coverImage: respMap['coverImage'] == null? null: CommunityCoverImageData.fromRespMap(respMap['coverImage']),
+    urlToPreview: respMap['urlToPreview'],
+    author: respMap.containsKey('author')?UserData.fromRespMap(respMap['author']):null,
+    text: respMap['text']??(throw InvalidResponseError('text')),
 
     forum: forum,
   );

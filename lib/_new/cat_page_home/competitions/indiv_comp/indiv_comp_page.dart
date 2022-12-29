@@ -72,8 +72,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
   @override
   String get moduleId => ModuleStatsMixin.indivComp;
 
-  IndivComp? updatedComp;
-  IndivComp get comp => updatedComp??widget.comp;
+  IndivComp get comp => widget.comp;
 
   Color? get compIconColor => !comp.colors.iconWhite&&!AppSettings.isDark?textEnab_(context):background_(context);//comp.colors.iconWhite?Colors.white:(Settings.isDark?background_(context):textEnab_(context));
 
@@ -123,8 +122,8 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
 
                   await ApiIndivComp.get(
                       compKey: comp.key,
-                      onSuccess: (IndivComp comp){
-                        updatedComp = comp;
+                      onSuccess: (IndivComp updatedComp){
+                        comp.update(updatedComp);
                         IndivComp.updateInAll(comp, context: mounted?context:null);
                         if(!mounted) return;
                         setState(() {});
@@ -229,17 +228,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                                 initComp: comp,
                                 onSuccess: (IndivComp savedComp){
 
-                                  comp.name = savedComp.name;
-                                  comp.iconKey = savedComp.iconKey;
-                                  comp.colorsKey = savedComp.colorsKey;
-                                  comp.startTime = savedComp.startTime;
-                                  comp.endTime = savedComp.endTime;
-                                  comp.rankDispType = savedComp.rankDispType;
-
-                                  comp.updateParticips(savedComp.particips, context: context);
-
-                                  comp.tasks = savedComp.tasks;
-                                  comp.awards = savedComp.awards;
+                                  comp.update(savedComp);
 
                                   Provider.of<IndivCompProvider>(context, listen: false).notify();
                                   Provider.of<IndivCompParticipsProvider>(context, listen: false).notify();
@@ -404,12 +393,12 @@ class CompHeaderWidget extends StatelessWidget{
                       ),
                       IndivCompRankIcon(
                         comp.myProfile!,
-                        activeParticipCnt: comp.activeParticipCnt,
+                        activeParticipCnt: comp.activeParticipCount,
                         showPercent: comp.rankDispType == RankDispType.RANGE_PERC,
                         colors: comp.colors,
                         size: 42.0,
                         showPopularityOnTap: true,
-                        key: ValueKey(Tuple2(comp.rankDispType, comp.activeParticipCnt)),
+                        key: ValueKey(Tuple2(comp.rankDispType, comp.activeParticipCount)),
                       ),
                     ],
                   ),
@@ -789,7 +778,7 @@ class TaskListWidget extends StatelessWidget{
 
 }
 
-class ParticipantsWidget extends StatelessWidget{
+class ParticipantsWidget extends StatefulWidget{
 
   final IndivComp comp;
   final EdgeInsets padding;
@@ -805,46 +794,109 @@ class ParticipantsWidget extends StatelessWidget{
   );
 
   @override
+  State<StatefulWidget> createState() => ParticipantsWidgetState();
+
+}
+
+class ParticipantsWidgetState extends State<ParticipantsWidget>{
+
+  IndivComp get comp => widget.comp;
+  EdgeInsets get padding => widget.padding;
+
+  late bool isLoading;
+
+  Future<void> loadMoreMembers() async {
+    setState(() => isLoading = true);
+    if(!await isNetworkAvailable()){
+      setState(() => isLoading = false);
+      return;
+    }
+    await ApiIndivComp.getParticipants(
+      compKey: comp.key,
+      pageSize: IndivComp.participsPageSize,
+      lastRole: comp.particips.length==1?null:comp.particips.last.profile.role,
+      lastUserName: comp.particips.length==1?null:comp.particips.last.name,
+      lastUserKey: comp.particips.length==1?null:comp.particips.last.key,
+      onSuccess: (participsPage){
+        IndivCompParticip me = comp.participMap[AccountData.key]!;
+        participsPage.removeWhere((member) => member.key == me.key);
+        participsPage.insert(0, me);
+        comp.addParticips(participsPage, context: context);
+        setState((){});
+      },
+      onForceLoggedOut: (){
+        if(!mounted) return true;
+        showAppToast(context, text: forceLoggedOutMessage);
+        setState(() {});
+        return true;
+      },
+      onServerMaybeWakingUp: (){
+        if(!mounted) return true;
+        showServerWakingUpToast(context);
+        return true;
+      },
+      onError: (){
+        if(!mounted) return;
+        showAppToast(context, text: simpleErrorMessage);
+      },
+    );
+
+    setState(() => isLoading = false);
+
+  }
+
+  @override
+  void initState() {
+    isLoading = comp.particips.length == 1;
+    if(isLoading) loadMoreMembers();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) => Padding(
     padding: padding,
     child: Row(
       children: [
 
         Expanded(
-          child: AccountThumbnailRowWidget(
-              comp.particips.map((particip) => particip.name).toList(),
-              heroBuilder: (index) => comp.particips[index],
-              onTap: () => onTap(comp, context)
+          child: AccountThumbnailLoadableRowWidget(
+            comp.particips.map((particip) => particip.name).toList(),
+            heroBuilder: (index) => comp.particips[index],
+            onTap: () => ParticipantsWidget.onTap(comp, context),
+
+            onLoadMore: () => loadMoreMembers(),
+            isLoading: isLoading,
+            isMoreToLoad: comp.particips.length < comp.participCount,
           ),
         ),
 
-        if(comp.particips.length == 1)
+        if(comp.participCount == 1)
           SimpleButton(
-            color: backgroundIcon_(context),
-            radius: 100,
-            child: Row(
-              children: [
-                const SizedBox(width: 2*Dimen.ICON_MARG),
+              color: backgroundIcon_(context),
+              radius: 100,
+              child: Row(
+                children: [
+                  const SizedBox(width: 2*Dimen.ICON_MARG),
 
-                Text(
-                  'Dodaj członków',
-                  style: AppTextStyle(
-                    fontWeight: weight.halfBold,
-                    color: textEnab_(context),
-                    fontSize: Dimen.TEXT_SIZE_APPBAR
+                  Text(
+                    'Dodaj członków',
+                    style: AppTextStyle(
+                        fontWeight: weight.halfBold,
+                        color: textEnab_(context),
+                        fontSize: Dimen.TEXT_SIZE_APPBAR
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
 
-                const SizedBox(width: Dimen.ICON_MARG),
+                  const SizedBox(width: Dimen.ICON_MARG),
 
-                const AccountThumbnailWidget(
-                  elevated: false,
-                  icon: MdiIcons.accountPlusOutline,
-                )
-              ],
-            ),
-            onTap: () => onTap(comp, context)
+                  const AccountThumbnailWidget(
+                    elevated: false,
+                    icon: MdiIcons.accountPlusOutline,
+                  )
+                ],
+              ),
+              onTap: () => ParticipantsWidget.onTap(comp, context)
           )
 
       ],

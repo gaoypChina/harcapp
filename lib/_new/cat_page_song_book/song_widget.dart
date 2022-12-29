@@ -300,7 +300,7 @@ class SongWidget extends StatelessWidget{
 
     onEditTap: (prov) async{
       Map map = await getSongMap(song.fileName);
-      SongRaw songRaw = SongRaw.fromMap(song.fileName, map);
+      SongRaw songRaw = SongRaw.fromRespMap(song.fileName, map);
 
       openOwnSongPage(
           context,
