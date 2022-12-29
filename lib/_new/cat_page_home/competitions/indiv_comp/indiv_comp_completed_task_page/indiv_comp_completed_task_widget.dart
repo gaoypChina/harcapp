@@ -11,14 +11,14 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/date_to_str.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'common/indiv_comp_task_skeleton_widget.dart';
-import 'models/indiv_comp_task.dart';
-import 'models/indiv_comp_task_compl.dart';
+import '../common/indiv_comp_task_skeleton_widget.dart';
+import '../models/indiv_comp_task.dart';
+import '../models/indiv_comp_task_compl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class IndivCompTaskComplWidget extends StatelessWidget{
+class IndivCompCompletedTaskWidget extends StatelessWidget{
 
-  final IndivCompTaskCompl complTask;
+  final IndivCompCompletedTask complTask;
   final Map<String, IndivCompTask> taskMap;
   final CommonColorData? colors;
   final bool preview;
@@ -26,7 +26,7 @@ class IndivCompTaskComplWidget extends StatelessWidget{
   final void Function()? onTap;
   final dynamic heroTag;
 
-  const IndivCompTaskComplWidget(
+  const IndivCompCompletedTaskWidget(
       this.complTask,
       this.taskMap,
       this.colors,
@@ -59,7 +59,7 @@ class IndivCompTaskComplWidget extends StatelessWidget{
                 const SizedBox(width: IndivCompTaskSkeletonWidget.padding),
                 Expanded(
                   child: Text(
-                    dateToString(complTask.reqTime!, withTime: true, shortMonth: true),
+                    dateToString(complTask.reqTime, withTime: true, shortMonth: true),
                     style: AppTextStyle(color: hintEnab_(context), fontWeight: weight.halfBold),
                   ),
                 ),
@@ -84,8 +84,8 @@ class IndivCompTaskComplWidget extends StatelessWidget{
               onLongPress: () async {
 
                 showLoadingWidget(context, colors!.avgColor, 'Wycofywanie...');
-                await ApiIndivComp.removeTaskComplReq(
-                  taskComplKey: complTask.key,
+                await ApiIndivComp.removeCompletedTask(
+                  complTaskKey: complTask.key,
                   onSuccess: onRemoved,
                   onServerMaybeWakingUp: () {
                     showServerWakingUpToast(context);

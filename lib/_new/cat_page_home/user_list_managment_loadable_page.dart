@@ -1,20 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_page.dart';
 import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class UserSet<T extends UserData>{
 
@@ -27,7 +23,7 @@ class UserSet<T extends UserData>{
 
 }
 
-class UserListManagementLoadablePage<T extends UserData> extends StatefulWidget{
+class UserListManagementLoadablePage<T extends UserData> extends StatelessWidget{
 
   final List<UserSet<T>> userSets;
   final Widget Function(BuildContext, T) userTileBuilder;
@@ -55,7 +51,8 @@ class UserListManagementLoadablePage<T extends UserData> extends StatefulWidget{
     this.strongColor,
     this.backgroundColor,
     this.appBottomNavColor,
-    this.appBarTitle = 'Lista ludzi',
+
+    this.appBarTitle = 'Lista osób',
     this.appBarLeading,
     this.appBarActions,
     this.headerTrailing,
@@ -72,8 +69,8 @@ class UserListManagementLoadablePage<T extends UserData> extends StatefulWidget{
     super.key
   });
 
-  @override
-  State<StatefulWidget> createState() => UserListManagementLoadablePageState<T>();
+  // @override
+  // State<StatefulWidget> createState() => UserListManagementLoadablePageState<T>();
 
   static Future<void> openPermissionsDialog({
     required BuildContext context,
@@ -91,195 +88,70 @@ class UserListManagementLoadablePage<T extends UserData> extends StatefulWidget{
       )
   );
 
-}
-
-class UserListManagementLoadablePageState<T extends UserData> extends State<UserListManagementLoadablePage<T>>{
-
-  List<UserSet<T>> get userSets => widget.userSets;
-  Widget Function(BuildContext, T) get userTileBuilder => widget.userTileBuilder;
-
-  Color? get strongColor => widget.strongColor;
-  Color? get backgroundColor => widget.backgroundColor;
-  Color? get appBottomNavColor => widget.appBottomNavColor;
-  String get appBarTitle => widget.appBarTitle;
-  Widget? get appBarLeading => widget.appBarLeading;
-  List<Widget>? get appBarActions => widget.appBarActions;
-  Widget Function(BuildContext, UserSet<T>)? get headerTrailing => widget.headerTrailing;
-  bool get showIfEmpty => widget.showIfEmpty;
-  Widget? get bottom => widget.bottom;
-  Widget? get bottomNavigationBar => widget.bottomNavigationBar;
-
-  int get userCount => widget.userCount;
-  FutureOr<void> Function() get callReload => widget.callReload;
-  FutureOr<bool> Function() get callLoadMore => widget.callLoadMore;
-  bool get callLoadOnInit => widget.callLoadOnInit;
-
-  late RefreshController refreshController;
-  
-  bool get moreToLoad{
+  int get loadedItemsCount{
     int allLoaded = 0;
     for(UserSet userSet in userSets)
       allLoaded += userSet.users.length;
-      
-    return allLoaded < userCount;
+
+    return allLoaded;
   }
 
   @override
-  void initState() {
-    refreshController = RefreshController(
-        initialLoadStatus: callLoadOnInit?LoadStatus.loading:LoadStatus.idle
-    );
-    if(callLoadOnInit)
-      onLoading();
+  Widget build(BuildContext context) => PagingLoadableBasePage(
+    appBarTitle: 'Lista osób',
+    appBarLeading: appBarLeading,
+    appBarActions: appBarActions,
 
-    super.initState();
-  }
+    backgroundColor: backgroundColor,
+    appBottomNavColor: appBottomNavColor,
+    loadingIndicatorColor: strongColor,
 
-  void onLoading() async {
+    totalItemsCount: userCount,
+    loadedItemsCount: loadedItemsCount,
+    callReload: callReload,
+    callLoadMore: callLoadMore,
+    callLoadOnInit: callLoadOnInit,
 
-    if(!moreToLoad) {
-      refreshController.loadComplete();
-      return;
-    }
+    sliverBody: Builder(builder: (context){
 
-    if(!await isNetworkAvailable()){
-      showAppToast(context, text: 'Brak dostępu do Internetu');
-      refreshController.loadComplete();
-      return;
-    }
+      List<Widget> userSetWidgets = [];
 
-    bool success = await callLoadMore.call();
-
-    refreshController.loadComplete();
-
-  }
-
-  @override
-  Widget build(BuildContext context){
-
-    List<Widget> userSetWidgets = [];
-
-    for(UserSet<T> userSet in userSets)
-      if(userSet.users.isNotEmpty || showIfEmpty)
-        userSetWidgets.add(_Border(
-          backgroundColor: backgroundColor,
-          header: userSet.icon == null && userSet.name == null?
-          null:
-          _ListHeader(
-            icon: userSet.icon!,
-            title: userSet.name!,
-            trailing: headerTrailing?.call(context, userSet),
-            permissions: userSet.permissions,
-            color: backgroundColor,
-          ),
-          body: Builder(
-            builder: (context){
-
-              List<Widget> children = [];
-
-              for(T userData in userSet.users)
-                children.add(userTileBuilder(context, userData));
-
-              return Column(mainAxisSize: MainAxisSize.min, children: children);
-
-            },
-          )
-        ));
-
-    return BottomNavScaffold(
-      backgroundColor: backgroundColor,
-      appBottomNavColor: appBottomNavColor,
-      body: SmartRefresher(
-          enablePullDown: true,
-          enablePullUp: !refreshController.isRefresh,
-          physics: const BouncingScrollPhysics(),
-          header: MaterialClassicHeader(
-              backgroundColor: cardEnab_(context),
-              color: strongColor
-          ),
-          footer: CustomFooter(
-            height: moreToLoad?55:0,
-            builder: (BuildContext context, LoadStatus? mode){
-
-              Widget body;
-              if(!moreToLoad)
-                // This doesn't matter - `enablePullUp` is off anyway.
-                body = Container();
-
-              else if(mode == LoadStatus.idle)
-                body = Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(MdiIcons.arrowUp),
-                    const SizedBox(width: Dimen.ICON_MARG),
-                    Text(
-                        'Przeciągnij, by załadować kolejne',
-                        style: AppTextStyle()
-                    ),
-                  ],
-                );
-
-              else if(mode == LoadStatus.loading)
-                body = SpinKitChasingDots(
-                  color: strongColor??iconEnab_(context),
-                  size: Dimen.ICON_SIZE,
-                );
-
-              else if(mode == LoadStatus.failed)
-                body = Text("Coś poszło nie tak!", style: AppTextStyle());
-
-              else if(mode == LoadStatus.canLoading)
-                body = Text("Puść, by załadować", style: AppTextStyle());
-
-              else
-                body = Text(
-                  'Nie wiem co tu wyświtlić. Pozdrawiam mamę!',
-                  style: AppTextStyle(),
-                );
-
-              return SizedBox(
-                height: 55.0,
-                child: Center(child: body),
-              );
-
-            },
-          ),
-          controller: refreshController,
-          onRefresh: () async {
-
-            callReload.call();
-            refreshController.refreshCompleted();
-
-          },
-          onLoading: onLoading,
-          child: CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-
-              SliverAppBar(
-                title: Text(appBarTitle),
-                centerTitle: true,
-                floating: true,
-                backgroundColor: backgroundColor,
-                leading: appBarLeading,
-                actions: appBarActions,
+      for(UserSet<T> userSet in userSets)
+        if(userSet.users.isNotEmpty || showIfEmpty)
+          userSetWidgets.add(_Border(
+              backgroundColor: backgroundColor,
+              header: userSet.icon == null && userSet.name == null?
+              null:
+              _ListHeader(
+                icon: userSet.icon!,
+                title: userSet.name!,
+                trailing: headerTrailing?.call(context, userSet),
+                permissions: userSet.permissions,
+                color: backgroundColor,
               ),
+              body: Builder(
+                builder: (context){
 
-              SliverList(delegate: SliverChildListDelegate(userSetWidgets)),
+                  List<Widget> children = [];
 
-              SliverList(delegate: SliverChildListDelegate([
+                  for(T userData in userSet.users)
+                    children.add(userTileBuilder(context, userData));
 
-                if(bottom != null)
-                  bottom!,
+                  return Column(mainAxisSize: MainAxisSize.min, children: children);
 
-              ])),
+                },
+              )
+          ));
 
-            ],
-          )
-      ),
-      bottomNavigationBar: bottomNavigationBar,
-    );
-  }
+      if(bottom != null)
+        userSetWidgets.add(bottom!);
+
+      return SliverList(delegate: SliverChildListDelegate(userSetWidgets));
+
+    }),
+
+    bottomNavigationBar: bottomNavigationBar,
+  );
 
 }
 

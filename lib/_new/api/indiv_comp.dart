@@ -7,7 +7,6 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dar
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/show_rank_data.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task_compl.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_disp_type.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
@@ -338,6 +337,29 @@ class ApiIndivComp{
 
   }
 
+  static Future<Response?> getParticipant({
+    required String compKey,
+    required int? participKey,
+    FutureOr<void> Function(IndivCompParticip)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) => API.sendRequest(
+      withToken: true,
+      requestSender: (Dio dio) => dio.get(
+          '${API.SERVER_URL}api/indivComp/$compKey/participant/$participKey',
+      ),
+      onSuccess: (Response response, DateTime now) async {
+        if(onSuccess == null) return;
+
+        Map participsRespMap = response.data;
+        onSuccess(IndivCompParticip.fromRespMap(participsRespMap));
+      },
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (err) async => onError?.call()
+  );
+
   static Future<Response?> getParticipants({
     required String compKey,
     required int? pageSize,
@@ -495,20 +517,74 @@ class ApiIndivComp{
       onError: (err) async => onError?.call()
   );
 
-  static Future<Response?> requestCompletedTask({
-    required List<IndivCompTask> allTasks,
+  static Future<Response?> getCompletedTasks({
+    required String compKey,
+    String? participKey,
+
+    required int? pageSize,
+    required String? lastReqTime,
+    TaskAcceptState? acceptState,
+
+    FutureOr<void> Function(List<IndivCompCompletedTask>)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) async {
+    /**
+     * If `participKey` is not passed, all completedTasks with the given
+     * `acceptState` for the given competition will be returned. In such case
+     * the `acceptState` must not be null.
+     * **/
+
+    assert(!(participKey == null && acceptState == null));
+    return await API.sendRequest(
+      withToken: true,
+      requestSender: (Dio dio) => dio.get(
+          '${API.SERVER_URL}api/indivComp/$compKey/completedTask',
+          queryParameters: {
+            'pageSize': pageSize,
+            if(lastReqTime != null) 'lastReqTime': lastReqTime,
+            if(participKey != null) 'participKey': participKey,
+            if(acceptState != null) 'acceptState': taskAcceptStateToStr[acceptState]
+          }
+      ),
+      onSuccess: (Response response, DateTime now) async {
+
+        List<IndivCompCompletedTask> complTaskList = [];
+        for(Map complTaskRespMap in response.data)
+          complTaskList.add(IndivCompCompletedTask.fromRespMap(complTaskRespMap));
+
+        // Map<IndivCompParticip, List<IndivCompCompletedTask>> pendingComplTasks = {};
+        // for(String userKey in (response.data as Map).keys as Iterable<String>) {
+        //   List<IndivCompCompletedTask> indivCompTaskComplList = [];
+        //   for (MapEntry complTaskEntry in (response.data[userKey] as Map).entries)
+        //     indivCompTaskComplList.add(IndivCompCompletedTask.fromRespMap(complTaskEntry.value, key: complTaskEntry.key));
+        //
+        //   IndivCompParticip particip = allParticipants.firstWhere((participIter) => participIter.key == userKey);
+        //   pendingComplTasks[particip] = indivCompTaskComplList;
+        // }
+
+        onSuccess?.call(complTaskList);
+      },
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (_) async => onError?.call()
+    );
+  }
+
+  static Future<Response?> createCompletedTask({
     required String? taskKey,
     String? comment,
     List<String>? userKeys,
 
-    FutureOr<void> Function(List<IndivCompTaskCompl>, Map<String, ShowRankData>)? onSuccess,
+    FutureOr<void> Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function()? onError,
   }) => API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.post(
-        '${API.SERVER_URL}api/indivComp/task/$taskKey/request',
+        '${API.SERVER_URL}api/indivComp/completedTask',
         data: FormData.fromMap({
           if(userKeys != null) 'userKeys': userKeys,
           if(comment != null) 'comment': comment,
@@ -516,10 +592,10 @@ class ApiIndivComp{
     ),
     onSuccess: (Response response, DateTime now) async {
 
-      List<IndivCompTaskCompl> complTasks = [];
+      List<IndivCompCompletedTask> complTasks = [];
       Map complTasksRespMap = response.data['complTasks'];
       for(MapEntry complTaskEntry in complTasksRespMap.entries)
-        complTasks.add(IndivCompTaskCompl.fromRespMap(complTaskEntry.value, key: complTaskEntry.key));
+        complTasks.add(IndivCompCompletedTask.fromRespMap(complTaskEntry.value, key: complTaskEntry.key));
 
       Map<String, ShowRankData> idRankMap = {};
 
@@ -537,59 +613,8 @@ class ApiIndivComp{
     onError: (_) async => onError?.call()
   );
 
-  static Future<Response?> removeTaskComplReq({
-    required String taskComplKey,
-
-    FutureOr<void> Function(String removedId)? onSuccess,
-    FutureOr<bool> Function()? onForceLoggedOut,
-    FutureOr<bool> Function()? onServerMaybeWakingUp,
-    FutureOr<void> Function()? onError,
-  }) => API.sendRequest(
-    withToken: true,
-    requestSender: (Dio dio) => dio.delete(
-        '${API.SERVER_URL}api/indivComp/task/$taskComplKey/request/'
-    ),
-    onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
-    onForceLoggedOut: onForceLoggedOut,
-    onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (_) => onError?.call(),
-  );
-
-  static Future<Response?> getAllPendingTaskComplRevs({
-    required String compKey,
-
-    required List<IndivCompParticip> allParticipants,
-    required List<IndivCompTask> allTasks,
-
-    FutureOr<void> Function(Map<IndivCompParticip, List<IndivCompTaskCompl>> pendingComplTasks)? onSuccess,
-    FutureOr<bool> Function()? onForceLoggedOut,
-  }) => API.sendRequest(
-    withToken: true,
-    requestSender: (Dio dio) => dio.get(
-        '${API.SERVER_URL}api/indivComp/task/request/pending',
-        queryParameters: {
-          'compKey': compKey,
-        }
-    ),
-    onSuccess: (Response response, DateTime now) async {
-
-      Map<IndivCompParticip, List<IndivCompTaskCompl>> pendingComplTasks = {};
-      for(String userKey in (response.data as Map).keys as Iterable<String>) {
-        List<IndivCompTaskCompl> indivCompTaskComplList = [];
-        for (MapEntry complTaskEntry in (response.data[userKey] as Map).entries)
-          indivCompTaskComplList.add(IndivCompTaskCompl.fromRespMap(complTaskEntry.value, key: complTaskEntry.key));
-
-        IndivCompParticip particip = allParticipants.firstWhere((participIter) => participIter.key == userKey);
-        pendingComplTasks[particip] = indivCompTaskComplList;
-      }
-
-      onSuccess?.call(pendingComplTasks);
-    },
-    onForceLoggedOut: onForceLoggedOut,
-  );
-
   static Future<Response?> reviewCompletedTasks({
-    required String taskReqKey,
+    required String complTaskKey,
     required TaskAcceptState acceptState,
     required String revComment,
     FutureOr<void> Function(String complTaskKey)? onSuccess,
@@ -598,19 +623,36 @@ class ApiIndivComp{
     FutureOr<void> Function()? onError,
 
   }) => API.sendRequest(
-    withToken: true,
-    requestSender: (Dio dio) => dio.post(
-        '${API.SERVER_URL}api/indivComp/task/review',
+      withToken: true,
+      requestSender: (Dio dio) => dio.post(
+        '${API.SERVER_URL}api/indivComp/completedTask/$complTaskKey',
         data: FormData.fromMap({
-          'taskReqKey': taskReqKey,
           'acceptState': acceptState.name,
           'revComment': revComment
         }),
+      ),
+      onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
+      onForceLoggedOut: onForceLoggedOut,
+      onServerMaybeWakingUp: onServerMaybeWakingUp,
+      onError: (_) async => onError?.call()
+  );
+
+  static Future<Response?> removeCompletedTask({
+    required String complTaskKey,
+
+    FutureOr<void> Function(String removedId)? onSuccess,
+    FutureOr<bool> Function()? onForceLoggedOut,
+    FutureOr<bool> Function()? onServerMaybeWakingUp,
+    FutureOr<void> Function()? onError,
+  }) => API.sendRequest(
+    withToken: true,
+    requestSender: (Dio dio) => dio.delete(
+        '${API.SERVER_URL}api/indivComp/completedTask/$complTaskKey'
     ),
     onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
     onForceLoggedOut: onForceLoggedOut,
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (_) async => onError?.call()
+    onError: (_) => onError?.call(),
   );
 
 }

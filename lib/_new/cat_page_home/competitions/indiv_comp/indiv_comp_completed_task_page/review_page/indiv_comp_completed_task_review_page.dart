@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
@@ -11,16 +10,16 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:tuple/tuple.dart';
 import 'package:provider/provider.dart';
 
-import 'indiv_comp_task_compl_details_widget.dart';
+import 'indiv_comp_completed_task_details_widget.dart';
 import '../../models/indiv_comp_task_compl.dart';
 
-class IndivCompProfilePendingComplTasksPage extends StatefulWidget{
+class IndivCompCompletedTaskReviewPage extends StatefulWidget{
 
   final IndivComp comp;
-  final void Function(IndivCompParticip, IndivCompTaskCompl)? onAccepted;
-  final void Function(IndivCompParticip, IndivCompTaskCompl)? onRejected;
+  final void Function(IndivCompParticip, IndivCompCompletedTask)? onAccepted;
+  final void Function(IndivCompParticip, IndivCompCompletedTask)? onRejected;
 
-  const IndivCompProfilePendingComplTasksPage(
+  const IndivCompCompletedTaskReviewPage(
       this.comp,
       { this.onAccepted,
         this.onRejected,
@@ -28,27 +27,27 @@ class IndivCompProfilePendingComplTasksPage extends StatefulWidget{
       });
 
   @override
-  State<StatefulWidget> createState() => IndivCompProfilePendingComplTasksPageState();
+  State<StatefulWidget> createState() => IndivCompCompletedTaskReviewPageState();
 
 }
 
-class IndivCompProfilePendingComplTasksPageState extends State<IndivCompProfilePendingComplTasksPage>{
+class IndivCompCompletedTaskReviewPageState extends State<IndivCompCompletedTaskReviewPage>{
 
   IndivComp get comp => widget.comp;
 
-  List<Tuple2<IndivCompParticip?, IndivCompTaskCompl>>? pendingComplTasks;
+  List<Tuple2<IndivCompParticip?, IndivCompCompletedTask>>? pendingComplTasks;
 
   late bool showPendingOnly;
 
   bool? sending;
 
-  List<Tuple2<IndivCompParticip?, IndivCompTaskCompl>>? complTasksToList({
-    required Map<IndivCompParticip?, List<IndivCompTaskCompl>> complTaskMap,
+  List<Tuple2<IndivCompParticip?, IndivCompCompletedTask>>? complTasksToList({
+    required Map<IndivCompParticip?, List<IndivCompCompletedTask>> complTaskMap,
   }){
     pendingComplTasks = [];
 
     for(IndivCompParticip? particip in complTaskMap.keys)
-      for(IndivCompTaskCompl task in complTaskMap[particip]!)
+      for(IndivCompCompletedTask task in complTaskMap[particip]!)
         pendingComplTasks!.add(Tuple2(particip, task));
 
     return pendingComplTasks;
@@ -64,18 +63,16 @@ class IndivCompProfilePendingComplTasksPageState extends State<IndivCompProfileP
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return Consumer<ComplTasksProvider>(
+  Widget build(BuildContext context) => Consumer<ComplTasksProvider>(
       builder: (context, prov, child){
 
-        Map<IndivCompParticip?, List<IndivCompTaskCompl>> complTaskMap = {};
+        Map<IndivCompParticip?, List<IndivCompCompletedTask>> complTaskMap = {};
 
         for(IndivCompParticip? particip in comp.particips) {
           if(!complTaskMap.containsKey(particip))
             complTaskMap[particip] = [];
 
-          for(IndivCompTaskCompl complTask in particip!.profile.completedTasks)
+          for(IndivCompCompletedTask complTask in particip!.profile.completedTasks)
             complTaskMap[particip]!.add(complTask);
         }
 
@@ -86,16 +83,16 @@ class IndivCompProfilePendingComplTasksPageState extends State<IndivCompProfileP
 
         List<Tab> tabs = [];
         List<Widget> children = [];
-        for(Tuple2<IndivCompParticip?, IndivCompTaskCompl> pendingComplTask in pendingComplTasks!){
+        for(Tuple2<IndivCompParticip?, IndivCompCompletedTask> pendingComplTask in pendingComplTasks!){
           IndivCompParticip particip = pendingComplTask.item1!;
-          IndivCompTaskCompl complTask = pendingComplTask.item2;
+          IndivCompCompletedTask complTask = pendingComplTask.item2;
 
           tabs.add(Tab(text: particip.name));
 
           children.add(
               SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                child: IndivCompTaskComplDetailsWidget(
+                child: IndivCompCompletedTaskDetailsWidget(
                   comp,
                   complTask,
                   comp.taskMap,
@@ -138,14 +135,14 @@ class IndivCompProfilePendingComplTasksPageState extends State<IndivCompProfileP
                       ),
                     ),
                   ],
-                  body: 
+                  body:
                   pendingComplTasks!.isEmpty?
-                      const Padding(
-                        padding: EdgeInsets.all(Dimen.SIDE_MARG),
-                        child: Center(
-                          child: EmptyMessageWidget(text: 'Brak nierozpatrzonych wniosków', icon: MdiIcons.cubeOffOutline),
-                        ),
-                      ):
+                  const Padding(
+                    padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                    child: Center(
+                      child: EmptyMessageWidget(text: 'Brak nierozpatrzonych wniosków', icon: MdiIcons.cubeOffOutline),
+                    ),
+                  ):
                   TabBarView(
                     physics: const BouncingScrollPhysics(),
                     children: children,
@@ -156,7 +153,5 @@ class IndivCompProfilePendingComplTasksPageState extends State<IndivCompProfileP
         );
 
       }
-    );
-
-  }
+  );
 }

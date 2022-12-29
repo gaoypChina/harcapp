@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_common_widgets/app_custom_footer.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/super_search_field.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -8,7 +8,6 @@ import 'package:harcapp/_new/api/community.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp/values/consts.dart';
-import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_classes/no_glow_behavior.dart';
@@ -119,51 +118,9 @@ class FeedPageState extends State<FeedPage>{
 
           header: MaterialClassicHeader(backgroundColor: cardEnab_(context), color: accent_(context)),
           controller: refreshController,
-          footer: CustomFooter(
-            height: 55.0,
-            builder: (BuildContext context, LoadStatus? mode){
-
-              Widget body;
-              if(!moreToLoad)
-                // This doesn't matter - `enablePullUp` is off anyway.
-                body = Container();
-
-              else if(mode == LoadStatus.idle)
-                body = Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(MdiIcons.arrowUp),
-                    const SizedBox(width: Dimen.ICON_MARG),
-                    Text(
-                      'Przeciągnij, by załadować kolejne',
-                      style: AppTextStyle()
-                    ),
-                  ],
-                );
-
-              else if(mode == LoadStatus.loading)
-                body = SpinKitDualRing(
-                  color: iconEnab_(context),
-                  size: Dimen.ICON_SIZE,
-                );
-
-              else if(mode == LoadStatus.failed)
-                body = Text("Coś poszło nie tak!", style: AppTextStyle());
-
-              else if(mode == LoadStatus.canLoading)
-                body = Text("Puść, by załadować", style: AppTextStyle());
-
-              else
-                body = Text(
-                  'Nie wiem co tu wyświtlić. Pozdrawiam mamę!',
-                  style: AppTextStyle(),
-                );
-
-              return SizedBox(
-                height: 55.0,
-                child: Center(child: body),
-              );
-            },
+          footer: AppCustomFooter(
+              moreToLoad: moreToLoad,
+              showDotWhenAllLoaded: true
           ),
 
           onRefresh: () async {

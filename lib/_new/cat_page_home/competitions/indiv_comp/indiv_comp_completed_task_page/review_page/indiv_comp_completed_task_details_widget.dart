@@ -21,16 +21,16 @@ import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import '../../comp_role.dart';
-import '../../indiv_comp_task_compl_widget.dart';
+import '../indiv_comp_completed_task_widget.dart';
 import '../../models/indiv_comp_task_compl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../task_accept_state.dart';
 
-class IndivCompTaskComplDetailsWidget extends StatefulWidget{
+class IndivCompCompletedTaskDetailsWidget extends StatefulWidget{
 
   final IndivComp comp;
-  final IndivCompTaskCompl complTask;
+  final IndivCompCompletedTask complTask;
   final Map<String, IndivCompTask> taskMap;
   final Map<String, IndivCompParticip> participMap;
   final CommonColorData colors;
@@ -38,7 +38,7 @@ class IndivCompTaskComplDetailsWidget extends StatefulWidget{
   final EdgeInsets? padding;
   final void Function()? onAcceptStateChanged;
 
-  const IndivCompTaskComplDetailsWidget(
+  const IndivCompCompletedTaskDetailsWidget(
       this.comp,
       this.complTask,
       this.taskMap,
@@ -50,14 +50,14 @@ class IndivCompTaskComplDetailsWidget extends StatefulWidget{
       });
 
   @override
-  State<StatefulWidget> createState() => IndivCompTaskComplDetailsWidgetState();
+  State<StatefulWidget> createState() => IndivCompCompletedTaskDetailsWidgetState();
 
 }
 
-class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetailsWidget>{
+class IndivCompCompletedTaskDetailsWidgetState extends State<IndivCompCompletedTaskDetailsWidget>{
 
   IndivComp get comp => widget.comp;
-  IndivCompTaskCompl get complTask => widget.complTask;
+  IndivCompCompletedTask get complTask => widget.complTask;
   Map<String, IndivCompTask> get taskMap => widget.taskMap;
   CommonColorData get colors => widget.colors;
 
@@ -81,7 +81,7 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
 
     IndivCompTask task = taskMap[complTask.taskKey]!;
 
-    IndivCompTaskComplWidget(
+    IndivCompCompletedTaskWidget(
       complTask,
       taskMap,
       colors
@@ -168,7 +168,7 @@ class IndivCompTaskComplDetailsWidgetState extends State<IndivCompTaskComplDetai
                           hint: 'Wiadomość zwrotna:',
                           controller: textController,
                           maxLines: null,
-                          maxLength: IndivCompTaskCompl.MAX_LEN_REV_COMMENT,
+                          maxLength: IndivCompCompletedTask.MAX_LEN_REV_COMMENT,
                           hintStyle: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG),
                           style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
                         )
@@ -236,14 +236,14 @@ class ReviewButtons extends StatefulWidget{
 
   final IndivComp comp;
   final IndivCompParticip? particip;
-  final IndivCompTaskCompl taskCompl;
+  final IndivCompCompletedTask complTask;
   final TextEditingController? textController;
   final void Function(String, TaskAcceptState)? onAcceptStateChanged;
 
   const ReviewButtons(
       this.comp,
       this.particip,
-      this.taskCompl,
+      this.complTask,
       this.textController,
       { this.onAcceptStateChanged,
         Key? key
@@ -258,7 +258,7 @@ class ReviewButtonsState extends State<ReviewButtons>{
 
   IndivComp get comp => widget.comp;
   IndivCompParticip? get particip => widget.particip;
-  IndivCompTaskCompl get taskCompl => widget.taskCompl;
+  IndivCompCompletedTask get complTask => widget.complTask;
   TextEditingController? get textController => widget.textController;
   void Function(String, TaskAcceptState)? get onAcceptStateChanged => widget.onAcceptStateChanged;
 
@@ -300,7 +300,7 @@ class ReviewButtonsState extends State<ReviewButtons>{
                         showLoadingWidget(context, comp.colors.avgColor, 'Ostatnia prosta');
 
                         await ApiIndivComp.reviewCompletedTasks(
-                            taskReqKey: taskCompl.key,
+                            complTaskKey: complTask.key,
                             acceptState: TaskAcceptState.REJECTED,
                             revComment: textController!.text,
                             onSuccess: (String complTaskKey){
@@ -352,7 +352,7 @@ class ReviewButtonsState extends State<ReviewButtons>{
                         showLoadingWidget(context, comp.colors.avgColor, 'Ostatnia prosta');
 
                         await ApiIndivComp.reviewCompletedTasks(
-                            taskReqKey: taskCompl.key,
+                            complTaskKey: complTask.key,
                             acceptState: TaskAcceptState.ACCEPTED,
                             revComment: textController!.text,
                             onSuccess: (String complTaskKey){

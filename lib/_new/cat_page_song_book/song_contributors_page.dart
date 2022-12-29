@@ -57,6 +57,9 @@ class SongContributorsPage extends StatelessWidget{
                               role: CompRole.OBSERVER,
                               points: null,
                               rank: ShowRankData.fromShowRank(index + 1),
+                              completedTasksAcceptedCount: 0,
+                              completedTasksPendingCount: 0,
+                              completedTasksRejectedCount: 0,
                               completedTasks: []
                           ),
                           activeParticipCnt: null,

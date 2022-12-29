@@ -28,7 +28,7 @@ class AcceptTaskWidget extends StatefulWidget{
   final IndivComp comp;
   final List<IndivCompParticip> selectedParticips;
 
-  final void Function(List<IndivCompTaskCompl>, Map<String, ShowRankData>)? onSuccess;
+  final void Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? onSuccess;
   final void Function()? onError;
 
   const AcceptTaskWidget(this.comp, this.selectedParticips, {this.onSuccess, this.onError, super.key});
@@ -43,7 +43,7 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
   IndivComp get comp => widget.comp;
   List<IndivCompParticip> get selectedParticips => widget.selectedParticips;
 
-  void Function(List<IndivCompTaskCompl>, Map<String, ShowRankData>)? get onSuccess => widget.onSuccess;
+  void Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? get onSuccess => widget.onSuccess;
 
   TextEditingController? controller;
 
@@ -69,12 +69,11 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
 
                     showLoadingWidget(context, comp.colors.avgColor, 'Przesyłanie punktów...');
 
-                    await ApiIndivComp.requestCompletedTask(
-                        allTasks: comp.tasks,
+                    await ApiIndivComp.createCompletedTask(
                         taskKey: task.key,
                         comment: controller!.text,
                         userKeys: selectedParticips.map((particips) => particips.key).toList(),
-                        onSuccess: (List<IndivCompTaskCompl> taskComplList, Map<String, ShowRankData> idRank){
+                        onSuccess: (List<IndivCompCompletedTask> taskComplList, Map<String, ShowRankData> idRank){
                           if(mounted) showAppToast(context, text: 'Zaliczono');
                           onSuccess?.call(taskComplList, idRank);
                         },
@@ -154,7 +153,7 @@ void openAcceptTaskDialog(
     BuildContext context,
     IndivComp comp,
     List<IndivCompParticip> particips,
-    {void Function(List<IndivCompTaskCompl> taskComplList, Map<String, ShowRankData> idRank)? onPointsGranted}) async => await openDialog(
+    {void Function(List<IndivCompCompletedTask> taskComplList, Map<String, ShowRankData> idRank)? onPointsGranted}) async => await openDialog(
     context: context,
     builder: (context) => Center(
       child: Padding(
@@ -167,7 +166,7 @@ void openAcceptTaskDialog(
             comp,
             particips,
             onSuccess: (
-                List<IndivCompTaskCompl> taskComplList,
+                List<IndivCompCompletedTask> taskComplList,
                 Map<String, ShowRankData> idRank
                 ){
               onPointsGranted?.call(taskComplList, idRank);

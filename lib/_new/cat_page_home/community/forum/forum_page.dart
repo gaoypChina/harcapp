@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_common_widgets/app_custom_footer.dart';
 import 'package:harcapp/_new/cat_page_home/community/forum/role_page/managers_page.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -184,50 +185,9 @@ class ForumPageState extends State<ForumPage>{
         builder: (context, forumProv, prov, child) => SmartRefresher(
           enablePullDown: true,
           enablePullUp: !refreshController.isRefresh,
-          footer: CustomFooter(
-            builder: (BuildContext context, LoadStatus? mode){
-              Widget body;
-              if(!moreToLoad)
-                body = forum.allPosts.isEmpty?
-                Container():
-                Icon(MdiIcons.circleMedium, color: hintEnab_(context));
-
-              else if(mode == LoadStatus.idle)
-                body = Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(MdiIcons.arrowUp),
-                    const SizedBox(width: Dimen.ICON_MARG),
-                    Text(
-                      'Przeciągnij, by załadować kolejne',
-                      style: AppTextStyle()
-                    ),
-                  ],
-                );
-
-              else if(mode == LoadStatus.loading)
-                body = SpinKitDualRing(
-                  color: CommunityCoverColors.strongColor(context, palette),
-                  size: Dimen.ICON_SIZE,
-                );
-
-              else if(mode == LoadStatus.failed)
-                body = Text("Coś poszło nie tak!", style: AppTextStyle());
-
-              else if(mode == LoadStatus.canLoading)
-                body = Text("Puść, by załadować", style: AppTextStyle());
-
-              else
-                body = Text(
-                  'Nie wiem co tu wyświtlić. Pozdrawiam mamę!',
-                  style: AppTextStyle(),
-                );
-
-              return SizedBox(
-                height: 55.0,
-                child: Center(child: body),
-              );
-            },
+          footer: AppCustomFooter(
+              moreToLoad: moreToLoad && forum.allPosts.isNotEmpty,
+              showDotWhenAllLoaded: true
           ),
           physics: const BouncingScrollPhysics(),
           header: MaterialClassicHeader(

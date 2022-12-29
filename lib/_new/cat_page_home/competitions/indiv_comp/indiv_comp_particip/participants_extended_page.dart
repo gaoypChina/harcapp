@@ -95,12 +95,12 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
     return result;
   }
 
-  void onPointsGranted(List<IndivCompTaskCompl> taskComplList, Map<String, ShowRankData> idRank){
+  void onPointsGranted(List<IndivCompCompletedTask> taskComplList, Map<String, ShowRankData> idRank){
     selectedParticips.clear();
 
     comp.handleRanks(idRank);
 
-    for(IndivCompTaskCompl taskCompl in taskComplList) {
+    for(IndivCompCompletedTask taskCompl in taskComplList) {
       comp.myProfile?.addCompletedTask(taskCompl);
       comp.addPoints(taskCompl.participKey, taskCompl.points(comp));
     }

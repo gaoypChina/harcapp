@@ -17,14 +17,14 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import '../indiv_comp_task_widget.dart';
 
-class IndivTaskComplReqWidget extends StatefulWidget{
+class IndivCompCompetedTaskRequestWidget extends StatefulWidget{
 
   final List<IndivCompTask> allTasks;
   final IndivCompTask task;
   final bool adminOrMod;
-  final void Function(List<IndivCompTaskCompl>, Map<String, ShowRankData>)? onSuccess;
+  final void Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? onSuccess;
 
-  const IndivTaskComplReqWidget(
+  const IndivCompCompetedTaskRequestWidget(
       this.allTasks,
       this.task,
       { required this.adminOrMod,
@@ -33,11 +33,11 @@ class IndivTaskComplReqWidget extends StatefulWidget{
       });
 
   @override
-  State<StatefulWidget> createState() => IndivTaskComplReqWidgetState();
+  State<StatefulWidget> createState() => IndivCompCompetedTaskRequestWidgetState();
 
 }
 
-class IndivTaskComplReqWidgetState extends State<IndivTaskComplReqWidget>{
+class IndivCompCompetedTaskRequestWidgetState extends State<IndivCompCompetedTaskRequestWidget>{
 
   List<IndivCompTask> get allTasks => widget.allTasks;
   IndivCompTask get task => widget.task;
@@ -88,7 +88,7 @@ class IndivTaskComplReqWidgetState extends State<IndivTaskComplReqWidget>{
                   hintTop: 'Wiadomość',
                   controller: controller,
                   maxLines: null,
-                  maxLength: IndivCompTaskCompl.MAX_LEN_REQ_COMMENT,
+                  maxLength: IndivCompCompletedTask.MAX_LEN_REQ_COMMENT,
                 ),
               ),
 
@@ -107,11 +107,10 @@ class IndivTaskComplReqWidgetState extends State<IndivTaskComplReqWidget>{
 
                     setState(() => sending = true);
                     showAppToast(context, text: 'Przesyłanie...');
-                    await ApiIndivComp.requestCompletedTask(
-                        allTasks: allTasks,
+                    await ApiIndivComp.createCompletedTask(
                         taskKey: task.key,
                         comment: controller.text,
-                        onSuccess: (List<IndivCompTaskCompl> taskComplRespMap, Map<String, ShowRankData> idRank){
+                        onSuccess: (List<IndivCompCompletedTask> taskComplRespMap, Map<String, ShowRankData> idRank){
                           if(mounted) showAppToast(context, text: adminOrMod?'Zaliczono':'Przesłano. Wniosek oczekuje na rozpatrzenie.');
                           if(mounted) Navigator.pop(context);
                           widget.onSuccess?.call(taskComplRespMap, idRank);

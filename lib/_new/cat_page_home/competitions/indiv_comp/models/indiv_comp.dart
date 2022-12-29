@@ -322,6 +322,10 @@ class IndivComp{
     return result;
   }
 
+  int? completedTasksAcceptedCount;
+  int? completedTasksPendingCount;
+  int? completedTasksRejectedCount;
+
   void update(IndivComp updatedComp){
     name = updatedComp.name;
     iconKey = updatedComp.iconKey;
@@ -461,6 +465,10 @@ class IndivComp{
 
     required this.bindedCircle,
 
+    required this.completedTasksAcceptedCount,
+    required this.completedTasksPendingCount,
+    required this.completedTasksRejectedCount,
+
   }): taskMap = {for (var task in tasks) task.key!: task},
         participMap = {for (var particip in particips) particip.key: particip};
 
@@ -489,6 +497,8 @@ class IndivComp{
 
     List<IndivCompAward> indivCompAward = awardListFromRaw(awards);
 
+    Map<String, int> completedTasksCount = (respMap['completedTasksCount']??{}).cast<String, int>();
+
     return IndivComp(
         key: respMap['_key']??(throw InvalidResponseError('_key')),
         name: respMap['name']??(throw InvalidResponseError('name')),
@@ -511,7 +521,12 @@ class IndivComp{
 
         bindedCircle: respMap["bindedCircle"] == null?
         null:
-        CircleBasicData.fromRespMap(respMap["bindedCircle"])
+        CircleBasicData.fromRespMap(respMap["bindedCircle"]),
+
+        completedTasksAcceptedCount: completedTasksCount['accepted'],
+        completedTasksPendingCount: completedTasksCount['pending'],
+        completedTasksRejectedCount: completedTasksCount['rejected'],
+
     );
 
   }

@@ -24,11 +24,12 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:tuple/tuple.dart';
 
 import '../../../user_tile_dialogs.dart';
+import '../indiv_comp_completed_task_page/completed_task_page.dart';
 import '../indiv_comp_particip/participants_page.dart';
-import '../indiv_comp_task_page/completed_tasks_page.dart';
 import '../models/show_rank_data.dart';
 import '../models/indiv_comp_profile.dart';
 import '../models/rank_disp_type.dart';
+import '../task_accept_state.dart';
 import 'accept_task_dialog.dart';
 
 class ParticipTileExtended extends StatefulWidget{
@@ -38,7 +39,7 @@ class ParticipTileExtended extends StatefulWidget{
   final bool anythingSelected;
   final bool selected;
   final void Function()? onSelectionTap;
-  final void Function(List<IndivCompTaskCompl> taskComplList, Map<String, ShowRankData> idRank)? onPointsGranted;
+  final void Function(List<IndivCompCompletedTask> taskComplList, Map<String, ShowRankData> idRank)? onPointsGranted;
   final dynamic heroTag;
 
   const ParticipTileExtended(
@@ -66,7 +67,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
   bool get anythingSelected => widget.anythingSelected;
   bool get selected => widget.selected;
   void Function()? get onSelectionTap => widget.onSelectionTap;
-  void Function(List<IndivCompTaskCompl> taskComplList, Map<String, ShowRankData> idRank)? get onPointsGranted => widget.onPointsGranted;
+  void Function(List<IndivCompCompletedTask> taskComplList, Map<String, ShowRankData> idRank)? get onPointsGranted => widget.onPointsGranted;
 
   get heroTag => widget.heroTag;
 
@@ -148,19 +149,17 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                     style: AppTextStyle(color: textEnab_(context))
                 ),
                 trailing:  Text(
-                    '${particip.profile.completedTasks.length}',
+                    '${particip.profile.completedTasksAcceptedCount}',
                     style: AppTextStyle(color: textEnab_(context))
                 ),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
                 onTap: (){
                   Navigator.pop(context);
-                  pushPage(context, builder: (context) => CompletedTasksPage(
+                  pushPage(context, builder: (context) => CompletedTaskPage(
                     comp,
-                    particip.profile.completedTasks,
-                    comp.taskMap,
-                    comp.participMap,
-                    comp.colors,
-                    pageTitle: particip.name,
+                    title: 'Zrealizowane zadania',
+                    particip: particip,
+                    acceptState: TaskAcceptState.ACCEPTED,
                   ));
                 }
             ),

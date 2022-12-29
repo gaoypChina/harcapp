@@ -2,33 +2,33 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_task_compl_widget.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_completed_task_page/indiv_comp_completed_task_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 
 import '../models/indiv_comp.dart';
 import '../models/indiv_comp_task_compl.dart';
 
 
-class PendingTasksPage extends StatefulWidget{
+class PendingCompletedTasksPage extends StatefulWidget{
 
   final IndivComp comp;
-  final List<IndivCompTaskCompl>? complTasks;
-  final void Function(IndivCompTaskCompl)? onRemoved;
+  final List<IndivCompCompletedTask>? complTasks;
+  final void Function(IndivCompCompletedTask)? onRemoved;
 
-  const PendingTasksPage(this.comp, this.complTasks, {this.onRemoved, super.key});
+  const PendingCompletedTasksPage(this.comp, this.complTasks, {this.onRemoved, super.key});
 
   @override
-  State<StatefulWidget> createState() => PendingTasksPageState();
+  State<StatefulWidget> createState() => PendingCompletedTasksPageState();
 
 }
 
-class PendingTasksPageState extends State<PendingTasksPage> {
+class PendingCompletedTasksPageState extends State<PendingCompletedTasksPage> {
 
   IndivComp get comp => widget.comp;
 
-  List<IndivCompTaskCompl>? get complTasks => widget.complTasks;
+  List<IndivCompCompletedTask>? get complTasks => widget.complTasks;
 
-  void Function(IndivCompTaskCompl)? get onRemoved => widget.onRemoved;
+  void Function(IndivCompCompletedTask)? get onRemoved => widget.onRemoved;
 
   @override
   Widget build(BuildContext context) =>
@@ -37,6 +37,7 @@ class PendingTasksPageState extends State<PendingTasksPage> {
           physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
           slivers: [
+            
             const SliverAppBar(
               floating: true,
               title: Text('Prośby o zaliczenie'),
@@ -47,13 +48,13 @@ class PendingTasksPageState extends State<PendingTasksPage> {
               padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               sliver: SliverList(
                 delegate: SliverChildSeparatedBuilderDelegate((context, index) =>
-                    IndivCompTaskComplWidget(
+                    IndivCompCompletedTaskWidget(
                         complTasks![index],
                         comp.taskMap,
                         comp.colors,
                         preview: true,
                         onRemoved: (text) {
-                          IndivCompTaskCompl complTask = complTasks!.removeAt(index);
+                          IndivCompCompletedTask complTask = complTasks!.removeAt(index);
                           onRemoved?.call(complTask);
                           if (complTasks!.isEmpty) {
                             Navigator.pop(context);

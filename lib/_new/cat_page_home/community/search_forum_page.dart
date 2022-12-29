@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
+import 'package:harcapp/_common_widgets/app_custom_footer.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/api/forum.dart';
 import 'package:harcapp/logger.dart';
@@ -103,50 +104,9 @@ class SearchForumPageState extends State<SearchForumPage>{
     body: SmartRefresher(
       enablePullDown: false,
       enablePullUp: searchedCommunities != null && !refreshController.isRefresh,
-      footer: CustomFooter(
-        builder: (BuildContext context, LoadStatus? mode){
-          Widget body;
-          if(!moreToLoad)
-            body = searchedCommunities!.isEmpty?
-            Container():
-            Icon(MdiIcons.circleMedium, color: hintEnab_(context));
-
-          else if(mode == LoadStatus.idle)
-            body = Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(MdiIcons.arrowUp),
-                const SizedBox(width: Dimen.ICON_MARG),
-                Text(
-                  'Przeciągnij, by załadować kolejne',
-                  style: AppTextStyle()
-                ),
-              ],
-            );
-
-          else if(mode == LoadStatus.loading)
-            body = SpinKitDualRing(
-              color: iconEnab_(context),
-              size: Dimen.ICON_SIZE,
-            );
-
-          else if(mode == LoadStatus.failed)
-            body = Text("Coś poszło nie tak!", style: AppTextStyle());
-
-          else if(mode == LoadStatus.canLoading)
-            body = Text("Puść, by załadować", style: AppTextStyle());
-
-          else
-            body = Text(
-              'Nie wiem co tu wyświtlić. Pozdrawiam mamę!',
-              style: AppTextStyle(),
-            );
-
-          return SizedBox(
-            height: 55.0,
-            child: Center(child: body),
-          );
-        },
+      footer: AppCustomFooter(
+          moreToLoad: moreToLoad && searchedCommunities!.isNotEmpty,
+          showDotWhenAllLoaded: true
       ),
       physics: const BouncingScrollPhysics(),
       controller: refreshController,

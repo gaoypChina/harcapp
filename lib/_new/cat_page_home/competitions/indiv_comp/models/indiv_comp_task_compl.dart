@@ -3,7 +3,9 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_s
 
 import 'indiv_comp.dart';
 
-class IndivCompTaskCompl{
+class IndivCompCompletedTask{
+
+  static const int pageSize = 10;
 
   static const int MAX_LEN_REQ_COMMENT = 240;
   static const int MAX_LEN_REV_COMMENT = 240;
@@ -15,12 +17,12 @@ class IndivCompTaskCompl{
   final String taskKey;
 
   TaskAcceptState? acceptState;
-  final DateTime? reqTime;
+  final DateTime reqTime;
   final DateTime? revTime;
   final String? reqComment;
   final String? revComment;
 
-  IndivCompTaskCompl({
+  IndivCompCompletedTask({
     required this.key,
 
     required this.participKey,
@@ -38,17 +40,17 @@ class IndivCompTaskCompl{
   String? description(IndivComp comp) => comp.taskMap[taskKey]!.description;
   int points(IndivComp comp) => comp.taskMap[taskKey]!.points;
 
-  static IndivCompTaskCompl from({
+  static IndivCompCompletedTask from({
     required String key,
 
     required String participKey,
     required String taskKey,
     required TaskAcceptState? acceptState,
-    DateTime? reqTime,
+    required DateTime reqTime,
     DateTime? revTime,
     String? reqComment,
     String? revComment,
-  }) => IndivCompTaskCompl(
+  }) => IndivCompCompletedTask(
     participKey: participKey,
     taskKey: taskKey,
 
@@ -61,20 +63,20 @@ class IndivCompTaskCompl{
     revComment: revComment
   );
 
-  static IndivCompTaskCompl fromRespMap(Map respMap, {String? key}) => IndivCompTaskCompl.from(
+  static IndivCompCompletedTask fromRespMap(Map respMap, {String? key}) => IndivCompCompletedTask.from(
       key: key??respMap['_key'],
 
       participKey: respMap['userKey']??(throw InvalidResponseError('userKey')),
       taskKey: respMap['taskKey']??(throw InvalidResponseError('taskKey')),
 
       acceptState: strToTaskAcceptState[respMap['acceptState']??(throw InvalidResponseError('accept_state'))],
-      reqTime: DateTime.tryParse(respMap['reqTime']??''),
+      reqTime: DateTime.tryParse(respMap['reqTime']??'')??(throw InvalidResponseError('reqTime')),
       revTime: DateTime.tryParse(respMap['revTime']??''),
       reqComment: respMap['reqComment'],
       revComment: respMap['revComment']
   );
 
-  IndivCompTaskCompl copyWith({
+  IndivCompCompletedTask copyWith({
     String? key,
     String? participId,
     String? taskId,
@@ -85,7 +87,7 @@ class IndivCompTaskCompl{
     DateTime? time,
     String? reqComment,
     String? revComment
-  }) => IndivCompTaskCompl(
+  }) => IndivCompCompletedTask(
     participKey: participId??participKey,
     taskKey: taskId??taskKey,
 
