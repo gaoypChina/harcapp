@@ -1,10 +1,13 @@
 import 'package:harcapp/_new/api/_api.dart';
 
 import '../comp_role.dart';
+import 'indiv_comp.dart';
 import 'show_rank_data.dart';
 import 'indiv_comp_task_compl.dart';
 
 class IndivCompProfile{
+
+  IndivComp comp;
 
   bool active;
   CompRole role;
@@ -39,6 +42,8 @@ class IndivCompProfile{
   }
 
   IndivCompProfile({
+    required this.comp,
+
     required this.active,
     required this.role,
     this.points,
@@ -51,7 +56,7 @@ class IndivCompProfile{
     required this.completedTasks,
   }): completedTaskMap = {for (var complTask in completedTasks) complTask.key: complTask};
 
-  static IndivCompProfile fromRespMap(Map respMap){
+  static IndivCompProfile fromRespMap(Map respMap, IndivComp comp){
 
     List<IndivCompCompletedTask> completedTasks = [];
     if(respMap['completedTasks'] == null)
@@ -59,12 +64,14 @@ class IndivCompProfile{
     else {
       Map _complTasksRespMap = respMap['completedTasks'];
       for (String complTaskKey in _complTasksRespMap.keys as Iterable<String>)
-        completedTasks.add(IndivCompCompletedTask.fromRespMap(_complTasksRespMap[complTaskKey], key: complTaskKey));
+        completedTasks.add(IndivCompCompletedTask.fromRespMap(_complTasksRespMap[complTaskKey], comp, key: complTaskKey));
     }
 
     Map<String, int> completedTasksCount = (respMap['completedTasksCount']??{}).cast<String, int>();
 
     IndivCompProfile profile = IndivCompProfile(
+      comp: comp,
+
       active: respMap['active']??(throw InvalidResponseError('active')),
       role: strToCompRole[respMap['role']??(throw InvalidResponseError('role'))]??(throw InvalidResponseError('role')),
 
@@ -81,5 +88,20 @@ class IndivCompProfile{
     return profile;
 
   }
+
+  static IndivCompProfile empty() => IndivCompProfile(
+      comp: IndivComp.empty(),
+
+      active: true,
+      role: CompRole.OBSERVER,
+      points: 0,
+      rank: null,
+
+      completedTasksAcceptedCount: 0,
+      completedTasksPendingCount: 0,
+      completedTasksRejectedCount: 0,
+
+      completedTasks: []
+  );
 
 }

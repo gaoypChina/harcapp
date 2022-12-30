@@ -114,7 +114,7 @@ class CompletedTaskPageState extends State<CompletedTaskPage>{
       callReload: ()async{
 
         await ApiIndivComp.getCompletedTasks(
-          compKey: comp.key,
+          comp: comp,
           participKey: particip?.key,
           pageSize: IndivCompCompletedTask.pageSize,
           lastReqTime: loadedCompletedTasks.isEmpty?null:loadedCompletedTasks.last.reqTime.toString(),
@@ -146,7 +146,7 @@ class CompletedTaskPageState extends State<CompletedTaskPage>{
 
         bool success = false;
         await ApiIndivComp.getCompletedTasks(
-          compKey: comp.key,
+          comp: comp,
           participKey: particip?.key,
           pageSize: IndivCompCompletedTask.pageSize,
           lastReqTime: loadedCompletedTasks.isEmpty?null:loadedCompletedTasks.last.reqTime.toString(),
@@ -178,7 +178,6 @@ class CompletedTaskPageState extends State<CompletedTaskPage>{
       callLoadOnInit: true,
       loadedItemBuilder: (index) => IndivCompCompletedTaskWidget(
           loadedCompletedTasks[index],
-          comp.taskMap,
           comp.colors,
           preview: true,
           onRemoved: (text) {

@@ -95,7 +95,6 @@ class IndivCompCompletedTaskReviewPageState extends State<IndivCompCompletedTask
                 child: IndivCompCompletedTaskDetailsWidget(
                   comp,
                   complTask,
-                  comp.taskMap,
                   comp.participMap,
                   comp.colors,
                   padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),

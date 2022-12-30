@@ -2,6 +2,7 @@ import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
 
 import 'indiv_comp.dart';
+import 'indiv_comp_task.dart';
 
 class IndivCompCompletedTask{
 
@@ -14,7 +15,7 @@ class IndivCompCompletedTask{
 
   final String participKey;
 
-  final String taskKey;
+  final IndivCompTask task;
 
   TaskAcceptState? acceptState;
   final DateTime reqTime;
@@ -27,7 +28,7 @@ class IndivCompCompletedTask{
 
     required this.participKey,
 
-    required this.taskKey,
+    required this.task,
 
     required this.acceptState,
     required this.reqTime,
@@ -36,15 +37,15 @@ class IndivCompCompletedTask{
     this.revComment,
   });
 
-  String title(IndivComp comp) => comp.taskMap[taskKey]!.title;
-  String? description(IndivComp comp) => comp.taskMap[taskKey]!.description;
-  int points(IndivComp comp) => comp.taskMap[taskKey]!.points;
+  String get title => task.title;
+  String? get description => task.description;
+  int get points => task.points;
 
   static IndivCompCompletedTask from({
     required String key,
 
     required String participKey,
-    required String taskKey,
+    required IndivCompTask task,
     required TaskAcceptState? acceptState,
     required DateTime reqTime,
     DateTime? revTime,
@@ -52,7 +53,7 @@ class IndivCompCompletedTask{
     String? revComment,
   }) => IndivCompCompletedTask(
     participKey: participKey,
-    taskKey: taskKey,
+    task: task,
 
     key: key,
 
@@ -63,11 +64,11 @@ class IndivCompCompletedTask{
     revComment: revComment
   );
 
-  static IndivCompCompletedTask fromRespMap(Map respMap, {String? key}) => IndivCompCompletedTask.from(
+  static IndivCompCompletedTask fromRespMap(Map respMap, IndivComp comp, {String? key}) => IndivCompCompletedTask.from(
       key: key??respMap['_key'],
 
       participKey: respMap['userKey']??(throw InvalidResponseError('userKey')),
-      taskKey: respMap['taskKey']??(throw InvalidResponseError('taskKey')),
+      task: (comp.taskMap[respMap['taskKey']??(throw InvalidResponseError('taskKey'))])??(throw InvalidResponseError('taskKey not in provided competition')),
 
       acceptState: strToTaskAcceptState[respMap['acceptState']??(throw InvalidResponseError('accept_state'))],
       reqTime: DateTime.tryParse(respMap['reqTime']??'')??(throw InvalidResponseError('reqTime')),
@@ -78,8 +79,8 @@ class IndivCompCompletedTask{
 
   IndivCompCompletedTask copyWith({
     String? key,
-    String? participId,
-    String? taskId,
+    String? participKey,
+    IndivCompTask? task,
     String? title,
     String? description,
     int? points,
@@ -88,8 +89,8 @@ class IndivCompCompletedTask{
     String? reqComment,
     String? revComment
   }) => IndivCompCompletedTask(
-    participKey: participId??participKey,
-    taskKey: taskId??taskKey,
+    participKey: participKey??this.participKey,
+    task: task??this.task,
 
     key: key??this.key,
 

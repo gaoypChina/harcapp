@@ -2,6 +2,7 @@ import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_profile.dart';
 
 import '../../../../../_app_common/accounts/user_data.dart';
+import 'indiv_comp.dart';
 
 class IndivCompParticip extends UserData{
 
@@ -26,9 +27,9 @@ class IndivCompParticip extends UserData{
       profile: profile
   );
 
-  static IndivCompParticip fromRespMap(Map respMap, {String? key}) => IndivCompParticip.fromUserData(
+  static IndivCompParticip fromRespMap(Map respMap, IndivComp comp, {String? key}) => IndivCompParticip.fromUserData(
     UserData.fromRespMap(respMap, key: key),
-    profile: IndivCompProfile.fromRespMap(respMap['profile']??(throw InvalidResponseError('profile'))),
+    profile: IndivCompProfile.fromRespMap(respMap['profile']??(throw InvalidResponseError('profile')), comp),
   );
 
   UserData toUserData() => UserData(key: key, name: name, shadow: shadow, sex: sex);

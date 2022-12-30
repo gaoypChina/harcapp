@@ -338,7 +338,7 @@ class ApiIndivComp{
   }
 
   static Future<Response?> getParticipant({
-    required String compKey,
+    required IndivComp comp,
     required int? participKey,
     FutureOr<void> Function(IndivCompParticip)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -347,13 +347,13 @@ class ApiIndivComp{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
-          '${API.SERVER_URL}api/indivComp/$compKey/participant/$participKey',
+          '${API.SERVER_URL}api/indivComp/${comp.key}/participant/$participKey',
       ),
       onSuccess: (Response response, DateTime now) async {
         if(onSuccess == null) return;
 
         Map participsRespMap = response.data;
-        onSuccess(IndivCompParticip.fromRespMap(participsRespMap));
+        onSuccess(IndivCompParticip.fromRespMap(participsRespMap, comp));
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -361,7 +361,7 @@ class ApiIndivComp{
   );
 
   static Future<Response?> getParticipants({
-    required String compKey,
+    required IndivComp comp,
     required int? pageSize,
     required CompRole? lastRole,
     required String? lastUserName,
@@ -373,7 +373,7 @@ class ApiIndivComp{
   }) => API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
-          '${API.SERVER_URL}api/indivComp/$compKey/participant',
+          '${API.SERVER_URL}api/indivComp/${comp.key}/participant',
           queryParameters: {
             if(pageSize != null) 'pageSize': pageSize,
             if(lastRole != null) 'lastRole': compRoleToStr[lastRole],
@@ -387,7 +387,7 @@ class ApiIndivComp{
         List<IndivCompParticip> particips = [];
         Map participsRespMap = response.data;
         for(MapEntry memEntry in participsRespMap.entries)
-          particips.add(IndivCompParticip.fromRespMap(memEntry.value, key: memEntry.key));
+          particips.add(IndivCompParticip.fromRespMap(memEntry.value, comp, key: memEntry.key));
 
         onSuccess(particips);
       },
@@ -397,7 +397,7 @@ class ApiIndivComp{
   );
 
   static Future<Response?> addParticipants({
-    required String compKey,
+    required IndivComp comp,
     required List<ParticipBodyNick> users,
 
     FutureOr<void> Function(List<IndivCompParticip>)? onSuccess,
@@ -417,7 +417,7 @@ class ApiIndivComp{
     return API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.post(
-          '${API.SERVER_URL}api/indivComp/$compKey/participant',
+          '${API.SERVER_URL}api/indivComp/${comp.key}/participant',
           data: jsonEncode(body)
       ),
       onSuccess: (Response response, DateTime now) async {
@@ -426,7 +426,7 @@ class ApiIndivComp{
         List<IndivCompParticip> particips = [];
         Map participsRespMap = response.data;
         for(MapEntry participEntry in participsRespMap.entries)
-          particips.add(IndivCompParticip.fromRespMap(participEntry.value, key: participEntry.key));
+          particips.add(IndivCompParticip.fromRespMap(participEntry.value, comp, key: participEntry.key));
 
         onSuccess(particips);
       },
@@ -438,7 +438,7 @@ class ApiIndivComp{
   }
 
   static Future<Response?> updateParticipants({
-    required String compKey,
+    required IndivComp comp,
     required List<ParticipBody> users,
     FutureOr<void> Function(List<IndivCompParticip>)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -457,7 +457,7 @@ class ApiIndivComp{
     return API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) => dio.put(
-            '${API.SERVER_URL}api/indivComp/$compKey/participant',
+            '${API.SERVER_URL}api/indivComp/${comp.key}/participant',
             data: jsonEncode(body)
         ),
         onSuccess: (Response response, DateTime now) async {
@@ -466,7 +466,7 @@ class ApiIndivComp{
           List<IndivCompParticip> particips = [];
           Map participsRespMap = response.data;
           for(MapEntry participEntry in participsRespMap.entries)
-            particips.add(IndivCompParticip.fromRespMap(participEntry.value, key: participEntry.key));
+            particips.add(IndivCompParticip.fromRespMap(participEntry.value, comp, key: participEntry.key));
 
           onSuccess(particips);
         },
@@ -518,7 +518,7 @@ class ApiIndivComp{
   );
 
   static Future<Response?> getCompletedTasks({
-    required String compKey,
+    required IndivComp comp,
     String? participKey,
 
     required int? pageSize,
@@ -540,7 +540,7 @@ class ApiIndivComp{
     return await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
-          '${API.SERVER_URL}api/indivComp/$compKey/completedTask',
+          '${API.SERVER_URL}api/indivComp/${comp.key}/completedTask',
           queryParameters: {
             'pageSize': pageSize,
             if(lastReqTime != null) 'lastReqTime': lastReqTime,
@@ -552,7 +552,7 @@ class ApiIndivComp{
 
         List<IndivCompCompletedTask> complTaskList = [];
         for(Map complTaskRespMap in response.data)
-          complTaskList.add(IndivCompCompletedTask.fromRespMap(complTaskRespMap));
+          complTaskList.add(IndivCompCompletedTask.fromRespMap(complTaskRespMap, comp));
 
         // Map<IndivCompParticip, List<IndivCompCompletedTask>> pendingComplTasks = {};
         // for(String userKey in (response.data as Map).keys as Iterable<String>) {
@@ -573,6 +573,7 @@ class ApiIndivComp{
   }
 
   static Future<Response?> createCompletedTask({
+    required IndivComp comp,
     required String? taskKey,
     String? comment,
     List<String>? userKeys,
@@ -595,7 +596,7 @@ class ApiIndivComp{
       List<IndivCompCompletedTask> complTasks = [];
       Map complTasksRespMap = response.data['complTasks'];
       for(MapEntry complTaskEntry in complTasksRespMap.entries)
-        complTasks.add(IndivCompCompletedTask.fromRespMap(complTaskEntry.value, key: complTaskEntry.key));
+        complTasks.add(IndivCompCompletedTask.fromRespMap(complTaskEntry.value, comp, key: complTaskEntry.key));
 
       Map<String, ShowRankData> idRankMap = {};
 

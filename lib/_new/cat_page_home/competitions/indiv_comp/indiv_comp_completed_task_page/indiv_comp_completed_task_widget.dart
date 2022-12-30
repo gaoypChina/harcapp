@@ -19,16 +19,16 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class IndivCompCompletedTaskWidget extends StatelessWidget{
 
   final IndivCompCompletedTask complTask;
-  final Map<String, IndivCompTask> taskMap;
   final CommonColorData? colors;
   final bool preview;
   final void Function(String removedId)? onRemoved;
   final void Function()? onTap;
   final dynamic heroTag;
 
+  IndivCompTask get task => complTask.task;
+
   const IndivCompCompletedTaskWidget(
       this.complTask,
-      this.taskMap,
       this.colors,
       { this.preview = false,
         this.onRemoved,
@@ -39,8 +39,6 @@ class IndivCompCompletedTaskWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-
-    IndivCompTask task = taskMap[complTask.taskKey]!;
 
     Widget child = IndivCompTaskSkeletonWidget(
       title: Text(task.title, style: IndivCompTaskSkeletonWidget.titleTextStyle(context).copyWith(color: preview?hintEnab_(context):textEnab_(context))),

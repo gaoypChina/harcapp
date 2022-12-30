@@ -14,6 +14,7 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 
+import '../cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import '../cat_page_home/competitions/indiv_comp/models/show_rank_data.dart';
 
 class SongContributorsPage extends StatelessWidget{
@@ -52,7 +53,9 @@ class SongContributorsPage extends StatelessWidget{
                       Align(
                         alignment: Alignment.topCenter,
                         child: IndivCompRankIcon(
+
                           IndivCompProfile(
+                              comp: IndivComp.empty(),
                               active: true,
                               role: CompRole.OBSERVER,
                               points: null,

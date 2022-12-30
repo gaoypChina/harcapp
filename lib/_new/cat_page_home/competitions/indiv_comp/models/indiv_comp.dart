@@ -102,7 +102,7 @@ class IndivComp{
   static List<IndivCompTask> previewTasks = [
 
     const IndivCompTask(
-        key: null,
+        key: 'null',
         title: 'Obecność',
         description: 'Obecność na zbiórce lub wyjeździe.',
         points: 1,
@@ -111,7 +111,7 @@ class IndivComp{
     ),
 
     const IndivCompTask(
-        key: null,
+        key: 'null',
         title: 'Punktualność',
         description: 'Stawienie się na zbiórce na czas.',
         points: 1,
@@ -120,7 +120,7 @@ class IndivComp{
     ),
 
     const IndivCompTask(
-        key: null,
+        key: 'null',
         title: 'Umundurowanie',
         description: 'Obecność w pełnym umundurowaniu.',
         points: 1,
@@ -129,7 +129,7 @@ class IndivComp{
     ),
 
     const IndivCompTask(
-        key: null,
+        key: 'null',
         title: 'Sprawność',
         description: 'Zdobycie sprawności.',
         points: 3,
@@ -138,7 +138,7 @@ class IndivComp{
     ),
 
     const IndivCompTask(
-        key: null,
+        key: 'null',
         title: 'Stopień',
         description: 'Zdobycie stopnia.',
         points: 10,
@@ -469,7 +469,7 @@ class IndivComp{
     required this.completedTasksPendingCount,
     required this.completedTasksRejectedCount,
 
-  }): taskMap = {for (var task in tasks) task.key!: task},
+  }): taskMap = {for (var task in tasks) task.key: task},
         participMap = {for (var particip in particips) particip.key: particip};
 
   static List<IndivCompAward> awardListFromRaw(List<String?> awards){
@@ -491,7 +491,9 @@ class IndivComp{
     for (String taskKey in tasksRespMap.keys as Iterable<String>)
       tasks.add(IndivCompTask.fromRespMap(tasksRespMap[taskKey], key: taskKey));
 
-    tasks.sort((task1, task2) => task1.key!.compareTo(task2.key!));
+    tasks.sort((task1, task2) => task1.key.compareTo(task2.key));
+
+
 
     List<String?> awards = ((respMap['awards']??(throw InvalidResponseError('awards'))) as List).cast<String?>();
 
@@ -499,7 +501,7 @@ class IndivComp{
 
     Map<String, int> completedTasksCount = (respMap['completedTasksCount']??{}).cast<String, int>();
 
-    return IndivComp(
+    IndivComp comp = IndivComp(
         key: respMap['_key']??(throw InvalidResponseError('_key')),
         name: respMap['name']??(throw InvalidResponseError('name')),
         colorsKey: respMap['colorsKey']??(throw InvalidResponseError('colorsKey')),
@@ -508,7 +510,7 @@ class IndivComp{
         endTime: DateTime.tryParse(respMap['endTime'] ?? ''),
         rankDispType: strToRankDispType[respMap['rankDispType']??(throw InvalidResponseError('rankDispType'))],
 
-        particips: (respMap['participants']??(throw InvalidResponseError('participants'))).map<IndivCompParticip>((data) => IndivCompParticip.fromRespMap(data)).toList(),
+        particips: [], // temporarly empty,
         participCount: respMap['participantCount'],
         activeParticipCount: respMap['activeParticipConut'],
 
@@ -529,6 +531,30 @@ class IndivComp{
 
     );
 
+    List<IndivCompParticip> particips = (respMap['participants']??(throw InvalidResponseError('participants'))).map<IndivCompParticip>((data) => IndivCompParticip.fromRespMap(data, comp)).toList();
+    comp.addParticips(particips);
+
+    return comp;
   }
+
+  static IndivComp empty() => IndivComp(
+      key: '',
+      name: '',
+      iconKey: '',
+      colorsKey: '',
+      startTime: null,
+      rankDispType: RankDispType.EXACT,
+      particips: [],
+      participCount: 0,
+      activeParticipCount: 0,
+      tasks: [],
+      awards: [],
+      shareCode: '',
+      shareCodeSearchable: true,
+      bindedCircle: null,
+      completedTasksAcceptedCount: 0,
+      completedTasksPendingCount: 0,
+      completedTasksRejectedCount: 0
+  );
 
 }

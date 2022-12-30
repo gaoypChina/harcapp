@@ -50,7 +50,6 @@ class PendingCompletedTasksPageState extends State<PendingCompletedTasksPage> {
                 delegate: SliverChildSeparatedBuilderDelegate((context, index) =>
                     IndivCompCompletedTaskWidget(
                         complTasks![index],
-                        comp.taskMap,
                         comp.colors,
                         preview: true,
                         onRemoved: (text) {

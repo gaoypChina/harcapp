@@ -70,6 +70,7 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
                     showLoadingWidget(context, comp.colors.avgColor, 'Przesyłanie punktów...');
 
                     await ApiIndivComp.createCompletedTask(
+                        comp: comp,
                         taskKey: task.key,
                         comment: controller!.text,
                         userKeys: selectedParticips.map((particips) => particips.key).toList(),

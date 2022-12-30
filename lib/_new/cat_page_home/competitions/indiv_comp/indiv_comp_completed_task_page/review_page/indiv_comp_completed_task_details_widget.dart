@@ -31,7 +31,6 @@ class IndivCompCompletedTaskDetailsWidget extends StatefulWidget{
 
   final IndivComp comp;
   final IndivCompCompletedTask complTask;
-  final Map<String, IndivCompTask> taskMap;
   final Map<String, IndivCompParticip> participMap;
   final CommonColorData colors;
 
@@ -41,7 +40,6 @@ class IndivCompCompletedTaskDetailsWidget extends StatefulWidget{
   const IndivCompCompletedTaskDetailsWidget(
       this.comp,
       this.complTask,
-      this.taskMap,
       this.participMap,
       this.colors,
       { this.padding,
@@ -58,7 +56,6 @@ class IndivCompCompletedTaskDetailsWidgetState extends State<IndivCompCompletedT
 
   IndivComp get comp => widget.comp;
   IndivCompCompletedTask get complTask => widget.complTask;
-  Map<String, IndivCompTask> get taskMap => widget.taskMap;
   CommonColorData get colors => widget.colors;
 
   IndivCompParticip? get particip => widget.participMap[complTask.participKey];
@@ -67,6 +64,8 @@ class IndivCompCompletedTaskDetailsWidgetState extends State<IndivCompCompletedT
   bool? sending;
 
   late bool reviewMode;
+
+  IndivCompTask get task => complTask.task;
 
   @override
   void initState() {
@@ -79,11 +78,8 @@ class IndivCompCompletedTaskDetailsWidgetState extends State<IndivCompCompletedT
   @override
   Widget build(BuildContext context) {
 
-    IndivCompTask task = taskMap[complTask.taskKey]!;
-
     IndivCompCompletedTaskWidget(
       complTask,
-      taskMap,
       colors
     );
 

@@ -135,7 +135,7 @@ class ParticipantsPageState extends State<ParticipantsPage>{
           userCount: comp.participCount,
           callReload: () async {
             await ApiIndivComp.getParticipants(
-              compKey: comp.key,
+              comp: comp,
               pageSize: IndivComp.participsPageSize,
               lastRole: null,
               lastUserName: null,
@@ -170,7 +170,7 @@ class ParticipantsPageState extends State<ParticipantsPage>{
             bool success = false;
 
             await ApiIndivComp.getParticipants(
-              compKey: comp.key,
+              comp: comp,
               pageSize: IndivComp.participsPageSize,
               lastRole: comp.particips.length==1?null:comp.particips.last.profile.role,
               lastUserName: comp.particips.length==1?null:comp.particips.last.name,

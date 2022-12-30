@@ -53,7 +53,6 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
           builder: (context) => IndivCompCompletedTaskDetailsWidget(
             comp,
             complTask,
-            taskMap,
             participMap,
             colors,
           ),
@@ -83,7 +82,6 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
         children.add(
             IndivCompCompletedTaskWidget(
                 complTask,
-                taskMap,
                 colors,
                 heroTag: complTask,
                 preview: true,

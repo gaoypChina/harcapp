@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/show_rank_data.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task.dart';
@@ -19,13 +20,13 @@ import '../indiv_comp_task_widget.dart';
 
 class IndivCompCompetedTaskRequestWidget extends StatefulWidget{
 
-  final List<IndivCompTask> allTasks;
+  final IndivComp comp;
   final IndivCompTask task;
   final bool adminOrMod;
   final void Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? onSuccess;
 
   const IndivCompCompetedTaskRequestWidget(
-      this.allTasks,
+      this.comp,
       this.task,
       { required this.adminOrMod,
         this.onSuccess,
@@ -39,7 +40,7 @@ class IndivCompCompetedTaskRequestWidget extends StatefulWidget{
 
 class IndivCompCompetedTaskRequestWidgetState extends State<IndivCompCompetedTaskRequestWidget>{
 
-  List<IndivCompTask> get allTasks => widget.allTasks;
+  IndivComp get comp => widget.comp;
   IndivCompTask get task => widget.task;
   bool get adminOrMod => widget.adminOrMod;
 
@@ -108,6 +109,7 @@ class IndivCompCompetedTaskRequestWidgetState extends State<IndivCompCompetedTas
                     setState(() => sending = true);
                     showAppToast(context, text: 'Przesyłanie...');
                     await ApiIndivComp.createCompletedTask(
+                        comp: comp,
                         taskKey: task.key,
                         comment: controller.text,
                         onSuccess: (List<IndivCompCompletedTask> taskComplRespMap, Map<String, ShowRankData> idRank){

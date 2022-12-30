@@ -318,7 +318,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
 
                           for(IndivCompCompletedTask taskCompl in taskComplList) {
                             comp.participMap[taskCompl.participKey]?.profile.addCompletedTask(taskCompl);
-                            comp.addPoints(taskCompl.participKey, taskCompl.points(comp));
+                            comp.addPoints(taskCompl.participKey, taskCompl.points);
                           }
 
                           comp.handleRanks(idRank);
@@ -714,7 +714,7 @@ class TaskWidget extends StatelessWidget{
                     builder: (context) =>
                         Center(
                           child: IndivCompCompetedTaskRequestWidget(
-                            comp.tasks,
+                            comp,
                             task,
                             adminOrMod: adminOrMod,
 
@@ -758,11 +758,11 @@ class TaskListWidget extends StatelessWidget{
 
     Map<String, List<IndivCompCompletedTask>> pendingComplTasksMap = {};
     for(IndivCompCompletedTask complTask in comp.myProfile?.completedTasks??[]){
-      if(pendingComplTasksMap[complTask.taskKey] == null)
-        pendingComplTasksMap[complTask.taskKey] = [];
+      if(pendingComplTasksMap[complTask.task.key] == null)
+        pendingComplTasksMap[complTask.task.key] = [];
 
       if(complTask.acceptState == TaskAcceptState.PENDING)
-        pendingComplTasksMap[complTask.taskKey]!.add(complTask);
+        pendingComplTasksMap[complTask.task.key]!.add(complTask);
     }
 
 
@@ -776,7 +776,7 @@ class TaskListWidget extends StatelessWidget{
           TaskWidget(
               comp,
               task,
-              pendingComplTasksMap[task.key!],
+              pendingComplTasksMap[task.key],
               onReqSent: onReqSent,
               onSelfGranted: onGranted,
           )
@@ -830,7 +830,7 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
       return;
     }
     await ApiIndivComp.getParticipants(
-      compKey: comp.key,
+      comp: comp,
       pageSize: IndivComp.participsPageSize,
       lastRole: comp.particips.length==1?null:comp.particips.last.profile.role,
       lastUserName: comp.particips.length==1?null:comp.particips.last.name,

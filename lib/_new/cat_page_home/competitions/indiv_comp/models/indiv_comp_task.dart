@@ -6,7 +6,7 @@ class IndivCompTask{
   static const int MAX_LEN_TITLE = 64;
   static const int MAX_LEN_DESC = 240;
 
-  final String? key;
+  final String key;
   final String title;
   final String? description;
   final int points;
@@ -23,7 +23,7 @@ class IndivCompTask{
   });
 
   static IndivCompTask fromRespMap(Map respMap, {String? key}) => IndivCompTask(
-    key: key,
+    key: key??respMap['key']??(throw InvalidResponseError('key')),
     title: respMap['title']??(throw InvalidResponseError('title')),
     description: respMap['description']??(throw InvalidResponseError('description')),
     points: respMap['points']??(throw InvalidResponseError('points')),
@@ -42,7 +42,7 @@ class IndivCompTask{
   );
 
   static IndivCompTask empty(int position) => IndivCompTask(
-    key: null,
+    key: '',
     title: '',
     description: '',
     points: 1,

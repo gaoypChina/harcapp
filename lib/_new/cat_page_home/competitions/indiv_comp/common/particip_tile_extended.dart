@@ -301,7 +301,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
         showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
 
         await ApiIndivComp.updateParticipants(
-            compKey: comp.key,
+            comp: comp,
             users: [ParticipBody(particip.key, newRole, newActive)],
             onSuccess: (List<IndivCompParticip> allParticips){
               comp.updateParticips(allParticips, context: context);

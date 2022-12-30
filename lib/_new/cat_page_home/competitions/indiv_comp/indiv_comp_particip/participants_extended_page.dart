@@ -102,7 +102,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
 
     for(IndivCompCompletedTask taskCompl in taskComplList) {
       comp.myProfile?.addCompletedTask(taskCompl);
-      comp.addPoints(taskCompl.participKey, taskCompl.points(comp));
+      comp.addPoints(taskCompl.participKey, taskCompl.points);
     }
 
     Provider.of<IndivCompProvider>(context, listen: false).notify();
@@ -248,7 +248,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
               userCount: comp.participCount,
               callReload: () async {
                 await ApiIndivComp.getParticipants(
-                  compKey: comp.key,
+                  comp: comp,
                   pageSize: IndivComp.participsPageSize,
                   lastRole: null,
                   lastUserName: null,
@@ -284,7 +284,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
                 bool success = false;
 
                 await ApiIndivComp.getParticipants(
-                  compKey: comp.key,
+                  comp: comp,
                   pageSize: IndivComp.participsPageSize,
                   lastRole: comp.particips.length==1?null:comp.particips.last.profile.role,
                   lastUserName: comp.particips.length==1?null:comp.particips.last.name,
