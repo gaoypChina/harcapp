@@ -24,7 +24,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:tuple/tuple.dart';
 
 import '../../../user_tile_dialogs.dart';
-import '../indiv_comp_completed_task_page/completed_task_page.dart';
+import '../indiv_comp_completed_task_page/completed_tasks_page.dart';
 import '../indiv_comp_particip/participants_page.dart';
 import '../models/show_rank_data.dart';
 import '../models/indiv_comp_profile.dart';
@@ -155,7 +155,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
                 onTap: (){
                   Navigator.pop(context);
-                  pushPage(context, builder: (context) => CompletedTaskPage(
+                  pushPage(context, builder: (context) => CompletedTasksPage(
                     comp,
                     title: 'Zrealizowane zadania',
                     particip: particip,

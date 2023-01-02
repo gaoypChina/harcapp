@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
-import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_page.dart';
+import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_scroll_view_page.dart';
 import 'package:harcapp/account/account_thumbnail_widget.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -97,7 +97,7 @@ class UserListManagementLoadablePage<T extends UserData> extends StatelessWidget
   }
 
   @override
-  Widget build(BuildContext context) => PagingLoadableBasePage(
+  Widget build(BuildContext context) => PagingLoadableBaseScrollViewPage(
     appBarTitle: 'Lista osób',
     appBarLeading: appBarLeading,
     appBarActions: appBarActions,

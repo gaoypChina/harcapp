@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_completed_task_page/indiv_comp_completed_task_widget.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_completed_task_page/completed_task_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 
 import '../models/indiv_comp.dart';
@@ -48,7 +48,7 @@ class PendingCompletedTasksPageState extends State<PendingCompletedTasksPage> {
               padding: const EdgeInsets.all(Dimen.SIDE_MARG),
               sliver: SliverList(
                 delegate: SliverChildSeparatedBuilderDelegate((context, index) =>
-                    IndivCompCompletedTaskWidget(
+                    CompletedTaskWidget(
                         complTasks![index],
                         comp.colors,
                         preview: true,

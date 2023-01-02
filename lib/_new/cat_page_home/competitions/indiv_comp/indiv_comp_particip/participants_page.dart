@@ -141,7 +141,7 @@ class ParticipantsPageState extends State<ParticipantsPage>{
               lastUserName: null,
               lastUserKey: null,
               onSuccess: (participsPage){
-                IndivCompParticip me = comp.participMap[AccountData.key]!;
+                IndivCompParticip me = comp.getParticip(AccountData.key!)!;
                 participsPage.removeWhere((member) => member.key == me.key);
                 participsPage.insert(0, me);
                 comp.setAllParticips(participsPage, context: context);

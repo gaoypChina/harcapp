@@ -40,10 +40,11 @@ import '../../common.dart';
 import 'common/indiv_comp_rank_icon.dart';
 import 'common/points_widget.dart';
 import 'indiv_comp_awards_page.dart';
+import 'indiv_comp_completed_task_page/review_page/completed_tasks_review_page.dart';
 import 'indiv_comp_editor/_main.dart';
 import 'indiv_comp_editor/common.dart';
 import 'indiv_comp_particip/participants_page.dart';
-import 'indiv_comp_completed_task_page/completed_task_page.dart';
+import 'indiv_comp_completed_task_page/completed_tasks_page.dart';
 import 'indiv_comp_particip/participants_extended_page.dart';
 import 'indiv_comp_completed_task_page/pending_completed_task_page.dart';
 import 'indiv_comp_completed_task_page/indiv_comp_completed_task_request_widget.dart';
@@ -270,11 +271,11 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                           builder: (context, _, __) => PendingWidget(
                             comp,
                             onAccepted: (IndivCompParticip particip, IndivCompCompletedTask complTask){
-                              comp.participMap[particip.key]!.profile.completedTaskMap[complTask.key]!.acceptState = TaskAcceptState.ACCEPTED;
+                              comp.getParticip(particip.key)!.profile.completedTaskMap[complTask.key]!.acceptState = TaskAcceptState.ACCEPTED;
                               setState(() {});
                             },
                             onRejected: (IndivCompParticip particip, IndivCompCompletedTask complTask){
-                              comp.participMap[particip.key]!.profile.completedTaskMap[complTask.key]!.acceptState = TaskAcceptState.REJECTED;
+                              comp.getParticip(particip.key)!.profile.completedTaskMap[complTask.key]!.acceptState = TaskAcceptState.REJECTED;
                               setState(() {});
                             },
                           ),
@@ -317,7 +318,7 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
                         onGranted: (List<IndivCompCompletedTask> taskComplList, Map<String, ShowRankData> idRank){
 
                           for(IndivCompCompletedTask taskCompl in taskComplList) {
-                            comp.participMap[taskCompl.participKey]?.profile.addCompletedTask(taskCompl);
+                            comp.getParticip(taskCompl.participKey)?.profile.addCompletedTask(taskCompl);
                             comp.addPoints(taskCompl.participKey, taskCompl.points);
                           }
 
@@ -419,10 +420,10 @@ class CompHeaderWidget extends StatelessWidget{
                   margin: EdgeInsets.zero,
                   onTap: () => comp.myProfile?.completedTasksCount == 0?
                       showAppToast(context, text: 'Brak zrealizowanych zadań.'):
-                      pushPage(context, builder: (context) => CompletedTaskPage(
+                      pushPage(context, builder: (context) => CompletedTasksPage(
                           comp,
                           title: 'Moje zadania',
-                          particip: comp.participMap[AccountData.key],
+                          particip: comp.getParticip(AccountData.key!),
                           acceptState: TaskAcceptState.ACCEPTED,
                       )),
                       // pushPage(context, builder: (context) => CompletedTasksPage(
@@ -600,10 +601,11 @@ class PendingWidget extends StatelessWidget{
                 return;
               }
 
-              pushPage(context, builder: (context) => CompletedTaskPage(
+              pushPage(context, builder: (context) => CompletedTasksReviewPage(
                 comp,
-                title: 'Wnioski o punkty',
-                acceptState: TaskAcceptState.PENDING,
+                // title: 'Wnioski o punkty',
+                // acceptState: TaskAcceptState.PENDING,
+                // detailed: true,
 
                 onRejected: onRejected,
                 onAccepted: onAccepted,
@@ -836,7 +838,7 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
       lastUserName: comp.particips.length==1?null:comp.particips.last.name,
       lastUserKey: comp.particips.length==1?null:comp.particips.last.key,
       onSuccess: (participsPage){
-        IndivCompParticip me = comp.participMap[AccountData.key]!;
+        IndivCompParticip me = comp.getParticip(AccountData.key!)!;
         participsPage.removeWhere((member) => member.key == me.key);
         participsPage.insert(0, me);
         comp.addParticips(participsPage, context: context);

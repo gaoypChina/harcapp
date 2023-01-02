@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -21,64 +22,94 @@ import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import '../../comp_role.dart';
-import '../indiv_comp_completed_task_widget.dart';
+import '../completed_task_widget.dart';
 import '../../models/indiv_comp_task_compl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../task_accept_state.dart';
 
-class IndivCompCompletedTaskDetailsWidget extends StatefulWidget{
+class CompletedTaskDetailsWidget extends StatefulWidget{
 
   final IndivComp comp;
   final IndivCompCompletedTask complTask;
-  final Map<String, IndivCompParticip> participMap;
-  final CommonColorData colors;
 
   final EdgeInsets? padding;
   final void Function()? onAcceptStateChanged;
 
-  const IndivCompCompletedTaskDetailsWidget(
+  const CompletedTaskDetailsWidget(
       this.comp,
       this.complTask,
-      this.participMap,
-      this.colors,
       { this.padding,
         this.onAcceptStateChanged,
         super.key
       });
 
   @override
-  State<StatefulWidget> createState() => IndivCompCompletedTaskDetailsWidgetState();
+  State<StatefulWidget> createState() => CompletedTaskDetailsWidgetState();
 
 }
 
-class IndivCompCompletedTaskDetailsWidgetState extends State<IndivCompCompletedTaskDetailsWidget>{
+class CompletedTaskDetailsWidgetState extends State<CompletedTaskDetailsWidget>{
 
   IndivComp get comp => widget.comp;
   IndivCompCompletedTask get complTask => widget.complTask;
-  CommonColorData get colors => widget.colors;
+  CommonColorData get colors => comp.colors;
 
-  IndivCompParticip? get particip => widget.participMap[complTask.participKey];
+  IndivCompParticip? get particip => comp.getParticip(complTask.participKey);
 
   TextEditingController? textController;
   bool? sending;
 
-  late bool reviewMode;
+  bool get reviewMode => complTask.acceptState == TaskAcceptState.PENDING;
+  late bool participLoading;
 
   IndivCompTask get task => complTask.task;
 
+  void getParticipant() async {
+
+    if(!await isNetworkAvailable()){
+      setState(() => participLoading = false);
+      return;
+    }
+
+    await ApiIndivComp.getParticipant(
+      comp: comp,
+      participKey: complTask.participKey,
+      onSuccess: (particip){
+        comp.addSideloadedParticip(particip);
+        setState(() {});
+      },
+      onForceLoggedOut: (){
+        if(!mounted) return true;
+        showAppToast(context, text: forceLoggedOutMessage);
+        return true;
+      },
+      onServerMaybeWakingUp: () {
+        if(mounted) showServerWakingUpToast(context);
+        return true;
+      },
+      onError: () async {
+        if(mounted) showAppToast(context, text: simpleErrorMessage);
+      }
+    );
+
+    setState(() => participLoading = false);
+  }
+
   @override
   void initState() {
-    reviewMode = complTask.acceptState == TaskAcceptState.PENDING;// && (comp.profile.role == CompRole.ADMIN || comp.profile.role == CompRole.MODERATOR);
     textController = TextEditingController();
     sending = true;
+    participLoading = particip == null;
+    if(participLoading) getParticipant();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    IndivCompCompletedTaskWidget(
+    CompletedTaskWidget(
       complTask,
       colors
     );
@@ -89,25 +120,39 @@ class IndivCompCompletedTaskDetailsWidgetState extends State<IndivCompCompletedT
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
 
-          Padding(
-            padding: EdgeInsets.only(top: particip != null?(AccountThumbnailWidget.defSize*(1 + AccountThumbnailWidget.textSizeRatio - .12))/2:0),
-            child: IndivCompTaskSkeletonWidget(
-              trailing: PointsWidget(points: task.points),
-              title: Text(task.title, style: IndivCompTaskSkeletonWidget.titleTextStyle(context)),
-              description: Text(task.description!, style: IndivCompTaskSkeletonWidget.descriptionTextStyle(context)),
-            ),
+          IndivCompTaskSkeletonWidget(
+            trailing: PointsWidget(points: task.points),
+            title: Text(task.title, style: IndivCompTaskSkeletonWidget.titleTextStyle(context)),
+            description: Text(task.description!, style: IndivCompTaskSkeletonWidget.descriptionTextStyle(context)),
           ),
 
-          const SizedBox(height: Dimen.SIDE_MARG),
+          const SizedBox(height: 2*Dimen.SIDE_MARG),
 
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AccountThumbnailWidget(
-                name: particip!.name,
-                elevated: false,
-                markIcon: MdiIcons.messageArrowRight,
-              ),
+
+              if(participLoading)
+                AccountThumbnailWidget(
+                  elevated: false,
+                  markIcon: MdiIcons.messageArrowRight,
+                  child: SpinKitChasingDots(
+                    color: colors.avgColor,
+                    size: Dimen.ICON_SIZE,
+                  ),
+                )
+              else if(particip == null)
+                const AccountThumbnailWidget(
+                  icon: MdiIcons.alertCircleOutline,
+                  elevated: false,
+                  markIcon: MdiIcons.messageArrowRight,
+                )
+              else
+                AccountThumbnailWidget(
+                  name: particip!.name,
+                  elevated: false,
+                  markIcon: MdiIcons.messageArrowRight,
+                ),
 
               const SizedBox(width: Dimen.ICON_MARG),
 
@@ -118,7 +163,7 @@ class IndivCompCompletedTaskDetailsWidgetState extends State<IndivCompCompletedT
 
                       const SizedBox(height: AccountThumbnailWidget.defSize - 2*Dimen.TEXT_SIZE_BIG),
 
-                      _NameWidget(particip!.name),
+                      _NameWidget(particip?.name ?? 'Ładowanie...'),
                       _DateWidget(complTask.reqTime),
 
                       _MessageWidget(complTask.reqComment),
@@ -295,7 +340,7 @@ class ReviewButtonsState extends State<ReviewButtons>{
                         setState(() => sending = true);
                         showLoadingWidget(context, comp.colors.avgColor, 'Ostatnia prosta');
 
-                        await ApiIndivComp.reviewCompletedTasks(
+                        await ApiIndivComp.reviewCompletedTask(
                             complTaskKey: complTask.key,
                             acceptState: TaskAcceptState.REJECTED,
                             revComment: textController!.text,
@@ -347,7 +392,7 @@ class ReviewButtonsState extends State<ReviewButtons>{
                         setState(() => sending = true);
                         showLoadingWidget(context, comp.colors.avgColor, 'Ostatnia prosta');
 
-                        await ApiIndivComp.reviewCompletedTasks(
+                        await ApiIndivComp.reviewCompletedTask(
                             complTaskKey: complTask.key,
                             acceptState: TaskAcceptState.ACCEPTED,
                             revComment: textController!.text,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_page.dart';
+import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_scroll_view_page.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_completed_task_page/review_page/completed_task_details_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_task_compl.dart';
@@ -10,13 +11,14 @@ import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'indiv_comp_completed_task_widget.dart';
+import 'completed_task_widget.dart';
 
-class CompletedTaskPage extends StatefulWidget{
+class CompletedTasksPage extends StatefulWidget{
 
   final IndivComp comp;
   final IndivCompParticip? particip;
   final TaskAcceptState? acceptState;
+  final bool detailed;
 
   final String title;
 
@@ -24,10 +26,11 @@ class CompletedTaskPage extends StatefulWidget{
   final void Function(IndivCompParticip, IndivCompCompletedTask)? onAccepted;
   final void Function(IndivCompParticip, IndivCompCompletedTask)? onRejected;
 
-  const CompletedTaskPage(
+  const CompletedTasksPage(
       this.comp,
       { this.particip,
         this.acceptState,
+        this.detailed = false,
 
         required this.title,
 
@@ -39,15 +42,16 @@ class CompletedTaskPage extends StatefulWidget{
       }): assert(!(particip == null && acceptState == null));
 
   @override
-  State<StatefulWidget> createState() => CompletedTaskPageState();
+  State<StatefulWidget> createState() => CompletedTasksPageState();
 
 }
 
-class CompletedTaskPageState extends State<CompletedTaskPage>{
+class CompletedTasksPageState extends State<CompletedTasksPage>{
 
   IndivComp get comp => widget.comp;
   IndivCompParticip? get particip => widget.particip;
   TaskAcceptState? get acceptState => widget.acceptState;
+  bool get detailed => widget.detailed;
 
   String get title => widget.title;
 
@@ -106,8 +110,8 @@ class CompletedTaskPageState extends State<CompletedTaskPage>{
   }
 
   @override
-  Widget build(BuildContext context) => PagingLoadablePage(
-      title: title,
+  Widget build(BuildContext context) => PagingLoadableScrollViewPage(
+      appBarTitle: title,
       loadingIndicatorColor: comp.colors.avgColor,
       totalItemsCount: totalCount,
       loadedItemsCount: loadedCompletedTasks.length,
@@ -117,7 +121,7 @@ class CompletedTaskPageState extends State<CompletedTaskPage>{
           comp: comp,
           participKey: particip?.key,
           pageSize: IndivCompCompletedTask.pageSize,
-          lastReqTime: loadedCompletedTasks.isEmpty?null:loadedCompletedTasks.last.reqTime.toString(),
+          lastReqTime: loadedCompletedTasks.isEmpty?null:loadedCompletedTasks.last.reqTime,
           acceptState: acceptState,
           onSuccess: (completedTasksPage){
             loadedCompletedTasks.clear();
@@ -149,7 +153,7 @@ class CompletedTaskPageState extends State<CompletedTaskPage>{
           comp: comp,
           participKey: particip?.key,
           pageSize: IndivCompCompletedTask.pageSize,
-          lastReqTime: loadedCompletedTasks.isEmpty?null:loadedCompletedTasks.last.reqTime.toString(),
+          lastReqTime: loadedCompletedTasks.isEmpty?null:loadedCompletedTasks.last.reqTime,
           acceptState: acceptState,
           onSuccess: (completedTasksPage){
             loadedCompletedTasks.addAll(completedTasksPage);
@@ -176,7 +180,13 @@ class CompletedTaskPageState extends State<CompletedTaskPage>{
         return success;
       },
       callLoadOnInit: true,
-      loadedItemBuilder: (index) => IndivCompCompletedTaskWidget(
+      loadedItemBuilder: (index) =>
+      detailed?
+      CompletedTaskDetailsWidget(
+        comp,
+        loadedCompletedTasks[index]
+      ):
+      CompletedTaskWidget(
           loadedCompletedTasks[index],
           comp.colors,
           preview: true,
@@ -192,124 +202,5 @@ class CompletedTaskPageState extends State<CompletedTaskPage>{
       ),
       itemSeparatorHeight: Dimen.SIDE_MARG,
   );
-
-
-
-      /*
-      BottomNavScaffold(
-      body: SmartRefresher(
-        enablePullDown: true,
-        enablePullUp: !refreshController.isRefresh,
-        footer: AppCustomFooter(
-          moreToLoad: moreToLoad,
-          showDotWhenAllLoaded: false
-        ),
-        physics: const BouncingScrollPhysics(),
-        header: MaterialClassicHeader(
-            backgroundColor: cardEnab_(context),
-            color: comp.colors.avgColor
-        ),
-        controller: refreshController,
-        onRefresh: () async {
-
-          if(!await isNetworkAvailable()){
-            showAppToast(context, text: 'Brak dostępu do Internetu');
-            refreshController.refreshCompleted();
-            return;
-          }
-
-          await ApiIndivComp.getCompletedTasks(
-            compKey: comp.key,
-            pageSize: Community.managerPageSize,
-            lastRole: null,
-            lastUserName: null,
-            lastUserKey: null,
-            onSuccess: (managersPage){
-              CommunityManager me = community.managersMap[AccountData.key]!;
-              managersPage.removeWhere((manager) => manager.key == me.key);
-              managersPage.insert(0, me);
-              community.setAllManagers(managersPage, context: context);
-              updateUserSets();
-
-              setState((){});
-            },
-            onForceLoggedOut: (){
-              if(!mounted) return true;
-              showAppToast(context, text: forceLoggedOutMessage);
-              setState(() {});
-              return true;
-            },
-            onServerMaybeWakingUp: (){
-              if(!mounted) return true;
-              showServerWakingUpToast(context);
-              return true;
-            },
-            onError: (){
-              if(!mounted) return;
-              showAppToast(context, text: simpleErrorMessage);
-            },
-          );
-
-          refreshController.refreshCompleted();
-
-        },
-        onLoading: () async {
-
-          if(!moreToLoad) {
-            refreshController.loadComplete();
-            return;
-          }
-
-          if(!await isNetworkAvailable()){
-            showAppToast(context, text: 'Brak dostępu do Internetu');
-            refreshController.loadComplete();
-            return;
-          }
-
-
-
-          refreshController.loadComplete();
-
-        },
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          shrinkWrap: true,
-          slivers: [
-
-            const SliverAppBar(
-              floating: true,
-              title: Text('Prośby o zaliczenie'),
-              centerTitle: true,
-            ),
-
-            SliverPadding(
-              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-              sliver: SliverList(
-                delegate: SliverChildSeparatedBuilderDelegate((context, index) =>
-                    IndivCompTaskComplWidget(
-                        loadedCompletedTasks[index],
-                        comp.taskMap,
-                        comp.colors,
-                        preview: true,
-                        onRemoved: (text) {
-                          IndivCompCompletedTask complTask = loadedCompletedTasks.removeAt(index);
-                          onCompletedTaskRemoved?.call(complTask);
-                          if (loadedCompletedTasks.isEmpty) {
-                            Navigator.pop(context);
-                            return;
-                          }
-                          if (mounted) setState(() {});
-                        }
-                    ),
-                  separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Dimen.SIDE_MARG),
-                  count: loadedCompletedTasks.length,
-                ),
-              ),
-            )
-          ],
-        ),
-      )
-  );
-       */
 
 }

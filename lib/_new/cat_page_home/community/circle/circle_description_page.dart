@@ -293,7 +293,7 @@ class BindedIndivCompTile extends StatelessWidget{
       }
 
       for (Member member in circle.members) {
-        IndivCompParticip? particip = indivComp.participMap[member.key];
+        IndivCompParticip? particip = indivComp.getParticip(member.key);
         if (particip == null)
           inCircleNotInComp.add(member.toUserData());
       }

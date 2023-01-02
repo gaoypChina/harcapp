@@ -2,14 +2,19 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
-import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_page.dart';
+import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_base_scroll_view_page.dart';
 import 'package:harcapp_core/dimen.dart';
 
 
-class PagingLoadablePage extends StatelessWidget{
+class PagingLoadableScrollViewPage extends StatelessWidget{
 
-  final String title;
-  final Color loadingIndicatorColor;
+  final String appBarTitle;
+  final Widget? appBarLeading;
+  final List<Widget>? appBarActions;
+
+  final Color? backgroundColor;
+  final Color? appBottomNavColor;
+  final Color? loadingIndicatorColor;
 
   final int totalItemsCount;
   final int loadedItemsCount;
@@ -19,14 +24,19 @@ class PagingLoadablePage extends StatelessWidget{
   final bool callLoadOnInit;
 
   final EdgeInsets? padding;
-  final void Function(int) loadedItemBuilder;
+  final Widget Function(int) loadedItemBuilder;
   final double itemSeparatorHeight;
 
   final Widget? bottomNavigationBar;
 
-  const PagingLoadablePage({
-    required this.title,
-    required this.loadingIndicatorColor,
+  const PagingLoadableScrollViewPage({
+    required this.appBarTitle,
+    this.appBarLeading,
+    this.appBarActions,
+
+    this.backgroundColor,
+    this.appBottomNavColor,
+    this.loadingIndicatorColor,
 
     required this.totalItemsCount,
     required this.loadedItemsCount,
@@ -45,8 +55,13 @@ class PagingLoadablePage extends StatelessWidget{
   });
 
   @override
-  Widget build(BuildContext context) => PagingLoadableBasePage(
-    appBarTitle: title,
+  Widget build(BuildContext context) => PagingLoadableBaseScrollViewPage(
+    appBarTitle: appBarTitle,
+    appBarLeading: appBarLeading,
+    appBarActions: appBarActions,
+
+    backgroundColor: backgroundColor,
+    appBottomNavColor: appBottomNavColor,
     loadingIndicatorColor: loadingIndicatorColor,
 
     totalItemsCount: totalItemsCount,

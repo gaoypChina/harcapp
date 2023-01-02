@@ -9,7 +9,7 @@ import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 
-class PagingLoadableBasePage extends StatefulWidget{
+class PagingLoadablePageViewPage extends StatefulWidget{
 
   final String appBarTitle;
   final Widget? appBarLeading;
@@ -26,10 +26,11 @@ class PagingLoadableBasePage extends StatefulWidget{
   final FutureOr<bool> Function() callLoadMore;
   final bool callLoadOnInit;
 
-  final Widget sliverBody;
+  final Widget? Function(int) loadedItemBuilder;
+  final Widget? emptyBody;
   final Widget? bottomNavigationBar;
   
-  const PagingLoadableBasePage({
+  const PagingLoadablePageViewPage({
     required this.appBarTitle,
     this.appBarLeading,
     this.appBarActions,
@@ -45,18 +46,19 @@ class PagingLoadableBasePage extends StatefulWidget{
     required this.callLoadMore,
     required this.callLoadOnInit,
 
-    required this.sliverBody,
-    required this.bottomNavigationBar,
+    required this.loadedItemBuilder,
+    this.emptyBody,
+    this.bottomNavigationBar,
 
     super.key
   });
 
   @override
-  State<StatefulWidget> createState() => PagingLoadableBasePageState();
+  State<StatefulWidget> createState() => PagingLoadablePageViewPageState();
 
 }
 
-class PagingLoadableBasePageState extends State<PagingLoadableBasePage>{
+class PagingLoadablePageViewPageState extends State<PagingLoadablePageViewPage> with TickerProviderStateMixin{
 
   String get appBarTitle => widget.appBarTitle;
   Widget? get appBarLeading => widget.appBarLeading;
@@ -73,23 +75,48 @@ class PagingLoadableBasePageState extends State<PagingLoadableBasePage>{
   FutureOr<bool> Function() get callLoadMore => widget.callLoadMore;
   bool get callLoadOnInit => widget.callLoadOnInit;
 
-  Widget get sliverBody => widget.sliverBody;
+  Widget? Function(int) get loadedItemBuilder => widget.loadedItemBuilder;
+  Widget? get emptyBody => widget.emptyBody;
   Widget? get bottomNavigationBar => widget.bottomNavigationBar;
 
+  bool get moreToLoad => loadedItemsCount < totalItemsCount;
+
+  late TabController tabController;
   late RefreshController refreshController;
 
-  bool get moreToLoad => loadedItemsCount < totalItemsCount;
+  List<Tab> get tabs{
+    List<Tab> result = [];
+
+    for(int i=0; i<totalItemsCount; i++)
+      result.add(Tab(text: '$i'));
+
+    return result;
+  }
+
+  void lastTabListener(){
+    if(tabController.index == loadedItemsCount-1)
+      if(loadedItemsCount<totalItemsCount)
+        onLoading();
+  }
 
   @override
   void initState() {
 
+    tabController = TabController(length: totalItemsCount, vsync: this);
+    tabController.addListener(lastTabListener);
     refreshController = RefreshController(
-        initialLoadStatus: callLoadOnInit?LoadStatus.loading:LoadStatus.idle
+      initialLoadStatus: callLoadOnInit?LoadStatus.loading:LoadStatus.idle
     );
     if(callLoadOnInit)
       onLoading();
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    tabController.removeListener(lastTabListener);
+    super.dispose();
   }
 
   void onLoading() async {
@@ -143,25 +170,44 @@ class PagingLoadableBasePageState extends State<PagingLoadableBasePage>{
 
         },
         onLoading: onLoading,
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          shrinkWrap: true,
-          slivers: [
+        child: NestedScrollView(
+            physics: const BouncingScrollPhysics(),
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
+              SliverAppBar(
+                floating: true,
+                title: Text(appBarTitle),
+                leading: appBarLeading,
+                actions: appBarActions,
+                centerTitle: true,
+                pinned: true,
+                backgroundColor: backgroundColor,
+                bottom: TabBar(
+                  controller: tabController,
+                  physics: const BouncingScrollPhysics(),
+                  isScrollable: totalItemsCount>3,
+                  tabs: tabs,
+                ),
+              ),
+            ],
+            body:
+            totalItemsCount == 0?
+            emptyBody??Container():
+            Builder(builder: (context){
 
-            SliverAppBar(
-              floating: true,
-              title: Text(appBarTitle),
-              leading: appBarLeading,
-              actions: appBarActions,
-              centerTitle: true,
-              backgroundColor: backgroundColor,
-            ),
+              List<Widget> children = [];
 
-            sliverBody,
-            
-          ],
-        ),
-      ),
+              for(int i=0; i<totalItemsCount; i++)
+                children.add(loadedItemBuilder(i)??Container());
+
+              return TabBarView(
+                controller: tabController,
+                physics: const BouncingScrollPhysics(),
+                children: children,
+              );
+
+            })
+
+        )),
       bottomNavigationBar: bottomNavigationBar
   );
 

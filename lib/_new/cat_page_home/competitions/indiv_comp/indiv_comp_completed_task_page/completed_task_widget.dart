@@ -16,7 +16,7 @@ import '../models/indiv_comp_task.dart';
 import '../models/indiv_comp_task_compl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class IndivCompCompletedTaskWidget extends StatelessWidget{
+class CompletedTaskWidget extends StatelessWidget{
 
   final IndivCompCompletedTask complTask;
   final CommonColorData? colors;
@@ -27,7 +27,7 @@ class IndivCompCompletedTaskWidget extends StatelessWidget{
 
   IndivCompTask get task => complTask.task;
 
-  const IndivCompCompletedTaskWidget(
+  const CompletedTaskWidget(
       this.complTask,
       this.colors,
       { this.preview = false,

@@ -293,7 +293,7 @@ class IndivComp{
       logger.w('Value of saved account data key is null. Are you logged in?');
       return null;
     }
-    IndivCompParticip? me = participMap[accKey];
+    IndivCompParticip? me = _participMap[accKey];
 
     if(me == null){
       AccountData.forgetAccount();
@@ -305,7 +305,10 @@ class IndivComp{
   }
 
   final List<IndivCompParticip> particips;
-  final Map<String, IndivCompParticip> participMap;
+  final Map<String, IndivCompParticip> _participMap;
+
+  final Map<String, IndivCompParticip> sideLoadedParticipMap;
+
   int participCount;
   int activeParticipCount;
 
@@ -362,7 +365,7 @@ class IndivComp{
   void handleRanks(Map<String, ShowRankData> ranks){
 
     for(String participKey in ranks.keys) {
-      IndivCompParticip? particip = participMap[participKey];
+      IndivCompParticip? particip = _participMap[participKey];
       if(particip == null) continue;
       particip.profile.rank = ranks[participKey];
     }
@@ -375,12 +378,20 @@ class IndivComp{
 
   }
 
+  IndivCompParticip? getParticip(String key){
+    return _participMap[key]??sideLoadedParticipMap[key];
+  }
+
+  void addSideloadedParticip(IndivCompParticip particip){
+    sideLoadedParticipMap[particip.key] = particip;
+  }
+
   void addParticips(List<IndivCompParticip> newParticips, {BuildContext? context}){
 
     for(IndivCompParticip particip in newParticips) {
-      if(participMap[particip.key] != null) continue;
+      if(_participMap[particip.key] != null) continue;
       particips.add(particip);
-      participMap[particip.key] = particip;
+      _participMap[particip.key] = particip;
     }
 
     if(context == null) return;
@@ -389,9 +400,9 @@ class IndivComp{
 
   void setAllParticips(List<IndivCompParticip> allParticips, {BuildContext? context}){
     particips.clear();
-    participMap.clear();
+    _participMap.clear();
     particips.addAll(allParticips);
-    participMap.addAll({for (IndivCompParticip mem in allParticips) mem.key: mem});
+    _participMap.addAll({for (IndivCompParticip mem in allParticips) mem.key: mem});
 
     if(context == null) return;
     callProvidersWithParticipsOf(context);
@@ -403,7 +414,7 @@ class IndivComp{
       int index = particips.indexWhere((participIter) => participIter.key == particip.key);
       particips.removeAt(index);
       particips.insert(index, particip);
-      participMap[particip.key] = particip;
+      _participMap[particip.key] = particip;
     }
 
     if(context == null) return;
@@ -413,20 +424,20 @@ class IndivComp{
   void removeParticipsByKey(List<String> participKeys, {BuildContext? context}){
 
     particips.removeWhere((particip) => participKeys.contains(particip.key));
-    for(String participKey in participKeys) participMap.remove(participKey);
+    for(String participKey in participKeys) _participMap.remove(participKey);
 
     if(context == null) return;
     callProvidersWithParticipsOf(context);
   }
 
   void removeComplTask(BuildContext context, String participKey, String complTaskKey){
-    participMap[participKey]!.profile.removeCompletedTaskByKey(complTaskKey);
+    _participMap[participKey]!.profile.removeCompletedTaskByKey(complTaskKey);
 
     Provider.of<ComplTasksProvider>(context, listen: false).notify();
   }
 
   bool addPoints(String participKey, int points){
-    IndivCompParticip? particip = participMap[participKey];
+    IndivCompParticip? particip = _participMap[participKey];
     if(particip == null)
       return false;
 
@@ -436,7 +447,7 @@ class IndivComp{
     return setPoints(participKey, particip.profile.points! + points);
   }
   bool setPoints(String participKey, int points){
-    IndivCompParticip? particip = participMap[participKey];
+    IndivCompParticip? particip = _participMap[participKey];
     if(particip == null)
       return false;
 
@@ -470,7 +481,8 @@ class IndivComp{
     required this.completedTasksRejectedCount,
 
   }): taskMap = {for (var task in tasks) task.key: task},
-        participMap = {for (var particip in particips) particip.key: particip};
+        _participMap = {for (var particip in particips) particip.key: particip},
+        sideLoadedParticipMap = {};
 
   static List<IndivCompAward> awardListFromRaw(List<String?> awards){
 

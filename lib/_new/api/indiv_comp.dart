@@ -339,7 +339,7 @@ class ApiIndivComp{
 
   static Future<Response?> getParticipant({
     required IndivComp comp,
-    required int? participKey,
+    required String? participKey,
     FutureOr<void> Function(IndivCompParticip)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -522,7 +522,7 @@ class ApiIndivComp{
     String? participKey,
 
     required int? pageSize,
-    required String? lastReqTime,
+    required DateTime? lastReqTime,
     TaskAcceptState? acceptState,
 
     FutureOr<void> Function(List<IndivCompCompletedTask>)? onSuccess,
@@ -543,7 +543,7 @@ class ApiIndivComp{
           '${API.SERVER_URL}api/indivComp/${comp.key}/completedTask',
           queryParameters: {
             'pageSize': pageSize,
-            if(lastReqTime != null) 'lastReqTime': lastReqTime,
+            if(lastReqTime != null) 'lastReqTime': lastReqTime.toIso8601String(),
             if(participKey != null) 'participKey': participKey,
             if(acceptState != null) 'acceptState': taskAcceptStateToStr[acceptState]
           }
@@ -614,7 +614,7 @@ class ApiIndivComp{
     onError: (_) async => onError?.call()
   );
 
-  static Future<Response?> reviewCompletedTasks({
+  static Future<Response?> reviewCompletedTask({
     required String complTaskKey,
     required TaskAcceptState acceptState,
     required String revComment,
@@ -625,7 +625,7 @@ class ApiIndivComp{
 
   }) => API.sendRequest(
       withToken: true,
-      requestSender: (Dio dio) => dio.post(
+      requestSender: (Dio dio) => dio.put(
         '${API.SERVER_URL}api/indivComp/completedTask/$complTaskKey',
         data: FormData.fromMap({
           'acceptState': acceptState.name,

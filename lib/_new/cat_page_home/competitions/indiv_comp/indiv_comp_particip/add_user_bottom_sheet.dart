@@ -23,7 +23,7 @@ class AddUserBottomSheet extends StatelessWidget{
     alreadyAddedMess: 'Już uczestniczy',
     userAlreadyAddedMess: (name) => '$name już uczestniczy we współzawodnictwie!',
 
-    participatingUserKeys: comp.participMap.keys.toList(),
+    participatingUserKeys: comp.particips.map((p) => p.key).toList(),
     handleAddingUser: (BuildContext context, UserDataNick userData) async {
 
       showLoadingWidget(context, comp.colors.avgColor, 'Dodawanie uczestnika');
@@ -32,9 +32,7 @@ class AddUserBottomSheet extends StatelessWidget{
           comp: comp,
           users: [ParticipBodyNick(userData.key, CompRole.OBSERVER, true, userData.nick)],
           onSuccess: (List<IndivCompParticip> allParticips){
-            comp.participMap.clear();
-            comp.particips.clear();
-            comp.addParticips(allParticips, context: context);
+            comp.setAllParticips(allParticips, context: context);
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
             showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}.');

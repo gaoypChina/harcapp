@@ -7,33 +7,40 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/com
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tuple/tuple.dart';
 import 'package:provider/provider.dart';
 
-import 'indiv_comp_completed_task_details_widget.dart';
+import 'completed_task_details_widget.dart';
 import '../../models/indiv_comp_task_compl.dart';
 
-class IndivCompCompletedTaskReviewPage extends StatefulWidget{
+class CompletedTaskReviewPage extends StatefulWidget{
 
   final IndivComp comp;
+
+  final bool callLoadOnInit;
+
   final void Function(IndivCompParticip, IndivCompCompletedTask)? onAccepted;
   final void Function(IndivCompParticip, IndivCompCompletedTask)? onRejected;
 
-  const IndivCompCompletedTaskReviewPage(
+  const CompletedTaskReviewPage(
       this.comp,
-      { this.onAccepted,
+      { required this.callLoadOnInit,
+
+        this.onAccepted,
         this.onRejected,
         super.key
       });
 
   @override
-  State<StatefulWidget> createState() => IndivCompCompletedTaskReviewPageState();
+  State<StatefulWidget> createState() => CompletedTaskReviewPageState();
 
 }
 
-class IndivCompCompletedTaskReviewPageState extends State<IndivCompCompletedTaskReviewPage>{
+class CompletedTaskReviewPageState extends State<CompletedTaskReviewPage>{
 
   IndivComp get comp => widget.comp;
+  bool get callLoadOnInit => widget.callLoadOnInit;
 
   List<Tuple2<IndivCompParticip?, IndivCompCompletedTask>>? pendingComplTasks;
 
@@ -53,11 +60,23 @@ class IndivCompCompletedTaskReviewPageState extends State<IndivCompCompletedTask
     return pendingComplTasks;
   }
 
+  // --------------------------------------------------
+
+
+
+  late RefreshController refreshController;
+
   @override
   void initState() {
 
     showPendingOnly = true;
     sending = false;
+
+    refreshController = RefreshController(
+        initialLoadStatus: callLoadOnInit?LoadStatus.loading:LoadStatus.idle
+    );
+    // if(callLoadOnInit)
+    //   onLoading();
 
     super.initState();
   }
@@ -92,11 +111,9 @@ class IndivCompCompletedTaskReviewPageState extends State<IndivCompCompletedTask
           children.add(
               SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                child: IndivCompCompletedTaskDetailsWidget(
+                child: CompletedTaskDetailsWidget(
                   comp,
                   complTask,
-                  comp.participMap,
-                  comp.colors,
                   padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
                   onAcceptStateChanged: (){
                     if(pendingComplTasks!.length == 1)

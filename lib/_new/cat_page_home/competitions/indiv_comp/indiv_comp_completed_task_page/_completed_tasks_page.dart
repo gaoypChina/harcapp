@@ -3,14 +3,14 @@ import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/empty_message_widget.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_completed_task_page/review_page/indiv_comp_completed_task_details_widget.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_completed_task_page/review_page/completed_task_details_widget.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_state.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../../../_app_common/common_color_data.dart';
-import 'indiv_comp_completed_task_widget.dart';
+import 'completed_task_widget.dart';
 import '../models/indiv_comp.dart';
 import '../models/indiv_comp_task.dart';
 import '../models/indiv_comp_task_compl.dart';
@@ -40,7 +40,6 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
   Map<String, IndivCompTask> get taskMap => widget.taskMap;
   Map<String, IndivCompParticip> get participMap => widget.participMap;
   CommonColorData get colors => widget.colors;
-  //List<IndivCompTaskCompl> get completedTasks => widget.comp.profile.completedTasks;
 
   String? get pageTitle => widget.pageTitle;
   void Function(IndivCompCompletedTask taskCompl)? get onRemoved => widget.onRemoved;
@@ -50,11 +49,9 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
   void openDetails(BuildContext context, complTask) => showScrollBottomSheet(
       context: context,
       builder: (context) => BottomSheetDef(
-          builder: (context) => IndivCompCompletedTaskDetailsWidget(
+          builder: (context) => CompletedTaskDetailsWidget(
             comp,
             complTask,
-            participMap,
-            colors,
           ),
       )
   );
@@ -80,7 +77,7 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
 
       if ((!showAll && complTask.acceptState == TaskAcceptState.ACCEPTED) || (showAll && complTask.acceptState != TaskAcceptState.PENDING)) {
         children.add(
-            IndivCompCompletedTaskWidget(
+            CompletedTaskWidget(
                 complTask,
                 colors,
                 heroTag: complTask,
