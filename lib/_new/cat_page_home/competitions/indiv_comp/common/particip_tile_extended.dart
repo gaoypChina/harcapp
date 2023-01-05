@@ -160,128 +160,140 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
                     title: 'Zrealizowane zadania',
                     particip: particip,
                     acceptState: TaskAcceptState.ACCEPTED,
+
+                    initLoadedCompletedTasks: comp.getParticip(particip.key)!.profile.loadedCompletedTasks,
+                    onCompletedTasksPageLoaded: (completedTasksPage){
+                      comp.addCompletedTasksForParticip(particip.key, completedTasksPage);
+                    }
                   ));
                 }
             ),
 
-            const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
+            if(comp.myProfile?.role == CompRole.ADMIN)
+              Column(
+                children: [
 
-            ListTile(
-                leading: const SizedBox(width: Dimen.ICON_SIZE),
-                title: Text('Edytuj rolę uczestnika', style: AppTextStyle(color: hintEnab_(context))),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
-            ),
+                  const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
 
-            if(particip.profile.role != CompRole.OBSERVER)
-              ListTile(
-                enabled: !particip.shadow,
-                leading: Icon(compRoleToIcon[CompRole.OBSERVER]),
-                title: Text('Nadaj rolę uczestnika', style: AppTextStyle()),
-                trailing: IconButton(
-                  icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
-                  onPressed: () async {
-                    Navigator.pop(context);
-                    await UserListManagementLoadablePage.openPermissionsDialog(
-                      context: context,
-                      icon: compRoleToIcon[CompRole.OBSERVER]!,
-                      title: ParticipantsPage.obsHeaderTitle,
-                      permissions: ParticipantsPage.obsPersmissions,
-                    );
-                    openDetails();
-                  },
-                ),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
-                onTap: particip.shadow?null: () async {
-                  await showUpdateParticipDialog(
-                      CompRole.OBSERVER,
-                      particip.profile.active,
-                      onSuccess: (){
-                        if(particip.key == AccountData.key)
+                  ListTile(
+                    leading: const SizedBox(width: Dimen.ICON_SIZE),
+                    title: Text('Edytuj rolę uczestnika', style: AppTextStyle(color: hintEnab_(context))),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
+                  ),
+
+                  if(particip.profile.role != CompRole.OBSERVER)
+                    ListTile(
+                      enabled: !particip.shadow,
+                      leading: Icon(compRoleToIcon[CompRole.OBSERVER]),
+                      title: Text('Nadaj rolę uczestnika', style: AppTextStyle()),
+                      trailing: IconButton(
+                        icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
+                        onPressed: () async {
                           Navigator.pop(context);
-                      }
-                  );
+                          await UserListManagementLoadablePage.openPermissionsDialog(
+                            context: context,
+                            icon: compRoleToIcon[CompRole.OBSERVER]!,
+                            title: ParticipantsPage.obsHeaderTitle,
+                            permissions: ParticipantsPage.obsPersmissions,
+                          );
+                          openDetails();
+                        },
+                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
+                      onTap: particip.shadow?null: () async {
+                        await showUpdateParticipDialog(
+                            CompRole.OBSERVER,
+                            particip.profile.active,
+                            onSuccess: (){
+                              if(particip.key == AccountData.key)
+                                Navigator.pop(context);
+                            }
+                        );
 
-                  if(mounted) Navigator.pop(context);
+                        if(mounted) Navigator.pop(context);
 
-                },
-              ),
+                      },
+                    ),
 
-            if(particip.profile.role != CompRole.MODERATOR)
-              ListTile(
-                enabled: !particip.shadow,
-                leading: Icon(compRoleToIcon[CompRole.MODERATOR]),
-                title: Text('Nadaj rolę moderatora', style: AppTextStyle()),
-                trailing: IconButton(
-                  icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
-                  onPressed: () async {
-                    Navigator.pop(context);
-                    await UserListManagementLoadablePage.openPermissionsDialog(
-                      context: context,
-                      icon: compRoleToIcon[CompRole.MODERATOR]!,
-                      title: ParticipantsPage.moderatorsHeaderTitle,
-                      permissions: ParticipantsPage.moderatorPersmissions,
-                    );
-                    openDetails();
-                  },
-                ),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
-                onTap: particip.shadow?null: () async {
-                  await showUpdateParticipDialog(
-                      CompRole.MODERATOR,
-                      particip.profile.active,
-                      onSuccess: (){
-                        if(particip.key == AccountData.key)
+                  if(particip.profile.role != CompRole.MODERATOR)
+                    ListTile(
+                      enabled: !particip.shadow,
+                      leading: Icon(compRoleToIcon[CompRole.MODERATOR]),
+                      title: Text('Nadaj rolę moderatora', style: AppTextStyle()),
+                      trailing: IconButton(
+                        icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
+                        onPressed: () async {
                           Navigator.pop(context);
-                      }
-                  );
-                  if(mounted) Navigator.pop(context);
-                },
-              ),
+                          await UserListManagementLoadablePage.openPermissionsDialog(
+                            context: context,
+                            icon: compRoleToIcon[CompRole.MODERATOR]!,
+                            title: ParticipantsPage.moderatorsHeaderTitle,
+                            permissions: ParticipantsPage.moderatorPersmissions,
+                          );
+                          openDetails();
+                        },
+                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
+                      onTap: particip.shadow?null: () async {
+                        await showUpdateParticipDialog(
+                            CompRole.MODERATOR,
+                            particip.profile.active,
+                            onSuccess: (){
+                              if(particip.key == AccountData.key)
+                                Navigator.pop(context);
+                            }
+                        );
+                        if(mounted) Navigator.pop(context);
+                      },
+                    ),
 
-            if(particip.profile.role != CompRole.ADMIN)
-              ListTile(
-                enabled: !particip.shadow,
-                leading: Icon(compRoleToIcon[CompRole.ADMIN]),
-                title: Text('Nadaj rolę administratora', style: AppTextStyle()),
-                trailing: IconButton(
-                  icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
-                  onPressed: () async {
-                    Navigator.pop(context);
-                    await UserListManagementLoadablePage.openPermissionsDialog(
-                      context: context,
-                      icon: compRoleToIcon[CompRole.ADMIN]!,
-                      title: ParticipantsPage.adminsHeaderTitle,
-                      permissions: ParticipantsPage.adminPersmissions,
-                    );
-                    openDetails();
-                  },
-                ),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
-                onTap: particip.shadow?null: () async {
-                  await showUpdateParticipDialog(CompRole.ADMIN, particip.profile.active);
-                  if(mounted) Navigator.pop(context);
-                },
-              ),
+                  if(particip.profile.role != CompRole.ADMIN)
+                    ListTile(
+                      enabled: !particip.shadow,
+                      leading: Icon(compRoleToIcon[CompRole.ADMIN]),
+                      title: Text('Nadaj rolę administratora', style: AppTextStyle()),
+                      trailing: IconButton(
+                        icon: Icon(MdiIcons.informationOutline, color: iconEnab_(context)),
+                        onPressed: () async {
+                          Navigator.pop(context);
+                          await UserListManagementLoadablePage.openPermissionsDialog(
+                            context: context,
+                            icon: compRoleToIcon[CompRole.ADMIN]!,
+                            title: ParticipantsPage.adminsHeaderTitle,
+                            permissions: ParticipantsPage.adminPersmissions,
+                          );
+                          openDetails();
+                        },
+                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
+                      onTap: particip.shadow?null: () async {
+                        await showUpdateParticipDialog(CompRole.ADMIN, particip.profile.active);
+                        if(mounted) Navigator.pop(context);
+                      },
+                    ),
 
-            ListTile(
-              enabled: !particip.shadow,
-              leading: Icon(particip.profile.active?MdiIcons.coffeeOutline:MdiIcons.run),
-              title: Text(particip.profile.active?'Unieaktywnij uczestnika':'Włącz uczestnika', style: AppTextStyle()),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
-              onTap: particip.shadow?null: () async {
-                await showUpdateParticipDialog(particip.profile.role, !particip.profile.active);
-                if(mounted) Navigator.pop(context);
-              },
-            ),
+                  ListTile(
+                    enabled: !particip.shadow,
+                    leading: Icon(particip.profile.active?MdiIcons.coffeeOutline:MdiIcons.run),
+                    title: Text(particip.profile.active?'Unieaktywnij uczestnika':'Włącz uczestnika', style: AppTextStyle()),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
+                    onTap: particip.shadow?null: () async {
+                      await showUpdateParticipDialog(particip.profile.role, !particip.profile.active);
+                      if(mounted) Navigator.pop(context);
+                    },
+                  ),
 
-            const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
+                  const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
 
-            if(particip.key != AccountData.key)
-              ListTile(
-                  leading: const Icon(MdiIcons.logoutVariant, color: Colors.red),
-                  title: Text('Wyproś uczestnika', style: AppTextStyle(color: Colors.red)),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
-                  onTap: () => showRemoveParticipDialog()
+                  if(particip.key != AccountData.key)
+                    ListTile(
+                        leading: const Icon(MdiIcons.logoutVariant, color: Colors.red),
+                        title: Text('Wyproś uczestnika', style: AppTextStyle(color: Colors.red)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppCard.bigRadius)),
+                        onTap: () => showRemoveParticipDialog()
+                    ),
+
+                ],
               ),
 
           ],
@@ -294,7 +306,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
       context: context,
       isMe: particip.key == AccountData.key,
       loosingAdmin: newRole != CompRole.ADMIN,
-      currAdminCount: comp.particips.where((p) => p.profile.role == CompRole.ADMIN).length,
+      currAdminCount: comp.loadedParticips.where((p) => p.profile.role == CompRole.ADMIN).length,
       looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> współzawodnictwa <b>${comp.name}</b>?',
       handleUpdate: () async {
 
@@ -304,7 +316,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
             comp: comp,
             users: [ParticipBody(particip.key, newRole, newActive)],
             onSuccess: (List<IndivCompParticip> allParticips){
-              comp.updateParticips(allParticips, context: context);
+              comp.updateLoadedParticips(allParticips, context: context);
               Navigator.pop(context); // Close loading widget.
               Navigator.pop(context);
               onSuccess?.call();
@@ -337,7 +349,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
         context: context, 
         isMe: particip.key == AccountData.key, 
         loosingAdmin: particip.key == AccountData.key,
-        currAdminCount: comp.particips.where((p) => p.profile.role == CompRole.ADMIN).length,
+        currAdminCount: comp.loadedParticips.where((p) => p.profile.role == CompRole.ADMIN).length,
         removingUserTitleMess: 'Wypraszanie użytkownika...',
         removingUserDetailMess: '${particip.name} nie będzie mieć dłużej dostępu do współzawodnictwa.\n\nNa pewno chcesz ${particip.isMale?'go':'ją'} wyprosić?',
         handleRemove: () async {
@@ -347,7 +359,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
               compKey: comp.key,
               userKeys: [particip.key],
               onSuccess: (List<String> removedParticips) async {
-                comp.removeParticipsByKey(removedParticips, context: context);
+                comp.removeLoadedParticipsByKey(removedParticips, context: context);
 
                 if(!mounted) return;
                 showAppToast(context, text: 'Wyproszono');

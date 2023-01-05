@@ -87,11 +87,11 @@ class CompletedTaskReviewPageState extends State<CompletedTaskReviewPage>{
 
         Map<IndivCompParticip?, List<IndivCompCompletedTask>> complTaskMap = {};
 
-        for(IndivCompParticip? particip in comp.particips) {
+        for(IndivCompParticip? particip in comp.loadedParticips) {
           if(!complTaskMap.containsKey(particip))
             complTaskMap[particip] = [];
 
-          for(IndivCompCompletedTask complTask in particip!.profile.completedTasks)
+          for(IndivCompCompletedTask complTask in particip!.profile.loadedCompletedTasks)
             complTaskMap[particip]!.add(complTask);
         }
 

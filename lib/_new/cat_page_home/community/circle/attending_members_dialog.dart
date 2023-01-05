@@ -38,7 +38,7 @@ class AttendingMembersDialog extends StatelessWidget{
     List<Member> rejected = [];
     List<Member> noAnswer = [];
 
-    for(Member member in announcement.circle.members)
+    for(Member member in announcement.circle.loadedMembers)
       switch(announcement.attendance[member.key]?.response){
         case AnnouncementAttendance.ATTENDING:
           attending.add(member);

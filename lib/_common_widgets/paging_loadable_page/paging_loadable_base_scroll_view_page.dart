@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:harcapp/_common_widgets/app_custom_footer.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -22,9 +24,10 @@ class PagingLoadableBaseScrollViewPage extends StatefulWidget{
   final int totalItemsCount;
   final int loadedItemsCount;
 
-  final FutureOr<void> Function() callReload;
-  final FutureOr<bool> Function() callLoadMore;
+  final FutureOr<int> Function() callReload;
+  final FutureOr<int> Function() callLoadMore;
   final bool callLoadOnInit;
+  final bool loadMoreIfHeightNotExceeding;
 
   final Widget sliverBody;
   final Widget? bottomNavigationBar;
@@ -44,6 +47,7 @@ class PagingLoadableBaseScrollViewPage extends StatefulWidget{
     required this.callReload,
     required this.callLoadMore,
     required this.callLoadOnInit,
+    this.loadMoreIfHeightNotExceeding = true,
 
     required this.sliverBody,
     this.bottomNavigationBar,
@@ -69,9 +73,10 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
   int get totalItemsCount => widget.totalItemsCount;
   int get loadedItemsCount => widget.loadedItemsCount;
 
-  FutureOr<void> Function() get callReload => widget.callReload;
-  FutureOr<bool> Function() get callLoadMore => widget.callLoadMore;
+  FutureOr<int> Function() get callReload => widget.callReload;
+  FutureOr<int> Function() get callLoadMore => widget.callLoadMore;
   bool get callLoadOnInit => widget.callLoadOnInit;
+  bool get loadMoreIfHeightNotExceeding => widget.loadMoreIfHeightNotExceeding;
 
   Widget get sliverBody => widget.sliverBody;
   Widget? get bottomNavigationBar => widget.bottomNavigationBar;
@@ -79,6 +84,9 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
   late RefreshController refreshController;
 
   bool get moreToLoad => loadedItemsCount < totalItemsCount;
+
+  late GlobalKey outerScrollViewKey;
+  late GlobalKey innerScrollViewKey;
 
   @override
   void initState() {
@@ -88,11 +96,35 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
     );
     if(callLoadOnInit)
       onLoading();
+    else
+      post(() => handleOnExceedingHeightLoader(0));
+
+    outerScrollViewKey = GlobalKey();
+    innerScrollViewKey = GlobalKey();
 
     super.initState();
   }
 
-  void onLoading() async {
+  Future<void> handleOnExceedingHeightLoader(int allLoadedItems) async {
+
+    if(!loadMoreIfHeightNotExceeding)
+      return;
+
+    final outerBox = outerScrollViewKey.currentContext?.findRenderObject() as RenderBox;
+    double outerHeight = outerBox.size.height;
+
+    final innerBox = innerScrollViewKey.currentContext?.findRenderObject() as RenderSliver;
+    double innerHeight = innerBox.geometry!.maxPaintExtent;
+
+    if(allLoadedItems >= totalItemsCount)
+      return;
+
+    if(innerHeight < outerHeight)
+      await onLoading();
+
+  }
+
+  Future<void> onLoading() async {
 
     if(!moreToLoad) {
       refreshController.loadComplete();
@@ -105,7 +137,9 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
       return;
     }
 
-    bool success = await callLoadMore.call();
+    int loadedCompletedTasks = await callLoadMore.call();
+
+    await handleOnExceedingHeightLoader(loadedCompletedTasks);
 
     refreshController.loadComplete();
 
@@ -137,13 +171,16 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
             return;
           }
 
-          await callReload();
+          int allLoadedItems = await callReload();
+
+          await handleOnExceedingHeightLoader(allLoadedItems);
 
           refreshController.refreshCompleted();
 
         },
         onLoading: onLoading,
         child: CustomScrollView(
+          key: outerScrollViewKey,
           physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
           slivers: [
@@ -157,7 +194,12 @@ class PagingLoadableBaseScrollViewPageState extends State<PagingLoadableBaseScro
               backgroundColor: backgroundColor,
             ),
 
-            sliverBody,
+            Container(
+              key: innerScrollViewKey,
+              child: sliverBody,
+            )
+
+            //sliverBody,
             
           ],
         ),

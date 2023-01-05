@@ -27,7 +27,7 @@ class AddUserBottomSheet extends StatelessWidget{
     alreadyAddedMess: 'Już jest w kręgu',
     userAlreadyAddedMess: (name) => '$name już jest w kręgu!',
 
-    participatingUserKeys: forum.managersMap.keys.toList(),
+    participatingUserKeys: forum.loadedManagersMap.keys.toList(),
     backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
     handleAddingUser: (BuildContext context, UserDataNick userData) async {
 
@@ -37,7 +37,7 @@ class AddUserBottomSheet extends StatelessWidget{
           forumKey: forum.key,
           users: [ForumManagerRespBodyNick(userData.key, ForumRole.EDITOR, userData.nick)],
           onSuccess: (List<ForumManager> allManagers){
-            forum.setAllManagers(allManagers, context: context);
+            forum.setAllLoadedManagers(allManagers, context: context);
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
             showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}.');

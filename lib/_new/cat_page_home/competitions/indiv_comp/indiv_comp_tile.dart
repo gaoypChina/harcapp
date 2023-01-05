@@ -45,11 +45,11 @@ class IndivCompTile extends StatelessWidget{
 
     List<Widget> othParticipWidgets = [];
 
-    for(int i=0; i<comp.particips.length; i++){
-      String othParticip = comp.particips[i].name;
+    for(int i=0; i<comp.loadedParticips.length; i++){
+      String othParticip = comp.loadedParticips[i].name;
       othParticipWidgets.add(
           Text(
-              '$othParticip${i==comp.particips.length-1?'':', '}',
+              '$othParticip${i==comp.loadedParticips.length-1?'':', '}',
               style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_SMALL, color: hintEnab_(context)))
       );
     }

@@ -22,6 +22,9 @@ class ForumProvider extends ChangeNotifier{
 
 class ForumManagersProvider extends ChangeNotifier{
 
+  static ForumManagersProvider of(BuildContext context) => Provider.of<ForumManagersProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
+
   static final List<void Function()> _listeners = [];
 
   static void addOnNotifyListener(void Function() listener){
@@ -42,6 +45,9 @@ class ForumManagersProvider extends ChangeNotifier{
 
 class ForumFollowersProvider extends ChangeNotifier{
 
+  static ForumFollowersProvider of(BuildContext context) => Provider.of<ForumFollowersProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
+
   static final List<void Function()> _listeners = [];
 
   static void addOnNotifyListener(void Function() listener){
@@ -61,6 +67,9 @@ class ForumFollowersProvider extends ChangeNotifier{
 }
 
 class ForumLikesProvider extends ChangeNotifier{
+
+  static ForumLikesProvider of(BuildContext context) => Provider.of<ForumLikesProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
 
   static final List<void Function()> _listeners = [];
 
@@ -145,21 +154,21 @@ class Forum extends ForumBasicData{
 
   String colorsKey;
 
-  final List<UserData> _followers;
-  final Map<String, UserData> _followersMap;
-  List<UserData> get followers => _followers;
-  Map<String, UserData> get followersMap => _followersMap;
+  final List<UserData> _loadedFollowers;
+  final Map<String, UserData> _loadedFollowersMap;
+  List<UserData> get loadedFollowers => _loadedFollowers;
+  Map<String, UserData> get loadedFollowersMap => _loadedFollowersMap;
 
-  final List<UserData> _likes;
-  final Map<String, UserData> _likesMap;
-  List<UserData> get likes => _likes;
-  Map<String, UserData> get likesMap => _likesMap;
+  final List<UserData> _loadedLikes;
+  final Map<String, UserData> _loadedLikesMap;
+  List<UserData> get loadedLikes => _loadedLikes;
+  Map<String, UserData> get loadedLikesMap => _loadedLikesMap;
 
-  final List<ForumManager> _managers;
-  final Map<String, ForumManager> _managersMap;
-  List<ForumManager> get managers => _managers;
-  Map<String, ForumManager> get managersMap => _managersMap;
-  int managerCount;
+  final List<ForumManager> _loadedManagers;
+  final Map<String, ForumManager> _loadedManagersMap;
+  List<ForumManager> get loadedManagers => _loadedManagers;
+  Map<String, ForumManager> get loadedManagersMap => _loadedManagersMap;
+  int? managerCount;
 
   bool get hasDescription => description != null && description!.isNotEmpty;
 
@@ -180,165 +189,195 @@ class Forum extends ForumBasicData{
   void addLikes(List<UserData> newLikes, {BuildContext? context}){
 
     for(UserData user in newLikes) {
-      if(_likesMap.containsKey(user.key)) continue;
-      _likes.add(user);
-      _likesMap[user.key] = user;
+      if(_loadedLikesMap.containsKey(user.key)) continue;
+      _loadedLikes.add(user);
+      _loadedLikesMap[user.key] = user;
     }
 
     if(context == null) return;
-    Provider.of<ForumLikesProvider>(context, listen: false).notify();
-    Provider.of<ForumProvider>(context, listen: false).notify();
+    ForumLikesProvider.notify_(context);
+    ForumProvider.notify_(context);
 
   }
 
-  void setAllLikes(List<UserData> allLikes, {BuildContext? context}){
-    _likes.clear();
-    _likesMap.clear();
-    _likes.addAll(allLikes);
-    _likesMap.addAll({for (UserData? user in allLikes) user!.key: user});
+  void setAllLoadedLikes(List<UserData> allLikes, {BuildContext? context}){
+    _loadedLikes.clear();
+    _loadedLikesMap.clear();
+    _loadedLikes.addAll(allLikes);
+    _loadedLikesMap.addAll({for (UserData? user in allLikes) user!.key: user});
 
     if(context == null) return;
-    Provider.of<ForumLikesProvider>(context, listen: false).notify();
-    Provider.of<ForumProvider>(context, listen: false).notify();
+    ForumLikesProvider.notify_(context);
+    ForumProvider.notify_(context);
   }
 
-  void updateLikes(List<UserData> newLikes, {BuildContext? context}){
+  void updateLoadedLikes(List<UserData> newLikes, {BuildContext? context}){
 
     for(UserData user in newLikes) {
-      int index = _likes.indexWhere((userIter) => userIter.key == user.key);
-      _likes.removeAt(index);
-      _likes.insert(index, user);
-      _likesMap[user.key] = user;
+      int index = _loadedLikes.indexWhere((userIter) => userIter.key == user.key);
+      _loadedLikes.removeAt(index);
+      _loadedLikes.insert(index, user);
+      _loadedLikesMap[user.key] = user;
     }
 
     if(context == null) return;
-    Provider.of<ForumLikesProvider>(context, listen: false).notify();
-    Provider.of<ForumProvider>(context, listen: false).notify();
+    ForumLikesProvider.notify_(context);
+    ForumProvider.notify_(context);
   }
 
-  void removeLikesByKey(List<String> likeKeys, {BuildContext? context}){
+  void removeLoadedLikesByKey(List<String> likeKeys, {bool shrinkTotalCount=true, BuildContext? context}){
 
-    _likes.removeWhere((user) => likeKeys.contains(user.key));
-    for(String likesKey in likeKeys) _likesMap.remove(likesKey);
+    _loadedLikes.removeWhere((user) => likeKeys.contains(user.key));
+    for(String likesKey in likeKeys){
+      UserData? removed = _loadedLikesMap.remove(likesKey);
+      if(removed != null && shrinkTotalCount)
+        managerCount = managerCount! - 1;
+    }
 
     if(context == null) return;
-    Provider.of<ForumLikesProvider>(context, listen: false).notify();
-    Provider.of<ForumProvider>(context, listen: false).notify();
+    ForumLikesProvider.notify_(context);
+    ForumProvider.notify_(context);
   }
 
-  void removeLike(UserData likes){
-    _likes.remove(likes);
-    _likesMap.remove(likes.key);
+  void removeLoadedLike(UserData likes, {bool shrinkTotalCount=true}){
+    bool success = _loadedLikes.remove(likes);
+    UserData? removed = _loadedLikesMap.remove(likes.key);
+
+    if(success != (removed != null))
+      logger.d("A dangerous inconsistency between the objectList and the objectKeyMap occurred!");
+
+    if(success && removed != null && shrinkTotalCount)
+      managerCount = managerCount! - 1;
   }
 
 
-  void addFollowers(List<UserData> newFollowers, {BuildContext? context}){
+  void addLoadedFollowers(List<UserData> newFollowers, {BuildContext? context}){
 
     for(UserData user in newFollowers) {
-      if(_followersMap.containsKey(user.key)) continue;
-      _followers.add(user);
-      _followersMap[user.key] = user;
+      if(_loadedFollowersMap.containsKey(user.key)) continue;
+      _loadedFollowers.add(user);
+      _loadedFollowersMap[user.key] = user;
     }
 
     if(context == null) return;
-    Provider.of<ForumFollowersProvider>(context, listen: false).notify();
-    Provider.of<ForumProvider>(context, listen: false).notify();
+    ForumFollowersProvider.notify_(context);
+    ForumProvider.notify_(context);
 
   }
 
-  void setAllFollowers(List<UserData> allFollowers, {BuildContext? context}){
-    _followers.clear();
-    _followersMap.clear();
-    _followers.addAll(allFollowers);
-    _followersMap.addAll({for (UserData? user in allFollowers) user!.key: user});
+  void setAllLoadedFollowers(List<UserData> allFollowers, {BuildContext? context}){
+    _loadedFollowers.clear();
+    _loadedFollowersMap.clear();
+    _loadedFollowers.addAll(allFollowers);
+    _loadedFollowersMap.addAll({for (UserData? user in allFollowers) user!.key: user});
 
     if(context == null) return;
-    Provider.of<ForumFollowersProvider>(context, listen: false).notify();
-    Provider.of<ForumProvider>(context, listen: false).notify();
+    ForumFollowersProvider.notify_(context);
+    ForumProvider.notify_(context);
   }
 
-  void updateFollowers(List<UserData> newFollowers, {BuildContext? context}){
+  void updateLoadedFollowers(List<UserData> newFollowers, {BuildContext? context}){
 
     for(UserData user in newFollowers) {
-      int index = _followers.indexWhere((userIter) => userIter.key == user.key);
-      _followers.removeAt(index);
-      _followers.insert(index, user);
-      _followersMap[user.key] = user;
+      int index = _loadedFollowers.indexWhere((userIter) => userIter.key == user.key);
+      _loadedFollowers.removeAt(index);
+      _loadedFollowers.insert(index, user);
+      _loadedFollowersMap[user.key] = user;
     }
 
     if(context == null) return;
-    Provider.of<ForumFollowersProvider>(context, listen: false).notify();
-    Provider.of<ForumProvider>(context, listen: false).notify();
+    ForumFollowersProvider.notify_(context);
+    ForumProvider.notify_(context);
   }
 
-  void removeFollowersByKey(List<String> followerKeys, {BuildContext? context}){
+  void removeLoadedFollowersByKey(List<String> followerKeys, {bool shrinkTotalCount=true, BuildContext? context}){
 
-    _followers.removeWhere((user) => followerKeys.contains(user.key));
-    for(String followerKey in followerKeys) _followersMap.remove(followerKey);
+    _loadedFollowers.removeWhere((user) => followerKeys.contains(user.key));
+    for(String followerKey in followerKeys){
+      UserData? removed = _loadedFollowersMap.remove(followerKey);
+      if(removed != null && shrinkTotalCount)
+        managerCount = managerCount! - 1;
+    }
 
     if(context == null) return;
-    Provider.of<ForumFollowersProvider>(context, listen: false).notify();
-    Provider.of<ForumProvider>(context, listen: false).notify();
+    ForumFollowersProvider.notify_(context);
+    ForumProvider.notify_(context);
   }
 
-  void removeFollower(UserData follower){
-    _followers.remove(follower);
-    _followersMap.remove(follower.key);
+  void removeLoadedFollower(UserData follower, {bool shrinkTotalCount=true}){
+    bool success = _loadedFollowers.remove(follower);
+    UserData? removed = _loadedFollowersMap.remove(follower.key);
+
+    if(success != (removed != null))
+      logger.d("A dangerous inconsistency between the objectList and the objectKeyMap occurred!");
+
+    if(success && removed != null && shrinkTotalCount)
+      managerCount = managerCount! - 1;
   }
 
 
-  void addManagers(List<ForumManager> newManagers, {BuildContext? context}){
+  void addLoadedManagers(List<ForumManager> newManagers, {BuildContext? context}){
 
     for(ForumManager manager in newManagers) {
-      if(_managersMap.containsKey(manager.key)) continue;
-      _managers.add(manager);
-      _managersMap[manager.key] = manager;
+      if(_loadedManagersMap.containsKey(manager.key)) continue;
+      _loadedManagers.add(manager);
+      _loadedManagersMap[manager.key] = manager;
     }
 
     if(context == null) return;
-    Provider.of<ForumManagersProvider>(context, listen: false).notify();
-    Provider.of<ForumProvider>(context, listen: false).notify();
+    ForumManagersProvider.notify_(context);
+    ForumProvider.notify_(context);
 
   }
 
-  void setAllManagers(List<ForumManager> allManagers, {BuildContext? context}){
-    _managers.clear();
-    _managersMap.clear();
-    _managers.addAll(allManagers);
-    _managersMap.addAll({for (ForumManager? manager in allManagers) manager!.key: manager});
+  void setAllLoadedManagers(List<ForumManager> allManagers, {BuildContext? context}){
+    _loadedManagers.clear();
+    _loadedManagersMap.clear();
+    _loadedManagers.addAll(allManagers);
+    _loadedManagersMap.addAll({for (ForumManager? manager in allManagers) manager!.key: manager});
 
     if(context == null) return;
-    Provider.of<ForumManagersProvider>(context, listen: false).notify();
-    Provider.of<ForumProvider>(context, listen: false).notify();
+    ForumManagersProvider.notify_(context);
+    ForumProvider.notify_(context);
   }
 
-  void updateManagers(List<ForumManager> newManagers, {BuildContext? context}){
+  void updateLoadedManagers(List<ForumManager> newManagers, {BuildContext? context}){
 
     for(ForumManager manager in newManagers) {
-      int index = _managers.indexWhere((managerIter) => managerIter.key == manager.key);
-      _managers.removeAt(index);
-      _managers.insert(index, manager);
-      _managersMap[manager.key] = manager;
+      int index = _loadedManagers.indexWhere((managerIter) => managerIter.key == manager.key);
+      _loadedManagers.removeAt(index);
+      _loadedManagers.insert(index, manager);
+      _loadedManagersMap[manager.key] = manager;
     }
 
     if(context == null) return;
-    Provider.of<ForumManagersProvider>(context, listen: false).notify();
-    Provider.of<ForumProvider>(context, listen: false).notify();
+    ForumManagersProvider.notify_(context);
+    ForumProvider.notify_(context);
   }
 
-  void removeManagersByKey(List<String> managerKeys, {BuildContext? context}){
+  void removeLoadedManagersByKey(List<String> managerKeys, {bool shrinkTotalCount=true, BuildContext? context}){
 
-    _managers.removeWhere((manager) => managerKeys.contains(manager.key));
-    for(String managerKey in managerKeys) _managersMap.remove(managerKey);
+    _loadedManagers.removeWhere((manager) => managerKeys.contains(manager.key));
+    for(String managerKey in managerKeys){
+      ForumManager? removed = _loadedManagersMap.remove(managerKey);
+      if(removed != null && shrinkTotalCount)
+        managerCount = managerCount! - 1;
+    }
 
     if(context == null) return;
-    Provider.of<ForumManagersProvider>(context, listen: false).notify();
-    Provider.of<ForumProvider>(context, listen: false).notify();
+    ForumManagersProvider.notify_(context);
+    ForumProvider.notify_(context);
   }
 
-  void removeManager(ForumManager manager){
-    _managers.remove(manager);
-    _managersMap.remove(manager.key);
+  void removeLoadedManager(ForumManager manager, {bool shrinkTotalCount=true}){
+    bool success = _loadedManagers.remove(manager);
+    ForumManager? removed = _loadedManagersMap.remove(manager.key);
+
+    if(success != (removed != null))
+      logger.d("A dangerous inconsistency between the objectList and the objectKeyMap occurred!");
+
+    if(success && removed != null && shrinkTotalCount)
+      managerCount = managerCount! - 1;
   }
 
 
@@ -385,7 +424,7 @@ class Forum extends ForumBasicData{
       logger.w('Value of saved account data key is null. Are you logged in?');
       return null;
     }
-    ForumManager? me = _managersMap[accKey];
+    ForumManager? me = _loadedManagersMap[accKey];
 
     return me?.role;
   }
@@ -411,17 +450,17 @@ class Forum extends ForumBasicData{
 
     required super.community,
 
-  }): _likes = likes,
-      _likesMap = {for (UserData user in likes) user.key: user},
+  }): _loadedLikes = likes,
+      _loadedLikesMap = {for (UserData user in likes) user.key: user},
 
-      _followers = followers,
-      _followersMap = {for (UserData user in followers) user.key: user},
+      _loadedFollowers = followers,
+      _loadedFollowersMap = {for (UserData user in followers) user.key: user},
 
-      _managers = managers,
-      _managersMap = {for (ForumManager manager in managers) manager.key: manager},
+      _loadedManagers = managers,
+      _loadedManagersMap = {for (ForumManager manager in managers) manager.key: manager},
       _allPosts = allPosts
   {
-    _managers.sort((m1, m2) => m1.name.compareTo(m2.name));
+    _loadedManagers.sort((m1, m2) => m1.name.compareTo(m2.name));
     _postsMap = {for (Post post in _allPosts) post.key: post};
     _allPosts.sort((ann1, ann2) => ann1.publishTime.compareTo(ann2.publishTime));
   }
@@ -446,7 +485,7 @@ class Forum extends ForumBasicData{
       followersCnt: respMap['followersCount']??(throw InvalidResponseError('followersCount')),
 
       managers: (respMap['managers']??[]).map<ForumManager>((data) => ForumManager.fromRespMap(data)).toList(),
-      managerCount: respMap['managerCount']??(throw InvalidResponseError('managerCount')),
+      managerCount: respMap['managerCount'],
 
       allPosts: [],
 

@@ -286,13 +286,13 @@ class BindedIndivCompTile extends StatelessWidget{
     List<UserData> inCompNotInCircle = [];
 
     if(indivComp != null) {
-      for (IndivCompParticip particip in indivComp.particips) {
-        Member? member = circle.membersMap[particip.key];
+      for (IndivCompParticip particip in indivComp.loadedParticips) {
+        Member? member = circle.loadedMembersMap[particip.key];
         if (member == null)
           inCompNotInCircle.add(particip.toUserData());
       }
 
-      for (Member member in circle.members) {
+      for (Member member in circle.loadedMembers) {
         IndivCompParticip? particip = indivComp.getParticip(member.key);
         if (particip == null)
           inCircleNotInComp.add(member.toUserData());

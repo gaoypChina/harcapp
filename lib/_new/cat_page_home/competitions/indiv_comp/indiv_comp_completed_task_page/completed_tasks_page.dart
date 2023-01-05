@@ -9,32 +9,42 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_s
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../models/indiv_comp_task.dart';
 import 'completed_task_widget.dart';
 
 class CompletedTasksPage extends StatefulWidget{
 
   final IndivComp comp;
   final IndivCompParticip? particip;
+  final IndivCompTask? task;
   final TaskAcceptState? acceptState;
-  final bool detailed;
 
   final String title;
 
+  final List<IndivCompCompletedTask>? initLoadedCompletedTasks;
+
+  final void Function(List<IndivCompCompletedTask>)? onCompletedTasksRefreshed;
+  final void Function(List<IndivCompCompletedTask>)? onCompletedTasksPageLoaded;
   final void Function(IndivCompCompletedTask)? onCompletedTaskRemoved;
+
   final void Function(IndivCompParticip, IndivCompCompletedTask)? onAccepted;
   final void Function(IndivCompParticip, IndivCompCompletedTask)? onRejected;
 
   const CompletedTasksPage(
       this.comp,
       { this.particip,
+        this.task,
         this.acceptState,
-        this.detailed = false,
 
         required this.title,
 
+        this.initLoadedCompletedTasks,
+
+        this.onCompletedTasksRefreshed,
+        this.onCompletedTasksPageLoaded,
         this.onCompletedTaskRemoved,
+
         this.onAccepted,
         this.onRejected,
 
@@ -50,18 +60,20 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
 
   IndivComp get comp => widget.comp;
   IndivCompParticip? get particip => widget.particip;
+  IndivCompTask? get task => widget.task;
   TaskAcceptState? get acceptState => widget.acceptState;
-  bool get detailed => widget.detailed;
 
   String get title => widget.title;
 
+  late List<IndivCompCompletedTask> loadedCompletedTasks;
+  List<IndivCompCompletedTask>? get initLoadedCompletedTasks => widget.initLoadedCompletedTasks;
+
+  void Function(List<IndivCompCompletedTask>)? get onCompletedTasksRefreshed => widget.onCompletedTasksRefreshed;
+  void Function(List<IndivCompCompletedTask>)? get onCompletedTasksPageLoaded => widget.onCompletedTasksPageLoaded;
   void Function(IndivCompCompletedTask)? get onCompletedTaskRemoved => widget.onCompletedTaskRemoved;
+
   void Function(IndivCompParticip, IndivCompCompletedTask)? get onAccepted => widget.onAccepted;
   void Function(IndivCompParticip, IndivCompCompletedTask)? get onRejected => widget.onRejected;
-
-  late RefreshController refreshController;
-
-  late List<IndivCompCompletedTask> loadedCompletedTasks;
 
   int get totalCount{
 
@@ -99,13 +111,17 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
 
   }
 
-  bool get moreToLoad =>
-    totalCount == loadedCompletedTasks.length;
+  bool get moreToLoad => loadedCompletedTasks.length < totalCount;
+
+  bool get callLoadOnInit => loadedCompletedTasks.isEmpty;
 
   @override
   void initState() {
-    refreshController = RefreshController();
+
     loadedCompletedTasks = [];
+    if(initLoadedCompletedTasks != null)
+      loadedCompletedTasks.addAll(initLoadedCompletedTasks!);
+
     super.initState();
   }
 
@@ -115,18 +131,19 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
       loadingIndicatorColor: comp.colors.avgColor,
       totalItemsCount: totalCount,
       loadedItemsCount: loadedCompletedTasks.length,
-      callReload: ()async{
-
+      callReload: () async {
         await ApiIndivComp.getCompletedTasks(
           comp: comp,
           participKey: particip?.key,
+          taskKey: task?.key,
           pageSize: IndivCompCompletedTask.pageSize,
-          lastReqTime: loadedCompletedTasks.isEmpty?null:loadedCompletedTasks.last.reqTime,
+          lastReqTime: null,
           acceptState: acceptState,
           onSuccess: (completedTasksPage){
+            onCompletedTasksRefreshed?.call(completedTasksPage);
             loadedCompletedTasks.clear();
             loadedCompletedTasks.addAll(completedTasksPage);
-            setState((){});
+            if(mounted) setState((){});
           },
           onForceLoggedOut: (){
             if(!mounted) return true;
@@ -144,21 +161,20 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
             showAppToast(context, text: simpleErrorMessage);
           },
         );
-
+        return loadedCompletedTasks.length;
       },
       callLoadMore: () async {
-
-        bool success = false;
         await ApiIndivComp.getCompletedTasks(
           comp: comp,
           participKey: particip?.key,
+          taskKey: task?.key,
           pageSize: IndivCompCompletedTask.pageSize,
           lastReqTime: loadedCompletedTasks.isEmpty?null:loadedCompletedTasks.last.reqTime,
           acceptState: acceptState,
           onSuccess: (completedTasksPage){
+            onCompletedTasksPageLoaded?.call(completedTasksPage);
             loadedCompletedTasks.addAll(completedTasksPage);
-            setState((){});
-            success = true;
+            if(mounted) setState((){});
           },
           onForceLoggedOut: (){
             if(!mounted) return true;
@@ -176,17 +192,10 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
             showAppToast(context, text: simpleErrorMessage);
           },
         );
-
-        return success;
+        return loadedCompletedTasks.length;
       },
-      callLoadOnInit: true,
-      loadedItemBuilder: (index) =>
-      detailed?
-      CompletedTaskDetailsWidget(
-        comp,
-        loadedCompletedTasks[index]
-      ):
-      CompletedTaskWidget(
+      callLoadOnInit: callLoadOnInit,
+      loadedItemBuilder: (index) => CompletedTaskWidget(
           loadedCompletedTasks[index],
           comp.colors,
           preview: true,
@@ -194,11 +203,17 @@ class CompletedTasksPageState extends State<CompletedTasksPage>{
             IndivCompCompletedTask complTask = loadedCompletedTasks.removeAt(index);
             onCompletedTaskRemoved?.call(complTask);
             if (loadedCompletedTasks.isEmpty) {
-              Navigator.pop(context);
+              if(mounted) Navigator.pop(context);
               return;
             }
             if (mounted) setState(() {});
-          }
+          },
+
+          onTap: () => openCompletedTaskDetailsWidget(
+            context,
+            comp,
+            loadedCompletedTasks[index],
+          )
       ),
       itemSeparatorHeight: Dimen.SIDE_MARG,
   );

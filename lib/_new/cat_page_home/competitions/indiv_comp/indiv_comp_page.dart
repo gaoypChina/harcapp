@@ -46,10 +46,8 @@ import 'indiv_comp_editor/common.dart';
 import 'indiv_comp_particip/participants_page.dart';
 import 'indiv_comp_completed_task_page/completed_tasks_page.dart';
 import 'indiv_comp_particip/participants_extended_page.dart';
-import 'indiv_comp_completed_task_page/pending_completed_task_page.dart';
 import 'indiv_comp_completed_task_page/indiv_comp_completed_task_request_widget.dart';
 import 'indiv_comp_task_widget.dart';
-import 'models/indiv_comp_profile.dart';
 import 'models/show_rank_data.dart';
 import 'models/indiv_comp.dart';
 import 'models/indiv_comp_particip.dart';
@@ -103,260 +101,262 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
     body: Consumer<IndivCompProvider>(
-        builder: (context, prov, child) => Stack(
-          children: [
+        builder: (context, indivCompProv, child) => SmartRefresher(
+            enablePullDown: true,
+            physics: const BouncingScrollPhysics(),
+            header: MaterialClassicHeader(color: comp.colors.avgColor),
+            controller: refreshController,
+            onRefresh: () async {
 
-            SmartRefresher(
-                enablePullDown: true,
-                physics: const BouncingScrollPhysics(),
-                header: MaterialClassicHeader(color: comp.colors.avgColor),
-                controller: refreshController,
-                onRefresh: () async {
+              LoginProvider loginProv = LoginProvider.of(context);
 
-                  if(!await isNetworkAvailable()){
+              if(!await isNetworkAvailable()){
+                if(!mounted) return;
+                showAppToast(context, text: 'Brak dostępu do Internetu');
+                refreshController.refreshCompleted();
+                return;
+              }
+
+              await ApiIndivComp.get(
+                  compKey: comp.key,
+                  onSuccess: (IndivComp updatedComp){
+                    comp.update(updatedComp);
+                    IndivComp.updateInAll(comp, context: mounted?context:null);
                     if(!mounted) return;
-                    showAppToast(context, text: 'Brak dostępu do Internetu');
-                    refreshController.refreshCompleted();
-                    return;
+                    setState(() {});
+                    showAppToast(context, text: 'Zaktualizowano');
+                  },
+                  onServerMaybeWakingUp: () {
+                    if(mounted) showServerWakingUpToast(context);
+                    return true;
+                  },
+                  onError: (){
+                    if(!mounted) return;
+                    showAppToast(context, text: simpleErrorMessage);
+
+                    if(!AccountData.loggedIn)
+                      loginProv.notify();
+                    Navigator.pop(context);
                   }
+              );
 
-                  await ApiIndivComp.get(
-                      compKey: comp.key,
-                      onSuccess: (IndivComp updatedComp){
-                        comp.update(updatedComp);
-                        IndivComp.updateInAll(comp, context: mounted?context:null);
-                        if(!mounted) return;
-                        setState(() {});
-                        showAppToast(context, text: 'Zaktualizowano');
-                      },
-                      onServerMaybeWakingUp: () {
-                        if(mounted) showServerWakingUpToast(context);
-                        return true;
-                      },
-                      onError: (){
-                        if(!mounted) return;
-                        showAppToast(context, text: simpleErrorMessage);
+              refreshController.refreshCompleted();
 
-                        if(!AccountData.loggedIn)
-                          Provider.of<LoginProvider>(context, listen: false).notify();
-                          Navigator.pop(context);
-                      }
-                  );
+            },
+            child: CustomScrollView(
+              physics: const BouncingScrollPhysics(),
+              slivers: [
 
-                  refreshController.refreshCompleted();
+                SliverAppBar(
+                  title: Text(comp.name),
+                  centerTitle: true,
+                  floating: true,
+                  actions: [
 
-                },
-                child: CustomScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  slivers: [
-
-                    SliverAppBar(
-                      title: Text(comp.name),
-                      centerTitle: true,
-                      floating: true,
-                      actions: [
-
-                        if(comp.myProfile?.role == CompRole.ADMIN)
-                          IconButton(
-                              icon: Icon(
-                                  comp.shareCodeSearchable?
-                                  ShareCodeDialog.iconOn:
-                                  ShareCodeDialog.iconOff,
-                              ),
-                              onPressed: () => openDialog(
-                                context: context,
-                                builder: (context) => ShareCodeDialog.from(
-                                  comp.shareCode!,
-                                  comp.shareCodeSearchable,
-                                  !changeShareCodeProcessing,
-                                  resetShareCode: () async {
-                                    await ApiIndivComp.resetShareCode(
-                                        compKey: comp.key,
-                                        onSuccess: (shareCode){
-                                          comp.shareCode = shareCode;
-                                          if(mounted) setState((){});
-                                        },
-                                        onServerMaybeWakingUp: () {
-                                          if(mounted) showServerWakingUpToast(context);
-                                          return true;
-                                        },
-                                        onError: (dynamic errData){
-                                          if(errData is Map && errData['errors'] != null && errData['errors']['shareCode'] == 'share_code_changed_too_soon')
-                                            if(mounted) showAppToast(context, text: 'Za często zmieniasz kod dostępu');
-                                        }
-                                    );
-                                    return comp.shareCode;
-                                  },
-                                  changeShareCodeSearchable: () async {
-                                    await ApiIndivComp.setShareCodeSearchable(
-                                        compKey: comp.key,
-                                        searchable: !comp.shareCodeSearchable,
-                                        onSuccess: (searchable){
-                                          comp.shareCodeSearchable = searchable;
-                                          if(!mounted) return;
-                                          setState((){});
-                                          showAppToast(
-                                              context,
-                                              text: searchable?
-                                              'Każdy może teraz dołączyć do kręgu znając kod dostępu':
-                                              'Dołączanie po kodzie dostępu wyłączone',
-                                              duration: searchable?const Duration(seconds: 5):const Duration(seconds: 3)
-                                          );
-                                        },
-                                        onServerMaybeWakingUp: () {
-                                          if(mounted) showServerWakingUpToast(context);
-                                          return true;
-                                        },
-                                        onError: (){
-                                          if(mounted) showAppToast(context, text: simpleErrorMessage);
-                                        }
-                                    );
-                                    return comp.shareCodeSearchable;
-                                  },
-                                  description: 'To, co widzisz, to <b>kod dostępu</b>.'
-                                      '\n\nPozwala on dołączyć do kręgu tym, którzy go znają.',
-                                  resetFrequencyDays: 2,
-                                ),
-                              )
+                    if(comp.myProfile?.role == CompRole.ADMIN)
+                      IconButton(
+                          icon: Icon(
+                            comp.shareCodeSearchable?
+                            ShareCodeDialog.iconOn:
+                            ShareCodeDialog.iconOff,
                           ),
-
-                        IconButton(
-                          icon: const Icon(MdiIcons.cogOutline),
-                          onPressed: comp.myProfile?.role == CompRole.ADMIN?(){
-
-                            IndivCompProvider indivCompProv = IndivCompProvider.of(context);
-                            IndivCompParticipsProvider indivCompParticipsProv = IndivCompParticipsProvider.of(context);
-                            IndivCompListProvider indivCompListProv = IndivCompListProvider.of(context);
-
-                            pushPage(
-                                context,
-                                builder: (context) => IndivCompEditorPage(
-                                  initComp: comp,
-                                  onSuccess: (IndivComp savedComp){
-
-                                    comp.update(savedComp);
-
-                                    indivCompProv.notify();
-                                    indivCompParticipsProv.notify();
-                                    indivCompListProv.notify();
-
-                                    if(!mounted) return;
-                                    setState(() {});
-
-                                    Navigator.pop(context);
-                                  },
-                                  onRemoved: (){
-                                    widget.onRemoved?.call();
-                                    if(mounted) Navigator.pop(context);
-                                  },
-                                )
-                            );
-
-                          }:() => showScrollBottomSheet(
-                              context: context,
-                              builder: (context) => BottomSheetDef(
-                                builder: (context) => LeaveNotAdminDialog(comp),
-                              )
-                          ),
-
-                        )
-
-                      ],
-                    ),
-
-                    if(comp.myProfile?.role == CompRole.ADMIN || comp.myProfile?.role == CompRole.MODERATOR)
-                      SliverPadding(
-                        padding: const EdgeInsets.all(Dimen.defMarg),
-                        sliver: FloatingContainer(
-                          builder: (context, _, __) => PendingWidget(
-                            comp,
-                            onAccepted: (IndivCompParticip particip, IndivCompCompletedTask complTask){
-                              comp.getParticip(particip.key)!.profile.completedTaskMap[complTask.key]!.acceptState = TaskAcceptState.ACCEPTED;
-                              setState(() {});
-                            },
-                            onRejected: (IndivCompParticip particip, IndivCompCompletedTask complTask){
-                              comp.getParticip(particip.key)!.profile.completedTaskMap[complTask.key]!.acceptState = TaskAcceptState.REJECTED;
-                              setState(() {});
-                            },
-                          ),
-                          height: PendingWidget.height,
-                          rebuild: true,
-                        ),
+                          onPressed: () => openDialog(
+                            context: context,
+                            builder: (context) => ShareCodeDialog.from(
+                              comp.shareCode!,
+                              comp.shareCodeSearchable,
+                              !changeShareCodeProcessing,
+                              resetShareCode: () async {
+                                await ApiIndivComp.resetShareCode(
+                                    compKey: comp.key,
+                                    onSuccess: (shareCode){
+                                      comp.shareCode = shareCode;
+                                      if(mounted) setState((){});
+                                    },
+                                    onServerMaybeWakingUp: () {
+                                      if(mounted) showServerWakingUpToast(context);
+                                      return true;
+                                    },
+                                    onError: (dynamic errData){
+                                      if(errData is Map && errData['errors'] != null && errData['errors']['shareCode'] == 'share_code_changed_too_soon')
+                                        if(mounted) showAppToast(context, text: 'Za często zmieniasz kod dostępu');
+                                    }
+                                );
+                                return comp.shareCode;
+                              },
+                              changeShareCodeSearchable: () async {
+                                await ApiIndivComp.setShareCodeSearchable(
+                                    compKey: comp.key,
+                                    searchable: !comp.shareCodeSearchable,
+                                    onSuccess: (searchable){
+                                      comp.shareCodeSearchable = searchable;
+                                      if(!mounted) return;
+                                      setState((){});
+                                      showAppToast(
+                                          context,
+                                          text: searchable?
+                                          'Każdy może teraz dołączyć do kręgu znając kod dostępu':
+                                          'Dołączanie po kodzie dostępu wyłączone',
+                                          duration: searchable?const Duration(seconds: 5):const Duration(seconds: 3)
+                                      );
+                                    },
+                                    onServerMaybeWakingUp: () {
+                                      if(mounted) showServerWakingUpToast(context);
+                                      return true;
+                                    },
+                                    onError: (){
+                                      if(mounted) showAppToast(context, text: simpleErrorMessage);
+                                    }
+                                );
+                                return comp.shareCodeSearchable;
+                              },
+                              description: 'To, co widzisz, to <b>kod dostępu</b>.'
+                                  '\n\nPozwala on dołączyć do kręgu tym, którzy go znają.',
+                              resetFrequencyDays: 2,
+                            ),
+                          )
                       ),
 
-                    SliverList(delegate: SliverChildListDelegate([
+                    IconButton(
+                      icon: const Icon(MdiIcons.cogOutline),
+                      onPressed: comp.myProfile?.role == CompRole.ADMIN?(){
 
-                      Padding(
-                        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                        child: CompHeaderWidget(comp),
+                        IndivCompProvider indivCompProv = IndivCompProvider.of(context);
+                        IndivCompParticipsProvider indivCompParticipsProv = IndivCompParticipsProvider.of(context);
+                        IndivCompListProvider indivCompListProv = IndivCompListProvider.of(context);
+
+                        pushPage(
+                            context,
+                            builder: (context) => IndivCompEditorPage(
+                              initComp: comp,
+                              onSuccess: (IndivComp savedComp){
+
+                                comp.update(savedComp);
+
+                                indivCompProv.notify();
+                                indivCompParticipsProv.notify();
+                                indivCompListProv.notify();
+
+                                if(!mounted) return;
+                                setState(() {});
+
+                                Navigator.pop(context);
+                              },
+                              onRemoved: (){
+                                widget.onRemoved?.call();
+                                if(mounted) Navigator.pop(context);
+                              },
+                            )
+                        );
+
+                      }:() => showScrollBottomSheet(
+                          context: context,
+                          builder: (context) => BottomSheetDef(
+                            builder: (context) => LeaveNotAdminDialog(comp),
+                          )
                       ),
 
-                      Padding(
-                        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                        child: DateWidget(comp),
-                      ),
-
-                      ParticipantsWidget(
-                        comp,
-                        padding: const EdgeInsets.only(
-                            top: Dimen.SIDE_MARG,
-                            left: Dimen.SIDE_MARG,
-                            right: Dimen.SIDE_MARG
-                        ),
-                      ),
-
-                      const SizedBox(height: Dimen.SIDE_MARG),
-
-                      TaskListWidget(
-                        comp,
-                        onReqSent: (List<IndivCompCompletedTask> taskComplList){
-                          IndivCompCompletedTask taskCompl = taskComplList[0];
-                          comp.myProfile?.addCompletedTask(taskCompl);
-                          Provider.of<IndivCompProvider>(context, listen: false).notify();
-                          setState(() {});
-                        },
-                        onGranted: (List<IndivCompCompletedTask> taskComplList, Map<String, ShowRankData> idRank){
-
-                          for(IndivCompCompletedTask taskCompl in taskComplList) {
-                            comp.getParticip(taskCompl.participKey)?.profile.addCompletedTask(taskCompl);
-                            comp.addPoints(taskCompl.participKey, taskCompl.points);
-                          }
-
-                          comp.handleRanks(idRank);
-                          Provider.of<IndivCompProvider>(context, listen: false).notify();
-                          setState(() {});
-                        },
-                      ),
-
-                      if(comp.awards.isNotEmpty)
-                        const SizedBox(height: Dimen.SIDE_MARG),
-
-                      if(comp.awards.isNotEmpty)
-                        AwardsWidget(comp, padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG)),
-
-                      const SizedBox(height: Dimen.SIDE_MARG),
-
-                      if(comp.bindedCircle != null)
-                        Padding(
-                          padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
-                          child: AppText(
-                            'Współzawodnictwo jest powiązane z kręgiem <b>${comp.bindedCircle!.name}</b>',
-                            size: Dimen.TEXT_SIZE_BIG,
-                            color: hintEnab_(context),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-
-                      if(comp.bindedCircle != null)
-                        const SizedBox(height: Dimen.SIDE_MARG),
-
-                    ]))
+                    )
 
                   ],
-                )),
+                ),
 
-          ],
-        )),
+                if(comp.myProfile?.role == CompRole.ADMIN || comp.myProfile?.role == CompRole.MODERATOR)
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      top: Dimen.SIDE_MARG,
+                      left: Dimen.SIDE_MARG,
+                      right: Dimen.SIDE_MARG,
+                    ),
+                    sliver: FloatingContainer(
+                      builder: (context, _, __) => PendingCompletedTasksReviewWidget(
+                        comp,
+                        onAccepted: (IndivCompParticip particip, IndivCompCompletedTask complTask){
+                          comp.getParticip(particip.key)!.profile.loadedCompletedTaskMap[complTask.key]!.acceptState = TaskAcceptState.ACCEPTED;
+                          setState(() {});
+                        },
+                        onRejected: (IndivCompParticip particip, IndivCompCompletedTask complTask){
+                          comp.getParticip(particip.key)!.profile.loadedCompletedTaskMap[complTask.key]!.acceptState = TaskAcceptState.REJECTED;
+                          setState(() {});
+                        },
+                      ),
+                      height: PendingCompletedTasksReviewWidget.height,
+                      rebuild: true,
+                    ),
+                  ),
+
+                SliverList(delegate: SliverChildListDelegate([
+
+                  Padding(
+                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                    child: CompHeaderWidget(comp),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                    child: DateWidget(comp),
+                  ),
+
+                  ParticipantsWidget(
+                    comp,
+                    padding: const EdgeInsets.only(
+                        top: Dimen.SIDE_MARG,
+                        left: Dimen.SIDE_MARG,
+                        right: Dimen.SIDE_MARG
+                    ),
+                  ),
+
+                  const SizedBox(height: Dimen.SIDE_MARG),
+
+                  TaskListWidget(
+                    comp,
+                    onReqSent: (List<IndivCompCompletedTask> complTasks){
+                      IndivCompCompletedTask complTask = complTasks[0];
+                      comp.myProfile!.addLoadedCompletedTask(complTask);
+                      comp.myProfile!.addLoadedPendingCompletedTask(complTask);
+                      indivCompProv.notify();
+                      setState(() {});
+                    },
+                    onGranted: (List<IndivCompCompletedTask> complTasks, Map<String, ShowRankData> idRank){
+
+                      for(IndivCompCompletedTask complTask in complTasks) {
+                        comp.getParticip(complTask.participKey)?.profile.addLoadedCompletedTask(complTask);
+                        comp.addPoints(complTask.participKey, complTask.points);
+                      }
+
+                      comp.handleRanks(idRank);
+                      indivCompProv.notify();
+                      setState(() {});
+                    },
+                  ),
+
+                  if(comp.awards.isNotEmpty)
+                    const SizedBox(height: Dimen.SIDE_MARG),
+
+                  if(comp.awards.isNotEmpty)
+                    AwardsWidget(comp, padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG)),
+
+                  const SizedBox(height: Dimen.SIDE_MARG),
+
+                  if(comp.bindedCircle != null)
+                    Padding(
+                      padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+                      child: AppText(
+                        'Współzawodnictwo jest powiązane z kręgiem <b>${comp.bindedCircle!.name}</b>',
+                        size: Dimen.TEXT_SIZE_BIG,
+                        color: hintEnab_(context),
+                        textAlign: TextAlign.center,
+                        height: 1.2,
+                      ),
+                    ),
+
+                  if(comp.bindedCircle != null)
+                    const SizedBox(height: Dimen.SIDE_MARG),
+
+                ]))
+
+              ],
+            ))),
   );
 
 }
@@ -572,68 +572,64 @@ class AwardsWidget extends StatelessWidget{
 
 }
 
-class PendingWidget extends StatelessWidget{
+class PendingCompletedTasksReviewWidget extends StatelessWidget{
 
   final IndivComp comp;
   final void Function(IndivCompParticip, IndivCompCompletedTask)? onAccepted;
   final void Function(IndivCompParticip, IndivCompCompletedTask)? onRejected;
 
-  const PendingWidget(this.comp, {this.onAccepted, this.onRejected, super.key});
+  const PendingCompletedTasksReviewWidget(this.comp, {this.onAccepted, this.onRejected, super.key});
 
-  static double get height =>
-      Dimen.ICON_FOOTPRINT +
-          2*AppCard.defPaddingVal;
+  static double get height => Dimen.ICON_FOOTPRINT + 2*AppCard.defPaddingVal;
 
   @override
   Widget build(BuildContext context) => Consumer<ComplTasksProvider>(
-      builder: (context, prov, child){
+      builder: (context, prov, child) => GradientWidget(
+        elevation: AppCard.bigElevation,
+        radius: AppCard.bigRadius,
+        colorStart: comp.colors.colorStart,
+        colorEnd: comp.colors.colorEnd,
+        child: InkWell(
+          onTap: () async {
 
-        return GradientWidget(
-          elevation: AppCard.bigElevation,
-          radius: AppCard.bigRadius,
-          colorStart: comp.colors.colorStart,
-          colorEnd: comp.colors.colorEnd,
-          child: InkWell(
-            onTap: () async {
+            if(!await isNetworkAvailable()){
+              showAppToast(context, text: 'Brak dostępu do Internetu');
+              return;
+            }
 
-              if(!await isNetworkAvailable()){
-                showAppToast(context, text: 'Brak dostępu do Internetu');
-                return;
-              }
+            pushPage(context, builder: (context) => CompletedTasksReviewPage(
+              comp,
 
-              pushPage(context, builder: (context) => CompletedTasksReviewPage(
-                comp,
-                // title: 'Wnioski o punkty',
-                // acceptState: TaskAcceptState.PENDING,
-                // detailed: true,
+              onRejected: onRejected,
+              onAccepted: onAccepted,
+            ));
 
-                onRejected: onRejected,
-                onAccepted: onAccepted,
-              ));
-
-              // pushPage(context, builder: (context) => IndivCompCompletedTaskReviewPage(
-              //   comp,
-              //   onRejected: onRejected,
-              //   onAccepted: onAccepted,
-              // ));
-            },
-            child: TitleShortcutRowWidget(
-              leading: Padding(
-                padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.defPaddingVal),
-                child: Icon(MdiIcons.cube, color: background_(context)),
-              ),
-              title: '${comp.completedTasksPendingCount==0?'':'(${comp.completedTasksPendingCount}) '}Wnioski o punkty',
-              titleColor: background_(context),
-              trailing: IconButton(
-                  padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.defPaddingVal),
-                  icon: Icon(MdiIcons.arrowRight, color: background_(context)),
-                  onPressed: null
+          },
+          child: TitleShortcutRowWidget(
+            leading: Padding(
+              padding: const EdgeInsets.only(left: Dimen.ICON_MARG + AppCard.defPaddingVal),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(MdiIcons.cube, color: background_(context)),
+                  if((comp.completedTasksPendingCount??0) > 0)
+                    Text(
+                      '${comp.completedTasksPendingCount}',
+                      style: AppTextStyle(color: background_(context), fontWeight: weight.bold),
+                    )
+                ],
               ),
             ),
+            title: 'Wnioski o punkty',
+            titleColor: background_(context),
+            trailing: IconButton(
+                padding: const EdgeInsets.all(Dimen.ICON_MARG + AppCard.defPaddingVal),
+                icon: Icon(MdiIcons.arrowRight, color: background_(context)),
+                onPressed: null
+            ),
           ),
-        );
-
-      }
+        ),
+      )
   );
 
 }
@@ -642,18 +638,18 @@ class TaskWidget extends StatelessWidget{
 
   final IndivComp comp;
   final IndivCompTask task;
-  final List<IndivCompCompletedTask>? pendingTasks;
   final void Function(List<IndivCompCompletedTask>)? onReqSent;
   final void Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? onSelfGranted;
 
   const TaskWidget(
       this.comp,
       this.task,
-      this.pendingTasks,
       { this.onReqSent,
         this.onSelfGranted,
         Key? key
       }) : super(key: key);
+
+  int? get completedTasksPendingCount => comp.myProfile!.completedTasksPendingCount;
 
   @override
   Widget build(BuildContext context) => IndivCompTaskWidget(
@@ -666,7 +662,7 @@ class TaskWidget extends StatelessWidget{
         Expanded(
           child: SimpleButton.from(
               textColor:
-              pendingTasks == null || pendingTasks!.isEmpty?
+              comp.myProfile?.pendingTasksCount[task.key] == null || comp.myProfile?.pendingTasksCount[task.key] == 0?
               iconDisab_(context):
               iconEnab_(context),
 
@@ -674,25 +670,47 @@ class TaskWidget extends StatelessWidget{
               icon: MdiIcons.clockOutline,
 
               text:
-              pendingTasks == null || pendingTasks!.isNotEmpty?
-              '${pendingTasks?.length??0}':
-              null,
-
+              comp.myProfile?.pendingTasksCount[task.key] == null || comp.myProfile?.pendingTasksCount[task.key] == 0?
+              null:
+              '${comp.myProfile?.pendingTasksCount[task.key]??0}',
               onTap:
-              pendingTasks == null || pendingTasks!.isEmpty?
-              null: () => openDialog(
-                  context: context,
-                  builder: (context) => PendingCompletedTasksPage(
+              comp.myProfile?.pendingTasksCount[task.key] == null || comp.myProfile?.pendingTasksCount[task.key] == 0?
+              null:
+              () => pushPage(
+                context,
+                builder: (context) => CompletedTasksPage(
                     comp,
-                    pendingTasks,
-                    onRemoved: (complTask){
-                      IndivCompProfile? myProfile = comp.myProfile;
-                      if(myProfile == null) return;
-                      myProfile.completedTasks.remove(complTask);
-                      Provider.of<IndivCompProvider>(context, listen: false).notify();
+                    particip: comp.getParticip(AccountData.key!),
+                    task: task,
+                    acceptState: TaskAcceptState.PENDING,
+                    title: 'Prośby o zaliczenie',
+                    initLoadedCompletedTasks: comp.myProfile!.loadedPendingTasks[task.key],
+                    onCompletedTasksRefreshed: (completedTasksPage) =>
+                        comp.myProfile!.setAllLoadedPendingCompletedTasks(completedTasksPage),
+                    onCompletedTasksPageLoaded: (completedTasksPage) =>
+                        comp.myProfile!.addLoadedPendingCompletedTasks(completedTasksPage),
+                    onCompletedTaskRemoved: (completedTask){
+                        comp.myProfile!.removeLoadedPendingCompletedTaskByKey(completedTask.key);
+                        comp.myProfile!.removeCompletedTaskByKey(completedTask.key);
+                        IndivCompProvider.notify_(context);
                     },
-                  )
+                ),
               )
+
+              //     openDialog(
+              //     context: context,
+              //     builder: (context) => PendingCompletedTasksPage(
+              //       comp,
+              //       pendingTasks,
+              //       onRemoved: (complTask){
+              //         IndivCompProfile? myProfile = comp.myProfile;
+              //         if(myProfile == null) return;
+              //         myProfile.completedTasks.remove(complTask);
+              //         Provider.of<IndivCompProvider>(context, listen: false).notify();
+              //       },
+              //     )
+              // )
+
           ),
         ),
 
@@ -758,15 +776,14 @@ class TaskListWidget extends StatelessWidget{
 
     List<Widget> children = [];
 
-    Map<String, List<IndivCompCompletedTask>> pendingComplTasksMap = {};
-    for(IndivCompCompletedTask complTask in comp.myProfile?.completedTasks??[]){
-      if(pendingComplTasksMap[complTask.task.key] == null)
-        pendingComplTasksMap[complTask.task.key] = [];
-
-      if(complTask.acceptState == TaskAcceptState.PENDING)
-        pendingComplTasksMap[complTask.task.key]!.add(complTask);
-    }
-
+    // Map<String, List<IndivCompCompletedTask>> pendingComplTasksMap = {};
+    // for(IndivCompCompletedTask complTask in comp.myProfile?.completedTasks??[]){
+    //   if(pendingComplTasksMap[complTask.task.key] == null)
+    //     pendingComplTasksMap[complTask.task.key] = [];
+    //
+    //   if(complTask.acceptState == TaskAcceptState.PENDING)
+    //     pendingComplTasksMap[complTask.task.key]!.add(complTask);
+    // }
 
     for(int i=0; i<comp.tasks.length; i++) {
       IndivCompTask task = comp.tasks[i];
@@ -775,13 +792,12 @@ class TaskListWidget extends StatelessWidget{
         continue;
 
       children.add(
-          TaskWidget(
-              comp,
-              task,
-              pendingComplTasksMap[task.key],
-              onReqSent: onReqSent,
-              onSelfGranted: onGranted,
-          )
+        TaskWidget(
+          comp,
+          task,
+          onReqSent: onReqSent,
+          onSelfGranted: onGranted,
+        )
       );
 
       if(i < comp.tasks.length-1)
@@ -834,14 +850,14 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
     await ApiIndivComp.getParticipants(
       comp: comp,
       pageSize: IndivComp.participsPageSize,
-      lastRole: comp.particips.length==1?null:comp.particips.last.profile.role,
-      lastUserName: comp.particips.length==1?null:comp.particips.last.name,
-      lastUserKey: comp.particips.length==1?null:comp.particips.last.key,
+      lastRole: comp.loadedParticips.length==1?null:comp.loadedParticips.last.profile.role,
+      lastUserName: comp.loadedParticips.length==1?null:comp.loadedParticips.last.name,
+      lastUserKey: comp.loadedParticips.length==1?null:comp.loadedParticips.last.key,
       onSuccess: (participsPage){
         IndivCompParticip me = comp.getParticip(AccountData.key!)!;
         participsPage.removeWhere((member) => member.key == me.key);
         participsPage.insert(0, me);
-        comp.addParticips(participsPage, context: context);
+        comp.addLoadedParticips(participsPage, context: context);
         setState((){});
       },
       onForceLoggedOut: (){
@@ -867,7 +883,7 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
 
   @override
   void initState() {
-    isLoading = comp.particips.length == 1;
+    isLoading = comp.loadedParticips.length == 1;
     if(isLoading) loadMoreMembers();
     super.initState();
   }
@@ -880,13 +896,13 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
 
         Expanded(
           child: AccountThumbnailLoadableRowWidget(
-            comp.particips.map((particip) => particip.name).toList(),
-            heroBuilder: (index) => comp.particips[index],
+            comp.loadedParticips.map((particip) => particip.name).toList(),
+            heroBuilder: (index) => comp.loadedParticips[index],
             onTap: () => ParticipantsWidget.onTap(comp, context),
 
             onLoadMore: () => loadMoreMembers(),
             isLoading: isLoading,
-            isMoreToLoad: comp.particips.length < comp.participCount,
+            isMoreToLoad: comp.loadedParticips.length < comp.participCount,
           ),
         ),
 

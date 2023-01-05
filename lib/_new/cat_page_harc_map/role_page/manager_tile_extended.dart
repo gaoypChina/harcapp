@@ -163,7 +163,7 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
         context: context,
         isMe: manager.key == AccountData.key,
         loosingAdmin: newRole != MarkerRole.ADMIN,
-        currAdminCount: marker.managers.where((m) => m.role == MarkerRole.ADMIN).length,
+        currAdminCount: marker.loadedManagers.where((m) => m.role == MarkerRole.ADMIN).length,
         looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> miejsca <b>${marker.name}</b>?',
         handleUpdate: () async {
 
@@ -173,7 +173,7 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
               markerKey: marker.key,
               users: [MarkerManagerUpdateBody(manager.key, role: Optional.of(newRole))],
               onSuccess: (List<MarkerManager> allManagers){
-                marker.updateManagers(allManagers, context: context);
+                marker.updateLoadedManagers(allManagers, context: context);
                 onSuccess?.call();
 
                 if(!mounted) return;
@@ -201,7 +201,7 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
         context: context,
         isMe: manager.key == AccountData.key,
         loosingAdmin: manager.key == AccountData.key,
-        currAdminCount: marker.managers.where((m) => m.role == MarkerRole.ADMIN).length,
+        currAdminCount: marker.loadedManagers.where((m) => m.role == MarkerRole.ADMIN).length,
         removingUserTitleMess: 'Wypraszanie ogarniacza...',
         removingUserDetailMess: '${manager.name} nie będzie mieć dłużej dostępu do zarządzania miejscem.\n\nNa pewno chcesz ${manager.isMale?'go':'ją'} wyprosić?',
         handleRemove: () async {
@@ -211,7 +211,7 @@ class MarkerManagerTileExtendedState extends State<MarkerManagerTileExtended>{
               markerKey: marker.key,
               userKeys: [manager.key],
               onSuccess: (List<String> removedManagers) async {
-                marker.removeManagersByKey(removedManagers, context: context);
+                marker.removeLoadedManagersByKey(removedManagers, context: context);
                 onSuccess?.call();
 
                 if(!mounted) return;

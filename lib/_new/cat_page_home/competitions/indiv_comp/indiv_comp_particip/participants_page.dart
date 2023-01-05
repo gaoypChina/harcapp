@@ -67,7 +67,7 @@ class ParticipantsPage extends StatefulWidget{
 class ParticipantsPageState extends State<ParticipantsPage>{
 
   IndivComp get comp => widget.comp;
-  List<IndivCompParticip> get particips => comp.particips;
+  List<IndivCompParticip> get particips => comp.loadedParticips;
 
   List<IndivCompParticip> participAdmins = [];
   List<IndivCompParticip> participModerators = [];
@@ -144,7 +144,7 @@ class ParticipantsPageState extends State<ParticipantsPage>{
                 IndivCompParticip me = comp.getParticip(AccountData.key!)!;
                 participsPage.removeWhere((member) => member.key == me.key);
                 participsPage.insert(0, me);
-                comp.setAllParticips(participsPage, context: context);
+                comp.setAllLoadedParticips(participsPage, context: context);
                 updateUserSets();
                 setState((){});
               },
@@ -164,22 +164,19 @@ class ParticipantsPageState extends State<ParticipantsPage>{
                 showAppToast(context, text: simpleErrorMessage);
               },
             );
+            return comp.loadedParticips.length;
           },
           callLoadMore: () async {
-
-            bool success = false;
-
             await ApiIndivComp.getParticipants(
               comp: comp,
               pageSize: IndivComp.participsPageSize,
-              lastRole: comp.particips.length==1?null:comp.particips.last.profile.role,
-              lastUserName: comp.particips.length==1?null:comp.particips.last.name,
-              lastUserKey: comp.particips.length==1?null:comp.particips.last.key,
+              lastRole: comp.loadedParticips.length==1?null:comp.loadedParticips.last.profile.role,
+              lastUserName: comp.loadedParticips.length==1?null:comp.loadedParticips.last.name,
+              lastUserKey: comp.loadedParticips.length==1?null:comp.loadedParticips.last.key,
               onSuccess: (participsPage){
-                comp.addParticips(participsPage, context: context);
+                comp.addLoadedParticips(participsPage, context: context);
                 updateUserSets();
-                success = true;
-                setState((){});
+                if(mounted) setState((){});
               },
               onForceLoggedOut: (){
                 if(!mounted) return true;
@@ -197,11 +194,9 @@ class ParticipantsPageState extends State<ParticipantsPage>{
                 showAppToast(context, text: simpleErrorMessage);
               },
             );
-
-            return success;
-
+            return comp.loadedParticips.length;
           },
-          callLoadOnInit: comp.particips.length == 1,
+          callLoadOnInit: comp.loadedParticips.length == 1,
 
         );
 

@@ -44,7 +44,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
 
   IndivComp get comp => widget.comp;
 
-  List<IndivCompParticip> get particips => comp.particips;
+  List<IndivCompParticip> get particips => comp.loadedParticips;
 
   late List<IndivCompParticip> selectedParticips;
 
@@ -101,7 +101,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
     comp.handleRanks(idRank);
 
     for(IndivCompCompletedTask taskCompl in taskComplList) {
-      comp.myProfile?.addCompletedTask(taskCompl);
+      comp.myProfile?.addLoadedCompletedTask(taskCompl);
       comp.addPoints(taskCompl.participKey, taskCompl.points);
     }
 
@@ -257,7 +257,7 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
                     IndivCompParticip me = comp.getParticip(AccountData.key!)!;
                     participsPage.removeWhere((member) => member.key == me.key);
                     participsPage.insert(0, me);
-                    comp.setAllParticips(participsPage, context: context);
+                    comp.setAllLoadedParticips(participsPage, context: context);
                     updateUserSets();
                     selectedParticips.clear();
                     setState((){});
@@ -278,22 +278,19 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
                     showAppToast(context, text: simpleErrorMessage);
                   },
                 );
+                return comp.loadedParticips.length;
               },
               callLoadMore: () async {
-
-                bool success = false;
-
                 await ApiIndivComp.getParticipants(
                   comp: comp,
                   pageSize: IndivComp.participsPageSize,
-                  lastRole: comp.particips.length==1?null:comp.particips.last.profile.role,
-                  lastUserName: comp.particips.length==1?null:comp.particips.last.name,
-                  lastUserKey: comp.particips.length==1?null:comp.particips.last.key,
+                  lastRole: comp.loadedParticips.length==1?null:comp.loadedParticips.last.profile.role,
+                  lastUserName: comp.loadedParticips.length==1?null:comp.loadedParticips.last.name,
+                  lastUserKey: comp.loadedParticips.length==1?null:comp.loadedParticips.last.key,
                   onSuccess: (participsPage){
-                    comp.addParticips(participsPage, context: context);
+                    comp.addLoadedParticips(participsPage, context: context);
                     updateUserSets();
-                    success = true;
-                    setState((){});
+                    if(mounted) setState((){});
                   },
                   onForceLoggedOut: (){
                     if(!mounted) return true;
@@ -312,10 +309,10 @@ class ParticipantsExtendedPageState extends State<ParticipantsExtendedPage>{
                   },
                 );
 
-                return success;
+                return comp.loadedParticips.length;
 
               },
-              callLoadOnInit: comp.particips.length == 1,
+              callLoadOnInit: comp.loadedParticips.length == 1,
 
             ),
 

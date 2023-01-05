@@ -150,12 +150,13 @@ class AppBottomNavigator extends StatelessWidget{
                     label: 'Skromny ja'
                 ),
 
-              BottomNavigationBarItem(
-                  backgroundColor: background??background_(context),
-                  icon: const Icon(MdiIcons.mapLegend),
-                  //activeIcon: Icon(MdiIcons.map),
-                  label: 'Harc mapa'
-              ),
+              if(account)
+                BottomNavigationBarItem(
+                    backgroundColor: background??background_(context),
+                    icon: const Icon(MdiIcons.mapLegend),
+                    //activeIcon: Icon(MdiIcons.map),
+                    label: 'Harc mapa'
+                ),
 
               BottomNavigationBarItem(
                   backgroundColor: prov.background??background??background_(context),

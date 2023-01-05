@@ -32,7 +32,7 @@ class LeaveCircleButton extends StatelessWidget{
     onTap: () {
 
       int allAdminCount = 0;
-      for(Member? mem in circle!.members) if(mem!.role == CircleRole.ADMIN) allAdminCount++;
+      for(Member? mem in circle!.loadedMembers) if(mem!.role == CircleRole.ADMIN) allAdminCount++;
 
       if(allAdminCount == 1 && circle!.myRole == CircleRole.ADMIN){
         showAlertDialog(

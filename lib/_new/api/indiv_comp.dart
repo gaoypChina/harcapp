@@ -519,6 +519,7 @@ class ApiIndivComp{
 
   static Future<Response?> getCompletedTasks({
     required IndivComp comp,
+    String? taskKey,
     String? participKey,
 
     required int? pageSize,
@@ -545,6 +546,7 @@ class ApiIndivComp{
             'pageSize': pageSize,
             if(lastReqTime != null) 'lastReqTime': lastReqTime.toIso8601String(),
             if(participKey != null) 'participKey': participKey,
+            if(taskKey != null) 'taskKey': taskKey,
             if(acceptState != null) 'acceptState': taskAcceptStateToStr[acceptState]
           }
       ),
@@ -575,8 +577,8 @@ class ApiIndivComp{
   static Future<Response?> createCompletedTask({
     required IndivComp comp,
     required String? taskKey,
-    String? comment,
     List<String>? userKeys,
+    String? comment,
 
     FutureOr<void> Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -587,6 +589,7 @@ class ApiIndivComp{
     requestSender: (Dio dio) => dio.post(
         '${API.SERVER_URL}api/indivComp/completedTask',
         data: FormData.fromMap({
+          if(taskKey != null) 'taskKey': taskKey,
           if(userKeys != null) 'userKeys': userKeys,
           if(comment != null) 'comment': comment,
         })

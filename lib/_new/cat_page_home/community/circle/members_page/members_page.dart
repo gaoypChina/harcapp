@@ -73,7 +73,7 @@ class MembersPageState extends State<MembersPage>{
   
   Circle get circle => widget.circle;
   PaletteGenerator? get palette => widget.palette;
-  List<Member> get members => circle.members;
+  List<Member> get members => circle.loadedMembers;
 
   List<Member> memberAdmins = [];
   List<Member> memberEditors = [];
@@ -169,12 +169,12 @@ class MembersPageState extends State<MembersPage>{
                 lastUserName: null,
                 lastUserKey: null,
                 onSuccess: (membersPage){
-                  Member me = circle.membersMap[AccountData.key]!;
+                  Member me = circle.loadedMembersMap[AccountData.key]!;
                   membersPage.removeWhere((member) => member.key == me.key);
                   membersPage.insert(0, me);
-                  circle.setAllMembers(membersPage, context: context);
+                  circle.setAllLoadedMembers(membersPage, context: context);
                   updateUserSets();
-                  setState((){});
+                  if(mounted) setState((){});
                 },
                 onForceLoggedOut: (){
                   if(!mounted) return true;
@@ -192,21 +192,18 @@ class MembersPageState extends State<MembersPage>{
                   showAppToast(context, text: simpleErrorMessage);
                 },
               );
+              return circle.loadedMembers.length;
             },
             callLoadMore: () async {
-
-              bool success = false;
-
               await ApiCircle.getMembers(
                 circleKey: circle.key,
                 pageSize: Circle.memberPageSize,
-                lastRole: circle.members.length==1?null:circle.members.last.role,
-                lastUserName: circle.members.length==1?null:circle.members.last.name,
-                lastUserKey: circle.members.length==1?null:circle.members.last.key,
+                lastRole: circle.loadedMembers.length==1?null:circle.loadedMembers.last.role,
+                lastUserName: circle.loadedMembers.length==1?null:circle.loadedMembers.last.name,
+                lastUserKey: circle.loadedMembers.length==1?null:circle.loadedMembers.last.key,
                 onSuccess: (membersPage){
-                  circle.addMembers(membersPage, context: context);
+                  circle.addLoadedMembers(membersPage, context: context);
                   updateUserSets();
-                  success = true;
                   setState((){});
                 },
                 onForceLoggedOut: (){
@@ -225,11 +222,9 @@ class MembersPageState extends State<MembersPage>{
                   showAppToast(context, text: simpleErrorMessage);
                 },
               );
-
-              return success;
-
+              return circle.loadedMembers.length;
             },
-            callLoadOnInit: circle.members.length == 1,
+            callLoadOnInit: circle.loadedMembers.length == 1,
 
         );
 

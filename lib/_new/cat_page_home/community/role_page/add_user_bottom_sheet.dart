@@ -26,7 +26,7 @@ class AddUserBottomSheet extends StatelessWidget{
     alreadyAddedMess: 'Już jest w kręgu',
     userAlreadyAddedMess: (name) => '$name już jest w kręgu!',
 
-    participatingUserKeys: community.managersMap.keys.toList(),
+    participatingUserKeys: community.loadedManagersMap.keys.toList(),
     handleAddingUser: (BuildContext context, UserDataNick userData) async {
 
       showLoadingWidget(context, iconEnab_(context), 'Dodawanie ogarniacza');
@@ -35,7 +35,7 @@ class AddUserBottomSheet extends StatelessWidget{
           communityKey: community.key,
           users: [CommunityManagerRespBodyNick(userData.key, CommunityRole.REGULAR, userData.nick)],
           onSuccess: (List<CommunityManager> allManagers){
-            community.setAllManagers(allManagers, context: context);
+            community.setAllLoadedManagers(allManagers, context: context);
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
             showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}.');

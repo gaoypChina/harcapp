@@ -38,7 +38,7 @@ class ManagersPage extends StatefulWidget{
 
   final Forum forum;
   final PaletteGenerator? palette;
-  List<ForumManager> get managers => forum.managers;
+  List<ForumManager> get managers => forum.loadedManagers;
 
   const ManagersPage({
     required this.forum,
@@ -55,7 +55,7 @@ class ManagersPageState extends State<ManagersPage>{
 
   Forum get forum => widget.forum;
   PaletteGenerator? get palette => widget.palette;
-  List<ForumManager> get managers => forum.managers;
+  List<ForumManager> get managers => forum.loadedManagers;
 
   List<ForumManager> managAdmins = [];
   List<ForumManager> managEditors = [];
@@ -128,7 +128,7 @@ class ManagersPageState extends State<ManagersPage>{
               )
           ],
 
-          userCount: forum.managerCount,
+          userCount: forum.managerCount!,
           callReload: () async {
             await ApiForum.getManagers(
               forumKey: forum.key,
@@ -137,10 +137,10 @@ class ManagersPageState extends State<ManagersPage>{
               lastUserName: null,
               lastUserKey: null,
               onSuccess: (managersPage){
-                ForumManager me = forum.managersMap[AccountData.key]!;
+                ForumManager me = forum.loadedManagersMap[AccountData.key]!;
                 managersPage.removeWhere((manager) => manager.key == me.key);
                 managersPage.insert(0, me);
-                forum.setAllManagers(managersPage, context: context);
+                forum.setAllLoadedManagers(managersPage, context: context);
                 updateUserSets();
 
                 setState((){});
@@ -161,11 +161,9 @@ class ManagersPageState extends State<ManagersPage>{
                 showAppToast(context, text: simpleErrorMessage);
               },
             );
+            return forum.loadedManagers.length;
           },
           callLoadMore: () async {
-
-            bool success = false;
-
             await ApiForum.getManagers(
               forumKey: forum.key,
               pageSize: Forum.managerPageSize,
@@ -173,10 +171,9 @@ class ManagersPageState extends State<ManagersPage>{
               lastUserName: managers.length==1?null:managers.last.name,
               lastUserKey: managers.length==1?null:managers.last.key,
               onSuccess: (managersPage){
-                forum.addManagers(managersPage, context: context);
+                forum.addLoadedManagers(managersPage, context: context);
                 updateUserSets();
-                success = true;
-                setState((){});
+                if(mounted) setState((){});
               },
               onForceLoggedOut: (){
                 if(!mounted) return true;
@@ -195,10 +192,10 @@ class ManagersPageState extends State<ManagersPage>{
               },
             );
 
-            return success;
+            return forum.loadedManagers.length;
 
           },
-          callLoadOnInit: forum.managers.length == 1,
+          callLoadOnInit: forum.loadedManagers.length == 1,
       )
   );
 

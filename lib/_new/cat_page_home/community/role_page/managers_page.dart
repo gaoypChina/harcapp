@@ -47,7 +47,7 @@ class CommunityManagersPage extends StatefulWidget{
 class CommunityManagersPageState extends State<CommunityManagersPage>{
 
   Community get community => widget.community;
-  List<CommunityManager> get managers => community.managers;
+  List<CommunityManager> get managers => community.loadedManagers;
 
   List<CommunityManager> managAdmins = [];
   List<CommunityManager> managRegulars = [];
@@ -126,12 +126,11 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
               lastUserName: null,
               lastUserKey: null,
               onSuccess: (managersPage){
-                CommunityManager me = community.managersMap[AccountData.key]!;
+                CommunityManager me = community.loadedManagersMap[AccountData.key]!;
                 managersPage.removeWhere((manager) => manager.key == me.key);
                 managersPage.insert(0, me);
-                community.setAllManagers(managersPage, context: context);
+                community.setAllLoadedManagers(managersPage, context: context);
                 updateUserSets();
-
                 setState((){});
               },
               onForceLoggedOut: (){
@@ -150,11 +149,9 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
                 showAppToast(context, text: simpleErrorMessage);
               },
             );
+            return community.loadedManagers.length;
           },
           callLoadMore: () async {
-
-            bool success = false;
-
             await ApiCommunity.getManagers(
               communityKey: community.key,
               pageSize: Community.managerPageSize,
@@ -162,10 +159,9 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
               lastUserName: managers.length==1?null:managers.last.name,
               lastUserKey: managers.length==1?null:managers.last.key,
               onSuccess: (managersPage){
-                community.addManagers(managersPage, context: context);
+                community.addLoadedManagers(managersPage, context: context);
                 updateUserSets();
-                success = true;
-                setState((){});
+                if(mounted) setState((){});
               },
               onForceLoggedOut: (){
                 if(!mounted) return true;
@@ -184,10 +180,10 @@ class CommunityManagersPageState extends State<CommunityManagersPage>{
               },
             );
 
-            return success;
+            return community.loadedManagers.length;
 
           },
-          callLoadOnInit: community.managers.length == 1,
+          callLoadOnInit: community.loadedManagers.length == 1,
 
         );
 

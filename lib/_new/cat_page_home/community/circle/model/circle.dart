@@ -22,6 +22,9 @@ class CircleProvider extends ChangeNotifier{
 
 class CircleMembersProvider extends ChangeNotifier{
 
+  static CircleMembersProvider of(BuildContext context) => Provider.of<CircleMembersProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
+
   static final List<void Function()> _listeners = [];
 
   static void addOnNotifyListener(void Function() listener){
@@ -106,68 +109,78 @@ class Circle extends CircleBasicData{
   String colorsKey;
   CommunityBasicData community;
 
-  final List<Member> _members;
-  final Map<String, Member> _membersMap;
-  List<Member> get members => _members;
-  Map<String, Member> get membersMap => _membersMap;
+  final List<Member> _loadedMembers;
+  final Map<String, Member> _loadedMembersMap;
+  List<Member> get loadedMembers => _loadedMembers;
+  Map<String, Member> get loadedMembersMap => _loadedMembersMap;
 
   List<IndivCompBasicData> bindedIndivComps;
 
   bool get hasDescription => description != null && description!.isNotEmpty;
 
-  void addMembers(List<Member> newMembers, {BuildContext? context}){
+  void addLoadedMembers(List<Member> newMembers, {BuildContext? context}){
 
     for(Member mem in newMembers) {
-      if(_membersMap[mem.key] != null) continue;
-      _members.add(mem);
-      _membersMap[mem.key] = mem;
+      if(_loadedMembersMap[mem.key] != null) continue;
+      _loadedMembers.add(mem);
+      _loadedMembersMap[mem.key] = mem;
     }
 
     if(context == null) return;
-    Provider.of<CircleMembersProvider>(context, listen: false).notify();
-    Provider.of<CircleProvider>(context, listen: false).notify();
+    CircleMembersProvider.notify_(context);
+    CircleProvider.notify_(context);
 
   }
 
-  void setAllMembers(List<Member> allMembers, {BuildContext? context}){
-    _members.clear();
-    _membersMap.clear();
-    _members.addAll(allMembers);
-    _members.sort((mem1, mem2) => mem1.name.compareTo(mem2.name));
-    _membersMap.addAll({for (Member? mem in allMembers) mem!.key: mem});
+  void setAllLoadedMembers(List<Member> allMembers, {BuildContext? context}){
+    _loadedMembers.clear();
+    _loadedMembersMap.clear();
+    _loadedMembers.addAll(allMembers);
+    _loadedMembers.sort((mem1, mem2) => mem1.name.compareTo(mem2.name));
+    _loadedMembersMap.addAll({for (Member? mem in allMembers) mem!.key: mem});
 
     if(context == null) return;
-    Provider.of<CircleMembersProvider>(context, listen: false).notify();
-    Provider.of<CircleProvider>(context, listen: false).notify();
+    CircleMembersProvider.notify_(context);
+    CircleProvider.notify_(context);
   }
 
-  void updateMembers(List<Member> newMembers, {BuildContext? context}){
+  void updateLoadedMembers(List<Member> newMembers, {BuildContext? context}){
 
     for(Member mem in newMembers) {
-      int index = _members.indexWhere((memIter) => memIter.key == mem.key);
-      _members.removeAt(index);
-      _members.insert(index, mem);
-      _membersMap[mem.key] = mem;
+      int index = _loadedMembers.indexWhere((memIter) => memIter.key == mem.key);
+      _loadedMembers.removeAt(index);
+      _loadedMembers.insert(index, mem);
+      _loadedMembersMap[mem.key] = mem;
     }
 
     if(context == null) return;
-    Provider.of<CircleMembersProvider>(context, listen: false).notify();
-    Provider.of<CircleProvider>(context, listen: false).notify();
+    CircleMembersProvider.notify_(context);
+    CircleProvider.notify_(context);
   }
 
-  void removeMembersByKey(List<String> memberKeys, {BuildContext? context}){
+  void removeLoadedMembersByKey(List<String> memberKeys, {bool shrinkTotalCount=true, BuildContext? context}){
 
-    _members.removeWhere((particip) => memberKeys.contains(particip.key));
-    for(String memKey in memberKeys) _membersMap.remove(memKey);
+    _loadedMembers.removeWhere((particip) => memberKeys.contains(particip.key));
+    for(String memKey in memberKeys){
+      Member? removed = _loadedMembersMap.remove(memKey);
+      if(removed != null && shrinkTotalCount)
+        memberCount -= 1;
+    }
 
     if(context == null) return;
-    Provider.of<CircleMembersProvider>(context, listen: false).notify();
-    Provider.of<CircleProvider>(context, listen: false).notify();
+    CircleMembersProvider.notify_(context);
+    CircleProvider.notify_(context);
   }
   
-  void removeMember(Member member){
-    _members.remove(member);
-    _membersMap.remove(member.key);
+  void removeLoadedMember(Member member, {bool shrinkTotalCount=true}){
+    bool success = _loadedMembers.remove(member);
+    Member? removed = _loadedMembersMap.remove(member.key);
+
+    if(success != (removed != null))
+      logger.d("A dangerous inconsistency between the objectList and the objectKeyMap occurred!");
+
+    if(success && removed != null && shrinkTotalCount)
+      memberCount -= - 1;
   }
 
   late Map<String, _AnnouncementLookup> _announcementsMap;
@@ -331,7 +344,7 @@ class Circle extends CircleBasicData{
       logger.w('Value of saved account data key is null. Are you logged in?');
       return null;
     }
-    Member? me = _membersMap[accKey];
+    Member? me = _loadedMembersMap[accKey];
 
     if(me == null){
       AccountData.forgetAccount();
@@ -362,14 +375,14 @@ class Circle extends CircleBasicData{
     required this.bindedIndivComps,
     required this.community,
 
-  }): _members = members,
-      _membersMap = {for (Member mem in members) mem.key: mem},
+  }): _loadedMembers = members,
+      _loadedMembersMap = {for (Member mem in members) mem.key: mem},
       _allAnnouncements = allAnnouncements,
       _pinnedAnnouncements = pinnedAnnouncements,
       _awaitingAnnouncements = awaitingAnnouncements,
       super(name: community.name)
   {
-    _members.sort((mem1, mem2) => mem1.name.compareTo(mem2.name));
+    _loadedMembers.sort((mem1, mem2) => mem1.name.compareTo(mem2.name));
     _announcementsMap = {for (Announcement ann in _allAnnouncements) ann.key: _AnnouncementLookup(ann, inAll: true)};
     _announcementsMap.addAll({for (Announcement ann in _pinnedAnnouncements) ann.key: _AnnouncementLookup(ann, inPinned: true)});
     _announcementsMap.addAll({for (Announcement ann in _awaitingAnnouncements) ann.key: _AnnouncementLookup(ann, inAwaiting: true)});

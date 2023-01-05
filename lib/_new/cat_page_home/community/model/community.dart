@@ -395,13 +395,14 @@ class Community extends CommunityBasicData{
   Forum? _forum;
   Forum? get forum => _forum;
 
-  final List<CommunityManager> _managers;
-  final Map<String, CommunityManager> _managersMap;
-  List<CommunityManager> get managers => _managers;
-  Map<String, CommunityManager> get managersMap => _managersMap;
+  final List<CommunityManager> _loadedManagers;
+  final Map<String, CommunityManager> _loadedManagersMap;
+  List<CommunityManager> get loadedManagers => _loadedManagers;
+  Map<String, CommunityManager> get loadedManagersMap => _loadedManagersMap;
+
+  int? managerCount;
 
   final Map<String, MarkerData> markersMap;
-  final int? managerCount;
 
   void update(Community updatedCommunity){
     name = updatedCommunity.name;
@@ -411,12 +412,12 @@ class Community extends CommunityBasicData{
   }
 
 
-  void addManagers(List<CommunityManager> newManagers, {BuildContext? context}){
+  void addLoadedManagers(List<CommunityManager> newManagers, {BuildContext? context}){
 
     for(CommunityManager manager in newManagers) {
-      if(_managersMap.containsKey(manager.key)) continue;
-      _managers.add(manager);
-      _managersMap[manager.key] = manager;
+      if(_loadedManagersMap.containsKey(manager.key)) continue;
+      _loadedManagers.add(manager);
+      _loadedManagersMap[manager.key] = manager;
     }
 
     if(context == null) return;
@@ -424,28 +425,54 @@ class Community extends CommunityBasicData{
     
   }
 
-  void setAllManagers(List<CommunityManager> allManagers, {BuildContext? context}){
-    _managers.clear();
-    _managersMap.clear();
-    _managers.addAll(allManagers);
-    _managers.sort((m1, m2) => m1.name.compareTo(m2.name));
-    _managersMap.addAll({for (CommunityManager? m in allManagers) m!.key: m});
+  void setAllLoadedManagers(List<CommunityManager> allManagers, {BuildContext? context}){
+    _loadedManagers.clear();
+    _loadedManagersMap.clear();
+    _loadedManagers.addAll(allManagers);
+    _loadedManagers.sort((m1, m2) => m1.name.compareTo(m2.name));
+    _loadedManagersMap.addAll({for (CommunityManager? m in allManagers) m!.key: m});
 
     if(context == null) return;
     callProvidersWithManagersOf(context);
   }
 
-  void updateManagers(List<CommunityManager> newManagers, {BuildContext? context}){
+  void updateLoadedManagers(List<CommunityManager> newManagers, {BuildContext? context}){
 
     for(CommunityManager manager in newManagers) {
-      int index = _managers.indexWhere((managerIter) => managerIter.key == manager.key);
-      _managers.removeAt(index);
-      _managers.insert(index, manager);
-      _managersMap[manager.key] = manager;
+      int index = _loadedManagers.indexWhere((managerIter) => managerIter.key == manager.key);
+      _loadedManagers.removeAt(index);
+      _loadedManagers.insert(index, manager);
+      _loadedManagersMap[manager.key] = manager;
     }
 
     if(context == null) return;
     callProvidersWithManagersOf(context);
+  }
+  
+
+
+  void removeLoadedManagersByKey(List<String> managerKeys, {bool shrinkTotalCount=true, BuildContext? context}){
+
+    _loadedManagers.removeWhere((particip) => managerKeys.contains(particip.key));
+    for(String managerKey in managerKeys){
+      CommunityManager? removed = _loadedManagersMap.remove(managerKey);
+      if(removed != null && shrinkTotalCount)
+        managerCount = managerCount! - 1;
+    }
+
+    if(context == null) return;
+    callProvidersWithManagersOf(context);
+  }
+  
+  void removeLoadedManager(CommunityManager manager, {bool shrinkTotalCount=true}){
+    bool success = _loadedManagers.remove(manager);
+    CommunityManager? removed = _loadedManagersMap.remove(manager.key);
+
+    if(success != (removed != null))
+      logger.d("A dangerous inconsistency between the objectList and the objectKeyMap occurred!");
+
+    if(success && removed != null && shrinkTotalCount)
+      managerCount = managerCount! - 1;
   }
 
 
@@ -484,22 +511,8 @@ class Community extends CommunityBasicData{
     if(context == null) return;
     callProvidersWithMarkersOf(context);
   }
-
-
-  void removeManagersByKey(List<String> managerKeys, {BuildContext? context}){
-
-    _managers.removeWhere((particip) => managerKeys.contains(particip.key));
-    for(String managerKey in managerKeys) _managersMap.remove(managerKey);
-
-    if(context == null) return;
-    callProvidersWithManagersOf(context);
-  }
   
-  void removeManager(CommunityManager manager){
-    _managers.remove(manager);
-    _managersMap.remove(manager.key);
-  }
-
+  
   void setCircle(Circle? circle){
     if(_circle != null)
       _allCircleMap!.remove(_circle!.key);
@@ -522,7 +535,7 @@ class Community extends CommunityBasicData{
       logger.w('Value of saved account data key is null. Are you logged in?');
       return null;
     }
-    CommunityManager? me = _managersMap[accKey];
+    CommunityManager? me = _loadedManagersMap[accKey];
 
     return me?.role;
   }
@@ -543,11 +556,11 @@ class Community extends CommunityBasicData{
 
   }): _circle = circle,
       _forum = forum,
-      _managers = managers,
-      _managersMap = {for (CommunityManager m in managers) m.key: m},
+      _loadedManagers = managers,
+      _loadedManagersMap = {for (CommunityManager m in managers) m.key: m},
       markersMap = {for (MarkerData m in markers) m.key: m}
   {
-    _managers.sort((m1, m2) => m1.name.compareTo(m2.name));
+    _loadedManagers.sort((m1, m2) => m1.name.compareTo(m2.name));
   }
 
   static Community fromRespMap(Map respMap){

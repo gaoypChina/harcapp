@@ -226,7 +226,7 @@ Future<void> showMarkerBottomSheet(BuildContext context, MarkerData marker) asyn
                       ],
                     )),
 
-                  if(marker.managersMap[AccountData.key]?.role == MarkerRole.ADMIN)
+                  if(marker.loadedManagersMap[AccountData.key]?.role == MarkerRole.ADMIN)
                     IconButton(
                       icon: const Icon(MdiIcons.pencilOutline),
                       onPressed: () {
@@ -258,7 +258,7 @@ Future<void> showMarkerBottomSheet(BuildContext context, MarkerData marker) asyn
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
 
-                          if(marker.managersMap[AccountData.key]?.role == MarkerRole.ADMIN)
+                          if(marker.loadedManagersMap[AccountData.key]?.role == MarkerRole.ADMIN)
                             SimpleButton.from(
                                 context: context,
                                 color: backgroundIcon_(context),

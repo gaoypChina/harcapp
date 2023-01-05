@@ -924,14 +924,14 @@ class MembersWidgetState extends State<MembersWidget>{
     await ApiCircle.getMembers(
       circleKey: circle.key,
       pageSize: Circle.memberPageSize,
-      lastRole: circle.members.length==1?null:circle.members.last.role,
-      lastUserName: circle.members.length==1?null:circle.members.last.name,
-      lastUserKey: circle.members.length==1?null:circle.members.last.key,
+      lastRole: circle.loadedMembers.length==1?null:circle.loadedMembers.last.role,
+      lastUserName: circle.loadedMembers.length==1?null:circle.loadedMembers.last.name,
+      lastUserKey: circle.loadedMembers.length==1?null:circle.loadedMembers.last.key,
       onSuccess: (membersPage){
-        Member me = circle.membersMap[AccountData.key]!;
+        Member me = circle.loadedMembersMap[AccountData.key]!;
         membersPage.removeWhere((member) => member.key == me.key);
         membersPage.insert(0, me);
-        circle.addMembers(membersPage, context: context);
+        circle.addLoadedMembers(membersPage, context: context);
         setState((){});
       },
       onForceLoggedOut: (){
@@ -957,7 +957,7 @@ class MembersWidgetState extends State<MembersWidget>{
 
   @override
   void initState() {
-    isLoading = circle.members.length == 1;
+    isLoading = circle.loadedMembers.length == 1;
     if(isLoading) loadMoreMembers();
     super.initState();
   }
@@ -970,7 +970,7 @@ class MembersWidgetState extends State<MembersWidget>{
 
         Expanded(
           child: AccountThumbnailLoadableRowWidget(
-            circle.members.map((m) => m.name).toList(),
+            circle.loadedMembers.map((m) => m.name).toList(),
             elevated: CommunityPublishableWidgetTemplate.elevation != 0,
             color: CommunityCoverColors.backgroundColor(context, palette),
             borderColor: CommunityCoverColors.backgroundColor(context, palette),
@@ -980,11 +980,11 @@ class MembersWidgetState extends State<MembersWidget>{
               context,
               builder: (context) => MembersPage(circle: circle, palette: palette)
             ),
-            heroBuilder: (index) => circle.members[index],
+            heroBuilder: (index) => circle.loadedMembers[index],
 
             onLoadMore: () => loadMoreMembers(),
             isLoading: isLoading,
-            isMoreToLoad: circle.members.length < circle.memberCount,
+            isMoreToLoad: circle.loadedMembers.length < circle.memberCount,
           ),
         ),
 

@@ -82,12 +82,12 @@ class MarkerData{
   MarkerVisibility visibility;
   Map<CommunityCategory, int> communitiesBasicData;
 
-  final List<MarkerManager> _managers;
-  final Map<String, MarkerManager> _managersMap;
-  List<MarkerManager> get managers => _managers;
-  Map<String, MarkerManager> get managersMap => _managersMap;
+  final List<MarkerManager> _loadedManagers;
+  final Map<String, MarkerManager> _loadedManagersMap;
+  List<MarkerManager> get loadedManagers => _loadedManagers;
+  Map<String, MarkerManager> get loadedManagersMap => _loadedManagersMap;
 
-  int managerCount;
+  int? managerCount;
 
   List<Tuple2<CommunityPreviewData, String?>>? communities;
   late bool anyDoubleCommunityCategories;
@@ -98,7 +98,7 @@ class MarkerData{
       logger.w('Value of saved account data key is null. Are you logged in?');
       return null;
     }
-    MarkerManager? me = _managersMap[accKey];
+    MarkerManager? me = _loadedManagersMap[accKey];
 
     if(me == null){
       AccountData.forgetAccount();
@@ -121,8 +121,8 @@ class MarkerData{
     required this.managerCount,
     required this.communitiesBasicData,
   }):
-        _managers = managers,
-        _managersMap = {for (MarkerManager m in managers) m.key: m}
+        _loadedManagers = managers,
+        _loadedManagersMap = {for (MarkerManager m in managers) m.key: m}
   {
     anyDoubleCommunityCategories = false;
     for(int counts in communitiesBasicData.values)
@@ -151,7 +151,7 @@ class MarkerData{
         type: strToMarkerType[respMap['type']??(throw InvalidResponseError('type'))]??MarkerType.ERROR,
         visibility: strToMarkerVisibility[respMap['visibility']??(throw InvalidResponseError('visibility'))]??MarkerVisibility.ERROR,
         managers: (respMap['managers']??[]).map<MarkerManager>((data) => MarkerManager.fromRespMap(data)).toList(),
-        managerCount: respMap['managerCount']??(throw InvalidResponseError('managerCount')),
+        managerCount: respMap['managerCount'],
         communitiesBasicData: commBasicData
     );
 
@@ -191,12 +191,12 @@ class MarkerData{
 
   }
 
-  void addManagers(List<MarkerManager> newManagers, {BuildContext? context}){
+  void addLoadedManagers(List<MarkerManager> newManagers, {BuildContext? context}){
 
     for(MarkerManager manager in newManagers) {
-      if(_managersMap.containsKey(manager.key)) continue;
-      _managers.add(manager);
-      _managersMap[manager.key] = manager;
+      if(_loadedManagersMap.containsKey(manager.key)) continue;
+      _loadedManagers.add(manager);
+      _loadedManagersMap[manager.key] = manager;
     }
 
     if(context == null) return;
@@ -204,42 +204,51 @@ class MarkerData{
 
   }
 
-  void setAllManagers(List<MarkerManager> allManagers, {BuildContext? context}){
-    _managers.clear();
-    _managersMap.clear();
-    _managers.addAll(allManagers);
-    _managersMap.addAll({for (MarkerManager? m in allManagers) m!.key: m});
+  void setAllLoadedManagers(List<MarkerManager> allManagers, {BuildContext? context}){
+    _loadedManagers.clear();
+    _loadedManagersMap.clear();
+    _loadedManagers.addAll(allManagers);
+    _loadedManagersMap.addAll({for (MarkerManager? m in allManagers) m!.key: m});
 
     if(context == null) return;
     callProvidersWithManagersOf(context);
   }
 
-  void updateManagers(List<MarkerManager> newManagers, {BuildContext? context}){
+  void updateLoadedManagers(List<MarkerManager> newManagers, {BuildContext? context}){
 
     for(MarkerManager manager in newManagers) {
-      int index = _managers.indexWhere((managerIter) => managerIter.key == manager.key);
-      _managers.removeAt(index);
-      _managers.insert(index, manager);
-      _managersMap[manager.key] = manager;
+      int index = _loadedManagers.indexWhere((managerIter) => managerIter.key == manager.key);
+      _loadedManagers.removeAt(index);
+      _loadedManagers.insert(index, manager);
+      _loadedManagersMap[manager.key] = manager;
     }
 
     if(context == null) return;
     callProvidersWithManagersOf(context);
   }
 
-  void removeManagersByKey(List<String> managerKeys, {BuildContext? context}){
+  void removeLoadedManagersByKey(List<String> managerKeys, {bool shrinkTotalCount = true, BuildContext? context}){
 
-    _managers.removeWhere((manager) => managerKeys.contains(manager.key));
-    for(String managerKey in managerKeys) _managersMap.remove(managerKey);
+    _loadedManagers.removeWhere((manager) => managerKeys.contains(manager.key));
+    for(String managerKey in managerKeys){
+      MarkerManager? removed = _loadedManagersMap.remove(managerKey);
+      if(removed != null && shrinkTotalCount)
+        managerCount = managerCount! - 1;
+    }
 
     if(context == null) return;
-    Provider.of<MarkerManagersProvider>(context, listen: false).notify();
-    Provider.of<MarkerProvider>(context, listen: false).notify();
+    callProvidersWithManagersOf(context);
   }
 
-  void removeManager(MarkerManager manager){
-    _managers.remove(manager);
-    _managersMap.remove(manager.key);
+  void removeLoadedManager(MarkerManager manager, {bool shrinkTotalCount=true}){
+    bool success = _loadedManagers.remove(manager);
+    MarkerManager? removed = _loadedManagersMap.remove(manager.key);
+
+    if(success != (removed != null))
+      logger.d("A dangerous inconsistency between the objectList and the objectKeyMap occurred!");
+
+    if(success && removed != null && shrinkTotalCount)
+      managerCount = managerCount! - 1;
   }
 
 }

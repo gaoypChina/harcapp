@@ -40,8 +40,8 @@ class UserListManagementLoadablePage<T extends UserData> extends StatelessWidget
   final Widget? bottomNavigationBar;
   
   final int userCount;
-  final FutureOr<void> Function() callReload;
-  final FutureOr<bool> Function() callLoadMore;
+  final FutureOr<int> Function() callReload;
+  final FutureOr<int> Function() callLoadMore;
   final bool callLoadOnInit;
 
   const UserListManagementLoadablePage({

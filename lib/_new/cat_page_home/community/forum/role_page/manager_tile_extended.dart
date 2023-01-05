@@ -157,7 +157,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
         context: context,
         isMe: manager.key == AccountData.key,
         loosingAdmin: newRole != ForumRole.ADMIN,
-        currAdminCount: forum.managers.where((m) => m.role == ForumRole.ADMIN).length,
+        currAdminCount: forum.loadedManagers.where((m) => m.role == ForumRole.ADMIN).length,
         looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> forum <b>${forum.name}</b>?',
         handleUpdate: () async {
 
@@ -167,7 +167,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
               forumKey: forum.key,
               users: [ForumManagerUpdateBody(manager.key, role: newRole)],
               onSuccess: (List<ForumManager> allManagers){
-                forum.updateManagers(allManagers, context: context);
+                forum.updateLoadedManagers(allManagers, context: context);
                 Navigator.pop(context); // Close loading widget
                 onSuccess?.call();
               },
@@ -193,7 +193,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
         context: context,
         isMe: manager.key == AccountData.key,
         loosingAdmin: manager.key == AccountData.key,
-        currAdminCount: forum.managers.where((m) => m.role == ForumRole.ADMIN).length,
+        currAdminCount: forum.loadedManagers.where((m) => m.role == ForumRole.ADMIN).length,
         removingUserTitleMess: 'Wypraszanie ogarniacza...',
         removingUserDetailMess: '${manager.name} nie będzie mieć dłużej dostępu do zarządzania forum.\n\nNa pewno chcesz ${manager.isMale?'go':'ją'} wyprosić?',
         handleRemove: () async {
@@ -203,7 +203,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
               forumKey: forum.key,
               userKeys: [manager.key],
               onSuccess: (List<String> removedManagers) async {
-                forum.removeManagersByKey(removedManagers, context: context);
+                forum.removeLoadedManagersByKey(removedManagers, context: context);
 
                 if(!mounted) return;
                 showAppToast(context, text: 'Wyproszono');

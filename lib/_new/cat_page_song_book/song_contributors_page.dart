@@ -4,7 +4,6 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/common/indiv_comp_rank_icon.dart';
-import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/comp_role.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_profile.dart';
 import 'package:harcapp/_new/cat_page_song_book/add_pers_email_resolver.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
@@ -14,8 +13,6 @@ import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 
-import '../cat_page_home/competitions/indiv_comp/models/indiv_comp.dart';
-import '../cat_page_home/competitions/indiv_comp/models/show_rank_data.dart';
 
 class SongContributorsPage extends StatelessWidget{
 
@@ -54,17 +51,7 @@ class SongContributorsPage extends StatelessWidget{
                         alignment: Alignment.topCenter,
                         child: IndivCompRankIcon(
 
-                          IndivCompProfile(
-                              comp: IndivComp.empty(),
-                              active: true,
-                              role: CompRole.OBSERVER,
-                              points: null,
-                              rank: ShowRankData.fromShowRank(index + 1),
-                              completedTasksAcceptedCount: 0,
-                              completedTasksPendingCount: 0,
-                              completedTasksRejectedCount: 0,
-                              completedTasks: []
-                          ),
+                          IndivCompProfile.empty(),
                           activeParticipCnt: null,
                           colors: CommonColorData.get(CommonColorData.omegaColorsKey),
                           size: iconSize,

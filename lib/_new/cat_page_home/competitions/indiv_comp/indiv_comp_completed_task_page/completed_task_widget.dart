@@ -74,6 +74,7 @@ class CompletedTaskWidget extends StatelessWidget{
 
           if(complTask.acceptState == TaskAcceptState.PENDING)
             SimpleButton.from(
+              radius: 0,
               textColor: Colors.red,
               icon: MdiIcons.trashCanOutline,
               margin: EdgeInsets.zero,

@@ -223,7 +223,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
         context: context,
         isMe: member.key == AccountData.key,
         loosingAdmin: newRole != CircleRole.ADMIN,
-        currAdminCount: circle.members.where((m) => m.role == CircleRole.ADMIN).length,
+        currAdminCount: circle.loadedMembers.where((m) => m.role == CircleRole.ADMIN).length,
         looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> kręgu <b>${circle.name}</b>?',
         handleUpdate: () async {
 
@@ -233,7 +233,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
               circleKey: circle.key,
               users: [MemberUpdateBody(member.key, role: newRole)],
               onSuccess: (List<Member> allMems){
-                circle.updateMembers(allMems, context: context);
+                circle.updateLoadedMembers(allMems, context: context);
                 onSuccess?.call();
 
                 if(!mounted) return;
@@ -278,7 +278,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
         context: context,
         isMe: member.key == AccountData.key,
         loosingAdmin: member.key == AccountData.key,
-        currAdminCount: circle.members.where((m) => m.role == CircleRole.ADMIN).length,
+        currAdminCount: circle.loadedMembers.where((m) => m.role == CircleRole.ADMIN).length,
         removingUserTitleMess: 'Wypraszanie członka...',
         removingUserDetailMess: '${member.name} nie będzie mieć dłużej dostępu do kręgu.\n\nNa pewno chcesz ${member.isMale?'go':'ją'} wyprosić?',
         handleRemove: () async {
@@ -288,7 +288,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
               circleKey: circle.key,
               userKeys: [member.key],
               onSuccess: (List<String> removedMembers) async {
-                circle.removeMembersByKey(removedMembers, context: context);
+                circle.removeLoadedMembersByKey(removedMembers, context: context);
                 onSuccess?.call();
 
                 if(!mounted) return;
@@ -360,7 +360,7 @@ class _EditPatrolDialogState extends State<_EditPatrolDialog>{
     controller = TextEditingController(text: member.patrol??'');
 
     patrolNames = [];
-    for(Member mem in circle.members)
+    for(Member mem in circle.loadedMembers)
       if(mem.patrol != null && !patrolNames.contains(mem.patrol))
         patrolNames.add(mem.patrol!);
 
@@ -403,7 +403,7 @@ class _EditPatrolDialogState extends State<_EditPatrolDialog>{
                             )
                         )],
                         onSuccess: (List<Member> allMems){
-                          circle.updateMembers(allMems, context: context);
+                          circle.updateLoadedMembers(allMems, context: context);
                           if(mounted) Navigator.pop(context); // Close loading widget.
                           onSuccess?.call();
                         },

@@ -30,7 +30,7 @@ class ForumLikesPageState extends State<ForumLikesPage>{
 
   Forum get forum => widget.forum;
   PaletteGenerator? get palette => widget.palette;
-  List<UserData> get likes => forum.likes;
+  List<UserData> get likes => forum.loadedLikes;
   
   @override
   Widget build(BuildContext context) => Consumer<ForumLikesProvider>(
@@ -63,8 +63,8 @@ class ForumLikesPageState extends State<ForumLikesPage>{
               lastUserName: null,
               lastUserKey: null,
               onSuccess: (likesPage){
-                forum.setAllLikes(likesPage, context: context);
-                setState((){});
+                forum.setAllLoadedLikes(likesPage, context: context);
+                if(mounted) setState((){});
               },
               onForceLoggedOut: (){
                 if(!mounted) return true;
@@ -82,10 +82,11 @@ class ForumLikesPageState extends State<ForumLikesPage>{
                 showAppToast(context, text: simpleErrorMessage);
               },
             );
+            return forum.loadedLikes.length;
           },
           callLoadMore: () async {
 
-            bool success = false;
+            int allLoadedItems = 0;
 
             await ApiForum.getLikes(
               forumKey: forum.key,
@@ -93,8 +94,8 @@ class ForumLikesPageState extends State<ForumLikesPage>{
               lastUserName: likes.isEmpty?null:likes.last.name,
               lastUserKey: likes.isEmpty?null:likes.last.key,
               onSuccess: (likesPage){
-                forum.setAllLikes(likesPage, context: context);
-                success = true;
+                forum.setAllLoadedLikes(likesPage, context: context);
+                allLoadedItems = forum.loadedLikes.length;
                 setState((){});
               },
               onForceLoggedOut: (){
@@ -114,10 +115,10 @@ class ForumLikesPageState extends State<ForumLikesPage>{
               },
             );
 
-            return success;
+            return allLoadedItems;
 
           },
-          callLoadOnInit: forum.likes.isEmpty,
+          callLoadOnInit: forum.loadedLikes.isEmpty,
       )
   );
 

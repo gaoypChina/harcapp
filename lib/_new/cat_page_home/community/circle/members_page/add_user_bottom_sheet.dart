@@ -27,7 +27,7 @@ class AddUserBottomSheet extends StatelessWidget{
     alreadyAddedMess: 'Już jest w kręgu',
     userAlreadyAddedMess: (name) => '$name już jest w kręgu!',
 
-    participatingUserKeys: circle.membersMap.keys.toList(),
+    participatingUserKeys: circle.loadedMembersMap.keys.toList(),
     backgroundColor: CommunityCoverColors.backgroundColor(context, palette),
     handleAddingUser: (BuildContext context, UserDataNick userData) async {
 
@@ -37,7 +37,7 @@ class AddUserBottomSheet extends StatelessWidget{
           circleKey: circle.key,
           users: [MemberRespBodyNick(userData.key, CircleRole.OBSERVER, null, userData.nick)],
           onSuccess: (List<Member> allMems){
-            circle.setAllMembers(allMems, context: context);
+            circle.setAllLoadedMembers(allMems, context: context);
             Navigator.pop(context); // Close loading widget.
             Navigator.pop(context);
             showAppToast(context, text: '${userData.name} ${userData.isMale?'dodany':'dodana'}.');

@@ -8,8 +8,14 @@ enum StopZHP{
   zhpWywiadowca, zhpTropicielka,
   zhpOdkrywca, zhpPionierka,
   zhpCwik, zhpSamarytanka,
-  zhpHOd, zhpHOc,
-  zhpHRd, zhpHRc,
+  zhpHOc, zhpHOd,
+  zhpHRc, zhpHRd,
+
+  zhrMlodzik, zhrOchotniczka,
+  zhrWywiadowca, zhrTropicielka,
+  zhrCwik, zhrSamarytanka,
+  zhrHOc, zhrWedrowniczka,
+  zhrHRc, zhrHRd,
 }
 
 Map<StopZHP, String> stopZHPToString = {
@@ -24,10 +30,21 @@ Map<StopZHP, String> stopZHPToString = {
 
   StopZHP.zhpCwik: 'zhpCwik',
   StopZHP.zhpSamarytanka: 'zhpSamarytanka',
-  StopZHP.zhpHOd: 'zhpHOd',
   StopZHP.zhpHOc: 'zhpHOc',
-  StopZHP.zhpHRd: 'zhpHRd',
+  StopZHP.zhpHOd: 'zhpHOd',
   StopZHP.zhpHRc: 'zhpHRc',
+  StopZHP.zhpHRd: 'zhpHRd',
+
+  StopZHP.zhrMlodzik: 'zhrMlodzik',
+  StopZHP.zhrOchotniczka: 'zhrOchotniczka',
+  StopZHP.zhrWywiadowca: 'zhrWywiadowca',
+  StopZHP.zhrTropicielka: 'zhrTropicielka',
+  StopZHP.zhrCwik: 'zhrCwik',
+  StopZHP.zhrSamarytanka: 'zhrSamarytanka',
+  StopZHP.zhrHOc: 'zhrHOc',
+  StopZHP.zhrWedrowniczka: 'zhrWedrowniczka',
+  StopZHP.zhrHRc: 'zhrHRc',
+  StopZHP.zhrHRd: 'zhrHRd',
 };
 
 Map<String, StopZHP> stringToStopZHP = {
@@ -42,10 +59,21 @@ Map<String, StopZHP> stringToStopZHP = {
 
   'zhpCwik': StopZHP.zhpCwik,
   'zhpSamarytanka': StopZHP.zhpSamarytanka,
-  'zhpHOd': StopZHP.zhpHOd,
   'zhpHOc': StopZHP.zhpHOc,
-  'zhpHRd': StopZHP.zhpHRd,
+  'zhpHOd': StopZHP.zhpHOd,
   'zhpHRc': StopZHP.zhpHRc,
+  'zhpHRd': StopZHP.zhpHRd,
+
+  'zhrMlodzik': StopZHP.zhrMlodzik,
+  'zhrOchotniczka': StopZHP.zhrOchotniczka,
+  'zhrWywiadowca': StopZHP.zhrWywiadowca,
+  'zhrTropicielka': StopZHP.zhrTropicielka,
+  'zhrCwik': StopZHP.zhrCwik,
+  'zhrSamarytanka': StopZHP.zhrSamarytanka,
+  'zhrHOc': StopZHP.zhrHOc,
+  'zhrWedrowniczka': StopZHP.zhrWedrowniczka,
+  'zhrHRc': StopZHP.zhrHRc,
+  'zhrHRd': StopZHP.zhrHRd,
 };
 
 const String stopZhpDhD = 'Druhna';
@@ -73,13 +101,37 @@ const String stopZhpCwikShort = 'ćw.';
 const String stopZhpSamarytanka = 'Samarytanka';
 const String stopZhpSamarytankaShort = 'sam.';
 
-const String stopZhpHoD = 'Harcerka Orla';
 const String stopZhpHoC = 'Harcerz Orli';
+const String stopZhpHoD = 'Harcerka Orla';
 const String stopZhpHoShort = 'HO';
 
-const String stopZhpHrD = 'Harcerka Rzeczypospolitej';
 const String stopZhpHrC = 'Harcerz Rzeczypospolitej';
+const String stopZhpHrD = 'Harcerka Rzeczypospolitej';
 const String stopZhpHrShort = 'HR';
+
+const String stopZhrMlodzik = 'Młodzik';
+const String stopZhrMlodzikShort = 'mł.';
+const String stopZhrOchotniczka = 'Ochotniczka';
+const String stopZhrOchotniczkaShort = 'och.';
+
+const String stopZhrWywiadowca = 'Wywiadowca';
+const String stopZhrWywiadowcaShort = 'wyw.';
+const String stopZhrTropicielka = 'Tropicielka';
+const String stopZhrTropicielkaShort = 'trop.';
+
+const String stopZhrCwik = 'Ćwik';
+const String stopZhrCwikShort = 'ćw.';
+const String stopZhrSamarytanka = 'Samarytanka';
+const String stopZhrSamarytankaShort = 'sam.';
+
+const String stopZhrHoC = 'Harcerz Orli';
+const String stopZhrHoShort = 'HO';
+const String stopZhrWedrowniczka = 'Wędrowniczka';
+const String stopZhrWedrowniczkaShort = 'wędr.';
+
+const String stopZhrHrC = 'Harcerz Rzeczypospolitej';
+const String stopZhrHrD = 'Harcerka Rzeczypospolitej';
+const String stopZhrHrShort = 'HR';
 
 String stopFullName(StopZHP stop){
     switch(stop){
@@ -97,7 +149,17 @@ String stopFullName(StopZHP stop){
       case StopZHP.zhpHOc: return stopZhpHoC;
       case StopZHP.zhpHRd: return stopZhpHrD;
       case StopZHP.zhpHRc: return stopZhpHrC;
-      default: return '';
+
+      case StopZHP.zhrMlodzik: return stopZhrMlodzik;
+      case StopZHP.zhrOchotniczka: return stopZhrOchotniczka;
+      case StopZHP.zhrWywiadowca: return stopZhrWywiadowca;
+      case StopZHP.zhrTropicielka: return stopZhrTropicielka;
+      case StopZHP.zhrCwik: return stopZhrCwik;
+      case StopZHP.zhrSamarytanka: return stopZhrSamarytanka;
+      case StopZHP.zhrHOc: return stopZhrHoC;
+      case StopZHP.zhrWedrowniczka: return stopZhrWedrowniczka;
+      case StopZHP.zhrHRc: return stopZhrHrC;
+      case StopZHP.zhrHRd: return stopZhrHrD;
     }
 }
 
@@ -117,7 +179,18 @@ String stopShortName(StopZHP? stop){
     case StopZHP.zhpHOc: return stopZhpHoShort;
     case StopZHP.zhpHRd: return stopZhpHrShort;
     case StopZHP.zhpHRc: return stopZhpHrShort;
-    default: return '';
+
+    case StopZHP.zhrMlodzik: return stopZhrMlodzikShort;
+    case StopZHP.zhrOchotniczka: return stopZhrOchotniczkaShort;
+    case StopZHP.zhrWywiadowca: return stopZhrWywiadowcaShort;
+    case StopZHP.zhrTropicielka: return stopZhrTropicielkaShort;
+    case StopZHP.zhrCwik: return stopZhrCwikShort;
+    case StopZHP.zhrSamarytanka: return stopZhrSamarytankaShort;
+    case StopZHP.zhrHOc: return stopZhrHoShort;
+    case StopZHP.zhrWedrowniczka: return stopZhrWedrowniczkaShort;
+    case StopZHP.zhrHRc: return stopZhrHrShort;
+    case StopZHP.zhrHRd: return stopZhrHrShort;
+    case null: return '';
   }
 }
 
@@ -134,6 +207,7 @@ const String huf_zhp_gdansk_srodmiesie = 'Hufiec ZHP Gdańsk-Śródmieście';
 const String huf_zhp_glowno = 'Hufiec ZHP Głowno';
 const String huf_zhp_gniezno = 'Hufiec ZHP Gniezno';
 const String huf_zhp_grodzisk_mazowiecki = 'Hufiec ZHP Grodzisk Mazowiecki';
+const String huf_zhp_grojec = 'Hufiec ZHP Grójec';
 const String huf_zhp_jarocin = 'Hufiec ZHP Jarocin';
 const String huf_zhp_karkonoski = 'Karkonoski Hufiec ZHP';
 const String huf_zhp_kielce_poludnie = 'Hufiec ZHP Kielce-Południe';
@@ -157,6 +231,7 @@ const String huf_zhp_trzebinia = 'Hufiec ZHP Trzebinia';
 
 const String huf_zhp_warszawa_mokotow = 'Hufiec ZHP Warszawa Mokotów';
 const String huf_zhp_warszawa_praga_pn = 'Hufiec ZHP Warszawa-Praga-Północ';
+const String huf_zhp_warszawa_ursus_wlochy = 'Hufiec ZHP Warszawa Ursus-Włochy';
 const String huf_zhp_warszawa_ursynow = 'Hufiec ZHP Warszawa Ursynów';
 const String huf_zhp_warszawa_zoliborz = 'Hufiec ZHP Warszawa Żoliborz';
 
@@ -181,9 +256,13 @@ const String huf_zhp_ziemi_cieszynskiej = 'Hufiec ZHP Ziemi Cieszyńskiej';
 const String huf_zhp_ziemi_gliwickiej = 'Hufiec ZHP Ziemi Gliwickiej';
 const String huf_zhp_ziemi_koszalinskiej = 'Hufiec ZHP Ziemi Koszalińskiej';
 const String huf_zhp_ziemi_rybnickiej = 'Hufiec ZHP Ziemi Rybnickiej';
+const String huf_zhp_ziemi_sanockiej = 'Hufiec Ziemi Sanockiej';
 const String huf_zhp_ziemi_tarnogorskiej = 'Hufiec Ziemi Tarnogórskiej im. Powstańców Śląskich';
 const String huf_zhp_ziemi_wodzislawskiej = 'Hufiec ZHP Ziemi Wodzisławskiej';
 const String huf_zhp_zielonka = 'Hufiec ZHP Zielonka im. Janusza Korczaka';
+const String huf_zhp_zgierz = 'Hufiec ZHP Zgierz im. Wojska Polskiego';
 
 const String huf_zhr_zielonagora_topor = 'Zielonogórski Hufiec Harcerzy "Topór"';
 const String huf_zhr_lodz = 'Hufiec „Szaniec” - Okręg Łódzki ZHR';
+
+const String huf_zhr_3_gdynski = 'III Gdyński Hufiec Harcerski "Pojutrze"';

@@ -30,7 +30,7 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
 
   Forum get forum => widget.forum;
   PaletteGenerator? get palette => widget.palette;
-  List<UserData> get followers => forum.followers;
+  List<UserData> get followers => forum.loadedFollowers;
   
   @override
   Widget build(BuildContext context) => Consumer<ForumFollowersProvider>(
@@ -63,8 +63,8 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
               lastUserName: null,
               lastUserKey: null,
               onSuccess: (followersPage){
-                forum.setAllFollowers(followersPage, context: context);
-                setState((){});
+                forum.setAllLoadedFollowers(followersPage, context: context);
+                if(mounted) setState((){});
               },
               onForceLoggedOut: (){
                 if(!mounted) return true;
@@ -82,20 +82,17 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
                 showAppToast(context, text: simpleErrorMessage);
               },
             );
+            return forum.loadedFollowers.length;
           },
           callLoadMore: () async {
-
-            bool success = false;
-
             await ApiForum.getFollowers(
               forumKey: forum.key,
               pageSize: Forum.followerPageSize,
               lastUserName: followers.isEmpty?null:followers.last.name,
               lastUserKey: followers.isEmpty?null:followers.last.key,
               onSuccess: (followersPage){
-                forum.setAllFollowers(followersPage, context: context);
-                success = true;
-                setState((){});
+                forum.setAllLoadedFollowers(followersPage, context: context);
+                if(mounted) setState((){});
               },
               onForceLoggedOut: (){
                 if(!mounted) return true;
@@ -113,11 +110,9 @@ class ForumFollowersPageState extends State<ForumFollowersPage>{
                 showAppToast(context, text: simpleErrorMessage);
               },
             );
-
-            return success;
-
+            return forum.loadedFollowers.length;
           },
-          callLoadOnInit: forum.followers.isEmpty,
+          callLoadOnInit: forum.loadedFollowers.isEmpty,
 
       )
   );

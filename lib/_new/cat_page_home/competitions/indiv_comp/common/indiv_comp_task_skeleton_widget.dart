@@ -43,66 +43,69 @@ class IndivCompTaskSkeletonWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => BorderMaterial(
-    child: Padding(
-      padding: const EdgeInsets.only(top: padding),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-
-          Stack(
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.only(top: padding),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+              Stack(
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
 
-                      const SizedBox(width: IndivCompTaskSkeletonWidget.padding),
-                      Expanded(child: title??Container()),
+                          const SizedBox(width: IndivCompTaskSkeletonWidget.padding),
+                          Expanded(child: title??Container()),
 
-                      if(trailing != null)
-                        const SizedBox(width: 12.0),
+                          if(trailing != null)
+                            const SizedBox(width: 12.0),
 
-                      if(trailing != null)
-                        trailing!,
+                          if(trailing != null)
+                            trailing!,
 
-                      const SizedBox(width: IndivCompTaskSkeletonWidget.padding),
+                          const SizedBox(width: IndivCompTaskSkeletonWidget.padding),
 
+                        ],
+                      ),
+
+                      if(titleBottom != null)
+                        titleBottom!,
+
+                      if(description != null)
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: IndivCompTaskSkeletonWidget.padding,
+                              left: IndivCompTaskSkeletonWidget.padding,
+                              right: IndivCompTaskSkeletonWidget.padding
+                          ),
+                          child: description,
+                        ),
                     ],
                   ),
 
-                  if(titleBottom != null)
-                    titleBottom!,
+                  if(front != null)
+                    front!
 
-                  if(description != null)
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: IndivCompTaskSkeletonWidget.padding,
-                          left: IndivCompTaskSkeletonWidget.padding,
-                          right: IndivCompTaskSkeletonWidget.padding
-                      ),
-                      child: description,
-                    ),
                 ],
               ),
 
-              if(front != null)
-                front!
+              const SizedBox(height: IndivCompTaskSkeletonWidget.padding),
+
+              if(bottom != null)
+                bottom!,
 
             ],
           ),
-
-          const SizedBox(height: IndivCompTaskSkeletonWidget.padding),
-
-          if(bottom != null)
-            bottom!,
-
-        ],
-      ),
-    ),
+        ),
+      )
   );
 
 }

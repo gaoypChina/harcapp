@@ -17,11 +17,14 @@ class IndivCompCompletedTask{
 
   final IndivCompTask task;
 
-  TaskAcceptState? acceptState;
+  TaskAcceptState acceptState;
   final DateTime reqTime;
-  final DateTime? revTime;
   final String? reqComment;
+  final DateTime? revTime;
   final String? revComment;
+  final String? revUserKey;
+
+  final bool autoAccepted;
 
   IndivCompCompletedTask({
     required this.key,
@@ -32,9 +35,12 @@ class IndivCompCompletedTask{
 
     required this.acceptState,
     required this.reqTime,
-    required this.revTime,
     this.reqComment,
+    this.revTime,
     this.revComment,
+    this.revUserKey,
+
+    required this.autoAccepted,
   });
 
   String get title => task.title;
@@ -46,11 +52,15 @@ class IndivCompCompletedTask{
 
     required String participKey,
     required IndivCompTask task,
-    required TaskAcceptState? acceptState,
+    required TaskAcceptState acceptState,
     required DateTime reqTime,
-    DateTime? revTime,
     String? reqComment,
+    DateTime? revTime,
     String? revComment,
+    String? revUserKey,
+
+    required bool autoAccepted,
+
   }) => IndivCompCompletedTask(
     participKey: participKey,
     task: task,
@@ -59,9 +69,12 @@ class IndivCompCompletedTask{
 
     acceptState: acceptState,
     reqTime: reqTime,
-    revTime: revTime,
     reqComment: reqComment,
-    revComment: revComment
+    revTime: revTime,
+    revComment: revComment,
+    revUserKey: revUserKey,
+
+    autoAccepted: autoAccepted,
   );
 
   static IndivCompCompletedTask fromRespMap(Map respMap, IndivComp comp, {String? key}) => IndivCompCompletedTask.from(
@@ -70,11 +83,16 @@ class IndivCompCompletedTask{
       participKey: respMap['userKey']??(throw InvalidResponseError('userKey')),
       task: (comp.taskMap[respMap['taskKey']??(throw InvalidResponseError('taskKey'))])??(throw InvalidResponseError('taskKey not in provided competition')),
 
-      acceptState: strToTaskAcceptState[respMap['acceptState']??(throw InvalidResponseError('accept_state'))],
       reqTime: DateTime.tryParse(respMap['reqTime']??'')??(throw InvalidResponseError('reqTime')),
-      revTime: DateTime.tryParse(respMap['revTime']??''),
       reqComment: respMap['reqComment'],
-      revComment: respMap['revComment']
+      revTime: DateTime.tryParse(respMap['revTime']??''),
+      revComment: respMap['revComment'],
+      revUserKey: respMap['revUserKey'],
+
+      autoAccepted: respMap['autoAccepted']??(throw InvalidResponseError('autoAccepted')),
+
+      acceptState: strToTaskAcceptState[respMap['acceptState']]??(throw InvalidResponseError('acceptState')),
+
   );
 
   IndivCompCompletedTask copyWith({
@@ -87,7 +105,11 @@ class IndivCompCompletedTask{
     TaskAcceptState? acceptState,
     DateTime? time,
     String? reqComment,
-    String? revComment
+    String? revComment,
+
+    String? revUserKey,
+    bool? autoAccepted,
+
   }) => IndivCompCompletedTask(
     participKey: participKey??this.participKey,
     task: task??this.task,
@@ -96,9 +118,12 @@ class IndivCompCompletedTask{
 
     acceptState: acceptState??this.acceptState,
     reqTime: time??reqTime,
-    revTime: time??revTime,
     reqComment: reqComment??this.reqComment,
+    revTime: time??revTime,
     revComment: revComment??this.revComment,
+
+    revUserKey: revUserKey??this.revUserKey,
+    autoAccepted: autoAccepted??this.autoAccepted,
   );
 
 }

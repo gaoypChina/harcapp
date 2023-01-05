@@ -46,7 +46,7 @@ class CircleTile extends StatelessWidget{
               Icon(MdiIcons.accountMultiple, color: hintEnab_(context)),
               const SizedBox(width: Dimen.defMarg),
               Text(
-                  circle.members.length.toString(),
+                  circle.loadedMembers.length.toString(),
                   style: AppTextStyle(
                       fontSize: Dimen.TEXT_SIZE_BIG,
                       fontWeight: weight.bold,

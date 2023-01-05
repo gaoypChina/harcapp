@@ -60,7 +60,7 @@ class CompletedTaskDetailsWidgetState extends State<CompletedTaskDetailsWidget>{
   TextEditingController? textController;
   bool? sending;
 
-  bool get reviewMode => complTask.acceptState == TaskAcceptState.PENDING;
+  bool get reviewMode => complTask.acceptState == TaskAcceptState.PENDING && (comp.myProfile!.role == CompRole.ADMIN || comp.myProfile!.role == CompRole.MODERATOR);
   late bool participLoading;
 
   IndivCompTask get task => complTask.task;
@@ -114,159 +114,169 @@ class CompletedTaskDetailsWidgetState extends State<CompletedTaskDetailsWidget>{
       colors
     );
 
-    return Padding(
-      padding: widget.padding??EdgeInsets.zero,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
 
-          IndivCompTaskSkeletonWidget(
-            trailing: PointsWidget(points: task.points),
-            title: Text(task.title, style: IndivCompTaskSkeletonWidget.titleTextStyle(context)),
-            description: Text(task.description!, style: IndivCompTaskSkeletonWidget.descriptionTextStyle(context)),
-          ),
-
-          const SizedBox(height: 2*Dimen.SIDE_MARG),
-
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        Expanded(child: ListView(
+            padding: widget.padding??EdgeInsets.zero,
+            physics: const BouncingScrollPhysics(),
             children: [
 
-              if(participLoading)
-                AccountThumbnailWidget(
-                  elevated: false,
-                  markIcon: MdiIcons.messageArrowRight,
-                  child: SpinKitChasingDots(
-                    color: colors.avgColor,
-                    size: Dimen.ICON_SIZE,
-                  ),
-                )
-              else if(particip == null)
-                const AccountThumbnailWidget(
-                  icon: MdiIcons.alertCircleOutline,
-                  elevated: false,
-                  markIcon: MdiIcons.messageArrowRight,
-                )
-              else
-                AccountThumbnailWidget(
-                  name: particip!.name,
-                  elevated: false,
-                  markIcon: MdiIcons.messageArrowRight,
-                ),
-
-              const SizedBox(width: Dimen.ICON_MARG),
-
-              Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-
-                      const SizedBox(height: AccountThumbnailWidget.defSize - 2*Dimen.TEXT_SIZE_BIG),
-
-                      _NameWidget(particip?.name ?? 'Ładowanie...'),
-                      _DateWidget(complTask.reqTime),
-
-                      _MessageWidget(complTask.reqComment),
-
-                    ],
-                  )
-              )
-
-            ],
-          ),
-
-          // Response
-
-          const SizedBox(height: 2*Dimen.SIDE_MARG),
-
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AccountThumbnailWidget(
-                icon: compRoleToIcon[CompRole.ADMIN],
-                elevated: false,
-                markIcon: MdiIcons.messageArrowLeft,
+              IndivCompTaskSkeletonWidget(
+                trailing: PointsWidget(points: task.points),
+                title: Text(task.title, style: IndivCompTaskSkeletonWidget.titleTextStyle(context)),
+                description: Text(task.description!, style: IndivCompTaskSkeletonWidget.descriptionTextStyle(context)),
               ),
 
-              const SizedBox(width: Dimen.ICON_MARG),
+              const SizedBox(height: 2*Dimen.SIDE_MARG),
 
-              Expanded(
-                  child:
-                  reviewMode || complTask.revTime != null?
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
 
-                      const SizedBox(height: AccountThumbnailWidget.defSize - 2*Dimen.TEXT_SIZE_BIG),
+                  if(participLoading)
+                    AccountThumbnailWidget(
+                      elevated: false,
+                      markIcon: MdiIcons.messageArrowRight,
+                      child: SpinKitChasingDots(
+                        color: colors.avgColor,
+                        size: Dimen.ICON_SIZE,
+                      ),
+                    )
+                  else if(particip == null)
+                    const AccountThumbnailWidget(
+                      icon: MdiIcons.alertCircleOutline,
+                      elevated: false,
+                      markIcon: MdiIcons.messageArrowRight,
+                    )
+                  else
+                    AccountThumbnailWidget(
+                      name: particip!.name,
+                      elevated: false,
+                      markIcon: MdiIcons.messageArrowRight,
+                    ),
 
-                      const _NameWidget('Rozpatrujący'),
-                      if(reviewMode)_TickingDate()
-                      else if(complTask.revTime != null) _DateWidget(complTask.revTime),
+                  const SizedBox(width: Dimen.ICON_MARG),
 
-                      if(reviewMode)
-                        AppTextFieldHint(
-                          hintTop: '',
-                          hint: 'Wiadomość zwrotna:',
-                          controller: textController,
-                          maxLines: null,
-                          maxLength: IndivCompCompletedTask.MAX_LEN_REV_COMMENT,
-                          hintStyle: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG),
-                          style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
-                        )
-                      else
-                        _MessageWidget(complTask.revComment),
+                  Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
 
-                    ],
-                  ):const Padding(
-                    padding: EdgeInsets.only(top: AccountThumbnailWidget.defSize - 2*Dimen.TEXT_SIZE_BIG),
-                    child: _NameWidget('Zatwierdzono automatycznie'),
+                          const SizedBox(height: AccountThumbnailWidget.defSize - 2*Dimen.TEXT_SIZE_BIG),
+
+                          _NameWidget(particip?.name ?? 'Ładowanie...'),
+                          _DateWidget(complTask.reqTime),
+
+                          _MessageWidget(complTask.reqComment),
+
+                        ],
+                      )
                   )
 
-              )
+                ],
+              ),
 
-            ],
-          ),
+              // Response
 
-          const SizedBox(height: 2*Dimen.SIDE_MARG),
+              const SizedBox(height: 2*Dimen.SIDE_MARG),
 
-          if(reviewMode)
-            ReviewButtons(
-              comp,
-              particip,
-              complTask,
-              textController,
-              onAcceptStateChanged: (String complTaskKey, TaskAcceptState acceptState){
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AccountThumbnailWidget(
+                    icon: compRoleToIcon[CompRole.ADMIN],
+                    elevated: false,
+                    markIcon: MdiIcons.messageArrowLeft,
+                  ),
 
-                comp.removeComplTask(context, particip!.key, complTaskKey);
-                if(acceptState==TaskAcceptState.ACCEPTED)
-                  showAppToast(context, text: 'Zaakceptowano');
-                else if(acceptState==TaskAcceptState.REJECTED)
-                  showAppToast(context, text: 'Odrzucono');
+                  const SizedBox(width: Dimen.ICON_MARG),
 
-                widget.onAcceptStateChanged?.call();
-              },
-            )
-          else
-            GradientWidget(
+                  Expanded(
+                      child:
+                      complTask.autoAccepted?
+                      const Padding(
+                        padding: EdgeInsets.only(top: AccountThumbnailWidget.defSize - 2*Dimen.TEXT_SIZE_BIG),
+                        child: _NameWidget('Zatwierdzono automatycznie'),
+                      ):
+                      complTask.revTime == null?
+                      const Padding(
+                        padding: EdgeInsets.only(top: AccountThumbnailWidget.defSize - 2*Dimen.TEXT_SIZE_BIG),
+                        child: _NameWidget('Jeszcze nie rozpatrzono'),
+                      ):
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+
+                          const SizedBox(height: AccountThumbnailWidget.defSize - 2*Dimen.TEXT_SIZE_BIG),
+
+                          const _NameWidget('Rozpatrujący'),
+                          if(reviewMode)_TickingDate()
+                          else if(complTask.revTime != null) _DateWidget(complTask.revTime),
+
+                          if(reviewMode)
+                            AppTextFieldHint(
+                              hintTop: '',
+                              hint: 'Wiadomość zwrotna:',
+                              controller: textController,
+                              maxLines: null,
+                              maxLength: IndivCompCompletedTask.MAX_LEN_REV_COMMENT,
+                              hintStyle: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG),
+                              style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                            )
+                          else
+                            _MessageWidget(complTask.revComment),
+
+                        ],
+                      )
+
+                  )
+
+                ],
+              ),
+
+              const SizedBox(height: 2*Dimen.SIDE_MARG),
+
+            ])),
+
+        if(reviewMode)
+          ReviewButtons(
+            comp,
+            particip,
+            complTask,
+            textController,
+            onAcceptStateChanged: (String complTaskKey, TaskAcceptState acceptState){
+
+              comp.removeCompletedTaskForParticip(context, particip!.key, complTaskKey);
+              if(acceptState==TaskAcceptState.ACCEPTED)
+                showAppToast(context, text: 'Zaakceptowano');
+              else if(acceptState==TaskAcceptState.REJECTED)
+                showAppToast(context, text: 'Odrzucono');
+
+              widget.onAcceptStateChanged?.call();
+            },
+          )
+        else
+          GradientWidget(
               radius: AppCard.bigRadius,
               colorStart: taskAcceptStateColorStart(complTask.acceptState)!,
               colorEnd: taskAcceptStateColor(complTask.acceptState)!,
               child: SizedBox(
-                height: Dimen.ICON_FOOTPRINT,
-                child: Center(
-                  child: Text(
-                    taskAcceptStateToName(complTask.acceptState)!,
-                    style: AppTextStyle(
-                        fontSize: Dimen.TEXT_SIZE_APPBAR,
-                        color: background_(context),
-                        fontWeight: weight.bold
+                  height: Dimen.ICON_FOOTPRINT,
+                  child: Center(
+                    child: Text(
+                      taskAcceptStateToName(complTask.acceptState)!,
+                      style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_APPBAR,
+                          color: background_(context),
+                          fontWeight: weight.bold
+                      ),
                     ),
-                  ),
-                )
+                  )
               )
-            ),
-        ],
-      ),
+          ),
+      ],
     );
 
   }
@@ -511,3 +521,35 @@ class _TickingDateState extends State<_TickingDate>{
   Widget build(BuildContext context) => _DateWidget(DateTime.now());
 
 }
+
+Future<void> openCompletedTaskDetailsWidget(
+    BuildContext context,
+    IndivComp comp,
+    IndivCompCompletedTask completedTask,
+) => openDialog(
+    context: context,
+    builder: (context) => Padding(
+      padding: const EdgeInsets.all(Dimen.SIDE_MARG - Dimen.defMarg),
+      child: Material(
+          color: background_(context),
+          clipBehavior: Clip.hardEdge,
+          borderRadius: BorderRadius.circular(AppCard.bigRadius),
+          child: Padding(
+            padding: const EdgeInsets.all(Dimen.defMarg),
+            child: Column(
+              children: [
+
+                AppBar(
+                  elevation: 0,
+                ),
+
+                Expanded(
+                  child: CompletedTaskDetailsWidget(comp, completedTask),
+                ),
+
+              ],
+            ),
+          )
+      ),
+    )
+);

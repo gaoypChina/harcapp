@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp/_common_widgets/paging_loadable_page/paging_loadable_page_view_page.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_completed_task_page/review_page/completed_task_details_widget.dart';
@@ -9,6 +10,7 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/task_accept_s
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 
@@ -37,6 +39,7 @@ class CompletedTasksReviewPage extends StatefulWidget{
 class CompletedTasksReviewPageState extends State<CompletedTasksReviewPage>{
 
   IndivComp get comp => widget.comp;
+  List<IndivCompCompletedTask> get pendingCompletedTasks => comp.loadedPendingCompletedTasks;
 
   void Function(IndivCompCompletedTask)? get onCompletedTaskRemoved => widget.onCompletedTaskRemoved;
   void Function(IndivCompParticip, IndivCompCompletedTask)? get onAccepted => widget.onAccepted;
@@ -44,17 +47,13 @@ class CompletedTasksReviewPageState extends State<CompletedTasksReviewPage>{
 
   late RefreshController refreshController;
 
-  late List<IndivCompCompletedTask> loadedCompletedTasks;
-
   int get totalCount => comp.completedTasksPendingCount??-1;
 
-  bool get moreToLoad =>
-    totalCount == loadedCompletedTasks.length;
+  bool get moreToLoad => pendingCompletedTasks.length < totalCount;
 
   @override
   void initState() {
     refreshController = RefreshController();
-    loadedCompletedTasks = [];
     super.initState();
   }
 
@@ -63,17 +62,20 @@ class CompletedTasksReviewPageState extends State<CompletedTasksReviewPage>{
       appBarTitle: 'Wnioski o punkty',
       loadingIndicatorColor: comp.colors.avgColor,
       totalItemsCount: totalCount,
-      loadedItemsCount: loadedCompletedTasks.length,
+      loadedItemsCount: pendingCompletedTasks.length,
       callReload: () async {
 
         await ApiIndivComp.getCompletedTasks(
           comp: comp,
           pageSize: IndivCompCompletedTask.pageSize,
-          lastReqTime: loadedCompletedTasks.isEmpty?null:loadedCompletedTasks.last.reqTime,
+          lastReqTime: pendingCompletedTasks.isEmpty?null:pendingCompletedTasks.last.reqTime,
           acceptState: TaskAcceptState.PENDING,
           onSuccess: (completedTasksPage){
-            loadedCompletedTasks.clear();
-            loadedCompletedTasks.addAll(completedTasksPage);
+            pendingCompletedTasks.clear();
+            pendingCompletedTasks.addAll(completedTasksPage);
+
+            comp.setAllLoadedPendingCompletedTasks(completedTasksPage);
+
             setState((){});
           },
           onForceLoggedOut: (){
@@ -100,10 +102,10 @@ class CompletedTasksReviewPageState extends State<CompletedTasksReviewPage>{
         await ApiIndivComp.getCompletedTasks(
           comp: comp,
           pageSize: IndivCompCompletedTask.pageSize,
-          lastReqTime: loadedCompletedTasks.isEmpty?null:loadedCompletedTasks.last.reqTime,
+          lastReqTime: pendingCompletedTasks.isEmpty?null:pendingCompletedTasks.last.reqTime,
           acceptState: TaskAcceptState.PENDING,
           onSuccess: (completedTasksPage){
-            loadedCompletedTasks.addAll(completedTasksPage);
+            comp.addLoadedPendingCompletedTasks(completedTasksPage);
             setState((){});
             success = true;
           },
@@ -126,15 +128,23 @@ class CompletedTasksReviewPageState extends State<CompletedTasksReviewPage>{
 
         return success;
       },
-      callLoadOnInit: true,
-      loadedItemBuilder: (index) =>
-      index > loadedCompletedTasks.length - 1?
-      null:
-      CompletedTaskDetailsWidget(
+      callLoadOnInit: pendingCompletedTasks.isEmpty,
+      loadedItemBuilder: (index) => CompletedTaskDetailsWidget(
         comp,
-        loadedCompletedTasks[index],
+        pendingCompletedTasks[index],
         padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+        onAcceptStateChanged: () => setState((){
+          comp.removeLoadedPendingCompletedTask(pendingCompletedTasks[index]);
+        }),
       ),
+      tabTitle: (index, loadMoreAvailable) => loadMoreAvailable?'Więcej...':'Wniosek $index',
+
+      emptyBody: const Padding(
+        padding: EdgeInsets.all(Dimen.SIDE_MARG),
+        child: Center(
+          child: EmptyMessageWidget(text: 'Brak\nnierozpatrzonych\nwniosków', icon: MdiIcons.cubeOffOutline),
+        ),
+      )
   );
 
 }

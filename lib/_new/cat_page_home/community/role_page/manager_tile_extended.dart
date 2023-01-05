@@ -158,7 +158,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
         context: context,
         isMe: manager.key == AccountData.key,
         loosingAdmin: newRole != CommunityRole.ADMIN,
-        currAdminCount: community.managers.where((m) => m.role == CommunityRole.ADMIN).length,
+        currAdminCount: community.loadedManagers.where((m) => m.role == CommunityRole.ADMIN).length,
         looseAdminConfMess: 'Czy na pewno chcesz zrzec się roli <b>administratora</b> środowiska <b>${community.name}</b>?',
         handleUpdate: () async {
 
@@ -168,7 +168,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
               communityKey: community.key,
               users: [CommunityManagerUpdateBody(manager.key, role: Optional.of(newRole))],
               onSuccess: (List<CommunityManager> allManagers){
-                community.setAllManagers(allManagers, context: context);
+                community.setAllLoadedManagers(allManagers, context: context);
                 Navigator.pop(context); // Close loading widget
                 onSuccess?.call();
               },
@@ -194,7 +194,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
         context: context,
         isMe: manager.key == AccountData.key,
         loosingAdmin: manager.key == AccountData.key,
-        currAdminCount: community.managers.where((m) => m.role == CommunityRole.ADMIN).length,
+        currAdminCount: community.loadedManagers.where((m) => m.role == CommunityRole.ADMIN).length,
         removingUserTitleMess: 'Wypraszanie ogarniacza...',
         removingUserDetailMess: '${manager.name} nie będzie mieć dłużej dostępu do zarządzania środowiskiem.\n\nNa pewno chcesz ${manager.isMale?'go':'ją'} wyprosić?',
         handleRemove: () async {
@@ -204,7 +204,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
               communityKey: community.key,
               userKeys: [manager.key],
               onSuccess: (List<String> removedManagers) async {
-                community.removeManagersByKey(removedManagers, context: context);
+                community.removeLoadedManagersByKey(removedManagers, context: context);
 
                 if(!mounted) return;
                 showAppToast(context, text: 'Wyproszono');

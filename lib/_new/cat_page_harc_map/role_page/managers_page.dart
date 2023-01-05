@@ -47,7 +47,7 @@ class MarkerManagersPage extends StatefulWidget{
 class MarkerManagersPageState extends State<MarkerManagersPage>{
 
   MarkerData get marker => widget.marker;
-  List<MarkerManager> get managers => marker.managers;
+  List<MarkerManager> get managers => marker.loadedManagers;
 
   List<MarkerManager> managAdmins = [];
   List<MarkerManager> managCommMods = [];
@@ -124,7 +124,7 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
               )
           ],
 
-          userCount: marker.managerCount,
+          userCount: marker.managerCount!,
           callReload: () async {
             await ApiHarcMap.getManagers(
               markerKey: marker.key,
@@ -133,10 +133,10 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
               lastUserName: null,
               lastUserKey: null,
               onSuccess: (managersPage){
-                MarkerManager me = marker.managersMap[AccountData.key]!;
+                MarkerManager me = marker.loadedManagersMap[AccountData.key]!;
                 managersPage.removeWhere((manager) => manager.key == me.key);
                 managersPage.insert(0, me);
-                marker.setAllManagers(managersPage, context: context);
+                marker.setAllLoadedManagers(managersPage, context: context);
                 updateUserSets();
 
                 setState((){});
@@ -157,11 +157,9 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
                 showAppToast(context, text: simpleErrorMessage);
               },
             );
+            return marker.loadedManagers.length;
           },
           callLoadMore: () async {
-
-            bool success = false;
-
             await ApiHarcMap.getManagers(
               markerKey: marker.key,
               pageSize: MarkerData.managerPageSize,
@@ -169,10 +167,9 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
               lastUserName: managers.length==1?null:managers.last.name,
               lastUserKey: managers.length==1?null:managers.last.key,
               onSuccess: (managersPage){
-                marker.addManagers(managersPage, context: context);
+                marker.addLoadedManagers(managersPage, context: context);
                 updateUserSets();
-                success = true;
-                setState((){});
+                if(mounted) setState((){});
               },
               onForceLoggedOut: (){
                 if(!mounted) return true;
@@ -190,11 +187,9 @@ class MarkerManagersPageState extends State<MarkerManagersPage>{
                 showAppToast(context, text: simpleErrorMessage);
               },
             );
-
-            return success;
-
+            return marker.loadedManagers.length;
           },
-          callLoadOnInit: marker.managers.length == 1,
+          callLoadOnInit: marker.loadedManagers.length == 1,
       )
   );
 
