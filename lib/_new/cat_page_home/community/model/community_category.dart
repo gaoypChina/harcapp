@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:harcapp/_common_widgets/category_thumbnail_widget.dart';
 import 'package:harcapp/values/colors.dart';
-import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 enum CommunityCategory{
@@ -91,205 +89,97 @@ Color getCommCatColor(CommunityCategory commCat){
 
 }
 
-class _CommCatWidget extends StatelessWidget{
-
-  final CommunityCategory commCat;
-  final double size;
-  final bool elevated;
-  final IconData? icon;
-  final String? svgPath;
-  final double svgSizeFraction;
-  final String? text;
-
-  static _CommCatWidget fromIcon({
-    required CommunityCategory commCat,
-    required double size,
-    required bool elevated,
-    required IconData icon,
-  }) => _CommCatWidget(
-      commCat: commCat,
-      size: size,
-      elevated: elevated,
-      icon: icon,
-  );
-
-  static _CommCatWidget fromSvg({
-    required CommunityCategory commCat,
-    required double size,
-    required bool elevated,
-    required String svgPath,
-    double svgSizeFraction = 1,
-  }) => _CommCatWidget(
-    commCat: commCat,
-    size: size,
-    elevated: elevated,
-    svgPath: svgPath,
-    svgSizeFraction: svgSizeFraction,
-  );
-
-  static _CommCatWidget fromText({
-    required CommunityCategory commCat,
-    required double size,
-    required bool elevated,
-    required String text,
-  }) => _CommCatWidget(
-    commCat: commCat,
-    size: size,
-    elevated: elevated,
-    text: text,
-  );
-
-  const _CommCatWidget({
-    required this.commCat,
-    required this.size,
-    required this.elevated,
-    this.icon,
-    this.svgPath,
-    this.svgSizeFraction = 1,
-    this.text
-  });
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Material(
-        elevation: elevated?2.0:0,
-        borderRadius: BorderRadius.circular(size),
-        color: getCommCatColor(commCat),
-        child: Builder(
-          builder: (context){
-            if(icon != null)
-              return Icon(icon, size: size);
-
-            if(svgPath != null)
-              return SizedBox(
-                width: size,
-                height: size,
-                child: Center(
-                  child: SvgPicture.asset(
-                    svgPath!,
-                    width: svgSizeFraction*size,
-                    height: svgSizeFraction*size,
-                  ),
-                ),
-              );
-
-            if(text != null)
-              return SizedBox(
-                width: size,
-                height: size,
-                child: Center(
-                  child: Text(
-                    text!,
-                    style: AppTextStyle(
-                      color: Colors.black,
-                      fontSize: Dimen.TEXT_SIZE_BIG,
-                      fontWeight: weight.bold
-                    )
-                  ),
-                ),
-              );
-
-            return Container();
-          },
-        )
-    );
-
-  }
-
-}
-
-Widget? commCatToWidget(CommunityCategory commCat, {required double size, required bool elevated}){
+Widget commCatToWidget(CommunityCategory commCat, {required double size, bool elevated = true}){
 
   switch(commCat) {
-    case CommunityCategory.error: return _CommCatWidget.fromIcon(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.error: return CategoryThumbnailCommonWidget.fromIcon(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         icon: MdiIcons.alertCircleOutline);
-    case CommunityCategory.gromada: return _CommCatWidget.fromText(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.gromada: return CategoryThumbnailCommonWidget.fromText(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: 'Z');
-    case CommunityCategory.gromadaZuchowaZHP: return _CommCatWidget.fromSvg(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.gromadaZuchowaZHP: return CategoryThumbnailCommonWidget.fromSvg(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         svgPath: 'assets/images/meto/z.svg', svgSizeFraction: .8);
-    case CommunityCategory.gromadaZuchowZHR: return _CommCatWidget.fromSvg(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.gromadaZuchowZHR: return CategoryThumbnailCommonWidget.fromSvg(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .8);
-    case CommunityCategory.gromadaZuchenekZHR: return _CommCatWidget.fromSvg(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.gromadaZuchenekZHR: return CategoryThumbnailCommonWidget.fromSvg(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .8);
-    case CommunityCategory.radaGromady: return _CommCatWidget.fromText(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.radaGromady: return CategoryThumbnailCommonWidget.fromText(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: 'Z');
-    case CommunityCategory.szostka: return _CommCatWidget.fromText(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.szostka: return CategoryThumbnailCommonWidget.fromText(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: 'Z');
 
-    case CommunityCategory.druzyna: return _CommCatWidget.fromText(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.druzyna: return CategoryThumbnailCommonWidget.fromText(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: 'D');
-    case CommunityCategory.druzynaHarcerskaZHP: return _CommCatWidget.fromSvg(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.druzynaHarcerskaZHP: return CategoryThumbnailCommonWidget.fromSvg(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         svgPath: 'assets/images/meto/h.svg');
-    case CommunityCategory.druzynaHarcerzyStarszychZHP: return _CommCatWidget.fromSvg(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.druzynaHarcerzyStarszychZHP: return CategoryThumbnailCommonWidget.fromSvg(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         svgPath: 'assets/images/meto/hs.svg');
-    case CommunityCategory.druzynaWedrowniczaZHP: return _CommCatWidget.fromSvg(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.druzynaWedrowniczaZHP: return CategoryThumbnailCommonWidget.fromSvg(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         svgPath: 'assets/images/meto/w.svg');
-    case CommunityCategory.druzynaHarcerzyZHR: return _CommCatWidget.fromSvg(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.druzynaHarcerzyZHR: return CategoryThumbnailCommonWidget.fromSvg(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .8);
-    case CommunityCategory.druzynaHarcerekZHR: return _CommCatWidget.fromSvg(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.druzynaHarcerekZHR: return CategoryThumbnailCommonWidget.fromSvg(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .8);
-    case CommunityCategory.druzynaWedrownikowZHR: return _CommCatWidget.fromSvg(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.druzynaWedrownikowZHR: return CategoryThumbnailCommonWidget.fromSvg(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .8);
-    case CommunityCategory.druzynaWedrowniczekZHR: return _CommCatWidget.fromSvg(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.druzynaWedrowniczekZHR: return CategoryThumbnailCommonWidget.fromSvg(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .8);
 
-    case CommunityCategory.radaDruzyny: return _CommCatWidget.fromText(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.radaDruzyny: return CategoryThumbnailCommonWidget.fromText(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: 'RD');
-    case CommunityCategory.zastep: return _CommCatWidget.fromText(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.zastep: return CategoryThumbnailCommonWidget.fromText(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: 'Z');
-    case CommunityCategory.patrol: return _CommCatWidget.fromText(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.patrol: return CategoryThumbnailCommonWidget.fromText(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: 'P');
 
-    case CommunityCategory.szczep: return _CommCatWidget.fromText(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.szczep: return CategoryThumbnailCommonWidget.fromText(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: 'Sz');
-    case CommunityCategory.radaSzczepu: return _CommCatWidget.fromText(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.radaSzczepu: return CategoryThumbnailCommonWidget.fromText(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: 'RS');
-    case CommunityCategory.komisjaStopniHarcerskich: return _CommCatWidget.fromText(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.komisjaStopniHarcerskich: return CategoryThumbnailCommonWidget.fromText(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: 'KSH');
 
-    case CommunityCategory.zwiazekDruzyn: return _CommCatWidget.fromText(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.zwiazekDruzyn: return CategoryThumbnailCommonWidget.fromText(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: 'ZD');
-    case CommunityCategory.radaZwiazkuDruzyn: return _CommCatWidget.fromText(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.radaZwiazkuDruzyn: return CategoryThumbnailCommonWidget.fromText(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: 'RZD');
 
-    case CommunityCategory.hufiec: return _CommCatWidget.fromText(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.hufiec: return CategoryThumbnailCommonWidget.fromText(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: 'H');
-    case CommunityCategory.komendaHufca: return _CommCatWidget.fromText(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.komendaHufca: return CategoryThumbnailCommonWidget.fromText(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: 'KH');
-    case CommunityCategory.namiestnictwo: return _CommCatWidget.fromText(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.namiestnictwo: return CategoryThumbnailCommonWidget.fromText(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: 'N');
-    case CommunityCategory.komisjaStopniInstruktorskich: return _CommCatWidget.fromText(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.komisjaStopniInstruktorskich: return CategoryThumbnailCommonWidget.fromText(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: 'KSI');
-    case CommunityCategory.toIOwo: return _CommCatWidget.fromText(
-        commCat: commCat, size: size, elevated: elevated,
+    case CommunityCategory.toIOwo: return CategoryThumbnailCommonWidget.fromText(
+        color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: ':)');
   }
 

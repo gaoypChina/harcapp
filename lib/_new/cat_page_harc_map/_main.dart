@@ -161,7 +161,15 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
             minZoom: 2,
             maxZoom: CatPageHarcMap.maxZoom,
 
-            interactiveFlags: CatPageHarcMap.interactiveFlags
+            interactiveFlags: CatPageHarcMap.interactiveFlags,
+
+            // onMapEvent: (event){
+            //   print('${mapController.zoom}\t' // zoom
+            //       '${mapController.bounds?.northWest.latitude}\t' // lat1
+            //       '${mapController.bounds?.northWest.longitude}\t' //lng1
+            //       '${mapController.bounds?.southEast.latitude}\t' // lat2
+            //       '${mapController.bounds?.southEast.longitude}'); //lng2
+            // }
           ),
           mapController: mapController,
           children: [

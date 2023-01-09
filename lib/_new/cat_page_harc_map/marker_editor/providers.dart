@@ -103,7 +103,7 @@ class MarkerTypeProvider extends ChangeNotifier{
   }
 
   MarkerTypeProvider({MarkerData? initMarker}){
-    _markerType = initMarker?.type??MarkerType.HARCOWKA;
+    _markerType = initMarker?.type??MarkerType.harcowka;
   }
 
   void notify() => notifyListeners();

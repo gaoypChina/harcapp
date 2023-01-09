@@ -1,110 +1,221 @@
+import 'package:flutter/material.dart';
+import 'package:harcapp/_common_widgets/category_thumbnail_widget.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
 enum MarkerType{
-  ERROR,
+  error,
 
-  HARCOWKA,
-  MIEJSCE_OGNISKOWE,
-  MIEJSCE_BIWAKOWE,
-  MIEJSCE_OBOZOWE,
-  SZKOLA,
-  KOSCIOL,
-  SALA_PARAFIALNA,
-  REMIZA,
+  harcowka,
+  miejsceOgniskowe,
+  miejsceBiwakowe,
+  miejsceObozowe,
+  szkola,
+  kosciol,
+  salaParafialna,
+  remiza,
 
-  DUSZPASTERSTWO_AKADEMICKIE,
+  duszpasterstwoAkademickie,
 
-  SIEDZIBA_HUFCA_ZHP,
-  SIEDZIBA_CHORAGWI_ZHP,
-  SIEDZIBA_GLOWNEJ_KWATERY_ZHP,
+  schronTurystyczny,
 
-  INNE,
+  siedzibaHufcaZhp,
+  siedzibaChoragwiZhp,
+  siedzibaGlownejKwateryZhp,
+
+  wiata,
+
+  inne,
 
 }
 
 List<MarkerType> get allUsableMarkerType{
   List<MarkerType> all = List.of(MarkerType.values);
-  all.remove(MarkerType.ERROR);
+  all.remove(MarkerType.error);
   return all;
 }
 
 String markerTypeToStr(MarkerType type){
 
   switch(type){
-    case MarkerType.HARCOWKA: return 'HARCOWKA';
-    case MarkerType.MIEJSCE_OGNISKOWE: return 'MIEJSCE_OGNISKOWE';
-    case MarkerType.MIEJSCE_BIWAKOWE: return 'MIEJSCE_BIWAKOWE';
-    case MarkerType.MIEJSCE_OBOZOWE: return 'MIEJSCE_OBOZOWE';
-    case MarkerType.SZKOLA: return 'SZKOLA';
-    case MarkerType.KOSCIOL: return 'KOSCIOL';
-    case MarkerType.SALA_PARAFIALNA: return 'SALA_PARAFIALNA';
-    case MarkerType.REMIZA: return 'REMIZA';
+    case MarkerType.harcowka: return 'HARCOWKA';
+    case MarkerType.miejsceOgniskowe: return 'MIEJSCE_OGNISKOWE';
+    case MarkerType.miejsceBiwakowe: return 'MIEJSCE_BIWAKOWE';
+    case MarkerType.miejsceObozowe: return 'MIEJSCE_OBOZOWE';
+    case MarkerType.szkola: return 'SZKOLA';
+    case MarkerType.kosciol: return 'KOSCIOL';
+    case MarkerType.salaParafialna: return 'SALA_PARAFIALNA';
+    case MarkerType.remiza: return 'REMIZA';
 
-    case MarkerType.DUSZPASTERSTWO_AKADEMICKIE: return 'DUSZPASTERSTWO_AKADEMICKIE';
+    case MarkerType.duszpasterstwoAkademickie: return 'DUSZPASTERSTWO_AKADEMICKIE';
 
-    case MarkerType.SIEDZIBA_HUFCA_ZHP: return 'SIEDZIBA_HUFCA_ZHP';
-    case MarkerType.SIEDZIBA_CHORAGWI_ZHP: return 'SIEDZIBA_CHORAGWI_ZHP';
-    case MarkerType.SIEDZIBA_GLOWNEJ_KWATERY_ZHP: return 'SIEDZIBA_GLOWNEJ_KWATERY_ZHP';
+    case MarkerType.schronTurystyczny: return 'SCHRON_TURYSTYCZNY';
 
-    case MarkerType.INNE: return 'INNE';
-    case MarkerType.ERROR: return 'ERROR';
+    case MarkerType.siedzibaHufcaZhp: return 'SIEDZIBA_HUFCA_ZHP';
+    case MarkerType.siedzibaChoragwiZhp: return 'SIEDZIBA_CHORAGWI_ZHP';
+    case MarkerType.siedzibaGlownejKwateryZhp: return 'SIEDZIBA_GLOWNEJ_KWATERY_ZHP';
+
+    case MarkerType.wiata: return 'WIATA';
+
+    case MarkerType.inne: return 'INNE';
+    case MarkerType.error: return 'ERROR';
   }
 
 }
 
 Map<String, MarkerType> strToMarkerType = {
-  'HARCOWKA': MarkerType.HARCOWKA,
-  'MIEJSCE_OGNISKOWE': MarkerType.MIEJSCE_OGNISKOWE,
-  'MIEJSCE_BIWAKOWE': MarkerType.MIEJSCE_BIWAKOWE,
-  'MIEJSCE_OBOZOWE': MarkerType.MIEJSCE_OBOZOWE,
-  'SZKOLA': MarkerType.SZKOLA,
-  'KOSCIOL': MarkerType.KOSCIOL,
-  'SALA_PARAFIALNA': MarkerType.SALA_PARAFIALNA,
-  'REMIZA': MarkerType.REMIZA,
+  'HARCOWKA': MarkerType.harcowka,
+  'MIEJSCE_OGNISKOWE': MarkerType.miejsceOgniskowe,
+  'MIEJSCE_BIWAKOWE': MarkerType.miejsceBiwakowe,
+  'MIEJSCE_OBOZOWE': MarkerType.miejsceObozowe,
+  'SZKOLA': MarkerType.szkola,
+  'KOSCIOL': MarkerType.kosciol,
+  'SALA_PARAFIALNA': MarkerType.salaParafialna,
+  'REMIZA': MarkerType.remiza,
 
-  'DUSZPASTERSTWO_AKADEMICKIE': MarkerType.DUSZPASTERSTWO_AKADEMICKIE,
+  'DUSZPASTERSTWO_AKADEMICKIE': MarkerType.duszpasterstwoAkademickie,
 
-  'SIEDZIBA_HUFCA_ZHP': MarkerType.SIEDZIBA_HUFCA_ZHP,
-  'SIEDZIBA_CHORAGWI_ZHP': MarkerType.SIEDZIBA_CHORAGWI_ZHP,
-  'SIEDZIBA_GLOWNEJ_KWATERY_ZHP': MarkerType.SIEDZIBA_GLOWNEJ_KWATERY_ZHP,
+  'SCHRON_TURYSTYCZNY': MarkerType.schronTurystyczny,
 
-  'INNE': MarkerType.INNE,
+  'SIEDZIBA_HUFCA_ZHP': MarkerType.siedzibaHufcaZhp,
+  'SIEDZIBA_CHORAGWI_ZHP': MarkerType.siedzibaChoragwiZhp,
+  'SIEDZIBA_GLOWNEJ_KWATERY_ZHP': MarkerType.siedzibaGlownejKwateryZhp,
+
+  'WIATA': MarkerType.wiata,
+
+  'INNE': MarkerType.inne,
 };
 
 String markerTypeToName(MarkerType markerType){
 
   switch(markerType) {
-    case MarkerType.ERROR:
+    case MarkerType.error:
       return 'Błąd';
 
-    case MarkerType.HARCOWKA:
+    case MarkerType.harcowka:
       return 'Harcówka';
-    case MarkerType.MIEJSCE_OGNISKOWE:
+    case MarkerType.miejsceOgniskowe:
       return 'Miejsce Ogniskowe';
-    case MarkerType.MIEJSCE_BIWAKOWE:
+    case MarkerType.miejsceBiwakowe:
       return 'Miejsce biwakowe';
-    case MarkerType.MIEJSCE_OBOZOWE:
+    case MarkerType.miejsceObozowe:
       return 'Miejsce obozowe';
-    case MarkerType.SZKOLA:
+    case MarkerType.szkola:
       return 'Szkoła';
-    case MarkerType.KOSCIOL:
+    case MarkerType.kosciol:
       return 'Kościół';
-    case MarkerType.SALA_PARAFIALNA:
+    case MarkerType.salaParafialna:
       return 'Sala parafialna';
-    case MarkerType.REMIZA:
+    case MarkerType.remiza:
       return 'Remiza';
 
-    case MarkerType.DUSZPASTERSTWO_AKADEMICKIE:
+    case MarkerType.duszpasterstwoAkademickie:
       return 'Duszpasterstwo akademickie';
 
-    case MarkerType.SIEDZIBA_HUFCA_ZHP:
+    case MarkerType.schronTurystyczny:
+      return 'Schron turystyczny';
+
+    case MarkerType.siedzibaHufcaZhp:
       return 'Siedziba hufca ZHP';
-    case MarkerType.SIEDZIBA_CHORAGWI_ZHP:
+    case MarkerType.siedzibaChoragwiZhp:
       return 'Siedziba chorągwi ZHP';
-    case MarkerType.SIEDZIBA_GLOWNEJ_KWATERY_ZHP:
+    case MarkerType.siedzibaGlownejKwateryZhp:
       return 'Siedziba Głównej Kwatery ZHP';
 
-    case MarkerType.INNE:
+    case MarkerType.wiata:
+      return 'Wiata';
+
+    case MarkerType.inne:
       return 'Inne';
   }
 
 }
 
+Color getMarkerTypeColor(MarkerType markerType){
+
+  switch(markerType) {
+    case MarkerType.error: return Colors.transparent;
+
+    case MarkerType.harcowka: return Colors.brown[100]!;
+    case MarkerType.miejsceOgniskowe: return Colors.amber[100]!;
+    case MarkerType.miejsceBiwakowe: return Colors.white;
+    case MarkerType.miejsceObozowe: return Colors.white;
+    case MarkerType.szkola: return Colors.white;
+    case MarkerType.kosciol: return Colors.white;
+    case MarkerType.salaParafialna: return Colors.white;
+    case MarkerType.remiza: return Colors.white;
+
+    case MarkerType.duszpasterstwoAkademickie: return Colors.white;
+
+    case MarkerType.schronTurystyczny: return Colors.green[100]!;
+
+    case MarkerType.siedzibaHufcaZhp: return Colors.white;
+    case MarkerType.siedzibaChoragwiZhp: return Colors.white;
+    case MarkerType.siedzibaGlownejKwateryZhp: return Colors.white;
+
+    case MarkerType.wiata: return Colors.white;
+
+    case MarkerType.inne: return Colors.white;
+  }
+
+}
+
+Widget markerTypeToWidget(MarkerType markerType, {required double size, bool elevated = false}){
+
+  switch(markerType) {
+    case MarkerType.error: return CategoryThumbnailCommonWidget.fromIcon(
+          color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+          icon: MdiIcons.alertCircleOutline);
+
+    case MarkerType.harcowka: return CategoryThumbnailCommonWidget.fromIcon(
+        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        icon: MdiIcons.fleurDeLis);
+    case MarkerType.miejsceOgniskowe: return CategoryThumbnailCommonWidget.fromIcon(
+        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        icon: MdiIcons.fireplace);
+    case MarkerType.miejsceBiwakowe: return CategoryThumbnailCommonWidget.fromIcon(
+        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        icon: MdiIcons.flagTriangle);
+    case MarkerType.miejsceObozowe: return CategoryThumbnailCommonWidget.fromIcon(
+        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        icon: MdiIcons.flagVariant);
+    case MarkerType.szkola: return CategoryThumbnailCommonWidget.fromIcon(
+        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        icon: MdiIcons.school);
+    case MarkerType.kosciol: return CategoryThumbnailCommonWidget.fromIcon(
+        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        icon: MdiIcons.church);
+    case MarkerType.salaParafialna: return CategoryThumbnailCommonWidget.fromIcon(
+        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        icon: MdiIcons.churchOutline);
+    case MarkerType.remiza: return CategoryThumbnailCommonWidget.fromIcon(
+        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        icon: MdiIcons.fireTruck);
+
+    case MarkerType.duszpasterstwoAkademickie: return CategoryThumbnailCommonWidget.fromIcon(
+        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        icon: MdiIcons.cross);
+
+    case MarkerType.schronTurystyczny: return CategoryThumbnailCommonWidget.fromIcon(
+        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        icon: MdiIcons.homeOutline);
+
+    case MarkerType.siedzibaHufcaZhp: return CategoryThumbnailCommonWidget.fromIcon(
+        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        icon: MdiIcons.homeCityOutline);
+    case MarkerType.siedzibaChoragwiZhp: return CategoryThumbnailCommonWidget.fromIcon(
+        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        icon: MdiIcons.domain);
+    case MarkerType.siedzibaGlownejKwateryZhp: return CategoryThumbnailCommonWidget.fromIcon(
+        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        icon: MdiIcons.officeBuildingOutline);
+
+    case MarkerType.wiata: return CategoryThumbnailCommonWidget.fromIcon(
+        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        icon: MdiIcons.homeOutline);
+
+    case MarkerType.inne: return CategoryThumbnailCommonWidget.fromIcon(
+        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        icon: MdiIcons.helpCircleOutline);
+  }
+
+}

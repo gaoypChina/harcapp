@@ -78,7 +78,7 @@ class ApiHarcMap{
     required double lng,
     required MarkerType type,
     required MarkerVisibility visibility,
-    required Map<String, String> communityKeys, // {key: note}
+    required Map<String, String>? communityKeys, // {key: note}
 
     FutureOr<void> Function(MarkerData marker)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -93,12 +93,12 @@ class ApiHarcMap{
           }),
           data: jsonEncode({
             'name': name,
-            'contact': contact?.toMap(),
+            if(contact != null) 'contact': contact.toMap(),
             'lat': lat,
             'lng': lng,
             'type': markerTypeToStr(type),
             'visibility': markerVisibilityToStr(visibility),
-            'communities': communityKeys
+            if(communityKeys != null) 'communities': communityKeys
           })
       ),
       onSuccess: (Response response, DateTime now) async{

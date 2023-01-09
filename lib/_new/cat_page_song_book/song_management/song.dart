@@ -8,6 +8,7 @@ import 'package:harcapp/_new/api/sync_resp_body/memory_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/song_get_resp.dart';
 import 'package:harcapp/sync/syncable_new.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
+import 'package:harcapp/values/people.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
 import 'package:harcapp_core/comm_widgets/chord_shifter.dart';
 import 'package:harcapp_core_song/song_core.dart';
@@ -76,22 +77,71 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
 
   static void recalculateAddPersRanking(){
 
-    Map<AddPerson, List<Song>> map = {};
+    // Here there might be a case, where the same person uses two different
+    // email addresses which results in two different AddPerson objects,
+    // both of which correspond to the same Person object.
+    //
+    // In such case they should be converted to one AddPerson - it doesn't
+    // matter which one, since they will be converted to a Person later when
+    // displaying.
+
+    _addPersRanking = {};
     for(OffSong song in OffSong.allOfficial)
       for(AddPerson addPers in song.addPers)
-        if(map.containsKey(addPers))
-          map[addPers]!.add(song);
+        if(_addPersRanking.containsKey(addPers))
+          _addPersRanking[addPers]!.add(song);
         else
-          map[addPers] = [song];
+          _addPersRanking[addPers] = [song];
 
-    var sortedKeys = map.keys.toList(growable: false)..sort((k1, k2) => map[k2]!.length.compareTo(map[k1]!.length));
-    LinkedHashMap sortedMap = LinkedHashMap.fromIterable(sortedKeys, key: (k) => k, value: (k) => map[k]);
-
-    _addPersRanking = sortedMap.cast<AddPerson, List<Song>>();
     _addPersRankingByEmail = {};
     for(AddPerson addPers in _addPersRanking.keys)
       if(addPers.emailRef != null)
         _addPersRankingByEmail[addPers.emailRef!] = _addPersRanking[addPers]!;
+
+
+    // Merge AddPerson with multiple emails being the same Person object
+    Map<String, AddPerson> addPersonByEmail = {};
+    for(AddPerson addPers in _addPersRanking.keys)
+      if(addPers.emailRef != null)
+        addPersonByEmail[addPers.emailRef!] = addPers;
+
+    Set<String> duplicateEmails = {};
+    for(AddPerson addPers in _addPersRanking.keys) {
+      if(addPers.emailRef == null) continue;
+      if(duplicateEmails.contains(addPers.emailRef)) continue;
+
+      List<String>? emails = allPeopleMap[addPers.emailRef]?.email;
+      if(emails == null) continue;
+      if(emails.length <= 1) continue;
+
+      // Aggregate songs
+      List<Song<SongGetResp>> allOffSongs = [];
+      for(String email in emails){
+        if(email != addPers.emailRef) duplicateEmails.add(email);
+        List<Song<SongGetResp>>? songs = _addPersRankingByEmail[email];
+        if(songs == null) continue;
+        allOffSongs.addAll(songs);
+      }
+
+      // Update songs lists
+      for(String email in emails){
+        _addPersRankingByEmail[email] = allOffSongs;
+
+        AddPerson? addPers = addPersonByEmail[email];
+        if(addPers == null) continue;
+        _addPersRanking[addPers] = allOffSongs;
+      }
+    }
+
+    // Remove same AddPersons from `_addPersRanking`.
+    _addPersRanking.removeWhere((key, value) => duplicateEmails.contains(key.emailRef));
+
+
+    // Sort by song count
+    var sortedKeys = _addPersRanking.keys.toList(growable: false)..sort((k1, k2) => _addPersRanking[k2]!.length.compareTo(_addPersRanking[k1]!.length));
+    LinkedHashMap sortedMap = LinkedHashMap.fromIterable(sortedKeys, key: (k) => k, value: (k) => _addPersRanking[k]);
+
+    _addPersRanking = sortedMap.cast<AddPerson, List<Song>>();
 
   }
 

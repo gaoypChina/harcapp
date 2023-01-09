@@ -112,7 +112,7 @@ class GeneralPartState extends State<GeneralPart>{
       const SizedBox(height: Dimen.defMarg),
 
       Consumer<CategoryProvider>(builder: (context, prov, child) => Row(children: [
-        CategoryTemplateWidget(
+        CategoryCommonTemplateWidget(
           prov.category,
           onTap: () => selectCommunityCategory(context, prov)
         ),

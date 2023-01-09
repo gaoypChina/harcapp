@@ -186,7 +186,7 @@ class Forum extends ForumBasicData{
     managerCount = updatedForum.managerCount;
   }
 
-  void addLikes(List<UserData> newLikes, {BuildContext? context}){
+  void addLoadedLikes(List<UserData> newLikes, {BuildContext? context}){
 
     for(UserData user in newLikes) {
       if(_loadedLikesMap.containsKey(user.key)) continue;

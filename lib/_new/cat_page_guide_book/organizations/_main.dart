@@ -4,6 +4,7 @@ import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 
 import 'org_pages/fse_org_widget.dart';
+import 'org_pages/hrp_org_page.dart';
 import 'org_pages/rrp_org_page.dart';
 import 'org_pages/zhp_org_page.dart';
 import 'org_pages/zhr_org_page.dart';
@@ -52,7 +53,7 @@ class OrganizationsPageState extends State<OrganizationsPage>{
 
     return BottomNavScaffold(
       body: DefaultTabController(
-        length: 4,
+        length: 5,
         child: ExtendedNestedScrollView(
           physics: const BouncingScrollPhysics(),
           floatHeaderSlivers: true,
@@ -72,6 +73,7 @@ class OrganizationsPageState extends State<OrganizationsPage>{
                   Tab(text: 'Związek Harcerstwa Rzeczypospolitej'),
                   Tab(text: 'Związek Harcerstwa Polskiego'),
                   Tab(text: 'Royal Rangers Polska'),
+                  Tab(text: 'Harcerstwo Rzeczypospolitej Polskiej'),
                 ],
               ),
             )
@@ -83,6 +85,7 @@ class OrganizationsPageState extends State<OrganizationsPage>{
               ZHROrgPage(),
               ZHPOrgPage(),
               RRPOrgPage(),
+              HRPOrgPage(),
             ],
           ),
         ),

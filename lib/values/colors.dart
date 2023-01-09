@@ -17,6 +17,7 @@ class AppColors{
   // COMMON
   // COMMON
 
+  static const Color hrpGreen = Color.fromARGB(255, 128, 128, 0);
   static const Color zhpGreen = Color.fromARGB(255, 132, 163, 17);
 
   static const Color iconTransp = Colors.black54;

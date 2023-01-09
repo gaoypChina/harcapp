@@ -16,6 +16,7 @@ List<Person> allPeople = [
   ALEKSANDRA_ANTKIEWICZ,
   ALEKSANDRA_CHRUSTEK,
   ALEKSANDRA_KOSTRZEWA,
+  ALEKSANDRA_KOWALSKA,
   ALEKSANDRA_KOZUBAL,
   ANTONINA_SZTYGLIC,
   ARTUR_RUSA,
@@ -238,6 +239,13 @@ const Person ALEKSANDRA_CHRUSTEK = Person(
     email: ['olachrustek@gmail.com']
 );
 const Person ALEKSANDRA_KOSTRZEWA = Person(name: 'Ola Kostrzewa', org: Org.zhp);
+const Person ALEKSANDRA_KOWALSKA = Person(
+    name: 'Aleksandra Kowalska ',
+    druzyna: '17. ZODH',
+    hufiec: huf_zhp_zgierz,
+    email: ['kowalskaola057@gmail.com'],
+    org: Org.zhp,
+);
 const Person ALEKSANDRA_KOZUBAL = Person(name: 'Aleksandra Kozubal', stopH: StopZHP.zhpSamarytanka, org: Org.zhp);
 const Person ANTONINA_SZTYGLIC = Person(
   name: 'Antonina Sztyglic',
@@ -433,7 +441,8 @@ const Person JAROSLAW_JAKUBIAK = Person(name: 'Jarosław Jakubiak', stopH: StopZ
   hufiec: huf_zhp_uk,
 );
 const Person JAROSLAW_ZASACKI = Person(name: 'Jarosław Zasacki', stopH: StopZHP.zhpHOc, stopI: 'phm.',
-  hufiec: huf_zhr_zielonagora_topor, org: Org.zhr_c,
+  hufiec: huf_zhr_zielonagora_topor,
+  org: Org.zhr_c,
 );
 const Person JOANNA_MICHALOWSKA = Person(name: 'Joanna Michałowska', stopH: StopZHP.zhpSamarytanka,
   druzyna: '18. Poznańska Drużyna Harcerek im. Olgi Drahonowskiej-Małkowskiej',
@@ -467,7 +476,7 @@ const Person JULITA_STEPIEN = Person(name: 'Julita Stępień');
 const Person KACPER_BACZKOWSKI = Person(name: 'Kacper Bączkowski', stopH: StopZHP.dhc, org: Org.zhp);
 const Person KACPER_CIESIELSKI = Person(
     name: 'Kacper Ciesielski',
-    druzyna: '17. Zgierska Obronną Drużyna Harcerska "Sokoły',
+    druzyna: '17. Zgierska Obronną Drużyna Harcerska "Sokoły"',
     hufiec: huf_zhp_zgierz,
     stopH: StopZHP.zhpOdkrywca,
     org: Org.zhp,
@@ -600,7 +609,7 @@ const Person MACIEJ_LADOS = Person(
   druzyna: '8 PgDW Granat',
   hufiec: huf_zhp_krakow_pdg,
   org: Org.zhp,
-  email: ['macieklad@gmail.com'],
+  email: ['macieklad@gmail.com', 'maciej.lados@zhp.net.pl'],
 );
 const Person MACIEJ_PAWLICA = Person(
   name: 'Maciej Pawlica',
@@ -680,9 +689,12 @@ const Person MAXIMILIAN_STEINHOFF = Person(
 );
 const Person MICHAL_DYDERSKI = Person(
   name: 'Michał Dyderski',
+  stopH: StopZHP.zhpHOc,
   stopI: 'pwd.',
+  druzyna: '93. PDW',
   hufiec: huf_zhp_poznan_wilda,
-  email: ['michal.dyderski6@gmail.com']
+  org: Org.zhp,
+  email: ['michal.dyderski6@gmail.com', 'michal.dyderski@zhp.net.pl']
 );
 const Person MICHAL_JABCZYNSKI = Person(
   name: 'Michał Jabczyński',
@@ -859,9 +871,10 @@ const Person SZYMON_DRATWINSKI = Person(
   email: ['szymon.dratwinski@gmail.com']
 );
 const Person SZYMON_DROPEK = Person(name: 'Szymon Dropek',
-    druzyna:'7. Kwidzyńska Drużyna Harcerska',
-    hufiec: huf_zhp_kwidzyn,
-    org: Org.zhp
+  druzyna:'7. Kwidzyńska Drużyna Harcerska',
+  hufiec: huf_zhp_kwidzyn,
+  org: Org.zhp,
+  email: ['szymon111drop@gmail.com']
 );
 const Person SZYMON_JAWOREK = Person(name: 'Szymon Jaworek',
   druzyna: '17 DH "Gryfne Bajtle"',
@@ -911,7 +924,7 @@ const Person WOJCIECH_TURSKI = Person(name: 'Wojciech Turski', stopH: StopZHP.zh
 const Person WOJCIECH_WALACH = Person(
   name: 'Wojciech Wałach',
   druzyna: '34. DH "Watra" im. Braci Buchalików',
-  hufiec: huf_zhp_rybnik,
+  hufiec: huf_zhp_ziemi_rybnickiej,
   org: Org.zhp,
   email: ['wojtek.w.2008@gmail.com'],
 );

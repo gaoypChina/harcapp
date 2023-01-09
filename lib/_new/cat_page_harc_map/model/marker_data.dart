@@ -148,7 +148,7 @@ class MarkerData{
         contact: respMap['contact'] == null?null:CommonContactData.fromRespMap(respMap['contact']),
         lat: respMap['lat']??(throw InvalidResponseError('lat')),
         lng: respMap['lng']??(throw InvalidResponseError('lng')),
-        type: strToMarkerType[respMap['type']??(throw InvalidResponseError('type'))]??MarkerType.ERROR,
+        type: strToMarkerType[respMap['type']??(throw InvalidResponseError('type'))]??MarkerType.error,
         visibility: strToMarkerVisibility[respMap['visibility']??(throw InvalidResponseError('visibility'))]??MarkerVisibility.ERROR,
         managers: (respMap['managers']??[]).map<MarkerManager>((data) => MarkerManager.fromRespMap(data)).toList(),
         managerCount: respMap['managerCount'],

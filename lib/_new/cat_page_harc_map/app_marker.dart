@@ -27,6 +27,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import '../cat_page_home/community/community_preview_data_widget.dart';
 import '../cat_page_home/community/model/community.dart';
+import 'app_marker_type_widget.dart';
 import 'model/marker_data.dart';
 import 'marker_editor/_main.dart';
 import 'model/marker_role.dart';
@@ -40,7 +41,7 @@ class AppMarker extends Marker{
     required this.marker,
   }): super(
       height: 24.0 + (marker.anyDoubleCommunityCategories?(2 + Dimen.TEXT_SIZE_BIG):0),
-      width: 24.0*max(marker.communitiesBasicData.length, 1),
+      width: 24.0 * max(marker.communitiesBasicData.length, 1),
       point: LatLng(marker.lat, marker.lng),
       builder: (context) => InkWell(
         onTap: () => showMarkerBottomSheet(context, marker),
@@ -51,7 +52,7 @@ class AppMarker extends Marker{
               for(CommunityCategory commCat in marker.communitiesBasicData.keys) {
                 Widget? widget = commCatToWidget(commCat, size: Dimen.ICON_SIZE, elevated: true);
                 Color color = getCommCatColor(commCat);
-                if(widget != null) children.add(
+                children.add(
                   marker.communitiesBasicData[commCat] == 1?
                   widget:
                   Material(
@@ -83,12 +84,17 @@ class AppMarker extends Marker{
 
               if(children.isEmpty)
                 return Center(
-                  child: Material(
-                    color: Colors.white,
-                    elevation: 2.0,
-                    borderRadius: BorderRadius.circular(Dimen.ICON_SIZE),
-                    child: const Icon(MdiIcons.mapMarker, color: Colors.black),
-                  ),
+                  child: markerTypeToWidget(
+                    marker.type,
+                    size: Dimen.ICON_SIZE,
+                    elevated: true,
+                  )
+                  // child: Material(
+                  //   color: Colors.white,
+                  //   elevation: 2.0,
+                  //   borderRadius: BorderRadius.circular(Dimen.ICON_SIZE),
+                  //   child: const Icon(MdiIcons.mapMarker, color: Colors.black),
+                  // ),
                 );
 
               return Center(
@@ -215,13 +221,10 @@ Future<void> showMarkerBottomSheet(BuildContext context, MarkerData marker) asyn
 
                         const SizedBox(height: Dimen.defMarg),
 
-                        Text(
-                            markerTypeToName(marker.type),
-                            style: AppTextStyle(
-                                color: textEnab_(context),
-                                fontWeight: weight.halfBold
-                            )
-                        )
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: MarkerTypeWidget(marker.type, dense: true),
+                        ),
 
                       ],
                     )),

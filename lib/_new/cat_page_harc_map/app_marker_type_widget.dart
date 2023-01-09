@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_new/cat_page_harc_map/model/marker_type.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 
-import 'model/community_category.dart';
+class MarkerTypeTemplateWidget extends StatelessWidget{
 
-class CategoryCommonTemplateWidget extends StatelessWidget{
-
-  final CommunityCategory category;
+  final MarkerType markerType;
   final Color? backgroundColor;
   final Color? textColor;
   final bool dense;
   final void Function()? onTap;
 
-  const CategoryCommonTemplateWidget(
-      this.category,
+  const MarkerTypeTemplateWidget(
+      this.markerType,
       { this.backgroundColor,
         this.textColor,
         this.dense = false,
@@ -30,12 +29,6 @@ class CategoryCommonTemplateWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context){
 
-    Widget? commCatWidget = commCatToWidget(
-        category,
-        size: textSize + 2*padding,
-        elevated: false
-    );
-
     return SimpleButton(
         color: backgroundColor??backgroundIcon_(context),
         margin: EdgeInsets.zero,
@@ -45,12 +38,16 @@ class CategoryCommonTemplateWidget extends StatelessWidget{
           mainAxisSize: MainAxisSize.min,
           children: [
 
-            commCatWidget,
+            markerTypeToWidget(
+                markerType,
+                size: textSize + 2*padding,
+                elevated: false
+            ),
 
             Padding(
               padding: EdgeInsets.all(padding),
               child: Text(
-                commCatToName(category),
+                markerTypeToName(markerType),
                 style: AppTextStyle(
                     color: textColor??iconEnab_(context),
                     fontWeight: weight.halfBold,
@@ -66,15 +63,15 @@ class CategoryCommonTemplateWidget extends StatelessWidget{
 
 }
 
-class CommunityCategoryWidget extends StatelessWidget{
+class MarkerTypeWidget extends StatelessWidget{
 
-  final CommunityCategory category;
+  final MarkerType markerType;
   final bool selected;
   final bool dense;
   final void Function()? onTap;
 
-  const CommunityCategoryWidget(
-      this.category,
+  const MarkerTypeWidget(
+      this.markerType,
       { this.selected = true,
         this.dense = false,
         this.onTap,
@@ -82,9 +79,9 @@ class CommunityCategoryWidget extends StatelessWidget{
       });
 
   @override
-  Widget build(BuildContext context) => CategoryCommonTemplateWidget(
-      category,
-      backgroundColor: selected?backgroundIcon_(context):backgroundIcon_(context),
+  Widget build(BuildContext context) => MarkerTypeTemplateWidget(
+      markerType,
+      backgroundColor: getMarkerTypeColor(markerType),
       textColor: selected?iconEnab_(context):iconDisab_(context),
       dense: dense,
       onTap: onTap
