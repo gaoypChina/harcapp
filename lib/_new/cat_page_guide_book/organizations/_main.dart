@@ -68,6 +68,7 @@ class OrganizationsPageState extends State<OrganizationsPage>{
               bottom: TabBar(
                 indicator: AppTabBarIncdicator(context: context),
                 isScrollable: true,
+                physics: const BouncingScrollPhysics(),
                 tabs: const [
                   Tab(text: 'Federacja Skautingu Europejskiego'),
                   Tab(text: 'Związek Harcerstwa Rzeczypospolitej'),

@@ -108,6 +108,7 @@ List<Person> allPeople = [
   MAREK_LEWANCZYK,
   MAREK_MUSIALIK,
   MARLENA_BANIA,
+  MARIA_MAGDALENA_DESKUR,
   MARTA_SZYMANDERSKA,
   MARTYNA_WASILEWSKA,
   MARYSIA_SLUGAJ,
@@ -181,7 +182,7 @@ List<Person> allPeople = [
   ZUZANNA_WARCHOL
 ];
 
-Map<String, Person> __getAllPeopleMap(){
+Map<String, Person> __getAllPeopleByEmailMap(){
   Map<String, Person> result = {};
 
   for(Person person in allPeople)
@@ -191,7 +192,7 @@ Map<String, Person> __getAllPeopleMap(){
   return result;
 }
 
-Map<String, Person> allPeopleMap = __getAllPeopleMap();
+Map<String, Person> allPeopleByEmailMap = __getAllPeopleByEmailMap();
 
 const Person ADAM_DUDAK = Person(name: 'Adam Dudak', hufiec: huf_zhp_warszawa_ursynow, druzyna: '234 Warszawska Drużyna Harcerska "Forteca"');
 const Person ADAM_SKLODOWSKI = Person(
@@ -656,6 +657,10 @@ const Person MARLENA_BANIA = Person(
     hufiec: huf_zhp_ziemi_gliwickiej,
     org: Org.zhp,
     email: ['marlena.bania6474@gmail.com', 'marlena.bania@zhp.net.pl']
+);
+const Person MARIA_MAGDALENA_DESKUR = Person(
+  name: 'Maria Magdalena Deskur',
+  email: ['nenadeskur12@gmail.com']
 );
 const Person MARTA_SZYMANDERSKA = Person(name: 'Marta Szymanderska', stopH: StopZHP.dhd, hufiec: huf_zhp_warszawa_mokotow, org: Org.zhp);
 const Person MARTYNA_WASILEWSKA = Person(

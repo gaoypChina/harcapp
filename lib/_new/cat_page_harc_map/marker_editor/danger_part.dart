@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/api/harc_map.dart';
-import 'package:harcapp/_new/cat_page_harc_map/_main.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/values/consts.dart';
@@ -70,8 +69,7 @@ class DangerPartState extends State<DangerPart>{
                       await ApiHarcMap.delete(
                           markerKey: marker.key,
                           onSuccess: () async {
-                            CatPageHarcMapState.markers!.removeWhere((m) => marker.key == m.key);
-                            CatPageHarcMapState.publicOnlyMarkers!.removeWhere((m) => marker.key == m.key);
+                            MarkerData.removeFromAll(marker);
                             showAppToast(context, text: 'Poszło z dymem!');
                             await popPage(context); // Close loading widget.
 

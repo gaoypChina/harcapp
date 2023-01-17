@@ -55,6 +55,17 @@ class MarkerData{
 
   static const int managerPageSize = 10;
 
+  static List<MarkerData>? _all;
+  static Map<String, MarkerData>? _allMap;
+
+  static List<MarkerData>? get all => _all;
+  static Map<String, MarkerData>? get allMap => _allMap;
+
+  static forget(){
+    _all = null;
+    _allMap = null;
+  }
+
   static callProvidersOf(BuildContext context) =>
       callProviders(MarkerProvider.of(context), MarkerListProvider.of(context));
 
@@ -73,6 +84,66 @@ class MarkerData{
     markerManagersProv.notify();
   }
 
+  static removeAllByPublic(){
+    _all!.removeWhere((marker) => marker.visibility != MarkerVisibility.PUBLIC);
+    _allMap!.removeWhere((key, marker) => marker.visibility != MarkerVisibility.PUBLIC);
+  }
+
+  static addToAll(MarkerData marker, {BuildContext? context}){
+    if(_all == null){
+      _all = [];
+      _allMap = {};
+    }
+    _all!.add(marker);
+    _allMap![marker.key] = marker;
+
+    if(context == null) return;
+    callProvidersOf(context);
+  }
+
+  static addAllToAll(List<MarkerData> markers, {BuildContext? context}){
+    if(_all == null){
+      _all = [];
+      _allMap = {};
+    }
+
+    for(MarkerData marker in markers) {
+      if(_allMap!.containsKey(marker.key)) continue;
+      _allMap![marker.key] = marker;
+      _all!.add(marker);
+    }
+
+    if(context == null) return;
+    callProvidersOf(context);
+  }
+
+  static updateInAll(MarkerData marker, {BuildContext? context}){
+    MarkerData? oldMarker = _allMap![marker.key];
+    if(oldMarker == null){
+      addToAll(marker, context: context);
+      return;
+    }
+
+    int index = _all!.indexOf(oldMarker);
+    _all!.removeAt(index);
+    _all!.insert(index, marker);
+    _allMap![marker.key] = marker;
+
+    if(context == null) return;
+    callProvidersOf(context);
+  }
+
+  static void removeFromAll(MarkerData marker, {BuildContext? context}){
+    if(_all == null)
+      return;
+
+    _all!.remove(marker);
+    _allMap!.remove(marker.key);
+
+    if(context == null) return;
+    callProvidersOf(context);
+  }
+
   final String key;
   String? name;
   CommonContactData? contact;
@@ -80,6 +151,7 @@ class MarkerData{
   double lng;
   MarkerType type;
   MarkerVisibility visibility;
+  double minZoomAppearance;
   Map<CommunityCategory, int> communitiesBasicData;
 
   final List<MarkerManager> _loadedManagers;
@@ -117,12 +189,14 @@ class MarkerData{
     required this.lng,
     required this.type,
     required this.visibility,
+    required this.minZoomAppearance,
+
     required List<MarkerManager> managers,
     required this.managerCount,
     required this.communitiesBasicData,
   }):
-        _loadedManagers = managers,
-        _loadedManagersMap = {for (MarkerManager m in managers) m.key: m}
+      _loadedManagers = managers,
+      _loadedManagersMap = {for (MarkerManager m in managers) m.key: m}
   {
     anyDoubleCommunityCategories = false;
     for(int counts in communitiesBasicData.values)
@@ -150,6 +224,7 @@ class MarkerData{
         lng: respMap['lng']??(throw InvalidResponseError('lng')),
         type: strToMarkerType[respMap['type']??(throw InvalidResponseError('type'))]??MarkerType.error,
         visibility: strToMarkerVisibility[respMap['visibility']??(throw InvalidResponseError('visibility'))]??MarkerVisibility.ERROR,
+        minZoomAppearance: respMap['minZoomAppearance'],
         managers: (respMap['managers']??[]).map<MarkerManager>((data) => MarkerManager.fromRespMap(data)).toList(),
         managerCount: respMap['managerCount'],
         communitiesBasicData: commBasicData
@@ -170,6 +245,7 @@ class MarkerData{
     lng: lng,
     type: type,
     visibility: visibility,
+    minZoomAppearance: 0,
     managers: [],
     managerCount: 0,
     communitiesBasicData: {}

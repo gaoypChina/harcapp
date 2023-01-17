@@ -13,11 +13,13 @@ import 'package:harcapp/_new/cat_page_harc_map/role_page/managers_page.dart';
 import 'package:harcapp/_new/cat_page_home/community/common_widgets/community_header_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/community_thumbnail_widget.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community_category.dart';
+import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
@@ -225,6 +227,13 @@ Future<void> showMarkerBottomSheet(BuildContext context, MarkerData marker) asyn
                           alignment: Alignment.centerLeft,
                           child: MarkerTypeWidget(marker.type, dense: true),
                         ),
+
+                        if(AppSettings.devMode)
+                          AppText(
+                            'Min appear. zoom: <b>${marker.minZoomAppearance.toStringAsFixed(3)}</b>'
+                            '\nLat: <b>${marker.lat}</b>'
+                            '\nLng: <b>${marker.lng}</b>',
+                          )
 
                       ],
                     )),

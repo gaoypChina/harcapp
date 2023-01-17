@@ -120,7 +120,7 @@ List<int>? _selectSongs(String phrase, List<Song> allItems, SongSearchOptions? o
           break;
         }
 
-        if(addPers.emailRef != null && allPeopleMap[addPers.emailRef] != null && remSpecChars(remPolChars(allPeopleMap[addPers.emailRef]!.name)).contains(text)) {
+        if(addPers.emailRef != null && allPeopleByEmailMap[addPers.emailRef] != null && remSpecChars(remPolChars(allPeopleByEmailMap[addPers.emailRef]!.name)).contains(text)) {
           resultsByAddPers.add(i);
           break;
         }

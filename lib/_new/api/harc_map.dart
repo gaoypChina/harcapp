@@ -48,6 +48,14 @@ class ApiHarcMap{
 
   static Future<Response?> getAllMarkers({
     bool publicOnly = false,
+
+    required double northLat,
+    required double southLat,
+    required double westLng,
+    required double eastLng,
+
+    required double zoom,
+
     FutureOr<void> Function(List<MarkerData>)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
@@ -56,6 +64,14 @@ class ApiHarcMap{
     withToken: !publicOnly,
     requestSender: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/harcMap${publicOnly?'/public':''}',
+        queryParameters: {
+          'northLat': northLat,
+          'southLat': southLat,
+          'westLng': westLng,
+          'eastLng': eastLng,
+
+          'zoom': zoom,
+        }
     ),
     onSuccess: (Response response, DateTime now) async {
       List<MarkerData> markerDataList = [];

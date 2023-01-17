@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'dart:math';
 
@@ -393,7 +392,7 @@ class SongWidget extends StatelessWidget{
 
         onEditMemoryTap: () => showAppToast(context, text: 'Przytrzymaj dłużej.'),
 
-        onEditMemoryLongPress: (Memory memory) async{
+        onEditMemoryLongPress: (Memory memory) async {
           await openMemoryEditor(context, song, initMemory: memory);
           parent!.notify();
           post(() async => await this.controller!.animateTo(

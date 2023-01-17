@@ -21,12 +21,12 @@ class AddPersEmailResolver extends AddPersResolver{
 
   @override
   Widget build(BuildContext context, AddPerson data){
-
-    if(data.emailRef != null && allPeopleMap.containsKey(data.emailRef)) {
+    
+    if(data.emailRef != null && allPeopleByEmailMap.containsKey(data.emailRef)) {
 
       if(!showSongCount)
         return PersonCard(
-            allPeopleMap[data.emailRef],
+            allPeopleByEmailMap[data.emailRef],
             textSize: textSize,
             textColor: textColor ?? hintEnab_(context)
         );
@@ -37,7 +37,7 @@ class AddPersEmailResolver extends AddPersResolver{
 
           Expanded(
             child: PersonCard(
-                allPeopleMap[data.emailRef],
+                allPeopleByEmailMap[data.emailRef],
                 textSize: textSize,
                 textColor: textColor ?? hintEnab_(context)
             ),

@@ -110,7 +110,7 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
       if(addPers.emailRef == null) continue;
       if(duplicateEmails.contains(addPers.emailRef)) continue;
 
-      List<String>? emails = allPeopleMap[addPers.emailRef]?.email;
+      List<String>? emails = allPeopleByEmailMap[addPers.emailRef]?.email;
       if(emails == null) continue;
       if(emails.length <= 1) continue;
 
