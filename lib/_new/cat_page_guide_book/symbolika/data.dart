@@ -73,6 +73,22 @@ List<ItemData> items = [
     colorStart: Colors.white,
     colorEnd: Colors.white,
   ),
+  ItemData(
+    Colors.black,
+    'lilijka_zhp.svg',
+    'Lilijka ZHP',
+    [
+      const Tuple2('O, N, C', 'Skrót słów: Ojczyzna, Nauka, Cnota – hasła Zgromadzenia Filaretów.'),
+      const Tuple2('Trzy ramiona', 'Służba Bogu, ojczyźnie i bliźnim'),
+      const Tuple2('Środkowa igła lilijki', 'Podążanie w słusznym kierunku, wyznaczonym zgodnie z ideałami Prawa i Przyrzeczenia Harcerskiego'),
+      const Tuple2('Węzeł z napisem ZHP', 'Węzeł płaski, łączący w jedno trzy ramiona lilijki.'),
+
+    ],
+    'Od początków chrześcijaństwa lilijka symbolizuje cnotę i czystość. Na swych szatach nosili ją królowie, na sztandarach - książęta, na herbach - rycerze.'
+    '\n\nZgromadzenie Filaretów, do którego hasła odnoszą się litery O, N, C, działał w Wilnie w latach 1820-1823. Hasło zaczerpnięte zostało z wiersza jednego z filaretów, Adama Mickiewicza, pt. „Pieśń Filaretów”. Filareta to słowo zaczerpnięte z jęz. greckiego (philáretos), oznaczające „miłośnik cnoty moralnej”.',
+    colorStart: Colors.blueGrey[600],
+    colorEnd: Colors.grey[600],
+  ),
 
   const ItemData(
       Colors.amber,

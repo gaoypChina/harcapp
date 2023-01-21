@@ -15,11 +15,9 @@ import 'common.dart';
 
 class PartContributors extends StatelessWidget{
 
-  const PartContributors();
+  const PartContributors({super.key});
 
   static const List<GraphicalResource> _graphicalResources = [
-    GraphicalResource('memory_bg_light.webp', 'freepik.com (upklyak)'),
-    GraphicalResource('memory_bg_dark.webp', 'freepik.com (upklyak)'),
     GraphicalResource('games/bg_pytajki.webp', 'freepik.com (freepik)'),
     GraphicalResource('games/bg_slowo_klucz.webp', 'freepik.com (freepik)'),
     GraphicalResource('article_not_found.webp', 'freepik.com (vectorpouch)'),
@@ -28,7 +26,6 @@ class PartContributors extends StatelessWidget{
     GraphicalResource('start/start_layout_adwent.webp', 'freepik.com (macrovector)'),
     GraphicalResource('start/merry_joseph_jesus.webp', 'freepik.com (freepik)'),
     GraphicalResource('start/start_good_friday.webp', 'freepik.com (starline)'),
-
   ];
 
   static const List<Person> osWspierSpiewnik = [
@@ -229,7 +226,7 @@ class GraphicalResourceCard extends StatelessWidget{
 
   final List<GraphicalResource> _graphicalResources;
 
-  const GraphicalResourceCard(this._graphicalResources);
+  const GraphicalResourceCard(this._graphicalResources, {super.key});
 
   @override
   Widget build(BuildContext context) => AppCard(
@@ -275,16 +272,23 @@ class GraphicalResourceCard extends StatelessWidget{
             leading: const Icon(MdiIcons.circleSmall),
             title: Text('prettycons (grafiki żywności - bób)', style: AppTextStyle()),
           ),
+          ListTile(
+            leading: const Icon(MdiIcons.circleSmall),
+            title: Text('Kuba Tesner, Magda Garczyńska (lilijka harcerska)', style: AppTextStyle()),
+          ),
 
           const SizedBox(height: SEPARATOR_BIG,),
 
           SizedBox(
+            height: 200,
             child: SlidingPageView(
               extents: 3,
               itemCount: _graphicalResources.length,
               itemBuilder: (context, index) => Column(
                 children: <Widget>[
                   SizedBox(
+                    height: 200 - 6.0 - Dimen.TEXT_SIZE_SMALL,
+                    width: double.infinity,
                     child: SlidingCard(
                       onTap: () => openDialog(context: context, builder: (context)
                       => Center(
@@ -292,11 +296,9 @@ class GraphicalResourceCard extends StatelessWidget{
                               padding: EdgeInsets.zero,
                               child: Image.asset('assets/images/${_graphicalResources[index].path}', fit: BoxFit.contain))
                       )),
-                      child: Image.asset('assets/images/${_graphicalResources[index].path}', fit: BoxFit.cover,),
                       color: cardEnab_(context),
+                      child: Image.asset('assets/images/${_graphicalResources[index].path}', fit: BoxFit.cover,),
                     ),
-                    height: 200 - 6.0 - Dimen.TEXT_SIZE_SMALL,
-                    width: double.infinity,
                   ),
                   const SizedBox(height: 6.0),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
@@ -310,7 +312,6 @@ class GraphicalResourceCard extends StatelessWidget{
               physics: const BouncingScrollPhysics(),
               notifier: ValueNotifier(0.0),
             ),
-            height: 200,
           ),
 
 
@@ -328,7 +329,7 @@ class ContribListCard extends StatelessWidget{
   final IconData icon;
   final List<Person> personList;
 
-  const ContribListCard(this.title, this.icon, this.personList);
+  const ContribListCard(this.title, this.icon, this.personList, {super.key});
 
   @override
   Widget build(BuildContext context) {

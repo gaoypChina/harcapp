@@ -23,6 +23,7 @@ List<Person> allPeople = [
   BARBARA_THOMAS,
   BARTOSZ_DABROWSKI,
   BARTOSZ_IGNASIAK,
+  BENIAMIN_PLUCINSKI,
   BRUNO_BRONCEL,
   DANIEL_IWANICKI,
   DANIEL_KORZEB,
@@ -99,6 +100,7 @@ List<Person> allPeople = [
   LUKASZ_KRYWULT,
   LUKASZ_RYBINSKI,
   MACIEJ_BATKO,
+  MACIEJ_GRZELAZKA,
   MACIEJ_LADOS,
   MACIEJ_PAWLICA,
   MACIEJ_SZOLC,
@@ -259,6 +261,11 @@ const Person ARTUR_RUSA = Person(name: 'Artur Rusa', stopH: StopZHP.zhpWywiadowc
 const Person BARBARA_THOMAS = Person(name: 'Barbara Thomas', stopI: 'phm.');
 const Person BARTOSZ_DABROWSKI = Person(name: 'Bartosz Dąbrowski', stopH: StopZHP.zhpWywiadowca, org: Org.zhp);
 const Person BARTOSZ_IGNASIAK = Person(name: 'Bartosz Ignasiak', stopH: StopZHP.zhpHOc, stopI: 'pwd.', druzyna: '8 Drużyna Wędrownicza "Kuźnia Płomienia"');
+const Person BENIAMIN_PLUCINSKI = Person(
+  name: 'Beniamin Pluciński',
+  druzyna: '17. ZODH',
+  email: ['ekhemmmik@gmail.com']
+);
 const Person BRUNO_BRONCEL = Person(
   name: 'Bruno Broncel',
   stopH: StopZHP.zhpMlodzik,
@@ -285,7 +292,7 @@ const Person DAWID_LOBODA = Person(
     hufiec: huf_zhr_3_gdynski,
     stopH: StopZHP.zhrHOc,
     org: Org.zhr_o,
-    email: []
+    email: ['dawidekk728@gmail.com']
 );
 const Person DAWID_WYSZYNSKI = Person(name: 'Dawid Wyszyński', stopH: StopZHP.dhc, org: Org.zhp,);
 const Person DOMINIKA_GORZYNSKA = Person(name: 'Dominika Gorzyńska', stopH: StopZHP.zhpPionierka,
@@ -603,6 +610,15 @@ const Person LUKASZ_RYBINSKI = Person(name: 'Łukasz Rybiński', stopI: 'pwd.');
 const Person MACIEJ_BATKO = Person(name: 'Maciej Batko', stopH: StopZHP.dhc,
   druzyna: '117. Elbląskiej Męskiej Drużyny Harcerskiej "Mato"',
   email: ['maciej.batko@uczen11.elblag.pl', 'maciemaciek160@gmail.com', 'maciut2007@gmail.com']
+);
+const Person MACIEJ_GRZELAZKA = Person(
+    name: 'Maciej Grzelązka ',
+    druzyna: '',
+    hufiec: '',
+
+    stopH: StopZHP.zhpMlodzik,
+    org: Org.zhp,
+    email: ['maciej.grzelazka@gmail.com']
 );
 const Person MACIEJ_LADOS = Person(
   name: 'Maciej Ładoś',
