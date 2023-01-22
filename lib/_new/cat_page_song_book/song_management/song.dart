@@ -20,6 +20,22 @@ import 'off_song.dart';
 import 'old/song_element_old.dart';
 import 'own_song.dart';
 
+class SongAudio{
+
+  final String fileName;
+  final String? performer;
+
+  String get url => 'https://gitlab.com/n3o2k7i8ch5/harcapp_data/-/raw/master/songs_audio/$fileName';
+
+  const SongAudio(this.fileName, this.performer);
+
+  static SongAudio fromRespMap(Map<String, String?> respMap) => SongAudio(
+      respMap['file']??(throw Exception()),
+      respMap['performer']
+  );
+
+}
+
 class SongDataEntity{
 
   final String fileName;
@@ -33,6 +49,7 @@ class SongDataEntity{
   final bool showRelDateDay;
   final List<AddPerson> addPers;
   final String youtubeLink;
+  final List<SongAudio> audios;
   final List<String> tags;
   final bool hasChords;
   final String text;
@@ -53,6 +70,7 @@ class SongDataEntity{
       this.showRelDateDay,
       this.addPers,
       this.youtubeLink,
+      this.audios,
       this.tags,
       this.hasChords,
       this.text,
@@ -236,6 +254,8 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
   @override
   String? get youtubeLink => _youtubeLink;
 
+  final List<SongAudio> audios;
+
   @override
   bool get isOwn => !isOfficial && !isConfid;
 
@@ -295,6 +315,8 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
       this._addPers,
       this._youtubeLink,
 
+      this.audios,
+
       this._tags,
 
       this._hasChords,
@@ -305,7 +327,7 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
       this.memoryMap
   );
 
-  static SongDataEntity parse(String fileName, String code) {
+  static Future<SongDataEntity> parse(String fileName, String code) async {
 
     Map<String, dynamic> map = jsonDecode(code)[fileName];
 
@@ -314,7 +336,7 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
   }
 
   @protected
-  static SongDataEntity fromRespMap(String fileName, Map respMap){
+  static Future<SongDataEntity> fromRespMap(String fileName, Map respMap, {List? songAudioMapList}) async {
 
     List<Memory> memoryList = [];
     Map<String, Memory> memoryMap = {};
@@ -393,8 +415,12 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
     if(songChords.isNotEmpty)
       songChords = songChords.substring(0, songChords.length - 2);
 
-    //ChordShifter chordShifter = ChordShifter(songChords, readChordShift(fileName));
-    //PrimitiveWrapper<int> rate = PrimitiveWrapper(readRate(fileName));
+    List<SongAudio> audios = [];
+
+    for(Map songMetaMap in songAudioMapList??[])
+      try {
+        audios.add(SongAudio.fromRespMap(songMetaMap.cast<String, String?>()));
+      } catch (_, __){}
 
     return SongDataEntity(
       fileName,
@@ -408,6 +434,7 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
       showRelDateDay,
       addPers,
       ytLink,
+      audios,
 
       tags,
 
@@ -424,7 +451,7 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
 
   Future<String> toQRData() async => const Base64Codec().encode(const Utf8Encoder().convert(await code).toList());
 
-  static SongDataEntity from(String codeBase64){
+  static Future<SongDataEntity> from(String codeBase64) async {
     String code = const Utf8Decoder().convert(const Base64Codec().decode(codeBase64).toList());
     return Song.parse('_shared', code);
   }

@@ -1,16 +1,13 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp_core/comm_widgets/app_text.dart';
+import 'package:harcapp/_common_widgets/sound_player_widget.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_new/cat_page_harcthought/common/short_read.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_widgets/app_button.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../module_statistics_registrator.dart';
 
@@ -33,33 +30,15 @@ class ShortReadWidgetState extends State<ShortReadWidget> with ModuleStatsMixin{
 
   ShortRead get shortRead => widget.shortRead;
 
-  late AssetsAudioPlayer assetsAudioPlayer;
-
   String? text;
 
   @override
   void initState() {
-
-    assetsAudioPlayer = AssetsAudioPlayer();
-
-    if(shortRead.soundResource != null)
-    assetsAudioPlayer.open(
-      Audio('assets/gawedy/${shortRead.soundResource}'),
-      autoStart: false
-    );
-
     ()async{
       text = await readStringFromAssets('assets/gawedy/${shortRead.fileName}');
       setState((){});
     }();
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    assetsAudioPlayer.stop();
-    assetsAudioPlayer.dispose();
-    super.dispose();
   }
 
   @override
@@ -158,73 +137,11 @@ class ShortReadWidgetState extends State<ShortReadWidget> with ModuleStatsMixin{
         clipBehavior: Clip.hardEdge,
         borderRadius: BorderRadius.circular(AppCard.bigRadius),
         elevation: AppCard.bigElevation,
-        child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) => Stack(
-            children: [
-
-              if(assetsAudioPlayer.current.valueOrNull != null)
-                PlayerBuilder.currentPosition(
-                    player: assetsAudioPlayer,
-                    builder: (context, duration) => Container(
-                      color: backgroundIcon_(context),
-                      height: Dimen.ICON_FOOTPRINT,
-                      width: (duration.inMilliseconds/assetsAudioPlayer.current.value!.audio.duration.inMilliseconds)*constraints.maxWidth,
-                    )
-                ),
-
-              Row(
-                children: [
-
-                  IconButton(
-                    icon: Icon(
-                        assetsAudioPlayer.isPlaying.value?
-                        MdiIcons.pause:
-                        MdiIcons.play
-                    ),
-                    onPressed: () async {
-                      await assetsAudioPlayer.playOrPause();
-                      if(mounted) setState((){});
-                    },
-                  ),
-
-                  Expanded(
-                    child:
-                    shortRead.readingVoice == null?
-                    Container():
-                    AppText(
-                      'Czyta: <b>${shortRead.readingVoice!}</b>',
-                    ),
-                  ),
-
-                  AppButton(
-                    icon: const Icon(MdiIcons.rewind),
-                    onLongPress: (){
-                      assetsAudioPlayer.seek(Duration.zero);
-                      if(mounted) showAppToast(context, text: 'Od początku!', duration: const Duration(seconds: 1));
-                      if(mounted) setState((){});
-                    },
-                    onTap: () async {
-                      await assetsAudioPlayer.seekBy(const Duration(seconds: -2));
-                      if(mounted) showAppToast(context, text: '-2 sekundy', duration: const Duration(seconds: 1));
-                      if(mounted) setState((){});
-                    },
-                  ),
-
-                  IconButton(
-                    icon: const Icon(MdiIcons.fastForward),
-                    onPressed: () async {
-                      await assetsAudioPlayer.seekBy(const Duration(seconds: 2));
-                      if(mounted) showAppToast(context, text: '+2 sekundy', duration: const Duration(seconds: 1));
-                      if(mounted) setState((){});
-                    },
-                  ),
-
-
-                ],
-              ),
-            ],
-          )
-        ),
+        child: SoundPlayerWidget(
+          source: 'assets/gawedy/${shortRead.soundResource}',
+          name: 'Czyta: <b>${shortRead.readingVoice!}</b>',
+          isWeb: false,
+        )
       ),
     ),
 

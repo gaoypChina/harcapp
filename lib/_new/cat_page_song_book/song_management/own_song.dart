@@ -80,6 +80,7 @@ class OwnSong extends Song<OwnSongGetResp>{
       bool showRelDateDay,
       List<AddPerson> addPers,
       String youtubeLink,
+      List<SongAudio> audios,
       List<String> tags,
       bool hasChords, String text,
       String baseChords,
@@ -97,6 +98,7 @@ class OwnSong extends Song<OwnSongGetResp>{
       showRelDateDay,
       addPers,
       youtubeLink,
+      audios,
       tags,
       hasChords,
       text,
@@ -106,8 +108,8 @@ class OwnSong extends Song<OwnSongGetResp>{
       memoryMap
   );
 
-  static OwnSong fromRespMap(String fileName, Map respMap){
-    SongDataEntity songStuff = Song.fromRespMap(fileName, respMap);
+  static Future<OwnSong> fromRespMap(String fileName, Map respMap) async {
+    SongDataEntity songStuff = await Song.fromRespMap(fileName, respMap);
     return OwnSong(
       fileName,
       songStuff.title,
@@ -120,6 +122,7 @@ class OwnSong extends Song<OwnSongGetResp>{
       songStuff.showRelDateDay,
       songStuff.addPers,
       songStuff.youtubeLink,
+      songStuff.audios,
       songStuff.tags,
       songStuff.hasChords,
       songStuff.text,
@@ -148,7 +151,7 @@ class OwnSong extends Song<OwnSongGetResp>{
 
   }
 
-  static OwnSong saveOwnSong(String code, {String? lclId}) {
+  static Future<OwnSong> saveOwnSong(String code, {String? lclId}) async {
 
     if(lclId == null)
       lclId = '${OwnSong.lastFileName + 1}';
@@ -176,13 +179,13 @@ class OwnSong extends Song<OwnSongGetResp>{
     saveStringAsFile(getOwnSongFilePath, allOwnSngsJsonStr);
     saveStringAsFile(getOwnLastFileNameFilePath, lclId);
 
-    return OwnSong.fromRespMap(lclId, jsonMap);
+    return await OwnSong.fromRespMap(lclId, jsonMap);
 
   }
 
-  recode(String code){
+  Future<void> recode(String code) async {
     Map map = jsonDecode(code);
-    OwnSong song = OwnSong.fromRespMap(fileName, map);
+    OwnSong song = await OwnSong.fromRespMap(fileName, map);
     copyWith(song);
   }
 

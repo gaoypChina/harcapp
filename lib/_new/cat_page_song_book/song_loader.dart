@@ -27,15 +27,21 @@ Future<Tuple7<
 
     List<String>      //allErrors
 
->> decodeSongs(Tuple2<String?, String?> args) async{
+>> decodeSongs(Tuple3<String?, String?, String?> args) async{
 
   List<String> allErrors = [];
 
   String? allSongsCode = args.item1;
   String? ownSongsCode = args.item2;
+  String? audioMetaRaw = args.item3;
 
   Map? allSongsJSONMap;
   if(allSongsCode != null) allSongsJSONMap = jsonDecode(allSongsCode);
+
+  Map songAudioMap =
+  audioMetaRaw==null?
+  {}:
+  jsonDecode(audioMetaRaw).cast<String, List>();
 
   // OFFICIAL SONGS
   Map offSongsMap = {};
@@ -47,7 +53,11 @@ Future<Tuple7<
       Map songMap = offSongsMap[fileName]['song'];
       int index = offSongsMap[fileName]['index'];
 
-      OffSong song = OffSong.fromRespMap(fileName, songMap);
+      OffSong song = await OffSong.fromRespMap(
+          fileName,
+          songMap,
+          songAudioMapList: songAudioMap[fileName]
+      );
       allOffSongs[index] = song;
       allOffSongsMap[song.fileName] = song;
     } on Error {
@@ -67,7 +77,11 @@ Future<Tuple7<
       Map songMap = confSongsMap[fileName]['song'];
       int index = confSongsMap[fileName]['index'];
 
-      OffSong song = OffSong.fromRespMap(fileName, songMap);
+      OffSong song = await OffSong.fromRespMap(
+          fileName,
+          songMap,
+          songAudioMapList: songAudioMap[fileName]
+      );
       allConfidSongs[index] = song;
       allConfidSongsMap[song.fileName] = song;
     } on Error {
@@ -85,7 +99,7 @@ Future<Tuple7<
   Map<String, OwnSong> allOwnSongsMap = {};
   for(String fileName in ownSongsMap.keys) {
     try {
-      OwnSong song = OwnSong.fromRespMap(fileName, ownSongsMap[fileName]);
+      OwnSong song = await OwnSong.fromRespMap(fileName, ownSongsMap[fileName]);
       allOwnSongs.add(song);
       allOwnSongsMap[song.fileName] = song;
     } catch (e){
@@ -120,6 +134,7 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
     Map<String, Memory> allMemoriesMap = {};
 
     String? allSongsCode = await readStringFromAssets('assets/songs/all_songs.hrcpsng');
+    String? audioMetaRaw = await readStringFromAssets("assets/songs/audio_meta.json");
 
     String? ownSongsCode;
     try {
@@ -129,7 +144,7 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
       logger.e(e);
     }
 
-    Tuple7 result = await compute(decodeSongs, Tuple2(allSongsCode, ownSongsCode));
+    Tuple7 result = await compute(decodeSongs, Tuple3(allSongsCode, ownSongsCode, audioMetaRaw));
 
     OffSong.allOfficial = result.item1;
     OffSong.allOfficialMap = result.item2;

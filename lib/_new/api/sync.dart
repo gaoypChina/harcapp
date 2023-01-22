@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:harcapp/_common_classes/org/org_handler.dart';
 import 'package:harcapp/_new/api/sync_resp_body/album_resp.dart';
@@ -178,8 +180,8 @@ class ApiSync{
   );
   
   static Future<Response?> get({
-    void Function(Response response, OrgEntityResp? orgResp, AppSettingsResp? appSettingsResp, SongBookSettingsResp? songBookSettingsResp, Map<String, OffSongGetResp> offSongs, Map<String, OwnSongGetResp> ownSongs, Map<String, AlbumGetResp> albums, Map<String, SprawGetResp> spraws, Map<String, RankDefGetResp> rankDefs,  Map<String, RankZhpSim2022GetResp> rankZhpSim2022, DateTime? syncedTime)? onSuccess,
-    void Function(Response?)? onError,
+    FutureOr<void> Function(Response response, OrgEntityResp? orgResp, AppSettingsResp? appSettingsResp, SongBookSettingsResp? songBookSettingsResp, Map<String, OffSongGetResp> offSongs, Map<String, OwnSongGetResp> ownSongs, Map<String, AlbumGetResp> albums, Map<String, SprawGetResp> spraws, Map<String, RankDefGetResp> rankDefs,  Map<String, RankZhpSim2022GetResp> rankZhpSim2022, DateTime? syncedTime)? onSuccess,
+    FutureOr<void> Function(Response?)? onError,
   }) async {
     
     logger.i('Sync get request sent.');
@@ -304,7 +306,7 @@ class ApiSync{
 
           );
 
-          onSuccess?.call(
+          await onSuccess?.call(
               response,
               orgResp,
               appSettingsResp,
@@ -318,7 +320,7 @@ class ApiSync{
               syncedTime
           );
         },
-        onError: (err) async => onError?.call(err.response)
+        onError: (err) async => await onError?.call(err.response)
     );
   }
 
@@ -326,7 +328,7 @@ class ApiSync{
     void Function()? onSuccess,
     void Function()? onError,
   }) async => await get(
-      onSuccess: (Response response, OrgEntityResp? orgResp, AppSettingsResp? appSettingsResp, SongBookSettingsResp? songBookSettingsResp, Map<String, OffSongGetResp> offSongs, Map<String, OwnSongGetResp> ownSongs, Map<String, AlbumGetResp> albums, Map<String, SprawGetResp> spraws, Map<String, RankDefGetResp> rankDefs, Map<String, RankZhpSim2022GetResp> rankZhpSim2022, DateTime? syncedTime){
+      onSuccess: (Response response, OrgEntityResp? orgResp, AppSettingsResp? appSettingsResp, SongBookSettingsResp? songBookSettingsResp, Map<String, OffSongGetResp> offSongs, Map<String, OwnSongGetResp> ownSongs, Map<String, AlbumGetResp> albums, Map<String, SprawGetResp> spraws, Map<String, RankDefGetResp> rankDefs, Map<String, RankZhpSim2022GetResp> rankZhpSim2022, DateTime? syncedTime) async {
 
         if(orgResp != null)
           OrgHandler().applySyncGetResp(orgResp);
@@ -348,7 +350,7 @@ class ApiSync{
           OwnSong? song = OwnSong.allOwnMap[lclId];
           if(song == null) continue;
           OwnSongGetResp songResp = ownSongs[lclId]!;
-          song = OwnSong.saveOwnSong(songResp.code!, lclId: lclId);
+          song = await OwnSong.saveOwnSong(songResp.code!, lclId: lclId);
           OwnSong.addOwn(song);
 
           song.applySyncGetResp(songResp);

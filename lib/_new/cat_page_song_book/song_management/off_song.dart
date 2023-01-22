@@ -32,6 +32,7 @@ class OffSong extends Song<OffSongGetResp>{
       bool showRelDateDay,
       List<AddPerson> addPers,
       String youtubeLink,
+      List<SongAudio> audios,
       List<String> tags,
       bool hasChords,
       String text,
@@ -50,6 +51,7 @@ class OffSong extends Song<OffSongGetResp>{
       showRelDateDay,
       addPers,
       youtubeLink,
+      audios,
       tags,
       hasChords,
       text,
@@ -59,8 +61,8 @@ class OffSong extends Song<OffSongGetResp>{
       memoryMap
   );
 
-  static OffSong fromRespMap(String fileName, Map respMap){
-    SongDataEntity songStuff = Song.fromRespMap(fileName, respMap);
+  static Future<OffSong> fromRespMap(String fileName, Map respMap, {List? songAudioMapList}) async {
+    SongDataEntity songStuff = await Song.fromRespMap(fileName, respMap, songAudioMapList: songAudioMapList);
     return OffSong(
       fileName,
       songStuff.title,
@@ -73,6 +75,7 @@ class OffSong extends Song<OffSongGetResp>{
       songStuff.showRelDateDay,
       songStuff.addPers,
       songStuff.youtubeLink,
+      songStuff.audios,
       songStuff.tags,
       songStuff.hasChords,
       songStuff.text,

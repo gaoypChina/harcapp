@@ -300,7 +300,7 @@ class OwnSongPageState extends State<OwnSongPage> {
           onPressed: () async {
 
             SongRaw songRaw = currItemProv!.song;
-            Song song = OffSong.fromRespMap('', jsonDecode(songRaw.toCode(withFileName: false)));
+            Song song = await OffSong.fromRespMap('', jsonDecode(songRaw.toCode(withFileName: false)));
 
             await Navigator.push(context, MaterialPageRoute(
               builder: (context) => AppScaffold(

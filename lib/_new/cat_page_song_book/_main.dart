@@ -78,9 +78,8 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
   String get moduleId => 'songbook';
 
   @override
-  void afterFirstLayout(BuildContext context) {
-    Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackSongBook();
-  }
+  void afterFirstLayout(BuildContext context) =>
+    ColorPackProvider.of(context).colorPack = ColorPackSongBook();
 
   static void delLastPageForAlbum(Album album) => ShaPref.remove(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album));
   static int getLastPageForAlbum(Album album) => ShaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album), 0);
@@ -172,6 +171,8 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
           onEnd: (String? err, bool forceFinished) {
             if(!mounted) return;
 
+            onAlbumChanged(Album.current);
+
             if(SongBookSettings.showTabOfContOnStart && Album.current.songs.isNotEmpty)
               openTabOfCont();
 
@@ -218,7 +219,8 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     floatingButtonExpanded = true;
     isAutoScrolling = false;
 
-    onAlbumChanged(Album.current);
+    if(Album.initialized)
+      onAlbumChanged(Album.current);
 
     BackButtonInterceptor.add(onBackPressed);
 

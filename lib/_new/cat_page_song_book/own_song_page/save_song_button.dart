@@ -72,7 +72,7 @@ class SaveSongButtonState extends State<SaveSongButton>{
 
           OwnSong song;
           try{
-            song = OwnSong.saveOwnSong(code, lclId: songRaw.fileName);
+            song = await OwnSong.saveOwnSong(code, lclId: songRaw.fileName);
           }catch(e){
             setState(() => isSaving = false);
             showAppToast(context, text: 'Błąd kodowania nazwy piosenki!');

@@ -9,6 +9,7 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_new/cat_page_song_book/add_pers_email_resolver.dart';
 import 'package:harcapp/_new/cat_page_song_book/settings/song_book_base_settings.dart';
 import 'package:harcapp/_new/cat_page_song_book/settings/song_book_settings.dart';
+import 'package:harcapp/_new/cat_page_song_book/song_audio_player_widget.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_contributors_page.dart';
 import 'package:harcapp/values/hufce.dart';
 import 'package:harcapp/values/people.dart';
@@ -384,6 +385,14 @@ class SongWidget extends StatelessWidget{
           ),
 
       ],
+    ),
+
+    titleCardFooter: (BuildContext context, ScrollController? controller) =>
+    song.audios.isEmpty?
+    Container():
+    SongAudioPlayerWidget(
+      song,
+      padding: const EdgeInsets.symmetric(horizontal: Dimen.defMarg),
     ),
 
     contentFooter: (BuildContext context, ScrollController? controller) => MemoryListWidget(
