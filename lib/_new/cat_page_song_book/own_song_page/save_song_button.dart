@@ -10,7 +10,6 @@ import 'package:harcapp_core_own_song/providers.dart';
 import 'package:harcapp_core_own_song/song_raw.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 
 import '../../../sync/syncable_new.dart';
 import 'own_song_page.dart';
@@ -50,7 +49,9 @@ class SaveSongButtonState extends State<SaveSongButton>{
       icon: const Icon(MdiIcons.check),
       onPressed: isSaving?null:()async{
 
-        if(Provider.of<TitleCtrlProvider>(context, listen: false).controller!.text.isEmpty)
+        CurrentItemProvider currentItemProv = CurrentItemProvider.of(context);
+
+        if(currentItemProv.titleController.text.isEmpty)
           showAppToast(context, text: 'Podaj tytuł piosenki.');
         else{
 
@@ -60,13 +61,13 @@ class SaveSongButtonState extends State<SaveSongButton>{
 
           await Future.delayed(const Duration(milliseconds: 300));
 
-          SongRaw songRaw = Provider.of<CurrentItemProvider>(context, listen: false).song;
+          SongRaw songRaw = currentItemProv.song;
 
           String code = jsonEncode(songRaw.toMap(withFileName: false));
 
           if(code.length > OwnSong.codeMaxLength){
-            setState(() => isSaving = false);
-            showAppToast(context, text: 'Piosenka za długa.');
+            if(mounted) setState(() => isSaving = false);
+            if(mounted) showAppToast(context, text: 'Piosenka za długa.');
             return;
           }
 
@@ -74,8 +75,8 @@ class SaveSongButtonState extends State<SaveSongButton>{
           try{
             song = await OwnSong.saveOwnSong(code, lclId: songRaw.fileName);
           }catch(e){
-            setState(() => isSaving = false);
-            showAppToast(context, text: 'Błąd kodowania nazwy piosenki!');
+            if(mounted) setState(() => isSaving = false);
+            if(mounted) showAppToast(context, text: 'Błąd kodowania nazwy piosenki!');
             return;
           }
 
@@ -91,7 +92,7 @@ class SaveSongButtonState extends State<SaveSongButton>{
           song.setAllSyncState(SyncableParamSingle_.stateNotSynced);
           synchronizer.post();
 
-          Navigator.pop(context);
+          if(mounted) Navigator.pop(context);
 
           onSaved?.call(song, widget.editType);
 

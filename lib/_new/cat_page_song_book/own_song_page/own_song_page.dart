@@ -83,7 +83,6 @@ class OwnSongPageState extends State<OwnSongPage> {
   List<Album>? albums;
 
   CurrentItemProvider? currItemProv;
-  HidTitlesProvider? hidTitleProv;
 
   GlobalKey? addButtonsKey;
 
@@ -107,165 +106,158 @@ class OwnSongPageState extends State<OwnSongPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return Theme(
-        data: Theme.of(context).copyWith(
-          // This is the accent color
-          colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Album.current.avgColor),
-          textSelectionTheme: TextSelectionThemeData(
-            cursorColor: Album.current.avgColor,
-            selectionHandleColor: Album.current.avgColor,
-          ), 
+  Widget build(BuildContext context) => Theme(
+      data: Theme.of(context).copyWith(
+        // This is the accent color
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Album.current.avgColor),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Album.current.avgColor,
+          selectionHandleColor: Album.current.avgColor,
         ),
-        child: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (context){
+      ),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context){
 
-              if(editType == EditType.editOwn)
-                currItemProv = CurrentItemProvider(song: song!);
+            if(editType == EditType.editOwn)
+              currItemProv = CurrentItemProvider(song: song!);
 
-              if(editType == EditType.newOwn) {
+            if(editType == EditType.newOwn) {
 
-                String? initAddPersName;
-                String? initAddPersEmail;
-                String? initAddPersUserKey;
-                if(AccountData.loggedIn) {
-                  initAddPersEmail = AccountData.email;
-                  initAddPersUserKey = AccountData.key;
-                }
-                currItemProv = CurrentItemProvider(
-                    song: SongRaw.empty(fileName: '${OwnSong.lastFileName + 1}'),
-                    initAddPersName: initAddPersName,
-                    initAddPersEmail: initAddPersEmail,
-                    initAddPersUserKey: initAddPersUserKey,
-                );
+              String? initAddPersName;
+              String? initAddPersEmail;
+              String? initAddPersUserKey;
+              if(AccountData.loggedIn) {
+                initAddPersEmail = AccountData.email;
+                initAddPersUserKey = AccountData.key;
               }
-              else if(editType == EditType.editOfficial)
-                currItemProv = CurrentItemProvider(song: song!.copyWith(fileName: '${OwnSong.lastFileName + 1}'));
+              currItemProv = CurrentItemProvider(
+                song: SongRaw.empty(fileName: '${OwnSong.lastFileName + 1}'),
+                initAddPersName: initAddPersName,
+                initAddPersEmail: initAddPersEmail,
+                initAddPersUserKey: initAddPersUserKey,
+              );
+            }
+            else if(editType == EditType.editOfficial)
+              currItemProv = CurrentItemProvider(song: song!.copyWith(fileName: '${OwnSong.lastFileName + 1}'));
 
-              return currItemProv;
+            return currItemProv;
 
-            }),
-            ChangeNotifierProvider(create: (context) {
-              hidTitleProv = HidTitlesProvider(hidTitles: song==null?[]:song!.hidTitles);
-              return hidTitleProv;
-            }),
-            ChangeNotifierProvider(create: (context) => RefrenEnabProvider(song==null?true:song!.hasRefren)),
-            ChangeNotifierProvider(create: (context) => RefrenPartProvider()),
-            ChangeNotifierProvider(create: (context) => TagsProvider(Tag.ALL_TAG_NAMES, song==null?[]:song!.tags)),
+          }),
+          ChangeNotifierProvider(create: (context) => RefrenEnabProvider(song==null?true:song!.hasRefren)),
+          ChangeNotifierProvider(create: (context) => RefrenPartProvider()),
+          ChangeNotifierProvider(create: (context) => TagsProvider(Tag.ALL_TAG_NAMES, song==null?[]:song!.tags)),
+        ],
 
-            ChangeNotifierProvider(create: (context) => TitleCtrlProvider(text: song==null?'':song!.title)),
-          ],
+        builder: (context, child) => BottomNavScaffold(
+          body: CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            controller: scrollController,
+            slivers: [
 
-          builder: (context, child) => BottomNavScaffold(
-            body: CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              controller: scrollController,
-              slivers: [
+              appBar(),
 
-                appBar(),
+              SliverList(delegate: SliverChildListDelegate([
+                SongPartsListWidget(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  onPartTap: (index) => openDialog(context: context, builder: (_) => SongPartEditor(
+                    initText: currItemProv!.song.songParts[index].getText(),
+                    initChords: currItemProv!.song.songParts[index].chords,
+                    initShifted: currItemProv!.song.songParts[index].shift,
+                    isRefren: currItemProv!.song.songParts[index].isRefren(context),
+                    onTextChanged: (text, errCount){
+                      currItemProv!.song.songParts[index].setText(text);
+                      currItemProv!.song.songParts[index].isError = errCount != 0;
+                      currItemProv!.notify();
+                    },
+                    onChordsChanged: (text, errCount){
+                      currItemProv!.song.songParts[index].chords = text;
+                      currItemProv!.song.songParts[index].isError = errCount != 0;
+                      currItemProv!.notify();
+                    },
+                    onShiftedChanged: (shifted){
+                      currItemProv!.song.songParts[index].shift = shifted;
+                      currItemProv!.notify();
+                    },
+                  )),
+                  header: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
 
-                SliverList(delegate: SliverChildListDelegate([
-                  SongPartsListWidget(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    onPartTap: (index) => openDialog(context: context, builder: (_) => SongPartEditor(
-                      initText: currItemProv!.song.songParts[index].getText(),
-                      initChords: currItemProv!.song.songParts[index].chords,
-                      initShifted: currItemProv!.song.songParts[index].shift,
-                      isRefren: currItemProv!.song.songParts[index].isRefren(context),
-                      onTextChanged: (text, errCount){
-                        currItemProv!.song.songParts[index].setText(text);
-                        currItemProv!.song.songParts[index].isError = errCount != 0;
-                        currItemProv!.notify();
-                      },
-                      onChordsChanged: (text, errCount){
-                        currItemProv!.song.songParts[index].chords = text;
-                        currItemProv!.song.songParts[index].isError = errCount != 0;
-                        currItemProv!.notify();
-                      },
-                      onShiftedChanged: (shifted){
-                        currItemProv!.song.songParts[index].shift = shifted;
-                        currItemProv!.notify();
-                      },
-                    )),
-                    header: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
+                      const SongWebEditorInfo(),
 
-                        const SongWebEditorInfo(),
+                      const Padding(
+                        padding: EdgeInsets.only(left: Dimen.ICON_MARG),
+                        child: TitleShortcutRowWidget(title: 'Informacje ogólne', /*icon: MdiIcons.textBoxOutline*/ textAlign: TextAlign.start),
+                      ),
+                      TopCards(
+                        accentColor: Album.current.avgColorDarkSensitive(context),
+                        onChangedTitle: (text) => currItemProv!.setTitle(text, notify: false),
+                        onChangedHiddenTitles: (texts) => currItemProv!.setHidTitles(texts, notify: false),
+                        onChangedAuthor: (texts) => currItemProv!.setAuthors(texts, notify: false),
+                        onChangedPerformer: (texts) => currItemProv!.setPerformers(texts, notify: false),
+                        onChangedComposer: (texts) => currItemProv!.setComposers(texts, notify: false),
+                        onChangedYT: (text) => currItemProv!.setYoutubeLink(text, notify: false),
+                      ),
 
-                        const Padding(
-                          padding: EdgeInsets.only(left: Dimen.ICON_MARG),
-                          child: TitleShortcutRowWidget(title: 'Informacje ogólne', /*icon: MdiIcons.textBoxOutline*/ textAlign: TextAlign.start),
-                        ),
-                        TopCards(
+                      const SizedBox(height: sep),
+
+                      const AddPersListWidget(),
+
+                      const SizedBox(height: sep),
+
+                      TagsWidget(
+                        onChanged: (List<String> tags) => currItemProv!.setTags(tags, notify: false),
+                      ),
+
+                      const SizedBox(height: sep),
+
+                      if(Album.allOwn.isNotEmpty)
+                        AlbumPart(this),
+
+                      if(Album.allOwn.isNotEmpty)
+                        const SizedBox(height: sep),
+
+                      RefrenTemplate(
                           accentColor: Album.current.avgColorDarkSensitive(context),
-                          onChangedTitle: (text) => currItemProv!.title = text,
-                          onChangedAuthor: (texts) => currItemProv!.authors = texts,
-                          onChangedPerformer: (texts) => currItemProv!.performers = texts,
-                          onChangedComposer: (texts) => currItemProv!.composers = texts,
-                          onChangedYT: (text) => currItemProv!.youtubeLink = text,
-                        ),
+                          onPartTap: () => openDialog(context: context, builder: (_) =>
+                              SongPartEditor(
+                                initText: currItemProv!.song.refrenPart.getText(),
+                                initChords: currItemProv!.song.refrenPart.chords,
+                                initShifted: currItemProv!.song.refrenPart.shift,
+                                isRefren: currItemProv!.song.refrenPart.isRefren(context),
+                                onTextChanged: (text, errCount){
+                                  currItemProv!.song.refrenPart.setText(text);
+                                  currItemProv!.song.refrenPart.isError = errCount != 0;
+                                  currItemProv!.notify();
+                                  Provider.of<RefrenPartProvider>(context, listen: false).notify();
+                                },
+                                onChordsChanged: (text, errCount){
+                                  currItemProv!.song.refrenPart.chords = text;
+                                  currItemProv!.song.refrenPart.isError = errCount != 0;
+                                  currItemProv!.notify();
+                                  Provider.of<RefrenPartProvider>(context, listen: false).notify();
+                                },
+                                onShiftedChanged: (shifted){
+                                  currItemProv!.song.refrenPart.shift = shifted;
+                                  currItemProv!.notify();
+                                  Provider.of<RefrenPartProvider>(context, listen: false).notify();
+                                },
+                              ),
+                          )
+                      ),
 
-                        const SizedBox(height: sep),
+                      const SizedBox(height: sep),
 
-                        const AddPersListWidget(),
+                      const Padding(
+                        padding: EdgeInsets.only(left: Dimen.ICON_MARG),
+                        child: TitleShortcutRowWidget(title: 'Struktura piosenki', /*icon: MdiIcons.playlistMusic*/ textAlign: TextAlign.start),
+                      ),
 
-                        const SizedBox(height: sep),
-
-                        TagsWidget(
-                          onChanged: (List<String>? tags) => currItemProv!.tags = tags!,
-                        ),
-
-                        const SizedBox(height: sep),
-
-                        if(Album.allOwn.isNotEmpty)
-                          AlbumPart(this),
-
-                        if(Album.allOwn.isNotEmpty)
-                          const SizedBox(height: sep),
-
-                        RefrenTemplate(
-                            accentColor: Album.current.avgColorDarkSensitive(context),
-                            onPartTap: () => openDialog(context: context, builder: (_) =>
-                                SongPartEditor(
-                                  initText: currItemProv!.song.refrenPart.getText(),
-                                  initChords: currItemProv!.song.refrenPart.chords,
-                                  initShifted: currItemProv!.song.refrenPart.shift,
-                                  isRefren: currItemProv!.song.refrenPart.isRefren(context),
-                                  onTextChanged: (text, errCount){
-                                    currItemProv!.song.refrenPart.setText(text);
-                                    currItemProv!.song.refrenPart.isError = errCount != 0;
-                                    currItemProv!.notify();
-                                    Provider.of<RefrenPartProvider>(context, listen: false).notify();
-                                  },
-                                  onChordsChanged: (text, errCount){
-                                    currItemProv!.song.refrenPart.chords = text;
-                                    currItemProv!.song.refrenPart.isError = errCount != 0;
-                                    currItemProv!.notify();
-                                    Provider.of<RefrenPartProvider>(context, listen: false).notify();
-                                  },
-                                  onShiftedChanged: (shifted){
-                                    currItemProv!.song.refrenPart.shift = shifted;
-                                    currItemProv!.notify();
-                                    Provider.of<RefrenPartProvider>(context, listen: false).notify();
-                                  },
-                                ),
-                            )
-                        ),
-
-                        const SizedBox(height: sep),
-
-                        const Padding(
-                          padding: EdgeInsets.only(left: Dimen.ICON_MARG),
-                          child: TitleShortcutRowWidget(title: 'Struktura piosenki', /*icon: MdiIcons.playlistMusic*/ textAlign: TextAlign.start),
-                        ),
-
-                      ],
-                    ),
-                    footer: AddButtonsWidget(
+                    ],
+                  ),
+                  footer: AddButtonsWidget(
                       key: addButtonsKey,
                       accentColor: Album.current.avgColorDarkSensitive(context),
                       onPressed: ()async{
@@ -276,17 +268,16 @@ class OwnSongPageState extends State<OwnSongPage> {
                             curve: Curves.easeOutQuad
                         );
                       }// => scrollToBottom(scrollController),
-                    ),
-                  )
-                ]))
+                  ),
+                )
+              ]))
 
-              ],
-            ),
-
+            ],
           ),
-        )
-    );
-  }
+
+        ),
+      )
+  );
 
   SliverAppBar appBar() => SliverAppBar(
     backgroundColor: background_(context),
@@ -341,64 +332,62 @@ class SongWebEditorInfo extends StatelessWidget{
   const SongWebEditorInfo({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return AppCard(
-        elevation: AppCard.bigElevation,
-        margin: const EdgeInsets.all(Dimen.SIDE_MARG),
-        padding: EdgeInsets.zero,
-        radius: AppCard.bigRadius,
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+  Widget build(BuildContext context) => AppCard(
+      elevation: AppCard.bigElevation,
+      margin: const EdgeInsets.all(Dimen.SIDE_MARG),
+      padding: EdgeInsets.zero,
+      radius: AppCard.bigRadius,
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Chcesz skorzystać z edytora piosenek\nw przeglądarce na komputerze?',
+                  style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)),
+                  textAlign: TextAlign.center,
+                ),
+
+                const SizedBox(height: Dimen.ICON_MARG),
+
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+
+                      Text(
+                        'Wejdź na: ',
+                        style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)),
+                        textAlign: TextAlign.center,
+                      ),
+
+                      Text(
+                        'harcapp.web.app',
+                        style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG),
+                        textAlign: TextAlign.center,
+                      )
+                    ]
+                ),
+
+              ],
+            ),
+          ),
+
+          Positioned(
+              child: Row(
                 children: [
-                  Text(
-                    'Chcesz skorzystać z edytora piosenek\nw przeglądarce na komputerze?',
-                    style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)),
-                    textAlign: TextAlign.center,
-                  ),
-
-                  const SizedBox(height: Dimen.ICON_MARG),
-
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-
-                        Text(
-                          'Wejdź na: ',
-                          style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)),
-                          textAlign: TextAlign.center,
-                        ),
-
-                        Text(
-                          'harcapp.web.app',
-                          style: AppTextStyle(fontWeight: weight.halfBold, fontSize: Dimen.TEXT_SIZE_BIG),
-                          textAlign: TextAlign.center,
-                        )
-                      ]
-                  ),
-
+                  const SizedBox(width: Dimen.ICON_MARG),
+                  Icon(MdiIcons.music, size: 84.0, color: backgroundIcon_(context)),
+                  Expanded(child: Container()),
+                  Icon(MdiIcons.laptop, size: 84.0, color: backgroundIcon_(context)),
+                  const SizedBox(width: Dimen.ICON_MARG),
                 ],
-              ),
-            ),
+              )
+          ),
 
-            Positioned(
-                child: Row(
-                  children: [
-                    const SizedBox(width: Dimen.ICON_MARG),
-                    Icon(MdiIcons.music, size: 84.0, color: backgroundIcon_(context)),
-                    Expanded(child: Container()),
-                    Icon(MdiIcons.laptop, size: 84.0, color: backgroundIcon_(context)),
-                    const SizedBox(width: Dimen.ICON_MARG),
-                  ],
-                )
-            ),
-
-          ],
-        )
-    );
-  }
+        ],
+      )
+  );
 
 }

@@ -25,6 +25,7 @@ class SongAudioPlayerWidgetState extends State<SongAudioPlayerWidget>{
   Widget build(BuildContext context) => SizedBox(
     height: SoundPlayerWidget.height + padding.vertical,
     child: PageView.builder(
+        clipBehavior: Clip.none,
         itemCount: song.audios.length,
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) => Padding(

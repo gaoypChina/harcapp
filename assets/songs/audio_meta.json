@@ -13,11 +13,11 @@
         }
     ],
 
-    "o!_piesn_xxix": [
+    "o!_gwiazdy": [
         {
-            "file": "piesn_xxix.tuiteraz2.mp3",
-            "performer": "@tuiteraz2",
-            "source": "https://www.youtube.com/watch?v=CAdq5pKWCOo"
+            "file": "gwiazdy.wiktoria_cwik.mp3",
+            "performer": "Wiktoria Ćwik",
+            "source": "https://www.youtube.com/watch?v=cmONy6PqNzU"
         }
     ],
 
@@ -26,6 +26,22 @@
             "file": "lubie_mowic_z_toba.tuiteraz2.mp3",
             "performer": "@tuiteraz2",
             "source": "https://www.youtube.com/watch?v=qQbiT8hLI8Q"
+        }
+    ],
+
+    "o!_piesn_xxix": [
+        {
+            "file": "piesn_xxix.tuiteraz2.mp3",
+            "performer": "@tuiteraz2",
+            "source": "https://www.youtube.com/watch?v=CAdq5pKWCOo"
+        }
+    ],
+
+    "o!_plonie_ognisko": [
+        {
+            "file": "plonie_ognisko.0.mp3",
+            "performer": null,
+            "source": "https://www.youtube.com/watch?v=ArwHEekmxtw"
         }
     ],
 

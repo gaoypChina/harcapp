@@ -1,6 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_button.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -86,6 +87,11 @@ class SoundPlayerWidgetState extends State<SoundPlayerWidget>{
                         MdiIcons.play
                     ),
                     onPressed: () async {
+                      if(isWeb && !await isNetworkAvailable() && !assetsAudioPlayer.isPlaying.value) {
+                        showAppToast(context, text: 'Brak dostępu do Internetu');
+                        return;
+                      }
+
                       await assetsAudioPlayer.playOrPause();
                       if(mounted) setState((){});
                     },
