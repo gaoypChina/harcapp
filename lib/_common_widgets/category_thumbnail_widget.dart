@@ -73,7 +73,7 @@ class CategoryThumbnailCommonWidget extends StatelessWidget{
               width: size,
               height: size,
               child: Center(
-                child: Icon(icon, size: .9*size),
+                child: Icon(icon, size: .9*size, color: Colors.black),
               ),
             );
 
