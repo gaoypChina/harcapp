@@ -121,13 +121,11 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
   }
 
   double getZoom(){
-
     try{
       return mapController.zoom;
     } catch(e){
       return -1;
     }
-
   }
 
   @override
@@ -144,7 +142,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
             options: MapOptions(
               center: LatLng(54.5, 19.5),
               zoom: 5,
-              minZoom: 2,
+              minZoom: 1,
               maxZoom: CatPageHarcMap.maxZoom,
 
               interactiveFlags: CatPageHarcMap.interactiveFlags,
@@ -183,7 +181,13 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                   child: Container(
                     color: background_(context),
                     child: Consumer<MapEventChangedProvider>(
-                      builder: (context, prov, child) => Text('Zoom: ${getZoom()}'),
+                      builder: (context, prov, child) => Text(
+                        'Zoom: ${getZoom().toStringAsFixed(3)}, '
+                        'N: ${mapController.bounds?.north.toStringAsFixed(3)}, '
+                        'S: ${mapController.bounds?.south.toStringAsFixed(3)}, '
+                        'W: ${mapController.bounds?.west.toStringAsFixed(3)}, '
+                        'E: ${mapController.bounds?.east.toStringAsFixed(3)}'
+                      ),
                     ),
                   ),
                 )
