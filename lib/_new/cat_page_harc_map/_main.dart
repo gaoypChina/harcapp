@@ -27,6 +27,7 @@ import '../../values/consts.dart';
 import '../api/harc_map.dart';
 import '../app_drawer.dart';
 import 'app_marker.dart';
+import 'loaded_points_cache.dart';
 import 'model/marker_data.dart';
 import 'marker_editor/_main.dart';
 
@@ -49,13 +50,13 @@ class CatPageHarcMap extends StatefulWidget{
 
 class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
+  static const double maxLatSpan = 85.0;
+  static const double maxLngSpan = 180.0;
+
   @override
   void afterFirstLayout(BuildContext context) {
     post(() => Provider.of<ColorPackProvider>(context, listen: false).colorPack = ColorPackHarcMap());
   }
-
-  // static List<MarkerData>? markers;
-  // static List<MarkerData>? publicOnlyMarkers;
 
   late LoginListener loginListener;
 
@@ -109,7 +110,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
     AccountData.addLoginListener(loginListener);
 
-    post(() => getMarkers(publicOnly: !AccountData.loggedIn));
+    // post(() => getMarkers(publicOnly: !AccountData.loggedIn));
 
     super.initState();
   }
@@ -120,7 +121,39 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     super.dispose();
   }
 
-  double getZoom(){
+  double get northBound{
+    try{
+      return mapController.bounds!.north;
+    } catch(e){
+      return double.nan;
+    }
+  }
+
+  double get southBound{
+    try{
+      return mapController.bounds!.south;
+    } catch(e){
+      return double.nan;
+    }
+  }
+
+  double get westBound{
+    try{
+      return mapController.bounds!.west;
+    } catch(e){
+      return double.nan;
+    }
+  }
+
+  double get eastBound{
+    try{
+      return mapController.bounds!.east;
+    } catch(e){
+      return double.nan;
+    }
+  }
+
+  double get zoom{
     try{
       return mapController.zoom;
     } catch(e){
@@ -141,22 +174,21 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
           FlutterMap(
             options: MapOptions(
               center: LatLng(54.5, 19.5),
+              crs: Epsg3857(),
+              maxBounds: LatLngBounds(LatLng(-maxLatSpan, -maxLngSpan), LatLng(maxLatSpan, maxLngSpan)),
               zoom: 5,
-              minZoom: 1,
+              minZoom: 2,
               maxZoom: CatPageHarcMap.maxZoom,
 
               interactiveFlags: CatPageHarcMap.interactiveFlags,
+
+              onMapReady: () => getMarkers(publicOnly: !AccountData.loggedIn),
 
               onMapEvent: (event){
                 if(event is MapEventMoveEnd || event is MapEventDoubleTapZoomEnd)
                   getMarkers(publicOnly: !AccountData.loggedIn);
 
                 MapEventChangedProvider.notify_(context);
-                // print('${mapController.zoom}\t' // zoom
-                //     '${mapController.bounds?.northWest.latitude}\t' // lat1
-                //     '${mapController.bounds?.northWest.longitude}\t' //lng1
-                //     '${mapController.bounds?.southEast.latitude}\t' // lat2
-                //     '${mapController.bounds?.southEast.longitude}'); //lng2
               },
             ),
             mapController: mapController,
@@ -170,10 +202,13 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
               ),
               if(MarkerData.all != null)
                 MarkerLayer(rotate: true, markers: MarkerData.all!
-                    .where((marker) => mapController.zoom > marker.minZoomAppearance)
+                    .where((marker) => zoom > marker.minZoomAppearance)
                     .map((m) => AppMarker(marker: m))
                     .toList()
                 ),
+
+              if(AppSettings.devMode)
+                SamplingPointsLayerWidget(mapController),
 
               if(AppSettings.devMode)
                 Align(
@@ -182,15 +217,19 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                     color: background_(context),
                     child: Consumer<MapEventChangedProvider>(
                       builder: (context, prov, child) => Text(
-                        'Zoom: ${getZoom().toStringAsFixed(3)}, '
-                        'N: ${mapController.bounds?.north.toStringAsFixed(3)}, '
-                        'S: ${mapController.bounds?.south.toStringAsFixed(3)}, '
-                        'W: ${mapController.bounds?.west.toStringAsFixed(3)}, '
-                        'E: ${mapController.bounds?.east.toStringAsFixed(3)}'
+                        'Z: ${zoom.toStringAsFixed(3)}\n'
+                        'N: ${northBound.toStringAsFixed(3)}\n'
+                        'S: ${southBound.toStringAsFixed(3)}\n'
+                        'W: ${westBound.toStringAsFixed(3)}\n'
+                        'E: ${eastBound.toStringAsFixed(3)}\n'
+                        '\n'
+                        'ΔLat: ${(northBound - southBound).toStringAsFixed(3)}\n'
+                        'ΔLng: ${(eastBound - westBound).toStringAsFixed(3)}'
                       ),
                     ),
                   ),
-                )
+                ),
+
             ],
           ),
 
@@ -315,5 +354,59 @@ class MapEventChangedProvider extends ChangeNotifier{
   static notify_(BuildContext context) => of(context).notify();
 
   void notify() => notifyListeners();
+
+}
+
+class SamplingPointsLayerWidget extends StatefulWidget{
+
+  final MapController mapController;
+
+  const SamplingPointsLayerWidget(this.mapController, {super.key});
+
+  @override
+  State<StatefulWidget> createState() => SamplingPointsLayerWidgetState();
+
+}
+
+class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
+
+  MapController get mapController => widget.mapController;
+
+  double get northLat => mapController.bounds!.north;
+  double get southLat => mapController.bounds!.south;
+  double get westLng => mapController.bounds!.west;
+  double get eastLng => mapController.bounds!.east;
+
+  double get zoom => mapController.zoom;
+
+  Future<void> run() async {
+    while(true){
+      await Future.delayed(const Duration(milliseconds: 1000~/30));
+      if(!mounted) return;
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    run();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) => MarkerLayer(
+      markers: LoadedPointsCache.createSamplePoints(
+          northLat,
+          southLat,
+          westLng,
+          eastLng,
+          zoom
+      )
+      .map((samplePoint) => Marker(
+          point: samplePoint,
+          builder: (context) => Icon(MdiIcons.circleSmall, color: Colors.red.withOpacity(.5))
+      ))
+      .toList()
+  );
 
 }

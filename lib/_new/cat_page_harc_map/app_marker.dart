@@ -173,162 +173,161 @@ class CommunityTile extends StatelessWidget{
 
 }
 
-Future<void> showMarkerBottomSheet(BuildContext context, MarkerData marker) async {
+Future<void> showMarkerBottomSheet(BuildContext context, MarkerData marker) => showScrollBottomSheet(
+    context: context,
+    builder: (_) => BottomSheetDef(
+        childMargin: EdgeInsets.zero,
+        builder: (_) => Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
 
-  return showScrollBottomSheet(
-      context: context,
-      builder: (_) => BottomSheetDef(
-          childMargin: EdgeInsets.zero,
-          builder: (_) => Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IconButton(
+                  icon: const Icon(MdiIcons.arrowLeft),
+                  onPressed: () => Navigator.pop(context),
+                ),
 
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  IconButton(
-                    icon: const Icon(MdiIcons.arrowLeft),
-                    onPressed: () => Navigator.pop(context),
-                  ),
+                const SizedBox(
+                    width: Dimen.APPBAR_LEADING_WIDTH - Dimen.ICON_FOOTPRINT),
 
-                  const SizedBox(
-                      width: Dimen.APPBAR_LEADING_WIDTH - Dimen.ICON_FOOTPRINT),
+                if(marker.name == null || marker.name!.isEmpty)
+                  Expanded(child: Padding(
+                    padding: const EdgeInsets.only(top: Dimen.ICON_MARG +
+                        (Dimen.ICON_SIZE - Dimen.TEXT_SIZE_APPBAR) / 2),
+                    child: Text(markerTypeToName(marker.type), style: AppTextStyle(
+                        fontSize: Dimen.TEXT_SIZE_APPBAR,
+                        fontWeight: weight.bold,
+                        color: iconEnab_(context)
+                    )),
+                  ))
+                else
+                  Expanded(child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
 
-                  if(marker.name == null || marker.name!.isEmpty)
-                    Expanded(child: Padding(
-                      padding: const EdgeInsets.only(top: Dimen.ICON_MARG +
-                          (Dimen.ICON_SIZE - Dimen.TEXT_SIZE_APPBAR) / 2),
-                      child: Text(markerTypeToName(marker.type), style: AppTextStyle(
+                      const SizedBox(
+                        height: Dimen.ICON_MARG +
+                            (Dimen.ICON_SIZE - Dimen.TEXT_SIZE_APPBAR) / 2,
+                      ),
+
+                      Text(marker.name!, style: AppTextStyle(
                           fontSize: Dimen.TEXT_SIZE_APPBAR,
                           fontWeight: weight.bold,
                           color: iconEnab_(context)
                       )),
-                    ))
-                  else
-                    Expanded(child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
 
-                        const SizedBox(
-                          height: Dimen.ICON_MARG +
-                              (Dimen.ICON_SIZE - Dimen.TEXT_SIZE_APPBAR) / 2,
-                        ),
+                      const SizedBox(height: Dimen.defMarg),
 
-                        Text(marker.name!, style: AppTextStyle(
-                            fontSize: Dimen.TEXT_SIZE_APPBAR,
-                            fontWeight: weight.bold,
-                            color: iconEnab_(context)
-                        )),
-
-                        const SizedBox(height: Dimen.defMarg),
-
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: MarkerTypeWidget(marker.type, dense: true),
-                        ),
-
-                        if(AppSettings.devMode)
-                          AppText(
-                            'Min appear. zoom: <b>${marker.minZoomAppearance.toStringAsFixed(3)}</b>'
-                            '\nLat: <b>${marker.lat}</b>'
-                            '\nLng: <b>${marker.lng}</b>',
-                          )
-
-                      ],
-                    )),
-
-                  if(marker.loadedManagersMap[AccountData.key]?.role == MarkerRole.ADMIN)
-                    IconButton(
-                      icon: const Icon(MdiIcons.pencilOutline),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        pushPage(
-                            context,
-                            builder: (context) =>
-                                MarkerEditorPage(
-                                  initMarker: marker,
-                                  onSuccess: (updatedMarker) {
-                                    marker.update(updatedMarker);
-                                  },
-                                )
-                        );
-                      },
-                    ),
-
-                ],
-              ),
-
-              Padding(
-                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-
-                          if(marker.loadedManagersMap[AccountData.key]?.role == MarkerRole.ADMIN)
-                            SimpleButton.from(
-                                context: context,
-                                color: backgroundIcon_(context),
-                                icon: MdiIcons.accountSupervisorCircleOutline,
-                                text: 'Role',
-                                onTap: () async {
-                                  pushReplacePage(context, builder: (context) => MarkerManagersPage(marker: marker));
-                                }
-                            ),
-
-                          if(marker.contact != null)
-                            SimpleButton.from(
-                                context: context,
-                                color: backgroundIcon_(context),
-                                icon: MdiIcons.emailOutline,
-                                text: 'Kontakt',
-                                onTap: () async {
-                                  Navigator.pop(context);
-                                  await openCommonContact(
-                                      context,
-                                      marker.contact!,
-                                      otherMultiline: true
-                                  );
-                                  showMarkerBottomSheet(context, marker);
-                                }
-                            ),
-
-                        ],
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: MarkerTypeWidget(marker.type, dense: true),
                       ),
 
-                      if(marker.communitiesBasicData.isNotEmpty)
-                        const SizedBox(height: Dimen.SIDE_MARG),
+                      if(AppSettings.devMode)
+                        const SizedBox(height: Dimen.defMarg),
 
-                      if(marker.communitiesBasicData.isNotEmpty)
-                        TitleShortcutRowWidget(
-                          title: 'Środowiska',
-                          titleColor: textEnab_(context),
-                          textAlign: TextAlign.left,
-                        ),
-
-                      if(marker.communitiesBasicData.isNotEmpty)
-                        MarkerCommunitiesWidget(
-                          marker,
-                          onPreShowDialog: () => Navigator.pop(context),
-                          onPostShowDialog: () =>
-                              showMarkerBottomSheet(context, marker),
-                        ),
+                      if(AppSettings.devMode)
+                        AppText(
+                          'Min appear. zoom: <b>${marker.minZoomAppearance.toStringAsFixed(3)}</b>'
+                              '\nLat: <b>${marker.lat}</b>'
+                              '\nLng: <b>${marker.lng}</b>',
+                        )
 
                     ],
-                  )
-              ),
+                  )),
 
-            ],
-          )
-      )
-  );
+                if(marker.loadedManagersMap[AccountData.key]?.role == MarkerRole.ADMIN)
+                  IconButton(
+                    icon: const Icon(MdiIcons.pencilOutline),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      pushPage(
+                          context,
+                          builder: (context) =>
+                              MarkerEditorPage(
+                                initMarker: marker,
+                                onSuccess: (updatedMarker) {
+                                  marker.update(updatedMarker);
+                                },
+                              )
+                      );
+                    },
+                  ),
 
-}
+              ],
+            ),
+
+            Padding(
+                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+
+                        if(marker.loadedManagersMap[AccountData.key]?.role == MarkerRole.ADMIN)
+                          SimpleButton.from(
+                              context: context,
+                              color: backgroundIcon_(context),
+                              icon: MdiIcons.accountSupervisorCircleOutline,
+                              text: 'Role',
+                              onTap: () async {
+                                pushReplacePage(context, builder: (context) => MarkerManagersPage(marker: marker));
+                              }
+                          ),
+
+                        if(marker.contact != null)
+                          SimpleButton.from(
+                              context: context,
+                              color: backgroundIcon_(context),
+                              icon: MdiIcons.emailOutline,
+                              text: 'Kontakt',
+                              onTap: () async {
+                                Navigator.pop(context);
+                                await openCommonContact(
+                                    context,
+                                    marker.contact!,
+                                    otherMultiline: true
+                                );
+                                showMarkerBottomSheet(context, marker);
+                              }
+                          ),
+
+                      ],
+                    ),
+
+                    if(marker.communitiesBasicData.isNotEmpty)
+                      const SizedBox(height: Dimen.SIDE_MARG),
+
+                    if(marker.communitiesBasicData.isNotEmpty)
+                      TitleShortcutRowWidget(
+                        title: 'Środowiska',
+                        titleColor: textEnab_(context),
+                        textAlign: TextAlign.left,
+                      ),
+
+                    if(marker.communitiesBasicData.isNotEmpty)
+                      MarkerCommunitiesWidget(
+                        marker,
+                        onPreShowDialog: () => Navigator.pop(context),
+                        onPostShowDialog: () =>
+                            showMarkerBottomSheet(context, marker),
+                      ),
+
+                  ],
+                )
+            ),
+
+          ],
+        )
+    )
+);
 
 class MarkerCommunitiesWidget extends StatefulWidget{
 
@@ -391,65 +390,67 @@ class MarkerCommunitiesWidgetState extends State<MarkerCommunitiesWidget> {
         ),
       );
 
-    return ListView.separated(
-      itemBuilder: (_, index) =>
-          BorderMaterial(
-            elevation: 2.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                CommunityTile(
-                  marker.communities![index].item1,
-                  onPreShowDialog: onPreShowDialog,
-                  onPostShowDialog: onPostShowDialog,
-                ),
-
-                if(marker.communities![index].item2 != null)
-                  Padding(
-                      padding: const EdgeInsets.only(
-                          top: Dimen.defMarg,
-                          left: Dimen.ICON_MARG,
-                          right: Dimen.ICON_MARG,
-                          bottom: Dimen.ICON_MARG
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment
-                            .stretch,
-                        children: [
-
-                          Text(
-                            'Notatka:',
-                            style: AppTextStyle(
-                                fontSize: Dimen
-                                    .TEXT_SIZE_NORMAL,
-                                fontWeight: weight.halfBold,
-                                color: iconDisab_(context)
-                            ),
-                          ),
-
-                          const SizedBox(height: Dimen.defMarg),
-
-                          Text(
-                            marker.communities![index].item2!,
-                            style: AppTextStyle(
-                              fontSize: Dimen.TEXT_SIZE_BIG,
-                              color: iconEnab_(context),
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-
-                        ],
-                      )
-                  )
-              ],
+    List<Widget> children = [];
+    for(int i=0; i<marker.communities!.length; i++){
+      children.add(BorderMaterial(
+        elevation: 2.0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            CommunityTile(
+              marker.communities![i].item1,
+              onPreShowDialog: onPreShowDialog,
+              onPostShowDialog: onPostShowDialog,
             ),
-          ),
-      separatorBuilder: (context, index) =>
-      const SizedBox(height: Dimen.SIDE_MARG),
-      itemCount: marker.communities!.length,
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
+
+            if(marker.communities![i].item2 != null)
+              Padding(
+                  padding: const EdgeInsets.only(
+                      top: Dimen.defMarg,
+                      left: Dimen.ICON_MARG,
+                      right: Dimen.ICON_MARG,
+                      bottom: Dimen.ICON_MARG
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment
+                        .stretch,
+                    children: [
+
+                      Text(
+                        'Notatka:',
+                        style: AppTextStyle(
+                            fontSize: Dimen
+                                .TEXT_SIZE_NORMAL,
+                            fontWeight: weight.halfBold,
+                            color: iconDisab_(context)
+                        ),
+                      ),
+
+                      const SizedBox(height: Dimen.defMarg),
+
+                      Text(
+                        marker.communities![i].item2!,
+                        style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_BIG,
+                          color: iconEnab_(context),
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+
+                    ],
+                  )
+              )
+          ],
+        ),
+      ));
+      if(i<marker.communities!.length-1)
+        children.add(const SizedBox(height: Dimen.SIDE_MARG));
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: children
     );
 
   }

@@ -27,39 +27,36 @@ class MarkerTypeTemplateWidget extends StatelessWidget{
   double get padding => dense?Dimen.defMarg:Dimen.ICON_MARG;
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) => SimpleButton(
+      color: backgroundColor??backgroundIcon_(context),
+      margin: EdgeInsets.zero,
+      radius: AppCard.bigRadius,
+      onTap: onTap,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
 
-    return SimpleButton(
-        color: backgroundColor??backgroundIcon_(context),
-        margin: EdgeInsets.zero,
-        radius: AppCard.bigRadius,
-        onTap: onTap,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
+          markerTypeToWidget(
+              markerType,
+              size: textSize + 2*padding,
+              elevated: false
+          ),
 
-            markerTypeToWidget(
-                markerType,
-                size: textSize + 2*padding,
-                elevated: false
-            ),
-
-            Padding(
-              padding: EdgeInsets.all(padding),
-              child: Text(
-                markerTypeToName(markerType),
-                style: AppTextStyle(
-                    color: textColor??iconEnab_(context),
-                    fontWeight: weight.halfBold,
-                    fontSize: textSize
-                ),
+          Padding(
+            padding: EdgeInsets.all(padding),
+            child: Text(
+              markerTypeToName(markerType),
+              style: AppTextStyle(
+                  color: textColor??iconEnab_(context),
+                  fontWeight: weight.halfBold,
+                  fontSize: textSize
               ),
-            )
+            ),
+          )
 
-          ],
-        )
-    );
-  }
+        ],
+      )
+  );
 
 }
 
@@ -82,7 +79,7 @@ class MarkerTypeWidget extends StatelessWidget{
   Widget build(BuildContext context) => MarkerTypeTemplateWidget(
       markerType,
       backgroundColor: getMarkerTypeColor(markerType),
-      textColor: selected?iconEnab_(context):iconDisab_(context),
+      textColor: selected?Colors.black:Colors.black54,
       dense: dense,
       onTap: onTap
   );
