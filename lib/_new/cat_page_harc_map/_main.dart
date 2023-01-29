@@ -14,6 +14,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
+import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -62,31 +63,58 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
   late MapController mapController;
 
-  void getMarkers({required bool publicOnly}) => ApiHarcMap.getAllMarkers(
-      publicOnly: publicOnly,
+  Future<void> tryGetMarkers({required bool publicOnly}) async {
+    if(!await isNetworkAvailable())
+      return;
 
-      northLat: mapController.bounds!.north,
-      southLat: mapController.bounds!.south,
-      westLng: mapController.bounds!.west,
-      eastLng: mapController.bounds!.east,
-      zoom: mapController.zoom,
+    double thisNorthBound = northBound;
+    double thisSouthBound = southBound;
+    double thisWestBound = westBound;
+    double thisEastBound = eastBound;
+    double thisZoom = zoom;
 
-      onSuccess: (markers){
-        // CatPageHarcMapState.publicOnlyMarkers = markers;
-        MarkerData.addAllToAll(markers);
-        if(mounted) setState((){});
-      },
-      // onForceLoggedOut: () => This will never be called.
-      onServerMaybeWakingUp: (){
-        if(!mounted) return true;
-        showServerWakingUpToast(context);
-        return true;
-      },
-      onError: (_){
-        if(!mounted) return;
-        showAppToast(context, text: simpleErrorMessage);
-      }
-  );
+    await ApiHarcMap.getAllMarkers(
+        publicOnly: publicOnly,
+
+        northLat: thisNorthBound,
+        southLat: thisSouthBound,
+        westLng: thisWestBound,
+        eastLng: thisEastBound,
+        zoom: thisZoom,
+
+        samples: LoadedPointsCache.createSamplePoints(
+            thisNorthBound,
+            thisSouthBound,
+            thisWestBound,
+            thisEastBound,
+
+            thisZoom,
+            skipCached: true,
+            returnNullIfNothingSkipped: true
+        ),
+
+        onSuccess: (markers) {
+          MarkerData.addAllToAll(markers);
+          if (mounted) setState(() {});
+
+          if(publicOnly) return;
+          LoadedPointsCache.cacheSamplePoints(
+            markers.map((m) => m.latLng).toList(),
+            thisZoom,
+          );
+        },
+        // onForceLoggedOut: () => This will never be called.
+        onServerMaybeWakingUp: () {
+          if (!mounted) return true;
+          showServerWakingUpToast(context);
+          return true;
+        },
+        onError: (_) {
+          if (!mounted) return;
+          showAppToast(context, text: simpleErrorMessage);
+        }
+    );
+  }
 
   @override
   void initState() {
@@ -94,17 +122,17 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     mapController = MapController();
 
     loginListener = LoginListener(
-      onLogin: (emailConf){
-        getMarkers(publicOnly: !AccountData.loggedIn);
+      onLogin: (emailConf) async {
+        tryGetMarkers(publicOnly: !AccountData.loggedIn);
       },
       onRegistered: (){
-        getMarkers(publicOnly: !AccountData.loggedIn);
+        tryGetMarkers(publicOnly: !AccountData.loggedIn);
       },
       onEmailConfirmChanged: (emailConf){
-        getMarkers(publicOnly: !AccountData.loggedIn);
+        tryGetMarkers(publicOnly: !AccountData.loggedIn);
       },
       onForceLogout: (){
-        getMarkers(publicOnly: !AccountData.loggedIn);
+        tryGetMarkers(publicOnly: !AccountData.loggedIn);
       }
     );
 
@@ -174,7 +202,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
           FlutterMap(
             options: MapOptions(
               center: LatLng(54.5, 19.5),
-              crs: Epsg3857(),
+              crs: const Epsg3857(),
               maxBounds: LatLngBounds(LatLng(-maxLatSpan, -maxLngSpan), LatLng(maxLatSpan, maxLngSpan)),
               zoom: 5,
               minZoom: 2,
@@ -182,11 +210,11 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
               interactiveFlags: CatPageHarcMap.interactiveFlags,
 
-              onMapReady: () => getMarkers(publicOnly: !AccountData.loggedIn),
+              onMapReady: () => tryGetMarkers(publicOnly: !AccountData.loggedIn),
 
               onMapEvent: (event){
                 if(event is MapEventMoveEnd || event is MapEventDoubleTapZoomEnd)
-                  getMarkers(publicOnly: !AccountData.loggedIn);
+                  tryGetMarkers(publicOnly: !AccountData.loggedIn);
 
                 MapEventChangedProvider.notify_(context);
               },
@@ -401,10 +429,10 @@ class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
           westLng,
           eastLng,
           zoom
-      )
+      )!
       .map((samplePoint) => Marker(
           point: samplePoint,
-          builder: (context) => Icon(MdiIcons.circleSmall, color: Colors.red.withOpacity(.5))
+          builder: (context) => Icon(MdiIcons.circleSmall, color: Colors.red.withOpacity(.8))
       ))
       .toList()
   );

@@ -5,6 +5,7 @@ import 'package:harcapp/_new/cat_page_harc_map/model/marker_visibility.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:tuple/tuple.dart';
 import 'package:provider/provider.dart';
 
@@ -153,6 +154,8 @@ class MarkerData{
   MarkerVisibility visibility;
   double minZoomAppearance;
   Map<CommunityCategory, int> communitiesBasicData;
+
+  LatLng get latLng => LatLng(lat, lng);
 
   final List<MarkerManager> _loadedManagers;
   final Map<String, MarkerManager> _loadedManagersMap;
