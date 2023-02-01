@@ -50,8 +50,8 @@ class TemporaryRectangle {
 	}
 
 	void updateWithLastGoodPoint() {
-		_height = currentPosition.x - upperLeftCorner.x + 1;
-		_width = currentPosition.y - upperLeftCorner.y + 1;
+		_height = currentPosition.row - upperLeftCorner.row + 1;
+		_width = currentPosition.col - upperLeftCorner.col + 1;
 		_area = height * width;
 	}
 

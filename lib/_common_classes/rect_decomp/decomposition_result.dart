@@ -35,8 +35,8 @@ class DecompositionResult {
 	}
 
 	void addRectangle(SortableRectangle rect, List<List<bool>> matrix) {
-		int startX = rect.x;
-		int startY = rect.y;
+		int startX = rect.row;
+		int startY = rect.col;
 		int width = rect.width;
 		int height = rect.height;
 		for (int i = 0; i < height; i++)

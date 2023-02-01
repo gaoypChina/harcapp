@@ -1,5 +1,4 @@
 import 'dart:core';
-import 'dart:math';
 
 class BinaryMatrix {
 
@@ -8,7 +7,6 @@ class BinaryMatrix {
   List<List<bool>> matrix;
 
   int row;
-
   int col;
 
   int numberOfOnes = -1;

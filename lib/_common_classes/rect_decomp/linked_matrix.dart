@@ -13,9 +13,9 @@ class LinkedMatrix {
 		height = matrix.length;
 		width = matrix[height - 1].length;
 
-		LinkedMatrixElement? current = null;
-		LinkedMatrixElement? previous = null;
-		LinkedMatrixElement? currentRequiringNextDown = null;
+		LinkedMatrixElement? current;
+		LinkedMatrixElement? previous;
+		LinkedMatrixElement? currentRequiringNextDown;
 		bool startedSettingNextDownUp = false; // Used to saved void hits,
 													// since setting is
 													// guaranteed
@@ -39,10 +39,9 @@ class LinkedMatrix {
 					current.previousLeft = previous;
 					// Check for setting the next down Pointer of the current
 					// element
-					if (!startedSettingNextDownUp) {
-						if (currentRequiringNextDown!.x == i - 1 && currentRequiringNextDown.y == j)
+					if (!startedSettingNextDownUp)
+						if (currentRequiringNextDown!.row == i - 1 && currentRequiringNextDown.col == j)
 							startedSettingNextDownUp = true;
-					}
 
 					if (startedSettingNextDownUp) {
 						currentRequiringNextDown!.nextDown = current;
@@ -66,16 +65,16 @@ class LinkedMatrix {
 			// Remove length elements for each line
 			for (int i = 0; i < rectangleHeight; i++) {
 				LinkedMatrixElement? next = current;
-				if (!current!.isNextElementDownConsecutiveNoValue() && !(i == (rectangleHeight - 1))) {
+				if (!current!.isNextElementDownConsecutiveNoValue() && !(i == (rectangleHeight - 1)))
 					// System.exit(0);
 					return;
-				}
+
 				current = current.nextDown;
 				for (int j = 0; j < rectangleWidth; j++) {
-					if (!next!.isNextElementRightConsecutiveNoValue() && !(j == (rectangleWidth - 1))) {
+					if (!next!.isNextElementRightConsecutiveNoValue() && !(j == (rectangleWidth - 1)))
 						// System.exit(0);
 						return;
-					}
+
 					next = deleteElement(next);
 				}
 				// Go down a line
@@ -112,9 +111,9 @@ class LinkedMatrix {
 			current.previousLeft!.nextRight = current.nextRight;
 		if (current.previousUp != null)
 			current.previousUp!.nextDown = current.nextDown;
-		if (current.nextRight != null) {
+		if (current.nextRight != null)
 			current.nextRight!.previousLeft = current.previousLeft;
-		}
+
 		LinkedMatrixElement? res = current.previousLeft;
 		current.nextDown = null;
 		current.nextRight = null;

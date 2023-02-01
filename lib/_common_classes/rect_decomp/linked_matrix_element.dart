@@ -2,7 +2,7 @@
 class LinkedMatrixElement {
 
 	// Position of the element in the matrix
-	int x, y;
+	int row, col;
 
 	// Pointers to the next elements
 	LinkedMatrixElement? previousLeft, nextRight, previousUp, nextDown;
@@ -10,15 +10,15 @@ class LinkedMatrixElement {
 	// Value of the element
 	bool value;
 
-	LinkedMatrixElement(this.x, this.y, this.value);
+	LinkedMatrixElement(this.row, this.col, this.value);
 
 	bool isNextElementDownConsecutive() {
 		if (nextDown == null)
 			return false;
 
 		return nextDown!.value
-				&& nextDown!.x == x + 1
-				&& nextDown!.y == y;
+				&& nextDown!.row == row + 1
+				&& nextDown!.col == col;
 	}
 
 	bool isNextElementRightConsecutive() {
@@ -26,24 +26,24 @@ class LinkedMatrixElement {
 			return false;
 
 		return nextRight!.value
-				&& nextRight!.x == x
-				&& nextRight!.y == y + 1;
+				&& nextRight!.row == row
+				&& nextRight!.col == col + 1;
 	}
 
 	bool isNextElementDownConsecutiveNoValue() {
 		if (nextDown == null)
 			return false;
 
-		return nextDown!.x == x + 1
-				&& nextDown!.y == y;
+		return nextDown!.row == row + 1
+				&& nextDown!.col == col;
 	}
 
 	bool isNextElementRightConsecutiveNoValue() {
 		if (nextRight == null)
 			return false;
 
-		return nextRight!.x == x
-				&& nextRight!.y == y + 1;
+		return nextRight!.row == row
+				&& nextRight!.col == col + 1;
 	}
 
 	bool isNull() {
@@ -55,15 +55,15 @@ class LinkedMatrixElement {
 		if (previousUp == null)
 			return false;
 
-		return previousUp!.x == x - 1
-				&& previousUp!.y == y;
+		return previousUp!.row == row - 1
+				&& previousUp!.col == col;
 	}
 
 	bool isPreviousElementLeftConsecutive() {
 		if (previousLeft == null)
 			return false;
 
-		return previousLeft!.x == x
-				&& previousLeft!.y == y - 1;
+		return previousLeft!.row == row
+				&& previousLeft!.col == col - 1;
 	}
 }

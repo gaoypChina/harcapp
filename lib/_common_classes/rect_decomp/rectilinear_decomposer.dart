@@ -10,9 +10,9 @@ import 'decomposition_result.dart';
 import 'linked_matrix.dart';
 import 'linked_matrix_element.dart';
 
-class WSMRDecomposer {
+class RectilinearDecomposer {
 
-  static int MIN_AREA = 1;
+  static int minArea = 1;
 
   BinaryMatrix? binaryMatrix;
 
@@ -30,7 +30,7 @@ class WSMRDecomposer {
 
   SortableRectangle? largestOne;
 
-  bool? removeLargestFirst;
+  bool removeLargestFirst;
 
   int area;
 
@@ -50,8 +50,7 @@ class WSMRDecomposer {
 
   List<SortableRectangle>? rectangles;
 
-  WSMRDecomposer(BinaryMatrix m):
-        removeLargestFirst = false,
+  RectilinearDecomposer(BinaryMatrix m, {this.removeLargestFirst = false}):
         area = -1,
         xToCheck = -1,
         yToCheck = -1,
@@ -96,9 +95,8 @@ class WSMRDecomposer {
         if (binaryMatrix!.matrix[i][j]) {
           temp2![i][j] = current;
           current++;
-        } else {
+        } else
           current = 1;
-        }
 
       }
     }
@@ -115,15 +113,13 @@ class WSMRDecomposer {
     for (int i = 0; i < binaryMatrix!.row; i++) {
       previous = 0;
       for (int j = binaryMatrix!.col - 1; j >= 0; j--) {
-        if (previous == 0) {
+        if (previous == 0)
           // Leave unchanged
           previous = temp3![i][j];
-        } else if (temp3![i][j] <= previous) {
+        else if (temp3![i][j] <= previous)
           previous = temp3![i][j];
-        } else {
+        else
           temp3![i][j] = previous;
-        }
-
       }
     }
 
@@ -141,7 +137,7 @@ class WSMRDecomposer {
   }
 
   void fourthStep() {
-    List<int> area_tmp = [-1, -1]; // two elements;
+    List<int> areaTmp = [-1, -1]; // two elements;
     int largestArea = -1, x = 0, y = 0, width = 0, height = 0;
     linkedMatrix = LinkedMatrix(binaryMatrix!.matrix);
     LinkedMatrixElement current = linkedMatrix!.getCurrentRoot();
@@ -149,11 +145,11 @@ class WSMRDecomposer {
       for (int j = 0; j < binaryMatrix!.col; j++) {
         current = current.nextRight!;
         if (binaryMatrix!.matrix[i][j]) {
-          area_tmp[0] = temp3![i][j] * temp2![i][j];
-          area_tmp[1] = temp1![i][j] * temp4![i][j];
-          int maxArea = max(area_tmp[0], area_tmp[1]);
+          areaTmp[0] = temp3![i][j] * temp2![i][j];
+          areaTmp[1] = temp1![i][j] * temp4![i][j];
+          int maxArea = max(areaTmp[0], areaTmp[1]);
 
-          if (maxArea == area_tmp[0]) {
+          if (maxArea == areaTmp[0]) {
             temp2![i][j] = temp2![i][j];
             temp1![i][j] = temp3![i][j];
           } else {
@@ -166,7 +162,7 @@ class WSMRDecomposer {
             linkedMatrix!.largestRectangle = current;
             x = i;
             y = j;
-            if (maxArea == area_tmp[0]) {
+            if (maxArea == areaTmp[0]) {
               width = temp2![i][j];
               height = temp3![i][j];
             } else {
@@ -228,7 +224,7 @@ class WSMRDecomposer {
   }
 
   DecompositionResult computeDecomposition(int min) {
-    WSMRDecomposer.MIN_AREA = min;
+    RectilinearDecomposer.minArea = min;
     if (!preprocessed)
       preProcess();
 
@@ -236,7 +232,7 @@ class WSMRDecomposer {
     stack = RectangleDeque(
         linkedMatrix!.height,
         linkedMatrix!.width);
-    if (removeLargestFirst!) {
+    if (removeLargestFirst) {
       LinkedMatrixElement largestUpperLeft = linkedMatrix!.largestRectangle!;
       addRectangle(largestUpperLeft, largestOne!.height, largestOne!.width);
 
@@ -251,7 +247,7 @@ class WSMRDecomposer {
       }
 
       process();
-      print("${currentPoint!.x} ${currentPoint!.y} ${stack!.length}");
+      print("${currentPoint!.row} ${currentPoint!.col} ${stack!.length}");
 
     } while (!linkedMatrix!.isEmpty());
 
@@ -399,11 +395,11 @@ class WSMRDecomposer {
     if (stack!.peek()!.validated)
       return;
     if (stack!.peek()!.height == 1) {
-      stack!.peek()!.width = max(currentPoint!.y - stack!.peek()!.upperLeftCorner.y, 1);
+      stack!.peek()!.width = max(currentPoint!.col - stack!.peek()!.upperLeftCorner.col, 1);
       stack!.peek()!.validated = true;
     } else if (xToCheck == xTotal) {// First line
       // Update width of the rectangle
-      stack!.peek()!.width = currentPoint!.y - stack!.peek()!.upperLeftCorner.y;
+      stack!.peek()!.width = currentPoint!.col - stack!.peek()!.upperLeftCorner.col;
 
     } else if (stack!.peek()!.lastLineFirstElement.isNextElementDownConsecutive()
         && stack!.peek()!.lastLineFirstElement.nextDown == currentPoint) {
@@ -482,7 +478,7 @@ class WSMRDecomposer {
 
         TemporaryRectangle tempRectangle = stack!.peek()!;
         stack!.peek()!.width =
-            tempRectangle.currentPosition.y - tempRectangle.upperLeftCorner.y + 1;
+            tempRectangle.currentPosition.col - tempRectangle.upperLeftCorner.col + 1;
         stack!.peek()!.height = 1;
         stack!.peek()!.validated = true;
         yTotal = stack!.peek()!.width;
@@ -514,7 +510,7 @@ class WSMRDecomposer {
           // update width
           TemporaryRectangle tempRectangle = stack!.peek()!;
           stack!.peek()!.width =
-              tempRectangle.currentPosition.y - tempRectangle.upperLeftCorner.y + 1;
+              tempRectangle.currentPosition.col - tempRectangle.upperLeftCorner.col + 1;
           // stack.peek().setHeight(1);
 
           int oldsize = stack!.length;
@@ -565,8 +561,8 @@ class WSMRDecomposer {
         // update width
         TemporaryRectangle tempRectangle = stack!.peek()!;
         stack!.peek()!.width = (
-            tempRectangle.currentPosition.y
-                - tempRectangle.upperLeftCorner.y);
+            tempRectangle.currentPosition.col
+                - tempRectangle.upperLeftCorner.col);
         stack!.peek()!.height = 1;
         stack!.peek()!.validated = true;
         stack!.peek()!.potentialSecondArea = 0;
@@ -619,7 +615,7 @@ class WSMRDecomposer {
 
     } else {
       LinkedMatrixElement cutPoint = tempRectangle.currentPosition;
-      int height = cutPoint.x - tempRectangle.upperLeftCorner.x;
+      int height = cutPoint.row - tempRectangle.upperLeftCorner.row;
 
       // Case where first element is point
       if (height == 0 && (xToCheck == xTotal) && stack!.length == 1) {
@@ -635,8 +631,8 @@ class WSMRDecomposer {
         stack!.poll();
         tempRectangle.height = height;
         addRectangle(tempRectangle.upperLeftCorner, height, tempRectangle.width);
-        temp2![tempRectangle.lastLineFirstElement.x][tempRectangle.lastLineFirstElement.y] =
-            tempRectangle.currentPosition.y - tempRectangle.upperLeftCorner.y + 1;
+        temp2![tempRectangle.lastLineFirstElement.row][tempRectangle.lastLineFirstElement.col] =
+            tempRectangle.currentPosition.col - tempRectangle.upperLeftCorner.col + 1;
         LinkedMatrixElement oldcurrent = currentPoint!;
 
         currentPoint = tempRectangle.lastLineFirstElement;
@@ -656,7 +652,7 @@ class WSMRDecomposer {
 
         // Change the width of the rectangle
         stack!.peek()!.width =
-            tempRectangle.currentPosition.y - tempRectangle.upperLeftCorner.y + 1;
+            tempRectangle.currentPosition.col - tempRectangle.upperLeftCorner.col + 1;
         // Update the counters
         xToCheck = stack!.peek()!.height - 1;
         xTotal = stack!.peek()!.height;
@@ -678,8 +674,8 @@ class WSMRDecomposer {
         .isNextElementDownConsecutive()) {
 
       // Update rectangle height
-      int newHeight = stack!.peek()!.lastLineFirstElement.x
-          - stack!.peek()!.upperLeftCorner.x + 1;
+      int newHeight = stack!.peek()!.lastLineFirstElement.row
+          - stack!.peek()!.upperLeftCorner.row + 1;
       stack!.peek()!.height = newHeight;
       stack!.peek()!.validated = true;
       stack!.peek()!.previousLargestArea = 0;
@@ -705,8 +701,8 @@ class WSMRDecomposer {
 
   bool stackNewRectangle() {
 
-    int currentHeight = currentPoint!.x;
-    int currentWidth = currentPoint!.y;
+    int currentHeight = currentPoint!.row;
+    int currentWidth = currentPoint!.col;
     int height = temp1![currentHeight][currentWidth];
     int width = temp2![currentHeight][currentWidth];
     LinkedMatrixElement restart;
@@ -752,14 +748,14 @@ class WSMRDecomposer {
   }
 
   int getArea(LinkedMatrixElement point) {
-    int currentHeight = point.x;
-    int currentWidth = point.y;
+    int currentHeight = point.row;
+    int currentWidth = point.col;
     return (temp1![currentHeight][currentWidth] * temp2![currentHeight][currentWidth]);
   }
 
   void addRectangle(LinkedMatrixElement origin, int height, int width) {
-    if (width * height >= MIN_AREA)
-      rectangles!.add(SortableRectangle(origin.x, origin.y,
+    if (width * height >= minArea)
+      rectangles!.add(SortableRectangle(origin.row, origin.col,
           width, height));
     linkedMatrix!.removeRectangle(origin, height, width);
   }
@@ -770,13 +766,13 @@ class WSMRDecomposer {
       // Two becomes one
       TemporaryRectangle oldlast = stack!.poll()!;
       TemporaryRectangle newLast = stack!.peek()!;
-      int maxheightOld = oldlast.upperLeftCorner.x
+      int maxheightOld = oldlast.upperLeftCorner.row
           + oldlast.height - 1;
-      int maxheightNew = newLast.upperLeftCorner.x
+      int maxheightNew = newLast.upperLeftCorner.row
           + newLast.height - 1;
       if (maxheightOld > maxheightNew) {// New greater rectangle
         newLast.height = maxheightOld
-            - newLast.upperLeftCorner.x + 1;
+            - newLast.upperLeftCorner.row + 1;
       }
       stack!.peek()!.lastLineFirstElement = oldlast.lastLineFirstElement;
 
@@ -785,19 +781,19 @@ class WSMRDecomposer {
       xTotal = newLast.height;
       // Set xTocheck from the position
       xToCheck = max(maxheightOld, maxheightNew)
-          - oldlast.lastLineFirstElement.x;
+          - oldlast.lastLineFirstElement.row;
       yTotal = newLast.width;
       yToCheck = yTotal;
       stack!.peek()!.validated = false;
       newLast.currentPosition = oldlast.currentPosition;
-      int expectedX = newLast.upperLeftCorner.x
+      int expectedX = newLast.upperLeftCorner.row
           + newLast.height - 1;
-      int expectedY = newLast.upperLeftCorner.y
+      int expectedY = newLast.upperLeftCorner.col
           + newLast.width - 1;
 
       if (xToCheck == 0
-          || (expectedX == oldlast.currentPosition.x && expectedY == oldlast
-              .currentPosition.y)) {
+          || (expectedX == oldlast.currentPosition.row && expectedY == oldlast
+              .currentPosition.col)) {
         stack!.peek()!.validated = true;
         stack!.peek()!.potentialSecondArea = 0;
         if (!newLast.lastLineFirstElement
@@ -821,20 +817,20 @@ class WSMRDecomposer {
       // Two becomes one
       TemporaryRectangle oldlast = stack!.poll()!;
       TemporaryRectangle newLast = stack!.peek()!;
-      int maxWidthOld = oldlast.upperLeftCorner.y
+      int maxWidthOld = oldlast.upperLeftCorner.col
           + oldlast.width - 1;
-      int maxWidthNew = newLast.upperLeftCorner.y
+      int maxWidthNew = newLast.upperLeftCorner.col
           + newLast.width - 1;
       if (maxWidthOld > maxWidthNew) {
-        newLast.width = (maxWidthOld - newLast.upperLeftCorner.y + 1);
+        newLast.width = (maxWidthOld - newLast.upperLeftCorner.col + 1);
       }
       newLast.validated = false;
       area = newLast.area;
       // Update counters
 
       if (newLast.height > 1) {
-        if (oldlast.currentPosition.x > newLast
-            .currentPosition.x) {// Some
+        if (oldlast.currentPosition.row > newLast
+            .currentPosition.row) {// Some
           // parts
           // of
           // the
@@ -877,12 +873,12 @@ class WSMRDecomposer {
     if(current == null) return;
     yTotal = current.width;
     yToCheck = current.width
-        - (current.currentPosition.y
-            - current.upperLeftCorner.y + 1);
+        - (current.currentPosition.col
+            - current.upperLeftCorner.col + 1);
     xTotal = current.height;
     xToCheck = xTotal
-        - (current.currentPosition.x
-            - current.upperLeftCorner.x + 1) + 1;
+        - (current.currentPosition.row
+            - current.upperLeftCorner.row + 1) + 1;
 
   }
 

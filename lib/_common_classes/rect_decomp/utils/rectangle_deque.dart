@@ -20,9 +20,9 @@ class RectangleDeque {
 			TemporaryRectangle last = queue.peek()!;
 			TemporaryRectangle secondLast = queue.peekSecondLast()!;
 
-			if (last.height > 1 && last.currentPosition.x > secondLast.currentPosition.x)
+			if (last.height > 1 && last.currentPosition.row > secondLast.currentPosition.row)
 				return false;
-			return (last.height == secondLast.height && (last.upperLeftCorner.x == secondLast.upperLeftCorner.x));
+			return (last.height == secondLast.height && (last.upperLeftCorner.row == secondLast.upperLeftCorner.row));
 		} else
 			return false;
 	}
@@ -33,9 +33,9 @@ class RectangleDeque {
 			TemporaryRectangle last = queue.peek()!;
 			TemporaryRectangle secondLast = queue.peekSecondLast()!;
 
-			if (last.height > 1 && last.currentPosition.x > secondLast.currentPosition.x)
+			if (last.height > 1 && last.currentPosition.row > secondLast.currentPosition.row)
 				return false;
-			return (last.height == secondLast.height && (last.upperLeftCorner.x == secondLast.upperLeftCorner.x)
+			return (last.height == secondLast.height && (last.upperLeftCorner.row == secondLast.upperLeftCorner.row)
 					&& last.upperLeftCorner.isPreviousElementLeftConsecutive() && secondLast.currentPosition.isNextElementRightConsecutive());
 		} else
 			return false;
@@ -45,7 +45,7 @@ class RectangleDeque {
 		if (queue.length >= 2) {
 			TemporaryRectangle last = queue.peek()!;
 			TemporaryRectangle secondLast = queue.peekSecondLast()!;
-			return ((last.width == secondLast.width) && (last.upperLeftCorner.y == secondLast.upperLeftCorner.y));
+			return ((last.width == secondLast.width) && (last.upperLeftCorner.col == secondLast.upperLeftCorner.col));
 		} else {
 			return false;
 		}
@@ -55,7 +55,7 @@ class RectangleDeque {
 		if (queue.length >= 2) {
 			TemporaryRectangle last = queue.peek()!;
 			TemporaryRectangle secondLast = queue.peekSecondLast()!;
-			return ((last.width == secondLast.width) && (last.upperLeftCorner.y == secondLast.upperLeftCorner.y)
+			return ((last.width == secondLast.width) && (last.upperLeftCorner.col == secondLast.upperLeftCorner.col)
 					&& last.upperLeftCorner.isNextElementUpConsecutive() && secondLast.lastLineFirstElement.isNextElementDownConsecutive());
 		} else {
 			return false;

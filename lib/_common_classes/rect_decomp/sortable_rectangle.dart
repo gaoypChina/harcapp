@@ -2,16 +2,14 @@ import 'dart:core';
 
 class SortableRectangle implements Comparable<SortableRectangle> {
 
-	int x;
-	int y;
+	int row;
+	int col;
 	int width;
 	int height;
 	int area;
 
-	SortableRectangle(this.x, this.y, this.width, this.height):
+	SortableRectangle(this.row, this.col, this.width, this.height):
 		area = width * height;
-
-	
 
 	// Descending order
 	// Returns:
@@ -23,11 +21,11 @@ class SortableRectangle implements Comparable<SortableRectangle> {
 
 	bool merged(SortableRectangle sortableRectangle) {
 		if (isSimplyVerticallyMergeable(sortableRectangle)) {
-			this.height += sortableRectangle.height;
+			height += sortableRectangle.height;
 
 			return true;
 		} else if (isSimplyHorizontallyMergeable(sortableRectangle)) {
-			this.width += sortableRectangle.width;
+			width += sortableRectangle.width;
 			return true;
 		}
 		return false;
@@ -35,15 +33,15 @@ class SortableRectangle implements Comparable<SortableRectangle> {
 
 	bool isSimplyVerticallyMergeable(
 			SortableRectangle sortableRectangle) {
-		return ((this.width == sortableRectangle.width)
-				&& (this.y) == sortableRectangle.y && (this.x + this.height) == sortableRectangle.x);
+		return (width == sortableRectangle.width
+				&& col == sortableRectangle.col && (row + height) == sortableRectangle.row);
 
 	}
 
 	bool isSimplyHorizontallyMergeable(
 			SortableRectangle sortableRectangle) {
-		return ((this.height == sortableRectangle.height)
-				&& (this.x) == sortableRectangle.x && (this.y + this.width) == sortableRectangle.y);
+		return (height == sortableRectangle.height
+				&& row == sortableRectangle.row && (col + width) == sortableRectangle.col);
 	}
 
 	bool intersects(SortableRectangle r) {
@@ -54,10 +52,10 @@ class SortableRectangle implements Comparable<SortableRectangle> {
 		if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
 			return false;
 		}
-		int tx = x;
-		int ty = y;
-		int rx = r.x;
-		int ry = r.y;
+		int tx = row;
+		int ty = col;
+		int rx = r.row;
+		int ry = r.col;
 		rw += rx;
 		rh += ry;
 		tw += tx;

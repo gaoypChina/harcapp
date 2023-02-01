@@ -7,7 +7,7 @@
 
 import 'package:harcapp/_common_classes/rect_decomp/binary_matrix.dart';
 import 'package:harcapp/_common_classes/rect_decomp/decomposition_result.dart';
-import 'package:harcapp/_common_classes/rect_decomp/rectangle_decomp_edsr.dart';
+import 'package:harcapp/_common_classes/rect_decomp/rectilinear_decomposer.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 
@@ -30,9 +30,13 @@ void main() {
       [0, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((val) => val==1).toList(),
     ];
 
-    DecompositionResult result = WSMRDecomposer(BinaryMatrix(data, 10, 10)).computeDecomposition(1);
+    DecompositionResult result = RectilinearDecomposer(BinaryMatrix(data, 10, 10)).computeDecomposition(1);
 
-    var a = 1;
+    assert(result.rectangle[0].row == 0);
+    assert(result.rectangle[0].col == 3);
+    assert(result.rectangle[0].height == 10);
+    assert(result.rectangle[0].width == 5);
+    assert(result.rectangle[0].area == 50);
 
   });
 
