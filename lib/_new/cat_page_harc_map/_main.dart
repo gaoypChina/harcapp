@@ -23,6 +23,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../values/consts.dart';
 import '../api/harc_map.dart';
@@ -73,6 +74,19 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     double thisEastBound = eastBound;
     double thisZoom = zoom;
 
+    Tuple2<List<LatLng>, bool> samplePointsResult = LoadedPointsCache.createSamplePoints(
+        thisNorthBound,
+        thisSouthBound,
+        thisWestBound,
+        thisEastBound,
+
+        thisZoom,
+        skipCached: true,
+    );
+
+    List<LatLng> samples = samplePointsResult.item1;
+    bool noSamplesSkipped = samplePointsResult.item2;
+
     await ApiHarcMap.getAllMarkers(
         publicOnly: publicOnly,
 
@@ -82,16 +96,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
         eastLng: thisEastBound,
         zoom: thisZoom,
 
-        samples: LoadedPointsCache.createSamplePoints(
-            thisNorthBound,
-            thisSouthBound,
-            thisWestBound,
-            thisEastBound,
-
-            thisZoom,
-            skipCached: true,
-            returnNullIfNothingSkipped: true
-        ),
+        samples: noSamplesSkipped?null:samples,
 
         onSuccess: (markers) {
           MarkerData.addAllToAll(markers);
@@ -99,7 +104,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
           if(publicOnly) return;
           LoadedPointsCache.cacheSamplePoints(
-            markers.map((m) => m.latLng).toList(),
+            samples,
             thisZoom,
           );
         },
@@ -230,9 +235,9 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
               ),
               if(MarkerData.all != null)
                 MarkerLayer(rotate: true, markers: MarkerData.all!
-                    .where((marker) => zoom > marker.minZoomAppearance)
-                    .map((m) => AppMarker(marker: m))
-                    .toList()
+                  .where((marker) => zoom > marker.minZoomAppearance)
+                  .map((m) => AppMarker(marker: m))
+                  .toList()
                 ),
 
               if(AppSettings.devMode)
@@ -329,9 +334,9 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                         setState(() {});
 
                         mapController.moveAndRotate(
-                            LatLng(marker.lat, marker.lng),
-                            15,
-                            0
+                          LatLng(marker.lat, marker.lng),
+                          15,
+                          0
                         );
 
                         showAppToast(context, text: 'Dodano miejsce');
@@ -429,7 +434,7 @@ class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
           westLng,
           eastLng,
           zoom
-      )!
+      ).item1
       .map((samplePoint) => Marker(
           point: samplePoint,
           builder: (context) => Icon(MdiIcons.circleSmall, color: Colors.red.withOpacity(.8))

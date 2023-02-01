@@ -2,7 +2,9 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:flutter_map/flutter_map.dart';
+import 'package:harcapp/logger.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:tuple/tuple.dart';
 
 import '_main.dart';
 
@@ -16,7 +18,7 @@ class LoadedPointsCache{
   static void cacheSamplePoints(
       List<LatLng> samples,
       double zoom,
-      ){
+  ){
     for(LatLng sample in samples) {
       if(cached[zoom] == null)
         cached[zoom] = HashMap();
@@ -26,6 +28,14 @@ class LoadedPointsCache{
 
       cached[zoom]![sample.latitude]![sample.longitude] = true;
     }
+
+    int count = 0;
+    for(var zoomVal in cached.keys)
+      for(var latVal in cached[zoomVal]!.keys)
+          count += cached[zoomVal]![latVal]!.length;
+
+    logger.d("LoadedPointsCache :: Cached sample count: $count");
+
   }
 
   static bool isSamplePointCached(
@@ -40,7 +50,7 @@ class LoadedPointsCache{
     return cached[zoom]![sample.latitude]![sample.longitude] != null;
   }
 
-  static List<LatLng>? createSamplePoints(
+  static Tuple2<List<LatLng>, bool> createSamplePoints(
       double northLat,
       double southLat,
       double westLng,
@@ -48,16 +58,14 @@ class LoadedPointsCache{
 
       double zoom,
 
-      { bool skipCached = false,
-        bool returnNullIfNothingSkipped = false
-      }
+      { bool skipCached = false }
   ){
 
-    if(northLat == double.nan) return [];
-    if(southLat == double.nan) return [];
-    if(westLng == double.nan) return [];
-    if(eastLng == double.nan) return [];
-    if(zoom == double.nan) return [];
+    if(northLat == double.nan) return const Tuple2([], true);
+    if(southLat == double.nan) return const Tuple2([], true);
+    if(westLng == double.nan) return const Tuple2([], true);
+    if(eastLng == double.nan) return const Tuple2([], true);
+    if(zoom == double.nan) return const Tuple2([], true);
 
     SphericalMercator mercator = const SphericalMercator();
     CustomPoint maxPoint = mercator.project(LatLng(CatPageHarcMapState.maxLatSpan, CatPageHarcMapState.maxLngSpan));
@@ -83,7 +91,7 @@ class LoadedPointsCache{
 
     List<LatLng> samples = [];
 
-    bool anySkipped = false;
+    bool nothingSkipped = true;
     for(int iLat=0; iLat<samplingLatPointCount; iLat++){
       double lat = southDistOnGrid + iLat*worldSamplingLatDistDelta;
       for(int iLng=0; iLng<samplingLngPointCount; iLng++) {
@@ -92,38 +100,14 @@ class LoadedPointsCache{
           lat,
         ));
         if(skipCached && LoadedPointsCache.isSamplePointCached(sample, zoom)) {
-          anySkipped = true;
+          nothingSkipped = false;
           continue;
         }
         samples.add(sample);
       }
     }
 
-    // int iLat = 0;
-    // LatLng samplePoint = mercator.unproject(CustomPoint(
-    //     westDistOnGrid,
-    //     southDistOnGrid
-    // ));
-    //
-    // while(samplePoint.latitude < northLat) {
-    //   int iLng = 0;
-    //   double lastLng = double.negativeInfinity;
-    //   while (lastLng < eastLng) {
-    //     samplePoint = mercator.unproject(CustomPoint(
-    //       westDistOnGrid + iLng * worldSamplingLngDistDelta,
-    //       southDistOnGrid + iLat * worldSamplingLatDistDelta
-    //     ));
-    //     samples.add(samplePoint);
-    //     lastLng = samplePoint.longitude;
-    //     iLng++;
-    //   }
-    //   iLat++;
-    // }
-
-    if(returnNullIfNothingSkipped && !anySkipped)
-      return null;
-
-    return samples;
+    return Tuple2(samples, nothingSkipped);
 
   }
 
