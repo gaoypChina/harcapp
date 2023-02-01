@@ -15,9 +15,7 @@ class SortableRectangle implements Comparable<SortableRectangle> {
 	// Returns:
 	// the value 0 if x == y; a value less than 0 if x < y; and a value greater than 0 if x > y
 	@override
-  int compareTo(SortableRectangle rect) {
-		return rect.area - area;
-	}
+  int compareTo(SortableRectangle rect) => rect.area - area;
 
 	bool merged(SortableRectangle sortableRectangle) {
 		if (isSimplyVerticallyMergeable(sortableRectangle)) {
@@ -31,15 +29,13 @@ class SortableRectangle implements Comparable<SortableRectangle> {
 		return false;
 	}
 
-	bool isSimplyVerticallyMergeable(
-			SortableRectangle sortableRectangle) {
+	bool isSimplyVerticallyMergeable(SortableRectangle sortableRectangle) {
 		return (width == sortableRectangle.width
 				&& col == sortableRectangle.col && (row + height) == sortableRectangle.row);
 
 	}
 
-	bool isSimplyHorizontallyMergeable(
-			SortableRectangle sortableRectangle) {
+	bool isSimplyHorizontallyMergeable(SortableRectangle sortableRectangle) {
 		return (height == sortableRectangle.height
 				&& row == sortableRectangle.row && (col + width) == sortableRectangle.col);
 	}
@@ -49,9 +45,9 @@ class SortableRectangle implements Comparable<SortableRectangle> {
 		int th = height;
 		int rw = r.width;
 		int rh = r.height;
-		if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
+		if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0)
 			return false;
-		}
+
 		int tx = row;
 		int ty = col;
 		int rx = r.row;
