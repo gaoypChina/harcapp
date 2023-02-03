@@ -4,10 +4,10 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:harcapp/_common_classes/common_contact_data.dart';
+import 'package:harcapp/_common_classes/rect_decomp/rectilinear_decomposer.dart';
 import 'package:harcapp/_new/cat_page_harc_map/model/marker_type.dart';
 import 'package:harcapp/_new/cat_page_harc_map/model/marker_visibility.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:optional/optional_internal.dart';
 import 'package:tuple/tuple.dart';
 
@@ -57,7 +57,7 @@ class ApiHarcMap{
 
     required double zoom,
 
-    List<LatLng>? samples,
+    List<List<bool>>? samples,
 
     FutureOr<void> Function(List<MarkerData>)? onSuccess,
     FutureOr<bool> Function()? onForceLoggedOut,
@@ -75,9 +75,14 @@ class ApiHarcMap{
 
           'zoom': zoom,
 
-          if(samples != null && !publicOnly) 'samples': samples.map(
-              (latLng) => [latLng.latitude, latLng.longitude]
-          ).toList(),
+          if(samples != null && !publicOnly)
+            'pointRects': RectilinearDecomposer(samples).run(1).rectangles.map(
+                (r) => r.toRespData()
+            ).toList()
+
+            // samples.map(
+            //   (latLng) => [latLng.latitude, latLng.longitude]
+            // ).toList(),
         }
     ),
     onSuccess: (Response response, DateTime now) async {

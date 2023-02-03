@@ -3,7 +3,6 @@ import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
-//import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -38,9 +37,8 @@ class ApelEwanReorderableListState<T extends ApelEwanOwnFolder> extends State<Ap
   bool get animate => widget.animate;
   void Function(ApelEwan, String?)? get onTap => widget.onTap;
 
-  int _indexOfKey(ValueKey<String> key) {
-    return folder.apelEwans.indexWhere((ApelEwan apelEwan) => apelEwan.siglum == key.value);
-  }
+  int _indexOfKey(ValueKey<String> key) =>
+    folder.apelEwans.indexWhere((ApelEwan apelEwan) => apelEwan.siglum == key.value);
 
   bool _reorderCallback(Key item, Key newPosition) {
     int draggingIndex = _indexOfKey(item as ValueKey<String>);
@@ -55,9 +53,7 @@ class ApelEwanReorderableListState<T extends ApelEwanOwnFolder> extends State<Ap
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return ReorderableList(
+  Widget build(BuildContext context) => ReorderableList(
       onReorder: _reorderCallback,
       onReorderDone: (_){
         folder.apelEwanSigla = folder.apelEwans.map((apelEwan) => apelEwan.siglum).toList();
@@ -130,7 +126,5 @@ class ApelEwanReorderableListState<T extends ApelEwanOwnFolder> extends State<Ap
       ),
 
     );
-
-  }
 
 }

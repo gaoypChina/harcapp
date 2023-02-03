@@ -6,12 +6,9 @@ import 'package:harcapp/logger.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:tuple/tuple.dart';
 
-import '_main.dart';
+import 'utils.dart';
 
 class LoadedPointsCache{
-
-  static const int maxMarkersOnTileWidth = 10;
-  static const int earthRadius = 6356752;
 
   static HashMap<double, HashMap<double, HashMap<double, bool>>> cached = HashMap();
 
@@ -50,7 +47,8 @@ class LoadedPointsCache{
     return cached[zoom]![sample.latitude]![sample.longitude] != null;
   }
 
-  static Tuple2<List<LatLng>, bool> createSamplePoints(
+  // TODO: return multiple values
+  static Tuple3<List<LatLng>, List<List<bool>>, bool> createSamplePoints(
       double northLat,
       double southLat,
       double westLng,
@@ -61,19 +59,18 @@ class LoadedPointsCache{
       { bool skipCached = false }
   ){
 
-    if(northLat == double.nan) return const Tuple2([], true);
-    if(southLat == double.nan) return const Tuple2([], true);
-    if(westLng == double.nan) return const Tuple2([], true);
-    if(eastLng == double.nan) return const Tuple2([], true);
-    if(zoom == double.nan) return const Tuple2([], true);
+    if(northLat == double.nan) return const Tuple3([], [], true);
+    if(southLat == double.nan) return const Tuple3([], [], true);
+    if(westLng == double.nan) return const Tuple3([], [], true);
+    if(eastLng == double.nan) return const Tuple3([], [], true);
+    if(zoom == double.nan) return const Tuple3([], [], true);
 
     SphericalMercator mercator = const SphericalMercator();
-    CustomPoint maxPoint = mercator.project(LatLng(CatPageHarcMapState.maxLatSpan, CatPageHarcMapState.maxLngSpan));
 
-    int worldSamplingPointCount = pow(2, zoom.floor()).toInt() * maxMarkersOnTileWidth;
+    num worldSamplingPointCount = pow(2, zoom.floor()).toInt() * HarcMapUtils.maxMarkersOnTileWidth;
 
-    int worldSamplingLngDistDelta = maxPoint.x ~/ worldSamplingPointCount;
-    int worldSamplingLatDistDelta = maxPoint.y ~/ worldSamplingPointCount;
+    int worldSamplingLngDistDelta = HarcMapUtils.maxLngDistSpan ~/ worldSamplingPointCount;
+    int worldSamplingLatDistDelta = HarcMapUtils.maxLatDistSpan ~/ worldSamplingPointCount;
 
     CustomPoint startPoint = mercator.project(LatLng(southLat, westLng));
     CustomPoint endPoint = mercator.project(LatLng(northLat, eastLng));
@@ -90,6 +87,11 @@ class LoadedPointsCache{
     double southDistOnGrid = southDist - (southDist % worldSamplingLatDistDelta) + worldSamplingLatDistDelta;
 
     List<LatLng> samples = [];
+    List<List<bool>> rectDecompMatrix = List.generate(
+        samplingLngPointCount,
+        (i) => List.filled(samplingLatPointCount, false),
+        growable: false
+    );
 
     bool nothingSkipped = true;
     for(int iLat=0; iLat<samplingLatPointCount; iLat++){
@@ -103,11 +105,14 @@ class LoadedPointsCache{
           nothingSkipped = false;
           continue;
         }
+
+        rectDecompMatrix[iLng][iLat] = true;
+
         samples.add(sample);
       }
     }
 
-    return Tuple2(samples, nothingSkipped);
+    return Tuple3(samples, rectDecompMatrix, nothingSkipped);
 
   }
 

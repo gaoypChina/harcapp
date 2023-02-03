@@ -63,4 +63,6 @@ class SortableRectangle implements Comparable<SortableRectangle> {
 				(th < ty || th > ry));
 	}
 
+	List<int> toRespData() => [col, row, width, height];
+
 }

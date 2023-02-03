@@ -64,6 +64,8 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
   late MapController mapController;
 
+  List<LatLng>? lastRequestedSamples;
+
   Future<void> tryGetMarkers({required bool publicOnly}) async {
     if(!await isNetworkAvailable())
       return;
@@ -74,7 +76,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     double thisEastBound = eastBound;
     double thisZoom = zoom;
 
-    Tuple2<List<LatLng>, bool> samplePointsResult = LoadedPointsCache.createSamplePoints(
+    Tuple3<List<LatLng>, List<List<bool>>, bool> samplePointsResult = LoadedPointsCache.createSamplePoints(
         thisNorthBound,
         thisSouthBound,
         thisWestBound,
@@ -85,7 +87,10 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     );
 
     List<LatLng> samples = samplePointsResult.item1;
-    bool noSamplesSkipped = samplePointsResult.item2;
+    List<List<bool>> rectDecompMatrix = samplePointsResult.item2;
+    bool noSamplesSkipped = samplePointsResult.item3;
+
+    lastRequestedSamples = samples;
 
     await ApiHarcMap.getAllMarkers(
         publicOnly: publicOnly,
@@ -96,7 +101,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
         eastLng: thisEastBound,
         zoom: thisZoom,
 
-        samples: noSamplesSkipped?null:samples,
+        samples: noSamplesSkipped?null:rectDecompMatrix,
 
         onSuccess: (markers) {
           MarkerData.addAllToAll(markers);
@@ -241,15 +246,18 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                 ),
 
               if(AppSettings.devMode)
-                SamplingPointsLayerWidget(mapController),
+                SamplingPointsLayerWidget(lastRequestedSamples, mapController),
 
               if(AppSettings.devMode)
                 Align(
                   alignment: Alignment.bottomLeft,
                   child: Container(
-                    color: background_(context),
+                    color: background_(context).withOpacity(.7),
                     child: Consumer<MapEventChangedProvider>(
                       builder: (context, prov, child) => Text(
+                        'X: ${const SphericalMercator().project(LatLng(mapController.center.latitude, mapController.center.longitude)).x}\n'
+                        'Y: ${const SphericalMercator().project(LatLng(mapController.center.latitude, mapController.center.longitude)).y}\n'
+                        '\n'
                         'Z: ${zoom.toStringAsFixed(3)}\n'
                         'N: ${northBound.toStringAsFixed(3)}\n'
                         'S: ${southBound.toStringAsFixed(3)}\n'
@@ -392,9 +400,10 @@ class MapEventChangedProvider extends ChangeNotifier{
 
 class SamplingPointsLayerWidget extends StatefulWidget{
 
+  final List<LatLng>? lastRequestedSamples;
   final MapController mapController;
 
-  const SamplingPointsLayerWidget(this.mapController, {super.key});
+  const SamplingPointsLayerWidget(this.lastRequestedSamples, this.mapController, {super.key});
 
   @override
   State<StatefulWidget> createState() => SamplingPointsLayerWidgetState();
@@ -403,6 +412,7 @@ class SamplingPointsLayerWidget extends StatefulWidget{
 
 class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
 
+  List<LatLng>? get lastRequestedSamples => widget.lastRequestedSamples;
   MapController get mapController => widget.mapController;
 
   double get northLat => mapController.bounds!.north;
@@ -437,7 +447,10 @@ class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
       ).item1
       .map((samplePoint) => Marker(
           point: samplePoint,
-          builder: (context) => Icon(MdiIcons.circleSmall, color: Colors.red.withOpacity(.8))
+          builder: (context) => Icon(
+              MdiIcons.circleSmall,
+              color: ((lastRequestedSamples??[]).contains(samplePoint)?Colors.red:Colors.deepPurple).withOpacity(.8)
+          )
       ))
       .toList()
   );

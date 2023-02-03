@@ -1,7 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:harcapp/_common_classes/common_contact_data.dart';
+import 'package:harcapp/_common_classes/sorted_list.dart';
 import 'package:harcapp/_new/cat_page_harc_map/model/marker_type.dart';
 import 'package:harcapp/_new/cat_page_harc_map/model/marker_visibility.dart';
+import 'package:harcapp/_new/cat_page_harc_map/utils.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp/logger.dart';
@@ -65,6 +67,16 @@ class MarkerData{
   static forget(){
     _all = null;
     _allMap = null;
+  }
+
+  // TODO: Trzeba ogarnąć jakiś lepszy mechanizm od tej porównywarki lat lng, bo one się zmieniają
+  static SortedList<MarkerData> sortedMinZoomNorthBorder = SortedList.from(elements: [], compare: (m1, m2) => (m1.minZoomNorthLat - m2.minZoomNorthLat).sign.toInt());
+  static SortedList<MarkerData> sortedMinZoomSouthBorder = SortedList.from(elements: [], compare: (m1, m2) => (m1.minZoomSouthLat - m2.minZoomSouthLat).sign.toInt());
+  static SortedList<MarkerData> sortedMinZoomWestBorder = SortedList.from(elements: [], compare: (m1, m2) => (m1.minZoomWestLng - m2.minZoomWestLng).sign.toInt());
+  static SortedList<MarkerData> sortedMinZoomEastBorder = SortedList.from(elements: [], compare: (m1, m2) => (m1.minZoomEastLng - m2.minZoomEastLng).sign.toInt());
+
+  static void insertToSortedMinZoomNorthBorder(MarkerData marker){
+
   }
 
   static callProvidersOf(BuildContext context) =>
@@ -153,6 +165,10 @@ class MarkerData{
   MarkerType type;
   MarkerVisibility visibility;
   double minZoomAppearance;
+  double minZoomNorthLat;
+  double minZoomSouthLat;
+  double minZoomWestLng;
+  double minZoomEastLng;
   Map<CommunityCategory, int> communitiesBasicData;
 
   LatLng get latLng => LatLng(lat, lng);
@@ -198,6 +214,10 @@ class MarkerData{
     required this.managerCount,
     required this.communitiesBasicData,
   }):
+      minZoomNorthLat = HarcMapUtils.addMetersToLat(lat, 0),
+      minZoomSouthLat = HarcMapUtils.addMetersToLat(lat, 0),
+      minZoomWestLng = HarcMapUtils.addMetersToLng(lng, lat, 0),
+      minZoomEastLng = HarcMapUtils.addMetersToLng(lng, lat, 0),
       _loadedManagers = managers,
       _loadedManagersMap = {for (MarkerManager m in managers) m.key: m}
   {

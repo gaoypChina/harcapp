@@ -14,7 +14,7 @@ class RectilinearDecomposer {
 
   static int minArea = 1;
 
-  BinaryMatrix? binaryMatrix;
+  BinaryMatrix binaryMatrix;
 
   List<List<int>>? temp1;
 
@@ -50,7 +50,8 @@ class RectilinearDecomposer {
 
   List<SortableRectangle>? rectangles;
 
-  RectilinearDecomposer(BinaryMatrix m, {this.removeLargestFirst = false}):
+  RectilinearDecomposer(List<List<bool>> data, {this.removeLargestFirst = false}):
+        binaryMatrix = BinaryMatrix(data),
         area = -1,
         xToCheck = -1,
         yToCheck = -1,
@@ -58,9 +59,8 @@ class RectilinearDecomposer {
         yTotal = -1,
         preprocessed = false
   {
-    binaryMatrix = m;
-    temp1 = List.generate(m.row, (_) => List.filled(m.col, 0));
-    temp2 = List.generate(m.row, (_) => List.filled(m.col, 0));
+    temp1 = List.generate(binaryMatrix.row, (_) => List.filled(binaryMatrix.col, 0));
+    temp2 = List.generate(binaryMatrix.row, (_) => List.filled(binaryMatrix.col, 0));
   }
 
   SortableRectangle findLargestRectangle() {
@@ -74,10 +74,10 @@ class RectilinearDecomposer {
 
   void firstStep() {
     int current;
-    for (int j = 0; j < binaryMatrix!.col; j++) {
+    for (int j = 0; j < binaryMatrix.col; j++) {
       current = 1;
-      for (int i = binaryMatrix!.row - 1; i >= 0; i--) {
-        if (binaryMatrix!.matrix[i][j]) {
+      for (int i = binaryMatrix.row - 1; i >= 0; i--) {
+        if (binaryMatrix.matrix[i][j]) {
           temp1![i][j] = current;
           current++;
         } else
@@ -89,10 +89,10 @@ class RectilinearDecomposer {
 
   void secondStep() {
     int current;
-    for (int i = 0; i < binaryMatrix!.row; i++) {
+    for (int i = 0; i < binaryMatrix.row; i++) {
       current = 1;
-      for (int j = binaryMatrix!.col - 1; j >= 0; j--) {
-        if (binaryMatrix!.matrix[i][j]) {
+      for (int j = binaryMatrix.col - 1; j >= 0; j--) {
+        if (binaryMatrix.matrix[i][j]) {
           temp2![i][j] = current;
           current++;
         } else
@@ -110,9 +110,9 @@ class RectilinearDecomposer {
     for (int i = 0; i < temp2!.length; i++)
       temp4![i] = List.of(temp2![i]);
     int previous;
-    for (int i = 0; i < binaryMatrix!.row; i++) {
+    for (int i = 0; i < binaryMatrix.row; i++) {
       previous = 0;
-      for (int j = binaryMatrix!.col - 1; j >= 0; j--) {
+      for (int j = binaryMatrix.col - 1; j >= 0; j--) {
         if (previous == 0)
           // Leave unchanged
           previous = temp3![i][j];
@@ -123,9 +123,9 @@ class RectilinearDecomposer {
       }
     }
 
-    for (int j = 0; j < binaryMatrix!.col; j++) {
+    for (int j = 0; j < binaryMatrix.col; j++) {
       previous = 0;
-      for (int i = binaryMatrix!.row - 1; i >= 0; i--) {
+      for (int i = binaryMatrix.row - 1; i >= 0; i--) {
         if (previous == 0)
           previous = temp2![i][j];
         else if (temp4![i][j] <= previous)
@@ -139,12 +139,12 @@ class RectilinearDecomposer {
   void fourthStep() {
     List<int> areaTmp = [-1, -1]; // two elements;
     int largestArea = -1, x = 0, y = 0, width = 0, height = 0;
-    linkedMatrix = LinkedMatrix(binaryMatrix!.matrix);
+    linkedMatrix = LinkedMatrix(binaryMatrix.matrix);
     LinkedMatrixElement current = linkedMatrix!.getCurrentRoot();
-    for (int i = 0; i < binaryMatrix!.row; i++) {
-      for (int j = 0; j < binaryMatrix!.col; j++) {
+    for (int i = 0; i < binaryMatrix.row; i++) {
+      for (int j = 0; j < binaryMatrix.col; j++) {
         current = current.nextRight!;
-        if (binaryMatrix!.matrix[i][j]) {
+        if (binaryMatrix.matrix[i][j]) {
           areaTmp[0] = temp3![i][j] * temp2![i][j];
           areaTmp[1] = temp1![i][j] * temp4![i][j];
           int maxArea = max(areaTmp[0], areaTmp[1]);
@@ -186,9 +186,9 @@ class RectilinearDecomposer {
     int width = 0;
     int height = 0;
     List<int> area_tmp = [-1, -1]; // 2 element;
-    for (int i = 0; i < binaryMatrix!.row; i++) {
-      for (int j = 0; j < binaryMatrix!.col; j++) {
-        if (binaryMatrix!.matrix[i][j]) {
+    for (int i = 0; i < binaryMatrix.row; i++) {
+      for (int j = 0; j < binaryMatrix.col; j++) {
+        if (binaryMatrix.matrix[i][j]) {
           area_tmp[0] = temp3![i][j] * temp2![i][j];
           area_tmp[1] = temp1![i][j] * temp4![i][j];
           int maxArea = max(area_tmp[0], area_tmp[1]);
@@ -223,7 +223,7 @@ class RectilinearDecomposer {
 
   }
 
-  DecompositionResult computeDecomposition(int min) {
+  DecompositionResult run(int min) {
     RectilinearDecomposer.minArea = min;
     if (!preprocessed)
       preProcess();
@@ -247,16 +247,10 @@ class RectilinearDecomposer {
       }
 
       process();
-      print("${currentPoint!.row} ${currentPoint!.col} ${stack!.length}");
 
     } while (!linkedMatrix!.isEmpty());
 
-    int ones = binaryMatrix!.numberOfOnes;
-    temp1 = null;
-    temp2 = null;
-    temp3 = null;
-    temp4 = null;
-    binaryMatrix = null;
+    int ones = binaryMatrix.numberOfOnes;
     return DecompositionResult(rectangles!, ones);
   }
 

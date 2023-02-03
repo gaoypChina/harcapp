@@ -13,8 +13,8 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/text_field_fit.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:implicitly_animated_reorderable_list_2/implicitly_animated_reorderable_list_2.dart';
 
-import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -69,8 +69,7 @@ class AddOkrzykPageState extends State<AddOkrzykPage> {
           initTimeFract: element.timeFract.toString(),
           initWords: element.text,
           initSeparators: element.separator,
-        )
-        );
+        ));
     }
 
     super.initState();

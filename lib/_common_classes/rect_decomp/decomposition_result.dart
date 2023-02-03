@@ -7,31 +7,31 @@ import 'binary_matrix.dart';
 
 class DecompositionResult {
 
-	List<SortableRectangle> rectangle;
+	List<SortableRectangle> rectangles;
 	int numberOfOnes;
 
-	DecompositionResult(this.rectangle, this.numberOfOnes);
+	DecompositionResult(this.rectangles, this.numberOfOnes);
 
 	double quality() {
 		int total = 0;
-		for (SortableRectangle rect in rectangle)
+		for (SortableRectangle rect in rectangles)
 			total += rect.area;
-		return total.toDouble() / (rectangle.length);
+		return total.toDouble() / (rectangles.length);
 	}
 
 	int totalArea() {
 		int total = 0;
-		for (SortableRectangle rect in rectangle)
+		for (SortableRectangle rect in rectangles)
 			total += rect.area;
 		return total;
 	}
 
 	BinaryMatrix reconstructMatrix(int height, int width) {
 		List<List<bool>> matrix = List.generate(height, (_) => List.filled(width, false));
-		for (SortableRectangle rect in rectangle)
+		for (SortableRectangle rect in rectangles)
 			addRectangle(rect, matrix);
 
-		return BinaryMatrix(matrix, height, width);
+		return BinaryMatrix(matrix);
 	}
 
 	void addRectangle(SortableRectangle rect, List<List<bool>> matrix) {
@@ -47,7 +47,7 @@ class DecompositionResult {
 
 	List<SortableRectangle> overlappingRectangles() {
 		List<SortableRectangle> result = [];
-		List<SortableRectangle> array1 = List.of(rectangle);
+		List<SortableRectangle> array1 = List.of(rectangles);
 		for (int i = 0; i < array1.length; i++)
 			for (int j = i + 1; j < array1.length; j++) {
 				if (array1[i].intersects(array1[j])) {
