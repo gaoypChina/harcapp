@@ -227,6 +227,9 @@ class IndivComp{
       _all = [];
       _allMap = {};
     }
+
+    if(_allMap![comp] != null) return;
+
     _all!.add(comp);
     _allMap![comp.key] = comp;
 

@@ -601,10 +601,10 @@ packages:
     dependency: "direct main"
     description:
       name: google_fonts
-      sha256: "148c716f5929371d335d29c2952119b34842b1a8e5607e37bb9f68f96e88068a"
+      sha256: "927573f2e8a8d65c17931e21918ad0ab0666b1b636537de7c4932bdb487b190f"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.1"
+    version: "4.0.3"
   harcapp_core:
     dependency: "direct main"
     description:
@@ -637,7 +637,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: ab824cfe7f95019d2f1711c16c6df155dd0e5e18
+      resolved-ref: "84b2d19961bbb2d6df510c6a5edf82190c89882e"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_song_widget"
     source: git
     version: "0.0.1"

@@ -1,4 +1,20 @@
 {
+    "o!_bagno": [
+        {
+            "file": "bagno.0.mp3",
+            "performer": null,
+            "source": "https://www.youtube.com/watch?v=7BJZaNN_Sl0"
+        }
+    ],
+
+    "o!_ballada_o_dziewczynie_co_pila_gorace@mleko_zielen": [
+        {
+            "file": "ballada_o_dziewczynie_co_pila_gorace_mleko.michal_zielen.mp3",
+            "performer": "Michał Zieleń",
+            "source": "https://www.youtube.com/watch?v=IGA0v6mqAd0"
+        }
+    ],
+
     "o!_bo_mi_sie_gory_kojarza_z_chlopakiem": [
         {
             "file": "bo_mi_sie_gory_kojarza_z_chlopakiem.szczep_144_wdhigz.mp3",
@@ -13,6 +29,14 @@
         }
     ],
 
+    "o!_epitafium_dla_majora_ognia": [
+        {
+            "file": "epitafium_dla_majora_ognia.andrzej_kolakowski.mp3",
+            "performer": "Andrzej Kołakowski",
+            "source": "https://www.youtube.com/watch?v=t1InFE0SD-Q"
+        }
+    ],
+
     "o!_gwiazdy": [
         {
             "file": "gwiazdy.wiktoria_cwik.mp3",
@@ -21,11 +45,35 @@
         }
     ],
 
+    "o!_jam": [
+        {
+            "file": "jam.jaaamw-u.mp3",
+            "performer": "JAAAMW-u",
+            "source": "https://www.youtube.com/watch?v=AYUiPd3Gd8E"
+        }
+    ],
+
     "o!_lubie_mowic_z_toba": [
         {
             "file": "lubie_mowic_z_toba.tuiteraz2.mp3",
             "performer": "@tuiteraz2",
             "source": "https://www.youtube.com/watch?v=qQbiT8hLI8Q"
+        }
+    ],
+
+    "o!_major_ponury": [
+        {
+            "file": "major_ponury.jaaamw-u.mp3",
+            "performer": "JAAAMW-u",
+            "source": "https://www.youtube.com/watch?v=7T9_iSooTWQ"
+        }
+    ],
+
+    "o!_ostatnia_kula": [
+        {
+            "file": "ostatnia_kula.sebastian_bialecki.mp3",
+            "performer": "Sebastian Białecki",
+            "source": "https://www.youtube.com/watch?v=edXRpknX4rw"
         }
     ],
 
@@ -50,6 +98,22 @@
             "file": "poezja.tuiteraz2.mp3",
             "performer": "@tuiteraz2",
             "source": "https://www.youtube.com/watch?v=CAdq5pKWCOo"
+        }
+    ],
+
+    "o!_powrocisz_znow": [
+        {
+            "file": "powrocisz_znow.mania_zalotynska.mp3",
+            "performer": "Mania Zalotyńska",
+            "source": "https://www.youtube.com/watch?v=j6TcZflX1Cg"
+        }
+    ],
+
+    "o!_pozytywka": [
+        {
+            "file": "pozytywka.szymon_zychowicz.mp3",
+            "performer": "Szymon Zychowicz",
+            "source": "https://www.youtube.com/watch?v=5bnR81Tm0qk"
         }
     ],
 

@@ -66,6 +66,9 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncI
   }
 
   static void addToAll(Album album){
+
+    if(allMap[album.fileName] != null) return;
+
     allOwn.add(album);
     allMap[album.fileName] = album;
   }

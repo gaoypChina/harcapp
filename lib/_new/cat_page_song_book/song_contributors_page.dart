@@ -51,7 +51,7 @@ class SongContributorsPage extends StatelessWidget{
                         alignment: Alignment.topCenter,
                         child: IndivCompRankIcon(
 
-                          IndivCompProfile.empty(),
+                          IndivCompProfile.empty(rank: index+1),
                           activeParticipCnt: null,
                           colors: CommonColorData.get(CommonColorData.omegaColorsKey),
                           size: iconSize,
@@ -69,7 +69,7 @@ class SongContributorsPage extends StatelessWidget{
                               showSongCount: false
                           ).build(
                               context,
-                              Song.addPersRanking.keys.toList()[index]
+                              Song.addPersRanking.keys.toList()[index],
                           )
                       )),
 

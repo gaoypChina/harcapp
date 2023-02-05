@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:harcapp/_common_classes/common_contact_data.dart';
 import 'package:harcapp/_common_classes/sorted_list.dart';
 import 'package:harcapp/_new/cat_page_harc_map/model/marker_type.dart';
@@ -69,14 +70,65 @@ class MarkerData{
     _allMap = null;
   }
 
-  // TODO: Trzeba ogarnąć jakiś lepszy mechanizm od tej porównywarki lat lng, bo one się zmieniają
   static SortedList<MarkerData> sortedMinZoomNorthBorder = SortedList.from(elements: [], compare: (m1, m2) => (m1.minZoomNorthLat - m2.minZoomNorthLat).sign.toInt());
   static SortedList<MarkerData> sortedMinZoomSouthBorder = SortedList.from(elements: [], compare: (m1, m2) => (m1.minZoomSouthLat - m2.minZoomSouthLat).sign.toInt());
   static SortedList<MarkerData> sortedMinZoomWestBorder = SortedList.from(elements: [], compare: (m1, m2) => (m1.minZoomWestLng - m2.minZoomWestLng).sign.toInt());
   static SortedList<MarkerData> sortedMinZoomEastBorder = SortedList.from(elements: [], compare: (m1, m2) => (m1.minZoomEastLng - m2.minZoomEastLng).sign.toInt());
 
-  static void insertToSortedMinZoomNorthBorder(MarkerData marker){
+  static int _findClosestIndexFulfillingComp(SortedList<MarkerData> list, bool Function(MarkerData) compare, {required firstTrue}) {
+    if (list.isEmpty) return 0;
+    var start = 0;
+    var end = list.length;
+    var index = 0;
+    while (start < end) {
+      final mid = start + ((end - start) >> 1);
 
+      // The element at the middle of the list
+      final MarkerData element = list[mid];
+
+      // The result of the comparison of the objects
+      final comp = compare(element);
+      // if (comp == 0) return mid;
+      // [value] is greater than [element]
+      if (comp == !firstTrue) {
+        start = mid + 1;
+        index = start;
+      }
+      // [value] is smaller than [element]
+      else {
+        end = mid;
+        index = end;
+      }
+
+    }
+    return index;
+  }
+
+  static MarkerData findZoomSource(double lat, double lng){
+
+    int maxLatIdx = _findClosestIndexFulfillingComp(sortedMinZoomNorthBorder, (m) => lat < m.minZoomNorthLat, firstTrue: false);
+    int minLatIdx = _findClosestIndexFulfillingComp(sortedMinZoomSouthBorder, (m) => lat > m.minZoomSouthLat, firstTrue: true);
+
+    int maxLngIdx = _findClosestIndexFulfillingComp(sortedMinZoomEastBorder, (m) => lng < m.minZoomEastLng, firstTrue: false);
+    int minLngIdx = _findClosestIndexFulfillingComp(sortedMinZoomWestBorder, (m) => lng > m.minZoomWestLng, firstTrue: true);
+
+    Set<MarkerData> markersNorthLat = sortedMinZoomNorthBorder.sublist(0, maxLatIdx).toSet();
+    Set<MarkerData> markersSouthLat = sortedMinZoomSouthBorder.sublist(minLatIdx).toSet();
+
+    Set<MarkerData> markersEastLat = sortedMinZoomEastBorder.sublist(0, maxLngIdx).toSet();
+    Set<MarkerData> markersWestLat = sortedMinZoomWestBorder.sublist(minLngIdx).toSet();
+
+    Set<MarkerData> possibleClosestMarkers = markersNorthLat
+        .intersection(markersSouthLat)
+        .intersection(markersEastLat)
+        .intersection(markersWestLat);
+
+    MarkerData zoomSource = possibleClosestMarkers.first;
+    for(MarkerData m in possibleClosestMarkers)
+      if(m.minZoomAppearance > zoomSource.minZoomAppearance)
+        zoomSource = m;
+
+    return zoomSource;
   }
 
   static callProvidersOf(BuildContext context) =>
@@ -107,8 +159,16 @@ class MarkerData{
       _all = [];
       _allMap = {};
     }
+
+    if(_allMap![marker.key] != null) return;
+
     _all!.add(marker);
     _allMap![marker.key] = marker;
+
+    sortedMinZoomNorthBorder.add(marker);
+    sortedMinZoomSouthBorder.add(marker);
+    sortedMinZoomWestBorder.add(marker);
+    sortedMinZoomEastBorder.add(marker);
 
     if(context == null) return;
     callProvidersOf(context);
@@ -124,6 +184,11 @@ class MarkerData{
       if(_allMap!.containsKey(marker.key)) continue;
       _allMap![marker.key] = marker;
       _all!.add(marker);
+
+      sortedMinZoomNorthBorder.add(marker);
+      sortedMinZoomSouthBorder.add(marker);
+      sortedMinZoomWestBorder.add(marker);
+      sortedMinZoomEastBorder.add(marker);
     }
 
     if(context == null) return;
@@ -142,6 +207,16 @@ class MarkerData{
     _all!.insert(index, marker);
     _allMap![marker.key] = marker;
 
+    sortedMinZoomNorthBorder.remove(oldMarker);
+    sortedMinZoomSouthBorder.remove(oldMarker);
+    sortedMinZoomWestBorder.remove(oldMarker);
+    sortedMinZoomEastBorder.remove(oldMarker);
+
+    sortedMinZoomNorthBorder.add(marker);
+    sortedMinZoomSouthBorder.add(marker);
+    sortedMinZoomWestBorder.add(marker);
+    sortedMinZoomEastBorder.add(marker);
+
     if(context == null) return;
     callProvidersOf(context);
   }
@@ -153,8 +228,24 @@ class MarkerData{
     _all!.remove(marker);
     _allMap!.remove(marker.key);
 
+    sortedMinZoomNorthBorder.remove(marker);
+    sortedMinZoomSouthBorder.remove(marker);
+    sortedMinZoomWestBorder.remove(marker);
+    sortedMinZoomEastBorder.remove(marker);
+
     if(context == null) return;
     callProvidersOf(context);
+  }
+
+  static clear(){
+    if(_all == null)
+      return;
+    _all!.clear();
+    _allMap!.clear();
+    sortedMinZoomNorthBorder.clear();
+    sortedMinZoomSouthBorder.clear();
+    sortedMinZoomWestBorder.clear();
+    sortedMinZoomEastBorder.clear();
   }
 
   final String key;
@@ -209,15 +300,15 @@ class MarkerData{
     required this.type,
     required this.visibility,
     required this.minZoomAppearance,
+    required this.minZoomNorthLat,
+    required this.minZoomSouthLat,
+    required this.minZoomWestLng,
+    required this.minZoomEastLng,
 
     required List<MarkerManager> managers,
     required this.managerCount,
     required this.communitiesBasicData,
   }):
-      minZoomNorthLat = HarcMapUtils.addMetersToLat(lat, 0),
-      minZoomSouthLat = HarcMapUtils.addMetersToLat(lat, 0),
-      minZoomWestLng = HarcMapUtils.addMetersToLng(lng, lat, 0),
-      minZoomEastLng = HarcMapUtils.addMetersToLng(lng, lat, 0),
       _loadedManagers = managers,
       _loadedManagersMap = {for (MarkerManager m in managers) m.key: m}
   {
@@ -239,15 +330,41 @@ class MarkerData{
       commBasicData[commCat] = commBasicDataRaw[commCatStr]!;
     }
 
+    MarkerVisibility visibility = strToMarkerVisibility[respMap['visibility']??(throw InvalidResponseError('visibility'))]??MarkerVisibility.ERROR;
+    double lat = respMap['lat']??(throw InvalidResponseError('lat'));
+    double lng = respMap['lng']??(throw InvalidResponseError('lng'));
+
+    late double minZoomAppearance;
+    late double minZoomNorthLat;
+    late double minZoomSouthLat;
+    late double minZoomWestLng;
+    late double minZoomEastLng;
+
+    if(visibility == MarkerVisibility.COMMUNITY_CIRCLE_MEMBERS_ONLY){
+      MarkerData zoomSource = findZoomSource(lat, lng);
+      Tuple2<double, Tuple4<double, double, double, double>> resp = HarcMapUtils.getMinZoomData(lat, lng, zoomSource);
+      minZoomAppearance = resp.item1;
+      Tuple4<double, double, double, double> bounds = resp.item2;
+
+      minZoomNorthLat = bounds.item1;
+      minZoomSouthLat = bounds.item2;
+      minZoomWestLng = bounds.item3;
+      minZoomEastLng = bounds.item4;
+    }
+
     return MarkerData(
         key: key??respMap['_key']??(throw InvalidResponseError('_key')),
         name: respMap['name'],
         contact: respMap['contact'] == null?null:CommonContactData.fromRespMap(respMap['contact']),
-        lat: respMap['lat']??(throw InvalidResponseError('lat')),
-        lng: respMap['lng']??(throw InvalidResponseError('lng')),
+        lat: lat,
+        lng: lng,
         type: strToMarkerType[respMap['type']??(throw InvalidResponseError('type'))]??MarkerType.error,
-        visibility: strToMarkerVisibility[respMap['visibility']??(throw InvalidResponseError('visibility'))]??MarkerVisibility.ERROR,
-        minZoomAppearance: respMap['minZoomAppearance'],
+        visibility: visibility,
+        minZoomAppearance: respMap['minZoomAppearance'] ?? minZoomAppearance,
+        minZoomNorthLat: respMap['minZoomNorthLat'] ?? minZoomNorthLat,
+        minZoomSouthLat: respMap['minZoomSouthLat'] ?? minZoomSouthLat,
+        minZoomWestLng: respMap['minZoomWestLng'] ?? minZoomWestLng,
+        minZoomEastLng: respMap['minZoomEastLng'] ?? minZoomEastLng,
         managers: (respMap['managers']??[]).map<MarkerManager>((data) => MarkerManager.fromRespMap(data)).toList(),
         managerCount: respMap['managerCount'],
         communitiesBasicData: commBasicData
@@ -269,6 +386,10 @@ class MarkerData{
     type: type,
     visibility: visibility,
     minZoomAppearance: 0,
+    minZoomNorthLat: 0,
+    minZoomSouthLat: 0,
+    minZoomWestLng: 0,
+    minZoomEastLng: 0,
     managers: [],
     managerCount: 0,
     communitiesBasicData: {}

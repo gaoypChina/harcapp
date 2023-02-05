@@ -133,22 +133,28 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
     loginListener = LoginListener(
       onLogin: (emailConf) async {
+        MarkerData.clear();
+        LoadedPointsCache.clear();
         tryGetMarkers(publicOnly: !AccountData.loggedIn);
       },
       onRegistered: (){
+        MarkerData.clear();
+        LoadedPointsCache.clear();
         tryGetMarkers(publicOnly: !AccountData.loggedIn);
       },
       onEmailConfirmChanged: (emailConf){
+        MarkerData.clear();
+        LoadedPointsCache.clear();
         tryGetMarkers(publicOnly: !AccountData.loggedIn);
       },
       onForceLogout: (){
+        MarkerData.clear();
+        LoadedPointsCache.clear();
         tryGetMarkers(publicOnly: !AccountData.loggedIn);
       }
     );
 
     AccountData.addLoginListener(loginListener);
-
-    // post(() => getMarkers(publicOnly: !AccountData.loggedIn));
 
     super.initState();
   }
@@ -246,7 +252,9 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                 ),
 
               if(AppSettings.devMode)
-                SamplingPointsLayerWidget(lastRequestedSamples, mapController),
+                IgnorePointer(
+                  child: SamplingPointsLayerWidget(lastRequestedSamples, mapController),
+                ),
 
               if(AppSettings.devMode)
                 Align(
@@ -255,8 +263,8 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                     color: background_(context).withOpacity(.7),
                     child: Consumer<MapEventChangedProvider>(
                       builder: (context, prov, child) => Text(
-                        'X: ${const SphericalMercator().project(LatLng(mapController.center.latitude, mapController.center.longitude)).x}\n'
-                        'Y: ${const SphericalMercator().project(LatLng(mapController.center.latitude, mapController.center.longitude)).y}\n'
+                        'X: ${const SphericalMercator().project(LatLng(mapController.center.latitude, mapController.center.longitude)).x.toStringAsFixed(3)}\n'
+                        'Y: ${const SphericalMercator().project(LatLng(mapController.center.latitude, mapController.center.longitude)).y.toStringAsFixed(3)}\n'
                         '\n'
                         'Z: ${zoom.toStringAsFixed(3)}\n'
                         'N: ${northBound.toStringAsFixed(3)}\n'

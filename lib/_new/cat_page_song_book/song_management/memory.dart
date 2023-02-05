@@ -111,6 +111,9 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryGetResp>, RemoveSyn
   static late Map<String?, Memory> allMap;
 
   static void addToAll(Memory memory){
+
+    if(allMap[memory.fileName] != null) return;
+
     all.add(memory);
     allMap[memory.fileName] = memory;
   }

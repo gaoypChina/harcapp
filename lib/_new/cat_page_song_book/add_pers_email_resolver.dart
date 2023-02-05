@@ -31,41 +31,46 @@ class AddPersEmailResolver extends AddPersResolver{
             textColor: textColor ?? hintEnab_(context)
         );
 
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      return IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
 
-          Expanded(
-            child: PersonCard(
-                allPeopleByEmailMap[data.emailRef],
-                textSize: textSize,
-                textColor: textColor ?? hintEnab_(context)
+            Expanded(
+              child: PersonCard(
+                  allPeopleByEmailMap[data.emailRef],
+                  textSize: textSize,
+                  textColor: textColor ?? hintEnab_(context)
+              ),
             ),
-          ),
 
-          GestureDetector(
-            onTap: onSongCountTap,
-            child: Row(
-              children: [
+            GestureDetector(
+              onTap: onSongCountTap,
+              child: Container( // This is needed for some reason to make the gesture control pick up event outside the Text and Icon widgets.
+                color: Colors.transparent,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
 
-                Text(
-                  '${Song.addPersRankingByEmail[data.emailRef]!.length}',
-                  style: AppTextStyle(
-                      fontSize: textSize,
-                      fontWeight: weight.halfBold,
-                      color: textColor ?? hintEnab_(context)
-                  ),
+                    Text(
+                      '${Song.addPersRankingByEmail[data.emailRef]!.length}',
+                      style: AppTextStyle(
+                          fontSize: textSize,
+                          fontWeight: weight.halfBold,
+                          color: textColor ?? hintEnab_(context)
+                      ),
+                    ),
+                    const SizedBox(width: Dimen.defMarg),
+                    Icon(MdiIcons.music, size: textSize, color: textColor ?? hintEnab_(context)),
+                    const SizedBox(width: 2*Dimen.defMarg),
+
+                  ],
                 ),
-                const SizedBox(width: Dimen.defMarg),
-                Icon(MdiIcons.music, size: textSize, color: textColor ?? hintEnab_(context)),
-                const SizedBox(width: 2*Dimen.defMarg),
-
-              ],
+              )
             ),
-          )
 
-        ],
-      );
+          ],
+        ));
     }else if(data.name != null && data.name!.isNotEmpty)
       return AddPersSimpleResolver(textSize: textSize, textColor: textColor).build(context, data);
 

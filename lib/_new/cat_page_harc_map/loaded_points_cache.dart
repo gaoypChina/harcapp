@@ -116,4 +116,8 @@ class LoadedPointsCache{
 
   }
 
+  static clear(){
+    cached.clear();
+  }
+
 }

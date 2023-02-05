@@ -253,6 +253,9 @@ class Community extends CommunityBasicData{
       _allCircleMap = {};
       _allForumMap = {};
     }
+
+    if(_allMap![community] != null) return;
+
     _all!.add(community);
     _allMap![community.key] = community;
     if(mapCircle && community.circle != null)

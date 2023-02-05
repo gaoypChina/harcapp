@@ -221,13 +221,13 @@ class IndivCompProfile{
 
   }
 
-  static IndivCompProfile empty() => IndivCompProfile(
+  static IndivCompProfile empty({int? rank}) => IndivCompProfile(
       comp: IndivComp.empty(),
 
       active: true,
       role: CompRole.OBSERVER,
       points: 0,
-      rank: null,
+      rank: rank==null?null:ShowRankData.fromShowRank(rank),
 
       completedTasksAcceptedCount: 0,
       completedTasksPendingCount: 0,

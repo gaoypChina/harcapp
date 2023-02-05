@@ -53,6 +53,9 @@ abstract class CommunityPublishable{
       _all = [];
       _allMap = {};
     }
+
+    if(_allMap![ann.key] != null) return;
+
     _all!.add(ann);
     _allMap![ann.key] = ann;
 
