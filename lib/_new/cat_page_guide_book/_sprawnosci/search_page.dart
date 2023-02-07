@@ -9,8 +9,8 @@ import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw_group.
 import 'package:harcapp/_common_classes/key_names.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/widgets/spraw_tile_widget.dart';
-import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
+import 'package:harcapp_core/dimen.dart';
 
 class SearchPage extends StatefulWidget{
 
@@ -75,66 +75,43 @@ class SearchPageState extends State<SearchPage>{
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => BottomNavScaffold(
+    body: CustomScrollView(
+      key: const PageStorageKey(key_sprawnosci_search_list_view),
+      physics: const BouncingScrollPhysics(),
+      slivers: [
+        SliverAppBar(
+            title: Text(widget.sprawBook.title),
+            centerTitle: true,
+            elevation: 0,
+            floating: true
+        ),
 
-    double screenWidth = MediaQuery.of(context).size.width;
-
-    return BottomNavScaffold(
-      body: Stack(
-        children: [
-
-          Positioned(
-            bottom: -0.1*screenWidth,
-            right: -0.15*screenWidth,
-            child: Icon(
-              SprawBookData.mapIdIconMap[widget.sprawBook.id],
-              color: backgroundIcon_(context),
-              size: screenWidth,
-            ),
+        FloatingContainer.child(
+          height: SearchField.height,
+          child: SearchField(
+            onChanged: (text) => updateChildren(text),
+            hint: 'Nazwa, wymaganie sprawności:',
           ),
+        ),
 
-          CustomScrollView(
-            key: const PageStorageKey(key_sprawnosci_search_list_view),
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              SliverAppBar(
-                title: SizedBox(
-                  width: double.infinity,
-                  child: Center(
-                    child: Text(widget.sprawBook.title),
-                  ),
-                ),
-                centerTitle: true,
-                elevation: 0,
-                floating: true
-              ),
-
-              FloatingContainer.child(
-                height: SearchField.height,
-                child: SearchField(
-                  onChanged: (text) => updateChildren(text),
-                  hint: 'Nazwa, wymaganie sprawności:',
-                ),
-              ),
-
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
+        SliverPadding(
+          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
                     (context, index) => SprawTileWidget(
-                        spraw: currSpraws[index],
-                        onPicked: widget.onPicked
-                    ),
-                    childCount: currSpraws.length
+                    spraw: currSpraws[index],
+                    onPicked: widget.onPicked
                 ),
+                childCount: currSpraws.length
+            ),
 
-              )
+          ),
+        )
 
-            ],
-          )
-
-        ],
-      ),
-    );
-  }
+      ],
+    ),
+  );
 
 }
 

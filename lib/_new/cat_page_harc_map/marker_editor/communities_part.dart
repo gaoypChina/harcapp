@@ -81,7 +81,7 @@ class CommunitiesPartState extends State<CommunitiesPart> with AutomaticKeepAliv
                       padding: const EdgeInsets.only(
                         right: Dimen.SIDE_MARG,
                         left: Dimen.SIDE_MARG,
-                        bottom: Dimen.SIDE_MARG
+                        bottom: Dimen.SIDE_MARG + Dimen.ICON_FOOTPRINT + 2*AppCard.defPaddingVal + Dimen.defMarg
                       ),
                       sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
                         (context, index){

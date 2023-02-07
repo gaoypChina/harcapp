@@ -43,7 +43,7 @@ String markerVisibilityToName(MarkerVisibility markerVisibility){
     case MarkerVisibility.VERIFIED_ONLY:
       return 'Tylko dla zweryfikowanych';
     case MarkerVisibility.COMMUNITY_CIRCLE_MEMBERS_ONLY:
-      return 'Tylko dla członków środowisk';
+      return 'Tylko dla członków kręgów';
     case MarkerVisibility.ERROR:
       return 'Błąd';
   }

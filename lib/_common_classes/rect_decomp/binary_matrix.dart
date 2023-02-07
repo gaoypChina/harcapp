@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'dart:math';
 
 class BinaryMatrix {
 
@@ -35,6 +36,20 @@ class BinaryMatrix {
         newMatrix[i][j] = matrix[i][j] != m.matrix[i][j];
 
     return BinaryMatrix(newMatrix);
+  }
+
+  static BinaryMatrix random({
+    required int row,
+    required int col,
+    required double ratio
+  }) {
+    List<List<bool>> matrix = List.generate(row, (_) => List.filled(col, false));
+    Random r = Random();
+    for (int i = 0; i < row; i++)
+      for (int j = 0; j < col; j++)
+        matrix[i][j] = r.nextDouble() < ratio;
+
+    return BinaryMatrix(matrix);
   }
 
 }

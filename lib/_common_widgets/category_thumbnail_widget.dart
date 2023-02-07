@@ -9,6 +9,7 @@ class CategoryThumbnailCommonWidget extends StatelessWidget{
   final double size;
   final bool elevated;
   final IconData? icon;
+  final Color? iconColor;
   final String? svgPath;
   final double svgSizeFraction;
   final String? text;
@@ -18,21 +19,25 @@ class CategoryThumbnailCommonWidget extends StatelessWidget{
     required double size,
     required bool elevated,
     required IconData icon,
+    Color? iconColor,
   }) => CategoryThumbnailCommonWidget(
     color: color,
     size: size,
     elevated: elevated,
     icon: icon,
+    iconColor: iconColor,
   );
 
   static CategoryThumbnailCommonWidget fromSvg({
     required Color color,
+    Color? iconColor,
     required double size,
     required bool elevated,
     required String svgPath,
     double svgSizeFraction = 1,
   }) => CategoryThumbnailCommonWidget(
     color: color,
+    iconColor: iconColor,
     size: size,
     elevated: elevated,
     svgPath: svgPath,
@@ -41,11 +46,13 @@ class CategoryThumbnailCommonWidget extends StatelessWidget{
 
   static CategoryThumbnailCommonWidget fromText({
     required Color color,
+    Color? iconColor,
     required double size,
     required bool elevated,
     required String text,
   }) => CategoryThumbnailCommonWidget(
     color: color,
+    iconColor: iconColor,
     size: size,
     elevated: elevated,
     text: text,
@@ -53,12 +60,14 @@ class CategoryThumbnailCommonWidget extends StatelessWidget{
 
   const CategoryThumbnailCommonWidget({
     required this.color,
+    this.iconColor,
     required this.size,
     required this.elevated,
     this.icon,
     this.svgPath,
     this.svgSizeFraction = 1,
-    this.text
+    this.text,
+    super.key
   });
 
   @override
@@ -73,7 +82,7 @@ class CategoryThumbnailCommonWidget extends StatelessWidget{
               width: size,
               height: size,
               child: Center(
-                child: Icon(icon, size: .9*size, color: Colors.black),
+                child: Icon(icon, size: .9*size, color: iconColor??Colors.black),
               ),
             );
 
@@ -98,7 +107,7 @@ class CategoryThumbnailCommonWidget extends StatelessWidget{
                 child: Text(
                     text!,
                     style: AppTextStyle(
-                        color: Colors.black,
+                        color: iconColor??Colors.black,
                         fontSize: Dimen.TEXT_SIZE_BIG,
                         fontWeight: weight.bold
                     )

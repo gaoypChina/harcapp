@@ -54,6 +54,19 @@ class RankColors{
 
   Color start(bool isDark) => isDark?colorStartDark:colorStartLight;
   Color end(bool isDark) => isDark?colorEndDark:colorEndLight;
+
+  RankColors copyWith({
+    Color? colorStartLight,
+    Color? colorEndLight,
+    Color? colorStartDark,
+    Color? colorEndDark
+  }) => RankColors(
+      colorStartLight??this.colorStartLight,
+      colorEndLight??this.colorEndLight,
+      colorStartDark??this.colorStartDark,
+      colorEndDark??this.colorEndDark
+  );
+
 }
 
 abstract class RankData{
@@ -106,8 +119,15 @@ abstract class RankData{
   static const IconData iconCatIdea = MdiIcons.starOutline;
   static const IconData iconCatStopZadania = MdiIcons.checkboxMarkedCircleOutline;
 
+  static RankColors colorsZuchZhp = RankColors(
+    Colors.orange,
+    Colors.yellow[600]!,
+    Colors.orange[800]!,
+    Colors.yellow[800]!,
+  );
+
   static RankColors colorsZhp = RankColors(
-    Colors.lightGreenAccent,
+    Colors.lightGreen,
     Colors.teal[600]!,
     Colors.lightGreen[800]!,
     Colors.teal[900]!,

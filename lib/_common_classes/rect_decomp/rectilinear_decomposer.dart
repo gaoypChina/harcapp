@@ -247,6 +247,7 @@ class RectilinearDecomposer {
       }
 
       process();
+      print("${currentPoint?.row} ${currentPoint?.col} ${stack?.length}");
 
     } while (!linkedMatrix!.isEmpty());
 
@@ -627,11 +628,11 @@ class RectilinearDecomposer {
         addRectangle(tempRectangle.upperLeftCorner, height, tempRectangle.width);
         temp2![tempRectangle.lastLineFirstElement.row][tempRectangle.lastLineFirstElement.col] =
             tempRectangle.currentPosition.col - tempRectangle.upperLeftCorner.col + 1;
-        LinkedMatrixElement oldcurrent = currentPoint!;
+        LinkedMatrixElement oldCurrent = currentPoint!;
 
         currentPoint = tempRectangle.lastLineFirstElement;
         stackNewRectangle();
-        currentPoint = oldcurrent;
+        currentPoint = oldCurrent;
         setCounters();
         // Set the end of line
         xToCheck--;
@@ -699,7 +700,7 @@ class RectilinearDecomposer {
     int currentWidth = currentPoint!.col;
     int height = temp1![currentHeight][currentWidth];
     int width = temp2![currentHeight][currentWidth];
-    LinkedMatrixElement restart;
+    LinkedMatrixElement? restart;
     xTotal = height;
     yTotal = width;
     area = width * height;
@@ -721,10 +722,10 @@ class RectilinearDecomposer {
       return false;
     } else {
 
-      if (yTotal == 1) {// Point de r�dem�rrage en fonction de //
+      if (yTotal == 1) {
         // largeur>1 ou
         // non
-        restart = currentPoint!.nextDown!;
+        restart = currentPoint!.nextDown;
         // xToCheck--;
         // yToCheck=yTotal;
       } else {
@@ -760,14 +761,11 @@ class RectilinearDecomposer {
       // Two becomes one
       TemporaryRectangle oldlast = stack!.poll()!;
       TemporaryRectangle newLast = stack!.peek()!;
-      int maxheightOld = oldlast.upperLeftCorner.row
-          + oldlast.height - 1;
-      int maxheightNew = newLast.upperLeftCorner.row
-          + newLast.height - 1;
-      if (maxheightOld > maxheightNew) {// New greater rectangle
-        newLast.height = maxheightOld
-            - newLast.upperLeftCorner.row + 1;
-      }
+      int maxheightOld = oldlast.upperLeftCorner.row + oldlast.height - 1;
+      int maxheightNew = newLast.upperLeftCorner.row + newLast.height - 1;
+      if (maxheightOld > maxheightNew) // New greater rectangle
+        newLast.height = maxheightOld - newLast.upperLeftCorner.row + 1;
+
       stack!.peek()!.lastLineFirstElement = oldlast.lastLineFirstElement;
 
       area = newLast.area;

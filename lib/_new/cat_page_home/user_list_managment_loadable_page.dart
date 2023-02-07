@@ -98,7 +98,7 @@ class UserListManagementLoadablePage<T extends UserData> extends StatelessWidget
 
   @override
   Widget build(BuildContext context) => PagingLoadableBaseScrollViewPage(
-    appBarTitle: 'Lista osób',
+    appBarTitle: appBarTitle,
     appBarLeading: appBarLeading,
     appBarActions: appBarActions,
 

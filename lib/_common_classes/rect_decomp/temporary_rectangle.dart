@@ -5,7 +5,8 @@ class TemporaryRectangle {
 	int _height, _width, _area; // rectangle values
 	LinkedMatrixElement upperLeftCorner;
 	LinkedMatrixElement currentPosition;
-	LinkedMatrixElement restartingPoint, lastLineFirstElement;
+	LinkedMatrixElement? restartingPoint;
+	LinkedMatrixElement lastLineFirstElement;
 	bool? hasUpdatedWidth;
 	int? previousLargestArea;
 	int potentialSecondArea = -1;// Potential area after cut

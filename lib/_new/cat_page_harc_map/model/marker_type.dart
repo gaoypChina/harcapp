@@ -135,8 +135,8 @@ Color getMarkerTypeColor(MarkerType markerType){
   switch(markerType) {
     case MarkerType.error: return Colors.transparent;
 
-    case MarkerType.harcowka: return Colors.brown[100]!;
-    case MarkerType.miejsceOgniskowe: return Colors.amber[100]!;
+    case MarkerType.harcowka: return Colors.brown[200]!;
+    case MarkerType.miejsceOgniskowe: return Colors.amber[200]!;
     case MarkerType.miejsceBiwakowe: return Colors.white;
     case MarkerType.miejsceObozowe: return Colors.white;
     case MarkerType.szkola: return Colors.white;
@@ -146,7 +146,7 @@ Color getMarkerTypeColor(MarkerType markerType){
 
     case MarkerType.duszpasterstwoAkademickie: return Colors.white;
 
-    case MarkerType.schronTurystyczny: return Colors.green[100]!;
+    case MarkerType.schronTurystyczny: return Colors.green[200]!;
 
     case MarkerType.siedzibaHufcaZhp: return Colors.white;
     case MarkerType.siedzibaChoragwiZhp: return Colors.white;
@@ -159,62 +159,107 @@ Color getMarkerTypeColor(MarkerType markerType){
 
 }
 
+Color getMarkerTypeIconColor(MarkerType markerType){
+
+  switch(markerType) {
+    case MarkerType.error: return Colors.black;
+
+    case MarkerType.harcowka: return Colors.brown[900]!;
+    case MarkerType.miejsceOgniskowe: return Colors.amber[900]!;
+    case MarkerType.miejsceBiwakowe: return Colors.black;
+    case MarkerType.miejsceObozowe: return Colors.black;
+    case MarkerType.szkola: return Colors.black;
+    case MarkerType.kosciol: return Colors.black;
+    case MarkerType.salaParafialna: return Colors.black;
+    case MarkerType.remiza: return Colors.black;
+
+    case MarkerType.duszpasterstwoAkademickie: return Colors.black;
+
+    case MarkerType.schronTurystyczny: return Colors.green[900]!;
+
+    case MarkerType.siedzibaHufcaZhp: return Colors.black;
+    case MarkerType.siedzibaChoragwiZhp: return Colors.black;
+    case MarkerType.siedzibaGlownejKwateryZhp: return Colors.black;
+
+    case MarkerType.wiata: return Colors.black;
+
+    case MarkerType.inne: return Colors.black;
+  }
+
+}
+
 Widget markerTypeToWidget(MarkerType markerType, {required double size, bool elevated = false}){
 
   switch(markerType) {
     case MarkerType.error: return CategoryThumbnailCommonWidget.fromIcon(
-          color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+          color: getMarkerTypeColor(markerType), iconColor: getMarkerTypeIconColor(markerType),
+          size: size, elevated: elevated,
           icon: MdiIcons.alertCircleOutline);
 
     case MarkerType.harcowka: return CategoryThumbnailCommonWidget.fromIcon(
-        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        color: getMarkerTypeColor(markerType), iconColor: getMarkerTypeIconColor(markerType),
+        size: size, elevated: elevated,
         icon: MdiIcons.fleurDeLis);
     case MarkerType.miejsceOgniskowe: return CategoryThumbnailCommonWidget.fromIcon(
-        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        color: getMarkerTypeColor(markerType), iconColor: getMarkerTypeIconColor(markerType),
+        size: size, elevated: elevated,
         icon: MdiIcons.fireplace);
     case MarkerType.miejsceBiwakowe: return CategoryThumbnailCommonWidget.fromIcon(
-        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        color: getMarkerTypeColor(markerType), iconColor: getMarkerTypeIconColor(markerType),
+        size: size, elevated: elevated,
         icon: MdiIcons.flagTriangle);
     case MarkerType.miejsceObozowe: return CategoryThumbnailCommonWidget.fromIcon(
-        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        color: getMarkerTypeColor(markerType), iconColor: getMarkerTypeIconColor(markerType),
+        size: size, elevated: elevated,
         icon: MdiIcons.flagVariant);
     case MarkerType.szkola: return CategoryThumbnailCommonWidget.fromIcon(
-        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        color: getMarkerTypeColor(markerType), iconColor: getMarkerTypeIconColor(markerType),
+        size: size, elevated: elevated,
         icon: MdiIcons.school);
     case MarkerType.kosciol: return CategoryThumbnailCommonWidget.fromIcon(
-        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        color: getMarkerTypeColor(markerType), iconColor: getMarkerTypeIconColor(markerType),
+        size: size, elevated: elevated,
         icon: MdiIcons.church);
     case MarkerType.salaParafialna: return CategoryThumbnailCommonWidget.fromIcon(
-        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        color: getMarkerTypeColor(markerType), iconColor: getMarkerTypeIconColor(markerType),
+        size: size, elevated: elevated,
         icon: MdiIcons.churchOutline);
     case MarkerType.remiza: return CategoryThumbnailCommonWidget.fromIcon(
-        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        color: getMarkerTypeColor(markerType), iconColor: getMarkerTypeIconColor(markerType),
+        size: size, elevated: elevated,
         icon: MdiIcons.fireTruck);
 
     case MarkerType.duszpasterstwoAkademickie: return CategoryThumbnailCommonWidget.fromIcon(
-        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        color: getMarkerTypeColor(markerType), iconColor: getMarkerTypeIconColor(markerType),
+        size: size, elevated: elevated,
         icon: MdiIcons.cross);
 
     case MarkerType.schronTurystyczny: return CategoryThumbnailCommonWidget.fromIcon(
-        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        color: getMarkerTypeColor(markerType), iconColor: getMarkerTypeIconColor(markerType),
+        size: size, elevated: elevated,
         icon: MdiIcons.homeOutline);
 
     case MarkerType.siedzibaHufcaZhp: return CategoryThumbnailCommonWidget.fromIcon(
-        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        color: getMarkerTypeColor(markerType), iconColor: getMarkerTypeIconColor(markerType),
+        size: size, elevated: elevated,
         icon: MdiIcons.homeCityOutline);
     case MarkerType.siedzibaChoragwiZhp: return CategoryThumbnailCommonWidget.fromIcon(
-        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        color: getMarkerTypeColor(markerType), iconColor: getMarkerTypeIconColor(markerType),
+        size: size, elevated: elevated,
         icon: MdiIcons.domain);
     case MarkerType.siedzibaGlownejKwateryZhp: return CategoryThumbnailCommonWidget.fromIcon(
-        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        color: getMarkerTypeColor(markerType), iconColor: getMarkerTypeIconColor(markerType),
+        size: size, elevated: elevated,
         icon: MdiIcons.officeBuildingOutline);
 
     case MarkerType.wiata: return CategoryThumbnailCommonWidget.fromIcon(
-        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        color: getMarkerTypeColor(markerType), iconColor: getMarkerTypeIconColor(markerType),
+        size: size, elevated: elevated,
         icon: MdiIcons.homeOutline);
 
     case MarkerType.inne: return CategoryThumbnailCommonWidget.fromIcon(
-        color: getMarkerTypeColor(markerType), size: size, elevated: elevated,
+        color: getMarkerTypeColor(markerType), iconColor: getMarkerTypeIconColor(markerType),
+        size: size, elevated: elevated,
         icon: MdiIcons.helpCircleOutline);
   }
 

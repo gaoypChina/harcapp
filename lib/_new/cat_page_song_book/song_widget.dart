@@ -200,7 +200,7 @@ class SongWidget extends StatelessWidget{
       );
     },
 
-    onYTLinkLongPress: ()async{
+    onYTLinkLongPress: () async {
       showAppToast(context, text: 'Skopiowano link.');
       await Clipboard.setData(ClipboardData(text: song.youtubeLink));
     },
@@ -251,30 +251,25 @@ class SongWidget extends StatelessWidget{
 
     onRateTap: (double position) => openDialog(
         context: context,
-        builder: (context){
-
-          double statusBarHeight = App.statusBarHeight;
-
-          return Stack(
-            children: <Widget>[
-              Positioned(
-                top: position - statusBarHeight,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: RateCard<Song>(
-                    song,
-                    onTap: (rate, selected){
-                      song.setRate(selected?SongRate.RATE_NULL:rate);
-                      parent!.notify();
-                      onRateChanged?.call(rate, selected);
-                      Navigator.pop(context);
-                    }
-                ),
+        builder: (context) => Stack(
+          children: <Widget>[
+            Positioned(
+              top: position - App.statusBarHeight,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: RateCard<Song>(
+                  song,
+                  onTap: (rate, selected){
+                    song.setRate(selected?SongRate.RATE_NULL:rate);
+                    parent!.notify();
+                    onRateChanged?.call(rate, selected);
+                    Navigator.pop(context);
+                  }
               ),
-            ],
-          );
-        }
+            ),
+          ],
+        )
     ),
 
     onDeleteTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć'),

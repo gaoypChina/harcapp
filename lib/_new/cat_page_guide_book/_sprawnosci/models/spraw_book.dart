@@ -21,10 +21,12 @@ class SprawBookData{
   static const String ZHR_HARC_C = 'zhr_harc_c';
   static const String ZHR_HARC_D = 'zhr_harc_d';
 
-  static RankColors SPRAW_BOOK_ZHP_ZUCH_SIM_2022_COLOR = const RankColors(Colors.amber, Colors.yellow, Colors.amber, Colors.yellow);
-  static RankColors SPRAW_BOOK_ZHP_HARC_SIM_2022_COLOR = const RankColors(Colors.green, Colors.cyan, Colors.green, Colors.cyan);
+  static RankColors SPRAW_BOOK_ZHP_ZUCH_SIM_2022_COLOR = RankData.colorsZuchZhp;
+  static RankColors SPRAW_BOOK_ZHP_HARC_SIM_2022_COLOR = RankData.colorsZhp;//const RankColors(Colors.green, Colors.cyan, Colors.green, Colors.cyan);
   static RankColors SPRAW_BOOK_ZHP_ZUCH_OLD_COLOR = RankData.colorsZhpOldZuch;
-  static RankColors SPRAW_BOOK_ZHP_HARC_OLD_COLOR = RankData.colorsZhp;
+  static RankColors SPRAW_BOOK_ZHP_HARC_OLD_COLOR = RankData.colorsZhpOld.copyWith(
+      colorStartLight: RankData.colorsZhpOld.colorEndLight
+  );
   static RankColors SPRAW_BOOK_ZHP_WODNE_OLD_COLOR = RankColors(Colors.lightBlueAccent, Colors.blue[700]!, Colors.lightBlueAccent, Colors.blue[700]!);
   static RankColors SPRAW_BOOK_ZHR_H_RZE_COLOR = RankData.colorsZhrC;
   static RankColors SPRAW_BOOK_ZHR_H_RKI_COLOR = RankData.colorsZhrD;

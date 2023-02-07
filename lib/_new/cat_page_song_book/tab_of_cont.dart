@@ -282,6 +282,7 @@ class _SearchTextFieldCard extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => SearchField(
+    elevation: AppCard.defElevation,
     hint: 'Tytuł, autor, wykonawca, słowa:',
 
     controller: textController,

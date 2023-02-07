@@ -198,12 +198,16 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
           ),
           bottomNavigationBar:
           App.showPatroniteSeasonally?
-          const PatroniteSupportWidget(
-            margin: EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg, bottom: Dimen.defMarg),
+          Consumer<_TabScrollProvider>(
+          builder: (context, prov, child) => PatroniteSupportWidget(
+            margin: const EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg, bottom: Dimen.defMarg),
             stateTag: PatroniteSupportWidget.tagSprawnosci,
             title: 'Skąd tyle sprawności?!',
-            description: 'Otóż nie - wodospad sprawności <b>ZHP</b> i <b>ZHR</b> w Twojej kieszeni <b>nie pojawia się sam z siebie</b>! Tobie również łatwiej jest je tak zdobywać? Wesprzyj HarcAppkę! <b>c:</b>',
-          ):null,
+            description: 'Wodospad sprawności ZHP i ZHR <b>nie pojawia się sam z siebie</b>!'
+                '\n\nCenisz obecność wszystkich sprawności w swojej kieszeni? Wesprzyj HarcAppkę! <b>c:</b>',
+            colorStart: averageColorStart,
+            colorEnd: averageColorEnd,
+          )):null,
       ),
     );
 

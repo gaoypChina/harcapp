@@ -445,6 +445,7 @@ class NotLoggedInWidgetState extends State<NotLoggedInWidget>{
               const SizedBox(height: Dimen.SIDE_MARG),
 
               SimpleButton(
+                elevation: AppCard.defElevation,
                 onTap: () => AccountPage.open(context),
                 color: cardEnab_(context),
                 borderRadius: BorderRadius.circular(AppCard.bigRadius),

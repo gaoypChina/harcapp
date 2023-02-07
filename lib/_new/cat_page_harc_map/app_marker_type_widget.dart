@@ -51,6 +51,7 @@ class MarkerTypeTemplateWidget extends StatelessWidget{
                   fontWeight: weight.halfBold,
                   fontSize: textSize
               ),
+              overflow: TextOverflow.ellipsis,
             ),
           )
 

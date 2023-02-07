@@ -340,13 +340,16 @@ class CatPageGuideBookState extends State<CatPageGuideBook> with AfterLayoutMixi
               if(App.showPatroniteSeasonally)
                 const PatroniteSupportWidget(
                   stateTag: PatroniteSupportWidget.tagGuideBook,
-                  title: 'Potrzeba wsparcia!',
-                  description: 'HarcAppka powstaje <b>po godzinach</b>, jest <b>darmowa</b> dla wszystkich i <b>nie ma reklam</b>.\n'
+                  title: 'Hej tam! Tak Ty!',
+                  description: 'HarcAppka powstaje <b>po godzinach</b>, a mimo to (jak zauważyli wnikliwi obserwatorzy) pozostaje <b>darmowa</b> i <b>bez reklam</b>.'
                       '\n'
-                      'Jej ciągły rozwój i darmowy dostęp możliwy jest dzięki <b>wsparciu</b> harcerzy, instruktorów i rodziców - <b>takich jak Ty</b>!\n'
+                      '\nJej rozwój możliwy jest dzięki <b>wsparciu</b> harcerzy, instruktorów, rodziców - <b>jak Ty</b>!'
                       '\n'
-                      'Wiele od Ciebie zależy! <b>c:</b>',
+                      '\nJeśli możesz - wesprzyj.'
+                      '\nWiele od Ciebie zależy! <b>c:</b>',
                   expandable: false,
+                  colorStart: Colors.blue,
+                  colorEnd: Colors.deepPurple,
                 )
             ]),
           ),

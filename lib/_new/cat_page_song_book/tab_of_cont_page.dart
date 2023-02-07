@@ -14,6 +14,7 @@ import 'package:harcapp/_new/cat_page_song_book/tab_of_cont_background_icon.dart
 import 'package:harcapp/_new/cat_page_song_book/tab_of_cont_controller.dart';
 import 'package:harcapp/_new/cat_page_song_book/tab_of_cont_search_history_page.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_song_book/_main.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
@@ -114,11 +115,13 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
         ),
         bottomNavigationBar:
         App.showPatroniteSeasonally?
-        const PatroniteSupportWidget(
-          margin: EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg, bottom: Dimen.defMarg),
+        PatroniteSupportWidget(
+          margin: const EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg, bottom: Dimen.defMarg),
           stateTag: PatroniteSupportWidget.tagTableOfCont,
           title: 'Skąd tu tyle piosenek?!',
-          description: 'Jeśli również Twojemu sercu bliskie jest śpiewanie, możesz pomóc w utrzymaniu dalszego rozwoju śpiewnika! <b>c:</b>',
+          description: 'Same się z pewnością nie dodają! A czy wiesz, że możesz pomóc w utrzymaniu rozwoju śpiewnika? <b>c:</b>',
+          colorStart: Album.current.colorStart??backgroundIcon_(context),
+          colorEnd: Album.current.colorEnd??backgroundIcon_(context),
         ):
         null,
       )

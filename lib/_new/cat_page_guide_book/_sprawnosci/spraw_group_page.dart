@@ -10,8 +10,6 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-import 'widgets/common.dart';
-
 class SprawGroupPage extends StatefulWidget {
 
   final SprawGroup group;
@@ -32,7 +30,7 @@ class SprawGroupPageState extends State<SprawGroupPage> {
 
     return BottomNavScaffold(
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
 
           SliverAppBar(
@@ -42,7 +40,7 @@ class SprawGroupPageState extends State<SprawGroupPage> {
               child: Material(
                 color: Colors.transparent,
                 child: IconButton(
-                  icon: Icon(MdiIcons.arrowLeft),
+                  icon: const Icon(MdiIcons.arrowLeft),
                   onPressed: () => Navigator.pop(context),
                 ),
               ),
@@ -52,7 +50,7 @@ class SprawGroupPageState extends State<SprawGroupPage> {
                 child: Material(
                   color: Colors.transparent,
                   child: Text(
-                    widget.group.title!,
+                    widget.group.title,
                     style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, color: appBarTextEnab_(context)),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

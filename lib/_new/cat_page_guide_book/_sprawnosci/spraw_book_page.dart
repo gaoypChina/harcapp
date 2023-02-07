@@ -50,37 +50,35 @@ class GroupItemWidet extends StatelessWidget{
   const GroupItemWidet(this.group, {super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return SimpleButton(
-      radius: AppCard.bigRadius,
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SprawGroupPage(group))),
-      child: ListTile(
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text('Kategoria:', style: AppTextStyle(color: hintEnab_(context))),
+  Widget build(BuildContext context) => SimpleButton(
+    radius: AppCard.bigRadius,
+    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SprawGroupPage(group))),
+    child: ListTile(
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text('Kategoria:', style: AppTextStyle(color: hintEnab_(context))),
 
-              Material(
-                color: Colors.transparent,
-                child: Hero(
-                    tag: group,
-                    child: Material(
-                      color: Colors.transparent,
-                      child: Text(
-                          group.title,
-                          style: AppTextStyle(
-                              fontSize: Dimen.TEXT_SIZE_BIG,
-                              fontWeight: weight.halfBold,
-                              color: textEnab_(context)
-                          )
-                      ),
-                    )
-                ),
-              ),
-            ],
+          Material(
+            color: Colors.transparent,
+            child: Hero(
+                tag: group,
+                child: Material(
+                  color: Colors.transparent,
+                  child: Text(
+                      group.title,
+                      style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_BIG,
+                          fontWeight: weight.halfBold,
+                          color: textEnab_(context)
+                      )
+                  ),
+                )
+            ),
           ),
-          trailing: Text('${group.allSpraws.length}', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context), fontWeight: weight.halfBold)),
+        ],
       ),
-    );
-  }
+      trailing: Text('${group.allSpraws.length}', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context), fontWeight: weight.halfBold)),
+    ),
+  );
 }
