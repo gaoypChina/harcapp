@@ -70,10 +70,51 @@ class MarkerData{
     _allMap = null;
   }
 
+  // Ascending
+  static SortedList<MarkerData> sortedLat = SortedList.from(elements: [], compare: (m1, m2) => (m1.lat - m2.lat).sign.toInt());
+  // Ascending
+  static SortedList<MarkerData> sortedLng = SortedList.from(elements: [], compare: (m1, m2) => (m1.lng - m2.lng).sign.toInt());
+
+  // Ascending
   static SortedList<MarkerData> sortedMinZoomNorthBorder = SortedList.from(elements: [], compare: (m1, m2) => (m1.minZoomNorthLat - m2.minZoomNorthLat).sign.toInt());
+  // Ascending
   static SortedList<MarkerData> sortedMinZoomSouthBorder = SortedList.from(elements: [], compare: (m1, m2) => (m1.minZoomSouthLat - m2.minZoomSouthLat).sign.toInt());
+  // Ascending
   static SortedList<MarkerData> sortedMinZoomWestBorder = SortedList.from(elements: [], compare: (m1, m2) => (m1.minZoomWestLng - m2.minZoomWestLng).sign.toInt());
+  // Ascending
   static SortedList<MarkerData> sortedMinZoomEastBorder = SortedList.from(elements: [], compare: (m1, m2) => (m1.minZoomEastLng - m2.minZoomEastLng).sign.toInt());
+  // Ascending
+  static SortedList<MarkerData> sortedZoom = SortedList.from(elements: [], compare: (m1, m2) => (m1.minZoomAppearance - m2.minZoomAppearance).sign.toInt());
+
+  static Set<MarkerData> findMarkersInBounds({
+    required double northLat,
+    required double southLat,
+    required double westLng,
+    required double eastLng,
+    double? zoom
+  }){
+
+    int maxLatIdx = _findClosestIndexFulfillingComp(sortedLat, (m) => m.lat < northLat, firstTrue: false);
+    int minLatIdx = _findClosestIndexFulfillingComp(sortedLat, (m) => m.lat > southLat, firstTrue: true);
+
+    int minLngIdx = _findClosestIndexFulfillingComp(sortedLng, (m) => m.lng > westLng, firstTrue: true);
+    int maxLngIdx = _findClosestIndexFulfillingComp(sortedLng, (m) => m.lng < eastLng, firstTrue: false);
+
+    Set<MarkerData> markersLat = sortedLat.sublist(minLatIdx, maxLatIdx).toSet();
+
+    Set<MarkerData> markersLng = sortedLng.sublist(minLngIdx, maxLngIdx).toSet();
+
+    Set<MarkerData> markers = markersLat.intersection(markersLng);
+
+    if(zoom != null){
+      int maxZoomIdx = _findClosestIndexFulfillingComp(sortedZoom, (m) => m.minZoomAppearance < zoom, firstTrue: false);
+      Set<MarkerData> markersMinZoom = sortedZoom.sublist(0, maxZoomIdx).toSet();
+      markers = markers.intersection(markersMinZoom);
+    }
+
+    return markers;
+
+  }
 
   static int _findClosestIndexFulfillingComp(SortedList<MarkerData> list, bool Function(MarkerData) compare, {required firstTrue}) {
     if (list.isEmpty) return 0;
@@ -165,10 +206,13 @@ class MarkerData{
     _all!.add(marker);
     _allMap![marker.key] = marker;
 
+    sortedLat.add(marker);
+    sortedLng.add(marker);
     sortedMinZoomNorthBorder.add(marker);
     sortedMinZoomSouthBorder.add(marker);
     sortedMinZoomWestBorder.add(marker);
     sortedMinZoomEastBorder.add(marker);
+    sortedZoom.add(marker);
 
     if(context == null) return;
     callProvidersOf(context);
@@ -185,10 +229,14 @@ class MarkerData{
       _allMap![marker.key] = marker;
       _all!.add(marker);
 
+      sortedLat.add(marker);
+      sortedLng.add(marker);
       sortedMinZoomNorthBorder.add(marker);
       sortedMinZoomSouthBorder.add(marker);
       sortedMinZoomWestBorder.add(marker);
       sortedMinZoomEastBorder.add(marker);
+      sortedZoom.add(marker);
+
     }
 
     if(context == null) return;
@@ -207,15 +255,21 @@ class MarkerData{
     _all!.insert(index, marker);
     _allMap![marker.key] = marker;
 
+    sortedLat.remove(oldMarker);
+    sortedLng.remove(oldMarker);
     sortedMinZoomNorthBorder.remove(oldMarker);
     sortedMinZoomSouthBorder.remove(oldMarker);
     sortedMinZoomWestBorder.remove(oldMarker);
     sortedMinZoomEastBorder.remove(oldMarker);
+    sortedZoom.remove(oldMarker);
 
+    sortedLat.add(marker);
+    sortedLng.add(marker);
     sortedMinZoomNorthBorder.add(marker);
     sortedMinZoomSouthBorder.add(marker);
     sortedMinZoomWestBorder.add(marker);
     sortedMinZoomEastBorder.add(marker);
+    sortedZoom.add(marker);
 
     if(context == null) return;
     callProvidersOf(context);
@@ -228,10 +282,13 @@ class MarkerData{
     _all!.remove(marker);
     _allMap!.remove(marker.key);
 
+    sortedLat.remove(marker);
+    sortedLng.remove(marker);
     sortedMinZoomNorthBorder.remove(marker);
     sortedMinZoomSouthBorder.remove(marker);
     sortedMinZoomWestBorder.remove(marker);
     sortedMinZoomEastBorder.remove(marker);
+    sortedZoom.remove(marker);
 
     if(context == null) return;
     callProvidersOf(context);
@@ -242,17 +299,24 @@ class MarkerData{
       return;
     _all!.clear();
     _allMap!.clear();
+
+    sortedLat.clear();
+    sortedLng.clear();
     sortedMinZoomNorthBorder.clear();
     sortedMinZoomSouthBorder.clear();
     sortedMinZoomWestBorder.clear();
     sortedMinZoomEastBorder.clear();
+    sortedZoom.clear();
+
   }
 
   final String key;
   String? name;
   CommonContactData? contact;
   double lat;
+  late double latDist;
   double lng;
+  late double lngDist;
   MarkerType type;
   MarkerVisibility visibility;
   double minZoomAppearance;
@@ -312,6 +376,10 @@ class MarkerData{
       _loadedManagers = managers,
       _loadedManagersMap = {for (MarkerManager m in managers) m.key: m}
   {
+    CustomPoint latLngPoint = const SphericalMercator().project(LatLng(lat, lng));
+    lngDist = latLngPoint.x.toDouble();
+    latDist = latLngPoint.y.toDouble();
+
     anyDoubleCommunityCategories = false;
     for(int counts in communitiesBasicData.values)
       if(counts > 1) {

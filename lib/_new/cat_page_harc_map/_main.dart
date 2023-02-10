@@ -65,6 +65,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
   late MapController mapController;
 
   List<LatLng>? lastRequestedSamples;
+  List<LatLng>? filteredSamples;
 
   Future<void> tryGetMarkers({required bool publicOnly}) async {
     if(!await isNetworkAvailable())
@@ -89,6 +90,17 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     List<LatLng> samples = samplePointsResult.item1;
     List<List<bool>> rectDecompMatrix = samplePointsResult.item2;
     bool noSamplesSkipped = samplePointsResult.item3;
+
+    filteredSamples = LoadedPointsCache.filterOutEmptySpaceSamplePoints(
+      northBound,
+      southBound,
+      westBound,
+      eastBound,
+      zoom,
+
+      samples,
+      rectDecompMatrix
+    );
 
     lastRequestedSamples = samples;
 
@@ -253,7 +265,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
               if(AppSettings.devMode)
                 IgnorePointer(
-                  child: SamplingPointsLayerWidget(lastRequestedSamples, mapController),
+                  child: SamplingPointsLayerWidget(lastRequestedSamples, filteredSamples, mapController),
                 ),
 
               if(AppSettings.devMode)
@@ -409,9 +421,10 @@ class MapEventChangedProvider extends ChangeNotifier{
 class SamplingPointsLayerWidget extends StatefulWidget{
 
   final List<LatLng>? lastRequestedSamples;
+  final List<LatLng>? filteredSamples;
   final MapController mapController;
 
-  const SamplingPointsLayerWidget(this.lastRequestedSamples, this.mapController, {super.key});
+  const SamplingPointsLayerWidget(this.lastRequestedSamples, this.filteredSamples, this.mapController, {super.key});
 
   @override
   State<StatefulWidget> createState() => SamplingPointsLayerWidgetState();
@@ -421,6 +434,7 @@ class SamplingPointsLayerWidget extends StatefulWidget{
 class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
 
   List<LatLng>? get lastRequestedSamples => widget.lastRequestedSamples;
+  List<LatLng>? get filteredSamples => widget.filteredSamples;
   MapController get mapController => widget.mapController;
 
   double get northLat => mapController.bounds!.north;
@@ -460,7 +474,12 @@ class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
               color: ((lastRequestedSamples??[]).contains(samplePoint)?Colors.red:Colors.deepPurple).withOpacity(.8)
           )
       ))
-      .toList()
+      .toList() + (filteredSamples??[]).map((filteredPoint) => Marker(
+          point: filteredPoint,
+          builder: (context) => Icon(
+              MdiIcons.circleMedium,
+              color: Colors.lightBlueAccent.withOpacity(.8)
+          ))).toList()
   );
 
 }

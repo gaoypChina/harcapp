@@ -247,7 +247,7 @@ class RectilinearDecomposer {
       }
 
       process();
-      print("${currentPoint?.row} ${currentPoint?.col} ${stack?.length}");
+      //print("${currentPoint?.row} ${currentPoint?.col} ${stack?.length}");
 
     } while (!linkedMatrix!.isEmpty());
 

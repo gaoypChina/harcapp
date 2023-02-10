@@ -366,6 +366,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.2.0"
+  flutter_feather_icons:
+    dependency: transitive
+    description:
+      name: flutter_feather_icons
+      sha256: b33b9c276fc8108254632da6644cf01f71af6c17fbfb26e136a86945f5ff9b67
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0+1"
   flutter_image_compress:
     dependency: "direct main"
     description:
@@ -637,7 +645,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "38e0574aff39c1d362c46df9dc0ed2775ee1370a"
+      resolved-ref: "6e38faebbc0c5ce0dae0178cf39c0c1d9f035491"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_song_widget"
     source: git
     version: "0.0.1"
@@ -1412,10 +1420,10 @@ packages:
     dependency: "direct main"
     description:
       name: url_launcher
-      sha256: "698fa0b4392effdc73e9e184403b627362eb5fbf904483ac9defbb1c2191d809"
+      sha256: e8f2efc804810c0f2f5b485f49e7942179f56eabcfe81dce3387fec4bb55876b
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.8"
+    version: "6.1.9"
   url_launcher_android:
     dependency: transitive
     description:
@@ -1428,10 +1436,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_ios
-      sha256: bb328b24d3bccc20bdf1024a0990ac4f869d57663660de9c936fb8c043edefe3
+      sha256: "0a5af0aefdd8cf820dd739886efb1637f1f24489900204f50984634c07a54815"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.18"
+    version: "6.1.0"
   url_launcher_linux:
     dependency: transitive
     description:

@@ -95,19 +95,17 @@ class SearchPageState extends State<SearchPage>{
           ),
         ),
 
-        SliverPadding(
-          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-                    (context, index) => SprawTileWidget(
-                    spraw: currSpraws[index],
-                    onPicked: widget.onPicked
-                ),
-                childCount: currSpraws.length
-            ),
-
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+                  (context, index) => SprawTileWidget(
+                  spraw: currSpraws[index],
+                  padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                  onPicked: widget.onPicked
+              ),
+              childCount: currSpraws.length
           ),
-        )
+
+        ),
 
       ],
     ),
