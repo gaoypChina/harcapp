@@ -1189,7 +1189,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 ],
                 notesForLeaders: [
                   'Sprawność jest przeznaczona dla zuchów, które lubią grać, chętnie proponują gry i potrafią je prowadzić, a także wymyślają nowe gry i zabawy.',
-                  'Indywidualne zadania zucha można włączyć do zajęć gromady –na zbiórce, biwaku lub kolonii. Zuch zdobywający sprawność może sędziować rozgrywki oraz przeprowadzić zabawę lub grę według własnego pomysłu (z pomocą kadry). Może także być inicjatorem nowych pląsów, sprawować pieczę nad sprzętem sportowym lub grami planszowymi i odpowiadać za ich wypożyczanie (np. na kolonii).',
+                  'Indywidualne zadania zucha można włączyć do zajęć gromady - na zbiórce, biwaku lub kolonii. Zuch zdobywający sprawność może sędziować rozgrywki oraz przeprowadzić zabawę lub grę według własnego pomysłu (z pomocą kadry). Może także być inicjatorem nowych pląsów, sprawować pieczę nad sprzętem sportowym lub grami planszowymi i odpowiadać za ich wypożyczanie (np. na kolonii).',
                   'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Mistrza gier i zabaw”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy."',
                 ],
                 sprawData: [
@@ -1737,7 +1737,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   'Bezpiecznie jeżdżę na rowerze. Znam podstawowe przepisy ruchu drogowego.',
                   'Znam rodzaje znaków drogowych i potrafię rozpoznać niektóre z nich.',
                   'Bawiłem(-am) się z kolegami w wyścig kolarski.',
-                  'Urządziłem(-am) rowerowy tor przeszkód – jazda po ósemce, slalom itp.',
+                  'Urządziłem(-am) rowerowy tor przeszkód - jazda po ósemce, slalom itp.',
                   'Konserwuję swój rower i potrafię naprawić drobne uszkodzenia.',
                   'Potrafię przygotować rower do bezpiecznej jazdy.',
                   'Potrafię udzielić pierwszej pomocy przy skaleczeniu.',
@@ -3413,7 +3413,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 notesForLeaders: [
                   'Zuch „Bajarz” chętnie czyta i opowiada bajki. Oprócz utworów z kanonu literatury dziecięcej warto zaproponować mu bajki i baśnie współczesnych autorów.',
                   'Zuchy zdobywające tę sprawność na kolonii mogą opowiadać bajki na dobranoc.',
-                  'Zuch, który lubi przede wszystkim czytać, może następnie zdobywać sprawność „Przyjaciela książki”, a zuch, który chętnie rysuje – sprawność „Plastyka”.',
+                  'Zuch, który lubi przede wszystkim czytać, może następnie zdobywać sprawność „Przyjaciela książki”, a zuch, który chętnie rysuje - sprawność „Plastyka”.',
                   'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Bajarza”: "Wszystkim jest z zuchem dobrze.", "Zuch stara się być coraz lepszy."',
                 ],
                 sprawData: [
@@ -4332,7 +4332,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 ],
                 notesForLeaders: [
                   'Sprawność wpływa na rozwój duchowy dzieci, a także pomaga poznać zwyczaje i obrzędy staropolskie.',
-                  'Mimo że „Kolędnik” to sprawność indywidualna, zuchy mogą zdobywać ją w grupach, najlepiej w szóstkach – w ten sposób łatwiej im będzie przygotować przedstawienie. Przy zdobywaniu sprawności zuchom potrzebna jest znaczna pomoc kadry gromady.',
+                  'Mimo że „Kolędnik” to sprawność indywidualna, zuchy mogą zdobywać ją w grupach, najlepiej w szóstkach - w ten sposób łatwiej im będzie przygotować przedstawienie. Przy zdobywaniu sprawności zuchom potrzebna jest znaczna pomoc kadry gromady.',
                   'Należy zwrócić szczególną uwagę na bezpieczeństwo zuchów podczas kolędowania, dlatego najlepiej odwiedzać rodziny zuchów i przyjaciół gromady, poruszając się w okolicy, którą dzieci dobrze znają.',
                   'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Kolędnika”: „Zuch kocha Boga i Polskę”, „Wszystkim jest z zuchem dobrze.”',
                 ],
@@ -4391,7 +4391,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                 ],
                 notesForLeaders: [
                   'Zdobywając tę sprawność, zuch poznaje swoje środowisko, uczy się dostrzegać problemy rówieśników i wspólnoty lokalnej, a także poszukiwać pokojowych i nowoczesnych rozwiązań. Staje się świadomym i aktywnym uczestnikiem oraz kreatorem życia codziennego w XXI wieku.',
-                  'Kadra gromady powinna zwrócić uwagę na fakt, że współczesny patriota to człowiek otwarty, tolerancyjny, dbający o środowisko i język ojczysty, znający historię i kultywujący tradycje. Patriota szanuje swoją małą ojczyznę – rodzinę, nauczycieli, kolegów oraz miejscowość, w której mieszka. Tworzy świat oparty na podstawowych wartościach: wolności, samorządności i demokracji.',
+                  'Kadra gromady powinna zwrócić uwagę na fakt, że współczesny patriota to człowiek otwarty, tolerancyjny, dbający o środowisko i język ojczysty, znający historię i kultywujący tradycje. Patriota szanuje swoją małą ojczyznę - rodzinę, nauczycieli, kolegów oraz miejscowość, w której mieszka. Tworzy świat oparty na podstawowych wartościach: wolności, samorządności i demokracji.',
                   'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Młodego patrioty”: „Zuch pamięta o swoich obowiązkach.”, „Wszystkim jest z zuchem dobrze.”, „Zuch kocha Polskę i czyni dobro.”',
                 ],
                 sprawData: [
@@ -4406,7 +4406,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Razem z rodzicami wywiesiliśmy flagę na święto państwowe. Zdjęciem wywieszonej flagi pochwaliłem(-am) się w kręgu rady.',
                         'Narysowałem(-am) plakat przedstawiający zasłużonego Polaka. Pokazałem(-am) plakat w kręgu rady.',
                         'Wraz z członkiem rodziny odszukałem(-am) w Internecie ważne historyczne miejsca w okolicy. Wspólnie je zwiedziliśmy. Narysowałem(-am) pocztówkę z tej przygody i zaprezentowałem(-am) ją w kręgu rady.',
-                        'Podjąłem (Podjęłam) wyzwanie „wiecznego worka” – w plecaku lub w kieszeni zawsze mam worek lub siateczkę na śmieci. Podczas spacerów, drogi do domu, szkoły, zbiórki i zabawy na dworze zapełniałem(-am) worek znalezionymi śmieciami, dbając o czyste środowisko.',
+                        'Podjąłem (Podjęłam) wyzwanie „wiecznego worka” - w plecaku lub w kieszeni zawsze mam worek lub siateczkę na śmieci. Podczas spacerów, drogi do domu, szkoły, zbiórki i zabawy na dworze zapełniałem(-am) worek znalezionymi śmieciami, dbając o czyste środowisko.',
                       ]),
                   SprawData(
                       id: 'mlody_patriota',
@@ -4421,7 +4421,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Nauczyłem(-am) szóstkę piosenki „Grzeczne słówka” i zaśpiewaliśmy ją całej gromadzie.',
                         'Narysowałem(-am) plakat przedstawiający dokonania zasłużonego Polaka. Pokazałem(-am) plakat w kręgu rady.',
                         'Wraz z członkiem rodziny odszukałem(-am) w Internecie miejsca ważne historycznie znajdujące się w okolicy. Wspólnie je zwiedziliśmy. Narysowałem(-am) pocztówkę z tej przygody i zaprezentowałem(-am) ją w kręgu rady.',
-                        'Podjąłem(-am) wyzwanie „wiecznego worka” – w plecaku lub w kieszeni zawsze mam worek lub siateczkę na śmieci. Podczas spacerów, drogi do domu, szkoły, zbiórki i zabawy na dworze zapełniałem(-am) worek znalezionymi śmieciami, dbając o czyste środowisko.',
+                        'Podjąłem(-am) wyzwanie „wiecznego worka” - w plecaku lub w kieszeni zawsze mam worek lub siateczkę na śmieci. Podczas spacerów, drogi do domu, szkoły, zbiórki i zabawy na dworze zapełniałem(-am) worek znalezionymi śmieciami, dbając o czyste środowisko.',
                       ]),
                   SprawData(
                       id: 'mlody_patriota',
@@ -4436,7 +4436,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                         'Razem z gromadą uczestniczyłem(-am) w obchodach święta państwowego. Dowiedziałem(-am) się, dlaczego radośnie świętujemy ten dzień.',
                         'Narysowałem(-am) plakat przedstawiający dokonania zasłużonego Polaka. Pokazałem(-am) plakat w kręgu rady.',
                         'Wraz z członkiem rodziny odszukałem(-am) w Internecie miejsca ważne historycznie znajdujące się w okolicy. Wspólnie je zwiedziliśmy. Narysowałem(-am) pocztówkę z tej przygody i zaprezentowałem(-am) ją w kręgu rady.',
-                        'Podjąłem(-am) wyzwanie „wiecznego worka” – w plecaku lub w kieszeni zawsze mam worek lub siateczkę na śmieci. Podczas spacerów, drogi do domu, szkoły, zbiórki i zabawy na dworze zapełniałem(-am) worek znalezionymi śmieciami, dbając o czyste środowisko. Zaprosiłem(-am) do tego wyzwania moją szóstkę.',
+                        'Podjąłem(-am) wyzwanie „wiecznego worka” - w plecaku lub w kieszeni zawsze mam worek lub siateczkę na śmieci. Podczas spacerów, drogi do domu, szkoły, zbiórki i zabawy na dworze zapełniałem(-am) worek znalezionymi śmieciami, dbając o czyste środowisko. Zaprosiłem(-am) do tego wyzwania moją szóstkę.',
                       ]),
                 ]
             ),
@@ -4513,7 +4513,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   'Pomagałem(-am) w czynnościach życiowych niepełnosprawnej lub starszej osobie, np. zrobiłem(-am) zakupy, czytałem(-am) niewidomemu.',
                 ],
                 notesForLeaders: [
-                  'Sprawność może zdobywać zuch, który ma kontakt z osobą niepełnosprawną – dorosłą lub rówieśnikiem (w rodzinie, w sąsiedztwie, w klasie lub w gromadzie).',
+                  'Sprawność może zdobywać zuch, który ma kontakt z osobą niepełnosprawną - dorosłą lub rówieśnikiem (w rodzinie, w sąsiedztwie, w klasie lub w gromadzie).',
                   'Podczas zdobywania tej sprawności zuch stara się zrozumieć potrzeby innych, utrwala dobre wzorce zachowań, uczy się odpowiedzialności za podjęte działania.',
                   'Dzięki tej sprawności zuch ma okazję uwrażliwić się na potrzeby innych osób.',
                   'Zuchowi, który wybrał tę sprawność, należy uświadomić, że jego działanie ma charakter ciągły, jest służbą, którą trzeba pełnić systematycznie. Jeśli zuch pomaga osobie spoza gromady, należy ułatwić mu przyprowadzenie tej osoby na zbiórkę i zapewnić jej możliwość normalnego uczestnictwa. W kręgu rady i w innych sprzyjających sytuacjach należy podkreślać wartość działań podejmowanych na rzecz osób niepełnosprawnych.',
@@ -4643,7 +4643,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   'Pomagałem(-am) rodzinie w wielkich porządkach przedświątecznych.',
                   'Znam kilka technik wykonywania pisanek i kraszanek. Zrobiłem(-am) farby do jajek z cebuli, dębu lub zboża.',
                   'Przygotowałem(-am) wspólnie z rodzicami koszyczek wielkanocny, który poświęciłem(-am) w Wielką Sobotę.',
-                  'Znam tradycję śmigusa-dyngusa. Chętnie brałem(-am) udział w wielkoponiedziałkowych zabawach. Pamiętałem(-am) jednak o umiarze w żartach – tak, by nikogo nie skrzywdzić.',
+                  'Znam tradycję śmigusa-dyngusa. Chętnie brałem(-am) udział w wielkoponiedziałkowych zabawach. Pamiętałem(-am) jednak o umiarze w żartach - tak, by nikogo nie skrzywdzić.',
                   'Wiem, dlaczego wielkanocnymi symbolami są: jajko, kurczaczek, baranek i zajączek. Opowiedziałem(-am) o nich na zbiórce.',
                   'Potrafię wymienić kilka wielkanocnych potraw. Opowiedziałem(-am) o nich w szóstce.',
                   'Samodzielnie lub z pomocą przygotowałem(-am) świąteczną babę lub mazurka.',
@@ -4718,7 +4718,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   'Stworzyłem(-am) kodeks lub poradnik „Śmieszka”.',
                 ],
                 notesForLeaders: [
-                  'Sprawność pomaga dziecku optymistycznie patrzeć na świat. Uczy radzić sobie z przeciwnościami losu i nie załamywać się w trudnych sytuacjach. Wspiera pozytywne zachowania i pozytywne myślenie oraz postawy koleżeństwa i pomagania innym. Zdobywając ją, zuch powinien nauczyć się umiaru w żartach, a także – kiedy trzeba – zachowania powagi.',
+                  'Sprawność pomaga dziecku optymistycznie patrzeć na świat. Uczy radzić sobie z przeciwnościami losu i nie załamywać się w trudnych sytuacjach. Wspiera pozytywne zachowania i pozytywne myślenie oraz postawy koleżeństwa i pomagania innym. Zdobywając ją, zuch powinien nauczyć się umiaru w żartach, a także - kiedy trzeba - zachowania powagi.',
                   'Sprawność ta może być zdobywana przez zucha w każdym wieku, zarówno na kolonii czy biwaku, jak i na zbiórkach.',
                   'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Śmieszka”: „Wszystkim jest z zuchem dobrze.”, „Zuch stara się być coraz lepszy.”',
                 ],

@@ -150,6 +150,18 @@ class PartContributors extends StatelessWidget{
     RADOSLAW_RELIDZYNSKI,
   ];
 
+  static const List<Person> osWspierTresci = [
+    Person(name: 'Dariusz Krysa'), // Sprawności Sim2022 Harc Zuch
+    Person(name: 'Michał Muszyński'), // Sprawności Sim2022 Harc
+    Person(name: 'Anna Susicka'), // Sprawności Sim2022 Harc Zuch
+    Person(name: 'Emilia Witkowska'), // Sprawności Sim2022 Harc
+    Person(name: 'Marcin Przystawski MSF'), // Sprawności Sim2022 Zuch
+    Person(name: 'Wojciech Wałach'), // Sprawności Sim2022 Zuch
+    Person(name: 'Michał Baniak'), // Sprawności Sim2022 Harc
+    Person(name: 'Jakub Noga'), // Sprawności Sim2022 Harc
+    Person(name: 'Emil Krawczyk'), // Sprawności Sim2022 Harc
+  ];
+
   static const List<Person> osWspierKod = [
     MICHAL_KARWOWSKI
   ];
@@ -191,6 +203,12 @@ class PartContributors extends StatelessWidget{
             'Łasuchy, kuchmistrzowie i znawcy przepisów',
             MdiIcons.noodles,
             osWspierKuch
+        ),
+
+        ContribListCard(
+            'Redaktorzy treści',
+            MdiIcons.textBoxCheckOutline,
+            osWspierTresci
         ),
 
         ContribListCard(
