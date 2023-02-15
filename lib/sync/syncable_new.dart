@@ -2,15 +2,15 @@ import 'dart:io';
 
 import 'package:harcapp/_common_classes/org/org_handler.dart';
 import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models/rank_def.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models/rank_def.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:path/path.dart';
 
 import '../_common_classes/sha_pref.dart';
 import '../_common_classes/storage.dart';
-import '../_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
-import '../_new/cat_page_guide_book/_stopnie/models/rank_zhp_sim_2022.dart';
-import '../_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
+import '../_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw.dart';
+import '../_new/cat_page_guidebook_development/development/stopnie/models/rank_zhp_sim_2022.dart';
+import '../_new/cat_page_guidebook_development/development/stopnie/models_common/rank.dart';
 import '../_new/cat_page_song_book/settings/song_book_settings.dart';
 import '../_new/cat_page_song_book/song_management/album.dart';
 import '../_new/cat_page_song_book/song_management/off_song.dart';

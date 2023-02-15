@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../module_statistics_registrator.dart';
+import 'package:harcapp/_new/module_statistics_registrator.dart';
 import '../common/short_read_widget.dart';
 import 'gaweda.dart';
 

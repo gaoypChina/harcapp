@@ -7,7 +7,7 @@
 
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/storage.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw.dart';
 
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:flutter_test/flutter_test.dart';

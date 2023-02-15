@@ -35,7 +35,7 @@ import 'package:tuple/tuple.dart';
 
 import '../../../../_common_widgets/bottom_sheet.dart';
 import '../../../details/app_settings.dart';
-import '../../../module_statistics_registrator.dart';
+import 'package:harcapp/_new/module_statistics_registrator.dart';
 import '../../common.dart';
 import 'common/indiv_comp_rank_icon.dart';
 import 'common/points_widget.dart';

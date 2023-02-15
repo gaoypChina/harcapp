@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/models/spraw.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank.dart';
 import 'package:harcapp/_new/cat_page_strefa_ducha/source.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/games/_main_page.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/games/data.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/games/game_widget.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
@@ -245,11 +249,25 @@ class CatPageHarcThoughtState extends State<CatPageHarcThought> with TickerProvi
                 iconColor: textEnab_(context),
                 title: 'Formy',
                 textAlign: TextAlign.start,
-                onOpen: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HarcFormsPage(allForms))),
+                onOpen: () => pushPage(context, builder: (context) => HarcFormsPage(allForms)),
               ),
             ),
 
             FormsScrollView(allForms),
+
+            const SizedBox(height: Dimen.SIDE_MARG),
+
+            Padding(
+              padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+              child: TitleShortcutRowWidget(
+                iconColor: textEnab_(context),
+                title: 'Gierki',
+                textAlign: TextAlign.start,
+                onOpen: () => pushPage(context, builder: (context) => const GamesPage()),
+              ),
+            ),
+
+            const GamesPageView(),
 
             const SizedBox(height: Dimen.SIDE_MARG),
 
@@ -565,6 +583,41 @@ class _ShortReadScrollView<T extends ShortRead> extends StatelessWidget{
 
 }
 
+class _ApelEwanScrollView extends StatelessWidget{
+
+  static const double height = ShortReadThumbnailWidget.height;
+
+  final List<ApelEwan> apelEwanList;
+
+  const _ApelEwanScrollView(this.apelEwanList, {super.key});
+
+  @override
+  Widget build(BuildContext context){
+
+    List<ApelEwan> shuffApelEwanList = List.of(apelEwanList);
+    shuffApelEwanList.shuffle(Random(DateTime.now().day));
+
+    return SizedBox(
+      height: height,
+      child: ListView.separated(
+        padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: shuffApelEwanList.length,
+        itemBuilder: (context, index) => ApelEwanThumbnailWidget(
+          shuffApelEwanList[index],
+          onTap: (apelEwan, subgroup) => pushPage(context, builder: (context) => ApelEwanPage(
+              apelEwan,
+              initSubgroup: subgroup
+          )),
+        ),
+        separatorBuilder: (BuildContext context, int index) => const SizedBox(width: Dimen.ICON_MARG),
+      ),
+    );
+  }
+
+}
+
 class FormsScrollView extends StatelessWidget{
 
   static const double height = 140;
@@ -596,35 +649,52 @@ class FormsScrollView extends StatelessWidget{
 
 }
 
-class _ApelEwanScrollView extends StatelessWidget{
+class GamesPageView extends StatefulWidget{
 
-  static const double height = ShortReadThumbnailWidget.height;
+  static const double height = 140;
 
-  final List<ApelEwan> apelEwanList;
-
-  const _ApelEwanScrollView(this.apelEwanList, {super.key});
+  const GamesPageView({super.key});
 
   @override
-  Widget build(BuildContext context){
+  State<StatefulWidget> createState() => GamesPageViewState();
 
-    List<ApelEwan> shuffApelEwanList = List.of(apelEwanList);
-    shuffApelEwanList.shuffle(Random(DateTime.now().day));
+}
+
+class GamesPageViewState extends State<GamesPageView>{
+
+  PageController? controller;
+
+  @override
+  void initState() {
+    post(() => setState(() => controller = PageController(
+        viewportFraction: Dimen.viewportFraction(context, margin: .8*Dimen.SIDE_MARG)
+    )));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    List<GameData> shuffGames = List.of(gameList);
+    shuffGames.shuffle(Random(DateTime.now().day));
 
     return SizedBox(
-      height: height,
-      child: ListView.separated(
-        padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
+      height: GamesPageView.height,
+      child: PageView.builder(
         physics: const BouncingScrollPhysics(),
+        controller: controller,
         scrollDirection: Axis.horizontal,
-        itemCount: shuffApelEwanList.length,
-        itemBuilder: (context, index) => ApelEwanThumbnailWidget(
-          shuffApelEwanList[index],
-          onTap: (apelEwan, subgroup) => pushPage(context, builder: (context) => ApelEwanPage(
-              apelEwan,
-              initSubgroup: subgroup
-          )),
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: .2*Dimen.SIDE_MARG),
+          child: GameWidget(shuffGames[index], height: GamesPageView.height, showHelpButtons: false),
         ),
-        separatorBuilder: (BuildContext context, int index) => const SizedBox(width: Dimen.ICON_MARG),
+        itemCount: shuffGames.length,
       ),
     );
   }

@@ -54,7 +54,7 @@ import 'package:wakelock/wakelock.dart';
 
 import '../../main.dart';
 import '../app_drawer.dart';
-import '../module_statistics_registrator.dart';
+import 'package:harcapp/_new/module_statistics_registrator.dart';
 import 'album/album_drawer.dart';
 import 'album/album_page.dart';
 import 'album/new_album/new_album_page.dart';

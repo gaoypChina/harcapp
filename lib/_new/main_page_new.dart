@@ -5,7 +5,7 @@ import 'package:harcapp/main.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:provider/provider.dart';
 
-import 'cat_page_guide_book/_main.dart';
+import 'cat_page_guidebook_development/_main.dart';
 import 'cat_page_harc_map/_main.dart';
 import 'cat_page_harcthought/_main.dart';
 import 'cat_page_home/_main.dart';
@@ -57,13 +57,13 @@ class MainPageState extends State<MainPage>{
                 case AppBottomNavItem.songBook:
                   return const CatPageSongBook();
                 case AppBottomNavItem.guidebook:
-                  return const CatPageGuideBook();
+                  return const CatPageGuidebookDevelopment();
                 case AppBottomNavItem.harcThought:
                   return const CatPageHarcThought();
                 case AppBottomNavItem.strefaDucha:
                   return const CatPageStrefaDucha();
                 default:
-                  return const CatPageGuideBook();
+                  return const CatPageGuidebookDevelopment();
               }
             }
         ),

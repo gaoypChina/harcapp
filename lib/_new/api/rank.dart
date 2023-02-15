@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank.dart';
-import 'package:harcapp/_new/cat_page_guide_book/_stopnie/models_common/rank_state_shared.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_state_shared.dart';
 
 import '_api.dart';
 

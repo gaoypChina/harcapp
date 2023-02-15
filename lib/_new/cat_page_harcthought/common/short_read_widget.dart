@@ -9,7 +9,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 
-import '../../module_statistics_registrator.dart';
+import 'package:harcapp/_new/module_statistics_registrator.dart';
 
 class ShortReadWidget<T extends ShortRead> extends StatefulWidget{
 

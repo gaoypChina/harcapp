@@ -7,7 +7,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:tuple/tuple.dart';
 
-import '../../module_statistics_registrator.dart';
+import 'package:harcapp/_new/module_statistics_registrator.dart';
 import 'apel_ewan.dart';
 import 'apel_ewan_own_folder_selector.dart';
 import 'apel_ewan_widget.dart';

@@ -9,7 +9,7 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../module_statistics_registrator.dart';
+import 'package:harcapp/_new/module_statistics_registrator.dart';
 import 'harc_form.dart';
 
 class HarcFormWidget extends StatefulWidget{
