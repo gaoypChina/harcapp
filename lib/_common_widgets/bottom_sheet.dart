@@ -105,6 +105,8 @@ class BottomSheetTemplateState extends State<BottomSheetTemplate>{
 
 class BottomSheetDef extends StatefulWidget{
 
+  static const double radius = 12.0;
+
   final String? title;
   final String? subTitle;
   final Widget? Function(BuildContext context) builder;

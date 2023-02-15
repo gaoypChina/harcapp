@@ -277,8 +277,10 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
                     hint: 'Notatka',
                     hintTop: 'Notatka',
                     style: AppTextStyle(),
-                    maxLines: 3,
+                    maxLines: null,
                     hintStyle: AppTextStyle(color: hintEnab_(context)),
+                    textCapitalization: TextCapitalization.sentences,
+                    textAlignVertical: TextAlignVertical.top,
                     controller: controllers[i],
                     onChanged: (_, text) =>
                         RankZHPSim2022Templ.setExtText(rankId, code, i, SprawSelectedListWidget.customPrefix + text),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_guide_book/_sprawnosci/widgets/spraw_tile_template_widget.dart';
 import 'package:harcapp/main.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/dimen.dart';
 
@@ -38,6 +38,7 @@ class SprawSelectorState extends State<SprawSelector>{
 
   @override
   Widget build(BuildContext context) => CustomScrollView(
+    shrinkWrap: true,
     physics: const BouncingScrollPhysics(),
     controller: controller,
     slivers: [
@@ -88,28 +89,36 @@ class SprawSelectorState extends State<SprawSelector>{
 }
 
 Future<void> openSprawSelector(
-    BuildContext context,
-    { required List<Spraw> allSpraws,
-      void Function(Spraw)? onSelected
-    }) => showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    builder: (context) => Padding(
-      padding: EdgeInsets.only(top: App.statusBarHeight),
-      child: DraggableScrollableSheet(
-          builder: (context, controller) =>
-              BottomSheetDef(
-                  childMargin: EdgeInsets.zero,
-                  builder: (context) => SprawSelector(
-                      controller: controller,
-                      allSpraws: allSpraws,
-                      onSelected: onSelected
-                  )
-              )
-      ),
-    )
-);
+  BuildContext context,
+  { required List<Spraw> allSpraws,
+    void Function(Spraw)? onSelected
+  }) => showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useRootNavigator: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(top: App.statusBarHeight),
+        child: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Container(
+            color: Colors.transparent, // if this container is removed, the gesture detector does not work.
+            child: DraggableScrollableSheet(
+                builder: (context, controller) =>
+                    Material(
+                      color: background_(context),
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(SearchField.height/2)),
+                      child: SprawSelector(
+                        allSpraws: allSpraws,
+                        onSelected: onSelected,
+                        controller: controller,
+                      ),
+                    ),
+            ),
+          ),
+        ),
+      )
+  );
 
 Future<Spraw?> selectSpraw(BuildContext context, {required List<Spraw> allSpraws}) async {
 
