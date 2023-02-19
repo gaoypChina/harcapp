@@ -45,8 +45,8 @@ class ImageLoader{
       cachedFile.createSync(recursive: true);
 
       Dio dio = Dio(BaseOptions(
-        connectTimeout: 5000,
-        receiveTimeout: 3000,
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
       ));
 
       try {

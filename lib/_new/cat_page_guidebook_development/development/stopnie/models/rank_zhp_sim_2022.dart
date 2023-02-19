@@ -161,7 +161,7 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
   RankZHPSim2022Templ(super.data, super.cats);
 
   @override
-  buildHeader(BuildContext context) => Column(
+  buildHeader(BuildContext context, bool previewOnly) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       SingleLineWidget(MdiIcons.cakeVariantOutline, minWiek),
@@ -177,7 +177,7 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
   );
 
   @override
-  Widget buildFooter(BuildContext context){
+  Widget buildFooter(BuildContext context, bool previewOnly){
 
     late String metoAbbr;
 
@@ -209,6 +209,7 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
               onNewSprawSelected: (_, __, ___) => RankProgressProvider.notify_(context),
               onCheckChanged: (_, __) => RankProgressProvider.notify_(context),
               onSprawStateChanged: () => RankProgressProvider.notify_(context),
+              enabled: !previewOnly,
             ),
 
             // Material(
@@ -283,6 +284,8 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
                       checkVisible: inProgress|| completed,
                       checkable: inProgress,
                       onCheckChanged: (_) => RankProgressProvider.notify_(context),
+                      enabled: !previewOnly,
+                      emptyDisabledHint: (i) => 'Brak wybranego tropu ${i+1}.',
                     ),
 
                   ],
@@ -328,6 +331,8 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
                       checkVisible: inProgress || completed,
                       checkable: inProgress,
                       onCheckChanged: (_) => RankProgressProvider.notify_(context),
+                      enabled: !previewOnly,
+                      emptyDisabledHint: (i) => 'Brak wybranego wyzwania ${i+1}.',
                     ),
 
                   ],

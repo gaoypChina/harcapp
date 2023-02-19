@@ -18,6 +18,7 @@ abstract class TaskWidget<T_TASK extends TaskData> extends StatefulWidget{
   String get text;
   String? get description;
   String? get example;
+  bool get previewOnly;
 
   String? get initNote;
 
@@ -56,6 +57,7 @@ class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
   bool get hideIndex => widget.hideIndex;
 
   bool get editable => widget.editable;
+  bool get previewOnly => widget.previewOnly;
 
   //bool isReqComplete(T_UID uid) => task.com;//widget.isCompleted(uid);
   //void setNote(T_UID uid, String note) => widget.setNote(uid, note);
@@ -93,40 +95,40 @@ class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
                     Expanded(child: Container()),
 
                     if (dispIndex != null && (inProgress! || completed!))
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              bool newValue = !task.completed;
-                              setState(() => task.setCompleted(context, newValue));
-                              widget._onCompletedChanged(newValue);
-                            },
-                            child: Text(
-                              'Zaliczone',
-                              style: AppTextStyle(
-                                  fontSize: Dimen.TEXT_SIZE_APPBAR,
-                                  fontWeight: weight.halfBold,
-                                  color: widget.completed|| !task.completed?hintEnab_(context):widget.color
+                      IgnorePointer(
+                          ignoring: previewOnly || completed! || !editable,
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  bool newValue = !task.completed;
+                                  setState(() => task.setCompleted(context, newValue));
+                                  widget._onCompletedChanged(newValue);
+                                },
+                                child: Text(
+                                  'Zaliczone',
+                                  style: AppTextStyle(
+                                      fontSize: Dimen.TEXT_SIZE_APPBAR,
+                                      fontWeight: weight.halfBold,
+                                      color: widget.completed|| !task.completed?hintEnab_(context):widget.color
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
 
-                          IgnorePointer(
-                            ignoring: completed! || !editable,
-                            child: Checkbox(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
-                              checkColor: background_(context),
-                              activeColor: widget.completed|| !task.completed?hintEnab_(context):widget.color,
-                              onChanged: (selected){
-                                if(selected == null) return;
-                                setState(() => task.setCompleted(context, selected));
-                                widget._onCompletedChanged(selected);
-                              },
-                              value: task.completed,
-                            ),
-                          ),
+                              Checkbox(
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
+                                checkColor: background_(context),
+                                activeColor: widget.completed|| !task.completed?hintEnab_(context):widget.color,
+                                onChanged: (selected){
+                                  if(selected == null) return;
+                                  setState(() => task.setCompleted(context, selected));
+                                  widget._onCompletedChanged(selected);
+                                },
+                                value: task.completed,
+                              ),
 
-                        ],
+                            ],
+                          )
                       )
                   ],
                 )
@@ -189,7 +191,7 @@ class TaskWidgetState<T_TASK extends TaskData> extends State<TaskWidget>{
               Padding(
                 padding: const EdgeInsets.only(left: Dimen.ICON_MARG, top: 10, bottom: 10), //MediaQuery.of(context).viewInsets.add(const EdgeInsets.only(left: Dimen.ICON_MARG, top: 10, bottom: 10)),
                 child: AppTextFieldHint(
-                  enabled: !completed! && editable,
+                  enabled: !previewOnly && !completed! && editable,
                   controller: textController,
                   hintTop: 'Notatki',
                   hint: completed!?'Brak notatek do wymagania.':'Notatki do wymagania',

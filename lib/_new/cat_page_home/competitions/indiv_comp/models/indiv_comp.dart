@@ -281,7 +281,7 @@ class IndivComp{
   CommonColorData get colors => CommonColorData.get(colorsKey);
   String colorsKey;
 
-  DateTime? startTime;
+  DateTime startTime;
   DateTime? endTime;
 
   RankDispType? rankDispType;
@@ -551,7 +551,7 @@ class IndivComp{
         name: respMap['name']??(throw InvalidResponseError('name')),
         colorsKey: respMap['colorsKey']??(throw InvalidResponseError('colorsKey')),
         iconKey: respMap['iconKey']??(throw InvalidResponseError('iconKey')),
-        startTime: DateTime.tryParse(respMap['startTime']??(throw InvalidResponseError('startTime'))),
+        startTime: DateTime.tryParse(respMap['startTime']??(throw InvalidResponseError('startTime')))??(throw InvalidResponseError('startTime')),
         endTime: DateTime.tryParse(respMap['endTime'] ?? ''),
         rankDispType: strToRankDispType[respMap['rankDispType']??(throw InvalidResponseError('rankDispType'))],
 
@@ -587,7 +587,7 @@ class IndivComp{
       name: '',
       iconKey: '',
       colorsKey: '',
-      startTime: null,
+      startTime: DateTime.now(),
       rankDispType: RankDispType.EXACT,
       loadedParticips: [],
       participCount: 0,

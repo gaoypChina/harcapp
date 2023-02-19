@@ -12,10 +12,11 @@ class RankCatWidget extends StatelessWidget{
 
   final RankCat cat;
   final void Function(RankTask item, bool completed)? onReqComplChanged;
+  final bool previewOnly;
 
-  const RankCatWidget(this.cat, {this.onReqComplChanged});
+  const RankCatWidget(this.cat, {this.onReqComplChanged, this.previewOnly = false, super.key});
 
-  static Widget separator(BuildContext context, int index) => SizedBox(height: 2*Dimen.ICON_MARG);
+  static Widget separator(BuildContext context, int index) => const SizedBox(height: 2*Dimen.ICON_MARG);
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +26,9 @@ class RankCatWidget extends StatelessWidget{
       children.add(
           Row(
             children: [
-              SizedBox(width: Dimen.SIDE_MARG, height: Dimen.ICON_FOOTPRINT),
+              const SizedBox(width: Dimen.SIDE_MARG, height: Dimen.ICON_FOOTPRINT),
               if(cat.icon != null) Padding(
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 child: Icon(cat.icon, color: hintEnab_(context)),
               ),
               Expanded(
@@ -51,7 +52,7 @@ class RankCatWidget extends StatelessWidget{
     }
     for(int i=0; i<cat.groups!.length; i++){
       RankGroup group = cat.groups![i];
-      children.add(RankGroupWidget(group, onReqComplChanged: onReqComplChanged));
+      children.add(RankGroupWidget(group, onReqComplChanged: onReqComplChanged, previewOnly: previewOnly));
 
       if(i != cat.groups!.length-1)
         children.add(RankGroupWidget.separator(context, i));

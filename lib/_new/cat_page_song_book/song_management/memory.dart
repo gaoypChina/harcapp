@@ -104,6 +104,9 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryGetResp>, RemoveSyn
   static String get fontName => 'Hand';
   static int get fontLength => 16;
 
+  static const int maxLenPlace = 80;
+  static const int maxLenDescription = 200;
+
   // Whether the all, allMap, etc. are initialized.
   static bool initialized = false;
 

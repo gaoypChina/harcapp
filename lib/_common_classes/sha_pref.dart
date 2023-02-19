@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
 import 'package:harcapp/_new/cat_page_strefa_ducha/source.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -150,6 +151,11 @@ class ShaPref{
 
   static const String _SHA_PREF_SPRAW_FOLDER_COLOR_ = 'SHA_PREF_SPRAW_FOLDER_COLOR_';
   static String SHA_PREF_SPRAW_FOLDER_COLOR_(String id) => _SHA_PREF_SPRAW_FOLDER_COLOR_ + '\$' + id;
+
+  // Tropy
+
+  static const String _SHA_PREF_TROP_TASK_COMPLETED_ = 'SHA_PREF_TROP_TASK_COMPLETED_';
+  static String SHA_PREF_TROP_TASK_COMPLETED_(TropTask task) => _SHA_PREF_TROP_TASK_COMPLETED_ + task.uuid;
 
   // Competition
 

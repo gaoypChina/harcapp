@@ -478,9 +478,9 @@ class ArticleHarcApp extends Article{
   static Future<Tuple2<List<String>, List<String>>?> downloadIDsAndBlackList() async {
 
     Dio dio = Dio(BaseOptions(
-      connectTimeout: 10000,
-      receiveTimeout: 5000,
-      sendTimeout: 5000,
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 5),
+      sendTimeout: const Duration(seconds: 5),
     ));
 
     try {
@@ -553,9 +553,9 @@ class ArticleHarcApp extends Article{
   static Future<Article?> downloadArticle(String id, {Function? onError}) async {
 
     Dio dio = Dio(BaseOptions(
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
-      sendTimeout: 3000,
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 3),
+      sendTimeout: const Duration(seconds: 3),
     ));
 
     try {

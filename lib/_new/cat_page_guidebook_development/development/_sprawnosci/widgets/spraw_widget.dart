@@ -39,6 +39,7 @@ class SprawWidget extends StatefulWidget{
   final void Function(bool)? onStartStop;
 
   final void Function()? onStateChanged;
+  final bool previewOnly;
 
   const SprawWidget(
       this.spraw,
@@ -52,6 +53,7 @@ class SprawWidget extends StatefulWidget{
         this.onStartStop,
 
         this.onStateChanged,
+        this.previewOnly = false,
 
         super.key
       });
@@ -96,6 +98,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
   }
 
   void Function()? get onStateChanged => widget.onStateChanged;
+  bool get previewOnly => widget.previewOnly;
 
   late ConfettiController confettiController;
 
@@ -131,8 +134,6 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
         child: Center(child: LevelWidget(spraw))
     ),
     floatingButton: buildFloatingButton(),
-    // backgroundIcon: SprawBookData.mapIdIconMap[spraw.sprawBook.id],
-    backgroundIconComplete: MdiIcons.trophyVariant,
 
     inProgress: spraw.inProgress,
     completenessPercent: spraw.completenessPercent,
@@ -235,6 +236,7 @@ class SprawWidgetState extends State<SprawWidget> with TickerProviderStateMixin,
             setState(() {});
             if(widget.onReqComplChanged != null) widget.onReqComplChanged!();
           },
+          previewOnly: previewOnly,
         ),
 
         if(spraw.comment != null)
@@ -426,8 +428,9 @@ class RequirementsWidget extends StatelessWidget{
 
   final Spraw spraw;
   final void Function()? onChanged;
+  final bool previewOnly;
 
-  const RequirementsWidget(this.spraw, {this.onChanged, super.key});
+  const RequirementsWidget(this.spraw, {this.onChanged, this.previewOnly = false, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -438,7 +441,8 @@ class RequirementsWidget extends StatelessWidget{
       Widget child = SprawTaskWidget(
           spraw.tasks![i],
           isExample: spraw.tasksAreExamples,
-          onCompletedChanged: (SprawTask _task, bool selected) => onChanged?.call()
+          onCompletedChanged: (SprawTask _task, bool selected) => onChanged?.call(),
+          previewOnly: previewOnly,
       );
 
       children.add(child);

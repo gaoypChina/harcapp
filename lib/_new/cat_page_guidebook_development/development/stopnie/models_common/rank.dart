@@ -432,11 +432,11 @@ abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState ex
     return null;
   }
 
-  static Rank? fromStateShared(String? uniqRankName, RankStateShared stateShared){
+  static Rank? fromStateShared(String uniqRankName, RankStateShared stateShared){
 
     stateShared.dump();
 
-    Rank? preview = Rank.allMap[uniqRankName!]?.preview(stateShared);
+    Rank? preview = Rank.allMap[uniqRankName]?.preview(stateShared);
     if(preview == null){
       logger.w('Cannot find uniqRankName: $uniqRankName');
       return null;
@@ -516,8 +516,8 @@ abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState ex
 
   Rank(this.data, this._cats):_catsMap = {for (RankCat cat in _cats??[]) cat.index: cat};
 
-  Widget buildHeader(BuildContext context) => Container();
-  Widget buildFooter(BuildContext context) => Container();
+  Widget buildHeader(BuildContext context, bool previewOnly) => Container();
+  Widget buildFooter(BuildContext context, bool previewOnly) => Container();
 
   @override
   bool get isReadyToComplete => state.isReadyToComplete;
@@ -573,7 +573,6 @@ abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState ex
     ];
 
   }
-
 
 
   @override

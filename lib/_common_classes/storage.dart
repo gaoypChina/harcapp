@@ -44,6 +44,12 @@ String get getSongMemoriesFolderPath => _localPath + getSongMemoriesFolderLocalP
 String get getAlbumFolderLocalPath => '/albums/';
 String get getAlbumFolderPath => _localPath + getAlbumFolderLocalPath;
 
+String get getMyTropFolderLocalPath => '/tropy/my/';
+String get getMyTropFolderPath => _localPath + getMyTropFolderLocalPath;
+
+String get getSharedTropFolderLocalPath => '/tropy/shared/';
+String get getSharedTropFolderPath => _localPath + getSharedTropFolderLocalPath;
+
 String get getDuchoweFoldersLocalPath => '/duchowe/';
 String get getDuchoweFoldersPath => _localPath + getDuchoweFoldersLocalPath;
 

@@ -21,7 +21,7 @@ import 'completed_widget.dart';
 
 class RankSprawTempWidget extends StatelessWidget{
 
-  static const double trailingSize = 72.0;
+  static const double trailingSize = 4*24.0;
 
   final String title;
   final String? titleAppBar;
@@ -35,13 +35,11 @@ class RankSprawTempWidget extends StatelessWidget{
   final Widget? underTitleLeading;
   final Widget child;
   final Widget? floatingButton;
-  final IconData? backgroundIcon;
-  final IconData? backgroundIconComplete;
 
   final bool inProgress;
   final int completenessPercent;
   final bool isReadyToComplete;
-  final bool? completed;
+  final bool completed;
   final DateTime? completedDate;
   final void Function(DateTime)? onCompleteDateChanged;
 
@@ -67,9 +65,6 @@ class RankSprawTempWidget extends StatelessWidget{
     required this.child,
     this.floatingButton,
 
-    this.backgroundIcon,
-    this.backgroundIconComplete,
-
     required this.completenessPercent,
     required this.inProgress,
     required this.isReadyToComplete,
@@ -91,49 +86,13 @@ class RankSprawTempWidget extends StatelessWidget{
   });
 
   @override
-  Widget build(BuildContext context) {
-
-    double screenWidth = MediaQuery.of(context).size.width;
-
-    return MultiProvider(
+  Widget build(BuildContext context) => MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (BuildContext context) => _ReachedTopProvider()),
         ChangeNotifierProvider(create: (BuildContext context) => _ReachedBottomProvider()),
       ],
       builder: (context, _) => Stack(
         children: [
-
-          if(backgroundIcon != null)
-            Positioned(
-              bottom: -0.1*screenWidth,
-              right: -0.15*screenWidth,
-              child: AnimatedOpacity(
-                opacity: completed!?0:1,
-                curve: Curves.easeOutQuart,
-                duration: const Duration(milliseconds: 1000),
-                child: Icon(
-                  backgroundIcon,
-                  color: backgroundIcon_(context),
-                  size: screenWidth,
-                ),
-              ),
-            ),
-
-          if(backgroundIconComplete != null)
-            Positioned(
-              bottom: -0.1*screenWidth,
-              right: -0.15*screenWidth,
-              child: AnimatedOpacity(
-                opacity: completed!?1:0,
-                curve: Curves.easeOutQuart,
-                duration: const Duration(milliseconds: 1000),
-                child: Icon(
-                  backgroundIconComplete,
-                  color: backgroundIcon_(context),
-                  size: screenWidth,
-                ),
-              ),
-            ),
 
           NotificationListener<ScrollNotification>(
             child: KeyboardVisibilityBuilder(
@@ -208,7 +167,7 @@ class RankSprawTempWidget extends StatelessWidget{
                         children: [
                           const SizedBox(height: Dimen.ICON_FOOTPRINT + 2*SimpleButton.DEF_MARG),
 
-                          if(completed!)
+                          if(!previewOnly && completed)
                             SimpleButton.from(
                                 context: context,
                                 icon: MdiIcons.calendarCheckOutline,
@@ -273,51 +232,75 @@ class RankSprawTempWidget extends StatelessWidget{
                 child: floatingButton!
             ),
 
-          if(!previewOnly)
+          if(previewOnly && inProgress)
             Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: KeyboardVisibilityBuilder(
-                builder: (context, keyboardVisible) => keyboardVisible?
-                Container():
-                SizedBox(
-                  height: AppBar().preferredSize.height,
-                  child: completed!?
-                  Consumer<_ReachedBottomProvider>(
-                    builder: (context, prov, child) => AnimatedChildSlider(
-                      duration: const Duration(milliseconds: 500),
-                      switchInCurve: Curves.easeOutExpo,
-                      switchOutCurve: Curves.easeOutExpo,
-                      index: prov.reachedBottom!?1:0,
-                      direction: Axis.horizontal,
-                      children: [
-                        CompletedWidget(
-                          completedText,
-                          color,
-                          colorText: completedTextColor??background_(context),
-                          onPressed: () => confettiController!.play(),
-                        ),
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: SizedBox(
+                    height: AppBar().preferredSize.height,
+                    child: StartStopButton(
+                      color: color,
+                      inProgress: () => true,
+                      completenessPercent: () => completenessPercent,
+                    )))
+          else if(previewOnly && completed)
+            Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: SizedBox(
+                    height: AppBar().preferredSize.height,
+                    child: CompletedWidget(
+                      completedText,
+                      color,
+                      colorText: completedTextColor??background_(context),
+                    )))
+          else if(!previewOnly)
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: KeyboardVisibilityBuilder(
+                  builder: (context, keyboardVisible) => keyboardVisible?
+                  Container():
+                  SizedBox(
+                    height: AppBar().preferredSize.height,
+                    child: completed?
+                    Consumer<_ReachedBottomProvider>(
+                      builder: (context, prov, child) => AnimatedChildSlider(
+                        duration: const Duration(milliseconds: 500),
+                        switchInCurve: Curves.easeOutExpo,
+                        switchOutCurve: Curves.easeOutExpo,
+                        index: prov.reachedBottom!?1:0,
+                        direction: Axis.horizontal,
+                        children: [
+                          CompletedWidget(
+                            completedText,
+                            color,
+                            colorText: completedTextColor??background_(context),
+                            onPressed: () => confettiController!.play(),
+                          ),
 
-                        AbandonButton(
-                          onTap: onAbandonTap,
-                        ),
-                      ],
+                          AbandonButton(
+                            onTap: onAbandonTap,
+                          ),
+                        ],
+                      ),
+                    ):
+                    StartStopButton(
+                      color: color,
+                      inProgress: () => inProgress,
+                      completenessPercent: () => completenessPercent,
+                      onPressed: (bool inProgress){
+                        onStartStopTap?.call(inProgress);
+                        if(!inProgress) // if start
+                          Provider.of<_ReachedBottomProvider>(context, listen: false).reachedBottom = false;
+                      },
                     ),
-                  ):
-                  StartStopButton(
-                    color: color,
-                    inProgress: () => inProgress,
-                    completenessPercent: () => completenessPercent,
-                    onPressed: (bool inProgress){
-                      onStartStopTap?.call(inProgress);
-                      if(!inProgress) // if start
-                        Provider.of<_ReachedBottomProvider>(context, listen: false).reachedBottom = false;
-                    },
                   ),
                 ),
               ),
-            ),
 
           if(!previewOnly)
             Positioned.fill(
@@ -326,10 +309,7 @@ class RankSprawTempWidget extends StatelessWidget{
 
         ],
       )
-    );
-
-
-  }
+  );
 
 }
 

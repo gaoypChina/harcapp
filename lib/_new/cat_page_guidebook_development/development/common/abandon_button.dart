@@ -37,37 +37,6 @@ class AbandonButton extends StatelessWidget{
         onTap: onTap
     );
 
-    /*
-    return AnimatedSize(
-      vsync: tickerProviderStateMixin,
-      curve: Curves.easeOutQuart,
-      duration: Duration(milliseconds: 500),
-      child:
-      show?
-      SimpleButton(
-          radius: AppCard.bigRadius,
-          padding: EdgeInsets.all(Dimen.ICON_MARG),
-          margin: EdgeInsets.zero,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(MdiIcons.close, color: Colors.red),
-              SizedBox(width: Dimen.ICON_MARG, height: Dimen.ICON_FOOTPRINT),
-              Text(
-                'Porzuć',
-                style: AppTextStyle(
-                    fontSize: Dimen.TEXT_SIZE_APPBAR,
-                    color: Colors.red
-                ),
-              )
-            ],
-          ),
-          onTap: onTap
-      ):
-      Container(),
-    );
-
-     */
   }
 
 }

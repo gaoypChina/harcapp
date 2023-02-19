@@ -56,7 +56,7 @@ abstract class RankZHPOldTempl<T extends RankState> extends Rank<RankZHPOldData,
   RankZHPOldTempl(super.data, super.cats);
 
   @override
-  buildHeader(BuildContext context) => Column(
+  buildHeader(BuildContext context, bool previewOnly) => Column(
     children: [
       SingleLineWidget(MdiIcons.clockOutline, data.czasTrw),
 

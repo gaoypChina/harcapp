@@ -15,8 +15,9 @@ class RankGroupWidget extends StatelessWidget{
 
   final RankGroup group;
   final void Function(RankTask item, bool completed)? onReqComplChanged;
+  final bool previewOnly;
 
-  const RankGroupWidget(this.group, {this.onReqComplChanged, super.key});
+  const RankGroupWidget(this.group, {this.onReqComplChanged, this.previewOnly = false, super.key});
 
   static Widget separator(BuildContext context, int index) => const SizedBox(height: 2*Dimen.ICON_MARG);
 
@@ -32,7 +33,8 @@ class RankGroupWidget extends StatelessWidget{
           item,
           group.tasks![i].checkable?checkableItemsCount:null,
           hideIndex: group.tasks!.length==1,
-          onCompletedChanged: onReqComplChanged
+          onCompletedChanged: onReqComplChanged,
+          previewOnly: previewOnly,
       ));
 
       if(i != group.tasks!.length-1)

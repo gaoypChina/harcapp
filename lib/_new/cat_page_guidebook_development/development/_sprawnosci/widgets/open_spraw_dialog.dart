@@ -18,14 +18,14 @@ void openSprawDialog(
       Widget child = Padding(
         padding: MediaQuery.of(context).viewInsets.add(AppCard.normMargin),
         child: Material(
-            color: background_(context),
-            borderRadius: BorderRadius.circular(AppCard.bigRadius),
-            clipBehavior: Clip.hardEdge,
-            child: SprawWidget(
-                spraw,
-                onStateChanged: onStateChanged,
-                onReqComplChanged: onReqComplChanged
-            )
+          color: background_(context),
+          borderRadius: BorderRadius.circular(AppCard.bigRadius),
+          clipBehavior: Clip.hardEdge,
+          child: SprawWidget(
+            spraw,
+            onStateChanged: onStateChanged,
+            onReqComplChanged: onReqComplChanged
+          )
         ),
       );
 

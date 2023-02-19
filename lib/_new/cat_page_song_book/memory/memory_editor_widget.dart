@@ -310,7 +310,7 @@ class _PartOneState extends State<_PartOne>{
                           border: InputBorder.none
                       ),
                       maxLines: null,
-                      maxLength: 80,
+                      maxLength: Memory.maxLenPlace,
                     ),
                   )
               ),
@@ -349,7 +349,7 @@ class _PartOneState extends State<_PartOne>{
                           border: InputBorder.none
                       ),
                       maxLines: null,
-                      maxLength: 200,
+                      maxLength: Memory.maxLenDescription,
                     ),
                   )
               ),

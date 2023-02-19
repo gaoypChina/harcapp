@@ -42,7 +42,7 @@ class SharedRanksPageState extends State<SharedRanksPage>{
       return;
 
     if(!await isNetworkAvailable()){
-      showAppToast(context, text: 'Brak dostępu do Internetu');
+      if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
       refreshController.refreshCompleted();
       loading = false;
       return;
@@ -108,53 +108,51 @@ class SharedRanksPageState extends State<SharedRanksPage>{
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return BottomNavScaffold(
-      body: SmartRefresher(
-        enablePullDown: AccountData.loggedIn,
+  Widget build(BuildContext context) => BottomNavScaffold(
+    body: SmartRefresher(
+      enablePullDown: AccountData.loggedIn,
+      physics: const BouncingScrollPhysics(),
+      header: const MaterialClassicHeader(),
+      controller: refreshController,
+      onRefresh: loadSharedRanks,
+      child: CustomScrollView(
         physics: const BouncingScrollPhysics(),
-        header: const MaterialClassicHeader(),
-        controller: refreshController,
-        onRefresh: loadSharedRanks,
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
+        slivers: [
 
-            const SliverAppBar(
-              floating: true,
-              pinned: true,
-              centerTitle: true,
-              title: Text('Udostępnione mi stopnie'),
-            ),
+          const SliverAppBar(
+            floating: true,
+            pinned: true,
+            centerTitle: true,
+            title: Text('Udostępnione mi stopnie'),
+          ),
 
-            if(!AccountData.loggedIn)
-              SliverFillRemaining(
-                hasScrollBody: false,
-                fillOverscroll: true,
-                child: Center(
-                  child: SimpleButton(
-                    radius: AppCard.bigRadius,
-                    padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                    onTap: () => AccountPage.open(context),
-                    child: const EmptyMessageWidget(
-                      icon: MdiIcons.accountCircleOutline,
-                      text: 'Zaloguj się,\nby przejrzeć\nudostępnione stopnie',
-                    ),
+          if(!AccountData.loggedIn)
+            SliverFillRemaining(
+              hasScrollBody: false,
+              fillOverscroll: true,
+              child: Center(
+                child: SimpleButton(
+                  radius: AppCard.bigRadius,
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  onTap: () => AccountPage.open(context),
+                  child: const EmptyMessageWidget(
+                    icon: MdiIcons.accountCircleOutline,
+                    text: 'Zaloguj się,\nby przejrzeć\nudostępnione stopnie',
                   ),
                 ),
-              )
-            else if(loading && selSharedRanks == null)
-              const SliverFillRemaining(
-                hasScrollBody: false,
-                child: Center(
-                  child: EmptyMessageWidget(
-                    icon: MdiIcons.refresh,
-                    text: 'Ładowanie...',
-                  ),
+              ),
+            )
+          else if(loading && selSharedRanks == null)
+            const SliverFillRemaining(
+              hasScrollBody: false,
+              child: Center(
+                child: EmptyMessageWidget(
+                  icon: MdiIcons.refresh,
+                  text: 'Ładowanie...',
                 ),
-              )
-            else if(!loading && selSharedRanks == null)
+              ),
+            )
+          else if(!loading && selSharedRanks == null)
               const SliverFillRemaining(
                 hasScrollBody: false,
                 child: Center(
@@ -165,30 +163,28 @@ class SharedRanksPageState extends State<SharedRanksPage>{
                 ),
               )
             else if(selSharedRanks!.isEmpty)
-              const SliverFillRemaining(
-                hasScrollBody: false,
-                child: Center(
-                  child: EmptyMessageWidget(
-                    icon: MdiIcons.shareVariantOutline,
-                    text: 'Brak udostępnionych\nCi stopni.',
+                const SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Center(
+                    child: EmptyMessageWidget(
+                      icon: MdiIcons.shareVariantOutline,
+                      text: 'Brak udostępnionych\nCi stopni.',
+                    ),
                   ),
-                ),
-              )
-            else
-              SliverPadding(
-                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-                    (context, index) => RankTileWidgetShare(selSharedRanks![index]),
-                    separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-                    count: selSharedRanks!.length
-                )),
-              )
+                )
+              else
+                SliverPadding(
+                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                  sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
+                          (context, index) => RankTileWidgetShare(selSharedRanks![index]),
+                      separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
+                      count: selSharedRanks!.length
+                  )),
+                )
 
-          ],
-        ),
+        ],
       ),
-    );
-
-  }
+    ),
+  );
 
 }

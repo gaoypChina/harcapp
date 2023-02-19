@@ -93,6 +93,7 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
   bool get hideTitle => widget.hideTitle;
   bool get showBack => widget.showBack;
   void Function(RankTask item, bool completed)? get onReqCompletedChanged => widget.onReqCompletedChanged;
+  bool get previewOnly => widget.previewOnly;
 
   ConfettiController? confettiController;
   ValueNotifier<double>? notifier;
@@ -119,7 +120,8 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
               onReqComplChanged: (RankTask item, bool completed){
                 setState(() {});
                 onReqCompletedChanged?.call(item, completed);
-              }
+              },
+              previewOnly: previewOnly,
           )
       );
 
@@ -143,6 +145,7 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
             account?
             SharedUsersWidget(rank):null,
             titleTrailing: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: widget.icons.map((icon) => Icon(icon, size: RankData.iconSizeMap[rank.data]!.item2,)).toList(),
             ),
             floatingButton: Consumer<RankFloatingButtonProvider>(
@@ -188,7 +191,6 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
                 );
               },
             ),
-            backgroundIconComplete: MdiIcons.trophyAward,
 
             completenessPercent: rank.completenessPercent,
             inProgress: rank.inProgress,
@@ -208,7 +210,7 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
             hideTitle: hideTitle,
             confettiController: confettiController,
 
-            previewOnly: widget.previewOnly,
+            previewOnly: previewOnly,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -223,13 +225,13 @@ class RankWidgetState extends State<RankWidget> with ModuleStatsMixin{
                       onTap: () => showAppToast(context, text: 'Ostatnia aktualizacja stopnia:\n<b>${dateToString(widget.lastUpdateTime!, shortMonth: true, withTime: true)}</b>')
                   ),
 
-                rank.buildHeader(context),
+                rank.buildHeader(context, previewOnly),
 
                 const SizedBox(height: Dimen.SIDE_MARG),
 
                 Column(children: children),
 
-                rank.buildFooter(context),
+                rank.buildFooter(context, previewOnly),
                 const SizedBox(height: 2*Dimen.ICON_MARG)
 
               ],

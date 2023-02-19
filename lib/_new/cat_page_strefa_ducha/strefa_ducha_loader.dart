@@ -17,8 +17,8 @@ class StrefaDuchaLoader extends SingleComputer<String?, SingleComputerListener<S
   Future<void> perform() async {
 
     Dio dio = Dio(BaseOptions(
-      connectTimeout: 18000,
-      receiveTimeout: 40000,
+      connectTimeout: const Duration(seconds: 18),
+      receiveTimeout: const Duration(seconds: 40),
     ));
 
     String? data;

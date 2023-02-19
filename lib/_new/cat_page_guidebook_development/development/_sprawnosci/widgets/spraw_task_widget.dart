@@ -40,6 +40,9 @@ class SprawTaskWidget extends TaskWidget<SprawTask>{
   String? get example => null;
 
   @override
+  final bool previewOnly;
+
+  @override
   bool get hideIndex => false;
 
   @override
@@ -48,6 +51,6 @@ class SprawTaskWidget extends TaskWidget<SprawTask>{
   @override
   final void Function(SprawTask task, bool completed)? onCompletedChanged;
 
-  const SprawTaskWidget(this.task, {this.isExample = false, this.onCompletedChanged, super.key});
+  const SprawTaskWidget(this.task, {this.isExample = false, this.onCompletedChanged, this.previewOnly = false, super.key});
 
 }

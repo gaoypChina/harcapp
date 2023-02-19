@@ -3,7 +3,9 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
+import 'package:harcapp/_common_classes/missing_decode_param_error.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_state_local.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_state_shared.dart';
 
 import '_api.dart';
@@ -50,6 +52,11 @@ class SharedRankMetaData{
 
       lastUpdateDate: DateTime.parse(rankData['lastUpdateTime']??(throw InvalidResponseError('lastUpdateTime')))
     );
+  }
+
+  int get completenessPercent{
+    Rank rank = Rank.allMap[rankUniqName]!;
+    return 100*rankCompletedTasksCnt~/(rank.state as RankStateLocal).taskCount;
   }
 
 }
@@ -146,12 +153,12 @@ class ApiRank{
     onSuccess: (Response response, DateTime now) async {
 
       Map<String, dynamic> rankSyncData = response.data;
-      String? uniqRankName = rankSyncData['uniqName'];
+      String rankUniqName = rankSyncData['uniqName']??(throw MissingDecodeParamError('uniqName'));
 
-      RankStateShared stateShared = RankStateShared.from(key, lastUpdateTime, rankSyncData);
+      RankStateShared stateShared = RankStateShared.fromRespMap(key, rankUniqName, lastUpdateTime, rankSyncData);
       stateShared.dump();
 
-      Rank? preview = Rank.fromStateShared(uniqRankName, stateShared);
+      Rank? preview = Rank.fromStateShared(rankUniqName, stateShared);
 
       if(preview == null) onError?.call(null);
       else onSuccess?.call(preview);
@@ -159,6 +166,5 @@ class ApiRank{
     },
     onError: (err) async => onError?.call(err.response),
   );
-
 
 }

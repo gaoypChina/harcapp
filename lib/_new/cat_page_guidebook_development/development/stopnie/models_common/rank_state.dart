@@ -44,7 +44,7 @@ abstract class RankState<T extends RankTaskState>{
     for(T task in tasks.values)
       complReqLen += task.completed?1:0;
 
-    if(tasks.isEmpty) return 100;
+    if(tasks.isEmpty) return -1;
 
     return (100*complReqLen/tasks.length).round();
   }

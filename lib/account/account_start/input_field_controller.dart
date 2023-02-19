@@ -61,7 +61,7 @@ class InputField extends StatefulWidget{
   final int? maxLength;
   final List<TextInputFormatter>? inputFormatters;
 
-  final bool? enabled;
+  final bool enabled;
   final bool autofocus;
 
   const InputField({
@@ -132,7 +132,7 @@ class InputFieldState extends State<InputField>{
                   hint: widget.hint,
                   controller: widget.controller,
                   enabled: widget.enabled,
-                  style: AppTextStyle(color: widget.textColor??(widget.enabled!?textEnab_(context):textDisab_(context)), fontSize: Dimen.TEXT_SIZE_BIG),
+                  style: AppTextStyle(color: widget.textColor??(widget.enabled?textEnab_(context):textDisab_(context)), fontSize: Dimen.TEXT_SIZE_BIG),
                   hintStyle: AppTextStyle(color: widget.hintTextColor??hintEnab_(context), fontSize: Dimen.TEXT_SIZE_BIG),
                   showUnderline: !widget.noUnderline,
                   onAnyChanged: (text) => setState(() => controller!.errorDimed = true),

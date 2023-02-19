@@ -96,7 +96,7 @@ abstract class RankZHRCTempl<T extends RankState> extends Rank<RankZHRCData, Ran
   RankZHRCTempl(super.data, super.cats);
 
   @override
-  buildHeader(BuildContext context) => Column(
+  buildHeader(BuildContext context, bool previewOnly) => Column(
     children: [
       SingleLineWidget(MdiIcons.cakeVariantOutline, minWiek),
       SingleLineWidget(MdiIcons.clockOutline, czasTrw),

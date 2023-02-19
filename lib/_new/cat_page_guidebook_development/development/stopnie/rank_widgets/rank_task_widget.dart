@@ -43,17 +43,23 @@ class RankTaskWidget extends TaskWidget<RankTask>{
   @override
   bool get editable => rank!.state is RankStateLocal;
 
+  @override
+  final bool previewOnly;
+
   RankGroup? get group => task.group;
   RankCat? get cat => group!.cat;
   Rank? get rank => cat!.rank;
 
+  @override
   final int? dispIndex;
+
+  @override
   final bool hideIndex;
 
   @override
   final void Function(RankTask task, bool selected)? onCompletedChanged;
 
-  const RankTaskWidget(this.task, this.dispIndex, {this.hideIndex=false, required this.onCompletedChanged});
+  const RankTaskWidget(this.task, this.dispIndex, {this.hideIndex=false, required this.onCompletedChanged, this.previewOnly = false, super.key});
 
   static Widget separator(BuildContext context, int index) => const SizedBox(height: 2*Dimen.ICON_MARG);
 

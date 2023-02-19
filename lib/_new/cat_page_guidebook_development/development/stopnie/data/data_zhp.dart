@@ -26,52 +26,6 @@ import '../../_sprawnosci/spraw_selector.dart';
 const String _tab = '    ';
 
 
-class Indicator extends StatelessWidget{
-
-  final int index;
-  final bool required;
-  final String name;
-  final double width;
-  final double height;
-
-  const Indicator({
-    required this.index,
-    required this.required,
-    required this.name,
-
-    required this.width,
-    required this.height,
-
-    super.key
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.horizontal(right: Radius.circular(2))
-      ),
-      clipBehavior: Clip.hardEdge,
-      child: SizedBox(
-          width: width,
-          height: height,
-          child: Center(
-            child: Text(
-              ' $index',
-              style: AppTextStyle(
-                  color: iconEnab_(context).withOpacity(required?1:.5),
-                  fontSize: Dimen.TEXT_SIZE_BIG,
-                  fontWeight: weight.halfBold
-              ),
-            ),
-          )
-      ),
-    );
-  }
-
-}
-
-
 class SprawSelectedListWidget extends StatefulWidget{
 
   static const String customPrefix = 'custom@';
@@ -89,6 +43,7 @@ class SprawSelectedListWidget extends StatefulWidget{
   final void Function()? onSprawStateChanged;
   final bool checkVisible;
   final bool checkable;
+  final bool enabled;
 
   const SprawSelectedListWidget(
       this.rankId,
@@ -103,6 +58,7 @@ class SprawSelectedListWidget extends StatefulWidget{
         this.onSprawStateChanged,
         required this.checkVisible,
         required this.checkable,
+        this.enabled = true,
         super.key
       });
 
@@ -128,6 +84,7 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
   void Function()? get onSprawStateChanged => widget.onSprawStateChanged;
   bool get checkVisible => widget.checkVisible;
   bool get checkable => widget.checkable;
+  bool get enabled => widget.enabled;
 
   late List<TextEditingController> controllers;
 
@@ -150,7 +107,6 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
 
   @override
   Widget build(BuildContext context) {
-    int _reqCount = reqCount ?? count;
 
     List<Widget> children = [];
     for (int i = 0; i < count; i++){
@@ -176,21 +132,11 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
 
-            Indicator(
-              index: i+1,
-              required: i<_reqCount,
-              name: name,
-              width: indicatorWidth,
-              height: itemHeight,
-            ),
-
-            const SizedBox(width: Dimen.defMarg),
-
             Expanded(child: SimpleButton.from(
                 context: context,
                 icon: MdiIcons.dotsHorizontal,
                 text: 'Wybierz',
-                radius: AppCard.defRadius,
+                radius: 0,
                 margin: EdgeInsets.zero,
                 onTap: () async {
 
@@ -241,7 +187,7 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
                 context: context,
                 icon: MdiIcons.pencil,
                 text: 'Notatka',
-                radius: AppCard.defRadius,
+                radius: 0,
                 margin: EdgeInsets.zero,
                 onTap: (){
                   RankZHPSim2022Templ.setExtText(rankId, code, i, SprawSelectedListWidget.customPrefix);
@@ -252,25 +198,21 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
         ),
       );
 
-      if (extText == null)
+      if (extText == null && enabled)
         children.add(emptyButtons);
-
-      else if (extText.startsWith(SprawSelectedListWidget.customPrefix))
+      else if (extText == null && !enabled)
+        children.add(Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: SprawNamesWidgetState.horizontalPaddingValue
+          ),
+          child: AppTextFieldHint(hint: 'Brak wybranego stopnia ${i+1}.', enabled: false),
+        ));
+      else if (extText!.startsWith(SprawSelectedListWidget.customPrefix))
         children.add(
             SizedBox(
               height: itemHeight,
               child: Row(
                 children: [
-
-                  Indicator(
-                    index: i+1,
-                    required: i<_reqCount,
-                    name: name,
-                    width: indicatorWidth,
-                    height: itemHeight,
-                  ),
-
-                  const SizedBox(width: Dimen.ICON_MARG),
 
                   Expanded(
                     child: AppTextFieldHint(
@@ -337,16 +279,6 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
                     onSprawStateChanged?.call();
                     setState((){});
                   },
-                ),
-                leading: Padding(
-                  padding: const EdgeInsets.only(right: Dimen.ICON_MARG),
-                  child: Indicator(
-                    index: i+1,
-                    required: i<_reqCount,
-                    name: name,
-                    width: indicatorWidth,
-                    height: itemHeight,
-                  ),
                 ),
                 trailing: Row(
                   children: [
@@ -419,6 +351,8 @@ class SprawNamesWidget extends StatefulWidget{
   final void Function(bool?)? onCheckChanged;
   final bool checkVisible;
   final bool checkable;
+  final bool enabled;
+  final String Function(int)? emptyDisabledHint;
 
   const SprawNamesWidget(
       this.stopId,
@@ -431,6 +365,8 @@ class SprawNamesWidget extends StatefulWidget{
         this.onCheckChanged,
         required this.checkVisible,
         required this.checkable,
+        this.enabled = true,
+        this.emptyDisabledHint,
         super.key
       });
 
@@ -440,6 +376,9 @@ class SprawNamesWidget extends StatefulWidget{
 }
 
 class SprawNamesWidgetState extends State<SprawNamesWidget>{
+
+  static const horizontalPaddingValue = Dimen.SIDE_MARG;
+  static const verticalPaddingValue = Dimen.defMarg;
 
   String get stopId => widget.stopId;
   String get name => widget.name;
@@ -451,36 +390,51 @@ class SprawNamesWidgetState extends State<SprawNamesWidget>{
   void Function(bool?)? get onCheckChanged => widget.onCheckChanged;
   bool get checkVisible => widget.checkVisible;
   bool get checkable => widget.checkable;
+  bool get enabled => widget.enabled;
+  String Function(int)? get emptyDisabledHint => widget.emptyDisabledHint;
 
   @override
   Widget build(BuildContext context) {
     int _reqCount = reqCount??count;
 
     List<Widget> children = [];
-    for(int i=0; i<count; i++)
+    for(int i=0; i<count; i++) {
+      String value = RankZHPSim2022Templ.getExtText(stopId, code, i)??'';
       children.add(
           Row(
             children: [
               Expanded(
                 child: AppTextFieldHint(
-                  hint: '$name ${i + 1}: ${i<_reqCount?'*':''}',
-                  hintTop: '$name ${i + 1} ${i<_reqCount?'*':''}',
+                  hint: emptyDisabledHint!=null&&value.isEmpty&&!enabled?
+                  emptyDisabledHint!.call(i):
+                  '$name ${i + 1}: ${i < _reqCount ? '*' : ''}',
+                  hintTop: '$name ${i + 1} ${i < _reqCount ? '*' : ''}',
                   style: AppTextStyle(),
-                  hintStyle: AppTextStyle(color: hintEnab_(context)),
-                  controller: TextEditingController(text: RankZHPSim2022Templ.getExtText(stopId, code, i)),
-                  onChanged: (_, text) => RankZHPSim2022Templ.setExtText(stopId, code, i, text),
+                  hintStyle: AppTextStyle(
+                      color: hintEnab_(context),
+                      fontStyle: emptyDisabledHint!=null&&value.isEmpty&&!enabled?
+                      FontStyle.italic:
+                      FontStyle.normal
+                  ),
+                  controller: TextEditingController(text: value),
+                  onChanged: (_, text) =>
+                      RankZHPSim2022Templ.setExtText(stopId, code, i, text),
+                  enabled: enabled,
                 ),
               ),
               if(checkVisible)
                 IgnorePointer(
-                  ignoring: !checkable,
+                  ignoring: !enabled && !checkable,
                   child: Checkbox(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
                     value: RankZHPSim2022Templ.getExtChecked(stopId, code, i),
                     onChanged: (value) async {
-                      RankZHPSim2022Templ.setExtChecked(stopId, code, i, value!);
-                      setState((){});
-                      Provider.of<RankFloatingButtonProvider>(context, listen: false).notify();
+                      RankZHPSim2022Templ.setExtChecked(
+                          stopId, code, i, value!);
+                      setState(() {});
+                      Provider.of<RankFloatingButtonProvider>(
+                          context, listen: false).notify();
                       onCheckChanged?.call(value);
                     },
                     activeColor: stopColor,
@@ -489,12 +443,15 @@ class SprawNamesWidgetState extends State<SprawNamesWidget>{
             ],
           )
       );
-
+    }
     return Material(
         borderRadius: BorderRadius.circular(AppCard.bigRadius),
         color: backgroundColor??cardEnab_(context),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG, vertical: Dimen.defMarg),
+          padding: const EdgeInsets.symmetric(
+              horizontal: horizontalPaddingValue,
+              vertical: verticalPaddingValue
+          ),
           child: Column(children: children),
         )
     );
@@ -1045,57 +1002,50 @@ RankZHPSim2022Data rankZhp5Data = RankZHPSim2022Data(
               title: 'Tożsamość harcerska',
               icon: RankData.iconTozsHarcerska,
               taskData: [
-                RankTaskData(text: 'Przekazałem młodszym członkom mojego środowiska harcerskiego wiedzę o jego tradycjach w ciekawej formie.'),
+                RankTaskData(text: 'Przekazał młodszym członkom swojego środowiska harcerskiego wiedzę o jego tradycjach w ciekawej formie.'),
               ],
             ),
             RankGroupData(
               title: 'Obozownictwo',
               icon: RankData.iconObozow,
               taskData: [
-                RankTaskData(text: 'Wziąłem udział w przygotowaniu obozu np.: planowaniu preliminarza, przygotowaniu sprzętu, organizacji transportu, zaplanowaniu zakupów żywieniowych. Poznałem zasady prowadzenia gospodarczej dokumentacji obozu i pod nadzorem kwatermistrza pomogłem ją prowadzić.'),
+                RankTaskData(text: 'Wziął udział w przygotowaniu obozu np.: planowaniu preliminarza, przygotowaniu sprzętu, organizacji transportu, zaplanowaniu zakupów żywieniowych. Poznał zasady prowadzenia gospodarczej dokumentacji obozu i pod nadzorem kwatermistrza pomógł ją prowadzić.'),
               ],
             ),
             RankGroupData(
               title: 'Ratownictwo',
               icon: RankData.iconPierwszaPomoc,
               taskData: [
-                RankTaskData(text: 'Przeszedłem co najmniej 15‐godzinne szkolenie z zakresu pierwszej pomocy. Wykorzystałem zdobyte umiejętności do pełnienia służby na rzecz własnego środowiska lub na zewnątrz organizacji'),
+                RankTaskData(text: 'Przeszedł co najmniej 15‐godzinne szkolenie z zakresu pierwszej pomocy. Wykorzystał zdobyte umiejętności do pełnienia służby na rzecz własnego środowiska lub na zewnątrz organizacji'),
               ],
             ),
             RankGroupData(
               title: 'Zdrowie',
               icon: RankData.iconZdrowie,
               taskData: [
-                RankTaskData(text: 'Zaplanowałem i zorganizowałem długotrwały wysiłek fizyczny o charakterze wyczynu i dobrałem dostosowaną do niego dietę. W miarę możliwości uzyskałem dla swojego pomysłu akceptację profesjonalisty.'),
+                RankTaskData(text: 'Zaplanował i zorganizował długotrwały wysiłek fizyczny o charakterze wyczynu i dobrał dostosowaną do niego dietę. W miarę możliwości uzyskał dla swojego pomysłu akceptację profesjonalisty.'),
               ],
             ),
             RankGroupData(
               title: 'Ekologia',
               icon: RankData.iconEkologia,
               taskData: [
-                RankTaskData(text: 'Poznałem podstawowe problemy związane z dostępem do wody pitnej (w tym jej niedoboru) na świecie i w Polsce. Poznałem różne sposoby pozyskania lub uzdatniania wody pitnej w terenie (destylacja, filtry osobiste, filtracja i uzdatnianie chemiczne itp.). Podczas wędrówki zastosowałem jeden z nich.'),
-                RankTaskData(text: 'Znam i stosuję zasady ekologicznego obozowania. Wdrażam w nie młodszych od siebie harcerzy, pomagając im w ekologicznym obozowaniu lub biwakowaniu.')
-              ],
-            ),
-            RankGroupData(
-              title: 'Ekologia',
-              icon: RankData.iconEkologia,
-              taskData: [
-                RankTaskData(text: 'Poznałem podstawowe problemy związane z dostępem do wody pitnej (w tym jej niedoboru) na świecie i w Polsce. Poznałem różne sposoby pozyskania lub uzdatniania wody pitnej w terenie (destylacja, filtry osobiste, filtracja i uzdatnianie chemiczne itp.). Podczas wędrówki zastosowałem jeden z nich.'),
+                RankTaskData(text: 'Poznał podstawowe problemy związane z dostępem do wody pitnej (w tym jej niedoboru) na świecie i w Polsce. Poznał różne sposoby pozyskania lub uzdatniania wody pitnej w terenie (destylacja, filtry osobiste, filtracja i uzdatnianie chemiczne itp.). Podczas wędrówki zastosował jeden z nich.'),
+                RankTaskData(text: 'Zna i stosuje zasady ekologicznego obozowania. Wdraża w nie młodszych od siebie harcerzy, pomagając im w ekologicznym obozowaniu lub biwakowaniu.')
               ],
             ),
             RankGroupData(
               title: 'Świat cyfrowy',
               icon: RankData.iconSwiatCyfrowy,
               taskData: [
-                RankTaskData(text: 'Znam pojęcie hejtu i uczestniczyłem w projekcie lub kampanii, która miała wpływ na ograniczenie tego zjawiska w sieci.'),
+                RankTaskData(text: 'Zna pojęcie tzw. "hejtu" i uczestniczył w projekcie lub kampanii, która miała wpływ na ograniczenie tego zjawiska w sieci.'),
               ],
             ),
             RankGroupData(
               title: 'Ekonomia',
               icon: RankData.iconEkonomia,
               taskData: [
-                RankTaskData(text: 'Zidentyfikowałem swoje predyspozycje zawodowe korzystając z pomocy doradcy zawodowego lub wybranego kwestionariusza.'),
+                RankTaskData(text: 'Zidentyfikował swoje predyspozycje zawodowe korzystając z pomocy doradcy zawodowego lub wybranego kwestionariusza.'),
               ],
             ),
           ]

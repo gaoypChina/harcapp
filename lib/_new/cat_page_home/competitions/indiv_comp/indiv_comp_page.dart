@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_common_widgets/duration_date_widget.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
@@ -294,7 +293,11 @@ class IndivCompPageState extends State<IndivCompPage> with ModuleStatsMixin{
 
                   Padding(
                     padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                    child: DateWidget(comp),
+                    child: DurationDateWidget(
+                      startDate: comp.startTime,
+                      endDate: comp.endTime,
+                      color: comp.colors.avgColor,
+                    ),
                   ),
 
                   ParticipantsWidget(
@@ -471,75 +474,6 @@ class CompHeaderWidget extends StatelessWidget{
       ],
     ),
   );
-
-}
-
-class DateWidget extends StatelessWidget{
-
-  final IndivComp comp;
-
-  DateTime? get startDate => comp.startTime;
-  DateTime? get endDate => comp.endTime;
-  Color get color => comp.colors.avgColor;
-
-  const DateWidget(this.comp, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-
-    int span = (endDate??DateTime(2966)).millisecondsSinceEpoch - startDate!.millisecondsSinceEpoch;
-    int today = DateTime.now().millisecondsSinceEpoch - startDate!.millisecondsSinceEpoch;
-
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints){
-
-        double width = constraints.maxWidth - Dimen.ICON_SIZE;
-        double progress = today/span;
-        double coloredDots = width*(max(0, min(progress, 1)));
-
-        List<Widget> dots = [];
-        for(int i = 0; i<width/Dimen.ICON_SIZE; i++){
-          bool colored = coloredDots/Dimen.ICON_SIZE > i;
-          bool nextColored = coloredDots/Dimen.ICON_SIZE > i + 1;
-          dots.add(
-            GestureDetector(
-              child: Icon(
-                  nextColored == colored?MdiIcons.circleMedium:MdiIcons.clockTimeEight,
-                  color: colored?comp.colors.avgColor:iconDisab_(context)
-              ),
-              onTap: (){
-
-                String? message;
-                if(endDate != null){
-                  int daysLeft = Duration(
-                      milliseconds: endDate!.millisecondsSinceEpoch -
-                          DateTime.now().millisecondsSinceEpoch).inDays;
-                  if (daysLeft < 0) daysLeft = 0;
-                  int weeksLeft = daysLeft ~/ 7;
-
-                  if (weeksLeft > 0)
-                    message = '$weeksLeft tyg.';
-                  else
-                    message = '$daysLeft dni';
-                }
-
-                showAppToast(
-                    context,
-                    text: message==null?'Brak czasu zakończenia':'Pozostało $message'
-                );
-              },
-            )
-          );
-        }
-
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: dots,
-        );
-      },
-    );
-
-  }
 
 }
 

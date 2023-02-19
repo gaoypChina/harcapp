@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:io';
 
@@ -20,8 +19,6 @@ import '../../sync/syncable_new.dart';
 
 
 const int jwtInvalidHttpStatus = HttpStatus.forbidden;
-const int _CONNECT_IIMEOUT = 18000;
-const int _RECEIVE_IIMEOUT = 40000;
 
 class InvalidResponseError extends Error{
 
@@ -45,7 +42,8 @@ class API{
           '\n# Status code: ${e.response?.statusCode}'
           '\n# Status message: ${e.response?.statusMessage}'
           '\n# Error:\n${e.message}'
-          '\n\n# Error response data:\n${e.response?.data}'
+          '\n'
+          '\n# Error response data:\n${e.response?.data}'
   );
 
   static Response createFakeErrResponse({String? error, Map<String, dynamic>? errMap}) => Response(
@@ -75,8 +73,8 @@ class API{
       headers: {
         if(withToken) 'Authorization': 'Bearer ${AccountData.jwt}',
       },
-      connectTimeout: _CONNECT_IIMEOUT,
-      receiveTimeout: _RECEIVE_IIMEOUT,
+      connectTimeout: const Duration(seconds: 18),
+      receiveTimeout: const Duration(seconds: 40),
     ));
 
     try {

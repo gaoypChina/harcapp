@@ -83,9 +83,9 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
   static Future<List<Article>?> _getAzymutFromPage({int page = 0}) async {
 
     Dio dio = Dio(BaseOptions(
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
-      sendTimeout: 3000,
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 3),
+      sendTimeout: const Duration(seconds: 3),
     ));
 
     try {
@@ -157,9 +157,9 @@ class ArticleLoader extends SingleComputer<ArticleLoaderError, ArticleLoaderList
   static Future<Map<String, Tuple2<String, int>>?> downloadAltCoverUrls() async {
 
     Dio dio = Dio(BaseOptions(
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
-      sendTimeout: 3000,
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 3),
+      sendTimeout: const Duration(seconds: 3),
     ));
 
     try{
@@ -322,9 +322,9 @@ Future<Author> loadAuthor(String authCode, {Function? onError}) async{
 Future<Author> downloadAuthor(String authCode, {Function? onError}) async {
 
   Dio dio = Dio(BaseOptions(
-    connectTimeout: 5000,
-    receiveTimeout: 3000,
-    sendTimeout: 3000,
+    connectTimeout: const Duration(seconds: 5),
+    receiveTimeout: const Duration(seconds: 3),
+    sendTimeout: const Duration(seconds: 3),
   ));
 
   try {

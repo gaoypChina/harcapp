@@ -5,7 +5,6 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/rank.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_state_local.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_state_shared.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/rank_progress_widget.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/rank_tile_widget_template.dart';
@@ -54,7 +53,7 @@ class RankTileWidgetShare extends StatelessWidget {
           ),
 
           onTap: (context) => loadOpenRankDialog(context, RankData.colors[rank.data]!.avgColor(AppSettings.isDark), data),
-          trailing: RankProgressWidget(data.rankCompleted, data.rankInProgress, 100*data.rankCompletedTasksCnt~/(rank.state as RankStateLocal).taskCount),
+          trailing: RankProgressWidget(data.rankCompleted, data.rankInProgress, data.completenessPercent),
         ),
 
         Padding(
