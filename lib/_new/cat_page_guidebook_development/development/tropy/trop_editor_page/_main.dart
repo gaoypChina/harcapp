@@ -1,11 +1,14 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_editor_page/providers.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_classes/date_to_str.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_text_field_hint.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -14,7 +17,6 @@ import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:tuple/tuple.dart';
 
 import '../trop.dart';
 
@@ -40,6 +42,8 @@ class TropEditorPageState extends State<TropEditorPage>{
     providers: [
       ChangeNotifierProvider(create: (context) => NameControllerProvider(initTrop: widget.initTrop)),
       ChangeNotifierProvider(create: (context) => TropCategoryProvider(initTrop: widget.initTrop)),
+      ChangeNotifierProvider(create: (context) => StartTimeProvider(initTrop: widget.initTrop)),
+      ChangeNotifierProvider(create: (context) => EndTimeProvider(initTrop: widget.initTrop)),
       ChangeNotifierProvider(create: (context) => AimControllersProvider(initTrop: widget.initTrop)),
       ChangeNotifierProvider(create: (context) => TasksProvider(initTrop: widget.initTrop)),
     ],
@@ -53,6 +57,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                 editMode?'Edytuj trop':'Nowy trop'
             ),
             centerTitle: true,
+            floating: true,
             actions: [
               IconButton(
                 icon: const Icon(MdiIcons.check),
@@ -139,6 +144,61 @@ class TropEditorPageState extends State<TropEditorPage>{
                 const SizedBox(height: Dimen.SIDE_MARG),
 
                 const TitleShortcutRowWidget(
+                  title: 'Czas trwania',
+                  textAlign: TextAlign.left,
+                ),
+
+                Row(
+                  children: [
+
+                    Expanded(child: Consumer<StartTimeProvider>(
+                      builder: (context, prov, child) => SimpleButton.from(
+                        color: cardEnab_(context),
+                        context: context,
+                        icon: MdiIcons.calendarStartOutline,
+                        margin: EdgeInsets.zero,
+                        text: dateToString(prov.startTime, shortMonth: true, showYear: null),
+                        onTap: () async {
+                          DateTime? date = await showDatePicker(
+                              context: context,
+                              initialDate: prov.startTime,
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime.now().add(const Duration(days: 10*365))
+                          );
+                          if(date == null) return;
+                          else prov.startTime = date;
+                        }
+                      )
+                    )),
+
+                    const SizedBox(width: Dimen.SIDE_MARG),
+
+                    Expanded(child:  Consumer<EndTimeProvider>(
+                      builder: (context, prov, child) => SimpleButton.from(
+                        color: cardEnab_(context),
+                        context: context,
+                        icon: MdiIcons.calendarEndOutline,
+                        margin: EdgeInsets.zero,
+                        text: dateToString(prov.endTime, shortMonth: true, showYear: null),
+                        onTap: () async {
+                          DateTime? date = await showDatePicker(
+                              context: context,
+                              initialDate: prov.endTime,
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime.now().add(const Duration(days: 10*365))
+                          );
+                          if(date == null) return;
+                          else prov.endTime = date;
+                        }
+                      )
+                    ))
+                    
+                  ],
+                ),
+                
+                const SizedBox(height: Dimen.SIDE_MARG),
+
+                const TitleShortcutRowWidget(
                   title: 'Cele',
                   textAlign: TextAlign.left,
                 ),
@@ -184,7 +244,6 @@ class TropEditorPageState extends State<TropEditorPage>{
                                   icon: MdiIcons.close,
                                   margin: EdgeInsets.zero,
                                   iconLeading: false,
-                                  //padding: const EdgeInsets.all(Dimen.defMarg),
                                   onTap: (){
 
                                     String text = prov.aimControllers[index].text;
@@ -255,11 +314,43 @@ class TropEditorPageState extends State<TropEditorPage>{
                                     hint: 'Zadanie ${index+1}:',
                                     hintTop: 'Zadanie ${index+1}',
                                     textCapitalization: TextCapitalization.sentences,
-                                    controller: prov.tasks[index].item1,
+                                    controller: prov.tasks[index].contentController,
                                     maxLength: TropTask.maxLenContent,
                                     maxLines: null,
                                   ),
                                 ),
+                              ),
+
+                              Row(
+                                children: [
+
+                                  Expanded(child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: AssigneeButton(prov.tasks[index]),
+                                  )),
+
+                                  SimpleButton.from(
+                                    context: context,
+                                    text: 'Do ${dateToString(
+                                        prov.tasks[index].deadline,
+                                        shortMonth: true,
+                                        showYear: null
+                                    )}',
+                                    margin: EdgeInsets.zero,
+                                    onTap: () async {
+
+                                      DateTime? date = await showDatePicker(
+                                        context: context,
+                                        initialDate: prov.tasks[index].deadline,
+                                        firstDate: DateTime.now(),
+                                        lastDate: DateTime.now().add(const Duration(days: 10*365))
+                                      );
+                                      if(date == null) return;
+                                      else prov.update(index, deadline: date);
+                                    }
+                                  )
+
+                                ],
                               ),
 
                               if(prov.tasks.length > 1)
@@ -274,7 +365,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                                       //padding: const EdgeInsets.all(Dimen.defMarg),
                                       onTap: (){
 
-                                        Tuple3<TextEditingController, DateTime, String> value = prov.tasks[index];
+                                        TropTaskTmpData value = prov.tasks[index];
                                         prov.removeAt(index);
 
                                         showAppToast(
@@ -317,5 +408,153 @@ class TropEditorPageState extends State<TropEditorPage>{
       ),
     )
   );
+
+}
+
+class AssigneeButton extends StatelessWidget{
+
+  final TropTaskTmpData task;
+
+  const AssigneeButton(this.task, {super.key});
+
+  String? get assigneeName{
+    if(task.assignee != null)
+      return task.assignee!.name;
+
+    if(task.assigneeController.text.isNotEmpty)
+      return task.assigneeController.text;
+
+    return null;
+  }
+
+  @override
+  Widget build(BuildContext context) => SimpleButton.from(
+    context: context,
+    text: assigneeName??'Wybierz ogarniacza',
+    icon: assigneeName==null?MdiIcons.pencilOutline:MdiIcons.accountCircleOutline,
+    textColor: task.assignee==null&&task.assigneeController.text.isEmpty?
+    hintEnab_(context):
+    textEnab_(context),
+    margin: EdgeInsets.zero,
+    onTap: () => openAssigneeTypeChooserBottomSheet(context)
+  );
+
+  Future<void> openAssigneeTypeChooserBottomSheet(BuildContext context) async => showScrollBottomSheet(
+      context: context,
+      builder: (_) => BottomSheetDef(
+          builder: (_) => Column(
+            children: [
+
+              ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                ),
+                leading: const Icon(MdiIcons.formTextbox),
+                title: Text('Wpisz ręcznie', style: AppTextStyle()),
+                onTap: () async {
+
+                  Navigator.pop(context);
+
+                  String newText = task.assigneeController.text;
+                  AssigneeTextFieldCloseType closeType = await openAssigneeTextField(
+                    context,
+                    initText: task.assigneeController.text,
+                    onChanged: (text) => newText = text
+                  );
+
+                  if(closeType == AssigneeTextFieldCloseType.saved) {
+                    task.assignee = null;
+                    task.assigneeController.text = newText;
+                    TasksProvider.notify_(context);
+                  }
+                },
+              ),
+
+              ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                ),
+                leading: const Icon(MdiIcons.accountCircleOutline),
+                title: Text('Wybierz konto HarcApp', style: AppTextStyle()),
+                onTap: (){
+                  showAppToast(context, text: 'Na razie to nie działa!');
+                },
+              )
+
+            ],
+          )
+      )
+  );
+
+}
+
+enum AssigneeTextFieldCloseType{
+  canceled,
+  saved,
+}
+
+Future<AssigneeTextFieldCloseType> openAssigneeTextField(
+    BuildContext context,
+    { String? initText,
+      void Function(String)? onChanged
+    }) async{
+
+  AssigneeTextFieldCloseType closeType = AssigneeTextFieldCloseType.canceled;
+
+  TextEditingController controller = TextEditingController(text: initText??'');
+
+  await openDialog(
+      context: context,
+      builder: (context) => Center(
+        child: Padding(
+          padding: const EdgeInsets.all(Dimen.SIDE_MARG).add(
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom)
+          ),
+          child: Material(
+              borderRadius: BorderRadius.circular(AppCard.bigRadius),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(Dimen.defMarg),
+                    child: AppTextFieldHint(
+                      hint: 'Wpisz ogarniacza:',
+                      hintTop: 'Ogarniacz',
+                      controller: controller,
+                      onChanged: (_, text) => onChanged?.call(text),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(child: SimpleButton.from(
+                          context: context,
+                          text: 'Jednak nie',
+                          radius: 0,
+                          margin: EdgeInsets.zero,
+                          onTap: (){
+                            closeType = AssigneeTextFieldCloseType.canceled;
+                            Navigator.pop(context);
+                          }
+                      )),
+                      Expanded(child: SimpleButton.from(
+                          context: context,
+                          text: 'Zapisz',
+                          radius: 0,
+                          margin: EdgeInsets.zero,
+                          onTap: (){
+                            closeType = AssigneeTextFieldCloseType.saved;
+                            Navigator.pop(context);
+                          }
+                      )),
+                    ],
+                  )
+                ],
+              )
+          ),
+        ),
+      )
+  );
+
+  return closeType;
 
 }

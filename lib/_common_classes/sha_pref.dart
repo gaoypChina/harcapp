@@ -154,8 +154,8 @@ class ShaPref{
 
   // Tropy
 
-  static const String _SHA_PREF_TROP_TASK_COMPLETED_ = 'SHA_PREF_TROP_TASK_COMPLETED_';
-  static String SHA_PREF_TROP_TASK_COMPLETED_(TropTask task) => _SHA_PREF_TROP_TASK_COMPLETED_ + task.uuid;
+  // static const String _SHA_PREF_TROP_TASK_COMPLETED_ = 'SHA_PREF_TROP_TASK_COMPLETED_';
+  // static String SHA_PREF_TROP_TASK_COMPLETED_(TropTask task) => _SHA_PREF_TROP_TASK_COMPLETED_ + task.uuid;
 
   // Competition
 

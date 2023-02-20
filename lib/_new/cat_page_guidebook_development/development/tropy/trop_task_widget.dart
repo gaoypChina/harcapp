@@ -187,15 +187,37 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
               child: Row(
                 children: [
 
-                  SimpleButton.from(
+                  if(task.assignee != null)
+                    SimpleButton.from(
                       context: context,
-                      text: 'Marian Zarski',
+                      text: task.assignee!.name,
                       icon: MdiIcons.accountCircleOutline,
                       margin: EdgeInsets.zero,
                       padding: const EdgeInsets.all(Dimen.defMarg),
                       textSize: Dimen.TEXT_SIZE_BIG,
                       onTap: null
-                  ),
+                    )
+                  else if(task.assigneeText != null)
+                    SimpleButton.from(
+                      context: context,
+                      text: task.assigneeText,
+                      icon: MdiIcons.accountCircleOutline,
+                      margin: EdgeInsets.zero,
+                      padding: const EdgeInsets.all(Dimen.defMarg),
+                      textSize: Dimen.TEXT_SIZE_BIG,
+                      onTap: null
+                    )
+                  else
+                    SimpleButton.from(
+                      context: context,
+                      text: 'Brak ogarniacza',
+                      textColor: hintEnab_(context),
+                      icon: MdiIcons.accountCircleOutline,
+                      margin: EdgeInsets.zero,
+                      padding: const EdgeInsets.all(Dimen.defMarg),
+                      textSize: Dimen.TEXT_SIZE_BIG,
+                      onTap: null
+                    ),
 
                   Expanded(child: Container()),
 

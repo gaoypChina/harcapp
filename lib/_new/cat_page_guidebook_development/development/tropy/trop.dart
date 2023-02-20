@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/missing_decode_param_error.dart';
 import 'package:harcapp/_common_classes/storage.dart';
-import 'package:uuid/uuid.dart';
 
 enum TropCategory{
   harcZlotyTrop,
@@ -70,9 +70,19 @@ class Trop{
           startTime: DateTime.now(),
           endTime: DateTime.now().add(const Duration(days: 60)),
           tasks: [
-            TropTask.create(content: 'Zrobienie czegośtam - to jest zadanie numer jeden.', deadline: DateTime.now().add(const Duration(days: 7))),
-            TropTask.create(content: 'Tu z kolei będziemy robić jakieś zadanie numer dwa.', deadline: DateTime.now().add(const Duration(days: 8))),
-            TropTask.create(content: 'Czas najwyższy, żeby zrobić zadanko numer trzy!', deadline: DateTime.now().add(const Duration(days: 9))),
+            TropTask.create(
+                content: 'Zrobienie czegośtam - to jest zadanie numer jeden.',
+                deadline: DateTime.now().add(const Duration(days: 7)),
+                assigneeText: 'Włodzimierz Koc'
+            ),
+            TropTask.create(
+                content: 'Tu z kolei będziemy robić jakieś zadanie numer dwa.',
+                deadline: DateTime.now().add(const Duration(days: 8))
+            ),
+            TropTask.create(
+                content: 'Czas najwyższy, żeby zrobić zadanko numer trzy!',
+                deadline: DateTime.now().add(const Duration(days: 9))
+            ),
           ]
       ),
 
@@ -218,14 +228,17 @@ class TropTask{
   static const String paramContent = 'content';
   static const String paramSummary = 'summary';
   static const String paramDeadline = 'deadline';
+  static const String paramAssignee = 'assignee';
 
   static const int maxLenContent = 320;
   static const int maxLenSummary = 640;
 
-  final String uuid;
+  //final String uuid;
   String content;
   String? _summary;
   DateTime deadline;
+  UserData? assignee;
+  String? assigneeText;
   bool completed;
 
   String? get summary => _summary;
@@ -238,10 +251,12 @@ class TropTask{
   // set completed(bool value) => ShaPref.setBool(ShaPref.SHA_PREF_TROP_TASK_COMPLETED_(this), value);
 
   TropTask({
-    required this.uuid,
+    //required this.uuid,
     required this.content,
     String? summary,
     required this.deadline,
+    this.assignee,
+    this.assigneeText,
     this.completed = false,
   }):
     _summary = summary;
@@ -250,22 +265,26 @@ class TropTask{
     required String content,
     String? summary,
     required DateTime deadline,
+    UserData? assignee,
+    String? assigneeText,
   }) => TropTask(
-    uuid: const Uuid().v4(),
+    //uuid: const Uuid().v4(),
     content: content,
     summary: summary,
-    deadline: deadline
+    deadline: deadline,
+    assignee: assignee,
+    assigneeText: assigneeText
   );
 
   Map toJsonMap() => {
-    paramUUID: uuid,
+    //paramUUID: uuid,
     paramContent: content,
     paramSummary: summary,
     paramDeadline: deadline.toIso8601String()
   };
 
   static TropTask fromRespMap(Map respMapData) => TropTask(
-    uuid: respMapData[paramUUID],
+    //uuid: respMapData[paramUUID],
     content: respMapData[paramContent]??(throw MissingDecodeParamError(paramContent)),
     summary: respMapData[paramSummary]??(throw MissingDecodeParamError(paramSummary)),
     deadline: DateTime.tryParse(respMapData[paramDeadline])??(throw MissingDecodeParamError(paramDeadline)),

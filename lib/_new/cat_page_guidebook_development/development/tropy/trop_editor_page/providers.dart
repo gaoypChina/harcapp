@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
 import 'package:provider/provider.dart';
-import 'package:tuple/tuple.dart';
 
 class NameControllerProvider extends ChangeNotifier{
 
@@ -31,6 +31,40 @@ class TropCategoryProvider extends ChangeNotifier{
 
 }
 
+class StartTimeProvider extends ChangeNotifier{
+
+  static StartTimeProvider of(BuildContext context) => Provider.of<StartTimeProvider>(context, listen: false);
+
+  DateTime _startTime;
+
+  DateTime get startTime => _startTime;
+  set startTime(DateTime value){
+    _startTime = value;
+    notifyListeners();
+  }
+
+  StartTimeProvider({Trop? initTrop}):
+        _startTime = initTrop?.startTime??DateTime.now();
+
+}
+
+class EndTimeProvider extends ChangeNotifier{
+
+  static EndTimeProvider of(BuildContext context) => Provider.of<EndTimeProvider>(context, listen: false);
+
+  DateTime _endTime;
+
+  DateTime get endTime => _endTime;
+  set endTime(DateTime value){
+    _endTime = value;
+    notifyListeners();
+  }
+
+  EndTimeProvider({Trop? initTrop}):
+        _endTime = initTrop?.endTime??(DateTime.now().add(const Duration(days: 21)));
+
+}
+
 class AimControllersProvider extends ChangeNotifier{
 
   static AimControllersProvider of(BuildContext context) => Provider.of<AimControllersProvider>(context, listen: false);
@@ -57,29 +91,57 @@ class AimControllersProvider extends ChangeNotifier{
 
 }
 
+class TropTaskTmpData{
+
+  late TextEditingController contentController;
+  late DateTime deadline;
+
+  late UserData? assignee;
+  late String? assigneeNick;
+  late TextEditingController assigneeController;
+
+  TropTaskTmpData(String content, this.deadline, this.assignee, this.assigneeNick, String? assigneeText){
+    contentController = TextEditingController(text: content);
+    assigneeController = TextEditingController(text: assigneeText??'');
+  }
+
+}
+
 class TasksProvider extends ChangeNotifier{
 
   static TasksProvider of(BuildContext context) => Provider.of<TasksProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context).notify();
 
-  List<Tuple3<TextEditingController, DateTime, String>> tasks;
+  List<TropTaskTmpData> tasks;
 
   TasksProvider({Trop? initTrop}):
-        tasks = (initTrop?.tasks??[]).map((t) => Tuple3(
-            TextEditingController(text: t.content),
+        tasks = (initTrop?.tasks??[]).map((t) => TropTaskTmpData(
+            t.content,
             t.deadline,
-            ''
+
+            t.assignee,
+            null,
+            t.assigneeText,
         )).toList();
 
   void add(){
-    tasks.add(Tuple3(
-        TextEditingController(text: ''),
-        DateTime.now().add(const Duration(days: 14)),
-        ''
+    tasks.add(TropTaskTmpData(
+      '',
+      DateTime.now().add(const Duration(days: 14)),
+      null,
+      null,
+      null
     ));
     notifyListeners();
   }
 
-  void insert(int index, Tuple3<TextEditingController, DateTime, String> value){
+  void update(int index, {DateTime? deadline, String? assigneeNick, String? assigneeText}){
+    if(deadline != null) tasks[index].deadline = deadline;
+    tasks[index].assigneeNick = assigneeNick;
+    notifyListeners();
+  }
+
+  void insert(int index, TropTaskTmpData value){
     tasks.insert(index, value);
     notifyListeners();
   }
@@ -88,5 +150,7 @@ class TasksProvider extends ChangeNotifier{
     tasks.removeAt(index);
     notifyListeners();
   }
+
+  void notify() => notifyListeners();
 
 }
