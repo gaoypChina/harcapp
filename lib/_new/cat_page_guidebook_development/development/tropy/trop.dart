@@ -38,6 +38,7 @@ enum TropCategory{
   harcOdkrywanie,
   harcNatura,
   harcInicjatywa,
+  harcCzlowiek,
   harcBraterstwo,
 
   zuchArtystyczne,
@@ -56,6 +57,7 @@ List<TropCategory> allHarcTropCategories = [
   TropCategory.harcOdkrywanie,
   TropCategory.harcNatura,
   TropCategory.harcInicjatywa,
+  TropCategory.harcCzlowiek,
   TropCategory.harcBraterstwo,
 ];
 
@@ -67,6 +69,7 @@ String tropCategoryToStr(TropCategory category){
     case TropCategory.harcOdkrywanie: return 'harcOdkrywanie';
     case TropCategory.harcNatura: return 'harcNatura';
     case TropCategory.harcInicjatywa: return 'harcInicjatywa';
+    case TropCategory.harcCzlowiek: return 'harcCzlowiek';
     case TropCategory.harcBraterstwo: return 'harcBraterstwo';
 
     case TropCategory.zuchArtystyczne: return 'zuchArtystyczne';
@@ -87,6 +90,7 @@ TropCategory? strToTropCategory(String value){
     case 'harcOdkrywanie': return TropCategory.harcOdkrywanie;
     case 'harcNatura': return TropCategory.harcNatura;
     case 'harcInicjatywa': return TropCategory.harcInicjatywa;
+    case 'harcCzlowiek': return TropCategory.harcCzlowiek;
     case 'harcBraterstwo': return TropCategory.harcBraterstwo;
 
     case 'zuchArtystyczne': return TropCategory.zuchArtystyczne;
@@ -109,6 +113,7 @@ String tropCategoryToName(TropCategory category){
     case TropCategory.harcOdkrywanie: return 'Odkrywanie';
     case TropCategory.harcNatura: return 'Natura';
     case TropCategory.harcInicjatywa: return 'Inicjatywa';
+    case TropCategory.harcCzlowiek: return 'Czlowiek';
     case TropCategory.harcBraterstwo: return 'Braterstwo';
 
     case TropCategory.zuchArtystyczne: return 'Artystyczne';

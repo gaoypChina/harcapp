@@ -8,9 +8,16 @@ import 'trop_icon.dart';
 
 class TropTile extends StatelessWidget{
 
-  final Trop trop;
+  final String name;
+  final TropCategory category;
+  final double iconSize;
 
-  const TropTile(this.trop, {super.key});
+  const TropTile({
+    required this.name,
+    required this.category,
+    this.iconSize = TropIcon.defSize,
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) => Column(
@@ -19,7 +26,7 @@ class TropTile extends StatelessWidget{
       Row(
         children: [
 
-          TropIcon(trop.category),
+          TropIcon(category, size: iconSize),
 
           const SizedBox(width: Dimen.SIDE_MARG),
 
@@ -29,18 +36,22 @@ class TropTile extends StatelessWidget{
               children: [
 
                 Text(
-                  trop.name,
+                  name,
                   style: AppTextStyle(
                       fontSize: Dimen.TEXT_SIZE_BIG,
+                      fontWeight: weight.halfBold,
                       color: iconEnab_(context)
                   ),
                 ),
 
+                const SizedBox(height: Dimen.defMarg),
+
                 Text(
-                  tropCategoryToName(trop.category),
+                  tropCategoryToName(category),
                   style: AppTextStyle(
+                    fontSize: Dimen.TEXT_SIZE_BIG,
+                    fontWeight: weight.halfBold,
                     color: hintEnab_(context),
-                    fontWeight: weight.halfBold
                   ),
                 ),
 

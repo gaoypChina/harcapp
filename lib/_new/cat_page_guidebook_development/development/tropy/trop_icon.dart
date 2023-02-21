@@ -20,6 +20,7 @@ class TropIcon extends StatelessWidget{
       case TropCategory.harcOdkrywanie: return 'harc/odkrywanie_1';
       case TropCategory.harcNatura: return 'harc/natura_1';
       case TropCategory.harcInicjatywa: return 'harc/inicjatywa_1';
+      case TropCategory.harcCzlowiek: return 'harc/czlowiek_1';
       case TropCategory.harcBraterstwo: return 'harc/braterstwo_1';
 
       case TropCategory.zuchArtystyczne: return 'zuch/artystyczne_$zuchTropName';

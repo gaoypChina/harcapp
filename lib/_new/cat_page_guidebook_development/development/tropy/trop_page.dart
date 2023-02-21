@@ -59,7 +59,7 @@ class TropPage extends StatelessWidget{
             padding: const EdgeInsets.all(Dimen.SIDE_MARG),
             sliver: SliverList(delegate: SliverChildListDelegate([
 
-              TropTile(trop),
+              TropTile(name: trop.name, category: trop.category),
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
