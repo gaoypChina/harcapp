@@ -97,13 +97,20 @@ class TropTaskTmpData{
   late DateTime deadline;
 
   late UserData? assignee;
-  late String? assigneeNick;
+  late UserDataNick? assigneeNick;
   late TextEditingController assigneeController;
 
   TropTaskTmpData(String content, this.deadline, this.assignee, this.assigneeNick, String? assigneeText){
     contentController = TextEditingController(text: content);
     assigneeController = TextEditingController(text: assigneeText??'');
   }
+
+  TropTask toTask() => TropTask(
+    content: contentController.text,
+    deadline: deadline,
+    assignee: assigneeNick??assignee,
+    assigneeText: assigneeController.text
+  );
 
 }
 
@@ -135,7 +142,7 @@ class TasksProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void update(int index, {DateTime? deadline, String? assigneeNick, String? assigneeText}){
+  void update(int index, {DateTime? deadline, UserDataNick? assigneeNick, String? assigneeText}){
     if(deadline != null) tasks[index].deadline = deadline;
     tasks[index].assigneeNick = assigneeNick;
     notifyListeners();

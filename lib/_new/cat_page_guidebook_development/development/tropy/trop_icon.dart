@@ -8,25 +8,34 @@ class TropIcon extends StatelessWidget{
 
   final TropCategory tropCategory;
   final double size;
+  final String? zuchTropName;
 
-  const TropIcon(this.tropCategory, {this.size = defSize, super.key});
+  const TropIcon(this.tropCategory, {this.size = defSize, this.zuchTropName, super.key});
 
-  static String assetPath(TropCategory category){
+  static String assetPath(TropCategory category, {String? zuchTropName}){
     switch(category){
-      case TropCategory.harcZlotyTrop: return 'zloty_trop';
-      case TropCategory.harcZaradnosc: return 'zaradnosc_1';
-      case TropCategory.harcOjczyzna: return 'ojczyzna_1';
-      case TropCategory.harcOdkrywanie: return 'odkrywanie_1';
-      case TropCategory.harcNatura: return 'natura_1';
-      case TropCategory.harcInicjatywa: return 'inicjatywa_1';
-      case TropCategory.harcBraterstwo: return 'braterstwo_1';
+      case TropCategory.harcZlotyTrop: return 'harc/zloty_trop';
+      case TropCategory.harcZaradnosc: return 'harc/zaradnosc_1';
+      case TropCategory.harcOjczyzna: return 'harc/ojczyzna_1';
+      case TropCategory.harcOdkrywanie: return 'harc/odkrywanie_1';
+      case TropCategory.harcNatura: return 'harc/natura_1';
+      case TropCategory.harcInicjatywa: return 'harc/inicjatywa_1';
+      case TropCategory.harcBraterstwo: return 'harc/braterstwo_1';
+
+      case TropCategory.zuchArtystyczne: return 'zuch/artystyczne_$zuchTropName';
+      case TropCategory.zuchBajkowe: return 'zuch/bajkowe_$zuchTropName';
+      case TropCategory.zuchKulturoznawcze: return 'zuch/kulturoznawcze_$zuchTropName';
+      case TropCategory.zuchObywatelskie: return 'zuch/obywatelskie_$zuchTropName';
+      case TropCategory.zuchPrzyrodnicze: return 'zuch/przyrodnicze_$zuchTropName';
+      case TropCategory.zuchSportoweITurystyczne: return 'zuch/sportowe_i_turystyczne_$zuchTropName';
+      case TropCategory.zuchZawodowe: return 'zuch/zawodowe_$zuchTropName';
     }
 
   }
 
   @override
   Widget build(BuildContext context) => SvgPicture.asset(
-    'assets/images/trop/harc/${assetPath(tropCategory)}.svg',
+    'assets/images/trop/${assetPath(tropCategory, zuchTropName: zuchTropName)}.svg',
     width: size,
     height: size,
   );

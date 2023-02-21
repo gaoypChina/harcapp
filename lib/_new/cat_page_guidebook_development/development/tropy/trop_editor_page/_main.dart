@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
@@ -23,8 +24,9 @@ import '../trop.dart';
 class TropEditorPage extends StatefulWidget{
 
   final Trop? initTrop;
+  final void Function(Trop)? onSaved;
 
-  const TropEditorPage({this.initTrop, super.key});
+  const TropEditorPage({this.initTrop, this.onSaved, super.key});
 
   @override
   State<StatefulWidget> createState() => TropEditorPageState();
@@ -33,19 +35,20 @@ class TropEditorPage extends StatefulWidget{
 
 class TropEditorPageState extends State<TropEditorPage>{
 
-  bool get editMode => widget.initTrop != null;
+  Trop? get initTrop => widget.initTrop;
+  void Function(Trop)? get onSaved => widget.onSaved;
 
-
+  bool get editMode => initTrop != null;
 
   @override
   Widget build(BuildContext context) => MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => NameControllerProvider(initTrop: widget.initTrop)),
-      ChangeNotifierProvider(create: (context) => TropCategoryProvider(initTrop: widget.initTrop)),
-      ChangeNotifierProvider(create: (context) => StartTimeProvider(initTrop: widget.initTrop)),
-      ChangeNotifierProvider(create: (context) => EndTimeProvider(initTrop: widget.initTrop)),
-      ChangeNotifierProvider(create: (context) => AimControllersProvider(initTrop: widget.initTrop)),
-      ChangeNotifierProvider(create: (context) => TasksProvider(initTrop: widget.initTrop)),
+      ChangeNotifierProvider(create: (context) => NameControllerProvider(initTrop: initTrop)),
+      ChangeNotifierProvider(create: (context) => TropCategoryProvider(initTrop: initTrop)),
+      ChangeNotifierProvider(create: (context) => StartTimeProvider(initTrop: initTrop)),
+      ChangeNotifierProvider(create: (context) => EndTimeProvider(initTrop: initTrop)),
+      ChangeNotifierProvider(create: (context) => AimControllersProvider(initTrop: initTrop)),
+      ChangeNotifierProvider(create: (context) => TasksProvider(initTrop: initTrop)),
     ],
     builder: (context, child) => BottomNavScaffold(
       body: CustomScrollView(
@@ -53,15 +56,46 @@ class TropEditorPageState extends State<TropEditorPage>{
         slivers: [
 
           SliverAppBar(
-            title: Text(
-                editMode?'Edytuj trop':'Nowy trop'
-            ),
+            title: Text(editMode?'Edytuj trop':'Nowy trop'),
             centerTitle: true,
             floating: true,
             actions: [
               IconButton(
                 icon: const Icon(MdiIcons.check),
-                onPressed: (){
+                onPressed: () async {
+
+                  String name = NameControllerProvider.of(context).nameController.text;
+                  TropCategory category = TropCategoryProvider.of(context).category;
+                  List<String> aims = AimControllersProvider.of(context).aimControllers.map((c) => c.text).toList();
+                  DateTime startTime = StartTimeProvider.of(context).startTime;
+                  DateTime endTime = EndTimeProvider.of(context).endTime;
+                  List<TropTask> tasks = TasksProvider.of(context).tasks.map((t) => t.toTask()).toList();
+
+                  if(editMode) {
+                    initTrop!.name = name;
+                    initTrop!.category = category;
+                    initTrop!.aims = aims;
+                    initTrop!.startTime = startTime;
+                    initTrop!.endTime = endTime;
+                    initTrop!.tasks = tasks;
+
+                    initTrop!.save();
+                    onSaved?.call(initTrop!);
+                    Navigator.pop(context);
+
+                  } else {
+                    Trop trop = Trop.create(
+                        name: name,
+                        category: category,
+                        aims: aims,
+                        startTime: startTime,
+                        endTime: endTime,
+                        tasks: tasks
+                    );
+                    trop.save();
+                    await popPage(context);
+                    onSaved?.call(trop);
+                  }
 
                 },
               )
@@ -101,10 +135,10 @@ class TropEditorPageState extends State<TropEditorPage>{
                           builder: (context, prov, child) => DropdownButton2<TropCategory>(
                             isExpanded: true,
                             hint: Text(
-                                'Kategoria tropu',
-                                style: AppTextStyle(color: hintEnab_(context))
+                              'Kategoria tropu',
+                              style: AppTextStyle(color: hintEnab_(context))
                             ),
-                            items: TropCategory.values.map((cat) => DropdownMenuItem(
+                            items: allHarcTropCategories.map((cat) => DropdownMenuItem(
                               value: cat,
                               child: Row(
                                 children: [
@@ -455,14 +489,12 @@ class AssigneeButton extends StatelessWidget{
 
                   Navigator.pop(context);
 
-                  String newText = task.assigneeController.text;
-                  AssigneeTextFieldCloseType closeType = await openAssigneeTextField(
+                  String? newText = await openAssigneeTextField(
                     context,
                     initText: task.assigneeController.text,
-                    onChanged: (text) => newText = text
                   );
 
-                  if(closeType == AssigneeTextFieldCloseType.saved) {
+                  if(newText != null) {
                     task.assignee = null;
                     task.assigneeController.text = newText;
                     TasksProvider.notify_(context);
@@ -488,18 +520,13 @@ class AssigneeButton extends StatelessWidget{
 
 }
 
-enum AssigneeTextFieldCloseType{
-  canceled,
-  saved,
-}
-
-Future<AssigneeTextFieldCloseType> openAssigneeTextField(
+Future<String?> openAssigneeTextField(
     BuildContext context,
     { String? initText,
       void Function(String)? onChanged
     }) async{
 
-  AssigneeTextFieldCloseType closeType = AssigneeTextFieldCloseType.canceled;
+  bool saved = false;
 
   TextEditingController controller = TextEditingController(text: initText??'');
 
@@ -532,7 +559,6 @@ Future<AssigneeTextFieldCloseType> openAssigneeTextField(
                           radius: 0,
                           margin: EdgeInsets.zero,
                           onTap: (){
-                            closeType = AssigneeTextFieldCloseType.canceled;
                             Navigator.pop(context);
                           }
                       )),
@@ -542,7 +568,7 @@ Future<AssigneeTextFieldCloseType> openAssigneeTextField(
                           radius: 0,
                           margin: EdgeInsets.zero,
                           onTap: (){
-                            closeType = AssigneeTextFieldCloseType.saved;
+                            saved = true;
                             Navigator.pop(context);
                           }
                       )),
@@ -555,6 +581,6 @@ Future<AssigneeTextFieldCloseType> openAssigneeTextField(
       )
   );
 
-  return closeType;
+  return saved?controller.text:null;
 
 }

@@ -20,6 +20,9 @@ class AppColors{
   static const Color hrpGreen = Color.fromARGB(255, 128, 128, 0);
   static const Color zhpGreen = Color.fromARGB(255, 132, 163, 17);
 
+  static const Color zhpTropColor = Color.fromARGB(255, 93, 47, 136);
+  static const Color zhpTropDarkColor = Color.fromARGB(255, 56, 34, 89);
+
   static const Color iconTransp = Colors.black54;
   static const Color iconEnabled = Colors.black87;
   static const Color iconDisabled = Colors.black26;

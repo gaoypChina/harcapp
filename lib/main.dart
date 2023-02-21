@@ -162,26 +162,26 @@ void main() async {
             ChangeNotifierProvider(create: (context) => DrawerProvider()),
             ChangeNotifierProvider(create: (context) => FloatingButtonProvider()),
 
-            //HARCMAP
+            // HARCMAP
             ChangeNotifierProvider(create: (context) => MarkerProvider()),
             ChangeNotifierProvider(create: (context) => MarkerListProvider()),
             ChangeNotifierProvider(create: (context) => MarkerManagersProvider()),
 
-            //COMMUNITIES
+            // COMMUNITIES
             ChangeNotifierProvider(create: (context) => CommunityProvider()),
             ChangeNotifierProvider(create: (context) => CommunityListProvider()),
             ChangeNotifierProvider(create: (context) => CommunityManagersProvider()),
 
             ChangeNotifierProvider(create: (context) => CommunityPublishableListProvider()),
 
-            //CIRCLES
+            // CIRCLES
             ChangeNotifierProvider(create: (context) => CircleMembersProvider()),
             ChangeNotifierProvider(create: (context) => CircleProvider()),
             ChangeNotifierProvider(create: (context) => AnnouncementProvider()),
             ChangeNotifierProvider(create: (context) => AnnouncementListProvider()),
             ChangeNotifierProvider(create: (context) => BindedIndivCompsProvider()),
 
-            //FORUM
+            // FORUM
             ChangeNotifierProvider(create: (context) => ForumProvider()),
             ChangeNotifierProvider(create: (context) => ForumManagersProvider()),
             ChangeNotifierProvider(create: (context) => ForumFollowersProvider()),
@@ -189,7 +189,7 @@ void main() async {
             ChangeNotifierProvider(create: (context) => PostProvider()),
             ChangeNotifierProvider(create: (context) => PostListProvider()),
 
-            //INDIVIDUAL COMPETITION
+            // INDIVIDUAL COMPETITION
             ChangeNotifierProvider(create: (context) => IndivCompParticipsProvider()),
             ChangeNotifierProvider(create: (context) => ComplTasksProvider()),
             ChangeNotifierProvider(create: (context) => IndivCompProvider()),
@@ -204,6 +204,11 @@ void main() async {
             ChangeNotifierProvider(create: (context) => SprawCompletedListProv()),
             ChangeNotifierProvider(create: (context) => CurrentSprawGroupProvider()),
 
+            // TROPY
+            ChangeNotifierProvider(create: (context) => TropProvider()),
+            ChangeNotifierProvider(create: (context) => TropListProvider()),
+            ChangeNotifierProvider(create: (context) => TropTaskProvider()),
+
             // ŚPIEWNIK
             ChangeNotifierProvider(create: (context) => AlbumProvider()),
             ChangeNotifierProvider(create: (context) => RandomButtonProvider()),
@@ -211,7 +216,7 @@ void main() async {
             // SZYFRY
             ChangeNotifierProvider(create: (context) => GaderypolukiProvider()),
 
-            //ARTICLES
+            // ARTICLES
             ChangeNotifierProvider(create: (context) => ArticleThemeProvider()),
             ChangeNotifierProvider(create: (context) => BookmarkedArticlesProvider()),
             ChangeNotifierProvider(create: (context) => LikedArticlesProvider()),

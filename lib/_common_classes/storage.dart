@@ -44,8 +44,8 @@ String get getSongMemoriesFolderPath => _localPath + getSongMemoriesFolderLocalP
 String get getAlbumFolderLocalPath => '/albums/';
 String get getAlbumFolderPath => _localPath + getAlbumFolderLocalPath;
 
-String get getMyTropFolderLocalPath => '/tropy/my/';
-String get getMyTropFolderPath => _localPath + getMyTropFolderLocalPath;
+String get getMyTropFolderLocalPath => '/tropy/own/';
+String get getOwnTropFolderPath => _localPath + getMyTropFolderLocalPath;
 
 String get getSharedTropFolderLocalPath => '/tropy/shared/';
 String get getSharedTropFolderPath => _localPath + getSharedTropFolderLocalPath;
@@ -86,7 +86,7 @@ File saveStringAsFile(String path, String content) {
 File saveStringAsFileToFolder(String localPath, String content, {String? fileName}) {
   if(localPath.isNotEmpty && localPath[0]=='/')
     localPath = localPath.substring(1);
-  String path = join(_localPath, localPath);//'${_localPath}/$localPath';
+  String path = join(_localPath, localPath); //'${_localPath}/$localPath';
 
   Directory(path).createSync(recursive: true);
 

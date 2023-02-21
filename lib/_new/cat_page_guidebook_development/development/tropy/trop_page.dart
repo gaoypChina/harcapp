@@ -1,90 +1,110 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/duration_date_widget.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_editor_page/_main.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_task_widget.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_tile.dart';
+import 'package:harcapp/values/colors.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 
 
 class TropPage extends StatelessWidget{
 
-  final Trop trop;
+  final Trop _trop;
 
-  const TropPage(this.trop, {super.key});
+  Trop get trop => _trop;
+
+  const TropPage(this._trop, {super.key});
 
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
-    body: CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
+    body: Consumer<TropProvider>(
+      builder: (context, prov, child) => CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
 
-        SliverAppBar(
-          title: Text(trop.name),
-          centerTitle: true,
-          floating: true,
-          actions: [
-            IconButton(
-              icon: const Icon(MdiIcons.pencilOutline),
-              onPressed: () {},
-            )
-          ],
-        ),
+          SliverAppBar(
+            title: Text(trop.name),
+            centerTitle: true,
+            floating: true,
+            actions: [
+              IconButton(
+                icon: const Icon(MdiIcons.pencilOutline),
+                onPressed: () {
 
-        SliverPadding(
-          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-          sliver: SliverList(delegate: SliverChildListDelegate([
+                  pushPage(context, builder: (context) => TropEditorPage(
+                    initTrop: trop,
+                    onSaved: (updatedTrop){
+                      trop.update(updatedTrop);
+                      showAppToast(context, text: 'Trop poprawiony');
+                      prov.notify();
+                    }
+                  ));
 
-            TropTile(trop),
+                },
+              )
+            ],
+          ),
 
-            const SizedBox(height: Dimen.SIDE_MARG),
+          SliverPadding(
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+            sliver: SliverList(delegate: SliverChildListDelegate([
 
-            DurationDateWidget(
-              startDate: trop.startTime,
-              endDate: trop.endTime,
-              color: Colors.purple[900]!,
-            ),
+              TropTile(trop),
 
-            const SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
-            const TitleShortcutRowWidget(
-              title: 'Cele',
-              textAlign: TextAlign.left,
-            ),
+              DurationDateWidget(
+                startDate: trop.startTime,
+                endDate: trop.endTime,
+                color: AppColors.zhpTropColor,
+              ),
 
-            ListView.separated(
-              itemBuilder: (context, index) => TropAimWidget(trop.aims[index], index: index),
-              separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-              itemCount: trop.aims.length,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-            ),
+              const SizedBox(height: Dimen.SIDE_MARG),
+
+              const TitleShortcutRowWidget(
+                title: 'Cele',
+                textAlign: TextAlign.left,
+              ),
+
+              ListView.separated(
+                itemBuilder: (context, index) => TropAimWidget(trop.aims[index], index: index),
+                separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
+                itemCount: trop.aims.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+              ),
 
 
-            const SizedBox(height: Dimen.SIDE_MARG),
+              const SizedBox(height: Dimen.SIDE_MARG),
 
-            const TitleShortcutRowWidget(
-              title: 'Zadania',
-              textAlign: TextAlign.left,
-            ),
+              const TitleShortcutRowWidget(
+                title: 'Zadania',
+                textAlign: TextAlign.left,
+              ),
 
-            ListView.separated(
-              itemBuilder: (context, index) => TropTaskWidget(trop, trop.tasks[index], index: index),
-              separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-              itemCount: trop.tasks.length,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-            )
+              ListView.separated(
+                itemBuilder: (context, index) => TropTaskWidget(trop, trop.tasks[index], index: index),
+                separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
+                itemCount: trop.tasks.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+              )
 
-          ])),
-        )
+            ])),
+          )
 
-      ],
+        ],
+      )
     )
   );
 
