@@ -9,8 +9,8 @@ class NameControllerProvider extends ChangeNotifier{
 
   TextEditingController nameController;
 
-  NameControllerProvider({Trop? initTrop}):
-        nameController = TextEditingController(text: initTrop?.name??'');
+  NameControllerProvider({Trop? initTrop, TropBaseData? initTropBaseData}):
+        nameController = TextEditingController(text: initTrop?.name??initTropBaseData?.name??'');
 
 }
 
@@ -20,8 +20,8 @@ class TropCategoryProvider extends ChangeNotifier{
 
   TropCategory _category;
 
-  TropCategoryProvider({Trop? initTrop}):
-        _category = initTrop?.category??TropCategory.harcZaradnosc;
+  TropCategoryProvider({Trop? initTrop, TropBaseData? initTropBaseData}):
+        _category = initTrop?.category??initTropBaseData?.category??TropCategory.harcZaradnosc;
 
   TropCategory get category => _category;
   set category(TropCategory value){
@@ -71,8 +71,8 @@ class AimControllersProvider extends ChangeNotifier{
 
   List<TextEditingController> aimControllers;
 
-  AimControllersProvider({Trop? initTrop}):
-        aimControllers = (initTrop?.aims??['']).map((a) => TextEditingController(text: a)).toList();
+  AimControllersProvider({Trop? initTrop, TropBaseData? initTropBaseData}):
+        aimControllers = (initTrop?.aims??initTropBaseData?.aims??['']).map((a) => TextEditingController(text: a)).toList();
 
   void add(){
     aimControllers.add(TextEditingController(text: ''));
@@ -94,7 +94,7 @@ class AimControllersProvider extends ChangeNotifier{
 class TropTaskTmpData{
 
   late TextEditingController contentController;
-  late DateTime deadline;
+  late DateTime? deadline;
 
   late UserData? assignee;
   late UserDataNick? assigneeNick;
@@ -105,12 +105,15 @@ class TropTaskTmpData{
     assigneeController = TextEditingController(text: assigneeText??'');
   }
 
-  TropTask toTask() => TropTask(
-    content: contentController.text,
-    deadline: deadline,
-    assignee: assigneeNick??assignee,
-    assigneeText: assigneeController.text
-  );
+  TropTask? toTask(){
+    if(deadline == null) return null;
+    return TropTask(
+        content: contentController.text,
+        deadline: deadline!,
+        assignee: assigneeNick??assignee,
+        assigneeText: assigneeController.text
+    );
+  }
 
 }
 
@@ -119,17 +122,34 @@ class TasksProvider extends ChangeNotifier{
   static TasksProvider of(BuildContext context) => Provider.of<TasksProvider>(context, listen: false);
   static void notify_(BuildContext context) => of(context).notify();
 
-  List<TropTaskTmpData> tasks;
+  late List<TropTaskTmpData> tasks;
 
-  TasksProvider({Trop? initTrop}):
-        tasks = (initTrop?.tasks??[]).map((t) => TropTaskTmpData(
-            t.content,
-            t.deadline,
+  TasksProvider({Trop? initTrop, TropBaseData? initTropBaseData}){
 
-            t.assignee,
-            null,
-            t.assigneeText,
-        )).toList();
+    tasks = [];
+    if(initTropBaseData != null)
+      for(TropTaskBaseData t in initTropBaseData.tasks)
+        tasks.add(TropTaskTmpData(
+          t.content,
+          null,
+
+          null,
+          null,
+          null,
+        ));
+
+    else if(initTrop != null)
+      for(TropTask t in initTrop.tasks)
+        tasks.add(TropTaskTmpData(
+          t.content,
+          t.deadline,
+
+          t.assignee,
+          null,
+          t.assigneeText,
+        ));
+
+  }
 
   void add(){
     tasks.add(TropTaskTmpData(

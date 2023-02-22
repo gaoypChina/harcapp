@@ -1,11 +1,11 @@
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
 
-import 'harc_trop_idea.dart';
+import 'trop_idea.dart';
 
-List<HarcTropIdea> harcWTropIdeas = const [
+List<TropIdea> harcWTropIdeas = const [
 
   // TODO: bełkot - freeganizm.
-  HarcTropIdea(
+  TropIdea(
     name: 'Nie marnuj jedzenia',
     category: TropCategory.harcInicjatywa,
     intro: 'Czy zauważyliście, ile jedzenia marnuje się w Waszej okolicy, mieście? Ile jedzenia ląduje na śmietnikach restauracji? Ile osób potrzebujących napotykacie na co dzień, na Waszym osiedlu, w Waszej miejscowości? A czy może zaobserwowaliście również jak wielu jest potrzebujących, bezdomnych na Waszej okolicy…? Może więc warto spróbować zapewnić żywność głodnym.',
@@ -19,7 +19,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
     summary: 'Zadbajcie o wypromowanie prowadzonych przez Was działań. Pomyślcie, co Wy możecie zrobić w swoim domu, aby nie dopuszczać do sytuacji, w której wyrzucane jedzenie. Dzielcie się z innymi swoimi dobrymi praktykami np. w formie wszechnicy. Dowiedzcie się, czym jest freeganizm i zorganizujcie spotkanie z freeganinem. Przeprowadźcie w drużynie dyskusję nad takim sposobem życia.',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Troska o wspólnotę lokalną na obozie stacjonarnym',
     category: TropCategory.harcInicjatywa,
     intro: 'Zorganizujcie na obozie/zimowisku Waszego środowiska służbę angażującą jego uczestników odpowiadającą na potrzeby znajdującej się tam wspólnoty lokalnej.',
@@ -29,7 +29,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
     summary: 'Zarówno w gronie Rad Drużyn na obozie, jak i Waszej drużyny podsumujcie Wasze działania. Zastanówcie się, jak udało Wam się wesprzeć wspólnotę lokalną, którą odwiedziliście.',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Inwestorzy Giełdowi',
     category: TropCategory.harcZaradnosc,
     intro: 'O giełdzie papierów wartościowych mówi się dużo, zarówno dobrych, jak i złych rzeczy. Dla osób, które nie rozumieją zasad panujących na giełdzie, praw ekonomicznych lub nie potrafią właściwie czytać wskaźników giełdowych, dokonywanie inwestycji na giełdzie może być dużym ryzykiem utraty zainwestowanych pieniędzy. Trop „Inwestorzy Giełdowi” ma na celu wyposażyć uczestników w odpowiednie umiejętności, dzięki którym giełda stanie się dla nich bardziej zrozumiała, a przez to potencjalne inwestowanie mniej ryzykowne.'
@@ -42,7 +42,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
         '\n\nTrop można realizować cyklicznie, zmieniając poprzez inwestowanie na koncie demo w inne giełdy (np. walutowe albo surowcowe).',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Pierwszy krok na rynku pracy',
     category: TropCategory.harcZaradnosc,
     intro: 'W świecie, gdzie każda minuta się liczy, gdzie każdy walczy o jak najlepszą pozycję społeczną i jak najciekawszą pracę pokażcie, że życie harcerskie jest nacechowane zaradnością życiową.',
@@ -51,7 +51,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
     summary: 'Zastanówcie się, czy zdobytą i przekazaną wiedzę możecie jeszcze dalej wypromować np. poprzez napisanie poradnika na ten temat lub organizację kolejnych warsztatów/wszechnicy.',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Przedsiębiorczość społecznie pożyteczna',
     category: TropCategory.harcZaradnosc,
     intro: 'Czasem w naszym otoczeniu coś nas wkurza, doskwiera albo czujemy jakiś brak.'
@@ -101,7 +101,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
         '\n\nJak oceniacie ważność oraz obszar zaspokajanych potrzeb przez te projekty, które uzyskały finansowanie i zostały zrealizowane?',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Świadomy podatnik',
     category: TropCategory.harcZaradnosc,
     intro: 'Od starożytności nieodłącznym elementem życia każdego obywatela państwa jest płacenie podatków. Ich konstrukcja, forma czy sposób poboru ewoluowały wraz z rozwojem cywilizacji. Trop „Świadomy podatnik” ma na celu przybliżenie wędrownikom aspektów podatkowych życia społecznego, w tym poznanie zasad funkcjonowania poszczególnych podatków oraz obecnego stanu wiedzy polskiego społeczeństwa na temat podstaw obowiązującego systemu podatkowego, który jest nieodłącznym elementem życia każdego mieszkańca naszego kraju, wpływającym na zasobność jego portfela.',
@@ -112,7 +112,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
     summary: 'Podsumujcie przeprowadzoną przez was akcję edukacyjną. Jakie nastawienie do was mieli jej uczestnicy? Jak oceniacie ich stan wiedzy na temat podatków? Czy każdy z nich miał świadomość tego, kiedy i w jakiej sytuacji płaci dany podatek, czy może robił to nieświadomie? Czy w waszej ocenie działania informacyjne w tym obszarze są potrzebne? Po głębszym zapoznaniu się z obecnym systemem podatkowym, które jego rozwiązania uważacie za sprawiedliwe, a które za niesprawiedliwe? Zorganizujcie w drużynie dyskusję (w dowolnej formie), podczas której postaracie się odpowiedzieć na to pytanie. Katalog zagadnień możecie poszerzyć o inne kwestie z obszaru podatków, które uznacie za ciekawe.',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Trop pionierski – obozowi wyjadacze',
     category: TropCategory.harcZaradnosc,
     intro: 'Praca logistyczna i organizacyjna na obozie to nie lada wyzwanie. Często praca kwatermistrzowska jest niedoceniana i szybko pomijana w trakcie obozu. A co jeśli Wam powiemy, że można na tym oprzeć cały obóz?',
@@ -121,7 +121,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
     summary: 'Zastanówcie się, czy udało się Wam nauczyć innych budowania konstrukcji obozowych. Sprawdźcie, jak bardzo wpłynęliście na przyrodę w otaczającym Was lesie. Pomyślcie i przeliczcie, jak dużo materiałów odzyskaliście i jakie korzyści Wam to może przynieść w przyszłości.',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Wasz pierwszy biznes z misją',
     category: TropCategory.harcZaradnosc,
     intro: 'Czy słyszeliście o przedsiębiorstwach, których podstawowym działaniem nie jest wyłącznie generowanie zysków, ale również wspieranie lokalnej społeczności i zmienianie świata na lepsze? Dowiedźcie się, jak są w stanie działać i może dzięki temu uda Wam się założyć własne.',
@@ -130,7 +130,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
     summary: 'Podzielcie się zdobytym doświadczeniem z innymi. Podsumujcie, co dzięki Waszej działalności udało się zmienić na lepsze i zastanówcie się w jaki sposób możecie przekazać innym te wnioski. Może wybierzecie którąś z bardziej wymagających form wydawniczych takich jak: audycja czy komiks?',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Bądź światłem dla obcych',
     category: TropCategory.harcOdkrywanie,
     intro: 'Zastanawialiście się, jak to jest mieszkać wśród ludzi, dla których jest się zupełnie obcym? Życie obcokrajowców w Polsce może być łatwiejsze dzięki Waszemu zaangażowaniu.',
@@ -139,7 +139,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
     summary: 'Zastanówcie się czy udało Wam się zmienić na lepsze życie osób, dla których działaliście. Czy osiągnęliście zakładane przez Was cele? Czy możecie jeszcze coś zrobić w ramach tego obszaru służby?',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Odkryj świat z dziećmi',
     category: TropCategory.harcOdkrywanie,
     intro: 'Czy czujecie, że Wasza edukacja mogłaby być znacznie lepsza i widzicie, co można byłoby w niej zmienić? Możecie mieć na to wpływ! Wystarczy tylko wyjść w świat i podjąć działania z lokalnymi ośrodkami pedagogicznymi.',
@@ -148,7 +148,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
     summary: 'Zastanówcie się również nad podjęciem współpracy z organizacjami pozarządowymi, które zajmują się zajęciami dla dzieci w Waszej okolicy. Może wspólnie uda Wam się na stałe zapewnić dla nich zajęcia doskonalące.',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Dbanie o więzi międzypokoleniowe',
     category: TropCategory.harcBraterstwo,
     intro: 'Czy interesowaliście się kiedyś jak żyją seniorzy w Waszej okolicy? Warto o nich zadbać, a może przy okazji zdobędziecie od nich wiele ciekawej wiedzy opartej na doświadczeniu?',
@@ -164,7 +164,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
     summary: 'Czy udało Wam się wypracować stałe działania, które pomagają seniorom w Waszej okolicy? Jak można im pomagać systemowo, aby ich życie stawało się lepsze? Może warto pogłębić wiedzę w tym temacie poprzez zorganizowanie sesji popularnonaukowej.',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Troska o pokój na świecie',
     category: TropCategory.harcBraterstwo,
     intro: 'Czy wiecie, że możecie wpłynąć na to, aby na świecie było mniej wojen i zapanował pokój? Wystarczy tylko zbliżać do siebie ludzi. Bo przecież nie ma nic złego w naszej odmienności: pochodzenia, koloru skóry czy wyznania.',
@@ -174,7 +174,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
   ),
 
   // TODO: bełkot
-  HarcTropIdea(
+  TropIdea(
     name: 'Wolni od nienawiści',
     category: TropCategory.harcBraterstwo,
     intro: 'Czy nie macie dość już całej nienawiści jaka wylewa się w Internecie? Czy zauważacie u siebie i u Waszych znajomych znieczulenie na pewne tematy, hasła i zdjęcia? Czy chcecie dalej czytać i oglądać treści przesycone jadem?',
@@ -183,7 +183,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
     summary: 'Czy udało Wam się zredukować ilość mowy nienawiści w Waszym otoczeniu? Jakimi sukcesami w tym obszarze możecie się pochwalić? Co jeszcze można zrobić, aby ludzie byli dla siebie na co dzień bardziej braterscy?',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Badanie i propagowanie historii',
     category: TropCategory.harcOjczyzna,
     intro: 'Każde pokolenie jest dłużnikiem swoich przodków i dlatego ważne, abyśmy nie zapomnieli o przeszłości naszego narodu i naszej organizacji. Propagujcie wśród innych harcerzy lub/i wspólnoty lokalnej wiedzę na temat ważnych wydarzeń oraz postaci z historii (harcerstwa).',
@@ -204,7 +204,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
     summary: 'Zaprezentujcie publicznie wyniki Waszych działań, poprzez  np. wystawę zdjęć, artykuł do gazety, stronę internetową z udostępnionymi materiałami, stronę wydarzenia w mediach społecznościowych.',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Szerzenie dostępu do różnych form kultury',
     category: TropCategory.harcOjczyzna,
     intro: 'Czy uważacie, że w Waszej okolicy odbywa się za mało wydarzeń kulturalnych? Czy chcielibyście mieć możliwość dostępu do różnych form kultury? Zadbajcie o to sami i dzięki temu zaangażujcie w działanie innych mieszkańców!',
@@ -219,7 +219,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
     summary: 'Podsumujcie, jaki odbiór miało organizowane przez Was wydarzenie w społeczności lokalnej. Wyciągnijcie wnioski z działania i zastanówcie się jak w przyszłości moglibyście je wzmocnić.',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Nie zatrzymuj wszystkiego dla siebie – zostań dawcą',
     category: TropCategory.harcCzlowiek,
     intro: 'Pewnie każdy z Was spotkał się z sytuacją, gdy nagle szukano dawcy dla poszkodowanej osoby. Pozwólmy zachować im większy spokój i powiększajmy naszą bazę dawców.',
@@ -228,7 +228,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
     summary: 'Co można jeszcze zrobić, aby poszerzyć grono dawców szpiku? Czego obawiają się osoby, które odmówiły Wam dopisania się do bazy dawców? Wyciągnijcie z tego wnioski i zaplanujcie kolejne działania.',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Sport to zdrowie! – organizacja zawodów sportowych',
     category: TropCategory.harcCzlowiek,
     intro: 'Jaką dyscyplinę sportu lubicie uprawiać? Czy sądzicie, że jest ona popularna w Waszej miejscowości? Jeżeli nie, to może pora to zmienić?!',
@@ -238,7 +238,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
   ),
 
   // TODO: Możliwy bełkot
-  HarcTropIdea(
+  TropIdea(
     name: 'Ekologiczny obóz',
     category: TropCategory.harcNatura,
     intro: 'Czy myśleliście kiedyś jak poprzez życie obozowe możecie w naturalny sposób przyczynić się do zmniejszenia degradacji środowiska? Jest na to wiele prostych sposobów, które możecie wdrożyć nie tylko u siebie, ale też w Waszym otoczeniu harcerskim!',
@@ -257,7 +257,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
     summary: 'Podczas ewaluacji/podsumowania obozu zapiszcie wnioski z Waszych działań i zastanówcie się, jak możecie wprowadzać je jako stałe rozwiązania oraz dzielić się nimi z innymi środowiskami w hufcu np. w formie wystawy lub wszechnicy.',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Ograniczenie ilości odpadów',
     category: TropCategory.harcNatura,
     intro: 'Jeżeli obawiacie się zanieczyszczenia naszej planety, jej wód oraz gleb, to podejmijcie działania w swoim najbliższym otoczeniu, aby temu zapobiec. Zorganizujcie własny śmieciowy eksperyment i podzielcie się jego wynikami.',
@@ -268,7 +268,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
     summary: 'Wypracowane rozwiązania spróbujcie wdrożyć na stałe w swoich domach i wśród swoich znajomych oraz rodziny. Może macie pomysły na to jak w bliskiej przyszłości zachęcić innych do podążania Waszym śladem? ',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Opieka nad lokalnymi zwierzętami',
     category: TropCategory.harcNatura,
     intro: 'Jeżeli nieobojętne jest Wam życie zwierząt i chcecie bardziej się o nie zatroszczyć, to macie ku temu wiele możliwości! Wystarczy najpierw zainteresować się tematem i sprawdzić jak one sobie radzą w Waszej okolicy, a następnie działajcie.',
@@ -288,7 +288,7 @@ List<HarcTropIdea> harcWTropIdeas = const [
     summary: 'Zbierzcie swoje pomysły na wsparcie życia zwierząt w otoczeniu i podsumujcie, które z nich najbardziej się sprawdziły. Co możecie jeszcze zrobić, aby również inne osoby wdrażały je na co dzień w swojej okolicy? Może warto nagrać filmik lub poprowadzić audycję o Waszych doświadczeniach.',
   ),
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Organizacja obozu drużyny/patrolu',
     category: TropCategory.harcZlotyTrop,
     intro: 'Wejdźcie na szczyt wędrowniczej drogi i zorganizujcie sami co najmniej 7-dniowy wyjazd Waszej drużyny lub patrolu. Może on być w dowolnej formie: obóz wędrowny, obóz wędrowno-stacjonarny, rejs, obóz zagraniczny itp. Ważne, żebyście to Wy przygotowali go od początku do końca – udział w gotowej formie jak np. zlot skautowy nie realizuje tego tropu.',

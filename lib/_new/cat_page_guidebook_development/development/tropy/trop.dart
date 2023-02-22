@@ -61,6 +61,16 @@ List<TropCategory> allHarcTropCategories = [
   TropCategory.harcBraterstwo,
 ];
 
+List<TropCategory> allZuchTropCategories = [
+  TropCategory.zuchArtystyczne,
+  TropCategory.zuchBajkowe,
+  TropCategory.zuchKulturoznawcze,
+  TropCategory.zuchObywatelskie,
+  TropCategory.zuchPrzyrodnicze,
+  TropCategory.zuchSportoweITurystyczne,
+  TropCategory.zuchZawodowe,
+];
+
 String tropCategoryToStr(TropCategory category){
   switch(category){
     case TropCategory.harcZlotyTrop: return 'harcZlotyTrop';
@@ -126,7 +136,31 @@ String tropCategoryToName(TropCategory category){
   }
 }
 
-class Trop{
+class TropBaseData<T extends TropTaskBaseData>{
+
+  String name;
+  TropCategory category;
+  String? customIconTropName;
+  List<String> aims;
+  List<T> tasks;
+  String? notesForLeaders;
+  List<String>? exampleSpraws;
+
+  TropBaseData({
+    required this.name,
+    required this.category,
+    this.customIconTropName,
+    required this.aims,
+    required this.tasks,
+    this.notesForLeaders,
+    this.exampleSpraws,
+  });
+
+  bool get hasNotesForLeaders => notesForLeaders != null && notesForLeaders!.isNotEmpty;
+
+}
+
+class Trop extends TropBaseData<TropTask>{
 
   static late List<Trop> all;
   static late Map<String, Trop> allMapByLclId;
@@ -149,7 +183,7 @@ class Trop{
     allMapByLclId = {};
     
     Directory ownTropyDir = Directory(getOwnTropFolderPath);
-    await ownTropyDir.create();
+    await ownTropyDir.create(recursive: true);
 
     for (FileSystemEntity file in ownTropyDir.listSync(recursive: false)) {
       Trop? trop = Trop.readFromLclId(basename(file.path));
@@ -262,25 +296,26 @@ class Trop{
   static const int maxTaskCount = 50;
 
   final String lclId;
-  String name;
-  TropCategory category;
-  List<String> aims;
 
   DateTime startTime;
   DateTime endTime;
 
-  List<TropTask> tasks;
+  bool get isCategoryHarc => allHarcTropCategories.contains(category);
 
   Trop({
     required this.lclId,
-    required this.name,
-    required this.category,
-    required this.aims,
+    required super.name,
+    super.customIconTropName,
+    required super.category,
+    required super.aims,
 
     required this.startTime,
     required this.endTime,
 
-    required this.tasks,
+    required super.tasks,
+
+    super.notesForLeaders,
+    super.exampleSpraws,
   });
 
   void update(Trop trop){
@@ -357,7 +392,15 @@ class Trop{
 
 }
 
-class TropTask{
+class TropTaskBaseData{
+
+  String content;
+
+  TropTaskBaseData({required this.content});
+
+}
+
+class TropTask extends TropTaskBaseData{
 
   static const String paramUUID = 'uuid';
   static const String paramContent = 'content';
@@ -370,7 +413,6 @@ class TropTask{
   static const int maxLenSummary = 640;
 
   //final String uuid;
-  String content;
   String? _summary;
   DateTime deadline;
   UserData? assignee;
@@ -388,7 +430,7 @@ class TropTask{
 
   TropTask({
     //required this.uuid,
-    required this.content,
+    required super.content,
     String? summary,
     required this.deadline,
     this.assignee,

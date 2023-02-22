@@ -24,9 +24,12 @@ import '../trop.dart';
 class TropEditorPage extends StatefulWidget{
 
   final Trop? initTrop;
+  final TropBaseData? initTropBaseData;
+  final List<TropCategory> allCategories;
   final void Function(Trop)? onSaved;
 
-  const TropEditorPage({this.initTrop, this.onSaved, super.key});
+  const TropEditorPage({this.initTrop, this.initTropBaseData, required this.allCategories, this.onSaved, super.key}):
+    assert(!(initTrop != null && initTropBaseData != null));
 
   @override
   State<StatefulWidget> createState() => TropEditorPageState();
@@ -36,6 +39,8 @@ class TropEditorPage extends StatefulWidget{
 class TropEditorPageState extends State<TropEditorPage>{
 
   Trop? get initTrop => widget.initTrop;
+  TropBaseData? get initTropBaseData => widget.initTropBaseData;
+  List<TropCategory> get allCategories => widget.allCategories;
   void Function(Trop)? get onSaved => widget.onSaved;
 
   bool get editMode => initTrop != null;
@@ -43,12 +48,12 @@ class TropEditorPageState extends State<TropEditorPage>{
   @override
   Widget build(BuildContext context) => MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => NameControllerProvider(initTrop: initTrop)),
-      ChangeNotifierProvider(create: (context) => TropCategoryProvider(initTrop: initTrop)),
+      ChangeNotifierProvider(create: (context) => NameControllerProvider(initTrop: initTrop, initTropBaseData: initTropBaseData)),
+      ChangeNotifierProvider(create: (context) => TropCategoryProvider(initTrop: initTrop, initTropBaseData: initTropBaseData)),
       ChangeNotifierProvider(create: (context) => StartTimeProvider(initTrop: initTrop)),
       ChangeNotifierProvider(create: (context) => EndTimeProvider(initTrop: initTrop)),
-      ChangeNotifierProvider(create: (context) => AimControllersProvider(initTrop: initTrop)),
-      ChangeNotifierProvider(create: (context) => TasksProvider(initTrop: initTrop)),
+      ChangeNotifierProvider(create: (context) => AimControllersProvider(initTrop: initTrop, initTropBaseData: initTropBaseData)),
+      ChangeNotifierProvider(create: (context) => TasksProvider(initTrop: initTrop, initTropBaseData: initTropBaseData)),
     ],
     builder: (context, child) => BottomNavScaffold(
       body: CustomScrollView(
@@ -65,11 +70,26 @@ class TropEditorPageState extends State<TropEditorPage>{
                 onPressed: () async {
 
                   String name = NameControllerProvider.of(context).nameController.text;
+                  if(name.isEmpty){
+                    showAppToast(context, text: 'Podaj nazwę tropu');
+                    return;
+                  }
+
                   TropCategory category = TropCategoryProvider.of(context).category;
                   List<String> aims = AimControllersProvider.of(context).aimControllers.map((c) => c.text).toList();
                   DateTime startTime = StartTimeProvider.of(context).startTime;
                   DateTime endTime = EndTimeProvider.of(context).endTime;
-                  List<TropTask> tasks = TasksProvider.of(context).tasks.map((t) => t.toTask()).toList();
+                  List<TropTask> tasks = [];
+                  for(TropTaskTmpData taskTmp in TasksProvider.of(context).tasks) {
+                    if(taskTmp.deadline == null)
+                      showAppToast(context, text: 'Wszystkie zadania muszą mieć datę realizacji');
+                    TropTask? task = taskTmp.toTask();
+                    if(task == null){
+                      showAppToast(context, text: 'Coś jest nie tak z zadaniami');
+                      return;
+                    }
+                    tasks.add(task);
+                  }
 
                   if(editMode) {
                     initTrop!.name = name;
@@ -138,7 +158,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                               'Kategoria tropu',
                               style: AppTextStyle(color: hintEnab_(context))
                             ),
-                            items: allHarcTropCategories.map((cat) => DropdownMenuItem(
+                            items: allCategories.map((cat) => DropdownMenuItem(
                               value: cat,
                               child: Row(
                                 children: [
@@ -375,7 +395,7 @@ class TropEditorPageState extends State<TropEditorPage>{
 
                                       DateTime? date = await showDatePicker(
                                         context: context,
-                                        initialDate: prov.tasks[index].deadline,
+                                        initialDate: prov.tasks[index].deadline??DateTime.now().add(Duration(days: 7)),
                                         firstDate: DateTime.now(),
                                         lastDate: DateTime.now().add(const Duration(days: 10*365))
                                       );
@@ -420,9 +440,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                     )
                 ),
 
-                const SizedBox(
-                  height: Dimen.defMarg,
-                ),
+                const SizedBox(height: Dimen.defMarg),
 
                 Consumer<TasksProvider>(
                   builder: (context, prov, child) => SimpleButton.from(

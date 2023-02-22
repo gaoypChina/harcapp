@@ -997,7 +997,7 @@ SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
                   'Podczas zawodów stosuję zasady fair play.',
                 ],
                 notesForLeaders: [
-                  'Zuch „Lekkoatleta/Lekkoatletka” uprawia jedną lub kilka dyscyplin lekkoatletycznych. Lubi uprawiać sport, ma dużo energii i chęci do pracy nad sobą.',
+                  'Zuch „Lekkoatleta” uprawia jedną lub kilka dyscyplin lekkoatletycznych. Lubi uprawiać sport, ma dużo energii i chęci do pracy nad sobą.',
                   'Zuchy, które zdobywają tę sprawność na kolonii, mogą pomagać w porannych rozgrzewkach lub zajęciach sportowych.',
                   'Punkty Prawa Zucha, na które zwracamy szczególną uwagę, realizując sprawność „Lekkoatlety”: "Zuch stara się być coraz lepszy.", "Wszystkim jest z zuchem dobrze.", "Zuch pamięta o swoich obowiązkach."',
                 ],

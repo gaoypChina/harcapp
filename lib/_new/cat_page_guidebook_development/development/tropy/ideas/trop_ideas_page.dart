@@ -10,12 +10,12 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../trop_tile.dart';
-import 'harc_trop_idea.dart';
+import 'trop_idea.dart';
 
 class TropIdeasPage extends StatefulWidget{
 
   final String metoShort;
-  final List<HarcTropIdea> ideas;
+  final List<TropIdea> ideas;
 
   const TropIdeasPage({required this.metoShort, required this.ideas, super.key});
 
@@ -27,7 +27,7 @@ class TropIdeasPage extends StatefulWidget{
 class TropIdeasPageState extends State<TropIdeasPage> with TickerProviderStateMixin{
 
   String get metoShort => widget.metoShort;
-  List<HarcTropIdea> get ideas => widget.ideas;
+  List<TropIdea> get ideas => widget.ideas;
 
   late TabController controller;
 
@@ -40,6 +40,7 @@ class TropIdeasPageState extends State<TropIdeasPage> with TickerProviderStateMi
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
     body: NestedScrollView(
+      floatHeaderSlivers: true,
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
 
         List<Tab> tabs = [];
@@ -98,7 +99,7 @@ class TropIdeasPageState extends State<TropIdeasPage> with TickerProviderStateMi
 
 class TropIdeaWidget extends StatelessWidget{
 
-  final HarcTropIdea data;
+  final TropIdea data;
 
   const TropIdeaWidget(this.data, {super.key});
 

@@ -5,16 +5,16 @@ import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 
+import '../trop.dart';
 import '../trop_tile.dart';
-import 'trop_idea.dart';
 
-class TropIdeasSearchPage extends StatelessWidget{
+class TropPredefSearchPage extends StatelessWidget{
 
-  final List<TropIdea> ideas;
+  final List<TropBaseData> predefTrops;
   final void Function(int)? onSelected;
 
-  const TropIdeasSearchPage({
-    required this.ideas,
+  const TropPredefSearchPage({
+    required this.predefTrops,
     this.onSelected,
     super.key
   });
@@ -43,13 +43,14 @@ class TropIdeasSearchPage extends StatelessWidget{
                   Navigator.pop(context);
                 },
                 child: TropTile(
-                  name: ideas[index].name,
-                  category: ideas[index].category,
+                  name: predefTrops[index].name,
+                  category: predefTrops[index].category,
+                  zuchTropName: predefTrops[index].customIconTropName,
                   iconSize: 52.0,
                 ),
               ),
               separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-              count: ideas.length
+              count: predefTrops.length
             ),
           ),
         )

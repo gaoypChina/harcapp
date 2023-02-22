@@ -84,6 +84,7 @@ class CatPageGuidebookDevelopmentState extends State<CatPageGuidebookDevelopment
     body: DefaultTabController(
       length: 2,
       child: NestedScrollView(
+        physics: const BouncingScrollPhysics(),
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
 
           SliverAppBar(
@@ -95,6 +96,7 @@ class CatPageGuidebookDevelopmentState extends State<CatPageGuidebookDevelopment
             floating: true,
             pinned: true,
             bottom: TabBar(
+              physics: const BouncingScrollPhysics(),
               indicator: AppTabBarIncdicator(context: context, color: iconEnab_(context)),
               tabs: const [
                 Tab(text: 'Poradnik'),
@@ -105,6 +107,7 @@ class CatPageGuidebookDevelopmentState extends State<CatPageGuidebookDevelopment
 
         ],
         body: const TabBarView(
+          physics: BouncingScrollPhysics(),
           children: [
 
             GuidebookSubpage(),

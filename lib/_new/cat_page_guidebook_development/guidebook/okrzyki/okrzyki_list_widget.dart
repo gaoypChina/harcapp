@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:harcapp_core/dimen.dart';
 
 import '_main.dart';
-import 'common.dart';
 import 'okrzyk.dart';
 import 'okrzyk_widget.dart';
 

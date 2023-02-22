@@ -179,7 +179,8 @@ flutter:
     - assets/images/start/
     - assets/images/stref_duch/
     - assets/images/symb/
-    - assets/images/trop/
+    - assets/images/trop/harc/
+    - assets/images/trop/zuch/
     - assets/images/znaki_patro/
     - assets/song_words/
     - assets/songs/

@@ -1,6 +1,3 @@
-
-import 'package:flutter/material.dart';
-
 const String auth_macrovector = 'Źródło: <b>Macrovector (freepik.com)</b>';
 const String auth_katemangostar = 'Źródło: <b>Katemangostar (freepik.com)</b>';
 const String auth_rawpixel = 'Źródło: <b>Rawpixel (freepik.com)</b>';

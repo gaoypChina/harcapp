@@ -1,6 +1,6 @@
 import '../trop.dart';
 
-class HarcTropIdea{
+class TropIdea{
 
   final String name;
   final TropCategory category;
@@ -10,7 +10,7 @@ class HarcTropIdea{
   final String todo;
   final String summary;
 
-  const HarcTropIdea({
+  const TropIdea({
     required this.name,
     required this.category,
     required this.intro,

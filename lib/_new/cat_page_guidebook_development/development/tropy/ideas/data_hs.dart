@@ -1,10 +1,10 @@
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
 
-import 'harc_trop_idea.dart';
+import 'trop_idea.dart';
 
-List<HarcTropIdea> harcHSTropIdeas = const [
+List<TropIdea> harcHSTropIdeas = const [
 
-  HarcTropIdea(
+  TropIdea(
     name: 'Czas Bohaterów',
     category: TropCategory.harcInicjatywa,
     intro: 'To ostatni dzwonek i ostatnie możliwości spotkania z osobami, które są świadkami historii. Niewielu już pozostało żyjących uczestników Powstania Warszawskiego, bohaterów Szarych Szeregów, Armii Krajowej, żołnierzy Armii Andersa, uczestników tajnych organizacji harcerskich i wojskowych, którzy walczyli z okupantem. Warto poznać ich historie i szerzyć pamięć o nich.',
@@ -13,7 +13,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
     summary: 'Po kilku zbiórkach, spotkaniach, po wyznaczonym przez Was okresie służby podsumujcie swoje działania. Jeśli udało Wam się zebrać relacje i stworzyć dokument, podzielcie się swoim dziełem z innymi w wybranej przez siebie formie. Niech jednak podsumowanie nie będzie finałem – może uda Wam się zarazić tą służbą innych harcerzy i inne środowiska?'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Moje wsparcie się liczy',
       category: TropCategory.harcInicjatywa,
       intro: 'Każdy z nas dysponuje określonymi zasobami: czasem, zdolnościami, przedmiotami, które są naszą własnością. Sprawdźcie, jakie to uczucie, gdy te zasoby „pracują” dla dobra innych. Rozejrzyjcie się po okolicznych instytucjach i wykorzystajcie Wasze zdolności tam, gdzie są potrzebne.',
@@ -22,7 +22,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'W poprzednim kroku na pewno udowodniliście, że harcerze mają wielkie serca. Jeśli możecie podsumować działanie z pracownikami miejsca, któremu pomagaliście, zróbcie to. Podsumujcie trop także w swoim gronie, na zbiórce zastępu. Porozmawiajcie o tym, co czuliście, gdy oddawaliście Wasze rzeczy, i o tym, jak można pomagać takim miejscom częściej niż raz do roku.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Zmień swoje otoczenie',
       category: TropCategory.harcInicjatywa,
       intro: 'Nasze otoczenie to nasza wspólna odpowiedzialność. Czy wokół Was jest coś, co wymaga Waszej uwagi i działania? Jeśli nie wiecie, to na pewno odpowiedzi na to pytanie dostarczy Wam zwiad.',
@@ -34,7 +34,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
   ),
 
   // # TODO: Eko-propaganda
-  HarcTropIdea(
+  TropIdea(
       name: 'Harcerski punkt wymiany',
       category: TropCategory.harcZaradnosc,
       intro: 'A gdyby tak zamiast coś kupić po prostu to dostać? Albo wymienić na coś, czego obecnie nie potrzebujecie? Pomyślcie, ile pieniędzy moglibyście zaoszczędzić i jak wiele zasobów planety mogłoby zostać dla przyszłych pokoleń!',
@@ -43,7 +43,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Po upływie założonego czasu oceńcie, w jakim stopniu punkt umożliwił Wam pozyskanie pożądanych produktów i pozbycie się niechcianych, jakie było zainteresowanie punktem poza Waszym zastępem, jak oceniacie inicjatywę, co się udało, co trzeba poprawić i czy warto kontynuować działanie punktu.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Mały papier o dużej wartości – banknot',
       category: TropCategory.harcZaradnosc,
       intro: 'Jak dużo wiecie o banknotach? Czy bylibyście w stanie odróżnić podróbkę od prawdziwych pieniędzy? Czy podobną wiedzę mają wasi bliscy? Może warto pomóc im chronić się przed oszustwami?',
@@ -52,7 +52,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Zastanówcie się, czy przeprowadzona kampania była pożyteczna? Jak oceniacie stan wiedzy uczestników kampanii o polskich banknotach? Czy dzięki poszerzeniu wiedzy na temat banknotów zarówno wy, jak i uczestnicy będziecie korzystać z nich z większą świadomością i poczuciem bezpieczeństwa? Na forum drużyny opowiedzcie o waszym projekcie i przedstawcie wnioski, których dostarczył.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Minizakład produkcyjny – akcja zarobkowa',
       category: TropCategory.harcZaradnosc,
       intro: 'Wiedza na temat zasad działania przedsiębiorstwa, w tym zakładu produkcyjnego, to wartościowa umiejętność. Jak lepiej poznać te zasady, jeśli nie przez praktykę i wcielenie się w rolę przedsiębiorców?',
@@ -62,7 +62,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Po realizacji akcji w formie minizakładu produkcyjnego spiszcie rachunek zysków i strat, zaznaczcie, jakie koszty ponieśliście oraz jakie mieliście przychody. Podsumujcie, ile zarobiliście podczas akcji – jaki był wasz zysk. W ramach podsumowania omówicie również niefinansowe aspekty akcji zarobkowej, takie jak: atmosfera podczas akcji, sposób komunikacji, motywowanie, współpraca wewnątrz zespołu, skutki wizerunkowe itp. Na zakończenie spiszcie wnioski z przebiegu akcji – o czym należy pamiętać na przyszłość, co warto powtórzyć, a czego unikać.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Puszka szczęścia',
       category: TropCategory.harcZaradnosc,
       intro: 'Złom stalowy, aluminium, żeliwo, mosiądz, miedź, brązy, a także plastikowe zakrętki i stłuczka szklana to przykłady surowców, jakie można sprzedać w punkcie skupu. Czy myśleliście, ile nieużywanych skarbów tego typu można zamienić na gotówkę?',
@@ -71,7 +71,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Najlepszym podsumowaniem Waszego działania będzie wspólna sprzedaż pozyskanych surowców. Zarobione w ten sposób pieniądze możecie wykorzystać na najbliższy wyjazd, zakup niezbędnego sprzętu turystycznego lub umundurowania. Możecie je także przeznaczyć na cele dobroczynne.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Ścieżki życia',
       category: TropCategory.harcZaradnosc,
       intro: 'Czy zdarzyło Wam się ostatnimi czasy myśleć o swojej zawodowej przyszłości? Czy te pomysły pokrywają się z Waszymi marzeniami z dziecięcych lat? Sprawdźcie, co może mieć wpływ na Wasz przyszły zawód.',
@@ -80,7 +80,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Niech każdy z Was wykona własną pracę dotyczącą dalszego rozwoju. Na podstawie informacji pozyskanych od doradcy zawodowego oraz ze szkół przeanalizujcie, w którą stronę chcielibyście w przyszłości podążyć. Zorganizujcie zbiórkę zastępu, na której każdy z Was przedstawi swój wybór z odpowiednim podsumowaniem i uzasadnieniem. Poszukajcie plusów i minusów swoich wyborów.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Waluty świata',
       category: TropCategory.harcZaradnosc,
       intro: 'Pieniądz stanowi jeden z najstarszych wynalazków ludzkości, jednak przez wieki historii nigdy na świecie nie istniała tylko jedna waluta. Trop „Waluty świata” pozwoli lepiej zrozumieć znaczenie pieniądza w dzisiejszej gospodarce światowej i poznać źródło zależności między walutami.',
@@ -89,7 +89,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Dokonajcie w zastępie podsumowania waszego tropu. Podsumujcie zebrane informacje o wybranych walutach w ciekawej formie np. ikonografiki i zamieście je na stronie waszego środowiska na portalu społecznościowym. Możecie przygotować również plakaty o wybranych walutach, które umieścicie w waszej szkole. Swoje spostrzeżenia i odkrycia zaprezentujcie na zbiórce drużyny, przeprowadzając quiz o walutach świata. Możecie też zaprojektować własną prywatną walutę – o co by się opierała? Jak by wyglądała? W jakim kraju byście ją wyemitowali i jakie obowiązywałyby Was prawa? Wyniki przedstawcie drużynie.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Magia nauki',
       category: TropCategory.harcOdkrywanie,
       intro: 'Czy pasjonują Was chemiczne lub fizyczne eksperymenty i chcielibyście poznać od kuchni przyczyny tych widowiskowych zjawisk? Część z nich można zrobić we własnym domu - spróbujcie!',
@@ -98,7 +98,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Przygotujcie pokaz „magiczny” złożony z najlepszych Waszym zdaniem doświadczeń i zrealizujcie go w klasie (po ustaleniu z nauczycielami) lub w drużynie podczas specjalnej zbiórki. Pokaz musi być tak przygotowany, żeby zachęcić inne osoby do powtórzenia Waszej drogi, czyli nie tylko zachwytu, lecz także do zgłębienia prawideł nauki, którym towarzyszą tak atrakcyjne efekty. Możecie przygotować grę terenową lub fabularną na ten temat.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Nauka uczenia się',
       category: TropCategory.harcOdkrywanie,
       intro: 'Choć nie każdy o tym wie, uczenia się także trzeba się nauczyć. Istnieje wiele różnych sposobów efektywnego przyswajania wiedzy. Skorzystajcie z okazji, aby znaleźć najlepszy dla siebie.',
@@ -107,7 +107,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Sprawdźcie wokół siebie, czy ktoś nie prowadzi darmowych warsztatów z technik uczenia się, abyście mogli jeszcze bardziej poszerzyć swoją wiedzę. Podsumujcie swoje działanie na forum drużyny, przedstawiając zarówno osobiste osiągnięcia, jak i efekty Waszej pomocy innym. Może kolejni członkowie drużyny skorzystają z tego, czego się dowiedzieliście, a nawet przeprowadzą podobną akcję? Pokażcie im, dlaczego warto, np. organizując wszechnicę.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Naukowy zawrót głowy',
       category: TropCategory.harcOdkrywanie,
       intro: 'Dowiedzcie się, w jaki sposób przedstawiciele różnych nauk weryfikują swoje hipotezy oraz czym jest metodologia.',
@@ -117,7 +117,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
   ),
 
   // TODO: bełkot?
-  HarcTropIdea(
+  TropIdea(
       name: 'Każdy inny, a jednak taki sam',
       category: TropCategory.harcBraterstwo,
       intro: 'Ludzie różnią się od siebie, ale każdy jest wartościowy i należy mu się szacunek. Niestety niekiedy jest nam trudno zgodzić się z tym twierdzeniem, a jeszcze trudniej żyć z nim w zgodzie. Wykonajcie wysiłek w pracy nad sobą, bo jeśli Wy będziecie lepsi, świat będzie lepszy. Pociągnijcie swoim przykładem innych.',
@@ -127,7 +127,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Na zbiórce podsumujcie Wasze działania i zastanówcie się, czy Waszym zdaniem to, co zrobiliście, jest wystarczające, by ludzie nauczyli się nie dyskryminować innych z powodu ich inności. Czy udało Wam się zmienić także Wasze nastawienie (np. pokonać lęk przed podejmowaniem aktywności, które mogłyby być wyśmiane)? Pomyślcie, co jeszcze możecie zrobić, aby inność nie kojarzyła się Wam i Waszym rówieśnikom z czymś złym.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Świat z perspektywy niepełnosprawnych',
       category: TropCategory.harcBraterstwo,
       intro: 'Czy zastanawialiście się nad tym, jak wygląda zwykły dzień osób z trwałą lub okresową niesprawnością? Spróbujcie wejść w buty osób z niepełnosprawnościami i uwrażliwić innych na ich codzienne problemy.',
@@ -137,7 +137,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
   ),
 
   // TODO: Bełkot
-  HarcTropIdea(
+  TropIdea(
       name: 'Zero hejtu',
       category: TropCategory.harcBraterstwo,
       intro: 'Niestety hejt i mowa nienawiści, mimo że wymyślone przez dorosłych, przenikają często także do świata dzieci i młodzieży. Spróbujcie zminimalizować te negatywne zjawiska.',
@@ -146,7 +146,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Po skończeniu działań w ramach tropu przejrzyjcie miejsca, do których je kierowaliście, i zobaczcie, czy zmieniły się one dzięki Wam. Zorganizujcie zbiórkę podsumowującą Waszą akcję. Warto też przygotować prezentację pokazującą, co stworzyliście. Możecie też przygotować reportaż filmowy prezentujący całą akcję.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Lokalny przewodnik po Małej Ojczyźnie',
       category: TropCategory.harcOjczyzna,
       intro: 'Czy w Waszym mieście/gminie mieszkał ktoś sławny? A może w pobliżu znajduje się miejsce ważnej bitwy albo innych ciekawych wydarzeń historycznych? Może macie jakieś budynki wpisane do rejestru zabytków albo ciekawe legendy? Na pewno warto się tym zainteresować i podzielić z innymi zdobytą wiedzą.',
@@ -155,7 +155,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Omówcie wnioski z drużyną. Stwórzcie i prześlijcie do lokalnej gazety lub mediów społecznościowych materiał podsumowujący wasze działania, np. fotoreportaż, filmik, komiks. Możecie też zrobić makietę, którą później sfotografujecie.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Piękne polskie miasta',
       category: TropCategory.harcOjczyzna,
       intro: 'Czy spacerowaliście Aleją Sław w Kielcach, zastanawiając się nad waszymi autorytetami? A może wiecie, jak powstawały animacje w SE-Ma-Forze w Łodzi? W waszej okolicy zapewne także znajduje się miasto z ciekawą, lecz mało znaną atrakcją/historią - wyruszcie na poszukiwania!',
@@ -165,7 +165,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
   ),
 
   // TODO: Anglicyzmy "fake-news"
-  HarcTropIdea(
+  TropIdea(
       name: 'Piknik o harcerskim zdrowym stylu życia',
       category: TropCategory.harcCzlowiek,
       intro: 'Człowiek jest tym, co je. Jeśli zgadzacie się z tym zdaniem, to może będziecie chcieli zainwestować swój czas i zdolności, aby przekonać do tego sposobu myślenia innych.',
@@ -174,7 +174,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Podsumujcie waszą pracę na forum drużyny oraz pozostawcie stworzone materiały i plansze w ramach wystawy w harcówce czy w gablocie szkolnej/świetlicowej. Zastanówcie się, czy zdobywanie tego tropu spowodowało zmiany w waszym sposobie odżywiania.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Przez żołądek do zdrowia',
       category: TropCategory.harcCzlowiek,
       intro: 'Spróbujcie odpowiedzieć sobie na pytanie, co jada się na biwakach i wyjazdach. Czy jecie zdrowo, czy – korzystając z okazji – opychacie się chipsami i chińskimi zupkami? A jak wygląda wasza codzienna dieta? Może czas coś zmienić?',
@@ -184,7 +184,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Przekażcie zdobytą wiedzą reszcie drużyny podczas zbiórki. Możecie przygotować drużynowe książki z przepisami do realizacji na biwakach. Ważne informacje na temat żywienia możecie przedstawić w formie plakatu, komiksu lub infografiki, która zawiśnie w harcówce.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Skrzydlaty umysł',
       category: TropCategory.harcCzlowiek,
       intro: 'Odpoczywaj mądrze - nie oznacza leżenia i odkładania książek na półkę. Stwórzcie skrzydła, by wasze umysły też mogły odpocząć.',
@@ -198,7 +198,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Zastanówcie się, który zmysł jest dla was kluczowy podczas relaksacji, a który podczas koncentracji? Czy udało Wam się stworzyć nową przestrzeń, w której wszyscy w drużynie są wstanie odpoczywać i czuć się dobrze? Nagrajcie filmik, który przedstawi waszą strefę odpoczynku i koncentracji – jak ona powstawała, jak wyglądają nowe narzędzia/przedmioty, jakie macie zdanie na temat potrzeby odpoczynku? Filmik udostępnijcie drużynie z innego hufca/chorągwi – w ramach inspiracji bądź wymiany na temat stworzenia oraz potrzeby strefy odpoczynku i relaksacji w środowisku harcerskim. O pomoc w kontakcie z inną jednostką poproście drużynowego.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Sportowy przegląd',
       category: TropCategory.harcCzlowiek,
       intro: 'Czy zastanawialiście się kiedyś, na czym polega curling? Czy mieliście ochotę wziąć udział w treningu karate? Czy informacja o biegach ekstremalnych przyśpiesza obieg krwi w Waszych żyłach? Czy chcielibyście wyskoczyć w powietrze niczym Małysz? Czy uważacie swoje marzenia za nierealne? Zobaczcie, że przy odrobinie wysiłku są w zasięgu ręki!',
@@ -207,7 +207,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Zbierzcie wszystkie swoje wrażenia, podzielcie się nimi na forum drużyny i rodziców. Wykorzystajcie do tego różne formy: film, wystawę fotografii, a także bardziej angażujące takie jak olimpiada sportowa. Pokażcie, z czym mieliście największe problemy, co Wam dało najwięcej radości, co byście chcieli kontynuować indywidualnie lub grupowo. Może któryś sport tak was zainteresował, że chcielibyście zorganizować trening dla kolegów i koleżanek ze szkoły? Oceńcie udział w projekcie całego zastępu i poszczególnych członków.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Trop dobrze być sobą – nie dla sztucznego ideału (dla chłopców)',
       category: TropCategory.harcCzlowiek,
       intro: 'tereotyp piękna promowany przez media jest niemożliwy do osiągnięcia. Młodzi ludzie krzywdzą się by osiągnąć rezultaty widziane w telewizji i Internecie. Sztuczny świat mody jest retuszowany, obrabiany w programach graficznych i filmowych. Pokażmy prawdziwe piękno!',
@@ -218,7 +218,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
   ),
 
   // TODO: Bełkot - ciałopozytywność
-  HarcTropIdea(
+  TropIdea(
       name: 'Trop dobrze być sobą – prawdziwe piękno (dla dziewcząt)',
       category: TropCategory.harcCzlowiek,
       intro: 'Stereotyp piękna promowany przez media jest niemożliwy do osiągnięcia. Młodzi ludzie krzywdzą się by osiągnąć rezultaty widziane w telewizji i Internecie. Sztuczny świat mody jest retuszowany, obrabiany w programach graficznych i filmowych. Pokażmy prawdziwe piękno!',
@@ -229,7 +229,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Zastanówcie się, czy dotarłyście do dużej grupy odbiorców. Pomyślcie, jak przebiegała pomoc dziewczynom. Opracujcie materiał, będący podsumowaniem akcji, a który może później służyć kolejnym grupom walczącym z tym problemem. Jeśli jesteście zainteresowane tym tematem, zajrzyjcie do Centralnego Banku Pomysłów, gdzie znajdziecie propozycję WAGGGS „Dobrze być sobą” dla grupy wiekowej 11-14 lat.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Zielnik harcerski',
       category: TropCategory.harcCzlowiek,
       intro: 'Czy wiecie, że zioła mogą leczyć? Znacie jakieś przykłady roślin wykorzystywanych w medycynie? Jeśli interesuje was ziołolecznictwo, ten trop jest dla was.',
@@ -239,7 +239,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Zastanówcie się, czy zioła mogą zastąpić leki syntetyczne? Skąd czerpać wiarygodną wiedzę na temat ziołolecznictwa? Czy wszystkie zioła są w pełni bezpieczne i można je bez przeszkód łączyć np. z lekami? Omówcie wnioski na forum drużyny - możecie przygotować infografikę lub gazetkę, która wam w tym pomoże.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Drzewo życzeń',
       category: TropCategory.harcNatura,
       intro: 'Czy zastanawialiście się kiedyś, jakie kryteria musi spełnić drzewo, aby zostać pomnikiem przyrody? Wiedzieliście, że takie miano mogą uzyskać także aleje, głazy, skałki czy wodospady? Czujecie się zaintrygowani? Jeśli tak – to trop dla was.',
@@ -250,7 +250,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
   ),
 
   // TODO: eko-bełkot
-  HarcTropIdea(
+  TropIdea(
       name: 'Przyjaciel ptaków',
       category: TropCategory.harcNatura,
       intro: 'Nie trzeba być ornitologiem, aby być przyjacielem ptaków. Sprawdźcie, co dobrego możecie zrobić na ich rzecz w swoim środowisku działania.',
@@ -260,7 +260,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Pokażcie innym, jak można pomagać ptakom. Zaprezentujcie młodszym kolegom materiał edukacyjny, zorganizujcie grę terenową lub imprezę na orientację, podczas której pokażecie, gdzie są budki lęgowe. Zorganizujcie w drużynie kominek tematyczny poświęcony temu zagadnieniu. Zachęćcie innych do działań na rzecz ptaków w waszej okolicy. Zastanówcie się, czy takie działania przyniosły wam satysfakcję; może zachęci to was do pomocy innym zwierzętom?'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Zaopiekuj się mną',
       category: TropCategory.harcNatura,
       intro: 'Podobno charakter człowieka można poznać po tym, jak traktuje zwierzęta. Harcerzy zaś dodatkowo po tym, że w obliczu ważnych kwestii podejmują aktywne działania. Weźcie zwierzęta waszej lokalnej społeczności w skrojoną dla nich na miarę opiekę.',
@@ -270,7 +270,7 @@ List<HarcTropIdea> harcHSTropIdeas = const [
       summary: 'Zorganizujcie dla drużyny zbiórkę o potrzebach zwierząt w schroniskach, przekażcie zdobytą wiedzę i opiszcie, jak przebiegała wasza akcja. Możecie ubarwić waszą opowieść filmem lub fotografiami.'
   ),
 
-  HarcTropIdea(
+  TropIdea(
       name: 'Zielony raj',
       category: TropCategory.harcNatura,
       intro: 'Jeśli radość sprawiają wam prace manualne, a w dodatku lubicie spędzać czas razem na świeżym powietrzu ten trop jest przeznaczony właśnie dla was.',

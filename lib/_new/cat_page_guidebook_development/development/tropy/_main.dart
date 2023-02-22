@@ -5,6 +5,7 @@ import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/ideas/trop_ideas_page.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/predefined/data_z.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_page.dart';
 import 'package:harcapp/values/colors.dart';
@@ -19,6 +20,7 @@ import 'package:provider/provider.dart';
 import 'ideas/data_h.dart';
 import 'ideas/data_hs.dart';
 import 'ideas/data_w.dart';
+import 'predefined/trop_predef_page.dart';
 import 'trop.dart';
 import 'trop_editor_page/_main.dart';
 import 'trop_tile.dart';
@@ -85,6 +87,7 @@ class TropyPage extends StatelessWidget{
                 onTap: (){
                   Navigator.pop(context);
                   pushPage(context, builder: (_) => TropEditorPage(
+                      allCategories: allHarcTropCategories,
                       onSaved: (Trop trop){
                         Trop.addToAll(trop, context: context);
                         pushPage(context, builder: (context) => TropPage(trop));
@@ -102,11 +105,10 @@ class TropyPage extends StatelessWidget{
                   subtitle: Text('...z listy gotowców', style: AppTextStyle()),
                   onTap: (){
                     Navigator.pop(context);
-                    pushPage(context, builder: (_zuchTropName) => TropEditorPage(
-                        onSaved: (Trop trop){
-                          Trop.addToAll(trop, context: context);
-                          pushPage(context, builder: (context) => TropPage(trop));
-                        }
+                    pushPage(context, builder: (context) => TropPredefPage(
+                      metoShort: 'Z',
+                      predefTrops: zuchTrops,
+                      allCategories: allZuchTropCategories,
                     ));
                   }
               ),

@@ -10,11 +10,13 @@ class TropTile extends StatelessWidget{
 
   final String name;
   final TropCategory category;
+  final String? zuchTropName;
   final double iconSize;
 
   const TropTile({
     required this.name,
     required this.category,
+    this.zuchTropName,
     this.iconSize = TropIcon.defSize,
     super.key
   });
@@ -26,7 +28,7 @@ class TropTile extends StatelessWidget{
       Row(
         children: [
 
-          TropIcon(category, size: iconSize),
+          TropIcon(category, size: iconSize, zuchTropName: zuchTropName),
 
           const SizedBox(width: Dimen.SIDE_MARG),
 
