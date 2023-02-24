@@ -667,7 +667,7 @@ List<TropBaseData> zuchTrops = [
   TropBaseData(
       name: 'Afrykańczycy',
       category: TropCategory.zuchKulturoznawcze,
-      customIconTropName: 'afrykańczycy',
+      customIconTropName: 'afrykanczycy',
       aims: [],
       tasks: [
         TropTaskBaseData(content: 'W kręgu rady podjęliśmy decyzję o wyprawie do Afryki.'),
@@ -681,7 +681,6 @@ List<TropBaseData> zuchTrops = [
         TropTaskBaseData(content: 'Zbieraliśmy pożywienie. Zrobiliśmy posiłek, taki jaki jedzą mieszkańcy Afryki.'),
         TropTaskBaseData(content: 'Przedstawiliśmy przygotowane w szóstkach scenki „Dzień z życia w Afryce”.'),
         TropTaskBaseData(content: 'Na podsumowanie zorganizowaliśmy turniej wiedzy o Afryce (zwierzęta, rośliny, klimat, plemiona, mapa, zabawy).'),
-        TropTaskBaseData(content: ''),
       ],
       notesForLeaders: 'Dobry trop na kolonię!'
           '\n\nTrop zaspokaja dziecięcą ciekawość świata i przybliża inne kultury. Podczas jego realizacji zuchy poznają Afrykę jako kontynent wielu państw i narodów, zróżnicowany klimatycznie, niezwykle bogaty pod względem roślinności i świata zwierzęcego.'
@@ -947,9 +946,9 @@ List<TropBaseData> zuchTrops = [
   ),
 
   TropBaseData(
-      name: '',
+      name: 'Słowianie',
       category: TropCategory.zuchKulturoznawcze,
-      customIconTropName: '',
+      customIconTropName: 'slowianie',
       aims: [],
       tasks: [
         TropTaskBaseData(content: 'W kręgu rady zdecydowaliśmy, że przeniesiemy się do czasów dawnych Słowian.'),
@@ -993,7 +992,7 @@ List<TropBaseData> zuchTrops = [
   TropBaseData(
       name: 'Szlachcice',
       category: TropCategory.zuchKulturoznawcze,
-      customIconTropName: '',
+      customIconTropName: 'szlachcice',
       aims: [],
       tasks: [
         TropTaskBaseData(content: 'W kręgu rady postanowiliśmy przenieść się do czasów szlacheckich.'),
@@ -1059,13 +1058,1320 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop ma podwójną nazwę: dla dziewczynek „Nawojka”, dla chłopców „Żak”. Przeznaczony jest dla gromad, w których są starsze zuchy.'
   ),
 
+  TropBaseData(
+      name: 'Ambasadorzy przyjaźni',
+      category: TropCategory.zuchObywatelskie,
+      customIconTropName: 'ambasadorzy_przyjazni',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy, że zostaniemy ambasadorami przyjaźni w szkole i na podwórku.'),
+        TropTaskBaseData(content: 'Poznaliśmy Deklarację Praw Dziecka.'),
+        TropTaskBaseData(content: 'Szóstkami przeprowadziliśmy zwiad w poszukiwaniu problemów, które stoją na drodze do przyjaźni na podwórku lub w szkole. Zaplanowaliśmy, jak im zaradzić i wprowadziliśmy plan w życie.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy turniej gier i zabaw dla zuchów z naszej gromady oraz innych dzieci. Każda szóstka przeprowadziła grę lub zabawę.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy spotkanie przyjaźni z cudzoziemcami lub dziećmi z innych krajów (np. ze skautami – listownie, przez komunikator internetowy). Poznaliśmy wzajemnie swoje zabawy, radości i problemy.'),
+        TropTaskBaseData(content: 'Na podsumowanie naszej pracy zorganizowaliśmy spotkanie ambasadorów przyjaźni. Jako doświadczeni ambasadorzy uczestniczyliśmy w debatach, podjęliśmy ważne postanowienia i decyzje. Najważniejsze z nich przekazaliśmy Polskiemu Komitetowi UNICEF lub Rzecznikowi Praw Dziecka.'),
+      ],
+      notesForLeaders: 'To dobry trop na Dzień Myśli Braterskiej lub Międzynarodowy Dzień Praw Dziecka!'
+          '\n\nTrop wspiera rozwój społeczny, a także duchowy i emocjonalny. Podążając tym tropem, zuchy mają możliwość aktywnego uczestnictwa w społeczności, a także realnego zmieniania rzeczywistości. Uczą się tolerancji wobec inności – „dalekiej” (np. inny kolor skóry, wyznanie) i ”bliskiej” (np. inny status materialny, wiek). Mogą poznać odmienność innych dzieci i różnorodność wielkiej rodziny skautowej.'
+          '\n\nPodczas zabawy należy uświadomić zuchom problemy współczesnego świata, np. brak tolerancji i akceptacji, rasizm, antysemityzm. Przed spotkaniem przyjaźni zuchy powinny poznać elementy kultury kraju, z którego pochodzą rozmówcy, mogą też nauczyć się kilku słów i zwrotów w ich języku.'
+          '\n\nPrzygotowując się do zbiórek, warto zwrócić się do Biura Rzecznika Praw Dziecka z prośbą o bezpłatne materiały na temat praw dzieci. W celu skontaktowania się ze skautami można skorzystać z pomocy pełnomocnika ds. zagranicznych chorągwi. Koniecznie należy to zrobić jeszcze przed rozpoczęciem tropu! Odpowiedź instytucji, do której zuchy przekazały swoje postanowienia i decyzje, będzie dla zuchów sygnałem, że ich działania są potrzebne i zostały dostrzeżone. Zadbaj o nią i przedstaw ją zuchom, nawet jeśli nadejdzie już po realizacji tropu.'
+  ),
+
+  TropBaseData(
+      name: 'Białe Orły',
+      category: TropCategory.zuchObywatelskie,
+      customIconTropName: 'biale_orly',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy przenieść się do krainy Pierwszych Piastów.'),
+        TropTaskBaseData(content: 'Poznaliśmy legendę o Lechu, Czechu i Rusie.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, jak wygląda i co symbolizuje godło naszego kraju.'),
+        TropTaskBaseData(content: 'Wykonaliśmy godło do naszej zuchówki. Dowiedzieliśmy się, jakie miasto było pierwszą stolicą Polski.'),
+        TropTaskBaseData(content: 'Zbudowaliśmy gród słowiański i poznaliśmy panujące w nim zasady.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, w jaki sposób nasi przodkowie korzystali z darów natury.'),
+        TropTaskBaseData(content: 'W szóstkach przygotowaliśmy ucztę dla pozostałych mieszkańców grodu.'),
+      ],
+      notesForLeaders: 'Trop zapoznaje zuchy z początkami państwa polskiego oraz historią naszego godła narodowego. Ma również na celu wzmocnienie umiejętności samorządności wewnątrz małej społeczności przez funkcjonowanie w gromadzie.'
+          '\n\nPodczas podążania tropem „Białych Orłów” zuchy przenoszą się w czasy, gdy państwo polskie dopiero się kształtowało. Dzięki podróży w czasie poznają dawną kuchnię bez wzmacniaczy smaku, niezdrowych konserwantów i wysokiego przetwarzania. Uczta zorganizowana na podsumowanie tropu pozwoli szóstkom na sprawdzenie i doskonalenie umiejętności pracy w grupie, a także będzie okazją do przygotowania prostych i zdrowych potraw.'
+          '\n\nTrop może mieć bogatą obrzędowość. Na zbiórkach warto wykorzystać zawołania, staropolskie zwroty i nazwy, zaprezentować średniowieczne stroje (np. wybrać się w nich na ucztę). Można przeczytać zuchom „Bogurodzicę” lub fragmenty „Kroniki Galla Anonima”, aby pokazać, jak brzmiał dawny język polski. Godło do zuchówki można wykonać na przygotowanym wcześniej szablonie.'
+          '\n\nTrop przeznaczony jest dla wszystkich zuchów. Można go realizować o każdej porze roku, ale kadra gromady musi się do niego przygotować (znać historię Polski wraz z jej społecznymi aspektami).'
+  ),
+
+  TropBaseData(
+      name: 'Europejczycy',
+      category: TropCategory.zuchObywatelskie,
+      customIconTropName: 'europejczycy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zorganizować wyprawę po Europie.'),
+        TropTaskBaseData(content: 'Zaplanowaliśmy podróż tak, by poznać wszystkie regiony Europy (Skandynawię, Europę Wschodnią, Bałkany, region alpejski, kraje śródziemnomorskie, kraje anglosaskie). Wykonaliśmy mapę Europy i zaznaczaliśmy kraje, który poznaliśmy.'),
+        TropTaskBaseData(content: 'Przed odwiedzinami w danym kraju zastanawialiśmy się, co o nim wiemy i czego chcemy się o nim dowiedzieć.'),
+        TropTaskBaseData(content: 'Poznaliśmy charakterystyczne dla odwiedzanych miejsc elementy kultury, np. budynki, potrawy lub wyroby.'),
+        TropTaskBaseData(content: 'W czasie podróży poznawaliśmy znane osobistości z różnych krajów (np. królową, piłkarza, projektanta mody, aktora, piosenkarza).'),
+        TropTaskBaseData(content: 'Poznaliśmy naszych rówieśników z różnych organizacji skautowych działających w innych krajach. Dowiedzieliśmy się, jak wyglądają ich mundury i w co się bawią.'),
+        TropTaskBaseData(content: 'Napisaliśmy list do skautów z innego kraju, prezentując w nim charakterystyczne cechy naszej kultury.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy przegląd zuchowej Eurowizji.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, czym jest Unia Europejska. Pojechaliśmy do Brukseli.'),
+        TropTaskBaseData(content: 'Bawiliśmy się w parlament europejski. Szóstkami uczestniczyliśmy w jego obradach. Wspólnie podejmowaliśmy decyzje dotyczące pokoju na świecie.'),
+        TropTaskBaseData(content: 'Napisaliśmy rozporządzenie Unii Europejskiej dotyczące ochrony przyrody i przedstawiliśmy je zaprzyjaźnionym gromadom. Wprowadziliśmy je w życie naszej gromady.'),
+        TropTaskBaseData(content: 'Po powrocie do kraju podsumowaliśmy naszą wyprawę oraz to, czego się dowiedzieliśmy i nauczyliśmy, zwłaszcza o braterstwa ponad podziałami.'),
+      ],
+      notesForLeaders: 'Dobrym pretekstem do podążania tropem jest rocznica wstąpienia Polski do Unii Europejskiej!'
+          '\n\nTrop zaspokaja dziecięcą ciekawość świata i pozwala poznać charakterystyczne elementy kultury wybranych krajów europejskich. Przybliża także zuchom samorządność, demokrację i decyzyjność na wielu poziomach społecznego zaangażowania. Na zbiórkach zuchy poznają tradycje i zwyczaje krajów wspólnoty europejskiej. Równocześnie przekonują się, że każdy ma prawo do inności, zwracają uwagę na tolerancję i akceptację (niezależnie od narodowości, pochodzenia itp.) oraz na koleżeństwo i braterstwo.'
+          '\n\nTrop wymaga od kadry gromady rzetelnej wiedzy o Europie i Unii Europejskiej. Przeznaczony jest dla zuchów młodszych i starszych, można go zdobywać niezależnie od pory roku.'
+  ),
+
+  TropBaseData(
+      name: 'Harcownicy Króla Jana',
+      category: TropCategory.zuchObywatelskie,
+      customIconTropName: 'harcownicy_krola_jana',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'Dostaliśmy list z nadaniem tytułu szlacheckiego podpisany przez króla Jana III Sobieskiego. W kręgu rady postanowiliśmy przyjąć tytuł i założyć ród szlachecki.'),
+        TropTaskBaseData(content: 'Oglądaliśmy budowle z okresu baroku lub przedstawiające je ilustracje, zdjęcia, slajdy. Udekorowaliśmy zuchówkę w tym stylu, używając naturalnych materiałów.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy pracę na naszym dworze. Każda szóstka podjęła się opieki nad jednym elementem dworu.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, czym są herby. Namalowaliśmy herby naszych szóstek tak, by zawierały wspólny element graficzny rodu – gromady.'),
+        TropTaskBaseData(content: 'Uczestniczyliśmy w harcach w polu lub w lesie.'),
+        TropTaskBaseData(content: 'Po otrzymaniu wezwania uczestniczyliśmy w obradach polskiego sejmu szlacheckiego.'),
+        TropTaskBaseData(content: 'Podczas obrad sejmu podjęliśmy temat braterstwa i wspólnoty między polskimi rodami szlacheckimi. Ustanowiliśmy pakt braterstwa na rzecz dobra wspólnego. Poinformowaliśmy o tym zaprzyjaźnione rody – czyli inne gromady i nasze rodziny.'),
+      ],
+      notesForLeaders: 'Podczas realizacji tropu „Harcownicy króla Jana” zuchy przenoszą się w czasy Rzeczypospolitej szlacheckiej. Poznają historię Polski z tego okresu oraz zasługi Jana III Sobieskiego dla kraju i Europy. Zmieniają się w staropolskich rycerzy − tzw. harcowników. Trzeba przy tym wytłumaczyć dzieciom, kim byli harcownicy i uświadomić im, że cieszyli się wielkim szacunkiem wśród innych rycerzy.'
+          '\n\nZuchy starają się zachowywać tak szlachetnie, zdyscyplinowanie i walecznie jak rycerze. W czasie realizacji tropu mogą pracować nad samorządnością w gromadzie oraz troską o wspólne dobro. Pomaga w tym kodeks rycerski, atmosfera dworu szlacheckiego i obrady sejmu, w trakcie którego – za przykładem króla Jana – troszczą się o dobre imię Polski, zarazem starając się zmieniać otaczającą je rzeczywistość na lepszą.'
+          '\n\nTrop wspiera również rozwój fizyczny zuchów (harcownik musiał być sprawny i zawsze gotowy do służby) – pomagają w tym harce w polu lub w lesie.'
+          '\n\nPodczas zbiórek zuchy używają imion i tytułów szlacheckich, wykonują zdobienia z czasów baroku itp.'
+  ),
+
+  TropBaseData(
+      name: 'Miłośnicy Niepodległej (Piłsudczycy)',
+      category: TropCategory.zuchObywatelskie,
+      customIconTropName: 'milosnicy_niepodleglej',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy przygotować się do Święta Niepodległości.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, jaki tytuł nosi Hymn Polski, w jakich okolicznościach został napisany oraz kto jest jego autorem.'),
+        TropTaskBaseData(content: 'Nauczyliśmy się śpiewać Hymn Polski i prawidłowo zachowywać podczas jego wykonania.'),
+        TropTaskBaseData(content: 'Słuchaliśmy opowieści o bohaterach walk niepodległościowych i śpiewaliśmy piosenki legionowe.'),
+        TropTaskBaseData(content: 'Wstąpiliśmy do Legionów Polskich, ćwiczyliśmy musztrę i staliśmy na warcie.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, kim był Józef Piłsudski. Spotkaliśmy się z osobą (historykiem), która opowiedziała nam o Marszałku Piłsudskim.'),
+        TropTaskBaseData(content: 'Szóstkami inscenizowaliśmy wiersz W. Bełzy „Katechizm dziecka polskiego”'),
+        TropTaskBaseData(content: 'Byliśmy w muzeum, które przedstawia historię naszego miasta/regionu. Odszukaliśmy w nim informacje o tym, co działo się w 1918 r.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy zwiad zuchowy do znajdujących się w naszej okolicy miejsc pamięci związanych z historią odzyskania niepodległości. Wykonaliśmy pożyteczne prace na ich rzecz (np. posprzątaliśmy okolicę pomnika lub zadbaliśmy o groby żołnierzy).'),
+        TropTaskBaseData(content: 'Każda szóstka wykonała plakat przybliżający tematykę odzyskania niepodległości. Powiesiliśmy plakaty w formie gazetki szkolnej.'),
+        TropTaskBaseData(content: 'Uczestniczyliśmy w obchodach Święta Niepodległości.'),
+        TropTaskBaseData(content: 'Podsumowaliśmy nasze przygotowywania i obchody. Dowiedzieliśmy się, jak dziś powinniśmy dbać o polską przyrodę, ludzi, język i kulturę.'),
+      ],
+      notesForLeaders: 'To dobry trop na przygotowanie zuchów do Święta Niepodległości (11 listopada)!'
+          '\n\nTrop przybliża zuchom wydarzenia związane z odzyskaniem przez Polskę niepodległości. Realizując go, zuchy poznają historię Polski i swojego regionu. W gawędach można opowiadać im o przygodach bohaterów narodowych, powstaniach narodowych i Legionach Polskich. Można też zaprezentować zuchom strój legionisty i śpiewać z nimi żołnierskie piosenki.'
+          '\n\nW legionistów najlepiej bawić się w terenie, gdzie zuchy będą obserwować otoczenie, pełnić wartę, ćwiczyć podchodzenie itp. Można wprowadzić musztrę, należy jednak traktować ją zabawowo. Należy pamiętać, by odwiedzić z zuchami miejsce pamięci narodowej lub groby żołnierzy poległych w walce o niepodległość. Jeśli istnieje taka możliwość, warto zabrać zuchy na zwiad do Muzeum Wojska Polskiego lub lokalnego muzeum, w którym znajdują się pamiątki z okresu walk niepodległościowych.'
+          '\n\nNależy zwrócić uwagę na dostosowanie przekazu historycznego do poziomu zuchów. Dzieciom może być trudno wyobrazić sobie pojęcie niepodległości lub to, że Polska przez wiele lat nie istniała jako państwo. Dlatego ważne jest dobre podsumowanie cyklu zbiórek, podczas którego zuchy uświadomią sobie, że w tej chwili mamy inną sytuację i inne sposoby wyrażania patriotyzmu niż w okresie, kiedy Polska odzyskiwała niepodległość.'
+  ),
+
+  TropBaseData(
+      name: 'Miś Wojtek',
+      category: TropCategory.zuchObywatelskie,
+      customIconTropName: 'mis_wojtek',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy poznać niezwykłego żołnierza – kaprala Wojtka.'),
+        TropTaskBaseData(content: 'Razem z Wojtkiem podróżowaliśmy przez Iran, Irak, Palestynę i Egipt oraz Morze Śródziemne aż do Włoch.'),
+        TropTaskBaseData(content: 'Poznaliśmy postać generała Władysława Andersa.'),
+        TropTaskBaseData(content: 'Czytaliśmy fragmenty książki Łukasza Wierzbickiego „Dziadek i niedźwiadek. Historia prawdziwa”.'),
+        TropTaskBaseData(content: 'Przygotowaliśmy i pokazaliśmy przedstawienie na podstawie przygód niedźwiedzia Wojtka.'),
+        TropTaskBaseData(content: 'Znaleźliśmy zdjęcia i filmy o Wojtku. Na ich podstawie wykonaliśmy własne prace plastyczne.'),
+        TropTaskBaseData(content: 'Braliśmy udział w misiowych zapasach, ustaliliśmy ich zasady.'),
+        TropTaskBaseData(content: 'W szóstkach zorganizowaliśmy wyścigi ciężarówek wojskowych.'),
+        TropTaskBaseData(content: 'Bawiliśmy się w misiowy szpital polowy.'),
+        TropTaskBaseData(content: 'Braliśmy udział w misiowej musztrze wojskowej.'),
+        TropTaskBaseData(content: 'Na podsumowanie zorganizowaliśmy ucztę misiowych przysmaków (owoce, soki, marmolada, miód).'),
+      ],
+      notesForLeaders: 'Trop „Misia Wojtka” przybliża zuchom w odpowiedni dla nich sposób wydarzenia z lat II wojny światowej. Realizując go, zuchy dowiadują się, że w tym czasie Polacy walczyli o wolność Ojczyzny także poza granicami kraju i zapoznają się z udziałem polskich żołnierzy w bitwie o Monte Cassino – to służy kształtowaniu postawy patriotycznej i dumy z bohaterskich czynów naszych rodaków.'
+          '\n\nFabuła tropu oparta jest na prawdziwej historii niedźwiedzia, którym podczas II wojny światowej zaopiekowali się żołnierze II Korpusu Wojska Polskiego (utworzonego z zesłańców syberyjskich), którymi dowodził gen. Władysław Anders. Syryjski niedźwiedź brunatny stał się przyjacielem żołnierzy i towarzyszem wojennych trudów – od Iranu, przez Irak, Palestynę, Egipt aż po kampanię włoską i pobyt w Wielkiej Brytanii. Był odważny, posłuszny i lojalny wobec przyjaciół, był też wzorem hartu i pogody ducha – realizacja tropu wspiera wykształcenie u dzieci tych właśnie cech. Poznawanie historii misia Wojtka kształtuje też pozytywny stosunek do zwierząt oraz uświadamia zuchom znaczenie przyjaźni, szczególnie potrzebnej w trudnych chwilach.'
+          '\n\nPodczas zbiórek można zwrócić uwagę zuchów na historie innych zwierząt towarzyszących ludziom i pomagającym im w różnych sytuacjach, również w czasie wojny (np. konie, gołębie, psy, delfiny, niedźwiedzica Baśka Murmańska).'
+          '\n\nNależy uważać, żeby nie spłycić tematu, ale jednocześnie nie przerazić zuchów zbyt szczegółowymi informacjami. Koniecznie jest dobre podsumowanie tropu i zwrócenie uwagi na to, jak możemy wyrażać patriotyzm w dzisiejszych czasach.'
+  ),
+
+  // TODO: podmienić ikonkę
+  TropBaseData(
+      name: 'Młodzi obywatele',
+      category: TropCategory.zuchObywatelskie,
+      customIconTropName: 'mlodzi_obywatele',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy, że będziemy aktywnie uczestniczyć w życiu lokalnej społeczności.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy zwiad po naszej miejscowości w poszukiwaniu ważnych urzędów i instytucji, a także miejsca, gdzie moglibyśmy zrobić coś pożytecznego.'),
+        TropTaskBaseData(content: 'Spotkaliśmy się z gospodarzem naszego miasta, by porozmawiać o ważnych sprawach naszego otoczenia.'),
+        TropTaskBaseData(content: 'Byliśmy w urzędzie miasta lub gminy.'),
+        TropTaskBaseData(content: 'Szóstkami braliśmy udział w posiedzeniu dziecięcego parlamentu. Debatowaliśmy o potrzebach naszej miejscowości.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy wybory do...'),
+        TropTaskBaseData(content: 'Ułożyliśmy konstytucję naszej gromady.'),
+        TropTaskBaseData(content: 'Wykonaliśmy coś pożytecznego dla naszej wsi, miasta lub dzielnicy.'),
+      ],
+      notesForLeaders: 'To dobry trop na czas wyborów!'
+          '\n\nTrop wspiera rozwój społeczny i pozwala zuchom poznać bliżej swoje środowisko w kontekście obywatelskich praw i obowiązków. Zuchy uczą się dostrzegać problemy wspólnoty lokalnej i poszukiwać ich rozwiązań. Stają się świadomymi uczestnikami życia społecznego.'
+          '\n\nW czasie zbiórek warto zwrócić uwagę na rozbudzenie w dzieciach aktywności i gotowości do podjęcia działania w swoim środowisku, np. w szkole lub na podwórku. Pokazanie zuchom ich własnej sprawczości może przyczynić się do tego, że będą aktywnymi obywatelami w przyszłości, a także lepiej zrozumieją zasady demokracji i samorządności. Dlatego podejmowane pożyteczne prace powinny być wymierne i dobrze podsumowane – tak, aby zuchy dostrzegły zmianę, którą po sobie pozostawiły.'
+          '\n\nPożyteczne prace należy dostosować do rozwoju psychofizycznego zuchów. Zwykle nie wykonają one zadań, które wymagają szczególnej dokładności czy schludności. Jednak każdy może dać z siebie coś dla innych – nawet dzieci! Przykładami pożytecznych prac mogą być: wykonanie i ustawienie w zuchówce koszy na segregację odpadów, spotkanie ze starszymi osobami, posprzątanie trawnika, pomoc dla schroniska dla zwierząt, pomoc kolegom z klasy lub podwórka w odrabianiu lekcji. Młodsze zuchy skupią się na najbliższym otoczeniu, a starsze popatrzą szerzej – czym zajmuje się prezydent miasta, jakie mamy prawa i obowiązki jako obywatele itp.'
+  ),
+
+  TropBaseData(
+      name: 'Niewidzialna ręka',
+      category: TropCategory.zuchObywatelskie,
+      customIconTropName: 'niewidzialna_reka',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy utworzyć Drużynę Niewidzialnej Ręki lub Brygadę Pożytecznego Działania.'),
+        TropTaskBaseData(content: 'Ustaliliśmy Statut Niewidzialnych.'),
+        TropTaskBaseData(content: 'Byliśmy na wielkiej wyprawie rozpoznawczej „niewidzialnej ręki”.'),
+        TropTaskBaseData(content: 'Uczestniczyliśmy w pięciu czynach „niewidzialnej ręki” (pięć palców dłoni).'),
+        TropTaskBaseData(content: 'W szóstkach uzgodniliśmy uczynek, który spełnimy pomiędzy zbiórkami.'),
+        TropTaskBaseData(content: 'Byliśmy u terenowego opiekuna społecznego lub w Towarzystwie Opieki nad Zwierzętami.'),
+        TropTaskBaseData(content: 'Pomagaliśmy ludziom potrzebującym pomocy, a sprawy trudne dla nas przekazywaliśmy dorosłym.'),
+        TropTaskBaseData(content: 'Na podstawie przemyśleń z działalności Niewidzialnych przygotowaliśmy inscenizację „Bo my robimy cuda”.'),
+      ],
+      notesForLeaders: 'Trudno tu jest podać propozycje konkretnych działań. O ile przy innych tropach można wskazać, co konkretnie należy robić na zbiórkach, to w przypadku „Niewidzialnej ręki” kadra sama musi wybrać pole działania (szkoła, osiedle, wieś, miasto, dom rodzinny, las, podwórko, pomoc potrzebującym, przedszkole, dom dziecka). Zależy ono od warunków lokalnych, od tego, co zuchy zauważą i co stworzy najlepszą okazję do działań wychowawczych. Trzeba pamiętać, że każda praca musi mieć cel.'
+          '\n\nIstota tropu dotyczy pożytecznego działania zarówno zespołowego, jak i indywidualnego.'
+          '\n\nNiektóre prace dzieci wykonują same, inne pod nadzorem starszych lub razem z całą gromadą.'
+          '\n\nW każdym przypadku powinny nauczyć się znajdować radość w pożytecznym działaniu.'
+          '\n\nTrop powinien być realizowany w każdej gromadzie. Pora roku nie odgrywa tu roli.'
+  ),
+
+  TropBaseData(
+      name: 'Podróżnicy po Polsce',
+      category: TropCategory.zuchObywatelskie,
+      customIconTropName: 'podroznicy_po_polsce',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy wyruszyć w podróż po Polsce.'),
+        TropTaskBaseData(content: 'Pakowaliśmy plecaki, przygotowując się do wypraw w różnych warunkach.'),
+        TropTaskBaseData(content: 'Podczas podróży korzystaliśmy z map, potrafiliśmy na nich wskazać trasę podróży.'),
+        TropTaskBaseData(content: 'Dokumentowaliśmy nasze podróże.'),
+        TropTaskBaseData(content: 'W trakcie podróży korzystaliśmy z różnych środków transportu.'),
+        TropTaskBaseData(content: 'Poznaliśmy najważniejsze regiony Polski i ich krajobrazy. Odszukaliśmy je na mapie.'),
+        TropTaskBaseData(content: 'Próbowaliśmy charakterystycznych potraw z różnych regionów Polski.'),
+        TropTaskBaseData(content: 'Zbadaliśmy, z czego słynie dany region (np. strój, gwara, zwyczaje, obrzędy, taniec).'),
+        TropTaskBaseData(content: 'Poznaliśmy najważniejsze w Polsce zabytki.'),
+        TropTaskBaseData(content: 'Podczas podróży odwiedziliśmy wszystkie miejsca „naj” w Polsce (np. największe jezioro, najwyższą górę, najniższą depresję, najwyższy budynek).'),
+        TropTaskBaseData(content: 'Po zakończonych podróżach zorganizowaliśmy pokaz filmów „Dzienniki podróży”.'),
+      ],
+      notesForLeaders: 'Dobry trop na kolonię!'
+          '\n\nTrop zaspokaja dziecięcą ciekawość świata i daje możliwość poznania własnego kraju. Zuchy mogą odbyć fascynującą podróż po regionach, krajobrazach i zabytkach Polski. Poznają w ten sposób zróżnicowanie kulturowe i przyrodnicze Ojczyzny.'
+          '\n\nTrop można realizować zarówno na kolonii zuchowej, jak i w trakcie całorocznej pracy gromady. Warto sięgnąć po niego po realizacji tropów dotyczących małych ojczyzn (np. „Przewodnicy po wsi/mieście/dzielnicy”, „Znawcy regionu”).'
+  ),
+
+  TropBaseData(
+      name: 'Pomocnicy Świętego Mikołaja',
+      category: TropCategory.zuchObywatelskie,
+      customIconTropName: 'pomocnicy_swietego_mikolaja',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'Dostaliśmy list od św. Mikołaja z prośbą o pomoc. W kręgu rady postanowiliśmy zostać pomocnikami św. Mikołaja.'),
+        TropTaskBaseData(content: 'Spotkaliśmy się ze św. Mikołajem, który opowiedział nam swoją historię i pasował nas na swoich pomocników.'),
+        TropTaskBaseData(content: 'Zdecydowaliśmy, komu chcemy pomóc.'),
+        TropTaskBaseData(content: 'Wraz z naszymi rodzinami zorganizowaliśmy zbiórkę rzeczy na wybrany cel.'),
+        TropTaskBaseData(content: 'Wykonaliśmy ozdoby świąteczne z rzeczy niepotrzebnych, dostępnych w zuchówce lub w domu. Zorganizowaliśmy kiermasz świąteczny.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy wspólne rodzinne kolędowanie.'),
+        TropTaskBaseData(content: 'Przekazywaliśmy Betlejemskie Światło Pokoju, promując ideę braterstwa i pomocy.'),
+      ],
+      notesForLeaders: 'Grudniowy trop!'
+          '\n\nWiększość dzieci wie, że św. Mikołaj roznosi prezenty, ale nie wszystkie wiedzą, skąd wziął się ten zwyczaj. Dowiedzą się tego podczas realizowania tropu „Pomocników św. Mikołaja”.'
+          '\n\nTrzeba postarać się, aby zuchy uświadomiły sobie, jak miło jest obdarowywać kogoś bliskiego niech poczują wspaniały smak dawania, braterstwa i empatii, rodzinnej i ciepłej atmosfery oraz radości z oczekiwania na Boże Narodzenie. Trop dodatkowo wspiera budowanie więzi rodzinnych i społecznych (np. poprzez uczestnictwo w kiermaszu, przekazanie Betlejemskiego Światła Pokoju i wspólne kolędowanie).'
+  ),
+
+  TropBaseData(
+      name: 'Przewodnicy po wsi/mieście/dzielnicy',
+      category: TropCategory.zuchObywatelskie,
+      customIconTropName: 'przewodnicy_po_miescie',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zorganizować Zuchowe Towarzystwo Miłośników Naszej Miejscowości/Dzielnicy.'),
+        TropTaskBaseData(content: 'Każda szóstka kolejno prowadziła „Dziennik wypraw” i wpisywała do niego wrażenia z wycieczek.'),
+        TropTaskBaseData(content: 'Szukaliśmy miejsc, które wymagają naprawy/udoskonalenia, np. krzywy chodnik, dzikie wysypisko. Wykonaliśmy pożyteczną pracę.'),
+        TropTaskBaseData(content: 'Wędrowaliśmy szlakami „nowych domów”, „ważnych instytucji”, „legend”, „dobrych miejsc do zabaw”, „najstarszych domów” itp.'),
+        TropTaskBaseData(content: 'Poznaliśmy najciekawsze miejsca w naszej najbliższej okolicy.'),
+        TropTaskBaseData(content: 'Spotkaliśmy się ze starszymi mieszkańcami naszej miejscowości.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy biuro informacji o naszej okolicy.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy debatę „Nasza miejscowość za 20, 100 lat”.'),
+        TropTaskBaseData(content: 'Wykonaliśmy pożyteczne prace: pomagaliśmy w zazielenianiu naszej okolicy, załataliśmy dziurę w płocie, naoliwiliśmy skrzypiącą furtkę, podwiązaliśmy złamane drzewa. Zrobiliśmy drogowskaz lub tablicę informacyjną.'),
+        TropTaskBaseData(content: 'Wnioski z poszukiwań, debaty i pożytecznych prac przedstawiliśmy włodarzom miasta/dzielnicy.'),
+      ],
+      notesForLeaders: 'Trop pozwala poznać najmniejszą Małą Ojczyznę – okolicę, w której mieszkają zuchy. Każda okolica ma swoje ważne miejsca, zabytki i pomniki przyrody, a przede wszystkim swoją historię. Ta najbliższa jest szczególnie interesująca, ponieważ zuchy mijają związane z nią miejsca bardzo często, znają je z widzenia.'
+          '\n\nTrop może rozbudzić w dzieciach ciekawość świata związaną z wnikliwym poznaniem najbliższej okolicy. Zuchy będą miały silniejsze poczucie przynależności do miejsca, w którym mieszkają. Przekonają się, że ich okolica jest ciekawa, choć może nie wszyscy o tym wiedzą.'
+          '\n\nTrop można zrealizować nawet w okresie jesienno-zimowym.'
+  ),
+
+  TropBaseData(
+      name: 'Słoneczka (Wilczki)',
+      category: TropCategory.zuchObywatelskie,
+      customIconTropName: 'sloneczka',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy przenieść się w czasie i bawić się jak zuchy z dawnych lat.'),
+        TropTaskBaseData(content: 'Stworzyliśmy „drzewo genealogiczne” swojej lub zaprzyjaźnionej gromady zuchowej albo swojego szczepu.'),
+        TropTaskBaseData(content: 'Spotkaliśmy się ze starszymi od nas osobami, które kiedyś były w gromadach zuchowych.'),
+        TropTaskBaseData(content: 'Zebraliśmy jak najwięcej informacji na temat dawnych obrzędów, zwyczajów, zabaw i piosenek zuchowych.'),
+        TropTaskBaseData(content: 'Szóstkami braliśmy udział w przeglądzie grupowych gier podwórkowych (np. gra w klipę, świnkę i palanta).'),
+        TropTaskBaseData(content: 'Wymyśliliśmy tajemniczy język oraz pismo „słoneczek” i „wilczków”, posługiwaliśmy się nim podczas zbiórek.'),
+        TropTaskBaseData(content: 'Urządziliśmy wieczór majsterklepki, robiąc proste zabawki z dawnych lat.'),
+        TropTaskBaseData(content: 'Przeżywaliśmy przygody bohaterów książki A. Kamińskiego „Antek Cwaniak”.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, kiedy zostały założone pierwsze gromady zuchowe oraz poznaliśmy najważniejsze postacie ruchu zuchowego.'),
+        TropTaskBaseData(content: 'Urządziliśmy wyprawę do lasu (parku), podpatrywaliśmy przyrodę i przeprowadziliśmy tam gry przyrodnicze, które w żaden sposób nie zaszkodziły naturze.'),
+        TropTaskBaseData(content: 'Braliśmy udział w „polowaniu na dobre uczynki”.'),
+        TropTaskBaseData(content: 'Urządziliśmy w harcówce lub zuchówce wystawę dawnych pamiątek zuchowych i harcerskich dla rodziców, byłych zuchów, harcerzy oraz zaprzyjaźnionych środowisk harcerskich.'),
+      ],
+      notesForLeaders: 'Trop ma podwójną nazwę: „Słoneczka” dla dziewczynek i „Wilczki” dla chłopców. Podczas zabawy w dawne gromady zuchowe można przybliżyć zuchom historię harcerstwa (w szczególności jego najmłodszych członków), zapoznać z dawnymi zabawami i zwyczajami, przedstawić sylwetki osób zasłużonych dla ruchu zuchowego (np. Jadwigi Zwolakowskiej, Aleksandra Kamińskiego). Na zbiórkach zuchy powinny wykazać się dzielnością i sprawnością oraz znajomością przyrody.'
+          '\n\nTrop może dostarczyć dzieciom pomysłów do zabaw na podwórku i na przerwach w szkole (zapomniane zabawy przypomną rodzice lub dziadkowie). Przy okazji warto nauczyć zuchy kilku „starych” piosenek. Można też wykorzystać bogatą obrzędowość zaczerpniętą z tradycji dawnych gromad (skarbnicą obrzędów jest książka „Antek Cwaniak”).'
+          '\n\nZ uwagi na duży bagaż informacji historycznych trop jest przeznaczony dla starszych zuchów.'
+  ),
+
+  TropBaseData(
+      name: 'Zawiszacy',
+      category: TropCategory.zuchObywatelskie,
+      customIconTropName: 'zawiszacy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy wstąpić do „Zawiszy”.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, czym były Szare Szeregi i jakie zadania mieli członkowie najmłodszej grupy – Zawiszacy. Zastanowiliśmy się, jak dziś możemy pomagać innym. Na tej podstawie zaplanowaliśmy i wykonaliśmy pożyteczne prace.'),
+        TropTaskBaseData(content: 'Poznaliśmy konspiracyjne pseudonimy harcerzy z Szarych Szeregów. Wymyśliliśmy swoje pseudonimy i posługiwaliśmy się nimi podczas zbiórek.'),
+        TropTaskBaseData(content: 'Przeszliśmy podstawowe szkolenie Zawiszaków – ćwiczenia z orientacji w terenie, ostrożności, zręczności, celności i szyfrowania. Znamy elementy musztry, systematycznie je ćwiczyliśmy.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, kiedy wybuchło Powstanie Warszawskie, spotkaliśmy się z osobą, która opowiedziała nam o nim.'),
+        TropTaskBaseData(content: 'Pomagaliśmy w szpitalu polowym.'),
+        TropTaskBaseData(content: 'Śpiewaliśmy szaroszeregowe piosenki.'),
+        TropTaskBaseData(content: 'Szóstkami wystawiliśmy przedstawienia w teatrzyku powstańczym.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy harcerską pocztę polową. Bawiliśmy się w zabawy przedwojennych zuchów, np. „ogonki”, „ciupy”, toczenie obręczy, skakanie w klasy.'),
+        TropTaskBaseData(content: 'Na podsumowanie odwiedziliśmy miejsce związane z Szarymi Szeregami, Powstaniem Warszawskim lub inne miejsce pamięci związane z II wojną światową.'),
+      ],
+      notesForLeaders: 'Realizując trop możemy pokazać zuchom, jak niewiele starsi od nich chłopcy pomagali podczas wojny i walczyli w obronie Polski. Trop wspiera wychowanie patriotyczne, stwarza możliwość wyrabiania u zuchów obowiązkowości, punktualności i dzielności.'
+          '\n\nTrzeba dobrze wytłumaczyć zuchom, kim byli Zawiszacy, jakie działania podejmowali i jak widzieli swoją przyszłość – warto obrazowo nawiązać do kryptonimu „Dziś, jutro, pojutrze”. Trop daje możliwość wykorzystania ciekawej obrzędowości – można wprowadzić tajne hasła i wymyślić własne szyfry.'
+          '\n\nWarto dowiedzieć się, czy w okolicy są miejsca związane z działalnością Zawiszaków lub innych grup Szarych Szeregów i ewentualnie zaprowadzić tam zuchy. Jeśli nie ma takiego miejsca, należy wybrać się z gromadą na groby polskich żołnierzy lub do innego miejsca pamięci narodowej.'
+          '\n\nTen cykl zbiórek będzie też okazją, aby wytłumaczyć zuchom, co to znaczy kochać Ojczyznę i w jaki sposób dziś można wyrażać patriotyzm. Zuchy mogą to robić, pomagając innym ludziom – w tym celu zrealizują pożyteczne prace, np. wydanie i kolportaż w szkole gazetki o Zawiszakach, przyniesienie zakupów starszej sąsiadce lub pomoc w domu w adresowaniu i wysłaniu listów i kartek świątecznych, udział w projekcie BohaterOn.'
+          '\n\nPrzedstawiony zuchom obraz II wojny światowej i Powstania Warszawskiego powinien być dostosowany do ich możliwości percepcyjnych i rozwoju emocjonalnego. Życie i obowiązki Zawiszaków stanowią ciekawy temat zabaw, jednak ze względu na ćwiczenia przeprowadzane z zuchami podczas zbiórek (musztra, meldowanie, przekradanie się, pierwsza pomoc) oraz poważny kontekst historyczny i wiedzę trop bardziej nadaje się dla starszych zuchów.'
+          '\n\nPrzystępując do realizacji tropu, kadra powinna poszerzyć swoją wiedzę historyczną na temat Szarych Szeregów oraz udziału harcerzy w Powstaniu Warszawskim.'
+  ),
+
+  TropBaseData(
+      name: 'Znawcy legend',
+      category: TropCategory.zuchObywatelskie,
+      customIconTropName: 'znawcy_legend',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy poznać legendę (legendy) związane z naszym regionem.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, co to jest legenda i czego może nas nauczyć.'),
+        TropTaskBaseData(content: 'Słuchaliśmy bajania.'),
+        TropTaskBaseData(content: 'Poznaliśmy miejsca związane z wybraną legendą.'),
+        TropTaskBaseData(content: 'Bawiliśmy się w bohaterów wybranej legendy. Żyliśmy jak oni, wykonywaliśmy ich prace.'),
+        TropTaskBaseData(content: 'Przyrządziliśmy posiłek jak za legendarnych czasów.'),
+        TropTaskBaseData(content: 'Bawiliśmy się w zuchowy teatr, przedstawiając wybraną legendę.'),
+        TropTaskBaseData(content: 'Układaliśmy legendy o powstaniu nazw szóstek.'),
+        TropTaskBaseData(content: 'Wyciągnęliśmy wnioski z wybranej legendy.'),
+      ],
+      notesForLeaders: 'Trop umożliwia poznanie własnego regionu lub miasta w kontekście niematerialnego dziedzictwa kulturowego. Zuchy poznają wydarzenia, postacie, czasy i zwyczaje, o których traktuje wybrana legenda. Przykładowe legendy, które można wykorzystać (odpowiednio do regionu): o Smoku Wawelskim, o Warsie i Sawie, o poznańskich koziołkach, o królu Popielu, o Janosiku.'
+          '\n\nRealizacja tropu może uwzględnić rozmaite formy pracy, np. zwiad, majsterkę (związaną ze strojami i gotowaniem), teatr zuchowy. Można go poszerzyć o poznawanie gwary czy dialektu regionalnego oraz inne formy pasujące do legendy. Na zbiórkach zuchy mogą odwiedzić związane z nią miejsca, a także lokalne muzea i skanseny.'
+  ),
+
+  TropBaseData(
+      name: 'Znawcy regionu',
+      category: TropCategory.zuchObywatelskie,
+      customIconTropName: 'znawcy_regionu',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy poznać nasz region.'),
+        TropTaskBaseData(content: 'Byliśmy na wycieczkach krajoznawczych. Wysłuchaliśmy gawędy przewodnika.'),
+        TropTaskBaseData(content: 'Odwiedziliśmy miejsca „naj” w naszym regionie: najstarszą budowlę, najmłodszą dzielnicę, najwyższą górę itp.'),
+        TropTaskBaseData(content: 'Poznaliśmy kilka wyrażeń gwarowych z naszego regionu. Zapisaliśmy je w słowniku gwarowym gromady.'),
+        TropTaskBaseData(content: 'Przeprowadziliśmy zwiad w celu odnalezienia osób znających gwarę regionalną i odkrycia pochodzenia nazw różnych miejsc lub miejscowości.'),
+        TropTaskBaseData(content: 'Byliśmy w muzeum naszego regionu lub naszej miejscowości.'),
+        TropTaskBaseData(content: 'Odwiedziliśmy najstarszego mieszkańca naszego regionu.'),
+        TropTaskBaseData(content: 'Wykonaliśmy mapę miejsc pamięci, pomników przyrody, miejsc ochrony przyrody, zabytków historycznych lub ciekawostek naszego regionu.'),
+        TropTaskBaseData(content: 'Wykonaliśmy pożyteczną pracę dla naszego regionu.'),
+        TropTaskBaseData(content: 'Bawiliśmy się w pracownię twórców ludowych. Wykonaliśmy elementy stroju ludowego, hafty, wycinanki, zabawki, albumy o regionie.'),
+        TropTaskBaseData(content: 'Urządziliśmy wystawę twórczości ludowej, na którą zaprosiliśmy naszych rodziców i kolegów.'),
+      ],
+      notesForLeaders: 'To dobry trop na kolonię zuchową, jeśli odbywa się ona w regionie, w którym zuchy zamieszkują.'
+          '\n\nTrop przybliża zuchom okolice ich miejsca zamieszkania. Zaspokaja dziecięcą ciekawość, daje możliwość zapoznania się z folklorem, przyrodą, historią i zabytkami regionu – Małej Ojczyzny. Trop uczy również szacunku dla poprzednich pokoleń i osób starszych.'
+          '\n\nWażnymi elementami realizacji tropu są zwiady i wycieczki. Ponadto warto zwrócić uwagę na dobrze dobraną i wymierną pożyteczną pracę wykonaną na rzecz regionu. Może to być działanie związane z muzeum regionalnym, okolicznym lasem czy gminą (w możliwościach działania należy zorientować się przed rozpoczęciem realizacji tropu). Pożyteczna praca wzmocni poczucie więzi z terenem, na którym zuchy mieszkają.'
+          '\n\nMając na uwadze wychowanie patriotyczne, gromady mogą wykorzystać okazję i poszerzyć program tropu o elementy historyczne. Warto podczas zbiórki zapoznać zuchy z tematem powstań śląskich, powstania wielkopolskiego czy innego ważnego regionalnie wydarzenia.'
+          '\n\nTrop najlepiej realizować na kolonii, wiosną lub wczesną jesienią, by móc odwiedzić różne charakterystyczne miejsca w regionie.'
+  ),
+
+  TropBaseData(
+      name: 'Ekoludki',
+      category: TropCategory.zuchPrzyrodnicze,
+      customIconTropName: 'ekoludki',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'Dostaliśmy zaproszenie do Klubu Zielonych Detektywów Ekoludka. W kręgu rady postanowiliśmy do niego wstąpić.'),
+        TropTaskBaseData(content: 'Byliśmy z wizytą w siedzibie strażników przyrody, pomagaliśmy im w pracy. Zapytaliśmy ich, jak możemy dbać o przyrodę w najbliższej okolicy.'),
+        TropTaskBaseData(content: 'Badaliśmy stan zanieczyszczenia wody, ziemi i powietrza w naszej okolicy. Poszukiwaliśmy przyczyn tego zanieczyszczenia, tropiliśmy obiekty, które je powodują.'),
+        TropTaskBaseData(content: 'Zawarliśmy przymierze z żywiołami − ogniem, wodą, powietrzem i ziemią.'),
+        TropTaskBaseData(content: 'W naszym lesie lub parku znaleźliśmy najbardziej zanieczyszczony odcinek i zaopiekowaliśmy się nim.'),
+        TropTaskBaseData(content: 'Zasadziliśmy własne drzewka. Założyliśmy hodowlę sadzonek, prowadziliśmy w szóstkach uważne obserwacje, starając się stworzyć roślinom dogodne warunki do rozwoju.'),
+        TropTaskBaseData(content: 'Zbadaliśmy, skąd nasze miasto (wieś) czerpie wodę pitną i co robi ze ściekami.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy Dzień Ziemi (22 kwietnia), Dzień Lasów (21 lutego) lub braliśmy udział w akcji „Sprzątania świata”.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy Forum Czystej Ziemi.'),
+        TropTaskBaseData(content: 'Zaplanowaliśmy, jak racjonalnie wykorzystać wodę i żywność całego świata oraz co robić z odpadami – przedstawiliśmy wyniki w szkole lub na podwórku.'),
+        TropTaskBaseData(content: 'Podsumowaliśmy działania Klubu Zielonych Detektywów Ekoludka – sprawdziliśmy, ile osób dowiedziało się o ważnych dla członków klubu sprawach.'),
+      ],
+      notesForLeaders: 'To dobry trop, by obchodzić święta związane z przyrodą, np. Międzynarodowy Dzień Lasów. To również dobry trop na kolonię zuchową!'
+          '\n\nTrop pozwala zuchom dostrzec ekologiczne problemy świata (szczególnie najbliższej okolicy). Uczy obserwacji i troski o środowisko naturalne oraz zachowań przyjaznych dla przyrody. Jest okazją do zapoznania zuchów z wykorzystaniem wody oraz surowców wtórnych i do podjęcia prostych działań oszczędnościowych.'
+          '\n\nWarto, by zuchy wybrały się na wyprawy badawcze (detektywistyczne), w trakcie których będą mogły sprawdzić, czy w regionie jest dostateczna ilość wody dla roślin i ludzi, czy coś zanieczyszcza okolicę albo czy powietrze jest czyste. Przed wyprawami zuchy mogą wykonać tajne znaczki zielonych detektywów.'
+          '\n\nTrop wspomaga postawę empatii w stosunku do żywych stworzeń. Umożliwia zrozumienie zależności między światem dzikiej przyrody a działalnością człowieka. Wiele działań Klubu Zielonych Detektywów Ekoludka to pożyteczne prace, które wzmacniają wychowanie do postawy służby w przyszłości i wprowadzają pozytywne zmiany w otoczeniu.'
+  ),
+
+  TropBaseData(
+      name: 'Leśnicy',
+      category: TropCategory.zuchPrzyrodnicze,
+      customIconTropName: 'lesnicy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy założyć Klub Przyjaciół Lasów.'),
+        TropTaskBaseData(content: 'Byliśmy z wizytą w leśniczówce lub szkółce leśnej.'),
+        TropTaskBaseData(content: 'Poznaliśmy niebezpieczeństwa zagrażające lasom. Dowiedzieliśmy się, jak dbać o las.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, jakie formy ochrony przyrody występują w naszej okolicy i co chronią.'),
+        TropTaskBaseData(content: 'Patrolowaliśmy wydzielony obszar lasu.'),
+        TropTaskBaseData(content: 'Spotkaliśmy się z Duchem Lasu i jego przyjaciółmi.'),
+        TropTaskBaseData(content: 'Poznaliśmy owoce lasu. Spróbowaliśmy ich.'),
+        TropTaskBaseData(content: 'Tropiliśmy tajemnice przyrody.'),
+        TropTaskBaseData(content: 'Zasadziliśmy własne drzewko lub wykonaliśmy pożyteczną pracę na rzecz lasu.'),
+        TropTaskBaseData(content: 'Podsumowaliśmy działania Klubu Przyjaciół Lasów. Przekonaliśmy się, co każdy z nas może robić na rzecz lasów.'),
+      ],
+      notesForLeaders: 'Trop „Leśników” pozwala na kształtowanie odpowiedniego stosunku do lasu, wyrabia wiele pozytywnych nawyków, rozwija zainteresowania florą i fauną. Mogą go realizować gromady zuchowe, które mają warunki, aby zorganizować zwiady i tropienia tajemnic przyrody w lesie. Gromady miejskie mogą organizować całodzienne wyprawy do lasu lub zrealizować trop na biwaku, trop można realizować także podczas kolonii.'
+          '\n\nPodczas zabaw z wykorzystaniem owoców lasu należy zwrócić uwagę na bezpieczeństwo zuchów oraz na to, aby nie niszczyć natury. Warto postarać się o wsparcie leśnika lub organizacji związanej z ochroną przyrody.'
+          '\n\nTrop można realizować o każdej porze roku, jednak ważne jest, aby wszystkie zbiórki odbywały się na powietrzu. Dobrą okazją będzie Międzynarodowy Dzień Lasów obchodzony 21 marca.'
+  ),
+
+  TropBaseData(
+      name: 'Ogrodnicy',
+      category: TropCategory.zuchPrzyrodnicze,
+      customIconTropName: 'ogrodnicy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady podjęliśmy decyzję o założeniu własnego ogródka.'),
+        TropTaskBaseData(content: 'Byliśmy w przedsiębiorstwie produkcji ogrodniczej lub w sadzie.'),
+        TropTaskBaseData(content: 'Spotkaliśmy się z ogrodnikiem.'),
+        TropTaskBaseData(content: 'Założyliśmy ogródek, przygotowując miejsce i podłoże. Posialiśmy w nim nasiona warzyw – rzodkiewki, marchewki, sałaty, rukoli, brokułu itp.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, jak dbać o nasz ogródek i jakie warunki potrzebne są do wzrostu roślin.'),
+        TropTaskBaseData(content: 'Znamy kalendarz upraw. Dowiedzieliśmy się, co to są nowalijki oraz kiedy zbiera się polskie owoce sezonowe.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, gdzie kupić warzywa i owoce z lokalnych lub regionalnych upraw.'),
+        TropTaskBaseData(content: 'Poznaliśmy piramidę żywieniową. Dowiedzieliśmy się, jak ważne w diecie są warzywa i owoce.'),
+        TropTaskBaseData(content: 'W szóstkach przygotowaliśmy potrawy z lokalnych owoców i warzyw. Zorganizowaliśmy zdrową ucztę.'),
+        TropTaskBaseData(content: 'Podsumowaliśmy nasze starania związane z uprawą posianych roślin. Sprawdziliśmy efekty.'),
+      ],
+      notesForLeaders: 'Trop pokazuje świat przyrody – zależność roślin od wody, gleby, wilgotności i nasłonecznienia. Zuchy poznają te relacje w sposób doświadczalny, uczą się też cierpliwości i pokory wobec praw natury.'
+          '\n\nTrop najlepiej realizować wiosną, gdy przyroda budzi się do życia i są odpowiednie warunki do uprawy. Koniecznie trzeba obliczyć, przez jaki czas uprawa będzie rosnąć, by zaplanować czas zajmowania się ogródkiem.'
+          '\n\nPrzed rozpoczęciem zbiórek (np. na początku roku harcerskiego) należy dowiedzieć się, jakie są możliwości uprawy zuchowego ogródka (najlepiej przy szkole lub przy zuchówce). Również odpowiednio wcześniej warto zainteresować środowisko harcerskie lub inne organizacje ideą uprawy wspólnego ogrodu społecznego.'
+  ),
+
+  TropBaseData(
+      name: 'Ornitolodzy',
+      category: TropCategory.zuchPrzyrodnicze,
+      customIconTropName: 'ornitolodzy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady podjęliśmy decyzję o założeniu koła ornitologicznego.'),
+        TropTaskBaseData(content: 'W ramach koła podpatrywaliśmy życie ptaków.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy przegląd ptasich głosów.'),
+        TropTaskBaseData(content: 'Spotkaliśmy się z ornitologiem np. z Ogólnopolskiego Towarzystwa Ochrony Ptaków.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, jakie gatunki ptaków zostają w Polsce na zimę, a jakie odlatują do ciepłych krajów.'),
+        TropTaskBaseData(content: 'Obserwowaliśmy i poznaliśmy gatunki ptaków z naszego podwórka.'),
+        TropTaskBaseData(content: 'Wykonaliśmy karmnik dla ptaków. Dowiedzieliśmy się, co jedzą ptaki, a także czym można je dokarmiać.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, co to są podlotki i w jaki sposób należy je traktować. Dowiedzieliśmy się, co zrobić, gdy znajdziemy rannego ptaka.'),
+        TropTaskBaseData(content: 'Byliśmy z wizytą w ptasiarni, papugarni lub innym miejscu, w którym mogliśmy zobaczyć różne gatunki ptaków.'),
+      ],
+      notesForLeaders: 'Trop wiąże emocjonalnie zuchy z przyrodą – przede wszystkim zwraca ich uwagę na ptaki. Kształtuje spostrzegawczość, cierpliwość i koncentrację, zachęca zuchy do niesienia pomocy słabszym i wprowadza w sprawy ochrony środowiska naturalnego.'
+          '\n\nW czasie zabawy należy stwarzać warunki do prowadzenia przez zuchy obserwacji przyrodniczych, inspirować je do samodzielnego uzupełniania wiadomości w tym zakresie.'
+          '\n\nTrop jest przeznaczony dla starszych zuchów. Można go realizować cały rok. Wiosną widać ruch ptaków i podlotki. Zimą większy nacisk można położyć na dokarmianie ptaków (koniecznie należy przekazać zuchom odpowiednie informacje na ten temat). Przed realizacją tropu warto dowiedzieć się, gdzie i w jaki sposób zgłaszać znalezienie rannych ptaków – czy pomocą im zajmuje się w okolicy ptasi azyl, schronisko czy odpowiednie stowarzyszenie.'
+  ),
+
+  TropBaseData(
+      name: 'Przyjaciele zwierząt',
+      category: TropCategory.zuchPrzyrodnicze,
+      customIconTropName: 'przyjaciele_zwierzat',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady podjęliśmy decyzję o zdobywaniu tytułu Przyjaciół Zwierząt.'),
+        TropTaskBaseData(content: 'Odwiedziliśmy schronisko dla zwierząt lub spotkaliśmy się z pracownikiem schroniska/Polskiego Towarzystwa Opieki nad Zwierzętami.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, jak zachować się w sytuacji spotkania bezpańskich zwierząt. Wykonaliśmy plakaty i powiesiliśmy je w szkole lub w zuchówce.'),
+        TropTaskBaseData(content: 'Poznaliśmy różne gatunki zwierząt oraz dowiedzieliśmy się, jak się nimi opiekować.'),
+        TropTaskBaseData(content: 'Zaprezentowaliśmy w gromadzie swoje zwierzęta domowe.'),
+        TropTaskBaseData(content: 'Poznaliśmy tropy zwierząt – ślady, jakie pozostawiają po sobie różne zwierzęta.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy zbiórkę zabawek i karmy na rzecz schroniska dla zwierząt.'),
+      ],
+      notesForLeaders: 'Trop wiąże zuchy emocjonalnie z przyrodą. Wyrabia takie cechy, jak chęć niesienia pomocy słabszym i odpowiedzialność za wykonanie podjętych obowiązków.'
+          '\n\nTematykę zbiórek i wybór zwierząt należy dostosować do możliwości i zainteresowań zuchów (zwierzęta hodowane w gospodarstwach, żyjące w mieszkaniach, na podwórkach, w okolicach bloków i domostw, w lesie, w parku lub na łące). W czasie zabaw zuchy mogą wykonać wiele pożytecznych prac związanych z pielęgnacją i hodowlą zwierząt.'
+          '\n\nTrop nadaje się zarówno dla gromad wiejskich, jak i miejskich. Dostarcza sporo wiadomości z zakresu hodowli i pielęgnacji zwierząt, a jednocześnie pozwala na kształtowanie właściwego do nich stosunku. Może być okazją do zainteresowania zuchów losem bezpańskich psów i kotów. Trzeba jednak ostrzec dzieci przed niebezpieczeństwem chorób odzwierzęcych.'
+  ),
+
+  TropBaseData(
+      name: 'Przyrodnicy',
+      category: TropCategory.zuchPrzyrodnicze,
+      customIconTropName: 'przyrodnicy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy założyć Klub Przyrodników.'),
+        TropTaskBaseData(content: 'Spotkaliśmy się z przyrodnikiem. Dowiedzieliśmy się, czym zajmują się przyrodnicy.'),
+        TropTaskBaseData(content: 'Założyliśmy stację badań przyrodniczych.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy wyprawę badaczy flory i fauny najbliższej okolicy, podczas której – wykorzystując przewodniki – rozpoznawaliśmy różne rośliny i zwierzęta.'),
+        TropTaskBaseData(content: 'Uczestniczyliśmy w ekspedycji hydrobiologicznej do pobliskiego stawu, rzeki, jeziora. Zbadaliśmy życie w wodzie.'),
+        TropTaskBaseData(content: 'Odnaleźliśmy ciekawy okaz przyrodniczy i otoczyliśmy go opieką; utworzyliśmy swój rezerwat, którym się stale opiekujemy. Dowiedzieliśmy się, dlaczego trzeba chronić przyrodę.'),
+        TropTaskBaseData(content: 'Byliśmy w ogrodzie botanicznym, muzeum przyrodniczym, parku narodowym lub rezerwacie.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, co to jest przyroda nieożywiona i dlaczego warto ją chronić. Odwiedziliśmy ciekawy obiekt przyrody nieożywionej w naszej okolicy.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy wyprawę do jednego z egzotycznych krajów. Poznaliśmy jego przyrodę i związane z nią problemy.'),
+        TropTaskBaseData(content: 'Wykonaliśmy pożyteczną pracę na rzecz okolicznej przyrody.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy tydzień ochrony przyrody, w trakcie którego opracowaliśmy biuletyn np. o stanie wód w naszej okolicy. Zachęciliśmy inne gromady do podjęcia wspólnych działań na rzecz ochrony przyrody.'),
+        TropTaskBaseData(content: 'Na podsumowanie urządziliśmy wielki turniej wiedzy o przyrodzie oraz wystawę zuchowych osobliwości przyrodniczych.'),
+      ],
+      notesForLeaders: 'Dobry trop na biwak i kolonię!'
+          '\n\nZuch „przyrodnik” jest cierpliwy, wytrwały, spostrzegawczy i ciekawski. Chce poznać otaczającą go naturę, bada faunę i florę oraz zjawiska zachodzące w wodzie, powietrzu i na ziemi.'
+          '\n\nRealizacja tropu to okazja do zainteresowania zuchów przyrodą (zarówno żywą, jak i nieożywioną), a także ideą jej ochrony. Zuchy powinny nauczyć się rozpoznawać pospolite rośliny i zwierzęta oraz poznać gatunki chronione. Prowadzone przez dzieci obserwacje to odkrywanie wielkich przyrodniczych tajemnic (między zbiórkami zuchy mogą wykonywać samodzielne obserwacje i doświadczenia, by na kolejnej zbiórce o nich opowiedzieć).'
+          '\n\nNa przyrodniczych wyprawach warto wykorzystywać wiedzę, którą zuchy posiadają z życia i ze szkoły, posługiwać się przewodnikiem do rozpoznawania roślin i zwierząt, lupą oraz mikroskopem. Ważne jest, aby w czasie tych wypraw zuchy poznawały przyrodę, nie niszcząc jej. Istotną kwestią podczas realizacji tropu jest wykonanie pożytecznej pracy na rzecz środowiska przyrodniczego lub objęcie dłuższą opieką jakiegoś miejsca ważnego dla przyrody.'
+          '\n\nRealizacja tropu wymaga od kadry gromady przygotowania z zakresu przyrodoznawstwa. Cykl zbiórek można zaplanować w ten sposób, że zuchy zajmą się pewnym wycinkiem przyrody, np. wodą (będą poznawać środowisko wodne, badać stan zanieczyszczenia, wykonywać związane z tym doświadczenia).'
+          '\n\nTrop jest przeznaczony raczej dla starszych zuchów. Najlepiej realizować go w okresie wiosenno-letnim, podczas zbiórek na łonie natury oraz na kolonii zuchowej.'
+  ),
+
+  // TODO: wyszukać wszędzie słowo "eko" i zastanowić co zrobić z tym bełkotem.
+  TropBaseData(
+      name: 'Wodnik Szuwarek',
+      category: TropCategory.zuchPrzyrodnicze,
+      customIconTropName: 'wodnik_szuwarek',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'Dostaliśmy list od Wodnika Szuwarka z prośbą o pomoc w obronie czystej wody. W kręgu rady postanowiliśmy, że pomożemy Wodnikowi.'),
+        TropTaskBaseData(content: 'Poznaliśmy zbiorniki wodne w naszej okolicy – ich roślinność i zwierzęta, np. gatunki ryb. Dowiedzieliśmy się, jaką rolę pełni woda w przyrodzie.'),
+        TropTaskBaseData(content: 'Poznaliśmy okoliczne budowle wodne. Dowiedzieliśmy się, do czego służy ludziom woda i gdzie jest wykorzystywana.'),
+        TropTaskBaseData(content: 'Sprawdziliśmy stan wód w naszej okolicy i sporządziliśmy mapę zanieczyszczeń wody.'),
+        TropTaskBaseData(content: 'Założyliśmy laboratorium, w którym badaliśmy wodę z różnych źródeł (destylowana, deszczowa, butelkowa, z kranu, ze stawu itp.).'),
+        TropTaskBaseData(content: 'Odwiedziliśmy lokalną oczyszczalnię ścieków i zapoznaliśmy się z mechanizmem oczyszczania wody.'),
+        TropTaskBaseData(content: 'Poznaliśmy sposoby, w jakie możemy chronić wodę, podejmując codzienne decyzje.'),
+        TropTaskBaseData(content: 'Zrobiliśmy ekologiczne środki czystości (np. na bazie octu i sody), które wykorzystaliśmy podczas porządków w zuchówce.'),
+        TropTaskBaseData(content: 'Odpisaliśmy Wodnikowi i zadeklarowaliśmy, że będziemy chronić czystą wodę.'),
+      ],
+      notesForLeaders: 'Trop wyrabia u dzieci potrzebę działania na rzecz ochrony wody, pokazuje piękno przyrody oraz skutki negatywnego oddziaływania na nią przez człowieka. Zuchy, które pomagają Wodnikowi, są wrażliwe na zanieczyszczenia środowiska. W trakcie wypraw przyrodniczych poznają środowisko wodne, rośliny i zwierzęta mieszkające w wodzie i nad wodą. Samodzielne obserwacje i badania wód zachęcą dzieci do pogłębiania tematu i pokażą, że woda jest niezbędna do życia.'
+          '\n\nTrop najlepiej zdobywać wiosną lub jesienią, gdyż jest to najwłaściwszy czas na obserwacje przyrodnicze.'
+  ),
+
+  TropBaseData(
+      name: 'Ludzie zimy',
+      category: TropCategory.zuchSportoweITurystyczne,
+      customIconTropName: 'ludzie_zimy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy przenieść się do Krainy Zimy. Przygotowaliśmy się do wyprawy. Dowiedzieliśmy się, gdzie jest polski „biegun zimna”.'),
+        TropTaskBaseData(content: 'Nie boimy się mrozu. Poznaliśmy różne sposoby zabezpieczenia się przed mrozem i przeziębieniem oraz zasady zachowania bezpieczeństwa zimą.'),
+        TropTaskBaseData(content: 'Odśnieżyliśmy teren wokół zuchówki, szkoły lub osiedla lub posypaliśmy powierzchnię, zabezpieczając ją przed ślizganiem tam, gdzie tego wymagała.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, co trzeba zrobić przy odmrożeniu. Potrafimy rozgrzać zmarznięte uszy, nos, policzki i ręce. Zorganizowaliśmy w klasie, na podwórku lub w domu minikurs pierwszej pomocy.'),
+        TropTaskBaseData(content: 'Założyliśmy dziennik obserwacji meteorologicznych, zapisywaliśmy w nim stan pogody.'),
+        TropTaskBaseData(content: 'Poznaliśmy czynniki, które wpływają na klimat na Ziemi. Dowiedzieliśmy się, co to jest globalne ocieplenie i jak można je powstrzymać.'),
+        TropTaskBaseData(content: 'Urządziliśmy „śnieżną bazę” lub galerię figur śnieżnych.'),
+        TropTaskBaseData(content: 'W zawodach i zabawach na śniegu i lodzie przestrzegamy zasad fair play.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy turniej sportów zimowych.'),
+        TropTaskBaseData(content: 'Bawiliśmy się w bitwę na śnieżki.'),
+        TropTaskBaseData(content: 'Obchodziliśmy dzień szaleństw na lodzie.'),
+        TropTaskBaseData(content: 'Szóstkami uczestniczyliśmy w zawodach saneczkowych na przygotowanym przez siebie torze.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy kulig.'),
+      ],
+      notesForLeaders: '„Człowiek zimy” to zuch, który wie, jak można zorganizować zimowe zabawy na świeżym powietrzu i jednocześnie zdaje sobie sprawę z grożących zimą niebezpieczeństw (przeziębienia, odmrożenia, niebezpieczne górki, pękający lód). Na zbiórkach dzieci mogą poprawić swoją kondycję fizyczną, mają szansę „wyżycia” się na śniegu, rozwijają wyobraźnię, uczą się koleżeństwa i rozsądku, wyrabiają silną wolę i umiejętność przyjmowania porażek.'
+          '\n\nZbiórki można ułożyć tak, aby na każdej z nich zuchy poznawały inną dyscyplinę sportów zimowych (także dyscypliny najdziwniejsze, najstarsze i najnowsze). Układając harmonogram realizacji tropu, należy przewidzieć zbiórki w razie niepogody lub chwilowego braku śniegu. Przy okazji można przyjrzeć się zimowym zjawiskom przyrodniczym − kształtom płatków śniegu, malowidłom na szybach wykonanym przez mróz, różnym formom wody.'
+          '\n\nNależy zwracać uwagę na właściwy ubiór zuchów (podczas zbiórek na śniegu można zrezygnować z umundurowania). Trop „Ludzi zimy” jest przeznaczony do realizacji podczas zimowisk lub ewentualnie miesięcy zimowych. Wszystkie zbiórki powinny odbywać się na świeżym powietrzu.'
+  ),
+
+  TropBaseData(
+      name: 'Łaziki',
+      category: TropCategory.zuchSportoweITurystyczne,
+      customIconTropName: 'laziki',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy założyć klub łazików. Zrobiliśmy rozpoznanie i wspólnie wybraliśmy kilka miejsc, które odwiedzimy.'),
+        TropTaskBaseData(content: 'W szóstkach założyliśmy kroniki łazików, do których wpisywaliśmy trasy naszych wędrówek oraz wklejaliśmy widokówki i zdjęcia. Opisywaliśmy w nich najciekawsze przygody.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, jakie rośliny i zwierzęta możemy zobaczyć podczas wycieczki.'),
+        TropTaskBaseData(content: 'Dobrze przygotowaliśmy się do wycieczki. Skompletowaliśmy ekwipunek. Dowiedzieliśmy się, jak należy zachowywać się w środowisku naturalnym.'),
+        TropTaskBaseData(content: 'Spotkaliśmy się z przewodnikiem.'),
+        TropTaskBaseData(content: 'Obserwowaliśmy otoczenie. Wykonaliśmy plakat, który obrazuje prawidłowe zachowanie na szlaku. Powiesiliśmy go w zuchówce.'),
+        TropTaskBaseData(content: 'Na trasie wędrówki odczytaliśmy ślady ptaków i zwierząt, a także znaki topograficzne.'),
+        TropTaskBaseData(content: 'Braliśmy udział w grze terenowej. Sprawnie poruszaliśmy się w terenie i pokonywaliśmy przeszkody (rowy, pnie, kładki).'),
+        TropTaskBaseData(content: 'Samodzielnie przygotowaliśmy posiłek w terenie.'),
+        TropTaskBaseData(content: 'Podsumowaliśmy wycieczki. Z kronik szóstek utworzyliśmy wielką kronikę łazików. Zapamiętaliśmy miejsca, w których byliśmy. Zrobiliśmy listę miejsc, które warto jeszcze odwiedzić.'),
+      ],
+      notesForLeaders: 'Trop kładzie nacisk na wyrobienie kondycji i nawyku ruchu na świeżym powietrzu. Buduje przywiązanie do przyrody i jej piękna. Podczas jego realizacji zuchy nauczą się maszerować tak, by zachować siły na cały czas wędrówki, rozpoznawać znaki topograficzne, posługiwać się mapą i przygotowywać ekwipunek na jeden lub więcej dni wycieczki.'
+          '\n\nNależy tak zaplanować trop, aby zuchy mogły uczestniczyć w kilku wycieczkach całodniowych, a nawet wypadach 2- lub 3-dniowych (dlatego na zdobywanie tropu odpowiednie są późna wiosna, lato i wczesna jesień).'
+          '\n\nPrzygotowując się do realizacji tropu, trzeba pamiętać o skompletowaniu apteczki gromady (należy zabierać ją na każdą wycieczkę) i zapewnieniu odpowiedniej liczby opiekunów. Należy też przygotować mapy i plany miejscowości oraz zdobyć informacje na temat sposobu dotarcia do konkretnego miejsca. Pamiętajmy również o zgromadzeniu potrzebnych funduszy, a także skontaktowaniu się z rodzicami i przedstawieniu im celu wycieczek.'
+          '\n\nPrzy okazji tropu „Łazików” zuchy mogą zdobyć odznakę PTTK „Siedmiomilowe buty” oraz inne odznaki turystyczne (GOT, OTP, odznaki regionalne itp.).'
+  ),
+
+  TropBaseData(
+      name: 'Mistrzowie gier podwórkowych',
+      category: TropCategory.zuchSportoweITurystyczne,
+      customIconTropName: 'mistrzowie_gier_podworkowych',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zgłębić tajniki gier podwórkowych i osiągnąć w nich mistrzostwo.'),
+        TropTaskBaseData(content: 'Rozmawialiśmy ze starszymi o znanych im grach podwórkowych.'),
+        TropTaskBaseData(content: 'Poznaliśmy zasady gry fair play.'),
+        TropTaskBaseData(content: 'Poznaliśmy gry z książki „Antek Cwaniak” (lub innej).'),
+        TropTaskBaseData(content: 'Graliśmy w różne gry, rozgrywając je szóstkami (np. guziki, klasy, guma).'),
+        TropTaskBaseData(content: 'Pracując szóstkami, spisaliśmy dla przyszłych pokoleń kronikę podwórkową z ilustrowanymi zasadami gier.'),
+        TropTaskBaseData(content: 'W porozumieniu z radą osiedla/dyrekcją szkoły wyznaczyliśmy na pobliskim boisku miejsce do gry w klasy (np. na stałe namalowane farbą) lub innej gry podwórkowej.'),
+        TropTaskBaseData(content: 'Urządziliśmy międzypokoleniowy turniej gier podwórkowych, zapraszając do zabawy nasze rodziny.'),
+      ],
+      notesForLeaders: 'Trop kształtuje nawyk ruchu poprzez zabawę na podwórku lub boisku szkolnym. Dzięki niemu zuchy poznają ciekawe i proste, nieznane im do tej pory gry i zabawy, które będą wykorzystywać także poza zbiórkami.'
+          '\n\nPodczas realizacji tropu zuchy mają możliwość spotkania się ze starszym pokoleniem (np. dziadkami) i znalezienia z nim wspólnych tematów. Trop wspiera postawę fair play.'
+  ),
+
+  TropBaseData(
+      name: 'Olimpijczycy',
+      category: TropCategory.zuchSportoweITurystyczne,
+      customIconTropName: 'olimpijczycy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy, że zorganizujemy olimpiadę.'),
+        TropTaskBaseData(content: 'Odwiedziliśmy klub sportowy, rozmawialiśmy ze sportowcami i trenerem. Dowiedzieliśmy się, jak należy pracować nad sobą, by być coraz lepszym.'),
+        TropTaskBaseData(content: 'Poznaliśmy zasady rywalizacji fair play.'),
+        TropTaskBaseData(content: 'Poznaliśmy polskich olimpijczyków i dyscypliny, w których Polacy osiągają sukces.'),
+        TropTaskBaseData(content: 'Rozpoznaliśmy liście laurowe, którymi dawniej nagradzano olimpijczyków. Dowiedzieliśmy się, do czego dziś wykorzystywany jest liść laurowy.'),
+        TropTaskBaseData(content: 'Stworzyliśmy narodową kadrę olimpijską. Każdy zuch podjął postanowienie o pracy nad sobą w konkretnej dziedzinie sportu. Poznaliśmy różne ćwiczenia i wykonujemy je codziennie.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy w szkole akcję „Sport to zdrowie".'),
+        TropTaskBaseData(content: 'Przygotowaliśmy program na uroczyste otwarcie olimpiady. Założyliśmy księgę zuchowych rekordów.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy dla klasy (podwórka) „olimpiadę sportowych niecodzienności” lub „turniej zapomnianych gier”. Każda szóstka przygotowała inną konkurencję.'),
+        TropTaskBaseData(content: 'W kręgu rady uroczyście zamknęliśmy olimpiadę, podsumowaliśmy swoje osiągnięcia i niepowodzenia. Przekonaliśmy się, nad czym musimy jeszcze popracować.'),
+      ],
+      notesForLeaders: 'Trop kładzie nacisk na indywidualne dyscypliny sportowe. To świetny sposób na kształtowanie nawyku ruchu, kondycji, sumienności i karności, a także zintegrowanie gromady. Olimpijskim zbiórkom powinien towarzyszyć ogień olimpijski, zuchowa księga rekordów oraz atmosfera uczciwej sportowej gry. Koniecznie trzeba wytłumaczyć zuchom zasady fair play.'
+          '\n\nW czasie zbiórek należy zapoznać zuchy z historią i tradycjami olimpijskimi, wspominając igrzyska starożytnych Greków. Podczas uroczystego zamknięcia olimpiady, po zgaszeniu znicza olimpijskiego trzeba docenić wysiłek każdego zucha, wręczając medale, dyplomy i wieńce laurowe.'
+          '\n\nTrop mogą realizować zarówno zuchy młodsze, jak i starsze, podczas kolonii zuchowej lub w ciągu roku. Na każdej zbiórce należy poświęcić czas na rozgrzewkę i ćwiczenia w danej dyscyplinie.'
+  ),
+
+  TropBaseData(
+      name: 'Sportowcy',
+      category: TropCategory.zuchSportoweITurystyczne,
+      customIconTropName: 'sportowcy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zostać sportowcami i przygotować się do zawodów.'),
+        TropTaskBaseData(content: 'Odwiedziliśmy klub sportowy w naszej miejscowości, rozmawialiśmy ze sportowcami.'),
+        TropTaskBaseData(content: 'Poznaliśmy sylwetki polskich sportowców.'),
+        TropTaskBaseData(content: 'Byliśmy na rozgrywkach wybranej dyscypliny lub oglądaliśmy transmisję w telewizji.'),
+        TropTaskBaseData(content: 'Uczestniczyliśmy w treningach wybranej dyscypliny sportowej. Doszliśmy do mistrzostwa w kilku ćwiczeniach, typowych dla naszej dyscypliny.'),
+        TropTaskBaseData(content: 'Pod okiem naszego trenera rozgrywaliśmy spotkania sparingowe.'),
+        TropTaskBaseData(content: 'Urządziliśmy konkurs na projekt medali lub wystawę proporczyków sportowych, które wykonaliśmy z dostępnych nam i nieszkodzących środowisku materiałów.'),
+        TropTaskBaseData(content: 'Urządziliśmy rozgrywki sportowe, na które zaprosiliśmy zaprzyjaźniony dziecięcy klub sportowy, drużynę SKS-u lub innych gości.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy eliminacje i finały mistrzostw osiedla, wsi, miasteczka lub szkoły w wybranej dyscyplinie sportowej. Braliśmy w nich udział szóstkami.'),
+        TropTaskBaseData(content: 'Podczas mistrzostw zorganizowaliśmy wybory super kibica, mistrza fair play, ułożyliśmy kodeks kibica.'),
+        TropTaskBaseData(content: 'Sprawdziliśmy, czego się nauczyliśmy i jakie dyscypliny możemy dalej uprawiać indywidualnie.'),
+      ],
+      notesForLeaders: 'Trop kładzie nacisk na poznanie zespołowych dyscyplin sportowych i ćwiczenie się w nich. Zwraca uwagę na uczciwość we współzawodnictwie, uprzejmość oraz współdziałanie w zespole. Wspiera pracę nad własnym rozwojem fizycznym. Ważne, by podczas zbiórek aktywność fizyczna sprawiała zuchom przyjemność.'
+          '\n\nWszystkie zbiórki mogą mieć charakter treningów sportowych, dlatego zuchy powinny przychodzić na nie w strojach sportowych. Jednakowe stroje, wykonane przez zuchy emblematy i numery na koszulkach mogą tworzyć obrzędowość tropu. Przed mistrzostwami sportowymi zuchy mogą przygotować boisko do gry, wykonać proporczyki i medale dla zwycięzców, wymyślić okrzyki wspierające zawodników i sposób pocieszenia tych, którzy przegrali.'
+          '\n\nPodczas treningów zuchy poznają przepisy dotyczące wybranej gry, a przerwy w treningach można wykorzystać na poznanie historii tej dyscypliny sportowej. Drużynowy lub przyboczny może przyjąć rolę trenera wybranej dyscypliny.'
+  ),
+
+  TropBaseData(
+      name: 'Trenerzy',
+      category: TropCategory.zuchSportoweITurystyczne,
+      customIconTropName: 'trenerzy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy założyć klub fitness.'),
+        TropTaskBaseData(content: 'Spotkaliśmy się z trenerem wybranej gimnastyki.'),
+        TropTaskBaseData(content: 'Poznaliśmy historię gimnastyki i różnych typów treningów.'),
+        TropTaskBaseData(content: 'Zaplanowaliśmy nasz własny program treningowy.'),
+        TropTaskBaseData(content: 'Poznaliśmy zasady dobrej diety. Każda szóstka przygotowała zdrowy posiłek.'),
+        TropTaskBaseData(content: 'Znamy zasady dobrej rozgrzewki.'),
+        TropTaskBaseData(content: 'Uczestniczyliśmy w treningu fitness, zumby, aerobiku, callanetis, jogi, biegania lub innym.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy meeting wybranej dyscypliny dla nas i naszych rodzin.'),
+        TropTaskBaseData(content: 'W kręgu rady podsumowaliśmy nasz program treningowy. Każdy zuch przekonał się, który trening podoba mu się najbardziej.'),
+      ],
+      notesForLeaders: 'Trop wspiera rozwój ruchowy w ramach popularnych typów treningów. Pokazuje przy tym, że zdrowie to nie tylko sport. To również rozgrzewka, dieta czy dobranie odpowiednich ćwiczeń indywidualnych. Organizacja meetingu z rodzinami wspomaga wspólny przekaz wychowawców o potrzebie dbania o zdrowie od najmłodszych lat.'
+          '\n\nPodczas realizacji tropu warto spotkać się z trenerami kilku dyscyplin, tak by trening realizowany był pod okiem profesjonalisty. Jeśli nie jest to możliwe – kadra gromady powinna się bardzo dobrze przygotować pod kątem dostosowania ćwiczeń do wieku i możliwości zuchów!'
+  ),
+
+  TropBaseData(
+      name: 'Archeolodzy',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'archeolodzy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy studiować archeologię.'),
+        TropTaskBaseData(content: 'Byliśmy w muzeum archeologicznym lub odwiedziliśmy stanowisko archeologiczne.'),
+        TropTaskBaseData(content: 'Spotkaliśmy się z archeologami, rozmawialiśmy o ich pracy.'),
+        TropTaskBaseData(content: 'Wyruszyliśmy na wyprawę w poszukiwaniu zabytków archeologicznych.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy własne wykopaliska archeologiczne. Przygotowaliśmy je, nie niszcząc przyrody.'),
+        TropTaskBaseData(content: 'Zlepialiśmy garnki z odnalezionych skorup oraz odtwarzaliśmy biżuterię na podstawie obrazków (szpile, wisiory, zausznice).'),
+        TropTaskBaseData(content: 'Bawiliśmy się w ludzi z epoki brązu.'),
+        TropTaskBaseData(content: 'Poznaliśmy najpiękniejsze zabytki starożytnej cywilizacji.'),
+        TropTaskBaseData(content: 'Wykonaliśmy makietę osady w Biskupinie, zespołu piramid itp.'),
+        TropTaskBaseData(content: 'Urządziliśmy spotkanie z bogami starożytnych cywilizacji.'),
+        TropTaskBaseData(content: 'Urządziliśmy wystawę naszych znalezisk archeologicznych.'),
+      ],
+      notesForLeaders: 'Trop zaspokaja dziecięcą ciekawość świata i tego, jak dawniej żyli ludzie. Podczas jego zdobywania zuchy poszerzą swoją wiedzę historyczną, rozwiną spostrzegawczość, cierpliwość i zdolności dedukcyjne.'
+          '\n\nDrużynowy może wybrać przedział czasowy całej zabawy (np. kultura łużycka na terenie Polski – Biskupin, stare państwo – Egipt, początki chrześcijaństwa – Rzym itp.) lub każdą zbiórkę poświęcić innej cywilizacji.'
+          '\n\nTrop jest przeznaczony dla starszych zuchów. Można go realizować tylko wtedy, kiedy pogoda pozwala na zorganizowanie zbiórek na powietrzu. Zuchy będą prowadzić badania archeologiczne, tzw. powierzchniówki, więc przynajmniej jedna zbiórka musi być przeprowadzona w terenie. Należy przy tym zadbać, aby nie ucierpiało środowisko naturalne (np. wybrać teren, na którym nie występują siedliska wyjątkowych roślin czy zwierząt). Po tej zbiórce należy zamaskować ślady swojej działalności, zakopać wszystkie dziury itp.'
+  ),
+
+  TropBaseData(
+      name: 'Bankierzy',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'bankierzy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zostać bankierami i zgłębić dzieje pieniądza.'),
+        TropTaskBaseData(content: 'Odwiedziliśmy miejsce, w którym można zobaczyć historyczne monety kruszcowe lub banknoty (muzeum, oddział NBP, sklep numizmatyczny).'),
+        TropTaskBaseData(content: 'Poznaliśmy początki handlu. Bawiliśmy się w handel wymienny.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, czym były i na jakich zasadach funkcjonowały monety kruszcowe. Stworzyliśmy kopie różnych dawnych monet kruszcowych.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, gdzie dziś powstają pieniądze i jak są wytwarzane. Założyliśmy zuchową mennicę. W szóstkach zaprojektowaliśmy i wyprodukowaliśmy własne pieniądze.'),
+        TropTaskBaseData(content: 'Bawiliśmy się w targowisko, na którym można było porównywać ceny towarów i targować się.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy wycieczkę do banku. Zobaczyliśmy, jak bank funkcjonuje na co dzień.'),
+        TropTaskBaseData(content: 'Stworzyliśmy zuchową skarbonkę.'),
+        TropTaskBaseData(content: 'Przeanalizowaliśmy potrzeby gromady. Wyznaczyliśmy cel, na jaki będziemy oszczędzać pieniądze. Przeprowadziliśmy akcję zarobkową, dzięki której uzbieraliśmy potrzebną kwotę.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, że w różnych krajach występują różne waluty. Wykonaliśmy album wybranych monet i banknotów (kopii) aktualnych i historycznych występujących w Polsce oraz ciekawych walut z innych krajów.'),
+        TropTaskBaseData(content: 'Na podsumowanie urządziliśmy konkurs wiedzy o pieniądzach – od czasów handlu wymiennego, przez monety kruszcowe, pieniądz papierowy po pieniądz elektroniczny'),
+      ],
+      notesForLeaders: 'Trop ma na celu wspieranie wychowania ekonomicznego i przybliżenie zuchom historii pieniądza. Dzieci w wieku zuchowym rozumieją już pojęcie pieniądza. Podczas realizacji tropu „Bankierów” w ciekawy sposób mogą poznać różne aspekty tego tematu. Uczą się poszanowania pieniędzy i innych dóbr, pracy zarobkowej i oszczędzania. Poznają takie pojęcia, jak waluta, nominał, mennica, wynagrodzenie.'
+          '\n\nW pierwszej kolejności zuchy powinny dowiedzieć się, czym jest wymiana handlowa i uświadomić sobie, że dawniej była to jedyna forma transakcji. W kolejnym kroku poznają pieniądz kruszcowy, który znacznie usprawnił handel. Dowiadują się, jak powstały pierwsze banki – ludzie mieli problem, by wozić ze sobą ciężkie monety kruszcowe, więc zostawiali je bankierom, a ci wystawiali im pokwitowanie z wartością pozostawionych pieniędzy. Z czasem te pokwitowania zmieniły się w banknoty, które powszechnie są uważane za wartościowe.'
+          '\n\nOstatni etap to przedstawienie, jak funkcjonuje pieniądz. Warto pokazać zuchom, że rodzice otrzymują pieniądze za swoją pracę, pieniądze są przechowywane w bankach, a każda wypłata powoduje zmniejszenie kwoty na koncie. Należy również wskazać, że pieniądz elektroniczny to kolejny etap pieniądza (po papierowym).'
+          '\n\nTrop może być realizowany przez cały rok przez wszystkie zuchy, chociaż bardziej zainteresuje starsze zuchy.'
+  ),
+
+  TropBaseData(
+      name: 'Chemicy',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'chemicy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy, że zostaniemy chemikami.'),
+        TropTaskBaseData(content: 'Odwiedziliśmy pracownię alchemika. Poszukiwaliśmy złota w różnych substancjach.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, kim była i czym się zajmowała Maria Skłodowska-Curie.'),
+        TropTaskBaseData(content: 'Przygotowaliśmy atrament sympatyczny. Wszystkie przeprowadzane przez nas doświadczenia zapisywaliśmy w naszej księdze chemicznej.'),
+        TropTaskBaseData(content: 'Spotkaliśmy się z chemikiem, który opowiedział nam o środkach chemicznych używanych w domu.'),
+        TropTaskBaseData(content: 'Urządziliśmy laboratorium chemiczne, w którym badaliśmy różne środki czystości.'),
+        TropTaskBaseData(content: 'Wykonaliśmy plakaty reklamujące ekologiczne środki czystości. Zaprezentowaliśmy je rodzicom.'),
+        TropTaskBaseData(content: 'Dokonaliśmy przeglądu używanych w domu środków kosmetycznych i czyszczących.'),
+        TropTaskBaseData(content: 'W szóstkach przyjrzeliśmy się naszym ulubionym przekąskom. Przynieśliśmy na zbiórkę przekąski razem z opakowaniami (z wypisanym składem). Zrobiliśmy ranking najmniej chemicznych przekąsek.'),
+        TropTaskBaseData(content: 'Założyliśmy zuchową poradnię usuwania różnych plam.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy wieczór sztuk chemicznych.'),
+      ],
+      notesForLeaders: 'Zuchy są dokładne, ostrożne i wytrwałe. Wiedzą, jakie miejsce w życiu człowieka zajmuje chemia. Interesują się praktycznym jej zastosowaniem i potrafią wskazać produkty chemiczne w swoim otoczeniu. Wiedzą, jakich środków używać do prania, sprzątania, mycia i higieny ciała (w trakcie zabaw mogą korzystać z takich środków chemicznych, jak sól, ocet, soda oczyszczona, mydło, sok z kiszonej kapusty). Znają symbole oznaczające bezpieczne środki czystości (warto zwrócić uwagę dzieci na toksyczność wielu środków oraz podkreślić, że używając ich, należy zachować ostrożność).'
+          '\n\nW trakcie realizacji tropu poruszana jest również tematyka zdrowego żywienia. Zuchy po przyniesieniu swoich ulubionych smakołyków mogą porównać ich zdatność do spożycia i ilość dodatkowych składników. Warto przygotować się i opowiedzieć zuchom, w jaki sposób środki konserwujące, sztuczne barwniki, a także cukier wpływają na organizm.'
+          '\n\nTrop jest przeznaczony dla zuchów starszych. Zbiórki odbywają się przeważnie w pomieszczeniu. Można go z powodzeniem zrealizować na kolonii, na której są warunki, aby zuchy poznały różne środki czystości.'
+  ),
+
+  TropBaseData(
+      name: 'Detektywi',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'detektywi',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'Dostaliśmy list z prośbą o rozwiązanie zagadki. W kręgu rady postanowiliśmy zająć się przedstawioną sprawą.'),
+        TropTaskBaseData(content: 'Odwiedziliśmy agencję detektywistyczną lub komisariat policji i poznaliśmy zasady pracy detektywa. Ułożyliśmy kodeks etyczny dobrego detektywa.'),
+        TropTaskBaseData(content: 'Spotkaliśmy Sherlocka Holmesa lub innego detektywa, który zdradził nam sekrety skutecznego śledztwa.'),
+        TropTaskBaseData(content: 'Uczestniczyliśmy w zajęciach szkoły detektywów. Ćwiczyliśmy metody pracy śledczej, doskonaliliśmy swoją sprawność fizyczną, zorganizowaliśmy salę treningową.'),
+        TropTaskBaseData(content: 'Poznaliśmy przedmioty niezbędne w pracy detektywa − lupę, mikroskop.'),
+        TropTaskBaseData(content: 'Wykonaliśmy znak naszej agencji detektywów.'),
+        TropTaskBaseData(content: 'Każda szóstka opracowała swój tajny system porozumiewania się.'),
+        TropTaskBaseData(content: 'Prowadziliśmy śledztwo według planu opracowanego przez nasze biuro (zbieraliśmy poszlaki, zdejmowaliśmy odciski palców, tropiliśmy po śladach), Analizowaliśmy zebrane dowody. Oglądaliśmy pod mikroskopem włosy, nitki itp.'),
+        TropTaskBaseData(content: 'Założyliśmy kartotekę, w której trzymaliśmy akta prowadzonej przez nas sprawy i zabezpieczone dowody. Przechowywaliśmy tam ściśle tajne akta, zdjęcia i krótkie opisy przebiegu naszej służby.'),
+        TropTaskBaseData(content: 'Po rozwiązaniu zagadki podsumowaliśmy zdobyte umiejętności na kongresie detektywistycznym.'),
+      ],
+      notesForLeaders: 'Trop zapoznaje z ciekawą i niebezpieczną pracą detektywa. Rozwija zmysły zuchów oraz ma duży wpływ na ich rozwój emocjonalny i fizyczny. Najważniejsze cechy i umiejętności, jakimi podczas zbiórek muszą wykazać się zuchy, to dokładność, spostrzegawczość, odwaga, dotrzymywanie tajemnicy, cierpliwość i umiejętność koncentracji. Zuchy uczą się tropienia, dyskretnego i cichego zachowania, kojarzenia faktów, logicznego myślenia i zabezpieczania dowodów. Ćwiczą także umysł, rozwiązując zagadki i łamigłówki. Potrafią posługiwać się tajnym pismem'
+          '\n\nNależy zadbać o to, by tematyka zabaw nie była związana z realnym światem przestępczym i nie dotyczyła spraw drastycznych (jak fikcyjne morderstwa). Można tropić np. podwórkową szajkę niszczycieli trawników lub przedmioty zaginione w Bałaganowym Świecie.'
+          '\n\nTrop jest przeznaczony dla zuchów w każdym wieku, bowiem praca detektywa może zafascynować wszystkich.'
+  ),
+
+  TropBaseData(
+      name: 'Dietetycy',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'dietetycy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy założyć poradnię dietetyczną.'),
+        TropTaskBaseData(content: 'Zapoznaliśmy się z piramidą zdrowego żywienia. Wykonaliśmy przedstawiające ją plakaty i powiesiliśmy je w zuchówce, w klasie lub na szkolnym korytarzu.'),
+        TropTaskBaseData(content: 'Byliśmy z wizytą u dietetyka, który opowiedział nam, dlaczego ważne jest zdrowe żywienie.'),
+        TropTaskBaseData(content: 'Ułożyliśmy kodeks zdrowego stylu życia i wprowadziliśmy go w życie.'),
+        TropTaskBaseData(content: 'Spośród różnych produktów spożywczych wybraliśmy takie, które powinny się znaleźć w naszym pożywieniu.'),
+        TropTaskBaseData(content: 'Ułożyliśmy zestaw ćwiczeń, które powinniśmy wykonywać każdego dnia. Ćwiczyliśmy na zbiórkach.'),
+        TropTaskBaseData(content: 'Zrobiliśmy zakupy w warzywniaku/na rynku, wybierając zdrowe lokalne produkty.'),
+        TropTaskBaseData(content: 'Każda szóstka przygotowała zdrową potrawę lub urządziliśmy szóstkowy konkurs na zdrową sałatkę.'),
+        TropTaskBaseData(content: 'Założyliśmy własną poradnię dietetyczną, w której zorganizowaliśmy konferencję zuchowych dietetyków. Przedstawiliśmy na niej ranking wybranych przez szóstki przekąsek „Pychota bez cukru”.'),
+        TropTaskBaseData(content: 'Uczyliśmy się z zamkniętymi oczami rozpoznawać smaki i zapachy produktów żywnościowych.'),
+        TropTaskBaseData(content: 'Bawiliśmy się w Najzdrowszy Teatr na Świecie, wystawiając „Na straganie” J. Brzechwy.'),
+        TropTaskBaseData(content: 'Wzięliśmy udział w wielkim quizie wiedzy o zdrowym stylu życia.'),
+      ],
+      notesForLeaders: 'Trop porusza ważny aspekt codziennego życia. Uświadamia zuchom potrzebę dbania o własne zdrowie i racjonalne żywienie. Umożliwia także zapoznanie dzieci ze światem witamin i produktów, które zapewniają człowiekowi prawidłowy rozwój i zdrowie.'
+          '\n\nZuchy poznają również zawód dietetyka, coraz bardziej popularny w społeczeństwie, którego znaczna część cierpi na nadwagę lub otyłość. Przygotowując zbiórki, warto skorzystać z zaleceń Światowej Organizacji Zdrowia (WHO) oraz z najnowszej, opracowanej przez naukowców, piramidy żywienia, której elementem jest ruch.'
+          '\n\nTrop jest przeznaczony dla młodszych i starszych zuchów. Może być zdobywany niezależnie od pory roku. Ciekawą okazją do jego realizacji jest Europejski Dzień Zdrowego Jedzenia i Gotowania (obchodzony 8 listopada).'
+  ),
+
+  TropBaseData(
+      name: 'Dziennikarze',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'dziennikarze',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy, że zostaniemy dziennikarzami.'),
+        TropTaskBaseData(content: 'Byliśmy w rozgłośni radiowej, telewizyjnej lub redakcji gazety. Obserwowaliśmy pracę dziennikarzy, rozmawialiśmy z nimi.'),
+        TropTaskBaseData(content: 'Ukończyliśmy szkołę dziennikarzy (radiowych, telewizyjnych lub prasowych).'),
+        TropTaskBaseData(content: 'Prowadziliśmy gazetkę (szkolną, gromady) lub redagowaliśmy posty na fanpage gromady.'),
+        TropTaskBaseData(content: 'W szóstkach gromadziliśmy wiadomości, przeprowadziliśmy wywiad, organizowaliśmy sondy uliczne.'),
+        TropTaskBaseData(content: 'Przeprowadziliśmy dziennikarskie śledztwo związane z naszą okolicą, a następnie przygotowaliśmy na ten temat program telewizyjny lub radiowy. Pokazaliśmy go harcerzom.'),
+      ],
+      notesForLeaders: 'Realizacja tropu zależy od tego, na jaką „specjalizację" zdecydują się zuchy − czy będą dziennikarzami prasowymi (będą zbierać wiadomości, opracowywać je, spotykać się na kolegiach redakcyjnych, recenzować artykuły, pisać i wydawać własną lub szkolną gazetkę), radiowymi (będą tworzyć audycje muzyczne, zostaną lektorami czytającymi bajki czy stworzony przez siebie serwis informacyjny, będą prowadzić audycje na żywo lub nagrywać je) czy telewizyjnymi (będą tworzyć programy telewizyjne, dzienniki).'
+          '\n\nTrop można realizować w ten sposób, że zuchy po skończeniu szkoły dziennikarskiej kolejno poznają specyfikę pracy w różnych mediach (lub każda szóstka wybierze swoją specjalizację). Zuchy powinny uświadomić sobie, jak ważna i potrzebna jest praca dziennikarza, jak istotna jest w niej rzetelność, prawdomówność i troska o język wypowiedzi.'
+          '\n\nTrop uczy także śmiałości, odwagi i otwartości. Nadaje się dla zuchów starszych, które dobrze władają już językiem − potrafią pisać i tworzyć dłuższe wypowiedzi.'
+  ),
+
+  TropBaseData(
+      name: 'Fizycy',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'fizycy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zostać fizykami.'),
+        TropTaskBaseData(content: 'Odwiedziliśmy Centrum Nauki „Kopernik" w Warszawie (inne centrum nauki) lub uczestniczyliśmy w przeznaczonym dla dzieci wykładzie dotyczącym fizyki.'),
+        TropTaskBaseData(content: 'Założyliśmy własne centrum nauki i poprzez doświadczenia badaliśmy otaczający nas świat.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, dlaczego niebo jest niebieskie oraz rozpoznawaliśmy różne zjawiska pogodowe.'),
+        TropTaskBaseData(content: 'Zbadaliśmy, co to jest światło i cień oraz zorganizowaliśmy teatr cieni.'),
+        TropTaskBaseData(content: 'Odkryliśmy, w jaki sposób działa lupa, lustro i luneta. Obserwowaliśmy za ich pomocą różne przedmioty.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, co by się stało, gdyby zabrakło grawitacji i powietrza.'),
+        TropTaskBaseData(content: 'Poznaliśmy różne rodzaje dźwięków oraz dowiedzieliśmy się, w jaki sposób określa się ich głośność.'),
+        TropTaskBaseData(content: 'Zbadaliśmy, dlaczego ogień płonie i wykonywaliśmy własne świece.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, jak działa elektryczność i poznaliśmy różne typy elektrowni.'),
+        TropTaskBaseData(content: 'Oglądaliśmy elektrownię oraz wykonaliśmy w szóstkach własne wiatraki.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, dlaczego niektóre maszyny latają oraz kto pierwszy wzbił się w powietrze.'),
+        TropTaskBaseData(content: 'Zbudowaliśmy latający pojazd, a następnie zorganizowaliśmy konkurs na najdłuższy lot.'),
+        TropTaskBaseData(content: 'Poznaliśmy słynnych fizyków i ich odkrycia.'),
+        TropTaskBaseData(content: 'Na podsumowanie zorganizowaliśmy pokaz doświadczeń fizycznych.'),
+      ],
+      notesForLeaders: 'Trop pobudza dociekliwość i dziecięcą ciekawość świata, a także skłania zuchy do samodzielnego wyciągania wniosków. Jego realizacja wymaga od kadry gromady wiedzy z dziedziny fizyki, przydaje się też specjalistyczny sprzęt, dlatego dobrze jest współpracować ze szkołą albo inną placówką, która może udostępnić potrzebne materiały (wiele pomocy można też zrobić samodzielnie). Z pewnością im więcej doświadczeń i praktycznego działania, tym atrakcyjniejsza dla zuchów będzie tematyka tropu.'
+          '\n\nTrop jest przeznaczony dla zuchów w każdym wieku, przy czym poziom zdobywanych informacji i organizowanych doświadczeń powinien być dostosowany do ich poziomu rozwoju.'
+  ),
+
+  TropBaseData(
+      name: 'Górnicy',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'gornicy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zostać górnikami.'),
+        TropTaskBaseData(content: 'Odwiedziliśmy kopalnię (soli, węgla, inną). Od pracujących w niej górników uzyskaliśmy informacje o ich pracy.'),
+        TropTaskBaseData(content: 'Ułożyliśmy słownik nazw górniczych lub gwary śląskiej, posługiwaliśmy się nim w czasie zbiórek.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, jak powstały złoża węgla lub soli.'),
+        TropTaskBaseData(content: 'Poznaliśmy legendy związane z górnictwem. Każda szóstka zaprezentowała wybraną legendę.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy konkurs na temat dawnej i współczesnej pracy górników i narzędzi, jakimi się posługiwali i posługują.'),
+        TropTaskBaseData(content: 'Pracowaliśmy w kopalni, byliśmy przodkowymi, fedrującymi itp. Mieliśmy swoje narzędzia i odpowiednie stroje.'),
+        TropTaskBaseData(content: 'Poznaliśmy zagrożenia związane z pracą górników, wyruszyliśmy na pomoc zasypanym górnikom.'),
+        TropTaskBaseData(content: 'Na podsumowanie urządziliśmy górnicze święto (np. Święto Gwarków lub Barbórkę), podczas którego zaprezentowaliśmy dawne obrzędy i zwyczaje górnicze.'),
+      ],
+      notesForLeaders: 'Realizacja tropu daje duże możliwości kształtowania dokładności i sumienności, uczy poszanowania pracy innych i solidarności zawodowej (górnik nie opuści innego górnika w potrzebie). Podczas zabaw zuchy poznają dawne zwyczaje i obrzędy górników (dawniej zwanych gwarkami), uczą się odpowiedzialności za pracę swoją i innych. Przyjmują obrzędy i mowę górniczą, wykonują czapki, latarnie, kilofy. Wskazane jest wspomnieć zuchom o niebezpieczeństwach grożących górnikom pracującym pod ziemią.'
+          '\n\nRealizacja tropu wymaga od drużynowego zagłębienia tematyki górniczej. Trop będzie atrakcyjniejszy dla starszych zuchów. Najlepiej realizować go tam, gdzie jest możliwość wycieczki do kopalni i spotkań z prawdziwymi górnikami.'
+  ),
+
+  TropBaseData(
+      name: 'Inżynierowie',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'inzynierowie',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy, że zdobędziemy tytuły inżynierów.'),
+        TropTaskBaseData(content: 'Byliśmy z wizytą w muzeum techniki lub centrum nauki.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy zuchowy urząd patentowy.'),
+        TropTaskBaseData(content: 'W szóstkach inscenizowaliśmy historię wynalazków, które zmieniły świat. Poznaliśmy kilka wynalazków polskich inżynierów.'),
+        TropTaskBaseData(content: 'Pracowaliśmy w fabryce szalonych konstruktorów.'),
+        TropTaskBaseData(content: 'Bawiliśmy się w zuchowe biuro konstrukcyjne (np. zbudowaliśmy maszynę Goldberga). Używaliśmy materiałów już niepotrzebnych lub naturalnych.'),
+        TropTaskBaseData(content: 'Przygotowaliśmy aukcję wykonanych na majsterce przedmiotów.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy pokaz doświadczeń i eksperymentów „technicznych".'),
+        TropTaskBaseData(content: 'Ponieważ warto naprawiać rzeczy, aby ich dłużej używać, zorganizowaliśmy zuchowe pogotowie inżynieryjne. Potrafimy wykonać proste czynności (wymiana baterii, wkręcenie śrubki, wbicie gwoździa itp.).'),
+        TropTaskBaseData(content: 'Na podsumowującej wystawie „Zuchexpo" otrzymaliśmy tytuły inżynierów.'),
+      ],
+      notesForLeaders: 'Trop wspiera wyrabianie pracowitości, dokładności i wytrwałości. Wpływa na rozwój wyobraźni i kreatywności, kształtowanie oryginalności myślenia i działania. Zuchy wzbogacają swoją wiedzę, w tym wiedzę techniczną, a wykonując rozmaite majsterki, doskonalą swoją sprawność manualną.'
+          '\n\nNa zbiórkach należy przyzwyczajać zuchy do dobrej organizacji pracy i przestrzegania zasad bezpieczeństwa. Kadra gromady powinna zwracać uwagę na właściwe korzystanie z materiałów i narzędzi oraz stan miejsca pracy zuchów (oświetlenie, porządek). Program tropu nie określa, jakie przedmioty mogą wykonać zuchy. W tym zakresie powinna wystarczyć pomysłowość kadry i stopień zaawansowania zuchów w majsterkowaniu.'
+          '\n\nTrop można zdobywać o każdej porze roku, nadaje się dla zuchów młodszych i starszych (jednak proponowane prace muszą być dostosowane do ich możliwości).'
+  ),
+
+  TropBaseData(
+      name: 'Kolejarze',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'kolejarze',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zostać kolejarzami.'),
+        TropTaskBaseData(content: 'Byliśmy na stacji lub dworcu kolejowym. Obserwowaliśmy pracę kolejarzy.'),
+        TropTaskBaseData(content: 'Bawiliśmy się w dworzec kolejowy. Byliśmy maszynistami, dróżnikami, dyżurnymi ruchu, konduktorami, pracowaliśmy w kasie, informacji i „Warsie".'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy fabrykę wagonów i lokomotyw. Każda szóstka zbudowała inny wagon/lokomotywę (innego typu lub z innej epoki).'),
+        TropTaskBaseData(content: 'Bawiliśmy się modelem kolejki. Wyruszyliśmy w wielką podróż koleją po Polsce lub w podróż Orient Ekspresem.'),
+        TropTaskBaseData(content: 'Uczestniczyliśmy w zajęciach w szkole kolejarzy. Dowiedzieliśmy się, jak ważny jest transport kolejowy.'),
+        TropTaskBaseData(content: 'Pojechaliśmy na wycieczkę pociągiem. Nauczyliśmy się odczytywać z rozkładu jazdy godzinę odjazdu i przyjazdu pociągu.'),
+        TropTaskBaseData(content: 'Bawiliśmy się w podróż dawnym pociągiem.'),
+        TropTaskBaseData(content: 'Bawiliśmy się w podróż pociągiem przyszłości.'),
+        TropTaskBaseData(content: 'Na podsumowanie urządziliśmy wielki turniej wiedzy o kolei.'),
+      ],
+      notesForLeaders: 'Podczas realizacji tropu należy zwrócić uwagę zuchów na to, jak istotną rolę odgrywa współdziałanie ludzi w czasie pracy i precyzyjne zgranie najróżniejszych czynności. Należy pokreślić, że w pracy kolejarzy konieczna jest punktualność i obowiązkowość.'
+          '\n\nPraca w kolejnictwie to nie tylko sprawne obsługiwanie wszystkich urządzeń, umiejętność prowadzenia lokomotywy, sprawne utrzymywanie łączności z innymi stacjami, fachowa konserwacja sprzętu itp. Podróżni oczekują od kolejarza zapewnienia im bezpieczeństwa podróży. Wierzą także, że kolejarz zawsze chętnie udzieli informacji i w razie potrzeby pomoże.'
+          '\n\nPodczas realizacji tropu zuchy powinny odwiedzić stację lub dworzec kolejowy, przyjrzeć się pracy kolejarzy, porozmawiać z nimi, zajrzeć do pomieszczeń, które zwykle są niedostępne dla pasażerów i posłuchać zapowiedzi nadjeżdżających pociągów. Warto szczególnie uważnie obejrzeć urządzenia, które mogą się przydać w zuchowych zabawach w kolej.'
+          '\n\nPodążając tropem kolejarzy, zuchy mogą zdobyć wiele pożytecznych umiejętności: nauczyć się korzystać z rozkładu jazdy, kupować bilet, zasięgać informacji, oddawać bagaż do przechowalni. Powinny poznać różne rodzaje pociągów (np. podmiejski, osobowy, Intercity, metro, towarowy). Mogą także zobaczyć, jak bardzo zmieniła się kolej i jak nadal się rozwija, by bezpiecznie i szybko przewozić ludzi i towary.'
+          '\n\nTrop można realizować o każdej porze roku.'
+  ),
+
+  TropBaseData(
+      name: 'Kosmonauci',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'kosmonauci',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zostać kosmonautami.'),
+        TropTaskBaseData(content: 'Uczestniczyliśmy w zajęciach szkoły kosmonautów i treningu kosmicznym. Poznaliśmy planety najbliższe Ziemi. Dowiedzieliśmy się, jak ważna dla kosmonautów jest sprawność fizyczna.'),
+        TropTaskBaseData(content: 'Pracując szóstkami, zbudowaliśmy rakietę, kosmodrom i stację kosmiczną.'),
+        TropTaskBaseData(content: 'Podróżowaliśmy rakietą na inną planetę.'),
+        TropTaskBaseData(content: 'Obserwowaliśmy niebo. Potrafimy wskazać Gwiazdę Polarną i Wielki Wóz.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy wieczór w planetarium lub byliśmy w planetarium.'),
+        TropTaskBaseData(content: 'Badaliśmy przestrzeń międzygwiezdną.'),
+        TropTaskBaseData(content: 'Szukaliśmy niezidentyfikowanych pojazdów kosmicznych. Dowiedzieliśmy się, co to jest UFO.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy pokaz mody kosmicznej, modeli lub obiektów latających.'),
+        TropTaskBaseData(content: 'Badaliśmy inną planetę. Zbieraliśmy próbki ziemi, wykonaliśmy mapę planety, obserwowaliśmy i badaliśmy istniejące na tej planecie formy życia.'),
+        TropTaskBaseData(content: 'Urządziliśmy wystawę na temat tego, jak mogą wyglądać mieszkańcy innych planet.'),
+        TropTaskBaseData(content: 'Na podsumowanie zorganizowaliśmy Święto Kosmonauty.'),
+      ],
+      notesForLeaders: 'Trop zaspokaja dziecięcą ciekawość, dostarcza wiedzy o wszechświecie, wyrabia dyscyplinę, kształci spostrzegawczość i rozwija wyobraźnię. Zuch „kosmonauta” potrafi wskazać na niebie wybrane gwiazdozbiory, np. Wielki Wóz, Mały Wóz oraz zadbać o swoją sprawność fizyczną.'
+          '\n\nPodczas zbiórek zuchy często będą majsterkować. Wykonają hełmy kosmiczne, kosmodrom, zbudują rakietę. Majsterka musi być użyteczna, jej efekty należy wykorzystać w zabawie. Warto wykonywać ją z materiałów niepotrzebnych i takich, które nadają się do recyklingu (by nie produkować dużych ilości śmieci w naszym kosmosie).'
+          '\n\nPrzy realizacji tropu drużynowy musi pamiętać, aby umiejętnie oddzielić fikcję od rzeczywistości. Trop ma pokazać prawdziwe dokonania człowieka w kosmosie, a nie zamienić się w zabawę w ufoludki. Szereg inspiracji można czerpać z najnowszych filmów sci-fi (np. „Marsjanin”, 2015).'
+          '\n\nTrop można zdobywać o każdej porze roku. Lepiej sprawdzi się w przypadku starszych zuchów.'
+  ),
+
+  TropBaseData(
+      name: 'Kuchciki',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'kuchciki',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zgłębić tajniki sztuki kulinarnej.'),
+        TropTaskBaseData(content: 'Zbudowaliśmy kuchnię i wyposażyliśmy ją w odpowiedni sprzęt, rozpaliliśmy ogień w palenisku oraz podtrzymaliśmy go.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy turniej wiedzy dotyczący zdrowego odżywiania.'),
+        TropTaskBaseData(content: 'Poznaliśmy kilka potraw charakterystycznych dla polskiej kuchni.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy konkurs na najładniej udekorowany i nakryty stół.'),
+        TropTaskBaseData(content: 'Przeszliśmy szkolenie z zakresu udzielania pierwszej pomocy przy oparzeniach i skaleczeniach.'),
+        TropTaskBaseData(content: 'Próbowaliśmy smacznego i zdrowego jedzenia – dowiedzieliśmy się, z czego jest zrobione.'),
+        TropTaskBaseData(content: 'Wydaliśmy książkę kucharską z ulubionymi potrawami.'),
+        TropTaskBaseData(content: 'Urządziliśmy ucztę złożoną z różnorodnych potraw przygotowanych przez szóstki. Zaprosiliśmy na nią rodziców, przyjaciół lub inną gromadę.'),
+      ],
+      notesForLeaders: 'Trop zachęca zuchy do gotowania oraz pokazuje, jak ważnym elementem zdrowego trybu życia jest odpowiednia dieta i dobre przygotowanie posiłków. Zabawa w kuchcików rozwija zmysły oraz samodzielność, zaradność i kreatywność. Na zbiórkach zuchy zapoznają się ze sprzętem potrzebnym do przyrządzania posiłków i mają okazję go wykorzystać. Na pewno też chętnie wykonają przydatne w kuchni stojaki pod garnki, wieszaki na przykrywki, a nawet fartuchy, rękawice czy czapki.'
+          '\n\nZuchy będą mogły poznać wartości odżywcze różnych warzyw i owoców. Należy przy tym zwrócić uwagę na sposoby ich przechowywania (mrożenia, peklowania, gotowania, marynowania) w różnych warunkach (w zimie, w lecie, bez lodówki) oraz na to, że jedzenia nie wolno marnować.'
+          '\n\nWarto pokazać zuchom możliwości wykorzystania ziół i przypraw oraz zdrowe alternatywy dla tradycyjnych przekąsek (np. chipsów i słodyczy). Jest to również okazja do tego, aby zuchy nauczyły się pięknie dekorować stół, co może przydać się przy domowych uroczystościach. Jeśli trop realizuje się na kolonii lub biwaku – można pokusić się o zbudowanie i wykorzystanie kuchni polowej.'
+          '\n\nTrop jest przeznaczony raczej dla zuchów starszych, które potrafią już sprawnie posługiwać się nożem i innymi przyborami kuchennymi. Nadaje się do realizacji na kolonii zuchowej.'
+  ),
+
+  TropBaseData(
+      name: 'Lekarze',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'lekarze',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy wstąpić do Akademii Medycznej.'),
+        TropTaskBaseData(content: 'Uczęszczaliśmy na zajęcia Akademii. Wzięliśmy udział w ćwiczeniach z zakresu udzielania pierwszej pomocy prowadzonych przez ratowników medycznych. Złożyliśmy przysięgę Hipokratesa.'),
+        TropTaskBaseData(content: 'Byliśmy z wizytą w ośrodku zdrowia lub pogotowiu ratunkowym.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy zuchowy szpital, każda szóstka wybrała sobie specjalność i oddział.'),
+        TropTaskBaseData(content: 'Zapamiętaliśmy numery ratunkowe oraz dowiedzieliśmy się, jak wezwać pomoc w razie wypadku.'),
+        TropTaskBaseData(content: 'Nauczyliśmy się, dbać o zdrowie. Poznaliśmy piramidę żywienia i zasady higieny osobistej.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, co to jest cukrzyca i jak jej zapobiec.'),
+        TropTaskBaseData(content: 'Skompletowaliśmy apteczkę gromady. Dowiedzieliśmy się, do czego służą jej poszczególne elementy.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, gdzie należy wyrzucać przeterminowane leki.'),
+        TropTaskBaseData(content: 'Przygotowaliśmy akcję propagującą zdrowy styl życia. Urządziliśmy dla szóstek konkurs na zdrową surówkę.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy dla młodszych kolegów i koleżanek ze szkoły lub innych gromad zuchowych turniej wiedzy o zdrowiu i bezpieczeństwie.'),
+      ],
+      notesForLeaders: 'Trop uwrażliwia zuchy na dbałość o zdrowie własne i innych, zwraca ich uwagę na przestrzeganie higieny osobistej i zdrowego trybu życia oraz zapoznaje z pracą lekarzy, którzy chętnie śpieszą z pomocą innym. Dzięki interesującej i wartościowej zabawie zuchy nauczą się udzielania pierwszej pomocy w najprostszych przypadkach, opatrywania ran i mierzenia temperatury, będą także umiały wezwać pogotowie ratunkowe. W ramach majsterki wykonają recepty i pieczątki.'
+          '\n\nPodczas zbiórek warto pokazać zuchom korzyści z profilaktyki (zdrowego stylu życia). Należy również uświadomić im, jak niebezpieczne może być samowolne przyjmowanie leków, zażywanie ich w zbyt dużych ilościach lub gdy są przeterminowane.'
+          '\n\nDo realizacji tropu kadra powinna się rzetelnie przygotować. Warto zaprosić na zbiórki gościa lekarza lub ratownika medycznego. W czasie zdobywania tropu gromada powinna wzbogacić się o apteczkę, którą zuchy będą zabierać na wszystkie wycieczki.'
+          '\n\nTrop zainteresuje młodsze i starsze zuchy. Zbiórki można odbywać zarówno w pomieszczeniu, jak i na powietrzu, niezależnie od pory roku.'
+  ),
+
+  TropBaseData(
+      name: 'Listonosze',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'listonosze',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zostać listonoszami.'),
+        TropTaskBaseData(content: 'Byliśmy w urzędzie pocztowym.'),
+        TropTaskBaseData(content: 'Bawiliśmy się w pocztę.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy tydzień pisania listów. Nauczyliśmy się adresować listy i pocztówki.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy szóstkowy konkurs na projekt znaczka pocztowego lub pocztówki.'),
+        TropTaskBaseData(content: 'Szukaliśmy zaginionej przesyłki.'),
+        TropTaskBaseData(content: 'Wędrowaliśmy razem z listem od nadawcy do odbiorcy.'),
+        TropTaskBaseData(content: 'Porozumiewaliśmy się na odległość tak, jak w dawnych czasach.'),
+        TropTaskBaseData(content: 'Nawiązaliśmy kontakt listowny z inną gromadą zuchową.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy lub zwiedziliśmy wystawę filatelistyczną lub spotkaliśmy się z osobą zbierającą znaczki pocztowe.'),
+        TropTaskBaseData(content: 'Roznosiliśmy listy podczas walentynek, zuchowej wigilii, Dnia Nauczyciela lub na kolonii.'),
+      ],
+      notesForLeaders: 'Trop zapoznaje zuchy z trudną i odpowiedzialną pracą listonosza. Obowiązkowość, prawdomówność, poszanowanie cudzego mienia i tajemnicy, pracowitość − to najważniejsze wymagania, jakim musi on sprostać. Te cechy trzeba podkreślić i kształtować w trakcie zdobywania tropu. Nie należy jednak ograniczać się do spraw związanych z działalnością zawodową doręczyciela, warto pokazać pracę całej poczty i wszystkich jej pracowników. Tematyka pocztowa to także fascynujący świat znaczków, podróże listów, przesyłek, rozmaite sposoby porozumiewania się na odległość − tematy ciekawe i dostarczające okazji do interesującej i wartościowej zabawy.'
+          '\n\nPodczas zbiórek zuchy powinny m.in. nauczyć się kupować znaczki, prawidłowo adresować listy i pocztówki, wysyłać listy. Na kolonii mogą odnosić listy na pocztę, roznosić korespondencję, pełnić dyżur przy kolonijnej skrzynce i prowadzić kolonijną pocztę.'
+          '\n\nTrop może być zdobywany o każdej porze roku.'
+  ),
+
+  TropBaseData(
+      name: 'Lotnicy',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'lotnicy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy przeżyć podniebną przygodę.'),
+        TropTaskBaseData(content: 'Byliśmy na lotnisku lub pokazie lotniczym, spotkaliśmy się z lotnikiem.'),
+        TropTaskBaseData(content: 'Uczestniczyliśmy w zajęciach szkoły pilotów.'),
+        TropTaskBaseData(content: 'Prowadziliśmy eksperymenty powietrzne.'),
+        TropTaskBaseData(content: 'Urządziliśmy własny port lotniczy, tworzyliśmy jego załogę. Poznaliśmy zawody związane z lotnictwem.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy manewry lotnicze. Poznaliśmy kilka typów maszyn latających.'),
+        TropTaskBaseData(content: 'Urządziliśmy w szóstkach zawody własnoręcznie wykonanych latawców.'),
+        TropTaskBaseData(content: 'Odbyliśmy lot samolotem pasażerskim.'),
+        TropTaskBaseData(content: 'Poznaliśmy historię podniebnych lotów – losy mitycznego Ikara, projekty Leonarda da Vinci, loty balonem, dokonania braci Wright oraz osiągnięcia Franciszka Żwirki i Stanisława Wigury.'),
+        TropTaskBaseData(content: 'Na podsumowanie zorganizowaliśmy Dzień Lotnika.'),
+      ],
+      notesForLeaders: 'Lotnictwo pociąga swoją niezwykłością, fascynuje przygodami. Trop pozwala kształtować odwagę, opanowanie, zdyscyplinowanie, umiejętność podporządkowania się, koleżeńskość i poczucie odpowiedzialności. Dostarcza wiedzy na temat historii samolotów i lotnictwa, a także wyjaśnia zjawiska z zakresu fizyki, odpowiadając m.in. na pytanie, dlaczego samolot unosi się w powietrzu.'
+          '\n\nNa zbiórkach dobrze jest umożliwić zuchom zetknięcie się z prawdziwym lotnictwem. Można zwiedzić lotnisko, szkołę szybowcową lub modelarnię, a także zorganizować spotkanie z lotnikami, którzy opowiedzą o swojej pracy. Brak takich możliwości nie powinien jednak przesądzać o rezygnacji z tropu.'
+          '\n\nDo realizacji tropu trzeba się starannie przygotować, uzupełnić wiedzę, sprawdzić możliwości zorganizowania wycieczek i spotkań z profesjonalistami. Trop można zdobywać przez cały rok.'
+  ),
+
+  TropBaseData(
+      name: 'Marynarze',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'marynarze',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy wstąpić do Akademii Morskiej.'),
+        TropTaskBaseData(content: 'Podczas zajęć nauczyliśmy się węzłów, sygnalizacji kodem flagowym, poznaliśmy najważniejsze morza i porty świata oraz różne rodzaje statków.'),
+        TropTaskBaseData(content: 'Byliśmy na statku, okręcie lub jachcie. Rozmawialiśmy z marynarzem.'),
+        TropTaskBaseData(content: 'Braliśmy udział w rejsie statkiem.'),
+        TropTaskBaseData(content: 'Urządziliśmy port i zbudowaliśmy własną flotę.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy chrzest i wodowanie statku.'),
+        TropTaskBaseData(content: 'Przeżyliśmy morską przygodę (np. spotkanie z piratami, potworem morskim, sztorm).'),
+        TropTaskBaseData(content: 'Urządziliśmy wieczór szant i piosenek żeglarskich, podczas którego mogła się zaprezentować każda szóstka.'),
+        TropTaskBaseData(content: 'Słuchaliśmy opowieści wilka morskiego.'),
+        TropTaskBaseData(content: 'Zdaliśmy egzamin z morskich umiejętności i otrzymaliśmy stopień marynarski.'),
+      ],
+      notesForLeaders: 'Dobry trop na kolonię!'
+          '\n\nTrop wychodzi naprzeciw dziecięcym marzeniom o podróżach, przygodach i bohaterskich czynach. Pomaga rozwijać u dzieci odwagę, koleżeństwo i sprawność fizyczną. Jest wspaniałą okazją do wdrożenia nowych zuchów do dyscypliny i karności, gdyż każdy „załogant" będzie starał się dowieść, że zasłużył na wyróżnienie w „rozkazie kapitana”.'
+          '\n\nBawiąc się w marynarzy, zuchy przyjmują nazewnictwo i zwyczaje wilków morskich, wykonują czapki marynarskie i inne rekwizyty potrzebne do zabawy.'
+          '\n\nNa zbiórkach należy także zwrócić uwagę na związaną z tym tematem pracę stoczniowca (zuchy mogą budować jednostki pływające z różnego rodzaju materiałów − kory, łupin orzecha).'
+          '\n\nTrop świetnie nadaje się na kolonię zuchową, szczególnie nad morzem. Marynarską przygodę warto połączyć z nauką pływania.'
+  ),
+
+  TropBaseData(
+      name: 'Mistrzowie krawiectwa',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'mistrzowie_krawiectwa',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy, że zostaniemy mistrzami krawiectwa.'),
+        TropTaskBaseData(content: 'Zapisaliśmy się na kurs u mistrza krawiectwa.'),
+        TropTaskBaseData(content: 'Byliśmy z wizytą w pracowni krawieckiej lub szwalni, poznaliśmy pracę krojczych, szwaczek, hafciarek itp.'),
+        TropTaskBaseData(content: 'Urządziliśmy „kącik z igiełką", wyposażyliśmy go w odpowiednie przybory i materiały.'),
+        TropTaskBaseData(content: 'Uczestniczyliśmy w kursie kroju i szycia, na którym poznaliśmy podstawowe ściegi i materiały.'),
+        TropTaskBaseData(content: 'Wykonaliśmy własnoręcznie z niepotrzebnych materiałów poduszkę na igły lub uszyliśmy ściereczkę do naczyń.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy pracownię projektowania ubiorów, w szóstkach wymyślaliśmy stroje na różne okazje.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy konkurs na „mistrza igły", podczas którego zaprezentowaliśmy własnoręcznie wykonane prace.'),
+        TropTaskBaseData(content: 'Z okazji wręczenia dyplomów mistrzów krawiectwa zorganizowaliśmy pokaz mody, na którym szóstkami zaprezentowaliśmy stroje przez nas uszyte lub odpowiednio przerobione.'),
+      ],
+      notesForLeaders: 'Trop umożliwia kształtowanie staranności, sumienności i porządku, a także uczy oszczędności. Podczas zabaw zuchy uczą się posługiwania podstawowymi przyborami krawieckimi i poznają różne rodzaje materiałów. Poznają podstawy szycia i mają okazję wykorzystać je w praktyce. Można m.in. pokazać zuchom technikę patchworku, czyli jak z resztek uszyć prawdziwe „cudeńka". Wszystkie rzeczy, które zuchy wykonają podczas krawieckiej majsterki, powinny być przydatne – w życiu codziennym lub podczas zabawy.'
+          '\n\nTrop nadaje się dla starszych zuchów. Polecany jest do realizacji podczas jesieni, zimy i wczesnej wiosny.'
+  ),
+
+  // TODO: Zmienieć „Nauka – to lubię" na coś innego.
+  TropBaseData(
+      name: 'Młodzi naukowcy',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'mlodzi_naukowcy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zostać naukowcami.'),
+        TropTaskBaseData(content: 'Odwiedziliśmy interaktywną wystawę (np. w centrum nauki albo zorganizowaną czasowo) lub wzięliśmy udział w warsztatach naukowych dla dzieci podczas pikniku czy festiwalu.'),
+        TropTaskBaseData(content: 'Uczestniczyliśmy w spotkaniu z naukowcem.'),
+        TropTaskBaseData(content: 'Stworzyliśmy własny klub eksperymentów (fabrykę doświadczeń). Wykonywaliśmy doświadczenia fizyczne lub chemiczne.'),
+        TropTaskBaseData(content: 'Opracowaliśmy wynalazek gromady.'),
+        TropTaskBaseData(content: 'Pracując w szóstkach, wykonaliśmy doświadczenia naukowe w terenie i poczyniliśmy własne obserwacje przyrodnicze lub meteorologiczne.'),
+        TropTaskBaseData(content: 'Poznaliśmy najsłynniejszych polskich naukowców.'),
+        TropTaskBaseData(content: 'Założyliśmy wielką księgę eksperymentów.'),
+        TropTaskBaseData(content: 'Prezentowaliśmy własne zainteresowania zuchom z gromady lub urządziliśmy szóstkowe „popisy" naukowe.'),
+        TropTaskBaseData(content: 'Oglądaliśmy wystąpienia młodych pasjonatów z krajowych konferencji TEDxKids.'),
+        TropTaskBaseData(content: 'Na podsumowanie urządziliśmy konferencję pt. „Nauka – to lubię".'),
+      ],
+      notesForLeaders: 'Trop wprowadza zucha w pasjonujący świat nauki, doświadczeń i eksperymentów. Przeznaczony jest dla starszych dzieci, które interesują się mechanizmami rządzącymi światem. Przedmiotem doświadczeń może zostać każdy element naszego otoczenia, np. zjawiska atmosferyczne, właściwości roślin czy powstawanie baniek mydlanych.'
+          '\n\nPodczas zbiórek koniecznie trzeba zwrócić uwagę na cechy, jakie powinien mieć naukowiec: rzetelność, dokładność, spostrzegawczość, cierpliwość. To dzięki nim możemy się dowiedzieć więcej o świecie.'
+          '\n\nTrop można realizować o każdej porze roku.'
+  ),
+
+  TropBaseData(
+      name: 'Oceanografowie',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'oceanografowie',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zostać oceanografami. Wstąpiliśmy do Akademii Badań Podwodnego Świata.'),
+        TropTaskBaseData(content: 'Zbudowaliśmy statek naukowo-badawczy do badania mórz i oceanów.'),
+        TropTaskBaseData(content: 'Odwiedziliśmy fokarium lub oceanarium. Obserwowaliśmy zwierzęta, których naturalnym środowiskiem życia są morza i oceany.'),
+        TropTaskBaseData(content: 'Słuchaliśmy opowieści o zwierzętach żyjących w morzach i oceanach, oglądaliśmy film o życiu pod powierzchnią wody.'),
+        TropTaskBaseData(content: 'Spotkaliśmy się z prawdziwym wilkiem morskim.'),
+        TropTaskBaseData(content: 'Badaliśmy właściwości słonej wody.'),
+        TropTaskBaseData(content: 'Sprawdziliśmy zanieczyszczenie w dostępnym nam zbiorniku morskim. Zrealizowaliśmy pożyteczną pracę na rzecz podwodnego świata.'),
+        TropTaskBaseData(content: 'Bawiliśmy się w podróż do podwodnych głębin.'),
+        TropTaskBaseData(content: 'Każda szóstka przygotowała potrawy z ryb i owoców morza.'),
+        TropTaskBaseData(content: 'Tropiliśmy tajemnicę wraku zatopionego statku.'),
+        TropTaskBaseData(content: 'Urządziliśmy maraton morskiego majsterkowania.'),
+        TropTaskBaseData(content: 'Wyruszyliśmy na ratunek zwierzętom Wielkiej Rafy Koralowej. Dowiedzieliśmy się, jak chronić morza i oceany.'),
+        TropTaskBaseData(content: 'Szóstkami inscenizowaliśmy zdarzenia z życia słynnego oceanografa Jacques’a Cousteau.'),
+        TropTaskBaseData(content: 'Przygotowaliśmy reportaż z naszych wypraw.'),
+        TropTaskBaseData(content: 'Ukończyliśmy Akademię Badań Podwodnego Świata.'),
+      ],
+      notesForLeaders: 'Dobry trop na kolonię!'
+          '\n\nTrop wprowadza w świat fascynującej przyrody i niesamowitych spotkań z podwodnym światem. Zuchy „oceanografowie” potrafią dostrzec piękno naturalnego środowiska, doceniają znaczenie mórz i oceanów. Zdobywają wiedzę o żyjących tam organizmach, poznają metody badawcze stosowane w oceanografii.'
+          '\n\nZuchy poznają na zbiórkach nie tylko bogactwo i wartość środowiska morskiego, ale także ciekawy zawód oceanografa. Uczą się planowania zadań, zespołowego działania i odpowiedzialności za wspólną pracę.'
+          '\n\nDo realizacji tropu można włączyć elementy bajkowe, np. inspiracje bajką „Gdzie jest Nemo” warto wykorzystać podczas zbiórki o Wielkiej Rafie Koralowej. Temat umożliwia również stworzenie ciekawej obrzędowości.'
+          '\n\nTrop wymaga od kadry dobrego przygotowania merytorycznego. Przeznaczony jest dla wszystkich zuchów, chociaż bardziej zainteresuje starsze dzieci. Najlepiej realizować go podczas kolonii zuchowej nad morzem.'
+  ),
+
+  TropBaseData(
+      name: 'Okuliści',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'okulisci',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zadbać o nasz zmysł wzroku i zostać okulistami, którzy wiedzą o wzroku najwięcej.'),
+        TropTaskBaseData(content: 'Byliśmy z wizytą w gabinecie okulistycznym/optometrycznym/przychodni okulistycznej lub zaprosiliśmy na zbiórkę okulistę/optometrystę, który opowiedział o swoim zawodzie.'),
+        TropTaskBaseData(content: 'Poznaliśmy anatomię oka. Dowiedzieliśmy się, czym jest i gdzie się znajduje rogówka, tęczówka, soczewka i siatkówka. Z dostępnych materiałów plastycznych zbudowaliśmy model ludzkiego oka.'),
+        TropTaskBaseData(content: 'Poznaliśmy znaczenie takich pojęć, jak krótkowzroczność, dalekowzroczność, astygmatyzm.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy zuchowy gabinet okulistyczny.'),
+        TropTaskBaseData(content: 'Stworzyliśmy schemat badania optometrycznego na podstawie znalezionych informacji oraz badaliśmy za pomocą dostępnych testów funkcje wzrokowe.'),
+        TropTaskBaseData(content: 'Stworzyliśmy zuchową tablicę do badania ostrości wzroku. Sprawdziliśmy swój wzrok.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, jak na co dzień dbać o wzrok. Zorganizowaliśmy zuchowy trening dla oczu.'),
+        TropTaskBaseData(content: 'Byliśmy w „niewidzialnej przestrzeni” lub zorganizowaliśmy własną taką przestrzeń. Wczuliśmy się w sytuację osoby niewidomej i korzystaliśmy z pozostałych zmysłów (dotyku, smaku, węchu, słuchu).'),
+        TropTaskBaseData(content: 'Poznaliśmy elementy, z jakich składają się okulary. Zaprojektowaliśmy i wykonaliśmy własne oprawy okularowe (w różnych kształtach, wzorach, z różnych materiałów i różnej wielkości), a następnie zorganizowaliśmy wystawę naszych prac.'),
+        TropTaskBaseData(content: 'Szóstkami przygotowaliśmy zdrową sałatkę dla oczu, w której znajdowały się produkty zawierające witaminy A, C i E.'),
+        TropTaskBaseData(content: 'Na podsumowanie zorganizowaliśmy Zuchowy Dzień Wzroku, podczas którego szóstki przedstawiły scenki pokazujące, jak należy dbać o wzrok.'),
+      ],
+      notesForLeaders: 'Trop ma charakter edukacyjny i profilaktyczny. Zwraca uwagę zuchów na najważniejszy zmysł człowieka, jakim jest wzrok. Jest ciekawym sposobem nauki o organizmie człowieka oraz w przystępny sposób przybliża zawód okulisty. Rozwija u zuchów ciekawość i kreatywność oraz dokładność, rzetelność i zaangażowanie – niezbędne w każdym zawodzie związanym ze zdrowiem.'
+          '\n\nPoprzez zabawę w specjalistę dzieci zdobędą wiedzę z zakresu podstawowych pojęć związanych z anatomią ludzkiego oka i wad wzroku. Nauczą się domowymi sposobami badać najprostsze funkcje wzrokowe. Zrozumieją, dlaczego ważne jest dbanie o wzrok. Dzięki realizacji tropu zuchy zwrócą też uwagę na problemy ludzi niewidomych i rozwiną swoją empatię.'
+          '\n\nDo realizacji tropu kadra gromady musi dobrze przygotować się merytorycznie. Trop skierowany jest do wszystkich zuchów, ale starszym dzieciom łatwiej będzie zrozumieć procesy zachodzące w ludzkim organizmie. Trop można realizować o każdej porze roku.'
+  ),
+
+  TropBaseData(
+      name: 'Polarnicy',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'polarnicy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady zdecydowaliśmy, że wybierzemy się na biegun.'),
+        TropTaskBaseData(content: 'Urządziliśmy stację naukowo-badawczą. Prowadziliśmy obserwacje meteorologiczne i astronomiczne. Znamy różne rodzaje śniegu.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, dlaczego topnieją lodowce, jakie są skutki tego zjawiska i jak możemy mu przeciwdziałać.'),
+        TropTaskBaseData(content: 'Byliśmy w zoo, gdzie obserwowaliśmy zwierzęta żyjące w zimnych strefach klimatycznych.'),
+        TropTaskBaseData(content: 'Badaliśmy ślady pozostawione na śniegu.'),
+        TropTaskBaseData(content: 'Odwiedziliśmy mieszkańców koła podbiegunowego. Prowadziliśmy obserwacje etnograficzne.'),
+        TropTaskBaseData(content: 'Urządziliśmy turniej polarników (zawody szóstek w ciągnięciu sań, w chodzeniu z użyciem rakiet śnieżnych itp. Konkurencjach).'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy wyprawę ratowniczą.'),
+        TropTaskBaseData(content: 'Poznaliśmy historię odkrycia biegunów oraz sylwetki kilku największych polskich polarników. Znaleźliśmy na mapie biegun północny, biegun południowy i Grenlandię.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy w naszej okolicy zimowe dokarmianie zwierząt.'),
+        TropTaskBaseData(content: 'Na podsumowanie urządziliśmy Festiwal Zorzy Polarnej.'),
+      ],
+      notesForLeaders: 'Dobry trop na zimowisko!'
+          '\n\nZuch „polarnik” jest wytrwały, odważny i roztropny, można na nim polegać. Realizacja tropu rozwija zainteresowania geograficzne, naukowe oraz przyrodnicze. Zuchy uczestniczą w wyprawie polarnej i przeprowadzają badania stref polarnych – prowadzą doświadczenia ze śniegiem, badania meteorologiczne, etnograficzne, astronomiczne itp. Wiedzą, jak się należy ubrać na śnieg i mróz. Ważnym aspektem jest pożyteczna praca na rzecz zimowego dokarmiania zwierząt.'
+          '\n\nTrop najlepiej realizować w gromadach, w których większość stanowią zuchy starsze, które bawiły się już w „Eskimosów” lub zrealizowały trop „Ludzi zimy”. Trop „Polarników” można zdobywać tylko zimą, kiedy jest możliwość „prowadzenia badań” na świeżym powietrzu. Należy zwracać uwagę na właściwe ubranie zuchów i bezpieczne zachowanie na śniegu.'
+  ),
+
+  TropBaseData(
+      name: 'Policjanci',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'policjanci',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy wstąpić do Akademii Policyjnej.'),
+        TropTaskBaseData(content: 'Byliśmy w komisariacie lub na posterunku policji, rozmawialiśmy z policjantem.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, czym jest prawo oraz że należy go przestrzegać.'),
+        TropTaskBaseData(content: 'Znamy przepisy ruchu drogowego.'),
+        TropTaskBaseData(content: 'Dbaliśmy o sprawność fizyczną. Poznaliśmy kilka elementów samoobrony.'),
+        TropTaskBaseData(content: 'Urządziliśmy zuchowy komisariat.'),
+        TropTaskBaseData(content: 'Szóstki wybrały swoje policyjne specjalizacje (np. dzielnicowi, drogówka, wydział ścigania przestępstw, treserzy psów policyjnych).'),
+        TropTaskBaseData(content: 'Przyjmowaliśmy zgłoszenia pod numerem telefonu 997 lub 112.'),
+        TropTaskBaseData(content: 'Ścigaliśmy przestępcę.'),
+        TropTaskBaseData(content: 'Braliśmy udział w policyjnej grze terenowej.'),
+        TropTaskBaseData(content: 'Po ukończeniu Akademii złożyliśmy przysięgę policyjną.'),
+      ],
+      notesForLeaders: 'Trop zapoznaje zuchy z niebezpieczną pracą policjantów. Tematyka związana z pracą stróżów prawa zawiera wiele spraw, które mogą nie tylko zainteresować, ale i zafascynować dzieci. Drużynowy musi jednak zadbać, aby tematyka zabaw nie była związana ze światem przestępczym.'
+          '\n\nNajważniejsze wymagania, jakim musi sprostać zuch „policjant”, to obowiązkowość, odwaga, wrażliwość na cudzą krzywdę. Zuch „policjant” umie dedukować, jest spostrzegawczy, potrafi iść po śladach, poznaje swoją dzielnicę lub miejscowość. Podczas zbiórek można nauczyć zuchy wykonywania szkicu terenu, elementów sygnalizacji i łączności, wprowadzić elementy musztry i meldowania (dodatkowo warto wprowadzić takie elementy obrzędowości, jak: hasło, odzew, kryptonimy, szyfry).'
+          '\n\nTrop można zdobywać o każdej porze roku.'
+  ),
+
+  TropBaseData(
+      name: 'Przedsiębiorcy',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'przedsiebiorcy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy założyć przedsiębiorstwo.'),
+        TropTaskBaseData(content: 'Odwiedziliśmy przedsiębiorstwo. Spotkaliśmy się z osobą, która prowadzi własną firmę.'),
+        TropTaskBaseData(content: 'Stworzyliśmy kodeks etyki biznesu.'),
+        TropTaskBaseData(content: 'Założyliśmy w szóstkach własne przedsiębiorstwa. Każdy zuch miał swoje stanowisko (szefa marketingu, prezesa zarządu, kierownika działu produkcji lub działu sprzedaży itp.).'),
+        TropTaskBaseData(content: 'Założyliśmy ewidencję przychodów i wydatków naszych firm. Ustaliliśmy własną walutę.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy lokalne materiały, które wykorzystaliśmy do produkcji.'),
+        TropTaskBaseData(content: 'Przygotowaliśmy kampanię reklamową naszej firmy oraz promocję wybranych produktów.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy targi (np. sprzedaż rzeczy wykonanych podczas majsterek, akcesoriów mundurowych, ciast upieczonych wspólnie z rodzicami i innych produktów lub usług). Podczas targów korzystaliśmy z własnych walut.'),
+        TropTaskBaseData(content: 'Zarobione pieniądze wykorzystaliśmy podczas zasłużonego urlopu (np. dofinansowanie wycieczki gromady).'),
+      ],
+      notesForLeaders: 'Trop uczy zuchy gospodarności i przedsiębiorczości przy jednoczesnym podkreśleniu wartości pracy i sprawiedliwości społecznej oraz racjonalnego planowania swojego czasu. Na zbiórkach zuchy powinny poznać podstawowe pojęcia ekonomiczne oraz dowiedzieć się, na czym polegają i jak funkcjonują waluty. Zuch „przedsiębiorca" powinien wiedzieć, jak zaplanować swoje wydatki i jak „sprzedać" swoje wyroby.'
+          '\n\nPrzy organizowaniu akcji zarobkowej należy zwrócić uwagę na pożyteczne wykorzystanie przez zuchy uzyskanych funduszy.'
+          '\n\nTrop przeznaczony jest dla zuchów starszych. Może być zdobywany o każdej porze roku.'
+          '\n\nNadaje się na deszczowe dni, gdyż zbiórki mogą odbywać się w pomieszczeniu.'
+  ),
+
+  TropBaseData(
+      name: 'Radiowcy',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'radiowcy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zostać radiowcami.'),
+        TropTaskBaseData(content: 'Byliśmy w rozgłośni radiowej. Dowiedzieliśmy się, jak działa radio i co jest potrzebne do jego funkcjonowania. Spotkaliśmy prezenterów radiowych.'),
+        TropTaskBaseData(content: 'Słuchaliśmy podcastu lub słuchowiska.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, jak wygląda studio nagrań oraz jak wyglądają i do czego służą przedmioty wykorzystywane do pracy w radiu: mikrofony, słuchawki itp.'),
+        TropTaskBaseData(content: 'Każda szóstka przeprowadziła i nagrała wywiad ze znaną postacią ze szkoły, podwórka i okolicy (rodzicem, nauczycielem, przedstawicielem ciekawego zawodu).'),
+        TropTaskBaseData(content: 'Przygotowaliśmy własną audycję radiową na ważny dla nas temat. Dobraliśmy odpowiedni podkład muzyczny.'),
+        TropTaskBaseData(content: 'Ćwiczyliśmy różne style mówienia i intonację głosu. Dowiedzieliśmy się, że od sposobu mówienia zależy odbiór naszych intencji.'),
+        TropTaskBaseData(content: 'Przygotowaliśmy listę przebojów opartą na aktualnych (podwórkowych, szkolnych) notowaniach.'),
+        TropTaskBaseData(content: 'W porozumieniu z dyrekcją szkoły przygotowaliśmy audycję dla szkolnego radiowęzła lub zorganizowaliśmy audycję „na żywo", wykorzystując przy tym zdobyte umiejętności.'),
+      ],
+      notesForLeaders: 'Trop przybliża zuchom pracę reportera i dziennikarza radiowego. Zachęca do nawiązania współpracy ze szkołą i środowiskiem lokalnym. Realizując zadania „radiowców”, zuchy stają się śmielsze, łatwiej się komunikują, zauważają ważne wydarzenia w swoim otoczeniu. Rozumieją, jak istotna jest komunikacja werbalna i intonacja głosu. Uczą się ładnego wysławiania i dbałości o poprawność wypowiedzi.'
+          '\n\nNależy pamiętać, aby wykorzystywać w audycjach nie tylko mowę i muzykę, ale też różnego rodzaju odgłosy (np. zamykanie drzwi, tupot nóg, oklaski, westchnienia, odgłosy natury).'
+  ),
+
+  TropBaseData(
+      name: 'Ratownicy',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'ratownicy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zostać ratownikami.'),
+        TropTaskBaseData(content: 'Zapamiętaliśmy numer ratunkowy 112. Nauczyliśmy się wzywać służby ratunkowe: pogotowie ratunkowe, policję, straż pożarną, WOPR i GOPR.'),
+        TropTaskBaseData(content: 'Odwiedziliśmy wybraną jednostkę ratowniczą: pogotowie ratunkowe, policję, straż pożarną, Centrum Powiadamiania Ratunkowego.'),
+        TropTaskBaseData(content: 'Mamy świadomość, że dzieci mogą uratować życie lub zdrowie rówieśników, a także osób dorosłych.'),
+        TropTaskBaseData(content: 'Wzięliśmy udział w szkoleniu w zakresie udzielania pierwszej pomocy prowadzonym przez ratowników medycznych. Poznaliśmy podstawowe zasady udzielania pierwszej pomocy przedmedycznej.'),
+        TropTaskBaseData(content: 'Nauczyliśmy się, pod opieką osoby dorosłej, udzielać pomocy w przypadku skaleczenia, oparzenia, otarcia.'),
+        TropTaskBaseData(content: 'Skompletowaliśmy apteczkę gromady.'),
+        TropTaskBaseData(content: 'Poznaliśmy zasady bezpiecznego poruszania się po drogach.'),
+        TropTaskBaseData(content: 'Poznaliśmy zasady bezpiecznej kąpieli.'),
+        TropTaskBaseData(content: 'Znamy zasady postępowania w przypadku pożaru.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, jak należy się zachować podczas niekorzystnych warunków pogodowych (silny wiatr, burza, gołoledź).'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy dla kolegów i koleżanek ze szkoły lub innych gromad zuchowych turniej wiedzy o bezpieczeństwie.'),
+      ],
+      notesForLeaders: 'Trop kształtuje właściwe zachowania w obliczu niebezpieczeństw, gotowość do niesienia pomocy innym, wyrabia odwagę i dyscyplinę. Świadomość prawidłowego udzielania pierwszej pomocy i właściwego korzystania z numerów alarmowych eliminuje strach i obawę przed podjęciem działań związanych z ratowaniem życia lub zdrowia innych osób. Dlatego istotne jest, aby umiejętności te ćwiczyć z dziećmi od najmłodszych lat.'
+          '\n\nDo realizacji tropu kadra musi przygotować się rzetelnie zarówno pod względem metodycznym, jak i merytorycznym. Warto zaprosić na zbiórki gości − pracowników i wolontariuszy służb ratowniczych oraz odwiedzić z zuchami siedziby jednostek ratowniczych (po wcześniejszym uzgodnieniu tego z kierownictwem danej jednostki).'
+          '\n\nTrop przeznaczony jest dla wszystkich zuchów. Może być zdobywany niezależnie od pory roku.'
+  ),
+
+  TropBaseData(
+      name: 'Rolnicy',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'rolnicy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zostać rolnikami.'),
+        TropTaskBaseData(content: 'Byliśmy w specjalistycznym gospodarstwie rolnym lub w gospodarstwie ekologicznym.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy zwiad i dowiedzieliśmy się, jakie rośliny uprawia się w naszej okolicy.'),
+        TropTaskBaseData(content: 'Sprawdziliśmy, jaką drogę pokonują produkty rolne, by trafić na nasz stół. Sprawdziliśmy, które produkty w sklepie pochodzą z naszej okolicy'),
+        TropTaskBaseData(content: 'Założyliśmy własną uprawę.'),
+        TropTaskBaseData(content: 'Nawadnialiśmy uprawę. Poznaliśmy działanie śluz i rowów melioracyjnych. Dowiedzieliśmy się, jak chronić wodę i jak jej używać, by służyła jak najlepiej.'),
+        TropTaskBaseData(content: 'Wykonaliśmy kompost. Dbaliśmy o niego. Dowiedzieliśmy się, co można do niego wrzucać.'),
+        TropTaskBaseData(content: 'By świętować koniec prac urządziliśmy sianokosy, święto pierwszego snopa, święto plonów lub święto pieczonego ziemniaka.'),
+      ],
+      notesForLeaders: 'Trop pokazuje pracę rolników i produkty spożywcze pochodzące z polskiej wsi. Pozwala zrozumieć, skąd się bierze jedzenie i jaki wpływ na nie mają warunki klimatyczne. Uczy szacunku dla pracy rolników.'
+          '\n\nW ramach zbiórek należy uwzględnić zwiady, wycieczki i poczynione w ich trakcie obserwacje. Dobrze, jeśli gromada podejmie akcję propagowania czegoś pożytecznego dla społeczeństwa zachęci do uprawy ziół, spożywania dużej ilości warzyw czy kompostowania. W tym ostatnim przypadku kompostownik można urządzić i prowadzić dalej po zakończeniu realizacji tropu (warto zasięgnąć wiedzy, jak prawidłowo to zrobić). Zuchy mogą doglądać go co jakiś czas i w ten sposób zaobserwować, jak zmieniają się wyrzucane odpadki. Warto wykorzystać kompost do realizacji kolejnego tropu związanego z przyrodą.'
+          '\n\nZuchy mogą zdobywać trop na kolonii lub na zbiórkach, zwłaszcza w przypadku gromad działających również w czasie wakacji.'
+  ),
+
+  TropBaseData(
+      name: 'Sprzedawcy',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'sprzedawcy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy założyć zuchowy sklep. Wybraliśmy jego branżę.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy wyprawę do hurtowni. Dowiedzieliśmy się, z jakiego rejonu świata pochodzą produkty, które chcemy kupić. Urządziliśmy sklep.'),
+        TropTaskBaseData(content: 'Rozmawialiśmy ze znawcą rynków światowych. Dowiedzieliśmy się, że lepiej kupić produkty lokalne oraz te, za które pracownicy dostali godną zapłatę. Sprawdziliśmy, skąd pochodzą produkty, które będziemy sprzedawać.'),
+        TropTaskBaseData(content: 'Sprawdziliśmy, ile kosztują nasze produkty w różnych sklepach. Ustaliliśmy ceny w naszym sklepie.'),
+        TropTaskBaseData(content: 'Samodzielnie zaplanowaliśmy i zrobiliśmy zakupy, by wykonać rzeczy na kiermasz, który chcemy zorganizować.'),
+        TropTaskBaseData(content: 'W kręgu rady przedyskutowaliśmy potrzeby gromady. Zaplanowaliśmy budżet na wybrany cel.'),
+        TropTaskBaseData(content: 'Zastanowiliśmy się, jak zmniejszyć ilość odpadów w naszym sklepie. Wprowadziliśmy wymyślone przez nas rozwiązania, np. wielorazowe torby.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy Wielki Kiermasz Zuchowy, na którym sprzedawaliśmy wyroby wykonane w szóstkach. Zbieraliśmy na nim środki na wyznaczony wspólnie cel.'),
+        TropTaskBaseData(content: 'Przygotowaliśmy zuchowy teatr, podczas którego zaprezentowaliśmy zachowania świadomego klienta.'),
+        TropTaskBaseData(content: 'Podsumowaliśmy nasze działania m.in. zachowania, które możemy wprowadzić w życie.'),
+      ],
+      notesForLeaders: 'Trop wspiera wychowanie ekonomiczne oraz uczy zuchy podstaw świadomej konsumpcji. Zabawa w sprzedawców sprzyja kształtowaniu i ugruntowaniu pożądanych wychowawczo postaw i cech charakteru: dokładności, uważności, uczciwości i odpowiedzialności za podjęte decyzje (nawet pozornie mało znaczące).'
+          '\n\nZuchy uczą się systematycznego planowania i oszczędzania, co w przyszłości zmniejszy ryzyko podejmowania decyzji zakupowych pod wpływem chwili i oddziaływania reklam. W trakcie zabaw dowiadują się, że ważniejsze od opakowania i reklamy produktu są jego cena, jakość oraz kraj pochodzenia, a także że zakupy polskich lub regionalnych produktów przyczyniają się do zwiększenia dobrobytu w ich Ojczyźnie – również tej małej.'
+          '\n\nWarto połączyć realizację tropu (akcję zarobkową – sprzedaż produktów) z realną potrzebą, np. wyposażeniem zuchówki, zakupem materiałów plastycznych, koszulek czy czapek zuchowych – tego, co rzeczywiście potrzebne jest gromadzie.'
+          '\n\nTrop można realizować o każdej porze roku, również w miesiącach zimowych.'
+  ),
+
+  TropBaseData(
+      name: 'Strażacy',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'strazacy',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy wstąpić do szkoły pożarniczej, by zostać strażakami.'),
+        TropTaskBaseData(content: 'Byliśmy w remizie strażackiej lub jednostce ratowniczo-gaśniczej. Oglądaliśmy tam sprzęt i rozmawialiśmy z komendantem lub strażakami.'),
+        TropTaskBaseData(content: 'Dowiedzieliśmy się, jakie zagrożenie stanowi ogień oraz jak należy się z nim obchodzić.'),
+        TropTaskBaseData(content: 'Poznaliśmy numery alarmowe. Dowiedzieliśmy się, jak i kiedy należy z nich korzystać.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy manewry strażackie, podczas których ćwiczyliśmy sprawność fizyczną.'),
+        TropTaskBaseData(content: 'Uczestniczyliśmy w szkoleniu przeciwpożarowym połączonym z nauką pierwszej pomocy.'),
+        TropTaskBaseData(content: 'Ułożyliśmy zasady przeciwpożarowe obowiązujące w naszej zuchówce.'),
+        TropTaskBaseData(content: 'Uczestniczyliśmy w akcji zabezpieczania lasu przed pożarem (zbieranie szkła, śmieci, tworzenie pasów przeciwpożarowych).'),
+        TropTaskBaseData(content: 'Uczestniczyliśmy w akcji ewakuacyjnej − alarmie przeciwpożarowym.'),
+        TropTaskBaseData(content: 'Zdaliśmy egzaminy i złożyliśmy przysięgę strażacką.'),
+      ],
+      notesForLeaders: 'Trop wspiera kształtowanie bezpiecznych zachowań i uczy ostrożności w posługiwaniu się ogniem. Na zbiórkach zuchy ćwiczą sprawność, zręczność, odwagę i opanowanie. Uczą się, jak w razie potrzeby wezwać pomoc.'
+          '\n\nRealizację tropu najlepiej rozpocząć od przeprowadzenia kilku zwiadów, które dadzą materiał do zabawy (konkretną wiedzę). Warto nawiązać kontakt z ochotniczą lub zawodową strażą pożarną, urządzić zbiórkę w prawdziwej remizie. Różne są remizy i ich wyposażenie; inny system organizacji strażaków poznają zuchy w dużym mieście, inny w małym miasteczku lub na wsi. Jednak strażaków spotkają wszędzie takich samych: ofiarnych, dzielnych, sprawnych i wytrzymałych − niezależnie od tego, czy ukończyli oni szkołę oficerów pożarnictwa czy tylko kurs dla strażaków ochotników.'
+          '\n\nPodczas zabawy w strażaków zuchy powinny poznać numer telefonu do straży pożarnej, dowiedzieć się, jak powiadamiać o pożarze i jak udzielać pierwszej pomocy w przypadku oparzeń. Należy również podkreślić, że strażak nie tylko gasi pożary, ale pomaga też w sytuacjach awaryjnych, klęskach żywiołowych, wypadkach samochodowych itp.'
+  ),
+
+  TropBaseData(
+      name: 'Zegarmistrzowie',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'zegarmistrzowie',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zostać zegarmistrzami.'),
+        TropTaskBaseData(content: 'Byliśmy z wizytą u zegarmistrza, który opowiedział nam o swojej pracy. Dowiedzieliśmy się, że zegarmistrz to zanikający zawód.'),
+        TropTaskBaseData(content: 'W szóstkach sprawdziliśmy, ile czasu poświęcamy na różne czynności. Przedyskutowaliśmy, co możemy zmienić.'),
+        TropTaskBaseData(content: 'Poznaliśmy ojczyznę najsławniejszych zegarów − Szwajcarię i słynne zegary świata (Big Bena w Londynie, praski zegar astronomiczny, zegar astronomiczny w Wenecji).'),
+        TropTaskBaseData(content: 'Zauważyliśmy różnice w budowie i wyglądzie zegarów. Poznaliśmy różne rodzaje zegarów (mechaniczne, słoneczne, wodne, ogniowe, latarniowe). Dowiedzieliśmy się, jak należy dbać o zegary i je konserwować.'),
+        TropTaskBaseData(content: 'Poznaliśmy strefy i różnice czasowe występujące na świecie.'),
+        TropTaskBaseData(content: 'Wykonaliśmy własne zegary, na których uczyliśmy się odczytywać godziny za pomocą wskazówek.'),
+        TropTaskBaseData(content: 'Założyliśmy dziennik punktualności, w którym zapisywaliśmy, kto na czas przyszedł na zbiórkę.'),
+        TropTaskBaseData(content: 'Graliśmy w grę „Czas na dobro".'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy podwieczorek pt. „Czas zatrzymał się w miejscu". Zaprosiliśmy na niego harcerskiego seniora, który opowiedział nam o dawnym harcerstwie. Wspólnie stworzyliśmy kronikę wspomnień.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy zbiórkę niesprawnych zegarków w ramach akcji zbierania zużytego sprzętu elektrotechnicznego. Oddaliśmy zebrane zegarki w odpowiednie miejsce.'),
+      ],
+      notesForLeaders: 'Trop uświadamia zuchom, czym jest czas i jak można go wykorzystać. Pokazuje, czym jest precyzja oraz jak ważna jest punktualność. Podczas zabawy zuchy poznają różne rodzaje zegarów (dawne i nowoczesne) i uczą się odczytywać godzinę na zegarze mechanicznym. Zapoznają się też z zagadnieniem ginących zawodów.'
+          '\n\nNa zbiórkach zuchy powinny zwrócić uwagę na własny rozwój – ćwiczenie punktualności i cierpliwości, a także umiejętność obserwacji i precyzję działania. Można również zachęcić je do refleksji nad upływem czasu i wspomnień − związanych z życiem gromady oraz prywatnych. Realizacja tropu to także dobra okazja do założenia kroniki, albumu zdjęć lub urządzenia wystawy. Aby wyjść naprzeciw aktualnym wyzwaniom świata, można zorganizować zbiórkę elektrośmieci − urządzeń, które przestały funkcjonować i nie są już użyteczne.'
+          '\n\nTrop przeznaczony jest dla starszych zuchów, które mają już odpowiednio rozwiniętą wyobraźnię. Nadaje się do realizacji na zbiórkach i na kolonii.'
+  ),
+
+  TropBaseData(
+      name: 'Żołnierze',
+      category: TropCategory.zuchZawodowe,
+      customIconTropName: 'zolnierze',
+      aims: [],
+      tasks: [
+        TropTaskBaseData(content: 'W kręgu rady postanowiliśmy zostać żołnierzami.'),
+        TropTaskBaseData(content: 'Byliśmy w jednostce wojskowej i rozmawialiśmy z żołnierzami.'),
+        TropTaskBaseData(content: 'Byliśmy w muzeum wojskowym, miejscach ważnych walk lub na grobach polskich żołnierzy.'),
+        TropTaskBaseData(content: 'Bawiliśmy się w wojska lądowe (łączności, pancerne, zwiadowcze, inne), marynarkę wojenną lub lotnictwo.'),
+        TropTaskBaseData(content: 'Przeszliśmy podstawowe szkolenie wojskowe, nauczyliśmy się składać mundury i słać łóżko.'),
+        TropTaskBaseData(content: 'Poznaliśmy elementy musztry, stopnie wojskowe, znaki topograficzne.'),
+        TropTaskBaseData(content: 'Po krótkim przeszkoleniu złożyliśmy przysięgę wojskową.'),
+        TropTaskBaseData(content: 'Urządziliśmy sobie plac ćwiczeń i systematycznie na nim ćwiczyliśmy.'),
+        TropTaskBaseData(content: 'Zorganizowaliśmy ćwiczenia na naszym poligonie.'),
+        TropTaskBaseData(content: 'Braliśmy udział w wojskowej grze terenowej. Korzystaliśmy z wojskowych środków łączności.'),
+        TropTaskBaseData(content: 'Na zakończenie zorganizowaliśmy festiwal piosenki żołnierskiej.'),
+      ],
+      notesForLeaders: 'Żołnierz jest odważny, posłuszny i karny, w każdej chwili zdolny do poświęceń. Trop ma na celu wykształcenie tych właśnie cech. Z uwagi na ćwiczenia, jakie są przeprowadzane na zbiórkach (musztra, meldowanie, przekradanie się), trop warto realizować z zuchami, które wkrótce przejdą do drużyny harcerskiej.'
+          '\n\nPodczas majsterki zuchy mogą wykonać czapki i pagony wojskowe. Na zbiórki zuchy mogą się zwoływać za pomocą tylko sobie znanego szyfru lub tajnego sygnału.'
+  ),
+
 ];
 
 /*
 
 TropBaseData(
 name: '',
-category: TropCategory.zuchKulturoznawcze,
+category: TropCategory.zuchZawodowe,
 customIconTropName: '',
 aims: [],
 tasks: [

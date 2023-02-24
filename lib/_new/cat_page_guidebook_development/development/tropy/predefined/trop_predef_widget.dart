@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
-import 'package:harcapp/_common_widgets/duration_date_widget.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_task_widget.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_tile.dart';
-import 'package:harcapp/values/colors.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
@@ -35,7 +32,11 @@ class TropPredefWidget extends StatelessWidget{
 
       if(trop.aims.isNotEmpty)
         ListView.separated(
-          itemBuilder: (context, index) => TropAimWidget(trop.aims[index], index: index),
+          itemBuilder: (context, index) => TropAimWidget(
+            trop.aims[index],
+            index: index,
+            borderColor: textEnab_(context)
+          ),
           separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
           itemCount: trop.aims.length,
           shrinkWrap: true,
@@ -68,6 +69,7 @@ class TropPredefWidget extends StatelessWidget{
 
       if(trop.hasNotesForLeaders)
         BorderMaterial(
+          borderColor: textEnab_(context),
           child: Padding(
             padding: const EdgeInsets.all(Dimen.ICON_MARG),
             child: Text(
@@ -88,11 +90,18 @@ class TropAimWidget extends StatelessWidget{
 
   final String aim;
   final int index;
+  final Color? borderColor;
 
-  const TropAimWidget(this.aim, {required this.index, super.key});
+  const TropAimWidget(
+      this.aim,
+      { required this.index,
+        required this.borderColor,
+        super.key
+      });
 
   @override
   Widget build(BuildContext context) => BorderMaterial(
+    borderColor: borderColor,
     child: Padding(
       padding: const EdgeInsets.all(Dimen.ICON_MARG),
       child: Column(

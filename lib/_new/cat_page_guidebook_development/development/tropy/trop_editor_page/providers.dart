@@ -74,6 +74,17 @@ class AimControllersProvider extends ChangeNotifier{
   AimControllersProvider({Trop? initTrop, TropBaseData? initTropBaseData}):
         aimControllers = (initTrop?.aims??initTropBaseData?.aims??['']).map((a) => TextEditingController(text: a)).toList();
 
+  List<String> getAims(){
+
+    List<String> result = [];
+    for(TextEditingController controller in aimControllers)
+      if(controller.text.isNotEmpty)
+        result.add(controller.text);
+
+    return result;
+
+  }
+
   void add(){
     aimControllers.add(TextEditingController(text: ''));
     notifyListeners();
@@ -100,10 +111,14 @@ class TropTaskTmpData{
   late UserDataNick? assigneeNick;
   late TextEditingController assigneeController;
 
-  TropTaskTmpData(String content, this.deadline, this.assignee, this.assigneeNick, String? assigneeText){
+  bool completed;
+
+  TropTaskTmpData(String content, this.deadline, this.assignee, this.assigneeNick, String? assigneeText, this.completed){
     contentController = TextEditingController(text: content);
     assigneeController = TextEditingController(text: assigneeText??'');
   }
+
+  bool get isEmpty => contentController.text.isEmpty;
 
   TropTask? toTask(){
     if(deadline == null) return null;
@@ -111,7 +126,8 @@ class TropTaskTmpData{
         content: contentController.text,
         deadline: deadline!,
         assignee: assigneeNick??assignee,
-        assigneeText: assigneeController.text
+        assigneeText: assigneeController.text,
+        completed: completed,
     );
   }
 
@@ -136,6 +152,7 @@ class TasksProvider extends ChangeNotifier{
           null,
           null,
           null,
+          false,
         ));
 
     else if(initTrop != null)
@@ -147,7 +164,11 @@ class TasksProvider extends ChangeNotifier{
           t.assignee,
           null,
           t.assigneeText,
+          t.completed
         ));
+
+    if(tasks.isEmpty)
+      tasks.add(TropTaskTmpData('', null, null, null, null, false));
 
   }
 
@@ -157,7 +178,8 @@ class TasksProvider extends ChangeNotifier{
       DateTime.now().add(const Duration(days: 14)),
       null,
       null,
-      null
+      null,
+      false,
     ));
     notifyListeners();
   }

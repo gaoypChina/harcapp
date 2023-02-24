@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_common_widgets/folder_widget/folder_tab.dart';
+import 'package:harcapp/_common_widgets/folder_widget/folder_tab_indicator.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/ideas/trop_ideas_search_page.dart';
-import 'package:harcapp/values/colors.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
+import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -43,9 +45,15 @@ class TropIdeasPageState extends State<TropIdeasPage> with TickerProviderStateMi
       floatHeaderSlivers: true,
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
 
-        List<Tab> tabs = [];
+        List<FolderBaseTab> tabs = [];
         for(int i=0; i<ideas.length; i++)
-          tabs.add(Tab(text: ideas[i].name));
+          tabs.add(FolderBaseTab(
+              leading: TropIcon(
+                ideas[i].category,
+                size: 32.0,
+              ),
+              name: ideas[i].name
+          ));
 
         return [
           SliverAppBar(
@@ -57,9 +65,7 @@ class TropIdeasPageState extends State<TropIdeasPage> with TickerProviderStateMi
               tabs: tabs,
               controller: controller,
               isScrollable: true,
-              indicator: AppTabBarIncdicator(
-                  color: AppColors.zhpTropColor
-              ),
+              indicator: FolderTabIndicator(context),
             ),
             actions: [
               IconButton(
@@ -77,20 +83,23 @@ class TropIdeasPageState extends State<TropIdeasPage> with TickerProviderStateMi
         ];
 
       },
-      body: Builder(
-        builder: (context){
+      body: Container(
+        color: backgroundIcon_(context),
+        child: Builder(
+          builder: (context){
 
-          List<Widget> children = [];
-          for(int i=0; i<ideas.length; i++)
-            children.add(TropIdeaWidget(ideas[i]));
+            List<Widget> children = [];
+            for(int i=0; i<ideas.length; i++)
+              children.add(TropIdeaWidget(ideas[i]));
 
-          return TabBarView(
-              physics: const BouncingScrollPhysics(),
-              controller: controller,
-              children: children
-          );
+            return TabBarView(
+                physics: const BouncingScrollPhysics(),
+                controller: controller,
+                children: children
+            );
 
-        },
+          },
+        ),
       )
     ),
   );
@@ -111,12 +120,13 @@ class TropIdeaWidget extends StatelessWidget{
 
       TropTile(
         name: data.name,
-        category: data.category
+        category: data.category,
       ),
 
       const SizedBox(height: Dimen.SIDE_MARG),
 
       BorderMaterial(
+        borderColor: textEnab_(context),
         child: Padding(
           padding: const EdgeInsets.all(Dimen.ICON_MARG),
           child: Column(
@@ -144,6 +154,7 @@ class TropIdeaWidget extends StatelessWidget{
       const SizedBox(height: Dimen.SIDE_MARG),
 
       BorderMaterial(
+        borderColor: textEnab_(context),
         child: Padding(
           padding: const EdgeInsets.all(Dimen.ICON_MARG),
           child: Column(
@@ -171,6 +182,7 @@ class TropIdeaWidget extends StatelessWidget{
       const SizedBox(height: Dimen.SIDE_MARG),
 
       BorderMaterial(
+        borderColor: textEnab_(context),
         child: Padding(
           padding: const EdgeInsets.all(Dimen.ICON_MARG),
           child: Column(
@@ -197,8 +209,8 @@ class TropIdeaWidget extends StatelessWidget{
 
       const SizedBox(height: Dimen.SIDE_MARG),
 
-
       BorderMaterial(
+        borderColor: textEnab_(context),
         child: Padding(
           padding: const EdgeInsets.all(Dimen.ICON_MARG),
           child: Column(

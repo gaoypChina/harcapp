@@ -9,6 +9,8 @@ import 'common.dart';
 
 class SprawTileTemplateWidget extends StatefulWidget{
 
+  static const double height = Dimen.ICON_FOOTPRINT + 2*12;
+
   final Spraw spraw;
   final EdgeInsets padding;
   final Alignment alignment;
@@ -54,7 +56,7 @@ class SprawTileTemplateWidgetState extends State<SprawTileTemplateWidget>{
 
           SizedBox(
             width: Dimen.ICON_FOOTPRINT,
-            height: Dimen.ICON_FOOTPRINT + 2*12,
+            height: SprawTileTemplateWidget.height,
             child: SprawIcon(
                 spraw,
                 size: SprawIcon.sizeSmall
@@ -110,7 +112,7 @@ class SprawTileProgressWidget extends StatelessWidget{
     style: AppTextStyle(
         fontSize: Dimen.TEXT_SIZE_APPBAR,
         fontWeight: weight.halfBold,
-        color: hintEnab_(context)
+        // color: hintEnab_(context)
     ),
   );
 

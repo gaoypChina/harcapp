@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/data/data_spraw_zhp_harc.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/widgets/open_spraw_dialog.dart';
@@ -9,6 +11,8 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_group.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_task.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/rank_widgets/rank_widget.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_tile.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
@@ -18,13 +22,242 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'package:provider/provider.dart';
-
 import '../../_sprawnosci/models/spraw.dart';
 import '../../_sprawnosci/spraw_selector.dart';
+import '../../tropy/open_trop_dialog.dart';
+import '../../tropy/trop_selector.dart';
 
 const String _tab = '    ';
 
+class AdditionalTaskEmptyButtons extends StatelessWidget{
+
+  final void Function()? onSelectTap;
+  final void Function()? onNoteTap;
+  final bool required;
+
+  const AdditionalTaskEmptyButtons({
+    this.onSelectTap,
+    this.onNoteTap,
+    this.required = true,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) => Row(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+
+      Expanded(child: SimpleButton.from(
+          context: context,
+          icon: MdiIcons.listBoxOutline,
+          text: 'Wybierz${required?' *':'  '}',
+          radius: 0,
+          margin: EdgeInsets.zero,
+          onTap: onSelectTap
+      )),
+      Expanded(child: SimpleButton.from(
+          context: context,
+          icon: MdiIcons.draw,
+          text: 'Notatka${required?' *':'  '}',
+          radius: 0,
+          margin: EdgeInsets.zero,
+          onTap: onNoteTap
+      )),
+    ],
+  );
+
+}
+
+class ItemSlidable extends StatelessWidget{
+
+  final void Function(BuildContext) onRemoveTap;
+  final void Function(BuildContext, bool)? onCompletedTap;
+  final bool? completed;
+  final bool completedCheckable;
+
+  final Color? rankColor;
+  final Widget child;
+
+  const ItemSlidable({
+    required this.onRemoveTap,
+    this.onCompletedTap,
+    this.completed,
+    this.completedCheckable = true,
+    this.rankColor,
+    required this.child,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) => Slidable(
+    startActionPane: ActionPane(
+      extentRatio: .25*(onCompletedTap==null?1:2),
+      motion: const ScrollMotion(),
+      children: [
+        if(onCompletedTap != null)
+          Expanded(
+            child: Container(
+              height: double.infinity,
+              color: backgroundIcon_(context).withOpacity(2*backgroundIcon_(context).opacity),
+              child: IgnorePointer(
+                ignoring: !completedCheckable,
+                child: Checkbox(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
+                  value: completed,
+                  onChanged: (value) => onCompletedTap?.call(context, value??false),
+                  activeColor: rankColor,
+                  checkColor: cardEnab_(context),
+                ),
+              ),
+            )
+          ),
+
+        SlidableAction(
+          onPressed: onRemoveTap,
+          backgroundColor: backgroundIcon_(context),
+          foregroundColor: iconEnab_(context),
+          icon: MdiIcons.close,
+        ),
+      ],
+    ),
+    child: child,
+  );
+
+}
+
+class NoteTile extends StatelessWidget{
+
+  final String? note;
+  final int? index;
+  final void Function(String)? onNoteChanged;
+  final EdgeInsets padding;
+
+  const NoteTile({super.key, this.note, this.index, this.onNoteChanged, this.padding = EdgeInsets.zero});
+
+  bool get noteEmpty => note == null || note!.isEmpty;
+
+  @override
+  Widget build(BuildContext context) => InkWell(
+    onTap: () async {
+
+      String? newText;
+
+      await openEditDialog(
+        context,
+        initText: note??'',
+        onChanged: (text) => newText = text
+      );
+
+      if(newText != null)
+        onNoteChanged?.call(newText!);
+      
+    },
+    child: Padding(
+      padding: padding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+
+          const SizedBox(height: Dimen.ICON_MARG),
+
+          Text(
+            'Notatka ${index==null?'':(index!+1)}',
+            style: AppTextStyle(
+              fontSize: Dimen.TEXT_SIZE_SMALL,
+              color: hintEnab_(context),
+              fontWeight: weight.halfBold
+            ),
+          ),
+
+          const SizedBox(height: 4.0),
+
+          Text(
+            noteEmpty?'Brak notatki':note!,
+            style: AppTextStyle(
+                color: noteEmpty?
+                hintEnab_(context):
+                textEnab_(context),
+
+                fontSize: Dimen.TEXT_SIZE_BIG,
+
+                fontStyle:
+                noteEmpty?
+                FontStyle.italic:
+                FontStyle.normal
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+
+          const SizedBox(height: Dimen.ICON_MARG),
+
+        ],
+      )
+    ),
+  );
+
+  Future<void> openEditDialog(BuildContext context, {required String initText, void Function(String)? onChanged}){
+    TextEditingController controller = TextEditingController(text: initText);
+    FocusNode focusNode = FocusNode();
+    return openDialog(
+        context: context,
+        builder: (context) => Center(
+          child: Padding(
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG).add(
+              MediaQuery.of(context).viewInsets
+            ),
+            child: Material(
+                clipBehavior: Clip.hardEdge,
+                borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                color: background_(context),
+                child: Column(
+                  children: [
+
+                    AppBar(
+                      title: const Text('Notatka'),
+                      centerTitle: true,
+                      backgroundColor: background_(context),
+                      elevation: 0,
+                      actions: [
+                        IconButton(
+                          icon: const Icon(MdiIcons.check),
+                          onPressed: (){
+                            onChanged?.call(controller.text);
+                            Navigator.pop(context);
+                          },
+                        )
+                      ],
+                    ),
+
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                        child: GestureDetector(
+                          onTap: () => focusNode.requestFocus(),
+                          child: Container( // This has to be here in order for the GestureDetector to work.
+                            color: Colors.transparent,
+                            child: AppTextFieldHint(
+                              hint: 'Notatka:',
+                              hintTop: 'Notatka',
+                              controller: controller,
+                              focusNode: focusNode,
+                              autofocus: true,
+                              maxLines: null,
+                            ),
+                          )
+                        )
+                      )
+                    )
+
+                  ],
+                )
+            ),
+          ),
+        )
+    );
+  }
+
+}
 
 class SprawSelectedListWidget extends StatefulWidget{
 
@@ -32,12 +265,11 @@ class SprawSelectedListWidget extends StatefulWidget{
   static const String samplePrefix = 'sample@';
 
   final String rankId;
-  final String code;
   final String name;
   final int count;
   final int? reqCount;
   final Color? backgroundColor;
-  final Color? stopColor;
+  final Color? rankColor;
   final void Function(int, Spraw?, String?)? onNewSprawSelected;
   final void Function(int, bool)? onCheckChanged;
   final void Function()? onSprawStateChanged;
@@ -47,12 +279,11 @@ class SprawSelectedListWidget extends StatefulWidget{
 
   const SprawSelectedListWidget(
       this.rankId,
-      this.code,
       this.name,
       { required this.count,
         this.reqCount,
         this.backgroundColor,
-        this.stopColor,
+        this.rankColor,
         this.onNewSprawSelected,
         this.onCheckChanged,
         this.onSprawStateChanged,
@@ -74,11 +305,11 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
 
   String get rankId => widget.rankId;
   String get name => widget.name;
-  String get code => widget.code;
+  String get code => RankZHPSim2022Templ.extSprawCode;
   int get count => widget.count;
   int? get reqCount => widget.reqCount;
   Color? get backgroundColor => widget.backgroundColor;
-  Color? get stopColor => widget.stopColor;
+  Color? get rankColor => widget.rankColor;
   void Function(int, Spraw?, String)? get onNewSprawSelected => widget.onNewSprawSelected;
   void Function(int, bool)? get onCheckChanged => widget.onCheckChanged;
   void Function()? get onSprawStateChanged => widget.onSprawStateChanged;
@@ -106,358 +337,730 @@ class SprawSelectedListWidgetState extends State<SprawSelectedListWidget>{
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Material(
+      borderRadius: BorderRadius.circular(AppCard.bigRadius),
+      color: backgroundColor??cardEnab_(context),
+      clipBehavior: Clip.hardEdge,
+      child: ListView.separated(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        separatorBuilder: (context, index) => const SizedBox(height: Dimen.defMarg/3),
+        itemBuilder: (context, index){
+          String? extText = RankZHPSim2022Templ.getExtText(rankId, code, index);
 
-    List<Widget> children = [];
-    for (int i = 0; i < count; i++){
+          Spraw? spraw;
+          if(extText == null)
+            spraw = null;
+          else if(extText.length > SprawSelectedListWidget.samplePrefix.length)
+            spraw = Spraw.fromUID(extText.substring(SprawSelectedListWidget.samplePrefix.length));
+          else if(!extText.startsWith(SprawSelectedListWidget.samplePrefix) && !extText.startsWith(SprawSelectedListWidget.customPrefix) && extText.isNotEmpty) {
+            // This is a temporary solution.
+            spraw = null;
+            extText = SprawSelectedListWidget.customPrefix + extText;
+            RankZHPSim2022Templ.setExtText(rankId, code, index, extText);
+          }else
+            spraw = null;
 
-      String? extText = RankZHPSim2022Templ.getExtText(rankId, code, i);
+          Widget emptyButtons = SizedBox(
+            height: itemHeight,
+            child: AdditionalTaskEmptyButtons(
+              required: index < (reqCount??count),
+              onSelectTap: () async {
 
-      Spraw? spraw;
-      if(extText == null)
-        spraw = null;
-      else if(extText.length > SprawSelectedListWidget.samplePrefix.length)
-        spraw = Spraw.fromUID(extText.substring(SprawSelectedListWidget.samplePrefix.length));
-      else if(!extText.startsWith(SprawSelectedListWidget.samplePrefix) && !extText.startsWith(SprawSelectedListWidget.customPrefix) && extText.isNotEmpty) {
-        // This is a temporary solution.
-        spraw = null;
-        extText = SprawSelectedListWidget.customPrefix + extText;
-        RankZHPSim2022Templ.setExtText(rankId, code, i, extText);
-      }else
-        spraw = null;
-
-      Widget emptyButtons = SizedBox(
-        height: itemHeight,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-
-            Expanded(child: SimpleButton.from(
-                context: context,
-                icon: MdiIcons.dotsHorizontal,
-                text: 'Wybierz',
-                radius: 0,
-                margin: EdgeInsets.zero,
-                onTap: () async {
-
-                  String level1 = '';
-                  String level2 = '';
-                  switch(rankId){
-                    case rankZhp1Id:
-                      level1 = '1';
-                      level2 = '2';
-                      break;
-                    case rankZhp2Id:
-                      level1 = '1';
-                      level2 = '2';
-                      break;
-                    case rankZhp3Id:
-                      level1 = '2';
-                      level2 = '3';
-                      break;
-                    case rankZhp4Id:
-                      level1 = '2';
-                      level2 = '3';
-                      break;
-                    case rankZhp5Id:
-                      level1 = '3';
-                      level2 = '4';
-                      break;
-                    case rankZhp6Id:
-                      level1 = '3';
-                      level2 = '4';
-                      break;
-                  }
-
-                  List<Spraw> spraws = sprawBookZHPHarcSim2022.allSpraws.where(
-                          (spraw) => spraw.level == level1 || spraw.level == level2
-                  ).toList();
-
-                  Spraw? selectedSpraw = await selectSpraw(
-                    context, allSpraws: spraws,
-                  );
-
-                  if(selectedSpraw == null) return;
-
-                  RankZHPSim2022Templ.setExtText(rankId, code, i, SprawSelectedListWidget.samplePrefix + selectedSpraw.uniqName);
-                  setState(() {});
+                String level1 = '';
+                String level2 = '';
+                switch(rankId){
+                  case rankZhp1Id:
+                    level1 = '1';
+                    level2 = '2';
+                    break;
+                  case rankZhp2Id:
+                    level1 = '1';
+                    level2 = '2';
+                    break;
+                  case rankZhp3Id:
+                    level1 = '2';
+                    level2 = '3';
+                    break;
+                  case rankZhp4Id:
+                    level1 = '2';
+                    level2 = '3';
+                    break;
+                  case rankZhp5Id:
+                    level1 = '3';
+                    level2 = '4';
+                    break;
+                  case rankZhp6Id:
+                    level1 = '3';
+                    level2 = '4';
+                    break;
                 }
-            )),
-            Expanded(child: SimpleButton.from(
-                context: context,
-                icon: MdiIcons.pencil,
-                text: 'Notatka',
-                radius: 0,
-                margin: EdgeInsets.zero,
-                onTap: (){
-                  RankZHPSim2022Templ.setExtText(rankId, code, i, SprawSelectedListWidget.customPrefix);
-                  setState(() {});
-                }
-            )),
-          ],
-        ),
-      );
 
-      if (extText == null && enabled)
-        children.add(emptyButtons);
-      else if (extText == null && !enabled)
-        children.add(Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: SprawNamesWidgetState.horizontalPaddingValue
-          ),
-          child: AppTextFieldHint(hint: 'Brak wybranego stopnia ${i+1}.', enabled: false),
-        ));
-      else if (extText!.startsWith(SprawSelectedListWidget.customPrefix))
-        children.add(
-            SizedBox(
-              height: itemHeight,
-              child: Row(
-                children: [
+                List<Spraw> spraws = sprawBookZHPHarcSim2022.allSpraws.where(
+                        (spraw) => spraw.level == level1 || spraw.level == level2
+                ).toList();
 
-                  Expanded(
-                    child: AppTextFieldHint(
-                      hint: 'Notatka',
-                      hintTop: 'Notatka',
-                      style: AppTextStyle(),
-                      maxLines: null,
-                      hintStyle: AppTextStyle(color: hintEnab_(context)),
-                      textCapitalization: TextCapitalization.sentences,
-                      textAlignVertical: TextAlignVertical.top,
-                      controller: controllers[i],
-                      onChanged: (_, text) =>
-                          RankZHPSim2022Templ.setExtText(rankId, code, i, SprawSelectedListWidget.customPrefix + text),
+                Spraw? selectedSpraw = await selectSpraw(
+                  context, allSpraws: spraws,
+                );
+
+                if(selectedSpraw == null) return;
+
+                RankZHPSim2022Templ.setExtText(rankId, code, index, SprawSelectedListWidget.samplePrefix + selectedSpraw.uniqName);
+                setState(() {});
+              },
+              onNoteTap: (){
+                RankZHPSim2022Templ.setExtText(rankId, code, index, SprawSelectedListWidget.customPrefix);
+                setState(() {});
+              },
+            ),
+          );
+
+          if (extText == null && enabled)
+            return emptyButtons;
+          else if (extText == null && !enabled)
+            return SizedBox(
+                height: itemHeight,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                  child: Text(
+                    'Brak wybranej sprawności ${index+1}.',
+                    style: AppTextStyle(
+                      fontSize: Dimen.TEXT_SIZE_BIG,
+                      fontStyle: FontStyle.italic,
+                      color: hintEnab_(context)
                     ),
                   ),
-                  if(checkVisible)
-                    IgnorePointer(
-                      ignoring: !checkable,
-                      child: Checkbox(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
-                        value: RankZHPSim2022Templ.getExtChecked(rankId, code, i),
-                        onChanged: (value) {
-                          RankZHPSim2022Templ.setExtChecked(rankId, code, i, value!);
-                          setState(() {});
-                          RankFloatingButtonProvider.notify_(context);
-                          onCheckChanged?.call(i, value);
-                        },
-                        activeColor: stopColor,
-                      ),
-                    ),
-
-                  IconButton(
-                    icon: const Icon(MdiIcons.close),
-                    onPressed: () async {
-                      String? oldExtText = RankZHPSim2022Templ.getExtText(rankId, code, i)??'';
-                      await RankZHPSim2022Templ.removeExtText(rankId, code, i);
-                      if(!mounted) return;
-                      showAppToast(
-                          context,
-                          text: 'Usunięto ${name.toLowerCase()}',
-                          buttonText: 'Cofnij',
-                          onButtonPressed: (){
-                            RankZHPSim2022Templ.setExtText(rankId, code, i, oldExtText);
-                            setState(() {});
-                          }
-                      );
-                      setState((){});
-                    },
-                  )
-                ],
-              ),
-            )
-        );
-      else if(extText.startsWith(SprawSelectedListWidget.samplePrefix) && spraw != null) {
-        children.add(
-            SizedBox(
-              height: itemHeight,
-              child: SprawTileTemplateWidget(
-                spraw: spraw,
-                onTap: () => openSprawDialog(
-                  context,
-                  spraw!,
-                  onStateChanged: (){
-                    onSprawStateChanged?.call();
-                    setState((){});
+                ));
+          else if (extText!.startsWith(SprawSelectedListWidget.customPrefix))
+            return ItemSlidable(
+              onRemoveTap: (context) async {
+                String? oldExtText = RankZHPSim2022Templ.getExtText(rankId, code, index)??'';
+                await RankZHPSim2022Templ.removeExtText(rankId, code, index);
+                if(!mounted) return;
+                showAppToast(
+                    context,
+                    text: 'Usunięto ${name.toLowerCase()}',
+                    buttonText: 'Cofnij',
+                    onButtonPressed: (){
+                      RankZHPSim2022Templ.setExtText(rankId, code, index, oldExtText);
+                      setState(() {});
+                    }
+                );
+                setState((){});
+              },
+              onCompletedTap: (context, value){
+                RankZHPSim2022Templ.setExtChecked(rankId, code, index, value);
+                setState(() {});
+                RankFloatingButtonProvider.notify_(context);
+                onCheckChanged?.call(index, value);
+              },
+              completedCheckable: checkable,
+              completed: RankZHPSim2022Templ.getExtChecked(rankId, code, index),
+              child: SizedBox(
+                height: itemHeight,
+                child: NoteTile(
+                  note: extText.substring(SprawSelectedListWidget.customPrefix.length),
+                  index: index,
+                  padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                  onNoteChanged: (text) async {
+                    text = SprawSelectedListWidget.customPrefix + text;
+                    setState(() => extText = text);
+                    await RankZHPSim2022Templ.setExtText(rankId, code, index, text);
                   },
                 ),
-                trailing: Row(
-                  children: [
+              ),
+            );
 
-                    if(spraw.completed)
-                      IgnorePointer(
-                        child: Checkbox(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
-                          value: true,
-                          onChanged: (value) {},
-                          activeColor: hintEnab_(context),
-                        ),
-                      )
-                    else
-                      SprawTileProgressWidget(spraw: spraw),
-
-                    IconButton(
-                      icon: const Icon(MdiIcons.close),
-                      onPressed: () async {
-                        String? oldExtText = RankZHPSim2022Templ.getExtText(rankId, code, i)??'';
-                        await RankZHPSim2022Templ.removeExtText(rankId, code, i);
-                        if(!mounted) return;
-                        showAppToast(
-                            context,
-                            text: 'Usunięto ${name.toLowerCase()}',
-                            buttonText: 'Cofnij',
-                            onButtonPressed: (){
-                              RankZHPSim2022Templ.setExtText(rankId, code, i, oldExtText);
-                              setState(() {});
-                            }
-                        );
+          else if(extText.startsWith(SprawSelectedListWidget.samplePrefix) && spraw != null)
+            return ItemSlidable(
+                onRemoveTap: (context) async {
+                  String? oldExtText = RankZHPSim2022Templ.getExtText(rankId, code, index)??'';
+                  await RankZHPSim2022Templ.removeExtText(rankId, code, index);
+                  if(!mounted) return;
+                  showAppToast(
+                      context,
+                      text: 'Usunięto ${name.toLowerCase()}',
+                      buttonText: 'Cofnij',
+                      onButtonPressed: (){
+                        RankZHPSim2022Templ.setExtText(rankId, code, index, oldExtText);
+                        setState(() {});
+                      }
+                  );
+                  setState((){});
+                },
+                child: SizedBox(
+                  height: itemHeight,
+                  child: SprawTileTemplateWidget(
+                    spraw: spraw,
+                    padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                    onTap: () => openSprawDialog(
+                      context,
+                      spraw!,
+                      onStateChanged: (){
+                        onSprawStateChanged?.call();
                         setState((){});
                       },
                     ),
-                  ],
-                ),
-              ),
-            )
-        );
-      } else
-        children.add(emptyButtons);
+                    trailing: SprawTileProgressWidget(spraw: spraw),
+                  ),
+                )
+            );
+          else
+            return emptyButtons;
 
-      if(i < count - 1)
-        children.add(const SizedBox(height: Dimen.defMarg/3));
-
-    }
-
-    return Material(
-        borderRadius: BorderRadius.circular(AppCard.bigRadius),
-        color: backgroundColor??cardEnab_(context),
-        clipBehavior: Clip.hardEdge,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: children),
-        )
-    );
-  }
+        },
+        itemCount: count,
+      )
+  );
 
 }
 
-class SprawNamesWidget extends StatefulWidget{
+class TropSelectedListWidget extends StatefulWidget{
 
-  final String stopId;
-  final String code;
+  static const String customPrefix = 'custom@';
+  static const String samplePrefix = 'sample@';
+
+  final String rankId;
   final String name;
   final int count;
   final int? reqCount;
   final Color? backgroundColor;
-  final Color? stopColor;
-  final void Function(bool?)? onCheckChanged;
+  final Color? rankColor;
+  final void Function(int, bool)? onCheckChanged;
+  final void Function()? onTropStateChanged;
   final bool checkVisible;
   final bool checkable;
   final bool enabled;
-  final String Function(int)? emptyDisabledHint;
 
-  const SprawNamesWidget(
-      this.stopId,
-      this.code,
+  const TropSelectedListWidget(
+      this.rankId,
       this.name,
-      {required this.count,
+      { required this.count,
         this.reqCount,
         this.backgroundColor,
-        this.stopColor,
+        this.rankColor,
         this.onCheckChanged,
+        this.onTropStateChanged,
         required this.checkVisible,
         required this.checkable,
         this.enabled = true,
-        this.emptyDisabledHint,
         super.key
       });
 
   @override
-  State<StatefulWidget> createState() => SprawNamesWidgetState();
+  State<StatefulWidget> createState() => TropSelectedListWidgetState();
 
 }
 
-class SprawNamesWidgetState extends State<SprawNamesWidget>{
+class TropSelectedListWidgetState extends State<TropSelectedListWidget>{
 
-  static const horizontalPaddingValue = Dimen.SIDE_MARG;
-  static const verticalPaddingValue = Dimen.defMarg;
+  static const double itemHeight = 72.0;
+  static const double indicatorWidth = 24.0;
 
-  String get stopId => widget.stopId;
+  String get rankId => widget.rankId;
   String get name => widget.name;
-  String get code => widget.code;
+  String get code => RankZHPSim2022Templ.extTropCode;
   int get count => widget.count;
   int? get reqCount => widget.reqCount;
   Color? get backgroundColor => widget.backgroundColor;
-  Color? get stopColor => widget.stopColor;
-  void Function(bool?)? get onCheckChanged => widget.onCheckChanged;
+  Color? get rankColor => widget.rankColor;
+  void Function(int, bool)? get onCheckChanged => widget.onCheckChanged;
+  void Function()? get onTropStateChanged => widget.onTropStateChanged;
   bool get checkVisible => widget.checkVisible;
   bool get checkable => widget.checkable;
   bool get enabled => widget.enabled;
-  String Function(int)? get emptyDisabledHint => widget.emptyDisabledHint;
+
+  late List<TextEditingController> controllers;
 
   @override
-  Widget build(BuildContext context) {
-    int _reqCount = reqCount??count;
-
-    List<Widget> children = [];
+  void initState() {
+    controllers = [];
     for(int i=0; i<count; i++) {
-      String value = RankZHPSim2022Templ.getExtText(stopId, code, i)??'';
-      children.add(
-          Row(
-            children: [
-              Expanded(
-                child: AppTextFieldHint(
-                  hint: emptyDisabledHint!=null&&value.isEmpty&&!enabled?
-                  emptyDisabledHint!.call(i):
-                  '$name ${i + 1}: ${i < _reqCount ? '*' : ''}',
-                  hintTop: '$name ${i + 1} ${i < _reqCount ? '*' : ''}',
-                  style: AppTextStyle(),
-                  hintStyle: AppTextStyle(
-                      color: hintEnab_(context),
-                      fontStyle: emptyDisabledHint!=null&&value.isEmpty&&!enabled?
-                      FontStyle.italic:
-                      FontStyle.normal
-                  ),
-                  controller: TextEditingController(text: value),
-                  onChanged: (_, text) =>
-                      RankZHPSim2022Templ.setExtText(stopId, code, i, text),
-                  enabled: enabled,
-                ),
-              ),
-              if(checkVisible)
-                IgnorePointer(
-                  ignoring: !enabled && !checkable,
-                  child: Checkbox(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
-                    value: RankZHPSim2022Templ.getExtChecked(stopId, code, i),
-                    onChanged: (value) async {
-                      RankZHPSim2022Templ.setExtChecked(
-                          stopId, code, i, value!);
-                      setState(() {});
-                      Provider.of<RankFloatingButtonProvider>(
-                          context, listen: false).notify();
-                      onCheckChanged?.call(value);
-                    },
-                    activeColor: stopColor,
-                  ),
-                )
-            ],
-          )
-      );
+
+      String extText = RankZHPSim2022Templ.getExtText(rankId, code, i)??'';
+      if(extText.contains(TropSelectedListWidget.customPrefix))
+        extText = extText.substring(TropSelectedListWidget.customPrefix.length);
+
+      controllers.add(TextEditingController(
+          text: extText
+      ));
     }
-    return Material(
-        borderRadius: BorderRadius.circular(AppCard.bigRadius),
-        color: backgroundColor??cardEnab_(context),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: horizontalPaddingValue,
-              vertical: verticalPaddingValue
-          ),
-          child: Column(children: children),
-        )
-    );
+
+    super.initState();
   }
 
+  @override
+  Widget build(BuildContext context) => Material(
+      borderRadius: BorderRadius.circular(AppCard.bigRadius),
+      color: backgroundColor??cardEnab_(context),
+      clipBehavior: Clip.hardEdge,
+      child: ListView.separated(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        separatorBuilder: (context, index) => const SizedBox(height: Dimen.defMarg/3),
+        itemBuilder: (context, index){
+          String? extText = RankZHPSim2022Templ.getExtText(rankId, code, index);
+
+          Trop? trop;
+          if(extText == null)
+            trop = null;
+          else if(extText.length > TropSelectedListWidget.samplePrefix.length)
+            trop = Trop.readFromLclId(extText.substring(TropSelectedListWidget.samplePrefix.length));
+          else if(!extText.startsWith(TropSelectedListWidget.samplePrefix) && !extText.startsWith(TropSelectedListWidget.customPrefix) && extText.isNotEmpty) {
+            // This is a temporary solution.
+            trop = null;
+            extText = TropSelectedListWidget.customPrefix + extText;
+            RankZHPSim2022Templ.setExtText(rankId, code, index, extText);
+          }else
+            trop = null;
+
+          Widget emptyButtons = SizedBox(
+            height: itemHeight,
+            child: AdditionalTaskEmptyButtons(
+              required: index < (reqCount??count),
+              onSelectTap: () async {
+
+                Trop? selectedTrop = await selectTrop(context);
+
+                if(selectedTrop == null) return;
+
+                RankZHPSim2022Templ.setExtText(rankId, code, index, SprawSelectedListWidget.samplePrefix + selectedTrop.lclId);
+                setState(() {});
+              },
+              onNoteTap: (){
+                RankZHPSim2022Templ.setExtText(rankId, code, index, SprawSelectedListWidget.customPrefix);
+                setState(() {});
+              },
+            ),
+          );
+
+          if (extText == null && enabled)
+            return emptyButtons;
+          else if (extText == null && !enabled)
+            return SizedBox(
+                height: itemHeight,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                  child: Text(
+                    'Brak wybranego tropu ${index+1}.',
+                    style: AppTextStyle(
+                        fontSize: Dimen.TEXT_SIZE_BIG,
+                        fontStyle: FontStyle.italic,
+                        color: hintEnab_(context)
+                    ),
+                  ),
+                ));
+          else if (extText!.startsWith(TropSelectedListWidget.customPrefix))
+            return ItemSlidable(
+              onRemoveTap: (context) async {
+                String? oldExtText = RankZHPSim2022Templ.getExtText(rankId, code, index)??'';
+                await RankZHPSim2022Templ.removeExtText(rankId, code, index);
+                if(!mounted) return;
+                showAppToast(
+                    context,
+                    text: 'Usunięto ${name.toLowerCase()}',
+                    buttonText: 'Cofnij',
+                    onButtonPressed: (){
+                      RankZHPSim2022Templ.setExtText(rankId, code, index, oldExtText);
+                      setState(() {});
+                    }
+                );
+                setState((){});
+              },
+              onCompletedTap: (context, value){
+                RankZHPSim2022Templ.setExtChecked(rankId, code, index, value);
+                setState(() {});
+                RankFloatingButtonProvider.notify_(context);
+                onCheckChanged?.call(index, value);
+              },
+              completedCheckable: checkable,
+              completed: RankZHPSim2022Templ.getExtChecked(rankId, code, index),
+              child: SizedBox(
+                height: itemHeight,
+                child: NoteTile(
+                  note: extText.substring(TropSelectedListWidget.customPrefix.length),
+                  index: index,
+                  padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                  onNoteChanged: (text) async {
+                    text = TropSelectedListWidget.customPrefix + text;
+                    setState(() => extText = text);
+                    await RankZHPSim2022Templ.setExtText(rankId, code, index, text);
+                  },
+                ),
+              ),
+            );
+
+          else if(extText.startsWith(TropSelectedListWidget.samplePrefix) && trop != null)
+            return ItemSlidable(
+                onRemoveTap: (context) async {
+                  String? oldExtText = RankZHPSim2022Templ.getExtText(rankId, code, index)??'';
+                  await RankZHPSim2022Templ.removeExtText(rankId, code, index);
+                  if(!mounted) return;
+                  showAppToast(
+                      context,
+                      text: 'Usunięto ${name.toLowerCase()}',
+                      buttonText: 'Cofnij',
+                      onButtonPressed: (){
+                        RankZHPSim2022Templ.setExtText(rankId, code, index, oldExtText);
+                        setState(() {});
+                      }
+                  );
+                  setState((){});
+                },
+                child: SizedBox(
+                  height: itemHeight,
+                  child: InkWell(
+                    onTap: () => openTropDialog(context, trop!),
+                    child: TropTile(
+                      name: trop.name,
+                      category: trop.category,
+                      zuchTropName: trop.customIconTropName,
+                      padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                      trailing: TropTileProgressWidget(trop),
+                    ),
+                  )
+                )
+            );
+          else
+            return emptyButtons;
+
+        },
+        itemCount: count,
+      )
+  );
+
 }
+
+class WyzwanieSelectedListWidget extends StatefulWidget{
+
+  static const String customPrefix = 'custom@';
+  static const String samplePrefix = 'sample@';
+
+  final String rankId;
+  final String name;
+  final int count;
+  final int? reqCount;
+  final Color? backgroundColor;
+  final Color? rankColor;
+  final void Function(int, bool)? onCheckChanged;
+  final void Function()? onWyzwanieStateChanged;
+  final bool checkVisible;
+  final bool checkable;
+  final bool enabled;
+
+  const WyzwanieSelectedListWidget(
+      this.rankId,
+      this.name,
+      { required this.count,
+        this.reqCount,
+        this.backgroundColor,
+        this.rankColor,
+        this.onCheckChanged,
+        this.onWyzwanieStateChanged,
+        required this.checkVisible,
+        required this.checkable,
+        this.enabled = true,
+        super.key
+      });
+
+  @override
+  State<StatefulWidget> createState() => WyzwanieSelectedListWidgetState();
+
+}
+
+class WyzwanieSelectedListWidgetState extends State<WyzwanieSelectedListWidget>{
+
+  static const double itemHeight = 72.0;
+  static const double indicatorWidth = 24.0;
+
+  String get rankId => widget.rankId;
+  String get name => widget.name;
+  String get code => RankZHPSim2022Templ.extWyzwCode;
+  int get count => widget.count;
+  int? get reqCount => widget.reqCount;
+  Color? get backgroundColor => widget.backgroundColor;
+  Color? get rankColor => widget.rankColor;
+  void Function(int, bool)? get onCheckChanged => widget.onCheckChanged;
+  void Function()? get onWyzwanieStateChanged => widget.onWyzwanieStateChanged;
+  bool get checkVisible => widget.checkVisible;
+  bool get checkable => widget.checkable;
+  bool get enabled => widget.enabled;
+
+  late List<TextEditingController> controllers;
+
+  @override
+  void initState() {
+    controllers = [];
+    for(int i=0; i<count; i++) {
+
+      String extText = RankZHPSim2022Templ.getExtText(rankId, code, i)??'';
+      if(extText.contains(TropSelectedListWidget.customPrefix))
+        extText = extText.substring(TropSelectedListWidget.customPrefix.length);
+
+      controllers.add(TextEditingController(
+          text: extText
+      ));
+    }
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) => Material(
+      borderRadius: BorderRadius.circular(AppCard.bigRadius),
+      color: backgroundColor??cardEnab_(context),
+      clipBehavior: Clip.hardEdge,
+      child: ListView.separated(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        separatorBuilder: (context, index) => const SizedBox(height: Dimen.defMarg/3),
+        itemBuilder: (context, index){
+          String? extText = RankZHPSim2022Templ.getExtText(rankId, code, index);
+
+          // Trop? trop;
+          // if(extText == null)
+          //   trop = null;
+          // else if(extText.length > TropSelectedListWidget.samplePrefix.length)
+          //   trop = Trop.readFromLclId(extText.substring(TropSelectedListWidget.samplePrefix.length));
+          // else if(!extText.startsWith(TropSelectedListWidget.samplePrefix) && !extText.startsWith(TropSelectedListWidget.customPrefix) && extText.isNotEmpty) {
+          //   // This is a temporary solution.
+          //   trop = null;
+          //   extText = TropSelectedListWidget.customPrefix + extText;
+          //   RankZHPSim2022Templ.setExtText(rankId, code, index, extText);
+          // }else
+          //   trop = null;
+
+          Widget emptyButtons = SizedBox(
+            height: itemHeight,
+            child: AdditionalTaskEmptyButtons(
+              required: index < (reqCount??count),
+              onSelectTap: () async {
+                showAppToast(context, text: 'Ta funkcja jeszcze nie działa');
+              },
+              onNoteTap: (){
+                RankZHPSim2022Templ.setExtText(rankId, code, index, SprawSelectedListWidget.customPrefix);
+                setState(() {});
+              },
+            ),
+          );
+
+          if (extText == null && enabled)
+            return emptyButtons;
+          else if (extText == null && !enabled)
+            return SizedBox(
+                height: itemHeight,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                  child: Text(
+                    'Brak wybranego wyzwania ${index+1}.',
+                    style: AppTextStyle(
+                        fontSize: Dimen.TEXT_SIZE_BIG,
+                        fontStyle: FontStyle.italic,
+                        color: hintEnab_(context)
+                    ),
+                  ),
+                ));
+          else if (extText!.startsWith(TropSelectedListWidget.customPrefix))
+            return ItemSlidable(
+              onRemoveTap: (context) async {
+                String? oldExtText = RankZHPSim2022Templ.getExtText(rankId, code, index)??'';
+                await RankZHPSim2022Templ.removeExtText(rankId, code, index);
+                if(!mounted) return;
+                showAppToast(
+                    context,
+                    text: 'Usunięto ${name.toLowerCase()}',
+                    buttonText: 'Cofnij',
+                    onButtonPressed: (){
+                      RankZHPSim2022Templ.setExtText(rankId, code, index, oldExtText);
+                      setState(() {});
+                    }
+                );
+                setState((){});
+              },
+              onCompletedTap: (context, value){
+                RankZHPSim2022Templ.setExtChecked(rankId, code, index, value);
+                setState(() {});
+                RankFloatingButtonProvider.notify_(context);
+                onCheckChanged?.call(index, value);
+              },
+              completedCheckable: checkable,
+              completed: RankZHPSim2022Templ.getExtChecked(rankId, code, index),
+              child: SizedBox(
+                height: itemHeight,
+                child: NoteTile(
+                  note: extText.substring(TropSelectedListWidget.customPrefix.length),
+                  index: index,
+                  padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+                  onNoteChanged: (text) async {
+                    text = TropSelectedListWidget.customPrefix + text;
+                    setState(() => extText = text);
+                    await RankZHPSim2022Templ.setExtText(rankId, code, index, text);
+                  },
+                ),
+              ),
+            );
+
+          // else if(extText.startsWith(TropSelectedListWidget.samplePrefix) && trop != null)
+          //   return ItemSlidable(
+          //       onRemoveTap: (context) async {
+          //         String? oldExtText = RankZHPSim2022Templ.getExtText(rankId, code, index)??'';
+          //         await RankZHPSim2022Templ.removeExtText(rankId, code, index);
+          //         if(!mounted) return;
+          //         showAppToast(
+          //             context,
+          //             text: 'Usunięto ${name.toLowerCase()}',
+          //             buttonText: 'Cofnij',
+          //             onButtonPressed: (){
+          //               RankZHPSim2022Templ.setExtText(rankId, code, index, oldExtText);
+          //               setState(() {});
+          //             }
+          //         );
+          //         setState((){});
+          //       },
+          //       child: SizedBox(
+          //           height: itemHeight,
+          //           child: InkWell(
+          //             onTap: () => openTropDialog(context, trop!),
+          //             child: TropTile(
+          //               name: trop.name,
+          //               category: trop.category,
+          //               zuchTropName: trop.customIconTropName,
+          //               padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+          //               trailing: TropTileProgressWidget(trop),
+          //             ),
+          //           )
+          //       )
+          //   );
+          else
+            return emptyButtons;
+
+        },
+        itemCount: count,
+      )
+  );
+
+}
+//
+// class AdditionalTaskNamesWidget extends StatefulWidget{
+//
+//   final String stopId;
+//   final String code;
+//   final String name;
+//   final int count;
+//   final int? reqCount;
+//   final Color? backgroundColor;
+//   final Color? stopColor;
+//   final void Function(bool?)? onCheckChanged;
+//   final bool checkVisible;
+//   final bool checkable;
+//   final bool enabled;
+//   final String Function(int)? emptyDisabledHint;
+//
+//   const AdditionalTaskNamesWidget(
+//       this.stopId,
+//       this.code,
+//       this.name,
+//       {required this.count,
+//         this.reqCount,
+//         this.backgroundColor,
+//         this.stopColor,
+//         this.onCheckChanged,
+//         required this.checkVisible,
+//         required this.checkable,
+//         this.enabled = true,
+//         this.emptyDisabledHint,
+//         super.key
+//       });
+//
+//   @override
+//   State<StatefulWidget> createState() => AdditionalTaskNamesWidgetState();
+//
+// }
+//
+// class AdditionalTaskNamesWidgetState extends State<AdditionalTaskNamesWidget>{
+//
+//   static const horizontalPaddingValue = Dimen.SIDE_MARG;
+//   static const verticalPaddingValue = Dimen.defMarg;
+//
+//   String get stopId => widget.stopId;
+//   String get name => widget.name;
+//   String get code => widget.code;
+//   int get count => widget.count;
+//   int? get reqCount => widget.reqCount;
+//   Color? get backgroundColor => widget.backgroundColor;
+//   Color? get stopColor => widget.stopColor;
+//   void Function(bool?)? get onCheckChanged => widget.onCheckChanged;
+//   bool get checkVisible => widget.checkVisible;
+//   bool get checkable => widget.checkable;
+//   bool get enabled => widget.enabled;
+//   String Function(int)? get emptyDisabledHint => widget.emptyDisabledHint;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     int _reqCount = reqCount??count;
+//
+//     List<Widget> children = [];
+//     for(int i=0; i<count; i++) {
+//       String value = RankZHPSim2022Templ.getExtText(stopId, code, i)??'';
+//       children.add(
+//           Row(
+//             children: [
+//               Expanded(
+//                 child: AppTextFieldHint(
+//                   hint: emptyDisabledHint!=null&&value.isEmpty&&!enabled?
+//                   emptyDisabledHint!.call(i):
+//                   '$name ${i + 1}: ${i < _reqCount ? '*' : ''}',
+//                   hintTop: '$name ${i + 1} ${i < _reqCount ? '*' : ''}',
+//                   style: AppTextStyle(),
+//                   hintStyle: AppTextStyle(
+//                       color: hintEnab_(context),
+//                       fontStyle: emptyDisabledHint!=null&&value.isEmpty&&!enabled?
+//                       FontStyle.italic:
+//                       FontStyle.normal
+//                   ),
+//                   controller: TextEditingController(text: value),
+//                   onChanged: (_, text) =>
+//                       RankZHPSim2022Templ.setExtText(stopId, code, i, text),
+//                   enabled: enabled,
+//                 ),
+//               ),
+//               if(checkVisible)
+//                 IgnorePointer(
+//                   ignoring: !enabled && !checkable,
+//                   child: Checkbox(
+//                     shape: RoundedRectangleBorder(
+//                         borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
+//                     value: RankZHPSim2022Templ.getExtChecked(stopId, code, i),
+//                     onChanged: (value) async {
+//                       RankZHPSim2022Templ.setExtChecked(
+//                           stopId, code, i, value!);
+//                       setState(() {});
+//                       Provider.of<RankFloatingButtonProvider>(
+//                           context, listen: false).notify();
+//                       onCheckChanged?.call(value);
+//                     },
+//                     activeColor: stopColor,
+//                   ),
+//                 )
+//             ],
+//           )
+//       );
+//     }
+//     return Material(
+//         borderRadius: BorderRadius.circular(AppCard.bigRadius),
+//         color: backgroundColor??cardEnab_(context),
+//         child: Padding(
+//           padding: const EdgeInsets.symmetric(
+//               horizontal: horizontalPaddingValue,
+//               vertical: verticalPaddingValue
+//           ),
+//           child: Column(children: children),
+//         )
+//     );
+//   }
+//
+// }
 
 // To jest wciąż stara wersja.
 RankZHPSim2022Data rankZhp0Data = RankZHPSim2022Data(
@@ -570,7 +1173,7 @@ RankZHPSim2022Data rankZhp1Data = RankZHPSim2022Data(
               ],
             ),
             RankGroupData(
-              title: 'Ekologia',
+              title: 'Przyroda',
               icon: RankData.iconEkologia,
               taskData: [
                 RankTaskData(text: 'Przez okres trwania próby raz w tygodniu podejmowałem przynajmniej półgodzinną aktywność na łonie przyrody (w parku, lesie, na łące itd.) stosując się do zasad właściwego zachowania w terenie (m.in. zostaw to, co znajdziesz w stanie nienaruszonym; zachowaj ciszę, niech natura ma głos; rozpalaj ogień tylko tam, gdzie jest to dozwolone).'),
@@ -653,7 +1256,7 @@ RankZHPSim2022Data rankZhp2Data = RankZHPSim2022Data(
               ],
             ),
             RankGroupData(
-              title: 'Ekologia',
+              title: 'Przyroda',
               icon: RankData.iconEkologia,
               taskData: [
                 RankTaskData(text: 'Korzystałem wyłącznie z wielorazowych naczyń i sztućców na biwakach, imprezach szkolnych i harcerskich przez minimum trzy miesiące.'),
@@ -775,7 +1378,7 @@ RankZHPSim2022Data rankZhp3Data = RankZHPSim2022Data(
               ],
             ),
             RankGroupData(
-              title: 'Ekologia',
+              title: 'Przyroda',
               icon: RankData.iconEkologia,
               taskData: [
                 RankTaskData(text: 'Wziąłem udział w kilkudniowej wyprawie z nocowaniem na łonie przyrody. Nauczyłem się odpowiednio załatwić swoje potrzeby fizjologiczne będąc w terenie.'),
@@ -885,7 +1488,7 @@ RankZHPSim2022Data rankZhp4Data = RankZHPSim2022Data(
             ),
 
             RankGroupData(
-              title: 'Ekologia',
+              title: 'Przyroda',
               icon: RankData.iconEkologia,
               taskData: [
                 // TODO: Zmienić ten punkt na coś normalnego.
@@ -1027,7 +1630,7 @@ RankZHPSim2022Data rankZhp5Data = RankZHPSim2022Data(
               ],
             ),
             RankGroupData(
-              title: 'Ekologia',
+              title: 'Przyroda',
               icon: RankData.iconEkologia,
               taskData: [
                 RankTaskData(text: 'Poznał podstawowe problemy związane z dostępem do wody pitnej (w tym jej niedoboru) na świecie i w Polsce. Poznał różne sposoby pozyskania lub uzdatniania wody pitnej w terenie (destylacja, filtry osobiste, filtracja i uzdatnianie chemiczne itp.). Podczas wędrówki zastosował jeden z nich.'),

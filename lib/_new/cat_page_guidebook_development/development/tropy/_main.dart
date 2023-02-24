@@ -4,6 +4,8 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
+import 'package:harcapp/_common_widgets/empty_message_widget.dart';
+import 'package:harcapp/_common_widgets/extended_floating_button.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/ideas/trop_ideas_page.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/predefined/data_z.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
@@ -30,46 +32,89 @@ class TropyPage extends StatelessWidget{
   const TropyPage({super.key});
 
   @override
-  Widget build(BuildContext context) => BottomNavScaffold(
-    body: Consumer<TropListProvider>(
-      builder: (context, prov, child) => CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
+  Widget build(BuildContext context) => Consumer<TropListProvider>(
+    builder: (context, prov, child) => BottomNavScaffold(
+      body: Consumer<TropListProvider>(
+        builder: (context, prov, child) => CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
 
-          const SliverAppBar(
-            floating: true,
-            pinned: true,
-            centerTitle: true,
-            title: Text('Tropy'),
-          ),
+            const SliverAppBar(
+              floating: true,
+              pinned: true,
+              centerTitle: true,
+              title: Text('Tropy'),
+            ),
 
-          SliverPadding(
-            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-            sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-                (BuildContext context, int index) => SimpleButton(
-                  radius: AppCard.bigRadius,
-                  child: TropTile(name: Trop.all[index].name, category: Trop.all[index].category),
-                  onTap: () => pushPage(
-                      context,
-                      builder: (BuildContext context) => TropPage(Trop.all[index])
+            if(Trop.all.isEmpty)
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Center(
+                  child: SimpleButton(
+                      radius: AppCard.bigRadius,
+                      onTap: () => openNewTropBottomSheet(
+                        context,
+                        onNewTropSaved: (trop) =>
+                            pushPage(context, builder: (context) => TropPage(trop))
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(Dimen.SIDE_MARG),
+                        child: EmptyMessageWidget(
+                          icon: MdiIcons.signDirectionPlus,
+                          text: 'Rozpocznij nowy trop!',
+                        ),
+                      )
                   ),
+                )
+              )
+            else
+              SliverPadding(
+                padding: const EdgeInsets.all(Dimen.SIDE_MARG).add(
+                    const EdgeInsets.only(bottom: Dimen.FLOATING_BUTTON_SIZE + 2*Dimen.FLOATING_BUTTON_MARG)
                 ),
-                separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Dimen.SIDE_MARG),
-                count: Trop.all.length
-            )),
-          )
+                sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
+                    (BuildContext context, int index) => SimpleButton(
+                      clipBehavior: Clip.none,
+                      radius: AppCard.bigRadius,
+                      child: TropTile(
+                        name: Trop.all[index].name,
+                        category: Trop.all[index].category,
+                        zuchTropName: Trop.all[index].customIconTropName,
+                        trailing: TropTileProgressWidget(Trop.all[index]),
+                        iconSize: TropIcon.defSize,
+                      ),
+                      onTap: () => pushPage(
+                          context,
+                          builder: (BuildContext context) => TropPage(Trop.all[index])
+                      ),
+                    ),
+                    separatorBuilder: (BuildContext context, int index) => const SizedBox(height: Dimen.SIDE_MARG),
+                    count: Trop.all.length
+                )),
+              )
 
-        ],
+          ],
+        ),
       ),
-    ),
-    floatingActionButton: FloatingActionButton(
-      backgroundColor: AppColors.zhpTropColor,
-      child: const Icon(MdiIcons.plus),
-      onPressed: () => openNewTropBottomSheet(context)
+      floatingActionButton: ExtendedFloatingButton(
+          MdiIcons.plus,
+          'Nowy trop',
+          background: AppColors.zhpTropColor,
+          backgroundEnd: AppColors.zhpTropDarkColor,
+          textColor: Colors.white,
+          onTap: () => openNewTropBottomSheet(
+            context,
+            onNewTropSaved: (trop) =>
+              pushPage(context, builder: (context) => TropPage(trop))
+          )
+      ),
     ),
   );
 
-  Future<void> openNewTropBottomSheet(BuildContext context) => showScrollBottomSheet(
+  Future<void> openNewTropBottomSheet(
+    BuildContext context,
+    {void Function(Trop)? onNewTropSaved}
+  ) => showScrollBottomSheet(
       context: context,
       builder: (context) => BottomSheetDef(
           builder: (context) => Column(
@@ -86,11 +131,14 @@ class TropyPage extends StatelessWidget{
                 subtitle: Text('...ale też HS i W', style: AppTextStyle()),
                 onTap: (){
                   Navigator.pop(context);
+                  TropProvider tropProvider = TropProvider.of(context);
+                  TropListProvider tropListProvider = TropListProvider.of(context);
                   pushPage(context, builder: (_) => TropEditorPage(
                       allCategories: allHarcTropCategories,
                       onSaved: (Trop trop){
-                        Trop.addToAll(trop, context: context);
-                        pushPage(context, builder: (context) => TropPage(trop));
+                        Trop.addToAll(trop);
+                        Trop.callProviders(tropProvider, tropListProvider);
+                        onNewTropSaved?.call(trop);
                       }
                   ));
                 }
@@ -100,22 +148,29 @@ class TropyPage extends StatelessWidget{
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppCard.bigRadius),
                   ),
-                  leading: const TropIcon(TropCategory.zuchObywatelskie, size: 52.0/(2/1.71), zuchTropName: 'biale_orly',),
+                  leading: const TropIcon(TropCategory.zuchObywatelskie, size: 52.0, zuchTropName: 'biale_orly',),
                   title: Text('Nowy trop zuchowy', style: AppTextStyle(fontWeight: weight.halfBold)),
                   subtitle: Text('...z listy gotowców', style: AppTextStyle()),
                   onTap: (){
                     Navigator.pop(context);
+                    TropProvider tropProvider = TropProvider.of(context);
+                    TropListProvider tropListProvider = TropListProvider.of(context);
                     pushPage(context, builder: (context) => TropPredefPage(
                       metoShort: 'Z',
                       predefTrops: zuchTrops,
                       allCategories: allZuchTropCategories,
+                      onNewTropSaved: (trop){
+                        Trop.addToAll(trop);
+                        Trop.callProviders(tropProvider, tropListProvider);
+                        onNewTropSaved?.call(trop);
+                      },
                     ));
                   }
               ),
 
               const SizedBox(height: Dimen.SIDE_MARG),
 
-              const TitleShortcutRowWidget(title: 'Poszukaj pomysłów', textAlign: TextAlign.left),
+              const TitleShortcutRowWidget(title: 'Szukaj inspiracji', textAlign: TextAlign.left),
 
               ListTile(
                   shape: RoundedRectangleBorder(

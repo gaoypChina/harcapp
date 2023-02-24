@@ -5,6 +5,7 @@ import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
+import 'package:harcapp/_common_widgets/loading_widget.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_editor_page/providers.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -43,7 +44,7 @@ class TropEditorPageState extends State<TropEditorPage>{
   List<TropCategory> get allCategories => widget.allCategories;
   void Function(Trop)? get onSaved => widget.onSaved;
 
-  bool get editMode => initTrop != null;
+  bool get editMode => initTrop != null; // If initTropBaseData is passed, it means the trop was not used before.
 
   @override
   Widget build(BuildContext context) => MultiProvider(
@@ -76,19 +77,34 @@ class TropEditorPageState extends State<TropEditorPage>{
                   }
 
                   TropCategory category = TropCategoryProvider.of(context).category;
-                  List<String> aims = AimControllersProvider.of(context).aimControllers.map((c) => c.text).toList();
+                  List<String> aims = AimControllersProvider.of(context).getAims();
                   DateTime startTime = StartTimeProvider.of(context).startTime;
                   DateTime endTime = EndTimeProvider.of(context).endTime;
                   List<TropTask> tasks = [];
+
                   for(TropTaskTmpData taskTmp in TasksProvider.of(context).tasks) {
-                    if(taskTmp.deadline == null)
+
+                    if(taskTmp.isEmpty) continue;
+
+                    if(taskTmp.assigneeController.text.isEmpty && taskTmp.assignee == null && taskTmp.assigneeNick == null) {
+                      showAppToast(context, text: 'Wszystkie zadania muszą mieć ogarniacza');
+                      return;
+                    }
+                    if(taskTmp.deadline == null) {
                       showAppToast(context, text: 'Wszystkie zadania muszą mieć datę realizacji');
+                      return;
+                    }
                     TropTask? task = taskTmp.toTask();
                     if(task == null){
                       showAppToast(context, text: 'Coś jest nie tak z zadaniami');
                       return;
                     }
                     tasks.add(task);
+                  }
+
+                  if(tasks.isEmpty){
+                    showAppToast(context, text: 'Czy to jest trop bez żadnego zadania? Litości...');
+                    return;
                   }
 
                   if(editMode) {
@@ -106,6 +122,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                   } else {
                     Trop trop = Trop.create(
                         name: name,
+                        customIconTropName: initTropBaseData?.customIconTropName,
                         category: category,
                         aims: aims,
                         startTime: startTime,
@@ -170,7 +187,12 @@ class TropEditorPageState extends State<TropEditorPage>{
                                   Expanded(child: Container()),
                                   Padding(
                                     padding: const EdgeInsets.all(Dimen.defMarg),
-                                    child: TropIcon(cat, size: 60),
+                                    child: TropIcon(
+                                      cat,
+                                      size: 60,
+                                      zuchTropName: initTropBaseData?.customIconTropName??
+                                          initTrop?.customIconTropName
+                                    ),
                                   ),
                                   const SizedBox(width: Dimen.defMarg),
                                 ],
@@ -289,29 +311,24 @@ class TropEditorPageState extends State<TropEditorPage>{
                             ),
                           ),
 
-                          if(prov.aimControllers.length > 1)
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: SimpleButton.from(
-                                  context: context,
-                                  text: 'Usuń',
-                                  icon: MdiIcons.close,
-                                  margin: EdgeInsets.zero,
-                                  iconLeading: false,
-                                  onTap: (){
+                          SimpleButton.from(
+                              icon: MdiIcons.trashCanOutline,
+                              textColor: Colors.red,
+                              margin: EdgeInsets.zero,
+                              iconLeading: false,
+                              onTap: (){
 
-                                    String text = prov.aimControllers[index].text;
-                                    prov.removeAt(index);
+                                String text = prov.aimControllers[index].text;
+                                prov.removeAt(index);
 
-                                    showAppToast(
-                                        context,
-                                        text: 'Usunięto',
-                                        buttonText: 'Cofnij',
-                                        onButtonPressed: () => prov.insert(index, text)
-                                    );
-                                  }
-                              ),
-                            ),
+                                showAppToast(
+                                    context,
+                                    text: 'Usunięto',
+                                    buttonText: 'Cofnij',
+                                    onButtonPressed: () => prov.insert(index, text)
+                                );
+                              }
+                          ),
 
                         ],
                       )
@@ -384,12 +401,26 @@ class TropEditorPageState extends State<TropEditorPage>{
                                   )),
 
                                   SimpleButton.from(
-                                    context: context,
-                                    text: 'Do ${dateToString(
+                                    
+                                    textColor: prov.tasks[index].deadline==null?
+                                    iconDisab_(context):
+                                    iconEnab_(context),
+
+                                    text:
+                                    prov.tasks[index].deadline==null?
+                                    'Do kiedy':
+                                    'Do ${dateToString(
                                         prov.tasks[index].deadline,
                                         shortMonth: true,
                                         showYear: null
                                     )}',
+
+                                    icon:
+                                    prov.tasks[index].deadline==null?
+                                    MdiIcons.calendar:
+                                    null,
+
+                                    iconLeading: false,
                                     margin: EdgeInsets.zero,
                                     onTap: () async {
 
@@ -408,28 +439,24 @@ class TropEditorPageState extends State<TropEditorPage>{
                               ),
 
                               if(prov.tasks.length > 1)
-                                Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: SimpleButton.from(
-                                      context: context,
-                                      text: 'Usuń',
-                                      icon: MdiIcons.close,
-                                      margin: EdgeInsets.zero,
-                                      iconLeading: false,
-                                      //padding: const EdgeInsets.all(Dimen.defMarg),
-                                      onTap: (){
+                                SimpleButton.from(
+                                    icon: MdiIcons.trashCanOutline,
+                                    textColor: Colors.red,
+                                    margin: EdgeInsets.zero,
+                                    iconLeading: false,
+                                    //padding: const EdgeInsets.all(Dimen.defMarg),
+                                    onTap: (){
 
-                                        TropTaskTmpData value = prov.tasks[index];
-                                        prov.removeAt(index);
+                                      TropTaskTmpData value = prov.tasks[index];
+                                      prov.removeAt(index);
 
-                                        showAppToast(
-                                            context,
-                                            text: 'Usunięto',
-                                            buttonText: 'Cofnij',
-                                            onButtonPressed: () => prov.insert(index, value)
-                                        );
-                                      }
-                                  ),
+                                      showAppToast(
+                                          context,
+                                          text: 'Usunięto',
+                                          buttonText: 'Cofnij',
+                                          onButtonPressed: () => prov.insert(index, value)
+                                      );
+                                    }
                                 ),
 
                             ],
@@ -452,6 +479,58 @@ class TropEditorPageState extends State<TropEditorPage>{
                       onTap: () => prov.add()
                   ),
                 ),
+
+                if(editMode)
+                  const SizedBox(height: Dimen.SIDE_MARG),
+
+                if(editMode)
+                  Icon(MdiIcons.circleMedium, color: hintEnab_(context)),
+
+                if(editMode)
+                  const SizedBox(height: Dimen.SIDE_MARG),
+
+                if(editMode)
+                  const TitleShortcutRowWidget(
+                    title: 'Ostrożnie!',
+                    titleColor: Colors.red,
+                    textAlign: TextAlign.left,
+                  ),
+
+                if(editMode)
+                  SimpleButton.from(
+                    color: Colors.red,
+                    context: context,
+                    icon: MdiIcons.trashCanOutline,
+                    text: 'Usuń trop',
+                    textColor: Colors.white,
+                    margin: EdgeInsets.zero,
+                    onTap: () => showAlertDialog(
+                        context,
+                        title: 'Zastanów się dobrze...',
+                        content: 'Trop <b>przestanie istnieć</b>.\n\nNa pewno chcesz go <b>usunąć</b>?',
+                        actionBuilder: (_) => [
+
+                          AlertDialogButton(text: 'Jednak nie', onTap: () => Navigator.pop(context)),
+
+                          AlertDialogButton(
+                              text: 'Tak',
+                              onTap: () async {
+
+                                Navigator.pop(context); // Close alert dialog.
+
+                                showLoadingWidget(context, iconEnab_(context), 'Zwijanie tropu...');
+
+                                bool removed = initTrop!.delete(context: context);
+
+                                Navigator.pop(context); // Close loading widget.
+                                if(removed) Navigator.pop(context); // Close edit page.
+                                if(removed) Navigator.pop(context); // Close trop page.
+                                showAppToast(context, text: 'Usunięto trop');
+                              }
+                          )
+                        ]
+                    ),
+                  ),
 
               ]))
           )
@@ -482,10 +561,10 @@ class AssigneeButton extends StatelessWidget{
   @override
   Widget build(BuildContext context) => SimpleButton.from(
     context: context,
-    text: assigneeName??'Wybierz ogarniacza',
+    text: assigneeName??'Kto ogarnie',
     icon: assigneeName==null?MdiIcons.pencilOutline:MdiIcons.accountCircleOutline,
     textColor: task.assignee==null&&task.assigneeController.text.isEmpty?
-    hintEnab_(context):
+    iconDisab_(context):
     textEnab_(context),
     margin: EdgeInsets.zero,
     onTap: () => openAssigneeTypeChooserBottomSheet(context)
@@ -566,7 +645,9 @@ Future<String?> openAssigneeTextField(
                       hint: 'Wpisz ogarniacza:',
                       hintTop: 'Ogarniacz',
                       controller: controller,
+                      textCapitalization: TextCapitalization.words,
                       onChanged: (_, text) => onChanged?.call(text),
+                      autofocus: true,
                     ),
                   ),
                   Row(

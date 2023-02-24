@@ -89,6 +89,7 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
               color: cardEnab_(context),
               onTap: () {
                 setState(() => task.completed = !task.completed);
+                prov.notify();
                 trop.save();
               },
               child: Padding(

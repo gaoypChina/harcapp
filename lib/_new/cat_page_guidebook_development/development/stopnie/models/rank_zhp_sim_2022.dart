@@ -13,7 +13,6 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_state_shared.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 
@@ -76,11 +75,11 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
   static const extWyzwCode = 'wyzw';
 
   static String? getExtText(String stopId, String code, int position) => ShaPref.getStringOrNull(ShaPref.SHA_PREF_STOP_ZHP_EXT_TEXT_(stopId, code, position));
-  static void setExtText(String stopId, String code, int position, String value) => ShaPref.setString(ShaPref.SHA_PREF_STOP_ZHP_EXT_TEXT_(stopId, code, position), value);
+  static Future<void> setExtText(String stopId, String code, int position, String value) => ShaPref.setString(ShaPref.SHA_PREF_STOP_ZHP_EXT_TEXT_(stopId, code, position), value);
   static Future<void> removeExtText(String stopId, String code, int position) => ShaPref.remove(ShaPref.SHA_PREF_STOP_ZHP_EXT_TEXT_(stopId, code, position));
 
   static bool getExtChecked(String stopId, String code, int position) => ShaPref.getBool(ShaPref.SHA_PREF_STOP_ZHP_EXT_COMPLETED_(stopId, code, position), false);
-  static void setExtChecked(String stopId, String code, int position, bool checked) => ShaPref.setBool(ShaPref.SHA_PREF_STOP_ZHP_EXT_COMPLETED_(stopId, code, position), checked);
+  static Future<void> setExtChecked(String stopId, String code, int position, bool checked) => ShaPref.setBool(ShaPref.SHA_PREF_STOP_ZHP_EXT_COMPLETED_(stopId, code, position), checked);
 
   String get minWiek => data.minWiek;
   String get czasTrw => data.czasTrw;
@@ -195,15 +194,14 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
           children: [
             const SizedBox(height: 3*Dimen.SIDE_MARG),
 
-            const SectorSepWidget('Sprawności'),
+            const SectorSepWidget('Sprawności', showSlidePrompt: true),
             const SizedBox(height: Dimen.SIDE_MARG),
 
             SprawSelectedListWidget(
               id,
-              extSprawCode,
               'Sprawność',
               count: sprawCount,
-              stopColor: inProgress?RankData.colors[data]!.avgColor(false):iconDisab_(context),
+              rankColor: inProgress?RankData.colors[data]!.avgColor(false):iconDisab_(context),
               checkVisible: inProgress|| completed,
               checkable: inProgress,
               onNewSprawSelected: (_, __, ___) => RankProgressProvider.notify_(context),
@@ -211,40 +209,6 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
               onSprawStateChanged: () => RankProgressProvider.notify_(context),
               enabled: !previewOnly,
             ),
-
-            // Material(
-            //     borderRadius: BorderRadius.circular(AppCard.bigRadius),
-            //     color: cardEnab_(context),
-            //     child: Column(
-            //       crossAxisAlignment: CrossAxisAlignment.end,
-            //       children: [
-            //         SimpleButton.from(
-            //             context: context,
-            //             icon: MdiIcons.formatListBulleted,
-            //             text: 'Lista sprawności',
-            //             onTap: () async {
-            //               OpenResult result = await openAsset('assets/documents/zhp_sim_2022_sprawnosci.pdf');
-            //               if(result.type == ResultType.noAppToOpen) {
-            //                 showAppToast(context, text: 'Nie znaleziono aplikacji do otwarcia pliku PDF');
-            //                 logger.d(result.message);
-            //               }
-            //             }
-            //         ),
-            //
-            //         SprawNamesWidget(
-            //             id,
-            //             extSprawCode,
-            //             'Sprawność',
-            //             count: sprawCount,
-            //             backgroundColor: Colors.transparent,
-            //             stopColor: inProgress?RankData.colors[data]!.avgColor(false):iconDisab_(context),
-            //             checkVisible: inProgress|| completed,
-            //             checkable: inProgress
-            //         ),
-            //
-            //       ],
-            //     )
-            // )
           ],
         ),
 
@@ -252,45 +216,21 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
           children: [
             const SizedBox(height: 3*Dimen.SIDE_MARG),
 
-            const SectorSepWidget('Tropy'),
+            const SectorSepWidget('Tropy', showSlidePrompt: true),
             const SizedBox(height: Dimen.SIDE_MARG),
 
-            Material(
-                borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                color: cardEnab_(context),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SimpleButton.from(
-                        context: context,
-                        icon: MdiIcons.formatListBulleted,
-                        text: 'Lista tropów ${metoAbbr.toUpperCase()}',
-                        onTap: () async {
-                          OpenResult result = await openAsset('assets/documents/zhp_sim_2022_tropy_$metoAbbr.pdf');
-                          if(result.type == ResultType.noAppToOpen) {
-                            showAppToast(context, text: 'Nie znaleziono aplikacji do otwarcia pliku PDF');
-                            logger.d(result.message);
-                          }
-                        }
-                    ),
+            TropSelectedListWidget(
+              id,
+              'Trop',
+              count: tropCount,
+              rankColor: inProgress?RankData.colors[data]!.avgColor(false):iconDisab_(context),
+              checkVisible: inProgress || completed,
+              checkable: inProgress,
+              onCheckChanged: (_, __) => RankProgressProvider.notify_(context),
+              onTropStateChanged: () => RankProgressProvider.notify_(context),
+              enabled: !previewOnly,
+            ),
 
-                    SprawNamesWidget(
-                      id,
-                      extTropCode,
-                      'Trop',
-                      count: tropCount,
-                      backgroundColor: Colors.transparent,
-                      stopColor: inProgress?RankData.colors[data]!.avgColor(false):iconDisab_(context),
-                      checkVisible: inProgress|| completed,
-                      checkable: inProgress,
-                      onCheckChanged: (_) => RankProgressProvider.notify_(context),
-                      enabled: !previewOnly,
-                      emptyDisabledHint: (i) => 'Brak wybranego tropu ${i+1}.',
-                    ),
-
-                  ],
-                )
-            )
           ],
         ),
 
@@ -298,46 +238,36 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
           children: [
             const SizedBox(height: 3*Dimen.SIDE_MARG),
 
-            const SectorSepWidget('Wyzwania'),
+            const SectorSepWidget('Wyzwania', showSlidePrompt: true),
             const SizedBox(height: Dimen.SIDE_MARG),
 
-            Material(
-                borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                color: cardEnab_(context),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SimpleButton.from(
-                        context: context,
-                        icon: MdiIcons.formatListBulleted,
-                        text: 'Lista wyzwań ${metoAbbr.toUpperCase()}',
-                        onTap: () async {
-                          OpenResult result = await openAsset('assets/documents/zhp_sim_2022_wyzwania_$metoAbbr.pdf');
-                          if(result.type == ResultType.noAppToOpen) {
-                            showAppToast(context, text: 'Nie znaleziono aplikacji do otwarcia pliku PDF');
-                            logger.d(result.message);
-                          }
-                        }
-                    ),
+            Align(
+              alignment: Alignment.topRight,
+              child: SimpleButton.from(
+                  context: context,
+                  icon: MdiIcons.formatListBulleted,
+                  text: 'Lista wyzwań ${metoAbbr.toUpperCase()}',
+                  onTap: () async {
+                    OpenResult result = await openAsset('assets/documents/zhp_sim_2022_wyzwania_$metoAbbr.pdf');
+                    if(result.type == ResultType.noAppToOpen) {
+                      showAppToast(context, text: 'Nie znaleziono aplikacji do otwarcia pliku PDF');
+                      logger.d(result.message);
+                    }
+                  }
+              ),
+            ),
 
-                    SprawNamesWidget(
-                      id,
-                      extWyzwCode,
-                      'Wyzwanie',
-                      count: wyzwCount,
-                      reqCount: wyzwCountReq,
-                      backgroundColor: Colors.transparent,
-                      stopColor: inProgress?RankData.colors[data]!.avgColor(false):iconDisab_(context),
-                      checkVisible: inProgress || completed,
-                      checkable: inProgress,
-                      onCheckChanged: (_) => RankProgressProvider.notify_(context),
-                      enabled: !previewOnly,
-                      emptyDisabledHint: (i) => 'Brak wybranego wyzwania ${i+1}.',
-                    ),
-
-                  ],
-                )
-            )
+            WyzwanieSelectedListWidget(
+              id,
+              'Wyzwanie',
+              count: tropCount,
+              rankColor: inProgress?RankData.colors[data]!.avgColor(false):iconDisab_(context),
+              checkVisible: inProgress || completed,
+              checkable: inProgress,
+              onCheckChanged: (_, __) => RankProgressProvider.notify_(context),
+              onWyzwanieStateChanged: () => RankProgressProvider.notify_(context),
+              enabled: !previewOnly,
+            ),
 
           ],
         ),

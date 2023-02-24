@@ -3,11 +3,7 @@ import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp_core/comm_classes/date_to_str.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
-import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 
@@ -21,6 +17,7 @@ class TropTaskPredefContentWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => BorderMaterial(
+    borderColor: textEnab_(context),
     child: Padding(
       padding: const EdgeInsets.all(Dimen.ICON_MARG),
       child: Column(

@@ -47,6 +47,7 @@ class TropPredefSearchPage extends StatelessWidget{
                   category: predefTrops[index].category,
                   zuchTropName: predefTrops[index].customIconTropName,
                   iconSize: 52.0,
+                  withHero: false,
                 ),
               ),
               separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),

@@ -3,6 +3,8 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/tr
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:tuple/tuple.dart';
+import 'package:provider/provider.dart';
 
 import 'trop_icon.dart';
 
@@ -12,59 +14,98 @@ class TropTile extends StatelessWidget{
   final TropCategory category;
   final String? zuchTropName;
   final double iconSize;
+  final Widget? trailing;
+  final EdgeInsets padding;
+  final bool withHero;
 
   const TropTile({
     required this.name,
     required this.category,
     this.zuchTropName,
-    this.iconSize = TropIcon.defSize,
+    this.iconSize = TropIcon.tileSize,
+    this.trailing,
+    this.padding = EdgeInsets.zero,
+    this.withHero = true,
     super.key
   });
 
   @override
-  Widget build(BuildContext context) => Column(
-    children: [
+  Widget build(BuildContext context){
 
-      Row(
-        children: [
+    Widget child = Material(
+      color: Colors.transparent,
+      child: Padding(
+        padding: padding,
+        child: Row(
+          children: [
 
-          TropIcon(category, size: iconSize, zuchTropName: zuchTropName),
+            TropIcon(category, size: iconSize, zuchTropName: zuchTropName),
 
-          const SizedBox(width: Dimen.SIDE_MARG),
+            const SizedBox(width: Dimen.SIDE_MARG),
 
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
 
-                Text(
-                  name,
-                  style: AppTextStyle(
+                  Text(
+                    name,
+                    style: AppTextStyle(
+                        fontSize: Dimen.TEXT_SIZE_BIG,
+                        fontWeight: weight.halfBold,
+                        color: iconEnab_(context)
+                    ),
+                  ),
+
+                  const SizedBox(height: Dimen.defMarg),
+
+                  Text(
+                    tropCategoryToName(category),
+                    style: AppTextStyle(
                       fontSize: Dimen.TEXT_SIZE_BIG,
                       fontWeight: weight.halfBold,
-                      color: iconEnab_(context)
+                      color: hintEnab_(context),
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: Dimen.defMarg),
-
-                Text(
-                  tropCategoryToName(category),
-                  style: AppTextStyle(
-                    fontSize: Dimen.TEXT_SIZE_BIG,
-                    fontWeight: weight.halfBold,
-                    color: hintEnab_(context),
-                  ),
-                ),
-
-              ],
+                ],
+              ),
             ),
-          ),
 
-        ],
-      )
+            if(trailing != null) trailing!
 
-    ],
+          ],
+        ),
+      ),
+    );
+
+    if(withHero)
+      return Hero(
+          tag: Tuple3(name, category, zuchTropName),
+          child: child
+      );
+
+    return child;
+
+  }
+
+}
+
+class TropTileProgressWidget extends StatelessWidget{
+
+  final Trop trop;
+  const TropTileProgressWidget(this.trop, {super.key});
+
+  @override
+  Widget build(BuildContext context) => Consumer<TropTaskProvider>(
+    builder: (context, prov, child) => Text(
+      '${trop.progress}%',
+      style: AppTextStyle(
+          fontSize: Dimen.TEXT_SIZE_APPBAR,
+          fontWeight: weight.halfBold
+      ),
+    )
   );
 
 }

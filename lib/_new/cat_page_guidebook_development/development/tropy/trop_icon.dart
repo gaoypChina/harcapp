@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/spraw_icon.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
 
 class TropIcon extends StatelessWidget{
 
   static const double defSize = 72;
+  static const double tileSize = SprawIcon.sizeBig;
 
   final TropCategory tropCategory;
   final double size;
@@ -34,11 +36,31 @@ class TropIcon extends StatelessWidget{
 
   }
 
+  bool get isHarc => allHarcTropCategories.contains(tropCategory);
+
   @override
-  Widget build(BuildContext context) => SvgPicture.asset(
-    'assets/images/trop/${assetPath(tropCategory, zuchTropName: zuchTropName)}.svg',
+  Widget build(BuildContext context) => SizedBox(
     width: size,
     height: size,
+    child: Center(
+      child: SvgPicture.asset(
+          'assets/images/trop/${assetPath(tropCategory, zuchTropName: zuchTropName)}.svg',
+          width: size*(isHarc?1.0:(1.71/2)),
+          height: size*(isHarc?1.0:(1.71/2)),
+          placeholderBuilder: (context) =>
+          allHarcTropCategories.contains(tropCategory)?
+          SvgPicture.asset(
+              'assets/images/trop/harc/_empty.svg',
+              width: size,
+              height: size
+          ):
+          SvgPicture.asset(
+            'assets/images/trop/zuch/_empty.svg',
+            width: size*(1.71/2),
+            height: size*(1.71/2),
+          ),
+      ),
+    ),
   );
 
 

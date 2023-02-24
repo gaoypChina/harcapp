@@ -2,28 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/duration_date_widget.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_task_widget.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_tile.dart';
 import 'package:harcapp/values/colors.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 
 class TropWidget extends StatelessWidget{
 
   final Trop trop;
+  final double iconSize;
 
-  const TropWidget(this.trop, {super.key});
+  const TropWidget(this.trop, {this.iconSize = TropIcon.defSize, super.key});
 
   @override
   Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
-
-      TropTile(name: trop.name, category: trop.category),
-
-      const SizedBox(height: Dimen.SIDE_MARG),
 
       DurationDateWidget(
         startDate: trop.startTime,
@@ -32,6 +34,29 @@ class TropWidget extends StatelessWidget{
       ),
 
       const SizedBox(height: Dimen.SIDE_MARG),
+
+      TropTile(
+        name: trop.name,
+        category: trop.category,
+        zuchTropName: trop.customIconTropName,
+        trailing: TropTileProgressWidget(trop),
+        iconSize: iconSize,
+      ),
+
+      Align(
+        alignment: Alignment.centerRight,
+        child: SimpleButton.from(
+            context: context,
+            color: AppColors.zhpTropColor,
+            textColor: Colors.white,
+            icon: MdiIcons.accountPlusOutline,
+            text: 'Zaproś kumpli',
+            onTap: () => showAppToast(context, text: 'Na razie to nie działa.')
+        ),
+      ),
+
+      if(trop.aims.isNotEmpty)
+        const SizedBox(height: Dimen.SIDE_MARG),
 
       if(trop.aims.isNotEmpty)
         const TitleShortcutRowWidget(

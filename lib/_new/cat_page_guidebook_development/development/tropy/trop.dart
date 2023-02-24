@@ -6,6 +6,7 @@ import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/missing_decode_param_error.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/logger.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:path/path.dart';
 import 'package:uuid/uuid.dart';
 import 'package:provider/provider.dart';
@@ -131,7 +132,7 @@ String tropCategoryToName(TropCategory category){
     case TropCategory.zuchKulturoznawcze: return 'Kulturoznawcze';
     case TropCategory.zuchObywatelskie: return 'Obywatelskie';
     case TropCategory.zuchPrzyrodnicze: return 'Przyrodnicze';
-    case TropCategory.zuchSportoweITurystyczne: return 'SportoweITurystyczne';
+    case TropCategory.zuchSportoweITurystyczne: return 'Sportowe i turystyczne';
     case TropCategory.zuchZawodowe: return 'Zawodowe';
   }
 }
@@ -162,6 +163,14 @@ class TropBaseData<T extends TropTaskBaseData>{
 
 class Trop extends TropBaseData<TropTask>{
 
+  static callProvidersOf(BuildContext context) =>
+      callProviders(TropProvider.of(context), TropListProvider.of(context));
+
+  static callProviders(TropProvider tropProvider, TropListProvider tropListProvider){
+    tropProvider.notify();
+    tropListProvider.notify();
+  }
+
   static late List<Trop> all;
   static late Map<String, Trop> allMapByLclId;
 
@@ -172,9 +181,17 @@ class Trop extends TropBaseData<TropTask>{
     allMapByLclId[t.lclId] = t;
 
     if(context == null) return;
+    callProvidersOf(context);
+  }
 
-    Provider.of<TropProvider>(context, listen: false).notify();
-    Provider.of<TropListProvider>(context, listen: false).notify();
+  static removeFromAll(Trop t, {BuildContext? context}){
+    if(allMapByLclId[t.lclId] == null) return;
+
+    all.remove(t);
+    allMapByLclId.remove(t.lclId);
+
+    if(context == null) return;
+    callProvidersOf(context);
   }
 
   static Future<void> init() async {
@@ -192,98 +209,99 @@ class Trop extends TropBaseData<TropTask>{
       allMapByLclId[trop.lclId] = trop;
     }
 
-    all.addAll([
-      Trop(
-          lclId: '1',
-          name: 'Zajęcia dla dzieci z fundacji TaSzansa',
-          category: TropCategory.harcBraterstwo,
-          aims: [
-            'Chcemy nawiązać kontakt z dzieciaczkami z lokalnej społeczności i pomóc im robić fajne rzeczy.',
-            'Budowanie odpowiedzialności u harcerzy w zastępie',
-          ],
-          startTime: DateTime.now(),
-          endTime: DateTime.now().add(const Duration(days: 60)),
-          tasks: [
-            TropTask.create(
-                content: 'Zrobienie czegośtam - to jest zadanie numer jeden.',
-                deadline: DateTime.now().add(const Duration(days: 7)),
-                assigneeText: 'Włodzimierz Koc'
-            ),
-            TropTask.create(
-                content: 'Tu z kolei będziemy robić jakieś zadanie numer dwa.',
-                deadline: DateTime.now().add(const Duration(days: 8))
-            ),
-            TropTask.create(
-                content: 'Czas najwyższy, żeby zrobić zadanko numer trzy!',
-                deadline: DateTime.now().add(const Duration(days: 9))
-            ),
-          ]
-      ),
-
-      Trop(
-        lclId: '1',
-        name: 'Sadzenie drzew, bo to przecież takie potrzebne',
-        category: TropCategory.harcNatura,
-        aims: [],
-        startTime: DateTime.now(),
-        endTime: DateTime.now().add(const Duration(days: 70)),
-        tasks: []
-      ),
-
-      Trop(
-          lclId: '1',
-          name: 'No szczerze nie wiem co tu dać za nazwę.',
-          category: TropCategory.harcInicjatywa,
-          aims: [],
-          startTime: DateTime.now(),
-          endTime: DateTime.now().add(const Duration(days: 80)),
-          tasks: []
-      ),
-
-      Trop(
-          lclId: '1',
-          name: 'Odkrywanie Ameryki na nowo',
-          category: TropCategory.harcOdkrywanie,
-          aims: [],
-          startTime: DateTime.now(),
-          endTime: DateTime.now().add(const Duration(days: 90)),
-          tasks: []
-      ),
-
-      Trop(
-          lclId: '1',
-          name: 'Szycie biało-czerwonych flag',
-          category: TropCategory.harcOjczyzna,
-          aims: [],
-          startTime: DateTime.now(),
-          endTime: DateTime.now().add(const Duration(days: 100)),
-          tasks: []
-      ),
-
-      Trop(
-          lclId: '1',
-          name: 'Kopanie dołów na obozie w celach lodówkowych',
-          category: TropCategory.harcZaradnosc,
-          aims: [],
-          startTime: DateTime.now(),
-          endTime: DateTime.now().add(const Duration(days: 110)),
-          tasks: []
-      ),
-
-      Trop(
-          lclId: '1',
-          name: 'Złoty trop',
-          category: TropCategory.harcZlotyTrop,
-          aims: [],
-          startTime: DateTime.now(),
-          endTime: DateTime.now().add(const Duration(days: 120)),
-          tasks: []
-      )
-    ]);
+    // all.addAll([
+    //   Trop(
+    //       lclId: '1',
+    //       name: 'Zajęcia dla dzieci z fundacji TaSzansa',
+    //       category: TropCategory.harcBraterstwo,
+    //       aims: [
+    //         'Chcemy nawiązać kontakt z dzieciaczkami z lokalnej społeczności i pomóc im robić fajne rzeczy.',
+    //         'Budowanie odpowiedzialności u harcerzy w zastępie',
+    //       ],
+    //       startTime: DateTime.now(),
+    //       endTime: DateTime.now().add(const Duration(days: 60)),
+    //       tasks: [
+    //         TropTask.create(
+    //             content: 'Zrobienie czegośtam - to jest zadanie numer jeden.',
+    //             deadline: DateTime.now().add(const Duration(days: 7)),
+    //             assigneeText: 'Włodzimierz Koc'
+    //         ),
+    //         TropTask.create(
+    //             content: 'Tu z kolei będziemy robić jakieś zadanie numer dwa.',
+    //             deadline: DateTime.now().add(const Duration(days: 8))
+    //         ),
+    //         TropTask.create(
+    //             content: 'Czas najwyższy, żeby zrobić zadanko numer trzy!',
+    //             deadline: DateTime.now().add(const Duration(days: 9))
+    //         ),
+    //       ]
+    //   ),
+    //
+    //   Trop(
+    //     lclId: '1',
+    //     name: 'Sadzenie drzew, bo to przecież takie potrzebne',
+    //     category: TropCategory.harcNatura,
+    //     aims: [],
+    //     startTime: DateTime.now(),
+    //     endTime: DateTime.now().add(const Duration(days: 70)),
+    //     tasks: []
+    //   ),
+    //
+    //   Trop(
+    //       lclId: '1',
+    //       name: 'No szczerze nie wiem co tu dać za nazwę.',
+    //       category: TropCategory.harcInicjatywa,
+    //       aims: [],
+    //       startTime: DateTime.now(),
+    //       endTime: DateTime.now().add(const Duration(days: 80)),
+    //       tasks: []
+    //   ),
+    //
+    //   Trop(
+    //       lclId: '1',
+    //       name: 'Odkrywanie Ameryki na nowo',
+    //       category: TropCategory.harcOdkrywanie,
+    //       aims: [],
+    //       startTime: DateTime.now(),
+    //       endTime: DateTime.now().add(const Duration(days: 90)),
+    //       tasks: []
+    //   ),
+    //
+    //   Trop(
+    //       lclId: '1',
+    //       name: 'Szycie biało-czerwonych flag',
+    //       category: TropCategory.harcOjczyzna,
+    //       aims: [],
+    //       startTime: DateTime.now(),
+    //       endTime: DateTime.now().add(const Duration(days: 100)),
+    //       tasks: []
+    //   ),
+    //
+    //   Trop(
+    //       lclId: '1',
+    //       name: 'Kopanie dołów na obozie w celach lodówkowych',
+    //       category: TropCategory.harcZaradnosc,
+    //       aims: [],
+    //       startTime: DateTime.now(),
+    //       endTime: DateTime.now().add(const Duration(days: 110)),
+    //       tasks: []
+    //   ),
+    //
+    //   Trop(
+    //       lclId: '1',
+    //       name: 'Złoty trop',
+    //       category: TropCategory.harcZlotyTrop,
+    //       aims: [],
+    //       startTime: DateTime.now(),
+    //       endTime: DateTime.now().add(const Duration(days: 120)),
+    //       tasks: []
+    //   )
+    // ]);
     allMapByLclId = { for(Trop t in all) t.lclId: t};
   }
 
   static const String paramName = 'name';
+  static const String paramCustomIconTropName = 'customIconTropName';
   static const String paramCategory = 'category';
   static const String paramAim = 'aim';
   static const String paramStartTime = 'startTime';
@@ -301,6 +319,18 @@ class Trop extends TropBaseData<TropTask>{
   DateTime endTime;
 
   bool get isCategoryHarc => allHarcTropCategories.contains(category);
+
+  int get progress{
+    int completedCount = 0;
+    for(TropTask task in tasks)
+      if(task.completed) completedCount++;
+
+    int allCount = tasks.length;
+    if(allCount == 0)
+      allCount = 1;
+
+    return (100*completedCount/allCount.toDouble()).round();
+  }
 
   Trop({
     required this.lclId,
@@ -320,6 +350,7 @@ class Trop extends TropBaseData<TropTask>{
 
   void update(Trop trop){
     name = trop.name;
+    customIconTropName = trop.customIconTropName;
     category = trop.category;
     aims = trop.aims;
     startTime = trop.startTime;
@@ -329,6 +360,7 @@ class Trop extends TropBaseData<TropTask>{
 
   static Trop create({
     required String name,
+    String? customIconTropName,
     required TropCategory category,
     required List<String> aims,
 
@@ -339,6 +371,7 @@ class Trop extends TropBaseData<TropTask>{
   }) => Trop(
     lclId: const Uuid().v4(),
     name: name,
+    customIconTropName: customIconTropName,
     category: category,
     aims: aims,
 
@@ -351,6 +384,7 @@ class Trop extends TropBaseData<TropTask>{
   static Trop fromRespMap(Map respMapData, String lclId) => Trop(
     lclId: lclId,
     name: respMapData[paramName]??(throw MissingDecodeParamError(paramName)),
+    customIconTropName: respMapData[paramCustomIconTropName],
     category: strToTropCategory(respMapData[paramCategory])??(throw MissingDecodeParamError(paramCategory)),
     aims: (respMapData[paramAim]??(throw MissingDecodeParamError(paramAim))).cast<String>(),
 
@@ -373,6 +407,7 @@ class Trop extends TropBaseData<TropTask>{
 
   Map toJsonMap() => {
     paramName: name,
+    paramCustomIconTropName: customIconTropName,
     paramCategory: tropCategoryToStr(category),
     paramAim: aims,
 
@@ -388,7 +423,16 @@ class Trop extends TropBaseData<TropTask>{
       fileName: lclId,
   );
 
-  void delete() => File(getOwnTropFolderPath + lclId).deleteSync();
+  bool delete({BuildContext? context}){
+    try{
+      File(getOwnTropFolderPath + lclId).deleteSync();
+      removeFromAll(this, context: context);
+      return true;
+    }catch(e){
+      if(context != null) showAppToast(context, text: 'Wystąpił problem z usuwaniem tropu.');
+      return false;
+    }
+  }
 
 }
 
@@ -407,6 +451,7 @@ class TropTask extends TropTaskBaseData{
   static const String paramSummary = 'summary';
   static const String paramDeadline = 'deadline';
   static const String paramAssignee = 'assignee';
+  static const String paramAssigneeText = 'assigneeText';
   static const String paramCompleted = 'completed';
 
   static const int maxLenContent = 320;
@@ -461,6 +506,8 @@ class TropTask extends TropTaskBaseData{
     paramContent: content,
     paramSummary: summary,
     paramDeadline: deadline.toIso8601String(),
+    paramAssignee: assignee,
+    paramAssigneeText: assigneeText,
     paramCompleted: completed,
   };
 
@@ -469,6 +516,8 @@ class TropTask extends TropTaskBaseData{
     content: respMapData[paramContent]??(throw MissingDecodeParamError(paramContent)),
     summary: respMapData[paramSummary],
     deadline: DateTime.tryParse(respMapData[paramDeadline])??(throw MissingDecodeParamError(paramDeadline)),
+    assignee: respMapData[paramAssignee],
+    assigneeText: respMapData[paramAssigneeText],
     completed: respMapData[paramCompleted]??false,
   );
 

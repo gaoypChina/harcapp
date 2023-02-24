@@ -114,17 +114,17 @@ class DevelopmentSubpageState extends State<DevelopmentSubpage>{
               ),
             ),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-              child: TitleShortcutRowWidget(
-                title: 'Wyzwania',
-                textAlign: TextAlign.start,
-                onOpen: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SprawnosciPage())
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
+            //   child: TitleShortcutRowWidget(
+            //     title: 'Wyzwania',
+            //     textAlign: TextAlign.start,
+            //     onOpen: () => Navigator.push(
+            //         context,
+            //         MaterialPageRoute(builder: (context) => const SprawnosciPage())
+            //     ),
+            //   ),
+            // ),
 
           ])
       ),
