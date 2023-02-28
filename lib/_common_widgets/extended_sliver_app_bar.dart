@@ -5,6 +5,7 @@ import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
+import 'package:harcapp_core/dimen.dart';
 import 'package:provider/provider.dart';
 
 class ExtendedSliverAppBar extends StatefulWidget{
@@ -26,7 +27,7 @@ class ExtendedSliverAppBar extends StatefulWidget{
 
   final void Function(int index, double offset)? onChanged;
 
-  final List<Widget>? actions;
+  final Widget? action;
 
   const ExtendedSliverAppBar({
     this.initIndex=0,
@@ -46,7 +47,7 @@ class ExtendedSliverAppBar extends StatefulWidget{
 
     this.onChanged,
 
-    this.actions,
+    this.action,
     super.key
   });
 
@@ -107,21 +108,29 @@ class ExtendedSliverAppBarState extends State<ExtendedSliverAppBar> with TickerP
           builder: (context, prov, child) => SizedBox(
             height: _appBarHeight,
             width: double.infinity,
-            child: PageView(
+            child: PageView.builder(
               physics: const NeverScrollableScrollPhysics(),
               controller: pageControllerTitle,
               scrollDirection: Axis.vertical,
               pageSnapping: false,
-              children: titles.map((title) => _TitleText(
-                  title: title,
-                  titleColor: iconEnab_(context),
-                  animation: tabController!.animation,
-                  index: titles.indexOf(title))).toList(),
+              itemCount: titles.length,
+              itemBuilder: (context, index) => _TitleText(
+                title: titles[index],
+                titleColor: iconEnab_(context),
+                animation: tabController!.animation,
+                index: index
+              ),
             ),
           )
         ),
+        centerTitle: true,
 
-        actions: widget.actions,
+        actions: [
+          SizedBox(
+            width: Dimen.APPBAR_LEADING_WIDTH,
+            child: widget.action,
+          )
+        ],
 
         bottom: TabBar(
           controller: tabController,
@@ -149,9 +158,7 @@ class _TitleText extends StatelessWidget{
   const _TitleText({this.title, this.titleColor, this.animation, this.index});
   
   @override
-  Widget build(BuildContext context) {
-
-    return AnimatedBuilder(
+  Widget build(BuildContext context) => AnimatedBuilder(
       animation: animation!,
       child: Center(
         child: Text(title!, style: AppTextStyle(color: titleColor), textAlign: TextAlign.center),
@@ -164,8 +171,7 @@ class _TitleText extends StatelessWidget{
             child: child
         );
       }
-    );
-  }
+  );
   
 }
 

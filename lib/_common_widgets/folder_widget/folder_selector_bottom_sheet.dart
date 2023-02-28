@@ -10,6 +10,7 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 
 import 'folder.dart';
+import 'folder_tile.dart';
 
 Future<void> openFolderSelector<T extends Folder>(
     BuildContext context,
@@ -141,22 +142,10 @@ class _FolderSelectTileState<T extends Folder> extends State<_FolderSelectTile<T
   bool Function(T) get isSelected => widget.isSelected;
 
   @override
-  Widget build(BuildContext context) => Row(
-    children: [
-      Padding(
-        padding: const EdgeInsets.only(top:  Dimen.ICON_MARG/2, bottom:  Dimen.ICON_MARG/2, right:  Dimen.ICON_MARG*2),
-        child: FolderWidget(folder.iconKey, folder.colorsKey, size: 64.0),
-      ),
-      Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(folder.name, style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold)),
-            Text('${countString??'Liczba elementów:'} ${folder.count}', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG)),
-          ],
-        ),
-      ),
-      Checkbox(
+  Widget build(BuildContext context) => FolderTile(
+    folder,
+    countString: countString,
+    trailing: Checkbox(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
         activeColor: folder.colorsData.avgColor,
         value: isSelected.call(folder),
@@ -164,9 +153,6 @@ class _FolderSelectTileState<T extends Folder> extends State<_FolderSelectTile<T
           await onCheckedChange.call(folder, checked);
           setState((){});
         }
-      )
-
-    ],
+    )
   );
-
 }

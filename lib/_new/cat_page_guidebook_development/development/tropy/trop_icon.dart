@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/spraw_icon.dart';
@@ -11,19 +13,21 @@ class TropIcon extends StatelessWidget{
   final TropCategory tropCategory;
   final double size;
   final String? zuchTropName;
+  final int count;
 
-  const TropIcon(this.tropCategory, {this.size = defSize, this.zuchTropName, super.key});
+  const TropIcon(this.tropCategory, {this.size = defSize, this.zuchTropName, this.count = 1, super.key});
 
-  static String assetPath(TropCategory category, {String? zuchTropName}){
+  static String assetPath(TropCategory category, {String? zuchTropName, int count = 1}){
+    count = max(min(count, 5), 1);
     switch(category){
       case TropCategory.harcZlotyTrop: return 'harc/zloty_trop';
-      case TropCategory.harcZaradnosc: return 'harc/zaradnosc_1';
-      case TropCategory.harcOjczyzna: return 'harc/ojczyzna_1';
-      case TropCategory.harcOdkrywanie: return 'harc/odkrywanie_1';
-      case TropCategory.harcNatura: return 'harc/natura_1';
-      case TropCategory.harcInicjatywa: return 'harc/inicjatywa_1';
-      case TropCategory.harcCzlowiek: return 'harc/czlowiek_1';
-      case TropCategory.harcBraterstwo: return 'harc/braterstwo_1';
+      case TropCategory.harcZaradnosc: return 'harc/zaradnosc_$count';
+      case TropCategory.harcOjczyzna: return 'harc/ojczyzna_$count';
+      case TropCategory.harcOdkrywanie: return 'harc/odkrywanie_$count';
+      case TropCategory.harcNatura: return 'harc/natura_$count';
+      case TropCategory.harcInicjatywa: return 'harc/inicjatywa_$count';
+      case TropCategory.harcCzlowiek: return 'harc/czlowiek_$count';
+      case TropCategory.harcBraterstwo: return 'harc/braterstwo_$count';
 
       case TropCategory.zuchArtystyczne: return 'zuch/artystyczne_$zuchTropName';
       case TropCategory.zuchBajkowe: return 'zuch/bajkowe_$zuchTropName';
@@ -44,7 +48,7 @@ class TropIcon extends StatelessWidget{
     height: size,
     child: Center(
       child: SvgPicture.asset(
-          'assets/images/trop/${assetPath(tropCategory, zuchTropName: zuchTropName)}.svg',
+          'assets/images/trop/${assetPath(tropCategory, zuchTropName: zuchTropName, count: count)}.svg',
           width: size*(isHarc?1.0:(1.71/2)),
           height: size*(isHarc?1.0:(1.71/2)),
           placeholderBuilder: (context) =>

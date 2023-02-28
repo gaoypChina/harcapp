@@ -9,7 +9,7 @@ Future<void> openApelEwanOwnFolderSelector(BuildContext context, String siglum) 
     context,
     title: 'Dodaj apel $siglum do folderu',
     countString: 'Liczba apeli:',
-    getAllFolders: () => ApelEwanOwnFolder.allOwnFolders,
+    getAllFolders: () => ApelEwanOwnFolder.all,
     onNewFolderSave: (String name, String iconKey, String colorsKey) async {
       ApelEwanAllFoldersProvider prov = Provider.of<ApelEwanAllFoldersProvider>(context, listen: false);
       ApelEwanOwnFolder folder = await ApelEwanOwnFolder.create(

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/main.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -44,7 +45,13 @@ class BioItemWidget extends StatelessWidget{
   final ValueNotifier? notifier;
   final ScrollController Function() controller;
 
-  const BioItemWidget({required this.data, required this.index, required this.notifier, required this.controller});
+  const BioItemWidget({
+    required this.data,
+    required this.index,
+    required this.notifier,
+    required this.controller,
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +63,7 @@ class BioItemWidget extends StatelessWidget{
     double textSize = 28.0;
     double nameWidgetHeight = textSize + 3*Dimen.SIDE_MARG;
     double statusBarHeight = App.statusBarHeight;
-    double tagsHeight = data.tag.isEmpty?0:Tag.height;
+    double tagsHeight = data.tag.isEmpty?0:Tag.height();
 
     double aspectRatio = (screenWidth) / (screenHeight - 2*appBarHeight - nameWidgetHeight - statusBarHeight - tagsHeight);
 
@@ -64,13 +71,25 @@ class BioItemWidget extends StatelessWidget{
       physics: const BouncingScrollPhysics(),
       children: [
 
+        const SizedBox(height: Dimen.SIDE_MARG),
+
         if(data.tag.isNotEmpty)
-          SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.only(left: Dimen.SIDE_MARG, right: Dimen.SIDE_MARG),
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: data.tag.map((String tag) => Tag(tag)).toList(),
+          SizedBox(
+            height: tagsHeight,
+            child: ListView.separated(
+              padding: const EdgeInsets.only(
+                left: Dimen.SIDE_MARG,
+                right: Dimen.SIDE_MARG,
+              ),
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              itemCount: data.tag.length,
+              itemBuilder: (context, index) => Tag(
+                data.tag[index],
+                color: background_(context),
+                elevation: AppCard.defElevation,
+              ),
+              separatorBuilder: (context, index) => const SizedBox(width: Dimen.SIDE_MARG),
             ),
           ),
 
@@ -124,9 +143,7 @@ class BioItemWidget extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
 
-              const TitleShortcutRowWidget(title: 'Krótki opis', textAlign: TextAlign.start),
-
-              const SizedBox(height: Dimen.SIDE_MARG),
+              const TitleShortcutRowWidget(title: 'Krótki opis', textAlign: TextAlign.left),
               AppText('ur.: ${data.dateBirth}', size: Dimen.TEXT_SIZE_BIG),
               const SizedBox(height: 3.0),
               AppText('zm.: ${data.dateDeath}', size: Dimen.TEXT_SIZE_BIG),
@@ -139,10 +156,14 @@ class BioItemWidget extends StatelessWidget{
           ),
         ),
 
-        Container(
+        SizedBox(
           height: 200,
           child: ListView.builder(
-              padding: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.only(
+                left: Dimen.SIDE_MARG,
+                right: Dimen.SIDE_MARG,
+                bottom: Dimen.SIDE_MARG
+              ),
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemCount: data.imgSrc.length,
@@ -160,23 +181,21 @@ class BioItemWidget extends StatelessWidget{
           ),
         ),
 
-        if(data.longDesc!=null)
-          Padding(
-            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
 
-                const TitleShortcutRowWidget(title: 'Pełny opis', textAlign: TextAlign.start),
+              const TitleShortcutRowWidget(title: 'Pełny opis', textAlign: TextAlign.left),
 
-                const SizedBox(height: Dimen.SIDE_MARG),
-                AppText(
-                  data.longDesc,
-                  size: Dimen.TEXT_SIZE_BIG,
-                ),
-              ],
-            ),
+              AppText(
+                data.longDesc,
+                size: Dimen.TEXT_SIZE_BIG,
+              ),
+            ],
           ),
+        ),
 
         Padding(
           padding: const EdgeInsets.all(Dimen.defMarg),

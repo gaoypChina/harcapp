@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
+import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_song_book/_main.dart';
 import 'package:harcapp/_new/providers.dart';
@@ -34,23 +35,7 @@ class AlbumPageState extends State<AlbumPage>{
   void Function(Album album)? get onNewCreated => widget.onNewCreated;
 
   @override
-  void initState() {
-    AppBottomNavigatorProvider.addOnSelectedListener(onNavSelected);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    AppBottomNavigatorProvider.removeOnSelectedListener(onNavSelected);
-    super.dispose();
-  }
-
-  void onNavSelected(int page) => Navigator.pop(context);
-
-  @override
-  Widget build(BuildContext context) {
-
-    return AppScaffold(
+  Widget build(BuildContext context) => BottomNavScaffold(
       body: Consumer<AlbumProvider>(
         builder: (context, prov, child) => CustomScrollView(
           physics: const BouncingScrollPhysics(),
@@ -62,7 +47,7 @@ class AlbumPageState extends State<AlbumPage>{
               floating: true,
               actions: [
                 IconButton(
-                    icon: const Icon(MdiIcons.bookmarkPlusOutline),
+                    icon: const Icon(MdiIcons.plus),
                     onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -94,10 +79,8 @@ class AlbumPageState extends State<AlbumPage>{
 
           ],
         ),
-      ),
-      bottomNavigationBar: const AppBottomNavigator(),
-    );
-  }
+      )
+  );
 
 }
 
@@ -119,27 +102,25 @@ class _AlbumItemState extends State<_AlbumItem>{
   void Function(Album album)? get onAlbumSelected => widget.onAlbumSelected;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => AlbumWidget(
+    album,
+    onTap: (){
+      Provider.of<AlbumProvider>(context, listen: false).current = album;
+      Provider.of<FloatingButtonProvider>(context, listen: false).notify();
+      onAlbumSelected?.call(album);
+      Navigator.pop(context);
+    },
+    trailing: album.isOmega || album.isConfid?
+    Padding(
+      padding: const EdgeInsets.only(right: Dimen.ICON_MARG),
+      child: Icon(MdiIcons.lockOutline, size: AlbumWidget.ICON_SIZE, color: iconDisab_(context)),
+    ):
+    null,
+    bottom: album.isOmega || album.isConfid?const SizedBox(height: Dimen.ICON_FOOTPRINT):Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
 
-    return AlbumWidget(
-      album,
-      onTap: (){
-        Provider.of<AlbumProvider>(context, listen: false).current = album;
-        Provider.of<FloatingButtonProvider>(context, listen: false).notify();
-        onAlbumSelected?.call(album);
-        Navigator.pop(context);
-      },
-      trailing: album.isOmega || album.isConfid?
-      Padding(
-        padding: const EdgeInsets.only(right: Dimen.ICON_MARG),
-        child: Icon(MdiIcons.lockOutline, size: AlbumWidget.ICON_SIZE, color: iconDisab_(context)),
-      ):
-      null,
-      bottom: album.isOmega || album.isConfid?const SizedBox(height: Dimen.ICON_FOOTPRINT):Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-
-          IconButton(
+        IconButton(
             icon: Icon(MdiIcons.pencilOutline, color: iconEnab_(context)),
             onPressed: () => pushPage(
                 context,
@@ -155,43 +136,42 @@ class _AlbumItemState extends State<_AlbumItem>{
                   },
                 )
             )
-          ),
+        ),
 
-          AppButton(
-            icon: Icon(MdiIcons.trashCanOutline, color: iconEnab_(context)),
-            onTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć $album_'),
-            onLongPress: (){
-              AlbumProvider prov = Provider.of<AlbumProvider>(context, listen: false);
+        AppButton(
+          icon: Icon(MdiIcons.trashCanOutline, color: iconEnab_(context)),
+          onTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć $album_'),
+          onLongPress: (){
+            AlbumProvider prov = Provider.of<AlbumProvider>(context, listen: false);
 
-              int lastPage = CatPageSongBookState.getLastPageForAlbum(album);
-              CatPageSongBookState.delLastPageForAlbum(album);
+            int lastPage = CatPageSongBookState.getLastPageForAlbum(album);
+            CatPageSongBookState.delLastPageForAlbum(album);
 
-              album.delete();
-              int index = prov.allOwn!.indexOf(album);
-              prov.removeFromAll(album);
+            album.delete();
+            int index = prov.allOwn!.indexOf(album);
+            prov.removeFromAll(album);
 
-              if(prov.current == album)
-                prov.current = Album.omega;
+            if(prov.current == album)
+              prov.current = Album.omega;
 
-              Provider.of<FloatingButtonProvider>(context, listen: false).notify();
+            Provider.of<FloatingButtonProvider>(context, listen: false).notify();
 
-              AppScaffold.showMessage(
-                  context,
-                  'Usunięto',
-                  buttonText: 'Cofnij',
-                  onButtonPressed: (){
-                    album.save();
-                    prov.insertToAll(index, album);
-                    CatPageSongBookState.setLastPageForAlbum(album, lastPage);
-                  }
-              );
-            },
-          ),
+            AppScaffold.showMessage(
+                context,
+                'Usunięto',
+                buttonText: 'Cofnij',
+                onButtonPressed: (){
+                  album.save();
+                  prov.insertToAll(index, album);
+                  CatPageSongBookState.setLastPageForAlbum(album, lastPage);
+                }
+            );
+          },
+        ),
 
-        ],
-      ),
+      ],
+    ),
 
-    );
-  }
+  );
 
 }

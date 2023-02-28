@@ -13,7 +13,7 @@ class FolderIcon extends StatelessWidget{
 
   const FolderIcon(this.iconKey, this.colorKey, {this.size = defSize, super.key});
 
-  static FolderIcon from(SprawFolder folder, {double size = defSize}) => FolderIcon(folder.iconKey, folder.colorsKey, size: size);
+  static FolderIcon from(OwnSprawFolder folder, {double size = defSize}) => FolderIcon(folder.iconKey, folder.colorsKey, size: size);
 
   @override
   Widget build(BuildContext context) {

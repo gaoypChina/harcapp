@@ -127,22 +127,20 @@ ApelEwan koh_5_9 = const ApelEwan(
     }
 );
 
-List<ApelEwan> dekalogApelEwans = [
-  lk_18_9_14,
-  wj_3_13_15,
-  wj_20_8_11,
-  ef_6_1_4,
-  mt_5_21_26,
-  mt_5_27_32,
-  ii_tes_3_10_12,
-  mt_5_33_37,
-  rz_8_5_13,
-  koh_5_9
-];
-
 ApelEwanPersistentFolder dekalogFolder = ApelEwanPersistentFolder(
     id: '__dekalog__',
-    apelEwans: dekalogApelEwans,
+    apelEwans: [
+      lk_18_9_14,
+      wj_3_13_15,
+      wj_20_8_11,
+      ef_6_1_4,
+      mt_5_21_26,
+      mt_5_27_32,
+      ii_tes_3_10_12,
+      mt_5_33_37,
+      rz_8_5_13,
+      koh_5_9
+    ],
     apelEwanNotes: {},
     name: 'Dekalog',
     colorsKey: CommonColorData.omegaColorsKey,
@@ -536,3 +534,12 @@ List<ApelEwan> allApelEwans = [
   rz_8_5_13,
   koh_5_9
 ];
+
+ApelEwanPersistentFolder omegaFolder = ApelEwanPersistentFolder(
+    id: '__omega__',
+    apelEwans: allApelEwans,
+    apelEwanNotes: {},
+    name: 'Wszystkie',
+    colorsKey: CommonColorData.defColorsKey,
+    iconKey: 'bookCross'
+);

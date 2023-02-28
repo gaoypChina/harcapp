@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp_core/dimen.dart';
 
 import '../indiv_comp/indiv_comp_thumbnail_widget.dart';
@@ -16,10 +17,10 @@ class CompetitionPreviewGrid extends StatelessWidget{
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: const [
-          Center(child: IndivCompThumbnailWidget(colorsKey: 'rosegold', iconKey: 'map')),
-          Center(child: IndivCompThumbnailWidget(colorsKey: 'deepblue', iconKey: 'jellyfish')),
+          Center(child: IndivCompThumbnailWidget(colorsKey: CommonColorData.rosegoldKey, iconKey: 'map')),
+          Center(child: IndivCompThumbnailWidget(colorsKey: CommonColorData.deepblueKey, iconKey: 'jellyfish')),
           SizedBox(width: IndivCompThumbnailWidget.defSize),
-          Center(child: IndivCompThumbnailWidget(colorsKey: 'gold', iconKey: 'axe')),
+          Center(child: IndivCompThumbnailWidget(colorsKey: CommonColorData.goldKey, iconKey: 'axe')),
         ],
       ),
 
@@ -28,9 +29,9 @@ class CompetitionPreviewGrid extends StatelessWidget{
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: const [
-          Center(child: IndivCompThumbnailWidget(colorsKey: 'mint', iconKey: 'fleurDeLis')),
+          Center(child: IndivCompThumbnailWidget(colorsKey: CommonColorData.mintKey, iconKey: 'fleurDeLis')),
           SizedBox(width: IndivCompThumbnailWidget.defSize),
-          Center(child: IndivCompThumbnailWidget(colorsKey: 'rosegold', iconKey: 'music')),
+          Center(child: IndivCompThumbnailWidget(colorsKey: CommonColorData.rosegoldKey, iconKey: 'music')),
           SizedBox(width: IndivCompThumbnailWidget.defSize),
         ],
       ),
@@ -40,10 +41,10 @@ class CompetitionPreviewGrid extends StatelessWidget{
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: const [
-          Center(child: IndivCompThumbnailWidget(colorsKey: 'raspberry', iconKey: 'pirate')),
-          Center(child: IndivCompThumbnailWidget(colorsKey: 'turquoise', iconKey: 'androidStudio')),
+          Center(child: IndivCompThumbnailWidget(colorsKey: CommonColorData.raspberryKey, iconKey: 'pirate')),
+          Center(child: IndivCompThumbnailWidget(colorsKey: CommonColorData.turquoiseKey, iconKey: 'androidStudio')),
           SizedBox(width: IndivCompThumbnailWidget.defSize),
-          Center(child: IndivCompThumbnailWidget(colorsKey: 'chocolate', iconKey: 'chessKing')),
+          Center(child: IndivCompThumbnailWidget(colorsKey: CommonColorData.chocolateKey, iconKey: 'chessKing')),
         ],
       ),
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
-import 'package:harcapp/account/account_start/page_template.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
@@ -36,7 +35,7 @@ class AccountReasonPage extends StatelessWidget{
                 trailing: GradientIcon(
                   Community.icon,
                   colorStart: Colors.red,
-                  colorEnd: Colors.deepPurple[700],
+                  colorEnd: Colors.deepPurple[700]!,
                   size: 28.0,
                 )
             ),
@@ -158,7 +157,7 @@ class AccountReasonPage extends StatelessWidget{
                 trailing: GradientIcon(
                   MdiIcons.star,
                   colorStart: Colors.lightGreen,
-                  colorEnd: Colors.green[800],
+                  colorEnd: Colors.green[800]!,
                   size: 28.0,
                 )
             ),

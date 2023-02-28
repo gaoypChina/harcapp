@@ -1,3 +1,4 @@
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw_book.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw_family.dart';
@@ -5,6 +6,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawno
 
 SprawBook sprawBookZHPWodneOld = SprawBookData(
     id: SprawBookData.ZHP_HARC_OLD_WOD_ID,
+    org: Org.zhp,
     title: 'Sprawności wodne ZHP',
     source: 'Program Wychowania Wodnego, stopnie i sprawności harcerskie, Gdynia 2016',
     color: SprawBookData.SPRAW_BOOK_ZHP_WODNE_OLD_COLOR,

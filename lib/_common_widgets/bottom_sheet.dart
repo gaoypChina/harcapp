@@ -8,6 +8,7 @@ import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 
 Future<void> showScrollBottomSheet({required BuildContext context, required WidgetBuilder builder, bool scrollable = true}) async {
@@ -148,13 +149,25 @@ class BottomSheetDefState extends State<BottomSheetDef>{
           children: <Widget>[
             if(widget.title!=null)
               Padding(
-                  padding: const EdgeInsets.all(Dimen.BOTTOM_SHEET_TITLE_MARG),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(widget.title!, style: AppTextStyle(fontWeight: weight.halfBold, color: widget.textColor, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.end,),
-                      if(widget.subTitle!=null) Text(widget.subTitle!, style: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_NORMAL), textAlign: TextAlign.end,),
+                  padding: const EdgeInsets.all(Dimen.BOTTOM_SHEET_TITLE_MARG - Dimen.ICON_MARG),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(widget.title!, style: AppTextStyle(fontWeight: weight.halfBold, color: widget.textColor, fontSize: Dimen.TEXT_SIZE_BIG), textAlign: TextAlign.end,),
+                          if(widget.subTitle!=null) Text(widget.subTitle!, style: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_NORMAL), textAlign: TextAlign.end,),
+                        ],
+                      ),
+
+                      IconButton(
+                        icon: Icon(MdiIcons.close, color: widget.textColor),
+                        onPressed: () => Navigator.pop(context),
+                      )
+
                     ],
                   )
               ),

@@ -441,7 +441,7 @@ class RequirementsWidget extends StatelessWidget{
       Widget child = SprawTaskWidget(
           spraw.tasks![i],
           isExample: spraw.tasksAreExamples,
-          onCompletedChanged: (SprawTask _task, bool selected) => onChanged?.call(),
+          onCompletedChanged: (SprawTask task, bool selected) => onChanged?.call(),
           previewOnly: previewOnly,
       );
 
@@ -459,7 +459,7 @@ class RequirementsWidget extends StatelessWidget{
 
 class SaveFloatingButton extends StatefulWidget{
 
-  final Spraw? spraw;
+  final Spraw spraw;
   final Color color;
   final void Function()? onTap;
 
@@ -472,7 +472,7 @@ class SaveFloatingButton extends StatefulWidget{
 
 class SaveFloatingButtonState extends State<SaveFloatingButton>{
 
-  Spraw? get spraw => widget.spraw;
+  Spraw get spraw => widget.spraw;
   Color get color => widget.color;
   void Function()? get onTap => widget.onTap;
 
@@ -486,7 +486,7 @@ class SaveFloatingButtonState extends State<SaveFloatingButton>{
     child: SprawBookmarkWidget(
         spraw,
         color: background_(context),
-        onSavedChaned: (saved){
+        onSavedChanged: (saved){
           setState((){});
           onTap?.call();
         }),

@@ -100,7 +100,7 @@ class TropTileProgressWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) => Consumer<TropTaskProvider>(
     builder: (context, prov, child) => Text(
-      '${trop.progress}%',
+      '${trop.completenessPercent}%',
       style: AppTextStyle(
           fontSize: Dimen.TEXT_SIZE_APPBAR,
           fontWeight: weight.halfBold

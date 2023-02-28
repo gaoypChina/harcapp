@@ -3,23 +3,19 @@ import 'package:harcapp/_common_widgets/folder_widget/folder_selector_bottom_she
 
 import 'spraw_folder_page/spraw_folder.dart';
 
-Future<void> openSprawFolderSelector(BuildContext context, String sprawUID) async{
-
-  await openFolderSelector<SprawFolder>(
+Future<void> openSprawFolderSelector(BuildContext context, String sprawUniqName) => openFolderSelector<BaseSprawFolder>(
     context,
     title: 'Dodaj sprawność do folderu',
     countString: 'Liczba sprawności:',
-    getAllFolders: () => SprawFolder.allFolders,
-    onNewFolderSave: (String name, String iconKey, String colorsKey) => SprawFolder.create(
+    getAllFolders: () => BaseSprawFolder.allFolders,
+    onNewFolderSave: (String name, String iconKey, String colorsKey) => OwnSprawFolder.create(
       name: name,
       colorsKey: colorsKey,
       iconKey: iconKey,
     ),
-    onCheckedChange: (SprawFolder folder, bool? checked) {
-      if(checked == true) folder.add(sprawUID);
-      else folder.remove(sprawUID);
+    onCheckedChange: (BaseSprawFolder folder, bool? checked) {
+      if(checked == true) folder.add(sprawUniqName);
+      else folder.remove(sprawUniqName);
     },
-    isSelected: (folder) => folder.sprawUIDs.contains(sprawUID)
-  );
-
-}
+    isSelected: (folder) => folder.sprawUIDs.contains(sprawUniqName)
+);

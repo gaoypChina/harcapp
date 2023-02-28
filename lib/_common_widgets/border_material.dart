@@ -5,6 +5,8 @@ import 'package:harcapp_core/dimen.dart';
 
 class BorderMaterial extends StatelessWidget{
 
+  static const defBorderWidth = Dimen.defMarg;
+
   final double radius;
   final double elevation;
   final double borderWidth;
@@ -15,7 +17,7 @@ class BorderMaterial extends StatelessWidget{
   const BorderMaterial({
     this.radius = AppCard.bigRadius,
     this.elevation = 0,
-    this.borderWidth = Dimen.defMarg,
+    this.borderWidth = defBorderWidth,
     this.borderColor,
     this.color,
     required this.child,

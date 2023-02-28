@@ -78,7 +78,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
 
   String get uniqName =>
       sprawBook.id + Spraw.sepChar +
-          group.id! + Spraw.sepChar +
+          group.id + Spraw.sepChar +
           family.id + Spraw.sepChar +
           id + Spraw.sepChar +
           level;
@@ -128,28 +128,22 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     return path;
   }
 
-  bool get savedInOmega => SprawFolder.omega.sprawUIDs.contains(uniqName);
-  set _savedInOmega(bool value) {
-    if (value)
-      SprawFolder.omega.add(uniqName);
-    else
-      SprawFolder.omega.remove(uniqName);
+  bool get savedInOmega => SavedSprawFolder().sprawUIDs.contains(uniqName);
+  void changeSaved(BuildContext context, {bool? value, bool localOnly = false}){
+    inProgress = value;
+
+    setSingleState(PARAM_IN_PROGRESS, SyncableParamSingle_.stateNotSynced);
+    if(!localOnly) synchronizer.post();
+
+    SprawSavedListProv.notify_(context);
+
   }
 
-  void changeSavedInOmega(BuildContext context, String folderName, {bool? value}){
-    List<String> sprawUIDs = SprawFolder.getSprawUIDs(folderName);
+  set _savedInOmega(bool value) => SavedSprawFolder().changeSavedInOmega(uniqName, value: value);
 
+  void changeSavedInOmega(BuildContext context, {bool? value}){
     value ??= !savedInOmega;
-
-    if (value) {
-      if (!sprawUIDs.contains(uniqName)) sprawUIDs.insert(0, uniqName);
-    } else
-      sprawUIDs.remove(uniqName);
-
     _savedInOmega = value;
-
-    SprawFolder.setSprawUIDs(folderName, sprawUIDs);
-
     Provider.of<SprawSavedListProv>(context, listen: false).notify();
   }
 

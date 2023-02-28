@@ -1,34 +1,43 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:tuple/tuple.dart';
 
 import 'apel_ewan.dart';
+import 'apel_ewan_folder_viewer_page.dart';
 import 'apel_ewan_grid_view.dart';
 import 'apel_ewan_own_folder.dart';
-import 'apel_ewan_reorderable_list.dart';
+import 'apel_ewan_own_reorderable_list.dart';
 
 enum LayoutType{grid, list}
 
-class ApelEwanFolderItemsView<T extends ApelEwanOwnFolder> extends StatelessWidget{
+class ApelEwanOwnFolderItemsView<T extends ApelEwanOwnFolder> extends StatelessWidget{
 
   final T folder;
   final EdgeInsets padding;
   final LayoutType type;
   final bool animate;
-  final void Function(ApelEwan, String?)? onTap;
+  // final void Function(ApelEwan, String?)? onTap;
 
-  const ApelEwanFolderItemsView({
+  const ApelEwanOwnFolderItemsView({
     required this.folder,
     this.padding = const EdgeInsets.all(Dimen.ICON_MARG),
     required this.type,
     this.animate = false,
-    this.onTap,
     super.key
   });
+
+  void onTap(BuildContext context, ApelEwan apelEwan, String? subgroup) =>
+    pushPage(context, builder: (context) => ApelEwanFolderViewerPage(
+      folder.apelEwans.map((apelEwan) => Tuple2(apelEwan, subgroup)).toList(),
+      apelEwan,
+      title: folder.name,
+    ));
 
   @override
   Widget build(BuildContext context) => Stack(
@@ -57,14 +66,14 @@ class ApelEwanFolderItemsView<T extends ApelEwanOwnFolder> extends StatelessWidg
           folder: folder,
           animate: animate,
           padding: padding,
-          onTap: onTap,
+          onTap: (apelEwan, subgroup) => onTap(context, apelEwan, subgroup),
         )
       else
-        ApelEwanReorderableList(
+        ApelEwanOwnReorderableList(
           folder: folder,
           animate: animate,
           padding: padding,
-          onTap: onTap,
+          onTap: (apelEwan, subgroup) => onTap(context, apelEwan, subgroup),
         )
     ],
   );

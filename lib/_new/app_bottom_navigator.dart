@@ -167,7 +167,7 @@ class AppBottomNavigator extends StatelessWidget{
                   backgroundColor: prov.background??background??background_(context),
                   icon: const Icon(MdiIcons.notebookOutline),
                   //activeIcon: Icon(MdiIcons.notebook),
-                  label: 'Poradnik'
+                  label: 'Tajniki'
               ),
               BottomNavigationBarItem(
                   backgroundColor: prov.background??background??background_(context),

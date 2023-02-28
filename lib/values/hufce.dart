@@ -198,6 +198,7 @@ String stopShortName(StopZHP? stop){
 const String huf_zhp_uk = 'Hufiec Wilno - Związek Harcerstwa Polskiego w Wielkiej Brytanii.';
 
 const String huf_zhp_andrychow = 'Hufiec ZHP Andrychów';
+const String huf_zhp_augustow = 'Hufiec ZHP Augustów';
 const String huf_zhp_beskidzki = 'Hufiec ZHP Beskidzki';
 const String huf_zhp_brodnica = 'Hufiec ZHP Brodnica';
 const String huf_zhp_bydgoszcz_miasto = 'Hufiec ZHP Bydgoszcz-Miasto';
@@ -217,23 +218,29 @@ const String huf_zhp_legionowo = 'Hufiec ZHP Legionowo';
 const String huf_zhp_luban = 'Hufiec ZHP Lubań';
 const String huf_zhp_lublin = 'Hufiec ZHP Lublin';
 const String huf_zhp_lodz_baluty = 'Hufiec ZHP Łódź-Bałuty';
+const String huf_zhp_lodz_polesie = 'Łódź Polesie';
 const String huf_zhp_myslenice = 'Hufiec ZHP Myślenice';
 const String huf_zhp_opole = 'Hufiec ZHP Opole';
+const String huf_zhp_ostrowiec_swietokrzyski = 'Hufiec ZHP Ostrowiec Świętokrzyski';
 const String huf_zhp_podkrakowski = 'Hufiec Podkrakowski ZHP';
 const String huf_zhp_poznan_nowe_miasto = 'Hufiec ZHP Poznań Nowe Miasto';
 const String huf_zhp_poznan_wilda = 'Hufiec ZHP Poznań-Wilda';
 const String huf_zhp_pruszkow = 'Hufiec ZHP Pruszków';
 const String huf_zhp_pulawy = 'Hufiec ZHP Puławy';
+const String huf_zhp_redukta = 'Hufiec ZHP Reduta';
+const String huf_zhp_ruda_slaska = 'Hufiec ZHP Ruda Śląska';
 const String huf_zhp_rybnik = 'Hufiec ZHP Rybnik';
 const String huf_zhp_rzeszow = 'Hufiec ZHP Rzeszów';
 const String huf_zhp_torun = 'Hufiec ZHP Toruń';
 const String huf_zhp_trzebinia = 'Hufiec ZHP Trzebinia';
 
+const String huf_zhp_warszawa_centrum = 'Hufiec ZHP Warszawa Centrum';
 const String huf_zhp_warszawa_mokotow = 'Hufiec ZHP Warszawa Mokotów';
 const String huf_zhp_warszawa_praga_pn = 'Hufiec ZHP Warszawa-Praga-Północ';
 const String huf_zhp_warszawa_ursus_wlochy = 'Hufiec ZHP Warszawa Ursus-Włochy';
 const String huf_zhp_warszawa_ursynow = 'Hufiec ZHP Warszawa Ursynów';
 const String huf_zhp_warszawa_zoliborz = 'Hufiec ZHP Warszawa Żoliborz';
+const String huf_zhp_wieliczka = 'Hufiec ZHP Wieliczka im. Edwarda Dembowskiego';
 
 const String huf_zhp_wolsztyn = 'Hufiec ZHP Wolsztyn';
 

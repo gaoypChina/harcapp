@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/org/org.dart';
+import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_get_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_task_resp.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models/rank_def.dart';
@@ -329,6 +330,16 @@ abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState ex
 
   static Map<String, Rank> allMap = {for(Rank rank in all) rank.uniqRankName: rank};
 
+  static Rank? get lastEdited{
+    String? lastEditedRankUniqName = ShaPref.getStringOrNull(ShaPref.SHA_PREF_RANK_LAST_EDITED);
+    return Rank.allMap[lastEditedRankUniqName];
+  }
+
+  static set lastEdited(Rank? rank){
+    if(rank == null) return;
+    ShaPref.setString(ShaPref.SHA_PREF_RANK_LAST_EDITED, rank.uniqRankName);
+  }
+
   static Rank? last(Org org, {bool zuch = false, bool newSim = true}){
 
     switch(org){
@@ -454,7 +465,10 @@ abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState ex
   bool get inProgress => state.inProgress;
   @override
   @protected
-  set inProgress(bool value) => state.inProgress = value;
+  set inProgress(bool value){
+    lastEdited = this;
+    state.inProgress = value;
+  }
   @override
   void changeInProgress(BuildContext context, {bool? value, bool localOnly = false}){
 
@@ -471,7 +485,10 @@ abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState ex
   DateTime? get completionDate => state.completionDate;
   @override
   @protected
-  set completionDate(DateTime? value) => state.completionDate = value;
+  set completionDate(DateTime? value){
+    lastEdited = this;
+    state.completionDate = value;
+  }
   @override
   void setCompletionDate(DateTime value, {localOnly = false}){
     completionDate = value;
@@ -483,7 +500,10 @@ abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState ex
   bool get completed => state.completed;
   @override
   @protected
-  set completed(bool value) => state.completed = value;
+  set completed(bool value){
+    lastEdited = this;
+    state.completed = value;
+  }
   @override
   void changeCompleted(BuildContext context, {bool? value, bool localOnly = false}){
 

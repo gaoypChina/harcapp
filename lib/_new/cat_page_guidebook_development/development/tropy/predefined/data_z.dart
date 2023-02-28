@@ -13,7 +13,7 @@ List<TropBaseData> zuchTrops = [
         TropTaskBaseData(content: 'Byliśmy na przedstawieniu w teatrze lub na występie amatorskiego zespołu teatralnego.'),
         TropTaskBaseData(content: 'Uczestniczyliśmy w zajęciach zuchowej szkoły teatralnej, w której ćwiczyliśmy dykcję, poruszanie się na scenie i mimikę.'),
         TropTaskBaseData(content: 'Prowadziliśmy próby w naszym zuchowym teatrze.'),
-        TropTaskBaseData(content: 'Wykonaliśmy elementy scenografii, strojów i rekwizyty z materiałów nadających się do recyklingu/ekologicznych.'),
+        TropTaskBaseData(content: 'Wykonaliśmy elementy scenografii, strojów i rekwizyty z materiałów nadających się do recyklingu.'),
         TropTaskBaseData(content: 'Na zakończenie nauki w szkole teatralnej wystawiliśmy przedstawienie dla naszych najbliższych.'),
       ],
       notesForLeaders: 'Trop pomaga zuchom zdobyć wiele nowych umiejętności. Pozwala wykazać się pomysłowością, inicjatywą i samodzielnością, sprzyja pozbyciu się nieśmiałości. Wzbogaca też wiedzę zuchów, uczy współdziałania i współodpowiedzialności. Daje poczucie, że przedstawienie jest efektem pracy wszystkich członków gromady.'
@@ -115,7 +115,7 @@ List<TropBaseData> zuchTrops = [
         TropTaskBaseData(content: 'Na zakończenie urządziliśmy Festiwal Tańca, podczas którego każda szóstka zaprezentowała własny układ taneczny.'),
       ],
       notesForLeaders: 'Trop sprzyja wszechstronnemu rozwojowi zuchów. Podczas nauki tańców dzieci poznają swoje możliwości, współpracują z partnerami, rozwijają wrażliwość na muzykę i rytm, poprawiają kondycję i koordynację ruchową.'
-          '\n\nNa zbiórkach zuchy mogą wspólnie wykonać potrzebne „dodatki” do strojów (kotyliony, wianki, czapki − przy tańcach ludowych, muszki i rękawiczki − przy tańcach towarzyskich) i dekorować salę na bal. Przy wykonywaniu majsterki należy zwrócić uwagę na ekologię i wykorzystanie materiałów nadających się do recyklingu.'
+          '\n\nNa zbiórkach zuchy mogą wspólnie wykonać potrzebne „dodatki” do strojów (kotyliony, wianki, czapki − przy tańcach ludowych, muszki i rękawiczki − przy tańcach towarzyskich) i dekorować salę na bal. Przy wykonywaniu majsterki należy zwrócić uwagę na wykorzystanie materiałów nadających się do recyklingu.'
           '\n\nZbiórki można poświęcić tylko jednemu rodzajowi tańca, np. ludowemu (wtedy zuchy poznają tańce różnych regionów) lub nauczyć zuchy różnych jego rodzajów. Rzecz jasna, w zbiórkach musi uczestniczyć osoba, która umie tańczyć i potrafi nauczyć tańca zuchy.'
   ),
 
@@ -457,7 +457,7 @@ List<TropBaseData> zuchTrops = [
         TropTaskBaseData(content: 'Braliśmy udział w wykopaliskach archeologicznych.'),
         TropTaskBaseData(content: 'Odszukaliśmy zaginione dzieło sztuki.'),
       ],
-      notesForLeaders: 'Pan Samochodzik, bohater serii książek Z. Nienackiego, jest muzealnikiem, historykiem sztuki i detektywem amatorem. Swoją wiedzę i żyłkę detektywistyczną wykorzystuje do tropienia złodziei dzieł sztuki i historycznych pamiątek. W niektórych przygodach towarzyszą mu harcerze. Pan Samochodzik jest też pionierem działań proekologicznych. Cechuje go skromność i kultura osobista. Włączając zuchy w sensacyjne przygody Pana Samochodzika, można im zaszczepić chęć poznawania takich miejsc, jak muzea czy skanseny. Można przedstawić dzieciom bogactwo i różnorodność dóbr kultury i dziedzictwa historycznego, zachęcić do rozwijania dedukcji i zaciekawić przeszłością, a także pokazać, że w każdej sytuacji należy działać ekologicznie.'
+      notesForLeaders: 'Pan Samochodzik, bohater serii książek Z. Nienackiego, jest muzealnikiem, historykiem sztuki i detektywem amatorem. Swoją wiedzę i żyłkę detektywistyczną wykorzystuje do tropienia złodziei dzieł sztuki i historycznych pamiątek. W niektórych przygodach towarzyszą mu harcerze. Pan Samochodzik jest też pionierem miłowania przyrody. Cechuje go skromność i kultura osobista. Włączając zuchy w sensacyjne przygody Pana Samochodzika, można im zaszczepić chęć poznawania takich miejsc, jak muzea czy skanseny. Można przedstawić dzieciom bogactwo i różnorodność dóbr kultury i dziedzictwa historycznego, zachęcić do rozwijania dedukcji i zaciekawić przeszłością, a także pokazać, że w każdej sytuacji należy działać z poszanowaniem natury.'
           '\n\nTrop można zdobywać, poznając na zbiórkach okoliczne galerie, muzea i zabytki, poszukując lokalnych ciekawostek, legend i tajemnic, uczestnicząc w grach terenowych i poszukiwaniach skarbów.'
           '\n\nTrop jest przeznaczony raczej dla starszych zuchów, które lepiej poradzą sobie z rozwiązywaniem logicznych zagadek i łączeniem faktów.'
   ),
@@ -1541,7 +1541,7 @@ List<TropBaseData> zuchTrops = [
         TropTaskBaseData(content: 'Założyliśmy laboratorium, w którym badaliśmy wodę z różnych źródeł (destylowana, deszczowa, butelkowa, z kranu, ze stawu itp.).'),
         TropTaskBaseData(content: 'Odwiedziliśmy lokalną oczyszczalnię ścieków i zapoznaliśmy się z mechanizmem oczyszczania wody.'),
         TropTaskBaseData(content: 'Poznaliśmy sposoby, w jakie możemy chronić wodę, podejmując codzienne decyzje.'),
-        TropTaskBaseData(content: 'Zrobiliśmy ekologiczne środki czystości (np. na bazie octu i sody), które wykorzystaliśmy podczas porządków w zuchówce.'),
+        TropTaskBaseData(content: 'Zrobiliśmy naturalne środki czystości (np. na bazie octu i sody), które wykorzystaliśmy podczas porządków w zuchówce.'),
         TropTaskBaseData(content: 'Odpisaliśmy Wodnikowi i zadeklarowaliśmy, że będziemy chronić czystą wodę.'),
       ],
       notesForLeaders: 'Trop wyrabia u dzieci potrzebę działania na rzecz ochrony wody, pokazuje piękno przyrody oraz skutki negatywnego oddziaływania na nią przez człowieka. Zuchy, które pomagają Wodnikowi, są wrażliwe na zanieczyszczenia środowiska. W trakcie wypraw przyrodniczych poznają środowisko wodne, rośliny i zwierzęta mieszkające w wodzie i nad wodą. Samodzielne obserwacje i badania wód zachęcą dzieci do pogłębiania tematu i pokażą, że woda jest niezbędna do życia.'
@@ -1739,7 +1739,7 @@ List<TropBaseData> zuchTrops = [
         TropTaskBaseData(content: 'Przygotowaliśmy atrament sympatyczny. Wszystkie przeprowadzane przez nas doświadczenia zapisywaliśmy w naszej księdze chemicznej.'),
         TropTaskBaseData(content: 'Spotkaliśmy się z chemikiem, który opowiedział nam o środkach chemicznych używanych w domu.'),
         TropTaskBaseData(content: 'Urządziliśmy laboratorium chemiczne, w którym badaliśmy różne środki czystości.'),
-        TropTaskBaseData(content: 'Wykonaliśmy plakaty reklamujące ekologiczne środki czystości. Zaprezentowaliśmy je rodzicom.'),
+        TropTaskBaseData(content: 'Wykonaliśmy plakaty reklamujące naturalne środki czystości. Zaprezentowaliśmy je rodzicom.'),
         TropTaskBaseData(content: 'Dokonaliśmy przeglądu używanych w domu środków kosmetycznych i czyszczących.'),
         TropTaskBaseData(content: 'W szóstkach przyjrzeliśmy się naszym ulubionym przekąskom. Przynieśliśmy na zbiórkę przekąski razem z opakowaniami (z wypisanym składem). Zrobiliśmy ranking najmniej chemicznych przekąsek.'),
         TropTaskBaseData(content: 'Założyliśmy zuchową poradnię usuwania różnych plam.'),
@@ -2066,7 +2066,6 @@ List<TropBaseData> zuchTrops = [
           '\n\nTrop nadaje się dla starszych zuchów. Polecany jest do realizacji podczas jesieni, zimy i wczesnej wiosny.'
   ),
 
-  // TODO: Zmienieć „Nauka – to lubię" na coś innego.
   TropBaseData(
       name: 'Młodzi naukowcy',
       category: TropCategory.zuchZawodowe,
@@ -2083,7 +2082,7 @@ List<TropBaseData> zuchTrops = [
         TropTaskBaseData(content: 'Założyliśmy wielką księgę eksperymentów.'),
         TropTaskBaseData(content: 'Prezentowaliśmy własne zainteresowania zuchom z gromady lub urządziliśmy szóstkowe „popisy" naukowe.'),
         TropTaskBaseData(content: 'Oglądaliśmy wystąpienia młodych pasjonatów z krajowych konferencji TEDxKids.'),
-        TropTaskBaseData(content: 'Na podsumowanie urządziliśmy konferencję pt. „Nauka – to lubię".'),
+        TropTaskBaseData(content: 'Na podsumowanie urządziliśmy konferencję pt. „Nauka – moje hobby".'),
       ],
       notesForLeaders: 'Trop wprowadza zucha w pasjonujący świat nauki, doświadczeń i eksperymentów. Przeznaczony jest dla starszych dzieci, które interesują się mechanizmami rządzącymi światem. Przedmiotem doświadczeń może zostać każdy element naszego otoczenia, np. zjawiska atmosferyczne, właściwości roślin czy powstawanie baniek mydlanych.'
           '\n\nPodczas zbiórek koniecznie trzeba zwrócić uwagę na cechy, jakie powinien mieć naukowiec: rzetelność, dokładność, spostrzegawczość, cierpliwość. To dzięki nim możemy się dowiedzieć więcej o świecie.'

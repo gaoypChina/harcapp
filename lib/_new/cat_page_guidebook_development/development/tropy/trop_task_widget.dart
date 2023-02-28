@@ -90,6 +90,8 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
               onTap: () {
                 setState(() => task.completed = !task.completed);
                 prov.notify();
+                TropProvider.notify_(context);
+                TropListProvider.notify_(context);
                 trop.save();
               },
               child: Padding(
@@ -205,7 +207,7 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
                         textSize: Dimen.TEXT_SIZE_BIG,
                         onTap: null
                       )
-                    else if(task.assigneeText != null)
+                    else if(task.assigneeText != null && task.assigneeText!.isNotEmpty)
                       SimpleButton.from(
                         context: context,
                         text: task.assigneeText,

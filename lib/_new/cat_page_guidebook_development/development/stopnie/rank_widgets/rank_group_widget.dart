@@ -94,7 +94,7 @@ class RankGroupWidget extends StatelessWidget{
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: Dimen.ICON_MARG),
                       child: GradientIcon(
-                          group.icon,
+                          group.icon!,
                           size: 42.0,
                           colorStart: RankData.colors[group.cat!.rank!.data]!.start(false),
                           colorEnd: RankData.colors[group.cat!.rank!.data]!.end(false)

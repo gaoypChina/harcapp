@@ -5,17 +5,15 @@ import 'package:harcapp_core/comm_classes/common.dart';
 import 'article_core.dart';
 
 class ArticleSearchOptions extends SearchOptions{
-  List<String>? checkedTags;
+  List<String> checkedTags;
   DateTime? fromDate;
   DateTime? toDate;
 
-  ArticleSearchOptions({List<String>? checkedTags}){
-    this.checkedTags = checkedTags??[];
-  }
+  ArticleSearchOptions({this.checkedTags = const []});
 
   @override
   bool get isEmpty{
-    return checkedTags!.isEmpty && fromDate == null && toDate == null;
+    return checkedTags.isEmpty && fromDate == null && toDate == null;
   }
 
   @override
@@ -41,7 +39,7 @@ bool _dateMatch(ArticleSearchOptions options, Article article){
 
 bool _tagMatch(ArticleSearchOptions options, Article article){
 
-  final List<String> checkedTags = options.checkedTags!;
+  final List<String> checkedTags = options.checkedTags;
   if(checkedTags.isEmpty) return true;
 
   for (String tag in article.tags!)

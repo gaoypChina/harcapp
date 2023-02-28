@@ -63,33 +63,7 @@ class OrgSwitcher extends StatelessWidget{
             ],
           )
       ):null,
-      child: SizedBox(
-        width: OrgSwitcher._width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-
-            Text('', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_SMALL)),
-            Text(
-                orgName[prov.currentFrom(allowedOrgs)]!,
-                style: AppTextStyle(
-                    fontSize: Dimen.TEXT_SIZE_BIG,
-                    fontWeight: weight.bold,
-                    color: orgColor[prov.currentFrom(allowedOrgs)]
-                )
-            ),
-            Text(
-                prov.currentFrom(allowedOrgs)==Org.zhr_d?'H-KI':(
-                    prov.currentFrom(allowedOrgs)==Org.zhr_c?'H-RZE':''),
-                style: AppTextStyle(
-                    fontSize: Dimen.TEXT_SIZE_SMALL,
-                    fontWeight: weight.bold,
-                    color: orgColor[prov.currentFrom(allowedOrgs)]
-                )
-            )
-          ],
-        ),
-      ),
+      child: OrgAdvancedIndicator(prov.currentFrom(allowedOrgs)),
     ),
   );
 

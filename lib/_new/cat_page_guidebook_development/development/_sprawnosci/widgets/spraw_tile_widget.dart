@@ -11,10 +11,6 @@ import 'common.dart';
 
 class SprawTileWidget extends StatefulWidget{
 
-  static const IconData ICON_SAVED = MdiIcons.eyeOutline;
-  static const IconData ICON_IN_PROGRESS = MdiIcons.timerSandEmpty;
-  static const IconData ICON_COMPLETED = MdiIcons.trophyOutline;
-
   final Spraw spraw;
   final EdgeInsets padding;
   final Function(Spraw spraw)? onPicked;
@@ -59,9 +55,7 @@ class SprawTileWidgetState extends State<SprawTileWidget>{
             Consumer<CurrentSprawGroupProvider>(
               builder: (context, prov, child) => SprawBookmarkWidget(
                   spraw,
-                  onSavedChaned: (saved){
-                    setState((){});
-                  }
+                  onSavedChanged: (saved) => setState((){})
               ),
             ),
 

@@ -41,6 +41,7 @@ class RankTask extends SyncableParamGroup_ with SyncNode<RankTaskResp> implement
   @override
   void setCompleted(BuildContext context, bool value){
     taskState!.completed = value;
+    Rank.lastEdited = rank;
     setSingleState(PARAM_COMPLETED, SyncableParamSingle_.stateNotSynced);
     synchronizer.post();
     Provider.of<RankProv>(context, listen: false).notify();
@@ -56,6 +57,7 @@ class RankTask extends SyncableParamGroup_ with SyncNode<RankTaskResp> implement
       return;
     }
     taskState!.note = value;
+    Rank.lastEdited = rank;
     setSingleState(PARAM_NOTE, SyncableParamSingle_.stateNotSynced);
     synchronizer.post(aggregateDelay: SynchronizerEngine.aggregateTextInputDuration);
   }

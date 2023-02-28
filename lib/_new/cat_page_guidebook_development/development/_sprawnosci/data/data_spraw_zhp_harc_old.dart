@@ -1,3 +1,4 @@
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw_book.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw_family.dart';
@@ -5,6 +6,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawno
 
 SprawBook sprawBookZHPOld = SprawBookData(
     id: SprawBookData.ZHP_HARC_OLD_ID,
+    org: Org.zhp,
     title: 'Sprawności harcerskie ZHP',
     source: 'Regulamin i programy sprawności przyjęte uchwałą Głównej Kwatery ZHP nr 24/2014 z dnia 11 czerwca 2014',
     color: SprawBookData.SPRAW_BOOK_ZHP_HARC_OLD_COLOR,

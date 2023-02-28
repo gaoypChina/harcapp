@@ -86,14 +86,6 @@ class TropEditorPageState extends State<TropEditorPage>{
 
                     if(taskTmp.isEmpty) continue;
 
-                    if(taskTmp.assigneeController.text.isEmpty && taskTmp.assignee == null && taskTmp.assigneeNick == null) {
-                      showAppToast(context, text: 'Wszystkie zadania muszą mieć ogarniacza');
-                      return;
-                    }
-                    if(taskTmp.deadline == null) {
-                      showAppToast(context, text: 'Wszystkie zadania muszą mieć datę realizacji');
-                      return;
-                    }
                     TropTask? task = taskTmp.toTask();
                     if(task == null){
                       showAppToast(context, text: 'Coś jest nie tak z zadaniami');
@@ -160,61 +152,102 @@ class TropEditorPageState extends State<TropEditorPage>{
 
                 const SizedBox(height: Dimen.SIDE_MARG),
 
-                Row(
-                  children: [
+                SimpleButton(
+                  clipBehavior: Clip.none,
+                  radius: AppCard.bigRadius,
+                  child: Row(
+                    children: [
 
-                    Text('Kategoria:', style: AppTextStyle(
-                      fontSize: Dimen.TEXT_SIZE_BIG
-                    )),
+                      Text('Kategoria:', style: AppTextStyle(
+                          fontSize: Dimen.TEXT_SIZE_BIG
+                      )),
 
-                    Expanded(child: DropdownButtonHideUnderline(
-                        child: Consumer<TropCategoryProvider>(
-                          builder: (context, prov, child) => DropdownButton2<TropCategory>(
-                            isExpanded: true,
-                            hint: Text(
-                              'Kategoria tropu',
-                              style: AppTextStyle(color: hintEnab_(context))
-                            ),
-                            items: allCategories.map((cat) => DropdownMenuItem(
-                              value: cat,
-                              child: Row(
-                                children: [
-                                  const SizedBox(width: Dimen.defMarg),
-                                  Text(tropCategoryToName(cat), style: AppTextStyle(
+                      Expanded(
+                          child: Consumer<TropCategoryProvider>(
+                            builder: (context, prov, child) => Row(
+                              children: [
+                                const SizedBox(width: Dimen.defMarg),
+                                Text(tropCategoryToName(prov.category), style: AppTextStyle(
                                     fontSize: Dimen.TEXT_SIZE_BIG,
                                     fontWeight: weight.halfBold
-                                  )),
-                                  Expanded(child: Container()),
-                                  Padding(
-                                    padding: const EdgeInsets.all(Dimen.defMarg),
-                                    child: TropIcon(
-                                      cat,
+                                )),
+                                Expanded(child: Container()),
+                                Padding(
+                                  padding: const EdgeInsets.all(Dimen.defMarg),
+                                  child: TropIcon(
+                                      prov.category,
                                       size: 60,
                                       zuchTropName: initTropBaseData?.customIconTropName??
                                           initTrop?.customIconTropName
-                                    ),
                                   ),
-                                  const SizedBox(width: Dimen.defMarg),
-                                ],
-                              )
-                            )).toList(),
-                            itemPadding: EdgeInsets.zero,
-                            itemHeight: TropIcon.defSize,
+                                ),
+                                const SizedBox(width: Dimen.defMarg),
+                              ],
+                            ),
+                          )),
 
-                            value: prov.category,
-                            onChanged: (value) => prov.category = value as TropCategory,
-                            iconSize: 0,
-                            buttonDecoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(AppCard.defRadius),
-                            ),
-                            dropdownDecoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                            ),
-                            dropdownPadding: EdgeInsets.zero,
-                          ),
-                        )
-                    ))
-                  ],
+                      // Expanded(child: DropdownButtonHideUnderline(
+                      //     child: Consumer<TropCategoryProvider>(
+                      //       builder: (context, prov, child) => DropdownButton2<TropCategory>(
+                      //         isExpanded: true,
+                      //         hint: Text(
+                      //           'Kategoria tropu',
+                      //           style: AppTextStyle(color: hintEnab_(context))
+                      //         ),
+                      //         items: allCategories.map((cat) => DropdownMenuItem(
+                      //           value: cat,
+                      //           child: Row(
+                      //             children: [
+                      //               const SizedBox(width: Dimen.defMarg),
+                      //               Text(tropCategoryToName(cat), style: AppTextStyle(
+                      //                 fontSize: Dimen.TEXT_SIZE_BIG,
+                      //                 fontWeight: weight.halfBold
+                      //               )),
+                      //               Expanded(child: Container()),
+                      //               Padding(
+                      //                 padding: const EdgeInsets.all(Dimen.defMarg),
+                      //                 child: TropIcon(
+                      //                   cat,
+                      //                   size: 60,
+                      //                   zuchTropName: initTropBaseData?.customIconTropName??
+                      //                       initTrop?.customIconTropName
+                      //                 ),
+                      //               ),
+                      //               const SizedBox(width: Dimen.defMarg),
+                      //             ],
+                      //           )
+                      //         )).toList(),
+                      //         itemPadding: EdgeInsets.zero,
+                      //         itemHeight: TropIcon.defSize,
+                      //
+                      //         value: prov.category,
+                      //         onChanged: (value) => prov.category = value as TropCategory,
+                      //         iconSize: 0,
+                      //         buttonDecoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(AppCard.defRadius),
+                      //         ),
+                      //         dropdownDecoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                      //         ),
+                      //         dropdownPadding: EdgeInsets.zero,
+                      //       ),
+                      //     )
+                      // ))
+                    ],
+                  ),
+                  onTap: () => openCategoryBottomSheet(
+                    context,
+
+                    selected: TropCategoryProvider.of(context).category,
+
+                    allTropCategories:
+                    allHarcTropCategories.contains(TropCategoryProvider.of(context).category)?
+                    allHarcTropCategories:
+                    allZuchTropCategories,
+
+                    zuchTropName: initTrop?.customIconTropName??initTropBaseData?.customIconTropName,
+                    onSelected: (category) => TropCategoryProvider.of(context).category = category
+                  )
                 ),
 
                 const SizedBox(height: Dimen.SIDE_MARG),
@@ -268,7 +301,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                         }
                       )
                     ))
-                    
+
                   ],
                 ),
                 
@@ -338,9 +371,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                   )
                 ),
 
-                const SizedBox(
-                  height: Dimen.defMarg,
-                ),
+                const SizedBox(height: Dimen.defMarg),
 
                 Consumer<AimControllersProvider>(
                   builder: (context, prov, child) => SimpleButton.from(
@@ -621,7 +652,7 @@ Future<String?> openAssigneeTextField(
     BuildContext context,
     { String? initText,
       void Function(String)? onChanged
-    }) async{
+    }) async {
 
   bool saved = false;
 
@@ -683,3 +714,41 @@ Future<String?> openAssigneeTextField(
   return saved?controller.text:null;
 
 }
+
+void openCategoryBottomSheet(
+    BuildContext context,
+    { required TropCategory selected,
+      required List<TropCategory> allTropCategories,
+      String? zuchTropName,
+      void Function(TropCategory)? onSelected
+    }) => showScrollBottomSheet(
+    context: context,
+    builder: (context) => BottomSheetDef(
+        title: 'Wybierz kategorię tropu',
+        builder: (context) => ListView.builder(
+          itemCount: allTropCategories.length,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) => ListTile(
+            tileColor: selected == allTropCategories[index]?backgroundIcon_(context):null,
+            contentPadding: const EdgeInsets.all(Dimen.defMarg),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppCard.bigRadius),
+            ),
+            leading: TropIcon(
+              allTropCategories[index],
+              zuchTropName: zuchTropName,
+            ),
+            title: Text(
+              tropCategoryToName(allTropCategories[index]),
+              style: AppTextStyle(),
+            ),
+            onTap: (){
+              onSelected?.call(allTropCategories[index]);
+              Navigator.pop(context);
+            }
+          ),
+
+        )
+    )
+);

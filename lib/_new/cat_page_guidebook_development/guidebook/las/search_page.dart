@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/sliver_child_builder_separated_delegate.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -37,52 +40,53 @@ class SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
 
     return BottomNavScaffold(
-      body: Stack(
-        children: <Widget>[
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
 
-          ListView.separated(
-            padding: EdgeInsets.only(
-                top: SearchField.height + Dimen.SIDE_MARG,
-                bottom: Dimen.SIDE_MARG,
-                left: Dimen.SIDE_MARG,
-                right: Dimen.SIDE_MARG
-            ),
-            physics: const BouncingScrollPhysics(),
-            itemCount: data.length,
-            itemBuilder: (context, index) => Item(
-              data[index],
-              onTap: () => widget.onItemTap(index),
-            ),
-            separatorBuilder: (BuildContext context, int index) =>
-            const SizedBox(height: Dimen.SIDE_MARG),
+          const SliverAppBar(
+            title: Text('Szukaj w lesie'),
+            floating: true,
+            centerTitle: true,
           ),
 
-          SearchField(
-            hint: 'Szukaj...',
-            background: background_(context),
-            leading: IconButton(
-              icon: const Icon(MdiIcons.arrowLeft),
-              onPressed: () => Navigator.pop(context),
-            ),
-            onChanged: (text){
+          FloatingContainer.child(
+              child: SearchField(
+                hint: 'Szukaj:',
+                background: background_(context),
+                elevation: AppCard.defElevation,
+                onChanged: (text){
 
-              text = remPolChars(text);
-              List<ItemData> _data = [];
+                  text = remPolChars(text);
+                  List<ItemData> _data = [];
 
-              for(ItemData item in items){
-                if(remPolChars(item.name).contains(text))
-                  _data.add(item);
-                else{
-                  for(String tag in remPolCharsList(item.tags))
-                    if(tag.contains(text)) {
+                  for(ItemData item in items){
+                    if(remPolChars(item.name).contains(text))
                       _data.add(item);
-                      break;
-                    }
-                }
-              }
+                    else
+                      for(String tag in remPolCharsList(item.tags))
+                        if(tag.contains(text)) {
+                          _data.add(item);
+                          break;
+                        }
+                  }
 
-              setState(() => this.data = _data);
-            },
+                  setState(() => this.data = _data);
+                },
+              ),
+              height: SearchField.height
+          ),
+
+          SliverPadding(
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+            sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
+              (context, index) => Item(
+                data[index],
+                onTap: () => widget.onItemTap(index),
+              ),
+              separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
+              count: data.length,
+            )),
           ),
 
         ],
@@ -94,29 +98,27 @@ class SearchPageState extends State<SearchPage> {
 class Item extends StatelessWidget{
 
   final ItemData data;
-  final Function? onTap;
+  final void Function()? onTap;
 
   const Item(this.data, {this.onTap, super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return AppCard(
-        radius: AppCard.bigRadius,
-        padding: EdgeInsets.zero,
-        onTap: onTap as void Function()?,
-        child: Container(
-          height: CARD_HEIGHT,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/leaf_bg/${data.background.path}.webp'),
-              fit: BoxFit.cover,
-            ),
+  Widget build(BuildContext context) => SimpleButton(
+      radius: AppCard.bigRadius,
+      onTap: onTap,
+      child: Container(
+        height: CARD_HEIGHT,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/leaf_bg/${data.background.path}.webp'),
+            fit: BoxFit.cover,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              const SizedBox(height: 20),
-              Text(
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            const SizedBox(height: 20),
+            Text(
                 data.name,
                 style: AppTextStyle(
                     fontWeight: weight.halfBold,
@@ -125,17 +127,18 @@ class Item extends StatelessWidget{
                     color: Colors.white
                 ),
                 textAlign: TextAlign.center
-              ),
-              const SizedBox(height: 10),
+            ),
+            const SizedBox(height: 10),
 
-              Expanded(child: Container()),
+            Expanded(child: Container()),
 
-              TagWidget(data),
+            TagWidget(data),
 
-            ],
-          ),
-        )
-    );
-  }
+            const SizedBox(height: Dimen.SIDE_MARG),
+
+          ],
+        ),
+      )
+  );
 
 }

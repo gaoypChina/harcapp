@@ -309,6 +309,8 @@ class ShaPref{
   static const String _SHA_PREF_SHARE_RANK_DUMP_ = 'SHA_PREF_SHARE_RANK_DUMP_';
   static String SHA_PREF_SHARE_RANK_DUMP_(String sharedRankKey) => _SHA_PREF_SHARE_RANK_DUMP_ + sharedRankKey;
 
+  static const String SHA_PREF_RANK_LAST_EDITED = 'SHA_PREF_RANK_LAST_EDITED';
+
   // STATISTICS
 
   static const String SHA_PREF_STATISTICS_LAST_SYNC_TIME = 'SHA_PREF_STATISTICS_LAST_SYNC_TIME';

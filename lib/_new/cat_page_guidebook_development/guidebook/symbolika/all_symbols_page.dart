@@ -29,7 +29,7 @@ class AllSymbolsPageState extends State<AllSymbolsPage> {
       children.add(
           Hero(
             tag: data,
-            child: SymbImageWidget(data, dense: true, onItemTap: () => widget.onItemTap(items.indexOf(data))),
+            child: SymbImageWidget(data, dense: true, onTap: () => widget.onItemTap(items.indexOf(data))),
           )
       );
 

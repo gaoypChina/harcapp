@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
+import 'package:harcapp/_common_widgets/folder_widget/folder_search_page.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
@@ -33,25 +34,17 @@ class SprawFoldersPage extends StatefulWidget{
 
 class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderStateMixin{
 
-  List<SprawFolder> get folders{
-    List<String> folderNames = SprawFolder.allFolderIds;
+  static const int unbuttonedPagesBefore = 3;
+  static const int unbuttonedPagesAfter = 1;
 
-    List<SprawFolder> _folders = [];
-    for(String folderName in folderNames)
-      _folders.add(SprawFolder.from(folderName));
-
-    return _folders;
-  }
-
-  late List<SprawFolder> _folders;
+  List<BaseSprawFolder> get folders => BaseSprawFolder.allFolders;
 
   late TabController tabController;
   ValueNotifier<double>? notifier;
 
   void initTabViewStuff(){
-    _folders = folders;
     tabController = TabController(
-        length: _folders.length + 1, // +1 for new folder tab.
+        length: folders.length + 1, // +1 for new folder tab.
         vsync: this,
         initialIndex: notifier?.value.toInt()??0
     );
@@ -80,7 +73,7 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
     List<Widget> tabs = [];
     List<Widget> children = [];
 
-    for(SprawFolder folder in _folders){
+    for(BaseSprawFolder folder in folders){
 
       tabs.add(FolderTab(
         iconKey: folder.iconKey,
@@ -93,17 +86,21 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
           title: folder.name,
           mode: SprawWidgetSmall.MODE_SAVED,
           UIDs: folder.sprawUIDs,
-          emptyWidget: const EmptyMessage(),
+          emptyWidget: EmptyMessage(
+            showHowToAddMessage: folder is OwnSprawFolder,
+          ),
           icon: folder.icon,
           sprawCardBackgroundColor: background_(context),
           onSprawLongPress: (spraw) => showAlertDialog(
               context,
               title: 'Ostrożnie...',
-              leading: SprawWidgetSmall(
-                  spraw,
-                  SprawWidgetSmall.MODE_SAVED,
-                  clickable: false,
-                  margin: const EdgeInsets.only(right: alertDialogMarginVal)
+              leading: Padding(
+                padding: const EdgeInsets.only(right: alertDialogMarginVal),
+                child: SprawWidgetSmall(
+                    spraw,
+                    SprawWidgetSmall.MODE_SAVED,
+                    clickable: false,
+                ),
               ),
               content: 'Czy usunąć sprawność:\n<b>${spraw.title}</b>\n\nz folderu:\n<b>${folder.name}</b>?',
               actionBuilder: (context) => [
@@ -131,13 +128,13 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
     children.add(AddFolderWidget(
         text: 'Stwórz nowy folder ze sprawnościami!',
         onSave: (String name, String iconKey, String colorsKey) async {
-          SprawFolder folder = await SprawFolder.create();
+          OwnSprawFolder folder = await OwnSprawFolder.create();
           folder.name = name;
           folder.iconKey = iconKey;
           folder.colorsKey = colorsKey;
 
           setState(() => initTabViewStuff());
-          post(() => tabController.animateTo(_folders.indexOf(folder)));
+          post(() => tabController.animateTo(folders.indexOf(folder)));
         }
     ));
 
@@ -148,9 +145,24 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
           SliverAppBar(
             floating: true,
             pinned: true,
-            title: const Text('Moje foldery'),
+            title: AppBarTitleWidget(notifier: notifier!),
             centerTitle: true,
-            //actions: [addFolderButton],
+            actions: [
+              IconButton(
+                icon: const Icon(MdiIcons.magnify),
+                onPressed: () => pushPage(
+                    context,
+                    builder: (context) => FolderSearchPage<BaseSprawFolder>(
+                      allFolders: BaseSprawFolder.allFolders,
+                      onSelected: (folder){
+                        int index = folders.indexOf(folder);
+                        tabController.animateTo(index);
+                        Navigator.pop(context);
+                      },
+                    )
+                ),
+              )
+            ],
             bottom: TabBar(
               splashBorderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(AppCard.bigRadius),
@@ -176,11 +188,10 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
       floatingActionButton: _EditFloatingButton(
         folders: folders,
         notifier: notifier!,
-        mode: SprawWidgetSmall.MODE_SAVED,
         onSaved: (String name, String iconKey, String colorsKey) => setState((){
-          folders[tabController.index].name = name;
-          folders[tabController.index].iconKey = iconKey;
-          folders[tabController.index].colorsKey = colorsKey;
+          (folders[tabController.index] as OwnSprawFolder).name = name;
+          (folders[tabController.index] as OwnSprawFolder).iconKey = iconKey;
+          (folders[tabController.index] as OwnSprawFolder).colorsKey = colorsKey;
         }),
         onDeleted: (folder){
           showAppToast(context, text: 'Usunięto folder <b>${folder.name}</b>');
@@ -193,18 +204,69 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
 
 }
 
+class AppBarTitleWidget extends StatelessWidget{
+
+  final ValueNotifier notifier;
+
+  const AppBarTitleWidget({required this.notifier, super.key});
+
+  double get transProgress => max(min((notifier.value - SprawFoldersPageState.unbuttonedPagesBefore + 1), 1), 0);
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    width: 120,
+    child: AnimatedBuilder(
+        animation: notifier,
+        builder: (context, child) => Transform.translate(
+          offset: Offset(0, kToolbarHeight * transProgress),
+          child: Column(
+            children: [
+
+              SizedBox(
+                  height: kToolbarHeight,
+                  child: Center(
+                    child: Opacity(
+                      opacity: 1 - max(0, sin(pi*transProgress)),
+                      child: Text(
+                        'Moje foldery',
+                        style: AppTextStyle(
+                            fontSize: Dimen.TEXT_SIZE_APPBAR
+                        ),
+                      ),
+                    ),
+                  )
+              ),
+              SizedBox(
+                  height: kToolbarHeight,
+                  child: Center(
+                    child: Opacity(
+                      opacity: max(0, cos(pi*transProgress)),
+                      child: Text(
+                        'Foldery',
+                        style: AppTextStyle(
+                            fontSize: Dimen.TEXT_SIZE_APPBAR
+                        ),
+                      ),
+                    ),
+                  )
+              ),
+              const SizedBox(height: kToolbarHeight)
+            ],
+          ),
+        )
+    ),
+  );
+
+}
+
 class _EditFloatingButton extends StatelessWidget{
 
-  static const int unbuttonedPagesBefore = 1;
-  static const int unbuttonedPagesAfter = 1;
-
-  final List<SprawFolder> folders;
-  final String mode;
+  final List<BaseSprawFolder> folders;
   final ValueNotifier notifier;
   final void Function(String, String, String)? onSaved;
-  final void Function(SprawFolder)? onDeleted;
+  final void Function(BaseSprawFolder)? onDeleted;
 
-  const _EditFloatingButton({required this.folders, required this.mode, required this.notifier, this.onSaved, this.onDeleted});
+  const _EditFloatingButton({required this.folders, required this.notifier, this.onSaved, this.onDeleted});
 
   @override
   Widget build(BuildContext context) => AnimatedBuilder(
@@ -214,7 +276,7 @@ class _EditFloatingButton extends StatelessWidget{
         int realPage = (.5 + notifier.value).toInt();
         int truncPage = min(.5 + notifier.value, folders.length - 1).toInt();
 
-        bool isInvisible = realPage < unbuttonedPagesBefore || realPage > folders.length - unbuttonedPagesAfter;
+        bool isInvisible = realPage < SprawFoldersPageState.unbuttonedPagesBefore || realPage > folders.length - SprawFoldersPageState.unbuttonedPagesAfter;
 
         return Transform.translate(
           offset: Offset(0, Dimen.FLOATING_BUTTON_MARG*(1-cos(2*pi*notifier.value))),
@@ -228,7 +290,7 @@ class _EditFloatingButton extends StatelessWidget{
             child: FloatingActionButton(
               backgroundColor: folders[truncPage].colorsData.avgColor,
               onPressed: isInvisible?null:(){
-                SprawFolder folder = folders[truncPage];
+                BaseSprawFolder folder = folders[truncPage];
                 pushPage(
                     context,
                     builder: (context) => FolderEditPage(
@@ -254,13 +316,16 @@ class _EditFloatingButton extends StatelessWidget{
 
 class EmptyMessage extends StatelessWidget{
 
-  const EmptyMessage({Key? key}) : super(key: key);
+  final bool showHowToAddMessage;
+
+  const EmptyMessage({this.showHowToAddMessage = true, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Padding(
     padding: const EdgeInsets.all(Dimen.SIDE_MARG),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
 
         Text(
@@ -268,17 +333,21 @@ class EmptyMessage extends StatelessWidget{
           style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_APPBAR, fontWeight: weight.bold),
         ),
 
-        const SizedBox(height: 2*Dimen.SIDE_MARG),
+        if(showHowToAddMessage)
+          const SizedBox(height: 2*Dimen.SIDE_MARG),
 
-        const AppText(
-          'Aby dodać sprawności do folderu, <b>wybierz sprawność</b> i <b>przytrzymaj</b> przycisk:',
-          size: Dimen.TEXT_SIZE_BIG,
-          textAlign: TextAlign.center,
-        ),
+        if(showHowToAddMessage)
+          const AppText(
+            'Aby dodać sprawności do folderu, <b>wybierz sprawność</b> i <b>przytrzymaj</b> przycisk:',
+            size: Dimen.TEXT_SIZE_BIG,
+            textAlign: TextAlign.center,
+          ),
 
-        const SizedBox(height: Dimen.SIDE_MARG),
+        if(showHowToAddMessage)
+          const SizedBox(height: Dimen.SIDE_MARG),
 
-        const Icon(MdiIcons.bookmarkOutline, size: 32.0)
+        if(showHowToAddMessage)
+          const Icon(MdiIcons.bookmarkOutline, size: 32.0)
       ],
     ),
   );

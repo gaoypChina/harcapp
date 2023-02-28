@@ -60,7 +60,7 @@ class TropyPage extends StatelessWidget{
                       child: const Padding(
                         padding: EdgeInsets.all(Dimen.SIDE_MARG),
                         child: EmptyMessageWidget(
-                          icon: MdiIcons.signDirectionPlus,
+                          icon: Trop.icon,
                           text: 'Rozpocznij nowy trop!',
                         ),
                       )
@@ -117,6 +117,7 @@ class TropyPage extends StatelessWidget{
   ) => showScrollBottomSheet(
       context: context,
       builder: (context) => BottomSheetDef(
+          title: 'Nowy trop',
           builder: (context) => Column(
             children: [
 

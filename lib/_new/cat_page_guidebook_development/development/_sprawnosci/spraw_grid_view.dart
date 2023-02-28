@@ -27,7 +27,7 @@ class SprawGridView extends StatelessWidget{
     this.sprawCardBackgroundColor,
     this.emptyWidget,
     this.emptyMessage = 'Pusto',
-    this.showProgress = false,
+    this.showProgress = true,
     this.onSprawLongPress,
     super.key
   });
@@ -60,7 +60,6 @@ class SprawGridView extends StatelessWidget{
     while(children.length % 3 != 0)
       children.add(const SizedBox(width: SprawWidgetSmall.width, height: SprawWidgetSmall.height));
 
-
     return Stack(
       children: [
 
@@ -81,7 +80,10 @@ class SprawGridView extends StatelessWidget{
         ),
 
         if(UIDs!.isEmpty)
-          emptyWidget??
+          emptyWidget!=null?
+          Center(
+            child: emptyWidget,
+          ):
           Positioned.fill(
             child: Center(
               child: Text(
@@ -98,9 +100,11 @@ class SprawGridView extends StatelessWidget{
         Positioned.fill(
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.only(top: Dimen.SIDE_MARG),
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG/2),
             child: Wrap(
               alignment: WrapAlignment.spaceBetween,
+              spacing: Dimen.ICON_MARG,
+              runSpacing: Dimen.ICON_MARG,
               children: children,
             ),
           ),

@@ -28,11 +28,20 @@ class PartChangelog extends StatelessWidget{
             sliver: SliverList(delegate: SliverChildListDelegate([
 
               const ListCard(
+                  '3.1.15',
+                  [
+                    'Dodano nowe piosenki,',
+                    'Dodano tropy,',
+                    'Poprawiono moduł "Rozwój".',
+                  ]
+              ),
+
+              const ListCard(
                   '3.1.14',
                   [
                     'Dodano nowe piosenki,',
-                    'Dodano możliwość słuchania nagrań piosenek spoza serwisu Youtube,'
-                    'Dodano symbolikę lilijki ZHP,',
+                    'Dodano możliwość słuchania nagrań piosenek spoza serwisu Youtube,',
+                    'Dodano symbolikę lilijki ZHP i ZHR.',
                   ]
               ),
 

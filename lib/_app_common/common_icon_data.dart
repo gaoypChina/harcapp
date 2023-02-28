@@ -249,6 +249,7 @@ class CommonIconData{
     'map': MdiIcons.map,
     'binoculars': MdiIcons.binoculars,
     'compassOutline': MdiIcons.compassOutline,
+    'timerSandEmpty': MdiIcons.timerSandEmpty,
     'sunglasses': MdiIcons.sunglasses,
     'balloon': MdiIcons.balloon,
 
@@ -263,6 +264,7 @@ class CommonIconData{
     'stringLights': MdiIcons.stringLights,
 
     'abacus': MdiIcons.abacus,
+    'trophyOutline': MdiIcons.trophyOutline,
     'shimmer': MdiIcons.shimmer,
 
     'paperRollOutline': MdiIcons.paperRollOutline,

@@ -10,14 +10,14 @@ import 'apel_ewan.dart';
 import 'apel_ewan_own_folder.dart';
 import 'apel_ewan_tile.dart';
 
-class ApelEwanReorderableList<T extends ApelEwanOwnFolder> extends StatefulWidget{
+class ApelEwanOwnReorderableList<T extends ApelEwanOwnFolder> extends StatefulWidget{
 
   final T folder;
   final EdgeInsets padding;
   final bool animate;
   final void Function(ApelEwan, String?)? onTap;
 
-  const ApelEwanReorderableList({
+  const ApelEwanOwnReorderableList({
     required this.folder,
     this.padding = const EdgeInsets.all(Dimen.ICON_MARG),
     this.animate = false,
@@ -26,11 +26,11 @@ class ApelEwanReorderableList<T extends ApelEwanOwnFolder> extends StatefulWidge
   });
 
   @override
-  State<StatefulWidget> createState() => ApelEwanReorderableListState<T>();
+  State<StatefulWidget> createState() => ApelEwanOwnReorderableListState<T>();
 
 }
 
-class ApelEwanReorderableListState<T extends ApelEwanOwnFolder> extends State<ApelEwanReorderableList<T>>{
+class ApelEwanOwnReorderableListState<T extends ApelEwanOwnFolder> extends State<ApelEwanOwnReorderableList<T>>{
 
   T get folder => widget.folder;
   EdgeInsets get padding => widget.padding;

@@ -4,20 +4,18 @@ import 'dart:math';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/app_text_pw.dart';
+import 'package:harcapp/_common_widgets/folder_widget/folder_search_page.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
-import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_common_widgets/folder_widget/add_folder_tab.dart';
 import 'package:harcapp/_common_widgets/folder_widget/add_folder_widget.dart';
 import 'package:harcapp/_common_widgets/folder_widget/folder_edit_page.dart';
 import 'package:harcapp/_common_widgets/folder_widget/folder_tab.dart';
 import 'package:harcapp/_common_widgets/folder_widget/folder_tab_indicator.dart';
 import 'package:harcapp/_common_widgets/gradient_icon.dart';
-import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan_folder.dart';
 import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/apel_ewan_persistant_folder.dart';
@@ -40,11 +38,11 @@ import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
-import 'apel_ewan_folder_items_view.dart';
+import 'apel_ewan_own_folder_items_view.dart';
 import 'apel_ewan_folder_viewer_page.dart';
 import 'apel_ewan_grid_view.dart';
+import 'apel_ewan_grid_view_searchable.dart';
 import 'apel_ewan_own_folder.dart';
-import 'apel_ewan_thumbnail_widget.dart';
 
 class ApelEwansPage extends StatefulWidget{
 
@@ -64,7 +62,6 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
 
   List<ApelEwan> get allApelEwans => widget.allApelEwans;
 
-  late List<ApelEwan> searchedApelEwans;
   late LayoutType type;
   late bool animate;
 
@@ -72,7 +69,7 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
 
   void initTabViewStuff(){
     tabController = TabController(
-        length: ApelEwanOwnFolder.allOwnFolders.length + 3, // +1 for new folder tab.
+        length: ApelEwanOwnFolder.all.length + 3, // +1 for new folder tab.
         vsync: this,
         initialIndex: notifier?.value.toInt()??0
     );
@@ -93,8 +90,6 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
 
   @override
   void initState() {
-    searchedApelEwans = [];
-    searchedApelEwans.addAll(allApelEwans);
 
     type = LayoutType.list;
     animate = false;
@@ -125,106 +120,22 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
         List<Widget> tabs = [];
         List<Widget> children = [];
 
-        tabs.add(FolderTab(
-            iconKey: 'bookCross',
-            colorsKey: CommonColorData.defColorsKey,
-            folderName: 'Wszystkie',
-            countText: 'Liczba apeli: ${allApelEwans.length}'
-        ));
-        children.add(CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
+        for(ApelEwanFolder folder in ApelEwanFolder.all){
 
-            FloatingContainer(
-              builder: (context, __, _) => SearchField(
-                background: backgroundIcon_(context),
-                preBackground: background_(context),
-                color: background_(context),
-                hint: 'Szukaj...',
-                onChanged: (text){
+          tabs.add(FolderTab(
+              iconKey: folder.iconKey,
+              colorsKey: folder.colorsKey,
+              folderName: folder.name,
+              countText: 'Liczba apeli: ${folder.apelEwans.length}'
+          ));
 
-                  if(text.isEmpty)
-                    setState(() => this.searchedApelEwans = allApelEwans);
-
-                  List<ApelEwan> searchedApelEwans = [];
-
-                  text = remPolChars(text);
-                  for(ApelEwan apelEwan in allApelEwans) {
-                    if (remPolChars(apelEwan.siglum
-                        .replaceAll(' ', '')
-                        .replaceAll(',', '')
-                        .replaceAll('-', '')
-                    ).contains(text.replaceAll(' ', '')
-                        .replaceAll(',', '')
-                        .replaceAll('-', '')
-                    )) {
-                      searchedApelEwans.add(apelEwan);
-                      continue;
-                    }
-
-                    for (String title in apelEwan.subgroupTitle.values)
-                      if (remPolChars(title).contains(text)) {
-                        searchedApelEwans.add(apelEwan);
-                        break;
-                      }
-                  }
-
-                  setState(() => this.searchedApelEwans = searchedApelEwans);
-
-                },
-              ),
-              height: SearchField.height,
-            ),
-
-            SliverPadding(
-              padding: const EdgeInsets.all(Dimen.ICON_MARG),
-              sliver: SliverGrid.count(
-                crossAxisCount: 3,
-                crossAxisSpacing: Dimen.ICON_MARG,
-                mainAxisSpacing: Dimen.ICON_MARG,
-                childAspectRatio: 1,
-                children: searchedApelEwans.map((apelEwan) => ApelEwanThumbnailWidget(
-                  apelEwan,
-                  onTap: (apelEwa, subgroup) => pushPage(context, builder: (context) => ApelEwanFolderViewerPage(
-                    searchedApelEwans.map((apelEwan) => Tuple2(apelEwan, subgroup)).toList(),
-                    apelEwan,
-                  )),
-                )).toList(),
-              ),
-            ),
-          ],
-        ));
-
-        tabs.add(FolderTab(
-            iconKey: 'textBoxMultiple',
-            colorsKey: CommonColorData.omegaColorsKey,
-            folderName: 'Dekalog',
-            countText: 'Liczba apeli: ${dekalogApelEwans.length}'
-        ));
-        children.add(ApelEwanGridView<ApelEwanPersistentFolder>(
-          folder: dekalogFolder,
-          onTap: (apelEwan, subgroup) => pushPage(context, builder: (context) => ApelEwanFolderViewerPage(
-            dekalogFolder.apelEwans.map((apelEwan) => Tuple2(apelEwan, subgroup)).toList(),
-            apelEwan,
-            title: dekalogFolder.name,
-          )),
-        ));
-
-        List<ApelEwanOwnFolder> ownFolders = ApelEwanOwnFolder.allOwnFolders;
-
-        for(ApelEwanOwnFolder folder in ownFolders){
-
-          tabs.add(Consumer<ApelEwanFolderProvider>(
-              builder: (context, prov, child) => FolderTab(
-                iconKey: folder.iconKey,
-                colorsKey: folder.colorsKey,
-                folderName: folder.name,
-                countText: 'Liczba apeli: ${folder.count}',
-              ))
-          );
-
-          children.add(Consumer<ApelEwanFolderProvider>(
-              builder: (context, prov, child) => ApelEwanFolderItemsView(
+          if(folder is ApelEwanPersistentFolder)
+            children.add(ApelEwanGridViewSearchable<ApelEwanPersistentFolder>(
+              folder: folder,
+            ));
+          else if(folder is ApelEwanOwnFolder)
+            children.add(Consumer<ApelEwanFolderProvider>(
+                builder: (context, prov, child) => ApelEwanOwnFolderItemsView(
                   folder: folder,
                   padding: const EdgeInsets.only(
                       top: Dimen.ICON_MARG,
@@ -234,20 +145,19 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
                   ),
                   type: type,
                   animate: animate,
-                  onTap: (apelEwan, subgroup) => pushPage(context, builder: (context) => ApelEwanFolderViewerPage(
-                    folder.apelEwans.map((apelEwan) => Tuple2(apelEwan, subgroup)).toList(),
-                    apelEwan,
-                    title: folder.name,
-                  )),
-              )
-          ));
+                )
+            ));
+          else
+            children.add(
+              const Center(child: Text('Coś tu nie pykło'))
+            );
         }
 
         tabs.add(const AddFolderTab());
         children.add(AddFolderWidget(
           text: 'Stwórz <b>nowy folder</b>\ni zaplanuj <b>cykl apeli</b>!',
           onSave: (String name, String iconKey, String colorsKey) async {
-            ApelEwanAllFoldersProvider prov = Provider.of<ApelEwanAllFoldersProvider>(context, listen: false);
+            ApelEwanAllFoldersProvider prov = ApelEwanAllFoldersProvider.of(context);
             ApelEwanOwnFolder folder = await ApelEwanOwnFolder.create(
               name: name,
               iconKey: iconKey,
@@ -257,7 +167,7 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
             prov.notify();
 
             setState(() => initTabViewStuff());
-            int index = ApelEwanOwnFolder.allOwnFolders.indexOf(folder);
+            int index = ApelEwanOwnFolder.all.indexOf(folder);
             post(() => tabController.animateTo(index + 2));
           },
         ));
@@ -283,8 +193,8 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
                             duration: const Duration(milliseconds: 300),
                             child: IconButton(
                               icon: Icon(
-                                  type == LayoutType.grid?MdiIcons.viewGridOutline:
-                                  MdiIcons.viewAgendaOutline
+                                type == LayoutType.grid?MdiIcons.viewGridOutline:
+                                MdiIcons.viewAgendaOutline
                               ),
                               onPressed: (){
                                 if(type == LayoutType.grid)
@@ -297,6 +207,21 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
                               },
                             ),
                           )
+                      ),
+
+                      IconButton(
+                        icon: const Icon(MdiIcons.magnify),
+                        onPressed: () => pushPage(
+                            context,
+                            builder: (context) => FolderSearchPage<ApelEwanFolder>(
+                              allFolders: ApelEwanFolder.all,
+                              onSelected: (folder){
+                                int index = ApelEwanFolder.all.indexOf(folder);
+                                tabController.animateTo(index);
+                                Navigator.pop(context);
+                              },
+                            )
+                        ),
                       )
 
                     ],
@@ -328,13 +253,13 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
 
                 _EditFloatingButton(
                   pageFolders:
-                  <ApelEwanFolder?>[null] + [dekalogFolder] + ownFolders + <ApelEwanFolder?>[null],
+                  <ApelEwanFolder?>[null] + [dekalogFolder] + ApelEwanOwnFolder.all + <ApelEwanFolder?>[null],
 
                   notifier: notifier!,
                   onSaved: (String name, String iconKey, String colorsKey) => setState((){
-                    ownFolders[tabController.index - _EditFloatingButton.unbuttonedPagesBefore].name = name;
-                    ownFolders[tabController.index - _EditFloatingButton.unbuttonedPagesBefore].iconKey = iconKey;
-                    ownFolders[tabController.index - _EditFloatingButton.unbuttonedPagesBefore].colorsKey = colorsKey;
+                    ApelEwanOwnFolder.all[tabController.index - _EditFloatingButton.unbuttonedPagesBefore].name = name;
+                    ApelEwanOwnFolder.all[tabController.index - _EditFloatingButton.unbuttonedPagesBefore].iconKey = iconKey;
+                    ApelEwanOwnFolder.all[tabController.index - _EditFloatingButton.unbuttonedPagesBefore].colorsKey = colorsKey;
                   }),
                   onDeleted: (folder){
                     showAppToast(context, text: 'Usunięto folder <b>${folder.name}</b>');
@@ -346,7 +271,7 @@ class ApelEwansPageState extends State<ApelEwansPage> with TickerProviderStateMi
 
                 _PrintFloatingButton(
                     pageFolders:
-                    <ApelEwanFolder?>[null] + [dekalogFolder] + ownFolders + <ApelEwanFolder?>[null],
+                    <ApelEwanFolder?>[null] + [dekalogFolder] + ApelEwanOwnFolder.all + <ApelEwanFolder?>[null],
 
                     notifier: notifier!
                 )
@@ -403,9 +328,13 @@ class _EditFloatingButton extends StatelessWidget{
                       initName: folder.name,
                       initIconKey: folder.iconKey,
                       initColorsKey: folder.colorsKey,
-                      onSave: onSaved,
+                      onSave: (String name, String selIconKey, String selColorKey){
+                        _ShowLayoutButtonProvider.notify_(context);
+                        onSaved?.call(name, selIconKey, selColorKey);
+                      },
                       onDeleteTap: folder is ApelEwanOwnFolder?(){
                         folder.delete();
+                        _ShowLayoutButtonProvider.notify_(context);
                         onDeleted?.call(folder);
                       }:null,
                     )
@@ -747,6 +676,9 @@ class _PrintBottomSheetState extends State<_PrintBottomSheet>{
 }
 
 class _ShowLayoutButtonProvider extends ChangeNotifier{
+
+  static _ShowLayoutButtonProvider of(BuildContext context) => Provider.of<_ShowLayoutButtonProvider>(context, listen: false);
+  static void notify_(BuildContext context) => of(context);
 
   bool _show;
   bool get show => _show;

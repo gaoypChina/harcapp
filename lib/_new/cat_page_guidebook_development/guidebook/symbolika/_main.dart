@@ -1,7 +1,9 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
+import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_common_widgets/folder_widget/folder_tab_indicator.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/guidebook/symbolika/symb_image_widget.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
@@ -71,14 +73,18 @@ class SymbolikaFragmentState extends State<SymbolikaFragment> with TickerProvide
             controller: controller,
             isScrollable: true,
             tabs: items.map((item) => Tab(text: item.title)).toList(),
+            indicator: FolderTabIndicator(context),
             //controller: _tabController,
           ),
         )
       ],
-      body: TabBarView(
-        physics: const BouncingScrollPhysics(),
-        controller: controller,
-        children: items.map((item) => Item(_notifier, items.indexOf(item), item)).toList(),
+      body: Container(
+        color: backgroundIcon_(context),
+        child: TabBarView(
+          physics: const BouncingScrollPhysics(),
+          controller: controller,
+          children: items.map((item) => Item(_notifier, items.indexOf(item), item)).toList(),
+        ),
       ),
     ),
   );
@@ -131,58 +137,88 @@ class _DescriptionWidget extends StatelessWidget{
 
     for(int i = 0; i<data.content1.length; i++){
       children.add(
-        Padding(
-            padding: const EdgeInsets.only(left: Dimen.ICON_MARG),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
 
-                Text(
-                  data.content1[i].item1,
-                  style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
-                ),
+              Text(
+                data.content1[i].item1,
+                style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
+              ),
 
-                Text(
-                    data.content1[i].item2,
-                    style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2)
-                ),
+              Text(
+                  data.content1[i].item2,
+                  style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, height: 1.2)
+              ),
 
-              ],
-            ),
-        ),
+            ],
+          )
       );
       if(i!=data.content1.length-1) children.add(const SizedBox(height: Dimen.SIDE_MARG));
     }
 
     return Padding(
-      padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+      padding: const EdgeInsets.only(
+        left: Dimen.SIDE_MARG,
+        right: Dimen.SIDE_MARG,
+        bottom: Dimen.SIDE_MARG
+      ),
       child: Column(
         children: <Widget>[
 
-          TitleShortcutRowWidget(title: 'Elementy', textAlign: TextAlign.start, titleColor: hintEnab_(context)),
+          BorderMaterial(
+              borderColor: textEnab_(context),
+              child: Column(
+                children: [
 
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: children,
+                  TitleShortcutRowWidget(title: 'Elementy', textAlign: TextAlign.start, titleColor: hintEnab_(context)),
+
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: Dimen.ICON_MARG,
+                      right: Dimen.ICON_MARG,
+                      bottom: Dimen.ICON_MARG
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: children,
+                    ),
+                  )
+
+                ],
+              ),
           ),
 
-          const SizedBox(height: 2*Dimen.SIDE_MARG),
 
-          TitleShortcutRowWidget(title: 'Opis', textAlign: TextAlign.start, titleColor: hintEnab_(context)),
+          const SizedBox(height: Dimen.SIDE_MARG),
 
-          Padding(
-            padding: const EdgeInsets.only(
-              left: Dimen.ICON_MARG,
-            ),
-            child: Text(
-                data.content2,
-                style: AppTextStyle(
-                    fontWeight: weight.normal,
-                    fontSize: Dimen.TEXT_SIZE_BIG,
-                    height: 1.2
-                )
+          BorderMaterial(
+            borderColor: textEnab_(context),
+            child: Column(
+              children: [
+
+                TitleShortcutRowWidget(title: 'Opis', textAlign: TextAlign.start, titleColor: hintEnab_(context)),
+
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: Dimen.ICON_MARG,
+                    right: Dimen.ICON_MARG,
+                    bottom: Dimen.ICON_MARG
+                  ),
+                  child: Text(
+                      data.content2,
+                      style: AppTextStyle(
+                          fontWeight: weight.normal,
+                          fontSize: Dimen.TEXT_SIZE_BIG,
+                          height: 1.2
+                      )
+                  ),
+                ),
+
+              ],
             ),
           ),
+
 
         ],
       ),

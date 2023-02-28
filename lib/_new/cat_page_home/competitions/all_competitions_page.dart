@@ -332,7 +332,7 @@ class NewIndivCompButton extends StatelessWidget{
                     MdiIcons.plusThick,
                     size: IndivCompThumbnailWidget.defSize * IndivCompThumbnailWidget.iconSizeFactor,
                     colorStart: hintEnab_(context),
-                    colorEnd: textEnab_(context),
+                    colorEnd: textEnab_(context)!,
                   )
                 ),
               )

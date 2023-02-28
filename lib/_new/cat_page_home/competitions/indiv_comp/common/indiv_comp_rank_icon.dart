@@ -63,8 +63,8 @@ void _showPopularity(BuildContext context, IndivCompProfile profile, bool showPe
 class IndivCompRankTopIcon extends StatelessWidget{
 
   final int rank;
-  final Color? colorStart;
-  final Color? colorEnd;
+  final Color colorStart;
+  final Color colorEnd;
   final double size;
 
   const IndivCompRankTopIcon(
@@ -122,8 +122,8 @@ class IndivCompRankFirstIcon extends StatelessWidget{
   @override
   Widget build(BuildContext context) => IndivCompRankTopIcon(
     rank: 1,
-    colorStart: Colors.yellow[200],
-    colorEnd: Colors.amber[700],
+    colorStart: Colors.yellow[200]!,
+    colorEnd: Colors.amber[700]!,
     size: size,
   );
 
@@ -153,7 +153,7 @@ class IndivCompRankThirdIcon extends StatelessWidget{
   Widget build(BuildContext context) => IndivCompRankTopIcon(
     rank: 3,
     colorStart: Colors.orange,
-    colorEnd: Colors.brown[900],
+    colorEnd: Colors.brown[900]!,
     size: size,
   );
 

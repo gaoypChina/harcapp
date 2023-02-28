@@ -1,3 +1,4 @@
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw_book.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw_family.dart';
@@ -19,6 +20,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawno
 
 SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
     id: SprawBookData.ZHP_HARC_SIM_2022_ID,
+    org: Org.zhp,
     title: 'Sprawności harcerskie ZHP',
     source: '',
     color: SprawBookData.SPRAW_BOOK_ZHP_HARC_SIM_2022_COLOR,
@@ -1607,7 +1609,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                       tasks: [
                         'Zainstalowałem(-am) i skonfigurowałem(-am) specjalistyczny program, który wykorzystuję w mojej pracy lub do realizacji moich zainteresowań.',
                         'Zrealizowałem(-am) samodzielnie lub w zespole dowolny projekt informatyczny, np. zaprojektowałem(-am) stronę WWW, opracowałem(-am) urządzenie korzystające z systemu wbudowanego, stworzyłem(-am) aplikację internetową lub mobilną.',
-                        'Znam pojęcie hejtu i uczestniczyłem(-am) w projekcie/kampanii, która miała wpływ na ograniczenie tego zjawiska w sieci.',
+                        'Znam pojęcie zniewagi i uczestniczyłem(-am) w projekcie/kampanii, która miała wpływ na ograniczenie tego zjawiska w sieci.',
                       ]),
                 ]
             ),

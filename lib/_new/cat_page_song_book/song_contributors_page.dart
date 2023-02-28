@@ -18,7 +18,9 @@ class SongContributorsPage extends StatelessWidget{
 
   static const double iconSize = 42.0;
 
-  const SongContributorsPage({super.key});
+  final void Function(Song)? onSongTap;
+
+  const SongContributorsPage({this.onSongTap, super.key});
 
   @override
   Widget build(BuildContext context) => BottomNavScaffold(
@@ -39,7 +41,13 @@ class SongContributorsPage extends StatelessWidget{
                 borderRadius: BorderRadius.circular(AppCard.defRadius),
                 onTap: () => openDialog(
                     context: context,
-                    builder: (context) => _SongListDialog(Song.addPersRanking.values.toList()[index])
+                    builder: (context) => _SongListDialog(
+                      Song.addPersRanking.values.toList()[index],
+                      onSongTap: (song){
+                        Navigator.pop(context);
+                        onSongTap?.call(song);
+                      }
+                    )
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(Dimen.SIDE_MARG/2),
@@ -103,8 +111,9 @@ class SongContributorsPage extends StatelessWidget{
 class _SongListDialog extends StatelessWidget{
 
   final List<Song>? songs;
+  final void Function(Song)? onSongTap;
 
-  const _SongListDialog(this.songs);
+  const _SongListDialog(this.songs, {this.onSongTap});
 
   @override
   Widget build(BuildContext context) => Center(
@@ -126,7 +135,10 @@ class _SongListDialog extends StatelessWidget{
 
             SliverList(
               delegate: SliverChildBuilderDelegate(
-                  (context, index) => SongTile(songs![index]),
+                  (context, index) => SongTile(
+                    songs![index],
+                    onTap: onSongTap
+                  ),
                   childCount: songs!.length
               ),
             )

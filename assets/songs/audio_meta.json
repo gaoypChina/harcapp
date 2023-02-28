@@ -29,6 +29,14 @@
         }
     ],
 
+    "o!_dlonie_plecione": [
+        {
+            "file": "dlonie_plecione.0.mp3",
+            "performer": null,
+            "source": "https://www.youtube.com/watch?v=-33hi1R9Qao"
+        }
+    ],
+
     "o!_epitafium_dla_majora_ognia": [
         {
             "file": "epitafium_dla_majora_ognia.andrzej_kolakowski.mp3",
@@ -114,6 +122,14 @@
             "file": "pozytywka.szymon_zychowicz.mp3",
             "performer": "Szymon Zychowicz",
             "source": "https://www.youtube.com/watch?v=5bnR81Tm0qk"
+        }
+    ],
+
+    "o!_testament_moj": [
+        {
+            "file": "testament_moj.moja_ojczyzna.mp3",
+            "performer": "Moja Ojczyzna",
+            "source": "https://www.youtube.com/watch?v=Ste0I9KBtOE"
         }
     ],
 

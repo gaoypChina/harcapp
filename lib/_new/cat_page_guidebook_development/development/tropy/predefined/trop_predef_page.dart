@@ -68,7 +68,7 @@ class TropPredefPageState extends State<TropPredefPage> with TickerProviderState
               size: 32.0,
               zuchTropName: predefTrops[i].customIconTropName,
             ),
-            name: predefTrops[i].name
+            text: predefTrops[i].name
           ));
 
         return [

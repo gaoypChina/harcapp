@@ -1,3 +1,4 @@
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw_book.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw_family.dart';
@@ -5,6 +6,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawno
 
 SprawBook sprawBookZHPZuchSim2022 = SprawBookData(
     id: SprawBookData.ZHP_ZUCH_SIM_2022_ID,
+    org: Org.zhp,
     title: 'Sprawności zuchowe ZHP',
     source: '',
     color: SprawBookData.SPRAW_BOOK_ZHP_ZUCH_SIM_2022_COLOR,

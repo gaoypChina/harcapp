@@ -355,11 +355,9 @@ class _SearchTextFieldCard extends StatelessWidget{
                 Row(
                   children: tabOfContController.searchOptions.checkedTags.map((t) => Tag(
                     t,
-                    inCard: false,
                     fontSize: Dimen.TEXT_SIZE_SMALL,
                     padding: EdgeInsets.zero,
-                    margin: const EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg),
-                    elevate: false,
+                    elevation: AppCard.defElevation,
                   )).toList(),
                 )
               ]
@@ -528,6 +526,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
 
             TagLayout.wrap(
               allTags: Tag.ALL_TAG_NAMES,
+              separator: Dimen.defMarg,
               onTagTap: (String tag, bool checked){
                 if(checked) searchOptions!.checkedTags.remove(tag);
                 else searchOptions!.checkedTags.add(tag);

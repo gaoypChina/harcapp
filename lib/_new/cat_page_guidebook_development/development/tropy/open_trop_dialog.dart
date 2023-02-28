@@ -21,7 +21,9 @@ void openTropDialog(
               physics: const BouncingScrollPhysics(),
               slivers: [
 
-                SliverAppBar(),
+                const SliverAppBar(
+                  floating: true,
+                ),
 
                 SliverPadding(
                   padding: const EdgeInsets.all(Dimen.SIDE_MARG),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
@@ -5,86 +7,313 @@ import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_widgets/folder_widget/folder.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 
-class SprawFolder extends Folder{
+abstract class BaseSprawFolder extends Folder{
 
-  final String id;
-  final List<Spraw> spraws;
-
-  const SprawFolder({required this.id, required this.spraws});
-
-  static const String omegaFolderId = '__omega__';
-  static const String omegaFolderName = 'Zapisane';
-  static String get omegaFolderColorKey => AppSettings.isDark?'white':'black';
-  static CommonColorData? get omegaFolderColor => getColorData(omegaFolderColorKey);
-  static const String omegaFolderIconKey = 'bookCheckOutline';
-  static IconData? get omegaFolderIcon => getIcon(omegaFolderId);
-
-  static SprawFolder get omega => SprawFolder.from(omegaFolderId);
-
-  static List<String> get ownFolderIds => ShaPref.getStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_IDS, []);
   static List<String> get allFolderIds{
-    List<String> folderNames = ownFolderIds;
-    folderNames.insert(0, omegaFolderId);
+    List<String> folderNames = OwnSprawFolder.ownFolderIds;
+    folderNames.insert(0, SavedSprawFolder().id);
+    folderNames.insert(1, InProgressSprawFolder().id);
+    folderNames.insert(2, CompletedSprawFolder().id);
     return folderNames;
   }
+  static bool exists(String id) => allFolderIds.contains(id);
 
-  static List<SprawFolder> get allFolders{
-    List<SprawFolder> folders = [];
-    for(String folderName in SprawFolder.allFolderIds)
-      folders.add(SprawFolder.from(folderName));
+  static List<BaseSprawFolder> get allFolders{
+    List<BaseSprawFolder> folders = [
+      SavedSprawFolder(),
+      InProgressSprawFolder(),
+      CompletedSprawFolder()
+    ];
+    for(String folderName in OwnSprawFolder.ownFolderIds)
+      folders.add(OwnSprawFolder.from(folderName));
 
     return folders;
   }
 
-  static set ownFolderIds(List<String> value) => setOwnFolderIds(value);
-  static Future<void> setOwnFolderIds(List<String> value) async => await ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_IDS, value);
+  String get id;
+  List<Spraw> get spraws;
 
-  static String getName(String id) =>
-      id == omegaFolderId?omegaFolderName:
-      ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id), '');
+  const BaseSprawFolder();
 
-  static Future<void> setName(String id, String value) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id), value);
-
-  @override
-  String get name => getName(id);
-
-  set name(String value) => setName(id, value);
-
+  List<String> get sprawUIDs => BaseSprawFolder.getSprawUIDs(id);
   static List<String> getSprawUIDs(String id) => ShaPref.getStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id), []);
   static void setSprawUIDs(String id, List<String> value) => ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id), value);
 
-  List<String> get sprawUIDs => getSprawUIDs(id);
-  set sprawUIDs(List<String> value) => setSprawUIDs(id, value);
+  bool add(String sprawUniqName, {bool validate = true});
+  bool remove(String sprawUniqName);
+  FutureOr<bool> delete();
+
+}
+
+class SavedSprawFolder extends BaseSprawFolder{
+
+  @override
+  String get id => '__omega__';
+
+  @override
+  String get colorsKey => AppSettings.isDark?'white':'black';
+
+  @override
+  int get count => BaseSprawFolder.getSprawUIDs(id).length;
+
+  @override
+  String get iconKey => 'bookCheckOutline';
+
+  @override
+  IconData get icon => MdiIcons.bookCheckOutline;
+
+  @override
+  String get name => 'Zapisane';
+
+  @override
+  List<Spraw> get spraws{
+    List<Spraw> result = [];
+    for(String sprawUID in sprawUIDs) {
+      Spraw? spraw = Spraw.fromUID(sprawUID);
+      if(spraw != null) result.add(spraw);
+    }
+    return result;
+  }
+
+  void changeSavedInOmega(String sprawUniqName, {bool? value}){
+
+    List<String> updatedSprawUniqNames = sprawUIDs;
+
+    value ??= !updatedSprawUniqNames.contains(sprawUniqName);
+
+    if (value) {
+      if (!updatedSprawUniqNames.contains(sprawUniqName)) updatedSprawUniqNames.insert(0, sprawUniqName);
+    } else
+      updatedSprawUniqNames.remove(sprawUniqName);
+
+    BaseSprawFolder.setSprawUIDs(id, updatedSprawUniqNames);
+  }
+
+  @override
+  bool add(String sprawUniqName, {bool validate = true}) {
+    if(validate && sprawUIDs.contains(sprawUniqName))
+      return false;
+
+    List<String> updatedSprawUniqNames = sprawUIDs;
+    if (!updatedSprawUniqNames.contains(sprawUniqName)) updatedSprawUniqNames.insert(0, sprawUniqName);
+    BaseSprawFolder.setSprawUIDs(id, updatedSprawUniqNames);
+    return true;
+  }
+
+  @override
+  bool remove(String sprawUniqName) {
+    List<String> updatedSprawUniqNames = sprawUIDs;
+    bool success = updatedSprawUniqNames.remove(sprawUniqName);
+    BaseSprawFolder.setSprawUIDs(id, updatedSprawUniqNames);
+    return success;
+  }
+
+  @override
+  bool delete() => false;
+
+}
+
+class InProgressSprawFolder extends BaseSprawFolder{
+
+  @override
+  String get id => '__inProgress__';
+
+  @override
+  String get colorsKey => AppSettings.isDark?'white':'black';
 
   @override
   int get count => sprawUIDs.length;
 
-  static String getColorKey(String id) =>
-      id == omegaFolderId? omegaFolderColorKey:
+  @override
+  String get iconKey => 'timerSandEmpty';
+
+  @override
+  IconData get icon => MdiIcons.timerSandEmpty;
+
+  @override
+  String get name => 'W trakcie';
+
+  @override
+  List<Spraw> get spraws{
+    List<Spraw> result = [];
+    for(String sprawUID in sprawUIDs) {
+      Spraw? spraw = Spraw.fromUID(sprawUID);
+      if(spraw != null) result.add(spraw);
+    }
+    return result;
+  }
+
+  @override
+  List<String> get sprawUIDs => Spraw.inProgressList;
+
+  @override
+  bool add(String sprawUniqName, {bool validate = true}) {
+    if(validate && sprawUIDs.contains(sprawUniqName))
+      return false;
+
+    List<String> updatedSprawUniqNames = sprawUIDs;
+    if (!updatedSprawUniqNames.contains(sprawUniqName)) updatedSprawUniqNames.insert(0, sprawUniqName);
+    BaseSprawFolder.setSprawUIDs(id, updatedSprawUniqNames);
+    return true;
+  }
+
+  @override
+  bool remove(String sprawUniqName) {
+    List<String> updatedSprawUniqNames = sprawUIDs;
+    bool success = updatedSprawUniqNames.remove(sprawUniqName);
+    BaseSprawFolder.setSprawUIDs(id, updatedSprawUniqNames);
+    return success;
+  }
+
+  @override
+  bool delete() => false;
+
+}
+
+class CompletedSprawFolder extends BaseSprawFolder{
+
+  @override
+  String get id => '__completed__';
+
+  @override
+  String get colorsKey => AppSettings.isDark?'white':'black';
+
+  @override
+  int get count => sprawUIDs.length;
+
+  @override
+  String get iconKey => 'trophyOutline';
+
+  @override
+  IconData get icon => MdiIcons.trophyOutline;
+
+  @override
+  String get name => 'Zrealizowane';
+
+  @override
+  List<Spraw> get spraws{
+    List<Spraw> result = [];
+    for(String sprawUID in sprawUIDs) {
+      Spraw? spraw = Spraw.fromUID(sprawUID);
+      if(spraw != null) result.add(spraw);
+    }
+    return result;
+  }
+
+  @override
+  List<String> get sprawUIDs => Spraw.completedList;
+
+  @override
+  bool add(String sprawUniqName, {bool validate = true}) {
+    if(validate && sprawUIDs.contains(sprawUniqName))
+      return false;
+
+    List<String> updatedSprawUniqNames = sprawUIDs;
+    if (!updatedSprawUniqNames.contains(sprawUniqName)) updatedSprawUniqNames.insert(0, sprawUniqName);
+    BaseSprawFolder.setSprawUIDs(id, updatedSprawUniqNames);
+    return true;
+  }
+
+  @override
+  bool remove(String sprawUniqName) {
+    List<String> updatedSprawUniqNames = sprawUIDs;
+    bool success = updatedSprawUniqNames.remove(sprawUniqName);
+    BaseSprawFolder.setSprawUIDs(id, updatedSprawUniqNames);
+    return success;
+  }
+
+  @override
+  bool delete() => false;
+
+}
+
+// class InProgressSprawFolder extends BaseSprawFolder{
+//
+//   @override
+//   // TODO: implement colorsKey
+//   String get colorsKey => throw UnimplementedError();
+//
+//   @override
+//   // TODO: implement count
+//   int get count => throw UnimplementedError();
+//
+//   @override
+//   // TODO: implement iconKey
+//   String get iconKey => throw UnimplementedError();
+//
+//   @override
+//   // TODO: implement name
+//   String get name => throw UnimplementedError();
+//
+//   @override
+//   // TODO: implement spraws
+//   List<Spraw> get spraws => throw UnimplementedError();
+//
+// }
+
+class OwnSprawFolder extends BaseSprawFolder{
+
+  final String id;
+  final List<Spraw> spraws;
+
+  const OwnSprawFolder({required this.id, required this.spraws});
+
+  // static const String savedFolderId = '__omega__';
+  // static const String savedFolderName = 'Zapisane';
+  // static String get savedFolderColorKey => AppSettings.isDark?'white':'black';
+  // static CommonColorData? get savedFolderColor => getColorData(savedFolderColorKey);
+  // static const String savedFolderIconKey = 'bookCheckOutline';
+  // static IconData? get savedFolderIcon => getIcon(savedFolderId);
+  //
+  // static SprawFolder get saved => SprawFolder.from(savedFolderId);
+
+  static List<String> get ownFolderIds => ShaPref.getStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_IDS, []);
+  static set ownFolderIds(List<String> value) => setOwnFolderIds(value);
+  static Future<void> setOwnFolderIds(List<String> value) async => await ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_IDS, value);
+
+  static String _getName(String id) =>
+      // id == savedFolderId?savedFolderName:
+      ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id), '');
+
+  static Future<void> _setName(String id, String value) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id), value);
+
+  @override
+  String get name => _getName(id);
+
+  set name(String value) => _setName(id, value);
+
+  set sprawUIDs(List<String> value) => BaseSprawFolder.setSprawUIDs(id, value);
+
+  @override
+  int get count => sprawUIDs.length;
+
+  static String _getColorKey(String id) =>
+      // id == savedFolderId? savedFolderColorKey:
       ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id), CommonColorData.defColorsKey);
 
   @override
-  String get colorsKey => getColorKey(id);
+  String get colorsKey => _getColorKey(id);
 
   static Future<void> setColorKey(String id, String colorKey) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id), colorKey);
   set colorsKey(String value) => setColorKey(id, value);
 
-  static CommonColorData getColorData(String id) => CommonColorData.get(getColorKey(id));
+  static CommonColorData getColorData(String id) => CommonColorData.get(_getColorKey(id));
 
-  static String getIconKey(String id) =>
-      id == omegaFolderId?
-      omegaFolderIconKey:
+  static String _getIconKey(String id) =>
+      // id == savedFolderId?
+      // savedFolderIconKey:
       ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), CommonIconData.defIconKey);
 
   @override
-  String get iconKey => getIconKey(id);
+  String get iconKey => _getIconKey(id);
 
   static Future<void> setIconKey(String id, String iconKey) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), iconKey);
   set iconKey(String value) => setIconKey(id, value);
 
-  static IconData getIcon(String id) => CommonIconData.get(getIconKey(id), defKey: CommonIconData.folderIconKey);
+  static IconData getIcon(String id) => CommonIconData.get(_getIconKey(id), defKey: CommonIconData.folderIconKey);
 
   static Future<void> setIcon(String id, IconData icon) async {
 
@@ -102,19 +331,17 @@ class SprawFolder extends Folder{
   }
   set icon(IconData value) => setIcon(id, value);
 
-  static SprawFolder from(String id){
+  static OwnSprawFolder from(String id){
 
     List<Spraw> spraws = [];
-    for(String sprawUID in getSprawUIDs(id)) {
+    for(String sprawUID in BaseSprawFolder.getSprawUIDs(id)) {
       Spraw? spraw = Spraw.fromUID(sprawUID);
       if(spraw != null) spraws.add(spraw);
     }
-    return SprawFolder(id: id, spraws: spraws);
+    return OwnSprawFolder(id: id, spraws: spraws);
   }
 
-  static bool exists(String id) => allFolderIds.contains(id);
-
-  static Future<SprawFolder> create({String? name, String? iconKey, String? colorsKey}) async {
+  static Future<OwnSprawFolder> create({String? name, String? iconKey, String? colorsKey}) async {
 
     int lastUsedId = ShaPref.getInt(ShaPref.SHA_PREF_SPRAW_FOLDER_LAST_USED_ID, 0);
     int _id = lastUsedId + 1;
@@ -126,13 +353,14 @@ class SprawFolder extends Folder{
     allIds.add(id);
     await setOwnFolderIds(allIds);
 
-    if(name != null) await setName(id, name);
+    if(name != null) await _setName(id, name);
     if(iconKey != null) await setIconKey(id, iconKey);
     if(colorsKey != null) await setColorKey(id, colorsKey);
 
-    return SprawFolder(id: id, spraws: []);
+    return OwnSprawFolder(id: id, spraws: []);
   }
 
+  @override
   Future<bool> delete() async {
     List<String> allIds = ownFolderIds;
     if(!allIds.contains(id))
@@ -148,28 +376,30 @@ class SprawFolder extends Folder{
     return true;
   }
 
-  bool add(String sprawUID, {bool validate = true}){
+  @override
+  bool add(String sprawUniqName, {bool validate = true}){
 
-    if(validate && sprawUIDs.contains(sprawUID))
+    if(validate && sprawUIDs.contains(sprawUniqName))
       return false;
 
-    Spraw? spraw = Spraw.fromUID(sprawUID);
+    Spraw? spraw = Spraw.fromUID(sprawUniqName);
 
     if(spraw == null) return false;
 
-    List<String> _sprawUIDs = getSprawUIDs(id);
+    List<String> updatedSprawUniqNames = sprawUIDs;
 
-    _sprawUIDs.add(sprawUID);
+    updatedSprawUniqNames.add(sprawUniqName);
     spraws.add(spraw);
-    sprawUIDs = _sprawUIDs;
+    sprawUIDs = updatedSprawUniqNames;
 
     return true;
   }
 
+  @override
   bool remove(String sprawUniqName){
 
     bool success = sprawUIDs.remove(sprawUniqName);
-    List<String> _sprawUIDs = getSprawUIDs(id);
+    List<String> _sprawUIDs = BaseSprawFolder.getSprawUIDs(id);
 
     _sprawUIDs.remove(sprawUniqName);
     spraws.removeWhere((spraw) => spraw.uniqName == sprawUniqName);
@@ -181,7 +411,7 @@ class SprawFolder extends Folder{
 
   @override
   bool operator == (Object other) =>
-      other is SprawFolder && id == other.id;
+      other is OwnSprawFolder && id == other.id;
 
   @override
   int get hashCode => id.hashCode;

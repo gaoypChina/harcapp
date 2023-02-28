@@ -126,6 +126,7 @@ class SongWidget extends StatelessWidget{
   final void Function(ScrollNotification, double?, double?)? onScroll;
   final void Function()? onTextSizeChanged;
   final void Function(int, bool)? onRateChanged;
+  final void Function(Song song)? onNewSongOpened;
   final ScrollPhysics? physics;
   final ScrollController? controller;
 
@@ -136,6 +137,7 @@ class SongWidget extends StatelessWidget{
       {this.onScroll,
         this.onTextSizeChanged,
         this.onRateChanged,
+        this.onNewSongOpened,
         this.physics,
         this.controller
       }):super(key: ValueKey(song));
@@ -428,7 +430,12 @@ class SongWidget extends StatelessWidget{
 
     addPersResolver: AddPersEmailResolver(
       textColor: textEnab_(context),
-      onSongCountTap: () => pushPage(context, builder: (context) => const SongContributorsPage())
+      onSongCountTap: () => pushPage(context, builder: (context) => SongContributorsPage(
+        onSongTap: (song){
+          Navigator.pop(context);
+          onNewSongOpened?.call(song);
+        },
+      ))
     ),
   );
 }

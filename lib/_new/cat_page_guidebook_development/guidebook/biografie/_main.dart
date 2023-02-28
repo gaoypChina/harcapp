@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
+import 'package:harcapp/_common_widgets/folder_widget/folder_tab.dart';
+import 'package:harcapp/_common_widgets/folder_widget/folder_tab_indicator.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/guidebook/biografie/bio_item_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -18,21 +20,21 @@ class BiografieFragment extends StatefulWidget{
 
 }
 
-class BiografieFragmentState extends State<BiografieFragment> with ModuleStatsMixin{
+class BiografieFragmentState extends State<BiografieFragment> with TickerProviderStateMixin, ModuleStatsMixin{
 
   @override
   String get moduleId => ModuleStatsMixin.biografie;
 
-  PageController? controller;
-  ValueNotifier<double?>? notifier;
+  late TabController controller;
+  late ValueNotifier<double> notifier;
 
   GlobalKey<NestedScrollViewState>? nestedScrollViewKey;
 
   @override
   void initState() {
-    controller = PageController();
+    controller = TabController(length: DATA.length, vsync: this);
     notifier = ValueNotifier(.0);
-    controller!.addListener(() => notifier!.value = controller!.page);
+    controller.animation?.addListener(() => notifier.value = controller.index + controller.offset);
 
     nestedScrollViewKey = GlobalKey();
 
@@ -43,16 +45,19 @@ class BiografieFragmentState extends State<BiografieFragment> with ModuleStatsMi
   Widget build(BuildContext context) {
 
     List<Widget> children = [];
-
-    for(int i=0; i<DATA.length; i++){
-      ItemData data = DATA[i];
+    for(int i=0; i<DATA.length; i++)
       children.add(BioItemWidget(
-        data: data,
+        data: DATA[i],
         index: i,
         notifier: notifier,
        controller: () => nestedScrollViewKey!.currentState!.innerController
       ));
-    }
+
+    List<FolderBaseTab> tabs = [];
+    for(ItemData data in DATA)
+      tabs.add(FolderBaseTab(
+        text: data.name
+      ));
 
     return BottomNavScaffold(
       body: NestedScrollView(
@@ -70,16 +75,26 @@ class BiografieFragmentState extends State<BiografieFragment> with ModuleStatsMi
               IconButton(
                 icon: const Icon(MdiIcons.dotsGrid),
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AllBioPage(
-                  onPicked: (int index) => controller!.jumpToPage(index),
+                  onPicked: (int index) => controller.animateTo(index),
                 ))))
             ],
+            bottom: TabBar(
+              tabs: tabs,
+              controller: controller,
+              isScrollable: true,
+              physics: const BouncingScrollPhysics(),
+              indicator: FolderTabIndicator(context),
+            ),
           ),
         ],
-        body: PageView(
-          physics: const BouncingScrollPhysics(),
-          controller: controller,
-          children: children,
-        ),
+        body: Container(
+          color: backgroundIcon_(context),
+          child: TabBarView(
+            physics: const BouncingScrollPhysics(),
+            controller: controller,
+            children: children,
+          ),
+        )
       ),
     );
 

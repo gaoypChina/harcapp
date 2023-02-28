@@ -1,3 +1,4 @@
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw_book.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw_family.dart';
@@ -5,6 +6,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawno
 
 SprawBook sprawBookZHRC = SprawBookData(
     id: SprawBookData.ZHR_HARC_C,
+    org: Org.zhr_c,
     title: 'Sprawności harcerzy ZHR',
     source: 'Sprawności harcerzy, Związek Harcerstwa Rzeczpospolitej, 1 czerwca 2020',
     color: SprawBookData.SPRAW_BOOK_ZHR_H_RZE_COLOR,

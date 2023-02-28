@@ -41,23 +41,23 @@ class ArticleSearchPageState extends State<ArticleSearchPage>{
 
   TextEditingController? textController;
 
-  ArticleSearchOptions? options;
-  ArticleSearcher? searcher;
+  late ArticleSearchOptions options;
+  late ArticleSearcher searcher;
 
   CurrentItemsProvider? currentItemsProvider;
   SearchParamsProvider? searchParamsProvider;
 
   void initSearcher() async{
     textController = TextEditingController();
-    await searcher!.init(allArticles, options);
-    searcher!.run('');
+    await searcher.init(allArticles, options);
+    searcher.run('');
   }
 
   @override
   void initState() {
     options = ArticleSearchOptions();
     searcher = ArticleSearcher();
-    searcher!.addOnCompleteListener(
+    searcher.addOnCompleteListener(
             (List<Article> articles, bool Function() stillValid)
         => currentItemsProvider!.currArticles = articles);
     initSearcher();
@@ -66,7 +66,7 @@ class ArticleSearchPageState extends State<ArticleSearchPage>{
 
   @override
   void dispose() {
-    searcher!.dispose();
+    searcher.dispose();
     super.dispose();
   }
 
@@ -98,7 +98,7 @@ class ArticleSearchPageState extends State<ArticleSearchPage>{
 
               Consumer<SearchParamsProvider>(
                   builder: (context, prov, child) => FloatingContainer.child(
-                    height: SearchField.height + (prov.options!.isEmpty?0:35.0),
+                    height: SearchField.height + (prov.options.isEmpty?0:35.0),
                     child: _SearchTextFieldCard(
                       searcher: searcher,
                       searchOptions: prov.options,
@@ -167,10 +167,10 @@ class ArticleSearchPageState extends State<ArticleSearchPage>{
 
 }
 
-Future<void> _showOptionsBottomSheet(BuildContext context, ArticleSearchOptions? options, ArticleSearcher? searcher, TextEditingController? controller, {void Function()? onChanged}) => showScrollBottomSheet(
+Future<void> _showOptionsBottomSheet(BuildContext context, ArticleSearchOptions options, ArticleSearcher searcher, TextEditingController? controller, {void Function()? onChanged}) => showScrollBottomSheet(
     context: context,
     builder: (context) => BottomSheetOptions(options, searcher, onChanged: () async{
-      await searcher!.init(Article.all??[], options);
+      await searcher.init(Article.all??[], options);
       searcher.run(controller!.text);
       if(onChanged != null) onChanged();
     })
@@ -199,10 +199,10 @@ class _SearchTextFieldCard extends StatelessWidget{
   final void Function(String)? onChanged;
   final void Function()? onCleared;
 
-  final ArticleSearcher? searcher;
-  final ArticleSearchOptions? searchOptions;
-  DateTime? get fromDate => searchOptions!.fromDate;
-  DateTime? get toDate => searchOptions!.toDate;
+  final ArticleSearcher searcher;
+  final ArticleSearchOptions searchOptions;
+  DateTime? get fromDate => searchOptions.fromDate;
+  DateTime? get toDate => searchOptions.toDate;
 
   final TextEditingController? textController;
 
@@ -226,13 +226,13 @@ class _SearchTextFieldCard extends StatelessWidget{
           await _showOptionsBottomSheet(context, searchOptions, searcher, textController);
           textController!.clear();
         } else {
-          searcher!.run(text);
+          searcher.run(text);
           if(onChanged != null) onChanged!(text);
         }
       },
 
       leading: AnimatedChildSlider(
-        index: searchOptions!.isEmpty?0:1,
+        index: searchOptions.isEmpty?0:1,
         children: [
           SearchField.defLeadWidget(context),
           IconButton(
@@ -240,11 +240,11 @@ class _SearchTextFieldCard extends StatelessWidget{
             onPressed: () async{
 
               textController!.clear();
-              searchOptions!.clear();
+              searchOptions.clear();
               if(onCleared!=null) onCleared!();
               if(onChanged != null) onChanged!('');
 
-              await searcher!.run('');
+              await searcher.run('');
 
             },
           )
@@ -258,11 +258,11 @@ class _SearchTextFieldCard extends StatelessWidget{
             await _showOptionsBottomSheet(context, searchOptions, searcher, textController,
                 onChanged: () => onChanged==null?null:onChanged!(textController!.text));
 
-            await searcher!.run(textController!.text);
+            await searcher.run(textController!.text);
 
           }),
       bottom:
-      (searchOptions!.isEmpty)?
+      (searchOptions.isEmpty)?
       null:
       SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -281,13 +281,11 @@ class _SearchTextFieldCard extends StatelessWidget{
                   ),
                   const SizedBox(width: Dimen.defMarg/2),
                   Row(
-                    children: searchOptions!.checkedTags!.map((t) => Tag(
+                    children: searchOptions.checkedTags.map((t) => Tag(
                       t,
-                      inCard: false,
                       fontSize: Dimen.TEXT_SIZE_SMALL,
                       padding: EdgeInsets.zero,
-                      margin: const EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg),
-                      elevate: false,
+                      elevation: AppCard.defElevation,
                     )).toList(),
                   )
                 ]
@@ -302,8 +300,8 @@ class _SearchTextFieldCard extends StatelessWidget{
 
 class BottomSheetOptions extends StatefulWidget{
 
-  final ArticleSearchOptions? searchOptions;
-  final ArticleSearcher? searcher;
+  final ArticleSearchOptions searchOptions;
+  final ArticleSearcher searcher;
   final void Function()? onChanged;
 
   const BottomSheetOptions(
@@ -319,18 +317,18 @@ class BottomSheetOptions extends StatefulWidget{
 
 class BottomSheetOptionsState extends State<BottomSheetOptions>{
 
-  ArticleSearchOptions? get searchOptions => widget.searchOptions;
-  ArticleSearcher? get searcher => widget.searcher;
+  ArticleSearchOptions get searchOptions => widget.searchOptions;
+  ArticleSearcher get searcher => widget.searcher;
   void Function()? get onChanged => widget.onChanged;
 
-  DateTime? get fromDate => widget.searchOptions!.fromDate;
-  set fromDate(DateTime? value) => widget.searchOptions!.fromDate = value;
+  DateTime? get fromDate => widget.searchOptions.fromDate;
+  set fromDate(DateTime? value) => widget.searchOptions.fromDate = value;
 
-  DateTime? get toDate => widget.searchOptions!.toDate;
-  set toDate(DateTime? value) => widget.searchOptions!.toDate = value;
+  DateTime? get toDate => widget.searchOptions.toDate;
+  set toDate(DateTime? value) => widget.searchOptions.toDate = value;
 
-  List<String>? get checkedTags => searchOptions!.checkedTags;
-  set checkedTags(List<String>? value) => searchOptions!.checkedTags = value;
+  List<String> get checkedTags => searchOptions.checkedTags;
+  set checkedTags(List<String> value) => searchOptions.checkedTags = value;
 
 
   @override
@@ -405,8 +403,8 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
                 allTags: ArticleTagWidget.TAGS,
                 onTagTap: (String tag, bool checked){
                   checked = !checked;
-                  if(checked) checkedTags!.remove(tag);
-                  else checkedTags!.add(tag);
+                  if(checked) checkedTags.remove(tag);
+                  else checkedTags.add(tag);
                   setState((){});
                   if(onChanged != null) onChanged!();
                 },
@@ -424,7 +422,7 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
                       ),
                     ),
                     onTap: (){
-                      setState(() => checked?checkedTags!.remove(tag):checkedTags!.add(tag));
+                      setState(() => checked?checkedTags.remove(tag):checkedTags.add(tag));
                       if(onChanged != null) onChanged!();
                     }
                 )
@@ -458,11 +456,11 @@ class CurrentItemsProvider extends ChangeNotifier{
 
 class SearchParamsProvider extends ChangeNotifier {
 
-  ArticleSearchOptions? _searchOptions;
-  TextEditingController? _controller;
+  late ArticleSearchOptions _searchOptions;
+  late TextEditingController _controller;
 
-  ArticleSearchOptions? get options => _searchOptions;
-  TextEditingController? get textController => _controller;
+  ArticleSearchOptions get options => _searchOptions;
+  TextEditingController get textController => _controller;
 
   SearchParamsProvider({ArticleSearchOptions? searchOptions, String initPhrase=''}){
     _searchOptions = searchOptions??ArticleSearchOptions();
@@ -470,19 +468,19 @@ class SearchParamsProvider extends ChangeNotifier {
   }
 
   clear(){
-    _searchOptions!.clear();
-    _controller!.clear();
+    _searchOptions.clear();
+    _controller.clear();
     notifyListeners();
   }
 
   set phrase(String value){
-    _controller!.text = value;
+    _controller.text = value;
     notifyListeners();
   }
 
   @override
   void dispose() {
-    _controller!.dispose();
+    _controller.dispose();
     super.dispose();
   }
 

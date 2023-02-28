@@ -68,22 +68,6 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
             Text('harcerze', style: AppTextStyle())
           ],
         ));
-      case SprawBookData.ZHP_HARC_OLD_ID:
-        return Tab(child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('ZHP', style: AppTextStyle(fontWeight: weight.bold)),
-            Text('stare', style: AppTextStyle())
-          ],
-        ));
-      case SprawBookData.ZHP_HARC_OLD_WOD_ID:
-        return Tab(child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('ZHP', style: AppTextStyle(fontWeight: weight.bold)),
-            Text('stare wodne', style: AppTextStyle())
-          ],
-        ));
       case SprawBookData.ZHR_HARC_D:
         return Tab(child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +84,22 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
             Text('pł. silna', style: AppTextStyle())
           ],
         ));
-
+      case SprawBookData.ZHP_HARC_OLD_ID:
+        return Tab(child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('ZHP', style: AppTextStyle(fontWeight: weight.bold)),
+            Text('stare', style: AppTextStyle())
+          ],
+        ));
+      case SprawBookData.ZHP_HARC_OLD_WOD_ID:
+        return Tab(child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('ZHP', style: AppTextStyle(fontWeight: weight.bold)),
+            Text('stare wodne', style: AppTextStyle())
+          ],
+        ));
     }
 
     return Tab();
@@ -127,78 +126,73 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => ChangeNotifierProvider<_TabScrollProvider>(
+    create: (context){
+      tabScrollProvider = _TabScrollProvider();
+      return tabScrollProvider;
+    },
+    builder: (context, child) => BottomNavScaffold(
+      body: ExtendedNestedScrollView(
+          physics: const BouncingScrollPhysics(),
+          floatHeaderSlivers: true,
+          pinnedHeaderSliverHeightBuilder: () => const TabBar(tabs: []).preferredSize.height,
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
 
-    return ChangeNotifierProvider<_TabScrollProvider?>(
-      create: (context){
-        tabScrollProvider = _TabScrollProvider();
-        return tabScrollProvider;
-      },
-      builder: (context, child) => BottomNavScaffold(
-          body: ExtendedNestedScrollView(
-              physics: const BouncingScrollPhysics(),
-              floatHeaderSlivers: true,
-              pinnedHeaderSliverHeightBuilder: () => const TabBar(tabs: []).preferredSize.height,
-              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
+            Consumer<_TabScrollProvider>(
+                builder: (context, prov, child) => ExtendedSliverAppBar(
+                    initIndex: initIndex,
+                    backgroundColor: averageColorEnd,
+                    floating: true,
+                    pinned: true,
+                    forceElevated: innerBoxIsScrolled,
 
-                Consumer<_TabScrollProvider>(
-                    builder: (context, prov, child) => ExtendedSliverAppBar(
-                        initIndex: initIndex,
-                        backgroundColor: averageColorEnd,
-                        floating: true,
-                        pinned: true,
-                        forceElevated: innerBoxIsScrolled,
+                    titles: allSprawBooks.map((sprawBookData) => sprawBookData.title).toList(),
+                    titleColor: DefColorPack.ICON_ENABLED,
 
-                        titles: allSprawBooks.map((sprawBookData) => sprawBookData.title).toList(),
-                        titleColor: DefColorPack.ICON_ENABLED,
-
-                        tabController: tabController,
-                        tabs: allSprawBooks.map(
+                    tabController: tabController,
+                    tabs: allSprawBooks.map(
                             (sprawBook) => getTab(sprawBook.data)//Tab(icon: Icon(sprawBookData.icon))
-                        ).toList(),
-                        isScrollable: true,
+                    ).toList(),
+                    isScrollable: true,
 
-                        onChanged: (int index, double offset){
-                          tabNotifier.value = index + offset;
-                          tabScrollProvider.notify();
-                          SprawBookData.lastViewedSprawBook = allSprawBooks[index];
-                        },
-                        actions: const [SizedBox(width: Dimen.APPBAR_LEADING_WIDTH)]
-                    )
-                ),
-              ],
-              body: TabBarView(
-                controller: tabController,
-                physics: const BouncingScrollPhysics(),
-                children: allSprawBooks.map(
-                    (sprawBook) => SprawBookPage(sprawBook)
-                ).toList(),
-              )
-          ),
-          floatingActionButton: Consumer<_TabScrollProvider>(
-            builder: (context, prov, child) => ExtendedFloatingButton(
-              MdiIcons.magnify,
-              'Szukaj',
-              textColor: ColorPack.DEF_ICON_ENAB,
-              background: averageColorStart,
-              backgroundEnd: averageColorEnd,
-              duration: Duration.zero,
-              onTap: () => pushPage(context, builder: (context) => SearchPage(
-                allSprawBooks[tabController.index],
-                allSprawBooks[tabController.index].groups??[],
-                onPicked: (Spraw spraw) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AppScaffold(body: SprawWidget(spraw)))
-                  );
-                },
-              )),
-
+                    onChanged: (int index, double offset){
+                      tabNotifier.value = index + offset;
+                      tabScrollProvider.notify();
+                      SprawBookData.lastViewedSprawBook = allSprawBooks[index];
+                    },
+                )
             ),
-          ),
-          bottomNavigationBar:
-          App.showPatroniteSeasonally?
-          Consumer<_TabScrollProvider>(
+          ],
+          body: TabBarView(
+            controller: tabController,
+            physics: const BouncingScrollPhysics(),
+            children: allSprawBooks.map(
+                    (sprawBook) => SprawBookPage(sprawBook)
+            ).toList(),
+          )
+      ),
+      floatingActionButton: Consumer<_TabScrollProvider>(
+        builder: (context, prov, child) => ExtendedFloatingButton(
+          MdiIcons.magnify,
+          'Szukaj',
+          textColor: ColorPack.DEF_ICON_ENAB,
+          background: averageColorStart,
+          backgroundEnd: averageColorEnd,
+          duration: Duration.zero,
+          onTap: () => pushPage(context, builder: (context) => SearchPage(
+            allSprawBooks[tabController.index],
+            allSprawBooks[tabController.index].groups??[],
+            onPicked: (Spraw spraw) => pushPage(
+                context,
+                builder: (context) => AppScaffold(body: SprawWidget(spraw))
+            ),
+          )),
+
+        ),
+      ),
+      bottomNavigationBar:
+      App.showPatroniteSeasonally?
+      Consumer<_TabScrollProvider>(
           builder: (context, prov, child) => PatroniteSupportWidget(
             margin: const EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg, bottom: Dimen.defMarg),
             stateTag: PatroniteSupportWidget.tagSprawnosci,
@@ -208,10 +202,8 @@ class SprawnosciPageState extends State<SprawnosciPage> with TickerProviderState
             colorStart: averageColorStart,
             colorEnd: averageColorEnd,
           )):null,
-      ),
-    );
-
-  }
+    ),
+  );
 
   Color get averageColorStart{
     int red = 0;

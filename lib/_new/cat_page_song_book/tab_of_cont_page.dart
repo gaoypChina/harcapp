@@ -213,7 +213,17 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
 
       IconButton(
         icon: const Icon(MdiIcons.trendingUp),
-        onPressed: () => pushPage(context, builder: (context) => const SongContributorsPage()),
+        onPressed: () => pushPage(context, builder: (context) => SongContributorsPage(
+          onSongTap: (song){
+            Navigator.pop(context); // Close song contrib page
+            Navigator.pop(context); // Close tab of content page
+            if(!Album.current.songs.contains(song)) {
+              Album.current = Album.omega;
+              showAppToast(context, text: 'Otwarto $album_ "Wszystkie"');
+            }
+            onSongSelected?.call(song, Album.current.songs.indexOf(song), SongOpenType.search);
+          },
+        )),
       )
 
     ],

@@ -52,7 +52,7 @@ class TropIdeasPageState extends State<TropIdeasPage> with TickerProviderStateMi
                 ideas[i].category,
                 size: 32.0,
               ),
-              name: ideas[i].name
+              text: ideas[i].name
           ));
 
         return [

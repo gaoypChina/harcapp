@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ApelEwanFolderProvider extends ChangeNotifier{
 
@@ -7,6 +8,8 @@ class ApelEwanFolderProvider extends ChangeNotifier{
 }
 
 class ApelEwanAllFoldersProvider extends ChangeNotifier{
+
+  static ApelEwanAllFoldersProvider of(BuildContext context) => Provider.of<ApelEwanAllFoldersProvider>(context, listen: false);
 
   static final List<void Function()> _listeners = [];
 

@@ -1,6 +1,13 @@
+import 'package:harcapp/_new/cat_page_harcthought/apel_ewan/data.dart';
+
 import 'apel_ewan_folder.dart';
 
 class ApelEwanPersistentFolder extends ApelEwanFolder{
+
+  static List<ApelEwanPersistentFolder> get all => [
+    omegaFolder,
+    dekalogFolder,
+  ];
 
   @override
   int get count => apelEwans.length;

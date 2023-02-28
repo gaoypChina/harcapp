@@ -4,19 +4,18 @@ import 'trop_idea.dart';
 
 List<TropIdea> harcWTropIdeas = const [
 
-  // TODO: bełkot - freeganizm.
   TropIdea(
     name: 'Nie marnuj jedzenia',
     category: TropCategory.harcInicjatywa,
-    intro: 'Czy zauważyliście, ile jedzenia marnuje się w Waszej okolicy, mieście? Ile jedzenia ląduje na śmietnikach restauracji? Ile osób potrzebujących napotykacie na co dzień, na Waszym osiedlu, w Waszej miejscowości? A czy może zaobserwowaliście również jak wielu jest potrzebujących, bezdomnych na Waszej okolicy…? Może więc warto spróbować zapewnić żywność głodnym.',
+    intro: 'Czy zauważyliście, ile jedzenia marnuje się w Waszej okolicy, mieście? Ile jedzenia ląduje na śmietnikach restauracji? Ile osób potrzebujących napotykacie na co dzień, na Waszym osiedlu, w Waszej miejscowości? A czy może zaobserwowaliście również jak wielu jest potrzebujących, bezdomnych na Waszej okolicy? Może więc warto spróbować zapewnić żywność głodnym.',
     plan: 'Zróbcie zwiad w swojej okolicy, dowiedźcie się czy są osoby, które takiej pomocy potrzebują i sprawdźcie, czy działają już organizacje lub akcje ich wspierające np. jadłodzielnie lub Ośrodki Pomocy Społecznej.',
     todo: 'Pomyślcie nad możliwościami wsparcia osób, którym tego jedzenia na co dzień brakuje np. poprzez:'
         '\n\n• przygotowywanie posiłków dla potrzebujących,'
         '\n\n• organizację lodówki z niepotrzebnymi produktami lub posiadającymi krótki terminem ważności,'
-        '\n\n• organizację w lokalnych kawiarniach/restauracjach „zawieszonych” dań/napojów (osoby potrzebujące mogą odebrać „zawieszone” danie, kupione w danym miejscu przez inną osobę),'
+        '\n\n• organizację w lokalnych kawiarniach/restauracjach „zawieszonych” dań lub napojów (osoby potrzebujące mogą odebrać „zawieszone” danie, kupione w danym miejscu przez inną osobę),'
         '\n\n• wspieranie istniejących już działań, które potrzebują wolontariuszy,'
         '\n\n• koordynację zbiórki darów żywnościowych.',
-    summary: 'Zadbajcie o wypromowanie prowadzonych przez Was działań. Pomyślcie, co Wy możecie zrobić w swoim domu, aby nie dopuszczać do sytuacji, w której wyrzucane jedzenie. Dzielcie się z innymi swoimi dobrymi praktykami np. w formie wszechnicy. Dowiedzcie się, czym jest freeganizm i zorganizujcie spotkanie z freeganinem. Przeprowadźcie w drużynie dyskusję nad takim sposobem życia.',
+    summary: 'Zadbajcie o wypromowanie prowadzonych przez Was działań. Pomyślcie, co Wy możecie zrobić w swoim domu, aby nie dopuszczać do sytuacji, w której wyrzucane jedzenie. Dzielcie się z innymi swoimi dobrymi praktykami np. w formie wszechnicy. Dowiedzcie się, czym jest konsumpcjonizm i jak można prowadzić niekonsumpcjonistyczny styl życia. Przeprowadźcie w drużynie dyskusję nad takim sposobem życia.',
   ),
 
   TropIdea(
@@ -173,14 +172,13 @@ List<TropIdea> harcWTropIdeas = const [
     summary: 'Jak Wasze działanie wpłynęło na bliskość między ludźmi w Waszym otoczeniu? Czy możecie kontynuować je dalej, aby wzmacniać pokój pomiędzy ludźmi? Zadziałajcie też w swoim hufcu – może dobrym pomysłem będzie kuźnica, ogniobranie lub inscenizacja poświęcona tematyce pokoju i tolerancji?',
   ),
 
-  // TODO: bełkot
   TropIdea(
-    name: 'Wolni od nienawiści',
+    name: 'Wolni od zniewag',
     category: TropCategory.harcBraterstwo,
-    intro: 'Czy nie macie dość już całej nienawiści jaka wylewa się w Internecie? Czy zauważacie u siebie i u Waszych znajomych znieczulenie na pewne tematy, hasła i zdjęcia? Czy chcecie dalej czytać i oglądać treści przesycone jadem?',
-    plan: 'Dowiedzcie się, czym jest mowa nienawiści, hejt, a czym konstruktywna krytyka. Czym one się różnią między sobą? Zorganizujcie w drużynie burzę mózgów na ten temat.',
-    todo: 'Wymyślcie, jak zredukować posty z negatywnymi treściami w mediach społecznościowych, stwórzcie internetową przestrzeń wolną od takich treści. Zaprojektujcie kampanię przeciwko mowie nienawiści w mediach społecznościowych. Zorganizujcie warsztaty dla grupy rówieśniczej jak przeciwstawiać się temu problemowi. Wspólnie zorganizujcie akcję (np. happening, audycję, wystawę) w Waszych szkołach promującą wolność od nienawiści w mediach społecznościowych.',
-    summary: 'Czy udało Wam się zredukować ilość mowy nienawiści w Waszym otoczeniu? Jakimi sukcesami w tym obszarze możecie się pochwalić? Co jeszcze można zrobić, aby ludzie byli dla siebie na co dzień bardziej braterscy?',
+    intro: 'Czy nie macie dość już zniewag jakie wylewają się w Internecie? Czy zauważacie u siebie i u Waszych znajomych znieczulenie na pewne tematy, hasła i zdjęcia? Czy chcecie dalej czytać i oglądać treści nimi przesycone?',
+    plan: 'Dowiedzcie się, czym jest zjawisko zniewagi, a czym konstruktywna krytyka. Czym one się różnią między sobą? Zorganizujcie w drużynie burzę mózgów na ten temat.',
+    todo: 'Wymyślcie, jak zredukować posty z negatywnymi treściami w mediach społecznościowych, stwórzcie internetową przestrzeń wolną od takich treści. Zaprojektujcie kampanię przeciwko zniewagom w mediach społecznościowych. Zorganizujcie warsztaty dla grupy rówieśniczej jak przeciwstawiać się temu problemowi. Wspólnie zorganizujcie akcję (np. wydarzenie, audycję, wystawę) w Waszych szkołach promującą wolność od zniewag w mediach społecznościowych.',
+    summary: 'Czy udało Wam się zredukować ilość zniewag w Waszym otoczeniu? Jakimi sukcesami w tym obszarze możecie się pochwalić? Co jeszcze można zrobić, aby ludzie byli dla siebie na co dzień bardziej braterscy?',
   ),
 
   TropIdea(
@@ -237,7 +235,6 @@ List<TropIdea> harcWTropIdeas = const [
     summary: 'Zastanówcie się, jak jeszcze możecie propagować w swoim otoczeniu uprawianie sportu. Nagrajcie film waszych treningów i wydarzenia i umieśćcie go na stronie swojego środowiska.',
   ),
 
-  // TODO: Możliwy bełkot
   TropIdea(
     name: 'Ekologiczny obóz',
     category: TropCategory.harcNatura,

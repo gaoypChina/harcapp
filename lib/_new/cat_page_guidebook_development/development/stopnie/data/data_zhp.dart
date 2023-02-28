@@ -818,19 +818,6 @@ class WyzwanieSelectedListWidgetState extends State<WyzwanieSelectedListWidget>{
         itemBuilder: (context, index){
           String? extText = RankZHPSim2022Templ.getExtText(rankId, code, index);
 
-          // Trop? trop;
-          // if(extText == null)
-          //   trop = null;
-          // else if(extText.length > TropSelectedListWidget.samplePrefix.length)
-          //   trop = Trop.readFromLclId(extText.substring(TropSelectedListWidget.samplePrefix.length));
-          // else if(!extText.startsWith(TropSelectedListWidget.samplePrefix) && !extText.startsWith(TropSelectedListWidget.customPrefix) && extText.isNotEmpty) {
-          //   // This is a temporary solution.
-          //   trop = null;
-          //   extText = TropSelectedListWidget.customPrefix + extText;
-          //   RankZHPSim2022Templ.setExtText(rankId, code, index, extText);
-          // }else
-          //   trop = null;
-
           Widget emptyButtons = SizedBox(
             height: itemHeight,
             child: AdditionalTaskEmptyButtons(
@@ -901,37 +888,6 @@ class WyzwanieSelectedListWidgetState extends State<WyzwanieSelectedListWidget>{
               ),
             );
 
-          // else if(extText.startsWith(TropSelectedListWidget.samplePrefix) && trop != null)
-          //   return ItemSlidable(
-          //       onRemoveTap: (context) async {
-          //         String? oldExtText = RankZHPSim2022Templ.getExtText(rankId, code, index)??'';
-          //         await RankZHPSim2022Templ.removeExtText(rankId, code, index);
-          //         if(!mounted) return;
-          //         showAppToast(
-          //             context,
-          //             text: 'Usunięto ${name.toLowerCase()}',
-          //             buttonText: 'Cofnij',
-          //             onButtonPressed: (){
-          //               RankZHPSim2022Templ.setExtText(rankId, code, index, oldExtText);
-          //               setState(() {});
-          //             }
-          //         );
-          //         setState((){});
-          //       },
-          //       child: SizedBox(
-          //           height: itemHeight,
-          //           child: InkWell(
-          //             onTap: () => openTropDialog(context, trop!),
-          //             child: TropTile(
-          //               name: trop.name,
-          //               category: trop.category,
-          //               zuchTropName: trop.customIconTropName,
-          //               padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-          //               trailing: TropTileProgressWidget(trop),
-          //             ),
-          //           )
-          //       )
-          //   );
           else
             return emptyButtons;
 
@@ -941,128 +897,7 @@ class WyzwanieSelectedListWidgetState extends State<WyzwanieSelectedListWidget>{
   );
 
 }
-//
-// class AdditionalTaskNamesWidget extends StatefulWidget{
-//
-//   final String stopId;
-//   final String code;
-//   final String name;
-//   final int count;
-//   final int? reqCount;
-//   final Color? backgroundColor;
-//   final Color? stopColor;
-//   final void Function(bool?)? onCheckChanged;
-//   final bool checkVisible;
-//   final bool checkable;
-//   final bool enabled;
-//   final String Function(int)? emptyDisabledHint;
-//
-//   const AdditionalTaskNamesWidget(
-//       this.stopId,
-//       this.code,
-//       this.name,
-//       {required this.count,
-//         this.reqCount,
-//         this.backgroundColor,
-//         this.stopColor,
-//         this.onCheckChanged,
-//         required this.checkVisible,
-//         required this.checkable,
-//         this.enabled = true,
-//         this.emptyDisabledHint,
-//         super.key
-//       });
-//
-//   @override
-//   State<StatefulWidget> createState() => AdditionalTaskNamesWidgetState();
-//
-// }
-//
-// class AdditionalTaskNamesWidgetState extends State<AdditionalTaskNamesWidget>{
-//
-//   static const horizontalPaddingValue = Dimen.SIDE_MARG;
-//   static const verticalPaddingValue = Dimen.defMarg;
-//
-//   String get stopId => widget.stopId;
-//   String get name => widget.name;
-//   String get code => widget.code;
-//   int get count => widget.count;
-//   int? get reqCount => widget.reqCount;
-//   Color? get backgroundColor => widget.backgroundColor;
-//   Color? get stopColor => widget.stopColor;
-//   void Function(bool?)? get onCheckChanged => widget.onCheckChanged;
-//   bool get checkVisible => widget.checkVisible;
-//   bool get checkable => widget.checkable;
-//   bool get enabled => widget.enabled;
-//   String Function(int)? get emptyDisabledHint => widget.emptyDisabledHint;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     int _reqCount = reqCount??count;
-//
-//     List<Widget> children = [];
-//     for(int i=0; i<count; i++) {
-//       String value = RankZHPSim2022Templ.getExtText(stopId, code, i)??'';
-//       children.add(
-//           Row(
-//             children: [
-//               Expanded(
-//                 child: AppTextFieldHint(
-//                   hint: emptyDisabledHint!=null&&value.isEmpty&&!enabled?
-//                   emptyDisabledHint!.call(i):
-//                   '$name ${i + 1}: ${i < _reqCount ? '*' : ''}',
-//                   hintTop: '$name ${i + 1} ${i < _reqCount ? '*' : ''}',
-//                   style: AppTextStyle(),
-//                   hintStyle: AppTextStyle(
-//                       color: hintEnab_(context),
-//                       fontStyle: emptyDisabledHint!=null&&value.isEmpty&&!enabled?
-//                       FontStyle.italic:
-//                       FontStyle.normal
-//                   ),
-//                   controller: TextEditingController(text: value),
-//                   onChanged: (_, text) =>
-//                       RankZHPSim2022Templ.setExtText(stopId, code, i, text),
-//                   enabled: enabled,
-//                 ),
-//               ),
-//               if(checkVisible)
-//                 IgnorePointer(
-//                   ignoring: !enabled && !checkable,
-//                   child: Checkbox(
-//                     shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(Dimen.ICON_SIZE)),
-//                     value: RankZHPSim2022Templ.getExtChecked(stopId, code, i),
-//                     onChanged: (value) async {
-//                       RankZHPSim2022Templ.setExtChecked(
-//                           stopId, code, i, value!);
-//                       setState(() {});
-//                       Provider.of<RankFloatingButtonProvider>(
-//                           context, listen: false).notify();
-//                       onCheckChanged?.call(value);
-//                     },
-//                     activeColor: stopColor,
-//                   ),
-//                 )
-//             ],
-//           )
-//       );
-//     }
-//     return Material(
-//         borderRadius: BorderRadius.circular(AppCard.bigRadius),
-//         color: backgroundColor??cardEnab_(context),
-//         child: Padding(
-//           padding: const EdgeInsets.symmetric(
-//               horizontal: horizontalPaddingValue,
-//               vertical: verticalPaddingValue
-//           ),
-//           child: Column(children: children),
-//         )
-//     );
-//   }
-//
-// }
 
-// To jest wciąż stara wersja.
 RankZHPSim2022Data rankZhp0Data = RankZHPSim2022Data(
     titleMale: 'Próba harcerza',
     titleFemale: 'Próba harcerki',
@@ -1641,7 +1476,7 @@ RankZHPSim2022Data rankZhp5Data = RankZHPSim2022Data(
               title: 'Świat cyfrowy',
               icon: RankData.iconSwiatCyfrowy,
               taskData: [
-                RankTaskData(text: 'Zna pojęcie tzw. "hejtu" i uczestniczył w projekcie lub kampanii, która miała wpływ na ograniczenie tego zjawiska w sieci.'),
+                RankTaskData(text: 'Zna pojęcie tzw. "zniewagi" i uczestniczył w projekcie lub kampanii, która miała wpływ na ograniczenie tego zjawiska w sieci.'),
               ],
             ),
             RankGroupData(

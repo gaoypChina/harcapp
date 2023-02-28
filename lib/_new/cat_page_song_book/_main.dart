@@ -604,6 +604,13 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                                   post(() => confettiController.play());
                                 }
                               },
+                              onNewSongOpened: (song){
+                                if(!Album.current.songs.contains(song)) {
+                                  Album.current = Album.omega;
+                                  showAppToast(context, text: 'Otwarto $album_ "Wszystkie"');
+                                }
+                                onSongSelected(song, Album.current.songs.indexOf(song), SongOpenType.search);
+                              },
                             ),
 
                             onPageChanged: (index) async {

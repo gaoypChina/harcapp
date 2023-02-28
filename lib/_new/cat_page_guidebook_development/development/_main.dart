@@ -1,20 +1,21 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
-import 'package:harcapp/_common_classes/org/org_switcher.dart';
+import 'package:harcapp/_common_classes/org/org_handler.dart';
+import 'package:harcapp/_common_widgets/border_material.dart';
+import 'package:harcapp/_common_widgets/gradient_icon.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/_main.dart';
-import 'package:harcapp_core/comm_widgets/app_toast.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/spraw_progress_widget.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_widget_small.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/providers.dart';
-import 'package:harcapp_core/comm_widgets/animated_child_slider.dart';
+import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -22,10 +23,7 @@ import '_sprawnosci/_main.dart';
 import '_sprawnosci/models/spraw.dart';
 import '_sprawnosci/spraw_folder_page/spraw_folder.dart';
 import '_sprawnosci/spraw_folder_page/spraw_folders_page.dart';
-import '_sprawnosci/spraw_grid_page.dart';
-import '_sprawnosci/spraw_icon.dart';
 import '_sprawnosci/spraw_widget_small.dart';
-import '_sprawnosci/widgets/spraw_tile_widget.dart';
 import 'stopnie/_main.dart';
 import 'stopnie/models_common/rank.dart';
 import 'stopnie/rank_tile_widget.dart';
@@ -74,44 +72,140 @@ class DevelopmentSubpageState extends State<DevelopmentSubpage>{
 
       SliverList(
           delegate: SliverChildListDelegate([
-            const LatestStopWidget(
-                padding: EdgeInsets.only(
-                    left: Dimen.SIDE_MARG,
-                    right: Dimen.SIDE_MARG,
-                    bottom: Dimen.SIDE_MARG
+
+            Padding(
+              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+              child: BorderMaterial(
+                  child: Consumer<RankProv>(
+                    builder: (context, prov, child) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+
+                        TitleShortcutRowWidget(
+                          title: 'Stopnie',
+                          textAlign: TextAlign.start,
+                          onOpen: () => pushPage(
+                              context,
+                              builder: (context) => RankPage(org: OrgHandler.current)
+                          ),
+                        ),
+
+                        if(Rank.lastEdited != null)
+                          RankTileWidget<Rank>(rank: Rank.lastEdited!)
+                        else
+                          SimpleButton(
+                              radius: 0,
+                              margin: EdgeInsets.zero,
+                              padding: EdgeInsets.zero,
+                              color: cardEnab_(context),
+                              clipBehavior: Clip.none,
+                              child: Row(
+                                children: [
+
+                                  const SizedBox(width: Dimen.ICON_MARG),
+
+                                  SizedBox(
+                                    height: 64,
+                                    width: RankTileWidgetTemplate.leadingWidth,
+                                    child: AspectRatio(
+                                      aspectRatio: RankTileWidgetTemplate.leadingAspectRatio,
+                                      child: Icon(
+                                          MdiIcons.bookOpenPageVariantOutline,
+                                          color: iconEnab_(context),
+                                          size: RankTileWidgetTemplate.defTileIconSize
+                                      ),
+                                    ),
+                                  ),
+
+                                  const SizedBox(width: Dimen.ICON_MARG),
+
+                                  Expanded(
+                                    child: Text(
+                                      'Przeglądaj stopnie',
+                                      style: AppTextStyle(
+                                          color: iconEnab_(context),
+                                          fontSize: Dimen.TEXT_SIZE_APPBAR
+                                      ),
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => RankPage(org: OrgHandler.current))
+                              )
+                          )
+
+                      ],
+                    )
+                  ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(
+                left: Dimen.SIDE_MARG,
+                right: Dimen.SIDE_MARG,
+                bottom: Dimen.SIDE_MARG,
+              ),
+              child: BorderMaterial(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TitleShortcutRowWidget(
+                      title: 'Sprawności',
+                      textAlign: TextAlign.start,
+                      onOpen: () => pushPage(
+                          context,
+                          builder: (context) => const SprawnosciPage()
+                      ),
+                    ),
+
+                    SprawPreviewList(),
+
+                    SimpleButton.from(
+                      context: context,
+                      color: cardEnab_(context),
+                      radius: 0,
+                      margin: EdgeInsets.zero,
+                      icon: MdiIcons.folderZipOutline,
+                      text: 'Foldery',
+                      onTap: () => pushPage(context, builder: (context) => const SprawFoldersPage()),
+                    ),
+
+                  ],
                 )
-            ),
-
-            const SizedBox(height: Dimen.SIDE_MARG),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-              child: TitleShortcutRowWidget(
-                title: 'Sprawności',
-                textAlign: TextAlign.start,
-                onOpen: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SprawnosciPage())
-                ),
               ),
             ),
 
-            const _SprawButtonsWidget(
-              padding: EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-            ),
-
-            _SprawProgressPreviewWidget(),
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: Dimen.SIDE_MARG),
-              child: TitleShortcutRowWidget(
-                title: 'Tropy',
-                textAlign: TextAlign.start,
-                onOpen: () => pushPage(
-                  context,
-                  builder: (context) => const TropyPage()
+              child: BorderMaterial(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+
+                    TitleShortcutRowWidget(
+                      title: 'Tropy',
+                      textAlign: TextAlign.start,
+                      onOpen: () => pushPage(
+                          context,
+                          builder: (context) => const TropyPage()
+                      ),
+                    ),
+
+                    GestureDetector(
+                      onTap: () => pushPage(
+                          context,
+                          builder: (context) => const TropyPage()
+                      ),
+                      child: TropyPreviewList(),
+                    )
+
+                  ],
                 ),
-              ),
+              )
             ),
 
             // Padding(
@@ -134,376 +228,324 @@ class DevelopmentSubpageState extends State<DevelopmentSubpage>{
 
 }
 
-class _SprawButtonsWidget extends StatelessWidget{
-
-  final EdgeInsets padding;
-
-  const _SprawButtonsWidget({
-    this.padding = EdgeInsets.zero
-  });
-
-  @override
-  Widget build(BuildContext context) => SingleChildScrollView(
-    padding: padding,
-    physics: const BouncingScrollPhysics(),
-    scrollDirection: Axis.horizontal,
-    child: Row(
-      children: [
-        SimpleButton.from(
-          context: context,
-          color: cardEnab_(context),
-          margin: EdgeInsets.zero,
-          icon: SprawFolder.omegaFolderIcon,
-          text: 'Foldery',
-          onTap: () => pushPage(context, builder: (context) => const SprawFoldersPage()),
-        ),
-        const SizedBox(width: Dimen.SIDE_MARG),
-        SimpleButton.from(
-            context: context,
-            color: cardEnab_(context),
-            margin: EdgeInsets.zero,
-            icon: SprawTileWidget.ICON_IN_PROGRESS,
-            text: 'W toku',
-            onTap: () =>
-            Spraw.inProgressList.isEmpty?
-            showAppToast(context, text: 'Wieje pustką...'):
-            pushPage(context, builder: (context) => Consumer<SprawInProgressListProv>(
-              builder: (context, prov, child) => SprawGridPage(
-                key: ValueKey(Spraw.inProgressList),
-                title: 'Realizowane sprawności',
-                UIDs: Spraw.inProgressList,
-                icon: SprawTileWidget.ICON_IN_PROGRESS,
-                mode: SprawWidgetSmall.MODE_IN_PROGRESS,
-              ),
-            ))
-        ),
-        const SizedBox(width: Dimen.SIDE_MARG),
-        SimpleButton.from(
-            context: context,
-            color: cardEnab_(context),
-            margin: EdgeInsets.zero,
-            icon: SprawTileWidget.ICON_COMPLETED,
-            text: 'Zdobyte',
-            onTap: () => Spraw.completedList.isEmpty?
-            showAppToast(context, text: 'Wciąż żadnych osiągnięć...'):
-            pushPage(context, builder: (context) => Consumer<SprawCompletedListProv>(
-              builder: (context, prov, child) => SprawGridPage(
-                key: ValueKey(Spraw.completedList),
-                title: 'Zdobyte sprawności',
-                UIDs: Spraw.completedList,
-                icon: SprawTileWidget.ICON_COMPLETED,
-                mode: SprawWidgetSmall.MODE_COMPLETE,
-              ),
-            ))
-        ),
-      ],
-    ),
-  );
-
-}
-
-class _SprawProgressPreviewWidget extends StatelessWidget{
+class SprawPreviewList extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) => Consumer3<SprawSavedListProv, SprawInProgressListProv, SprawCompletedListProv>(
     builder: (context, savedProv, inProgProv, complProv, child){
 
       String keyVal = '';
-      for(String uid in SprawFolder.omega.sprawUIDs) keyVal += uid;
+      for(String uid in SavedSprawFolder().sprawUIDs) keyVal += uid;
       for(String uid in Spraw.inProgressList) keyVal += uid;
       for(String uid in Spraw.completedList) keyVal += uid;
 
-      return SprawProgressWidget(
-        key: ValueKey(keyVal),
-        backgroundIcon: true,
-        showIcons: true,
-        onOpen: (context) => Navigator.push(context, MaterialPageRoute(builder: (context) => const SprawFoldersPage())),
+      List<Spraw> spraws = [];
+      for(String sprawUID in Spraw.inProgressList + Spraw.completedList){
+        Spraw? spraw = Spraw.fromUID(sprawUID);
+        if(spraw != null && !spraws.contains(spraw)) spraws.add(spraw);
+      }
+
+      if(spraws.isEmpty)
+        return SizedBox(
+          height: SprawWidgetSmall.height + 2*Dimen.defMarg,
+          child: GestureDetector(
+            child: Container( // This is needed for gesture detector to work.
+              color: Colors.transparent,
+              child: const SprawPreviewEmptyWidget(),
+            ),
+            onTap: () => pushPage(
+                context,
+                builder: (context) => const SprawnosciPage()
+            ),
+          ),
+        );
+
+      return SizedBox(
+        height: SprawWidgetSmall.height + Dimen.defMarg,
+        child: ListView.separated(
+            padding: const EdgeInsets.only(
+              left: Dimen.defMarg,
+              right: Dimen.defMarg,
+              bottom: Dimen.defMarg,
+            ),
+            key: ValueKey(keyVal),
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) => SprawWidgetSmall(
+              spraws[index],
+              '',
+              elevation: 0.0,
+            ),
+            separatorBuilder: (context, index) => const SizedBox(width: Dimen.defMarg),
+            itemCount: spraws.length
+        ),
       );
+
     },
   );
 
 }
 
-class LatestStopWidget extends StatefulWidget{
+class SprawPreviewEmptyWidget extends StatelessWidget{
 
-  final EdgeInsets padding;
-
-  const LatestStopWidget({this.padding = EdgeInsets.zero, super.key});
+  const SprawPreviewEmptyWidget({super.key});
 
   @override
-  State<StatefulWidget> createState() => LatestStopWidgetState();
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (context, constraints) => Stack(
+      children: [
 
-}
+        Positioned(
+          top: 0,
+          left: 0,
+          child: SprawPreviewCircle(
+            color: CommonColorData.all[CommonColorData.chocolateKey]!,
+            icon: MdiIcons.imageFilterHdr,
+          ),
+        ),
 
-class LatestStopWidgetState extends State<LatestStopWidget>{
+        Positioned(
+          top: 0,
+          left: .2*constraints.maxWidth,
+          child: SprawPreviewCircle(
+            color: CommonColorData.all[CommonColorData.raspberryKey]!,
+            icon: MdiIcons.fountainPenTip,
+          ),
+        ),
 
-  SynchronizerListener? _listener;
+        Positioned(
+          top: 0,
+          left: .4*constraints.maxWidth,
+          child: SprawPreviewCircle(
+            color: CommonColorData.all[CommonColorData.dawnKey]!,
+            icon: MdiIcons.fire,
+          ),
+        ),
 
-  @override
-  void initState() {
-    _listener = SynchronizerListener(
-      onEnd: (oper){
-        if(oper != SyncOper.get) return;
-        Provider.of<RankProv>(context, listen: false).notify();
-      }
-    );
-    synchronizer.addListener(_listener);
-    super.initState();
-  }
+        Positioned(
+          top: 0,
+          left: .6*constraints.maxWidth,
+          child: SprawPreviewCircle(
+            color: CommonColorData.all[CommonColorData.rosegoldKey]!,
+            icon: MdiIcons.trumpet,
+          ),
+        ),
 
-  @override
-  void dispose() {
-    synchronizer.removeListener(_listener);
-    super.dispose();
-  }
+        Positioned(
+          top: 0,
+          left: .8*constraints.maxWidth,
+          child: SprawPreviewCircle(
+            color: CommonColorData.all[CommonColorData.goldKey]!,
+            icon: MdiIcons.dramaMasks,
+          ),
+        ),
 
-  @override
-  Widget build(BuildContext context) => Consumer2<RankProv, OrgProvider>(
-      builder: (context, rankProv, orgProv, child){
+        // -------
 
-        Rank? lastStopZHP;
-        Rank? lastStopZHRC;
-        Rank? lastStopZHRD;
+        Positioned(
+          top: .4*constraints.maxHeight,
+          left: .1*constraints.maxWidth,
+          child: SprawPreviewCircle(
+            color: CommonColorData.all[CommonColorData.mintKey]!,
+            icon: MdiIcons.tree,
+          ),
+        ),
 
-        Org org = orgProv.current;
-        int index;
+        Positioned(
+          top: .4*constraints.maxHeight,
+          left: .3*constraints.maxWidth,
+          child: SprawPreviewCircle(
+            color: CommonColorData.all[CommonColorData.greenKey]!,
+            icon: MdiIcons.horseshoe,
+          ),
+        ),
 
-        if(org == Org.zhp)
-          index = 0;
-        else if (org == Org.zhr_c)
-          index = 1;
-        else if (org == Org.zhr_d)
-          index = 2;
-        else
-          index = 0;
+        Positioned(
+          top: .4*constraints.maxHeight,
+          left: .5*constraints.maxWidth,
+          child: SprawPreviewCircle(
+            color: CommonColorData.all[CommonColorData.turquoiseKey]!,
+            icon: MdiIcons.hammerWrench,
+          ),
+        ),
 
-        lastStopZHP =
-            Rank.last(Org.zhp, zuch: false, newSim: true)??
-            Rank.last(Org.zhp, zuch: true, newSim: true)??
-            Rank.last(Org.zhp, zuch: false, newSim: false)??
-            Rank.last(Org.zhp, zuch: true, newSim: false);
+        Positioned(
+          top: .4*constraints.maxHeight,
+          left: .7*constraints.maxWidth,
+          child: SprawPreviewCircle(
+            color: CommonColorData.all[CommonColorData.deepblueKey]!,
+            icon: MdiIcons.divingScubaMask,
+          ),
+        ),
 
-        lastStopZHRC = Rank.last(Org.zhr_c, zuch: false)??
-            Rank.last(Org.zhr_c, zuch: true);
+        Positioned(
+          top: .4*constraints.maxHeight,
+          left: .9*constraints.maxWidth,
+          child: SprawPreviewCircle(
+            color: CommonColorData.all[CommonColorData.deepblueKey]!,
+            icon: MdiIcons.surfing,
+          ),
+        ),
 
-        lastStopZHRD = Rank.last(Org.zhr_d, zuch: false)??
-            Rank.last(Org.zhr_d, zuch: true);
+        // -------
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+        Positioned(
+          top: .8*constraints.maxHeight,
+          left: 0,
+          child: SprawPreviewCircle(
+            color: CommonColorData.all[CommonColorData.darkorangeKey]!,
+            icon: MdiIcons.bicycle,
+          ),
+        ),
 
-            Padding(
-              padding: EdgeInsets.only(
-                top: widget.padding.top,
-                left: widget.padding.left,
-                right: widget.padding.right
-              ),
-              child: TitleShortcutRowWidget(
-                title: 'Stopnie',
-                trailing: const OrgSwitcher(
-                  allowedOrgs: [Org.zhp, Org.zhr_c, Org.zhr_d],
-                  longPressable: false,
-                ),
-                textAlign: TextAlign.start,
-                onOpen: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => RankPage(org: orgProv.current))
-                ),
-              ),
-            ),
+        Positioned(
+          top: .8*constraints.maxHeight,
+          left: .2*constraints.maxWidth,
+          child: SprawPreviewCircle(
+            color: CommonColorData.all[CommonColorData.darkgreenKey]!,
+            icon: MdiIcons.compassOutline,
+          ),
+        ),
 
-            const SizedBox(height: Dimen.defMarg),
+        Positioned(
+          top: .8*constraints.maxHeight,
+          left: .4*constraints.maxWidth,
+          child: SprawPreviewCircle(
+            color: CommonColorData.all[CommonColorData.darkblueKey]!,
+            icon: MdiIcons.paw,
+          ),
+        ),
 
-            AnimatedChildSlider(
-              index: index,
-              direction: Axis.horizontal,
-              clipBehavior: Clip.none,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: widget.padding.left,
-                    right: widget.padding.right,
-                    bottom: widget.padding.bottom,
-                  ),
-                  child: StopPrevItem(Org.zhp, lastStopZHP),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: widget.padding.left,
-                    right: widget.padding.right,
-                    bottom: widget.padding.bottom,
-                  ),
-                  child: StopPrevItem(Org.zhr_c, lastStopZHRC),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: widget.padding.left,
-                    right: widget.padding.right,
-                    bottom: widget.padding.bottom,
-                  ),
-                  child: StopPrevItem(Org.zhr_d, lastStopZHRD),
-                ),
-              ],
-            )
+        Positioned(
+          top: .8*constraints.maxHeight,
+          left: .6*constraints.maxWidth,
+          child: SprawPreviewCircle(
+            color: CommonColorData.all[CommonColorData.darkpurpleKey]!,
+            icon: MdiIcons.chessKing,
+          ),
+        ),
 
-          ],
-        );
+        Positioned(
+          top: .8*constraints.maxHeight,
+          left: .8*constraints.maxWidth,
+          child: SprawPreviewCircle(
+            color: CommonColorData.all[CommonColorData.darkbrownKey]!,
+            icon: MdiIcons.cake,
+          ),
+        ),
 
-      }
+        Positioned.fill(child: Container()),
+
+      ],
+    ),
   );
 
 }
 
-class StopPrevItem extends StatelessWidget{
+class SprawPreviewCircle extends StatelessWidget{
 
-  final Org org;
-  final Rank? rank;
+  final CommonColorData color;
+  final IconData icon;
+  final double size;
 
-  const StopPrevItem(this.org, this.rank, {super.key});
+  const SprawPreviewCircle({required this.color, required this.icon, this.size = 54.0, super.key});
 
   @override
-  Widget build(BuildContext context) {
-
-    if(rank != null)
-      return RankTileWidget<Rank>(rank: rank!);
-
-    RankColors colors;
-    if(org == Org.zhp) colors = RankData.colorsZhp;
-    else if(org == Org.zhr_c) colors = RankData.colorsZhrC;
-    else if(org == Org.zhr_d) colors = RankData.colorsZhrD;
-    else colors = RankData.colorsZhpOld;
-
-    return SimpleButton(
-        radius: AppCard.bigRadius,
-        margin: EdgeInsets.zero,
-        padding: EdgeInsets.zero,
-        color: backgroundIcon_(context),
-        clipBehavior: Clip.none,
-        child: Row(
-          children: [
-
-            const SizedBox(width: Dimen.ICON_MARG),
-
-            SizedBox(
-              height: 64,
-              width: RankTileWidgetTemplate.leadingWidth,
-              child: AspectRatio(
-                aspectRatio: RankTileWidgetTemplate.leadingAspectRatio,
-                child: Icon(
-                    MdiIcons.bookOpenPageVariantOutline,
-                    color: iconEnab_(context),
-                    size: RankTileWidgetTemplate.defTileIconSize
-                ),
-              ),
-            ),
-
-            const SizedBox(width: Dimen.ICON_MARG),
-
-            Expanded(
-              child: Text(
-                'Przeglądaj stopnie',
-                style: AppTextStyle(
-                    color: iconEnab_(context),
-                    fontSize: Dimen.TEXT_SIZE_APPBAR
-                ),
-              ),
-            ),
-
-          ],
+  Widget build(BuildContext context) => GradientWidget(
+    radius: size,
+    width: size,
+    height: size,
+    colorStart: color.colorStart,
+    colorEnd: color.colorEnd,
+    child: Padding(
+      padding: EdgeInsets.all(.11*size),
+      child: Material(
+        borderRadius: BorderRadius.circular(size),
+        color: background_(context),
+        child: GradientIcon(
+          icon,
+          colorStart: color.colorStart,
+          colorEnd: color.colorEnd,
+          size: .65*size,
         ),
-        onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => RankPage(org: org))
-        )
-    );
-
-  }
+      ),
+    ),
+  );
 
 }
 
-class SprawModeButton<T extends ChangeNotifier> extends StatelessWidget{
+class TropyPreviewList extends StatelessWidget{
 
-  final String title;
-  final String emptyMessage;
-  final String mode;
-  final List<String> Function() getUIDs;
-  final bool showIcons;
-  final IconData icon;
-  final int? detailsIndex;
-  final bool clickable;
-  final void Function()? onTap;
-
-  const SprawModeButton({
-    required this.title,
-    required this.emptyMessage,
-    required this.mode,
-    required this.getUIDs,
-    this.showIcons = true,
-    required this.icon,
-    this.detailsIndex,
-    this.clickable=true,
-    this.onTap,
-    super.key
-  }): assert(!clickable || detailsIndex != null);
+  const TropyPreviewList({super.key});
 
   @override
-  Widget build(BuildContext context) => Hero(
-    tag: icon,
-    child: Consumer<T>(
-        builder: (context, prov, child){
+  Widget build(BuildContext context) => Consumer2<TropProvider, TropListProvider>(
+    builder: (context, tropProv, tropProvList, child){
 
-          List<String> UIDs = getUIDs();
+      if(Trop.all.isEmpty)
+        return const SizedBox(
+          height: TropIcon.defSize + Dimen.defMarg,
+          child: TropyPreviewEmptyWidget(),
+        );
 
-          List<Widget> children = [];
-          for(int i=0; i<UIDs.length; i++)
-            children.add(Center(
-              child: SprawIcon(Spraw.fromUID(UIDs[i])),
-            ));
+      return SizedBox(
+        height: TropWidgetSmall.height + Dimen.defMarg,
+        child: ListView.separated(
+          padding: const EdgeInsets.only(
+            left: Dimen.defMarg,
+            right: Dimen.defMarg,
+            bottom: Dimen.defMarg,
+          ),
+          itemBuilder: (context, index) => TropWidgetSmall(
+            Trop.all[index],
+            elevation: 0,
+          ),
+          separatorBuilder: (context, index) => const SizedBox(width: Dimen.defMarg),
+          itemCount: Trop.all.length,
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          physics: const BouncingScrollPhysics(),
+        ),
+      );
 
-          return Stack(
-            clipBehavior: Clip.none,
-            children: [
+    },
+  );
 
-              Center(
-                child: Icon(icon, color: backgroundIcon_(context), size: MediaQuery.of(context).size.shortestSide/3),
-              ),
+}
 
-              if(showIcons)
-                SizedBox(
-                  height: 2*Dimen.ICON_MARG + 3*SprawIcon.sizeSmall,
-                  child:
-                  children.isEmpty?
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Center(
-                      child: AutoSizeText(
-                        'Pusto',
-                        style: AppTextStyle(
-                            fontSize: 32.0,
-                            fontWeight: weight.halfBold,
-                            color: hintEnab_(context)
-                        ),
-                        maxLines: 1,
-                      ),
-                    ),
-                  ):
-                  GridView.count(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.all(Dimen.ICON_MARG),
-                    crossAxisSpacing: Dimen.ICON_MARG,
-                    mainAxisSpacing: Dimen.ICON_MARG,
-                    crossAxisCount: children.length>6?3:2,
-                    physics: const NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    children: children,
-                    //clipBehavior: Clip.none,
-                  ),
-                ),
+class TropyPreviewEmptyWidget extends StatelessWidget{
 
-            ],
-          );
-        }
+  const TropyPreviewEmptyWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) => Container(
+    color: cardEnab_(context),
+    child: Row(
+      children: [
+
+        const SizedBox(width: Dimen.SIDE_MARG),
+
+        Icon(
+            Trop.icon,
+            color: iconEnab_(context),
+            size: TropIcon.tileSize
+        ),
+
+        const SizedBox(width: 2*Dimen.SIDE_MARG),
+
+        Expanded(
+          child: Text(
+            'Jak to wciaż nie masz żadnego tropu?!',
+            style: AppTextStyle(
+                color: iconEnab_(context),
+                fontSize: Dimen.TEXT_SIZE_APPBAR
+            ),
+          ),
+        ),
+
+        const SizedBox(width: Dimen.SIDE_MARG),
+
+      ],
     ),
   );
 

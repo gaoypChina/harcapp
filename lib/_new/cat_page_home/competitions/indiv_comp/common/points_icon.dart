@@ -87,8 +87,8 @@ class PointsIconState extends State<PointsIcon>{
     children: [
       GradientIcon(
         PointsIcon.icon,
-        colorStart: _colorTween(oldColorStart, colorStart),
-        colorEnd: _colorTween(oldColorEnd, colorEnd),
+        colorStart: _colorTween(oldColorStart, colorStart)!,
+        colorEnd: _colorTween(oldColorEnd, colorEnd)!,
         size: widget.size,
       ),
 

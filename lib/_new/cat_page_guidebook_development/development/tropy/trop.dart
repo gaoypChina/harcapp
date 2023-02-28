@@ -7,6 +7,7 @@ import 'package:harcapp/_common_classes/missing_decode_param_error.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:path/path.dart';
 import 'package:uuid/uuid.dart';
 import 'package:provider/provider.dart';
@@ -300,6 +301,8 @@ class Trop extends TropBaseData<TropTask>{
     allMapByLclId = { for(Trop t in all) t.lclId: t};
   }
 
+  static const IconData icon = MdiIcons.signDirectionPlus;
+
   static const String paramName = 'name';
   static const String paramCustomIconTropName = 'customIconTropName';
   static const String paramCategory = 'category';
@@ -320,7 +323,7 @@ class Trop extends TropBaseData<TropTask>{
 
   bool get isCategoryHarc => allHarcTropCategories.contains(category);
 
-  int get progress{
+  int get completenessPercent{
     int completedCount = 0;
     for(TropTask task in tasks)
       if(task.completed) completedCount++;

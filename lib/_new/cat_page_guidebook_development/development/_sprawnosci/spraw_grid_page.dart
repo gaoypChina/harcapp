@@ -43,9 +43,7 @@ class SprawGridPageState extends State<SprawGridPage>{
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return BottomNavScaffold(
+  Widget build(BuildContext context) => BottomNavScaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
@@ -99,8 +97,6 @@ class SprawGridPageState extends State<SprawGridPage>{
 
         ],
       )
-    );
-
-  }
+  );
 
 }

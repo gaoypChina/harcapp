@@ -105,7 +105,7 @@ class AimControllersProvider extends ChangeNotifier{
 class TropTaskTmpData{
 
   late TextEditingController contentController;
-  late DateTime? deadline;
+  late DateTime deadline;
 
   late UserData? assignee;
   late UserDataNick? assigneeNick;
@@ -121,10 +121,9 @@ class TropTaskTmpData{
   bool get isEmpty => contentController.text.isEmpty;
 
   TropTask? toTask(){
-    if(deadline == null) return null;
     return TropTask(
         content: contentController.text,
-        deadline: deadline!,
+        deadline: deadline,
         assignee: assigneeNick??assignee,
         assigneeText: assigneeController.text,
         completed: completed,
@@ -147,7 +146,7 @@ class TasksProvider extends ChangeNotifier{
       for(TropTaskBaseData t in initTropBaseData.tasks)
         tasks.add(TropTaskTmpData(
           t.content,
-          null,
+          DateTime.now().add(const Duration(days: 14)),
 
           null,
           null,
@@ -168,7 +167,7 @@ class TasksProvider extends ChangeNotifier{
         ));
 
     if(tasks.isEmpty)
-      tasks.add(TropTaskTmpData('', null, null, null, null, false));
+      tasks.add(TropTaskTmpData('', DateTime.now().add(const Duration(days: 14)), null, null, null, false));
 
   }
 

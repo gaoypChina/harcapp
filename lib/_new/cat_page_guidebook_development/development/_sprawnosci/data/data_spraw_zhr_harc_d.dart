@@ -1,3 +1,4 @@
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw_book.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw_family.dart';
@@ -5,6 +6,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawno
 
 SprawBook sprawBookZHRD = SprawBookData(
     id: SprawBookData.ZHR_HARC_D,
+    org: Org.zhr_d,
     title: 'Sprawności harcerek ZHR',
     source: 'Regulamin sprawności harcerek, 22 lutego 2006',
     color: SprawBookData.SPRAW_BOOK_ZHR_H_RKI_COLOR,

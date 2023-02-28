@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/widgets/spraw_tile_template_widget.dart';
 import 'package:harcapp/main.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/common.dart';
+import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 
 import 'models/spraw.dart';
@@ -92,31 +94,30 @@ Future<void> openSprawSelector(
   BuildContext context,
   { required List<Spraw> allSpraws,
     void Function(Spraw)? onSelected
-  }) => showModalBottomSheet(
+  }) => openDialog(
       context: context,
-      isScrollControlled: true,
-      useRootNavigator: true,
-      backgroundColor: Colors.transparent,
       builder: (context) => Padding(
-        padding: EdgeInsets.only(top: App.statusBarHeight),
-        child: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Container(
-            color: Colors.transparent, // if this container is removed, the gesture detector does not work.
-            child: DraggableScrollableSheet(
-                builder: (context, controller) =>
-                    Material(
-                      color: background_(context),
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(SearchField.height/2)),
-                      child: SprawSelector(
-                        allSpraws: allSpraws,
-                        onSelected: onSelected,
-                        controller: controller,
-                      ),
-                    ),
+          padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+          child: Material(
+            color: background_(context),
+            clipBehavior: Clip.hardEdge,
+            borderRadius: BorderRadius.circular(AppCard.bigRadius),
+            child: Column(
+              children: [
+                AppBar(
+                  title: const Text('Wybierz trop'),
+                  elevation: 0,
+                  centerTitle: true,
+                ),
+                Expanded(
+                  child: SprawSelector(
+                      allSpraws: allSpraws,
+                      onSelected: onSelected
+                  ),
+                )
+              ],
             ),
-          ),
-        ),
+          )
       )
   );
 

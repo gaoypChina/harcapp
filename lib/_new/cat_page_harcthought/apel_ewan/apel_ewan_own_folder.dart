@@ -24,18 +24,18 @@ class ApelEwanOwnFolder extends ApelEwanFolder{
   static List<String> get allFolderIds => ShaPref.getStringList(ShaPref.SHA_PREF_APEL_EWAN_ALL_FOLDER_IDS, []);
   static set allFolderIds(List<String> value) => ShaPref.setStringList(ShaPref.SHA_PREF_APEL_EWAN_ALL_FOLDER_IDS, value);
 
-  static late List<ApelEwanOwnFolder> allOwnFolders;
+  static late List<ApelEwanOwnFolder> all;
 
   static void loadAllOwnFolders(){
     List<ApelEwanOwnFolder> folders = [];
     for(String folderName in ApelEwanOwnFolder.allFolderIds)
       folders.add(ApelEwanOwnFolder.from(folderName));
 
-    allOwnFolders = folders;
+    all = folders;
   }
 
   static void addOwnFolder(ApelEwanOwnFolder folder){
-    allOwnFolders.add(folder);
+    all.add(folder);
   }
 
   static String getName(String id) => ShaPref.getString(ShaPref.SHA_PREF_APEL_EWAN_FOLDER_NAME_(id), '');

@@ -14,7 +14,7 @@ mixin ModuleStatsMixin<T extends StatefulWidget> on State<T>{
   static const String stopnie = 'stopnie';
   static const String sprawnosci = 'sprawnosci';
 
-  // Poradnik i rozwój
+  // Tajniki harców
   static const String biografie = 'biografie';
   static const String chwyty = 'chwyty';
   static const String dokumenty = 'dokumenty';

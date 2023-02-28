@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/org/org.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/data/data_spraw_zhp_harc_old.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/data/data_spraw_zhp_wodne_old.dart';
@@ -85,6 +86,7 @@ class SprawBookData{
   }
 
   final String id;
+  final Org org;
   final String title;
   final String source;
   final RankColors color;
@@ -100,6 +102,7 @@ class SprawBookData{
 
   const SprawBookData({
     required this.id,
+    required this.org,
     required this.title,
     required this.source,
     required this.color,
@@ -135,6 +138,7 @@ class SprawBook{
   SprawBookData data;
 
   String get id => data.id;
+  Org get org => data.org;
   String get title => data.title;
   String get source => data.source;
   RankColors get color => data.color;

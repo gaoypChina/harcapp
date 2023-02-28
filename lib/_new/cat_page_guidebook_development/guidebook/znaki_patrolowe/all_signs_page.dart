@@ -4,6 +4,7 @@ import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/floating_container.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
+import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/simple_button.dart';
@@ -57,12 +58,12 @@ class AllSignsPageState extends State<AllSignsPage> {
             floating: true,
           ),
 
-          FloatingContainer(
+          FloatingContainer.child(
             height: SearchField.height,
-            rebuild: false,
-            builder: (context, _, __) => SearchField(
+            child: SearchField(
               hint: 'Szukaj znaków patrolowych:',
               controller: textController,
+              elevation: AppCard.defElevation,
               onChanged: (text){
 
                 if(text.isEmpty) {
@@ -79,33 +80,64 @@ class AllSignsPageState extends State<AllSignsPage> {
             ),
           ),
 
-          SliverList(delegate: SliverChildListDelegate([
-            Wrap(
-              alignment: WrapAlignment.spaceAround,
-              children: _items.map(
-                      (item) =>
-                      Padding(
-                        padding: const EdgeInsets.all(Dimen.defMarg),
-                        child: SimpleButton(
-                          radius: 100,
-                          onTap: () => widget.onItemTap(items.indexOf(item)),
-                          child: SizedBox(
-                            height: 64,
-                            width: 64,
-                            child: Hero(
-                              tag: item.fileName,
-                              child: SvgPicture.asset(
-                                'assets/images/znaki_patro/${item.fileName}.svg',
-                                fit: BoxFit.contain,
-                                color: textEnab_(context),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-              ).toList(),
-            )
-          ]))
+          SliverPadding(
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+            sliver: SliverList(delegate: SliverChildBuilderDelegate(
+                (context, index) => ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                  ),
+                  onTap: () => widget.onItemTap.call(index),
+                  trailing: SizedBox(
+                    height: 64,
+                    width: 64,
+                    child: Hero(
+                      tag: _items[index].fileName,
+                      child: SvgPicture.asset(
+                        'assets/images/znaki_patro/${_items[index].fileName}.svg',
+                        fit: BoxFit.contain,
+                        color: textEnab_(context),
+                      ),
+                    ),
+                  ),
+                  title: Text(
+                    _items[index].description,
+                    style: AppTextStyle(
+                        fontSize: Dimen.TEXT_SIZE_APPBAR
+                    ),
+                  ),
+                ),
+                childCount: _items.length
+            )),
+          ),
+
+          // SliverList(delegate: SliverChildListDelegate([
+          //   Wrap(
+          //     alignment: WrapAlignment.spaceAround,
+          //     children: _items.map(
+          //             (item) =>
+          //             Padding(
+          //               padding: const EdgeInsets.all(Dimen.defMarg),
+          //               child: SimpleButton(
+          //                 radius: 100,
+          //                 onTap: () => widget.onItemTap(items.indexOf(item)),
+          //                 child: SizedBox(
+          //                   height: 64,
+          //                   width: 64,
+          //                   child: Hero(
+          //                     tag: item.fileName,
+          //                     child: SvgPicture.asset(
+          //                       'assets/images/znaki_patro/${item.fileName}.svg',
+          //                       fit: BoxFit.contain,
+          //                       color: textEnab_(context),
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ),
+          //             )
+          //     ).toList(),
+          //   )
+          // ]))
 
 
         ],
