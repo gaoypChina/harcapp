@@ -5,6 +5,9 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawno
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
+import 'package:harcapp_core/comm_widgets/app_text.dart';
+import 'package:harcapp_core/comm_widgets/app_toast.dart';
+import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 
 class SprawGridView extends StatelessWidget{
@@ -18,6 +21,7 @@ class SprawGridView extends StatelessWidget{
   final String emptyMessage;
   final bool showProgress;
   final void Function(Spraw spraw)? onSprawLongPress;
+  final void Function(String uniqSprawName)? onInvalidSprawLongPress;
 
   const SprawGridView({
     required this.title,
@@ -29,6 +33,7 @@ class SprawGridView extends StatelessWidget{
     this.emptyMessage = 'Pusto',
     this.showProgress = true,
     this.onSprawLongPress,
+    this.onInvalidSprawLongPress,
     super.key
   });
 
@@ -37,13 +42,32 @@ class SprawGridView extends StatelessWidget{
 
     List<Widget> children = [];
 
-    for(String UID in UIDs!){
+    for(String uniqSprawName in UIDs!){
 
-      Spraw? spraw = Spraw.fromUID(UID);
+      Spraw? spraw = Spraw.fromUID(uniqSprawName);
 
       if(spraw == null){
-        if(true)
-          children.add(AppCard(child: Text(spraw!.uniqName)));
+        children.add(SizedBox(
+          height: SprawWidgetSmall.height,
+          width: SprawWidgetSmall.height,
+          child: SimpleButton(
+            elevation: AppCard.bigElevation,
+            color: background_(context),
+            radius: AppCard.bigRadius,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(Dimen.defMarg),
+              physics: const BouncingScrollPhysics(),
+              child: AppText(
+                  '<b>Błąd kodu sprawności</b>'
+                      '\n\n$uniqSprawName'
+                      '\n\n<b>Przytrzymaj, by ją usunać.</b>',
+                  size: Dimen.TEXT_SIZE_SMALL
+              ),
+            ),
+            onTap: () => showAppToast(context, text: 'Przytrzymaj by usunąć'),
+            onLongPress: () => onInvalidSprawLongPress?.call(uniqSprawName),
+          ),
+        ));
         continue;
       }
 
@@ -103,7 +127,6 @@ class SprawGridView extends StatelessWidget{
             padding: const EdgeInsets.all(Dimen.SIDE_MARG/2),
             child: Wrap(
               alignment: WrapAlignment.spaceBetween,
-              spacing: Dimen.ICON_MARG,
               runSpacing: Dimen.ICON_MARG,
               children: children,
             ),

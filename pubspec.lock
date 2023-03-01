@@ -618,7 +618,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "799f049cd7be053b276183af76b2ec6b4d9fb11d"
+      resolved-ref: "97c9575fa0929d634cad74fad889667550390f35"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core"
     source: git
     version: "0.0.1"
@@ -627,7 +627,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "311e1d29e1e224c5da9f2fcc082cc9648c84239b"
+      resolved-ref: de2f5e1f7badb06f331695bd589eab55f988f0fa
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_own_song"
     source: git
     version: "0.0.1"
@@ -636,7 +636,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: efdaa19eaf308599b461fe5596e8ade7e34bbd82
+      resolved-ref: "237f4ca3ccd40d2803bb777fbc742a7b2e98f94d"
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_song"
     source: git
     version: "0.0.1"
@@ -702,18 +702,18 @@ packages:
     dependency: "direct main"
     description:
       name: image_picker
-      sha256: "22207768556b82d55ec70166824350fee32298732d5efa4d6e756f848f51f66a"
+      sha256: "715d68a53d6bcc2eae26005097dc74c375a04c0d7c0e657da84deebbbbbf51ed"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.6+3"
+    version: "0.8.6+4"
   image_picker_android:
     dependency: transitive
     description:
       name: image_picker_android
-      sha256: "68d067baf7f6e401b1124ee83dd6967e67847314250fd68012aab34a69beb344"
+      sha256: "845f793834d5d3af887ce39e3c97186996928cd43c8350a23e5499268398cc16"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.5+7"
+    version: "0.8.5+8"
   image_picker_for_web:
     dependency: transitive
     description:
@@ -726,10 +726,10 @@ packages:
     dependency: transitive
     description:
       name: image_picker_ios
-      sha256: "39aa70b5f1e5e7c94585b9738632d5fdb764a5655e40cd9e7b95fbd2fc50c519"
+      sha256: "93b4403350b54f45a5061632721ee29a563c8b45b1e22feda9049b8329bd1337"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.6+9"
+    version: "0.8.7"
   image_picker_platform_interface:
     dependency: transitive
     description:

@@ -60,7 +60,7 @@ import 'album/album_page.dart';
 import 'album/new_album/new_album_page.dart';
 import 'loading_widget.dart';
 import 'own_song_page/add_song_bottom_sheet.dart';
-import 'own_song_page/own_song_page.dart';
+import 'own_song_page/_main.dart';
 
 SongsStatisticsRegistrator songsStatisticsRegistrator = SongsStatisticsRegistrator();
 

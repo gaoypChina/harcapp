@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_common_classes/storage.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/spraw_folder_page/spraw_folder.dart';
 import 'package:harcapp_core/comm_widgets/app_text.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/account/account.dart';
@@ -131,6 +133,51 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
                 await openDialog(
                     context: context,
                     builder: (context) => TextDisplayer('Synchronizacja (removal mark)', result)
+                );
+              }
+          ),
+
+          _Item(
+              icon: MdiIcons.memory,
+              title: 'Zapisane sprawności',
+              onOpen: () async {
+                List<String> savedUniqSprawNames = SavedSprawFolder().sprawUIDs;
+                await openDialog(
+                    context: context,
+                    builder: (context) => TextDisplayer(
+                        'Zapisane sprawności',
+                        savedUniqSprawNames.join('\n\n')
+                    )
+                );
+              }
+          ),
+
+          _Item(
+              icon: MdiIcons.memory,
+              title: 'Trwające sprawności',
+              onOpen: () async {
+                List<String> inProgressUniqSprawNames = Spraw.inProgressList;
+                await openDialog(
+                    context: context,
+                    builder: (context) => TextDisplayer(
+                        'Trwające sprawności',
+                        inProgressUniqSprawNames.join('\n')
+                    )
+                );
+              }
+          ),
+
+          _Item(
+              icon: MdiIcons.memory,
+              title: 'Zaliczone sprawności',
+              onOpen: () async {
+                List<String> completedUniqSprawNames = Spraw.completedList;
+                await openDialog(
+                    context: context,
+                    builder: (context) => TextDisplayer(
+                        'Zaliczone sprawności',
+                        completedUniqSprawNames.join('\n')
+                    )
                 );
               }
           ),

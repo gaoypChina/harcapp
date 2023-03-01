@@ -65,7 +65,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
   late MapController mapController;
 
   List<LatLng>? lastRequestedSamples;
-  List<LatLng>? filteredSamples;
+  List<LatLng>? emptySpaceSamples;
 
   Future<void> tryGetMarkers({required bool publicOnly}) async {
     if(!await isNetworkAvailable())
@@ -91,18 +91,11 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     List<List<bool>> rectDecompMatrix = samplePointsResult.item2;
     bool noSamplesSkipped = samplePointsResult.item3;
 
-    filteredSamples = LoadedPointsCache.filterOutEmptySpaceSamplePoints(
-      northBound,
-      southBound,
-      westBound,
-      eastBound,
-      zoom,
-
-      samples,
-      rectDecompMatrix
-    );
-
     lastRequestedSamples = samples;
+
+    if(samples.isEmpty)
+      // This means everything we want to sample for markers is already cached.
+      return;
 
     await ApiHarcMap.getAllMarkers(
         publicOnly: publicOnly,
@@ -124,6 +117,17 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
             samples,
             thisZoom,
           );
+
+          emptySpaceSamples = LoadedPointsCache.emptySpaceSamplePoints(
+            thisNorthBound,
+            thisSouthBound,
+            thisWestBound,
+            thisEastBound,
+            thisZoom,
+
+            samples,
+          );
+
         },
         // onForceLoggedOut: () => This will never be called.
         onServerMaybeWakingUp: () {
@@ -265,7 +269,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
               if(AppSettings.devMode)
                 IgnorePointer(
-                  child: SamplingPointsLayerWidget(lastRequestedSamples, filteredSamples, mapController),
+                  child: SamplingPointsLayerWidget(lastRequestedSamples, emptySpaceSamples, mapController),
                 ),
 
               if(AppSettings.devMode)
@@ -421,10 +425,10 @@ class MapEventChangedProvider extends ChangeNotifier{
 class SamplingPointsLayerWidget extends StatefulWidget{
 
   final List<LatLng>? lastRequestedSamples;
-  final List<LatLng>? filteredSamples;
+  final List<LatLng>? emptySpaceSamples;
   final MapController mapController;
 
-  const SamplingPointsLayerWidget(this.lastRequestedSamples, this.filteredSamples, this.mapController, {super.key});
+  const SamplingPointsLayerWidget(this.lastRequestedSamples, this.emptySpaceSamples, this.mapController, {super.key});
 
   @override
   State<StatefulWidget> createState() => SamplingPointsLayerWidgetState();
@@ -434,7 +438,7 @@ class SamplingPointsLayerWidget extends StatefulWidget{
 class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
 
   List<LatLng>? get lastRequestedSamples => widget.lastRequestedSamples;
-  List<LatLng>? get filteredSamples => widget.filteredSamples;
+  List<LatLng>? get emptySpaceSamples => widget.emptySpaceSamples;
   MapController get mapController => widget.mapController;
 
   double get northLat => mapController.bounds!.north;
@@ -474,11 +478,12 @@ class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
               color: ((lastRequestedSamples??[]).contains(samplePoint)?Colors.red:Colors.deepPurple).withOpacity(.8)
           )
       ))
-      .toList() + (filteredSamples??[]).map((filteredPoint) => Marker(
-          point: filteredPoint,
+      .toList() + (emptySpaceSamples??[]).map((emptySpaceSample) => Marker(
+          point: emptySpaceSample,
           builder: (context) => Icon(
-              MdiIcons.circleMedium,
-              color: Colors.lightBlueAccent.withOpacity(.8)
+              MdiIcons.close,
+              color: Colors.red[900]!.withOpacity(.8),
+              size: 12,
           ))).toList()
   );
 

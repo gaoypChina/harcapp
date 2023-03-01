@@ -86,7 +86,7 @@ class AccountReasonPage extends StatelessWidget{
             const SizedBox(height: Dimen.SIDE_MARG),
 
             TitleShortcutRowWidget(
-                title: 'Syncrhonizacja',
+                title: 'Synchronizacja',
                 textAlign: TextAlign.start,
                 titleColor: hintEnab_(context),
                 trailing: const GradientIcon(

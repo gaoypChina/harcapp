@@ -39,6 +39,7 @@ abstract class BaseSprawFolder extends Folder{
   const BaseSprawFolder();
 
   List<String> get sprawUIDs => BaseSprawFolder.getSprawUIDs(id);
+  set sprawUIDs(List<String> value) => BaseSprawFolder.setSprawUIDs(id, value);
   static List<String> getSprawUIDs(String id) => ShaPref.getStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id), []);
   static void setSprawUIDs(String id, List<String> value) => ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id), value);
 

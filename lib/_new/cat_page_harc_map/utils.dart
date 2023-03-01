@@ -20,6 +20,15 @@ class HarcMapUtils{
 
   static const double minZoomMargFactor = 1.001;
 
+  // TODO: Replace with multiple return
+  static Tuple2<int, int> getDistanceDeltas(double zoom){
+    num samplesInWorldAtZoom = pow(2, zoom.floor()).toInt() * HarcMapUtils.maxMarkersOnTileWidth;
+    int worldSamplingLatDistDelta = HarcMapUtils.maxLatDistSpan ~/ samplesInWorldAtZoom;
+    int worldSamplingLngDistDelta = HarcMapUtils.maxLngDistSpan ~/ samplesInWorldAtZoom;
+
+    return Tuple2(worldSamplingLatDistDelta, worldSamplingLngDistDelta);
+  }
+
   static double distance(double lat1, double lng1, double lat2, double lng2) {
     CustomPoint point1 = _sphericalMercator.project(LatLng(lat1, lng1));
     double x1 = point1.x.toDouble();

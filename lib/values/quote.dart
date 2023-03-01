@@ -45,6 +45,7 @@ const String quoteAuthorWolter = 'François-Marie Arouet Voltaire';
 const String quoteAuthorJerzyDobrowolski = 'Jerzy Dobrowolski';
 const String quoteAuthorAdamSzustak = 'o. Adam Szustak OP';
 const String quoteAuthorMackiewicz = 'Józef Mackiewicz';
+const String quoteAuthorSzimonPeres = 'Szimon Peres';
 
 const Quote tischnerZmartwychwstwanie = Quote(quoteAuthorTischner, 'Od czasu, gdy Chrystus zwyciężył śmierć, żaden optymizm nie jest w Kościele przesadą.');
 
@@ -230,6 +231,8 @@ const List<Quote> CYTATY_REGULAR = [
   Quote(quoteAuthorAdamSzustak, 'Nikt nie ma indywidualnej drogi do Boga.\nBóg jest trójcą.\nCzyli wspólnotą.\nNie bez powodu.'),
 
   Quote(quoteAuthorMackiewicz, 'Tylko prawda jest ciekawa.'),
+
+  Quote(quoteAuthorSzimonPeres, 'Optymiści i pesymiści umierają tak samo.\n\nTylko żyją inaczej.')
 
 ];
 

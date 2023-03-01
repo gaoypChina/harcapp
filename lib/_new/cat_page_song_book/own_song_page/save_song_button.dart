@@ -12,7 +12,7 @@ import 'package:harcapp_core_own_song/song_raw.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../sync/syncable_new.dart';
-import 'own_song_page.dart';
+import '_main.dart';
 
 class SaveSongButton extends StatefulWidget{
 

@@ -48,7 +48,7 @@ import 'common.dart';
 import 'common_youtube.dart';
 import 'copy_page.dart';
 import 'own_song_page/add_song_bottom_sheet.dart';
-import 'own_song_page/own_song_page.dart';
+import 'own_song_page/_main.dart';
 import 'song_management/song.dart';
 import 'tab_of_cont_page.dart';
 

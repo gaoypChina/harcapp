@@ -6,7 +6,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 
-import 'own_song_page.dart';
+import '_main.dart';
 
 class AlbumPart extends StatefulWidget{
 

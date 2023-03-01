@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:math';
 
 import 'package:flutter_map/flutter_map.dart';
 import 'package:harcapp/logger.dart';
@@ -72,10 +71,9 @@ class LoadedPointsCache{
 
     SphericalMercator mercator = const SphericalMercator();
 
-    num worldSamplingPointCount = pow(2, zoom.floor()).toInt() * HarcMapUtils.maxMarkersOnTileWidth;
-
-    int worldSamplingLngDistDelta = HarcMapUtils.maxLngDistSpan ~/ worldSamplingPointCount;
-    int worldSamplingLatDistDelta = HarcMapUtils.maxLatDistSpan ~/ worldSamplingPointCount;
+    Tuple2<int, int> distDeltas = HarcMapUtils.getDistanceDeltas(zoom);
+    int latDistDelta = distDeltas.item1;
+    int lngDistDelta = distDeltas.item2;
 
     CustomPoint startPoint = mercator.project(LatLng(southLat, westLng));
     CustomPoint endPoint = mercator.project(LatLng(northLat, eastLng));
@@ -85,11 +83,11 @@ class LoadedPointsCache{
     double eastDist = endPoint.x.toDouble();
     double northDist = endPoint.y.toDouble();
 
-    int samplingLatPointCount = (northDist - southDist) ~/ worldSamplingLatDistDelta;
-    int samplingLngPointCount = (eastDist - westDist) ~/ worldSamplingLngDistDelta;
+    int samplingLatPointCount = (northDist - southDist) ~/ latDistDelta;
+    int samplingLngPointCount = (eastDist - westDist) ~/ lngDistDelta;
 
-    double westDistOnGrid = westDist - (westDist % worldSamplingLngDistDelta) + worldSamplingLngDistDelta;
-    double southDistOnGrid = southDist - (southDist % worldSamplingLatDistDelta) + worldSamplingLatDistDelta;
+    double westDistOnGrid = westDist - (westDist % lngDistDelta) + lngDistDelta;
+    double southDistOnGrid = southDist - (southDist % latDistDelta) + latDistDelta;
 
     List<LatLng> samples = [];
     List<List<bool>> rectDecompMatrix = List.generate(
@@ -100,10 +98,10 @@ class LoadedPointsCache{
 
     bool nothingSkipped = true;
     for(int iLat=0; iLat<samplingLatPointCount; iLat++){
-      double lat = southDistOnGrid + iLat*worldSamplingLatDistDelta;
+      double lat = southDistOnGrid + iLat*latDistDelta;
       for(int iLng=0; iLng<samplingLngPointCount; iLng++) {
         LatLng sample = mercator.unproject(CustomPoint(
-          westDistOnGrid + iLng * worldSamplingLngDistDelta,
+          westDistOnGrid + iLng * lngDistDelta,
           lat,
         ));
         if(skipCached && LoadedPointsCache.isSamplePointCached(sample, zoom)) {
@@ -121,7 +119,7 @@ class LoadedPointsCache{
 
   }
 
-  static List<LatLng> filterOutEmptySpaceSamplePoints(
+  static List<LatLng> emptySpaceSamplePoints(
       double northLat,
       double southLat,
       double westLng,
@@ -130,7 +128,6 @@ class LoadedPointsCache{
       double zoom,
 
       List<LatLng> samplingPoints,
-      List<List<bool>> rectDecompMatrix,
   ){
 
     Set<MarkerData> markersInBounds = MarkerData.findMarkersInBounds(
@@ -144,18 +141,23 @@ class LoadedPointsCache{
 
     logger.d('LoadedPointsCache :: Marker count found in bounds: ${markersInBounds.length}');
 
-    if(markersInBounds.isEmpty)
-      return samplingPoints;
+    // cachedZoom == null means that caching is disabled.
+    if(markersInBounds.isEmpty || cachedZoom == null)
+      return [];
 
-    int samplesInWorldAtZoom = pow(2, zoom.floor()).toInt() * HarcMapUtils.maxMarkersOnTileWidth;
-    double latDistDelta = HarcMapUtils.maxLatDistSpan / samplesInWorldAtZoom;
-    double lngDistDelta = HarcMapUtils.maxLngDistSpan / samplesInWorldAtZoom;
+    Tuple2<int, int> distDeltas = HarcMapUtils.getDistanceDeltas(zoom);
+    int latDistDelta = distDeltas.item1;
+    int lngDistDelta = distDeltas.item2;
 
-    int samplesInWorldAtCachedZoom = pow(2, cachedZoom!.floor()).toInt() * HarcMapUtils.maxMarkersOnTileWidth;
-    double cachedLatDistDelta = HarcMapUtils.maxLatDistSpan / samplesInWorldAtCachedZoom;
-    double cachedLngDistDelta = HarcMapUtils.maxLngDistSpan / samplesInWorldAtCachedZoom;
+    Tuple2<int, int> cachedDistDeltas = HarcMapUtils.getDistanceDeltas(cachedZoom!);
+    int cachedLatDistDelta = cachedDistDeltas.item1;
+    int cachedLngDistDelta = cachedDistDeltas.item2;
+    //
+    // int samplesInWorldAtCachedZoom = pow(2, cachedZoom!.floor()).toInt() * HarcMapUtils.maxMarkersOnTileWidth;
+    // double cachedLatDistDelta = HarcMapUtils.maxLatDistSpan / samplesInWorldAtCachedZoom;
+    // double cachedLngDistDelta = HarcMapUtils.maxLngDistSpan / samplesInWorldAtCachedZoom;
 
-    List<LatLng> filteredSamplePoints = [];
+    List<LatLng> samplePointsWithPotentialMarkers = [];
     for(MarkerData marker in markersInBounds){
 
       double startLat = marker.latDist - cachedLatDistDelta - (marker.latDist % latDistDelta);
@@ -164,11 +166,16 @@ class LoadedPointsCache{
         double startLng = marker.lngDist - cachedLngDistDelta - (marker.lngDist % lngDistDelta);
         double endLng = marker.lngDist + 2*cachedLngDistDelta - (marker.lngDist % lngDistDelta);
         for(double x = startLng; x <= endLng; x += lngDistDelta)
-          filteredSamplePoints.add(const SphericalMercator().unproject(CustomPoint(x, y)));
+          samplePointsWithPotentialMarkers.add(const SphericalMercator().unproject(CustomPoint(x, y)));
       }
     }
 
-    return filteredSamplePoints;
+    List<LatLng> emptySpaceSamplingPoints = [];
+    for(LatLng latLng in samplingPoints)
+      if(!samplePointsWithPotentialMarkers.contains(latLng))
+        emptySpaceSamplingPoints.add(latLng);
+
+    return emptySpaceSamplingPoints;
 
   }
 

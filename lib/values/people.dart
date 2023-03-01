@@ -745,7 +745,7 @@ const Person MARTYNA_WASILEWSKA = Person(
     name: 'Martyna Wasilewska',
     druzyna: '7. BDSH "Żywica"',
     hufiec: 'Reduta',
-    stopH: StopZHP.zhpOchotniczka,
+    stopH: StopZHP.zhpPionierka,
     org: Org.zhp,
     email: ['martynawasilewska.1972@gmail.com', 'martynawas91@gmail.com']
 );

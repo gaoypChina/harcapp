@@ -119,7 +119,13 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
                 ),
 
               ]
-          )
+          ),
+          onInvalidSprawLongPress: (uniqSprawName){
+            List<String> sprawUniqNames = folder.sprawUIDs;
+            sprawUniqNames.remove(uniqSprawName);
+            folder.sprawUIDs = sprawUniqNames;
+            setState(() {});
+          },
 
       ));
     }
