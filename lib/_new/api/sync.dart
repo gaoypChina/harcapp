@@ -386,9 +386,9 @@ class ApiSync{
           album.applySyncGetResp(albumResp);
         }
 
-        for(String uniqSprawName in spraws.keys){
-          Spraw spraw = Spraw.allMap[uniqSprawName]!;
-          SprawGetResp sprawResp = spraws[uniqSprawName]!;
+        for(String sprawUniqName in spraws.keys){
+          Spraw spraw = Spraw.allMap[sprawUniqName]!;
+          SprawGetResp sprawResp = spraws[sprawUniqName]!;
           spraw.applySyncGetResp(sprawResp);
         }
 

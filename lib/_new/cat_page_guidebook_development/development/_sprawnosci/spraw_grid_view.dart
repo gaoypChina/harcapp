@@ -14,19 +14,19 @@ class SprawGridView extends StatelessWidget{
 
   final String title;
   final String mode;
-  final List<String>? UIDs;
+  final List<String> sprawUniqNames;
   final IconData? icon;
   final Color? sprawCardBackgroundColor;
   final Widget? emptyWidget;
   final String emptyMessage;
   final bool showProgress;
   final void Function(Spraw spraw)? onSprawLongPress;
-  final void Function(String uniqSprawName)? onInvalidSprawLongPress;
+  final void Function(String sprawUniqName)? onInvalidSprawLongPress;
 
   const SprawGridView({
     required this.title,
     required this.mode,
-    required this.UIDs,
+    required this.sprawUniqNames,
     required this.icon,
     this.sprawCardBackgroundColor,
     this.emptyWidget,
@@ -42,9 +42,9 @@ class SprawGridView extends StatelessWidget{
 
     List<Widget> children = [];
 
-    for(String uniqSprawName in UIDs!){
+    for(String sprawUniqName in sprawUniqNames){
 
-      Spraw? spraw = Spraw.fromUID(uniqSprawName);
+      Spraw? spraw = Spraw.fromUID(sprawUniqName);
 
       if(spraw == null){
         children.add(SizedBox(
@@ -59,13 +59,13 @@ class SprawGridView extends StatelessWidget{
               physics: const BouncingScrollPhysics(),
               child: AppText(
                   '<b>Błąd kodu sprawności</b>'
-                      '\n\n$uniqSprawName'
+                      '\n\n$sprawUniqName'
                       '\n\n<b>Przytrzymaj, by ją usunać.</b>',
                   size: Dimen.TEXT_SIZE_SMALL
               ),
             ),
             onTap: () => showAppToast(context, text: 'Przytrzymaj by usunąć'),
-            onLongPress: () => onInvalidSprawLongPress?.call(uniqSprawName),
+            onLongPress: () => onInvalidSprawLongPress?.call(sprawUniqName),
           ),
         ));
         continue;
@@ -103,7 +103,7 @@ class SprawGridView extends StatelessWidget{
             )
         ),
 
-        if(UIDs!.isEmpty)
+        if(sprawUniqNames.isEmpty)
           emptyWidget!=null?
           Center(
             child: emptyWidget,

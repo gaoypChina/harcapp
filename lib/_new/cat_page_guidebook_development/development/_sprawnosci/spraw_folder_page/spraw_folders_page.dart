@@ -85,7 +85,7 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
       children.add(SprawGridView(
           title: folder.name,
           mode: SprawWidgetSmall.MODE_SAVED,
-          UIDs: folder.sprawUIDs,
+          sprawUniqNames: folder.sprawUIDs,
           emptyWidget: EmptyMessage(
             showHowToAddMessage: folder is OwnSprawFolder,
           ),
@@ -120,10 +120,8 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
 
               ]
           ),
-          onInvalidSprawLongPress: (uniqSprawName){
-            List<String> sprawUniqNames = folder.sprawUIDs;
-            sprawUniqNames.remove(uniqSprawName);
-            folder.sprawUIDs = sprawUniqNames;
+          onInvalidSprawLongPress: (sprawUniqName){
+            folder.remove(sprawUniqName);
             setState(() {});
           },
 

@@ -33,7 +33,7 @@ class SprawGridPageState extends State<SprawGridPage>{
   IconData? get icon => widget.icon;
   List<Widget>? get actions => widget.actions;
 
-  List<String>? selUIDs;
+  late List<String> selUIDs;
 
   @override
   void initState() {
@@ -88,7 +88,7 @@ class SprawGridPageState extends State<SprawGridPage>{
             child: SprawGridView(
               title: title,
               mode: mode,
-              UIDs: selUIDs,
+              sprawUniqNames: selUIDs,
               icon: icon,
               emptyMessage: 'Pusto',
               showProgress: true,

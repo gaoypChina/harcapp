@@ -147,12 +147,12 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     Provider.of<SprawSavedListProv>(context, listen: false).notify();
   }
 
-  Map<String, bool?> get taskComplMap => ShaPref.getMap<String, bool?>(ShaPref.SHA_PREF_SPRAW_COMPLETED_REQ_MAP_(this), {});
+  Map<String, bool?> get taskComplMap => ShaPref.getMap<String, bool?>(ShaPref.SHA_PREF_SPRAW_COMPLETED_REQ_MAP_(uniqName), {});
   static List<String> get inProgressList => ShaPref.getStringList(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_LIST, []);
   static List<String> get completedList => ShaPref.getStringList(ShaPref.SHA_PREF_SPRAW_COMPLETED_LIST, []);
 
   @override
-  bool get inProgress => ShaPref.getBool(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_(this), false);
+  bool get inProgress => ShaPref.getBool(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_(uniqName), false);
   @override
   @protected
   set inProgress(bool? value){
@@ -165,7 +165,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     } else
       items.remove(uniqName);
 
-    ShaPref.setBool(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_(this), value);
+    ShaPref.setBool(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_(uniqName), value);
     ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_LIST, items);
   }
   @override
@@ -180,10 +180,10 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   }
 
   @override
-  DateTime? get completionDate => ShaPref.getDateTime(ShaPref.SHA_PREF_SPRAW_COMPLETED_DATE_(this), null);
+  DateTime? get completionDate => ShaPref.getDateTime(ShaPref.SHA_PREF_SPRAW_COMPLETED_DATE_(uniqName), null);
   @override
   @protected
-  set completionDate(DateTime? value) => ShaPref.setDateTime(ShaPref.SHA_PREF_SPRAW_COMPLETED_DATE_(this), value);
+  set completionDate(DateTime? value) => ShaPref.setDateTime(ShaPref.SHA_PREF_SPRAW_COMPLETED_DATE_(uniqName), value);
   @override
   void setCompletionDate(DateTime value, {localOnly = false}){
     completionDate = value;
@@ -192,7 +192,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   }
 
   @override
-  bool get completed => ShaPref.getBool(ShaPref.SHA_PREF_SPRAW_COMPLETED_(this), false);
+  bool get completed => ShaPref.getBool(ShaPref.SHA_PREF_SPRAW_COMPLETED_(uniqName), false);
   @override
   @protected
   set completed(bool? value){
@@ -205,7 +205,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     } else
       items.remove(uniqName);
 
-    ShaPref.setBool(ShaPref.SHA_PREF_SPRAW_COMPLETED_(this), value);
+    ShaPref.setBool(ShaPref.SHA_PREF_SPRAW_COMPLETED_(uniqName), value);
     ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_COMPLETED_LIST, items);
   }
   @override

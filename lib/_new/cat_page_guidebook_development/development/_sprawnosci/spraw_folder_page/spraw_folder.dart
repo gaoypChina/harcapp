@@ -166,6 +166,7 @@ class InProgressSprawFolder extends BaseSprawFolder{
     List<String> updatedSprawUniqNames = sprawUIDs;
     bool success = updatedSprawUniqNames.remove(sprawUniqName);
     BaseSprawFolder.setSprawUIDs(id, updatedSprawUniqNames);
+    ShaPref.remove(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_(sprawUniqName));
     return success;
   }
 
@@ -223,6 +224,7 @@ class CompletedSprawFolder extends BaseSprawFolder{
     List<String> updatedSprawUniqNames = sprawUIDs;
     bool success = updatedSprawUniqNames.remove(sprawUniqName);
     BaseSprawFolder.setSprawUIDs(id, updatedSprawUniqNames);
+    ShaPref.remove(ShaPref.SHA_PREF_SPRAW_COMPLETED_(sprawUniqName));
     return success;
   }
 
@@ -231,30 +233,6 @@ class CompletedSprawFolder extends BaseSprawFolder{
 
 }
 
-// class InProgressSprawFolder extends BaseSprawFolder{
-//
-//   @override
-//   // TODO: implement colorsKey
-//   String get colorsKey => throw UnimplementedError();
-//
-//   @override
-//   // TODO: implement count
-//   int get count => throw UnimplementedError();
-//
-//   @override
-//   // TODO: implement iconKey
-//   String get iconKey => throw UnimplementedError();
-//
-//   @override
-//   // TODO: implement name
-//   String get name => throw UnimplementedError();
-//
-//   @override
-//   // TODO: implement spraws
-//   List<Spraw> get spraws => throw UnimplementedError();
-//
-// }
-
 class OwnSprawFolder extends BaseSprawFolder{
 
   final String id;
@@ -262,43 +240,32 @@ class OwnSprawFolder extends BaseSprawFolder{
 
   const OwnSprawFolder({required this.id, required this.spraws});
 
-  // static const String savedFolderId = '__omega__';
-  // static const String savedFolderName = 'Zapisane';
-  // static String get savedFolderColorKey => AppSettings.isDark?'white':'black';
-  // static CommonColorData? get savedFolderColor => getColorData(savedFolderColorKey);
-  // static const String savedFolderIconKey = 'bookCheckOutline';
-  // static IconData? get savedFolderIcon => getIcon(savedFolderId);
-  //
-  // static SprawFolder get saved => SprawFolder.from(savedFolderId);
-
   static List<String> get ownFolderIds => ShaPref.getStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_IDS, []);
   static set ownFolderIds(List<String> value) => setOwnFolderIds(value);
   static Future<void> setOwnFolderIds(List<String> value) async => await ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_IDS, value);
 
   static String _getName(String id) =>
       // id == savedFolderId?savedFolderName:
-      ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id), '');
+      ShaPref.getString(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_NAME_(id), '');
 
-  static Future<void> _setName(String id, String value) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id), value);
+  static Future<void> _setName(String id, String value) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_NAME_(id), value);
 
   @override
   String get name => _getName(id);
 
   set name(String value) => _setName(id, value);
 
-  set sprawUIDs(List<String> value) => BaseSprawFolder.setSprawUIDs(id, value);
-
   @override
   int get count => sprawUIDs.length;
 
   static String _getColorKey(String id) =>
       // id == savedFolderId? savedFolderColorKey:
-      ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id), CommonColorData.defColorsKey);
+      ShaPref.getString(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_COLOR_(id), CommonColorData.defColorsKey);
 
   @override
   String get colorsKey => _getColorKey(id);
 
-  static Future<void> setColorKey(String id, String colorKey) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id), colorKey);
+  static Future<void> setColorKey(String id, String colorKey) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_COLOR_(id), colorKey);
   set colorsKey(String value) => setColorKey(id, value);
 
   static CommonColorData getColorData(String id) => CommonColorData.get(_getColorKey(id));
@@ -306,12 +273,12 @@ class OwnSprawFolder extends BaseSprawFolder{
   static String _getIconKey(String id) =>
       // id == savedFolderId?
       // savedFolderIconKey:
-      ShaPref.getString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), CommonIconData.defIconKey);
+      ShaPref.getString(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_ICON_(id), CommonIconData.defIconKey);
 
   @override
   String get iconKey => _getIconKey(id);
 
-  static Future<void> setIconKey(String id, String iconKey) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), iconKey);
+  static Future<void> setIconKey(String id, String iconKey) => ShaPref.setString(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_ICON_(id), iconKey);
   set iconKey(String value) => setIconKey(id, value);
 
   static IconData getIcon(String id) => CommonIconData.get(_getIconKey(id), defKey: CommonIconData.folderIconKey);
@@ -328,7 +295,7 @@ class OwnSprawFolder extends BaseSprawFolder{
 
     String iconKey = iconKeys[i];
 
-    await ShaPref.setString(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id), iconKey);
+    await ShaPref.setString(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_ICON_(id), iconKey);
   }
   set icon(IconData value) => setIcon(id, value);
 
@@ -370,9 +337,9 @@ class OwnSprawFolder extends BaseSprawFolder{
     await setOwnFolderIds(allIds);
 
     await ShaPref.remove(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(id));
-    await ShaPref.remove(ShaPref.SHA_PREF_SPRAW_FOLDER_ICON_(id));
-    await ShaPref.remove(ShaPref.SHA_PREF_SPRAW_FOLDER_COLOR_(id));
-    await ShaPref.remove(ShaPref.SHA_PREF_SPRAW_FOLDER_NAME_(id));
+    await ShaPref.remove(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_ICON_(id));
+    await ShaPref.remove(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_COLOR_(id));
+    await ShaPref.remove(ShaPref.SHA_PREF_SPRAW_OWN_FOLDER_NAME_(id));
 
     return true;
   }

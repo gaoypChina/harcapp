@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:harcapp/_app_common/color_selector_widget.dart';
 import 'package:harcapp/_app_common/icon_selector_widget.dart';
 import 'package:harcapp/_common_classes/common.dart';
@@ -91,6 +92,9 @@ class FolderEditPageState extends State<FolderEditPage>{
             controller: controller,
             style: AppTextStyle(color: textEnab_(context), fontSize: Dimen.TEXT_SIZE_APPBAR),
             textAlign: TextAlign.center,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9ĄąĆćĘęŁłŃńÓóŚśŹźŻż \(\)\-\.\,\'\!\?\n]"))
+            ],
           ),
         ),
         actions: [

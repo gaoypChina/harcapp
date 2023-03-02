@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank.dart';
-import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
 import 'package:harcapp/_new/cat_page_strefa_ducha/source.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -118,39 +116,38 @@ class ShaPref{
   //static String SHA_PREF_SPRAW_SAVED_(Spraw data) => _SHA_PREF_SPRAW_SAVED_ + data.uid.toString();
 
   static const String _SHA_PREF_SPRAW_IN_PROGRESS_ = 'SHA_PREF_SPRAW_IN_PROGRESS_';
-  static String SHA_PREF_SPRAW_IN_PROGRESS_(Spraw data) => _SHA_PREF_SPRAW_IN_PROGRESS_ + data.uniqName;
+  static String SHA_PREF_SPRAW_IN_PROGRESS_(String sprawUniqName) => _SHA_PREF_SPRAW_IN_PROGRESS_ + sprawUniqName;
 
   static const String _SHA_PREF_SPRAW_COMPLETED_ = 'SHA_PREF_SPRAW_COMPLETED_';
-  static String SHA_PREF_SPRAW_COMPLETED_(Spraw data) => _SHA_PREF_SPRAW_COMPLETED_ + data.uniqName;
+  static String SHA_PREF_SPRAW_COMPLETED_(String sprawUniqName) => _SHA_PREF_SPRAW_COMPLETED_ + sprawUniqName;
 
   static const String _SHA_PREF_SPRAW_COMPLETED_DATE_ = 'SHA_PREF_SPRAW_COMPLETED_DATE_';
-  static String SHA_PREF_SPRAW_COMPLETED_DATE_(Spraw data) => _SHA_PREF_SPRAW_COMPLETED_DATE_ + data.uniqName;
+  static String SHA_PREF_SPRAW_COMPLETED_DATE_(String sprawUniqName) => _SHA_PREF_SPRAW_COMPLETED_DATE_ + sprawUniqName;
 
   static const String SHA_PREF_SPRAW_COMPLETED_LIST = 'SHA_PREF_SPRAW_COMPLETED_LIST';
   static const String SHA_PREF_SPRAW_IN_PROGRESS_LIST = 'SHA_PREF_SPRAW_IN_PROGRESS_LIST';
-  //static const String SHA_PREF_SPRAW_SAVED_LIST = 'SHA_PREF_SPRAW_SAVED_LIST';
 
   static const String _SHA_PREF_SPRAW_COMPLETED_REQ_MAP_ = 'SHA_PREF_SPRAW_COMPLETED_REQ_MAP_';
-  static String SHA_PREF_SPRAW_COMPLETED_REQ_MAP_(Spraw data) => _SHA_PREF_SPRAW_COMPLETED_REQ_MAP_ + data.uniqName;
+  static String SHA_PREF_SPRAW_COMPLETED_REQ_MAP_(String sprawUniqName) => _SHA_PREF_SPRAW_COMPLETED_REQ_MAP_ + sprawUniqName;
 
   static const String _SHA_PREF_SPRAW_REQ_NOTES_MAP_ = 'SHA_PREF_SPRAW_REQ_NOTES_MAP_';
-  static String SHA_PREF_SPRAW_REQ_NOTES_MAP_(Spraw data) => _SHA_PREF_SPRAW_REQ_NOTES_MAP_ + data.uniqName;
+  static String SHA_PREF_SPRAW_REQ_NOTES_MAP_(String sprawUniqName) => _SHA_PREF_SPRAW_REQ_NOTES_MAP_ + sprawUniqName;
 
 
   static const String SHA_PREF_SPRAW_FOLDER_LAST_USED_ID = 'SHA_PREF_SPRAW_FOLDER_LAST_USED_ID';
 
   static const String _SHA_PREF_SPRAW_FOLDER_NAME_ = 'SHA_PREF_SPRAW_FOLDER_NAME_';
-  static String SHA_PREF_SPRAW_FOLDER_NAME_(String id) => _SHA_PREF_SPRAW_FOLDER_NAME_ + '\$' + id;
+  static String SHA_PREF_SPRAW_OWN_FOLDER_NAME_(String id) => _SHA_PREF_SPRAW_FOLDER_NAME_ + '\$' + id;
   
   static const String SHA_PREF_SPRAW_OWN_FOLDER_IDS = 'SHA_PREF_SPRAW_OWN_FOLDER_NAMES';
   static const String _SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_ = '_SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_';
   static String SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_(String id) => _SHA_PREF_SPRAW_OWN_FOLDER_SPRAW_UIDS_ + '\$' + id;
 
   static const String _SHA_PREF_SPRAW_FOLDER_ICON_ = 'SHA_PREF_SPRAW_FOLDER_ICON_';
-  static String SHA_PREF_SPRAW_FOLDER_ICON_(String id) => _SHA_PREF_SPRAW_FOLDER_ICON_ + '\$' + id;
+  static String SHA_PREF_SPRAW_OWN_FOLDER_ICON_(String id) => _SHA_PREF_SPRAW_FOLDER_ICON_ + '\$' + id;
 
   static const String _SHA_PREF_SPRAW_FOLDER_COLOR_ = 'SHA_PREF_SPRAW_FOLDER_COLOR_';
-  static String SHA_PREF_SPRAW_FOLDER_COLOR_(String id) => _SHA_PREF_SPRAW_FOLDER_COLOR_ + '\$' + id;
+  static String SHA_PREF_SPRAW_OWN_FOLDER_COLOR_(String id) => _SHA_PREF_SPRAW_FOLDER_COLOR_ + '\$' + id;
 
   // Tropy
 

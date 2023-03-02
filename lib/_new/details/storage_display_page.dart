@@ -141,12 +141,12 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
               icon: MdiIcons.memory,
               title: 'Zapisane sprawności',
               onOpen: () async {
-                List<String> savedUniqSprawNames = SavedSprawFolder().sprawUIDs;
+                List<String> savedSprawUniqNames = SavedSprawFolder().sprawUIDs;
                 await openDialog(
                     context: context,
                     builder: (context) => TextDisplayer(
                         'Zapisane sprawności',
-                        savedUniqSprawNames.join('\n\n')
+                        savedSprawUniqNames.join('\n\n')
                     )
                 );
               }
@@ -156,12 +156,12 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
               icon: MdiIcons.memory,
               title: 'Trwające sprawności',
               onOpen: () async {
-                List<String> inProgressUniqSprawNames = Spraw.inProgressList;
+                List<String> inProgressSprawUniqNames = Spraw.inProgressList;
                 await openDialog(
                     context: context,
                     builder: (context) => TextDisplayer(
                         'Trwające sprawności',
-                        inProgressUniqSprawNames.join('\n')
+                        inProgressSprawUniqNames.join('\n')
                     )
                 );
               }
@@ -171,12 +171,12 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
               icon: MdiIcons.memory,
               title: 'Zaliczone sprawności',
               onOpen: () async {
-                List<String> completedUniqSprawNames = Spraw.completedList;
+                List<String> completedSprawUniqNames = Spraw.completedList;
                 await openDialog(
                     context: context,
                     builder: (context) => TextDisplayer(
                         'Zaliczone sprawności',
-                        completedUniqSprawNames.join('\n')
+                        completedSprawUniqNames.join('\n')
                     )
                 );
               }
