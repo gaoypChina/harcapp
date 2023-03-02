@@ -18,7 +18,7 @@ import 'package:harcapp/logger.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/own_song.dart';
-import 'package:harcapp/sync/syncable_new.dart';
+import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:pretty_json/pretty_json.dart';
 

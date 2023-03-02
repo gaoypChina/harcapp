@@ -132,7 +132,8 @@ class PartContributors extends StatelessWidget{
     DANIEL_KORZEB,
     FILIP_SOCHAJ,
     BARTOSZ_IGNASIAK,
-    SZYMON_JAWOREK
+    SZYMON_JAWOREK,
+    ARTUR_KOSTRZEWA,
   ];
 
   static const List<Person> osWspierSlownik = [
@@ -350,9 +351,7 @@ class ContribListCard extends StatelessWidget{
   const ContribListCard(this.title, this.icon, this.personList, {super.key});
 
   @override
-  Widget build(BuildContext context) {
-
-    return AppCard(
+  Widget build(BuildContext context) => AppCard(
       radius: AppCard.bigRadius,
       margin: const EdgeInsets.only(
         left: Dimen.defMarg,
@@ -390,11 +389,12 @@ class ContribListCard extends StatelessWidget{
 
               SliverPadding(
                 padding: const EdgeInsets.only(
-                    left: Dimen.SIDE_MARG,
-                    right: Dimen.SIDE_MARG
+                  left: Dimen.SIDE_MARG,
+                  right: Dimen.SIDE_MARG,
+                  bottom: Dimen.SIDE_MARG,
                 ),
                 sliver: SliverList(delegate: SliverChildSeparatedBuilderDelegate(
-                    (context, index) => PersonCard(personList[index]),
+                        (context, index) => PersonCard(personList[index]),
                     count: personList.length,
                     separatorBuilder: (context, index) => const SizedBox(height: 32.0)
                 )),
@@ -405,8 +405,6 @@ class ContribListCard extends StatelessWidget{
 
         ],
       )
-    );
-
-  }
+  );
 
 }

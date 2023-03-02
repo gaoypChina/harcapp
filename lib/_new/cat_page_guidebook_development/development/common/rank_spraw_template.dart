@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
-import 'package:harcapp/sync/syncable_new.dart';
+import 'package:harcapp/sync/syncable.dart';
 
 abstract class RankSprawTemplate<T extends SyncGetResp?> extends SyncableParamGroup_ with SyncNode<T>{
 

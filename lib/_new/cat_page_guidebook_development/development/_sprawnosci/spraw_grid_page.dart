@@ -28,16 +28,16 @@ class SprawGridPage extends StatefulWidget{
 class SprawGridPageState extends State<SprawGridPage>{
 
   String get title => widget.title;
-  List<String> get UIDs => widget.UIDs;
+  List<String> get sprawUniqNames => widget.UIDs;
   String get mode => widget.mode;
   IconData? get icon => widget.icon;
   List<Widget>? get actions => widget.actions;
 
-  late List<String> selUIDs;
+  late List<String> selSprawUniqNames;
 
   @override
   void initState() {
-    selUIDs = UIDs;
+    selSprawUniqNames = sprawUniqNames;
 
     super.initState();
   }
@@ -63,19 +63,19 @@ class SprawGridPageState extends State<SprawGridPage>{
 
                 text = remPolChars(text);
                 if(text.isEmpty){
-                  setState(() => this.selUIDs = UIDs);
+                  setState(() => this.selSprawUniqNames = sprawUniqNames);
                   return;
                 }
 
                 List<String> selUIDs = [];
 
-                for(String uid in UIDs){
+                for(String uid in sprawUniqNames){
                   Spraw spraw = Spraw.fromUID(uid)!;
                   if(remPolChars(spraw.title).contains(text))
                     selUIDs.add(uid);
                 }
 
-                setState(() => this.selUIDs = selUIDs);
+                setState(() => selSprawUniqNames = selUIDs);
 
               },
             ),
@@ -88,7 +88,7 @@ class SprawGridPageState extends State<SprawGridPage>{
             child: SprawGridView(
               title: title,
               mode: mode,
-              sprawUniqNames: selUIDs,
+              sprawUniqNames: selSprawUniqNames,
               icon: icon,
               emptyMessage: 'Pusto',
               showProgress: true,

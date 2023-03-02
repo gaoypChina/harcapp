@@ -6,7 +6,7 @@ import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/sync_resp_body/memory_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/song_get_resp.dart';
-import 'package:harcapp/sync/syncable_new.dart';
+import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/people.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';

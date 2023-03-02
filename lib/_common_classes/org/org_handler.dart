@@ -1,5 +1,5 @@
 import 'package:harcapp/_common_classes/org/org_entity_resp.dart';
-import 'package:harcapp/sync/syncable_new.dart';
+import 'package:harcapp/sync/syncable.dart';
 
 import '../../sync/synchronizer_engine.dart';
 import '../sha_pref.dart';

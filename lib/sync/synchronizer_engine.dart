@@ -6,7 +6,7 @@ import 'package:harcapp/_new/api/sync.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_loader.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/account/account.dart';
-import 'package:harcapp/sync/syncable_new.dart';
+import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 import 'package:semaphore/semaphore.dart';
 

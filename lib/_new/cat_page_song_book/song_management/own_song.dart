@@ -5,7 +5,7 @@ import 'package:harcapp/_new/api/sync_resp_body/own_song_get_resp.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
 import 'package:harcapp_core_song/song_core.dart';
 
-import '../../../sync/syncable_new.dart';
+import '../../../sync/syncable.dart';
 import 'memory.dart';
 import 'song.dart';
 

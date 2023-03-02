@@ -20,6 +20,7 @@ List<Person> allPeople = [
   ALEKSANDRA_KOZUBAL,
   ANTONINA_PIERZCHALA,
   ANTONINA_SZTYGLIC,
+  ARTUR_KOSTRZEWA,
   ARTUR_RUSA,
   BARBARA_THOMAS,
   BARTOSZ_DABROWSKI,
@@ -43,6 +44,7 @@ List<Person> allPeople = [
   FRANCISZEK_TOMASZCZYK,
   GRZEGORZ_BOROWIEC,
   GRZEGORZ_ZAWADZKI,
+  HANNA_CZAJKOWSKA,
   HANNA_RYBACKA,
   HANNA_WNEKOWICZ,
   HELENA_LATOSINSKA,
@@ -271,9 +273,13 @@ const Person ANTONINA_PIERZCHALA = Person(
 const Person ANTONINA_SZTYGLIC = Person(
   name: 'Antonina Sztyglic',
   hufiec: huf_zhp_lask,
-  druzyna: '5 Wieluńska Drużyna Harcerek Starszych "Kozy"',
+  druzyna: '5. Wieluńska Drużyna Harcerek Starszych "Kozy"',
   org: Org.zhp,
   email: ['sztyglica@gmail.com']
+);
+const Person ARTUR_KOSTRZEWA = Person(
+  name: 'Artur Kostrzewa',
+  email: ['arturkos321@gmail.com'],
 );
 const Person ARTUR_RUSA = Person(name: 'Artur Rusa', stopH: StopZHP.zhpWywiadowca, hufiec: huf_zhp_pulawy, druzyna: '113 SDSH', org: Org.zhp,);
 const Person BARBARA_THOMAS = Person(name: 'Barbara Thomas', stopI: 'phm.');
@@ -369,6 +375,11 @@ const Person GRZEGORZ_ZAWADZKI = Person(
     name: 'Grzegorz Zawadzki',
     druzyna: '8. DSH "Ignis"',
     hufiec: huf_zhp_kutno,
+);
+const Person HANNA_CZAJKOWSKA = Person(
+  name: 'Hanna Czajkowska',
+  org: Org.zhp,
+  email: ['hanna.czajkowska@zhp.net.pl']
 );
 const Person HANNA_RYBACKA = Person(name: 'Hanna Rybacka',
   druzyna: 'Gromada Zuchowa Ogniste Feniksy',
@@ -501,7 +512,7 @@ const Person JULIA_PILCH = Person(name: 'Julia Pilch', stopH: StopZHP.dhd,);
 const Person JULIA_SIUDMAK = Person(name: 'Julia Siudmak');
 const Person JULIA_TYSZKIEWICZ = Person(
     name: 'Julia Tyszkiewicz',
-    druzyna: '328 WDW "Fantasmagoria"',
+    druzyna: '328. WDW "Fantasmagoria"',
     hufiec: huf_zhp_warszawa_centrum,
     org: Org.zhp,
     email: ['julia.tyszkiewicz@zhp.net.pl']
@@ -661,7 +672,7 @@ const Person MACIEJ_BATKO = Person(name: 'Maciej Batko', stopH: StopZHP.dhc,
 );
 const Person MACIEJ_GRZELAZKA = Person(
     name: 'Maciej Grzelązka ',
-    druzyna: '314 "Pierścienia"',
+    druzyna: '314. "Pierścienia"',
     hufiec: '',
 
     stopH: StopZHP.zhpMlodzik,
@@ -671,7 +682,7 @@ const Person MACIEJ_GRZELAZKA = Person(
 const Person MACIEJ_LADOS = Person(
   name: 'Maciej Ładoś',
   stopI: 'pwd.',
-  druzyna: '8 PgDW Granat',
+  druzyna: '8. PgDW Granat',
   hufiec: huf_zhp_krakow_pdg,
   org: Org.zhp,
   email: ['macieklad@gmail.com', 'maciej.lados@zhp.net.pl'],
@@ -766,7 +777,7 @@ const Person MATEUSZ_KOBYLAREK = Person(
     org: Org.zhp,);
 const Person MATEUSZ_KORZENIOWSKI = Person(
     name: 'Mateusz Korzeniowski ',
-    druzyna: '1 DH D.R.E.S.Z.C.Z',
+    druzyna: '1. DH D.R.E.S.Z.C.Z',
     hufiec: huf_zhp_wieliczka,
 
     stopH: StopZHP.dhc,
@@ -775,7 +786,7 @@ const Person MATEUSZ_KORZENIOWSKI = Person(
 );
 const Person MATEUSZ_MIKLASZEWSKI = Person(
     name: 'Mateusz Miklaszewski ',
-    druzyna: '12 DH Silva',
+    druzyna: '12. DH Silva',
     hufiec: huf_zhp_augustow,
     stopI: 'pwd.',
     stopH: StopZHP.dhc,
@@ -838,7 +849,7 @@ const Person MICHAL_SUPINSKI = Person(
   name: 'Michał Supiński',
   stopH: StopZHP.zhpHOc,
   stopI: 'pwd.',
-  druzyna: '149 Poznańska Drużyna Harcerska „Bzura” im. generała Tadeusza Kutrzeby',
+  druzyna: '149. Poznańska Drużyna Harcerska „Bzura” im. generała Tadeusza Kutrzeby',
   hufiec: huf_zhp_poznan_nowe_miasto,
   org: Org.zhp,
   email: ['michal.supinskii@gmail.com']
@@ -879,7 +890,7 @@ const Person OLIWIER_STARCZEWSKI = Person(
 const Person OSKAR_PARDYAK = Person(name: 'Oskar Pardyak', stopI: 'pwd.', stopH: StopZHP.zhpHOc, org: Org.zhp);
 const Person PATRYCJA_PIETRAS = Person(
   name: 'Patrycja Pietras',
-  druzyna: '6 ZDH "Eleusis"',
+  druzyna: '6. ZDH "Eleusis"',
   hufiec: huf_zhp_ziemi_bedzinskiej,
   org: Org.zhp,
   email: ['patusiapietras2101@gmail.com']
@@ -1000,7 +1011,7 @@ const Person SZYMON_ZDZIEBKO = Person(name: 'Szymon Zdziebko');
 const Person TOMASZ_BUKOWIECKI = Person(
   name: 'Tomasz Bukowiecki',
   stopH: StopZHP.zhpOdkrywca,
-  druzyna: '25 Wielopoziomowa Drużyna Harcerska "Brzask" im. Cichociemnych Spadochroniarzy Armii Krajowej',
+  druzyna: '25. Wielopoziomowa Drużyna Harcerska "Brzask" im. Cichociemnych Spadochroniarzy Armii Krajowej',
   hufiec: huf_zhp_legionowo,
   org: Org.zhp,
   email: ['tomasz.bukowiecki@zhp.net.pl']
@@ -1014,7 +1025,7 @@ const Person WANDA_MARCHEL = Person(
 );
 const Person WERONIKA_ZAWIERUCHA = Person(
     name: 'Weronika Zawierucha',
-    druzyna: '43 ZDHS Parasol',
+    druzyna: '43. ZDHS Parasol',
     hufiec: huf_zhp_zgierz,
 
     stopH: StopZHP.zhpPionierka,

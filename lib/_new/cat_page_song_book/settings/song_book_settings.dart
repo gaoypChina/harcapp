@@ -4,7 +4,7 @@ import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_widgets/instrument_type.dart';
 
 import '../../../_common_classes/sha_pref.dart';
-import '../../../sync/syncable_new.dart';
+import '../../../sync/syncable.dart';
 
 class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSettingsResp>{
 

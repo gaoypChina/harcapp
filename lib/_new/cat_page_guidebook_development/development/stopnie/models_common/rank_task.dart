@@ -9,7 +9,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/
 import 'package:harcapp/_new/cat_page_guidebook_development/development/common/task_data.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/providers.dart';
 import 'package:harcapp/logger.dart';
-import 'package:harcapp/sync/syncable_new.dart';
+import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:provider/provider.dart';
 

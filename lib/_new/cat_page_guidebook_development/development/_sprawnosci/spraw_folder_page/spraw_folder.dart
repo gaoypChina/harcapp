@@ -151,6 +151,9 @@ class InProgressSprawFolder extends BaseSprawFolder{
   List<String> get sprawUIDs => Spraw.inProgressList;
 
   @override
+  set sprawUIDs(List<String> value) => Spraw.inProgressList = value;
+
+  @override
   bool add(String sprawUniqName, {bool validate = true}) {
     if(validate && sprawUIDs.contains(sprawUniqName))
       return false;
@@ -165,7 +168,7 @@ class InProgressSprawFolder extends BaseSprawFolder{
   bool remove(String sprawUniqName) {
     List<String> updatedSprawUniqNames = sprawUIDs;
     bool success = updatedSprawUniqNames.remove(sprawUniqName);
-    BaseSprawFolder.setSprawUIDs(id, updatedSprawUniqNames);
+    sprawUIDs = updatedSprawUniqNames;
     ShaPref.remove(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_(sprawUniqName));
     return success;
   }
@@ -209,6 +212,9 @@ class CompletedSprawFolder extends BaseSprawFolder{
   List<String> get sprawUIDs => Spraw.completedList;
 
   @override
+  set sprawUIDs(List<String> value) => Spraw.completedList = value;
+
+  @override
   bool add(String sprawUniqName, {bool validate = true}) {
     if(validate && sprawUIDs.contains(sprawUniqName))
       return false;
@@ -223,7 +229,7 @@ class CompletedSprawFolder extends BaseSprawFolder{
   bool remove(String sprawUniqName) {
     List<String> updatedSprawUniqNames = sprawUIDs;
     bool success = updatedSprawUniqNames.remove(sprawUniqName);
-    BaseSprawFolder.setSprawUIDs(id, updatedSprawUniqNames);
+    sprawUIDs = updatedSprawUniqNames;
     ShaPref.remove(ShaPref.SHA_PREF_SPRAW_COMPLETED_(sprawUniqName));
     return success;
   }

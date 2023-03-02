@@ -15,7 +15,7 @@ import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp/values/server.dart';
 import 'package:harcapp_core/comm_classes/network.dart';
 
-import '../../sync/syncable_new.dart';
+import '../../sync/syncable.dart';
 
 
 const int jwtInvalidHttpStatus = HttpStatus.forbidden;

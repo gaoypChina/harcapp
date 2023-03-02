@@ -79,7 +79,7 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
         iconKey: folder.iconKey,
         colorsKey: folder.colorsKey,
         folderName: folder.name,
-        countText: 'Liczba sprawności: ${folder.spraws.length}',
+        countText: 'Liczba sprawności: ${folder.count}',
       ));
 
       children.add(SprawGridView(

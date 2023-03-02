@@ -9,7 +9,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawno
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/spraw_folder_page/spraw_folder.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/common/rank_spraw_template.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/providers.dart';
-import 'package:harcapp/sync/syncable_new.dart';
+import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -150,6 +150,9 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   Map<String, bool?> get taskComplMap => ShaPref.getMap<String, bool?>(ShaPref.SHA_PREF_SPRAW_COMPLETED_REQ_MAP_(uniqName), {});
   static List<String> get inProgressList => ShaPref.getStringList(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_LIST, []);
   static List<String> get completedList => ShaPref.getStringList(ShaPref.SHA_PREF_SPRAW_COMPLETED_LIST, []);
+
+  static set inProgressList(List<String> values) => ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_LIST, values);
+  static set completedList(List<String> values) => ShaPref.setStringList(ShaPref.SHA_PREF_SPRAW_COMPLETED_LIST, values);
 
   @override
   bool get inProgress => ShaPref.getBool(ShaPref.SHA_PREF_SPRAW_IN_PROGRESS_(uniqName), false);

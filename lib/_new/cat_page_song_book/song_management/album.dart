@@ -10,7 +10,7 @@ import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/api/sync_resp_body/album_resp.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
-import 'package:harcapp/sync/syncable_new.dart';
+import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
 import 'package:path/path.dart';
