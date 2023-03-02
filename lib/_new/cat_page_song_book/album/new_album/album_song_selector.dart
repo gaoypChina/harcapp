@@ -34,6 +34,8 @@ class AlbumSongSelectorState extends State<AlbumSongSelector> with AutomaticKeep
   late List<Song> checkedAllSongs;
   late List<Song> checkedDisplSongs;
 
+  late TabOfContController controller;
+
   bool? allChecked;
 
   late List<Song> displayedSongs;
@@ -42,6 +44,8 @@ class AlbumSongSelectorState extends State<AlbumSongSelector> with AutomaticKeep
   void initState() {
     checkedAllSongs = List.of(initSongs);
     checkedDisplSongs = List.of(initSongs);
+
+    controller = TabOfContController(Song.all);
 
     allChecked = false;
     super.initState();
@@ -76,10 +80,8 @@ class AlbumSongSelectorState extends State<AlbumSongSelector> with AutomaticKeep
 
     return Scaffold(
       body: TabOfCont(
-          controller: TabOfContController(
-            Song.all
-          ),
-          itemLeadingBuilder: (Song song, GlobalKey globalKey) => _ItemTrailing(
+          controller: controller,
+          itemLeadingBuilder: (Song song) => _ItemTrailing(
             this,
             song,
           ),

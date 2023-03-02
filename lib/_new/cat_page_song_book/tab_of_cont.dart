@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_new/cat_page_song_book/tab_of_cont_controller.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_common_classes/common.dart';
@@ -33,8 +32,8 @@ class TabOfCont extends StatefulWidget{
   final Color? accentColor;
   final Widget? titleLeading;
   final Widget? titleTrailing;
-  final Widget Function(Song, GlobalKey)? itemLeadingBuilder;
-  final Widget Function(Song, GlobalKey)? itemTrailingBuilder;
+  final Widget Function(Song)? itemLeadingBuilder;
+  final Widget Function(Song)? itemTrailingBuilder;
   final Function(Song, int)? onItemTap;
   final TabOfContController? controller;
 
@@ -96,8 +95,8 @@ class TabOfContState extends State<TabOfCont>{
 
   Widget? get titleLeading => widget.titleLeading;
   Widget? get titleTrailing => widget.titleTrailing;
-  Widget Function(Song, GlobalKey)? get itemLeadingBuilder => widget.itemLeadingBuilder;
-  Widget Function(Song, GlobalKey)? get itemTrailingBuilder => widget.itemTrailingBuilder;
+  Widget Function(Song)? get itemLeadingBuilder => widget.itemLeadingBuilder;
+  Widget Function(Song)? get itemTrailingBuilder => widget.itemTrailingBuilder;
   Function(Song, int)? get onItemTap => widget.onItemTap;
 
   ScrollController? get scrollController => widget.scrollController??_scrollController;
@@ -106,10 +105,8 @@ class TabOfContState extends State<TabOfCont>{
 
   Function(List<Song> songs, bool Function() stillValid)? get onSearchComplete => widget.onSearchComplete;
 
-  SongSearchOptions get searchOptions => controller.searchOptions;
-
   void initSearcher() async {
-    await searcher.init(allSongs, searchOptions);
+    await searcher.init(allSongs, controller.searchOptions);
     await searcher.run(controller.phrase);
   }
 
@@ -139,7 +136,6 @@ class TabOfContState extends State<TabOfCont>{
     topPadding = 0;
 
     super.initState();
-
   }
 
   @override
@@ -150,74 +146,72 @@ class TabOfContState extends State<TabOfCont>{
   }
 
   @override
-  Widget build(BuildContext context) {
-    if(controller.currSongs == null)
-      return Center(child: SpinKitChasingDots(size: 2*Dimen.ICON_SIZE, color: widget.accentColor??Album.current.avgColor));
-    else
-      return AppScaffold(
-        backgroundColor: Colors.transparent,
-        body: CustomScrollView(
-          controller: scrollController,
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            if(widget.appBar)
-              SliverAppBar(
-                backgroundColor: background_(context),
-                title: const Text('Spis treści'),
-                centerTitle: true,
-                elevation: 0,
-                floating: true,
-                actions: widget.appBarActions,
-              ),
+  Widget build(BuildContext context) => AppScaffold(
+    backgroundColor: Colors.transparent,
+    body: CustomScrollView(
+      controller: scrollController,
+      physics: const BouncingScrollPhysics(),
+      slivers: [
+        if(widget.appBar)
+          SliverAppBar(
+            backgroundColor: background_(context),
+            title: const Text('Spis treści'),
+            centerTitle: true,
+            elevation: 0,
+            floating: true,
+            actions: widget.appBarActions,
+          ),
 
-            FloatingContainer.child(
-                child: _SearchTextFieldCard(
-                    searcher: searcher,
-                    tabOfContController: controller,
-                    textController: textController,
-                    onCleared: () => setState(() {})
-                ),
-                height: SearchField.height + (controller.searchOptions.isEmpty?0:35.0),
-                rebuild: true
+        FloatingContainer.child(
+            child: _SearchTextField(
+                searcher: searcher,
+                tabOfContController: controller,
+                textController: textController,
+                onSearchOptionChanged: (){
+                  setState(() {});
+                },
+                onCleared: () => setState(() {})
             ),
-
-            SliverList(
-              delegate: SliverChildListDelegate([const SizedBox(height: 10.0)]),
-            ),
-
-            if(controller.currSongs!.isEmpty)
-              SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Center(child: _NoSongWidget(widget.showAddSongSuggestion, widget.onNewSongAdded))
-              )
-            else
-              SliverList(
-                  delegate: SliverChildBuilderDelegate((context, index){
-                    GlobalKey globalKey = GlobalKey();
-                    return Padding(
-                        padding: const EdgeInsets.only(bottom: Dimen.defMarg),
-                        child: SongTile(
-                          controller.currSongs![index],
-                          key: globalKey,
-                          onTap: onItemTap==null?null:(song) => onItemTap!(song, index),
-                          leading: itemLeadingBuilder?.call(controller.currSongs![index], globalKey),
-                          trailing: itemTrailingBuilder?.call(controller.currSongs![index], globalKey),
-                        )
-                    );
-
-                  },
-                      childCount: controller.currSongs!.length
-                  )),
-
-            SliverList(
-              delegate: SliverChildListDelegate([SizedBox(height: widget.paddingBottom)]),
-            )
-
-          ],
+            height: SearchField.height + (controller.searchOptions.isEmpty?0:35.0),
+            rebuild: true
         ),
-        floatingActionButton: widget.floatingButton,
-      );
-  }
+
+        SliverList(
+          delegate: SliverChildListDelegate([const SizedBox(height: 10.0)]),
+        ),
+
+        if(controller.currSongs.isEmpty)
+          SliverFillRemaining(
+              hasScrollBody: false,
+              child: Center(child: _NoSongWidget(widget.showAddSongSuggestion, widget.onNewSongAdded))
+          )
+        else
+          SliverList(
+              delegate: SliverChildBuilderDelegate((context, index){
+                GlobalKey globalKey = GlobalKey();
+                return Padding(
+                    padding: const EdgeInsets.only(bottom: Dimen.defMarg),
+                    child: SongTile(
+                      controller.currSongs[index],
+                      key: globalKey,
+                      onTap: onItemTap==null?null:(song) => onItemTap!(song, index),
+                      leading: itemLeadingBuilder?.call(controller.currSongs[index]),
+                      trailing: itemTrailingBuilder?.call(controller.currSongs[index]),
+                    )
+                );
+
+              },
+                  childCount: controller.currSongs.length
+              )),
+
+        SliverList(
+          delegate: SliverChildListDelegate([SizedBox(height: widget.paddingBottom)]),
+        )
+
+      ],
+    ),
+    floatingActionButton: widget.floatingButton,
+  );
 
   void setTopPadding(double value) => setState(() => topPadding = value);
 
@@ -238,7 +232,7 @@ class _NoSongWidget extends StatelessWidget{
       children: <Widget>[
 
         EmptyMessageWidget(
-          text: 'Brak piosenek\no zadanych kryteriach${Album.current.isOmega?'':' w $albumie_'}.',
+          text: 'Brak piosenek\no zadanych kryteriach${Album.current.isOmega?'':' w $albumie_'}',
           icon: MdiIcons.bookSearchOutline,
         ),
 
@@ -263,22 +257,53 @@ class _NoSongWidget extends StatelessWidget{
 
 }
 
-class _SearchTextFieldCard extends StatelessWidget{
+class _SearchTextField extends StatefulWidget{
 
-  final SongSearcher? searcher;
+  final SongSearcher searcher;
   final TabOfContController tabOfContController;
   final TextEditingController textController;
 
+  final void Function()? onSearchOptionChanged;
   final void Function()? onCleared;
 
-  const _SearchTextFieldCard(
+  const _SearchTextField(
       { required this.searcher,
         required this.tabOfContController,
         required this.textController,
+        this.onSearchOptionChanged,
         this.onCleared,
         Key? key
       }):super(key: key);
 
+  @override
+  State<StatefulWidget> createState() => _SearchTextFieldState();
+
+}
+
+class _SearchTextFieldState extends State<_SearchTextField>{
+
+  SongSearcher get searcher => widget.searcher;
+  TabOfContController get tabOfContController => widget.tabOfContController;
+  TextEditingController get textController => widget.textController;
+
+  void Function()? get onCleared => widget.onCleared;
+
+  List<String> get sortedCheckedTags{
+    List<String> checkedTags = tabOfContController.searchOptions.checkedTags;
+    checkedTags.sort();
+    return checkedTags;
+  }
+
+  List<int> get sortedCheckedRates{
+    List<int> checkedRates = tabOfContController.searchOptions.checkedRates;
+    checkedRates.sort();
+    return checkedRates;
+  }
+
+  void onSearchOptionChanged() {
+    setState(() {});
+    widget.onSearchOptionChanged?.call();
+  }
 
   @override
   Widget build(BuildContext context) => SearchField(
@@ -298,7 +323,7 @@ class _SearchTextFieldCard extends StatelessWidget{
         post(() => textController.text = '');
         showOptionsBottomSheet(context);
       }else
-        searcher!.run(text);
+        searcher.run(text);
 
     },
 
@@ -313,11 +338,11 @@ class _SearchTextFieldCard extends StatelessWidget{
             textController.clear();
             tabOfContController.phrase = '';
             tabOfContController.searchOptions.clear();
-            await searcher!.init(searcher!.allItems, tabOfContController.searchOptions);
-            await searcher!.run('');
+            await searcher.init(searcher.allItems, tabOfContController.searchOptions);
+            await searcher.run('');
 
             onCleared?.call();
-            onSearchOptionChanged(tabOfContController.searchOptions);
+            onSearchOptionChanged();
 
           },
         )
@@ -330,7 +355,7 @@ class _SearchTextFieldCard extends StatelessWidget{
           hideKeyboard(context);
           await showOptionsBottomSheet(context);//, onChanged: () => setState((){}));
 
-          await searcher!.run(textController.text);
+          await searcher.run(textController.text);
 
         }),
     bottom:
@@ -339,27 +364,43 @@ class _SearchTextFieldCard extends StatelessWidget{
     SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.only(bottom: 6, left: 6, right: 6),
+        padding: const EdgeInsets.only(bottom: 6, left: Dimen.ICON_MARG, right: Dimen.ICON_MARG),
         child: SizedBox(
           height: 2*Dimen.defMarg + Dimen.TEXT_SIZE_NORMAL + 3,
           child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Row(
-                  children: tabOfContController.searchOptions.checkedRates.map((rate) => Padding(
-                    padding: const EdgeInsets.only(left: Dimen.defMarg, right: Dimen.defMarg),
-                    child: RateIcon.build(context, rate, size: 20.0),
-                  )).toList(),
+
+                ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: tabOfContController.searchOptions.checkedRates.length,
+                  itemBuilder: (context, index) => RateIcon.build(context, sortedCheckedRates[index], size: 20.0),
+                  separatorBuilder: (context, index) => const SizedBox(width: Dimen.defMarg),
                 ),
-                const SizedBox(width: Dimen.defMarg/2),
-                Row(
-                  children: tabOfContController.searchOptions.checkedTags.map((t) => Tag(
-                    t,
-                    fontSize: Dimen.TEXT_SIZE_SMALL,
-                    padding: EdgeInsets.zero,
-                    elevation: AppCard.defElevation,
-                  )).toList(),
-                )
+
+                if(tabOfContController.searchOptions.checkedTags.isNotEmpty)
+                  const SizedBox(width: Dimen.ICON_MARG),
+
+                ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: tabOfContController.searchOptions.checkedTags.length,
+                  itemBuilder: (context, index) => Center(
+                    child: Tag(
+                      sortedCheckedTags[index],
+                      clipBehavior: Clip.none,
+                      padding: EdgeInsets.zero,
+                      fontSize: Dimen.TEXT_SIZE_SMALL,
+                      fontWeight: weight.halfBold,
+                      elevation: 0,
+                    ),
+                  ),
+                  separatorBuilder: (context, index) => const SizedBox(width: Dimen.ICON_MARG),
+                ),
+
               ]
           ),
         )
@@ -367,25 +408,20 @@ class _SearchTextFieldCard extends StatelessWidget{
 
   );
 
-  onSearchOptionChanged(SongSearchOptions? searchOptions){
-    tabOfContController.onSearchOptionsChanged?.call(searchOptions);
-  }
-
-  Future<void> showOptionsBottomSheet(BuildContext context, {void Function()? onChanged}) => showScrollBottomSheet(
+  Future<void> showOptionsBottomSheet(BuildContext context) => showScrollBottomSheet(
       context: context,
       builder: (_) => BottomSheetOptions(
           tabOfContController.searchOptions,
           searcher,
-          onChanged: ()async{
-            await searcher!.init(searcher!.allItems, tabOfContController.searchOptions);
-            await searcher!.run(textController.text);
-            onChanged?.call();
+          onChanged: () async {
+            await searcher.init(searcher.allItems, tabOfContController.searchOptions);
+            await searcher.run(textController.text);
+            onSearchOptionChanged.call();
           }
       )
   );
 
 }
-
 
 class SongTile extends StatelessWidget{
 
@@ -479,26 +515,20 @@ class BottomSheetOptions extends StatefulWidget{
 
 class BottomSheetOptionsState extends State<BottomSheetOptions>{
 
-  SongSearchOptions? get searchOptions => widget.searchOptions;
+  SongSearchOptions? _searchOptions;
+  SongSearchOptions get searchOptions => widget.searchOptions??_searchOptions!;
   SongSearcher? get searcher => widget.searcher;
-  void Function()? get onChanged => widget.onChanged;
-
-  bool? checkRateDislike;
-  bool? checkRateLike1;
-  bool? checkRateLike2;
-
-  bool? checkRateLike3;
-  bool? checkRateLikeBookmarked;
+  void onChanged(){
+    widget.onChanged?.call();
+    setState((){});
+  }
 
   @override
   void initState() {
 
-    checkRateDislike = true;
-    checkRateLike1 = true;
-    checkRateLike2 = true;
-    checkRateLike3 = true;
-    checkRateLikeBookmarked = true;
-
+    if(widget.searchOptions == null)
+      _searchOptions = SongSearchOptions();
+    
     super.initState();
   }
 
@@ -514,11 +544,15 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
 
             Row(
               children: <Widget>[
-                Expanded(child: RateCheckButton(SongRate.TEXT_DISLIKE, SongRate.RATE_DISLIKE, searchOptions, onTap: (_, __) => onChanged!())),
-                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_1, SongRate.RATE_LIKE_1, searchOptions, onTap: (_, __) => onChanged!())),
-                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_2, SongRate.RATE_LIKE_2, searchOptions, onTap: (_, __) => onChanged!())),
-                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_3, SongRate.RATE_LIKE_3, searchOptions, onTap: (_, __) => onChanged!())),
-                Expanded(child: RateCheckButton(SongRate.TEXT_BOOKMARK, SongRate.RATE_BOOKMARK, searchOptions, onTap: (_, __) => onChanged!())),
+                Expanded(child: RateCheckButton(SongRate.TEXT_DISLIKE, SongRate.RATE_DISLIKE, searchOptions, onTap: (_, __) => onChanged())),
+                const SizedBox(width: Dimen.defMarg),
+                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_1, SongRate.RATE_LIKE_1, searchOptions, onTap: (_, __) => onChanged())),
+                const SizedBox(width: Dimen.defMarg),
+                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_2, SongRate.RATE_LIKE_2, searchOptions, onTap: (_, __) => onChanged())),
+                const SizedBox(width: Dimen.defMarg),
+                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_3, SongRate.RATE_LIKE_3, searchOptions, onTap: (_, __) => onChanged())),
+                const SizedBox(width: Dimen.defMarg),
+                Expanded(child: RateCheckButton(SongRate.TEXT_BOOKMARK, SongRate.RATE_BOOKMARK, searchOptions, onTap: (_, __) => onChanged())),
               ],
             ),
 
@@ -528,12 +562,11 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
               allTags: Tag.ALL_TAG_NAMES,
               separator: Dimen.defMarg,
               onTagTap: (String tag, bool checked){
-                if(checked) searchOptions!.checkedTags.remove(tag);
-                else searchOptions!.checkedTags.add(tag);
-                setState((){});
-                onChanged?.call();
+                if(checked) searchOptions.checkedTags.remove(tag);
+                else searchOptions.checkedTags.add(tag);
+                onChanged();
               },
-              checkedTags: searchOptions!.checkedTags,
+              checkedTags: searchOptions.checkedTags,
             ),
 
             const SizedBox(height: Dimen.BOTTOM_SHEET_MARG),
@@ -548,18 +581,16 @@ class RateCheckButton extends StatefulWidget{
 
   final String text;
   final int rate;
-  final SongSearchOptions? searchOptions;
+  final SongSearchOptions searchOptions;
   final void Function(int rate, bool selected)? onTap;
 
   const RateCheckButton(
       this.text,
       this.rate,
       this.searchOptions,
-      {this.onTap,
-       Key? key
-      }): super(
-        key: key
-      );
+      { this.onTap, 
+        super.key
+      });
 
   @override
   State<StatefulWidget> createState() => RateCheckButtonState();
@@ -570,87 +601,23 @@ class RateCheckButtonState extends State<RateCheckButton>{
 
   String get text => widget.text;
   int get rate => widget.rate;
-  SongSearchOptions? get searchOptions => widget.searchOptions;
+  SongSearchOptions get searchOptions => widget.searchOptions;
   void Function(int rate, bool selected)? get onTap => widget.onTap;
 
   @override
   Widget build(BuildContext context) => RateButton(
       text,
       RateIcon.build(context, rate),
-      rate, searchOptions!.checkedRates.contains(rate),
+      rate, searchOptions.checkedRates.contains(rate),
       onTap: (rate, selected){
-        setState(() => selected?searchOptions!.checkedRates.remove(rate):searchOptions!.checkedRates.add(rate));
-        if(onTap != null) onTap!(rate, selected);
+        setState(() => selected?searchOptions.checkedRates.remove(rate):searchOptions.checkedRates.add(rate));
+        onTap?.call(rate, selected);
         //parentState.notify();
       },
       glow: false
   );
 
 }
-
-// class CurrentItemsProvider extends ChangeNotifier{
-//
-//   List<Song>? _currSongs;
-//   List<Song>? get currSongs => _currSongs;
-//
-//   bool? _searcherRunning;
-//   bool? get searcherRunning => _searcherRunning;
-//   set searcherRunning(bool? value){
-//     _searcherRunning = value;
-//     notifyListeners();
-//   }
-//
-//   CurrentItemsProvider(){
-//     _searcherRunning = true;
-//   }
-//
-//   void set(List<Song> currSongs, {bool? searcherRunning}){
-//     _currSongs = currSongs;
-//     if(searcherRunning != null)
-//       _searcherRunning=searcherRunning;
-//     notifyListeners();
-//   }
-//
-//   void clear(){
-//     _currSongs = null;
-//     notifyListeners();
-//   }
-//
-//   void notify() => notifyListeners();
-// }
-
-// class SearchParamsProvider extends ChangeNotifier {
-//
-//   static SearchParamsProvider of(BuildContext context) => Provider.of<SearchParamsProvider>(context, listen: false);
-//   static void notify_(BuildContext context) => of(context).notify();
-//
-//   TextEditingController? _controller;
-//
-//   TextEditingController? get textController => _controller;
-//
-//   SearchParamsProvider({String initPhrase=''}){
-//     _controller = TextEditingController(text: initPhrase);
-//   }
-//
-//   clear(){
-//     _controller!.clear();
-//     notifyListeners();
-//   }
-//
-//   set phrase(String value){
-//     _controller!.text = value;
-//     notifyListeners();
-//   }
-//
-//   @override
-//   void dispose() {
-//     _controller!.dispose();
-//     super.dispose();
-//   }
-//
-//   void notify() => notifyListeners();
-//
-// }
 
 void _showAddSongBottomSheet(BuildContext context, void Function(Song song)? onNewSongAdded) => showScrollBottomSheet(
     context: context,

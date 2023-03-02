@@ -152,10 +152,6 @@ class LoadedPointsCache{
     Tuple2<int, int> cachedDistDeltas = HarcMapUtils.getDistanceDeltas(cachedZoom!);
     int cachedLatDistDelta = cachedDistDeltas.item1;
     int cachedLngDistDelta = cachedDistDeltas.item2;
-    //
-    // int samplesInWorldAtCachedZoom = pow(2, cachedZoom!.floor()).toInt() * HarcMapUtils.maxMarkersOnTileWidth;
-    // double cachedLatDistDelta = HarcMapUtils.maxLatDistSpan / samplesInWorldAtCachedZoom;
-    // double cachedLngDistDelta = HarcMapUtils.maxLngDistSpan / samplesInWorldAtCachedZoom;
 
     List<LatLng> samplePointsWithPotentialMarkers = [];
     for(MarkerData marker in markersInBounds){

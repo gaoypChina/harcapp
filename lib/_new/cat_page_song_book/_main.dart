@@ -362,6 +362,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                                               onTap: () async {
                                                 Navigator.pop(context);
                                                 Person? person = await getMyPersonData(context);
+                                                if(!mounted) return;
                                                 SongWidget.sendSong(context, song, person: person);
                                               }
                                           )),
@@ -598,9 +599,6 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                               onRateChanged: (rate, selected){
                                 if(!selected) {
                                   ConfettiProvider.of(context).rate = rate;
-                                  print(ConfettiProvider.of(context).rate);
-                                  print(SongRate.color(rate));
-                                  // confettiController.play();
                                   post(() => confettiController.play());
                                 }
                               },
@@ -827,14 +825,14 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                                   onTap: (){
 
                                     // This entire function should be a copy of the 'Losuj' button onTap in the Table Of Content Page.
-                                    if(controller.currSongs == null || controller.currSongs!.isEmpty){
+                                    if(controller.currSongs.isEmpty){
                                       showAppToast(context, text: 'Brak piosenek do losowania.');
                                       return;
                                     }
 
                                     RandomButtonProvider.registerTap_(context);
-                                    int index = Random().nextInt(controller.currSongs!.length);
-                                    Song randomSong = controller.currSongs![index];
+                                    int index = Random().nextInt(controller.currSongs.length);
+                                    Song randomSong = controller.currSongs[index];
                                     int indexInAlbum = Album.current.songs.indexOf(randomSong);
                                     onSongSelected(randomSong, indexInAlbum, SongOpenType.random);
 
@@ -867,7 +865,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
 
     SongSearchOptions oldSearchOptions = controller.searchOptions;
     if(oneTimeSearchOptions != null)
-      controller.searchOptions = oneTimeSearchOptions;
+      controller.searchOptions.update(oneTimeSearchOptions);
 
     await pushPage(
         context,
@@ -942,14 +940,16 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
               ),
             );
 
+            if(!mounted) return;
             Person? person = await getMyPersonData(context);
+            if(!mounted) return;
             SongWidget.sendSong(context, song, person: person);
           },
         )
     );
 
     if(oneTimeSearchOptions != null)
-      controller.searchOptions = oldSearchOptions;
+      controller.searchOptions.update(oldSearchOptions);
   }
 
   void onSongSelected(Song song, int indexInAlbum, SongOpenType songOpenType) async {

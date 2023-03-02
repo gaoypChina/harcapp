@@ -627,7 +627,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: de2f5e1f7badb06f331695bd589eab55f988f0fa
+      resolved-ref: edb71e2f45e8346b3bc1ab38c86bb49346bc10e1
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_own_song"
     source: git
     version: "0.0.1"
@@ -654,7 +654,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "79ac38da27a1a41a360ff9563c6c657bd8058ee3"
+      resolved-ref: cb2820180de2f136642ffa5afb5af8db2f40262c
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_tags"
     source: git
     version: "0.0.1"

@@ -244,14 +244,14 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
             backgroundEnd: colors.colorEnd,
             onTap: prov.songsFound?(){
 
-              if(controller.currSongs == null || controller.currSongs!.isEmpty){
+              if(controller.currSongs.isEmpty){
                 showAppToast(context, text: 'Brak piosenek do losowania.');
                 return;
               }
 
               RandomButtonProvider.registerTap_(context);
-              int index = Random().nextInt(controller.currSongs!.length);
-              Song randomSong = controller.currSongs![index];
+              int index = Random().nextInt(controller.currSongs.length);
+              Song randomSong = controller.currSongs[index];
               int indexInAlbum = Album.current.songs.indexOf(randomSong);
               page.onSongSelected(randomSong, indexInAlbum, SongOpenType.random);
               Navigator.pop(context);
@@ -306,9 +306,12 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
     onNewSongAdded: page.widget.onNewSongAdded,
   );
 
-  Widget itemButtonsBuilder(Song song, GlobalKey globalKey){
+  Widget itemButtonsBuilder(Song song){
+
+    GlobalKey globalKey = GlobalKey();
 
     return IconButton(
+        key: globalKey,
         icon: RateIcon.build(context, song.rate),
 
         onPressed: () async {

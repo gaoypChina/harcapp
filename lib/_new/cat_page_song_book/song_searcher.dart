@@ -23,6 +23,11 @@ class SongSearchOptions extends SearchOptions{
     checkedRates = [];
   }
 
+  void update(SongSearchOptions options){
+    checkedTags = options.checkedTags;
+    checkedRates = options.checkedRates;
+  }
+
 }
 
 class SongSearcher extends Searcher<Song, int, SongSearchOptions?>{

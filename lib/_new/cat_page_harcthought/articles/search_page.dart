@@ -187,7 +187,7 @@ class _NoArticlesWidget extends StatelessWidget{
       children: <Widget>[
         Icon(MdiIcons.notebookRemoveOutline, color: textEnab_(context)),
         const SizedBox(height: 10),
-        Text('Brak artykułów o zadanych kryteriach.', style: AppTextStyle(fontWeight: weight.halfBold), textAlign: TextAlign.center,)
+        Text('Brak artykułów o zadanych kryteriach', style: AppTextStyle(fontWeight: weight.halfBold), textAlign: TextAlign.center,)
       ],
     );
   }

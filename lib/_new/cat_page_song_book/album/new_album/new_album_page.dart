@@ -87,127 +87,123 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => AccentColorProvider(
-            initAlbum?.colorsKey??
-                CommonColorData.randomKey
-        )),
-        ChangeNotifierProvider(create: (context) => IconProvider(
-            initAlbum?.iconKey??
-                CommonIconData.randomKey
-        )),
-        ChangeNotifierProvider(create: (context){
-          appBarProv = _AppBarProvider();
-          return appBarProv;
-        }),
-      ],
-      builder: (context, child) => BottomNavScaffold(
-        appBar: PreferredSize(
-          preferredSize: Size(
+  Widget build(BuildContext context) => MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => AccentColorProvider(
+          initAlbum?.colorsKey??
+              CommonColorData.randomKey
+      )),
+      ChangeNotifierProvider(create: (context) => IconProvider(
+          initAlbum?.iconKey??
+              CommonIconData.randomKey
+      )),
+      ChangeNotifierProvider(create: (context){
+        appBarProv = _AppBarProvider();
+        return appBarProv;
+      }),
+    ],
+    builder: (context, child) => BottomNavScaffold(
+      appBar: PreferredSize(
+        preferredSize: Size(
             double.infinity,
             AppBar().preferredSize.height + const TabBar(tabs: []).preferredSize.height
-          ),
-          child: Consumer<_AppBarProvider>(
-            builder: (context, prov, child) => AppBar(
-              backgroundColor: background_(context),
-              elevation: prov.elevation,
-              //floating: true,
-              //pinned: true,
-              title: TextField(
-                decoration: InputDecoration(
-                    hintText: 'Nazwa $albumu_...',
-                    hintStyle: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_APPBAR),
-                    border: InputBorder.none,
-                ),
-                focusNode: focusNode,
-                controller: textEditingController,
-                textCapitalization: TextCapitalization.sentences,
-                style: AppTextStyle(color: textEnab_(context), fontSize: Dimen.TEXT_SIZE_APPBAR),
-                inputFormatters:[
-                  LengthLimitingTextInputFormatter(Album.maxLenTitle),
-                ],
-                textAlign: TextAlign.center,
-              ),
-              actions: <Widget>[
-                IconButton(
-                  icon: const Icon(MdiIcons.check),
-                  onPressed: (){
-                    if(textEditingController.text.isEmpty){
-                      showAppToast(context, text: 'Podaj nazwę $albumu_');
-                      focusNode.requestFocus();
-                      return;
-                    }
-
-                    if(initAlbum == null) {
-                      Album album = Album.create(
-                        textEditingController.text,
-                        offSongs,
-                        ownSongs,
-                        Provider.of<AccentColorProvider>(context, listen: false).colorsKey,
-                        Provider.of<IconProvider>(context, listen: false).iconKey,
-                      );
-                      Album.addToAll(album);
-                      widget.onSaved?.call(album);
-                    }else{
-                      initAlbum!.update(
-                          title: textEditingController.text,
-                          offSongs: offSongs,
-                          ownSongs: ownSongs,
-                          colorsKey: Provider.of<AccentColorProvider>(context, listen: false).colorsKey,
-                          iconKey: Provider.of<IconProvider>(context, listen: false).iconKey
-                      );
-                      widget.onSaved?.call(initAlbum!);
-                    }
-
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-              bottom: PreferredSize(
-                  preferredSize: const TabBar(tabs: []).preferredSize,
-                  child: Consumer<AccentColorProvider>(
-                    builder: (context, prov, child) => TabBar(
-                      controller: tabController,
-                      indicatorColor: prov.avgColor,
-                      physics: const BouncingScrollPhysics(),
-                      tabs: const [
-                        Tab(icon: Icon(MdiIcons.musicBoxMultipleOutline)),
-                        Tab(icon: Icon(MdiIcons.paletteOutline)),
-                      ],
-                    ),
-                  )
-              ),
-            ),
-          ),
         ),
-        body: TabBarView(
-          controller: tabController,
-          physics: const BouncingScrollPhysics(),
-          children: [
-
-            AlbumSongSelector(
-              initAlbum?.songs??[],
-              onChanged: (List<Song> checkedSongs){
-                offSongs.clear();
-                ownSongs.clear();
-                for (Song song in checkedSongs)
-                  if (song is OffSong)
-                    offSongs.add(song);
-                  else if (song is OwnSong)
-                    ownSongs.add(song);
-              },
+        child: Consumer<_AppBarProvider>(
+          builder: (context, prov, child) => AppBar(
+            backgroundColor: background_(context),
+            elevation: prov.elevation,
+            //floating: true,
+            //pinned: true,
+            title: TextField(
+              decoration: InputDecoration(
+                hintText: 'Nazwa $albumu_...',
+                hintStyle: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_APPBAR),
+                border: InputBorder.none,
+              ),
+              focusNode: focusNode,
+              controller: textEditingController,
+              textCapitalization: TextCapitalization.sentences,
+              style: AppTextStyle(color: textEnab_(context), fontSize: Dimen.TEXT_SIZE_APPBAR),
+              inputFormatters:[
+                LengthLimitingTextInputFormatter(Album.maxLenTitle),
+              ],
+              textAlign: TextAlign.center,
             ),
+            actions: <Widget>[
+              IconButton(
+                icon: const Icon(MdiIcons.check),
+                onPressed: (){
+                  if(textEditingController.text.isEmpty){
+                    showAppToast(context, text: 'Podaj nazwę $albumu_');
+                    focusNode.requestFocus();
+                    return;
+                  }
 
-            _TabPageColorPicker(initAlbum)
-          ],
+                  if(initAlbum == null) {
+                    Album album = Album.create(
+                      textEditingController.text,
+                      offSongs,
+                      ownSongs,
+                      Provider.of<AccentColorProvider>(context, listen: false).colorsKey,
+                      Provider.of<IconProvider>(context, listen: false).iconKey,
+                    );
+                    Album.addToAll(album);
+                    widget.onSaved?.call(album);
+                  }else{
+                    initAlbum!.update(
+                        title: textEditingController.text,
+                        offSongs: offSongs,
+                        ownSongs: ownSongs,
+                        colorsKey: Provider.of<AccentColorProvider>(context, listen: false).colorsKey,
+                        iconKey: Provider.of<IconProvider>(context, listen: false).iconKey
+                    );
+                    widget.onSaved?.call(initAlbum!);
+                  }
+
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+            bottom: PreferredSize(
+                preferredSize: const TabBar(tabs: []).preferredSize,
+                child: Consumer<AccentColorProvider>(
+                  builder: (context, prov, child) => TabBar(
+                    controller: tabController,
+                    indicatorColor: prov.avgColor,
+                    physics: const BouncingScrollPhysics(),
+                    tabs: const [
+                      Tab(icon: Icon(MdiIcons.musicBoxMultipleOutline)),
+                      Tab(icon: Icon(MdiIcons.paletteOutline)),
+                    ],
+                  ),
+                )
+            ),
+          ),
         ),
       ),
-    );
+      body: TabBarView(
+        controller: tabController,
+        physics: const BouncingScrollPhysics(),
+        children: [
 
-  }
+          AlbumSongSelector(
+            initAlbum?.songs??[],
+            onChanged: (List<Song> checkedSongs){
+              offSongs.clear();
+              ownSongs.clear();
+              for (Song song in checkedSongs)
+                if (song is OffSong)
+                  offSongs.add(song);
+                else if (song is OwnSong)
+                  ownSongs.add(song);
+            },
+          ),
+
+          _TabPageColorPicker(initAlbum)
+        ],
+      ),
+    ),
+  );
 
 }
 

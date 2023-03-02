@@ -41,7 +41,7 @@ class HRPOrgPageState extends State<HRPOrgPage> with ModuleStatsMixin{
       const Padding(
         padding: EdgeInsets.all(commonPadding),
         child: AppText(
-          '<b>Harcerstwo Rzeczypospolitej Polskiej</b> to jedna z organizacji harcerskich w Polsce, zrzeszająca młodych ludzi chcących rozwijać swoje <b>pasje związane ze skautingiem i wojskiem</b>. W oparciu o <b>wzorce przedwojonnego harcerstwie II RP</b> i fasonie wojskowym, HRP wychowuje człowieka chcącego nieść dobro i dającego <b>przykład patrioty</b>.',
+          '<b>Harcerstwo Rzeczypospolitej Polskiej</b> to jedna z organizacji harcerskich w Polsce, zrzeszająca młodych ludzi chcących rozwijać swoje <b>pasje związane ze skautingiem i wojskiem</b>. W oparciu o <b>wzorce przedwojonnego harcerstwia II RP</b> i fason wojskowy, HRP wychowuje człowieka chcącego nieść dobro i dającego <b>przykład patrioty</b>.',
           textAlign: TextAlign.justify,
           height: 1.2,
           size: Dimen.TEXT_SIZE_BIG,
