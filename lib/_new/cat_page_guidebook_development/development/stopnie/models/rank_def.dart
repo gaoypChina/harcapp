@@ -6,6 +6,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_state.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_state_local.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_state_shared.dart';
+import 'package:harcapp/sync/syncable.dart';
 
 class RankDefData extends RankData{
 
@@ -37,6 +38,9 @@ class RankDefData extends RankData{
 abstract class RankDefTempl<T extends RankState> extends Rank<RankDefData, RankDefGetResp, T> {
 
   RankDefTempl(super.data, super.cats);
+
+  @override
+  SyncableParam? get parentParam => null;
 
 }
 

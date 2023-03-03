@@ -158,10 +158,10 @@ class API{
 
   static Future<void> handleForgetAccount() async {
     await SynchronizerEngine.changeSyncStateInAll([
-      SyncableParamSingle_.stateSynced,
-      SyncableParamSingle_.stateSyncInProgress,
+      SyncableParamSingleMixin.stateSynced,
+      SyncableParamSingleMixin.stateSyncInProgress,
     ],
-      SyncableParamSingle_.stateNotSynced
+      SyncableParamSingleMixin.stateNotSynced
     );
     SynchronizerEngine.lastSyncTimeLocal = null;
     await ZhpAccAuth.logout();

@@ -475,7 +475,7 @@ abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState ex
     value ??= !inProgress;
     inProgress = value;
 
-    setSingleState(paramInProgress, SyncableParamSingle_.stateNotSynced);
+    setSingleState(paramInProgress, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
     Provider.of<RankProv>(context, listen: false).notify();
@@ -492,7 +492,7 @@ abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState ex
   @override
   void setCompletionDate(DateTime value, {localOnly = false}){
     completionDate = value;
-    setSingleState(paramCompletionDate, SyncableParamSingle_.stateNotSynced);
+    setSingleState(paramCompletionDate, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
   }
 
@@ -510,7 +510,7 @@ abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState ex
     value ??= !completed;
     completed = value;
 
-    setSingleState(paramCompleted, SyncableParamSingle_.stateNotSynced);
+    setSingleState(paramCompleted, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
     Provider.of<RankProv>(context, listen: false).notify();
@@ -548,6 +548,7 @@ abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState ex
   static const String paramInProgress = 'inProgress';
   static const String paramCompleted = 'completed';
   static const String paramCompletionDate = 'completionDate';
+  static const String paramTasks = 'tasks';
 
   @override
   String get paramId => uniqRankName;
@@ -561,12 +562,6 @@ abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState ex
       for(RankGroup group in cat.groups!)
         for(RankTask task in group.tasks!)
           rankTasks.add(task);
-
-    SyncableParam rankTasksParam = SyncableParamGroup(
-        this,
-        paramId: 'tasks',
-        childParams: rankTasks
-    );
 
     return [
 
@@ -588,7 +583,11 @@ abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState ex
         value_: () => completionDate==null?null:DateFormat('yyyy-MM-dd').format(completionDate!),
       ),
 
-      rankTasksParam
+      SyncableParamGroup(
+        this,
+        paramId: paramTasks,
+        childParams: rankTasks
+      ),
 
     ];
 

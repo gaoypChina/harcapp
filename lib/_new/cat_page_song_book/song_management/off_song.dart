@@ -1,4 +1,5 @@
 import 'package:harcapp/_new/api/sync_resp_body/off_song_get_resp.dart';
+import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
 import 'package:harcapp_core_song/song_core.dart';
 
@@ -87,6 +88,9 @@ class OffSong extends Song<OffSongGetResp>{
   }
 
   static const String syncClassId = 'offSong';
+
+  @override
+  SyncableParam? get parentParam => null;
 
   @override
   String get classId => syncClassId;

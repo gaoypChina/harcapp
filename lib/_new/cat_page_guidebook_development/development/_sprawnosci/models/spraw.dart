@@ -132,7 +132,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   void changeSaved(BuildContext context, {bool? value, bool localOnly = false}){
     inProgress = value;
 
-    setSingleState(PARAM_IN_PROGRESS, SyncableParamSingle_.stateNotSynced);
+    setSingleState(PARAM_IN_PROGRESS, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
     SprawSavedListProv.notify_(context);
@@ -175,7 +175,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   void changeInProgress(BuildContext context, {bool? value, bool localOnly = false}){
     inProgress = value;
 
-    setSingleState(PARAM_IN_PROGRESS, SyncableParamSingle_.stateNotSynced);
+    setSingleState(PARAM_IN_PROGRESS, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
     Provider.of<SprawInProgressListProv>(context, listen: false).notify();
@@ -190,7 +190,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   @override
   void setCompletionDate(DateTime value, {localOnly = false}){
     completionDate = value;
-    setSingleState(PARAM_COMPLETION_DATE, SyncableParamSingle_.stateNotSynced);
+    setSingleState(PARAM_COMPLETION_DATE, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
   }
 
@@ -218,7 +218,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     if(completed)
       changeInProgress(context, value: false, localOnly: true);
 
-    setSingleState(PARAM_COMPLETED, SyncableParamSingle_.stateNotSynced);
+    setSingleState(PARAM_COMPLETED, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
     Provider.of<SprawCompletedListProv>(context, listen: false).notify();
@@ -288,6 +288,9 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   //SyncableParam get parentParam => RootSyncable(syncClassId);
 
   @override
+  SyncableParam? get parentParam => null;
+
+  @override
   String get paramId => uniqName;
 
   @override
@@ -326,7 +329,6 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     completionDate = resp.completionDate;
     for(String taskKey in resp.task.keys)
       _taskMap[taskKey]!.applySyncGetResp(resp.task[taskKey]!);
-
   }
 
 }

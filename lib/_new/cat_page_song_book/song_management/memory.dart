@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -53,7 +52,7 @@ class MemoryBuilder{
   );
 }
 
-class Memory extends SyncableParamGroup_ with SyncNode<MemoryGetResp>, RemoveSyncItem{
+class Memory extends SyncableParamGroupMixin with SyncGetRespNode<MemoryGetResp>, RemoveSyncItem{
 
   static const fontNameMap = {
     0: 'Annie',
@@ -164,7 +163,7 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryGetResp>, RemoveSyn
     File file = saveStringAsFileToFolder(getSongMemoriesFolderLocalPath, code);
 
     Memory memory = Memory(path.basename(file.path), songFileName, date, place, desc, fontIndex, published);
-    memory.setAllSyncState(SyncableParamSingle_.stateNotSynced);
+    memory.setAllSyncState(SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly)
       synchronizer.post();
     return memory;
@@ -259,25 +258,32 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryGetResp>, RemoveSyn
   int get hashCode => fileName.hashCode;
 
   @override
+  SyncableParam get parentParam => Song.allMap[songFileName]!;
+
+  @override
   String get paramId => fileName;
 
   @override
   List<SyncableParam> get childParams => [
+
     SyncableParamSingle(
       this,
       paramId: paramDate,
       value_: () => date==null?null:DateFormat('yyyy-MM-dd').format(date!),
     ),
+
     SyncableParamSingle(
       this,
       paramId: paramPlace,
       value_: () => place,
     ),
+
     SyncableParamSingle(
       this,
       paramId: paramDesc,
       value_: () => desc,
     ),
+
     SyncableParamSingle(
       this,
       paramId: paramFontKey,

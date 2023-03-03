@@ -13,6 +13,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_state_local.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_state_shared.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_task.dart';
+import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -188,8 +189,8 @@ class RankZHRD extends RankZHRDTempl<RankStateLocal>{
 
   static const String syncClassId = RankDef.syncClassId;
 
-//@override
-//SyncableParam get parentParam => RootSyncable(syncClassId);
+  @override
+  SyncableParam? get parentParam => null;
 
 }
 
@@ -202,5 +203,9 @@ class RankZHRDPreview extends RankZHRDTempl<RankStateShared>{
   RankStateShared state;
 
   RankZHRDPreview(RankZHRDData data, this.state, List<RankCat>? cats) : super(data, cats);
+
+  @override
+  // TODO: Separate the rank template stuff do that preview is not syncable.
+  SyncableParam? get parentParam => null;
 
 }

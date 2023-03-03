@@ -5,7 +5,7 @@ import '../../sync/synchronizer_engine.dart';
 import '../sha_pref.dart';
 import 'org.dart';
 
-class OrgHandler extends SyncableParamSingle_ with SyncNode<OrgEntityResp>{
+class OrgHandler with SyncableParamSingleMixin, SyncGetRespNode<OrgEntityResp>{
 
   static Org get current{
     int orgInt = ShaPref.getInt(ShaPref.SHA_PREF_ORG, orgToInt[Org.zhp]!);
@@ -14,7 +14,7 @@ class OrgHandler extends SyncableParamSingle_ with SyncNode<OrgEntityResp>{
 
   static set current(Org value){
     ShaPref.setInt(ShaPref.SHA_PREF_ORG, orgToInt[value]!);
-    OrgHandler().state = SyncableParamSingle_.stateNotSynced;
+    OrgHandler().state = SyncableParamSingleMixin.stateNotSynced;
     synchronizer.post(aggregateDelay: const Duration(seconds: 3));
   }
 
@@ -50,6 +50,9 @@ class OrgHandler extends SyncableParamSingle_ with SyncNode<OrgEntityResp>{
   bool get isNotSet => false;
 
   static const String syncClassId = 'org';
+
+  @override
+  SyncableParam? get parentParam => null;
 
   @override
   String get paramId => syncClassId;

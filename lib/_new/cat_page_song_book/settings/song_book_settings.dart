@@ -6,7 +6,7 @@ import 'package:harcapp_core/comm_widgets/instrument_type.dart';
 import '../../../_common_classes/sha_pref.dart';
 import '../../../sync/syncable.dart';
 
-class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSettingsResp>{
+class SongBookSettings with SyncableParamGroupMixin, SyncGetRespNode<SongBookSettingsResp>{
 
   static const String PARAM_ALWAYS_ON_SCREEN = 'always_on_screen';
   static const String PARAM_SCROLL_TEXT = 'scroll_text';
@@ -24,7 +24,7 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   static setAlwaysOnScreen(bool value, {bool localOnly = false}){
     SongBookBaseSetting().alwaysOnScreen = value;
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_ALWAYS_ON_SCREEN, SyncableParamSingle_.stateNotSynced);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_ALWAYS_ON_SCREEN, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post();
   }
 
@@ -33,7 +33,7 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   static setScrollText(bool value, {bool localOnly = false}){
     SongBookBaseSetting().scrollText = value;
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_SCROLL_TEXT, SyncableParamSingle_.stateNotSynced);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_SCROLL_TEXT, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post();
   }
 
@@ -42,7 +42,7 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   static setAutoscrollTextSpeed(double value, {bool localOnly = false}){
     SongBookBaseSetting().autoscrollTextSpeed = value;
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_AUTOSCROLL_TEXT_SPEED, SyncableParamSingle_.stateNotSynced);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_AUTOSCROLL_TEXT_SPEED, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post();
   }
 
@@ -51,7 +51,7 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   static setShowChords(bool value, {bool localOnly = false}){
     SongBookBaseSetting().showChords = value;
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_CHORDS, SyncableParamSingle_.stateNotSynced);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_CHORDS, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post();
   }
 
@@ -60,7 +60,7 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   static setChordsTrailing(bool value, {bool localOnly = false}){
     SongBookBaseSetting().chordsTrailing = value;
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_CHORDS_TRAILING, SyncableParamSingle_.stateNotSynced);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_CHORDS_TRAILING, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post();
   }
 
@@ -69,7 +69,7 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   static setShowDrawChords(bool value, {bool localOnly = false}){
     SongBookBaseSetting().chordsDrawShow = value;
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_DRAW_CHORDS, SyncableParamSingle_.stateNotSynced);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_DRAW_CHORDS, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post();
   }
 
@@ -78,7 +78,7 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   static setDrawChordsType(InstrumentType value, {bool localOnly = false}){
     SongBookBaseSetting().chordsDrawType = value;
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_DRAW_CHORDS_TYPE, SyncableParamSingle_.stateNotSynced);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_DRAW_CHORDS_TYPE, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post();
   }
 
@@ -87,7 +87,7 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   static setShowAlbumIcon(bool value, {bool localOnly = false}){
     ShaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_ALBUM_ICON, value);
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_ALBUM_ICON, SyncableParamSingle_.stateNotSynced);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_ALBUM_ICON, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post();
   }
 
@@ -96,7 +96,7 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   static setShowTabOfContOnStart(bool value, {bool localOnly = false}){
     ShaPref.setBool(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SHOW_TAB_OF_CONT_ON_START, value);
     if(localOnly) return;
-    SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_TAB_OF_CONT_ON_START, SyncableParamSingle_.stateNotSynced);
+    SongBookSettings().setSingleState(SongBookSettings.PARAM_SHOW_TAB_OF_CONT_ON_START, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post();
   }
 
@@ -119,7 +119,7 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
     SyncableParamSingle(
         this,
         paramId: PARAM_ALWAYS_ON_SCREEN,
-        value_: () => alwaysOnScreen
+        value_: () => alwaysOnScreen,
     ),
     SyncableParamSingle(
         this,
@@ -164,6 +164,9 @@ class SongBookSettings extends SyncableParamGroup_ with SyncNode<SongBookSetting
   ];
 
   static const String syncClassId = 'song_book_settings';
+
+  @override
+  SyncableParam? get parentParam => null;
 
   @override
   String get paramId => syncClassId;

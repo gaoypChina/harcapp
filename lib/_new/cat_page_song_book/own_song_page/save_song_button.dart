@@ -89,7 +89,7 @@ class SaveSongButtonState extends State<SaveSongButton>{
           for (Album album in albums!)
             album.addSong(song);
 
-          song.setAllSyncState(SyncableParamSingle_.stateNotSynced);
+          song.setAllSyncState(SyncableParamSingleMixin.stateNotSynced);
           synchronizer.post();
 
           if(mounted) Navigator.pop(context);

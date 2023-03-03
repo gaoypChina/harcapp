@@ -54,7 +54,7 @@ class ApiSync{
     if(dumpReplaceExisting??false)
       reqMap['dumpReplaceExisting'] = true;
 
-    for(SyncableParam param in SyncNode.all){
+    for(SyncableParam param in SyncGetRespNode.all){
       try {
         reqMap[param.paramId] = await param.buildPostReq(
             setSyncStateInProgress: true,

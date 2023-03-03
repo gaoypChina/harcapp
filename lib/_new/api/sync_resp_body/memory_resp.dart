@@ -11,7 +11,7 @@ class MemoryGetResp extends SyncGetResp{
   final String? desc;
 
   static const String paramDate = Memory.paramDate;
-  final DateTime? date;
+  final DateTime date;
 
   static const String paramPlace = Memory.paramPlace;
   final String? place;
@@ -32,7 +32,7 @@ class MemoryGetResp extends SyncGetResp{
 
   static MemoryGetResp from(Map respData) => MemoryGetResp(
       desc: respData[paramDesc],
-      date: DateTime.tryParse(respData[paramDate]??(throw InvalidResponseError(paramDate))),
+      date: DateTime.tryParse(respData[paramDate]??(throw InvalidResponseError(paramDate)))??DateTime(966),
       place: respData[paramPlace],
       fontKey: respData[paramFontKey]??(throw InvalidResponseError(paramFontKey)),
       published: respData[paramPublished]??(throw InvalidResponseError(paramPublished)));

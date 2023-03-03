@@ -24,7 +24,7 @@ class SprawTaskData{
 
 }
 
-class SprawTask extends SyncableParamGroup_ with SyncNode<SprawTaskGetResp> implements TaskData{
+class SprawTask with SyncableParamGroupMixin, SyncGetRespNode<SprawTaskGetResp> implements TaskData{
 
   static const String sepChar = '%';
 
@@ -60,7 +60,7 @@ class SprawTask extends SyncableParamGroup_ with SyncNode<SprawTaskGetResp> impl
   @override
   void setCompleted(BuildContext context, bool? completed){
     _completed = completed;
-    setSingleState(paramCompleted, SyncableParamSingle_.stateNotSynced);
+    setSingleState(paramCompleted, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post();
     Provider.of<SprawInProgressListProv>(context, listen: false).notify();
   }
@@ -80,13 +80,16 @@ class SprawTask extends SyncableParamGroup_ with SyncNode<SprawTaskGetResp> impl
   @override
   void setNote(BuildContext context, String note){
     _note = note;
-    setSingleState(paramNote, SyncableParamSingle_.stateNotSynced);
+    setSingleState(paramNote, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post(aggregateDelay: SynchronizerEngine.aggregateTextInputDuration);
   }
 
   String get uid =>
       spraw.uniqName + sepChar +
           index.toString();
+
+  @override
+  SyncableParam? get parentParam => spraw;
 
   @override
   String get paramId => uid;

@@ -195,6 +195,9 @@ class OwnSong extends Song<OwnSongGetResp>{
   String get classId => syncClassId;
 
   @override
+  SyncableParam? get parentParam => null;
+
+  @override
   List<SyncableParam> get childParams{
 
     List<SyncableParam> childParams = super.childParams;

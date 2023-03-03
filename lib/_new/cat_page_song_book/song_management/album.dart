@@ -20,7 +20,7 @@ import 'package:provider/provider.dart';
 import 'off_song.dart';
 import 'own_song.dart';
 
-class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncItem{
+class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveSyncItem{
 
   static bool isConfidUnlocked = false;
 
@@ -150,7 +150,7 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncI
     String code = Album.encode(title, offSongs, ownSongs, colorsKey, iconKey);
     File file = saveStringAsFileToFolder(getAlbumFolderLocalPath, code);
     Album album = Album(basename(file.path), title, offSongs, ownSongs, colorsKey, iconKey);
-    album.setAllSyncState(SyncableParamSingle_.stateNotSynced);
+    album.setAllSyncState(SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly)
       synchronizer.post();
     return album;
@@ -377,6 +377,9 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncI
   int get hashCode => fileName.hashCode;
 
   @override
+  SyncableParam? get parentParam => null;
+
+  @override
   String get paramId => fileName;
 
   static const String syncClassId = 'album';
@@ -398,11 +401,13 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncI
       paramId: paramOffSongs,
       value_: () => offSongs.map((song) => song.fileName).toList(growable: false),
     ),
+
     SyncableParamSingle(
       this,
       paramId: paramOwnSongs,
       value_: () => ownSongs.map((song) => song.fileName).toList(growable: false),
     ),
+
     SyncableParamSingle(
       this,
       paramId: paramColorsKey,
@@ -421,21 +426,19 @@ class Album extends SyncableParamGroup_ with SyncNode<AlbumGetResp>, RemoveSyncI
 
     title = resp.title;
 
-    List<OffSong> offSongs = [];
+    List<OffSong> _offSongs = [];
     for (String sngLclId in resp.offSongs) {
       OffSong? song = OffSong.allOfficialMap[sngLclId];
-      if (song != null)
-        offSongs.add(song);
+      if (song != null) _offSongs.add(song);
     }
-    offSongs = offSongs;
+    offSongs = _offSongs;
 
-    List<OwnSong> ownSongs = [];
+    List<OwnSong> _ownSongs = [];
     for (String sngLclId in resp.ownSongs) {
       OwnSong? song = OwnSong.allOwnMap[sngLclId];
-      if (song != null)
-        ownSongs.add(song);
+      if (song != null) _ownSongs.add(song);
     }
-    ownSongs = ownSongs;
+    ownSongs = _ownSongs;
 
     colorsKey = resp.colorsKey;
 

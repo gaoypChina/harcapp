@@ -81,7 +81,7 @@ class SongDataEntity{
   );
 }
 
-abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with SyncNode<T>, RemoveSyncItem, SongCore{
+abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGroupMixin, SyncGetRespNode<T>, RemoveSyncItem{
   
   // Whether the all, allMap, etc. are initialized.
   static bool initialized = false;
@@ -476,7 +476,7 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
   void setRate(int rate, {bool localOnly = false}) async {
     ratePrimWrap.set(rate);
     ShaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName), rate);
-    setSingleState(paramRate, SyncableParamSingle_.stateNotSynced);
+    setSingleState(paramRate, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
   }
 
@@ -484,7 +484,7 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
   static int readChordShift(String fileName) => ShaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName), 0);
   void setChordShift(int chordShift, {bool localOnly = false}) {
     ShaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName), chordShift);
-    setSingleState(paramChordShift, SyncableParamSingle_.stateNotSynced);
+    setSingleState(paramChordShift, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post(aggregateDelay: SynchronizerEngine.aggregateChordChangeDuration);
   }
 
@@ -558,7 +558,7 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
     SyncableParamGroup(
         this,
         paramId: paramMemories,
-        childParams: memories
+        childParams: memories,
     )
 
   ];
@@ -573,12 +573,12 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
 
     if(resp.memories != null)
       for (String memLclId in resp.memories!.keys) {
-        MemoryGetResp? memResp = resp.memories![memLclId];
+        MemoryGetResp memResp = resp.memories![memLclId]!;
         Memory? mem = memoryMap[memLclId];
         if(mem == null) {
           mem = Memory.create(
               fileName,
-              memResp!.date!,
+              memResp.date,
               memResp.place,
               memResp.desc,
               memResp.fontKey,
@@ -589,7 +589,7 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
           Memory.addToAll(mem);
           addMemory(mem);
         }else
-          mem.applySyncGetResp(memResp!);
+          mem.applySyncGetResp(memResp);
       }
   }
 }

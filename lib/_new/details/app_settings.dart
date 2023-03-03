@@ -25,7 +25,7 @@ Map<String, AppTheme> appThemeFromStr = {
   'auto': AppTheme.auto,
 };
 
-class AppSettings extends SyncableParamGroup_ with SyncNode<AppSettingsResp>{
+class AppSettings with SyncableParamGroupMixin, SyncGetRespNode<AppSettingsResp>{
 
   static bool get fullscreen => ShaPref.getBool(ShaPref.SHA_PREF_SETTINGS_APP_FULLSCREEN, false);
   static set fullscreen(bool value) => setFullscreen(value);
@@ -33,7 +33,7 @@ class AppSettings extends SyncableParamGroup_ with SyncNode<AppSettingsResp>{
     if(value == null) ShaPref.remove(ShaPref.SHA_PREF_SETTINGS_APP_FULLSCREEN);
     else ShaPref.setBool(ShaPref.SHA_PREF_SETTINGS_APP_FULLSCREEN, value);
     if(localOnly) return;
-    AppSettings().setSingleState(AppSettings.PARAM_FULLSCREEN, SyncableParamSingle_.stateNotSynced);
+    AppSettings().setSingleState(AppSettings.PARAM_FULLSCREEN, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post();
   }
 
@@ -43,7 +43,7 @@ class AppSettings extends SyncableParamGroup_ with SyncNode<AppSettingsResp>{
     if(value == null) ShaPref.remove(ShaPref.SHA_PREF_SETTINGS_APP_FULLSCREEN);
     else ShaPref.setBool(ShaPref.SHA_PREF_SETTINGS_APP_DEV_MODE, value);
     if(localOnly) return;
-    AppSettings().setSingleState(AppSettings.PARAM_DEV_MODE, SyncableParamSingle_.stateNotSynced);
+    AppSettings().setSingleState(AppSettings.PARAM_DEV_MODE, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post();
   }
 
@@ -93,7 +93,7 @@ class AppSettings extends SyncableParamGroup_ with SyncNode<AppSettingsResp>{
       ShaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNRISE_TIME_M, value.minute);
     }
     if(localOnly) return;
-    AppSettings().setSingleState(AppSettings.PARAM_THEME_SUNRISE_TIME, SyncableParamSingle_.stateNotSynced);
+    AppSettings().setSingleState(AppSettings.PARAM_THEME_SUNRISE_TIME, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post();
   }
 
@@ -112,7 +112,7 @@ class AppSettings extends SyncableParamGroup_ with SyncNode<AppSettingsResp>{
       ShaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SETTINGS_SUNSET_TIME_M, value.minute);
     }
     if(localOnly) return;
-    AppSettings().setSingleState(AppSettings.PARAM_THEME_SUNSET_TIME, SyncableParamSingle_.stateNotSynced);
+    AppSettings().setSingleState(AppSettings.PARAM_THEME_SUNSET_TIME, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post();
   }
 
@@ -155,7 +155,7 @@ class AppSettings extends SyncableParamGroup_ with SyncNode<AppSettingsResp>{
       default: ShaPref.setString(ShaPref.SHA_PREF_SETTINGS_BLACK_THEME, _themeCodeAuto);
     }
     if(localOnly) return;
-    AppSettings().setSingleState(AppSettings.PARAM_THEME, SyncableParamSingle_.stateNotSynced);
+    AppSettings().setSingleState(AppSettings.PARAM_THEME, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post();
   }
 
@@ -169,37 +169,40 @@ class AppSettings extends SyncableParamGroup_ with SyncNode<AppSettingsResp>{
   @override
   List<SyncableParam> get childParams => [
     SyncableParamSingle(
-        this,
-        paramId: PARAM_THEME,
-        value_: () => appThemeToStr[theme]
+      this,
+      paramId: PARAM_THEME,
+      value_: () => appThemeToStr[theme],
     ),
 
     SyncableParamSingle(
-        this,
-        paramId: PARAM_THEME_SUNRISE_TIME,
-        value_: () => _toSecsToD(sunriseTime)
+      this,
+      paramId: PARAM_THEME_SUNRISE_TIME,
+      value_: () => _toSecsToD(sunriseTime),
     ),
 
     SyncableParamSingle(
-        this,
-        paramId: PARAM_THEME_SUNSET_TIME,
-        value_: () => _toSecsToD(sunsetTime)
+      this,
+      paramId: PARAM_THEME_SUNSET_TIME,
+      value_: () => _toSecsToD(sunsetTime),
     ),
 
     SyncableParamSingle(
-        this,
-        paramId: PARAM_FULLSCREEN,
-        value_: () => fullscreen
+      this,
+      paramId: PARAM_FULLSCREEN,
+      value_: () => fullscreen,
     ),
 
     SyncableParamSingle(
-        this,
-        paramId: PARAM_DEV_MODE,
-        value_: () => devMode
+      this,
+      paramId: PARAM_DEV_MODE,
+      value_: () => devMode,
     ),
   ];
 
   static const String syncClassId = 'app_settings';
+
+  @override
+  SyncableParam? get parentParam => null;
 
   @override
   String get paramId => syncClassId;
