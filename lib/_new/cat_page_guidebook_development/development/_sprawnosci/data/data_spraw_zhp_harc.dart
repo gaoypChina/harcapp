@@ -3714,7 +3714,7 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                   SprawData(
                       id: 'astronom',
                       title: 'Astronom',
-                      level: '3',
+                      level: '4',
                       comment: 'Astronomia jest jego pasją, a niebo ma przed nim coraz mniej tajemnic.',
                       tasks: [
                         'Skorzystałem(-am) z programów komputerowych do nauki astronomii i obserwacji nieba (np. Stellarium, Stark Walk 2, Sky Safari czy NASA itp.), by na bieżąco śledzić zjawiska astronomiczne.',
@@ -3723,17 +3723,6 @@ SprawBook sprawBookZHPHarcSim2022 = SprawBookData(
                         'Wykonałem(-am) co najmniej jedno z poniższych zadań:'
                             '\n\na) Zorganizowałem(-am) dla drużyny przegląd kina „kosmicznego”: np. Apollo 13, Grawitacja, Interstaller, Marsjanin.'
                             '\n\nb) Zorganizowałem(-am) wyjazd zastępu lub drużyny do planetarium lub obserwatorium astronomicznego.'
-                      ]
-                  ),
-                  SprawData(
-                      id: 'astronom',
-                      title: 'Astronom',
-                      level: '1',
-                      comment: 'Astronomia jest jego pasją, a niebo ma przed nim coraz mniej tajemnic.',
-                      tasks: [
-                        'Odwiedziłem(-am) planetarium, wziąłem(wzięłam) udział w pokazie tematycznym.',
-                        'Wskazałem(-am) na nocnym niebie gwiazdozbiór Wielkiej i Małej Niedźwiedzicy wraz z Gwiazdą Polarną. Nauczyłem członków mojego zastępu znajdować ją.',
-                        'Zaobserwowałem(-am) na niebie przynajmniej jedną planetę Układu Słonecznego.',
                       ]
                   ),
                 ]
