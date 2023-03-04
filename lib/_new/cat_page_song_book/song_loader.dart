@@ -168,7 +168,7 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
     // LOAD MEMORIES
     // LOAD MEMORIES
     Directory memoryDir = Directory(getSongMemoriesFolderPath);
-    await memoryDir.create();
+    await memoryDir.create(recursive: true);
 
     for (FileSystemEntity file in memoryDir.listSync(recursive: false)) {
       try {

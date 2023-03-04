@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/api/login_register.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
@@ -32,7 +33,9 @@ void main() {
 
     await synchronizer.post();
 
+    await factoryResetLocalSilent();
 
+    await synchronizer.get();
 
   });
 

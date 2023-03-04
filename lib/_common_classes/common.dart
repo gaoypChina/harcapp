@@ -249,6 +249,14 @@ Future<void> openDialog({
     )
 );
 
+Future<void> factoryResetLocalSilent() async {
+  await synchronizer.reloadSyncables();
+
+  ShaPref.clear();
+  for(FileSystemEntity file in (await getApplicationDocumentsDirectory()).listSync())
+  file.deleteSync(recursive: true);
+}
+
 Future<void> factoryResetLocal(BuildContext context) async {
 
   AlbumProvider albumProvider = AlbumProvider.of(context);
@@ -264,11 +272,7 @@ Future<void> factoryResetLocal(BuildContext context) async {
   AppBottomNavigatorProvider appBottomNavigatorProvider = AppBottomNavigatorProvider.of(context);
   ColorPackProvider colorPackProvider = ColorPackProvider.of(context);
 
-  await synchronizer.reloadSyncables();
-
-  ShaPref.clear();
-  for(FileSystemEntity file in (await getApplicationDocumentsDirectory()).listSync())
-    file.deleteSync(recursive: true);
+  await factoryResetLocalSilent();
 
   albumProvider.current = Album.omega;
 
