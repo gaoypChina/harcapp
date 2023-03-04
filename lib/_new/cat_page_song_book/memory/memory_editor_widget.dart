@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_common_widgets/extended_floating_button.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -16,14 +17,12 @@ import 'memory_widget.dart';
 
 
 Future<void> openMemoryEditor(BuildContext context, Song song, {Memory? initMemory}) =>
-    Navigator.push(context, MaterialPageRoute(
-        builder: (context) => MemoryEditorWidget(
-          song,
-          initMemory: initMemory,
-          onBack: () => Navigator.pop(context),
-          onSaved: () => Navigator.pop(context),
-          onRemoved: () => Navigator.pop(context),
-        )
+    pushPage(context, builder: (context) => MemoryEditorWidget(
+      song,
+      initMemory: initMemory,
+      onBack: () => Navigator.pop(context),
+      onSaved: () => Navigator.pop(context),
+      onRemoved: () => Navigator.pop(context),
     ));
 
 class MemoryEditorWidget extends StatefulWidget{

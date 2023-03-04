@@ -198,14 +198,14 @@ class SynchronizerEngine{
       param.changeSyncStateInAll(stateFrom, stateTo);
   }
 
-  Future<bool> reloadSyncables() async {
+  Future<bool> reloadSyncables({bool force = false}) async {
     bool result = false;
-    if(!OffSong.initialized) {
+    if(force || !OffSong.initialized) {
       await songLoader.run(awaitFinish: true);
       result = true;
     }
 
-    if(RemoveSyncItem.all == null){
+    if(force || RemoveSyncItem.all == null){
       RemoveSyncItem.readAll();
       result = true;
     }

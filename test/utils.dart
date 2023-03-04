@@ -14,11 +14,16 @@ Future<void> initTestShaPref() async {
   await ShaPref.init();
 }
 
+const String initTestPathsDir = "./tmp_test_data";
 Future<void> initTestPaths() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   const MethodChannel channel = MethodChannel('plugins.flutter.io/path_provider');
   channel.setMockMethodCallHandler((MethodCall methodCall) async {
-    return "./tmp_test_data";
+    // ATTENTION!!!
+    // ATTENTION!!!
+    // UNDER NO CIRCUMSTANCES USE `return '.'`! If in such case you remove all
+    // files in a test, YOU WILL DELETE THE ENTIRE FLUTTER PROJECT!!!
+    return initTestPathsDir;
   });
   await initPaths();
 }

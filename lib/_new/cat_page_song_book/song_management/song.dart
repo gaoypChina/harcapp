@@ -457,13 +457,13 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
   }
 
   @override
-  String get chords => ChordShifter.run(baseChords, readChordShift(fileName));
+  String get chords => ChordShifter.run(baseChords, chordShift);
 
   void shiftChordsUp() =>
-    setChordShift(ChordShifter.shiftToneUp(readChordShift(fileName)));
+    setChordShift(ChordShifter.shiftToneUp(chordShift));
 
   void shiftChordsDown() =>
-    setChordShift(ChordShifter.shiftToneDown(readChordShift(fileName)));
+    setChordShift(ChordShifter.shiftToneDown(chordShift));
 
   void initRate() => ratePrimWrap.set(readRate(fileName));
 
@@ -481,6 +481,7 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
   }
 
   bool get hasChordShift => ShaPref.exists(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName));
+  int get chordShift => readChordShift(fileName);
   static int readChordShift(String fileName) => ShaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName), 0);
   void setChordShift(int chordShift, {bool localOnly = false}) {
     ShaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName), chordShift);
@@ -552,7 +553,7 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
     SyncableParamSingle(
         this,
         paramId: paramChordShift,
-        value_: () => readChordShift(fileName),
+        value_: () => chordShift,
         isNotSet_: () => !hasChordShift
     ),
     SyncableParamGroup(
