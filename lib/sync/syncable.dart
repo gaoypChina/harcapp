@@ -84,6 +84,14 @@ abstract class SyncableParam{
   // Returns the nested param id path which uniquely identifies the syncable
   // parameter.
   List<String> get paramIdPath{
+
+    // This is one of the most stupid bugs in dart! If a class implements an
+    // interface with implemented methods, the implementation of these methods
+    // will be ignored!
+    // Solution:
+    // Copy the body of this method into:
+    // `SyncableParamSingleMixin` and `SyncableParamGroupMixin`.
+
     List<String> parentParamIds = [paramId];
     SyncableParam? parent = parentParam;
     while(parent != null){
@@ -105,32 +113,13 @@ abstract class SyncableParam{
 
   void changeSyncStateInAll(List<int> stateFrom, int stateTo);
 
-  void setSingleState(String paramId, int state) =>
-      SyncableParamSingleMixin.setState(paramIdPath + [paramId], state);
-
   Future<dynamic> buildPostReq({bool includeDefaults = false, bool setSyncStateInProgress = false});
 
-  void saveSyncResult(dynamic synced, DateTime? lastSync){
-    if(this is SyncableParamSingleMixin) {
-      if(synced is! bool) logger.e('Sync problem! Single sync result: $synced');
-      SyncableParamSingleMixin.setState(paramIdPath, synced == true ? SyncableParamSingleMixin.stateSynced : SyncableParamSingleMixin.stateError);
-    } else if (this is SyncableParamGroupMixin) {
-      if(synced is! Map) logger.e('Sync problem! Group sync result: $synced');
-      for (String paramId in synced.keys) {
-
-        if(synced[paramId] == RemoveSyncItem.removedRespCode)
-          RemoveSyncItem.resolve((paramIdPath + [paramId]).join(RemoveSyncItem.paramSep));
-        else
-          (this as SyncableParamGroupMixin)
-            .childParams.firstWhere((param) => param.paramId == paramId)
-            .saveSyncResult(synced[paramId], lastSync);
-      }
-    }
-  }
+  void saveSyncResult(dynamic synced, DateTime? lastSync);
 
 }
 
-abstract class SyncableParamSingleMixin extends SyncableParam{
+abstract class SyncableParamSingleMixin implements SyncableParam{
 
   static bool logSyncStateChanges = true;
 
@@ -212,14 +201,32 @@ abstract class SyncableParamSingleMixin extends SyncableParam{
 
     int _state = state;
 
-    if(isNotSet || (_state == SyncableParamSingleMixin.stateSynced || _state == SyncableParamSingleMixin.stateWaitingDownload))
+    if(isNotSet || (_state == stateSynced || _state == stateWaitingDownload))
       throw NothingToSyncException();
 
     dynamic val = await value;
     if(setSyncStateInProgress)
-      state = SyncableParamSingleMixin.stateSyncInProgress;
+      state = stateSyncInProgress;
 
     return val;
+  }
+
+  @override
+  List<String> get paramIdPath{
+    // Copied from `SyncableParam`.
+    List<String> parentParamIds = [paramId];
+    SyncableParam? parent = parentParam;
+    while(parent != null){
+      parentParamIds.insert(0, parent.paramId);
+      parent = parent.parentParam;
+    }
+    return parentParamIds;
+  }
+
+  @override
+  void saveSyncResult(synced, DateTime? lastSync) {
+    if(synced is! bool) logger.e('Sync problem! Single sync result: $synced');
+    setState(paramIdPath, synced == true ? stateSynced : stateError);
   }
 
 }
@@ -246,7 +253,7 @@ class SyncableParamSingle with SyncableParamSingleMixin{
 
 }
 
-abstract class SyncableParamGroupMixin extends SyncableParam{
+abstract class SyncableParamGroupMixin implements SyncableParam{
 
   @override
   bool get isSynced{
@@ -312,6 +319,34 @@ abstract class SyncableParamGroupMixin extends SyncableParam{
     return map;
   }
 
+  @override
+  List<String> get paramIdPath{
+    // Copied from `SyncableParam`.
+    List<String> parentParamIds = [paramId];
+    SyncableParam? parent = parentParam;
+    while(parent != null){
+      parentParamIds.insert(0, parent.paramId);
+      parent = parent.parentParam;
+    }
+    return parentParamIds;
+  }
+
+  @override
+  void saveSyncResult(synced, DateTime? lastSync) {
+    if(synced is! Map) logger.e('Sync problem! Group sync result: $synced');
+    for (String paramId in synced.keys) {
+
+      if(synced[paramId] == RemoveSyncItem.removedRespCode)
+        RemoveSyncItem.resolve((paramIdPath + [paramId]).join(RemoveSyncItem.paramSep));
+      else
+        childParams.firstWhere((param) => param.paramId == paramId)
+            .saveSyncResult(synced[paramId], lastSync);
+    }
+  }
+
+  void setSingleState(String paramId, int state) =>
+      SyncableParamSingleMixin.setState(paramIdPath + [paramId], state);
+
 }
 
 class SyncableParamGroup with SyncableParamGroupMixin {
@@ -325,10 +360,7 @@ class SyncableParamGroup with SyncableParamGroupMixin {
   @override
   final List<SyncableParam> childParams;
 
-  SyncableParamGroup(this.parentParam, {required this.paramId, required this.childParams}){
-    // for(SyncableParam param in childParams)
-      // param.parentParam = this;
-  }
+  SyncableParamGroup(this.parentParam, {required this.paramId, required this.childParams});
 
 }
 

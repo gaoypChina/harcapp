@@ -19,7 +19,7 @@ analyzer:
     missing_required_param: error
     invalid_use_of_protected_member: error
     curly_braces_in_flow_control_structures: info
-    mixin_inherits_from_not_object: ignore
+    # mixin_inherits_from_not_object: ignore
 
 linter:
   # The lint rules applied to this project can be customized in the
