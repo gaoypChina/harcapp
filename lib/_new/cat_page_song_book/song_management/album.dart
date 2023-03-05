@@ -13,9 +13,9 @@ import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
-import 'package:path/path.dart';
 import 'package:tuple/tuple.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 import 'off_song.dart';
 import 'own_song.dart';
@@ -31,8 +31,8 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
   static const String paramColorsKey = 'colorsKey';
   static const String paramIconKey = 'iconKey';
 
-  static const String omegaFileName = 'o!_omega';
-  static const String confidFileName = 'o!_confid';
+  static const String omegaLclId = 'o!_omega';
+  static const String confidLclId = 'o!_confid';
 
   static const String omegaTitle = 'Wszystkie';
   static const String confidTitle = 'Tajne piosenki Basi';
@@ -67,23 +67,23 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
 
   static void addToAll(Album album){
 
-    if(allMap[album.fileName] != null) return;
+    if(allMap[album.lclId] != null) return;
 
     allOwn.add(album);
-    allMap[album.fileName] = album;
+    allMap[album.lclId] = album;
   }
 
   static void removeFromAll(Album album){
     allOwn.remove(album);
-    allMap.remove(album.fileName);
+    allMap.remove(album.lclId);
   }
 
   static void insertToAll(int index, Album album){
     allOwn.insert(index, album);
-    allMap[album.fileName] = album;
+    allMap[album.lclId] = album;
   }
 
-  static Album get omega => Album(omegaFileName, omegaTitle, OffSong.allOfficial, OwnSong.allOwn, CommonColorData.omegaColorsKey, 'null');
+  static Album get omega => Album(omegaLclId, omegaTitle, OffSong.allOfficial, OwnSong.allOwn, CommonColorData.omegaColorsKey, 'null');
 
   static late Album _current;
 
@@ -99,12 +99,12 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
     _current = value;
     for(void Function(Album) listener in _listeners)
       listener.call(value);
-    ShaPref.setString(ShaPref.SHA_PREF_SPIEWNIK_CURR_ALBUM, value.fileName);
+    ShaPref.setString(ShaPref.SHA_PREF_SPIEWNIK_CURR_ALBUM, value.lclId);
   }
 
 
   static Album get confid => Album(
-      confidFileName,
+      confidLclId,
       confidTitle,
       OffSong.allConfid,
       [],
@@ -119,7 +119,7 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
 
   Color get iconColor => CommonColorData.get(colorsKey).iconColor;
 
-  final String fileName;
+  final String lclId;
   String? title;
 
   List<OffSong> offSongs;
@@ -135,26 +135,31 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
   String colorsKey;
   String iconKey;
 
-  bool get isOmega => fileName == omegaFileName;
-  bool get isConfid => fileName == confidFileName;
+  bool get isOmega => lclId == omegaLclId;
+  bool get isConfid => lclId == confidLclId;
 
-  Album(this.fileName, this.title, this.offSongs, this.ownSongs, this.colorsKey, this.iconKey);
+  Album(this.lclId, this.title, this.offSongs, this.ownSongs, this.colorsKey, this.iconKey);
 
   static Album read(String fileName, List<Song> allSongs){
     String content = readFileAsString(getAlbumFolderPath + fileName);
     return Album.decode(fileName, content, allSongs);
   }
 
-  static Album create(String title, List<OffSong> offSongs, List<OwnSong> ownSongs, String colorsKey, String iconKey, {bool localOnly = false, List<String>? syncParams}) {
-
-    String code = Album.encode(title, offSongs, ownSongs, colorsKey, iconKey);
-    File file = saveStringAsFileToFolder(getAlbumFolderLocalPath, code);
-    Album album = Album(basename(file.path), title, offSongs, ownSongs, colorsKey, iconKey);
-    album.setAllSyncState(SyncableParamSingleMixin.stateNotSynced);
-    if(!localOnly)
-      synchronizer.post();
-    return album;
-  }
+  static Album create({
+    String? lclId,
+    required String title,
+    required List<OffSong> offSongs,
+    required List<OwnSong> ownSongs,
+    required String colorsKey,
+    required String iconKey
+  }) => Album(
+      lclId??const Uuid().v4(),
+      title,
+      offSongs, 
+      ownSongs,
+      colorsKey, 
+      iconKey
+  );
 
   static String encode(String? title, List<OffSong> offSongs, List<OwnSong> ownSongs, String? colorsKey, /*Color colorStart, Color colorEnd,*/ String? iconKey){
 
@@ -165,8 +170,8 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
 
     Map<String, dynamic> map = {
       _PARAM_TITLE: title,
-      paramOffSongs: offSongs.map((song) => song.fileName).toList(growable: false),
-      paramOwnSongs: ownSongs.map((song) => song.fileName).toList(growable: false),
+      paramOffSongs: offSongs.map((song) => song.lclId).toList(growable: false),
+      paramOwnSongs: ownSongs.map((song) => song.lclId).toList(growable: false),
       paramColorsKey: colorsKey,
       paramIconKey: iconKey,
     };
@@ -224,7 +229,7 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
     );
   }
 
-  addSong(Song? song){
+  void addSong(Song? song){
     if(!songs.contains(song)) {
 
       if(song is OffSong) {
@@ -256,20 +261,32 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
       ownSongs.remove(song);
   }
 
-  void save({localOnly = false, List<String>? syncParams}) {
-
+  void save({localOnly = false, bool synced = false}) {
     saveStringAsFileToFolder(
         getAlbumFolderLocalPath,
         encode(title, offSongs, ownSongs, colorsKey, iconKey),
-        fileName: fileName);
+        fileName: lclId
+    );
 
+    // TODO add selective sync. In this situaltion it is feasable to use e.g.:
+    // syncParams: [Album.paramOffSongs, Album.paramOwnSongs];
+    // This requires introducing the following changes:
+    // 1. Replace `bool synced = false` with `List<String> syncParams = null`.
+    // If `null`, all will be synced. If `[]` none will be synced.
+    // 2. Add a setSyncableParamState(String param, int state) to all subclases
+    // of `SyncableParam`.
+
+    setAllSyncState(
+        synced?SyncableParamSingleMixin.stateSynced:
+        SyncableParamSingleMixin.stateNotSynced);
+    
     if(!localOnly)
       synchronizer.post();
   }
 
   void delete({bool localOnly = false}) {
     markSyncAsRemoved();
-    File(getAlbumFolderPath + fileName).deleteSync();
+    File(getAlbumFolderPath + lclId).deleteSync();
     ShaPref.remove(ShaPref.SHA_PREF_SPIEWNIK_SEARCH_HISTORY_(this));
     if(!localOnly) synchronizer.post();
   }
@@ -284,12 +301,12 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
 
     List<OffSong> offSongs = [];
     for(Song song in allOffSongs)
-      if(offSongsLclIds.contains(song.fileName))
+      if(offSongsLclIds.contains(song.lclId))
         offSongs.add(song as OffSong);
 
     List<OwnSong> ownSongs = [];
     for(Song song in allOwnSongs)
-      if(ownSongsLclIds.contains(song.fileName))
+      if(ownSongsLclIds.contains(song.lclId))
         ownSongs.add(song as OwnSong);
 
     return Tuple2(offSongs, ownSongs);
@@ -322,9 +339,7 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
     return Album(fileName, title, offSongs, ownSongs, colorsKey, iconKey);
   }
 
-  Album copy(){
-    return Album(fileName, title, offSongs, ownSongs, colorsKey, iconKey);
-  }
+  // Album copy() => Album(lclId, title, offSongs, ownSongs, colorsKey, iconKey);
 
   void update({
     required String? title,
@@ -356,7 +371,7 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
 
   List<String> get searchHistory => ShaPref.getStringList(ShaPref.SHA_PREF_SPIEWNIK_SEARCH_HISTORY_(this), []);
   set searchHistory(List<String> value) => ShaPref.setStringList(ShaPref.SHA_PREF_SPIEWNIK_SEARCH_HISTORY_(this), value);
-  void removeFromSeachHistory(int index){
+  void removeFromSearchHistory(int index){
     List<String> history = searchHistory;
     history.removeAt(index);
     searchHistory = history;
@@ -364,28 +379,25 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
 
   void registerSongSearchToHistory(Song song){
     List<String> history = searchHistory;
-    history.insert(0, song.fileName);
+    history.insert(0, song.lclId);
     if(history.length > 1000)
       history = history.sublist(0, 1000);
     searchHistory = history;
   }
   
   @override
-  bool operator == (Object other)=> other is Album && fileName == other.fileName;
+  bool operator == (Object other)=> other is Album && lclId == other.lclId;
 
   @override
-  int get hashCode => fileName.hashCode;
+  int get hashCode => lclId.hashCode;
 
   @override
   SyncableParam? get parentParam => null;
 
   @override
-  String get paramId => fileName;
+  String get paramId => lclId;
 
   static const String syncClassId = 'album';
-
-  //@override
-  //SyncableParam get parentParam => RootSyncable(syncClassId);
 
   @override
   List<SyncableParam> get childParams => [
@@ -399,13 +411,13 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
     SyncableParamSingle(
       this,
       paramId: paramOffSongs,
-      value_: () => offSongs.map((song) => song.fileName).toList(growable: false),
+      value_: () => offSongs.map((song) => song.lclId).toList(growable: false),
     ),
 
     SyncableParamSingle(
       this,
       paramId: paramOwnSongs,
-      value_: () => ownSongs.map((song) => song.fileName).toList(growable: false),
+      value_: () => ownSongs.map((song) => song.lclId).toList(growable: false),
     ),
 
     SyncableParamSingle(
@@ -470,7 +482,7 @@ String albumNameToString(AlbumName? name){
     default: return '#Błąd!';
   }
 }
-AlbumName? stringToAlbumName(String? name){
+AlbumName? stringToAlbumName(String name){
   switch (name) {
     case 'Album': return AlbumName.album;
     case 'Wolumin': return AlbumName.wolumin;

@@ -141,12 +141,13 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
 
                   if(initAlbum == null) {
                     Album album = Album.create(
-                      textEditingController.text,
-                      offSongs,
-                      ownSongs,
-                      Provider.of<AccentColorProvider>(context, listen: false).colorsKey,
-                      Provider.of<IconProvider>(context, listen: false).iconKey,
+                      title: textEditingController.text,
+                      offSongs: offSongs,
+                      ownSongs: ownSongs,
+                      colorsKey: AccentColorProvider.of(context).colorsKey,
+                      iconKey: IconProvider.of(context).iconKey,
                     );
+                    album.save();
                     Album.addToAll(album);
                     widget.onSaved?.call(album);
                   }else{
@@ -154,8 +155,8 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
                         title: textEditingController.text,
                         offSongs: offSongs,
                         ownSongs: ownSongs,
-                        colorsKey: Provider.of<AccentColorProvider>(context, listen: false).colorsKey,
-                        iconKey: Provider.of<IconProvider>(context, listen: false).iconKey
+                        colorsKey: AccentColorProvider.of(context).colorsKey,
+                        iconKey: IconProvider.of(context).iconKey
                     );
                     widget.onSaved?.call(initAlbum!);
                   }

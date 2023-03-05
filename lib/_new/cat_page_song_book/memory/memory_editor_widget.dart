@@ -125,7 +125,7 @@ class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProvi
 
                       if(initMemory == null) {
                         Memory memory = Memory.create(
-                          song.fileName,
+                          song.lclId,
                           memoryBuilder.date!,
                           memoryBuilder.place,
                           memoryBuilder.desc,
@@ -137,7 +137,7 @@ class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProvi
                       }
                       else
                         initMemory!.update(
-                          songFileName: song.fileName,
+                          songFileName: song.lclId,
                           date: memoryBuilder.date,
                           place: memoryBuilder.place,
                           desc: memoryBuilder.desc,

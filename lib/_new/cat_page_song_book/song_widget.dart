@@ -158,14 +158,14 @@ class SongWidget extends StatelessWidget{
     onScroll: onScroll, //(scrollInfo) => determineFloatingButtonOpacity(context, scrollInfo),
 
     onTitleTap: () async {
-      String? wordsCode = await readStringFromAssets('assets/song_words/${song.fileName}');
+      String? wordsCode = await readStringFromAssets('assets/song_words/${song.lclId}');
       await showScrollBottomSheet(
           context: context,
           builder: (BuildContext context) => BottomSheetDef(
             title: 'Trudne słowa',
             textColor: textEnab_(context),
             childMargin: EdgeInsets.zero,
-            builder: (context) => BottomSheetWords(wordsCode, song.text, song.fileName),
+            builder: (context) => BottomSheetWords(wordsCode, song.text, song.lclId),
           )
       );
     },
@@ -299,8 +299,12 @@ class SongWidget extends StatelessWidget{
     ),
 
     onEditTap: (prov) async{
-      Map map = await getSongMap(song.fileName);
-      SongRaw songRaw = SongRaw.fromRespMap(song.fileName, map);
+      Map? map = await getSongMap(song.lclId);
+      if(map == null){
+        showAppToast(context, text: 'Coś jest nie tak z piosenką');
+        return;
+      }
+      SongRaw songRaw = SongRaw.fromRespMap(song.lclId, map);
 
       openOwnSongPage(
           context,

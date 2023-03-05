@@ -1,12 +1,19 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:harcapp/_app_common/common_color_data.dart';
+import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/api/login_register.dart';
+import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/memory.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
+import 'package:harcapp/_new/cat_page_song_book/song_management/own_song.dart';
+import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
+import 'package:harcapp_core_song/song_core.dart';
 import 'package:harcapp_core_song_widget/song_rate.dart';
 
 import 'utils.dart';
@@ -42,7 +49,7 @@ void main() {
     OffSong.allOfficial[0].setRate(SongRate.RATE_LIKE_1, localOnly: true);
     OffSong.allOfficial[0].setChordShift(5, localOnly: true);
     OffSong.allOfficial[0].addMemory(Memory.create(
-      OffSong.allOfficial[0].fileName,
+      OffSong.allOfficial[0].lclId,
       DateTime(2011, 11, 11),
       'Kraków',
       'Rajd Nierozwiązanych Tajemnic',
@@ -50,6 +57,30 @@ void main() {
       false,
       localOnly: true
     ));
+
+    Map song1CodeMap = jsonDecode(OwnSong.emptySongCode);
+    song1CodeMap[SongCore.PARAM_TITLE] = 'Tytuł mojej super testowej piosenki 1';
+    OwnSong ownSong1 = (await OwnSong.create(lclId: 'abcd-1234-1', code: jsonEncode(song1CodeMap)))!;
+    ownSong1.save(localOnly: true);
+
+    Map song2CodeMap = jsonDecode(OwnSong.emptySongCode);
+    song2CodeMap[SongCore.PARAM_TITLE] = 'Tytuł mojej super testowej piosenki 2';
+    OwnSong ownSong2 = (await OwnSong.create(lclId: 'abcd-1234-2', code: jsonEncode(song2CodeMap)))!;
+    ownSong2.save(localOnly: true);
+
+    Map song3CodeMap = jsonDecode(OwnSong.emptySongCode);
+    song3CodeMap[SongCore.PARAM_TITLE] = 'Tytuł mojej super testowej piosenki 3';
+    OwnSong ownSong3 = (await OwnSong.create(lclId: 'abcd-1234-3', code: jsonEncode(song3CodeMap)))!;
+    ownSong3.save(localOnly: true);
+
+    Album album = Album.create(
+        title: 'Obóz 2021',
+        offSongs: [OffSong.allOfficial[10], OffSong.allOfficial[11], OffSong.allOfficial[12]],
+        ownSongs: [ownSong1, ownSong2],
+        colorsKey: CommonColorData.all.keys.toList()[10],
+        iconKey: CommonIconData.all.keys.toList()[20]
+    );
+    album.save(localOnly: true);
 
     await synchronizer.post();
 
@@ -68,12 +99,25 @@ void main() {
 
     assert(OffSong.allOfficial[0].memories.length == 1);
     Memory memory = OffSong.allOfficial[0].memories.first;
-    assert(memory.songFileName == OffSong.allOfficial[0].fileName);
+    assert(memory.songFileName == OffSong.allOfficial[0].lclId);
     assert(memory.date == DateTime(2011, 11, 11));
     assert(memory.place == 'Kraków');
     assert(memory.desc == 'Rajd Nierozwiązanych Tajemnic');
     assert(memory.fontIndex == 0);
     assert(memory.published == false);
+
+    assert(OwnSong.allOwn.length == 3);
+    assert(OwnSong.allOwnMap['abcd-1234-1']!.title == 'Tytuł mojej super testowej piosenki 1');
+    assert(OwnSong.allOwnMap['abcd-1234-2']!.title == 'Tytuł mojej super testowej piosenki 2');
+    assert(OwnSong.allOwnMap['abcd-1234-3']!.title == 'Tytuł mojej super testowej piosenki 3');
+
+    assert(Album.all.length == 1);
+    assert(Album.all[0].lclId == album.lclId);
+    assert(Album.all[0].title == 'Obóz 2021');
+    assert(Album.all[0].offSongs == [OffSong.allOfficial[10], OffSong.allOfficial[11], OffSong.allOfficial[12]]);
+    assert(Album.all[0].ownSongs == [OwnSong.allOwnMap['abcd-1234-1'], OwnSong.allOwnMap['abcd-1234-2']]);
+    assert(Album.all[0].colorsKey == CommonColorData.all.keys.toList()[10]);
+    assert(Album.all[0].iconKey == CommonIconData.all.keys.toList()[20]);
 
   });
 

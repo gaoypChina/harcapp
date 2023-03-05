@@ -13,10 +13,10 @@ class AlbumWidget extends StatelessWidget{
 
   static const double ICON_SIZE = 52.0;
 
-  static heroTagTitle(Album album) => '${album.fileName}\$TITLE';
-  static heroTagSongCnt(Album album) => '${album.fileName}\$SONG_CNT';
-  static heroTagIcon(Album album) => '${album.fileName}\$ICON';
-  static heroTagGradient(Album album) => '${album.fileName}\$GRADIENT';
+  static heroTagTitle(Album album) => '${album.lclId}\$TITLE';
+  static heroTagSongCnt(Album album) => '${album.lclId}\$SONG_CNT';
+  static heroTagIcon(Album album) => '${album.lclId}\$ICON';
+  static heroTagGradient(Album album) => '${album.lclId}\$GRADIENT';
 
   final Album album;
   final Function? onTap;

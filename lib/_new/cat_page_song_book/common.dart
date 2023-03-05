@@ -58,19 +58,19 @@ Map? decodeJson(String code){
   return jsonDecode(code);
 }
 
-Future<Map> getSongMap(String fileName) async{
+Future<Map?> getSongMap(String lclId) async{
 
-  if(fileName.length>3 && fileName.substring(0, 3) == 'o!_') {
+  if(lclId.length>3 && lclId.substring(0, 3) == 'o!_') {
     String? jsonCode = await readStringFromAssets('assets/songs/all_songs.hrcpsng');
     Map allSongsMap = jsonDecode(jsonCode!);
-    return allSongsMap['official'][fileName]['song'];
-  }else if(fileName.length > 4 && fileName.substring(0, 4) == 'oc!_') {
+    return allSongsMap['official'][lclId]['song'];
+  }else if(lclId.length > 4 && lclId.substring(0, 4) == 'oc!_') {
     String? jsonCode = await readStringFromAssets('assets/songs/all_songs.hrcpsng');
     Map allSongsMap = jsonDecode(jsonCode!);
-    return allSongsMap['conf'][fileName]['song'];
+    return allSongsMap['conf'][lclId]['song'];
   }else {
-    Map ownSongsMap = jsonDecode(readFileAsString(getOwnSongFilePath));
-    return ownSongsMap[fileName];
+    Map ownSongsMap = jsonDecode(readFileAsStringOrNull(getOwnSongFilePath)??'{}');
+    return ownSongsMap[lclId];
   }
 
 }

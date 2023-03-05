@@ -121,7 +121,7 @@ class MemoryListWidgetState extends State<MemoryListWidget>{
                       builder: (context) => BottomSheetDef(
                         title: 'Wspomnienia innych osób',
                         builder: (context) => FutureBuilder<List<Memory>>(
-                          future: API.getPublishedMemories(song.fileName), // async work
+                          future: API.getPublishedMemories(song.lclId), // async work
                           builder: (BuildContext context, AsyncSnapshot<List<Memory>> snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.waiting:

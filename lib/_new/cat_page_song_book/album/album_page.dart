@@ -89,7 +89,7 @@ class _AlbumItem extends StatefulWidget{
   final Album album;
   final void Function(Album album)? onAlbumSelected;
 
-  _AlbumItem(this.album, {this.onAlbumSelected}):super(key: ValueKey(album.fileName));
+  _AlbumItem(this.album, {this.onAlbumSelected}):super(key: ValueKey(album.lclId));
 
   @override
   State<StatefulWidget> createState() => _AlbumItemState();
@@ -129,7 +129,7 @@ class _AlbumItemState extends State<_AlbumItem>{
                   onSaved: (album){
 
                     AlbumProvider prov = Provider.of<AlbumProvider>(context, listen: false);
-                    if(prov.current.fileName == album.fileName)
+                    if(prov.current.lclId == album.lclId)
                       prov.current = album;
 
                     setState(() {});

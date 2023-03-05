@@ -362,6 +362,7 @@ class Trop extends TropBaseData<TropTask>{
   }
 
   static Trop create({
+    String? lclId,
     required String name,
     String? customIconTropName,
     required TropCategory category,
@@ -372,7 +373,7 @@ class Trop extends TropBaseData<TropTask>{
 
     required List<TropTask> tasks,
   }) => Trop(
-    lclId: const Uuid().v4(),
+    lclId: lclId??const Uuid().v4(),
     name: name,
     customIconTropName: customIconTropName,
     category: category,

@@ -342,17 +342,18 @@ class ApiSync{
         for(String lclId in offSongs.keys){
           OffSong? song = OffSong.allOfficialMap[lclId];
           if(song == null) continue;
-          SongGetResp? songResp = offSongs[lclId];
-          song.applySyncGetResp(songResp as OffSongGetResp);
+          OffSongGetResp songResp = offSongs[lclId]!;
+          song.applySyncGetResp(songResp);
         }
 
         for(String lclId in ownSongs.keys){
           OwnSong? song = OwnSong.allOwnMap[lclId];
           if(song == null) continue;
           OwnSongGetResp songResp = ownSongs[lclId]!;
-          song = await OwnSong.saveOwnSong(songResp.code!, lclId: lclId);
+          song = await OwnSong.create(lclId: lclId, code: songResp.code);
+          if(song == null) continue;
+          song.save(localOnly: true, synced: true);
           OwnSong.addOwn(song);
-
           song.applySyncGetResp(songResp);
         }
 
@@ -374,13 +375,14 @@ class ApiSync{
             }
 
             album = Album.create(
-                albumResp.title,
-                offSongs,
-                ownSongs,
-                albumResp.colorsKey,
-                albumResp.iconKey,
-                localOnly: true
+                lclId: lclId,
+                title: albumResp.title,
+                offSongs: offSongs,
+                ownSongs: ownSongs,
+                colorsKey: albumResp.colorsKey,
+                iconKey: albumResp.iconKey,
             );
+            album.save(localOnly: true, synced: true);
             Album.addToAll(album);
           }
           album.applySyncGetResp(albumResp);

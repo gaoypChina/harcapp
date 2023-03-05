@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/sync_resp_body/own_song_get_resp.dart';
+import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
 import 'package:harcapp_core_song/song_core.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../sync/syncable.dart';
 import 'memory.dart';
@@ -11,15 +13,15 @@ import 'song.dart';
 
 class OwnSong extends Song<OwnSongGetResp>{
 
-  static int get lastFileName{
-    try {
-      String content = readFileAsString(getOwnLastFileNameFilePath);
-      if(content.isEmpty) return 0;
-      return int.parse(content);
-    }on Error{
-      return _allOwn.isEmpty?0:int.tryParse(_allOwn.last.fileName)??-1;
-    }
-  }
+  // static int get lastFileName{
+  //   try {
+  //     String content = readFileAsString(getOwnLastFileNameFilePath);
+  //     if(content.isEmpty) return 0;
+  //     return int.parse(content);
+  //   }on Error{
+  //     return _allOwn.isEmpty?0:int.tryParse(_allOwn.last.fileName)??-1;
+  //   }
+  // }
 
   // Whether the all, allMap, etc. are initialized.
   static bool initialized = false;
@@ -37,13 +39,13 @@ class OwnSong extends Song<OwnSongGetResp>{
   }
   static void addOwn(OwnSong song, {bool recalculateAddPersRanking = true}){
     _allOwn.add(song);
-    _allOwnMap[song.fileName] = song;
+    _allOwnMap[song.lclId] = song;
     if(recalculateAddPersRanking)
       Song.recalculateAddPersRanking();
   }
   static void removeOwn(OwnSong song, {bool recalculateAddPersRanking = true}){
     _allOwn.remove(song);
-    _allOwnMap.remove(song.fileName);
+    _allOwnMap.remove(song.lclId);
     if(recalculateAddPersRanking)
       Song.recalculateAddPersRanking();
   }
@@ -108,6 +110,46 @@ class OwnSong extends Song<OwnSongGetResp>{
       memoryMap
   );
 
+  static Future<OwnSong?> create({
+    String? lclId,
+    required String code,
+  }) async {
+    Map jsonMap;
+    try{ jsonMap = jsonDecode(code); }
+    on Error{ return null; }
+
+    return await OwnSong.fromRespMap(
+        lclId??const Uuid().v4(),
+        jsonMap
+    );
+  }
+
+  Future<void> save({bool localOnly=false, bool synced=false}) async {
+    String? allOwnSngsJsonStr;
+    try{
+      allOwnSngsJsonStr = readFileAsString(getOwnSongFilePath);
+    } on Error{}
+
+    Map? allOwnSongsMap;
+    if(allOwnSngsJsonStr != null)
+      allOwnSongsMap = jsonDecode(allOwnSngsJsonStr);
+    else
+      allOwnSongsMap = {};
+
+    Map jsonMap = jsonDecode(SongRaw());
+
+    allOwnSongsMap![lclId] = jsonMap;
+    allOwnSngsJsonStr = jsonEncode(allOwnSongsMap);
+    saveStringAsFile(getOwnSongFilePath, allOwnSngsJsonStr);
+
+    setAllSyncState(
+        synced?SyncableParamSingleMixin.stateSynced:
+        SyncableParamSingleMixin.stateNotSynced);
+
+    if(!localOnly)
+      synchronizer.post();
+  }
+  
   static Future<OwnSong> fromRespMap(String fileName, Map respMap) async {
     SongDataEntity songStuff = await Song.fromRespMap(fileName, respMap);
     return OwnSong(
@@ -148,44 +190,37 @@ class OwnSong extends Song<OwnSongGetResp>{
     ratePrimWrap = song.ratePrimWrap;
     memoryList = song.memoryList;
     memoryMap = song.memoryMap;
-
   }
 
-  static Future<OwnSong> saveOwnSong(String code, {String? lclId}) async {
-
-    if(lclId == null)
-      lclId = '${OwnSong.lastFileName + 1}';
-    else{
-      int? testVal = int.tryParse(lclId);
-      if(testVal == null)
-        throw Exception();
-    }
-
-    String? allOwnSngsJsonStr;
-    try{
-      allOwnSngsJsonStr = readFileAsString(getOwnSongFilePath);
-    } on Error{}
-
-    Map? allOwnSongsMap;
-    if(allOwnSngsJsonStr != null)
-      allOwnSongsMap = jsonDecode(allOwnSngsJsonStr);
-    else
-      allOwnSongsMap = {};
-
-    Map jsonMap = jsonDecode(code);
-
-    allOwnSongsMap![lclId] = jsonMap;
-    allOwnSngsJsonStr = jsonEncode(allOwnSongsMap);
-    saveStringAsFile(getOwnSongFilePath, allOwnSngsJsonStr);
-    saveStringAsFile(getOwnLastFileNameFilePath, lclId);
-
-    return await OwnSong.fromRespMap(lclId, jsonMap);
-
-  }
+  // static Future<OwnSong> saveOwnSong(String code, {String? lclId}) async {
+  //
+  //   lclId ??= const Uuid().v4();
+  //
+  //   String? allOwnSngsJsonStr;
+  //   try{
+  //     allOwnSngsJsonStr = readFileAsString(getOwnSongFilePath);
+  //   } on Error{}
+  //
+  //   Map? allOwnSongsMap;
+  //   if(allOwnSngsJsonStr != null)
+  //     allOwnSongsMap = jsonDecode(allOwnSngsJsonStr);
+  //   else
+  //     allOwnSongsMap = {};
+  //
+  //   Map jsonMap = jsonDecode(code);
+  //
+  //   allOwnSongsMap![lclId] = jsonMap;
+  //   allOwnSngsJsonStr = jsonEncode(allOwnSongsMap);
+  //   saveStringAsFile(getOwnSongFilePath, allOwnSngsJsonStr);
+  //   // saveStringAsFile(getOwnLastFileNameFilePath, lclId);
+  //
+  //   return await OwnSong.fromRespMap(lclId, jsonMap);
+  //
+  // }
 
   Future<void> recode(String code) async {
     Map map = jsonDecode(code);
-    OwnSong song = await OwnSong.fromRespMap(fileName, map);
+    OwnSong song = await OwnSong.fromRespMap(lclId, map);
     copyWith(song);
   }
 
@@ -217,10 +252,8 @@ class OwnSong extends Song<OwnSongGetResp>{
   @override
   void applySyncGetResp(OwnSongGetResp resp) {
     super.applySyncGetResp(resp);
-    if(resp.code != null) {
-      recode(resp.code!);
-      saveOwnSong(resp.code!);
-    }
+    recode(resp.code);
+    save();
   }
 
 }

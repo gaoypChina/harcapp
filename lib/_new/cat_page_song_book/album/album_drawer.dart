@@ -84,7 +84,7 @@ class AlbumDrawerState extends State<AlbumDrawer>{
                                 onSaved: (album){
 
                                   AlbumProvider prov = Provider.of<AlbumProvider>(context, listen: false);
-                                  if(prov.current.fileName == album.fileName)
+                                  if(prov.current.lclId == album.lclId)
                                     prov.current = album;
 
                                   Navigator.pop(context);

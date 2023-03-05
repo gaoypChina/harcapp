@@ -95,7 +95,7 @@ class SearchHistoryPageState extends State<SearchHistoryPage>{
                         trailing: IconButton(
                           icon: const Icon(MdiIcons.close),
                           onPressed: (){
-                            Album.current.removeFromSeachHistory(index);
+                            Album.current.removeFromSearchHistory(index);
                             setState((){});
                           },
                         ),

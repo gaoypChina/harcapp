@@ -39,7 +39,7 @@ class MemoryBuilder{
       memory.published
   );
 
-  static MemoryBuilder empty(Song song) => MemoryBuilder(song.fileName, DateTime.now(), '', '', 1, false);
+  static MemoryBuilder empty(Song song) => MemoryBuilder(song.lclId, DateTime.now(), '', '', 1, false);
 
   Memory build(String fileName) => Memory(
     fileName,
@@ -212,13 +212,17 @@ class Memory extends SyncableParamGroupMixin with SyncGetRespNode<MemoryGetResp>
 
   }
 
-  void save({localOnly=false}) {
+  void save({bool localOnly = false, bool synced = false}) {
 
     saveStringAsFileToFolder(
         getSongMemoriesFolderLocalPath,
         encode(songFileName, date!, place, desc, fontIndex, published),
         fileName: fileName
     );
+
+    setAllSyncState(
+        synced?SyncableParamSingleMixin.stateSynced:
+        SyncableParamSingleMixin.stateNotSynced);
 
     if(!localOnly)
       synchronizer.post();

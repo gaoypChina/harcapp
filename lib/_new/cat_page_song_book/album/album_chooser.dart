@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:harcapp/_common_widgets/empty_message_widget.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
-import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -53,9 +51,10 @@ class AlbumChooserState extends State<AlbumChooser>{
                     if(value!) album.addSong(song);
                     else album.removeSong(song);
                   });
-                  album.save(syncParams: [Album.paramOffSongs, Album.paramOwnSongs]);
+                  // TODO: use here syncParams: [Album.paramOffSongs, Album.paramOwnSongs].
+                  album.save();
                   if(onSelectionChanged!=null)
-                    onSelectionChanged!(album);
+                    onSelectionChanged?.call(album);
                 }
             ),
           )

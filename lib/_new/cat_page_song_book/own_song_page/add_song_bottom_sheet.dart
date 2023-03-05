@@ -77,7 +77,7 @@ class AddSongBottomSheet extends StatelessWidget{
                       SongRaw song;
 
                       try {
-                        song = SongRaw.from('${OwnSong.lastFileName + 1}', code);
+                        song = SongRaw.fromBase64(code: code);
                       }
                       on Exception {
                         showAppToast(context, text: 'Coś tu nie gra...');

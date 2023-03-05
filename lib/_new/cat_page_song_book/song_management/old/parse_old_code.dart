@@ -62,7 +62,7 @@ SongRaw parseOldCode(String fileName, String code, {bool official = true}){
     List<String> hidTitles = [];
 
     return SongRaw(
-      fileName: fileName,
+      lclId: fileName,
       title: basicData.title,
       hidTitles: hidTitles,
       authors: [basicData.author],

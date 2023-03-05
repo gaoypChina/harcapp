@@ -63,7 +63,7 @@ class SaveSongButtonState extends State<SaveSongButton>{
 
           SongRaw songRaw = currentItemProv.song;
 
-          String code = jsonEncode(songRaw.toMap(withFileName: false));
+          String code = jsonEncode(songRaw.toMap(withLclId: false));
 
           if(code.length > OwnSong.codeMaxLength){
             if(mounted) setState(() => isSaving = false);
@@ -71,9 +71,13 @@ class SaveSongButtonState extends State<SaveSongButton>{
             return;
           }
 
-          OwnSong song;
+          OwnSong? song;
           try{
-            song = await OwnSong.saveOwnSong(code, lclId: songRaw.fileName);
+            song = await OwnSong.create(code: code, lclId: songRaw.lclId);
+            if(song == null){
+              if(mounted) showAppToast(context, text: 'Błąd kodowania piosenki!');
+              return;
+            }
           }catch(e){
             if(mounted) setState(() => isSaving = false);
             if(mounted) showAppToast(context, text: 'Błąd kodowania nazwy piosenki!');
@@ -81,7 +85,7 @@ class SaveSongButtonState extends State<SaveSongButton>{
           }
 
           if(widget.editType == EditType.editOwn){
-            OwnSong remSong = OwnSong.allOwnMap[song.fileName]!;
+            OwnSong remSong = OwnSong.allOwnMap[song.lclId]!;
             OwnSong.removeOwn(remSong);
           }
 

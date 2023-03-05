@@ -40,11 +40,11 @@ enum EditType{
 
 class OwnSongPage extends StatefulWidget {
 
-  final SongRaw? song;
+  final SongRaw? initSong;
   final EditType editType;
   final Function(Song song, EditType editType)? onSaved;
 
-  const OwnSongPage(this.song, this.editType, this.onSaved, {super.key});
+  const OwnSongPage(this.initSong, this.editType, this.onSaved, {super.key});
 
   static from({SongRaw? song, Function(Song song, EditType editType)? onSaved}){
 
@@ -75,7 +75,7 @@ class OwnSongPageState extends State<OwnSongPage> {
 
   void notify() => setState((){});
 
-  SongRaw? get song => widget.song;
+  SongRaw? get song => widget.initSong;
   EditType get editType => widget.editType;
 
   ScrollController? scrollController;
@@ -96,7 +96,7 @@ class OwnSongPageState extends State<OwnSongPage> {
     if(song != null)
       for(Album album in Album.allOwn) {
         if (album != Album.omega &&
-            album.songs.map((song) => song.fileName).contains(song!.fileName))
+            album.songs.map((song) => song.lclId).contains(song!.lclId))
           albums!.add(album);
       }
 
@@ -132,14 +132,14 @@ class OwnSongPageState extends State<OwnSongPage> {
                 initAddPersUserKey = AccountData.key;
               }
               currItemProv = CurrentItemProvider(
-                song: SongRaw.empty(fileName: '${OwnSong.lastFileName + 1}'),
+                song: SongRaw.empty(),
                 initAddPersName: initAddPersName,
                 initAddPersEmail: initAddPersEmail,
                 initAddPersUserKey: initAddPersUserKey,
               );
             }
             else if(editType == EditType.editOfficial)
-              currItemProv = CurrentItemProvider(song: song!.copyWith(fileName: '${OwnSong.lastFileName + 1}'));
+              currItemProv = CurrentItemProvider(song: song!.copy());
 
             return currItemProv;
 
@@ -283,7 +283,7 @@ class OwnSongPageState extends State<OwnSongPage> {
     backgroundColor: background_(context),
     centerTitle: true,
     floating: true,
-    title: Text(widget.song==null?'Nowa piosenka':'Edytuj piosenkę'),
+    title: Text(widget.initSong==null?'Nowa piosenka':'Edytuj piosenkę'),
     actions: <Widget>[
 
       IconButton(
@@ -291,8 +291,9 @@ class OwnSongPageState extends State<OwnSongPage> {
           onPressed: () async {
 
             SongRaw songRaw = currItemProv!.song;
-            Song song = await OffSong.fromRespMap('', jsonDecode(songRaw.toCode(withFileName: false)));
+            Song song = await OffSong.fromRespMap('', jsonDecode(songRaw.toCode(withLclId: false)));
 
+            if(!mounted) return;
             await Navigator.push(context, MaterialPageRoute(
               builder: (context) => AppScaffold(
                 body: NestedScrollView(

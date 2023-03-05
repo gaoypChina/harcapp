@@ -59,7 +59,7 @@ Future<Tuple7<
           songAudioMapList: songAudioMap[fileName]
       );
       allOffSongs[index] = song;
-      allOffSongsMap[song.fileName] = song;
+      allOffSongsMap[song.lclId] = song;
     } on Error {
       allErrors.add(fileName);
     }
@@ -83,7 +83,7 @@ Future<Tuple7<
           songAudioMapList: songAudioMap[fileName]
       );
       allConfidSongs[index] = song;
-      allConfidSongsMap[song.fileName] = song;
+      allConfidSongsMap[song.lclId] = song;
     } on Error {
       allErrors.add(fileName);
     }
@@ -101,7 +101,7 @@ Future<Tuple7<
     try {
       OwnSong song = await OwnSong.fromRespMap(fileName, ownSongsMap[fileName]);
       allOwnSongs.add(song);
-      allOwnSongsMap[song.fileName] = song;
+      allOwnSongsMap[song.lclId] = song;
     } catch (e){
       allErrors.add(fileName);
     }
@@ -194,7 +194,7 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
         Album album = Album.read(basename(file.path), Song.all);
 
         allAlbums.add(album);
-        allAlbumsMap[album.fileName] = album;
+        allAlbumsMap[album.lclId] = album;
       } catch (e) {
         logger.e(e);
       }
@@ -210,11 +210,11 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
     // LOAD CURRENT ALBUM
 
     String? currAlbumFileName = ShaPref.getString(
-        ShaPref.SHA_PREF_SPIEWNIK_CURR_ALBUM, Album.omega.fileName);
+        ShaPref.SHA_PREF_SPIEWNIK_CURR_ALBUM, Album.omega.lclId);
 
     bool currAlbumSet = false;
     for (Album album in allAlbums)
-      if (album.fileName == currAlbumFileName) {
+      if (album.lclId == currAlbumFileName) {
         Album.initCurrent(album);
         currAlbumSet = true;
         break;

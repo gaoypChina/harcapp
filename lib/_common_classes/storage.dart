@@ -35,8 +35,8 @@ String get getSongFolderPath => _localPath + getSongFolderLocalPath;
 String get getOwnSongFileLocalPath => '/own_songs/own_sngs.hrcpsng';
 String get getOwnSongFilePath => _localPath + getOwnSongFileLocalPath;
 
-String get getOwnLastFileNameFileLocalPath => '/own_songs/own_sng_last_file_name';
-String get getOwnLastFileNameFilePath => _localPath + getOwnLastFileNameFileLocalPath;
+// String get getOwnLastFileNameFileLocalPath => '/own_songs/own_sng_last_file_name';
+// String get getOwnLastFileNameFilePath => _localPath + getOwnLastFileNameFileLocalPath;
 
 String get getSongMemoriesFolderLocalPath => '/song_memories/';
 String get getSongMemoriesFolderPath => _localPath + getSongMemoriesFolderLocalPath;
@@ -126,6 +126,12 @@ String readFileAsString(String path){
   if(File(path).existsSync())
     return File(path).readAsStringSync();
   else throw FileNotFoundError();
+}
+
+String? readFileAsStringOrNull(String path){
+  if(File(path).existsSync())
+    return File(path).readAsStringSync();
+  else return null;
 }
 
 Future<OpenResult> openAsset(String assetPath) async {
