@@ -88,6 +88,11 @@ class SprawTask with SyncableParamGroupMixin, SyncGetRespNode<SprawTaskGetResp> 
       spraw.uniqName + sepChar +
           index.toString();
 
+  static const String syncClassId = Spraw.PARAM_TASKS;
+
+  @override
+  String get debugClassId => syncClassId;
+
   @override
   SyncableParam? get parentParam => spraw;
 
@@ -100,13 +105,13 @@ class SprawTask with SyncableParamGroupMixin, SyncGetRespNode<SprawTaskGetResp> 
     SyncableParamSingle(
       this,
       paramId: paramCompleted,
-      value_: () => completed,
+      value: () => completed,
     ),
 
     SyncableParamSingle(
       this,
       paramId: paramNote,
-      value_: () => note,
+      value: () => note,
     ),
 
   ];

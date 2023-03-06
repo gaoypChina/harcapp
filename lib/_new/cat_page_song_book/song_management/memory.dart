@@ -259,6 +259,9 @@ class Memory extends SyncableParamGroupMixin with SyncGetRespNode<MemoryGetResp>
   static const syncClassId = 'memory';
 
   @override
+  String get debugClassId => syncClassId;
+
+  @override
   int get hashCode => fileName.hashCode;
 
   @override
@@ -273,31 +276,31 @@ class Memory extends SyncableParamGroupMixin with SyncGetRespNode<MemoryGetResp>
     SyncableParamSingle(
       this,
       paramId: paramDate,
-      value_: () => date==null?null:DateFormat('yyyy-MM-dd').format(date!),
+      value: () => date==null?null:DateFormat('yyyy-MM-dd').format(date!),
     ),
 
     SyncableParamSingle(
       this,
       paramId: paramPlace,
-      value_: () => place,
+      value: () => place,
     ),
 
     SyncableParamSingle(
       this,
       paramId: paramDesc,
-      value_: () => desc,
+      value: () => desc,
     ),
 
     SyncableParamSingle(
       this,
       paramId: paramFontKey,
-      value_: () => fontIndex,
+      value: () => fontIndex,
     ),
 
     SyncableParamSingle(
       this,
       paramId: paramPublished,
-      value_: () => published,
+      value: () => published,
     ),
   ];
 

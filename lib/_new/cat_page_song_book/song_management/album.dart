@@ -13,6 +13,7 @@ import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_classes/color_pack_provider.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:tuple/tuple.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -164,9 +165,8 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
   static String encode(String? title, List<OffSong> offSongs, List<OwnSong> ownSongs, String? colorsKey, /*Color colorStart, Color colorEnd,*/ String? iconKey){
 
     // Sort alphabetically
-    PolishLettersComparator comparator = PolishLettersComparator();
-    offSongs.sort((a, b) => comparator.compare(a.title, b.title));
-    ownSongs.sort((a, b) => comparator.compare(a.title, b.title));
+    offSongs.sort((a, b) => compareText(a.title, b.title));
+    ownSongs.sort((a, b) => compareText(a.title, b.title));
 
     Map<String, dynamic> map = {
       _PARAM_TITLE: title,
@@ -234,7 +234,7 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
 
       if(song is OffSong) {
         for (int i = 0; i < offSongs.length; i++) {
-          if (song.title.compareTo(songs[i].title) < 0) {
+          if (compareText(song.title, songs[i].title) < 0) {
             offSongs.insert(i, song);
             return;
           }
@@ -244,7 +244,7 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
 
       else if(song is OwnSong) {
         for (int i = 0; i < ownSongs.length; i++) {
-          if (song.title.compareTo(songs[i].title) < 0) {
+          if (compareText(song.title, songs[i].title) < 0) {
             ownSongs.insert(i, song);
             return;
           }
@@ -400,36 +400,39 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
   static const String syncClassId = 'album';
 
   @override
+  String get debugClassId => syncClassId;
+
+  @override
   List<SyncableParam> get childParams => [
 
     SyncableParamSingle(
       this,
       paramId: _PARAM_TITLE,
-      value_: () => title,
+      value: () => title,
     ),
 
     SyncableParamSingle(
       this,
       paramId: paramOffSongs,
-      value_: () => offSongs.map((song) => song.lclId).toList(growable: false),
+      value: () => offSongs.map((song) => song.lclId).toList(growable: false),
     ),
 
     SyncableParamSingle(
       this,
       paramId: paramOwnSongs,
-      value_: () => ownSongs.map((song) => song.lclId).toList(growable: false),
+      value: () => ownSongs.map((song) => song.lclId).toList(growable: false),
     ),
 
     SyncableParamSingle(
       this,
       paramId: paramColorsKey,
-      value_: () => colorsKey,
+      value: () => colorsKey,
     ),
 
     SyncableParamSingle(
       this,
       paramId: paramIconKey,
-      value_: () => iconKey,
+      value: () => iconKey,
     ),
   ];
 
@@ -456,7 +459,7 @@ class Album with SyncableParamGroupMixin, SyncGetRespNode<AlbumGetResp>, RemoveS
 
     iconKey = resp.iconKey;
 
-    save(localOnly: true);
+    save(localOnly: true, synced: true);
   }
 
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 
@@ -115,7 +116,6 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
     for(AddPerson addPers in _addPersRanking.keys)
       if(addPers.emailRef != null)
         _addPersRankingByEmail[addPers.emailRef!] = _addPersRanking[addPers]!;
-
 
     // Merge AddPerson with multiple emails being the same Person object
     Map<String, AddPerson> addPersonByEmail = {};
@@ -371,7 +371,7 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
           songText += refren.getText(withTabs: true)!;
           songChords += refren.getChords()!;
 
-          int textLines =  refren.getText(withTabs: true)!.split("\n").length;
+          int textLines = refren.getText(withTabs: true)!.split("\n").length;
           int chodsLines = refren.getChords()!.split("\n").length;
           for(int j=0; j<chodsLines-textLines; j++)
             songText += '\n';
@@ -447,14 +447,14 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
     );
   }
 
-  Future<String> get code async => jsonEncode(await getSongMap(lclId));
+  FutureOr<String> get code;
 
   Future<String> toQRData() async => const Base64Codec().encode(const Utf8Encoder().convert(await code).toList());
 
-  static Future<SongDataEntity> from(String codeBase64) async {
-    String code = const Utf8Decoder().convert(const Base64Codec().decode(codeBase64).toList());
-    return Song.parse('_shared', code);
-  }
+  static Future<SongDataEntity> fromBase64({required String code}) => Song.parse(
+      '_shared',
+      const Utf8Decoder().convert(const Base64Codec().decode(code).toList())
+  );
 
   @override
   String get chords => ChordShifter.run(baseChords, chordShift);
@@ -533,7 +533,7 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
   @override
   int get hashCode => isConfid.hashCode + isOfficial.hashCode + lclId.hashCode;
 
-  String get classId;
+  String get debugClassId;
 
   //@override
   //SyncableParam get parentParam => RootSyncable(classId);
@@ -547,14 +547,14 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
     SyncableParamSingle(
         this,
         paramId: paramRate,
-        value_: () => rate,
-        isNotSet_: () => !hasRate
+        value: () => rate,
+        isNotSet: () => !hasRate
     ),
     SyncableParamSingle(
         this,
         paramId: paramChordShift,
-        value_: () => chordShift,
-        isNotSet_: () => !hasChordShift
+        value: () => chordShift,
+        isNotSet: () => !hasChordShift
     ),
     SyncableParamGroup(
         this,

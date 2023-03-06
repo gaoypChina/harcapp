@@ -52,6 +52,9 @@ class OrgHandler with SyncableParamSingleMixin, SyncGetRespNode<OrgEntityResp>{
   static const String syncClassId = 'org';
 
   @override
+  String get debugClassId => syncClassId;
+
+  @override
   SyncableParam? get parentParam => null;
 
   @override

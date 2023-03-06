@@ -276,7 +276,10 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
       ],
     );
   }
-
+  
+  @override
+  String get debugClassId => RankZHPSim2022.syncClassId;
+  
 }
 
 class RankZHPSim2022 extends RankZHPSim2022Templ<RankStateLocal>{

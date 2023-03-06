@@ -171,36 +171,39 @@ class AppSettings with SyncableParamGroupMixin, SyncGetRespNode<AppSettingsResp>
     SyncableParamSingle(
       this,
       paramId: PARAM_THEME,
-      value_: () => appThemeToStr[theme],
+      value: () => appThemeToStr[theme],
     ),
 
     SyncableParamSingle(
       this,
       paramId: PARAM_THEME_SUNRISE_TIME,
-      value_: () => _toSecsToD(sunriseTime),
+      value: () => _toSecsToD(sunriseTime),
     ),
 
     SyncableParamSingle(
       this,
       paramId: PARAM_THEME_SUNSET_TIME,
-      value_: () => _toSecsToD(sunsetTime),
+      value: () => _toSecsToD(sunsetTime),
     ),
 
     SyncableParamSingle(
       this,
       paramId: PARAM_FULLSCREEN,
-      value_: () => fullscreen,
+      value: () => fullscreen,
     ),
 
     SyncableParamSingle(
       this,
       paramId: PARAM_DEV_MODE,
-      value_: () => devMode,
+      value: () => devMode,
     ),
   ];
 
   static const String syncClassId = 'app_settings';
-
+  
+  @override
+  String get debugClassId => syncClassId;
+  
   @override
   SyncableParam? get parentParam => null;
 

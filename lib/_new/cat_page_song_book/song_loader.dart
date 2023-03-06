@@ -97,13 +97,13 @@ Future<Tuple7<
 
   List<OwnSong> allOwnSongs = [];
   Map<String, OwnSong> allOwnSongsMap = {};
-  for(String fileName in ownSongsMap.keys) {
+  for(String lclId in ownSongsMap.keys) {
     try {
-      OwnSong song = await OwnSong.fromRespMap(fileName, ownSongsMap[fileName]);
+      OwnSong song = await OwnSong.fromRespMapSaved(lclId, ownSongsMap[lclId]);
       allOwnSongs.add(song);
       allOwnSongsMap[song.lclId] = song;
     } catch (e){
-      allErrors.add(fileName);
+      allErrors.add(lclId);
     }
   }
 

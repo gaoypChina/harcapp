@@ -284,6 +284,9 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
 
   static const String syncClassId = 'spraw';
 
+  @override
+  String get debugClassId => syncClassId;
+
   //@override
   //SyncableParam get parentParam => RootSyncable(syncClassId);
 
@@ -299,19 +302,19 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     SyncableParamSingle(
       this,
       paramId: PARAM_IN_PROGRESS,
-      value_: () => inProgress,
+      value: () => inProgress,
     ),
 
     SyncableParamSingle(
       this,
       paramId: PARAM_COMPLETED,
-      value_: () => completed,
+      value: () => completed,
     ),
 
     SyncableParamSingle(
       this,
       paramId: PARAM_COMPLETION_DATE,
-      value_: () => completionDate==null?null:DateFormat('yyyy-MM-dd').format(completionDate!),
+      value: () => completionDate==null?null:DateFormat('yyyy-MM-dd').format(completionDate!),
     ),
 
     SyncableParamGroup(

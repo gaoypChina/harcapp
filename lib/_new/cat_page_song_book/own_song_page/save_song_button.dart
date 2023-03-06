@@ -86,10 +86,10 @@ class SaveSongButtonState extends State<SaveSongButton>{
 
           if(widget.editType == EditType.editOwn){
             OwnSong remSong = OwnSong.allOwnMap[song.lclId]!;
-            OwnSong.removeOwn(remSong);
+            OwnSong.removeFromAll(remSong);
           }
 
-          OwnSong.addOwn(song);
+          OwnSong.addToAll(song);
           for (Album album in albums!)
             album.addSong(song);
 

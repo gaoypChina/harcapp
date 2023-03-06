@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:harcapp/_common_classes/sha_pref.dart';
-import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
-
 
 
 class SongLoaderListener{
@@ -58,22 +56,22 @@ Map? decodeJson(String code){
   return jsonDecode(code);
 }
 
-Future<Map?> getSongMap(String lclId) async{
-
-  if(lclId.length>3 && lclId.substring(0, 3) == 'o!_') {
-    String? jsonCode = await readStringFromAssets('assets/songs/all_songs.hrcpsng');
-    Map allSongsMap = jsonDecode(jsonCode!);
-    return allSongsMap['official'][lclId]['song'];
-  }else if(lclId.length > 4 && lclId.substring(0, 4) == 'oc!_') {
-    String? jsonCode = await readStringFromAssets('assets/songs/all_songs.hrcpsng');
-    Map allSongsMap = jsonDecode(jsonCode!);
-    return allSongsMap['conf'][lclId]['song'];
-  }else {
-    Map ownSongsMap = jsonDecode(readFileAsStringOrNull(getOwnSongFilePath)??'{}');
-    return ownSongsMap[lclId];
-  }
-
-}
+// Future<Map?> getSongMap(String lclId) async{
+//
+//   if(lclId.length>3 && lclId.substring(0, 3) == 'o!_') {
+//     String? jsonCode = await readStringFromAssets('assets/songs/all_songs.hrcpsng');
+//     Map allSongsMap = jsonDecode(jsonCode!);
+//     return allSongsMap['official'][lclId]['song'];
+//   }else if(lclId.length > 4 && lclId.substring(0, 4) == 'oc!_') {
+//     String? jsonCode = await readStringFromAssets('assets/songs/all_songs.hrcpsng');
+//     Map allSongsMap = jsonDecode(jsonCode!);
+//     return allSongsMap['conf'][lclId]['song'];
+//   }else {
+//     Map ownSongsMap = jsonDecode(readFileAsStringOrNull(getOwnSongFilePath)??'{}');
+//     return ownSongsMap[lclId];
+//   }
+//
+// }
 
 compressSong(){
 

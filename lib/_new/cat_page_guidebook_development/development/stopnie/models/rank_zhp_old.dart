@@ -73,6 +73,9 @@ abstract class RankZHPOldTempl<T extends RankState> extends Rank<RankZHPOldData,
     ],
   );
 
+  @override
+  String get debugClassId => RankZHPOld.syncClassId;
+  
 }
 
 class RankZHPOld extends RankZHPOldTempl<RankStateLocal>{

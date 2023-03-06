@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/scan_qr_code.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -110,7 +111,7 @@ class AddSongBottomSheet extends StatelessWidget{
 }
 
 void openOwnSongPage(BuildContext context, {SongRaw? song, Function(Song song, EditType editType)? onSaved}) =>
-    Navigator.push(context, MaterialPageRoute(builder: (context) => OwnSongPage.from(
+    pushPage(context, builder: (context) => OwnSongPage.from(
         song: song,
         onSaved: onSaved
-    )));
+    ));

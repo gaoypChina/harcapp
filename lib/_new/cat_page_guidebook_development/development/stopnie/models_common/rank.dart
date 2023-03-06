@@ -568,19 +568,19 @@ abstract class Rank<TData extends RankData, TResp extends RankGetResp, TState ex
       SyncableParamSingle(
         this,
         paramId: paramInProgress,
-        value_: () => inProgress,
+        value: () => inProgress,
       ),
 
       SyncableParamSingle(
         this,
         paramId: paramCompleted,
-        value_: () => completed,
+        value: () => completed,
       ),
 
       SyncableParamSingle(
         this,
         paramId: paramCompletionDate,
-        value_: () => completionDate==null?null:DateFormat('yyyy-MM-dd').format(completionDate!),
+        value: () => completionDate==null?null:DateFormat('yyyy-MM-dd').format(completionDate!),
       ),
 
       SyncableParamGroup(

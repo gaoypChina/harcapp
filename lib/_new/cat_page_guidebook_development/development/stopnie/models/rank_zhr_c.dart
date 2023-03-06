@@ -117,7 +117,10 @@ abstract class RankZHRCTempl<T extends RankState> extends Rank<RankZHRCData, Ran
       const SectorSepWidget('Zadania'),
     ],
   );
-
+  
+  @override
+  String get debugClassId => RankZHRC.syncClassId;
+  
 }
 
 class RankZHRC<T extends RankState> extends RankZHRCTempl<RankStateLocal>{

@@ -3,12 +3,9 @@ import 'dart:convert';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/sync_resp_body/own_song_get_resp.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
-import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
-import 'package:harcapp_core_song/song_core.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../sync/syncable.dart';
-import 'memory.dart';
 import 'song.dart';
 
 class OwnSong extends Song<OwnSongGetResp>{
@@ -37,13 +34,14 @@ class OwnSong extends Song<OwnSongGetResp>{
     if(recalculateAddPersRanking)
       Song.recalculateAddPersRanking();
   }
-  static void addOwn(OwnSong song, {bool recalculateAddPersRanking = true}){
+  static void addToAll(OwnSong song, {bool recalculateAddPersRanking = true}){
+    if(_allOwnMap[song.lclId] != null) return;
     _allOwn.add(song);
     _allOwnMap[song.lclId] = song;
     if(recalculateAddPersRanking)
       Song.recalculateAddPersRanking();
   }
-  static void removeOwn(OwnSong song, {bool recalculateAddPersRanking = true}){
+  static void removeFromAll(OwnSong song, {bool recalculateAddPersRanking = true}){
     _allOwn.remove(song);
     _allOwnMap.remove(song.lclId);
     if(recalculateAddPersRanking)
@@ -71,44 +69,43 @@ class OwnSong extends Song<OwnSongGetResp>{
   """;
 
   OwnSong(
-      String fileName,
-      String title,
-      List<String> hidTitles,
-      List<String> authors,
-      List<String> composers,
-      List<String> performers,
-      DateTime? releaseDate,
-      bool showRelDateMonth,
-      bool showRelDateDay,
-      List<AddPerson> addPers,
-      String youtubeLink,
-      List<SongAudio> audios,
-      List<String> tags,
-      bool hasChords, String text,
-      String baseChords,
-      PrimitiveWrapper<int> rate,
-      List<Memory> memoryList,
-      Map<String, Memory> memoryMap
-  ) : super(fileName,
-      title,
-      hidTitles,
-      authors,
-      composers,
-      performers,
-      releaseDate,
-      showRelDateMonth,
-      showRelDateDay,
-      addPers,
-      youtubeLink,
-      audios,
-      tags,
-      hasChords,
-      text,
-      baseChords,
-      rate,
-      memoryList,
-      memoryMap
-  );
+      super.lclId,
+      super.title,
+      super.hidTitles,
+      super.authors,
+      super.composers,
+      super.performers,
+      super.releaseDate,
+      super.showRelDateMonth,
+      super.showRelDateDay,
+      super.addPers,
+      super.youtubeLink,
+      super.audios,
+      super.tags,
+      super.hasChords,
+      super.text,
+      super.baseChords,
+      super.rate,
+      super.memoryList,
+      super.memoryMap,
+      { required String code,
+        required this.isSaved
+      }): _code = code;
+
+  String _code;
+
+  @override
+  String get code{
+    if(isSaved){
+      Map ownSongsMap = jsonDecode(readFileAsStringOrNull(getOwnSongFilePath)??'{}');
+      Map? map = ownSongsMap[lclId];
+      if(map == null) throw Exception();
+      return jsonEncode(map);
+    }
+    return _code;
+  }
+
+  bool isSaved;
 
   static Future<OwnSong?> create({
     String? lclId,
@@ -118,10 +115,13 @@ class OwnSong extends Song<OwnSongGetResp>{
     try{ jsonMap = jsonDecode(code); }
     on Error{ return null; }
 
-    return await OwnSong.fromRespMap(
-        lclId??const Uuid().v4(),
-        jsonMap
+    OwnSong song = await fromRespMapNotSaved(
+      lclId??const Uuid().v4(),
+      jsonMap,
+      code: code
     );
+
+    return song;
   }
 
   Future<void> save({bool localOnly=false, bool synced=false}) async {
@@ -136,11 +136,14 @@ class OwnSong extends Song<OwnSongGetResp>{
     else
       allOwnSongsMap = {};
 
-    Map jsonMap = jsonDecode(SongRaw());
+    Map jsonMap = jsonDecode(code);
 
     allOwnSongsMap![lclId] = jsonMap;
     allOwnSngsJsonStr = jsonEncode(allOwnSongsMap);
     saveStringAsFile(getOwnSongFilePath, allOwnSngsJsonStr);
+
+    _code = '';
+    isSaved = true;
 
     setAllSyncState(
         synced?SyncableParamSingleMixin.stateSynced:
@@ -150,10 +153,10 @@ class OwnSong extends Song<OwnSongGetResp>{
       synchronizer.post();
   }
   
-  static Future<OwnSong> fromRespMap(String fileName, Map respMap) async {
-    SongDataEntity songStuff = await Song.fromRespMap(fileName, respMap);
+  static Future<OwnSong> fromRespMapSaved(String lclId, Map respMap) async {
+    SongDataEntity songStuff = await Song.fromRespMap(lclId, respMap);
     return OwnSong(
-      fileName,
+      lclId,
       songStuff.title,
       songStuff.hidTitles,
       songStuff.authors,
@@ -171,7 +174,37 @@ class OwnSong extends Song<OwnSongGetResp>{
       songStuff.baseChords,
       songStuff.ratePrimWrap,
       songStuff.memoryList,
-      songStuff.memoryMap
+      songStuff.memoryMap,
+
+      code: '',
+      isSaved: true
+    );
+  }
+  static Future<OwnSong> fromRespMapNotSaved(String lclId, Map respMap, {String? code}) async {
+    SongDataEntity songStuff = await Song.fromRespMap(lclId, respMap);
+    return OwnSong(
+        lclId,
+        songStuff.title,
+        songStuff.hidTitles,
+        songStuff.authors,
+        songStuff.composers,
+        songStuff.performers,
+        songStuff.releaseDate,
+        songStuff.showRelDateMonth,
+        songStuff.showRelDateDay,
+        songStuff.addPers,
+        songStuff.youtubeLink,
+        songStuff.audios,
+        songStuff.tags,
+        songStuff.hasChords,
+        songStuff.text,
+        songStuff.baseChords,
+        songStuff.ratePrimWrap,
+        songStuff.memoryList,
+        songStuff.memoryMap,
+
+        code: jsonEncode(respMap),
+        isSaved: false
     );
   }
 
@@ -218,16 +251,19 @@ class OwnSong extends Song<OwnSongGetResp>{
   //
   // }
 
-  Future<void> recode(String code) async {
-    Map map = jsonDecode(code);
-    OwnSong song = await OwnSong.fromRespMap(lclId, map);
+  Future<bool> recode(String code) async {
+    OwnSong? song = await OwnSong.create(lclId: lclId, code: code);
+    if(song == null) return false;
     copyWith(song);
+    _code = code;
+    isSaved = false;
+    return true;
   }
 
   static const String syncClassId = 'ownSong';
 
   @override
-  String get classId => syncClassId;
+  String get debugClassId => syncClassId;
 
   @override
   SyncableParam? get parentParam => null;
@@ -241,8 +277,8 @@ class OwnSong extends Song<OwnSongGetResp>{
         SyncableParamSingle(
           this,
           paramId: paramCode,
-          value_: () => code,
-          isNotSet_: () => false,
+          value: () => code,
+          isNotSet: () => false,
         )
     );
 
@@ -250,10 +286,10 @@ class OwnSong extends Song<OwnSongGetResp>{
   }
 
   @override
-  void applySyncGetResp(OwnSongGetResp resp) {
-    super.applySyncGetResp(resp);
+  Future<void> applySyncGetResp(OwnSongGetResp resp) async {
     recode(resp.code);
-    save();
+    await save(localOnly: true, synced: true);
+    super.applySyncGetResp(resp);
   }
 
 }

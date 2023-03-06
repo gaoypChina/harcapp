@@ -11,7 +11,6 @@ import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/memory.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/own_song.dart';
-import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core_song/song_core.dart';
 import 'package:harcapp_core_song_widget/song_rate.dart';
@@ -62,16 +61,19 @@ void main() {
     song1CodeMap[SongCore.PARAM_TITLE] = 'Tytuł mojej super testowej piosenki 1';
     OwnSong ownSong1 = (await OwnSong.create(lclId: 'abcd-1234-1', code: jsonEncode(song1CodeMap)))!;
     ownSong1.save(localOnly: true);
+    OwnSong.addToAll(ownSong1);
 
     Map song2CodeMap = jsonDecode(OwnSong.emptySongCode);
     song2CodeMap[SongCore.PARAM_TITLE] = 'Tytuł mojej super testowej piosenki 2';
     OwnSong ownSong2 = (await OwnSong.create(lclId: 'abcd-1234-2', code: jsonEncode(song2CodeMap)))!;
     ownSong2.save(localOnly: true);
+    OwnSong.addToAll(ownSong2);
 
     Map song3CodeMap = jsonDecode(OwnSong.emptySongCode);
     song3CodeMap[SongCore.PARAM_TITLE] = 'Tytuł mojej super testowej piosenki 3';
     OwnSong ownSong3 = (await OwnSong.create(lclId: 'abcd-1234-3', code: jsonEncode(song3CodeMap)))!;
     ownSong3.save(localOnly: true);
+    OwnSong.addToAll(ownSong3);
 
     Album album = Album.create(
         title: 'Obóz 2021',
@@ -81,6 +83,7 @@ void main() {
         iconKey: CommonIconData.all.keys.toList()[20]
     );
     album.save(localOnly: true);
+    Album.addToAll(album);
 
     await synchronizer.post();
 
@@ -111,13 +114,19 @@ void main() {
     assert(OwnSong.allOwnMap['abcd-1234-2']!.title == 'Tytuł mojej super testowej piosenki 2');
     assert(OwnSong.allOwnMap['abcd-1234-3']!.title == 'Tytuł mojej super testowej piosenki 3');
 
-    assert(Album.all.length == 1);
-    assert(Album.all[0].lclId == album.lclId);
-    assert(Album.all[0].title == 'Obóz 2021');
-    assert(Album.all[0].offSongs == [OffSong.allOfficial[10], OffSong.allOfficial[11], OffSong.allOfficial[12]]);
-    assert(Album.all[0].ownSongs == [OwnSong.allOwnMap['abcd-1234-1'], OwnSong.allOwnMap['abcd-1234-2']]);
-    assert(Album.all[0].colorsKey == CommonColorData.all.keys.toList()[10]);
-    assert(Album.all[0].iconKey == CommonIconData.all.keys.toList()[20]);
+    assert(Album.allOwn.length == 1);
+    assert(Album.allOwn[0].lclId == album.lclId);
+    assert(Album.allOwn[0].title == 'Obóz 2021');
+    assert(Album.allOwn[0].offSongs.length == 3);
+    assert(Album.allOwn[0].offSongs[0].lclId == OffSong.allOfficial[10].lclId);
+    assert(Album.allOwn[0].offSongs[1].lclId == OffSong.allOfficial[11].lclId);
+    assert(Album.allOwn[0].offSongs[2].lclId == OffSong.allOfficial[12].lclId);
+
+    assert(Album.allOwn[0].ownSongs.length == 2);
+    assert(Album.allOwn[0].ownSongs[0].lclId == 'abcd-1234-1');
+    assert(Album.allOwn[0].ownSongs[1].lclId == 'abcd-1234-2');
+    assert(Album.allOwn[0].colorsKey == CommonColorData.all.keys.toList()[10]);
+    assert(Album.allOwn[0].iconKey == CommonIconData.all.keys.toList()[20]);
 
   });
 

@@ -285,23 +285,23 @@ class ApiSync{
           }
 
           logger.i('Sync get response received:'
-              '\nOrgData:'
+              '\n\nOrgData:'
               '\n${prettyJson(orgData)}'
-              '\nAppSettings:'
+              '\n\nAppSettings:'
               '\n${prettyJson(appSettingsData)}'
-              '\nSongBookSettings'
+              '\n\nSongBookSettings:'
               '\n${prettyJson(songBookSettingsData)}'
-              '\nOffSongs:'
+              '\n\nOffSongs:'
               '\n${prettyJson(offSongs)}'
-              '\nOwnSongs:'
+              '\n\nOwnSongs:'
               '\n${prettyJson(ownSongs)}'
-              '\nAlbums:'
+              '\n\nAlbums:'
               '\n${prettyJson(albums)}'
-              '\nSpraws:'
+              '\n\nSpraws:'
               '\n${prettyJson(spraws)}'
-              '\nRankDefs:'
+              '\n\nRankDefs:'
               '\n${prettyJson(rankDefs)}'
-              '\nRankZhpSim2022:'
+              '\n\nRankZhpSim2022:'
               '\n${prettyJson(rankZhpSim2022)}'
 
           );
@@ -347,30 +347,31 @@ class ApiSync{
         }
 
         for(String lclId in ownSongs.keys){
-          OwnSong? song = OwnSong.allOwnMap[lclId];
-          if(song == null) continue;
           OwnSongGetResp songResp = ownSongs[lclId]!;
-          song = await OwnSong.create(lclId: lclId, code: songResp.code);
-          if(song == null) continue;
-          song.save(localOnly: true, synced: true);
-          OwnSong.addOwn(song);
-          song.applySyncGetResp(songResp);
+          OwnSong? song = OwnSong.allOwnMap[lclId];
+          if(song == null) {
+            song = await OwnSong.create(lclId: lclId, code: songResp.code);
+            if (song == null) continue;
+            await song.save(localOnly: true, synced: true);
+            OwnSong.addToAll(song);
+          }
+          await song.applySyncGetResp(songResp);
         }
 
         for(String lclId in albums.keys){
-          Album? album = Album.allMap[lclId];
           AlbumGetResp albumResp = albums[lclId]!;
+          Album? album = Album.allMap[lclId];
           if(album == null) {
 
             List<OffSong> offSongs = [];
-            for(String lclId in albumResp.offSongs){
-              OffSong? song = OffSong.allOfficialMap[lclId];
+            for(String offSongLclId in albumResp.offSongs){
+              OffSong? song = OffSong.allOfficialMap[offSongLclId];
               if(song != null) offSongs.add(song);
             }
 
             List<OwnSong> ownSongs = [];
-            for(String lclId in albumResp.offSongs){
-              OwnSong? song = OwnSong.allOwnMap[lclId];
+            for(String ownSongLclId in albumResp.ownSongs){
+              OwnSong? song = OwnSong.allOwnMap[ownSongLclId];
               if(song != null) ownSongs.add(song);
             }
 

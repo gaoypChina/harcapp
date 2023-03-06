@@ -41,7 +41,10 @@ abstract class RankDefTempl<T extends RankState> extends Rank<RankDefData, RankD
 
   @override
   SyncableParam? get parentParam => null;
-
+  
+  @override
+  String get debugClassId => RankDef.syncClassId;
+  
 }
 
 class RankDef extends RankDefTempl<RankStateLocal>{
@@ -71,7 +74,7 @@ class RankDef extends RankDefTempl<RankStateLocal>{
   RankDef(super.data, super.cats);
 
   static const String syncClassId = 'rank_def';
-
+  
 //@override
 //SyncableParam get parentParam => RootSyncable(syncClassId);
 

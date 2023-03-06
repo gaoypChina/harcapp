@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
@@ -280,7 +281,7 @@ class SongWidget extends StatelessWidget{
       if(song.deleteSongFile()){
         showAppToast(context, text: 'Usunięto piosenkę');
 
-        OwnSong.removeOwn(song as OwnSong);
+        OwnSong.removeFromAll(song as OwnSong);
         parent!.notify();
         CatPageSongBookState.lastPage = parent!.pageController.page!.toInt();
         for(Album album in Album.allOwn)
@@ -299,7 +300,7 @@ class SongWidget extends StatelessWidget{
     ),
 
     onEditTap: (prov) async{
-      Map? map = await getSongMap(song.lclId);
+      Map? map = jsonDecode(await song.code);
       if(map == null){
         showAppToast(context, text: 'Coś jest nie tak z piosenką');
         return;

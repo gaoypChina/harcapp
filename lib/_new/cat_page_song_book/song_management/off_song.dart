@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/sync_resp_body/off_song_get_resp.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
@@ -93,6 +96,19 @@ class OffSong extends Song<OffSongGetResp>{
   SyncableParam? get parentParam => null;
 
   @override
-  String get classId => syncClassId;
+  String get debugClassId => syncClassId;
+
+  @override
+  Future<String> get code async {
+    if(lclId.length > 4 && lclId.substring(0, 4) == 'oc!_') {
+      String? jsonCode = await readStringFromAssets('assets/songs/all_songs.hrcpsng');
+      Map allSongsMap = jsonDecode(jsonCode!);
+      return jsonEncode(allSongsMap['conf'][lclId]['song']);
+    }
+
+    String? jsonCode = await readStringFromAssets('assets/songs/all_songs.hrcpsng');
+    Map allSongsMap = jsonDecode(jsonCode!);
+    return jsonEncode(allSongsMap['official'][lclId]['song']);
+  }
 
 }

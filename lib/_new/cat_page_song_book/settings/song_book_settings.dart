@@ -119,52 +119,55 @@ class SongBookSettings with SyncableParamGroupMixin, SyncGetRespNode<SongBookSet
     SyncableParamSingle(
         this,
         paramId: PARAM_ALWAYS_ON_SCREEN,
-        value_: () => alwaysOnScreen,
+        value: () => alwaysOnScreen,
     ),
     SyncableParamSingle(
         this,
         paramId: PARAM_SCROLL_TEXT,
-        value_: () => scrollText
+        value: () => scrollText
     ),
     SyncableParamSingle(
         this,
         paramId: PARAM_AUTOSCROLL_TEXT_SPEED,
-        value_: () => autoscrollTextSpeed
+        value: () => autoscrollTextSpeed
     ),
     SyncableParamSingle(
         this,
         paramId: PARAM_SHOW_CHORDS,
-        value_: () => showChords
+        value: () => showChords
     ),
     SyncableParamSingle(
         this,
         paramId: PARAM_CHORDS_TRAILING,
-        value_: () => chordsTrailing
+        value: () => chordsTrailing
     ),
     SyncableParamSingle(
         this,
         paramId: PARAM_SHOW_DRAW_CHORDS,
-        value_: () => showDrawChords
+        value: () => showDrawChords
     ),
     SyncableParamSingle(
         this,
         paramId: PARAM_DRAW_CHORDS_TYPE,
-        value_: () => instrumentTypeToInt(drawChordsType)
+        value: () => instrumentTypeToInt(drawChordsType)
     ),
     SyncableParamSingle(
         this,
         paramId: PARAM_SHOW_ALBUM_ICON,
-        value_: () => showAlbumIcon
+        value: () => showAlbumIcon
     ),
     SyncableParamSingle(
         this,
         paramId: PARAM_SHOW_TAB_OF_CONT_ON_START,
-        value_: () => showTabOfContOnStart
+        value: () => showTabOfContOnStart
     ),
   ];
 
   static const String syncClassId = 'song_book_settings';
-
+  
+  @override
+  String get debugClassId => syncClassId;
+  
   @override
   SyncableParam? get parentParam => null;
 

@@ -78,13 +78,7 @@ class RankTask with SyncableParamGroupMixin, SyncGetRespNode<RankTaskResp> imple
   RankTask(this.data, this.group, this.index);
 
   String get old_uid =>
-      rank!.version.toString() + '_' +
-          rank!.org.toString() + '_' +
-          rank!.id +
-          catExt!.index.toString() + '_' +
-          group!.index.toString() + '_' +
-          index.toString();
-
+      '${rank!.version}_${rank!.org}_${rank!.id}${catExt!.index}_${group!.index}_$index';
 
   String get uid =>
       rank!.uniqRankName + uidSep +
@@ -93,6 +87,9 @@ class RankTask with SyncableParamGroupMixin, SyncGetRespNode<RankTaskResp> imple
           index.toString();
 
   static const String uidSep = '%';
+
+  @override
+  String get debugClassId => Rank.paramTasks;
 
   @override
   SyncableParam get parentParam => rank!;
@@ -106,13 +103,13 @@ class RankTask with SyncableParamGroupMixin, SyncGetRespNode<RankTaskResp> imple
     SyncableParamSingle(
       this,
       paramId: PARAM_COMPLETED,
-      value_: () => completed,
+      value: () => completed,
     ),
 
     SyncableParamSingle(
       this,
       paramId: PARAM_NOTE,
-      value_: () => note,
+      value: () => note,
     ),
 
   ];
