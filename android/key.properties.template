@@ -1,4 +1,4 @@
 storePassword=...
 keyPassword=...
-keyAlias=key
-storeFile=key.jks
+keyAlias=key-name-of-the-app
+storeFile=path/to/key.jks
