@@ -8,7 +8,9 @@ class CommonColorData{
 
   static const String defColorsKey = goldKey;
   static const String confColorsKey = 'dawn';
-  static const String omegaColorsKey = 'omegaalbum';
+  static const String omegaAlbumColorsKey = 'omega_album';
+  static const String ownSongsAlbumColorsKey = 'own_songs_album';
+  static const String toLearnAlbumColorsKey = 'to_learn_album';
   static const String spaceColorsKey = 'blueberry';
 
   static const String chocolateKey = 'chocolate';
@@ -70,7 +72,9 @@ class CommonColorData{
     blackberryKey: CommonColorData(Colors.purple[900]!, Colors.black, true),
     blackwoodKey: CommonColorData(Colors.brown[800]!, Colors.black, true),
 
-    omegaColorsKey: const CommonColorData(Colors.greenAccent, Colors.blue, false)
+    omegaAlbumColorsKey: const CommonColorData(Colors.greenAccent, Colors.blue, false),
+    ownSongsAlbumColorsKey: const CommonColorData(Colors.yellow, Colors.pink, false),
+    toLearnAlbumColorsKey: const CommonColorData(Colors.yellow, Colors.teal, false),
   };
 
   static CommonColorData get(String key, {String defKey = defColorsKey}) =>

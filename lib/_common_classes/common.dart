@@ -274,7 +274,7 @@ Future<void> factoryResetLocal(BuildContext context) async {
 
   await factoryResetLocalSilent();
 
-  albumProvider.current = Album.omega;
+  albumProvider.current = OmegaAlbum();
 
   sprawSavedListProv.notify();
   sprawInProgressListProv.notify();

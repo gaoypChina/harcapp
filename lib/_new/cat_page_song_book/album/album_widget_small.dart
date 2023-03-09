@@ -7,6 +7,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
+import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -14,7 +15,7 @@ class AlbumWidgetSmall extends StatelessWidget{
 
   static const double iconSize = 36.0;
 
-  final Album album;
+  final BaseAlbum album;
   final bool? selected;
   final Widget? trailing;
   final bool showSongCount;
@@ -36,16 +37,17 @@ class AlbumWidgetSmall extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    bool selected = this.selected??Album.current == album;
+    bool selected = this.selected??BaseAlbum.current == album;
 
     CommonColorData albColor = CommonColorData.get(album.colorsKey);
     IconData? iconData = CommonIconData.get(album.iconKey);
 
-    Widget widget = Container(
-      decoration: BoxDecoration(
-          color: selected?backgroundIcon_(context):Colors.transparent,
-          borderRadius: BorderRadius.circular(AppCard.bigRadius)
-      ),
+    return SimpleButton(
+      clipBehavior: Clip.none,
+      color: selected?cardEnab_(context):Colors.transparent,
+      borderRadius: BorderRadius.circular(AppCard.bigRadius),
+      onTap: onTap,
+      onLongPress: onLongPress,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -74,7 +76,7 @@ class AlbumWidgetSmall extends StatelessWidget{
                   Hero(
                     tag: AlbumWidget.heroTagTitle(album),
                     child: Text(
-                        album.title!,
+                        album.title,
                         style: AppTextStyle(
                           fontWeight: weight.halfBold,
                           fontSize: Dimen.TEXT_SIZE_BIG,
@@ -121,13 +123,6 @@ class AlbumWidgetSmall extends StatelessWidget{
 
         ],
       ),
-    );
-
-    return InkWell(
-      borderRadius: BorderRadius.circular(AppCard.bigRadius),
-      onTap: onTap,
-      onLongPress: onLongPress,
-      child: widget,
     );
 
   }

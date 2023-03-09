@@ -9,7 +9,7 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core_song_widget/providers.dart';
 import 'package:provider/provider.dart';
 
-import '../_main.dart';
+import '../album/album_name.dart';
 
 
 class SettingsPage extends StatefulWidget {
@@ -39,7 +39,7 @@ class SettingsPageState extends State<SettingsPage> {
         setState(() => SongBookSettings.alwaysOnScreen = value);
         if(widget.onScreenAlwaysOnChanged!=null) widget.onScreenAlwaysOnChanged!(value);
       },
-      activeColor: Album.current.avgColorDarkSensitive(context),
+      activeColor: BaseAlbum.current.avgColorDarkSensitive(context),
     );
 
     Widget textScroll = Column(
@@ -53,7 +53,7 @@ class SettingsPageState extends State<SettingsPage> {
           onChanged: (bool value){
             setState(() => SongBookSettings.scrollText = value);
           },
-          activeColor: Album.current.avgColorDarkSensitive(context),
+          activeColor: BaseAlbum.current.avgColorDarkSensitive(context),
         ),
 
       ],);
@@ -66,7 +66,7 @@ class SettingsPageState extends State<SettingsPage> {
               value: prov.showChords,
               title: Text('Pokaż chwyty', style: textStyle),
               onChanged: (bool value) => prov.showChords = value,
-              activeColor: Album.current.avgColorDarkSensitive(context),
+              activeColor: BaseAlbum.current.avgColorDarkSensitive(context),
             ),
           ),
 
@@ -75,7 +75,7 @@ class SettingsPageState extends State<SettingsPage> {
               value: prov.chordsTrailing,
               title: Text('Chwyty po prawej', style: textStyle),
               onChanged: (bool value) => prov.chordsTrailing = value,
-              activeColor: Album.current.avgColorDarkSensitive(context),
+              activeColor: BaseAlbum.current.avgColorDarkSensitive(context),
             ),
           ),
 
@@ -86,11 +86,11 @@ class SettingsPageState extends State<SettingsPage> {
               onChanged: (bool value){
                 prov.chordsDrawShow = value;
                 Provider.of<TextSizeProvider>(context, listen: false).reinit(
-                    Album.current.songs[CatPageSongBookState.lastPage],
+                    BaseAlbum.current.lastOpenSong,
                     chordsVisible: ShowChordsProvider.of(context).showChords
                 );
               },
-              activeColor: Album.current.avgColorDarkSensitive(context),
+              activeColor: BaseAlbum.current.avgColorDarkSensitive(context),
             ),
           ),
 
@@ -106,7 +106,7 @@ class SettingsPageState extends State<SettingsPage> {
         //widget.parent.setSettings();
         //widget.parent.notify(false);
       },
-      activeColor: Album.current.avgColorDarkSensitive(context),
+      activeColor: BaseAlbum.current.avgColorDarkSensitive(context),
     );
 
     Widget tabOfContOnStart = SwitchListTile(
@@ -116,7 +116,7 @@ class SettingsPageState extends State<SettingsPage> {
         setState(() => SongBookSettings.showTabOfContOnStart = value);
         //widget.parent.notify(false);
       },
-      activeColor: Album.current.avgColorDarkSensitive(context),
+      activeColor: BaseAlbum.current.avgColorDarkSensitive(context),
     );
 
     Widget albumNameCard = Column(
@@ -143,7 +143,7 @@ class SettingsPageState extends State<SettingsPage> {
           value: AlbumName.album,
           groupValue: albumName,
           onChanged: (AlbumName? value) => setState(() => albumName = AlbumName.album),
-          activeColor: Album.current.avgColorDarkSensitive(context),
+          activeColor: BaseAlbum.current.avgColorDarkSensitive(context),
         ),
         RadioListTile<AlbumName>(
           title: Text(
@@ -154,7 +154,7 @@ class SettingsPageState extends State<SettingsPage> {
           value: AlbumName.wolumin,
           groupValue: albumName,
           onChanged: (AlbumName? value) => setState(() => albumName = AlbumName.wolumin),
-          activeColor: Album.current.avgColorDarkSensitive(context),
+          activeColor: BaseAlbum.current.avgColorDarkSensitive(context),
         ),
         RadioListTile<AlbumName>(
           title: Text(
@@ -165,7 +165,7 @@ class SettingsPageState extends State<SettingsPage> {
           value: AlbumName.grajdziupla,
           groupValue: albumName,
           onChanged: (AlbumName? value) => setState(() => albumName = AlbumName.grajdziupla),
-          activeColor: Album.current.avgColorDarkSensitive(context),
+          activeColor: BaseAlbum.current.avgColorDarkSensitive(context),
         ),
         RadioListTile<AlbumName>(
           title: Text(
@@ -176,7 +176,7 @@ class SettingsPageState extends State<SettingsPage> {
           value: AlbumName.skladanka,
           groupValue: albumName,
           onChanged: (AlbumName? value) => setState(() => albumName = AlbumName.skladanka),
-          activeColor: Album.current.avgColorDarkSensitive(context),
+          activeColor: BaseAlbum.current.avgColorDarkSensitive(context),
         ),
         RadioListTile<AlbumName>(
           title: Text(
@@ -187,7 +187,7 @@ class SettingsPageState extends State<SettingsPage> {
           value: AlbumName.didzejka,
           groupValue: albumName,
           onChanged: (AlbumName? value) => setState(() => albumName = AlbumName.didzejka),
-          activeColor: Album.current.avgColorDarkSensitive(context),
+          activeColor: BaseAlbum.current.avgColorDarkSensitive(context),
         ),
       ],
     );

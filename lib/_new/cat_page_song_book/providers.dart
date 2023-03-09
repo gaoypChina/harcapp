@@ -43,27 +43,27 @@ class AlbumProvider extends ChangeNotifier{
   static AlbumProvider of(BuildContext context) => Provider.of<AlbumProvider>(context, listen: false);
   static notify_(BuildContext context) => of(context).notify();
 
-  Album get current => Album.current;
-  set current(Album album){
-    Album.current = album;
+  BaseAlbum get current => BaseAlbum.current;
+  set current(BaseAlbum album){
+    BaseAlbum.current = album;
     notifyListeners();
   }
 
-  List<Album> get all => Album.all;
-  List<Album>? get allOwn => Album.allOwn;
+  List<BaseAlbum> get all => BaseAlbum.all;
+  List<OwnAlbum>? get allOwn => OwnAlbum.all;
 
-  add(Album album){
-    Album.addToAll(album);
+  add(OwnAlbum album){
+    OwnAlbum.addToAll(album);
     notifyListeners();
   }
 
-  removeFromAll(Album album){
-    Album.removeFromAll(album);
+  removeFromAll(OwnAlbum album){
+    OwnAlbum.removeFromAll(album);
     notifyListeners();
   }
 
-  insertToAll(int index, Album album){
-    Album.insertToAll(index, album);
+  insertToAll(int index, OwnAlbum album){
+    OwnAlbum.insertToAll(index, album);
     notifyListeners();
   }
 

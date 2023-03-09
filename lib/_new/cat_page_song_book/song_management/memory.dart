@@ -180,13 +180,13 @@ class Memory extends SyncableParamGroupMixin with SyncGetRespNode<MemoryGetResp>
       paramPublished: published,
     };
 
-    return json.encode(map);
+    return jsonEncode(map);
 
   }
 
   static Memory decode(String fileName, String code){
 
-    Map<String, dynamic> map = json.decode(code);
+    Map<String, dynamic> map = jsonDecode(code);
 
     String songFileName = map[paramSongFileName];
     DateTime? date;

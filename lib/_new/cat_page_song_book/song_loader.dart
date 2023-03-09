@@ -12,6 +12,7 @@ import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/own_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/logger.dart';
+import 'package:harcapp_core_song_widget/song_rate.dart';
 import 'package:path/path.dart';
 import 'package:tuple/tuple.dart';
 
@@ -127,8 +128,8 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
 
   @override
   Future<void> perform() async {
-    List<Album> allAlbums = [];
-    Map<String, Album> allAlbumsMap = {};
+    List<OwnAlbum> allAlbums = [];
+    Map<String, OwnAlbum> allAlbumsMap = {};
 
     List<Memory> allMemories = [];
     Map<String, Memory> allMemoriesMap = {};
@@ -191,7 +192,8 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
 
     for (FileSystemEntity file in albumDir.listSync(recursive: false)) {
       try {
-        Album album = Album.read(basename(file.path), Song.all);
+        OwnAlbum? album = OwnAlbum.read(basename(file.path), Song.all);
+        if(album == null) continue;
 
         allAlbums.add(album);
         allAlbumsMap[album.lclId] = album;
@@ -200,8 +202,23 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
       }
     }
 
-    Album.allOwn = allAlbums;
-    Album.allMap = allAlbumsMap;
+    ToLearnAlbum? album = ToLearnAlbum.read(Song.all);
+    if(album == null) ToLearnAlbum.loaded = ToLearnAlbum([], []);
+    else ToLearnAlbum.loaded = album;
+    ToLearnAlbum.initialized = true;
+
+    // TMP TMP TMP
+    for(Song song in Song.all){
+      if(song.rate == -1) {
+        ToLearnAlbum.loaded.addSong(song);
+        song.setRate(SongRate.RATE_NULL);
+      }
+      ToLearnAlbum.loaded.save();
+    }
+    // End: TMP
+
+    OwnAlbum.all = allAlbums;
+    OwnAlbum.allMap = allAlbumsMap;
 
     Memory.all = allMemories;
     Memory.allMap = allMemoriesMap;
@@ -210,23 +227,23 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
     // LOAD CURRENT ALBUM
 
     String? currAlbumFileName = ShaPref.getString(
-        ShaPref.SHA_PREF_SPIEWNIK_CURR_ALBUM, Album.omega.lclId);
+        ShaPref.SHA_PREF_SPIEWNIK_CURR_ALBUM, OmegaAlbum().lclId);
 
     bool currAlbumSet = false;
-    for (Album album in allAlbums)
+    for (OwnAlbum album in allAlbums)
       if (album.lclId == currAlbumFileName) {
-        Album.initCurrent(album);
+        BaseAlbum.current = album;
         currAlbumSet = true;
         break;
       }
 
     if (!currAlbumSet)
-      Album.initCurrent(Album.omega);
+      BaseAlbum.current = OmegaAlbum();
 
     OffSong.initialized = true;
     OwnSong.initialized = true;
     Memory.initialized = true;
-    Album.initialized = true;
+    OwnAlbum.initialized = true;
   }
 
 }

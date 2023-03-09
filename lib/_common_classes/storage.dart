@@ -41,8 +41,11 @@ String get getOwnSongFilePath => _localPath + getOwnSongFileLocalPath;
 String get getSongMemoriesFolderLocalPath => '/song_memories/';
 String get getSongMemoriesFolderPath => _localPath + getSongMemoriesFolderLocalPath;
 
-String get getAlbumFolderLocalPath => '/albums/';
-String get getAlbumFolderPath => _localPath + getAlbumFolderLocalPath;
+String get getToLearnAlbumLocalPath => '/predefined_albums/to_learn_album';
+String get getToLearnAlbumPath => _localPath + getToLearnAlbumLocalPath;
+
+String get getOwnAlbumsFolderLocalPath => '/albums/';
+String get getAlbumFolderPath => _localPath + getOwnAlbumsFolderLocalPath;
 
 String get getMyTropFolderLocalPath => '/tropy/own/';
 String get getOwnTropFolderPath => _localPath + getMyTropFolderLocalPath;

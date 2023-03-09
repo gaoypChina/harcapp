@@ -6,12 +6,13 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 
+import '../album/album_name.dart';
 import '_main.dart';
 
 class AlbumPart extends StatefulWidget{
 
   final OwnSongPageState parent;
-  List<Album>? get albums => parent.albums;
+  List<OwnAlbum>? get albums => parent.albums;
 
   const AlbumPart(this.parent, {super.key});
 
@@ -22,15 +23,15 @@ class AlbumPart extends StatefulWidget{
 
 class AlbumPartState extends State<AlbumPart>{
 
-  List<Album>? get albums => widget.albums;
+  List<OwnAlbum>? get albums => widget.albums;
 
   @override
   Widget build(BuildContext context) {
 
     List<Widget> children = [];
 
-    for(int i=0; i<Album.allOwn.length; i++){
-      Album album = Album.allOwn[i];
+    for(int i=0; i<OwnAlbum.all.length; i++){
+      OwnAlbum album = OwnAlbum.all[i];
 
       children.add(
           AlbumWidgetSmall(
@@ -48,7 +49,7 @@ class AlbumPartState extends State<AlbumPart>{
           )
       );
 
-      if(i < Album.allOwn.length-1)
+      if(i < OwnAlbum.all.length-1)
         children.add(const SizedBox(height: Dimen.ICON_MARG));
 
     }
@@ -106,9 +107,9 @@ class AlbumPicker extends StatefulWidget{
 
 class AlbumPickerState extends State<AlbumPicker>{
 
-  late List<Album> ownAlbums;
+  late List<OwnAlbum> ownAlbums;
 
-  late List<Album> albums;
+  late List<OwnAlbum> albums;
 
   @override
   void initState() {

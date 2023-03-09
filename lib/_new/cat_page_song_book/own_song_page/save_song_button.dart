@@ -18,7 +18,7 @@ class SaveSongButton extends StatefulWidget{
 
   final EditType editType;
 
-  final List<Album>? albums;
+  final List<OwnAlbum>? albums;
   final Function(Song song, EditType editType)? onSaved;
 
   const SaveSongButton(this.editType, {this.albums, this.onSaved, super.key});
@@ -30,7 +30,7 @@ class SaveSongButton extends StatefulWidget{
 
 class SaveSongButtonState extends State<SaveSongButton>{
 
-  List<Album>? get albums => widget.albums;
+  List<OwnAlbum>? get albums => widget.albums;
   EditType get editType => widget.editType;
   Function(Song song, EditType editType)? get onSaved => widget.onSaved;
 
@@ -90,7 +90,7 @@ class SaveSongButtonState extends State<SaveSongButton>{
           }
 
           OwnSong.addToAll(song);
-          for (Album album in albums!)
+          for (OwnAlbum album in albums!)
             album.addSong(song);
 
           song.setAllSyncState(SyncableParamSingleMixin.stateNotSynced);

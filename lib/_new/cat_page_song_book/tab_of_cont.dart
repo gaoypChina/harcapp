@@ -20,6 +20,7 @@ import 'package:harcapp_core_song_widget/song_rate.dart';
 import 'package:harcapp_core_tags/tag_layout.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import 'album/album_name.dart';
 import 'song_management/album.dart';
 import 'song_management/song.dart';
 
@@ -114,7 +115,7 @@ class TabOfContState extends State<TabOfCont>{
   void initState() {
 
     if(widget.controller == null)
-      _controller = TabOfContController(Album.current.songs);
+      _controller = TabOfContController(BaseAlbum.current.songs);
 
     textController = TextEditingController(text: controller.phrase);
     textController.addListener(() => controller.phrase = controller.phrase);
@@ -232,7 +233,7 @@ class _NoSongWidget extends StatelessWidget{
       children: <Widget>[
 
         EmptyMessageWidget(
-          text: 'Brak piosenek\no zadanych kryteriach${Album.current.isOmega?'':' w $albumie_'}',
+          text: 'Brak piosenek\no zadanych kryteriach${(BaseAlbum.current is OmegaAlbum)?'':' w $albumie_'}',
           icon: MdiIcons.bookSearchOutline,
         ),
 
@@ -544,15 +545,15 @@ class BottomSheetOptionsState extends State<BottomSheetOptions>{
 
             Row(
               children: <Widget>[
-                Expanded(child: RateCheckButton(SongRate.TEXT_DISLIKE, SongRate.RATE_DISLIKE, searchOptions, onTap: (_, __) => onChanged())),
+                Expanded(child: RateCheckButton(SongRate.textLike1, SongRate.RATE_1, searchOptions, onTap: (_, __) => onChanged())),
                 const SizedBox(width: Dimen.defMarg),
-                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_1, SongRate.RATE_LIKE_1, searchOptions, onTap: (_, __) => onChanged())),
+                Expanded(child: RateCheckButton(SongRate.textLike2, SongRate.RATE_2, searchOptions, onTap: (_, __) => onChanged())),
                 const SizedBox(width: Dimen.defMarg),
-                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_2, SongRate.RATE_LIKE_2, searchOptions, onTap: (_, __) => onChanged())),
+                Expanded(child: RateCheckButton(SongRate.textLike3, SongRate.RATE_3, searchOptions, onTap: (_, __) => onChanged())),
                 const SizedBox(width: Dimen.defMarg),
-                Expanded(child: RateCheckButton(SongRate.TEXT_LIKE_3, SongRate.RATE_LIKE_3, searchOptions, onTap: (_, __) => onChanged())),
+                Expanded(child: RateCheckButton(SongRate.textLike4, SongRate.RATE_4, searchOptions, onTap: (_, __) => onChanged())),
                 const SizedBox(width: Dimen.defMarg),
-                Expanded(child: RateCheckButton(SongRate.TEXT_BOOKMARK, SongRate.RATE_BOOKMARK, searchOptions, onTap: (_, __) => onChanged())),
+                Expanded(child: RateCheckButton(SongRate.textLike5, SongRate.RATE_5, searchOptions, onTap: (_, __) => onChanged())),
               ],
             ),
 

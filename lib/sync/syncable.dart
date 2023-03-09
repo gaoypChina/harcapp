@@ -44,10 +44,10 @@ mixin SyncGetRespNode<T extends SyncGetResp> on SyncableParam{
     childParams: OwnSong.allOwn,
   );
 
-  static SyncableParam get albumNodes => SyncableParamGroup(
+  static SyncableParam get ownAlbumNodes => SyncableParamGroup(
       null,
-      paramId: Album.syncClassId,
-      childParams: Album.allOwn,
+      paramId: OwnAlbum.syncClassId,
+      childParams: OwnAlbum.all,
   );
 
   static SyncableParam get rankDefNodes => SyncableParamGroup(
@@ -75,7 +75,8 @@ mixin SyncGetRespNode<T extends SyncGetResp> on SyncableParam{
 
     offSongNodes,
     ownSongNodes,
-    albumNodes,
+    ownAlbumNodes,
+    ToLearnAlbum.loaded,
 
     rankDefNodes,
     rankZHPSim2022Nodes,

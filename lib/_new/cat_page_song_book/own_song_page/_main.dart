@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:harcapp/_new/cat_page_song_book/own_song_page/save_song_button.d
 import 'package:harcapp/_new/cat_page_song_book/own_song_page/song_part_editor.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
-import 'package:harcapp/_new/cat_page_song_book/song_management/own_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
@@ -80,7 +78,7 @@ class OwnSongPageState extends State<OwnSongPage> {
 
   ScrollController? scrollController;
 
-  List<Album>? albums;
+  List<OwnAlbum>? albums;
 
   CurrentItemProvider? currItemProv;
 
@@ -94,8 +92,8 @@ class OwnSongPageState extends State<OwnSongPage> {
     albums = [];
 
     if(song != null)
-      for(Album album in Album.allOwn) {
-        if (album != Album.omega &&
+      for(OwnAlbum album in OwnAlbum.all) {
+        if (album is! OmegaAlbum &&
             album.songs.map((song) => song.lclId).contains(song!.lclId))
           albums!.add(album);
       }
@@ -109,10 +107,10 @@ class OwnSongPageState extends State<OwnSongPage> {
   Widget build(BuildContext context) => Theme(
       data: Theme.of(context).copyWith(
         // This is the accent color
-        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Album.current.avgColor),
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: BaseAlbum.current.avgColor),
         textSelectionTheme: TextSelectionThemeData(
-          cursorColor: Album.current.avgColor,
-          selectionHandleColor: Album.current.avgColor,
+          cursorColor: BaseAlbum.current.avgColor,
+          selectionHandleColor: BaseAlbum.current.avgColor,
         ),
       ),
       child: MultiProvider(
@@ -192,7 +190,7 @@ class OwnSongPageState extends State<OwnSongPage> {
                         child: TitleShortcutRowWidget(title: 'Informacje ogólne', /*icon: MdiIcons.textBoxOutline*/ textAlign: TextAlign.start),
                       ),
                       TopCards(
-                        accentColor: Album.current.avgColorDarkSensitive(context),
+                        accentColor: BaseAlbum.current.avgColorDarkSensitive(context),
                         onChangedTitle: (text) => currItemProv!.setTitle(text, notify: false),
                         onChangedHiddenTitles: (texts) => currItemProv!.setHidTitles(texts, notify: false),
                         onChangedAuthor: (texts) => currItemProv!.setAuthors(texts, notify: false),
@@ -213,14 +211,14 @@ class OwnSongPageState extends State<OwnSongPage> {
 
                       const SizedBox(height: sep),
 
-                      if(Album.allOwn.isNotEmpty)
+                      if(OwnAlbum.all.isNotEmpty)
                         AlbumPart(this),
 
-                      if(Album.allOwn.isNotEmpty)
+                      if(OwnAlbum.all.isNotEmpty)
                         const SizedBox(height: sep),
 
                       RefrenTemplate(
-                          accentColor: Album.current.avgColorDarkSensitive(context),
+                          accentColor: BaseAlbum.current.avgColorDarkSensitive(context),
                           onPartTap: () => openDialog(context: context, builder: (_) =>
                               SongPartEditor(
                                 initText: currItemProv!.song.refrenPart.getText(),
@@ -259,7 +257,7 @@ class OwnSongPageState extends State<OwnSongPage> {
                   ),
                   footer: AddButtonsWidget(
                       key: addButtonsKey,
-                      accentColor: Album.current.avgColorDarkSensitive(context),
+                      accentColor: BaseAlbum.current.avgColorDarkSensitive(context),
                       onPressed: ()async{
                         await Future.delayed(const Duration(milliseconds: 240));
                         Scrollable.ensureVisible(

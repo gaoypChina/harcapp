@@ -43,9 +43,9 @@ import 'package:provider/provider.dart';
 import '../../_common_widgets/person_data_getter.dart';
 import '../../main.dart';
 import 'album/album_chooser.dart';
+import 'album/album_name.dart';
 import 'bottom_sheet_report.dart';
 import 'bottom_sheet_words.dart';
-import 'common.dart';
 import 'common_youtube.dart';
 import 'copy_page.dart';
 import 'own_song_page/add_song_bottom_sheet.dart';
@@ -283,8 +283,8 @@ class SongWidget extends StatelessWidget{
 
         OwnSong.removeFromAll(song as OwnSong);
         parent!.notify();
-        CatPageSongBookState.lastPage = parent!.pageController.page!.toInt();
-        for(Album album in Album.allOwn)
+        BaseAlbum.current.lastOpenIndex = parent!.pageController.page!.toInt();
+        for(OwnAlbum album in OwnAlbum.all)
           album.removeSong(song);
       }else
         showAppToast(context, text: 'Błąd. Nie usunięto piosenki');
@@ -320,7 +320,7 @@ class SongWidget extends StatelessWidget{
               );
 
             parent!.notify();
-            int index = Album.current.songs.indexOf(song);
+            int index = BaseAlbum.current.songs.indexOf(song);
             parent!.pageController.jumpToPage(index);
           }
       );
@@ -431,7 +431,7 @@ class SongWidget extends StatelessWidget{
       height: Dimen.FLOATING_BUTTON_SIZE + 2*Dimen.FLOATING_BUTTON_MARG
     ),
 
-    accentColor: Album.current.avgColor,
+    accentColor: BaseAlbum.current.avgColor,
 
     addPersResolver: AddPersEmailResolver(
       textColor: textEnab_(context),

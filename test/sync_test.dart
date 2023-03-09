@@ -45,7 +45,7 @@ void main() {
 
     assert(response?.statusCode == 200);
 
-    OffSong.allOfficial[0].setRate(SongRate.RATE_LIKE_1, localOnly: true);
+    OffSong.allOfficial[0].setRate(SongRate.RATE_1, localOnly: true);
     OffSong.allOfficial[0].setChordShift(5, localOnly: true);
     OffSong.allOfficial[0].addMemory(Memory.create(
       OffSong.allOfficial[0].lclId,
@@ -75,7 +75,7 @@ void main() {
     ownSong3.save(localOnly: true);
     OwnSong.addToAll(ownSong3);
 
-    Album album = Album.create(
+    OwnAlbum album = OwnAlbum.create(
         title: 'Obóz 2021',
         offSongs: [OffSong.allOfficial[10], OffSong.allOfficial[11], OffSong.allOfficial[12]],
         ownSongs: [ownSong1, ownSong2],
@@ -83,7 +83,7 @@ void main() {
         iconKey: CommonIconData.all.keys.toList()[20]
     );
     album.save(localOnly: true);
-    Album.addToAll(album);
+    OwnAlbum.addToAll(album);
 
     await synchronizer.post();
 
@@ -97,7 +97,7 @@ void main() {
     await synchronizer.get();
     await synchronizer.get();
 
-    assert(OffSong.allOfficial[0].rate == SongRate.RATE_LIKE_1);
+    assert(OffSong.allOfficial[0].rate == SongRate.RATE_1);
     assert(OffSong.allOfficial[0].chordShift == 5);
 
     assert(OffSong.allOfficial[0].memories.length == 1);
@@ -114,19 +114,19 @@ void main() {
     assert(OwnSong.allOwnMap['abcd-1234-2']!.title == 'Tytuł mojej super testowej piosenki 2');
     assert(OwnSong.allOwnMap['abcd-1234-3']!.title == 'Tytuł mojej super testowej piosenki 3');
 
-    assert(Album.allOwn.length == 1);
-    assert(Album.allOwn[0].lclId == album.lclId);
-    assert(Album.allOwn[0].title == 'Obóz 2021');
-    assert(Album.allOwn[0].offSongs.length == 3);
-    assert(Album.allOwn[0].offSongs[0].lclId == OffSong.allOfficial[10].lclId);
-    assert(Album.allOwn[0].offSongs[1].lclId == OffSong.allOfficial[11].lclId);
-    assert(Album.allOwn[0].offSongs[2].lclId == OffSong.allOfficial[12].lclId);
+    assert(OwnAlbum.all.length == 1);
+    assert(OwnAlbum.all[0].lclId == album.lclId);
+    assert(OwnAlbum.all[0].title == 'Obóz 2021');
+    assert(OwnAlbum.all[0].offSongs.length == 3);
+    assert(OwnAlbum.all[0].offSongs[0].lclId == OffSong.allOfficial[10].lclId);
+    assert(OwnAlbum.all[0].offSongs[1].lclId == OffSong.allOfficial[11].lclId);
+    assert(OwnAlbum.all[0].offSongs[2].lclId == OffSong.allOfficial[12].lclId);
 
-    assert(Album.allOwn[0].ownSongs.length == 2);
-    assert(Album.allOwn[0].ownSongs[0].lclId == 'abcd-1234-1');
-    assert(Album.allOwn[0].ownSongs[1].lclId == 'abcd-1234-2');
-    assert(Album.allOwn[0].colorsKey == CommonColorData.all.keys.toList()[10]);
-    assert(Album.allOwn[0].iconKey == CommonIconData.all.keys.toList()[20]);
+    assert(OwnAlbum.all[0].ownSongs.length == 2);
+    assert(OwnAlbum.all[0].ownSongs[0].lclId == 'abcd-1234-1');
+    assert(OwnAlbum.all[0].ownSongs[1].lclId == 'abcd-1234-2');
+    assert(OwnAlbum.all[0].colorsKey == CommonColorData.all.keys.toList()[10]);
+    assert(OwnAlbum.all[0].iconKey == CommonIconData.all.keys.toList()[20]);
 
   });
 
