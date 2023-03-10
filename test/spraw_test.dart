@@ -12,13 +12,15 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawno
 import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'utils.dart';
+
 
 void main() {
 
   test('Spraw uniqueness test', () async {
     TestWidgetsFlutterBinding.ensureInitialized(); // This is for enabling assets from tests.
-    await ShaPref.init();
-    await initPaths();
+    await initTestShaPref();
+    await initTestPaths();
     await synchronizer.reloadSyncables();
 
     List<String> uniqNames = [];
@@ -37,8 +39,8 @@ void main() {
 
   test('Spraw valid chars test', () async {
     TestWidgetsFlutterBinding.ensureInitialized(); // This is for enabling assets from tests.
-    await ShaPref.init();
-    await initPaths();
+    await initTestShaPref();
+    await initTestPaths();
     await synchronizer.reloadSyncables();
 
     for (Spraw spraw in Spraw.all) {

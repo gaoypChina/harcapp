@@ -5,135 +5,91 @@ import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/gradient_widget.dart';
-import 'package:harcapp_core/dimen.dart';
+import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:harcapp_core/dimen.dart';
 
 class AlbumWidget extends StatelessWidget{
 
-  static const double ICON_SIZE = 52.0;
+  static const double iconSize = 52.0;
+  static const double titlePaddingVal = 16.0;
 
-  static heroTagTitle(Album album) => '${album.fileName}\$TITLE';
-  static heroTagSongCnt(Album album) => '${album.fileName}\$SONG_CNT';
-  static heroTagIcon(Album album) => '${album.fileName}\$ICON';
-  static heroTagGradient(Album album) => '${album.fileName}\$GRADIENT';
+  static heroTagTitle(BaseAlbum album) => '${album.lclId}\$TITLE';
+  static heroTagSongCnt(BaseAlbum album) => '${album.lclId}\$SONG_CNT';
+  static heroTagIcon(BaseAlbum album) => '${album.lclId}\$ICON';
+  static heroTagGradient(BaseAlbum album) => '${album.lclId}\$GRADIENT';
 
-  final Album album;
-  final Function? onTap;
+  final BaseAlbum album;
+  final void Function()? onTap;
   final Widget? bottom;
-  final Widget? trailing;
 
-  const AlbumWidget(this.album, {this.onTap, this.bottom, this.trailing, super.key});
+  const AlbumWidget(this.album, {this.onTap, this.bottom, super.key});
 
   @override
   Widget build(BuildContext context) {
 
-    bool selected = Album.current == album;
+    bool selected = BaseAlbum.current == album;
 
-    Widget widget = Row(
-      children: <Widget>[
+    return SimpleButton(
+      clipBehavior: Clip.none,
+      radius: AppCard.bigRadius,
+      onTap: onTap,
+      color: selected?cardEnab_(context):null,
+      child: SizedBox(
+        height: Dimen.ICON_FOOTPRINT + 20.0 + 2*Dimen.ICON_MARG,
+        child: Row(
+          children: <Widget>[
 
-        Hero(
-          tag: heroTagGradient(album),
-          child: GradientWidget(
-              elevation: AppCard.bigElevation,
-              radius: AppCard.bigRadius,
-              colorStart: CommonColorData.get(album.colorsKey).colorStart,
-              colorEnd: CommonColorData.get(album.colorsKey).colorEnd,
-              height: 100,
-              width: 100,
-              child: Column(
-                children: [
+            Hero(
+              tag: heroTagGradient(album),
+              child: GradientWidget(
+                elevation: AppCard.bigElevation,
+                radius: AppCard.bigRadius,
+                colorStart: CommonColorData.get(album.colorsKey).colorStart,
+                colorEnd: CommonColorData.get(album.colorsKey).colorEnd,
+                height: Dimen.ICON_FOOTPRINT + 20.0 + 2*Dimen.ICON_MARG,
+                width: Dimen.ICON_FOOTPRINT + 20.0 + 2*Dimen.ICON_MARG,
+                child: Icon(
+                  CommonIconData.get(album.iconKey),
+                  color: background_(context),
+                  size: iconSize,
+                ),
+              ),
+            ),
 
-                  Expanded(
-                    child: Center(
-                      child: Icon(
-                        CommonIconData.get(album.iconKey),
-                        color: background_(context),
-                        size: ICON_SIZE,
-                      ),
-                    ),
-                  ),
+            Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
 
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: Dimen.ICON_MARG),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                            MdiIcons.music,
-                            size: 14,
-                            color: CommonColorData.get(album.colorsKey).iconColor.withOpacity(.4)
+                    Padding(
+                        padding: const EdgeInsets.only(
+                          top: Dimen.ICON_MARG,
+                          left: 16.0
                         ),
-                        const SizedBox(width: Dimen.defMarg),
-                        Text(
-                            '${album.songs.length}',
-                            style: AppTextStyle(
-                                fontSize: 14.0,
-                                fontWeight: weight.halfBold,
-                                color: CommonColorData.get(album.colorsKey).iconColor.withOpacity(.4)
+                        child: Hero(
+                            tag: heroTagTitle(album),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: Text(album.title,
+                                  style: AppTextStyle(
+                                      fontSize: 20.0,
+                                      fontWeight: weight.halfBold,
+                                      color: textEnab_(context))
+                              ),
                             )
                         )
-
-                      ],
                     ),
-                  )
 
-                ],
-              )
-          ),
-        ),
-
-        Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-
-                      Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Hero(
-                              tag: heroTagTitle(album),
-                              child: Material(
-                                color: Colors.transparent,
-                                child: Text(album.title!,
-                                    style: AppTextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: weight.halfBold,
-                                        color: textEnab_(context))
-                                ),
-                              )
-                          )
-                      ),
-
-                      if(bottom != null) bottom!,
-                    ],
-                  ),
+                    if(bottom != null) bottom!,
+                  ],
                 ),
+            ),
 
-                if(trailing != null) trailing!
-              ],
-            )
+          ],
         ),
-
-      ],
+      )
     );
-
-    if(selected)
-      return AppCard(
-          elevation: AppCard.bigElevation,//ELEVATION,
-          radius: AppCard.bigRadius,
-          padding: EdgeInsets.zero,
-          onTap: onTap as void Function()?,
-          child: widget
-      );
-    else
-      return InkWell(
-        borderRadius: const BorderRadius.all(Radius.circular(AppCard.bigRadius)),
-        onTap: onTap as void Function()?,
-        child: widget,
-      );
   }
 }

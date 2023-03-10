@@ -9,16 +9,16 @@ Future<void> popPage(BuildContext context) async {
   await Future.delayed(pageTransDuration);
 }
 
-pushPage(BuildContext context, {required Function(BuildContext) builder}) => Navigator.push(
+pushPage(BuildContext context, {required Widget Function(BuildContext) builder}) => Navigator.push(
     context,
-    MaterialPageRoute(builder: builder as Widget Function(BuildContext))
+    MaterialPageRoute(builder: builder)
 );
 
-pushReplacePage(BuildContext context, {required Function(BuildContext) builder}){
+pushReplacePage(BuildContext context, {required Widget Function(BuildContext) builder}){
   bool popped = false;
   Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: builder as Widget Function(BuildContext)), (route){
+      MaterialPageRoute(builder: builder), (route){
         bool result = popped;
         popped = true;
         return result;

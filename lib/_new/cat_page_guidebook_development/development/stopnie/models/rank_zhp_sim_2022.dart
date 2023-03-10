@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw.dart';
+import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_zhp_sim_2022_get_resp.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/header_widgets/sector_sep_widget.dart';
@@ -275,7 +276,10 @@ abstract class RankZHPSim2022Templ<T extends RankState> extends Rank<RankZHPSim2
       ],
     );
   }
-
+  
+  @override
+  String get debugClassId => RankZHPSim2022.syncClassId;
+  
 }
 
 class RankZHPSim2022 extends RankZHPSim2022Templ<RankStateLocal>{
@@ -302,6 +306,9 @@ class RankZHPSim2022 extends RankZHPSim2022Templ<RankStateLocal>{
 
   static const String syncClassId = 'rank_zhp_sim_2022';
 
+  @override
+  SyncableParam? get parentParam => null;
+
 }
 
 class RankZHPSim2022Preview extends RankZHPSim2022Templ<RankStateShared>{
@@ -313,5 +320,9 @@ class RankZHPSim2022Preview extends RankZHPSim2022Templ<RankStateShared>{
   RankZHPSim2022Preview preview(RankStateShared stateShared) => this;
 
   RankZHPSim2022Preview(super.data, this.state, super.cats);
+
+  @override
+  // TODO: Separate the rank template stuff do that preview is not syncable.
+  SyncableParam? get parentParam => null;
 
 }

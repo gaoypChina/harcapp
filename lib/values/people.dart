@@ -279,6 +279,9 @@ const Person ANTONINA_SZTYGLIC = Person(
 );
 const Person ARTUR_KOSTRZEWA = Person(
   name: 'Artur Kostrzewa',
+  druzyna: 'Puszczanie',
+  hufiec: huf_zhp_krakow_pdg,
+  org: Org.zhp,
   email: ['arturkos321@gmail.com'],
 );
 const Person ARTUR_RUSA = Person(name: 'Artur Rusa', stopH: StopZHP.zhpWywiadowca, hufiec: huf_zhp_pulawy, druzyna: '113 SDSH', org: Org.zhp,);

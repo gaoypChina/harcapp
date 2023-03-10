@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:harcapp/_common_classes/org/org_handler.dart';
@@ -17,35 +18,48 @@ import '../_new/cat_page_song_book/song_management/off_song.dart';
 import '../_new/cat_page_song_book/song_management/own_song.dart';
 import '../logger.dart';
 
+
 class NothingToSyncException implements Exception{}
 
-mixin SyncNode<T extends SyncGetResp?> on SyncableParam{
+class InvalidParamIdException implements Exception{
+
+  final String paramId;
+  const InvalidParamIdException(this.paramId);
+
+  @override
+  String toString() => "Invalid paramId: '$paramId'";
+}
+
+mixin SyncGetRespNode<T extends SyncGetResp> on SyncableParam{
 
   static SyncableParam get offSongNodes => SyncableParamGroup(
-      null,
-      paramId: OffSong.syncClassId,
-      childParams: OffSong.allOfficial);
+    null,
+    paramId: OffSong.syncClassId,
+    childParams: OffSong.allOfficial,
+  );
 
   static SyncableParam get ownSongNodes => SyncableParamGroup(
-      null,
-      paramId: OwnSong.syncClassId,
-      childParams: OwnSong.allOwn);
+    null,
+    paramId: OwnSong.syncClassId,
+    childParams: OwnSong.allOwn,
+  );
 
-  static SyncableParam get albumNodes => SyncableParamGroup(
+  static SyncableParam get ownAlbumNodes => SyncableParamGroup(
       null,
-      paramId: Album.syncClassId,
-      childParams: Album.allOwn);
+      paramId: OwnAlbum.syncClassId,
+      childParams: OwnAlbum.all,
+  );
 
   static SyncableParam get rankDefNodes => SyncableParamGroup(
       null,
       paramId: RankDef.syncClassId,
-      childParams: Rank.allSyncClassIdDef
+      childParams: Rank.allSyncClassIdDef,
   );
 
   static SyncableParam get rankZHPSim2022Nodes => SyncableParamGroup(
       null,
       paramId: RankZHPSim2022.syncClassId,
-      childParams: RankZHPSim2022.all
+      childParams: RankZHPSim2022.all,
   );
 
   static SyncableParam get sprawNodes => SyncableParamGroup(
@@ -61,7 +75,8 @@ mixin SyncNode<T extends SyncGetResp?> on SyncableParam{
 
     offSongNodes,
     ownSongNodes,
-    albumNodes,
+    ownAlbumNodes,
+    ToLearnAlbum.loaded,
 
     rankDefNodes,
     rankZHPSim2022Nodes,
@@ -69,7 +84,7 @@ mixin SyncNode<T extends SyncGetResp?> on SyncableParam{
     sprawNodes
   ];
 
-  void applySyncGetResp(T resp);
+  FutureOr<void> applySyncGetResp(T resp);
 
 }
 
@@ -78,6 +93,14 @@ abstract class SyncableParam{
   // Returns the nested param id path which uniquely identifies the syncable
   // parameter.
   List<String> get paramIdPath{
+
+    // This is one of the most stupid bugs in dart! If a class implements an
+    // interface with implemented methods, the implementation of these methods
+    // will be ignored!
+    // Solution:
+    // Copy the body of this method into:
+    // `SyncableParamSingleMixin` and `SyncableParamGroupMixin`.
+
     List<String> parentParamIds = [paramId];
     SyncableParam? parent = parentParam;
     while(parent != null){
@@ -87,9 +110,29 @@ abstract class SyncableParam{
     return parentParamIds;
   }
 
+  List<SyncableParam> get paramPath{
+
+    // This is one of the most stupid bugs in dart! If a class implements an
+    // interface with implemented methods, the implementation of these methods
+    // will be ignored!
+    // Solution:
+    // Copy the body of this method into:
+    // `SyncableParamSingleMixin` and `SyncableParamGroupMixin`.
+
+    List<SyncableParam> parentParamIds = [this];
+    SyncableParam? parent = parentParam;
+    while(parent != null){
+      parentParamIds.insert(0, parent);
+      parent = parent.parentParam;
+    }
+    return parentParamIds;
+  }
+
   // Some syncable parameter containing this parameter. If null, it means this
   // parameter is the root (SyncNode).
-  SyncableParam? parentParam;
+  SyncableParam? get parentParam;
+
+  String get debugClassId;
 
   String get paramId;
 
@@ -99,54 +142,13 @@ abstract class SyncableParam{
 
   void changeSyncStateInAll(List<int> stateFrom, int stateTo);
 
-  void setSingleState(String paramId, int state) =>
-      SyncableParamSingle_.setState(paramIdPath + [paramId], state);
-
   Future<dynamic> buildPostReq({bool includeDefaults = false, bool setSyncStateInProgress = false});
 
-  void saveSyncResult(dynamic synced, DateTime? lastSync){
-    if(this is SyncableParamSingle_) {
-      if(synced is! bool) logger.e('Sync problem! Single sync result: $synced');
-      SyncableParamSingle_.setState(paramIdPath, synced == true ? SyncableParamSingle_.stateSynced : SyncableParamSingle_.stateError);
-    } else if (this is SyncableParamGroup_) {
-      if(synced is! Map) logger.e('Sync problem! Group sync result: $synced');
-      for (String paramId in synced.keys) {
-
-        if(synced[paramId] == RemoveSyncItem.removedRespCode)
-          RemoveSyncItem.resolve((paramIdPath + [paramId]).join(RemoveSyncItem.paramSep));
-        else
-          (this as SyncableParamGroup_)
-            .childParams.firstWhere((param) => param.paramId == paramId)
-            .saveSyncResult(synced[paramId], lastSync);
-      }
-    }
-  }
+  void saveSyncResult(dynamic synced, DateTime? lastSync);
 
 }
 
-class SyncableParamSingle extends SyncableParamSingle_{
-
-  @override
-  final SyncableParam parentParam;
-
-  @override
-  final String paramId;
-
-  final dynamic Function() value_;
-
-  bool Function()? isNotSet_;
-
-  @override
-  dynamic get value => value_();
-
-  @override
-  bool get isNotSet => isNotSet_?.call()??false;
-
-  SyncableParamSingle(this.parentParam, {required this.paramId, required this.value_, this.isNotSet_});
-
-}
-
-abstract class SyncableParamSingle_ extends SyncableParam{
+abstract class SyncableParamSingleMixin implements SyncableParam{
 
   static bool logSyncStateChanges = true;
 
@@ -179,19 +181,19 @@ abstract class SyncableParamSingle_ extends SyncableParam{
   String get shaPrefKey => getShaPrefKey(paramIdPath);
 
   static String getShaPrefKey(List<String?> paramList) => ShaPref.SHA_PREF_SYNC_PARAM_(paramList.join(paramSepChar));
-  
+
   bool get hasState => ShaPref.exists(shaPrefKey);
 
   int get state => ShaPref.getInt(shaPrefKey, stateSynced);
 
   static int getState(List<String> paramList) => ShaPref.getInt(getShaPrefKey(paramList), stateSynced);
 
-  set state(int value) => setState(paramIdPath, value);
+  set state(int value) => setState(paramPath, value);
 
-  static void setState(List<String?> paramList, int state){
+  static void setState(List<SyncableParam> paramList, int state){
     if(logSyncStateChanges)
-      logger.i('Sync state change applied: ${paramList.join(', ')}: ${stateToString[state]}.');
-    ShaPref.setInt(getShaPrefKey(paramList), state);
+      logger.i('Sync state change applied: ${paramList.map((p) => '${p.debugClassId}: ${p.paramId}').join(', ')} :: ${stateToString[state]}.');
+    ShaPref.setInt(getShaPrefKey(paramList.map((p) => p.paramId).toList()), state);
   }
 
   void removeShaPrefState(){
@@ -228,37 +230,81 @@ abstract class SyncableParamSingle_ extends SyncableParam{
 
     int _state = state;
 
-    if(isNotSet || (_state == SyncableParamSingle_.stateSynced || _state == SyncableParamSingle_.stateWaitingDownload))
+    if(isNotSet || (_state == stateSynced || _state == stateWaitingDownload))
       throw NothingToSyncException();
 
     dynamic val = await value;
     if(setSyncStateInProgress)
-      state = SyncableParamSingle_.stateSyncInProgress;
+      state = stateSyncInProgress;
 
     return val;
   }
 
-}
-
-class SyncableParamGroup extends SyncableParamGroup_ {
+  @override
+  List<String> get paramIdPath{
+    // Copied from `SyncableParam`.
+    List<String> parentParamIds = [paramId];
+    SyncableParam? parent = parentParam;
+    while(parent != null){
+      parentParamIds.insert(0, parent.paramId);
+      parent = parent.parentParam;
+    }
+    return parentParamIds;
+  }
 
   @override
-  SyncableParam? parentParam;
+  List<SyncableParam> get paramPath{
+    // Copied from `SyncableParam`.
+    List<SyncableParam> parentParamIds = [this];
+    SyncableParam? parent = parentParam;
+    while(parent != null){
+      parentParamIds.insert(0, parent);
+      parent = parent.parentParam;
+    }
+    return parentParamIds;
+  }
+
+  @override
+  void saveSyncResult(synced, DateTime? lastSync) {
+    if(synced is! bool) logger.e('Sync problem! Single sync result: $synced');
+    setState(paramPath, synced == true ? stateSynced : stateError);
+  }
+
+}
+
+class SyncableParamSingle with SyncableParamSingleMixin{
+
+  @override
+  final SyncableParam parentParam;
 
   @override
   final String paramId;
 
   @override
-  final List<SyncableParam> childParams;
+  String get debugClassId => '__singleParam__';
 
-  SyncableParamGroup(this.parentParam, {required this.paramId, required this.childParams}){
-    for(SyncableParam param in childParams)
-      param.parentParam = this;
-  }
+  final dynamic Function() value_;
+
+  bool Function()? isNotSet_;
+
+  @override
+  dynamic get value => value_();
+
+  @override
+  bool get isNotSet => isNotSet_?.call()??false;
+
+  SyncableParamSingle(
+      this.parentParam,
+      { required this.paramId,
+        required dynamic Function() value,
+        bool Function()? isNotSet
+      }):
+        value_ = value,
+        isNotSet_ = isNotSet;
 
 }
 
-abstract class SyncableParamGroup_ extends SyncableParam{
+abstract class SyncableParamGroupMixin implements SyncableParam{
 
   @override
   bool get isSynced{
@@ -280,7 +326,7 @@ abstract class SyncableParamGroup_ extends SyncableParam{
   @override
   void changeSyncStateInAll(List<int> stateFrom, int stateTo) {
     for(SyncableParam param in childParams)
-        param.changeSyncStateInAll(stateFrom, stateTo);
+      param.changeSyncStateInAll(stateFrom, stateTo);
   }
 
   void clearAllSyncState(){
@@ -324,9 +370,76 @@ abstract class SyncableParamGroup_ extends SyncableParam{
     return map;
   }
 
+  @override
+  List<String> get paramIdPath{
+    // Copied from `SyncableParam`.
+    List<String> parentParamIds = [paramId];
+    SyncableParam? parent = parentParam;
+    while(parent != null){
+      parentParamIds.insert(0, parent.paramId);
+      parent = parent.parentParam;
+    }
+    return parentParamIds;
+  }
+
+  @override
+  List<SyncableParam> get paramPath{
+    // Copied from `SyncableParam`.
+    List<SyncableParam> parentParams = [this];
+    SyncableParam? parent = parentParam;
+    while(parent != null){
+      parentParams.insert(0, parent);
+      parent = parent.parentParam;
+    }
+    return parentParams;
+  }
+
+  @override
+  void saveSyncResult(synced, DateTime? lastSync) {
+    if(synced is! Map) logger.e('Sync problem! Group sync result: $synced');
+    for (String paramId in synced.keys) {
+
+      if(synced[paramId] == RemoveSyncItem.removedRespCode)
+        RemoveSyncItem.resolve((paramIdPath + [paramId]).join(RemoveSyncItem.paramSep));
+      else
+        childParams.firstWhere((param) => param.paramId == paramId)
+            .saveSyncResult(synced[paramId], lastSync);
+    }
+  }
+
+  void setSingleState(String paramId, int state) {
+    try{
+      // TODO: it used to be `SyncableParamSingleMixin.setState(paramPath + [this], state);`
+      SyncableParamSingleMixin.setState(
+          paramPath + [childParams.firstWhere((param) => param.paramId == paramId)],
+          state
+      );
+    } on StateError{
+      throw InvalidParamIdException(paramId);
+    }
+  }
+
 }
 
-mixin RemoveSyncItem on SyncableParam{
+class SyncableParamGroup with SyncableParamGroupMixin {
+
+  @override
+  SyncableParam? parentParam;
+
+  @override
+  final String paramId;
+
+  @override
+  String get debugClassId => '__groupParam__';
+
+  @override
+  final List<SyncableParam> childParams;
+
+  SyncableParamGroup(this.parentParam, {required this.paramId, required this.childParams});
+
+}
+
+mixin RemoveSyncItem<T> on SyncableParam{
 
   static const String removedRespCode = 'removed';
   static const String paramSep = '@';

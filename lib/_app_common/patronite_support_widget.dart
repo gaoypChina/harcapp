@@ -127,14 +127,15 @@ class PatroniteSupportWidgetState extends State<PatroniteSupportWidget>{
                   Row(
                     children: [
 
-                      SimpleButton.from(
-                        radius: 0,
-                        context: context,
-                        margin: EdgeInsets.zero,
-                        text: 'Pomniejsz',
-                        fontWeight: weight.halfBold,
-                        onTap: () => setState(() => expanded = !expanded),
-                      ),
+                      if(expandable)
+                        SimpleButton.from(
+                          radius: 0,
+                          context: context,
+                          margin: EdgeInsets.zero,
+                          text: 'Pomniejsz',
+                          fontWeight: weight.halfBold,
+                          onTap: () => setState(() => expanded = !expanded),
+                        ),
 
                       Expanded(child: Container()),
 

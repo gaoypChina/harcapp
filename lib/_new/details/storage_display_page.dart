@@ -66,15 +66,21 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
 
           _Item(
             icon: MdiIcons.folderMusicOutline,
-            title: 'plik: <b>${basename(getAlbumFolderLocalPath)}</b>',
+            title: 'folder: <b>${basename(getOwnAlbumsFolderLocalPath)}</b>',
             onOpen: () => openDialog(context: context, builder: (context) => JSONFolderDisplayer(getAlbumFolderPath)),
           ),
 
           _Item(
             icon: MdiIcons.fileMusicOutline,
-            title: 'plik: <b>${basename(getOwnLastFileNameFileLocalPath)}</b>',
-            onOpen: () => openDialog(context: context, builder: (context) => JSONFileDisplayer(getOwnLastFileNameFilePath)),
+            title: 'plik: <b>${basename(getToLearnAlbumLocalPath)}</b>',
+            onOpen: () => openDialog(context: context, builder: (context) => JSONFileDisplayer(getToLearnAlbumPath)),
           ),
+
+          // _Item(
+          //   icon: MdiIcons.fileMusicOutline,
+          //   title: 'plik: <b>${basename(getOwnLastFileNameFileLocalPath)}</b>',
+          //   onOpen: () => openDialog(context: context, builder: (context) => JSONFileDisplayer(getOwnLastFileNameFilePath)),
+          // ),
 
           _Item(
               icon: MdiIcons.fileMusicOutline,

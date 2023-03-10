@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -40,7 +39,7 @@ class MemoryBuilder{
       memory.published
   );
 
-  static MemoryBuilder empty(Song song) => MemoryBuilder(song.fileName, DateTime.now(), '', '', 1, false);
+  static MemoryBuilder empty(Song song) => MemoryBuilder(song.lclId, DateTime.now(), '', '', 1, false);
 
   Memory build(String fileName) => Memory(
     fileName,
@@ -53,7 +52,7 @@ class MemoryBuilder{
   );
 }
 
-class Memory extends SyncableParamGroup_ with SyncNode<MemoryGetResp>, RemoveSyncItem{
+class Memory extends SyncableParamGroupMixin with SyncGetRespNode<MemoryGetResp>, RemoveSyncItem{
 
   static const fontNameMap = {
     0: 'Annie',
@@ -164,7 +163,7 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryGetResp>, RemoveSyn
     File file = saveStringAsFileToFolder(getSongMemoriesFolderLocalPath, code);
 
     Memory memory = Memory(path.basename(file.path), songFileName, date, place, desc, fontIndex, published);
-    memory.setAllSyncState(SyncableParamSingle_.stateNotSynced);
+    memory.setAllSyncState(SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly)
       synchronizer.post();
     return memory;
@@ -181,13 +180,13 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryGetResp>, RemoveSyn
       paramPublished: published,
     };
 
-    return json.encode(map);
+    return jsonEncode(map);
 
   }
 
   static Memory decode(String fileName, String code){
 
-    Map<String, dynamic> map = json.decode(code);
+    Map<String, dynamic> map = jsonDecode(code);
 
     String songFileName = map[paramSongFileName];
     DateTime? date;
@@ -213,13 +212,17 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryGetResp>, RemoveSyn
 
   }
 
-  void save({localOnly=false}) {
+  void save({bool localOnly = false, bool synced = false}) {
 
     saveStringAsFileToFolder(
         getSongMemoriesFolderLocalPath,
         encode(songFileName, date!, place, desc, fontIndex, published),
         fileName: fileName
     );
+
+    setAllSyncState(
+        synced?SyncableParamSingleMixin.stateSynced:
+        SyncableParamSingleMixin.stateNotSynced);
 
     if(!localOnly)
       synchronizer.post();
@@ -256,38 +259,48 @@ class Memory extends SyncableParamGroup_ with SyncNode<MemoryGetResp>, RemoveSyn
   static const syncClassId = 'memory';
 
   @override
+  String get debugClassId => syncClassId;
+
+  @override
   int get hashCode => fileName.hashCode;
+
+  @override
+  SyncableParam get parentParam => Song.allMap[songFileName]!;
 
   @override
   String get paramId => fileName;
 
   @override
   List<SyncableParam> get childParams => [
+
     SyncableParamSingle(
       this,
       paramId: paramDate,
-      value_: () => date==null?null:DateFormat('yyyy-MM-dd').format(date!),
+      value: () => date==null?null:DateFormat('yyyy-MM-dd').format(date!),
     ),
+
     SyncableParamSingle(
       this,
       paramId: paramPlace,
-      value_: () => place,
+      value: () => place,
     ),
+
     SyncableParamSingle(
       this,
       paramId: paramDesc,
-      value_: () => desc,
+      value: () => desc,
     ),
+
     SyncableParamSingle(
       this,
       paramId: paramFontKey,
-      value_: () => fontIndex,
+      value: () => fontIndex,
     ),
 
     SyncableParamSingle(
       this,
       paramId: paramPublished,
-      value_: () => published,
+      value: () => published,
     ),
   ];
 

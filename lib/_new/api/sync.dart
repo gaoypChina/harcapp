@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:harcapp/_common_classes/org/org_handler.dart';
-import 'package:harcapp/_new/api/sync_resp_body/album_resp.dart';
+import 'package:harcapp/_new/api/sync_resp_body/album/own_album_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/off_song_get_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/own_song_get_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_def_get_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_zhp_sim_2022_get_resp.dart';
-import 'package:harcapp/_new/api/sync_resp_body/song_get_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/spraw_get_resp.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models/rank_def.dart';
@@ -54,7 +53,7 @@ class ApiSync{
     if(dumpReplaceExisting??false)
       reqMap['dumpReplaceExisting'] = true;
 
-    for(SyncableParam param in SyncNode.all){
+    for(SyncableParam param in SyncGetRespNode.all){
       try {
         reqMap[param.paramId] = await param.buildPostReq(
             setSyncStateInProgress: true,
@@ -94,7 +93,7 @@ class ApiSync{
         Map<String, dynamic>? songBookSettings = response.data[SongBookSettings.syncClassId];
         Map<String, dynamic>? offSongs = response.data[OffSong.syncClassId];
         Map<String, dynamic>? ownSongs = response.data[OwnSong.syncClassId];
-        Map<String, dynamic>? albums = response.data[Album.syncClassId];
+        Map<String, dynamic>? albums = response.data[OwnAlbum.syncClassId];
         Map<String, dynamic>? spraws = response.data[Spraw.syncClassId];
         Map<String, dynamic>? rankDefs = response.data[RankDef.syncClassId];
         Map<String, dynamic>? rankZhpSim2022 = response.data[RankZHPSim2022.syncClassId];
@@ -153,8 +152,8 @@ class ApiSync{
 
         if(albums != null)
           for(String lclId in albums.keys as Iterable<String>){
-            if(albums[lclId] == RemoveSyncItem.removedRespCode) RemoveSyncItem.resolve('${Album.syncClassId}${RemoveSyncItem.paramSep}$lclId');
-            else Album.allMap[lclId]!.saveSyncResult(albums[lclId], syncedTime);
+            if(albums[lclId] == RemoveSyncItem.removedRespCode) RemoveSyncItem.resolve('${OwnAlbum.syncClassId}${RemoveSyncItem.paramSep}$lclId');
+            else OwnAlbum.allMap[lclId]!.saveSyncResult(albums[lclId], syncedTime);
           }
 
         if(spraws != null)
@@ -180,7 +179,7 @@ class ApiSync{
   );
   
   static Future<Response?> get({
-    FutureOr<void> Function(Response response, OrgEntityResp? orgResp, AppSettingsResp? appSettingsResp, SongBookSettingsResp? songBookSettingsResp, Map<String, OffSongGetResp> offSongs, Map<String, OwnSongGetResp> ownSongs, Map<String, AlbumGetResp> albums, Map<String, SprawGetResp> spraws, Map<String, RankDefGetResp> rankDefs,  Map<String, RankZhpSim2022GetResp> rankZhpSim2022, DateTime? syncedTime)? onSuccess,
+    FutureOr<void> Function(Response response, OrgEntityResp? orgResp, AppSettingsResp? appSettingsResp, SongBookSettingsResp? songBookSettingsResp, Map<String, OffSongGetResp> offSongs, Map<String, OwnSongGetResp> ownSongs, Map<String, OwnAlbumGetResp> albums, Map<String, SprawGetResp> spraws, Map<String, RankDefGetResp> rankDefs,  Map<String, RankZhpSim2022GetResp> rankZhpSim2022, DateTime? syncedTime)? onSuccess,
     FutureOr<void> Function(Response?)? onError,
   }) async {
     
@@ -230,13 +229,13 @@ class ApiSync{
               }
             }
 
-          Map<String, dynamic>? albums = response.data[AlbumGetResp.collName];
-          Map<String, AlbumGetResp> albumResps = {};
+          Map<String, dynamic>? albums = response.data[OwnAlbumGetResp.collName];
+          Map<String, OwnAlbumGetResp> albumResps = {};
           if(albums != null)
             for(String lclId in albums.keys){
               Map<String, dynamic> response = albums[lclId];
               try {
-                albumResps[lclId] = AlbumGetResp.from(response);
+                albumResps[lclId] = OwnAlbumGetResp.from(response);
               } catch (e){
                 logger.e('Album from response creation error: ${e.toString()}');
               }
@@ -285,23 +284,23 @@ class ApiSync{
           }
 
           logger.i('Sync get response received:'
-              '\nOrgData:'
+              '\n\nOrgData:'
               '\n${prettyJson(orgData)}'
-              '\nAppSettings:'
+              '\n\nAppSettings:'
               '\n${prettyJson(appSettingsData)}'
-              '\nSongBookSettings'
+              '\n\nSongBookSettings:'
               '\n${prettyJson(songBookSettingsData)}'
-              '\nOffSongs:'
+              '\n\nOffSongs:'
               '\n${prettyJson(offSongs)}'
-              '\nOwnSongs:'
+              '\n\nOwnSongs:'
               '\n${prettyJson(ownSongs)}'
-              '\nAlbums:'
+              '\n\nAlbums:'
               '\n${prettyJson(albums)}'
-              '\nSpraws:'
+              '\n\nSpraws:'
               '\n${prettyJson(spraws)}'
-              '\nRankDefs:'
+              '\n\nRankDefs:'
               '\n${prettyJson(rankDefs)}'
-              '\nRankZhpSim2022:'
+              '\n\nRankZhpSim2022:'
               '\n${prettyJson(rankZhpSim2022)}'
 
           );
@@ -328,7 +327,7 @@ class ApiSync{
     void Function()? onSuccess,
     void Function()? onError,
   }) async => await get(
-      onSuccess: (Response response, OrgEntityResp? orgResp, AppSettingsResp? appSettingsResp, SongBookSettingsResp? songBookSettingsResp, Map<String, OffSongGetResp> offSongs, Map<String, OwnSongGetResp> ownSongs, Map<String, AlbumGetResp> albums, Map<String, SprawGetResp> spraws, Map<String, RankDefGetResp> rankDefs, Map<String, RankZhpSim2022GetResp> rankZhpSim2022, DateTime? syncedTime) async {
+      onSuccess: (Response response, OrgEntityResp? orgResp, AppSettingsResp? appSettingsResp, SongBookSettingsResp? songBookSettingsResp, Map<String, OffSongGetResp> offSongs, Map<String, OwnSongGetResp> ownSongs, Map<String, OwnAlbumGetResp> albums, Map<String, SprawGetResp> spraws, Map<String, RankDefGetResp> rankDefs, Map<String, RankZhpSim2022GetResp> rankZhpSim2022, DateTime? syncedTime) async {
 
         if(orgResp != null)
           OrgHandler().applySyncGetResp(orgResp);
@@ -342,46 +341,49 @@ class ApiSync{
         for(String lclId in offSongs.keys){
           OffSong? song = OffSong.allOfficialMap[lclId];
           if(song == null) continue;
-          SongGetResp? songResp = offSongs[lclId];
-          song.applySyncGetResp(songResp as OffSongGetResp);
-        }
-
-        for(String lclId in ownSongs.keys){
-          OwnSong? song = OwnSong.allOwnMap[lclId];
-          if(song == null) continue;
-          OwnSongGetResp songResp = ownSongs[lclId]!;
-          song = await OwnSong.saveOwnSong(songResp.code!, lclId: lclId);
-          OwnSong.addOwn(song);
-
+          OffSongGetResp songResp = offSongs[lclId]!;
           song.applySyncGetResp(songResp);
         }
 
+        for(String lclId in ownSongs.keys){
+          OwnSongGetResp songResp = ownSongs[lclId]!;
+          OwnSong? song = OwnSong.allOwnMap[lclId];
+          if(song == null) {
+            song = await OwnSong.create(lclId: lclId, code: songResp.code);
+            if (song == null) continue;
+            await song.save(localOnly: true, synced: true);
+            OwnSong.addToAll(song);
+          }
+          await song.applySyncGetResp(songResp);
+        }
+
         for(String lclId in albums.keys){
-          Album? album = Album.allMap[lclId];
-          AlbumGetResp albumResp = albums[lclId]!;
+          OwnAlbumGetResp albumResp = albums[lclId]!;
+          OwnAlbum? album = OwnAlbum.allMap[lclId];
           if(album == null) {
 
             List<OffSong> offSongs = [];
-            for(String lclId in albumResp.offSongs){
-              OffSong? song = OffSong.allOfficialMap[lclId];
+            for(String offSongLclId in albumResp.offSongs){
+              OffSong? song = OffSong.allOfficialMap[offSongLclId];
               if(song != null) offSongs.add(song);
             }
 
             List<OwnSong> ownSongs = [];
-            for(String lclId in albumResp.offSongs){
-              OwnSong? song = OwnSong.allOwnMap[lclId];
+            for(String ownSongLclId in albumResp.ownSongs){
+              OwnSong? song = OwnSong.allOwnMap[ownSongLclId];
               if(song != null) ownSongs.add(song);
             }
 
-            album = Album.create(
-                albumResp.title,
-                offSongs,
-                ownSongs,
-                albumResp.colorsKey,
-                albumResp.iconKey,
-                localOnly: true
+            album = OwnAlbum.create(
+                lclId: lclId,
+                title: albumResp.title,
+                offSongs: offSongs,
+                ownSongs: ownSongs,
+                colorsKey: albumResp.colorsKey,
+                iconKey: albumResp.iconKey,
             );
-            Album.addToAll(album);
+            album.save(localOnly: true, synced: true);
+            OwnAlbum.addToAll(album);
           }
           album.applySyncGetResp(albumResp);
         }

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:harcapp/_app_common/color_selector_widget.dart';
 import 'package:harcapp/_app_common/icon_selector_widget.dart';
+import 'package:harcapp/_new/cat_page_song_book/album/album_editor_page/providers.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
-import 'package:harcapp/_new/cat_page_song_book/album/new_album/providers.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
@@ -18,23 +18,25 @@ import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../album_name.dart';
 import 'album_song_selector.dart';
 
-class NewAlbumPage extends StatefulWidget{
+class AlbumEditorPage extends StatefulWidget{
 
-  final Album? initAlbum;
-  final Function(Album)? onSaved;
+  final SelectableAlbum? initAlbum;
+  final Function(SelectableAlbum)? onSaved;
 
-  const NewAlbumPage({this.initAlbum, this.onSaved, super.key});
+  const AlbumEditorPage({this.initAlbum, this.onSaved, super.key});
 
   @override
-  State createState() => NewAlbumPageState();
+  State createState() => AlbumEditorPageState();
 
 }
 
-class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixin{
+class AlbumEditorPageState extends State<AlbumEditorPage> with TickerProviderStateMixin{
 
-  Album? get initAlbum => widget.initAlbum;
+  SelectableAlbum? get initAlbum => widget.initAlbum;
+  bool get editable => initAlbum == null || initAlbum!.editable;
 
   Function(bool)? onChanged;
 
@@ -59,7 +61,7 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
   @override
   void initState() {
 
-    tabController = TabController(length: 2, vsync: this);
+    tabController = TabController(length: editable?2:1, vsync: this);
     tabController.animation!.addListener(onTabBarSwipe);
 
     if(initAlbum==null) {
@@ -106,7 +108,9 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
       appBar: PreferredSize(
         preferredSize: Size(
             double.infinity,
-            AppBar().preferredSize.height + const TabBar(tabs: []).preferredSize.height
+            editable?
+            AppBar().preferredSize.height + const TabBar(tabs: []).preferredSize.height:
+            AppBar().preferredSize.height
         ),
         child: Consumer<_AppBarProvider>(
           builder: (context, prov, child) => AppBar(
@@ -123,9 +127,10 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
               focusNode: focusNode,
               controller: textEditingController,
               textCapitalization: TextCapitalization.sentences,
+              enabled: editable,
               style: AppTextStyle(color: textEnab_(context), fontSize: Dimen.TEXT_SIZE_APPBAR),
               inputFormatters:[
-                LengthLimitingTextInputFormatter(Album.maxLenTitle),
+                LengthLimitingTextInputFormatter(OwnAlbum.maxLenTitle),
               ],
               textAlign: TextAlign.center,
             ),
@@ -139,24 +144,27 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
                     return;
                   }
 
+                  OwnAlbum album = OwnAlbum.create(
+                    title: textEditingController.text,
+                    offSongs: offSongs,
+                    ownSongs: ownSongs,
+                    colorsKey: AccentColorProvider.of(context).colorsKey,
+                    iconKey: IconProvider.of(context).iconKey,
+                  );
+
                   if(initAlbum == null) {
-                    Album album = Album.create(
-                      textEditingController.text,
-                      offSongs,
-                      ownSongs,
-                      Provider.of<AccentColorProvider>(context, listen: false).colorsKey,
-                      Provider.of<IconProvider>(context, listen: false).iconKey,
-                    );
-                    Album.addToAll(album);
+                    album.save();
+                    OwnAlbum.addToAll(album);
                     widget.onSaved?.call(album);
                   }else{
-                    initAlbum!.update(
-                        title: textEditingController.text,
-                        offSongs: offSongs,
-                        ownSongs: ownSongs,
-                        colorsKey: Provider.of<AccentColorProvider>(context, listen: false).colorsKey,
-                        iconKey: Provider.of<IconProvider>(context, listen: false).iconKey
-                    );
+                    // TODO: dart 3 - use switch case class with cealed!!!
+                    if(initAlbum is OwnAlbum)
+                      (initAlbum as OwnAlbum).update(album);
+                    else if(initAlbum is ToLearnAlbum)
+                      (initAlbum as ToLearnAlbum).update(album);
+
+                    initAlbum!.save();
+
                     widget.onSaved?.call(initAlbum!);
                   }
 
@@ -164,7 +172,9 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
                 },
               ),
             ],
-            bottom: PreferredSize(
+            bottom:
+            editable?
+            PreferredSize(
                 preferredSize: const TabBar(tabs: []).preferredSize,
                 child: Consumer<AccentColorProvider>(
                   builder: (context, prov, child) => TabBar(
@@ -177,7 +187,7 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
                     ],
                   ),
                 )
-            ),
+            ):null,
           ),
         ),
       ),
@@ -199,7 +209,8 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
             },
           ),
 
-          _TabPageColorPicker(initAlbum)
+          if(editable)
+            _TabPageColorPicker(initAlbum as OwnAlbum?)
         ],
       ),
     ),
@@ -210,7 +221,7 @@ class NewAlbumPageState extends State<NewAlbumPage> with TickerProviderStateMixi
 
 class _TabPageColorPicker extends StatefulWidget{
 
-  final Album? initAlbum;
+  final OwnAlbum? initAlbum;
 
   const _TabPageColorPicker(this.initAlbum);
 
@@ -220,7 +231,7 @@ class _TabPageColorPicker extends StatefulWidget{
 }
 class _TabPageColorPickerState extends State<_TabPageColorPicker> with AutomaticKeepAliveClientMixin{
 
-  Album? get initAlbum => widget.initAlbum;
+  OwnAlbum? get initAlbum => widget.initAlbum;
 
   @override
   Widget build(BuildContext context){

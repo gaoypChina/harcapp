@@ -143,7 +143,7 @@ ApelEwanPersistentFolder dekalogFolder = ApelEwanPersistentFolder(
     ],
     apelEwanNotes: {},
     name: 'Dekalog',
-    colorsKey: CommonColorData.omegaColorsKey,
+    colorsKey: CommonColorData.omegaAlbumColorsKey,
     iconKey: 'textBoxMultiple'
 );
 

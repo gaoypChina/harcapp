@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
+import 'package:provider/provider.dart';
 
 class AccentColorProvider extends ChangeNotifier{
+
+  static AccentColorProvider of(BuildContext context) => Provider.of<AccentColorProvider>(context, listen: false);
 
   late String _colorsKey;
 
@@ -25,6 +28,8 @@ class AccentColorProvider extends ChangeNotifier{
 }
 
 class IconProvider extends ChangeNotifier{
+
+  static IconProvider of(BuildContext context) => Provider.of<IconProvider>(context, listen: false);
 
   String _iconKey;
 

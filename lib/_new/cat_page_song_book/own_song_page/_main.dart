@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:harcapp/_new/cat_page_song_book/own_song_page/save_song_button.d
 import 'package:harcapp/_new/cat_page_song_book/own_song_page/song_part_editor.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
-import 'package:harcapp/_new/cat_page_song_book/song_management/own_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp_core/comm_widgets/app_card.dart';
 import 'package:harcapp_core/comm_widgets/app_scaffold.dart';
@@ -40,11 +38,11 @@ enum EditType{
 
 class OwnSongPage extends StatefulWidget {
 
-  final SongRaw? song;
+  final SongRaw? initSong;
   final EditType editType;
   final Function(Song song, EditType editType)? onSaved;
 
-  const OwnSongPage(this.song, this.editType, this.onSaved, {super.key});
+  const OwnSongPage(this.initSong, this.editType, this.onSaved, {super.key});
 
   static from({SongRaw? song, Function(Song song, EditType editType)? onSaved}){
 
@@ -75,12 +73,12 @@ class OwnSongPageState extends State<OwnSongPage> {
 
   void notify() => setState((){});
 
-  SongRaw? get song => widget.song;
+  SongRaw? get song => widget.initSong;
   EditType get editType => widget.editType;
 
   ScrollController? scrollController;
 
-  List<Album>? albums;
+  List<OwnAlbum>? albums;
 
   CurrentItemProvider? currItemProv;
 
@@ -94,9 +92,9 @@ class OwnSongPageState extends State<OwnSongPage> {
     albums = [];
 
     if(song != null)
-      for(Album album in Album.allOwn) {
-        if (album != Album.omega &&
-            album.songs.map((song) => song.fileName).contains(song!.fileName))
+      for(OwnAlbum album in OwnAlbum.all) {
+        if (album is! OmegaAlbum &&
+            album.songs.map((song) => song.lclId).contains(song!.lclId))
           albums!.add(album);
       }
 
@@ -109,10 +107,10 @@ class OwnSongPageState extends State<OwnSongPage> {
   Widget build(BuildContext context) => Theme(
       data: Theme.of(context).copyWith(
         // This is the accent color
-        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Album.current.avgColor),
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: BaseAlbum.current.avgColor),
         textSelectionTheme: TextSelectionThemeData(
-          cursorColor: Album.current.avgColor,
-          selectionHandleColor: Album.current.avgColor,
+          cursorColor: BaseAlbum.current.avgColor,
+          selectionHandleColor: BaseAlbum.current.avgColor,
         ),
       ),
       child: MultiProvider(
@@ -132,14 +130,14 @@ class OwnSongPageState extends State<OwnSongPage> {
                 initAddPersUserKey = AccountData.key;
               }
               currItemProv = CurrentItemProvider(
-                song: SongRaw.empty(fileName: '${OwnSong.lastFileName + 1}'),
+                song: SongRaw.empty(),
                 initAddPersName: initAddPersName,
                 initAddPersEmail: initAddPersEmail,
                 initAddPersUserKey: initAddPersUserKey,
               );
             }
             else if(editType == EditType.editOfficial)
-              currItemProv = CurrentItemProvider(song: song!.copyWith(fileName: '${OwnSong.lastFileName + 1}'));
+              currItemProv = CurrentItemProvider(song: song!.copy());
 
             return currItemProv;
 
@@ -192,7 +190,7 @@ class OwnSongPageState extends State<OwnSongPage> {
                         child: TitleShortcutRowWidget(title: 'Informacje ogólne', /*icon: MdiIcons.textBoxOutline*/ textAlign: TextAlign.start),
                       ),
                       TopCards(
-                        accentColor: Album.current.avgColorDarkSensitive(context),
+                        accentColor: BaseAlbum.current.avgColorDarkSensitive(context),
                         onChangedTitle: (text) => currItemProv!.setTitle(text, notify: false),
                         onChangedHiddenTitles: (texts) => currItemProv!.setHidTitles(texts, notify: false),
                         onChangedAuthor: (texts) => currItemProv!.setAuthors(texts, notify: false),
@@ -213,14 +211,14 @@ class OwnSongPageState extends State<OwnSongPage> {
 
                       const SizedBox(height: sep),
 
-                      if(Album.allOwn.isNotEmpty)
+                      if(OwnAlbum.all.isNotEmpty)
                         AlbumPart(this),
 
-                      if(Album.allOwn.isNotEmpty)
+                      if(OwnAlbum.all.isNotEmpty)
                         const SizedBox(height: sep),
 
                       RefrenTemplate(
-                          accentColor: Album.current.avgColorDarkSensitive(context),
+                          accentColor: BaseAlbum.current.avgColorDarkSensitive(context),
                           onPartTap: () => openDialog(context: context, builder: (_) =>
                               SongPartEditor(
                                 initText: currItemProv!.song.refrenPart.getText(),
@@ -259,7 +257,7 @@ class OwnSongPageState extends State<OwnSongPage> {
                   ),
                   footer: AddButtonsWidget(
                       key: addButtonsKey,
-                      accentColor: Album.current.avgColorDarkSensitive(context),
+                      accentColor: BaseAlbum.current.avgColorDarkSensitive(context),
                       onPressed: ()async{
                         await Future.delayed(const Duration(milliseconds: 240));
                         Scrollable.ensureVisible(
@@ -283,7 +281,7 @@ class OwnSongPageState extends State<OwnSongPage> {
     backgroundColor: background_(context),
     centerTitle: true,
     floating: true,
-    title: Text(widget.song==null?'Nowa piosenka':'Edytuj piosenkę'),
+    title: Text(widget.initSong==null?'Nowa piosenka':'Edytuj piosenkę'),
     actions: <Widget>[
 
       IconButton(
@@ -291,8 +289,9 @@ class OwnSongPageState extends State<OwnSongPage> {
           onPressed: () async {
 
             SongRaw songRaw = currItemProv!.song;
-            Song song = await OffSong.fromRespMap('', jsonDecode(songRaw.toCode(withFileName: false)));
+            Song song = await OffSong.fromRespMap('', jsonDecode(songRaw.toCode(withLclId: false)));
 
+            if(!mounted) return;
             await Navigator.push(context, MaterialPageRoute(
               builder: (context) => AppScaffold(
                 body: NestedScrollView(

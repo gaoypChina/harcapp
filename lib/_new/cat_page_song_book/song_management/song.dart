@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 
@@ -81,7 +82,7 @@ class SongDataEntity{
   );
 }
 
-abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with SyncNode<T>, RemoveSyncItem, SongCore{
+abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGroupMixin, SyncGetRespNode<T>, RemoveSyncItem{
   
   // Whether the all, allMap, etc. are initialized.
   static bool initialized = false;
@@ -115,7 +116,6 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
     for(AddPerson addPers in _addPersRanking.keys)
       if(addPers.emailRef != null)
         _addPersRankingByEmail[addPers.emailRef!] = _addPersRanking[addPers]!;
-
 
     // Merge AddPerson with multiple emails being the same Person object
     Map<String, AddPerson> addPersonByEmail = {};
@@ -176,7 +176,7 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
     return map;
   }
 
-  static const String paramLclId = 'lcl_id';
+  // static const String paramLclId = 'lcl_id';
   static const String paramRate = 'rate';
   static const String paramChordShift = 'chordShift';
   static const String paramMemories = 'memories';
@@ -187,12 +187,12 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
   static const List<String> defAuthors = [];
   static const List<String> defComposers = [];
   static const List<String> defPerformers = [];
-  static const String? defYoutubeLink = null;
+  static const String defYoutubeLink = '';
   static const List<String> defAddPers = [];
 
 
   @override
-  final String fileName;
+  final String lclId;
 
   String _title;
   @protected
@@ -259,8 +259,8 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
   @override
   bool get isOwn => !isOfficial && !isConfid;
 
-  bool get isConfid => fileName.length >= 4 && fileName.substring(0, 4) == 'oc!_';
-  bool get isOfficial => fileName.length >= 3 && fileName.substring(0, 3) == 'o!_';
+  bool get isConfid => lclId.length >= 4 && lclId.substring(0, 4) == 'oc!_';
+  bool get isOfficial => lclId.length >= 3 && lclId.substring(0, 3) == 'o!_';
 
   List<String> _tags;
   @protected
@@ -303,7 +303,7 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
   }
 
   Song(
-      this.fileName,
+      this.lclId,
       this._title,
       this._hidTitles,
       this._authors,
@@ -336,7 +336,7 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
   }
 
   @protected
-  static Future<SongDataEntity> fromRespMap(String fileName, Map respMap, {List? songAudioMapList}) async {
+  static Future<SongDataEntity> fromRespMap(String lclId, Map respMap, {List? songAudioMapList}) async {
 
     List<Memory> memoryList = [];
     Map<String, Memory> memoryMap = {};
@@ -371,7 +371,7 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
           songText += refren.getText(withTabs: true)!;
           songChords += refren.getChords()!;
 
-          int textLines =  refren.getText(withTabs: true)!.split("\n").length;
+          int textLines = refren.getText(withTabs: true)!.split("\n").length;
           int chodsLines = refren.getChords()!.split("\n").length;
           for(int j=0; j<chodsLines-textLines; j++)
             songText += '\n';
@@ -423,7 +423,7 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
       } catch (_, __){}
 
     return SongDataEntity(
-      fileName,
+      lclId,
       title,
       addTitles,
       authors,
@@ -447,27 +447,27 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
     );
   }
 
-  Future<String> get code async => jsonEncode(await getSongMap(fileName));
+  FutureOr<String> get code;
 
   Future<String> toQRData() async => const Base64Codec().encode(const Utf8Encoder().convert(await code).toList());
 
-  static Future<SongDataEntity> from(String codeBase64) async {
-    String code = const Utf8Decoder().convert(const Base64Codec().decode(codeBase64).toList());
-    return Song.parse('_shared', code);
-  }
+  static Future<SongDataEntity> fromBase64({required String code}) => Song.parse(
+      '_shared',
+      const Utf8Decoder().convert(const Base64Codec().decode(code).toList())
+  );
 
   @override
-  String get chords => ChordShifter.run(baseChords, readChordShift(fileName));
+  String get chords => ChordShifter.run(baseChords, chordShift);
 
   void shiftChordsUp() =>
-    setChordShift(ChordShifter.shiftToneUp(readChordShift(fileName)));
+    setChordShift(ChordShifter.shiftToneUp(chordShift));
 
   void shiftChordsDown() =>
-    setChordShift(ChordShifter.shiftToneDown(readChordShift(fileName)));
+    setChordShift(ChordShifter.shiftToneDown(chordShift));
 
-  void initRate() => ratePrimWrap.set(readRate(fileName));
+  void initRate() => ratePrimWrap.set(readRate(lclId));
 
-  bool get hasRate => ShaPref.exists(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName));
+  bool get hasRate => ShaPref.exists(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(lclId));
   static int readRate(String fileName) => ShaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName), SongRate.RATE_NULL);
 
   @override
@@ -475,16 +475,17 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
 
   void setRate(int rate, {bool localOnly = false}) async {
     ratePrimWrap.set(rate);
-    ShaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName), rate);
-    setSingleState(paramRate, SyncableParamSingle_.stateNotSynced);
+    ShaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(lclId), rate);
+    setSingleState(paramRate, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
   }
 
-  bool get hasChordShift => ShaPref.exists(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName));
+  bool get hasChordShift => ShaPref.exists(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(lclId));
+  int get chordShift => readChordShift(lclId);
   static int readChordShift(String fileName) => ShaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName), 0);
   void setChordShift(int chordShift, {bool localOnly = false}) {
-    ShaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(fileName), chordShift);
-    setSingleState(paramChordShift, SyncableParamSingle_.stateNotSynced);
+    ShaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_CHORDS_SHIFT_(lclId), chordShift);
+    setSingleState(paramChordShift, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post(aggregateDelay: SynchronizerEngine.aggregateChordChangeDuration);
   }
 
@@ -508,7 +509,7 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
   bool deleteSongFile({bool localOnly = false}) {
     if(isOwn) {
       Map ownSongs = jsonDecode(readFileAsString(getOwnSongFilePath));
-      ownSongs.remove(fileName);
+      ownSongs.remove(lclId);
       saveStringAsFile(getOwnSongFilePath, jsonEncode(ownSongs));
 
       for(Memory memory in memories)
@@ -527,18 +528,18 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
       other is Song &&
           isConfid == other.isConfid &&
           isOfficial == other.isOfficial &&
-          fileName == other.fileName;
+          lclId == other.lclId;
 
   @override
-  int get hashCode => isConfid.hashCode + isOfficial.hashCode + fileName.hashCode;
+  int get hashCode => isConfid.hashCode + isOfficial.hashCode + lclId.hashCode;
 
-  String get classId;
+  String get debugClassId;
 
   //@override
   //SyncableParam get parentParam => RootSyncable(classId);
 
   @override
-  String get paramId => fileName;
+  String get paramId => lclId;
 
   @override
   List<SyncableParam> get childParams => [
@@ -546,19 +547,19 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
     SyncableParamSingle(
         this,
         paramId: paramRate,
-        value_: () => rate,
-        isNotSet_: () => !hasRate
+        value: () => rate,
+        isNotSet: () => !hasRate
     ),
     SyncableParamSingle(
         this,
         paramId: paramChordShift,
-        value_: () => readChordShift(fileName),
-        isNotSet_: () => !hasChordShift
+        value: () => chordShift,
+        isNotSet: () => !hasChordShift
     ),
     SyncableParamGroup(
         this,
         paramId: paramMemories,
-        childParams: memories
+        childParams: memories,
     )
 
   ];
@@ -573,23 +574,23 @@ abstract class Song<T extends SongGetResp> extends SyncableParamGroup_ with Sync
 
     if(resp.memories != null)
       for (String memLclId in resp.memories!.keys) {
-        MemoryGetResp? memResp = resp.memories![memLclId];
+        MemoryGetResp memResp = resp.memories![memLclId]!;
         Memory? mem = memoryMap[memLclId];
         if(mem == null) {
           mem = Memory.create(
-              fileName,
-              memResp!.date!,
+              lclId,
+              memResp.date,
               memResp.place,
               memResp.desc,
               memResp.fontKey,
               memResp.published
           );
-          mem.save(localOnly: true);
+          mem.save(localOnly: true, synced: true);
 
           Memory.addToAll(mem);
           addMemory(mem);
         }else
-          mem.applySyncGetResp(memResp!);
+          mem.applySyncGetResp(memResp);
       }
   }
 }

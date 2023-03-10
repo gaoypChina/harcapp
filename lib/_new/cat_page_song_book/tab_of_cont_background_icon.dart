@@ -14,7 +14,7 @@ class TabOfContBackgroundIcon extends StatelessWidget{
   Widget build(BuildContext context) => Hero(
       tag: 'TabOfContBackgroundIcon',
       child: Icon(
-        CommonIconData.get(Album.current.iconKey),
+        CommonIconData.get(BaseAlbum.current.iconKey),
         color: backgroundIcon_(context),
         size: 0.8*min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
       )

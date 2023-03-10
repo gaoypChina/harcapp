@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:dio/dio.dart';
@@ -22,7 +21,13 @@ import '_api.dart';
 
 class ApiRegLog{
 
-  static Future<bool> applyCarefulLoginData(BuildContext context, String? email, DateTime? lastSyncTime, Response response) async {
+  static Future<bool> applyCarefulLoginData(
+      BuildContext context,
+      String? email,
+      DateTime? lastSyncTime,
+      Response response,
+      { bool awaitSyncFinished = false
+      }) async {
 
     InitSyncOperation? syncOpt = await InitSyncAnalyser.analyse(
         context: context,
@@ -46,21 +51,24 @@ class ApiRegLog{
         await AccountData.saveLoginData(email, response);
         loggedIn = true;
         await synchronizer.reloadSyncables();
-        synchronizer.post();
+        if(awaitSyncFinished) await synchronizer.post();
+        else synchronizer.post();
         break;
       case InitSyncOperation.postReplace:
         logger.i('Login attempt with init sync result: postReplace');
         await AccountData.saveLoginData(email, response);
         loggedIn = true;
         await synchronizer.reloadSyncables();
-        synchronizer.post(dumpReplaceExisting: true);
+        if(awaitSyncFinished) await synchronizer.post(dumpReplaceExisting: true);
+        else synchronizer.post(dumpReplaceExisting: true);
         break;
       case InitSyncOperation.get:
         logger.i('Login attempt with init sync result: get');
         await AccountData.saveLoginData(email, response);
         loggedIn = true;
         await synchronizer.reloadSyncables();
-        synchronizer.get();
+        if(awaitSyncFinished) await synchronizer.get();
+        else synchronizer.get();
         break;
       case InitSyncOperation.getReplace:
         logger.i('Login attempt with init sync result: getReplace');
@@ -68,7 +76,8 @@ class ApiRegLog{
         loggedIn = true;
         await synchronizer.reloadSyncables();
         await factoryResetLocal(context);
-        synchronizer.get();
+        if(awaitSyncFinished) await synchronizer.get();
+        else synchronizer.get();
         break;
       case InitSyncOperation.logout:
         logger.i('Login attempt with init sync result: logout');
@@ -78,7 +87,8 @@ class ApiRegLog{
         await AccountData.saveLoginData(email, response);
         loggedIn = true;
         await synchronizer.reloadSyncables();
-        synchronizer.post(dumpReplaceExisting: true);
+        if(awaitSyncFinished) await synchronizer.post(dumpReplaceExisting: true);
+        else synchronizer.post(dumpReplaceExisting: true);
         break;
       case null:
         loggedIn = false;
@@ -93,7 +103,7 @@ class ApiRegLog{
   static Future<Response?> _getLoginData(
       String email,
       String password,
-      { void Function(
+      { FutureOr<void> Function(
           Response response,
           String key,
           String jwt,
@@ -184,7 +194,7 @@ class ApiRegLog{
           else
             feed.add(Post.fromRespMap(map, forumMap[map['forumKey']]!, key: map['_key']));
         }
-        onSuccess?.call(
+        await onSuccess?.call(
           response,
           key,
           jwt,
@@ -312,6 +322,7 @@ class ApiRegLog{
     FutureOr<void> Function(Response response, bool emailConf, bool loggedIn, List<IndivComp> indivComps, List<Community> communities, List<Circle> circles, List<Forum> forums, List<CommunityPublishable> feed)? onSuccess,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function(Response? response)? onError,
+    bool awaitSyncFinished = false
   }) => ApiRegLog._getLoginData(
     email,
     password,
@@ -323,7 +334,7 @@ class ApiRegLog{
         return;
       }
 
-      bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response);
+      bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response, awaitSyncFinished: awaitSyncFinished);
 
       await onSuccess?.call(response, emailConf, loggedIn, indivComps, communities, circles, forums, feed);
 
@@ -347,10 +358,11 @@ class ApiRegLog{
         )? onSuccess,
     FutureOr<bool> Function()? onServerMaybeWakingUp,
     FutureOr<void> Function(Response? response)? onError,
+    bool awaitSyncFinished = false
   }) => ApiRegLog._getMicrosoftLoginData(
     azureToken,
     onSuccess: (Response response, String email, String key, String jwt, String name, Sex sex, String nick, DateTime? lastSyncTime, bool emailConf, List<IndivComp> indivComps, List<Community> communities, List<Circle> circles, List<Forum> forums, List<CommunityPublishable> feed) async {
-      bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response);
+      bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response, awaitSyncFinished: awaitSyncFinished);
       await onSuccess?.call(response, emailConf, loggedIn, indivComps, communities, circles, forums, feed);
     },
     onServerMaybeWakingUp: onServerMaybeWakingUp,
@@ -699,7 +711,6 @@ class ApiRegLog{
     onError: (_) async => onError?.call(),
   );
 
-
   static String CONF_EMAIL_CONF_KEY = 'confKey';
   static Future<Response?> carefullyConfEmail(
       BuildContext context,
@@ -707,6 +718,7 @@ class ApiRegLog{
       { FutureOr<void> Function(bool loggedIn)? onSuccess,
         FutureOr<bool> Function()? onServerMaybeWakingUp,
         FutureOr<void> Function(Response? response)? onError,
+        bool awaitSyncFinished = false
       }) async {
 
     Map<String, dynamic> errMap = {};
@@ -731,7 +743,7 @@ class ApiRegLog{
         String? email = response.data['email'];
         DateTime? lastSyncTime = DateTime.tryParse(response.data['lastSyncTime']??'');
 
-        bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response);
+        bool loggedIn = await applyCarefulLoginData(context, email, lastSyncTime, response, awaitSyncFinished: awaitSyncFinished);
 
         onSuccess?.call(loggedIn);
       },

@@ -1,7 +1,6 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:harcapp/_new/cat_page_song_book/album/new_album/providers.dart';
+import 'package:harcapp/_new/cat_page_song_book/album/album_editor_page/providers.dart';
 import 'package:harcapp/_common_widgets/check_box.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/_new/cat_page_song_book/tab_of_cont.dart';
@@ -44,6 +43,8 @@ class AlbumSongSelectorState extends State<AlbumSongSelector> with AutomaticKeep
   void initState() {
     checkedAllSongs = List.of(initSongs);
     checkedDisplSongs = List.of(initSongs);
+
+    displayedSongs = Song.all;
 
     controller = TabOfContController(Song.all);
 
@@ -105,7 +106,7 @@ class AlbumSongSelectorState extends State<AlbumSongSelector> with AutomaticKeep
 
           },
           showAddSongSuggestion: false,
-          accentColor: Provider.of<AccentColorProvider>(context, listen: false).avgColor,
+          accentColor: AccentColorProvider.of(context).avgColor,
       ),
       floatingActionButton: Consumer<AccentColorProvider>(
         builder: (context, prov, child) => FloatingActionButton(

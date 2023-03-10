@@ -28,7 +28,7 @@ class RankTaskData{
 
 }
 
-class RankTask extends SyncableParamGroup_ with SyncNode<RankTaskResp> implements TaskData{
+class RankTask with SyncableParamGroupMixin, SyncGetRespNode<RankTaskResp> implements TaskData{
 
   static const String PARAM_COMPLETED = 'completed';
   static const String PARAM_NOTE = 'note';
@@ -42,7 +42,7 @@ class RankTask extends SyncableParamGroup_ with SyncNode<RankTaskResp> implement
   void setCompleted(BuildContext context, bool value){
     taskState!.completed = value;
     Rank.lastEdited = rank;
-    setSingleState(PARAM_COMPLETED, SyncableParamSingle_.stateNotSynced);
+    setSingleState(PARAM_COMPLETED, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post();
     Provider.of<RankProv>(context, listen: false).notify();
   }
@@ -58,7 +58,7 @@ class RankTask extends SyncableParamGroup_ with SyncNode<RankTaskResp> implement
     }
     taskState!.note = value;
     Rank.lastEdited = rank;
-    setSingleState(PARAM_NOTE, SyncableParamSingle_.stateNotSynced);
+    setSingleState(PARAM_NOTE, SyncableParamSingleMixin.stateNotSynced);
     synchronizer.post(aggregateDelay: SynchronizerEngine.aggregateTextInputDuration);
   }
 
@@ -78,13 +78,7 @@ class RankTask extends SyncableParamGroup_ with SyncNode<RankTaskResp> implement
   RankTask(this.data, this.group, this.index);
 
   String get old_uid =>
-      rank!.version.toString() + '_' +
-          rank!.org.toString() + '_' +
-          rank!.id +
-          catExt!.index.toString() + '_' +
-          group!.index.toString() + '_' +
-          index.toString();
-
+      '${rank!.version}_${rank!.org}_${rank!.id}${catExt!.index}_${group!.index}_$index';
 
   String get uid =>
       rank!.uniqRankName + uidSep +
@@ -95,6 +89,12 @@ class RankTask extends SyncableParamGroup_ with SyncNode<RankTaskResp> implement
   static const String uidSep = '%';
 
   @override
+  String get debugClassId => Rank.paramTasks;
+
+  @override
+  SyncableParam get parentParam => rank!;
+
+  @override
   String get paramId => uid;
 
   @override
@@ -103,13 +103,13 @@ class RankTask extends SyncableParamGroup_ with SyncNode<RankTaskResp> implement
     SyncableParamSingle(
       this,
       paramId: PARAM_COMPLETED,
-      value_: () => completed,
+      value: () => completed,
     ),
 
     SyncableParamSingle(
       this,
       paramId: PARAM_NOTE,
-      value_: () => note,
+      value: () => note,
     ),
 
   ];

@@ -105,7 +105,7 @@ class BottomSheetReportState extends State<BottomSheetReport>{
         Row(
           children: <Widget>[
             Expanded(child: Container()),
-            SpiewnikReportSendButton(widget.song!.fileName, () => _text, getErrorType(), _text!.isNotEmpty),
+            SpiewnikReportSendButton(widget.song!.lclId, () => _text, getErrorType(), _text!.isNotEmpty),
           ],
         )
 

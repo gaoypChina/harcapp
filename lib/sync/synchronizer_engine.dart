@@ -162,7 +162,7 @@ class SynchronizerEngine{
   Future<bool> isAllSynced() async {
     await synchronizer.reloadSyncables();
 
-    for(SyncableParam param in SyncNode.all)
+    for(SyncableParam param in SyncGetRespNode.all)
       if(!param.isSynced) return false;
 
     return !Directory(getRemoveSyncReqFolderPath).existsSync()
@@ -174,7 +174,7 @@ class SynchronizerEngine{
 
     Map<String?, dynamic> result = {};
 
-    for(SyncableParam param in SyncNode.all) {
+    for(SyncableParam param in SyncGetRespNode.all) {
       Map<String?, dynamic> unsyncedMap = param.getUnsyncedMap();
       if (unsyncedMap.isNotEmpty) result[param.paramId] = unsyncedMap;
     }
@@ -185,27 +185,27 @@ class SynchronizerEngine{
   static Future<void> setAllSyncState(int state) async {
     await synchronizer.reloadSyncables();
 
-    for(SyncableParam param in SyncNode.all)
-      if(param is SyncableParamGroup_)
+    for(SyncableParam param in SyncGetRespNode.all)
+      if(param is SyncableParamGroupMixin)
         param.setAllSyncState(state);
-      else if(param is SyncableParamSingle_)
+      else if(param is SyncableParamSingleMixin)
         param.state = state;
   }
 
   static Future<void> changeSyncStateInAll(List<int> stateFrom, int stateTo) async {
     await synchronizer.reloadSyncables();
-    for(SyncableParam param in SyncNode.all)
+    for(SyncableParam param in SyncGetRespNode.all)
       param.changeSyncStateInAll(stateFrom, stateTo);
   }
 
-  Future<bool> reloadSyncables() async {
+  Future<bool> reloadSyncables({bool force = false}) async {
     bool result = false;
-    if(!OffSong.initialized) {
+    if(force || !OffSong.initialized) {
       await songLoader.run(awaitFinish: true);
       result = true;
     }
 
-    if(RemoveSyncItem.all == null){
+    if(force || RemoveSyncItem.all == null){
       RemoveSyncItem.readAll();
       result = true;
     }

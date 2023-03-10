@@ -28,6 +28,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 
 import '../../main.dart';
+import 'album/album_name.dart';
 import 'providers.dart';
 import 'song_management/song.dart';
 
@@ -99,7 +100,7 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
 
             Consumer<_NoSongsFoundProvider>(
               builder: (context, prov, child) =>
-              !Album.current.isOmega && prov.songsFound?
+              BaseAlbum.current is! OmegaAlbum && prov.songsFound?
               const Positioned.fill(
                 child: TabOfContBackgroundIcon()
               ):Container(),
@@ -120,8 +121,8 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
           stateTag: PatroniteSupportWidget.tagTableOfCont,
           title: 'Skąd tu tyle piosenek?!',
           description: 'Same się z pewnością nie dodają! A czy wiesz, że możesz pomóc w utrzymaniu rozwoju śpiewnika? <b>c:</b>',
-          colorStart: Album.current.colorStart??backgroundIcon_(context),
-          colorEnd: Album.current.colorEnd??backgroundIcon_(context),
+          colorStart: BaseAlbum.current.colorStart??backgroundIcon_(context),
+          colorEnd: BaseAlbum.current.colorEnd??backgroundIcon_(context),
         ):
         null,
       )
@@ -130,12 +131,12 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
   void selectSong(Song song, SongOpenType songOpen){
 
     int indexInAlbum;
-    if(Album.current.songs.contains(song))
-      indexInAlbum = Album.current.songs.indexOf(song);
+    if(BaseAlbum.current.songs.contains(song))
+      indexInAlbum = BaseAlbum.current.songs.indexOf(song);
     else{
-      showAppToast(context, text: 'Zmieniono $album_ na "${Album.omegaTitle}".');
-      Album.current = Album.omega;
-      indexInAlbum = Album.current.songs.indexOf(song);
+      showAppToast(context, text: 'Zmieniono $album_ na "${OmegaAlbum().title}".');
+      BaseAlbum.current = OmegaAlbum();
+      indexInAlbum = BaseAlbum.current.songs.indexOf(song);
     }
     onSongSelected(song, indexInAlbum, songOpen);
 
@@ -181,8 +182,8 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
     scrollController = ScrollController(initialScrollOffset: _scrollOffset);
     scrollController!.addListener(() => _scrollOffset = scrollController!.offset);
 
-    if (!Album.current.isOmega)
-      post(() => showAppToast(context, text: '$Album_: <b>${Album.current.title}</b>'));
+    if (BaseAlbum.current is! OmegaAlbum)
+      post(() => showAppToast(context, text: '$Album_: <b>${BaseAlbum.current.title}</b>'));
 
     super.initState();
   }
@@ -217,11 +218,11 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
           onSongTap: (song){
             Navigator.pop(context); // Close song contrib page
             Navigator.pop(context); // Close tab of content page
-            if(!Album.current.songs.contains(song)) {
-              Album.current = Album.omega;
+            if(!BaseAlbum.current.songs.contains(song)) {
+              BaseAlbum.current = OmegaAlbum();
               showAppToast(context, text: 'Otwarto $album_ "Wszystkie"');
             }
-            onSongSelected?.call(song, Album.current.songs.indexOf(song), SongOpenType.search);
+            onSongSelected?.call(song, BaseAlbum.current.songs.indexOf(song), SongOpenType.search);
           },
         )),
       )
@@ -234,7 +235,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
           if(!prov.songsFound)
             return Container();
 
-          CommonColorData colors = CommonColorData.get(Album.current.colorsKey);
+          CommonColorData colors = CommonColorData.get(BaseAlbum.current.colorsKey);
 
           return ExtendedFloatingButton(
             MdiIcons.shuffle,
@@ -252,7 +253,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
               RandomButtonProvider.registerTap_(context);
               int index = Random().nextInt(controller.currSongs.length);
               Song randomSong = controller.currSongs[index];
-              int indexInAlbum = Album.current.songs.indexOf(randomSong);
+              int indexInAlbum = BaseAlbum.current.songs.indexOf(randomSong);
               page.onSongSelected(randomSong, indexInAlbum, SongOpenType.random);
               Navigator.pop(context);
             }:null,
@@ -275,10 +276,10 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
       TabOfContPage.lastSearchPhrase = text;
 
       if(remPolChars(text) == SONG_CONFID_PASS_KEY){
-        if(!Album.isConfidUnlocked) {
-          Album.isConfidUnlocked = true;
+        if(!ConfidAlbum.unlocked) {
+          ConfidAlbum.unlocked = true;
           hideKeyboard(context);
-          Album.current = Album.confid;
+          BaseAlbum.current = ConfidAlbum();
           controller.phrase = '';
           onConfAlbumEnabled?.call();
           Navigator.pop(context);

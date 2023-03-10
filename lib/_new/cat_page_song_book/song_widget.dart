@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
@@ -42,9 +43,9 @@ import 'package:provider/provider.dart';
 import '../../_common_widgets/person_data_getter.dart';
 import '../../main.dart';
 import 'album/album_chooser.dart';
+import 'album/album_name.dart';
 import 'bottom_sheet_report.dart';
 import 'bottom_sheet_words.dart';
-import 'common.dart';
 import 'common_youtube.dart';
 import 'copy_page.dart';
 import 'own_song_page/add_song_bottom_sheet.dart';
@@ -158,14 +159,14 @@ class SongWidget extends StatelessWidget{
     onScroll: onScroll, //(scrollInfo) => determineFloatingButtonOpacity(context, scrollInfo),
 
     onTitleTap: () async {
-      String? wordsCode = await readStringFromAssets('assets/song_words/${song.fileName}');
+      String? wordsCode = await readStringFromAssets('assets/song_words/${song.lclId}');
       await showScrollBottomSheet(
           context: context,
           builder: (BuildContext context) => BottomSheetDef(
             title: 'Trudne słowa',
             textColor: textEnab_(context),
             childMargin: EdgeInsets.zero,
-            builder: (context) => BottomSheetWords(wordsCode, song.text, song.fileName),
+            builder: (context) => BottomSheetWords(wordsCode, song.text, song.lclId),
           )
       );
     },
@@ -280,10 +281,10 @@ class SongWidget extends StatelessWidget{
       if(song.deleteSongFile()){
         showAppToast(context, text: 'Usunięto piosenkę');
 
-        OwnSong.removeOwn(song as OwnSong);
+        OwnSong.removeFromAll(song as OwnSong);
         parent!.notify();
-        CatPageSongBookState.lastPage = parent!.pageController.page!.toInt();
-        for(Album album in Album.allOwn)
+        BaseAlbum.current.lastOpenIndex = parent!.pageController.page!.toInt();
+        for(OwnAlbum album in OwnAlbum.all)
           album.removeSong(song);
       }else
         showAppToast(context, text: 'Błąd. Nie usunięto piosenki');
@@ -299,8 +300,12 @@ class SongWidget extends StatelessWidget{
     ),
 
     onEditTap: (prov) async{
-      Map map = await getSongMap(song.fileName);
-      SongRaw songRaw = SongRaw.fromRespMap(song.fileName, map);
+      Map? map = jsonDecode(await song.code);
+      if(map == null){
+        showAppToast(context, text: 'Coś jest nie tak z piosenką');
+        return;
+      }
+      SongRaw songRaw = SongRaw.fromRespMap(song.lclId, map);
 
       openOwnSongPage(
           context,
@@ -315,7 +320,7 @@ class SongWidget extends StatelessWidget{
               );
 
             parent!.notify();
-            int index = Album.current.songs.indexOf(song);
+            int index = BaseAlbum.current.songs.indexOf(song);
             parent!.pageController.jumpToPage(index);
           }
       );
@@ -426,7 +431,7 @@ class SongWidget extends StatelessWidget{
       height: Dimen.FLOATING_BUTTON_SIZE + 2*Dimen.FLOATING_BUTTON_MARG
     ),
 
-    accentColor: Album.current.avgColor,
+    accentColor: BaseAlbum.current.avgColor,
 
     addPersResolver: AddPersEmailResolver(
       textColor: textEnab_(context),

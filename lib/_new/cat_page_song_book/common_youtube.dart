@@ -16,7 +16,7 @@ _jumpPlayRandSong(
   PageController? controller,
   double top
 )async{
-  List<Song?> albSongs = List.of(Album.current.songs);
+  List<Song?> albSongs = List.of(BaseAlbum.current.songs);
   albSongs.shuffle();
 
   Song? song;
@@ -24,7 +24,7 @@ _jumpPlayRandSong(
   for(Song? _s in albSongs)
     if(_s!.youtubeLink!=null) {
       song = _s;
-      page = Album.current.songs.indexOf(song);
+      page = BaseAlbum.current.songs.indexOf(song);
       break;
     }
 
@@ -42,14 +42,14 @@ Future<void> _jumpPlayNextSong(
   double top,
 )async{
   Song? song;
-  if(controller.page!.round() < Album.current.songs.length){
+  if(controller.page!.round() < BaseAlbum.current.songs.length){
 
     int page = controller.page!.round() + 1;
-    song = Album.current.songs[page];
+    song = BaseAlbum.current.songs[page];
 
-    while(song!.youtubeLink==null && page<Album.current.songs.length-1){
+    while(song!.youtubeLink==null && page<BaseAlbum.current.songs.length-1){
       page++;
-      song = Album.current.songs[page];
+      song = BaseAlbum.current.songs[page];
     }
 
     await controller.animateToPage(

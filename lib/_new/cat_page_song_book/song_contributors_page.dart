@@ -61,7 +61,7 @@ class SongContributorsPage extends StatelessWidget{
 
                           IndivCompProfile.empty(rank: index+1),
                           activeParticipCnt: null,
-                          colors: CommonColorData.get(CommonColorData.omegaColorsKey),
+                          colors: CommonColorData.get(CommonColorData.omegaAlbumColorsKey),
                           size: iconSize,
                         ),
                       ),

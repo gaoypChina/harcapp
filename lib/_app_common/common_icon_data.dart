@@ -31,13 +31,17 @@ class CommonIconData{
   static String get randomKey => all.keys.toList()[Random().nextInt(all.length)];
 
   static const Map<String, IconData> books = {
+    'notebookOutline': MdiIcons.notebookOutline,
+    'bookMusic': MdiIcons.bookMusic,
     'bookMusicOutline': MdiIcons.bookMusicOutline,
+    'bookEdit': MdiIcons.bookEdit,
+    'bookEditOutline': MdiIcons.bookEditOutline,
+    'bookEducation': MdiIcons.bookEducation,
+    'bookEducationOutline': MdiIcons.bookEducationOutline,
     'scriptOutline': MdiIcons.scriptOutline,
     'scriptTextOutline': MdiIcons.scriptTextOutline,
-    'notebookOutline': MdiIcons.notebookOutline,
     'bookOpenVariant': MdiIcons.bookOpenVariant,
     'bookVariant': MdiIcons.bookVariant,
-    'bookEducation': MdiIcons.bookEducation,
     'bookAccount': MdiIcons.bookAccount,
     'bookSync': MdiIcons.bookClock,
     'bookCross': MdiIcons.bookCross,
@@ -59,6 +63,8 @@ class CommonIconData{
     'pencilOutline': MdiIcons.pencilOutline,
     'pencilRuler': MdiIcons.pencilRuler,
     'greasePencil': MdiIcons.greasePencil,
+    'draw': MdiIcons.draw,
+    'leadPencil': MdiIcons.leadPencil,
     'feather': MdiIcons.feather,
   };
 
@@ -268,6 +274,7 @@ class CommonIconData{
     'shimmer': MdiIcons.shimmer,
 
     'paperRollOutline': MdiIcons.paperRollOutline,
+    'giftOpenOutline': MdiIcons.giftOpenOutline,
     'package': MdiIcons.package,
     'packageVariant': MdiIcons.packageVariant,
     folderIconKey: MdiIcons.folder,

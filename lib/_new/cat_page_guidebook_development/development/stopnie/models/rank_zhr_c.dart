@@ -13,6 +13,7 @@ import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_state_local.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank_state_shared.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/rank_widgets/rank_cat_widget.dart';
+import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -116,7 +117,10 @@ abstract class RankZHRCTempl<T extends RankState> extends Rank<RankZHRCData, Ran
       const SectorSepWidget('Zadania'),
     ],
   );
-
+  
+  @override
+  String get debugClassId => RankZHRC.syncClassId;
+  
 }
 
 class RankZHRC<T extends RankState> extends RankZHRCTempl<RankStateLocal>{
@@ -143,6 +147,9 @@ class RankZHRC<T extends RankState> extends RankZHRCTempl<RankStateLocal>{
 
   static const String syncClassId = RankDef.syncClassId;
 
+  @override
+  SyncableParam? get parentParam => null;
+
 }
 
 class RankZHRCPreview extends RankZHRCTempl<RankStateShared>{
@@ -154,5 +161,9 @@ class RankZHRCPreview extends RankZHRCTempl<RankStateShared>{
   RankStateShared state;
 
   RankZHRCPreview(super.data, this.state, super.cats);
+
+  @override
+  // TODO: Separate the rank template stuff do that preview is not syncable.
+  SyncableParam? get parentParam => null;
 
 }

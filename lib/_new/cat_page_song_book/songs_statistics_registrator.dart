@@ -57,7 +57,7 @@ class SongsStatisticsRegistrator{
       return;
     }
 
-    _songLclId = song.fileName;
+    _songLclId = song.lclId;
     _songOpenType = songOpenType;
     _openTime = DateTime.now();
     logger.d('SongsStatisticsRegistrator ($_songLclId) song opened.');

@@ -58,17 +58,17 @@ class SongBasicData1{
     String moderator = lines[4];
 
     String? youtubeLink = null;
-    if (lines[5].length != 0)
+    if (lines[5].isNotEmpty)
       youtubeLink = lines[5];
 
     List<String> tags = lines[6].split(';');
-    tags.removeWhere((tag) => tag.length==0);
+    tags.removeWhere((tag) => tag.isEmpty);
 
     List<String> tagsSimple = remPolCharsList(tags);
 
     String tagsAsCode = lines[6];
     String tagsAsString = lines[6].replaceAll(';', ' ');
-    if(tagsAsString.length == 0) tagsAsString = '#';
+    if(tagsAsString.isEmpty) tagsAsString = '#';
 
     return SongBasicData1(
       fileName,

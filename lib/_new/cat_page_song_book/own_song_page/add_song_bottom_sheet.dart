@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/scan_qr_code.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
-import 'package:harcapp/_new/cat_page_song_book/song_management/own_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
@@ -77,7 +77,7 @@ class AddSongBottomSheet extends StatelessWidget{
                       SongRaw song;
 
                       try {
-                        song = SongRaw.from('${OwnSong.lastFileName + 1}', code);
+                        song = SongRaw.fromBase64(code: code);
                       }
                       on Exception {
                         showAppToast(context, text: 'Coś tu nie gra...');
@@ -110,7 +110,7 @@ class AddSongBottomSheet extends StatelessWidget{
 }
 
 void openOwnSongPage(BuildContext context, {SongRaw? song, Function(Song song, EditType editType)? onSaved}) =>
-    Navigator.push(context, MaterialPageRoute(builder: (context) => OwnSongPage.from(
+    pushPage(context, builder: (context) => OwnSongPage.from(
         song: song,
         onSaved: onSaved
-    )));
+    ));

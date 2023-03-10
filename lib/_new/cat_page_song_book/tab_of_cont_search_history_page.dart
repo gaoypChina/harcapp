@@ -34,7 +34,7 @@ class SearchHistoryPageState extends State<SearchHistoryPage>{
     body: Stack(
       children: [
 
-        if(Album.current.searchHistory.isNotEmpty)
+        if(BaseAlbum.current.searchHistory.isNotEmpty)
           const Positioned.fill(
             child: TabOfContBackgroundIcon(),
           ),
@@ -51,12 +51,12 @@ class SearchHistoryPageState extends State<SearchHistoryPage>{
               floating: true,
               actions: [
 
-                if(Album.current.searchHistory.isNotEmpty)
+                if(BaseAlbum.current.searchHistory.isNotEmpty)
                   AppButton(
                     icon: const Icon(MdiIcons.trashCanOutline),
                     onTap: () => showAppToast(context, text: 'Przytrzymaj, by wyczyścić historię wyszukiwania'),
                     onLongPress: (){
-                      Album.current.searchHistory = [];
+                      BaseAlbum.current.searchHistory = [];
                       showAppToast(context, text: 'Historia wyczyszczona');
                       setState((){});
                     },
@@ -65,7 +65,7 @@ class SearchHistoryPageState extends State<SearchHistoryPage>{
               ],
             ),
 
-            if(Album.current.searchHistory.isEmpty)
+            if(BaseAlbum.current.searchHistory.isEmpty)
               const SliverFillRemaining(
                   hasScrollBody: false,
                   child: Center(child: EmptyMessageWidget(
@@ -76,7 +76,7 @@ class SearchHistoryPageState extends State<SearchHistoryPage>{
             else
               SliverList(
                 delegate: SliverChildBuilderDelegate((context, index){
-                  Song? song = Song.allMap[Album.current.searchHistory[index]];
+                  Song? song = Song.allMap[BaseAlbum.current.searchHistory[index]];
 
                   if(song == null)
                     return ListTile(
@@ -89,20 +89,20 @@ class SearchHistoryPageState extends State<SearchHistoryPage>{
                         song,
                         onTap: onSongSelected==null?null:(song) => onSongSelected!(
                             song,
-                            Album.current.songs.indexOf(song),
+                            BaseAlbum.current.songs.indexOf(song),
                             SongOpenType.history
                         ),
                         trailing: IconButton(
                           icon: const Icon(MdiIcons.close),
                           onPressed: (){
-                            Album.current.removeFromSeachHistory(index);
+                            BaseAlbum.current.removeFromSearchHistory(index);
                             setState((){});
                           },
                         ),
                       )
                   );
                 },
-                    childCount: Album.current.searchHistory.length
+                    childCount: BaseAlbum.current.searchHistory.length
                 ),
               ),
 

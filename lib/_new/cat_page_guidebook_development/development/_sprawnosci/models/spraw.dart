@@ -132,7 +132,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   void changeSaved(BuildContext context, {bool? value, bool localOnly = false}){
     inProgress = value;
 
-    setSingleState(PARAM_IN_PROGRESS, SyncableParamSingle_.stateNotSynced);
+    setSingleState(PARAM_IN_PROGRESS, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
     SprawSavedListProv.notify_(context);
@@ -175,7 +175,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   void changeInProgress(BuildContext context, {bool? value, bool localOnly = false}){
     inProgress = value;
 
-    setSingleState(PARAM_IN_PROGRESS, SyncableParamSingle_.stateNotSynced);
+    setSingleState(PARAM_IN_PROGRESS, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
     Provider.of<SprawInProgressListProv>(context, listen: false).notify();
@@ -190,7 +190,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   @override
   void setCompletionDate(DateTime value, {localOnly = false}){
     completionDate = value;
-    setSingleState(PARAM_COMPLETION_DATE, SyncableParamSingle_.stateNotSynced);
+    setSingleState(PARAM_COMPLETION_DATE, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
   }
 
@@ -218,7 +218,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     if(completed)
       changeInProgress(context, value: false, localOnly: true);
 
-    setSingleState(PARAM_COMPLETED, SyncableParamSingle_.stateNotSynced);
+    setSingleState(PARAM_COMPLETED, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
     Provider.of<SprawCompletedListProv>(context, listen: false).notify();
@@ -284,8 +284,14 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
 
   static const String syncClassId = 'spraw';
 
+  @override
+  String get debugClassId => syncClassId;
+
   //@override
   //SyncableParam get parentParam => RootSyncable(syncClassId);
+
+  @override
+  SyncableParam? get parentParam => null;
 
   @override
   String get paramId => uniqName;
@@ -296,19 +302,19 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     SyncableParamSingle(
       this,
       paramId: PARAM_IN_PROGRESS,
-      value_: () => inProgress,
+      value: () => inProgress,
     ),
 
     SyncableParamSingle(
       this,
       paramId: PARAM_COMPLETED,
-      value_: () => completed,
+      value: () => completed,
     ),
 
     SyncableParamSingle(
       this,
       paramId: PARAM_COMPLETION_DATE,
-      value_: () => completionDate==null?null:DateFormat('yyyy-MM-dd').format(completionDate!),
+      value: () => completionDate==null?null:DateFormat('yyyy-MM-dd').format(completionDate!),
     ),
 
     SyncableParamGroup(
@@ -326,7 +332,6 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     completionDate = resp.completionDate;
     for(String taskKey in resp.task.keys)
       _taskMap[taskKey]!.applySyncGetResp(resp.task[taskKey]!);
-
   }
 
 }
