@@ -725,7 +725,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "3e9247c4ab03ff26fd693cb5745dd85bf756de5c"
+      resolved-ref: aa4df056d1df1a749cd7e8918669ebd7e5315991
       url: "https://github.com/n3o2k7i8ch5/harcapp_core_song_widget"
     source: git
     version: "0.0.1"

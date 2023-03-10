@@ -645,13 +645,20 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                       Positioned.fill(child: Consumer<ConfettiProvider>(
                         builder: (context, prov, child) => ConfettiLayer(
                           confettiController,
-                          numberOfParticles: 20,
+                          numberOfParticles: 28,
                           createParticlePath: SongRate.path(prov.rate),
                           colors: prov.colors,
                           strokeWidth: 3,
                           strokeColor: prov.strokeColor,
+                          minBlastForce: 8,
+                          maxBlastForce: 18,
+                          particleDrag: 0.02,
+                          // blastDirection: -pi/2, //-pi,
+                          // blastDirectionality: BlastDirectionality.explosive,
+                          alignment: Alignment.bottomCenter,
                           minimumSize: const Size(40, 40),
                           maximumSize: const Size(95, 95),
+                          disableFullRotation: true,
                         ),
                       ))
 
