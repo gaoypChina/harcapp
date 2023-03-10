@@ -210,7 +210,7 @@ class AlbumEditorPageState extends State<AlbumEditorPage> with TickerProviderSta
           ),
 
           if(editable)
-            _TabPageColorPicker(initAlbum as OwnAlbum)
+            _TabPageColorPicker(initAlbum as OwnAlbum?)
         ],
       ),
     ),
