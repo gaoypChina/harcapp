@@ -213,8 +213,8 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
         ToLearnAlbum.loaded.addSong(song);
         song.setRate(SongRate.RATE_NULL);
       }
-      ToLearnAlbum.loaded.save();
     }
+    ToLearnAlbum.loaded.save();
     // End: TMP
 
     OwnAlbum.all = allAlbums;

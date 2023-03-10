@@ -143,46 +143,46 @@ class SprawFoldersPageState extends State<SprawFoldersPage> with TickerProviderS
     ));
 
     return BottomNavScaffold(
-      body: NestedScrollView(
-        physics: const BouncingScrollPhysics(),
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
-          SliverAppBar(
-            floating: true,
-            pinned: true,
-            title: AppBarTitleWidget(notifier: notifier!),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                icon: const Icon(MdiIcons.magnify),
-                onPressed: () => pushPage(
-                    context,
-                    builder: (context) => FolderSearchPage<BaseSprawFolder>(
-                      allFolders: BaseSprawFolder.allFolders,
-                      onSelected: (folder){
-                        int index = folders.indexOf(folder);
-                        tabController.animateTo(index);
-                        Navigator.pop(context);
-                      },
-                    )
+      body: Container(
+        color: backgroundIcon_(context),
+        child: NestedScrollView(
+          physics: const BouncingScrollPhysics(),
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
+            SliverAppBar(
+              floating: true,
+              pinned: true,
+              title: AppBarTitleWidget(notifier: notifier!),
+              centerTitle: true,
+              actions: [
+                IconButton(
+                  icon: const Icon(MdiIcons.magnify),
+                  onPressed: () => pushPage(
+                      context,
+                      builder: (context) => FolderSearchPage<BaseSprawFolder>(
+                        allFolders: BaseSprawFolder.allFolders,
+                        onSelected: (folder){
+                          int index = folders.indexOf(folder);
+                          tabController.animateTo(index);
+                          Navigator.pop(context);
+                        },
+                      )
+                  ),
+                )
+              ],
+              bottom: TabBar(
+                splashBorderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(AppCard.bigRadius),
+                    topRight: Radius.circular(AppCard.bigRadius)
                 ),
-              )
-            ],
-            bottom: TabBar(
-              splashBorderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(AppCard.bigRadius),
-                  topRight: Radius.circular(AppCard.bigRadius)
+                controller: tabController,
+                isScrollable: true,
+                physics: const BouncingScrollPhysics(),
+                tabs: tabs,
+                indicator: FolderTabIndicator(context),
               ),
-              controller: tabController,
-              isScrollable: true,
-              physics: const BouncingScrollPhysics(),
-              tabs: tabs,
-              indicator: FolderTabIndicator(context),
             ),
-          ),
-        ],
-        body: Container(
-          color: backgroundIcon_(context),
-          child: TabBarView(
+          ],
+          body: TabBarView(
             controller: tabController,
             physics: const BouncingScrollPhysics(),
             children: children,

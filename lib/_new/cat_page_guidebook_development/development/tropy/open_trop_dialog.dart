@@ -17,25 +17,7 @@ void openTropDialog(
             color: background_(context),
             borderRadius: BorderRadius.circular(AppCard.bigRadius),
             clipBehavior: Clip.hardEdge,
-            child: CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: [
-
-                const SliverAppBar(
-                  floating: true,
-                ),
-
-                SliverPadding(
-                  padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-                  sliver: SliverList(delegate: SliverChildListDelegate([
-                    TropWidget(
-                        trop
-                    )
-                  ])),
-                )
-
-              ],
-            )
+            child: TropWidget(trop)
         ),
       )
 );

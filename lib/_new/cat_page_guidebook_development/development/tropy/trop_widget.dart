@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/border_material.dart';
 import 'package:harcapp/_common_widgets/duration_date_widget.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_editor_page/_main.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_icon.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_task_widget.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop_tile.dart';
@@ -13,104 +15,155 @@ import 'package:harcapp_core/comm_widgets/simple_button.dart';
 import 'package:harcapp_core/comm_widgets/title_show_row_widget.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 
 
 class TropWidget extends StatelessWidget{
 
   final Trop trop;
   final double iconSize;
+  final bool showBack;
 
-  const TropWidget(this.trop, {this.iconSize = TropIcon.defSize, super.key});
+  const TropWidget(
+      this.trop,
+      { this.iconSize = TropIcon.defSize,
+        this.showBack = true,
+        super.key
+      });
 
   @override
-  Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: [
+  Widget build(BuildContext context) => Consumer<TropProvider>(
+      builder: (context, prov, child) => CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
 
-      DurationDateWidget(
-        startDate: trop.startTime,
-        endDate: trop.endTime,
-        color: AppColors.zhpTropColor,
-      ),
+          if(showBack)
+            SliverAppBar(
+              title: Text(trop.name),
+              centerTitle: true,
+              floating: true,
+              actions: [
+                IconButton(
+                  icon: const Icon(MdiIcons.pencilOutline),
+                  onPressed: () {
 
-      const SizedBox(height: Dimen.SIDE_MARG),
+                    pushPage(context, builder: (context) => TropEditorPage(
+                        initTrop: trop,
+                        allCategories:
+                        trop.isCategoryHarc?
+                        allHarcTropCategories:
+                        allZuchTropCategories,
+                        onSaved: (updatedTrop){
+                          trop.update(updatedTrop);
+                          showAppToast(context, text: 'Trop poprawiony');
+                          prov.notify();
+                        }
+                    ));
 
-      TropTile(
-        name: trop.name,
-        category: trop.category,
-        zuchTropName: trop.customIconTropName,
-        trailing: TropTileProgressWidget(trop),
-        iconSize: iconSize,
-      ),
+                  },
+                )
+              ],
+            ),
 
-      Align(
-        alignment: Alignment.centerRight,
-        child: SimpleButton.from(
-            context: context,
-            color: AppColors.zhpTropColor,
-            textColor: Colors.white,
-            icon: MdiIcons.accountPlusOutline,
-            text: 'Zaproś kumpli',
-            onTap: () => showAppToast(context, text: 'Na razie to nie działa.')
-        ),
-      ),
+          SliverPadding(
+            padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+            sliver: SliverList(delegate: SliverChildListDelegate([
 
-      if(trop.aims.isNotEmpty)
-        const SizedBox(height: Dimen.SIDE_MARG),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
 
-      if(trop.aims.isNotEmpty)
-        const TitleShortcutRowWidget(
-          title: 'Cele',
-          textAlign: TextAlign.left,
-        ),
+                  DurationDateWidget(
+                    startDate: trop.startTime,
+                    endDate: trop.endTime,
+                    color: AppColors.zhpTropColor,
+                  ),
 
-      if(trop.aims.isNotEmpty)
-        ListView.separated(
-          itemBuilder: (context, index) => TropAimWidget(trop.aims[index], index: index),
-          separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-          itemCount: trop.aims.length,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-        ),
+                  const SizedBox(height: Dimen.SIDE_MARG),
 
-      const SizedBox(height: Dimen.SIDE_MARG),
+                  TropTile(
+                    name: trop.name,
+                    category: trop.category,
+                    zuchTropName: trop.customIconTropName,
+                    trailing: TropTileProgressWidget(trop),
+                    iconSize: iconSize,
+                  ),
 
-      const TitleShortcutRowWidget(
-        title: 'Zadania',
-        textAlign: TextAlign.left,
-      ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: SimpleButton.from(
+                        context: context,
+                        color: AppColors.zhpTropColor,
+                        textColor: Colors.white,
+                        icon: MdiIcons.accountPlusOutline,
+                        text: 'Zaproś kumpli',
+                        onTap: () => showAppToast(context, text: 'Na razie to nie działa.')
+                    ),
+                  ),
 
-      ListView.separated(
-        itemBuilder: (context, index) => TropTaskWidget(trop, trop.tasks[index], index: index),
-        separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
-        itemCount: trop.tasks.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-      ),
+                  if(trop.aims.isNotEmpty)
+                    const SizedBox(height: Dimen.SIDE_MARG),
 
-      if(trop.hasNotesForLeaders)
-        const SizedBox(height: Dimen.SIDE_MARG),
+                  if(trop.aims.isNotEmpty)
+                    const TitleShortcutRowWidget(
+                      title: 'Cele',
+                      textAlign: TextAlign.left,
+                    ),
 
-      if(trop.hasNotesForLeaders)
-        const TitleShortcutRowWidget(
-          title: 'Wskazówki dla drużynowego',
-          textAlign: TextAlign.left,
-        ),
+                  if(trop.aims.isNotEmpty)
+                    ListView.separated(
+                      itemBuilder: (context, index) => TropAimWidget(trop.aims[index], index: index),
+                      separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
+                      itemCount: trop.aims.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                    ),
 
-      if(trop.hasNotesForLeaders)
-        BorderMaterial(
-          child: Padding(
-              padding: const EdgeInsets.all(Dimen.ICON_MARG),
-              child: Text(
-                trop.notesForLeaders!,
-                style: AppTextStyle(
-                    fontSize: Dimen.TEXT_SIZE_BIG
-                ),
+                  const SizedBox(height: Dimen.SIDE_MARG),
+
+                  const TitleShortcutRowWidget(
+                    title: 'Zadania',
+                    textAlign: TextAlign.left,
+                  ),
+
+                  ListView.separated(
+                    itemBuilder: (context, index) => TropTaskWidget(trop, trop.tasks[index], index: index),
+                    separatorBuilder: (context, index) => const SizedBox(height: Dimen.SIDE_MARG),
+                    itemCount: trop.tasks.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                  ),
+
+                  if(trop.hasNotesForLeaders)
+                    const SizedBox(height: Dimen.SIDE_MARG),
+
+                  if(trop.hasNotesForLeaders)
+                    const TitleShortcutRowWidget(
+                      title: 'Wskazówki dla drużynowego',
+                      textAlign: TextAlign.left,
+                    ),
+
+                  if(trop.hasNotesForLeaders)
+                    BorderMaterial(
+                      child: Padding(
+                          padding: const EdgeInsets.all(Dimen.ICON_MARG),
+                          child: Text(
+                            trop.notesForLeaders!,
+                            style: AppTextStyle(
+                                fontSize: Dimen.TEXT_SIZE_BIG
+                            ),
+                          )
+                      ),
+                    ),
+
+                ],
               )
-          ),
-        ),
 
-    ],
+            ])),
+          )
+
+        ],
+      )
   );
 
 }
