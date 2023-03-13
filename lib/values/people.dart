@@ -34,6 +34,7 @@ List<Person> allPeople = [
   DOMINIKA_GORZYNSKA,
   DOMINIKA_HOCHMANSKA,
   DORIAN_JAREK,
+  EMILIA_WITKOWSKA,
   EVELINA_STASILOVIC,
   EWA_BYSTRZYNSKA,
   FILIP_BERGIER,
@@ -336,6 +337,15 @@ const Person DORIAN_JAREK = Person(name: 'Dorian Jarek', stopI: 'pwd.',
     druzyna: '13. Konińska Drużyna Wędrownicza "Wadery"',
     hufiec: huf_zhp_konin,
     org: Org.zhp);
+const Person EMILIA_WITKOWSKA = Person(
+    name: 'Emilia Witkowska',
+    druzyna: '307 WDHiZ',
+    hufiec: 'Warszawa Mokotów',
+    stopI: 'pwd.',
+    stopH: StopZHP.zhpHRd,
+    org: Org.zhp,
+    email: ['emilia.witkowska@zhp.net.pl']
+);
 const Person EVELINA_STASILOVIC = Person(
   name: 'Evelina Stasilovič',
   stopH: StopZHP.zhpOchotniczka,
