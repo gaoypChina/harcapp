@@ -88,7 +88,7 @@ class AlbumSongSelectorState extends State<AlbumSongSelector> with AutomaticKeep
           ),
           appBar: false,
           onItemTap: (Song song, int index) => onTap(song),
-          onSearchComplete: (List<Song> songs, bool Function() stillValid){
+          onSearchComplete: (List<Song> songs, _){
 
             displayedSongs = songs;
 

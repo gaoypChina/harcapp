@@ -44,7 +44,7 @@ List<ItemData> items = [
       ],
       Graphics('brzoza', null),
       'Brzoza',
-      'Wysokość brzozy brodawkowatej dochodzi do 25 m, przy średnicach do ok. 60 cm; często także w postaci karłowatej. Pień do wysokości ok. 12-15 m wolny od gałęzi, cylindryczny, niekiedy zniekształcony przy odziomku; na niekorzystnych siedliskach także skrzywiony. Kora mlecznobiała, dająca się oddzierać cienkimi poprzecznymi pasmami, wiekiem pstra, spękana w dolnej części pnia, gruba i czarnawa. Młode pędy pokryte brodawkami. Liście skrętoległe, pojedyncze, podwójnie ząbkowane, jajowato zakończone lub trójkątne. Długość liścia do 7 cm, szerokość ok. 3 cm, kolor zielony - na jesieni żółty. Kwiatostany w postaci długich kotek. Nasiona to orzeszki ok. 3mm, dookoła błoniasto oskrzydlone.',
+      'Wysokość brzozy brodawkowatej dochodzi do 25 m, przy średnicach do ok. 60 cm; często także w postaci karłowatej. Pień do wysokości ok. 12-15 m wolny od gałęzi, cylindryczny, niekiedy zniekształcony przy odziomku; na niekorzystnych siedliskach także skrzywiony. Kora mlecznobiała, dająca się oddzierać cienkimi poprzecznymi pasmami, wiekiem pstra, spękana w dolnej części pnia, gruba i czarnawa. Młode pędy pokryte brodawkami. Liście skrętoległe, pojedyncze, podwójnie ząbkowane, jajowato zakończone lub trójkątne. Długość liścia do 7 cm, szerokość ok. 3 cm, kolor zielony - na jesieni żółty. Kwiatostany w postaci długich kotek. Nasiona to orzeszki ok. 3 mm, dookoła błoniasto oskrzydlone.',
       ['Czarno-biała kora'],
       cieplo: 3, zar: 1, plomien: 4, czas: 1,
       background_kora: Graphics('brzoza', auth_unsplash + ' @worldsbetweenlines')

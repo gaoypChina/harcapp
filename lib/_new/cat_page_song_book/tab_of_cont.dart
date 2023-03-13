@@ -44,7 +44,7 @@ class TabOfCont extends StatefulWidget{
 
   final Function(String)? onChanged;
 
-  final Function(List<Song> songs, bool Function() stillValid)? onSearchComplete;
+  final Function(List<Song> songs, bool valid)? onSearchComplete;
   final PageStorageKey? pageStorageKey;
   final bool showAddSongSuggestion;
   final void Function(Song song)? onNewSongAdded;
@@ -78,7 +78,7 @@ class TabOfCont extends StatefulWidget{
 
 class TabOfContState extends State<TabOfCont>{
 
-  final PageStorageBucket pageStorageBucket = PageStorageBucket();
+  // final PageStorageBucket pageStorageBucket = PageStorageBucket();
 
   static const double tagBarHeight = 2*Dimen.defMarg + Dimen.TEXT_SIZE_NORMAL + 3;
 
@@ -104,7 +104,7 @@ class TabOfContState extends State<TabOfCont>{
 
   double? get paddingBottom => widget.paddingBottom;
 
-  Function(List<Song> songs, bool Function() stillValid)? get onSearchComplete => widget.onSearchComplete;
+  Function(List<Song> songs, bool valid)? get onSearchComplete => widget.onSearchComplete;
 
   void initSearcher() async {
     await searcher.init(allSongs, controller.searchOptions);
@@ -122,7 +122,11 @@ class TabOfContState extends State<TabOfCont>{
 
     searcher = SongSearcher((List<Song> songs, bool Function() stillValid) {
       if(!mounted) return;
-      onSearchComplete?.call(songs, stillValid);
+      bool valid = stillValid();
+      if(!valid) return;
+      if(songs.join('\$').hashCode == controller.songsHashCode)
+        return;
+      onSearchComplete?.call(songs, valid);
       controller.currSongs = songs;
       setState(() {});
     });
@@ -153,6 +157,7 @@ class TabOfContState extends State<TabOfCont>{
       controller: scrollController,
       physics: const BouncingScrollPhysics(),
       slivers: [
+
         if(widget.appBar)
           SliverAppBar(
             backgroundColor: background_(context),
@@ -168,9 +173,7 @@ class TabOfContState extends State<TabOfCont>{
                 searcher: searcher,
                 tabOfContController: controller,
                 textController: textController,
-                onSearchOptionChanged: (){
-                  setState(() {});
-                },
+                onSearchOptionChanged: () => setState(() {}),
                 onCleared: () => setState(() {})
             ),
             height: SearchField.height + (controller.searchOptions.isEmpty?0:35.0),
@@ -188,20 +191,15 @@ class TabOfContState extends State<TabOfCont>{
           )
         else
           SliverList(
-              delegate: SliverChildBuilderDelegate((context, index){
-                GlobalKey globalKey = GlobalKey();
-                return Padding(
-                    padding: const EdgeInsets.only(bottom: Dimen.defMarg),
-                    child: SongTile(
-                      controller.currSongs[index],
-                      key: globalKey,
-                      onTap: onItemTap==null?null:(song) => onItemTap!(song, index),
-                      leading: itemLeadingBuilder?.call(controller.currSongs[index]),
-                      trailing: itemTrailingBuilder?.call(controller.currSongs[index]),
-                    )
-                );
-
-              },
+              delegate: SliverChildBuilderDelegate((context, index) => Padding(
+                  padding: const EdgeInsets.only(bottom: Dimen.defMarg),
+                  child: SongTile(
+                    controller.currSongs[index],
+                    onTap: onItemTap==null?null:(song) => onItemTap!(song, index),
+                    leading: itemLeadingBuilder?.call(controller.currSongs[index]),
+                    trailing: itemTrailingBuilder?.call(controller.currSongs[index]),
+                  )
+              ),
                   childCount: controller.currSongs.length
               )),
 

@@ -172,7 +172,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
   void Function()? get onConfAlbumEnabled => widget.onConfAlbumEnabled;
   void Function(Song, int, SongOpenType)? get onSongSelected => widget.onSongSelected;
 
-  ScrollController? scrollController;
+  late ScrollController scrollController;
   double? paddingBottom;
 
   @override
@@ -180,7 +180,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
 
     if(widget.page.widget.forgetScrollPosition) _scrollOffset = 0;
     scrollController = ScrollController(initialScrollOffset: _scrollOffset);
-    scrollController!.addListener(() => _scrollOffset = scrollController!.offset);
+    scrollController.addListener(() => _scrollOffset = scrollController.offset);
 
     if (BaseAlbum.current is! OmegaAlbum)
       post(() => showAppToast(context, text: '$Album_: <b>${BaseAlbum.current.title}</b>'));
@@ -190,7 +190,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
 
   @override
   void dispose() {
-    scrollController!.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -299,9 +299,9 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
 
       prov.songsFound = songs.isNotEmpty;
 
-      if(scrollController!.hasClients) {
+      if(scrollController.hasClients) {
         _scrollOffset = 0;
-        scrollController!.jumpTo(_scrollOffset);
+        scrollController.jumpTo(_scrollOffset);
       }
     },
     onNewSongAdded: page.widget.onNewSongAdded,
@@ -310,7 +310,6 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
   Widget itemButtonsBuilder(Song song){
 
     GlobalKey globalKey = GlobalKey();
-
     return IconButton(
         key: globalKey,
         icon: RateIcon.build(context, song.rate),
@@ -336,11 +335,10 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
             await scrollBy(scrollVal);
           }
 
+          if(!mounted) return;
           await openDialog(
               context: context,
-              builder: (context){
-
-                return Stack(
+              builder: (context) => Stack(
                   children: <Widget>[
 
                     Positioned.fill(
@@ -356,8 +354,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
                     ),
 
                   ],
-                );
-              }
+                )
           );
 
           if(diff > 0)
@@ -370,8 +367,8 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
 
   }
 
-  Future<void> scrollBy(double value) async => await scrollController!.animateTo(
-      scrollController!.offset + value,
+  Future<void> scrollBy(double value) async => await scrollController.animateTo(
+      scrollController.offset + value,
       duration: const Duration(milliseconds: 200),
       curve: Curves.ease
   );
