@@ -7,6 +7,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'hufce.dart';
 
 List<Person> allPeople = [
+  ABRAHAM_PRAGER,
   ADAM_DUDAK,
   ADAM_SKLODOWSKI,
   AGNIESZKA_DURSKA,
@@ -42,6 +43,7 @@ List<Person> allPeople = [
   FILIP_SOCHAJ,
   FILIP_SWIDEREK,
   FRANCISZEK_LINKE,
+  FRANCISZEK_MICHALSKI,
   FRANCISZEK_TOMASZCZYK,
   GRZEGORZ_BOROWIEC,
   GRZEGORZ_ZAWADZKI,
@@ -52,6 +54,7 @@ List<Person> allPeople = [
   HELENA_SWIATKOWSKA,
   HUBERT_FRUKOWSKI,
   HUBERT_JANIK,
+  HUBERT_SULSKI,
   JADWIGA_BILINSKA,
   JADWIGA_GORSKA,
   JADWIGA_SZEWCZYK,
@@ -67,6 +70,7 @@ List<Person> allPeople = [
   JAROSLAW_JAKUBIAK,
   JAROSLAW_ZASACKI,
   JOANNA_MICHALOWSKA,
+  JULIA_BIENIEK,
   JULIA_GRODZKA,
   JULIA_KARAS,
   JULIA_PILCH,
@@ -136,9 +140,11 @@ List<Person> allPeople = [
   MICHAL_KARWOWSKI,
   MICHAL_METEL,
   MIKOLAJ_GORECKI,
+  MIKOLAJ_LUKASIK,
   MICHAL_SUPINSKI,
   NADIA_OSSOWSKA,
   NADIA_WYSZOGRODZKA,
+  NATALIA_STODOLNA,
   OLGA_JAJKO,
   OLIWIA_STANCZYK,
   OLIWIER_STARCZEWSKI,
@@ -210,6 +216,11 @@ Map<String, Person> __getAllPeopleByEmailMap(){
 
 Map<String, Person> allPeopleByEmailMap = __getAllPeopleByEmailMap();
 
+const Person ABRAHAM_PRAGER = Person(
+  name: 'Abraham Prager',
+  druzyna: '1. Czarnkowska Drużyna Wielopoziomowa „Puszcza” im. Jana Kilińskiego',
+  email: ['abraham.p@wp.pl']
+);
 const Person ADAM_DUDAK = Person(name: 'Adam Dudak', hufiec: huf_zhp_warszawa_ursynow, druzyna: '234 Warszawska Drużyna Harcerska "Forteca"');
 const Person ADAM_SKLODOWSKI = Person(
 name: 'Adam Skłodowski',
@@ -344,7 +355,7 @@ const Person EMILIA_WITKOWSKA = Person(
     stopI: 'pwd.',
     stopH: StopZHP.zhpHRd,
     org: Org.zhp,
-    email: ['emilia.witkowska@zhp.net.pl']
+    email: ['emilia.witkowska@zhp.net.pl', 's206102@sggw.edu.pl']
 );
 const Person EVELINA_STASILOVIC = Person(
   name: 'Evelina Stasilovič',
@@ -370,6 +381,13 @@ const Person FRANCISZEK_LINKE = Person(
   stopI: 'pwd.',
   org: Org.zhp,
   email: ['franciszek.linke@zhp.net.pl']
+);
+const Person FRANCISZEK_MICHALSKI = Person(
+    name: 'Franciszek Michalski ',
+    druzyna: '254. WDH Matecznik im. Janka Bytnara "Rudego"',
+    hufiec: huf_zhp_warszawa_zoliborz,
+    org: Org.zhp,
+    email: ['franciszek.michalski@zhp.net.pl']
 );
 const Person FRANCISZEK_TOMASZCZYK = Person(
   name: 'Franciszek Tomaszczyk',
@@ -431,6 +449,14 @@ const Person HUBERT_JANIK = Person(
   hufiec: huf_zhp_bydgoszcz_miasto,
   org: Org.zhp,
   email: ['hubert.janik@zhp.net.pl']
+);
+const Person HUBERT_SULSKI = Person(
+    name: 'Hubert Sulski',
+    druzyna: '23. DSH Legendarne Smoki',
+    hufiec: huf_zhp_ziemi_wodzislawskiej,
+    stopH: StopZHP.dhc,
+    org: Org.zhp,
+    email: ['hksik2007@gmail.com']
 );
 const Person JADWIGA_BILINSKA = Person(
   name: 'Jadwiga Bilińska',
@@ -505,6 +531,12 @@ const Person JAROSLAW_ZASACKI = Person(name: 'Jarosław Zasacki', stopH: StopZHP
 const Person JOANNA_MICHALOWSKA = Person(name: 'Joanna Michałowska', stopH: StopZHP.zhpSamarytanka,
   druzyna: '18. Poznańska Drużyna Harcerek im. Olgi Drahonowskiej-Małkowskiej',
   org: Org.zhp,
+);
+const Person JULIA_BIENIEK = Person(
+    name: 'Julia Bieniek',
+    druzyna: '254. Warszawska Drużyna Harcerska im. Janka Bytnara "Rudego" Matecznik',
+    org: Org.zhp,
+    email: ['juliamariabieniek@gmail.com']
 );
 const Person JULIA_GRODZKA = Person(
     name: 'Julka Grodzka',
@@ -858,6 +890,14 @@ const Person MIKOLAJ_GORECKI = Person(
   org: Org.zhp,
   email: ['mikolaj.gorecki.pl@gmail.com']
 );
+const Person MIKOLAJ_LUKASIK = Person(
+    name: 'Mikołaj Łukasik',
+    druzyna: '8. PgDSH "Pandora"',
+    hufiec: huf_zhp_krakow_pdg,
+    stopH: StopZHP.dhc,
+    org: Org.zhp,
+    email: ['mikiriki2017@gmail.com']
+);
 const Person MICHAL_SUPINSKI = Person(
   name: 'Michał Supiński',
   stopH: StopZHP.zhpHOc,
@@ -880,6 +920,14 @@ const Person NADIA_WYSZOGRODZKA = Person(
   druzyna: '1. Drużyna Specjalnościowa "Grom" im. Cichociemnych Spadochroniarzy Armi Krajowej w Węgrowie',
   hufiec: huf_zhp_doliny_liwca,
   org: Org.zhp
+);
+const Person NATALIA_STODOLNA = Person(
+    name: 'Natalia Stodolna ',
+    druzyna: '1. DSH Viatores ',
+    hufiec: huf_zhp_zielona_gora,
+    stopH: StopZHP.zhpSamarytanka,
+    org: Org.zhp,
+    email: ['natalia.stodolna@zhp.net.pl']
 );
 const Person OLGA_JAJKO = Person(
   name: 'Olga Jajko',

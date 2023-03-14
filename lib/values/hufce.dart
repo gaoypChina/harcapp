@@ -266,6 +266,7 @@ const String huf_zhp_ziemi_rybnickiej = 'Hufiec ZHP Ziemi Rybnickiej';
 const String huf_zhp_ziemi_sanockiej = 'Hufiec Ziemi Sanockiej';
 const String huf_zhp_ziemi_tarnogorskiej = 'Hufiec Ziemi Tarnogórskiej im. Powstańców Śląskich';
 const String huf_zhp_ziemi_wodzislawskiej = 'Hufiec ZHP Ziemi Wodzisławskiej';
+const String huf_zhp_zielona_gora = 'Hufiec ZHP Zielona Góra';
 const String huf_zhp_zielonka = 'Hufiec ZHP Zielonka im. Janusza Korczaka';
 const String huf_zhp_zgierz = 'Hufiec ZHP Zgierz im. Wojska Polskiego';
 

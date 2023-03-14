@@ -382,7 +382,6 @@ class ParticlePainter extends CustomPainter {
       final rotationMatrix4 = disableFullRotation?
       (Matrix4.identity()
         ..translate(particle.location.dx, particle.location.dy)):
-        //..rotateZ(particle.angleZ)):
       (Matrix4.identity()..translate(particle.location.dx, particle.location.dy)
         ..rotateX(particle.angleX)
         ..rotateY(particle.angleY)
