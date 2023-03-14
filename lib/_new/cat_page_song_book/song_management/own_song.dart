@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/sync_resp_body/own_song_get_resp.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
+import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../sync/syncable.dart';
@@ -28,7 +29,7 @@ class OwnSong extends Song<OwnSongGetResp>{
   static late Map<String, OwnSong> _allOwnMap;
   static Map<String, OwnSong> get allOwnMap => _allOwnMap;
   static set allOwnMap(Map<String, OwnSong> value) => _allOwnMap = Map.from(value);
-  static init(List<OwnSong> allOwn, Map<String, OwnSong> allOwnMap, {bool recalculateAddPersRanking = true}){
+  static void init(List<OwnSong> allOwn, Map<String, OwnSong> allOwnMap, {bool recalculateAddPersRanking = true}){
     _allOwn = allOwn;
     _allOwnMap = allOwnMap;
     if(recalculateAddPersRanking)
@@ -88,6 +89,7 @@ class OwnSong extends Song<OwnSongGetResp>{
       super.rate,
       super.memoryList,
       super.memoryMap,
+      super.hasExplanation,
       { required String code,
         required this.isSaved
       }): _code = code;
@@ -176,6 +178,8 @@ class OwnSong extends Song<OwnSongGetResp>{
       songStuff.memoryList,
       songStuff.memoryMap,
 
+      songStuff.hasExplanationPrimWrap,
+
       code: '',
       isSaved: true
     );
@@ -199,9 +203,10 @@ class OwnSong extends Song<OwnSongGetResp>{
         songStuff.hasChords,
         songStuff.text,
         songStuff.baseChords,
-        songStuff.ratePrimWrap,
+        PrimitiveWrapper(songStuff.ratePrimWrap.get()),
         songStuff.memoryList,
         songStuff.memoryMap,
+        PrimitiveWrapper(songStuff.hasExplanationPrimWrap.get()),
 
         code: jsonEncode(respMap),
         isSaved: false
@@ -223,6 +228,7 @@ class OwnSong extends Song<OwnSongGetResp>{
     ratePrimWrap = song.ratePrimWrap;
     memoryList = song.memoryList;
     memoryMap = song.memoryMap;
+    hasExplanationPrimWrap = song.hasExplanationPrimWrap;
   }
 
   // static Future<OwnSong> saveOwnSong(String code, {String? lclId}) async {

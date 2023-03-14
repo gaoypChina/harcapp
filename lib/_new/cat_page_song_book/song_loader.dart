@@ -155,13 +155,13 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
     Song.recalculateAddPersRanking();
 
     for (OffSong song in OffSong.allOfficial)
-      song.initRate();
+      song.initReadableParams();
 
     for (OffSong song in OffSong.allConfid)
-      song.initRate();
+      song.initReadableParams();
 
     for (OwnSong song in OwnSong.allOwn)
-      song.initRate();
+      song.initReadableParams();
 
     for (String fileName in result.item7)
       await callError(fileName);

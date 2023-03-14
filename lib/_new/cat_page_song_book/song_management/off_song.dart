@@ -3,10 +3,6 @@ import 'dart:convert';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/sync_resp_body/off_song_get_resp.dart';
 import 'package:harcapp/sync/syncable.dart';
-import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
-import 'package:harcapp_core_song/song_core.dart';
-
-import 'memory.dart';
 import 'song.dart';
 
 class OffSong extends Song<OffSongGetResp>{
@@ -25,44 +21,26 @@ class OffSong extends Song<OffSongGetResp>{
   static set allConfidMap(Map<String, OffSong> value) => _allConfidMap = Map.from(value);
 
   OffSong(
-      String fileName,
-      String title,
-      List<String> hidTitles,
-      List<String> authors,
-      List<String> composers,
-      List<String> performers,
-      DateTime? releaseDate,
-      bool showRelDateMonth,
-      bool showRelDateDay,
-      List<AddPerson> addPers,
-      String youtubeLink,
-      List<SongAudio> audios,
-      List<String> tags,
-      bool hasChords,
-      String text,
-      String baseChords,
-      PrimitiveWrapper<int> rate,
-      List<Memory> memoryList,
-      Map<String, Memory> memoryMap
-  ) : super(fileName,
-      title,
-      hidTitles,
-      authors,
-      composers,
-      performers,
-      releaseDate,
-      showRelDateMonth,
-      showRelDateDay,
-      addPers,
-      youtubeLink,
-      audios,
-      tags,
-      hasChords,
-      text,
-      baseChords,
-      rate,
-      memoryList,
-      memoryMap
+      super.lclId,
+      super.title,
+      super.hidTitles,
+      super.authors,
+      super.composers,
+      super.performers,
+      super.releaseDate,
+      super.showRelDateMonth,
+      super.showRelDateDay,
+      super.addPers,
+      super.youtubeLink,
+      super.audios,
+      super.tags,
+      super.hasChords,
+      super.text,
+      super.baseChords,
+      super.rate,
+      super.memoryList,
+      super.memoryMap,
+      super.hasExplanationPrimWrap,
   );
 
   static Future<OffSong> fromRespMap(String fileName, Map respMap, {List? songAudioMapList}) async {
@@ -86,7 +64,8 @@ class OffSong extends Song<OffSongGetResp>{
       songStuff.baseChords,
       songStuff.ratePrimWrap,
       songStuff.memoryList,
-      songStuff.memoryMap
+      songStuff.memoryMap,
+      songStuff.hasExplanationPrimWrap,
     );
   }
 

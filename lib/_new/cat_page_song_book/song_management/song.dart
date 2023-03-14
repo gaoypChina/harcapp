@@ -15,7 +15,6 @@ import 'package:harcapp_core/comm_widgets/chord_shifter.dart';
 import 'package:harcapp_core_song/song_core.dart';
 import 'package:harcapp_core_song_widget/song_rate.dart';
 
-import '../common.dart';
 import 'memory.dart';
 import 'off_song.dart';
 import 'old/song_element_old.dart';
@@ -59,6 +58,8 @@ class SongDataEntity{
   final List<Memory> memoryList;
   final Map<String, Memory> memoryMap;
 
+  final PrimitiveWrapper<bool> hasExplanationPrimWrap;
+
   const SongDataEntity(
       this.fileName,
       this.title,
@@ -78,7 +79,9 @@ class SongDataEntity{
       this.baseChords,
       this.ratePrimWrap,
       this.memoryList,
-      this.memoryMap
+      this.memoryMap,
+
+      this.hasExplanationPrimWrap,
   );
 }
 
@@ -294,6 +297,9 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
 
   List<Memory> get memories => memoryList;
 
+  @protected
+  PrimitiveWrapper<bool> hasExplanationPrimWrap;
+
   String get tagsAsString{
     String text = '';
     for(String tag in tags)
@@ -324,7 +330,8 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
       this.baseChords,
       this.ratePrimWrap,
       this.memoryList,
-      this.memoryMap
+      this.memoryMap,
+      this.hasExplanationPrimWrap,
   );
 
   static Future<SongDataEntity> parse(String fileName, String code) async {
@@ -443,7 +450,9 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
       songChords,
       PrimitiveWrapper(SongRate.RATE_NULL), //rate,
       memoryList,
-      memoryMap
+      memoryMap,
+
+      PrimitiveWrapper(false)
     );
   }
 
@@ -466,6 +475,12 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
     setChordShift(ChordShifter.shiftToneDown(chordShift));
 
   void initRate() => ratePrimWrap.set(readRate(lclId));
+  Future<void> initHasExplanation() async => hasExplanationPrimWrap.set(await readStringFromAssets('assets/song_words/$lclId') != null);
+
+  Future<void> initReadableParams() async {
+    initRate();
+    await initHasExplanation();
+  }
 
   bool get hasRate => ShaPref.exists(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(lclId));
   static int readRate(String fileName) => ShaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_SONG_RATE_(fileName), SongRate.RATE_NULL);
@@ -505,6 +520,8 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
     memory.delete(localOnly: localOnly);
     memories.remove(memory);
   }
+
+  bool get hasExplanation => hasExplanationPrimWrap.get();
 
   bool deleteSongFile({bool localOnly = false}) {
     if(isOwn) {

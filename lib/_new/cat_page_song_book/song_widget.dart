@@ -128,8 +128,9 @@ class SongWidget extends StatelessWidget{
   final void Function()? onTextSizeChanged;
   final void Function(int, bool)? onRateChanged;
   final void Function(Song song)? onNewSongOpened;
+  final void Function(double contentTop)? onTitleTap;
   final ScrollPhysics? physics;
-  final ScrollController? controller;
+  final ScrollController controller;
 
   SongWidget(
       this.parent,
@@ -139,8 +140,9 @@ class SongWidget extends StatelessWidget{
         this.onTextSizeChanged,
         this.onRateChanged,
         this.onNewSongOpened,
+        this.onTitleTap,
         this.physics,
-        this.controller
+        required this.controller
       }):super(key: ValueKey(song));
 
   @override
@@ -158,18 +160,7 @@ class SongWidget extends StatelessWidget{
 
     onScroll: onScroll, //(scrollInfo) => determineFloatingButtonOpacity(context, scrollInfo),
 
-    onTitleTap: () async {
-      String? wordsCode = await readStringFromAssets('assets/song_words/${song.lclId}');
-      await showScrollBottomSheet(
-          context: context,
-          builder: (BuildContext context) => BottomSheetDef(
-            title: 'Trudne słowa',
-            textColor: textEnab_(context),
-            childMargin: EdgeInsets.zero,
-            builder: (context) => BottomSheetWords(wordsCode, song.text, song.lclId),
-          )
-      );
-    },
+    onTitleTap: onTitleTap,
 
     onAuthorTap: (String author) =>
         parent!.openTabOfCont(initPhrase: author, forgetScrollPosition: true, oneTimeSearchOptions: SongSearchOptions()),
@@ -182,6 +173,20 @@ class SongWidget extends StatelessWidget{
 
     onTagTap: (String tag) =>
         parent!.openTabOfCont(forgetScrollPosition: true, oneTimeSearchOptions: SongSearchOptions(checkedTags: [tag])),
+
+    showSongExplanationButton: song.hasExplanation,
+    onSongExplanationTap: () async {
+      String? wordsCode = await readStringFromAssets('assets/song_words/${song.lclId}');
+      await showScrollBottomSheet(
+          context: context,
+          builder: (BuildContext context) => BottomSheetDef(
+            title: 'Trudne słowa',
+            textColor: textEnab_(context),
+            childMargin: EdgeInsets.zero,
+            builder: (context) => BottomSheetWords(wordsCode, song.text, song.lclId),
+          )
+      );
+    },
 
     onYTLinkTap: (position) async {
 
@@ -409,8 +414,8 @@ class SongWidget extends StatelessWidget{
         onEditMemoryLongPress: (Memory memory) async {
           await openMemoryEditor(context, song, initMemory: memory);
           parent!.notify();
-          post(() async => await this.controller!.animateTo(
-              this.controller!.position.maxScrollExtent,
+          post(() async => await this.controller.animateTo(
+              this.controller.position.maxScrollExtent,
               duration: const Duration(milliseconds: 100),
               curve: Curves.easeOutQuart
           ));
@@ -419,8 +424,8 @@ class SongWidget extends StatelessWidget{
         onNewMemoryTap: (Song song) async{
           await openMemoryEditor(context, song);
           parent!.notify();
-          post(() async => await this.controller!.animateTo(
-              this.controller!.position.maxScrollExtent,
+          post(() async => await this.controller.animateTo(
+              this.controller.position.maxScrollExtent,
               duration: const Duration(milliseconds: 100),
               curve: Curves.easeOutQuart
           ));

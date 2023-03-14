@@ -602,6 +602,12 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                                 }
                                 onSongSelected(song, BaseAlbum.current.songs.indexOf(song), SongOpenType.search);
                               },
+
+                              onTitleTap: (double contentTop){
+                                print('contentTop: ${contentTop}');
+                                print('outerController.offset: ${outerController.offset}');
+                                innerController.animateTo(contentTop - (kToolbarHeight - outerController.offset + App.statusBarHeight), duration: const Duration(milliseconds: 300), curve: Curves.easeInOutQuad);
+                              }
                             ),
 
                             onPageChanged: (index) async {

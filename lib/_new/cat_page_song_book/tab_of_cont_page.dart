@@ -295,7 +295,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
     onSearchComplete: (songs, _){
 
       if(!mounted) return;
-      _NoSongsFoundProvider prov = Provider.of(context, listen: false);
+      _NoSongsFoundProvider prov = Provider.of<_NoSongsFoundProvider>(context, listen: false);
 
       prov.songsFound = songs.isNotEmpty;
 

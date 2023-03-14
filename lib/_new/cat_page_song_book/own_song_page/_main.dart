@@ -308,6 +308,7 @@ class OwnSongPageState extends State<OwnSongPage> {
                     null,
                     song,
                     0,
+                    controller: ScrollController(),
                   ),
                 ),
               )
