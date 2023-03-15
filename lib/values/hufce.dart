@@ -218,6 +218,7 @@ const String huf_zhp_legionowo = 'Hufiec ZHP Legionowo';
 const String huf_zhp_luban = 'Hufiec ZHP Lubań';
 const String huf_zhp_lublin = 'Hufiec ZHP Lublin';
 const String huf_zhp_lodz_baluty = 'Hufiec ZHP Łódź-Bałuty';
+const String huf_zhp_lodz_gorna = 'Hufiec ZHP Łódź-Górna';
 const String huf_zhp_lodz_polesie = 'Łódź Polesie';
 const String huf_zhp_myslenice = 'Hufiec ZHP Myślenice';
 const String huf_zhp_opole = 'Hufiec ZHP Opole';

@@ -70,6 +70,7 @@ List<Person> allPeople = [
   JAROSLAW_JAKUBIAK,
   JAROSLAW_ZASACKI,
   JOANNA_MICHALOWSKA,
+  JOANNA_PAJAK,
   JULIA_BIENIEK,
   JULIA_GRODZKA,
   JULIA_KARAS,
@@ -533,6 +534,14 @@ const Person JOANNA_MICHALOWSKA = Person(name: 'Joanna Michałowska', stopH: Sto
   druzyna: '18. Poznańska Drużyna Harcerek im. Olgi Drahonowskiej-Małkowskiej',
   org: Org.zhp,
 );
+const Person JOANNA_PAJAK = Person(
+name: 'Asia Pająk',
+druzyna: '124ŁGDH Płomienie',
+hufiec: huf_zhp_lodz_gorna,
+stopH: StopZHP.zhpHOd,
+org: Org.zhp,
+email: ['joanna.pajak@zhp.net.pl', 'pasiajak1@gmail.com']
+);
 const Person JULIA_BIENIEK = Person(
     name: 'Julia Bieniek',
     druzyna: '254. Warszawska Drużyna Harcerska im. Janka Bytnara "Rudego" Matecznik',
@@ -660,7 +669,7 @@ const Person KLAUDIA_STASINSKA = Person(
   druzyna: '45 Nowomiejska Gromada Zuchowa „Czterolistne Koniczynki”',
   hufiec: huf_zhp_poznan_nowe_miasto,
   org: Org.zhp,
-  email: ['klaudia.stasinska@zhp.net.pl']
+  email: ['klaudia.stasinska@zhp.net.pl', 'claudia.stasinska@gmail.com']
 );
 const Person KLAUDIUSZ_PALUCH = Person(name: 'Klaudiusz Paluch');
 const Person KORNEL_GOLEBIEWSKI = Person(
