@@ -597,7 +597,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                               },
                               onNewSongOpened: (song){
                                 if(!BaseAlbum.current.songs.contains(song)) {
-                                  BaseAlbum.current = OmegaAlbum();
+                                  albProv.current = OmegaAlbum();
                                   showAppToast(context, text: 'Otwarto $album_ "Wszystkie"');
                                 }
                                 onSongSelected(song, BaseAlbum.current.songs.indexOf(song), SongOpenType.search);
@@ -829,14 +829,14 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                                   onTap: (){
 
                                     // This entire function should be a copy of the 'Losuj' button onTap in the Table Of Content Page.
-                                    if(controller.currSongs.isEmpty){
+                                    if(controller.searchedSongs.isEmpty){
                                       showAppToast(context, text: 'Brak piosenek do losowania.');
                                       return;
                                     }
 
                                     RandomButtonProvider.registerTap_(context);
-                                    int index = Random().nextInt(controller.currSongs.length);
-                                    Song randomSong = controller.currSongs[index];
+                                    int index = Random().nextInt(controller.searchedSongs.length);
+                                    Song randomSong = controller.searchedSongs[index];
                                     int indexInAlbum = BaseAlbum.current.songs.indexOf(randomSong);
                                     onSongSelected(randomSong, indexInAlbum, SongOpenType.random);
 

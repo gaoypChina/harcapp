@@ -78,8 +78,6 @@ class TabOfCont extends StatefulWidget{
 
 class TabOfContState extends State<TabOfCont>{
 
-  // final PageStorageBucket pageStorageBucket = PageStorageBucket();
-
   static const double tagBarHeight = 2*Dimen.defMarg + Dimen.TEXT_SIZE_NORMAL + 3;
 
   late SongSearcher searcher;
@@ -127,7 +125,7 @@ class TabOfContState extends State<TabOfCont>{
       if(songs.join('\$').hashCode == controller.songsHashCode)
         return;
       onSearchComplete?.call(songs, valid);
-      controller.currSongs = songs;
+      controller.searchedSongs = songs;
       setState(() {});
     });
 
@@ -184,7 +182,7 @@ class TabOfContState extends State<TabOfCont>{
           delegate: SliverChildListDelegate([const SizedBox(height: 10.0)]),
         ),
 
-        if(controller.currSongs.isEmpty)
+        if(controller.searchedSongs.isEmpty)
           SliverFillRemaining(
               hasScrollBody: false,
               child: Center(child: _NoSongWidget(widget.showAddSongSuggestion, widget.onNewSongAdded))
@@ -194,13 +192,13 @@ class TabOfContState extends State<TabOfCont>{
               delegate: SliverChildBuilderDelegate((context, index) => Padding(
                   padding: const EdgeInsets.only(bottom: Dimen.defMarg),
                   child: SongTile(
-                    controller.currSongs[index],
+                    controller.searchedSongs[index],
                     onTap: onItemTap==null?null:(song) => onItemTap!(song, index),
-                    leading: itemLeadingBuilder?.call(controller.currSongs[index]),
-                    trailing: itemTrailingBuilder?.call(controller.currSongs[index]),
+                    leading: itemLeadingBuilder?.call(controller.searchedSongs[index]),
+                    trailing: itemTrailingBuilder?.call(controller.searchedSongs[index]),
                   )
               ),
-                  childCount: controller.currSongs.length
+                  childCount: controller.searchedSongs.length
               )),
 
         SliverList(

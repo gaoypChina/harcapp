@@ -8,15 +8,19 @@ class TabOfContController{
 
   List<Song> allSongs;
 
-  late List<Song> _currSongs;
+  late List<Song> _searchedSongs;
   late int songsHashCode;
 
-  List<Song> get currSongs => _currSongs;
-  set currSongs(List<Song> value){
-    _currSongs = value;
-    songsHashCode = allSongs.join('\$').hashCode;
+  List<Song> get searchedSongs => _searchedSongs;
+  set searchedSongs(List<Song> value){
+    _searchedSongs = value;
+    songsHashCode = _searchedSongs.join('\$').hashCode;
   }
 
+  void clear(){
+    phrase = '';
+    _searchedSongs = allSongs;
+  }
 
   TabOfContController(
       this.allSongs,
@@ -26,7 +30,7 @@ class TabOfContController{
         phrase = initPhrase,
         searchOptions = initSearchOptions??SongSearchOptions(),
 
-        _currSongs = allSongs,
+        _searchedSongs = allSongs,
         songsHashCode = allSongs.join('\$').hashCode;
 
 }

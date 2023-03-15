@@ -30,7 +30,7 @@ class SongSearchOptions extends SearchOptions{
 
 }
 
-class SongSearcher extends Searcher<Song, int, SongSearchOptions?>{
+class SongSearcher extends Searcher<Song, int, SongSearchOptions>{
 
   void Function(List<Song>, bool Function() stillValid) onCompleteListener;
 
@@ -68,7 +68,9 @@ bool _rateMatch(SongSearchOptions options, Song? song){
   return checkedRates.isEmpty || checkedRates.contains(song!.rate);
 }
 
-List<int>? _selectSongs(String phrase, List<Song> allItems, SongSearchOptions? options, bool Function() stillValid){
+List<int>? _selectSongs(String phrase, List<Song> allItems, SongSearchOptions options, bool Function() stillValid){
+
+  if(phrase.isEmpty && options.isEmpty) return List.generate(allItems.length, (index) => index);
 
   String text = remSpecChars(remPolChars(phrase.trim()));
 
@@ -81,7 +83,7 @@ List<int>? _selectSongs(String phrase, List<Song> allItems, SongSearchOptions? o
     if(!stillValid()) return null;
 
     Song? song = allItems[i];
-    if (!_tagMatch(options!, song) || !_rateMatch(options, song))
+    if (!_tagMatch(options, song) || !_rateMatch(options, song))
       continue;
 
     bool titleMatch = remSpecChars(remPolChars(song.title)).contains(text);

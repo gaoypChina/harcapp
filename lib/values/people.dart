@@ -352,7 +352,7 @@ const Person DORIAN_JAREK = Person(name: 'Dorian Jarek', stopI: 'pwd.',
     org: Org.zhp);
 const Person EMILIA_WITKOWSKA = Person(
     name: 'Emilia Witkowska',
-    druzyna: '307 WDHiZ',
+    druzyna: '307. WDHiZ',
     hufiec: 'Warszawa Mokotów',
     stopI: 'pwd.',
     stopH: StopZHP.zhpHRd,

@@ -134,8 +134,8 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
     if(BaseAlbum.current.songs.contains(song))
       indexInAlbum = BaseAlbum.current.songs.indexOf(song);
     else{
-      showAppToast(context, text: 'Zmieniono $album_ na "${OmegaAlbum().title}".');
-      BaseAlbum.current = OmegaAlbum();
+      showAppToast(context, text: 'Zmieniono $album_ na <b>${OmegaAlbum().title}</b>');
+      AlbumProvider.of(context).current = OmegaAlbum();
       indexInAlbum = BaseAlbum.current.songs.indexOf(song);
     }
     onSongSelected(song, indexInAlbum, songOpen);
@@ -219,7 +219,7 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
             Navigator.pop(context); // Close song contrib page
             Navigator.pop(context); // Close tab of content page
             if(!BaseAlbum.current.songs.contains(song)) {
-              BaseAlbum.current = OmegaAlbum();
+              AlbumProvider.of(context).current = OmegaAlbum();
               showAppToast(context, text: 'Otwarto $album_ "Wszystkie"');
             }
             onSongSelected?.call(song, BaseAlbum.current.songs.indexOf(song), SongOpenType.search);
@@ -245,14 +245,14 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
             backgroundEnd: colors.colorEnd,
             onTap: prov.songsFound?(){
 
-              if(controller.currSongs.isEmpty){
+              if(controller.searchedSongs.isEmpty){
                 showAppToast(context, text: 'Brak piosenek do losowania.');
                 return;
               }
 
               RandomButtonProvider.registerTap_(context);
-              int index = Random().nextInt(controller.currSongs.length);
-              Song randomSong = controller.currSongs[index];
+              int index = Random().nextInt(controller.searchedSongs.length);
+              Song randomSong = controller.searchedSongs[index];
               int indexInAlbum = BaseAlbum.current.songs.indexOf(randomSong);
               page.onSongSelected(randomSong, indexInAlbum, SongOpenType.random);
               Navigator.pop(context);
@@ -279,14 +279,19 @@ class _AllSongsPartState extends State<_AllSongsPart> with AutomaticKeepAliveCli
         if(!ConfidAlbum.unlocked) {
           ConfidAlbum.unlocked = true;
           hideKeyboard(context);
-          BaseAlbum.current = ConfidAlbum();
-          controller.phrase = '';
+          controller.clear();
+          TabOfContPage.lastSearchPhrase = '';
+          AlbumProvider.of(context).current = ConfidAlbum();
           onConfAlbumEnabled?.call();
           Navigator.pop(context);
         }
       }else if(text == '2137' || text == '21:37'){
         Song? song = Song.allMap['o!_barka'];
         if(song == null) return;
+        hideKeyboard(context);
+        controller.clear();
+        TabOfContPage.lastSearchPhrase = '';
+        // Changing the album (if needed) is handled in the method below.
         page.selectSong(song, SongOpenType.search);
         Navigator.pop(context);
       }

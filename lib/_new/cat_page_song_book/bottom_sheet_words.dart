@@ -42,6 +42,7 @@ class BottomSheetWordsState extends State<BottomSheetWords>{
   @override
   Widget build(BuildContext context) {
 
+    // TODO: you know what to do - song errors reporting.
     Widget reportCard = AnimatedChildSlider(
       index: reportClicked?1:0,
       direction: Axis.horizontal,
@@ -51,14 +52,14 @@ class BottomSheetWordsState extends State<BottomSheetWords>{
         SimpleButton(
           radius: AppCard.bigRadius,
           onTap: () => setState(() => reportClicked = true),
-          margin: EdgeInsets.all(Dimen.BOTTOM_SHEET_MARG),
-          padding: EdgeInsets.all(Dimen.defMarg),
+          margin: const EdgeInsets.all(Dimen.BOTTOM_SHEET_MARG),
+          padding: const EdgeInsets.all(Dimen.defMarg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Padding(
-                padding: EdgeInsets.all(Dimen.ICON_MARG),
+                padding: const EdgeInsets.all(Dimen.ICON_MARG),
                 child: Icon(MdiIcons.spellcheck, color: textEnab_(context)),
               ),
               Text(
@@ -70,14 +71,14 @@ class BottomSheetWordsState extends State<BottomSheetWords>{
                 ),
                 textAlign: TextAlign.center
               ),
-              SizedBox(height: 2*Dimen.ICON_MARG,)
+              const SizedBox(height: 2*Dimen.ICON_MARG,)
             ],
           ),
         ),
 
         // child 2
         Padding(
-          padding: EdgeInsets.all(Dimen.ICON_MARG),
+          padding: const EdgeInsets.all(Dimen.ICON_MARG),
           child: Column(
             children: <Widget>[
 
@@ -109,12 +110,12 @@ class BottomSheetWordsState extends State<BottomSheetWords>{
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.all(Dimen.defMarg),
+            padding: const EdgeInsets.all(Dimen.defMarg),
             child: Text('Do tej pory nikt tu nie znalazł niejasnego słowa.', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)), textAlign: TextAlign.center,),
           ),
 
-          SizedBox(height: Dimen.defMarg),
-          reportCard
+          const SizedBox(height: Dimen.defMarg),
+          //reportCard
         ],
       );
 
@@ -128,7 +129,7 @@ class BottomSheetWordsState extends State<BottomSheetWords>{
       return Column(
         children: <Widget>[
           hardWords,
-          reportCard
+          //reportCard
         ],
       );
     else
@@ -137,7 +138,7 @@ class BottomSheetWordsState extends State<BottomSheetWords>{
         children: <Widget>[
           hardWords,
           Padding(
-            padding: EdgeInsets.all(Dimen.BOTTOM_SHEET_TITLE_MARG),
+            padding: const EdgeInsets.all(Dimen.BOTTOM_SHEET_TITLE_MARG),
             child: Text(
                 'Interpretacja',
                 style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold),
@@ -145,7 +146,7 @@ class BottomSheetWordsState extends State<BottomSheetWords>{
             ),
           ),
           interpWidget,
-          reportCard
+          //reportCard
         ],
       );
 
@@ -155,15 +156,15 @@ class BottomSheetWordsState extends State<BottomSheetWords>{
 
 class InterpWidget extends StatelessWidget{
   
-  String songText;
+  final String songText;
   final String code;
 
-  InterpWidget(this.songText, this.code);
+  const InterpWidget(this.songText, this.code, {super.key});
   
   @override
   Widget build(BuildContext context) {
 
-    songText = songText.replaceAll('\n\n', '\n');
+    String songText = this.songText.replaceAll('\n\n', '\n');
     songText = songText.replaceAll(Song.tabChar, '');
 
     List<Widget> children = [];
@@ -175,23 +176,23 @@ class InterpWidget extends StatelessWidget{
       if(part.isNotEmpty && part.substring(0,1)=='\$'){
         children.add(Text(part.substring(1), style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, )));
       }else if(part.isNotEmpty && part.substring(0,1)=='@'){
-        children.add(SizedBox(height: 18));
+        children.add(const SizedBox(height: 18));
         List<String> lines = part.substring(1).split('\n');
 
         for(String line in lines){
           int num = int.parse(line);
           children.add(Row(children: <Widget>[
             Expanded(child: Text('  ${songLines[num-1]}', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)))),
-            SizedBox(width: Dimen.defMarg),
+            const SizedBox(width: Dimen.defMarg),
             Text('$num', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: hintEnab_(context)),),
           ]));
         }
-        children.add(SizedBox(height: 6));
+        children.add(const SizedBox(height: 6));
       }
     }
 
     return Padding(
-      padding: EdgeInsets.all(Dimen.BOTTOM_SHEET_MARG),
+      padding: const EdgeInsets.all(Dimen.BOTTOM_SHEET_MARG),
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: children
@@ -204,26 +205,26 @@ class InterpWidget extends StatelessWidget{
 class HardWordWidget extends StatelessWidget{
 
   final String code;
-  const HardWordWidget(this.code);
+  const HardWordWidget(this.code, {super.key});
 
   @override
   Widget build(BuildContext context) {
     List<String> elements = code.split('\n');
     return Padding(
-      padding: EdgeInsets.all(Dimen.BOTTOM_SHEET_MARG),
+      padding: const EdgeInsets.all(Dimen.BOTTOM_SHEET_MARG),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Row(
             children: <Widget>[
               Text(elements[0], style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, fontWeight: weight.halfBold, color: textEnab_(context)),),
-              SizedBox(width: Dimen.defMarg),
+              const SizedBox(width: Dimen.defMarg),
               Text('[${elements[1]}]', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: textEnab_(context)),),
             ],
           ),
-          SizedBox(height: Dimen.defMarg),
+          const SizedBox(height: Dimen.defMarg),
           Text(elements[2], style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG, color: textEnab_(context))),
-          SizedBox(height: Dimen.defMarg),
+          const SizedBox(height: Dimen.defMarg),
           Text(elements[3], style: AppTextStyle(color: hintEnab_(context), fontSize: Dimen.TEXT_SIZE_TINY), textAlign: TextAlign.end,),
 
         ],
