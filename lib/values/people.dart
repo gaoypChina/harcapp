@@ -98,6 +98,7 @@ List<Person> allPeople = [
   KAROL_MALUS,
   KATARZYNA_STUDNICKA,
   KLARA_MAZEK,
+  KLAUDIA_STASINSKA,
   KLAUDIUSZ_PALUCH,
   KORNEL_GOLEBIEWSKI,
   KORNELIA_PRZYCZOLKA,
@@ -652,6 +653,15 @@ const Person KATARZYNA_STUDNICKA = Person(
     email: ['katarzyna.studnicka@zhp.net.pl']
 );
 const Person KLARA_MAZEK = Person(name: 'Klara Mazek');
+const Person KLAUDIA_STASINSKA = Person(
+  name: 'Klaudia Stasińska',
+  stopI: 'phm.',
+  stopH: StopZHP.zhpHOd,
+  druzyna: '45 Nowomiejska Gromada Zuchowa „Czterolistne Koniczynki”',
+  hufiec: huf_zhp_poznan_nowe_miasto,
+  org: Org.zhp,
+  email: ['klaudia.stasinska@zhp.net.pl']
+);
 const Person KLAUDIUSZ_PALUCH = Person(name: 'Klaudiusz Paluch');
 const Person KORNEL_GOLEBIEWSKI = Person(
   name: 'Kornel Gołębiewski',
