@@ -34,6 +34,7 @@ class PartChangelog extends StatelessWidget{
                     'Zmieniono sposób dostępu do interpretacji piosenek,',
                     'Zmieniono sposób dostępu do zmiany tekstu piosenek,',
                     'Rozszerzono liczbę ocen piosenek,',
+                    'Poprawiono błąd spisu treści wracającego zawsze na początek listy przy ponownym jego otwarciu,',
                     'Dodano stałe albumy ("piosenki własne" i "do nauki").'
                   ]
               ),

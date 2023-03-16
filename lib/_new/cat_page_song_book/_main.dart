@@ -750,13 +750,18 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
               onSelected: (BaseAlbum album) async {
                 if(pageController.hasClients){
                   post(() => jumpToPage(album.lastOpenIndex));
-                  if(album.songs.isEmpty) return;
                   await songsStatisticsRegistrator.commit();
+                  if(album.songs.isEmpty) return;
                   await songsStatisticsRegistrator.openSong(
                     album.lastOpenSong,
                     SongOpenType.init,
                   );
                   notifyScrollController();
+                  post(() => openTabOfCont(
+                      initPhrase: '',
+                      forgetScrollPosition: true,
+                      oneTimeSearchOptions: SongSearchOptions()
+                  ));
                 }
               },
               onNewCreated: (OwnAlbum album) async {
