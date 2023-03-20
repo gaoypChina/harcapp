@@ -1,19 +1,12 @@
-import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
-
 import '../../_api.dart';
+import 'album_resp.dart';
 
-class OwnAlbumGetResp extends SyncGetResp{
+class OwnAlbumGetResp extends AlbumGetResp{
 
-  static const String collName = 'album';
+  static const String collName = 'ownAlbum';
 
   static const String paramTitle = 'title';
   final String title;
-
-  static const String paramOffSongs = 'offSongs';
-  final List<String> offSongs;
-
-  static const String paramOwnSongs = 'ownSongs';
-  final List<String> ownSongs;
 
   static const String paramColorsKey = 'colorsKey';
   final String colorsKey;
@@ -23,16 +16,16 @@ class OwnAlbumGetResp extends SyncGetResp{
 
   const OwnAlbumGetResp({
     required this.title,
-    required this.offSongs,
-    required this.ownSongs,
+    required super.offSongs,
+    required super.ownSongs,
     required this.colorsKey,
     required this.iconKey
   });
 
   static OwnAlbumGetResp from(Map respData) => OwnAlbumGetResp(
     title: respData[paramTitle]??(throw InvalidResponseError(paramTitle)),
-    offSongs: ((respData[paramOffSongs]??[]) as List).cast<String>(),
-    ownSongs: ((respData[paramOwnSongs]??[]) as List).cast<String>(),
+    offSongs: ((respData[AlbumGetResp.paramOffSongs]??[]) as List).cast<String>(),
+    ownSongs: ((respData[AlbumGetResp.paramOwnSongs]??[]) as List).cast<String>(),
     colorsKey: respData[paramColorsKey]??(throw InvalidResponseError(paramColorsKey)),
     iconKey: respData[paramIconKey]??(throw InvalidResponseError(paramIconKey)),
   );

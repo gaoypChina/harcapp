@@ -1,22 +1,16 @@
-import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
+import 'album_resp.dart';
 
-class ToLearnAlbumGetResp extends SyncGetResp{
+class ToLearnAlbumGetResp extends AlbumGetResp{
 
   static const String collName = 'toLearnAlbum';
 
-  static const String paramOffSongs = 'offSongs';
-  final List<String> offSongs;
-
-  static const String paramOwnSongs = 'ownSongs';
-  final List<String> ownSongs;
-
   const ToLearnAlbumGetResp({
-    required this.offSongs,
-    required this.ownSongs,
+    required super.offSongs,
+    required super.ownSongs,
   });
 
   static ToLearnAlbumGetResp from(Map respData) => ToLearnAlbumGetResp(
-    offSongs: ((respData[paramOffSongs]??[]) as List).cast<String>(),
-    ownSongs: ((respData[paramOwnSongs]??[]) as List).cast<String>(),
+    offSongs: ((respData[AlbumGetResp.paramOffSongs]??[]) as List).cast<String>(),
+    ownSongs: ((respData[AlbumGetResp.paramOwnSongs]??[]) as List).cast<String>(),
   );
 }

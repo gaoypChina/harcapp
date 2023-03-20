@@ -75,6 +75,12 @@ void main() {
     ownSong3.save(localOnly: true);
     OwnSong.addToAll(ownSong3);
 
+    ToLearnAlbum.init();
+    ToLearnAlbum.loaded.addSong(OffSong.allOfficial[42]);
+    ToLearnAlbum.loaded.addSong(OffSong.allOfficial[41]);
+    ToLearnAlbum.loaded.addSong(OffSong.allOfficial[43]);
+    ToLearnAlbum.loaded.save(localOnly: true);
+
     OwnAlbum album = OwnAlbum.create(
         title: 'Obóz 2021',
         offSongs: [OffSong.allOfficial[10], OffSong.allOfficial[11], OffSong.allOfficial[12]],
@@ -113,6 +119,12 @@ void main() {
     assert(OwnSong.allOwnMap['abcd-1234-1']!.title == 'Tytuł mojej super testowej piosenki 1');
     assert(OwnSong.allOwnMap['abcd-1234-2']!.title == 'Tytuł mojej super testowej piosenki 2');
     assert(OwnSong.allOwnMap['abcd-1234-3']!.title == 'Tytuł mojej super testowej piosenki 3');
+
+    ToLearnAlbum.init();
+    assert(ToLearnAlbum.loaded.songs.length == 3);
+    assert(ToLearnAlbum.loaded.songs[0].lclId == OffSong.allOfficial[41].lclId);
+    assert(ToLearnAlbum.loaded.songs[1].lclId == OffSong.allOfficial[42].lclId);
+    assert(ToLearnAlbum.loaded.songs[2].lclId == OffSong.allOfficial[43].lclId);
 
     assert(OwnAlbum.all.length == 1);
     assert(OwnAlbum.all[0].lclId == album.lclId);

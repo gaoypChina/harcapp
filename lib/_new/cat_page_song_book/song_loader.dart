@@ -202,10 +202,7 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
       }
     }
 
-    ToLearnAlbum? album = ToLearnAlbum.read(Song.all);
-    if(album == null) ToLearnAlbum.loaded = ToLearnAlbum([], []);
-    else ToLearnAlbum.loaded = album;
-    ToLearnAlbum.initialized = true;
+    ToLearnAlbum.init();
 
     // TMP TMP TMP
     for(Song song in Song.all){

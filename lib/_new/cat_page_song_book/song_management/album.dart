@@ -6,8 +6,10 @@ import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/_api.dart';
+import 'package:harcapp/_new/api/sync_resp_body/album/album_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/album/own_album_resp.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
+import 'package:harcapp/_new/api/sync_resp_body/album/to_learn_album_resp.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
 import 'package:harcapp/sync/syncable.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
@@ -186,8 +188,7 @@ class OwnSongAlbum extends BaseAlbum{
 
 }
 
-//
-abstract class SelectableAlbum extends BaseAlbum with SyncableParamGroupMixin, SyncGetRespNode<OwnAlbumGetResp>, RemoveSyncItem{
+abstract class SelectableAlbum<T extends AlbumGetResp> extends BaseAlbum with SyncableParamGroupMixin, SyncGetRespNode<T>{
 
   static const String paramOffSongs = 'offSongs';
   static const String paramOwnSongs = 'ownSongs';
@@ -284,7 +285,7 @@ abstract class SelectableAlbum extends BaseAlbum with SyncableParamGroupMixin, S
   ];
 
   @override
-  void applySyncGetResp(OwnAlbumGetResp resp) {
+  void applySyncGetResp(T resp) {
 
     List<OffSong> _offSongs = [];
     for (String sngLclId in resp.offSongs) {
@@ -305,7 +306,7 @@ abstract class SelectableAlbum extends BaseAlbum with SyncableParamGroupMixin, S
 
 }
 
-class OwnAlbum extends SelectableAlbum{
+class OwnAlbum extends SelectableAlbum<OwnAlbumGetResp> with RemoveSyncItem{
 
   static const String paramLclId = 'lclId';
   static const String paramTitle = 'title';
@@ -512,10 +513,17 @@ class OwnAlbum extends SelectableAlbum{
 
 }
 
-class ToLearnAlbum extends SelectableAlbum{
+class ToLearnAlbum extends SelectableAlbum<ToLearnAlbumGetResp>{
 
   static bool initialized = false;
   static late ToLearnAlbum loaded;
+
+  static void init(){
+    ToLearnAlbum? album = ToLearnAlbum.read(Song.all);
+    if(album == null) ToLearnAlbum.loaded = ToLearnAlbum([], []);
+    else ToLearnAlbum.loaded = album;
+    ToLearnAlbum.initialized = true;
+  }
 
   ToLearnAlbum(super.offSongs, super.ownSongs);
 
@@ -592,6 +600,9 @@ class ToLearnAlbum extends SelectableAlbum{
   }
 
   static const String syncClassId = 'toLearnAlbum';
+
+  @override
+  String get paramId => syncClassId;
 
   @override
   String get debugClassId => syncClassId;

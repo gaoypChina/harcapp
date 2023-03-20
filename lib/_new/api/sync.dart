@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:harcapp/_common_classes/org/org_handler.dart';
 import 'package:harcapp/_new/api/sync_resp_body/album/own_album_resp.dart';
+import 'package:harcapp/_new/api/sync_resp_body/album/to_learn_album_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/off_song_get_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/own_song_get_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_def_get_resp.dart';
@@ -41,7 +42,8 @@ class ApiSync{
             Map<String, dynamic>? songBookSettings,
             Map<String, dynamic>? offSongs,
             Map<String, dynamic>? ownSongs,
-            Map<String, dynamic>? albums,
+            Map<String, dynamic>? ownAlbums,
+            Map<String, dynamic>? toLearnAlbum,
             Map<String, dynamic>? spraws,
             Map<String, dynamic>? rankDefs,
             Map<String, dynamic>? rankZhpSim2022,
@@ -93,7 +95,8 @@ class ApiSync{
         Map<String, dynamic>? songBookSettings = response.data[SongBookSettings.syncClassId];
         Map<String, dynamic>? offSongs = response.data[OffSong.syncClassId];
         Map<String, dynamic>? ownSongs = response.data[OwnSong.syncClassId];
-        Map<String, dynamic>? albums = response.data[OwnAlbum.syncClassId];
+        Map<String, dynamic>? ownAlbums = response.data[OwnAlbum.syncClassId];
+        Map<String, dynamic>? toLearnAlbum = response.data[ToLearnAlbum.syncClassId];
         Map<String, dynamic>? spraws = response.data[Spraw.syncClassId];
         Map<String, dynamic>? rankDefs = response.data[RankDef.syncClassId];
         Map<String, dynamic>? rankZhpSim2022 = response.data[RankZHPSim2022.syncClassId];
@@ -109,7 +112,8 @@ class ApiSync{
           songBookSettings,
           offSongs,
           ownSongs,
-          albums,
+          ownAlbums,
+          toLearnAlbum,
           spraws,
           rankDefs,
           rankZhpSim2022,
@@ -126,7 +130,7 @@ class ApiSync{
     void Function(Response? response)? onError,
   }) async => await post(
       dumpReplaceExisting: dumpReplaceExisting,
-      onSuccess: (Response response, dynamic orgHandler, Map? appSettings, Map? songBookSettings, Map? offSongs, Map? ownSongs, Map? albums, Map? spraws, Map? rankDefs, Map? rankZhpSim2022, DateTime? syncedTime) {
+      onSuccess: (Response response, dynamic orgHandler, Map? appSettings, Map? songBookSettings, Map? offSongs, Map? ownSongs, Map? ownAlbums, Map? toLearnAlbum, Map? spraws, Map? rankDefs, Map? rankZhpSim2022, DateTime? syncedTime) {
 
         DateTime? syncedTime = DateTime.tryParse(response.data['time']);
 
@@ -150,11 +154,14 @@ class ApiSync{
             else OwnSong.allOwnMap[lclId]!.saveSyncResult(ownSongs[lclId], syncedTime);
           }
 
-        if(albums != null)
-          for(String lclId in albums.keys as Iterable<String>){
-            if(albums[lclId] == RemoveSyncItem.removedRespCode) RemoveSyncItem.resolve('${OwnAlbum.syncClassId}${RemoveSyncItem.paramSep}$lclId');
-            else OwnAlbum.allMap[lclId]!.saveSyncResult(albums[lclId], syncedTime);
+        if(ownAlbums != null)
+          for(String lclId in ownAlbums.keys as Iterable<String>){
+            if(ownAlbums[lclId] == RemoveSyncItem.removedRespCode) RemoveSyncItem.resolve('${OwnAlbum.syncClassId}${RemoveSyncItem.paramSep}$lclId');
+            else OwnAlbum.allMap[lclId]!.saveSyncResult(ownAlbums[lclId], syncedTime);
           }
+
+        if(toLearnAlbum != null)
+          ToLearnAlbum.loaded.saveSyncResult(toLearnAlbum, syncedTime);
 
         if(spraws != null)
           for(String uniqName in spraws.keys as Iterable<String>){
@@ -179,7 +186,7 @@ class ApiSync{
   );
   
   static Future<Response?> get({
-    FutureOr<void> Function(Response response, OrgEntityResp? orgResp, AppSettingsResp? appSettingsResp, SongBookSettingsResp? songBookSettingsResp, Map<String, OffSongGetResp> offSongs, Map<String, OwnSongGetResp> ownSongs, Map<String, OwnAlbumGetResp> albums, Map<String, SprawGetResp> spraws, Map<String, RankDefGetResp> rankDefs,  Map<String, RankZhpSim2022GetResp> rankZhpSim2022, DateTime? syncedTime)? onSuccess,
+    FutureOr<void> Function(Response response, OrgEntityResp? orgResp, AppSettingsResp? appSettingsResp, SongBookSettingsResp? songBookSettingsResp, Map<String, OffSongGetResp> offSongs, Map<String, OwnSongGetResp> ownSongs, Map<String, OwnAlbumGetResp> albums, ToLearnAlbumGetResp? toLearnAlbum, Map<String, SprawGetResp> spraws, Map<String, RankDefGetResp> rankDefs,  Map<String, RankZhpSim2022GetResp> rankZhpSim2022, DateTime? syncedTime)? onSuccess,
     FutureOr<void> Function(Response?)? onError,
   }) async {
     
@@ -237,9 +244,19 @@ class ApiSync{
               try {
                 albumResps[lclId] = OwnAlbumGetResp.from(response);
               } catch (e){
-                logger.e('Album from response creation error: ${e.toString()}');
+                logger.e('OwnAlbum from response creation error: ${e.toString()}');
               }
             }
+
+          Map<String, dynamic>? toLearnAlbum = response.data[ToLearnAlbumGetResp.collName];
+          ToLearnAlbumGetResp? toLearnAlbumResp;
+          if(toLearnAlbum != null){
+            try {
+              toLearnAlbumResp = ToLearnAlbumGetResp.from(toLearnAlbum);
+            } catch (e){
+              logger.e('ToLearnAlbum from response creation error: ${e.toString()}');
+            }
+          }
 
           Map<String, dynamic>? spraws = response.data[SprawGetResp.COLL_NAME];
           Map<String, SprawGetResp> sprawResps = {};
@@ -294,8 +311,10 @@ class ApiSync{
               '\n${prettyJson(offSongs)}'
               '\n\nOwnSongs:'
               '\n${prettyJson(ownSongs)}'
-              '\n\nAlbums:'
+              '\n\nOwnAlbums:'
               '\n${prettyJson(albums)}'
+              '\n\nToLearnAlbum:'
+              '\n${prettyJson(toLearnAlbum)}'
               '\n\nSpraws:'
               '\n${prettyJson(spraws)}'
               '\n\nRankDefs:'
@@ -313,6 +332,7 @@ class ApiSync{
               offSongResps,
               ownSongResps,
               albumResps,
+              toLearnAlbumResp,
               sprawResps,
               rankDefResps,
               rankZhpSim2022Resps,
@@ -327,7 +347,7 @@ class ApiSync{
     void Function()? onSuccess,
     void Function()? onError,
   }) async => await get(
-      onSuccess: (Response response, OrgEntityResp? orgResp, AppSettingsResp? appSettingsResp, SongBookSettingsResp? songBookSettingsResp, Map<String, OffSongGetResp> offSongs, Map<String, OwnSongGetResp> ownSongs, Map<String, OwnAlbumGetResp> albums, Map<String, SprawGetResp> spraws, Map<String, RankDefGetResp> rankDefs, Map<String, RankZhpSim2022GetResp> rankZhpSim2022, DateTime? syncedTime) async {
+      onSuccess: (Response response, OrgEntityResp? orgResp, AppSettingsResp? appSettingsResp, SongBookSettingsResp? songBookSettingsResp, Map<String, OffSongGetResp> offSongs, Map<String, OwnSongGetResp> ownSongs, Map<String, OwnAlbumGetResp> albums, ToLearnAlbumGetResp? toLearnAlbum, Map<String, SprawGetResp> spraws, Map<String, RankDefGetResp> rankDefs, Map<String, RankZhpSim2022GetResp> rankZhpSim2022, DateTime? syncedTime) async {
 
         if(orgResp != null)
           OrgHandler().applySyncGetResp(orgResp);
@@ -387,6 +407,9 @@ class ApiSync{
           }
           album.applySyncGetResp(albumResp);
         }
+
+        if(toLearnAlbum != null)
+          ToLearnAlbum.loaded.applySyncGetResp(toLearnAlbum);
 
         for(String sprawUniqName in spraws.keys){
           Spraw spraw = Spraw.allMap[sprawUniqName]!;

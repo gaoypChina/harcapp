@@ -8,15 +8,15 @@ import '../../../sync/syncable.dart';
 
 class SongBookSettings with SyncableParamGroupMixin, SyncGetRespNode<SongBookSettingsResp>{
 
-  static const String PARAM_ALWAYS_ON_SCREEN = 'always_on_screen';
-  static const String PARAM_SCROLL_TEXT = 'scroll_text';
-  static const String PARAM_AUTOSCROLL_TEXT_SPEED = 'autoscroll_text_speed';
-  static const String PARAM_SHOW_CHORDS = 'show_chords';
-  static const String PARAM_CHORDS_TRAILING = 'chords_trailing';
-  static const String PARAM_SHOW_DRAW_CHORDS = 'show_draw_chords';
-  static const String PARAM_DRAW_CHORDS_TYPE = 'draw_chords_type';
-  static const String PARAM_SHOW_ALBUM_ICON = 'show_album_icon';
-  static const String PARAM_SHOW_TAB_OF_CONT_ON_START = 'show_tab_of_cont_on_start';
+  static const String PARAM_ALWAYS_ON_SCREEN = 'alwaysOnScreen';
+  static const String PARAM_SCROLL_TEXT = 'scrollText';
+  static const String PARAM_AUTOSCROLL_TEXT_SPEED = 'autoscrollTextSpeed';
+  static const String PARAM_SHOW_CHORDS = 'showChords';
+  static const String PARAM_CHORDS_TRAILING = 'chordsTrailing';
+  static const String PARAM_SHOW_DRAW_CHORDS = 'showDrawChords';
+  static const String PARAM_DRAW_CHORDS_TYPE = 'drawChordsType';
+  static const String PARAM_SHOW_ALBUM_ICON = 'showAlbumIcon';
+  static const String PARAM_SHOW_TAB_OF_CONT_ON_START = 'showTabOfContOnStart';
 
 
   static bool get alwaysOnScreen => SongBookBaseSetting().alwaysOnScreen;

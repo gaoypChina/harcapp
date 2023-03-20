@@ -160,11 +160,11 @@ class AppSettings with SyncableParamGroupMixin, SyncGetRespNode<AppSettingsResp>
   }
 
   static const String PARAM_THEME = 'theme';
-  static const String PARAM_THEME_SUNRISE_TIME = 'theme_sunrise_time';
-  static const String PARAM_THEME_SUNSET_TIME = 'theme_sunset_time';
+  static const String PARAM_THEME_SUNRISE_TIME = 'themeSunriseTime';
+  static const String PARAM_THEME_SUNSET_TIME = 'themeSunsetTime';
 
   static const String PARAM_FULLSCREEN = 'fullscreen';
-  static const String PARAM_DEV_MODE = 'dev_mode';
+  static const String PARAM_DEV_MODE = 'devMode';
 
   @override
   List<SyncableParam> get childParams => [
@@ -199,7 +199,7 @@ class AppSettings with SyncableParamGroupMixin, SyncGetRespNode<AppSettingsResp>
     ),
   ];
 
-  static const String syncClassId = 'app_settings';
+  static const String syncClassId = 'appSettings';
   
   @override
   String get debugClassId => syncClassId;
