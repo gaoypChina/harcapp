@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -6,6 +8,7 @@ import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
+import 'package:harcapp/_new/cat_page_harc_map/utils.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/account/account.dart';
@@ -65,7 +68,8 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
   late MapController mapController;
 
   List<LatLng>? lastRequestedSamples;
-  List<LatLng>? emptySpaceSamples;
+  // List<LatLng>? emptySpaceSamples;
+  List<LatLng>? otherMarkersUncertaintySamples;
 
   Future<void> tryGetMarkers({required bool publicOnly}) async {
     if(!await isNetworkAvailable())
@@ -109,7 +113,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
         samples: noSamplesSkipped?null:rectDecompMatrix,
 
         onSuccess: (markers) {
-          MarkerData.addAllToAll(markers);
+          markers = MarkerData.addAllToAll(markers);
           if (mounted) setState(() {});
 
           if(publicOnly) return;
@@ -118,14 +122,33 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
             thisZoom,
           );
 
-          emptySpaceSamples = LoadedPointsCache.emptySpaceSamplePoints(
-            thisNorthBound,
-            thisSouthBound,
-            thisWestBound,
-            thisEastBound,
-            thisZoom,
+          // emptySpaceSamples = LoadedPointsCache.emptySpaceSamplePoints(
+          //   thisNorthBound,
+          //   thisSouthBound,
+          //   thisWestBound,
+          //   thisEastBound,
+          //   thisZoom,
+          //
+          //   samples,
+          // );
 
-            samples,
+          for(MarkerData marker in markers){
+            Tuple2<int, int> distDeltas = HarcMapUtils.getDistanceDeltas(zoom);
+            int latDistDelta = distDeltas.item1;
+            int lngDistDelta = distDeltas.item2;
+            int newPotentialUncertaintyDist = max(latDistDelta, lngDistDelta);
+            if(newPotentialUncertaintyDist < marker.otherMarkersUncertaintyDist)
+              marker.otherMarkersUncertaintyDist = 2*newPotentialUncertaintyDist;
+          }
+
+          otherMarkersUncertaintySamples = LoadedPointsCache.otherMarkersUncertaintySamplePoints(
+              thisNorthBound,
+              thisSouthBound,
+              thisWestBound,
+              thisEastBound,
+              thisZoom,
+
+              samples
           );
 
         },
@@ -269,7 +292,12 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
               if(AppSettings.devMode)
                 IgnorePointer(
-                  child: SamplingPointsLayerWidget(lastRequestedSamples, emptySpaceSamples, mapController),
+                  child: SamplingPointsLayerWidget(
+                      lastRequestedSamples,
+                      //emptySpaceSamples,
+                      otherMarkersUncertaintySamples,
+                      mapController
+                  ),
                 ),
 
               if(AppSettings.devMode)
@@ -425,10 +453,16 @@ class MapEventChangedProvider extends ChangeNotifier{
 class SamplingPointsLayerWidget extends StatefulWidget{
 
   final List<LatLng>? lastRequestedSamples;
-  final List<LatLng>? emptySpaceSamples;
+  // final List<LatLng>? emptySpaceSamples;
+  final List<LatLng>? otherMarkersUncertaintySamples;
   final MapController mapController;
 
-  const SamplingPointsLayerWidget(this.lastRequestedSamples, this.emptySpaceSamples, this.mapController, {super.key});
+  const SamplingPointsLayerWidget(
+      this.lastRequestedSamples,
+      //this.emptySpaceSamples,
+      this.otherMarkersUncertaintySamples,
+      this.mapController,
+      { super.key });
 
   @override
   State<StatefulWidget> createState() => SamplingPointsLayerWidgetState();
@@ -438,7 +472,8 @@ class SamplingPointsLayerWidget extends StatefulWidget{
 class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
 
   List<LatLng>? get lastRequestedSamples => widget.lastRequestedSamples;
-  List<LatLng>? get emptySpaceSamples => widget.emptySpaceSamples;
+  // List<LatLng>? get emptySpaceSamples => widget.emptySpaceSamples;
+  List<LatLng>? get otherMarkersUncertaintySamples => widget.otherMarkersUncertaintySamples;
   MapController get mapController => widget.mapController;
 
   double get northLat => mapController.bounds!.north;
@@ -477,14 +512,27 @@ class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
               MdiIcons.circleSmall,
               color: ((lastRequestedSamples??[]).contains(samplePoint)?Colors.red:Colors.deepPurple).withOpacity(.8)
           )
-      ))
-      .toList() + (emptySpaceSamples??[]).map((emptySpaceSample) => Marker(
+      )).toList() +
+
+      // (emptySpaceSamples??[])
+      // .map((emptySpaceSample) => Marker(
+      //     point: emptySpaceSample,
+      //     builder: (context) => Icon(
+      //         MdiIcons.close,
+      //         color: Colors.red[900]!.withOpacity(.8),
+      //         size: 12,
+      //     )
+      // )).toList() +
+
+      (otherMarkersUncertaintySamples??[])
+      .map((emptySpaceSample) => Marker(
           point: emptySpaceSample,
           builder: (context) => Icon(
-              MdiIcons.close,
-              color: Colors.red[900]!.withOpacity(.8),
-              size: 12,
-          ))).toList()
+            MdiIcons.plus,
+            color: Colors.green[900]!.withOpacity(.8),
+            size: 12,
+          )
+      )).toList()
   );
 
 }

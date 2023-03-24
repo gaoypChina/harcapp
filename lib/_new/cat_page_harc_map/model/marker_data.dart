@@ -218,14 +218,19 @@ class MarkerData{
     callProvidersOf(context);
   }
 
-  static addAllToAll(List<MarkerData> markers, {BuildContext? context}){
+  static List<MarkerData> addAllToAll(List<MarkerData> markers, {BuildContext? context}){
     if(_all == null){
       _all = [];
       _allMap = {};
     }
 
+    List<MarkerData> result = [];
+
     for(MarkerData marker in markers) {
-      if(_allMap!.containsKey(marker.key)) continue;
+      if(_allMap!.containsKey(marker.key)) {
+        result.add(_allMap![marker.key]!);
+        continue;
+      }
       _allMap![marker.key] = marker;
       _all!.add(marker);
 
@@ -236,11 +241,12 @@ class MarkerData{
       sortedMinZoomWestBorder.add(marker);
       sortedMinZoomEastBorder.add(marker);
       sortedZoom.add(marker);
-
+      result.add(marker);
     }
 
-    if(context == null) return;
-    callProvidersOf(context);
+    if(context != null) callProvidersOf(context);
+
+    return result;
   }
 
   static updateInAll(MarkerData marker, {BuildContext? context}){
@@ -314,9 +320,9 @@ class MarkerData{
   String? name;
   CommonContactData? contact;
   double lat;
-  late double latDist;
+  late int latDist;
   double lng;
-  late double lngDist;
+  late int lngDist;
   MarkerType type;
   MarkerVisibility visibility;
   double minZoomAppearance;
@@ -325,6 +331,8 @@ class MarkerData{
   double minZoomWestLng;
   double minZoomEastLng;
   Map<CommunityCategory, int> communitiesBasicData;
+
+  int otherMarkersUncertaintyDist = HarcMapUtils.maxLngDistSpan.toInt();
 
   LatLng get latLng => LatLng(lat, lng);
 
@@ -377,8 +385,8 @@ class MarkerData{
       _loadedManagersMap = {for (MarkerManager m in managers) m.key: m}
   {
     CustomPoint latLngPoint = const SphericalMercator().project(LatLng(lat, lng));
-    lngDist = latLngPoint.x.toDouble();
-    latDist = latLngPoint.y.toDouble();
+    lngDist = latLngPoint.x.toInt();
+    latDist = latLngPoint.y.toInt();
 
     anyDoubleCommunityCategories = false;
     for(int counts in communitiesBasicData.values)

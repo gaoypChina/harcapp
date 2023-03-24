@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:math';
 
 import 'package:flutter_map/flutter_map.dart';
 import 'package:harcapp/logger.dart';
@@ -156,12 +157,12 @@ class LoadedPointsCache{
     List<LatLng> samplePointsWithPotentialMarkers = [];
     for(MarkerData marker in markersInBounds){
 
-      double startLat = marker.latDist - cachedLatDistDelta - (marker.latDist % latDistDelta);
-      double endLat = marker.latDist + 2*cachedLatDistDelta - (marker.latDist % latDistDelta);
-      for(double y = startLat; y <= endLat; y += latDistDelta){
-        double startLng = marker.lngDist - cachedLngDistDelta - (marker.lngDist % lngDistDelta);
-        double endLng = marker.lngDist + 2*cachedLngDistDelta - (marker.lngDist % lngDistDelta);
-        for(double x = startLng; x <= endLng; x += lngDistDelta)
+      int startLat = marker.latDist - cachedLatDistDelta - (marker.latDist % latDistDelta);
+      int endLat = marker.latDist + 2*cachedLatDistDelta - (marker.latDist % latDistDelta);
+      for(int y = startLat; y <= endLat; y += latDistDelta){
+        int startLng = marker.lngDist - cachedLngDistDelta - (marker.lngDist % lngDistDelta);
+        int endLng = marker.lngDist + 2*cachedLngDistDelta - (marker.lngDist % lngDistDelta);
+        for(int x = startLng; x <= endLng; x += lngDistDelta)
           samplePointsWithPotentialMarkers.add(const SphericalMercator().unproject(CustomPoint(x, y)));
       }
     }
@@ -175,8 +176,69 @@ class LoadedPointsCache{
 
   }
 
-  static clear(){
-    cached.clear();
+  static List<LatLng> otherMarkersUncertaintySamplePoints(
+      double northLat,
+      double southLat,
+      double westLng,
+      double eastLng,
+
+      double zoom,
+
+      List<LatLng> samplingPoints,
+  ){
+
+    CustomPoint nothWestPoint = const SphericalMercator().project(LatLng(northLat, westLng));
+    int northLatDist = nothWestPoint.y.toInt();
+    int westLngDist = nothWestPoint.x.toInt();
+    CustomPoint southEastPoint = const SphericalMercator().project(LatLng(southLat, eastLng));
+    int southLatDist = southEastPoint.y.toInt();
+    int eastLngDist = southEastPoint.x.toInt();
+
+    Set<MarkerData> markersInBounds = MarkerData.findMarkersInBounds(
+        northLat: northLat,
+        southLat: southLat,
+        westLng: westLng,
+        eastLng: eastLng,
+
+        zoom: zoom
+    );
+
+    logger.d('LoadedPointsCache :: Marker count found in bounds: ${markersInBounds.length}');
+
+    // cachedZoom == null means that caching is disabled.
+    if(markersInBounds.isEmpty || cachedZoom == null)
+      return [];
+
+    Tuple2<int, int> distDeltas = HarcMapUtils.getDistanceDeltas(zoom);
+    int latDistDelta = distDeltas.item1;
+    int lngDistDelta = distDeltas.item2;
+
+    List<LatLng> samplePointsWithPotentialMarkers = [];
+    for(MarkerData marker in markersInBounds){
+
+      int startLatDist = marker.latDist - marker.otherMarkersUncertaintyDist + (latDistDelta - marker.latDist % latDistDelta);
+      int endLatDist = marker.latDist + marker.otherMarkersUncertaintyDist;
+
+      startLatDist = max(startLatDist, southLatDist);
+      endLatDist = min(endLatDist, northLatDist);
+
+      for(int y = startLatDist; y <= endLatDist; y += latDistDelta){
+        int startLngDist = marker.lngDist - marker.otherMarkersUncertaintyDist + (lngDistDelta - marker.lngDist % lngDistDelta);
+        int endLngDist = marker.lngDist + marker.otherMarkersUncertaintyDist;
+
+        startLngDist = max(startLngDist, westLngDist);
+        endLngDist = min(endLngDist, eastLngDist);
+
+        for(int x = startLngDist; x <= endLngDist; x += lngDistDelta)
+          samplePointsWithPotentialMarkers.add(const SphericalMercator().unproject(CustomPoint(x, y)));
+
+      }
+    }
+
+    return samplePointsWithPotentialMarkers;
+
   }
+
+  static clear() => cached.clear();
 
 }
