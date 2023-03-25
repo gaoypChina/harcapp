@@ -32,7 +32,7 @@ import '../../values/consts.dart';
 import '../api/harc_map.dart';
 import '../app_drawer.dart';
 import 'app_marker.dart';
-import 'loaded_points_cache.dart';
+import 'sample_points_optimizer.dart';
 import 'model/marker_data.dart';
 import 'marker_editor/_main.dart';
 
@@ -68,7 +68,6 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
   late MapController mapController;
 
   List<LatLng>? lastRequestedSamples;
-  // List<LatLng>? emptySpaceSamples;
   List<LatLng>? otherMarkersUncertaintySamples;
 
   Future<void> tryGetMarkers({required bool publicOnly}) async {
@@ -81,23 +80,24 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     double thisEastBound = eastBound;
     double thisZoom = zoom;
 
-    Tuple3<List<LatLng>, List<List<bool>>, bool> samplePointsResult = LoadedPointsCache.createSamplePoints(
-        thisNorthBound,
-        thisSouthBound,
-        thisWestBound,
-        thisEastBound,
+    Tuple3<List<LatLng>, List<List<bool>>, bool> samplePointsResult = SamplePointsOptimizer.createSamplePoints(
+      thisNorthBound,
+      thisSouthBound,
+      thisWestBound,
+      thisEastBound,
 
-        thisZoom,
-        skipCached: true,
+      thisZoom,
+      skipCached: true,
+      inUnseenMapOnly: true
     );
 
-    List<LatLng> samples = samplePointsResult.item1;
+    List<LatLng> requestSamples = samplePointsResult.item1;
     List<List<bool>> rectDecompMatrix = samplePointsResult.item2;
     bool noSamplesSkipped = samplePointsResult.item3;
 
-    lastRequestedSamples = samples;
+    lastRequestedSamples = requestSamples;
 
-    if(samples.isEmpty)
+    if(requestSamples.isEmpty)
       // This means everything we want to sample for markers is already cached.
       return;
 
@@ -117,38 +117,38 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
           if (mounted) setState(() {});
 
           if(publicOnly) return;
-          LoadedPointsCache.cacheSamplePoints(
-            samples,
+          SamplePointsOptimizer.cacheSamplePoints(
+            requestSamples,
             thisZoom,
           );
 
-          // emptySpaceSamples = LoadedPointsCache.emptySpaceSamplePoints(
-          //   thisNorthBound,
-          //   thisSouthBound,
-          //   thisWestBound,
-          //   thisEastBound,
-          //   thisZoom,
-          //
-          //   samples,
-          // );
+          CustomPoint northWestDist = const SphericalMercator().project(LatLng(thisNorthBound, thisWestBound));
+          CustomPoint southEastDist = const SphericalMercator().project(LatLng(thisSouthBound, thisEastBound));
+
+          SamplePointsOptimizer.addSeenMapFragment(
+            northDist: northWestDist.y,
+            southDist: southEastDist.y,
+            westDist: northWestDist.x,
+            eastDist: southEastDist.x,
+          );
 
           for(MarkerData marker in markers){
             Tuple2<int, int> distDeltas = HarcMapUtils.getDistanceDeltas(zoom);
             int latDistDelta = distDeltas.item1;
             int lngDistDelta = distDeltas.item2;
             int newPotentialUncertaintyDist = max(latDistDelta, lngDistDelta);
-            if(newPotentialUncertaintyDist < marker.otherMarkersUncertaintyDist)
+            if(2*newPotentialUncertaintyDist < marker.otherMarkersUncertaintyDist)
               marker.otherMarkersUncertaintyDist = 2*newPotentialUncertaintyDist;
           }
 
-          otherMarkersUncertaintySamples = LoadedPointsCache.otherMarkersUncertaintySamplePoints(
+          otherMarkersUncertaintySamples = SamplePointsOptimizer.otherMarkersUncertaintySamplePoints(
               thisNorthBound,
               thisSouthBound,
               thisWestBound,
               thisEastBound,
               thisZoom,
 
-              samples
+              requestSamples
           );
 
         },
@@ -173,22 +173,22 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     loginListener = LoginListener(
       onLogin: (emailConf) async {
         MarkerData.clear();
-        LoadedPointsCache.clear();
+        SamplePointsOptimizer.clear();
         tryGetMarkers(publicOnly: !AccountData.loggedIn);
       },
       onRegistered: (){
         MarkerData.clear();
-        LoadedPointsCache.clear();
+        SamplePointsOptimizer.clear();
         tryGetMarkers(publicOnly: !AccountData.loggedIn);
       },
       onEmailConfirmChanged: (emailConf){
         MarkerData.clear();
-        LoadedPointsCache.clear();
+        SamplePointsOptimizer.clear();
         tryGetMarkers(publicOnly: !AccountData.loggedIn);
       },
       onForceLogout: (){
         MarkerData.clear();
-        LoadedPointsCache.clear();
+        SamplePointsOptimizer.clear();
         tryGetMarkers(publicOnly: !AccountData.loggedIn);
       }
     );
@@ -294,7 +294,6 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                 IgnorePointer(
                   child: SamplingPointsLayerWidget(
                       lastRequestedSamples,
-                      //emptySpaceSamples,
                       otherMarkersUncertaintySamples,
                       mapController
                   ),
@@ -453,13 +452,11 @@ class MapEventChangedProvider extends ChangeNotifier{
 class SamplingPointsLayerWidget extends StatefulWidget{
 
   final List<LatLng>? lastRequestedSamples;
-  // final List<LatLng>? emptySpaceSamples;
   final List<LatLng>? otherMarkersUncertaintySamples;
   final MapController mapController;
 
   const SamplingPointsLayerWidget(
       this.lastRequestedSamples,
-      //this.emptySpaceSamples,
       this.otherMarkersUncertaintySamples,
       this.mapController,
       { super.key });
@@ -472,7 +469,6 @@ class SamplingPointsLayerWidget extends StatefulWidget{
 class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
 
   List<LatLng>? get lastRequestedSamples => widget.lastRequestedSamples;
-  // List<LatLng>? get emptySpaceSamples => widget.emptySpaceSamples;
   List<LatLng>? get otherMarkersUncertaintySamples => widget.otherMarkersUncertaintySamples;
   MapController get mapController => widget.mapController;
 
@@ -499,7 +495,7 @@ class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
 
   @override
   Widget build(BuildContext context) => MarkerLayer(
-      markers: LoadedPointsCache.createSamplePoints(
+      markers: SamplePointsOptimizer.createSamplePoints(
           northLat,
           southLat,
           westLng,
@@ -510,26 +506,25 @@ class SamplingPointsLayerWidgetState extends State<SamplingPointsLayerWidget>{
           point: samplePoint,
           builder: (context) => Icon(
               MdiIcons.circleSmall,
-              color: ((lastRequestedSamples??[]).contains(samplePoint)?Colors.red:Colors.deepPurple).withOpacity(.8)
+              color: (
+                (lastRequestedSamples??[]).contains(samplePoint)?
+                // Recently requested.
+                Colors.blue:
+                SamplePointsOptimizer.isSamplePointCached(samplePoint, zoom)?
+                // Cached long time ago.
+                Colors.deepPurple:
+                // Not requested before.
+                Colors.red
+              ).withOpacity(.8)
           )
       )).toList() +
-
-      // (emptySpaceSamples??[])
-      // .map((emptySpaceSample) => Marker(
-      //     point: emptySpaceSample,
-      //     builder: (context) => Icon(
-      //         MdiIcons.close,
-      //         color: Colors.red[900]!.withOpacity(.8),
-      //         size: 12,
-      //     )
-      // )).toList() +
 
       (otherMarkersUncertaintySamples??[])
       .map((emptySpaceSample) => Marker(
           point: emptySpaceSample,
           builder: (context) => Icon(
-            MdiIcons.plus,
-            color: Colors.green[900]!.withOpacity(.8),
+            MdiIcons.plusThick,
+            color: Colors.deepPurple.withOpacity(.8),
             size: 12,
           )
       )).toList()

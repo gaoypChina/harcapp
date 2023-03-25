@@ -34,6 +34,7 @@ dependencies:
   avatar_glow: ^2.0.2
   back_button_interceptor: ^6.0.0
   confetti: ^0.7.0
+  dart_numerics: 0.0.6  # only used for epsilon
   date_picker_timeline: 1.2.3
   device_info_plus: ^4.0.0
   dio: ^5.0.0
@@ -75,6 +76,7 @@ dependencies:
   pdf: ^3.8.1
   percent_indicator: ^4.2.2
   permission_handler: ^10.0.0
+  polybool: 0.2.0
   pretty_json: ^2.0.0
   printing: ^5.9.1
   pro_animated_blur: ^0.0.2+1
