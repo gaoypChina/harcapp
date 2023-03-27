@@ -73,96 +73,96 @@ class AnnouncementWidgetTemplate extends StatelessWidget{
     bool amIAuthor = AccountData.key == announcement.author.key;
 
     return CommunityPublishableWidgetTemplate(
-      announcement,
-      palette,
-
-      shrinkText: shrinkText,
-      onTap: onTap,
-      onUpdateTap: onUpdateTap,
-      showCommunityInfo: showCommunityInfo,
-      contentBottom:
-      announcement.isEvent?
-      EventInfoWidget(
         announcement,
-        palette: palette,
-        onAttendanceChanged: onAttendanceChanged,
-        onAttendanceIndicatorTap: onAttendanceIndicatorTap
-      ):null,
+        palette,
 
-      onCommunityButtonTap: onCircleButtonTap,
-      
-      onMoreTap:
-      amIAuthor && announcement.circle.myRole != CircleRole.OBSERVER?
-      () => showScrollBottomSheet(
-        context: context, 
-        builder: (_) => BottomSheetDef(
-          color: CommunityCoverColors.backgroundColor(context, palette),
-          builder: (_) => Column(
-            children: [
+        shrinkText: shrinkText,
+        onTap: onTap,
+        onUpdateTap: onUpdateTap,
+        showCommunityInfo: showCommunityInfo,
+        contentBottom:
+        announcement.isEvent?
+        EventInfoWidget(
+            announcement,
+            palette: palette,
+            onAttendanceChanged: onAttendanceChanged,
+            onAttendanceIndicatorTap: onAttendanceIndicatorTap
+        ):null,
 
-              if(amIAuthor && announcement.circle.myRole != CircleRole.OBSERVER)
-                ListTile(
-                  leading: const Icon(MdiIcons.pencilOutline),
-                  title: Text('Edytuj ogłoszenie', style: AppTextStyle()),
-                  onTap: (){
-                    Navigator.pop(context);
-                    onUpdateTap?.call();
-                  },
-                ),
+        onCommunityButtonTap: onCircleButtonTap,
 
-              if(amIAuthor && announcement.circle.myRole != CircleRole.OBSERVER)
-                _PinTile(
-                    announcement,
-                    onPinChanged: onPinChanged,
-                    showShortcutButton: showPinShortcutButton
-                ),
+        onMoreTap:
+        amIAuthor && announcement.circle.myRole != CircleRole.OBSERVER?
+            () => showScrollBottomSheet(
+            context: context,
+            builder: (_) => BottomSheetDef(
+              color: CommunityCoverColors.backgroundColor(context, palette),
+              builder: (_) => Column(
+                children: [
 
-              if(amIAuthor && announcement.circle.myRole != CircleRole.OBSERVER)
-                ListTile(
-                  leading: const Icon(MdiIcons.trashCanOutline),
-                  title: Text('Usuń ogłoszenie', style: AppTextStyle()),
-                  onTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć'),
-                  onLongPress: (){
+                  if(amIAuthor && announcement.circle.myRole != CircleRole.OBSERVER)
+                    ListTile(
+                      leading: const Icon(MdiIcons.pencilOutline),
+                      title: Text('Edytuj ogłoszenie', style: AppTextStyle()),
+                      onTap: (){
+                        Navigator.pop(context);
+                        onUpdateTap?.call();
+                      },
+                    ),
 
-                    Navigator.pop(context); // Hide bottom sheet
+                  if(amIAuthor && announcement.circle.myRole != CircleRole.OBSERVER)
+                    _PinTile(
+                        announcement,
+                        onPinChanged: onPinChanged,
+                        showShortcutButton: showPinShortcutButton
+                    ),
 
-                    showLoadingWidget(
-                        context,
-                        CommunityCoverColors.strongColor(context, palette),
-                        'Usuwanie...'
-                    );
+                  if(amIAuthor && announcement.circle.myRole != CircleRole.OBSERVER)
+                    ListTile(
+                      leading: const Icon(MdiIcons.trashCanOutline),
+                      title: Text('Usuń ogłoszenie', style: AppTextStyle()),
+                      onTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć'),
+                      onLongPress: (){
 
-                    ApiCircle.deleteAnnouncement(
-                        annKey: announcement.key,
-                        onSuccess: () async {
-                          announcement.circle.removeAnnouncement(announcement);
-                          AnnouncementListProvider.notify_(context);
-                          CommunityPublishableListProvider.notify_(context);
-                          await popPage(context); // Close loading widget.
-                          onDeleted?.call(announcement);
-                        },
-                        onForceLoggedOut: (){
-                          popPage(context); // Close loading widget.
-                          return true;
-                        },
-                        onServerMaybeWakingUp: () {
-                          showServerWakingUpToast(context);
-                          popPage(context); // Close loading widget.
-                          return true;
-                        },
-                        onError: () async {
-                          showAppToast(context, text: simpleErrorMessage);
-                          await popPage(context); // Close loading widget.
-                        }
-                    );
+                        Navigator.pop(context); // Hide bottom sheet
 
-                  },
-                ),
-            ],
-          ),
-        )
-      ):null,
-      constrainImage: constrainImage
+                        showLoadingWidget(
+                            context,
+                            CommunityCoverColors.strongColor(context, palette),
+                            'Usuwanie...'
+                        );
+
+                        ApiCircle.deleteAnnouncement(
+                            annKey: announcement.key,
+                            onSuccess: () async {
+                              announcement.circle.removeAnnouncement(announcement);
+                              AnnouncementListProvider.notify_(context);
+                              CommunityPublishableListProvider.notify_(context);
+                              await popPage(context); // Close loading widget.
+                              onDeleted?.call(announcement);
+                            },
+                            onForceLoggedOut: (){
+                              popPage(context); // Close loading widget.
+                              return true;
+                            },
+                            onServerMaybeWakingUp: () {
+                              showServerWakingUpToast(context);
+                              popPage(context); // Close loading widget.
+                              return true;
+                            },
+                            onError: () async {
+                              showAppToast(context, text: simpleErrorMessage);
+                              await popPage(context); // Close loading widget.
+                            }
+                        );
+
+                      },
+                    ),
+                ],
+              ),
+            )
+        ):null,
+        constrainImage: constrainImage
     );
   }
 
@@ -410,64 +410,74 @@ class AttendanceWidget extends StatelessWidget{
 
         return DropdownButtonHideUnderline(
             child: DropdownButton2(
-              buttonDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppCard.defRadius)
+              buttonStyleData: ButtonStyleData(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(AppCard.defRadius),
+                ),
+                width: 169,
+                padding: EdgeInsets.zero,
+              ),
+              menuItemStyleData: const MenuItemStyleData(
+                padding: EdgeInsets.zero,
+              ),
+              dropdownStyleData: DropdownStyleData(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(AppCard.defRadius),
+                    color: CommunityCoverColors.cardColor(context, palette),
+                  ),
+                  isOverButton: true
               ),
               customButton:
               myResp == null?
               getQuasiButton(
-                context,
-                icon: announcementAttendanceDropdownIcon[myResp]!,
-                text: announcementAttendanceDropdownText[myResp]!
+                  context,
+                  icon: announcementAttendanceDropdownIcon[myResp]!,
+                  text: announcementAttendanceDropdownText[myResp]!
               ):
               getQuasiButton(
-                context,
-                icon: announcementAttendanceRespToIcon(announcement.attendance[AccountData.key]!),
-                text: announcementAttendanceDropdownText[myResp]!
-            ),
-              dropdownWidth: 169,
-              dropdownPadding: EdgeInsets.zero,
-              dropdownOverButton: true,
-              itemPadding: EdgeInsets.zero,
+                  context,
+                  icon: announcementAttendanceRespToIcon(announcement.attendance[AccountData.key]!),
+                  text: announcementAttendanceDropdownText[myResp]!
+              ),
               items: [
                 DropdownMenuItem<AnnouncementAttendance>(
                     value: AnnouncementAttendance.ATTENDING,
                     child: SimpleButton.from(
-                      margin: EdgeInsets.zero,
-                      radius: AppCard.defRadius,
-                      context: context,
-                      icon: announcementAttendanceDropdownIcon[AnnouncementAttendance.ATTENDING],
-                      text: announcementAttendanceDropdownText[AnnouncementAttendance.ATTENDING],
-                      onTap: null
+                        margin: EdgeInsets.zero,
+                        radius: AppCard.defRadius,
+                        context: context,
+                        icon: announcementAttendanceDropdownIcon[AnnouncementAttendance.ATTENDING],
+                        text: announcementAttendanceDropdownText[AnnouncementAttendance.ATTENDING],
+                        onTap: null
                     )
                 ),
                 DropdownMenuItem<AnnouncementAttendance>(
-                    value: AnnouncementAttendance.POSTPONE_RESP,
-                    enabled: ((announcement.startTime?.day??0) - DateTime.now().day).abs() > 1,
-                    child: SimpleButton.from(
-                        margin: EdgeInsets.zero,
-                        radius: AppCard.defRadius,
+                  value: AnnouncementAttendance.POSTPONE_RESP,
+                  enabled: ((announcement.startTime?.day??0) - DateTime.now().day).abs() > 1,
+                  child: SimpleButton.from(
+                      margin: EdgeInsets.zero,
+                      radius: AppCard.defRadius,
 
-                        textColor:
-                        ((announcement.startTime?.day??0) - DateTime.now().day).abs() > 1?
-                        iconEnab_(context):
-                        iconDisab_(context),
+                      textColor:
+                      ((announcement.startTime?.day??0) - DateTime.now().day).abs() > 1?
+                      iconEnab_(context):
+                      iconDisab_(context),
 
-                        icon: announcementAttendanceDropdownIcon[AnnouncementAttendance.POSTPONE_RESP],
-                        text: announcementAttendanceDropdownText[AnnouncementAttendance.POSTPONE_RESP],
-                        onTap: null
-                    ),
+                      icon: announcementAttendanceDropdownIcon[AnnouncementAttendance.POSTPONE_RESP],
+                      text: announcementAttendanceDropdownText[AnnouncementAttendance.POSTPONE_RESP],
+                      onTap: null
+                  ),
                 ),
                 DropdownMenuItem<AnnouncementAttendance>(
                     value: AnnouncementAttendance.NOT_ATTENDING,
                     child: SimpleButton.from(
-                      margin: EdgeInsets.zero,
-                      radius: AppCard.defRadius,
+                        margin: EdgeInsets.zero,
+                        radius: AppCard.defRadius,
 
-                      context: context,
-                      icon: announcementAttendanceDropdownIcon[AnnouncementAttendance.NOT_ATTENDING],
-                      text: announcementAttendanceDropdownText[AnnouncementAttendance.NOT_ATTENDING],
-                      onTap: null
+                        context: context,
+                        icon: announcementAttendanceDropdownIcon[AnnouncementAttendance.NOT_ATTENDING],
+                        text: announcementAttendanceDropdownText[AnnouncementAttendance.NOT_ATTENDING],
+                        onTap: null
                     )
                 ),
               ],
@@ -515,10 +525,6 @@ class AttendanceWidget extends StatelessWidget{
                 }
 
               },
-              dropdownDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppCard.defRadius),
-                color: CommunityCoverColors.cardColor(context, palette),
-              ),
             )
         );
 
@@ -558,15 +564,15 @@ class AttendanceWidget extends StatelessWidget{
     Circle circle = announcement.circle;
 
     bool hasResponse = announcement.respMode == AnnouncementAttendanceRespMode.OBLIGATORY && resp.response != null;
-      bool isOverdue = resp.response == AnnouncementAttendance.POSTPONE_RESP && resp.postponeTime!.isAfter(now);
+    bool isOverdue = resp.response == AnnouncementAttendance.POSTPONE_RESP && resp.postponeTime!.isAfter(now);
 
-      bool isNewAwaiting = !hasResponse || (hasResponse && isOverdue);
-      if(announcement.isAwaitingMyResponse && !isNewAwaiting)
-        circle.pinnedCount -= 1;
-      else if(!announcement.isAwaitingMyResponse && isNewAwaiting)
-        circle.pinnedCount += 1;
+    bool isNewAwaiting = !hasResponse || (hasResponse && isOverdue);
+    if(announcement.isAwaitingMyResponse && !isNewAwaiting)
+      circle.pinnedCount -= 1;
+    else if(!announcement.isAwaitingMyResponse && isNewAwaiting)
+      circle.pinnedCount += 1;
 
-      circle.changeAwaitingAnnouncement(announcement, isNewAwaiting);
+    circle.changeAwaitingAnnouncement(announcement, isNewAwaiting);
 
   }
 
@@ -580,76 +586,76 @@ class AttendingDialog extends StatelessWidget{
   final void Function(AnnouncementAttendanceResp, DateTime)? onSuccess;
   final void Function()? onError;
   const AttendingDialog(this.announcement, this.palette, {required this.getContext, this.onSuccess, this.onError, super.key});
-  
+
   @override
   Widget build(BuildContext context) => Center(
     child: Padding(
       padding: const EdgeInsets.all(Dimen.SIDE_MARG),
       child: Material(
-        clipBehavior: Clip.hardEdge,
-        color: CommunityCoverColors.backgroundColor(context, palette),
-        borderRadius: BorderRadius.circular(AppCard.bigRadius),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+          clipBehavior: Clip.hardEdge,
+          color: CommunityCoverColors.backgroundColor(context, palette),
+          borderRadius: BorderRadius.circular(AppCard.bigRadius),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
 
-            AppBar(
-              title: const Text('Potwierdź obecność'),
-              centerTitle: true,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-            ),
-
-            Padding(
-              padding: const EdgeInsets.all(Dimen.SIDE_MARG),
-              child: Text(
-                'Czy potwierdzasz swoje uczestnicwto?',
-                style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+              AppBar(
+                title: const Text('Potwierdź obecność'),
+                centerTitle: true,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
               ),
-            ),
 
-            const SizedBox(height: Dimen.SIDE_MARG),
+              Padding(
+                padding: const EdgeInsets.all(Dimen.SIDE_MARG),
+                child: Text(
+                  'Czy potwierdzasz swoje uczestnicwto?',
+                  style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
+                ),
+              ),
 
-            SimpleButton.from(
-                context: context,
-                text: 'Oczywiście!',
-                icon: MdiIcons.check,
-                margin: EdgeInsets.zero,
-                onTap: () async {
+              const SizedBox(height: Dimen.SIDE_MARG),
 
-                  Navigator.pop(context);
+              SimpleButton.from(
+                  context: context,
+                  text: 'Oczywiście!',
+                  icon: MdiIcons.check,
+                  margin: EdgeInsets.zero,
+                  onTap: () async {
 
-                  showLoadingWidget(
-                      getContext(),
-                      CommunityCoverColors.strongColor(context, palette),
-                      'Chwileczkę...'
-                  );
+                    Navigator.pop(context);
 
-                  await ApiCircle.updateAnnouncementAttendanceResponse(
-                      annKey: announcement.key,
-                      response: AnnouncementAttendance.ATTENDING,
-                      onSuccess: (announcementAttendanceResp, now) async {
-                        announcement.attendance[AccountData.key!] = announcementAttendanceResp;
-                        await popPage(getContext()); // Close loading widget.
-                        onSuccess?.call(announcementAttendanceResp, now);
-                      },
-                      onServerMaybeWakingUp: () {
-                        showServerWakingUpToast(context);
-                        return true;
-                      },
-                      onError: () async {
-                        showAppToast(getContext(), text: simpleErrorMessage);
-                        await popPage(getContext()); // Close loading widget.
-                        onError?.call();
-                      }
-                  );
+                    showLoadingWidget(
+                        getContext(),
+                        CommunityCoverColors.strongColor(context, palette),
+                        'Chwileczkę...'
+                    );
 
-                }
-            ),
+                    await ApiCircle.updateAnnouncementAttendanceResponse(
+                        annKey: announcement.key,
+                        response: AnnouncementAttendance.ATTENDING,
+                        onSuccess: (announcementAttendanceResp, now) async {
+                          announcement.attendance[AccountData.key!] = announcementAttendanceResp;
+                          await popPage(getContext()); // Close loading widget.
+                          onSuccess?.call(announcementAttendanceResp, now);
+                        },
+                        onServerMaybeWakingUp: () {
+                          showServerWakingUpToast(context);
+                          return true;
+                        },
+                        onError: () async {
+                          showAppToast(getContext(), text: simpleErrorMessage);
+                          await popPage(getContext()); // Close loading widget.
+                          onError?.call();
+                        }
+                    );
 
-          ],
-        )
+                  }
+              ),
+
+            ],
+          )
       ),
     ),
   );
@@ -836,7 +842,7 @@ class NotAttendingDialogState extends State<NotAttendingDialog>{
   Widget build(BuildContext context) => Center(
     child: Padding(
       padding: const EdgeInsets.all(Dimen.SIDE_MARG).add(
-        MediaQuery.of(context).viewInsets
+          MediaQuery.of(context).viewInsets
       ),
       child: Material(
           clipBehavior: Clip.hardEdge,
@@ -857,7 +863,7 @@ class NotAttendingDialogState extends State<NotAttendingDialog>{
                 padding: const EdgeInsets.all(Dimen.SIDE_MARG),
                 child: Text(
                   'Zadeklaruj swoją niedyspozycyjność.'
-                  '\n\nZ szacunku dla organizatora poinformuj go o przyczynie.',
+                      '\n\nZ szacunku dla organizatora poinformuj go o przyczynie.',
                   style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
                 ),
               ),
@@ -990,19 +996,19 @@ class _PinTileState extends State<_PinTile>{
               setState((){});
 
               if(pinned) showAppToast(
-                context,
-                text: 'Przypięto ogłoszenie',
-                buttonText: showShortcutButton?'Zobacz przypięte':null,
-                onButtonPressed: showShortcutButton?() async {
+                  context,
+                  text: 'Przypięto ogłoszenie',
+                  buttonText: showShortcutButton?'Zobacz przypięte':null,
+                  onButtonPressed: showShortcutButton?() async {
 
-                  popPage(context); // Close bottom sheet
-                  CatPageHomeState.openCirclePage(
-                      context,
-                      announcement.circle,
-                      initTab: AnnouncementCategories.pinned
-                  );
+                    popPage(context); // Close bottom sheet
+                    CatPageHomeState.openCirclePage(
+                        context,
+                        announcement.circle,
+                        initTab: AnnouncementCategories.pinned
+                    );
 
-                }: null
+                  }: null
               );
               else showAppToast(context, text: 'Odpięto ogłoszenie');
 

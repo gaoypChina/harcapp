@@ -1,4 +1,3 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
@@ -475,7 +474,6 @@ class TropEditorPageState extends State<TropEditorPage>{
                                     textColor: Colors.red,
                                     margin: EdgeInsets.zero,
                                     iconLeading: false,
-                                    //padding: const EdgeInsets.all(Dimen.defMarg),
                                     onTap: (){
 
                                       TropTaskTmpData value = prov.tasks[index];

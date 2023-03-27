@@ -253,11 +253,21 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                     child: DropdownButtonHideUnderline(
                         child: DropdownButton2(
                           isExpanded: true,
-                          dropdownPadding: EdgeInsets.zero,
-                          itemPadding: EdgeInsets.zero,
-                          icon: const SizedBox(
-                            width: Dimen.ICON_FOOTPRINT,
-                            child: Icon(MdiIcons.chevronDown),
+                          dropdownStyleData: DropdownStyleData(
+                            padding: EdgeInsets.zero,
+                            decoration: BoxDecoration(
+                              color: CommunityCoverColors.backgroundColor(context, palette),
+                              borderRadius: BorderRadius.circular(communityRadius),
+                            ),
+                          ),
+                          menuItemStyleData: const MenuItemStyleData(
+                            padding: EdgeInsets.zero,
+                          ),
+                          iconStyleData: const IconStyleData(
+                            icon: SizedBox(
+                              width: Dimen.ICON_FOOTPRINT,
+                              child: Icon(MdiIcons.chevronDown),
+                            ),
                           ),
                           items: [
                             DropdownMenuItem<AnnouncementAttendanceRespMode>(
@@ -296,10 +306,6 @@ class AnnouncementEditorPageState extends State<AnnouncementEditorPage>{
                           ],
                           value: attRespMode,
                           onChanged: (value) => setState(() => attRespMode = value as AnnouncementAttendanceRespMode),
-                          dropdownDecoration: BoxDecoration(
-                            color: CommunityCoverColors.backgroundColor(context, palette),
-                            borderRadius: BorderRadius.circular(communityRadius),
-                          ),
                         )
                     ),
                   ),

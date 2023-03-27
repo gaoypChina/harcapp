@@ -38,6 +38,20 @@ class HintDropdownWidget<T> extends StatelessWidget{
           Expanded(child: DropdownButtonHideUnderline(
               child: DropdownButton2<T>(
                 isExpanded: true,
+                iconStyleData: const IconStyleData(
+                    iconSize: 0
+                ),
+                dropdownStyleData: DropdownStyleData(
+                  maxHeight: dropdownMaxHeight,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(AppCard.bigRadius),
+                  ),
+                ),
+                buttonStyleData: ButtonStyleData(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(AppCard.defRadius),
+                  ),
+                ),
                 hint: Text(
                     hint,
                     style: AppTextStyle(color: hintEnab_(context))
@@ -45,14 +59,6 @@ class HintDropdownWidget<T> extends StatelessWidget{
                 items: items,
                 value: value,
                 onChanged: (value) => onChanged(value as T),
-                iconSize: 0,
-                dropdownMaxHeight: dropdownMaxHeight,
-                buttonDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppCard.defRadius),
-                ),
-                dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppCard.bigRadius),
-                ),
               )
           )),
 

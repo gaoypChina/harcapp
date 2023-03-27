@@ -104,7 +104,7 @@ class _AlbumItemState extends State<_AlbumItem>{
     album,
     onTap: (){
       AlbumProvider.of(context).current = album;
-      Provider.of<FloatingButtonProvider>(context, listen: false).notify();
+      FloatingButtonProvider.notify_(context);
       onAlbumSelected?.call(album);
       Navigator.pop(context);
     },
@@ -175,16 +175,16 @@ class _AlbumItemState extends State<_AlbumItem>{
                 if(prov.current == album)
                   prov.current = OmegaAlbum();
 
-                Provider.of<FloatingButtonProvider>(context, listen: false).notify();
+                FloatingButtonProvider.notify_(context);
 
                 AppScaffold.showMessage(
                     context,
                     'Usunięto',
                     buttonText: 'Cofnij',
-                    onButtonPressed: (){
+                    onButtonPressed: () async {
                       (album as OwnAlbum).save();
                       prov.insertToAll(index, (album as OwnAlbum));
-                      album.lastOpenIndex = lastPage;
+                      await BaseAlbum.setLastPageForAlbum(album, lastPage);
                     }
                 );
               },

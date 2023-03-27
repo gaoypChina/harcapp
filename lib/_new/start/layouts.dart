@@ -137,7 +137,7 @@ class HarcAppRotatedBackgroundState extends State<HarcAppRotatedBackground>{
   late bool loaded;
 
   load()async{
-    await precachePicture(ExactAssetPicture(SvgPicture.svgStringDecoderBuilder, _iconPath), null);
+    await const SvgAssetLoader(_iconPath).loadBytes(null);
     setState(() => loaded = true);
   }
 
@@ -165,7 +165,8 @@ class HarcAppRotatedBackgroundState extends State<HarcAppRotatedBackground>{
               _iconPath,
               height: bgIconSize,
               width: bgIconSize,
-              color: widget.color),
+              color: widget.color
+          ),
         ),
       ),
     );

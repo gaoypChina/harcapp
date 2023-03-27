@@ -122,7 +122,9 @@ class SongWidget extends StatelessWidget{
   }
 
   final CatPageSongBookState? parent;
+
   final Song song;
+  final SongController controller;
   final int index;
   final void Function(ScrollNotification, double?, double?)? onScroll;
   final void Function()? onTextSizeChanged;
@@ -130,27 +132,29 @@ class SongWidget extends StatelessWidget{
   final void Function(Song song)? onNewSongOpened;
   final void Function(double contentTop)? onTitleTap;
   final ScrollPhysics? physics;
-  final ScrollController controller;
+  final ScrollController scrollController;
 
   SongWidget(
       this.parent,
+      this.controller,
       this.song,
       this.index,
-      {this.onScroll,
+      { this.onScroll,
         this.onTextSizeChanged,
         this.onRateChanged,
         this.onNewSongOpened,
         this.onTitleTap,
         this.physics,
-        required this.controller
+        required this.scrollController
       }):super(key: ValueKey(song));
 
   @override
   Widget build(BuildContext context) => SongWidgetTemplate<Song, AddPersEmailResolver>(
     song,
     SongBookBaseSetting(),
+    controller: controller,
     physics: physics,
-    scrollController: controller,
+    scrollController: scrollController,
     pageNotifier: parent?.notifier,
     index: index,
 
@@ -176,7 +180,7 @@ class SongWidget extends StatelessWidget{
 
     showSongExplanationButton: song.hasExplanation,
     onSongExplanationTap: () async {
-      String? wordsCode = await readStringFromAssets('assets/song_words/${song.lclId}');
+      String? wordsCode = await readStringFromAssets('assets/songs/song_words/${song.lclId}');
       await showScrollBottomSheet(
           context: context,
           builder: (BuildContext context) => BottomSheetDef(
@@ -288,7 +292,7 @@ class SongWidget extends StatelessWidget{
 
         OwnSong.removeFromAll(song as OwnSong);
         parent!.notify();
-        BaseAlbum.current.lastOpenIndex = parent!.pageController.page!.toInt();
+        await BaseAlbum.setLastPageForAlbum(BaseAlbum.current, parent!.pageController.page!.toInt());
         for(OwnAlbum album in OwnAlbum.all)
           album.removeSong(song);
       }else
@@ -414,8 +418,8 @@ class SongWidget extends StatelessWidget{
         onEditMemoryLongPress: (Memory memory) async {
           await openMemoryEditor(context, song, initMemory: memory);
           parent!.notify();
-          post(() async => await this.controller.animateTo(
-              this.controller.position.maxScrollExtent,
+          post(() async => await scrollController.animateTo(
+              scrollController.position.maxScrollExtent,
               duration: const Duration(milliseconds: 100),
               curve: Curves.easeOutQuart
           ));
@@ -424,8 +428,8 @@ class SongWidget extends StatelessWidget{
         onNewMemoryTap: (Song song) async{
           await openMemoryEditor(context, song);
           parent!.notify();
-          post(() async => await this.controller.animateTo(
-              this.controller.position.maxScrollExtent,
+          post(() async => await scrollController.animateTo(
+              scrollController.position.maxScrollExtent,
               duration: const Duration(milliseconds: 100),
               curve: Curves.easeOutQuart
           ));

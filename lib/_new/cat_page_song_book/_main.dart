@@ -83,6 +83,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
   @override
   void afterFirstLayout(BuildContext context) =>
       ColorPackProvider.of(context).colorPack = ColorPackSongBook();
+
   void jumpToPage(int page){
     if(!pageController.hasClients) return;
     pageController.jumpToPage(page);
@@ -131,7 +132,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
   late GlobalKey<NestedScrollViewState> nestedScrollViewKey;
   ScrollController get innerController => nestedScrollViewKey.currentState!.innerController;
   ScrollController get outerController => nestedScrollViewKey.currentState!.outerController;
-  void notifyScrollController({bool orientationChanged = false}) async {
+  Future<void> notifyScrollController({bool orientationChanged = false}) async {
     logger.d('Notified scrollController.');
 
     // Don't use the innerController.
@@ -145,6 +146,8 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
   late SynchronizerListener syncListener;
 
   late ConfettiController confettiController;
+
+  late SongController currDisplayedSongController;
 
   void onOrientationChanged(Orientation orientation) => songsStatisticsRegistrator.registerOrientationChange(orientation);
 
@@ -166,7 +169,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     if(!OwnAlbum.initialized) {
       loaderListener = SingleComputerListener<String>(
           onError: (fileName) async => showAppToast(context, text: 'Błąd wczytywania piosenki $fileName'),
-          onEnd: (String? err, bool forceFinished) {
+          onEnd: (String? err, bool forceFinished) async {
             if(!mounted) return;
 
             onAlbumChanged(BaseAlbum.current);
@@ -175,7 +178,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
               openTabOfCont();
 
             if(BaseAlbum.current.songs.length <= BaseAlbum.current.lastOpenIndex)
-              BaseAlbum.current.lastOpenIndex = 0;
+              await BaseAlbum.setLastPageForAlbum(BaseAlbum.current, 0);
 
             pageController = PageController(initialPage: BaseAlbum.current.lastOpenIndex);
             pageController.addListener(() => notifier.value = pageController.page??0);
@@ -195,10 +198,12 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
       songLoader.run();
     } else {
 
-      if(BaseAlbum.current.songs.length <= BaseAlbum.current.lastOpenIndex)
-        BaseAlbum.current.lastOpenIndex = 0;
+      bool pageExceeds = BaseAlbum.current.songs.length <= BaseAlbum.current.lastOpenIndex;
 
-      pageController = PageController(initialPage: BaseAlbum.current.lastOpenIndex);
+      if(pageExceeds)
+        /* await */ BaseAlbum.setLastPageForAlbum(BaseAlbum.current, 0);
+
+      pageController = PageController(initialPage: pageExceeds?0:BaseAlbum.current.lastOpenIndex);
       pageController.addListener(() => notifier.value = pageController.page??0);
       notifier = ValueNotifier<double>(pageController.initialPage.toDouble());
       notifier.addListener(handleSwap);
@@ -228,6 +233,8 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
     nestedScrollViewKey = GlobalKey<NestedScrollViewState>();
 
     confettiController = ConfettiController(duration: const Duration(seconds: 1));
+
+    currDisplayedSongController = SongController();
 
     super.initState();
   }
@@ -268,6 +275,15 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
       floatingButtonExpanded = true;
       Provider.of<FloatingButtonProvider>(context, listen: false).notify();
     }
+  }
+
+  double get chordBarHeight{
+    if(BaseAlbum.current.songs.isEmpty) return 0;
+    bool songHasChords = BaseAlbum.current.songs[pageController.page!.toInt()].hasChords;
+    if(SongBookSettings.isDrawChordsBarVisible && songHasChords)
+      return ChordWidget.height(SongBookSettings.drawChordsType==InstrumentType.GUITAR?6:4);
+    else
+      return 0;
   }
 
   SliverAppBar appBarBuilder(BuildContext context, {bool pinned=false}) => SliverAppBar(
@@ -394,7 +410,8 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                 onPressed: !OwnAlbum.initialized?null:() => pushPage(
                     context,
                     builder: (context) => SettingsPage(
-                        onScreenAlwaysOnChanged: (bool screenAlwaysOn) => setSettings()
+                      currDisplayedSongController: currDisplayedSongController,
+                      onScreenAlwaysOnChanged: (bool value) => setSettings(),
                     )
                 )
             )
@@ -445,6 +462,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                             physics: const BouncingScrollPhysics(),
                             itemBuilder: (context, position) => SongWidget(
                               this,
+                              currDisplayedSongController,
                               albProv.current.songs[position],
                               position,
                               onScroll: (scrollInfo, textHeight, textTopPadding) async {
@@ -464,10 +482,6 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                                   double topPadding = App.statusBarHeight;
 
                                   double appBarHeight = kToolbarHeight - outerController.offset;
-
-                                  double chordBarHeight = 0;
-                                  if(SongBookSettings.isDrawChordsBarVisible)
-                                    chordBarHeight = ChordWidget.height(SongBookSettings.drawChordsType==InstrumentType.GUITAR?6:4);
 
                                   // distance between the screen top and the screen bottom available for the song book module.
                                   double songBookAvailHeight = MediaQuery.of(context).size.height - kBottomNavigationBarHeight - topPadding;
@@ -588,7 +602,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                                 }
                               },
                               onTextSizeChanged: () => post(() => notifyScrollController()),
-                              controller: innerController,
+                              scrollController: innerController,
                               onRateChanged: (rate, selected){
                                 if(!selected) {
                                   ConfettiProvider.of(context).rate = rate;
@@ -604,16 +618,20 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                               },
 
                               onTitleTap: (double contentTop){
-                                innerController.animateTo(contentTop - (kToolbarHeight - outerController.offset + App.statusBarHeight), duration: const Duration(milliseconds: 300), curve: Curves.easeInOutQuad);
+                                innerController.animateTo(
+                                    contentTop - (kToolbarHeight - outerController.offset + App.statusBarHeight) - chordBarHeight,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeInOutQuad
+                                );
                               }
                             ),
 
                             onPageChanged: (index) async {
 
-                              BaseAlbum.current.lastOpenIndex = index;
+                              await BaseAlbum.setLastPageForAlbum(BaseAlbum.current, index);
                               await songsStatisticsRegistrator.commit();
                               await songsStatisticsRegistrator.openSong(albProv.current.songs[index], SongOpenType.swipe);
-                              notifyScrollController();
+                              await notifyScrollController();
                             },
 
                           )
@@ -708,7 +726,7 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
                                         album.lastOpenSong,
                                         SongOpenType.init,
                                       );
-                                      notifyScrollController();
+                                      await notifyScrollController();
                                     }
                                   }
                                 })
@@ -748,33 +766,41 @@ class CatPageSongBookState extends State<CatPageSongBook> with AfterLayoutMixin,
       AppDrawer(
           body: AlbumDrawer(
               onSelected: (BaseAlbum album) async {
-                if(pageController.hasClients){
-                  post(() => jumpToPage(album.lastOpenIndex));
-                  await songsStatisticsRegistrator.commit();
-                  if(album.songs.isEmpty) return;
-                  await songsStatisticsRegistrator.openSong(
-                    album.lastOpenSong,
-                    SongOpenType.init,
-                  );
-                  notifyScrollController();
-                  post(() => openTabOfCont(
-                      initPhrase: '',
-                      forgetScrollPosition: true,
-                      oneTimeSearchOptions: SongSearchOptions()
-                  ));
-                }
+                await songsStatisticsRegistrator.commit();
+
+                post(() async {
+                  if(pageController.hasClients){
+                    jumpToPage(album.lastOpenIndex);
+                    if(album.songs.isEmpty) return;
+                    await songsStatisticsRegistrator.openSong(
+                      album.lastOpenSong,
+                      SongOpenType.init,
+                    );
+                    await notifyScrollController();
+                    openTabOfCont(
+                        initPhrase: '',
+                        forgetScrollPosition: true,
+                        oneTimeSearchOptions: SongSearchOptions()
+                    );
+                  }
+                });
+
               },
               onNewCreated: (OwnAlbum album) async {
-                if(pageController.hasClients){
-                  post(() => jumpToPage(album.lastOpenIndex));
-                  if(album.songs.isEmpty) return;
-                  await songsStatisticsRegistrator.commit();
-                  await songsStatisticsRegistrator.openSong(
-                    album.lastOpenSong,
-                    SongOpenType.init,
-                  );
-                  notifyScrollController();
-                }
+                await songsStatisticsRegistrator.commit();
+
+                post(() async {
+                  if(pageController.hasClients){
+                    jumpToPage(album.lastOpenIndex);
+                    if(album.songs.isEmpty) return;
+                    await songsStatisticsRegistrator.openSong(
+                      album.lastOpenSong,
+                      SongOpenType.init,
+                    );
+                    await notifyScrollController();
+                  }
+                });
+
               }
           )
       ),

@@ -54,12 +54,22 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
           builder: (context, prov, child) => DropdownButtonHideUnderline(
               child: DropdownButton2(
                 isExpanded: true,
-                dropdownPadding: EdgeInsets.zero,
-                dropdownMaxHeight: MediaQuery.of(context).size.height/2,
-                itemPadding: EdgeInsets.zero,
-                icon: const SizedBox(
-                  width: Dimen.ICON_FOOTPRINT,
-                  child: Icon(MdiIcons.chevronDown),
+                dropdownStyleData: DropdownStyleData(
+                  padding: EdgeInsets.zero,
+                  maxHeight: MediaQuery.of(context).size.height/2,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(communityRadius),
+                  ),
+                ),
+                menuItemStyleData: const MenuItemStyleData(
+                  padding: EdgeInsets.zero,
+                  height: Dimen.ICON_SIZE + 2*16.0,
+                ),
+                iconStyleData: const IconStyleData(
+                  icon: SizedBox(
+                    width: Dimen.ICON_FOOTPRINT,
+                    child: Icon(MdiIcons.chevronDown),
+                  ),
                 ),
                 items: allUsableMarkerType.map((markerType) => DropdownMenuItem<MarkerType>(
                     value: markerType,
@@ -73,15 +83,12 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
                 value: prov.markerType,
                 onChanged: (value) => setState(() => prov.markerType = value as MarkerType),
 
-                buttonHeight: Dimen.ICON_SIZE + 2*16.0,
-                buttonDecoration: BoxDecoration(
-                  color: backgroundIcon_(context),
-                  borderRadius: BorderRadius.circular(communityRadius),
-                ),
-
-                itemHeight: Dimen.ICON_SIZE + 2*16.0,
-                dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(communityRadius),
+                buttonStyleData: ButtonStyleData(
+                  height: Dimen.ICON_SIZE + 2*16.0,
+                  decoration: BoxDecoration(
+                    color: backgroundIcon_(context),
+                    borderRadius: BorderRadius.circular(communityRadius),
+                  ),
                 ),
               )
           ),
@@ -112,11 +119,21 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
           builder: (context, prov, child) => DropdownButtonHideUnderline(
               child: DropdownButton2(
                 isExpanded: true,
-                dropdownPadding: EdgeInsets.zero,
-                itemPadding: EdgeInsets.zero,
-                icon: const SizedBox(
-                  width: Dimen.ICON_FOOTPRINT,
-                  child: Icon(MdiIcons.chevronDown),
+                dropdownStyleData: DropdownStyleData(
+                  padding: EdgeInsets.zero,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(communityRadius),
+                  ),
+                ),
+                menuItemStyleData: const MenuItemStyleData(
+                  padding: EdgeInsets.zero,
+                  height: Dimen.ICON_SIZE + 2*16.0,
+                ),
+                iconStyleData: const IconStyleData(
+                  icon: SizedBox(
+                    width: Dimen.ICON_FOOTPRINT,
+                    child: Icon(MdiIcons.chevronDown),
+                  ),
                 ),
                 items: allUsableMarkerVisbility.map((markerVisibility) => DropdownMenuItem<MarkerVisibility>(
                     value: markerVisibility,
@@ -130,15 +147,12 @@ class InfoPartState extends State<InfoPart> with AutomaticKeepAliveClientMixin{
                 value: prov.markerVisibility,
                 onChanged: (value) => setState(() => prov.markerVisibility = value as MarkerVisibility),
 
-                buttonHeight: Dimen.ICON_SIZE + 2*16.0,
-                buttonDecoration: BoxDecoration(
-                  color: backgroundIcon_(context),
-                  borderRadius: BorderRadius.circular(communityRadius),
-                ),
-
-                itemHeight: Dimen.ICON_SIZE + 2*16.0,
-                dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(communityRadius),
+                buttonStyleData: ButtonStyleData(
+                  height: Dimen.ICON_SIZE + 2*16.0,
+                  decoration: BoxDecoration(
+                    color: backgroundIcon_(context),
+                    borderRadius: BorderRadius.circular(communityRadius),
+                  ),
                 ),
               )
           ),

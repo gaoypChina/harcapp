@@ -28,7 +28,7 @@ const List<DocumentData> ALL_DATA_DOKUMENTY = [
 
   DocumentData(
       'Książka sprawności',
-      'Książka sprawwności (nowy system instrumnetów metordycznych)',
+      'Książka sprawwności (nowy system instrumentów metordycznych)',
       '25 stycznia 2021 r.',
       'assets/documents/zhp_sim_2022_sprawnosci.pdf',
       Org.zhp
@@ -36,7 +36,7 @@ const List<DocumentData> ALL_DATA_DOKUMENTY = [
 
   DocumentData(
       'Tropy Z',
-      'Tropy Z (nowy system instrumnetów metordycznych)',
+      'Tropy Z (nowy system instrumentów metordycznych)',
       '25 stycznia 2021 r.',
       'assets/documents/zhp_sim_2022_tropy_z.pdf',
       Org.zhp
@@ -44,7 +44,7 @@ const List<DocumentData> ALL_DATA_DOKUMENTY = [
 
   DocumentData(
       'Tropy H',
-      'Tropy H (nowy system instrumnetów metordycznych)',
+      'Tropy H (nowy system instrumentów metordycznych)',
       '25 stycznia 2021 r.',
       'assets/documents/zhp_sim_2022_tropy_h.pdf',
       Org.zhp
@@ -52,7 +52,7 @@ const List<DocumentData> ALL_DATA_DOKUMENTY = [
 
   DocumentData(
       'Tropy HS',
-      'Tropy HS (nowy system instrumnetów metordycznych)',
+      'Tropy HS (nowy system instrumentów metordycznych)',
       '25 stycznia 2021 r.',
       'assets/documents/zhp_sim_2022_tropy_hs.pdf',
       Org.zhp
@@ -60,7 +60,7 @@ const List<DocumentData> ALL_DATA_DOKUMENTY = [
 
   DocumentData(
       'Tropy W',
-      'Tropy W (nowy system instrumnetów metordycznych)',
+      'Tropy W (nowy system instrumentów metordycznych)',
       '25 stycznia 2021 r.',
       'assets/documents/zhp_sim_2022_tropy_w.pdf',
       Org.zhp
@@ -68,7 +68,7 @@ const List<DocumentData> ALL_DATA_DOKUMENTY = [
 
   DocumentData(
       'Wyzwania Z',
-      'Wyzwania Z (nowy system instrumnetów metordycznych)',
+      'Wyzwania Z (nowy system instrumentów metordycznych)',
       '25 stycznia 2021 r.',
       'assets/documents/zhp_sim_2022_wyzwania_z.pdf',
       Org.zhp
@@ -76,7 +76,7 @@ const List<DocumentData> ALL_DATA_DOKUMENTY = [
 
   DocumentData(
       'Wyzwania H',
-      'Wyzwania H (nowy system instrumnetów metordycznych)',
+      'Wyzwania H (nowy system instrumentów metordycznych)',
       '25 stycznia 2021 r.',
       'assets/documents/zhp_sim_2022_wyzwania_h.pdf',
       Org.zhp
@@ -84,7 +84,7 @@ const List<DocumentData> ALL_DATA_DOKUMENTY = [
 
   DocumentData(
       'Wyzwania HS',
-      'Wyzwania HS (nowy system instrumnetów metordycznych)',
+      'Wyzwania HS (nowy system instrumentów metordycznych)',
       '25 stycznia 2021 r.',
       'assets/documents/zhp_sim_2022_wyzwania_hs.pdf',
       Org.zhp
@@ -92,7 +92,7 @@ const List<DocumentData> ALL_DATA_DOKUMENTY = [
 
   DocumentData(
       'Wyzwania W',
-      'Wyzwania W (nowy system instrumnetów metordycznych)',
+      'Wyzwania W (nowy system instrumentów metordycznych)',
       '25 stycznia 2021 r.',
       'assets/documents/zhp_sim_2022_wyzwania_w.pdf',
       Org.zhp

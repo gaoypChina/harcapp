@@ -43,12 +43,20 @@ class ApelEwanCategorySelector extends StatelessWidget{
             ))
             .toList(),
         value: selSubgroupSuff,
-        onChanged: onChanged, //(value) => setState(() => selSubgroupSuff = value as String),
-        buttonPadding: const EdgeInsets.only(left: leadingPadding, right: trailingPadding),
-        icon: const Icon(MdiIcons.dotsVertical),
-        iconSize: Dimen.ICON_SIZE,
-        dropdownDecoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppCard.bigRadius),
+        onChanged: onChanged, // (value) => setState(() => selSubgroupSuff = value as String),
+        iconStyleData: const IconStyleData(
+          icon: Icon(MdiIcons.dotsVertical),
+          iconSize: Dimen.ICON_SIZE,
+        ),
+
+        buttonStyleData: const ButtonStyleData(
+          padding: EdgeInsets.only(left: leadingPadding, right: trailingPadding),
+        ),
+
+        dropdownStyleData: DropdownStyleData(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppCard.bigRadius),
+          ),
         ),
       )
   );

@@ -23,6 +23,7 @@ import 'package:harcapp_core_own_song/page_widgets/add_pers_list_widget.dart';
 import 'package:harcapp_core_own_song/page_widgets/tags_widget.dart';
 import 'package:harcapp_core_own_song/providers.dart';
 import 'package:harcapp_core_own_song/song_raw.dart';
+import 'package:harcapp_core_song_widget/song_widget_template.dart';
 import 'package:harcapp_core_tags/tag_layout.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -306,9 +307,10 @@ class OwnSongPageState extends State<OwnSongPage> {
                   ],
                   body: SongWidget(
                     null,
+                    SongController(),
                     song,
                     0,
-                    controller: ScrollController(),
+                    scrollController: ScrollController(),
                   ),
                 ),
               )

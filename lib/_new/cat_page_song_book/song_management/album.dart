@@ -49,15 +49,17 @@ abstract class BaseAlbum{
     ShaPref.setString(ShaPref.SHA_PREF_SPIEWNIK_CURR_ALBUM, value.lclId);
   }
 
-  static void delLastPageForAlbum(BaseAlbum album) => ShaPref.remove(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album));
+  static Future<void> delLastPageForAlbum(BaseAlbum album) => ShaPref.remove(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album));
   static int getLastPageForAlbum(BaseAlbum album) => ShaPref.getInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album), 0);
-  static void setLastPageForAlbum(BaseAlbum album, int value) => ShaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album), value);
+  static Future<void> setLastPageForAlbum(BaseAlbum album, int value) async => ShaPref.setInt(ShaPref.SHA_PREF_SPIEWNIK_LAST_OPEN_SONG_(album), value);
 
   static int get lastPage => getLastPageForAlbum(BaseAlbum.current);
-  static set lastPage(int value) => setLastPageForAlbum(BaseAlbum.current, value);
+  // Nobody should use this, since this is an async function.
+  // static set lastPage(int value) => setLastPageForAlbum(BaseAlbum.current, value);
 
   int get lastOpenIndex => getLastPageForAlbum(this);
-  set lastOpenIndex(int value) => setLastPageForAlbum(this, value);
+  // Nobody should use this, since this is an async function.
+  // set lastOpenIndex(int value) => setLastPageForAlbum(this, value);
   void deleteLastOpenIndex() => delLastPageForAlbum(this);
 
   Song get lastOpenSong => songs[lastOpenIndex];

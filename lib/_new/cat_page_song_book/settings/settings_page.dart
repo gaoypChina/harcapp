@@ -7,6 +7,7 @@ import 'package:harcapp/values/consts.dart';
 import 'package:harcapp_core/dimen.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core_song_widget/providers.dart';
+import 'package:harcapp_core_song_widget/song_widget_template.dart';
 import 'package:provider/provider.dart';
 
 import '../album/album_name.dart';
@@ -14,9 +15,14 @@ import '../album/album_name.dart';
 
 class SettingsPage extends StatefulWidget {
 
+  final SongController currDisplayedSongController;
   final void Function(bool)? onScreenAlwaysOnChanged;
 
-  const SettingsPage({this.onScreenAlwaysOnChanged, super.key});
+  const SettingsPage({
+    required this.currDisplayedSongController,
+    this.onScreenAlwaysOnChanged,
+    super.key
+  });
 
   @override
   State<SettingsPage> createState() => SettingsPageState();
@@ -65,7 +71,10 @@ class SettingsPageState extends State<SettingsPage> {
             builder: (context, prov, child) => SwitchListTile(
               value: prov.showChords,
               title: Text('Pokaż chwyty', style: textStyle),
-              onChanged: (bool value) => prov.showChords = value,
+              onChanged: (bool value){
+                prov.showChords = value;
+                widget.currDisplayedSongController.notifySong();
+              },
               activeColor: BaseAlbum.current.avgColorDarkSensitive(context),
             ),
           ),
@@ -85,10 +94,10 @@ class SettingsPageState extends State<SettingsPage> {
               title: Text('Pokaż obrazki do chwytów', style: textStyle),
               onChanged: (bool value){
                 prov.chordsDrawShow = value;
-                Provider.of<TextSizeProvider>(context, listen: false).reinit(
-                    BaseAlbum.current.lastOpenSong,
-                    chordsVisible: ShowChordsProvider.of(context).showChords
-                );
+                // Provider.of<TextSizeProvider>(context, listen: false).reinit(
+                //     BaseAlbum.current.lastOpenSong,
+                //     chordsVisible: ShowChordsProvider.of(context).showChords
+                // );
               },
               activeColor: BaseAlbum.current.avgColorDarkSensitive(context),
             ),

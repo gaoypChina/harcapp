@@ -475,7 +475,7 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
     setChordShift(ChordShifter.shiftToneDown(chordShift));
 
   void initRate() => ratePrimWrap.set(readRate(lclId));
-  Future<void> initHasExplanation() async => hasExplanationPrimWrap.set(await readStringFromAssets('assets/song_words/$lclId') != null);
+  Future<void> initHasExplanation() async => hasExplanationPrimWrap.set(await readStringFromAssets('assets/songs/song_words/$lclId') != null);
 
   Future<void> initReadableParams() async {
     initRate();

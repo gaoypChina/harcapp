@@ -65,7 +65,7 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
   late TabController tabController;
   TabOfContController get controller => widget.controller;
 
-  _NoSongsFoundProvider? noSongProv;
+  late _NoSongsFoundProvider noSongProv;
 
   @override
   void initState() {
@@ -91,7 +91,7 @@ class TabOfContPageState extends State<TabOfContPage> with TickerProviderStateMi
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
       create: (context){
-        noSongProv = _NoSongsFoundProvider(false);
+        noSongProv = _NoSongsFoundProvider(controller.searchedSongs.isNotEmpty);
         return noSongProv;
       },
       builder: (context, child) => BottomNavScaffold(
