@@ -97,7 +97,7 @@ class API{
           Dio().get(IMAGE_DB_SERVER_IP).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));
       }
 
-      if (e.response?.statusCode == 404) {
+      if (e.response?.statusCode == 503 || e.response?.statusCode == 502) {
         finish = await onServerMaybeWakingUp?.call();
         if(await isNetworkAvailable())
           Dio().get(SERVER_URL).onError((e, __) => Response(requestOptions: RequestOptions(path: '')));

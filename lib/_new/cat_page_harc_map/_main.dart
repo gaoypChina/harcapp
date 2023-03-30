@@ -70,6 +70,8 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
   List<LatLng>? lastRequestedSamples;
   List<LatLng>? otherMarkersUncertaintySamples;
 
+  late bool loadingMarkers;
+
   Future<void> tryGetMarkers({required bool publicOnly}) async {
     if(!await isNetworkAvailable())
       return;
@@ -100,6 +102,8 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     if(requestSamples.isEmpty)
       // This means everything we want to sample for markers is already cached.
       return;
+
+    setState(() => loadingMarkers = true);
 
     await ApiHarcMap.getAllMarkers(
         publicOnly: publicOnly,
@@ -163,10 +167,14 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
           showAppToast(context, text: simpleErrorMessage);
         }
     );
+
+    setState(() => loadingMarkers = false);
   }
 
   @override
   void initState() {
+
+    loadingMarkers = false;
 
     mapController = MapController();
 
@@ -336,6 +344,14 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                     elevation: AppCard.defElevation,
                     leading: const AccountHeaderIcon(),
                     hint: 'Szukaj...',
+                    trailing:
+                    loadingMarkers?Padding(
+                      padding: const EdgeInsets.only(right: Dimen.ICON_MARG),
+                      child: SpinKitSpinningLines(
+                        size: Dimen.ICON_SIZE,
+                        color: iconEnab_(context)
+                      ),
+                    ):null
                   ),
 
                   // SingleChildScrollView(

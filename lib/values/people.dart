@@ -148,10 +148,12 @@ List<Person> allPeople = [
   MIKOLAJ_GORECKI,
   MIKOLAJ_LUKASIK,
   MICHAL_SUPINSKI,
+  MICHAL_PIENIAZEK,
   NADIA_OSSOWSKA,
   NADIA_WYSZOGRODZKA,
   NATALIA_STODOLNA,
   OLGA_JAJKO,
+  OLIWIA_MAJDA,
   OLIWIA_STANCZYK,
   OLIWIER_STARCZEWSKI,
   OSKAR_PARDYAK,
@@ -953,6 +955,14 @@ const Person MIKOLAJ_LUKASIK = Person(
     org: Org.zhp,
     email: ['mikiriki2017@gmail.com']
 );
+const Person MICHAL_PIENIAZEK = Person(
+    name: 'Michał Pieniążek ',
+    druzyna: '1 KDH',
+    stopI: 'pwd.',
+    stopH: StopZHP.zhpHRc,
+    org: Org.hrp,
+    email: ['4michalpieniazek@gmail.com']
+);
 const Person MICHAL_SUPINSKI = Person(
   name: 'Michał Supiński',
   stopH: StopZHP.zhpHOc,
@@ -990,6 +1000,15 @@ const Person OLGA_JAJKO = Person(
   druzyna: '1. Krakowska Drużyna Harcerska HRP',
   org: Org.hrp,
   email: ['olgajajko2004@gmail.com']
+);
+const Person OLIWIA_MAJDA = Person(
+    name: 'Oliwia Majda',
+    stopI: 'pwd.',
+    stopH: StopZHP.zhpHOd,
+    druzyna: '47. Bolszewska Gromada Zuchowa "Odważne Pingwiny"',
+    hufiec: huf_zhp_wejherowo,
+    org: Org.zhp,
+    email: ['oliwia.majda@zhp.net.pl']
 );
 const Person OLIWIA_STANCZYK = Person(
   name: 'Oliwia Stańczyk',
