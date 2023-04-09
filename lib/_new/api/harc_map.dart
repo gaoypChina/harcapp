@@ -92,11 +92,11 @@ class ApiHarcMap{
         markerDataList.add(markerRespBody);
       }
 
-      onSuccess?.call(markerDataList);
+      await onSuccess?.call(markerDataList);
     },
     onForceLoggedOut: onForceLoggedOut,
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (err) async => onError?.call(err.response)
+    onError: (err) async => await onError?.call(err.response)
   );
 
   static Future<Response?> create({
@@ -129,13 +129,13 @@ class ApiHarcMap{
             if(communityKeys != null) 'communities': communityKeys
           })
       ),
-      onSuccess: (Response response, DateTime now) async{
+      onSuccess: (Response response, DateTime now) async {
         MarkerData markerData = MarkerData.fromRespMap(response.data);
-        onSuccess?.call(markerData);
+        await onSuccess?.call(markerData);
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (_) async => onError?.call()
+      onError: (_) async => await onError?.call()
   );
 
   static Future<Response?> update({
@@ -186,11 +186,11 @@ class ApiHarcMap{
         ),
         onSuccess: (Response response, DateTime now) async{
           MarkerData markerData = MarkerData.fromRespMap(response.data);
-          onSuccess?.call(markerData);
+          await onSuccess?.call(markerData);
         },
         onForceLoggedOut: onForceLoggedOut,
         onServerMaybeWakingUp: onServerMaybeWakingUp,
-        onError: (_) async => onError?.call()
+        onError: (_) async => await onError?.call()
     );
 
   }
@@ -212,7 +212,7 @@ class ApiHarcMap{
         onSuccess: (Response response, DateTime now) => onSuccess?.call(),
         onForceLoggedOut: onForceLoggedOut,
         onServerMaybeWakingUp: onServerMaybeWakingUp,
-        onError: (_) async => onError?.call()
+        onError: (_) async => await onError?.call()
     );
 
   }
@@ -352,7 +352,7 @@ class ApiHarcMap{
           onSuccess?.call((response.data as List).cast<String>()),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
   static Future<Response?> getCommunitiesOfMarker({
@@ -367,12 +367,12 @@ class ApiHarcMap{
       requestSender: (Dio dio) async => dio.get(
           '${API.SERVER_URL}api/harcMap/$markerKey/communities',
       ),
-      onSuccess: (Response response, DateTime now) async{
+      onSuccess: (Response response, DateTime now) async {
         List<Tuple2<CommunityPreviewData, String?>> communities = [];
 
         for(Map<String, dynamic> resp in response.data as List)
           communities.add(Tuple2(CommunityPreviewData.fromRespMap(resp), resp["note"] as String?));
-        onSuccess?.call(communities);
+        await onSuccess?.call(communities);
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,

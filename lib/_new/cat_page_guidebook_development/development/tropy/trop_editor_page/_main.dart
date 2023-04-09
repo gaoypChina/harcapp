@@ -79,17 +79,13 @@ class TropEditorPageState extends State<TropEditorPage>{
                   List<String> aims = AimControllersProvider.of(context).getAims();
                   DateTime startTime = StartTimeProvider.of(context).startTime;
                   DateTime endTime = EndTimeProvider.of(context).endTime;
-                  List<TropTask> tasks = [];
+                  List<TropTaskData> tasks = [];
 
-                  for(TropTaskTmpData taskTmp in TasksProvider.of(context).tasks) {
+                  for(TropTaskEditableData taskTmp in TasksProvider.of(context).tasks) {
 
                     if(taskTmp.isEmpty) continue;
 
-                    TropTask? task = taskTmp.toTask();
-                    if(task == null){
-                      showAppToast(context, text: 'Coś jest nie tak z zadaniami');
-                      return;
-                    }
+                    TropTaskData task = taskTmp.toTaskData();
                     tasks.add(task);
                   }
 
@@ -102,9 +98,9 @@ class TropEditorPageState extends State<TropEditorPage>{
                     initTrop!.name = name;
                     initTrop!.category = category;
                     initTrop!.aims = aims;
-                    initTrop!.startTime = startTime;
-                    initTrop!.endTime = endTime;
-                    initTrop!.tasks = tasks;
+                    initTrop!.startDate = startTime;
+                    initTrop!.endDate = endTime;
+                    initTrop!.tasks = tasks.map((t) => t.toTask(initTrop!)).toList();
 
                     initTrop!.save();
                     onSaved?.call(initTrop!);
@@ -118,6 +114,8 @@ class TropEditorPageState extends State<TropEditorPage>{
                         aims: aims,
                         startTime: startTime,
                         endTime: endTime,
+                        completed: false,
+                        completionTime: null,
                         tasks: tasks
                     );
                     trop.save();
@@ -432,23 +430,15 @@ class TropEditorPageState extends State<TropEditorPage>{
 
                                   SimpleButton.from(
                                     
-                                    textColor: prov.tasks[index].deadline==null?
-                                    iconDisab_(context):
-                                    iconEnab_(context),
+                                    textColor: iconEnab_(context),
 
-                                    text:
-                                    prov.tasks[index].deadline==null?
-                                    'Do kiedy':
-                                    'Do ${dateToString(
+                                    text: 'Do ${dateToString(
                                         prov.tasks[index].deadline,
                                         shortMonth: true,
                                         showYear: null
                                     )}',
 
-                                    icon:
-                                    prov.tasks[index].deadline==null?
-                                    MdiIcons.calendar:
-                                    null,
+                                    icon: null,
 
                                     iconLeading: false,
                                     margin: EdgeInsets.zero,
@@ -456,7 +446,7 @@ class TropEditorPageState extends State<TropEditorPage>{
 
                                       DateTime? date = await showDatePicker(
                                         context: context,
-                                        initialDate: prov.tasks[index].deadline??DateTime.now().add(Duration(days: 7)),
+                                        initialDate: prov.tasks[index].deadline,
                                         firstDate: DateTime.now(),
                                         lastDate: DateTime.now().add(const Duration(days: 10*365))
                                       );
@@ -476,7 +466,7 @@ class TropEditorPageState extends State<TropEditorPage>{
                                     iconLeading: false,
                                     onTap: (){
 
-                                      TropTaskTmpData value = prov.tasks[index];
+                                      TropTaskEditableData value = prov.tasks[index];
                                       prov.removeAt(index);
 
                                       showAppToast(
@@ -573,7 +563,7 @@ class TropEditorPageState extends State<TropEditorPage>{
 
 class AssigneeButton extends StatelessWidget{
 
-  final TropTaskTmpData task;
+  final TropTaskEditableData task;
 
   const AssigneeButton(this.task, {super.key});
 
@@ -613,6 +603,7 @@ class AssigneeButton extends StatelessWidget{
                 title: Text('Wpisz ręcznie', style: AppTextStyle()),
                 onTap: () async {
 
+                  TasksProvider tasksProvider = TasksProvider.of(context);
                   Navigator.pop(context);
 
                   String? newText = await openAssigneeTextField(
@@ -623,7 +614,7 @@ class AssigneeButton extends StatelessWidget{
                   if(newText != null) {
                     task.assignee = null;
                     task.assigneeController.text = newText;
-                    TasksProvider.notify_(context);
+                    tasksProvider.notify();
                   }
                 },
               ),

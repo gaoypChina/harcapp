@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/common.dart';
@@ -218,7 +220,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
       )
   );
 
-  Future<void> showUpdateMemberDialog(CircleRole newRole, {void Function()? onSuccess}) async {
+  Future<void> showUpdateMemberDialog(CircleRole newRole, {FutureOr<void> Function()? onSuccess}) async {
     showUpdateDialog(
         context: context,
         isMe: member.key == AccountData.key,
@@ -232,9 +234,9 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
           await ApiCircle.updateMembers(
               circleKey: circle.key,
               users: [MemberUpdateBody(member.key, role: newRole)],
-              onSuccess: (List<Member> allMems){
+              onSuccess: (List<Member> allMems) async {
                 circle.updateLoadedMembers(allMems, context: context);
-                onSuccess?.call();
+                await onSuccess?.call();
 
                 if(!mounted) return;
                 Navigator.pop(context); // Close loading widget.
@@ -273,7 +275,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
       )
   );
 
-  Future<void> showRemoveMemberDialog({void Function()? onSuccess}) =>
+  Future<void> showRemoveMemberDialog({FutureOr<void> Function()? onSuccess}) =>
     showRemoveDialog(
         context: context,
         isMe: member.key == AccountData.key,
@@ -289,7 +291,7 @@ class MemberTileExtendedState extends State<MemberTileExtended>{
               userKeys: [member.key],
               onSuccess: (List<String> removedMembers) async {
                 circle.removeLoadedMembersByKey(removedMembers, context: context);
-                onSuccess?.call();
+                await onSuccess?.call();
 
                 if(!mounted) return;
                 showAppToast(context, text: 'Wyproszono');
@@ -348,8 +350,8 @@ class _EditPatrolDialogState extends State<_EditPatrolDialog>{
   Circle get circle => widget.circle;
   PaletteGenerator? get palette => widget.palette;
   Member get member => widget.member;
-  void Function()? get onSuccess => widget.onSuccess;
-  void Function()? get onError => widget.onError;
+  FutureOr<void> Function()? get onSuccess => widget.onSuccess;
+  FutureOr<void> Function()? get onError => widget.onError;
 
   late TextEditingController controller;
 
@@ -402,19 +404,19 @@ class _EditPatrolDialogState extends State<_EditPatrolDialog>{
                                 controller.text
                             )
                         )],
-                        onSuccess: (List<Member> allMems){
+                        onSuccess: (List<Member> allMems) async {
                           circle.updateLoadedMembers(allMems, context: context);
                           if(mounted) Navigator.pop(context); // Close loading widget.
-                          onSuccess?.call();
+                          await onSuccess?.call();
                         },
                         onServerMaybeWakingUp: () {
                           if(mounted) showAppToast(context, text: serverWakingUpMessage);
                           return true;
                         },
-                        onError: (){
+                        onError: () async {
                           if(mounted) showAppToast(context, text: simpleErrorMessage);
                           if(mounted) Navigator.pop(context); // Close loading widget.
-                          onError?.call();
+                          await onError?.call();
                         }
                     );
 

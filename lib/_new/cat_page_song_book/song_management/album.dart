@@ -264,6 +264,8 @@ abstract class SelectableAlbum<T extends AlbumGetResp> extends BaseAlbum with Sy
   //   ownSongs = album.ownSongs;
   // }
 
+  bool isNotSet();
+
   @override
   SyncableParam? get parentParam => null;
 
@@ -277,12 +279,14 @@ abstract class SelectableAlbum<T extends AlbumGetResp> extends BaseAlbum with Sy
       this,
       paramId: paramOffSongs,
       value: () => offSongs.map((song) => song.lclId).toList(growable: false),
+      isNotSet: isNotSet
     ),
 
     SyncableParamSingle(
       this,
       paramId: paramOwnSongs,
       value: () => ownSongs.map((song) => song.lclId).toList(growable: false),
+      isNotSet: isNotSet
     ),
   ];
 
@@ -422,6 +426,9 @@ class OwnAlbum extends SelectableAlbum<OwnAlbumGetResp> with RemoveSyncItem{
     return map;
 
   }
+
+  @override
+  bool isNotSet() => false;
 
   void update(OwnAlbum album) {
     title = album.title;
@@ -572,6 +579,9 @@ class ToLearnAlbum extends SelectableAlbum<ToLearnAlbumGetResp>{
 
     return fromRespMap(map);
   }
+
+  @override
+  bool isNotSet() => readFileAsStringOrNull(getToLearnAlbumPath) == null;
 
   void update(SelectableAlbum album) {
     offSongs = album.offSongs;

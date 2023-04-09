@@ -211,7 +211,8 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
         song.setRate(SongRate.RATE_NULL);
       }
     }
-    ToLearnAlbum.loaded.save();
+    if(ToLearnAlbum.loaded.songs.isNotEmpty)
+      ToLearnAlbum.loaded.save();
     // End: TMP
 
     OwnAlbum.all = allAlbums;

@@ -227,7 +227,7 @@ Future<void> showMarkerBottomSheet(BuildContext context, MarkerData marker) => o
 
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: MarkerTypeWidget(marker.type, dense: true),
+                          child: MarkerTypeWidget(marker.type, dense: true, key: ValueKey(marker)),
                         ),
 
                         if(AppSettings.devMode)

@@ -71,10 +71,10 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
 
   static Map<String, Spraw> allMap = {for (Spraw spraw in all) spraw.uniqName: spraw};
 
-  static const String PARAM_COMPLETED = 'completed';
-  static const String PARAM_COMPLETION_DATE = 'completionDate';
-  static const String PARAM_IN_PROGRESS = 'inProgress';
-  static const String PARAM_TASKS = 'task';
+  static const String paramCompleted = 'completed';
+  static const String paramCompletionDate = 'completionDate';
+  static const String paramInProgress = 'inProgress';
+  static const String paramTasks = 'task';
 
   String get uniqName =>
       sprawBook.id + Spraw.sepChar +
@@ -132,7 +132,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   void changeSaved(BuildContext context, {bool? value, bool localOnly = false}){
     inProgress = value;
 
-    setSingleState(PARAM_IN_PROGRESS, SyncableParamSingleMixin.stateNotSynced);
+    setSingleState(paramInProgress, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
     SprawSavedListProv.notify_(context);
@@ -175,7 +175,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   void changeInProgress(BuildContext context, {bool? value, bool localOnly = false}){
     inProgress = value;
 
-    setSingleState(PARAM_IN_PROGRESS, SyncableParamSingleMixin.stateNotSynced);
+    setSingleState(paramInProgress, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
     Provider.of<SprawInProgressListProv>(context, listen: false).notify();
@@ -190,7 +190,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   @override
   void setCompletionDate(DateTime value, {localOnly = false}){
     completionDate = value;
-    setSingleState(PARAM_COMPLETION_DATE, SyncableParamSingleMixin.stateNotSynced);
+    setSingleState(paramCompletionDate, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
   }
 
@@ -218,7 +218,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
     if(completed)
       changeInProgress(context, value: false, localOnly: true);
 
-    setSingleState(PARAM_COMPLETED, SyncableParamSingleMixin.stateNotSynced);
+    setSingleState(paramCompleted, SyncableParamSingleMixin.stateNotSynced);
     if(!localOnly) synchronizer.post();
 
     Provider.of<SprawCompletedListProv>(context, listen: false).notify();
@@ -287,9 +287,6 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   @override
   String get debugClassId => syncClassId;
 
-  //@override
-  //SyncableParam get parentParam => RootSyncable(syncClassId);
-
   @override
   SyncableParam? get parentParam => null;
 
@@ -301,25 +298,25 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
 
     SyncableParamSingle(
       this,
-      paramId: PARAM_IN_PROGRESS,
+      paramId: paramInProgress,
       value: () => inProgress,
     ),
 
     SyncableParamSingle(
       this,
-      paramId: PARAM_COMPLETED,
+      paramId: paramCompleted,
       value: () => completed,
     ),
 
     SyncableParamSingle(
       this,
-      paramId: PARAM_COMPLETION_DATE,
+      paramId: paramCompletionDate,
       value: () => completionDate==null?null:DateFormat('yyyy-MM-dd').format(completionDate!),
     ),
 
     SyncableParamGroup(
       this,
-      paramId: PARAM_TASKS,
+      paramId: paramTasks,
       childParams: tasks!,
     ),
 

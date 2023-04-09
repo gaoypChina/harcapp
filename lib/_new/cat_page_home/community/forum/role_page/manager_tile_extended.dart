@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
@@ -152,7 +154,7 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
       )
   );
 
-  Future<void> showUpdateManagerDialog(ForumRole newRole, {void Function()? onSuccess}) =>
+  Future<void> showUpdateManagerDialog(ForumRole newRole, {FutureOr<void> Function()? onSuccess}) =>
     showUpdateDialog(
         context: context,
         isMe: manager.key == AccountData.key,
@@ -166,10 +168,10 @@ class ForumManagerTileExtendedState extends State<ForumManagerTileExtended>{
           await ApiForum.updateManagers(
               forumKey: forum.key,
               users: [ForumManagerUpdateBody(manager.key, role: newRole)],
-              onSuccess: (List<ForumManager> allManagers){
+              onSuccess: (List<ForumManager> allManagers) async {
                 forum.updateLoadedManagers(allManagers, context: context);
                 Navigator.pop(context); // Close loading widget
-                onSuccess?.call();
+                await onSuccess?.call();
               },
               onServerMaybeWakingUp: () {
                 if(!mounted) return true;

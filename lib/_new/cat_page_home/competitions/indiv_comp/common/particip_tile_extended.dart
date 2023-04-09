@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/loading_widget.dart';
@@ -301,7 +303,7 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
       )
   );
 
-  Future<void> showUpdateParticipDialog(CompRole newRole, bool newActive, {void Function()? onSuccess}) =>
+  Future<void> showUpdateParticipDialog(CompRole newRole, bool newActive, {FutureOr<void> Function()? onSuccess}) =>
     showUpdateDialog(
       context: context,
       isMe: particip.key == AccountData.key,
@@ -315,11 +317,11 @@ class ParticipTileExtendedState extends State<ParticipTileExtended>{
         await ApiIndivComp.updateParticipants(
             comp: comp,
             users: [ParticipBody(particip.key, newRole, newActive)],
-            onSuccess: (List<IndivCompParticip> allParticips){
+            onSuccess: (List<IndivCompParticip> allParticips) async {
               comp.updateLoadedParticips(allParticips, context: context);
               Navigator.pop(context); // Close loading widget.
               Navigator.pop(context);
-              onSuccess?.call();
+              await onSuccess?.call();
             },
             onForceLoggedOut: () {
               if(!mounted) return true;

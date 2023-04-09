@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
@@ -296,7 +298,7 @@ class ShadowUserTileState extends State<ShadowUserTile>{
 class AddShadowUserDialog extends StatefulWidget{
 
   final UserDataNick? user;
-  final void Function(UserDataNick user)? onSuccess;
+  final FutureOr<void> Function(UserDataNick user)? onSuccess;
 
   const AddShadowUserDialog({this.user, this.onSuccess, super.key});
 
@@ -308,7 +310,7 @@ class AddShadowUserDialog extends StatefulWidget{
 class AddShadowUserDialogState extends State<AddShadowUserDialog>{
 
   UserDataNick? get user => widget.user;
-  void Function(UserDataNick user)? get onSuccess => widget.onSuccess;
+  FutureOr<void> Function(UserDataNick user)? get onSuccess => widget.onSuccess;
 
   String? name;
   Sex? sex;
@@ -409,7 +411,7 @@ class AddShadowUserDialogState extends State<AddShadowUserDialog>{
                                           onSuccess: (UserDataNick user) async {
                                             await AccountData.addShadowUser(user);
                                             Navigator.pop(context);
-                                            onSuccess?.call(user);
+                                            await onSuccess?.call(user);
                                           },
                                           onError: () => showAppToast(context, text: simpleErrorMessage)
                                       );

@@ -3,18 +3,18 @@ import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
 
 class SprawGetResp extends SyncGetResp{
 
-  static const String COLL_NAME = 'spraw';
+  static const String collName = 'spraw';
 
-  static const String PARAM_IN_PROGRESS = 'inProgress';
+  static const String paramInProgress = 'inProgress';
   final bool inProgress;
 
-  static const String PARAM_COMPLETED = 'completed';
+  static const String paramCompleted = 'completed';
   final bool completed;
 
-  static const String PARAM_COMPLETION_DATE = 'completionDate';
+  static const String paramCompletionDate = 'completionDate';
   final DateTime? completionDate;
 
-  static const String PARAM_TASK = 'task';
+  static const String paramTask = 'task';
   final Map<String, SprawTaskGetResp> task;
 
   const SprawGetResp({
@@ -26,16 +26,16 @@ class SprawGetResp extends SyncGetResp{
 
   static SprawGetResp from(Map respData){
 
-    Map<String, dynamic>? sprawTasks = respData[PARAM_TASK];
+    Map<String, dynamic>? sprawTasks = respData[paramTask];
     Map<String, SprawTaskGetResp> tasks = {};
     if(sprawTasks != null)
-      for(String uniqTaskSprawName in sprawTasks.keys)
-        tasks[uniqTaskSprawName] = SprawTaskGetResp.from(sprawTasks[uniqTaskSprawName]);
+      for(String uniqTaskName in sprawTasks.keys)
+        tasks[uniqTaskName] = SprawTaskGetResp.from(sprawTasks[uniqTaskName]);
 
     return SprawGetResp(
-        inProgress: respData[PARAM_IN_PROGRESS]??false,
-        completionDate: respData[PARAM_COMPLETION_DATE]==null?null:DateTime.tryParse(respData[PARAM_COMPLETION_DATE]),
-        completed: respData[PARAM_COMPLETED]??false,
+        inProgress: respData[paramInProgress]??false,
+        completionDate: respData[paramCompletionDate]==null?null:DateTime.tryParse(respData[paramCompletionDate]),
+        completed: respData[paramCompleted]??false,
         task: tasks
     );
   }

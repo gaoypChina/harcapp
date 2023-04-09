@@ -2,17 +2,17 @@ import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
 
 class SprawTaskGetResp extends SyncGetResp{
 
-  static const String COLL_NAME = 'task';
+  static const String collName = 'task';
 
-  static const String PARAM_NOTE = 'note';
+  static const String paramNote = 'note';
   final String note;
 
-  static const String PARAM_COMPLETED = 'completed';
+  static const String paramCompleted = 'completed';
   final bool completed;
 
   static SprawTaskGetResp from(Map respData) => SprawTaskGetResp(
-      note: respData[PARAM_NOTE]??false as String,
-      completed: respData[PARAM_COMPLETED]??false,
+      note: respData[paramNote]??'',
+      completed: respData[paramCompleted]??false,
   );
 
   const SprawTaskGetResp({

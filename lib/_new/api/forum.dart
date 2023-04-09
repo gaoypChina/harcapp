@@ -67,11 +67,11 @@ class ApiForum{
         forumList.add(forum);
       }
 
-      onSuccess?.call(forumList);
+      await onSuccess?.call(forumList);
     },
     onForceLoggedOut: onForceLoggedOut,
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (err) async => onError?.call(err.response)
+    onError: (err) async => await onError?.call(err.response)
   );
 
   static Future<Response?> get({
@@ -88,11 +88,11 @@ class ApiForum{
     ),
     onSuccess: (Response response, DateTime now) async {
       Forum forum = Forum.fromRespMap(response.data, community);
-      onSuccess?.call(forum);
+      await onSuccess?.call(forum);
     },
     onForceLoggedOut: onForceLoggedOut,
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (error) async => onError?.call(error.response?.statusCode),
+    onError: (error) async => await onError?.call(error.response?.statusCode),
   );
 
   static Future<Response?> create({
@@ -124,12 +124,12 @@ class ApiForum{
       ),
       onSuccess: (Response response, DateTime now) async{
         Forum forum = Forum.fromRespMap(response.data, community);
-        onSuccess?.call(forum);
+        await onSuccess?.call(forum);
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onImageDBWakingUp: onImageDBWakingUp,
-      onError: (_) async => onError?.call()
+      onError: (_) async => await onError?.call()
     );
 
   }
@@ -145,10 +145,10 @@ class ApiForum{
       requestSender: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/forum/$forumKey'
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (DioError err) async => onError?.call()
+      onError: (DioError err) async => await onError?.call()
   );
 
   static Future<Response?> update({
@@ -447,11 +447,11 @@ class ApiForum{
           '${API.SERVER_URL}api/forum/$forumKey/manager',
           data: jsonEncode(userKeys)
       ),
-      onSuccess: (Response response, DateTime now) =>
-          onSuccess?.call((response.data as List).cast<String>()),
+      onSuccess: (Response response, DateTime now) async =>
+          await onSuccess?.call((response.data as List).cast<String>()),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
   static Future<Response?> getForumPosts({
@@ -478,11 +478,11 @@ class ApiForum{
         for(String key in (response.data as Map).keys)
           result.add(Post.fromRespMap(response.data[key], Community.allForumMap![forumKey]!, key: key));
 
-        onSuccess?.call(result);
+        await onSuccess?.call(result);
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
   static Future<Response?> publishPost({
@@ -513,11 +513,11 @@ class ApiForum{
         }),
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(Post.fromRespMap(response.data, Community.allForumMap![forumKey]!)),
+          await onSuccess?.call(Post.fromRespMap(response.data, Community.allForumMap![forumKey]!)),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onImageDBWakingUp: onImageDBWakingUp,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
   static Future<Response?> updatePost({
@@ -553,11 +553,11 @@ class ApiForum{
         })
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(Post.fromRespMap(response.data, post.forum)),
+          await onSuccess?.call(Post.fromRespMap(response.data, post.forum)),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onImageDBWakingUp: onImageDBWakingUp,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
   static Future<Response?> deletePost({
@@ -572,10 +572,10 @@ class ApiForum{
         '${API.SERVER_URL}api/post/$postKey',
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(),
+          await onSuccess?.call(),
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onForceLoggedOut: onForceLoggedOut,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
 }

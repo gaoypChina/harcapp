@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -5,12 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_common_classes/missing_decode_param_error.dart';
 import 'package:harcapp/_common_classes/storage.dart';
+import 'package:harcapp/_new/api/sync_resp_body/trop_get_resp.dart';
+import 'package:harcapp/_new/api/sync_resp_body/trop_task_get_resp.dart';
 import 'package:harcapp/logger.dart';
+import 'package:harcapp/sync/syncable.dart';
+import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:path/path.dart';
 import 'package:uuid/uuid.dart';
 import 'package:provider/provider.dart';
+import 'package:webfeed/util/iterable.dart';
+import 'package:intl/intl.dart';
 
 class TropProvider extends ChangeNotifier{
   static TropProvider of(BuildContext context) => Provider.of<TropProvider>(context, listen: false);
@@ -162,7 +169,7 @@ class TropBaseData<T extends TropTaskBaseData>{
 
 }
 
-class Trop extends TropBaseData<TropTask>{
+class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetRespNode<TropGetResp>{
 
   static callProvidersOf(BuildContext context) =>
       callProviders(TropProvider.of(context), TropListProvider.of(context));
@@ -303,13 +310,17 @@ class Trop extends TropBaseData<TropTask>{
 
   static const IconData icon = MdiIcons.signDirectionPlus;
 
+  static const String paramLclId = 'lclId';
   static const String paramName = 'name';
   static const String paramCustomIconTropName = 'customIconTropName';
   static const String paramCategory = 'category';
-  static const String paramAim = 'aim';
-  static const String paramStartTime = 'startTime';
-  static const String paramEndTime = 'endTime';
+  static const String paramAims = 'aims';
+  static const String paramStartDate = 'startDate';
+  static const String paramEndDate = 'endDate';
+  static const String paramCompleted = 'completed';
+  static const String paramCompletionTime = 'completionDate';
   static const String paramTasks = 'tasks';
+  static const String paramUsers = 'users';
 
   static const int maxLenName = 80;
   static const int maxAimCount = 50;
@@ -318,8 +329,13 @@ class Trop extends TropBaseData<TropTask>{
 
   final String lclId;
 
-  DateTime startTime;
-  DateTime endTime;
+  DateTime startDate;
+  DateTime endDate;
+
+  bool completed;
+  DateTime? completionDate;
+
+  Map<String, UserData> users;
 
   bool get isCategoryHarc => allHarcTropCategories.contains(category);
 
@@ -342,10 +358,14 @@ class Trop extends TropBaseData<TropTask>{
     required super.category,
     required super.aims,
 
-    required this.startTime,
-    required this.endTime,
+    required this.startDate,
+    required this.endDate,
+
+    required this.completed,
+    required this.completionDate,
 
     required super.tasks,
+    required this.users,
 
     super.notesForLeaders,
     super.exampleSpraws,
@@ -356,8 +376,10 @@ class Trop extends TropBaseData<TropTask>{
     customIconTropName = trop.customIconTropName;
     category = trop.category;
     aims = trop.aims;
-    startTime = trop.startTime;
-    endTime = trop.endTime;
+    startDate = trop.startDate;
+    endDate = trop.endDate;
+    completed = trop.completed;
+    completionDate = trop.completionDate;
     tasks = trop.tasks;
   }
 
@@ -371,37 +393,104 @@ class Trop extends TropBaseData<TropTask>{
     required DateTime startTime,
     required DateTime endTime,
 
-    required List<TropTask> tasks,
-  }) => Trop(
-    lclId: lclId??const Uuid().v4(),
-    name: name,
-    customIconTropName: customIconTropName,
-    category: category,
-    aims: aims,
+    required bool completed,
+    required DateTime? completionTime,
 
-    startTime: startTime,
-    endTime: endTime,
+    required List<TropTaskData> tasks,
+  }){
 
-    tasks: tasks
-  );
+    Trop trop = Trop(
+        lclId: lclId??const Uuid().v4(),
+        name: name,
+        customIconTropName: customIconTropName,
+        category: category,
+        aims: aims,
 
-  static Trop fromRespMap(Map respMapData, String lclId) => Trop(
-    lclId: lclId,
-    name: respMapData[paramName]??(throw MissingDecodeParamError(paramName)),
-    customIconTropName: respMapData[paramCustomIconTropName],
-    category: strToTropCategory(respMapData[paramCategory])??(throw MissingDecodeParamError(paramCategory)),
-    aims: (respMapData[paramAim]??(throw MissingDecodeParamError(paramAim))).cast<String>(),
+        startDate: startTime,
+        endDate: endTime,
 
-    startTime: DateTime.tryParse(respMapData[paramStartTime])??(throw MissingDecodeParamError(paramStartTime)),
-    endTime: DateTime.tryParse(respMapData[paramEndTime])??(throw MissingDecodeParamError(paramEndTime)),
+        completed: completed,
+        completionDate: completionTime,
 
-    tasks: (respMapData[paramTasks] as List).map((task) => TropTask.fromRespMap(task)).toList(),
-  );
+        tasks: [],
+        users: {},
+    );
+
+    trop.tasks = tasks.map((t) => t.toTask(trop)).toList();
+    return trop;
+  }
+
+  static Trop fromRespMap(Map respMapData, String lclId){
+
+    Trop trop = Trop(
+      lclId: lclId,
+      name: respMapData[paramName]??(throw MissingDecodeParamError(paramName)),
+      customIconTropName: respMapData[paramCustomIconTropName],
+      category: strToTropCategory(respMapData[paramCategory])??(throw MissingDecodeParamError(paramCategory)),
+      aims: respMapData[paramAims]??(throw MissingDecodeParamError(paramAims)),
+
+      startDate: DateTime.tryParse(respMapData[paramStartDate])??(throw MissingDecodeParamError(paramStartDate)),
+      endDate: DateTime.tryParse(respMapData[paramEndDate])??(throw MissingDecodeParamError(paramEndDate)),
+
+      completed: respMapData[paramCompleted]??false,
+      completionDate: DateTime.tryParse(respMapData[paramCompletionTime]),
+
+      tasks: [],
+      users: {},
+    );
+
+    List<TropTask> tasks = [];
+    for(String taskLclId in respMapData[paramTasks].keys)
+      tasks.add(TropTask.fromRespMap(respMapData[paramTasks][taskLclId], taskLclId, trop));
+    trop.tasks = tasks;
+
+    Map<String, UserData> users = {};
+    for(String userKey in respMapData[paramUsers].key)
+      users[userKey] = UserData.fromRespMap(respMapData[paramUsers][userKey], key: userKey);
+    trop.users = users;
+
+    return trop;
+  }
 
   static Trop? readFromLclId(String lclId){
     try {
       String tropData = readFileAsString(getOwnTropFolderPath + lclId);
       Map map = jsonDecode(tropData);
+
+      // TMP TMP TMP
+      bool needsUpdating = false;
+
+      if(!map.containsKey("startTime")) {
+        map[paramStartDate] = DateFormat('yyyy-MM-dd').format(DateTime.parse(map["startTime"]));
+        needsUpdating = true;
+      }
+
+      if(!map.containsKey("endTime")) {
+        map[paramEndDate] = DateFormat('yyyy-MM-dd').format(DateTime.parse(map["endTime"]));
+        needsUpdating = true;
+      }
+
+      if(!map.containsKey(paramCompleted)) {
+        map[paramCompleted] = false;
+        needsUpdating = true;
+      }
+
+      if(map[paramTasks] is List) {
+        Map convertedTasks = {};
+        for(Map taskMap in map[paramTasks]){
+          String taskLclId = taskMap[paramLclId];
+          taskMap.remove(paramLclId);
+          convertedTasks[taskLclId] = taskMap;
+        }
+
+        map[paramTasks] = convertedTasks;
+        needsUpdating = true;
+      }
+
+      if(needsUpdating)
+        fromRespMap(map, lclId).save();
+      // TMP TMP TMP
+
       return fromRespMap(map, lclId);
     } catch(e) {
       logger.e(e);
@@ -413,19 +502,33 @@ class Trop extends TropBaseData<TropTask>{
     paramName: name,
     paramCustomIconTropName: customIconTropName,
     paramCategory: tropCategoryToStr(category),
-    paramAim: aims,
+    paramAims: aims,
 
-    paramStartTime: startTime.toIso8601String(),
-    paramEndTime: endTime.toIso8601String(),
+    paramStartDate: DateFormat('yyyy-MM-dd').format(startDate),
+    paramEndDate: DateFormat('yyyy-MM-dd').format(endDate),
 
-    paramTasks: tasks.map((task) => task.toJsonMap()).toList()
+    paramCompleted: completed,
+    paramCompletionTime: completionDate?.toIso8601String(),
+
+    paramTasks: { for(TropTask task in tasks) task.lclId: task.toJsonMap() }
   };
 
-  void save() => saveStringAsFileToFolder(
+  void save({localOnly = false, bool synced = false}){
+
+    saveStringAsFileToFolder(
       getMyTropFolderLocalPath,
       jsonEncode(toJsonMap()),
       fileName: lclId,
-  );
+    );
+
+    setAllSyncState(
+        synced?SyncableParamSingleMixin.stateSynced:
+        SyncableParamSingleMixin.stateNotSynced);
+
+    if(!localOnly)
+      synchronizer.post();
+
+  }
 
   bool delete({BuildContext? context}){
     try{
@@ -438,6 +541,107 @@ class Trop extends TropBaseData<TropTask>{
     }
   }
 
+  static const String syncClassId = 'trop';
+
+  @override
+  String get debugClassId => syncClassId;
+
+  @override
+  SyncableParam? get parentParam => null;
+
+  @override
+  String get paramId => lclId;
+
+  @override
+  List<SyncableParam> get childParams => [
+
+    SyncableParamSingle(
+      this,
+      paramId: paramName,
+      value: () => name,
+    ),
+
+    SyncableParamSingle(
+        this,
+        paramId: paramCustomIconTropName,
+        value: () => customIconTropName
+    ),
+
+    SyncableParamSingle(
+      this,
+      paramId: paramCategory,
+      value: () => tropCategoryToStr(category),
+    ),
+
+    SyncableParamSingle(
+      this,
+      paramId: paramAims,
+      value: () => aims,
+    ),
+
+    SyncableParamSingle(
+      this,
+      paramId: paramStartDate,
+      value: () => DateFormat('yyyy-MM-dd').format(startDate)
+    ),
+
+    SyncableParamSingle(
+      this,
+      paramId: paramEndDate,
+      value: () => DateFormat('yyyy-MM-dd').format(endDate),
+    ),
+
+    SyncableParamSingle(
+      this,
+      paramId: paramCompleted,
+      value: () => completed,
+    ),
+
+    SyncableParamSingle(
+      this,
+      paramId: paramCompletionTime,
+      value: () => completionDate?.toIso8601String(),
+    ),
+
+    SyncableParamGroup(
+      this,
+      paramId: paramTasks,
+      childParams: tasks,
+    ),
+
+  ];
+
+  @override
+  FutureOr<void> applySyncGetResp(TropGetResp resp) {
+    name = resp.name;
+    customIconTropName = resp.customIconTropName;
+    category = resp.category;
+    aims = resp.aims;
+    startDate = resp.startTime;
+    endDate = resp.endTime;
+
+    completed = resp.completed;
+    completionDate = resp.completionTime;
+    for(String taskIclId in resp.tasks.keys){
+      TropTask? task = tasks.where((t) => t.lclId == taskIclId).firstOrNull;
+      if(task == null) {
+        TropTaskGetResp taskResp = resp.tasks[taskIclId]!;
+        task = TropTask.create(
+            content: taskResp.content,
+            summary: taskResp.summary,
+            deadline: taskResp.deadline,
+            assignee: users[taskResp.assigneeKey],
+            assigneeText: taskResp.assigneeText,
+            completed: taskResp.completed,
+            trop: this
+        );
+        tasks.add(task);
+      } else
+        task.applySyncGetResp(resp.tasks[taskIclId]!);
+    }
+
+  }
+
 }
 
 class TropTaskBaseData{
@@ -448,37 +652,15 @@ class TropTaskBaseData{
 
 }
 
-class TropTask extends TropTaskBaseData{
+class TropTaskData extends TropTaskBaseData{
 
-  static const String paramUUID = 'uuid';
-  static const String paramContent = 'content';
-  static const String paramSummary = 'summary';
-  static const String paramDeadline = 'deadline';
-  static const String paramAssignee = 'assignee';
-  static const String paramAssigneeText = 'assigneeText';
-  static const String paramCompleted = 'completed';
-
-  static const int maxLenContent = 320;
-  static const int maxLenSummary = 640;
-
-  //final String uuid;
   String? _summary;
   DateTime deadline;
   UserData? assignee;
   String? assigneeText;
   bool completed;
 
-  String? get summary => _summary;
-  set summary(String? value){
-    if(value == null || value.isEmpty) _summary = null;
-    else _summary = value;
-  }
-
-  // bool get completed => ShaPref.getBool(ShaPref.SHA_PREF_TROP_TASK_COMPLETED_(this), false);
-  // set completed(bool value) => ShaPref.setBool(ShaPref.SHA_PREF_TROP_TASK_COMPLETED_(this), value);
-
-  TropTask({
-    //required this.uuid,
+  TropTaskData({
     required super.content,
     String? summary,
     required this.deadline,
@@ -488,6 +670,52 @@ class TropTask extends TropTaskBaseData{
   }):
     _summary = summary;
 
+  String? get summary => _summary;
+  set summary(String? value){
+    if(value == null || value.isEmpty) _summary = null;
+    else _summary = value;
+  }
+
+  TropTask toTask(Trop trop) => TropTask.create(
+      content: content,
+      deadline: deadline,
+      assignee: assignee,
+      assigneeText: assigneeText,
+      completed: completed,
+      trop: trop
+  );
+
+}
+
+class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNode<TropTaskGetResp>{
+
+  static const String paramLclId = 'lclId';
+  static const String paramContent = 'content';
+  static const String paramSummary = 'summary';
+  static const String paramDeadline = 'deadline';
+  static const String paramAssigneeKey = 'assigneeKey';
+  static const String paramAssigneeText = 'assigneeText';
+  static const String paramCompleted = 'completed';
+
+  static const int maxLenContent = 320;
+  static const int maxLenSummary = 640;
+
+  final String lclId;
+
+  Trop trop;
+
+  TropTask({
+    required this.lclId,
+    required super.content,
+    super.summary,
+    required super.deadline,
+    super.assignee,
+    super.assigneeText,
+    super.completed = false,
+
+    required this.trop,
+  });
+
   static TropTask create({
     required String content,
     String? summary,
@@ -495,34 +723,101 @@ class TropTask extends TropTaskBaseData{
     UserData? assignee,
     String? assigneeText,
     bool completed = false,
+
+    required Trop trop,
   }) => TropTask(
-    //uuid: const Uuid().v4(),
+    lclId: const Uuid().v4(),
     content: content,
     summary: summary,
     deadline: deadline,
     assignee: assignee,
     assigneeText: assigneeText,
     completed: completed,
+
+    trop: trop,
   );
 
-  Map toJsonMap() => {
-    //paramUUID: uuid,
+  Map toJsonMap({bool withLclId = false}) => {
+    if(withLclId) paramLclId: lclId,
     paramContent: content,
     paramSummary: summary,
     paramDeadline: deadline.toIso8601String(),
-    paramAssignee: assignee,
+    paramAssigneeKey: assignee?.key,
     paramAssigneeText: assigneeText,
     paramCompleted: completed,
   };
 
-  static TropTask fromRespMap(Map respMapData) => TropTask(
-    //uuid: respMapData[paramUUID],
+  static TropTask fromRespMap(Map respMapData, String lclId, Trop trop) => TropTask(
+    lclId: lclId,
     content: respMapData[paramContent]??(throw MissingDecodeParamError(paramContent)),
     summary: respMapData[paramSummary],
     deadline: DateTime.tryParse(respMapData[paramDeadline])??(throw MissingDecodeParamError(paramDeadline)),
-    assignee: respMapData[paramAssignee],
+    assignee: trop.users[respMapData[paramAssigneeKey]],
     assigneeText: respMapData[paramAssigneeText],
     completed: respMapData[paramCompleted]??false,
+    trop: trop,
   );
+
+  @override
+  FutureOr<void> applySyncGetResp(TropTaskGetResp resp){
+    content = resp.content;
+    summary = resp.summary;
+    deadline = resp.deadline;
+    assignee = trop.users[resp.assigneeKey];
+    assigneeText = resp.assigneeText;
+    completed = resp.completed;
+  }
+
+  static const String syncClassId = 'task';
+
+  @override
+  String get debugClassId => syncClassId;
+
+  @override
+  SyncableParam? get parentParam => trop;
+
+  @override
+  String get paramId => lclId;
+
+  @override
+  List<SyncableParam> get childParams => [
+
+    SyncableParamSingle(
+      this,
+      paramId: paramContent,
+      value: () => content,
+    ),
+
+    SyncableParamSingle(
+      this,
+      paramId: paramSummary,
+      value: () => summary,
+    ),
+
+    SyncableParamSingle(
+      this,
+      paramId: paramDeadline,
+      value: () => deadline.toIso8601String(),
+    ),
+
+    SyncableParamSingle(
+      this,
+      paramId: paramAssigneeKey,
+      value: () => assignee?.key,
+    ),
+
+    SyncableParamSingle(
+      this,
+      paramId: paramAssigneeText,
+      value: () => assigneeText,
+    ),
+
+    SyncableParamSingle(
+      this,
+      paramId: paramCompleted,
+      value: () => completed,
+    ),
+
+  ];
 
 }

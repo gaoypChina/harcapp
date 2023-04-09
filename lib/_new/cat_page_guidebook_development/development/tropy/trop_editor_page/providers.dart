@@ -44,7 +44,7 @@ class StartTimeProvider extends ChangeNotifier{
   }
 
   StartTimeProvider({Trop? initTrop}):
-        _startTime = initTrop?.startTime??DateTime.now();
+        _startTime = initTrop?.startDate??DateTime.now();
 
 }
 
@@ -61,7 +61,7 @@ class EndTimeProvider extends ChangeNotifier{
   }
 
   EndTimeProvider({Trop? initTrop}):
-        _endTime = initTrop?.endTime??(DateTime.now().add(const Duration(days: 21)));
+        _endTime = initTrop?.endDate??(DateTime.now().add(const Duration(days: 21)));
 
 }
 
@@ -102,7 +102,7 @@ class AimControllersProvider extends ChangeNotifier{
 
 }
 
-class TropTaskTmpData{
+class TropTaskEditableData{
 
   late TextEditingController contentController;
   late DateTime deadline;
@@ -113,22 +113,20 @@ class TropTaskTmpData{
 
   bool completed;
 
-  TropTaskTmpData(String content, this.deadline, this.assignee, this.assigneeNick, String? assigneeText, this.completed){
+  TropTaskEditableData(String content, this.deadline, this.assignee, this.assigneeNick, String? assigneeText, this.completed){
     contentController = TextEditingController(text: content);
     assigneeController = TextEditingController(text: assigneeText??'');
   }
 
   bool get isEmpty => contentController.text.isEmpty;
 
-  TropTask? toTask(){
-    return TropTask(
-        content: contentController.text,
-        deadline: deadline,
-        assignee: assigneeNick??assignee,
-        assigneeText: assigneeController.text,
-        completed: completed,
-    );
-  }
+  TropTaskData toTaskData() => TropTaskData(
+    content: contentController.text,
+    deadline: deadline,
+    assignee: assigneeNick??assignee,
+    assigneeText: assigneeController.text,
+    completed: completed,
+  );
 
 }
 
@@ -137,14 +135,14 @@ class TasksProvider extends ChangeNotifier{
   static TasksProvider of(BuildContext context) => Provider.of<TasksProvider>(context, listen: false);
   static void notify_(BuildContext context) => of(context).notify();
 
-  late List<TropTaskTmpData> tasks;
+  late List<TropTaskEditableData> tasks;
 
   TasksProvider({Trop? initTrop, TropBaseData? initTropBaseData}){
 
     tasks = [];
     if(initTropBaseData != null)
       for(TropTaskBaseData t in initTropBaseData.tasks)
-        tasks.add(TropTaskTmpData(
+        tasks.add(TropTaskEditableData(
           t.content,
           DateTime.now().add(const Duration(days: 14)),
 
@@ -156,7 +154,7 @@ class TasksProvider extends ChangeNotifier{
 
     else if(initTrop != null)
       for(TropTask t in initTrop.tasks)
-        tasks.add(TropTaskTmpData(
+        tasks.add(TropTaskEditableData(
           t.content,
           t.deadline,
 
@@ -167,12 +165,12 @@ class TasksProvider extends ChangeNotifier{
         ));
 
     if(tasks.isEmpty)
-      tasks.add(TropTaskTmpData('', DateTime.now().add(const Duration(days: 14)), null, null, null, false));
+      tasks.add(TropTaskEditableData('', DateTime.now().add(const Duration(days: 14)), null, null, null, false));
 
   }
 
   void add(){
-    tasks.add(TropTaskTmpData(
+    tasks.add(TropTaskEditableData(
       '',
       DateTime.now().add(const Duration(days: 14)),
       null,
@@ -189,7 +187,7 @@ class TasksProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void insert(int index, TropTaskTmpData value){
+  void insert(int index, TropTaskEditableData value){
     tasks.insert(index, value);
     notifyListeners();
   }

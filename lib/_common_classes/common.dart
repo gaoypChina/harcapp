@@ -128,7 +128,7 @@ Future<void> showAlertDialog(
       ),
     );
 
-Future hideKeyboard(BuildContext context) async {
+Future<void> hideKeyboard(BuildContext context) async {
   FocusScopeNode focusScope = FocusScope.of(context);
   await SystemChannels.textInput.invokeMethod('TextInput.hide');
   focusScope.unfocus();

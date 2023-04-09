@@ -3,15 +3,18 @@ import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_
 
 class IndivCompTaskEditable{
 
+  static const String emptyTaskKey = '';
+
   String? editedTitle;
   String? editedDescription;
   int? editedPoints;
   int? editedPosition;
   TaskState? editedState;
 
+  // In this task the `key` is empty if the task is created.
   IndivCompTask task;
 
-  bool get created => task.key != null;
+  bool get created => task.key.isNotEmpty;
   bool get frozen => task.state == TaskState.CLOSED_RETAINING;
 
   bool? remove;

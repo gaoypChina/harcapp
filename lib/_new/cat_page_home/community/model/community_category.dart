@@ -100,13 +100,13 @@ Widget commCatToWidget(CommunityCategory commCat, {required double size, bool el
         text: 'Z');
     case CommunityCategory.gromadaZuchowaZHP: return CategoryThumbnailCommonWidget.fromSvg(
         color: getCommCatColor(commCat), size: size, elevated: elevated,
-        svgPath: 'assets/images/meto/z.svg', svgSizeFraction: .8);
+        svgPath: 'assets/images/meto/z.svg', svgSizeFraction: .85);
     case CommunityCategory.gromadaZuchowZHR: return CategoryThumbnailCommonWidget.fromSvg(
         color: getCommCatColor(commCat), size: size, elevated: elevated,
-        svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .8);
+        svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .85);
     case CommunityCategory.gromadaZuchenekZHR: return CategoryThumbnailCommonWidget.fromSvg(
         color: getCommCatColor(commCat), size: size, elevated: elevated,
-        svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .8);
+        svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .85);
     case CommunityCategory.radaGromady: return CategoryThumbnailCommonWidget.fromText(
         color: getCommCatColor(commCat), size: size, elevated: elevated,
         text: 'Z');
@@ -128,16 +128,16 @@ Widget commCatToWidget(CommunityCategory commCat, {required double size, bool el
         svgPath: 'assets/images/meto/w.svg');
     case CommunityCategory.druzynaHarcerzyZHR: return CategoryThumbnailCommonWidget.fromSvg(
         color: getCommCatColor(commCat), size: size, elevated: elevated,
-        svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .8);
+        svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .85);
     case CommunityCategory.druzynaHarcerekZHR: return CategoryThumbnailCommonWidget.fromSvg(
         color: getCommCatColor(commCat), size: size, elevated: elevated,
-        svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .8);
+        svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .85);
     case CommunityCategory.druzynaWedrownikowZHR: return CategoryThumbnailCommonWidget.fromSvg(
         color: getCommCatColor(commCat), size: size, elevated: elevated,
-        svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .8);
+        svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .85);
     case CommunityCategory.druzynaWedrowniczekZHR: return CategoryThumbnailCommonWidget.fromSvg(
         color: getCommCatColor(commCat), size: size, elevated: elevated,
-        svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .8);
+        svgPath: 'assets/images/scout_org_logos/logo_zhr_simple.svg', svgSizeFraction: .85);
 
     case CommunityCategory.radaDruzyny: return CategoryThumbnailCommonWidget.fromText(
         color: getCommCatColor(commCat), size: size, elevated: elevated,

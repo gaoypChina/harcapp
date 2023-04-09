@@ -17,8 +17,8 @@ class ApiUser{
   static const int NAME_MAX_LENGTH = 54;
 
   static Future<Response?> getAllShadows({
-    void Function(List<UserDataNick> users)? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function(List<UserDataNick> users)? onSuccess,
+    FutureOr<void> Function()? onError,
   }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
@@ -29,9 +29,9 @@ class ApiUser{
         for(Map data in response.data)
           users.add(UserDataNick.fromRespMap(data, data['nick']));
 
-        onSuccess?.call(users);
+        await onSuccess?.call(users);
       },
-      onError: (DioError error) async => onError?.call()
+      onError: (DioError error) async => await onError?.call()
   );
 
   static String CREATE_SHADOW_REQ_NAME = 'name';
@@ -39,8 +39,8 @@ class ApiUser{
   static Future<Response?> createShadow(
       String? name,
       Sex? sex,
-      { void Function(UserDataNick user)? onSuccess,
-        void Function()? onError,
+      { FutureOr<void> Function(UserDataNick user)? onSuccess,
+        FutureOr<void> Function()? onError,
       }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.post(
@@ -50,8 +50,8 @@ class ApiUser{
           CREATE_SHADOW_REQ_SEX: sexToBool[sex!]
         })
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(UserDataNick.fromRespMap(response.data, response.data['nick'])),
-      onError: (DioError error) async => onError?.call()
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(UserDataNick.fromRespMap(response.data, response.data['nick'])),
+      onError: (DioError error) async => await onError?.call()
   );
 
   static String UPDATE_SHADOW_REQ_NAME = 'name';
@@ -60,8 +60,8 @@ class ApiUser{
       UserDataNick? user,
       String? name,
       Sex? sex,
-      { void Function(UserDataNick user)? onSuccess,
-        void Function()? onError,
+      { FutureOr<void> Function(UserDataNick user)? onSuccess,
+        FutureOr<void> Function()? onError,
       }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.put(
@@ -71,15 +71,15 @@ class ApiUser{
             UPDATE_SHADOW_REQ_SEX: sexToBool[sex!]
           })
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(UserDataNick.fromRespMap(response.data, response.data['nick'])),
-      onError: (DioError error) async => onError?.call()
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(UserDataNick.fromRespMap(response.data, response.data['nick'])),
+      onError: (DioError error) async => await onError?.call()
   );
 
   static String DELETE_SHADOW_REQ_KEY = 'key';
   static Future<Response?> deleteShadow(
       String key,
-      { void Function(bool? deleted)? onSuccess,
-        void Function()? onError,
+      { FutureOr<void> Function(bool? deleted)? onSuccess,
+        FutureOr<void> Function()? onError,
       }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.delete(
@@ -88,25 +88,25 @@ class ApiUser{
             DELETE_SHADOW_REQ_KEY: key,
           })
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
-      onError: (DioError error) async => onError?.call()
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data),
+      onError: (DioError error) async => await onError?.call()
   );
 
   static Future<Response?> searchByNick(
       String nick, 
-      { void Function({bool? noSuchUser})? onError,
-        void Function(UserDataNick user)? onSuccess,
+      { FutureOr<void> Function({bool? noSuchUser})? onError,
+        FutureOr<void> Function(UserDataNick user)? onSuccess,
       }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.get(
       '${API.SERVER_URL}api/user/search/$nick',
     ),
-    onSuccess: (Response response, DateTime now) async => onSuccess?.call(UserDataNick.fromRespMap(response.data, nick)),
+    onSuccess: (Response response, DateTime now) async => await onSuccess?.call(UserDataNick.fromRespMap(response.data, nick)),
     onError: (DioError error) async {
       bool noSuchUserStatus = error.response?.statusCode == HttpStatus.notFound;
       bool noSuchUserBody = const DeepCollectionEquality().equals(error.response?.data, {'error': 'User not found'});
 
-      onError?.call(noSuchUser: noSuchUserStatus && noSuchUserBody);
+      await onError?.call(noSuchUser: noSuchUserStatus && noSuchUserBody);
     }
 
   );
@@ -144,8 +144,8 @@ class ApiUser{
     Sex? sex,
     //bool nickSearchable,
     String? validPass,
-    void Function(String? email, String? jwt, String? name, Sex? sex)? onSuccess,
-    void Function(Response? response)? onError,
+    FutureOr<void> Function(String? email, String? jwt, String? name, Sex? sex)? onSuccess,
+    FutureOr<void> Function(Response? response)? onError,
   }) async {
 
     Map<String, dynamic> errMap = {};
@@ -178,7 +178,7 @@ class ApiUser{
 
     if(errMap.isNotEmpty) {
       Response errResp = API.createFakeErrResponse(errMap: errMap);
-      onError?.call(errResp);
+      await onError?.call(errResp);
       return errResp;
     }
 
@@ -198,37 +198,36 @@ class ApiUser{
             data: FormData.fromMap(map)
         );
       },
-      onSuccess: (Response response, DateTime now) async {
-        onSuccess?.call(
+      onSuccess: (Response response, DateTime now) async =>
+        await onSuccess?.call(
           response.data[UPDATE_REQ_EMAIL],
           response.data[UPDATE_REQ_JWT],
           response.data[UPDATE_REQ_NAME],
           strToSex[response.data[UPDATE_REQ_SEX]],
-        );
-      },
+        ),
       onError: (err) async => onError?.call(err.response),
     );
 
   }
 
 
-  static Future<Response?> resetNick({void Function(String? nick)? onSuccess, Function(Response? response)? onError}) async => await API.sendRequest(
+  static Future<Response?> resetNick({FutureOr<void> Function(String? nick)? onSuccess, FutureOr<void> Function(Response? response)? onError}) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
           '${API.SERVER_URL}api/user/nick'
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data['nick']),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data['nick']),
       onError: (DioError error) async => await onError!(error.response)
   );
 
   static String UPDATE_REQ_NICK_SEARCHABLE = 'nickSearchable';
-  static Future<Response?> nickSearchable({required searchable, void Function(bool? searchable)? onSuccess, Function(Response? response)? onError}) async => await API.sendRequest(
+  static Future<Response?> nickSearchable({required searchable, FutureOr<void> Function(bool? searchable)? onSuccess, FutureOr<void> Function(Response? response)? onError}) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.post(
           '${API.SERVER_URL}api/user/nickSearchable',
           data: FormData.fromMap({UPDATE_REQ_NICK_SEARCHABLE: searchable})
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data['nickSearchable']),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data['nickSearchable']),
       onError: (DioError error) async => await onError!(error.response)
   );
 

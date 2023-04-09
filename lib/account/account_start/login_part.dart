@@ -111,7 +111,7 @@ class LoginPartState extends State<LoginPart>{
           communityPublishableListProv.notify();
 
           if(loggedIn)
-            widget.onLoggedIn?.call(emailConf);
+            await widget.onLoggedIn?.call(emailConf);
 
         },
         onServerMaybeWakingUp: () {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/bottom_sheet.dart';
@@ -153,7 +155,7 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
       )
   );
 
-  Future<void> showUpdateManagerDialog(CommunityRole newRole, {void Function()? onSuccess}) =>
+  Future<void> showUpdateManagerDialog(CommunityRole newRole, {FutureOr<void> Function()? onSuccess}) =>
     showUpdateDialog(
         context: context,
         isMe: manager.key == AccountData.key,
@@ -167,10 +169,10 @@ class CommunityManagerTileExtendedState extends State<CommunityManagerTileExtend
           await ApiCommunity.updateManagers(
               communityKey: community.key,
               users: [CommunityManagerUpdateBody(manager.key, role: Optional.of(newRole))],
-              onSuccess: (List<CommunityManager> allManagers){
+              onSuccess: (List<CommunityManager> allManagers) async {
                 community.setAllLoadedManagers(allManagers, context: context);
                 Navigator.pop(context); // Close loading widget
-                onSuccess?.call();
+                await onSuccess?.call();
               },
               onServerMaybeWakingUp: () {
                 if(!mounted) return true;

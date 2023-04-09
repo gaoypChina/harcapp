@@ -74,8 +74,8 @@ class TropWidget extends StatelessWidget{
                 children: [
 
                   DurationDateWidget(
-                    startDate: trop.startTime,
-                    endDate: trop.endTime,
+                    startDate: trop.startDate,
+                    endDate: trop.endDate,
                     color: AppColors.zhpTropColor,
                   ),
 

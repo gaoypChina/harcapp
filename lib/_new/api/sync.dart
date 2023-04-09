@@ -35,7 +35,7 @@ class ApiSync{
   
   static Future<Response?> post(
         {bool? dumpReplaceExisting,
-        void Function(
+        FutureOr<void> Function(
             Response response,
             bool? orgHandler,
             Map<String, dynamic>? appSettings,
@@ -48,7 +48,7 @@ class ApiSync{
             Map<String, dynamic>? rankDefs,
             Map<String, dynamic>? rankZhpSim2022,
             DateTime? syncedTime)? onSuccess,
-        void Function(Response? response)? onError,
+        FutureOr<void> Function(Response? response)? onError,
       }) async {
 
     Map<String?, dynamic> reqMap = {};
@@ -105,7 +105,7 @@ class ApiSync{
 
         logger.i('Sync post response:\n${prettyJson(response.data)}');
 
-        onSuccess?.call(
+        await onSuccess?.call(
           response,
           orgHandler,
           appSettings,
@@ -120,17 +120,17 @@ class ApiSync{
           syncedTime
         );
       },
-      onError: (err) async => onError?.call(err.response)
+      onError: (err) async => await onError?.call(err.response)
     );
   }
 
   static Future<Response?> postAndSave({
     bool? dumpReplaceExisting,
-    void Function()? onSuccess,
-    void Function(Response? response)? onError,
+    FutureOr<void> Function()? onSuccess,
+    FutureOr<void> Function(Response? response)? onError,
   }) async => await post(
       dumpReplaceExisting: dumpReplaceExisting,
-      onSuccess: (Response response, dynamic orgHandler, Map? appSettings, Map? songBookSettings, Map? offSongs, Map? ownSongs, Map? ownAlbums, Map? toLearnAlbum, Map? spraws, Map? rankDefs, Map? rankZhpSim2022, DateTime? syncedTime) {
+      onSuccess: (Response response, dynamic orgHandler, Map? appSettings, Map? songBookSettings, Map? offSongs, Map? ownSongs, Map? ownAlbums, Map? toLearnAlbum, Map? spraws, Map? rankDefs, Map? rankZhpSim2022, DateTime? syncedTime) async {
 
         DateTime? syncedTime = DateTime.tryParse(response.data['time']);
 
@@ -180,7 +180,7 @@ class ApiSync{
         
         SynchronizerEngine.lastSyncTimeLocal = syncedTime;
 
-        onSuccess?.call();
+        await onSuccess?.call();
       },
       onError: onError
   );
@@ -258,7 +258,7 @@ class ApiSync{
             }
           }
 
-          Map<String, dynamic>? spraws = response.data[SprawGetResp.COLL_NAME];
+          Map<String, dynamic>? spraws = response.data[SprawGetResp.collName];
           Map<String, SprawGetResp> sprawResps = {};
           if(spraws != null)
             for(String uniqName in spraws.keys){
@@ -344,8 +344,8 @@ class ApiSync{
   }
 
   static Future<Response?> getAndSave({
-    void Function()? onSuccess,
-    void Function()? onError,
+    FutureOr<void> Function()? onSuccess,
+    FutureOr<void> Function()? onError,
   }) async => await get(
       onSuccess: (Response response, OrgEntityResp? orgResp, AppSettingsResp? appSettingsResp, SongBookSettingsResp? songBookSettingsResp, Map<String, OffSongGetResp> offSongs, Map<String, OwnSongGetResp> ownSongs, Map<String, OwnAlbumGetResp> albums, ToLearnAlbumGetResp? toLearnAlbum, Map<String, SprawGetResp> spraws, Map<String, RankDefGetResp> rankDefs, Map<String, RankZhpSim2022GetResp> rankZhpSim2022, DateTime? syncedTime) async {
 
@@ -429,23 +429,23 @@ class ApiSync{
           rank.applySyncGetResp(rankResp);
         }
 
-        onSuccess?.call();
+        await onSuccess?.call();
 
       },
       onError: (err) => onError?.call()
   );
 
   static Future<Response?> lastSync({
-    void Function(DateTime?)? onSuccess,
-    void Function(Response?)? onError
+    FutureOr<void> Function(DateTime?)? onSuccess,
+    FutureOr<void> Function(Response?)? onError
   }) async => await API.sendRequest(
         withToken: true,
         requestSender: (Dio dio) async => await dio.get('${API.SERVER_URL}${url}last_sync'),
         onSuccess: (Response response, DateTime now) async {
           DateTime? lastSync = DateTime.tryParse(response.data);
-          onSuccess?.call(lastSync);
+          await onSuccess?.call(lastSync);
         },
-        onError: (err) async => onError?.call(err.response)
+        onError: (err) async => await onError?.call(err.response)
     );
 
 }

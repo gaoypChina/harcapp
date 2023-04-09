@@ -88,7 +88,7 @@ class SprawTask with SyncableParamGroupMixin, SyncGetRespNode<SprawTaskGetResp> 
       spraw.uniqName + sepChar +
           index.toString();
 
-  static const String syncClassId = Spraw.PARAM_TASKS;
+  static const String syncClassId = Spraw.paramTasks;
 
   @override
   String get debugClassId => syncClassId;

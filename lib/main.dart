@@ -114,6 +114,11 @@ void main() async {
   else if(DateTime.now().isAfter(DateTime(2022, 4, 17, 4)) && DateTime.now().isBefore(DateTime(2022, 4, 24, 0)))
     appMode = AppMode.appModeZmartwychwstanie;
 
+  if(DateTime.now().isAfter(DateTime(2023, 4, 7, 14)) && DateTime.now().isBefore(DateTime(2023, 4, 9, 4)))
+    appMode = AppMode.appModeWielkiPiatek;
+  else if(DateTime.now().isAfter(DateTime(2023, 4, 9, 4)) && DateTime.now().isBefore(DateTime(2023, 4, 17, 0)))
+    appMode = AppMode.appModeZmartwychwstanie;
+
   await ShaPref.init();
   await initPaths();
   await AccountData.init();

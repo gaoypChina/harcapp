@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -67,8 +68,8 @@ class ApiRank{
       String uniqName,
       { required List<String?> addByNick,
         required List<String> removeByKey,
-        void Function()? onError,
-        void Function(List<UserData> sharedUsers)? onSuccess,
+        FutureOr<void> Function()? onError,
+        FutureOr<void> Function(List<UserData> sharedUsers)? onSuccess,
       }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) => dio.post(
@@ -89,15 +90,15 @@ class ApiRank{
       for(String key in rawData.keys)
         userRespBodies.add(UserData.fromRespMap(rawData[key], key: key));
 
-      onSuccess?.call(userRespBodies);
+      await onSuccess?.call(userRespBodies);
     },
-    onError: (DioError error) async => onError?.call()
+    onError: (DioError error) => onError?.call()
   );
 
   static Future<Response?> getAllShareUsers(
       String uniqName,
-      { void Function()? onError,
-        void Function(List<UserData> sharedUsers)? onSuccess,
+      { FutureOr<void> Function()? onError,
+        FutureOr<void> Function(List<UserData> sharedUsers)? onSuccess,
       }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
@@ -114,14 +115,14 @@ class ApiRank{
         for(String key in rawData.keys)
           userRespBodies.add(UserData.fromRespMap(rawData[key], key: key));
 
-        onSuccess?.call(userRespBodies);
+        await onSuccess?.call(userRespBodies);
       },
-      onError: (DioError error) async => onError?.call()
+      onError: (DioError error) => onError?.call()
   );
 
   static Future<Response?> getAllShared(
-      { void Function()? onError,
-        void Function(List<SharedRankMetaData>)? onSuccess,
+      { FutureOr<void> Function()? onError,
+        FutureOr<void> Function(List<SharedRankMetaData>)? onSuccess,
       }) async => await API.sendRequest(
       withToken: true,
       requestSender: (Dio dio) => dio.get(
@@ -135,7 +136,7 @@ class ApiRank{
         for(dynamic rawDataItem in rawData)
           sharedRankMetaDataList.add(SharedRankMetaData.fromRespMap(rawDataItem));
 
-        onSuccess?.call(sharedRankMetaDataList);
+        await onSuccess?.call(sharedRankMetaDataList);
       },
       onError: (DioError error) async => onError?.call()
   );
@@ -143,8 +144,8 @@ class ApiRank{
   static Future<Response?> getShared({
     required String key,
     required DateTime lastUpdateTime,
-    void Function(Rank rank)? onSuccess,
-    void Function(Response? response)? onError,
+    FutureOr<void> Function(Rank rank)? onSuccess,
+    FutureOr<void> Function(Response? response)? onError,
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) async => await dio.get(
@@ -160,8 +161,8 @@ class ApiRank{
 
       Rank? preview = Rank.fromStateShared(rankUniqName, stateShared);
 
-      if(preview == null) onError?.call(null);
-      else onSuccess?.call(preview);
+      if(preview == null) await onError?.call(null);
+      else await onSuccess?.call(preview);
 
     },
     onError: (err) async => onError?.call(err.response),

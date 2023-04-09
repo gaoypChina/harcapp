@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp_core/comm_widgets/app_toast.dart';
@@ -28,8 +30,8 @@ class AcceptTaskWidget extends StatefulWidget{
   final IndivComp comp;
   final List<IndivCompParticip> selectedParticips;
 
-  final void Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? onSuccess;
-  final void Function()? onError;
+  final FutureOr<void> Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? onSuccess;
+  final FutureOr<void> Function()? onError;
 
   const AcceptTaskWidget(this.comp, this.selectedParticips, {this.onSuccess, this.onError, super.key});
 
@@ -43,7 +45,7 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
   IndivComp get comp => widget.comp;
   List<IndivCompParticip> get selectedParticips => widget.selectedParticips;
 
-  void Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? get onSuccess => widget.onSuccess;
+  FutureOr<void> Function(List<IndivCompCompletedTask>, Map<String, ShowRankData>)? get onSuccess => widget.onSuccess;
 
   TextEditingController? controller;
 
@@ -74,9 +76,9 @@ class AcceptTaskWidgetState extends State<AcceptTaskWidget>{
                         taskKey: task.key,
                         comment: controller!.text,
                         userKeys: selectedParticips.map((particips) => particips.key).toList(),
-                        onSuccess: (List<IndivCompCompletedTask> taskComplList, Map<String, ShowRankData> idRank){
+                        onSuccess: (List<IndivCompCompletedTask> taskComplList, Map<String, ShowRankData> idRank) async {
                           if(mounted) showAppToast(context, text: 'Zaliczono');
-                          onSuccess?.call(taskComplList, idRank);
+                          await onSuccess?.call(taskComplList, idRank);
                         },
                         onServerMaybeWakingUp: () {
                           if(mounted) showServerWakingUpToast(context);

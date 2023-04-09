@@ -167,8 +167,6 @@ class AccountPageState extends State<AccountPage> with TickerProviderStateMixin{
                         const Icon(MdiIcons.loginVariant, color: Colors.black),
                         onTap: () async {
 
-
-
                           showAlertDialog(
                             context,
                             dismissible: false,

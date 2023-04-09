@@ -68,11 +68,11 @@ class ApiCircle{
         circleList.add(circle);
       }
 
-      onSuccess?.call(circleList);
+      await onSuccess?.call(circleList);
     },
     onForceLoggedOut: onForceLoggedOut,
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (err) async => onError?.call(err.response)
+    onError: (err) async => await onError?.call(err.response)
   );
 
   static Future<Response?> get({
@@ -89,11 +89,11 @@ class ApiCircle{
     ),
     onSuccess: (Response response, DateTime now) async {
       Circle circle = Circle.fromRespMap(response.data, community);
-      onSuccess?.call(circle);
+      await onSuccess?.call(circle);
     },
     onForceLoggedOut: onForceLoggedOut,
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (error) async => onError?.call(error.response?.statusCode),
+    onError: (error) async => await onError?.call(error.response?.statusCode),
   );
 
   static Future<Response?> create({
@@ -125,12 +125,12 @@ class ApiCircle{
       ),
       onSuccess: (Response response, DateTime now) async{
         Circle circle = Circle.fromRespMap(response.data, community);
-        onSuccess?.call(circle);
+        await onSuccess?.call(circle);
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onImageDBWakingUp: onImageDBWakingUp,
-      onError: (_) async => onError?.call()
+      onError: (_) async => await onError?.call()
     );
 
   }
@@ -146,10 +146,10 @@ class ApiCircle{
       requestSender: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/circle/$circleKey'
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (DioError err) async => onError?.call()
+      onError: (DioError err) async => await onError?.call()
   );
 
   static Future<Response?> resetShareCode({
@@ -163,10 +163,10 @@ class ApiCircle{
       requestSender: (Dio dio) => dio.get(
         '${API.SERVER_URL}api/circle/$circleKey/shareCode',
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (DioError err) async => onError?.call(err.response!.data)
+      onError: (DioError err) async => await onError?.call(err.response!.data)
   );
 
   static Future<Response?> setShareCodeSearchable({
@@ -182,10 +182,10 @@ class ApiCircle{
         '${API.SERVER_URL}api/circle/$compKey/shareCodeSearchable',
         data: FormData.fromMap({'searchable': searchable}),
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data['shareCodeSearchable']),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(response.data['shareCodeSearchable']),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (DioError err) async => onError?.call()
+      onError: (DioError err) async => await onError?.call()
   );
 
   static Future<Response?> joinByShareCode({
@@ -215,11 +215,11 @@ class ApiCircle{
           community.setCircle(circle);
         }
 
-        onSuccess?.call(circle, newCommunityAdded);
+        await onSuccess?.call(circle, newCommunityAdded);
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (DioError err) async => onError?.call()
+      onError: (DioError err) async => await onError?.call()
   );
 
   static Future<Response?> update({
@@ -400,11 +400,11 @@ class ApiCircle{
           '${API.SERVER_URL}api/circle/$circleKey/member',
           data: jsonEncode(userKeys)
       ),
-      onSuccess: (Response response, DateTime now) =>
-          onSuccess?.call((response.data as List).cast<String>()),
+      onSuccess: (Response response, DateTime now) async =>
+          await onSuccess?.call((response.data as List).cast<String>()),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
   static Future<Response?> leave({
@@ -418,10 +418,10 @@ class ApiCircle{
       requestSender: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/circle/$circleKey/leave',
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
   static Future<Response?> getCircleAnnouncements({
@@ -452,11 +452,11 @@ class ApiCircle{
         for(String key in (response.data as Map).keys)
           result.add(Announcement.fromRespMap(response.data[key], Community.allCircleMap![circleKey]!, key: key));
 
-        onSuccess?.call(result, pinnedOnly, awaitingOnly);
+        await onSuccess?.call(result, pinnedOnly, awaitingOnly);
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
   static Future<Response?> publishAnnouncement({
@@ -496,11 +496,11 @@ class ApiCircle{
         })
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(Announcement.fromRespMap(response.data, Community.allCircleMap![circleKey]!)),
+          await onSuccess?.call(Announcement.fromRespMap(response.data, Community.allCircleMap![circleKey]!)),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onImageDBWakingUp: onImageDBWakingUp,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
   static Future<Response?> updateAnnouncement({
@@ -547,11 +547,11 @@ class ApiCircle{
         })
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(Announcement.fromRespMap(response.data, announcement.circle)),
+          await onSuccess?.call(Announcement.fromRespMap(response.data, announcement.circle)),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onImageDBWakingUp: onImageDBWakingUp,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
   static Future<Response?> pinAnnouncement({
@@ -570,10 +570,10 @@ class ApiCircle{
         }),
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(response.data),
+          await onSuccess?.call(response.data),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
   static Future<Response?> deleteAnnouncement({
@@ -588,10 +588,10 @@ class ApiCircle{
         '${API.SERVER_URL}api/announcement/$annKey',
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(),
+          await onSuccess?.call(),
       onServerMaybeWakingUp: onServerMaybeWakingUp,
       onForceLoggedOut: onForceLoggedOut,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
   static Future<Response?> updateAnnouncementAttendanceResponse({
@@ -616,10 +616,10 @@ class ApiCircle{
         }),
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(AnnouncementAttendanceResp.fromRespMap(response.data), now),
+          await onSuccess?.call(AnnouncementAttendanceResp.fromRespMap(response.data), now),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
   static Future<Response?> waiveResponse({
@@ -640,10 +640,10 @@ class ApiCircle{
         }),
       ),
       onSuccess: (Response response, DateTime now) async =>
-          onSuccess?.call(response.data, now),
+          await onSuccess?.call(response.data, now),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
   static Future<Response?> bindIndivComp({
@@ -661,10 +661,10 @@ class ApiCircle{
           'compKey': indivCompKey,
         }),
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
   static Future<Response?> deleteIndivCompBind({

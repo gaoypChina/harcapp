@@ -5,6 +5,7 @@ import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/api/_api.dart';
 import 'package:harcapp/_new/api/indiv_comp.dart';
+import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/indiv_comp_editor/indiv_comp_task_editable.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/rank_disp_type.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/models/indiv_comp_particip.dart';
 import 'package:harcapp/_new/cat_page_home/competitions/indiv_comp/providers/compl_tasks_provider.dart';
@@ -103,7 +104,7 @@ class IndivComp{
   static List<IndivCompTask> previewTasks = [
 
     const IndivCompTask(
-        key: 'null',
+        key: IndivCompTaskEditable.emptyTaskKey,
         title: 'Obecność',
         description: 'Obecność na zbiórce lub wyjeździe.',
         points: 1,
@@ -112,7 +113,7 @@ class IndivComp{
     ),
 
     const IndivCompTask(
-        key: 'null',
+        key: IndivCompTaskEditable.emptyTaskKey,
         title: 'Punktualność',
         description: 'Stawienie się na zbiórce na czas.',
         points: 1,
@@ -121,7 +122,7 @@ class IndivComp{
     ),
 
     const IndivCompTask(
-        key: 'null',
+        key: IndivCompTaskEditable.emptyTaskKey,
         title: 'Umundurowanie',
         description: 'Obecność w pełnym umundurowaniu.',
         points: 1,
@@ -130,7 +131,7 @@ class IndivComp{
     ),
 
     const IndivCompTask(
-        key: 'null',
+        key: IndivCompTaskEditable.emptyTaskKey,
         title: 'Sprawność',
         description: 'Zdobycie sprawności.',
         points: 3,
@@ -139,7 +140,7 @@ class IndivComp{
     ),
 
     const IndivCompTask(
-        key: 'null',
+        key: IndivCompTaskEditable.emptyTaskKey,
         title: 'Stopień',
         description: 'Zdobycie stopnia.',
         points: 10,

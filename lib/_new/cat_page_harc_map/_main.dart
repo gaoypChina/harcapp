@@ -1,17 +1,20 @@
 import 'dart:math';
 
 import 'package:after_layout/after_layout.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/color_pack.dart';
+import 'package:harcapp/_common_widgets/extended_floating_button.dart';
 import 'package:harcapp/_common_widgets/search_field.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
 import 'package:harcapp/_new/cat_page_harc_map/utils.dart';
 import 'package:harcapp/_new/cat_page_home/community/model/community.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:harcapp/account/account.dart';
+import 'package:harcapp/account/account_page/account_page.dart';
 import 'package:harcapp/account/login_provider.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
 import 'package:harcapp_core/comm_classes/color_pack.dart';
@@ -26,6 +29,7 @@ import 'package:harcapp_core/dimen.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:semaphore/semaphore.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../values/consts.dart';
@@ -35,6 +39,30 @@ import 'app_marker.dart';
 import 'sample_points_optimizer.dart';
 import 'model/marker_data.dart';
 import 'marker_editor/_main.dart';
+
+Tuple3<List<LatLng>, List<List<bool>>, bool> createSamplePoints(
+    Tuple7<
+        double, // northBound
+        double, // southBound
+        double, // westBound
+        double, // eastBound
+
+        double, // zoom
+
+        bool, // skipCached
+        bool // inUnseenMapOnly
+    > args
+) => SamplePointsOptimizer.createSamplePoints(
+    args.item1,
+    args.item2,
+    args.item3,
+    args.item4,
+
+    args.item5,
+
+    skipCached: args.item6,
+    inUnseenMapOnly: args.item7
+);
 
 class CatPageHarcMap extends StatefulWidget{
 
@@ -70,7 +98,24 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
   List<LatLng>? lastRequestedSamples;
   List<LatLng>? otherMarkersUncertaintySamples;
 
-  late bool loadingMarkers;
+  late Semaphore markerLoaderSemaphore;
+  late int markerLoaderIndex;
+  late bool markersLoading;
+
+  Future<int> markerLoadingStarted() async {
+    await markerLoaderSemaphore.acquire();
+    int thisMarkerLoaderIndex = ++markerLoaderIndex;
+    if(!markersLoading && mounted) setState(() => markersLoading = true);
+    markerLoaderSemaphore.release();
+    return thisMarkerLoaderIndex;
+  }
+
+  Future<void> markerLoadingEnded(int markerLoaderIndex) async {
+    await markerLoaderSemaphore.acquire();
+    if(this.markerLoaderIndex == markerLoaderIndex)
+      if(mounted) setState(() => markersLoading = false);
+    markerLoaderSemaphore.release();
+  }
 
   Future<void> tryGetMarkers({required bool publicOnly}) async {
     if(!await isNetworkAvailable())
@@ -82,15 +127,18 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
     double thisEastBound = eastBound;
     double thisZoom = zoom;
 
-    Tuple3<List<LatLng>, List<List<bool>>, bool> samplePointsResult = SamplePointsOptimizer.createSamplePoints(
-      thisNorthBound,
-      thisSouthBound,
-      thisWestBound,
-      thisEastBound,
+    Tuple3<List<LatLng>, List<List<bool>>, bool> samplePointsResult = await compute(
+        createSamplePoints,
+        Tuple7(
+            thisNorthBound,
+            thisSouthBound,
+            thisWestBound,
+            thisEastBound,
 
-      thisZoom,
-      skipCached: true,
-      inUnseenMapOnly: true
+            thisZoom,
+            true, // skipCached
+            true, // inUnseenMapOnly
+        )
     );
 
     List<LatLng> requestSamples = samplePointsResult.item1;
@@ -103,7 +151,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
       // This means everything we want to sample for markers is already cached.
       return;
 
-    setState(() => loadingMarkers = true);
+    int thisMarkerLoaderIndex = await markerLoadingStarted();
 
     await ApiHarcMap.getAllMarkers(
         publicOnly: publicOnly,
@@ -118,7 +166,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
 
         onSuccess: (markers) {
           markers = MarkerData.addAllToAll(markers);
-          if (mounted) setState(() {});
+          if(mounted) setState(() {});
 
           if(publicOnly) return;
           SamplePointsOptimizer.cacheSamplePoints(
@@ -168,13 +216,15 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
         }
     );
 
-    setState(() => loadingMarkers = false);
+    await markerLoadingEnded(thisMarkerLoaderIndex);
   }
 
   @override
   void initState() {
 
-    loadingMarkers = false;
+    markerLoaderSemaphore = LocalSemaphore(999999999999);
+    markerLoaderIndex = 0;
+    markersLoading = false;
 
     mapController = MapController();
 
@@ -345,7 +395,7 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
                     leading: const AccountHeaderIcon(),
                     hint: 'Szukaj...',
                     trailing:
-                    loadingMarkers?Padding(
+                    markersLoading?Padding(
                       padding: const EdgeInsets.only(right: Dimen.ICON_MARG),
                       child: SpinKitSpinningLines(
                         size: Dimen.ICON_SIZE,
@@ -384,7 +434,12 @@ class CatPageHarcMapState extends State<CatPageHarcMap> with AfterLayoutMixin{
           builder: (context, loginProv, commListProv, child) {
 
             if(!loginProv.loggedIn)
-              return Container();
+              return ExtendedFloatingButton(
+                  MdiIcons.plus,
+                  'Zaloguj się i dodawaj',
+                  background: background_(context),
+                  onTap: () => AccountPage.open(context)
+              );
 
             if(Community.all == null)
               return FloatingActionButton(

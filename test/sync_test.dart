@@ -3,10 +3,12 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
 import 'package:harcapp/_new/api/login_register.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/memory.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
@@ -91,6 +93,36 @@ void main() {
     album.save(localOnly: true);
     OwnAlbum.addToAll(album);
 
+    Trop trop = Trop.create(
+        name: 'Mój super trop',
+        category: TropCategory.harcNatura,
+        aims: [
+          'Cel tropu 1',
+          'Cel tropu 2'
+        ],
+        startTime: DateTime(2023, 10, 1),
+        endTime: DateTime(2023, 10, 21),
+        completed: false,
+        completionTime: null,
+        tasks: [
+          TropTaskData(
+            content: 'Zadanie 1, w którym dzieje się cośtam.',
+            summary: 'Jakieś podsumowanko zadania 1...',
+            deadline: DateTime(2023, 10, 5),
+            assigneeText: 'Jan Kowalski i jego przyjaciele',
+            completed: false,
+          ),
+          TropTaskData(
+            content: 'Zadanie 2, w którym dzieje się cośtam.',
+            summary: 'Jakieś podsumowanko zadania 2...',
+            deadline: DateTime(2023, 10, 15),
+            assigneeText: 'Malwina i jej koleżanki',
+            completed: true,
+          ),
+        ]
+    );
+    trop.save(localOnly: true);
+
     await synchronizer.post();
 
     await factoryResetLocalSilent();
@@ -139,6 +171,31 @@ void main() {
     assert(OwnAlbum.all[0].ownSongs[1].lclId == 'abcd-1234-2');
     assert(OwnAlbum.all[0].colorsKey == CommonColorData.all.keys.toList()[10]);
     assert(OwnAlbum.all[0].iconKey == CommonIconData.all.keys.toList()[20]);
+
+    assert(Trop.all.length == 1);
+    assert(Trop.all[0].lclId == trop.lclId);
+    assert(Trop.all[0].name == trop.name);
+    assert(Trop.all[0].customIconTropName == trop.customIconTropName);
+    assert(Trop.all[0].category == trop.category);
+    assert(Trop.all[0].startDate == trop.startDate);
+    assert(Trop.all[0].endDate == trop.endDate);
+    assert(Trop.all[0].completed == trop.completed);
+    assert(Trop.all[0].completionDate == trop.completionDate);
+    assert(Trop.all[0].tasks.length == 2);
+    // ---
+    assert(Trop.all[0].tasks[0].lclId == trop.tasks[0].lclId);
+    assert(Trop.all[0].tasks[0].content == trop.tasks[0].content);
+    assert(Trop.all[0].tasks[0].summary == trop.tasks[0].summary);
+    assert(Trop.all[0].tasks[0].deadline == trop.tasks[0].deadline);
+    assert(Trop.all[0].tasks[0].assigneeText == trop.tasks[0].assigneeText);
+    assert(Trop.all[0].tasks[0].completed == trop.tasks[0].completed);
+    // ---
+    assert(Trop.all[0].tasks[1].lclId == trop.tasks[1].lclId);
+    assert(Trop.all[0].tasks[1].content == trop.tasks[1].content);
+    assert(Trop.all[0].tasks[1].summary == trop.tasks[1].summary);
+    assert(Trop.all[0].tasks[1].deadline == trop.tasks[1].deadline);
+    assert(Trop.all[0].tasks[1].assigneeText == trop.tasks[1].assigneeText);
+    assert(Trop.all[0].tasks[1].completed == trop.tasks[1].completed);
 
   });
 

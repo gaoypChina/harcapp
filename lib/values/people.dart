@@ -126,6 +126,7 @@ List<Person> allPeople = [
   MALWINA_TRUSZKOWSKA,
   MARCEL_RYCHTER,
   MARCIN_JANKOWIAK,
+  MAREK_BOJARUN,
   MAREK_LEWANCZYK,
   MAREK_MUSIALIK,
   MARLENA_BANIA,
@@ -824,6 +825,13 @@ const Person MARCEL_RYCHTER = Person(
   email: ['m.rychter@gmail.com', 'm.rychter1441@gmail.com']
 );
 const Person MARCIN_JANKOWIAK = Person(name: 'Marcin Jankowiak', hufiec: huf_zhp_jarocin, org: Org.zhp,);
+const Person MAREK_BOJARUN = Person(
+    name: 'Marek Bojarun',
+    druzyna: '64. ODSH "Cień"',
+    stopH: StopZHP.zhpWywiadowca,
+    org: Org.zhp,
+    email: ['marekbojarun220@gmail.com', 'm.bojarun09@gmail.com']
+);
 const Person MAREK_LEWANCZYK = Person(
   name: 'Marek Lewańczyk',
   stopH: StopZHP.zhpHOc,

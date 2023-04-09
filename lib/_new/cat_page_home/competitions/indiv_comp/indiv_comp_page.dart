@@ -817,7 +817,7 @@ class ParticipantsWidgetState extends State<ParticipantsWidget>{
 
   @override
   void initState() {
-    isLoading = comp.loadedParticips.length == 1;
+    isLoading = comp.loadedParticips.length == 1 && comp.participCount > 1;
     if(isLoading) loadMoreMembers();
     super.initState();
   }

@@ -38,7 +38,6 @@ class SoundPlayerWidgetState extends State<SoundPlayerWidget>{
   bool get isWeb => widget.isWeb;
   bool get autoStart => widget.autoStart;
 
-
   late AssetsAudioPlayer assetsAudioPlayer;
 
   @override
@@ -51,6 +50,9 @@ class SoundPlayerWidgetState extends State<SoundPlayerWidget>{
         Audio(source),
         autoStart: autoStart
     );
+    assetsAudioPlayer.playlistAudioFinished.listen((Playing playing) {
+      if (mounted) setState(() {});
+    });
     super.initState();
   }
 
@@ -103,25 +105,29 @@ class SoundPlayerWidgetState extends State<SoundPlayerWidget>{
 
                   AppButton(
                     icon: const Icon(MdiIcons.rewind),
-                    onLongPress: (){
+                    onLongPress: assetsAudioPlayer.isPlaying.value?
+                    (){
                       assetsAudioPlayer.seek(Duration.zero);
                       if(mounted) showAppToast(context, text: 'Od początku!', duration: const Duration(seconds: 1));
                       if(mounted) setState((){});
-                    },
-                    onTap: () async {
+                    }: null,
+                    onTap: assetsAudioPlayer.isPlaying.value?
+                    () async {
                       await assetsAudioPlayer.seekBy(const Duration(seconds: -2));
                       if(mounted) showAppToast(context, text: '-2 sekundy', duration: const Duration(seconds: 1));
                       if(mounted) setState((){});
-                    },
+                    }: null,
                   ),
 
                   IconButton(
                     icon: const Icon(MdiIcons.fastForward),
-                    onPressed: () async {
+                    onPressed:
+                    assetsAudioPlayer.isPlaying.value?
+                    () async {
                       await assetsAudioPlayer.seekBy(const Duration(seconds: 2));
                       if(mounted) showAppToast(context, text: '+2 sekundy', duration: const Duration(seconds: 1));
                       if(mounted) setState((){});
-                    },
+                    }: null,
                   ),
 
 

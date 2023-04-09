@@ -77,11 +77,11 @@ class ApiCommunity{
       for(Map map in response.data)
         result.add(CommunityPreviewData.fromRespMap(map));
 
-      onSuccess?.call(result);
+      await onSuccess?.call(result);
     },
     onForceLoggedOut: onForceLoggedOut,
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (error) async => onError?.call(),
+    onError: (error) async => await onError?.call(),
   );
 
   static Future<Response?> getAll({
@@ -99,11 +99,11 @@ class ApiCommunity{
       for(Map map in response.data)
         communityList.add(Community.fromRespMap(map));
 
-      onSuccess?.call(communityList);
+      await onSuccess?.call(communityList);
     },
     onForceLoggedOut: onForceLoggedOut,
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (err) async => onError?.call(err.response)
+    onError: (err) async => await onError?.call(err.response)
   );
 
   static Future<Response?> get({
@@ -119,11 +119,11 @@ class ApiCommunity{
     ),
     onSuccess: (Response response, DateTime now) async {
       Community community = Community.fromRespMap(response.data);
-      onSuccess?.call(community);
+      await onSuccess?.call(community);
     },
     onForceLoggedOut: onForceLoggedOut,
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (error) async => onError?.call(error.response?.statusCode),
+    onError: (error) async => await onError?.call(error.response?.statusCode),
   );
 
   static Future<Response?> create({
@@ -155,11 +155,11 @@ class ApiCommunity{
       ),
       onSuccess: (Response response, DateTime now) async{
         Community community = Community.fromRespMap(response.data);
-        onSuccess?.call(community);
+        await onSuccess?.call(community);
       },
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (_) async => onError?.call()
+      onError: (_) async => await onError?.call()
     );
 
   }
@@ -219,10 +219,10 @@ class ApiCommunity{
       requestSender: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/community/$communityKey'
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (DioError err) async => onError?.call()
+      onError: (DioError err) async => await onError?.call()
   );
 
   static Future<Response?> getManagers({
@@ -352,11 +352,11 @@ class ApiCommunity{
           '${API.SERVER_URL}api/community/$communityKey/manager',
           data: jsonEncode(userKeys)
       ),
-      onSuccess: (Response response, DateTime now) =>
-          onSuccess?.call((response.data as List).cast<String>()),
+      onSuccess: (Response response, DateTime now) async =>
+          await onSuccess?.call((response.data as List).cast<String>()),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
   static Future<Response?> leave({
@@ -370,10 +370,10 @@ class ApiCommunity{
       requestSender: (Dio dio) => dio.delete(
         '${API.SERVER_URL}api/community/$communityKey/leave',
       ),
-      onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+      onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
       onForceLoggedOut: onForceLoggedOut,
       onServerMaybeWakingUp: onServerMaybeWakingUp,
-      onError: (err) async => onError?.call()
+      onError: (err) async => await onError?.call()
   );
 
   static Future<Response?> getFeed({
@@ -393,7 +393,7 @@ class ApiCommunity{
             if(pageSize != null) 'pageSize': pageSize,
           }
       ),
-      onSuccess: (Response response, DateTime now) {
+      onSuccess: (Response response, DateTime now) async {
 
         List<CommunityPublishable> feed = [];
         for(Map map in response.data) {
@@ -403,7 +403,7 @@ class ApiCommunity{
             feed.add(Post.fromRespMap(map, Community.allForumMap![map['forumKey']]!, key: map['_key']));
         }
 
-        onSuccess?.call(feed);
+        await onSuccess?.call(feed);
 
       },
       onForceLoggedOut: onForceLoggedOut,

@@ -376,7 +376,7 @@ class ApiRegLog{
   }) async => API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) async => await dio.get('${API.SERVER_URL}api/user/logout'),
-    onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+    onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
     onForceLoggedOut: () async {
       await onSuccess?.call();
       return true;
@@ -467,7 +467,7 @@ class ApiRegLog{
 
         await AccountData.saveLoginData(email, response);
 
-        onSuccess?.call(
+        await onSuccess?.call(
           response,
           key,
           jwt,
@@ -541,7 +541,7 @@ class ApiRegLog{
 
         await AccountData.saveLoginData(email, response);
 
-        onSuccess?.call(
+        await onSuccess?.call(
           response,
           key,
           jwt,
@@ -706,9 +706,9 @@ class ApiRegLog{
   }) async => await API.sendRequest(
     withToken: true,
     requestSender: (Dio dio) async => dio.get('${API.SERVER_URL}api/user/resendEmailConfKey'),
-    onSuccess: (Response response, DateTime now) async => onSuccess?.call(),
+    onSuccess: (Response response, DateTime now) async => await onSuccess?.call(),
     onServerMaybeWakingUp: onServerMaybeWakingUp,
-    onError: (_) async => onError?.call(),
+    onError: (_) async => await onError?.call(),
   );
 
   static String CONF_EMAIL_CONF_KEY = 'confKey';
@@ -762,9 +762,9 @@ class ApiRegLog{
         withToken: true,
         //token: token,
         requestSender: (Dio dio) async => await dio.get('${API.SERVER_URL}api/user/confEmail'),
-        onSuccess: (Response response, DateTime now) async => onSuccess?.call(response.data??(throw InvalidResponseError(''))),
+        onSuccess: (Response response, DateTime now) => onSuccess?.call(response.data??(throw InvalidResponseError(''))),
         onServerMaybeWakingUp: onServerMaybeWakingUp,
-        onError: (err) async => onError?.call(err.response),
+        onError: (err) => onError?.call(err.response),
       );
 
 }

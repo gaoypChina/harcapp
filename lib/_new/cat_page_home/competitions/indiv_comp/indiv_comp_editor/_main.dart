@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_classes/app_tab_bar_indicator.dart';
@@ -35,9 +37,8 @@ class IndivCompEditorPage extends StatefulWidget{
   final List<IndivCompTask>? initTasks;
   final List<String?>? initAwards;
 
-
-  final void Function(IndivComp comp)? onSuccess;
-  final void Function()? onRemoved;
+  final FutureOr<void> Function(IndivComp comp)? onSuccess;
+  final FutureOr<void> Function()? onRemoved;
 
   const IndivCompEditorPage({
     this.initComp,
@@ -116,17 +117,17 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                         AwardsProvider awardsProv = AwardsProvider.of(context);
 
                         if(!await isNetworkAvailable()){
-                          showAppToast(context, text: 'Brak dostępu do Internetu');
+                          if(mounted) showAppToast(context, text: 'Brak dostępu do Internetu');
                           return;
                         }
 
                         if(controller!.text.isEmpty){
-                          showAppToast(context, text: 'Podaj nazwę współzawodnictwa');
+                          if(mounted) showAppToast(context, text: 'Podaj nazwę współzawodnictwa');
                           focusNode!.requestFocus();
                           return;
                         }
 
-                        showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
+                        if(mounted) showLoadingWidget(context, iconEnab_(context), 'Ostatnia prosta...');
 
                         if(IndivCompModeEditorWidget.verifyHandleDateOrder(context))
 
@@ -171,7 +172,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
 
                                 onSuccess: (indivComp) async {
                                   if(mounted) await popPage(context);
-                                  widget.onSuccess?.call(indivComp);
+                                  await widget.onSuccess?.call(indivComp);
                                 },
                                 onServerMaybeWakingUp: () {
                                   if(mounted) showServerWakingUpToast(context);
@@ -193,7 +194,7 @@ class IndivCompEditorPageState extends State<IndivCompEditorPage>{
                                 awards: awardsProv.awards,
                                 onSuccess: (indivComp) async {
                                   if(mounted) await popPage(context);
-                                  widget.onSuccess?.call(indivComp);
+                                  await widget.onSuccess?.call(indivComp);
                                 },
                                 onForceLoggedOut: (){
                                   if(mounted) showAppToast(context, text: forceLoggedOutMessage);

@@ -66,6 +66,11 @@ class ChildMisja extends StatelessWidget{
                   Row(children: [
                     const Icon(MdiIcons.circleSmall),
                     const SizedBox(width: Dimen.ICON_MARG),
+                    Text('Dobrowolność', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))
+                  ]),
+                  Row(children: [
+                    const Icon(MdiIcons.circleSmall),
+                    const SizedBox(width: Dimen.ICON_MARG),
                     Text('Pozytywność', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))
                   ]),
                   Row(children: [
@@ -91,7 +96,7 @@ class ChildMisja extends StatelessWidget{
                   Row(children: [
                     const Icon(MdiIcons.circleSmall),
                     const SizedBox(width: Dimen.ICON_MARG),
-                    Text('Naturalnością', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))
+                    Text('Naturalność', style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG))
                   ]),
                 ],
               ),
@@ -218,7 +223,7 @@ class BottomMetodaCechy extends BottomSheetDef{
           const TextSpan(text: 'Uświadomienie sobie potrzeby własnego rozwoju lub też wykonania jakiegoś zadania, ułatwia realizację zamierzenia. W naszej organizacji jesteśmy świadomi naszych potrzeb i naszych możliwości. Wiemy też, po co w harcerstwie jesteśmy, że staramy się o swój wszechstronny rozwój. Wszystko, co dzieje się w ZHP, ma swój cel.\n\n',),
           TextSpan(text: 'Indywidualność\n\n', style: AppTextStyle(fontWeight: weight.halfBold)),
           const TextSpan(text: 'W harcerstwie najważniejszy jest człowiek i jego wszechstronny rozwój. Stwarzamy takie warunki, aby każdy indywidualnie niezależnie od wieku, płci, doświadczenia, zainteresowań mógł znaleźć swoje miejsce w ZHP. Dbamy o wszechstronny rozwój jednostki.\n\n'),
-          TextSpan(text: 'Naturalnością\n\n', style: AppTextStyle(fontWeight: weight.halfBold)),
+          TextSpan(text: 'Naturalność\n\n', style: AppTextStyle(fontWeight: weight.halfBold)),
           const TextSpan(text: 'W harcerstwie wszystko jest zwyczajne i dostosowane do warunków, w których żyjemy. Wszystko ma \"swój czas\", dlatego zuchy bawią się, harcerze uczestniczą w grze, harcerze starsi poszukują a wędrownicy podejmują służbę. Robimy tak po to, by każdy miał możliwość rozwoju zgodnie ze swoimi możliwościami i potrzebami. Przestrzeganie norm zawartych w Prawie i Przyrzeczeniu ma źródła w harcerskiej naturze.'),
         ],
       ),
