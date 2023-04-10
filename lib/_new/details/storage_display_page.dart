@@ -84,8 +84,8 @@ class StorageDisplayPageState extends State<StorageDisplayPage>{
 
           _Item(
               icon: MdiIcons.fileMusicOutline,
-              title: 'plik: <b>${basename(getOwnSongFileLocalPath)}</b>',
-              onOpen: () => openDialog(context: context, builder: (context) => JSONFileDisplayer(getOwnSongFilePath))
+              title: 'plik: <b>${basename(getOldOwnSongFileLocalPath)}</b>',
+              onOpen: () => openDialog(context: context, builder: (context) => JSONFileDisplayer(getOldOwnSongFilePath))
           ),
 
           const Padding(

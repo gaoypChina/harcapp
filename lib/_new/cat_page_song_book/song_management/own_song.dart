@@ -99,7 +99,7 @@ class OwnSong extends Song<OwnSongGetResp>{
   @override
   String get code{
     if(isSaved){
-      Map ownSongsMap = jsonDecode(readFileAsStringOrNull(getOwnSongFilePath)??'{}');
+      Map ownSongsMap = jsonDecode(readFileAsStringOrNull(getOldOwnSongFilePath)??'{}');
       Map? map = ownSongsMap[lclId];
       if(map == null) throw Exception();
       return jsonEncode(map);
@@ -129,10 +129,10 @@ class OwnSong extends Song<OwnSongGetResp>{
   Future<void> save({bool localOnly=false, bool synced=false}) async {
     String? allOwnSngsJsonStr;
     try{
-      allOwnSngsJsonStr = readFileAsString(getOwnSongFilePath);
+      allOwnSngsJsonStr = readFileAsString(getOldOwnSongFilePath);
     } on Error{}
 
-    Map? allOwnSongsMap;
+    Map allOwnSongsMap;
     if(allOwnSngsJsonStr != null)
       allOwnSongsMap = jsonDecode(allOwnSngsJsonStr);
     else
@@ -140,9 +140,9 @@ class OwnSong extends Song<OwnSongGetResp>{
 
     Map jsonMap = jsonDecode(code);
 
-    allOwnSongsMap![lclId] = jsonMap;
+    allOwnSongsMap[lclId] = jsonMap;
     allOwnSngsJsonStr = jsonEncode(allOwnSongsMap);
-    saveStringAsFile(getOwnSongFilePath, allOwnSngsJsonStr);
+    saveStringAsFile(getOldOwnSongFilePath, allOwnSngsJsonStr);
 
     _code = '';
     isSaved = true;

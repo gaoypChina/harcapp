@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:harcapp/_common_classes/app_navigator.dart';
 import 'package:harcapp/_common_widgets/bottom_nav_scaffold.dart';
 import 'package:harcapp/account/account.dart';
 import 'package:harcapp_core/comm_classes/app_text_style.dart';
@@ -81,7 +82,7 @@ class OwnSongPageState extends State<OwnSongPage> {
 
   List<OwnAlbum>? albums;
 
-  CurrentItemProvider? currItemProv;
+  late CurrentItemProvider currItemProv;
 
   GlobalKey? addButtonsKey;
 
@@ -161,23 +162,23 @@ class OwnSongPageState extends State<OwnSongPage> {
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   onPartTap: (index) => openDialog(context: context, builder: (_) => SongPartEditor(
-                    initText: currItemProv!.song.songParts[index].getText(),
-                    initChords: currItemProv!.song.songParts[index].chords,
-                    initShifted: currItemProv!.song.songParts[index].shift,
-                    isRefren: currItemProv!.song.songParts[index].isRefren(context),
+                    initText: currItemProv.song.songParts[index].getText(),
+                    initChords: currItemProv.song.songParts[index].chords,
+                    initShifted: currItemProv.song.songParts[index].shift,
+                    isRefren: currItemProv.song.songParts[index].isRefren(context),
                     onTextChanged: (text, errCount){
-                      currItemProv!.song.songParts[index].setText(text);
-                      currItemProv!.song.songParts[index].isError = errCount != 0;
-                      currItemProv!.notify();
+                      currItemProv.song.songParts[index].setText(text);
+                      currItemProv.song.songParts[index].isError = errCount != 0;
+                      currItemProv.notify();
                     },
                     onChordsChanged: (text, errCount){
-                      currItemProv!.song.songParts[index].chords = text;
-                      currItemProv!.song.songParts[index].isError = errCount != 0;
-                      currItemProv!.notify();
+                      currItemProv.song.songParts[index].chords = text;
+                      currItemProv.song.songParts[index].isError = errCount != 0;
+                      currItemProv.notify();
                     },
                     onShiftedChanged: (shifted){
-                      currItemProv!.song.songParts[index].shift = shifted;
-                      currItemProv!.notify();
+                      currItemProv.song.songParts[index].shift = shifted;
+                      currItemProv.notify();
                     },
                   )),
                   header: Column(
@@ -192,12 +193,12 @@ class OwnSongPageState extends State<OwnSongPage> {
                       ),
                       TopCards(
                         accentColor: BaseAlbum.current.avgColorDarkSensitive(context),
-                        onChangedTitle: (text) => currItemProv!.setTitle(text, notify: false),
-                        onChangedHiddenTitles: (texts) => currItemProv!.setHidTitles(texts, notify: false),
-                        onChangedAuthor: (texts) => currItemProv!.setAuthors(texts, notify: false),
-                        onChangedPerformer: (texts) => currItemProv!.setPerformers(texts, notify: false),
-                        onChangedComposer: (texts) => currItemProv!.setComposers(texts, notify: false),
-                        onChangedYT: (text) => currItemProv!.setYoutubeLink(text, notify: false),
+                        onChangedTitle: (text) => currItemProv.setTitle(text, notify: false),
+                        onChangedHiddenTitles: (texts) => currItemProv.setHidTitles(texts, notify: false),
+                        onChangedAuthor: (texts) => currItemProv.setAuthors(texts, notify: false),
+                        onChangedPerformer: (texts) => currItemProv.setPerformers(texts, notify: false),
+                        onChangedComposer: (texts) => currItemProv.setComposers(texts, notify: false),
+                        onChangedYT: (text) => currItemProv.setYoutubeLink(text, notify: false),
                       ),
 
                       const SizedBox(height: sep),
@@ -207,7 +208,7 @@ class OwnSongPageState extends State<OwnSongPage> {
                       const SizedBox(height: sep),
 
                       TagsWidget(
-                        onChanged: (List<String> tags) => currItemProv!.setTags(tags, notify: false),
+                        onChanged: (List<String> tags) => currItemProv.setTags(tags, notify: false),
                       ),
 
                       const SizedBox(height: sep),
@@ -222,25 +223,25 @@ class OwnSongPageState extends State<OwnSongPage> {
                           accentColor: BaseAlbum.current.avgColorDarkSensitive(context),
                           onPartTap: () => openDialog(context: context, builder: (_) =>
                               SongPartEditor(
-                                initText: currItemProv!.song.refrenPart.getText(),
-                                initChords: currItemProv!.song.refrenPart.chords,
-                                initShifted: currItemProv!.song.refrenPart.shift,
-                                isRefren: currItemProv!.song.refrenPart.isRefren(context),
+                                initText: currItemProv.song.refrenPart.getText(),
+                                initChords: currItemProv.song.refrenPart.chords,
+                                initShifted: currItemProv.song.refrenPart.shift,
+                                isRefren: currItemProv.song.refrenPart.isRefren(context),
                                 onTextChanged: (text, errCount){
-                                  currItemProv!.song.refrenPart.setText(text);
-                                  currItemProv!.song.refrenPart.isError = errCount != 0;
-                                  currItemProv!.notify();
+                                  currItemProv.song.refrenPart.setText(text);
+                                  currItemProv.song.refrenPart.isError = errCount != 0;
+                                  currItemProv.notify();
                                   Provider.of<RefrenPartProvider>(context, listen: false).notify();
                                 },
                                 onChordsChanged: (text, errCount){
-                                  currItemProv!.song.refrenPart.chords = text;
-                                  currItemProv!.song.refrenPart.isError = errCount != 0;
-                                  currItemProv!.notify();
+                                  currItemProv.song.refrenPart.chords = text;
+                                  currItemProv.song.refrenPart.isError = errCount != 0;
+                                  currItemProv.notify();
                                   Provider.of<RefrenPartProvider>(context, listen: false).notify();
                                 },
                                 onShiftedChanged: (shifted){
-                                  currItemProv!.song.refrenPart.shift = shifted;
-                                  currItemProv!.notify();
+                                  currItemProv.song.refrenPart.shift = shifted;
+                                  currItemProv.notify();
                                   Provider.of<RefrenPartProvider>(context, listen: false).notify();
                                 },
                               ),
@@ -289,12 +290,11 @@ class OwnSongPageState extends State<OwnSongPage> {
           icon: const Icon(MdiIcons.eyeOutline),
           onPressed: () async {
 
-            SongRaw songRaw = currItemProv!.song;
+            SongRaw songRaw = currItemProv.song;
             Song song = await OffSong.fromRespMap('', jsonDecode(songRaw.toCode(withLclId: false)));
 
             if(!mounted) return;
-            await Navigator.push(context, MaterialPageRoute(
-              builder: (context) => AppScaffold(
+            await pushPage(context, builder: (context) => AppScaffold(
                 body: NestedScrollView(
                   physics: const BouncingScrollPhysics(),
                   floatHeaderSlivers: true,
@@ -314,7 +314,7 @@ class OwnSongPageState extends State<OwnSongPage> {
                   ),
                 ),
               )
-            ));
+            );
 
           }
       ),

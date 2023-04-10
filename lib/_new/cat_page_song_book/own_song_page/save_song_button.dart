@@ -5,13 +5,11 @@ import 'package:harcapp_core/comm_widgets/app_toast.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/own_song.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/song.dart';
-import 'package:harcapp/sync/synchronizer_engine.dart';
 import 'package:harcapp_core_own_song/providers.dart';
 import 'package:harcapp_core_own_song/song_raw.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../../sync/syncable.dart';
 import '_main.dart';
 
 class SaveSongButton extends StatefulWidget{
@@ -83,6 +81,7 @@ class SaveSongButtonState extends State<SaveSongButton>{
             if(mounted) showAppToast(context, text: 'Błąd kodowania nazwy piosenki!');
             return;
           }
+          song.save();
 
           if(widget.editType == EditType.editOwn){
             OwnSong remSong = OwnSong.allOwnMap[song.lclId]!;
@@ -92,9 +91,6 @@ class SaveSongButtonState extends State<SaveSongButton>{
           OwnSong.addToAll(song);
           for (OwnAlbum album in albums!)
             album.addSong(song);
-
-          song.setAllSyncState(SyncableParamSingleMixin.stateNotSynced);
-          synchronizer.post();
 
           if(mounted) Navigator.pop(context);
 

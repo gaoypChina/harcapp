@@ -139,7 +139,7 @@ class SongLoader extends SingleComputer<String, SingleComputerListener<String>>{
 
     String? ownSongsCode;
     try {
-      ownSongsCode = readFileAsString(getOwnSongFilePath);
+      ownSongsCode = readFileAsString(getOldOwnSongFilePath);
     } on FileNotFoundError{}
     catch (e) {
       logger.e(e);

@@ -525,9 +525,9 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
 
   bool deleteSongFile({bool localOnly = false}) {
     if(isOwn) {
-      Map ownSongs = jsonDecode(readFileAsString(getOwnSongFilePath));
+      Map ownSongs = jsonDecode(readFileAsString(getOldOwnSongFilePath));
       ownSongs.remove(lclId);
-      saveStringAsFile(getOwnSongFilePath, jsonEncode(ownSongs));
+      saveStringAsFile(getOldOwnSongFilePath, jsonEncode(ownSongs));
 
       for(Memory memory in memories)
         memory.delete();

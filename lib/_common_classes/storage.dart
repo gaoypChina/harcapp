@@ -32,8 +32,8 @@ String get getOkrzykiFolderPath => _localPath + getOkrzykiFolderLocalPath;
 String get getSongFolderLocalPath => '/songs/';
 String get getSongFolderPath => _localPath + getSongFolderLocalPath;
 
-String get getOwnSongFileLocalPath => '/own_songs/own_sngs.hrcpsng';
-String get getOwnSongFilePath => _localPath + getOwnSongFileLocalPath;
+String get getOldOwnSongFileLocalPath => '/own_songs/own_sngs.hrcpsng';
+String get getOldOwnSongFilePath => _localPath + getOldOwnSongFileLocalPath;
 
 // String get getOwnLastFileNameFileLocalPath => '/own_songs/own_sng_last_file_name';
 // String get getOwnLastFileNameFilePath => _localPath + getOwnLastFileNameFileLocalPath;
