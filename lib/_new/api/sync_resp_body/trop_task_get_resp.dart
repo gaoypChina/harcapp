@@ -17,8 +17,8 @@ class TropTaskGetResp extends SyncGetResp{
   static const String paramAssigneeKey = 'assigneeKey';
   final String? assigneeKey;
 
-  static const String paramAssigneeText = 'assigneeText';
-  final String? assigneeText;
+  static const String paramAssigneeCustomText = 'assigneeCustomText';
+  final String? assigneeCustomText;
 
   static const String paramCompleted = 'completed';
   final bool completed;
@@ -28,7 +28,7 @@ class TropTaskGetResp extends SyncGetResp{
       summary: respMapData[paramSummary],
       deadline: DateTime.tryParse(respMapData[paramDeadline])??(throw InvalidResponseError(paramDeadline)),
       assigneeKey: respMapData[paramAssigneeKey],
-      assigneeText: respMapData[paramAssigneeText],
+      assigneeCustomText: respMapData[paramAssigneeCustomText],
       completed: respMapData[paramCompleted]??false,
   );
 
@@ -37,7 +37,7 @@ class TropTaskGetResp extends SyncGetResp{
     this.summary,
     required this.deadline,
     this.assigneeKey,
-    this.assigneeText,
+    this.assigneeCustomText,
     required this.completed,
   });
 

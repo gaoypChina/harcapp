@@ -207,10 +207,10 @@ class TropTaskWidgetState extends State<TropTaskWidget>{
                         textSize: Dimen.TEXT_SIZE_BIG,
                         onTap: null
                       )
-                    else if(task.assigneeText != null && task.assigneeText!.isNotEmpty)
+                    else if(task.assigneeCustomText != null && task.assigneeCustomText!.isNotEmpty)
                       SimpleButton.from(
                         context: context,
-                        text: task.assigneeText,
+                        text: task.assigneeCustomText,
                         icon: MdiIcons.accountCircleOutline,
                         margin: EdgeInsets.zero,
                         padding: const EdgeInsets.all(Dimen.defMarg),

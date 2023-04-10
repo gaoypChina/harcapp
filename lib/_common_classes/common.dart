@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/app_bottom_navigator.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
 import 'package:harcapp/_new/cat_page_harcthought/articles/providers.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/providers.dart';
 import 'package:harcapp/_new/cat_page_song_book/providers.dart';
@@ -255,6 +256,8 @@ Future<void> factoryResetLocalSilent() async {
   ShaPref.clear();
   for(FileSystemEntity file in (await getApplicationDocumentsDirectory()).listSync())
   file.deleteSync(recursive: true);
+
+  await synchronizer.reloadSyncables(force: true);
 }
 
 Future<void> factoryResetLocal(BuildContext context) async {
@@ -266,6 +269,10 @@ Future<void> factoryResetLocal(BuildContext context) async {
   SprawCompletedListProv sprawCompletedListProv = SprawCompletedListProv.of(context);
 
   RankProv rankProv = RankProv.of(context);
+
+  TropProvider tropProv = TropProvider.of(context);
+  TropListProvider tropListProv = TropListProvider.of(context);
+  TropTaskProvider tropTaskProv = TropTaskProvider.of(context);
 
   BookmarkedArticlesProvider bookmarkedArticlesProvider = BookmarkedArticlesProvider.of(context);
   LikedArticlesProvider likedArticlesProvider = LikedArticlesProvider.of(context);
@@ -281,6 +288,10 @@ Future<void> factoryResetLocal(BuildContext context) async {
   sprawCompletedListProv.notify();
 
   rankProv.notify();
+
+  tropProv.notify();
+  tropListProv.notify();
+  tropTaskProv.notify();
 
   bookmarkedArticlesProvider.clear();
   likedArticlesProvider.clear();

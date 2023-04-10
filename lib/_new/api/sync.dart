@@ -9,10 +9,13 @@ import 'package:harcapp/_new/api/sync_resp_body/own_song_get_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_def_get_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/rank_zhp_sim_2022_get_resp.dart';
 import 'package:harcapp/_new/api/sync_resp_body/spraw_get_resp.dart';
+import 'package:harcapp/_new/api/sync_resp_body/trop_get_resp.dart';
+import 'package:harcapp/_new/api/sync_resp_body/trop_task_get_resp.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/_sprawnosci/models/spraw.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models/rank_def.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models/rank_zhp_sim_2022.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models_common/rank.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
 import 'package:harcapp/_new/cat_page_song_book/settings/song_book_settings_resp.dart';
 import 'package:harcapp/logger.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/album.dart';
@@ -47,6 +50,7 @@ class ApiSync{
             Map<String, dynamic>? spraws,
             Map<String, dynamic>? rankDefs,
             Map<String, dynamic>? rankZhpSim2022,
+            Map<String, dynamic>? trops,
             DateTime? syncedTime)? onSuccess,
         FutureOr<void> Function(Response? response)? onError,
       }) async {
@@ -100,7 +104,8 @@ class ApiSync{
         Map<String, dynamic>? spraws = response.data[Spraw.syncClassId];
         Map<String, dynamic>? rankDefs = response.data[RankDef.syncClassId];
         Map<String, dynamic>? rankZhpSim2022 = response.data[RankZHPSim2022.syncClassId];
-
+        Map<String, dynamic>? trops = response.data[Trop.syncClassId];
+        
         DateTime? syncedTime = DateTime.tryParse(response.data['time']);
 
         logger.i('Sync post response:\n${prettyJson(response.data)}');
@@ -117,7 +122,8 @@ class ApiSync{
           spraws,
           rankDefs,
           rankZhpSim2022,
-          syncedTime
+          trops,
+          syncedTime,
         );
       },
       onError: (err) async => await onError?.call(err.response)
@@ -130,7 +136,21 @@ class ApiSync{
     FutureOr<void> Function(Response? response)? onError,
   }) async => await post(
       dumpReplaceExisting: dumpReplaceExisting,
-      onSuccess: (Response response, dynamic orgHandler, Map? appSettings, Map? songBookSettings, Map? offSongs, Map? ownSongs, Map? ownAlbums, Map? toLearnAlbum, Map? spraws, Map? rankDefs, Map? rankZhpSim2022, DateTime? syncedTime) async {
+      onSuccess: (
+          Response response, 
+          dynamic orgHandler, 
+          Map? appSettings,
+          Map? songBookSettings,
+          Map? offSongs,
+          Map? ownSongs, 
+          Map? ownAlbums,
+          Map? toLearnAlbum, 
+          Map? spraws, 
+          Map? rankDefs,
+          Map? rankZhpSim2022, 
+          Map? trops,
+          DateTime? syncedTime
+      ) async {
 
         DateTime? syncedTime = DateTime.tryParse(response.data['time']);
 
@@ -144,9 +164,8 @@ class ApiSync{
           SongBookSettings().saveSyncResult(songBookSettings, syncedTime);
 
         if(offSongs != null)
-          for(String lclId in offSongs.keys as Iterable<String>){
+          for(String lclId in offSongs.keys as Iterable<String>)
             OffSong.allOfficialMap[lclId]!.saveSyncResult(offSongs[lclId], syncedTime);
-          }
 
         if(ownSongs != null)
           for(String lclId in ownSongs.keys as Iterable<String>){
@@ -164,19 +183,20 @@ class ApiSync{
           ToLearnAlbum.loaded.saveSyncResult(toLearnAlbum, syncedTime);
 
         if(spraws != null)
-          for(String uniqName in spraws.keys as Iterable<String>){
+          for(String uniqName in spraws.keys as Iterable<String>)
             Spraw.allMap[uniqName]!.saveSyncResult(spraws[uniqName], syncedTime);
-          }
 
         if(rankDefs != null)
-          for(String uniqName in rankDefs.keys as Iterable<String>){
+          for(String uniqName in rankDefs.keys)
             Rank.allMap[uniqName]!.saveSyncResult(rankDefs[uniqName], syncedTime);
-          }
 
         if(rankZhpSim2022 != null)
-          for(String uniqName in rankZhpSim2022.keys as Iterable<String>){
+          for(String uniqName in rankZhpSim2022.keys)
             Rank.allMap[uniqName]!.saveSyncResult(rankZhpSim2022[uniqName], syncedTime);
-          }
+        
+        if(trops != null)
+          for(String uniqName in trops.keys)
+            Trop.allMapByUniqName[uniqName]!.saveSyncResult(trops[uniqName], syncedTime);
         
         SynchronizerEngine.lastSyncTimeLocal = syncedTime;
 
@@ -186,7 +206,21 @@ class ApiSync{
   );
   
   static Future<Response?> get({
-    FutureOr<void> Function(Response response, OrgEntityResp? orgResp, AppSettingsResp? appSettingsResp, SongBookSettingsResp? songBookSettingsResp, Map<String, OffSongGetResp> offSongs, Map<String, OwnSongGetResp> ownSongs, Map<String, OwnAlbumGetResp> albums, ToLearnAlbumGetResp? toLearnAlbum, Map<String, SprawGetResp> spraws, Map<String, RankDefGetResp> rankDefs,  Map<String, RankZhpSim2022GetResp> rankZhpSim2022, DateTime? syncedTime)? onSuccess,
+    FutureOr<void> Function(
+        Response response,
+        OrgEntityResp? orgResp,
+        AppSettingsResp? appSettingsResp,
+        SongBookSettingsResp? songBookSettingsResp,
+        Map<String, OffSongGetResp> offSongs,
+        Map<String, OwnSongGetResp> ownSongs,
+        Map<String, OwnAlbumGetResp> albums,
+        ToLearnAlbumGetResp? toLearnAlbum,
+        Map<String, SprawGetResp> spraws,
+        Map<String, RankDefGetResp> rankDefs,
+        Map<String, RankZhpSim2022GetResp> rankZhpSim2022,
+        Map<String, TropGetResp> trops,
+        DateTime? syncedTime
+    )? onSuccess,
     FutureOr<void> Function(Response?)? onError,
   }) async {
     
@@ -220,7 +254,7 @@ class ApiSync{
               try {
                 offSongResps[lclId] = OffSongGetResp.from(response);
               } catch (e){
-                logger.e('Off song from response creation error: ${e.toString()}');
+                logger.e('OffSong from response creation error: ${e.toString()}');
               }
             }
 
@@ -232,7 +266,7 @@ class ApiSync{
               try {
                 ownSongResps[lclId] = OwnSongGetResp.from(response);
               } catch (e){
-                logger.e('Own song from response creation error: ${e.toString()}');
+                logger.e('OwnSong from response creation error: ${e.toString()}');
               }
             }
 
@@ -294,6 +328,18 @@ class ApiSync{
               }
             }
 
+          Map<String, dynamic>? trops = response.data[TropGetResp.collName];
+          Map<String, TropGetResp> tropResps = {};
+          if(trops != null)
+            for(String uniqName in trops.keys){
+              Map<String, dynamic> response = trops[uniqName];
+              try {
+                tropResps[uniqName] = TropGetResp.fromRespMap(response);
+              } catch (e){
+                logger.e('Trop from response creation error: ${e.toString()}');
+              }
+            }
+
           DateTime? syncedTime;
           if(response.data['time'] != null) {
             syncedTime = DateTime.tryParse(response.data['time']);
@@ -321,6 +367,8 @@ class ApiSync{
               '\n${prettyJson(rankDefs)}'
               '\n\nRankZhpSim2022:'
               '\n${prettyJson(rankZhpSim2022)}'
+              '\n\nTrop:'
+              '\n${prettyJson(trops)}'
 
           );
 
@@ -336,6 +384,7 @@ class ApiSync{
               sprawResps,
               rankDefResps,
               rankZhpSim2022Resps,
+              tropResps,
               syncedTime
           );
         },
@@ -347,7 +396,21 @@ class ApiSync{
     FutureOr<void> Function()? onSuccess,
     FutureOr<void> Function()? onError,
   }) async => await get(
-      onSuccess: (Response response, OrgEntityResp? orgResp, AppSettingsResp? appSettingsResp, SongBookSettingsResp? songBookSettingsResp, Map<String, OffSongGetResp> offSongs, Map<String, OwnSongGetResp> ownSongs, Map<String, OwnAlbumGetResp> albums, ToLearnAlbumGetResp? toLearnAlbum, Map<String, SprawGetResp> spraws, Map<String, RankDefGetResp> rankDefs, Map<String, RankZhpSim2022GetResp> rankZhpSim2022, DateTime? syncedTime) async {
+      onSuccess: (
+          Response response,
+          OrgEntityResp? orgResp,
+          AppSettingsResp? appSettingsResp,
+          SongBookSettingsResp? songBookSettingsResp,
+          Map<String, OffSongGetResp> offSongs,
+          Map<String, OwnSongGetResp> ownSongs,
+          Map<String, OwnAlbumGetResp> albums,
+          ToLearnAlbumGetResp? toLearnAlbum,
+          Map<String, SprawGetResp> spraws,
+          Map<String, RankDefGetResp> rankDefs,
+          Map<String, RankZhpSim2022GetResp> rankZhpSim2022,
+          Map<String, TropGetResp> trops,
+          DateTime? syncedTime
+      ) async {
 
         if(orgResp != null)
           OrgHandler().applySyncGetResp(orgResp);
@@ -427,6 +490,41 @@ class ApiSync{
           Rank rank = Rank.allMap[uniqRankName]!;
           RankZhpSim2022GetResp? rankResp = rankZhpSim2022[uniqRankName]!;
           rank.applySyncGetResp(rankResp);
+        }
+
+        for(String tropUniqName in trops.keys){
+          Trop? trop = Trop.allMapByUniqName[tropUniqName];
+          TropGetResp? tropResp = trops[tropUniqName]!;
+          if(trop == null){
+            List<TropTaskData> tasks = [];
+            for(String taskLclId in tropResp.tasks.keys){
+              TropTaskGetResp taskBody = tropResp.tasks[taskLclId]!;
+              TropTaskData(
+                content: taskBody.content,
+                summary: taskBody.summary,
+                deadline: taskBody.deadline,
+                assignee: tropResp.users[taskBody.assigneeKey],
+                assigneeCustomText: taskBody.assigneeCustomText,
+                completed: taskBody.completed
+              );
+            }
+
+            trop = Trop.create(
+                uniqName: tropUniqName,
+                name: tropResp.name,
+                category: tropResp.category,
+                aims: tropResp.aims,
+                startTime: tropResp.startDate,
+                endTime: tropResp.endDate,
+                completed: tropResp.completed,
+                completionTime: tropResp.completionDate,
+                tasks: tasks
+            );
+            trop.save(localOnly: true, synced: true);
+            Trop.addToAll(trop);
+          }else{
+            trop.applySyncGetResp(tropResp);
+          }
         }
 
         await onSuccess?.call();

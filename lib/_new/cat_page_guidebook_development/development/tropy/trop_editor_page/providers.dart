@@ -113,9 +113,9 @@ class TropTaskEditableData{
 
   bool completed;
 
-  TropTaskEditableData(String content, this.deadline, this.assignee, this.assigneeNick, String? assigneeText, this.completed){
+  TropTaskEditableData(String content, this.deadline, this.assignee, this.assigneeNick, String? assigneeCustomText, this.completed){
     contentController = TextEditingController(text: content);
-    assigneeController = TextEditingController(text: assigneeText??'');
+    assigneeController = TextEditingController(text: assigneeCustomText??'');
   }
 
   bool get isEmpty => contentController.text.isEmpty;
@@ -124,7 +124,7 @@ class TropTaskEditableData{
     content: contentController.text,
     deadline: deadline,
     assignee: assigneeNick??assignee,
-    assigneeText: assigneeController.text,
+    assigneeCustomText: assigneeController.text,
     completed: completed,
   );
 
@@ -160,7 +160,7 @@ class TasksProvider extends ChangeNotifier{
 
           t.assignee,
           null,
-          t.assigneeText,
+          t.assigneeCustomText,
           t.completed
         ));
 
@@ -181,9 +181,10 @@ class TasksProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void update(int index, {DateTime? deadline, UserDataNick? assigneeNick, String? assigneeText}){
+  void update(int index, {DateTime? deadline, UserDataNick? assigneeNick, String? assigneeCustomText}){
     if(deadline != null) tasks[index].deadline = deadline;
     tasks[index].assigneeNick = assigneeNick;
+    tasks[index].assigneeController.text = assigneeCustomText??'';
     notifyListeners();
   }
 

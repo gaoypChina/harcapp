@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:harcapp/_common_classes/sha_pref.dart';
 import 'package:harcapp/_new/api/sync.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_loader.dart';
 import 'package:harcapp/_new/cat_page_song_book/song_management/off_song.dart';
 import 'package:harcapp/account/account.dart';
@@ -202,6 +203,11 @@ class SynchronizerEngine{
     bool result = false;
     if(force || !OffSong.initialized) {
       await songLoader.run(awaitFinish: true);
+      result = true;
+    }
+
+    if(force || !Trop.initialized) {
+      await Trop.init();
       result = true;
     }
 

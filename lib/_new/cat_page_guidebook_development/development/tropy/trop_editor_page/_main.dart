@@ -606,7 +606,7 @@ class AssigneeButton extends StatelessWidget{
                   TasksProvider tasksProvider = TasksProvider.of(context);
                   Navigator.pop(context);
 
-                  String? newText = await openAssigneeTextField(
+                  String? newText = await openAssigneeCustomTextField(
                     context,
                     initText: task.assigneeController.text,
                   );
@@ -637,7 +637,7 @@ class AssigneeButton extends StatelessWidget{
 
 }
 
-Future<String?> openAssigneeTextField(
+Future<String?> openAssigneeCustomTextField(
     BuildContext context,
     { String? initText,
       void Function(String)? onChanged

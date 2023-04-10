@@ -20,17 +20,17 @@ class TropGetResp extends SyncGetResp{
   static const String paramAims = 'aims';
   final List<String> aims;
 
-  static const String paramStartTime = 'startTime';
-  final DateTime startTime;
+  static const String paramStartDate = 'startDate';
+  final DateTime startDate;
 
-  static const String paramEndTime = 'endTime';
-  final DateTime endTime;
+  static const String paramEndDate = 'endDate';
+  final DateTime endDate;
 
   static const String paramCompleted = 'completed';
   final bool completed;
 
-  static const String paramCompletionTime = 'completionTime';
-  final DateTime? completionTime;
+  static const String paramCompletionDate = 'completionDate';
+  final DateTime? completionDate;
 
   static const String paramTasks = 'tasks';
   final Map<String, TropTaskGetResp> tasks;
@@ -44,11 +44,11 @@ class TropGetResp extends SyncGetResp{
     required this.customIconTropName,
     required this.category,
     required this.aims,
-    required this.startTime,
-    required this.endTime,
+    required this.startDate,
+    required this.endDate,
 
     required this.completed,
-    required this.completionTime,
+    required this.completionDate,
     required this.tasks,
     required this.users,
   });
@@ -71,11 +71,11 @@ class TropGetResp extends SyncGetResp{
         name: respMapData[paramName]??(throw InvalidResponseError(paramName)),
         customIconTropName: respMapData[paramCustomIconTropName],
         category: strToTropCategory(respMapData[paramCategory])??(throw InvalidResponseError(paramCategory)),
-        aims: respMapData[paramAims]??(throw InvalidResponseError(paramAims)),
-        startTime: DateTime.tryParse(respMapData[paramStartTime])??(throw InvalidResponseError(paramStartTime)),
-        endTime: DateTime.tryParse(respMapData[paramEndTime])??(throw InvalidResponseError(paramEndTime)),
+        aims: (respMapData[paramAims]??(throw InvalidResponseError(paramAims))).cast<String>(),
+        startDate: DateTime.tryParse(respMapData[paramStartDate]??'')??(throw InvalidResponseError(paramStartDate)),
+        endDate: DateTime.tryParse(respMapData[paramEndDate]??'')??(throw InvalidResponseError(paramEndDate)),
 
-        completionTime: respMapData[paramCompletionTime]==null?null:DateTime.tryParse(respMapData[paramCompletionTime]),
+        completionDate: DateTime.tryParse(respMapData[paramCompletionDate]??''),
         completed: respMapData[paramCompleted]??false,
         tasks: tasks,
         users: users

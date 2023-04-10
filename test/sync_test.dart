@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:harcapp/_app_common/accounts/user_data.dart';
 import 'package:harcapp/_app_common/common_color_data.dart';
 import 'package:harcapp/_app_common/common_icon_data.dart';
 import 'package:harcapp/_common_classes/common.dart';
@@ -31,9 +30,16 @@ void main() {
 
   test('Sync test', () async {
 
+    // This has to be run with:
+    // const String SERVER_IP = 'http://0.0.0.0';
+    // const String SERVER_PORT = '8080';
+
+    // And the server has to be run in debug mode.
+
     await initTestShaPref();
     await initTestPaths();
     await initTestAccountData();
+    await synchronizer.reloadSyncables();
 
     enableHttpRequests();
     enableTestConnected();
@@ -109,24 +115,24 @@ void main() {
             content: 'Zadanie 1, w którym dzieje się cośtam.',
             summary: 'Jakieś podsumowanko zadania 1...',
             deadline: DateTime(2023, 10, 5),
-            assigneeText: 'Jan Kowalski i jego przyjaciele',
+            assigneeCustomText: 'Jan Kowalski i jego przyjaciele',
             completed: false,
           ),
           TropTaskData(
             content: 'Zadanie 2, w którym dzieje się cośtam.',
             summary: 'Jakieś podsumowanko zadania 2...',
             deadline: DateTime(2023, 10, 15),
-            assigneeText: 'Malwina i jej koleżanki',
+            assigneeCustomText: 'Malwina i jej koleżanki',
             completed: true,
           ),
         ]
     );
     trop.save(localOnly: true);
+    Trop.addToAll(trop);
 
     await synchronizer.post();
 
     await factoryResetLocalSilent();
-    await synchronizer.reloadSyncables(force: true);
 
     assert(OffSong.allOfficial[0].rate == SongRate.RATE_NULL);
 
@@ -173,7 +179,7 @@ void main() {
     assert(OwnAlbum.all[0].iconKey == CommonIconData.all.keys.toList()[20]);
 
     assert(Trop.all.length == 1);
-    assert(Trop.all[0].lclId == trop.lclId);
+    assert(Trop.all[0].uniqName == trop.uniqName);
     assert(Trop.all[0].name == trop.name);
     assert(Trop.all[0].customIconTropName == trop.customIconTropName);
     assert(Trop.all[0].category == trop.category);
@@ -187,14 +193,14 @@ void main() {
     assert(Trop.all[0].tasks[0].content == trop.tasks[0].content);
     assert(Trop.all[0].tasks[0].summary == trop.tasks[0].summary);
     assert(Trop.all[0].tasks[0].deadline == trop.tasks[0].deadline);
-    assert(Trop.all[0].tasks[0].assigneeText == trop.tasks[0].assigneeText);
+    assert(Trop.all[0].tasks[0].assigneeCustomText == trop.tasks[0].assigneeCustomText);
     assert(Trop.all[0].tasks[0].completed == trop.tasks[0].completed);
     // ---
     assert(Trop.all[0].tasks[1].lclId == trop.tasks[1].lclId);
     assert(Trop.all[0].tasks[1].content == trop.tasks[1].content);
     assert(Trop.all[0].tasks[1].summary == trop.tasks[1].summary);
     assert(Trop.all[0].tasks[1].deadline == trop.tasks[1].deadline);
-    assert(Trop.all[0].tasks[1].assigneeText == trop.tasks[1].assigneeText);
+    assert(Trop.all[0].tasks[1].assigneeCustomText == trop.tasks[1].assigneeCustomText);
     assert(Trop.all[0].tasks[1].completed == trop.tasks[1].completed);
 
   });

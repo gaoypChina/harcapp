@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:harcapp/_common_classes/org/org_handler.dart';
 import 'package:harcapp/_new/api/sync_resp_body/sync_entity_resp.dart';
 import 'package:harcapp/_new/cat_page_guidebook_development/development/stopnie/models/rank_def.dart';
+import 'package:harcapp/_new/cat_page_guidebook_development/development/tropy/trop.dart';
 import 'package:harcapp/_new/details/app_settings.dart';
 import 'package:path/path.dart';
 
@@ -68,6 +69,12 @@ mixin SyncGetRespNode<T extends SyncGetResp> on SyncableParam{
       childParams: Spraw.all
   );
 
+  static SyncableParam get tropNodes => SyncableParamGroup(
+      null,
+      paramId: Trop.syncClassId,
+      childParams: Trop.all
+  );
+
   static List<SyncableParam> get all => [
     OrgHandler(),
     AppSettings(),
@@ -81,7 +88,8 @@ mixin SyncGetRespNode<T extends SyncGetResp> on SyncableParam{
     rankDefNodes,
     rankZHPSim2022Nodes,
 
-    sprawNodes
+    sprawNodes,
+    tropNodes,
   ];
 
   FutureOr<void> applySyncGetResp(T resp);
@@ -317,9 +325,9 @@ abstract class SyncableParamGroupMixin implements SyncableParam{
 
   void setAllSyncState(int state){
     for(SyncableParam param in childParams)
-      if(param is SyncableParamGroup)
+      if(param is SyncableParamGroupMixin)
         param.setAllSyncState(state);
-      else if(param is SyncableParamSingle)
+      else if(param is SyncableParamSingleMixin)
         param.state = state;
   }
 

@@ -82,43 +82,43 @@ List<TropCategory> allZuchTropCategories = [
 
 String tropCategoryToStr(TropCategory category){
   switch(category){
-    case TropCategory.harcZlotyTrop: return 'harcZlotyTrop';
-    case TropCategory.harcZaradnosc: return 'harcZaradnosc';
-    case TropCategory.harcOjczyzna: return 'harcOjczyzna';
-    case TropCategory.harcOdkrywanie: return 'harcOdkrywanie';
-    case TropCategory.harcNatura: return 'harcNatura';
-    case TropCategory.harcInicjatywa: return 'harcInicjatywa';
-    case TropCategory.harcCzlowiek: return 'harcCzlowiek';
-    case TropCategory.harcBraterstwo: return 'harcBraterstwo';
+    case TropCategory.harcZlotyTrop: return 'HARC_ZLOTY_TROP';
+    case TropCategory.harcZaradnosc: return 'HARC_ZARADNOSC';
+    case TropCategory.harcOjczyzna: return 'HARC_OJCZYZNA';
+    case TropCategory.harcOdkrywanie: return 'HARC_ODKRYWANIE';
+    case TropCategory.harcNatura: return 'HARC_NATURA';
+    case TropCategory.harcInicjatywa: return 'HARC_INICJATYWA';
+    case TropCategory.harcCzlowiek: return 'HARC_CZLOWIEK';
+    case TropCategory.harcBraterstwo: return 'HARC_BRATERSTWO';
 
-    case TropCategory.zuchArtystyczne: return 'zuchArtystyczne';
-    case TropCategory.zuchBajkowe: return 'zuchBajkowe';
-    case TropCategory.zuchKulturoznawcze: return 'zuchKulturoznawcze';
-    case TropCategory.zuchObywatelskie: return 'zuchObywatelskie';
-    case TropCategory.zuchPrzyrodnicze: return 'zuchPrzyrodnicze';
-    case TropCategory.zuchSportoweITurystyczne: return 'zuchSportoweITurystyczne';
-    case TropCategory.zuchZawodowe: return 'zuchZawodowe';
+    case TropCategory.zuchArtystyczne: return 'ZUCH_ARTYSTYCZNE';
+    case TropCategory.zuchBajkowe: return 'ZUCH_BAJKOWE';
+    case TropCategory.zuchKulturoznawcze: return 'ZUCH_KULTUROZNAWCZE';
+    case TropCategory.zuchObywatelskie: return 'ZUCH_OBYWATELSKIE';
+    case TropCategory.zuchPrzyrodnicze: return 'ZUCH_PRZYRODNICZE';
+    case TropCategory.zuchSportoweITurystyczne: return 'ZUCH_SPORTOWE_I_TURYSTYCZNE';
+    case TropCategory.zuchZawodowe: return 'ZUCH_ZAWODOWE';
   }
 }
 
 TropCategory? strToTropCategory(String value){
   switch(value){
-    case 'harcZlotyTrop': return TropCategory.harcZlotyTrop;
-    case 'harcZaradnosc': return TropCategory.harcZaradnosc;
-    case 'harcOjczyzna': return TropCategory.harcOjczyzna;
-    case 'harcOdkrywanie': return TropCategory.harcOdkrywanie;
-    case 'harcNatura': return TropCategory.harcNatura;
-    case 'harcInicjatywa': return TropCategory.harcInicjatywa;
-    case 'harcCzlowiek': return TropCategory.harcCzlowiek;
-    case 'harcBraterstwo': return TropCategory.harcBraterstwo;
+    case 'HARC_ZLOTY_TROP': return TropCategory.harcZlotyTrop;
+    case 'HARC_ZARADNOSC': return TropCategory.harcZaradnosc;
+    case 'HARC_OJCZYZNA': return TropCategory.harcOjczyzna;
+    case 'HARC_ODKRYWANIE': return TropCategory.harcOdkrywanie;
+    case 'HARC_NATURA': return TropCategory.harcNatura;
+    case 'HARC_INICJATYWA': return TropCategory.harcInicjatywa;
+    case 'HARC_CZLOWIEK': return TropCategory.harcCzlowiek;
+    case 'HARC_BRATERSTWO': return TropCategory.harcBraterstwo;
 
-    case 'zuchArtystyczne': return TropCategory.zuchArtystyczne;
-    case 'zuchBajkowe': return TropCategory.zuchBajkowe;
-    case 'zuchKulturoznawcze': return TropCategory.zuchKulturoznawcze;
-    case 'zuchObywatelskie': return TropCategory.zuchObywatelskie;
-    case 'zuchPrzyrodnicze': return TropCategory.zuchPrzyrodnicze;
-    case 'zuchSportoweITurystyczne': return TropCategory.zuchSportoweITurystyczne;
-    case 'zuchZawodowe': return TropCategory.zuchZawodowe;
+    case 'ZUCH_ARTYSTYCZNE': return TropCategory.zuchArtystyczne;
+    case 'ZUCH_BAJKOWE': return TropCategory.zuchBajkowe;
+    case 'ZUCH_KULTUROZNAWCZE': return TropCategory.zuchKulturoznawcze;
+    case 'ZUCH_OBYWATELSKIE': return TropCategory.zuchObywatelskie;
+    case 'ZUCH_PRZYRODNICZE': return TropCategory.zuchPrzyrodnicze;
+    case 'ZUCH_SPORTOWE_I_TURYSTYCZNE': return TropCategory.zuchSportoweITurystyczne;
+    case 'ZUCH_ZAWODOWE': return TropCategory.zuchZawodowe;
 
     default: return null;
   }
@@ -171,6 +171,9 @@ class TropBaseData<T extends TropTaskBaseData>{
 
 class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetRespNode<TropGetResp>{
 
+  // Whether the all, allMap, etc. are initialized.
+  static bool initialized = false;
+
   static callProvidersOf(BuildContext context) =>
       callProviders(TropProvider.of(context), TropListProvider.of(context));
 
@@ -180,23 +183,23 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   }
 
   static late List<Trop> all;
-  static late Map<String, Trop> allMapByLclId;
+  static late Map<String, Trop> allMapByUniqName;
 
   static addToAll(Trop t, {BuildContext? context}){
-    if(allMapByLclId[t.lclId] != null) return;
+    if(allMapByUniqName[t.uniqName] != null) return;
 
     all.add(t);
-    allMapByLclId[t.lclId] = t;
+    allMapByUniqName[t.uniqName] = t;
 
     if(context == null) return;
     callProvidersOf(context);
   }
 
   static removeFromAll(Trop t, {BuildContext? context}){
-    if(allMapByLclId[t.lclId] == null) return;
+    if(allMapByUniqName[t.uniqName] == null) return;
 
     all.remove(t);
-    allMapByLclId.remove(t.lclId);
+    allMapByUniqName.remove(t.uniqName);
 
     if(context == null) return;
     callProvidersOf(context);
@@ -205,16 +208,16 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   static Future<void> init() async {
     
     all = [];
-    allMapByLclId = {};
+    allMapByUniqName = {};
     
     Directory ownTropyDir = Directory(getOwnTropFolderPath);
     await ownTropyDir.create(recursive: true);
 
     for (FileSystemEntity file in ownTropyDir.listSync(recursive: false)) {
-      Trop? trop = Trop.readFromLclId(basename(file.path));
+      Trop? trop = Trop.readFromUniqName(basename(file.path));
       if(trop == null) continue;
       all.add(trop);
-      allMapByLclId[trop.lclId] = trop;
+      allMapByUniqName[trop.uniqName] = trop;
     }
 
     // all.addAll([
@@ -232,7 +235,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     //         TropTask.create(
     //             content: 'Zrobienie czegośtam - to jest zadanie numer jeden.',
     //             deadline: DateTime.now().add(const Duration(days: 7)),
-    //             assigneeText: 'Włodzimierz Koc'
+    //             assigneeCustomText: 'Włodzimierz Koc'
     //         ),
     //         TropTask.create(
     //             content: 'Tu z kolei będziemy robić jakieś zadanie numer dwa.',
@@ -305,12 +308,14 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     //       tasks: []
     //   )
     // ]);
-    allMapByLclId = { for(Trop t in all) t.lclId: t};
+    allMapByUniqName = { for(Trop t in all) t.uniqName: t};
+
+    initialized = true;
   }
 
   static const IconData icon = MdiIcons.signDirectionPlus;
 
-  static const String paramLclId = 'lclId';
+  static const String paramUniqName = 'uniqName';
   static const String paramName = 'name';
   static const String paramCustomIconTropName = 'customIconTropName';
   static const String paramCategory = 'category';
@@ -327,7 +332,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   static const int maxLenAim = 200;
   static const int maxTaskCount = 50;
 
-  final String lclId;
+  final String uniqName;
 
   DateTime startDate;
   DateTime endDate;
@@ -352,7 +357,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   }
 
   Trop({
-    required this.lclId,
+    required this.uniqName,
     required super.name,
     super.customIconTropName,
     required super.category,
@@ -384,7 +389,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   }
 
   static Trop create({
-    String? lclId,
+    String? uniqName,
     required String name,
     String? customIconTropName,
     required TropCategory category,
@@ -400,7 +405,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   }){
 
     Trop trop = Trop(
-        lclId: lclId??const Uuid().v4(),
+        uniqName: uniqName??const Uuid().v4(),
         name: name,
         customIconTropName: customIconTropName,
         category: category,
@@ -420,10 +425,10 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     return trop;
   }
 
-  static Trop fromRespMap(Map respMapData, String lclId){
+  static Trop fromRespMap(Map respMapData, String uniqName){
 
     Trop trop = Trop(
-      lclId: lclId,
+      uniqName: uniqName,
       name: respMapData[paramName]??(throw MissingDecodeParamError(paramName)),
       customIconTropName: respMapData[paramCustomIconTropName],
       category: strToTropCategory(respMapData[paramCategory])??(throw MissingDecodeParamError(paramCategory)),
@@ -452,9 +457,9 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     return trop;
   }
 
-  static Trop? readFromLclId(String lclId){
+  static Trop? readFromUniqName(String uniqName){
     try {
-      String tropData = readFileAsString(getOwnTropFolderPath + lclId);
+      String tropData = readFileAsString(getOwnTropFolderPath + uniqName);
       Map map = jsonDecode(tropData);
 
       // TMP TMP TMP
@@ -478,8 +483,8 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       if(map[paramTasks] is List) {
         Map convertedTasks = {};
         for(Map taskMap in map[paramTasks]){
-          String taskLclId = taskMap[paramLclId];
-          taskMap.remove(paramLclId);
+          String taskLclId = taskMap[paramUniqName];
+          taskMap.remove(paramUniqName);
           convertedTasks[taskLclId] = taskMap;
         }
 
@@ -488,10 +493,10 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       }
 
       if(needsUpdating)
-        fromRespMap(map, lclId).save();
+        fromRespMap(map, uniqName).save();
       // TMP TMP TMP
 
-      return fromRespMap(map, lclId);
+      return fromRespMap(map, uniqName);
     } catch(e) {
       logger.e(e);
       return null;
@@ -518,7 +523,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     saveStringAsFileToFolder(
       getMyTropFolderLocalPath,
       jsonEncode(toJsonMap()),
-      fileName: lclId,
+      fileName: uniqName,
     );
 
     setAllSyncState(
@@ -532,7 +537,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
 
   bool delete({BuildContext? context}){
     try{
-      File(getOwnTropFolderPath + lclId).deleteSync();
+      File(getOwnTropFolderPath + uniqName).deleteSync();
       removeFromAll(this, context: context);
       return true;
     }catch(e){
@@ -550,7 +555,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   SyncableParam? get parentParam => null;
 
   @override
-  String get paramId => lclId;
+  String get paramId => uniqName;
 
   @override
   List<SyncableParam> get childParams => [
@@ -617,21 +622,25 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     customIconTropName = resp.customIconTropName;
     category = resp.category;
     aims = resp.aims;
-    startDate = resp.startTime;
-    endDate = resp.endTime;
+    startDate = resp.startDate;
+    endDate = resp.endDate;
 
     completed = resp.completed;
-    completionDate = resp.completionTime;
+    completionDate = resp.completionDate;
+
+    users = resp.users;
+
     for(String taskIclId in resp.tasks.keys){
       TropTask? task = tasks.where((t) => t.lclId == taskIclId).firstOrNull;
       if(task == null) {
         TropTaskGetResp taskResp = resp.tasks[taskIclId]!;
         task = TropTask.create(
+            lclId: taskIclId,
             content: taskResp.content,
             summary: taskResp.summary,
             deadline: taskResp.deadline,
             assignee: users[taskResp.assigneeKey],
-            assigneeText: taskResp.assigneeText,
+            assigneeCustomText: taskResp.assigneeCustomText,
             completed: taskResp.completed,
             trop: this
         );
@@ -657,7 +666,7 @@ class TropTaskData extends TropTaskBaseData{
   String? _summary;
   DateTime deadline;
   UserData? assignee;
-  String? assigneeText;
+  String? assigneeCustomText;
   bool completed;
 
   TropTaskData({
@@ -665,7 +674,7 @@ class TropTaskData extends TropTaskBaseData{
     String? summary,
     required this.deadline,
     this.assignee,
-    this.assigneeText,
+    this.assigneeCustomText,
     this.completed = false,
   }):
     _summary = summary;
@@ -680,7 +689,7 @@ class TropTaskData extends TropTaskBaseData{
       content: content,
       deadline: deadline,
       assignee: assignee,
-      assigneeText: assigneeText,
+      assigneeCustomText: assigneeCustomText,
       completed: completed,
       trop: trop
   );
@@ -694,7 +703,7 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
   static const String paramSummary = 'summary';
   static const String paramDeadline = 'deadline';
   static const String paramAssigneeKey = 'assigneeKey';
-  static const String paramAssigneeText = 'assigneeText';
+  static const String paramAssigneeCustomText = 'assigneeCustomText';
   static const String paramCompleted = 'completed';
 
   static const int maxLenContent = 320;
@@ -702,7 +711,7 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
 
   final String lclId;
 
-  Trop trop;
+  final Trop trop;
 
   TropTask({
     required this.lclId,
@@ -710,28 +719,29 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
     super.summary,
     required super.deadline,
     super.assignee,
-    super.assigneeText,
+    super.assigneeCustomText,
     super.completed = false,
 
     required this.trop,
   });
 
   static TropTask create({
+    String? lclId,
     required String content,
     String? summary,
     required DateTime deadline,
     UserData? assignee,
-    String? assigneeText,
+    String? assigneeCustomText,
     bool completed = false,
 
     required Trop trop,
   }) => TropTask(
-    lclId: const Uuid().v4(),
+    lclId: lclId??const Uuid().v4(),
     content: content,
     summary: summary,
     deadline: deadline,
     assignee: assignee,
-    assigneeText: assigneeText,
+    assigneeCustomText: assigneeCustomText,
     completed: completed,
 
     trop: trop,
@@ -743,7 +753,7 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
     paramSummary: summary,
     paramDeadline: deadline.toIso8601String(),
     paramAssigneeKey: assignee?.key,
-    paramAssigneeText: assigneeText,
+    paramAssigneeCustomText: assigneeCustomText,
     paramCompleted: completed,
   };
 
@@ -753,7 +763,7 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
     summary: respMapData[paramSummary],
     deadline: DateTime.tryParse(respMapData[paramDeadline])??(throw MissingDecodeParamError(paramDeadline)),
     assignee: trop.users[respMapData[paramAssigneeKey]],
-    assigneeText: respMapData[paramAssigneeText],
+    assigneeCustomText: respMapData[paramAssigneeCustomText],
     completed: respMapData[paramCompleted]??false,
     trop: trop,
   );
@@ -764,7 +774,7 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
     summary = resp.summary;
     deadline = resp.deadline;
     assignee = trop.users[resp.assigneeKey];
-    assigneeText = resp.assigneeText;
+    assigneeCustomText = resp.assigneeCustomText;
     completed = resp.completed;
   }
 
@@ -808,8 +818,8 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
 
     SyncableParamSingle(
       this,
-      paramId: paramAssigneeText,
-      value: () => assigneeText,
+      paramId: paramAssigneeCustomText,
+      value: () => assigneeCustomText,
     ),
 
     SyncableParamSingle(
