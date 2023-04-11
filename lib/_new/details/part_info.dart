@@ -48,13 +48,13 @@ class PartInfoState extends State<PartInfo>{
           isThreeLine: true,
             leading: const Icon(MdiIcons.emailOutline),
             title: Text('Kontakt', style: AppTextStyle()),
-            subtitle: Text('harcapp@gmail.com\nWDHS "Uroczysko", Warszawa-Praga-Północ', style: AppTextStyle()),
+            subtitle: Text('harcapp@gmail.com', style: AppTextStyle()),
         ),
 
         ListTile(
             leading: const SizedBox(),
             title: Text('Autor', style: AppTextStyle()),
-            subtitle: Text('phm. Daniel Iwanicki HO', style: AppTextStyle()),
+            subtitle: Text('phm. Daniel Iwanicki HO\nWDHS "Uroczysko", Warszawa-Praga-Północ', style: AppTextStyle()),
         ),
 
         ListTile(

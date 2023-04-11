@@ -144,7 +144,7 @@ class PartContributors extends StatelessWidget{
     Person(name: 'Josef Balvín', hufiec: 'Junák - český skaut',),
     Person(name: 'Wiktoria Hernik', hufiec: 'Hufiec ZHP Kraków - Nowa Huta', stopI: 'phm.', org: Org.zhp),
     FRANCISZEK_LINKE,
-    Person(name: 'Kacper Porębski', stopH: StopZHP.zhpHOc),
+    Person(name: 'Kacper Porębski', stopH: StopHarc.zhpHOc),
   ];
 
   static const List<Person> osWspierKuch = [

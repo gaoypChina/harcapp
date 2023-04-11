@@ -1,6 +1,6 @@
 // STOPNIE HARCERSKIE
 
-enum StopZHP{
+enum StopHarc{
   dhd,
   dhc,
   
@@ -18,62 +18,62 @@ enum StopZHP{
   zhrHRc, zhrHRd,
 }
 
-Map<StopZHP, String> stopZHPToString = {
-  StopZHP.dhd: 'dhd',
-  StopZHP.dhc: 'dhc',
-  StopZHP.zhpMlodzik: 'zhpMlodzik',
-  StopZHP.zhpOchotniczka: 'zhpOchotniczka',
-  StopZHP.zhpWywiadowca: 'zhpWywiadowca',
-  StopZHP.zhpTropicielka: 'zhpTropicielka',
-  StopZHP.zhpOdkrywca: 'zhpOdkrywca',
-  StopZHP.zhpPionierka: 'zhpPionierka',
+Map<StopHarc, String> stopHarcToString = {
+  StopHarc.dhd: 'dhd',
+  StopHarc.dhc: 'dhc',
+  StopHarc.zhpMlodzik: 'zhpMlodzik',
+  StopHarc.zhpOchotniczka: 'zhpOchotniczka',
+  StopHarc.zhpWywiadowca: 'zhpWywiadowca',
+  StopHarc.zhpTropicielka: 'zhpTropicielka',
+  StopHarc.zhpOdkrywca: 'zhpOdkrywca',
+  StopHarc.zhpPionierka: 'zhpPionierka',
 
-  StopZHP.zhpCwik: 'zhpCwik',
-  StopZHP.zhpSamarytanka: 'zhpSamarytanka',
-  StopZHP.zhpHOc: 'zhpHOc',
-  StopZHP.zhpHOd: 'zhpHOd',
-  StopZHP.zhpHRc: 'zhpHRc',
-  StopZHP.zhpHRd: 'zhpHRd',
+  StopHarc.zhpCwik: 'zhpCwik',
+  StopHarc.zhpSamarytanka: 'zhpSamarytanka',
+  StopHarc.zhpHOc: 'zhpHOc',
+  StopHarc.zhpHOd: 'zhpHOd',
+  StopHarc.zhpHRc: 'zhpHRc',
+  StopHarc.zhpHRd: 'zhpHRd',
 
-  StopZHP.zhrMlodzik: 'zhrMlodzik',
-  StopZHP.zhrOchotniczka: 'zhrOchotniczka',
-  StopZHP.zhrWywiadowca: 'zhrWywiadowca',
-  StopZHP.zhrTropicielka: 'zhrTropicielka',
-  StopZHP.zhrCwik: 'zhrCwik',
-  StopZHP.zhrSamarytanka: 'zhrSamarytanka',
-  StopZHP.zhrHOc: 'zhrHOc',
-  StopZHP.zhrWedrowniczka: 'zhrWedrowniczka',
-  StopZHP.zhrHRc: 'zhrHRc',
-  StopZHP.zhrHRd: 'zhrHRd',
+  StopHarc.zhrMlodzik: 'zhrMlodzik',
+  StopHarc.zhrOchotniczka: 'zhrOchotniczka',
+  StopHarc.zhrWywiadowca: 'zhrWywiadowca',
+  StopHarc.zhrTropicielka: 'zhrTropicielka',
+  StopHarc.zhrCwik: 'zhrCwik',
+  StopHarc.zhrSamarytanka: 'zhrSamarytanka',
+  StopHarc.zhrHOc: 'zhrHOc',
+  StopHarc.zhrWedrowniczka: 'zhrWedrowniczka',
+  StopHarc.zhrHRc: 'zhrHRc',
+  StopHarc.zhrHRd: 'zhrHRd',
 };
 
-Map<String, StopZHP> stringToStopZHP = {
-  'dhd': StopZHP.dhd,
-  'dhc': StopZHP.dhc,
-  'zhpMlodzik': StopZHP.zhpMlodzik,
-  'zhpOchotniczka': StopZHP.zhpOchotniczka,
-  'zhpWywiadowca': StopZHP.zhpWywiadowca,
-  'zhpTropicielka': StopZHP.zhpTropicielka,
-  'zhpOdkrywca': StopZHP.zhpOdkrywca,
-  'zhpPionierka': StopZHP.zhpPionierka,
+Map<String, StopHarc> stringToStopHarc = {
+  'dhd': StopHarc.dhd,
+  'dhc': StopHarc.dhc,
+  'zhpMlodzik': StopHarc.zhpMlodzik,
+  'zhpOchotniczka': StopHarc.zhpOchotniczka,
+  'zhpWywiadowca': StopHarc.zhpWywiadowca,
+  'zhpTropicielka': StopHarc.zhpTropicielka,
+  'zhpOdkrywca': StopHarc.zhpOdkrywca,
+  'zhpPionierka': StopHarc.zhpPionierka,
 
-  'zhpCwik': StopZHP.zhpCwik,
-  'zhpSamarytanka': StopZHP.zhpSamarytanka,
-  'zhpHOc': StopZHP.zhpHOc,
-  'zhpHOd': StopZHP.zhpHOd,
-  'zhpHRc': StopZHP.zhpHRc,
-  'zhpHRd': StopZHP.zhpHRd,
+  'zhpCwik': StopHarc.zhpCwik,
+  'zhpSamarytanka': StopHarc.zhpSamarytanka,
+  'zhpHOc': StopHarc.zhpHOc,
+  'zhpHOd': StopHarc.zhpHOd,
+  'zhpHRc': StopHarc.zhpHRc,
+  'zhpHRd': StopHarc.zhpHRd,
 
-  'zhrMlodzik': StopZHP.zhrMlodzik,
-  'zhrOchotniczka': StopZHP.zhrOchotniczka,
-  'zhrWywiadowca': StopZHP.zhrWywiadowca,
-  'zhrTropicielka': StopZHP.zhrTropicielka,
-  'zhrCwik': StopZHP.zhrCwik,
-  'zhrSamarytanka': StopZHP.zhrSamarytanka,
-  'zhrHOc': StopZHP.zhrHOc,
-  'zhrWedrowniczka': StopZHP.zhrWedrowniczka,
-  'zhrHRc': StopZHP.zhrHRc,
-  'zhrHRd': StopZHP.zhrHRd,
+  'zhrMlodzik': StopHarc.zhrMlodzik,
+  'zhrOchotniczka': StopHarc.zhrOchotniczka,
+  'zhrWywiadowca': StopHarc.zhrWywiadowca,
+  'zhrTropicielka': StopHarc.zhrTropicielka,
+  'zhrCwik': StopHarc.zhrCwik,
+  'zhrSamarytanka': StopHarc.zhrSamarytanka,
+  'zhrHOc': StopHarc.zhrHOc,
+  'zhrWedrowniczka': StopHarc.zhrWedrowniczka,
+  'zhrHRc': StopHarc.zhrHRc,
+  'zhrHRd': StopHarc.zhrHRd,
 };
 
 const String stopZhpDhD = 'Druhna';
@@ -133,63 +133,63 @@ const String stopZhrHrC = 'Harcerz Rzeczypospolitej';
 const String stopZhrHrD = 'Harcerka Rzeczypospolitej';
 const String stopZhrHrShort = 'HR';
 
-String stopFullName(StopZHP stop){
+String stopHarcFullName(StopHarc stop){
     switch(stop){
-      case StopZHP.dhd: return stopZhpDhD;
-      case StopZHP.dhc: return stopZhpDhC;
-      case StopZHP.zhpMlodzik: return stopZhpMlodzik;
-      case StopZHP.zhpOchotniczka: return stopZhpOchotniczka;
-      case StopZHP.zhpWywiadowca: return stopZhpWywiadowca;
-      case StopZHP.zhpTropicielka: return stopZhpTropicielka;
-      case StopZHP.zhpOdkrywca: return stopZhpOdkrywca;
-      case StopZHP.zhpPionierka: return stopZhpPionierka;
-      case StopZHP.zhpCwik: return stopZhpCwik;
-      case StopZHP.zhpSamarytanka: return stopZhpSamarytanka;
-      case StopZHP.zhpHOd: return stopZhpHoD;
-      case StopZHP.zhpHOc: return stopZhpHoC;
-      case StopZHP.zhpHRd: return stopZhpHrD;
-      case StopZHP.zhpHRc: return stopZhpHrC;
+      case StopHarc.dhd: return stopZhpDhD;
+      case StopHarc.dhc: return stopZhpDhC;
+      case StopHarc.zhpMlodzik: return stopZhpMlodzik;
+      case StopHarc.zhpOchotniczka: return stopZhpOchotniczka;
+      case StopHarc.zhpWywiadowca: return stopZhpWywiadowca;
+      case StopHarc.zhpTropicielka: return stopZhpTropicielka;
+      case StopHarc.zhpOdkrywca: return stopZhpOdkrywca;
+      case StopHarc.zhpPionierka: return stopZhpPionierka;
+      case StopHarc.zhpCwik: return stopZhpCwik;
+      case StopHarc.zhpSamarytanka: return stopZhpSamarytanka;
+      case StopHarc.zhpHOd: return stopZhpHoD;
+      case StopHarc.zhpHOc: return stopZhpHoC;
+      case StopHarc.zhpHRd: return stopZhpHrD;
+      case StopHarc.zhpHRc: return stopZhpHrC;
 
-      case StopZHP.zhrMlodzik: return stopZhrMlodzik;
-      case StopZHP.zhrOchotniczka: return stopZhrOchotniczka;
-      case StopZHP.zhrWywiadowca: return stopZhrWywiadowca;
-      case StopZHP.zhrTropicielka: return stopZhrTropicielka;
-      case StopZHP.zhrCwik: return stopZhrCwik;
-      case StopZHP.zhrSamarytanka: return stopZhrSamarytanka;
-      case StopZHP.zhrHOc: return stopZhrHoC;
-      case StopZHP.zhrWedrowniczka: return stopZhrWedrowniczka;
-      case StopZHP.zhrHRc: return stopZhrHrC;
-      case StopZHP.zhrHRd: return stopZhrHrD;
+      case StopHarc.zhrMlodzik: return stopZhrMlodzik;
+      case StopHarc.zhrOchotniczka: return stopZhrOchotniczka;
+      case StopHarc.zhrWywiadowca: return stopZhrWywiadowca;
+      case StopHarc.zhrTropicielka: return stopZhrTropicielka;
+      case StopHarc.zhrCwik: return stopZhrCwik;
+      case StopHarc.zhrSamarytanka: return stopZhrSamarytanka;
+      case StopHarc.zhrHOc: return stopZhrHoC;
+      case StopHarc.zhrWedrowniczka: return stopZhrWedrowniczka;
+      case StopHarc.zhrHRc: return stopZhrHrC;
+      case StopHarc.zhrHRd: return stopZhrHrD;
     }
 }
 
-String stopShortName(StopZHP? stop){
+String stopHarcShortName(StopHarc? stop){
   switch(stop){
-    case StopZHP.dhd: return stopZhpDhDShort;
-    case StopZHP.dhc: return stopZhpDhCShort;
-    case StopZHP.zhpMlodzik: return stopZhpMlodzikShort;
-    case StopZHP.zhpOchotniczka: return stopZhpOchotniczkaShort;
-    case StopZHP.zhpWywiadowca: return stopZhpWywiadowcaShort;
-    case StopZHP.zhpTropicielka: return stopZhpTropicielkaShort;
-    case StopZHP.zhpOdkrywca: return stopZhpOdkrywcaShort;
-    case StopZHP.zhpPionierka: return stopZhpPionierkaShort;
-    case StopZHP.zhpCwik: return stopZhpCwikShort;
-    case StopZHP.zhpSamarytanka: return stopZhpSamarytankaShort;
-    case StopZHP.zhpHOd: return stopZhpHoShort;
-    case StopZHP.zhpHOc: return stopZhpHoShort;
-    case StopZHP.zhpHRd: return stopZhpHrShort;
-    case StopZHP.zhpHRc: return stopZhpHrShort;
+    case StopHarc.dhd: return stopZhpDhDShort;
+    case StopHarc.dhc: return stopZhpDhCShort;
+    case StopHarc.zhpMlodzik: return stopZhpMlodzikShort;
+    case StopHarc.zhpOchotniczka: return stopZhpOchotniczkaShort;
+    case StopHarc.zhpWywiadowca: return stopZhpWywiadowcaShort;
+    case StopHarc.zhpTropicielka: return stopZhpTropicielkaShort;
+    case StopHarc.zhpOdkrywca: return stopZhpOdkrywcaShort;
+    case StopHarc.zhpPionierka: return stopZhpPionierkaShort;
+    case StopHarc.zhpCwik: return stopZhpCwikShort;
+    case StopHarc.zhpSamarytanka: return stopZhpSamarytankaShort;
+    case StopHarc.zhpHOd: return stopZhpHoShort;
+    case StopHarc.zhpHOc: return stopZhpHoShort;
+    case StopHarc.zhpHRd: return stopZhpHrShort;
+    case StopHarc.zhpHRc: return stopZhpHrShort;
 
-    case StopZHP.zhrMlodzik: return stopZhrMlodzikShort;
-    case StopZHP.zhrOchotniczka: return stopZhrOchotniczkaShort;
-    case StopZHP.zhrWywiadowca: return stopZhrWywiadowcaShort;
-    case StopZHP.zhrTropicielka: return stopZhrTropicielkaShort;
-    case StopZHP.zhrCwik: return stopZhrCwikShort;
-    case StopZHP.zhrSamarytanka: return stopZhrSamarytankaShort;
-    case StopZHP.zhrHOc: return stopZhrHoShort;
-    case StopZHP.zhrWedrowniczka: return stopZhrWedrowniczkaShort;
-    case StopZHP.zhrHRc: return stopZhrHrShort;
-    case StopZHP.zhrHRd: return stopZhrHrShort;
+    case StopHarc.zhrMlodzik: return stopZhrMlodzikShort;
+    case StopHarc.zhrOchotniczka: return stopZhrOchotniczkaShort;
+    case StopHarc.zhrWywiadowca: return stopZhrWywiadowcaShort;
+    case StopHarc.zhrTropicielka: return stopZhrTropicielkaShort;
+    case StopHarc.zhrCwik: return stopZhrCwikShort;
+    case StopHarc.zhrSamarytanka: return stopZhrSamarytankaShort;
+    case StopHarc.zhrHOc: return stopZhrHoShort;
+    case StopHarc.zhrWedrowniczka: return stopZhrWedrowniczkaShort;
+    case StopHarc.zhrHRc: return stopZhrHrShort;
+    case StopHarc.zhrHRd: return stopZhrHrShort;
     case null: return '';
   }
 }

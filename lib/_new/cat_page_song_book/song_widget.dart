@@ -74,6 +74,16 @@ class SongWidget extends StatelessWidget{
 
     tempSongFile.writeAsStringSync(fileContent);
 
+    String newPersonCode = """const Person NEW_PERSON = Person(
+        ${hasName?"name: '${person?.name}',":""}
+        ${hasDruzyna?"druzyna: '${person?.druzyna}',":""}
+        ${hasHufiec?"hufiec: '${person?.hufiec}',":""}
+        ${hasStopI?"stopI: '${person?.stopI}',":""}
+        ${hasStopH?"stopH: StopHarc.${stopHarcToString[person?.stopH]},":""}
+        ${hasOrg?"org: ${person?.org},":""}
+        email: []
+      );""".replaceAll('\n\n', '\n');
+
     final Email email = Email(
       body: trimLeadingWhitespace("""
       Dzięki za chęć dzielenia się swoimi piosenkami!
@@ -83,15 +93,7 @@ class SongWidget extends StatelessWidget{
       
       Osoba dodająca:
       
-      const Person NEW_PERSON = Person(
-        ${hasName?"name: '${person?.name}',":""}
-        ${hasDruzyna?"druzyna: '${person?.druzyna}',":""}
-        ${hasHufiec?"hufiec: '${person?.hufiec}',":""}
-        ${hasStopI?"stopI: '${person?.stopI}',":""}
-        ${hasStopH?"stopH: StopZHP.${stopZHPToString[person?.stopH]},":""}
-        ${hasOrg?"org: ${person?.org},":""}
-        email: []
-      );
+      $newPersonCode
       
       - - - - - - - - -
       
