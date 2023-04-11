@@ -19,6 +19,7 @@ List<Person> allPeople = [
   ALEKSANDRA_KOSTRZEWA,
   ALEKSANDRA_KOWALSKA,
   ALEKSANDRA_KOZUBAL,
+  ALICJA_JEZNACKA,
   ANTONINA_PIERZCHALA,
   ANTONINA_SZTYGLIC,
   ARTUR_KOSTRZEWA,
@@ -47,6 +48,7 @@ List<Person> allPeople = [
   FRANCISZEK_MICHALSKI,
   FRANCISZEK_TOMASZCZYK,
   GRZEGORZ_BOROWIEC,
+  GRZEGORZ_FRANKOW,
   GRZEGORZ_ZAWADZKI,
   HANNA_CISAKOWSKA,
   HANNA_CZAJKOWSKA,
@@ -93,6 +95,7 @@ List<Person> allPeople = [
   KACPER_WIDZ,
   KACPER_WIETRZYKOWSKI,
   KAJETAN_RUSZKOWSKI,
+  KAJETAN_WITKOWSKI,
   KAJETAN_WYGNANSKI,
   KAROLINA_MARCINKOWSKA,
   KAMIL_GORNIK,
@@ -285,6 +288,14 @@ const Person ALEKSANDRA_KOWALSKA = Person(
     org: Org.zhp,
 );
 const Person ALEKSANDRA_KOZUBAL = Person(name: 'Aleksandra Kozubal', stopH: StopZHP.zhpSamarytanka, org: Org.zhp);
+const Person ALICJA_JEZNACKA = Person(
+    name: 'Alicja Jeznacka ',
+    druzyna: '79. WWDH "ALPHA"',
+    hufiec: huf_zhp_warszawa_zoliborz,
+    stopH: StopZHP.zhpHOd,
+    org: Org.zhp,
+    email: ['alicja.jeznacka@zhp.net.pl']
+);
 const Person ANTONINA_PIERZCHALA = Person(
     name: 'Antonina Pierzchała',
     druzyna: '41 Drużyna Harcerska "Huba"',
@@ -419,6 +430,14 @@ const Person GRZEGORZ_BOROWIEC = Person(
   druzyna: '66. WDW "Tornado"',
   hufiec: huf_zhp_torun,
   org: Org.zhp,
+);
+const Person GRZEGORZ_FRANKOW = Person(
+    name: 'Grzegorz Franków',
+    druzyna: '22. Kielecka Drużyna Harcerska ',
+    hufiec: huf_zhp_kielce_miasto,
+    stopI: 'pwd.',
+    org: Org.zhp,
+    email: ['grzegorz.frankow@zhp.net.pl']
 );
 const Person GRZEGORZ_ZAWADZKI = Person(
     name: 'Grzegorz Zawadzki',
@@ -655,6 +674,14 @@ const KAJETAN_RUSZKOWSKI = Person(
   hufiec: huf_zhr_lodz,
   stopH: StopZHP.zhpHOc,
   org: Org.zhr_o,
+);
+const Person KAJETAN_WITKOWSKI = Person(
+    name: 'Kajetan Witkowski',
+    druzyna: '2. DH Iskry',
+    hufiec: huf_zhp_miedzyrzecz,
+    stopH: StopZHP.zhpMlodzik,
+    org: Org.zhp,
+    email: ['kajetanwitkowski1602@gmail.com']
 );
 const Person KAJETAN_WYGNANSKI = Person(
   name: 'Kajetan Wygrański',

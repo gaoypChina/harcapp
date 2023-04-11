@@ -28,9 +28,9 @@ Future<void> openMemoryEditor(BuildContext context, Song song, {Memory? initMemo
 class MemoryEditorWidget extends StatefulWidget{
 
   final Song song;
-  final Function? onSaved;
-  final Function? onBack;
-  final Function? onRemoved;
+  final void Function()? onSaved;
+  final void Function()? onBack;
+  final void Function()? onRemoved;
   final Memory? initMemory;
 
   const MemoryEditorWidget(this.song, {this.initMemory, this.onSaved, this.onBack, this.onRemoved, super.key});
@@ -113,7 +113,7 @@ class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProvi
                   },
                   onRemoved: (){
                     song.removeMemory(initMemory!);
-                    if(widget.onRemoved != null) widget.onRemoved!();
+                    widget.onRemoved?.call();
                   },
                 ),
 
@@ -145,7 +145,7 @@ class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProvi
                           published: memoryBuilder.published,
                         );
 
-                      widget.onSaved!();
+                      widget.onSaved?.call();
                     }
                 )
 
@@ -167,10 +167,10 @@ class _PartOne extends StatefulWidget{
   final MemoryBuilder memoryBuilder;
   final bool creatingNew;
 
-  final Function(MemoryBuilder memoryBuilder)? onNext;
+  final Function(MemoryBuilder memoryBuilder) onNext;
   final void Function()? onRemoved;
 
-  const _PartOne({required this.song, required this.initMemory, required this.memoryBuilder, required this.creatingNew, this.onNext, this.onRemoved});
+  const _PartOne({required this.song, required this.initMemory, required this.memoryBuilder, required this.creatingNew, required this.onNext, this.onRemoved});
 
   @override
   State<StatefulWidget> createState() => _PartOneState();
@@ -372,8 +372,7 @@ class _PartOneState extends State<_PartOne>{
                 icon: MdiIcons.arrowRight,
                 text: 'Dalej',
                 textColor: blocked?iconDisab_(context):iconEnab_(context),
-                onTap: blocked?null:() async =>
-                  widget.onNext!(memoryBuilder),
+                onTap: blocked?null:() async => widget.onNext(memoryBuilder),
                 iconLeading: false
             ),
 
@@ -464,9 +463,9 @@ class _FontWidget extends StatelessWidget{
   final int fontIndex;
   final int pickedFont;
   final String? text;
-  final void Function(int fontIndex)? onTap;
+  final void Function(int fontIndex) onTap;
 
-  const _FontWidget(this.fontIndex, this.pickedFont, this.text, {this.onTap});
+  const _FontWidget(this.fontIndex, this.pickedFont, this.text, {required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -505,7 +504,7 @@ class _FontWidget extends StatelessWidget{
       ),
       onTap: (){
         hideKeyboard(context);
-        onTap!(fontIndex);
+        onTap.call(fontIndex);
       }
     );
 
