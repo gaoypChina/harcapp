@@ -480,29 +480,33 @@ class OwnAlbum extends SelectableAlbum<OwnAlbumGetResp> with RemoveSyncItem{
   @override
   SyncableParam? get parentParam => SyncGetRespNode.ownAlbumNodes;
 
+  SyncableParamSingle get syncParamTitle => SyncableParamSingle(
+    this,
+    paramId: paramTitle,
+    value: () => title,
+  );
+
+  SyncableParamSingle get syncParamColorsKey => SyncableParamSingle(
+    this,
+    paramId: paramColorsKey,
+    value: () => colorsKey,
+  );
+
+  SyncableParamSingle get syncParamIconKey => SyncableParamSingle(
+    this,
+    paramId: paramIconKey,
+    value: () => iconKey,
+  );
+
   @override
   List<SyncableParam> get childParams{
 
     List<SyncableParam> params = [];
     params.addAll(super.childParams);
     params.addAll([
-      SyncableParamSingle(
-        this,
-        paramId: paramTitle,
-        value: () => title,
-      ),
-
-      SyncableParamSingle(
-        this,
-        paramId: paramColorsKey,
-        value: () => colorsKey,
-      ),
-
-      SyncableParamSingle(
-        this,
-        paramId: paramIconKey,
-        value: () => iconKey,
-      ),
+      syncParamTitle,
+      syncParamColorsKey,
+      syncParamIconKey,
     ]);
 
     return params;

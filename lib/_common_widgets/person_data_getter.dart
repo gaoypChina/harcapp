@@ -78,10 +78,8 @@ class PersonDataDialogState extends State<PersonDataDialog>{
                   top: 10,
                   left: Dimen.SIDE_MARG,
                   right: Dimen.SIDE_MARG,
-                  bottom: Dimen.SIDE_MARG,
                 ),
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
 
@@ -91,7 +89,7 @@ class PersonDataDialogState extends State<PersonDataDialog>{
                     ),
 
                     Text(
-                      'By każdy wiedział, kto dodał piosenkę!',
+                      'By każdy wiedział, kto dodał tę piosenkę!',
                       style: AppTextStyle(fontSize: Dimen.TEXT_SIZE_BIG),
                     ),
 
@@ -117,150 +115,151 @@ class PersonDataDialogState extends State<PersonDataDialog>{
                       controller: hufiecController,
                       onChanged: (_, __) => widget.onChanged(currentPerson),
                     ),
-
-                    HintDropdownWidget<StopZHP?>(
-                      hint: 'Stopień harcerski:',
-                      hintTop: 'Stopień harcerski',
-                      value: stopHarc,
-                      onChanged: (value){
-                        setState(() => stopHarc = value);
-                        widget.onChanged(currentPerson);
-                      },
-                      onCleared: (){
-                        setState(() => stopInstr = null);
-                        widget.onChanged(currentPerson);
-                      },
-                      items: [
-                        DropdownMenuItem<StopZHP>(
-                          value: StopZHP.dhc,
-                          child: Text('Druh', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<StopZHP>(
-                          value: StopZHP.dhd,
-                          child: Text('Druhna', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<StopZHP>(
-                          value: StopZHP.zhpMlodzik,
-                          child: Text('Młodzik', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<StopZHP>(
-                          value: StopZHP.zhpOchotniczka,
-                          child: Text('Ochotniczka', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<StopZHP>(
-                          value: StopZHP.zhpWywiadowca,
-                          child: Text('Wywiadowca', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<StopZHP>(
-                          value: StopZHP.zhpTropicielka,
-                          child: Text('Tropicielka', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<StopZHP>(
-                          value: StopZHP.zhpOdkrywca,
-                          child: Text('Odkrywca', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<StopZHP>(
-                          value: StopZHP.zhpPionierka,
-                          child: Text('Pionierka', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<StopZHP>(
-                          value: StopZHP.zhpCwik,
-                          child: Text('Ćwik', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<StopZHP>(
-                          value: StopZHP.zhpSamarytanka,
-                          child: Text('Samarytanka', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<StopZHP>(
-                          value: StopZHP.zhpHOc,
-                          child: Text('Harcerz Orli', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<StopZHP>(
-                          value: StopZHP.zhpHOd,
-                          child: Text('Harcerka Orla', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<StopZHP>(
-                          value: StopZHP.zhpHRc,
-                          child: Text('Harcerz Rzeczypospolitej', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<StopZHP>(
-                          value: StopZHP.zhpHRd,
-                          child: Text('Harcerka Rzeczypospolitej', style: AppTextStyle()),
-                        ),
-                      ],
-                    ),
-
-                    HintDropdownWidget<String?>(
-                      hint: 'Stopień instruktorski:',
-                      hintTop: 'Stopień instruktorski',
-                      value: stopInstr,
-                      onChanged: (value){
-                        setState(() => stopInstr = value);
-                        widget.onChanged(currentPerson);
-                      },
-                      onCleared: (){
-                        setState(() => stopInstr = null);
-                        widget.onChanged(currentPerson);
-                      },
-                      items: [
-                        DropdownMenuItem<String>(
-                          value: 'pwd.',
-                          child: Text('Przewodnik', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<String>(
-                          value: 'phm.',
-                          child: Text('Podharcmistrz', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<String>(
-                          value: 'hm.',
-                          child: Text('Harcmistrz', style: AppTextStyle()),
-                        ),
-                      ],
-                    ),
-
-                    HintDropdownWidget<Org?>(
-                      hint: 'Organizacja harcerska:',
-                      hintTop: 'Organizacja',
-                      value: org,
-                      onChanged: (value){
-                        setState(() => org = value);
-                        widget.onChanged(currentPerson);
-                      },
-                      onCleared: (){
-                        setState(() => org = null);
-                        widget.onChanged(currentPerson);
-                      },
-                      items: [
-                        DropdownMenuItem<Org>(
-                          value: Org.zhp,
-                          child: Text('ZHP', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<Org>(
-                          value: Org.zhr_o,
-                          child: Text('ZHR', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<Org>(
-                          value: Org.fse,
-                          child: Text('FSE', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<Org>(
-                          value: Org.sh,
-                          child: Text('SH', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<Org>(
-                          value: Org.zhp_n_l,
-                          child: Text('ZHPnL', style: AppTextStyle()),
-                        ),
-                        DropdownMenuItem<Org>(
-                          value: Org.hrp,
-                          child: Text('HRP', style: AppTextStyle()),
-                        ),
-                      ],
-                    ),
-
                   ],
                 ),
               ),
+
+              HintDropdownWidget<StopZHP?>(
+                hint: 'Stopień harcerski:',
+                hintTop: 'Stopień harcerski',
+                value: stopHarc,
+                onChanged: (value){
+                  setState(() => stopHarc = value);
+                  widget.onChanged(currentPerson);
+                },
+                onCleared: (){
+                  setState(() => stopInstr = null);
+                  widget.onChanged(currentPerson);
+                },
+                items: [
+                  DropdownMenuItem<StopZHP>(
+                    value: StopZHP.dhc,
+                    child: Text('Druh', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<StopZHP>(
+                    value: StopZHP.dhd,
+                    child: Text('Druhna', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<StopZHP>(
+                    value: StopZHP.zhpMlodzik,
+                    child: Text('Młodzik', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<StopZHP>(
+                    value: StopZHP.zhpOchotniczka,
+                    child: Text('Ochotniczka', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<StopZHP>(
+                    value: StopZHP.zhpWywiadowca,
+                    child: Text('Wywiadowca', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<StopZHP>(
+                    value: StopZHP.zhpTropicielka,
+                    child: Text('Tropicielka', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<StopZHP>(
+                    value: StopZHP.zhpOdkrywca,
+                    child: Text('Odkrywca', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<StopZHP>(
+                    value: StopZHP.zhpPionierka,
+                    child: Text('Pionierka', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<StopZHP>(
+                    value: StopZHP.zhpCwik,
+                    child: Text('Ćwik', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<StopZHP>(
+                    value: StopZHP.zhpSamarytanka,
+                    child: Text('Samarytanka', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<StopZHP>(
+                    value: StopZHP.zhpHOc,
+                    child: Text('Harcerz Orli', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<StopZHP>(
+                    value: StopZHP.zhpHOd,
+                    child: Text('Harcerka Orla', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<StopZHP>(
+                    value: StopZHP.zhpHRc,
+                    child: Text('Harcerz Rzeczypospolitej', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<StopZHP>(
+                    value: StopZHP.zhpHRd,
+                    child: Text('Harcerka Rzeczypospolitej', style: AppTextStyle()),
+                  ),
+                ],
+              ),
+
+              HintDropdownWidget<String?>(
+                hint: 'Stopień instruktorski:',
+                hintTop: 'Stopień instruktorski',
+                value: stopInstr,
+                onChanged: (value){
+                  setState(() => stopInstr = value);
+                  widget.onChanged(currentPerson);
+                },
+                onCleared: (){
+                  setState(() => stopInstr = null);
+                  widget.onChanged(currentPerson);
+                },
+                items: [
+                  DropdownMenuItem<String>(
+                    value: 'pwd.',
+                    child: Text('Przewodnik', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: 'phm.',
+                    child: Text('Podharcmistrz', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: 'hm.',
+                    child: Text('Harcmistrz', style: AppTextStyle()),
+                  ),
+                ],
+              ),
+
+              HintDropdownWidget<Org?>(
+                hint: 'Organizacja harcerska:',
+                hintTop: 'Organizacja',
+                value: org,
+                onChanged: (value){
+                  setState(() => org = value);
+                  widget.onChanged(currentPerson);
+                },
+                onCleared: (){
+                  setState(() => org = null);
+                  widget.onChanged(currentPerson);
+                },
+                items: [
+                  DropdownMenuItem<Org>(
+                    value: Org.zhp,
+                    child: Text('ZHP', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<Org>(
+                    value: Org.zhr_o,
+                    child: Text('ZHR', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<Org>(
+                    value: Org.fse,
+                    child: Text('FSE', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<Org>(
+                    value: Org.sh,
+                    child: Text('SH', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<Org>(
+                    value: Org.zhp_n_l,
+                    child: Text('ZHPnL', style: AppTextStyle()),
+                  ),
+                  DropdownMenuItem<Org>(
+                    value: Org.hrp,
+                    child: Text('HRP', style: AppTextStyle()),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: Dimen.SIDE_MARG),
 
               Row(
                 children: [
