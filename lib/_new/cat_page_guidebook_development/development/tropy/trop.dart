@@ -386,6 +386,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     completed = trop.completed;
     completionDate = trop.completionDate;
     tasks = trop.tasks;
+    users = trop.users;
   }
 
   static Trop create({
@@ -432,13 +433,13 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       name: respMapData[paramName]??(throw MissingDecodeParamError(paramName)),
       customIconTropName: respMapData[paramCustomIconTropName],
       category: strToTropCategory(respMapData[paramCategory])??(throw MissingDecodeParamError(paramCategory)),
-      aims: respMapData[paramAims]??(throw MissingDecodeParamError(paramAims)),
+      aims: (respMapData[paramAims]??(throw MissingDecodeParamError(paramAims))).cast<String>(),
 
-      startDate: DateTime.tryParse(respMapData[paramStartDate])??(throw MissingDecodeParamError(paramStartDate)),
-      endDate: DateTime.tryParse(respMapData[paramEndDate])??(throw MissingDecodeParamError(paramEndDate)),
+      startDate: DateTime.tryParse(respMapData[paramStartDate]??'')??(throw MissingDecodeParamError(paramStartDate)),
+      endDate: DateTime.tryParse(respMapData[paramEndDate]??'')??(throw MissingDecodeParamError(paramEndDate)),
 
       completed: respMapData[paramCompleted]??false,
-      completionDate: DateTime.tryParse(respMapData[paramCompletionTime]),
+      completionDate: DateTime.tryParse(respMapData[paramCompletionTime]??''),
 
       tasks: [],
       users: {},
@@ -450,14 +451,14 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     trop.tasks = tasks;
 
     Map<String, UserData> users = {};
-    for(String userKey in respMapData[paramUsers].key)
+    for(String userKey in respMapData[paramUsers].keys)
       users[userKey] = UserData.fromRespMap(respMapData[paramUsers][userKey], key: userKey);
     trop.users = users;
 
     return trop;
   }
 
-  static Trop? readFromUniqName(String uniqName){
+  static Trop? readFromUniqName(String uniqName, {bool log = true}){
     try {
       String tropData = readFileAsString(getOwnTropFolderPath + uniqName);
       Map map = jsonDecode(tropData);
@@ -466,13 +467,19 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       bool needsUpdating = false;
 
       if(!map.containsKey("startTime")) {
-        map[paramStartDate] = DateFormat('yyyy-MM-dd').format(DateTime.parse(map["startTime"]));
-        needsUpdating = true;
+        DateTime? startDate = DateTime.tryParse(map["startTime"]??'');
+        if(startDate != null) {
+          map[paramStartDate] = DateFormat('yyyy-MM-dd').format(startDate);
+          needsUpdating = true;
+        }
       }
 
       if(!map.containsKey("endTime")) {
-        map[paramEndDate] = DateFormat('yyyy-MM-dd').format(DateTime.parse(map["endTime"]));
-        needsUpdating = true;
+        DateTime? endTime = DateTime.tryParse(map["endTime"]??'');
+        if(endTime != null) {
+          map[paramEndDate] = DateFormat('yyyy-MM-dd').format(endTime);
+          needsUpdating = true;
+        }
       }
 
       if(!map.containsKey(paramCompleted)) {
@@ -492,13 +499,18 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
         needsUpdating = true;
       }
 
+      if(!map.containsKey(paramUsers)) {
+        map[paramUsers] = {};
+        needsUpdating = true;
+      }
+
       if(needsUpdating)
         fromRespMap(map, uniqName).save();
       // TMP TMP TMP
 
       return fromRespMap(map, uniqName);
     } catch(e) {
-      logger.e(e);
+      if(log) logger.e(e);
       return null;
     }
   }
@@ -515,10 +527,23 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
     paramCompleted: completed,
     paramCompletionTime: completionDate?.toIso8601String(),
 
-    paramTasks: { for(TropTask task in tasks) task.lclId: task.toJsonMap() }
+    paramTasks: { for(TropTask task in tasks) task.lclId: task.toJsonMap() },
+    paramUsers : users.map((key, value) => MapEntry(key, value.toJsonMap()))
   };
 
   void save({localOnly = false, bool synced = false}){
+
+    // Mark removed tasks as removed.
+    Trop? oldTrop = readFromUniqName(uniqName, log: false);
+    if(oldTrop != null && !synced) {
+      Set<String> oldTaskLclIds = Set.from(oldTrop.tasks.map((t) => t.lclId).toList());
+      Set<String> taskLclIds = Set.from(tasks.map((t) => t.lclId).toList());
+
+      for (String taskLclId in oldTaskLclIds.difference(taskLclIds)){
+        TropTask task = oldTrop.tasks.firstWhere((t) => t.lclId == taskLclId);
+        task.markSyncAsRemoved();
+      }
+    }
 
     saveStringAsFileToFolder(
       getMyTropFolderLocalPath,
@@ -526,8 +551,10 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
       fileName: uniqName,
     );
 
+    // This can be more nuanced - specific params that have been changed can be
+    // selectively unsynced.
     setAllSyncState(
-        synced?SyncableParamSingleMixin.stateSynced:
+        synced ? SyncableParamSingleMixin.stateSynced :
         SyncableParamSingleMixin.stateNotSynced);
 
     if(!localOnly)
@@ -552,68 +579,76 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
   String get debugClassId => syncClassId;
 
   @override
-  SyncableParam? get parentParam => null;
+  SyncableParam? get parentParam => SyncGetRespNode.tropNodes;
 
   @override
   String get paramId => uniqName;
 
+  SyncableParamSingle get syncParamName => SyncableParamSingle(
+    this,
+    paramId: paramName,
+    value: () => name,
+  );
+
+  SyncableParamSingle get syncParamCustomIconTropName => SyncableParamSingle(
+    this,
+    paramId: paramCustomIconTropName,
+    value: () => customIconTropName
+  );
+
+  SyncableParamSingle get syncParamCategory => SyncableParamSingle(
+    this,
+    paramId: paramCategory,
+    value: () => tropCategoryToStr(category),
+  );
+
+  SyncableParamSingle get syncParamAims => SyncableParamSingle(
+    this,
+    paramId: paramAims,
+    value: () => aims,
+  );
+
+  SyncableParamSingle get syncParamStartDate => SyncableParamSingle(
+    this,
+    paramId: paramStartDate,
+    value: () => DateFormat('yyyy-MM-dd').format(startDate)
+  );
+
+  SyncableParamSingle get syncParamEndDate => SyncableParamSingle(
+    this,
+    paramId: paramEndDate,
+    value: () => DateFormat('yyyy-MM-dd').format(endDate),
+  );
+
+  SyncableParamSingle get syncParamCompleted => SyncableParamSingle(
+    this,
+    paramId: paramCompleted,
+    value: () => completed,
+  );
+
+  SyncableParamSingle get syncParamCompletionTime => SyncableParamSingle(
+    this,
+    paramId: paramCompletionTime,
+    value: () => completionDate?.toIso8601String(),
+  );
+
+  SyncableParamGroup get syncParamTasks => SyncableParamGroup(
+    this,
+    paramId: paramTasks,
+    childParams: tasks,
+  );
+
   @override
   List<SyncableParam> get childParams => [
-
-    SyncableParamSingle(
-      this,
-      paramId: paramName,
-      value: () => name,
-    ),
-
-    SyncableParamSingle(
-        this,
-        paramId: paramCustomIconTropName,
-        value: () => customIconTropName
-    ),
-
-    SyncableParamSingle(
-      this,
-      paramId: paramCategory,
-      value: () => tropCategoryToStr(category),
-    ),
-
-    SyncableParamSingle(
-      this,
-      paramId: paramAims,
-      value: () => aims,
-    ),
-
-    SyncableParamSingle(
-      this,
-      paramId: paramStartDate,
-      value: () => DateFormat('yyyy-MM-dd').format(startDate)
-    ),
-
-    SyncableParamSingle(
-      this,
-      paramId: paramEndDate,
-      value: () => DateFormat('yyyy-MM-dd').format(endDate),
-    ),
-
-    SyncableParamSingle(
-      this,
-      paramId: paramCompleted,
-      value: () => completed,
-    ),
-
-    SyncableParamSingle(
-      this,
-      paramId: paramCompletionTime,
-      value: () => completionDate?.toIso8601String(),
-    ),
-
-    SyncableParamGroup(
-      this,
-      paramId: paramTasks,
-      childParams: tasks,
-    ),
-
+    syncParamName,
+    syncParamCustomIconTropName,
+    syncParamCategory,
+    syncParamAims,
+    syncParamStartDate,
+    syncParamEndDate,
+    syncParamCompleted,
+    syncParamCompletionTime,
+    syncParamTasks,
   ];
 
   @override
@@ -630,7 +665,9 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
 
     users = resp.users;
 
-    for(String taskIclId in resp.tasks.keys){
+    List<String> taskLclIds = resp.tasks.keys.toList();
+    for(int i=0; i<taskLclIds.length; i++){
+      String taskIclId = taskLclIds[i];
       TropTask? task = tasks.where((t) => t.lclId == taskIclId).firstOrNull;
       if(task == null) {
         TropTaskGetResp taskResp = resp.tasks[taskIclId]!;
@@ -644,7 +681,7 @@ class Trop extends TropBaseData<TropTask> with SyncableParamGroupMixin, SyncGetR
             completed: taskResp.completed,
             trop: this
         );
-        tasks.add(task);
+        tasks.insert(i, task);
       } else
         task.applySyncGetResp(resp.tasks[taskIclId]!);
     }
@@ -663,6 +700,7 @@ class TropTaskBaseData{
 
 class TropTaskData extends TropTaskBaseData{
 
+  String? lclId;
   String? _summary;
   DateTime deadline;
   UserData? assignee;
@@ -670,6 +708,7 @@ class TropTaskData extends TropTaskBaseData{
   bool completed;
 
   TropTaskData({
+    this.lclId,
     required super.content,
     String? summary,
     required this.deadline,
@@ -686,6 +725,7 @@ class TropTaskData extends TropTaskBaseData{
   }
 
   TropTask toTask(Trop trop) => TropTask.create(
+      lclId: lclId,
       content: content,
       deadline: deadline,
       assignee: assignee,
@@ -696,7 +736,7 @@ class TropTaskData extends TropTaskBaseData{
 
 }
 
-class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNode<TropTaskGetResp>{
+class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNode<TropTaskGetResp>, RemoveSyncItem{
 
   static const String paramLclId = 'lclId';
   static const String paramContent = 'content';
@@ -784,7 +824,7 @@ class TropTask extends TropTaskData with SyncableParamGroupMixin, SyncGetRespNod
   String get debugClassId => syncClassId;
 
   @override
-  SyncableParam? get parentParam => trop;
+  SyncableParam? get parentParam => trop.syncParamTasks;
 
   @override
   String get paramId => lclId;

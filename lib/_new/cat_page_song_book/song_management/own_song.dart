@@ -272,7 +272,7 @@ class OwnSong extends Song<OwnSongGetResp>{
   String get debugClassId => syncClassId;
 
   @override
-  SyncableParam? get parentParam => null;
+  SyncableParam? get parentParam => SyncGetRespNode.ownSongNodes;
 
   @override
   List<SyncableParam> get childParams{

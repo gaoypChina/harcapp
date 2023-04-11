@@ -134,7 +134,9 @@ void main() {
 
     await factoryResetLocalSilent();
 
+    // Just to make sure factory reset was successful.
     assert(OffSong.allOfficial[0].rate == SongRate.RATE_NULL);
+    assert(Trop.all.isEmpty);
 
     // Get is run two times - cause maybe calling twice saves something twice?
     // It surely shouldn't.
@@ -202,6 +204,42 @@ void main() {
     assert(Trop.all[0].tasks[1].deadline == trop.tasks[1].deadline);
     assert(Trop.all[0].tasks[1].assigneeCustomText == trop.tasks[1].assigneeCustomText);
     assert(Trop.all[0].tasks[1].completed == trop.tasks[1].completed);
+
+    // -- Try some updating.
+
+    Trop.all[0].tasks.removeAt(0);
+    Trop.all[0].save(localOnly: true);
+
+    await synchronizer.post();
+
+    await factoryResetLocalSilent();
+
+    // Just to make sure factory reset was successful.
+    assert(OffSong.allOfficial[0].rate == SongRate.RATE_NULL);
+    assert(Trop.all.isEmpty);
+
+    // Get is run two times - cause maybe calling twice saves something twice?
+    // It surely shouldn't.
+    await synchronizer.get();
+    await synchronizer.get();
+
+    assert(Trop.all.length == 1);
+    assert(Trop.all[0].uniqName == trop.uniqName);
+    assert(Trop.all[0].name == trop.name);
+    assert(Trop.all[0].customIconTropName == trop.customIconTropName);
+    assert(Trop.all[0].category == trop.category);
+    assert(Trop.all[0].startDate == trop.startDate);
+    assert(Trop.all[0].endDate == trop.endDate);
+    assert(Trop.all[0].completed == trop.completed);
+    assert(Trop.all[0].completionDate == trop.completionDate);
+    assert(Trop.all[0].tasks.length == 1);
+    // ---
+    assert(Trop.all[0].tasks[0].lclId == trop.tasks[1].lclId);
+    assert(Trop.all[0].tasks[0].content == trop.tasks[1].content);
+    assert(Trop.all[0].tasks[0].summary == trop.tasks[1].summary);
+    assert(Trop.all[0].tasks[0].deadline == trop.tasks[1].deadline);
+    assert(Trop.all[0].tasks[0].assigneeCustomText == trop.tasks[1].assigneeCustomText);
+    assert(Trop.all[0].tasks[0].completed == trop.tasks[1].completed);
 
   });
 

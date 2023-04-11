@@ -288,7 +288,7 @@ class Spraw extends RankSprawTemplate<SprawGetResp>{
   String get debugClassId => syncClassId;
 
   @override
-  SyncableParam? get parentParam => null;
+  SyncableParam? get parentParam => SyncGetRespNode.sprawNodes;
 
   @override
   String get paramId => uniqName;

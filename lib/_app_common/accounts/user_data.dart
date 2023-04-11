@@ -48,6 +48,13 @@ class UserData{
     //nick: nick,
   );
 
+  Map toJsonMap() => {
+    '_key': key,
+    'name': name,
+    'shadow': shadow,
+    'sex': sexToString[sex]
+  };
+
 }
 
 class UserDataNick extends UserData{

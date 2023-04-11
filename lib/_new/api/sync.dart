@@ -55,7 +55,7 @@ class ApiSync{
         FutureOr<void> Function(Response? response)? onError,
       }) async {
 
-    Map<String?, dynamic> reqMap = {};
+    Map<String, dynamic> reqMap = {};
     if(dumpReplaceExisting??false)
       reqMap['dumpReplaceExisting'] = true;
 
@@ -73,18 +73,18 @@ class ApiSync{
 
       List<String> paramIds = removeSyncItemName.split(RemoveSyncItem.paramSep);
       String currParam;
-      Map? currReqMap = reqMap;
+      Map<dynamic, dynamic> currReqMap = reqMap;
       while(paramIds.isNotEmpty){
         currParam = paramIds.first;
         paramIds.removeAt(0);
 
-        if(currReqMap![currParam] == null)
+        if(currReqMap[currParam] == null)
           currReqMap[currParam] = {};
 
         currReqMap = currReqMap[currParam];
       }
 
-      currReqMap!['remove'] = true;
+      currReqMap['remove'] = true;
 
     }
 
@@ -499,14 +499,15 @@ class ApiSync{
             List<TropTaskData> tasks = [];
             for(String taskLclId in tropResp.tasks.keys){
               TropTaskGetResp taskBody = tropResp.tasks[taskLclId]!;
-              TropTaskData(
+              tasks.add(TropTaskData(
+                lclId: taskLclId,
                 content: taskBody.content,
                 summary: taskBody.summary,
                 deadline: taskBody.deadline,
                 assignee: tropResp.users[taskBody.assigneeKey],
                 assigneeCustomText: taskBody.assigneeCustomText,
                 completed: taskBody.completed
-              );
+              ));
             }
 
             trop = Trop.create(

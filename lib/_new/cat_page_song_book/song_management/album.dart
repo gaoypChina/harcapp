@@ -267,9 +267,6 @@ abstract class SelectableAlbum<T extends AlbumGetResp> extends BaseAlbum with Sy
   bool isNotSet();
 
   @override
-  SyncableParam? get parentParam => null;
-
-  @override
   String get paramId => lclId;
 
   @override
@@ -481,6 +478,9 @@ class OwnAlbum extends SelectableAlbum<OwnAlbumGetResp> with RemoveSyncItem{
   String get debugClassId => syncClassId;
 
   @override
+  SyncableParam? get parentParam => SyncGetRespNode.ownAlbumNodes;
+
+  @override
   List<SyncableParam> get childParams{
 
     List<SyncableParam> params = [];
@@ -610,6 +610,9 @@ class ToLearnAlbum extends SelectableAlbum<ToLearnAlbumGetResp>{
     if(!localOnly)
       synchronizer.post();
   }
+
+  @override
+  SyncableParam? get parentParam => null;
 
   static const String syncClassId = 'toLearnAlbum';
 

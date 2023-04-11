@@ -104,7 +104,7 @@ class RankZHPOld extends RankZHPOldTempl<RankStateLocal>{
   static const String syncClassId = RankDef.syncClassId;
 
   @override
-  SyncableParam? get parentParam => null;
+  SyncableParam? get parentParam => SyncGetRespNode.rankDefNodes;
 }
 
 class RankZHPOldPreview extends RankZHPOldTempl<RankStateShared>{
@@ -119,6 +119,6 @@ class RankZHPOldPreview extends RankZHPOldTempl<RankStateShared>{
 
   @override
   // TODO: Separate the rank template stuff do that preview is not syncable.
-  SyncableParam? get parentParam => null;
+  SyncableParam? get parentParam => SyncGetRespNode.rankDefNodes;
 
 }
