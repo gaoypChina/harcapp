@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:harcapp/_common_classes/storage.dart';
 import 'package:harcapp/_new/api/sync_resp_body/own_song_get_resp.dart';
 import 'package:harcapp/sync/synchronizer_engine.dart';
+import 'package:harcapp_core/comm_classes/common.dart';
 import 'package:harcapp_core/comm_classes/primitive_wrapper.dart';
 import 'package:uuid/uuid.dart';
 
@@ -29,24 +30,26 @@ class OwnSong extends Song<OwnSongGetResp>{
   static late Map<String, OwnSong> _allOwnMap;
   static Map<String, OwnSong> get allOwnMap => _allOwnMap;
   static set allOwnMap(Map<String, OwnSong> value) => _allOwnMap = Map.from(value);
+  static void sortSongs() => _allOwn.sort((s1, s2) => compareText(s1.title, s2.title));
   static void init(List<OwnSong> allOwn, Map<String, OwnSong> allOwnMap, {bool recalculateAddPersRanking = true}){
     _allOwn = allOwn;
+    // Sort alphabetically
+    sortSongs();
     _allOwnMap = allOwnMap;
-    if(recalculateAddPersRanking)
-      Song.recalculateAddPersRanking();
+    if(recalculateAddPersRanking) Song.recalculateAddPersRanking();
   }
-  static void addToAll(OwnSong song, {bool recalculateAddPersRanking = true}){
+  static void addToAll(OwnSong song, {bool recalculateAddPersRanking = true, bool sort = true}){
     if(_allOwnMap[song.lclId] != null) return;
     _allOwn.add(song);
     _allOwnMap[song.lclId] = song;
-    if(recalculateAddPersRanking)
-      Song.recalculateAddPersRanking();
+    if(recalculateAddPersRanking) Song.recalculateAddPersRanking();
+    // Sort alphabetically
+    if(sort) sortSongs();
   }
   static void removeFromAll(OwnSong song, {bool recalculateAddPersRanking = true}){
     _allOwn.remove(song);
     _allOwnMap.remove(song.lclId);
-    if(recalculateAddPersRanking)
-      Song.recalculateAddPersRanking();
+    if(recalculateAddPersRanking) Song.recalculateAddPersRanking();
   }
 
   static const String paramCode = 'code';

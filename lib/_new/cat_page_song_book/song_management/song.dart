@@ -193,7 +193,6 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
   static const String defYoutubeLink = '';
   static const List<String> defAddPers = [];
 
-
   @override
   final String lclId;
 
@@ -335,11 +334,8 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
   );
 
   static Future<SongDataEntity> parse(String fileName, String code) async {
-
     Map<String, dynamic> map = jsonDecode(code)[fileName];
-
     return Song.fromRespMap(fileName, map);
-
   }
 
   @protected

@@ -435,10 +435,14 @@ class ApiSync{
             song = await OwnSong.create(lclId: lclId, code: songResp.code);
             if (song == null) continue;
             await song.save(localOnly: true, synced: true);
-            OwnSong.addToAll(song);
+            OwnSong.addToAll(song, sort: false);
           }
           await song.applySyncGetResp(songResp);
         }
+
+        if(ownSongs.isNotEmpty)
+          // Sort alphabetically
+          OwnSong.sortSongs();
 
         for(String lclId in albums.keys){
           OwnAlbumGetResp albumResp = albums[lclId]!;

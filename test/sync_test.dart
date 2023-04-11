@@ -207,6 +207,8 @@ void main() {
 
     // -- Try some updating.
 
+    OwnSong.allOwn[1].deleteSongFile(localOnly: true);
+
     Trop.all[0].tasks.removeAt(0);
     Trop.all[0].save(localOnly: true);
 
@@ -222,6 +224,10 @@ void main() {
     // It surely shouldn't.
     await synchronizer.get();
     await synchronizer.get();
+
+    assert(OwnSong.allOwn.length == 2);
+    assert(OwnSong.allOwn[0].lclId == ownSong1.lclId);
+    assert(OwnSong.allOwn[1].lclId == ownSong3.lclId);
 
     assert(Trop.all.length == 1);
     assert(Trop.all[0].uniqName == trop.uniqName);
