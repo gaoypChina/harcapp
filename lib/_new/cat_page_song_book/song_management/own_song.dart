@@ -297,7 +297,7 @@ class OwnSong extends Song<OwnSongGetResp>{
   @override
   Future<void> applySyncGetResp(OwnSongGetResp resp) async {
     recode(resp.code);
-    await save(localOnly: true, synced: true);
+    // await save(localOnly: true, synced: true);
     super.applySyncGetResp(resp);
   }
 

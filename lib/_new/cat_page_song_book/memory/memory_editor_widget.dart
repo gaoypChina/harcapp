@@ -125,19 +125,19 @@ class MemoryEditorWidgetState extends State<MemoryEditorWidget> with TickerProvi
 
                       if(initMemory == null) {
                         Memory memory = Memory.create(
-                          song.lclId,
-                          memoryBuilder.date!,
-                          memoryBuilder.place,
-                          memoryBuilder.desc,
-                          memoryBuilder.fontIndex,
-                          memoryBuilder.published,
+                          songLclId: song.lclId,
+                          date: memoryBuilder.date!,
+                          place: memoryBuilder.place,
+                          desc: memoryBuilder.desc,
+                          fontIndex: memoryBuilder.fontIndex,
+                          published: memoryBuilder.published,
                         );
                         Memory.addToAll(memory);
                         song.addMemory(memory);
                       }
                       else
                         initMemory!.update(
-                          songFileName: song.lclId,
+                          songLclId: song.lclId,
                           date: memoryBuilder.date,
                           place: memoryBuilder.place,
                           desc: memoryBuilder.desc,
@@ -245,7 +245,7 @@ class _PartOneState extends State<_PartOne>{
                     const SizedBox(height: 6.0),
 
                     Hero(
-                        tag: MemoryWidget.memoryDateHeroTagFrom(initMemory?.fileName),
+                        tag: MemoryWidget.memoryDateHeroTagFrom(initMemory?.lclId),
                         child: Material(
                           color: Colors.transparent,
                           child: Text(
@@ -296,7 +296,7 @@ class _PartOneState extends State<_PartOne>{
             Padding(
               padding: const EdgeInsets.only(left: Dimen.ICON_SIZE + Dimen.ICON_MARG),
               child: Hero(
-                  tag: MemoryWidget.memoryPlaceHeroTagFrom(initMemory?.fileName),
+                  tag: MemoryWidget.memoryPlaceHeroTagFrom(initMemory?.lclId),
                   child: Material(
                     color: Colors.transparent,
                     child: TextField(
@@ -335,7 +335,7 @@ class _PartOneState extends State<_PartOne>{
             Padding(
               padding: const EdgeInsets.only(left: Dimen.ICON_SIZE + Dimen.ICON_MARG),
               child: Hero(
-                  tag: MemoryWidget.memoryDescHeroTagFrom(initMemory?.fileName),
+                  tag: MemoryWidget.memoryDescHeroTagFrom(initMemory?.lclId),
                   child: Material(
                     color: Colors.transparent,
                     child: TextField(

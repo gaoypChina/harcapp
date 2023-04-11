@@ -56,13 +56,22 @@ void main() {
     OffSong.allOfficial[0].setRate(SongRate.RATE_1, localOnly: true);
     OffSong.allOfficial[0].setChordShift(5, localOnly: true);
     OffSong.allOfficial[0].addMemory(Memory.create(
-      OffSong.allOfficial[0].lclId,
-      DateTime(2011, 11, 11),
-      'Kraków',
-      'Rajd Nierozwiązanych Tajemnic',
-      0,
-      false,
+      songLclId: OffSong.allOfficial[0].lclId,
+      date: DateTime(2011, 11, 11),
+      place: 'Kraków',
+      desc: 'Rajd Nierozwiązanych Tajemnic',
+      fontIndex: 0,
+      published: false,
       localOnly: true
+    ));
+    OffSong.allOfficial[0].addMemory(Memory.create(
+        songLclId: OffSong.allOfficial[0].lclId,
+        date: DateTime(2012, 12, 12),
+        place: 'Gdańsk',
+        desc: 'Rajd Dziwnych Tajemnic',
+        fontIndex: 1,
+        published: false,
+        localOnly: true
     ));
 
     Map song1CodeMap = jsonDecode(OwnSong.emptySongCode);
@@ -89,16 +98,26 @@ void main() {
     ToLearnAlbum.loaded.addSong(OffSong.allOfficial[43]);
     ToLearnAlbum.loaded.save(localOnly: true);
 
-    OwnAlbum album = OwnAlbum.create(
+    OwnAlbum album1 = OwnAlbum.create(
         title: 'Obóz 2021',
         offSongs: [OffSong.allOfficial[10], OffSong.allOfficial[11], OffSong.allOfficial[12]],
         ownSongs: [ownSong1, ownSong2],
         colorsKey: CommonColorData.all.keys.toList()[10],
         iconKey: CommonIconData.all.keys.toList()[20]
     );
-    album.save(localOnly: true);
-    OwnAlbum.addToAll(album);
-
+    album1.save(localOnly: true);
+    OwnAlbum.addToAll(album1);
+    
+    OwnAlbum album2 = OwnAlbum.create(
+        title: 'Zimowisko 2023',
+        offSongs: [OffSong.allOfficial[20], OffSong.allOfficial[21], OffSong.allOfficial[22], OffSong.allOfficial[23]],
+        ownSongs: [ownSong2, ownSong3],
+        colorsKey: CommonColorData.all.keys.toList()[9],
+        iconKey: CommonIconData.all.keys.toList()[24]
+    );
+    album2.save(localOnly: true);
+    OwnAlbum.addToAll(album2);
+    
     Trop trop = Trop.create(
         name: 'Mój super trop',
         category: TropCategory.harcNatura,
@@ -146,14 +165,21 @@ void main() {
     assert(OffSong.allOfficial[0].rate == SongRate.RATE_1);
     assert(OffSong.allOfficial[0].chordShift == 5);
 
-    assert(OffSong.allOfficial[0].memories.length == 1);
-    Memory memory = OffSong.allOfficial[0].memories.first;
-    assert(memory.songFileName == OffSong.allOfficial[0].lclId);
-    assert(memory.date == DateTime(2011, 11, 11));
-    assert(memory.place == 'Kraków');
-    assert(memory.desc == 'Rajd Nierozwiązanych Tajemnic');
-    assert(memory.fontIndex == 0);
-    assert(memory.published == false);
+    assert(OffSong.allOfficial[0].memories.length == 2);
+    Memory memory1 = OffSong.allOfficial[0].memories.first;
+    assert(memory1.songLclId == OffSong.allOfficial[0].lclId);
+    assert(memory1.date == DateTime(2011, 11, 11));
+    assert(memory1.place == 'Kraków');
+    assert(memory1.desc == 'Rajd Nierozwiązanych Tajemnic');
+    assert(memory1.fontIndex == 0);
+    assert(memory1.published == false);
+    Memory memory2 = OffSong.allOfficial[0].memories.last;
+    assert(memory2.songLclId == OffSong.allOfficial[0].lclId);
+    assert(memory2.date == DateTime(2012, 12, 12));
+    assert(memory2.place == 'Gdańsk');
+    assert(memory2.desc == 'Rajd Dziwnych Tajemnic');
+    assert(memory2.fontIndex == 1);
+    assert(memory2.published == false);
 
     assert(OwnSong.allOwn.length == 3);
     assert(OwnSong.allOwnMap['abcd-1234-1']!.title == 'Tytuł mojej super testowej piosenki 1');
@@ -166,13 +192,21 @@ void main() {
     assert(ToLearnAlbum.loaded.songs[1].lclId == OffSong.allOfficial[42].lclId);
     assert(ToLearnAlbum.loaded.songs[2].lclId == OffSong.allOfficial[43].lclId);
 
-    assert(OwnAlbum.all.length == 1);
-    assert(OwnAlbum.all[0].lclId == album.lclId);
+    assert(OwnAlbum.all.length == 2);
+    assert(OwnAlbum.all[0].lclId == album1.lclId);
     assert(OwnAlbum.all[0].title == 'Obóz 2021');
     assert(OwnAlbum.all[0].offSongs.length == 3);
     assert(OwnAlbum.all[0].offSongs[0].lclId == OffSong.allOfficial[10].lclId);
     assert(OwnAlbum.all[0].offSongs[1].lclId == OffSong.allOfficial[11].lclId);
     assert(OwnAlbum.all[0].offSongs[2].lclId == OffSong.allOfficial[12].lclId);
+
+    assert(OwnAlbum.all[1].lclId == album2.lclId);
+    assert(OwnAlbum.all[1].title == 'Zimowisko 2023');
+    assert(OwnAlbum.all[1].offSongs.length == 4);
+    assert(OwnAlbum.all[1].offSongs[0].lclId == OffSong.allOfficial[20].lclId);
+    assert(OwnAlbum.all[1].offSongs[1].lclId == OffSong.allOfficial[21].lclId);
+    assert(OwnAlbum.all[1].offSongs[2].lclId == OffSong.allOfficial[22].lclId);
+    assert(OwnAlbum.all[1].offSongs[3].lclId == OffSong.allOfficial[23].lclId);
 
     assert(OwnAlbum.all[0].ownSongs.length == 2);
     assert(OwnAlbum.all[0].ownSongs[0].lclId == 'abcd-1234-1');
@@ -207,8 +241,12 @@ void main() {
 
     // -- Try some updating.
 
-    OwnSong.allOwn[1].deleteSongFile(localOnly: true);
+    OffSong.allOfficial[0].removeMemoryAt(0, localOnly: true);
 
+    OwnSong.allOwn[1].delete(localOnly: true);
+
+    OwnAlbum.all[0].delete(localOnly: true);
+    
     Trop.all[0].tasks.removeAt(0);
     Trop.all[0].save(localOnly: true);
 
@@ -225,9 +263,26 @@ void main() {
     await synchronizer.get();
     await synchronizer.get();
 
+    assert(OffSong.allOfficial[0].memories.length == 1);
+    assert(OffSong.allOfficial[0].memories.first.songLclId == OffSong.allOfficial[0].lclId);
+    assert(OffSong.allOfficial[0].memories.first.date == DateTime(2012, 12, 12));
+    assert(OffSong.allOfficial[0].memories.first.place == 'Gdańsk');
+    assert(OffSong.allOfficial[0].memories.first.desc == 'Rajd Dziwnych Tajemnic');
+    assert(OffSong.allOfficial[0].memories.first.fontIndex == 1);
+    assert(OffSong.allOfficial[0].memories.first.published == false);
+
     assert(OwnSong.allOwn.length == 2);
     assert(OwnSong.allOwn[0].lclId == ownSong1.lclId);
     assert(OwnSong.allOwn[1].lclId == ownSong3.lclId);
+
+    assert(OwnAlbum.all.length == 1);
+    assert(OwnAlbum.all[0].lclId == album2.lclId);
+    assert(OwnAlbum.all[0].title == 'Zimowisko 2023');
+    assert(OwnAlbum.all[0].offSongs.length == 4);
+    assert(OwnAlbum.all[0].offSongs[0].lclId == OffSong.allOfficial[20].lclId);
+    assert(OwnAlbum.all[0].offSongs[1].lclId == OffSong.allOfficial[21].lclId);
+    assert(OwnAlbum.all[0].offSongs[2].lclId == OffSong.allOfficial[22].lclId);
+    assert(OwnAlbum.all[0].offSongs[3].lclId == OffSong.allOfficial[23].lclId);
 
     assert(Trop.all.length == 1);
     assert(Trop.all[0].uniqName == trop.uniqName);

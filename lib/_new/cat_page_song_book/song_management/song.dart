@@ -502,11 +502,12 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
 
   void addMemory(Memory memory){
     memories.add(memory);
-    memoryMap[memory.fileName] = memory;
+    memoryMap[memory.lclId] = memory;
   }
 
   void removeAllMemories({bool localOnly = false}){
     for(Memory memory in memories) {
+      Memory.removeFromAll(memory);
       memory.delete(localOnly: localOnly);
     }
     memories.clear();
@@ -515,11 +516,19 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
   void removeMemory(Memory memory, {bool localOnly = false}){
     memory.delete(localOnly: localOnly);
     memories.remove(memory);
+    Memory.removeFromAll(memory);
+  }
+
+  void removeMemoryAt(int index, {bool localOnly = false}){
+    Memory memory = memories[index];
+    memory.delete(localOnly: localOnly);
+    memories.remove(memory);
+    Memory.removeFromAll(memory);
   }
 
   bool get hasExplanation => hasExplanationPrimWrap.get();
 
-  bool deleteSongFile({bool localOnly = false}) {
+  bool delete({bool localOnly = false}) {
     if(isOwn) {
       Map ownSongs = jsonDecode(readFileAsString(getOldOwnSongFilePath));
       ownSongs.remove(lclId);
@@ -554,27 +563,29 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
   @override
   String get paramId => lclId;
 
+  SyncableParamSingle get syncParamRate => SyncableParamSingle(
+    this,
+    paramId: paramRate,
+    value: () => rate,
+    isNotSet: () => !hasRate
+  );
+  SyncableParamSingle get syncParamChordShift => SyncableParamSingle(
+    this,
+    paramId: paramChordShift,
+    value: () => chordShift,
+    isNotSet: () => !hasChordShift
+  );
+  SyncableParamGroup get syncParamMemories => SyncableParamGroup(
+    this,
+    paramId: paramMemories,
+    childParams: memories,
+  );
+
   @override
   List<SyncableParam> get childParams => [
-
-    SyncableParamSingle(
-        this,
-        paramId: paramRate,
-        value: () => rate,
-        isNotSet: () => !hasRate
-    ),
-    SyncableParamSingle(
-        this,
-        paramId: paramChordShift,
-        value: () => chordShift,
-        isNotSet: () => !hasChordShift
-    ),
-    SyncableParamGroup(
-        this,
-        paramId: paramMemories,
-        childParams: memories,
-    )
-
+    syncParamRate,
+    syncParamChordShift,
+    syncParamMemories
   ];
 
   @override
@@ -591,12 +602,13 @@ abstract class Song<T extends SongGetResp> extends SongCore with SyncableParamGr
         Memory? mem = memoryMap[memLclId];
         if(mem == null) {
           mem = Memory.create(
-              lclId,
-              memResp.date,
-              memResp.place,
-              memResp.desc,
-              memResp.fontKey,
-              memResp.published
+              lclId: memLclId,
+              songLclId: lclId,
+              date: memResp.date,
+              place: memResp.place,
+              desc: memResp.desc,
+              fontIndex: memResp.fontKey,
+              published: memResp.published
           );
           mem.save(localOnly: true, synced: true);
 

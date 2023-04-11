@@ -86,7 +86,7 @@ class MemoryWidgetState extends State<MemoryWidget> {
 
                     widget.withHero?
                     Hero(
-                        tag: MemoryWidget.memoryDateHeroTagFrom(memory.fileName),
+                        tag: MemoryWidget.memoryDateHeroTagFrom(memory.lclId),
                         child: Material(
                           color: Colors.transparent,
                           child: textDate,
@@ -98,7 +98,7 @@ class MemoryWidgetState extends State<MemoryWidget> {
 
                     if(memory.place!.isNotEmpty)
                       widget.withHero?Hero(
-                          tag: MemoryWidget.memoryPlaceHeroTagFrom(memory.fileName),
+                          tag: MemoryWidget.memoryPlaceHeroTagFrom(memory.lclId),
                           child: Material(
                             color: Colors.transparent,
                             child: textPlace,
@@ -113,7 +113,7 @@ class MemoryWidgetState extends State<MemoryWidget> {
                           padding: const EdgeInsets.only(right: 10),
                           child:
                           widget.withHero?Hero(
-                              tag: MemoryWidget.memoryDescHeroTagFrom(memory.fileName),
+                              tag: MemoryWidget.memoryDescHeroTagFrom(memory.lclId),
                               child: Material(
                                 color: Colors.transparent,
                                 child: textDesc,

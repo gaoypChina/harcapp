@@ -287,7 +287,7 @@ class SongWidget extends StatelessWidget{
     onDeleteTap: () => showAppToast(context, text: 'Przytrzymaj, by usunąć'),
 
     onDeleteLongPress: () async {
-      if(song.deleteSongFile()){
+      if(song.delete()){
         showAppToast(context, text: 'Usunięto piosenkę');
 
         OwnSong.removeFromAll(song as OwnSong);
